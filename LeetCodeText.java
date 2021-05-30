@@ -19,16 +19,6 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import javax.lang.model.element.Element;
-
-import com.oracle.jrockit.jfr.DurationEvent;
-
-import apple.laf.JRSUIConstants.State;
-import javafx.scene.Cursor;
-import jdk.nashorn.internal.ir.Flags;
-import sun.java2d.x11.X11SurfaceDataProxy.Bitmask;
-import sun.security.provider.PolicyParser.GrantEntry;
-
 public class LeetCodeText {
     private int[] nums;
     private int target;
