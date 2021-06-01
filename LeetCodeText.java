@@ -11630,6 +11630,7 @@ public class LeetCodeText {
     }
 
     // 1190. 反转每对括号间的子串
+    // "(ed(et(oc))el)"
     public String reverseParentheses(String s) {
         Stack<Integer> stack = new Stack<>();
         char[] chars = s.toCharArray();
@@ -11645,6 +11646,36 @@ public class LeetCodeText {
             if (chars[i] != '(' && chars[i] != ')') {
                 res.append(chars[i]);
             }
+        }
+        return res.toString();
+
+    }
+
+    // 1190. 反转每对括号间的子串
+    // "(ed(et(oc))el)"
+    public String reverseParentheses2(String s) {
+        int[] pair = new int[s.length()];
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) == '(') {
+                stack.push(i);
+            } else if (s.charAt(i) == ')') {
+                int j = stack.pop();
+                pair[i] = j;
+                pair[j] = i;
+            }
+        }
+        int sign = 1;
+        int index = 0;
+        StringBuilder res = new StringBuilder();
+        while (index < s.length()) {
+            if (s.charAt(index) == '(' || s.charAt(index) == ')') {
+                sign = -sign;
+                index = pair[index];
+            } else {
+                res.append(s.charAt(index));
+            }
+            index += sign;
         }
         return res.toString();
 
