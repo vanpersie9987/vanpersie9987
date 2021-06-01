@@ -11973,4 +11973,41 @@ public class LeetCodeText {
         return true;
     }
 
+    // 224. 基本计算器
+    // s =
+    // "1-(3+5-2+(3+19-(3-1-4+(9-4-(4-(1+(3)-2)-5)+8-(3-5)-1)-4)-5)-4+3-9)-4-(3+2-5)-10"
+    public int calculate224(String s) {
+        Stack<Integer> stack = new Stack<>();
+        stack.push(1);
+        int sign = 1;
+        int i = 0;
+        int res = 0;
+        while (i < s.length()) {
+            if (Character.isWhitespace(s.charAt(i))) {
+                ++i;
+            } else if (s.charAt(i) == '+') {
+                sign = stack.peek();
+                ++i;
+            } else if (s.charAt(i) == '-') {
+                sign = -stack.peek();
+                ++i;
+            } else if (s.charAt(i) == '(') {
+                stack.push(sign);
+                ++i;
+            } else if (s.charAt(i) == ')') {
+                stack.pop();
+                ++i;
+            } else {
+                long temp = 0;
+                while (i < s.length() && Character.isDigit(s.charAt(i))) {
+                    temp = temp * 10 + s.charAt(i) - '0';
+                    ++i;
+                }
+                res += temp * sign;
+            }
+        }
+        return res;
+
+    }
+
 }
