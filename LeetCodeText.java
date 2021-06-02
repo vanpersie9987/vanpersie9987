@@ -12194,4 +12194,27 @@ public class LeetCodeText {
 
     }
 
+    // 496. 下一个更大元素 I
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        int[] dp = new int[10001];
+        int[] res = new int[nums1.length];
+        Arrays.fill(res, -1);
+        Arrays.fill(dp, -1);
+        for (int i = 0; i < nums1.length; ++i) {
+            dp[nums1[i]] = i;
+        }
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < nums2.length; ++i) {
+            while (!stack.isEmpty() && nums2[i] > nums2[stack.peek()]) {
+                int index = stack.pop();
+                if (dp[nums2[index]] != -1) {
+                    res[dp[nums2[index]]] = nums2[i];
+                }
+            }
+            stack.push(i);
+        }
+        return res;
+
+    }
+
 }
