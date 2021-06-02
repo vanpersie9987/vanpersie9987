@@ -12174,4 +12174,24 @@ public class LeetCodeText {
 
     }
 
+    // 1021. 删除最外层的括号
+    public String removeOuterParentheses4(String s) {
+        StringBuilder result = new StringBuilder();
+        int level = 0;
+        for (char c : s.toCharArray()) {
+            if (c == ')') {
+                --level;
+            }
+            if (level >= 1) {
+                result.append(c);
+            }
+            if (c == '(') {
+                ++level;
+            }
+
+        }
+        return result.toString();
+
+    }
+
 }
