@@ -12089,4 +12089,18 @@ public class LeetCodeText {
             }
         }
     }
+
+    // 1047. 删除字符串中的所有相邻重复项
+    public String removeDuplicates1047(String s) {
+        StringBuilder res = new StringBuilder(s);
+        for (int i = 0; i < res.length(); ++i) {
+            if (i != 0 && res.charAt(i) == res.charAt(i - 1)) {
+                res.delete(i - 1, i + 1);
+                i -= 2;
+            }
+        }
+        return res.toString();
+
+    }
+
 }
