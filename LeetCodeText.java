@@ -12057,4 +12057,36 @@ public class LeetCodeText {
         return j == popped.length;
 
     }
+
+    // 1381. 设计一个支持增量操作的栈
+    class CustomStack {
+        private int index;
+        private int[] array;
+
+        public CustomStack(int maxSize) {
+            array = new int[maxSize];
+
+        }
+
+        public void push(int x) {
+            if (index == array.length) {
+                return;
+            }
+            array[index++] = x;
+        }
+
+        public int pop() {
+            if (index == 0) {
+                return -1;
+            }
+            return array[--index];
+        }
+
+        public void increment(int k, int val) {
+            int min = Math.min(index, k);
+            for (int i = 0; i < min; ++i) {
+                array[i] += val;
+            }
+        }
+    }
 }
