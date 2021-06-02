@@ -12103,4 +12103,75 @@ public class LeetCodeText {
 
     }
 
+    // 1021. 删除最外层的括号
+    public String removeOuterParentheses(String s) {
+        Set<Integer> set = new HashSet<>();
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) == '(') {
+                stack.push(i);
+            } else {
+                if (stack.size() == 1) {
+                    set.add(stack.pop());
+                    set.add(i);
+                } else {
+                    stack.pop();
+                }
+            }
+        }
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < s.length(); ++i) {
+            if (!set.contains(i)) {
+                result.append(s.charAt(i));
+            }
+        }
+        return result.toString();
+
+    }
+
+    // 1021. 删除最外层的括号
+    public String removeOuterParentheses2(String s) {
+        StringBuilder result = new StringBuilder();
+        int left = 0;
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) == '(') {
+                if (left++ == 0) {
+                    set.add(i);
+                }
+            } else {
+                if (left-- == 1) {
+                    set.add(i);
+                }
+            }
+        }
+        for (int i = 0; i < s.length(); ++i) {
+            if (!set.contains(i)) {
+                result.append(s.charAt(i));
+            }
+        }
+        return result.toString();
+
+    }
+
+    // 1021. 删除最外层的括号
+    public String removeOuterParentheses3(String s) {
+        StringBuilder result = new StringBuilder();
+        int left = 0;
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) == '(') {
+                if (left++ == 0) {
+                    continue;
+                }
+            } else {
+                if (left-- == 1) {
+                    continue;
+                }
+            }
+            result.append(s.charAt(i));
+        }
+        return result.toString();
+
+    }
+
 }
