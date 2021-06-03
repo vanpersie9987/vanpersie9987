@@ -12264,4 +12264,36 @@ public class LeetCodeText {
 
     }
 
+    // 1003. 检查替换后的词是否有效
+    public boolean isValid1003(String s) {
+        String pattern = "abc";
+        StringBuilder builder = new StringBuilder(s);
+        while (builder.length() != 0) {
+            int index = builder.indexOf(pattern);
+            if (index == -1) {
+                return false;
+            }
+            builder.delete(index, index + 3);
+        }
+        return true;
+
+    }
+
+    // 1003. 检查替换后的词是否有效
+    // s = "abcabcababcc"
+    public boolean isValid1003_2(String s) {
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) == 'c') {
+                if (stack.size() < 2 || stack.pop() != 'b' || stack.pop() != 'a') {
+                    return false;
+                }
+            } else {
+                stack.push(s.charAt(i));
+            }
+        }
+        return stack.isEmpty();
+
+    }
+
 }
