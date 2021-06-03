@@ -12217,4 +12217,35 @@ public class LeetCodeText {
 
     }
 
+    // 面试题 03.02. 栈的最小值
+    class MinStack {
+        private List<Integer> min;
+        private List<Integer> stack;
+
+        /** initialize your data structure here. */
+        public MinStack() {
+            min = new ArrayList<>();
+            stack = new ArrayList<>();
+
+        }
+
+        public void push(int x) {
+            min.add(min.size() == 0 ? x : Math.min(min.get(min.size() - 1), x));
+            stack.add(x);
+        }
+
+        public void pop() {
+            min.remove(min.size() - 1);
+            stack.remove(stack.size() - 1);
+        }
+
+        public int top() {
+            return stack.get(stack.size() - 1);
+        }
+
+        public int getMin() {
+            return min.get(min.size() - 1);
+        }
+    }
+
 }
