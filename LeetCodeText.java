@@ -12217,7 +12217,7 @@ public class LeetCodeText {
 
     }
 
-    // 面试题 03.02. 栈的最小值
+    // 面试题 03.02. 栈的最小值 // 剑指 Offer 30. 包含min函数的栈 // 155. 最小栈
     class MinStack {
         private List<Integer> min;
         private List<Integer> stack;
@@ -12255,8 +12255,7 @@ public class LeetCodeText {
         Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < nums.length * 2 - 1; ++i) {
             while (!stack.isEmpty() && nums[i % nums.length] > nums[stack.peek()]) {
-                int index = stack.pop();
-                res[index % nums.length] = nums[i % nums.length];
+                res[stack.pop()] = nums[i % nums.length];
             }
             stack.push(i % nums.length);
         }
@@ -12294,37 +12293,6 @@ public class LeetCodeText {
         }
         return stack.isEmpty();
 
-    }
-
-    // 剑指 Offer 30. 包含min函数的栈
-    class MinStack30 {
-        List<Integer> min;
-        List<Integer> stack;
-
-        /** initialize your data structure here. */
-        public MinStack30() {
-            min = new ArrayList<>();
-            stack = new ArrayList<>();
-        }
-
-        public void push(int x) {
-            stack.add(x);
-            min.add(min.size() == 0 ? x : Math.min(min.get(min.size() - 1), x));
-        }
-
-        public void pop() {
-            stack.remove(stack.size() - 1);
-            min.remove(min.size() - 1);
-        }
-
-        public int top() {
-            return stack.get(stack.size() - 1);
-
-        }
-
-        public int min() {
-            return min.get(min.size() - 1);
-        }
     }
 
     // 456. 132 模式
