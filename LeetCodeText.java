@@ -12406,4 +12406,68 @@ public class LeetCodeText {
 
     }
 
+    // 735. 行星碰撞
+    public int[] asteroidCollision(int[] asteroids) {
+        Stack<Integer> stack = new Stack<>();
+        for (int asteroid : asteroids) {
+            if (asteroid > 0) {
+                stack.push(asteroid);
+            } else {
+                if (stack.isEmpty()) {
+                    stack.push(asteroid);
+                } else {
+                    int flag = 0;
+                    while (!stack.isEmpty() && stack.peek() > 0) {
+                        if (asteroid + stack.peek() < 0) {
+                            stack.pop();
+                            flag = 0;
+                        } else if (asteroid + stack.peek() == 0) {
+                            stack.pop();
+                            flag = 1;
+                            break;
+                        } else if (asteroid + stack.peek() > 0) {
+                            flag = 1;
+                            break;
+                        }
+                    }
+                    if (flag == 0) {
+                        stack.push(asteroid);
+                    }
+                }
+            }
+        }
+
+        int[] res = new int[stack.size()];
+        for (int i = 0; i < stack.size(); ++i) {
+            res[i] = stack.get(i);
+        }
+        return res;
+
+    }
+
+    // 735. 行星碰撞
+    public int[] asteroidCollision2(int[] asteroids) {
+        Stack<Integer> stack = new Stack<>();
+        for (int asteroid : asteroids) {
+            collisions: {
+                while (!stack.isEmpty() && asteroid < 0 && stack.peek() > 0) {
+                    if (stack.peek() < -asteroid) {
+                        stack.pop();
+                        continue;
+                    } else if (stack.peek() == -asteroid) {
+                        stack.pop();
+                    }
+                    break collisions;
+                }
+                stack.push(asteroid);
+            }
+        }
+        int[] res = new int[stack.size()];
+        for (int i = 0; i < stack.size(); ++i) {
+            res[i] = stack.get(i);
+        }
+        return res;
+
+    }
+
 }
