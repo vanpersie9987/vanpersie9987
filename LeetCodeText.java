@@ -12312,4 +12312,38 @@ public class LeetCodeText {
 
     }
 
+    // 1598. 文件夹操作日志搜集器
+    public int minOperations(String[] logs) {
+        Stack<String> stack = new Stack<>();
+        for (String log : logs) {
+            if (log.equals("../")) {
+                if (!stack.isEmpty()) {
+                    stack.pop();
+                }
+            } else {
+                if (!log.equals("./")) {
+                    stack.push(log);
+                }
+            }
+        }
+        return stack.size();
+    }
+
+    // 1598. 文件夹操作日志搜集器
+    public int minOperations_2(String[] logs) {
+        int count = 0;
+        for (String log : logs) {
+            if (log.equals("../")) {
+                if (count != 0) {
+                    --count;
+                }
+            } else {
+                if (!log.equals("./")) {
+                    ++count;
+                }
+            }
+        }
+        return count;
+    }
+
 }
