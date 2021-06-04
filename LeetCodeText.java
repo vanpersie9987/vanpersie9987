@@ -12346,4 +12346,64 @@ public class LeetCodeText {
         return count;
     }
 
+    // 150. 逆波兰表达式求值
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> stack = new Stack<>();
+        for (String token : tokens) {
+            if ("+".equals(token)) {
+                int last = stack.pop();
+                int secondToLast = stack.pop();
+                stack.push(secondToLast + last);
+            } else if ("-".equals(token)) {
+                int last = stack.pop();
+                int secondToLast = stack.pop();
+                stack.push(secondToLast - last);
+
+            } else if ("*".equals(token)) {
+                int last = stack.pop();
+                int secondToLast = stack.pop();
+                stack.push(secondToLast * last);
+
+            } else if ("/".equals(token)) {
+                int last = stack.pop();
+                int secondToLast = stack.pop();
+                stack.push(secondToLast / last);
+            } else {
+                stack.push(Integer.parseInt(token));
+            }
+        }
+        return stack.pop();
+    }
+
+    // 150. 逆波兰表达式求值
+    public int evalRPN_2(String[] tokens) {
+        int index = -1;
+        int[] stack = new int[(tokens.length + 1) / 2];
+        for (String token : tokens) {
+            switch (token) {
+                case "+":
+                    --index;
+                    stack[index] += stack[index + 1];
+                    break;
+                case "-":
+                    --index;
+                    stack[index] -= stack[index + 1];
+                    break;
+                case "*":
+                    --index;
+                    stack[index] *= stack[index + 1];
+                    break;
+                case "/":
+                    --index;
+                    stack[index] /= stack[index + 1];
+                    break;
+                default:
+                    stack[++index] = Integer.parseInt(token);
+                    break;
+            }
+        }
+        return stack[index];
+
+    }
+
 }
