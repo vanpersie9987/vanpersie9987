@@ -12470,4 +12470,83 @@ public class LeetCodeText {
 
     }
 
+    // 402. 移掉K位数字
+    // 特殊情况：num = 1200 ，k = 3
+    public String removeKdigits(String num, int k) {
+        if (num.length() == k) {
+            return "0";
+        }
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < num.length(); ++i) {
+            char c = num.charAt(i);
+            while (!stack.isEmpty() && k > 0 && stack.peek() > c) {
+                stack.pop();
+                --k;
+            }
+            if (stack.isEmpty() && c == '0') {
+                continue;
+            }
+            stack.push(c);
+        }
+        StringBuilder res = new StringBuilder();
+        if (stack.size() <= k) {
+            return "0";
+        }
+        for (int i = 0; i < stack.size(); ++i) {
+            res.append(stack.get(i));
+        }
+        return res.substring(0, stack.size() - k).toString();
+
+    }
+
+    // 402. 移掉K位数字
+    public String removeKdigits2(String num, int k) {
+        if (num.length() == k) {
+            return "0";
+        }
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < num.length(); ++i) {
+            char c = num.charAt(i);
+            while (k > 0 && res.length() != 0 && res.charAt(res.length() - 1) > c) {
+                res.setLength(res.length() - 1);
+                --k;
+            }
+            if (res.length() == 0 && c == '0') {
+                continue;
+            }
+            res.append(c);
+        }
+        if (res.length() <= k) {
+            return "0";
+        }
+        return res.substring(0, res.length() - k).toString();
+
+    }
+
+    // 316. 去除重复字母 // 1081. 不同字符的最小子序列
+    public String removeDuplicateLetters(String s) {
+        StringBuilder result = new StringBuilder();
+        int[] counts = new int[26];
+        boolean[] seen = new boolean[26];
+        for (char c : s.toCharArray()) {
+            ++counts[c - 'a'];
+        }
+        for (char c : s.toCharArray()) {
+            if (!seen[c - 'a']) {
+                while (result.length() != 0 && result.charAt(result.length() - 1) > c
+                        && counts[result.charAt(result.length() - 1) - 'a'] > 1) {
+                    --counts[result.charAt(result.length() - 1) - 'a'];
+                    seen[result.charAt(result.length() - 1) - 'a'] = false;
+                    result.setLength(result.length() - 1);
+                }
+                seen[c - 'a'] = true;
+                result.append(c);
+
+            } else {
+                --counts[c - 'a'];
+            }
+        }
+        return result.toString();
+
+    }
 }
