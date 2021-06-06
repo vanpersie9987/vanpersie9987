@@ -12504,22 +12504,22 @@ public class LeetCodeText {
         if (num.length() == k) {
             return "0";
         }
-        StringBuilder res = new StringBuilder();
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < num.length(); ++i) {
             char c = num.charAt(i);
-            while (k > 0 && res.length() != 0 && res.charAt(res.length() - 1) > c) {
-                res.setLength(res.length() - 1);
+            while (result.length() != 0 && k > 0 && c < result.charAt(result.length() - 1)) {
                 --k;
+                result.setLength(result.length() - 1);
             }
-            if (res.length() == 0 && c == '0') {
+            if (result.length() == 0 && c == '0') {
                 continue;
             }
-            res.append(c);
+            result.append(num.charAt(i));
         }
-        if (res.length() <= k) {
+        if (result.length() <= k) {
             return "0";
         }
-        return res.substring(0, res.length() - k).toString();
+        return result.substring(0, result.length() - k);
 
     }
 
