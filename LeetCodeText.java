@@ -12549,4 +12549,77 @@ public class LeetCodeText {
         return result.toString();
 
     }
+
+    // 321. 拼接最大数
+    public int[] maxNumber(int[] nums1, int[] nums2, int k) {
+        int[] res = new int[k];
+        String currentMax = "";
+        for (int i = 0; i <= k; ++i) {
+            int min1 = Math.min(i, nums1.length);
+            int min2 = Math.min(k - i, nums2.length);
+            if (min1 + min2 < k) {
+                continue;
+            }
+            String s1 = getMaxNum(nums1, i);
+            String s2 = getMaxNum(nums2, k - i);
+            String current = getMaxMerged(s1, s2);
+            if (currentMax.compareTo(current) < 0) {
+                currentMax = current;
+            }
+        }
+        for (int i = 0; i < currentMax.length(); ++i) {
+            res[i] = currentMax.charAt(i) - '0';
+        }
+        return res;
+
+    }
+
+    private String getMaxMerged(String s1, String s2) {
+        if (s1.length() == 0) {
+            return s2;
+        } else if (s2.length() == 0) {
+            return s1;
+        }
+        StringBuilder res = new StringBuilder();
+        int len = s1.length() + s2.length();
+        int index1 = 0;
+        int index2 = 0;
+        for (int i = 0; i < len; ++i) {
+            if (compare(s1, index1, s2, index2) > 0) {
+                res.append(s1.charAt(index1++));
+            } else {
+                res.append(s2.charAt(index2++));
+            }
+        }
+        return res.toString();
+    }
+
+    private int compare(String s1, int index1, String s2, int index2) {
+        while (index1 < s1.length() && index2 < s2.length()) {
+            int diff = s1.charAt(index1) - s2.charAt(index2);
+            if (diff != 0) {
+                return diff;
+            }
+            ++index1;
+            ++index2;
+        }
+        return (s1.length() - index1) - (s2.length() - index2);
+    }
+
+    private String getMaxNum(int[] nums, int k) {
+        if (k == 0) {
+            return "";
+        }
+        int deleteK = nums.length - k;
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < nums.length; ++i) {
+            while (res.length() != 0 && nums[i] > (res.charAt(res.length() - 1) - '0') && deleteK > 0) {
+                --deleteK;
+                res.setLength(res.length() - 1);
+            }
+            res.append(nums[i]);
+        }
+
+        return res.substring(0, res.length() - deleteK).toString();
+    }
 }
