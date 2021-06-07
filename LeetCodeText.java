@@ -12696,4 +12696,33 @@ public class LeetCodeText {
         }
     }
 
+    // 剑指 Offer 10- I. 斐波那契数列
+    public int fibOffer10(int n) {
+        final int MOD = 1000000007;
+        if (n == 0) {
+            return 0;
+        } else if (n == 1) {
+            return 1;
+        }
+        int f1 = 0;
+        int f2 = 1;
+        for (int i = 2; i <= n; ++i) {
+            int temp = (f1 + f2) % MOD;
+            f1 = f2;
+            f2 = temp;
+        }
+        return f2;
+
+    }
+
+    // 136. 只出现一次的数字
+    public int singleNumber1366(int[] nums) {
+        int ans = nums[0];
+        for (int i = 1; i < nums.length; ++i) {
+            ans ^= nums[i];
+        }
+        return ans;
+
+    }
+
 }
