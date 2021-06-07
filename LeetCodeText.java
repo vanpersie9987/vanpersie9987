@@ -12,6 +12,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 
 public class LeetCodeText {
     private int[] nums;
@@ -12724,5 +12725,176 @@ public class LeetCodeText {
         return ans;
 
     }
+
+    // 225. 用队列实现栈 -- 两个队列
+    class MyStack {
+        Queue<Integer> queue1;
+        Queue<Integer> queue2;
+
+        /** Initialize your data structure here. */
+        public MyStack() {
+            queue1 = new LinkedList<>();
+            queue2 = new LinkedList<>();
+
+        }
+
+        /** Push element x onto stack. */
+        public void push(int x) {
+            queue2.offer(x);
+            while (!queue1.isEmpty()) {
+                queue2.offer(queue1.poll());
+            }
+            Queue<Integer> temp = queue2;
+            queue2 = queue1;
+            queue1 = temp;
+        }
+
+        /** Removes the element on top of the stack and returns that element. */
+        public int pop() {
+            return queue1.poll();
+
+        }
+
+        /** Get the top element. */
+        public int top() {
+            return queue1.peek();
+
+        }
+
+        /** Returns whether the stack is empty. */
+        public boolean empty() {
+            return queue1.isEmpty();
+        }
+    }
+
+    // 225. 用队列实现栈 -- 一个队列
+    class MyStack2 {
+        Queue<Integer> queue;
+
+        /** Initialize your data structure here. */
+        public MyStack2() {
+            queue = new LinkedList<>();
+        }
+
+        /** Push element x onto stack. */
+        public void push(int x) {
+            int size = queue.size();
+            queue.offer(x);
+            for (int i = 0; i < size; ++i) {
+                queue.offer(queue.poll());
+            }
+
+        }
+
+        /** Removes the element on top of the stack and returns that element. */
+        public int pop() {
+            return queue.poll();
+
+        }
+
+        /** Get the top element. */
+        public int top() {
+            return queue.peek();
+
+        }
+
+        /** Returns whether the stack is empty. */
+        public boolean empty() {
+            return queue.isEmpty();
+        }
+    }
+
+    // 895. 最大频率栈 -- 超时
+    // class FreqStack {
+    //     private Map<Integer, Integer> map;
+    //     private List<Integer> list;
+    //     private int maxCount;
+
+    //     public FreqStack() {
+    //         map = new HashMap<>();
+    //         list = new LinkedList<>();
+
+    //     }
+
+    //     public void push(int val) {
+    //         list.add(val);
+    //         map.put(val, map.getOrDefault(val, 0) + 1);
+    //         maxCount = Math.max(maxCount, map.get(val));
+    //     }
+
+    //     public int pop() {
+    //         for (int i = list.size() - 1; i >= 0; --i) {
+    //             if (map.get(list.get(i)) == maxCount) {
+    //                 map.put(list.get(i), map.get(list.get(i)) - 1);
+    //                 maxCount = map.containsValue(maxCount) ? maxCount : maxCount - 1;
+    //                 return list.remove(i);
+    //             }
+    //         }
+    //         return -1;
+    //     }
+    // }
+
+    // 1886. 判断矩阵经轮转后是否一致
+    public boolean findRotation(int[][] mat, int[][] target) {
+        for (int i = 0; i < 4; ++i) {
+            rotate90Degree(mat);
+            if (matEqualsTarget(mat, target)) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    private boolean matEqualsTarget(int[][] mat, int[][] target) {
+        int n = mat.length;
+        for (int i = 0; i < n; ++i) {
+            if (!Arrays.equals(mat[i], target[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void rotate90Degree(int[][] mat) {
+        int n = mat.length;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < i; ++j) {
+                int temp = mat[i][j];
+                mat[i][j] = mat[j][i];
+                mat[j][i] = temp;
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            reverse1886(mat[i]);
+        }
+    }
+
+    private void reverse1886(int[] nums) {
+        int i = 0;
+        int j = nums.length - 1;
+        while (i < j) {
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+            ++i;
+            --j;
+        }
+    }
+
+    // 1888. 使二进制字符串字符交替的最少反转次数
+    // public int minFlips(String s) {
+    //     // int count1 = 0;
+    //     // int count2 = 0;
+    //     // for (int i = 0; i < s.length(); ++i) {
+    //     //     if (i % 2 == (s.charAt(i) - '0')) {
+    //     //         ++count1;
+    //     //     } else {
+    //     //         ++count2;
+    //     //     }
+    //     // }
+    //     // return Math.min(count1, count2);
+
+    // }
 
 }
