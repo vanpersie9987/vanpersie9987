@@ -3409,9 +3409,6 @@ public class LeetCodeText {
         if (N == 0) {
             return 0;
         }
-        if (N == 1) {
-            return 1;
-        }
         int f1 = 0;
         int f2 = 1;
         for (int i = 1; i < N; ++i) {
@@ -12655,7 +12652,7 @@ public class LeetCodeText {
         }
     }
 
-    // 面试题 03.04. 化栈为队
+    // 面试题 03.04. 化栈为队 // 232. 用栈实现队列
     class MyQueue {
         private Stack<Integer> stack1;
         private Stack<Integer> stack2;
@@ -12704,8 +12701,6 @@ public class LeetCodeText {
         final int MOD = 1000000007;
         if (n == 0) {
             return 0;
-        } else if (n == 1) {
-            return 1;
         }
         int f1 = 0;
         int f2 = 1;
@@ -12899,7 +12894,6 @@ public class LeetCodeText {
 
     // }
 
-    // 232. 用栈实现队列
     class MyQueue232 {
         Stack<Integer> stack1;
         Stack<Integer> stack2;
@@ -12958,7 +12952,7 @@ public class LeetCodeText {
         return area1 + area2 - (minRight - maxLeft) * (minTop - maxBottom);
     }
 
-    // 剑指 Offer 59 - II. 队列的最大值  ---需要有更优解法
+    // 剑指 Offer 59 - II. 队列的最大值 ---需要有更优解法
     class MaxQueue {
         private Queue<Integer> queue;
         private int[] counts;
