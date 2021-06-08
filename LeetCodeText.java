@@ -14,6 +14,8 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import jdk.vm.ci.aarch64.AArch64.Flag;
+
 public class LeetCodeText {
     private int[] nums;
     private int target;
@@ -12939,6 +12941,58 @@ public class LeetCodeText {
         /** Returns whether the queue is empty. */
         public boolean empty() {
             return stack1.isEmpty() && stack2.isEmpty();
+        }
+    }
+
+    // 223. 矩形面积
+    public int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+        int area1 = (C - A) * (D - B);
+        int area2 = (G - E) * (H - F);
+        int maxLeft = Math.max(A, E);
+        int minRight = Math.min(C, G);
+        int minTop = Math.min(D, H);
+        int maxBottom = Math.max(B, F);
+        if (maxLeft >= minRight || minTop <= maxBottom) {
+            return area1 + area2;
+        }
+        return area1 + area2 - (minRight - maxLeft) * (minTop - maxBottom);
+    }
+
+    // 剑指 Offer 59 - II. 队列的最大值  ---需要有更优解法
+    class MaxQueue {
+        private Queue<Integer> queue;
+        private int[] counts;
+
+        public MaxQueue() {
+            queue = new LinkedList<>();
+            counts = new int[100001];
+        }
+
+        public int max_value() {
+            if (queue.isEmpty()) {
+                return -1;
+            }
+            for (int i = counts.length - 1; i >= 1; --i) {
+                if (counts[i] != 0) {
+                    return i;
+                }
+            }
+            return -1;
+
+        }
+
+        public void push_back(int value) {
+            queue.add(value);
+            ++counts[value];
+        }
+
+        public int pop_front() {
+            if (queue.isEmpty()) {
+                return -1;
+            }
+            --counts[queue.peek()];
+            return queue.poll();
+
         }
     }
 
