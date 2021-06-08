@@ -12806,32 +12806,32 @@ public class LeetCodeText {
 
     // 895. 最大频率栈 -- 超时
     // class FreqStack {
-    //     private Map<Integer, Integer> map;
-    //     private List<Integer> list;
-    //     private int maxCount;
+    // private Map<Integer, Integer> map;
+    // private List<Integer> list;
+    // private int maxCount;
 
-    //     public FreqStack() {
-    //         map = new HashMap<>();
-    //         list = new LinkedList<>();
+    // public FreqStack() {
+    // map = new HashMap<>();
+    // list = new LinkedList<>();
 
-    //     }
+    // }
 
-    //     public void push(int val) {
-    //         list.add(val);
-    //         map.put(val, map.getOrDefault(val, 0) + 1);
-    //         maxCount = Math.max(maxCount, map.get(val));
-    //     }
+    // public void push(int val) {
+    // list.add(val);
+    // map.put(val, map.getOrDefault(val, 0) + 1);
+    // maxCount = Math.max(maxCount, map.get(val));
+    // }
 
-    //     public int pop() {
-    //         for (int i = list.size() - 1; i >= 0; --i) {
-    //             if (map.get(list.get(i)) == maxCount) {
-    //                 map.put(list.get(i), map.get(list.get(i)) - 1);
-    //                 maxCount = map.containsValue(maxCount) ? maxCount : maxCount - 1;
-    //                 return list.remove(i);
-    //             }
-    //         }
-    //         return -1;
-    //     }
+    // public int pop() {
+    // for (int i = list.size() - 1; i >= 0; --i) {
+    // if (map.get(list.get(i)) == maxCount) {
+    // map.put(list.get(i), map.get(list.get(i)) - 1);
+    // maxCount = map.containsValue(maxCount) ? maxCount : maxCount - 1;
+    // return list.remove(i);
+    // }
+    // }
+    // return -1;
+    // }
     // }
 
     // 1886. 判断矩阵经轮转后是否一致
@@ -12884,17 +12884,62 @@ public class LeetCodeText {
 
     // 1888. 使二进制字符串字符交替的最少反转次数
     // public int minFlips(String s) {
-    //     // int count1 = 0;
-    //     // int count2 = 0;
-    //     // for (int i = 0; i < s.length(); ++i) {
-    //     //     if (i % 2 == (s.charAt(i) - '0')) {
-    //     //         ++count1;
-    //     //     } else {
-    //     //         ++count2;
-    //     //     }
-    //     // }
-    //     // return Math.min(count1, count2);
+    // // int count1 = 0;
+    // // int count2 = 0;
+    // // for (int i = 0; i < s.length(); ++i) {
+    // // if (i % 2 == (s.charAt(i) - '0')) {
+    // // ++count1;
+    // // } else {
+    // // ++count2;
+    // // }
+    // // }
+    // // return Math.min(count1, count2);
 
     // }
+
+    // 232. 用栈实现队列
+    class MyQueue232 {
+        Stack<Integer> stack1;
+        Stack<Integer> stack2;
+
+        /** Initialize your data structure here. */
+        public MyQueue232() {
+            stack1 = new Stack<>();
+            stack2 = new Stack<>();
+
+        }
+
+        /** Push element x to the back of queue. */
+        public void push(int x) {
+            stack1.push(x);
+
+        }
+
+        /** Removes the element from in front of queue and returns that element. */
+        public int pop() {
+            if (stack2.isEmpty()) {
+                while (!stack1.isEmpty()) {
+                    stack2.push(stack1.pop());
+                }
+            }
+            return stack2.pop();
+
+        }
+
+        /** Get the front element. */
+        public int peek() {
+            if (stack2.isEmpty()) {
+                while (!stack1.isEmpty()) {
+                    stack2.push(stack1.pop());
+                }
+            }
+            return stack2.peek();
+        }
+
+        /** Returns whether the queue is empty. */
+        public boolean empty() {
+            return stack1.isEmpty() && stack2.isEmpty();
+        }
+    }
 
 }
