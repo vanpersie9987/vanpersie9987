@@ -4712,23 +4712,37 @@ public class LeetCodeText {
     // 面试题 16.15. 珠玑妙算
     public int[] masterMind(final String solution, final String guess) {
         int[] ans = new int[2];
-        char[] sol = solution.toCharArray();
-        char[] gue = guess.toCharArray();
-        for (int i = 0; i < sol.length; ++i) {
-            if (sol[i] == gue[i]) {
+        int[] counts = new int[4];
+        for (int i = 0; i < solution.length(); ++i) {
+            if (solution.charAt(i) == guess.charAt(i)) {
                 ++ans[0];
-                sol[i] = gue[i] = '0';
+            }
+            if (solution.charAt(i) == 'R') {
+                ++counts[0];
+            } else if (solution.charAt(i) == 'G') {
+                ++counts[1];
+            } else if (solution.charAt(i) == 'B') {
+                ++counts[2];
+            } else if (solution.charAt(i) == 'Y') {
+                ++counts[3];
             }
         }
-        for (int i = 0; i < sol.length; ++i) {
-            for (int j = 0; j < gue.length; ++j) {
-                if (i != j && sol[i] == gue[j] && sol[i] != '0') {
-                    ++ans[1];
-                    sol[i] = '7';
-                    gue[j] = '9';
-                }
+        for (int i = 0; i < guess.length(); ++i) {
+            if (guess.charAt(i) == 'R' && counts[0] > 0) {
+                --counts[0];
+                ++ans[1];
+            } else if (guess.charAt(i) == 'G' && counts[1] > 0) {
+                --counts[1];
+                ++ans[1];
+            } else if (guess.charAt(i) == 'B' && counts[2] > 0) {
+                --counts[2];
+                ++ans[1];
+            } else if (guess.charAt(i) == 'Y' && counts[3] > 0) {
+                --counts[3];
+                ++ans[1];
             }
         }
+        ans[1] -= ans[0];
         return ans;
 
     }
