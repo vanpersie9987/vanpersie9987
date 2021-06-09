@@ -12987,7 +12987,7 @@ public class LeetCodeText {
         }
     }
 
-    // 299. 猜数字游戏
+    // 299. 猜数字游戏（与“面试题 16.15. 珠玑妙算” 类似）
     public String getHint(String secret, String guess) {
         int[] counts = new int[10];
         char[] arraySecret = secret.toCharArray();
@@ -13013,7 +13013,7 @@ public class LeetCodeText {
 
     }
 
-    // 299. 猜数字游戏
+    // 299. 猜数字游戏（与“面试题 16.15. 珠玑妙算” 类似）
     public String getHint2(String secret, String guess) {
         int[] counts = new int[10];
         int bulls = 0;
