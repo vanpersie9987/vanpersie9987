@@ -13048,4 +13048,29 @@ public class LeetCodeText {
 
     }
 
+    // 389. 找不同
+    public char findTheDifference(String s, String t) {
+        int[] counts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++counts[c - 'a'];
+        }
+        for (char c : t.toCharArray()) {
+            if (--counts[c - 'a'] < 0) {
+                return c;
+            }
+        }
+        return 'a';
+
+    }
+
+    // 389. 找不同
+    public char findTheDifference2(String s, String t) {
+        int res = 0;
+        for (char c : (s + t).toCharArray()) {
+            res ^= c;
+        }
+        return (char) res;
+
+    }
+
 }
