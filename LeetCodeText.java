@@ -13073,4 +13073,24 @@ public class LeetCodeText {
 
     }
 
+    // 386. 字典序排数--未超时，但不是最好解法
+    public List<Integer> lexicalOrder(int n) {
+        int i = 1;
+        List<Integer> list = new ArrayList<>();
+        while (i <= n) {
+            list.add(i++);
+        }
+        Collections.sort(list, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                String s1 = String.valueOf(o1);
+                String s2 = String.valueOf(o2);
+                return s1.compareTo(s2);
+            }
+        });
+        return list;
+
+    }
+
 }
