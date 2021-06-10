@@ -12895,16 +12895,25 @@ public class LeetCodeText {
 
     // 1888. 使二进制字符串字符交替的最少反转次数
     // public int minFlips(String s) {
-    // // int count1 = 0;
-    // // int count2 = 0;
-    // // for (int i = 0; i < s.length(); ++i) {
-    // // if (i % 2 == (s.charAt(i) - '0')) {
-    // // ++count1;
-    // // } else {
-    // // ++count2;
-    // // }
-    // // }
-    // // return Math.min(count1, count2);
+    // int count = Integer.MAX_VALUE;
+    // for (int i = 0; i < s.length(); ++i) {
+    // count = Math.min(count, getMinCount(ss.substring(i, i + s.length())));
+    // }
+    // return count;
+
+    // }
+
+    // private int getMinCount(String string) {
+    // int count1 = 0;
+    // int count2 = 0;
+    // for (int i = 0; i < string.length(); ++i) {
+    // if (i % 2 == (string.charAt(i) - '0')) {
+    // ++count1;
+    // } else {
+    // ++count2;
+    // }
+    // }
+    // return Math.min(count1, count2);
 
     // }
 
