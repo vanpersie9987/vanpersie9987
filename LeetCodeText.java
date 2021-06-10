@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12963,40 +12964,73 @@ public class LeetCodeText {
         return area1 + area2 - (minRight - maxLeft) * (minTop - maxBottom);
     }
 
-    // 剑指 Offer 59 - II. 队列的最大值 ---需要有更优解法
+    // 剑指 Offer 59 - II. 队列的最大值
     class MaxQueue {
-        private Queue<Integer> queue;
-        private int[] counts;
+        int[] queue;
+        int left;
+        int right;
 
         public MaxQueue() {
-            queue = new LinkedList<>();
-            counts = new int[100001];
+            queue = new int[10000];
+
         }
 
         public int max_value() {
-            if (queue.isEmpty()) {
-                return -1;
+            int max = -1;
+            for (int i = left; i < right; ++i) {
+                max = Math.max(queue[i], max);
             }
-            for (int i = counts.length - 1; i >= 1; --i) {
-                if (counts[i] != 0) {
-                    return i;
-                }
-            }
-            return -1;
+            return max;
 
         }
 
         public void push_back(int value) {
-            queue.add(value);
-            ++counts[value];
+            queue[right++] = value;
+        }
+
+        public int pop_front() {
+            if (left == right) {
+                return -1;
+            }
+            return queue[left++];
+        }
+    }
+
+    // 剑指 Offer 59 - II. 队列的最大值
+    class MaxQueue2 {
+        Queue<Integer> queue;
+        Deque<Integer> deque;
+
+        public MaxQueue2() {
+            queue = new LinkedList<>();
+            deque = new LinkedList<>();
+        }
+
+        public int max_value() {
+            if (deque.isEmpty()) {
+                return -1;
+            }
+            return deque.peekFirst();
+
+        }
+
+        public void push_back(int value) {
+            while (!deque.isEmpty() && deque.peekLast() < value) {
+                deque.pollLast();
+            }
+            deque.offerLast(value);
+            queue.offer(value);
         }
 
         public int pop_front() {
             if (queue.isEmpty()) {
                 return -1;
             }
-            --counts[queue.peek()];
-            return queue.poll();
+            int ans = queue.poll();
+            if (ans == deque.peekFirst()) {
+                deque.pollFirst();
+            }
+            return ans;
 
         }
     }
