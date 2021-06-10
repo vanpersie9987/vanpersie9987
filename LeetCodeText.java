@@ -12813,35 +12813,37 @@ public class LeetCodeText {
         }
     }
 
-    // 895. 最大频率栈 -- 超时
-    // class FreqStack {
-    // private Map<Integer, Integer> map;
-    // private List<Integer> list;
-    // private int maxCount;
+    // 895. 最大频率栈
+    class FreqStack {
+        private Map<Integer, Integer> frequency;
+        private Map<Integer, Stack<Integer>> map;
+        private int maxFrequency;
 
-    // public FreqStack() {
-    // map = new HashMap<>();
-    // list = new LinkedList<>();
+        public FreqStack() {
+            frequency = new HashMap<>();
+            map = new HashMap<>();
 
-    // }
+        }
 
-    // public void push(int val) {
-    // list.add(val);
-    // map.put(val, map.getOrDefault(val, 0) + 1);
-    // maxCount = Math.max(maxCount, map.get(val));
-    // }
+        public void push(int val) {
+            frequency.put(val, frequency.getOrDefault(val, 0) + 1);
+            int freq = frequency.get(val);
+            if (freq > maxFrequency) {
+                maxFrequency = freq;
+            }
+            map.computeIfAbsent(freq, z -> new Stack<>()).push(val);
+        }
 
-    // public int pop() {
-    // for (int i = list.size() - 1; i >= 0; --i) {
-    // if (map.get(list.get(i)) == maxCount) {
-    // map.put(list.get(i), map.get(list.get(i)) - 1);
-    // maxCount = map.containsValue(maxCount) ? maxCount : maxCount - 1;
-    // return list.remove(i);
-    // }
-    // }
-    // return -1;
-    // }
-    // }
+        public int pop() {
+            Stack<Integer> max = map.get(maxFrequency);
+            int res = max.pop();
+            frequency.put(res, frequency.get(res) - 1);
+            if (max.isEmpty()) {
+                --maxFrequency;
+            }
+            return res;
+        }
+    }
 
     // 1886. 判断矩阵经轮转后是否一致
     public boolean findRotation(int[][] mat, int[][] target) {
