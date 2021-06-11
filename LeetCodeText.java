@@ -13138,4 +13138,17 @@ public class LeetCodeText {
 
     }
 
+    // 171. Excel表列序号
+    public int titleToNumber(String columnTitle) {
+        int bit = 0;
+        final int SCALE = 26;
+        int res = 0;
+        for (int i = columnTitle.length() - 1; i >= 0; --i) {
+            int num = columnTitle.charAt(i) - 'A' + 1;
+            res += num * Math.pow(SCALE, bit++);
+        }
+        return res;
+
+    }
+
 }
