@@ -13154,13 +13154,14 @@ public class LeetCodeText {
     // 868. 二进制间距
     public int binaryGap(int n) {
         int max = 0;
-        int pos = (int) (Math.log(n) / Math.log(2));
-        int left = n - (int) Math.pow(2, pos);
-        while (left > 0) {
-            int curPos = (int) (Math.log(left) / Math.log(2));
-            max = Math.max(max, pos - curPos);
+        int pos = -1;
+        while (n > 0) {
+            int curPos = (int) (Math.log(n) / Math.log(2));
+            if (pos != -1) {
+                max = Math.max(max, pos - curPos);
+            }
             pos = curPos;
-            left -= Math.pow(2, curPos);
+            n -= Math.pow(2, curPos);
         }
         return max;
 
