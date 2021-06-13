@@ -14,8 +14,6 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 
-import jdk.internal.icu.util.CodePointTrie.Fast;
-
 public class LeetCodeText {
     private int[] nums;
     private int target;
