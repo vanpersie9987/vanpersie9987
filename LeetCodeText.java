@@ -13186,4 +13186,21 @@ public class LeetCodeText {
 
     }
 
+    // 5768. 找到需要补充粉笔的学生编号
+    public int chalkReplacer(int[] chalk, int k) {
+        long sum = 0;
+        for (int cha : chalk) {
+            sum += cha;
+        }
+        long remain = k % sum;
+        for (int i = 0; i < chalk.length; ++i) {
+            if (remain < chalk[i]) {
+                return i;
+            }
+            remain -= chalk[i];
+        }
+        return -1;
+
+    }
+
 }
