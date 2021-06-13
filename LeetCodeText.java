@@ -14,6 +14,8 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 
+import jdk.internal.icu.util.CodePointTrie.Fast;
+
 public class LeetCodeText {
     private int[] nums;
     private int target;
@@ -13281,6 +13283,72 @@ public class LeetCodeText {
         }
         return stack.pop();
 
+    }
+
+    // 591. 标签验证器
+    // outside变量表示最外层是否有且仅有一组标签 如“"<A></A><B></B>"”最外层有两组标签，则不合法
+    // 或者outside变量可以理解为标签外是否包含了不合法的内容 如 <A></A>CCC> 其中“CCC>”是不合法的
+    private boolean outside;
+    private Stack<String> stack = new Stack<>();
+
+    public boolean isValid591(String code) {
+        if (code.charAt(0) != '<' || code.charAt(code.length() - 1) != '>') {
+            return false;
+        }
+        for (int i = 0; i < code.length(); ++i) {
+            int closeIndex = 0;
+            boolean ending = false;
+            if (stack.isEmpty() && outside) {
+                return false;
+            }
+            if (code.charAt(i) == '<') {
+                if (!stack.isEmpty() && code.charAt(i + 1) == '!') {
+                    closeIndex = code.indexOf("]]>", i + 2);
+                    if (closeIndex < 0 || !isValidCDATA(code.substring(i + 2, closeIndex))) {
+                        return false;
+                    }
+                } else {
+                    if (code.charAt(i + 1) == '/') {
+                        ending = true;
+                        ++i;
+                    }
+                    closeIndex = code.indexOf(">", i + 1);
+                    if (closeIndex < 0 || !isValidTagName(code.substring(i + 1, closeIndex), ending)) {
+                        return false;
+                    }
+                }
+                i = closeIndex;
+            }
+        }
+        return stack.isEmpty() && outside;
+
+    }
+
+    private boolean isValidCDATA(String string) {
+        return string.indexOf("[CDATA[") == 0;
+    }
+
+    private boolean isValidTagName(String tagName, boolean ending) {
+        if (tagName.length() < 1 || tagName.length() > 9) {
+            return false;
+        }
+        for (int i = 0; i < tagName.length(); ++i) {
+            if (!Character.isUpperCase(tagName.charAt(i))) {
+                return false;
+            }
+        }
+        if (ending) {
+            if (!stack.isEmpty() && stack.peek().equals(tagName)) {
+                stack.pop();
+            } else {
+                return false;
+            }
+        } else {
+            outside = true;
+            stack.push(tagName);
+        }
+
+        return true;
     }
 
 }
