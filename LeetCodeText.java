@@ -13375,4 +13375,21 @@ public class LeetCodeText {
 
     }
 
+    // 1673. 找出最具竞争力的子序列
+    public int[] mostCompetitive(int[] nums, int k) {
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < nums.length; ++i) {
+            while (!stack.isEmpty() && nums[i] < stack.peek() && (stack.size() + (nums.length - i - 1)) >= k) {
+                stack.pop();
+            }
+            stack.push(nums[i]);
+        }
+        int[] res = new int[k];
+        for (int i = 0; i < k; ++i) {
+            res[i] = stack.get(i);
+        }
+        return res;
+
+    }
+
 }
