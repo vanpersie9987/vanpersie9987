@@ -13392,4 +13392,73 @@ public class LeetCodeText {
 
     }
 
+    // 1410. HTML 实体解析器
+    private int i;
+
+    public String entityParser(String text) {
+        StringBuilder res = new StringBuilder();
+        while (i < text.length()) {
+            if (text.charAt(i) == '&') {
+                char parse = parse(text.substring(i, text.length()));
+                if (parse != ' ') {
+                    res.append(parse);
+                } else {
+                    res.append(text.charAt(i));
+                }
+            } else {
+                res.append(text.charAt(i));
+            }
+            ++i;
+        }
+        return res.toString();
+
+    }
+
+    // 双引号：字符实体为 &quot; ，对应的字符是 " 。
+    // 单引号：字符实体为 &apos; ，对应的字符是 ' 。
+    // 与符号：字符实体为 &amp; ，对应对的字符是 & 。
+    // 大于号：字符实体为 &gt; ，对应的字符是 > 。
+    // 小于号：字符实体为 &lt; ，对应的字符是 < 。
+    // 斜线号：字符实体为 &frasl; ，对应的字符是 / 
+    private char parse(String string) {
+        if (string.indexOf("&quot;") == 0) {
+            i += 5;
+            return '\"';
+        }
+        if (string.indexOf("&apos;") == 0) {
+            i += 5;
+            return '\'';
+        }
+        if (string.indexOf("&amp;") == 0) {
+            i += 4;
+            return '&';
+        }
+        if (string.indexOf("&gt;") == 0) {
+            i += 3;
+            return '>';
+        }
+        if (string.indexOf("&lt;") == 0) {
+            i += 3;
+            return '<';
+        }
+        if (string.indexOf("&frasl;") == 0) {
+            i += 6;
+            return '/';
+        }
+
+        return ' ';
+    }
+
+    // 1410. HTML 实体解析器
+    // 双引号：字符实体为 &quot; ，对应的字符是 " 。
+    // 单引号：字符实体为 &apos; ，对应的字符是 ' 。
+    // 与符号：字符实体为 &amp; ，对应对的字符是 & 。
+    // 大于号：字符实体为 &gt; ，对应的字符是 > 。
+    // 小于号：字符实体为 &lt; ，对应的字符是 < 。
+    // 斜线号：字符实体为 &frasl; ，对应的字符是 / 
+    public String entityParser2(String text) {
+        return text.replace("&quot;", "\"").replace("&apos;", "\'").replace("&gt;", ">")
+                .replace("&lt;", "<").replace("&frasl;", "/").replace("&amp;", "&");
+    }
+
 }
