@@ -3402,7 +3402,7 @@ public class LeetCodeText {
 
     }
 
-    // 509. 斐波那契数
+    // 509. 斐波那契数 // 剑指 Offer 10- I. 斐波那契数列
     public int fib(final int N) {
         if (N == 0) {
             return 0;
@@ -12708,23 +12708,6 @@ public class LeetCodeText {
         }
     }
 
-    // 剑指 Offer 10- I. 斐波那契数列
-    public int fibOffer10(int n) {
-        final int MOD = 1000000007;
-        if (n == 0) {
-            return 0;
-        }
-        int f1 = 0;
-        int f2 = 1;
-        for (int i = 2; i <= n; ++i) {
-            int temp = (f1 + f2) % MOD;
-            f1 = f2;
-            f2 = temp;
-        }
-        return f2;
-
-    }
-
     // 136. 只出现一次的数字
     public int singleNumber1366(int[] nums) {
         int ans = nums[0];
@@ -13457,8 +13440,8 @@ public class LeetCodeText {
     // 小于号：字符实体为 &lt; ，对应的字符是 < 。
     // 斜线号：字符实体为 &frasl; ，对应的字符是 / 
     public String entityParser2(String text) {
-        return text.replace("&quot;", "\"").replace("&apos;", "\'").replace("&gt;", ">")
-                .replace("&lt;", "<").replace("&frasl;", "/").replace("&amp;", "&");
+        return text.replace("&quot;", "\"").replace("&apos;", "\'").replace("&gt;", ">").replace("&lt;", "<")
+                .replace("&frasl;", "/").replace("&amp;", "&");
     }
 
 }
