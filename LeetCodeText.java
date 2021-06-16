@@ -11887,17 +11887,15 @@ public class LeetCodeText {
     // 1441. 用栈操作构建数组
     public List<String> buildArray(int[] target, int n) {
         List<String> res = new ArrayList<>();
-        int i = 1;
-        int j = 0;
-        while (i <= n && j < target.length) {
-            int diff = target[j] - i;
-            while (diff-- > 0) {
+        int index = 0;
+        int num = 1;
+        while (index < target.length) {
+            while (num++ != target[index]) {
                 res.add("Push");
                 res.add("Pop");
             }
             res.add("Push");
-            i = target[j] + 1;
-            ++j;
+            ++index;
         }
         return res;
 
