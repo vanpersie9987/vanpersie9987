@@ -393,15 +393,15 @@ public class LeetCodeText {
         int res = 0;
         int[] leftMax = new int[height.length];
         int[] rightMax = new int[height.length];
-        for (int i = 1; i < leftMax.length; ++i) {
+        for (int i = 1; i < height.length; ++i) {
             leftMax[i] = Math.max(leftMax[i - 1], height[i - 1]);
         }
-        for (int i = rightMax.length - 2; i >= 0; --i) {
+        for (int i = height.length - 2; i >= 0; --i) {
             rightMax[i] = Math.max(rightMax[i + 1], height[i + 1]);
         }
         for (int i = 1; i < height.length - 1; ++i) {
             int min = Math.min(leftMax[i], rightMax[i]);
-            if (min - height[i] > 0) {
+            if (min > height[i]) {
                 res += min - height[i];
             }
         }
@@ -411,8 +411,8 @@ public class LeetCodeText {
 
     // 42. 接雨水
     public int trap2(final int[] height) {
-        Stack<Integer> stack = new Stack<>();
         int res = 0;
+        Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < height.length; ++i) {
             while (!stack.isEmpty() && height[i] > height[stack.peek()]) {
                 int h = height[stack.pop()];
@@ -420,7 +420,7 @@ public class LeetCodeText {
                     break;
                 }
                 int distance = i - stack.peek() - 1;
-                res += (Math.min(height[i], height[stack.peek()]) - h) * distance;
+                res += (Math.min(height[stack.peek()], height[i]) - h) * distance;
             }
             stack.push(i);
         }
@@ -12960,48 +12960,17 @@ public class LeetCodeText {
 
     // 剑指 Offer 59 - II. 队列的最大值
     class MaxQueue {
-        int[] queue;
-        int left;
-        int right;
-
-        public MaxQueue() {
-            queue = new int[10000];
-
-        }
-
-        public int max_value() {
-            int max = -1;
-            for (int i = left; i < right; ++i) {
-                max = Math.max(queue[i], max);
-            }
-            return max;
-
-        }
-
-        public void push_back(int value) {
-            queue[right++] = value;
-        }
-
-        public int pop_front() {
-            if (left == right) {
-                return -1;
-            }
-            return queue[left++];
-        }
-    }
-
-    // 剑指 Offer 59 - II. 队列的最大值
-    class MaxQueue2 {
         Queue<Integer> queue;
         Deque<Integer> deque;
 
-        public MaxQueue2() {
+        public MaxQueue() {
             queue = new LinkedList<>();
             deque = new LinkedList<>();
+
         }
 
         public int max_value() {
-            if (deque.isEmpty()) {
+            if (queue.isEmpty()) {
                 return -1;
             }
             return deque.peekFirst();
@@ -13444,4 +13413,8 @@ public class LeetCodeText {
                 .replace("&frasl;", "/").replace("&amp;", "&");
     }
 
+    // // 424. 替换后的最长重复字符
+    // public int characterReplacement(String s, int k) {
+
+    // }
 }
