@@ -12231,18 +12231,18 @@ public class LeetCodeText {
 
     // 面试题 03.02. 栈的最小值 // 剑指 Offer 30. 包含min函数的栈 // 155. 最小栈
     class MinStack {
-        private List<Integer> min;
-        private List<Integer> stack;
+        List<Integer> stack;
+        List<Integer> min;
 
         /** initialize your data structure here. */
         public MinStack() {
-            min = new ArrayList<>();
             stack = new ArrayList<>();
+            min = new ArrayList<>();
 
         }
 
         public void push(int x) {
-            min.add(min.size() == 0 ? x : Math.min(min.get(min.size() - 1), x));
+            min.add(min.isEmpty() ? x : Math.min(min.get(min.size() - 1), x));
             stack.add(x);
         }
 
@@ -12255,7 +12255,7 @@ public class LeetCodeText {
             return stack.get(stack.size() - 1);
         }
 
-        public int getMin() {
+        public int min() {
             return min.get(min.size() - 1);
         }
     }
