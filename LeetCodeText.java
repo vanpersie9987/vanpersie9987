@@ -11544,10 +11544,8 @@ public class LeetCodeText {
     public int minInsertions(String s) {
         int left = 0;
         int count = 0;
-        int i = 0;
-        while (i < s.length()) {
+        for (int i = 0; i < s.length(); ++i) {
             if (s.charAt(i) == '(') {
-                ++i;
                 ++left;
             } else {
                 if (left > 0) {
@@ -11555,16 +11553,14 @@ public class LeetCodeText {
                 } else {
                     ++count;
                 }
-                if (i + 1 < s.length() && s.charAt(i + 1) == ')') {
-                    i += 2;
-                } else {
+                if (i + 1 == s.length() || s.charAt(i + 1) == '(') {
                     ++count;
+                } else {
                     ++i;
                 }
             }
-
         }
-        return count + left * 2;
+        return left * 2 + count;
 
     }
 
