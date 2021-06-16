@@ -12349,10 +12349,8 @@ public class LeetCodeText {
                 if (count != 0) {
                     --count;
                 }
-            } else {
-                if (!log.equals("./")) {
-                    ++count;
-                }
+            } else if (!log.equals("./")) {
+                ++count;
             }
         }
         return count;
