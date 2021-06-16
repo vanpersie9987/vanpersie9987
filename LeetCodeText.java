@@ -11630,14 +11630,33 @@ public class LeetCodeText {
 
     // 1544. 整理字符串
     public String makeGood(String s) {
-        StringBuilder res = new StringBuilder(s);
-        for (int i = 0; i < res.length(); ++i) {
-            if (i != 0 && Math.abs(res.charAt(i) - res.charAt(i - 1)) == 32) {
-                res.delete(i - 1, i + 1);
-                i -= 2;
+        Stack<Character> stack = new Stack<>();
+        for (char c : s.toCharArray()) {
+            if (!stack.isEmpty() && Math.abs(c - stack.peek()) == 32) {
+                stack.pop();
+            } else {
+                stack.push(c);
             }
         }
-        return res.toString();
+        StringBuilder builder = new StringBuilder();
+        while (!stack.isEmpty()) {
+            builder.append(stack.pop());
+        }
+        return builder.reverse().toString();
+
+    }
+
+    // 1544. 整理字符串
+    public String makeGood2(String s) {
+        StringBuilder builder = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (builder.length() != 0 && Math.abs(c - builder.charAt(builder.length() - 1)) == 32) {
+                builder.deleteCharAt(builder.length() - 1);
+            } else {
+                builder.append(c);
+            }
+        }
+        return builder.toString();
 
     }
 
