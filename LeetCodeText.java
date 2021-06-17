@@ -12115,6 +12115,49 @@ public class LeetCodeText {
         }
     }
 
+    // 1381. 设计一个支持增量操作的栈
+    class CustomStack2 {
+        private int[] stack;
+        private int[] increasement;
+        private int index;
+
+        public CustomStack2(int maxSize) {
+            stack = new int[maxSize];
+            increasement = new int[maxSize];
+            index = -1;
+
+        }
+
+        public void push(int x) {
+            if (index + 1 == stack.length) {
+                return;
+            }
+            stack[++index] = x;
+
+        }
+
+        public int pop() {
+            if (index == -1) {
+                return -1;
+            }
+            int res = stack[index] + increasement[index];
+            if (index > 0) {
+                increasement[index - 1] += increasement[index];
+            }
+            increasement[index] = 0;
+            --index;
+            return res;
+        }
+
+        public void increment(int k, int val) {
+            int min = Math.min(k, index + 1);
+            if (min > 0) {
+                increasement[min - 1] += val;
+            }
+
+        }
+    }
+
     // 1047. 删除字符串中的所有相邻重复项
     public String removeDuplicates1047(String s) {
         StringBuilder res = new StringBuilder(s);
