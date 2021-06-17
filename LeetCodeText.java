@@ -13489,6 +13489,39 @@ public class LeetCodeText {
         return (point2[1] - point1[1]) * (point2[1] - point1[1]) + (point2[0] - point1[0]) * (point2[0] - point1[0]);
     }
 
+    // 594. 最长和谐子序列
+    public int findLHS(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        int res = 0;
+        for (int key : map.keySet()) {
+            if (map.containsKey(key + 1)) {
+                res = Math.max(res, map.get(key) + map.get(key + 1));
+            }
+        }
+        return res;
+
+    }
+
+    // 594. 最长和谐子序列
+    public int findLHS2(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int res = 0;
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+            if (map.containsKey(num + 1)) {
+                res = Math.max(res, map.get(num) + map.get(num + 1));
+            }
+            if (map.containsKey(num - 1)) {
+                res = Math.max(res, map.get(num) + map.get(num - 1));
+            }
+        }
+        return res;
+
+    }
+
     // 424. 替换后的最长重复字符
     // public int characterReplacement(String s, int k) {
 
