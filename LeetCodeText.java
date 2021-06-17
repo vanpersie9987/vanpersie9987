@@ -13464,7 +13464,32 @@ public class LeetCodeText {
         return res.toArray(new String[res.size()]);
 
     }
-    // // 424. 替换后的最长重复字符
+
+    // 593. 有效的正方形
+    public boolean validSquare(int[] p1, int[] p2, int[] p3, int[] p4) {
+        int[][] points = { p1, p2, p3, p4 };
+        Arrays.sort(points, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] == o2[0]) {
+                    return o1[1] - o2[1];
+                }
+                return o1[0] - o2[0];
+            }
+        });
+        return calculateDistance(points[0], points[1]) != 0
+                && calculateDistance(points[0], points[1]) == calculateDistance(points[0], points[2])
+                && calculateDistance(points[0], points[2]) == calculateDistance(points[2], points[3])
+                && calculateDistance(points[2], points[3]) == calculateDistance(points[1], points[3])
+                && calculateDistance(points[1], points[2]) == calculateDistance(points[0], points[3]);
+
+    }
+
+    private int calculateDistance(int[] point1, int[] point2) {
+        return (point2[1] - point1[1]) * (point2[1] - point1[1]) + (point2[0] - point1[0]) * (point2[0] - point1[0]);
+    }
+
+    // 424. 替换后的最长重复字符
     // public int characterReplacement(String s, int k) {
 
     // }
