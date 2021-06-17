@@ -13439,6 +13439,31 @@ public class LeetCodeText {
         return res.reverse().toString();
 
     }
+
+    // 599. 两个列表的最小索引总和
+    public String[] findRestaurant(String[] list1, String[] list2) {
+        Map<String, Integer> map = new HashMap<>();
+        for (int i = 0; i < list1.length; ++i) {
+            map.put(list1[i], i);
+        }
+        List<String> res = new ArrayList<>();
+        int minSumIndex = Integer.MAX_VALUE;
+        int curSumIndex = 0;
+        for (int i = 0; i < list2.length; ++i) {
+            if (map.containsKey(list2[i])) {
+                curSumIndex = map.get(list2[i]) + i;
+                if (curSumIndex < minSumIndex) {
+                    res.clear();
+                    res.add(list2[i]);
+                    minSumIndex = curSumIndex;
+                } else if (curSumIndex == minSumIndex) {
+                    res.add(list2[i]);
+                }
+            }
+        }
+        return res.toArray(new String[res.size()]);
+
+    }
     // // 424. 替换后的最长重复字符
     // public int characterReplacement(String s, int k) {
 
