@@ -13424,8 +13424,24 @@ public class LeetCodeText {
                 .replace("&frasl;", "/").replace("&amp;", "&");
     }
 
+    // 482. 密钥格式化
+    public String licenseKeyFormatting(String s, int k) {
+        s = s.replace("-", "").toUpperCase();
+        int cur = 0;
+        StringBuilder res = new StringBuilder();
+        for (int i = s.length() - 1; i >= 0; --i) {
+            res.append(s.charAt(i));
+            ++cur;
+            if (cur % k == 0 && i != 0) {
+                res.append("-");
+            }
+        }
+        return res.reverse().toString();
+
+    }
     // // 424. 替换后的最长重复字符
     // public int characterReplacement(String s, int k) {
 
     // }
+
 }
