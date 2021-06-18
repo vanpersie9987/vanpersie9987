@@ -11813,18 +11813,18 @@ public class LeetCodeText {
     public int minAddToMakeValid2(String s) {
         int left = 0;
         int count = 0;
-        for (int i = 0; i < s.length(); ++i) {
-            if (s.charAt(i) == '(') {
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
                 ++left;
             } else {
-                if (left > 0) {
-                    --left;
-                } else {
+                if (left == 0) {
                     ++count;
+                } else {
+                    --left;
                 }
             }
         }
-        return left + count;
+        return count + left;
 
     }
 
