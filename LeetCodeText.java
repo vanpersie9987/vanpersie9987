@@ -12853,17 +12853,31 @@ public class LeetCodeText {
 
     // 895. 最大频率栈
     class FreqStack {
+        private Map<Integer, Integer> count;
+        private Map<Integer, Stack<Integer>> freq;
+        private int maxFreq;
 
         public FreqStack() {
+            count = new HashMap<>();
+            freq = new HashMap<>();
 
         }
 
         public void push(int val) {
-
+            count.put(val, count.getOrDefault(val, 0) + 1);
+            int num = count.get(val);
+            freq.computeIfAbsent(num, k -> new Stack<>()).push(val);
+            maxFreq = Math.max(maxFreq, num);
         }
 
         public int pop() {
-
+            Stack<Integer> maxFreqStack = freq.get(maxFreq);
+            int res = maxFreqStack.pop();
+            count.put(res, count.get(res) - 1);
+            if (maxFreqStack.isEmpty()) {
+                --maxFreq;
+            }
+            return res;
         }
     }
 
