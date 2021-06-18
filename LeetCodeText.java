@@ -12159,11 +12159,12 @@ public class LeetCodeText {
 
     // 1047. 删除字符串中的所有相邻重复项
     public String removeDuplicates1047(String s) {
-        StringBuilder res = new StringBuilder(s);
-        for (int i = 0; i < res.length(); ++i) {
-            if (i != 0 && res.charAt(i) == res.charAt(i - 1)) {
-                res.delete(i - 1, i + 1);
-                i -= 2;
+        StringBuilder res = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (res.length() != 0 && res.charAt(res.length() - 1) == c) {
+                res.deleteCharAt(res.length() - 1);
+            } else {
+                res.append(c);
             }
         }
         return res.toString();
@@ -12223,21 +12224,21 @@ public class LeetCodeText {
 
     // 1021. 删除最外层的括号
     public String removeOuterParentheses3(String s) {
-        StringBuilder result = new StringBuilder();
-        int left = 0;
-        for (int i = 0; i < s.length(); ++i) {
-            if (s.charAt(i) == '(') {
-                if (left++ == 0) {
+        StringBuilder builder = new StringBuilder();
+        int count = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                if (count++ == 0) {
                     continue;
                 }
             } else {
-                if (left-- == 1) {
+                if (--count == 0) {
                     continue;
                 }
             }
-            result.append(s.charAt(i));
+            builder.append(c);
         }
-        return result.toString();
+        return builder.toString();
 
     }
 
