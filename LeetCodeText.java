@@ -11754,18 +11754,18 @@ public class LeetCodeText {
     // 856. 括号的分数
     public int scoreOfParentheses2(String s) {
         int left = 0;
-        int ans = 0;
+        int score = 0;
         for (int i = 0; i < s.length(); ++i) {
             if (s.charAt(i) == '(') {
                 ++left;
             } else {
                 --left;
                 if (s.charAt(i - 1) == '(') {
-                    ans += 1 << left;
+                    score += 1 << left;
                 }
             }
         }
-        return ans;
+        return score;
 
     }
 
