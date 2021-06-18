@@ -12349,17 +12349,18 @@ public class LeetCodeText {
     // 1003. 检查替换后的词是否有效
     // s = "abcabcababcc"
     public boolean isValid1003_2(String s) {
-        Stack<Character> stack = new Stack<>();
+        StringBuilder res = new StringBuilder();
         for (int i = 0; i < s.length(); ++i) {
             if (s.charAt(i) == 'c') {
-                if (stack.size() < 2 || stack.pop() != 'b' || stack.pop() != 'a') {
+                if (res.length() < 2 || res.charAt(res.length() - 1) != 'b' || res.charAt(res.length() - 2) != 'a') {
                     return false;
                 }
+                res.setLength(res.length() - 2);
             } else {
-                stack.push(s.charAt(i));
+                res.append(s.charAt(i));
             }
         }
-        return stack.isEmpty();
+        return res.length() == 0;
 
     }
 
