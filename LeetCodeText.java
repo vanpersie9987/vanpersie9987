@@ -11771,12 +11771,12 @@ public class LeetCodeText {
 
     // 901. 股票价格跨度
     class StockSpanner {
-        Stack<Integer> stack, weight;
+        Stack<Integer> stack;
+        Stack<Integer> weight;
 
         public StockSpanner() {
             stack = new Stack<>();
             weight = new Stack<>();
-
         }
 
         public int next(int price) {
@@ -12853,33 +12853,17 @@ public class LeetCodeText {
 
     // 895. 最大频率栈
     class FreqStack {
-        private Map<Integer, Integer> frequency;
-        private Map<Integer, Stack<Integer>> map;
-        private int maxFrequency;
 
         public FreqStack() {
-            frequency = new HashMap<>();
-            map = new HashMap<>();
 
         }
 
         public void push(int val) {
-            frequency.put(val, frequency.getOrDefault(val, 0) + 1);
-            int freq = frequency.get(val);
-            if (freq > maxFrequency) {
-                maxFrequency = freq;
-            }
-            map.computeIfAbsent(freq, z -> new Stack<>()).push(val);
+
         }
 
         public int pop() {
-            Stack<Integer> max = map.get(maxFrequency);
-            int res = max.pop();
-            frequency.put(res, frequency.get(res) - 1);
-            if (max.isEmpty()) {
-                --maxFrequency;
-            }
-            return res;
+
         }
     }
 
