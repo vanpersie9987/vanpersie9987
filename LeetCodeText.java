@@ -11480,29 +11480,27 @@ public class LeetCodeText {
 
     // 1249. 移除无效的括号
     public String minRemoveToMakeValid2(String s) {
-        StringBuilder result = getValid1249(s, '(', ')');
-        result = getValid1249(result.reverse().toString(), ')', '(');
-        return result.reverse().toString();
+        StringBuilder res = new StringBuilder(s);
+        makeValid1249(res, '(', ')');
+        makeValid1249(res.reverse(), ')', '(');
+        return res.reverse().toString();
 
     }
 
-    private StringBuilder getValid1249(String s, char open, char close) {
-        StringBuilder builder = new StringBuilder();
-        int balance = 0;
-        for (int i = 0; i < s.length(); ++i) {
-            char a = s.charAt(i);
-            if (a == open) {
-                ++balance;
-            } else if (a == close) {
-                if (balance > 0) {
-                    --balance;
+    private void makeValid1249(StringBuilder builder, char open, char close) {
+        int count = 0;
+        for (int i = 0; i < builder.length(); ++i) {
+            if (builder.charAt(i) == open) {
+                ++count;
+            } else if (builder.charAt(i) == close) {
+                if (count > 0) {
+                    --count;
                 } else {
-                    continue;
+                    builder.deleteCharAt(i);
+                    --i;
                 }
             }
-            builder.append(a);
         }
-        return builder;
 
     }
 
@@ -11586,41 +11584,42 @@ public class LeetCodeText {
 
     // 1209. 删除字符串中的所有相邻重复项 II
     public String removeDuplicates1209_2(String s, int k) {
-        StringBuilder builder = new StringBuilder(s);
-        int[] count = new int[s.length()];
-        for (int i = 0; i < builder.length(); ++i) {
-            if (i == 0 || builder.charAt(i) != builder.charAt(i - 1)) {
-                count[i] = 1;
+        StringBuilder res = new StringBuilder(s);
+        int[] counts = new int[s.length()];
+        for (int i = 0; i < res.length(); ++i) {
+            if (i == 0 || res.charAt(i) != res.charAt(i - 1)) {
+                counts[i] = 1;
             } else {
-                count[i] = count[i - 1] + 1;
-                if (k == count[i]) {
-                    builder.delete(i - k + 1, i + 1);
+                counts[i] = counts[i - 1] + 1;
+                if (counts[i] == k) {
+                    res.delete(i - k + 1, i + 1);
                     i -= k;
                 }
             }
         }
-        return builder.toString();
+        return res.toString();
 
     }
 
     // 1209. 删除字符串中的所有相邻重复项 II
     public String removeDuplicates1209_3(String s, int k) {
-        StringBuilder builder = new StringBuilder(s);
+        StringBuilder res = new StringBuilder(s);
         Stack<Integer> stack = new Stack<>();
-        for (int i = 0; i < builder.length(); ++i) {
-            if (i == 0 || builder.charAt(i) != builder.charAt(i - 1)) {
+        for (int i = 0; i < res.length(); ++i) {
+            if (i == 0 || res.charAt(i) != res.charAt(i - 1)) {
                 stack.push(1);
             } else {
-                int num = stack.pop() + 1;
-                if (num == k) {
-                    builder.delete(i - k + 1, i + 1);
+                int count = stack.pop() + 1;
+                if (count == k) {
+                    res.delete(i - k + 1, i + 1);
                     i -= k;
                 } else {
-                    stack.push(num);
+                    stack.push(count);
                 }
+
             }
         }
-        return builder.toString();
+        return res.toString();
 
     }
 
@@ -11688,8 +11687,8 @@ public class LeetCodeText {
                 stack.push(i);
             } else if (s.charAt(i) == ')') {
                 int j = stack.pop();
-                pair[i] = j;
                 pair[j] = i;
+                pair[i] = j;
             }
         }
         int sign = 1;
@@ -11697,7 +11696,7 @@ public class LeetCodeText {
         StringBuilder res = new StringBuilder();
         while (index < s.length()) {
             if (s.charAt(index) == '(' || s.charAt(index) == ')') {
-                sign = -sign;
+                sign *= -1;
                 index = pair[index];
             } else {
                 res.append(s.charAt(index));
@@ -12591,28 +12590,28 @@ public class LeetCodeText {
 
     // 316. 去除重复字母 // 1081. 不同字符的最小子序列
     public String removeDuplicateLetters(String s) {
-        StringBuilder result = new StringBuilder();
         int[] counts = new int[26];
         boolean[] seen = new boolean[26];
         for (char c : s.toCharArray()) {
             ++counts[c - 'a'];
         }
+        StringBuilder res = new StringBuilder();
         for (char c : s.toCharArray()) {
             if (!seen[c - 'a']) {
-                while (result.length() != 0 && result.charAt(result.length() - 1) > c
-                        && counts[result.charAt(result.length() - 1) - 'a'] > 1) {
-                    --counts[result.charAt(result.length() - 1) - 'a'];
-                    seen[result.charAt(result.length() - 1) - 'a'] = false;
-                    result.setLength(result.length() - 1);
+                while (res.length() != 0 && res.charAt(res.length() - 1) > c
+                        && counts[res.charAt(res.length() - 1) - 'a'] > 1) {
+                    --counts[res.charAt(res.length() - 1) - 'a'];
+                    seen[res.charAt(res.length() - 1) - 'a'] = false;
+                    res.setLength(res.length() - 1);
                 }
+                res.append(c);
                 seen[c - 'a'] = true;
-                result.append(c);
 
             } else {
                 --counts[c - 'a'];
             }
         }
-        return result.toString();
+        return res.toString();
 
     }
 
