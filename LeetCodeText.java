@@ -12538,22 +12538,22 @@ public class LeetCodeText {
         if (num.length() == k) {
             return "0";
         }
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < num.length(); ++i) {
-            char c = num.charAt(i);
-            while (result.length() != 0 && k > 0 && c < result.charAt(result.length() - 1)) {
+        StringBuilder res = new StringBuilder();
+        for (char c : num.toCharArray()) {
+            while (res.length() != 0 && c < res.charAt(res.length() - 1) && k > 0) {
+                res.setLength(res.length() - 1);
                 --k;
-                result.setLength(result.length() - 1);
             }
-            if (result.length() == 0 && c == '0') {
+            if (res.length() == 0 && c == '0') {
                 continue;
             }
-            result.append(num.charAt(i));
+            res.append(c);
         }
-        if (result.length() <= k) {
+        if (res.length() <= k) {
             return "0";
         }
-        return result.substring(0, result.length() - k);
+        res.setLength(res.length() - k);
+        return res.toString();
 
     }
 
