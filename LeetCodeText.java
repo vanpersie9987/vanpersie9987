@@ -411,10 +411,10 @@ public class LeetCodeText {
 
     // 42. 接雨水
     public int trap2(final int[] height) {
-        int res = 0;
         Stack<Integer> stack = new Stack<>();
+        int res = 0;
         for (int i = 0; i < height.length; ++i) {
-            while (!stack.isEmpty() && height[i] > height[stack.peek()]) {
+            while (!stack.isEmpty() && height[stack.peek()] < height[i]) {
                 int h = height[stack.pop()];
                 if (stack.isEmpty()) {
                     break;
@@ -6933,15 +6933,15 @@ public class LeetCodeText {
     // 20. 有效的括号
     public boolean isValid(final String s) {
         Map<Character, Character> map = new HashMap<>();
-        map.put(']', '[');
         map.put('}', '{');
         map.put(')', '(');
+        map.put(']', '[');
         Stack<Character> stack = new Stack<>();
-        for (char a : s.toCharArray()) {
-            if (map.containsValue(a)) {
-                stack.push(a);
+        for (char c : s.toCharArray()) {
+            if (map.containsValue(c)) {
+                stack.push(c);
             } else {
-                if (stack.isEmpty() || stack.pop() != map.get(a)) {
+                if (stack.isEmpty() || map.get(c) != stack.pop()) {
                     return false;
                 }
             }
@@ -7242,14 +7242,14 @@ public class LeetCodeText {
     // 71. 简化路径
     public static String simplifyPath(final String path) {
         Stack<String> stack = new Stack<>();
-        String[] strings = path.split("\\/");
-        for (String string : strings) {
-            if ("..".equals(string)) {
+        String[] paths = path.split("\\/");
+        for (String p : paths) {
+            if ("..".equals(p)) {
                 if (!stack.isEmpty()) {
                     stack.pop();
                 }
-            } else if (!string.isEmpty() && !".".equals(string)) {
-                stack.push(string);
+            } else if (!p.isEmpty() && !".".equals(p)) {
+                stack.push(p);
             }
         }
         if (stack.isEmpty()) {
@@ -8139,41 +8139,11 @@ public class LeetCodeText {
 
     }
 
-    // 85.最大矩形 --解法1
+    // 85. 最大矩形
     public int maximalRectangle(char[][] matrix) {
-        int max = 0;
+        int res = 0;
         if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
-            return max;
-        }
-        int[][] width = new int[matrix.length][matrix[0].length];
-        for (int i = 0; i < matrix.length; ++i) {
-            for (int j = 0; j < matrix[0].length; ++j) {
-                if (matrix[i][j] == '1') {
-                    if (j == 0) {
-                        width[i][j] = 1;
-                    } else {
-                        width[i][j] = width[i][j - 1] + 1;
-                    }
-                } else {
-                    width[i][j] = 0;
-                }
-                int minWidth = width[i][j];
-                for (int upRow = i; upRow >= 0; --upRow) {
-                    int height = i - upRow + 1;
-                    minWidth = Math.min(minWidth, width[upRow][j]);
-                    max = Math.max(max, height * minWidth);
-                }
-            }
-        }
-        return max;
-
-    }
-
-    // 85. 最大矩形 --解法2
-    public int maximalRectangle2(char[][] matrix) {
-        int max = 0;
-        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
-            return max;
+            return res;
         }
         int[] dp = new int[matrix[0].length];
         for (int i = 0; i < matrix.length; ++i) {
@@ -8184,24 +8154,26 @@ public class LeetCodeText {
                     dp[j] = 0;
                 }
             }
-            max = Math.max(max, maximalRectangle(dp));
+            res = Math.max(res, getMaximal85(dp));
         }
-        return max;
+        return res;
 
     }
 
-    private int maximalRectangle(int[] heights) {
-        int max = 0;
+    private int getMaximal85(int[] heights) {
         Stack<Integer> stack = new Stack<>();
         stack.push(-1);
+        int max = 0;
         for (int i = 0; i < heights.length; ++i) {
-            while (stack.peek() != -1 && heights[i] <= heights[stack.peek()]) {
-                max = Math.max(max, heights[stack.pop()] * (i - stack.peek() - 1));
+            while (stack.peek() != -1 && heights[stack.peek()] >= heights[i]) {
+                int h = heights[stack.pop()];
+                max = Math.max(max, (i - stack.peek() - 1) * h);
             }
             stack.push(i);
         }
         while (stack.peek() != -1) {
-            max = Math.max(max, heights[stack.pop()] * (heights.length - stack.peek() - 1));
+            int h = heights[stack.pop()];
+            max = Math.max(max, (heights.length - stack.peek() - 1) * h);
         }
         return max;
     }
