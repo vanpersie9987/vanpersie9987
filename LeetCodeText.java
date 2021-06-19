@@ -7473,44 +7473,45 @@ public class LeetCodeText {
     }
 
     // 227. 基本计算器 II
+
     public int calculate(final String s) {
         Stack<Integer> stack = new Stack<>();
-        char[] chars = s.toCharArray();
         char sign = '+';
-        int i = 0;
-        while (i < chars.length) {
-            if (Character.isWhitespace(chars[i])) {
+
+        while (i < s.length()) {
+            if (Character.isWhitespace(s.charAt(i))) {
                 ++i;
                 continue;
             }
-            if (Character.isDigit(chars[i])) {
-                int temp = 0;
-                temp = chars[i] - '0';
-                while (++i < chars.length && Character.isDigit(chars[i])) {
-                    temp = temp * 10 + chars[i] - '0';
+            if (Character.isDigit(s.charAt(i))) {
+                StringBuilder num = new StringBuilder();
+                while (i < s.length() && Character.isDigit(s.charAt(i))) {
+                    num.append(s.charAt(i++));
                 }
                 --i;
                 if (sign == '+') {
-                    stack.push(temp);
+                    stack.push(Integer.parseInt(num.toString()));
                 } else if (sign == '-') {
-                    stack.push(-temp);
+                    stack.push(-1 * Integer.parseInt(num.toString()));
                 } else {
-                    stack.push(resove(sign, stack.pop(), temp));
+                    stack.push(getNum(stack.pop(), Integer.parseInt(num.toString()), sign));
                 }
             } else {
-                sign = chars[i];
+                sign = s.charAt(i);
             }
+
             ++i;
+
         }
         int res = 0;
-        for (int a : stack) {
-            res += a;
+        while (!stack.isEmpty()) {
+            res += stack.pop();
         }
         return res;
 
     }
 
-    private int resove(char sign, int a, int b) {
+    private Integer getNum(int a, int b, char sign) {
         if (sign == '*') {
             return a * b;
         } else {
