@@ -12549,6 +12549,7 @@ public class LeetCodeText {
             }
             res.append(c);
         }
+        // num = 10000, k=1
         if (res.length() <= k) {
             return "0";
         }
