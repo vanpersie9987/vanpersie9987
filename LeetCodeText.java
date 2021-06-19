@@ -12513,10 +12513,10 @@ public class LeetCodeText {
         for (int asteroid : asteroids) {
             collisions: {
                 while (!stack.isEmpty() && asteroid < 0 && stack.peek() > 0) {
-                    if (stack.peek() < -asteroid) {
+                    if (stack.peek() + asteroid < 0) {
                         stack.pop();
                         continue;
-                    } else if (stack.peek() == -asteroid) {
+                    } else if (stack.peek() + asteroid == 0) {
                         stack.pop();
                     }
                     break collisions;
