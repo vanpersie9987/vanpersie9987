@@ -12760,9 +12760,9 @@ public class LeetCodeText {
             while (!queue1.isEmpty()) {
                 queue2.offer(queue1.poll());
             }
-            Queue<Integer> temp = queue2;
-            queue2 = queue1;
-            queue1 = temp;
+            Queue<Integer> temp = queue1;
+            queue1 = queue2;
+            queue2 = temp;
         }
 
         /** Removes the element on top of the stack and returns that element. */
@@ -12785,7 +12785,7 @@ public class LeetCodeText {
 
     // 225. 用队列实现栈 -- 一个队列
     class MyStack2 {
-        Queue<Integer> queue;
+        private Queue<Integer> queue;
 
         /** Initialize your data structure here. */
         public MyStack2() {
@@ -12796,7 +12796,7 @@ public class LeetCodeText {
         public void push(int x) {
             int size = queue.size();
             queue.offer(x);
-            for (int i = 0; i < size; ++i) {
+            while (size-- > 0) {
                 queue.offer(queue.poll());
             }
 
