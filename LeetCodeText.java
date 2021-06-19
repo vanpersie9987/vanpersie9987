@@ -12567,7 +12567,7 @@ public class LeetCodeText {
         StringBuilder res = new StringBuilder();
         for (char c : s.toCharArray()) {
             if (!seen[c - 'a']) {
-                while (res.length() != 0 && res.charAt(res.length() - 1) > c
+                while (res.length() != 0 && c < res.charAt(res.length() - 1)
                         && counts[res.charAt(res.length() - 1) - 'a'] > 1) {
                     --counts[res.charAt(res.length() - 1) - 'a'];
                     seen[res.charAt(res.length() - 1) - 'a'] = false;
