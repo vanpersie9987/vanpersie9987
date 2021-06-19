@@ -11902,25 +11902,25 @@ public class LeetCodeText {
     // 682. 棒球比赛
     public int calPoints(String[] ops) {
         Stack<Integer> stack = new Stack<>();
-        for (int i = 0; i < ops.length; ++i) {
-            if (ops[i].equals("C")) {
+        for (String op : ops) {
+            if ("C".equals(op)) {
                 stack.pop();
-            } else if (ops[i].equals("D")) {
-                stack.push(stack.peek() * 2);
-            } else if (ops[i].equals("+")) {
+            } else if ("D".equals(op)) {
+                stack.push(Integer.parseInt(String.valueOf(stack.peek())) * 2);
+            } else if ("+".equals(op)) {
                 int last = stack.pop();
-                int secondToLast = stack.peek();
+                int push = last + stack.peek();
                 stack.push(last);
-                stack.push(last + secondToLast);
+                stack.push(push);
             } else {
-                stack.push(Integer.parseInt(ops[i]));
+                stack.push(Integer.parseInt(op));
             }
         }
-        int sum = 0;
+        int res = 0;
         while (!stack.isEmpty()) {
-            sum += stack.pop();
+            res += stack.pop();
         }
-        return sum;
+        return res;
 
     }
 
