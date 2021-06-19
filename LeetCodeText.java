@@ -11723,8 +11723,8 @@ public class LeetCodeText {
         int[] res = new int[temperatures.length];
         for (int i = 0; i < temperatures.length; ++i) {
             while (!stack.isEmpty() && temperatures[i] > temperatures[stack.peek()]) {
-                int diff = i - stack.peek();
-                res[stack.pop()] = diff;
+                int index = stack.pop();
+                res[index] = i - index;
             }
             stack.push(i);
         }
