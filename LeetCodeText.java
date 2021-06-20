@@ -13325,25 +13325,23 @@ public class LeetCodeText {
 
     // 636. 函数的独占时间
     public int[] exclusiveTime(int n, List<String> logs) {
-        int[] res = new int[n];
         Stack<Integer> stack = new Stack<>();
-        String[] log0 = logs.get(0).split("\\:");
-        stack.push(Integer.parseInt(log0[0]));
+        int[] res = new int[n];
+        String[] log0 = logs.get(0).split(":");
         int prev = Integer.parseInt(log0[2]);
-        int i = 1;
-        while (i < logs.size()) {
-            String[] log = logs.get(i).split("\\:");
+        stack.push(Integer.parseInt(log0[0]));
+        for (int i = 1; i < logs.size(); ++i) {
+            String[] log = logs.get(i).split(":");
             if (log[1].equals("start")) {
                 if (!stack.isEmpty()) {
                     res[stack.peek()] += Integer.parseInt(log[2]) - prev;
                 }
-                stack.push(Integer.parseInt(log[0]));
                 prev = Integer.parseInt(log[2]);
+                stack.push(Integer.parseInt(log[0]));
             } else {
                 res[stack.pop()] += Integer.parseInt(log[2]) - prev + 1;
                 prev = Integer.parseInt(log[2]) + 1;
             }
-            ++i;
         }
         return res;
 
