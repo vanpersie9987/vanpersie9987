@@ -12241,13 +12241,13 @@ public class LeetCodeText {
         }
         Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < nums2.length; ++i) {
-            while (!stack.isEmpty() && nums2[i] > nums2[stack.peek()]) {
-                int index = stack.pop();
-                if (dp[nums2[index]] != -1) {
-                    res[dp[nums2[index]]] = nums2[i];
+            while (!stack.isEmpty() && nums2[i] > stack.peek()) {
+                int num = stack.pop();
+                if (dp[num] != -1) {
+                    res[dp[num]] = nums2[i];
                 }
             }
-            stack.push(i);
+            stack.push(nums2[i]);
         }
         return res;
 
