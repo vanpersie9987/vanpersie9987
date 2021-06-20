@@ -1180,6 +1180,81 @@ public class LeetCodeText {
 
     }
 
+    // 128. 最长连续序列
+    public int longestConsecutive2(final int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        Map<Integer, Integer> map = new HashMap<>();
+        int index = 0;
+        for (int num : nums) {
+            if (!map.containsKey(num)) {
+                map.put(num, index++);
+            }
+        }
+        Union128 union = new Union128(index);
+        for (int key : map.keySet()) {
+            if (map.containsKey(key + 1)) {
+                union.union(map.get(key), map.get(key + 1));
+            }
+            if (map.containsKey(key - 1)) {
+                union.union(map.get(key), map.get(key - 1));
+            }
+        }
+        return union.getMax();
+
+    }
+
+    public class Union128 {
+        private int[] parent;
+        private int[] size;
+        private int max;
+
+        public Union128(int n) {
+            parent = new int[n];
+            size = new int[n];
+            Arrays.fill(size, 1);
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+            max = 1;
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (size[root1] < size[root2]) {
+                parent[root1] = root2;
+                size[root2] += size[root1];
+                max = Math.max(max, size[root2]);
+            } else {
+                parent[root2] = root1;
+                size[root1] += size[root2];
+                max = Math.max(max, size[root1]);
+            }
+
+        }
+
+        public int getMax() {
+            return max;
+        }
+
+    }
+
     // 152. 乘积最大子数组
     public int maxProduct(final int[] nums) {
         int max = Integer.MIN_VALUE;
