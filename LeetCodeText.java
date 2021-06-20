@@ -1208,12 +1208,15 @@ public class LeetCodeText {
     public class Union128 {
         private int[] parent;
         private int[] size;
+        private int[] rank;
         private int max;
 
         public Union128(int n) {
             parent = new int[n];
             size = new int[n];
+            rank = new int[n];
             Arrays.fill(size, 1);
+            Arrays.fill(rank, 1);
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
             }
@@ -1237,12 +1240,17 @@ public class LeetCodeText {
             if (root1 == root2) {
                 return;
             }
-            if (size[root1] < size[root2]) {
+            if (rank[root1] < rank[root2]) {
                 parent[root1] = root2;
                 size[root2] += size[root1];
                 max = Math.max(max, size[root2]);
+            } else if (rank[root1] > rank[root2]) {
+                parent[root2] = root1;
+                size[root1] += size[root2];
+                max = Math.max(max, size[root1]);
             } else {
                 parent[root2] = root1;
+                ++rank[root1];
                 size[root1] += size[root2];
                 max = Math.max(max, size[root1]);
             }
