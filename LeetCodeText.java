@@ -1213,13 +1213,13 @@ public class LeetCodeText {
 
         public Union128(int n) {
             parent = new int[n];
-            size = new int[n];
-            rank = new int[n];
-            Arrays.fill(size, 1);
-            Arrays.fill(rank, 1);
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
             }
+            size = new int[n];
+            Arrays.fill(size, 1);
+            rank = new int[n];
+            Arrays.fill(rank, 1);
             max = 1;
         }
 
@@ -1249,18 +1249,16 @@ public class LeetCodeText {
                 size[root1] += size[root2];
                 max = Math.max(max, size[root1]);
             } else {
-                parent[root2] = root1;
-                ++rank[root1];
-                size[root1] += size[root2];
-                max = Math.max(max, size[root1]);
+                parent[root1] = root2;
+                size[root2] += size[root1];
+                ++rank[root2];
+                max = Math.max(max, size[root2]);
             }
-
         }
 
         public int getMax() {
             return max;
         }
-
     }
 
     // 152. 乘积最大子数组
