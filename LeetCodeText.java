@@ -13664,6 +13664,86 @@ public class LeetCodeText {
 
     }
 
+    // 1905. 统计子岛屿
+    public int countSubIslands(int[][] grid1, int[][] grid2) {
+        Union1905 union = new Union1905(grid2.length * grid2[0].length);
+        for (int i = 0; i < grid2.length; ++i) {
+            for (int j = 0; j < grid2[0].length; ++j) {
+                if (grid2[i][j] == 1) {
+                    if (i > 0 && grid2[i - 1][j] == 1) {
+                        union.union(getIndex1905(grid2[0].length, i, j), getIndex1905(grid2[0].length, i - 1, j));
+                    }
+                    if (j > 0 && grid2[i][j - 1] == 1) {
+                        union.union(getIndex1905(grid2[0].length, i, j), getIndex1905(grid2[0].length, i, j - 1));
+                    }
+                }
+            }
+        }
+        Set<Integer> set = new HashSet<>();
+        Set<Integer> not = new HashSet<>();
+        for (int i = 0; i < grid2.length; ++i) {
+            for (int j = 0; j < grid2[0].length; ++j) {
+                if (grid2[i][j] == 1) {
+                    int root = union.getRoot(getIndex1905(grid2[0].length, i, j));
+                    if (!not.contains(root)) {
+                        set.add(root);
+                    }
+                    if (grid1[i][j] == 0) {
+                        not.add(root);
+                        set.remove(root);
+                    }
+                }
+            }
+        }
+        return set.size();
+
+    }
+
+    private int getIndex1905(int length, int i, int j) {
+        return i * length + j;
+    }
+
+    public class Union1905 {
+        private int[] parent;
+        private int[] rank;
+
+        public Union1905(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else if (rank[root1] > rank[root2]) {
+                parent[root2] = root1;
+            } else {
+                parent[root1] = root2;
+                ++rank[root2];
+            }
+        }
+    }
+
     // 424. 替换后的最长重复字符
     // public int characterReplacement(String s, int k) {
 
