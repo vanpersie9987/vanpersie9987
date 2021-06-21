@@ -11235,58 +11235,52 @@ public class LeetCodeText {
 
     // 130. 被围绕的区域
     public void solve(char[][] board) {
-        int rows = board.length;
-        int cols = board[0].length;
-        Union130 union = new Union130(rows * cols + 1);
-        int dummy = rows * cols;
-
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; ++j) {
+        int m = board.length;
+        int n = board[0].length;
+        Union130 union = new Union130(m * n + 1);
+        int dummy = m * n;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
                 if (board[i][j] == 'O') {
-                    if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1) {
-                        union.union(getIndex130(i, j, cols), dummy);
+                    if (i == 0 || j == 0 || i == m - 1 || j == n - 1) {
+                        union.union(getIndex130(n, i, j), dummy);
                     } else {
-                        if (i - 1 >= 0 && board[i - 1][j] == 'O') {
-                            union.union(getIndex130(i - 1, j, cols), getIndex130(i, j, cols));
+                        if (board[i - 1][j] == 'O') {
+                            union.union(getIndex130(n, i, j), getIndex130(n, i - 1, j));
                         }
-                        if (i + 1 < rows && board[i + 1][j] == 'O') {
-                            union.union(getIndex130(i + 1, j, cols), getIndex130(i, j, cols));
+                        if (board[i + 1][j] == 'O') {
+                            union.union(getIndex130(n, i, j), getIndex130(n, i + 1, j));
                         }
-                        if (j - 1 >= 0 && board[i][j - 1] == 'O') {
-                            union.union(getIndex130(i, j - 1, cols), getIndex130(i, j, cols));
+                        if (board[i][j - 1] == 'O') {
+                            union.union(getIndex130(n, i, j), getIndex130(n, i, j - 1));
                         }
-                        if (j + 1 < cols && board[i][j + 1] == 'O') {
-                            union.union(getIndex130(i, j + 1, cols), getIndex130(i, j, cols));
+                        if (board[i][j + 1] == 'O') {
+                            union.union(getIndex130(n, i, j), getIndex130(n, i, j + 1));
                         }
-
                     }
-
                 }
-
             }
-
         }
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; ++j) {
-                if (board[i][j] == 'O' && !union.isConnected(getIndex130(i, j, cols), dummy)) {
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (board[i][j] == 'O' && !union.isConnected(getIndex130(n, i, j), dummy)) {
                     board[i][j] = 'X';
                 }
             }
         }
-
     }
 
-    private int getIndex130(int i, int j, int cols) {
-        return i * cols + j;
+    private int getIndex130(int n, int i, int j) {
+        return i * n + j;
     }
 
     public class Union130 {
-        private int[] rank;
         private int[] parent;
+        private int[] rank;
 
         public Union130(int n) {
-            rank = new int[n];
             parent = new int[n];
+            rank = new int[n];
             Arrays.fill(rank, 1);
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
@@ -11298,7 +11292,6 @@ public class LeetCodeText {
                 return p;
             }
             return parent[p] = getRoot(parent[p]);
-
         }
 
         public boolean isConnected(int p1, int p2) {
@@ -11319,7 +11312,6 @@ public class LeetCodeText {
                 parent[root1] = root2;
                 ++rank[root2];
             }
-
         }
 
     }
