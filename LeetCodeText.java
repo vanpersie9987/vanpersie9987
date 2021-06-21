@@ -10333,77 +10333,83 @@ public class LeetCodeText {
 
     // 200. 岛屿数量
     public int numIslands(char[][] grid) {
-        final int[][] DIRECTIONS = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
-        int n = grid.length;
-        int m = grid[0].length;
-        Union200 union200 = new Union200(grid);
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < m; ++j) {
+        int m = grid.length;
+        int n = grid[0].length;
+        Union200 union = new Union200(grid);
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
                 if (grid[i][j] == '1') {
                     grid[i][j] = '0';
-                    for (int[] direction : DIRECTIONS) {
-                        int newI = i + direction[0];
-                        int newJ = j + direction[1];
-                        if (inArea200(n, m, newI, newJ) && grid[newI][newJ] == '1') {
-                            union200.union(i * m + j, newI * m + newJ);
-                        }
+                    if (i - 1 >= 0 && grid[i - 1][j] == '1') {
+                        union.union(getIndex200(n, i, j), getIndex200(n, i - 1, j));
                     }
-
+                    if (j - 1 >= 0 && grid[i][j - 1] == '1') {
+                        union.union(getIndex200(n, i, j), getIndex200(n, i, j - 1));
+                    }
+                    if (i + 1 < m && grid[i + 1][j] == '1') {
+                        union.union(getIndex200(n, i, j), getIndex200(n, i + 1, j));
+                    }
+                    if (j + 1 < n && grid[i][j + 1] == '1') {
+                        union.union(getIndex200(n, i, j), getIndex200(n, i, j + 1));
+                    }
                 }
             }
         }
-        return union200.getCount();
+        return union.getCount();
+        
 
     }
 
-    private boolean inArea200(int n, int m, int newI, int newJ) {
-        return newI >= 0 && newI < n && newJ >= 0 && newJ < m;
-
+    private int getIndex200(int n, int i, int j) {
+        return n * i + j;
     }
 
     public class Union200 {
-        int[] parent;
-        int[] rank;
-        int count;
+        private int[] parent;
+        private int[] rank;
+        private int count;
 
         public Union200(char[][] grid) {
-            parent = new int[grid.length * grid[0].length];
-            rank = new int[grid.length * grid[0].length];
-            for (int i = 0; i < grid.length; ++i) {
-                for (int j = 0; j < grid[0].length; ++j) {
+            int m = grid.length;
+            int n = grid[0].length;
+            parent = new int[m * n];
+            rank = new int[m * n];
+            Arrays.fill(rank, 1);
+            for (int i = 0; i < m; ++i) {
+                for (int j = 0; j < n; ++j) {
                     if (grid[i][j] == '1') {
-                        parent[i * grid[0].length + j] = i * grid[0].length + j;
+                        parent[i * n + j] = i * n + j;
                         ++count;
-                        rank[i * grid[0].length + j] = 1;
                     }
                 }
             }
         }
 
-        public int findRoot(int p) {
+        public int getRoot(int p) {
             if (parent[p] == p) {
                 return p;
             }
-            return parent[p] = findRoot(parent[p]);
+            return parent[p] = getRoot(parent[p]);
         }
 
         public boolean isConnected(int p1, int p2) {
-            return findRoot(p1) == findRoot(p2);
+            return getRoot(p1) == getRoot(p2);
+
         }
 
         public void union(int p1, int p2) {
-            int root1 = findRoot(p1);
-            int root2 = findRoot(p2);
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
             if (root1 == root2) {
                 return;
             }
             if (rank[root1] < rank[root2]) {
                 parent[root1] = root2;
-            } else if (rank[root1] > rank[root2]) {
-                parent[root2] = root1;
             } else {
                 parent[root2] = root1;
-                ++rank[root1];
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
             }
             --count;
         }
