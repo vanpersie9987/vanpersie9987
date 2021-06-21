@@ -10356,7 +10356,6 @@ public class LeetCodeText {
             }
         }
         return union.getCount();
-        
 
     }
 
@@ -10552,14 +10551,14 @@ public class LeetCodeText {
     }
 
     public class Union547 {
-        int[] parent;
-        int[] rank;
-        int count;
+        private int[] rank;
+        private int[] parent;
+        private int count;
 
         public Union547(int n) {
+            parent = new int[n];
             rank = new int[n];
             Arrays.fill(rank, 1);
-            parent = new int[n];
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
             }
@@ -10585,11 +10584,11 @@ public class LeetCodeText {
             }
             if (rank[root1] < rank[root2]) {
                 parent[root1] = root2;
-            } else if (rank[root1] > rank[root2]) {
-                parent[root2] = root1;
             } else {
-                parent[root1] = root2;
-                ++rank[root2];
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
             }
             --count;
         }
@@ -10597,6 +10596,7 @@ public class LeetCodeText {
         public int getCount() {
             return count;
         }
+
     }
 
     // 959. 由斜杠划分区域
