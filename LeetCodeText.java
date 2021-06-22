@@ -10824,7 +10824,6 @@ public class LeetCodeText {
                 if (isSimilar(strs[i], strs[j])) {
                     union.union(i, j);
                 }
-
             }
         }
         return union.getCount();
@@ -10835,8 +10834,7 @@ public class LeetCodeText {
         int count = 0;
         for (int i = 0; i < s1.length(); ++i) {
             if (s1.charAt(i) != s2.charAt(i)) {
-                ++count;
-                if (count > 2) {
+                if (++count > 2) {
                     return false;
                 }
             }
@@ -10851,8 +10849,8 @@ public class LeetCodeText {
 
         public Union839(int n) {
             rank = new int[n];
-            Arrays.fill(rank, 1);
             parent = new int[n];
+            Arrays.fill(rank, 1);
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
             }
@@ -10878,11 +10876,11 @@ public class LeetCodeText {
             }
             if (rank[root1] < rank[root2]) {
                 parent[root1] = root2;
-            } else if (rank[root1] > rank[root2]) {
-                parent[root2] = root1;
             } else {
-                parent[root1] = root2;
-                ++rank[root2];
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
             }
             --count;
         }
