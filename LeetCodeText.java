@@ -13740,6 +13740,44 @@ public class LeetCodeText {
         }
     }
 
+    // 1906. 查询差绝对值的最小值
+    public int[] minDifference(int[] nums, int[][] queries) {
+        int[][] dp = new int[nums.length][101];
+        int[] arr = new int[101];
+        for (int i = 0; i < nums.length; ++i) {
+            ++arr[nums[i]];
+            dp[i] = arr.clone();
+        }
+        int[] res = new int[queries.length];
+        for (int i = 0; i < queries.length; ++i) {
+            int left = queries[i][0];
+            int right = queries[i][1];
+            int[] query = new int[101];
+            if (left == 0) {
+                query = dp[right];
+            } else {
+                int[] queryRight = dp[right];
+                int[] queryLeft = dp[left - 1];
+                for (int j = 0; j < query.length; ++j) {
+                    query[j] = queryRight[j] - queryLeft[j];
+                }
+            }
+            int min = Integer.MAX_VALUE;
+            int last = -1;
+            for (int j = 0; j < query.length; ++j) {
+                if (query[j] != 0) {
+                    if (last != -1) {
+                        min = Math.min(min, j - last);
+                    }
+                    last = j;
+                }
+            }
+            res[i] = min == Integer.MAX_VALUE ? -1 : min;
+        }
+        return res;
+
+    }
+
     // 424. 替换后的最长重复字符
     // public int characterReplacement(String s, int k) {
 
