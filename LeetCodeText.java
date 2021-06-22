@@ -10493,20 +10493,20 @@ public class LeetCodeText {
     }
 
     public class Union684 {
-        int[] rank;
-        int[] parent;
+        private int[] parent;
+        private int[] rank;
 
         public Union684(int n) {
             rank = new int[n];
-            parent = new int[n];
             Arrays.fill(rank, 1);
+            parent = new int[n];
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
             }
         }
 
         public int getRoot(int p) {
-            if (p == parent[p]) {
+            if (parent[p] == p) {
                 return p;
             }
             return parent[p] = getRoot(parent[p]);
@@ -10524,13 +10524,12 @@ public class LeetCodeText {
             }
             if (rank[root1] < rank[root2]) {
                 parent[root1] = root2;
-            } else if (rank[root1] > rank[root2]) {
-                parent[root2] = root1;
             } else {
-                parent[root1] = root2;
-                ++rank[root2];
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
             }
-
         }
 
     }
