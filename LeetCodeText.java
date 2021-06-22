@@ -10597,32 +10597,31 @@ public class LeetCodeText {
 
     // 959. 由斜杠划分区域
     public int regionsBySlashes(String[] grid) {
-        int N = grid.length;
-        int count = N * N * 4;
-        Union959 union = new Union959(count);
+        int n = grid.length;
+        Union959 union = new Union959(n * n * 4);
         int index = 0;
-
-        for (int i = 0; i < N; ++i) {
-            for (int j = 0; j < N; ++j) {
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                char c = grid[i].charAt(j);
                 // 方格内合并
-                if (grid[i].charAt(j) == ' ') {
+                if (c == ' ') {
                     union.union(index, index + 1);
-                    union.union(index, index + 2);
-                    union.union(index, index + 3);
-                } else if (grid[i].charAt(j) == '/') {
+                    union.union(index + 1, index + 2);
+                    union.union(index + 2, index + 3);
+                } else if (c == '/') {
                     union.union(index, index + 1);
                     union.union(index + 2, index + 3);
+                } else if (c == '\\') {
+                    union.union(index + 1, index + 2);
+                    union.union(index, index + 3);
+                }
 
-                } else if (grid[i].charAt(j) == '\\') {
-                    union.union(index, index + 2);
-                    union.union(index + 1, index + 3);
-                }
                 // 方格间合并
-                if (j + 1 < N) {
-                    union.union(index + 2, index + 5);
+                if (j + 1 < n) {
+                    union.union(index + 3, index + 5);
                 }
-                if (i + 1 < N) {
-                    union.union(index + 3, index + N * 4);
+                if (i + 1 < n) {
+                    union.union(index + 2, index + n * 4);
                 }
                 index += 4;
             }
@@ -10632,44 +10631,44 @@ public class LeetCodeText {
     }
 
     public class Union959 {
-        private int[] rank;
         private int[] parent;
+        private int[] rank;
         private int count;
 
         public Union959(int n) {
             parent = new int[n];
-            rank = new int[n];
-            count = n;
-            Arrays.fill(rank, 1);
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
             }
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+            count = n;
         }
 
-        public int findRoot(int p) {
+        public int getRoot(int p) {
             if (parent[p] == p) {
                 return p;
             }
-            return parent[p] = findRoot(parent[p]);
+            return parent[p] = getRoot(parent[p]);
         }
 
         public boolean isConnected(int p1, int p2) {
-            return findRoot(p1) == findRoot(p2);
+            return getRoot(p1) == getRoot(p2);
         }
 
         public void union(int p1, int p2) {
-            int root1 = findRoot(p1);
-            int root2 = findRoot(p2);
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
             if (root1 == root2) {
                 return;
             }
-            if (rank[root1] < rank[root2]) {
-                parent[root1] = root2;
-            } else if (rank[root1] > rank[root2]) {
+            if (rank[root1] > rank[root2]) {
                 parent[root2] = root1;
             } else {
                 parent[root1] = root2;
-                ++rank[root2];
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root2];
+                }
             }
             --count;
         }
