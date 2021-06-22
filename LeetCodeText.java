@@ -10252,83 +10252,80 @@ public class LeetCodeText {
 
     // 778. 水位上升的泳池中游泳
     public int swimInWater(int[][] grid) {
-        final int[][] DIRECTIONS = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
-        int N = grid.length;
-        int[] index = new int[N * N];
-        Union778 union778 = new Union778(N * N);
-        for (int i = 0; i < N; ++i) {
-            for (int j = 0; j < N; ++j) {
-                index[grid[i][j]] = getIndex(N, i, j);
+        int n = grid.length;
+        Union778 union = new Union778(n * n);
+        int[] index = new int[n * n];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                index[grid[i][j]] = getIndex778(n, i, j);
             }
         }
-        for (int time = 0; time < N * N; ++time) {
-            int x = index[time] / N;
-            int y = index[time] % N;
-            for (int[] direction : DIRECTIONS) {
-                int newX = x + direction[0];
-                int newY = y + direction[1];
-                if (inArea(N, newX, newY) && grid[newX][newY] <= time) {
-                    union778.union(getIndex(N, x, y), getIndex(N, newX, newY));
-                }
-                if (union778.isConnected(0, N * N - 1)) {
-                    return time;
-                }
+        for (int time = 0; time < n * n; ++time) {
+            int x = index[time] / n;
+            int y = index[time] % n;
+            if (x - 1 >= 0 && grid[x - 1][y] < time) {
+                union.union(getIndex778(n, x, y), getIndex778(n, x - 1, y));
             }
-
+            if (y - 1 >= 0 && grid[x][y - 1] < time) {
+                union.union(getIndex778(n, x, y), getIndex778(n, x, y - 1));
+            }
+            if (x + 1 < n && grid[x + 1][y] < time) {
+                union.union(getIndex778(n, x, y), getIndex778(n, x + 1, y));
+            }
+            if (y + 1 < n && grid[x][y + 1] < time) {
+                union.union(getIndex778(n, x, y), getIndex778(n, x, y + 1));
+            }
+            if (union.isConnected(0, n * n - 1)) {
+                return time;
+            }
         }
         return -1;
 
     }
 
-    private boolean inArea(int N, int i, int j) {
-        return i >= 0 && i < N && j >= 0 && j < N;
-    }
-
-    private int getIndex(int N, int i, int j) {
-        return i * N + j;
-
+    private int getIndex778(int n, int i, int j) {
+        return n * i + j;
     }
 
     public class Union778 {
-        int[] parent;
-        int[] rank;
+        private int[] parent;
+        private int[] rank;
 
         public Union778(int n) {
             parent = new int[n];
             rank = new int[n];
+            Arrays.fill(rank, 1);
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
             }
-            Arrays.fill(rank, 1);
         }
 
-        public int findRoot(int p) {
-            if (p == parent[p]) {
+        public int getRoot(int p) {
+            if (parent[p] == p) {
                 return p;
             }
-            return parent[p] = findRoot(parent[p]);
+            return parent[p] = getRoot(parent[p]);
         }
 
         public boolean isConnected(int p1, int p2) {
-            return findRoot(p1) == findRoot(p2);
+            return getRoot(p1) == getRoot(p2);
         }
 
         public void union(int p1, int p2) {
-            int root1 = findRoot(p1);
-            int root2 = findRoot(p2);
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
             if (root1 == root2) {
                 return;
             }
             if (rank[root1] < rank[root2]) {
                 parent[root1] = root2;
-            } else if (rank[root1] > rank[root2]) {
-                parent[root2] = root1;
             } else {
-                parent[root1] = root2;
-                ++rank[root2];
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
             }
         }
-
     }
 
     // 200. 岛屿数量
@@ -11327,47 +11324,49 @@ public class LeetCodeText {
         Map<String, String> emailToName = new HashMap<>();
         int index = 0;
         for (List<String> account : accounts) {
-            String name = account.get(0);
+
             for (int i = 1; i < account.size(); ++i) {
                 if (!emailToIndex.containsKey(account.get(i))) {
                     emailToIndex.put(account.get(i), index++);
-                    emailToName.put(account.get(i), name);
+                    emailToName.put(account.get(i), account.get(0));
                 }
             }
         }
         Union721 union = new Union721(index);
         for (List<String> account : accounts) {
-            int root = emailToIndex.get(account.get(1));
+            int index1 = emailToIndex.get(account.get(1));
             for (int i = 2; i < account.size(); ++i) {
-                union.union(root, emailToIndex.get(account.get(i)));
+                union.union(index1, emailToIndex.get(account.get(i)));
             }
         }
-        Map<Integer, List<String>> indexToEmails = new HashMap<>();
-
-        for (String email : emailToIndex.keySet()) {
-            int root = union.getRoot(emailToIndex.get(email));
-            indexToEmails.computeIfAbsent(root, k -> new ArrayList<>()).add(email);
+        Map<Integer, List<String>> mergedAccounts = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : emailToIndex.entrySet()) {
+            String key = entry.getKey();
+            int value = entry.getValue();
+            int root = union.getRoot(value);
+            mergedAccounts.computeIfAbsent(root, k -> new ArrayList<>()).add(key);
         }
         List<List<String>> res = new ArrayList<>();
-        for (List<String> list : indexToEmails.values()) {
+        for (List<String> list : mergedAccounts.values()) {
             Collections.sort(list);
-            List<String> subResult = new ArrayList<>();
-            subResult.add(emailToName.get(list.get(0)));
-            subResult.addAll(list);
-            res.add(subResult);
+            String name = emailToName.get(list.get(0));
+            List<String> sub = new ArrayList<>();
+            sub.add(name);
+            sub.addAll(list);
+            res.add(sub);
         }
         return res;
 
     }
 
     public class Union721 {
-        private int[] rank;
         private int[] parent;
+        private int[] rank;
 
         public Union721(int n) {
+            parent = new int[n];
             rank = new int[n];
             Arrays.fill(rank, 1);
-            parent = new int[n];
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
             }
@@ -11390,15 +11389,14 @@ public class LeetCodeText {
             if (root1 == root2) {
                 return;
             }
-            if (rank[root1] < rank[root2]) {
-                parent[root1] = root2;
-            } else if (rank[root1] > rank[root2]) {
+            if (rank[root1] > rank[root2]) {
                 parent[root2] = root1;
             } else {
                 parent[root1] = root2;
-                ++rank[root2];
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root2];
+                }
             }
-
         }
 
     }
