@@ -10185,10 +10185,11 @@ public class LeetCodeText {
         Map<Integer, List<Character>> map = new HashMap<>();
         for (int i = 0; i < s.length(); ++i) {
             int root = union.findRoot(i);
-            if (!map.containsKey(root)) {
-                map.put(root, new ArrayList<>());
-            }
-            map.get(root).add(s.charAt(i));
+            map.computeIfAbsent(root, k -> new ArrayList<>()).add(s.charAt(i));
+            // if (!map.containsKey(root)) {
+            //     map.put(root, new ArrayList<>());
+            // }
+            // map.get(root).add(s.charAt(i));
         }
         for (Map.Entry<Integer, List<Character>> entry : map.entrySet()) {
             Collections.sort(entry.getValue(), new Comparator<Character>() {
