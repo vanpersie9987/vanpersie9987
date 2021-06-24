@@ -7246,10 +7246,11 @@ public class LeetCodeText {
             final char[] chars = s.toCharArray();
             Arrays.sort(chars);
             final String key = String.valueOf(chars);
-            if (!map.containsKey(key)) {
-                map.put(key, new ArrayList());
-            }
-            map.get(key).add(s);
+            map.computeIfAbsent(key, k -> new ArrayList<>()).add(s);
+            // if (!map.containsKey(key)) {
+            // map.put(key, new ArrayList());
+            // }
+            // map.get(key).add(s);
         }
         return new ArrayList<>(map.values());
 
@@ -10187,7 +10188,7 @@ public class LeetCodeText {
             int root = union.findRoot(i);
             map.computeIfAbsent(root, k -> new ArrayList<>()).add(s.charAt(i));
             // if (!map.containsKey(root)) {
-            //     map.put(root, new ArrayList<>());
+            // map.put(root, new ArrayList<>());
             // }
             // map.get(root).add(s.charAt(i));
         }
@@ -10892,26 +10893,28 @@ public class LeetCodeText {
 
     // 990. 等式方程的可满足性
     public boolean equationsPossible(String[] equations) {
-        UnionSet990 unionSet = new UnionSet990();
+        Union990 union = new Union990();
         for (String equation : equations) {
             if (equation.charAt(1) == '=') {
-                unionSet.union(equation.charAt(0) - 'a', equation.charAt(3) - 'a');
+                union.union(equation.charAt(0) - 'a', equation.charAt(3) - 'a');
             }
         }
         for (String equation : equations) {
-            if (equation.charAt(1) == '!' && unionSet.isConnected(equation.charAt(0) - 'a', equation.charAt(3) - 'a')) {
-                return false;
+            if (equation.charAt(1) == '!') {
+                if (union.isConnected(equation.charAt(0) - 'a', equation.charAt(3) - 'a')) {
+                    return false;
+                }
             }
         }
         return true;
 
     }
 
-    public class UnionSet990 {
-        private int[] rank;
+    public class Union990 {
         private int[] parent;
+        private int[] rank;
 
-        public UnionSet990() {
+        public Union990() {
             parent = new int[26];
             rank = new int[26];
             Arrays.fill(rank, 1);
@@ -10939,11 +10942,11 @@ public class LeetCodeText {
             }
             if (rank[root1] < rank[root2]) {
                 parent[root1] = root2;
-            } else if (rank[root1] > rank[root2]) {
-                parent[root2] = root1;
             } else {
-                parent[root1] = root2;
-                ++rank[root2];
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
             }
         }
 
