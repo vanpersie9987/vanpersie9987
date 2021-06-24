@@ -10185,28 +10185,25 @@ public class LeetCodeText {
         }
         Map<Integer, List<Character>> map = new HashMap<>();
         for (int i = 0; i < s.length(); ++i) {
-            int root = union.findRoot(i);
+            int root = union.getRoot(i);
             map.computeIfAbsent(root, k -> new ArrayList<>()).add(s.charAt(i));
-            // if (!map.containsKey(root)) {
-            // map.put(root, new ArrayList<>());
-            // }
-            // map.get(root).add(s.charAt(i));
         }
-        for (Map.Entry<Integer, List<Character>> entry : map.entrySet()) {
-            Collections.sort(entry.getValue(), new Comparator<Character>() {
+        for (List<Character> list : map.values()) {
+            Collections.sort(list, new Comparator<Character>() {
+
                 @Override
                 public int compare(Character o1, Character o2) {
                     return o2 - o1;
                 }
             });
         }
-        StringBuilder builder = new StringBuilder();
+        StringBuilder res = new StringBuilder();
         for (int i = 0; i < s.length(); ++i) {
-            int root = union.findRoot(i);
+            int root = union.getRoot(i);
             List<Character> list = map.get(root);
-            builder.append(list.remove(list.size() - 1));
+            res.append(list.remove(list.size() - 1));
         }
-        return builder.toString();
+        return res.toString();
 
     }
 
@@ -10223,30 +10220,30 @@ public class LeetCodeText {
             }
         }
 
-        public int findRoot(int p) {
+        public int getRoot(int p) {
             if (parent[p] == p) {
                 return p;
             }
-            return parent[p] = findRoot(parent[p]);
+            return parent[p] = getRoot(parent[p]);
         }
 
         public boolean isConnected(int p1, int p2) {
-            return findRoot(p1) == findRoot(p2);
+            return getRoot(p1) == getRoot(p2);
         }
 
         public void union(int p1, int p2) {
-            int root1 = findRoot(p1);
-            int root2 = findRoot(p2);
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
             if (root1 == root2) {
                 return;
             }
-            if (rank[root1] < rank[root2]) {
-                parent[root1] = root2;
-            } else if (rank[root1] > rank[root2]) {
+            if (rank[root1] > rank[root2]) {
                 parent[root2] = root1;
             } else {
                 parent[root1] = root2;
-                ++rank[root2];
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root2];
+                }
             }
         }
 
