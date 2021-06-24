@@ -11082,17 +11082,19 @@ public class LeetCodeText {
 
     // 1631. 最小体力消耗路径
     public int minimumEffortPath2(int[][] heights) {
-        int rows = heights.length;
-        int cols = heights[0].length;
+        int m = heights.length;
+        int n = heights[0].length;
+        Union1631 union = new Union1631(m * n);
         List<int[]> list = new ArrayList<>();
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; ++j) {
-                int pos = i * cols + j;
-                if (i + 1 < rows) {
-                    list.add(new int[] { pos, pos + cols, Math.abs(heights[i][j] - heights[i + 1][j]) });
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i + 1 < m) {
+                    list.add(new int[] { getIndex1631(n, i, j), getIndex1631(n, i + 1, j),
+                            Math.abs(heights[i][j] - heights[i + 1][j]) });
                 }
-                if (j + 1 < cols) {
-                    list.add(new int[] { pos, pos + 1, Math.abs(heights[i][j] - heights[i][j + 1]) });
+                if (j + 1 < n) {
+                    list.add(new int[] { getIndex1631(n, i, j), getIndex1631(n, i, j + 1),
+                            Math.abs(heights[i][j] - heights[i][j + 1]) });
                 }
             }
         }
@@ -11102,30 +11104,32 @@ public class LeetCodeText {
             public int compare(int[] o1, int[] o2) {
                 return o1[2] - o2[2];
             }
-
         });
-        Union1631 union = new Union1631(cols * rows);
-        for (int[] element : list) {
-            union.union(element[0], element[1]);
-            if (union.isConnected(0, cols * rows - 1)) {
-                return element[2];
+        for (int[] item : list) {
+            union.union(item[0], item[1]);
+            if (union.isConnected(0, m * n - 1)) {
+                return item[2];
             }
         }
         return 0;
 
     }
 
+    private int getIndex1631(int n, int i, int j) {
+        return i * n + j;
+    }
+
     public class Union1631 {
-        private int[] rank;
         private int[] parent;
+        private int[] rank;
 
         public Union1631(int n) {
-            rank = new int[n];
             parent = new int[n];
-            Arrays.fill(rank, 1);
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
             }
+            rank = new int[n];
+            Arrays.fill(rank, 1);
         }
 
         public int getRoot(int p) {
@@ -11147,13 +11151,14 @@ public class LeetCodeText {
             }
             if (rank[root1] < rank[root2]) {
                 parent[root1] = root2;
-            } else if (rank[root1] > rank[root2]) {
-                parent[root2] = root1;
             } else {
-                parent[root1] = root2;
-                ++rank[root2];
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
             }
         }
+
     }
 
     // 1722. 执行交换操作后的最小汉明距离
