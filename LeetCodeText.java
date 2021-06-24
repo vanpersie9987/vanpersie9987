@@ -10424,47 +10424,48 @@ public class LeetCodeText {
             union.union(connection[0], connection[1]);
         }
         return union.getCount() - 1;
+
     }
 
     public class Union1319 {
-        private int[] rank;
         private int[] parent;
+        private int[] rank;
         private int count;
 
         public Union1319(int n) {
-            rank = new int[n];
             parent = new int[n];
-            Arrays.fill(rank, 1);
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
             }
+            rank = new int[n];
+            Arrays.fill(rank, 1);
             count = n;
         }
 
-        public int findRoot(int p) {
+        public int getRoot(int p) {
             if (parent[p] == p) {
                 return p;
             }
-            return parent[p] = findRoot(parent[p]);
+            return parent[p] = getRoot(parent[p]);
         }
 
         public boolean isConnected(int p1, int p2) {
-            return findRoot(p1) == findRoot(p2);
+            return getRoot(p1) == getRoot(p2);
         }
 
         public void union(int p1, int p2) {
-            int root1 = findRoot(p1);
-            int root2 = findRoot(p2);
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
             if (root1 == root2) {
                 return;
             }
-            if (rank[root1] < rank[root2]) {
-                parent[root1] = root2;
-            } else if (rank[root1] > rank[root2]) {
+            if (rank[root1] > rank[root2]) {
                 parent[root2] = root1;
             } else {
                 parent[root1] = root2;
-                ++rank[root2];
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root2];
+                }
             }
             --count;
         }
@@ -10472,7 +10473,6 @@ public class LeetCodeText {
         public int getCount() {
             return count;
         }
-
     }
 
     // 684. 冗余连接
