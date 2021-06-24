@@ -10951,53 +10951,57 @@ public class LeetCodeText {
 
     // 1579. 保证图可完全遍历
     public int maxNumEdgesToRemove(int n, int[][] edges) {
-        int result = 0;
+        int res = 0;
         Union1579 unionAlice = new Union1579(n);
         Union1579 unionBob = new Union1579(n);
         for (int[] edge : edges) {
+            // 共用边
             if (edge[0] == 3) {
                 if (!unionAlice.isConnected(edge[1] - 1, edge[2] - 1)) {
                     unionAlice.union(edge[1] - 1, edge[2] - 1);
                     unionBob.union(edge[1] - 1, edge[2] - 1);
                 } else {
-                    ++result;
+                    ++res;
                 }
             }
         }
         for (int[] edge : edges) {
+            // Alice
             if (edge[0] == 1) {
                 if (!unionAlice.isConnected(edge[1] - 1, edge[2] - 1)) {
                     unionAlice.union(edge[1] - 1, edge[2] - 1);
                 } else {
-                    ++result;
+                    ++res;
                 }
-            } else if (edge[0] == 2) {
+            }
+            // Bob
+            else if (edge[0] == 2) {
                 if (!unionBob.isConnected(edge[1] - 1, edge[2] - 1)) {
                     unionBob.union(edge[1] - 1, edge[2] - 1);
                 } else {
-                    ++result;
+                    ++res;
                 }
             }
         }
         if (unionAlice.getCount() != 1 || unionBob.getCount() != 1) {
             return -1;
         }
-        return result;
+        return res;
 
     }
 
     public class Union1579 {
-        private int[] rank;
         private int[] parent;
+        private int[] rank;
         private int count;
 
         public Union1579(int n) {
-            rank = new int[n];
             parent = new int[n];
-            Arrays.fill(rank, 1);
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
             }
+            rank = new int[n];
+            Arrays.fill(rank, 1);
             count = n;
         }
 
@@ -11020,18 +11024,17 @@ public class LeetCodeText {
             }
             if (rank[root1] < rank[root2]) {
                 parent[root1] = root2;
-            } else if (rank[root1] > rank[root2]) {
-                parent[root2] = root1;
             } else {
-                parent[root1] = root2;
-                ++rank[root2];
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
             }
             --count;
         }
 
         public int getCount() {
             return count;
-
         }
 
     }
