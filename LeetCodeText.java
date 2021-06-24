@@ -13665,25 +13665,27 @@ public class LeetCodeText {
 
     // 1905. 统计子岛屿
     public int countSubIslands(int[][] grid1, int[][] grid2) {
-        Union1905 union = new Union1905(grid2.length * grid2[0].length);
-        for (int i = 0; i < grid2.length; ++i) {
-            for (int j = 0; j < grid2[0].length; ++j) {
+        int m = grid2.length;
+        int n = grid2[0].length;
+        Union1905 union = new Union1905(n * m);
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
                 if (grid2[i][j] == 1) {
-                    if (i > 0 && grid2[i - 1][j] == 1) {
-                        union.union(getIndex1905(grid2[0].length, i, j), getIndex1905(grid2[0].length, i - 1, j));
+                    if (i + 1 < m && grid2[i + 1][j] == 1) {
+                        union.union(getIndex1905(n, i, j), getIndex1905(n, i + 1, j));
                     }
-                    if (j > 0 && grid2[i][j - 1] == 1) {
-                        union.union(getIndex1905(grid2[0].length, i, j), getIndex1905(grid2[0].length, i, j - 1));
+                    if (j + 1 < n && grid2[i][j + 1] == 1) {
+                        union.union(getIndex1905(n, i, j), getIndex1905(n, i, j + 1));
                     }
                 }
             }
         }
-        Set<Integer> set = new HashSet<>();
         Set<Integer> not = new HashSet<>();
-        for (int i = 0; i < grid2.length; ++i) {
-            for (int j = 0; j < grid2[0].length; ++j) {
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
                 if (grid2[i][j] == 1) {
-                    int root = union.getRoot(getIndex1905(grid2[0].length, i, j));
+                    int root = union.getRoot(getIndex1905(n, i, j));
                     if (!not.contains(root)) {
                         set.add(root);
                     }
@@ -13698,8 +13700,8 @@ public class LeetCodeText {
 
     }
 
-    private int getIndex1905(int length, int i, int j) {
-        return i * length + j;
+    private int getIndex1905(int n, int i, int j) {
+        return i * n + j;
     }
 
     public class Union1905 {
@@ -13708,11 +13710,11 @@ public class LeetCodeText {
 
         public Union1905(int n) {
             parent = new int[n];
-            rank = new int[n];
-            Arrays.fill(rank, 1);
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
             }
+            rank = new int[n];
+            Arrays.fill(rank, 1);
         }
 
         public int getRoot(int p) {
@@ -13734,13 +13736,14 @@ public class LeetCodeText {
             }
             if (rank[root1] < rank[root2]) {
                 parent[root1] = root2;
-            } else if (rank[root1] > rank[root2]) {
-                parent[root2] = root1;
             } else {
-                parent[root1] = root2;
-                ++rank[root2];
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
             }
         }
+
     }
 
     // 1906. 查询差绝对值的最小值
