@@ -14116,6 +14116,82 @@ public class LeetCodeText {
         }
     }
 
+    // 1559. 二维网格图中探测环
+    public boolean containsCycle(char[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        Union1559 union = new Union1559(m * n);
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i > 0 && grid[i - 1][j] == grid[i][j]) {
+                    int index1 = getIndex1559(n, i, j);
+                    int index2 = getIndex1559(n, i - 1, j);
+                    if (!union.isConnected(index1, index2)) {
+                        union.union(index1, index2);
+                    } else {
+                        return true;
+                    }
+                }
+                if (j > 0 && grid[i][j - 1] == grid[i][j]) {
+                    int index1 = getIndex1559(n, i, j);
+                    int index2 = getIndex1559(n, i, j - 1);
+                    if (!union.isConnected(index1, index2)) {
+                        union.union(index1, index2);
+                    } else {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+
+    }
+
+    private int getIndex1559(int n, int i, int j) {
+        return i * n + j;
+    }
+
+    public class Union1559 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union1559(int n) {
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+    }
+
     // 424. 替换后的最长重复字符
     // public int characterReplacement(String s, int k) {
 
