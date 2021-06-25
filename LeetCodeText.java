@@ -13784,6 +13784,27 @@ public class LeetCodeText {
 
     }
 
+    // 892. 三维形体的表面积
+    public int surfaceArea(int[][] grid) {
+        int res = 0;
+        for (int i = 0; i < grid.length; ++i) {
+            for (int j = 0; j < grid[0].length; ++j) {
+                int value = grid[i][j];
+                if (value > 0) {
+                    res += grid[i][j] * 4 + 2;
+                    if (i > 0) {
+                        res -= Math.min(grid[i][j], grid[i - 1][j]) * 2;
+                    }
+                    if (j > 0) {
+                        res -= Math.min(grid[i][j], grid[i][j - 1]) * 2;
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
     // 424. 替换后的最长重复字符
     // public int characterReplacement(String s, int k) {
 
