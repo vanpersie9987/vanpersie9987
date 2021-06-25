@@ -13980,6 +13980,142 @@ public class LeetCodeText {
 
     }
 
+    // 1391. 检查网格中是否存在有效路径
+
+    // 1 表示连接左单元格和右单元格的街道。
+    // 2 表示连接上单元格和下单元格的街道。
+    // 3 表示连接左单元格和下单元格的街道。
+    // 4 表示连接右单元格和下单元格的街道。
+    // 5 表示连接左单元格和上单元格的街道。
+    // 6 表示连接右单元格和上单元格的街道。
+
+    public boolean hasValidPath(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        Union1391 union = new Union1391(m * n);
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                switch (grid[i][j]) {
+                    case 1:
+                        // 与左边相连
+                        mergeLeft(union, grid, i, j);
+                        // 与右边相连
+                        mergeRight(union, grid, i, j);
+                        break;
+                    case 2:
+                        // 与上边相连
+                        mergeUp(union, grid, i, j);
+                        // 与下边相连
+                        mergeDown(union, grid, i, j);
+                        break;
+                    case 3:
+                        // 与左边相连
+                        mergeLeft(union, grid, i, j);
+                        // 与下边相连
+                        mergeDown(union, grid, i, j);
+                        break;
+                    case 4:
+                        // 与右边相连
+                        mergeRight(union, grid, i, j);
+                        // 与下边相连
+                        mergeDown(union, grid, i, j);
+                        break;
+                    case 5:
+                        // 与左边相连
+                        mergeLeft(union, grid, i, j);
+                        // 与上边相连
+                        mergeUp(union, grid, i, j);
+                        break;
+                    case 6:
+                        // 与上边相连
+                        mergeUp(union, grid, i, j);
+                        // 与右边相连
+                        mergeRight(union, grid, i, j);
+                        break;
+                }
+                if (union.isConnected(getIndex1391(n, 0, 0), getIndex1391(n, m - 1, n - 1))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
+
+    private void mergeLeft(Union1391 union, int[][] grid, int i, int j) {
+        int n = grid[0].length;
+        if (j - 1 >= 0 && (grid[i][j - 1] == 1 || grid[i][j - 1] == 4 || grid[i][j - 1] == 6)) {
+            union.union(getIndex1391(n, i, j), getIndex1391(n, i, j - 1));
+        }
+    }
+
+    private void mergeRight(Union1391 union, int[][] grid, int i, int j) {
+        int n = grid[0].length;
+        if (j + 1 < n && (grid[i][j + 1] == 1 || grid[i][j + 1] == 3 || grid[i][j + 1] == 5)) {
+            union.union(getIndex1391(n, i, j), getIndex1391(n, i, j + 1));
+        }
+    }
+
+    private void mergeUp(Union1391 union, int[][] grid, int i, int j) {
+        int n = grid[0].length;
+        if (i - 1 >= 0 && (grid[i - 1][j] == 2 || grid[i - 1][j] == 3 || grid[i - 1][j] == 4)) {
+            union.union(getIndex1391(n, i, j), getIndex1391(n, i - 1, j));
+        }
+    }
+
+    private void mergeDown(Union1391 union, int[][] grid, int i, int j) {
+        int m = grid.length;
+        int n = grid[0].length;
+        if (i + 1 < m && (grid[i + 1][j] == 2 || grid[i + 1][j] == 5 || grid[i + 1][j] == 6)) {
+            union.union(getIndex1391(n, i, j), getIndex1391(n, i + 1, j));
+        }
+    }
+
+    private int getIndex1391(int n, int i, int j) {
+        return i * n + j;
+    }
+
+    public class Union1391 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union1391(int n) {
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+    }
+
     // 424. 替换后的最长重复字符
     // public int characterReplacement(String s, int k) {
 
