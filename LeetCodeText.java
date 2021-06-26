@@ -13791,12 +13791,12 @@ public class LeetCodeText {
             for (int j = 0; j < grid[0].length; ++j) {
                 int value = grid[i][j];
                 if (value > 0) {
-                    res += grid[i][j] * 4 + 2;
+                    res += value * 4 + 2;
                     if (i > 0) {
-                        res -= Math.min(grid[i][j], grid[i - 1][j]) * 2;
+                        res -= Math.min(value, grid[i - 1][j]) * 2;
                     }
                     if (j > 0) {
-                        res -= Math.min(grid[i][j], grid[i][j - 1]) * 2;
+                        res -= Math.min(value, grid[i][j - 1]) * 2;
                     }
                 }
             }
@@ -14191,6 +14191,128 @@ public class LeetCodeText {
             }
         }
     }
+
+    // 1584. 连接所有点的最小费用 Kruskal算法--用于获取一张完全图的最小生成树
+    public int minCostConnectPoints(int[][] points) {
+
+        int n = points.length;
+        List<Point1584> list = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                list.add(new Point1584(getManhattanDistance(points, i, j), i, j));
+            }
+        }
+        Collections.sort(list, new Comparator<Point1584>() {
+
+            @Override
+            public int compare(Point1584 o1, Point1584 o2) {
+                return o1.getFee() - o2.getFee();
+            }
+        });
+        Union1584 union = new Union1584(n);
+
+        int res = 0;
+        int count = 0;
+        for (Point1584 point : list) {
+            int fee = point.getFee();
+            int pointIndex1 = point.getPointIndex1();
+            int pointIndex2 = point.getPointIndex2();
+            if (!union.isConnected(pointIndex1, pointIndex2)) {
+                union.union(pointIndex1, pointIndex2);
+                res += fee;
+                if (++count == n) {
+                    break;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int getManhattanDistance(int[][] points, int i, int j) {
+        return Math.abs(points[i][0] - points[j][0]) + Math.abs(points[i][1] - points[j][1]);
+    }
+
+    public class Point1584 {
+        private int fee;
+        private int pointIndex1;
+        private int pointIndex2;
+
+        public Point1584(int fee, int pointIndex1, int pointIndex2) {
+            this.setFee(fee);
+            this.setPointIndex1(pointIndex1);
+            this.setPointIndex2(pointIndex2);
+        }
+
+        public int getPointIndex2() {
+            return pointIndex2;
+        }
+
+        public void setPointIndex2(int pointIndex2) {
+            this.pointIndex2 = pointIndex2;
+        }
+
+        public int getPointIndex1() {
+            return pointIndex1;
+        }
+
+        public void setPointIndex1(int pointIndex1) {
+            this.pointIndex1 = pointIndex1;
+        }
+
+        public int getFee() {
+            return fee;
+        }
+
+        public void setFee(int fee) {
+            this.fee = fee;
+        }
+
+    }
+
+    public class Union1584 {
+        private int[] parent;
+        private int[] rank;
+
+        public Union1584(int n) {
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+
+    }
+
+    // 785、399、1632、1627、17.07婴儿名字
 
     // 424. 替换后的最长重复字符
     // public int characterReplacement(String s, int k) {
