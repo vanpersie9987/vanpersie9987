@@ -14212,7 +14212,6 @@ public class LeetCodeText {
         Union1584 union = new Union1584(n);
 
         int res = 0;
-        int count = 0;
         for (Point1584 point : list) {
             int fee = point.getFee();
             int pointIndex1 = point.getPointIndex1();
@@ -14220,9 +14219,6 @@ public class LeetCodeText {
             if (!union.isConnected(pointIndex1, pointIndex2)) {
                 union.union(pointIndex1, pointIndex2);
                 res += fee;
-                if (++count == n) {
-                    break;
-                }
             }
         }
         return res;
@@ -14310,6 +14306,123 @@ public class LeetCodeText {
             }
         }
 
+    }
+
+    // 1489. 找到最小生成树里的关键边和伪关键边
+    public List<List<Integer>> findCriticalAndPseudoCriticalEdges(int n, int[][] edges) {
+        int[][] newEdges = new int[edges.length][4];
+        for (int i = 0; i < edges.length; ++i) {
+            for (int j = 0; j < edges[i].length; ++j) {
+                newEdges[i][j] = edges[i][j];
+            }
+            newEdges[i][3] = i;
+        }
+        Arrays.sort(newEdges, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[2] - o2[2];
+            }
+        });
+        Union1489 unionMin = new Union1489(n);
+        int m = edges.length;
+        // 计算最小生成树的权值
+        int minValue = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int[] newEdge : newEdges) {
+                if (!unionMin.isConnected(newEdge[0], newEdge[1])) {
+                    unionMin.union(newEdge[0], newEdge[1]);
+                    minValue += newEdge[2];
+                }
+            }
+        }
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < 2; ++i) {
+            res.add(new ArrayList<>());
+        }
+        for (int i = 0; i < m; ++i) {
+            Union1489 unionKey = new Union1489(n);
+            int v = 0;
+            for (int j = 0; j < m; ++j) {
+                // 刨去i边
+                if (i != j && !unionKey.isConnected(newEdges[j][0], newEdges[j][1])) {
+                    unionKey.union(newEdges[j][0], newEdges[j][1]);
+                    v += newEdges[j][2];
+                }
+            }
+            // 刨去i边 当前图不是一棵树 或 是一棵树，但不是最小生成树，则i边是一条关键边
+            if (unionKey.getCount() != 1 || v > minValue) {
+                res.get(0).add(newEdges[i][3]);
+                continue;
+            }
+
+            // 至此，刨去i边，是一颗最小生成树
+            // 因此，i边不是关键边，但可能是伪关键边 或 非关键边
+            unionKey = new Union1489(n);
+            v = 0;
+            unionKey.union(newEdges[i][0], newEdges[i][1]);
+            v += newEdges[i][2];
+            for (int j = 0; j < m; ++j) {
+                if (i != j && !unionKey.isConnected(newEdges[j][0], newEdges[j][1])) {
+                    unionKey.union(newEdges[j][0], newEdges[j][1]);
+                    v += newEdges[j][2];
+                }
+            }
+            // 加入i边，可构成最小生成树
+            if (v == minValue) {
+                res.get(1).add(newEdges[i][3]);
+            }
+        }
+        return res;
+
+    }
+
+    public class Union1489 {
+        private int[] parent;
+        private int[] rank;
+        private int count;
+
+        public Union1489(int n) {
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+            count = n;
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+            --count;
+        }
+
+        public int getCount() {
+            return count;
+        }
     }
 
     // 785、399、1632、1627、17.07婴儿名字
