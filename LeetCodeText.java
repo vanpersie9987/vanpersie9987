@@ -14517,6 +14517,97 @@ public class LeetCodeText {
         }
     }
 
+    // LCS 03. 主题空间
+    public int largestArea(String[] grid) {
+        int m = grid.length;
+        int n = grid[0].length();
+        UnionLCS03 union = new UnionLCS03(m * n + 1);
+        int dummy = m * n;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                char c = grid[i].charAt(j);
+                if (c == '0' || (i == 0 || j == 0 || i == m - 1 || j == n - 1)) {
+                    union.union(getIndexLCS03(n, i, j), dummy);
+                } else {
+                    if (grid[i].charAt(j - 1) == '0' || c == grid[i].charAt(j - 1)) {
+                        union.union(getIndexLCS03(n, i, j), getIndexLCS03(n, i, j - 1));
+                    }
+                    if (grid[i].charAt(j + 1) == '0' || c == grid[i].charAt(j + 1)) {
+                        union.union(getIndexLCS03(n, i, j), getIndexLCS03(n, i, j + 1));
+                    }
+                    if (grid[i - 1].charAt(j) == '0' || c == grid[i - 1].charAt(j)) {
+                        union.union(getIndexLCS03(n, i, j), getIndexLCS03(n, i - 1, j));
+                    }
+                    if (grid[i + 1].charAt(j) == '0' || c == grid[i + 1].charAt(j)) {
+                        union.union(getIndexLCS03(n, i, j), getIndexLCS03(n, i + 1, j));
+                    }
+                }
+            }
+        }
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int index = getIndexLCS03(n, i, j);
+                int root = union.getRoot(index);
+                if (!union.isConnected(root, dummy)) {
+                    map.computeIfAbsent(root, k -> new ArrayList<>()).add(index);
+                }
+            }
+        }
+        int max = 0;
+        for (List<Integer> list : map.values()) {
+            max = Math.max(max, list.size());
+        }
+        return max;
+
+    }
+
+    private int getIndexLCS03(int n, int i, int j) {
+        return i * n + j;
+    }
+
+    public class UnionLCS03 {
+        private int[] parent;
+        private int[] rank;
+
+        public UnionLCS03(int n) {
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+
+    }
+
     // 785、399、1632、1627、17.07婴儿名字
 
     // 424. 替换后的最长重复字符
