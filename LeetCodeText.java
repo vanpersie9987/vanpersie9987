@@ -13613,56 +13613,6 @@ public class LeetCodeText {
 
     }
 
-    // 并查集练手
-    public class DisjointSetUnion {
-        private int[] parent;
-        private int[] rank;
-        private int count;
-
-        public DisjointSetUnion(int n) {
-            parent = new int[n];
-            rank = new int[n];
-            Arrays.fill(rank, 1);
-            for (int i = 0; i < n; ++i) {
-                parent[i] = i;
-            }
-            count = n;
-        }
-
-        public int getRoot(int p) {
-            if (parent[p] == p) {
-                return p;
-            }
-            return parent[p] = getRoot(parent[p]);
-        }
-
-        public boolean isConnected(int p1, int p2) {
-            return getRoot(p1) == getRoot(p2);
-        }
-
-        public void union(int p1, int p2) {
-            int root1 = getRoot(p1);
-            int root2 = getRoot(p2);
-            if (root1 == root2) {
-                return;
-            }
-            if (rank[root1] > rank[root2]) {
-                parent[root2] = root1;
-            } else if (rank[root1] < rank[root2]) {
-                parent[root1] = root2;
-            } else {
-                parent[root2] = root1;
-                ++rank[root1];
-            }
-            --count;
-        }
-
-        public int getCount() {
-            return count;
-        }
-
-    }
-
     // 1905. 统计子岛屿
     public int countSubIslands(int[][] grid1, int[][] grid2) {
         int m = grid2.length;
