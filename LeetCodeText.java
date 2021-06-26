@@ -14425,6 +14425,98 @@ public class LeetCodeText {
         }
     }
 
+    // 面试题 16.19. 水域大小
+    public int[] pondSizes(int[][] land) {
+        int m = land.length;
+        int n = land[0].length;
+        Union16_19 union = new Union16_19(m * n);
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (land[i][j] == 0) {
+                    // 往上合并
+                    if (i > 0 && land[i - 1][j] == 0) {
+                        union.union(getIndex16_19(n, i, j), getIndex16_19(n, i - 1, j));
+                    }
+                    // 往左合并
+                    if (j > 0 && land[i][j - 1] == 0) {
+                        union.union(getIndex16_19(n, i, j), getIndex16_19(n, i, j - 1));
+                    }
+                    // 往左上合并
+                    if (i > 0 && j > 0 && land[i - 1][j - 1] == 0) {
+                        union.union(getIndex16_19(n, i, j), getIndex16_19(n, i - 1, j - 1));
+                    }
+                    // 往右上合并
+                    if (i > 0 && j + 1 < n && land[i - 1][j + 1] == 0) {
+                        union.union(getIndex16_19(n, i, j), getIndex16_19(n, i - 1, j + 1));
+                    }
+                }
+            }
+        }
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (land[i][j] == 0) {
+                    int index = getIndex16_19(n, i, j);
+                    int root = union.getRoot(index);
+                    map.computeIfAbsent(root, k -> new ArrayList<>()).add(index);
+                }
+            }
+        }
+        int[] res = new int[map.size()];
+        int index = 0;
+        for (List<Integer> list : map.values()) {
+            res[index++] = list.size();
+        }
+        Arrays.sort(res);
+        return res;
+
+    }
+
+    private int getIndex16_19(int n, int i, int j) {
+        return n * i + j;
+    }
+
+    public class Union16_19 {
+        private int[] parent;
+        private int[] rank;
+
+        public Union16_19(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+            Arrays.fill(rank, 1);
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+    }
+
     // 785、399、1632、1627、17.07婴儿名字
 
     // 424. 替换后的最长重复字符
