@@ -14608,6 +14608,21 @@ public class LeetCodeText {
 
     }
 
+    // 1614. 括号的最大嵌套深度
+    public int maxDepth(String s) {
+        int max = 0;
+        int leftCount = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                max = Math.max(max, ++leftCount);
+            } else if (c == ')') {
+                --leftCount;
+            }
+        }
+        return max;
+
+    }
+
     // 785、399、1632、1627、17.07婴儿名字
 
     // 424. 替换后的最长重复字符
