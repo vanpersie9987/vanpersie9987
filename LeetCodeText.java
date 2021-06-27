@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -14602,6 +14603,61 @@ public class LeetCodeText {
             }
         }
         return res;
+
+    }
+
+    // 451. 根据字符出现频率排序
+    public String frequencySort(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : s.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+        List<Map.Entry<Character, Integer>> list = new ArrayList<>(map.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<Character, Integer>>() {
+
+            @Override
+            public int compare(Map.Entry<Character, Integer> o1, Map.Entry<Character, Integer> o2) {
+                return o2.getValue() - o1.getValue();
+            }
+        });
+        StringBuilder res = new StringBuilder();
+        for (Map.Entry<Character, Integer> item : list) {
+            char key = item.getKey();
+            int val = item.getValue();
+            for (int i = 0; i < val; ++i) {
+                res.append(key);
+            }
+        }
+        return res.toString();
+
+    }
+
+    // 451. 根据字符出现频率排序
+    public String frequencySort2(String s) {
+        int[] counts = new int[128];
+        for (char c : s.toCharArray()) {
+            ++counts[c];
+        }
+        List<Character> list = new ArrayList<>();
+        for (int i = 0; i < counts.length; ++i) {
+            if (counts[i] != 0) {
+                list.add((char) i);
+            }
+        }
+        Collections.sort(list, new Comparator<Character>() {
+
+            @Override
+            public int compare(Character o1, Character o2) {
+                return counts[o2] - counts[o1];
+            }
+        });
+        StringBuilder res = new StringBuilder();
+        for (char c : list) {
+            for (int i = 0; i < counts[c]; ++i) {
+                res.append(c);
+            }
+        }
+        return res.toString();
 
     }
 
