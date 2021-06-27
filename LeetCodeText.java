@@ -14482,20 +14482,23 @@ public class LeetCodeText {
                 }
             }
         }
-        Map<Integer, List<Integer>> map = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (land[i][j] == 0) {
                     int index = getIndex16_19(n, i, j);
                     int root = union.getRoot(index);
-                    map.computeIfAbsent(root, k -> new ArrayList<>()).add(index);
+                    map.put(root, map.getOrDefault(root, 0) + 1);
                 }
             }
         }
+        if (map.isEmpty()) {
+            return new int[] {};
+        }
         int[] res = new int[map.size()];
         int index = 0;
-        for (List<Integer> list : map.values()) {
-            res[index++] = list.size();
+        for (int count : map.values()) {
+            res[index++] = count;
         }
         Arrays.sort(res);
         return res;
