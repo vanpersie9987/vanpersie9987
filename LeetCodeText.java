@@ -14574,21 +14574,20 @@ public class LeetCodeText {
                 }
             }
         }
-        Map<Integer, List<Integer>> map = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
                 int index = getIndexLCS03(n, i, j);
                 int root = union.getRoot(index);
                 if (!union.isConnected(root, dummy)) {
-                    map.computeIfAbsent(root, k -> new ArrayList<>()).add(index);
+                    map.put(root, map.getOrDefault(root, 0) + 1);
                 }
             }
         }
-        int max = 0;
-        for (List<Integer> list : map.values()) {
-            max = Math.max(max, list.size());
+        if (map.isEmpty()) {
+            return 0;
         }
-        return max;
+        return Collections.max(map.values());
 
     }
 
