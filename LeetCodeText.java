@@ -14844,14 +14844,16 @@ public class LeetCodeText {
         String[] res = new String[rootToNames.size()];
         int index = 0;
         for (List<String> list : rootToNames.values()) {
-            Collections.sort(list);
-            String name = list.get(0);
+            int minNameIndex = 0;
             int count = 0;
             for (int j = 0; j < list.size(); ++j) {
+                if (list.get(j).compareTo(list.get(minNameIndex)) < 0) {
+                    minNameIndex = j;
+                }
                 count += nameToFreq.get(list.get(j));
             }
             StringBuilder subRes = new StringBuilder();
-            subRes.append(name).append("(").append(count).append(")");
+            subRes.append(list.get(minNameIndex)).append("(").append(count).append(")");
             res[index++] = subRes.toString();
         }
         return res;
