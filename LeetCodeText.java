@@ -14661,6 +14661,29 @@ public class LeetCodeText {
 
     }
 
+    // 347. 前 K 个高频元素
+    public int[] topKFrequent(int[] nums, int k) {
+        // key:元素 value:频率
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(map.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<Integer, Integer>>() {
+
+            @Override
+            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+                return o2.getValue() - o1.getValue();
+            }
+
+        });
+        int[] res = new int[k];
+        for (int i = 0; i < k; ++i) {
+            res[i] = list.get(i).getKey();
+        }
+        return res;
+    }
+
     // 785、399、1632、1627、17.07婴儿名字
 
     // 424. 替换后的最长重复字符
