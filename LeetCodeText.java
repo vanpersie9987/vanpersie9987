@@ -2298,15 +2298,14 @@ public class LeetCodeText {
         int max = 0;
         for (int i = 0; i < grid.length; ++i) {
             for (int j = 0; j < grid[0].length; ++j) {
-                max = Math.max(max, getMaxArea(grid, i, j));
+                max = Math.max(max, getMaxArea695(grid, i, j));
             }
         }
         return max;
 
     }
 
-    // 695. 岛屿的最大面积
-    private int getMaxArea(int[][] grid, int i, int j) {
+    private int getMaxArea695(int[][] grid, int i, int j) {
         int count = 0;
         if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length) {
             return 0;
@@ -2317,11 +2316,91 @@ public class LeetCodeText {
         grid[i][j] = 0;
         ++count;
 
-        count += getMaxArea(grid, i - 1, j);
-        count += getMaxArea(grid, i + 1, j);
-        count += getMaxArea(grid, i, j - 1);
-        count += getMaxArea(grid, i, j + 1);
+        count += getMaxArea695(grid, i - 1, j);
+        count += getMaxArea695(grid, i + 1, j);
+        count += getMaxArea695(grid, i, j - 1);
+        count += getMaxArea695(grid, i, j + 1);
         return count;
+    }
+
+    // 695. 岛屿的最大面积(并查集)
+    public int maxAreaOfIsland2(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        Union695 union = new Union695(m * n);
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    if (i > 0 && grid[i - 1][j] == 1) {
+                        union.union(getIndex695(n, i, j), getIndex695(n, i - 1, j));
+                    }
+                    if (j > 0 && grid[i][j - 1] == 1) {
+                        union.union(getIndex695(n, i, j), getIndex695(n, i, j - 1));
+                    }
+                }
+            }
+        }
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    int index = getIndex695(n, i, j);
+                    int root = union.getRoot(index);
+                    map.put(root, map.getOrDefault(root, 0) + 1);
+                }
+            }
+        }
+        if (map.isEmpty()) {
+            return 0;
+        }
+        return Collections.max(map.values());
+
+    }
+
+    private int getIndex695(int n, int i, int j) {
+        return i * n + j;
+    }
+
+    public class Union695 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union695(int n) {
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+
     }
 
     // 697. 数组的度
@@ -14711,10 +14790,5 @@ public class LeetCodeText {
     }
 
     // 785、399、1632、1627、17.07婴儿名字
-
-    // 424. 替换后的最长重复字符
-    // public int characterReplacement(String s, int k) {
-
-    // }
 
 }
