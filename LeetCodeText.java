@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -59,7 +58,12 @@ public class LeetCodeText {
         // int res = minimumHammingDistance(source, target, allowedSwaps);
         // boolean b = checkZeroOnes("111000");
         // String s = minRemoveToMakeValid2("a)b(c)d");
-        String s = decodeString("3[z]2[2[y]pq4[2[jk]e1[f]]]ef");
+        // String s = decodeString("3[z]2[2[y]pq4[2[jk]e1[f]]]ef");
+        // String[] names = { "John(15)", "Jon(12)", "Chris(13)", "Kris(4)",
+        // "Christopher(19)" };
+        // String[] synonyms = { "(Jon,John)", "(John,Johnny)", "(Chris,Kris)",
+        // "(Chris,Christopher)" };
+        // String[] s = trulyMostPopular(names, synonyms);
 
     }
 
@@ -14788,6 +14792,111 @@ public class LeetCodeText {
             res.add(list.get(i).getKey());
         }
         return res;
+
+    }
+
+    // 面试题 17.07. 婴儿名字
+    public String[] trulyMostPopular(String[] names, String[] synonyms) {
+        Map<String, Integer> nameToIndex = new HashMap<>();
+        Map<String, Integer> nameToFreq = new HashMap<>();
+        int i = 0;
+        while (i < names.length) {
+            int split = names[i].indexOf("(");
+            String name = names[i].substring(0, split);
+            int count = Integer.parseInt(names[i].substring(split + 1, names[i].length() - 1));
+            nameToIndex.put(name, i);
+            nameToFreq.put(name, count);
+            ++i;
+        }
+        for (String synonym : synonyms) {
+            int split = synonym.indexOf(",");
+            String s1 = synonym.substring(1, split);
+            String s2 = synonym.substring(split + 1, synonym.length() - 1);
+            if (!nameToIndex.containsKey(s1)) {
+                nameToIndex.put(s1, i++);
+                nameToFreq.put(s1, 0);
+            }
+            if (!nameToIndex.containsKey(s2)) {
+                nameToIndex.put(s2, i++);
+                nameToFreq.put(s2, 0);
+            }
+        }
+        Union17_07 union = new Union17_07(i);
+
+        for (String synonym : synonyms) {
+            int split = synonym.indexOf(",");
+            String s1 = synonym.substring(1, split);
+            String s2 = synonym.substring(split + 1, synonym.length() - 1);
+            union.union(nameToIndex.get(s1), nameToIndex.get(s2));
+
+        }
+        // key:rootIndex val:name列表
+        Map<Integer, List<String>> rootToNames = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : nameToIndex.entrySet()) {
+            String name = entry.getKey();
+            int index = entry.getValue();
+            int root = union.getRoot(index);
+            rootToNames.computeIfAbsent(root, k -> new ArrayList<>()).add(name);
+        }
+        if (rootToNames.isEmpty()) {
+            return new String[] {};
+        }
+        String[] res = new String[rootToNames.size()];
+        int index = 0;
+        for (List<String> list : rootToNames.values()) {
+            Collections.sort(list);
+            String name = list.get(0);
+            int count = 0;
+            for (int j = 0; j < list.size(); ++j) {
+                count += nameToFreq.get(list.get(j));
+            }
+            StringBuilder subRes = new StringBuilder();
+            subRes.append(name).append("(").append(count).append(")");
+            res[index++] = subRes.toString();
+        }
+        return res;
+
+    }
+
+    public class Union17_07 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union17_07(int n) {
+            rank = new int[n];
+            parent = new int[n];
+            Arrays.fill(rank, 1);
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] > rank[root2]) {
+                parent[root2] = root1;
+            } else {
+                parent[root1] = root2;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root2];
+                }
+            }
+        }
 
     }
 
