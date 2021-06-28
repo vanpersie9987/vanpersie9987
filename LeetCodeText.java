@@ -10270,14 +10270,13 @@ public class LeetCodeText {
         Map<Integer, List<Character>> map = new HashMap<>();
         for (int i = 0; i < s.length(); ++i) {
             int root = union.getRoot(i);
-            map.computeIfAbsent(root, k -> new ArrayList<>()).add(s.charAt(i));
+            map.computeIfAbsent(root, k -> new LinkedList<>()).add(s.charAt(i));
         }
         for (List<Character> list : map.values()) {
             Collections.sort(list, new Comparator<Character>() {
-
                 @Override
                 public int compare(Character o1, Character o2) {
-                    return o2 - o1;
+                    return o1 - o2;
                 }
             });
         }
@@ -10285,7 +10284,7 @@ public class LeetCodeText {
         for (int i = 0; i < s.length(); ++i) {
             int root = union.getRoot(i);
             List<Character> list = map.get(root);
-            res.append(list.remove(list.size() - 1));
+            res.append(list.remove(0));
         }
         return res.toString();
 
