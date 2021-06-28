@@ -13714,11 +13714,12 @@ public class LeetCodeText {
                     int root = union.getRoot(getIndex1905(n, i, j));
                     if (!not.contains(root)) {
                         set.add(root);
+                        if (grid1[i][j] == 0) {
+                            not.add(root);
+                            set.remove(root);
+                        }
                     }
-                    if (grid1[i][j] == 0) {
-                        not.add(root);
-                        set.remove(root);
-                    }
+
                 }
             }
         }
