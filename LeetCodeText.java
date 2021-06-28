@@ -14152,20 +14152,18 @@ public class LeetCodeText {
                 if (i > 0 && grid[i - 1][j] == grid[i][j]) {
                     int index1 = getIndex1559(n, i, j);
                     int index2 = getIndex1559(n, i - 1, j);
-                    if (!union.isConnected(index1, index2)) {
-                        union.union(index1, index2);
-                    } else {
+                    if (union.isConnected(index1, index2)) {
                         return true;
                     }
+                    union.union(index1, index2);
                 }
                 if (j > 0 && grid[i][j - 1] == grid[i][j]) {
                     int index1 = getIndex1559(n, i, j);
                     int index2 = getIndex1559(n, i, j - 1);
-                    if (!union.isConnected(index1, index2)) {
-                        union.union(index1, index2);
-                    } else {
+                    if (union.isConnected(index1, index2)) {
                         return true;
                     }
+                    union.union(index1, index2);
                 }
             }
         }
