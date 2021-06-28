@@ -14892,4 +14892,49 @@ public class LeetCodeText {
         }
 
     }
+
+    public class ListNode445 {
+        int val;
+        ListNode445 next;
+
+        ListNode445() {
+        }
+
+        ListNode445(int val) {
+            this.val = val;
+        }
+
+        ListNode445(int val, ListNode445 next) {
+            this.val = val;
+            this.next = next;
+        }
+    }
+
+    // 445. 两数相加 II
+    public ListNode445 addTwoNumbers(ListNode445 l1, ListNode445 l2) {
+        Stack<Integer> stack1 = new Stack<>();
+        Stack<Integer> stack2 = new Stack<>();
+        while (l1 != null) {
+            stack1.push(l1.val);
+            l1 = l1.next;
+        }
+        while (l2 != null) {
+            stack2.push(l2.val);
+            l2 = l2.next;
+        }
+        ListNode445 ans = null;
+        int carry = 0;
+        while (!stack1.isEmpty() || !stack2.isEmpty() || carry != 0) {
+            int num1 = stack1.isEmpty() ? 0 : stack1.pop();
+            int num2 = stack2.isEmpty() ? 0 : stack2.pop();
+            int cur = num1 + num2 + carry;
+            carry = cur / 10;
+            cur %= 10;
+            ListNode445 curNode = new ListNode445(cur);
+            curNode.next = ans;
+            ans = curNode;
+        }
+        return ans;
+
+    }
 }
