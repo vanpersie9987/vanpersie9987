@@ -11398,11 +11398,11 @@ public class LeetCodeText {
             }
             if (rank[root1] < rank[root2]) {
                 parent[root1] = root2;
-            } else if (rank[root1] > rank[root2]) {
-                parent[root2] = root1;
             } else {
-                parent[root1] = root2;
-                ++rank[root2];
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
             }
         }
 
