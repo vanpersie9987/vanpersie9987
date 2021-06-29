@@ -15054,4 +15054,68 @@ public class LeetCodeText {
 
     }
 
+    // 1472. 设计浏览器历史记录
+    class BrowserHistory {
+        private int curIndex;
+        private int sumRecords;
+        private List<String> list;
+
+        public BrowserHistory(String homepage) {
+            list = new ArrayList<>();
+            list.add(homepage);
+            curIndex = 0;
+            sumRecords = 1;
+
+        }
+
+        public void visit(String url) {
+            list.add(++curIndex, url);
+            sumRecords = curIndex + 1;
+        }
+
+        public String back(int steps) {
+            int realSteps = Math.min(steps, curIndex);
+            curIndex -= realSteps;
+            return list.get(curIndex);
+        }
+
+        public String forward(int steps) {
+            int realSteps = Math.min(steps, sumRecords - curIndex - 1);
+            curIndex += realSteps;
+            return list.get(curIndex);
+        }
+    }
+
+    // 1472. 设计浏览器历史记录
+    class BrowserHistory2 {
+        private int curIndex;
+        private int sumRecords;
+        private String[] records;
+
+        public BrowserHistory2(String homepage) {
+            records = new String[5001];
+            records[0] = homepage;
+            curIndex = 0;
+            sumRecords = 1;
+
+        }
+
+        public void visit(String url) {
+            records[++curIndex] = url;
+            sumRecords = curIndex + 1;
+        }
+
+        public String back(int steps) {
+            int realSteps = Math.min(steps, curIndex);
+            curIndex -= realSteps;
+            return records[curIndex];
+        }
+
+        public String forward(int steps) {
+            int realSteps = Math.min(steps, sumRecords - curIndex - 1);
+            curIndex += realSteps;
+            return records[curIndex];
+        }
+    }
+
 }
