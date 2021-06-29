@@ -14961,4 +14961,49 @@ public class LeetCodeText {
 
     }
 
+    // 1111. 有效括号的嵌套深度
+    public int[] maxDepthAfterSplit2(String seq) {
+        int a = 0;
+        int b = 0;
+        int[] res = new int[seq.length()];
+        for (int i = 0; i < seq.length(); ++i) {
+            if (seq.charAt(i) == '(') {
+                if (a <= b) {
+                    ++a;
+                    res[i] = 0;
+                } else {
+                    ++b;
+                    res[i] = 1;
+                }
+            } else {
+                if (a >= b) {
+                    --a;
+                    res[i] = 0;
+                } else {
+                    --b;
+                    res[i] = 1;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 1111. 有效括号的嵌套深度
+    public int[] maxDepthAfterSplit(String seq) {
+        int depth = 0;
+        int[] res = new int[seq.length()];
+        for (int i = 0; i < seq.length(); ++i) {
+            if (seq.charAt(i) == '(') {
+                ++depth;
+                res[i] = depth % 2;
+            } else {
+                res[i] = depth % 2;
+                --depth;
+            }
+        }
+        return res;
+
+    }
+
 }
