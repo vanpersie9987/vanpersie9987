@@ -15021,4 +15021,37 @@ public class LeetCodeText {
         return res;
     }
 
+    // 1006. 笨阶乘
+    public int clumsy(int n) {
+        int sign = 0;
+        Stack<Integer> stack = new Stack<>();
+        stack.push(n--);
+        while (n > 0) {
+            // 乘法
+            if (sign % 4 == 0) {
+                stack.push(stack.pop() * n);
+            }
+            // 除法
+            else if (sign % 4 == 1) {
+                stack.push(stack.pop() / n);
+            }
+            // 加法
+            else if (sign % 4 == 2) {
+                stack.push(n);
+            }
+            // 减法
+            else {
+                stack.push(-n);
+            }
+            ++sign;
+            --n;
+        }
+        int res = 0;
+        while (!stack.isEmpty()) {
+            res += stack.pop();
+        }
+        return res;
+
+    }
+
 }
