@@ -15118,4 +15118,23 @@ public class LeetCodeText {
         }
     }
 
+    // 1019. 链表中的下一个更大节点
+    public int[] nextLargerNodes(ListNode head) {
+        Stack<Integer> stack = new Stack<>();
+        List<Integer> list = new ArrayList<>();
+        while (head != null) {
+            list.add(head.val);
+            head = head.next;
+        }
+        int res[] = new int[list.size()];
+        for (int i = 0; i < list.size(); ++i) {
+            while (!stack.isEmpty() && list.get(i) > list.get(stack.peek())) {
+                res[stack.pop()] = list.get(i);
+            }
+            stack.push(i);
+        }
+        return res;
+
+    }
+
 }
