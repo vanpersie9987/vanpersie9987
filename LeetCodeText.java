@@ -15137,4 +15137,37 @@ public class LeetCodeText {
 
     }
 
+    // 231. 2 的幂
+    public boolean isPowerOfTwo(int n) {
+        if (n <= 0) {
+            return false;
+        }
+        int count = 0;
+        while (n != 0) {
+            count += n % 2;
+            if (count > 1) {
+                return false;
+            }
+            n /= 2;
+        }
+        return true;
+
+    }
+
+    // 231. 2 的幂
+    public boolean isPowerOfTwo2(int n) {
+        final int BIG = 1 << 30;
+        return n > 0 && BIG % n == 0;
+    }
+
+    // 231. 2 的幂
+    public boolean isPowerOfTwo3(int n) {
+        return n > 0 && (n & (n - 1)) == 0;
+    }
+
+    // 231. 2 的幂
+    public boolean isPowerOfTwo4(int n) {
+        return n > 0 && (n & (-n)) == n;
+    }
+
 }
