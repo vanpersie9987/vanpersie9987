@@ -15280,7 +15280,7 @@ public class LeetCodeText {
 
     }
 
-    // 205. 同构字符串
+    // 205. 同构字符串 (类似290)
     public boolean isIsomorphic(String s, String t) {
         Map<Character, Character> map1 = new HashMap<>();
         Map<Character, Character> map2 = new HashMap<>();
@@ -15293,6 +15293,26 @@ public class LeetCodeText {
             map2.put(t.charAt(i), s.charAt(i));
         }
         return true;
+    }
+
+    // 290. 单词规律 (类似205)
+    public boolean wordPattern(String pattern, String s) {
+        String[] strings = s.split(" ");
+        if (strings.length != pattern.length()) {
+            return false;
+        }
+        Map<Character, String> map1 = new HashMap<>();
+        Map<String, Character> map2 = new HashMap<>();
+        for (int i = 0; i < pattern.length(); ++i) {
+            if ((map1.containsKey(pattern.charAt(i)) && !map1.get(pattern.charAt(i)).equals(strings[i]))
+                    || (map2.containsKey(strings[i]) && map2.get(strings[i]) != pattern.charAt(i))) {
+                return false;
+            }
+            map1.put(pattern.charAt(i), strings[i]);
+            map2.put(strings[i], pattern.charAt(i));
+        }
+        return true;
+
     }
 
 }
