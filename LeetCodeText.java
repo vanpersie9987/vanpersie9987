@@ -15219,4 +15219,41 @@ public class LeetCodeText {
 
     }
 
+    // 面试题 03.05. 栈排序
+    class SortedStack {
+        Stack<Integer> stack;
+        Stack<Integer> assistStack;
+
+        public SortedStack() {
+            stack = new Stack<>();
+            assistStack = new Stack<>();
+
+        }
+
+        public void push(int val) {
+            while (!stack.isEmpty() && val > stack.peek()) {
+                assistStack.push(stack.pop());
+            }
+            stack.push(val);
+            while (!assistStack.isEmpty()) {
+                stack.push(assistStack.pop());
+            }
+
+        }
+
+        public void pop() {
+            if (!stack.isEmpty()) {
+                stack.pop();
+            }
+        }
+
+        public int peek() {
+            return stack.isEmpty() ? -1 : stack.peek();
+        }
+
+        public boolean isEmpty() {
+            return stack.isEmpty();
+        }
+    }
+
 }
