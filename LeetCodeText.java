@@ -15197,4 +15197,16 @@ public class LeetCodeText {
         return n > 0 && (n & (n - 1)) == 0 && (n & 0b10101010101010101010101010101010) == 0;
     }
 
+    // 326. 3的幂
+    public boolean isPowerOfThree(int n) {
+        if (n <= 0) {
+            return false;
+        }
+        while (n % 3 == 0) {
+            n /= 3;
+        }
+        return n == 1;
+
+    }
+
 }
