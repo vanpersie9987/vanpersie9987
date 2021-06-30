@@ -15170,4 +15170,31 @@ public class LeetCodeText {
         return n > 0 && (n & (-n)) == n;
     }
 
+    // 342. 4的幂
+    public boolean isPowerOfFour(int n) {
+        if (n <= 0) {
+            return false;
+        }
+        int countZero = 0;
+        int countOne = 0;
+        while (n != 0) {
+            if (n % 2 == 1) {
+                ++countOne;
+            } else {
+                ++countZero;
+            }
+            if (countOne > 1) {
+                return false;
+            }
+            n /= 2;
+        }
+        return countZero % 2 == 0;
+
+    }
+
+    // 342. 4的幂
+    public boolean isPowerOfFour2(int n) {
+        return n > 0 && (n & (n - 1)) == 0 && (n & 0b10101010101010101010101010101010) == 0;
+    }
+
 }
