@@ -13124,7 +13124,7 @@ public class LeetCodeText {
         }
     }
 
-    // 223. 矩形面积
+    // 223. 矩形面积 (与836相似)
     public int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
         int area1 = (C - A) * (D - B);
         int area2 = (G - E) * (H - F);
@@ -13136,6 +13136,16 @@ public class LeetCodeText {
             return area1 + area2;
         }
         return area1 + area2 - (minRight - maxLeft) * (minTop - maxBottom);
+    }
+
+    // 836. 矩形重叠 (与223相似)
+    public boolean isRectangleOverlap(int[] rec1, int[] rec2) {
+        int maxLeft = Math.max(rec1[0], rec2[0]);
+        int minRight = Math.min(rec1[2], rec2[2]);
+        int minTop = Math.min(rec1[3], rec2[3]);
+        int maxBottom = Math.max(rec1[1], rec2[1]);
+        return (maxLeft < minRight) && (minTop > maxBottom);
+
     }
 
     // 剑指 Offer 59 - II. 队列的最大值
