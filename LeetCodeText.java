@@ -15256,4 +15256,28 @@ public class LeetCodeText {
         }
     }
 
+    // 883. 三维形体投影面积
+    public int projectionArea(int[][] grid) {
+        int ans = 0;
+        int n = grid.length;
+        for (int i = 0; i < n; ++i) {
+            int maxRow = 0;
+            int maxCol = 0;
+            for (int j = 0; j < n; ++j) {
+                // 俯视图
+                if (grid[i][j] > 0) {
+                    ++ans;
+                }
+                // 垂直于yOz平面 看
+                maxRow = Math.max(maxRow, grid[i][j]);
+                // 垂直于xOz平面 看
+                maxCol = Math.max(maxCol, grid[j][i]);
+
+            }
+            ans += maxRow + maxCol;
+        }
+        return ans;
+
+    }
+
 }
