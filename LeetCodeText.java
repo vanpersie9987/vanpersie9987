@@ -7639,33 +7639,32 @@ public class LeetCodeText {
     }
 
     // 227. 基本计算器 II
-
-    public int calculate(final String s) {
+    // 面试题 16.26. 计算器
+    public int calculate(String s) {
         Stack<Integer> stack = new Stack<>();
         char sign = '+';
-
+        int i = 0;
         while (i < s.length()) {
             if (Character.isWhitespace(s.charAt(i))) {
                 ++i;
                 continue;
             }
             if (Character.isDigit(s.charAt(i))) {
-                StringBuilder num = new StringBuilder();
+                int num = 0;
                 while (i < s.length() && Character.isDigit(s.charAt(i))) {
-                    num.append(s.charAt(i++));
+                    num = num * 10 + s.charAt(i++) - '0';
                 }
                 --i;
                 if (sign == '+') {
-                    stack.push(Integer.parseInt(num.toString()));
+                    stack.push(num);
                 } else if (sign == '-') {
-                    stack.push(-1 * Integer.parseInt(num.toString()));
+                    stack.push(-num);
                 } else {
-                    stack.push(getNum(stack.pop(), Integer.parseInt(num.toString()), sign));
+                    stack.push(getNum(stack.pop(), num, sign));
                 }
             } else {
                 sign = s.charAt(i);
             }
-
             ++i;
 
         }
