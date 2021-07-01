@@ -3481,17 +3481,41 @@ public class LeetCodeText {
     }
 
     // 962. 最大宽度坡
-    public int maxWidthRamp(final int[] A) {
+    public int maxWidthRamp(int[] nums) {
         int max = 0;
-        for (int i = A.length - 1; i >= max; --i) {
+        for (int i = nums.length - 1; i >= max; --i) {
             for (int j = 0; j < i - max; ++j) {
-                if (A[j] <= A[i]) {
+                if (nums[j] <= nums[i]) {
                     max = Math.max(max, i - j);
 
                 }
             }
         }
         return max;
+
+    }
+
+    // 962. 最大宽度坡
+    public int maxWidthRamp2(int[] nums) {
+        Integer[] B = new Integer[nums.length];
+        for (int i = 0; i < B.length; ++i) {
+            B[i] = i;
+        }
+        Arrays.sort(B, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return nums[o1] - nums[o2];
+            }
+        });
+        int ans = 0;
+        // B数组 遍历到当前位置的最小值（索引）
+        int m = nums.length;
+        for (int i : B) {
+            ans = Math.max(ans, i - m);
+            m = Math.min(m, i);
+        }
+        return ans;
 
     }
 
@@ -15284,9 +15308,9 @@ public class LeetCodeText {
                 if (grid[i][j] > 0) {
                     ++ans;
                 }
-                // 垂直于yOz平面 看
+                // yOz面投影
                 maxRow = Math.max(maxRow, grid[i][j]);
-                // 垂直于xOz平面 看
+                // xOz面投影
                 maxCol = Math.max(maxCol, grid[j][i]);
 
             }
