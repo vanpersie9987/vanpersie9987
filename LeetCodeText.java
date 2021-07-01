@@ -15384,4 +15384,120 @@ public class LeetCodeText {
         }
     }
 
+    // 面试题 03.01. 三合一
+    class TripleInOne {
+        private int[] stack;
+        private int perStackSize;
+        private int peekIndex0;
+        private int peekIndex1;
+        private int peekIndex2;
+
+        public TripleInOne(int stackSize) {
+            stack = new int[stackSize * 3];
+            perStackSize = stackSize;
+            peekIndex0 = stackSize * 0 - 1;
+            peekIndex1 = stackSize * 1 - 1;
+            peekIndex2 = stackSize * 2 - 1;
+        }
+
+        public void push(int stackNum, int value) {
+            if (perStackSize == 0) {
+                return;
+            }
+            switch (stackNum) {
+                // 第一个栈
+                case 0:
+                    if (peekIndex0 == perStackSize - 1) {
+                        return;
+                    }
+                    stack[++peekIndex0] = value;
+                    break;
+                // 第二个栈
+                case 1:
+                    if (peekIndex1 == perStackSize * 2 - 1) {
+                        return;
+                    }
+                    stack[++peekIndex1] = value;
+                    break;
+                // 第三个栈
+                case 2:
+                    if (peekIndex2 == perStackSize * 3 - 1) {
+                        return;
+                    }
+                    stack[++peekIndex2] = value;
+                    break;
+                default:
+                    break;
+
+            }
+        }
+
+        public int pop(int stackNum) {
+            if (perStackSize == 0) {
+                return -1;
+            }
+            switch (stackNum) {
+                case 0:
+                    if (peekIndex0 == perStackSize * 0 - 1) {
+                        return -1;
+                    }
+                    return stack[peekIndex0--];
+                case 1:
+                    if (peekIndex1 == perStackSize * 1 - 1) {
+                        return -1;
+                    }
+                    return stack[peekIndex1--];
+                case 2:
+                    if (peekIndex2 == perStackSize * 2 - 1) {
+                        return -1;
+                    }
+                    return stack[peekIndex2--];
+                default:
+                    return -1;
+            }
+
+        }
+
+        public int peek(int stackNum) {
+            if (perStackSize == 0) {
+                return -1;
+            }
+            switch (stackNum) {
+                case 0:
+                    if (peekIndex0 == perStackSize * 0 - 1) {
+                        return -1;
+                    }
+                    return stack[peekIndex0];
+                case 1:
+                    if (peekIndex1 == perStackSize * 1 - 1) {
+                        return -1;
+                    }
+                    return stack[peekIndex1];
+                case 2:
+                    if (peekIndex2 == perStackSize * 2 - 1) {
+                        return -1;
+                    }
+                    return stack[peekIndex2];
+                default:
+                    return -1;
+
+            }
+        }
+
+        public boolean isEmpty(int stackNum) {
+            if (perStackSize == 0) {
+                return true;
+            }
+            switch (stackNum) {
+                case 0:
+                    return peekIndex0 == perStackSize * 0 - 1;
+                case 1:
+                    return peekIndex1 == perStackSize * 1 - 1;
+                case 2:
+                    return peekIndex2 == perStackSize * 2 - 1;
+                default:
+                    return true;
+            }
+        }
+    }
 }
