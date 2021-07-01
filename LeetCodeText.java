@@ -15407,24 +15407,21 @@ public class LeetCodeText {
             switch (stackNum) {
                 // 第一个栈
                 case 0:
-                    if (peekIndex0 == perStackSize - 1) {
-                        return;
+                    if (peekIndex0 != perStackSize - 1) {
+                        stack[++peekIndex0] = value;
                     }
-                    stack[++peekIndex0] = value;
                     break;
                 // 第二个栈
                 case 1:
-                    if (peekIndex1 == perStackSize * 2 - 1) {
-                        return;
+                    if (peekIndex1 != perStackSize * 2 - 1) {
+                        stack[++peekIndex1] = value;
                     }
-                    stack[++peekIndex1] = value;
                     break;
                 // 第三个栈
                 case 2:
-                    if (peekIndex2 == perStackSize * 3 - 1) {
-                        return;
+                    if (peekIndex2 != perStackSize * 3 - 1) {
+                        stack[++peekIndex2] = value;
                     }
-                    stack[++peekIndex2] = value;
                     break;
                 default:
                     break;
@@ -15438,20 +15435,11 @@ public class LeetCodeText {
             }
             switch (stackNum) {
                 case 0:
-                    if (peekIndex0 == perStackSize * 0 - 1) {
-                        return -1;
-                    }
-                    return stack[peekIndex0--];
+                    return peekIndex0 == perStackSize * 0 - 1 ? -1 : stack[peekIndex0--];
                 case 1:
-                    if (peekIndex1 == perStackSize * 1 - 1) {
-                        return -1;
-                    }
-                    return stack[peekIndex1--];
+                    return peekIndex1 == perStackSize * 1 - 1 ? -1 : stack[peekIndex1--];
                 case 2:
-                    if (peekIndex2 == perStackSize * 2 - 1) {
-                        return -1;
-                    }
-                    return stack[peekIndex2--];
+                    return peekIndex2 == perStackSize * 2 - 1 ? -1 : stack[peekIndex2--];
                 default:
                     return -1;
             }
@@ -15464,20 +15452,11 @@ public class LeetCodeText {
             }
             switch (stackNum) {
                 case 0:
-                    if (peekIndex0 == perStackSize * 0 - 1) {
-                        return -1;
-                    }
-                    return stack[peekIndex0];
+                    return peekIndex0 == perStackSize * 0 - 1 ? -1 : stack[peekIndex0];
                 case 1:
-                    if (peekIndex1 == perStackSize * 1 - 1) {
-                        return -1;
-                    }
-                    return stack[peekIndex1];
+                    return peekIndex1 == perStackSize * 1 - 1 ? -1 : stack[peekIndex1];
                 case 2:
-                    if (peekIndex2 == perStackSize * 2 - 1) {
-                        return -1;
-                    }
-                    return stack[peekIndex2];
+                    return peekIndex2 == perStackSize * 2 - 1 ? -1 : stack[peekIndex2];
                 default:
                     return -1;
 
