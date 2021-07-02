@@ -15526,7 +15526,7 @@ public class LeetCodeText {
         list.get(i).next = null;
     }
 
-    // 面试题 02.06. 回文链表
+    // 面试题 02.06. 回文链表 (还需要理解递归和快慢指针实现)
     public boolean isPalindrome09_06(ListNode head) {
         List<Integer> list = new ArrayList<>();
         while (head != null) {
