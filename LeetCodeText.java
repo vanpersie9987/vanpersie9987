@@ -5262,6 +5262,22 @@ public class LeetCodeText {
 
     }
 
+    // 1037. 有效的回旋镖 (判断三点是否共线)
+    public boolean isBoomerang(int[][] points) {
+        for (int i = 1; i < points.length; ++i) {
+            points[i][0] -= points[0][0];
+            points[i][1] -= points[0][1];
+            // 判断三个点是否有重复
+            if (points[i][0] == 0 && points[i][1] == 0) {
+                return false;
+            }
+        }
+        int A = -points[1][1];
+        int B = points[1][0];
+        return (A * points[2][0] + B * points[2][1]) != 0;
+
+    }
+
     // 超时
     public int oddCells(final int n, final int m, final int[][] indices) {
         int result = 0;
