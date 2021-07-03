@@ -15653,4 +15653,26 @@ public class LeetCodeText {
     private int getManhattanDistance1030(int x1, int y1, int x2, int y2) {
         return Math.abs(x1 - x2) + Math.abs(y1 - y2);
     }
+
+    // 1828. 统计一个圆中点的数目
+    public int[] countPoints(int[][] points, int[][] queries) {
+        int[] res = new int[queries.length];
+        int index = 0;
+        for (int[] query : queries) {
+            res[index++] = getCount1828(query[0], query[1], query[2], points);
+        }
+        return res;
+
+    }
+
+    private int getCount1828(int rCenter, int cCenter, int radius, int[][] points) {
+        int count = 0;
+        for (int[] point : points) {
+            if ((point[0] - rCenter) * (point[0] - rCenter) + (point[1] - cCenter) * (point[1] - cCenter) <= radius
+                    * radius) {
+                ++count;
+            }
+        }
+        return count;
+    }
 }
