@@ -15585,4 +15585,56 @@ public class LeetCodeText {
         return 0.5 * Math
                 .abs(p1[0] * p2[1] + p2[0] * p3[1] + p3[0] * p1[1] - p1[1] * p2[0] - p2[1] * p3[0] - p3[1] * p1[0]);
     }
+
+    // 1030. 距离顺序排列矩阵单元格
+    public int[][] allCellsDistOrder(int rows, int cols, int rCenter, int cCenter) {
+        int[][] res = new int[rows * cols][2];
+        int index = 0;
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                res[index][0] = i;
+                res[index][1] = j;
+                ++index;
+            }
+        }
+
+        Arrays.sort(res, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                int distance1 = Math.abs(o1[0] - rCenter) + Math.abs(o1[1] - cCenter);
+                int distance2 = Math.abs(o2[0] - rCenter) + Math.abs(o2[1] - cCenter);
+                return distance1 - distance2;
+            }
+        });
+        return res;
+
+    }
+
+    // 1030. 距离顺序排列矩阵单元格 桶排序
+    public int[][] allCellsDistOrder2(int rows, int cols, int rCenter, int cCenter) {
+        List<List<int[]>> list = new ArrayList<>();
+        int max = Math.max(rows, rows - rCenter - 1) + Math.max(cols, cols - cCenter - 1);
+        for (int i = 0; i <= max; ++i) {
+            list.add(new ArrayList<>());
+        }
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                list.get(getManhattanDistance1030(i, j, rCenter, cCenter)).add(new int[] { i, j });
+            }
+        }
+        int[][] res = new int[rows * cols][2];
+        int index = 0;
+        for (List<int[]> items : list) {
+            for (int[] item : items) {
+                res[index++] = item;
+            }
+        }
+        return res;
+
+    }
+
+    private int getManhattanDistance1030(int x1, int y1, int x2, int y2) {
+        return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+    }
 }
