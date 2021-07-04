@@ -15694,4 +15694,35 @@ public class LeetCodeText {
         return count;
     }
 
+    // 388. 文件的最长绝对路径
+    // "dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext"
+    public int lengthLongestPath(String input) {
+        Stack<Integer> stack = new Stack<>();
+        int res = 0;
+        int sum = 0;
+        for (int i = 0; i < input.length(); ++i) {
+            int k = 0;
+            while (input.charAt(i) == '\t') {
+                ++k;
+                ++i;
+            }
+            while (stack.size() > k) {
+                sum -= stack.pop();
+            }
+            int j = i;
+            while (j < input.length() && input.charAt(j) != '\n') {
+                ++j;
+            }
+            int len = j - i;
+            stack.push(len);
+            sum += len;
+            if (input.substring(i, i + len).contains(".")) {
+                res = Math.max(res, sum + stack.size() - 1);
+            }
+            i = j;
+        }
+        return res;
+
+    }
+
 }
