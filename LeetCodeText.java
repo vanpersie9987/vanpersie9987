@@ -40,7 +40,7 @@ public class LeetCodeText {
         // reverseWords("a good example ");
         // String s = "2001:0db8:85a3:0:0:8A2E:0370:7334:";
         // validIPAddress(s);
-        final List<String> list = new ArrayList<>();
+        // final List<String> list = new ArrayList<>();
         // // list.add("23:59");
         // list.add("00:00");
 
@@ -64,6 +64,7 @@ public class LeetCodeText {
         // String[] synonyms = { "(Jon,John)", "(John,Johnny)", "(Chris,Kris)",
         // "(Chris,Christopher)" };
         // String[] s = trulyMostPopular(names, synonyms);
+        // boolean a = reorderedPowerOf2(10);
 
     }
 
@@ -15822,6 +15823,27 @@ public class LeetCodeText {
             ++j;
         }
         return count1 == count2;
+    }
+
+    // 869. 重新排序得到 2 的幂
+    public boolean reorderedPowerOf2(int n) {
+        int[] A = getCount(n);
+        for (int i = 0; i < 31; ++i) {
+            if (Arrays.equals(A, getCount(1 << i))) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    private int[] getCount(int n) {
+        int[] counts = new int[10];
+        while (n != 0) {
+            ++counts[n % 10];
+            n /= 10;
+        }
+        return counts;
     }
 
 }
