@@ -6497,6 +6497,25 @@ public class LeetCodeText {
 
     }
 
+    // 1504. 统计全 1 子矩形
+    public int numSubmat(int[][] mat) {
+        int ans = 0;
+        for (int i = 0; i < mat.length; ++i) {
+            for (int j = 0; j < mat[0].length; ++j) {
+                if (j > 0) {
+                    mat[i][j] = mat[i][j] == 1 ? mat[i][j - 1] + 1 : 0;
+                }
+                int min = mat[i][j];
+                for (int k = i; k >= 0; --k) {
+                    min = Math.min(min, mat[k][j]);
+                    ans += min;
+                }
+            }
+        }
+        return ans;
+
+    }
+
     public List<Integer> pancakeSort(final int[] A) {
         List<Integer> result = new ArrayList<>();
         int temp = 0;
