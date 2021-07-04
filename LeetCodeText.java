@@ -15801,4 +15801,27 @@ public class LeetCodeText {
         }
     }
 
+    // 1704. 判断字符串的两半是否相似
+    public boolean halvesAreAlike(String s) {
+        int i = 0;
+        int count1 = 0;
+        int j = s.length() / 2;
+        int count2 = 0;
+        while (j < s.length()) {
+            if (Character.toLowerCase(s.charAt(i)) == 'a' || Character.toLowerCase(s.charAt(i)) == 'e'
+                    || Character.toLowerCase(s.charAt(i)) == 'i' || Character.toLowerCase(s.charAt(i)) == 'o'
+                    || Character.toLowerCase(s.charAt(i)) == 'u') {
+                ++count1;
+            }
+            if (Character.toLowerCase(s.charAt(j)) == 'a' || Character.toLowerCase(s.charAt(j)) == 'e'
+                    || Character.toLowerCase(s.charAt(j)) == 'i' || Character.toLowerCase(s.charAt(j)) == 'o'
+                    || Character.toLowerCase(s.charAt(j)) == 'u') {
+                ++count2;
+            }
+            ++i;
+            ++j;
+        }
+        return count1 == count2;
+    }
+
 }
