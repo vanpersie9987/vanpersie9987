@@ -2622,6 +2622,24 @@ public class LeetCodeText {
 
     }
 
+    // 768. 最多能完成排序的块 II
+    public int maxChunksToSorted768(int[] arr) {
+        Stack<Integer> stack = new Stack<>();
+        for (int num : arr) {
+            if (!stack.isEmpty() && num < stack.peek()) {
+                int top = stack.pop();
+                while (!stack.isEmpty() && num < stack.peek()) {
+                    stack.pop();
+                }
+                stack.push(top);
+            } else {
+                stack.push(num);
+            }
+        }
+        return stack.size();
+
+    }
+
     // 775. 全局倒置与局部倒置
     public boolean isIdealPermutation(final int[] A) {
         for (int i = 0; i < A.length; ++i) {
@@ -15675,4 +15693,5 @@ public class LeetCodeText {
         }
         return count;
     }
+
 }
