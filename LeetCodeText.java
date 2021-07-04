@@ -15753,4 +15753,52 @@ public class LeetCodeText {
         return ans;
     }
 
+    // 1106. 解析布尔表达式
+    public boolean parseBoolExpr(String expression) {
+        Stack<Character> stack = new Stack<>();
+        for (char c : expression.toCharArray()) {
+            if (c == ',') {
+                continue;
+            }
+            if (c != ')') {
+                stack.push(c);
+            } else {
+                Stack<Character> subStack = new Stack<>();
+                while (!stack.isEmpty() && stack.peek() != '(') {
+                    subStack.push(stack.pop());
+                }
+                // 弹出“(”
+                stack.pop();
+                char res = getResult1106(subStack, stack.pop());
+                stack.push(res);
+            }
+        }
+        return stack.pop() == 't';
+    }
+
+    private char getResult1106(Stack<Character> subStack, char sign) {
+        // “&”
+        if (sign == '&') {
+            while (!subStack.isEmpty()) {
+                if (subStack.pop() == 'f') {
+                    return 'f';
+                }
+            }
+            return 't';
+        }
+        // “|”
+        else if (sign == '|') {
+            while (!subStack.isEmpty()) {
+                if (subStack.pop() == 't') {
+                    return 't';
+                }
+            }
+            return 'f';
+        }
+        // “!”
+        else {
+            return subStack.pop() == 't' ? 'f' : 't';
+        }
+    }
+
 }
