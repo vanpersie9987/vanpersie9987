@@ -15897,4 +15897,22 @@ public class LeetCodeText {
 
     }
 
+    // 剑指 Offer 61. 扑克牌中的顺子
+    public boolean isStraight(int[] nums) {
+        int[] counts = new int[14];
+        int max = -1;
+        int min = 14;
+        for (int num : nums) {
+            if (num != 0) {
+                max = Math.max(max, num);
+                min = Math.min(min, num);
+                if (++counts[num] > 1) {
+                    return false;
+                }
+            }
+        }
+        return max - min < 5;
+
+    }
+
 }
