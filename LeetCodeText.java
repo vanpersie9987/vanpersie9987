@@ -15915,4 +15915,50 @@ public class LeetCodeText {
 
     }
 
+    // 1717. 删除子字符串的最大得分
+    public int maximumGain(String s, int x, int y) {
+        Stack<Character> stack1 = new Stack<>();
+        StringBuilder sb = new StringBuilder(s);
+        if (x < y) {
+            int temp = x;
+            x = y;
+            y = temp;
+            sb = sb.reverse();
+        }
+        String ss = sb.toString();
+        int score = 0;
+        for (char c : ss.toCharArray()) {
+            if (c == 'b') {
+                if (!stack1.isEmpty() && stack1.peek() == 'a') {
+                    score += x;
+                    stack1.pop();
+                } else {
+                    stack1.push(c);
+                }
+            } else {
+                stack1.push(c);
+            }
+        }
+        Stack<Character> stack2 = new Stack<>();
+        sb.setLength(0);
+        for (char c : stack1) {
+            sb.append(c);
+        }
+        String ss2 = sb.toString();
+        for (char c : ss2.toCharArray()) {
+            if (c == 'a') {
+                if (!stack2.isEmpty() && stack2.peek() == 'b') {
+                    score += y;
+                    stack2.pop();
+                } else {
+                    stack2.push(c);
+                }
+            } else {
+                stack2.push(c);
+            }
+        }
+        return score;
+
+    }
+
 }
