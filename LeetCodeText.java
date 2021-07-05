@@ -15878,4 +15878,23 @@ public class LeetCodeText {
         }
     }
 
+    // 面试题 10.11. 峰与谷
+    public void wiggleSort(int[] nums) {
+        int[] arrCopy = nums.clone();
+        Arrays.sort(arrCopy);
+        int i = 0;
+        int j = nums.length - 1;
+        int index = 0;
+        while (i < j) {
+            nums[index++] = arrCopy[i];
+            nums[index++] = arrCopy[j];
+            ++i;
+            --j;
+        }
+        if (nums.length % 2 == 1) {
+            nums[index] = arrCopy[i];
+        }
+
+    }
+
 }
