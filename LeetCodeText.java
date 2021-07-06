@@ -16020,4 +16020,46 @@ public class LeetCodeText {
         return res;
     }
 
+    // 1603. 设计停车系统
+    class ParkingSystem {
+        private int totalBig;
+        private int totalMedium;
+        private int totalSmall;
+        private int curSmall;
+        private int curMedium;
+        private int curBig;
+
+        public ParkingSystem(int big, int medium, int small) {
+            this.totalBig = big;
+            this.totalMedium = medium;
+            this.totalSmall = small;
+
+        }
+
+        public boolean addCar(int carType) {
+            switch (carType) {
+                case 1:
+                    if (curBig == totalBig) {
+                        return false;
+                    }
+                    ++curBig;
+                    return true;
+                case 2:
+                    if (curMedium == totalMedium) {
+                        return false;
+                    }
+                    ++curMedium;
+                    return true;
+                case 3:
+                    if (curSmall == totalSmall) {
+                        return false;
+                    }
+                    ++curSmall;
+                    return true;
+                default:
+                    return false;
+            }
+        }
+    }
+
 }
