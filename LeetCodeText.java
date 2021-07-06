@@ -15979,4 +15979,32 @@ public class LeetCodeText {
 
     }
 
+    // 885. 螺旋矩阵 III
+    public int[][] spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
+        int[][] res = new int[rows * cols][2];
+        int index = 0;
+        res[index++] = new int[] { rStart, cStart };
+        int[][] directions = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+        int d = 0;
+        int l = 1;
+        int r = rStart;
+        int c = cStart;
+        while (index < res.length) {
+            for (int i = 0; i < l; ++i) {
+                r += directions[d][0];
+                c += directions[d][1];
+                if (r >= 0 && r < rows && c >= 0 && c < cols) {
+                    res[index++] = new int[] { r, c };
+                    if (index == res.length) {
+                        return res;
+                    }
+                }
+            }
+            l += d % 2;
+            d = (d + 1) % directions.length;
+        }
+        return res;
+
+    }
+
 }
