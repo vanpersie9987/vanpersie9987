@@ -16007,4 +16007,17 @@ public class LeetCodeText {
 
     }
 
+    // 1518. 换酒问题
+    public int numWaterBottles(int numBottles, int numExchange) {
+        int res = numBottles;
+        int curBottles = numBottles;
+        while (curBottles >= numExchange) {
+            int num = curBottles / numExchange;
+            res += num;
+            curBottles = num + curBottles % numExchange;
+
+        }
+        return res;
+    }
+
 }
