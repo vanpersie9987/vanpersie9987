@@ -16114,4 +16114,17 @@ public class LeetCodeText {
         return new int[] { i, memory1, memory2 };
     }
 
+    // 1103. 分糖果 II
+    public int[] distributeCandies(int candies, int num_people) {
+        int[] res = new int[num_people];
+        int index = 0;
+        while (candies > 0) {
+            res[index % num_people] += Math.min(candies, index + 1);
+            candies -= Math.min(candies, index + 1);
+            ++index;
+        }
+        return res;
+
+    }
+
 }
