@@ -16100,4 +16100,18 @@ public class LeetCodeText {
         return 1 << s.length();
     }
 
+    // 1860. 增长的内存泄露
+    public int[] memLeak(int memory1, int memory2) {
+        int i = 1;
+        while (i <= Math.max(memory1, memory2)) {
+            if (memory1 >= memory2) {
+                memory1 -= i;
+            } else {
+                memory2 -= i;
+            }
+            ++i;
+        }
+        return new int[] { i, memory1, memory2 };
+    }
+
 }
