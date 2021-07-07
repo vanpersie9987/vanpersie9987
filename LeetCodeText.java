@@ -16077,4 +16077,27 @@ public class LeetCodeText {
         return n - 1;
     }
 
+    // LCP 17. 速算机器人
+    public int calculateLCP17(String s) {
+        int x = 1;
+        int y = 0;
+        for (char c : s.toCharArray()) {
+            if (c == 'A') {
+                x = 2 * x + y;
+            } else {
+                y = 2 * y + x;
+            }
+        }
+        return x + y;
+
+    }
+
+    // LCP 17. 速算机器人
+    // 出现一个"A"，有 x+y=(2x+y)+y=2x+2y
+    // 出现一个"B"，有 x+y=x+(2y+x)=2x+2y
+    // 所以每出现一个A/B，都使x+y的值翻倍
+    public int calculateLCP17_2(String s) {
+        return 1 << s.length();
+    }
+
 }
