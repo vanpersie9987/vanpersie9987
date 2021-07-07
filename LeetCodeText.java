@@ -15979,6 +15979,24 @@ public class LeetCodeText {
 
     }
 
+    // 412. Fizz Buzz
+    public List<String> fizzBuzz2(int n) {
+        List<String> res = new ArrayList<>();
+        StringBuilder builder = new StringBuilder();
+        for (int i = 1; i <= n; ++i) {
+            builder.setLength(0);
+            if (i % 3 == 0) {
+                builder.append("Fizz");
+            }
+            if (i % 5 == 0) {
+                builder.append("Buzz");
+            }
+            res.add(builder.length() == 0 ? String.valueOf(i) : builder.toString());
+        }
+        return res;
+
+    }
+
     // 885. 螺旋矩阵 III
     public int[][] spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
         int[][] res = new int[rows * cols][2];
