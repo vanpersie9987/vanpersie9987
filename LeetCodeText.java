@@ -16062,4 +16062,19 @@ public class LeetCodeText {
         }
     }
 
+    // 1688. 比赛中的配对次数
+    public int numberOfMatches(int n) {
+        int res = 0;
+        while (n > 0) {
+            res += n / 2;
+            n -= n / 2;
+        }
+        return res;
+    }
+
+    // 1688. 比赛中的配对次数
+    public int numberOfMatches2(int n) {
+        return n - 1;
+    }
+
 }
