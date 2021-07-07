@@ -9669,8 +9669,8 @@ public class LeetCodeText {
         int res = 0;
         Map<Integer, Integer> map = new HashMap<>();
         for (int delicious : deliciousness) {
-            for (int j = 0; j <= 21; ++j) {
-                int remain = (int) Math.pow(2, j) - delicious;
+            for (int i = 0; i <= 21; ++i) {
+                int remain = (1 << i) - delicious;
                 if (remain >= 0) {
                     res = (res + map.getOrDefault(remain, 0)) % MOD;
                 }
