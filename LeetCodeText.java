@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -16169,4 +16170,71 @@ public class LeetCodeText {
 
     }
 
+    // 498. 对角线遍历
+    public int[] findDiagonalOrder(int[][] mat) {
+        if (mat == null || mat.length == 0 || mat[0].length == 0) {
+            return new int[] {};
+        }
+        int m = mat.length;
+        int n = mat[0].length;
+        int[] res = new int[m * n];
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if ((i + j) % 2 == 0) {
+                    map.computeIfAbsent(i + j, k -> new ArrayList<>()).add(0, mat[i][j]);
+                } else {
+                    map.computeIfAbsent(i + j, k -> new ArrayList<>()).add(mat[i][j]);
+                }
+            }
+        }
+        List<Map.Entry<Integer, List<Integer>>> list = new ArrayList<>(map.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<Integer, List<Integer>>>() {
+            @Override
+            public int compare(Map.Entry<Integer, List<Integer>> o1, Map.Entry<Integer, List<Integer>> o2) {
+                return o1.getKey() - o2.getKey();
+            }
+
+        });
+
+        int index = 0;
+        for (Map.Entry<Integer, List<Integer>> items : list) {
+            List<Integer> subList = items.getValue();
+            for (int num : subList) {
+                res[index++] = num;
+            }
+        }
+        return res;
+    }
+
+    // 498. 对角线遍历
+    public int[] findDiagonalOrder2(int[][] mat) {
+        if (mat == null || mat.length == 0 || mat[0].length == 0) {
+            return new int[] {};
+        }
+        int m = mat.length;
+        int n = mat[0].length;
+        int[] res = new int[m * n];
+        List<List<Integer>> list = new ArrayList<>();
+        for (int i = 0; i < m + n - 1; ++i) {
+            list.add(new ArrayList<>());
+        }
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if ((i + j) % 2 == 0) {
+                    list.get(i + j).add(0, mat[i][j]);
+                } else {
+                    list.get(i + j).add(mat[i][j]);
+                }
+            }
+        }
+        int index = 0;
+        for (List<Integer> subList : list) {
+            for (int num : subList) {
+                res[index++] = num;
+            }
+        }
+        return res;
+
+    }
 }
