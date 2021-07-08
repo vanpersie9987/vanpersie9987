@@ -16237,4 +16237,32 @@ public class LeetCodeText {
         return res;
 
     }
+
+    // 1324. 竖直打印单词
+    public List<String> printVertically(String s) {
+        List<String> res = new ArrayList<>();
+        String[] items = s.split(" ");
+        int max = 0;
+        for (String item : items) {
+            max = Math.max(max, item.length());
+        }
+        int index = 0;
+        while (index < max) {
+            StringBuilder builder = new StringBuilder();
+            for (String item : items) {
+                if (index < item.length()) {
+                    builder.append(item.charAt(index));
+                } else {
+                    builder.append(" ");
+                }
+            }
+            while (Character.isWhitespace(builder.charAt(builder.length() - 1))) {
+                builder.setLength(builder.length() - 1);
+            }
+            res.add(builder.toString());
+            ++index;
+        }
+        return res;
+
+    }
 }
