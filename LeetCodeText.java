@@ -16242,24 +16242,46 @@ public class LeetCodeText {
     public List<String> printVertically(String s) {
         List<String> res = new ArrayList<>();
         String[] items = s.split(" ");
-        int max = 0;
-        for (String item : items) {
-            max = Math.max(max, item.length());
-        }
         int index = 0;
-        while (index < max) {
+        while (true) {
             StringBuilder builder = new StringBuilder();
             for (String item : items) {
-                if (index < item.length()) {
-                    builder.append(item.charAt(index));
+                builder.append(index < item.length() ? item.charAt(index) : " ");
+            }
+            while (builder.length() != 0 && Character.isWhitespace(builder.charAt(builder.length() - 1))) {
+                builder.setLength(builder.length() - 1);
+            }
+            if (builder.length() == 0) {
+                break;
+            }
+            res.add(builder.toString());
+            ++index;
+        }
+        return res;
+    }
+
+    // 1324. 竖直打印单词
+    public List<String> printVertically2(String s) {
+        List<String> res = new ArrayList<>();
+        String[] items = s.split(" ");
+        int index = 0;
+        StringBuilder builder = new StringBuilder();
+        while (true) {
+            builder.setLength(0);
+            // 从右往左看 第一个不是空格的自字符的右边的空格索引 如 “ T T ”字符串 则： minRightWhiteSpace = 4
+            int minRightWhiteSpace = Integer.MAX_VALUE;
+            for (int i = 0; i < items.length; ++i) {
+                if (index < items[i].length()) {
+                    builder.append(items[i].charAt(index));
+                    minRightWhiteSpace = i + 1;
                 } else {
                     builder.append(" ");
                 }
             }
-            while (Character.isWhitespace(builder.charAt(builder.length() - 1))) {
-                builder.setLength(builder.length() - 1);
+            if (minRightWhiteSpace == Integer.MAX_VALUE) {
+                break;
             }
-            res.add(builder.toString());
+            res.add(builder.substring(0, minRightWhiteSpace));
             ++index;
         }
         return res;
