@@ -697,26 +697,32 @@ public class LeetCodeText {
     }
 
     // 59. 螺旋矩阵 II
-    public int[][] generateMatrix(final int n) {
+    public int[][] generateMatrix(int n) {
         int[][] res = new int[n][n];
-        int num = 1;
         int r1 = 0;
         int r2 = n - 1;
-        while (r1 <= r2) {
-            for (int c = r1; c <= r2; ++c) {
+        int c1 = 0;
+        int c2 = n - 1;
+        int num = 1;
+        while (r1 <= r2 && c1 <= c2) {
+            for (int c = c1; c <= c2; ++c) {
                 res[r1][c] = num++;
             }
             for (int r = r1 + 1; r <= r2; ++r) {
-                res[r][r2] = num++;
+                res[r][c2] = num++;
             }
-            for (int c = r2 - 1; c >= r1; --c) {
-                res[r2][c] = num++;
-            }
-            for (int r = r2 - 1; r >= r1 + 1; --r) {
-                res[r][r1] = num++;
+            if (r1 < r2 && c1 < c2) {
+                for (int c = c2 - 1; c >= c1; --c) {
+                    res[r2][c] = num++;
+                }
+                for (int r = r2 - 1; r >= r1 + 1; --r) {
+                    res[r][c1] = num++;
+                }
             }
             ++r1;
             --r2;
+            ++c1;
+            --c2;
         }
         return res;
 
