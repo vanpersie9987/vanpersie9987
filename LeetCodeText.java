@@ -16319,8 +16319,7 @@ public class LeetCodeText {
             int wordLength = words[i].length();
             int j = i + 1;
             while (j < words.length && (wordLength + words[j].length() + j - i) <= maxWidth) {
-                wordLength += words[j].length();
-                ++j;
+                wordLength += words[j++].length();
             }
             // 一共的空格数
             int whiteSpaceCount = maxWidth - wordLength;
