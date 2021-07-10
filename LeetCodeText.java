@@ -7339,37 +7339,36 @@ public class LeetCodeText {
         return s;
     }
 
-    public String multiply(final String num1, final String num2) {
-        if ("0".equals(num1) || "0".equals(num2)) {
+    // 43. 字符串相乘
+    public String multiply(String num1, String num2) {
+        if (num1.equals("0") || num2.equals("0")) {
             return "0";
         }
-        final char[] arr1 = num1.toCharArray();
-        final char[] arr2 = num2.toCharArray();
-        final int[] res = new int[num1.length() + num2.length()];
-        for (int i = arr1.length - 1; i >= 0; --i) {
-            final int c1 = arr1[i] - '0';
-            for (int j = arr2.length - 1; j >= 0; --j) {
-                final int c2 = arr2[j] - '0';
-                res[i + j + 1] += c1 * c2;
+        int m = num1.length();
+        int n = num2.length();
+        int[] res = new int[m + n];
+        for (int i = m - 1; i >= 0; --i) {
+            int number1 = num1.charAt(i) - '0';
+            for (int j = n - 1; j >= 0; --j) {
+                int number2 = num2.charAt(j) - '0';
+                res[i + j + 1] += number1 * number2;
             }
         }
-        for (int i = res.length - 1; i >= 1; --i) {
+        for (int i = res.length - 1; i >= 0; --i) {
             if (res[i] > 9) {
                 res[i - 1] += res[i] / 10;
-                res[i] = res[i] % 10;
+                res[i] %= 10;
             }
         }
-        final StringBuilder builder = new StringBuilder();
-        int i = 0;
-        for (; i < res.length; ++i) {
-            if (res[i] != 0) {
-                break;
-            }
-        }
-        for (; i < res.length; ++i) {
-            builder.append(res[i]);
+        int index = 0;
+        index = res[0] == 0 ? 1 : 0;
+        StringBuilder builder = new StringBuilder();
+        while (index < res.length) {
+            builder.append(res[index]);
+            ++index;
         }
         return builder.toString();
+
     }
 
     public List<List<String>> groupAnagrams(final String[] strs) {
