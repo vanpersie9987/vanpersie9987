@@ -16341,7 +16341,7 @@ public class LeetCodeText {
                 while (i < j) {
                     builder.append(words[i++]);
                     if (seperateCount > 0) {
-                        int count = whiteSpaceCount / seperateCount;
+                        int count = 0;
                         if (whiteSpaceCount % seperateCount == 0) {
                             count = whiteSpaceCount / seperateCount;
                         } else {
