@@ -16316,12 +16316,10 @@ public class LeetCodeText {
         int i = 0;
         List<String> res = new ArrayList<>();
         while (i < words.length) {
-            int curLength = words[i].length();
             int wordLength = words[i].length();
             int j = i + 1;
-            while (j < words.length && (curLength + words[j].length() + 1) <= maxWidth) {
+            while (j < words.length && (wordLength + words[j].length() + j - i) <= maxWidth) {
                 wordLength += words[j].length();
-                curLength += words[j].length() + 1;
                 ++j;
             }
             // 一共的空格数
