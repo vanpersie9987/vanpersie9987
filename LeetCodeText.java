@@ -16317,15 +16317,15 @@ public class LeetCodeText {
         List<String> res = new ArrayList<>();
         while (i < words.length) {
             int curLength = words[i].length();
+            int wordLength = words[i].length();
             int j = i + 1;
             while (j < words.length && (curLength + words[j].length() + 1) <= maxWidth) {
-                curLength += words[j++].length() + 1;
+                wordLength += words[j].length();
+                curLength += words[j].length() + 1;
+                ++j;
             }
             // 一共的空格数
-            int whiteSpaceCount = maxWidth;
-            for (int index = i; index < j; ++index) {
-                whiteSpaceCount -= words[index].length();
-            }
+            int whiteSpaceCount = maxWidth - wordLength;
             // 间隔个数
             int seperateCount = j - i - 1;
             StringBuilder builder = new StringBuilder();
