@@ -16321,8 +16321,15 @@ public class LeetCodeText {
             while (j < words.length && (curLength + words[j].length() + 1) <= maxWidth) {
                 curLength += words[j++].length() + 1;
             }
+            // 一共的空格数
+            int whiteSpaceCount = maxWidth;
+            for (int index = i; index < j; ++index) {
+                whiteSpaceCount -= words[index].length();
+            }
+            // 间隔个数
+            int seperateCount = j - i - 1;
             StringBuilder builder = new StringBuilder();
-            if (j == words.length) {
+            if (j == words.length || seperateCount == 0) {
                 while (i < j) {
                     builder.append(words[i++]).append(" ");
                 }
@@ -16330,42 +16337,26 @@ public class LeetCodeText {
                 while (builder.length() < maxWidth) {
                     builder.append(" ");
                 }
-                res.add(builder.toString());
             } else {
-                // 一共的空格数
-                int whiteSpaceCount = maxWidth;
-                for (int index = i; index < j; ++index) {
-                    whiteSpaceCount -= words[index].length();
-                }
-                // 间隔个数
-                int seperateCount = j - i - 1;
-                if (seperateCount == 0) {
+                while (i < j) {
                     builder.append(words[i++]);
-                    while (builder.length() < maxWidth) {
-                        builder.append(" ");
-                    }
-                } else {
-                    while (i < j) {
-                        builder.append(words[i++]);
-                        if (seperateCount > 0) {
-                            int count = 0;
-                            if (whiteSpaceCount % seperateCount == 0) {
-                                count = whiteSpaceCount / seperateCount;
-                            } else {
-                                count = (int) Math.ceil((double) whiteSpaceCount / seperateCount);
-                            }
-                            whiteSpaceCount -= count;
-                            --seperateCount;
-                            while (count-- > 0) {
-                                builder.append(" ");
-                            }
+                    if (seperateCount > 0) {
+                        int count = whiteSpaceCount / seperateCount;
+                        if (whiteSpaceCount % seperateCount == 0) {
+                            count = whiteSpaceCount / seperateCount;
+                        } else {
+                            count = (int) Math.ceil((double) whiteSpaceCount / seperateCount);
+                        }
+                        whiteSpaceCount -= count;
+                        --seperateCount;
+                        while (count-- > 0) {
+                            builder.append(" ");
                         }
                     }
                 }
-                res.add(builder.toString());
             }
+            res.add(builder.toString());
         }
         return res;
-
     }
 }
