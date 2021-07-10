@@ -7461,32 +7461,39 @@ public class LeetCodeText {
         return count;
     }
 
-    public String addBinary(final String a, final String b) {
-        final char[] res = new char[Math.max(a.length(), b.length()) + 1];
-        int indexRes = Math.max(a.length(), b.length());
+    // 67. 二进制求和
+    public String addBinary(String a, String b) {
+        StringBuilder builder = new StringBuilder();
         int indexA = a.length() - 1;
         int indexB = b.length() - 1;
-        int carry = 0;
         while (indexA >= 0 || indexB >= 0) {
-            int charA = 0;
-            int charB = 0;
+            int num1 = 0;
+            int num2 = 0;
             if (indexA >= 0) {
-                charA = a.charAt(indexA) - '0';
+                num1 = a.charAt(indexA) - '0';
             }
             if (indexB >= 0) {
-                charB = b.charAt(indexB) - '0';
+                num2 = b.charAt(indexB) - '0';
             }
-            final int resTemp = charA + charB + carry;
-            carry = resTemp / 2;
-            res[indexRes--] = (char) (resTemp % 2 + '0');
+            builder.append(num1 + num2);
             --indexA;
             --indexB;
-            if (indexRes == 0) {
-                res[0] = (char) (carry + '0');
-            }
         }
-        final String result = String.valueOf(res);
-        return result.charAt(0) == '0' ? result.substring(1) : result;
+        StringBuilder res = new StringBuilder();
+        int carry = 0;
+        for (char c : builder.toString().toCharArray()) {
+            int num = c - '0' + carry;
+            carry = num / 2;
+            res.append(num % 2);
+        }
+        if (carry == 1) {
+            res.append(1);
+        }
+        if (res.charAt(res.length() - 1) == '0') {
+            return "0";
+        }
+        return res.reverse().toString();
+
     }
 
     // 71. 简化路径
