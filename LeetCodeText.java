@@ -16356,4 +16356,25 @@ public class LeetCodeText {
         }
         return res;
     }
+
+    // 258. 各位相加
+    public int addDigits(int num) {
+        int res = num;
+        while (res > 9) {
+            int cur = 0;
+            while (res > 0) {
+                cur += res % 10;
+                res /= 10;
+            }
+            res = cur;
+        }
+        return res;
+
+    }
+
+    // 258. 各位相加
+    public int addDigits2(int num) {
+        return (num - 1) % 9 + 1;
+    }
+
 }
