@@ -482,12 +482,12 @@ public class LeetCodeText {
     }
 
     // 54. 螺旋矩阵
-    public List<Integer> spiralOrder(final int[][] matrix) {
-        List<Integer> res = new ArrayList<>();
+    public List<Integer> spiralOrder(int[][] matrix) {
         int r1 = 0;
         int r2 = matrix.length - 1;
         int c1 = 0;
         int c2 = matrix[0].length - 1;
+        List<Integer> res = new ArrayList<>();
         while (r1 <= r2 && c1 <= c2) {
             for (int c = c1; c <= c2; ++c) {
                 res.add(matrix[r1][c]);
