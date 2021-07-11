@@ -16102,29 +16102,28 @@ public class LeetCodeText {
 
     // 1324. 竖直打印单词
     public List<String> printVertically2(String s) {
-        List<String> res = new ArrayList<>();
-        String[] items = s.split(" ");
+        String[] strings = s.split("\\ ");
+        List<String> list = new ArrayList<>();
         int index = 0;
-        StringBuilder builder = new StringBuilder();
-        while (true) {
-            builder.setLength(0);
-            // 从右往左看 第一个不是空格的自字符的右边的空格索引 如 “ T T ”字符串 则： minRightWhiteSpace = 4
-            int minRightWhiteSpace = Integer.MAX_VALUE;
-            for (int i = 0; i < items.length; ++i) {
-                if (index < items[i].length()) {
-                    builder.append(items[i].charAt(index));
-                    minRightWhiteSpace = i + 1;
-                } else {
+        while(true){
+            StringBuilder builder = new StringBuilder();
+            int min = Integer.MAX_VALUE;
+            for(int i = 0 ; i < strings.length;++i){
+                if(index < strings[i].length()){
+                    builder.append(strings[i].charAt(index));
+                    min = i + 1;
+                } else{
                     builder.append(" ");
                 }
             }
-            if (minRightWhiteSpace == Integer.MAX_VALUE) {
+            if(builder.toString().trim().length() == 0){
                 break;
             }
-            res.add(builder.substring(0, minRightWhiteSpace));
+            list.add(builder.substring(0,min).toString());
             ++index;
         }
-        return res;
+        return list;
+
 
     }
 
