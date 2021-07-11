@@ -1829,20 +1829,15 @@ public class LeetCodeText {
 
     }
 
-    public int findPoisonedDuration(final int[] timeSeries, final int duration) {
-        int sum = 0;
-        if (timeSeries == null || timeSeries.length == 0) {
-            return sum;
+
+
+    // 495. 提莫攻击
+    public int findPoisonedDuration(int[] timeSeries, int duration) {
+        int res = 0;
+        for (int i = 1; i < timeSeries.length; ++i) {
+            res += Math.min(duration, timeSeries[i] - timeSeries[i - 1]);
         }
-        for (int i = 0; i < timeSeries.length - 1; ++i) {
-            if (timeSeries[i + 1] - timeSeries[i] >= duration) {
-                sum += duration;
-            } else {
-                sum += timeSeries[i + 1] - timeSeries[i];
-            }
-        }
-        sum += duration;
-        return sum;
+        return res + duration;
 
     }
 
@@ -1918,20 +1913,6 @@ public class LeetCodeText {
             }
         }
         return count;
-
-    }
-
-    // 495. 提莫攻击
-    public int findPoisonedDuration2(final int[] timeSeries, final int duration) {
-        if (timeSeries == null || timeSeries.length == 0) {
-            return 0;
-        }
-        int time = 0;
-        for (int i = 1; i < timeSeries.length; ++i) {
-            time += Math.min(timeSeries[i] - timeSeries[i - 1], duration);
-        }
-        time += duration;
-        return time;
 
     }
 
