@@ -1961,22 +1961,22 @@ public class LeetCodeText {
     }
 
     // 566. 重塑矩阵
-    public int[][] matrixReshape(final int[][] nums, final int r, final int c) {
-        if (r == 0 || c == 0 || nums == null || nums.length == 0 || nums[0].length == 0) {
+    public int[][] matrixReshape(int[][] mat, int r, int c) {
+        if (mat == null || mat.length == 0 || mat[0].length == 0) {
             return null;
         }
-        if (r * c != nums.length * nums[0].length) {
-            return nums;
+        if (mat.length * mat[0].length != r * c) {
+            return mat;
         }
         int index = 0;
-        int[][] ans = new int[r][c];
-        for (int i = 0; i < nums.length; ++i) {
-            for (int j = 0; j < nums[0].length; ++j) {
-                ans[index / c][index % c] = nums[i][j];
+        int[][] res = new int[r][c];
+        for (int i =0; i < mat.length;++i) {
+            for (int j = 0; j < mat[0].length;++j) {
+                res[index / c][index % c] = mat[i][j];
                 ++index;
             }
         }
-        return ans;
+        return res;
 
     }
 
