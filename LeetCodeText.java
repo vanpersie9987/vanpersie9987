@@ -9038,18 +9038,17 @@ public class LeetCodeText {
     // 1535. 找出数组游戏的赢家
     public int getWinner(int[] arr, int k) {
         int winner = Math.max(arr[0], arr[1]);
-        int consecutiveWins = 1;
-        for (int i = 2; i < arr.length; ++i) {
-            if (consecutiveWins == k) {
-                return winner;
+        int cur = 1;
+        for(int i = 2; i < arr.length;++i){
+            if(cur == k){
+                break;
             }
-            if (arr[i] > winner) {
-                consecutiveWins = 1;
+            if(winner == Math.max(winner, arr[i])){
+                ++cur;
+            } else{
+                cur = 1;
                 winner = arr[i];
-            } else {
-                ++consecutiveWins;
             }
-
         }
         return winner;
 
