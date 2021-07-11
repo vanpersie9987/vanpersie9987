@@ -12076,22 +12076,22 @@ public class LeetCodeText {
     // 682. 棒球比赛
     public int calPoints(String[] ops) {
         Stack<Integer> stack = new Stack<>();
-        for (String op : ops) {
-            if ("C".equals(op)) {
+        for(String op : ops){
+            if(op.equals("C")){
                 stack.pop();
-            } else if ("D".equals(op)) {
-                stack.push(Integer.parseInt(String.valueOf(stack.peek())) * 2);
-            } else if ("+".equals(op)) {
-                int last = stack.pop();
-                int push = last + stack.peek();
-                stack.push(last);
-                stack.push(push);
-            } else {
+            } else if(op.equals("D")){
+                stack.push(stack.peek() * 2);
+            } else if(op.equals("+")){
+                int top  = stack.pop();
+                int newTop = top + stack.peek();
+                stack.push(top);
+                stack.push(newTop);
+            } else{
                 stack.push(Integer.parseInt(op));
             }
         }
-        int res = 0;
-        while (!stack.isEmpty()) {
+        int res =0 ;
+        while(!stack.isEmpty()){
             res += stack.pop();
         }
         return res;
@@ -16277,5 +16277,35 @@ public class LeetCodeText {
     public int addDigits2(int num) {
         return (num - 1) % 9 + 1;
     }
+    // 657. 机器人能否返回原点
+    public boolean judgeCircle(String moves) {
+        int x= 0;
+        int y = 0;
+        for(char move:moves.toCharArray()){
+            switch (move) {
+                case 'U':
+                ++y;
+                    break;
+                case 'D':
+                --y;
+                    
+                    break;
+                case 'L':
+                --x;
+                    
+                    break;
+                case 'R':
+                ++x;
+                    
+                    break;
+            
+                default:
+                    break;
+            }
+        }
+        return x== 0 &&  y == 0;
+
+    }
+    
 
 }
