@@ -12242,9 +12242,9 @@ public class LeetCodeText {
     public boolean validateStackSequences(int[] pushed, int[] popped) {
         Stack<Integer> stack = new Stack<>();
         int j = 0;
-        for (int push : pushed) {
+        for(int push : pushed){
             stack.push(push);
-            while (!stack.isEmpty() && popped[j] == stack.peek()) {
+            while(!stack.isEmpty() && stack.peek()  == popped[j]){
                 stack.pop();
                 ++j;
             }
