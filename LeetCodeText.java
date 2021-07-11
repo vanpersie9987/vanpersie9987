@@ -5315,94 +5315,29 @@ public class LeetCodeText {
 
     }
 
-    // 输入：当前坐标位置
-    // 输出：总和是否为奇数
-    private boolean isOddCell(int i, final int j, final int[][] indices) {
-        int count = 0;
-        for (int k = 0; k < indices.length; ++k) {
-            if (indices[k][0] == i) {
-                ++count;
-            }
-            if (indices[k][1] == j) {
-                ++count;
-            }
-        }
-        return count % 2 == 1;
-    }
-
-    // 未超时 暴力法
-    public int oddCells2(final int n, final int m, final int[][] indices) {
-        int count = 0;
-        if (n == 0 || m == 0) {
-            return count;
-        }
-        final int[][] array = new int[n][m];
-        for (int i = 0; i < indices.length; ++i) {
-            final int r = indices[i][0];
-            final int c = indices[i][1];
-            // r行自增1
-            for (int j = 0; j < m; ++j) {
-                ++array[r][j];
-            }
-            // c列自增1
-            for (int k = 0; k < n; ++k) {
-                ++array[k][c];
-            }
-        }
-        for (int i = 0; i < array.length; ++i) {
-            for (int j = 0; j < array[0].length; ++j) {
-                if (array[i][j] % 2 == 1) {
-                    ++count;
-                }
-            }
-        }
-        return count;
-    }
-
-    // 辅助数组 分别统计行和列
-    public int oddCells3(final int n, final int m, final int[][] indices) {
-        int count = 0;
-        if (n == 0 || m == 0) {
-            return count;
-        }
-        final int[] r = new int[n];
-        final int[] c = new int[m];
-        for (int i = 0; i < indices.length; ++i) {
-            ++r[indices[i][0]];
-            ++c[indices[i][1]];
-        }
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < m; ++j) {
-                if ((r[i] + c[j]) % 2 == 1) {
-                    ++count;
-                }
-            }
-        }
-        return count;
-
-    }
-
+    // 1252. 奇数值单元格的数目
     // 利用 奇数 + 偶数 = 奇数 的特性
-    public int oddCells4(final int n, final int m, final int[][] indices) {
-        int[] rCount = new int[m];
-        int[] cCount = new int[n];
-        for (int[] indice : indices) {
-            ++rCount[indice[0]];
-            ++cCount[indice[1]];
+    public int oddCells4(int m, int n, int[][] indices) {
+        int[] rows = new int[m];
+        int[] cols = new int[n];
+        for(int[] indice : indices){
+            ++rows[indice[0]];
+            ++cols[indice[1]];
         }
-        int oddR = 0;
-        int oddC = 0;
-        for (int count : rCount) {
-            if (count % 2 == 1) {
-                ++oddR;
+        int rowOdds = 0;
+        int colOdds = 0;
+        for(int row : rows){
+            if(row % 2 == 1){
+                ++rowOdds;
             }
         }
-        for (int count : cCount) {
-            if (count % 2 == 1) {
-                ++oddC;
+        for(int col : cols){
+            if(col % 2 == 1){
+                ++colOdds;
             }
         }
-        return oddR * (n - oddC) + oddC * (m - oddR);
+        return rowOdds * (n - colOdds) + colOdds * (m - rowOdds);
+
     }
 
     // 1260. 二维网格迁移
