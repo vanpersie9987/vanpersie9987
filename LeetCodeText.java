@@ -15908,14 +15908,14 @@ public class LeetCodeText {
     // 1518. 换酒问题
     public int numWaterBottles(int numBottles, int numExchange) {
         int res = numBottles;
-        int curBottles = numBottles;
-        while (curBottles >= numExchange) {
-            int num = curBottles / numExchange;
-            res += num;
-            curBottles = num + curBottles % numExchange;
-
+        while(numBottles >= numExchange){  
+            int exchange = numBottles / numExchange;
+            res += exchange;
+            numBottles = exchange + numBottles % numExchange;
         }
         return res;
+
+
     }
 
     // 1603. 设计停车系统
