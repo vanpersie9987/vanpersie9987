@@ -3788,27 +3788,28 @@ public class LeetCodeText {
     }
 
     // 985. 查询后的偶数和
-    public int[] sumEvenAfterQueries(final int[] A, final int[][] queries) {
+    public int[] sumEvenAfterQueries(int[] nums, int[][] queries) {
+        int[] res = new int[queries.length];
         int sum = 0;
-        int[] answer = new int[queries.length];
-        for (int i = 0; i < A.length; ++i) {
-            if (A[i] % 2 == 0) {
-                sum += A[i];
-            }
+        for(int num : nums){
+            if(num % 2 == 0){
+                sum += num;
+            }        
         }
-        for (int i = 0; i < queries.length; ++i) {
-            int val = queries[i][0];
+        for(int i =0; i < queries.length;++i){
             int index = queries[i][1];
-            if (A[index] % 2 == 0) {
-                sum -= A[index];
+            int val = queries[i][0];
+            if(nums[index] % 2 == 0){
+                sum -= nums[index];
             }
-            A[index] += val;
-            if (A[index] % 2 == 0) {
-                sum += A[index];
+            nums[index] += val;
+            if(nums[index] % 2 == 0){
+                sum += nums[index];
             }
-            answer[i] = sum;
+            res[i] = sum;
         }
-        return answer;
+        return res;
+
 
     }
 
