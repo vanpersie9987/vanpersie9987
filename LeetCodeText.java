@@ -8875,22 +8875,23 @@ public class LeetCodeText {
 
     // 1560. 圆形赛道上经过次数最多的扇区
     public List<Integer> mostVisited(int n, int[] rounds) {
-        int last = rounds[rounds.length - 1];
-        int first = rounds[0];
         List<Integer> res = new ArrayList<>();
-        if (last >= first) {
-            for (int i = first; i <= last; ++i) {
+        int start = rounds[0];
+        int end = rounds[rounds.length - 1];
+        if(end >= start){
+            for(int i = start; i <= end;++i){
                 res.add(i);
             }
-        } else {
-            for (int i = 1; i <= last; ++i) {
+        } else{
+            for(int i = 1; i <= end; ++i){
                 res.add(i);
             }
-            for (int i = first; i <= n; ++i) {
+            for(int i = start;i <= n;++i){
                 res.add(i);
             }
         }
         return res;
+
 
     }
 
