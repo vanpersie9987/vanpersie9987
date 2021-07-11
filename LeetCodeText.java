@@ -15086,30 +15086,24 @@ public class LeetCodeText {
         Stack<Integer> stack = new Stack<>();
         stack.push(n--);
         while (n > 0) {
-            // 乘法
-            if (sign % 4 == 0) {
+            if(sign % 4 == 0){
                 stack.push(stack.pop() * n);
-            }
-            // 除法
-            else if (sign % 4 == 1) {
+            } else if(sign % 4 == 1){
                 stack.push(stack.pop() / n);
-            }
-            // 加法
-            else if (sign % 4 == 2) {
+            } else if(sign % 4 == 2){
                 stack.push(n);
-            }
-            // 减法
-            else {
+            } else {
                 stack.push(-n);
             }
             ++sign;
             --n;
         }
         int res = 0;
-        while (!stack.isEmpty()) {
+        while(!stack.isEmpty()){
             res += stack.pop();
         }
         return res;
+
 
     }
 
