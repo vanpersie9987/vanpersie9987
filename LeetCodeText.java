@@ -5298,23 +5298,6 @@ public class LeetCodeText {
 
     }
 
-    // 超时
-    public int oddCells(final int n, final int m, final int[][] indices) {
-        int result = 0;
-        if (n == 0 || m == 0) {
-            return result;
-        }
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < m; ++j) {
-                if (isOddCell(i, j, indices)) {
-                    ++result;
-                }
-            }
-        }
-        return result;
-
-    }
-
     // 1252. 奇数值单元格的数目
     // 利用 奇数 + 偶数 = 奇数 的特性
     public int oddCells4(int m, int n, int[][] indices) {
