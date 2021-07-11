@@ -8482,24 +8482,25 @@ public class LeetCodeText {
     // 1409. 查询带键的排列
     public int[] processQueries(int[] queries, int m) {
         List<Integer> list = new ArrayList<>();
-        int[] res = new int[queries.length];
-        for (int i = 0; i < m; ++i) {
-            list.add(i + 1);
+        for(int i =1 ; i <= m;++i){
+            list.add(i);
         }
-        for (int i = 0; i < queries.length; ++i) {
-            int value = queries[i];
-            int index = -1;
-            for (int j = 0; j < list.size(); ++j) {
-                if (list.get(j) == value) {
-                    index = j;
+        int[] res = new int[queries.length];
+        for(int i=0; i < queries.length;++i){
+            int index = queries[i];
+            int j = 0;
+            for(; j < list.size();++j){
+                if(list.get(j) == index){
                     break;
                 }
             }
-            res[i] = index;
-            list.remove(index);
-            list.add(0, value);
+            int val = list.remove(j);
+            list.add(0,val);
+            res[i] = j;
         }
         return res;
+   
+
 
     }
 
