@@ -16285,7 +16285,7 @@ public class LeetCodeText {
     }
     // 657. 机器人能否返回原点
     public boolean judgeCircle(String moves) {
-        int x= 0;
+        int x = 0;        
         int y = 0;
         for(char move:moves.toCharArray()){
             switch (move) {
@@ -16309,7 +16309,7 @@ public class LeetCodeText {
                     break;
             }
         }
-        return x== 0 &&  y == 0;
+        return x == 0 &&  y == 0;
 
     }
     
