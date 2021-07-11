@@ -3443,23 +3443,26 @@ public class LeetCodeText {
 
     }
 
-    public int[] deckRevealedIncreasing(final int[] deck) {
-        if (deck == null || deck.length <= 1) {
+    // 950. 按递增顺序显示卡牌
+    public int[] deckRevealedIncreasing(int[] deck) {
+        if(deck == null || deck.length <= 1){
             return deck;
         }
+        Queue<Integer> queue = new LinkedList<>();
         Arrays.sort(deck);
-        final Queue<Integer> queue = new LinkedList<>();
-        for (int i = deck.length - 1; i >= 0; --i) {
-            queue.add(deck[i]);
-            if (i == 0) {
+        for(int i = deck.length-1; i >= 0;--i){
+            queue.offer(deck[i]);
+            if(i == 0){
                 break;
             }
-            queue.add(queue.poll());
+            queue.offer(queue.poll());
         }
-        for (int i = deck.length - 1; i >= 0; --i) {
-            deck[i] = queue.poll();
+        int[] res = new int[deck.length];
+        int index =deck.length-1;
+        while(!queue.isEmpty()){
+            res[index--] = queue.poll();
         }
-        return deck;
+        return res;
     }
 
     // 954. 二倍数对数组
