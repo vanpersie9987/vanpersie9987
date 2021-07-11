@@ -1662,52 +1662,57 @@ public class LeetCodeText {
         }
     }
 
-    public void gameOfLife(final int[][] board) {
-        // 1--->1 1
-        // 0--->0 0
-        // 1--->0 2
-        // 0--->1 -1
-        for (int i = 0; i < board.length; ++i) {
-            for (int j = 0; j < board[0].length; ++j) {
-                locNumber(board, i, j);
+    // 289. 生命游戏
+    public void gameOfLife(int[][] board) {
+        // 1 --> 1 1
+        // 0 --> 0 0
+        // 1 --> 0 3
+        // 0 --> 1 2
+
+        int m = board.length;
+        int n = board[0].length;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                getTransfer289(board, i, j);
             }
         }
-        for (int i = 0; i < board.length; ++i) {
-            for (int j = 0; j < board[0].length; ++j) {
-                if (board[i][j] == 1 || board[i][j] == -1) {
-                    board[i][j] = 1;
-                } else {
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (board[i][j] == 0 || board[i][j] == 3) {
                     board[i][j] = 0;
+                } else {
+                    board[i][j] = 1;
                 }
             }
         }
+
     }
 
-    private void locNumber(int[][] board, int i, int j) {
+    private void getTransfer289(int[][] board, int i, int j) {
         int count = 0;
-        int left = Math.max(j - 1, 0);
-        int right = Math.min(j + 1, board[0].length - 1);
         int top = Math.max(i - 1, 0);
         int bottom = Math.min(i + 1, board.length - 1);
+        int left = Math.max(j - 1, 0);
+        int right = Math.min(j + 1, board[0].length - 1);
         for (int x = top; x <= bottom; ++x) {
             for (int y = left; y <= right; ++y) {
-                if (board[x][y] == 1 || board[x][y] == 2) {
+                if (board[x][y] == 1 || board[x][y] == 3) {
                     ++count;
                 }
             }
         }
         if (board[i][j] == 1) {
-            if (count < 3 || count > 4) {
-                board[i][j] = 2;
-            } else {
+            if (count == 3 || count == 4) {
                 board[i][j] = 1;
-
+            } else {
+                board[i][j] = 3;
             }
         } else {
             if (count == 3) {
-                board[i][j] = -1;
+                board[i][j] = 2;
+            } else {
+                board[i][j] = 0;
             }
-
         }
     }
 
