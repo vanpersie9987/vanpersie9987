@@ -9785,11 +9785,11 @@ public class LeetCodeText {
     // 1503. 所有蚂蚁掉下来前的最后一刻
     public int getLastMoment(int n, int[] left, int[] right) {
         int moment = 0;
-        for (int i = 0; i < left.length; ++i) {
+        for(int i = 0; i < left.length;++i){
             moment = Math.max(moment, left[i]);
         }
-        for (int i = 0; i < right.length; ++i) {
-            moment = Math.max(moment, n - right[i]);
+        for(int i =0 ; i < right.length;++i){
+            moment = Math.max(moment,n - right[i]);
         }
         return moment;
 
