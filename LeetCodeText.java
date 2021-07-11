@@ -11,6 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.sound.midi.Instrument;
+
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -10124,15 +10127,15 @@ public class LeetCodeText {
     // 1094. 拼车
     public boolean carPooling(int[][] trips, int capacity) {
         int[] diff = new int[1001];
-        for (int[] trip : trips) {
+        for(int[] trip : trips){
             diff[trip[1]] += trip[0];
             diff[trip[2]] -= trip[0];
         }
         int max = diff[0];
-        for (int i = 1; i < diff.length; ++i) {
+        for(int i = 1; i < diff.length;++i){
             diff[i] += diff[i - 1];
-            max = Math.max(max, diff[i]);
-            if (max > capacity) {
+            max = Math.max(diff[i], max);
+            if(max > capacity){
                 return false;
             }
         }
@@ -16102,19 +16105,18 @@ public class LeetCodeText {
     // 1、终点位于原点
     // 2、终点的方向与起点不同
     public boolean isRobotBounded(String instructions) {
-        int[][] directions = { { 0, 1 }, { -1, 0 }, { 0, -1 }, { 1, 0 } };
+        int[][] directions = {{0,1},{-1,0},{0,-1},{1,0}};
         int d = 0;
         int x = 0;
         int y = 0;
-        for (int i = 0; i < instructions.length(); ++i) {
-            char c = instructions.charAt(i);
-            if (c == 'G') {
+        for(char instruction : instructions.toCharArray()){
+            if(instruction == 'G'){
                 x += directions[d][0];
                 y += directions[d][1];
-            } else if (c == 'L') {
-                d = (d + 1) % directions.length;
+            } else if (instruction == 'L') {
+              d = (d - 1 + directions.length) % directions.length;
             } else {
-                d = (d - 1 + directions.length) % directions.length;
+                d = (d + 1) % directions.length;
             }
         }
         return (x == 0 && y == 0) || (d != 0);
