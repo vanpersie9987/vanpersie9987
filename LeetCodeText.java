@@ -6548,13 +6548,13 @@ public class LeetCodeText {
     }
 
     // 1389. 按既定顺序创建目标数组
-    public int[] createTargetArray(final int[] nums, final int[] index) {
-        List<Integer> list = new LinkedList<>();
-        for (int i = 0; i < index.length; ++i) {
-            list.add(index[i], nums[i]);
+    public int[] createTargetArray(int[] nums, int[] index) {
+        List<Integer> list = new ArrayList<>();
+        for(int i =0; i < index.length;++i){
+            list.add(index[i],nums[i]);
         }
         int[] res = new int[list.size()];
-        for (int i = 0; i < list.size(); ++i) {
+        for(int i =0; i < list.size();++i){
             res[i] = list.get(i);
         }
         return res;
