@@ -7469,34 +7469,18 @@ public class LeetCodeText {
 
     // 67. 二进制求和
     public String addBinary(String a, String b) {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder res = new StringBuilder();
         int indexA = a.length() - 1;
         int indexB = b.length() - 1;
-        while (indexA >= 0 || indexB >= 0) {
-            int num1 = 0;
-            int num2 = 0;
-            if (indexA >= 0) {
-                num1 = a.charAt(indexA) - '0';
-            }
-            if (indexB >= 0) {
-                num2 = b.charAt(indexB) - '0';
-            }
-            builder.append(num1 + num2);
+        int carry = 0;
+        while (indexA >= 0 || indexB >= 0 || carry != 0) {
+            int num1 = indexA >= 0 ? a.charAt(indexA) - '0' : 0;
+            int num2 = indexB >= 0 ? b.charAt(indexB) - '0' : 0;
+            carry += num1 + num2;
+            res.append(carry % 2);
+            carry /= 2;
             --indexA;
             --indexB;
-        }
-        StringBuilder res = new StringBuilder();
-        int carry = 0;
-        for (char c : builder.toString().toCharArray()) {
-            int num = c - '0' + carry;
-            carry = num / 2;
-            res.append(num % 2);
-        }
-        if (carry == 1) {
-            res.append(1);
-        }
-        if (res.charAt(res.length() - 1) == '0') {
-            return "0";
         }
         return res.reverse().toString();
 
