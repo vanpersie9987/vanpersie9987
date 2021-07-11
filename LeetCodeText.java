@@ -7986,57 +7986,22 @@ public class LeetCodeText {
         return builder.toString().trim();
     }
 
-    public String addStrings(final String num1, final String num2) {
-        final int[] res = new int[Math.max(num1.length(), num2.length()) + 1];
-        int p1 = num1.length() - 1;
-        int p2 = num2.length() - 1;
-        int p3 = res.length - 1;
-        while (p1 >= 0 || p2 >= 0) {
-            final int a1 = p1 >= 0 ? num1.charAt(p1) - '0' : 0;
-            final int a2 = p2 >= 0 ? num2.charAt(p2) - '0' : 0;
-            res[p3--] = a1 + a2;
-            if (p1 >= 0) {
-                --p1;
-            }
-            if (p2 >= 0) {
-                --p2;
-            }
-        }
-        for (int i = res.length - 1; i >= 1; --i) {
-            if (res[i] > 9) {
-                res[i - 1] += res[i] / 10;
-                res[i] = res[i] % 10;
-            }
-        }
-        final StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < res.length; ++i) {
-            if (i == 0) {
-                if (res[i] != 0) {
-                    builder.append(res[i]);
-                }
-            } else {
-                builder.append(res[i]);
-            }
-        }
-        return builder.toString();
-    }
-
-    public String addStrings2(final String num1, final String num2) {
-        final StringBuilder builder = new StringBuilder();
-        int p1 = num1.length() - 1;
-        int p2 = num2.length() - 1;
+    // 415. 字符串相加
+    public String addStrings(String num1, String num2) {
+        StringBuilder res = new StringBuilder();
         int carry = 0;
-        while (p1 >= 0 || p2 >= 0) {
-            final int a1 = p1 >= 0 ? num1.charAt(p1--) - '0' : 0;
-            final int a2 = p2 >= 0 ? num2.charAt(p2--) - '0' : 0;
-            final int temp = a1 + a2 + carry;
-            carry = temp / 10;
-            builder.append(temp % 10);
+        int n1 = num1.length() - 1;
+        int n2 = num2.length() - 1;
+        while (n1 >= 0 || n2 >= 0 || carry != 0) {
+            int cur1 = n1 >= 0 ? num1.charAt(n1) - '0' : 0;
+            int cur2 = n2 >= 0 ? num2.charAt(n2) - '0' : 0;
+            carry += cur1 + cur2;
+            res.append(carry % 10);
+            carry /= 10;
+            --n1;
+            --n2;
         }
-        if (carry == 1) {
-            builder.append(carry);
-        }
-        return builder.reverse().toString();
+        return res.reverse().toString();
 
     }
 
@@ -16016,7 +15981,6 @@ public class LeetCodeText {
             }
         }
         return res;
-
 
     }
 
