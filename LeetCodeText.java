@@ -16287,30 +16287,25 @@ public class LeetCodeText {
     public boolean judgeCircle(String moves) {
         int x = 0;        
         int y = 0;
-        for(char move:moves.toCharArray()){
+        for (char move : moves.toCharArray()) {
             switch (move) {
                 case 'U':
-                ++y;
+                    ++y;
                     break;
                 case 'D':
-                --y;
-                    
+                    --y;
                     break;
                 case 'L':
-                --x;
-                    
+                    --x;
                     break;
                 case 'R':
-                ++x;
-                    
+                    ++x;
                     break;
-            
                 default:
                     break;
             }
         }
-        return x == 0 &&  y == 0;
-
+        return x == 0 && y == 0;
     }
     
 
