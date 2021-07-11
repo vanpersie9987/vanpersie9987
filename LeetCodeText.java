@@ -8157,17 +8157,17 @@ public class LeetCodeText {
         return Math.max(a.length(), b.length());
     }
 
-    public String complexNumberMultiply(final String a, final String b) {
-        final String[] strA = a.split("\\+");
-        final String[] strB = b.split("\\+");
-        final int a1 = Integer.parseInt(strA[0]);
-        final int a2 = Integer.parseInt(strA[1].substring(0, strA[1].length() - 1));
+    // 537. 复数乘法
+    public String complexNumberMultiply(String num1, String num2) {
+        String[] strA = num1.split("\\+");
+        int a1 = Integer.parseInt(strA[0]);
+        int a2 = Integer.parseInt(strA[1].substring(0,strA[1].length() - 1));
+        String[] strB = num2.split("\\+");
+        int b1 = Integer.parseInt(strB[0]);
+        int b2 = Integer.parseInt(strB[1].substring(0,strB[1].length() - 1));
 
-        final int b1 = Integer.parseInt(strB[0]);
-        final int b2 = Integer.parseInt(strB[1].substring(0, strB[1].length() - 1));
-
-        final int res1 = a1 * b1 - a2 * b2;
-        final int res2 = a1 * b2 + a2 * b1;
+        int res1 = a1 * b1 - a2 * b2;
+        int res2 = a1 * b2 + a2 * b1;
         return res1 + "+" + res2 + "i";
     }
 
