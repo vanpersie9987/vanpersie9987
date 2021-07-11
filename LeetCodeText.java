@@ -5324,22 +5324,26 @@ public class LeetCodeText {
     }
 
     // 1260. 二维网格迁移
-    public List<List<Integer>> shiftGrid3(final int[][] grid, final int k) {
-        int[][] result = new int[grid.length][grid[0].length];
-        for (int i = 0; i < grid.length; ++i) {
-            for (int j = 0; j < grid[0].length; ++j) {
-                result[(i + (j + k) / grid[0].length) % grid.length][(j + k) % grid[0].length] = grid[i][j];
+    public List<List<Integer>> shiftGrid3(int[][] grid, int k) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] res = new int[m][n];
+        for(int i = 0; i < m ; ++i){
+            for(int j = 0; j < n ;++j){
+                int newJ = (j + k) % n;
+                int newI = (i + (j + k) / n) % m;
+                res[newI][newJ] = grid[i][j];
             }
         }
-        List<List<Integer>> res = new ArrayList<>();
-        for (int i = 0; i < result.length; ++i) {
-            List<Integer> list = new ArrayList<>();
-            for (int j = 0; j < result[0].length; ++j) {
-                list.add(result[i][j]);
+        List<List<Integer>> list = new ArrayList<>();
+        for(int i = 0; i < m; ++i){
+            List<Integer> subList = new ArrayList<>();
+            for(int j = 0; j < n; ++j){
+                subList.add(res[i][j]);
             }
-            res.add(list);
+            list.add(subList);
         }
-        return res;
+        return list;
 
     }
 
