@@ -16091,9 +16091,9 @@ public class LeetCodeText {
     public int[] distributeCandies(int candies, int num_people) {
         int[] res = new int[num_people];
         int index = 0;
-        while (candies > 0) {
+        while(candies > 0){
             res[index % num_people] += Math.min(candies, index + 1);
-            candies -= Math.min(candies, index + 1);
+            candies -= Math.min(index + 1, candies);
             ++index;
         }
         return res;
