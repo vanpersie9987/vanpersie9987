@@ -5358,28 +5358,30 @@ public class LeetCodeText {
     }
 
     // 1275. 找出井字棋的获胜者
-    public String tictactoe(final int[][] moves) {
+    public String tictactoe(int[][] moves) {
         int[] counts = new int[8];
-        for (int i = moves.length - 1; i >= 0; i -= 2) {
+        for(int i = moves.length-1; i >=0;i -= 2){
             ++counts[moves[i][0]];
             ++counts[moves[i][1] + 3];
-            if (moves[i][0] == moves[i][1]) {
+            if(moves[i][0] == moves[i][1]){
                 ++counts[6];
-            }
-            if (moves[i][0] + moves[i][1] == 2) {
+            } 
+            if(moves[i][0] + moves[i][1] == 2){
                 ++counts[7];
             }
-
-        }
-        for (int count : counts) {
-            if (count == 3) {
-                return moves.length % 2 == 1 ? "A" : "B";
+            if(counts[moves[i][0]] == 3 || counts[moves[i][1] + 3] == 3 || counts[6] == 3 || counts[7] == 3){
+                if(moves.length % 2 == 1){
+                    return "A";
+                } else{
+                    return "B";
+                }
             }
         }
-        if (moves.length == 9) {
+        if(moves.length == 9){
             return "Draw";
         }
         return "Pending";
+
 
     }
 
