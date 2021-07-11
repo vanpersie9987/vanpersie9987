@@ -12157,39 +12157,41 @@ public class LeetCodeText {
 
     // 844. 比较含退格的字符串
     public boolean backspaceCompare3(String s, String t) {
-        int sIndex = s.length() - 1;
-        int sSkip = 0;
-        int tIndex = t.length() - 1;
-        int tSkip = 0;
+        int sIndex = s.length()-1;
+        int sCount = 0; 
+        int tIndex = t.length()-1;
+        int tCount = 0;
         while (sIndex >= 0 || tIndex >= 0) {
             while (sIndex >= 0) {
-                if (s.charAt(sIndex) == '#') {
-                    ++sSkip;
+                if(s.charAt(sIndex) == '#'){
                     --sIndex;
-                } else if (sSkip > 0) {
+                    ++sCount;
+                } else if(sCount > 0){
                     --sIndex;
-                    --sSkip;
-                } else {
+                    --sCount;
+                } else{
                     break;
+                
                 }
+                
             }
             while (tIndex >= 0) {
-                if (t.charAt(tIndex) == '#') {
-                    ++tSkip;
+                if(t.charAt(tIndex) == '#'){
                     --tIndex;
-                } else if (tSkip > 0) {
+                    ++tCount;
+                } else if(tCount > 0){
                     --tIndex;
-                    --tSkip;
-                } else {
+                    --tCount;
+                } else{
                     break;
                 }
             }
-            if (sIndex >= 0 && tIndex >= 0) {
-                if (s.charAt(sIndex) != t.charAt(tIndex)) {
+            if(sIndex>= 0 && tIndex >=0){
+                if(s.charAt(sIndex) != t.charAt(tIndex)){
                     return false;
                 }
-            } else if (sIndex >= 0 || tIndex >= 0) {
-                return false;
+            } else if(sIndex >= 0 || tIndex >=0){
+                return false; 
             }
             --sIndex;
             --tIndex;
