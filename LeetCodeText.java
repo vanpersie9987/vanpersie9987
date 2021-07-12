@@ -16214,4 +16214,61 @@ public class LeetCodeText {
         return x == 0 && y == 0;
     }
 
+    // 592. 分数加减运算
+    public String fractionAddition(String expression) {
+        List<Character> sign = new ArrayList<>();
+        //不引入第一个符号 若为负号 则可能被正则表达式和谐掉
+        for (int i = 1; i < expression.length(); ++i) {
+            if (expression.charAt(i) == '+' || expression.charAt(i) == '-') {
+                sign.add(expression.charAt(i));
+            }
+        }
+        List<Integer> num = new ArrayList<>();
+        List<Integer> den = new ArrayList<>();
+        for (String sub : expression.split("\\+")) {
+            for (String subsub : sub.split("\\-")) {
+                if (subsub.length() != 0) {
+                    String[] item = subsub.split("/");
+                    num.add(Integer.parseInt(item[0]));
+                    den.add(Integer.parseInt(item[1]));
+                }
+            }
+        }
+        //这里再加入负号
+        if (expression.charAt(0) == '-') {
+            num.set(0, -num.get(0));
+        }
+        // 计算分母的最小公倍数
+        int lcm = 1;
+        for (int d : den) {
+            lcm = getLCM(lcm, d);
+        }
+        int res = lcm / den.get(0) * num.get(0);
+        for (int i = 1; i < num.size(); ++i) {
+            if (sign.get(i - 1) == '+') {
+                res += lcm / den.get(i) * num.get(i);
+            } else {
+                res -= lcm / den.get(i) * num.get(i);
+            }
+        }
+        int x = getGCD(Math.abs(res), Math.abs(lcm));
+        return (res / x) + "/" + (lcm / x);
+
+    }
+
+    // 计算最小公倍数
+    private int getLCM(int a, int b) {
+        return a * b / getGCD(a, b);
+    }
+
+    // 计算最大公约数
+    private int getGCD(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
 }
