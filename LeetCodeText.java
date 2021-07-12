@@ -16344,11 +16344,7 @@ public class LeetCodeText {
             String item = list.get(i);
             int num = 0;
             if (item.charAt(item.length() - 1) == 'x') {
-                if (item.equals("x")) {
-                    num = 1;
-                } else {
-                    num = Integer.parseInt(item.substring(0, item.length() - 1));
-                }
+                num = item.equals("x") ? 1 : Integer.parseInt(item.substring(0, item.length() - 1));
                 if ((i == 0 && string.charAt(0) == '-') || (i > 0 && sign.get(i - 1) == '-')) {
                     num = -num;
                 }
