@@ -16340,22 +16340,7 @@ public class LeetCodeText {
         // a * x + b
         int a = 0;
         int b = 0;
-        if (list.get(0).charAt(list.get(0).length() - 1) == 'x') {
-            if (list.get(0).equals("x")) {
-                a = 1;
-            } else {
-                a = Integer.parseInt(list.get(0).substring(0, list.get(0).length() - 1));
-            }
-            if (string.charAt(0) == '-') {
-                a = -a;
-            }
-        } else {
-            b = Integer.parseInt(list.get(0));
-            if (string.charAt(0) == '-') {
-                b = -b;
-            }
-        }
-        for (int i = 1; i < list.size(); ++i) {
+        for (int i = 0; i < list.size(); ++i) {
             String item = list.get(i);
             int num = 0;
             if (item.charAt(item.length() - 1) == 'x') {
@@ -16364,13 +16349,13 @@ public class LeetCodeText {
                 } else {
                     num = Integer.parseInt(item.substring(0, item.length() - 1));
                 }
-                if (sign.get(i - 1) == '-') {
+                if ((i == 0 && string.charAt(0) == '-') || (i > 0 && sign.get(i - 1) == '-')) {
                     num = -num;
                 }
                 a += num;
             } else {
                 num = Integer.parseInt(item);
-                if (sign.get(i - 1) == '-') {
+                if ((i == 0 && string.charAt(0) == '-') || (i > 0 && sign.get(i - 1) == '-')) {
                     num = -num;
                 }
                 b += num;
