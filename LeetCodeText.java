@@ -16299,4 +16299,84 @@ public class LeetCodeText {
 
     }
 
+    // 640. 求解方程
+    public String solveEquation(String equation) {
+        String[] strings = equation.split("=");
+        int[] res1 = getResult640(strings[0]);
+        int[] res2 = getResult640(strings[1]);
+        // a1 * x + b1 = a2 * x + b2;
+        int a1 = res1[0];
+        int b1 = res1[1];
+        int a2 = res2[0];
+        int b2 = res2[1];
+        int a = a1 - a2;
+        int b = b2 - b1;
+        if (a == 0) {
+            if (b == 0) {
+                return "Infinite solutions";
+            } else {
+                return "No solution";
+            }
+        }
+        return "x=" + (b / a);
+
+    }
+
+    private int[] getResult640(String string) {
+        List<String> list = new ArrayList<>();
+        List<Character> sign = new ArrayList<>();
+        for (int i = 1; i < string.length(); ++i) {
+            if (string.charAt(i) == '+' || string.charAt(i) == '-') {
+                sign.add(string.charAt(i));
+            }
+        }
+        for (String sub : string.split("\\+")) {
+            for (String subsub : sub.split("\\-")) {
+                if (subsub.length() != 0) {
+                    list.add(subsub);
+                }
+            }
+        }
+        // a * x + b
+        int a = 0;
+        int b = 0;
+        if (list.get(0).charAt(list.get(0).length() - 1) == 'x') {
+            if (list.get(0).equals("x")) {
+                a = 1;
+            } else {
+                a = Integer.parseInt(list.get(0).substring(0, list.get(0).length() - 1));
+            }
+            if (string.charAt(0) == '-') {
+                a = -a;
+            }
+        } else {
+            b = Integer.parseInt(list.get(0));
+            if (string.charAt(0) == '-') {
+                b = -b;
+            }
+        }
+        for (int i = 1; i < list.size(); ++i) {
+            String item = list.get(i);
+            int num = 0;
+            if (item.charAt(item.length() - 1) == 'x') {
+                if (item.equals("x")) {
+                    num = 1;
+                } else {
+                    num = Integer.parseInt(item.substring(0, item.length() - 1));
+                }
+                if (sign.get(i - 1) == '-') {
+                    num = -num;
+                }
+                a += num;
+            } else {
+                num = Integer.parseInt(item);
+                if (sign.get(i - 1) == '-') {
+                    num = -num;
+                }
+                b += num;
+            }
+        }
+        return new int[] { a, b };
+    }
+
 }
