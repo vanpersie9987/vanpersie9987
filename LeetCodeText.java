@@ -16217,7 +16217,7 @@ public class LeetCodeText {
     // 592. 分数加减运算
     public String fractionAddition(String expression) {
         List<Character> sign = new ArrayList<>();
-        //不引入第一个符号 若为负号 则可能被正则表达式和谐掉
+        // 不引入第一个符号 若为负号 则可能被正则表达式和谐掉
         for (int i = 1; i < expression.length(); ++i) {
             if (expression.charAt(i) == '+' || expression.charAt(i) == '-') {
                 sign.add(expression.charAt(i));
@@ -16234,7 +16234,7 @@ public class LeetCodeText {
                 }
             }
         }
-        //这里再加入负号
+        // 这里再加入负号
         if (expression.charAt(0) == '-') {
             num.set(0, -num.get(0));
         }
@@ -16269,6 +16269,34 @@ public class LeetCodeText {
             a = temp;
         }
         return a;
+    }
+
+    // 1706. 球会落何处
+    public int[] findBall(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] dp = new int[m + 1][n];
+        for (int i = 0; i < dp.length; ++i) {
+            for (int j = 0; j < dp[0].length; ++j) {
+                if (i == dp.length - 1) {
+                    dp[i][j] = j;
+                } else {
+                    dp[i][j] = -1;
+                }
+            }
+        }
+        for (int i = m - 1; i >= 0; --i) {
+            for (int j = 0; j < n; ++j) {
+                if (j - grid[i][j] < 0 || j - grid[i][j] >= n)
+                    continue;
+                if (grid[i][j] == grid[i][j - grid[i][j]]) {
+                    dp[i][j - grid[i][j]] = dp[i + 1][j];
+                }
+
+            }
+        }
+        return dp[0];
+
     }
 
 }
