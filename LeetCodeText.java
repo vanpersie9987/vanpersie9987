@@ -1832,8 +1832,6 @@ public class LeetCodeText {
 
     }
 
-
-
     // 495. 提莫攻击
     public int findPoisonedDuration(int[] timeSeries, int duration) {
         int res = 0;
@@ -1973,8 +1971,8 @@ public class LeetCodeText {
         }
         int index = 0;
         int[][] res = new int[r][c];
-        for (int i =0; i < mat.length;++i) {
-            for (int j = 0; j < mat[0].length;++j) {
+        for (int i = 0; i < mat.length; ++i) {
+            for (int j = 0; j < mat[0].length; ++j) {
                 res[index / c][index % c] = mat[i][j];
                 ++index;
             }
@@ -3448,21 +3446,21 @@ public class LeetCodeText {
 
     // 950. 按递增顺序显示卡牌
     public int[] deckRevealedIncreasing(int[] deck) {
-        if(deck == null || deck.length <= 1){
+        if (deck == null || deck.length <= 1) {
             return deck;
         }
         Queue<Integer> queue = new LinkedList<>();
         Arrays.sort(deck);
-        for(int i = deck.length-1; i >= 0;--i){
+        for (int i = deck.length - 1; i >= 0; --i) {
             queue.offer(deck[i]);
-            if(i == 0){
+            if (i == 0) {
                 break;
             }
             queue.offer(queue.poll());
         }
         int[] res = new int[deck.length];
-        int index =deck.length-1;
-        while(!queue.isEmpty()){
+        int index = deck.length - 1;
+        while (!queue.isEmpty()) {
             res[index--] = queue.poll();
         }
         return res;
@@ -3794,25 +3792,24 @@ public class LeetCodeText {
     public int[] sumEvenAfterQueries(int[] nums, int[][] queries) {
         int[] res = new int[queries.length];
         int sum = 0;
-        for(int num : nums){
-            if(num % 2 == 0){
+        for (int num : nums) {
+            if (num % 2 == 0) {
                 sum += num;
-            }        
+            }
         }
-        for(int i =0; i < queries.length;++i){
+        for (int i = 0; i < queries.length; ++i) {
             int index = queries[i][1];
             int val = queries[i][0];
-            if(nums[index] % 2 == 0){
+            if (nums[index] % 2 == 0) {
                 sum -= nums[index];
             }
             nums[index] += val;
-            if(nums[index] % 2 == 0){
+            if (nums[index] % 2 == 0) {
                 sum += nums[index];
             }
             res[i] = sum;
         }
         return res;
-
 
     }
 
@@ -5303,19 +5300,19 @@ public class LeetCodeText {
     public int oddCells4(int m, int n, int[][] indices) {
         int[] rows = new int[m];
         int[] cols = new int[n];
-        for(int[] indice : indices){
+        for (int[] indice : indices) {
             ++rows[indice[0]];
             ++cols[indice[1]];
         }
         int rowOdds = 0;
         int colOdds = 0;
-        for(int row : rows){
-            if(row % 2 == 1){
+        for (int row : rows) {
+            if (row % 2 == 1) {
                 ++rowOdds;
             }
         }
-        for(int col : cols){
-            if(col % 2 == 1){
+        for (int col : cols) {
+            if (col % 2 == 1) {
                 ++colOdds;
             }
         }
@@ -5328,17 +5325,17 @@ public class LeetCodeText {
         int m = grid.length;
         int n = grid[0].length;
         int[][] res = new int[m][n];
-        for(int i = 0; i < m ; ++i){
-            for(int j = 0; j < n ;++j){
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
                 int newJ = (j + k) % n;
                 int newI = (i + (j + k) / n) % m;
                 res[newI][newJ] = grid[i][j];
             }
         }
         List<List<Integer>> list = new ArrayList<>();
-        for(int i = 0; i < m; ++i){
+        for (int i = 0; i < m; ++i) {
             List<Integer> subList = new ArrayList<>();
-            for(int j = 0; j < n; ++j){
+            for (int j = 0; j < n; ++j) {
                 subList.add(res[i][j]);
             }
             list.add(subList);
@@ -5360,28 +5357,27 @@ public class LeetCodeText {
     // 1275. 找出井字棋的获胜者
     public String tictactoe(int[][] moves) {
         int[] counts = new int[8];
-        for(int i = moves.length-1; i >=0;i -= 2){
+        for (int i = moves.length - 1; i >= 0; i -= 2) {
             ++counts[moves[i][0]];
             ++counts[moves[i][1] + 3];
-            if(moves[i][0] == moves[i][1]){
+            if (moves[i][0] == moves[i][1]) {
                 ++counts[6];
-            } 
-            if(moves[i][0] + moves[i][1] == 2){
+            }
+            if (moves[i][0] + moves[i][1] == 2) {
                 ++counts[7];
             }
-            if(counts[moves[i][0]] == 3 || counts[moves[i][1] + 3] == 3 || counts[6] == 3 || counts[7] == 3){
-                if(moves.length % 2 == 1){
+            if (counts[moves[i][0]] == 3 || counts[moves[i][1] + 3] == 3 || counts[6] == 3 || counts[7] == 3) {
+                if (moves.length % 2 == 1) {
                     return "A";
-                } else{
+                } else {
                     return "B";
                 }
             }
         }
-        if(moves.length == 9){
+        if (moves.length == 9) {
             return "Draw";
         }
         return "Pending";
-
 
     }
 
@@ -6550,11 +6546,11 @@ public class LeetCodeText {
     // 1389. 按既定顺序创建目标数组
     public int[] createTargetArray(int[] nums, int[] index) {
         List<Integer> list = new ArrayList<>();
-        for(int i =0; i < index.length;++i){
-            list.add(index[i],nums[i]);
+        for (int i = 0; i < index.length; ++i) {
+            list.add(index[i], nums[i]);
         }
         int[] res = new int[list.size()];
-        for(int i =0; i < list.size();++i){
+        for (int i = 0; i < list.size(); ++i) {
             res[i] = list.get(i);
         }
         return res;
@@ -8092,10 +8088,10 @@ public class LeetCodeText {
     public String complexNumberMultiply(String num1, String num2) {
         String[] strA = num1.split("\\+");
         int a1 = Integer.parseInt(strA[0]);
-        int a2 = Integer.parseInt(strA[1].substring(0,strA[1].length() - 1));
+        int a2 = Integer.parseInt(strA[1].substring(0, strA[1].length() - 1));
         String[] strB = num2.split("\\+");
         int b1 = Integer.parseInt(strB[0]);
-        int b2 = Integer.parseInt(strB[1].substring(0,strB[1].length() - 1));
+        int b2 = Integer.parseInt(strB[1].substring(0, strB[1].length() - 1));
 
         int res1 = a1 * b1 - a2 * b2;
         int res2 = a1 * b2 + a2 * b1;
@@ -8482,25 +8478,23 @@ public class LeetCodeText {
     // 1409. 查询带键的排列
     public int[] processQueries(int[] queries, int m) {
         List<Integer> list = new ArrayList<>();
-        for(int i =1 ; i <= m;++i){
+        for (int i = 1; i <= m; ++i) {
             list.add(i);
         }
         int[] res = new int[queries.length];
-        for(int i=0; i < queries.length;++i){
+        for (int i = 0; i < queries.length; ++i) {
             int index = queries[i];
             int j = 0;
-            for(; j < list.size();++j){
-                if(list.get(j) == index){
+            for (; j < list.size(); ++j) {
+                if (list.get(j) == index) {
                     break;
                 }
             }
             int val = list.remove(j);
-            list.add(0,val);
+            list.add(0, val);
             res[i] = j;
         }
         return res;
-   
-
 
     }
 
@@ -8878,20 +8872,19 @@ public class LeetCodeText {
         List<Integer> res = new ArrayList<>();
         int start = rounds[0];
         int end = rounds[rounds.length - 1];
-        if(end >= start){
-            for(int i = start; i <= end;++i){
+        if (end >= start) {
+            for (int i = start; i <= end; ++i) {
                 res.add(i);
             }
-        } else{
-            for(int i = 1; i <= end; ++i){
+        } else {
+            for (int i = 1; i <= end; ++i) {
                 res.add(i);
             }
-            for(int i = start;i <= n;++i){
+            for (int i = start; i <= n; ++i) {
                 res.add(i);
             }
         }
         return res;
-
 
     }
 
@@ -9040,13 +9033,13 @@ public class LeetCodeText {
     public int getWinner(int[] arr, int k) {
         int winner = Math.max(arr[0], arr[1]);
         int cur = 1;
-        for(int i = 2; i < arr.length;++i){
-            if(cur == k){
+        for (int i = 2; i < arr.length; ++i) {
+            if (cur == k) {
                 break;
             }
-            if(winner == Math.max(winner, arr[i])){
+            if (winner == Math.max(winner, arr[i])) {
                 ++cur;
-            } else{
+            } else {
                 cur = 1;
                 winner = arr[i];
             }
@@ -9785,11 +9778,11 @@ public class LeetCodeText {
     // 1503. 所有蚂蚁掉下来前的最后一刻
     public int getLastMoment(int n, int[] left, int[] right) {
         int moment = 0;
-        for(int i = 0; i < left.length;++i){
+        for (int i = 0; i < left.length; ++i) {
             moment = Math.max(moment, left[i]);
         }
-        for(int i =0 ; i < right.length;++i){
-            moment = Math.max(moment,n - right[i]);
+        for (int i = 0; i < right.length; ++i) {
+            moment = Math.max(moment, n - right[i]);
         }
         return moment;
 
@@ -10052,15 +10045,15 @@ public class LeetCodeText {
     // 1094. 拼车
     public boolean carPooling(int[][] trips, int capacity) {
         int[] diff = new int[1001];
-        for(int[] trip : trips){
+        for (int[] trip : trips) {
             diff[trip[1]] += trip[0];
             diff[trip[2]] -= trip[0];
         }
         int max = diff[0];
-        for(int i = 1; i < diff.length;++i){
+        for (int i = 1; i < diff.length; ++i) {
             diff[i] += diff[i - 1];
             max = Math.max(diff[i], max);
-            if(max > capacity){
+            if (max > capacity) {
                 return false;
             }
         }
@@ -11993,8 +11986,8 @@ public class LeetCodeText {
         List<String> list = new ArrayList<>();
         int index = 0;
         int num = 1;
-        while(index < target.length){
-            while(target[index] != num++){
+        while (index < target.length) {
+            while (target[index] != num++) {
                 list.add("Push");
                 list.add("Pop");
             }
@@ -12008,22 +12001,22 @@ public class LeetCodeText {
     // 682. 棒球比赛
     public int calPoints(String[] ops) {
         Stack<Integer> stack = new Stack<>();
-        for(String op : ops){
-            if(op.equals("C")){
+        for (String op : ops) {
+            if (op.equals("C")) {
                 stack.pop();
-            } else if(op.equals("D")){
+            } else if (op.equals("D")) {
                 stack.push(stack.peek() * 2);
-            } else if(op.equals("+")){
-                int top  = stack.pop();
+            } else if (op.equals("+")) {
+                int top = stack.pop();
                 int newTop = top + stack.peek();
                 stack.push(top);
                 stack.push(newTop);
-            } else{
+            } else {
                 stack.push(Integer.parseInt(op));
             }
         }
-        int res =0 ;
-        while(!stack.isEmpty()){
+        int res = 0;
+        while (!stack.isEmpty()) {
             res += stack.pop();
         }
         return res;
@@ -12089,41 +12082,41 @@ public class LeetCodeText {
 
     // 844. 比较含退格的字符串
     public boolean backspaceCompare3(String s, String t) {
-        int sIndex = s.length()-1;
-        int sCount = 0; 
-        int tIndex = t.length()-1;
+        int sIndex = s.length() - 1;
+        int sCount = 0;
+        int tIndex = t.length() - 1;
         int tCount = 0;
         while (sIndex >= 0 || tIndex >= 0) {
             while (sIndex >= 0) {
-                if(s.charAt(sIndex) == '#'){
+                if (s.charAt(sIndex) == '#') {
                     --sIndex;
                     ++sCount;
-                } else if(sCount > 0){
+                } else if (sCount > 0) {
                     --sIndex;
                     --sCount;
-                } else{
+                } else {
                     break;
-                
+
                 }
-                
+
             }
             while (tIndex >= 0) {
-                if(t.charAt(tIndex) == '#'){
+                if (t.charAt(tIndex) == '#') {
                     --tIndex;
                     ++tCount;
-                } else if(tCount > 0){
+                } else if (tCount > 0) {
                     --tIndex;
                     --tCount;
-                } else{
+                } else {
                     break;
                 }
             }
-            if(sIndex>= 0 && tIndex >=0){
-                if(s.charAt(sIndex) != t.charAt(tIndex)){
+            if (sIndex >= 0 && tIndex >= 0) {
+                if (s.charAt(sIndex) != t.charAt(tIndex)) {
                     return false;
                 }
-            } else if(sIndex >= 0 || tIndex >=0){
-                return false; 
+            } else if (sIndex >= 0 || tIndex >= 0) {
+                return false;
             }
             --sIndex;
             --tIndex;
@@ -12174,9 +12167,9 @@ public class LeetCodeText {
     public boolean validateStackSequences(int[] pushed, int[] popped) {
         Stack<Integer> stack = new Stack<>();
         int j = 0;
-        for(int push : pushed){
+        for (int push : pushed) {
             stack.push(push);
-            while(!stack.isEmpty() && stack.peek()  == popped[j]){
+            while (!stack.isEmpty() && stack.peek() == popped[j]) {
                 stack.pop();
                 ++j;
             }
@@ -15014,11 +15007,11 @@ public class LeetCodeText {
         Stack<Integer> stack = new Stack<>();
         stack.push(n--);
         while (n > 0) {
-            if(sign % 4 == 0){
+            if (sign % 4 == 0) {
                 stack.push(stack.pop() * n);
-            } else if(sign % 4 == 1){
+            } else if (sign % 4 == 1) {
                 stack.push(stack.pop() / n);
-            } else if(sign % 4 == 2){
+            } else if (sign % 4 == 2) {
                 stack.push(n);
             } else {
                 stack.push(-n);
@@ -15027,11 +15020,10 @@ public class LeetCodeText {
             --n;
         }
         int res = 0;
-        while(!stack.isEmpty()){
+        while (!stack.isEmpty()) {
             res += stack.pop();
         }
         return res;
-
 
     }
 
@@ -15881,19 +15873,19 @@ public class LeetCodeText {
     public int[][] spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
         int index = 1;
         int[][] res = new int[rows * cols][2];
-        res[0] = new int[]{rStart,cStart};
-        int[][] directions = {{0,1},{1,0},{0,-1},{-1,0}};
+        res[0] = new int[] { rStart, cStart };
+        int[][] directions = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
         int x = rStart;
         int y = cStart;
         int d = 0;
         int l = 1;
-        while(index < rows * cols){
-            for(int i =0; i < l ;++i){
+        while (index < rows * cols) {
+            for (int i = 0; i < l; ++i) {
                 x += directions[d][0];
                 y += directions[d][1];
-                if(x >= 0 && y >= 0 && x < rows && y <cols){
-                    res[index++] = new int[]{x,y};
-                    if(index == rows * cols){
+                if (x >= 0 && y >= 0 && x < rows && y < cols) {
+                    res[index++] = new int[] { x, y };
+                    if (index == rows * cols) {
                         return res;
                     }
                 }
@@ -15908,13 +15900,12 @@ public class LeetCodeText {
     // 1518. 换酒问题
     public int numWaterBottles(int numBottles, int numExchange) {
         int res = numBottles;
-        while(numBottles >= numExchange){  
+        while (numBottles >= numExchange) {
             int exchange = numBottles / numExchange;
             res += exchange;
             numBottles = exchange + numBottles % numExchange;
         }
         return res;
-
 
     }
 
@@ -16016,7 +16007,7 @@ public class LeetCodeText {
     public int[] distributeCandies(int candies, int num_people) {
         int[] res = new int[num_people];
         int index = 0;
-        while(candies > 0){
+        while (candies > 0) {
             res[index % num_people] += Math.min(candies, index + 1);
             candies -= Math.min(index + 1, candies);
             ++index;
@@ -16030,16 +16021,16 @@ public class LeetCodeText {
     // 1、终点位于原点
     // 2、终点的方向与起点不同
     public boolean isRobotBounded(String instructions) {
-        int[][] directions = {{0,1},{-1,0},{0,-1},{1,0}};
+        int[][] directions = { { 0, 1 }, { -1, 0 }, { 0, -1 }, { 1, 0 } };
         int d = 0;
         int x = 0;
         int y = 0;
-        for(char instruction : instructions.toCharArray()){
-            if(instruction == 'G'){
+        for (char instruction : instructions.toCharArray()) {
+            if (instruction == 'G') {
                 x += directions[d][0];
                 y += directions[d][1];
             } else if (instruction == 'L') {
-              d = (d - 1 + directions.length) % directions.length;
+                d = (d - 1 + directions.length) % directions.length;
             } else {
                 d = (d + 1) % directions.length;
             }
@@ -16106,25 +16097,24 @@ public class LeetCodeText {
         String[] strings = s.split("\\ ");
         List<String> list = new ArrayList<>();
         int index = 0;
-        while(true){
+        while (true) {
             StringBuilder builder = new StringBuilder();
             int min = Integer.MAX_VALUE;
-            for(int i = 0 ; i < strings.length;++i){
-                if(index < strings[i].length()){
+            for (int i = 0; i < strings.length; ++i) {
+                if (index < strings[i].length()) {
                     builder.append(strings[i].charAt(index));
                     min = i + 1;
-                } else{
+                } else {
                     builder.append(" ");
                 }
             }
-            if(builder.toString().trim().length() == 0){
+            if (builder.toString().trim().length() == 0) {
                 break;
             }
-            list.add(builder.substring(0,min).toString());
+            list.add(builder.substring(0, min).toString());
             ++index;
         }
         return list;
-
 
     }
 
@@ -16203,9 +16193,10 @@ public class LeetCodeText {
     public int addDigits2(int num) {
         return (num - 1) % 9 + 1;
     }
+
     // 657. 机器人能否返回原点
     public boolean judgeCircle(String moves) {
-        int x = 0;        
+        int x = 0;
         int y = 0;
         for (char move : moves.toCharArray()) {
             switch (move) {
@@ -16227,6 +16218,5 @@ public class LeetCodeText {
         }
         return x == 0 && y == 0;
     }
-    
 
 }
