@@ -16364,9 +16364,7 @@ public class LeetCodeText {
     public int robotSim(int[] commands, int[][] obstacles) {
         Set<Long> set = new HashSet<>();
         for (int[] obstacle : obstacles) {
-            int i = obstacle[0];
-            int j = obstacle[1];
-            set.add(getTransferNum874(i, j));
+            set.add(getTransferNum874(obstacle[0], obstacle[1]));
         }
         int[][] directions = { { 0, 1 }, { -1, 0 }, { 0, -1 }, { 1, 0 } };
         int d = 0;
