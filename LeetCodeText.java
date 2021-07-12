@@ -16360,4 +16360,46 @@ public class LeetCodeText {
         return new int[] { a, b };
     }
 
+    // 874. 模拟行走机器人
+    public int robotSim(int[] commands, int[][] obstacles) {
+        Set<Long> set = new HashSet<>();
+        for (int[] obstacle : obstacles) {
+            int i = obstacle[0];
+            int j = obstacle[1];
+            set.add(getTransferNum874(i, j));
+        }
+        int[][] directions = { { 0, 1 }, { -1, 0 }, { 0, -1 }, { 1, 0 } };
+        int d = 0;
+        int res = 0;
+        int x = 0;
+        int y = 0;
+        for (int command : commands) {
+            // 右转
+            if (command == -1) {
+                d = (d + directions.length - 1) % directions.length;
+            }
+            // 左转
+            else if (command == -2) {
+                d = (d + 1) % directions.length;
+            } else {
+                int count = command;
+                while (count > 0) {
+                    if (set.contains(getTransferNum874(x + directions[d][0], y + directions[d][1]))) {
+                        break;
+                    }
+                    x += directions[d][0];
+                    y += directions[d][1];
+                    --count;
+                }
+                res = Math.max(res, x * x + y * y);
+            }
+        }
+        return res;
+
+    }
+
+    private long getTransferNum874(int i, int j) {
+        return (((long) i + 30000) << 16) + (long) j + 30000;
+    }
+
 }
