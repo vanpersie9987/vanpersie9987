@@ -5845,22 +5845,18 @@ public class LeetCodeText {
 
     // 1701. 平均等待时间
     public double averageWaitingTime3(int[][] customers) {
-        // 表示每位顾客取完餐的时间
-        long endTime = 0;
-        long waitTime = 0;
-        for (int i = 0; i < customers.length; ++i) {
-            // 上一位顾客取完餐的时刻 比当前顾客来的时刻还晚 说明当前顾客来的时候厨师在忙 则：当前顾客取完餐的时刻 = 上一位顾客离开时的更晚的时刻 +
-            // 当前顾客等待的时间
-            if (endTime > customers[i][0]) {
-                endTime += customers[i][1];
+        long waitTime = 0L;
+        long endTime = 0L;
+        for (int[] customer : customers) {
+            if (endTime > customer[0]) {
+                endTime += customer[1];
+                waitTime += endTime - customer[0];
+            } else {
+                endTime = customer[0] + customer[1];
+                waitTime += customer[1];
             }
-            // 上一位顾客取完餐的时刻 比当前顾客来的时刻早 说明当前顾客来的时候厨师空闲 则：当前顾客取完餐的时刻 = 当前顾客来的时刻 + 当前顾客等待的时间
-            else {
-                endTime = customers[i][0] + customers[i][1];
-            }
-            waitTime += endTime - customers[i][0];
         }
-        return waitTime / (double) customers.length;
+        return (double) waitTime / customers.length;
 
     }
 
