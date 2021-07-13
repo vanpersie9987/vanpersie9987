@@ -15938,16 +15938,16 @@ public class LeetCodeText {
 
     // 1860. 增长的内存泄露
     public int[] memLeak(int memory1, int memory2) {
-        int i = 1;
-        while (i <= Math.max(memory1, memory2)) {
+        int time = 1;
+        while (time <= Math.max(memory1, memory2)) {
             if (memory1 >= memory2) {
-                memory1 -= i;
+                memory1 -= time;
             } else {
-                memory2 -= i;
+                memory2 -= time;
             }
-            ++i;
+            ++time;
         }
-        return new int[] { i, memory1, memory2 };
+        return new int[] { time, memory1, memory2 };
     }
 
     // 1103. 分糖果 II
