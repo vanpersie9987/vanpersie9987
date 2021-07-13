@@ -5805,26 +5805,6 @@ public class LeetCodeText {
 
     }
 
-    // 算法正确 数据类型用int不行 得用long
-    public double averageWaitingTime(int[][] customers) {
-        int waitTime = 0;
-        for (int i = 0; i < customers.length; ++i) {
-            if (i == 0) {
-                customers[i][1] += customers[i][0];
-            } else {
-                if (customers[i - 1][1] > customers[i][0]) {
-                    customers[i][1] += customers[i - 1][1];
-                } else {
-                    customers[i][1] += customers[i][0];
-                }
-            }
-            waitTime += customers[i][1] - customers[i][0];
-
-        }
-        return (double) waitTime / (double) customers.length;
-
-    }
-
     // 1701. 平均等待时间
     public double averageWaitingTime2(int[][] customers) {
         long[] endTime = new long[customers.length];
