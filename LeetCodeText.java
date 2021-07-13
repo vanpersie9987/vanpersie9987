@@ -13252,13 +13252,14 @@ public class LeetCodeText {
             sum += cha;
         }
         long remain = k % sum;
-        for (int i = 0; i < chalk.length; ++i) {
-            if (remain < chalk[i]) {
-                return i;
+        int index = 0;
+        while (index < chalk.length) {
+            if (chalk[index] > remain) {
+                break;
             }
-            remain -= chalk[i];
+            remain -= chalk[index++];
         }
-        return -1;
+        return index;
 
     }
 
