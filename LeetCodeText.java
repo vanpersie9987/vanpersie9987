@@ -16056,7 +16056,7 @@ public class LeetCodeText {
                     builder.append(" ");
                 }
             }
-            if (builder.toString().trim().length() == 0) {
+            if (min == Integer.MAX_VALUE) {
                 break;
             }
             list.add(builder.substring(0, min).toString());
