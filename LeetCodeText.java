@@ -16386,4 +16386,17 @@ public class LeetCodeText {
         return x << 31 | y;
     }
 
+    // LCP 02. 分式化简
+    public int[] fraction(int[] cont) {
+        int num = 0;
+        int den = 1;
+        for (int i = cont.length - 1; i >= 0; --i) {
+            int temp = cont[i] * den + num;
+            num = den;
+            den = temp;
+        }
+        return new int[] { den, num };
+
+    }
+
 }
