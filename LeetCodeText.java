@@ -16353,4 +16353,37 @@ public class LeetCodeText {
         return (((long) i + 30000) << 16) + (long) j + 30000;
     }
 
+    // LCP 03. 机器人大冒险
+    public boolean robot(String command, int[][] obstacles, int x, int y) {
+        int curX = 0;
+        int curY = 0;
+        Set<Long> set = new HashSet<>();
+        for (int[] obstacle : obstacles) {
+            set.add(getRobotObstacles(obstacle[0], obstacle[1]));
+        }
+        int index = 0;
+        while (curX <= x && curY <= y) {
+            if (curX == x && curY == y) {
+                return true;
+            }
+            char c = command.charAt(index++);
+            index %= command.length();
+            if (c == 'U') {
+                ++curY;
+            } else {
+                ++curX;
+            }
+            if (set.contains(getRobotObstacles(curX, curY))) {
+                return false;
+            }
+
+        }
+        return false;
+
+    }
+
+    private long getRobotObstacles(long x, long y) {
+        return x << 31 | y;
+    }
+
 }
