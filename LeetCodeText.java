@@ -8747,10 +8747,10 @@ public class LeetCodeText {
         for (int i = 0; i < n; ++i) {
             list.add(i + 1);
         }
-        int i = 0;
+        int index = 0;
         while (list.size() != 1) {
-            i = (i + k - 1) % list.size();
-            list.remove(i);
+            index = (index + k - 1) % list.size();
+            list.remove(index);
         }
         return list.get(0);
 
