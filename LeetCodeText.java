@@ -5765,17 +5765,17 @@ public class LeetCodeText {
 
     // 1700. 无法吃午餐的学生数量
     public int countStudents(int[] students, int[] sandwiches) {
-        int[] counts = new int[2];
+        int[] stu = new int[2];
         for (int student : students) {
-            ++counts[student];
+            ++stu[student];
         }
         for (int sandwich : sandwiches) {
-            if (counts[sandwich] == 0) {
+            if (stu[sandwich] == 0) {
                 break;
             }
-            --counts[sandwich];
+            --stu[sandwich];
         }
-        return counts[0] + counts[1];
+        return stu[0] + stu[1];
 
     }
 
