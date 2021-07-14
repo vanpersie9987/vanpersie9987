@@ -16487,4 +16487,26 @@ public class LeetCodeText {
 
     }
 
+    // 1433. 检查一个字符串是否可以打破另一个字符串
+    public boolean checkIfCanBreak(String s1, String s2) {
+        char[] chars1 = s1.toCharArray();
+        char[] chars2 = s2.toCharArray();
+        Arrays.sort(chars1);
+        Arrays.sort(chars2);
+        if (getChecked(chars1, chars2) || getChecked(chars2, chars1)) {
+            return true;
+        }
+        return false;
+
+    }
+
+    private boolean getChecked(char[] chars1, char[] chars2) {
+        for (int i = 0; i < chars1.length; ++i) {
+            if (chars1[i] < chars2[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
