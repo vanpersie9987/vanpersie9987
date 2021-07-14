@@ -9081,37 +9081,6 @@ public class LeetCodeText {
         return P[endI][endJ] - P[endI][startJ - 1] - P[startI - 1][endJ] + P[startI - 1][startJ - 1];
     }
 
-    // 1806. 还原排列的最少操作步数---超时
-    public int reinitializePermutation(int n) {
-        int ans = 0;
-        int[] perm = new int[n];
-        for (int i = 0; i < n; ++i) {
-            perm[i] = i;
-        }
-        while (true) {
-            ++ans;
-            for (int i = 0; i < n; ++i) {
-                if (i % 2 == 0) {
-                    perm[i] = perm[i / 2];
-                } else {
-                    perm[i] = perm[n / 2 + (i - 1) / 2];
-                }
-            }
-            boolean flag = false;
-            for (int i = 0; i < n; ++i) {
-                if (perm[i] != i) {
-                    flag = true;
-                    break;
-                }
-            }
-            if (!flag) {
-                return ans;
-            }
-        }
-        // return ans;
-
-    }
-
     // 1738. 找出第 K 大的异或坐标值
     public int kthLargestValue(int[][] matrix, int k) {
         List<Integer> list = new ArrayList<>();
@@ -16444,6 +16413,19 @@ public class LeetCodeText {
             --c2;
         }
         return grid;
+    }
+
+    // 1806. 还原排列的最少操作步数
+    public int reinitializePermutation(int n) {
+        int ans = 1;
+        int pos = 1;
+        pos = n / 2 + (pos - 1) / 2;
+        while (pos != 1) {
+            pos = pos % 2 == 0 ? pos / 2 : n / 2 + (pos - 1) / 2;
+            ++ans;
+        }
+        return ans;
+
     }
 
 }
