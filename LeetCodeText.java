@@ -16428,4 +16428,20 @@ public class LeetCodeText {
 
     }
 
+    // 1680. 连接连续二进制数字
+    public int concatenatedBinary(int n) {
+        final int MOD = 1000000007;
+        int res = 0;
+        int shift = 0;
+
+        for (int i = 1; i <= n; ++i) {
+            if ((i & (i - 1)) == 0) {
+                ++shift;
+            }
+            res = (int) ((((long) res << shift) | i) % MOD);
+        }
+        return res;
+
+    }
+
 }
