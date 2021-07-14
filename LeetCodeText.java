@@ -16399,4 +16399,51 @@ public class LeetCodeText {
 
     }
 
+    // 1914. 循环轮转矩阵
+    public int[][] rotateGrid(int[][] grid, int k) {
+        int r1 = 0;
+        int r2 = grid.length - 1;
+        int c1 = 0;
+        int c2 = grid[0].length - 1;
+        while (r1 < r2 && c1 < c2) {
+            int count = ((r2 - r1 + 1) + (c2 - c1 + 1)) * 2 - 4;
+            int[] arr = new int[count];
+            int index = 0;
+            for (int c = c1; c <= c2; ++c) {
+                arr[index++] = grid[r1][c];
+            }
+            for (int r = r1 + 1; r <= r2; ++r) {
+                arr[index++] = grid[r][c2];
+            }
+            for (int c = c2 - 1; c >= c1; --c) {
+                arr[index++] = grid[r2][c];
+            }
+            for (int r = r2 - 1; r >= r1 + 1; --r) {
+                arr[index++] = grid[r][c1];
+            }
+            int[] res = new int[count];
+            for (int i = 0; i < count; ++i) {
+                res[(((i - k) % count) + count) % count] = arr[i];
+            }
+            index = 0;
+            for (int c = c1; c <= c2; ++c) {
+                grid[r1][c] = res[index++];
+            }
+            for (int r = r1 + 1; r <= r2; ++r) {
+                grid[r][c2] = res[index++];
+            }
+            for (int c = c2 - 1; c >= c1; --c) {
+                grid[r2][c] = res[index++];
+            }
+            for (int r = r2 - 1; r >= r1 + 1; --r) {
+                grid[r][c1] = res[index++];
+            }
+            ++r1;
+            --r2;
+            ++c1;
+            --c2;
+        }
+        return grid;
+    }
+
 }
