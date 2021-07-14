@@ -16444,4 +16444,34 @@ public class LeetCodeText {
 
     }
 
+    // 1496. 判断路径是否相交
+    public boolean isPathCrossing(String path) {
+        Set<Integer> set = new HashSet<>();
+        int x = 0;
+        int y = 0;
+        set.add(getCrossing1496(x, y));
+        for (char c : path.toCharArray()) {
+            if (c == 'N') {
+                ++y;
+            } else if (c == 'S') {
+                --y;
+            } else if (c == 'E') {
+                ++x;
+            } else {
+                --x;
+            }
+            int num = getCrossing1496(x, y);
+            if (set.contains(num)) {
+                return true;
+            }
+            set.add(num);
+        }
+        return false;
+
+    }
+
+    private int getCrossing1496(int x, int y) {
+        return x * 20001 + y;
+    }
+
 }
