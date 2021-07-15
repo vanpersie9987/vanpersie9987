@@ -16509,4 +16509,34 @@ public class LeetCodeText {
         return true;
     }
 
+    // 1599. 经营摩天轮的最大利润
+    public int minOperationsMaxProfit(int[] customers, int boardingCost, int runningCost) {
+        // 轮转次数
+        int count = 0;
+        // 最大利润
+        int maxProfit = 0;
+        // 当前利润
+        int curProfit = 0;
+        // 最大利润时对应的轮转次数
+        int res = Integer.MIN_VALUE;
+        // 当前等待的人数
+        int waitPeople = 0;
+        int i = 0;
+        while (i < customers.length || waitPeople > 0) {
+            ++count;
+            if (i < customers.length) {
+                waitPeople += customers[i];
+            }
+            curProfit += Math.min(waitPeople, 4) * boardingCost - runningCost;
+            waitPeople -= Math.min(waitPeople, 4);
+            if (curProfit > maxProfit) {
+                maxProfit = curProfit;
+                res = count;
+            }
+            ++i;
+        }
+        return maxProfit > 0 ? res : -1;
+
+    }
+
 }
