@@ -710,13 +710,11 @@ public class LeetCodeText {
             for (int r = r1 + 1; r <= r2; ++r) {
                 res[r][c2] = num++;
             }
-            if (r1 < r2 && c1 < c2) {
-                for (int c = c2 - 1; c >= c1; --c) {
-                    res[r2][c] = num++;
-                }
-                for (int r = r2 - 1; r >= r1 + 1; --r) {
-                    res[r][c1] = num++;
-                }
+            for (int c = c2 - 1; c >= c1; --c) {
+                res[r2][c] = num++;
+            }
+            for (int r = r2 - 1; r >= r1 + 1; --r) {
+                res[r][c1] = num++;
             }
             ++r1;
             --r2;
@@ -7245,7 +7243,7 @@ public class LeetCodeText {
                 res[i + j + 1] += number1 * number2;
             }
         }
-        for (int i = res.length - 1; i >= 1; --i) {
+        for (int i = res.length - 1; i >= ; --i) {
             res[i - 1] += res[i] / 10;
             res[i] %= 10;
 
