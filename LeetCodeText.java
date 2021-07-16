@@ -7245,18 +7245,16 @@ public class LeetCodeText {
                 res[i + j + 1] += number1 * number2;
             }
         }
-        for (int i = res.length - 1; i >= 0; --i) {
-            if (res[i] > 9) {
-                res[i - 1] += res[i] / 10;
-                res[i] %= 10;
-            }
+        for (int i = res.length - 1; i >= 1; --i) {
+            res[i - 1] += res[i] / 10;
+            res[i] %= 10;
+
         }
         int index = 0;
         index = res[0] == 0 ? 1 : 0;
         StringBuilder builder = new StringBuilder();
         while (index < res.length) {
-            builder.append(res[index]);
-            ++index;
+            builder.append(res[index++]);
         }
         return builder.toString();
 
@@ -16536,6 +16534,44 @@ public class LeetCodeText {
             ++i;
         }
         return maxProfit > 0 ? res : -1;
+
+    }
+
+    // 1583. 统计不开心的朋友
+    public int unhappyFriends(int n, int[][] preferences, int[][] pairs) {
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+        for (int[] pair : pairs) {
+            int index1 = pair[0];
+            int index2 = pair[1];
+            int[] preference1 = preferences[index1];
+            for (int num : preference1) {
+                if (num == index2) {
+                    break;
+                }
+                map.computeIfAbsent(index1, k -> new HashSet<>()).add(num);
+            }
+            int[] preference2 = preferences[index2];
+            for (int num : preference2) {
+                if (num == index1) {
+                    break;
+                }
+                map.computeIfAbsent(index2, k -> new HashSet<>()).add(num);
+            }
+        }
+        int res = 0;
+        for (int index : map.keySet()) {
+            Set<Integer> set = map.get(index);
+            if (set != null) {
+                for (int subIndex : set) {
+                    Set<Integer> subSet = map.get(subIndex);
+                    if (subSet != null && subSet.contains(index)) {
+                        ++res;
+                        break;
+                    }
+                }
+            }
+        }
+        return res;
 
     }
 
