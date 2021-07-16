@@ -7243,7 +7243,7 @@ public class LeetCodeText {
                 res[i + j + 1] += number1 * number2;
             }
         }
-        for (int i = res.length - 1; i >= ; --i) {
+        for (int i = res.length - 1; i >= 1; --i) {
             res[i - 1] += res[i] / 10;
             res[i] %= 10;
 
