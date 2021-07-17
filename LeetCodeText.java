@@ -16200,8 +16200,9 @@ public class LeetCodeText {
         }
         for (int i = m - 1; i >= 0; --i) {
             for (int j = 0; j < n; ++j) {
-                if (j - grid[i][j] < 0 || j - grid[i][j] >= n)
+                if (j - grid[i][j] < 0 || j - grid[i][j] >= n) {
                     continue;
+                }
                 if (grid[i][j] == grid[i][j - grid[i][j]]) {
                     dp[i][j - grid[i][j]] = dp[i + 1][j];
                 }
