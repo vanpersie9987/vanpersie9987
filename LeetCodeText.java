@@ -16043,20 +16043,18 @@ public class LeetCodeText {
 
     // 68. 文本左右对齐
     public List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> list = new ArrayList<>();
         int i = 0;
-        List<String> res = new ArrayList<>();
         while (i < words.length) {
-            int wordLength = words[i].length();
+            int curWordLen = words[i].length();
             int j = i + 1;
-            while (j < words.length && (wordLength + words[j].length() + j - i) <= maxWidth) {
-                wordLength += words[j++].length();
+            while (j < words.length && curWordLen + words[j].length() + j - i <= maxWidth) {
+                curWordLen += words[j++].length();
             }
-            // 一共的空格数
-            int whiteSpaceCount = maxWidth - wordLength;
-            // 间隔个数
-            int seperateCount = j - i - 1;
+            int sumWhiteSpace = maxWidth - curWordLen;
+            int slots = j - i - 1;
             StringBuilder builder = new StringBuilder();
-            if (j == words.length || seperateCount == 0) {
+            if (j == words.length || slots == 0) {
                 while (i < j) {
                     builder.append(words[i++]).append(" ");
                 }
@@ -16067,24 +16065,25 @@ public class LeetCodeText {
             } else {
                 while (i < j) {
                     builder.append(words[i++]);
-                    if (seperateCount > 0) {
+                    if (slots > 0) {
                         int count = 0;
-                        if (whiteSpaceCount % seperateCount == 0) {
-                            count = whiteSpaceCount / seperateCount;
+                        if (sumWhiteSpace % slots == 0) {
+                            count = sumWhiteSpace / slots;
                         } else {
-                            count = (int) Math.ceil((double) whiteSpaceCount / seperateCount);
+                            count = (int) Math.ceil((double) sumWhiteSpace / slots);
                         }
-                        whiteSpaceCount -= count;
-                        --seperateCount;
+                        sumWhiteSpace -= count;
+                        --slots;
                         while (count-- > 0) {
                             builder.append(" ");
                         }
                     }
                 }
+
             }
-            res.add(builder.toString());
+            list.add(builder.toString());
         }
-        return res;
+        return list;
     }
 
     // 258. 各位相加
