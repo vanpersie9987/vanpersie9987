@@ -15948,7 +15948,7 @@ public class LeetCodeText {
 
     }
 
-    // 498. 对角线遍历
+    // 498. 对角线遍历 (498. Diagonal Traverse)
     public int[] findDiagonalOrder(int[][] mat) {
         if (mat == null || mat.length == 0 || mat[0].length == 0) {
             return new int[] {};
