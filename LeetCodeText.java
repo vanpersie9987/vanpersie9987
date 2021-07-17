@@ -9381,17 +9381,13 @@ public class LeetCodeText {
         return spendHours <= h;
     }
 
-    // 1424.对角线遍历 II
+    // 1424.对角线遍历 II (Diagonal Traverse II)
     public int[] findDiagonalOrder(List<List<Integer>> nums) {
         int count = 0;
         Map<Integer, List<Integer>> map = new TreeMap<>();
         for (int i = 0; i < nums.size(); ++i) {
             for (int j = 0; j < nums.get(i).size(); ++j) {
-                if (!map.containsKey(i + j)) {
-                    List<Integer> list = new ArrayList<>();
-                    map.put(i + j, list);
-                }
-                map.get(i + j).add(nums.get(i).get(j));
+                map.computeIfAbsent(i + j, k -> new ArrayList<>()).add(nums.get(i).get(j));
                 ++count;
             }
         }
