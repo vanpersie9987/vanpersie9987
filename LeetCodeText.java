@@ -16689,4 +16689,19 @@ public class LeetCodeText {
 
     }
 
+    // 1876.长度为三且各字符不同的子字符串 (Substrings of Size Three with Distinct Characters)
+    public int countGoodSubstrings(String s) {
+        int res = 0;
+        int i = 2;
+        while (i < s.length()) {
+            if (s.charAt(i) != s.charAt(i - 1) && s.charAt(i - 1) != s.charAt(i - 2)
+                    && s.charAt(i) != s.charAt(i - 2)) {
+                ++res;
+            }
+            ++i;
+        }
+        return res;
+
+    }
+
 }
