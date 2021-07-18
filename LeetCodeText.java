@@ -13,6 +13,9 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.TreeSet;
+
+import org.graalvm.compiler.graph.NodeList.SubList;
 
 public class LeetCodeText {
     private int[] nums;
@@ -16622,6 +16625,40 @@ public class LeetCodeText {
 
         return res;
 
+    }
+
+    // 1356. 根据数字二进制下 1 的数目排序 (Sort Integers by The Number of 1 Bits)
+    public int[] sortByBits(int[] arr) {
+        List<List<Integer>> list = new ArrayList<>();
+        for (int i = 0; i <= 13; ++i) {
+            list.add(new LinkedList<>());
+        }
+        for (int num : arr) {
+            int count = get1BitsCount1356(num);
+            list.get(count).add(num);
+        }
+        int index = 0;
+        int[] res = new int[arr.length];
+        for (List<Integer> subList : list) {
+            Collections.sort(subList);
+            for (int num : subList) {
+                res[index++] = num;
+            }
+        }
+        return res;
+
+    }
+
+    // 统计num的二进制表示中，1的个数
+    private int get1BitsCount1356(int num) {
+        int count = 0;
+        while (num != 0) {
+            if (num % 2 == 1) {
+                ++count;
+            }
+            num /= 2;
+        }
+        return count;
     }
 
 }
