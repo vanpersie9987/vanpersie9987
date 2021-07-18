@@ -15,8 +15,6 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.graalvm.compiler.graph.NodeList.SubList;
-
 public class LeetCodeText {
     private int[] nums;
     private int target;
@@ -16731,6 +16729,26 @@ public class LeetCodeText {
                 ++res;
             }
             ++i;
+        }
+        return res;
+
+    }
+
+    // LCS 02. 完成一半题目
+    public int halfQuestions(int[] questions) {
+        int[] counts = new int[1001];
+        for (int question : questions) {
+            ++counts[question];
+        }
+        Arrays.sort(counts);
+        int res = 0;
+        int cur = 0;
+        for (int i = counts.length - 1; i >= 0; --i) {
+            if (cur >= questions.length / 2) {
+                return res;
+            }
+            ++res;
+            cur += counts[i];
         }
         return res;
 
