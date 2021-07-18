@@ -5017,14 +5017,14 @@ public class LeetCodeText {
         }
     }
 
-    // 169. 多数元素
+    // 169. 多数元素 // 剑指 Offer 39. 数组中出现次数超过一半的数字
     public int majorityElement7(final int[] nums) {
         Arrays.sort(nums);
         return nums[nums.length / 2];
 
     }
 
-    // 169. 多数元素
+    // 169. 多数元素 // 剑指 Offer 39. 数组中出现次数超过一半的数字
     public int majorityElement6(final int[] nums) {
         int count = 0;
         int majority = nums[0];
