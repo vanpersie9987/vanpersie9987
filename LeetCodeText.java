@@ -16604,4 +16604,24 @@ public class LeetCodeText {
 
     }
 
+    // 1221. 分割平衡字符串 (Split a String in Balanced Strings)
+    public int balancedStringSplit(String s) {
+        int res = 0;
+        int L = 0;
+        int R = 0;
+        for (char c : s.toCharArray()) {
+            if (c == 'L') {
+                ++L;
+            } else {
+                ++R;
+            }
+            if (L == R) {
+                ++res;
+            }
+        }
+
+        return res;
+
+    }
+
 }
