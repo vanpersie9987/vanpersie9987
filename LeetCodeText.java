@@ -7824,17 +7824,18 @@ public class LeetCodeText {
         return true;
     }
 
-    public int firstUniqChar(final String s) {
-        final int[] counts = new int[26];
-        for (int i = 0; i < s.length(); ++i) {
-            ++counts[s.charAt(i) - 'a'];
+    // 剑指 Offer 50. 第一个只出现一次的字符
+    public char firstUniqChar(String s) {
+        int[] counts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++counts[c - 'a'];
         }
-        for (int i = 0; i < s.length(); ++i) {
-            if (counts[s.charAt(i) - 'a'] == 1) {
-                return i;
+        for (char c : s.toCharArray()) {
+            if (counts[c - 'a'] == 1) {
+                return c;
             }
         }
-        return -1;
+        return ' ';
     }
 
     public String reverseWords2(final String s) {
@@ -16703,5 +16704,4 @@ public class LeetCodeText {
         return res;
 
     }
-
 }
