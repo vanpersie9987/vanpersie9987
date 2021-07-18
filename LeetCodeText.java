@@ -7838,6 +7838,37 @@ public class LeetCodeText {
         return ' ';
     }
 
+    // 剑指 Offer 50. 第一个只出现一次的字符
+    public char firstUniqChar2(String s) {
+        Queue<Pair_Offer50> queue = new LinkedList<>();
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); ++i) {
+            char c = s.charAt(i);
+            if (!map.containsKey(c)) {
+                map.put(c, i);
+                queue.offer(new Pair_Offer50(c, i));
+            } else {
+                map.put(c, -1);
+                while (!queue.isEmpty() && map.get(queue.peek().c) == -1) {
+                    queue.poll();
+                }
+            }
+        }
+        return queue.isEmpty() ? ' ' : queue.poll().c;
+
+    }
+
+    public class Pair_Offer50 {
+        public char c;
+        public int pos;
+
+        public Pair_Offer50(char c, int pos) {
+            this.c = c;
+            this.pos = pos;
+        }
+
+    }
+
     public String reverseWords2(final String s) {
         final String[] strs = s.trim().split(" ");
         final StringBuilder builder = new StringBuilder();
