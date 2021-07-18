@@ -16661,4 +16661,32 @@ public class LeetCodeText {
         return count;
     }
 
+    // 1356. 根据数字二进制下 1 的数目排序 (Sort Integers by The Number of 1 Bits) (递推预处理)
+    public int[] sortByBits2(int[] arr) {
+        int[] counts = new int[10001];
+        for (int i = 1; i < counts.length; ++i) {
+            counts[i] = counts[i >> 1] + (i & 1);
+        }
+        List<Integer> list = new ArrayList<>();
+        for (int num : arr) {
+            list.add(num);
+        }
+        Collections.sort(list, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                if (counts[o1] == counts[o2]) {
+                    return o1 - o2;
+                }
+                return counts[o1] - counts[o2];
+            }
+        });
+        int[] res = new int[arr.length];
+        for (int i = 0; i < list.size(); ++i) {
+            res[i] = list.get(i);
+        }
+        return res;
+
+    }
+
 }
