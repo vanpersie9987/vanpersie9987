@@ -16753,4 +16753,31 @@ public class LeetCodeText {
         return res;
 
     }
+
+    // 1370. 上升下降字符串 (Increasing Decreasing String)
+    public String sortString(String s) {
+        int[] counts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++counts[c - 'a'];
+        }
+        StringBuilder res = new StringBuilder();
+        while (res.length() < s.length()) {
+            for (int i = 0; i < counts.length; ++i) {
+                if (counts[i] > 0) {
+                    --counts[i];
+                    res.append((char) (i + 'a'));
+                }
+            }
+            for (int i = counts.length - 1; i >= 0; --i) {
+                if (counts[i] > 0) {
+                    --counts[i];
+                    res.append((char) (i + 'a'));
+                }
+            }
+
+        }
+        return res.toString();
+
+    }
+
 }
