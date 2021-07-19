@@ -16780,4 +16780,55 @@ public class LeetCodeText {
 
     }
 
+    // 1790.仅执行一次字符串交换能否使两个字符串相等 (Check if One String Swap Can Make Strings Equal)
+    public boolean areAlmostEqual(String s1, String s2) {
+        int[] counts = new int[26];
+        for (char c : s1.toCharArray()) {
+            ++counts[c - 'a'];
+        }
+        for (char c : s2.toCharArray()) {
+            --counts[c - 'a'];
+        }
+        for (int count : counts) {
+            if (count != 0) {
+                return false;
+            }
+        }
+        int diff = 0;
+        for (int i = 0; i < s1.length(); ++i) {
+            if (s2.charAt(i) != s1.charAt(i)) {
+                if (++diff > 2) {
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }
+
+    // 1790.仅执行一次字符串交换能否使两个字符串相等 (Check if One String Swap Can Make Strings Equal)
+    public boolean areAlmostEqual2(String s1, String s2) {
+        int diff = 0;
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < s1.length(); ++i) {
+            if (stack.isEmpty() && s1.charAt(i) != s2.charAt(i)) {
+                stack.push(s1.charAt(i));
+                stack.push(s2.charAt(i));
+                continue;
+            }
+            if (s1.charAt(i) != s2.charAt(i)) {
+                if (stack.pop() != s1.charAt(i)) {
+                    return false;
+                }
+                if (stack.pop() != s2.charAt(i)) {
+                    return false;
+                }
+                if (++diff > 1) {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+
 }
