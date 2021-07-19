@@ -1463,15 +1463,15 @@ public class LeetCodeText {
     }
 
     // 229. 求众数 II
-    public static List<Integer> majorityElement3(final int[] nums) {
+    public static List<Integer> majorityElement3(int[] nums) {
         int majorityA = nums[0];
-        int majorityB = nums[0];
         int countA = 0;
+        int majorityB = nums[0];
         int countB = 0;
         for (int i = 0; i < nums.length; ++i) {
-            if (nums[i] == majorityA) {
+            if (majorityA == nums[i]) {
                 ++countA;
-            } else if (nums[i] == majorityB) {
+            } else if (majorityB == nums[i]) {
                 ++countB;
             } else {
                 if (countA == 0) {
@@ -1488,19 +1488,18 @@ public class LeetCodeText {
         }
         countA = 0;
         countB = 0;
-        for (int i = 0; i < nums.length; ++i) {
-            if (nums[i] == majorityA) {
+        for (int num : nums) {
+            if (num == majorityA) {
                 ++countA;
-            } else if (nums[i] == majorityB) {
+            } else if (num == majorityB) {
                 ++countB;
             }
         }
-
         List<Integer> res = new ArrayList<>();
-        if (countA > nums.length / 3) {
+        if (countA * 3 > nums.length) {
             res.add(majorityA);
         }
-        if (countB > nums.length / 3) {
+        if (countB * 3 > nums.length) {
             res.add(majorityB);
         }
         return res;
@@ -16847,6 +16846,25 @@ public class LeetCodeText {
         min = Math.max(min, 1);
         return min <= k && k <= max;
 
+    }
+
+    // 1897. 重新分配字符使所有字符串都相等 (Redistribute Characters to Make All Strings Equal)
+    public boolean makeEqual(String[] words) {
+        int[] counts = new int[26];
+        for (String word : words) {
+            for (char c : word.toCharArray()) {
+                ++counts[c - 'a'];
+            }
+        }
+        for (int count : counts) {
+            if (count != 0) {
+                if (count % words.length != 0) {
+                    return false;
+                }
+
+            }
+        }
+        return true;
     }
 
 }
