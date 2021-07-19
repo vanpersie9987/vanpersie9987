@@ -13128,20 +13128,20 @@ public class LeetCodeText {
     public String getHint2(String secret, String guess) {
         int[] counts = new int[10];
         int bulls = 0;
-        int bullsAndCows = 0;
         for (int i = 0; i < secret.length(); ++i) {
             if (secret.charAt(i) == guess.charAt(i)) {
                 ++bulls;
             }
             ++counts[secret.charAt(i) - '0'];
         }
-        for (int i = 0; i < guess.length(); ++i) {
-            if (counts[guess.charAt(i) - '0'] > 0) {
-                --counts[guess.charAt(i) - '0'];
+        int bullsAndCows = 0;
+        for (char c : guess.toCharArray()) {
+            if (counts[c - '0']-- > 0) {
                 ++bullsAndCows;
             }
         }
-        return bulls + "A" + (bullsAndCows - bulls) + "B";
+        int cows = bullsAndCows - bulls;
+        return bulls + "A" + cows + "B";
 
     }
 
