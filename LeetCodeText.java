@@ -16831,4 +16831,22 @@ public class LeetCodeText {
         return stack.isEmpty();
     }
 
+    // 1400. 构造 K 个回文字符串 (Construct K Palindrome Strings)
+    public boolean canConstruct(String s, int k) {
+        int max = s.length();
+        int[] counts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++counts[c - 'a'];
+        }
+        int min = 0;
+        for (int count : counts) {
+            if (count % 2 == 1) {
+                ++min;
+            }
+        }
+        min = Math.max(min, 1);
+        return min <= k && k <= max;
+
+    }
+
 }
