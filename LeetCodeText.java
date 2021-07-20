@@ -14578,7 +14578,7 @@ public class LeetCodeText {
 
     }
 
-    // 451. 根据字符出现频率排序
+    // 451. 根据字符出现频率排序 (Sort Characters By Frequency)
     public String frequencySort(String s) {
         Map<Character, Integer> map = new HashMap<>();
         for (char c : s.toCharArray()) {
@@ -14589,18 +14589,19 @@ public class LeetCodeText {
 
             @Override
             public int compare(Map.Entry<Character, Integer> o1, Map.Entry<Character, Integer> o2) {
+                if (o1.getValue() == o2.getValue()) {
+                    return o1.getKey() - o2.getKey();
+                }
                 return o2.getValue() - o1.getValue();
             }
         });
-        StringBuilder res = new StringBuilder();
-        for (Map.Entry<Character, Integer> item : list) {
-            char key = item.getKey();
-            int val = item.getValue();
-            for (int i = 0; i < val; ++i) {
-                res.append(key);
+        StringBuilder builder = new StringBuilder();
+        for (Map.Entry<Character, Integer> entry : list) {
+            for (int i = 0; i < entry.getValue(); ++i) {
+                builder.append(entry.getKey());
             }
         }
-        return res.toString();
+        return builder.toString();
 
     }
 
