@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -14634,7 +14635,7 @@ public class LeetCodeText {
 
     // 347. 前 K 个高频元素
     public int[] topKFrequent(int[] nums, int k) {
-        // key:元素 value:频率
+        // key--元素 value--频率
         Map<Integer, Integer> map = new HashMap<>();
         for (int num : nums) {
             map.put(num, map.getOrDefault(num, 0) + 1);
@@ -14646,10 +14647,9 @@ public class LeetCodeText {
             public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
                 return o2.getValue() - o1.getValue();
             }
-
         });
         int[] res = new int[k];
-        for (int i = 0; i < k; ++i) {
+        for (int i = 0; i < res.length; ++i) {
             res[i] = list.get(i).getKey();
         }
         return res;
