@@ -14626,7 +14626,8 @@ public class LeetCodeText {
         });
         StringBuilder res = new StringBuilder();
         for (char c : list) {
-            for (int i = 0; i < counts[c]; ++i) {
+            int count = counts[c];
+            for (int i = 0; i < count; ++i) {
                 res.append(c);
             }
         }
