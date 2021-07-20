@@ -7808,16 +7808,16 @@ public class LeetCodeText {
 
     }
 
-    public boolean canConstruct(final String ransomNote, final String magazine) {
-        final int[] counts = new int[26];
-        for (int i = 0; i < magazine.length(); ++i) {
-            ++counts[magazine.charAt(i) - 'a'];
+    // 383. 赎金信 (Ransom Note)
+    public boolean canConstruct(String ransomNote, String magazine) {
+        int[] counts = new int[26];
+        for (char c : magazine.toCharArray()) {
+            ++counts[c - 'a'];
         }
-        for (int i = 0; i < ransomNote.length(); ++i) {
-            if (counts[ransomNote.charAt(i) - 'a'] == 0) {
+        for (char c : ransomNote.toCharArray()) {
+            if (counts[c - 'a']-- <= 0) {
                 return false;
             }
-            --counts[ransomNote.charAt(i) - 'a'];
         }
         return true;
     }
@@ -14633,7 +14633,7 @@ public class LeetCodeText {
 
     }
 
-    // 347. 前 K 个高频元素
+    // 347. 前 K 个高频元素 (Top K Frequent Elements)
     public int[] topKFrequent(int[] nums, int k) {
         // key--元素 value--频率
         Map<Integer, Integer> map = new HashMap<>();
