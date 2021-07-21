@@ -2125,20 +2125,19 @@ public class LeetCodeText {
 
     }
 
-    // 621. 任务调度器
-    public int leastInterval(final char[] tasks, final int n) {
+    // 621. 任务调度器 (Task Scheduler)
+    public int leastInterval(char[] tasks, int n) {
         int[] counts = new int[26];
         for (char task : tasks) {
             ++counts[task - 'A'];
         }
         Arrays.sort(counts);
         int max = counts[25] - 1;
-        int slots = n * max;
+        int slots = max * n;
         for (int i = counts.length - 2; i >= 0; --i) {
-            slots -= Math.min(counts[i], max);
+            slots -= Math.min(max, counts[i]);
         }
-        return slots >= 0 ? slots + tasks.length : tasks.length;
-
+        return slots > 0 ? tasks.length + slots : tasks.length;
     }
 
     // 628. 三个数的最大乘积
