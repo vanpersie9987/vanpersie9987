@@ -14656,7 +14656,7 @@ public class LeetCodeText {
         return res;
     }
 
-    // 692. 前K个高频单词
+    // 692. 前K个高频单词 (Top K Frequent Words)
     public List<String> topKFrequent(String[] words, int k) {
         Map<String, Integer> map = new HashMap<>();
         for (String word : words) {
@@ -16836,6 +16836,42 @@ public class LeetCodeText {
             }
         }
         return true;
+    }
+
+    // 767. 重构字符串 (Reorganize String)
+    public String reorganizeString(String s) {
+        int[] counts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++counts[c - 'a'];
+        }
+        int maxIndex = 0;
+        int maxCount = 0;
+        for (int i = 0; i < counts.length; ++i) {
+            if (counts[i] > maxCount) {
+                maxIndex = i;
+                maxCount = counts[i];
+            }
+            if (maxCount > (s.length() + 1) / 2) {
+                return "";
+            }
+        }
+        int index = 0;
+        char[] res = new char[s.length()];
+        while (counts[maxIndex]-- > 0) {
+            res[index] = (char) (maxIndex + 'a');
+            index += 2;
+        }
+        for (int i = 0; i < counts.length; ++i) {
+            while (counts[i]-- > 0) {
+                if (index >= res.length) {
+                    index = 1;
+                }
+                res[index] = (char) (i + 'a');
+                index += 2;
+            }
+        }
+        return new String(res);
+
     }
 
 }
