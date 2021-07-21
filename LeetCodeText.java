@@ -16874,4 +16874,35 @@ public class LeetCodeText {
 
     }
 
+    // 1781. 所有子字符串美丽值之和 (Sum of Beauty of All Substrings) 暴力法
+    public int beautySum(String s) {
+        int res = 0;
+        for (int i = 0; i < s.length(); ++i) {
+            for (int j = i + 1; j < s.length(); ++j) {
+                int[] counts = new int[26];
+                for (int k = i; k <= j; ++k) {
+                    ++counts[s.charAt(k) - 'a'];
+                }
+
+                int min = Integer.MAX_VALUE;
+                int max = Integer.MIN_VALUE;
+                for (int k = 0; k < counts.length; ++k) {
+                    if (counts[k] == 0) {
+                        continue;
+                    }
+                    if (counts[k] > max) {
+                        max = counts[k];
+                    }
+                    if (counts[k] < min) {
+                        min = counts[k];
+                    }
+                }
+                res += max - min;
+
+            }
+        }
+        return res;
+
+    }
+
 }
