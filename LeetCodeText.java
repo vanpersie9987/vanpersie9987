@@ -15611,9 +15611,9 @@ public class LeetCodeText {
 
     // 869. 重新排序得到 2 的幂
     public boolean reorderedPowerOf2(int n) {
-        int[] A = getCount(n);
+        int[] A = getCount869(n);
         for (int i = 0; i < 31; ++i) {
-            if (Arrays.equals(A, getCount(1 << i))) {
+            if (Arrays.equals(A, getCount869(1 << i))) {
                 return true;
             }
         }
@@ -15621,9 +15621,9 @@ public class LeetCodeText {
 
     }
 
-    private int[] getCount(int n) {
+    private int[] getCount869(int n) {
         int[] counts = new int[10];
-        while (n != 0) {
+        while (n > 0) {
             ++counts[n % 10];
             n /= 10;
         }
