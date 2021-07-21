@@ -14672,7 +14672,6 @@ public class LeetCodeText {
                 }
                 return o2.getValue() - o1.getValue();
             }
-
         });
         List<String> res = new ArrayList<>();
         for (int i = 0; i < k; ++i) {
