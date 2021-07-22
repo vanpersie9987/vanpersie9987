@@ -5014,24 +5014,33 @@ public class LeetCodeText {
         }
     }
 
-    // 169. 多数元素 // 剑指 Offer 39. 数组中出现次数超过一半的数字
+    // 169. 多数元素 // 剑指 Offer 39. 数组中出现次数超过一半的数字 // 面试题 17.10. Find Majority Element
+    // LCCI
     public int majorityElement7(final int[] nums) {
         Arrays.sort(nums);
         return nums[nums.length / 2];
 
     }
 
-    // 169. 多数元素 // 剑指 Offer 39. 数组中出现次数超过一半的数字
-    public int majorityElement6(final int[] nums) {
+    // 169. 多数元素 // 剑指 Offer 39. 数组中出现次数超过一半的数字 // 面试题 17.10. Find Majority Element
+    // LCCI
+    public int majorityElement6(int[] nums) {
         int count = 0;
-        int majority = nums[0];
-        for (int i = 0; i < nums.length; ++i) {
+        int majorityNum = nums[0];
+        for (int num : nums) {
             if (count == 0) {
-                majority = nums[i];
+                majorityNum = num;
             }
-            count += nums[i] == majority ? 1 : -1;
+            count += majorityNum == num ? 1 : -1;
         }
-        return majority;
+        // 面试题 17.10可能不能保证超过一半的数字一定存在，需要检查该数字是否存在
+        count = 0;
+        for (int num : nums) {
+            if (num == majorityNum) {
+                ++count;
+            }
+        }
+        return count * 2 > nums.length ? majorityNum : -1;
 
     }
 
