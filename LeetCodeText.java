@@ -14691,78 +14691,68 @@ public class LeetCodeText {
 
     }
 
-    // 面试题 17.07. 婴儿名字
+    // 面试题 17.07. 婴儿名字 (Baby Names LCCI)
     public String[] trulyMostPopular(String[] names, String[] synonyms) {
+        int index = 0;
         Map<String, Integer> nameToIndex = new HashMap<>();
-        Map<String, Integer> nameToFreq = new HashMap<>();
-        int i = 0;
-        while (i < names.length) {
-            int split = names[i].indexOf("(");
-            String name = names[i].substring(0, split);
-            int count = Integer.parseInt(names[i].substring(split + 1, names[i].length() - 1));
-            nameToIndex.put(name, i);
-            nameToFreq.put(name, count);
-            ++i;
+        Map<String, Integer> nameToCount = new HashMap<>();
+        for (String name : names) {
+            String[] split = name.split("\\(");
+            nameToIndex.put(split[0], index++);
+            nameToCount.put(split[0], Integer.parseInt(split[1].substring(0, split[1].length() - 1)));
         }
         for (String synonym : synonyms) {
-            int split = synonym.indexOf(",");
-            String s1 = synonym.substring(1, split);
-            String s2 = synonym.substring(split + 1, synonym.length() - 1);
-            if (!nameToIndex.containsKey(s1)) {
-                nameToIndex.put(s1, i++);
-                nameToFreq.put(s1, 0);
+            String[] split = synonym.split(",");
+            String name1 = split[0].substring(1);
+            if (!nameToIndex.containsKey(name1)) {
+                nameToIndex.put(name1, index++);
+                nameToCount.put(name1, 0);
             }
-            if (!nameToIndex.containsKey(s2)) {
-                nameToIndex.put(s2, i++);
-                nameToFreq.put(s2, 0);
+            String name2 = split[1].substring(0, split[1].length() - 1);
+            if (!nameToIndex.containsKey(name2)) {
+                nameToIndex.put(name2, index++);
+                nameToCount.put(name2, 0);
             }
         }
-        Union17_07 union = new Union17_07(i);
-
+        Union17_07 union = new Union17_07(index);
         for (String synonym : synonyms) {
-            int split = synonym.indexOf(",");
-            String s1 = synonym.substring(1, split);
-            String s2 = synonym.substring(split + 1, synonym.length() - 1);
-            union.union(nameToIndex.get(s1), nameToIndex.get(s2));
-
+            String[] split = synonym.split(",");
+            String name1 = split[0].substring(1);
+            String name2 = split[1].substring(0, split[1].length() - 1);
+            union.union(nameToIndex.get(name1), nameToIndex.get(name2));
         }
-        // key:rootIndex val:name列表
         Map<Integer, List<String>> rootToNames = new HashMap<>();
         for (Map.Entry<String, Integer> entry : nameToIndex.entrySet()) {
             String name = entry.getKey();
-            int index = entry.getValue();
-            int root = union.getRoot(index);
+            int i = entry.getValue();
+            int root = union.getRoot(i);
             rootToNames.computeIfAbsent(root, k -> new ArrayList<>()).add(name);
         }
-        if (rootToNames.isEmpty()) {
-            return new String[] {};
-        }
         String[] res = new String[rootToNames.size()];
-        int index = 0;
+        int resIndex = 0;
         for (List<String> list : rootToNames.values()) {
-            int minNameIndex = 0;
             int count = 0;
+            int minIndex = 0;
             for (int j = 0; j < list.size(); ++j) {
-                if (list.get(j).compareTo(list.get(minNameIndex)) < 0) {
-                    minNameIndex = j;
+                String name = list.get(j);
+                count += nameToCount.get(name);
+                if (name.compareTo(list.get(minIndex)) < 0) {
+                    minIndex = j;
                 }
-                count += nameToFreq.get(list.get(j));
             }
-            StringBuilder subRes = new StringBuilder();
-            subRes.append(list.get(minNameIndex)).append("(").append(count).append(")");
-            res[index++] = subRes.toString();
+            res[resIndex++] = list.get(minIndex) + "(" + count + ")";
         }
         return res;
 
     }
 
     public class Union17_07 {
-        private int[] rank;
         private int[] parent;
+        private int[] rank;
 
         public Union17_07(int n) {
-            rank = new int[n];
             parent = new int[n];
+            rank = new int[n];
             Arrays.fill(rank, 1);
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
