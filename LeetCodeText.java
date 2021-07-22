@@ -8497,21 +8497,22 @@ public class LeetCodeText {
 
     }
 
+    // 面试题 16.24. 数对和 (Pairs With Sum LCCI)
     public List<List<Integer>> pairSums(int[] nums, int target) {
         List<List<Integer>> res = new ArrayList<>();
         Arrays.sort(nums);
         int left = 0;
         int right = nums.length - 1;
         while (left < right) {
-            int temp = nums[left] + nums[right];
-            if (temp == target) {
+            int sum = nums[left] + nums[right];
+            if (sum == target) {
                 res.add(Arrays.asList(nums[left], nums[right]));
                 ++left;
                 --right;
-            } else if (temp > target) {
-                --right;
-            } else {
+            } else if (sum < target) {
                 ++left;
+            } else {
+                --right;
             }
         }
         return res;
