@@ -7823,31 +7823,31 @@ public class LeetCodeText {
 
     // 剑指 Offer 50. 第一个只出现一次的字符
     public char firstUniqChar2(String s) {
-        Queue<Pair_Offer50> queue = new LinkedList<>();
+        // character // position
         Map<Character, Integer> map = new HashMap<>();
+        Queue<Pair_Offer_30> queue = new LinkedList<>();
         for (int i = 0; i < s.length(); ++i) {
-            char c = s.charAt(i);
-            if (!map.containsKey(c)) {
-                map.put(c, i);
-                queue.offer(new Pair_Offer50(c, i));
+            if (!map.containsKey(s.charAt(i))) {
+                map.put(s.charAt(i), i);
+                queue.offer(new Pair_Offer_30(i, s.charAt(i)));
             } else {
-                map.put(c, -1);
+                map.put(s.charAt(i), -1);
                 while (!queue.isEmpty() && map.get(queue.peek().c) == -1) {
                     queue.poll();
                 }
             }
         }
-        return queue.isEmpty() ? ' ' : queue.poll().c;
+        return queue.isEmpty() ? ' ' : queue.peek().c;
 
     }
 
-    public class Pair_Offer50 {
-        public char c;
+    public class Pair_Offer_30 {
         public int pos;
+        public char c;
 
-        public Pair_Offer50(char c, int pos) {
-            this.c = c;
+        public Pair_Offer_30(int pos, char c) {
             this.pos = pos;
+            this.c = c;
         }
 
     }
