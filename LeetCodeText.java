@@ -4910,40 +4910,37 @@ public class LeetCodeText {
     }
 
     // 面试题 16.15. 珠玑妙算
-    public int[] masterMind(final String solution, final String guess) {
-        int[] ans = new int[2];
+    public int[] masterMind(String solution, String guess) {
+        int[] res = new int[2];
+        // R、G、B、Y
         int[] counts = new int[4];
-        for (int i = 0; i < solution.length(); ++i) {
-            if (solution.charAt(i) == guess.charAt(i)) {
-                ++ans[0];
+        for (int i = 0; i < guess.length(); ++i) {
+            if (guess.charAt(i) == solution.charAt(i)) {
+                ++res[0];
             }
-            if (solution.charAt(i) == 'R') {
+            if (guess.charAt(i) == 'R') {
                 ++counts[0];
-            } else if (solution.charAt(i) == 'G') {
+            } else if (guess.charAt(i) == 'G') {
                 ++counts[1];
-            } else if (solution.charAt(i) == 'B') {
+            } else if (guess.charAt(i) == 'B') {
                 ++counts[2];
-            } else if (solution.charAt(i) == 'Y') {
+            } else if (guess.charAt(i) == 'Y') {
                 ++counts[3];
             }
         }
-        for (int i = 0; i < guess.length(); ++i) {
-            if (guess.charAt(i) == 'R' && counts[0] > 0) {
-                --counts[0];
-                ++ans[1];
-            } else if (guess.charAt(i) == 'G' && counts[1] > 0) {
-                --counts[1];
-                ++ans[1];
-            } else if (guess.charAt(i) == 'B' && counts[2] > 0) {
-                --counts[2];
-                ++ans[1];
-            } else if (guess.charAt(i) == 'Y' && counts[3] > 0) {
-                --counts[3];
-                ++ans[1];
+        for (char c : solution.toCharArray()) {
+            if (c == 'R' && counts[0]-- > 0) {
+                ++res[1];
+            } else if (c == 'G' && counts[1]-- > 0) {
+                ++res[1];
+            } else if (c == 'B' && counts[2]-- > 0) {
+                ++res[1];
+            } else if (c == 'Y' && counts[3]-- > 0) {
+                ++res[1];
             }
         }
-        ans[1] -= ans[0];
-        return ans;
+        res[1] -= res[0];
+        return res;
 
     }
 
