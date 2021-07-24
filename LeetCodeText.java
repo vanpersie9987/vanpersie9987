@@ -10,6 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import jdk.vm.ci.aarch64.AArch64.Flag;
+
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -5362,48 +5365,43 @@ public class LeetCodeText {
 
     // 面试题 16.04. 井字游戏
     public String tictactoe(String[] board) {
-        int[][] counts = new int[board.length * 2 + 2][2];
-        boolean hasSlot = false;
-        for (int i = 0; i < board.length; ++i) {
-            for (int j = 0; j < board[0].length(); ++j) {
-                if (board[i].charAt(j) == 'O') {
-                    ++counts[i][0];
-                    ++counts[j + board.length][0];
+        int n = board.length;
+        int[][] counts = new int[2][2 * n + 2];
+        int slots = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                char c = board[i].charAt(j);
+                if (c == 'O') {
+                    ++counts[0][i];
+                    ++counts[0][j + n];
                     if (i == j) {
-                        ++counts[counts.length - 2][0];
+                        ++counts[0][counts[0].length - 2];
                     }
-                    if (i + j == board.length - 1) {
-                        ++counts[counts.length - 1][0];
+                    if (i + j == n - 1) {
+                        ++counts[0][counts[0].length - 1];
                     }
-                } else if (board[i].charAt(j) == 'X') {
-                    ++counts[i][1];
-                    ++counts[j + board.length][1];
+                    ++slots;
+                } else if (c == 'X') {
+                    ++counts[1][i];
+                    ++counts[1][j + n];
                     if (i == j) {
-                        ++counts[counts.length - 2][1];
+                        ++counts[1][counts[0].length - 2];
                     }
-                    if (i + j == board.length - 1) {
-                        ++counts[counts.length - 1][1];
+                    if (i + j == n - 1) {
+                        ++counts[1][counts[0].length - 1];
                     }
-                } else {
-                    hasSlot = true;
+                    ++slots;
                 }
             }
         }
         for (int i = 0; i < counts.length; ++i) {
             for (int j = 0; j < counts[i].length; ++j) {
-                if (counts[i][j] == board.length) {
-                    if (j == 0) {
-                        return "O";
-                    } else if (j == 1) {
-                        return "X";
-                    }
+                if (counts[i][j] == n) {
+                    return i == 0 ? "O" : "X";
                 }
             }
         }
-        if (hasSlot) {
-            return "Pending";
-        }
-        return "Draw";
+        return slots == n * n ? "Draw" : "Pending";
 
     }
 
