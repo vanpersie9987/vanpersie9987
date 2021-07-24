@@ -4835,38 +4835,18 @@ public class LeetCodeText {
     }
 
     // 面试题 16.10. 生存人数
-    public int maxAliveYear(final int[] birth, final int[] death) {
-        final int[] counts = new int[200];
-        for (int i = 0; i < birth.length; ++i) {
-            for (int live = birth[i] - 1900; live <= death[i] - 1900; ++live) {
-                ++counts[live];
-            }
-        }
-        int maxYear = -1;
-        int maxCount = counts[0];
-        for (int i = 0; i < counts.length; ++i) {
-            if (counts[i] > maxCount) {
-                maxCount = counts[i];
-                maxYear = i;
-            }
-        }
-        return maxYear + 1900;
-
-    }
-
-    // 面试题 16.10. 生存人数
     public int maxAliveYear2(int[] birth, int[] death) {
-        int[] diff = new int[120];
+        int[] counts = new int[120];
         for (int i = 0; i < birth.length; ++i) {
-            ++diff[birth[i] - 1900];
-            --diff[death[i] - 1900 + 1];
+            ++counts[birth[i] - 1900];
+            --counts[death[i] - 1900 + 1];
         }
-        int maxPeople = diff[0];
+        int max = counts[0];
         int maxIndex = 0;
-        for (int i = 1; i < diff.length; ++i) {
-            diff[i] += diff[i - 1];
-            if (diff[i] > maxPeople) {
-                maxPeople = diff[i];
+        for (int i = 1; i < counts.length; ++i) {
+            counts[i] += counts[i - 1];
+            if (max < counts[i]) {
+                max = counts[i];
                 maxIndex = i;
             }
         }
