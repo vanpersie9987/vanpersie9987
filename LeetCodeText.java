@@ -15549,7 +15549,7 @@ public class LeetCodeText {
                 ++count1;
             }
             char c2 = Character.toLowerCase(s.charAt(j++));
-             if (c2 == 'a' || c2 == 'e' || c2 == 'i' || c2 == 'o' || c2 == 'u') {
+            if (c2 == 'a' || c2 == 'e' || c2 == 'i' || c2 == 'o' || c2 == 'u') {
                 ++count2;
             }
         }
@@ -15771,44 +15771,25 @@ public class LeetCodeText {
 
     }
 
-    // 1603. 设计停车系统
+    // 1603. 设计停车系统 (Design Parking System)
     class ParkingSystem {
-        private int totalBig;
-        private int totalMedium;
-        private int totalSmall;
-        private int curSmall;
-        private int curMedium;
-        private int curBig;
+        private int big;
+        private int medium;
+        private int small;
 
         public ParkingSystem(int big, int medium, int small) {
-            this.totalBig = big;
-            this.totalMedium = medium;
-            this.totalSmall = small;
-
+            this.big = big;
+            this.medium = medium;
+            this.small = small;
         }
 
         public boolean addCar(int carType) {
-            switch (carType) {
-                case 1:
-                    if (curBig == totalBig) {
-                        return false;
-                    }
-                    ++curBig;
-                    return true;
-                case 2:
-                    if (curMedium == totalMedium) {
-                        return false;
-                    }
-                    ++curMedium;
-                    return true;
-                case 3:
-                    if (curSmall == totalSmall) {
-                        return false;
-                    }
-                    ++curSmall;
-                    return true;
-                default:
-                    return false;
+            if (carType == 1) {
+                return big-- > 0;
+            } else if (carType == 2) {
+                return medium-- > 0;
+            } else {
+                return small-- > 0;
             }
         }
     }
