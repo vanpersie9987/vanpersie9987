@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -8728,23 +8728,26 @@ public class LeetCodeText {
 
     }
 
-    // 1481. 不同整数的最少数目
+    // 1481. 不同整数的最少数目 (Least Number of Unique Integers after K Removals)
     public int findLeastNumOfUniqueInts(int[] arr, int k) {
         Map<Integer, Integer> map = new HashMap<>();
         for (int num : arr) {
             map.put(num, map.getOrDefault(num, 0) + 1);
         }
-        List<Integer> counts = new ArrayList<>();
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            counts.add(entry.getValue());
-        }
-        Collections.sort(counts);
-        for (int i = 0; i < counts.size(); ++i) {
-            if (k >= counts.get(i)) {
-                k -= counts.get(i);
-            } else {
-                return counts.size() - i;
+        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(map.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<Integer, Integer>>() {
+
+            @Override
+            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+                return o1.getValue() - o2.getValue();
             }
+        });
+        for (int i = 0; i < list.size(); ++i) {
+            Map.Entry<Integer, Integer> entry = list.get(i);
+            if (k < entry.getValue()) {
+                return list.size() - i;
+            }
+            k -= entry.getValue();
         }
         return 0;
 
