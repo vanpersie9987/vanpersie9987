@@ -9455,7 +9455,7 @@ public class LeetCodeText {
 
     }
 
-    // 1814. 统计一个数组中好对子的数目
+    // 1814. 统计一个数组中好对子的数目 (Count Nice Pairs in an Array)
     public int countNicePairs(int[] nums) {
         final int MOD = 1000000007;
         Map<Integer, Integer> map = new HashMap<>();
@@ -9463,23 +9463,21 @@ public class LeetCodeText {
             int res = num - rev(num);
             map.put(res, map.getOrDefault(res, 0) + 1);
         }
-        long count = 0;
+        long res = 0;
         for (long value : map.values()) {
-            count = (count + value * (value - 1) / 2) % MOD;
+            res = res + value * (value - 1) / 2 % MOD;
         }
-        return (int) count % MOD;
+        return (int) (res % MOD);
 
     }
 
     private int rev(int num) {
         int res = 0;
-        while (num > 0) {
-            int mod = num % 10;
+        while (num != 0) {
+            res = res * 10 + num % 10;
             num /= 10;
-            res = res * 10 + mod;
         }
         return res;
-
     }
 
     // 1711. 大餐计数
