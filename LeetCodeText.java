@@ -16836,22 +16836,20 @@ public class LeetCodeText {
                 for (int k = i; k <= j; ++k) {
                     ++counts[s.charAt(k) - 'a'];
                 }
-
-                int min = Integer.MAX_VALUE;
                 int max = Integer.MIN_VALUE;
-                for (int k = 0; k < counts.length; ++k) {
-                    if (counts[k] == 0) {
+                int min = Integer.MAX_VALUE;
+                for (int count : counts) {
+                    if (count == 0) {
                         continue;
                     }
-                    if (counts[k] > max) {
-                        max = counts[k];
+                    if (max < count) {
+                        max = count;
                     }
-                    if (counts[k] < min) {
-                        min = counts[k];
+                    if (min > count) {
+                        min = count;
                     }
                 }
                 res += max - min;
-
             }
         }
         return res;
