@@ -5895,7 +5895,7 @@ public class LeetCodeText {
 
     }
 
-    // 1512. 好数对的数目
+    // 1512. 好数对的数目 (Number of Good Pairs)
     public int numIdenticalPairs(int[] nums) {
         int[] counts = new int[101];
         for (int num : nums) {
