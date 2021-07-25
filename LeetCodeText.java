@@ -9949,41 +9949,23 @@ public class LeetCodeText {
 
     }
 
-    // 1854. 人口最多的年份--模拟法
+    // 1854. 人口最多的年份 (Maximum Population Year) 差分数组
     public int maximumPopulation(int[][] logs) {
-        int[] counts = new int[101];
-        for (int[] log : logs) {
-            for (int i = log[0] - 1950; i < log[1] - 1950; ++i) {
-                ++counts[i];
-            }
-        }
-        int max = Arrays.stream(counts).max().getAsInt();
-        for (int i = 0; i < counts.length; ++i) {
-            if (max == counts[i]) {
-                return i + 1950;
-            }
-        }
-        return -1;
-
-    }
-
-    // 1854. 人口最多的年份--差分数组
-    public int maximumPopulation2(int[][] logs) {
         int[] diff = new int[101];
         for (int[] log : logs) {
             ++diff[log[0] - 1950];
             --diff[log[1] - 1950];
         }
-        int max = diff[0];
-        int index = 0;
+        int maxPopulation = diff[0];
+        int maxYear = 0;
         for (int i = 1; i < diff.length; ++i) {
             diff[i] += diff[i - 1];
-            if (diff[i] > max) {
-                max = diff[i];
-                index = i;
+            if (diff[i] > maxPopulation) {
+                maxPopulation = diff[i];
+                maxYear = i;
             }
         }
-        return index + 1950;
+        return maxYear + 1950;
 
     }
 
