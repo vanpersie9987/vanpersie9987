@@ -16718,13 +16718,15 @@ public class LeetCodeText {
                 return false;
             }
         }
+        int i = 0;
         int diff = 0;
-        for (int i = 0; i < s1.length(); ++i) {
-            if (s2.charAt(i) != s1.charAt(i)) {
+        while (i < s1.length()) {
+            if (s1.charAt(i) != s2.charAt(i)) {
                 if (++diff > 2) {
                     return false;
                 }
             }
+            ++i;
         }
         return true;
 
@@ -16732,8 +16734,8 @@ public class LeetCodeText {
 
     // 1790.仅执行一次字符串交换能否使两个字符串相等 (Check if One String Swap Can Make Strings Equal)
     public boolean areAlmostEqual2(String s1, String s2) {
-        int diff = 0;
         Stack<Character> stack = new Stack<>();
+        int diff = 0;
         for (int i = 0; i < s1.length(); ++i) {
             if (stack.isEmpty() && s1.charAt(i) != s2.charAt(i)) {
                 stack.push(s1.charAt(i));
@@ -16741,10 +16743,10 @@ public class LeetCodeText {
                 continue;
             }
             if (s1.charAt(i) != s2.charAt(i)) {
-                if (stack.pop() != s1.charAt(i)) {
+                if (s1.charAt(i) != stack.pop()) {
                     return false;
                 }
-                if (stack.pop() != s2.charAt(i)) {
+                if (s2.charAt(i) != stack.pop()) {
                     return false;
                 }
                 if (++diff > 1) {
