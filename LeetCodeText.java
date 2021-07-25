@@ -6235,23 +6235,22 @@ public class LeetCodeText {
 
     }
 
-    // 1742. 盒子中小球的最大数量
+    // 1742. 盒子中小球的最大数量 (Maximum Number of Balls in a Box)
     public int countBalls(int lowLimit, int highLimit) {
         int[] counts = new int[46];
         for (int num = lowLimit; num <= highLimit; ++num) {
-            ++counts[countSumByBit(num)];
+            ++counts[getSumByBits(num)];
         }
         return Arrays.stream(counts).max().getAsInt();
-
     }
 
-    private int countSumByBit(int num) {
-        int sum = 0;
+    private int getSumByBits(int num) {
+        int res = 0;
         while (num != 0) {
-            sum += num % 10;
+            res += num % 10;
             num /= 10;
         }
-        return sum;
+        return res;
     }
 
     // 31. 下一个排列
