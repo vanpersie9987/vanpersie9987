@@ -9141,13 +9141,12 @@ public class LeetCodeText {
 
     }
 
-    // 1497. 检查数组对是否可以被 k 整除
+    // 1497. 检查数组对是否可以被 k 整除 (Check If Array Pairs Are Divisible by k)
     public boolean canArrange(int[] arr, int k) {
         int[] counts = new int[k];
         for (int num : arr) {
-            ++counts[((num % k) + k) % k];
+            ++counts[(num % k + k) % k];
         }
-
         for (int i = 1; i < counts.length; ++i) {
             if (counts[i] != counts[k - i]) {
                 return false;
@@ -9157,7 +9156,7 @@ public class LeetCodeText {
 
     }
 
-    // 1497. 检查数组对是否可以被 k 整除
+    // 1497. 检查数组对是否可以被 k 整除 (Check If Array Pairs Are Divisible by k)
     public boolean canArrange2(int[] arr, int k) {
         Map<Integer, Integer> map = new HashMap<>();
         for (int num : arr) {
