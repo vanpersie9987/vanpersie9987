@@ -587,45 +587,46 @@ public class LeetCodeText {
 
     }
 
-    // 1748. 唯一元素的和
+    // 1748. 唯一元素的和 (Sum of Unique Elements)
     public int sumOfUnique(int[] nums) {
         int[] counts = new int[101];
         for (int num : nums) {
             ++counts[num];
         }
-        int sum = 0;
+        int res = 0;
         for (int i = 0; i < counts.length; ++i) {
             if (counts[i] == 1) {
-                sum += i;
+                res += i;
             }
         }
-        return sum;
+        return res;
 
     }
 
-    // 1748. 唯一元素的和
+    // 1748. 唯一元素的和 (Sum of Unique Elements)
     public int sumOfUnique2(int[] nums) {
         if (nums.length == 1) {
             return nums[0];
         }
-        int sum = 0;
+        int res = 0;
         Arrays.sort(nums);
         for (int i = 0; i < nums.length; ++i) {
             if (i == 0) {
                 if (i + 1 < nums.length && nums[i] != nums[i + 1]) {
-                    sum += nums[i];
+                    res += nums[i];
                 }
             } else if (i == nums.length - 1) {
-                if (i - 1 >= 0 && nums[i] != nums[i - 1]) {
-                    sum += nums[i];
+                if (nums[i] != nums[i - 1]) {
+                    res += nums[i];
                 }
             } else {
                 if (nums[i - 1] != nums[i] && nums[i] != nums[i + 1]) {
-                    sum += nums[i];
+                    res += nums[i];
                 }
             }
+
         }
-        return sum;
+        return res;
 
     }
 
