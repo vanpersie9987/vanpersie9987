@@ -3416,24 +3416,24 @@ public class LeetCodeText {
 
     }
 
-    // 945. 使数组唯一的最小增量
-    public int minIncrementForUnique(final int[] A) {
+    // 945. 使数组唯一的最小增量 (Minimum Increment to Make Array Unique)
+    public int minIncrementForUnique(int[] nums) {
         int[] counts = new int[80001];
-        for (int num : A) {
+        for (int num : nums) {
             ++counts[num];
         }
         int taken = 0;
-        int result = 0;
+        int res = 0;
         for (int i = 0; i < counts.length; ++i) {
             if (counts[i] > 1) {
                 taken += counts[i] - 1;
-                result -= (counts[i] - 1) * i;
+                res -= (counts[i] - 1) * i;
             } else if (counts[i] == 0 && taken > 0) {
                 --taken;
-                result += i;
+                res += i;
             }
         }
-        return result;
+        return res;
 
     }
 
