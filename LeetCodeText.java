@@ -8292,30 +8292,27 @@ public class LeetCodeText {
         chars[j] = temp;
     }
 
-    // 900. RLE 迭代器
+    // 900. RLE 迭代器 (RLE Iterator)
     class RLEIterator {
         private int[] A;
-        private int q;
-        private int i;
+        private int index;
 
         public RLEIterator(int[] A) {
             this.A = A;
-
         }
 
         public int next(int n) {
-            while (i < A.length) {
-                if (n + q > A[i]) {
-                    n -= A[i] - q;
-                    q = 0;
-                    i += 2;
-                } else {
-                    q += n;
-                    return A[i + 1];
-                }
+            while (index < A.length && A[index] < n) {
+                n -= A[index];
+                index += 2;
             }
-            return -1;
+            if (index >= A.length) {
+                return -1;
+            }
+            A[index] -= n;
+            return A[index + 1];
         }
+
     }
 
     // 1475. 商品折扣后的最终价格
