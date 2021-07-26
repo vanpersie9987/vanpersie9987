@@ -6427,26 +6427,30 @@ public class LeetCodeText {
         }
     }
 
-    // 1267. 统计参与通信的服务器
-    public int countServers(final int[][] grid) {
-        int result = 0;
-        int[] rCounts = new int[grid.length];
-        int[] cCounts = new int[grid[0].length];
+    // 1267. 统计参与通信的服务器 (Count Servers that Communicate)
+    public int countServers(int[][] grid) {
+        int res = 0;
+        int[] rows = new int[grid.length];
+        int[] cols = new int[grid[0].length];
         for (int i = 0; i < grid.length; ++i) {
             for (int j = 0; j < grid[0].length; ++j) {
-                rCounts[i] += grid[i][j];
-                cCounts[j] += grid[i][j];
+                if (grid[i][j] == 1) {
+                    ++rows[i];
+                    ++cols[j];
+                }
+
             }
         }
         for (int i = 0; i < grid.length; ++i) {
             for (int j = 0; j < grid[0].length; ++j) {
-                if (rCounts[i] > 1 || cCounts[j] > 1) {
-                    result += grid[i][j];
+                if (grid[i][j] == 1) {
+                    if (rows[i] > 1 || cols[j] > 1) {
+                        ++res;
+                    }
                 }
             }
         }
-
-        return result;
+        return res;
 
     }
 
@@ -16617,7 +16621,7 @@ public class LeetCodeText {
             }
         });
         int[] res = new int[arr.length];
-        for (int i = 0; i < list.size(); ++i) {
+        for (int i = 0; i < res.length; ++i) {
             res[i] = list.get(i);
         }
         return res;
