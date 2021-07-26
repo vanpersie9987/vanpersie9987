@@ -4459,22 +4459,18 @@ public class LeetCodeText {
 
     }
 
-    // 1128. 等价多米诺骨牌对的数量
+    // 1128. 等价多米诺骨牌对的数量 (Number of Equivalent Domino Pairs)
     public int numEquivDominoPairs(final int[][] dominoes) {
-        int[] dp = new int[100];
+        int[] counts = new int[100];
         for (int[] domino : dominoes) {
-            if (domino[0] > domino[1]) {
-                int temp = domino[0];
-                domino[0] = domino[1];
-                domino[1] = temp;
-            }
-            ++dp[domino[0] * 10 + domino[1]];
+            Arrays.sort(domino);
+            ++counts[domino[0] * 10 + domino[1]];
         }
-        int result = 0;
-        for (int x : dp) {
-            result += x * (x - 1) / 2;
+        int res = 0;
+        for (int count : counts) {
+            res += count * (count - 1) / 2;
         }
-        return result;
+        return res;
 
     }
 
