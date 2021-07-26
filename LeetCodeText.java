@@ -16561,9 +16561,7 @@ public class LeetCodeText {
                 ++res;
             }
         }
-
         return res;
-
     }
 
     // 1356. 根据数字二进制下 1 的数目排序 (Sort Integers by The Number of 1 Bits)
