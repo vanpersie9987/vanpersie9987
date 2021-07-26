@@ -3911,35 +3911,22 @@ public class LeetCodeText {
 
     }
 
-    // 1010. 总持续时间可被 60 整除的歌曲--超时
-    public int numPairsDivisibleBy60(final int[] time) {
-        int count = 0;
-        for (int i = 0; i < time.length; ++i) {
-            for (int j = i + 1; j < time.length; ++j) {
-                if ((time[i] + time[j]) % 60 == 0) {
-                    ++count;
-                }
-            }
-        }
-        return count;
-    }
-
-    // 1010. 总持续时间可被 60 整除的歌曲
-    public int numPairsDivisibleBy60_2(final int[] time) {
+    // 1010. 总持续时间可被 60 整除的歌曲 (Pairs of Songs With Total Durations Divisible by 60)
+    public int numPairsDivisibleBy60_2(int[] time) {
         int[] counts = new int[60];
         for (int i = 0; i < time.length; ++i) {
             time[i] %= 60;
             ++counts[time[i]];
         }
-        int count = 0;
-        for (int i = 0; i <= 30; ++i) {
-            if (i == 0 || i == 30) {
-                count += counts[i] * (counts[i] - 1) / 2;
-            } else {
-                count += counts[i] * counts[60 - i];
+        int res = 0;
+        for (int i = 0; i < time.length; ++i) {
+            if (time[i] > 0 && time[i] < 30) {
+                res += counts[60 - time[i]];
             }
         }
-        return count;
+        res += counts[0] * (counts[0] - 1) / 2;
+        res += counts[30] * (counts[30] - 1) / 2;
+        return res;
 
     }
 
