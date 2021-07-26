@@ -16748,7 +16748,7 @@ public class LeetCodeText {
                 ++min;
             }
         }
-        min = Math.max(min, 1);
+        min = Math.max(1, min);
         return min <= k && k <= max;
 
     }
