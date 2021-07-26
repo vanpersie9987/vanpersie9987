@@ -16515,34 +16515,21 @@ public class LeetCodeText {
     public int maxNumberOfBalloons(String text) {
         int[] counts = new int[5];
         for (char c : text.toCharArray()) {
-            switch (c) {
-                case 'b':
-                    ++counts[0];
-                    break;
-                case 'a':
-                    ++counts[1];
-                    break;
-                case 'l':
-                    ++counts[2];
-                    break;
-                case 'o':
-                    ++counts[3];
-                    break;
-                case 'n':
-                    ++counts[4];
-                    break;
-                default:
-                    break;
+            if (c == 'b') {
+                ++counts[0];
+            } else if (c == 'a') {
+                ++counts[1];
+            } else if (c == 'l') {
+                ++counts[2];
+            } else if (c == 'o') {
+                ++counts[3];
+            } else if (c == 'n') {
+                ++counts[4];
             }
         }
         counts[2] /= 2;
         counts[3] /= 2;
-        int res = Integer.MAX_VALUE;
-        for (int count : counts) {
-            res = Math.min(count, res);
-
-        }
-        return res;
+        return Arrays.stream(counts).min().getAsInt();
 
     }
 
