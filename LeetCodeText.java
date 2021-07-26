@@ -4545,8 +4545,9 @@ public class LeetCodeText {
         return ans;
     }
 
-    // 1365. 有多少小于当前数字的数字
-    public int[] smallerNumbersThanCurrent(final int[] nums) {
+    // 1365. 有多少小于当前数字的数字 (How Many Numbers Are Smaller Than the Current Number)
+    public int[] smallerNumbersThanCurrent(int[] nums) {
+        int[] res = new int[nums.length];
         int[] counts = new int[101];
         for (int num : nums) {
             ++counts[num];
@@ -4554,9 +4555,11 @@ public class LeetCodeText {
         for (int i = 1; i < counts.length; ++i) {
             counts[i] += counts[i - 1];
         }
-        int[] res = new int[nums.length];
-        for (int i = 0; i < nums.length; ++i) {
-            res[i] = nums[i] == 0 ? 0 : counts[nums[i] - 1];
+        for (int i = 0; i < res.length; ++i) {
+            if (nums[i] > 0) {
+                res[i] = counts[nums[i] - 1];
+            }
+
         }
         return res;
 
