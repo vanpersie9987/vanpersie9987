@@ -16668,18 +16668,15 @@ public class LeetCodeText {
         StringBuilder res = new StringBuilder();
         while (res.length() < s.length()) {
             for (int i = 0; i < counts.length; ++i) {
-                if (counts[i] > 0) {
-                    --counts[i];
+                if (counts[i]-- > 0) {
                     res.append((char) (i + 'a'));
                 }
             }
             for (int i = counts.length - 1; i >= 0; --i) {
-                if (counts[i] > 0) {
-                    --counts[i];
+                if (counts[i]-- > 0) {
                     res.append((char) (i + 'a'));
                 }
             }
-
         }
         return res.toString();
 
