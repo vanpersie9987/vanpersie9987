@@ -16863,4 +16863,32 @@ public class LeetCodeText {
 
     }
 
+    // 剑指 Offer 22. 链表中倒数第k个节点
+    public ListNode getKthFromEnd(ListNode head, int k) {
+        List<ListNode> list = new ArrayList<>();
+        while (head != null) {
+            list.add(head);
+            head = head.next;
+        }
+        return list.get(list.size() - k);
+
+    }
+
+    // 剑指 Offer 22. 链表中倒数第k个节点 快慢指针
+    public ListNode getKthFromEnd2(ListNode head, int k) {
+        ListNode latter = head;
+        ListNode formmer = head;
+        int i = 0;
+        while (i++ < k) {
+            head = head.next;
+        }
+        formmer = head;
+        while (formmer != null) {
+            formmer = formmer.next;
+            latter = latter.next;
+        }
+        return latter;
+
+    }
+
 }
