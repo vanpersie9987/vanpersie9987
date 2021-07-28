@@ -16891,4 +16891,21 @@ public class LeetCodeText {
 
     }
 
+    // 面试题 02.02. 返回倒数第 k 个节点 (Kth Node From End of List LCCI)
+    public int kthToLast(ListNode head, int k) {
+        int i = 0;
+        ListNode formmer = head;
+        ListNode latter = head;
+        while (i++ < k) {
+            head = head.next;
+        }
+        formmer = head;
+        while (formmer != null) {
+            formmer = formmer.next;
+            latter = latter.next;
+        }
+        return latter.val;
+
+    }
+
 }
