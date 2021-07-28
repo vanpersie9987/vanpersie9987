@@ -16803,4 +16803,25 @@ public class LeetCodeText {
 
     }
 
+    // 1941. 检查是否所有字符出现次数相同 (Check if All Characters Have Equal Number of
+    // Occurrences)
+    public boolean areOccurrencesEqual(String s) {
+        int[] counts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++counts[c - 'a'];
+        }
+        int c = 0;
+        for (int count : counts) {
+            if (count != 0) {
+                if (c == 0) {
+                    c = count;
+                } else if (c != count) {
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }
+
 }
