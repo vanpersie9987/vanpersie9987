@@ -16850,4 +16850,17 @@ public class LeetCodeText {
         return s.substring(n) + s.substring(0, n);
     }
 
+    // 1877. 数组中最大数对和的最小值 (Minimize Maximum Pair Sum in Array)
+    public int minPairSum(int[] nums) {
+        Arrays.sort(nums);
+        int l = 0;
+        int r = nums.length - 1;
+        int min = 0;
+        while (l < r) {
+            min = Math.max(min, nums[l++] + nums[r--]);
+        }
+        return min;
+
+    }
+
 }
