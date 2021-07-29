@@ -16925,4 +16925,48 @@ public class LeetCodeText {
 
     }
 
+    // 821. 字符的最短距离 (Shortest Distance to a Character) 暴力
+    public int[] shortestToChar(String s, char c) {
+        Set<Integer> posSet = new HashSet<>();
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) == c) {
+                posSet.add(i);
+            }
+        }
+        int[] res = new int[s.length()];
+        for (int i = 0; i < res.length; ++i) {
+            int min = Integer.MAX_VALUE;
+            for (int pos : posSet) {
+                min = Math.min(min, Math.abs(pos - i));
+            }
+            res[i] = min;
+        }
+        return res;
+    }
+
+    // 821. 字符的最短距离 (Shortest Distance to a Character)
+    public int[] shortestToChar2(String s, char c) {
+        int prePos = -1;
+        int[] res = new int[s.length()];
+        Arrays.fill(res, Integer.MAX_VALUE);
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) == c) {
+                prePos = i;
+            }
+            if (prePos != -1) {
+                res[i] = i - prePos;
+            }
+        }
+        prePos = -1;
+        for (int i = s.length() - 1; i >= 0; --i) {
+            if (s.charAt(i) == c) {
+                prePos = i;
+            }
+            if (prePos != -1) {
+                res[i] = Math.min(res[i], prePos - i);
+            }
+        }
+        return res;
+    }
+
 }
