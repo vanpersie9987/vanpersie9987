@@ -17021,4 +17021,20 @@ public class LeetCodeText {
 
     }
 
+    // 876. 链表的中间结点 (Middle of the Linked List)
+    public ListNode middleNode(ListNode head) {
+        int count = 0;
+        ListNode head1 = head;
+        while (head1 != null) {
+            ++count;
+            head1 = head1.next;
+        }
+        int i = 0;
+        while (i++ < count / 2) {
+            head = head.next;
+        }
+        return head;
+
+    }
+
 }
