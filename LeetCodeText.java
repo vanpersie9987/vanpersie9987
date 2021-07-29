@@ -16969,4 +16969,16 @@ public class LeetCodeText {
         return res;
     }
 
+    // 1332. 删除回文子序列 (Remove Palindromic Subsequences)
+    public int removePalindromeSub(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        if (new StringBuilder(s).reverse().toString().equals(s)) {
+            return 1;
+        }
+        return 2;
+
+    }
+
 }
