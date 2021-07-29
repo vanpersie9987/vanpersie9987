@@ -1329,6 +1329,25 @@ public class LeetCodeText {
 
     }
 
+    // 剑指 Offer 57. 和为s的两个数字
+    public int[] twoSumOffer_57(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+        while (left < right) {
+            int sum = nums[left] + nums[right];
+            if (sum == target) {
+                return new int[] { nums[left], nums[right] };
+            }
+            if (sum < target) {
+                ++left;
+            } else {
+                --right;
+            }
+        }
+        return null;
+
+    }
+
     public int majorityElemen3(final int[] nums) {
         Arrays.sort(nums);
         return nums[nums.length / 2];
@@ -16978,6 +16997,27 @@ public class LeetCodeText {
             return 1;
         }
         return 2;
+
+    }
+
+    // 剑指 Offer 21. 调整数组顺序使奇数位于偶数前面
+    public int[] exchange(int[] nums) {
+        int left = 0;
+        int right = nums.length - 1;
+        while (left < right) {
+            while (left < right && nums[left] % 2 == 1) {
+                ++left;
+            }
+            while (left < right && nums[right] % 2 == 0) {
+                --right;
+            }
+            int temp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = temp;
+            ++left;
+            --right;
+        }
+        return nums;
 
     }
 
