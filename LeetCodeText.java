@@ -17063,4 +17063,28 @@ public class LeetCodeText {
         return res;
     }
 
+    // 917. 仅仅反转字母 (Reverse Only Letters)
+    // Input: s = "a-bC-dEf-ghIj"
+    // Output: "j-Ih-gfE-dCba"
+    public String reverseOnlyLetters(String s) {
+        int left = 0;
+        int right = s.length() - 1;
+        char[] chars = s.toCharArray();
+        while (left < right) {
+            while (left < right && !Character.isLetter(chars[left])) {
+                ++left;
+            }
+            while (left < right && !Character.isLetter(chars[right])) {
+                --right;
+            }
+            char temp = chars[right];
+            chars[right] = chars[left];
+            chars[left] = temp;
+            ++left;
+            --right;
+        }
+        return new String(chars);
+
+    }
+
 }
