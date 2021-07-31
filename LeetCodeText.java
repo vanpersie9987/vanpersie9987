@@ -1676,6 +1676,11 @@ public class LeetCodeText {
             val = x;
             next = null;
         }
+
+        ListNode(int x, ListNode next) {
+            this.val = x;
+            this.next = next;
+        }
     }
 
     // 289. 生命游戏
@@ -17084,6 +17089,24 @@ public class LeetCodeText {
             --right;
         }
         return new String(chars);
+
+    }
+
+    // 19. 删除链表的倒数第 N 个结点 (Remove Nth Node From End of List) 快慢指针
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(0, head);
+        ListNode formmer = head;
+        ListNode latter = dummy;
+        int i = 0;
+        while (i++ < n) {
+            formmer = formmer.next;
+        }
+        while (formmer != null) {
+            formmer = formmer.next;
+            latter = latter.next;
+        }
+        latter.next = latter.next.next;
+        return dummy.next;
 
     }
 
