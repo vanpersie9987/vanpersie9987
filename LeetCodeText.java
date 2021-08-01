@@ -17235,4 +17235,30 @@ public class LeetCodeText {
 
     }
 
+    // 1023. 驼峰式匹配 (Camelcase Matching)
+    public List<Boolean> camelMatch(String[] queries, String pattern) {
+        List<Boolean> list = new ArrayList<>();
+        for (String query : queries) {
+            list.add(isMatch(query, pattern));
+        }
+        return list;
+
+    }
+
+    private boolean isMatch(String query, String pattern) {
+        int i = 0;
+        int j = 0;
+        while (i < query.length()) {
+            if (j < pattern.length() && query.charAt(i) == pattern.charAt(j)) {
+                ++i;
+                ++j;
+            } else if (Character.isUpperCase(query.charAt(i))) {
+                return false;
+            } else {
+                ++i;
+            }
+        }
+        return i == query.length() && j == pattern.length();
+    }
+
 }
