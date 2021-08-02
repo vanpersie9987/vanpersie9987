@@ -7487,38 +7487,6 @@ public class LeetCodeText {
         return cur;
     }
 
-    public boolean isPalindrome(final String s) {
-        if (s == null) {
-            return false;
-        }
-        if (s.isEmpty()) {
-            return true;
-        }
-        int left = 0;
-        int right = s.length() - 1;
-        while (right > left) {
-
-            if (!Character.isLetterOrDigit(s.charAt(left))) {
-                ++left;
-                continue;
-            }
-            if (!Character.isLetterOrDigit(s.charAt(right))) {
-                --right;
-                continue;
-            }
-            if ((Character.isDigit(s.charAt(left)) && Character.isDigit(s.charAt(right))
-                    && s.charAt(left) == s.charAt(right))
-                    || (Character.isLetter(s.charAt(left)) && Character.isLetter(s.charAt(right))
-                            && String.valueOf(s.charAt(left)).equalsIgnoreCase(String.valueOf(s.charAt(right))))) {
-                ++left;
-                --right;
-                continue;
-            }
-            return false;
-        }
-        return true;
-    }
-
     // 9. 回文数
     public boolean isPalindrome9(int x) {
         if (x < 0) {
@@ -17275,6 +17243,27 @@ public class LeetCodeText {
             cur = cur.next;
         }
         return null;
+
+    }
+
+    // 剑指 Offer II 018. 有效的回文
+    public boolean isPalindrome(String s) {
+        int left = 0;
+        int right = s.length() - 1;
+        while (left < right) {
+            while (left < right && !Character.isLetterOrDigit(s.charAt(left))) {
+                ++left;
+            }
+            while (left < right && !Character.isLetterOrDigit(s.charAt(right))) {
+                --right;
+            }
+            if (Character.toUpperCase(s.charAt(left)) != Character.toUpperCase(s.charAt(right))) {
+                return false;
+            }
+            ++left;
+            --right;
+        }
+        return true;
 
     }
 
