@@ -1651,23 +1651,6 @@ public class LeetCodeText {
 
     }
 
-    public ListNode detectCycle(ListNode head) {
-        if (head == null || head.next == null) {
-            return null;
-        }
-        ListNode fast = head.next;
-        ListNode slow = head;
-        while (fast != slow) {
-            if (fast == null || fast.next == null) {
-                return null;
-            }
-            fast = fast.next.next;
-            slow = slow.next;
-        }
-        return slow;
-
-    }
-
     class ListNode {
         public int val;
         public ListNode next;
@@ -17278,6 +17261,20 @@ public class LeetCodeText {
             }
         }
         return head;
+
+    }
+
+    // 面试题 02.08. 环路检测 (Linked List Cycle LCCI)
+    public ListNode detectCycle(ListNode head) {
+        ListNode cur = head;
+        Set<ListNode> set = new HashSet<>();
+        while (cur != null) {
+            if (!set.add(cur)) {
+                return cur;
+            }
+            cur = cur.next;
+        }
+        return null;
 
     }
 
