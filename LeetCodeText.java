@@ -17261,4 +17261,24 @@ public class LeetCodeText {
         return i == query.length() && j == pattern.length();
     }
 
+    // 面试题 02.01. 移除重复节点 (Remove Duplicate Node LCCI)
+    public ListNode removeDuplicateNodes(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+        ListNode cur = head;
+        Set<Integer> set = new HashSet<>();
+        set.add(cur.val);
+        while (cur.next != null) {
+            ListNode temp = cur.next;
+            if (set.add(temp.val)) {
+                cur = cur.next;
+            } else {
+                cur.next = cur.next.next;
+            }
+        }
+        return head;
+
+    }
+
 }
