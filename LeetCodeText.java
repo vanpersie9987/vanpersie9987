@@ -17268,4 +17268,29 @@ public class LeetCodeText {
 
     }
 
+    // 剑指 Offer II 014. 字符串中的变位词
+    public boolean checkInclusion(String s1, String s2) {
+        if (s1.length() > s2.length()) {
+            return false;
+        }
+        int[] counts1 = new int[26];
+        for (char c : s1.toCharArray()) {
+            ++counts1[c - 'a'];
+        }
+        int count = s1.length();
+        int i = 0;
+        while (i + count - 1 < s2.length()) {
+            int[] counts2 = new int[26];
+            for (int j = i; j <= i + count - 1; ++j) {
+                ++counts2[s2.charAt(j) - 'a'];
+            }
+            if (Arrays.equals(counts1, counts2)) {
+                return true;
+            }
+            ++i;
+        }
+        return false;
+
+    }
+
 }
