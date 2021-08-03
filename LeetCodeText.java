@@ -99,6 +99,7 @@ public class LeetCodeText {
 
     }
 
+    // 15. 三数之和 (3Sum) // 剑指 Offer II 007. 数组中和为 0 的三个数
     public List<List<Integer>> threeSum(final int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         Arrays.sort(nums);
@@ -1329,7 +1330,7 @@ public class LeetCodeText {
 
     }
 
-    // 剑指 Offer 57. 和为s的两个数字
+    // 剑指 Offer 57. 和为s的两个数字 // 剑指 Offer II 006. 排序数组中两个数字之和
     public int[] twoSumOffer_57(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1;
