@@ -17044,7 +17044,8 @@ public class LeetCodeText {
 
     }
 
-    // 19. 删除链表的倒数第 N 个结点 (Remove Nth Node From End of List) 快慢指针
+    // 19. 删除链表的倒数第 N 个结点 (Remove Nth Node From End of List) 快慢指针 // 剑指 Offer II
+    // 021. 删除链表的倒数第 n 个结点
     public ListNode removeNthFromEnd(ListNode head, int n) {
         ListNode dummy = new ListNode(0, head);
         ListNode formmer = head;
@@ -17233,7 +17234,7 @@ public class LeetCodeText {
 
     }
 
-    // 面试题 02.08. 环路检测 (Linked List Cycle LCCI)
+    // 面试题 02.08. 环路检测 (Linked List Cycle LCCI) // 剑指 Offer II 022. 链表中环的入口节点
     public ListNode detectCycle(ListNode head) {
         ListNode cur = head;
         Set<ListNode> set = new HashSet<>();
