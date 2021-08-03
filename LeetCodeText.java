@@ -15281,6 +15281,7 @@ public class LeetCodeText {
 
     // 234. 回文链表
     // 面试题 02.06. 回文链表
+    // 剑指 Offer II 027. 回文链表
     // (还需要理解递归和快慢指针实现)
     public boolean isPalindrome09_06(ListNode head) {
         List<Integer> list = new ArrayList<>();
