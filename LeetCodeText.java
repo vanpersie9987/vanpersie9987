@@ -17421,6 +17421,7 @@ public class LeetCodeText {
     }
 
     // 160. 相交链表 (Intersection of Two Linked Lists) // 剑指 Offer II 023. 两个链表的第一个重合节点
+    // // 剑指 Offer 52. 两个链表的第一个公共节点
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         if (headA == null || headB == null) {
             return null;
