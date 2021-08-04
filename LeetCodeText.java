@@ -7525,21 +7525,6 @@ public class LeetCodeText {
 
     }
 
-    public static String reverseWords(final String s) {
-        final StringBuilder builder = new StringBuilder();
-        if (s == null || s.trim().isEmpty()) {
-            return builder.toString();
-        }
-        final String[] strs = s.split("\\ ");
-        for (int i = strs.length - 1; i >= 0; --i) {
-            if (!strs[i].isEmpty()) {
-                builder.append(strs[i]).append(" ");
-            }
-        }
-        return builder.toString().trim();
-
-    }
-
     // 227. 基本计算器 II
     // 面试题 16.26. 计算器
     public int calculate(String s) {
@@ -7810,17 +7795,6 @@ public class LeetCodeText {
             this.c = c;
         }
 
-    }
-
-    public String reverseWords2(final String s) {
-        final String[] strs = s.trim().split(" ");
-        final StringBuilder builder = new StringBuilder();
-        for (int i = strs.length - 1; i >= 0; --i) {
-            if (!strs[i].isEmpty()) {
-                builder.append(strs[i]).append(" ");
-            }
-        }
-        return builder.toString().trim();
     }
 
     // 415. 字符串相加
@@ -17434,6 +17408,18 @@ public class LeetCodeText {
         }
         return pA;
 
+    }
+
+    // 剑指 Offer 58 - I. 翻转单词顺序
+    public String reverseWordsOffer58(String s) {
+        String[] strings = s.split("\\s+");
+        StringBuilder res = new StringBuilder();
+        for (int i = strings.length - 1; i >= 0; --i) {
+            if (!strings[i].trim().isEmpty()) {
+                res.append(strings[i]).append(" ");
+            }
+        }
+        return res.length() == 0 ? "" : res.substring(0, res.length() - 1).toString();
     }
 
 }
