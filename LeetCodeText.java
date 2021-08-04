@@ -17420,4 +17420,19 @@ public class LeetCodeText {
         return true;
     }
 
+    // 160. 相交链表 (Intersection of Two Linked Lists) // 剑指 Offer II 023. 两个链表的第一个重合节点
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+        ListNode pA = headA;
+        ListNode pB = headB;
+        while (pA != pB) {
+            pA = pA == null ? headB : pA.next;
+            pB = pB == null ? headA : pB.next;
+        }
+        return pA;
+
+    }
+
 }
