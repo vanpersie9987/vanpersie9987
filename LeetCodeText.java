@@ -17235,7 +17235,9 @@ public class LeetCodeText {
 
     }
 
-    // 面试题 02.08. 环路检测 (Linked List Cycle LCCI) // 剑指 Offer II 022. 链表中环的入口节点
+    // 142. 环形链表 II (Linked List Cycle II) // 面试题 02.08. 环路检测 (Linked List Cycle
+    // LCCI)
+    // // 剑指 Offer II 022. 链表中环的入口节点
     public ListNode detectCycle(ListNode head) {
         ListNode cur = head;
         Set<ListNode> set = new HashSet<>();
@@ -17244,6 +17246,31 @@ public class LeetCodeText {
                 return cur;
             }
             cur = cur.next;
+        }
+        return null;
+    }
+
+    // 142. 环形链表 II (Linked List Cycle II) // 面试题 02.08. 环路检测 (Linked List Cycle
+    // LCCI)
+    // // 剑指 Offer II 022. 链表中环的入口节点
+    public ListNode detectCycle2(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+        while (fast != null) {
+            slow = slow.next;
+            if (fast.next != null) {
+                fast = fast.next.next;
+            } else {
+                return null;
+            }
+            if (fast == slow) {
+                ListNode ptr = head;
+                while (ptr != slow) {
+                    ptr = ptr.next;
+                    slow = slow.next;
+                }
+                return ptr;
+            }
         }
         return null;
 
