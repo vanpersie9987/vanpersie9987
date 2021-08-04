@@ -17270,7 +17270,7 @@ public class LeetCodeText {
 
     }
 
-    // 剑指 Offer II 014. 字符串中的变位词
+    // 567. 字符串的排列 (Permutation in String) 剑指 Offer II 014. 字符串中的变位词
     public boolean checkInclusion(String s1, String s2) {
         if (s1.length() > s2.length()) {
             return false;
@@ -17293,6 +17293,76 @@ public class LeetCodeText {
         }
         return false;
 
+    }
+
+    // 567. 字符串的排列 (Permutation in String) 剑指 Offer II 014. 字符串中的变位词 -- 计数
+    public boolean checkInclusion2(String s1, String s2) {
+        if (s1.length() > s2.length()) {
+            return false;
+        }
+        int diff = 0;
+        int[] counts = new int[26];
+        int n = s1.length();
+        for (int i = 0; i < n; ++i) {
+            --counts[s1.charAt(i) - 'a'];
+            ++counts[s2.charAt(i) - 'a'];
+        }
+        for (int count : counts) {
+            if (count != 0) {
+                ++diff;
+            }
+        }
+        if (diff == 0) {
+            return true;
+        }
+        for (int i = n; i < s2.length(); ++i) {
+            int x = s2.charAt(i - n) - 'a';
+            int y = s2.charAt(i) - 'a';
+            if (counts[x] == 0) {
+                ++diff;
+            }
+            --counts[x];
+            if (counts[x] == 0) {
+                --diff;
+            }
+            if (counts[y] == 0) {
+                ++diff;
+            }
+            ++counts[y];
+            if (counts[y] == 0) {
+                --diff;
+            }
+            if (diff == 0) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    // 567. 字符串的排列 (Permutation in String) 剑指 Offer II 014. 字符串中的变位词 -- 双指针
+    public boolean checkInclusion3(String s1, String s2) {
+        if (s1.length() > s2.length()) {
+            return false;
+        }
+        int[] counts = new int[26];
+        for (char c : s1.toCharArray()) {
+            --counts[c - 'a'];
+        }
+        int n = s1.length();
+        int left = 0;
+        for (int right = 0; right < s2.length(); ++right) {
+            int x = s2.charAt(right) - 'a';
+            ++counts[x];
+            while (counts[x] > 0) {
+                --counts[s2.charAt(left) - 'a'];
+                ++left;
+            }
+            if (right - left + 1 == n) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // 剑指 Offer II 019. 最多删除一个字符得到回文
