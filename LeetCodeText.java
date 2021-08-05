@@ -17422,4 +17422,31 @@ public class LeetCodeText {
         return res.length() == 0 ? "" : res.substring(0, res.length() - 1).toString();
     }
 
+    // 剑指 Offer 57 - II. 和为s的连续正数序列
+    public int[][] findContinuousSequence(int target) {
+        int left = 1;
+        int right = 2;
+        int sum = (left + right) * (right - left + 1) / 2;
+        List<int[]> list = new ArrayList<>();
+        while (left < right) {
+            if (sum == target) {
+                int[] sumAns = new int[right - left + 1];
+                for (int k = left; k <= right; ++k) {
+                    sumAns[k - left] = k;
+                }
+                list.add(sumAns);
+                sum -= left;
+                ++left;
+            } else if (sum < target) {
+                ++right;
+                sum += right;
+            } else {
+                sum -= left;
+                ++left;
+            }
+        }
+        return list.toArray(new int[list.size()][]);
+
+    }
+
 }
