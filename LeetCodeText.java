@@ -17495,8 +17495,11 @@ public class LeetCodeText {
 
     }
 
-    // 剑指 Offer II 077. 链表排序
+    // 148. 排序链表 (Sort List) // 剑指 Offer II 077. 链表排序
     public ListNode sortList(ListNode head) {
+        if (head == null) {
+            return head;
+        }
         List<ListNode> list = new ArrayList<>();
         while (head != null) {
             list.add(head);
