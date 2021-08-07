@@ -15231,7 +15231,7 @@ public class LeetCodeText {
         }
     }
 
-    // 143. 重排链表
+    // 143. 重排链表 // 剑指 Offer II 026. 重排链表
     public void reorderList(ListNode head) {
         List<ListNode> list = new ArrayList<>();
         ListNode node = head;
@@ -17492,6 +17492,31 @@ public class LeetCodeText {
             }
         }
         return res;
+
+    }
+
+    // 剑指 Offer II 077. 链表排序
+    public ListNode sortList(ListNode head) {
+        List<ListNode> list = new ArrayList<>();
+        while (head != null) {
+            list.add(head);
+            head = head.next;
+        }
+        Collections.sort(list, new Comparator<ListNode>() {
+
+            @Override
+            public int compare(LeetCodeText.ListNode o1, LeetCodeText.ListNode o2) {
+                return o1.val - o2.val;
+            }
+        });
+        ListNode newHead = list.get(0);
+        ListNode ans = newHead;
+        for (int i = 1; i < list.size(); ++i) {
+            newHead.next = list.get(i);
+            newHead = newHead.next;
+        }
+        newHead.next = null;
+        return ans;
 
     }
 
