@@ -17552,4 +17552,41 @@ public class LeetCodeText {
         return head;
     }
 
+    // 剑指 Offer II 025. 链表中的两数相加
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        while (l1 != null) {
+            list1.add(l1.val);
+            l1 = l1.next;
+        }
+        while (l2 != null) {
+            list2.add(l2.val);
+            l2 = l2.next;
+        }
+        List<Integer> ans = new ArrayList<>();
+        int i = list1.size() - 1;
+        int j = list2.size() - 1;
+        int carry = 0;
+        while (i >= 0 || j >= 0 || carry > 0) {
+            if (i >= 0) {
+                carry += list1.get(i--);
+            }
+            if (j >= 0) {
+                carry += list2.get(j--);
+            }
+            ans.add(carry % 10);
+            carry /= 10;
+        }
+        ListNode head = new ListNode(ans.get(ans.size() - 1), null);
+        ListNode res = head;
+        for (int k = ans.size() - 2; k >= 0; --k) {
+            ListNode node = new ListNode(ans.get(k), null);
+            head.next = node;
+            head = head.next;
+        }
+        return res;
+
+    }
+
 }
