@@ -8036,29 +8036,7 @@ public class LeetCodeText {
 
     }
 
-    public static int findMinDifference(final List<String> timePoints) {
-        int min = Integer.MAX_VALUE;
-        for (int i = 0; i < timePoints.size(); ++i) {
-            for (int j = i + 1; j < timePoints.size(); ++j) {
-                min = Math.min(getMinDiff(timePoints.get(i), timePoints.get(j)), min);
-            }
-        }
-        return min;
-
-    }
-
-    private static int getMinDiff(final String time1, final String time2) {
-        final String[] time1Strs = time1.split("\\:");
-        final int h1 = Integer.parseInt(time1Strs[0]);
-        final int m1 = Integer.parseInt(time1Strs[1]);
-        final String[] time2Strs = time2.split("\\:");
-        final int h2 = Integer.parseInt(time2Strs[0]);
-        final int m2 = Integer.parseInt(time2Strs[1]);
-        final int d1 = Math.abs(h1 * 60 + m1 - h2 * 60 - m2);
-        final int d2 = Math.abs(24 * 60 - d1);
-        return Math.min(d1, d2);
-    }
-
+    // 剑指 Offer II 035. 最小时间差
     public int findMinDifference2(final List<String> timePoints) {
         int min = Integer.MAX_VALUE;
         final int[] arr = new int[timePoints.size()];
