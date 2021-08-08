@@ -12347,7 +12347,7 @@ public class LeetCodeText {
         return count;
     }
 
-    // 150. 逆波兰表达式求值
+    // 150. 逆波兰表达式求值 // 剑指 Offer II 036. 后缀表达式
     public int evalRPN(String[] tokens) {
         Stack<Integer> stack = new Stack<>();
         for (String token : tokens) {
@@ -12376,7 +12376,7 @@ public class LeetCodeText {
         return stack.pop();
     }
 
-    // 150. 逆波兰表达式求值
+    // 150. 逆波兰表达式求值 // 剑指 Offer II 036. 后缀表达式
     public int evalRPN_2(String[] tokens) {
         int index = -1;
         int[] stack = new int[(tokens.length + 1) / 2];
