@@ -17602,4 +17602,32 @@ public class LeetCodeText {
 
     }
 
+    // 481. 神奇字符串 (Magical String)
+    public int magicalString(int n) {
+        StringBuilder builder = new StringBuilder("122");
+        int last = 2;
+        for (int i = 2; builder.length() < n; ++i) {
+            int count = builder.charAt(i) - '0';
+            if (last == 1) {
+                for (int j = 0; j < count; ++j) {
+                    builder.append(2);
+                }
+                last = 2;
+            } else {
+                for (int j = 0; j < count; ++j) {
+                    builder.append(1);
+                }
+                last = 1;
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            if (builder.charAt(i) == '1') {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
 }
