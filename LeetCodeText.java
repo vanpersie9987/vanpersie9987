@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17571,6 +17572,33 @@ public class LeetCodeText {
             res += (coin + 1) / 2;
         }
         return res;
+
+    }
+
+    // 838. 推多米诺 (Push Dominoes)
+    public String pushDominoes(String dominoes) {
+        char[] handles = new char[dominoes.length() + 2];
+        handles[0] = 'L';
+        handles[handles.length - 1] = 'R';
+        int index = 1;
+        for (int i = 0; i < dominoes.length(); ++i) {
+            handles[index++] = dominoes.charAt(i);
+        }
+        int left = 0;
+        for (int right = 1; right < handles.length; ++right) {
+            if (handles[right] != '.') {
+                if (handles[left] == handles[right]) {
+                    Arrays.fill(handles, left, right, handles[left]);
+                } else if (handles[left] == 'R' && handles[right] == 'L') {
+                    int count = right - left - 1;
+                    Arrays.fill(handles, left, left + count / 2 + 1, 'R');
+                    Arrays.fill(handles, right - count / 2, right, 'L');
+
+                }
+                left = right;
+            }
+        }
+        return String.valueOf(handles).substring(1, handles.length - 1);
 
     }
 
