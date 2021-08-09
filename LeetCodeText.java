@@ -17096,7 +17096,7 @@ public class LeetCodeText {
 
     }
 
-    // 86. 分隔链表 (Partition List)
+    // 86. 分隔链表 (Partition List) // 面试题 02.04. 分割链表 (Partition List LCCI)
     public ListNode partition(ListNode head, int x) {
         ListNode small = new ListNode(0);
         ListNode smallHead = small;
