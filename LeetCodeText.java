@@ -17671,4 +17671,26 @@ public class LeetCodeText {
         return "";
 
     }
+
+    // 1679. K 和数对的最大数目 (Max Number of K-Sum Pairs)
+    public int maxOperations(int[] nums, int k) {
+        Arrays.sort(nums);
+        int left = 0;
+        int right = nums.length - 1;
+        int res = 0;
+        while (left < right) {
+            int sum = nums[left] + nums[right];
+            if (sum == k) {
+                ++left;
+                --right;
+                ++res;
+            } else if (sum < k) {
+                ++left;
+            } else {
+                --right;
+            }
+        }
+        return res;
+
+    }
 }
