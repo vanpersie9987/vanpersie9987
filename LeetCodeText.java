@@ -17693,4 +17693,58 @@ public class LeetCodeText {
         return res;
 
     }
+
+    // 1850. 邻位交换的最小次数 (Minimum Adjacent Swaps to Reach the Kth Smallest Number)
+    public int getMinSwaps(String num, int k) {
+        char[] chars = num.toCharArray();
+        char[] charsK = chars.clone();
+        for (int i = 0; i < k; ++i) {
+            getNextPermutation(charsK);
+        }
+        int res = 0;
+        for (int i = 0; i < charsK.length; ++i) {
+            if (charsK[i] != chars[i]) {
+                for (int j = i + 1; j < charsK.length; ++j) {
+                    if (charsK[j] == chars[i]) {
+                        for (int m = j - 1; m >= i; --m) {
+                            ++res;
+                            swap1850(charsK, m, m + 1);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private void getNextPermutation(char[] charsK) {
+        int i = charsK.length - 1;
+        while (i > 0) {
+            if (charsK[i - 1] < charsK[i]) {
+                break;
+            }
+            --i;
+        }
+        if (i == 0) {
+            return;
+        }
+        --i;
+        int j = charsK.length - 1;
+        while (i < j) {
+            if (charsK[i] < charsK[j]) {
+                swap1850(charsK, i, j);
+                break;
+            }
+            --j;
+        }
+        Arrays.sort(charsK, i + 1, charsK.length);
+    }
+
+    private void swap1850(char[] chars, int i, int j) {
+        char temp = chars[i];
+        chars[i] = chars[j];
+        chars[j] = temp;
+    }
 }
