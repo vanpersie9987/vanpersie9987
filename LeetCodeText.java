@@ -10358,7 +10358,7 @@ public class LeetCodeText {
         }
     }
 
-    // 684. 冗余连接
+    // 684. 冗余连接 // 剑指 Offer II 118. 多余的边
     public int[] findRedundantConnection(int[][] edges) {
         Union684 union = new Union684(edges.length);
         for (int[] edge : edges) {
@@ -17844,5 +17844,66 @@ public class LeetCodeText {
             ++j;
         }
         return true;
+    }
+
+    public int[] findRedundantConnection(int[][] edges) {
+        int n = edges.length;
+        UnionOffer119 union = new UnionOffer119(n);
+        for (int[] edge : edges) {
+            if (union.isConnected(edge[0] - 1, edge[1] - 1)) {
+                return edge;
+            }
+            union.union(edge[0] - 1, edge[1] - 1);
+        }
+        return null;
+
+    }
+
+    public class UnionOffer119 {
+        private int[] rank;
+        private int[] parent;
+        private int count;
+
+        public UnionOffer119(int n) {
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+            count = n;
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] > rank[root2]) {
+                parent[root2] = root1;
+            } else {
+                parent[root1] = root2;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root2];
+                }
+            }
+            --count;
+        }
+
+        public int getCount() {
+            return count;
+        }
     }
 }
