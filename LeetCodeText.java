@@ -17786,4 +17786,30 @@ public class LeetCodeText {
         return res;
 
     }
+
+    // 524. 通过删除字母匹配到字典里最长单词 (Longest Word in Dictionary through Deleting)
+    public String findLongestWord(String s, List<String> dictionary) {
+        String res = "";
+        for (String dic : dictionary) {
+            if (isSub524(s, dic)) {
+                if (dic.length() > res.length() || (dic.length() == res.length() && dic.compareTo(res) < 0)) {
+                    res = dic;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private boolean isSub524(String s, String dic) {
+        int i = 0;
+        int j = 0;
+        while (i < s.length() && j < dic.length()) {
+            if (s.charAt(i) == dic.charAt(j)) {
+                ++j;
+            }
+            ++i;
+        }
+        return j == dic.length();
+    }
 }
