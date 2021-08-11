@@ -17812,4 +17812,37 @@ public class LeetCodeText {
         }
         return j == dic.length();
     }
+
+    // 1048. 最长字符串链 (Longest String Chain)
+    public int longestStrChain(String[] words) {
+        Arrays.sort(words, (o1, o2) -> o1.length() - o2.length());
+        int[] dp = new int[words.length];
+        for (int i = 0; i < words.length; ++i) {
+            for (int j = i + 1; j < words.length; ++j) {
+                if (isPredecessor1048(words[i], words[j])) {
+                    dp[j] = Math.max(dp[j], dp[i] + 1);
+                }
+            }
+        }
+        return Arrays.stream(dp).max().getAsInt() + 1;
+
+    }
+
+    private boolean isPredecessor1048(String string1, String string2) {
+        if (string2.length() - string1.length() != 1) {
+            return false;
+        }
+        int i = 0;
+        int j = 0;
+        int flag = 0;
+        while (i < string1.length() && j < string2.length()) {
+            if (string1.charAt(i) == string2.charAt(j)) {
+                ++i;
+            } else if (++flag > 1) {
+                return false;
+            }
+            ++j;
+        }
+        return true;
+    }
 }
