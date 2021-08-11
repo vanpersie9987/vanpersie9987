@@ -2295,7 +2295,7 @@ public class LeetCodeText {
 
     }
 
-    // 695. 岛屿的最大面积
+    // 695. 岛屿的最大面积 // 剑指 Offer II 105. 岛屿的最大面积
     public int maxAreaOfIsland(final int[][] grid) {
         int max = 0;
         for (int i = 0; i < grid.length; ++i) {
@@ -17846,17 +17846,41 @@ public class LeetCodeText {
         return true;
     }
 
-    public int[] findRedundantConnection(int[][] edges) {
-        int n = edges.length;
-        UnionOffer119 union = new UnionOffer119(n);
-        for (int[] edge : edges) {
-            if (union.isConnected(edge[0] - 1, edge[1] - 1)) {
-                return edge;
+    public int maxAreaOfIsland(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        UnionOffer119 union = new UnionOffer119(m * n);
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    if (i > 0 && grid[i - 1][j] == 1) {
+                        union.union(getIndexOffer105(n, i, j), getIndexOffer105(n, i - 1, j));
+                    }
+                    if (j > 0 && grid[i][j - 1] == 1) {
+                        union.union(getIndexOffer105(n, i, j), getIndexOffer105(n, i, j - 1));
+                    }
+                }
             }
-            union.union(edge[0] - 1, edge[1] - 1);
         }
-        return null;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    int index = getIndexOffer105(n, i, j);
+                    int root = union.getRoot(index);
+                    map.put(root, map.getOrDefault(root, 0) + 1);
+                }
+            }
+        }
+        if (map.size() == 0) {
+            return 0;
+        }
+        return Collections.max(map.values());
 
+    }
+
+    private int getIndexOffer105(int n, int i, int j) {
+        return n * i + j;
     }
 
     public class UnionOffer119 {
