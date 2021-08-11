@@ -1194,7 +1194,7 @@ public class LeetCodeText {
 
     }
 
-    // 128. 最长连续序列
+    // 128. 最长连续序列 // 剑指 Offer II 119. 最长连续序列
     public int longestConsecutive2(final int[] nums) {
         if (nums == null || nums.length == 0) {
             return 0;
@@ -17844,5 +17844,83 @@ public class LeetCodeText {
             ++j;
         }
         return true;
+    }
+
+    // 剑指 Offer II 119. 最长连续序列
+    public int longestConsecutive(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        Map<Integer, Integer> map = new HashMap<>();
+        int index = 0;
+        int i = 0;
+        while (i < nums.length) {
+            if (!map.containsKey(nums[i])) {
+                map.put(nums[i], index++);
+            }
+            ++i;
+        }
+        UnionOffer119 union = new UnionOffer119(index);
+        for (int j = 0; j < nums.length; ++j) {
+            if (map.containsKey(nums[j] - 1)) {
+                int index1 = map.get(nums[j]);
+                int index2 = map.get(nums[j] - 1);
+                union.union(index1, index2);
+            }
+            if (map.containsKey(nums[j] + 1)) {
+                int index1 = map.get(nums[j]);
+                int index2 = map.get(nums[j] + 1);
+                union.union(index1, index2);
+            }
+        }
+        Map<Integer, Integer> countMap = new HashMap<>();
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            int index1 = entry.getValue();
+            int rootIndex = union.getRoot(index1);
+            countMap.put(rootIndex, countMap.getOrDefault(rootIndex, 0) + 1);
+        }
+        return Collections.max(countMap.values());
+
+    }
+
+    public class UnionOffer119 {
+        private int[] rank;
+        private int[] parent;
+
+        public UnionOffer119(int n) {
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] > rank[root2]) {
+                parent[root2] = root1;
+            } else {
+                parent[root1] = root2;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root2];
+                }
+            }
+        }
     }
 }
