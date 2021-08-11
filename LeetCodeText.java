@@ -10413,7 +10413,7 @@ public class LeetCodeText {
 
     }
 
-    // 547. 省份数量
+    // 547. 省份数量 // 剑指 Offer II 119. 最长连续序列
     public int findCircleNum(int[][] isConnected) {
         int n = isConnected.length;
         Union547 union = new Union547(n);
@@ -17847,45 +17847,24 @@ public class LeetCodeText {
     }
 
     // 剑指 Offer II 119. 最长连续序列
-    public int longestConsecutive(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
-        Map<Integer, Integer> map = new HashMap<>();
-        int index = 0;
-        int i = 0;
-        while (i < nums.length) {
-            if (!map.containsKey(nums[i])) {
-                map.put(nums[i], index++);
-            }
-            ++i;
-        }
-        UnionOffer119 union = new UnionOffer119(index);
-        for (int j = 0; j < nums.length; ++j) {
-            if (map.containsKey(nums[j] - 1)) {
-                int index1 = map.get(nums[j]);
-                int index2 = map.get(nums[j] - 1);
-                union.union(index1, index2);
-            }
-            if (map.containsKey(nums[j] + 1)) {
-                int index1 = map.get(nums[j]);
-                int index2 = map.get(nums[j] + 1);
-                union.union(index1, index2);
+    public int findCircleNum(int[][] isConnected) {
+        int n = isConnected.length;
+        UnionOffer119 union = new UnionOffer119(n);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i != j && isConnected[i][j] == 1 && !union.isConnected(i, j)) {
+                    union.union(i, j);
+                }
             }
         }
-        Map<Integer, Integer> countMap = new HashMap<>();
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            int index1 = entry.getValue();
-            int rootIndex = union.getRoot(index1);
-            countMap.put(rootIndex, countMap.getOrDefault(rootIndex, 0) + 1);
-        }
-        return Collections.max(countMap.values());
+        return union.getCount();
 
     }
 
     public class UnionOffer119 {
         private int[] rank;
         private int[] parent;
+        private int count;
 
         public UnionOffer119(int n) {
             rank = new int[n];
@@ -17894,6 +17873,7 @@ public class LeetCodeText {
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
             }
+            count = n;
         }
 
         public int getRoot(int p) {
@@ -17921,6 +17901,11 @@ public class LeetCodeText {
                     ++rank[root2];
                 }
             }
+            --count;
+        }
+
+        public int getCount() {
+            return count;
         }
     }
 }
