@@ -11,9 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import jdk.internal.org.jline.terminal.Terminal;
-
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -17868,6 +17865,25 @@ public class LeetCodeText {
             --right;
         }
         return Math.max(right - left + 1, 0);
+
+    }
+
+    // 1963. 使字符串平衡的最小交换次数 (Minimum Number of Swaps to Make the String Balanced)
+    public int minSwaps(String s) {
+        int res = 0;
+        int leftCount = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '[') {
+                ++leftCount;
+            } else {
+                --leftCount;
+            }
+            if (leftCount < 0) {
+                ++res;
+                leftCount += 2;
+            }
+        }
+        return res;
 
     }
 
