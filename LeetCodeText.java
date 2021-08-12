@@ -11,6 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import jdk.internal.org.jline.terminal.Terminal;
+
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -17845,4 +17848,27 @@ public class LeetCodeText {
         }
         return true;
     }
+
+    // 1750. 删除字符串两端相同字符后的最短长度 (Minimum Length of String After Deleting Similar
+    // Ends)
+    public int minimumLength(String s) {
+        int left = 0;
+        int right = s.length() - 1;
+        while (left < right) {
+            if (s.charAt(left) != s.charAt(right)) {
+                return right - left + 1;
+            }
+            while (left < right && s.charAt(left) == s.charAt(left + 1)) {
+                ++left;
+            }
+            while (left < right && s.charAt(right) == s.charAt(right - 1)) {
+                --right;
+            }
+            ++left;
+            --right;
+        }
+        return Math.max(right - left + 1, 0);
+
+    }
+
 }
