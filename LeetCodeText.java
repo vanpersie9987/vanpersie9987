@@ -17887,4 +17887,37 @@ public class LeetCodeText {
 
     }
 
+    // 826. 安排工作以达到最大收益 (Most Profit Assigning Work)
+    public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
+        List<Bean826> list = new ArrayList<>();
+        for (int i = 0; i < difficulty.length; ++i) {
+            list.add(new Bean826(difficulty[i], profit[i]));
+        }
+        Collections.sort(list, (o1, o2) -> o1.difficulty - o2.difficulty);
+        Arrays.sort(worker);
+        int res = 0;
+        int i = 0;
+        int best = 0;
+        for (int skill : worker) {
+            while (i < list.size() && skill >= list.get(i).difficulty) {
+                best = Math.max(best, list.get(i).profit);
+                ++i;
+            }
+            res += best;
+        }
+        return res;
+
+    }
+
+    public class Bean826 {
+        public int difficulty;
+        public int profit;
+
+        public Bean826(int difficulty, int profit) {
+            this.difficulty = difficulty;
+            this.profit = profit;
+        }
+
+    }
+
 }
