@@ -102,8 +102,8 @@ public class LeetCodeText {
     }
 
     // 15. 三数之和 (3Sum) // 剑指 Offer II 007. 数组中和为 0 的三个数
-    public List<List<Integer>> threeSum(final int[] nums) {
-        List<List<Integer>> result = new ArrayList<>();
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> list = new ArrayList<>();
         Arrays.sort(nums);
         for (int i = 0; i < nums.length; ++i) {
             if (nums[i] > 0) {
@@ -115,9 +115,9 @@ public class LeetCodeText {
             int left = i + 1;
             int right = nums.length - 1;
             while (left < right) {
-                int target = nums[i] + nums[left] + nums[right];
-                if (target == 0) {
-                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                int sum = nums[i] + nums[left] + nums[right];
+                if (sum == 0) {
+                    list.add(Arrays.asList(nums[i], nums[left], nums[right]));
                     while (left < right && nums[left] == nums[left + 1]) {
                         ++left;
                     }
@@ -126,14 +126,15 @@ public class LeetCodeText {
                     }
                     ++left;
                     --right;
-                } else if (target < 0) {
-                    ++left;
-                } else {
+                } else if (sum > 0) {
                     --right;
+                } else {
+                    ++left;
                 }
             }
+
         }
-        return result;
+        return list;
 
     }
 
