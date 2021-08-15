@@ -164,10 +164,10 @@ public class LeetCodeText {
 
     }
 
-    // 18. 四数之和
-    public List<List<Integer>> fourSum(final int[] nums, final int target) {
-        List<List<Integer>> result = new ArrayList<>();
+    // 18. 四数之和 (4Sum)
+    public List<List<Integer>> fourSum(int[] nums, int target) {
         Arrays.sort(nums);
+        List<List<Integer>> list = new ArrayList<>();
         for (int i = 0; i < nums.length - 3; ++i) {
             if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
@@ -193,7 +193,7 @@ public class LeetCodeText {
                 while (left < right) {
                     int sum = nums[i] + nums[j] + nums[left] + nums[right];
                     if (sum == target) {
-                        result.add(Arrays.asList(nums[i], nums[j], nums[left], nums[right]));
+                        list.add(Arrays.asList(nums[i], nums[j], nums[left], nums[right]));
                         while (left < right && nums[left] == nums[left + 1]) {
                             ++left;
                         }
@@ -210,7 +210,7 @@ public class LeetCodeText {
                 }
             }
         }
-        return result;
+        return list;
 
     }
 
