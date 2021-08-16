@@ -67,7 +67,7 @@ public class LeetCodeText {
         // "(Chris,Christopher)" };
         // String[] s = trulyMostPopular(names, synonyms);
         // boolean a = reorderedPowerOf2(10);
-        boolean i = areSentencesSimilar("My name is Haley", "My Haley");
+        // boolean i = areSentencesSimilar("My name is Haley", "My Haley");
 
     }
 
@@ -17978,10 +17978,37 @@ public class LeetCodeText {
         }
         if (right1 < 0) {
             return true;
-
         }
 
         return (left - right1) == 1;
+    }
+
+    // 1793. 好子数组的最大分数 (Maximum Score of a Good Subarray)
+    public int maximumScore(int[] nums, int k) {
+        int l = k;
+        int r = k;
+        int res = 0;
+        while (true) {
+            while (l >= 0 && nums[l] >= nums[k]) {
+                --l;
+            }
+            while (r < nums.length && nums[r] >= nums[k]) {
+                ++r;
+            }
+            res = Math.max(res, nums[k] * (r - l - 1));
+            if (l < 0 && r >= nums.length) {
+                break;
+            }
+            if (l >= 0 && r < nums.length) {
+                nums[k] = Math.max(nums[l], nums[r]);
+            } else if (l >= 0) {
+                nums[k] = nums[l];
+            } else {
+                nums[k] = nums[r];
+            }
+        }
+        return res;
+
     }
 
 }
