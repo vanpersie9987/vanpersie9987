@@ -67,6 +67,7 @@ public class LeetCodeText {
         // "(Chris,Christopher)" };
         // String[] s = trulyMostPopular(names, synonyms);
         // boolean a = reorderedPowerOf2(10);
+        boolean i = areSentencesSimilar("My name is Haley", "My Haley");
 
     }
 
@@ -17946,6 +17947,41 @@ public class LeetCodeText {
         }
         return res;
 
+    }
+
+    // 1813. 句子相似性 III (Sentence Similarity III)
+    public boolean areSentencesSimilar(String sentence1, String sentence2) {
+        String[] chars1 = sentence1.split("\\s+");
+        String[] chars2 = sentence2.split("\\s+");
+        if (chars1.length > chars2.length) {
+            String[] temp = chars1;
+            chars1 = chars2;
+            chars2 = temp;
+        }
+        return isSimilar1813(chars1, chars2);
+
+    }
+
+    private boolean isSimilar1813(String[] chars1, String[] chars2) {
+        int left = 0;
+        while (left < chars1.length && chars1[left].equals(chars2[left])) {
+            ++left;
+        }
+        if (left == chars1.length) {
+            return true;
+        }
+        int right1 = chars1.length - 1;
+        int right2 = chars2.length - 1;
+        while (right1 >= 0 && chars1[right1].equals(chars2[right2])) {
+            --right1;
+            --right2;
+        }
+        if (right1 < 0) {
+            return true;
+
+        }
+
+        return (left - right1) == 1;
     }
 
 }
