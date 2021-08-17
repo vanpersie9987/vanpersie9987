@@ -18011,4 +18011,24 @@ public class LeetCodeText {
 
     }
 
+    // LCP 18. 早餐组合
+    public int breakfastNumber(int[] staple, int[] drinks, int x) {
+        final int MOD = 1000000007;
+        Arrays.sort(staple);
+        Arrays.sort(drinks);
+        int i = 0;
+        int j = drinks.length - 1;
+        int res = 0;
+        while (i < staple.length && j >= 0) {
+            if (staple[i] + drinks[j] > x) {
+                --j;
+            } else {
+                res = (res + j + 1) % MOD;
+                ++i;
+            }
+        }
+        return res;
+
+    }
+
 }
