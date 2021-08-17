@@ -18031,4 +18031,24 @@ public class LeetCodeText {
 
     }
 
+    // LCP 28. 采购方案
+    public int purchasePlans(int[] nums, int target) {
+        final int MOD = 1000000007;
+        Arrays.sort(nums);
+        int res = 0;
+        int left = 0;
+        int right = nums.length - 1;
+        while (left < right) {
+            int sum = nums[left] + nums[right];
+            if (sum > target) {
+                --right;
+            } else {
+                res = (res + right - left) % MOD;
+                ++left;
+            }
+        }
+        return res;
+
+    }
+
 }
