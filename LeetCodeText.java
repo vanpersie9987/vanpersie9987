@@ -18076,4 +18076,16 @@ public class LeetCodeText {
 
     }
 
+    // 1753. 移除石子的最大得分 (Maximum Score From Removing Stones)
+    public int maximumScore(int a, int b, int c) {
+        int[] arr = new int[] { a, b, c };
+        Arrays.sort(arr);
+        if (arr[0] + arr[1] <= arr[2]) {
+            return arr[0] + arr[1];
+        } else {
+            return Arrays.stream(arr).sum() / 2;
+        }
+
+    }
+
 }
