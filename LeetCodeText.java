@@ -18051,4 +18051,29 @@ public class LeetCodeText {
 
     }
 
+    // 1658. 将 x 减到 0 的最小操作数 (Minimum Operations to Reduce X to Zero)
+    public int minOperations(int[] nums, int x) {
+        int sum = Arrays.stream(nums).sum() - x;
+        int left = 0;
+        int right = 0;
+        int curSum = 0;
+        int res = -1;
+        while (left < nums.length) {
+            if (right < nums.length) {
+                curSum += nums[right++];
+            }
+            while (curSum > sum && left < nums.length) {
+                curSum -= nums[left++];
+            }
+            if (curSum == sum) {
+                res = Math.max(res, right - left);
+            }
+            if (right == nums.length) {
+                ++left;
+            }
+        }
+        return res == -1 ? -1 : nums.length - res;
+
+    }
+
 }
