@@ -17095,9 +17095,6 @@ public class LeetCodeText {
 
     // 82. 删除排序链表中的重复元素 II (Remove Duplicates from Sorted List II)
     public ListNode deleteDuplicates(ListNode head) {
-        if (head == null) {
-            return head;
-        }
         ListNode dummy = new ListNode(0, head);
         ListNode cur = dummy;
         while (cur.next != null && cur.next.next != null) {
