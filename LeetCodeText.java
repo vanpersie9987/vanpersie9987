@@ -18099,4 +18099,18 @@ public class LeetCodeText {
 
     }
 
+    // 293. 翻转游戏 (Flip Game) (plus)
+    public List<String> generatePossibleNextMoves(String currentState) {
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < currentState.length() - 1; ++i) {
+            if (currentState.charAt(i) == '+' && currentState.charAt(i + 1) == '+') {
+                StringBuilder builder = new StringBuilder(currentState);
+                builder.replace(i, i + 2, "--");
+                res.add(builder.toString());
+            }
+        }
+        return res;
+
+    }
+
 }
