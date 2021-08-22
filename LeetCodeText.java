@@ -18216,4 +18216,39 @@ public class LeetCodeText {
         return res;
     }
 
+    // 693. 交替位二进制数 (Binary Number with Alternating Bits)
+    public boolean hasAlternatingBits(int n) {
+        return getAlternatingBits693(n, 0, 1) || getAlternatingBits693(n, 1, 0);
+
+    }
+
+    private boolean getAlternatingBits693(int n, int a, int b) {
+        boolean flag = true;
+        while (n > 0) {
+            if (flag) {
+                if (n % 2 == a) {
+                    n /= 2;
+                    flag = false;
+                } else {
+                    return false;
+                }
+            } else {
+                if (n % 2 == b) {
+                    n /= 2;
+                    flag = true;
+                } else {
+                    return false;
+
+                }
+            }
+        }
+        return true;
+    }
+
+    // 693. 交替位二进制数 (Binary Number with Alternating Bits)
+    public boolean hasAlternatingBits2(int n) {
+        int xor = (n ^ (n >> 1)) + 1;
+        return (xor & (xor - 1)) == 0;
+    }
+
 }
