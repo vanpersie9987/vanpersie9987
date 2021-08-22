@@ -18195,4 +18195,15 @@ public class LeetCodeText {
 
     }
 
+    // 1863.找出所有子集的异或总和再求和 (Sum of All Subset XOR Totals)
+    public int subsetXORSum(int[] nums) {
+        int n = nums.length;
+        int res = 0;
+        for (int num : nums) {
+            res |= num;
+        }
+        return res << (n - 1);
+
+    }
+
 }
