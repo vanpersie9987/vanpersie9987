@@ -15248,6 +15248,55 @@ public class LeetCodeText {
 
     }
 
+    // 143. 重排链表 // 剑指 Offer II 026. 重排链表
+    public void reorderList2(ListNode head) {
+        ListNode l1 = head;
+        ListNode mid = getMiddleNode(head);
+        ListNode l2 = mid.next;
+        mid.next = null;
+        l2 = getReverse(l2);
+        getMixed(l1, l2);
+
+    }
+
+    private void getMixed(ListNode l1, ListNode l2) {
+        ListNode tmp1;
+        ListNode tmp2;
+        while (l1 != null && l2 != null) {
+            tmp1 = l1.next;
+            tmp2 = l2.next;
+
+            l1.next = l2;
+            l1 = tmp1;
+
+            l2.next = l1;
+            l2 = tmp2;
+        }
+    }
+
+    private ListNode getReverse(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
+        }
+        return prev;
+
+    }
+
+    private ListNode getMiddleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
     // 234. 回文链表
     // 面试题 02.06. 回文链表
     // 剑指 Offer II 027. 回文链表
