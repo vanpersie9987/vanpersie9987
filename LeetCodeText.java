@@ -15228,23 +15228,21 @@ public class LeetCodeText {
     // 143. 重排链表 // 剑指 Offer II 026. 重排链表
     public void reorderList(ListNode head) {
         List<ListNode> list = new ArrayList<>();
-        ListNode node = head;
-        while (node != null) {
-            list.add(node);
-            node = node.next;
+        while (head != null) {
+            list.add(head);
+            head = head.next;
         }
         int i = 0;
         int j = list.size() - 1;
         while (i < j) {
-            list.get(i).next = list.get(j);
-            ++i;
+            list.get(i++).next = list.get(j);
             if (i == j) {
                 break;
             }
-            list.get(j).next = list.get(i);
-            --j;
+            list.get(j--).next = list.get(i);
         }
         list.get(i).next = null;
+
     }
 
     // 234. 回文链表
