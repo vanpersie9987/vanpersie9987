@@ -5610,33 +5610,6 @@ public class LeetCodeText {
         return result;
     }
 
-    public int singleNumber(final int[] nums) {
-        final Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.length; ++i) {
-            map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
-        }
-        for (final int a : map.keySet()) {
-            if (map.get(a) == 1) {
-                return a;
-            }
-        }
-        return 0;
-    }
-
-    public int singleNumber2(final int[] nums) {
-        Arrays.sort(nums);
-        if (nums[0] != nums[1]) {
-            return nums[0];
-        }
-        for (int i = 1; i < nums.length - 1; ++i) {
-            if (nums[i] != nums[i - 1] && nums[i] != nums[i + 1]) {
-                return nums[i];
-            }
-        }
-        return nums[nums.length - 1];
-
-    }
-
     // 1399. 统计最大组的数目
     public int countLargestGroup(int n) {
         int[] counts = new int[37];
@@ -12721,12 +12694,27 @@ public class LeetCodeText {
     }
 
     // 136. 只出现一次的数字
-    public int singleNumber1366(int[] nums) {
+    public int singleNumber(int[] nums) {
         int ans = nums[0];
         for (int i = 1; i < nums.length; ++i) {
             ans ^= nums[i];
         }
         return ans;
+
+    }
+
+    // 137. 只出现一次的数字 II (Single Number II)
+    public int singleNumberII(int[] nums) {
+        int res = 0;
+        for (int i = 0; i < 32; ++i) {
+            int count = 0;
+            for (int num : nums) {
+                count += (num >> i) & 1;
+            }
+            res |= (count % 3) << i;
+
+        }
+        return res;
 
     }
 
@@ -18250,5 +18238,24 @@ public class LeetCodeText {
         int xor = (n ^ (n >> 1)) + 1;
         return (xor & (xor - 1)) == 0;
     }
+
+    // // 260. 只出现一次的数字 III (Single Number III)
+    // public int[] singleNumber(int[] nums) {
+    // int[] res = new int[2];
+    // int A = 0;
+    // for (int num : nums) {
+    // A ^= num;
+    // }
+    // for (int num : nums) {
+    // A ^= num;
+    // }
+    // nums[0] = A;
+    // for (int num : nums) {
+    // A ^= num;
+    // }
+    // nums[1] = A;
+    // return res;
+
+    // }
 
 }
