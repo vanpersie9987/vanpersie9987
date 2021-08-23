@@ -18268,6 +18268,34 @@ public class LeetCodeText {
         }
     }
 
+    // 401. 二进制手表 (Binary Watch)
+    public List<String> readBinaryWatch(int turnedOn) {
+        List<String> res = new ArrayList<>();
+        for (int h = 0; h < 12; ++h) {
+            for (int m = 0; m < 60; ++m) {
+                if (Integer.bitCount(h) + Integer.bitCount(m) == turnedOn) {
+                    res.add(h + ":" + (m < 10 ? "0" : "") + m);
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 401. 二进制手表 (Binary Watch)
+    public List<String> readBinaryWatch2(int turnedOn) {
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < 1024; ++i) {
+            int h = i >> 6;
+            int m = i & 0b111111;
+            if (h < 12 && m < 60 && (Integer.bitCount(h) + Integer.bitCount(m)) == turnedOn) {
+                res.add(h + ":" + (m < 10 ? "0" : "") + m);
+            }
+        }
+        return res;
+
+    }
+
     // // 260. 只出现一次的数字 III (Single Number III)
     // public int[] singleNumber(int[] nums) {
     // int[] res = new int[2];
