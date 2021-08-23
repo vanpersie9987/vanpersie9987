@@ -18239,6 +18239,35 @@ public class LeetCodeText {
         return (xor & (xor - 1)) == 0;
     }
 
+    // 762. 二进制表示中质数个计算置位 (Prime Number of Set Bits in Binary Representation)
+    public int countPrimeSetBits(int left, int right) {
+        int res = 0;
+        for (int i = left; i <= right; ++i) {
+            int count = Integer.bitCount(i);
+            if (isPrime(count)) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean isPrime(int count) {
+        switch (count) {
+            case 2:
+            case 3:
+            case 5:
+            case 7:
+            case 11:
+            case 13:
+            case 17:
+            case 19:
+                return true;
+            default:
+                return false;
+        }
+    }
+
     // // 260. 只出现一次的数字 III (Single Number III)
     // public int[] singleNumber(int[] nums) {
     // int[] res = new int[2];
