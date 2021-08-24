@@ -18296,7 +18296,7 @@ public class LeetCodeText {
 
     }
 
-    // 剑指 Offer II 003. 前 n 个数字二进制中 1 的个数
+    // 338. 比特位计数 (Counting Bits) // 剑指 Offer II 003. 前 n 个数字二进制中 1 的个数
     public int[] countBits(int n) {
         int[] res = new int[n + 1];
         for (int i = 0; i <= n; ++i) {
@@ -18306,7 +18306,7 @@ public class LeetCodeText {
 
     }
 
-    // 剑指 Offer II 003. 前 n 个数字二进制中 1 的个数
+    // 338. 比特位计数 (Counting Bits) // 剑指 Offer II 003. 前 n 个数字二进制中 1 的个数
     public int[] countBits2(int n) {
         int[] res = new int[n + 1];
         for (int i = 0; i <= n; ++i) {
