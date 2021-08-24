@@ -18347,6 +18347,32 @@ public class LeetCodeText {
 
     }
 
+    // 剑指 Offer 15. 二进制中1的个数
+    public int hammingWeight(int n) {
+        return Integer.bitCount(n);
+    }
+
+    // 剑指 Offer 15. 二进制中1的个数
+    public int hammingWeight2(int n) {
+        int res = 0;
+        while (n != 0) {
+            n &= n - 1;
+            ++res;
+        }
+        return res;
+    }
+
+    // 剑指 Offer 15. 二进制中1的个数
+    public int hammingWeight3(int n) {
+        int res = 0;
+        for (int i = 0; i < 32; ++i) {
+            if (((n >> i) & 1) != 0) {
+                ++res;
+            }
+        }
+        return res;
+    }
+
     // // 260. 只出现一次的数字 III (Single Number III)
     // public int[] singleNumber(int[] nums) {
     // int[] res = new int[2];
