@@ -12703,7 +12703,7 @@ public class LeetCodeText {
 
     }
 
-    // 137. 只出现一次的数字 II (Single Number II)
+    // 137. 只出现一次的数字 II (Single Number II) // 剑指 Offer II 004. 只出现一次的数字
     public int singleNumberII(int[] nums) {
         int res = 0;
         for (int i = 0; i < 32; ++i) {
@@ -18392,9 +18392,5 @@ public class LeetCodeText {
         return res;
     }
 
-    // 剑指 Offer II 004. 只出现一次的数字
-    public int singleNumber(int[] nums) {
-
-    }
 
 }
