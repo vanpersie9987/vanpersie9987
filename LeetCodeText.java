@@ -12718,6 +12718,25 @@ public class LeetCodeText {
 
     }
 
+    // 260. 只出现一次的数字 III (Single Number III)
+    public int[] singleNumber(int[] nums) {
+        int A = 0;
+        for (int num : nums) {
+            A ^= num;
+        }
+        int[] res = new int[2];
+        int mask = A & (-A);
+        for (int num : nums) {
+            if ((mask & num) == 0) {
+                res[0] ^= num;
+            } else {
+                res[1] ^= num;
+            }
+        }
+        return res;
+
+    }
+
     // 225. 用队列实现栈 -- 两个队列
     class MyStack {
         Queue<Integer> queue1;
@@ -18372,24 +18391,5 @@ public class LeetCodeText {
         }
         return res;
     }
-
-    // // 260. 只出现一次的数字 III (Single Number III)
-    // public int[] singleNumber(int[] nums) {
-    // int[] res = new int[2];
-    // int A = 0;
-    // for (int num : nums) {
-    // A ^= num;
-    // }
-    // for (int num : nums) {
-    // A ^= num;
-    // }
-    // nums[0] = A;
-    // for (int num : nums) {
-    // A ^= num;
-    // }
-    // nums[1] = A;
-    // return res;
-
-    // }
 
 }
