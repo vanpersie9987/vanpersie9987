@@ -18402,4 +18402,10 @@ public class LeetCodeText {
 
     }
 
+    // 190. 颠倒二进制位 (Reverse Bits)
+    public int reverseBits2(int n) {
+        return Integer.reverse(n);
+
+    }
+
 }
