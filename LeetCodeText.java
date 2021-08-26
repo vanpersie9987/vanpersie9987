@@ -71,6 +71,7 @@ public class LeetCodeText {
         // String[] s = trulyMostPopular(names, synonyms);
         // boolean a = reorderedPowerOf2(10);
         // boolean i = areSentencesSimilar("My name is Haley", "My Haley");
+        // int res = numSplits("aaaaa");
 
     }
 
@@ -18430,6 +18431,40 @@ public class LeetCodeText {
     // 面试题 05.07. 配对交换 (Exchange LCCI)
     public int exchangeBits(int num) {
         return ((num & 0x55555555) << 1) | ((num & 0xAAAAAAAA) >> 1);
+    }
+
+    // 1525. 字符串的好分割数目 (Number of Good Ways to Split a String)
+    public int numSplits(String s) {
+        Set<Character> set = new HashSet<>();
+        int[] left = new int[s.length()];
+        left[0] = 1;
+        set.add(s.charAt(0));
+        for (int i = 1; i < s.length(); ++i) {
+            if (set.add(s.charAt(i))) {
+                left[i] = left[i - 1] + 1;
+            } else {
+                left[i] = left[i - 1];
+            }
+        }
+        set.clear();
+        int[] right = new int[s.length()];
+        right[right.length - 1] = 1;
+        set.add(s.charAt(s.length() - 1));
+        for (int i = s.length() - 2; i >= 0; --i) {
+            if (set.add(s.charAt(i))) {
+                right[i] = right[i + 1] + 1;
+            } else {
+                right[i] = right[i + 1];
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < s.length() - 1; ++i) {
+            if (left[i] == right[i + 1]) {
+                ++res;
+            }
+        }
+        return res;
+
     }
 
 }
