@@ -18474,7 +18474,7 @@ public class LeetCodeText {
         int head = 1;
         for (int i = 0; i < n; ++i) {
             for (int j = res.size() - 1; j >= 0; --j) {
-                res.add(head + res.get(j));
+                res.add(head | res.get(j));
             }
             head <<= 1;
         }
@@ -18489,7 +18489,7 @@ public class LeetCodeText {
         int head = 1;
         for (int i = 0; i < n; ++i) {
             for (int j = list.size() - 1; j >= 0; --j) {
-                list.add(head + list.get(j));
+                list.add(head | list.get(j));
             }
             head <<= 1;
         }
