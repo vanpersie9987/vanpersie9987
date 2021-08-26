@@ -18427,4 +18427,9 @@ public class LeetCodeText {
 
     }
 
+    // 面试题 05.07. 配对交换 (Exchange LCCI)
+    public int exchangeBits(int num) {
+        return ((num & 0x55555555) << 1) | ((num & 0xAAAAAAAA) >> 1);
+    }
+
 }
