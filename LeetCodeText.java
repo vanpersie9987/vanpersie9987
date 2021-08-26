@@ -18482,4 +18482,22 @@ public class LeetCodeText {
 
     }
 
+    // 1238. 循环码排列 (Circular Permutation in Binary Representation)
+    public List<Integer> circularPermutation(int n, int start) {
+        List<Integer> list = new ArrayList<>();
+        list.add(0);
+        int head = 1;
+        for (int i = 0; i < n; ++i) {
+            for (int j = list.size() - 1; j >= 0; --j) {
+                list.add(head + list.get(j));
+            }
+            head <<= 1;
+        }
+        while (list.get(0) != start) {
+            list.add(list.remove(0));
+        }
+        return list;
+
+    }
+
 }
