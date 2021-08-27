@@ -18500,4 +18500,24 @@ public class LeetCodeText {
 
     }
 
+    // 318. 最大单词长度乘积 (Maximum Product of Word Lengths) // 剑指 Offer II 005. 单词长度的最大乘积
+    public int maxProduct(String[] words) {
+        int[] status = new int[words.length];
+        for (int i = 0; i < words.length; ++i) {
+            for (char c : words[i].toCharArray()) {
+                status[i] |= 1 << (c - 'a');
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < status.length; ++i) {
+            for (int j = i + 1; j < status.length; ++j) {
+                if ((status[i] & status[j]) == 0) {
+                    res = Math.max(res, words[i].length() * words[j].length());
+                }
+            }
+        }
+        return res;
+
+    }
+
 }
