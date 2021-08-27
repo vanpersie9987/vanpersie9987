@@ -18539,4 +18539,18 @@ public class LeetCodeText {
 
     }
 
+    // 1310. 子数组异或查询 (XOR Queries of a Subarray)
+    public int[] xorQueries(int[] arr, int[][] queries) {
+        int[] xors = new int[arr.length + 1];
+        for (int i = 0; i < arr.length; ++i) {
+            xors[i + 1] = xors[i] ^ arr[i];
+        }
+        int[] res = new int[queries.length];
+        for (int i = 0; i < res.length; ++i) {
+            res[i] = xors[queries[i][0]] ^ xors[queries[i][1] + 1];
+        }
+        return res;
+
+    }
+
 }
