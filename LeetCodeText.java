@@ -18520,4 +18520,23 @@ public class LeetCodeText {
 
     }
 
+    // 1734. 解码异或后的排列 (Decode XORed Permutation)
+    public int[] decode(int[] encoded) {
+        int total = 0;
+        for (int i = 1; i <= encoded.length + 1; ++i) {
+            total ^= i;
+        }
+        int odd = 0;
+        for (int i = 1; i < encoded.length; i += 2) {
+            odd ^= encoded[i];
+        }
+        int[] perm = new int[encoded.length + 1];
+        perm[0] = odd ^ total;
+        for (int i = 1; i < perm.length; ++i) {
+            perm[i] = perm[i - 1] ^ encoded[i - 1];
+        }
+        return perm;
+
+    }
+
 }
