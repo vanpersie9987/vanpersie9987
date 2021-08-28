@@ -18585,4 +18585,38 @@ public class LeetCodeText {
 
     }
 
+    // 784. 字母大小写全排列 (Letter Case Permutation)
+    public List<String> letterCasePermutation(String s) {
+        List<String> res = new ArrayList<>();
+        int count = 0;
+        for (char c : s.toCharArray()) {
+            if (Character.isLetter(c)) {
+                ++count;
+            }
+        }
+        if (count == 0) {
+            res.add(s);
+            return res;
+        }
+        for (int i = (1 << count); i < (1 << (count + 1)); ++i) {
+            String bitMask = Integer.toBinaryString(i).substring(1);
+            StringBuilder builder = new StringBuilder();
+            int j = 0;
+            for (char c : s.toCharArray()) {
+                if (Character.isLetter(c)) {
+                    if (bitMask.charAt(j++) == '0') {
+                        builder.append(Character.toLowerCase(c));
+                    } else {
+                        builder.append(Character.toUpperCase(c));
+                    }
+                } else {
+                    builder.append(c);
+                }
+            }
+            res.add(builder.toString());
+        }
+        return res;
+
+    }
+
 }
