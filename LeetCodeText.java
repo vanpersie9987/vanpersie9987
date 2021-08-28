@@ -18553,4 +18553,17 @@ public class LeetCodeText {
 
     }
 
+    // 810. 黑板异或游戏 (Chalkboard XOR Game)
+    public boolean xorGame(int[] nums) {
+        if (nums.length % 2 == 0) {
+            return true;
+        }
+        int xor = 0;
+        for (int num : nums) {
+            xor ^= num;
+        }
+        return xor == 0;
+
+    }
+
 }
