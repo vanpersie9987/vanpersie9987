@@ -18652,4 +18652,20 @@ public class LeetCodeText {
         }
         return res;
     }
+
+    // 1829. 每个查询的最大异或值 (Maximum XOR for Each Query)
+    public int[] getMaximumXor(int[] nums, int maximumBit) {
+        int mask = (1 << maximumBit) - 1;
+        int[] res = new int[nums.length];
+        int xor = 0;
+        for (int num : nums) {
+            xor ^= num;
+        }
+        for (int i = nums.length - 1; i >= 0; --i) {
+            res[nums.length - i - 1] = mask ^ xor;
+            xor ^= nums[i];
+        }
+        return res;
+
+    }
 }
