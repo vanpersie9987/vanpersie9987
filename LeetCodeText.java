@@ -18627,4 +18627,29 @@ public class LeetCodeText {
         return res;
     }
 
+    // 面试题 08.05. 递归乘法 (Recursive Mulitply LCCI)
+    public int multiply(int A, int B) {
+        if (A == 0 || B == 0) {
+            return 0;
+        }
+        if (A < B) {
+            return B + multiply(A - 1, B);
+        }
+        return A + multiply(A, B - 1);
+    }
+
+    // 面试题 08.05. 递归乘法 (Recursive Mulitply LCCI)
+    public int multiply2(int A, int B) {
+        int res = 0;
+        while (B != 0) {
+            if ((B & 1) != 0) {
+                res += A;
+            }
+            B >>= 1;
+            if (B != 0) {
+                A += A;
+            }
+        }
+        return res;
+    }
 }
