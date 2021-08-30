@@ -18709,4 +18709,25 @@ public class LeetCodeText {
 
     }
 
+    // 1763. 最长的美好子字符串 (Longest Nice Substring)
+    public String longestNiceSubstring(String s) {
+        String res = "";
+        for (int i = 0; i < s.length(); ++i) {
+            int a = 0;
+            int b = 0;
+            for (int j = i; j < s.length(); ++j) {
+                if (s.charAt(j) >= 'a' && s.charAt(j) <= 'z') {
+                    a |= 1 << (s.charAt(j) - 'a');
+                } else {
+                    b |= 1 << (s.charAt(j) - 'A');
+                }
+                if (a == b && j - i + 1 > res.length()) {
+                    res = s.substring(i, j + 1);
+                }
+            }
+        }
+        return res;
+
+    }
+
 }
