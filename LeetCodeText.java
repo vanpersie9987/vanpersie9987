@@ -18686,4 +18686,27 @@ public class LeetCodeText {
         return res;
 
     }
+
+    // 421. 数组中两个数的最大异或值 (Maximum XOR of Two Numbers in an Array)
+    public int findMaximumXOR(int[] nums) {
+        int res = 0;
+        int mask = 0;
+        for (int i = 30; i >= 0; --i) {
+            mask |= 1 << i;
+            Set<Integer> set = new HashSet<>();
+            for (int num : nums) {
+                set.add(num & mask);
+            }
+            int temp = res | (1 << i);
+            for (int pre : set) {
+                if (set.contains(pre ^ temp)) {
+                    res = temp;
+                    break;
+                }
+            }
+        }
+        return res;
+
+    }
+
 }
