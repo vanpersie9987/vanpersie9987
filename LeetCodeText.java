@@ -1,3 +1,4 @@
+import java.lang.FdLibm.Cbrt;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18664,6 +18665,23 @@ public class LeetCodeText {
         for (int i = nums.length - 1; i >= 0; --i) {
             res[nums.length - i - 1] = mask ^ xor;
             xor ^= nums[i];
+        }
+        return res;
+
+    }
+
+    // 1318. 或运算的最小翻转次数 (Minimum Flips to Make a OR b Equal to c)
+    public int minFlips(int a, int b, int c) {
+        int res = 0;
+        for (int i = 0; i < 32; ++i) {
+            int aBit = (a >> i) & 1;
+            int bBit = (b >> i) & 1;
+            int cBit = (c >> i) & 1;
+            if (cBit == 0) {
+                res += aBit + bBit;
+            } else {
+                res += aBit + bBit == 0 ? 1 : 0;
+            }
         }
         return res;
 
