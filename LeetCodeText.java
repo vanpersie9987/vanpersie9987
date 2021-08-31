@@ -18763,4 +18763,22 @@ public class LeetCodeText {
 
     }
 
+    // 1979. 找出数组的最大公约数 (Find Greatest Common Divisor of Array)
+    public int findGCD(int[] nums) {
+        int max = Arrays.stream(nums).max().getAsInt();
+        int min = Arrays.stream(nums).min().getAsInt();
+        return getGCD1979(max, min);
+
+    }
+
+    private int getGCD1979(int a, int b) {
+        // gcd(a, b) = gcd(b, a mod b)
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
 }
