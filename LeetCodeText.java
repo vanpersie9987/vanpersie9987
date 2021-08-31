@@ -18681,7 +18681,8 @@ public class LeetCodeText {
 
     }
 
-    // 421. 数组中两个数的最大异或值 (Maximum XOR of Two Numbers in an Array)
+    // 421. 数组中两个数的最大异或值 (Maximum XOR of Two Numbers in an Array) // 剑指 Offer II
+    // 067. 最大的异或
     public int findMaximumXOR(int[] nums) {
         int res = 0;
         int mask = 0;
