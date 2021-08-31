@@ -18794,4 +18794,9 @@ public class LeetCodeText {
         return product - sum;
     }
 
+    // 1551. 使数组中所有元素相等的最小操作数 (Minimum Operations to Make Array Equal)
+    public int minOperations(int n) {
+        return n * n / 4;
+    }
+
 }
