@@ -5535,6 +5535,30 @@ public class LeetCodeText {
         return res;
     }
 
+    // 90. 子集 II (Subsets II)
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < (1 << nums.length); ++i) {
+            List<Integer> sub = new ArrayList<>();
+            boolean flag = true;
+            for (int j = 0; j < nums.length; ++j) {
+                if ((i & (1 << j)) != 0) {
+                    if (j > 0 && (i >> (j - 1) & 1) == 0 && nums[j] == nums[j - 1]) {
+                        flag = false;
+                        break;
+                    }
+                    sub.add(nums[j]);
+                }
+            }
+            if (flag) {
+                res.add(sub);
+            }
+        }
+        return res;
+
+    }
+
     // 1329. 将矩阵按对角线排序
     public int[][] diagonalSort(final int[][] mat) {
         Map<Integer, ArrayList<Integer>> map = new HashMap<>();
