@@ -5504,8 +5504,7 @@ public class LeetCodeText {
     }
 
     // 78. 子集 / 面试题 08.04. 幂集
-
-    public List<List<Integer>> subsets(final int[] nums) {
+    public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
         for (int i = (1 << nums.length); i < (1 << (nums.length + 1)); ++i) {
             String bitMask = Integer.toBinaryString(i).substring(1);
@@ -5519,6 +5518,21 @@ public class LeetCodeText {
         }
         return res;
 
+    }
+
+    // 78. 子集 / 面试题 08.04. 幂集
+    public List<List<Integer>> subsets2(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < (1 << nums.length); ++i) {
+            List<Integer> sub = new ArrayList<>();
+            for (int j = 0; j < nums.length; ++j) {
+                if ((i & (1 << j)) != 0) {
+                    sub.add(nums[j]);
+                }
+            }
+            res.add(sub);
+        }
+        return res;
     }
 
     // 1329. 将矩阵按对角线排序
