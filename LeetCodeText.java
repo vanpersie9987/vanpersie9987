@@ -18799,4 +18799,22 @@ public class LeetCodeText {
         return n * n / 4;
     }
 
+    // 面试题 05.06. 整数转换 (Convert Integer LCCI)
+    public int convertInteger(int A, int B) {
+        int diff = A ^ B;
+        int res = 0;
+        while (diff != 0) {
+            diff &= diff - 1;
+            ++res;
+        }
+        return res;
+
+    }
+
+    // 面试题 05.06. 整数转换 (Convert Integer LCCI)
+    public int convertInteger2(int A, int B) {
+        int diff = A ^ B;
+        return Integer.bitCount(diff);
+    }
+
 }
