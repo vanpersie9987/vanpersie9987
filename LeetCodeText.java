@@ -18817,4 +18817,16 @@ public class LeetCodeText {
         return Integer.bitCount(diff);
     }
 
+    // 476. 数字的补数 (Number Complement) // 1009. 十进制整数的反码 (Complement of Base 10
+    // Integer)
+    public int bitwiseComplement(int n) {
+        if (n == 0) {
+            return 1;
+        }
+        int bits = (int) (Math.log(n) / Math.log(2)) + 1;
+        int xor = (int) Math.pow(2, bits) - 1;
+        return xor ^ n;
+
+    }
+
 }
