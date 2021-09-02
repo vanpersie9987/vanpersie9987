@@ -18844,4 +18844,24 @@ public class LeetCodeText {
 
     }
 
+    // 201. 数字范围按位与 (Bitwise AND of Numbers Range)
+    public int rangeBitwiseAnd(int left, int right) {
+        int shift = 0;
+        while (left < right) {
+            left >>= 1;
+            right >>= 1;
+            ++shift;
+        }
+        return left << shift;
+
+    }
+
+    // 201. 数字范围按位与 (Bitwise AND of Numbers Range)
+    public int rangeBitwiseAnd2(int left, int right) {
+        while (left < right) {
+            right &= right - 1;
+        }
+        return right;
+    }
+
 }
