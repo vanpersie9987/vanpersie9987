@@ -18829,4 +18829,19 @@ public class LeetCodeText {
 
     }
 
+    // 405. 数字转换为十六进制数 (Convert a Number to Hexadecimal)
+    public String toHex(int num) {
+        if (num == 0) {
+            return "0";
+        }
+        char[] table = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+        String res = "";
+        while (num != 0) {
+            res = table[num & 0b1111] + res;
+            num >>>= 4;
+        }
+        return res;
+
+    }
+
 }
