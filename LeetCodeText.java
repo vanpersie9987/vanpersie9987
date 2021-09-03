@@ -18864,4 +18864,46 @@ public class LeetCodeText {
         return right;
     }
 
+    // 面试题 05.01. 插入 (Insert Into Bits LCCI)
+    public int insertBits(int N, int M, int i, int j) {
+        int left = N >> j >> 1;
+        left = left << j << 1;
+        int middle = M << i;
+        int right = N & ((1 << i) - 1);
+        return left | middle | right;
+
+    }
+
+    // 491. 递增子序列 (Increasing Subsequences)
+    // public List<List<Integer>> findSubsequences(int[] nums) {
+    // List<List<Integer>> res = new ArrayList<>();
+    // for (int mask = 0; mask < (1 << nums.length); ++mask) {
+    // List<Integer> list = new ArrayList<>();
+    // boolean flag = true;
+    // for (int i = 0; i < nums.length; ++i) {
+    // if ((mask & (1 << i)) != 0) {
+    // if (i > 0 && (mask >> (i - 1) & 1) == 0 && nums[i] == nums[i - 1]) {
+    // flag = false;
+    // break;
+    // }
+    // list.add(nums[i]);
+    // }
+    // }
+    // if (flag && check491(list)) {
+    // res.add(list);
+    // }
+    // }
+    // return res;
+
+    // }
+
+    // private boolean check491(List<Integer> list) {
+    // for (int i = 1; i < list.size(); ++i) {
+    // if (list.get(i - 1) > list.get(i)) {
+    // return false;
+    // }
+    // }
+    // return list.size() >= 2;
+    // }
+
 }
