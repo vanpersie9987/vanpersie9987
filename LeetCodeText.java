@@ -18874,6 +18874,35 @@ public class LeetCodeText {
 
     }
 
+    // 1461. 检查一个字符串是否包含所有长度为 K 的二进制子串 (Check If a String Contains All Binary Codes
+    // of Size K)
+    public boolean hasAllCodes(String s, int k) {
+        if (s.length() < (1 << k) + k - 1) {
+            return false;
+        }
+        Set<String> set = new HashSet<>();
+        for (int i = k; i <= s.length(); ++i) {
+            set.add(s.substring(i - k, i));
+        }
+        return set.size() == (1 << k);
+    }
+
+    // 1461. 检查一个字符串是否包含所有长度为 K 的二进制子串 (Check If a String Contains All Binary Codes
+    // of Size K)
+    public boolean hasAllCodes2(String s, int k) {
+        if (s.length() < (1 << k) + k - 1) {
+            return false;
+        }
+        int num = Integer.parseInt(s.substring(0, k), 2);
+        Set<Integer> set = new HashSet<>();
+        set.add(num);
+        for (int i = 1; (i + k) <= s.length(); ++i) {
+            num = (num - ((s.charAt(i - 1) - '0') << (k - 1))) * 2 + (s.charAt(i + k - 1) - '0');
+            set.add(num);
+        }
+        return set.size() == (1 << k);
+    }
+
     // 491. 递增子序列 (Increasing Subsequences)
     // public List<List<Integer>> findSubsequences(int[] nums) {
     // List<List<Integer>> res = new ArrayList<>();
