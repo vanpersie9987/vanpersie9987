@@ -18986,6 +18986,17 @@ public class LeetCodeText {
 
     }
 
+    // 1716. 计算力扣银行的钱 (Calculate Money in Leetcode Bank)
+    public int totalMoney(int n) {
+        int firstWeek = (1 + 7) * 7 / 2;
+        int weeks = n / 7;
+        int lastWeek = firstWeek + (weeks - 1) * 7;
+        int left = n % 7;
+        int sum = (firstWeek + lastWeek) * weeks / 2 + (2 * weeks + 1 + left) * left / 2;
+        return sum;
+
+    }
+
     // 491. 递增子序列 (Increasing Subsequences)
     // public List<List<Integer>> findSubsequences(int[] nums) {
     // List<List<Integer>> res = new ArrayList<>();
