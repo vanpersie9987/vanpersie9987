@@ -18965,6 +18965,27 @@ public class LeetCodeText {
 
     }
 
+    // 1561. 你可以获得的最大硬币数目 (Maximum Number of Coins You Can Get)
+    public int maxCoins(int[] piles) {
+        Arrays.sort(piles);
+        int res = 0;
+        int count = 0;
+        int i = piles.length - 2;
+        while (count < piles.length / 3) {
+            res += piles[i];
+            i -= 2;
+            ++count;
+        }
+        return res;
+
+    }
+
+    // 877. 石子游戏 (Stone Game)
+    public boolean stoneGame(int[] piles) {
+        return true;
+
+    }
+
     // 491. 递增子序列 (Increasing Subsequences)
     // public List<List<Integer>> findSubsequences(int[] nums) {
     // List<List<Integer>> res = new ArrayList<>();
