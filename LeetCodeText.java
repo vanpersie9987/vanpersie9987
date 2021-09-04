@@ -18980,7 +18980,7 @@ public class LeetCodeText {
 
     }
 
-    // 877. 石子游戏 (Stone Game)
+    // 877. 石子游戏 (Stone Game) --[还需要掌握动态规划算法]
     public boolean stoneGame(int[] piles) {
         return true;
 
