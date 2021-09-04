@@ -18947,6 +18947,13 @@ public class LeetCodeText {
 
     }
 
+    // 1812. 判断国际象棋棋盘中一个格子的颜色 (Determine Color of a Chessboard Square)
+    public boolean squareIsWhite(String coordinates) {
+        int alphabet = coordinates.charAt(0) - 'a';
+        int number = coordinates.charAt(1) - '0';
+        return (alphabet & 1) == (number & 1);
+    }
+
     // 491. 递增子序列 (Increasing Subsequences)
     // public List<List<Integer>> findSubsequences(int[] nums) {
     // List<List<Integer>> res = new ArrayList<>();
