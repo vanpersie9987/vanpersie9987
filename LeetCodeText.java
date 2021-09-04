@@ -18903,6 +18903,39 @@ public class LeetCodeText {
         return set.size() == (1 << k);
     }
 
+    // 1392. 最长快乐前缀 (Longest Happy Prefix)
+    public String longestPrefix(String s) {
+        int left = 0;
+        int right = s.length() - 1;
+        String res = "";
+        while (right > 0) {
+            String prefix = s.substring(0, left + 1);
+            String suffix = s.substring(right);
+            if (prefix.equals(suffix)) {
+                res = prefix;
+            }
+            ++left;
+            --right;
+        }
+        return res;
+
+    }
+
+    // 1822. 数组元素积的符号 (Sign of the Product of an Array)
+    public int arraySign(int[] nums) {
+        int negative = 0;
+        for (int num : nums) {
+            if (num == 0) {
+                return 0;
+            }
+            if (num < 0) {
+                ++negative;
+            }
+        }
+        return (negative & 1) == 0 ? 1 : -1;
+
+    }
+
     // 491. 递增子序列 (Increasing Subsequences)
     // public List<List<Integer>> findSubsequences(int[] nums) {
     // List<List<Integer>> res = new ArrayList<>();
