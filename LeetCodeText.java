@@ -18954,6 +18954,17 @@ public class LeetCodeText {
         return (alphabet & 1) == (number & 1);
     }
 
+    // 1837. K 进制表示下的各位数字总和 (Sum of Digits in Base K)
+    public int sumBase(int n, int k) {
+        int res = 0;
+        while (n != 0) {
+            res += n % k;
+            n /= k;
+        }
+        return res;
+
+    }
+
     // 491. 递增子序列 (Increasing Subsequences)
     // public List<List<Integer>> findSubsequences(int[] nums) {
     // List<List<Integer>> res = new ArrayList<>();
