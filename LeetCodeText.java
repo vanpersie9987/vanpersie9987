@@ -18997,6 +18997,18 @@ public class LeetCodeText {
 
     }
 
+    // 908. 最小差值 I (Smallest Range I)
+    public int smallestRangeI(int[] nums, int k) {
+        int min = nums[0];
+        int max = nums[0];
+        for (int num : nums) {
+            min = Math.min(min, num);
+            max = Math.max(max, num);
+        }
+        return Math.max(0, max - min - 2 * k);
+
+    }
+
     // 491. 递增子序列 (Increasing Subsequences)
     // public List<List<Integer>> findSubsequences(int[] nums) {
     // List<List<Integer>> res = new ArrayList<>();
