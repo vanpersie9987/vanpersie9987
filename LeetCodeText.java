@@ -19076,6 +19076,16 @@ public class LeetCodeText {
         return (int) Math.ceil((-1.0 + Math.sqrt(8 * n + 1)) / 2);
 
     }
+
+    // LCP 11. 期望个数统计
+    public int expectNumber(int[] scores) {
+        Set<Integer> set = new HashSet<>();
+        for (int score : scores) {
+            set.add(score);
+        }
+        return set.size();
+
+    }
     // 491. 递增子序列 (Increasing Subsequences)
     // public List<List<Integer>> findSubsequences(int[] nums) {
     // List<List<Integer>> res = new ArrayList<>();
