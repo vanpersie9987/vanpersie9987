@@ -19086,6 +19086,17 @@ public class LeetCodeText {
         return set.size();
 
     }
+
+    // 973. 最接近原点的 K 个点 (K Closest Points to Origin)
+    public int[][] kClosest(int[][] points, int k) {
+        Arrays.sort(points, (o1, o2) -> {
+            int distance1 = o1[0] * o1[0] + o1[1] * o1[1];
+            int distance2 = o2[0] * o2[0] + o2[1] * o2[1];
+            return distance1 - distance2;
+        });
+        return Arrays.copyOfRange(points, 0, k);
+
+    }
     // 491. 递增子序列 (Increasing Subsequences)
     // public List<List<Integer>> findSubsequences(int[] nums) {
     // List<List<Integer>> res = new ArrayList<>();
