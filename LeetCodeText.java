@@ -19024,6 +19024,23 @@ public class LeetCodeText {
 
     }
 
+    // 789. 逃脱阻碍者 (Escape The Ghosts)
+    public boolean escapeGhosts(int[][] ghosts, int[] target) {
+        int[] source = { 0, 0 };
+        int minDistance = getManhattanDistance789(source, target);
+        for (int[] ghost : ghosts) {
+            if (minDistance >= getManhattanDistance789(ghost, target)) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    private int getManhattanDistance789(int[] point1, int[] point2) {
+        return Math.abs(point1[0] - point2[0]) + Math.abs(point1[1] - point2[1]);
+    }
+
     // 491. 递增子序列 (Increasing Subsequences)
     // public List<List<Integer>> findSubsequences(int[] nums) {
     // List<List<Integer>> res = new ArrayList<>();
