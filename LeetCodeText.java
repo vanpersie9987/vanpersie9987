@@ -7250,70 +7250,33 @@ public class LeetCodeText {
 
     }
 
-    public List<List<String>> groupAnagrams(final String[] strs) {
-        final String[] strsCopy = strs.clone();
-        for (int i = 0; i < strsCopy.length; ++i) {
-            final String s = strsCopy[i];
-            final char[] arr = s.toCharArray();
-            Arrays.sort(arr);
-            strsCopy[i] = String.valueOf(arr);
-        }
-        final boolean[] flag = new boolean[strs.length];
-        final List<List<String>> res = new ArrayList<>();
-        for (int i = 0; i < strsCopy.length; ++i) {
-            if (!flag[i]) {
-                flag[i] = true;
-                final List<String> list = new ArrayList<>();
-                list.add(strs[i]);
-                for (int j = i + 1; j < strsCopy.length; ++j) {
-                    if (!flag[j] && strsCopy[j].equals(strsCopy[i])) {
-                        flag[j] = true;
-                        list.add(strs[j]);
-                    }
-                }
-                res.add(list);
-            }
-
-        }
-        return res;
-    }
-
-    public List<List<String>> groupAnagrams2(final String[] strs) {
-        if (strs == null || strs.length == 0) {
-            return new ArrayList<>();
-        }
-        final Map<String, List<String>> map = new HashMap<>();
-        for (final String s : strs) {
-            final char[] chars = s.toCharArray();
+    // 49. 字母异位词分组 (Group Anagrams) // 剑指 Offer II 033. 变位词组
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+        for (String str : strs) {
+            char[] chars = str.toCharArray();
             Arrays.sort(chars);
-            final String key = String.valueOf(chars);
-            map.computeIfAbsent(key, k -> new ArrayList<>()).add(s);
-            // if (!map.containsKey(key)) {
-            // map.put(key, new ArrayList());
-            // }
-            // map.get(key).add(s);
+            String key = String.valueOf(chars);
+            map.computeIfAbsent(key, k -> new ArrayList<>()).add(str);
         }
         return new ArrayList<>(map.values());
-
     }
 
-    public List<List<String>> groupAnagrams3(final String[] strs) {
-        final int[] counts = new int[26];
-        final Map<String, List<String>> map = new HashMap<>();
-        for (final String s : strs) {
+    // 49. 字母异位词分组 (Group Anagrams) // 剑指 Offer II 033. 变位词组
+    public List<List<String>> groupAnagrams2(String[] strs) {
+        int[] counts = new int[26];
+        Map<String, List<String>> map = new HashMap<>();
+        for (String s : strs) {
             Arrays.fill(counts, 0);
-            final char[] chars = s.toCharArray();
-            for (final char c : chars) {
+            char[] chars = s.toCharArray();
+            for (char c : chars) {
                 ++counts[c - 'a'];
             }
-            final StringBuilder builder = new StringBuilder();
-            for (final int count : counts) {
+            StringBuilder builder = new StringBuilder();
+            for (int count : counts) {
                 builder.append("#").append(count);
             }
-            if (!map.containsKey(builder.toString())) {
-                map.put(builder.toString(), new ArrayList<>());
-            }
-            map.get(builder.toString()).add(s);
+            map.computeIfAbsent(builder.toString(), k -> new ArrayList<>()).add(s);
         }
         return new ArrayList<>(map.values());
     }
