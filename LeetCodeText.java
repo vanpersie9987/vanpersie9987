@@ -19097,6 +19097,24 @@ public class LeetCodeText {
         return Arrays.copyOfRange(points, 0, k);
 
     }
+
+    // 1832. 判断句子是否为全字母句 (Check if the Sentence Is Pangram)
+    public boolean checkIfPangram(String sentence) {
+        Set<Character> set = new HashSet<>();
+        for (char c : sentence.toCharArray()) {
+            set.add(c);
+        }
+        return set.size() == 26;
+    }
+
+    // 1832. 判断句子是否为全字母句 (Check if the Sentence Is Pangram)
+    public boolean checkIfPangram2(String sentence) {
+        int res = 0;
+        for (char c : sentence.toCharArray()) {
+            res |= 1 << (c - 'a');
+        }
+        return res == 0x3ffffff;
+    }
     // 491. 递增子序列 (Increasing Subsequences)
     // public List<List<Integer>> findSubsequences(int[] nums) {
     // List<List<Integer>> res = new ArrayList<>();
