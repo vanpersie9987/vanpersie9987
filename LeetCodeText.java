@@ -19078,36 +19078,24 @@ public class LeetCodeText {
         }
         return res == 0x3ffffff;
     }
-    // 491. 递增子序列 (Increasing Subsequences)
-    // public List<List<Integer>> findSubsequences(int[] nums) {
-    // List<List<Integer>> res = new ArrayList<>();
-    // for (int mask = 0; mask < (1 << nums.length); ++mask) {
-    // List<Integer> list = new ArrayList<>();
-    // boolean flag = true;
-    // for (int i = 0; i < nums.length; ++i) {
-    // if ((mask & (1 << i)) != 0) {
-    // if (i > 0 && (mask >> (i - 1) & 1) == 0 && nums[i] == nums[i - 1]) {
-    // flag = false;
-    // break;
-    // }
-    // list.add(nums[i]);
-    // }
-    // }
-    // if (flag && check491(list)) {
-    // res.add(list);
-    // }
-    // }
-    // return res;
 
-    // }
+    // 50. Pow(x, n) (Pow(x, n))
+    public double myPow(double x, int n) {
+        long N = n;
+        return n > 0 ? getQuickMultiply(x, N) : 1.0 / getQuickMultiply(x, -N);
 
-    // private boolean check491(List<Integer> list) {
-    // for (int i = 1; i < list.size(); ++i) {
-    // if (list.get(i - 1) > list.get(i)) {
-    // return false;
-    // }
-    // }
-    // return list.size() >= 2;
-    // }
+    }
+
+    private double getQuickMultiply(double x, long n) {
+        double res = 1.0;
+        while (n > 0) {
+            if ((n & 1) != 0) {
+                res *= x;
+            }
+            x *= x;
+            n >>= 1;
+        }
+        return res;
+    }
 
 }
