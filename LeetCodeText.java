@@ -19098,4 +19098,38 @@ public class LeetCodeText {
         return res;
     }
 
+    // 172. 阶乘后的零 (Factorial Trailing Zeroes)
+    /**
+     * 判断有多少个5的因子
+     */
+    public int trailingZeroes(int n) {
+        int count = 0;
+        for (int i = 5; i <= n; i += 5) {
+            int N = i;
+            while (N > 0) {
+                if (N % 5 == 0) {
+                    ++count;
+                    N /= 5;
+                } else {
+                    break;
+                }
+            }
+        }
+        return count;
+    }
+
+    // 172. 阶乘后的零 (Factorial Trailing Zeroes)
+    /**
+     * 判断有多少个5的因子 每隔 5 个数，出现一个 5，每隔 25 个数，出现 2 个 5，每隔 125 个数，出现 3 个 5... 以此类推
+     */
+    public int trailingZeroes2(int n) {
+        int res = 0;
+        while (n > 0) {
+            res += n / 5;
+            n /= 5;
+        }
+        return res;
+
+    }
+
 }
