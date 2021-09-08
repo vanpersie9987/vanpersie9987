@@ -14678,25 +14678,8 @@ public class LeetCodeText {
 
     }
 
-    public class ListNode445 {
-        int val;
-        ListNode445 next;
-
-        ListNode445() {
-        }
-
-        ListNode445(int val) {
-            this.val = val;
-        }
-
-        ListNode445(int val, ListNode445 next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
-
-    // 445. 两数相加 II
-    public ListNode445 addTwoNumbers(ListNode445 l1, ListNode445 l2) {
+    // 445. 两数相加 II // 剑指 Offer II 025. 链表中的两数相加
+    public ListNode addTwoNumbers445(ListNode l1, ListNode l2) {
         Stack<Integer> stack1 = new Stack<>();
         Stack<Integer> stack2 = new Stack<>();
         while (l1 != null) {
@@ -14707,19 +14690,41 @@ public class LeetCodeText {
             stack2.push(l2.val);
             l2 = l2.next;
         }
-        ListNode445 ans = null;
+        ListNode ans = null;
         int carry = 0;
         while (!stack1.isEmpty() || !stack2.isEmpty() || carry != 0) {
-            int num1 = stack1.isEmpty() ? 0 : stack1.pop();
-            int num2 = stack2.isEmpty() ? 0 : stack2.pop();
-            int cur = num1 + num2 + carry;
-            carry = cur / 10;
-            cur %= 10;
-            ListNode445 curNode = new ListNode445(cur);
-            curNode.next = ans;
-            ans = curNode;
+            carry += stack1.isEmpty() ? 0 : stack1.pop();
+            carry += stack2.isEmpty() ? 0 : stack2.pop();
+            ListNode cur = new ListNode(carry % 10);
+            carry /= 10;
+            cur.next = ans;
+            ans = cur;
+
         }
         return ans;
+
+    }
+
+    // 2. 两数相加 (Add Two Numbers)
+    public ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
+        int carry = 0;
+        ListNode cur = new ListNode(0);
+        ListNode dummy = cur;
+        while (l1 != null || l2 != null || carry != 0) {
+            if (l1 != null) {
+                carry += l1.val;
+                l1 = l1.next;
+            }
+            if (l2 != null) {
+                carry += l2.val;
+                l2 = l2.next;
+            }
+            ListNode temp = new ListNode(carry % 10);
+            cur.next = temp;
+            cur = cur.next;
+            carry /= 10;
+        }
+        return dummy.next;
 
     }
 
@@ -17613,43 +17618,6 @@ public class LeetCodeText {
         latter.val = formmer.val;
         formmer.val = temp;
         return head;
-    }
-
-    // 剑指 Offer II 025. 链表中的两数相加
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        List<Integer> list1 = new ArrayList<>();
-        List<Integer> list2 = new ArrayList<>();
-        while (l1 != null) {
-            list1.add(l1.val);
-            l1 = l1.next;
-        }
-        while (l2 != null) {
-            list2.add(l2.val);
-            l2 = l2.next;
-        }
-        List<Integer> ans = new ArrayList<>();
-        int i = list1.size() - 1;
-        int j = list2.size() - 1;
-        int carry = 0;
-        while (i >= 0 || j >= 0 || carry > 0) {
-            if (i >= 0) {
-                carry += list1.get(i--);
-            }
-            if (j >= 0) {
-                carry += list2.get(j--);
-            }
-            ans.add(carry % 10);
-            carry /= 10;
-        }
-        ListNode head = new ListNode(ans.get(ans.size() - 1), null);
-        ListNode res = head;
-        for (int k = ans.size() - 2; k >= 0; --k) {
-            ListNode node = new ListNode(ans.get(k), null);
-            head.next = node;
-            head = head.next;
-        }
-        return res;
-
     }
 
     // LCP 06. 拿硬币
