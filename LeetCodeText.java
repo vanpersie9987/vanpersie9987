@@ -19131,4 +19131,17 @@ public class LeetCodeText {
 
     }
 
+    // 168. Excel表列名称 (Excel Sheet Column Title)
+    public String convertToTitle(int columnNumber) {
+        StringBuilder res = new StringBuilder();
+        while (columnNumber > 0) {
+            --columnNumber;
+            char temp = (char) (columnNumber % 26 + 'A');
+            res.append(temp);
+            columnNumber /= 26;
+        }
+        return res.reverse().toString();
+
+    }
+
 }
