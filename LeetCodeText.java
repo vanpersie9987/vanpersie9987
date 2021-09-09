@@ -19144,4 +19144,34 @@ public class LeetCodeText {
 
     }
 
+    // 279. 完全平方数 (Perfect Squares)
+    public int numSquares(int n) {
+        if (isPerfectSquare279(n)) {
+            return 1;
+        }
+        if (isAnswer4(n)) {
+            return 4;
+        }
+        for (int i = 1; i * i < n; ++i) {
+            int j = n - i * i;
+            if (isPerfectSquare279(j)) {
+                return 2;
+            }
+        }
+        return 3;
+
+    }
+
+    private boolean isAnswer4(int n) {
+        while (n % 4 == 0) {
+            n /= 4;
+        }
+        return n % 8 == 7;
+    }
+
+    private boolean isPerfectSquare279(int n) {
+        int m = (int) Math.sqrt(n);
+        return m * m == n;
+    }
+
 }
