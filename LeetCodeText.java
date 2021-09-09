@@ -19100,4 +19100,35 @@ public class LeetCodeText {
 
     }
 
+    // 60. 排列序列 (Permutation Sequence)
+    public String getPermutation(int n, int k) {
+        char[] permutations = new char[n];
+        for (int i = 0; i < n; ++i) {
+            permutations[i] = (char) (i + 1 + '0');
+        }
+        for (int i = 0; i < k - 1; ++i) {
+            int j = permutations.length - 1;
+            while (j > 0) {
+                if (permutations[j - 1] < permutations[j]) {
+                    break;
+                }
+                --j;
+            }
+            --j;
+            int l = permutations.length - 1;
+            while (j < l) {
+                if (permutations[j] < permutations[l]) {
+                    char temp = permutations[j];
+                    permutations[j] = permutations[l];
+                    permutations[l] = temp;
+                    break;
+                }
+                --l;
+            }
+            Arrays.sort(permutations, j + 1, permutations.length);
+        }
+        return String.valueOf(permutations);
+
+    }
+
 }
