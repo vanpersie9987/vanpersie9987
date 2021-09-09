@@ -19174,4 +19174,89 @@ public class LeetCodeText {
         return m * m == n;
     }
 
+    // 1970. 你能穿过矩阵的最后一天 (Last Day Where You Can Still Cross)
+    public int latestDayToCross(int row, int col, int[][] cells) {
+        int n = cells.length;
+        Union1970 union = new Union1970(n + 2);
+        int dummyTop = n;
+        int dummyBottom = n + 1;
+        int[][] arr = new int[row][col];
+        int res = -1;
+        for (int i = n - 1; i >= 0; --i) {
+            int x = cells[i][0] - 1;
+            int y = cells[i][1] - 1;
+            arr[x][y] = 1;
+            if (x > 0 && arr[x - 1][y] == 1) {
+                union.union(getIndex1970(x, y, col), getIndex1970(x - 1, y, col));
+            }
+            if (x + 1 < row && arr[x + 1][y] == 1) {
+                union.union(getIndex1970(x, y, col), getIndex1970(x + 1, y, col));
+            }
+            if (y > 0 && arr[x][y - 1] == 1) {
+                union.union(getIndex1970(x, y, col), getIndex1970(x, y - 1, col));
+            }
+            if (y + 1 < col && arr[x][y + 1] == 1) {
+                union.union(getIndex1970(x, y, col), getIndex1970(x, y + 1, col));
+            }
+            if (x == 0) {
+                union.union(getIndex1970(x, y, col), dummyTop);
+            }
+            if (x == row - 1) {
+                union.union(getIndex1970(x, y, col), dummyBottom);
+            }
+            if (union.isConnected(dummyTop, dummyBottom)) {
+                res = i;
+                break;
+            }
+        }
+        return res;
+
+    }
+
+    private int getIndex1970(int x, int y, int col) {
+        return x * col + y;
+    }
+
+    public class Union1970 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union1970(int n) {
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+
+    }
+
 }
