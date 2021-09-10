@@ -19385,4 +19385,23 @@ public class LeetCodeText {
         }
     }
 
+    // 504. 七进制数 (Base 7)
+    public String convertToBase7(int num) {
+        if (num == 0) {
+            return "0";
+        }
+        StringBuilder res = new StringBuilder();
+        int sign = num < 0 ? -1 : 1;
+        num *= sign;
+        while (num != 0) {
+            res.append(num % 7);
+            num /= 7;
+        }
+        if (sign < 0) {
+            res.append('-');
+        }
+        return res.reverse().toString();
+
+    }
+
 }
