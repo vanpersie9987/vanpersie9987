@@ -19314,6 +19314,75 @@ public class LeetCodeText {
 
     }
 
-    
+    // 1998. 数组的最大公因数排序 (GCD Sort of an Array)
+    public boolean gcdSort(int[] nums) {
+        Union1998 union = new Union1998(100005);
+        for (int num : nums) {
+            int c = num;
+            for (int i = 2; i <= num / i; ++i) {
+                boolean flag = false;
+                while (num % i == 0) {
+                    num /= i;
+                    flag = true;
+                }
+                if (flag) {
+                    union.union(c, i);
+                }
+            }
+            if (num > 1) {
+                union.union(c, num);
+            }
+        }
+        int[] sort = nums.clone();
+        Arrays.sort(sort);
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] != sort[i] && !union.isConnected(nums[i], sort[i])) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    public class Union1998 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union1998(int n) {
+            rank = new int[n];
+            parent = new int[n];
+            Arrays.fill(rank, 1);
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+    }
 
 }
