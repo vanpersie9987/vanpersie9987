@@ -19259,4 +19259,38 @@ public class LeetCodeText {
 
     }
 
+    // 241. 为运算表达式设计优先级 (Different Ways to Add Parentheses)
+    public List<Integer> diffWaysToCompute(String expression) {
+        List<Integer> res = new ArrayList<>();
+        int start = 0;
+        while (start < expression.length()) {
+            if (!Character.isDigit(expression.charAt(start))) {
+                break;
+            }
+            ++start;
+        }
+        if (start == expression.length()) {
+            res.add(Integer.parseInt(expression));
+        }
+        for (int i = start; i < expression.length(); ++i) {
+            if (!Character.isDigit(expression.charAt(i))) {
+                char op = expression.charAt(i);
+                List<Integer> left = diffWaysToCompute(expression.substring(0, i));
+                List<Integer> right = diffWaysToCompute(expression.substring(i + 1, expression.length()));
+                for (int x : left) {
+                    for (int y : right) {
+                        if (op == '+') {
+                            res.add(x + y);
+                        } else if (op == '-') {
+                            res.add(x - y);
+                        } else {
+                            res.add(x * y);
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
 }
