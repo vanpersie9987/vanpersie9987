@@ -19404,4 +19404,20 @@ public class LeetCodeText {
 
     }
 
+    // 357. 计算各个位数不同的数字个数 (Count Numbers with Unique Digits)
+    public int countNumbersWithUniqueDigits(int n) {
+        if (n == 0) {
+            return 1;
+        }
+        int res = 10;
+        for (int i = 2; i <= n; ++i) {
+            int cur = 9 * 9;
+            for (int j = i - 2; j > 0; --j) {
+                cur *= 9 - j;
+            }
+            res += cur;
+        }
+        return res;
+    }
+
 }
