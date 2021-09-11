@@ -14705,8 +14705,8 @@ public class LeetCodeText {
 
     }
 
-    // 2. 两数相加 (Add Two Numbers)
-    public ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
+    // 2. 两数相加 (Add Two Numbers) // 面试题 02.05. 链表求和 (Sum Lists LCCI)
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         int carry = 0;
         ListNode cur = new ListNode(0);
         ListNode dummy = cur;
