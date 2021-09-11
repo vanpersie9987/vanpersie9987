@@ -19434,4 +19434,36 @@ public class LeetCodeText {
 
     }
 
+    // 507. 完美数 (Perfect Number)
+    public boolean checkPerfectNumber(int num) {
+        if (num == 1) {
+            return false;
+        }
+        int sum = 1;
+        for (int i = 2; i * i <= num; ++i) {
+            if (num % i == 0) {
+                sum += i;
+                if (i * i != num) {
+                    sum += num / i;
+                }
+            }
+        }
+        return num == sum;
+
+    }
+
+    // 453. 最小操作次数使数组元素相等 (Minimum Moves to Equal Array Elements)
+    public int minMoves(int[] nums) {
+        int min = Integer.MAX_VALUE;
+        for (int num : nums) {
+            min = Math.min(min, num);
+        }
+        int res = 0;
+        for (int num : nums) {
+            res += num - min;
+        }
+        return res;
+
+    }
+
 }
