@@ -19539,4 +19539,26 @@ public class LeetCodeText {
         return flag;
     }
 
+    // 858. 镜面反射 (Mirror Reflection)
+    public int mirrorReflection(int p, int q) {
+        int gcd = gcd858(p, q);
+        p /= gcd;
+        p %= 2;
+        q /= gcd;
+        q %= 2;
+        if (p == 1 && q == 1) {
+            return 1;
+        }
+        return (p & 1) == 1 ? 0 : 2;
+    }
+
+    private int gcd858(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
 }
