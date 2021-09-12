@@ -19512,4 +19512,31 @@ public class LeetCodeText {
 
     }
 
+    // 788. 旋转数字 (Rotated Digits)
+    public int rotatedDigits(int n) {
+        int res = 0;
+        for (int i = 1; i <= n; ++i) {
+            if (judgeGoodNum(i)) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean judgeGoodNum(int n) {
+        boolean flag = false;
+        while (n > 0) {
+            int lastDigit = n % 10;
+            n /= 10;
+            if (lastDigit == 3 || lastDigit == 4 || lastDigit == 7) {
+                return false;
+            }
+            if (lastDigit == 2 || lastDigit == 5 || lastDigit == 6 || lastDigit == 9) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
 }
