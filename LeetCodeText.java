@@ -19466,4 +19466,16 @@ public class LeetCodeText {
 
     }
 
+    // 233. 数字 1 的个数 (Number of Digit One)
+    public int countDigitOne(int n) {
+        int res = 0;
+        long mulk = 1;
+        while (n >= mulk) {
+            res += (n / (mulk * 10)) * mulk + Math.min(Math.max(n % (mulk * 10) - mulk + 1, 0), mulk);
+            mulk *= 10;
+        }
+        return res;
+
+    }
+
 }
