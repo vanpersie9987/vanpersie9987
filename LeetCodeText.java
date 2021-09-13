@@ -19618,4 +19618,27 @@ public class LeetCodeText {
         return count;
     }
 
+    // 1317. 将整数转换为两个无零整数的和 (Convert Integer to the Sum of Two No-Zero Integers)
+    public int[] getNoZeroIntegers(int n) {
+        for (int A = 1; A < n; ++A) {
+            int B = n - A;
+            if (isNonZeroInteger(A) && isNonZeroInteger(B)) {
+                return new int[] { A, B };
+            }
+        }
+        return null;
+
+    }
+
+    private boolean isNonZeroInteger(int num) {
+        while (num > 0) {
+            int digit = num % 10;
+            if (digit == 0) {
+                return false;
+            }
+            num /= 10;
+        }
+        return true;
+    }
+
 }
