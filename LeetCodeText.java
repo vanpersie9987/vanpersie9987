@@ -19641,4 +19641,26 @@ public class LeetCodeText {
         return true;
     }
 
+    // 1523. 在区间范围内统计奇数数目 (Count Odd Numbers in an Interval Range)
+    public int countOdds(int low, int high) {
+        if ((high & 1) == 1) {
+            ++high;
+        }
+        if ((low & 1) == 1) {
+            --low;
+        }
+        return (high - low) >> 1;
+
+    }
+
+    // 1523. 在区间范围内统计奇数数目 (Count Odd Numbers in an Interval Range)
+    public int countOdds2(int low, int high) {
+        return pre(high) - pre(low - 1);
+    }
+
+    // 从 0--num 奇数的个数
+    private int pre(int num) {
+        return (num + 1) >> 1;
+    }
+
 }
