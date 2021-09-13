@@ -19561,4 +19561,61 @@ public class LeetCodeText {
         return a;
     }
 
+    // 423. 从英文中重建数字 (Reconstruct Original Digits from English)
+    public String originalDigits(String s) {
+        int[] alphabet = new int[26];
+        for (char c : s.toCharArray()) {
+            ++alphabet[c - 'a'];
+        }
+        int[] count = new int[10];
+        // zero 0
+        // z
+        count[0] = operateDigits(alphabet, 'z', new char[] { 'z', 'e', 'r', 'o' });
+        // eight 8
+        // g
+        count[8] = operateDigits(alphabet, 'g', new char[] { 'e', 'i', 'g', 'h', 't' });
+        // six 6
+        // x
+        count[6] = operateDigits(alphabet, 'x', new char[] { 's', 'i', 'x' });
+        // seven 7
+        // s
+        count[7] = operateDigits(alphabet, 's', new char[] { 's', 'e', 'v', 'e', 'n' });
+        // five 5
+        // v
+        count[5] = operateDigits(alphabet, 'v', new char[] { 'f', 'i', 'v', 'e' });
+        // four 4
+        // u
+        count[4] = operateDigits(alphabet, 'u', new char[] { 'f', 'o', 'u', 'r' });
+        // three 3
+        // r
+        count[3] = operateDigits(alphabet, 'r', new char[] { 't', 'h', 'r', 'e', 'e' });
+        // two 2
+        // w
+        count[2] = operateDigits(alphabet, 'w', new char[] { 't', 'w', 'o' });
+        // one 1
+        // o
+        count[1] = operateDigits(alphabet, 'o', new char[] { 'o', 'n', 'e' });
+        // nine 9
+        // i
+        count[9] = operateDigits(alphabet, 'i', new char[] { 'n', 'i', 'n', 'e' });
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < count.length; ++i) {
+            for (int j = 0; j < count[i]; ++j) {
+                res.append(i);
+            }
+        }
+        return res.toString();
+    }
+
+    private int operateDigits(int[] alphabet, char c, char[] digits) {
+        int count = alphabet[c - 'a'];
+        if (count == 0) {
+            return count;
+        }
+        for (char digit : digits) {
+            alphabet[digit - 'a'] -= count;
+        }
+        return count;
+    }
+
 }
