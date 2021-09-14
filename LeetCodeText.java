@@ -19699,4 +19699,24 @@ public class LeetCodeText {
         return a;
     }
 
+    // 1154. 一年中的第几天 (Day of the Year)
+    public int dayOfYear(String date) {
+        int[] daysOfmonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+        int year = Integer.parseInt(date.substring(0, 4));
+        int month = Integer.parseInt(date.substring(5, 7));
+        int day = Integer.parseInt(date.substring(8, 10));
+        daysOfmonth[1] = isLeapYear(year) ? 29 : 28;
+        int res = 0;
+        for (int i = 0; i < month - 1; ++i) {
+            res += daysOfmonth[i];
+        }
+        res += day;
+        return res;
+    }
+
+    // 是否为闰年
+    private boolean isLeapYear(int year) {
+        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    }
+
 }
