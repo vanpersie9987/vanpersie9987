@@ -19681,4 +19681,22 @@ public class LeetCodeText {
 
     }
 
+    // 1071. 字符串的最大公因子 (Greatest Common Divisor of Strings)
+    public String gcdOfStrings(String str1, String str2) {
+        if (!(str1 + str2).equals(str2 + str1)) {
+            return "";
+        }
+        return str1.substring(0, gcd1071(str1.length(), str2.length()));
+
+    }
+
+    private int gcd1071(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
 }
