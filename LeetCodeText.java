@@ -19719,4 +19719,58 @@ public class LeetCodeText {
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     }
 
+    // 1360. 日期之间隔几天 (Number of Days Between Two Dates)
+    public int daysBetweenDates(String date1, String date2) {
+        if (date1.compareTo(date2) > 0) {
+            String temp = date1;
+            date1 = date2;
+            date2 = temp;
+        }
+        int year1 = Integer.parseInt(date1.substring(0, 4));
+        int month1 = Integer.parseInt(date1.substring(5, 7));
+        int day1 = Integer.parseInt(date1.substring(8, 10));
+
+        int year2 = Integer.parseInt(date2.substring(0, 4));
+        int month2 = Integer.parseInt(date2.substring(5, 7));
+        int day2 = Integer.parseInt(date2.substring(8, 10));
+        int[] daysOfMonth1 = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+        int[] daysOfMonth2 = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+        if (isLeapYear(year1)) {
+            daysOfMonth1[1] = 29;
+        }
+        if (isLeapYear(year2)) {
+            daysOfMonth2[1] = 29;
+        }
+
+        int res = 0;
+
+        for (int year = year1 + 1; year <= year2 - 1; ++year) {
+            if (isLeapYear(year)) {
+                res += 366;
+            } else {
+                res += 365;
+            }
+        }
+        // R表示 year2的1月1号 到date2 的天数
+        int R = 0;
+        // L表示 year1的1月1号 到date1 的天数
+        int L = 0;
+        for (int month = 0; month <= month1 - 2; ++month) {
+            L += daysOfMonth1[month];
+        }
+        L += day1;
+
+        for (int month = 0; month <= month2 - 2; ++month) {
+            R += daysOfMonth2[month];
+        }
+        R += day2;
+        if (year1 == year2) {
+            return res + R - L;
+        } else if (isLeapYear(year1)) {
+            return res + 366 - L + R;
+        }
+        return res + 365 - L + R;
+
+    }
+
 }
