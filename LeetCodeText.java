@@ -19067,6 +19067,7 @@ public class LeetCodeText {
     }
 
     // 172. 阶乘后的零 (Factorial Trailing Zeroes)
+    // 面试题 16.05. 阶乘尾数 (Factorial Zeros LCCI)
     /**
      * 判断有多少个5的因子
      */
@@ -19087,6 +19088,7 @@ public class LeetCodeText {
     }
 
     // 172. 阶乘后的零 (Factorial Trailing Zeroes)
+    // 面试题 16.05. 阶乘尾数 (Factorial Zeros LCCI)
     /**
      * 判断有多少个5的因子 每隔 5 个数，出现一个 5，每隔 25 个数，出现 2 个 5，每隔 125 个数，出现 3 个 5... 以此类推
      */
@@ -19770,17 +19772,6 @@ public class LeetCodeText {
             return res + 366 - L + R;
         }
         return res + 365 - L + R;
-
-    }
-
-    // 面试题 16.05. 阶乘尾数 (Factorial Zeros LCCI)
-    public int trailingZeroes(int n) {
-        int res = 0;
-        while (n != 0) {
-            res += n / 5;
-            n /= 5;
-        }
-        return res;
 
     }
 
