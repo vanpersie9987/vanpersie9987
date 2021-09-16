@@ -19821,4 +19821,19 @@ public class LeetCodeText {
         return second;
     }
 
+    // 70. 爬楼梯 (Climbing Stairs)
+    public int climbStairs(int n) {
+        if (n == 1) {
+            return n;
+        }
+        int first = 1;
+        int second = 2;
+        for (int i = 3; i <= n; ++i) {
+            int temp = first + second;
+            first = second;
+            second = temp;
+        }
+        return second;
+    }
+
 }
