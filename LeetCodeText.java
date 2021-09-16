@@ -19836,4 +19836,22 @@ public class LeetCodeText {
         return second;
     }
 
+    // LCS 01. 下载插件
+    public int leastMinutes(int n) {
+        int res = 0;
+        int speed = 1;
+        while (speed < n) {
+            speed <<= 1;
+            ++res;
+        }
+        return res + 1;
+
+    }
+
+    // LCS 01. 下载插件
+    public int leastMinutes2(int n) {
+        return (int) (Math.ceil(Math.log(n) / Math.log(2)) + 1);
+
+    }
+
 }
