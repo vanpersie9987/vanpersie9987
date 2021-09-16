@@ -19803,4 +19803,22 @@ public class LeetCodeText {
 
     }
 
+    // 剑指 Offer 10- II. 青蛙跳台阶问题
+    public int numWays(int n) {
+        final int MOD = 1000000007;
+        if (n <= 1) {
+            return 1;
+        }
+        int first = 1;
+        int second = 2;
+        for (int i = 3; i <= n; ++i) {
+            int temp = second;
+            second += first;
+            first = temp;
+            first %= MOD;
+            second %= MOD;
+        }
+        return second;
+    }
+
 }
