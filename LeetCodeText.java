@@ -19854,4 +19854,22 @@ public class LeetCodeText {
 
     }
 
+    // 1137. 第 N 个泰波那契数 (N-th Tribonacci Number)
+    public int tribonacci(int n) {
+        if (n <= 1) {
+            return n;
+        }
+        int first = 0;
+        int second = 1;
+        int third = 1;
+        for (int i = 3; i <= n; ++i) {
+            int temp = first + second + third;
+            first = second;
+            second = third;
+            third = temp;
+        }
+        return third;
+
+    }
+
 }
