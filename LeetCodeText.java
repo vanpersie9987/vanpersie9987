@@ -19892,4 +19892,15 @@ public class LeetCodeText {
 
     }
 
+    // 1017. 负二进制转换 (Convert to Base -2)
+    public String baseNeg2(int n) {
+        int upperLimit = 1;
+        while (0 < upperLimit && upperLimit < n) {
+            upperLimit <<= 2;
+            upperLimit |= 1;
+        }
+        return Integer.toBinaryString(upperLimit ^ upperLimit - n);
+
+    }
+
 }
