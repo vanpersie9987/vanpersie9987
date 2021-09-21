@@ -19928,4 +19928,14 @@ public class LeetCodeText {
         return dp[k];
     }
 
+    // 1344. 时钟指针的夹角 (Angle Between Hands of a Clock)
+    public double angleClock(int hour, int minutes) {
+        // 0-minutes的度数 360 * minutes / 60
+        double degreeMinute = minutes * 6;
+        // 0-hour的度数 360 * (minutes * 5 / 60) / 60 + 360 * hour / 12;
+        double degreeHour = minutes / 2d + hour * 30d;
+        double abs = Math.abs(degreeMinute - degreeHour);
+        return Math.min(abs, 360 - abs);
+
+    }
 }
