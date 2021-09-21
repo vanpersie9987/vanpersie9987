@@ -19903,4 +19903,29 @@ public class LeetCodeText {
 
     }
 
+    // 面试题 17.09. 第 k 个数 (Get Kth Magic Number LCCI)
+    public int getKthMagicNumber(int k) {
+        int[] dp = new int[k + 1];
+        int p3 = 1;
+        int p5 = 1;
+        int p7 = 1;
+        dp[1] = 1;
+        for (int i = 2; i < dp.length; ++i) {
+            int num3 = dp[p3] * 3;
+            int num5 = dp[p5] * 5;
+            int num7 = dp[p7] * 7;
+            dp[i] = Math.min(Math.min(num3, num5), num7);
+            if (dp[i] == num3) {
+                ++p3;
+            }
+            if (dp[i] == num5) {
+                ++p5;
+            }
+            if (dp[i] == num7) {
+                ++p7;
+            }
+        }
+        return dp[k];
+    }
+
 }
