@@ -19938,4 +19938,15 @@ public class LeetCodeText {
         return Math.min(abs, 360 - abs);
 
     }
+
+    // 462. 最少移动次数使数组元素相等 II 找中位数
+    public int minMoves2(int[] nums) {
+        Arrays.sort(nums);
+        int res = 0;
+        for (int num : nums) {
+            res += Math.abs(nums[nums.length / 2] - num);
+        }
+        return res;
+
+    }
 }
