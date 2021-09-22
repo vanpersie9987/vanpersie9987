@@ -19983,4 +19983,39 @@ public class LeetCodeText {
         return res;
 
     }
+
+    // 29. 两数相除 (Divide Two Integers)
+    // public int divide(int dividend, int divisor) {
+    // if (dividend == Integer.MIN_VALUE && divisor == -1) {
+    // return Integer.MAX_VALUE;
+    // }
+    // int sign = (dividend > 0) ^ (divisor > 0) ? -1 : 1;
+    // if (dividend > 0) {
+    // dividend = -dividend;
+    // }
+    // if (divisor > 0) {
+    // divisor -= divisor;
+    // }
+    // int res = 0;
+    // while (dividend <= divisor) {
+    // ++res;
+    // dividend -= divisor;
+    // }
+    // return sign == 1 ? res : -res;
+    // }
+
+    // 1436. 旅行终点站 (Destination City)
+    public String destCity(List<List<String>> paths) {
+        Set<String> set = new HashSet<>();
+        for (List<String> path : paths) {
+            set.add(path.get(0));
+        }
+        for (List<String> path : paths) {
+            if (!set.contains(path.get(1))) {
+                return path.get(1);
+            }
+        }
+        return "";
+
+    }
 }
