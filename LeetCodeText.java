@@ -20033,4 +20033,15 @@ public class LeetCodeText {
         return res;
 
     }
+
+    // 2000. 反转单词前缀 (Reverse Prefix of Word)
+    public String reversePrefix(String word, char ch) {
+        int index = word.indexOf(ch);
+        if (index == -1) {
+            return word;
+        }
+        StringBuilder builder = new StringBuilder(word.substring(0, index + 1));
+        return builder.reverse().append(word.substring(index + 1)).toString();
+
+    }
 }
