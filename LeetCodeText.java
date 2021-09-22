@@ -19965,4 +19965,22 @@ public class LeetCodeText {
         }
         return ((countXY + countYX) & 1) == 1 ? -1 : (countXY + 1) / 2 + (countYX + 1) / 2;
     }
+
+    // 447. 回旋镖的数量 (Number of Boomerangs)
+    public int numberOfBoomerangs(int[][] points) {
+        int res = 0;
+        for (int[] point : points) {
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int[] point2 : points) {
+                int distance = (point[0] - point2[0]) * (point[0] - point2[0])
+                        + (point[1] - point2[1]) * (point[1] - point2[1]);
+                map.put(distance, map.getOrDefault(distance, 0) + 1);
+            }
+            for (int count : map.values()) {
+                res += count * (count - 1);
+            }
+        }
+        return res;
+
+    }
 }
