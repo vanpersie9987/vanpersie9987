@@ -20044,4 +20044,17 @@ public class LeetCodeText {
         return builder.reverse().append(word.substring(index + 1)).toString();
 
     }
+
+    // 1967. 作为子字符串出现在单词中的字符串数目
+    // 1967. Number of Strings That Appear as Substrings in Word
+    public int numOfStrings(String[] patterns, String word) {
+        int res = 0;
+        for (String pattern : patterns) {
+            if (word.indexOf(pattern) != -1) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
 }
