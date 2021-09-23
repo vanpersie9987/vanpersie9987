@@ -20075,4 +20075,27 @@ public class LeetCodeText {
         return res;
 
     }
+
+    // 1447. 最简分数 (Simplified Fractions)
+    public List<String> simplifiedFractions(int n) {
+        List<String> res = new ArrayList<>();
+        for (int b = 2; b <= n; ++b) {
+            for (int a = 1; a < b; ++a) {
+                if (getGCD1447(a, b) == 1) {
+                    res.add(a + "/" + b);
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int getGCD1447(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
 }
