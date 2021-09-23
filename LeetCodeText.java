@@ -20068,6 +20068,7 @@ public class LeetCodeText {
         for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
             int value = entry.getValue();
             int key = entry.getKey();
+            // a / b 向上取整公式: ceil(a / b) = (a + b - 1) / b
             res += (key + value) / (key + 1) * (key + 1);
         }
         return res;
