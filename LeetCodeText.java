@@ -20057,4 +20057,20 @@ public class LeetCodeText {
         return res;
 
     }
+
+    // 781. 森林中的兔子 (Rabbits in Forest)
+    public int numRabbits(int[] answers) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int answer : answers) {
+            map.put(answer, map.getOrDefault(answer, 0) + 1);
+        }
+        int res = 0;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            int value = entry.getValue();
+            int key = entry.getKey();
+            res += (key + value) / (key + 1) * (key + 1);
+        }
+        return res;
+
+    }
 }
