@@ -20098,4 +20098,23 @@ public class LeetCodeText {
         }
         return a;
     }
+
+    // 1685. 有序数组中差绝对值之和 (Sum of Absolute Differences in a Sorted Array)
+    public int[] getSumAbsoluteDifferences(int[] nums) {
+        int[] preSum = nums.clone();
+        for (int i = 1; i < preSum.length; ++i) {
+            preSum[i] += preSum[i - 1];
+        }
+        int[] res = new int[nums.length];
+        for (int i = 0; i < res.length; ++i) {
+            int leftSum = 0;
+            if (i > 0) {
+                leftSum = i * nums[i] - preSum[i - 1];
+            }
+            int rightSum = (preSum[res.length - 1] - preSum[i]) - nums[i] * (res.length - i - 1);
+            res[i] = leftSum + rightSum;
+        }
+        return res;
+
+    }
 }
