@@ -20117,4 +20117,36 @@ public class LeetCodeText {
         return res;
 
     }
+
+    // 650. 只有两个键的键盘 (2 Keys Keyboard) dp
+    public int minSteps(int n) {
+        int[] dp = new int[n + 1];
+        for (int i = 2; i < dp.length; ++i) {
+            dp[i] = Integer.MAX_VALUE;
+            for (int j = 1; j * j <= i; ++j) {
+                if (i % j == 0) {
+                    dp[i] = Math.min(dp[i], dp[j] + i / j);
+                    dp[i] = Math.min(dp[i], dp[i / j] + j);
+                }
+            }
+        }
+        return dp[n];
+
+    }
+
+    // 650. 只有两个键的键盘 (2 Keys Keyboard) 质因数分解
+    public int minSteps2(int n) {
+        int res = 0;
+        for (int i = 2; i * i <= n; ++i) {
+            while (n % i == 0) {
+                res += i;
+                n /= i;
+            }
+        }
+        if (n > 1) {
+            res += n;
+        }
+        return res;
+
+    }
 }
