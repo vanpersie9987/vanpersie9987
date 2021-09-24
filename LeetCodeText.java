@@ -20164,4 +20164,18 @@ public class LeetCodeText {
         return Integer.parseInt(String.valueOf(chars));
 
     }
+
+    // 779. 第K个语法符号 (K-th Symbol in Grammar)
+    public int kthGrammar(int n, int k) {
+        if (n == 1) {
+            return 0;
+        }
+        int length = (int) Math.pow(2, n - 1);
+        if (k > length / 2) {
+            int val = kthGrammar(n - 1, k - length / 2);
+            return val == 0 ? 1 : 0;
+        } else {
+            return kthGrammar(n - 1, k);
+        }
+    }
 }
