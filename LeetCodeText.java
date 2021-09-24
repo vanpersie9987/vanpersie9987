@@ -20149,4 +20149,19 @@ public class LeetCodeText {
         return res;
 
     }
+
+    // 738. 单调递增的数字 (Monotone Increasing Digits)
+    public int monotoneIncreasingDigits(int n) {
+        char[] chars = String.valueOf(n).toCharArray();
+        int i = chars.length - 2;
+        while (i >= 0) {
+            if (chars[i] > chars[i + 1]) {
+                chars[i] -= 1;
+                Arrays.fill(chars, i + 1, chars.length, '9');
+            }
+            --i;
+        }
+        return Integer.parseInt(String.valueOf(chars));
+
+    }
 }
