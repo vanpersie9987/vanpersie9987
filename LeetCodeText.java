@@ -20178,4 +20178,19 @@ public class LeetCodeText {
             return kthGrammar(n - 1, k);
         }
     }
+
+    // 2011. 执行操作后的变量值 (Final Value of Variable After Performing Operations)
+    public int finalValueAfterOperations(String[] operations) {
+        int res = 0;
+        for (String operation : operations) {
+            if ("++X".equals(operation) || "X++".equals(operation)) {
+                ++res;
+            } else {
+                --res;
+            }
+        }
+        return res;
+
+    }
+
 }
