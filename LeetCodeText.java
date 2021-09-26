@@ -20202,4 +20202,27 @@ public class LeetCodeText {
 
     }
 
+    // 2006. 差的绝对值为 K 的数对数目 (Count Number of Pairs With Absolute Difference K)
+    public int countKDifference(int[] nums, int k) {
+        int[] counts = new int[101];
+        for (int num : nums) {
+            ++counts[num];
+        }
+        int res = 0;
+        int left = 1;
+        int right = 2;
+        while (right < counts.length) {
+            if (right - left < k) {
+                ++right;
+            } else if (right - left > k) {
+                ++left;
+            } else {
+                res += counts[right] * counts[left];
+                ++right;
+            }
+        }
+        return res;
+
+    }
+
 }
