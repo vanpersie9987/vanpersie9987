@@ -20218,6 +20218,7 @@ public class LeetCodeText {
                 ++left;
             } else {
                 res += counts[right] * counts[left];
+                ++left;
                 ++right;
             }
         }
