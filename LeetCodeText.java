@@ -20285,20 +20285,12 @@ public class LeetCodeText {
 
     // 1725. 可以形成最大正方形的矩形数目 (Number Of Rectangles That Can Form The Largest Square)
     public int countGoodRectangles(int[][] rectangles) {
-        Map<Integer, Integer> map = new HashMap<>();
+        TreeMap<Integer, Integer> map = new TreeMap<>();
         for (int[] rectangle : rectangles) {
             int side = Math.min(rectangle[0], rectangle[1]);
             map.put(side, map.getOrDefault(side, 0) + 1);
         }
-        int res = 0;
-        int maxSide = 0;
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            if (entry.getKey() > maxSide) {
-                maxSide = entry.getKey();
-                res = entry.getValue();
-            }
-        }
-        return res;
+        return map.lastEntry().getValue();
 
     }
 
