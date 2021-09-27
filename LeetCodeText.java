@@ -20283,4 +20283,63 @@ public class LeetCodeText {
 
     }
 
+    // 1725. 可以形成最大正方形的矩形数目 (Number Of Rectangles That Can Form The Largest Square)
+    public int countGoodRectangles(int[][] rectangles) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int[] rectangle : rectangles) {
+            int side = Math.min(rectangle[0], rectangle[1]);
+            map.put(side, map.getOrDefault(side, 0) + 1);
+        }
+        int res = 0;
+        int maxSide = 0;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (entry.getKey() > maxSide) {
+                maxSide = entry.getKey();
+                res = entry.getValue();
+            }
+        }
+        return res;
+
+    }
+
+    // 1725. 可以形成最大正方形的矩形数目 (Number Of Rectangles That Can Form The Largest Square)
+    public int countGoodRectangles2(int[][] rectangles) {
+        int maxSide = 0;
+        int res = 0;
+        for (int[] rectangle : rectangles) {
+            int side = Math.min(rectangle[0], rectangle[1]);
+            if (side > maxSide) {
+                maxSide = side;
+                res = 1;
+            } else if (side == maxSide) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    // 1725. 可以形成最大正方形的矩形数目 (Number Of Rectangles That Can Form The Largest Square)
+    public int countGoodRectangles3(int[][] rectangles) {
+        Arrays.sort(rectangles, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                int side1 = Math.min(o1[0], o1[1]);
+                int side2 = Math.min(o2[0], o2[1]);
+                return side2 - side1;
+            }
+        });
+        int max = Math.min(rectangles[0][0], rectangles[0][1]);
+        int res = 1;
+        for (int i = 1; i < rectangles.length; ++i) {
+            int cur = Math.min(rectangles[i][0], rectangles[i][1]);
+            if (cur != max) {
+                break;
+            }
+            ++res;
+        }
+        return res;
+
+    }
 }
