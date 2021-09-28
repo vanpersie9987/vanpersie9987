@@ -14,6 +14,8 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 
+import org.graalvm.compiler.lir.LIRInstruction.Temp;
+
 import jdk.internal.org.jline.utils.Curses;
 
 public class LeetCodeText {
@@ -20358,5 +20360,39 @@ public class LeetCodeText {
             return sum / queue.size();
 
         }
+    }
+
+    // 1630. 等差子数组 (Arithmetic Subarrays)
+    public List<Boolean> checkArithmeticSubarrays(int[] nums, int[] l, int[] r) {
+        List<Boolean> res = new ArrayList<>();
+        for (int i = 0; i < l.length; ++i) {
+            res.add(isArithmeticSubarrays(nums, l[i], r[i]));
+        }
+        return res;
+    }
+
+    private boolean isArithmeticSubarrays(int[] nums, int left, int right) {
+        if (right - left < 2) {
+            return true;
+        }
+        Set<Integer> set = new HashSet<>();
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        for (int i = left; i <= right; ++i) {
+            set.add(nums[i]);
+            max = Math.max(max, nums[i]);
+            min = Math.min(min, nums[i]);
+        }
+        if ((max - min) % (right - left) != 0) {
+            return false;
+        }
+        int diff = (max - min) / (right - left);
+        for (int i = 1; i < right - left; ++i) {
+            if (!set.contains(min + diff * i)) {
+                return false;
+            }
+        }
+        return true;
+
     }
 }
