@@ -20418,4 +20418,18 @@ public class LeetCodeText {
         return res.toString();
 
     }
+
+    // 1816. 截断句子 (Truncate Sentence)
+    public String truncateSentence2(String s, int k) {
+        int count = 0;
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < chars.length; ++i) {
+            if (chars[i] == ' ' && ++count == k) {
+                return s.substring(0, i);
+            }
+        }
+        return s;
+
+    }
+
 }
