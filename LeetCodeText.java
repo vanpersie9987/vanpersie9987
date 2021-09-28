@@ -14,10 +14,6 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 
-import org.graalvm.compiler.lir.LIRInstruction.Temp;
-
-import jdk.internal.org.jline.utils.Curses;
-
 public class LeetCodeText {
     private int[] nums;
     private int target;
