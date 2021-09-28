@@ -20406,4 +20406,16 @@ public class LeetCodeText {
         return Math.min(Math.min(dp[costs.length - 1][0], dp[costs.length - 1][1]), dp[costs.length - 1][2]);
 
     }
+
+    // 1816. 截断句子 (Truncate Sentence)
+    public String truncateSentence(String s, int k) {
+        String[] strings = s.split("\\s+");
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < k; ++i) {
+            res.append(strings[i]).append(" ");
+        }
+        res.setLength(res.length() - 1);
+        return res.toString();
+
+    }
 }
