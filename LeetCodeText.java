@@ -2563,8 +2563,9 @@ public class LeetCodeText {
         }
     }
 
-    // 746. 使用最小花费爬楼梯
-    public int minCostClimbingStairs(final int[] cost) {
+    // 746. 使用最小花费爬楼梯 
+    // 剑指 Offer II 088. 爬楼梯的最少成本
+    public int minCostClimbingStairs(int[] cost) {
         int pre = cost[0];
         int cur = cost[1];
         for (int i = 2; i < cost.length; ++i) {
