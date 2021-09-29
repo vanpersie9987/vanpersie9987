@@ -7252,7 +7252,9 @@ public class LeetCodeText {
 
     }
 
-    // 49. 字母异位词分组 (Group Anagrams) // 剑指 Offer II 033. 变位词组
+    // 49. 字母异位词分组 (Group Anagrams)
+    // 剑指 Offer II 033. 变位词组
+    // 面试题 10.02. 变位词组 (Group Anagrams LCCI)
     public List<List<String>> groupAnagrams(String[] strs) {
         Map<String, List<String>> map = new HashMap<>();
         for (String str : strs) {
@@ -7264,7 +7266,9 @@ public class LeetCodeText {
         return new ArrayList<>(map.values());
     }
 
-    // 49. 字母异位词分组 (Group Anagrams) // 剑指 Offer II 033. 变位词组
+    // 49. 字母异位词分组 (Group Anagrams)
+    // 剑指 Offer II 033. 变位词组
+    // 面试题 10.02. 变位词组 (Group Anagrams LCCI)
     public List<List<String>> groupAnagrams2(String[] strs) {
         int[] counts = new int[26];
         Map<String, List<String>> map = new HashMap<>();
