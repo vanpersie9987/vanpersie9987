@@ -20435,4 +20435,31 @@ public class LeetCodeText {
 
     }
 
+    // 1935. 可以输入的最大单词数 (Maximum Number of Words You Can Type)
+    public int canBeTypedWords(String text, String brokenLetters) {
+        char[] brokenChars = brokenLetters.toCharArray();
+        int brokens = 0;
+        for (char c : brokenChars) {
+            brokens |= 1 << (c - 'a');
+        }
+        char[] chars = text.toCharArray();
+        int res = 0;
+        int bits = 0;
+        for (char c : chars) {
+            if (c == ' ') {
+                if ((bits & brokens) == 0) {
+                    ++res;
+                }
+                bits = 0;
+            } else {
+                bits |= 1 << (c - 'a');
+            }
+        }
+        if ((bits & brokens) == 0) {
+            ++res;
+        }
+        return res;
+
+    }
+
 }
