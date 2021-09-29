@@ -20462,4 +20462,21 @@ public class LeetCodeText {
 
     }
 
+    // 1347. 制造字母异位词的最小步骤数 (Minimum Number of Steps to Make Two Strings Anagram)
+    public int minSteps(String s, String t) {
+        int[] counts = new int[26];
+        for (char c : t.toCharArray()) {
+            ++counts[c - 'a'];
+        }
+        for (char c : s.toCharArray()) {
+            --counts[c - 'a'];
+        }
+        int res = 0;
+        for (int count : counts) {
+            res += Math.abs(count);
+        }
+        return res / 2;
+
+    }
+
 }
