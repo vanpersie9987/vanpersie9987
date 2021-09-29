@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -2563,7 +2564,7 @@ public class LeetCodeText {
         }
     }
 
-    // 746. 使用最小花费爬楼梯 
+    // 746. 使用最小花费爬楼梯
     // 剑指 Offer II 088. 爬楼梯的最少成本
     public int minCostClimbingStairs(int[] cost) {
         int pre = cost[0];
@@ -14535,7 +14536,8 @@ public class LeetCodeText {
 
     }
 
-    // 347. 前 K 个高频元素 (Top K Frequent Elements)
+    // 347. 前 K 个高频元素 (Top K Frequent Elements) (还需要掌握最小堆)
+    // 剑指 Offer II 060. 出现频率最高的 k 个数字
     public int[] topKFrequent(int[] nums, int k) {
         // key--元素 value--频率
         Map<Integer, Integer> map = new HashMap<>();
