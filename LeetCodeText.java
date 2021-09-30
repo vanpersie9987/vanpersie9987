@@ -20530,4 +20530,27 @@ public class LeetCodeText {
         return true;
     }
 
+    // 893. 特殊等价字符串组 (Groups of Special-Equivalent Strings)
+    public int numSpecialEquivGroups(String[] words) {
+        Set<String> set = new HashSet<>();
+        for (String word : words) {
+            String even = "";
+            String odd = "";
+            for (int i = 0; i < word.length(); ++i) {
+                if ((i & 1) == 1) {
+                    odd += word.charAt(i);
+                } else {
+                    even += word.charAt(i);
+                }
+            }
+            char[] evenChars = even.toCharArray();
+            char[] oddChars = odd.toCharArray();
+            Arrays.sort(evenChars);
+            Arrays.sort(oddChars);
+            set.add(String.valueOf(evenChars) + String.valueOf(oddChars));
+        }
+        return set.size();
+
+    }
+
 }
