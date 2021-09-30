@@ -20494,4 +20494,40 @@ public class LeetCodeText {
 
     }
 
+    // 890. 查找和替换模式 (Find and Replace Pattern)
+    public List<String> findAndReplacePattern(String[] words, String pattern) {
+        List<String> res = new ArrayList<>();
+        for (String word : words) {
+            if (isSamePattern(word, pattern)) {
+                res.add(word);
+            }
+
+        }
+        return res;
+
+    }
+
+    private boolean isSamePattern(String word, String pattern) {
+        Map<Character, Character> map1 = new HashMap<>();
+        Map<Character, Character> map2 = new HashMap<>();
+        char[] charWords = word.toCharArray();
+        char[] patternWords = pattern.toCharArray();
+        for (int i = 0; i < charWords.length; ++i) {
+            if (!map1.containsKey(charWords[i])) {
+                map1.put(charWords[i], patternWords[i]);
+            } else if (map1.get(charWords[i]) != patternWords[i]) {
+                return false;
+            }
+
+            if (!map2.containsKey(patternWords[i])) {
+                map2.put(patternWords[i], charWords[i]);
+            } else if (map2.get(patternWords[i]) != charWords[i]) {
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
 }
