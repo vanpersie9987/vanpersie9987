@@ -4324,7 +4324,8 @@ public class LeetCodeText {
     }
 
     // 1122. 数组的相对排序
-    public int[] relativeSortArray(final int[] arr1, final int[] arr2) {
+    // 剑指 Offer II 075. 数组相对排序
+    public int[] relativeSortArray(int[] arr1, int[] arr2) {
         int p = 0;
         int tmp;
         for (int i = 0; i < arr2.length; ++i) {
@@ -4343,6 +4344,7 @@ public class LeetCodeText {
     }
 
     // 1122. 数组的相对排序
+    // 剑指 Offer II 075. 数组相对排序
     public int[] relativeSortArray2(int[] arr1, int[] arr2) {
         int[] result = new int[arr1.length];
         int[] counts = new int[1001];
