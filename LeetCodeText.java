@@ -20636,4 +20636,37 @@ public class LeetCodeText {
         return map;
     }
 
+    // 884. 两句话中的不常见单词 (Uncommon Words from Two Sentences)
+    public String[] uncommonFromSentences2(String s1, String s2) {
+        List<String> res = new ArrayList<>();
+        Map<String, Integer> map = new HashMap<>();
+        getUncommonWords(s1, map);
+        getUncommonWords(s2, map);
+        for(Map.Entry<String,Integer> entry: map.entrySet()){
+            if(entry.getValue() == 1){
+                res.add(entry.getKey());
+            }
+        }
+        return res.toArray(new String[0]);
+
+    }
+
+    private void getUncommonWords(String s, Map<String, Integer> map) {
+        int left = 0;
+        int right = 0;
+        while (right < s.length()) {
+            if (s.charAt(right) == ' ') {
+                String key = s.substring(left, right);
+                map.put(key, map.getOrDefault(key, 0) + 1);
+                ++right;
+                left =right;
+            } else{
+                ++right;
+            }
+        }
+        String key = s.substring(left,right);
+        map.put(key, map.getOrDefault(key, 0) + 1);
+
+    }
+
 }
