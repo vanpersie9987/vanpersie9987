@@ -20642,8 +20642,8 @@ public class LeetCodeText {
         Map<String, Integer> map = new HashMap<>();
         getUncommonWords(s1, map);
         getUncommonWords(s2, map);
-        for(Map.Entry<String,Integer> entry: map.entrySet()){
-            if(entry.getValue() == 1){
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            if (entry.getValue() == 1) {
                 res.add(entry.getKey());
             }
         }
@@ -20659,12 +20659,12 @@ public class LeetCodeText {
                 String key = s.substring(left, right);
                 map.put(key, map.getOrDefault(key, 0) + 1);
                 ++right;
-                left =right;
-            } else{
+                left = right;
+            } else {
                 ++right;
             }
         }
-        String key = s.substring(left,right);
+        String key = s.substring(left, right);
         map.put(key, map.getOrDefault(key, 0) + 1);
 
     }
