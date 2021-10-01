@@ -20553,4 +20553,44 @@ public class LeetCodeText {
 
     }
 
+    // 1418. 点菜展示表 (Display Table of Food Orders in a Restaurant)
+    public List<List<String>> displayTable(List<List<String>> orders) {
+        Set<String> foodName = new HashSet<>();
+        Map<Integer, Map<String, Integer>> tableName = new HashMap<>();
+        for (List<String> order : orders) {
+            String food = order.get(2);
+            foodName.add(food);
+            int tableId = Integer.parseInt(order.get(1));
+            tableName.put(tableId, tableName.getOrDefault(tableId, new HashMap<>()));
+            Map<String, Integer> map = tableName.get(tableId);
+            map.put(food, map.getOrDefault(food, 0) + 1);
+        }
+        List<String> nameList = new ArrayList<>();
+        for (String food : foodName) {
+            nameList.add(food);
+        }
+        Collections.sort(nameList);
+        List<Integer> tableList = new ArrayList<>();
+        for (int table : tableName.keySet()) {
+            tableList.add(table);
+        }
+        Collections.sort(tableList);
+        List<List<String>> res = new ArrayList<>();
+        List<String> firstRow = new ArrayList<>();
+        firstRow.add("Table");
+        firstRow.addAll(nameList);
+        res.add(firstRow);
+        for (int i = 0; i < tableList.size(); ++i) {
+            List<String> row = new ArrayList<>();
+            row.add(Integer.toString(tableList.get(i)));
+            Map<String, Integer> map = tableName.get(tableList.get(i));
+            for (int j = 0; j < nameList.size(); ++j) {
+                row.add(String.valueOf(map.getOrDefault(nameList.get(j), 0)));
+            }
+            res.add(row);
+        }
+        return res;
+
+    }
+
 }
