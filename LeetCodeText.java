@@ -20669,4 +20669,28 @@ public class LeetCodeText {
 
     }
 
+    // 1743. 从相邻元素对还原数组 (Restore the Array From Adjacent Pairs)
+    public int[] restoreArray(int[][] adjacentPairs) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int[] adjacentPair : adjacentPairs) {
+            map.computeIfAbsent(adjacentPair[0], k -> new ArrayList<>()).add(adjacentPair[1]);
+            map.computeIfAbsent(adjacentPair[1], k -> new ArrayList<>()).add(adjacentPair[0]);
+        }
+        int[] res = new int[adjacentPairs.length + 1];
+        for (Map.Entry<Integer, List<Integer>> entry : map.entrySet()) {
+            int key = entry.getKey();
+            if (entry.getValue().size() == 1) {
+                res[0] = key;
+                break;
+            }
+        }
+        res[1] = map.get(res[0]).get(0);
+        for (int i = 2; i < adjacentPairs.length + 1; ++i) {
+            List<Integer> list = map.get(res[i - 1]);
+            res[i] = list.get(0) == res[i - 2] ? list.get(1) : list.get(0);
+        }
+        return res;
+
+    }
+
 }
