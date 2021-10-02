@@ -20715,4 +20715,21 @@ public class LeetCodeText {
 
     }
 
+    // 1817. 查找用户活跃分钟数 (Finding the Users Active Minutes)
+    public int[] findingUsersActiveMinutes(int[][] logs, int k) {
+        // key : id
+        // value : minutes
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+        for (int[] log : logs) {
+            map.computeIfAbsent(log[0], o -> new HashSet<>()).add(log[1]);
+        }
+
+        int[] res = new int[k];
+        for (Set<Integer> set : map.values()) {
+            ++res[set.size() - 1];
+        }
+        return res;
+
+    }
+
 }
