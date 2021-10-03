@@ -20774,7 +20774,7 @@ public class LeetCodeText {
         }
     }
 
-    // 705. 设计哈希集合 (Design HashSet)
+    // 705. 设计哈希集合 (Design HashSet) -- 还需掌握链表地址法
     class MyHashSet {
         private boolean[] set;
 
@@ -20793,6 +20793,30 @@ public class LeetCodeText {
 
         public boolean contains(int key) {
             return set[key];
+        }
+    }
+
+    // 706. 设计哈希映射 (Design HashMap) -- 还需掌握链表地址法
+    class MyHashMap {
+        private int[] map;
+
+        public MyHashMap() {
+            map = new int[1000001];
+            Arrays.fill(map, -1);
+
+        }
+
+        public void put(int key, int value) {
+            map[key] = value;
+        }
+
+        public int get(int key) {
+            return map[key];
+
+        }
+
+        public void remove(int key) {
+            map[key] = -1;
         }
     }
 }
