@@ -20819,4 +20819,27 @@ public class LeetCodeText {
             map[key] = -1;
         }
     }
+
+    // 36. 有效的数独 (Valid Sudoku)
+    public boolean isValidSudoku(char[][] board) {
+        int[][] rows = new int[9][9];
+        int[][] cols = new int[9][9];
+        int[][][] sub = new int[3][3][9];
+        for (int i = 0; i < 9; ++i) {
+            for (int j = 0; j < 9; ++j) {
+                if (board[i][j] != '.') {
+                    char c = board[i][j];
+                    int val = c - '0' - 1;
+                    ++rows[i][val];
+                    ++cols[j][val];
+                    ++sub[i / 3][j / 3][val];
+                    if (rows[i][val] > 1 || cols[j][val] > 1 || sub[i / 3][j / 3][val] > 1) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+
+    }
 }
