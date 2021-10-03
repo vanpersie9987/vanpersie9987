@@ -20734,7 +20734,7 @@ public class LeetCodeText {
 
     // 剑指 Offer II 066. 单词之和 --还需掌握前缀树的方法
     class MapSum {
-        Map<String, Integer> map;
+        private Map<String, Integer> map;
 
         /** Initialize your data structure here. */
         public MapSum() {
@@ -20774,4 +20774,25 @@ public class LeetCodeText {
         }
     }
 
+    // 705. 设计哈希集合 (Design HashSet)
+    class MyHashSet {
+        private boolean[] set;
+
+        public MyHashSet() {
+            set = new boolean[1000001];
+        }
+
+        public void add(int key) {
+            set[key] = true;
+        }
+
+        public void remove(int key) {
+            set[key] = false;
+
+        }
+
+        public boolean contains(int key) {
+            return set[key];
+        }
+    }
 }
