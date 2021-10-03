@@ -20732,4 +20732,46 @@ public class LeetCodeText {
 
     }
 
+    // 剑指 Offer II 066. 单词之和 --还需掌握前缀树的方法
+    class MapSum {
+        Map<String, Integer> map;
+
+        /** Initialize your data structure here. */
+        public MapSum() {
+            map = new HashMap<>();
+
+        }
+
+        public void insert(String key, int val) {
+            map.put(key, val);
+        }
+
+        public int sum(String prefix) {
+            int sum = 0;
+            for (String key : map.keySet()) {
+                if (isPrefix(key, prefix)) {
+                    sum += map.get(key);
+                }
+            }
+            return sum;
+
+        }
+
+        private boolean isPrefix(String key, String prefix) {
+            if (prefix.length() > key.length()) {
+                return false;
+            }
+            int i = 0;
+            int j = 0;
+            while (i < prefix.length()) {
+                if (prefix.charAt(i) != key.charAt(j)) {
+                    return false;
+                }
+                ++i;
+                ++j;
+            }
+            return true;
+        }
+    }
+
 }
