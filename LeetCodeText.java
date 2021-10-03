@@ -20842,4 +20842,34 @@ public class LeetCodeText {
         return true;
 
     }
+
+    // 剑指 Offer II 015. 字符串中的所有变位词
+    public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> res = new ArrayList<>();
+        if (p.length() > s.length()) {
+            return res;
+        }
+        int[] counts = new int[26];
+        for (char c : p.toCharArray()) {
+            ++counts[c - 'a'];
+        }
+        char[] sChars = s.toCharArray();
+        int[] curCounts = new int[26];
+        int i = 0;
+        while (i < p.length()) {
+            ++curCounts[sChars[i++] - 'a'];
+        }
+        if (Arrays.equals(counts, curCounts)) {
+            res.add(i - p.length());
+        }
+        while (i < sChars.length) {
+            --curCounts[sChars[i - p.length()] - 'a'];
+            ++curCounts[sChars[i++] - 'a'];
+            if (Arrays.equals(counts, curCounts)) {
+                res.add(i - p.length());
+            }
+        }
+        return res;
+
+    }
 }
