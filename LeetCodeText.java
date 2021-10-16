@@ -6,6 +6,7 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -20889,5 +20890,11 @@ public class LeetCodeText {
         }
         return dp[dp.length - 1];
 
+    }
+
+    // 面试题 02.03. 删除中间节点 (Delete Middle Node LCCI)
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
     }
 }
