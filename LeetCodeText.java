@@ -20933,4 +20933,91 @@ public class LeetCodeText {
         return res;
 
     }
+
+    // 146. LRU 缓存机制 (LRU Cache)
+    class LRUCache {
+        class CacheNode {
+            CacheNode prev;
+            CacheNode next;
+            int value;
+            int key;
+
+            public CacheNode() {
+            }
+
+            public CacheNode(int _key, int _value) {
+                key = _key;
+                value = _value;
+            }
+
+        }
+
+        private int capacity;
+        private int size;
+        private CacheNode head;
+        private CacheNode tail;
+        private Map<Integer, CacheNode> cache;
+
+        public LRUCache(int capacity) {
+            cache = new HashMap<>();
+            head = new CacheNode();
+            tail = new CacheNode();
+            this.capacity = capacity;
+            this.size = 0;
+            head.next = tail;
+            tail.prev = head;
+
+        }
+
+        public int get(int key) {
+            CacheNode curNode = cache.get(key);
+            if (curNode == null) {
+                return -1;
+            }
+            moveToHead(curNode);
+            return curNode.value;
+
+        }
+
+        public void put(int key, int value) {
+            CacheNode curNode = cache.get(key);
+            if (curNode == null) {
+                curNode = new CacheNode(key, value);
+                cache.put(key, curNode);
+                addToHead(curNode);
+                ++size;
+                if (size > capacity) {
+                    CacheNode tail = removeTail();
+                    cache.remove(tail.key);
+                    --size;
+                }
+            } else {
+                curNode.value = value;
+                moveToHead(curNode);
+            }
+        }
+
+        private LRUCache.CacheNode removeTail() {
+            CacheNode node = tail.prev;
+            removeNode(node);
+            return node;
+        }
+
+        private void removeNode(LRUCache.CacheNode node) {
+            node.prev.next = node.next;
+            node.next.prev = node.prev;
+        }
+
+        private void addToHead(LRUCache.CacheNode node) {
+            node.next = head.next;
+            head.next = node;
+            node.prev = head;
+            node.next.prev = node;
+        }
+
+        private void moveToHead(LRUCache.CacheNode node) {
+            removeNode(node);
+            addToHead(node);
+        }
+    }
 }
