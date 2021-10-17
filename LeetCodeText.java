@@ -20897,4 +20897,38 @@ public class LeetCodeText {
         node.val = node.next.val;
         node.next = node.next.next;
     }
+
+    // 819. 最常见的单词 (Most Common Word)
+    public String mostCommonWord(String paragraph, String[] banned) {
+        Map<String, Integer> map = new HashMap<>();
+        int left = 0;
+        int right = 0;
+        char[] chars = paragraph.toCharArray();
+        while (left < chars.length) {
+            while (left < chars.length && !Character.isLetter(chars[left])) {
+                ++left;
+            }
+            right = left;
+            while (right < chars.length && Character.isLetter(chars[right])) {
+                ++right;
+            }
+            if (left == right) {
+                break;
+            }
+            String key = paragraph.substring(left, right).toLowerCase();
+            map.put(key, map.getOrDefault(key, 0) + 1);
+            left = right;
+        }
+        Set<String> set = new HashSet<>(Arrays.asList(banned));
+        int count = 0;
+        String res = "";
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            if (entry.getValue() > count && !set.contains(entry.getKey())) {
+                res = entry.getKey();
+                count = entry.getValue();
+            }
+        }
+        return res;
+
+    }
 }
