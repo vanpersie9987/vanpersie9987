@@ -20900,6 +20900,7 @@ public class LeetCodeText {
 
     // 819. 最常见的单词 (Most Common Word)
     public String mostCommonWord(String paragraph, String[] banned) {
+        Set<String> set = new HashSet<>(Arrays.asList(banned));
         Map<String, Integer> map = new HashMap<>();
         int left = 0;
         int right = 0;
@@ -20916,14 +20917,15 @@ public class LeetCodeText {
                 break;
             }
             String key = paragraph.substring(left, right).toLowerCase();
-            map.put(key, map.getOrDefault(key, 0) + 1);
+            if (!set.contains(key)) {
+                map.put(key, map.getOrDefault(key, 0) + 1);
+            }
             left = right;
         }
-        Set<String> set = new HashSet<>(Arrays.asList(banned));
         int count = 0;
         String res = "";
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            if (entry.getValue() > count && !set.contains(entry.getKey())) {
+            if (entry.getValue() > count) {
                 res = entry.getKey();
                 count = entry.getValue();
             }
