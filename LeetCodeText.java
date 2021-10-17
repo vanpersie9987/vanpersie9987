@@ -20987,20 +20987,14 @@ public class LeetCodeText {
                 addToHead(curNode);
                 ++size;
                 if (size > capacity) {
-                    CacheNode tail = removeTail();
-                    cache.remove(tail.key);
+                    cache.remove(tail.prev.key);
+                    removeNode(tail.prev);
                     --size;
                 }
             } else {
                 curNode.value = value;
                 moveToHead(curNode);
             }
-        }
-
-        private LRUCache.CacheNode removeTail() {
-            CacheNode node = tail.prev;
-            removeNode(node);
-            return node;
         }
 
         private void removeNode(LRUCache.CacheNode node) {
