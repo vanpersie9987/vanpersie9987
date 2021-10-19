@@ -21123,4 +21123,36 @@ public class LeetCodeText {
             return map.get(shortUrl.replace("http://tinyurl.com/", ""));
         }
     }
+
+    // 645. 错误的集合 (Set Mismatch)
+    public int[] findErrorNums(int[] nums) {
+        int xor = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            xor = xor ^ (i + 1) ^ nums[i];
+        }
+        int lowBit = xor & (-xor);
+        int num1 = 0;
+        int num2 = 0;
+        for (int num : nums) {
+            if ((num & lowBit) == 0) {
+                num1 ^= num;
+            } else {
+                num2 ^= num;
+            }
+        }
+        for (int i = 1; i <= nums.length; ++i) {
+            if ((i & lowBit) == 0) {
+                num1 ^= i;
+            } else {
+                num2 ^= i;
+            }
+        }
+        for (int num : nums) {
+            if (num == num1) {
+                return new int[] { num1, num2 };
+            }
+        }
+        return new int[] { num2, num1 };
+
+    }
 }
