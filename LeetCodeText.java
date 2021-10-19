@@ -21075,4 +21075,21 @@ public class LeetCodeText {
         return res;
 
     }
+
+    // 535. TinyURL 的加密与解密 (Encode and Decode TinyURL)
+    public class Codec {
+        private Map<String, String> map = new HashMap<>();
+
+        // Encodes a URL to a shortened URL.
+        public String encode(String longUrl) {
+            String key = "http://tinyurl.com/" + longUrl.hashCode();
+            map.put(key, longUrl);
+            return key;
+        }
+
+        // Decodes a shortened URL to its original URL.
+        public String decode(String shortUrl) {
+            return map.get(shortUrl);
+        }
+    }
 }
