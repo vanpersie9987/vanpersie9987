@@ -21167,4 +21167,17 @@ public class LeetCodeText {
         return res;
 
     }
+
+    // 1791. 找出星型图的中心节点 (Find Center of Star Graph)
+    public int findCenter(int[][] edges) {
+        int p1 = edges[0][0];
+        int p2 = edges[0][1];
+        int p3 = edges[1][0];
+        int p4 = edges[1][1];
+        if (p1 == p3 || p1 == p4) {
+            return p1;
+        } else {
+            return p2;
+        }
+    }
 }
