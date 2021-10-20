@@ -21180,4 +21180,23 @@ public class LeetCodeText {
             return p2;
         }
     }
+
+    // 77. 组合 (Combinations)
+    // 剑指 Offer II 080. 含有 k 个元素的组合
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < (1 << n); ++i) {
+            if (Integer.bitCount(i) == k) {
+                List<Integer> list = new ArrayList<>();
+                for (int j = 0; j < n; ++j) {
+                    if ((i & (1 << j)) != 0) {
+                        list.add(j + 1);
+                    }
+                }
+                res.add(list);
+            }
+        }
+        return res;
+
+    }
 }
