@@ -21261,4 +21261,34 @@ public class LeetCodeText {
         return second;
     }
 
+    // 748. 最短补全词 (Shortest Completing Word)
+    public String shortestCompletingWord(String licensePlate, String[] words) {
+        int[] counts = new int[26];
+        for (char c : licensePlate.toCharArray()) {
+            if (Character.isLetter(c)) {
+                ++counts[Character.toLowerCase(c) - 'a'];
+            }
+        }
+        String res = "";
+        int[] curCounts = new int[26];
+        for (String word : words) {
+            for (char c : word.toCharArray()) {
+                ++curCounts[c - 'a'];
+            }
+            boolean flag = false;
+            for (int i = 0; i < counts.length; ++i) {
+                if (curCounts[i] < counts[i]) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag && (res.length() == 0 || word.length() < res.length())) {
+                res = word;
+            }
+            Arrays.fill(curCounts, 0);
+        }
+        return res;
+
+    }
+
 }
