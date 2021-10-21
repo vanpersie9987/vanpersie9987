@@ -21291,4 +21291,27 @@ public class LeetCodeText {
 
     }
 
+    // 822. 翻转卡片游戏 (Card Flipping Game)
+    public int flipgame(int[] fronts, int[] backs) {
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < fronts.length; ++i) {
+            if (fronts[i] == backs[i]) {
+                set.add(fronts[i]);
+            }
+        }
+        int res = 2001;
+        for (int front : fronts) {
+            if (!set.contains(front)) {
+                res = Math.min(res, front);
+            }
+        }
+        for (int back : backs) {
+            if (!set.contains(back)) {
+                res = Math.min(res, back);
+            }
+        }
+        return res == 2001 ? 0 : res;
+
+    }
+
 }
