@@ -21199,4 +21199,30 @@ public class LeetCodeText {
         return res;
 
     }
+
+    // 740. 删除并获得点数 (Delete and Earn)
+    public int deleteAndEarn(int[] nums) {
+        int max = Arrays.stream(nums).max().getAsInt();
+        int[] sum = new int[max + 1];
+        for (int num : nums) {
+            sum[num] += num;
+        }
+        return getRob740(sum);
+    }
+
+    private int getRob740(int[] nums) {
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        int first = nums[0];
+        int second = Math.max(nums[0], nums[1]);
+        for (int i = 2; i < nums.length; ++i) {
+            int temp = second;
+            second = Math.max(nums[i] + first, second);
+            first = temp;
+        }
+        return second;
+    }
+
+    
 }
