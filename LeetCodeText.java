@@ -18164,6 +18164,7 @@ public class LeetCodeText {
     }
 
     // 206. 反转链表 (Reverse Linked List)
+    // 剑指 Offer II 024. 反转链表
     public ListNode reverseList(ListNode head) {
         ListNode prev = null;
         ListNode curr = head;
