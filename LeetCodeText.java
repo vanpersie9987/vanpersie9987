@@ -21314,4 +21314,19 @@ public class LeetCodeText {
 
     }
 
+    // 203. 移除链表元素 (Remove Linked List Elements)
+    public ListNode removeElements(ListNode head, int val) {
+        ListNode dummy = new ListNode(0, head);
+        ListNode curNode = dummy;
+        while (curNode.next != null) {
+            if (curNode.next.val == val) {
+                curNode.next = curNode.next.next;
+            } else {
+                curNode = curNode.next;
+            }
+        }
+        return dummy.next;
+
+    }
+
 }
