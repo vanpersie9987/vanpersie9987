@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
@@ -21351,6 +21352,29 @@ public class LeetCodeText {
         list2.next = cur;
 
         return dummy.next;
+
+    }
+
+    // 817. 链表组件 (Linked List Components)
+    public int numComponents(ListNode head, int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+        int res = 0;
+        while (head != null) {
+            while (head != null && !set.contains(head.val)) {
+                head = head.next;
+            }
+            if (head == null) {
+                break;
+            }
+            while (head != null && set.contains(head.val)) {
+                head = head.next;
+            }
+            ++res;
+        }
+        return res;
 
     }
 
