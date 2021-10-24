@@ -21400,11 +21400,12 @@ public class LeetCodeText {
         int left = 0;
         int right = 0;
         int max = 0;
-        while (right < s.length()) {
-            ++counts[s.charAt(right) - 'A'];
-            max = Math.max(max, counts[s.charAt(right) - 'A']);
+        char[] chars = s.toCharArray();
+        while (right < chars.length) {
+            ++counts[chars[right] - 'A'];
+            max = Math.max(max, counts[chars[right] - 'A']);
             if (right - left + 1 - max > k) {
-                --counts[s.charAt(left) - 'A'];
+                --counts[chars[left] - 'A'];
                 ++left;
             }
             ++right;
