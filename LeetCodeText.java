@@ -12,6 +12,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.swing.text.html.StyleSheet.ListPainter;
+
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -21453,4 +21456,18 @@ public class LeetCodeText {
 
     }
 
+    // 剑指 Offer 18. 删除链表的节点
+    public ListNode deleteNode(ListNode head, int val) {
+        ListNode dummy = new ListNode(0, head);
+        ListNode cur = dummy;
+        while (cur.next != null) {
+            if (cur.next.val == val) {
+                cur.next = cur.next.next;
+            } else {
+                cur = cur.next;
+            }
+        }
+        return dummy.next;
+
+    }
 }
