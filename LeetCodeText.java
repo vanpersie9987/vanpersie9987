@@ -21451,7 +21451,7 @@ public class LeetCodeText {
 
     }
 
-    // 300. 最长递增子序列 (Longest Increasing Subsequence)
+    // 300. 最长递增子序列 (Longest Increasing Subsequence) 不是最优解
     public int lengthOfLIS(int[] nums) {
         // dp表示以dp[i]结尾的最长严格递增序列的长度
         int[] dp = new int[nums.length];
