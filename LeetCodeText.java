@@ -21469,4 +21469,32 @@ public class LeetCodeText {
 
     }
 
+    // 1357. 每隔 n 个顾客打折 (Apply Discount Every n Orders)
+    class Cashier {
+        private int n;
+        private int discount;
+        private int[] map;
+        private int count;
+
+        public Cashier(int n, int discount, int[] products, int[] prices) {
+            this.n = n;
+            this.discount = discount;
+            this.map = new int[201];
+            for (int i = 0; i < products.length; ++i) {
+                map[products[i]] = prices[i];
+            }
+        }
+
+        public double getBill(int[] product, int[] amount) {
+            int sum = 0;
+            for (int i = 0; i < product.length; ++i) {
+                sum += map[product[i]] * amount[i];
+            }
+            if ((++count) % n == 0) {
+                return (double) sum * (100 - discount) / 100;
+            }
+            return sum;
+        }
+    }
+
 }
