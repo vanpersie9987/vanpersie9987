@@ -21514,4 +21514,20 @@ public class LeetCodeText {
 
     }
 
+    // 1309. 解码字母到整数映射 (Decrypt String from Alphabet to Integer Mapping)
+    public String freqAlphabets(String s) {
+        StringBuilder res = new StringBuilder();
+        int i = s.length() - 1;
+        while (i >= 0) {
+            if (s.charAt(i) == '#') {
+                res.append((char) (Integer.parseInt(s.substring(i - 2, i)) + 'a' - 1));
+                i -= 3;
+            } else {
+                res.append((char) (Integer.parseInt(String.valueOf(s.charAt(i--))) + 'a' - 1));
+            }
+        }
+        return res.reverse().toString();
+
+    }
+
 }
