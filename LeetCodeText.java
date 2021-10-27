@@ -7078,14 +7078,14 @@ public class LeetCodeText {
 
     }
 
-    public List<String> generateParenthesis(final int n) {
-        final List<String> res = new ArrayList<>();
+    public List<String> generateParenthesis(int n) {
+        List<String> res = new ArrayList<>();
         backtrack(res, "", 0, 0, n);
         return res;
 
     }
 
-    private void backtrack(final List<String> res, final String string, final int open, final int close, final int n) {
+    private void backtrack(List<String> res, String string, int open, int close, int n) {
         if (string.length() == n * 2) {
             res.add(string);
             return;
@@ -7549,30 +7549,6 @@ public class LeetCodeText {
             return a * b;
         } else {
             return a / b;
-        }
-    }
-
-    public List<String> generateParenthesis2(final int n) {
-        final List<String> list = new ArrayList<>();
-        if (n == 0) {
-            return list;
-        }
-        handleParenthesis(list, "", 0, 0, n);
-        return list;
-
-    }
-
-    private void handleParenthesis(final List<String> list, final String res, final int left, final int right,
-            final int n) {
-        if (res.length() == n * 2) {
-            list.add(res);
-            return;
-        }
-        if (left < n) {
-            handleParenthesis(list, res + "(", left + 1, right, n);
-        }
-        if (right < left) {
-            handleParenthesis(list, res + ")", left, right + 1, n);
         }
     }
 
@@ -21510,13 +21486,12 @@ public class LeetCodeText {
         }
         preSum = 0;
         cur = dummy;
-        while(cur != null){
+        while (cur != null) {
             preSum += cur.val;
             cur.next = map.get(preSum).next;
             cur = cur.next;
         }
         return dummy.next;
-
 
     }
 
