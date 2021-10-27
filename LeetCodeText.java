@@ -7078,6 +7078,9 @@ public class LeetCodeText {
 
     }
 
+    // 剑指 Offer II 085. 生成匹配的括号
+    // 22. 括号生成 (Generate Parentheses)
+    // 面试题 08.09.括号 (Bracket LCCI)
     public List<String> generateParenthesis(int n) {
         List<String> res = new ArrayList<>();
         backtrack(res, "", 0, 0, n);
