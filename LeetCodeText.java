@@ -21530,4 +21530,20 @@ public class LeetCodeText {
 
     }
 
+    // 剑指 Offer II 032. 有效的变位词
+    public boolean isAnagram(String s, String t) {
+        if (s.equals(t)) {
+            return false;
+        }
+        int[] sCounts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++sCounts[c - 'a'];
+        }
+        int[] tCounts = new int[26];
+        for (char c : t.toCharArray()) {
+            ++tCounts[c - 'a'];
+        }
+        return Arrays.equals(sCounts, tCounts);
+    }
+
 }
