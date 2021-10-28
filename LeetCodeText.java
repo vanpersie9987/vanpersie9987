@@ -21548,6 +21548,7 @@ public class LeetCodeText {
     }
 
     // 953. 验证外星语词典 (Verifying an Alien Dictionary)
+    // 剑指 Offer II 034. 外星语言是否排序
     public boolean isAlienSorted(String[] words, String order) {
         int[] index = new int[26];
         for (int i = 0; i < order.length(); ++i) {
