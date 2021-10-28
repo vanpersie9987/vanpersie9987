@@ -21531,6 +21531,7 @@ public class LeetCodeText {
     }
 
     // 剑指 Offer II 032. 有效的变位词
+    // 242. 有效的字母异位词 (Valid Anagram)
     public boolean isAnagram(String s, String t) {
         if (s.equals(t)) {
             return false;
