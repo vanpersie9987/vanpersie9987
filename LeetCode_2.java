@@ -53,4 +53,19 @@ public class LeetCode_2 {
 
    }
 
+   // 215. 数组中的第K个最大元素 (Kth Largest Element in an Array) 需掌握官方题解的方法
+   public int findKthLargest(int[] nums, int k) {
+      int counts[] = new int[20001];
+      for (int num : nums) {
+         ++counts[num + 10000];
+      }
+      for (int i = 20000; i >= 0; --i) {
+         if (k <= counts[i]) {
+            return i - 10000;
+         }
+         k -= counts[i];
+      }
+      return k;
+
+   }
 }
