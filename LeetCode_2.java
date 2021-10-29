@@ -2,6 +2,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LeetCode_2 {
+
+   public static void main(final String[] args) {
+
+   }
+
    // 2032. 至少在两个数组中出现的值 (Two Out of Three)
    public List<Integer> twoOutOfThree(int[] nums1, int[] nums2, int[] nums3) {
       int[] count1 = new int[101];
