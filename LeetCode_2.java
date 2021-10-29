@@ -69,4 +69,23 @@ public class LeetCode_2 {
       return k;
 
    }
+
+   // 852. 山脉数组的峰顶索引 (Peak Index in a Mountain Array)
+   // 剑指 Offer II 069. 山峰数组的顶部
+   public int peakIndexInMountainArray(int[] arr) {
+      int left = 1;
+      int right = arr.length - 2;
+      int ans = -1;
+      while (left <= right) {
+         int mid = left + ((right - left) >>> 1);
+         if (arr[mid] > arr[mid + 1]) {
+            ans = mid;
+            right = mid - 1;
+         } else {
+            left = mid + 1;
+         }
+      }
+      return ans;
+
+   }
 }
