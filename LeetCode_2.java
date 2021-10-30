@@ -1,8 +1,10 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class LeetCode_2 {
 
@@ -120,5 +122,24 @@ public class LeetCode_2 {
          }
       }
       return res;
+   }
+
+   // 3. 无重复字符的最长子串 (Longest Substring Without Repeating Characters)
+   // 剑指 Offer 48. 最长不含重复字符的子字符串
+   public int lengthOfLongestSubstring(String s) {
+      Set<Character> set = new HashSet<>();
+      int res = 0;
+      int l = 0;
+      int r = 0;
+      while (r < s.length()) {
+         if (!set.contains(s.charAt(r))) {
+            set.add(s.charAt(r++));
+            res = Math.max(res, r - l);
+         } else {
+            set.remove(s.charAt(l++));
+         }
+      }
+      return res;
+
    }
 }

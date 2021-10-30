@@ -6634,40 +6634,6 @@ public class LeetCodeText {
 
     }
 
-    public int lengthOfLongestSubstring(final String s) {
-        int count = 0;
-        final Set<Character> set = new HashSet<>();
-        int i = 0;
-        int j = 0;
-        while (i < s.length() && j < s.length()) {
-            if (!set.contains(s.charAt(j))) {
-                set.add(s.charAt(j++));
-                count = Math.max(count, j - i);
-            } else {
-                set.remove(s.charAt(i++));
-            }
-        }
-        return count;
-
-    }
-
-    public int lengthOfLongestSubstring2(final String s) {
-        int count = 0;
-        final Set<Character> set = new HashSet<>();
-        int i = 0;
-        int j = 0;
-        while (i < s.length() && j < s.length()) {
-            if (!set.contains(s.charAt(j))) {
-                set.add(s.charAt(j++));
-                count = Math.max(count, j - i);
-            } else {
-                set.remove(s.charAt(i++));
-            }
-        }
-        return count;
-
-    }
-
     // 中心扩展算法
     public String longestPalindrome2(final String s) {
         if (s == null || s.length() < 1) {
@@ -6872,23 +6838,6 @@ public class LeetCodeText {
             }
         }
         return sb.toString();
-
-    }
-
-    public int lengthOfLongestSubstring3(final String s) {
-        final Set<Character> set = new HashSet<>();
-        int i = 0;
-        int j = 0;
-        int count = 0;
-        while (i < s.length() && j < s.length()) {
-            if (!set.contains(s.charAt(j))) {
-                set.add(s.charAt(j++));
-                count = Math.max(count, j - i);
-            } else {
-                set.remove(s.charAt(i++));
-            }
-        }
-        return count;
 
     }
 
