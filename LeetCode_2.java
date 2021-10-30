@@ -142,4 +142,30 @@ public class LeetCode_2 {
       return res;
 
    }
+
+   // 525. 连续数组 (Contiguous Array)
+   // 剑指 Offer II 011. 0 和 1 个数相同的子数组
+   public int findMaxLength(int[] nums) {
+      //// key : 前缀和，遇1则+1，遇0则减1
+      // value : 数组的当前索引
+      // 存储第一次出现的key
+      Map<Integer, Integer> map = new HashMap<>();
+      map.put(0, -1);
+      int count = 0;
+      int res = 0;
+      for (int i = 0; i < nums.length; ++i) {
+         if (nums[i] == 0) {
+            --count;
+         } else {
+            ++count;
+         }
+         if (map.containsKey(count)) {
+            res = Math.max(res, i - map.get(count));
+         } else {
+            map.put(count, i);
+         }
+      }
+      return res;
+
+   }
 }

@@ -20980,32 +20980,6 @@ public class LeetCodeText {
 
     }
 
-    // 525. 连续数组 (Contiguous Array)
-    public int findMaxLength(int[] nums) {
-        int res = 0;
-        // key : 前缀和，遇1则+1，遇0则减1
-        // value : 数组的当前索引
-        // 存储第一次出现的key
-        Map<Integer, Integer> map = new HashMap<>();
-        int counter = 0;
-        map.put(counter, -1);
-        for (int i = 0; i < nums.length; ++i) {
-            int num = nums[i];
-            if (num == 0) {
-                --counter;
-            } else {
-                ++counter;
-            }
-            if (map.containsKey(counter)) {
-                res = Math.max(res, i - map.get(counter));
-            } else {
-                map.put(counter, i);
-            }
-        }
-        return res;
-
-    }
-
     // 535. TinyURL 的加密与解密 (Encode and Decode TinyURL)
     public class Codec {
         private Map<String, String> map = new HashMap<>();
