@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LeetCode_2 {
@@ -87,5 +88,35 @@ public class LeetCode_2 {
       }
       return ans;
 
+   }
+
+   // 1371. 每个元音包含偶数次的最长子字符串 (Find the Longest Substring Containing Vowels in Even
+   // Counts)
+   public int findTheLongestSubstring(String s) {
+      int status = 0;
+      int[] arr = new int[1 << 5];
+      Arrays.fill(arr, Integer.MAX_VALUE);
+      arr[0] = -1;
+      int res = 0;
+      for (int i = 0; i < s.length(); ++i) {
+         char c = s.charAt(i);
+         if (c == 'a') {
+            status ^= 1 << 0;
+         } else if (c == 'e') {
+            status ^= 1 << 1;
+         } else if (c == 'i') {
+            status ^= 1 << 2;
+         } else if (c == 'o') {
+            status ^= 1 << 3;
+         } else if (c == 'u') {
+            status ^= 1 << 4;
+         }
+         if (arr[status] == Integer.MAX_VALUE) {
+            arr[status] = i;
+         } else {
+            res = Math.max(res, i - arr[status]);
+         }
+      }
+      return res;
    }
 }
