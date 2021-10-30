@@ -20915,6 +20915,7 @@ public class LeetCodeText {
     }
 
     // 146. LRU 缓存机制 (LRU Cache)
+    // 面试题 16.25. LRU 缓存 (LRU Cache LCCI)
     class LRUCache {
         class CacheNode {
             CacheNode prev;
