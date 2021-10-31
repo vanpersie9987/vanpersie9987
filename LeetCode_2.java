@@ -250,4 +250,43 @@ public class LeetCode_2 {
          addToHead(node);
       }
    }
+
+   // 676. 实现一个魔法字典 (Implement Magic Dictionary)
+   // 剑指 Offer II 064. 神奇的字典
+   class MagicDictionary {
+      private Map<Integer, List<String>> map;
+
+      /** Initialize your data structure here. */
+      public MagicDictionary() {
+         map = new HashMap<>();
+
+      }
+
+      public void buildDict(String[] dictionary) {
+         for (String d : dictionary) {
+            map.computeIfAbsent(d.length(), k -> new ArrayList<>()).add(d);
+         }
+      }
+
+      public boolean search(String searchWord) {
+         if (!map.containsKey(searchWord.length())) {
+            return false;
+         }
+         for (String word : map.get(searchWord.length())) {
+            int diff = 0;
+            for (int i = 0; i < word.length(); ++i) {
+               if (word.charAt(i) != searchWord.charAt(i)) {
+                  if (++diff > 1) {
+                     break;
+                  }
+               }
+            }
+            if (diff == 1) {
+               return true;
+            }
+         }
+         return false;
+      }
+   }
+
 }
