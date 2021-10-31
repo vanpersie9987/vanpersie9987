@@ -168,4 +168,86 @@ public class LeetCode_2 {
       return res;
 
    }
+   
+   // 146. LRU 缓存机制 (LRU Cache)
+   // 面试题 16.25. LRU 缓存 (LRU Cache LCCI)
+   class LRUCache {
+      class CacheNode {
+         CacheNode prev;
+         CacheNode next;
+         int value;
+         int key;
+
+         public CacheNode() {
+         }
+
+         public CacheNode(int _key, int _value) {
+            key = _key;
+            value = _value;
+         }
+
+      }
+
+      private int capacity;
+      private int size;
+      private CacheNode head;
+      private CacheNode tail;
+      private Map<Integer, CacheNode> cache;
+
+      public LRUCache(int capacity) {
+         cache = new HashMap<>();
+         head = new CacheNode();
+         tail = new CacheNode();
+         this.capacity = capacity;
+         this.size = 0;
+         head.next = tail;
+         tail.prev = head;
+
+      }
+
+      public int get(int key) {
+         CacheNode curNode = cache.get(key);
+         if (curNode == null) {
+            return -1;
+         }
+         moveToHead(curNode);
+         return curNode.value;
+
+      }
+
+      public void put(int key, int value) {
+         CacheNode curNode = cache.get(key);
+         if (curNode == null) {
+            curNode = new CacheNode(key, value);
+            cache.put(key, curNode);
+            addToHead(curNode);
+            ++size;
+            if (size > capacity) {
+               cache.remove(tail.prev.key);
+               removeNode(tail.prev);
+               --size;
+            }
+         } else {
+            curNode.value = value;
+            moveToHead(curNode);
+         }
+      }
+
+      private void removeNode(CacheNode node) {
+         node.prev.next = node.next;
+         node.next.prev = node.prev;
+      }
+
+      private void addToHead(CacheNode node) {
+         node.next = head.next;
+         head.next = node;
+         node.prev = head;
+         node.next.prev = node;
+      }
+
+      private void moveToHead(CacheNode node) {
+         removeNode(node);
+         addToHead(node);
+      }
+   }
 }
