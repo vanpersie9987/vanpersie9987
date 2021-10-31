@@ -334,4 +334,15 @@ public class LeetCode_2 {
       }
    }
 
+   // 540. 有序数组中的单一元素 (Single Element in a Sorted Array)
+   // 剑指 Offer II 070. 排序数组中只出现一次的数字 还需要掌握二分查找法
+   public int singleNonDuplicate(int[] nums) {
+      int res = 0;
+      for (int num : nums) {
+         res ^= num;
+      }
+      return res;
+
+   }
+
 }
