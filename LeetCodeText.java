@@ -2514,20 +2514,6 @@ public class LeetCodeText {
         return Math.max(cur, count);
     }
 
-    // 724. 寻找数组的中心下标
-    public int pivotIndex(final int[] nums) {
-        int leftSum = 0;
-        int sum = Arrays.stream(nums).sum();
-        for (int i = 0; i < nums.length; ++i) {
-            if (leftSum == sum - nums[i] - leftSum) {
-                return i;
-            }
-            leftSum += nums[i];
-        }
-        return -1;
-
-    }
-
     // 729. 我的日程安排表 I
     class MyCalendar {
         List<int[]> list;

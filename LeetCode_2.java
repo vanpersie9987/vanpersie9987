@@ -345,7 +345,7 @@ public class LeetCode_2 {
 
    }
 
-   // 560. 和为K的子数组 (Subarray Sum Equals K)
+   // 560. 和为K的子数组 (Subarray Sum Equals K) 前缀和
    // 剑指 Offer II 010. 和为 k 的子数组
    public int subarraySum(int[] nums, int k) {
       Map<Integer, Integer> map = new HashMap<>();
@@ -359,5 +359,19 @@ public class LeetCode_2 {
       }
       return res;
    }
+
+   // 724. 寻找数组的中心下标 前缀和
+   public int pivotIndex(final int[] nums) {
+      int leftSum = 0;
+      int sum = Arrays.stream(nums).sum();
+      for (int i = 0; i < nums.length; ++i) {
+         if (leftSum == sum - nums[i] - leftSum) {
+            return i;
+         }
+         leftSum += nums[i];
+      }
+      return -1;
+   }
+   
 
 }
