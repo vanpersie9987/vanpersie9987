@@ -372,6 +372,19 @@ public class LeetCode_2 {
       }
       return -1;
    }
-   
+
+   // 930. 和相同的二元子数组 (Binary Subarrays With Sum) 前缀和 还需掌握滑动窗口
+   public int numSubarraysWithSum(int[] nums, int goal) {
+      Map<Integer, Integer> map = new HashMap<>();
+      int res = 0;
+      map.put(0, 1);
+      int preSum = 0;
+      for (int i = 0; i < nums.length; ++i) {
+         preSum += nums[i];
+         res += map.getOrDefault(preSum - goal, 0);
+         map.put(preSum, map.getOrDefault(preSum, 0) + 1);
+      }
+      return res;
+   }
 
 }
