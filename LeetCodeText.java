@@ -3912,25 +3912,6 @@ public class LeetCodeText {
 
     }
 
-    public int subarraysDivByK(final int[] A, final int K) {
-        int[] dp = new int[A.length + 1];
-
-        for (int i = 0; i < A.length; ++i) {
-            dp[i + 1] = A[i] + dp[i];
-        }
-
-        int[] count = new int[K];
-        for (int i = 0; i < dp.length; ++i) {
-            ++count[(dp[i] % K + K) % K];
-        }
-        int res = 0;
-        for (int i = 0; i < count.length; ++i) {
-            res += count[i] * (count[i] - 1) / 2;
-        }
-        return res;
-
-    }
-
     // 1014. 最佳观光组合
     public int maxScoreSightseeingPair(final int[] A) {
         int max = 0;
