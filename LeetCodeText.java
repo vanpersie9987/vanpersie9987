@@ -1906,22 +1906,6 @@ public class LeetCodeText {
 
     }
 
-    // 560. 和为K的子数组
-    public int subarraySum(final int[] nums, final int k) {
-        int count = 0;
-        for (int i = 0; i < nums.length; ++i) {
-            int sum = 0;
-            for (int j = i; j >= 0; --j) {
-                sum += nums[j];
-                if (sum == k) {
-                    ++count;
-                }
-            }
-        }
-        return count;
-
-    }
-
     // 448. 找到所有数组中消失的数字
     public List<Integer> findDisappearedNumbers(final int[] nums) {
         for (int i = 0; i < nums.length; ++i) {

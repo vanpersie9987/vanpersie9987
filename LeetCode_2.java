@@ -345,4 +345,19 @@ public class LeetCode_2 {
 
    }
 
+   // 560. 和为K的子数组 (Subarray Sum Equals K)
+   // 剑指 Offer II 010. 和为 k 的子数组
+   public int subarraySum(int[] nums, int k) {
+      Map<Integer, Integer> map = new HashMap<>();
+      int res = 0;
+      int preSum = 0;
+      map.put(0, 1);
+      for (int i = 0; i < nums.length; ++i) {
+         preSum += nums[i];
+         res += map.getOrDefault(preSum - k, 0);
+         map.put(preSum, map.getOrDefault(preSum, 0) + 1);
+      }
+      return res;
+   }
+
 }
