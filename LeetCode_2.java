@@ -387,4 +387,35 @@ public class LeetCode_2 {
       return res;
    }
 
+   // 1248. 统计「优美子数组」(Count Number of Nice Subarrays) 前缀和
+   public int numberOfSubarrays(int[] nums, int k) {
+      Map<Integer, Integer> map = new HashMap<>();
+      int oddNum = 0;
+      map.put(0, 1);
+      int res = 0;
+      for (int i = 0; i < nums.length; ++i) {
+         oddNum += nums[i] & 1;
+         res += map.getOrDefault(oddNum - k, 0);
+         map.put(oddNum, map.getOrDefault(oddNum, 0) + 1);
+      }
+      return res;
+
+   }
+
+   // 1248. 统计「优美子数组」(Count Number of Nice Subarrays) 前缀和
+   public int numberOfSubarrays2(int[] nums, int k) {
+      int[] arr = new int[nums.length + 1];
+      int res = 0;
+      int oddNum = 0;
+      arr[0] = 1;
+      for (int i = 0; i < nums.length; ++i) {
+         oddNum += nums[i] & 1;
+         if (oddNum - k >= 0) {
+            res += arr[oddNum - k];
+         }
+         ++arr[oddNum];
+      }
+      return res;
+   }
+
 }
