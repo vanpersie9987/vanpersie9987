@@ -486,18 +486,20 @@ public class LeetCode_2 {
 
    // 1292. 元素和小于等于阈值的正方形的最大边长
    public int maxSideLength2(int[][] mat, int threshold) {
-      int[][] preSum = new int[mat.length + 1][mat[0].length + 1];
-      for (int i = 1; i < preSum.length; ++i) {
-         for (int j = 1; j < preSum[0].length; ++j) {
+      int m = mat.length;
+      int n = mat[0].length;
+      int[][] preSum = new int[m + 1][n + 1];
+      for (int i = 1; i <= m; ++i) {
+         for (int j = 1; j <= n; ++j) {
             preSum[i][j] = preSum[i - 1][j] + preSum[i][j - 1] - preSum[i - 1][j - 1] + mat[i - 1][j - 1];
          }
       }
-      int maxSide = Math.min(mat.length, mat[0].length);
+      int r = Math.min(m, n);
       int res = 0;
-      for (int i = 1; i < preSum.length; ++i) {
-         for (int j = 1; j < preSum[0].length; ++j) {
-            for (int side = res + 1; side <= maxSide; ++side) {
-               if (i + side - 1 < preSum.length && j + side - 1 < preSum[0].length
+      for (int i = 1; i <= m; ++i) {
+         for (int j = 1; j <= n; ++j) {
+            for (int side = res + 1; side <= r; ++side) {
+               if (i + side - 1 <= m && j + side - 1 <= n
                      && getRect(preSum, i, j, i + side - 1, j + side - 1) <= threshold) {
                   ++res;
                } else {
