@@ -8820,68 +8820,6 @@ public class LeetCodeText {
 
     }
 
-    // 1292. 元素和小于等于阈值的正方形的最大边长
-    public int maxSideLength(int[][] mat, int threshold) {
-        int[][] P = new int[mat.length + 1][mat[0].length + 1];
-        for (int i = 1; i < P.length; ++i) {
-            for (int j = 1; j < P[0].length; ++j) {
-                P[i][j] = P[i - 1][j] + P[i][j - 1] + mat[i - 1][j - 1] - P[i - 1][j - 1];
-            }
-        }
-        int left = 1;
-        int ans = 0;
-        int right = Math.min(mat.length, mat[0].length);
-        while (left <= right) {
-            boolean find = false;
-            int mid = left + ((right - left) >> 1);
-            for (int i = 1; i <= mat.length + 1 - mid; ++i) {
-                for (int j = 1; j <= mat[0].length + 1 - mid; ++j) {
-                    if (getRect(P, i, j, i + mid - 1, j + mid - 1) <= threshold) {
-                        find = true;
-                    }
-
-                }
-            }
-            if (find) {
-                ans = mid;
-                left = mid + 1;
-            } else {
-                right = mid - 1;
-            }
-        }
-        return ans;
-    }
-
-    // 1292. 元素和小于等于阈值的正方形的最大边长
-    public int maxSideLength2(int[][] mat, int threshold) {
-        int[][] P = new int[mat.length + 1][mat[0].length + 1];
-        for (int i = 1; i < P.length; ++i) {
-            for (int j = 1; j < P[0].length; ++j) {
-                P[i][j] = P[i - 1][j] + P[i][j - 1] + mat[i - 1][j - 1] - P[i - 1][j - 1];
-            }
-        }
-        int ans = 0;
-        int r = Math.min(mat.length, mat[0].length);
-        for (int i = 1; i < P.length; ++i) {
-            for (int j = 1; j < P[0].length; ++j) {
-                for (int side = ans + 1; side <= r; ++side) {
-                    if (i + side - 1 < P.length && j + side - 1 < P[0].length
-                            && getRect(P, i, j, i + side - 1, j + side - 1) <= threshold) {
-                        ++ans;
-                    } else {
-                        break;
-                    }
-                }
-            }
-        }
-        return ans;
-
-    }
-
-    private int getRect(int[][] P, int startI, int startJ, int endI, int endJ) {
-        return P[endI][endJ] - P[endI][startJ - 1] - P[startI - 1][endJ] + P[startI - 1][startJ - 1];
-    }
-
     // 1738. 找出第 K 大的异或坐标值
     public int kthLargestValue(int[][] matrix, int k) {
         List<Integer> list = new ArrayList<>();

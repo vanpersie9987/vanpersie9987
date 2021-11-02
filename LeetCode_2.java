@@ -452,6 +452,98 @@ public class LeetCode_2 {
 
    }
 
+   // 1292. 元素和小于等于阈值的正方形的最大边长
+   public int maxSideLength(int[][] mat, int threshold) {
+      int[][] P = new int[mat.length + 1][mat[0].length + 1];
+      for (int i = 1; i < P.length; ++i) {
+         for (int j = 1; j < P[0].length; ++j) {
+            P[i][j] = P[i - 1][j] + P[i][j - 1] + mat[i - 1][j - 1] - P[i - 1][j - 1];
+         }
+      }
+      int left = 1;
+      int ans = 0;
+      int right = Math.min(mat.length, mat[0].length);
+      while (left <= right) {
+         boolean find = false;
+         int mid = left + ((right - left) >> 1);
+         for (int i = 1; i <= mat.length + 1 - mid; ++i) {
+            for (int j = 1; j <= mat[0].length + 1 - mid; ++j) {
+               if (getRect(P, i, j, i + mid - 1, j + mid - 1) <= threshold) {
+                  find = true;
+               }
+
+            }
+         }
+         if (find) {
+            ans = mid;
+            left = mid + 1;
+         } else {
+            right = mid - 1;
+         }
+      }
+      return ans;
+   }
+
+   // 1292. 元素和小于等于阈值的正方形的最大边长
+   public int maxSideLength2(int[][] mat, int threshold) {
+      int[][] preSum = new int[mat.length + 1][mat[0].length + 1];
+      for (int i = 1; i < preSum.length; ++i) {
+         for (int j = 1; j < preSum[0].length; ++j) {
+            preSum[i][j] = preSum[i - 1][j] + preSum[i][j - 1] - preSum[i - 1][j - 1] + mat[i - 1][j - 1];
+         }
+      }
+      int maxSide = Math.min(mat.length, mat[0].length);
+      int res = 0;
+      for (int i = 1; i < preSum.length; ++i) {
+         for (int j = 1; j < preSum[0].length; ++j) {
+            for (int side = res + 1; side <= maxSide; ++side) {
+               if (i + side - 1 < preSum.length && j + side - 1 < preSum[0].length
+                     && getRect(preSum, i, j, i + side - 1, j + side - 1) <= threshold) {
+                  ++res;
+               } else {
+                  break;
+               }
+            }
+         }
+      }
+      return res;
+
+   }
+
+   private int getRect(int[][] preSum, int startI, int startJ, int endI, int endJ) {
+      return preSum[endI][endJ] - preSum[endI][startJ - 1] - preSum[startI - 1][endJ] + preSum[startI - 1][startJ - 1];
+   }
+
+   // 1314. 矩阵区域和 (Matrix Block Sum)
+   public int[][] matrixBlockSum(int[][] mat, int k) {
+      // int m = mat.length;
+      // int n = mat[0].length;
+      // int[][] dp = new int[m][n];
+      // for (int i = 1; i < m; ++i) {
+      // for (int j = 1; j < n; ++j) {
+      // dp[i][j] = mat[i][j] + dp[i - 1][j] + dp[i][j - 1] - dp[i - 1][j - 1];
+      // }
+      // }
+      // for (int i = 0; i < m; ++i) {
+      // for (int j = 0; j < n; ++j) {
+      // int rightBottomRowIndex = Math.min(i + k, m - 1);
+      // int rightBottomColIndex = Math.min(j + k, n - 1);
+      // int rightBottomSum = dp[rightBottomRowIndex][rightBottomColIndex];
+
+      // int leftBottomSum = j - k - 1 >= 0 ? dp[rightBottomRowIndex][j - k - 1] : 0;
+
+      // int rightTopSum = i - k - 1 >= 0 ? dp[i - k - 1][rightBottomColIndex] : 0;
+
+      // int leftTopSum = i - k - 1 >= 0 && j - k - 1 >= 0 ? mat[i - k - 1][j - k - 1]
+      // : 0;
+
+      // mat[i][j] = rightBottomSum - leftBottomSum - rightTopSum + leftTopSum;
+      // }
+      // }
+      // return mat;
+
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
