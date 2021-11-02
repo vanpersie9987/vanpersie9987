@@ -361,6 +361,7 @@ public class LeetCode_2 {
    }
 
    // 724. 寻找数组的中心下标 前缀和
+   // 剑指 Offer II 012. 左右两边子数组的和相等
    public int pivotIndex(final int[] nums) {
       int leftSum = 0;
       int sum = Arrays.stream(nums).sum();
@@ -449,5 +450,11 @@ public class LeetCode_2 {
       return res;
 
    }
+
+   // TODO
+   // 523. 连续的子数组和 (Continuous Subarray Sum)
+   // public boolean checkSubarraySum(int[] nums, int k) {
+
+   // }
 
 }
