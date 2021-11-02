@@ -361,6 +361,7 @@ public class LeetCode_2 {
    }
 
    // 724. 寻找数组的中心下标 前缀和
+   // 1991. 找到数组的中间位置 (Find the Middle Index in Array)
    // 剑指 Offer II 012. 左右两边子数组的和相等
    public int pivotIndex(final int[] nums) {
       int leftSum = 0;
