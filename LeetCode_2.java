@@ -518,32 +518,29 @@ public class LeetCode_2 {
 
    // 1314. 矩阵区域和 (Matrix Block Sum)
    public int[][] matrixBlockSum(int[][] mat, int k) {
-      // int m = mat.length;
-      // int n = mat[0].length;
-      // int[][] dp = new int[m][n];
-      // for (int i = 1; i < m; ++i) {
-      // for (int j = 1; j < n; ++j) {
-      // dp[i][j] = mat[i][j] + dp[i - 1][j] + dp[i][j - 1] - dp[i - 1][j - 1];
-      // }
-      // }
-      // for (int i = 0; i < m; ++i) {
-      // for (int j = 0; j < n; ++j) {
-      // int rightBottomRowIndex = Math.min(i + k, m - 1);
-      // int rightBottomColIndex = Math.min(j + k, n - 1);
-      // int rightBottomSum = dp[rightBottomRowIndex][rightBottomColIndex];
+      int m = mat.length;
+      int n = mat[0].length;
+      int[][] prefix = new int[m + 1][n + 1];
+      for (int i = 1; i <= m; ++i) {
+         for (int j = 1; j <= n; ++j) {
+            prefix[i][j] = prefix[i - 1][j] + prefix[i][j - 1] + mat[i - 1][j - 1] - prefix[i - 1][j - 1];
+         }
+      }
+      for (int i = 0; i < m; ++i) {
+         for (int j = 0; j < n; ++j) {
+            int endI = Math.min(i + k + 1, m);
+            int endJ = Math.min(j + k + 1, n);
+            int startI = Math.max(1, i + 1 - k);
+            int startJ = Math.max(1, j + 1 - k);
+            mat[i][j] = getRect1314(prefix, startI, startJ, endI, endJ);
+         }
+      }
+      return mat;
 
-      // int leftBottomSum = j - k - 1 >= 0 ? dp[rightBottomRowIndex][j - k - 1] : 0;
+   }
 
-      // int rightTopSum = i - k - 1 >= 0 ? dp[i - k - 1][rightBottomColIndex] : 0;
-
-      // int leftTopSum = i - k - 1 >= 0 && j - k - 1 >= 0 ? mat[i - k - 1][j - k - 1]
-      // : 0;
-
-      // mat[i][j] = rightBottomSum - leftBottomSum - rightTopSum + leftTopSum;
-      // }
-      // }
-      // return mat;
-
+   private int getRect1314(int[][] prefix, int startI, int startJ, int endI, int endJ) {
+      return prefix[endI][endJ] - prefix[endI][startJ - 1] - prefix[startI - 1][endJ] + prefix[startI - 1][startJ - 1];
    }
 
    // TODO
