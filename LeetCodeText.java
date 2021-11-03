@@ -1386,27 +1386,6 @@ public class LeetCodeText {
 
     }
 
-    public int minSubArrayLen(final int s, final int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
-        int min = Integer.MAX_VALUE;
-        int sum = 0;
-        int left = 0;
-        int right = 0;
-        while (right < nums.length) {
-            sum += nums[right];
-            while (sum >= s) {
-                min = Math.min(min, right - left + 1);
-                sum -= nums[left];
-                ++left;
-            }
-            ++right;
-        }
-        return min == Integer.MAX_VALUE ? 0 : min;
-
-    }
-
     // 217. 存在重复元素
     public boolean containsDuplicate(final int[] nums) {
         Set<Integer> set = new HashSet<>();

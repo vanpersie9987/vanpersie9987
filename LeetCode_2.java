@@ -543,6 +543,25 @@ public class LeetCode_2 {
       return prefix[endI][endJ] - prefix[endI][startJ - 1] - prefix[startI - 1][endJ] + prefix[startI - 1][startJ - 1];
    }
 
+   // 209. 长度最小的子数组 (Minimum Size Subarray Sum) --O(n) 还需掌握二分法
+   // 剑指 Offer II 008. 和大于等于 target 的最短子数组 --O(n)
+   public int minSubArrayLen(int target, int[] nums) {
+      int res = Integer.MAX_VALUE;
+      int left = 0;
+      int right = 0;
+      int curSum = 0;
+      while (right < nums.length) {
+         curSum += nums[right];
+         while (curSum >= target) {
+            res = Math.min(res, right - left + 1);
+            curSum -= nums[left++];
+         }
+         ++right;
+      }
+      return res == Integer.MAX_VALUE ? 0 : res;
+
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
