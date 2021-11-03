@@ -601,6 +601,24 @@ public class LeetCode_2 {
       }
    }
 
+   // 304. 二维区域和检索 - 矩阵不可变 (Range Sum Query 2D - Immutable)
+   class NumMatrix {
+      int[][] prefix;
+
+      public NumMatrix(int[][] matrix) {
+         prefix = new int[matrix.length + 1][matrix[0].length + 1];
+         for (int i = 1; i < prefix.length; ++i) {
+            for (int j = 1; j < prefix[0].length; ++j) {
+               prefix[i][j] = prefix[i - 1][j] + prefix[i][j - 1] + matrix[i - 1][j - 1] - prefix[i - 1][j - 1];
+            }
+         }
+      }
+
+      public int sumRegion(int row1, int col1, int row2, int col2) {
+         return prefix[row2 + 1][col2 + 1] - prefix[row2 + 1][col1] - prefix[row1][col2 + 1] + prefix[row1][col1];
+      }
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
