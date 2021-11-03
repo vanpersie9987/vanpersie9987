@@ -584,6 +584,23 @@ public class LeetCode_2 {
 
    }
 
+   // 303. 区域和检索 - 数组不可变 (Range Sum Query - Immutable)
+   class NumArray {
+      private int[] prefix;
+
+      public NumArray(int[] nums) {
+         prefix = new int[nums.length + 1];
+         for (int i = 1; i < prefix.length; ++i) {
+            prefix[i] = prefix[i - 1] + nums[i - 1];
+         }
+
+      }
+
+      public int sumRange(int left, int right) {
+         return prefix[right + 1] - prefix[left];
+      }
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
