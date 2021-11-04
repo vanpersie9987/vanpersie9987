@@ -666,6 +666,28 @@ public class LeetCode_2 {
 
    }
 
+   // 1004.最大连续1的个数 III (Max Consecutive Ones III)
+   public int longestOnes(int[] nums, int k) {
+      int res = 0;
+      int zeroCount = 0;
+      int left = 0;
+      int right = 0;
+      while (right < nums.length) {
+         if (nums[right] == 0) {
+            ++zeroCount;
+         }
+         while (left < nums.length && zeroCount > k) {
+            if (nums[left++] == 0) {
+               --zeroCount;
+            }
+         }
+         res = Math.max(res, right - left + 1);
+         ++right;
+      }
+      return res;
+
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
