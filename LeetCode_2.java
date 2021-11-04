@@ -638,6 +638,34 @@ public class LeetCode_2 {
 
    }
 
+   // 2024. 考试的最大困扰度 (Maximize the Confusion of an Exam) --滑动窗口
+   public int maxConsecutiveAnswers(String answerKey, int k) {
+      char[] keys = answerKey.toCharArray();
+      int left = 0;
+      int right = 0;
+      int res = 0;
+      int tCounts = 0;
+      int fCounts = 0;
+      while (right < keys.length) {
+         if (keys[right] == 'T') {
+            ++tCounts;
+         } else {
+            ++fCounts;
+         }
+         while (left < keys.length && tCounts > k && fCounts > k) {
+            if (keys[left++] == 'T') {
+               --tCounts;
+            } else {
+               --fCounts;
+            }
+         }
+         res = Math.max(res, right - left + 1);
+         ++right;
+      }
+      return res;
+
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
