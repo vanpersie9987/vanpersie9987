@@ -1509,23 +1509,6 @@ public class LeetCodeText {
 
     }
 
-    // 238. 除自身以外数组的乘积
-    public static int[] productExceptSelf(final int[] nums) {
-        int k = 1;
-        int[] result = new int[nums.length];
-        for (int i = 0; i < nums.length; ++i) {
-            result[i] = k;
-            k *= nums[i];
-        }
-        k = 1;
-        for (int i = nums.length - 1; i >= 0; --i) {
-            result[i] *= k;
-            k *= nums[i];
-        }
-        return result;
-
-    }
-
     // 268. 丢失的数字
     public static int missingNumber(final int[] nums) {
         int missing = nums.length;
