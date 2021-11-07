@@ -171,6 +171,7 @@ public class LeetCode_2 {
 
    // 146. LRU 缓存机制 (LRU Cache)
    // 面试题 16.25. LRU 缓存 (LRU Cache LCCI)
+   // 剑指 Offer II 031. 最近最少使用缓存
    class LRUCache {
       class CacheNode {
          CacheNode prev;
@@ -770,9 +771,38 @@ public class LeetCode_2 {
    }
 
    // 1915. 最美子字符串的数目 (Number of Wonderful Substrings)
-   // public long wonderfulSubstrings(String word) {
+   public long wonderfulSubstrings(String word) {
+      int[] mask = new int[1 << 10];
+      mask[0] = 1;
+      long res = 0;
+      int state = 0;
+      for (int i = 0; i < word.length(); ++i) {
+         state ^= 1 << (word.charAt(i) - 'a');
+         res += mask[state];
+         for (int j = 0; j < 10; ++j) {
+            res += mask[state ^ (1 << j)];
+         }
+         ++mask[state];
+      }
+      return res;
+   }
+
+   // 1865. 找出和为指定值的下标对 (Finding Pairs With a Certain Sum)
+   // class FindSumPairs {
+
+   // public FindSumPairs(int[] nums1, int[] nums2) {
 
    // }
+
+   // public void add(int index, int val) {
+
+   // }
+
+   // public int count(int tot) {
+
+   // }
+   // }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
