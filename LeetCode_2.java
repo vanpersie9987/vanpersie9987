@@ -739,24 +739,35 @@ public class LeetCode_2 {
    }
 
    // 1074. 元素和为目标值的子矩阵数量 (Number of Submatrices That Sum to Target)
-   // public int numSubmatrixSumTarget(int[][] matrix, int target) {
-   // Map<Integer, Integer> map = new HashMap<>();
-   // map.put(0, 1);
-   // int res = 0;
-   // int m = matrix.length;
-   // int n = matrix[0].length;
-   // int[][] prefix = new int[m + 1][n + 1];
-   // for (int i = 1; i <= m; ++i) {
-   // for (int j = 1; j <= n; ++j) {
-   // prefix[i][j] = prefix[i - 1][j] + prefix[i][j - 1] + matrix[i - 1][j - 1] -
-   // prefix[i - 1][j - 1];
-   // res += map.getOrDefault(prefix[i][j] - target, 0);
-   // map.put(prefix[i][j], map.getOrDefault(prefix[i][j], 0) + 1);
-   // }
-   // }
-   // return res;
+   public int numSubmatrixSumTarget(int[][] matrix, int target) {
+      int res = 0;
+      int m = matrix.length;
+      int n = matrix[0].length;
+      for (int i = 0; i < m; ++i) {
+         int[] prefix = new int[n];
+         for (int j = i; j < m; ++j) {
+            for (int c = 0; c < n; ++c) {
+               prefix[c] += matrix[j][c];
+            }
+            res += getSum1074(prefix, target);
+         }
+      }
+      return res;
 
-   // }
+   }
+
+   private int getSum1074(int[] nums, int target) {
+      Map<Integer, Integer> map = new HashMap<>();
+      map.put(0, 1);
+      int prefix = 0;
+      int res = 0;
+      for (int i = 0; i < nums.length; ++i) {
+         prefix += nums[i];
+         res += map.getOrDefault(prefix - target, 0);
+         map.put(prefix, map.getOrDefault(prefix, 0) + 1);
+      }
+      return res;
+   }
 
    // 1915. 最美子字符串的数目 (Number of Wonderful Substrings)
    // public long wonderfulSubstrings(String word) {
