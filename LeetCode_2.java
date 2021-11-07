@@ -688,6 +688,80 @@ public class LeetCode_2 {
 
    }
 
+   // 1930. 长度为 3 的不同回文子序列 (Unique Length-3 Palindromic Subsequences)
+   public int countPalindromicSubsequence(String s) {
+      int res = 0;
+      char[] chars = s.toCharArray();
+      for (char c = 'a'; c <= 'z'; ++c) {
+         int left = 0;
+         int right = chars.length - 1;
+         while (left < right && chars[left] != c) {
+            ++left;
+         }
+         while (left < right && chars[right] != c) {
+            --right;
+         }
+         if (right - left < 2) {
+            continue;
+         }
+         Set<Character> set = new HashSet<>();
+         for (int i = left + 1; i <= right - 1; ++i) {
+            set.add(chars[i]);
+         }
+         res += set.size();
+      }
+      return res;
+
+   }
+
+   // 1930. 长度为 3 的不同回文子序列 (Unique Length-3 Palindromic Subsequences)
+   public int countPalindromicSubsequence2(String s) {
+      int res = 0;
+      int n = s.length();
+      char[] chars = s.toCharArray();
+      int[] leftPrefix = new int[n];
+      int[] rightPrefix = new int[n];
+      for (int i = 1; i < n; ++i) {
+         leftPrefix[i] = leftPrefix[i - 1] | (1 << (chars[i - 1] - 'a'));
+      }
+      for (int i = n - 2; i >= 0; --i) {
+         rightPrefix[i] = rightPrefix[i + 1] | (1 << (chars[i + 1] - 'a'));
+      }
+      int[] ans = new int[26];
+      for (int i = 1; i < n - 1; ++i) {
+         ans[chars[i] - 'a'] |= leftPrefix[i] & rightPrefix[i];
+      }
+      for (int i = 0; i < ans.length; ++i) {
+         res += Integer.bitCount(ans[i]);
+      }
+      return res;
+
+   }
+
+   // 1074. 元素和为目标值的子矩阵数量 (Number of Submatrices That Sum to Target)
+   // public int numSubmatrixSumTarget(int[][] matrix, int target) {
+   // Map<Integer, Integer> map = new HashMap<>();
+   // map.put(0, 1);
+   // int res = 0;
+   // int m = matrix.length;
+   // int n = matrix[0].length;
+   // int[][] prefix = new int[m + 1][n + 1];
+   // for (int i = 1; i <= m; ++i) {
+   // for (int j = 1; j <= n; ++j) {
+   // prefix[i][j] = prefix[i - 1][j] + prefix[i][j - 1] + matrix[i - 1][j - 1] -
+   // prefix[i - 1][j - 1];
+   // res += map.getOrDefault(prefix[i][j] - target, 0);
+   // map.put(prefix[i][j], map.getOrDefault(prefix[i][j], 0) + 1);
+   // }
+   // }
+   // return res;
+
+   // }
+
+   // 1915. 最美子字符串的数目 (Number of Wonderful Substrings)
+   // public long wonderfulSubstrings(String word) {
+
+   // }
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
