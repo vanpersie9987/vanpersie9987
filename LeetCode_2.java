@@ -859,6 +859,33 @@ public class LeetCode_2 {
       }
    }
 
+   // 1456. 定长子串中元音的最大数目 (Maximum Number of Vowels in a Substring of Given Length)
+   public int maxVowels(String s, int k) {
+      char[] chars = s.toCharArray();
+      int cur = 0;
+      int i = 0;
+      while (i < k) {
+         if (chars[i] == 'a' || chars[i] == 'e' || chars[i] == 'i' || chars[i] == 'o' || chars[i] == 'u') {
+            ++cur;
+         }
+         ++i;
+      }
+      int res = cur;
+      while (i < chars.length) {
+         if (chars[i] == 'a' || chars[i] == 'e' || chars[i] == 'i' || chars[i] == 'o' || chars[i] == 'u') {
+            ++cur;
+         }
+         if (chars[i - k] == 'a' || chars[i - k] == 'e' || chars[i - k] == 'i' || chars[i - k] == 'o'
+               || chars[i - k] == 'u') {
+            --cur;
+         }
+         res = Math.max(res, cur);
+         ++i;
+      }
+      return res;
+
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
