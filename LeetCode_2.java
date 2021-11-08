@@ -439,7 +439,7 @@ public class LeetCode_2 {
 
    // 974. 和可被 K 整除的子数组 --前缀和
    public int subarraysDivByK_2(int[] nums, int k) {
-      int[] arr = new int[k + 1];
+      int[] arr = new int[k];
       arr[0] = 1;
       int res = 0;
       int preSum = 0;
