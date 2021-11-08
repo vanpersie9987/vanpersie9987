@@ -807,6 +807,28 @@ public class LeetCode_2 {
 
    }
 
+   // 1546. 和为目标值且不重叠的非空子数组的最大数目 (Maximum Number of Non-Overlapping Subarrays With
+   // Sum Equals Target)
+   public int maxNonOverlapping(int[] nums, int target) {
+      Set<Integer> set = new HashSet<>();
+      set.add(0);
+      int res = 0;
+      int prefix = 0;
+      for (int i = 0; i < nums.length; ++i) {
+         prefix += nums[i];
+         if (set.contains(prefix - target)) {
+            ++res;
+            set.clear();
+            set.add(0);
+            prefix = 0;
+         } else {
+            set.add(prefix);
+         }
+      }
+      return res;
+
+   }
+
    // 1865. 找出和为指定值的下标对 (Finding Pairs With a Certain Sum)
    // class FindSumPairs {
 
