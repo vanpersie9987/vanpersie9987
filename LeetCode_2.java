@@ -830,20 +830,34 @@ public class LeetCode_2 {
    }
 
    // 1865. 找出和为指定值的下标对 (Finding Pairs With a Certain Sum)
-   // class FindSumPairs {
+   class FindSumPairs {
+      private int[] nums1;
+      private int[] nums2;
+      private Map<Integer, Integer> map;
 
-   // public FindSumPairs(int[] nums1, int[] nums2) {
+      public FindSumPairs(int[] nums1, int[] nums2) {
+         this.nums1 = nums1;
+         this.nums2 = nums2;
+         this.map = new HashMap<>();
+         for (int num : nums2) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+         }
+      }
 
-   // }
+      public void add(int index, int val) {
+         map.put(nums2[index], map.get(nums2[index]) - 1);
+         nums2[index] += val;
+         map.put(nums2[index], map.getOrDefault(nums2[index], 0) + 1);
+      }
 
-   // public void add(int index, int val) {
-
-   // }
-
-   // public int count(int tot) {
-
-   // }
-   // }
+      public int count(int tot) {
+         int res = 0;
+         for (int num : nums1) {
+            res += map.getOrDefault(tot - num, 0);
+         }
+         return res;
+      }
+   }
 
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
