@@ -925,31 +925,28 @@ public class LeetCode_2 {
    // 1297. 子串的最大出现次数 (Maximum Number of Occurrences of a Substring)
    public int maxFreq(String s, int maxLetters, int minSize, int maxSize) {
       Map<String, Integer> map = new HashMap<>();
-      Queue<Character> queue = new LinkedList<>();
-      int i = 0;
-      while (i < minSize) {
-         queue.offer(s.charAt(i++));
-      }
-      // 存放minSize长度的字串中的字符种类
-      Set<Character> set = new HashSet<>(queue);
-      if (set.size() <= maxLetters) {
-         map.put(s.substring(0, minSize), 1);
-      }
-      while (i < s.length()) {
-         queue.poll();
-         queue.offer(s.charAt(i));
-         set.clear();
-         set.addAll(queue);
-         if (set.size() <= maxLetters) {
-            map.put(s.substring(i - minSize + 1, i + 1), map.getOrDefault(s.substring(i - minSize + 1, i + 1), 0) + 1);
+      for (int i = 0; i < s.length() - minSize + 1; ++i) {
+         String sub = s.substring(i, i + minSize);
+         if (isLegal1297(sub, maxLetters)) {
+            map.put(sub, map.getOrDefault(sub, 0) + 1);
          }
-         ++i;
       }
-      if (map.size() == 0) {
+      if (map.isEmpty()) {
          return 0;
       }
       return Collections.max(map.values());
 
+   }
+
+   private boolean isLegal1297(String s, int maxLetters) {
+      Set<Character> set = new HashSet<>();
+      for (char c : s.toCharArray()) {
+         set.add(c);
+         if (set.size() > maxLetters) {
+            return false;
+         }
+      }
+      return true;
    }
 
    // TODO
