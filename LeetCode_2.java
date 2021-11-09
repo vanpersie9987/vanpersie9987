@@ -902,6 +902,23 @@ public class LeetCode_2 {
 
    }
 
+   // 1358. 包含所有三种字符的子字符串数目 (Number of Substrings Containing All Three Characters)
+   public int numberOfSubstrings(String s) {
+      int res = 0;
+      char[] chars = s.toCharArray();
+      int[] counts = new int[3];
+      int left = 0;
+      for (int right = 0; right < chars.length; ++right) {
+         ++counts[chars[right] - 'a'];
+         while (counts[0] > 0 && counts[1] > 0 && counts[2] > 0) {
+            res += chars.length - right;
+            --counts[chars[left++] - 'a'];
+         }
+      }
+      return res;
+
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
