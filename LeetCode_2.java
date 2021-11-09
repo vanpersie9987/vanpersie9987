@@ -922,7 +922,8 @@ public class LeetCode_2 {
 
    }
 
-   // 1297. 子串的最大出现次数 (Maximum Number of Occurrences of a Substring)
+   // 1297. 子串的最大出现次数 (Maximum Number of Occurrences of a Substring) --滑动窗口
+   // 还需掌握滚动哈希
    public int maxFreq(String s, int maxLetters, int minSize, int maxSize) {
       Map<String, Integer> map = new HashMap<>();
       for (int i = 0; i < s.length() - minSize + 1; ++i) {
@@ -947,6 +948,16 @@ public class LeetCode_2 {
          }
       }
       return true;
+   }
+
+   // 1218. 最长定差子序列 (Longest Arithmetic Subsequence of Given Difference) --动态规划
+   public int longestSubsequence(int[] arr, int difference) {
+      Map<Integer, Integer> map = new HashMap<>();
+      for (int num : arr) {
+         map.put(num, map.getOrDefault(num - difference, 0) + 1);
+      }
+      return Collections.max(map.values());
+
    }
 
    // TODO
