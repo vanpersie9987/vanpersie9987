@@ -1048,6 +1048,46 @@ public class LeetCode_2 {
 
    }
 
+   // 1138. 字母板上的路径 (Alphabet Board Path)
+   public String alphabetBoardPath(String target) {
+      StringBuilder res = new StringBuilder();
+      int preX = 0;
+      int preY = 0;
+      for (char c : target.toCharArray()) {
+         int curX = (c - 'a') / 5;
+         int curY = (c - 'a') % 5;
+         if (curX < preX) {
+            int count = preX - curX;
+            while (count-- > 0) {
+               res.append('U');
+            }
+         }
+         if (curY < preY) {
+            int count = preY - curY;
+            while (count-- > 0) {
+               res.append('L');
+            }
+         }
+         if (curX > preX) {
+            int count = curX - preX;
+            while (count-- > 0) {
+               res.append('D');
+            }
+         }
+         if (curY > preY) {
+            int count = curY - preY;
+            while (count-- > 0) {
+               res.append('R');
+            }
+         }
+         res.append('!');
+         preX = curX;
+         preY = curY;
+      }
+      return res.toString();
+
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
