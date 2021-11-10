@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 public class LeetCode_2 {
 
@@ -957,6 +958,93 @@ public class LeetCode_2 {
          map.put(num, map.getOrDefault(num - difference, 0) + 1);
       }
       return Collections.max(map.values());
+
+   }
+
+   // 85. 最大矩形 (Maximal Rectangle)
+   // 剑指 Offer II 040. 矩阵中最大的矩形
+   public int maximalRectangle(String[] matrix) {
+      int res = 0;
+      if (matrix == null || matrix.length == 0 || matrix[0].length() == 0) {
+         return res;
+      }
+      int[] dp = new int[matrix[0].length()];
+      for (String row : matrix) {
+         char[] chars = row.toCharArray();
+         for (int i = 0; i < chars.length; ++i) {
+            if (chars[i] - '0' == 1) {
+               ++dp[i];
+            } else {
+               dp[i] = 0;
+            }
+         }
+         res = Math.max(res, getMax040(dp));
+      }
+      return res;
+
+   }
+
+   private int getMax040(int[] heights) {
+      Stack<Integer> stack = new Stack<>();
+      stack.push(-1);
+      int res = 0;
+      for (int i = 0; i < heights.length; ++i) {
+         while (stack.peek() != -1 && heights[i] < heights[stack.peek()]) {
+            int h = heights[stack.pop()];
+            res = Math.max(res, h * (i - stack.peek() - 1));
+         }
+         stack.push(i);
+      }
+      while (stack.peek() != -1) {
+         int h = heights[stack.pop()];
+         res = Math.max(res, h * (heights.length - stack.peek() - 1));
+      }
+      return res;
+   }
+
+   // 84. 柱状图中最大的矩形 (Largest Rectangle in Histogram)
+   // 剑指 Offer II 039. 直方图最大矩形面积 --单调栈
+   public int largestRectangleArea(int[] heights) {
+      Stack<Integer> stack = new Stack<>();
+      stack.push(-1);
+      int res = 0;
+      for (int i = 0; i < heights.length; ++i) {
+         while (stack.peek() != -1 && heights[i] < heights[stack.peek()]) {
+            int h = heights[stack.pop()];
+            res = Math.max(res, h * (i - stack.peek() - 1));
+         }
+         stack.push(i);
+      }
+      while (stack.peek() != -1) {
+         int h = heights[stack.pop()];
+         res = Math.max(res, h * (heights.length - stack.peek() - 1));
+      }
+      return res;
+
+   }
+
+   // 84. 柱状图中最大的矩形 (Largest Rectangle in Histogram)
+   // 剑指 Offer II 039. 直方图最大矩形面积 --分治
+   public int largestRectangleArea2(int[] heights) {
+      if (heights == null) {
+         return 0;
+      }
+      return calculateArea(heights, 0, heights.length - 1);
+
+   }
+
+   private int calculateArea(int[] heights, int start, int end) {
+      if (end < start) {
+         return 0;
+      }
+      int minI = start;
+      for (int i = start; i <= end; ++i) {
+         if (heights[i] < heights[minI]) {
+            minI = i;
+         }
+      }
+      return Math.max(heights[minI] * (end - start + 1),
+            Math.max(calculateArea(heights, start, minI - 1), calculateArea(heights, minI + 1, end)));
 
    }
 

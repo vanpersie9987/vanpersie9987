@@ -976,79 +976,6 @@ public class LeetCodeText {
 
     }
 
-    public int largestRectangleArea(final int[] heights) {
-        int max = 0;
-        if (heights == null || heights.length == 0) {
-            return max;
-        }
-        for (int i = 0; i < heights.length; ++i) {
-            for (int j = i; j < heights.length; ++j) {
-                int minHeight = Integer.MAX_VALUE;
-                for (int k = i; k < j; ++k) {
-                    minHeight = Math.min(minHeight, heights[k]);
-                }
-                max = Math.max(max, minHeight * (j - i + 1));
-            }
-        }
-        return max;
-    }
-
-    public int largestRectangleArea2(final int[] heights) {
-        int max = 0;
-        if (heights == null) {
-            return max;
-        }
-        for (int i = 0; i < heights.length; ++i) {
-            int minHeight = Integer.MAX_VALUE;
-            for (int j = i; j < heights.length; ++j) {
-                minHeight = Math.min(minHeight, heights[j]);
-                max = Math.max(max, minHeight * (j - i + 1));
-            }
-        }
-        return max;
-    }
-
-    // 84. 柱状图中最大的矩形
-    public int largestRectangleArea3(final int[] heights) {
-        int max = 0;
-        Stack<Integer> stack = new Stack<>();
-        stack.push(-1);
-        for (int i = 0; i < heights.length; ++i) {
-            while (stack.peek() != -1 && heights[i] <= heights[stack.peek()]) {
-                int h = heights[stack.pop()];
-                max = Math.max(max, (i - stack.peek() - 1) * h);
-            }
-            stack.push(i);
-        }
-        while (stack.peek() != -1) {
-            max = Math.max(max, heights[stack.pop()] * (heights.length - stack.peek() - 1));
-        }
-        return max;
-    }
-
-    public int largestRectangleArea4(final int[] heights) {
-        if (heights == null) {
-            return 0;
-        }
-        return calculateArea(heights, 0, heights.length - 1);
-
-    }
-
-    private int calculateArea(final int[] heights, final int start, final int end) {
-        if (end < start) {
-            return 0;
-        }
-        int minI = start;
-        for (int i = start; i <= end; ++i) {
-            if (heights[i] < heights[minI]) {
-                minI = i;
-            }
-        }
-        return Math.max(heights[minI] * (end - start + 1),
-                Math.max(calculateArea(heights, start, minI - 1), calculateArea(heights, minI + 1, end)));
-
-    }
-
     // 88. 合并两个有序数组 / 面试题 10.01. 合并排序的数组
     public void merge(final int[] nums1, final int m, final int[] nums2, final int n) {
         int p1 = m - 1;
@@ -7977,45 +7904,6 @@ public class LeetCodeText {
 
     }
 
-    // 85. 最大矩形
-    public int maximalRectangle(char[][] matrix) {
-        int res = 0;
-        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
-            return res;
-        }
-        int[] dp = new int[matrix[0].length];
-        for (int i = 0; i < matrix.length; ++i) {
-            for (int j = 0; j < matrix[0].length; ++j) {
-                if (matrix[i][j] == '1') {
-                    ++dp[j];
-                } else {
-                    dp[j] = 0;
-                }
-            }
-            res = Math.max(res, getMaximal85(dp));
-        }
-        return res;
-
-    }
-
-    private int getMaximal85(int[] heights) {
-        Stack<Integer> stack = new Stack<>();
-        stack.push(-1);
-        int max = 0;
-        for (int i = 0; i < heights.length; ++i) {
-            while (stack.peek() != -1 && heights[stack.peek()] >= heights[i]) {
-                int h = heights[stack.pop()];
-                max = Math.max(max, (i - stack.peek() - 1) * h);
-            }
-            stack.push(i);
-        }
-        while (stack.peek() != -1) {
-            int h = heights[stack.pop()];
-            max = Math.max(max, (heights.length - stack.peek() - 1) * h);
-        }
-        return max;
-    }
-
     // 670. 最大交换
     public int maximumSwap(int num) {
         int[] last = new int[10];
@@ -14492,7 +14380,7 @@ public class LeetCodeText {
 
     }
 
-    // 2. 两数相加 (Add Two Numbers) 
+    // 2. 两数相加 (Add Two Numbers)
     // 面试题 02.05. 链表求和 (Sum Lists LCCI)
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         int carry = 0;
