@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -1117,6 +1116,22 @@ public class LeetCode_2 {
             rowSum[i] -= res[i][j];
             colSum[j] -= res[i][j];
          }
+      }
+      return res;
+
+   }
+
+   // 1710. 卡车上的最大单元数 (Maximum Units on a Truck)
+   public int maximumUnits(int[][] boxTypes, int truckSize) {
+      Arrays.sort(boxTypes, (o1, o2) -> o2[1] - o1[1]);
+      int res = 0;
+      for (int[] boxType : boxTypes) {
+         if (truckSize <= 0) {
+            break;
+         }
+         int min = Math.min(truckSize, boxType[0]);
+         res += boxType[1] * min;
+         truckSize -= min;
       }
       return res;
 
