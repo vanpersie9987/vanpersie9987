@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -1085,6 +1086,23 @@ public class LeetCode_2 {
          preY = curY;
       }
       return res.toString();
+
+   }
+
+   // 1402. 做菜顺序 (Reducing Dishes)
+   public int maxSatisfaction(int[] satisfaction) {
+      int preSum = 0;
+      int res = 0;
+      Arrays.sort(satisfaction);
+      for (int i = satisfaction.length - 1; i >= 0; --i) {
+         preSum += satisfaction[i];
+         if (preSum > 0) {
+            res += preSum;
+         } else {
+            break;
+         }
+      }
+      return res;
 
    }
 
