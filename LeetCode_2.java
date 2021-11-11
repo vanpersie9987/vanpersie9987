@@ -1106,6 +1106,22 @@ public class LeetCode_2 {
 
    }
 
+   // 1605. 给定行和列的和求可行矩阵 (Find Valid Matrix Given Row and Column Sums)
+   public int[][] restoreMatrix(int[] rowSum, int[] colSum) {
+      int m = rowSum.length;
+      int n = colSum.length;
+      int[][] res = new int[m][n];
+      for (int i = 0; i < m; ++i) {
+         for (int j = 0; j < n; ++j) {
+            res[i][j] = Math.min(rowSum[i], colSum[j]);
+            rowSum[i] -= res[i][j];
+            colSum[j] -= res[i][j];
+         }
+      }
+      return res;
+
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
