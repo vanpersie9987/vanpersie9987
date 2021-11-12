@@ -10,6 +10,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
+import javax.crypto.Cipher;
+
 public class LeetCode_2 {
 
    public static void main(final String[] args) {
@@ -1137,6 +1139,38 @@ public class LeetCode_2 {
 
    }
 
+   // 面试题 08.11. 硬币 (Coin LCCI)
+   // public int waysToChange(int n) {
+   // int[] dp = new int[n + 1];
+   // dp[0] = 1;
+   // dp[1] = 1;
+   // int[] coins = { 1, 5, 10, 25 };
+   // for (int i = 2; i <= n; ++i) {
+   // for (int coin : coins) {
+   // if (i - coin >= 0) {
+   // dp[i] += dp[i - coin];
+   // }
+   // }
+   // }
+   // return dp[n];
+
+   // }
+
+   // 322. 零钱兑换 (Coin Change) --动态规划
+   public int coinChange(int[] coins, int amount) {
+      int[] dp = new int[amount + 1];
+      Arrays.fill(dp, amount + 1);
+      dp[0] = 0;
+      for (int i = 1; i < dp.length; ++i) {
+         for (int coin : coins) {
+            if (i - coin >= 0) {
+               dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            }
+         }
+      }
+      return dp[dp.length - 1] == amount + 1 ? -1 : dp[dp.length - 1];
+
+   }
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
