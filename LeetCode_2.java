@@ -1171,6 +1171,43 @@ public class LeetCode_2 {
       return dp[dp.length - 1] == amount + 1 ? -1 : dp[dp.length - 1];
 
    }
+
+   // 520. 检测大写字母 (Detect Capital)
+   public boolean detectCapitalUse(String word) {
+      return allUpperCases(word) || allLowerCases(word) || onlyLeadingCharUpperCase(word);
+   }
+
+   private boolean onlyLeadingCharUpperCase(String word) {
+      char leadingChar = word.charAt(0);
+      if (Character.isLowerCase(leadingChar)) {
+         return false;
+      }
+      for (int i = 1; i < word.length(); ++i) {
+         if (Character.isUpperCase(word.charAt(i))) {
+            return false;
+         }
+      }
+      return true;
+   }
+
+   private boolean allLowerCases(String word) {
+      for (char c : word.toCharArray()) {
+         if (Character.isUpperCase(c)) {
+            return false;
+         }
+      }
+      return true;
+   }
+
+   private boolean allUpperCases(String word) {
+      for (char c : word.toCharArray()) {
+         if (Character.isLowerCase(c)) {
+            return false;
+         }
+      }
+      return true;
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
