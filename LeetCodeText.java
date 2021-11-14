@@ -7692,60 +7692,6 @@ public class LeetCodeText {
 
     }
 
-    public boolean detectCapitalUse(final String word) {
-        return allUpperCase(word) || allLowerCase(word) || onlyFirstLetterIsUpperCase(word);
-
-    }
-
-    private boolean onlyFirstLetterIsUpperCase(final String word) {
-        final boolean isFirstLetterUpperCase = Character.isUpperCase(word.charAt(0));
-        if (!isFirstLetterUpperCase) {
-            return false;
-        }
-        for (int i = 1; i < word.length(); ++i) {
-            if (!Character.isLowerCase(word.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean allLowerCase(final String word) {
-        for (final char c : word.toCharArray()) {
-            if (!Character.isLowerCase(c)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean allUpperCase(final String word) {
-        for (final char c : word.toCharArray()) {
-            if (!Character.isUpperCase(c)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean detectCapitalUse2(final String word) {
-        if (word.length() < 2) {
-            return true;
-        }
-        final boolean firstUpper = Character.isUpperCase(word.charAt(0));
-        final boolean secondUpper = Character.isUpperCase(word.charAt(1));
-        if (!firstUpper && secondUpper) {
-            return false;
-        }
-        for (int i = 2; i < word.length(); ++i) {
-            if (Character.isUpperCase(word.charAt(i)) != secondUpper) {
-                return false;
-            }
-        }
-        return true;
-
-    }
-
     public int findLUSlength(final String a, final String b) {
         if (a.equals(b))
             return -1;
