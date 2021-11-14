@@ -1140,9 +1140,19 @@ public class LeetCode_2 {
    }
 
    // 面试题 08.11. 硬币 (Coin LCCI)
-   // public int waysToChange(int n) {
+   public int waysToChange(int n) {
+      final int MOD = 1000000007;
+      int[] dp = new int[n + 1];
+      dp[0] = 1;
+      int[] coins = { 1, 5, 10, 25 };
+      for (int coin : coins) {
+         for (int i = coin; i <= n; ++i) {
+            dp[i] = (dp[i] + dp[i - coin]) % MOD;
+         }
+      }
+      return dp[dp.length - 1];
 
-   // }
+   }
 
    // 518. 零钱兑换 II (Coin Change 2)
    public int change(int amount, int[] coins) {
