@@ -1262,6 +1262,34 @@ public class LeetCode_2 {
 
    }
 
+   // 2062. 统计字符串中的元音子字符串 (Count Vowel Substrings of a String)
+   public int countVowelSubstrings(String word) {
+      int res = 0;
+      if (word.length() < 5) {
+         return res;
+      }
+      char[] chars = word.toCharArray();
+      Set<Character> set = new HashSet<>();
+      for (int i = 0; i < chars.length; ++i) {
+         set.clear();
+         for (int j = i; j < chars.length; ++j) {
+            if (!isVowel(chars[j])) {
+               break;
+            }
+            set.add(chars[j]);
+            if (set.size() == 5) {
+               ++res;
+            }
+         }
+      }
+      return res;
+
+   }
+
+   private boolean isVowel(char c) {
+      return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
