@@ -1141,20 +1141,21 @@ public class LeetCode_2 {
 
    // 面试题 08.11. 硬币 (Coin LCCI)
    // public int waysToChange(int n) {
-   // int[] dp = new int[n + 1];
-   // dp[0] = 1;
-   // dp[1] = 1;
-   // int[] coins = { 1, 5, 10, 25 };
-   // for (int i = 2; i <= n; ++i) {
-   // for (int coin : coins) {
-   // if (i - coin >= 0) {
-   // dp[i] += dp[i - coin];
-   // }
-   // }
-   // }
-   // return dp[n];
 
    // }
+
+   // 518. 零钱兑换 II (Coin Change 2)
+   public int change(int amount, int[] coins) {
+      int[] dp = new int[amount + 1];
+      dp[0] = 1;
+      for (int coin : coins) {
+         for (int i = coin; i <= amount; ++i) {
+            dp[i] += dp[i - coin];
+         }
+      }
+      return dp[dp.length - 1];
+
+   }
 
    // 322. 零钱兑换 (Coin Change) --动态规划
    // 剑指 Offer II 103. 最少的硬币数目
