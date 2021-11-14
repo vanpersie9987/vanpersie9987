@@ -1245,6 +1245,23 @@ public class LeetCode_2 {
       }
    }
 
+   // 5898. 数组中第 K 个独一无二的字符串 (Kth Distinct String in an Array)
+   public String kthDistinct(String[] arr, int k) {
+      Map<String, Integer> map = new HashMap<>();
+      for (String s : arr) {
+         map.put(s, map.getOrDefault(s, 0) + 1);
+      }
+      for (String s : arr) {
+         if (map.get(s) == 1) {
+            if (--k == 0) {
+               return s;
+            }
+         }
+      }
+      return "";
+
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
