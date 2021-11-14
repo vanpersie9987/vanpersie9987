@@ -1290,6 +1290,23 @@ public class LeetCode_2 {
       return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
    }
 
+   // LCP 39. 无人机方阵
+   public int minimumSwitchingTimes(int[][] source, int[][] target) {
+      int[] counts = new int[10001];
+      for (int i = 0; i < source.length; ++i) {
+         for (int j = 0; j < source[0].length; ++j) {
+            ++counts[source[i][j]];
+            --counts[target[i][j]];
+         }
+      }
+      int res = 0;
+      for (int count : counts) {
+         res += Math.abs(count);
+      }
+      return res >> 1;
+
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
