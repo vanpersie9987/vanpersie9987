@@ -1416,6 +1416,36 @@ public class LeetCode_2 {
 
    }
 
+   // 725. 分隔链表 (Split Linked List in Parts)
+   public ListNode[] splitListToParts(ListNode head, int k) {
+      ListNode[] res = new ListNode[k];
+
+      ListNode temp = head;
+      int count = 0;
+      while (temp != null) {
+         temp = temp.next;
+         ++count;
+      }
+
+      ListNode cur = head;
+
+      int q = count / k;
+      int r = count % k;
+
+      for (int i = 0; i < k && cur != null; ++i) {
+         res[i] = cur;
+         int partSize = q + (i < r ? 1 : 0);
+         for (int j = 0; j < partSize - 1; ++j) {
+            cur = cur.next;
+         }
+         ListNode temp1 = cur.next;
+         cur.next = null;
+         cur = temp1;
+      }
+      return res;
+
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
