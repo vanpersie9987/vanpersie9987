@@ -17759,22 +17759,6 @@ public class LeetCodeText {
 
     }
 
-    // 206. 反转链表 (Reverse Linked List)
-    // 剑指 Offer II 024. 反转链表
-    // 剑指 Offer 24. 反转链表
-    public ListNode reverseList(ListNode head) {
-        ListNode prev = null;
-        ListNode curr = head;
-        while (curr != null) {
-            ListNode temp = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = temp;
-        }
-        return prev;
-
-    }
-
     // 1863.找出所有子集的异或总和再求和 (Sum of All Subset XOR Totals)
     public int subsetXORSum(int[] nums) {
         int n = nums.length;

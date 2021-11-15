@@ -1307,6 +1307,76 @@ public class LeetCode_2 {
 
    }
 
+   public class ListNode {
+      int val;
+      ListNode next;
+
+      ListNode() {
+      }
+
+      ListNode(int val) {
+         this.val = val;
+      }
+
+      ListNode(int val, ListNode next) {
+         this.val = val;
+         this.next = next;
+      }
+   }
+
+   // 206. 反转链表 (Reverse Linked List)
+   // 剑指 Offer II 024. 反转链表
+   // 剑指 Offer 24. 反转链表
+   public ListNode reverseList(ListNode head) {
+      ListNode prev = null;
+      ListNode curr = head;
+      while (curr != null) {
+         ListNode temp = curr.next;
+         curr.next = prev;
+         prev = curr;
+         curr = temp;
+      }
+      return prev;
+
+   }
+
+   // 92. 反转链表 II (Reverse Linked List II)
+   public ListNode reverseBetween(ListNode head, int left, int right) {
+      ListNode dummy = new ListNode(0, head);
+      ListNode pre = dummy;
+      for (int i = 0; i < left - 1; ++i) {
+         pre = pre.next;
+      }
+      ListNode subTail = pre;
+      for (int i = 0; i < right - left + 1; ++i) {
+         subTail = subTail.next;
+      }
+      ListNode succ = subTail.next;
+      ListNode subHead = pre.next;
+
+      pre.next = null;
+      subTail.next = null;
+
+      reverseLinkedList(subHead);
+
+      pre.next = subTail;
+      subHead.next = succ;
+
+      return dummy.next;
+
+   }
+
+   private void reverseLinkedList(ListNode head) {
+      ListNode pre = null;
+      ListNode cur = head;
+      while (cur != null) {
+         ListNode temp = cur.next;
+         cur.next = pre;
+         pre = cur;
+         cur = temp;
+      }
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
