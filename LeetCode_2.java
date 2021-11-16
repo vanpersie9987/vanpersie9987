@@ -1599,6 +1599,63 @@ public class LeetCode_2 {
       }
    }
 
+   // 622. 设计循环队列 (Design Circular Queue)
+   class MyCircularQueue {
+      private int[] arr;
+      private int headIndex;
+      private int size;
+      private int k;
+
+      public MyCircularQueue(int k) {
+         this.k = k;
+         this.arr = new int[k];
+
+      }
+
+      public boolean enQueue(int value) {
+         if (isFull()) {
+            return false;
+         }
+         ++size;
+         arr[(headIndex + size - 1) % k] = value;
+         return true;
+      }
+
+      public boolean deQueue() {
+         if (isEmpty()) {
+            return false;
+         }
+         --size;
+         headIndex = (headIndex + 1) % k;
+         return true;
+      }
+
+      public int Front() {
+         if (isEmpty()) {
+            return -1;
+         }
+         return arr[headIndex];
+
+      }
+
+      public int Rear() {
+         if (isEmpty()) {
+            return -1;
+         }
+         return arr[(headIndex + size - 1) % k];
+      }
+
+      public boolean isEmpty() {
+         return size == 0;
+
+      }
+
+      public boolean isFull() {
+         return size == k;
+
+      }
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
