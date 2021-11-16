@@ -1386,12 +1386,11 @@ public class LeetCode_2 {
          pre = pre.next;
       }
       ListNode curr = pre.next;
-      ListNode next;
       for (int i = 0; i < right - left; ++i) {
-         next = curr.next;
-         curr.next = next.next;
-         next.next = pre.next;
-         pre.next = next;
+         ListNode temp = curr.next;
+         curr.next = temp.next;
+         temp.next = pre.next;
+         pre.next = temp;
       }
       return dummy.next;
 
