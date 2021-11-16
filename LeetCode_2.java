@@ -1599,7 +1599,7 @@ public class LeetCode_2 {
       }
    }
 
-   // 622. 设计循环队列 (Design Circular Queue)
+   // 622. 设计循环队列 (Design Circular Queue) --follow up ：线程安全？单链表？
    class MyCircularQueue {
       private int[] arr;
       private int headIndex;
