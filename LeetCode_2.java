@@ -1523,6 +1523,82 @@ public class LeetCode_2 {
       }
    }
 
+   // 641. 设计循环双端队列 (Design Circular Deque)
+   class MyCircularDeque {
+      private int[] arr;
+      private int headIndex;
+      private int lastIndex;
+      private int size;
+      private int k;
+
+      public MyCircularDeque(int k) {
+         arr = new int[k];
+         this.k = k;
+      }
+
+      public boolean insertFront(int value) {
+         if (isFull()) {
+            return false;
+         }
+         headIndex = (headIndex - 1 + k) % k;
+         arr[headIndex] = value;
+         ++size;
+         return true;
+      }
+
+      public boolean insertLast(int value) {
+         if (size == k) {
+            return false;
+         }
+         arr[lastIndex] = value;
+         lastIndex = (lastIndex + 1) % k;
+         ++size;
+         return true;
+      }
+
+      public boolean deleteFront() {
+         if (isEmpty()) {
+            return false;
+         }
+         headIndex = (headIndex + 1) % k;
+         --size;
+         return true;
+      }
+
+      public boolean deleteLast() {
+         if (isEmpty()) {
+            return false;
+         }
+         lastIndex = (lastIndex - 1 + k) % k;
+         --size;
+         return true;
+      }
+
+      public int getFront() {
+         if (isEmpty()) {
+            return -1;
+         }
+         return arr[headIndex];
+
+      }
+
+      public int getRear() {
+         if (isEmpty()) {
+            return -1;
+         }
+         return arr[(lastIndex - 1 + k) % k];
+      }
+
+      public boolean isEmpty() {
+         return size == 0;
+
+      }
+
+      public boolean isFull() {
+         return size == k;
+      }
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
