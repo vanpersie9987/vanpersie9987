@@ -1447,7 +1447,7 @@ public class LeetCode_2 {
    }
 
    // 2058. 找出临界点之间的最小和最大距离
-   // Find the Minimum and Maximum Number of Nodes Between Critical Points
+   // 2058.Find the Minimum and Maximum Number of Nodes Between Critical Points
    public int[] nodesBetweenCriticalPoints(ListNode head) {
       if (head == null || head.next == null) {
          return new int[] { -1, -1 };
