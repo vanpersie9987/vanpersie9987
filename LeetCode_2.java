@@ -1478,6 +1478,51 @@ public class LeetCode_2 {
 
    }
 
+   // 1670. 设计前中后队列 (Design Front Middle Back Queue)
+   class FrontMiddleBackQueue {
+      private List<Integer> queue;
+
+      public FrontMiddleBackQueue() {
+         queue = new LinkedList<>();
+
+      }
+
+      public void pushFront(int val) {
+         queue.add(0, val);
+      }
+
+      public void pushMiddle(int val) {
+         int insertIndex = queue.size() >> 1;
+         queue.add(insertIndex, val);
+      }
+
+      public void pushBack(int val) {
+         queue.add(val);
+      }
+
+      public int popFront() {
+         if (queue.isEmpty()) {
+            return -1;
+         }
+         return queue.remove(0);
+      }
+
+      public int popMiddle() {
+         if (queue.isEmpty()) {
+            return -1;
+         }
+         int deleteIndex = (queue.size() - 1) >> 1;
+         return queue.remove(deleteIndex);
+      }
+
+      public int popBack() {
+         if (queue.isEmpty()) {
+            return -1;
+         }
+         return queue.remove(queue.size() - 1);
+      }
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
