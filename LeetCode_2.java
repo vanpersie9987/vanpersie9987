@@ -1380,17 +1380,18 @@ public class LeetCode_2 {
    // 92. 反转链表 II (Reverse Linked List II)
    public ListNode reverseBetween2(ListNode head, int left, int right) {
       ListNode dummy = new ListNode(0, head);
-      ListNode pre = dummy;
+      ListNode guard = dummy;
 
       for (int i = 0; i < left - 1; ++i) {
-         pre = pre.next;
+         guard = guard.next;
       }
-      ListNode curr = pre.next;
+      ListNode point = guard.next;
       for (int i = 0; i < right - left; ++i) {
-         ListNode temp = curr.next;
-         curr.next = temp.next;
-         temp.next = pre.next;
-         pre.next = temp;
+         ListNode removed = point.next;
+         point.next = point.next.next;
+
+         removed.next = guard.next;
+         guard.next = removed;
       }
       return dummy.next;
 
