@@ -1446,6 +1446,38 @@ public class LeetCode_2 {
 
    }
 
+   // 2058. 找出临界点之间的最小和最大距离
+   // Find the Minimum and Maximum Number of Nodes Between Critical Points
+   public int[] nodesBetweenCriticalPoints(ListNode head) {
+      if (head == null || head.next == null) {
+         return new int[] { -1, -1 };
+      }
+      ListNode pre = head;
+      head = head.next;
+      int min = Integer.MAX_VALUE;
+      int max = Integer.MIN_VALUE;
+      int lastCriticalIndex = -1;
+      int firstCriticalIndex = -1;
+      int index = 1;
+
+      while (head != null && head.next != null) {
+         if ((pre.val > head.val && head.val < head.next.val) || (pre.val < head.val && head.val > head.next.val)) {
+            if (lastCriticalIndex == -1) {
+               firstCriticalIndex = index;
+            } else {
+               min = Math.min(min, index - lastCriticalIndex);
+               max = Math.max(max, index - firstCriticalIndex);
+            }
+            lastCriticalIndex = index;
+         }
+         ++index;
+         pre = pre.next;
+         head = head.next;
+      }
+      return min == Integer.MAX_VALUE ? new int[] { -1, -1 } : new int[] { min, max };
+
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
