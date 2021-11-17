@@ -1656,6 +1656,90 @@ public class LeetCode_2 {
       }
    }
 
+   // 707. 设计链表 (Design Linked List) --单链表
+   class MyLinkedList {
+      class Node {
+         Node next;
+         int val;
+
+         Node() {
+
+         }
+
+         Node(int val, Node next) {
+            this.val = val;
+            this.next = next;
+         }
+
+         Node(int val) {
+            this.val = val;
+         }
+
+      }
+
+      private Node head;
+      private int size;
+
+      public MyLinkedList() {
+         head = new Node();
+
+      }
+
+      public int get(int index) {
+         if (index < 0 || index >= size) {
+            return -1;
+         }
+         Node cur = head;
+         for (int i = 0; i <= index; ++i) {
+            cur = cur.next;
+         }
+         return cur.val;
+      }
+
+      public void addAtHead(int val) {
+         Node add = new Node(val);
+         add.next = head.next;
+         head.next = add;
+         ++size;
+      }
+
+      public void addAtTail(int val) {
+         Node add = new Node(val);
+         Node cur = head;
+         while (cur.next != null) {
+            cur = cur.next;
+         }
+         cur.next = add;
+         ++size;
+      }
+
+      public void addAtIndex(int index, int val) {
+         if (index < 0 || index > size) {
+            return;
+         }
+         Node add = new Node(val);
+         Node cur = head;
+         for (int i = 0; i < index; ++i) {
+            cur = cur.next;
+         }
+         add.next = cur.next;
+         cur.next = add;
+         ++size;
+      }
+
+      public void deleteAtIndex(int index) {
+         if (index < 0 || index >= size) {
+            return;
+         }
+         Node cur = head;
+         for (int i = 0; i < index; ++i) {
+            cur = cur.next;
+         }
+         cur.next = cur.next.next;
+         --size;
+      }
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
