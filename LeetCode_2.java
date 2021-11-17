@@ -1666,11 +1666,6 @@ public class LeetCode_2 {
 
          }
 
-         Node(int val, Node next) {
-            this.val = val;
-            this.next = next;
-         }
-
          Node(int val) {
             this.val = val;
          }
@@ -1736,6 +1731,124 @@ public class LeetCode_2 {
             cur = cur.next;
          }
          cur.next = cur.next.next;
+         --size;
+      }
+   }
+
+   // 707. 设计链表 (Design Linked List) --双链表
+   class MyLinkedList2 {
+      class Node {
+         Node next;
+         Node prev;
+         int val;
+
+         Node() {
+
+         }
+
+         Node(int val) {
+            this.val = val;
+         }
+
+      }
+
+      private Node head;
+      private Node tail;
+      private int size;
+
+      public MyLinkedList2() {
+         head = new Node();
+         tail = new Node();
+         head.next = tail;
+         tail.prev = head;
+      }
+
+      public int get(int index) {
+         if (index < 0 || index >= size) {
+            return -1;
+         }
+         if (index + 1 < size - index) {
+            Node cur = head;
+            for (int i = 0; i < index + 1; ++i) {
+               cur = cur.next;
+            }
+            return cur.val;
+         } else {
+            Node cur = tail;
+            for (int i = 0; i < size - index; ++i) {
+               cur = cur.prev;
+            }
+            return cur.val;
+         }
+      }
+
+      public void addAtHead(int val) {
+         Node add = new Node(val);
+         add.next = head.next;
+         head.next = add;
+         add.prev = head;
+         add.next.prev = add;
+         ++size;
+      }
+
+      public void addAtTail(int val) {
+         Node add = new Node(val);
+         add.prev = tail.prev;
+         tail.prev = add;
+         add.next = tail;
+         add.prev.next = add;
+         ++size;
+      }
+
+      public void addAtIndex(int index, int val) {
+         if (index < 0 || index > size) {
+            return;
+         }
+         Node add = new Node(val);
+         if (index + 1 < size - index) {
+            Node cur = head;
+            for (int i = 0; i < index; ++i) {
+               cur = cur.next;
+            }
+            add.next = cur.next;
+            cur.next = add;
+
+            add.next.prev = add;
+            add.prev = cur;
+         } else {
+            Node cur = tail;
+            for (int i = 0; i < size - index; ++i) {
+               cur = cur.prev;
+            }
+            add.prev = cur.prev;
+            cur.prev = add;
+
+            add.prev.next = add;
+            add.next = cur;
+
+         }
+         ++size;
+      }
+
+      public void deleteAtIndex(int index) {
+         if (index < 0 || index >= size) {
+            return;
+         }
+         if (index + 1 < size - index) {
+            Node cur = head;
+            for (int i = 0; i < index; ++i) {
+               cur = cur.next;
+            }
+            cur.next = cur.next.next;
+            cur.next.prev = cur;
+         } else {
+            Node cur = tail;
+            for (int i = 0; i < size - index - 1; ++i) {
+               cur = cur.prev;
+            }
+            cur.prev = cur.prev.prev;
+            cur.prev.next = cur;
+         }
          --size;
       }
    }
