@@ -1834,28 +1834,42 @@ public class LeetCode_2 {
    // 2074. 反转偶数长度组的节点 (Reverse Nodes in Even Length Groups)
    public ListNode reverseEvenLengthGroups(ListNode head) {
       ListNode dummy = new ListNode(0, head);
+      // 前驱节点
       ListNode pre = dummy;
+      // 当前节点
       ListNode cur = head;
+      // 当前子链表数量
       int count = 0;
       while (cur != null) {
+         // 当前子链表本应该具有的长度
          ++count;
+         // 试探当前子链表的长度
          ListNode tryIt = cur;
          int length = 0;
+         // 应该具有的长度 == 实际长度 或者 链表到头时 ，终止遍历
          while (length < count && tryIt != null) {
             tryIt = tryIt.next;
             ++length;
          }
+         // 实际子链表长度为偶数
          if (length % 2 == 0) {
             for (int i = 0; i < length - 1; ++i) {
+               // 把当前cur节点的next节点删除
                ListNode removed = cur.next;
                cur.next = cur.next.next;
-
+               // 把删除的节点添加到前驱节点之后
                removed.next = pre.next;
                pre.next = removed;
             }
+            // 此时 cur节点指向下一组子链表的前驱 所以该位置为pre的指向
             pre = cur;
+            // 再把cur后移一个节点，指向下一组子链表的表头
             cur = cur.next;
-         } else {
+         }
+
+         // 长度为奇数
+         else {
+            // 将pre和cur分别后移length次
             for (int i = 0; i < length; ++i) {
                cur = cur.next;
                pre = pre.next;
