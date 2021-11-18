@@ -1891,6 +1891,23 @@ public class LeetCode_2 {
 
    }
 
+   // 1880. 检查某单词是否等于两单词之和 (Check if Word Equals Summation of Two Words)
+   public boolean isSumEqual(String firstWord, String secondWord, String targetWord) {
+      int num1 = transferToNum(firstWord);
+      int num2 = transferToNum(secondWord);
+      int num3 = transferToNum(targetWord);
+      return num1 + num2 == num3;
+
+   }
+
+   private int transferToNum(String s) {
+      StringBuilder builder = new StringBuilder();
+      for (char c : s.toCharArray()) {
+         builder.append(c - 'a');
+      }
+      return Integer.parseInt(builder.toString());
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
