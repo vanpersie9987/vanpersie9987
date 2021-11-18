@@ -1689,20 +1689,11 @@ public class LeetCode_2 {
       }
 
       public void addAtHead(int val) {
-         Node add = new Node(val);
-         add.next = head.next;
-         head.next = add;
-         ++size;
+         addAtIndex(0, val);
       }
 
       public void addAtTail(int val) {
-         Node add = new Node(val);
-         Node cur = head;
-         while (cur.next != null) {
-            cur = cur.next;
-         }
-         cur.next = add;
-         ++size;
+         addAtIndex(size, val);
       }
 
       public void addAtIndex(int index, int val) {
@@ -1780,21 +1771,11 @@ public class LeetCode_2 {
       }
 
       public void addAtHead(int val) {
-         Node add = new Node(val);
-         add.next = head.next;
-         head.next = add;
-         add.prev = head;
-         add.next.prev = add;
-         ++size;
+         addAtIndex(0, val);
       }
 
       public void addAtTail(int val) {
-         Node add = new Node(val);
-         add.prev = tail.prev;
-         tail.prev = add;
-         add.next = tail;
-         add.prev.next = add;
-         ++size;
+         addAtIndex(size, val);
       }
 
       public void addAtIndex(int index, int val) {
@@ -1802,7 +1783,7 @@ public class LeetCode_2 {
             return;
          }
          Node add = new Node(val);
-         if (index + 1 < size - index) {
+         if (index < size - index) {
             Node cur = head;
             for (int i = 0; i < index; ++i) {
                cur = cur.next;
