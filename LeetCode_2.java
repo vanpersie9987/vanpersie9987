@@ -1931,6 +1931,28 @@ public class LeetCode_2 {
 
    }
 
+   // 1859. 将句子排序 (Sorting the Sentence)
+   public String sortSentence2(String s) {
+      String[] arr = new String[9];
+      int lastStartPos = 0;
+      int count = 0;
+      for (int i = 0; i < s.length(); ++i) {
+         char c = s.charAt(i);
+         if (Character.isDigit(c)) {
+            arr[c - '0' - 1] = s.substring(lastStartPos, i);
+            ++count;
+         } else if (Character.isWhitespace(c)) {
+            lastStartPos = i + 1;
+         }
+      }
+      StringBuilder res = new StringBuilder(arr[0]);
+      for (int i = 1; i < count; ++i) {
+         res.append(" ").append(arr[i]);
+      }
+      return res.toString();
+
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
