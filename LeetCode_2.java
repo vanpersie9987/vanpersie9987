@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -1906,6 +1907,28 @@ public class LeetCode_2 {
          builder.append(c - 'a');
       }
       return Integer.parseInt(builder.toString());
+   }
+
+   // 1859. 将句子排序 (Sorting the Sentence)
+   public String sortSentence(String s) {
+      String[] strings = s.split("\\s+");
+      Arrays.sort(strings, new Comparator<String>() {
+
+         @Override
+         public int compare(String o1, String o2) {
+            int index1 = Integer.parseInt(o1.substring(o1.length() - 1));
+            int index2 = Integer.parseInt(o2.substring(o2.length() - 1));
+            return index1 - index2;
+         }
+
+      });
+
+      StringBuilder res = new StringBuilder();
+      for (String string : strings) {
+         res.append(string.subSequence(0, string.length() - 1)).append(" ");
+      }
+      return res.toString().trim();
+
    }
 
    // TODO
