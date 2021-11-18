@@ -1880,6 +1880,17 @@ public class LeetCode_2 {
 
    }
 
+   // 2057. 值相等的最小索引 (Smallest Index With Equal Value)
+   public int smallestEqual(int[] nums) {
+      for (int i = 0; i < nums.length; ++i) {
+         if (i % 10 == nums[i]) {
+            return i;
+         }
+      }
+      return -1;
+
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
