@@ -634,30 +634,6 @@ public class LeetCodeText {
 
     }
 
-    // 56. 合并区间
-    public int[][] merge(final int[][] intervals) {
-        List<int[]> res = new ArrayList<>();
-        Arrays.sort(intervals, new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return o1[0] - o2[0];
-            }
-        });
-        int i = 0;
-        while (i < intervals.length) {
-            int left = intervals[i][0];
-            int right = intervals[i][1];
-            while (i + 1 < intervals.length && right >= intervals[i + 1][0]) {
-                ++i;
-                right = Math.max(right, intervals[i][1]);
-            }
-            res.add(new int[] { left, right });
-            ++i;
-        }
-        return res.toArray(new int[0][]);
-
-    }
-
     // 57
     public int[][] insert(int[][] intervals, int[] newInterval) {
         List<int[]> list = new ArrayList<>();

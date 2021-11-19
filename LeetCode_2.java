@@ -2016,6 +2016,24 @@ public class LeetCode_2 {
       }
    }
 
+   // 剑指 Offer II 074. 合并区间
+   // 56. 合并区间
+   public int[][] merge(int[][] intervals) {
+      Arrays.sort(intervals, (o1, o2) -> o1[0] - o2[0]);
+      List<int[]> res = new ArrayList<>();
+      for (int i = 0; i < intervals.length; ++i) {
+         int left = intervals[i][0];
+         int right = intervals[i][1];
+         while (i + 1 < intervals.length && right >= intervals[i + 1][0]) {
+            right = Math.max(intervals[i + 1][1], right);
+            ++i;
+         }
+         res.add(new int[] { left, right });
+      }
+      return res.toArray(new int[0][]);
+
+   }
+
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
    // public boolean checkSubarraySum(int[] nums, int k) {
