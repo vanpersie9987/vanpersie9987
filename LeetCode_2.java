@@ -2049,7 +2049,7 @@ public class LeetCode_2 {
 
    }
 
-   // 179. 最大数
+   // 179. 最大数 (Largest Number)
    public String largestNumber(int[] nums) {
       String[] strings = new String[nums.length];
       for (int i = 0; i < nums.length; ++i) {
