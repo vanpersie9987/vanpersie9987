@@ -2068,10 +2068,4 @@ public class LeetCode_2 {
 
    }
 
-   // TODO
-   // 523. 连续的子数组和 (Continuous Subarray Sum)
-   // public boolean checkSubarraySum(int[] nums, int k) {
-
-   // }
-
 }
