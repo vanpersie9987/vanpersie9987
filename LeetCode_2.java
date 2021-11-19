@@ -2049,31 +2049,24 @@ public class LeetCode_2 {
 
    }
 
-    // 179. 最大数
-    public String largestNumber(int[] nums) {
-        String[] strings = new String[nums.length];
-        for (int i = 0; i < nums.length; ++i) {
-            strings[i] = String.valueOf(nums[i]);
-        }
-        Arrays.sort(strings, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                String order1 = o1 + o2;
-                String order2 = o2 + o1;
-                return order2.compareTo(order1);
-            }
-        });
-        if ("0".equals(strings[0])) {
-            return "0";
-        }
-        StringBuilder res = new StringBuilder();
-        for (int i = 0; i < strings.length; ++i) {
-            res.append(strings[i]);
-        }
+   // 179. 最大数
+   public String largestNumber(int[] nums) {
+      String[] strings = new String[nums.length];
+      for (int i = 0; i < nums.length; ++i) {
+         strings[i] = String.valueOf(nums[i]);
+      }
+      Arrays.sort(strings, (o1, o2) -> (o2 + o1).compareTo(o1 + o2));
+      if ("0".equals(strings[0])) {
+         return "0";
+      }
+      StringBuilder res = new StringBuilder();
+      for (int i = 0; i < strings.length; ++i) {
+         res.append(strings[i]);
+      }
 
-        return res.toString();
+      return res.toString();
 
-    }
+   }
 
    // TODO
    // 523. 连续的子数组和 (Continuous Subarray Sum)
