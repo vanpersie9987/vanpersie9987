@@ -16622,25 +16622,6 @@ public class LeetCodeText {
 
     }
 
-    // 19. 删除链表的倒数第 N 个结点 (Remove Nth Node From End of List) 快慢指针 // 剑指 Offer II
-    // 021. 删除链表的倒数第 n 个结点
-    public ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode dummy = new ListNode(0, head);
-        ListNode formmer = head;
-        ListNode latter = dummy;
-        int i = 0;
-        while (i++ < n) {
-            formmer = formmer.next;
-        }
-        while (formmer != null) {
-            formmer = formmer.next;
-            latter = latter.next;
-        }
-        latter.next = latter.next.next;
-        return dummy.next;
-
-    }
-
     // 61. 旋转链表 (Rotate List)
     public ListNode rotateRight(ListNode head, int k) {
         if (head == null || k == 0 || head.next == null) {

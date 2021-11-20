@@ -2121,4 +2121,23 @@ public class LeetCode_2 {
 
    }
 
+   // 19. 删除链表的倒数第 N 个结点 (Remove Nth Node From End of List) --快慢指针 链表
+   // 剑指 Offer II 021. 删除链表的倒数第 n 个结点 --链表
+   public ListNode removeNthFromEnd(ListNode head, int n) {
+      ListNode dummy = new ListNode(0, head);
+      ListNode pre = dummy;
+      ListNode cur = dummy;
+      while (n-- > 0) {
+         cur = cur.next;
+      }
+      while (cur.next != null) {
+         pre = pre.next;
+         cur = cur.next;
+      }
+      pre.next = pre.next.next;
+
+      return dummy.next;
+
+   }
+
 }
