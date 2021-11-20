@@ -2246,4 +2246,27 @@ public class LeetCode_2 {
       return false;
    }
 
+   // 142. 环形链表 II (Linked List Cycle II)
+   // 面试题 02.08. 环路检测 (Linked List Cycle LCCI)
+   // 剑指 Offer II 022. 链表中环的入口节点
+   public ListNode detectCycle2(ListNode head) {
+      ListNode slow = head;
+      ListNode fast = head;
+      while (fast != null && fast.next != null) {
+         fast = fast.next.next;
+         slow = slow.next;
+
+         if (fast == slow) {
+            while (slow != head) {
+               slow = slow.next;
+               head = head.next;
+            }
+            return head;
+         }
+
+      }
+      return null;
+
+   }
+
 }
