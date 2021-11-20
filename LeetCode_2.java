@@ -2168,4 +2168,23 @@ public class LeetCode_2 {
 
    }
 
+   // 24. 两两交换链表中的节点 (Swap Nodes in Pairs)
+   public ListNode swapPairs(ListNode head) {
+      ListNode dummy = new ListNode(0, head);
+      ListNode guard = dummy;
+      ListNode cur = head;
+      while (guard.next != null && guard.next.next != null) {
+         ListNode removed = cur.next;
+         cur.next = cur.next.next;
+
+         removed.next = guard.next;
+         guard.next = removed;
+
+         guard = cur;
+         cur = cur.next;
+      }
+      return dummy.next;
+
+   }
+
 }
