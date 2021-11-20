@@ -2097,8 +2097,8 @@ public class LeetCode_2 {
       return res;
    }
 
-   // 2. 两数相加 (Add Two Numbers) --链表
-   // 面试题 02.05. 链表求和 (Sum Lists LCCI) --链表
+   // 2. 两数相加 (Add Two Numbers)
+   // 面试题 02.05. 链表求和 (Sum Lists LCCI)
    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
       ListNode dummy = new ListNode(0);
       ListNode cur = dummy;
@@ -2121,8 +2121,8 @@ public class LeetCode_2 {
 
    }
 
-   // 19. 删除链表的倒数第 N 个结点 (Remove Nth Node From End of List) --快慢指针 链表
-   // 剑指 Offer II 021. 删除链表的倒数第 n 个结点 --链表
+   // 19. 删除链表的倒数第 N 个结点 (Remove Nth Node From End of List) --快慢指针
+   // 剑指 Offer II 021. 删除链表的倒数第 n 个结点
    public ListNode removeNthFromEnd(ListNode head, int n) {
       ListNode dummy = new ListNode(0, head);
       ListNode pre = dummy;
@@ -2136,6 +2136,34 @@ public class LeetCode_2 {
       }
       pre.next = pre.next.next;
 
+      return dummy.next;
+
+   }
+
+   // 21. 合并两个有序链表 (Merge Two Sorted Lists)
+   // 剑指 Offer 25. 合并两个排序的链表
+   public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+      ListNode dummy = new ListNode(0);
+      ListNode cur = dummy;
+      while (l1 != null && l2 != null) {
+         ListNode added;
+         if (l1.val < l2.val) {
+            added = l1;
+            l1 = l1.next;
+         } else {
+            added = l2;
+            l2 = l2.next;
+         }
+         added.next = null;
+         cur.next = added;
+         cur = cur.next;
+      }
+      if (l1 != null) {
+         cur.next = l1;
+      }
+      if (l2 != null) {
+         cur.next = l2;
+      }
       return dummy.next;
 
    }
