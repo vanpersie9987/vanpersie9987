@@ -16656,24 +16656,6 @@ public class LeetCodeText {
         return res;
     }
 
-    // 82. 删除排序链表中的重复元素 II (Remove Duplicates from Sorted List II)
-    public ListNode deleteDuplicates(ListNode head) {
-        ListNode dummy = new ListNode(0, head);
-        ListNode cur = dummy;
-        while (cur.next != null && cur.next.next != null) {
-            if (cur.next.val == cur.next.next.val) {
-                int x = cur.next.val;
-                while (cur.next != null && cur.next.val == x) {
-                    cur.next = cur.next.next;
-                }
-            } else {
-                cur = cur.next;
-            }
-        }
-        return dummy.next;
-
-    }
-
     // 86. 分隔链表 (Partition List) // 面试题 02.04. 分割链表 (Partition List LCCI)
     public ListNode partition(ListNode head, int x) {
         ListNode small = new ListNode(0);
