@@ -2187,4 +2187,31 @@ public class LeetCode_2 {
 
    }
 
+   // 61. 旋转链表 (Rotate List)
+   public ListNode rotateRight(ListNode head, int k) {
+      if (k == 0 || head == null || head.next == null) {
+         return head;
+      }
+      int count = 1;
+      ListNode cur = head;
+      while (cur.next != null) {
+         cur = cur.next;
+         ++count;
+      }
+      int move = count - k % count;
+
+      if (move == count) {
+         return head;
+      }
+      cur.next = head;
+
+      while (move-- > 0) {
+         cur = cur.next;
+      }
+      ListNode res = cur.next;
+      cur.next = null;
+
+      return res;
+   }
+
 }

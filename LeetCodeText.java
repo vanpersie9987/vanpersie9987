@@ -16622,33 +16622,6 @@ public class LeetCodeText {
 
     }
 
-    // 61. 旋转链表 (Rotate List)
-    public ListNode rotateRight(ListNode head, int k) {
-        if (head == null || k == 0 || head.next == null) {
-            return head;
-        }
-        int count = 1;
-        ListNode iter = head;
-        while (iter.next != null) {
-            iter = iter.next;
-            ++count;
-        }
-        // 最后一个节点
-        int add = count - k % count;
-        if (add == count) {
-            return head;
-        }
-        // 首尾相接
-        iter.next = head;
-        while (add-- > 0) {
-            iter = iter.next;
-        }
-        ListNode ans = iter.next;
-        iter.next = null;
-        return ans;
-
-    }
-
     // 925. 长按键入 (Long Pressed Name)
     public boolean isLongPressedName(String name, String typed) {
         int i = 0;
