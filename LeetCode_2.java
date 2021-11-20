@@ -2269,4 +2269,55 @@ public class LeetCode_2 {
 
    }
 
+   // 143. 重排链表 (Reorder List)
+   // 剑指 Offer II 026. 重排链表
+   public void reorderList(ListNode head) {
+      ListNode l1 = head;
+      ListNode middle = getMiddle(head);
+      ListNode l2 = reverseNode(middle.next);
+      middle.next = null;
+      getMixed(l1, l2);
+
+   }
+
+   private void getMixed(ListNode l1, ListNode l2) {
+      while (l1 != null && l2 != null) {
+         ListNode temp1 = l1.next;
+         ListNode temp2 = l2.next;
+
+         l1.next = l2;
+         l1 = temp1;
+
+         l2.next = l1;
+         l2 = temp2;
+      }
+
+   }
+
+   private ListNode reverseNode(ListNode head) {
+      ListNode pre = null;
+      ListNode cur = head;
+      while (cur != null) {
+         ListNode temp = cur.next;
+         cur.next = pre;
+
+         pre = cur;
+         cur = temp;
+
+      }
+      return pre;
+
+   }
+
+   private ListNode getMiddle(ListNode head) {
+      ListNode slow = head;
+      ListNode fast = head;
+      while (fast != null && fast.next != null) {
+         slow = slow.next;
+         fast = fast.next.next;
+      }
+      return slow;
+
+   }
+
 }
