@@ -2246,4 +2246,28 @@ public class LeetCode_2 {
 
    }
 
+   // 86. 分隔链表 (Partition List)
+   // 面试题 02.04. 分割链表 (Partition List LCCI)
+   public ListNode partition(ListNode head, int x) {
+      ListNode smallDummy = new ListNode(0, head);
+      ListNode small = smallDummy;
+      ListNode largeDummy = new ListNode(0, head);
+      ListNode large = largeDummy;
+      ListNode cur = head;
+      while (cur != null) {
+         if (cur.val < x) {
+            small.next = cur;
+            small = small.next;
+         } else {
+            large.next = cur;
+            large = large.next;
+         }
+         cur = cur.next;
+      }
+      large.next = null;
+      small.next = largeDummy.next;
+      return smallDummy.next;
+
+   }
+
 }

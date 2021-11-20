@@ -16656,28 +16656,6 @@ public class LeetCodeText {
         return res;
     }
 
-    // 86. 分隔链表 (Partition List) // 面试题 02.04. 分割链表 (Partition List LCCI)
-    public ListNode partition(ListNode head, int x) {
-        ListNode small = new ListNode(0);
-        ListNode smallHead = small;
-        ListNode large = new ListNode(0);
-        ListNode largeHead = large;
-        while (head != null) {
-            if (head.val < x) {
-                small.next = head;
-                small = small.next;
-            } else {
-                large.next = head;
-                large = large.next;
-            }
-            head = head.next;
-        }
-        large.next = null;
-        small.next = largeHead.next;
-        return smallHead.next;
-
-    }
-
     // 986. 区间列表的交集 (Interval List Intersections)
     public int[][] intervalIntersection(int[][] firstList, int[][] secondList) {
         List<int[]> list = new ArrayList<>();
