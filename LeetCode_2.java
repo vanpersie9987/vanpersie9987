@@ -1338,63 +1338,6 @@ public class LeetCode_2 {
 
    }
 
-   // 92. 反转链表 II (Reverse Linked List II)
-   public ListNode reverseBetween(ListNode head, int left, int right) {
-      ListNode dummy = new ListNode(0, head);
-      ListNode pre = dummy;
-      for (int i = 0; i < left - 1; ++i) {
-         pre = pre.next;
-      }
-      ListNode subTail = pre;
-      for (int i = 0; i < right - left + 1; ++i) {
-         subTail = subTail.next;
-      }
-      ListNode succ = subTail.next;
-      ListNode subHead = pre.next;
-
-      pre.next = null;
-      subTail.next = null;
-
-      reverseLinkedList(subHead);
-
-      pre.next = subTail;
-      subHead.next = succ;
-
-      return dummy.next;
-
-   }
-
-   private void reverseLinkedList(ListNode head) {
-      ListNode pre = null;
-      ListNode cur = head;
-      while (cur != null) {
-         ListNode temp = cur.next;
-         cur.next = pre;
-         pre = cur;
-         cur = temp;
-      }
-   }
-
-   // 92. 反转链表 II (Reverse Linked List II)
-   public ListNode reverseBetween2(ListNode head, int left, int right) {
-      ListNode dummy = new ListNode(0, head);
-      ListNode guard = dummy;
-
-      for (int i = 0; i < left - 1; ++i) {
-         guard = guard.next;
-      }
-      ListNode point = guard.next;
-      for (int i = 0; i < right - left; ++i) {
-         ListNode removed = point.next;
-         point.next = point.next.next;
-
-         removed.next = guard.next;
-         guard.next = removed;
-      }
-      return dummy.next;
-
-   }
-
    // 328. 奇偶链表 (Odd Even Linked List)
    public ListNode oddEvenList(ListNode head) {
       if (head == null) {
@@ -2267,6 +2210,25 @@ public class LeetCode_2 {
       large.next = null;
       small.next = largeDummy.next;
       return smallDummy.next;
+
+   }
+
+   // 92. 反转链表 II (Reverse Linked List II)
+   public ListNode reverseBetween2(ListNode head, int left, int right) {
+      ListNode dummy = new ListNode(0, head);
+      ListNode guard = dummy;
+      for (int i = 0; i < left - 1; ++i) {
+         guard = guard.next;
+      }
+      ListNode point = guard.next;
+      for (int i = 0; i < right - left; ++i) {
+         ListNode removed = point.next;
+         point.next = point.next.next;
+
+         removed.next = guard.next;
+         guard.next = removed;
+      }
+      return dummy.next;
 
    }
 
