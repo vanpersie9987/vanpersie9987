@@ -20385,22 +20385,6 @@ public class LeetCodeText {
 
     }
 
-    // 203. 移除链表元素 (Remove Linked List Elements)
-    // 剑指 Offer 18. 删除链表的节点
-    public ListNode removeElements(ListNode head, int val) {
-        ListNode dummy = new ListNode(0, head);
-        ListNode curNode = dummy;
-        while (curNode.next != null) {
-            if (curNode.next.val == val) {
-                curNode.next = curNode.next.next;
-            } else {
-                curNode = curNode.next;
-            }
-        }
-        return dummy.next;
-
-    }
-
     // 1669. 合并两个链表 (Merge In Between Linked Lists)
     public ListNode mergeInBetween(ListNode list1, int a, int b, ListNode list2) {
         int diff = b - a + 2;
