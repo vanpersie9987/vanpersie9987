@@ -1239,25 +1239,6 @@ public class LeetCode_2 {
       }
    }
 
-   // 328. 奇偶链表 (Odd Even Linked List)
-   public ListNode oddEvenList(ListNode head) {
-      if (head == null) {
-         return head;
-      }
-      ListNode odd = head;
-      ListNode evenHead = head.next;
-      ListNode even = evenHead;
-      while (even != null && even.next != null) {
-         odd.next = even.next;
-         odd = odd.next;
-         even.next = odd.next;
-         even = even.next;
-      }
-      odd.next = evenHead;
-      return head;
-
-   }
-
    // 725. 分隔链表 (Split Linked List in Parts)
    public ListNode[] splitListToParts(ListNode head, int k) {
       ListNode[] res = new ListNode[k];
@@ -2451,6 +2432,26 @@ public class LeetCode_2 {
    public void deleteNode(ListNode node) {
       node.val = node.next.val;
       node.next = node.next.next;
+   }
+
+   // 328. 奇偶链表 (Odd Even Linked List)
+   public ListNode oddEvenList(ListNode head) {
+      if (head == null || head.next == null) {
+         return head;
+      }
+      ListNode curOdd = head;
+      ListNode even = head.next;
+      ListNode curEven = even;
+      while (curEven != null && curEven.next != null) {
+         curOdd.next = curEven.next;
+         curOdd = curOdd.next;
+
+         curEven.next = curOdd.next;
+         curEven = curEven.next;
+      }
+      curOdd.next = even;
+      return head;
+
    }
 
 }
