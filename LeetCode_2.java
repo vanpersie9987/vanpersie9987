@@ -180,79 +180,78 @@ public class LeetCode_2 {
       class CacheNode {
          CacheNode prev;
          CacheNode next;
-         int value;
+         int val;
          int key;
 
-         public CacheNode() {
+         CacheNode() {
          }
 
-         public CacheNode(int _key, int _value) {
-            key = _key;
-            value = _value;
+         CacheNode(int key, int val) {
+            this.key = key;
+            this.val = val;
          }
 
       }
 
-      private int capacity;
-      private int size;
+      private Map<Integer, CacheNode> map;
       private CacheNode head;
       private CacheNode tail;
-      private Map<Integer, CacheNode> cache;
+      private int size;
+      private int capacity;
 
       public LRUCache(int capacity) {
-         cache = new HashMap<>();
-         head = new CacheNode();
-         tail = new CacheNode();
          this.capacity = capacity;
          this.size = 0;
+         this.head = new CacheNode();
+         this.tail = new CacheNode();
          head.next = tail;
          tail.prev = head;
+         this.map = new HashMap<>();
 
       }
 
       public int get(int key) {
-         CacheNode curNode = cache.get(key);
-         if (curNode == null) {
+         CacheNode cur = map.get(key);
+         if (cur == null) {
             return -1;
          }
-         moveToHead(curNode);
-         return curNode.value;
+         moveToHead(cur);
+         return cur.val;
 
       }
 
       public void put(int key, int value) {
-         CacheNode curNode = cache.get(key);
-         if (curNode == null) {
-            curNode = new CacheNode(key, value);
-            cache.put(key, curNode);
-            addToHead(curNode);
-            ++size;
-            if (size > capacity) {
-               cache.remove(tail.prev.key);
+         CacheNode cur = map.get(key);
+         if (cur == null) {
+            cur = new CacheNode(key, value);
+            map.put(key, cur);
+            addToHead(cur);
+            if (++size > capacity) {
+               map.remove(tail.prev.key);
                removeNode(tail.prev);
                --size;
             }
          } else {
-            curNode.value = value;
-            moveToHead(curNode);
+            moveToHead(cur);
+            cur.val = value;
          }
-      }
-
-      private void removeNode(CacheNode node) {
-         node.prev.next = node.next;
-         node.next.prev = node.prev;
-      }
-
-      private void addToHead(CacheNode node) {
-         node.next = head.next;
-         head.next = node;
-         node.prev = head;
-         node.next.prev = node;
       }
 
       private void moveToHead(CacheNode node) {
          removeNode(node);
          addToHead(node);
+      }
+
+      private void addToHead(CacheNode node) {
+         node.next = head.next;
+         node.prev = head;
+         node.next.prev = node;
+         node.prev.next = node;
+      }
+
+      private void removeNode(CacheNode node) {
+         node.prev.next = node.next;
+         node.next.prev = node.prev;
       }
    }
 
