@@ -173,88 +173,6 @@ public class LeetCode_2 {
 
    }
 
-   // 146. LRU 缓存机制 (LRU Cache)
-   // 面试题 16.25. LRU 缓存 (LRU Cache LCCI)
-   // 剑指 Offer II 031. 最近最少使用缓存
-   class LRUCache {
-      class CacheNode {
-         CacheNode prev;
-         CacheNode next;
-         int val;
-         int key;
-
-         CacheNode() {
-         }
-
-         CacheNode(int key, int val) {
-            this.key = key;
-            this.val = val;
-         }
-
-      }
-
-      private Map<Integer, CacheNode> map;
-      private CacheNode head;
-      private CacheNode tail;
-      private int size;
-      private int capacity;
-
-      public LRUCache(int capacity) {
-         this.capacity = capacity;
-         this.size = 0;
-         this.head = new CacheNode();
-         this.tail = new CacheNode();
-         head.next = tail;
-         tail.prev = head;
-         this.map = new HashMap<>();
-
-      }
-
-      public int get(int key) {
-         CacheNode cur = map.get(key);
-         if (cur == null) {
-            return -1;
-         }
-         moveToHead(cur);
-         return cur.val;
-
-      }
-
-      public void put(int key, int value) {
-         CacheNode cur = map.get(key);
-         if (cur == null) {
-            cur = new CacheNode(key, value);
-            map.put(key, cur);
-            addToHead(cur);
-            if (++size > capacity) {
-               map.remove(tail.prev.key);
-               removeNode(tail.prev);
-               --size;
-            }
-         } else {
-            moveToHead(cur);
-            cur.val = value;
-         }
-      }
-
-      private void moveToHead(CacheNode node) {
-         removeNode(node);
-         addToHead(node);
-      }
-
-      private void addToHead(CacheNode node) {
-         node.next = head.next;
-         node.prev = head;
-         node.next.prev = node;
-         node.prev.next = node;
-      }
-
-      private void removeNode(CacheNode node) {
-         node.prev.next = node.next;
-         node.next.prev = node.prev;
-      }
-   }
-
    // 676. 实现一个魔法字典 (Implement Magic Dictionary)
    // 剑指 Offer II 064. 神奇的字典
    class MagicDictionary {
@@ -2316,6 +2234,111 @@ public class LeetCode_2 {
          fast = fast.next.next;
       }
       return slow;
+
+   }
+
+   // 146. LRU 缓存机制 (LRU Cache)
+   // 面试题 16.25. LRU 缓存 (LRU Cache LCCI)
+   // 剑指 Offer II 031. 最近最少使用缓存
+   class LRUCache {
+      class CacheNode {
+         CacheNode prev;
+         CacheNode next;
+         int val;
+         int key;
+
+         CacheNode() {
+         }
+
+         CacheNode(int key, int val) {
+            this.key = key;
+            this.val = val;
+         }
+
+      }
+
+      private Map<Integer, CacheNode> map;
+      private CacheNode head;
+      private CacheNode tail;
+      private int size;
+      private int capacity;
+
+      public LRUCache(int capacity) {
+         this.capacity = capacity;
+         this.size = 0;
+         this.head = new CacheNode();
+         this.tail = new CacheNode();
+         head.next = tail;
+         tail.prev = head;
+         this.map = new HashMap<>();
+
+      }
+
+      public int get(int key) {
+         CacheNode cur = map.get(key);
+         if (cur == null) {
+            return -1;
+         }
+         moveToHead(cur);
+         return cur.val;
+
+      }
+
+      public void put(int key, int value) {
+         CacheNode cur = map.get(key);
+         if (cur == null) {
+            cur = new CacheNode(key, value);
+            map.put(key, cur);
+            addToHead(cur);
+            if (++size > capacity) {
+               map.remove(tail.prev.key);
+               removeNode(tail.prev);
+               --size;
+            }
+         } else {
+            moveToHead(cur);
+            cur.val = value;
+         }
+      }
+
+      private void moveToHead(CacheNode node) {
+         removeNode(node);
+         addToHead(node);
+      }
+
+      private void addToHead(CacheNode node) {
+         node.next = head.next;
+         node.prev = head;
+         node.next.prev = node;
+         node.prev.next = node;
+      }
+
+      private void removeNode(CacheNode node) {
+         node.prev.next = node.next;
+         node.next.prev = node.prev;
+      }
+   }
+
+   // 148. 排序链表 (Sort List) -- 还需掌握空间复杂度为O(1)的归并排序、分治算法
+   // 剑指 Offer II 077. 链表排序
+   public ListNode sortList(ListNode head) {
+      List<ListNode> list = new ArrayList<>();
+      ListNode cur = head;
+      while (cur != null) {
+         list.add(cur);
+         cur = cur.next;
+      }
+      Collections.sort(list, (o1, o2) -> o1.val - o2.val);
+
+      ListNode dummy = new ListNode(0, head);
+      cur = dummy;
+      for (int i = 0; i < list.size(); ++i) {
+         ListNode added = list.get(i);
+         added.next = null;
+         cur.next = added;
+         cur = cur.next;
+      }
+      return dummy.next;
 
    }
 

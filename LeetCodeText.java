@@ -16848,34 +16848,6 @@ public class LeetCodeText {
 
     }
 
-    // 148. 排序链表 (Sort List) // 剑指 Offer II 077. 链表排序
-    public ListNode sortList(ListNode head) {
-        if (head == null) {
-            return head;
-        }
-        List<ListNode> list = new ArrayList<>();
-        while (head != null) {
-            list.add(head);
-            head = head.next;
-        }
-        Collections.sort(list, new Comparator<ListNode>() {
-
-            @Override
-            public int compare(LeetCodeText.ListNode o1, LeetCodeText.ListNode o2) {
-                return o1.val - o2.val;
-            }
-        });
-        ListNode newHead = list.get(0);
-        ListNode ans = newHead;
-        for (int i = 1; i < list.size(); ++i) {
-            newHead.next = list.get(i);
-            newHead = newHead.next;
-        }
-        newHead.next = null;
-        return ans;
-
-    }
-
     // 1721. 交换链表中的节点 (Swapping Nodes in a Linked List)
     public ListNode swapNodes(ListNode head, int k) {
         if (head == null) {
