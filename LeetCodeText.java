@@ -14718,29 +14718,6 @@ public class LeetCodeText {
         }
     }
 
-    // 234. 回文链表
-    // 面试题 02.06. 回文链表
-    // 剑指 Offer II 027. 回文链表
-    // (还需要理解递归和快慢指针实现)
-    public boolean isPalindrome09_06(ListNode head) {
-        List<Integer> list = new ArrayList<>();
-        while (head != null) {
-            list.add(head.val);
-            head = head.next;
-        }
-        int i = 0;
-        int j = list.size() - 1;
-        while (i < j) {
-            if (!list.get(i).equals(list.get(j))) {
-                return false;
-            }
-            ++i;
-            --j;
-        }
-        return true;
-
-    }
-
     // 455. 分发饼干
     public int findContentChildren(int[] g, int[] s) {
         Arrays.sort(g);

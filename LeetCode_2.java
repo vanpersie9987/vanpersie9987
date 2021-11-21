@@ -1239,22 +1239,6 @@ public class LeetCode_2 {
       }
    }
 
-   // 206. 反转链表 (Reverse Linked List)
-   // 剑指 Offer II 024. 反转链表
-   // 剑指 Offer 24. 反转链表
-   public ListNode reverseList(ListNode head) {
-      ListNode prev = null;
-      ListNode curr = head;
-      while (curr != null) {
-         ListNode temp = curr.next;
-         curr.next = prev;
-         prev = curr;
-         curr = temp;
-      }
-      return prev;
-
-   }
-
    // 328. 奇偶链表 (Odd Even Linked List)
    public ListNode oddEvenList(ListNode head) {
       if (head == null) {
@@ -2374,6 +2358,92 @@ public class LeetCode_2 {
       }
       return dummy.next;
 
+   }
+
+   // 206. 反转链表 (Reverse Linked List)
+   // 剑指 Offer II 024. 反转链表
+   // 剑指 Offer 24. 反转链表
+   public ListNode reverseList(ListNode head) {
+      ListNode ptr = null;
+      ListNode cur = head;
+      while (cur != null) {
+         ListNode temp = cur.next;
+         cur.next = ptr;
+
+         ptr = cur;
+         cur = temp;
+      }
+      return ptr;
+
+   }
+
+   // 206. 反转链表 (Reverse Linked List) 头插法
+   // 剑指 Offer II 024. 反转链表
+   // 剑指 Offer 24. 反转链表
+   public ListNode reverseList2(ListNode head) {
+      ListNode guard = new ListNode(0, head);
+      ListNode point = head;
+      while (point != null && point.next != null) {
+         ListNode removed = point.next;
+         point.next = point.next.next;
+
+         removed.next = guard.next;
+         guard.next = removed;
+
+      }
+      return guard.next;
+
+   }
+
+   // 234. 回文链表
+   // 面试题 02.06. 回文链表
+   // 剑指 Offer II 027. 回文链表
+   // (还需要理解递归和快慢指针实现)
+   public boolean isPalindrome(ListNode head) {
+      ListNode midPre = getMiddle234(head);
+      ListNode l2 = midPre.next;
+      midPre.next = null;
+      l2 = getReversedList(l2);
+      return judgeIsPalindromeLinkedList(head, l2);
+
+   }
+
+   private boolean judgeIsPalindromeLinkedList(ListNode l1, ListNode l2) {
+      while (l1 != null && l2 != null) {
+         if (l1.val != l2.val) {
+            return false;
+         }
+         l1 = l1.next;
+         l2 = l2.next;
+      }
+      return true;
+   }
+
+   private ListNode getReversedList(ListNode head) {
+      ListNode pre = null;
+      ListNode cur = head;
+      while (cur != null) {
+         ListNode temp = cur.next;
+         cur.next = pre;
+
+         pre = cur;
+         cur = temp;
+
+      }
+      return pre;
+   }
+
+   private ListNode getMiddle234(ListNode head) {
+      ListNode dummy = new ListNode(0, head);
+      ListNode slow = dummy;
+      ListNode fast = dummy;
+      while (fast.next != null && fast.next.next != null) {
+         slow = slow.next;
+         fast = fast.next.next;
+
+      }
+
+      return slow;
    }
 
 }
