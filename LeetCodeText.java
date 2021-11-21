@@ -14182,33 +14182,6 @@ public class LeetCodeText {
 
     }
 
-    // 445. 两数相加 II // 剑指 Offer II 025. 链表中的两数相加
-    public ListNode addTwoNumbers445(ListNode l1, ListNode l2) {
-        Stack<Integer> stack1 = new Stack<>();
-        Stack<Integer> stack2 = new Stack<>();
-        while (l1 != null) {
-            stack1.push(l1.val);
-            l1 = l1.next;
-        }
-        while (l2 != null) {
-            stack2.push(l2.val);
-            l2 = l2.next;
-        }
-        ListNode ans = null;
-        int carry = 0;
-        while (!stack1.isEmpty() || !stack2.isEmpty() || carry != 0) {
-            carry += stack1.isEmpty() ? 0 : stack1.pop();
-            carry += stack2.isEmpty() ? 0 : stack2.pop();
-            ListNode cur = new ListNode(carry % 10);
-            carry /= 10;
-            cur.next = ans;
-            ans = cur;
-
-        }
-        return ans;
-
-    }
-
     // 678. 有效的括号字符串
     public boolean checkValidString(String s) {
         int low = 0;

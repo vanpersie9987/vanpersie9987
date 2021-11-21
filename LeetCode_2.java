@@ -2454,4 +2454,50 @@ public class LeetCode_2 {
 
    }
 
+   // 445. 两数相加 II (Add Two Numbers II)
+   // 剑指 Offer II 025. 链表中的两数相加
+   public ListNode addTwoNumbers445(ListNode l1, ListNode l2) {
+      l1 = reverseLinkedList(l1);
+      l2 = reverseLinkedList(l2);
+      ListNode res = add445(l1, l2);
+      return reverseLinkedList(res);
+
+   }
+
+   private ListNode add445(ListNode l1, ListNode l2) {
+      ListNode dummy = new ListNode(0);
+      ListNode cur = dummy;
+      int carry = 0;
+      while (l1 != null || l2 != null || carry != 0) {
+         if (l1 != null) {
+            carry += l1.val;
+            l1 = l1.next;
+         }
+         if (l2 != null) {
+            carry += l2.val;
+            l2 = l2.next;
+         }
+         ListNode added = new ListNode(carry % 10);
+         cur.next = added;
+         cur = cur.next;
+         carry /= 10;
+      }
+
+      return dummy.next;
+   }
+
+   private ListNode reverseLinkedList(ListNode head) {
+      ListNode guard = new ListNode(0, head);
+      ListNode point = head;
+      while (point != null && point.next != null) {
+         ListNode removed = point.next;
+         point.next = point.next.next;
+
+         removed.next = guard.next;
+         guard.next = removed;
+      }
+      return guard.next;
+
+   }
+
 }
