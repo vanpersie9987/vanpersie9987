@@ -19874,52 +19874,6 @@ public class LeetCodeText {
         }
     }
 
-    // 705. 设计哈希集合 (Design HashSet) -- 还需掌握链表地址法
-    class MyHashSet {
-        private boolean[] set;
-
-        public MyHashSet() {
-            set = new boolean[1000001];
-        }
-
-        public void add(int key) {
-            set[key] = true;
-        }
-
-        public void remove(int key) {
-            set[key] = false;
-
-        }
-
-        public boolean contains(int key) {
-            return set[key];
-        }
-    }
-
-    // 706. 设计哈希映射 (Design HashMap) -- 还需掌握链表地址法
-    class MyHashMap {
-        private int[] map;
-
-        public MyHashMap() {
-            map = new int[1000001];
-            Arrays.fill(map, -1);
-
-        }
-
-        public void put(int key, int value) {
-            map[key] = value;
-        }
-
-        public int get(int key) {
-            return map[key];
-
-        }
-
-        public void remove(int key) {
-            map[key] = -1;
-        }
-    }
-
     // 36. 有效的数独 (Valid Sudoku)
     public boolean isValidSudoku(char[][] board) {
         int[][] rows = new int[9][9];
