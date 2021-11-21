@@ -20047,12 +20047,6 @@ public class LeetCodeText {
 
     }
 
-    // 面试题 02.03. 删除中间节点 (Delete Middle Node LCCI)
-    public void deleteNode(ListNode node) {
-        node.val = node.next.val;
-        node.next = node.next.next;
-    }
-
     // 819. 最常见的单词 (Most Common Word)
     public String mostCommonWord(String paragraph, String[] banned) {
         Set<String> set = new HashSet<>(Arrays.asList(banned));

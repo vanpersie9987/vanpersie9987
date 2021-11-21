@@ -2446,4 +2446,11 @@ public class LeetCode_2 {
       return slow;
    }
 
+   // 237. 删除链表中的节点 (Delete Node in a Linked List)
+   // 面试题 02.03. 删除中间节点 (Delete Middle Node LCCI)
+   public void deleteNode(ListNode node) {
+      node.val = node.next.val;
+      node.next = node.next.next;
+   }
+
 }
