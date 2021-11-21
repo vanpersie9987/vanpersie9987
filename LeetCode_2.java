@@ -2342,4 +2342,22 @@ public class LeetCode_2 {
 
    }
 
+   // 160. 相交链表 (Intersection of Two Linked Lists)
+   // 剑指 Offer II 023. 两个链表的第一个重合节点
+   // 剑指 Offer 52. 两个链表的第一个公共节点
+   // 面试题 02.07. 链表相交
+   public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+      if (headA == null || headB == null) {
+         return null;
+      }
+      ListNode ptrA = headA;
+      ListNode ptrB = headB;
+      while (ptrA != ptrB) {
+         ptrA = ptrA == null ? headB : ptrA.next;
+         ptrB = ptrB == null ? headA : ptrB.next;
+      }
+      return ptrA;
+
+   }
+
 }
