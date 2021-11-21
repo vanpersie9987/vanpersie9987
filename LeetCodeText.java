@@ -16782,35 +16782,6 @@ public class LeetCodeText {
 
     }
 
-    // 1721. 交换链表中的节点 (Swapping Nodes in a Linked List)
-    public ListNode swapNodes(ListNode head, int k) {
-        if (head == null) {
-            return head;
-        }
-        ListNode formmer = head;
-        ListNode latter = head;
-        int i = 0;
-        while (i++ < k) {
-            formmer = formmer.next;
-        }
-        while (formmer != null) {
-            formmer = formmer.next;
-            latter = latter.next;
-        }
-        formmer = head;
-        i = 1;
-        while (i++ < k) {
-            formmer = formmer.next;
-        }
-        if (formmer == latter) {
-            return head;
-        }
-        int temp = latter.val;
-        latter.val = formmer.val;
-        formmer.val = temp;
-        return head;
-    }
-
     // LCP 06. 拿硬币
     public int minCount(int[] coins) {
         int res = 0;

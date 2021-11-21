@@ -2500,4 +2500,28 @@ public class LeetCode_2 {
 
    }
 
+   // 1721. 交换链表中的节点 (Swapping Nodes in a Linked List)
+   public ListNode swapNodes(ListNode head, int k) {
+      ListNode dummy = new ListNode(0, head);
+      ListNode slow = dummy;
+      ListNode fast = dummy;
+      for (int i = 0; i < k; ++i) {
+         fast = fast.next;
+      }
+      ListNode swapedNode1 = fast;
+
+      while (fast != null) {
+         slow = slow.next;
+         fast = fast.next;
+      }
+      ListNode swapedNode2 = slow;
+
+      int temp = swapedNode1.val;
+      swapedNode1.val = swapedNode2.val;
+      swapedNode2.val = temp;
+
+      return dummy.next;
+
+   }
+
 }
