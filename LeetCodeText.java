@@ -20347,28 +20347,6 @@ public class LeetCodeText {
         }
     }
 
-    // 1171. 从链表中删去总和值为零的连续节点 (Remove Zero Sum Consecutive Nodes from Linked List)
-    public ListNode removeZeroSumSublists(ListNode head) {
-        Map<Integer, ListNode> map = new HashMap<>();
-        ListNode dummy = new ListNode(0, head);
-        ListNode cur = dummy;
-        int preSum = 0;
-        while (cur != null) {
-            preSum += cur.val;
-            map.put(preSum, cur);
-            cur = cur.next;
-        }
-        preSum = 0;
-        cur = dummy;
-        while (cur != null) {
-            preSum += cur.val;
-            cur.next = map.get(preSum).next;
-            cur = cur.next;
-        }
-        return dummy.next;
-
-    }
-
     // 1624. 两个相同字符之间的最长子字符串 (Largest Substring Between Two Equal Characters)
     public int maxLengthBetweenEqualCharacters(String s) {
         Map<Character, Integer> map = new HashMap<>();

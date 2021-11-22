@@ -2685,4 +2685,45 @@ public class LeetCode_2 {
 
    }
 
+   // 1019. 链表中的下一个更大节点 (Next Greater Node In Linked List)
+   public int[] nextLargerNodes(ListNode head) {
+      Stack<Integer> stack = new Stack<>();
+      List<Integer> list = new ArrayList<>();
+      while (head != null) {
+         list.add(head.val);
+         head = head.next;
+      }
+      int[] res = new int[list.size()];
+      for (int i = 0; i < list.size(); ++i) {
+         while (!stack.isEmpty() && list.get(i) > list.get(stack.peek())) {
+            res[stack.pop()] = list.get(i);
+         }
+         stack.push(i);
+      }
+      return res;
+
+   }
+
+   // 1171. 从链表中删去总和值为零的连续节点 (Remove Zero Sum Consecutive Nodes from Linked List)
+   public ListNode removeZeroSumSublists(ListNode head) {
+      Map<Integer, ListNode> map = new HashMap<>();
+      int preSum = 0;
+      ListNode dummy = new ListNode(0, head);
+      ListNode cur = dummy;
+      while (cur != null) {
+         preSum += cur.val;
+         map.put(preSum, cur);
+         cur = cur.next;
+      }
+      preSum = 0;
+      cur = dummy;
+      while (cur != null) {
+         preSum += cur.val;
+         cur.next = map.get(preSum).next;
+         cur = cur.next;
+      }
+      return dummy.next;
+
+   }
+
 }
