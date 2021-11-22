@@ -16368,40 +16368,6 @@ public class LeetCodeText {
 
     }
 
-    // 876. 链表的中间结点 (Middle of the Linked List)
-    public ListNode middleNode(ListNode head) {
-        int count = 0;
-        ListNode head1 = head;
-        while (head1 != null) {
-            ++count;
-            head1 = head1.next;
-        }
-        int i = 0;
-        while (i++ < count / 2) {
-            head = head.next;
-        }
-        return head;
-
-    }
-
-    // 876. 链表的中间结点 (Middle of the Linked List)
-    public ListNode middleNode2(ListNode head) {
-        ListNode fast = head;
-        ListNode slow = head;
-        while (fast != null) {
-            if (fast.next == null || fast.next.next == null) {
-                break;
-            }
-            slow = slow.next;
-            fast = fast.next.next;
-        }
-        if (fast.next == null) {
-            return slow;
-        }
-        return slow.next;
-
-    }
-
     // 696.计数二进制子串 (Count Binary Substrings)
     // "00110011"
     public int countBinarySubstrings(String s) {

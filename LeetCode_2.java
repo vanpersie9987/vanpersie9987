@@ -2672,4 +2672,17 @@ public class LeetCode_2 {
       }
    }
 
+   // 876. 链表的中间结点 (Middle of the Linked List)
+   public ListNode middleNode(ListNode head) {
+      ListNode dummy = new ListNode(0, head);
+      ListNode fast = dummy;
+      ListNode slow = dummy;
+      while (fast.next != null && fast.next.next != null) {
+         slow = slow.next;
+         fast = fast.next.next;
+      }
+      return slow.next;
+
+   }
+
 }
