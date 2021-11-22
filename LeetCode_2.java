@@ -2726,4 +2726,15 @@ public class LeetCode_2 {
 
    }
 
+   // 1290. 二进制链表转整数 (Convert Binary Number in a Linked List to Integer)
+   public int getDecimalValue(ListNode head) {
+      int res = 0;
+      while (head != null) {
+         res = (res << 1) | head.val;
+         head = head.next;
+      }
+      return res;
+
+   }
+
 }
