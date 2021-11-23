@@ -20220,28 +20220,6 @@ public class LeetCodeText {
 
     }
 
-    // 1669. 合并两个链表 (Merge In Between Linked Lists)
-    public ListNode mergeInBetween(ListNode list1, int a, int b, ListNode list2) {
-        int diff = b - a + 2;
-        ListNode dummy = new ListNode(0, list1);
-        ListNode cur = dummy;
-        while (a-- > 0) {
-            cur = cur.next;
-        }
-        ListNode p = cur;
-        while (diff-- > 0) {
-            cur = cur.next;
-        }
-        p.next = list2;
-        while (list2.next != null) {
-            list2 = list2.next;
-        }
-        list2.next = cur;
-
-        return dummy.next;
-
-    }
-
     // 997. 找到小镇的法官 (Find the Town Judge)
     public int findJudge(int n, int[][] trust) {
         int[] trusts = new int[n + 1];
