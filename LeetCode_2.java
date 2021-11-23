@@ -2804,4 +2804,20 @@ public class LeetCode_2 {
 
    }
 
+   // 面试题 02.01. 移除重复节点 (Remove Duplicate Node LCCI)
+   public ListNode removeDuplicateNodes(ListNode head) {
+      Set<Integer> set = new HashSet<>();
+      ListNode dummy = new ListNode(0, head);
+      ListNode cur = dummy;
+      while (cur.next != null) {
+         if (set.add(cur.next.val)) {
+            cur = cur.next;
+         } else {
+            cur.next = cur.next.next;
+         }
+      }
+      return dummy.next;
+
+   }
+
 }
