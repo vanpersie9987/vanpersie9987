@@ -1271,51 +1271,6 @@ public class LeetCode_2 {
 
    }
 
-   // 1670. 设计前中后队列 (Design Front Middle Back Queue)
-   class FrontMiddleBackQueue {
-      private List<Integer> queue;
-
-      public FrontMiddleBackQueue() {
-         queue = new LinkedList<>();
-
-      }
-
-      public void pushFront(int val) {
-         queue.add(0, val);
-      }
-
-      public void pushMiddle(int val) {
-         int insertIndex = queue.size() >> 1;
-         queue.add(insertIndex, val);
-      }
-
-      public void pushBack(int val) {
-         queue.add(val);
-      }
-
-      public int popFront() {
-         if (queue.isEmpty()) {
-            return -1;
-         }
-         return queue.remove(0);
-      }
-
-      public int popMiddle() {
-         if (queue.isEmpty()) {
-            return -1;
-         }
-         int deleteIndex = (queue.size() - 1) >> 1;
-         return queue.remove(deleteIndex);
-      }
-
-      public int popBack() {
-         if (queue.isEmpty()) {
-            return -1;
-         }
-         return queue.remove(queue.size() - 1);
-      }
-   }
-
    // 2074. 反转偶数长度组的节点 (Reverse Nodes in Even Length Groups)
    public ListNode reverseEvenLengthGroups(ListNode head) {
       ListNode dummy = new ListNode(0, head);
@@ -2757,6 +2712,114 @@ public class LeetCode_2 {
       head2.next = cur.next;
       return dummy.next;
 
+   }
+
+   // 1670. 设计前中后队列 (Design Front Middle Back Queue)
+   class FrontMiddleBackQueue {
+      class Node {
+         Node next;
+         Node prev;
+         int val;
+
+         Node(int val) {
+            this.val = val;
+         }
+
+      }
+
+      private Node head;
+      private Node tail;
+      private int size;
+
+      public FrontMiddleBackQueue() {
+         head = new Node(0);
+         tail = new Node(0);
+         head.next = tail;
+         tail.prev = head;
+
+      }
+
+      public void pushFront(int val) {
+         pushAtIndex(0, val);
+
+      }
+
+      public void pushMiddle(int val) {
+         pushAtIndex(size / 2, val);
+      }
+
+      public void pushBack(int val) {
+         pushAtIndex(size, val);
+      }
+
+      private void pushAtIndex(int index, int val) {
+         if (index < 0 || index > size) {
+            return;
+         }
+         if (index * 2 >= size) {
+            Node cur = tail;
+            for (int i = 0; i < size - index; ++i) {
+               cur = cur.prev;
+            }
+            Node added = new Node(val);
+            added.prev = cur.prev;
+            added.next = cur;
+            cur.prev = added;
+            added.prev.next = added;
+         } else {
+            Node cur = head;
+            for (int i = 0; i < index; ++i) {
+               cur = cur.next;
+            }
+            Node added = new Node(val);
+            added.next = cur.next;
+            added.prev = cur;
+            cur.next = added;
+            added.next.prev = added;
+         }
+         ++size;
+      }
+
+      public int popFront() {
+         return popAtIndex(0);
+
+      }
+
+      public int popMiddle() {
+         return popAtIndex((size - 1) / 2);
+
+      }
+
+      public int popBack() {
+         return popAtIndex(size - 1);
+      }
+
+      private int popAtIndex(int index) {
+         if (index < 0 || index >= size) {
+            return -1;
+         }
+         if (index * 2 >= size) {
+            Node cur = tail;
+            for (int i = 0; i < size - index - 1; ++i) {
+               cur = cur.prev;
+            }
+            int res = cur.prev.val;
+            cur.prev = cur.prev.prev;
+            cur.prev.next = cur;
+            --size;
+            return res;
+         } else {
+            Node cur = head;
+            for (int i = 0; i < index; ++i) {
+               cur = cur.next;
+            }
+            int res = cur.next.val;
+            cur.next = cur.next.next;
+            cur.next.prev = cur;
+            --size;
+            return res;
+         }
+      }
    }
 
 }
