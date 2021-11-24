@@ -1908,20 +1908,22 @@ public class LeetCode_2 {
 
    }
 
-   // 234. 回文链表
+   // 234. 回文链表 --还需要掌握递归法
+   // 递归法
+   // ：https://leetcode-cn.com/problems/palindrome-linked-list-lcci/solution/hui-wen-lian-biao-by-leetcode-solution-6cp3/
    // 面试题 02.06. 回文链表
    // 剑指 Offer II 027. 回文链表
    // (还需要理解递归和快慢指针实现)
    public boolean isPalindrome(ListNode head) {
-      ListNode midPre = getMiddle234(head);
+      ListNode midPre = getMiddleNode(head);
       ListNode l2 = midPre.next;
       midPre.next = null;
-      l2 = getReversedList(l2);
-      return judgeIsPalindromeLinkedList(head, l2);
-
+      ListNode l1 = head;
+      l2 = reverseList234(l2);
+      return judge234(l1, l2);
    }
 
-   private boolean judgeIsPalindromeLinkedList(ListNode l1, ListNode l2) {
+   private boolean judge234(ListNode l1, ListNode l2) {
       while (l1 != null && l2 != null) {
          if (l1.val != l2.val) {
             return false;
@@ -1932,30 +1934,29 @@ public class LeetCode_2 {
       return true;
    }
 
-   private ListNode getReversedList(ListNode head) {
-      ListNode pre = null;
-      ListNode cur = head;
-      while (cur != null) {
-         ListNode temp = cur.next;
-         cur.next = pre;
+   private ListNode reverseList234(ListNode head) {
+      ListNode guard = new ListNode(0, head);
+      ListNode point = head;
+      while (point != null && point.next != null) {
+         ListNode removed = point.next;
+         point.next = point.next.next;
 
-         pre = cur;
-         cur = temp;
+         removed.next = guard.next;
+         guard.next = removed;
 
       }
-      return pre;
+      return guard.next;
+
    }
 
-   private ListNode getMiddle234(ListNode head) {
+   private ListNode getMiddleNode(ListNode head) {
       ListNode dummy = new ListNode(0, head);
       ListNode slow = dummy;
       ListNode fast = dummy;
-      while (fast.next != null && fast.next.next != null) {
+      while (fast != null && fast.next != null) {
          slow = slow.next;
          fast = fast.next.next;
-
       }
-
       return slow;
    }
 
