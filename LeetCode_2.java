@@ -1862,6 +1862,7 @@ public class LeetCode_2 {
       while (cur.next != null) {
          if (cur.next.val == val) {
             cur.next = cur.next.next;
+            break;
          } else {
             cur = cur.next;
          }
