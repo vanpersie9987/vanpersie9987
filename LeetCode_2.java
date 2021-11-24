@@ -1854,7 +1854,6 @@ public class LeetCode_2 {
          ptrB = ptrB == null ? headA : ptrB.next;
       }
       return ptrA;
-
    }
 
    // 203. 移除链表元素 (Remove Linked List Elements)
