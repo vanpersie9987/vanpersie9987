@@ -2890,4 +2890,20 @@ public class LeetCode_2 {
       }
    }
 
+   // 面试题 02.02. 返回倒数第 k 个节点 (Kth Node From End of List LCCI)
+   public int kthToLast(ListNode head, int k) {
+      ListNode dummy = new ListNode(0, head);
+      ListNode former = dummy;
+      ListNode latter = dummy;
+      while (k-- > 0) {
+         latter = latter.next;
+      }
+      while (latter != null) {
+         former = former.next;
+         latter = latter.next;
+      }
+      return former.val;
+
+   }
+
 }
