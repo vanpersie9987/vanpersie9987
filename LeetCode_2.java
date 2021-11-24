@@ -1664,20 +1664,20 @@ public class LeetCode_2 {
    // 面试题 02.08. 环路检测 (Linked List Cycle LCCI)
    // 剑指 Offer II 022. 链表中环的入口节点
    public ListNode detectCycle2(ListNode head) {
-      ListNode slow = head;
       ListNode fast = head;
+      ListNode slow = head;
       while (fast != null && fast.next != null) {
          fast = fast.next.next;
          slow = slow.next;
-
          if (fast == slow) {
-            while (slow != head) {
-               slow = slow.next;
-               head = head.next;
+            ListNode ptr1 = head;
+            ListNode ptr2 = slow;
+            while (ptr1 != ptr2) {
+               ptr1 = ptr1.next;
+               ptr2 = ptr2.next;
             }
-            return head;
+            return ptr1;
          }
-
       }
       return null;
 
@@ -1964,6 +1964,7 @@ public class LeetCode_2 {
    public void deleteNode(ListNode node) {
       node.val = node.next.val;
       node.next = node.next.next;
+
    }
 
    // 328. 奇偶链表 (Odd Even Linked List)
