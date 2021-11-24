@@ -14542,59 +14542,6 @@ public class LeetCodeText {
 
     }
 
-    // 面试题 03.03. 堆盘子
-    class StackOfPlates {
-        private List<Stack<Integer>> list;
-        private int max;
-
-        public StackOfPlates(int cap) {
-            list = new ArrayList<>();
-            max = cap;
-        }
-
-        public void push(int val) {
-            if (max <= 0) {
-                return;
-            }
-            if (list.isEmpty()) {
-                list.add(new Stack<>());
-            }
-            Stack<Integer> stack = list.get(list.size() - 1);
-            if (stack.size() == max) {
-                Stack<Integer> newStack = new Stack<>();
-                newStack.push(val);
-                list.add(newStack);
-            } else {
-                stack.push(val);
-            }
-        }
-
-        public int pop() {
-            if (list.isEmpty()) {
-                return -1;
-            }
-            Stack<Integer> stack = list.get(list.size() - 1);
-            int res = stack.pop();
-            if (stack.isEmpty()) {
-                list.remove(list.size() - 1);
-            }
-            return res;
-
-        }
-
-        public int popAt(int index) {
-            if (index >= list.size()) {
-                return -1;
-            }
-            Stack<Integer> stack = list.get(index);
-            int res = stack.pop();
-            if (stack.isEmpty()) {
-                list.remove(index);
-            }
-            return res;
-        }
-    }
-
     // 面试题 03.01. 三合一
     class TripleInOne {
         private int[] stack;

@@ -2839,4 +2839,55 @@ public class LeetCode_2 {
 
    }
 
+   // 面试题 03.03. 堆盘子
+   class StackOfPlates {
+      private List<Stack<Integer>> mList;
+      private int mCapacity;
+
+      public StackOfPlates(int cap) {
+         this.mCapacity = cap;
+         this.mList = new ArrayList<>();
+
+      }
+
+      public void push(int val) {
+         if (mCapacity <= 0) {
+            return;
+         }
+         if (mList.isEmpty() || mList.get(mList.size() - 1).size() == mCapacity) {
+            Stack<Integer> stack = new Stack<>();
+            stack.push(val);
+            mList.add(stack);
+         } else {
+            Stack<Integer> curStack = mList.get(mList.size() - 1);
+            curStack.push(val);
+         }
+      }
+
+      public int pop() {
+         if (mList.isEmpty()) {
+            return -1;
+         }
+         Stack<Integer> curStack = mList.get(mList.size() - 1);
+         int res = curStack.pop();
+         if (curStack.isEmpty()) {
+            mList.remove(mList.size() - 1);
+         }
+         return res;
+      }
+
+      public int popAt(int index) {
+         if (index < 0 || index >= mList.size()) {
+            return -1;
+         }
+         Stack<Integer> curStack = mList.get(index);
+         int res = curStack.pop();
+         if (curStack.isEmpty()) {
+            mList.remove(index);
+         }
+         return res;
+
+      }
+   }
+
 }
