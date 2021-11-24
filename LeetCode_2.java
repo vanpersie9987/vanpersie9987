@@ -1737,82 +1737,84 @@ public class LeetCode_2 {
    // 面试题 16.25. LRU 缓存 (LRU Cache LCCI)
    // 剑指 Offer II 031. 最近最少使用缓存
    class LRUCache {
-      class CacheNode {
-         CacheNode prev;
-         CacheNode next;
+      class Node {
+         Node next;
+         Node prev;
          int val;
          int key;
 
-         CacheNode() {
+         Node() {
+
          }
 
-         CacheNode(int key, int val) {
+         Node(int key, int val) {
             this.key = key;
             this.val = val;
          }
 
       }
 
-      private Map<Integer, CacheNode> map;
-      private CacheNode head;
-      private CacheNode tail;
+      private Node head;
+      private Node tail;
       private int size;
       private int capacity;
+      private Map<Integer, Node> map;
 
       public LRUCache(int capacity) {
-         this.capacity = capacity;
-         this.size = 0;
-         this.head = new CacheNode();
-         this.tail = new CacheNode();
+         map = new HashMap<>();
+         head = new Node();
+         tail = new Node();
          head.next = tail;
          tail.prev = head;
-         this.map = new HashMap<>();
+         this.capacity = capacity;
 
       }
 
       public int get(int key) {
-         CacheNode cur = map.get(key);
-         if (cur == null) {
+         Node curNode = map.get(key);
+         if (curNode == null) {
             return -1;
          }
-         moveToHead(cur);
-         return cur.val;
+         moveToHead(curNode);
+         return curNode.val;
 
       }
 
       public void put(int key, int value) {
-         CacheNode cur = map.get(key);
-         if (cur == null) {
-            cur = new CacheNode(key, value);
-            map.put(key, cur);
-            addToHead(cur);
+         Node curNode = map.get(key);
+         if (curNode == null) {
+            curNode = new Node(key, value);
+            map.put(key, curNode);
+            addToHead(curNode);
             if (++size > capacity) {
                map.remove(tail.prev.key);
                removeNode(tail.prev);
                --size;
             }
          } else {
-            moveToHead(cur);
-            cur.val = value;
+            moveToHead(curNode);
+            curNode.val = value;
          }
+
       }
 
-      private void moveToHead(CacheNode node) {
+      private void moveToHead(Node node) {
          removeNode(node);
          addToHead(node);
       }
 
-      private void addToHead(CacheNode node) {
+      private void addToHead(Node node) {
          node.next = head.next;
+         head.next = node;
          node.prev = head;
          node.next.prev = node;
-         node.prev.next = node;
       }
 
-      private void removeNode(CacheNode node) {
+      private void removeNode(Node node) {
          node.prev.next = node.next;
          node.next.prev = node.prev;
       }
+
    }
 
    // 148. 排序链表 (Sort List) -- 还需掌握空间复杂度为O(1)的归并排序、分治算法
