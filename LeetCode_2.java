@@ -2889,6 +2889,7 @@ public class LeetCode_2 {
    }
 
    // 面试题 02.02. 返回倒数第 k 个节点 (Kth Node From End of List LCCI)
+   // 剑指 Offer 22. 链表中倒数第k个节点
    public int kthToLast(ListNode head, int k) {
       ListNode dummy = new ListNode(0, head);
       ListNode former = dummy;
