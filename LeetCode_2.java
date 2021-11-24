@@ -1503,16 +1503,13 @@ public class LeetCode_2 {
       ListNode dummy = new ListNode(0);
       ListNode cur = dummy;
       while (l1 != null && l2 != null) {
-         ListNode added;
          if (l1.val < l2.val) {
-            added = l1;
+            cur.next = l1;
             l1 = l1.next;
          } else {
-            added = l2;
+            cur.next = l2;
             l2 = l2.next;
          }
-         added.next = null;
-         cur.next = added;
          cur = cur.next;
       }
       if (l1 != null) {
