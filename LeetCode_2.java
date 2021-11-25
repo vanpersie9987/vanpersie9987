@@ -1825,14 +1825,14 @@ public class LeetCode_2 {
       }
       Collections.sort(list, (o1, o2) -> o1.val - o2.val);
 
-      ListNode dummy = new ListNode(0, head);
+      ListNode dummy = new ListNode(0);
       cur = dummy;
       for (int i = 0; i < list.size(); ++i) {
          ListNode added = list.get(i);
-         added.next = null;
          cur.next = added;
          cur = cur.next;
       }
+      cur.next = null;
       return dummy.next;
 
    }
