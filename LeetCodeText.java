@@ -14340,25 +14340,6 @@ public class LeetCodeText {
         }
     }
 
-    // 1019. 链表中的下一个更大节点
-    public int[] nextLargerNodes(ListNode head) {
-        Stack<Integer> stack = new Stack<>();
-        List<Integer> list = new ArrayList<>();
-        while (head != null) {
-            list.add(head.val);
-            head = head.next;
-        }
-        int res[] = new int[list.size()];
-        for (int i = 0; i < list.size(); ++i) {
-            while (!stack.isEmpty() && list.get(i) > list.get(stack.peek())) {
-                res[stack.pop()] = list.get(i);
-            }
-            stack.push(i);
-        }
-        return res;
-
-    }
-
     // 231. 2 的幂
     public boolean isPowerOfTwo(int n) {
         if (n <= 0) {
@@ -16161,34 +16142,6 @@ public class LeetCodeText {
 
     }
 
-    // 剑指 Offer 22. 链表中倒数第k个节点
-    public ListNode getKthFromEnd(ListNode head, int k) {
-        List<ListNode> list = new ArrayList<>();
-        while (head != null) {
-            list.add(head);
-            head = head.next;
-        }
-        return list.get(list.size() - k);
-
-    }
-
-    // 剑指 Offer 22. 链表中倒数第k个节点 快慢指针
-    public ListNode getKthFromEnd2(ListNode head, int k) {
-        ListNode latter = head;
-        ListNode formmer = head;
-        int i = 0;
-        while (i++ < k) {
-            head = head.next;
-        }
-        formmer = head;
-        while (formmer != null) {
-            formmer = formmer.next;
-            latter = latter.next;
-        }
-        return latter;
-
-    }
-
     // 1768.交替合并字符串 (Merge Strings Alternately)
     public String mergeAlternately(String word1, String word2) {
         StringBuilder res = new StringBuilder();
@@ -17854,17 +17807,6 @@ public class LeetCodeText {
             }
         }
         return (negative & 1) == 0 ? 1 : -1;
-
-    }
-
-    // 1290. 二进制链表转整数 (Convert Binary Number in a Linked List to Integer)
-    public int getDecimalValue(ListNode head) {
-        int res = 0;
-        while (head != null) {
-            res = (res <<= 1) | head.val;
-            head = head.next;
-        }
-        return res;
 
     }
 
