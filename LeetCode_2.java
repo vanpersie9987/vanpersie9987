@@ -2970,4 +2970,24 @@ public class LeetCode_2 {
 
    }
 
+   // 2078. 两栋颜色不同且距离最远的房子 (Two Furthest Houses With Different Colors)
+   public int maxDistance(int[] colors) {
+      int res = 0;
+      int n = colors.length;
+      for (int i = n - 1; i >= 1; --i) {
+         if (colors[i] != colors[0]) {
+            res = Math.max(res, i);
+            break;
+         }
+      }
+      for (int i = 0; i < n - 1; ++i) {
+         if (colors[i] != colors[n - 1]) {
+            res = Math.max(res, n - 1 - i);
+            break;
+         }
+      }
+      return res;
+
+   }
+
 }
