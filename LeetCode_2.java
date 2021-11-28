@@ -2943,4 +2943,21 @@ public class LeetCode_2 {
 
    }
 
+   // 2079. 给植物浇水 (Watering Plants)
+   public int wateringPlants(int[] plants, int capacity) {
+      int res = 0;
+      int curCapacity = capacity;
+      for (int i = 0; i < plants.length; ++i) {
+         curCapacity -= plants[i];
+         ++res;
+         if (i + 1 < plants.length && curCapacity < plants[i + 1]) {
+            res += (i + 1) * 2;
+            curCapacity = capacity;
+         }
+
+      }
+      return res;
+
+   }
+
 }
