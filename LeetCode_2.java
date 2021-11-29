@@ -500,24 +500,6 @@ public class LeetCode_2 {
       }
    }
 
-   // 238. 除自身以外数组的乘积
-   // 剑指 Offer 66. 构建乘积数组
-   public int[] constructArr(int[] a) {
-      int[] res = new int[a.length];
-      int k = 1;
-      for (int i = 0; i < res.length; ++i) {
-         res[i] = k;
-         k *= a[i];
-      }
-      k = 1;
-      for (int i = res.length - 1; i >= 0; --i) {
-         res[i] *= k;
-         k *= a[i];
-      }
-      return res;
-
-   }
-
    // 2024. 考试的最大困扰度 (Maximize the Confusion of an Exam) --滑动窗口
    public int maxConsecutiveAnswers(String answerKey, int k) {
       char[] keys = answerKey.toCharArray();
@@ -2949,7 +2931,7 @@ public class LeetCode_2 {
 
    }
 
-   // 209. 长度最小的子数组 (Minimum Size Subarray Sum) --O(n)
+   // 209. 长度最小的子数组 (Minimum Size Subarray Sum) --O(n) 滑动窗口 前缀和
    // 剑指 Offer II 008. 和大于等于 target 的最短子数组 --O(n)
    public int minSubArrayLen(int target, int[] nums) {
       int res = Integer.MAX_VALUE;
@@ -2987,6 +2969,24 @@ public class LeetCode_2 {
          }
       }
       return res == Integer.MAX_VALUE ? 0 : res;
+
+   }
+
+   // 238. 除自身以外数组的乘积 (Product of Array Except Self)
+   // 剑指 Offer 66. 构建乘积数组
+   public int[] constructArr(int[] a) {
+      int[] res = new int[a.length];
+      int k = 1;
+      for (int i = 0; i < res.length; ++i) {
+         res[i] = k;
+         k *= a[i];
+      }
+      k = 1;
+      for (int i = res.length - 1; i >= 0; --i) {
+         res[i] *= k;
+         k *= a[i];
+      }
+      return res;
 
    }
 
