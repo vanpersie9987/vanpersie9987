@@ -146,32 +146,6 @@ public class LeetCode_2 {
 
    }
 
-   // 525. 连续数组 (Contiguous Array)
-   // 剑指 Offer II 011. 0 和 1 个数相同的子数组
-   public int findMaxLength(int[] nums) {
-      //// key : 前缀和，遇1则+1，遇0则减1
-      // value : 数组的当前索引
-      // 存储第一次出现的key
-      Map<Integer, Integer> map = new HashMap<>();
-      map.put(0, -1);
-      int count = 0;
-      int res = 0;
-      for (int i = 0; i < nums.length; ++i) {
-         if (nums[i] == 0) {
-            --count;
-         } else {
-            ++count;
-         }
-         if (map.containsKey(count)) {
-            res = Math.max(res, i - map.get(count));
-         } else {
-            map.put(count, i);
-         }
-      }
-      return res;
-
-   }
-
    // 676. 实现一个魔法字典 (Implement Magic Dictionary)
    // 剑指 Offer II 064. 神奇的字典
    class MagicDictionary {
@@ -2990,6 +2964,29 @@ public class LeetCode_2 {
       public int sumRegion(int row1, int col1, int row2, int col2) {
          return preSum[row2 + 1][col2 + 1] - preSum[row2 + 1][col1] - preSum[row1][col2 + 1] + preSum[row1][col1];
       }
+   }
+
+   // 525. 连续数组 (Contiguous Array) -- 前缀和
+   // 剑指 Offer II 011. 0 和 1 个数相同的子数组
+   public int findMaxLength(int[] nums) {
+      Map<Integer, Integer> map = new HashMap<>();
+      map.put(0, -1);
+      int res = 0;
+      int count = 0;
+      for (int i = 0; i < nums.length; ++i) {
+         if (nums[i] == 1) {
+            ++count;
+         } else {
+            --count;
+         }
+         if (!map.containsKey(count)) {
+            map.put(count, i);
+         } else {
+            res = Math.max(res, i - map.get(count));
+         }
+      }
+      return res;
+
    }
 
 }
