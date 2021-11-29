@@ -464,47 +464,6 @@ public class LeetCode_2 {
       return prefix[endI][endJ] - prefix[endI][startJ - 1] - prefix[startI - 1][endJ] + prefix[startI - 1][startJ - 1];
    }
 
-   // 209. 长度最小的子数组 (Minimum Size Subarray Sum) --O(n)
-   // 剑指 Offer II 008. 和大于等于 target 的最短子数组 --O(n)
-   public int minSubArrayLen(int target, int[] nums) {
-      int res = Integer.MAX_VALUE;
-      int left = 0;
-      int right = 0;
-      int curSum = 0;
-      while (right < nums.length) {
-         curSum += nums[right];
-         while (curSum >= target) {
-            res = Math.min(res, right - left + 1);
-            curSum -= nums[left++];
-         }
-         ++right;
-      }
-      return res == Integer.MAX_VALUE ? 0 : res;
-
-   }
-
-   // 209. 长度最小的子数组 (Minimum Size Subarray Sum) --O(nlog(n))
-   // 剑指 Offer II 008. 和大于等于 target 的最短子数组 --O(nlog(n))
-   public int minSubArrayLen2(int target, int[] nums) {
-      int[] prefix = new int[nums.length + 1];
-      int res = Integer.MAX_VALUE;
-      for (int i = 1; i < prefix.length; ++i) {
-         prefix[i] = prefix[i - 1] + nums[i - 1];
-      }
-      for (int i = 1; i < prefix.length; ++i) {
-         int find = target + prefix[i - 1];
-         int bound = Arrays.binarySearch(prefix, find);
-         if (bound < 0) {
-            bound = -bound - 1;
-         }
-         if (bound <= nums.length) {
-            res = Math.min(res, bound - i + 1);
-         }
-      }
-      return res == Integer.MAX_VALUE ? 0 : res;
-
-   }
-
    // 303. 区域和检索 - 数组不可变 (Range Sum Query - Immutable)
    class NumArray {
       private int[] prefix;
@@ -2987,6 +2946,47 @@ public class LeetCode_2 {
          }
       }
       return res;
+
+   }
+
+   // 209. 长度最小的子数组 (Minimum Size Subarray Sum) --O(n)
+   // 剑指 Offer II 008. 和大于等于 target 的最短子数组 --O(n)
+   public int minSubArrayLen(int target, int[] nums) {
+      int res = Integer.MAX_VALUE;
+      int left = 0;
+      int right = 0;
+      int preSum = 0;
+      while (right < nums.length) {
+         preSum += nums[right];
+         while (preSum >= target) {
+            res = Math.min(res, right - left + 1);
+            preSum -= nums[left++];
+         }
+         ++right;
+      }
+      return res == Integer.MAX_VALUE ? 0 : res;
+
+   }
+
+   // 209. 长度最小的子数组 (Minimum Size Subarray Sum) --O(nlog(n))
+   // 剑指 Offer II 008. 和大于等于 target 的最短子数组 --O(nlog(n))
+   public int minSubArrayLen2(int target, int[] nums) {
+      int[] prefix = new int[nums.length + 1];
+      int res = Integer.MAX_VALUE;
+      for (int i = 1; i < prefix.length; ++i) {
+         prefix[i] = prefix[i - 1] + nums[i - 1];
+      }
+      for (int i = 1; i < prefix.length; ++i) {
+         int find = target + prefix[i - 1];
+         int bound = Arrays.binarySearch(prefix, find);
+         if (bound < 0) {
+            bound = -bound - 1;
+         }
+         if (bound <= nums.length) {
+            res = Math.min(res, bound - i + 1);
+         }
+      }
+      return res == Integer.MAX_VALUE ? 0 : res;
 
    }
 
