@@ -464,23 +464,6 @@ public class LeetCode_2 {
       return prefix[endI][endJ] - prefix[endI][startJ - 1] - prefix[startI - 1][endJ] + prefix[startI - 1][startJ - 1];
    }
 
-   // 303. 区域和检索 - 数组不可变 (Range Sum Query - Immutable)
-   class NumArray {
-      private int[] prefix;
-
-      public NumArray(int[] nums) {
-         prefix = new int[nums.length + 1];
-         for (int i = 1; i < prefix.length; ++i) {
-            prefix[i] = prefix[i - 1] + nums[i - 1];
-         }
-
-      }
-
-      public int sumRange(int left, int right) {
-         return prefix[right + 1] - prefix[left];
-      }
-   }
-
    // 304. 二维区域和检索 - 矩阵不可变 (Range Sum Query 2D - Immutable)
    // 剑指 Offer II 013. 二维子矩阵的和
    class NumMatrix {
@@ -2972,7 +2955,7 @@ public class LeetCode_2 {
 
    }
 
-   // 238. 除自身以外数组的乘积 (Product of Array Except Self)
+   // 238. 除自身以外数组的乘积 (Product of Array Except Self) --前缀积
    // 剑指 Offer 66. 构建乘积数组
    public int[] constructArr(int[] a) {
       int[] res = new int[a.length];
@@ -2988,6 +2971,23 @@ public class LeetCode_2 {
       }
       return res;
 
+   }
+
+   // 303. 区域和检索 - 数组不可变 (Range Sum Query - Immutable)
+   class NumArray {
+      private int[] prefix;
+
+      public NumArray(int[] nums) {
+         prefix = new int[nums.length + 1];
+         for (int i = 1; i < prefix.length; ++i) {
+            prefix[i] = prefix[i - 1] + nums[i - 1];
+         }
+
+      }
+
+      public int sumRange(int left, int right) {
+         return prefix[right + 1] - prefix[left];
+      }
    }
 
 }
