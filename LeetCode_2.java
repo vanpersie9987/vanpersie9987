@@ -240,21 +240,6 @@ public class LeetCode_2 {
 
    }
 
-   // 724. 寻找数组的中心下标 前缀和
-   // 1991. 找到数组的中间位置 (Find the Middle Index in Array)
-   // 剑指 Offer II 012. 左右两边子数组的和相等
-   public int pivotIndex(final int[] nums) {
-      int leftSum = 0;
-      int sum = Arrays.stream(nums).sum();
-      for (int i = 0; i < nums.length; ++i) {
-         if (leftSum == sum - nums[i] - leftSum) {
-            return i;
-         }
-         leftSum += nums[i];
-      }
-      return -1;
-   }
-
    // 930. 和相同的二元子数组 (Binary Subarrays With Sum) 前缀和 还需掌握滑动窗口
    public int numSubarraysWithSum(int[] nums, int goal) {
       Map<Integer, Integer> map = new HashMap<>();
@@ -2987,5 +2972,24 @@ public class LeetCode_2 {
          map.put(preSum, map.getOrDefault(preSum, 0) + 1);
       }
       return res;
+   }
+
+   // 724. 寻找数组的中心下标 (Find Pivot Index) --前缀和
+   // 1991. 找到数组的中间位置 (Find the Middle Index in Array)
+   // 剑指 Offer II 012. 左右两边子数组的和相等
+   public int pivotIndex(int[] nums) {
+      int preSum = 0;
+      int sum = 0;
+      for (int num : nums) {
+         sum += num;
+      }
+      for (int i = 0; i < nums.length; ++i) {
+         if (preSum == sum - nums[i] - preSum) {
+            return i;
+         }
+         preSum += nums[i];
+      }
+      return -1;
+
    }
 }
