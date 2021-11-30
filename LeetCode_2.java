@@ -3003,7 +3003,7 @@ public class LeetCode_2 {
       return res;
    }
 
-   // 974. 和可被 K 整除的子数组 --前缀和
+   // 974. 和可被 K 整除的子数组 (Subarray Sums Divisible by K) --前缀和
    public int subarraysDivByK(int[] nums, int k) {
       int[] arr = new int[k];
       arr[0] = 1;
