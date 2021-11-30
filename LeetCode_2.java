@@ -335,33 +335,6 @@ public class LeetCode_2 {
       return preSum[endI][endJ] - preSum[endI][startJ - 1] - preSum[startI - 1][endJ] + preSum[startI - 1][startJ - 1];
    }
 
-   // 1314. 矩阵区域和 (Matrix Block Sum)
-   public int[][] matrixBlockSum(int[][] mat, int k) {
-      int m = mat.length;
-      int n = mat[0].length;
-      int[][] prefix = new int[m + 1][n + 1];
-      for (int i = 1; i <= m; ++i) {
-         for (int j = 1; j <= n; ++j) {
-            prefix[i][j] = prefix[i - 1][j] + prefix[i][j - 1] + mat[i - 1][j - 1] - prefix[i - 1][j - 1];
-         }
-      }
-      for (int i = 0; i < m; ++i) {
-         for (int j = 0; j < n; ++j) {
-            int endI = Math.min(i + k + 1, m);
-            int endJ = Math.min(j + k + 1, n);
-            int startI = Math.max(1, i + 1 - k);
-            int startJ = Math.max(1, j + 1 - k);
-            mat[i][j] = getRect1314(prefix, startI, startJ, endI, endJ);
-         }
-      }
-      return mat;
-
-   }
-
-   private int getRect1314(int[][] prefix, int startI, int startJ, int endI, int endJ) {
-      return prefix[endI][endJ] - prefix[endI][startJ - 1] - prefix[startI - 1][endJ] + prefix[startI - 1][startJ - 1];
-   }
-
    // 2024. 考试的最大困扰度 (Maximize the Confusion of an Exam) --滑动窗口
    public int maxConsecutiveAnswers(String answerKey, int k) {
       char[] keys = answerKey.toCharArray();
@@ -3073,6 +3046,31 @@ public class LeetCode_2 {
          diff[i] += diff[i - 1];
       }
       return diff;
+
+   }
+
+   // 1314. 矩阵区域和 (Matrix Block Sum)
+   public int[][] matrixBlockSum2(int[][] mat, int k) {
+      int m = mat.length;
+      int n = mat[0].length;
+      int[][] preSum = new int[m + 1][n + 1];
+      for (int i = 1; i <= m; ++i) {
+         for (int j = 1; j <= n; ++j) {
+            preSum[i][j] = preSum[i - 1][j] + preSum[i][j - 1] - preSum[i - 1][j - 1] + mat[i - 1][j - 1];
+         }
+      }
+
+      int[][] res = new int[m][n];
+      for (int i = 0; i < m; ++i) {
+         for (int j = 0; j < n; ++j) {
+            int x1 = Math.max(i - k, 0);
+            int x2 = Math.min(i + k, m - 1);
+            int y1 = Math.max(j - k, 0);
+            int y2 = Math.min(j + k, n - 1);
+            res[i][j] = preSum[x2 + 1][y2 + 1] - preSum[x2 + 1][y1] - preSum[x1][y2 + 1] + preSum[x1][y1];
+         }
+      }
+      return res;
 
    }
 
