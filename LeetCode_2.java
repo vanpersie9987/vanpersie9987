@@ -2993,19 +2993,6 @@ public class LeetCode_2 {
 
    }
 
-   // 2089. 找出数组排序后的目标下标 (Find Target Indices After Sorting Array) -O(nlog(n))
-   public List<Integer> targetIndices(int[] nums, int target) {
-      Arrays.sort(nums);
-      List<Integer> res = new ArrayList<>();
-      for (int i = 0; i < nums.length; ++i) {
-         if (nums[i] == target) {
-            res.add(i);
-         }
-      }
-      return res;
-
-   }
-
    // 2089. 找出数组排序后的目标下标 (Find Target Indices After Sorting Array) -O(n)
    public List<Integer> targetIndices2(int[] nums, int target) {
       int less = 0;
