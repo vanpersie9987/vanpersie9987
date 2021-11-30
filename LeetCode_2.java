@@ -2997,7 +2997,7 @@ public class LeetCode_2 {
 
    }
 
-   // 1004.最大连续1的个数 III (Max Consecutive Ones III)
+   // 1004.最大连续1的个数 III (Max Consecutive Ones III) --双指针 前缀和
    public int longestOnes(int[] nums, int k) {
       int zeroCount = 0;
       int left = 0;
@@ -3019,7 +3019,7 @@ public class LeetCode_2 {
 
    }
 
-   // 1094. 拼车 (Car Pooling)
+   // 1094. 拼车 (Car Pooling) --差分数组 前缀和
    public boolean carPooling(int[][] trips, int capacity) {
       int[] diff = new int[1002];
       for (int[] trip : trips) {
@@ -3037,6 +3037,26 @@ public class LeetCode_2 {
          }
       }
       return true;
+
+   }
+
+   // 1854. 人口最多的年份 (Maximum Population Year) --差分数组 前缀和
+   public int maximumPopulation(int[][] logs) {
+      int[] diff = new int[101];
+      for (int[] log : logs) {
+         ++diff[log[0] - 1950];
+         --diff[log[1] - 1950];
+      }
+      int maxYear = 0;
+      int max = diff[0];
+      for (int i = 1; i < diff.length; ++i) {
+         diff[i] += diff[i - 1];
+         if (max < diff[i]) {
+            maxYear = i;
+            max = diff[i];
+         }
+      }
+      return maxYear + 1950;
 
    }
 

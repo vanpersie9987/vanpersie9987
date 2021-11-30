@@ -9355,26 +9355,6 @@ public class LeetCodeText {
 
     }
 
-    // 1854. 人口最多的年份 (Maximum Population Year) 差分数组
-    public int maximumPopulation(int[][] logs) {
-        int[] diff = new int[101];
-        for (int[] log : logs) {
-            ++diff[log[0] - 1950];
-            --diff[log[1] - 1950];
-        }
-        int maxPopulation = diff[0];
-        int maxYear = 0;
-        for (int i = 1; i < diff.length; ++i) {
-            diff[i] += diff[i - 1];
-            if (diff[i] > maxPopulation) {
-                maxPopulation = diff[i];
-                maxYear = i;
-            }
-        }
-        return maxYear + 1950;
-
-    }
-
     // 1848. 到目标元素的最小距离
     public int getMinDistance(int[] nums, int target, int start) {
         int res = Integer.MAX_VALUE;
