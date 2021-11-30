@@ -271,38 +271,6 @@ public class LeetCode_2 {
       return res;
    }
 
-   // 974. 和可被 K 整除的子数组 --前缀和
-   public int subarraysDivByK(int[] nums, int k) {
-      Map<Integer, Integer> map = new HashMap<>();
-      map.put(0, 1);
-      int res = 0;
-      int preSum = 0;
-      for (int i = 0; i < nums.length; ++i) {
-         preSum += nums[i];
-         preSum = (preSum % k + k) % k;
-         res += map.getOrDefault(preSum, 0);
-         map.put(preSum, map.getOrDefault(preSum, 0) + 1);
-      }
-      return res;
-
-   }
-
-   // 974. 和可被 K 整除的子数组 --前缀和
-   public int subarraysDivByK_2(int[] nums, int k) {
-      int[] arr = new int[k];
-      arr[0] = 1;
-      int res = 0;
-      int preSum = 0;
-      for (int i = 0; i < nums.length; ++i) {
-         preSum += nums[i];
-         preSum = (preSum % k + k) % k;
-         res += arr[preSum];
-         ++arr[preSum];
-      }
-      return res;
-
-   }
-
    // 1292. 元素和小于等于阈值的正方形的最大边长
    public int maxSideLength(int[][] mat, int threshold) {
       int[][] P = new int[mat.length + 1][mat[0].length + 1];
@@ -3034,4 +3002,21 @@ public class LeetCode_2 {
       }
       return res;
    }
+
+   // 974. 和可被 K 整除的子数组 --前缀和
+   public int subarraysDivByK(int[] nums, int k) {
+      int[] arr = new int[k];
+      arr[0] = 1;
+      int res = 0;
+      int preSum = 0;
+      for (int i = 0; i < nums.length; ++i) {
+         preSum += nums[i];
+         preSum = (preSum % k + k) % k;
+         res += arr[preSum];
+         ++arr[preSum];
+      }
+      return res;
+
+   }
+
 }
