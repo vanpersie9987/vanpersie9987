@@ -3074,7 +3074,7 @@ public class LeetCode_2 {
 
    }
 
-   // 1208. 尽可能使字符串相等 (Get Equal Substrings Within Budget)
+   // 1208. 尽可能使字符串相等 (Get Equal Substrings Within Budget) --滑动窗口 还需掌握二分查找法
    public int equalSubstring(String s, String t, int maxCost) {
       char[] sChar = s.toCharArray();
       char[] tChar = t.toCharArray();
