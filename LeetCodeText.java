@@ -4061,32 +4061,6 @@ public class LeetCodeText {
 
     }
 
-    public int[] corpFlightBookings(final int[][] bookings, final int n) {
-        final int[] res = new int[n];
-        for (int i = 0; i < bookings.length; ++i) {
-            for (int j = bookings[i][0]; j <= bookings[i][1]; ++j) {
-                res[j - 1] += bookings[i][2];
-            }
-        }
-        return res;
-    }
-
-    // 1109. 航班预订统计
-    public int[] corpFlightBookings2(final int[][] bookings, final int n) {
-        int[] res = new int[n];
-        for (int[] booking : bookings) {
-            res[booking[0] - 1] += booking[2];
-            if (booking[1] < n) {
-                res[booking[1]] -= booking[2];
-            }
-        }
-        for (int i = 1; i < res.length; ++i) {
-            res[i] += res[i - 1];
-        }
-        return res;
-
-    }
-
     // 1122. 数组的相对排序
     // 剑指 Offer II 075. 数组相对排序
     public int[] relativeSortArray(int[] arr1, int[] arr2) {
