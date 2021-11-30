@@ -390,28 +390,6 @@ public class LeetCode_2 {
 
    }
 
-   // 1004.最大连续1的个数 III (Max Consecutive Ones III)
-   public int longestOnes(int[] nums, int k) {
-      int res = 0;
-      int zeroCount = 0;
-      int left = 0;
-      int right = 0;
-      while (right < nums.length) {
-         if (nums[right] == 0) {
-            ++zeroCount;
-         }
-         while (left < nums.length && zeroCount > k) {
-            if (nums[left++] == 0) {
-               --zeroCount;
-            }
-         }
-         res = Math.max(res, right - left + 1);
-         ++right;
-      }
-      return res;
-
-   }
-
    // 1930. 长度为 3 的不同回文子序列 (Unique Length-3 Palindromic Subsequences)
    public int countPalindromicSubsequence(String s) {
       int res = 0;
@@ -3014,6 +2992,28 @@ public class LeetCode_2 {
          preSum = (preSum % k + k) % k;
          res += arr[preSum];
          ++arr[preSum];
+      }
+      return res;
+
+   }
+
+   // 1004.最大连续1的个数 III (Max Consecutive Ones III)
+   public int longestOnes(int[] nums, int k) {
+      int zeroCount = 0;
+      int left = 0;
+      int right = 0;
+      int res = 0;
+      while (right < nums.length) {
+         if (nums[right] == 0) {
+            ++zeroCount;
+         }
+         while (zeroCount > k) {
+            if (nums[left++] == 0) {
+               --zeroCount;
+            }
+         }
+         res = Math.max(res, right - left + 1);
+         ++right;
       }
       return res;
 
