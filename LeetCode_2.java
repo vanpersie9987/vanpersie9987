@@ -3074,4 +3074,25 @@ public class LeetCode_2 {
 
    }
 
+   // 1208. 尽可能使字符串相等 (Get Equal Substrings Within Budget)
+   public int equalSubstring(String s, String t, int maxCost) {
+      char[] sChar = s.toCharArray();
+      char[] tChar = t.toCharArray();
+      int left = 0;
+      int right = 0;
+      int res = 0;
+      int curCost = 0;
+      while (right < sChar.length) {
+         curCost += Math.abs(sChar[right] - tChar[right]);
+         while (curCost > maxCost) {
+            curCost -= Math.abs(sChar[left] - tChar[left]);
+            ++left;
+         }
+         res = Math.max(res, right - left + 1);
+         ++right;
+      }
+      return res;
+
+   }
+
 }

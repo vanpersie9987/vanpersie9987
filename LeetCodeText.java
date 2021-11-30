@@ -8573,30 +8573,6 @@ public class LeetCodeText {
 
     }
 
-    // 1208. 尽可能使字符串相等
-    public int equalSubstring(String s, String t, int maxCost) {
-        int[] diff = new int[s.length()];
-        for (int i = 0; i < diff.length; ++i) {
-            diff[i] = Math.abs(s.charAt(i) - t.charAt(i));
-        }
-        int start = 0;
-        int end = 0;
-        int currCost = 0;
-        int res = 0;
-        while (end < diff.length) {
-            currCost += diff[end];
-            while (currCost > maxCost) {
-                currCost -= diff[start];
-                ++start;
-            }
-            res = Math.max(res, end - start + 1);
-            ++end;
-
-        }
-        return res;
-
-    }
-
     // 1233. 删除子文件夹
     public List<String> removeSubfolders(String[] folder) {
         Arrays.sort(folder);
