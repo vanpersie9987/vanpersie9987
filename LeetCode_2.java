@@ -240,43 +240,6 @@ public class LeetCode_2 {
 
    }
 
-   // 930. 和相同的二元子数组 (Binary Subarrays With Sum) --前缀和
-   public int numSubarraysWithSum(int[] nums, int goal) {
-      Map<Integer, Integer> map = new HashMap<>();
-      int res = 0;
-      map.put(0, 1);
-      int preSum = 0;
-      for (int i = 0; i < nums.length; ++i) {
-         preSum += nums[i];
-         res += map.getOrDefault(preSum - goal, 0);
-         map.put(preSum, map.getOrDefault(preSum, 0) + 1);
-      }
-      return res;
-   }
-
-   // 930. 和相同的二元子数组 (Binary Subarrays With Sum) --滑动窗口
-   public int numSubarraysWithSum2(int[] nums, int goal) {
-      int left1 = 0;
-      int left2 = 0;
-      int right = 0;
-      int preSum1 = 0;
-      int preSum2 = 0;
-      int res = 0;
-      while (right < nums.length) {
-         preSum1 += nums[right];
-         while (left1 <= right && preSum1 > goal) {
-            preSum1 -= nums[left1++];
-         }
-         preSum2 += nums[right];
-         while (left2 <= right && preSum2 >= goal) {
-            preSum2 -= nums[left2++];
-         }
-         res += left2 - left1;
-         ++right;
-      }
-      return res;
-   }
-
    // 1248. 统计「优美子数组」(Count Number of Nice Subarrays) 前缀和
    public int numberOfSubarrays(int[] nums, int k) {
       Map<Integer, Integer> map = new HashMap<>();
@@ -3033,5 +2996,42 @@ public class LeetCode_2 {
       }
       return res;
 
+   }
+
+   // 930. 和相同的二元子数组 (Binary Subarrays With Sum) --前缀和
+   public int numSubarraysWithSum(int[] nums, int goal) {
+      Map<Integer, Integer> map = new HashMap<>();
+      int res = 0;
+      map.put(0, 1);
+      int preSum = 0;
+      for (int i = 0; i < nums.length; ++i) {
+         preSum += nums[i];
+         res += map.getOrDefault(preSum - goal, 0);
+         map.put(preSum, map.getOrDefault(preSum, 0) + 1);
+      }
+      return res;
+   }
+
+   // 930. 和相同的二元子数组 (Binary Subarrays With Sum) --滑动窗口
+   public int numSubarraysWithSum2(int[] nums, int goal) {
+      int left1 = 0;
+      int left2 = 0;
+      int right = 0;
+      int preSum1 = 0;
+      int preSum2 = 0;
+      int res = 0;
+      while (right < nums.length) {
+         preSum1 += nums[right];
+         while (left1 <= right && preSum1 > goal) {
+            preSum1 -= nums[left1++];
+         }
+         preSum2 += nums[right];
+         while (left2 <= right && preSum2 >= goal) {
+            preSum2 -= nums[left2++];
+         }
+         res += left2 - left1;
+         ++right;
+      }
+      return res;
    }
 }
