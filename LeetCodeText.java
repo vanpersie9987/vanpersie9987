@@ -9375,25 +9375,6 @@ public class LeetCodeText {
 
     }
 
-    // 1094. 拼车
-    public boolean carPooling(int[][] trips, int capacity) {
-        int[] diff = new int[1001];
-        for (int[] trip : trips) {
-            diff[trip[1]] += trip[0];
-            diff[trip[2]] -= trip[0];
-        }
-        int max = diff[0];
-        for (int i = 1; i < diff.length; ++i) {
-            diff[i] += diff[i - 1];
-            max = Math.max(diff[i], max);
-            if (max > capacity) {
-                return false;
-            }
-        }
-        return true;
-
-    }
-
     // 1848. 到目标元素的最小距离
     public int getMinDistance(int[] nums, int target, int start) {
         int res = Integer.MAX_VALUE;

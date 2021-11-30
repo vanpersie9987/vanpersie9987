@@ -3019,4 +3019,25 @@ public class LeetCode_2 {
 
    }
 
+   // 1094. 拼车 (Car Pooling)
+   public boolean carPooling(int[][] trips, int capacity) {
+      int[] diff = new int[1002];
+      for (int[] trip : trips) {
+         diff[trip[1]] += trip[0];
+         diff[trip[2]] -= trip[0];
+      }
+      int preSum = diff[0];
+      if (preSum > capacity) {
+         return false;
+      }
+      for (int i = 1; i < diff.length; ++i) {
+         preSum += diff[i];
+         if (preSum > capacity) {
+            return false;
+         }
+      }
+      return true;
+
+   }
+
 }
