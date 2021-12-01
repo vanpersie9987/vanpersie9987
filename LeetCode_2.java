@@ -3192,4 +3192,18 @@ public class LeetCode_2 {
 
    }
 
+   // 1310. 子数组异或查询 (XOR Queries of a Subarray)
+   public int[] xorQueries(int[] arr, int[][] queries) {
+      int[] preXOR = new int[arr.length + 1];
+      for (int i = 1; i < preXOR.length; ++i) {
+         preXOR[i] = preXOR[i - 1] ^ arr[i - 1];
+      }
+      int[] res = new int[queries.length];
+      for (int i = 0; i < queries.length; ++i) {
+         res[i] = preXOR[queries[i][1] + 1] ^ preXOR[queries[i][0]];
+      }
+      return res;
+
+   }
+
 }
