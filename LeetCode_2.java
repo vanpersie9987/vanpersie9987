@@ -3095,4 +3095,21 @@ public class LeetCode_2 {
 
    }
 
+   // 1446. 连续字符 (Consecutive Characters)
+   public int maxPower(String s) {
+      int res = 1;
+      int cur = 1;
+      char[] chars = s.toCharArray();
+      for (int i = 1; i < chars.length; ++i) {
+         if (chars[i] == chars[i - 1]) {
+            ++cur;
+            res = Math.max(res, cur);
+         } else {
+            cur = 1;
+         }
+      }
+      return res;
+
+   }
+
 }
