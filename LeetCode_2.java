@@ -3223,17 +3223,16 @@ public class LeetCode_2 {
       int window = cardPoints.length - k;
       int min = 0;
       int cur = 0;
+      int sum = 0;
       for (int i = 0; i < window; ++i) {
          cur += cardPoints[i];
+         sum += cardPoints[i];
       }
       min = cur;
       for (int i = window; i < cardPoints.length; ++i) {
          cur = cur - cardPoints[i - window] + cardPoints[i];
          min = Math.min(min, cur);
-      }
-      int sum = 0;
-      for (int cardPoint : cardPoints) {
-         sum += cardPoint;
+         sum += cardPoints[i];
       }
       return sum - min;
 

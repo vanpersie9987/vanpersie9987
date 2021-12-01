@@ -5783,26 +5783,6 @@ public class LeetCodeText {
 
     }
 
-    // 1423. 可获得的最大点数
-    public int maxScore(int[] cardPoints, int k) {
-        int window = cardPoints.length - k;
-        int cur = 0;
-        int min = 0;
-        int sum = 0;
-        for (int i = 0; i < window; ++i) {
-            cur += cardPoints[i];
-            sum += cardPoints[i];
-        }
-        min = cur;
-        for (int i = window; i < cardPoints.length; ++i) {
-            cur += cardPoints[i] - cardPoints[i - window];
-            sum += cardPoints[i];
-            min = Math.min(min, cur);
-        }
-        return sum - min;
-
-    }
-
     // 1414. 和为 K 的最少斐波那契数字数目
     public int findMinFibonacciNumbers(int k) {
         List<Integer> list = new ArrayList<>();
