@@ -97,36 +97,6 @@ public class LeetCode_2 {
 
    }
 
-   // 1371. 每个元音包含偶数次的最长子字符串 (Find the Longest Substring Containing Vowels in Even
-   // Counts)
-   public int findTheLongestSubstring(String s) {
-      int status = 0;
-      int[] arr = new int[1 << 5];
-      Arrays.fill(arr, Integer.MAX_VALUE);
-      arr[0] = -1;
-      int res = 0;
-      for (int i = 0; i < s.length(); ++i) {
-         char c = s.charAt(i);
-         if (c == 'a') {
-            status ^= 1 << 0;
-         } else if (c == 'e') {
-            status ^= 1 << 1;
-         } else if (c == 'i') {
-            status ^= 1 << 2;
-         } else if (c == 'o') {
-            status ^= 1 << 3;
-         } else if (c == 'u') {
-            status ^= 1 << 4;
-         }
-         if (arr[status] == Integer.MAX_VALUE) {
-            arr[status] = i;
-         } else {
-            res = Math.max(res, i - arr[status]);
-         }
-      }
-      return res;
-   }
-
    // 3. 无重复字符的最长子串 (Longest Substring Without Repeating Characters)
    // 剑指 Offer 48. 最长不含重复字符的子字符串
    public int lengthOfLongestSubstring(String s) {
@@ -3201,6 +3171,37 @@ public class LeetCode_2 {
       int[] res = new int[queries.length];
       for (int i = 0; i < queries.length; ++i) {
          res[i] = preXOR[queries[i][1] + 1] ^ preXOR[queries[i][0]];
+      }
+      return res;
+
+   }
+
+   // 1371. 每个元音包含偶数次的最长子字符串 (Find the Longest Substring Containing Vowels in Even
+   // Counts)
+   public int findTheLongestSubstring(String s) {
+      int[] status = new int[1 << 5];
+      Arrays.fill(status, Integer.MAX_VALUE);
+      int res = 0;
+      status[0] = -1;
+      int cur = 0;
+      char[] chars = s.toCharArray();
+      for (int i = 0; i < chars.length; ++i) {
+         if (chars[i] == 'a') {
+            cur ^= 1 << 0;
+         } else if (chars[i] == 'e') {
+            cur ^= 1 << 1;
+         } else if (chars[i] == 'i') {
+            cur ^= 1 << 2;
+         } else if (chars[i] == 'o') {
+            cur ^= 1 << 3;
+         } else if (chars[i] == 'u') {
+            cur ^= 1 << 4;
+         }
+         if (status[cur] == Integer.MAX_VALUE) {
+            status[cur] = i;
+         } else {
+            res = Math.max(res, i - status[cur]);
+         }
       }
       return res;
 
