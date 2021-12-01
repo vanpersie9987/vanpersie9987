@@ -3173,4 +3173,19 @@ public class LeetCode_2 {
       return 0;
    }
 
+   // 2023. 连接后等于目标字符串的字符串对 --暴力 还需掌握更优的方法
+   // 2023. Number of Pairs of Strings With Concatenation Equal to Target
+   public int numOfPairs(String[] nums, String target) {
+      int res = 0;
+      for (int i = 0; i < nums.length; ++i) {
+         for (int j = 0; j < nums.length; ++j) {
+            if (i != j && target.equals(nums[i] + nums[j])) {
+               ++res;
+            }
+         }
+      }
+      return res;
+
+   }
+
 }
