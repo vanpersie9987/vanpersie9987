@@ -271,70 +271,6 @@ public class LeetCode_2 {
       return res;
    }
 
-   // 1292. 元素和小于等于阈值的正方形的最大边长
-   public int maxSideLength(int[][] mat, int threshold) {
-      int[][] P = new int[mat.length + 1][mat[0].length + 1];
-      for (int i = 1; i < P.length; ++i) {
-         for (int j = 1; j < P[0].length; ++j) {
-            P[i][j] = P[i - 1][j] + P[i][j - 1] + mat[i - 1][j - 1] - P[i - 1][j - 1];
-         }
-      }
-      int left = 1;
-      int ans = 0;
-      int right = Math.min(mat.length, mat[0].length);
-      while (left <= right) {
-         boolean find = false;
-         int mid = left + ((right - left) >> 1);
-         for (int i = 1; i <= mat.length + 1 - mid; ++i) {
-            for (int j = 1; j <= mat[0].length + 1 - mid; ++j) {
-               if (getRect(P, i, j, i + mid - 1, j + mid - 1) <= threshold) {
-                  find = true;
-               }
-
-            }
-         }
-         if (find) {
-            ans = mid;
-            left = mid + 1;
-         } else {
-            right = mid - 1;
-         }
-      }
-      return ans;
-   }
-
-   // 1292. 元素和小于等于阈值的正方形的最大边长
-   public int maxSideLength2(int[][] mat, int threshold) {
-      int m = mat.length;
-      int n = mat[0].length;
-      int[][] preSum = new int[m + 1][n + 1];
-      for (int i = 1; i <= m; ++i) {
-         for (int j = 1; j <= n; ++j) {
-            preSum[i][j] = preSum[i - 1][j] + preSum[i][j - 1] - preSum[i - 1][j - 1] + mat[i - 1][j - 1];
-         }
-      }
-      int r = Math.min(m, n);
-      int res = 0;
-      for (int i = 1; i <= m; ++i) {
-         for (int j = 1; j <= n; ++j) {
-            for (int side = res + 1; side <= r; ++side) {
-               if (i + side - 1 <= m && j + side - 1 <= n
-                     && getRect(preSum, i, j, i + side - 1, j + side - 1) <= threshold) {
-                  ++res;
-               } else {
-                  break;
-               }
-            }
-         }
-      }
-      return res;
-
-   }
-
-   private int getRect(int[][] preSum, int startI, int startJ, int endI, int endJ) {
-      return preSum[endI][endJ] - preSum[endI][startJ - 1] - preSum[startI - 1][endJ] + preSum[startI - 1][startJ - 1];
-   }
-
    // 2024. 考试的最大困扰度 (Maximize the Confusion of an Exam) --滑动窗口
    public int maxConsecutiveAnswers(String answerKey, int k) {
       char[] keys = answerKey.toCharArray();
@@ -3185,6 +3121,74 @@ public class LeetCode_2 {
          }
       }
       return res;
+
+   }
+
+   // 1292. 元素和小于等于阈值的正方形的最大边长 --二分查找
+   public int maxSideLength(int[][] mat, int threshold) {
+      int[][] P = new int[mat.length + 1][mat[0].length + 1];
+      for (int i = 1; i < P.length; ++i) {
+         for (int j = 1; j < P[0].length; ++j) {
+            P[i][j] = P[i - 1][j] + P[i][j - 1] + mat[i - 1][j - 1] - P[i - 1][j - 1];
+         }
+      }
+      int left = 1;
+      int ans = 0;
+      int right = Math.min(mat.length, mat[0].length);
+      while (left <= right) {
+         boolean find = false;
+         int mid = left + ((right - left) >> 1);
+         for (int i = 1; i <= mat.length + 1 - mid; ++i) {
+            for (int j = 1; j <= mat[0].length + 1 - mid; ++j) {
+               if (getRect(P, i, j, i + mid - 1, j + mid - 1) <= threshold) {
+                  find = true;
+               }
+
+            }
+         }
+         if (find) {
+            ans = mid;
+            left = mid + 1;
+         } else {
+            right = mid - 1;
+         }
+      }
+      return ans;
+   }
+
+   private int getRect(int[][] preSum, int startI, int startJ, int endI, int endJ) {
+      return preSum[endI][endJ] - preSum[endI][startJ - 1] - preSum[startI - 1][endJ] + preSum[startI - 1][startJ - 1];
+   }
+
+   // 1292. 元素和小于等于阈值的正方形的最大边长 (Maximum Side Length of a Square with Sum Less than
+   // or Equal to Threshold) --贪心 前缀和
+   public int maxSideLength2(int[][] mat, int threshold) {
+      int m = mat.length;
+      int n = mat[0].length;
+      int[][] preSum = new int[m + 1][n + 1];
+      for (int i = 1; i <= m; ++i) {
+         for (int j = 1; j <= n; ++j) {
+            preSum[i][j] = preSum[i - 1][j] + preSum[i][j - 1] - preSum[i - 1][j - 1] + mat[i - 1][j - 1];
+         }
+      }
+      int side = 0;
+      int maxSide = Math.min(m, n);
+      for (int i = 0; i < m; ++i) {
+         for (int j = 0; j < n; ++j) {
+            for (int k = side + 1; k <= maxSide; ++k) {
+               if (i + k - 1 >= m || j + k - 1 >= n) {
+                  break;
+               }
+               int curSum = preSum[i + k][j + k] - preSum[i + k][j] - preSum[i][j + k]
+                     + preSum[i][j];
+               if (curSum > threshold) {
+                  break;
+               }
+               side = k;
+            }
+         }
+      }
+      return side;
 
    }
 
