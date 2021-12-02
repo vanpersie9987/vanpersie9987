@@ -8028,40 +8028,6 @@ public class LeetCodeText {
 
     }
 
-    // 1588. 所有奇数长度子数组的和
-    public int sumOddLengthSubarrays(int[] arr) {
-        int sum = 0;
-        int n = arr.length;
-        for (int window = 1; window <= n; window += 2) {
-            int curSum = 0;
-            for (int i = 0; i < window; ++i) {
-                curSum += arr[i];
-            }
-            sum += curSum;
-            for (int i = 0; i < arr.length - window; ++i) {
-                curSum += arr[i + window] - arr[i];
-                sum += curSum;
-            }
-        }
-        return sum;
-
-    }
-
-    // 1588. 所有奇数长度子数组的和-o(n)
-    public int sumOddLengthSubarrays2(int[] arr) {
-        int sum = 0;
-        for (int i = 0; i < arr.length; ++i) {
-            int leftEvenCount = i / 2 + 1;
-            int leftOddCount = (i + 1) / 2;
-            int rightEvenCount = (arr.length + 1 - i) / 2;
-            int rightOddCount = (arr.length - i) / 2;
-            sum += arr[i] * (leftEvenCount * rightEvenCount + leftOddCount * rightOddCount);
-
-        }
-        return sum;
-
-    }
-
     // 1493. 删掉一个元素以后全为 1 的最长子数组
     public int longestSubarray(int[] nums) {
         int[] left = new int[nums.length];
@@ -8085,7 +8051,6 @@ public class LeetCodeText {
     }
 
     // 1493. 删掉一个元素以后全为 1 的最长子数组
-
     public int longestSubarray2(int[] nums) {
         int pre0[] = new int[nums.length];
         int pre1[] = new int[nums.length];
@@ -16905,31 +16870,6 @@ public class LeetCodeText {
             }
         }
         return res;
-
-    }
-
-    // 1658. 将 x 减到 0 的最小操作数 (Minimum Operations to Reduce X to Zero)
-    public int minOperations(int[] nums, int x) {
-        int sum = Arrays.stream(nums).sum() - x;
-        int left = 0;
-        int right = 0;
-        int curSum = 0;
-        int res = -1;
-        while (left < nums.length) {
-            if (right < nums.length) {
-                curSum += nums[right++];
-            }
-            while (curSum > sum && left < nums.length) {
-                curSum -= nums[left++];
-            }
-            if (curSum == sum) {
-                res = Math.max(res, right - left);
-            }
-            if (right == nums.length) {
-                ++left;
-            }
-        }
-        return res == -1 ? -1 : nums.length - res;
 
     }
 
