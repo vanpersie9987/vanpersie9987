@@ -3302,7 +3302,8 @@ public class LeetCode_2 {
 
    }
 
-   // 1738. 找出第 K 大的异或坐标值 (Find Kth Largest XOR Coordinate Value) --二维前缀和+排序 还需掌握二维前缀和 + 快速选择算法
+   // 1738. 找出第 K 大的异或坐标值 (Find Kth Largest XOR Coordinate Value) --二维前缀和+排序
+   // 还需掌握二维前缀和 + 快速选择算法
    public int kthLargestValue(int[][] matrix, int k) {
       List<Integer> list = new ArrayList<>();
       for (int i = 0; i < matrix.length; ++i) {
@@ -3319,6 +3320,23 @@ public class LeetCode_2 {
       }
       Collections.sort(list);
       return list.get(list.size() - k);
+
+   }
+
+   // 1829. 每个查询的最大异或值 (Maximum XOR for Each Query)
+   public int[] getMaximumXor(int[] nums, int maximumBit) {
+      int n = nums.length;
+      int[] res = new int[n];
+      int xor = 0;
+      for (int num : nums) {
+         xor ^= num;
+      }
+      int mask = (1 << maximumBit) - 1;
+      for (int i = 0; i < n; ++i) {
+         res[i] = mask ^ xor;
+         xor ^= nums[n - i - 1];
+      }
+      return res;
 
    }
 
