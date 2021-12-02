@@ -3275,6 +3275,21 @@ public class LeetCode_2 {
 
    }
 
+   // 1685. 有序数组中差绝对值之和 (Sum of Absolute Differences in a Sorted Array)
+   public int[] getSumAbsoluteDifferences(int[] nums) {
+      int n = nums.length;
+      int[] preSum = new int[n + 1];
+      for (int i = 1; i < n + 1; ++i) {
+         preSum[i] += nums[i - 1] + preSum[i - 1];
+      }
+      int[] res = new int[n];
+      for (int i = 0; i < n; ++i) {
+         res[i] = (i * nums[i] - preSum[i]) + (preSum[n] - preSum[i + 1] - (n - i - 1) * nums[i]);
+      }
+      return res;
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
