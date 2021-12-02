@@ -3237,6 +3237,20 @@ public class LeetCode_2 {
 
    }
 
+   // 1588. 所有奇数长度子数组的和 (Sum of All Odd Length Subarrays)
+   public int sumOddLengthSubarrays(int[] arr) {
+      int res = 0;
+      for (int i = 0; i < arr.length; ++i) {
+         int leftOddCount = (i + 1) / 2;
+         int leftEvenCount = i / 2 + 1;
+         int rightOddCount = (arr.length - i) / 2;
+         int rightEvenCount = (arr.length - i + 1) / 2;
+         res += (leftOddCount * rightOddCount + leftEvenCount * rightEvenCount) * arr[i];
+      }
+      return res;
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
