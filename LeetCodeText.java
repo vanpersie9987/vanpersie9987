@@ -3698,15 +3698,6 @@ public class LeetCodeText {
 
     }
 
-    // 1480. 一维数组的动态和
-    public int[] runningSum(int[] nums) {
-        for (int i = 1; i < nums.length; ++i) {
-            nums[i] += nums[i - 1];
-        }
-        return nums;
-
-    }
-
     // 1010. 总持续时间可被 60 整除的歌曲 (Pairs of Songs With Total Durations Divisible by 60)
     public int numPairsDivisibleBy60_2(int[] time) {
         int[] counts = new int[60];
@@ -8290,22 +8281,6 @@ public class LeetCodeText {
             }
         }
         return res;
-
-    }
-
-    // 1442. 形成两个异或相等数组的三元组数目
-    public int countTriplets(int[] arr) {
-        int count = 0;
-        for (int i = 0; i < arr.length; ++i) {
-            int xor = 0;
-            for (int k = i; k < arr.length; ++k) {
-                xor ^= arr[k];
-                if (xor == 0) {
-                    count += k - i;
-                }
-            }
-        }
-        return count;
 
     }
 

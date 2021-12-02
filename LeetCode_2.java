@@ -319,37 +319,6 @@ public class LeetCode_2 {
 
    }
 
-   // 1074. 元素和为目标值的子矩阵数量 (Number of Submatrices That Sum to Target)
-   public int numSubmatrixSumTarget(int[][] matrix, int target) {
-      int res = 0;
-      int m = matrix.length;
-      int n = matrix[0].length;
-      for (int i = 0; i < m; ++i) {
-         int[] prefix = new int[n];
-         for (int j = i; j < m; ++j) {
-            for (int c = 0; c < n; ++c) {
-               prefix[c] += matrix[j][c];
-            }
-            res += getSum1074(prefix, target);
-         }
-      }
-      return res;
-
-   }
-
-   private int getSum1074(int[] nums, int target) {
-      Map<Integer, Integer> map = new HashMap<>();
-      map.put(0, 1);
-      int prefix = 0;
-      int res = 0;
-      for (int i = 0; i < nums.length; ++i) {
-         prefix += nums[i];
-         res += map.getOrDefault(prefix - target, 0);
-         map.put(prefix, map.getOrDefault(prefix, 0) + 1);
-      }
-      return res;
-   }
-
    // 1915. 最美子字符串的数目 (Number of Wonderful Substrings)
    public long wonderfulSubstrings(String word) {
       int[] state = new int[1 << 10];
@@ -3238,4 +3207,33 @@ public class LeetCode_2 {
 
    }
 
+   // 1480. 一维数组的动态和 (Running Sum of 1d Array)
+   public int[] runningSum(int[] nums) {
+      for (int i = 1; i < nums.length; ++i) {
+         nums[i] += nums[i - 1];
+      }
+      return nums;
+
+   }
+
+   // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
+   // public int countTriplets(int[] arr) {
+   // int count = 0;
+   // for (int i = 0; i < arr.length; ++i) {
+   // int xor = 0;
+   // for (int k = i; k < arr.length; ++k) {
+   // xor ^= arr[k];
+   // if (xor == 0) {
+   // count += k - i;
+   // }
+   // }
+   // }
+   // return count;
+
+   // }
+
+   // 1074. 元素和为目标值的子矩阵数量 (Number of Submatrices That Sum to Target)
+   // public int numSubmatrixSumTarget(int[][] matrix, int target) {
+
+   // }
 }
