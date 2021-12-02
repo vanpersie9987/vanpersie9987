@@ -8359,27 +8359,7 @@ public class LeetCodeText {
         return winner;
 
     }
-
-    // 1738. 找出第 K 大的异或坐标值
-    public int kthLargestValue(int[][] matrix, int k) {
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < matrix.length; ++i) {
-            for (int j = 0; j < matrix[0].length; ++j) {
-                if (i == 0 && j > 0) {
-                    matrix[i][j] ^= matrix[i][j - 1];
-                } else if (j == 0 && i > 0) {
-                    matrix[i][j] ^= matrix[i - 1][j];
-                } else if (i > 0 && j > 0) {
-                    matrix[i][j] ^= matrix[i - 1][j] ^ matrix[i][j - 1] ^ matrix[i - 1][j - 1];
-                }
-                list.add(matrix[i][j]);
-            }
-        }
-        Collections.sort(list);
-        return list.get(list.size() - k);
-
-    }
-
+  
     // 1827. 最少操作使数组递增
     public int minOperations(int[] nums) {
         int count = 0;
