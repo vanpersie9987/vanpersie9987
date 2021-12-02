@@ -8387,28 +8387,6 @@ public class LeetCodeText {
 
     }
 
-    // 1524. 和为奇数的子数组数目
-    public int numOfSubarrays(int[] arr) {
-        final int MOD = 1000000007;
-        int preSumOdd = 0;
-        int preSumEven = 1;
-        int res = 0;
-        int sum = 0;
-        for (int i = 0; i < arr.length; ++i) {
-            sum += arr[i];
-            if (sum % 2 == 0) {
-                res = (res + preSumOdd) % MOD;
-                ++preSumEven;
-            } else {
-                res = (res + preSumEven) % MOD;
-                ++preSumOdd;
-            }
-
-        }
-        return res % MOD;
-
-    }
-
     // 1535. 找出数组游戏的赢家
     public int getWinner(int[] arr, int k) {
         int winner = Math.max(arr[0], arr[1]);

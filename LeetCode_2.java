@@ -3216,6 +3216,27 @@ public class LeetCode_2 {
 
    }
 
+   // 1524. 和为奇数的子数组数目 (Number of Sub-arrays With Odd Sum) --前缀和
+   public int numOfSubarrays(int[] arr) {
+      final int MOD = 1000000007;
+      int odd = 0;
+      int even = 1;
+      int preSum = 0;
+      int res = 0;
+      for (int i = 0; i < arr.length; ++i) {
+         preSum += arr[i];
+         if (preSum % 2 == 1) {
+            res = (res + even) % MOD;
+            ++odd;
+         } else {
+            res = (res + odd) % MOD;
+            ++even;
+         }
+      }
+      return res;
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
