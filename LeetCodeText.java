@@ -580,17 +580,6 @@ public class LeetCodeText {
 
     }
 
-    // 1732
-    public int largestAltitude(int[] gain) {
-        int max = Math.max(gain[0], 0);
-        for (int i = 1; i < gain.length; ++i) {
-            gain[i] += gain[i - 1];
-            max = Math.max(max, gain[i]);
-        }
-        return max;
-
-    }
-
     // 1748. 唯一元素的和 (Sum of Unique Elements)
     public int sumOfUnique(int[] nums) {
         int[] counts = new int[101];

@@ -3290,6 +3290,18 @@ public class LeetCode_2 {
 
    }
 
+   // 1732. 找到最高海拔 (Find the Highest Altitude)
+   public int largestAltitude(int[] gain) {
+      int res = 0;
+      int cur = 0;
+      for (int num : gain) {
+         cur += num;
+         res = Math.max(cur, res);
+      }
+      return res;
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
