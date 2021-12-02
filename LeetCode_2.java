@@ -762,7 +762,7 @@ public class LeetCode_2 {
       }
 
       public int sum(String prefix) {
-         return prefixMap.get(prefix);
+         return prefixMap.getOrDefault(prefix, 0);
       }
    }
 
@@ -3353,6 +3353,29 @@ public class LeetCode_2 {
          }
       }
       return new int[] { lines, cur };
+
+   }
+
+   // 2042. 检查句子中的数字是否递增 (Check if Numbers Are Ascending in a Sentence)
+   public boolean areNumbersAscending(String s) {
+      String preNum = "0";
+      char[] chars = s.toCharArray();
+      for (int i = 0; i < chars.length; ++i) {
+         if (Character.isDigit(chars[i])) {
+            StringBuilder num = new StringBuilder();
+            num.append(chars[i]);
+            while (i + 1 < chars.length && Character.isDigit(chars[i + 1])) {
+               num.append(chars[i + 1]);
+               ++i;
+            }
+            if (num.length() < preNum.length()
+                  || (num.length() == preNum.length() && num.toString().compareTo(preNum) <= 0)) {
+               return false;
+            }
+            preNum = num.toString();
+         }
+      }
+      return true;
 
    }
 
