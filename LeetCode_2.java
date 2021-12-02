@@ -3340,6 +3340,22 @@ public class LeetCode_2 {
 
    }
 
+   // 806. 写字符串需要的行数 (Number of Lines To Write String)
+   public int[] numberOfLines(int[] widths, String s) {
+      int lines = 1;
+      int cur = 0;
+      for (char c : s.toCharArray()) {
+         if (cur + widths[c - 'a'] <= 100) {
+            cur += widths[c - 'a'];
+         } else {
+            cur = widths[c - 'a'];
+            ++lines;
+         }
+      }
+      return new int[] { lines, cur };
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
