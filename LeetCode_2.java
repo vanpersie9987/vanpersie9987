@@ -336,26 +336,6 @@ public class LeetCode_2 {
       return res;
    }
 
-   // 1838. 最高频元素的频数 (Frequency of the Most Frequent Element)
-   public int maxFrequency(int[] nums, int k) {
-      Arrays.sort(nums);
-      int left = 0;
-      int right = 1;
-      long sum = 0;
-      int res = 1;
-      while (right < nums.length) {
-         sum += (nums[right] - nums[right - 1]) * (right - left);
-         while (sum > k) {
-            sum -= nums[right] - nums[left];
-            ++left;
-         }
-         res = Math.max(res, right - left + 1);
-         ++right;
-      }
-      return res;
-
-   }
-
    // 1865. 找出和为指定值的下标对 (Finding Pairs With a Certain Sum)
    class FindSumPairs {
       private int[] nums1;
@@ -3376,6 +3356,26 @@ public class LeetCode_2 {
          }
       }
       return true;
+
+   }
+
+   // 1838. 最高频元素的频数 (Frequency of the Most Frequent Element) --双指针+前缀和
+   public int maxFrequency(int[] nums, int k) {
+      Arrays.sort(nums);
+      int res = 1;
+      int left = 0;
+      int right = 1;
+      long sum = 0;
+      while (right < nums.length) {
+         sum += (nums[right] - nums[right - 1]) * (right - left);
+         while (sum > k) {
+            sum -= nums[right] - nums[left];
+            ++left;
+         }
+         res = Math.max(res, right - left + 1);
+         ++right;
+      }
+      return res;
 
    }
 
