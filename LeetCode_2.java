@@ -319,23 +319,6 @@ public class LeetCode_2 {
 
    }
 
-   // 1915. 最美子字符串的数目 (Number of Wonderful Substrings)
-   public long wonderfulSubstrings(String word) {
-      int[] state = new int[1 << 10];
-      state[0] = 1;
-      long res = 0;
-      int mask = 0;
-      for (int i = 0; i < word.length(); ++i) {
-         mask ^= 1 << (word.charAt(i) - 'a');
-         res += state[mask];
-         for (int j = 0; j < 10; ++j) {
-            res += state[mask ^ (1 << j)];
-         }
-         ++state[mask];
-      }
-      return res;
-   }
-
    // 1865. 找出和为指定值的下标对 (Finding Pairs With a Certain Sum)
    class FindSumPairs {
       private int[] nums1;
@@ -3455,6 +3438,24 @@ public class LeetCode_2 {
          remain -= chalk[i];
       }
       return -1;
+
+   }
+
+   // 1915. 最美子字符串的数目 (Number of Wonderful Substrings)
+   public long wonderfulSubstrings(String word) {
+      int[] state = new int[1 << 10];
+      state[0] = 1;
+      long res = 0;
+      int cur = 0;
+      for (char c : word.toCharArray()) {
+         cur ^= 1 << (c - 'a');
+         res += state[cur];
+         for (int i = 0; i < 10; ++i) {
+            res += state[cur ^ (1 << i)];
+         }
+         ++state[cur];
+      }
+      return res;
 
    }
 
