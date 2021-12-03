@@ -3379,6 +3379,68 @@ public class LeetCode_2 {
 
    }
 
+   // 1893. 检查是否区域内所有整数都被覆盖 (Check if All the Integers in a Range Are Covered)
+   public boolean isCovered(int[][] ranges, int left, int right) {
+      Arrays.sort(ranges, (o1, o2) -> o1[0] - o2[0]);
+      for (int[] range : ranges) {
+         if (range[0] <= left && left <= range[1]) {
+            left = range[1] + 1;
+         }
+      }
+      return left > right;
+
+   }
+
+   // 1893. 检查是否区域内所有整数都被覆盖 (Check if All the Integers in a Range Are Covered)
+   public boolean isCovered2(int[][] ranges, int left, int right) {
+      Set<Integer> set = new HashSet<>();
+      for (int i = left; i <= right; ++i) {
+         set.add(i);
+      }
+      for (int[] range : ranges) {
+         if (range[1] < left || range[0] > right) {
+            continue;
+         }
+         int min = Math.max(Math.min(left, range[1]), range[0]);
+         int max = Math.min(Math.max(right, range[0]), range[1]);
+         for (int i = min; i <= max; ++i) {
+            set.remove(i);
+         }
+      }
+      return set.isEmpty();
+   }
+
+   // 1893. 检查是否区域内所有整数都被覆盖 (Check if All the Integers in a Range Are Covered)
+   // --差分数组
+   public boolean isCovered3(int[][] ranges, int left, int right) {
+      int[] diff = new int[52];
+      for (int[] range : ranges) {
+         ++diff[range[0]];
+         --diff[range[1] + 1];
+      }
+      int preSum = 0;
+      for (int i = 1; i <= 50; ++i) {
+         preSum += diff[i];
+         if (left <= i && i <= right && preSum <= 0) {
+            return false;
+         }
+      }
+      return true;
+
+   }
+
+   // 1893. 检查是否区域内所有整数都被覆盖 (Check if All the Integers in a Range Are Covered)
+   // --位运算
+   public boolean isCovered4(int[][] ranges, int left, int right) {
+      long rangeNum = 0;
+      for (int[] range : ranges) {
+         rangeNum |= ((1L << (range[1] + 1)) - 1) ^ ((1L << range[0]) - 1);
+      }
+      long leftToRightNum = ((1L << (right + 1)) - 1) ^ ((1L << left) - 1);
+      return (rangeNum & leftToRightNum) == leftToRightNum;
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;

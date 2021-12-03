@@ -19957,35 +19957,4 @@ public class LeetCodeText {
 
     }
 
-    // 1893. 检查是否区域内所有整数都被覆盖 (Check if All the Integers in a Range Are Covered)
-    public boolean isCovered(int[][] ranges, int left, int right) {
-        Arrays.sort(ranges, (o1, o2) -> o1[0] - o2[0]);
-        for (int[] range : ranges) {
-            if (range[0] <= left && left <= range[1]) {
-                left = range[1] + 1;
-            }
-        }
-        return left > right;
-
-    }
-
-    // 1893. 检查是否区域内所有整数都被覆盖 (Check if All the Integers in a Range Are Covered)
-    public boolean isCovered2(int[][] ranges, int left, int right) {
-        Set<Integer> set = new HashSet<>();
-        for (int i = left; i <= right; ++i) {
-            set.add(i);
-        }
-        for (int[] range : ranges) {
-            if (range[1] < left || range[0] > right) {
-                continue;
-            }
-            int min = Math.max(Math.min(left, range[1]), range[0]);
-            int max = Math.min(Math.max(right, range[0]), range[1]);
-            for (int i = min; i <= max; ++i) {
-                set.remove(i);
-            }
-        }
-        return set.isEmpty();
-    }
-
 }
