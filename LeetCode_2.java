@@ -3441,6 +3441,23 @@ public class LeetCode_2 {
 
    }
 
+   // 1894. 找到需要补充粉笔的学生编号 (Find the Student that Will Replace the Chalk)
+   public int chalkReplacer(int[] chalk, int k) {
+      long sum = 0;
+      for (int c : chalk) {
+         sum += c;
+      }
+      long remain = k % sum;
+      for (int i = 0; i < chalk.length; ++i) {
+         if (remain < chalk[i]) {
+            return i;
+         }
+         remain -= chalk[i];
+      }
+      return -1;
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;

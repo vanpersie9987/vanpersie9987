@@ -8359,7 +8359,7 @@ public class LeetCodeText {
         return winner;
 
     }
-  
+
     // 1827. 最少操作使数组递增
     public int minOperations(int[] nums) {
         int count = 0;
@@ -12390,24 +12390,6 @@ public class LeetCodeText {
             n /= 2;
         }
         return res;
-
-    }
-
-    // 5768. 找到需要补充粉笔的学生编号
-    public int chalkReplacer(int[] chalk, int k) {
-        long sum = 0;
-        for (int cha : chalk) {
-            sum += cha;
-        }
-        long remain = k % sum;
-        int index = 0;
-        while (index < chalk.length) {
-            if (chalk[index] > remain) {
-                break;
-            }
-            remain -= chalk[index++];
-        }
-        return index;
 
     }
 
