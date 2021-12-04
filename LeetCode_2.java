@@ -97,25 +97,6 @@ public class LeetCode_2 {
 
    }
 
-   // 3. 无重复字符的最长子串 (Longest Substring Without Repeating Characters)
-   // 剑指 Offer 48. 最长不含重复字符的子字符串
-   public int lengthOfLongestSubstring(String s) {
-      Set<Character> set = new HashSet<>();
-      int res = 0;
-      int l = 0;
-      int r = 0;
-      while (r < s.length()) {
-         if (!set.contains(s.charAt(r))) {
-            set.add(s.charAt(r++));
-            res = Math.max(res, r - l);
-         } else {
-            set.remove(s.charAt(l++));
-         }
-      }
-      return res;
-
-   }
-
    // 676. 实现一个魔法字典 (Implement Magic Dictionary)
    // 剑指 Offer II 064. 神奇的字典
    class MagicDictionary {
@@ -3509,6 +3490,26 @@ public class LeetCode_2 {
                res = Math.min(res, i - index1);
             }
             index2 = i;
+         }
+      }
+      return res;
+
+   }
+
+   // 3. 无重复字符的最长子串 (Longest Substring Without Repeating Characters)
+   // 剑指 Offer 48. 最长不含重复字符的子字符串
+   public int lengthOfLongestSubstring(String s) {
+      int res = 0;
+      Set<Character> set = new HashSet<>();
+      char[] chars = s.toCharArray();
+      int left = 0;
+      int right = 0;
+      while (right < chars.length) {
+         if (!set.contains(chars[right])) {
+            res = Math.max(res, right - left + 1);
+            ++right;
+         } else {
+            set.remove(chars[left++]);
          }
       }
       return res;
