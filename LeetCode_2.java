@@ -3493,6 +3493,28 @@ public class LeetCode_2 {
 
    }
 
+   // 面试题 17.11. 单词距离 (Find Closest LCCI)
+   public int findClosest(String[] words, String word1, String word2) {
+      int index1 = -1;
+      int index2 = -1;
+      int res = Integer.MAX_VALUE;
+      for (int i = 0; i < words.length; ++i) {
+         if (words[i].equals(word1)) {
+            if (index2 != -1) {
+               res = Math.min(res, i - index2);
+            }
+            index1 = i;
+         } else if (words[i].equals(word2)) {
+            if (index1 != -1) {
+               res = Math.min(res, i - index1);
+            }
+            index2 = i;
+         }
+      }
+      return res;
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
