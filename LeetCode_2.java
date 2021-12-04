@@ -3459,6 +3459,20 @@ public class LeetCode_2 {
 
    }
 
+   // 383. 赎金信 (Ransom Note)
+   public boolean canConstruct(String ransomNote, String magazine) {
+      int[] count = new int[26];
+      for (char c : magazine.toCharArray()) {
+         ++count[c - 'a'];
+      }
+      for (char c : ransomNote.toCharArray()) {
+         if (--count[c - 'a'] < 0) {
+            return false;
+         }
+      }
+      return true;
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;

@@ -7346,20 +7346,6 @@ public class LeetCodeText {
 
     }
 
-    // 383. 赎金信 (Ransom Note)
-    public boolean canConstruct(String ransomNote, String magazine) {
-        int[] counts = new int[26];
-        for (char c : magazine.toCharArray()) {
-            ++counts[c - 'a'];
-        }
-        for (char c : ransomNote.toCharArray()) {
-            if (counts[c - 'a']-- <= 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     // 剑指 Offer 50. 第一个只出现一次的字符
     public char firstUniqChar(String s) {
         int[] counts = new int[26];
