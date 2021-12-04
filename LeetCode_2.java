@@ -3473,6 +3473,26 @@ public class LeetCode_2 {
       return true;
    }
 
+   // 2085. 统计出现过一次的公共字符串 (Count Common Words With One Occurrence)
+   public int countWords(String[] words1, String[] words2) {
+      int res = 0;
+      Map<String, Integer> counts1 = new HashMap<>();
+      for (String word : words1) {
+         counts1.put(word, counts1.getOrDefault(word, 0) + 1);
+      }
+      Map<String, Integer> counts2 = new HashMap<>();
+      for (String word : words2) {
+         counts2.put(word, counts2.getOrDefault(word, 0) + 1);
+      }
+      for (Map.Entry<String, Integer> entry : counts1.entrySet()) {
+         if (entry.getValue() == 1 && counts2.getOrDefault(entry.getKey(), 0) == 1) {
+            ++res;
+         }
+      }
+      return res;
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
