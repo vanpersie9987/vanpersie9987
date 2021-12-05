@@ -3541,6 +3541,23 @@ public class LeetCode_2 {
 
    }
 
+   // 523. 连续的子数组和 (Continuous Subarray Sum) --前缀和
+   public boolean checkSubarraySum(int[] nums, int k) {
+      Map<Integer, Integer> map = new HashMap<>();
+      map.put(0, -1);
+      int preSum = 0;
+      for (int i = 0; i < nums.length; ++i) {
+         preSum = (preSum + nums[i]) % k;
+         if (!map.containsKey(preSum)) {
+            map.put(preSum, i);
+         } else if (i - map.get(preSum) >= 2) {
+            return true;
+         }
+      }
+      return false;
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
