@@ -222,34 +222,6 @@ public class LeetCode_2 {
       return res;
    }
 
-   // 2024. 考试的最大困扰度 (Maximize the Confusion of an Exam) --滑动窗口
-   public int maxConsecutiveAnswers(String answerKey, int k) {
-      char[] keys = answerKey.toCharArray();
-      int left = 0;
-      int right = 0;
-      int res = 0;
-      int tCounts = 0;
-      int fCounts = 0;
-      while (right < keys.length) {
-         if (keys[right] == 'T') {
-            ++tCounts;
-         } else {
-            ++fCounts;
-         }
-         while (left < keys.length && tCounts > k && fCounts > k) {
-            if (keys[left++] == 'T') {
-               --tCounts;
-            } else {
-               --fCounts;
-            }
-         }
-         res = Math.max(res, right - left + 1);
-         ++right;
-      }
-      return res;
-
-   }
-
    // 1930. 长度为 3 的不同回文子序列 (Unique Length-3 Palindromic Subsequences)
    public int countPalindromicSubsequence(String s) {
       int res = 0;
@@ -3435,6 +3407,35 @@ public class LeetCode_2 {
             res += state[cur ^ (1 << i)];
          }
          ++state[cur];
+      }
+      return res;
+
+   }
+
+   // 2024. 考试的最大困扰度 (Maximize the Confusion of an Exam) --前缀和 + 滑动窗口
+   public int maxConsecutiveAnswers(String answerKey, int k) {
+      int tCount = 0;
+      int fCount = 0;
+      int res = 0;
+      int left = 0;
+      int right = 0;
+      char[] chars = answerKey.toCharArray();
+      while (right < chars.length) {
+         if (chars[right] == 'T') {
+            ++tCount;
+         } else {
+            ++fCount;
+         }
+
+         while (tCount > k && fCount > k) {
+            if (chars[left++] == 'T') {
+               --tCount;
+            } else {
+               --fCount;
+            }
+         }
+         res = Math.max(res, right - left + 1);
+         ++right;
       }
       return res;
 
