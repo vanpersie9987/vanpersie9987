@@ -3516,7 +3516,7 @@ public class LeetCode_2 {
 
    }
 
-   // 面试题 17.05. 字母与数字 (Find Longest Subarray LCCI)
+   // 面试题 17.05. 字母与数字 (Find Longest Subarray LCCI) --前缀和
    public String[] findLongestSubarray(String[] array) {
       int count = 0;
       int index = -1;
