@@ -2585,14 +2585,14 @@ public class LeetCode_2 {
    // 238. 除自身以外数组的乘积 (Product of Array Except Self) --前缀积
    // 剑指 Offer 66. 构建乘积数组
    public int[] constructArr(int[] a) {
-      int[] res = new int[a.length];
       int k = 1;
-      for (int i = 0; i < res.length; ++i) {
+      int[] res = new int[a.length];
+      for (int i = 0; i < a.length; ++i) {
          res[i] = k;
          k *= a[i];
       }
       k = 1;
-      for (int i = res.length - 1; i >= 0; --i) {
+      for (int i = a.length - 1; i >= 0; --i) {
          res[i] *= k;
          k *= a[i];
       }
