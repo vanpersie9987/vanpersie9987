@@ -3556,6 +3556,51 @@ public class LeetCode_2 {
 
    }
 
+   // 1010. 总持续时间可被 60 整除的歌曲 (Pairs of Songs With Total Durations Divisible by 60)
+   // --前缀和
+   public int numPairsDivisibleBy60_2(int[] time) {
+      int[] counts = new int[60];
+      for (int i = 0; i < time.length; ++i) {
+         time[i] %= 60;
+         ++counts[time[i]];
+      }
+      int res = 0;
+      for (int i = 0; i < time.length; ++i) {
+         if (time[i] > 0 && time[i] < 30) {
+            res += counts[60 - time[i]];
+         }
+      }
+      res += counts[0] * (counts[0] - 1) / 2;
+      res += counts[30] * (counts[30] - 1) / 2;
+      return res;
+
+   }
+
+   // 1590. 使数组和能被 P 整除 (Make Sum Divisible by P) --前缀和
+   public int minSubarray(int[] nums, int p) {
+      int mod = 0;
+      for (int num : nums) {
+         mod = (mod + num) % p;
+      }
+      if (mod == 0) {
+         return 0;
+      }
+      Map<Integer, Integer> map = new HashMap<>();
+      map.put(0, -1);
+      int preSum = 0;
+      int res = nums.length;
+      for (int i = 0; i < nums.length; ++i) {
+         preSum = (preSum + nums[i]) % p;
+         int target = (preSum - mod + p) % p;
+         if (map.containsKey(target)) {
+            res = Math.min(res, i - map.get(target));
+         }
+         map.put(preSum, i);
+      }
+      return res == nums.length ? -1 : res;
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;

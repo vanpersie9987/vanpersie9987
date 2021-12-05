@@ -3687,25 +3687,6 @@ public class LeetCodeText {
 
     }
 
-    // 1010. 总持续时间可被 60 整除的歌曲 (Pairs of Songs With Total Durations Divisible by 60)
-    public int numPairsDivisibleBy60_2(int[] time) {
-        int[] counts = new int[60];
-        for (int i = 0; i < time.length; ++i) {
-            time[i] %= 60;
-            ++counts[time[i]];
-        }
-        int res = 0;
-        for (int i = 0; i < time.length; ++i) {
-            if (time[i] > 0 && time[i] < 30) {
-                res += counts[60 - time[i]];
-            }
-        }
-        res += counts[0] * (counts[0] - 1) / 2;
-        res += counts[30] * (counts[30] - 1) / 2;
-        return res;
-
-    }
-
     // 1014. 最佳观光组合
     public int maxScoreSightseeingPair(final int[] A) {
         int max = 0;
