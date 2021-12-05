@@ -3516,6 +3516,31 @@ public class LeetCode_2 {
 
    }
 
+   // 面试题 17.05. 字母与数字 (Find Longest Subarray LCCI)
+   public String[] findLongestSubarray(String[] array) {
+      int count = 0;
+      int index = -1;
+      Map<Integer, Integer> firstIndex = new HashMap<>();
+      firstIndex.put(0, -1);
+      int cur = 0;
+      for (int i = 0; i < array.length; ++i) {
+         cur += Character.isDigit(array[i].charAt(0)) ? 1 : -1;
+         if (firstIndex.containsKey(cur)) {
+            if (i - firstIndex.get(cur) > count) {
+               count = i - firstIndex.get(cur);
+               index = firstIndex.get(cur) + 1;
+            }
+         } else {
+            firstIndex.put(cur, i);
+         }
+      }
+      if (index == -1) {
+         return new String[] {};
+      }
+      return Arrays.copyOfRange(array, index, index + count);
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;

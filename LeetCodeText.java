@@ -8626,46 +8626,6 @@ public class LeetCodeText {
 
     }
 
-    // 面试题 17.05. 字母与数字
-    public String[] findLongestSubarray(String[] array) {
-        int[] dp = new int[array.length];
-        for (int i = 0; i < array.length; ++i) {
-            dp[i] = Character.isLetter(array[i].charAt(0)) ? 1 : -1;
-            if (i > 0) {
-                dp[i] += dp[i - 1];
-            }
-        }
-
-        int maxStartIndex = -1;
-        int max = Integer.MIN_VALUE;
-
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < dp.length; ++i) {
-            if (dp[i] == 0) {
-                map.put(dp[i], i);
-            } else {
-                if (!map.containsKey(dp[i])) {
-                    map.put(dp[i], i);
-                } else {
-                    if (max < i - map.get(dp[i])) {
-                        max = i - map.get(dp[i]);
-                        maxStartIndex = map.get(dp[i]);
-                    }
-                }
-            }
-        }
-        if (map.get(0) == null && max == Integer.MIN_VALUE) {
-            return new String[] {};
-        }
-        if (map.get(0) + 1 >= max) {
-            return Arrays.copyOfRange(array, 0, map.get(0) + 1);
-        } else {
-            ++maxStartIndex;
-            return Arrays.copyOfRange(array, maxStartIndex, maxStartIndex + max);
-        }
-
-    }
-
     // 1814. 统计一个数组中好对子的数目 (Count Nice Pairs in an Array)
     public int countNicePairs(int[] nums) {
         final int MOD = 1000000007;
