@@ -3525,13 +3525,11 @@ public class LeetCode_2 {
       int cur = 0;
       for (int i = 0; i < array.length; ++i) {
          cur += Character.isDigit(array[i].charAt(0)) ? 1 : -1;
-         if (firstIndex.containsKey(cur)) {
-            if (i - firstIndex.get(cur) > count) {
-               count = i - firstIndex.get(cur);
-               index = firstIndex.get(cur) + 1;
-            }
-         } else {
+         if (!firstIndex.containsKey(cur)) {
             firstIndex.put(cur, i);
+         } else if (i - firstIndex.get(cur) > count) {
+            count = i - firstIndex.get(cur);
+            index = firstIndex.get(cur) + 1;
          }
       }
       if (index == -1) {
