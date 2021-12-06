@@ -12,6 +12,8 @@ import java.util.Stack;
 public class LeetCode_2 {
 
    public static void main(final String[] args) {
+      // String s = "4w31am0ets6sl5go5ufytjtjpb7b0sxqbee2blg9ss";
+      // int res = numDifferentIntegers(s);
 
    }
 
@@ -3610,6 +3612,32 @@ public class LeetCode_2 {
          res = Math.min(res, nums[i + k - 1] - nums[i]);
       }
       return res;
+   }
+
+   // 1805. 字符串中不同整数的数目 (Number of Different Integers in a String)
+   public int numDifferentIntegers(String word) {
+      Set<String> set = new HashSet<>();
+      char[] chars = word.toCharArray();
+      StringBuilder builder = new StringBuilder();
+      for (int i = 0; i < chars.length; ++i) {
+         if (Character.isDigit(chars[i])) {
+            while (i < chars.length && chars[i] == '0') {
+               ++i;
+            }
+            while (i < chars.length && Character.isDigit(chars[i])) {
+               builder.append(chars[i]);
+               ++i;
+            }
+            if (builder.length() == 0) {
+               set.add("0");
+            } else {
+               set.add(builder.toString());
+            }
+            builder.setLength(0);
+         }
+      }
+      return set.size();
+
    }
 
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
