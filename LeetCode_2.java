@@ -3561,7 +3561,7 @@ public class LeetCode_2 {
 
    // 1010. 总持续时间可被 60 整除的歌曲 (Pairs of Songs With Total Durations Divisible by 60)
    // --前缀和
-   public int numPairsDivisibleBy60_2(int[] time) {
+   public int numPairsDivisibleBy60(int[] time) {
       int[] counts = new int[60];
       for (int i = 0; i < time.length; ++i) {
          time[i] %= 60;
@@ -3577,6 +3577,20 @@ public class LeetCode_2 {
       res += counts[30] * (counts[30] - 1) / 2;
       return res;
 
+   }
+
+   // 1010. 总持续时间可被 60 整除的歌曲 (Pairs of Songs With Total Durations Divisible by 60)
+   // --前缀和
+   public int numPairsDivisibleBy60_2(int[] time) {
+      int[] counts = new int[60];
+      int res = 0;
+      for (int i = 0; i < time.length; ++i) {
+         int t = time[i] % 60;
+         res += counts[t];
+         int remain = t == 0 ? 0 : 60 - t;
+         ++counts[remain];
+      }
+      return res;
    }
 
    // 1590. 使数组和能被 P 整除 (Make Sum Divisible by P) --前缀和
