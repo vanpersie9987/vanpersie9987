@@ -3602,6 +3602,16 @@ public class LeetCode_2 {
 
    }
 
+   // 1984. 学生分数的最小差值 (Minimum Difference Between Highest and Lowest of K Scores)
+   public int minimumDifference(int[] nums, int k) {
+      Arrays.sort(nums);
+      int res = Integer.MAX_VALUE;
+      for (int i = 0; i + k - 1 < nums.length; ++i) {
+         res = Math.min(res, nums[i + k - 1] - nums[i]);
+      }
+      return res;
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
