@@ -3652,6 +3652,38 @@ public class LeetCode_2 {
 
    }
 
+   // 860. 柠檬水找零 (Lemonade Change)
+   public boolean lemonadeChange(int[] bills) {
+      int count5 = 0;
+      int count10 = 0;
+      for (int bill : bills) {
+         switch (bill) {
+            case 5:
+               ++count5;
+               break;
+            case 10:
+               if (count5 == 0) {
+                  return false;
+               }
+               --count5;
+               ++count10;
+               break;
+            case 20:
+               if (count10 >= 1 && count5 >= 1) {
+                  --count10;
+                  --count5;
+               } else if (count5 >= 3) {
+                  count5 -= 3;
+               } else {
+                  return false;
+               }
+               break;
+         }
+      }
+      return true;
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
