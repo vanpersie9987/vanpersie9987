@@ -3684,6 +3684,43 @@ public class LeetCode_2 {
 
    }
 
+   // 1839. 所有元音按顺序排布的最长子字符串 (Longest Substring Of All Vowels in Order)
+   public int longestBeautifulSubstring(String word) {
+      char[] chars = word.toCharArray();
+      int left = 0;
+      int right = 0;
+      int res = 0;
+      while (left < chars.length) {
+         while (left < chars.length && chars[left] != 'a') {
+            ++left;
+         }
+         int mask = 0;
+         mask |= 1 << 0;
+         right = left + 1;
+
+         while (right < chars.length && chars[right - 1] <= chars[right]) {
+            if (chars[right] == 'a') {
+               mask |= 1 << 0;
+            } else if (chars[right] == 'e') {
+               mask |= 1 << 1;
+            } else if (chars[right] == 'i') {
+               mask |= 1 << 2;
+            } else if (chars[right] == 'o') {
+               mask |= 1 << 3;
+            } else if (chars[right] == 'u') {
+               mask |= 1 << 4;
+            }
+            ++right;
+         }
+         if (mask == 0b11111) {
+            res = Math.max(res, right - left);
+         }
+         left = right;
+      }
+      return res;
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
