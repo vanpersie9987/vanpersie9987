@@ -3499,26 +3499,6 @@ public class LeetCode_2 {
 
    }
 
-   // 3. 无重复字符的最长子串 (Longest Substring Without Repeating Characters)
-   // 剑指 Offer 48. 最长不含重复字符的子字符串
-   public int lengthOfLongestSubstring(String s) {
-      int res = 0;
-      Set<Character> set = new HashSet<>();
-      char[] chars = s.toCharArray();
-      int left = 0;
-      int right = 0;
-      while (right < chars.length) {
-         if (!set.contains(chars[right])) {
-            res = Math.max(res, right - left + 1);
-            ++right;
-         } else {
-            set.remove(chars[left++]);
-         }
-      }
-      return res;
-
-   }
-
    // 面试题 17.05. 字母与数字 (Find Longest Subarray LCCI) --前缀和
    public String[] findLongestSubarray(String[] array) {
       int count = 0;
@@ -3738,6 +3718,26 @@ public class LeetCode_2 {
       }
       return res;
 
+   }
+
+   // 3. 无重复字符的最长子串 (Longest Substring Without Repeating Characters)
+   // 剑指 Offer 48. 最长不含重复字符的子字符串
+   // 剑指 Offer II 016. 不含重复字符的最长子字符串
+   public int lengthOfLongestSubstring(String s) {
+      Set<Character> set = new HashSet<>();
+      int res = 0;
+      char[] chars = s.toCharArray();
+      int left = 0;
+      int right = 0;
+      while (right < chars.length) {
+         if (set.add(chars[right])) {
+            res = Math.max(res, right - left + 1);
+            ++right;
+         } else {
+            set.remove(chars[left++]);
+         }
+      }
+      return res;
    }
 
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
