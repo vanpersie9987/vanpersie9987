@@ -2218,26 +2218,6 @@ public class LeetCodeText {
 
     }
 
-    // 713. 乘积小于K的子数组
-    public int numSubarrayProductLessThanK(final int[] nums, final int k) {
-        if (k <= 1) {
-            return 0;
-        }
-        int res = 0;
-        int left = 0;
-        int val = 1;
-        for (int i = 0; i < nums.length; ++i) {
-            val *= nums[i];
-            while (val >= k) {
-                val /= nums[left];
-                ++left;
-            }
-            res += i - left + 1;
-        }
-        return res;
-
-    }
-
     // 717. 1比特与2比特字符
     public boolean isOneBitCharacter(final int[] bits) {
         int i = 0;

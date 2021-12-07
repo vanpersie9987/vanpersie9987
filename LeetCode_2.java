@@ -3684,7 +3684,7 @@ public class LeetCode_2 {
 
    }
 
-   // 1839. 所有元音按顺序排布的最长子字符串 (Longest Substring Of All Vowels in Order)
+   // 1839. 所有元音按顺序排布的最长子字符串 (Longest Substring Of All Vowels in Order) --双指针+滑动窗口
    public int longestBeautifulSubstring(String word) {
       char[] chars = word.toCharArray();
       int left = 0;
@@ -3716,6 +3716,25 @@ public class LeetCode_2 {
             res = Math.max(res, right - left);
          }
          left = right;
+      }
+      return res;
+
+   }
+
+   // 713. 乘积小于K的子数组 (Subarray Product Less Than K)
+   // 剑指 Offer II 009. 乘积小于 K 的子数组 --双指针+滑动窗口
+   public int numSubarrayProductLessThanK(int[] nums, int k) {
+      int res = 0;
+      int left = 0;
+      int right = 0;
+      int prefx = 1;
+      while (right < nums.length) {
+         prefx *= nums[right];
+         while (left <= right && prefx >= k) {
+            prefx /= nums[left++];
+         }
+         res += right - left + 1;
+         ++right;
       }
       return res;
 
