@@ -3740,6 +3740,28 @@ public class LeetCode_2 {
       return res;
    }
 
+   // 1695. 删除子数组的最大得分 (Maximum Erasure Value)
+   public int maximumUniqueSubarray(int[] nums) {
+      int res = 0;
+      int preSum = 0;
+      Set<Integer> set = new HashSet<>();
+      int left = 0;
+      int right = 0;
+      while (right < nums.length) {
+         if (set.add(nums[right])) {
+            preSum += nums[right];
+            res = Math.max(res, preSum);
+            ++right;
+         } else {
+            preSum -= nums[left];
+            set.remove(nums[left]);
+            ++left;
+         }
+      }
+      return res;
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
