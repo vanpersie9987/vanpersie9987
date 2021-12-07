@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import javax.lang.model.element.Element;
+
 public class LeetCode_2 {
 
    public static void main(final String[] args) {
@@ -3759,6 +3761,34 @@ public class LeetCode_2 {
          }
       }
       return res;
+
+   }
+
+   // 984. 不含 AAA 或 BBB 的字符串 (String Without AAA or BBB)
+   public String strWithout3a3b(int a, int b) {
+      StringBuilder res = new StringBuilder();
+      while (a > 0 && b > 0) {
+         if (a > b) {
+            res.append("aab");
+            a -= 2;
+            b -= 1;
+         } else if (a < b) {
+            res.append("bba");
+            a -= 1;
+            b -= 2;
+         } else {
+            res.append("ab");
+            a -= 1;
+            b -= 1;
+         }
+      }
+      while (a-- > 0) {
+         res.append('a');
+      }
+      while (b-- > 0) {
+         res.append('b');
+      }
+      return res.toString();
 
    }
 
