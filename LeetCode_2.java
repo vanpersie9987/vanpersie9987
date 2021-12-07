@@ -3790,6 +3790,36 @@ public class LeetCode_2 {
 
    }
 
+   // 1417. 重新格式化字符串 (Reformat The String)
+   public String reformat(String s) {
+      int digitCount = 0;
+      int alphabetCount = 0;
+      for (char c : s.toCharArray()) {
+         if (Character.isDigit(c)) {
+            ++digitCount;
+         } else {
+            ++alphabetCount;
+         }
+      }
+      if (Math.abs(digitCount - alphabetCount) > 1) {
+         return "";
+      }
+      char[] res = new char[s.length()];
+      int i = digitCount >= alphabetCount ? 0 : 1;
+      int j = i == 0 ? 1 : 0;
+      for (char c : s.toCharArray()) {
+         if (Character.isDigit(c)) {
+            res[i] = c;
+            i += 2;
+         } else {
+            res[j] = c;
+            j += 2;
+         }
+      }
+      return String.valueOf(res);
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
