@@ -1,3 +1,4 @@
+import java.io.ObjectOutputStream.PutField;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -3826,48 +3827,72 @@ public class LeetCode_2 {
    }
 
    // 面试题 17.18. 最短超串 (Shortest Supersequence LCCI)
+   public int[] shortestSeq(int[] big, int[] small) {
+      Map<Integer, Integer> map = new HashMap<>();
+      for (int num : small) {
+         map.put(num, -1);
+      }
+      int count = small.length;
+      int[] res = new int[] { 0, big.length - 1 };
+      for (int i = 0; i < big.length; ++i) {
+         if (map.containsKey(big[i])) {
+            if (map.get(big[i]) == -1) {
+               --count;
+            }
+            map.put(big[i], i);
+         }
+         if (count <= 0) {
+            int min = Collections.min(map.values());
+            if (i - min < res[1] - res[0]) {
+               res[1] = i;
+               res[0] = min;
+            }
+         }
+      }
+      if (count > 0) {
+         return new int[0];
+      }
+      return res;
 
-   // /**
-   // * 输入
-   // * [7, 5, 9, 0, 2, 1, 3, 5, 7, 9, 1, 1, 5, 8, 8, 9, 7]
-   // * [1, 5, 9]
-   // * 输出
-   // * null
-   // * 差别
-   // * 预期结果
-   // * [7,10]
-   // */
-   // public int[] shortestSeq(int[] big, int[] small) {
-   // Set<Integer> setSmall = new HashSet<>();
-   // for (int num : small) {
-   // setSmall.add(num);
-   // }
-   // int resLeft = -1;
-   // int resRight = -1;
-   // int left = 0;
-   // int right = 0;
-   // int min = Integer.MAX_VALUE;
-   // Set<Integer> set = new HashSet<>();
-   // while (right < big.length) {
-   // if (setSmall.contains(big[right])) {
-   // set.add(big[right]);
-   // while (set.size() == setSmall.size()) {
-   // if (right - left < min) {
-   // min = right - left;
-   // resLeft = left;
-   // resRight = right;
-   // }
-   // set.remove(big[left++]);
-   // }
-   // ++right;
-   // } else {
-   // ++right;
-   // }
-   // }
-   // return min == Integer.MAX_VALUE ? new int[] {} : new int[] { resLeft,
-   // resRight };
+   }
 
-   // }
+   // 面试题 17.18. 最短超串 (Shortest Supersequence LCCI)
+   public int[] shortestSeq2(int[] big, int[] small) {
+      int count = small.length;
+      int left = 0;
+      int right = 0;
+      Map<Integer, Integer> map = new HashMap<>();
+      int minCount = Integer.MAX_VALUE;
+      for (int num : small) {
+         map.put(num, map.getOrDefault(num, 0) + 1);
+      }
+      int[] res = new int[] {};
+      while (right < big.length) {
+         if (map.containsKey(big[right])) {
+            if (map.getOrDefault(big[right], 0) > 0) {
+               --count;
+            }
+            map.put(big[right], map.getOrDefault(big[right], 0) - 1);
+         }
+         while (count == 0) {
+            if (right - left + 1 < minCount) {
+               minCount = right - left + 1;
+               res = new int[] { left, right };
+            }
+            if (map.containsKey(big[left])) {
+               map.put(big[left], map.getOrDefault(big[left], 0) + 1);
+               if (map.get(big[left]) > 0) {
+                  ++count;
+               }
+            }
+            ++left;
+         }
+         ++right;
+
+      }
+      return res;
+
+   }
 
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
