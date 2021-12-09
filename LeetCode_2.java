@@ -3820,6 +3820,55 @@ public class LeetCode_2 {
 
    }
 
+   // 796. 旋转字符串 (Rotate String) --还需掌握 Rabin-Karp 字符串哈希 ； KMP 算法
+   public boolean rotateString(String s, String goal) {
+      return s.length() == goal.length() && (s + s).contains(goal);
+   }
+
+   // 面试题 17.18. 最短超串 (Shortest Supersequence LCCI)
+
+   // /**
+   // * 输入
+   // * [7, 5, 9, 0, 2, 1, 3, 5, 7, 9, 1, 1, 5, 8, 8, 9, 7]
+   // * [1, 5, 9]
+   // * 输出
+   // * null
+   // * 差别
+   // * 预期结果
+   // * [7,10]
+   // */
+   // public int[] shortestSeq(int[] big, int[] small) {
+   // Set<Integer> setSmall = new HashSet<>();
+   // for (int num : small) {
+   // setSmall.add(num);
+   // }
+   // int resLeft = -1;
+   // int resRight = -1;
+   // int left = 0;
+   // int right = 0;
+   // int min = Integer.MAX_VALUE;
+   // Set<Integer> set = new HashSet<>();
+   // while (right < big.length) {
+   // if (setSmall.contains(big[right])) {
+   // set.add(big[right]);
+   // while (set.size() == setSmall.size()) {
+   // if (right - left < min) {
+   // min = right - left;
+   // resLeft = left;
+   // resRight = right;
+   // }
+   // set.remove(big[left++]);
+   // }
+   // ++right;
+   // } else {
+   // ++right;
+   // }
+   // }
+   // return min == Integer.MAX_VALUE ? new int[] {} : new int[] { resLeft,
+   // resRight };
+
+   // }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
