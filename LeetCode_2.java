@@ -3894,6 +3894,26 @@ public class LeetCode_2 {
 
    }
 
+   // 1961. 检查字符串是否为数组前缀 (Check If String Is a Prefix of Array)
+   public boolean isPrefixString(String s, String[] words) {
+      int index = 0;
+      char[] chars = s.toCharArray();
+      for (String word : words) {
+         for (char c : word.toCharArray()) {
+            if (index < chars.length && chars[index] == c) {
+               ++index;
+            } else {
+               return false;
+            }
+         }
+         if (index == chars.length) {
+            return true;
+         }
+      }
+      return false;
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
