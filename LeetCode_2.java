@@ -3916,19 +3916,16 @@ public class LeetCode_2 {
 
    // 1556. 千位分隔数 (Thousand Separator)
    public String thousandSeparator(int n) {
-      if (n == 0) {
-         return "0";
-      }
       int count = 0;
       StringBuilder res = new StringBuilder();
-      while (n != 0) {
+      do {
          res.append(n % 10);
          ++count;
          n /= 10;
          if (count % 3 == 0 && n != 0) {
             res.append('.');
          }
-      }
+      } while (n != 0);
       return res.reverse().toString();
 
    }
