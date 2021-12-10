@@ -3962,6 +3962,23 @@ public class LeetCode_2 {
       return true;
    }
 
+   // 2027. 转换字符串的最少操作次数 (Minimum Moves to Convert String)
+   public int minimumMoves(String s) {
+      int res = 0;
+      char[] chars = s.toCharArray();
+      int i = 0;
+      while (i < chars.length) {
+         if (chars[i] == 'X') {
+            ++res;
+            i += 3;
+         } else {
+            ++i;
+         }
+      }
+      return res;
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
