@@ -3933,6 +3933,35 @@ public class LeetCode_2 {
 
    }
 
+   // 1909. 删除一个元素使数组严格递增 (Remove One Element to Make the Array Strictly
+   // Increasing)
+   public boolean canBeIncreasing(int[] nums) {
+      for (int i = 1; i < nums.length; ++i) {
+         if (nums[i - 1] >= nums[i]) {
+            return check1909(i - 1, nums) || check1909(i, nums);
+         }
+      }
+      return true;
+
+   }
+
+   private boolean check1909(int index, int[] nums) {
+      for (int i = 1; i < index; ++i) {
+         if (nums[i - 1] >= nums[i]) {
+            return false;
+         }
+      }
+      for (int i = index + 2; i < nums.length; ++i) {
+         if (nums[i - 1] >= nums[i]) {
+            return false;
+         }
+      }
+      if (index - 1 >= 0 && index + 1 < nums.length) {
+         return nums[index - 1] < nums[index + 1];
+      }
+      return true;
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
