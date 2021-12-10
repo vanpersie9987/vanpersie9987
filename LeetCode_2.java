@@ -2329,6 +2329,20 @@ public class LeetCode_2 {
 
    }
 
+   // 2095. 删除链表的中间节点 (Delete the Middle Node of a Linked List)
+   public ListNode deleteMiddle(ListNode head) {
+      ListNode dummy = new ListNode(0, head);
+      ListNode slow = dummy;
+      ListNode fast = dummy;
+      while (fast.next != null && fast.next.next != null) {
+         slow = slow.next;
+         fast = fast.next.next;
+      }
+      slow.next = slow.next.next;
+      return dummy.next;
+
+   }
+
    // 面试题 02.01. 移除重复节点 (Remove Duplicate Node LCCI) --O(n)
    public ListNode removeDuplicateNodes(ListNode head) {
       Set<Integer> set = new HashSet<>();
