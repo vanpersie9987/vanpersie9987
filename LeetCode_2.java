@@ -3914,6 +3914,25 @@ public class LeetCode_2 {
 
    }
 
+   // 1556. 千位分隔数 (Thousand Separator)
+   public String thousandSeparator(int n) {
+      if (n == 0) {
+         return "0";
+      }
+      int count = 0;
+      StringBuilder res = new StringBuilder();
+      while (n != 0) {
+         res.append(n % 10);
+         ++count;
+         n /= 10;
+         if (count % 3 == 0 && n != 0) {
+            res.append('.');
+         }
+      }
+      return res.reverse().toString();
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
