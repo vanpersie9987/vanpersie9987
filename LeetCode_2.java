@@ -4016,6 +4016,25 @@ public class LeetCode_2 {
 
    }
 
+   // 1663. 具有给定数值的最小字符串 (Smallest String With A Given Numeric Value)
+   public String getSmallestString(int n, int k) {
+      char[] res = new char[n];
+      // 初始都设置为'a'
+      Arrays.fill(res, 'a');
+      // 'z'的个数
+      int countZ = (k - n) / 25;
+      if (countZ > 0) {
+         Arrays.fill(res, n - countZ, n, 'z');
+      }
+      // z之前的第i位应该放置的字母
+      int i = n - countZ - 1;
+      if (i >= 0) {
+         int left = (k - n) % 25;
+         res[i] = (char) ('a' + left);
+      }
+      return String.valueOf(res);
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
