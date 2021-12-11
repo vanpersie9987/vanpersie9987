@@ -3990,6 +3990,18 @@ public class LeetCode_2 {
 
    }
 
+   // 1910. 删除一个字符串中所有出现的给定子字符串 (Remove All Occurrences of a Substring) --还需掌握KMP算法
+   public String removeOccurrences(String s, String part) {
+      StringBuilder res = new StringBuilder(s);
+      int n = part.length();
+      while (res.indexOf(part) != -1) {
+         int start = res.indexOf(part);
+         res.delete(start, start + n);
+      }
+      return res.toString();
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
