@@ -4002,6 +4002,20 @@ public class LeetCode_2 {
 
    }
 
+   // 1957. 删除字符使字符串变好 (Delete Characters to Make Fancy String)
+   public String makeFancyString(String s) {
+      StringBuilder res = new StringBuilder();
+      for (char c : s.toCharArray()) {
+         int n = res.length();
+         if (n >= 2 && res.charAt(n - 1) == c && res.charAt(n - 2) == c) {
+            continue;
+         }
+         res.append(c);
+      }
+      return res.toString();
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
