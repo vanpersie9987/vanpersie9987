@@ -3857,8 +3857,8 @@ public class LeetCode_2 {
 
    }
 
-   // 395. 至少有 K 个重复字符的最长子串 (Longest Substring with At Least K Repeating
-   // Characters)
+   // 395. 至少有 K 个重复字符的最长子串
+   // 395. Longest Substring with At Least K Repeating Characters --分治 还需掌握滑动窗口
    public int longestSubstring(String s, int k) {
       if (s.length() < k) {
          return 0;
