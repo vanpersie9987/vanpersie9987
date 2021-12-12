@@ -1960,21 +1960,6 @@ public class LeetCodeText {
 
     }
 
-    // 643. 子数组最大平均数 I
-    public double findMaxAverage(final int[] nums, final int k) {
-        int curMax = 0;
-        for (int i = 0; i < k; ++i) {
-            curMax += nums[i];
-        }
-        int max = curMax;
-        for (int i = k; i < nums.length; ++i) {
-            curMax += nums[i] - nums[i - k];
-            max = Math.max(max, curMax);
-        }
-        return (double) max / k;
-
-    }
-
     // 661. 图片平滑器
     public int[][] imageSmoother(final int[][] M) {
         int[][] result = new int[M.length][M[0].length];

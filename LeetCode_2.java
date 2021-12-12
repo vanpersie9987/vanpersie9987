@@ -3934,7 +3934,7 @@ public class LeetCode_2 {
    }
 
    // 567. 字符串的排列 (Permutation in String)
-   // 剑指 Offer II 014. 字符串中的变位词  --滑动窗口
+   // 剑指 Offer II 014. 字符串中的变位词 --滑动窗口
    public boolean checkInclusion(String s1, String s2) {
       if (s1.length() > s2.length()) {
          return false;
@@ -3965,7 +3965,7 @@ public class LeetCode_2 {
 
    }
 
-   // 567. 字符串的排列 (Permutation in String) 
+   // 567. 字符串的排列 (Permutation in String)
    // 剑指 Offer II 014. 字符串中的变位词 --计数
    public boolean checkInclusion2(String s1, String s2) {
       if (s1.length() > s2.length()) {
@@ -4010,31 +4010,51 @@ public class LeetCode_2 {
       return false;
 
    }
-   // 567. 字符串的排列 (Permutation in String) 
+
+   // 567. 字符串的排列 (Permutation in String)
    // 剑指 Offer II 014. 字符串中的变位词 -- 双指针
-    public boolean checkInclusion3(String s1, String s2) {
-        if (s1.length() > s2.length()) {
-            return false;
-        }
-        int[] counts = new int[26];
-        for (char c : s1.toCharArray()) {
-            --counts[c - 'a'];
-        }
-        int n = s1.length();
-        int left = 0;
-        for (int right = 0; right < s2.length(); ++right) {
-            int x = s2.charAt(right) - 'a';
-            ++counts[x];
-            while (counts[x] > 0) {
-                --counts[s2.charAt(left) - 'a'];
-                ++left;
-            }
-            if (right - left + 1 == n) {
-                return true;
-            }
-        }
-        return false;
-    }
+   public boolean checkInclusion3(String s1, String s2) {
+      if (s1.length() > s2.length()) {
+         return false;
+      }
+      int[] counts = new int[26];
+      for (char c : s1.toCharArray()) {
+         --counts[c - 'a'];
+      }
+      int n = s1.length();
+      int left = 0;
+      for (int right = 0; right < s2.length(); ++right) {
+         int x = s2.charAt(right) - 'a';
+         ++counts[x];
+         while (counts[x] > 0) {
+            --counts[s2.charAt(left) - 'a'];
+            ++left;
+         }
+         if (right - left + 1 == n) {
+            return true;
+         }
+      }
+      return false;
+   }
+
+   // 643. 子数组最大平均数 I (Maximum Average Subarray I)
+   public double findMaxAverage(int[] nums, int k) {
+      int max = Integer.MIN_VALUE;
+      int i = 0;
+      int sum = 0;
+      while (i < k) {
+         sum += nums[i++];
+      }
+      max = Math.max(max, sum);
+      while (i < nums.length) {
+         sum -= nums[i - k];
+         sum += nums[i];
+         max = Math.max(max, sum);
+         ++i;
+      }
+      return (double) max / k;
+
+   }
 
    // 1695. 删除子数组的最大得分 (Maximum Erasure Value)
    public int maximumUniqueSubarray(int[] nums) {
