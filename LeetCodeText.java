@@ -1301,22 +1301,6 @@ public class LeetCodeText {
 
     }
 
-    // 219. 存在重复元素 II
-    public boolean containsNearbyDuplicate(final int[] nums, final int k) {
-        Set<Integer> set = new HashSet<>();
-        for (int i = 0; i < nums.length; ++i) {
-            if (set.contains(nums[i])) {
-                return true;
-            }
-            set.add(nums[i]);
-            if (set.size() > k) {
-                set.remove(nums[i - k]);
-            }
-        }
-        return false;
-
-    }
-
     // 228. 汇总区间
     public static List<String> summaryRanges(final int[] nums) {
         List<String> res = new ArrayList<>();

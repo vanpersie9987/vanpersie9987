@@ -3842,6 +3842,21 @@ public class LeetCode_2 {
 
    }
 
+   // 219. 存在重复元素 II (Contains Duplicate II) --哈希表
+   public boolean containsNearbyDuplicate(int[] nums, int k) {
+      Map<Integer, Integer> map = new HashMap<>();
+      for (int i = 0; i < nums.length; ++i) {
+         if (map.containsKey(nums[i])) {
+            if (i - map.get(nums[i]) <= k) {
+               return true;
+            }
+         }
+         map.put(nums[i], i);
+      }
+      return false;
+
+   }
+
    // 1695. 删除子数组的最大得分 (Maximum Erasure Value)
    public int maximumUniqueSubarray(int[] nums) {
       int res = 0;
