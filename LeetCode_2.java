@@ -3674,25 +3674,6 @@ public class LeetCode_2 {
 
    }
 
-   // 713. 乘积小于K的子数组 (Subarray Product Less Than K)
-   // 剑指 Offer II 009. 乘积小于 K 的子数组 --双指针+滑动窗口
-   public int numSubarrayProductLessThanK(int[] nums, int k) {
-      int res = 0;
-      int left = 0;
-      int right = 0;
-      int prefx = 1;
-      while (right < nums.length) {
-         prefx *= nums[right];
-         while (left <= right && prefx >= k) {
-            prefx /= nums[left++];
-         }
-         res += right - left + 1;
-         ++right;
-      }
-      return res;
-
-   }
-
    // 3. 无重复字符的最长子串 (Longest Substring Without Repeating Characters) --滑动窗口
    // 剑指 Offer 48. 最长不含重复字符的子字符串
    // 剑指 Offer II 016. 不含重复字符的最长子字符串
@@ -4053,6 +4034,25 @@ public class LeetCode_2 {
          ++i;
       }
       return (double) max / k;
+
+   }
+
+   // 713. 乘积小于K的子数组 (Subarray Product Less Than K)
+   // 剑指 Offer II 009. 乘积小于 K 的子数组 --双指针+滑动窗口
+   public int numSubarrayProductLessThanK(int[] nums, int k) {
+      int product = 1;
+      int left = 0;
+      int right = 0;
+      int res = 0;
+      while (right < nums.length) {
+         product *= nums[right];
+         while (left <= right && product >= k) {
+            product /= nums[left++];
+         }
+         res += right - left + 1;
+         ++right;
+      }
+      return res;
 
    }
 
