@@ -19608,29 +19608,6 @@ public class LeetCodeText {
 
     }
 
-    // 395. 至少有 K 个重复字符的最长子串 (Longest Substring with At Least K Repeating
-    // Characters)
-    public int longestSubstring(String s, int k) {
-        if (s.length() < k) {
-            return 0;
-        }
-        Map<Character, Integer> map = new HashMap<>();
-        for (char c : s.toCharArray()) {
-            map.put(c, map.getOrDefault(c, 0) + 1);
-        }
-        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
-            if (entry.getValue() < k) {
-                int max = 0;
-                for (String sub : s.split(String.valueOf(entry.getKey()))) {
-                    max = Math.max(max, longestSubstring(sub, k));
-                }
-                return max;
-            }
-        }
-        return s.length();
-
-    }
-
     // 300. 最长递增子序列 (Longest Increasing Subsequence) 不是最优解
     public int lengthOfLIS(int[] nums) {
         // dp表示以dp[i]结尾的最长严格递增序列的长度

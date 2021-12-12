@@ -3857,6 +3857,29 @@ public class LeetCode_2 {
 
    }
 
+   // 395. 至少有 K 个重复字符的最长子串 (Longest Substring with At Least K Repeating
+   // Characters)
+   public int longestSubstring(String s, int k) {
+      if (s.length() < k) {
+         return 0;
+      }
+      Map<Character, Integer> map = new HashMap<>();
+      for (char c : s.toCharArray()) {
+         map.put(c, map.getOrDefault(c, 0) + 1);
+      }
+      for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+         if (entry.getValue() < k) {
+            int max = 0;
+            for (String sub : s.split(String.valueOf(entry.getKey()))) {
+               max = Math.max(max, longestSubstring(sub, k));
+            }
+            return max;
+         }
+      }
+      return s.length();
+
+   }
+
    // 1695. 删除子数组的最大得分 (Maximum Erasure Value)
    public int maximumUniqueSubarray(int[] nums) {
       int res = 0;
