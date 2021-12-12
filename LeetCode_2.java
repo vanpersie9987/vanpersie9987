@@ -3803,6 +3803,45 @@ public class LeetCode_2 {
 
    }
 
+   // 76. 最小覆盖子串 (Minimum Window Substring) --滑动窗口
+   public String minWindow2(String s, String t) {
+      int[] need = new int[128];
+      for (char c : t.toCharArray()) {
+         ++need[c];
+      }
+      int left = 0;
+      int right = 0;
+      int minLength = s.length() + 1;
+      int[] give = new int[128];
+      int giveCount = 0;
+      String res = "";
+      char[] chars = s.toCharArray();
+      while (right < chars.length) {
+         if (need[chars[right]] > 0) {
+            if (give[chars[right]] < need[chars[right]]) {
+               ++giveCount;
+            }
+            ++give[chars[right]];
+            while (t.length() == giveCount) {
+               if (right - left + 1 < minLength) {
+                  res = s.substring(left, right + 1);
+                  minLength = right - left + 1;
+               }
+               if (give[chars[left]] > 0) {
+                  if (give[chars[left]] == need[chars[left]]) {
+                     --giveCount;
+                  }
+                  --give[chars[left]];
+               }
+               ++left;
+            }
+         }
+         ++right;
+      }
+      return minLength == s.length() + 1 ? "" : res;
+
+   }
+
    // 1695. 删除子数组的最大得分 (Maximum Erasure Value)
    public int maximumUniqueSubarray(int[] nums) {
       int res = 0;
