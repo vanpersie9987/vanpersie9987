@@ -3766,7 +3766,7 @@ public class LeetCode_2 {
                   res = s.substring(left, right + 1);
                   minLength = right - left + 1;
                }
-               if (give[chars[left]] > 0) {
+               if (need[chars[left]] > 0) {
                   if (give[chars[left]] == need[chars[left]]) {
                      --giveCount;
                   }
