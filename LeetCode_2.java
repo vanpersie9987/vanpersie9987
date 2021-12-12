@@ -3735,7 +3735,7 @@ public class LeetCode_2 {
 
    }
 
-   // 3. 无重复字符的最长子串 (Longest Substring Without Repeating Characters)
+   // 3. 无重复字符的最长子串 (Longest Substring Without Repeating Characters) --滑动窗口
    // 剑指 Offer 48. 最长不含重复字符的子字符串
    // 剑指 Offer II 016. 不含重复字符的最长子字符串
    public int lengthOfLongestSubstring(String s) {
@@ -3753,6 +3753,54 @@ public class LeetCode_2 {
          }
       }
       return res;
+   }
+
+   // 76. 最小覆盖子串 (Minimum Window Substring) --滑动窗口
+   public String minWindow(String s, String t) {
+      if (t.length() > s.length()) {
+         return "";
+      }
+      int need = 0;
+      Map<Character, Integer> needMap = new HashMap<>();
+      for (char c : t.toCharArray()) {
+         needMap.put(c, needMap.getOrDefault(c, 0) + 1);
+         ++need;
+      }
+      Map<Character, Integer> giveMap = new HashMap<>();
+      int give = 0;
+      int left = 0;
+      int right = 0;
+      int minLength = Integer.MAX_VALUE;
+      String res = "";
+      char[] chars = s.toCharArray();
+      while (right < chars.length) {
+         if (needMap.containsKey(chars[right])) {
+            int needCount = needMap.get(chars[right]);
+            int giveCount = giveMap.getOrDefault(chars[right], 0);
+            if (giveCount < needCount) {
+               ++give;
+            }
+            giveMap.put(chars[right], giveMap.getOrDefault(chars[right], 0) + 1);
+            while (give == need) {
+               if (right - left + 1 < minLength) {
+                  res = s.substring(left, right + 1);
+                  minLength = right - left + 1;
+               }
+               if (giveMap.containsKey(chars[left])) {
+                  giveCount = giveMap.get(chars[left]);
+                  needCount = needMap.get(chars[left]);
+                  if (giveCount == needCount) {
+                     --give;
+                  }
+                  giveMap.put(chars[left], giveMap.get(chars[left]) - 1);
+               }
+               ++left;
+            }
+         }
+         ++right;
+      }
+      return minLength == Integer.MAX_VALUE ? "" : res;
+
    }
 
    // 1695. 删除子数组的最大得分 (Maximum Erasure Value)
@@ -4033,54 +4081,6 @@ public class LeetCode_2 {
          res[i] = (char) ('a' + left);
       }
       return String.valueOf(res);
-   }
-
-   // 76. 最小覆盖子串 (Minimum Window Substring)
-   public String minWindow(String s, String t) {
-      if (t.length() > s.length()) {
-         return "";
-      }
-      int need = 0;
-      Map<Character, Integer> needMap = new HashMap<>();
-      for (char c : t.toCharArray()) {
-         needMap.put(c, needMap.getOrDefault(c, 0) + 1);
-         ++need;
-      }
-      Map<Character, Integer> giveMap = new HashMap<>();
-      int give = 0;
-      int left = 0;
-      int right = 0;
-      int minLength = Integer.MAX_VALUE;
-      String res = "";
-      char[] chars = s.toCharArray();
-      while (right < chars.length) {
-         if (needMap.containsKey(chars[right])) {
-            int needCount = needMap.get(chars[right]);
-            int giveCount = giveMap.getOrDefault(chars[right], 0);
-            if (giveCount < needCount) {
-               ++give;
-            }
-            giveMap.put(chars[right], giveMap.getOrDefault(chars[right], 0) + 1);
-            while (give == need) {
-               if (right - left + 1 < minLength) {
-                  res = s.substring(left, right + 1);
-                  minLength = right - left + 1;
-               }
-               if (giveMap.containsKey(chars[left])) {
-                  giveCount = giveMap.get(chars[left]);
-                  needCount = needMap.get(chars[left]);
-                  if (giveCount == needCount) {
-                     --give;
-                  }
-                  giveMap.put(chars[left], giveMap.get(chars[left]) - 1);
-               }
-               ++left;
-            }
-         }
-         ++right;
-      }
-      return minLength == Integer.MAX_VALUE ? "" : res;
-
    }
 
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
