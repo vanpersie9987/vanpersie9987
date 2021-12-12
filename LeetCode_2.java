@@ -1,4 +1,3 @@
-import java.io.ObjectOutputStream.PutField;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -3877,6 +3876,59 @@ public class LeetCode_2 {
          }
       }
       return s.length();
+
+   }
+
+   // 424. 替换后的最长重复字符 (Longest Repeating Character Replacement)
+   public int characterReplacement(String s, int k) {
+      int[] counts = new int[26];
+      int left = 0;
+      int right = 0;
+      int max = 0;
+      char[] chars = s.toCharArray();
+      int res = 0;
+      while (right < chars.length) {
+         max = Math.max(max, ++counts[chars[right] - 'A']);
+         while (right - left + 1 - max > k) {
+            --counts[chars[left++] - 'A'];
+         }
+         res = Math.max(res, right - left + 1);
+         ++right;
+      }
+      return res;
+
+   }
+
+   // 438. 找到字符串中所有字母异位词 (Find All Anagrams in a String)
+   public List<Integer> findAnagrams(String s, String p) {
+      List<Integer> res = new ArrayList<>();
+      if (p.length() > s.length()) {
+         return res;
+      }
+      int[] needs = new int[26];
+      for (char c : p.toCharArray()) {
+         ++needs[c - 'a'];
+      }
+      int[] gives = new int[26];
+      char[] chars = s.toCharArray();
+      int count = p.length();
+      int i = 0;
+      while (i < count) {
+         ++gives[chars[i++] - 'a'];
+      }
+      if (Arrays.equals(needs, gives)) {
+         res.add(0);
+      }
+      while (i < chars.length) {
+         --gives[chars[i - count] - 'a'];
+         ++gives[chars[i] - 'a'];
+         if (Arrays.equals(needs, gives)) {
+            res.add(i - count + 1);
+         }
+         ++i;
+
+      }
+      return res;
 
    }
 
