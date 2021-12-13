@@ -4442,6 +4442,38 @@ public class LeetCode_2 {
       return res;
    }
 
+   // 1052. 爱生气的书店老板 (Grumpy Bookstore Owner)
+   public int maxSatisfied(int[] customers, int[] grumpy, int minutes) {
+      int satisfy = 0;
+      for (int i = 0; i < customers.length; ++i) {
+         if (grumpy[i] == 0) {
+            satisfy += customers[i];
+         }
+      }
+      int index = 0;
+      int cur = 0;
+      int res = 0;
+      while (index < minutes) {
+         if (grumpy[index] == 1) {
+            cur += customers[index];
+         }
+         ++index;
+      }
+      res = cur;
+      while (index < customers.length) {
+         if (grumpy[index] == 1) {
+            cur += customers[index];
+         }
+         if (grumpy[index - minutes] == 1) {
+            cur -= customers[index - minutes];
+         }
+         res = Math.max(res, cur);
+         ++index;
+      }
+      return res + satisfy;
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
