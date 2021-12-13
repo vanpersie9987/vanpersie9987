@@ -305,34 +305,6 @@ public class LeetCode_2 {
       }
    }
 
-   // 1456. 定长子串中元音的最大数目 (Maximum Number of Vowels in a Substring of Given Length)
-   // --滑动窗口
-   public int maxVowels(String s, int k) {
-      char[] chars = s.toCharArray();
-      int cur = 0;
-      int i = 0;
-      while (i < k) {
-         if (chars[i] == 'a' || chars[i] == 'e' || chars[i] == 'i' || chars[i] == 'o' || chars[i] == 'u') {
-            ++cur;
-         }
-         ++i;
-      }
-      int res = cur;
-      while (i < chars.length) {
-         if (chars[i] == 'a' || chars[i] == 'e' || chars[i] == 'i' || chars[i] == 'o' || chars[i] == 'u') {
-            ++cur;
-         }
-         if (chars[i - k] == 'a' || chars[i - k] == 'e' || chars[i - k] == 'i' || chars[i - k] == 'o'
-               || chars[i - k] == 'u') {
-            --cur;
-         }
-         res = Math.max(res, cur);
-         ++i;
-      }
-      return res;
-
-   }
-
    // 1974. 使用特殊打字机键入单词的最少时间 (Minimum Time to Type Word Using Special Typewriter)
    // --贪心
    public int minTimeToType(String word) {
@@ -4499,6 +4471,34 @@ public class LeetCode_2 {
          min = Math.min(min, cur);
       }
       return sum - min;
+
+   }
+
+   // 1456. 定长子串中元音的最大数目 (Maximum Number of Vowels in a Substring of Given Length)
+   // --滑动窗口
+   public int maxVowels(String s, int k) {
+      int res = 0;
+      int cur = 0;
+      char[] chars = s.toCharArray();
+      for (int i = 0; i < k; ++i) {
+         char c = chars[i];
+         if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+            ++cur;
+         }
+      }
+      res = Math.max(res, cur);
+      for (int i = k; i < chars.length; ++i) {
+         char c = chars[i];
+         if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+            ++cur;
+         }
+         c = chars[i - k];
+         if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+            --cur;
+         }
+         res = Math.max(res, cur);
+      }
+      return res;
 
    }
 
