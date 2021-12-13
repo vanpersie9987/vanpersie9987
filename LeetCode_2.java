@@ -194,7 +194,7 @@ public class LeetCode_2 {
 
    }
 
-   // 1248. 统计「优美子数组」(Count Number of Nice Subarrays) 前缀和
+   // 1248. 统计「优美子数组」(Count Number of Nice Subarrays) --前缀和 还需掌握数学法
    public int numberOfSubarrays(int[] nums, int k) {
       Map<Integer, Integer> map = new HashMap<>();
       int oddNum = 0;
@@ -209,7 +209,7 @@ public class LeetCode_2 {
 
    }
 
-   // 1248. 统计「优美子数组」(Count Number of Nice Subarrays) 前缀和
+   // 1248. 统计「优美子数组」(Count Number of Nice Subarrays) --前缀和 还需掌握数学法
    public int numberOfSubarrays2(int[] nums, int k) {
       int[] arr = new int[nums.length + 1];
       int res = 0;
