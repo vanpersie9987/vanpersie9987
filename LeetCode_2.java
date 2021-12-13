@@ -4502,6 +4502,29 @@ public class LeetCode_2 {
 
    }
 
+   // 1493. 删掉一个元素以后全为 1 的最长子数组 (Longest Subarray of 1's After Deleting One
+   // Element) -- 滑动窗口 还需掌握动态规划
+   public int longestSubarray(int[] nums) {
+      int left = 0;
+      int right = 0;
+      int res = 0;
+      int countZero = 0;
+      while (right < nums.length) {
+         if (nums[right] == 0) {
+            ++countZero;
+         }
+         while (countZero > 1) {
+            if (nums[left++] == 0) {
+               --countZero;
+            }
+         }
+         res = Math.max(res, right - left);
+         ++right;
+      }
+
+      return res;
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;

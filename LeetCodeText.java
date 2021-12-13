@@ -7577,69 +7577,6 @@ public class LeetCodeText {
 
     }
 
-    // 1493. 删掉一个元素以后全为 1 的最长子数组
-    public int longestSubarray(int[] nums) {
-        int[] left = new int[nums.length];
-        int[] right = new int[nums.length];
-        left[0] = nums[0];
-        for (int i = 1; i < nums.length; ++i) {
-            left[i] = nums[i] == 0 ? 0 : left[i - 1] + 1;
-        }
-        right[nums.length - 1] = nums[nums.length - 1];
-        for (int i = nums.length - 2; i >= 0; --i) {
-            right[i] = nums[i] == 0 ? 0 : right[i + 1] + 1;
-        }
-        int max = 0;
-        for (int i = 0; i < nums.length; ++i) {
-            int l = i == 0 ? 0 : left[i - 1];
-            int r = i == nums.length - 1 ? 0 : right[i + 1];
-            max = Math.max(max, l + r);
-        }
-        return max;
-
-    }
-
-    // 1493. 删掉一个元素以后全为 1 的最长子数组
-    public int longestSubarray2(int[] nums) {
-        int pre0[] = new int[nums.length];
-        int pre1[] = new int[nums.length];
-        pre0[0] = nums[0];
-        for (int i = 1; i < nums.length; ++i) {
-            pre0[i] = nums[i] == 0 ? 0 : pre0[i - 1] + 1;
-        }
-        int max = 0;
-        pre1[0] = nums[0];
-        for (int i = 1; i < nums.length; ++i) {
-            pre1[i] = nums[i] == 0 ? pre0[i - 1] : pre1[i - 1] + 1;
-            max = Math.max(max, pre1[i]);
-        }
-        if (max == nums.length) {
-            return max - 1;
-
-        }
-        return max;
-
-    }
-
-    // 1493. 删掉一个元素以后全为 1 的最长子数组
-    public int longestSubarray3(int[] nums) {
-        int pre0 = 0;
-        int pre1 = 0;
-        int max = 0;
-        for (int i = 0; i < nums.length; ++i) {
-            if (nums[i] == 1) {
-                ++pre0;
-                ++pre1;
-            } else {
-                pre1 = pre0;
-                pre0 = 0;
-            }
-            max = Math.max(max, pre1);
-        }
-        return max == nums.length ? max - 1 : max;
-
-    }
-
     // 1481. 不同整数的最少数目 (Least Number of Unique Integers after K Removals)
     public int findLeastNumOfUniqueInts(int[] arr, int k) {
         Map<Integer, Integer> map = new HashMap<>();
