@@ -3019,26 +3019,6 @@ public class LeetCode_2 {
 
    }
 
-   // 1423. 可获得的最大点数 (Maximum Points You Can Obtain from Cards)
-   public int maxScore(int[] cardPoints, int k) {
-      int window = cardPoints.length - k;
-      int min = 0;
-      int cur = 0;
-      int sum = 0;
-      for (int i = 0; i < window; ++i) {
-         cur += cardPoints[i];
-         sum += cardPoints[i];
-      }
-      min = cur;
-      for (int i = window; i < cardPoints.length; ++i) {
-         cur = cur - cardPoints[i - window] + cardPoints[i];
-         min = Math.min(min, cur);
-         sum += cardPoints[i];
-      }
-      return sum - min;
-
-   }
-
    // 1480. 一维数组的动态和 (Running Sum of 1d Array)
    public int[] runningSum(int[] nums) {
       for (int i = 1; i < nums.length; ++i) {
@@ -4498,6 +4478,27 @@ public class LeetCode_2 {
          ++right;
       }
       return res;
+
+   }
+
+   // 1423. 可获得的最大点数 (Maximum Points You Can Obtain from Cards) --滑动窗口
+   public int maxScore(int[] cardPoints, int k) {
+      int window = cardPoints.length - k;
+      int cur = 0;
+      int min = Integer.MAX_VALUE;
+      int sum = 0;
+      for (int i = 0; i < window; ++i) {
+         cur += cardPoints[i];
+         sum += cardPoints[i];
+      }
+      min = Math.min(min, cur);
+      for (int i = window; i < cardPoints.length; ++i) {
+         sum += cardPoints[i];
+         cur -= cardPoints[i - window];
+         cur += cardPoints[i];
+         min = Math.min(min, cur);
+      }
+      return sum - min;
 
    }
 
