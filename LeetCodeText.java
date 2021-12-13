@@ -3640,35 +3640,6 @@ public class LeetCodeText {
 
     }
 
-    // 1052. 爱生气的书店老板
-    public int maxSatisfied(final int[] customers, final int[] grumpy, final int X) {
-        int satisfy = 0;
-        for (int i = 0; i < grumpy.length; ++i) {
-            if (grumpy[i] == 0) {
-                satisfy += customers[i];
-            }
-        }
-
-        int calmDownSatisfy = 0;
-        for (int i = 0; i < X; ++i) {
-            if (grumpy[i] == 1) {
-                calmDownSatisfy += customers[i];
-            }
-        }
-        int maxCalmDownSatisfy = calmDownSatisfy;
-        for (int i = X; i < grumpy.length; ++i) {
-            if (grumpy[i] == 1) {
-                calmDownSatisfy += customers[i];
-            }
-            if (grumpy[i - X] == 1) {
-                calmDownSatisfy -= customers[i - X];
-            }
-            maxCalmDownSatisfy = Math.max(maxCalmDownSatisfy, calmDownSatisfy);
-        }
-        return maxCalmDownSatisfy + satisfy;
-
-    }
-
     // 1053. 交换一次的先前排列
     public int[] prevPermOpt1(final int[] A) {
         int i = A.length - 2;
