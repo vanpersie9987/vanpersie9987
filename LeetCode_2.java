@@ -2819,27 +2819,6 @@ public class LeetCode_2 {
 
    }
 
-   // 1208. 尽可能使字符串相等 (Get Equal Substrings Within Budget) --滑动窗口 还需掌握二分查找法
-   public int equalSubstring(String s, String t, int maxCost) {
-      char[] sChar = s.toCharArray();
-      char[] tChar = t.toCharArray();
-      int left = 0;
-      int right = 0;
-      int res = 0;
-      int curCost = 0;
-      while (right < sChar.length) {
-         curCost += Math.abs(sChar[right] - tChar[right]);
-         while (curCost > maxCost) {
-            curCost -= Math.abs(sChar[left] - tChar[left]);
-            ++left;
-         }
-         res = Math.max(res, right - left + 1);
-         ++right;
-      }
-      return res;
-
-   }
-
    // 1446. 连续字符 (Consecutive Characters)
    public int maxPower(String s) {
       int res = 1;
@@ -4471,6 +4450,28 @@ public class LeetCode_2 {
          ++index;
       }
       return res + satisfy;
+
+   }
+
+   // 1208. 尽可能使字符串相等 (Get Equal Substrings Within Budget) --滑动窗口 还需掌握二分查找法
+   public int equalSubstring(String s, String t, int maxCost) {
+      int[] diff = new int[s.length()];
+      for (int i = 0; i < s.length(); ++i) {
+         diff[i] = Math.abs(s.charAt(i) - t.charAt(i));
+      }
+      int left = 0;
+      int right = 0;
+      int res = 0;
+      int prefix = 0;
+      while (right < diff.length) {
+         prefix += diff[right];
+         while (prefix > maxCost) {
+            prefix -= diff[left++];
+         }
+         res = Math.max(res, right - left + 1);
+         ++right;
+      }
+      return res;
 
    }
 
