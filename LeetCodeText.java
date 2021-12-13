@@ -5971,27 +5971,6 @@ public class LeetCodeText {
 
     }
 
-    // 1343. 大小为 K 且平均值大于等于阈值的子数组数目
-    public int numOfSubarrays(final int[] arr, final int k, final int threshold) {
-        int sumThreshold = threshold * k;
-        int count = 0;
-        int cur = 0;
-        for (int i = 0; i < k; ++i) {
-            cur += arr[i];
-        }
-        if (cur >= sumThreshold) {
-            ++count;
-        }
-        for (int i = k; i < arr.length; ++i) {
-            cur += arr[i] - arr[i - k];
-            if (cur >= sumThreshold) {
-                ++count;
-            }
-        }
-        return count;
-
-    }
-
     // 1375. 灯泡开关 III
     public int numTimesAllBlue(final int[] light) {
         int count = 0;
