@@ -4336,6 +4336,37 @@ public class LeetCode_2 {
       return String.valueOf(res);
    }
 
+   // 718. 最长重复子数组 (Maximum Length of Repeated Subarray)
+   // --滑动窗口 还需掌握 “动态规划”、“二分查找 + 哈希”
+   public int findLength(int[] nums1, int[] nums2) {
+      int m = nums1.length;
+      int n = nums2.length;
+      int res = 0;
+      for (int i = 0; i < m; ++i) {
+         int minLen = Math.min(m - i, n);
+         res = Math.max(res, getMaxLength718(nums1, nums2, i, 0, minLen));
+      }
+      for (int i = 0; i < n; ++i) {
+         int minLen = Math.min(m, n - i);
+         res = Math.max(res, getMaxLength718(nums1, nums2, 0, i, minLen));
+      }
+      return res;
+
+   }
+
+   private int getMaxLength718(int[] nums1, int[] nums2, int add1, int add2, int minLen) {
+      int max = 0;
+      int count = 0;
+      for (int i = 0; i < minLen; ++i) {
+         if (nums1[add1 + i] != nums2[add2 + i]) {
+            count = 0;
+         } else {
+            max = Math.max(max, ++count);
+         }
+      }
+      return max;
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
