@@ -14,6 +14,7 @@ public class LeetCode_2 {
    public static void main(final String[] args) {
       // String s = "4w31am0ets6sl5go5ufytjtjpb7b0sxqbee2blg9ss";
       // int res = numDifferentIntegers(s);
+      // int res = maxSumTwoNoOverlap(new int[] { 1, 0, 3 }, 1, 2);
 
    }
 
@@ -2714,7 +2715,7 @@ public class LeetCode_2 {
 
    }
 
-   // 1004.最大连续1的个数 III (Max Consecutive Ones III) --双指针 前缀和
+   // 1004.最大连续1的个数 III (Max Consecutive Ones III) --双指针 + 前缀和 + 滑动窗口
    public int longestOnes(int[] nums, int k) {
       int zeroCount = 0;
       int left = 0;
@@ -4317,7 +4318,7 @@ public class LeetCode_2 {
 
    }
 
-   // 1663. 具有给定数值的最小字符串 (Smallest String With A Given Numeric Value)
+   // 1663. 具有给定数值的最小字符串 (Smallest String With A Given Numeric Value) --贪心
    public String getSmallestString(int n, int k) {
       char[] res = new char[n];
       // 初始都设置为'a'
@@ -4365,6 +4366,80 @@ public class LeetCode_2 {
          }
       }
       return max;
+   }
+
+   // 978. 最长湍流子数组 (Longest Turbulent Subarray) --滑动窗口
+   public int maxTurbulenceSize(int[] arr) {
+      int res = 1;
+      int left = 0;
+      int right = 0;
+      while (right < arr.length - 1) {
+         if (left == right) {
+            if (arr[left] == arr[left + 1]) {
+               ++left;
+            }
+            ++right;
+         } else {
+            if (arr[right - 1] < arr[right] && arr[right] > arr[right + 1]) {
+               ++right;
+            } else if (arr[right - 1] > arr[right] && arr[right] < arr[right + 1]) {
+               ++right;
+            } else {
+               left = right;
+            }
+         }
+         res = Math.max(res, right - left + 1);
+      }
+      return res;
+
+   }
+
+   // 1031. 两个非重叠子数组的最大和 (Maximum Sum of Two Non-Overlapping Subarrays)
+   public int maxSumTwoNoOverlap(int[] nums, int firstLen, int secondLen) {
+      return Math.max(getMax1031(nums, firstLen, secondLen), getMax1031(nums, secondLen, firstLen));
+
+   }
+
+   private int getMax1031(int[] nums, int leftLen, int rightLen) {
+      int[] prefix1 = new int[nums.length];
+      int max = 0;
+      int cur = 0;
+      int i = 0;
+      while (i < leftLen) {
+         cur += nums[i++];
+      }
+      max = Math.max(max, cur);
+      prefix1[i - 1] = max;
+      while (i < nums.length) {
+         cur -= nums[i - leftLen];
+         cur += nums[i];
+         max = Math.max(max, cur);
+         prefix1[i] = max;
+         ++i;
+      }
+
+      int[] prefix2 = new int[nums.length];
+      max = 0;
+      cur = 0;
+      i = nums.length - 1;
+      while (i >= nums.length - rightLen) {
+         cur += nums[i--];
+      }
+      max = Math.max(max, cur);
+      prefix2[i + 1] = cur;
+      while (i >= 0) {
+         cur -= nums[i + rightLen];
+         cur += nums[i];
+         max = Math.max(max, cur);
+         prefix2[i] = max;
+         --i;
+      }
+      int res = 0;
+      for (int j = leftLen; j <= nums.length - rightLen; ++j) {
+         res = Math.max(res, prefix1[j - 1] + prefix2[j]);
+
+      }
+      return res;
    }
 
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
