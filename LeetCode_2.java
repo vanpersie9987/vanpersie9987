@@ -3057,30 +3057,6 @@ public class LeetCode_2 {
 
    }
 
-   // 1658. 将 x 减到 0 的最小操作数 (Minimum Operations to Reduce X to Zero) --双指针
-   public int minOperations(int[] nums, int x) {
-      int sum = Arrays.stream(nums).sum() - x;
-      if (sum < 0) {
-         return -1;
-      }
-      int left = 0;
-      int right = 0;
-      int preSum = 0;
-      int res = -1;
-      while (right < nums.length) {
-         preSum += nums[right];
-         while (left < nums.length && preSum > sum) {
-            preSum -= nums[left++];
-         }
-         if (preSum == sum) {
-            res = Math.max(res, right - left + 1);
-         }
-         ++right;
-      }
-      return res == -1 ? -1 : nums.length - res;
-
-   }
-
    // 1685. 有序数组中差绝对值之和 (Sum of Absolute Differences in a Sorted Array)
    public int[] getSumAbsoluteDifferences(int[] nums) {
       int n = nums.length;
@@ -4523,6 +4499,28 @@ public class LeetCode_2 {
       }
 
       return res;
+   }
+
+   // 1658. 将 x 减到 0 的最小操作数 (Minimum Operations to Reduce X to Zero)
+   // --滑动窗口 + 双指针 + 前缀和
+   public int minOperations(int[] nums, int x) {
+      int target = Arrays.stream(nums).sum() - x;
+      int left = 0;
+      int right = 0;
+      int maxLen = -1;
+      int prefix = 0;
+      while (right < nums.length) {
+         prefix += nums[right];
+         while (left <= right && prefix > target) {
+            prefix -= nums[left++];
+         }
+         if (prefix == target) {
+            maxLen = Math.max(maxLen, right - left + 1);
+         }
+         ++right;
+      }
+      return maxLen == -1 ? -1 : nums.length - maxLen;
+
    }
 
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
