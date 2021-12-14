@@ -3947,28 +3947,6 @@ public class LeetCode_2 {
 
    }
 
-   // 1695. 删除子数组的最大得分 (Maximum Erasure Value)
-   public int maximumUniqueSubarray(int[] nums) {
-      int res = 0;
-      int preSum = 0;
-      Set<Integer> set = new HashSet<>();
-      int left = 0;
-      int right = 0;
-      while (right < nums.length) {
-         if (set.add(nums[right])) {
-            preSum += nums[right];
-            res = Math.max(res, preSum);
-            ++right;
-         } else {
-            preSum -= nums[left];
-            set.remove(nums[left]);
-            ++left;
-         }
-      }
-      return res;
-
-   }
-
    // 984. 不含 AAA 或 BBB 的字符串 (String Without AAA or BBB)
    public String strWithout3a3b(int a, int b) {
       StringBuilder res = new StringBuilder();
@@ -4520,6 +4498,28 @@ public class LeetCode_2 {
          ++right;
       }
       return maxLen == -1 ? -1 : nums.length - maxLen;
+
+   }
+
+   // 1695. 删除子数组的最大得分 (Maximum Erasure Value)
+   public int maximumUniqueSubarray(int[] nums) {
+      Set<Integer> set = new HashSet<>();
+      int left = 0;
+      int right = 0;
+      int prefix = 0;
+      int max = 0;
+      while (right < nums.length) {
+         if (set.add(nums[right])) {
+            prefix += nums[right];
+            max = Math.max(max, prefix);
+            ++right;
+         } else {
+            prefix -= nums[left];
+            set.remove(nums[left]);
+            ++left;
+         }
+      }
+      return max;
 
    }
 
