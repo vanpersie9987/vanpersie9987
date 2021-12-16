@@ -4046,37 +4046,41 @@ public class LeetCode_2 {
 
    // 面试题 17.18. 最短超串 (Shortest Supersequence LCCI)
    public int[] shortestSeq2(int[] big, int[] small) {
-      int count = small.length;
+      if (small.length > big.length) {
+         return new int[0];
+      }
+      Map<Integer, Integer> need = new HashMap<>();
+      for (int num : small) {
+         need.put(num, need.getOrDefault(num, 0) + 1);
+      }
+      int needCount = small.length;
+      Map<Integer, Integer> give = new HashMap<>();
       int left = 0;
       int right = 0;
-      Map<Integer, Integer> map = new HashMap<>();
-      int minCount = Integer.MAX_VALUE;
-      for (int num : small) {
-         map.put(num, map.getOrDefault(num, 0) + 1);
-      }
-      int[] res = new int[] {};
+      int giveCount = 0;
+      int minLength = big.length + 1;
+      int[] res = new int[0];
       while (right < big.length) {
-         if (map.containsKey(big[right])) {
-            if (map.getOrDefault(big[right], 0) > 0) {
-               --count;
+         if (need.containsKey(big[right])) {
+            if (give.getOrDefault(big[right], 0) < need.get(big[right])) {
+               ++giveCount;
             }
-            map.put(big[right], map.getOrDefault(big[right], 0) - 1);
+            give.put(big[right], give.getOrDefault(big[right], 0) + 1);
          }
-         while (count == 0) {
-            if (right - left + 1 < minCount) {
-               minCount = right - left + 1;
+         while (giveCount == needCount) {
+            if (right - left + 1 < minLength) {
+               minLength = right - left + 1;
                res = new int[] { left, right };
             }
-            if (map.containsKey(big[left])) {
-               map.put(big[left], map.getOrDefault(big[left], 0) + 1);
-               if (map.get(big[left]) > 0) {
-                  ++count;
+            if (need.containsKey(big[left])) {
+               if (give.get(big[left]) == need.get(big[left])) {
+                  --giveCount;
                }
+               give.put(big[left], give.get(big[left]) - 1);
             }
             ++left;
          }
          ++right;
-
       }
       return res;
 
