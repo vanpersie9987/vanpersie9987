@@ -8092,10 +8092,11 @@ public class LeetCodeText {
     }
 
     // 875. 爱吃香蕉的珂珂
+    // 剑指 Offer II 073. 狒狒吃香蕉
     public int minEatingSpeed(int[] piles, int h) {
         int res = Integer.MAX_VALUE;
         int left = 1;
-        int right = Integer.MAX_VALUE;
+        int right = Arrays.stream(piles).max().getAsInt();
         while (left <= right) {
             int mid = left + ((right - left) >>> 1);
             if (canEatBananas(piles, mid, h)) {
