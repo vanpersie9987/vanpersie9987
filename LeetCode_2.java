@@ -3641,36 +3641,38 @@ public class LeetCode_2 {
       for (char c : t.toCharArray()) {
          ++need[c];
       }
+      int needCount = t.length();
+      int[] give = new int[128];
+      int giveCount = 0;
       int left = 0;
       int right = 0;
       int minLength = s.length() + 1;
-      int[] give = new int[128];
-      int giveCount = 0;
       String res = "";
-      char[] chars = s.toCharArray();
-      while (right < chars.length) {
-         if (need[chars[right]] > 0) {
-            if (give[chars[right]] < need[chars[right]]) {
+      while (right < s.length()) {
+         char c = s.charAt(right);
+         if (need[c] > 0) {
+            if (give[c] < need[c]) {
                ++giveCount;
             }
-            ++give[chars[right]];
-            while (t.length() == giveCount) {
-               if (right - left + 1 < minLength) {
-                  res = s.substring(left, right + 1);
-                  minLength = right - left + 1;
-               }
-               if (need[chars[left]] > 0) {
-                  if (give[chars[left]] == need[chars[left]]) {
-                     --giveCount;
-                  }
-                  --give[chars[left]];
-               }
-               ++left;
+            ++give[c];
+         }
+         while (giveCount == needCount) {
+            if (right - left + 1 < minLength) {
+               minLength = right - left + 1;
+               res = s.substring(left, left + minLength);
             }
+            c = s.charAt(left);
+            if (need[c] > 0) {
+               if (give[c] == need[c]) {
+                  --giveCount;
+               }
+               --give[c];
+            }
+            ++left;
          }
          ++right;
       }
-      return minLength == s.length() + 1 ? "" : res;
+      return res;
 
    }
 
