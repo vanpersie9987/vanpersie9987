@@ -3586,6 +3586,7 @@ public class LeetCode_2 {
    }
 
    // 76. 最小覆盖子串 (Minimum Window Substring) --滑动窗口
+   // 剑指 Offer II 017. 含有所有字符的最短字符串
    public String minWindow(String s, String t) {
       if (t.length() > s.length()) {
          return "";
@@ -3634,6 +3635,7 @@ public class LeetCode_2 {
    }
 
    // 76. 最小覆盖子串 (Minimum Window Substring) --滑动窗口
+   // 剑指 Offer II 017. 含有所有字符的最短字符串
    public String minWindow2(String s, String t) {
       int[] need = new int[128];
       for (char c : t.toCharArray()) {
