@@ -4546,7 +4546,7 @@ public class LeetCode_2 {
 
    }
 
-   // 2091. 从数组中移除最大值和最小值 (Removing Minimum and Maximum From Array)
+   // 2091. 从数组中移除最大值和最小值 (Removing Minimum and Maximum From Array) --贪心
    public int minimumDeletions(int[] nums) {
       int min = Integer.MAX_VALUE;
       int max = Integer.MIN_VALUE;
