@@ -7489,7 +7489,8 @@ public class LeetCodeText {
 
     }
 
-    // 198. 打家劫舍
+    // 198. 打家劫舍 --动态规划
+    // 剑指 Offer II 089. 房屋偷盗
     public int rob(int[] nums) {
         if (nums.length == 1) {
             return nums[0];
