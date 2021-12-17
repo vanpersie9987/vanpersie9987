@@ -4573,24 +4573,20 @@ public class LeetCode_2 {
 
    }
 
-   // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
-   // public int countTriplets(int[] arr) {
+   // 1442. 形成两个异或相等数组的三元组数目 (Count Triplet
+   // public int cou
    // int count = 0;
-   // for (int i = 0; i < arr.length; ++i) {
+   // for (int i =
    // int xor = 0;
-   // for (int k = i; k < arr.length; ++k) {
+   // for (int k = i
    // xor ^= arr[k];
    // if (xor == 0) {
-   // count += k - i;
+   // c
    // }
    // }
-   // }
-   // return count;
-
    // }
 
    // 1074. 元素和为目标值的子矩阵数量 (Number of Submatrices That Sum to Target)
-   // public int numSubmatrixSumTarget(int[][] matrix, int target) {
 
    // }
 }
