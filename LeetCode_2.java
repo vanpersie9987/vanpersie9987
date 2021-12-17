@@ -4573,20 +4573,34 @@ public class LeetCode_2 {
 
    }
 
-   // 1442. 形成两个异或相等数组的三元组数目 (Count Triplet
-   // public int cou
-   // int count = 0;
-   // for (int i =
-   // int xor = 0;
-   // for (int k = i
-   // xor ^= arr[k];
-   // if (xor == 0) {
-   // c
-   // }
-   // }
-   // }
+   // 2105. 给植物浇水 II (Watering Plants II)
+   public int minimumRefill(int[] plants, int capacityA, int capacityB) {
+      int res = 0;
+      int remainA = capacityA;
+      int remainB = capacityB;
+      int i = 0;
+      int j = plants.length - 1;
+      while (i < j) {
+         if (remainA >= plants[i]) {
+            remainA -= plants[i];
+         } else {
+            ++res;
+            remainA = capacityA - plants[i];
+         }
+         ++i;
 
-   // 1074. 元素和为目标值的子矩阵数量 (Number of Submatrices That Sum to Target)
+         if (remainB >= plants[j]) {
+            remainB -= plants[j];
+         } else {
+            ++res;
+            remainB = capacityB - plants[j];
+         }
+         --j;
+      }
+      if (i == j && remainA < plants[i] && remainB < plants[i]) {
+         ++res;
+      }
+      return res;
 
-   // }
+   }
 }
