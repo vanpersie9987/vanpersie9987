@@ -2804,28 +2804,28 @@ public class LeetCodeText {
     }
 
     // 873. 最长的斐波那契子序列的长度
-    public int lenLongestFibSubseq(final int[] A) {
+    // 剑指 Offer II 093. 最长斐波那契数列
+    public int lenLongestFibSubseq(int[] arr) {
         Set<Integer> set = new HashSet<>();
-        for (int num : A) {
+        for (int num : arr) {
             set.add(num);
         }
-
-        int max = 0;
-        for (int i = 0; i < A.length; ++i) {
-            for (int j = i + 1; j < A.length; ++j) {
-                int f1 = A[i];
-                int f2 = A[j];
-                int count = 0;
+        int res = 0;
+        for (int i = 0; i < arr.length; ++i) {
+            for (int j = i + 1; j < arr.length; ++j) {
+                int cur = 0;
+                int f1 = arr[i];
+                int f2 = arr[j];
                 while (set.contains(f1 + f2)) {
                     int temp = f1 + f2;
                     f1 = f2;
                     f2 = temp;
-                    ++count;
+                    ++cur;
                 }
-                max = Math.max(max, count == 0 ? 0 : count + 2);
+                res = Math.max(res, cur == 0 ? 0 : cur + 2);
             }
         }
-        return max;
+        return res;
 
     }
 
