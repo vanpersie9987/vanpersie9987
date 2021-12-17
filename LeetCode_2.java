@@ -4546,6 +4546,33 @@ public class LeetCode_2 {
 
    }
 
+   // 2091. 从数组中移除最大值和最小值 (Removing Minimum and Maximum From Array)
+   public int minimumDeletions(int[] nums) {
+      int min = Integer.MAX_VALUE;
+      int max = Integer.MIN_VALUE;
+      int minIndex = 0;
+      int maxIndex = nums.length - 1;
+      for (int i = 0; i < nums.length; ++i) {
+         if (nums[i] > max) {
+            max = nums[i];
+            maxIndex = i;
+         }
+         if (nums[i] < min) {
+            min = nums[i];
+            minIndex = i;
+         }
+      }
+      // 从左边删
+      int count1 = Math.max(minIndex, maxIndex) + 1;
+      // 从右边删
+      int count2 = nums.length - Math.min(minIndex, maxIndex);
+      // 从两侧删
+      int count3 = nums.length - (Math.abs(maxIndex - minIndex) - 1);
+
+      return Math.min(count1, Math.min(count2, count3));
+
+   }
+
    // 1442. 形成两个异或相等数组的三元组数目 (Count Triplets That Can Form Two Arrays of Equal XOR)
    // public int countTriplets(int[] arr) {
    // int count = 0;
