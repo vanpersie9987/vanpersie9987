@@ -1004,18 +1004,18 @@ public class LeetCodeText {
     }
 
     // 121. 买卖股票的最佳时机
-    public int maxProfit(final int[] prices) {
-        int maxProfit = 0;
-        int low = prices[0];
-        for (int i = 1; i < prices.length; ++i) {
-            if (prices[i] > low) {
-                maxProfit = Math.max(maxProfit, prices[i] - low);
-            } else {
-                low = prices[i];
+    // 剑指 Offer 63. 股票的最大利润
+    public int maxProfit(int[] prices) {
+        int res = 0;
+        int min = Integer.MAX_VALUE;
+        for (int price : prices) {
+            if (price < min) {
+                min = price;
+            } else if (price - min > res) {
+                res = price - min;
             }
         }
-        return maxProfit;
-
+        return res;
     }
 
     // 122. 买卖股票的最佳时机 II
