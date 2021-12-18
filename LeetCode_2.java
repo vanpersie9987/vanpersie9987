@@ -4623,4 +4623,34 @@ public class LeetCode_2 {
 
    }
 
+   // 2094. 找出 3 位偶数 (Finding 3-Digit Even Numbers)
+   public int[] findEvenNumbers(int[] digits) {
+      List<Integer> list = new ArrayList<>();
+      int[] counts = new int[10];
+      for (int digit : digits) {
+         ++counts[digit];
+      }
+      int[] give = new int[10];
+      search: for (int num = 100; num < 1000; num += 2) {
+         Arrays.fill(give, 0);
+         int cur = num;
+         while (cur > 0) {
+            ++give[cur % 10];
+            cur /= 10;
+         }
+         for (int i = 0; i < give.length; ++i) {
+            if (give[i] > counts[i]) {
+               continue search;
+            }
+         }
+         list.add(num);
+      }
+      int[] res = new int[list.size()];
+      for (int i = 0; i < list.size(); ++i) {
+         res[i] = list.get(i);
+      }
+      return res;
+
+   }
+
 }
