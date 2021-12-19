@@ -4828,4 +4828,43 @@ public class LeetCode_2 {
 
    }
 
+   // 324. 摆动排序 II (Wiggle Sort II) --排序 时间O(nlog(n)) 空间O(n)
+   // 还需掌握时间O(n) 空间O(1)的快速选择算法
+   public void wiggleSort(int[] nums) {
+      int[] copy = nums.clone();
+      Arrays.sort(copy);
+      int j = copy.length - 1;
+      for (int i = 1; i < nums.length; i += 2) {
+         nums[i] = copy[j--];
+      }
+      for (int i = 0; i < nums.length; i += 2) {
+         nums[i] = copy[j--];
+      }
+
+   }
+
+   // 324. 摆动排序 II (Wiggle Sort II) --桶排序 时间O(n) 空间O(n)
+   // 还需掌握时间O(n) 空间O(1)的快速选择算法
+   public void wiggleSort2(int[] nums) {
+      int[] counts = new int[5001];
+      for (int num : nums) {
+         ++counts[num];
+      }
+      int j = 5000;
+      for (int i = 1; i < nums.length; i += 2) {
+         while (counts[j] == 0) {
+            --j;
+         }
+         nums[i] = j;
+         --counts[j];
+      }
+      for (int i = 0; i < nums.length; i += 2) {
+         while (counts[j] == 0) {
+            --j;
+         }
+         nums[i] = j;
+         --counts[j];
+      }
+   }
+
 }
