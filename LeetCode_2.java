@@ -4821,4 +4821,11 @@ public class LeetCode_2 {
 
    }
 
+   // 面试题 17.14. Smallest K LCCI --还需掌握 堆；快排思想
+   public int[] smallestK(int[] arr, int k) {
+      Arrays.sort(arr);
+      return Arrays.copyOfRange(arr, 0, k);
+
+   }
+
 }
