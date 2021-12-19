@@ -15,6 +15,7 @@ public class LeetCode_2 {
       // String s = "4w31am0ets6sl5go5ufytjtjpb7b0sxqbee2blg9ss";
       // int res = numDifferentIntegers(s);
       // int res = maxSumTwoNoOverlap(new int[] { 1, 0, 3 }, 1, 2);
+      boolean[] res = friendRequests(3, new int[][] { { 0, 1 } }, new int[][] { { 0, 2 }, { 2, 1 } });
 
    }
 
@@ -4708,20 +4709,20 @@ public class LeetCode_2 {
          }
       }
 
-      public int getParent(int p) {
+      public int getRoot(int p) {
          if (p == parent[p]) {
             return p;
          }
-         return parent[p] = getParent(parent[p]);
+         return parent[p] = getRoot(parent[p]);
       }
 
       public boolean isConnected(int p1, int p2) {
-         return getParent(p1) == getParent(p2);
+         return getRoot(p1) == getRoot(p2);
       }
 
       public void union(int p1, int p2) {
-         int root1 = getParent(p1);
-         int root2 = getParent(p2);
+         int root1 = getRoot(p1);
+         int root2 = getRoot(p2);
          if (root1 == root2) {
             return;
          }
@@ -4742,6 +4743,79 @@ public class LeetCode_2 {
             rank[p] = 1;
          }
 
+      }
+
+   }
+
+   // 2076. 处理含限制条件的好友请求 (Process Restricted Friend Requests)
+   public boolean[] friendRequests(int n, int[][] restrictions, int[][] requests) {
+      boolean[] res = new boolean[requests.length];
+      UnionFind2076 union = new UnionFind2076(n);
+      for (int i = 0; i < requests.length; ++i) {
+         int x = union.getRoot(requests[i][0]);
+         int y = union.getRoot(requests[i][1]);
+         if (x == y) {
+            res[i] = true;
+         } else {
+            boolean flag = true;
+            for (int[] restriction : restrictions) {
+               int u = union.getRoot(restriction[0]);
+               int v = union.getRoot(restriction[1]);
+               if ((x == u && y == v) || (x == v && y == u)) {
+                  flag = false;
+                  break;
+               }
+            }
+            if (flag) {
+               res[i] = true;
+               union.union(x, y);
+            } else {
+               res[i] = false;
+            }
+         }
+      }
+      return res;
+
+   }
+
+   public class UnionFind2076 {
+      private int[] parent;
+      private int[] rank;
+
+      public UnionFind2076(int n) {
+         parent = new int[n];
+         for (int i = 0; i < n; ++i) {
+            parent[i] = i;
+         }
+         rank = new int[n];
+         Arrays.fill(rank, 1);
+      }
+
+      public int getRoot(int p) {
+         if (parent[p] == p) {
+            return p;
+         }
+         return parent[p] = getRoot(parent[p]);
+      }
+
+      public boolean isConnected(int p1, int p2) {
+         return getRoot(p1) == getRoot(p2);
+      }
+
+      public void union(int p1, int p2) {
+         int root1 = getRoot(p1);
+         int root2 = getRoot(p2);
+         if (root1 == root2) {
+            return;
+         }
+         if (rank[root1] > rank[root2]) {
+            parent[root2] = root1;
+         } else {
+            parent[root1] = root2;
+            if (rank[root1] == rank[root2]) {
+               ++rank[root2];
+            }
+         }
       }
 
    }
