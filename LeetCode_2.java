@@ -4872,15 +4872,14 @@ public class LeetCode_2 {
       int[] mask = new int[10];
       char[] chars = rings.toCharArray();
       for (int i = 0; i < chars.length; i += 2) {
-         int cur = 0;
+         int index = chars[i + 1] - '0';
          if (chars[i] == 'R') {
-            cur = 0;
+            mask[index] |= 1 << 0;
          } else if (chars[i] == 'G') {
-            cur = 1;
+            mask[index] |= 1 << 1;
          } else if (chars[i] == 'B') {
-            cur = 2;
+            mask[index] |= 1 << 2;
          }
-         mask[chars[i + 1] - '0'] |= 1 << cur;
       }
       int res = 0;
       for (int num : mask) {
