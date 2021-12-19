@@ -15,7 +15,8 @@ public class LeetCode_2 {
       // String s = "4w31am0ets6sl5go5ufytjtjpb7b0sxqbee2blg9ss";
       // int res = numDifferentIntegers(s);
       // int res = maxSumTwoNoOverlap(new int[] { 1, 0, 3 }, 1, 2);
-      boolean[] res = friendRequests(3, new int[][] { { 0, 1 } }, new int[][] { { 0, 2 }, { 2, 1 } });
+      // boolean[] res = friendRequests(3, new int[][] { { 0, 1 } }, new int[][] { {
+      // 0, 2 }, { 2, 1 } });
 
    }
 
