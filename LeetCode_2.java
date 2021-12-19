@@ -4653,4 +4653,97 @@ public class LeetCode_2 {
 
    }
 
+   // 2092. 找出知晓秘密的所有专家 (Find All People With Secret) --并查集
+   public List<Integer> findAllPeople(int n, int[][] meetings, int firstPerson) {
+      UnionFind2092 unionFind = new UnionFind2092(n);
+      unionFind.union(0, firstPerson);
+      Arrays.sort(meetings, new Comparator<int[]>() {
+
+         @Override
+         public int compare(int[] o1, int[] o2) {
+            return o1[2] - o2[2];
+         }
+
+      });
+
+      int left = 0;
+      int right = 0;
+      while (right < meetings.length) {
+         int time = meetings[right][2];
+         while (right + 1 < meetings.length && time == meetings[right + 1][2]) {
+            ++right;
+         }
+         for (int i = left; i <= right; ++i) {
+            unionFind.union(meetings[i][0], meetings[i][1]);
+         }
+         for (int i = left; i <= right; ++i) {
+            if (!unionFind.isConnected(meetings[i][0], 0)) {
+               unionFind.isolate(meetings[i][0]);
+               unionFind.isolate(meetings[i][1]);
+            }
+         }
+         ++right;
+         left = right;
+      }
+      List<Integer> res = new ArrayList<>();
+      for (int i = 0; i < n; ++i) {
+         if (unionFind.isConnected(0, i)) {
+            res.add(i);
+         }
+      }
+      return res;
+
+   }
+
+   public class UnionFind2092 {
+      private int[] rank;
+      private int[] parent;
+
+      public UnionFind2092(int n) {
+         rank = new int[n];
+         Arrays.fill(rank, 1);
+         parent = new int[n];
+         for (int i = 0; i < n; ++i) {
+            parent[i] = i;
+         }
+      }
+
+      public int getParent(int p) {
+         if (p == parent[p]) {
+            return p;
+         }
+         return parent[p] = getParent(parent[p]);
+      }
+
+      public boolean isConnected(int p1, int p2) {
+         return getParent(p1) == getParent(p2);
+      }
+
+      public void union(int p1, int p2) {
+         int root1 = getParent(p1);
+         int root2 = getParent(p2);
+         if (root1 == root2) {
+            return;
+         }
+         if (rank[root1] < rank[root2]) {
+            parent[root1] = root2;
+         } else {
+            parent[root2] = root1;
+            if (rank[root1] == rank[root2]) {
+               ++rank[root1];
+            }
+         }
+      }
+
+      // 孤立节点
+      public void isolate(int p) {
+         if (parent[p] != p) {
+            parent[p] = p;
+            rank[p] = 1;
+         }
+
+      }
+
+   }
+
 }
