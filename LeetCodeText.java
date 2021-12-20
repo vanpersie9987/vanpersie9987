@@ -468,15 +468,23 @@ public class LeetCodeText {
     }
 
     // 53. 最大子序和
-    public int maxSubArray(final int[] nums) {
+    // 剑指 Offer 42. 连续子数组的最大和
+    // 面试题 16.17. 连续数列
+    public int maxSubArray(int[] nums) {
         for (int i = 1; i < nums.length; ++i) {
             nums[i] = Math.max(nums[i], nums[i - 1] + nums[i]);
         }
-        return Arrays.stream(nums).max().getAsInt();
+        int res = nums[0];
+        for (int i = 1; i < nums.length; ++i) {
+            res = Math.max(res, nums[i]);
+        }
+        return res;
     }
 
+    // 53. 最大子序和
+    // 剑指 Offer 42. 连续子数组的最大和
     // 面试题 16.17. 连续数列
-    public int maxSubArray2(final int[] nums) {
+    public int maxSubArray2(int[] nums) {
         int pre = nums[0];
         int max = nums[0];
         for (int i = 1; i < nums.length; ++i) {
