@@ -4637,13 +4637,13 @@ public class LeetCode_2 {
          Arrays.fill(give, 0);
          int cur = num;
          while (cur > 0) {
-            ++give[cur % 10];
-            cur /= 10;
-         }
-         for (int i = 0; i < give.length; ++i) {
-            if (give[i] > counts[i]) {
+            int mod = cur % 10;
+            ++give[mod];
+            if (give[mod] > counts[mod]) {
                continue search;
             }
+            cur /= 10;
+
          }
          list.add(num);
       }
