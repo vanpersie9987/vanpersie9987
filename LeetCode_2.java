@@ -4891,4 +4891,46 @@ public class LeetCode_2 {
 
    }
 
+   // LCP 12. 小张刷题计划
+   public int minTime(int[] time, int m) {
+      int left = 0;
+      int right = Integer.MAX_VALUE;
+      int res = 0;
+      while (left <= right) {
+         int mid = left + ((right - left) >>> 1);
+         if (checkLCP12(time, mid) <= m) {
+            res = mid;
+            right = mid - 1;
+         } else {
+            left = mid + 1;
+         }
+      }
+      return res;
+
+   }
+
+   private int checkLCP12(int[] time, int t) {
+      boolean help = true;
+      int max = -1;
+      int days = 1;
+      int cur = t;
+      for (int i = 0; i < time.length; ++i) {
+         max = Math.max(max, time[i]);
+         if (cur >= time[i]) {
+            cur -= time[i];
+         } else if (help) {
+            help = false;
+            cur += max;
+            --i;
+         } else {
+            ++days;
+            cur = t;
+            --i;
+            max = -1;
+            help = true;
+         }
+      }
+      return days;
+   }
+
 }
