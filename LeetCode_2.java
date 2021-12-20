@@ -4891,7 +4891,7 @@ public class LeetCode_2 {
 
    }
 
-   // LCP 12. 小张刷题计划
+   // LCP 12. 小张刷题计划 --二分查找
    public int minTime(int[] time, int m) {
       int left = 0;
       int right = Integer.MAX_VALUE;
