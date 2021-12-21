@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import javax.swing.plaf.metal.OceanTheme;
+
 public class LeetCode_2 {
 
    public static void main(final String[] args) {
@@ -4931,6 +4933,55 @@ public class LeetCode_2 {
          }
       }
       return days;
+   }
+
+   // 794. 有效的井字游戏 (Valid Tic-Tac-Toe State)
+   public boolean validTicTacToe(String[] board) {
+      // 第0行表示X 第1行表示O
+      // 0-2列表示行个数 3-5列表示列个数 6列表示正对角线个数 7表示负对角线个数
+      int[][] counts = new int[2][8];
+      int xCount = 0;
+      int oCount = 0;
+      for (int i = 0; i < board.length; ++i) {
+         for (int j = 0; j < board[i].length(); ++j) {
+            char c = board[i].charAt(j);
+            if (c == 'X') {
+               ++xCount;
+               ++counts[0][i];
+               ++counts[0][j + 3];
+               if (i == j) {
+                  ++counts[0][6];
+               }
+               if (i + j == 2) {
+                  ++counts[0][7];
+               }
+            } else if (c == 'O') {
+               ++oCount;
+               ++counts[1][i];
+               ++counts[1][j + 3];
+               if (i == j) {
+                  ++counts[1][6];
+               }
+               if (i + j == 2) {
+                  ++counts[1][7];
+               }
+            }
+         }
+      }
+      // X与O个数只能向相等 或 X比O多一（因为X先手）
+      // 这是合法的必要条件
+      if (xCount - oCount > 1 || xCount - oCount < 0) {
+         return false;
+      }
+      int xMax = Arrays.stream(counts[0]).max().getAsInt();
+      int oMax = Arrays.stream(counts[1]).max().getAsInt();
+      // X赢了、但O与X数量相等 不合法
+      // O赢了、但X比O数量还多 不合法
+      if ((xMax == 3 && xCount == oCount) || (oMax == 3 && xCount > oCount)) {
+         return false;
+      }
+      return true;
+
    }
 
 }
