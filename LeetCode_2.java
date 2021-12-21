@@ -2,12 +2,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeMap;
 
 import javax.swing.plaf.metal.OceanTheme;
 
@@ -4998,6 +5001,66 @@ public class LeetCode_2 {
          }
       }
       return Math.min(1.0d, dp[query_row][query_glass]);
+
+   }
+
+   // 1438. 绝对差不超过限制的最长连续子数组 (Longest Continuous Subarray With Absolute Diff Less
+   // Than or Equal to Limit
+   // --双指针+滑动窗口+TreeMap --还需要了解TreeMap的原理及更多用法
+   public int longestSubarray(int[] nums, int limit) {
+      TreeMap<Integer, Integer> map = new TreeMap<>();
+      int left = 0;
+      int right = 0;
+      int res = 0;
+      while (right < nums.length) {
+         map.put(nums[right], map.getOrDefault(nums[right], 0) + 1);
+         while (map.lastKey() - map.firstKey() > limit) {
+            map.put(nums[left], map.get(nums[left]) - 1);
+            if (map.get(nums[left]) == 0) {
+               map.remove(nums[left]);
+            }
+            ++left;
+         }
+         res = Math.max(res, right - left + 1);
+         ++right;
+      }
+      return res;
+
+   }
+
+   // 1438. 绝对差不超过限制的最长连续子数组 (Longest Continuous Subarray With Absolute Diff Less
+   // Than or Equal to Limit
+   // --双指针+滑动窗口+TreeMap --还需要了解双端队列的原理及更多用法
+   public int longestSubarray2(int[] nums, int limit) {
+      Deque<Integer> max = new LinkedList<>();
+      Deque<Integer> min = new LinkedList<>();
+      int left = 0;
+      int right = 0;
+      int res = 0;
+      while (right < nums.length) {
+         while (!max.isEmpty() && max.peekLast() < nums[right]) {
+            max.pollLast();
+         }
+         max.offerLast(nums[right]);
+
+         while (!min.isEmpty() && min.peekLast() > nums[right]) {
+            min.pollLast();
+         }
+         min.offerLast(nums[right]);
+
+         while (!max.isEmpty() && !min.isEmpty() && max.peekFirst() - min.peekFirst() > limit) {
+            if (nums[left] == max.peekFirst()) {
+               max.pollFirst();
+            }
+            if (nums[left] == min.peekFirst()) {
+               min.pollFirst();
+            }
+            ++left;
+         }
+         res = Math.max(res, right - left + 1);
+         ++right;
+      }
+      return res;
 
    }
 
