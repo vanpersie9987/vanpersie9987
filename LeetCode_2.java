@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class LeetCode_2 {
 
@@ -5060,6 +5061,23 @@ public class LeetCode_2 {
       }
       return res;
 
+   }
+
+   // 220. 存在重复元素 III (Contains Duplicate III)
+   // 剑指 Offer II 057. 值和下标之差都在给定的范围内 --还需掌握 ：桶
+   public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+      TreeSet<Long> set = new TreeSet<>();
+      for (int i = 0; i < nums.length; ++i) {
+         Long ceiling = set.ceiling((long) nums[i] - (long) t);
+         if (ceiling != null && ceiling <= (long) nums[i] + (long) t) {
+            return true;
+         }
+         set.add((long) nums[i]);
+         if (i >= k) {
+            set.remove((long) nums[i - k]);
+         }
+      }
+      return false;
    }
 
 }
