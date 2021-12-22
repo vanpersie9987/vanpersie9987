@@ -5088,14 +5088,7 @@ public class LeetCode_2 {
             list.add(new int[] { num, i });
          }
       }
-      Collections.sort(list, new Comparator<int[]>() {
-
-         @Override
-         public int compare(int[] o1, int[] o2) {
-            return o1[0] - o2[0];
-         }
-
-      });
+      Collections.sort(list, (o1, o2) -> o1[0] - o2[0]);
       int[] count = new int[nums.size()];
       int left = 0;
       int right = 0;
@@ -5105,14 +5098,15 @@ public class LeetCode_2 {
          if (count[list.get(right)[1]]++ == 0) {
             ++k;
          }
-         if (k == count.length) {
-            while (count[list.get(left)[1]] > 1) {
-               --count[list.get(left++)[1]];
-            }
+         while (k == count.length) {
             if ((res[0] == 0 && res[1] == 0) || (res[1] - res[0] > list.get(right)[0] - list.get(left)[0])) {
                res[0] = list.get(left)[0];
                res[1] = list.get(right)[0];
             }
+            if (count[list.get(left)[1]] == 1) {
+               --k;
+            }
+            --count[list.get(left++)[1]];
          }
          ++right;
       }
