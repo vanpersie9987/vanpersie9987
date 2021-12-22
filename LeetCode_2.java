@@ -5080,4 +5080,44 @@ public class LeetCode_2 {
       return false;
    }
 
+   // 632. 最小区间 (Smallest Range Covering Elements from K Lists)
+   public int[] smallestRange(List<List<Integer>> nums) {
+      List<int[]> list = new ArrayList<>();
+      for (int i = 0; i < nums.size(); ++i) {
+         for (int num : nums.get(i)) {
+            list.add(new int[] { num, i });
+         }
+      }
+      Collections.sort(list, new Comparator<int[]>() {
+
+         @Override
+         public int compare(int[] o1, int[] o2) {
+            return o1[0] - o2[0];
+         }
+
+      });
+      int[] count = new int[nums.size()];
+      int left = 0;
+      int right = 0;
+      int k = 0;
+      int[] res = new int[2];
+      while (right < list.size()) {
+         if (count[list.get(right)[1]]++ == 0) {
+            ++k;
+         }
+         if (k == count.length) {
+            while (count[list.get(left)[1]] > 1) {
+               --count[list.get(left++)[1]];
+            }
+            if ((res[0] == 0 && res[1] == 0) || (res[1] - res[0] > list.get(right)[0] - list.get(left)[0])) {
+               res[0] = list.get(left)[0];
+               res[1] = list.get(right)[0];
+            }
+         }
+         ++right;
+      }
+      return res;
+
+   }
+
 }
