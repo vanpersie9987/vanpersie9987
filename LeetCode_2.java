@@ -5114,4 +5114,29 @@ public class LeetCode_2 {
 
    }
 
+   // 2108. 找出数组中的第一个回文字符串 (Find First Palindromic String in the Array)
+   public String firstPalindrome(String[] words) {
+      for (String word : words) {
+         if (checkPalindrome(word)) {
+            return word;
+         }
+      }
+      return "";
+
+   }
+
+   private boolean checkPalindrome(String word) {
+      char[] chars = word.toCharArray();
+      int left = 0;
+      int right = chars.length - 1;
+      while (left < right) {
+         if (chars[left] != chars[right]) {
+            return false;
+         }
+         ++left;
+         --right;
+      }
+      return true;
+   }
+
 }
