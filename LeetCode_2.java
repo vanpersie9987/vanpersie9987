@@ -5151,9 +5151,28 @@ public class LeetCode_2 {
 
    }
 
-   // 2104. 子数组范围和 (Sum of Subarray Ranges)
-   public long subArrayRanges(int[] nums) {
+   // 2109. 向字符串添加空格 (Adding Spaces to a String)
+   public String addSpaces(String s, int[] spaces) {
+      StringBuilder res = new StringBuilder();
+      char[] chars = s.toCharArray();
+      int indexSpace = 0;
+      int indexS = 0;
+      while (indexSpace < spaces.length) {
+         if (indexS == spaces[indexSpace]) {
+            res.append(" ");
+            ++indexSpace;
+         } else {
+            res.append(chars[indexS++]);
+         }
+      }
+      res.append(Arrays.copyOfRange(chars, indexS, chars.length));
 
+      return res.toString();
    }
+
+   // 2104. 子数组范围和 (Sum of Subarray Ranges)
+   // public long subArrayRanges(int[] nums) {
+
+   // }
 
 }
