@@ -5139,6 +5139,18 @@ public class LeetCode_2 {
       return true;
    }
 
+   public int minPathSum(int[][] grid) {
+      int m = grid.length;
+      int n = grid[0].length;
+      int[] dp = new int[n];
+      dp[0] = grid[0][0];
+      for (int i = 1; i < n; ++i) {
+         dp[i] = dp[i - 1] + grid[0][i];
+      }
+      
+
+   }
+
    // 2104. 子数组范围和 (Sum of Subarray Ranges)
    public long subArrayRanges(int[] nums) {
 
