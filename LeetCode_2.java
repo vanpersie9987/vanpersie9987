@@ -5170,6 +5170,40 @@ public class LeetCode_2 {
       return res.toString();
    }
 
+   // 1408. 数组中的字符串匹配 (String Matching in an Array)
+   public List<String> stringMatching(String[] words) {
+      StringBuilder builder = new StringBuilder();
+      for (String word : words) {
+         builder.append(word).append("/");
+      }
+
+      List<String> res = new ArrayList<>();
+      for (String word : words) {
+         if (builder.lastIndexOf(word) != builder.indexOf(word)) {
+            res.add(word);
+         }
+      }
+      return res;
+
+   }
+
+   // 1408. 数组中的字符串匹配 (String Matching in an Array)
+   public List<String> stringMatching2(String[] words) {
+      List<String> res = new ArrayList<>();
+      for (int i = 0; i < words.length; ++i) {
+         for (int j = 0; j < words.length; ++j) {
+            if (i == j) {
+               continue;
+            }
+            if (words[i].contains(words[j]) && !res.contains(words[j])) {
+               res.add(words[j]);
+            }
+         }
+      }
+      return res;
+
+   }
+
    // 2104. 子数组范围和 (Sum of Subarray Ranges)
    // public long subArrayRanges(int[] nums) {
 
