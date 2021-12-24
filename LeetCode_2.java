@@ -5204,6 +5204,36 @@ public class LeetCode_2 {
 
    }
 
+   // 824. 山羊拉丁文 (Goat Latin)
+   public String toGoatLatin(String sentence) {
+      StringBuilder res = new StringBuilder();
+      int count = 1;
+      for (String s : sentence.split("\\s+")) {
+         char firstChar = s.charAt(0);
+         if (isVowel824(firstChar)) {
+            res.append(s);
+         } else {
+            res.append(s.substring(1));
+            res.append(s.substring(0, 1));
+         }
+         res.append("ma");
+         for (int i = 0; i < count; ++i) {
+            res.append("a");
+         }
+         ++count;
+         res.append(" ");
+      }
+      return res.substring(0, res.length() - 1);
+
+   }
+
+   private boolean isVowel824(char c) {
+      char lowerC = Character.toLowerCase(c);
+      if (lowerC == 'a' || lowerC == 'e' || lowerC == 'i' || lowerC == 'o' || lowerC == 'u') {
+         return true;
+      }
+      return false;
+   }
    // 2104. 子数组范围和 (Sum of Subarray Ranges)
    // public long subArrayRanges(int[] nums) {
 
