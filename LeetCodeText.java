@@ -1000,11 +1000,13 @@ public class LeetCodeText {
     }
 
     // 120. 三角形最小路径和
-    public int minimumTotal(final List<List<Integer>> triangle) {
-        int[] dp = new int[triangle.size() + 1];
-        for (int i = triangle.size() - 1; i >= 0; --i) {
-            for (int j = 0; j < triangle.get(i).size(); ++j) {
-                dp[j] = Math.min(dp[j + 1], dp[j]) + triangle.get(i).get(j);
+    // 剑指 Offer II 100. 三角形中最小路径之和 --动态规划
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        int[] dp = new int[n + 1];
+        for (int i = n - 1; i >= 0; --i) {
+            for (int j = 0; j <= i; ++j) {
+                dp[j] = Math.min(dp[j], dp[j + 1]) + triangle.get(i).get(j);
             }
         }
         return dp[0];

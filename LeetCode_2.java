@@ -5139,4 +5139,9 @@ public class LeetCode_2 {
       return true;
    }
 
+   // 2104. 子数组范围和 (Sum of Subarray Ranges)
+   public long subArrayRanges(int[] nums) {
+
+   }
+
 }
