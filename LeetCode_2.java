@@ -5139,6 +5139,18 @@ public class LeetCode_2 {
       return true;
    }
 
+   // 1374. 生成每种字符都是奇数个的字符串 (Generate a String With Characters That Have Odd
+   // Counts)
+   public String generateTheString(int n) {
+      char[] res = new char[n];
+      Arrays.fill(res, 'a');
+      if (n % 2 == 0) {
+         res[n - 1] = 'b';
+      }
+      return String.valueOf(res);
+
+   }
+
    // 2104. 子数组范围和 (Sum of Subarray Ranges)
    public long subArrayRanges(int[] nums) {
 
