@@ -5234,6 +5234,52 @@ public class LeetCode_2 {
       }
       return false;
    }
+
+   // 187. 重复的DNA序列 (Repeated DNA Sequences)
+   public List<String> findRepeatedDnaSequences(String s) {
+      final int L = 10;
+      Map<String, Integer> map = new HashMap<>();
+      List<String> res = new ArrayList<>();
+      for (int i = 0; i + L - 1 < s.length(); ++i) {
+         String cur = s.substring(i, i + L);
+         map.put(cur, map.getOrDefault(cur, 0) + 1);
+         if (map.get(cur) == 2) {
+            res.add(cur);
+         }
+      }
+      return res;
+
+   }
+   // 187. 重复的DNA序列 (Repeated DNA Sequences)
+   public List<String> findRepeatedDnaSequences2(String s) {
+      final int L = 10;
+      List<String> res = new ArrayList<>();
+      char[] chars = s.toCharArray();
+      if (chars.length <= L) {
+         return res;
+      }
+
+      Map<Character, Integer> dic = new HashMap<>();
+      dic.put('A', 0b00);
+      dic.put('C', 0b01);
+      dic.put('T', 0b10);
+      dic.put('G', 0b11);
+      int cur = 0;
+      Map<Integer, Integer> map = new HashMap<>();
+      for (int i = 0; i < L; ++i) {
+         cur = (cur << 2) | dic.get(chars[i]);
+      }
+      map.put(cur, map.getOrDefault(cur, 0) + 1);
+      for (int i = L; i < chars.length; ++i) {
+         cur = ((cur << 2) | dic.get(chars[i])) & ((1 << L * 2) - 1);
+         map.put(cur, map.getOrDefault(cur, 0) + 1);
+         if (map.get(cur) == 2) {
+            res.add(String.valueOf(Arrays.copyOfRange(chars, i - L + 1, i + 1)));
+         }
+      }
+      return res;
+
+   }
    // 2104. 子数组范围和 (Sum of Subarray Ranges)
    // public long subArrayRanges(int[] nums) {
 
