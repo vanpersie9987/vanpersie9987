@@ -5250,6 +5250,7 @@ public class LeetCode_2 {
       return res;
 
    }
+
    // 187. 重复的DNA序列 (Repeated DNA Sequences)
    public List<String> findRepeatedDnaSequences2(String s) {
       final int L = 10;
@@ -5276,6 +5277,28 @@ public class LeetCode_2 {
          if (map.get(cur) == 2) {
             res.add(String.valueOf(Arrays.copyOfRange(chars, i - L + 1, i + 1)));
          }
+      }
+      return res;
+
+   }
+
+   // 904. 水果成篮 (Fruit Into Baskets)
+   public int totalFruit(int[] fruits) {
+      int res = 0;
+      int left = 0;
+      int right = 0;
+      Map<Integer, Integer> map = new HashMap<>();
+      while (right < fruits.length) {
+         map.put(fruits[right], map.getOrDefault(fruits[right], 0) + 1);
+         while (map.keySet().size() > 2) {
+            map.put(fruits[left], map.get(fruits[left]) - 1);
+            if (map.get(fruits[left]) == 0) {
+               map.remove(fruits[left]);
+            }
+            ++left;
+         }
+         res = Math.max(res, right - left + 1);
+         ++right;
       }
       return res;
 
