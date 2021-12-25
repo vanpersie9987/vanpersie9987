@@ -5342,4 +5342,86 @@ public class LeetCode_2 {
 
    }
 
+   // 419. 甲板上的战舰 (Battleships in a Board)
+   public int countBattleships2(char[][] board) {
+      int m = board.length;
+      int n = board[0].length;
+      UnionFind419 union = new UnionFind419(m * n);
+      for (int i = 0; i < m; ++i) {
+         for (int j = 0; j < n; ++j) {
+            if (board[i][j] == 'X') {
+               if (i > 0 && board[i - 1][j] == 'X') {
+                  union.union(getIndex419(i, j, n), getIndex419(i - 1, j, n));
+               }
+               if (j > 0 && board[i][j - 1] == 'X') {
+                  union.union(getIndex419(i, j, n), getIndex419(i, j - 1, n));
+               }
+               if (i + 1 < m && board[i + 1][j] == 'X') {
+                  union.union(getIndex419(i, j, n), getIndex419(i + 1, j, n));
+               }
+               if (j + 1 < n && board[i][j + 1] == 'X') {
+                  union.union(getIndex419(i, j, n), getIndex419(i, j + 1, n));
+               }
+            }
+         }
+      }
+      Set<Integer> set = new HashSet<>();
+      for (int i = 0; i < m; ++i) {
+         for (int j = 0; j < n; ++j) {
+            if (board[i][j] == 'X') {
+               int root = union.getRoot(getIndex419(i, j, n));
+               set.add(root);
+            }
+         }
+      }
+      return set.size();
+
+   }
+
+   private int getIndex419(int i, int j, int n) {
+      return i * n + j;
+   }
+
+   public class UnionFind419 {
+      private int[] parent;
+      private int[] rank;
+
+      public UnionFind419(int n) {
+         parent = new int[n];
+         for (int i = 0; i < n; ++i) {
+            parent[i] = i;
+         }
+         rank = new int[n];
+         Arrays.fill(rank, 1);
+      }
+
+      public int getRoot(int p) {
+         if (parent[p] == p) {
+            return p;
+         }
+         return parent[p] = getRoot(parent[p]);
+      }
+
+      public boolean isConnected(int p1, int p2) {
+         return getRoot(p1) == getRoot(p2);
+      }
+
+      public void union(int p1, int p2) {
+         int root1 = getRoot(p1);
+         int root2 = getRoot(p2);
+         if (root1 == root2) {
+            return;
+         }
+         if (rank[root1] < rank[root2]) {
+            parent[root1] = root2;
+         } else {
+            parent[root2] = root1;
+            if (rank[root1] == rank[root2]) {
+               ++rank[root1];
+            }
+         }
+      }
+
+   }
+
 }
