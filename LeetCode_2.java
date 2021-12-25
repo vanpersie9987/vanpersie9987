@@ -5303,9 +5303,21 @@ public class LeetCode_2 {
       return res;
 
    }
-   // 2104. 子数组范围和 (Sum of Subarray Ranges)
-   // public long subArrayRanges(int[] nums) {
 
-   // }
+   // 2104. 子数组范围和 (Sum of Subarray Ranges) --O(n^2) 还需掌握O(n)的解法
+   public long subArrayRanges(int[] nums) {
+      long res = 0L;
+      for (int i = 0; i < nums.length; ++i) {
+         int min = nums[i];
+         int max = nums[i];
+         for (int j = i + 1; j < nums.length; ++j) {
+            min = Math.min(min, nums[j]);
+            max = Math.max(max, nums[j]);
+            res += max - min;
+         }
+      }
+      return res;
+
+   }
 
 }
