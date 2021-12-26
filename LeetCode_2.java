@@ -5483,4 +5483,29 @@ public class LeetCode_2 {
       }
    }
 
+   // 649. Dota2 参议院 (Dota2 Senate)
+   public String predictPartyVictory(String senate) {
+      int n = senate.length();
+      Queue<Integer> queueRadiant = new LinkedList<>();
+      Queue<Integer> queueDire = new LinkedList<>();
+      for (int i = 0; i < n; ++i) {
+         if (senate.charAt(i) == 'R') {
+            queueRadiant.offer(i);
+         } else {
+            queueDire.offer(i);
+         }
+      }
+      while (!queueDire.isEmpty() && !queueRadiant.isEmpty()) {
+         int headRadiant = queueRadiant.poll();
+         int headDire = queueDire.poll();
+         if (headRadiant < headDire) {
+            queueRadiant.offer(headRadiant + n);
+         } else {
+            queueDire.offer(headDire + n);
+         }
+      }
+      return queueDire.isEmpty() ? "Radiant" : "Dire";
+
+   }
+
 }
