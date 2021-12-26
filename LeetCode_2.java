@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
@@ -5422,6 +5423,64 @@ public class LeetCode_2 {
          }
       }
 
+   }
+
+   // 面试题 03.06. 动物收容所 (Animal Shelter LCCI)
+   public class AnimalShelf {
+      Queue<int[]> queueCat;
+      Queue<int[]> queueDog;
+
+      public AnimalShelf() {
+         queueCat = new LinkedList<>();
+         queueDog = new LinkedList<>();
+
+      }
+
+      public void enqueue(int[] animal) {
+         // cat
+         if (animal[1] == 0) {
+            queueCat.offer(animal);
+         } else {
+            queueDog.offer(animal);
+         }
+
+      }
+
+      public int[] dequeueAny() {
+         if (queueCat.isEmpty() && queueDog.isEmpty()) {
+            return new int[] { -1, -1 };
+         }
+         if (queueCat.isEmpty() && !queueDog.isEmpty()) {
+            return queueDog.poll();
+         }
+         if (!queueCat.isEmpty() && queueDog.isEmpty()) {
+            return queueCat.poll();
+         }
+         int[] headCat = queueCat.peek();
+         int[] headDog = queueDog.peek();
+         if (headCat[0] < headDog[0]) {
+            return queueCat.poll();
+         } else {
+            return queueDog.poll();
+         }
+
+      }
+
+      public int[] dequeueDog() {
+         if (queueDog.isEmpty()) {
+            return new int[] { -1, -1 };
+         }
+         return queueDog.poll();
+
+      }
+
+      public int[] dequeueCat() {
+         if (queueCat.isEmpty()) {
+            return new int[] { -1, -1 };
+         }
+         return queueCat.poll();
+
+      }
    }
 
 }
