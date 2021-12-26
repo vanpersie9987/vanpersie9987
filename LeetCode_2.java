@@ -5508,4 +5508,28 @@ public class LeetCode_2 {
 
    }
 
+   // 1078. Bigram 分词 (Occurrences After Bigram)
+   public String[] findOcurrences(String text, String first, String second) {
+      String[] texts = text.split("\\s+");
+      List<String> res = new ArrayList<>();
+      for (int i = 2; i < texts.length; ++i) {
+         if (texts[i - 2].equals(first) && texts[i - 1].equals(second)) {
+            res.add(texts[i]);
+         }
+      }
+      return res.toArray(new String[res.size()]);
+
+   }
+
+   // 134. 加油站 (Gas Station)
+   // public int canCompleteCircuit(int[] gas, int[] cost) {
+
+   // }
+
+   // 239. 滑动窗口最大值 (Sliding Window Maximum)
+   // 剑指 Offer 59 - I. 滑动窗口的最大值
+   // public int[] maxSlidingWindow(int[] nums, int k) {
+
+   // }
+
 }
