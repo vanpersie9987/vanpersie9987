@@ -5523,35 +5523,39 @@ public class LeetCode_2 {
 
    // 937. 重新排列日志文件 (Reorder Data in Log Files)
    public String[] reorderLogFiles(String[] logs) {
-      List<String> letterLogs = new ArrayList<>();
-      List<String> digitLogs = new ArrayList<>();
-      for (String log : logs) {
-         int first = log.indexOf(" ") + 1;
-         if (Character.isDigit(log.charAt(first))) {
-            digitLogs.add(log);
-         } else {
-            letterLogs.add(log);
-         }
-      }
-      Collections.sort(letterLogs, new Comparator<String>() {
+      Arrays.sort(logs, new Comparator<String>() {
 
          @Override
          public int compare(String o1, String o2) {
-            int firstO1SpaceIndex = o1.indexOf(" ");
-            int firstO2SpaceIndex = o2.indexOf(" ");
-            if (o1.substring(firstO1SpaceIndex).equals(o2.substring(firstO2SpaceIndex))) {
-               return o1.substring(0, firstO1SpaceIndex).compareTo(o2.substring(0, firstO2SpaceIndex));
+            int index1 = o1.indexOf(" ");
+            int index2 = o2.indexOf(" ");
+            boolean isDigit1 = Character.isDigit(o1.charAt(index1 + 1));
+            boolean isDigit2 = Character.isDigit(o2.charAt(index2 + 1));
+            if (!isDigit1 && !isDigit2) {
+               if (o1.substring(index1 + 1).equals(o2.substring(index2 + 1))) {
+                  return o1.compareTo(o2);
+               }
+               return o1.substring(index1 + 1).compareTo(o2.substring(index2 + 1));
             }
-            return o1.substring(firstO1SpaceIndex).compareTo(o2.substring(firstO2SpaceIndex));
+            return isDigit1 ? (isDigit2 ? 0 : 1) : -1;
          }
 
       });
-      List<String> res = new ArrayList<>();
-      res.addAll(letterLogs);
-      res.addAll(digitLogs);
-      return res.toArray(new String[res.size()]);
+      return logs;
 
    }
+
+   // 911. 在线选举 (Online Election)
+   // class TopVotedCandidate {
+
+   // public TopVotedCandidate(int[] persons, int[] times) {
+
+   // }
+
+   // public int q(int t) {
+
+   // }
+   // }
 
    // 134. 加油站 (Gas Station)
    // public int canCompleteCircuit(int[] gas, int[] cost) {
