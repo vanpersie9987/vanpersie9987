@@ -5545,6 +5545,40 @@ public class LeetCode_2 {
 
    }
 
+   // 1995. 统计特殊四元组 (Count Special Quadruplets) --O(n^3)
+   public int countQuadruplets(int[] nums) {
+      int[] counts = new int[101];
+      int res = 0;
+      for (int c = nums.length - 2; c >= 2; --c) {
+         ++counts[nums[c + 1]];
+         for (int a = 0; a < c; ++a) {
+            for (int b = a + 1; b < c; ++b) {
+               if (nums[a] + nums[b] + nums[c] < counts.length) {
+                  res += counts[nums[a] + nums[b] + nums[c]];
+               }
+            }
+         }
+      }
+      return res;
+
+   }
+
+   // 1995. 统计特殊四元组 (Count Special Quadruplets) --O(n^2)
+   public int countQuadruplets2(int[] nums) {
+      Map<Integer, Integer> map = new HashMap<>();
+      int res = 0;
+      for (int b = nums.length - 3; b >= 1; --b) {
+         for (int d = b + 2; d < nums.length; ++d) {
+            map.put(nums[d] - nums[b + 1], map.getOrDefault(nums[d] - nums[b + 1], 0) + 1);
+         }
+         for (int a = 0; a < b; ++a) {
+            res += map.getOrDefault(nums[a] + nums[b], 0);
+         }
+      }
+      return res;
+
+   }
+
    // 911. 在线选举 (Online Election)
    // class TopVotedCandidate {
 
