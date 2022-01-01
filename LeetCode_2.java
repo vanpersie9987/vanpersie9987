@@ -1,3 +1,4 @@
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -5580,16 +5581,45 @@ public class LeetCode_2 {
    }
 
    // 911. 在线选举 (Online Election)
-   // class TopVotedCandidate {
+   class TopVotedCandidate {
+      private Map<Integer, Integer> map;
+      private int[] times;
+      private List<Integer> tops;
 
-   // public TopVotedCandidate(int[] persons, int[] times) {
+      public TopVotedCandidate(int[] persons, int[] times) {
+         this.times = times;
+         map = new HashMap<>();
+         map.put(-1, -1);
+         int top = -1;
+         tops = new ArrayList<>();
+         for (int i = 0; i < persons.length; ++i) {
+            int p = persons[i];
+            map.put(p, map.getOrDefault(p, 0) + 1);
+            if (map.get(p) >= map.get(top)) {
+               top = p;
+            }
+            tops.add(top);
+         }
 
-   // }
+      }
 
-   // public int q(int t) {
+      public int q(int t) {
+         int left = 0;
+         int right = times.length - 1;
+         int res = 0;
+         while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (times[mid] <= t) {
+               res = mid;
+               left = mid + 1;
+            } else if (times[mid] > t) {
+               right = mid - 1;
+            }
+         }
+         return tops.get(res);
 
-   // }
-   // }
+      }
+   }
 
    // 134. 加油站 (Gas Station)
    // public int canCompleteCircuit(int[] gas, int[] cost) {
