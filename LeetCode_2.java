@@ -5622,9 +5622,20 @@ public class LeetCode_2 {
    }
 
    // 134. 加油站 (Gas Station)
-   // public int canCompleteCircuit(int[] gas, int[] cost) {
+   public int canCompleteCircuit(int[] gas, int[] cost) {
+      int min = Integer.MAX_VALUE;
+      int minIndex = 0;
+      int cur = 0;
+      for (int i = 0; i < cost.length; ++i) {
+         cur += gas[i] - cost[i];
+         if (cur < min) {
+            min = cur;
+            minIndex = i;
+         }
+      }
+      return cur < 0 ? -1 : (minIndex + 1) % cost.length;
 
-   // }
+   }
 
    // 239. 滑动窗口最大值 (Sliding Window Maximum)
    // 剑指 Offer 59 - I. 滑动窗口的最大值
