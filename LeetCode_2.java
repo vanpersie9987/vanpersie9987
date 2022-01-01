@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -5637,10 +5638,63 @@ public class LeetCode_2 {
 
    }
 
-   // 239. 滑动窗口最大值 (Sliding Window Maximum)
+   // 239. 滑动窗口最大值 (Sliding Window Maximum) --小根堆 优先队列
    // 剑指 Offer 59 - I. 滑动窗口的最大值
-   // public int[] maxSlidingWindow(int[] nums, int k) {
+   public int[] maxSlidingWindow(int[] nums, int k) {
+      Queue<int[]> priorityQueue = new PriorityQueue<>(new Comparator<int[]>() {
 
-   // }
+         @Override
+         public int compare(int[] o1, int[] o2) {
+            if (o1[0] != o2[0]) {
+               return o2[0] - o1[0];
+            }
+            return o2[1] - o1[1];
+         }
+
+      });
+      for (int i = 0; i < k; ++i) {
+         priorityQueue.offer(new int[] { nums[i], i });
+      }
+      int[] res = new int[nums.length - k + 1];
+      res[0] = priorityQueue.peek()[0];
+      for (int i = k; i < nums.length; ++i) {
+         priorityQueue.offer(new int[] { nums[i], i });
+         while (priorityQueue.peek()[1] <= i - k) {
+            priorityQueue.poll();
+         }
+         res[i - k + 1] = priorityQueue.peek()[0];
+      }
+      return res;
+
+   }
+
+   // 239. 滑动窗口最大值 (Sliding Window Maximum) --单调队列
+   // 剑指 Offer 59 - I. 滑动窗口的最大值
+   public int[] maxSlidingWindow2(int[] nums, int k) {
+      if (nums.length == 0 || k == 0) {
+         return new int[0];
+      }
+      int[] res = new int[nums.length - k + 1];
+      Deque<Integer> deque = new LinkedList<>();
+      for (int i = 0; i < k; ++i) {
+         while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
+            deque.pollLast();
+         }
+         deque.offerLast(i);
+      }
+      res[0] = nums[deque.peekFirst()];
+      for (int i = k; i < nums.length; ++i) {
+         while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
+            deque.pollLast();
+         }
+         deque.offerLast(i);
+         while (deque.peekFirst() <= i - k) {
+            deque.pollFirst();
+         }
+         res[i - k + 1] = nums[deque.peekFirst()];
+      }
+      return res;
+
+   }
 
 }
