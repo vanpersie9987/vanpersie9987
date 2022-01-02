@@ -5697,4 +5697,25 @@ public class LeetCode_2 {
 
    }
 
+   // 1425. 带限制的子序列和 (Constrained Subsequence Sum)
+   public int constrainedSubsetSum(int[] nums, int k) {
+      int n = nums.length;
+      int[] dp = new int[n];
+      dp[0] = nums[0];
+      Deque<Integer> deque = new LinkedList<>();
+      deque.offerLast(0);
+      for (int i = 1; i < n; ++i) {
+         while (!deque.isEmpty() && i - deque.peekFirst() > k) {
+            deque.pollFirst();
+         }
+         dp[i] = Math.max(0, dp[deque.peekFirst()]) + nums[i];
+         while (!deque.isEmpty() && dp[i] >= dp[deque.peekLast()]) {
+            deque.pollLast();
+         }
+         deque.offerLast(i);
+      }
+      return Arrays.stream(dp).max().getAsInt();
+
+   }
+
 }
