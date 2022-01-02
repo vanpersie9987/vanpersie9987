@@ -5684,20 +5684,20 @@ public class LeetCode_2 {
       }
       res[0] = nums[deque.peekFirst()];
       for (int i = k; i < nums.length; ++i) {
+         while (!deque.isEmpty() && i - deque.peekFirst() >= k) {
+            deque.pollFirst();
+         }
          while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
             deque.pollLast();
          }
          deque.offerLast(i);
-         while (deque.peekFirst() <= i - k) {
-            deque.pollFirst();
-         }
          res[i - k + 1] = nums[deque.peekFirst()];
       }
       return res;
 
    }
 
-   // 1425. 带限制的子序列和 (Constrained Subsequence Sum)
+   // 1425. 带限制的子序列和 (Constrained Subsequence Sum) --优先队列
    public int constrainedSubsetSum(int[] nums, int k) {
       int n = nums.length;
       int[] dp = new int[n];
@@ -5715,6 +5715,53 @@ public class LeetCode_2 {
          deque.offerLast(i);
       }
       return Arrays.stream(dp).max().getAsInt();
+
+   }
+
+   // 1696. 跳跃游戏 VI (Jump Game VI) --优先队列
+   public int maxResult(int[] nums, int k) {
+      Queue<int[]> priorityQueue = new PriorityQueue<>(new Comparator<int[]>() {
+
+         @Override
+         public int compare(int[] o1, int[] o2) {
+            if (o1[0] != o2[0]) {
+               return o2[0] - o1[0];
+            }
+            return o2[1] - o1[1];
+         }
+
+      });
+      priorityQueue.offer(new int[] { nums[0], 0 });
+      int res = priorityQueue.peek()[0];
+      for (int i = 1; i < nums.length; ++i) {
+         while (!priorityQueue.isEmpty() && i - priorityQueue.peek()[1] > k) {
+            priorityQueue.poll();
+         }
+         res = priorityQueue.peek()[0] + nums[i];
+         priorityQueue.offer(new int[] { res, i });
+
+      }
+      return res;
+
+   }
+
+   // 1696. 跳跃游戏 VI (Jump Game VI) --优先队列
+   public int maxResult2(int[] nums, int k) {
+      Deque<Integer> deque = new LinkedList<>();
+      int[] dp = new int[nums.length];
+      dp[0] = nums[0];
+      deque.offerLast(0);
+      for (int i = 1; i < nums.length; ++i) {
+         while (!deque.isEmpty() && i - deque.peekFirst() > k) {
+            deque.pollFirst();
+         }
+         dp[i] = dp[deque.peekFirst()] + nums[i];
+         while (!deque.isEmpty() && dp[i] >= dp[deque.peekLast()]) {
+            deque.pollLast();
+         }
+         deque.offerLast(i);
+      }
+      return dp[dp.length - 1];
 
    }
 
