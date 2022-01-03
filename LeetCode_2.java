@@ -15,8 +15,6 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import javax.management.Query;
-
 public class LeetCode_2 {
 
    public static void main(final String[] args) {
