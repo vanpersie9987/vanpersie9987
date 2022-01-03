@@ -15,6 +15,8 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.management.Query;
+
 public class LeetCode_2 {
 
    public static void main(final String[] args) {
@@ -5484,31 +5486,6 @@ public class LeetCode_2 {
       }
    }
 
-   // 649. Dota2 参议院 (Dota2 Senate)
-   public String predictPartyVictory(String senate) {
-      int n = senate.length();
-      Queue<Integer> queueRadiant = new LinkedList<>();
-      Queue<Integer> queueDire = new LinkedList<>();
-      for (int i = 0; i < n; ++i) {
-         if (senate.charAt(i) == 'R') {
-            queueRadiant.offer(i);
-         } else {
-            queueDire.offer(i);
-         }
-      }
-      while (!queueDire.isEmpty() && !queueRadiant.isEmpty()) {
-         int headRadiant = queueRadiant.poll();
-         int headDire = queueDire.poll();
-         if (headRadiant < headDire) {
-            queueRadiant.offer(headRadiant + n);
-         } else {
-            queueDire.offer(headDire + n);
-         }
-      }
-      return queueDire.isEmpty() ? "Radiant" : "Dire";
-
-   }
-
    // 1078. Bigram 分词 (Occurrences After Bigram)
    public String[] findOcurrences(String text, String first, String second) {
       String[] texts = text.split("\\s+");
@@ -5978,6 +5955,31 @@ public class LeetCode_2 {
          this.pos = pos;
          this.c = c;
       }
+
+   }
+
+   // 649. Dota2 参议院 (Dota2 Senate)
+   public String predictPartyVictory(String senate) {
+      Queue<Integer> queueR = new LinkedList<>();
+      Queue<Integer> queueD = new LinkedList<>();
+      char[] chars = senate.toCharArray();
+      for (int i = 0; i < chars.length; ++i) {
+         if (chars[i] == 'R') {
+            queueR.offer(i);
+         } else {
+            queueD.offer(i);
+         }
+      }
+      while (!queueD.isEmpty() && !queueR.isEmpty()) {
+         int peekR = queueR.poll();
+         int peekD = queueD.poll();
+         if (peekR < peekD) {
+            queueR.offer(peekR + chars.length);
+         } else {
+            queueD.offer(peekD + chars.length);
+         }
+      }
+      return queueD.isEmpty() ? "Radiant" : "Dire";
 
    }
 
