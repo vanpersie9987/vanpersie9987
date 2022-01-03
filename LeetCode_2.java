@@ -5890,4 +5890,95 @@ public class LeetCode_2 {
 
    }
 
+   // 387. 字符串中的第一个唯一字符 (First Unique Character in a String) --哈希表
+   public int firstUniqChar(String s) {
+      char[] chars = s.toCharArray();
+      int[] counts = new int[26];
+      for (int i = 0; i < chars.length; ++i) {
+         ++counts[chars[i] - 'a'];
+      }
+      for (int i = 0; i < chars.length; ++i) {
+         if (counts[chars[i] - 'a'] == 1) {
+            return i;
+         }
+      }
+      return -1;
+
+   }
+
+   // 387. 字符串中的第一个唯一字符 (First Unique Character in a String) --队列
+   public int firstUniqChar2(String s) {
+      char[] chars = s.toCharArray();
+      Map<Character, Integer> map = new HashMap<>();
+      Queue<Pair387> queue = new LinkedList<>();
+      for (int i = 0; i < chars.length; ++i) {
+         if (!map.containsKey(chars[i])) {
+            map.put(chars[i], i);
+            queue.offer(new Pair387(chars[i], i));
+         } else {
+            map.put(chars[i], -1);
+            while (!queue.isEmpty() && map.get(queue.peek().c) == -1) {
+               queue.poll();
+            }
+         }
+      }
+      return queue.isEmpty() ? -1 : queue.peek().pos;
+
+   }
+
+   public class Pair387 {
+      int pos;
+      char c;
+
+      public Pair387(char c, int pos) {
+         this.c = c;
+         this.pos = pos;
+      }
+   }
+
+   // 剑指 Offer 50. 第一个只出现一次的字符
+   public char firstUniqChar50(String s) {
+      int[] counts = new int[26];
+      for (char c : s.toCharArray()) {
+         ++counts[c - 'a'];
+      }
+      for (char c : s.toCharArray()) {
+         if (counts[c - 'a'] == 1) {
+            return c;
+         }
+      }
+      return ' ';
+   }
+
+   // 剑指 Offer 50. 第一个只出现一次的字符
+   public char firstUniqChar50_2(String s) {
+      // character // position
+      Map<Character, Integer> map = new HashMap<>();
+      Queue<Pair_Offer_30> queue = new LinkedList<>();
+      for (int i = 0; i < s.length(); ++i) {
+         if (!map.containsKey(s.charAt(i))) {
+            map.put(s.charAt(i), i);
+            queue.offer(new Pair_Offer_30(i, s.charAt(i)));
+         } else {
+            map.put(s.charAt(i), -1);
+            while (!queue.isEmpty() && map.get(queue.peek().c) == -1) {
+               queue.poll();
+            }
+         }
+      }
+      return queue.isEmpty() ? ' ' : queue.peek().c;
+
+   }
+
+   public class Pair_Offer_30 {
+      public int pos;
+      public char c;
+
+      public Pair_Offer_30(int pos, char c) {
+         this.pos = pos;
+         this.c = c;
+      }
+
+   }
+
 }
