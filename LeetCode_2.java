@@ -5815,8 +5815,8 @@ public class LeetCode_2 {
 
    // 225. 用队列实现栈 (Implement Stack using Queues) --两个队列
    class MyStack {
-      Queue<Integer> queue1;
-      Queue<Integer> queue2;
+      private Queue<Integer> queue1;
+      private Queue<Integer> queue2;
 
       public MyStack() {
          queue1 = new LinkedList<>();
@@ -5845,6 +5845,39 @@ public class LeetCode_2 {
 
       public boolean empty() {
          return queue1.isEmpty();
+      }
+   }
+
+   // 225. 用队列实现栈 (225. Implement Stack using Queues) --一个队列
+   class MyStack2 {
+      private Queue<Integer> queue;
+
+      public MyStack2() {
+         queue = new LinkedList<>();
+
+      }
+
+      public void push(int x) {
+         int size = queue.size();
+         queue.offer(x);
+         while (size-- > 0) {
+            queue.offer(queue.poll());
+         }
+      }
+
+      public int pop() {
+         return queue.poll();
+
+      }
+
+      public int top() {
+         return queue.peek();
+
+      }
+
+      public boolean empty() {
+         return queue.isEmpty();
+
       }
    }
 
