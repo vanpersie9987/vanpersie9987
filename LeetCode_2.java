@@ -5400,27 +5400,6 @@ public class LeetCode_2 {
 
    }
 
-   // 1425. 带限制的子序列和 (Constrained Subsequence Sum) --优先队列
-   public int constrainedSubsetSum(int[] nums, int k) {
-      int n = nums.length;
-      int[] dp = new int[n];
-      dp[0] = nums[0];
-      Deque<Integer> deque = new LinkedList<>();
-      deque.offerLast(0);
-      for (int i = 1; i < n; ++i) {
-         while (!deque.isEmpty() && i - deque.peekFirst() > k) {
-            deque.pollFirst();
-         }
-         dp[i] = Math.max(0, dp[deque.peekFirst()]) + nums[i];
-         while (!deque.isEmpty() && dp[i] >= dp[deque.peekLast()]) {
-            deque.pollLast();
-         }
-         deque.offerLast(i);
-      }
-      return Arrays.stream(dp).max().getAsInt();
-
-   }
-
    // 1696. 跳跃游戏 VI (Jump Game VI) --优先队列
    public int maxResult(int[] nums, int k) {
       Queue<int[]> priorityQueue = new PriorityQueue<>(new Comparator<int[]>() {
@@ -6040,6 +6019,26 @@ public class LeetCode_2 {
          }
          return queue.size();
       }
+   }
+
+   // 1425. 带限制的子序列和 (Constrained Subsequence Sum) --动态规划 + 单调队列
+   public int constrainedSubsetSum(int[] nums, int k) {
+      int[] dp = new int[nums.length];
+      dp[0] = nums[0];
+      Deque<Integer> deque = new LinkedList<>();
+      deque.offerLast(0);
+      for (int i = 1; i < nums.length; ++i) {
+         while (!deque.isEmpty() && i - deque.peekFirst() > k) {
+            deque.pollFirst();
+         }
+         dp[i] = Math.max(0, dp[deque.peekFirst()]) + nums[i];
+         while (!deque.isEmpty() && dp[i] >= dp[deque.peekLast()]) {
+            deque.pollLast();
+         }
+         deque.offerLast(i);
+      }
+      return Arrays.stream(dp).max().getAsInt();
+
    }
 
 }
