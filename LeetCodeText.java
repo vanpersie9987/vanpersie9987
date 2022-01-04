@@ -18602,24 +18602,6 @@ public class LeetCodeText {
 
     }
 
-    // 933. 最近的请求次数 (Number of Recent Calls)
-    // 剑指 Offer II 042. 最近请求次数
-    class RecentCounter {
-        private Queue<Integer> queue;
-
-        public RecentCounter() {
-            queue = new LinkedList<>();
-        }
-
-        public int ping(int t) {
-            queue.offer(t);
-            while (t - 3000 > queue.peek()) {
-                queue.poll();
-            }
-            return queue.size();
-        }
-    }
-
     // 554. 砖墙 (Brick Wall)
     public int leastBricks(List<List<Integer>> wall) {
         Map<Integer, Integer> map = new HashMap<>();

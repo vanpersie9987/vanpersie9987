@@ -6025,6 +6025,7 @@ public class LeetCode_2 {
    }
 
    // 933. 最近的请求次数 (Number of Recent Calls)
+   // 剑指 Offer II 042. 最近请求次数
    class RecentCounter {
       private Queue<Integer> queue;
 
