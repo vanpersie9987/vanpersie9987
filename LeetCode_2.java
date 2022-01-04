@@ -1822,88 +1822,6 @@ public class LeetCode_2 {
       }
    }
 
-   // 641. 设计循环双端队列 (Design Circular Deque)
-   class MyCircularDeque {
-      private int[] arr;
-      private int size;
-      private int capacity;
-      private int head;
-      private int tail;
-
-      public MyCircularDeque(int k) {
-         this.capacity = k;
-         this.arr = new int[k];
-         this.size = 0;
-         this.head = 0;
-         this.tail = 0;
-      }
-
-      public boolean insertFront(int value) {
-         if (isFull()) {
-            return false;
-         }
-         head = (head - 1 + capacity) % capacity;
-         arr[head] = value;
-         ++size;
-         return true;
-
-      }
-
-      public boolean insertLast(int value) {
-         if (isFull()) {
-            return false;
-         }
-         arr[tail] = value;
-         tail = (tail + 1) % capacity;
-         ++size;
-         return true;
-      }
-
-      public boolean deleteFront() {
-         if (isEmpty()) {
-            return false;
-         }
-         head = (head + 1) % capacity;
-         --size;
-         return true;
-      }
-
-      public boolean deleteLast() {
-         if (isEmpty()) {
-            return false;
-         }
-         tail = (tail - 1 + capacity) % capacity;
-         --size;
-         return true;
-      }
-
-      public int getFront() {
-         if (isEmpty()) {
-            return -1;
-         }
-         return arr[head];
-
-      }
-
-      public int getRear() {
-         if (isEmpty()) {
-            return -1;
-         }
-         int index = (tail - 1 + capacity) % capacity;
-         return arr[index];
-      }
-
-      public boolean isEmpty() {
-         return size == 0;
-
-      }
-
-      public boolean isFull() {
-         return size == capacity;
-
-      }
-   }
-
    // 622. 设计循环队列 (Design Circular Queue) --数组
    // --follow up：线程安全？
    class MyCircularQueue {
@@ -5979,6 +5897,88 @@ public class LeetCode_2 {
       }
       return queueD.isEmpty() ? "Radiant" : "Dire";
 
+   }
+
+   // 641. 设计循环双端队列 (Design Circular Deque)
+   class MyCircularDeque {
+      private int[] arr;
+      private int size;
+      private int capacity;
+      private int head;
+      private int tail;
+
+      public MyCircularDeque(int k) {
+         this.capacity = k;
+         this.arr = new int[k];
+         this.size = 0;
+         this.head = 0;
+         this.tail = 0;
+      }
+
+      public boolean insertFront(int value) {
+         if (isFull()) {
+            return false;
+         }
+         head = (head - 1 + capacity) % capacity;
+         arr[head] = value;
+         ++size;
+         return true;
+
+      }
+
+      public boolean insertLast(int value) {
+         if (isFull()) {
+            return false;
+         }
+         arr[tail] = value;
+         tail = (tail + 1) % capacity;
+         ++size;
+         return true;
+      }
+
+      public boolean deleteFront() {
+         if (isEmpty()) {
+            return false;
+         }
+         head = (head + 1) % capacity;
+         --size;
+         return true;
+      }
+
+      public boolean deleteLast() {
+         if (isEmpty()) {
+            return false;
+         }
+         tail = (tail - 1 + capacity) % capacity;
+         --size;
+         return true;
+      }
+
+      public int getFront() {
+         if (isEmpty()) {
+            return -1;
+         }
+         return arr[head];
+
+      }
+
+      public int getRear() {
+         if (isEmpty()) {
+            return -1;
+         }
+         int index = (tail - 1 + capacity) % capacity;
+         return arr[index];
+      }
+
+      public boolean isEmpty() {
+         return size == 0;
+
+      }
+
+      public boolean isFull() {
+         return size == capacity;
+
+      }
    }
 
 }
