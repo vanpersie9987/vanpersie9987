@@ -5468,30 +5468,6 @@ public class LeetCode_2 {
 
    }
 
-   // 862. 和至少为 K 的最短子数组 (Shortest Subarray with Sum at Least K)
-   public int shortestSubarray(int[] nums, int k) {
-      long[] preSum = new long[nums.length + 1];
-      for (int i = 1; i < preSum.length; ++i) {
-         preSum[i] += preSum[i - 1] + nums[i - 1];
-         if (nums[i - 1] >= k) {
-            return 1;
-         }
-      }
-      int res = Integer.MAX_VALUE;
-      Deque<Integer> deque = new LinkedList<>();
-      for (int i = 0; i < preSum.length; ++i) {
-         while (!deque.isEmpty() && preSum[i] <= preSum[deque.peekLast()]) {
-            deque.pollLast();
-         }
-         while (!deque.isEmpty() && preSum[i] - preSum[deque.peekFirst()] >= k) {
-            res = Math.min(res, i - deque.pollFirst());
-         }
-         deque.offerLast(i);
-      }
-      return res == Integer.MAX_VALUE ? -1 : res;
-
-   }
-
    // 1499. 满足不等式的最大值 (Max Value of Equation) --单调队列
    public int findMaxValueOfEquation(int[][] points, int k) {
       Deque<Integer> deque = new LinkedList<>();
@@ -5979,6 +5955,30 @@ public class LeetCode_2 {
       public boolean isFull() {
          return size == capacity;
       }
+   }
+
+   // 862. 和至少为 K 的最短子数组 (Shortest Subarray with Sum at Least K)
+   public int shortestSubarray(int[] nums, int k) {
+      long[] preSum = new long[nums.length + 1];
+      for (int i = 1; i < preSum.length; ++i) {
+         preSum[i] += preSum[i - 1] + nums[i - 1];
+         // if (nums[i - 1] >= k) {
+         // return 1;
+         // }
+      }
+      int res = Integer.MAX_VALUE;
+      Deque<Integer> deque = new LinkedList<>();
+      for (int i = 0; i < preSum.length; ++i) {
+         while (!deque.isEmpty() && preSum[i] <= preSum[deque.peekLast()]) {
+            deque.pollLast();
+         }
+         while (!deque.isEmpty() && preSum[i] - preSum[deque.peekFirst()] >= k) {
+            res = Math.min(res, i - deque.pollFirst());
+         }
+         deque.offerLast(i);
+      }
+      return res == Integer.MAX_VALUE ? -1 : res;
+
    }
 
 }
