@@ -1822,136 +1822,6 @@ public class LeetCode_2 {
       }
    }
 
-   // 622. 设计循环队列 (Design Circular Queue) --数组
-   // --follow up：线程安全？
-   class MyCircularQueue {
-      private int[] arr;
-      private int headIndex;
-      private int size;
-      private int k;
-
-      public MyCircularQueue(int k) {
-         this.k = k;
-         this.arr = new int[k];
-
-      }
-
-      public boolean enQueue(int value) {
-         if (isFull()) {
-            return false;
-         }
-         ++size;
-         arr[(headIndex + size - 1) % k] = value;
-         return true;
-      }
-
-      public boolean deQueue() {
-         if (isEmpty()) {
-            return false;
-         }
-         --size;
-         headIndex = (headIndex + 1) % k;
-         return true;
-      }
-
-      public int Front() {
-         if (isEmpty()) {
-            return -1;
-         }
-         return arr[headIndex];
-
-      }
-
-      public int Rear() {
-         if (isEmpty()) {
-            return -1;
-         }
-         return arr[(headIndex + size - 1) % k];
-      }
-
-      public boolean isEmpty() {
-         return size == 0;
-
-      }
-
-      public boolean isFull() {
-         return size == k;
-
-      }
-   }
-
-   // 622. 设计循环队列 (Design Circular Queue) --单链表
-   class MyCircularQueue2 {
-      class Node {
-         int val;
-         Node next;
-
-         Node(int val) {
-            this.val = val;
-         }
-      }
-
-      private int size;
-      private int capacity;
-      private Node head;
-      private Node tail;
-
-      public MyCircularQueue2(int k) {
-         this.capacity = k;
-         this.size = 0;
-
-      }
-
-      public boolean enQueue(int value) {
-         if (isFull()) {
-            return false;
-         }
-         if (isEmpty()) {
-            head = new Node(value);
-            tail = head;
-         } else {
-            Node added = new Node(value);
-            tail.next = added;
-            tail = added;
-         }
-         ++size;
-         return true;
-      }
-
-      public boolean deQueue() {
-         if (isEmpty()) {
-            return false;
-         }
-         head = head.next;
-         --size;
-         return true;
-
-      }
-
-      public int Front() {
-         if (isEmpty()) {
-            return -1;
-         }
-         return head.val;
-
-      }
-
-      public int Rear() {
-         if (isEmpty()) {
-            return -1;
-         }
-         return tail.val;
-      }
-
-      public boolean isEmpty() {
-         return size == 0;
-      }
-
-      public boolean isFull() {
-         return size == capacity;
-      }
-   }
-
    // 876. 链表的中间结点 (Middle of the Linked List)
    public ListNode middleNode(ListNode head) {
       ListNode dummy = new ListNode(0, head);
@@ -5978,6 +5848,136 @@ public class LeetCode_2 {
       public boolean isFull() {
          return size == capacity;
 
+      }
+   }
+
+   // 622. 设计循环队列 (Design Circular Queue) --数组
+   // --follow up：线程安全？
+   class MyCircularQueue {
+      private int[] arr;
+      private int headIndex;
+      private int size;
+      private int k;
+
+      public MyCircularQueue(int k) {
+         this.k = k;
+         this.arr = new int[k];
+
+      }
+
+      public boolean enQueue(int value) {
+         if (isFull()) {
+            return false;
+         }
+         ++size;
+         arr[(headIndex + size - 1) % k] = value;
+         return true;
+      }
+
+      public boolean deQueue() {
+         if (isEmpty()) {
+            return false;
+         }
+         --size;
+         headIndex = (headIndex + 1) % k;
+         return true;
+      }
+
+      public int Front() {
+         if (isEmpty()) {
+            return -1;
+         }
+         return arr[headIndex];
+
+      }
+
+      public int Rear() {
+         if (isEmpty()) {
+            return -1;
+         }
+         return arr[(headIndex + size - 1) % k];
+      }
+
+      public boolean isEmpty() {
+         return size == 0;
+
+      }
+
+      public boolean isFull() {
+         return size == k;
+
+      }
+   }
+
+   // 622. 设计循环队列 (Design Circular Queue) --单链表
+   class MyCircularQueue2 {
+      class Node {
+         int val;
+         Node next;
+
+         Node(int val) {
+            this.val = val;
+         }
+      }
+
+      private int size;
+      private int capacity;
+      private Node head;
+      private Node tail;
+
+      public MyCircularQueue2(int k) {
+         this.capacity = k;
+         this.size = 0;
+
+      }
+
+      public boolean enQueue(int value) {
+         if (isFull()) {
+            return false;
+         }
+         if (isEmpty()) {
+            head = new Node(value);
+            tail = head;
+         } else {
+            Node added = new Node(value);
+            tail.next = added;
+            tail = added;
+         }
+         ++size;
+         return true;
+      }
+
+      public boolean deQueue() {
+         if (isEmpty()) {
+            return false;
+         }
+         head = head.next;
+         --size;
+         return true;
+
+      }
+
+      public int Front() {
+         if (isEmpty()) {
+            return -1;
+         }
+         return head.val;
+
+      }
+
+      public int Rear() {
+         if (isEmpty()) {
+            return -1;
+         }
+         return tail.val;
+      }
+
+      public boolean isEmpty() {
+         return size == 0;
+      }
+
+      public boolean isFull() {
+         return size == capacity;
       }
    }
 
