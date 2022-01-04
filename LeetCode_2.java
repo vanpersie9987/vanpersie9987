@@ -6024,4 +6024,21 @@ public class LeetCode_2 {
 
    }
 
+   // 933. 最近的请求次数 (Number of Recent Calls)
+   class RecentCounter {
+      private Queue<Integer> queue;
+
+      public RecentCounter() {
+         queue = new LinkedList<>();
+      }
+
+      public int ping(int t) {
+         queue.offer(t);
+         while (t - queue.peek() > 3000) {
+            queue.poll();
+         }
+         return queue.size();
+      }
+   }
+
 }
