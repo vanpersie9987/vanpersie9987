@@ -8427,25 +8427,6 @@ public class LeetCodeText {
 
     }
 
-    // 918. 环形子数组的最大和
-    public int maxSubarraySumCircular(int[] A) {
-        int max = A[0];
-        int pre = 0;
-        for (int i = 0; i < A.length; ++i) {
-            pre = Math.max(A[i], pre + A[i]);
-            max = Math.max(pre, max);
-        }
-
-        int min = 0;
-        pre = 0;
-        for (int i = 1; i < A.length - 1; ++i) {
-            pre = Math.min(A[i], pre + A[i]);
-            min = Math.min(pre, min);
-        }
-        return Math.max(Arrays.stream(A).sum() - min, max);
-
-    }
-
     public static boolean circularArrayLoop(int[] nums) {
         boolean[] visited = new boolean[nums.length];
         for (int i = 0; i < nums.length; ++i) {

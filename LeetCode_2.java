@@ -5981,4 +5981,47 @@ public class LeetCode_2 {
 
    }
 
+   // 918. 环形子数组的最大和 (Maximum Sum Circular Subarray) --动态规划
+   public int maxSubarraySumCircular(int[] A) {
+      int max = A[0];
+      int pre = 0;
+      for (int i = 0; i < A.length; ++i) {
+         pre = Math.max(A[i], pre + A[i]);
+         max = Math.max(pre, max);
+      }
+
+      int min = 0;
+      pre = 0;
+      for (int i = 1; i < A.length - 1; ++i) {
+         pre = Math.min(A[i], pre + A[i]);
+         min = Math.min(pre, min);
+      }
+      return Math.max(Arrays.stream(A).sum() - min, max);
+
+   }
+
+   // 918. 环形子数组的最大和 (Maximum Sum Circular Subarray) -- 前缀和 + 单调队列
+   public int maxSubarraySumCircular2(int[] nums) {
+      int[] preSum = new int[nums.length * 2 + 1];
+      for (int i = 1; i < preSum.length; ++i) {
+         preSum[i] = preSum[i - 1] + nums[(i - 1) % nums.length];
+      }
+      Deque<Integer> deque = new LinkedList<>();
+      int res = Integer.MIN_VALUE;
+      for (int i = 0; i < preSum.length; ++i) {
+         while (!deque.isEmpty() && i - deque.peekFirst() > nums.length) {
+            deque.pollFirst();
+         }
+         if (!deque.isEmpty()) {
+            res = Math.max(res, preSum[i] - preSum[deque.peekFirst()]);
+         }
+         while (!deque.isEmpty() && preSum[i] <= preSum[deque.peekLast()]) {
+            deque.pollLast();
+         }
+         deque.offerLast(i);
+      }
+      return res;
+
+   }
+
 }
