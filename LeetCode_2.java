@@ -6087,4 +6087,17 @@ public class LeetCode_2 {
       return count;
    }
 
+   // 2124. 检查是否所有 A 都在 B 之前 (Check if All A's Appears Before All B's)
+   public boolean checkString(String s) {
+      boolean flag = false;
+      for (char c : s.toCharArray()) {
+         if (c == 'b') {
+            flag = true;
+         } else if (flag) {
+            return false;
+         }
+      }
+      return true;
+   }
+
 }
