@@ -6174,4 +6174,20 @@ public class LeetCode_2 {
 
    }
 
+   // 2114. 句子中的最多单词数 (Maximum Number of Words Found in Sentences)
+   public int mostWordsFound(String[] sentences) {
+      int res = 0;
+      for (String sentence : sentences) {
+         int cur = 1;
+         for (char c : sentence.toCharArray()) {
+            if (c == ' ') {
+               ++cur;
+            }
+         }
+         res = Math.max(res, cur);
+      }
+      return res;
+
+   }
+
 }
