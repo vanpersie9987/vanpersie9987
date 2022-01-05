@@ -6153,4 +6153,25 @@ public class LeetCode_2 {
       return res;
    }
 
+   // 2086. 从房屋收集雨水需要的最少水桶数 (Minimum Number of Buckets Required to Collect
+   // Rainwater from Houses)
+   public int minimumBuckets(String street) {
+      int res = 0;
+      char[] chars = street.toCharArray();
+      for (int i = 0; i < chars.length; ++i) {
+         if (chars[i] == 'H') {
+            if (i + 1 < chars.length && chars[i + 1] == '.') {
+               ++res;
+               i += 2;
+            } else if (i - 1 >= 0 && chars[i - 1] == '.') {
+               ++res;
+            } else {
+               return -1;
+            }
+         }
+      }
+      return res;
+
+   }
+
 }
