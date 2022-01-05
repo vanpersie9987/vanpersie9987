@@ -6141,4 +6141,16 @@ public class LeetCode_2 {
 
    }
 
+   // 2063. 所有子字符串中的元音 (Vowels of All Substrings)
+   public long countVowels(String word) {
+      long res = 0L;
+      char[] chars = word.toCharArray();
+      for (int i = 0; i < chars.length; ++i) {
+         if (chars[i] == 'a' || chars[i] == 'e' || chars[i] == 'i' || chars[i] == 'o' || chars[i] == 'u') {
+            res += (long) (i + 1) * (chars.length - i);
+         }
+      }
+      return res;
+   }
+
 }
