@@ -6100,4 +6100,45 @@ public class LeetCode_2 {
       return true;
    }
 
+   // 2125. 银行中的激光束数量 (Number of Laser Beams in a Bank)
+   public int numberOfBeams(String[] bank) {
+      List<Integer> oneCount = new ArrayList<>();
+      for (String s : bank) {
+         int one = 0;
+         for (char c : s.toCharArray()) {
+            if (c == '1') {
+               ++one;
+            }
+         }
+         if (one != 0) {
+            oneCount.add(one);
+         }
+      }
+      int res = 0;
+      for (int i = 1; i < oneCount.size(); ++i) {
+         res += oneCount.get(i) * oneCount.get(i - 1);
+      }
+      return res;
+   }
+
+   // 2125. 银行中的激光束数量 (Number of Laser Beams in a Bank)
+   public int numberOfBeams2(String[] bank) {
+      int last = 0;
+      int res = 0;
+      for (String s : bank) {
+         int count = 0;
+         for (char c : s.toCharArray()) {
+            if (c == '1') {
+               ++count;
+            }
+         }
+         if (count != 0) {
+            res += count * last;
+            last = count;
+         }
+      }
+      return res;
+
+   }
+
 }
