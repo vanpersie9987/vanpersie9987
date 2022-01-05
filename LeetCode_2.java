@@ -6041,4 +6041,50 @@ public class LeetCode_2 {
 
    }
 
+   // 2120. 执行所有后缀指令 (Execution of All Suffix Instructions Staying in a Grid)
+   public int[] executeInstructions(int n, int[] startPos, String s) {
+      int[] res = new int[s.length()];
+      for (int i = 0; i < s.length(); ++i) {
+         res[i] = getCounts2120(s.substring(i), n, startPos);
+      }
+      return res;
+
+   }
+
+   private int getCounts2120(String s, int n, int[] startPos) {
+      int count = 0;
+      int curX = startPos[0];
+      int curY = startPos[1];
+      for (char c : s.toCharArray()) {
+         switch (c) {
+            case 'U':
+               if (--curX < 0) {
+                  return count;
+               }
+               ++count;
+               break;
+            case 'D':
+               if (++curX == n) {
+                  return count;
+               }
+               ++count;
+               break;
+            case 'L':
+               if (--curY < 0) {
+                  return count;
+               }
+               ++count;
+               break;
+            case 'R':
+               if (++curY == n) {
+                  return count;
+               }
+               ++count;
+               break;
+         }
+
+      }
+      return count;
+   }
+
 }
