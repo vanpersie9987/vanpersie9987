@@ -6259,23 +6259,16 @@ public class LeetCode_2 {
       int cur = 1;
       for (int i = 1; i < chars.length; ++i) {
          if (chars[i] == chars[i - 1]) {
-            ++cur;
-            if (i == chars.length - 1) {
+            if (++cur > 2) {
                if (chars[i] == 'A') {
-                  a += Math.max(0, cur - 2);
+                  ++a;
                } else {
-                  b += Math.max(0, cur - 2);
+                  ++b;
                }
             }
          } else {
-            if (chars[i] == 'A') {
-               b += Math.max(0, cur - 2);
-            } else {
-               a += Math.max(0, cur - 2);
-            }
             cur = 1;
          }
-
       }
       return a > b;
    }
