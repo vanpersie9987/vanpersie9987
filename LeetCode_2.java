@@ -6190,4 +6190,14 @@ public class LeetCode_2 {
 
    }
 
+   // 1980. 找出不同的二进制字符串 (Find Unique Binary String)
+   public String findDifferentBinaryString(String[] nums) {
+      StringBuilder res = new StringBuilder();
+      for (int i = 0; i < nums.length; ++i) {
+         res.append((nums[i].charAt(i) - '0') ^ 1);
+      }
+      return res.toString();
+
+   }
+
 }
