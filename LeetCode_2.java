@@ -6250,6 +6250,36 @@ public class LeetCode_2 {
 
    }
 
+   // 2038. 如果相邻两个颜色均相同则删除当前颜色 (Remove Colored Pieces if Both Neighbors are the
+   // Same Color)
+   public boolean winnerOfGame(String colors) {
+      char[] chars = colors.toCharArray();
+      int a = 0;
+      int b = 0;
+      int cur = 1;
+      for (int i = 1; i < chars.length; ++i) {
+         if (chars[i] == chars[i - 1]) {
+            ++cur;
+            if (i == chars.length - 1) {
+               if (chars[i] == 'A') {
+                  a += Math.max(0, cur - 2);
+               } else {
+                  b += Math.max(0, cur - 2);
+               }
+            }
+         } else {
+            if (chars[i] == 'A') {
+               b += Math.max(0, cur - 2);
+            } else {
+               a += Math.max(0, cur - 2);
+            }
+            cur = 1;
+         }
+
+      }
+      return a > b;
+   }
+
    // 1255. 得分最高的单词集合 (Maximum Score Words Formed by Letters)
    // public int maxScoreWords(String[] words, char[] letters, int[] score) {
 
@@ -6257,12 +6287,6 @@ public class LeetCode_2 {
 
    // 2075. 解码斜向换位密码 (Decode the Slanted Ciphertext)
    // public String decodeCiphertext(String encodedText, int rows) {
-
-   // }
-
-   // 2038. 如果相邻两个颜色均相同则删除当前颜色 (Remove Colored Pieces if Both Neighbors are the
-   // Same Color)
-   // public boolean winnerOfGame(String colors) {
 
    // }
 }
