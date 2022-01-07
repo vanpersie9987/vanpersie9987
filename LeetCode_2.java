@@ -6335,7 +6335,7 @@ public class LeetCode_2 {
             ++c;
          }
       }
-      while (res.length() != 0 && res.charAt(res.length() - 1) == ' ') {
+      while (res.length() - 1 >= 0 && res.charAt(res.length() - 1) == ' ') {
          res.deleteCharAt(res.length() - 1);
       }
       return res.toString();
