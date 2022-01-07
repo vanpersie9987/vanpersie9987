@@ -6279,7 +6279,23 @@ public class LeetCode_2 {
    // }
 
    // 2075. 解码斜向换位密码 (Decode the Slanted Ciphertext)
-   // public String decodeCiphertext(String encodedText, int rows) {
+   public String decodeCiphertext(String encodedText, int rows) {
+      StringBuilder res = new StringBuilder();
+      char[] chars = encodedText.toCharArray();
+      int cols = chars.length / rows;
+      for (int i = 0; i < cols; ++i) {
+         int r = 0;
+         int c = i;
+         while (r < rows && c < cols) {
+            res.append(chars[r * cols + c]);
+            ++r;
+            ++c;
+         }
+      }
+      while (res.length() != 0 && res.charAt(res.length() - 1) == ' ') {
+         res.deleteCharAt(res.length() - 1);
+      }
+      return res.toString();
 
-   // }
+   }
 }
