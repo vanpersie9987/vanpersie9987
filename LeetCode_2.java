@@ -6250,6 +6250,54 @@ public class LeetCode_2 {
 
    }
 
+   // 1255. 得分最高的单词集合 (Maximum Score Words Formed by Letters) --状态压缩
+   public int maxScoreWords(String[] words, char[] letters, int[] score) {
+      int[] counts = new int[26];
+      for (char c : letters) {
+         ++counts[c - 'a'];
+      }
+      int res = 0;
+      for (int i = 1; i < (1 << words.length); ++i) {
+         int[] copy = counts.clone();
+         res = Math.max(res, check1255(i, words, copy, score));
+      }
+      return res;
+
+   }
+
+   private int check1255(int mask, String[] words, int[] counts, int[] score) {
+      int sum = 0;
+      int index = 0;
+      while (mask != 0) {
+         if (mask % 2 == 1) {
+            if (!isLegal(words[index], counts)) {
+               return -1;
+            }
+            sum += getSum(words[index], score);
+         }
+         ++index;
+         mask /= 2;
+      }
+      return sum;
+   }
+
+   private int getSum(String s, int[] score) {
+      int sum = 0;
+      for (char c : s.toCharArray()) {
+         sum += score[c - 'a'];
+      }
+      return sum;
+   }
+
+   private boolean isLegal(String s, int[] counts) {
+      for (char c : s.toCharArray()) {
+         if (--counts[c - 'a'] < 0) {
+            return false;
+         }
+      }
+      return true;
+   }
+
    // 2038. 如果相邻两个颜色均相同则删除当前颜色 (Remove Colored Pieces if Both Neighbors are the
    // Same Color)
    public boolean winnerOfGame(String colors) {
@@ -6272,11 +6320,6 @@ public class LeetCode_2 {
       }
       return a > b;
    }
-
-   // 1255. 得分最高的单词集合 (Maximum Score Words Formed by Letters)
-   // public int maxScoreWords(String[] words, char[] letters, int[] score) {
-
-   // }
 
    // 2075. 解码斜向换位密码 (Decode the Slanted Ciphertext)
    public String decodeCiphertext(String encodedText, int rows) {
