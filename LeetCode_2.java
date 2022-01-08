@@ -6307,6 +6307,60 @@ public class LeetCode_2 {
       return true;
    }
 
+   // 1601. 最多可达成的换楼请求数目 (Maximum Number of Achievable Transfer Requests) --状态压缩
+   public int maximumRequests(int n, int[][] requests) {
+      int res = 0;
+      int[] out = new int[n];
+      int[] in = new int[n];
+      for (int[] request : requests) {
+         if (request[0] != request[1]) {
+            ++out[request[0]];
+            ++in[request[1]];
+         }
+         // 将自己搬出，再将自己搬入
+         else {
+            ++res;
+         }
+      }
+
+      List<int[]> actualRequests = new ArrayList<>();
+      for (int[] request : requests) {
+         int a = request[0];
+         int b = request[1];
+         if (a != b && out[a] != 0 && in[a] != 0 && out[b] != 0 && in[b] != 0) {
+            actualRequests.add(request);
+         }
+      }
+      int[][] ac = actualRequests.toArray(new int[actualRequests.size()][]);
+
+      int max = 0;
+      for (int i = 0; i < (1 << ac.length); ++i) {
+         max = Math.max(max, getCount1601(ac, i, n));
+      }
+      return max + res;
+
+   }
+
+   private int getCount1601(int[][] requests, int status, int n) {
+      int[] out = new int[n];
+      int[] in = new int[n];
+      int max = 0;
+      int index = 0;
+      while (status != 0) {
+         if (status % 2 == 1) {
+            ++out[requests[index][0]];
+            ++in[requests[index][1]];
+            ++max;
+         }
+         status >>= 1;
+         ++index;
+      }
+      if (!Arrays.equals(out, in)) {
+         return -1;
+      }
+      return max;
+   }
+
    // 2038. 如果相邻两个颜色均相同则删除当前颜色 (Remove Colored Pieces if Both Neighbors are the
    // Same Color)
    public boolean winnerOfGame(String colors) {
