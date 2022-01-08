@@ -6327,6 +6327,7 @@ public class LeetCode_2 {
       for (int[] request : requests) {
          int a = request[0];
          int b = request[1];
+         // 有人进 有人出
          if (a != b && out[a] != 0 && in[a] != 0 && out[b] != 0 && in[b] != 0) {
             actualRequests.add(request);
          }
