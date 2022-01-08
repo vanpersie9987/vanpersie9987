@@ -6256,10 +6256,19 @@ public class LeetCode_2 {
       for (char c : letters) {
          ++counts[c - 'a'];
       }
+      // 记录不合法的单个词
+      int illegalStatus = 0;
+      for (int i = 0; i < words.length; ++i) {
+         if (!isLegal(words[i], counts.clone())) {
+            illegalStatus |= (1 << i);
+         }
+      }
       int res = 0;
       for (int i = 1; i < (1 << words.length); ++i) {
-         int[] copy = counts.clone();
-         res = Math.max(res, check1255(i, words, copy, score));
+         // 若枚举值中存在不合法的单个词，则跳过
+         if ((illegalStatus & i) == 0) {
+            res = Math.max(res, check1255(i, words, counts.clone(), score));
+         }
       }
       return res;
 
