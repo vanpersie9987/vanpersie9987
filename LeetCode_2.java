@@ -6473,4 +6473,27 @@ public class LeetCode_2 {
       chars[i] = chars[j];
       chars[j] = temp;
    }
+
+   // 剑指 Offer 46. 把数字翻译成字符串
+   public int translateNum(int num) {
+      String str = String.valueOf(num);
+      int p = 0;
+      int q = 0;
+      int r = 1;
+      for (int i = 0; i < str.length(); ++i) {
+         p = q;
+         q = r;
+         r = 0;
+         r += q;
+         if (i == 0) {
+            continue;
+         }
+         String cur = str.substring(i - 1, i + 1);
+         if (cur.compareTo("10") >= 0 && cur.compareTo("25") <= 0) {
+            r += p;
+         }
+      }
+      return r;
+
+   }
 }
