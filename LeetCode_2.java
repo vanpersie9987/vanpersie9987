@@ -6474,7 +6474,7 @@ public class LeetCode_2 {
       chars[j] = temp;
    }
 
-   // 剑指 Offer 46. 把数字翻译成字符串
+   // 剑指 Offer 46. 把数字翻译成字符串 --动态规划，类似 青蛙跳台、打家劫舍
    public int translateNum(int num) {
       String str = String.valueOf(num);
       int p = 0;
