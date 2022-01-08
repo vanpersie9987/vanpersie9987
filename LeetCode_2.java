@@ -6405,4 +6405,46 @@ public class LeetCode_2 {
       return res.toString();
 
    }
+
+   // 剑指 Offer 38. 字符串的排列 --方法：31.下一个排列 还需掌握：回溯法
+   public String[] permutation(String s) {
+      List<String> list = new ArrayList<>();
+      char[] chars = s.toCharArray();
+      Arrays.sort(chars);
+      do {
+         list.add(String.valueOf(chars));
+      } while (hasNextPermutation(chars));
+
+      return list.toArray(new String[list.size()]);
+
+   }
+
+   private boolean hasNextPermutation(char[] chars) {
+      int i = chars.length - 2;
+      while (i >= 0) {
+         if (chars[i] < chars[i + 1]) {
+            break;
+         }
+         --i;
+      }
+      if (i < 0) {
+         return false;
+      }
+      int j = chars.length - 1;
+      while (i < j) {
+         if (chars[i] < chars[j]) {
+            swapChars(chars, i, j);
+            break;
+         }
+         --j;
+      }
+      Arrays.sort(chars, i + 1, chars.length);
+      return true;
+   }
+
+   private void swapChars(char[] chars, int i, int j) {
+      char temp = chars[i];
+      chars[i] = chars[j];
+      chars[j] = temp;
+   }
 }
