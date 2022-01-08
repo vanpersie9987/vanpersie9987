@@ -6406,6 +6406,32 @@ public class LeetCode_2 {
 
    }
 
+   // 31. 下一个排列 (Next Permutation)
+   public void nextPermutation(int[] nums) {
+      int i = nums.length - 2;
+      while (i >= 0) {
+         if (nums[i] < nums[i + 1]) {
+            break;
+         }
+         --i;
+      }
+      if (i < 0) {
+         Arrays.sort(nums);
+         return;
+      }
+      int j = nums.length - 1;
+      while (i < j) {
+         if (nums[j] > nums[i]) {
+            int temp = nums[j];
+            nums[j] = nums[i];
+            nums[i] = temp;
+            break;
+         }
+         --j;
+      }
+      Arrays.sort(nums, i + 1, nums.length);
+   }
+
    // 剑指 Offer 38. 字符串的排列 --方法：31.下一个排列 还需掌握：回溯法
    public String[] permutation(String s) {
       List<String> list = new ArrayList<>();

@@ -5647,34 +5647,6 @@ public class LeetCodeText {
         return res;
     }
 
-    // 31. 下一个排列
-    public void nextPermutation(final int[] nums) {
-        int i = nums.length - 1;
-        while (i > 0) {
-            if (nums[i - 1] < nums[i]) {
-                break;
-            }
-            --i;
-        }
-        if (i == 0) {
-            Arrays.sort(nums);
-            return;
-        }
-        --i;
-        int j = nums.length - 1;
-        while (i < j) {
-            if (nums[j] > nums[i]) {
-                int temp = nums[j];
-                nums[j] = nums[i];
-                nums[i] = temp;
-                break;
-            }
-            --j;
-        }
-        Arrays.sort(nums, i + 1, nums.length);
-
-    }
-
     public List<String> getValidT9Words(final String num, final String[] words) {
         final Map<Character, Set<Character>> map = new HashMap<>();
         final Set<Character> set2 = new HashSet<>();
