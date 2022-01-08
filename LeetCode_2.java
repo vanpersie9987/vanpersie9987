@@ -6496,4 +6496,23 @@ public class LeetCode_2 {
       return r;
 
    }
+
+   // 266. 回文排列 (Palindrome Permutation) --Plus
+   // Given a string s, return true if a permutation of the string could form a
+   // palindrome.
+   // 给定一个字符串，判断该字符串中是否可以通过重新排列组合，形成一个回文字符串。
+   public boolean canPermutePalindrome(String s) {
+      int[] counts = new int[26];
+      for (char c : s.toCharArray()) {
+         ++counts[c - 'a'];
+      }
+      int oddCount = 0;
+      for (int count : counts) {
+         if (((count & 1) == 1) && (++oddCount > 1)) {
+            return false;
+         }
+      }
+      return true;
+
+   }
 }
