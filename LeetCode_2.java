@@ -6558,4 +6558,47 @@ public class LeetCode_2 {
       }
       return list;
    }
+
+   // 1647. 字符频次唯一的最小删除次数 (Minimum Deletions to Make Character Frequencies Unique)
+   // --哈希
+   public int minDeletions(String s) {
+      int[] counts = new int[26];
+      for (char c : s.toCharArray()) {
+         ++counts[c - 'a'];
+      }
+      Set<Integer> set = new HashSet<>();
+      int res = 0;
+      for (int count : counts) {
+         int cur = count;
+         while (set.contains(cur)) {
+            ++res;
+            --cur;
+         }
+         if (cur != 0) {
+            set.add(cur);
+         }
+      }
+      return res;
+
+   }
+
+   // 1647. 字符频次唯一的最小删除次数 (Minimum Deletions to Make Character Frequencies Unique)
+   // --排序
+   public int minDeletions2(String s) {
+      int[] counts = new int[26];
+      for (char c : s.toCharArray()) {
+         ++counts[c - 'a'];
+      }
+      int res = 0;
+      Arrays.sort(counts);
+      for (int i = counts.length - 2; i >= 0; --i) {
+         if (counts[i] >= counts[i + 1]) {
+            int temp = counts[i];
+            counts[i] = counts[i + 1] == 0 ? 0 : counts[i + 1] - 1;
+            res += temp - counts[i];
+         }
+      }
+      return res;
+
+   }
 }
