@@ -6515,4 +6515,47 @@ public class LeetCode_2 {
       return true;
 
    }
+
+   // 1239. 串联字符串的最大长度 (Maximum Length of a Concatenated String with Unique
+   // Characters) --状态压缩 还需掌握回溯法
+   public int maxLength(List<String> arr) {
+      int res = 0;
+      List<Integer> list = getList1239(arr);
+      for (int status = 0; status < (1 << list.size()); ++status) {
+         res = Math.max(res, getCount1239(status, list));
+      }
+      return res;
+
+   }
+
+   private int getCount1239(int status, List<Integer> list) {
+      int mask = 0;
+      int index = 0;
+      while (status != 0) {
+         if ((status & 1) == 1) {
+            if ((mask & list.get(index)) != 0) {
+               return -1;
+            }
+            mask |= list.get(index);
+         }
+         ++index;
+         status >>= 1;
+      }
+      return Integer.bitCount(mask);
+   }
+
+   private List<Integer> getList1239(List<String> arr) {
+      List<Integer> list = new ArrayList<>();
+      search: for (String s : arr) {
+         int mask = 0;
+         for (char c : s.toCharArray()) {
+            if ((mask & (1 << (c - 'a'))) != 0) {
+               continue search;
+            }
+            mask |= 1 << (c - 'a');
+         }
+         list.add(mask);
+      }
+      return list;
+   }
 }
