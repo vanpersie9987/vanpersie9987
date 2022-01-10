@@ -1218,6 +1218,24 @@ public class LeetCodeText {
 
     }
 
+    // 154. 寻找旋转排序数组中的最小值 II (Find Minimum in Rotated Sorted Array II) --需要掌握二分查找
+    // 剑指 Offer 11. 旋转数组的最小数字
+    public int findMin154(int[] nums) {
+        int left = 0;
+        int right = nums.length - 1;
+        while (left < right) {
+            int mid = left + ((right - left) >>> 1);
+            if (nums[mid] < nums[right]) {
+                right = mid;
+            } else if (nums[mid] > nums[right]) {
+                left = mid + 1;
+            } else {
+                --right;
+            }
+        }
+        return nums[left];
+    }
+
     // 167.两数之和 II-输入有序数组
     public int[] twoSum2(final int[] numbers, final int target) {
         int left = 0;
