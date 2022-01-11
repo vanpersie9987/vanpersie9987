@@ -18086,29 +18086,6 @@ public class LeetCodeText {
 
     }
 
-    // 剑指 Offer II 041. 滑动窗口的平均值
-    public class MovingAverage {
-        private Queue<Integer> queue;
-        private double sum = 0;
-        private int size;
-
-        /** Initialize your data structure here. */
-        public MovingAverage(int size) {
-            queue = new LinkedList<>();
-            this.size = size;
-        }
-
-        public double next(int val) {
-            if (queue.size() == size) {
-                sum -= queue.poll();
-            }
-            queue.offer(val);
-            sum += val;
-            return sum / queue.size();
-
-        }
-    }
-
     // 1630. 等差子数组 (Arithmetic Subarrays)
     public List<Boolean> checkArithmeticSubarrays(int[] nums, int[] l, int[] r) {
         List<Boolean> res = new ArrayList<>();
