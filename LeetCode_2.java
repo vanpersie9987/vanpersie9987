@@ -5584,24 +5584,28 @@ public class LeetCode_2 {
    }
 
    // 239. 滑动窗口最大值 (Sliding Window Maximum)
+   // 剑指 Offer 59 - I. 滑动窗口的最大值
    public int[] maxSlidingWindow(int[] nums, int k) {
+      if (nums.length == 0) {
+         return new int[0];
+      }
       int[] res = new int[nums.length - k + 1];
       Deque<Integer> deque = new LinkedList<>();
       for (int i = 0; i < k; ++i) {
-         while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
+         while (!deque.isEmpty() && nums[deque.peekLast()] <= nums[i]) {
             deque.pollLast();
          }
          deque.offerLast(i);
       }
       res[0] = nums[deque.peekFirst()];
       for (int i = k; i < nums.length; ++i) {
-         while (!deque.isEmpty() && i - deque.peekFirst() >= k) {
-            deque.pollFirst();
-         }
-         while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
+         while (!deque.isEmpty() && nums[deque.peekLast()] <= nums[i]) {
             deque.pollLast();
          }
          deque.offerLast(i);
+         while (!deque.isEmpty() && i - deque.peekFirst() >= k) {
+            deque.pollFirst();
+         }
          res[i - k + 1] = nums[deque.peekFirst()];
       }
       return res;
