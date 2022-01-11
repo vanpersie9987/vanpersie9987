@@ -11486,46 +11486,6 @@ public class LeetCodeText {
 
     }
 
-    // 剑指 Offer 59 - II. 队列的最大值
-    class MaxQueue {
-        Queue<Integer> queue;
-        Deque<Integer> deque;
-
-        public MaxQueue() {
-            queue = new LinkedList<>();
-            deque = new LinkedList<>();
-
-        }
-
-        public int max_value() {
-            if (queue.isEmpty()) {
-                return -1;
-            }
-            return deque.peekFirst();
-
-        }
-
-        public void push_back(int value) {
-            while (!deque.isEmpty() && deque.peekLast() < value) {
-                deque.pollLast();
-            }
-            deque.offerLast(value);
-            queue.offer(value);
-        }
-
-        public int pop_front() {
-            if (queue.isEmpty()) {
-                return -1;
-            }
-            int ans = queue.poll();
-            if (ans == deque.peekFirst()) {
-                deque.pollFirst();
-            }
-            return ans;
-
-        }
-    }
-
     // 299. 猜数字游戏（与“面试题 16.15. 珠玑妙算” 类似）
     public String getHint2(String secret, String guess) {
         int[] counts = new int[10];

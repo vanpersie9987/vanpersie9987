@@ -6625,4 +6625,43 @@ public class LeetCode_2 {
          return (double) mSum / mQueue.size();
       }
    }
+
+   // 剑指 Offer 59 - II. 队列的最大值
+   class MaxQueue {
+      private Queue<Integer> mQueue;
+      private Deque<Integer> mDeque;
+
+      public MaxQueue() {
+         mQueue = new LinkedList<>();
+         mDeque = new LinkedList<>();
+      }
+
+      public int max_value() {
+         if (mDeque.isEmpty()) {
+            return -1;
+         }
+         return mDeque.peekFirst();
+      }
+
+      public void push_back(int value) {
+         while (!mDeque.isEmpty() && mDeque.peekLast() < value) {
+            mDeque.pollLast();
+         }
+         mDeque.offerLast(value);
+         mQueue.offer(value);
+
+      }
+
+      public int pop_front() {
+         if (mQueue.isEmpty()) {
+            return -1;
+         }
+         int res = mQueue.poll();
+         if (mDeque.peekFirst() == res) {
+            mDeque.pollFirst();
+         }
+         return res;
+
+      }
+   }
 }
