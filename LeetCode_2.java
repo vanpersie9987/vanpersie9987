@@ -930,19 +930,6 @@ public class LeetCode_2 {
 
    }
 
-   // 2073. 买票需要的时间 (Time Needed to Buy Tickets)
-   public int timeRequiredToBuy2(int[] tickets, int k) {
-      int res = 0;
-      for (int i = 0; i < tickets.length; ++i) {
-         if (i <= k) {
-            res += Math.min(tickets[i], tickets[k]);
-         } else {
-            res += Math.min(tickets[i], tickets[k] - 1);
-         }
-      }
-      return res;
-   }
-
    // 2. 两数相加 (Add Two Numbers)
    // 面试题 02.05. 链表求和 (Sum Lists LCCI)
    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
@@ -6667,5 +6654,19 @@ public class LeetCode_2 {
          return res;
 
       }
+   }
+
+   // 2073. 买票需要的时间 (Time Needed to Buy Tickets)
+   public int timeRequiredToBuy2(int[] tickets, int k) {
+      int res = 0;
+      for (int i = 0; i < tickets.length; ++i) {
+         if (i <= k) {
+            res += Math.min(tickets[i], tickets[k]);
+         } else {
+            res += Math.min(tickets[i], tickets[k] - 1);
+         }
+      }
+      return res;
+
    }
 }
