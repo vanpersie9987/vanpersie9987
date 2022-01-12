@@ -6669,4 +6669,19 @@ public class LeetCode_2 {
       return res;
 
    }
+
+   // 1823. 找出游戏的获胜者 (Find the Winner of the Circular Game)
+   public int findTheWinner(int n, int k) {
+      List<Integer> list = new LinkedList<>();
+      for (int i = 0; i < n; ++i) {
+         list.add(i + 1);
+      }
+      int index = 0;
+      while (list.size() > 1) {
+         index = (index + k - 1) % list.size();
+         list.remove(index);
+      }
+      return list.get(0);
+
+   }
 }

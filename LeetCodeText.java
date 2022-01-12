@@ -7605,21 +7605,6 @@ public class LeetCodeText {
 
     }
 
-    // 1823. 找出游戏的获胜者
-    public int findTheWinner(int n, int k) {
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < n; ++i) {
-            list.add(i + 1);
-        }
-        int index = 0;
-        while (list.size() != 1) {
-            index = (index + k - 1) % list.size();
-            list.remove(index);
-        }
-        return list.get(0);
-
-    }
-
     // 剑指 Offer 62. 圆圈中最后剩下的数字
     public int lastRemaining(int n, int m) {
         List<Integer> list = new ArrayList<>();
