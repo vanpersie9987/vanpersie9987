@@ -6684,4 +6684,20 @@ public class LeetCode_2 {
       return list.get(0);
 
    }
+
+   // 1700. 无法吃午餐的学生数量 (Number of Students Unable to Eat Lunch)
+   public int countStudents(int[] students, int[] sandwiches) {
+      int[] stuCounts = new int[2];
+      for (int student : students) {
+         ++stuCounts[student];
+      }
+      for (int sandwich : sandwiches) {
+         if (stuCounts[sandwich] == 0) {
+            break;
+         }
+         --stuCounts[sandwich];
+      }
+      return stuCounts[0] + stuCounts[1];
+
+   }
 }

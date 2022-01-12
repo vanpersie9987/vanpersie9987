@@ -5174,22 +5174,6 @@ public class LeetCodeText {
 
     }
 
-    // 1700. 无法吃午餐的学生数量
-    public int countStudents(int[] students, int[] sandwiches) {
-        int[] stu = new int[2];
-        for (int student : students) {
-            ++stu[student];
-        }
-        for (int sandwich : sandwiches) {
-            if (stu[sandwich] == 0) {
-                break;
-            }
-            --stu[sandwich];
-        }
-        return stu[0] + stu[1];
-
-    }
-
     // 1640. 能否连接形成数组
     public boolean canFormArray(int[] arr, int[][] pieces) {
         int[] map = new int[101];
