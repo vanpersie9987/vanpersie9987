@@ -6716,4 +6716,35 @@ public class LeetCode_2 {
       Collections.sort(res);
       return res;
    }
+
+   // 1958. 检查操作是否合法 (Check if Move is Legal)
+   public boolean checkMove(char[][] board, int rMove, int cMove, char color) {
+      int[] dx = { -1, -1, -1, 1, 1, 1, 0, 0 };
+      int[] dy = { 1, 0, -1, 1, 0, -1, 1, -1 };
+      for (int i = 0; i < 8; ++i) {
+         if (check1958(board, rMove, cMove, dx[i], dy[i], color)) {
+            return true;
+         }
+      }
+      return false;
+   }
+
+   private boolean check1958(char[][] board, int rMove, int cMove, int dx, int dy, char color) {
+      boolean flag = false;
+      while (0 <= rMove + dx && rMove + dx < 8 && 0 <= cMove + dy && cMove + dy < 8) {
+         rMove += dx;
+         cMove += dy;
+         if (board[rMove][cMove] == '.') {
+            return false;
+         }
+         if (board[rMove][cMove] != color) {
+            flag = true;
+         } else {
+            return flag;
+         }
+      }
+
+      return false;
+   }
+
 }
