@@ -6771,4 +6771,25 @@ public class LeetCode_2 {
 
    }
 
+   // 2133. 检查是否每一行每一列都包含全部整数 (Check if Every Row and Column Contains All Numbers)
+   public boolean checkValid(int[][] matrix) {
+      int n = matrix.length;
+      Set<Integer> set1 = new HashSet<>();
+      Set<Integer> set2 = new HashSet<>();
+      for (int i = 0; i < n; ++i) {
+         for (int j = 0; j < n; ++j) {
+            if (!set1.add(matrix[i][j])) {
+               return false;
+            }
+            if (!set2.add(matrix[j][i])) {
+               return false;
+            }
+         }
+         set1.clear();
+         set2.clear();
+      }
+      return true;
+
+   }
+
 }
