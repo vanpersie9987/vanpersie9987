@@ -1,3 +1,4 @@
+import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,6 +24,7 @@ public class LeetCode_2 {
       // int res = maxSumTwoNoOverlap(new int[] { 1, 0, 3 }, 1, 2);
       // boolean[] res = friendRequests(3, new int[][] { { 0, 1 } }, new int[][] { {
       // 0, 2 }, { 2, 1 } });
+      // int x = nextBeautifulNumber(1);
 
    }
 
@@ -6745,6 +6747,28 @@ public class LeetCode_2 {
       }
 
       return false;
+   }
+
+   // 2048. 下一个更大的数值平衡数 (Next Greater Numerically Balanced Number)
+   public int nextBeautifulNumber(int n) {
+      search: for (int num = n + 1; num <= 1224444; ++num) {
+         int[] counts = new int[10];
+         int cur = num;
+         while (cur != 0) {
+            ++counts[cur % 10];
+            cur /= 10;
+         }
+         cur = num;
+         while (cur != 0) {
+            if (cur % 10 != counts[cur % 10]) {
+               continue search;
+            }
+            cur /= 10;
+         }
+         return num;
+      }
+      return -1;
+
    }
 
 }
