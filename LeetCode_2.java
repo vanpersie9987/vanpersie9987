@@ -6845,4 +6845,26 @@ public class LeetCode_2 {
       return true;
    }
 
+   // 2129. 将标题首字母大写 (Capitalize the Title)
+   public String capitalizeTitle(String title) {
+      char[] chars = title.toCharArray();
+      for (int i = 0; i < chars.length; ++i) {
+         chars[i] = Character.toLowerCase(chars[i]);
+      }
+      int left = 0;
+      int right = 0;
+      while (right < chars.length) {
+         while (right < chars.length && chars[right] != ' ') {
+            ++right;
+         }
+         if (right - left > 2) {
+            chars[left] = Character.toUpperCase(chars[left]);
+         }
+         left = right + 1;
+         ++right;
+      }
+      return String.valueOf(chars);
+
+   }
+
 }
