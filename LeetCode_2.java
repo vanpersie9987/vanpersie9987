@@ -6809,4 +6809,40 @@ public class LeetCode_2 {
 
    }
 
+   // 2047. 句子中的有效单词数 (Number of Valid Words in a Sentence)
+   public int countValidWords(String sentence) {
+      String[] strs = sentence.trim().split("\\s+");
+      int res = 0;
+      for (String s : strs) {
+         if (check2047(s)) {
+            ++res;
+         }
+      }
+      return res;
+
+   }
+
+   private boolean check2047(String s) {
+      int hyphenCount = 0;
+      int punctuationCount = 0;
+      for (int i = 0; i < s.length(); ++i) {
+         char c = s.charAt(i);
+         if (Character.isDigit(c)) {
+            return false;
+         }
+         if (c == '-') {
+            if (++hyphenCount > 1 || i == 0 || i == s.length() - 1 || !Character.isLetter(s.charAt(i - 1)) || !Character
+                  .isLetter(s.charAt(i + 1))) {
+               return false;
+            }
+         }
+         if (c == '!' || c == '.' || c == ',') {
+            if (++punctuationCount > 1 || i != s.length() - 1) {
+               return false;
+            }
+         }
+      }
+      return true;
+   }
+
 }
