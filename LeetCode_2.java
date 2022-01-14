@@ -6792,4 +6792,21 @@ public class LeetCode_2 {
 
    }
 
+   // 820. 单词的压缩编码 (Short Encoding of Words)
+   // 剑指 Offer II 065. 最短的单词编码 --还需掌握字典树
+   public int minimumLengthEncoding(String[] words) {
+      Set<String> set = new HashSet<>(Arrays.asList(words));
+      for (String word : words) {
+         for (int i = 1; i < word.length(); ++i) {
+            set.remove(word.substring(i));
+         }
+      }
+      int res = 0;
+      for (String s : set) {
+         res += s.length() + 1;
+      }
+      return res;
+
+   }
+
 }
