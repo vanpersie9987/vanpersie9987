@@ -16,6 +16,8 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.management.openmbean.OpenType;
+
 public class LeetCode_2 {
 
    public static void main(final String[] args) {
@@ -6903,12 +6905,12 @@ public class LeetCode_2 {
    // 2016. 增量元素之间的最大差值 (Maximum Difference Between Increasing Elements)
    public int maximumDifference(int[] nums) {
       int res = -1;
-      int min = nums[0];
-      for (int i = 1; i < nums.length; ++i) {
-         if (nums[i] < min) {
-            min = nums[i];
-         } else if (nums[i] - min > 0) {
-            res = Math.max(res, nums[i] - min);
+      int min = Integer.MAX_VALUE;
+      for (int num : nums) {
+         if (num < min) {
+            min = num;
+         } else if (num - min > 0) {
+            res = Math.max(res, num - min);
          }
       }
       return res;
