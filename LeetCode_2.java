@@ -6900,4 +6900,48 @@ public class LeetCode_2 {
 
    }
 
+   // 2016. 增量元素之间的最大差值 (Maximum Difference Between Increasing Elements)
+   public int maximumDifference(int[] nums) {
+      int res = -1;
+      int min = nums[0];
+      for (int i = 1; i < nums.length; ++i) {
+         if (nums[i] < min) {
+            min = nums[i];
+         } else if (nums[i] - min > 0) {
+            res = Math.max(res, nums[i] - min);
+         }
+      }
+      return res;
+
+   }
+
+   // 816. 模糊坐标 (Ambiguous Coordinates)
+   // public List<String> ambiguousCoordinates(String s) {
+   // List<String> res = new ArrayList<>();
+   // String str = s.substring(1, s.length() - 1);
+   // for (int i = 1; i < str.length(); ++i) {
+   // for (List<String> left : make816(str.substring(0, i))) {
+   // for (List<String> right : make816(str.substring(i, str.length()))) {
+   // res.add("(" + left + ", " + right + ")");
+   // }
+   // }
+   // }
+   // return res;
+
+   // }
+
+   // private List<String>[] make816(String str) {
+   // List<String> list = new ArrayList<>();
+   // for (int i = 1; i < str.length(); ++i) {
+   // String left = str.substring(0, i);
+   // String right = str.substring(i, str.length());
+   // if ((left.length() == 1 || !left.startsWith("0")) && !right.endsWith("0")) {
+   // list.add(left + )
+   // }
+
+   // }
+
+   // return null;
+   // }
+
 }
