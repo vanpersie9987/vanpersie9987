@@ -6963,7 +6963,7 @@ public class LeetCode_2 {
 
    }
 
-   // 5194. 得到目标值的最少行动次数 (Minimum Moves to Reach Target Score)
+   // 2139. 得到目标值的最少行动次数 (Minimum Moves to Reach Target Score)
    public int minMoves(int target, int maxDoubles) {
       int res = 0;
       while (target != 1) {
@@ -6982,22 +6982,14 @@ public class LeetCode_2 {
 
    }
 
-   // public long mostPoints(int[][] questions) {
-   // int n = questions.length;
-   // long[] dp = new long[n];
-   // long res = questions[n - 1][0];
-   // dp[n - 1] = questions[n - 1][0];
-   // for (int i = n - 2; i >= 0; --i) {
-   // if (i + questions[i][1] < n) {
-   // dp[i] = questions[i][0] + questions[i + questions[i][1]][0];
-   // Arrays.fill(dp, i, n, Math.max(dp[i], dp[i + 1]));
-   // } else {
-   // Arrays.fill(dp, i, n, Math.max(questions[i][0], dp[i + 1]));
-   // dp[i] = Math.max(questions[i][0], dp[i + 1]);
-   // }
-   // res = Math.max(dp[i], res);
-   // }
-   // return res;
+   // 2140. 解决智力问题 (Solving Questions With Brainpower) --倒序 填表法
+   public long mostPoints(int[][] questions) {
+      long[] dp = new long[questions.length + 1];
+      for (int i = questions.length - 1; i >= 0; --i) {
+         int j = i + questions[i][1] + 1;
+         dp[i] = Math.max(dp[i + 1], questions[i][0] + (j < questions.length ? dp[j] : 0));
+      }
+      return dp[0];
 
-   // }
+   }
 }
