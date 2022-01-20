@@ -6992,4 +6992,30 @@ public class LeetCode_2 {
       return dp[0];
 
    }
+
+   // 2141. 同时运行 N 台电脑的最长时间 (Maximum Running Time of N Computers)
+   public long maxRunTime(int n, int[] batteries) {
+      long res = 0L;
+      long left = 0L;
+      long sumB = 0L;
+      for (int battery : batteries) {
+         sumB += battery;
+      }
+      long right = sumB / n;
+      while (left <= right) {
+         long mid = left + ((right - left) >> 1);
+         long sum = 0L;
+         for (int battery : batteries) {
+            sum += Math.min(battery, mid);
+         }
+         if (mid * n <= sum) {
+            res = mid;
+            left = mid + 1;
+         } else {
+            right = mid - 1;
+         }
+      }
+      return res;
+
+   }
 }
