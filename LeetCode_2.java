@@ -6963,20 +6963,20 @@ public class LeetCode_2 {
 
    }
 
-   // 5194. 得到目标值的最少行动次数
+   // 5194. 得到目标值的最少行动次数 (Minimum Moves to Reach Target Score)
    public int minMoves(int target, int maxDoubles) {
       int res = 0;
       while (target != 1) {
-         if (target % 2 == 1) {
+         if ((target & 1) != 0) {
             --target;
-         } else if (maxDoubles > 0) {
-            --maxDoubles;
-            target /= 2;
+            ++res;
+         } else if (maxDoubles-- > 0) {
+            target >>>= 1;
+            ++res;
          } else {
             res += target - 1;
             break;
          }
-         ++res;
       }
       return res;
 
