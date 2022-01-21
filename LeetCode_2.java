@@ -7068,4 +7068,18 @@ public class LeetCode_2 {
       return res;
 
    }
+
+   // 2126. 摧毁小行星 (Destroying Asteroids)
+   public boolean asteroidsDestroyed(int mass, int[] asteroids) {
+      Arrays.sort(asteroids);
+      long curMass = mass;
+      for (int asteroid : asteroids) {
+         if (curMass < asteroid) {
+            return false;
+         }
+         curMass += asteroid;
+      }
+      return true;
+
+   }
 }
