@@ -7044,4 +7044,28 @@ public class LeetCode_2 {
       return res;
 
    }
+
+   // LCP 30. 魔塔游戏
+   public int magicTower(int[] nums) {
+      long sum = Arrays.stream(nums).sum();
+      if (sum < 0) {
+         return -1;
+      }
+      int res = 0;
+      PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
+      long blood = 1L;
+      for (int i = 0; i < nums.length; ++i) {
+         if (nums[i] < 0) {
+            priorityQueue.offer(nums[i]);
+            if (nums[i] + blood <= 0) {
+               ++res;
+               blood -= priorityQueue.poll();
+            }
+
+         }
+         blood += nums[i];
+      }
+      return res;
+
+   }
 }
