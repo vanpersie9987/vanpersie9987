@@ -7018,4 +7018,30 @@ public class LeetCode_2 {
       return res;
 
    }
+
+   // LCP 33. 蓄水
+   public int storeWater(int[] bucket, int[] vat) {
+      int res = Integer.MAX_VALUE;
+      int max = 0;
+      for (int v : vat) {
+         max = Math.max(max, v);
+      }
+      if (max == 0) {
+         return 0;
+      }
+      for (int i = 1; i <= max; ++i) {
+         if (i >= res) {
+            break;
+         }
+         // 倒水的次数
+         int cur = i;
+         for (int j = 0; j < vat.length; ++j) {
+            // 每个桶最少的增加容量次数
+            cur += Math.max(0, vat[j] / i + (vat[j] % i == 0 ? 0 : 1) - bucket[j]);
+         }
+         res = Math.min(res, cur);
+      }
+      return res;
+
+   }
 }
