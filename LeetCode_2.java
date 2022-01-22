@@ -6917,35 +6917,6 @@ public class LeetCode_2 {
 
    }
 
-   // 816. 模糊坐标 (Ambiguous Coordinates)
-   // public List<String> ambiguousCoordinates(String s) {
-   // List<String> res = new ArrayList<>();
-   // String str = s.substring(1, s.length() - 1);
-   // for (int i = 1; i < str.length(); ++i) {
-   // for (List<String> left : make816(str.substring(0, i))) {
-   // for (List<String> right : make816(str.substring(i, str.length()))) {
-   // res.add("(" + left + ", " + right + ")");
-   // }
-   // }
-   // }
-   // return res;
-
-   // }
-
-   // private List<String>[] make816(String str) {
-   // List<String> list = new ArrayList<>();
-   // for (int i = 1; i < str.length(); ++i) {
-   // String left = str.substring(0, i);
-   // String right = str.substring(i, str.length());
-   // if ((left.length() == 1 || !left.startsWith("0")) && !right.endsWith("0")) {
-   // list.add(left + )
-   // }
-
-   // }
-
-   // return null;
-   // }
-
    // 2138. 将字符串拆分为若干长度为 k 的组 (Divide a String Into Groups of Size k)
    public String[] divideString(String s, int k, char fill) {
       StringBuilder builder = new StringBuilder(s);
@@ -7209,5 +7180,34 @@ public class LeetCode_2 {
       Arrays.sort(arr, i + 1, arr.length);
       return true;
    }
+   
+   // 816. 模糊坐标 (Ambiguous Coordinates)
+   // public List<String> ambiguousCoordinates(String s) {
+   // List<String> res = new ArrayList<>();
+   // String str = s.substring(1, s.length() - 1);
+   // for (int i = 1; i < str.length(); ++i) {
+   // for (List<String> left : make816(str.substring(0, i))) {
+   // for (List<String> right : make816(str.substring(i, str.length()))) {
+   // res.add("(" + left + ", " + right + ")");
+   // }
+   // }
+   // }
+   // return res;
+
+   // }
+
+   // private List<String>[] make816(String str) {
+   // List<String> list = new ArrayList<>();
+   // for (int i = 1; i < str.length(); ++i) {
+   // String left = str.substring(0, i);
+   // String right = str.substring(i, str.length());
+   // if ((left.length() == 1 || !left.startsWith("0")) && !right.endsWith("0")) {
+   // list.add(left + )
+   // }
+
+   // }
+
+   // return null;
+   // }
 
 }
