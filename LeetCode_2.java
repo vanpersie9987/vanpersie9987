@@ -7220,27 +7220,19 @@ public class LeetCode_2 {
    // 5974. 分隔长廊的方案数 (Number of Ways to Divide a Long Corridor)
    public int numberOfWays(String corridor) {
       final int MOD = 1000000007;
-      long res = 0;
+      long res = 1L;
       char[] chars = corridor.toCharArray();
       int count = 0;
-      int first = -1;
-      int last = -1;
+      int pre = -1;
       for (int i = 0; i < chars.length; ++i) {
          if (chars[i] == 'S') {
-            ++count;
-            if (count % 2 == 0) {
-               if (last == -1) {
-                  res = 1;
-               } else {
-                  res = (res * (first - last)) % MOD;
-               }
-               last = i;
-            } else {
-               first = i;
+            if (++count >= 3 && count % 2 == 1) {
+               res = res * (i - pre) % MOD;
             }
+            pre = i;
          }
       }
-      return count % 2 == 0 ? (int) res : 0;
+      return count == 0 || count % 2 == 1 ? 0 : (int) res;
 
    }
 
