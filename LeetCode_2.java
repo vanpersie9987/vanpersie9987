@@ -7167,4 +7167,47 @@ public class LeetCode_2 {
 
    }
 
+   // 949. 给定数字能组成的最大时间 (Largest Time for Given Digits)
+   public String largestTimeFromDigits(int[] arr) {
+      Arrays.sort(arr);
+      int res = -1;
+      do {
+         int hour = arr[0] * 10 + arr[1];
+         int minute = arr[2] * 10 + arr[3];
+         if (hour >= 24) {
+            break;
+         }
+         if (hour <= 23 && minute <= 59) {
+            res = Math.max(res, hour * 60 + minute);
+         }
+      } while (hasNextLargerPermutation(arr));
+      return res >= 0 ? String.format("%02d:%02d", res / 60, res % 60) : "";
+
+   }
+
+   private boolean hasNextLargerPermutation(int[] arr) {
+      int i = arr.length - 2;
+      while (i >= 0) {
+         if (arr[i] < arr[i + 1]) {
+            break;
+         }
+         --i;
+      }
+      if (i < 0) {
+         return false;
+      }
+      int j = arr.length - 1;
+      while (i < j) {
+         if (arr[i] < arr[j]) {
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            break;
+         }
+         --j;
+      }
+      Arrays.sort(arr, i + 1, arr.length);
+      return true;
+   }
+
 }
