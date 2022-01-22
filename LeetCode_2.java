@@ -7217,68 +7217,31 @@ public class LeetCode_2 {
 
    }
 
-   // // 5974. 分隔长廊的方案数
-   // public int numberOfWays(String corridor) {
-   // char[] chars = corridor.toCharArray();
-   // int countSeat = 0;
-   // for (char c : chars) {
-   // if (c == 'S') {
-   // ++countSeat;
-   // }
-   // }
-   // if (countSeat % 2 == 1) {
-   // return 0;
-   // }
-   // if (countSeat == 0) {
-   // return 0;
-   // }
-   // if (countSeat == 2) {
-   // return 1;
-   // }
-   // int cur = 0;
-   // int res = 1;
-   // int left = 0;
-   // int right = 0;
-   // while (left < chars.length) {
-   // if (chars[left] == 'S') {
-   // ++cur;
-   // if (cur == 2) {
-   // cur = 0;
-   // break;
-   // }
-   // }
-   // ++left;
-   // }
-   // while (right >= 0) {
-   // if (chars[right] == 'S') {
-   // ++cur;
-   // if (cur == 2) {
-   // cur = 0;
-   // break;
-   // }
-   // }
-   // --right;
-   // }
-   // while (left < right) {
-   // int cur1 = 0;
-   // while (left < right && chars[left] == 'P') {
-   // ++cur1;
-   // ++left;
-   // }
-   // res += (res * cur1) % 1000000007;
-   // while (left < chars.length) {
-   // if (chars[left] == 'S') {
-   // ++cur;
-   // if (cur == 2) {
-   // cur = 0;
-   // break;
-   // }
-   // }
-   // ++left;
-   // }
-   // }
-   // return res;
+   // 5974. 分隔长廊的方案数 (Number of Ways to Divide a Long Corridor)
+   public int numberOfWays(String corridor) {
+      final int MOD = 1000000007;
+      long res = 0;
+      char[] chars = corridor.toCharArray();
+      int count = 0;
+      int first = -1;
+      int last = -1;
+      for (int i = 0; i < chars.length; ++i) {
+         if (chars[i] == 'S') {
+            ++count;
+            if (count % 2 == 0) {
+               if (last == -1) {
+                  res = 1;
+               } else {
+                  res = (res * (first - last)) % MOD;
+               }
+               last = i;
+            } else {
+               first = i;
+            }
+         }
+      }
+      return count % 2 == 0 ? (int) res : 0;
 
-   // }
+   }
 
 }
