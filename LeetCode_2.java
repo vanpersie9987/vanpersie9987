@@ -7183,4 +7183,102 @@ public class LeetCode_2 {
 
    // }
 
+   // 5971. 打折购买糖果的最小开销 (Minimum Cost of Buying Candies With Discount)
+   public int minimumCost(int[] cost) {
+      int res = 0;
+      Arrays.sort(cost);
+      int index = cost.length - 1;
+      while (index >= 0) {
+         res += cost[index];
+         --index;
+         if (index >= 0) {
+            res += cost[index];
+         }
+         index -= 2;
+      }
+      return res;
+
+   }
+
+   // // 5972. 统计隐藏数组数目 (Count the Hidden Sequences)
+   // public int numberOfArrays(int[] differences, int lower, int upper) {
+   //    long min = 0;
+   //    long max = 0;
+
+   //    long cur = 0;
+   //    for (int diff : differences) {
+   //       cur += diff;
+   //       min = Math.min(min, cur);
+   //       max = Math.max(max, cur);
+   //    }
+   //    long d = lower - min;
+   //    max += d;
+   //    return Math.max(0, (int) (upper - max + 1));
+
+   // }
+
+   // // 5974. 分隔长廊的方案数
+   // public int numberOfWays(String corridor) {
+   //    char[] chars = corridor.toCharArray();
+   //    int countSeat = 0;
+   //    for (char c : chars) {
+   //       if (c == 'S') {
+   //          ++countSeat;
+   //       }
+   //    }
+   //    if (countSeat % 2 == 1) {
+   //       return 0;
+   //    }
+   //    if (countSeat == 0) {
+   //       return 0;
+   //    }
+   //    if (countSeat == 2) {
+   //       return 1;
+   //    }
+   //    int cur = 0;
+   //    int res = 1;
+   //    int left = 0;
+   //    int right = 0;
+   //    while (left < chars.length) {
+   //       if (chars[left] == 'S') {
+   //          ++cur;
+   //          if (cur == 2) {
+   //             cur = 0;
+   //             break;
+   //          }
+   //       }
+   //       ++left;
+   //    }
+   //    while (right >= 0) {
+   //       if (chars[right] == 'S') {
+   //          ++cur;
+   //          if (cur == 2) {
+   //             cur = 0;
+   //             break;
+   //          }
+   //       }
+   //       --right;
+   //    }
+   //    while (left < right) {
+   //       int cur1 = 0;
+   //       while (left < right && chars[left] == 'P') {
+   //          ++cur1;
+   //          ++left;
+   //       }
+   //       res += (res * cur1) % 1000000007;
+   //       while (left < chars.length) {
+   //          if (chars[left] == 'S') {
+   //             ++cur;
+   //             if (cur == 2) {
+   //                cur = 0;
+   //                break;
+   //             }
+   //          }
+   //          ++left;
+   //       }
+   //    }
+   //    return res;
+
+   // }
+
 }
