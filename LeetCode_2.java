@@ -7082,4 +7082,59 @@ public class LeetCode_2 {
       return true;
 
    }
+
+   // 2018. 判断单词是否能放入填字游戏内 (Check if Word Can Be Placed In Crossword)
+   public boolean placeWordInCrossword(char[][] board, String word) {
+      int m = board.length;
+      int n = board[0].length;
+      int wordLen = word.length();
+      for (int i = 0; i < m; ++i) {
+         for (int j = 0; j < n; ++j) {
+            if (board[i][j] == '#') {
+               continue;
+            }
+            int j0 = j;
+            boolean flag1 = true;
+            boolean flag2 = true;
+            while (j < n && board[i][j] != '#') {
+               if (j - j0 + 1 > wordLen || (board[i][j] != ' ' && board[i][j] != word.charAt(j - j0))) {
+                  flag1 = false;
+               }
+               if (j - j0 + 1 > wordLen || (board[i][j] != ' ' && board[i][j] != word.charAt(wordLen - 1 - (j - j0)))) {
+                  flag2 = false;
+               }
+               ++j;
+            }
+
+            if ((flag1 || flag2) && (j - j0 == wordLen)) {
+               return true;
+            }
+         }
+      }
+      for (int j = 0; j < n; ++j) {
+         for (int i = 0; i < m; ++i) {
+            if (board[i][j] == '#') {
+               continue;
+            }
+            int i0 = i;
+            boolean flag1 = true;
+            boolean flag2 = true;
+            while (i < m && board[i][j] != '#') {
+               if (i - i0 + 1 > wordLen || (board[i][j] != ' ' && board[i][j] != word.charAt(i - i0))) {
+                  flag1 = false;
+               }
+               if (i - i0 + 1 > wordLen || (board[i][j] != ' ' && board[i][j] != word.charAt(wordLen - 1 - (i - i0)))) {
+                  flag2 = false;
+               }
+               ++i;
+            }
+            if ((flag1 || flag2) && (i - i0 == wordLen)) {
+               return true;
+            }
+         }
+      }
+      return false;
+
+   }
+
 }
