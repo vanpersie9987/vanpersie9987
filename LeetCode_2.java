@@ -7178,11 +7178,6 @@ public class LeetCode_2 {
       return true;
    }
 
-   // 816. 模糊坐标 (Ambiguous Coordinates)
-   // public List<String> ambiguousCoordinates(String s) {
-
-   // }
-
    // 5971. 打折购买糖果的最小开销 (Minimum Cost of Buying Candies With Discount)
    public int minimumCost(int[] cost) {
       int res = 0;
@@ -7313,5 +7308,10 @@ public class LeetCode_2 {
       }
       return true;
    }
+
+   // 816. 模糊坐标 (Ambiguous Coordinates)
+   // public List<String> ambiguousCoordinates(String s) {
+
+   // }
 
 }
