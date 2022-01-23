@@ -7285,4 +7285,33 @@ public class LeetCode_2 {
 
    }
 
+   // 5992. 基于陈述统计最多好人数 (Maximum Good People Based on Statements)
+   public int maximumGood(int[][] statements) {
+      int res = 0;
+      int n = statements.length;
+      for (int status = 0; status < (1 << n); ++status) {
+         if (isLegal5992(status, statements)) {
+            res = Math.max(res, Integer.bitCount(status));
+         }
+      }
+      return res;
+
+   }
+
+   private boolean isLegal5992(int status, int[][] statements) {
+      for (int i = 0; i < statements.length; ++i) {
+         for (int j = 0; j < statements.length; ++j) {
+            // i是好人 i认为j是坏人 但j是好人
+            if (statements[i][j] == 0 && ((status >> i) & 1) == 1 && ((status >> j) & 1) == 1) {
+               return false;
+            }
+            // i是好人 i认为j是好人 但j是坏人
+            else if (statements[i][j] == 1 && ((status >> i) & 1) == 1 && ((status >> j) & 1) == 0) {
+               return false;
+            }
+         }
+      }
+      return true;
+   }
+
 }
