@@ -7268,17 +7268,17 @@ public class LeetCode_2 {
 
    }
 
-   // 5990. 找出数组中的所有孤独数字
+   // 5990. 找出数组中的所有孤独数字 (Find All Lonely Numbers in the Array)
    public List<Integer> findLonely(int[] nums) {
       Map<Integer, Integer> map = new HashMap<>();
       for (int num : nums) {
          map.put(num, map.getOrDefault(num, 0) + 1);
       }
       List<Integer> res = new ArrayList<>();
-      for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-         if (entry.getValue() == 1 && map.getOrDefault(entry.getKey() - 1, 0) == 0
-               && map.getOrDefault(entry.getKey() + 1, 0) == 0) {
-            res.add(entry.getKey());
+      for (int key : map.keySet()) {
+         if (map.get(key) == 1 && map.getOrDefault(key - 1, 0) == 0
+               && map.getOrDefault(key + 1, 0) == 0) {
+            res.add(key);
          }
       }
       return res;
