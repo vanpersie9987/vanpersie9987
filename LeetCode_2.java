@@ -7236,4 +7236,53 @@ public class LeetCode_2 {
 
    }
 
+   // 5989. 元素计数
+   public int countElements(int[] nums) {
+      int max = Arrays.stream(nums).max().getAsInt();
+      int min = Arrays.stream(nums).min().getAsInt();
+      int res = 0;
+      for (int num : nums) {
+         if (num != max && num != min) {
+            ++res;
+         }
+      }
+      return res;
+
+   }
+
+   // 5991. 按符号重排数组 (Rearrange Array Elements by Sign)
+   public int[] rearrangeArray(int[] nums) {
+      int[] res = new int[nums.length];
+      int positiveIndex = 0;
+      int negativeIndex = 1;
+      for (int num : nums) {
+         if (num > 0) {
+            res[positiveIndex] = num;
+            positiveIndex += 2;
+         } else {
+            res[negativeIndex] = num;
+            negativeIndex += 2;
+         }
+      }
+      return res;
+
+   }
+
+   // 5990. 找出数组中的所有孤独数字
+   public List<Integer> findLonely(int[] nums) {
+      Map<Integer, Integer> map = new HashMap<>();
+      for (int num : nums) {
+         map.put(num, map.getOrDefault(num, 0) + 1);
+      }
+      List<Integer> res = new ArrayList<>();
+      for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+         if (entry.getValue() == 1 && map.getOrDefault(entry.getKey() - 1, 0) == 0
+               && map.getOrDefault(entry.getKey() + 1, 0) == 0) {
+            res.add(entry.getKey());
+         }
+      }
+      return res;
+
+   }
+
 }
