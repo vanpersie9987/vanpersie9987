@@ -7236,7 +7236,7 @@ public class LeetCode_2 {
 
    }
 
-   // 5989. 元素计数
+   // 5989. 元素计数 (Count Elements With Strictly Smaller and Greater Elements)
    public int countElements(int[] nums) {
       int max = Arrays.stream(nums).max().getAsInt();
       int min = Arrays.stream(nums).min().getAsInt();
