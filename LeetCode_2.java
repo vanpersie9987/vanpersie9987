@@ -7309,4 +7309,47 @@ public class LeetCode_2 {
 
    // }
 
+   // 2081. k 镜像数字的和 (Sum of k-Mirror Numbers)
+   public long kMirror(int k, int n) {
+      long res = 0L;
+      int count = 0;
+      int left = 1;
+      while (count < n) {
+         int right = left * 10;
+         for (int i = 0; i < 2; ++i) {
+            for (int num = left; num < right && count < n; ++num) {
+               long combined = num;
+               int x = (i == 0 ? num / 10 : num);
+               while (x != 0) {
+                  combined = combined * 10 + x % 10;
+                  x /= 10;
+               }
+               if (judge2081(combined, k)) {
+                  ++count;
+                  res += combined;
+               }
+            }
+         }
+         left = right;
+      }
+      return res;
+
+   }
+
+   private boolean judge2081(long combined, int k) {
+      StringBuilder builder = new StringBuilder();
+      while (combined != 0) {
+         builder.append(combined % k);
+         combined /= k;
+      }
+      int left = 0;
+      int right = builder.length() - 1;
+      while (left < right) {
+         if (builder.charAt(left++) != builder.charAt(right--)) {
+            return false;
+         }
+      }
+      return true;
+   }
+
 }
