@@ -7352,4 +7352,41 @@ public class LeetCode_2 {
       return true;
    }
 
+   // 2122. 还原原数组 (Recover the Original Array)
+   public int[] recoverArray(int[] nums) {
+      Arrays.sort(nums);
+      for (int i = 1; i < nums.length; ++i) {
+         if (nums[i] == nums[0] || (nums[i] - nums[0]) % 2 == 1) {
+            continue;
+         }
+         boolean[] visited = new boolean[nums.length];
+         visited[0] = true;
+         visited[i] = true;
+         int[] res = new int[nums.length / 2];
+         int k = (nums[i] - nums[0]) / 2;
+         res[0] = nums[0] + k;
+         int index = 1;
+         int left = 0;
+         int right = i;
+         for (int j = 0; j <= nums.length / 2 - 2; ++j) {
+            while (left < nums.length && visited[left]) {
+               ++left;
+            }
+            while (right < nums.length && (visited[right] || nums[right] - nums[left] != 2 * k)) {
+               ++right;
+            }
+            if (right == nums.length) {
+               continue;
+            }
+            visited[left] = visited[right] = true;
+            res[index++] = nums[left] + k;
+         }
+         if (index == nums.length / 2) {
+            return res;
+         }
+      }
+      return null;
+
+   }
+
 }
