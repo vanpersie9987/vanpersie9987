@@ -7122,9 +7122,7 @@ public class LeetCode_2 {
                   cur += tower[2] / (1 + distance);
                }
             }
-            if (cur > max
-                  || ((cur == max)
-                        && ((i < res[0]) || ((i == res[0]) && (j < res[1]))))) {
+            if (cur > max) {
                max = cur;
                res[0] = i;
                res[1] = j;
