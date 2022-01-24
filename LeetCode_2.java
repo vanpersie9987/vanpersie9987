@@ -7206,10 +7206,7 @@ public class LeetCode_2 {
          min = Math.min(min, cur);
          max = Math.max(max, cur);
       }
-      long d = lower - min;
-      max += d;
-      return Math.max(0, (int) (upper - max + 1));
-
+      return (int) Math.max(0, (upper - lower) - (max - min) + 1);
    }
 
    // 5974. 分隔长廊的方案数 (Number of Ways to Divide a Long Corridor)
