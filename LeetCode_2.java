@@ -7304,11 +7304,6 @@ public class LeetCode_2 {
       return true;
    }
 
-   // 816. 模糊坐标 (Ambiguous Coordinates)
-   // public List<String> ambiguousCoordinates(String s) {
-
-   // }
-
    // 2081. k 镜像数字的和 (Sum of k-Mirror Numbers)
    public long kMirror(int k, int n) {
       long res = 0L;
@@ -7409,5 +7404,36 @@ public class LeetCode_2 {
       return res.toArray(new int[res.size()][]);
 
    }
+
+   // 816. 模糊坐标 (Ambiguous Coordinates)
+   // public List<String> ambiguousCoordinates(String s) {
+
+   // }
+
+   // 939. 最小面积矩形 (Minimum Area Rectangle)
+   public int minAreaRect(int[][] points) {
+      int res = Integer.MAX_VALUE;
+      Set<Integer> set = new HashSet<>();
+      for (int[] point : points) {
+         set.add(point[0] * 40001 + point[1]);
+      }
+      for (int i = 0; i < points.length; ++i) {
+         for (int j = i + 1; j < points.length; ++j) {
+            if (points[i][0] != points[j][0] && points[i][1] != points[j][1]) {
+               if (set.contains(points[i][0] * 40001 + points[j][1])
+                     && set.contains(points[j][0] * 40001 + points[i][1])) {
+                  res = Math.min(res, Math.abs(points[i][0] - points[j][0]) * Math.abs(points[i][1] - points[j][1]));
+               }
+            }
+         }
+      }
+      return res == Integer.MAX_VALUE ? 0 : res;
+
+   }
+
+   // 963. Minimum Area Rectangle II
+   // public double minAreaFreeRect(int[][] points) {
+
+   // }
 
 }
