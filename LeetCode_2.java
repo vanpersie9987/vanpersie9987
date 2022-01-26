@@ -7476,4 +7476,38 @@ public class LeetCode_2 {
 
    }
 
+   // 1824. 最少侧跳次数 (Minimum Sideway Jumps)
+   public int minSideJumps(int[] obstacles) {
+      int[] dp = new int[3];
+      int pre0 = 1;
+      int pre1 = 0;
+      int pre2 = 1;
+      for (int i = 1; i < obstacles.length; ++i) {
+         Arrays.fill(dp, Integer.MAX_VALUE - 1);
+         if (obstacles[i] != 1) {
+            dp[0] = pre0;
+         }
+         if (obstacles[i] != 2) {
+            dp[1] = pre1;
+         }
+         if (obstacles[i] != 3) {
+            dp[2] = pre2;
+         }
+         if (obstacles[i] != 1) {
+            dp[0] = Math.min(dp[0], Math.min(dp[1], dp[2]) + 1);
+         }
+         if (obstacles[i] != 2) {
+            dp[1] = Math.min(dp[1], Math.min(dp[0], dp[2]) + 1);
+         }
+         if (obstacles[i] != 3) {
+            dp[2] = Math.min(dp[2], Math.min(dp[0], dp[1]) + 1);
+         }
+         pre0 = dp[0];
+         pre1 = dp[1];
+         pre2 = dp[2];
+      }
+      return Arrays.stream(dp).min().getAsInt();
+
+   }
+
 }
