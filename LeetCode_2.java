@@ -7431,9 +7431,15 @@ public class LeetCode_2 {
 
    }
 
-   // 963. Minimum Area Rectangle II
-   // public double minAreaFreeRect(int[][] points) {
-
-   // }
+   // 1529. 最少的后缀翻转次数 (Minimum Suffix Flips)
+   public int minFlips(String target) {
+      int res = target.charAt(0) - '0';
+      for (int i = 1; i < target.length(); ++i) {
+         if (target.charAt(i) != target.charAt(i - 1)) {
+            ++res;
+         }
+      }
+      return res;
+   }
 
 }
