@@ -7405,11 +7405,6 @@ public class LeetCode_2 {
 
    }
 
-   // 816. 模糊坐标 (Ambiguous Coordinates)
-   // public List<String> ambiguousCoordinates(String s) {
-
-   // }
-
    // 939. 最小面积矩形 (Minimum Area Rectangle)
    public int minAreaRect(int[][] points) {
       int res = Integer.MAX_VALUE;
