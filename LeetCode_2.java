@@ -7505,4 +7505,17 @@ public class LeetCode_2 {
 
    }
 
+   // 1899. 合并若干三元组以形成目标三元组 (Merge Triplets to Form Target Triplet)
+   public boolean mergeTriplets(int[][] triplets, int[] target) {
+      int[] expected = new int[3];
+      for (int[] triplet : triplets) {
+         if (triplet[0] <= target[0] && triplet[1] <= target[1] && triplet[2] <= target[2]) {
+            expected[0] = Math.max(expected[0], triplet[0]);
+            expected[1] = Math.max(expected[1], triplet[1]);
+            expected[2] = Math.max(expected[2], triplet[2]);
+         }
+      }
+      return Arrays.equals(expected, target);
+   }
+
 }
