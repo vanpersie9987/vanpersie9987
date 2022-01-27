@@ -7529,4 +7529,20 @@ public class LeetCode_2 {
 
    }
 
+   // 1558. 得到目标数组的最少函数调用次数 (Minimum Numbers of Function Calls to Make Target
+   // Array)
+   public int minOperations(int[] nums) {
+      int res = 0;
+      int max = 0;
+      for (int num : nums) {
+         res += Integer.bitCount(num);
+         max = Math.max(max, num);
+      }
+      if (max != 0) {
+         res += Math.log(max) / Math.log(2);
+      }
+      return res;
+
+   }
+
 }
