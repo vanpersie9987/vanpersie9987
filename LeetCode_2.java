@@ -7668,4 +7668,33 @@ public class LeetCode_2 {
       return res;
    }
 
+   // 680. 验证回文字符串 Ⅱ (Valid Palindrome II)
+   // 剑指 Offer II 019. 最多删除一个字符得到回文
+   public boolean validPalindrome(String s) {
+      char[] chars = s.toCharArray();
+      int left = 0;
+      int right = chars.length - 1;
+      while (left < right) {
+         if (chars[left] == chars[right]) {
+            ++left;
+            --right;
+         } else {
+            return judge680(chars, left + 1, right) || judge680(chars, left, right - 1);
+         }
+      }
+      return true;
+
+   }
+
+   private boolean judge680(char[] chars, int left, int right) {
+      while (left < right) {
+         if (chars[left] != chars[right]) {
+            return false;
+         }
+         ++left;
+         --right;
+      }
+      return true;
+   }
+
 }
