@@ -7642,4 +7642,30 @@ public class LeetCode_2 {
 
    }
 
+   // 1005. K 次取反后最大化的数组和 (Maximize Sum Of Array After K Negations)
+   public int largestSumAfterKNegations(int[] nums, int k) {
+      Arrays.sort(nums);
+      for (int i = 0; i < nums.length; ++i) {
+         if (nums[i] < 0 && k > 0) {
+            nums[i] = -nums[i];
+            --k;
+         } else {
+            break;
+         }
+      }
+      int res = 0;
+      int min = nums[0];
+      for (int i = 0; i < nums.length; ++i) {
+         if (nums[i] < min) {
+            min = nums[i];
+         }
+         res += nums[i];
+      }
+
+      if (k % 2 == 1) {
+         res -= min * 2;
+      }
+      return res;
+   }
+
 }
