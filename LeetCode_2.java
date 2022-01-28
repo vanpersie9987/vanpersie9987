@@ -7697,4 +7697,54 @@ public class LeetCode_2 {
       return true;
    }
 
+   // 1996. 游戏中弱角色的数量 (The Number of Weak Characters in the Game) --排序+贪心
+   public int numberOfWeakCharacters(int[][] properties) {
+      Arrays.sort(properties, new Comparator<int[]>() {
+
+         @Override
+         public int compare(int[] o1, int[] o2) {
+            if (o1[0] == o2[0]) {
+               return o1[1] - o2[1];
+            }
+            return o2[0] - o1[0];
+         }
+      });
+
+      int max = 0;
+      int res = 0;
+      for (int[] property : properties) {
+         if (property[1] < max) {
+            ++res;
+         } else {
+            max = property[1];
+         }
+      }
+      return res;
+
+   }
+
+   // 1996. 游戏中弱角色的数量 (The Number of Weak Characters in the Game) --排序+单调栈
+   public int numberOfWeakCharacters2(int[][] properties) {
+      Arrays.sort(properties, new Comparator<int[]>() {
+
+         @Override
+         public int compare(int[] o1, int[] o2) {
+            if (o1[0] == o2[0]) {
+               return o2[1] - o1[1];
+            }
+            return o1[0] - o2[0];
+         }
+      });
+      int res = 0;
+      Stack<Integer> stack = new Stack<>();
+      for (int i = 0; i < properties.length; ++i) {
+         while (!stack.isEmpty() && properties[i][1] > stack.peek()) {
+            ++res;
+            stack.pop();
+         }
+         stack.push(properties[i][1]);
+      }
+      return res;
+   }
+
 }
