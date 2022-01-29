@@ -7747,4 +7747,33 @@ public class LeetCode_2 {
       return res;
    }
 
+   // 1536. 排布二进制网格的最少交换次数 (Minimum Swaps to Arrange a Binary Grid)
+   public int minSwaps(int[][] grid) {
+      int n = grid.length;
+      List<Integer> list = new ArrayList<>();
+      for (int i = 0; i < n; ++i) {
+         int count = 0;
+         for (int j = n - 1; j >= 0; --j) {
+            if (grid[i][j] != 0) {
+               break;
+            }
+            ++count;
+         }
+         list.add(count);
+      }
+      int res = 0;
+      search: for (int i = 0; i < n; ++i) {
+         int threshold = n - i - 1;
+         for (int j = 0; j < list.size(); ++j) {
+            if (list.get(j) >= threshold) {
+               res += j;
+               list.remove(j);
+               continue search;
+            }
+         }
+         return -1;
+      }
+      return res;
+   }
+
 }
