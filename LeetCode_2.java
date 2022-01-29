@@ -7808,4 +7808,23 @@ public class LeetCode_2 {
 
    }
 
+   // 2087. 网格图中机器人回家的最小代价 (Minimum Cost Homecoming of a Robot in a Grid)
+   public int minCost(int[] startPos, int[] homePos, int[] rowCosts, int[] colCosts) {
+      int res = 0;
+      int minRow = Math.min(startPos[0], homePos[0]);
+      int maxRow = Math.max(startPos[0], homePos[0]);
+      int minCol = Math.min(startPos[1], homePos[1]);
+      int maxCol = Math.max(startPos[1], homePos[1]);
+      for (int i = minRow; i <= maxRow; ++i) {
+         res += rowCosts[i];
+      }
+      for (int i = minCol; i <= maxCol; ++i) {
+         res += colCosts[i];
+      }
+      res -= rowCosts[startPos[0]];
+      res -= colCosts[startPos[1]];
+      return res;
+
+   }
+
 }
