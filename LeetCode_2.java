@@ -7797,4 +7797,15 @@ public class LeetCode_2 {
 
    }
 
+   // 1147. 段式回文 (Longest Chunked Palindrome Decomposition) --递归+贪心
+   public int longestDecomposition(String text) {
+      for (int i = 0; i < text.length() / 2; ++i) {
+         if (text.substring(0, i + 1).equals(text.subSequence(text.length() - i - 1, text.length()))) {
+            return 2 + longestDecomposition(text.substring(i + 1, text.length() - i - 1));
+         }
+      }
+      return text.length() > 0 ? 1 : 0;
+
+   }
+
 }
