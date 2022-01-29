@@ -7776,4 +7776,25 @@ public class LeetCode_2 {
       return res;
    }
 
+   // 1328. 破坏回文串 (Break a Palindrome)
+   public String breakPalindrome(String palindrome) {
+      char[] chars = palindrome.toCharArray();
+      if (chars.length == 1) {
+         return "";
+      }
+      int left = 0;
+      int right = chars.length - 1;
+      while (left < right && chars[left] == 'a') {
+         ++left;
+         --right;
+      }
+      if (left < right) {
+         chars[left] = 'a';
+      } else {
+         chars[chars.length - 1] = 'b';
+      }
+      return String.valueOf(chars);
+
+   }
+
 }
