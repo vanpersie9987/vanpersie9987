@@ -7884,6 +7884,39 @@ public class LeetCode_2 {
 
    }
 
+   // 1024. 视频拼接 (Video Stitching) --排序+贪心
+   public int videoStitching2(int[][] clips, int time) {
+      Arrays.sort(clips, new Comparator<int[]>() {
+
+         @Override
+         public int compare(int[] o1, int[] o2) {
+            if (o1[0] == o2[0]) {
+               return o2[1] - o1[1];
+            }
+            return o1[0] - o2[0];
+         }
+
+      });
+
+      int res = 0;
+      int index = 0;
+      int curEnd = 0;
+      int nextEnd = 0;
+      while (index < clips.length && clips[index][0] <= curEnd) {
+         while (index < clips.length && clips[index][0] <= curEnd) {
+            nextEnd = Math.max(nextEnd, clips[index][1]);
+            ++index;
+         }
+         ++res;
+         curEnd = nextEnd;
+         if (curEnd >= time) {
+            return res;
+         }
+      }
+      return -1;
+
+   }
+
    // public String subStrHash(String s, int power, int modulo, int k, int
    // hashValue) {
    // if (k == s.length()) {
