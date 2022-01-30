@@ -7841,55 +7841,57 @@ public class LeetCode_2 {
       return cur;
    }
 
-   // public List<Integer> maxScoreIndices(int[] nums) {
-   //    int n = nums.length;
-   //    int[] left = new int[n + 1];
-   //    for (int i = 1; i < n + 1; ++i) {
-   //       left[i] = (nums[i - 1] == 0 ? 1 : 0) + left[i - 1];
-   //    }
-   //    int[] right = new int[n + 1];
-   //    for (int i = n - 1; i >= 0; --i) {
-   //       right[i] = nums[i] + right[i + 1];
-   //    }
-   //    List<Integer> res = new ArrayList<>();
-   //    int max = 0;
-   //    for (int i = 0; i < n + 1; ++i) {
-   //       int sum = left[i] + right[i];
-   //       if (sum > max) {
-   //          max = left[i] + right[i];
-   //          res = new ArrayList<>();
-   //          res.add(i);
-   //       } else if (sum == max) {
-   //          res.add(i);
-   //       }
-   //    }
-   //    return res;
+   // 5981. 分组得分最高的所有下标
+   public List<Integer> maxScoreIndices(int[] nums) {
+      int n = nums.length;
+      int[] left = new int[n + 1];
+      for (int i = 1; i < n + 1; ++i) {
+         left[i] = (nums[i - 1] == 0 ? 1 : 0) + left[i - 1];
+      }
+      int[] right = new int[n + 1];
+      for (int i = n - 1; i >= 0; --i) {
+         right[i] = nums[i] + right[i + 1];
+      }
+      List<Integer> res = new ArrayList<>();
+      int max = 0;
+      for (int i = 0; i < n + 1; ++i) {
+         int sum = left[i] + right[i];
+         if (sum > max) {
+            max = left[i] + right[i];
+            res = new ArrayList<>();
+            res.add(i);
+         } else if (sum == max) {
+            res.add(i);
+         }
+      }
+      return res;
+
+   }
+
+   // public String subStrHash(String s, int power, int modulo, int k, int
+   // hashValue) {
+   // if (k == s.length()) {
+   // return s;
+   // }
+   // power %= modulo;
+   // long cur = 0;
+   // for (int i = 0; i < k; ++i) {
+   // int num = s.charAt(i) - 'a' + 1;
+   // cur += num * Math.pow(power, i);
 
    // }
-
-   // public String subStrHash(String s, int power, int modulo, int k, int hashValue) {
-   //    if (k == s.length()) {
-   //       return s;
-   //    }
-   //    power %= modulo;
-   //    long cur = 0;
-   //    for (int i = 0; i < k; ++i) {
-   //       int num = s.charAt(i) - 'a' + 1;
-   //       cur += num * Math.pow(power, i);
-
-   //    }
-   //    if (cur % modulo == hashValue) {
-   //       return s.substring(0, k);
-   //    }
-   //    for (int i = k; i < s.length(); ++i) {
-   //       cur -= (s.charAt(i - k) - 'a' + 1);
-   //       cur /= power;
-   //       cur += ((s.charAt(i) - 'a' + 1) * Math.pow(power, k - 1));
-   //       if (cur % modulo == hashValue) {
-   //          return s.substring(i - k + 1, i + 1);
-   //       }
-   //    }
-   //    return null;
+   // if (cur % modulo == hashValue) {
+   // return s.substring(0, k);
+   // }
+   // for (int i = k; i < s.length(); ++i) {
+   // cur -= (s.charAt(i - k) - 'a' + 1);
+   // cur /= power;
+   // cur += ((s.charAt(i) - 'a' + 1) * Math.pow(power, k - 1));
+   // if (cur % modulo == hashValue) {
+   // return s.substring(i - k + 1, i + 1);
+   // }
+   // }
+   // return null;
 
    // }
 
