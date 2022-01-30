@@ -7922,6 +7922,11 @@ public class LeetCode_2 {
 
    // }
 
+   // 1702. 修改后的最大二进制字符串 (Maximum Binary String After Change)
+   // public String maximumBinaryString(String binary) {
+
+   // }
+
    // 5994. 查找给定哈希值的子串 (Find Substring With Given Hash Value)
    // public String subStrHash(String s, int power, int modulo, int k, int
    // hashValue) {
