@@ -18216,47 +18216,6 @@ public class LeetCodeText {
 
     // 884. 两句话中的不常见单词 (Uncommon Words from Two Sentences)
     public String[] uncommonFromSentences(String s1, String s2) {
-        List<String> list = new ArrayList<>();
-        Map<String, Integer> map1 = getMapFromSentences(s1);
-        Map<String, Integer> map2 = getMapFromSentences(s2);
-        Set<String> set1 = map1.keySet();
-        Set<String> set2 = map2.keySet();
-        for (Map.Entry<String, Integer> entry : map1.entrySet()) {
-            if (entry.getValue() == 1 && !set2.contains(entry.getKey())) {
-                list.add(entry.getKey());
-            }
-        }
-        for (Map.Entry<String, Integer> entry : map2.entrySet()) {
-            if (entry.getValue() == 1 && !set1.contains(entry.getKey())) {
-                list.add(entry.getKey());
-            }
-        }
-        return list.toArray(new String[0]);
-
-    }
-
-    private Map<String, Integer> getMapFromSentences(String s) {
-        Map<String, Integer> map = new HashMap<>();
-        int left = 0;
-        int right = 0;
-
-        while (right < s.length()) {
-            if (s.charAt(right) == ' ') {
-                String key = s.substring(left, right);
-                map.put(key, map.getOrDefault(key, 0) + 1);
-                ++right;
-                left = right;
-            } else {
-                ++right;
-            }
-        }
-        String key = s.substring(left, right);
-        map.put(key, map.getOrDefault(key, 0) + 1);
-        return map;
-    }
-
-    // 884. 两句话中的不常见单词 (Uncommon Words from Two Sentences)
-    public String[] uncommonFromSentences2(String s1, String s2) {
         List<String> res = new ArrayList<>();
         Map<String, Integer> map = new HashMap<>();
         getUncommonWords(s1, map);
@@ -18271,21 +18230,10 @@ public class LeetCodeText {
     }
 
     private void getUncommonWords(String s, Map<String, Integer> map) {
-        int left = 0;
-        int right = 0;
-        while (right < s.length()) {
-            if (s.charAt(right) == ' ') {
-                String key = s.substring(left, right);
-                map.put(key, map.getOrDefault(key, 0) + 1);
-                ++right;
-                left = right;
-            } else {
-                ++right;
-            }
+        String[] strs = s.split("\\s+");
+        for (String str : strs) {
+            map.put(str, map.getOrDefault(str, 0) + 1);
         }
-        String key = s.substring(left, right);
-        map.put(key, map.getOrDefault(key, 0) + 1);
-
     }
 
     // 1743. 从相邻元素对还原数组 (Restore the Array From Adjacent Pairs)
