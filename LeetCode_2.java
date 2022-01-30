@@ -7917,6 +7917,12 @@ public class LeetCode_2 {
 
    }
 
+   // 1262. 可被三整除的最大和 (Greatest Sum Divisible by Three)
+   // public int maxSumDivThree(int[] nums) {
+
+   // }
+
+   // 5994. 查找给定哈希值的子串 (Find Substring With Given Hash Value)
    // public String subStrHash(String s, int power, int modulo, int k, int
    // hashValue) {
    // if (k == s.length()) {
