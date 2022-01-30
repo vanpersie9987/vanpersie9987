@@ -7857,8 +7857,8 @@ public class LeetCode_2 {
       for (int i = 0; i < n + 1; ++i) {
          int sum = left[i] + right[i];
          if (sum > max) {
-            max = left[i] + right[i];
-            res = new ArrayList<>();
+            max = sum;
+            res.clear();
             res.add(i);
          } else if (sum == max) {
             res.add(i);
