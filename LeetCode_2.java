@@ -7918,9 +7918,19 @@ public class LeetCode_2 {
    }
 
    // 1262. 可被三整除的最大和 (Greatest Sum Divisible by Three)
-   // public int maxSumDivThree(int[] nums) {
+   public int maxSumDivThree(int[] nums) {
+      int[] reminder = new int[3];
+      for (int num : nums) {
+         int a = reminder[0] + num;
+         int b = reminder[1] + num;
+         int c = reminder[2] + num;
+         reminder[a % 3] = Math.max(reminder[a % 3], a);
+         reminder[b % 3] = Math.max(reminder[b % 3], b);
+         reminder[c % 3] = Math.max(reminder[c % 3], c);
+      }
+      return reminder[0];
 
-   // }
+   }
 
    // 1702. 修改后的最大二进制字符串 (Maximum Binary String After Change)
    // public String maximumBinaryString(String binary) {
