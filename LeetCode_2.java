@@ -7960,32 +7960,4 @@ public class LeetCode_2 {
 
    }
 
-   // 5994. 查找给定哈希值的子串 (Find Substring With Given Hash Value)
-   // public String subStrHash(String s, int power, int modulo, int k, int
-   // hashValue) {
-   // if (k == s.length()) {
-   // return s;
-   // }
-   // power %= modulo;
-   // long cur = 0;
-   // for (int i = 0; i < k; ++i) {
-   // int num = s.charAt(i) - 'a' + 1;
-   // cur += num * Math.pow(power, i);
-
-   // }
-   // if (cur % modulo == hashValue) {
-   // return s.substring(0, k);
-   // }
-   // for (int i = k; i < s.length(); ++i) {
-   // cur -= (s.charAt(i - k) - 'a' + 1);
-   // cur /= power;
-   // cur += ((s.charAt(i) - 'a' + 1) * Math.pow(power, k - 1));
-   // if (cur % modulo == hashValue) {
-   // return s.substring(i - k + 1, i + 1);
-   // }
-   // }
-   // return null;
-
-   // }
-
 }
