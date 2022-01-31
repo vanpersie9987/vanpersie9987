@@ -7933,9 +7933,32 @@ public class LeetCode_2 {
    }
 
    // 1702. 修改后的最大二进制字符串 (Maximum Binary String After Change)
-   // public String maximumBinaryString(String binary) {
+   public String maximumBinaryString(String binary) {
+      char[] chars = binary.toCharArray();
+      int left = 0;
+      int right = 0;
+      boolean flag = true;
+      for (char c : chars) {
+         if (flag) {
+            if (c - '0' == 1) {
+               ++left;
+            } else {
+               flag = false;
+            }
+         } else {
+            if (c - '0' == 1) {
+               ++right;
+            }
+         }
+      }
+      if (left + right != chars.length) {
+         int reverseIndex = chars.length - right - 1;
+         Arrays.fill(chars, '1');
+         chars[reverseIndex] = '0';
+      }
+      return String.valueOf(chars);
 
-   // }
+   }
 
    // 5994. 查找给定哈希值的子串 (Find Substring With Given Hash Value)
    // public String subStrHash(String s, int power, int modulo, int k, int
