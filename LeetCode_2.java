@@ -8047,8 +8047,8 @@ public class LeetCode_2 {
       private List<Integer> list;
 
       public BSTIterator(TreeNode root) {
-         list = new ArrayList<>();
-         index = 0;
+         this.index = 0;
+         this.list = new ArrayList<>();
          inorderTraversal(root, list);
       }
 
