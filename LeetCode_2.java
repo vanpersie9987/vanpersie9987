@@ -7960,4 +7960,22 @@ public class LeetCode_2 {
 
    }
 
+   // 1665. 完成所有任务的最少初始能量 (Minimum Initial Energy to Finish Tasks)
+   public int minimumEffort(int[][] tasks) {
+      Arrays.sort(tasks, new Comparator<int[]>() {
+
+         @Override
+         public int compare(int[] o1, int[] o2) {
+            return (o1[1] - o1[0]) - (o2[1] - o2[0]);
+         }
+
+      });
+      int res = 0;
+      for (int[] task : tasks) {
+         res = Math.max(res + task[0], task[1]);
+      }
+      return res;
+
+   }
+
 }
