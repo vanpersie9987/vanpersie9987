@@ -8072,27 +8072,28 @@ public class LeetCode_2 {
 
    // 剑指 Offer II 055. 二叉搜索树迭代器 --stack栈 实现二叉树中序遍历
    class BSTIterator2 {
-      private TreeNode cur;
       private Stack<TreeNode> stack;
+      private TreeNode curNode;
 
       public BSTIterator2(TreeNode root) {
-         stack = new Stack<>();
-         cur = root;
+         this.curNode = root;
+         this.stack = new Stack<>();
       }
 
       public int next() {
-         while (cur != null) {
-            stack.push(cur);
-            cur = cur.left;
+         while (curNode != null) {
+            stack.push(curNode);
+            curNode = curNode.left;
          }
-         cur = stack.pop();
-         int res = cur.val;
-         cur = cur.right;
+         curNode = stack.pop();
+         int res = curNode.val;
+         curNode = curNode.right;
          return res;
+
       }
 
       public boolean hasNext() {
-         return !stack.isEmpty() || cur != null;
+         return !stack.isEmpty() || curNode != null;
       }
    }
 
