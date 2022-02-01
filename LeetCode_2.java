@@ -8041,6 +8041,7 @@ public class LeetCode_2 {
 
    }
 
+   // 173. 二叉搜索树迭代器 (Binary Search Tree Iterator)
    // 剑指 Offer II 055. 二叉搜索树迭代器 --递归 实现二叉树中序遍历
    class BSTIterator {
       private int index;
@@ -8070,6 +8071,7 @@ public class LeetCode_2 {
       }
    }
 
+   // 173. 二叉搜索树迭代器 (Binary Search Tree Iterator)
    // 剑指 Offer II 055. 二叉搜索树迭代器 --stack栈 实现二叉树中序遍历
    class BSTIterator2 {
       private Stack<TreeNode> stack;
