@@ -8020,4 +8020,80 @@ public class LeetCode_2 {
 
    }
 
+   class TreeNode {
+      private int val;
+      private TreeNode left;
+      private TreeNode right;
+
+      public TreeNode() {
+
+      }
+
+      public TreeNode(int val) {
+         this.val = val;
+      }
+
+      public TreeNode(int val, TreeNode left, TreeNode right) {
+         this.val = val;
+         this.left = left;
+         this.right = right;
+      }
+
+   }
+
+   // 剑指 Offer II 055. 二叉搜索树迭代器 --递归 实现二叉树中序遍历
+   class BSTIterator {
+      private int index;
+      private List<Integer> list;
+
+      public BSTIterator(TreeNode root) {
+         list = new ArrayList<>();
+         index = 0;
+         inorderTraversal(root, list);
+      }
+
+      private void inorderTraversal(TreeNode root, List<Integer> list) {
+         if (root == null) {
+            return;
+         }
+         inorderTraversal(root.left, list);
+         list.add(root.val);
+         inorderTraversal(root.right, list);
+      }
+
+      public int next() {
+         return list.get(index++);
+      }
+
+      public boolean hasNext() {
+         return index < list.size();
+      }
+   }
+
+   // 剑指 Offer II 055. 二叉搜索树迭代器 --stack栈 实现二叉树中序遍历
+   class BSTIterator2 {
+      private TreeNode cur;
+      private Stack<TreeNode> stack;
+
+      public BSTIterator2(TreeNode root) {
+         stack = new Stack<>();
+         cur = root;
+      }
+
+      public int next() {
+         while (cur != null) {
+            stack.push(cur);
+            cur = cur.left;
+         }
+         cur = stack.pop();
+         int res = cur.val;
+         cur = cur.right;
+         return res;
+      }
+
+      public boolean hasNext() {
+         return !stack.isEmpty() || cur != null;
+      }
+   }
+
 }
