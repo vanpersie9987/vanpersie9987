@@ -7992,4 +7992,32 @@ public class LeetCode_2 {
 
    }
 
+   // 659. 分割数组为连续子序列 (Split Array into Consecutive Subsequences)
+   public boolean isPossible(int[] nums) {
+      Map<Integer, Integer> counts = new HashMap<>();
+      Map<Integer, Integer> tails = new HashMap<>();
+      for (int num : nums) {
+         counts.put(num, counts.getOrDefault(num, 0) + 1);
+      }
+      for (int num : nums) {
+         if (counts.getOrDefault(num, 0) == 0) {
+            continue;
+         }
+         if (tails.getOrDefault(num - 1, 0) > 0) {
+            tails.put(num - 1, tails.getOrDefault(num - 1, 0) - 1);
+            tails.put(num, tails.getOrDefault(num, 0) + 1);
+            counts.put(num, counts.getOrDefault(num, 0) - 1);
+         } else if (counts.getOrDefault(num + 1, 0) > 0 && counts.getOrDefault(num + 2, 0) > 0) {
+            counts.put(num, counts.getOrDefault(num, 0) - 1);
+            counts.put(num + 1, counts.getOrDefault(num + 1, 0) - 1);
+            counts.put(num + 2, counts.getOrDefault(num + 2, 0) - 1);
+            tails.put(num + 2, tails.getOrDefault(num + 2, 0) + 1);
+         } else {
+            return false;
+         }
+      }
+      return true;
+
+   }
+
 }
