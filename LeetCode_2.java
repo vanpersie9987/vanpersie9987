@@ -8099,4 +8099,40 @@ public class LeetCode_2 {
       }
    }
 
+   // 94. 二叉树的中序遍历 (Binary Tree Inorder Traversal) --递归
+   public List<Integer> inorderTraversal(TreeNode root) {
+      List<Integer> res = new ArrayList<>();
+      inorderTraversal94(root, res);
+      return res;
+
+   }
+
+   private void inorderTraversal94(TreeNode root, List<Integer> res) {
+      if (root == null) {
+         return;
+      }
+      inorderTraversal94(root.left, res);
+      res.add(root.val);
+      inorderTraversal94(root.right, res);
+   }
+
+   // 94. 二叉树的中序遍历 (Binary Tree Inorder Traversal) --迭代+栈
+   public List<Integer> inorderTraversal2(TreeNode root) {
+      Stack<TreeNode> stack = new Stack<>();
+      List<Integer> res = new ArrayList<>();
+      while (!stack.isEmpty() || root != null) {
+         while (root != null) {
+            stack.push(root);
+            root = root.left;
+         }
+         if (!stack.isEmpty()) {
+            root = stack.pop();
+            res.add(root.val);
+            root = root.right;
+         }
+      }
+      return res;
+
+   }
+
 }
