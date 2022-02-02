@@ -8191,7 +8191,7 @@ public class LeetCode_2 {
 
    }
 
-   // 145. 二叉树的后序遍历 (Binary Tree Postorder Traversal) --两个栈
+   // 145. 二叉树的后序遍历 (Binary Tree Postorder Traversal) --两个栈(本质用的是前序遍历的思路)
    public List<Integer> postorderTraversal2(TreeNode root) {
       List<Integer> res = new ArrayList<>();
       if (root == null) {
@@ -8212,6 +8212,30 @@ public class LeetCode_2 {
       }
       while (!stack2.isEmpty()) {
          res.add(stack2.pop().val);
+      }
+      return res;
+
+   }
+
+   // 145. 二叉树的后序遍历 (Binary Tree Postorder Traversal) --一个栈
+   public List<Integer> postorderTraversal3(TreeNode root) {
+      List<Integer> res = new ArrayList<>();
+      if (root == null) {
+         return res;
+      }
+      TreeNode cur = root;
+      Stack<TreeNode> stack = new Stack<>();
+      stack.push(root);
+      while (!stack.isEmpty()) {
+         TreeNode peek = stack.peek();
+         if (peek.left != null && peek.left != cur && peek.right != cur) {
+            stack.push(peek.left);
+         } else if (peek.right != null && peek.right != cur) {
+            stack.push(peek.right);
+         } else {
+            res.add(stack.pop().val);
+            cur = peek;
+         }
       }
       return res;
 
