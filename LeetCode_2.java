@@ -8099,6 +8099,22 @@ public class LeetCode_2 {
       }
    }
 
+   // 144. 二叉树的前序遍历 (Binary Tree Preorder Traversal) -- 递归
+   public List<Integer> preorderTraversal(TreeNode root) {
+      List<Integer> res = new ArrayList<>();
+      preorderTraversal144(root, res);
+      return res;
+   }
+
+   private void preorderTraversal144(TreeNode root, List<Integer> res) {
+      if (root == null) {
+         return;
+      }
+      res.add(root.val);
+      preorderTraversal144(root.left, res);
+      preorderTraversal144(root.right, res);
+   }
+
    // 94. 二叉树的中序遍历 (Binary Tree Inorder Traversal) --递归
    public List<Integer> inorderTraversal(TreeNode root) {
       List<Integer> res = new ArrayList<>();
@@ -8114,6 +8130,24 @@ public class LeetCode_2 {
       inorderTraversal94(root.left, res);
       res.add(root.val);
       inorderTraversal94(root.right, res);
+   }
+
+   // 144. 二叉树的前序遍历 (Binary Tree Preorder Traversal) --栈+迭代
+   public List<Integer> preorderTraversal2(TreeNode root) {
+      List<Integer> res = new ArrayList<>();
+      Stack<TreeNode> stack = new Stack<>();
+      while (!stack.isEmpty() || root != null) {
+         while (root != null) {
+            res.add(root.val);
+            stack.push(root);
+            root = root.left;
+         }
+         if (!stack.isEmpty()) {
+            root = stack.pop();
+            root = root.right;
+         }
+      }
+      return res;
    }
 
    // 94. 二叉树的中序遍历 (Binary Tree Inorder Traversal) --迭代+栈 空间-O(n)
@@ -8155,40 +8189,6 @@ public class LeetCode_2 {
             }
          } else {
             res.add(root.val);
-            root = root.right;
-         }
-      }
-      return res;
-   }
-
-   // 144. 二叉树的前序遍历 (Binary Tree Preorder Traversal) -- 递归
-   public List<Integer> preorderTraversal(TreeNode root) {
-      List<Integer> res = new ArrayList<>();
-      preorderTraversal144(root, res);
-      return res;
-   }
-
-   private void preorderTraversal144(TreeNode root, List<Integer> res) {
-      if (root == null) {
-         return;
-      }
-      res.add(root.val);
-      preorderTraversal144(root.left, res);
-      preorderTraversal144(root.right, res);
-   }
-
-   // 144. 二叉树的前序遍历 (Binary Tree Preorder Traversal) --栈+迭代
-   public List<Integer> preorderTraversal2(TreeNode root) {
-      List<Integer> res = new ArrayList<>();
-      Stack<TreeNode> stack = new Stack<>();
-      while (!stack.isEmpty() || root != null) {
-         while (root != null) {
-            res.add(root.val);
-            stack.push(root);
-            root = root.left;
-         }
-         if (!stack.isEmpty()) {
-            root = stack.pop();
             root = root.right;
          }
       }
