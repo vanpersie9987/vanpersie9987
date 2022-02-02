@@ -15,6 +15,8 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.xml.transform.Templates;
+
 public class LeetCode_2 {
 
    public static void main(final String[] args) {
@@ -8153,15 +8155,17 @@ public class LeetCode_2 {
    public List<Integer> preorderTraversal2(TreeNode root) {
       List<Integer> res = new ArrayList<>();
       Stack<TreeNode> stack = new Stack<>();
-      while (!stack.isEmpty() || root != null) {
-         while (root != null) {
-            res.add(root.val);
-            stack.push(root);
-            root = root.left;
+      if (root != null) {
+         stack.add(root);
+      }
+      while (!stack.isEmpty()) {
+         root = stack.pop();
+         res.add(root.val);
+         if (root.right != null) {
+            stack.push(root.right);
          }
-         if (!stack.isEmpty()) {
-            root = stack.pop();
-            root = root.right;
+         if (root.left != null) {
+            stack.push(root.left);
          }
       }
       return res;
