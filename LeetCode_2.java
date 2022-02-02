@@ -8116,7 +8116,7 @@ public class LeetCode_2 {
       inorderTraversal94(root.right, res);
    }
 
-   // 94. 二叉树的中序遍历 (Binary Tree Inorder Traversal) --迭代+栈
+   // 94. 二叉树的中序遍历 (Binary Tree Inorder Traversal) --迭代+栈 空间-O(n)
    public List<Integer> inorderTraversal2(TreeNode root) {
       Stack<TreeNode> stack = new Stack<>();
       List<Integer> res = new ArrayList<>();
@@ -8133,6 +8133,32 @@ public class LeetCode_2 {
       }
       return res;
 
+   }
+
+   // 94. 二叉树的中序遍历 (Binary Tree Inorder Traversal) --莫里斯迭代 空间-O(1)
+   public List<Integer> inorderTraversal3(TreeNode root) {
+      List<Integer> res = new ArrayList<>();
+      TreeNode pre = null;
+      while (root != null) {
+         if (root.left != null) {
+            pre = root.left;
+            while (pre.right != null && pre.right != root) {
+               pre = pre.right;
+            }
+            if (pre.right == null) {
+               pre.right = root;
+               root = root.left;
+            } else {
+               res.add(root.val);
+               pre.right = null;
+               root = root.right;
+            }
+         } else {
+            res.add(root.val);
+            root = root.right;
+         }
+      }
+      return res;
    }
 
 }
