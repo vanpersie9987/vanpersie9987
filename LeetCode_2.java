@@ -8191,6 +8191,32 @@ public class LeetCode_2 {
 
    }
 
+   // 145. 二叉树的后序遍历 (Binary Tree Postorder Traversal) --两个栈
+   public List<Integer> postorderTraversal2(TreeNode root) {
+      List<Integer> res = new ArrayList<>();
+      if (root == null) {
+         return res;
+      }
+      Stack<TreeNode> stack1 = new Stack<>();
+      Stack<TreeNode> stack2 = new Stack<>();
+      stack1.push(root);
+      while (!stack1.isEmpty()) {
+         root = stack1.pop();
+         stack2.push(root);
+         if (root.left != null) {
+            stack1.push(root.left);
+         }
+         if (root.right != null) {
+            stack1.push(root.right);
+         }
+      }
+      while (!stack2.isEmpty()) {
+         res.add(stack2.pop().val);
+      }
+      return res;
+
+   }
+
    // 94. 二叉树的中序遍历 (Binary Tree Inorder Traversal) --莫里斯迭代 空间-O(1)
    public List<Integer> inorderTraversal3(TreeNode root) {
       List<Integer> res = new ArrayList<>();
