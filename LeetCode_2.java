@@ -8267,4 +8267,25 @@ public class LeetCode_2 {
       return res;
    }
 
+   // 剑指 Offer II 054. 所有大于等于节点的值之和 --栈+反向中序遍历
+   public TreeNode convertBST(TreeNode root) {
+      TreeNode head = root;
+      int sum = 0;
+      Stack<TreeNode> stack = new Stack<>();
+      while (!stack.isEmpty() || head != null) {
+         while (head != null) {
+            stack.push(head);
+            head = head.right;
+         }
+         if (!stack.isEmpty()) {
+            head = stack.pop();
+            sum += head.val;
+            head.val = sum;
+            head = head.left;
+         }
+      }
+      return root;
+
+   }
+
 }
