@@ -8125,6 +8125,15 @@ public class LeetCode_2 {
 
    }
 
+   private void inorderTraversal94(TreeNode root, List<Integer> res) {
+      if (root == null) {
+         return;
+      }
+      inorderTraversal94(root.left, res);
+      res.add(root.val);
+      inorderTraversal94(root.right, res);
+   }
+
    // 145. 二叉树的后序遍历 (Binary Tree Postorder Traversal) --递归
    public List<Integer> postorderTraversal(TreeNode root) {
       List<Integer> res = new ArrayList<>();
@@ -8140,15 +8149,6 @@ public class LeetCode_2 {
       postorderTraversal145(root.left, res);
       postorderTraversal145(root.right, res);
       res.add(root.val);
-   }
-
-   private void inorderTraversal94(TreeNode root, List<Integer> res) {
-      if (root == null) {
-         return;
-      }
-      inorderTraversal94(root.left, res);
-      res.add(root.val);
-      inorderTraversal94(root.right, res);
    }
 
    // 144. 二叉树的前序遍历 (Binary Tree Preorder Traversal) --栈+迭代
