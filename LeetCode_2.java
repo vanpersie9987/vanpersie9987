@@ -8267,6 +8267,8 @@ public class LeetCode_2 {
       return res;
    }
 
+   // 538. 把二叉搜索树转换为累加树 (Convert BST to Greater Tree)
+   // 1038. 把二叉搜索树转换为累加树 (Binary Search Tree to Greater Sum Tree)
    // 剑指 Offer II 054. 所有大于等于节点的值之和 --栈+反向中序遍历
    public TreeNode convertBST(TreeNode root) {
       TreeNode head = root;
@@ -8279,6 +8281,60 @@ public class LeetCode_2 {
          }
          if (!stack.isEmpty()) {
             head = stack.pop();
+            sum += head.val;
+            head.val = sum;
+            head = head.left;
+         }
+      }
+      return root;
+
+   }
+
+   // 538. 把二叉搜索树转换为累加树 (Convert BST to Greater Tree)
+   // 1038. 把二叉搜索树转换为累加树 (Binary Search Tree to Greater Sum Tree)
+   // 剑指 Offer II 054. 所有大于等于节点的值之和 --递归+反向中序遍历
+   private int sum;
+
+   public TreeNode convertBST2(TreeNode root) {
+      TreeNode head = root;
+      inorderTraversal538(head);
+      return root;
+   }
+
+   private void inorderTraversal538(TreeNode head) {
+      if (head == null) {
+         return;
+      }
+      inorderTraversal538(head.right);
+      sum += head.val;
+      head.val = sum;
+      inorderTraversal538(head.left);
+   }
+
+   // 538. 把二叉搜索树转换为累加树 (Convert BST to Greater Tree)
+   // 1038. 把二叉搜索树转换为累加树 (Binary Search Tree to Greater Sum Tree)
+   // 剑指 Offer II 054. 所有大于等于节点的值之和 --莫里斯迭代+反向中序遍历
+   public TreeNode bstToGst(TreeNode root) {
+      TreeNode head = root;
+      TreeNode pre = null;
+      int sum = 0;
+      while (head != null) {
+         if (head.right != null) {
+            pre = head.right;
+            while (pre.left != null && pre.left != head) {
+               pre = pre.left;
+            }
+            if (pre.left == null) {
+               pre.left = head;
+               head = head.right;
+            } else {
+               sum += head.val;
+               head.val = sum;
+               pre.left = null;
+               head = head.left;
+            }
+
+         } else {
             sum += head.val;
             head.val = sum;
             head = head.left;
