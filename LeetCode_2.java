@@ -8344,4 +8344,23 @@ public class LeetCode_2 {
 
    }
 
+   // 938. 二叉搜索树的范围和 (Range Sum of BST) --递归+中序遍历
+   private int sum938;
+
+   public int rangeSumBST(TreeNode root, int low, int high) {
+      rangeSumBST938(root, low, high);
+      return sum938;
+   }
+
+   private void rangeSumBST938(TreeNode root, int low, int high) {
+      if (root == null) {
+         return;
+      }
+      rangeSumBST938(root.left, low, high);
+      if (low <= root.val && root.val <= high) {
+         sum938 += root.val;
+      }
+      rangeSumBST938(root.right, low, high);
+   }
+
 }
