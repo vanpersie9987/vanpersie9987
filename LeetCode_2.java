@@ -8123,6 +8123,23 @@ public class LeetCode_2 {
 
    }
 
+   // 145. 二叉树的后序遍历 (Binary Tree Postorder Traversal) --递归
+   public List<Integer> postorderTraversal(TreeNode root) {
+      List<Integer> res = new ArrayList<>();
+      postorderTraversal145(root, res);
+      return res;
+
+   }
+
+   private void postorderTraversal145(TreeNode root, List<Integer> res) {
+      if (root == null) {
+         return;
+      }
+      postorderTraversal145(root.left, res);
+      postorderTraversal145(root.right, res);
+      res.add(root.val);
+   }
+
    private void inorderTraversal94(TreeNode root, List<Integer> res) {
       if (root == null) {
          return;
