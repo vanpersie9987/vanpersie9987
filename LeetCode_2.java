@@ -8154,10 +8154,11 @@ public class LeetCode_2 {
    // 144. 二叉树的前序遍历 (Binary Tree Preorder Traversal) --栈+迭代
    public List<Integer> preorderTraversal2(TreeNode root) {
       List<Integer> res = new ArrayList<>();
-      Stack<TreeNode> stack = new Stack<>();
-      if (root != null) {
-         stack.add(root);
+      if (root == null) {
+         return res;
       }
+      Stack<TreeNode> stack = new Stack<>();
+      stack.add(root);
       while (!stack.isEmpty()) {
          root = stack.pop();
          res.add(root.val);
