@@ -8584,4 +8584,66 @@ public class LeetCode_2 {
       }
       return -1;
    }
+
+   // 剑指 Offer II 052. 展平二叉搜索树 --莫里斯迭代 + 中序遍历 + 新创建一棵树
+   public TreeNode increasingBST(TreeNode root) {
+      TreeNode dummy = new TreeNode(-1, null, root);
+      TreeNode cur = dummy;
+      TreeNode pre = null;
+      while (root != null) {
+         if (root.left != null) {
+            pre = root.left;
+            while (pre.right != null && pre.right != root) {
+               pre = pre.right;
+            }
+            if (pre.right == null) {
+               pre.right = root;
+               root = root.left;
+            } else {
+               cur.right = new TreeNode(root.val);
+               cur = cur.right;
+               pre.right = null;
+               root = root.right;
+            }
+         } else {
+            cur.right = new TreeNode(root.val);
+            cur = cur.right;
+            root = root.right;
+         }
+      }
+      return dummy.right;
+
+   }
+
+   // 剑指 Offer II 052. 展平二叉搜索树 --莫里斯迭代 + 中序遍历 + 直接本地修改
+   public TreeNode increasingBST2(TreeNode root) {
+      TreeNode dummy = new TreeNode(-1, null, root);
+      TreeNode cur = dummy;
+      TreeNode pre = null;
+      while (root != null) {
+         if (root.left != null) {
+            pre = root.left;
+            while (pre.right != null && pre.right != root) {
+               pre = pre.right;
+            }
+            if (pre.right == null) {
+               pre.right = root;
+               root = root.left;
+            } else {
+               pre.right = null;
+               cur.right = root;
+               root.left = null;
+               cur = cur.right;
+               root = root.right;
+            }
+         } else {
+            cur.right = root;
+            root.left = null;
+            cur = cur.right;
+            root = root.right;
+         }
+      }
+      return dummy.right;
+
+   }
 }
