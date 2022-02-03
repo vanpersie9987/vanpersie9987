@@ -8413,4 +8413,37 @@ public class LeetCode_2 {
       return slow;
    }
 
+   // 109. 有序链表转换二叉搜索树 (Convert Sorted List to Binary Search Tree) --中序遍历
+   private ListNode globalHead;
+
+   public TreeNode sortedListToBST2(ListNode head) {
+      globalHead = head;
+      ListNode cur = head;
+      int count = getCount109(cur);
+      return build109(0, count - 1);
+
+   }
+
+   private TreeNode build109(int left, int right) {
+      if (left > right) {
+         return null;
+      }
+      int mid = left + ((right - left) >>> 1);
+      TreeNode node = new TreeNode();
+      node.left = build109(left, mid - 1);
+      node.val = globalHead.val;
+      globalHead = globalHead.next;
+      node.right = build109(mid + 1, right);
+      return node;
+   }
+
+   private int getCount109(ListNode cur) {
+      int count = 0;
+      while (cur != null) {
+         ++count;
+         cur = cur.next;
+      }
+      return count;
+   }
+
 }
