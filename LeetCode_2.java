@@ -8485,4 +8485,34 @@ public class LeetCode_2 {
       return -1;
    }
 
+   // 剑指 Offer 54. 二叉搜索树的第k大节点 -- 莫里斯迭代+逆中序
+   public int kthLargest3(TreeNode root, int k) {
+      TreeNode pre = null;
+      while (root != null) {
+         if (root.right != null) {
+            pre = root.right;
+            while (pre.left != null && pre.left != root) {
+               pre = pre.left;
+            }
+            if (pre.left == null) {
+               pre.left = root;
+               root = root.right;
+            } else {
+               if (--k == 0) {
+                  return root.val;
+               }
+               pre.left = null;
+               root = root.left;
+            }
+
+         } else {
+            if (--k == 0) {
+               return root.val;
+            }
+            root = root.left;
+         }
+      }
+      return -1;
+   }
+
 }
