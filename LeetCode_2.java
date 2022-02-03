@@ -8555,4 +8555,33 @@ public class LeetCode_2 {
       return -1;
 
    }
+
+   // 230. 二叉搜索树中第K小的元素 (Kth Smallest Element in a BST) --莫里斯迭代+中序
+   public int kthSmallest3(TreeNode root, int k) {
+      TreeNode pre = null;
+      while (root != null) {
+         if (root.left != null) {
+            pre = root.left;
+            while (pre.right != null && pre.right != root) {
+               pre = pre.right;
+            }
+            if (pre.right == null) {
+               pre.right = root;
+               root = root.left;
+            } else {
+               if (--k == 0) {
+                  return root.val;
+               }
+               pre.right = null;
+               root = root.right;
+            }
+         } else {
+            if (--k == 0) {
+               return root.val;
+            }
+            root = root.right;
+         }
+      }
+      return -1;
+   }
 }
