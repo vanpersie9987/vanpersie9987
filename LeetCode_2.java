@@ -8538,4 +8538,21 @@ public class LeetCode_2 {
       inorderTraversal230(root.right);
    }
 
+   // 230. 二叉搜索树中第K小的元素 (Kth Smallest Element in a BST) --栈+中序
+   public int kthSmallest2(TreeNode root, int k) {
+      Stack<TreeNode> stack = new Stack<>();
+      while (root != null || !stack.isEmpty()) {
+         while (root != null) {
+            stack.push(root);
+            root = root.left;
+         }
+         root = stack.pop();
+         if (--k == 0) {
+            return root.val;
+         }
+         root = root.right;
+      }
+      return -1;
+
+   }
 }
