@@ -8446,4 +8446,26 @@ public class LeetCode_2 {
       return count;
    }
 
+   // 剑指 Offer 54. 二叉搜索树的第k大节点 -- 递归
+   private int k54;
+   private int res54;
+
+   public int kthLargest(TreeNode root, int k) {
+      this.k54 = k;
+      inorderTraversalOffer54(root);
+      return res54;
+   }
+
+   private void inorderTraversalOffer54(TreeNode root) {
+      if (root == null || k54 == 0) {
+         return;
+      }
+      inorderTraversalOffer54(root.right);
+      if (--k54 == 0) {
+         res54 = root.val;
+         return;
+      }
+      inorderTraversalOffer54(root.left);
+   }
+
 }
