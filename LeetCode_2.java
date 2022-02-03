@@ -8515,4 +8515,27 @@ public class LeetCode_2 {
       return -1;
    }
 
+   // 230. 二叉搜索树中第K小的元素 (Kth Smallest Element in a BST) --递归+中序
+   private int k230;
+   private int res230;
+
+   public int kthSmallest(TreeNode root, int k) {
+      this.k230 = k;
+      inorderTraversal230(root);
+      return res230;
+
+   }
+
+   private void inorderTraversal230(TreeNode root) {
+      if (root == null || k230 == 0) {
+         return;
+      }
+      inorderTraversal230(root.left);
+      if (--k230 == 0) {
+         res230 = root.val;
+         return;
+      }
+      inorderTraversal230(root.right);
+   }
+
 }
