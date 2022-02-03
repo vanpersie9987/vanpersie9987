@@ -8356,4 +8356,20 @@ public class LeetCode_2 {
       return root.val + rangeSumBST(root.left, low, high) + rangeSumBST(root.right, low, high);
    }
 
+   // 面试题 04.02. 最小高度树 (Minimum Height Tree LCCI) --递归
+   public TreeNode sortedArrayToBST(int[] nums) {
+      return build0402(nums, 0, nums.length - 1);
+   }
+
+   private TreeNode build0402(int[] nums, int left, int right) {
+      while (left > right) {
+         return null;
+      }
+      int mid = left + ((right - left) >>> 1);
+      TreeNode node = new TreeNode(nums[mid]);
+      node.left = build0402(nums, left, mid - 1);
+      node.right = build0402(nums, mid + 1, right);
+      return node;
+   }
+
 }
