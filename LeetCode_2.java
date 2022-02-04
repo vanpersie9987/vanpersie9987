@@ -8585,6 +8585,7 @@ public class LeetCode_2 {
       return -1;
    }
 
+   // 897. 递增顺序搜索树 (Increasing Order Search Tree)
    // 剑指 Offer II 052. 展平二叉搜索树 --莫里斯迭代 + 中序遍历 + 新创建一棵树
    public TreeNode increasingBST(TreeNode root) {
       TreeNode dummy = new TreeNode(-1, null, root);
@@ -8615,6 +8616,7 @@ public class LeetCode_2 {
 
    }
 
+   // 897. 递增顺序搜索树 (Increasing Order Search Tree)
    // 剑指 Offer II 052. 展平二叉搜索树 --莫里斯迭代 + 中序遍历 + 直接本地修改
    public TreeNode increasingBST2(TreeNode root) {
       TreeNode dummy = new TreeNode(-1, null, root);
@@ -8644,6 +8646,11 @@ public class LeetCode_2 {
          }
       }
       return dummy.right;
+
+   }
+
+   // 1305. 两棵二叉搜索树中的所有元素 (All Elements in Two Binary Search Trees)
+   public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
 
    }
 }
