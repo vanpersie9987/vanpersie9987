@@ -8650,6 +8650,7 @@ public class LeetCode_2 {
    }
 
    // 98. 验证二叉搜索树 (Validate Binary Search Tree) --莫里斯迭代 + 中序遍历
+   // 面试题 04.05. Legal Binary Search Tree LCCI
    public boolean isValidBST(TreeNode root) {
       Integer preValue = null;
       TreeNode pre = null;
