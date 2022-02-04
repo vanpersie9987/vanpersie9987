@@ -8649,8 +8649,43 @@ public class LeetCode_2 {
 
    }
 
-   // 1305. 两棵二叉搜索树中的所有元素 (All Elements in Two Binary Search Trees)
-   public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
+   // 98. 验证二叉搜索树 (Validate Binary Search Tree) --莫里斯迭代 + 中序遍历
+   public boolean isValidBST(TreeNode root) {
+      Integer preValue = null;
+      TreeNode pre = null;
+      while (root != null) {
+         if (root.left != null) {
+            pre = root.left;
+            while (pre.right != null && pre.right != root) {
+               pre = pre.right;
+            }
+            if (pre.right == null) {
+               pre.right = root;
+               root = root.left;
+            } else {
+               pre.right = null;
+               if (preValue == null) {
+                  preValue = root.val;
+               } else if (root.val > preValue) {
+                  preValue = root.val;
+               } else {
+                  return false;
+               }
+               root = root.right;
+            }
+
+         } else {
+            if (preValue == null) {
+               preValue = root.val;
+            } else if (root.val > preValue) {
+               preValue = root.val;
+            } else {
+               return false;
+            }
+            root = root.right;
+         }
+      }
+      return true;
 
    }
 }
