@@ -8891,9 +8891,10 @@ public class LeetCode_2 {
    }
 
    // 530. 二叉搜索树的最小绝对差 (Minimum Absolute Difference in BST)
+   // 783. 二叉搜索树节点最小距离 (Minimum Distance Between BST Nodes)
    public int getMinimumDifference(TreeNode root) {
       TreeNode pre = null;
-      Integer preVal = null;
+      int preVal = -1;
       int res = Integer.MAX_VALUE;
       while (root != null) {
          if (root.left != null) {
@@ -8906,14 +8907,14 @@ public class LeetCode_2 {
                root = root.left;
             } else {
                pre.right = null;
-               if (preVal != null) {
+               if (preVal != -1) {
                   res = Math.min(res, root.val - preVal);
                }
                preVal = root.val;
                root = root.right;
             }
          } else {
-            if (preVal != null) {
+            if (preVal != -1) {
                res = Math.min(res, root.val - preVal);
             }
             preVal = root.val;
