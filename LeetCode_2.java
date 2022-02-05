@@ -8924,4 +8924,162 @@ public class LeetCode_2 {
       return res;
 
    }
+
+   // 653. 两数之和 IV - 输入 BST (Two Sum IV - Input is a BST)
+   public boolean findTarget(TreeNode root, int k) {
+      Set<Integer> set = new HashSet<>();
+      TreeNode pre = null;
+      while (root != null) {
+         if (root.left != null) {
+            pre = root.left;
+            while (pre.right != null && pre.right != root) {
+               pre = pre.right;
+            }
+            if (pre.right == null) {
+               pre.right = root;
+               root = root.left;
+            } else {
+               pre.right = null;
+               int remain = k - root.val;
+               if (set.contains(remain)) {
+                  return true;
+               }
+               set.add(root.val);
+               root = root.right;
+            }
+         } else {
+            int remain = k - root.val;
+            if (set.contains(remain)) {
+               return true;
+            }
+            set.add(root.val);
+            root = root.right;
+         }
+      }
+      return false;
+   }
+
+   // public int minimumSum(int num) {
+   // int[] arr = new int[4];
+   // int index = 0;
+   // while (num != 0) {
+   // arr[index++] = num % 10;
+   // num /= 10;
+   // }
+   // Arrays.sort(arr);
+   // return arr[0] * 10 + arr[3] + arr[1] * 10 + arr[2];
+
+   // }
+
+   // public int[] pivotArray(int[] nums, int pivot) {
+   // int index = 0;
+   // int actIndex = 0;
+   // int[] res = new int[nums.length];
+   // while (index < nums.length) {
+   // if (nums[index] < pivot) {
+   // res[actIndex++] = nums[index];
+   // }
+   // ++index;
+   // }
+   // index = 0;
+   // while (index < nums.length) {
+   // if (nums[index] == pivot) {
+   // res[actIndex++] = nums[index];
+   // }
+   // ++index;
+   // }
+   // index = 0;
+   // while (index < nums.length) {
+   // if (nums[index] > pivot) {
+   // res[actIndex++] = nums[index];
+   // }
+   // ++index;
+   // }
+   // return res;
+
+   // }
+
+   // private int startAt;
+   // private int moveCost;
+   // private int pushCost;
+
+   // public int minCostSetTime(int startAt, int moveCost, int pushCost, int
+   // targetSeconds) {
+   // this.startAt = startAt;
+   // this.moveCost = moveCost;
+   // this.pushCost = pushCost;
+
+   // int min = targetSeconds / 60;
+   // int second = targetSeconds % 60;
+   // // if (min < 10) {
+   // // builder.append(0).append(min);
+   // // } else
+   // if (min >= 100) {
+   // second += (min - 99) * 60;
+   // min = 99;
+   // }
+   // int f = 0;
+   // if (targetSeconds < 10) {
+   // if (startAt != targetSeconds) {
+   // f += moveCost;
+   // }
+   // f += pushCost;
+   // return f;
+   // }
+   // StringBuilder builder1 = new StringBuilder();
+   // builder1.append(min).append(second < 10 ? "0" + second : second);
+   // StringBuilder builder2 = new StringBuilder();
+   // if (min < 10) {
+   // builder2.append("0" + min).append(second < 10 ? "0" + second : second);
+   // }
+   // StringBuilder builder3 = new StringBuilder();
+   // if (second <= 39 && min > 0) {
+   // --min;
+   // second += 60;
+   // builder3.append(min).append(second < 10 ? "0" + second : second);
+   // }
+   // StringBuilder builder4 = new StringBuilder();
+   // if (min < 10) {
+   // builder4.append("0" + min).append(second < 10 ? "0" + second : second);
+   // }
+   // StringBuilder builder5 = new StringBuilder();
+   // if (min == 0) {
+   // builder5.append(second < 10 ? "0" + second : second);
+   // }
+
+   // int a = Math.min(getRes(builder1), getRes(builder2));
+   // int b = Math.min(getRes(builder3), getRes(builder4));
+   // int c = getRes(builder5);
+   // return Math.min(c, Math.min(a, b));
+
+   // }
+
+   // private int getRes(StringBuilder builder) {
+   // if (builder.length() < 2) {
+   // return Integer.MAX_VALUE;
+   // }
+   // int res = 0;
+   // if (startAt != (builder.charAt(0) - '0')) {
+   // res += moveCost;
+   // }
+   // res += pushCost;
+   // if (builder.charAt(1) != builder.charAt(0)) {
+   // res += moveCost;
+   // }
+   // res += pushCost;
+   // if (builder.length() >= 3) {
+   // if (builder.charAt(2) != builder.charAt(1)) {
+   // res += moveCost;
+   // }
+   // res += pushCost;
+   // }
+   // if (builder.length() >= 4) {
+   // if (builder.charAt(3) != builder.charAt(2)) {
+   // res += moveCost;
+   // }
+   // res += pushCost;
+   // }
+   // return res;
+   // }
+
 }
