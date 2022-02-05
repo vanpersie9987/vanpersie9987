@@ -8616,6 +8616,7 @@ public class LeetCode_2 {
 
    }
 
+   // 面试题 17.12. BiNode
    // 897. 递增顺序搜索树 (Increasing Order Search Tree)
    // 剑指 Offer II 052. 展平二叉搜索树 --莫里斯迭代 + 中序遍历 + 直接本地修改
    public TreeNode increasingBST2(TreeNode root) {
@@ -8649,6 +8650,7 @@ public class LeetCode_2 {
 
    }
 
+   // 面试题 17.12. BiNode
    // 98. 验证二叉搜索树 (Validate Binary Search Tree) --莫里斯迭代 + 中序遍历
    // 面试题 04.05. Legal Binary Search Tree LCCI
    public boolean isValidBST(TreeNode root) {
