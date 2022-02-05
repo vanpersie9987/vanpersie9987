@@ -8833,4 +8833,58 @@ public class LeetCode_2 {
       }
       return max;
    }
+
+   // 285
+   // 剑指 Offer II 053. 二叉搜索树中的中序后继
+   public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+      boolean flag = false;
+      TreeNode pre = null;
+      while (root != null) {
+         if (root.left != null) {
+            pre = root.left;
+            while (pre.right != null && pre.right != root) {
+               pre = pre.right;
+            }
+            if (pre.right == null) {
+               pre.right = root;
+               root = root.left;
+            } else {
+               pre.right = null;
+               if (flag) {
+                  return root;
+               }
+               if (root == p) {
+                  flag = true;
+               }
+               root = root.right;
+            }
+         } else {
+            if (flag) {
+               return root;
+            }
+            if (root == p) {
+               flag = true;
+            }
+            root = root.right;
+         }
+      }
+      return null;
+
+   }
+
+   // 285
+   // 剑指 Offer II 053. 二叉搜索树中的中序后继
+   public TreeNode inorderSuccessor2(TreeNode root, TreeNode p) {
+      TreeNode res = null;
+      while (root != null) {
+         if (root.val <= p.val) {
+            root = root.right;
+         } else {
+            res = root;
+            root = root.left;
+         }
+      }
+      return res;
+
+   }
 }
