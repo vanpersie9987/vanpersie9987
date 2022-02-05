@@ -8959,6 +8959,71 @@ public class LeetCode_2 {
       return false;
    }
 
+   public class Node {
+      public int val;
+      public Node left;
+      public Node right;
+
+      public Node() {
+
+      }
+
+      public Node(int _val) {
+         val = _val;
+      }
+
+      public Node(int _val, Node _left, Node _right) {
+         val = _val;
+         left = _left;
+         right = _right;
+      }
+
+   }
+
+   // 剑指 Offer 36. 二叉搜索树与双向链表
+   public Node treeToDoublyList(Node root) {
+      Node dummy = new Node(-1);
+      Node preNode = null;
+      Node pre = null;
+      while (root != null) {
+         if (root.left != null) {
+            pre = root.left;
+            while (pre.right != null && pre.right != root) {
+               pre = pre.right;
+            }
+            if (pre.right == null) {
+               pre.right = root;
+               root = root.left;
+            } else {
+               pre.right = null;
+               if (preNode == null) {
+                  dummy.right = root;
+               } else {
+                  preNode.right = root;
+                  root.left = preNode;
+               }
+               preNode = root;
+               root = root.right;
+            }
+         } else {
+            if (preNode == null) {
+               dummy.right = root;
+            } else {
+               preNode.right = root;
+               root.left = preNode;
+            }
+            preNode = root;
+            root = root.right;
+         }
+      }
+      if (preNode != null) {
+         preNode.right = dummy.right;
+         dummy.right.left = preNode;
+      }
+      return dummy.right;
+
+   }
+
    // public int minimumSum(int num) {
    // int[] arr = new int[4];
    // int index = 0;
