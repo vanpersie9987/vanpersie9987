@@ -8689,4 +8689,52 @@ public class LeetCode_2 {
       return true;
 
    }
+
+   // 235. 二叉搜索树的最近公共祖先 (Lowest Common Ancestor of a Binary Search Tree)
+   public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+      List<TreeNode> list1 = getList235(root, p);
+      List<TreeNode> list2 = getList235(root, q);
+      TreeNode res = root;
+      for (int i = 0; i < list1.size() && i < list2.size(); ++i) {
+         if (list1.get(i) == list2.get(i)) {
+            res = list1.get(i);
+         } else {
+            break;
+         }
+      }
+      return res;
+
+   }
+
+   private List<TreeNode> getList235(TreeNode root, TreeNode target) {
+      List<TreeNode> list = new ArrayList<>();
+      TreeNode cur = root;
+      while (cur != target) {
+         list.add(cur);
+         if (cur.val > target.val) {
+            cur = cur.left;
+         } else if (cur.val < target.val) {
+            cur = cur.right;
+         } else {
+            break;
+         }
+      }
+      list.add(cur);
+      return list;
+   }
+
+   // 235. 二叉搜索树的最近公共祖先 (Lowest Common Ancestor of a Binary Search Tree)
+   public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+      while (true) {
+         if (p.val < root.val && q.val < root.val) {
+            root = root.left;
+         } else if (p.val > root.val && q.val > root.val) {
+            root = root.right;
+         } else {
+            break;
+         }
+      }
+      return root;
+
+   }
 }
