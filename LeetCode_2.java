@@ -8739,4 +8739,98 @@ public class LeetCode_2 {
       return root;
 
    }
+
+   // 501. 二叉搜索树中的众数 (Find Mode in Binary Search Tree)
+   public int[] findMode(TreeNode root) {
+      TreeNode cur = root;
+      int max = getMaxFrequent(cur);
+      cur = root;
+      return getResult501(cur, max);
+
+   }
+
+   private int[] getResult501(TreeNode node, int max) {
+      List<Integer> list = new ArrayList<>();
+      TreeNode pre = null;
+      int count = 1;
+      int preVal = Integer.MIN_VALUE;
+      while (node != null) {
+         if (node.left != null) {
+            pre = node.left;
+            while (pre.right != null && pre.right != node) {
+               pre = pre.right;
+            }
+            if (pre.right == null) {
+               pre.right = node;
+               node = node.left;
+            } else {
+               pre.right = null;
+               if (node.val > preVal) {
+                  count = 1;
+                  preVal = node.val;
+               } else {
+                  ++count;
+               }
+               if (count == max) {
+                  list.add(node.val);
+               }
+               node = node.right;
+            }
+
+         } else {
+            if (node.val > preVal) {
+               count = 1;
+               preVal = node.val;
+            } else {
+               ++count;
+            }
+            if (count == max) {
+               list.add(node.val);
+            }
+            node = node.right;
+         }
+      }
+      int[] res = new int[list.size()];
+      for (int i = 0; i < res.length; ++i) {
+         res[i] = list.get(i);
+      }
+      return res;
+   }
+
+   private int getMaxFrequent(TreeNode node) {
+      TreeNode pre = null;
+      int max = 1;
+      int count = 1;
+      int preVal = Integer.MIN_VALUE;
+      while (node != null) {
+         if (node.left != null) {
+            pre = node.left;
+            while (pre.right != null && pre.right != node) {
+               pre = pre.right;
+            }
+            if (pre.right == null) {
+               pre.right = node;
+               node = node.left;
+            } else {
+               pre.right = null;
+               if (node.val > preVal) {
+                  count = 1;
+                  preVal = node.val;
+               } else {
+                  max = Math.max(max, ++count);
+               }
+               node = node.right;
+            }
+         } else {
+            if (node.val > preVal) {
+               count = 1;
+               preVal = node.val;
+            } else {
+               max = Math.max(max, ++count);
+            }
+            node = node.right;
+         }
+      }
+      return max;
+   }
 }
