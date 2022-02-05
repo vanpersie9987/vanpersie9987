@@ -8726,6 +8726,7 @@ public class LeetCode_2 {
    }
 
    // 235. 二叉搜索树的最近公共祖先 (Lowest Common Ancestor of a Binary Search Tree)
+   // 剑指 Offer 68 - I. 二叉搜索树的最近公共祖先
    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
       while (true) {
          if (p.val < root.val && q.val < root.val) {
@@ -8885,6 +8886,5 @@ public class LeetCode_2 {
          }
       }
       return res;
-
    }
 }
