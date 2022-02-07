@@ -9112,37 +9112,7 @@ public class LeetCode_2 {
 
    }
 
-   // 2162. 设置时间的最少代价 (Minimum Cost to Set Cooking Time) --枚举
-   public int minCostSetTime2(int startAt, int moveCost, int pushCost, int targetSeconds) {
-      int res = Integer.MAX_VALUE;
-      for (int i = 1; i <= 9999; ++i) {
-         if (i / 100 * 60 + i % 100 == targetSeconds) {
-            res = Math.min(res, getMin2162(i, startAt, moveCost, pushCost));
-         }
-      }
-      return res;
-
-   }
-
-   private int getMin2162(int num, int startAt, int moveCost, int pushCost) {
-      int res = 0;
-      String s = String.valueOf(num);
-      for (int i = 0; i < s.length(); ++i) {
-         if (i == 0) {
-            if (startAt != s.charAt(0) - '0') {
-               res += moveCost;
-            }
-            res += pushCost;
-         } else {
-            if (s.charAt(i) != s.charAt(i - 1)) {
-               res += moveCost;
-            }
-            res += pushCost;
-         }
-      }
-      return res;
-   }
-
+   // 6000. 对奇偶下标分别排序 (Sort Even and Odd Indices Independently)
    public int[] sortEvenOdd(int[] nums) {
       List<Integer> odd = new ArrayList<>();
       List<Integer> even = new ArrayList<>();
@@ -9155,26 +9125,19 @@ public class LeetCode_2 {
       }
       int[] res = new int[nums.length];
       Collections.sort(even);
-      Collections.sort(odd, new Comparator<Integer>() {
-         @Override
-         public int compare(Integer o1, Integer o2) {
-            return o2 - o1;
-         }
-      });
+      Collections.sort(odd, (o1, o2) -> o2 - o1);
       int oddSize = odd.size();
       int evenSize = even.size();
       int i = 0;
       int j = 0;
       int index = 0;
-      while (i < oddSize && j < evenSize) {
-         res[index++] = even.get(j++);
-         res[index++] = odd.get(i++);
-      }
-      while (i < oddSize) {
-         res[index++] = odd.get(i++);
-      }
-      while (j < evenSize) {
-         res[index++] = even.get(j++);
+      while (i < oddSize || j < evenSize) {
+         if (j < evenSize) {
+            res[index++] = even.get(j++);
+         }
+         if (i < oddSize) {
+            res[index++] = odd.get(i++);
+         }
       }
       return res;
 
