@@ -9024,17 +9024,18 @@ public class LeetCode_2 {
 
    }
 
-   // public int minimumSum(int num) {
-   // int[] arr = new int[4];
-   // int index = 0;
-   // while (num != 0) {
-   // arr[index++] = num % 10;
-   // num /= 10;
-   // }
-   // Arrays.sort(arr);
-   // return arr[0] * 10 + arr[3] + arr[1] * 10 + arr[2];
+   // 5984. 拆分数位后四位数字的最小和 (Minimum Sum of Four Digit Number After Splitting Digits)
+   public int minimumSum(int num) {
+      int[] arr = new int[4];
+      int index = 0;
+      while (num != 0) {
+         arr[index++] = num % 10;
+         num /= 10;
+      }
+      Arrays.sort(arr);
+      return arr[0] * 10 + arr[3] + arr[1] * 10 + arr[2];
 
-   // }
+   }
 
    // public int[] pivotArray(int[] nums, int pivot) {
    // int index = 0;
@@ -9146,5 +9147,129 @@ public class LeetCode_2 {
    // }
    // return res;
    // }
+
+   public int[] sortEvenOdd(int[] nums) {
+      List<Integer> odd = new ArrayList<>();
+      List<Integer> even = new ArrayList<>();
+      for (int i = 0; i < nums.length; ++i) {
+         if (i % 2 == 0) {
+            even.add(nums[i]);
+         } else {
+            odd.add(nums[i]);
+         }
+      }
+      int[] res = new int[nums.length];
+      Collections.sort(even);
+      Collections.sort(odd, new Comparator<Integer>() {
+         @Override
+         public int compare(Integer o1, Integer o2) {
+            return o2 - o1;
+         }
+      });
+      int oddSize = odd.size();
+      int evenSize = even.size();
+      int i = 0;
+      int j = 0;
+      int index = 0;
+      while (i < oddSize && j < evenSize) {
+         res[index++] = even.get(j++);
+         res[index++] = odd.get(i++);
+      }
+      while (i < oddSize) {
+         res[index++] = odd.get(i++);
+      }
+      while (j < evenSize) {
+         res[index++] = even.get(j++);
+      }
+      return res;
+
+   }
+
+   public long smallestNumber(long num) {
+      if (num == 0) {
+         return 0;
+      }
+      boolean flag = false;
+      if (num < 0) {
+         flag = true;
+         num = Math.abs(num);
+      }
+      List<Long> list = new ArrayList<>();
+      while (num != 0) {
+         list.add(num % 10);
+         num /= 10;
+      }
+      Collections.sort(list);
+      long res = 0;
+      int index = list.size() - 1;
+      if (flag) {
+         while (index >= 0) {
+            res = res * 10 + list.get(index--);
+         }
+         return -res;
+      }
+
+      // >0
+      index = 0;
+      while (index < list.size()) {
+         if (list.get(index) != 0) {
+            break;
+         }
+         ++index;
+      }
+      StringBuilder r = new StringBuilder();
+      r.append(list.get(index));
+      for (int i = 0; i < list.size(); ++i) {
+         if (i != index) {
+            r.append(list.get(i));
+         }
+      }
+      return Long.parseLong(r.toString());
+
+   }
+
+   class Bitset {
+      private int size;
+      private int num;
+
+      public Bitset(int size) {
+         this.size = size;
+
+      }
+
+      public void fix(int idx) {
+         num |= 1 << (size - idx - 1);
+
+      }
+
+      public void unfix(int idx) {
+         num = num & ~(1 << (size - idx - 1));
+      }
+
+      public void flip() {
+         int mask = (1 << size) - 1;
+         num ^= mask;
+      }
+
+      public boolean all() {
+         return Integer.bitCount(num + 1) == 1;
+
+      }
+
+      public boolean one() {
+         return num != 0;
+      }
+
+      public int count() {
+         return Integer.bitCount(num);
+
+      }
+
+      public String toString() {
+         // StringBuilder res = new StringBuilder(num);
+         // return res.toString();
+         return String.valueOf(num);
+      }
+   }
 
 }
