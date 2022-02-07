@@ -9066,88 +9066,118 @@ public class LeetCode_2 {
 
    }
 
-   // private int startAt;
-   // private int moveCost;
-   // private int pushCost;
+   private int startAt;
+   private int moveCost;
+   private int pushCost;
 
-   // public int minCostSetTime(int startAt, int moveCost, int pushCost, int
-   // targetSeconds) {
-   // this.startAt = startAt;
-   // this.moveCost = moveCost;
-   // this.pushCost = pushCost;
+   public int minCostSetTime(int startAt, int moveCost, int pushCost, int targetSeconds) {
+      this.startAt = startAt;
+      this.moveCost = moveCost;
+      this.pushCost = pushCost;
 
-   // int min = targetSeconds / 60;
-   // int second = targetSeconds % 60;
-   // // if (min < 10) {
-   // // builder.append(0).append(min);
-   // // } else
-   // if (min >= 100) {
-   // second += (min - 99) * 60;
-   // min = 99;
-   // }
-   // int f = 0;
-   // if (targetSeconds < 10) {
-   // if (startAt != targetSeconds) {
-   // f += moveCost;
-   // }
-   // f += pushCost;
-   // return f;
-   // }
-   // StringBuilder builder1 = new StringBuilder();
-   // builder1.append(min).append(second < 10 ? "0" + second : second);
-   // StringBuilder builder2 = new StringBuilder();
-   // if (min < 10) {
-   // builder2.append("0" + min).append(second < 10 ? "0" + second : second);
-   // }
-   // StringBuilder builder3 = new StringBuilder();
-   // if (second <= 39 && min > 0) {
-   // --min;
-   // second += 60;
-   // builder3.append(min).append(second < 10 ? "0" + second : second);
-   // }
-   // StringBuilder builder4 = new StringBuilder();
-   // if (min < 10) {
-   // builder4.append("0" + min).append(second < 10 ? "0" + second : second);
-   // }
-   // StringBuilder builder5 = new StringBuilder();
-   // if (min == 0) {
-   // builder5.append(second < 10 ? "0" + second : second);
-   // }
+      int min = targetSeconds / 60;
+      int second = targetSeconds % 60;
+      // if (min < 10) {
+      // builder.append(0).append(min);
+      // } else
+      if (min >= 100) {
+         second += (min - 99) * 60;
+         min = 99;
+      }
+      int f = 0;
+      if (targetSeconds < 10) {
+         if (startAt != targetSeconds) {
+            f += moveCost;
+         }
+         f += pushCost;
+         return f;
+      }
+      StringBuilder builder1 = new StringBuilder();
+      builder1.append(min).append(second < 10 ? "0" + second : second);
+      StringBuilder builder2 = new StringBuilder();
+      if (min < 10) {
+         builder2.append("0" + min).append(second < 10 ? "0" + second : second);
+      }
+      StringBuilder builder3 = new StringBuilder();
+      if (second <= 39 && min > 0) {
+         --min;
+         second += 60;
+         builder3.append(min).append(second < 10 ? "0" + second : second);
+      }
+      StringBuilder builder4 = new StringBuilder();
+      if (min < 10) {
+         builder4.append("0" + min).append(second < 10 ? "0" + second : second);
+      }
+      StringBuilder builder5 = new StringBuilder();
+      if (min == 0) {
+         builder5.append(second < 10 ? "0" + second : second);
+      }
 
-   // int a = Math.min(getRes(builder1), getRes(builder2));
-   // int b = Math.min(getRes(builder3), getRes(builder4));
-   // int c = getRes(builder5);
-   // return Math.min(c, Math.min(a, b));
+      int a = Math.min(getRes(builder1), getRes(builder2));
+      int b = Math.min(getRes(builder3), getRes(builder4));
+      int c = getRes(builder5);
+      return Math.min(c, Math.min(a, b));
 
-   // }
+   }
 
-   // private int getRes(StringBuilder builder) {
-   // if (builder.length() < 2) {
-   // return Integer.MAX_VALUE;
-   // }
-   // int res = 0;
-   // if (startAt != (builder.charAt(0) - '0')) {
-   // res += moveCost;
-   // }
-   // res += pushCost;
-   // if (builder.charAt(1) != builder.charAt(0)) {
-   // res += moveCost;
-   // }
-   // res += pushCost;
-   // if (builder.length() >= 3) {
-   // if (builder.charAt(2) != builder.charAt(1)) {
-   // res += moveCost;
-   // }
-   // res += pushCost;
-   // }
-   // if (builder.length() >= 4) {
-   // if (builder.charAt(3) != builder.charAt(2)) {
-   // res += moveCost;
-   // }
-   // res += pushCost;
-   // }
-   // return res;
-   // }
+   private int getRes(StringBuilder builder) {
+      if (builder.length() < 2) {
+         return Integer.MAX_VALUE;
+      }
+      int res = 0;
+      if (startAt != (builder.charAt(0) - '0')) {
+         res += moveCost;
+      }
+      res += pushCost;
+      if (builder.charAt(1) != builder.charAt(0)) {
+         res += moveCost;
+      }
+      res += pushCost;
+      if (builder.length() >= 3) {
+         if (builder.charAt(2) != builder.charAt(1)) {
+            res += moveCost;
+         }
+         res += pushCost;
+      }
+      if (builder.length() >= 4) {
+         if (builder.charAt(3) != builder.charAt(2)) {
+            res += moveCost;
+         }
+         res += pushCost;
+      }
+      return res;
+   }
+
+   // 2162. 设置时间的最少代价 (Minimum Cost to Set Cooking Time) --枚举
+   public int minCostSetTime2(int startAt, int moveCost, int pushCost, int targetSeconds) {
+      int res = Integer.MAX_VALUE;
+      for (int i = 1; i <= 9999; ++i) {
+         if (i / 100 * 60 + i % 100 == targetSeconds) {
+            res = Math.min(res, getMin2162(i, startAt, moveCost, pushCost));
+         }
+      }
+      return res;
+
+   }
+
+   private int getMin2162(int num, int startAt, int moveCost, int pushCost) {
+      int res = 0;
+      String s = String.valueOf(num);
+      for (int i = 0; i < s.length(); ++i) {
+         if (i == 0) {
+            if (startAt != s.charAt(0) - '0') {
+               res += moveCost;
+            }
+            res += pushCost;
+         } else {
+            if (s.charAt(i) != s.charAt(i - 1)) {
+               res += moveCost;
+            }
+            res += pushCost;
+         }
+      }
+      return res;
+   }
 
    public int[] sortEvenOdd(int[] nums) {
       List<Integer> odd = new ArrayList<>();
