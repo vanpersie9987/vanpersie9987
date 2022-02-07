@@ -9143,46 +9143,36 @@ public class LeetCode_2 {
 
    }
 
+   // 2165. 重排数字的最小值 (Smallest Value of the Rearranged Number)
    public long smallestNumber(long num) {
-      if (num == 0) {
-         return 0;
-      }
-      boolean flag = false;
+      boolean isPositive = true;
       if (num < 0) {
-         flag = true;
-         num = Math.abs(num);
+         isPositive = false;
+         num = -num;
       }
-      List<Long> list = new ArrayList<>();
-      while (num != 0) {
-         list.add(num % 10);
-         num /= 10;
-      }
-      Collections.sort(list);
+
       long res = 0;
-      int index = list.size() - 1;
-      if (flag) {
+      char[] chars = String.valueOf(num).toCharArray();
+      Arrays.sort(chars);
+      int index = chars.length - 1;
+      if (!isPositive) {
          while (index >= 0) {
-            res = res * 10 + list.get(index--);
+            res = res * 10 + chars[index--] - '0';
          }
          return -res;
       }
-
-      // >0
+      res = 0;
       index = 0;
-      while (index < list.size()) {
-         if (list.get(index) != 0) {
+      while (index < chars.length) {
+         if (chars[index] != '0') {
+            char temp = chars[index];
+            chars[index] = chars[0];
+            chars[0] = temp;
             break;
          }
          ++index;
       }
-      StringBuilder r = new StringBuilder();
-      r.append(list.get(index));
-      for (int i = 0; i < list.size(); ++i) {
-         if (i != index) {
-            r.append(list.get(i));
-         }
-      }
-      return Long.parseLong(r.toString());
+      return Long.parseLong(String.valueOf(chars));
 
    }
 
