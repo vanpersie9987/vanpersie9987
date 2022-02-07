@@ -9066,86 +9066,50 @@ public class LeetCode_2 {
 
    }
 
-   private int startAt;
-   private int moveCost;
-   private int pushCost;
-
+   // 2162. 设置时间的最少代价 (Minimum Cost to Set Cooking Time)
    public int minCostSetTime(int startAt, int moveCost, int pushCost, int targetSeconds) {
-      this.startAt = startAt;
-      this.moveCost = moveCost;
-      this.pushCost = pushCost;
-
+      int res = Integer.MAX_VALUE;
       int min = targetSeconds / 60;
-      int second = targetSeconds % 60;
-      // if (min < 10) {
-      // builder.append(0).append(min);
-      // } else
+      int sec = targetSeconds % 60;
       if (min >= 100) {
-         second += (min - 99) * 60;
-         min = 99;
-      }
-      int f = 0;
-      if (targetSeconds < 10) {
-         if (startAt != targetSeconds) {
-            f += moveCost;
-         }
-         f += pushCost;
-         return f;
-      }
-      StringBuilder builder1 = new StringBuilder();
-      builder1.append(min).append(second < 10 ? "0" + second : second);
-      StringBuilder builder2 = new StringBuilder();
-      if (min < 10) {
-         builder2.append("0" + min).append(second < 10 ? "0" + second : second);
-      }
-      StringBuilder builder3 = new StringBuilder();
-      if (second <= 39 && min > 0) {
          --min;
-         second += 60;
-         builder3.append(min).append(second < 10 ? "0" + second : second);
+         sec += 60;
       }
-      StringBuilder builder4 = new StringBuilder();
-      if (min < 10) {
-         builder4.append("0" + min).append(second < 10 ? "0" + second : second);
+      res = Math.min(res, getMinTime2162(min, sec, startAt, moveCost, pushCost));
+      if (min > 0 && sec <= 39) {
+         --min;
+         sec += 60;
+         res = Math.min(res, getMinTime2162(min, sec, startAt, moveCost, pushCost));
       }
-      StringBuilder builder5 = new StringBuilder();
-      if (min == 0) {
-         builder5.append(second < 10 ? "0" + second : second);
-      }
-
-      int a = Math.min(getRes(builder1), getRes(builder2));
-      int b = Math.min(getRes(builder3), getRes(builder4));
-      int c = getRes(builder5);
-      return Math.min(c, Math.min(a, b));
+      return res;
 
    }
 
-   private int getRes(StringBuilder builder) {
-      if (builder.length() < 2) {
-         return Integer.MAX_VALUE;
-      }
+   private int getMinTime2162(int min, int sec, int startAt, int moveCost, int pushCost) {
       int res = 0;
-      if (startAt != (builder.charAt(0) - '0')) {
-         res += moveCost;
+      StringBuilder builder = new StringBuilder();
+      if (min != 0) {
+         builder.append(min);
       }
-      res += pushCost;
-      if (builder.charAt(1) != builder.charAt(0)) {
-         res += moveCost;
+      if (min != 0 && sec < 10) {
+         builder.append(0);
       }
-      res += pushCost;
-      if (builder.length() >= 3) {
-         if (builder.charAt(2) != builder.charAt(1)) {
-            res += moveCost;
+      builder.append(sec);
+      for (int i = 0; i < builder.length(); ++i) {
+         if (i == 0) {
+            if (startAt != builder.charAt(0) - '0') {
+               res += moveCost;
+            }
+            res += pushCost;
+         } else {
+            if (builder.charAt(i - 1) != builder.charAt(i)) {
+               res += moveCost;
+            }
+            res += pushCost;
          }
-         res += pushCost;
-      }
-      if (builder.length() >= 4) {
-         if (builder.charAt(3) != builder.charAt(2)) {
-            res += moveCost;
-         }
-         res += pushCost;
       }
       return res;
+
    }
 
    // 2162. 设置时间的最少代价 (Minimum Cost to Set Cooking Time) --枚举
