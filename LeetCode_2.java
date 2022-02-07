@@ -9176,47 +9176,58 @@ public class LeetCode_2 {
 
    }
 
+   // 6002. 设计位集 (Design Bitset)
    class Bitset {
-      private int size;
-      private int num;
+      private int[] arr;
+      private int oneCount;
+      private int reverse;
 
       public Bitset(int size) {
-         this.size = size;
-
+         arr = new int[size];
       }
 
       public void fix(int idx) {
-         num |= 1 << (size - idx - 1);
+         if ((reverse ^ arr[idx]) == 0) {
+            arr[idx] ^= 1;
+            ++oneCount;
+         }
 
       }
 
       public void unfix(int idx) {
-         num = num & ~(1 << (size - idx - 1));
+         if ((reverse ^ arr[idx]) == 1) {
+            arr[idx] ^= 1;
+            --oneCount;
+         }
+
       }
 
       public void flip() {
-         int mask = (1 << size) - 1;
-         num ^= mask;
+         reverse ^= 1;
+         oneCount = arr.length - oneCount;
       }
 
       public boolean all() {
-         return Integer.bitCount(num + 1) == 1;
+         return oneCount == arr.length;
 
       }
 
       public boolean one() {
-         return num != 0;
+         return oneCount > 0;
+
       }
 
       public int count() {
-         return Integer.bitCount(num);
+         return oneCount;
 
       }
 
       public String toString() {
-         // StringBuilder res = new StringBuilder(num);
-         // return res.toString();
-         return String.valueOf(num);
+         StringBuilder res = new StringBuilder();
+         for (int num : arr) {
+            res.append(num ^ reverse);
+         }
+         return res.toString();
       }
    }
 
