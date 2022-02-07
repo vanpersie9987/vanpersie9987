@@ -9037,33 +9037,34 @@ public class LeetCode_2 {
 
    }
 
-   // public int[] pivotArray(int[] nums, int pivot) {
-   // int index = 0;
-   // int actIndex = 0;
-   // int[] res = new int[nums.length];
-   // while (index < nums.length) {
-   // if (nums[index] < pivot) {
-   // res[actIndex++] = nums[index];
-   // }
-   // ++index;
-   // }
-   // index = 0;
-   // while (index < nums.length) {
-   // if (nums[index] == pivot) {
-   // res[actIndex++] = nums[index];
-   // }
-   // ++index;
-   // }
-   // index = 0;
-   // while (index < nums.length) {
-   // if (nums[index] > pivot) {
-   // res[actIndex++] = nums[index];
-   // }
-   // ++index;
-   // }
-   // return res;
+   // 5985. 根据给定数字划分数组 (Partition Array According to Given Pivot)
+   public int[] pivotArray(int[] nums, int pivot) {
+      int index = 0;
+      int actIndex = 0;
+      int[] res = new int[nums.length];
+      while (index < nums.length) {
+         if (nums[index] < pivot) {
+            res[actIndex++] = nums[index];
+         }
+         ++index;
+      }
+      index = 0;
+      while (index < nums.length) {
+         if (nums[index] == pivot) {
+            res[actIndex++] = nums[index];
+         }
+         ++index;
+      }
+      index = 0;
+      while (index < nums.length) {
+         if (nums[index] > pivot) {
+            res[actIndex++] = nums[index];
+         }
+         ++index;
+      }
+      return res;
 
-   // }
+   }
 
    // private int startAt;
    // private int moveCost;
