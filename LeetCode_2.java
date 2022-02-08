@@ -9308,6 +9308,41 @@ public class LeetCode_2 {
       }
       return res;
    }
+
+   // 2130. 链表最大孪生和 (Maximum Twin Sum of a Linked List)
+   public int pairSum(ListNode head) {
+      ListNode middle = getMiddle2130(head);
+      ListNode reversed = getReversed2130(middle);
+      int res = 0;
+      while (reversed != null) {
+         res = Math.max(res, reversed.val + head.val);
+         head = head.next;
+         reversed = reversed.next;
+      }
+      return res;
+
+   }
+
+   private ListNode getReversed2130(ListNode head) {
+      ListNode pre = null;
+      while (head != null) {
+         ListNode temp = head.next;
+         head.next = pre;
+         pre = head;
+         head = temp;
+      }
+      return pre;
+   }
+
+   private ListNode getMiddle2130(ListNode head) {
+      ListNode slow = head;
+      ListNode fast = head;
+      while (fast != null && fast.next != null) {
+         slow = slow.next;
+         fast = fast.next.next;
+      }
+      return slow;
+   }
    // 1405. 最长快乐字符串 (Longest Happy String)
    // public String longestDiverseString(int a, int b, int c) {
 
