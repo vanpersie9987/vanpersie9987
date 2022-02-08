@@ -9379,10 +9379,27 @@ public class LeetCode_2 {
 
    }
 
-   // 114. 二叉树展开为链表 (Flatten Binary Tree to Linked List)
-   // public void flatten(TreeNode root) {
+   // 114. 二叉树展开为链表 (Flatten Binary Tree to Linked List) --还需掌握方法二、方法三
+   public void flatten(TreeNode root) {
+      List<TreeNode> list = new ArrayList<>();
+      Stack<TreeNode> stack = new Stack<>();
+      TreeNode node = root;
+      while (!stack.isEmpty() || node != null) {
+         while (node != null) {
+            list.add(node);
+            stack.push(node);
+            node = node.left;
+         }
+         node = stack.pop();
+         node = node.right;
+      }
+      for (int i = 1; i < list.size(); ++i) {
+         TreeNode pre = list.get(i - 1);
+         pre.left = null;
+         pre.right = list.get(i);
+      }
 
-   // }
+   }
 
    // 117. 填充每个节点的下一个右侧节点指针 II (Populating Next Right Pointers in Each Node II)
    // public Node connect(Node root) {
