@@ -9275,4 +9275,42 @@ public class LeetCode_2 {
       return list;
    }
 
+   // 面试题 04.03. List of Depth LCCI --广度优先
+   public ListNode[] listOfDepth(TreeNode tree) {
+      List<ListNode> list = new ArrayList<>();
+      Deque<TreeNode> deque = new LinkedList<>();
+      deque.offerLast(tree);
+      while (!deque.isEmpty()) {
+         int size = deque.size();
+         ListNode pre = null;
+         ListNode head = null;
+         for (int i = 0; i < size; ++i) {
+            TreeNode treeNode = deque.pollFirst();
+            ListNode cur = new ListNode(treeNode.val);
+            if (pre == null) {
+               head = cur;
+            } else {
+               pre.next = cur;
+            }
+            pre = cur;
+            if (treeNode.left != null) {
+               deque.offerLast(treeNode.left);
+            }
+            if (treeNode.right != null) {
+               deque.offerLast(treeNode.right);
+            }
+         }
+         list.add(head);
+      }
+      ListNode[] res = new ListNode[list.size()];
+      for (int i = 0; i < res.length; ++i) {
+         res[i] = list.get(i);
+      }
+      return res;
+   }
+   // 1405. 最长快乐字符串 (Longest Happy String)
+   // public String longestDiverseString(int a, int b, int c) {
+
+   // }
+
 }
