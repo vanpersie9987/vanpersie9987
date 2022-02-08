@@ -9379,11 +9379,6 @@ public class LeetCode_2 {
 
    }
 
-   // 面试题 04.03. 特定深度节点链表
-   // public ListNode[] listOfDepth(TreeNode tree) {
-
-   // }
-
    // 114. 二叉树展开为链表 (Flatten Binary Tree to Linked List)
    // public void flatten(TreeNode root) {
 
