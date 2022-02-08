@@ -8963,6 +8963,7 @@ public class LeetCode_2 {
       public int val;
       public Node left;
       public Node right;
+      public Node next;
 
       public Node() {
 
@@ -8976,6 +8977,13 @@ public class LeetCode_2 {
          val = _val;
          left = _left;
          right = _right;
+      }
+
+      public Node(int _val, Node _left, Node _right, Node _next) {
+         val = _val;
+         left = _left;
+         right = _right;
+         next = _next;
       }
 
    }
@@ -9343,6 +9351,49 @@ public class LeetCode_2 {
       }
       return slow;
    }
+
+   // 116. 填充每个节点的下一个右侧节点指针 (Populating Next Right Pointers in Each Node)
+   // --还需掌握空间O(1)的解法
+   public Node connect(Node root) {
+      if (root == null) {
+         return null;
+      }
+      Deque<Node> deque = new LinkedList<>();
+      deque.offerLast(root);
+      while (!deque.isEmpty()) {
+         int size = deque.size();
+         for (int i = 0; i < size; ++i) {
+            Node node = deque.pollFirst();
+            if (i < size - 1) {
+               node.next = deque.peekFirst();
+            }
+            if (node.left != null) {
+               deque.offerLast(node.left);
+            }
+            if (node.right != null) {
+               deque.offerLast(node.right);
+            }
+         }
+      }
+      return root;
+
+   }
+
+   // 面试题 04.03. 特定深度节点链表
+   // public ListNode[] listOfDepth(TreeNode tree) {
+
+   // }
+
+   // 114. 二叉树展开为链表 (Flatten Binary Tree to Linked List)
+   // public void flatten(TreeNode root) {
+
+   // }
+
+   // 117. 填充每个节点的下一个右侧节点指针 II (Populating Next Right Pointers in Each Node II)
+   // public Node connect(Node root) {
+
+   // }
+
    // 1405. 最长快乐字符串 (Longest Happy String)
    // public String longestDiverseString(int a, int b, int c) {
 
