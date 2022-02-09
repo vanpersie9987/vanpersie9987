@@ -9474,6 +9474,11 @@ public class LeetCode_2 {
       y.val = temp;
    }
 
+   // 669. 修剪二叉搜索树 (Trim a Binary Search Tree)
+   // public TreeNode trimBST(TreeNode root, int low, int high) {
+
+   // }
+
    // 117. 填充每个节点的下一个右侧节点指针 II (Populating Next Right Pointers in Each Node II)
    // public Node connect(Node root) {
 
