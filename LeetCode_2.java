@@ -9401,6 +9401,31 @@ public class LeetCode_2 {
 
    }
 
+   // 701. 二叉搜索树中的插入操作 (Insert into a Binary Search Tree)
+   public TreeNode insertIntoBST(TreeNode root, int val) {
+      TreeNode added = new TreeNode(val);
+      TreeNode cur = root;
+      while (cur != null) {
+         if (cur.val < val) {
+            if (cur.right != null) {
+               cur = cur.right;
+            } else {
+               cur.right = added;
+               return root;
+            }
+         } else {
+            if (cur.left != null) {
+               cur = cur.left;
+            } else {
+               cur.left = added;
+               return root;
+            }
+         }
+      }
+      return added;
+
+   }
+
    // 117. 填充每个节点的下一个右侧节点指针 II (Populating Next Right Pointers in Each Node II)
    // public Node connect(Node root) {
 
