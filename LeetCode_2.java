@@ -9380,6 +9380,32 @@ public class LeetCode_2 {
 
    }
 
+   // 117. 填充每个节点的下一个右侧节点指针 II (Populating Next Right Pointers in Each Node II)
+   // --还需掌握空间O(1)方法
+   public Node connect117(Node root) {
+      if (root == null) {
+         return root;
+      }
+      Deque<Node> deque = new LinkedList<>();
+      deque.offerLast(root);
+      while (!deque.isEmpty()) {
+         int size = deque.size();
+         for (int i = 0; i < size; ++i) {
+            Node cur = deque.pollFirst();
+            if (i < size - 1) {
+               cur.next = deque.peekFirst();
+            }
+            if (cur.left != null) {
+               deque.offerLast(cur.left);
+            }
+            if (cur.right != null) {
+               deque.offerLast(cur.right);
+            }
+         }
+      }
+      return root;
+   }
+
    // 114. 二叉树展开为链表 (Flatten Binary Tree to Linked List) --还需掌握方法二、方法三
    public void flatten(TreeNode root) {
       List<TreeNode> list = new ArrayList<>();
@@ -9477,11 +9503,6 @@ public class LeetCode_2 {
 
    // 669. 修剪二叉搜索树 (Trim a Binary Search Tree)
    // public TreeNode trimBST(TreeNode root, int low, int high) {
-
-   // }
-
-   // 117. 填充每个节点的下一个右侧节点指针 II (Populating Next Right Pointers in Each Node II)
-   // public Node connect(Node root) {
 
    // }
 
