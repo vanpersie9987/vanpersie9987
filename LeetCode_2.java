@@ -9501,10 +9501,22 @@ public class LeetCode_2 {
       y.val = temp;
    }
 
-   // 669. 修剪二叉搜索树 (Trim a Binary Search Tree)
-   // public TreeNode trimBST(TreeNode root, int low, int high) {
+   // 669. 修剪二叉搜索树 (Trim a Binary Search Tree) --递归
+   public TreeNode trimBST(TreeNode root, int low, int high) {
+      if (root == null) {
+         return null;
+      }
+      if (root.val > high) {
+         return trimBST(root.left, low, high);
+      }
+      if (root.val < low) {
+         return trimBST(root.right, low, high);
+      }
+      root.left = trimBST(root.left, low, high);
+      root.right = trimBST(root.right, low, high);
+      return root;
 
-   // }
+   }
 
    // 1405. 最长快乐字符串 (Longest Happy String)
    // public String longestDiverseString(int a, int b, int c) {
