@@ -9570,8 +9570,41 @@ public class LeetCode_2 {
    }
 
    // 1405. 最长快乐字符串 (Longest Happy String)
-   // public String longestDiverseString(int a, int b, int c) {
+   public String longestDiverseString(int a, int b, int c) {
+      Bean1405[] arr = new Bean1405[3];
+      arr[0] = new Bean1405('a', a);
+      arr[1] = new Bean1405('b', b);
+      arr[2] = new Bean1405('c', c);
+      StringBuilder res = new StringBuilder();
+      search: while (true) {
+         Arrays.sort(arr, (o1, o2) -> o2.count - o1.count);
+         if (res.length() >= 2) {
+            for (Bean1405 bean : arr) {
+               char last = res.charAt(res.length() - 1);
+               char secondLast = res.charAt(res.length() - 2);
+               if (bean.count > 0 && (last != bean.c || secondLast != bean.c)) {
+                  res.append(bean.c);
+                  --bean.count;
+                  continue search;
+               }
+            }
+            return res.toString();
+         } else {
+            res.append(arr[0].c);
+            arr[0].count -= 1;
+         }
+      }
 
-   // }
+   }
+
+   public class Bean1405 {
+      public char c;
+      public int count;
+
+      public Bean1405(char c, int count) {
+         this.c = c;
+         this.count = count;
+      }
+   }
 
 }
