@@ -8926,6 +8926,7 @@ public class LeetCode_2 {
    }
 
    // 653. 两数之和 IV - 输入 BST (Two Sum IV - Input is a BST)
+   // 剑指 Offer II 056. 二叉搜索树中两个节点之和
    public boolean findTarget(TreeNode root, int k) {
       Set<Integer> set = new HashSet<>();
       TreeNode pre = null;
@@ -9473,11 +9474,6 @@ public class LeetCode_2 {
       x.val = y.val;
       y.val = temp;
    }
-
-   // 剑指 Offer II 056. 二叉搜索树中两个节点之和
-   // public boolean findTarget(TreeNode root, int k) {
-
-   // }
 
    // 669. 修剪二叉搜索树 (Trim a Binary Search Tree)
    // public TreeNode trimBST(TreeNode root, int low, int high) {
