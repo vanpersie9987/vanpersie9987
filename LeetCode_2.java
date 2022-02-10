@@ -9518,6 +9518,29 @@ public class LeetCode_2 {
 
    }
 
+   // 703. 数据流中的第 K 大元素 (Kth Largest Element in a Stream)
+   class KthLargest {
+      private PriorityQueue<Integer> priorityQueue;
+      private int k;
+
+      public KthLargest(int k, int[] nums) {
+         this.k = k;
+         this.priorityQueue = new PriorityQueue<>();
+         for (int num : nums) {
+            priorityQueue.offer(num);
+         }
+
+      }
+
+      public int add(int val) {
+         priorityQueue.offer(val);
+         while (priorityQueue.size() > k) {
+            priorityQueue.poll();
+         }
+         return priorityQueue.peek();
+      }
+   }
+
    // 1405. 最长快乐字符串 (Longest Happy String)
    // public String longestDiverseString(int a, int b, int c) {
 
