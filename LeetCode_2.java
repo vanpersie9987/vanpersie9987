@@ -9542,6 +9542,33 @@ public class LeetCode_2 {
       }
    }
 
+   // 450. 删除二叉搜索树中的节点 (Delete Node in a BST)
+   public TreeNode deleteNode(TreeNode root, int key) {
+      if (root == null) {
+         return null;
+      }
+      if (root.val < key) {
+         root.right = deleteNode(root.right, key);
+      } else if (root.val > key) {
+         root.left = deleteNode(root.left, key);
+      } else {
+         if (root.left == null) {
+            root = root.right;
+         } else if (root.right == null) {
+            root = root.left;
+         } else {
+            TreeNode node = root.right;
+            while (node.left != null) {
+               node = node.left;
+            }
+            node.left = root.left;
+            root = root.right;
+         }
+      }
+      return root;
+
+   }
+
    // 1405. 最长快乐字符串 (Longest Happy String)
    // public String longestDiverseString(int a, int b, int c) {
 
