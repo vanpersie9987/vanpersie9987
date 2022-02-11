@@ -9634,4 +9634,24 @@ public class LeetCode_2 {
 
    }
 
+   // 101. 对称二叉树 (Symmetric Tree)
+   // 剑指 Offer 28. 对称的二叉树
+   public boolean isSymmetric(TreeNode root) {
+      if (root == null) {
+         return true;
+      }
+      return dfsOffer28(root.left, root.right);
+
+   }
+
+   private boolean dfsOffer28(TreeNode L, TreeNode R) {
+      if (L == null && R == null) {
+         return true;
+      }
+      if (L == null || R == null || L.val != R.val) {
+         return false;
+      }
+      return dfsOffer28(L.left, R.right) && dfsOffer28(L.right, R.left);
+   }
+
 }
