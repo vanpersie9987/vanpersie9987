@@ -9607,4 +9607,31 @@ public class LeetCode_2 {
       }
    }
 
+   // LCP 44. 开幕式焰火
+   public int numColor(TreeNode root) {
+      Set<Integer> set = new HashSet<>();
+      TreeNode pre = null;
+      while (root != null) {
+         if (root.left != null) {
+            pre = root.left;
+            while (pre.right != null && pre.right != root) {
+               pre = pre.right;
+            }
+            if (pre.right == null) {
+               pre.right = root;
+               root = root.left;
+            } else {
+               pre.right = null;
+               set.add(root.val);
+               root = root.right;
+            }
+         } else {
+            set.add(root.val);
+            root = root.right;
+         }
+      }
+      return set.size();
+
+   }
+
 }
