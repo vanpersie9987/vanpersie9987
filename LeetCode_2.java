@@ -9736,4 +9736,29 @@ public class LeetCode_2 {
 
    }
 
+   // 1008. 前序遍历构造二叉搜索树 (Construct Binary Search Tree from Preorder Traversal)
+   public TreeNode bstFromPreorder(int[] preorder) {
+      return construct1008(preorder, 0, preorder.length - 1);
+   }
+
+   private TreeNode construct1008(int[] preorder, int left, int right) {
+      if (left > right) {
+         return null;
+      }
+      TreeNode root = new TreeNode(preorder[left]);
+      if (left == right) {
+         return root;
+      }
+      int index = left;
+      while (index <= right) {
+         if (preorder[index] > preorder[left]) {
+            break;
+         }
+         ++index;
+      }
+      root.left = construct1008(preorder, left + 1, index - 1);
+      root.right = construct1008(preorder, index, right);
+      return root;
+   }
+
 }
