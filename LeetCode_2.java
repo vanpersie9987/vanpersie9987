@@ -9698,4 +9698,42 @@ public class LeetCode_2 {
       return res;
    }
 
+   // 剑指 Offer 33. 二叉搜索树的后序遍历序列
+   public boolean verifyPostorder(int[] postorder) {
+      return checkOffer33(postorder, 0, postorder.length - 1);
+   }
+
+   private boolean checkOffer33(int[] postorder, int i, int j) {
+      if (i >= j) {
+         return true;
+      }
+      int p = i;
+      while (p < j && postorder[p] < postorder[j]) {
+         ++p;
+      }
+      int m = p;
+      while (p < j && postorder[p] > postorder[j]) {
+         ++p;
+      }
+      return p == j && checkOffer33(postorder, i, m - 1) && checkOffer33(postorder, m, j - 1);
+
+   }
+
+   // 剑指 Offer 33. 二叉搜索树的后序遍历序列 --单调栈
+   public boolean verifyPostorder2(int[] postorder) {
+      int root = Integer.MAX_VALUE;
+      Stack<Integer> stack = new Stack<>();
+      for (int i = postorder.length - 1; i >= 0; --i) {
+         if (postorder[i] > root) {
+            return false;
+         }
+         while (!stack.isEmpty() && postorder[i] < stack.peek()) {
+            root = stack.pop();
+         }
+         stack.push(postorder[i]);
+      }
+      return true;
+
+   }
+
 }
