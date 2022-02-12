@@ -9654,4 +9654,48 @@ public class LeetCode_2 {
       return dfsOffer28(L.left, R.right) && dfsOffer28(L.right, R.left);
    }
 
+   // 1305. 两棵二叉搜索树中的所有元素 (All Elements in Two Binary Search Trees) --二叉树中序遍历 + 堆排序
+   public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
+      List<Integer> list1 = getInorderTraversal1305(root1);
+      List<Integer> list2 = getInorderTraversal1305(root2);
+
+      List<Integer> res = new ArrayList<>();
+      int i = 0;
+      int j = 0;
+      while (i < list1.size() || j < list2.size()) {
+         if (i < list1.size() && (j == list2.size() || list1.get(i) <= list2.get(j))) {
+            res.add(list1.get(i++));
+         } else {
+            res.add(list2.get(j++));
+         }
+      }
+      return res;
+
+   }
+
+   private List<Integer> getInorderTraversal1305(TreeNode root) {
+      List<Integer> res = new ArrayList<>();
+      TreeNode pre = null;
+      while (root != null) {
+         if (root.left != null) {
+            pre = root.left;
+            while (pre.right != null && pre.right != root) {
+               pre = pre.right;
+            }
+            if (pre.right == null) {
+               pre.right = root;
+               root = root.left;
+            } else {
+               pre.right = null;
+               res.add(root.val);
+               root = root.right;
+            }
+         } else {
+            res.add(root.val);
+            root = root.right;
+         }
+      }
+      return res;
+   }
+
 }
