@@ -9775,4 +9775,28 @@ public class LeetCode_2 {
 
    }
 
+   // 654. 最大二叉树 (Maximum Binary Tree) --递归
+   public TreeNode constructMaximumBinaryTree(int[] nums) {
+      return construct654(nums, 0, nums.length - 1);
+
+   }
+
+   private TreeNode construct654(int[] nums, int left, int right) {
+      if (left > right) {
+         return null;
+      }
+      int index = -1;
+      int max = -1;
+      for (int i = left; i <= right; ++i) {
+         if (nums[i] > max) {
+            max = nums[i];
+            index = i;
+         }
+      }
+      TreeNode root = new TreeNode(nums[index]);
+      root.left = construct654(nums, left, index - 1);
+      root.right = construct654(nums, index + 1, right);
+      return root;
+   }
+
 }
