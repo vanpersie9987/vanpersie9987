@@ -9843,4 +9843,12 @@ public class LeetCode_2 {
       return res;
    }
 
+   // 100. 相同的树 (Same Tree) --bfs
+   public boolean isSameTree(TreeNode p, TreeNode q) {
+      if (p == null) {
+         return q == null;
+      }
+      return q != null && p.val == q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+
+   }
 }
