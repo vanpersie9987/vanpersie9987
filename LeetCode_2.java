@@ -9925,6 +9925,14 @@ public class LeetCode_2 {
    }
 
    private boolean isLeafNode(TreeNode node) {
-      return node.left == null && node.right == null;
+      return node != null && node.left == null && node.right == null;
+   }
+
+   // 404. 左叶子之和 (Sum of Left Leaves) --dfs
+   public int sumOfLeftLeaves2(TreeNode root) {
+      if (root == null) {
+         return 0;
+      }
+      return sumOfLeftLeaves2(root.left) + sumOfLeftLeaves2(root.right) + (isLeafNode(root.left) ? root.left.val : 0);
    }
 }
