@@ -9816,4 +9816,31 @@ public class LeetCode_2 {
       return root;
    }
 
+   // 95. 不同的二叉搜索树 II (Unique Binary Search Trees II) --递归、回溯
+   public List<TreeNode> generateTrees(int n) {
+      return getTrees(1, n);
+
+   }
+
+   private List<TreeNode> getTrees(int left, int right) {
+      List<TreeNode> res = new ArrayList<>();
+      if (left > right) {
+         res.add(null);
+         return res;
+      }
+      for (int i = left; i <= right; ++i) {
+         List<TreeNode> leftTrees = getTrees(left, i - 1);
+         List<TreeNode> rightTrees = getTrees(i + 1, right);
+         for (TreeNode leftTree : leftTrees) {
+            for (TreeNode rightTree : rightTrees) {
+               TreeNode root = new TreeNode(i);
+               root.left = leftTree;
+               root.right = rightTree;
+               res.add(root);
+            }
+         }
+      }
+      return res;
+   }
+
 }
