@@ -9935,4 +9935,17 @@ public class LeetCode_2 {
       }
       return sumOfLeftLeaves2(root.left) + sumOfLeftLeaves2(root.right) + (isLeafNode(root.left) ? root.left.val : 0);
    }
+
+   // 226. 翻转二叉树 (Invert Binary Tree)
+   public TreeNode invertTree(TreeNode root) {
+      if (root == null) {
+         return null;
+      }
+      TreeNode left = invertTree(root.left);
+      TreeNode right = invertTree(root.right);
+      root.left = right;
+      root.right = left;
+      return root;
+   }
+
 }
