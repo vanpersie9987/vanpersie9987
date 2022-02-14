@@ -15,6 +15,8 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.xml.transform.Templates;
+
 public class LeetCode_2 {
 
    public static void main(final String[] args) {
@@ -9936,7 +9938,7 @@ public class LeetCode_2 {
       return sumOfLeftLeaves2(root.left) + sumOfLeftLeaves2(root.right) + (isLeafNode(root.left) ? root.left.val : 0);
    }
 
-   // 226. 翻转二叉树 (Invert Binary Tree)
+   // 226. 翻转二叉树 (Invert Binary Tree) --dfs
    public TreeNode invertTree(TreeNode root) {
       if (root == null) {
          return null;
@@ -9945,6 +9947,28 @@ public class LeetCode_2 {
       TreeNode right = invertTree(root.right);
       root.left = right;
       root.right = left;
+      return root;
+   }
+
+   // 226. 翻转二叉树 (Invert Binary Tree) --bfs
+   public TreeNode invertTree2(TreeNode root) {
+      if (root == null) {
+         return null;
+      }
+      Queue<TreeNode> queue = new LinkedList<>();
+      queue.offer(root);
+      while (!queue.isEmpty()) {
+         TreeNode node = queue.poll();
+         TreeNode tmp = node.left;
+         node.left = node.right;
+         node.right = tmp;
+         if (node.left != null) {
+            queue.offer(node.left);
+         }
+         if (node.right != null) {
+            queue.offer(node.right);
+         }
+      }
       return root;
    }
 
