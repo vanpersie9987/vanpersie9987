@@ -5009,33 +5009,6 @@ public class LeetCodeText {
 
     }
 
-    // 1380. 矩阵中的幸运数
-    public List<Integer> luckyNumbers(final int[][] matrix) {
-        int[] rowMin = new int[matrix.length];
-        Arrays.fill(rowMin, Integer.MAX_VALUE);
-        int[] colMax = new int[matrix[0].length];
-        Arrays.fill(colMax, Integer.MIN_VALUE);
-
-        for (int i = 0; i < matrix.length; ++i) {
-            for (int j = 0; j < matrix[0].length; ++j) {
-                rowMin[i] = Math.min(rowMin[i], matrix[i][j]);
-                colMax[j] = Math.max(colMax[j], matrix[i][j]);
-            }
-        }
-        Set<Integer> set = new HashSet<>();
-        for (int num : rowMin) {
-            set.add(num);
-        }
-        List<Integer> list = new ArrayList<>();
-        for (int num : colMax) {
-            if (set.contains(num)) {
-                list.add(num);
-            }
-        }
-        return list;
-
-    }
-
     public String compressString2(final String S) {
         if (S.isEmpty()) {
             return S;
