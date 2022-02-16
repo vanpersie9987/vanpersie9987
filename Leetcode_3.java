@@ -26,37 +26,32 @@ public class Leetcode_3 {
 
     }
 
-    public class NodeDepth {
-        public int depth;
-        public TreeNode node;
-
-        public NodeDepth(TreeNode node, int depth) {
-            this.depth = depth;
-            this.node = node;
-        }
-
-    }
-
     // 111. 二叉树的最小深度 (Minimum Depth of Binary Tree) --bfs
     public int minDepth(TreeNode root) {
         if (root == null) {
             return 0;
         }
-        Queue<NodeDepth> queue = new LinkedList<>();
-        queue.offer(new NodeDepth(root, 1));
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        int res = 1;
         while (root != null) {
-            NodeDepth nodeDepth = queue.poll();
-            if (nodeDepth.node.left == null && nodeDepth.node.right == null) {
-                return nodeDepth.depth;
+            int size = queue.size();
+            while (size > 0) {
+                TreeNode node = queue.poll();
+                if (node.left == null && node.right == null) {
+                    return res;
+                }
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+                --size;
             }
-            if (nodeDepth.node.left != null) {
-                queue.offer(new NodeDepth(nodeDepth.node.left, nodeDepth.depth + 1));
-            }
-            if (nodeDepth.node.right != null) {
-                queue.offer(new NodeDepth(nodeDepth.node.right, nodeDepth.depth + 1));
-            }
+            ++res;
         }
-        return 0;
+        return res;
 
     }
 
