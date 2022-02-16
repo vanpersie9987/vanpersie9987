@@ -26,6 +26,25 @@ public class Leetcode_3 {
 
     }
 
+    // 111. 二叉树的最小深度 (Minimum Depth of Binary Tree) --dfs
+    public int minDepth2(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null && root.right == null) {
+            return 1;
+        }
+        int depth = Integer.MAX_VALUE;
+        if (root.left != null) {
+            depth = Math.min(depth, minDepth2(root.left));
+        }
+        if (root.right != null) {
+            depth = Math.min(depth, minDepth2(root.right));
+        }
+        return depth + 1;
+
+    }
+
     // 111. 二叉树的最小深度 (Minimum Depth of Binary Tree) --bfs
     public int minDepth(TreeNode root) {
         if (root == null) {
