@@ -9,6 +9,21 @@ public class Leetcode_3 {
 
     }
 
+    public class ListNode {
+        public int val;
+        public ListNode next;
+
+        public ListNode(int val) {
+            this.val = val;
+        }
+
+        public ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
+
+    }
+
     public class TreeNode {
         public int val;
         public TreeNode left;
@@ -166,6 +181,31 @@ public class Leetcode_3 {
         }
         return res;
 
+    }
+
+    // 147. 对链表进行插入排序 (Insertion Sort List)
+    public ListNode insertionSortList(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode dummy = new ListNode(0, head);
+        ListNode lastSorted = head;
+        ListNode cur = head.next;
+        while (cur != null) {
+            if (lastSorted.val <= cur.val) {
+                lastSorted = lastSorted.next;
+            } else {
+                ListNode pre = dummy;
+                while (pre.next.val <= cur.val) {
+                    pre = pre.next;
+                }
+                lastSorted.next = cur.next;
+                cur.next = pre.next;
+                pre.next = cur;
+            }
+            cur = lastSorted.next;
+        }
+        return dummy.next;
     }
 
 }
