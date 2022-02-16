@@ -208,4 +208,22 @@ public class Leetcode_3 {
         return dummy.next;
     }
 
+    // 1367. 二叉树中的列表 (Linked List in Binary Tree)
+    public boolean isSubPath(ListNode head, TreeNode root) {
+        if (root == null) {
+            return false;
+        }
+        return judgeSubPath(head, root) || isSubPath(head, root.left) || isSubPath(head, root.right);
+    }
+
+    private boolean judgeSubPath(ListNode head, TreeNode root) {
+        if (head == null) {
+            return true;
+        }
+        if (root == null || root.val != head.val) {
+            return false;
+        }
+        return judgeSubPath(head.next, root.left) || judgeSubPath(head.next, root.right);
+    }
+
 }
