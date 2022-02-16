@@ -86,6 +86,16 @@ public class Leetcode_3 {
 
     }
 
+    // 104. 二叉树的最大深度 (Maximum Depth of Binary Tree) --dfs
+    public int maxDepth2(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftDepth = maxDepth2(root.left);
+        int rightDepth = maxDepth2(root.right);
+        return Math.max(leftDepth, rightDepth) + 1;
+    }
+
     // 1380. 矩阵中的幸运数 (Lucky Numbers in a Matrix)
     public List<Integer> luckyNumbers(int[][] matrix) {
         int m = matrix.length;
