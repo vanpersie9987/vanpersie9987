@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Leetcode_3 {
@@ -283,6 +284,42 @@ public class Leetcode_3 {
             cur = cur.next;
         }
         cur.next = head1 != null ? head1 : head2;
+        return dummy.next;
+    }
+
+    public class Status implements Comparable<Status> {
+        public int val;
+        public ListNode node;
+
+        public Status(int val, ListNode node) {
+            this.val = val;
+            this.node = node;
+        }
+
+        @Override
+        public int compareTo(Status s) {
+            return this.val - s.val;
+        }
+    }
+
+    // 23. 合并K个升序链表 (Merge k Sorted Lists) --优先队列
+    public ListNode mergeKLists3(ListNode[] lists) {
+        PriorityQueue<Status> priorityQueue = new PriorityQueue<>();
+        for (ListNode list : lists) {
+            if (list != null) {
+                priorityQueue.offer(new Status(list.val, list));
+            }
+        }
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        while (!priorityQueue.isEmpty()) {
+            Status pop = priorityQueue.poll();
+            cur.next = pop.node;
+            cur = cur.next;
+            if (pop.node.next != null) {
+                priorityQueue.offer(new Status(pop.node.next.val, pop.node.next));
+            }
+        }
         return dummy.next;
     }
 }
