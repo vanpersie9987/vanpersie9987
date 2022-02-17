@@ -226,4 +226,31 @@ public class Leetcode_3 {
         return judgeSubPath(head.next, root.left) || judgeSubPath(head.next, root.right);
     }
 
+    // 23. 合并K个升序链表 (Merge k Sorted Lists) --暴力
+    public ListNode mergeKLists(ListNode[] lists) {
+        ListNode res = null;
+        for (ListNode list : lists) {
+            res = merge23(res, list);
+        }
+        return res;
+
+    }
+
+    private ListNode merge23(ListNode head1, ListNode head2) {
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        while (head1 != null && head2 != null) {
+            if (head1.val < head2.val) {
+                cur.next = head1;
+                head1 = head1.next;
+            } else {
+                cur.next = head2;
+                head2 = head2.next;
+            }
+            cur = cur.next;
+        }
+        cur.next = head1 != null ? head1 : head2;
+        return dummy.next;
+    }
+
 }
