@@ -230,6 +230,7 @@ public class Leetcode_3 {
     }
 
     // 23. 合并K个升序链表 (Merge k Sorted Lists) --暴力
+    // 剑指 Offer II 078. 合并排序链表
     public ListNode mergeKLists(ListNode[] lists) {
         ListNode res = null;
         for (ListNode list : lists) {
@@ -257,6 +258,7 @@ public class Leetcode_3 {
     }
 
     // 23. 合并K个升序链表 (Merge k Sorted Lists) --分治
+    // 剑指 Offer II 078. 合并排序链表
     public ListNode mergeKLists2(ListNode[] lists) {
         return getLists(lists, 0, lists.length - 1);
     }
@@ -305,6 +307,7 @@ public class Leetcode_3 {
     }
 
     // 23. 合并K个升序链表 (Merge k Sorted Lists) --优先队列
+    // 剑指 Offer II 078. 合并排序链表
     public ListNode mergeKLists3(ListNode[] lists) {
         PriorityQueue<Status> priorityQueue = new PriorityQueue<>();
         for (ListNode list : lists) {
