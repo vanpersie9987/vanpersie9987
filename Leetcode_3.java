@@ -4,8 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
-
-import javax.sound.sampled.ReverbType;
+import java.util.Random;
 
 public class Leetcode_3 {
     public static void main(String[] args) {
@@ -373,4 +372,31 @@ public class Leetcode_3 {
         res[1] = cur;
         return res;
     }
+
+    // 382. 链表随机节点 (Linked List Random Node)
+    class Solution {
+        private Random random;
+        private ListNode head;
+
+        public Solution(ListNode head) {
+            this.head = head;
+            random = new Random();
+
+        }
+
+        public int getRandom() {
+            int i = 1;
+            int res = 0;
+            ListNode cur = head;
+            while (cur != null) {
+                if (random.nextInt(i) == 0) {
+                    res = cur.val;
+                }
+                cur = cur.next;
+                ++i;
+            }
+            return res;
+        }
+    }
+
 }
