@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+import javax.sound.sampled.ReverbType;
+
 public class Leetcode_3 {
     public static void main(String[] args) {
 
@@ -321,5 +323,51 @@ public class Leetcode_3 {
             }
         }
         return dummy.next;
+    }
+
+    // 25. K 个一组翻转链表 (Reverse Nodes in k-Group)
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode cur = head;
+        int count = 0;
+        while (cur != null) {
+            cur = cur.next;
+            ++count;
+        }
+        int parts = count / k;
+        if (parts == 0) {
+            return head;
+        }
+        ListNode dummy = new ListNode(0, head);
+        int index = 0;
+        ListNode pre = head;
+        while (index < parts) {
+            ListNode[] nexts = reverseLinkedList25(head, k);
+            if (index == 0) {
+                dummy.next = nexts[0];
+            } else {
+                pre.next = nexts[0];
+            }
+            pre = head;
+            head.next = nexts[1];
+            head = nexts[1];
+            ++index;
+        }
+        return dummy.next;
+
+    }
+
+    private ListNode[] reverseLinkedList25(ListNode head, int k) {
+        ListNode[] res = new ListNode[2];
+        ListNode cur = head;
+        ListNode pre = null;
+        while (k-- > 0) {
+            ListNode temp = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = temp;
+        }
+        res[0] = pre;
+        res[1] = cur;
+        return res;
     }
 }
