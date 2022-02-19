@@ -452,4 +452,36 @@ public class Leetcode_3 {
 
     }
 
+    // 1219. 黄金矿工 (Path with Maximum Gold)
+    private int res1219;
+
+    public int getMaximumGold(int[][] grid) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int m = grid.length;
+        int n = grid[0].length;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] != 0) {
+                    getMaxGold(grid, i, j, directions, 0);
+                }
+            }
+        }
+        return res1219;
+    }
+
+    private void getMaxGold(int[][] grid, int i, int j, int[][] directions, int gold) {
+        gold += grid[i][j];
+        res1219 = Math.max(res1219, gold);
+        int temp = grid[i][j];
+        grid[i][j] = 0;
+        for (int[] direction : directions) {
+            int newI = i + direction[0];
+            int newJ = j + direction[1];
+            if (newI >= 0 && newI < grid.length && newJ >= 0 && newJ < grid[0].length && grid[newI][newJ] != 0) {
+                getMaxGold(grid, i + direction[0], j + direction[1], directions, gold);
+            }
+        }
+        grid[i][j] = temp;
+    }
+
 }
