@@ -399,4 +399,32 @@ public class Leetcode_3 {
         }
     }
 
+    // 2099. 找到和最大的长度为 K 的子序列 (Find Subsequence of Length K With the Largest Sum)
+    public int[] maxSubsequence(int[] nums, int k) {
+        Element[] elements = new Element[nums.length];
+        for (int i = 0; i < elements.length; ++i) {
+            elements[i] = new Element(nums[i], i);
+        }
+        Arrays.sort(elements, (o1, o2) -> o2.val - o1.val);
+
+        Arrays.sort(elements, 0, k, (o1, o2) -> o1.index - o2.index);
+        int[] res = new int[k];
+        for (int i = 0; i < k; ++i) {
+            res[i] = elements[i].val;
+        }
+        return res;
+
+    }
+
+    public class Element {
+        public int val;
+        public int index;
+
+        public Element(int val, int index) {
+            this.val = val;
+            this.index = index;
+        }
+
+    }
+
 }
