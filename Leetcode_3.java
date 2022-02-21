@@ -1,10 +1,14 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
+import java.util.Set;
 
 public class Leetcode_3 {
     public static void main(String[] args) {
@@ -482,6 +486,128 @@ public class Leetcode_3 {
             }
         }
         grid[i][j] = temp;
+    }
+
+    // 2176. 统计数组中相等且可以被整除的数对 (Count Equal and Divisible Pairs in an Array)
+    public int countPairs(int[] nums, int k) {
+        int res = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            for (int j = i + 1; j < nums.length; ++j) {
+                if (nums[i] == nums[j] && ((i * j % k) == 0)) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    public long[] sumOfThree(long num) {
+        long mid = num / 3;
+        if (mid * 3 == num) {
+            return new long[] { mid - 1, mid, mid + 1 };
+        }
+        return new long[] {};
+
+    }
+
+    public List<Long> maximumEvenSplit(long finalSum) {
+        List<Long> res = new ArrayList<>();
+        if (finalSum % 2 == 1) {
+            return res;
+        }
+        res.add(2L);
+        finalSum -= 2;
+        int cur = 4;
+        while (finalSum > 0) {
+            if (finalSum <= res.get(res.size() - 1)) {
+                break;
+            }
+            res.add((long) cur);
+            finalSum -= cur;
+            cur += 2;
+        }
+        res.set(res.size() - 1, res.get(res.size() - 1) + finalSum);
+        return res;
+
+    }
+
+    public int countEven(int num) {
+        int res = 0;
+        for (int i = 1; i <= num; ++i) {
+            if (isEven(i)) {
+                ++res;
+            }
+        }
+        return res;
+    }
+
+    private boolean isEven(int num) {
+        int sum = 0;
+        while (num != 0) {
+            sum += num % 10;
+            num /= 10;
+        }
+        return sum % 2 == 0;
+    }
+
+    public ListNode mergeNodes(ListNode head) {
+        List<Integer> list = new ArrayList<>();
+        ListNode cur = head;
+        cur = cur.next;
+        int sum = 0;
+        while (cur != null) {
+            if (cur.val != 0) {
+                sum += cur.val;
+            } else {
+                list.add(sum);
+                sum = 0;
+            }
+            cur = cur.next;
+        }
+        ListNode newHead = new ListNode(list.get(0));
+        cur = newHead;
+        for (int i = 1; i < list.size(); ++i) {
+            ListNode node = new ListNode(list.get(i));
+            cur.next = node;
+            cur = cur.next;
+        }
+        return newHead;
+
+    }
+
+    public String repeatLimitedString(String s, int repeatLimit) {
+        int[] counts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++counts[c - 'a'];
+        }
+        StringBuilder res = new StringBuilder();
+        int consecutive = 0;
+        boolean falg = false;
+        search: while (true) {
+            falg = false;
+            String cur = res.toString();
+            for (int i = counts.length - 1; i >= 0; --i) {
+                consecutive = 0;
+                while (counts[i] != 0 && consecutive < repeatLimit) {
+                    res.append((char) (i + 'a'));
+                    ++consecutive;
+                    --counts[i];
+                    if (falg) {
+                        continue search;
+                    }
+                }
+                if (!falg) {
+                    falg = true;
+                }
+            }
+
+            if (cur.equals(res.toString())) {
+                break;
+            }
+        }
+        return res.toString();
+
     }
 
 }
