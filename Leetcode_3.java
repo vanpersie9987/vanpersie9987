@@ -553,28 +553,24 @@ public class Leetcode_3 {
         return sum % 2 == 0;
     }
 
+    // 2181. 合并零之间的节点 (Merge Nodes in Between Zeros)
     public ListNode mergeNodes(ListNode head) {
-        List<Integer> list = new ArrayList<>();
+        head = head.next;
+        ListNode res = head;
         ListNode cur = head;
-        cur = cur.next;
         int sum = 0;
         while (cur != null) {
             if (cur.val != 0) {
                 sum += cur.val;
             } else {
-                list.add(sum);
+                head.val = sum;
                 sum = 0;
+                head.next = cur.next;
+                head = head.next;
             }
             cur = cur.next;
         }
-        ListNode newHead = new ListNode(list.get(0));
-        cur = newHead;
-        for (int i = 1; i < list.size(); ++i) {
-            ListNode node = new ListNode(list.get(i));
-            cur.next = node;
-            cur = cur.next;
-        }
-        return newHead;
+        return res;
 
     }
 
