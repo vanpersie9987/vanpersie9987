@@ -519,11 +519,9 @@ public class Leetcode_3 {
         if (finalSum % 2 == 1) {
             return res;
         }
-        res.add(2L);
-        finalSum -= 2;
-        int cur = 4;
+        int cur = 2;
         while (finalSum > 0) {
-            if (finalSum <= res.get(res.size() - 1)) {
+            if (!res.isEmpty() && finalSum <= res.get(res.size() - 1)) {
                 break;
             }
             res.add((long) cur);
