@@ -598,38 +598,46 @@ public class Leetcode_3 {
         }
     }
 
-    // public String repeatLimitedString(String s, int repeatLimit) {
-    // int[] counts = new int[26];
-    // for (char c : s.toCharArray()) {
-    // ++counts[c - 'a'];
-    // }
-    // StringBuilder res = new StringBuilder();
-    // int consecutive = 0;
-    // boolean falg = false;
-    // search: while (true) {
-    // falg = false;
-    // String cur = res.toString();
-    // for (int i = counts.length - 1; i >= 0; --i) {
-    // consecutive = 0;
-    // while (counts[i] != 0 && consecutive < repeatLimit) {
-    // res.append((char) (i + 'a'));
-    // ++consecutive;
-    // --counts[i];
-    // if (falg) {
-    // continue search;
-    // }
-    // }
-    // if (!falg) {
-    // falg = true;
-    // }
-    // }
+    // 2182. 构造限制重复的字符串 (Construct String With Repeat Limit) --贪心
+    public String repeatLimitedString(String s, int repeatLimit) {
+        int[] counts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++counts[c - 'a'];
+        }
+        StringBuilder res = new StringBuilder();
+        for (int i = counts.length - 1; i >= 0; --i) {
+            while (counts[i] > 0) {
+                if (counts[i] <= repeatLimit) {
+                    while (counts[i]-- > 0) {
+                        res.append((char) (i + 'a'));
+                    }
+                    break;
+                } else {
+                    for (int j = 0; j < repeatLimit; ++j) {
+                        res.append((char) (i + 'a'));
+                    }
+                    counts[i] -= repeatLimit;
+                    char c = find2182(counts, i - 1);
+                    if (c == 'X') {
+                        return res.toString();
+                    }
+                    res.append(c);
+                }
+            }
+        }
+        return res.toString();
 
-    // if (cur.equals(res.toString())) {
-    // break;
-    // }
-    // }
-    // return res.toString();
+    }
 
-    // }
+    private char find2182(int[] counts, int i) {
+        while (i >= 0) {
+            if (counts[i] > 0) {
+                --counts[i];
+                return (char) (i + 'a');
+            }
+            --i;
+        }
+        return 'X';
+    }
 
 }
