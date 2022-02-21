@@ -502,6 +502,8 @@ public class Leetcode_3 {
 
     }
 
+    // 2177. 找到和为给定整数的三个连续整数 (Find Three Consecutive Integers That Sum to a Given
+    // Number)
     public long[] sumOfThree(long num) {
         long mid = num / 3;
         if (mid * 3 == num) {
