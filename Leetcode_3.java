@@ -377,32 +377,6 @@ public class Leetcode_3 {
         return res;
     }
 
-    // 382. 链表随机节点 (Linked List Random Node)
-    class Solution {
-        private Random random;
-        private ListNode head;
-
-        public Solution(ListNode head) {
-            this.head = head;
-            random = new Random();
-
-        }
-
-        public int getRandom() {
-            int i = 1;
-            int res = 0;
-            ListNode cur = head;
-            while (cur != null) {
-                if (random.nextInt(i) == 0) {
-                    res = cur.val;
-                }
-                cur = cur.next;
-                ++i;
-            }
-            return res;
-        }
-    }
-
     // 2099. 找到和最大的长度为 K 的子序列 (Find Subsequence of Length K With the Largest Sum)
     public int[] maxSubsequence(int[] nums, int k) {
         Element[] elements = new Element[nums.length];
@@ -573,38 +547,89 @@ public class Leetcode_3 {
 
     }
 
-    public String repeatLimitedString(String s, int repeatLimit) {
-        int[] counts = new int[26];
-        for (char c : s.toCharArray()) {
-            ++counts[c - 'a'];
+    // 382. 链表随机节点 (Linked List Random Node) --水塘抽样
+    class Solution {
+        private Random random;
+        private ListNode head;
+
+        public Solution(ListNode head) {
+            this.head = head;
+            random = new Random();
+
         }
-        StringBuilder res = new StringBuilder();
-        int consecutive = 0;
-        boolean falg = false;
-        search: while (true) {
-            falg = false;
-            String cur = res.toString();
-            for (int i = counts.length - 1; i >= 0; --i) {
-                consecutive = 0;
-                while (counts[i] != 0 && consecutive < repeatLimit) {
-                    res.append((char) (i + 'a'));
-                    ++consecutive;
-                    --counts[i];
-                    if (falg) {
-                        continue search;
+
+        public int getRandom() {
+            int i = 1;
+            int res = 0;
+            ListNode cur = head;
+            while (cur != null) {
+                if (random.nextInt(i) == 0) {
+                    res = cur.val;
+                }
+                cur = cur.next;
+                ++i;
+            }
+            return res;
+        }
+    }
+
+    // 398. 随机数索引 (Random Pick Index) --水塘抽样
+    class Solution398 {
+        private Random random;
+        private int[] nums;
+
+        public Solution398(int[] nums) {
+            this.nums = nums;
+            this.random = new Random();
+        }
+
+        public int pick(int target) {
+            int res = 0;
+            int count = 0;
+            for (int i = 0; i < nums.length; ++i) {
+                if (nums[i] == target) {
+                    ++count;
+                    if (random.nextInt(count) == 0) {
+                        res = i;
                     }
                 }
-                if (!falg) {
-                    falg = true;
-                }
             }
-
-            if (cur.equals(res.toString())) {
-                break;
-            }
+            return res;
         }
-        return res.toString();
-
     }
+
+    // public String repeatLimitedString(String s, int repeatLimit) {
+    // int[] counts = new int[26];
+    // for (char c : s.toCharArray()) {
+    // ++counts[c - 'a'];
+    // }
+    // StringBuilder res = new StringBuilder();
+    // int consecutive = 0;
+    // boolean falg = false;
+    // search: while (true) {
+    // falg = false;
+    // String cur = res.toString();
+    // for (int i = counts.length - 1; i >= 0; --i) {
+    // consecutive = 0;
+    // while (counts[i] != 0 && consecutive < repeatLimit) {
+    // res.append((char) (i + 'a'));
+    // ++consecutive;
+    // --counts[i];
+    // if (falg) {
+    // continue search;
+    // }
+    // }
+    // if (!falg) {
+    // falg = true;
+    // }
+    // }
+
+    // if (cur.equals(res.toString())) {
+    // break;
+    // }
+    // }
+    // return res.toString();
+
+    // }
 
 }
