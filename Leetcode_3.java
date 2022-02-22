@@ -789,4 +789,38 @@ public class Leetcode_3 {
         return -1;
     }
 
+    // 1162. 地图分析 (As Far from Land as Possible) --图的bfs
+    public int maxDistance2(int[][] grid) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int n = grid.length;
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    queue.offer(new int[] { i, j });
+                }
+            }
+        }
+        boolean hasOcean = false;
+        int[] f = null;
+        while (!queue.isEmpty()) {
+            f = queue.poll();
+            for (int[] direction : directions) {
+                int nx = f[0] + direction[0];
+                int ny = f[1] + direction[1];
+                if (nx < 0 || nx >= n || ny < 0 || ny >= n || grid[nx][ny] != 0) {
+                    continue;
+                }
+                hasOcean = true;
+                grid[nx][ny] = grid[f[0]][f[1]] + 1;
+                queue.offer(new int[] { nx, ny });
+            }
+        }
+        if (!hasOcean || f == null) {
+            return -1;
+        }
+        return grid[f[0]][f[1]] - 1;
+
+    }
+
 }
