@@ -643,7 +643,6 @@ public class Leetcode_3 {
     }
 
     // 199. 二叉树的右视图 (Binary Tree Right Side View) --广度优先 bfs
-    // --还需掌握dfs
     public List<Integer> rightSideView(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         if (root == null) {
@@ -668,6 +667,27 @@ public class Leetcode_3 {
         }
         return res;
 
+    }
+
+    // 199. 二叉树的右视图 (Binary Tree Right Side View) --深度优先 dfs
+    private List<Integer> res199;
+
+    public List<Integer> rightSideView2(TreeNode root) {
+        res199 = new ArrayList<>();
+        dfs199(root, 0);
+        return res199;
+    }
+
+    private void dfs199(TreeNode root, int depth) {
+        if (root == null) {
+            return;
+        }
+        if (res199.size() == depth) {
+            res199.add(root.val);
+        }
+        ++depth;
+        dfs199(root.right, depth);
+        dfs199(root.left, depth);
     }
 
 }
