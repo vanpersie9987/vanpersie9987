@@ -719,4 +719,18 @@ public class Leetcode_3 {
 
     }
 
+    // 965. 单值二叉树 (Univalued Binary Tree) --递归
+    public boolean isUnivalTree2(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        if (root.left != null && root.left.val != root.val) {
+            return false;
+        }
+        if (root.right != null && root.right.val != root.val) {
+            return false;
+        }
+        return isUnivalTree2(root.left) && isUnivalTree2(root.right);
+    }
+
 }
