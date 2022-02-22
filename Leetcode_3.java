@@ -733,4 +733,18 @@ public class Leetcode_3 {
         return isUnivalTree2(root.left) && isUnivalTree2(root.right);
     }
 
+    // 面试题 08.06. 汉诺塔问题 (Hanota LCCI)
+    public void hanota(List<Integer> A, List<Integer> B, List<Integer> C) {
+        getHanota(A, B, C, A.size());
+    }
+
+    private void getHanota(List<Integer> a, List<Integer> b, List<Integer> c, int n) {
+        if (n == 0) {
+            return;
+        }
+        getHanota(a, c, b, n - 1);
+        c.add(a.remove(a.size() - 1));
+        getHanota(b, a, c, n - 1);
+    }
+
 }
