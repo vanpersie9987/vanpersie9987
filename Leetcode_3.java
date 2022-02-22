@@ -10,6 +10,8 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
+import apple.laf.JRSUIUtils.Tree;
+
 public class Leetcode_3 {
     public static void main(String[] args) {
 
@@ -638,6 +640,34 @@ public class Leetcode_3 {
             --i;
         }
         return 'X';
+    }
+
+    // 199. 二叉树的右视图 (Binary Tree Right Side View) --广度优先 bfs
+    // --还需掌握dfs
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                TreeNode cur = queue.poll();
+                if (i == size - 1) {
+                    res.add(cur.val);
+                }
+                if (cur.left != null) {
+                    queue.offer(cur.left);
+                }
+                if (cur.right != null) {
+                    queue.offer(cur.right);
+                }
+            }
+        }
+        return res;
+
     }
 
 }
