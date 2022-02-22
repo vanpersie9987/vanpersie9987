@@ -747,4 +747,46 @@ public class Leetcode_3 {
         getHanota(b, a, c, n - 1);
     }
 
+    // 1162. 地图分析 (As Far from Land as Possible) --bfs 超时
+    public int maxDistance(int[][] grid) {
+        int res = -1;
+        int[][] directions = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+        int n = grid.length;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 0) {
+                    res = Math.max(res, getMax1162(grid, directions, i, j));
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int getMax1162(int[][] grid, int[][] directions, int i, int j) {
+        int n = grid.length;
+        boolean[][] visited = new boolean[n][n];
+        visited[i][j] = true;
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] { i, j, 0 });
+        while (!queue.isEmpty()) {
+            int[] f = queue.poll();
+            for (int[] direction : directions) {
+                int nx = direction[0] + f[0];
+                int ny = direction[1] + f[1];
+                if (nx < 0 || nx >= n || ny < 0 || ny >= n) {
+                    continue;
+                }
+                if (!visited[nx][ny]) {
+                    visited[nx][ny] = true;
+                    queue.offer(new int[] { nx, ny, f[2] + 1 });
+                    if (grid[nx][ny] == 1) {
+                        return f[2] + 1;
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
 }
