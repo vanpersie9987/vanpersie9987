@@ -688,4 +688,35 @@ public class Leetcode_3 {
         dfs199(root.left, depth);
     }
 
+    // 965. 单值二叉树 (Univalued Binary Tree) --莫里斯+中序遍历
+    public boolean isUnivalTree(TreeNode root) {
+        TreeNode pre = null;
+        int uniVal = root.val;
+        while (root != null) {
+            if (root.left != null) {
+                pre = root.left;
+                while (pre.right != null && pre.right != root) {
+                    pre = pre.right;
+                }
+                if (pre.right == null) {
+                    pre.right = root;
+                    root = root.left;
+                } else {
+                    pre.right = null;
+                    if (root.val != uniVal) {
+                        return false;
+                    }
+                    root = root.right;
+                }
+            } else {
+                if (root.val != uniVal) {
+                    return false;
+                }
+                root = root.right;
+            }
+        }
+        return true;
+
+    }
+
 }
