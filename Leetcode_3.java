@@ -823,4 +823,30 @@ public class Leetcode_3 {
 
     }
 
+    // 1302. 层数最深叶子节点的和 (Deepest Leaves Sum) --bfs
+    public int deepestLeavesSum(TreeNode root) {
+        int res = 0;
+        if (root == null) {
+            return res;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            res = 0;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = queue.poll();
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+                res += node.val;
+            }
+        }
+        return res;
+
+    }
+
 }
