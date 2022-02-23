@@ -915,4 +915,56 @@ public class Leetcode_3 {
 
     }
 
+    // 257. 二叉树的所有路径 (Binary Tree Paths) --深度优先dfs
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> res = new ArrayList<>();
+        dfs257(root, "", res);
+        return res;
+
+    }
+
+    private void dfs257(TreeNode root, String path, List<String> paths) {
+        if (root == null) {
+            return;
+        }
+        StringBuilder sb = new StringBuilder(path);
+        sb.append(root.val);
+        if (root.left == null && root.right == null) {
+            paths.add(sb.toString());
+            return;
+        }
+        sb.append("->");
+        dfs257(root.left, sb.toString(), paths);
+        dfs257(root.right, sb.toString(), paths);
+    }
+
+    // 257. 二叉树的所有路径 (Binary Tree Paths) --广度优先bfs
+    public List<String> binaryTreePaths2(TreeNode root) {
+        List<String> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        Queue<String> path = new LinkedList<>();
+        queue.offer(root);
+        path.offer(String.valueOf(root.val));
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            String string = path.poll();
+            if (node.left == null && node.right == null) {
+                res.add(string);
+            }
+            if (node.left != null) {
+                queue.offer(node.left);
+                path.offer(string + "->" + node.left.val);
+            }
+            if (node.right != null) {
+                queue.offer(node.right);
+                path.offer(string + "->" + node.right.val);
+            }
+        }
+        return res;
+
+    }
+
 }
