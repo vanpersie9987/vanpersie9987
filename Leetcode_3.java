@@ -872,4 +872,47 @@ public class Leetcode_3 {
         dfs1302(root.right, depth + 1);
     }
 
+    // 112. 路径总和 (Path Sum) --bfs
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if (root == null) {
+            return false;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        Queue<Integer> queueVal = new LinkedList<>();
+        queue.offer(root);
+        queueVal.offer(root.val);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            int val = queueVal.poll();
+            if (node.left == null && node.right == null) {
+                if (targetSum == val) {
+                    return true;
+                }
+                continue;
+            }
+            if (node.left != null) {
+                queue.offer(node.left);
+                queueVal.offer(val + node.left.val);
+            }
+            if (node.right != null) {
+                queue.offer(node.right);
+                queueVal.offer(val + node.right.val);
+            }
+        }
+        return false;
+
+    }
+
+    // 112. 路径总和 (Path Sum) --dfs
+    public boolean hasPathSum2(TreeNode root, int targetSum) {
+        if (root == null) {
+            return false;
+        }
+        if (root.left == null && root.right == null) {
+            return targetSum == root.val;
+        }
+        return hasPathSum2(root.left, targetSum - root.val) || hasPathSum2(root.right, targetSum - root.val);
+
+    }
+
 }
