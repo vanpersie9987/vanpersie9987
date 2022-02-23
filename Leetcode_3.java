@@ -849,4 +849,27 @@ public class Leetcode_3 {
 
     }
 
+    // 1302. 层数最深叶子节点的和 (Deepest Leaves Sum) --dfs
+    private int maxDepth1302 = -1;
+    private int res1302;
+
+    public int deepestLeavesSum2(TreeNode root) {
+        dfs1302(root, 0);
+        return res1302;
+    }
+
+    private void dfs1302(TreeNode root, int depth) {
+        if (root == null) {
+            return;
+        }
+        if (depth > maxDepth1302) {
+            maxDepth1302 = depth;
+            res1302 = root.val;
+        } else if (depth == maxDepth1302) {
+            res1302 += root.val;
+        }
+        dfs1302(root.left, depth + 1);
+        dfs1302(root.right, depth + 1);
+    }
+
 }
