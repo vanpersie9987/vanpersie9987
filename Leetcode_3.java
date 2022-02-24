@@ -1426,7 +1426,8 @@ public class Leetcode_3 {
         }
     }
 
-    // 1940. 排序数组之间的最长公共子序列 (Longest Common Subsequence Between Sorted Arrays) --计数
+    // 1940. 排序数组之间的最长公共子序列 (Longest Common Subsequence Between Sorted Arrays)
+    // --plus 计数
     public List<Integer> longestCommonSubsequence(int[][] arrays) {
         List<Integer> res = new ArrayList<>();
         int n = arrays.length;
@@ -1442,6 +1443,31 @@ public class Leetcode_3 {
             }
         }
         return res;
+
+    }
+
+    // 1602. 找到二叉树中最近的右侧节点 (Find Nearest Right Node in Binary Tree) --plus bfs
+    public TreeNode findNearestRightNode(TreeNode root, TreeNode u) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            TreeNode pre = null;
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = queue.poll();
+                if (pre != null && pre == u) {
+                    return node;
+                }
+                pre = node;
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+        }
+        return null;
 
     }
 
