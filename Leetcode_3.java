@@ -1112,4 +1112,25 @@ public class Leetcode_3 {
 
     }
 
+    // 1165. 单行键盘 (Single-Row Keyboard) --哈希表
+    public int calculateTime(String keyboard, String word) {
+        int res = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        char[] keyboardChars = keyboard.toCharArray();
+        for (int i = 0; i < keyboardChars.length; ++i) {
+            map.put(keyboardChars[i], i);
+        }
+        char pre = 'X';
+        for (char c : word.toCharArray()) {
+            if (pre == 'X') {
+                res += map.get(c);
+            } else {
+                res += Math.abs(map.get(c) - map.get(pre));
+            }
+            pre = c;
+        }
+        return res;
+
+    }
+
 }
