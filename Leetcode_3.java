@@ -9,6 +9,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
+import java.util.TreeMap;
 
 import apple.laf.JRSUIUtils.Tree;
 
@@ -1264,7 +1265,7 @@ public class Leetcode_3 {
 
     }
 
-    // 1213. 三个有序数组的交集 (Intersection of Three Sorted Arrays) --三指针 贪心
+    // 1213. 三个有序数组的交集 (Intersection of Three Sorted Arrays) --plus 三指针+贪心
     public List<Integer> arraysIntersection(int[] arr1, int[] arr2, int[] arr3) {
         List<Integer> res = new ArrayList<>();
         int n = Math.min(Math.min(arr1.length, arr2.length), arr3.length);
@@ -1292,6 +1293,26 @@ public class Leetcode_3 {
         }
         return res;
 
+    }
+
+    // 366. Find Leaves of Binary Tree --plus dfs后序遍历
+    private Map<Integer, List<Integer>> res366;
+
+    public List<List<Integer>> findLeaves(TreeNode root) {
+        res366 = new TreeMap<>();
+        dfs366(root);
+        return new ArrayList<>(res366.values());
+    }
+
+    private int dfs366(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = dfs366(root.left);
+        int right = dfs366(root.right);
+        int max = Math.max(left, right) + 1;
+        res366.computeIfAbsent(max, k -> new LinkedList<>()).add(root.val);
+        return max;
     }
 
 }
