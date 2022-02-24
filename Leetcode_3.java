@@ -1098,4 +1098,18 @@ public class Leetcode_3 {
         return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
     }
 
+    // 1874. 两个数组的最小乘积和 (Minimize Product Sum of Two Arrays) --plus
+    public int minProductSum(int[] nums1, int[] nums2) {
+        int res = 0;
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        int i = 0;
+        while (i < nums1.length) {
+            res += nums1[i] * nums2[nums2.length - i - 1];
+            ++i;
+        }
+        return res;
+
+    }
+
 }
