@@ -1000,4 +1000,28 @@ public class Leetcode_3 {
 
     }
 
+    // 298. 二叉树最长连续序列 (Binary Tree Longest Consecutive Sequence) --dfs
+    private int res298;
+
+    public int longestConsecutive(TreeNode root) {
+        dfs298(root, root.val, 0);
+        return res298;
+
+    }
+
+    private void dfs298(TreeNode root, int longestConsecutive, int cur) {
+        if (root == null) {
+            return;
+        }
+        if (root.val == longestConsecutive) {
+            res298 = Math.max(res298, ++cur);
+        } else {
+            cur = 0;
+            longestConsecutive = root.val;
+        }
+        dfs298(root.left, longestConsecutive + 1, cur);
+        dfs298(root.right, longestConsecutive + 1, cur);
+
+    }
+
 }
