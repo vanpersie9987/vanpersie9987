@@ -1426,4 +1426,23 @@ public class Leetcode_3 {
         }
     }
 
+    // 1940. 排序数组之间的最长公共子序列 (Longest Common Subsequence Between Sorted Arrays) --计数
+    public List<Integer> longestCommonSubsequence(int[][] arrays) {
+        List<Integer> res = new ArrayList<>();
+        int n = arrays.length;
+        int[] counts = new int[101];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < arrays[i].length; ++j) {
+                ++counts[arrays[i][j]];
+            }
+        }
+        for (int i = 1; i < counts.length; ++i) {
+            if (counts[i] == n) {
+                res.add(i);
+            }
+        }
+        return res;
+
+    }
+
 }
