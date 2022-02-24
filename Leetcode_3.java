@@ -1530,4 +1530,24 @@ public class Leetcode_3 {
         return dummy.next;
     }
 
+    // 2046. 给按照绝对值排序的链表排序 (Sort Linked List Already Sorted Using Absolute Values)
+    // --plus
+    public ListNode sortLinkedList(ListNode head) {
+        ListNode pre = head;
+        ListNode cur = head.next;
+        while (cur != null) {
+            if (cur.val >= 0) {
+                cur = cur.next;
+                pre = pre.next;
+            } else {
+                pre.next = cur.next;
+                cur.next = head;
+                head = cur;
+                cur = pre.next;
+            }
+        }
+        return head;
+
+    }
+
 }
