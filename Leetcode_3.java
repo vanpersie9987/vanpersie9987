@@ -1315,7 +1315,7 @@ public class Leetcode_3 {
         return max;
     }
 
-    // 1180. 统计只含单一字母的子串 (Count Substrings with Only One Distinct Letter)
+    // 1180. 统计只含单一字母的子串 (Count Substrings with Only One Distinct Letter) --plus
     public int countLetters(String s) {
         int res = 1;
         int count = 1;
