@@ -1063,4 +1063,39 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 250. 统计同值子树 (Count Univalue Subtrees)
+    private int res250;
+
+    public int countUnivalSubtrees(TreeNode root) {
+        dfs250(root, 0);
+        return res250;
+    }
+
+    private boolean dfs250(TreeNode root, int val) {
+        if (root == null) {
+            return true;
+        }
+        if (!dfs250(root.left, root.val) | !dfs250(root.right, root.val)) {
+            return false;
+        }
+        ++res250;
+        return root.val == val;
+    }
+
+    // 1119. 删去字符串中的元音 (Remove Vowels from a String) -- plus
+    public String removeVowels(String s) {
+        StringBuilder res = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (!isVowel(c)) {
+                res.append(c);
+            }
+        }
+        return res.toString();
+
+    }
+
+    private boolean isVowel(char c) {
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+    }
+
 }
