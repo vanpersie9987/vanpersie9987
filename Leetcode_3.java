@@ -1315,4 +1315,21 @@ public class Leetcode_3 {
         return max;
     }
 
+    // 1180. 统计只含单一字母的子串 (Count Substrings with Only One Distinct Letter)
+    public int countLetters(String s) {
+        int res = 1;
+        int count = 1;
+        char[] chars = s.toCharArray();
+        for (int i = 1; i < chars.length; ++i) {
+            if (chars[i] == chars[i - 1]) {
+                ++count;
+            } else {
+                count = 1;
+            }
+            res += count;
+        }
+        return res;
+
+    }
+
 }
