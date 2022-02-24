@@ -1356,4 +1356,35 @@ public class Leetcode_3 {
 
     }
 
+    // 186. 翻转字符串里的单词 II (Reverse Words in a String II) --plus 双指针
+    public void reverseWords(char[] s) {
+        int left = 0;
+        int right = s.length - 1;
+        while (left < right) {
+            char c = s[left];
+            s[left] = s[right];
+            s[right] = c;
+            ++left;
+            --right;
+        }
+        left = 0;
+        right = 0;
+        while (right < s.length) {
+            while (right < s.length && s[right] != ' ') {
+                ++right;
+            }
+            int curRight = right - 1;
+            while (left < curRight) {
+                char c = s[left];
+                s[left] = s[curRight];
+                s[curRight] = c;
+                ++left;
+                --curRight;
+            }
+            left = right + 1;
+            right = right + 1;
+        }
+
+    }
+
 }
