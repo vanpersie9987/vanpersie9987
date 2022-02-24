@@ -967,4 +967,37 @@ public class Leetcode_3 {
 
     }
 
+    // 314. 二叉树的垂直遍历 (Binary Tree Vertical Order Traversal) --plus
+    public List<List<Integer>> verticalOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        int minPos = Integer.MAX_VALUE;
+        Queue<TreeNode> queue = new LinkedList<>();
+        Queue<Integer> queuePos = new LinkedList<>();
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        queue.offer(root);
+        queuePos.offer(0);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            int pos = queuePos.poll();
+            map.computeIfAbsent(pos, k -> new LinkedList<>()).add(node.val);
+            minPos = Math.min(minPos, pos);
+            if (node.left != null) {
+                queue.offer(node.left);
+                queuePos.offer(pos - 1);
+            }
+            if (node.right != null) {
+                queue.offer(node.right);
+                queuePos.offer(pos + 1);
+            }
+        }
+        for (int i = minPos; i < minPos + map.size(); ++i) {
+            res.add(map.get(i));
+        }
+        return res;
+
+    }
+
 }
