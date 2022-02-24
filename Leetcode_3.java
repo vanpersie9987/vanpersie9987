@@ -1344,4 +1344,16 @@ public class Leetcode_3 {
 
     }
 
+    // 1085. 最小元素各数位之和 (Sum of Digits in the Minimum Number) --plus 模拟
+    public int sumOfDigits(int[] nums) {
+        int min = Arrays.stream(nums).min().getAsInt();
+        int sum = 0;
+        while (min != 0) {
+            sum += min % 10;
+            min /= 10;
+        }
+        return 1 - sum % 2;
+
+    }
+
 }
