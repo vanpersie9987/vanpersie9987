@@ -1330,4 +1330,18 @@ public class Leetcode_3 {
 
     }
 
+    // 1134. 阿姆斯特朗数 (Armstrong Number) --plus 模拟
+    public boolean isArmstrong(int n) {
+        int bit = (int) (Math.log(n) / Math.log(10)) + 1;
+        int num = n;
+        int cur = 0;
+        while (num != 0) {
+            int val = num % 10;
+            cur += Math.pow(val, bit);
+            num /= 10;
+        }
+        return cur == n;
+
+    }
+
 }
