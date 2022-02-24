@@ -10,6 +10,8 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
+import apple.laf.JRSUIUtils.Tree;
+
 public class Leetcode_3 {
     public static void main(String[] args) {
 
@@ -1193,6 +1195,53 @@ public class Leetcode_3 {
             res.add(root.right.val);
             dfs1469(root.right, res);
         }
+    }
+
+    // 513. 找树左下角的值 (Find Bottom Left Tree Value)
+    // 剑指 Offer II 045. 二叉树最底层最左边的值 --dfs plus
+    private int res513;
+    private int maxDepth = -1;
+
+    public int findBottomLeftValue(TreeNode root) {
+        dfs513(root, 0);
+        return res513;
+    }
+
+    private void dfs513(TreeNode root, int depth) {
+        if (root == null) {
+            return;
+        }
+        if (depth > maxDepth) {
+            maxDepth = depth;
+            res513 = root.val;
+        }
+        dfs513(root.left, depth + 1);
+        dfs513(root.right, depth + 1);
+    }
+
+    // 513. 找树左下角的值 (Find Bottom Left Tree Value)
+    // 剑指 Offer II 045. 二叉树最底层最左边的值 --bfs plus
+    public int findBottomLeftValue2(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        int res = 0;
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = queue.poll();
+                if (i == 0) {
+                    res = node.val;
+                }
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+        }
+        return res;
+
     }
 
 }
