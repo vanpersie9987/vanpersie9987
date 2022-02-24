@@ -1505,4 +1505,29 @@ public class Leetcode_3 {
         return -1;
     }
 
+    // 1836. 从未排序的链表中移除重复元素 (Remove Duplicates From an Unsorted Linked List)
+    public ListNode deleteDuplicatesUnsorted(ListNode head) {
+        ListNode dummy = new ListNode(0, head);
+        ListNode cur = head;
+        Map<Integer, Integer> map = new HashMap<>();
+        while (cur != null) {
+            map.put(cur.val, map.getOrDefault(cur.val, 0) + 1);
+            cur = cur.next;
+        }
+        Set<Integer> set = new HashSet<>();
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (entry.getValue() > 1) {
+                set.add(entry.getKey());
+            }
+        }
+        cur = dummy;
+        while (cur != null) {
+            while (cur.next != null && set.contains(cur.next.val)) {
+                cur.next = cur.next.next;
+            }
+            cur = cur.next;
+        }
+        return dummy.next;
+    }
+
 }
