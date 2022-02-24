@@ -1264,4 +1264,34 @@ public class Leetcode_3 {
 
     }
 
+    // 1213. 三个有序数组的交集 (Intersection of Three Sorted Arrays) --三指针 贪心
+    public List<Integer> arraysIntersection(int[] arr1, int[] arr2, int[] arr3) {
+        List<Integer> res = new ArrayList<>();
+        int n = Math.min(Math.min(arr1.length, arr2.length), arr3.length);
+        int i = 0;
+        int j = 0;
+        int k = 0;
+        while (i < n && j < n && k < n) {
+            if (arr1[i] == arr2[j] && arr2[j] == arr3[k]) {
+                res.add(arr1[i]);
+                ++i;
+                ++j;
+                ++k;
+            } else {
+                int max = Math.max(Math.max(arr1[i], arr2[j]), arr3[k]);
+                if (arr1[i] < max) {
+                    ++i;
+                }
+                if (arr2[j] < max) {
+                    ++j;
+                }
+                if (arr3[k] < max) {
+                    ++k;
+                }
+            }
+        }
+        return res;
+
+    }
+
 }
