@@ -1471,7 +1471,7 @@ public class Leetcode_3 {
 
     }
 
-    // 370. 区间加法 (Range Addition) --差分数组
+    // 370. 区间加法 (Range Addition) --plus 差分数组
     public int[] getModifiedArray(int length, int[][] updates) {
         int[] diff = new int[length];
         for (int[] update : updates) {
@@ -1487,7 +1487,7 @@ public class Leetcode_3 {
 
     }
 
-    // 1198. 找出所有行中最小公共元素 (Find Smallest Common Element in All Rows)
+    // 1198. 找出所有行中最小公共元素 (Find Smallest Common Element in All Rows) --plus
     public int smallestCommonElement(int[][] mat) {
         int[] counts = new int[10001];
         int m = mat.length;
