@@ -1244,4 +1244,24 @@ public class Leetcode_3 {
 
     }
 
+    class Node {
+        public int val;
+        public Node left;
+        public Node right;
+        public Node parent;
+    };
+
+    // 1650. 二叉树的最近公共祖先 III (Lowest Common Ancestor of a Binary Tree III) --plus
+    // 类似于找链表公共节点
+    public Node lowestCommonAncestor(Node p, Node q) {
+        Node curP = p;
+        Node curQ = q;
+        while (curP != curQ) {
+            curP = curP == null ? q : curP.parent;
+            curQ = curQ == null ? p : curQ.parent;
+        }
+        return curP;
+
+    }
+
 }
