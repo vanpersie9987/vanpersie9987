@@ -1487,4 +1487,22 @@ public class Leetcode_3 {
 
     }
 
+    // 1198. 找出所有行中最小公共元素 (Find Smallest Common Element in All Rows)
+    public int smallestCommonElement(int[][] mat) {
+        int[] counts = new int[10001];
+        int m = mat.length;
+        int n = mat[0].length;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                ++counts[mat[i][j]];
+            }
+        }
+        for (int i = 1; i < counts.length; ++i) {
+            if (counts[i] == m) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 }
