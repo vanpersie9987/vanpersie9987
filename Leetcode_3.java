@@ -1471,4 +1471,20 @@ public class Leetcode_3 {
 
     }
 
+    // 370. 区间加法 (Range Addition) --差分数组
+    public int[] getModifiedArray(int length, int[][] updates) {
+        int[] diff = new int[length];
+        for (int[] update : updates) {
+            diff[update[0]] += update[2];
+            if (update[1] + 1 < length) {
+                diff[update[1] + 1] -= update[2];
+            }
+        }
+        for (int i = 1; i < diff.length; ++i) {
+            diff[i] += diff[i - 1];
+        }
+        return diff;
+
+    }
+
 }
