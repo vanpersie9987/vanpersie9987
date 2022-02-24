@@ -1387,4 +1387,43 @@ public class Leetcode_3 {
 
     }
 
+    // 281. 锯齿迭代器 (Zigzag Iterator) --模拟
+    // 扩展：K路输入？
+    public class ZigzagIterator {
+        private List<Integer> v1;
+        private List<Integer> v2;
+        private int index1;
+        private int index2;
+        private boolean takeFromV1;
+
+        public ZigzagIterator(List<Integer> v1, List<Integer> v2) {
+            this.v1 = v1;
+            this.v2 = v2;
+            this.takeFromV1 = true;
+        }
+
+        public int next() {
+            if (hasNext()) {
+                if (index1 < v1.size() && index2 < v2.size()) {
+                    if (takeFromV1) {
+                        takeFromV1 = false;
+                        return v1.get(index1++);
+                    } else {
+                        takeFromV1 = true;
+                        return v2.get(index2++);
+                    }
+                } else if (index1 < v1.size()) {
+                    return v1.get(index1++);
+                } else {
+                    return v2.get(index2++);
+                }
+            }
+            return -1;
+        }
+
+        public boolean hasNext() {
+            return index1 < v1.size() || index2 < v2.size();
+        }
+    }
+
 }
