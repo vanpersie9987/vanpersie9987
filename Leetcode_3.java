@@ -1024,4 +1024,43 @@ public class Leetcode_3 {
 
     }
 
+    // 298. 二叉树最长连续序列 (Binary Tree Longest Consecutive Sequence) --bfs
+    public int longestConsecutive2(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int res = 1;
+        Queue<TreeNode> queue = new LinkedList<>();
+        Queue<Integer> queueConsective = new LinkedList<>();
+        queue.offer(root);
+        queueConsective.offer(1);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            int val = queueConsective.poll();
+            int temp = val;
+            if (node.left != null) {
+                if (node.left.val == node.val + 1) {
+                    ++temp;
+                } else {
+                    temp = 1;
+                }
+                res = Math.max(res, temp);
+                queueConsective.offer(temp);
+                queue.offer(node.left);
+            }
+            temp = val;
+            if (node.right != null) {
+                if (node.right.val == node.val + 1) {
+                    ++temp;
+                } else {
+                    temp = 1;
+                }
+                res = Math.max(res, temp);
+                queueConsective.offer(temp);
+                queue.offer(node.right);
+            }
+        }
+        return res;
+    }
+
 }
