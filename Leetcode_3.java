@@ -1505,7 +1505,7 @@ public class Leetcode_3 {
         return -1;
     }
 
-    // 1836. 从未排序的链表中移除重复元素 (Remove Duplicates From an Unsorted Linked List)
+    // 1836. 从未排序的链表中移除重复元素 (Remove Duplicates From an Unsorted Linked List) --plus
     public ListNode deleteDuplicatesUnsorted(ListNode head) {
         ListNode dummy = new ListNode(0, head);
         ListNode cur = head;
