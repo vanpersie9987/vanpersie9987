@@ -1112,7 +1112,7 @@ public class Leetcode_3 {
 
     }
 
-    // 1165. 单行键盘 (Single-Row Keyboard) --哈希表
+    // 1165. 单行键盘 (Single-Row Keyboard) --哈希表 plus
     public int calculateTime(String keyboard, String word) {
         int res = 0;
         Map<Character, Integer> map = new HashMap<>();
@@ -1131,6 +1131,68 @@ public class Leetcode_3 {
         }
         return res;
 
+    }
+
+    // 760. 找出变位映射 (Find Anagram Mappings) --plus
+    public int[] anagramMappings(int[] nums1, int[] nums2) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < nums2.length; ++i) {
+            map.computeIfAbsent(nums2[i], k -> new LinkedList<>()).add(i);
+        }
+        int[] res = new int[nums1.length];
+        for (int i = 0; i < nums1.length; ++i) {
+            List<Integer> list = map.get(nums1[i]);
+            res[i] = list.remove(0);
+        }
+        return res;
+
+    }
+
+    // 1469. 寻找所有的独生节点 (Find All The Lonely Nodes) --plus bfs
+    public List<Integer> getLonelyNodes(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node.left != null && node.right != null) {
+                queue.offer(node.left);
+                queue.offer(node.right);
+            } else if (node.left != null) {
+                res.add(node.left.val);
+                queue.offer(node.left);
+            } else if (node.right != null) {
+                res.add(node.right.val);
+                queue.offer(node.right);
+            }
+        }
+        return res;
+    }
+
+    // 1469. 寻找所有的独生节点 (Find All The Lonely Nodes) --plus dfs
+    public List<Integer> getLonelyNodes2(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        dfs1469(root, res);
+        return res;
+    }
+
+    private void dfs1469(TreeNode root, List<Integer> res) {
+        if (root == null) {
+            return;
+        }
+        if (root.left != null && root.right != null) {
+            dfs1469(root.left, res);
+            dfs1469(root.right, res);
+        } else if (root.left != null) {
+            res.add(root.left.val);
+            dfs1469(root.left, res);
+        } else if (root.right != null) {
+            res.add(root.right.val);
+            dfs1469(root.right, res);
+        }
     }
 
 }
