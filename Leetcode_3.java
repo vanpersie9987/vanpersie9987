@@ -1651,6 +1651,35 @@ public class Leetcode_3 {
 
     }
 
+    // 348. 设计井字棋 (Design Tic-Tac-Toe) --plus
+    class TicTacToe {
+        private int[][] counts;
+        private int n;
+
+        public TicTacToe(int n) {
+            this.counts = new int[2][2 * n + 2];
+            this.n = n;
+        }
+
+        public int move(int row, int col, int player) {
+            ++counts[player - 1][row];
+            ++counts[player - 1][n + col];
+            if (row == col) {
+                ++counts[player - 1][2 * n];
+            }
+            if (row + col == n - 1) {
+                ++counts[player - 1][2 * n + 1];
+            }
+            if (counts[player - 1][row] == n
+                    || counts[player - 1][n + col] == n
+                    || counts[player - 1][2 * n] == n
+                    || counts[player - 1][2 * n + 1] == n) {
+                return player;
+            }
+            return 0;
+        }
+    }
+
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
