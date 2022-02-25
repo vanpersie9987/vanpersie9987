@@ -1636,4 +1636,25 @@ public class Leetcode_3 {
         return counts;
     }
 
+    // 1708. 长度为 K 的最大子数组 (Largest Subarray Length K) --plus
+    // 元素不重复
+    public int[] largestSubarray(int[] nums, int k) {
+        int maxIndex = 0;
+        int maxNum = 0;
+        for (int i = 0; i < nums.length - k + 1; ++i) {
+            if (nums[i] > maxNum) {
+                maxIndex = i;
+                maxNum = nums[i];
+            }
+        }
+        return Arrays.copyOfRange(nums, maxIndex, maxIndex + k);
+
+    }
+
+    // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
+    // 剑指 Offer II 047. 二叉树剪枝
+    // public TreeNode pruneTree(TreeNode root) {
+
+    // }
+
 }
