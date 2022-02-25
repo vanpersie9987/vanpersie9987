@@ -1572,4 +1572,68 @@ public class Leetcode_3 {
 
     }
 
+    class Node2 {
+        char val;
+        Node2 left;
+        Node2 right;
+
+        Node2() {
+            this.val = ' ';
+        }
+
+        Node2(char val) {
+            this.val = val;
+        }
+
+        Node2(char val, Node2 left, Node2 right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    // 1612. 检查两棵二叉表达式树是否等价 (Check If Two Expression Trees are Equivalent) --plus
+    // dfs 莫里斯中序遍历
+    public boolean checkEquivalence(Node2 root1, Node2 root2) {
+        int[] counts1 = getResult1612(root1);
+        int[] counts2 = getResult1612(root2);
+        return Arrays.equals(counts1, counts2);
+
+    }
+
+    private int[] getResult1612(Node2 root) {
+        int[] counts = new int[26];
+        int sign = 1;
+        Node2 pre = null;
+        while (root != null) {
+            if (root.left != null) {
+                pre = root.left;
+                while (pre.right != null && pre.right != root) {
+                    pre = pre.right;
+                }
+                if (pre.right == null) {
+                    pre.right = root;
+                    root = root.left;
+                } else {
+                    pre.right = null;
+                    if (root.val == '-') {
+                        sign *= -1;
+                    } else if (Character.isLetter(root.val)) {
+                        counts[root.val - 'a'] += sign;
+                    }
+                    root = root.right;
+                }
+
+            } else {
+                if (root.val == '-') {
+                    sign *= -1;
+                } else if (Character.isLetter(root.val)) {
+                    counts[root.val - 'a'] += sign;
+                }
+                root = root.right;
+            }
+        }
+        return counts;
+    }
+
 }
