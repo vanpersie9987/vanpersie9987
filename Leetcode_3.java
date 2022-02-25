@@ -9,6 +9,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
+import java.util.Stack;
 import java.util.TreeMap;
 
 public class Leetcode_3 {
@@ -1547,6 +1548,27 @@ public class Leetcode_3 {
             }
         }
         return head;
+
+    }
+
+    // 1762. 能看到海景的建筑物 (Buildings With an Ocean View)
+    public int[] findBuildings(int[] heights) {
+        Stack<Integer> stack = new Stack<>();
+        stack.push(heights.length - 1);
+        for (int i = heights.length - 2; i >= 0; --i) {
+            while (i >= 0 && heights[i] <= heights[stack.peek()]) {
+                --i;
+            }
+            if (i >= 0) {
+                stack.push(i);
+            }
+        }
+        int[] res = new int[stack.size()];
+        int index = 0;
+        while (!stack.isEmpty()) {
+            res[index++] = stack.pop();
+        }
+        return res;
 
     }
 
