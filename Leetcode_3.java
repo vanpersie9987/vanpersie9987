@@ -1551,7 +1551,7 @@ public class Leetcode_3 {
 
     }
 
-    // 1762. 能看到海景的建筑物 (Buildings With an Ocean View)
+    // 1762. 能看到海景的建筑物 (Buildings With an Ocean View) --优化
     public int[] findBuildings(int[] heights) {
         Stack<Integer> stack = new Stack<>();
         stack.push(heights.length - 1);
