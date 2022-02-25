@@ -7074,18 +7074,20 @@ public class LeetCodeText {
         return Math.max(a.length(), b.length());
     }
 
-    // 537. 复数乘法
+    // 537. 复数乘法 (Complex Number Multiplication)
     public String complexNumberMultiply(String num1, String num2) {
-        String[] strA = num1.split("\\+");
-        int a1 = Integer.parseInt(strA[0]);
-        int a2 = Integer.parseInt(strA[1].substring(0, strA[1].length() - 1));
-        String[] strB = num2.split("\\+");
-        int b1 = Integer.parseInt(strB[0]);
-        int b2 = Integer.parseInt(strB[1].substring(0, strB[1].length() - 1));
+        int signIndex1 = num1.indexOf("+");
+        int real1 = Integer.parseInt(num1.substring(0, signIndex1));
+        int imaginary1 = Integer.parseInt(num1.substring(signIndex1 + 1, num1.length() - 1));
 
-        int res1 = a1 * b1 - a2 * b2;
-        int res2 = a1 * b2 + a2 * b1;
-        return res1 + "+" + res2 + "i";
+        int signIndex2 = num2.indexOf("+");
+        int real2 = Integer.parseInt(num2.substring(0, signIndex2));
+        int imaginary2 = Integer.parseInt(num2.substring(signIndex2 + 1, num2.length() - 1));
+
+        int real = real1 * real2 - imaginary1 * imaginary2;
+        int imaginary = real1 * imaginary2 + real2 * imaginary1;
+        return real + "+" + imaginary + "i";
+
     }
 
     public String reverseStr(final String s, final int k) {
