@@ -6920,16 +6920,15 @@ public class LeetCode_2 {
    // 2016. 增量元素之间的最大差值 (Maximum Difference Between Increasing Elements)
    public int maximumDifference(int[] nums) {
       int res = -1;
-      int min = Integer.MAX_VALUE;
-      for (int num : nums) {
-         if (num < min) {
-            min = num;
-         } else if (num - min > 0) {
-            res = Math.max(res, num - min);
+      int min = nums[0];
+      for (int i = 1; i < nums.length; ++i) {
+         if (nums[i] > min) {
+            res = Math.max(res, nums[i] - min);
+         } else {
+            min = nums[i];
          }
       }
       return res;
-
    }
 
    // 2138. 将字符串拆分为若干长度为 k 的组 (Divide a String Into Groups of Size k)
