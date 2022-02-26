@@ -1700,7 +1700,7 @@ public class Leetcode_3 {
 
     }
 
-    // 379. 电话目录管理系统 (Design Phone Directory)
+    // 379. 电话目录管理系统 (Design Phone Directory) --plus
     class PhoneDirectory {
         private int[] numbers;
 
@@ -1733,6 +1733,7 @@ public class Leetcode_3 {
     }
 
     // 1474. 删除链表 M 个节点之后的 N 个节点 (Delete N Nodes After M Nodes of a Linked List)
+    // --plus
     public ListNode deleteNodes(ListNode head, int m, int n) {
         ListNode dummy = new ListNode(0, head);
         ListNode cur = dummy;
@@ -1762,6 +1763,51 @@ public class Leetcode_3 {
             }
         }
         return dummy.next;
+
+    }
+
+    // 426. 将二叉搜索树转化为排序的双向链表 (Convert Binary Search Tree to Sorted Doubly Linked
+    // List) --plus
+    public Node treeToDoublyList(Node root) {
+        Node res = null;
+        Node predecessor = null;
+        Node pre = null;
+        while (root != null) {
+            if (root.left != null) {
+                pre = root.left;
+                while (pre.right != null && pre.right != root) {
+                    pre = pre.right;
+                }
+                if (pre.right == null) {
+                    pre.right = root;
+                    root = root.left;
+                } else {
+                    pre.right = null;
+                    if (predecessor != null) {
+                        predecessor.right = root;
+                        root.left = predecessor;
+                    } else {
+                        res = root;
+                    }
+                    predecessor = root;
+                    root = root.right;
+                }
+            } else {
+                if (predecessor != null) {
+                    predecessor.right = root;
+                    root.left = predecessor;
+                } else {
+                    res = root;
+                }
+                predecessor = root;
+                root = root.right;
+            }
+        }
+        if (res != null) {
+            predecessor.right = res;
+            res.left = predecessor;
+        }
+        return res;
 
     }
 
