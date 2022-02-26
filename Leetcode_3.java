@@ -1700,6 +1700,38 @@ public class Leetcode_3 {
 
     }
 
+    // 379. 电话目录管理系统 (Design Phone Directory)
+    class PhoneDirectory {
+        private int[] numbers;
+
+        public PhoneDirectory(int maxNumbers) {
+            numbers = new int[maxNumbers];
+            for (int i = 0; i < numbers.length; ++i) {
+                numbers[i] = i;
+            }
+        }
+
+        public int get() {
+            for (int i = 0; i < numbers.length; ++i) {
+                if (numbers[i] != -1) {
+                    numbers[i] = -1;
+                    return i;
+                }
+            }
+            return -1;
+
+        }
+
+        public boolean check(int number) {
+            return numbers[number] != -1;
+
+        }
+
+        public void release(int number) {
+            numbers[number] = number;
+        }
+    }
+
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
