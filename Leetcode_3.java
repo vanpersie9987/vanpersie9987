@@ -1732,6 +1732,39 @@ public class Leetcode_3 {
         }
     }
 
+    // 1474. 删除链表 M 个节点之后的 N 个节点 (Delete N Nodes After M Nodes of a Linked List)
+    public ListNode deleteNodes(ListNode head, int m, int n) {
+        ListNode dummy = new ListNode(0, head);
+        ListNode cur = dummy;
+        boolean stay = true;
+        int mCount = 0;
+        int nCount = 0;
+        while (cur != null) {
+            if (stay) {
+                stay = false;
+                while (cur != null && mCount++ != m) {
+                    cur = cur.next;
+                }
+                mCount = 0;
+            } else {
+                stay = true;
+                ListNode tryIt = cur;
+                while (tryIt != null && nCount++ != n) {
+                    tryIt = tryIt.next;
+                }
+                nCount = 0;
+                if (tryIt == null) {
+                    cur.next = null;
+                    return dummy.next;
+                } else {
+                    cur.next = tryIt.next;
+                }
+            }
+        }
+        return dummy.next;
+
+    }
+
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
