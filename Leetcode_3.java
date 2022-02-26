@@ -1680,6 +1680,26 @@ public class Leetcode_3 {
         }
     }
 
+    // 369. 给单链表加一 (Plus One Linked List) --plus
+    public ListNode plusOne(ListNode head) {
+        ListNode dummy = new ListNode(0, head);
+        ListNode noNine = dummy;
+        while (head != null) {
+            if (head.val != 9) {
+                noNine = head;
+            }
+            head = head.next;
+        }
+        ++noNine.val;
+        noNine = noNine.next;
+        while (noNine != null) {
+            noNine.val = 0;
+            noNine = noNine.next;
+        }
+        return dummy.val != 0 ? dummy : dummy.next;
+
+    }
+
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
