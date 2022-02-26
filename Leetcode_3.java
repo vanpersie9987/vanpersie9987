@@ -1767,7 +1767,7 @@ public class Leetcode_3 {
     }
 
     // 426. 将二叉搜索树转化为排序的双向链表 (Convert Binary Search Tree to Sorted Doubly Linked
-    // List) --plus
+    // List) --plus 莫里斯中序遍历
     public Node treeToDoublyList(Node root) {
         Node res = null;
         Node predecessor = null;
