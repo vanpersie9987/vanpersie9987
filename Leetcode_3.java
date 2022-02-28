@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -1908,6 +1909,28 @@ public class Leetcode_3 {
             }
         }
         return false;
+    }
+
+    // 346. 数据流中的移动平均值 (Moving Average from Data Stream) --plus
+    class MovingAverage {
+        private Queue<Integer> queue;
+        private int size;
+        private int sum;
+
+        public MovingAverage(int size) {
+            this.size = size;
+            this.queue = new LinkedList<>();
+
+        }
+
+        public double next(int val) {
+            queue.offer(val);
+            sum += val;
+            while (queue.size() > size) {
+                sum -= queue.poll();
+            }
+            return (double) sum / queue.size();
+        }
     }
 
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
