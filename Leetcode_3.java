@@ -2018,6 +2018,22 @@ public class Leetcode_3 {
         return false;
     }
 
+    // 1426. 数元素 (Counting Elements) --plus
+    public int countElements(int[] arr) {
+        int[] counts = new int[1001];
+        for (int num : arr) {
+            ++counts[num];
+        }
+        int res = 0;
+        for (int i = 0; i < counts.length - 1; ++i) {
+            if (counts[i] != 0 && counts[i + 1] != 0) {
+                res += counts[i];
+            }
+        }
+        return res;
+
+    }
+
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
