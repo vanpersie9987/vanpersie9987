@@ -2034,6 +2034,27 @@ public class Leetcode_3 {
 
     }
 
+    // 1100. 长度为 K 的无重复字符子串 (Find K-Length Substrings With No Repeated Characters)
+    public int numKLenSubstrNoRepeats(String s, int k) {
+        int res = 0;
+        int[] counts = new int[26];
+        char[] chars = s.toCharArray();
+        int left = 0;
+        int right = 0;
+        while (right < chars.length) {
+            ++counts[chars[right] - 'a'];
+            while (counts[chars[right] - 'a'] > 1) {
+                --counts[chars[left++] - 'a'];
+            }
+            if (right - left + 1 >= k) {
+                ++res;
+            }
+            ++right;
+        }
+        return res;
+
+    }
+
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
