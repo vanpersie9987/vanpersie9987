@@ -1684,7 +1684,7 @@ public class Leetcode_3 {
     public int[] plusOne(final int[] digits) {
         for (int i = digits.length - 1; i >= 0; --i) {
             ++digits[i];
-            if (digits[i] % 10 != 0) {
+            if (digits[i] / 10 == 0) {
                 return digits;
             }
             digits[i] %= 10;
