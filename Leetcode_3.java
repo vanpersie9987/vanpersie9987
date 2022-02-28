@@ -1880,6 +1880,7 @@ public class Leetcode_3 {
 
     }
 
+    // 6010. 完成旅途的最少时间 (Minimum Time to Complete Trips)
     public long minimumTime(int[] time, int totalTrips) {
         Arrays.sort(time);
         long res = -1L;
