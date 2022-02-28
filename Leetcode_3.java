@@ -1933,6 +1933,22 @@ public class Leetcode_3 {
         }
     }
 
+    // 544. 输出比赛匹配对 (Output Contest Matches) --plus
+    public String findContestMatch(int n) {
+        String[] strings = new String[n];
+        for (int i = 0; i < n; ++i) {
+            strings[i] = String.valueOf(i + 1);
+        }
+        while (n != 0) {
+            for (int i = 0; i < n / 2; ++i) {
+                strings[i] = "(" + strings[i] + "," + strings[n - i - 1] + ")";
+            }
+            n /= 2;
+        }
+        return strings[0];
+
+    }
+
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
