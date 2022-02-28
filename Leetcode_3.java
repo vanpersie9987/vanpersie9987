@@ -2000,6 +2000,24 @@ public class Leetcode_3 {
 
     }
 
+    // 1554. 只有一个不同字符的字符串 (Strings Differ by One Character) --plus 哈希表
+    public boolean differByOne(String[] dict) {
+        Set<String> set = new HashSet<>();
+        for (String string : dict) {
+            char[] chars = string.toCharArray();
+            for (int i = 0; i < chars.length; ++i) {
+                char temp = chars[i];
+                chars[i] = '*';
+                if (set.contains(String.valueOf(chars))) {
+                    return true;
+                }
+                set.add(String.valueOf(chars));
+                chars[i] = temp;
+            }
+        }
+        return false;
+    }
+
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
