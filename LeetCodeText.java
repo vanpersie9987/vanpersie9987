@@ -771,21 +771,6 @@ public class LeetCodeText {
 
     }
 
-    // 66. 加一
-    public int[] plusOne(final int[] digits) {
-        for (int i = digits.length - 1; i >= 0; --i) {
-            ++digits[i];
-            if (digits[i] % 10 != 0) {
-                return digits;
-            }
-            digits[i] %= 10;
-        }
-        int[] res = new int[digits.length + 1];
-        res[0] = 1;
-        return res;
-
-    }
-
     // 73. 矩阵置零 / 面试题 01.08. 零矩阵
     public void setZeroes(final int[][] matrix) {
         boolean firstRowHasZero = false;

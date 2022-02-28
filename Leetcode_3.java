@@ -1680,6 +1680,45 @@ public class Leetcode_3 {
         }
     }
 
+    // 66. 加一 (Plus One)
+    public int[] plusOne(final int[] digits) {
+        for (int i = digits.length - 1; i >= 0; --i) {
+            ++digits[i];
+            if (digits[i] % 10 != 0) {
+                return digits;
+            }
+            digits[i] %= 10;
+        }
+        int[] res = new int[digits.length + 1];
+        res[0] = 1;
+        return res;
+
+    }
+
+    // 66. 加一 (Plus One) --从左往右查找第一个不是9的位置，将其位加1、并将其后位置0
+    public int[] plusOne2(int[] digits) {
+        int firstNoNineIndex = -1;
+        int index = 0;
+        while (index < digits.length) {
+            if (digits[index] != 9) {
+                firstNoNineIndex = index;
+            }
+            ++index;
+        }
+        if (firstNoNineIndex == -1) {
+            int[] res = new int[digits.length + 1];
+            res[0] = 1;
+            return res;
+        }
+        ++digits[firstNoNineIndex];
+        ++firstNoNineIndex;
+        while (firstNoNineIndex < digits.length) {
+            digits[firstNoNineIndex++] = 0;
+        }
+        return digits;
+
+    }
+
     // 369. 给单链表加一 (Plus One Linked List) --plus
     public ListNode plusOne(ListNode head) {
         ListNode dummy = new ListNode(0, head);
@@ -1809,6 +1848,65 @@ public class Leetcode_3 {
         }
         return res;
 
+    }
+
+    // 6008. 统计包含给定前缀的字符串
+    public int prefixCount(String[] words, String pref) {
+        int res = 0;
+        for (String word : words) {
+            if (word.indexOf(pref) == 0) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    // 6009. 使两字符串互为字母异位词的最少步骤数
+    public int minSteps(String s, String t) {
+        int res = 0;
+        int[] counts1 = new int[26];
+        int[] counts2 = new int[26];
+        for (char c : s.toCharArray()) {
+            ++counts1[c - 'a'];
+        }
+        for (char c : t.toCharArray()) {
+            ++counts2[c - 'a'];
+        }
+        for (int i = 0; i < counts1.length; ++i) {
+            res += Math.abs(counts1[i] - counts2[i]);
+        }
+        return res;
+
+    }
+
+    public long minimumTime(int[] time, int totalTrips) {
+        Arrays.sort(time);
+        long res = -1L;
+        long left = 1;
+        long right = Long.MAX_VALUE;
+        while (left <= right) {
+            long mid = left + ((right - left) >> 1);
+            if (getRes(time, mid, totalTrips)) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean getRes(int[] time, long second, int totalTrips) {
+        long res = 0;
+        for (int t : time) {
+            res += second / (long) t;
+            if (res >= totalTrips) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
