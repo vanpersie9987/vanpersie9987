@@ -1949,6 +1949,28 @@ public class Leetcode_3 {
 
     }
 
+    // 1022. 从根到叶的二进制数之和 (Sum of Root To Leaf Binary Numbers) --plus dfs
+    private int res1022;
+
+    public int sumRootToLeaf(TreeNode root) {
+        dfs1022(root, 0);
+        return res1022;
+
+    }
+
+    private void dfs1022(TreeNode root, int cur) {
+        if (root == null) {
+            return;
+        }
+        int num = (cur << 1) | root.val;
+        if (root.left == null && root.right == null) {
+            res1022 += num;
+            return;
+        }
+        dfs1022(root.left, num);
+        dfs1022(root.right, num);
+    }
+
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
