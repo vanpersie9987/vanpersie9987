@@ -1971,6 +1971,35 @@ public class Leetcode_3 {
         dfs1022(root.right, num);
     }
 
+    // 1022. 从根到叶的二进制数之和 (Sum of Root To Leaf Binary Numbers) --plus bfs
+    public int sumRootToLeaf2(TreeNode root) {
+        int res = 0;
+        if (root == null) {
+            return res;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        Queue<Integer> sum = new LinkedList<>();
+        queue.offer(root);
+        sum.offer(root.val);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            int cur = sum.poll();
+            if (node.left == null && node.right == null) {
+                res += cur;
+            }
+            if (node.left != null) {
+                queue.offer(node.left);
+                sum.offer((cur << 1) | node.left.val);
+            }
+            if (node.right != null) {
+                queue.offer(node.right);
+                sum.offer((cur << 1) | node.right.val);
+            }
+        }
+        return res;
+
+    }
+
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
