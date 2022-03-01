@@ -2054,6 +2054,65 @@ public class Leetcode_3 {
 
     }
 
+    // 320. 列举单词的全部缩写 (Generalized Abbreviation) --plus 位运算枚举
+    public List<String> generateAbbreviations(String word) {
+        List<String> res = new LinkedList<>();
+        for (int i = 0; i < (1 << word.length()); ++i) {
+            res.add(getAbbr(word, i));
+        }
+        return res;
+
+    }
+
+    private String getAbbr(String word, int mask) {
+        StringBuilder builder = new StringBuilder();
+        int k = 0;
+        for (int i = 0; i < word.length(); ++i) {
+            if ((mask & 1) == 0) {
+                if (k != 0) {
+                    builder.append(k);
+                    k = 0;
+                }
+                builder.append(word.charAt(i));
+            } else {
+                ++k;
+            }
+            mask >>= 1;
+        }
+        if (k != 0) {
+            builder.append(k);
+        }
+        return builder.toString();
+    }
+
+    // 320. 列举单词的全部缩写 (Generalized Abbreviation) --plus 回溯法 待掌握
+    public List<String> generateAbbreviations2(String word) {
+        List<String> ans = new ArrayList<String>();
+        backtrack(ans, new StringBuilder(), word, 0, 0);
+        return ans;
+    }
+
+    // i is the current position
+    // k is the count of consecutive abbreviated characters
+    private void backtrack(List<String> ans, StringBuilder builder, String word, int i, int k) {
+        int len = builder.length(); // keep the length of builder
+        if (i == word.length()) {
+            if (k != 0)
+                builder.append(k); // append the last k if non zero
+            ans.add(builder.toString());
+        } else {
+            // the branch that word.charAt(i) is abbreviated
+            backtrack(ans, builder, word, i + 1, k + 1);
+
+            // the branch that word.charAt(i) is kept
+            if (k != 0)
+                builder.append(k);
+            builder.append(word.charAt(i));
+            backtrack(ans, builder, word, i + 1, 0);
+        }
+        builder.setLength(len); // reset builder to the original state
+    }
+
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
