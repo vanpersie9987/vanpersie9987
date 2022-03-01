@@ -6031,6 +6031,28 @@ public class LeetCode_2 {
       }
    }
 
+   // 362. 敲击计数器 (Design Hit Counter) --plus
+   class HitCounter {
+      private Queue<Integer> queue;
+
+      public HitCounter() {
+         queue = new LinkedList<>();
+
+      }
+
+      public void hit(int timestamp) {
+         queue.offer(timestamp);
+
+      }
+
+      public int getHits(int timestamp) {
+         while (!queue.isEmpty() && timestamp - queue.peek() >= 300) {
+            queue.poll();
+         }
+         return queue.size();
+      }
+   }
+
    // 1425. 带限制的子序列和 (Constrained Subsequence Sum) --动态规划 + 单调队列
    public int constrainedSubsetSum(int[] nums, int k) {
       int[] dp = new int[nums.length];
