@@ -2168,6 +2168,68 @@ public class Leetcode_3 {
         return res.toArray(new int[res.size()][2]);
 
     }
+
+    // 1101. 彼此熟识的最早时间 (The Earliest Moment When Everyone Become Friends) --plus 并查集
+    public int earliestAcq(int[][] logs, int n) {
+        Arrays.sort(logs, (o1, o2) -> o1[0] - o2[0]);
+        Union1101 union = new Union1101(n);
+        for (int[] log : logs) {
+            union.union(log[1], log[2]);
+            if (union.getCount() == 1) {
+                return log[0];
+            }
+        }
+        return -1;
+    }
+
+    class Union1101 {
+        private int[] parent;
+        private int[] rank;
+        private int count;
+
+        public Union1101(int n) {
+            this.count = n;
+            this.parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+            this.rank = new int[n];
+            Arrays.fill(rank, 1);
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+            --count;
+        }
+
+        public int getCount() {
+            return count;
+        }
+
+    }
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
