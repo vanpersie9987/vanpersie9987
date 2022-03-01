@@ -2144,6 +2144,30 @@ public class Leetcode_3 {
         return res;
 
     }
+
+    // 1086. 前五科的均分 (High Five) --plus
+    public int[][] highFive(int[][] items) {
+        Arrays.sort(items, (o1, o2) -> o1[0] == o2[0] ? o2[1] - o1[1] : o1[0] - o2[0]);
+
+        List<int[]> res = new ArrayList<>();
+        int i = 0;
+        while (i < items.length) {
+            int count = 0;
+            int[] item = new int[2];
+            item[0] = items[i][0];
+            while (count++ < 5) {
+                item[1] += items[i][1];
+                ++i;
+            }
+            item[1] /= 5;
+            res.add(item);
+            while (i < items.length && res.get(res.size() - 1)[0] == items[i][0]) {
+                ++i;
+            }
+        }
+        return res.toArray(new int[res.size()][2]);
+
+    }
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
