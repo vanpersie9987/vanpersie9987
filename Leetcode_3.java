@@ -2129,6 +2129,21 @@ public class Leetcode_3 {
         nums[j] = temp;
     }
 
+    // 1196. 最多可以买到的苹果数量 (How Many Apples Can You Put into the Basket) --plus
+    public int maxNumberOfApples(int[] weight) {
+        Arrays.sort(weight);
+        int res = 0;
+        int sum = 0;
+        for (int w : weight) {
+            sum += w;
+            if (sum > 5000) {
+                break;
+            }
+            ++res;
+        }
+        return res;
+
+    }
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
