@@ -2230,6 +2230,16 @@ public class Leetcode_3 {
         }
 
     }
+
+    // 1666. 改变二叉树的根节点 (Change the Root of a Binary Tree)
+    // public Node flipBinaryTree(Node root, Node leaf) {
+
+    // }
+
+    // 2113. Elements in Array After Removing and Replacing Elements
+    // public int[] elementInNums(int[] nums, int[][] queries) {
+
+    // }
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
