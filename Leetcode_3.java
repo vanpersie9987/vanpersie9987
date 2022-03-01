@@ -2113,6 +2113,22 @@ public class Leetcode_3 {
         builder.setLength(len); // reset builder to the original state
     }
 
+    // 280. 摆动排序 (Wiggle Sort) --plus
+    public void wiggleSort(int[] nums) {
+        for (int i = 0; i < nums.length - 1; ++i) {
+            if ((i % 2 == 0) == (nums[i] > nums[i + 1])) {
+                swap280(nums, i, i + 1);
+            }
+        }
+
+    }
+
+    private void swap280(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
