@@ -2054,6 +2054,28 @@ public class Leetcode_3 {
 
     }
 
+    // 362. 敲击计数器 (Design Hit Counter) --plus
+    class HitCounter {
+        private Queue<Integer> queue;
+
+        public HitCounter() {
+            queue = new LinkedList<>();
+
+        }
+
+        public void hit(int timestamp) {
+            queue.offer(timestamp);
+
+        }
+
+        public int getHits(int timestamp) {
+            while (!queue.isEmpty() && timestamp - queue.peek() >= 300) {
+                queue.poll();
+            }
+            return queue.size();
+        }
+    }
+
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
