@@ -2284,8 +2284,33 @@ public class Leetcode_3 {
 
     }
 
-    // 2067. Number of Equal Count Substrings
+    // 2067. Number of Equal Count Substrings --plus
     public int equalCountSubstrings(String s, int count) {
+        int res = 0;
+        int[] counts = new int[26];
+        for (int i = 1; i <= 26; ++i) {
+            if (i * count > s.length()) {
+                break;
+            }
+            Arrays.fill(counts, 0);
+            int x = 0;
+            for (int j = 0; j < s.length(); ++j) {
+                if (++counts[s.charAt(j) - 'a'] == count) {
+                    ++x;
+                }
+                if (counts[s.charAt(j) - 'a'] == count + 1) {
+                    --x;
+                }
+                if (j - i * count >= 0 && --counts[s.charAt(j - i * count) - 'a'] == count) {
+                    ++x;
+                }
+                if (j - i * count >= 0 && counts[s.charAt(j - i * count) - 'a'] == count - 1) {
+                    --x;
+                }
+                res += x == i ? 1 : 0;
+            }
+        }
+        return res;
 
     }
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
