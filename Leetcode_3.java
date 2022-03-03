@@ -2231,6 +2231,28 @@ public class Leetcode_3 {
 
     }
 
+    // "T?T:F?T?1:2:F?3:4"
+    // 439. 三元表达式解析器 (Ternary Expression Parser) --plus
+    public String parseTernary(String expression) {
+        Stack<Character> stack = new Stack<>();
+        char[] chars = expression.toCharArray();
+        for (int i = chars.length - 1; i >= 0; --i) {
+            if (chars[i] == '?') {
+                char judge = chars[i - 1];
+                char c = stack.pop();
+                if (judge == 'T') {
+                    stack.pop();
+                    stack.push(c);
+                }
+                --i;
+            } else if (chars[i] != ':') {
+                stack.push(chars[i]);
+            }
+        }
+        return String.valueOf(stack.pop());
+
+    }
+
     // 1666. 改变二叉树的根节点 (Change the Root of a Binary Tree)
     // public Node flipBinaryTree(Node root, Node leaf) {
 
