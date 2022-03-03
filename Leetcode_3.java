@@ -2258,10 +2258,24 @@ public class Leetcode_3 {
 
     // }
 
-    // 2113. Elements in Array After Removing and Replacing Elements
-    // public int[] elementInNums(int[] nums, int[][] queries) {
+    // 2113. Elements in Array After Removing and Replacing Elements --plus
+    public int[] elementInNums(int[] nums, int[][] queries) {
+        int n = nums.length;
+        int T = n * 2;
+        int[] res = new int[queries.length];
+        for (int i = 0; i < queries.length; ++i) {
+            int t = queries[i][0] % T;
+            if (t < n) {
+                int index = queries[i][1] + t;
+                res[i] = index >= n ? -1 : nums[index];
+            } else {
+                int index = queries[i][1];
+                res[i] = index >= (t - n) ? -1 : nums[index];
+            }
+        }
+        return res;
 
-    // }
+    }
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
