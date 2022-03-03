@@ -2253,11 +2253,6 @@ public class Leetcode_3 {
 
     }
 
-    // 1666. 改变二叉树的根节点 (Change the Root of a Binary Tree)
-    // public Node flipBinaryTree(Node root, Node leaf) {
-
-    // }
-
     // 2113. Elements in Array After Removing and Replacing Elements --plus
     public int[] elementInNums(int[] nums, int[][] queries) {
         int n = nums.length;
@@ -2274,6 +2269,23 @@ public class Leetcode_3 {
             }
         }
         return res;
+
+    }
+
+    // 1256. 加密数字 (Encode Number) --plus
+    public String encode(int num) {
+        String binaryString = Integer.toBinaryString(++num);
+        return binaryString.substring(1);
+
+    }
+
+    // 2168. Unique Substrings With Equal Digit Frequency
+    public int equalDigitFrequency(String s) {
+
+    }
+
+    // 2067. Number of Equal Count Substrings
+    public int equalCountSubstrings(String s, int count) {
 
     }
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
