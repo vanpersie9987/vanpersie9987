@@ -17980,6 +17980,7 @@ public class LeetCodeText {
 
     }
 
+    // 256. 粉刷房子 (Paint House) --plus dp
     // 剑指 Offer II 091. 粉刷房子
     public int minCost(int[][] costs) {
         int[][] dp = new int[costs.length][3];
