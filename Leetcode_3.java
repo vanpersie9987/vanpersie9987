@@ -2279,11 +2279,6 @@ public class Leetcode_3 {
 
     }
 
-    // 2168. Unique Substrings With Equal Digit Frequency
-    public int equalDigitFrequency(String s) {
-
-    }
-
     // 2067. Number of Equal Count Substrings --plus
     public int equalCountSubstrings(String s, int count) {
         int res = 0;
@@ -2308,6 +2303,32 @@ public class Leetcode_3 {
                     --x;
                 }
                 res += x == i ? 1 : 0;
+            }
+        }
+        return res;
+
+    }
+
+    // 531. 孤独像素 I (Lonely Pixel I)
+    public int findLonelyPixel(char[][] picture) {
+        int m = picture.length;
+        int n = picture[0].length;
+        int[] rowCount = new int[m];
+        int[] colCount = new int[n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (picture[i][j] == 'B') {
+                    ++rowCount[i];
+                    ++colCount[j];
+                }
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (picture[i][j] == 'B' && rowCount[i] == 1 && colCount[j] == 1) {
+                    ++res;
+                }
             }
         }
         return res;
