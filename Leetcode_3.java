@@ -2352,6 +2352,23 @@ public class Leetcode_3 {
         return minDistance;
 
     }
+
+    // 2128. Remove All Ones With Row and Column Flips --plus
+    // 思路：看每一行是否可以转换成第一行即可
+    public boolean removeOnes(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        for (int i = 1; i < m; ++i) {
+            int x = grid[i][0] ^ grid[0][0];
+            for (int j = 1; j < n; ++j) {
+                if ((grid[i][j] ^ grid[0][j]) != x) {
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }
     // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
     // 剑指 Offer II 047. 二叉树剪枝
     // public TreeNode pruneTree(TreeNode root) {
