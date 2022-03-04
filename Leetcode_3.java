@@ -2369,10 +2369,24 @@ public class Leetcode_3 {
         return true;
 
     }
-    // 814. 二叉树剪枝 (Binary Tree Pruning) --后序遍历
-    // 剑指 Offer II 047. 二叉树剪枝
-    // public TreeNode pruneTree(TreeNode root) {
 
-    // }
+    // 573. 松鼠模拟 (Squirrel Simulation) --plus (未提交)
+    public int minDistance(int height, int width, int[] tree, int[] squirrel, int[][] nuts) {
+        int res = Integer.MAX_VALUE;
+        int sum = 0;
+        for (int[] nut : nuts) {
+            sum += getDistance573(nut, tree) * 2;
+        }
+        for (int[] nut : nuts) {
+            int cur = sum - getDistance573(nut, tree) + getDistance573(nut, squirrel);
+            res = Math.min(cur, res);
+        }
+        return res;
+
+    }
+
+    private int getDistance573(int[] nut, int[] tree) {
+        return Math.abs(nut[0] - tree[0]) + Math.abs(nut[1] - tree[1]);
+    }
 
 }
