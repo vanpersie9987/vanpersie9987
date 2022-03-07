@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -11,6 +12,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class Leetcode_3 {
     public static void main(String[] args) {
@@ -2388,5 +2390,163 @@ public class Leetcode_3 {
     private int getDistance573(int[] nut, int[] tree) {
         return Math.abs(nut[0] - tree[0]) + Math.abs(nut[1] - tree[1]);
     }
+
+    // 2190. 数组中紧跟 key 之后出现最频繁的数字 (Most Frequent Number Following Key In an Array)
+    public int mostFrequent(int[] nums, int key) {
+        int max = -1;
+        int res = -1;
+        int[] counts = new int[1001];
+        for (int i = 0; i < nums.length - 1; ++i) {
+            if (nums[i] == key) {
+                ++counts[nums[i + 1]];
+                if (counts[nums[i + 1]] > max) {
+                    max = counts[nums[i + 1]];
+                    res = nums[i + 1];
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 2191. 将杂乱无章的数字排序 (Sort the Jumbled Numbers)
+    public int[] sortJumbled(int[] mapping, int[] nums) {
+        Bean[] beans = new Bean[nums.length];
+        for (int i = 0; i < nums.length; ++i) {
+            beans[i] = new Bean(nums[i], getTransNum(nums[i], mapping), i);
+        }
+        Arrays.sort(beans, (o1, o2) -> o1.transNum != o2.transNum ? o1.transNum - o2.transNum : o1.index - o2.index);
+        int[] res = new int[nums.length];
+        for (int i = 0; i < nums.length; ++i) {
+            res[i] = beans[i].originNum;
+        }
+        return res;
+
+    }
+
+    private int getTransNum(int num, int[] mapping) {
+        if (num == 0) {
+            return mapping[num];
+        }
+        int res = 0;
+        int carry = 1;
+        while (num != 0) {
+            int bit = num % 10;
+            res += mapping[bit] * carry;
+            carry *= 10;
+            num /= 10;
+        }
+        return res;
+    }
+
+    public class Bean {
+        int originNum;
+        int transNum;
+        int index;
+
+        public Bean(int originNum, int transNum, int index) {
+            this.originNum = originNum;
+            this.transNum = transNum;
+            this.index = index;
+
+        }
+    }
+
+    // 2192. 有向无环图中一个节点的所有祖先 (All Ancestors of a Node in a Directed Acyclic Graph)
+    // private List<List<Integer>> res2192;
+
+    // public List<List<Integer>> getAncestors(int n, int[][] edges) {
+    //     res2192 = new ArrayList<>();
+    //     for (int[] edge : edges) {
+    //         List<Integer> item = res2192.get(edge[1]);
+    //         if (item == null) {
+    //             res2192.add(edge[1], new ArrayList<>());
+    //         } else {
+    //             item.add(edge[0]);
+    //             res2192.add(edge[1], item);
+    //         }
+    //     }
+    //     for (int i = 0; i < n; ++i) {
+    //         res2192.set(i, search2192(res2192.get(i)));
+    //     }
+    //     return res2192;
+
+    // }
+
+    // private List<Integer> search2192(List<Integer> list) {
+    //     List<Integer> res = new ArrayList<>();
+    //     Queue<Integer> queue = new LinkedList<>();
+    //     for (int item : list) {
+    //         queue.offer(item);
+    //     }
+    //     while (!queue.isEmpty()) {
+    //         int item = queue.poll();
+
+
+    //     }
+    //     return res;
+
+    // }
+
+    // public List<String> cellsInRange(String s) {
+    //     int startCol = s.charAt(0) - 'A';
+    //     int endCol = s.charAt(3) - 'A';
+    //     int startRow = s.charAt(1) - '0';
+    //     int endRow = s.charAt(4) - '0';
+    //     List<String> res = new ArrayList<>();
+    //     for (int i = startCol; i <= endCol; ++i) {
+    //         for (int j = startRow; j <= endRow; ++j) {
+    //             char a1 = (char) (i + 'A');
+    //             res.add(String.valueOf(a1) + j);
+    //         }
+    //     }
+    //     return res;
+
+    // }
+
+    // public long minimalKSum(int[] nums, int k) {
+    //     Arrays.sort(nums);
+    //     long res = 0L;
+    //     int preNum = 0;
+    //     for (int i = 0; i < nums.length; ++i) {
+    //         if (nums[i] - preNum == 1) {
+    //             preNum = nums[i];
+    //             continue;
+    //         }
+    //         if (nums[i] - preNum - 1 <= k) {
+    //             res += (preNum + 1 + nums[i] - 1) * (nums[i] - preNum - 1) / 2;
+    //             k -= nums[i] - preNum - 1;
+    //             if (k == 0) {
+    //                 return res;
+    //             }
+    //             preNum = nums[i];
+    //         } else {
+    //             // n*a1+n(n-1)d/2
+    //             res += (preNum + 1) * k + (k * (k - 1)) / 2;
+    //             return res;
+    //         }
+    //     }
+    //     if (k > 0) {
+    //         res += (preNum + 1) * k + (k * (k - 1)) / 2;
+    //     }
+    //     return res;
+    //     // while (k != 0) {
+    //     // if (index < nums.length) {
+    //     // if (nums[index] != num) {
+    //     // res += num++;
+    //     // --k;
+    //     // } else {
+    //     // ++index;
+    //     // ++num;
+    //     // }
+    //     // } else {
+    //     // res += num++;
+    //     // --k;
+    //     // }
+
+    //     // }
+    //     // return res;
+
+    // }
 
 }
