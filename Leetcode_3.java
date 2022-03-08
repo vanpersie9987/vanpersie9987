@@ -2452,100 +2452,137 @@ public class Leetcode_3 {
         }
     }
 
+    // 2055. 蜡烛之间的盘子 (Plates Between Candles) --前缀和
+    public int[] platesBetweenCandles(String s, int[][] queries) {
+        int n = s.length();
+        int[] preSum = new int[n];
+        int sum = 0;
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) == '*') {
+                ++sum;
+            }
+            preSum[i] = sum;
+        }
+        // 当前位置左侧的第一个蜡烛的位置
+        int[] left = new int[n];
+        int l = -1;
+        for (int i = 0; i < n; ++i) {
+            if (s.charAt(i) == '|') {
+                l = i;
+            }
+            left[i] = l;
+        }
+        // 当前位置右侧的第一个蜡烛的位置
+        int[] right = new int[n];
+        l = -1;
+        for (int i = n - 1; i >= 0; --i) {
+            if (s.charAt(i) == '|') {
+                l = i;
+            }
+            right[i] = l;
+        }
+        int[] res = new int[queries.length];
+        for (int i = 0; i < queries.length; ++i) {
+            int L = right[queries[i][0]];
+            int R = left[queries[i][1]];
+            res[i] = L == -1 || R == -1 || L >= R ? 0 : preSum[R] - preSum[L];
+        }
+        return res;
+    }
+
     // 2192. 有向无环图中一个节点的所有祖先 (All Ancestors of a Node in a Directed Acyclic Graph)
     // private List<List<Integer>> res2192;
 
     // public List<List<Integer>> getAncestors(int n, int[][] edges) {
-    //     res2192 = new ArrayList<>();
-    //     for (int[] edge : edges) {
-    //         List<Integer> item = res2192.get(edge[1]);
-    //         if (item == null) {
-    //             res2192.add(edge[1], new ArrayList<>());
-    //         } else {
-    //             item.add(edge[0]);
-    //             res2192.add(edge[1], item);
-    //         }
-    //     }
-    //     for (int i = 0; i < n; ++i) {
-    //         res2192.set(i, search2192(res2192.get(i)));
-    //     }
-    //     return res2192;
+    // res2192 = new ArrayList<>();
+    // for (int[] edge : edges) {
+    // List<Integer> item = res2192.get(edge[1]);
+    // if (item == null) {
+    // res2192.add(edge[1], new ArrayList<>());
+    // } else {
+    // item.add(edge[0]);
+    // res2192.add(edge[1], item);
+    // }
+    // }
+    // for (int i = 0; i < n; ++i) {
+    // res2192.set(i, search2192(res2192.get(i)));
+    // }
+    // return res2192;
 
     // }
 
     // private List<Integer> search2192(List<Integer> list) {
-    //     List<Integer> res = new ArrayList<>();
-    //     Queue<Integer> queue = new LinkedList<>();
-    //     for (int item : list) {
-    //         queue.offer(item);
-    //     }
-    //     while (!queue.isEmpty()) {
-    //         int item = queue.poll();
+    // List<Integer> res = new ArrayList<>();
+    // Queue<Integer> queue = new LinkedList<>();
+    // for (int item : list) {
+    // queue.offer(item);
+    // }
+    // while (!queue.isEmpty()) {
+    // int item = queue.poll();
 
-
-    //     }
-    //     return res;
+    // }
+    // return res;
 
     // }
 
     // public List<String> cellsInRange(String s) {
-    //     int startCol = s.charAt(0) - 'A';
-    //     int endCol = s.charAt(3) - 'A';
-    //     int startRow = s.charAt(1) - '0';
-    //     int endRow = s.charAt(4) - '0';
-    //     List<String> res = new ArrayList<>();
-    //     for (int i = startCol; i <= endCol; ++i) {
-    //         for (int j = startRow; j <= endRow; ++j) {
-    //             char a1 = (char) (i + 'A');
-    //             res.add(String.valueOf(a1) + j);
-    //         }
-    //     }
-    //     return res;
+    // int startCol = s.charAt(0) - 'A';
+    // int endCol = s.charAt(3) - 'A';
+    // int startRow = s.charAt(1) - '0';
+    // int endRow = s.charAt(4) - '0';
+    // List<String> res = new ArrayList<>();
+    // for (int i = startCol; i <= endCol; ++i) {
+    // for (int j = startRow; j <= endRow; ++j) {
+    // char a1 = (char) (i + 'A');
+    // res.add(String.valueOf(a1) + j);
+    // }
+    // }
+    // return res;
 
     // }
 
     // public long minimalKSum(int[] nums, int k) {
-    //     Arrays.sort(nums);
-    //     long res = 0L;
-    //     int preNum = 0;
-    //     for (int i = 0; i < nums.length; ++i) {
-    //         if (nums[i] - preNum == 1) {
-    //             preNum = nums[i];
-    //             continue;
-    //         }
-    //         if (nums[i] - preNum - 1 <= k) {
-    //             res += (preNum + 1 + nums[i] - 1) * (nums[i] - preNum - 1) / 2;
-    //             k -= nums[i] - preNum - 1;
-    //             if (k == 0) {
-    //                 return res;
-    //             }
-    //             preNum = nums[i];
-    //         } else {
-    //             // n*a1+n(n-1)d/2
-    //             res += (preNum + 1) * k + (k * (k - 1)) / 2;
-    //             return res;
-    //         }
-    //     }
-    //     if (k > 0) {
-    //         res += (preNum + 1) * k + (k * (k - 1)) / 2;
-    //     }
-    //     return res;
-    //     // while (k != 0) {
-    //     // if (index < nums.length) {
-    //     // if (nums[index] != num) {
-    //     // res += num++;
-    //     // --k;
-    //     // } else {
-    //     // ++index;
-    //     // ++num;
-    //     // }
-    //     // } else {
-    //     // res += num++;
-    //     // --k;
-    //     // }
+    // Arrays.sort(nums);
+    // long res = 0L;
+    // int preNum = 0;
+    // for (int i = 0; i < nums.length; ++i) {
+    // if (nums[i] - preNum == 1) {
+    // preNum = nums[i];
+    // continue;
+    // }
+    // if (nums[i] - preNum - 1 <= k) {
+    // res += (preNum + 1 + nums[i] - 1) * (nums[i] - preNum - 1) / 2;
+    // k -= nums[i] - preNum - 1;
+    // if (k == 0) {
+    // return res;
+    // }
+    // preNum = nums[i];
+    // } else {
+    // // n*a1+n(n-1)d/2
+    // res += (preNum + 1) * k + (k * (k - 1)) / 2;
+    // return res;
+    // }
+    // }
+    // if (k > 0) {
+    // res += (preNum + 1) * k + (k * (k - 1)) / 2;
+    // }
+    // return res;
+    // // while (k != 0) {
+    // // if (index < nums.length) {
+    // // if (nums[index] != num) {
+    // // res += num++;
+    // // --k;
+    // // } else {
+    // // ++index;
+    // // ++num;
+    // // }
+    // // } else {
+    // // res += num++;
+    // // --k;
+    // // }
 
-    //     // }
-    //     // return res;
+    // // }
+    // // return res;
 
     // }
 
