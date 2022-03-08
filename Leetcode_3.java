@@ -827,6 +827,39 @@ public class Leetcode_3 {
 
     }
 
+    // 542. 01 矩阵 (01 Matrix) --bfs
+    public int[][] updateMatrix(int[][] mat) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int m = mat.length;
+        int n = mat[0].length;
+        boolean[][] seen = new boolean[m][n];
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (mat[i][j] == 0) {
+                    queue.offer(new int[] { i, j, 0 });
+                    seen[i][j] = true;
+                }
+            }
+        }
+        if (queue.size() == m * n) {
+            return mat;
+        }
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            for (int[] direction : directions) {
+                int nx = cur[0] + direction[0];
+                int ny = cur[1] + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !seen[nx][ny]) {
+                    seen[nx][ny] = true;
+                    mat[nx][ny] = cur[2] + 1;
+                    queue.offer(new int[] { nx, ny, mat[nx][ny] });
+                }
+            }
+        }
+        return mat;
+    }
+
     // 1302. 层数最深叶子节点的和 (Deepest Leaves Sum) --bfs
     public int deepestLeavesSum(TreeNode root) {
         int res = 0;
