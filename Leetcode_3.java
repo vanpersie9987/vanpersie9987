@@ -2490,6 +2490,27 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 506. 相对名次 (Relative Ranks)
+    public String[] findRelativeRanks(int[] score) {
+        int[][] arr = new int[score.length][2];
+        for (int i = 0; i < score.length; ++i) {
+            arr[i][0] = score[i];
+            arr[i][1] = i;
+        }
+        Arrays.sort(arr, (o1, o2) -> o2[0] - o1[0]);
+        String[] firstThree = { "Gold Medal", "Silver Medal", "Bronze Medal" };
+        String[] res = new String[score.length];
+        for (int i = 0; i < score.length; ++i) {
+            if (i < 3) {
+                res[arr[i][1]] = firstThree[i];
+            } else {
+                res[arr[i][1]] = Integer.toString(i + 1);
+            }
+        }
+        return res;
+
+    }
+
     // 2192. 有向无环图中一个节点的所有祖先 (All Ancestors of a Node in a Directed Acyclic Graph)
     // private List<List<Integer>> res2192;
 
