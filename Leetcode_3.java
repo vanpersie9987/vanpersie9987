@@ -2579,21 +2579,22 @@ public class Leetcode_3 {
 
     // }
 
-    // public List<String> cellsInRange(String s) {
-    // int startCol = s.charAt(0) - 'A';
-    // int endCol = s.charAt(3) - 'A';
-    // int startRow = s.charAt(1) - '0';
-    // int endRow = s.charAt(4) - '0';
-    // List<String> res = new ArrayList<>();
-    // for (int i = startCol; i <= endCol; ++i) {
-    // for (int j = startRow; j <= endRow; ++j) {
-    // char a1 = (char) (i + 'A');
-    // res.add(String.valueOf(a1) + j);
-    // }
-    // }
-    // return res;
+    // 2194. Excel 表中某个范围内的单元格 (Cells in a Range on an Excel Sheet)
+    public List<String> cellsInRange(String s) {
+        int startCol = s.charAt(0) - 'A';
+        int endCol = s.charAt(3) - 'A';
+        int startRow = s.charAt(1) - '0';
+        int endRow = s.charAt(4) - '0';
+        List<String> res = new ArrayList<>();
+        for (int i = startCol; i <= endCol; ++i) {
+            for (int j = startRow; j <= endRow; ++j) {
+                char a1 = (char) (i + 'A');
+                res.add(String.valueOf(a1) + j);
+            }
+        }
+        return res;
 
-    // }
+    }
 
     // public long minimalKSum(int[] nums, int k) {
     // Arrays.sort(nums);
