@@ -2544,41 +2544,6 @@ public class Leetcode_3 {
 
     }
 
-    // 2192. 有向无环图中一个节点的所有祖先 (All Ancestors of a Node in a Directed Acyclic Graph)
-    // private List<List<Integer>> res2192;
-
-    // public List<List<Integer>> getAncestors(int n, int[][] edges) {
-    // res2192 = new ArrayList<>();
-    // for (int[] edge : edges) {
-    // List<Integer> item = res2192.get(edge[1]);
-    // if (item == null) {
-    // res2192.add(edge[1], new ArrayList<>());
-    // } else {
-    // item.add(edge[0]);
-    // res2192.add(edge[1], item);
-    // }
-    // }
-    // for (int i = 0; i < n; ++i) {
-    // res2192.set(i, search2192(res2192.get(i)));
-    // }
-    // return res2192;
-
-    // }
-
-    // private List<Integer> search2192(List<Integer> list) {
-    // List<Integer> res = new ArrayList<>();
-    // Queue<Integer> queue = new LinkedList<>();
-    // for (int item : list) {
-    // queue.offer(item);
-    // }
-    // while (!queue.isEmpty()) {
-    // int item = queue.poll();
-
-    // }
-    // return res;
-
-    // }
-
     // 2194. Excel 表中某个范围内的单元格 (Cells in a Range on an Excel Sheet)
     public List<String> cellsInRange(String s) {
         int startCol = s.charAt(0) - 'A';
