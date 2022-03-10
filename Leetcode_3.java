@@ -2822,4 +2822,36 @@ public class Leetcode_3 {
 
     }
 
+    class Employee {
+        public int id;
+        public int importance;
+        public List<Integer> subordinates;
+    };
+
+    // 690. 员工的重要性 (Employee Importance) --bfs
+    public int getImportance(List<Employee> employees, int id) {
+        int res = 0;
+        int[] importances = new int[2001];
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (Employee employee : employees) {
+            importances[employee.id] = employee.importance;
+            map.computeIfAbsent(employee.id, k -> new ArrayList<>()).addAll(employee.subordinates);
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(id);
+        while (!queue.isEmpty()) {
+            int curId = queue.poll();
+            res += importances[curId];
+            List<Integer> list = map.get(curId);
+            if (list == null) {
+                continue;
+            }
+            for (int item : list) {
+                queue.offer(item);
+            }
+        }
+        return res;
+
+    }
+
 }
