@@ -2764,4 +2764,33 @@ public class Leetcode_3 {
         return false;
     }
 
+    // 1379. 找出克隆二叉树中的相同节点 (Find a Corresponding Node of a Binary Tree in a Clone of
+    // That Tree) --bfs
+    public final TreeNode getTargetCopy(final TreeNode original, final TreeNode cloned, final TreeNode target) {
+        if (original == null) {
+            return null;
+        }
+        TreeNode originalNode = original;
+        TreeNode clonedNode = cloned;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(originalNode);
+        queue.offer(clonedNode);
+        while (!queue.isEmpty()) {
+            TreeNode oNode = queue.poll();
+            TreeNode cNode = queue.poll();
+            if (oNode == target) {
+                return cNode;
+            }
+            if (oNode.left != null) {
+                queue.offer(oNode.left);
+                queue.offer(cNode.left);
+            }
+            if (oNode.right != null) {
+                queue.offer(oNode.right);
+                queue.offer(cNode.right);
+            }
+        }
+        return null;
+    }
+
 }
