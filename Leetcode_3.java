@@ -2723,4 +2723,45 @@ public class Leetcode_3 {
         return image;
     }
 
+    // 面试题 04.01. 节点间通路 (Route Between Nodes LCCI) --bfs
+    public boolean findWhetherExistsPath(int n, int[][] graph, int start, int target) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        boolean[] visited = new boolean[n];
+        for (int[] g : graph) {
+            if (g[0] == g[1]) {
+                continue;
+            }
+            List<Integer> parent = map.get(g[0]);
+            if (parent == null) {
+                parent = new ArrayList<>();
+                parent.add(g[1]);
+            } else if (!parent.contains(g[1])) {
+                parent.add(g[1]);
+            }
+            map.put(g[0], parent);
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(start);
+        visited[start] = true;
+        while (!queue.isEmpty()) {
+            int key = queue.poll();
+            if (key == target) {
+                return true;
+            }
+            if (map.get(key) == null) {
+                continue;
+            }
+            for (int num : map.get(key)) {
+                if (num == target) {
+                    return true;
+                }
+                if (!visited[num]) {
+                    visited[num] = true;
+                    queue.offer(num);
+                }
+            }
+        }
+        return false;
+    }
+
 }
