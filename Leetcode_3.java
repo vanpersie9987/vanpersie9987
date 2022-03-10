@@ -2621,7 +2621,7 @@ public class Leetcode_3 {
 
     }
 
-    // 面试题32 - I. 从上到下打印二叉树
+    // 面试题32 - I. 从上到下打印二叉树 --bfs
     public int[] levelOrder(TreeNode root) {
         List<Integer> list = new ArrayList<>();
         if (root == null) {
@@ -2645,6 +2645,58 @@ public class Leetcode_3 {
         }
         return res;
 
+    }
+
+    // 面试题 17.22. 单词转换 (Word Transformer LCCI) --bfs
+    public List<String> findLadders(String beginWord, String endWord, List<String> wordList) {
+        List<String> res = new ArrayList<>();
+        if (!wordList.contains(endWord)) {
+            return res;
+        }
+        boolean[] visited = new boolean[wordList.size()];
+        Queue<String> queue = new LinkedList<>();
+        Map<String, String> map = new HashMap<>();
+        boolean legal = false;
+        queue.offer(beginWord);
+        while (!queue.isEmpty()) {
+            String word = queue.poll();
+            if (word.equals(endWord)) {
+                legal = true;
+                break;
+            }
+            for (int i = 0; i < wordList.size(); ++i) {
+                if (!visited[i] && compare17_22(wordList.get(i), word)) {
+                    visited[i] = true;
+                    queue.offer(wordList.get(i));
+                    map.put(wordList.get(i), word);
+                }
+            }
+        }
+        if (!legal) {
+            return res;
+        }
+        String word = endWord;
+        while (!map.get(word).equals(beginWord)) {
+            res.add(word);
+            word = map.get(word);
+        }
+        res.add(word);
+        res.add(map.get(word));
+
+        Collections.reverse(res);
+        return res;
+    }
+
+    private boolean compare17_22(String word1, String word2) {
+        int diff = 0;
+        for (int i = 0; i < word1.length(); ++i) {
+            if (word1.charAt(i) != word2.charAt(i)) {
+                if (++diff > 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 }
