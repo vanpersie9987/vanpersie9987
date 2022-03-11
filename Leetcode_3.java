@@ -2854,4 +2854,54 @@ public class Leetcode_3 {
 
     }
 
+    // LCP 07. 传递信息 --bfs 还需掌握dfs、动态规划
+    public int numWays(int n, int[][] relation, int k) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int[] r : relation) {
+            map.computeIfAbsent(r[0], o -> new ArrayList<>()).add(r[1]);
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(0);
+
+        while (!queue.isEmpty() && k != 0) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int cur = queue.poll();
+                List<Integer> list = map.get(cur);
+                if (list == null) {
+                    continue;
+                }
+                for (int item : list) {
+                    queue.offer(item);
+                }
+            }
+            --k;
+        }
+        if (k != 0) {
+            return 0;
+        }
+        int res = 0;
+        while (!queue.isEmpty()) {
+            res += queue.poll() == n - 1 ? 1 : 0;
+        }
+        return res;
+
+    }
+
+    // 207. 课程表 (Course Schedule)
+    // public boolean canFinish(int numCourses, int[][] prerequisites) {
+
+    // }
+
+    // 剑指 Offer II 109. 开密码锁
+    // 752. 打开转盘锁 (Open the Lock) --bfs
+    // public int openLock(String[] deadends, String target) {
+
+    // }
+
+    // 909. 蛇梯棋 (Snakes and Ladders) --bfs
+    // public int snakesAndLadders(int[][] board) {
+
+    // }
+
 }
