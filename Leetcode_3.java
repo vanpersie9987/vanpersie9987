@@ -2888,6 +2888,41 @@ public class Leetcode_3 {
 
     }
 
+    // 1765. 地图中的最高点 (Map of Highest Peak) --多源bfs
+    public int[][] highestPeak(int[][] isWater) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        Queue<int[]> queue = new LinkedList<>();
+        int m = isWater.length;
+        int n = isWater[0].length;
+        boolean[][] visited = new boolean[m][n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (isWater[i][j] == 1) {
+                    isWater[i][j] = 0;
+                    visited[i][j] = true;
+                    queue.offer(new int[] { i, j });
+                }
+            }
+        }
+        if (queue.size() == m * n) {
+            return isWater;
+        }
+        while (!queue.isEmpty()) {
+            int[] p = queue.poll();
+            for (int[] direction : directions) {
+                int nx = p[0] + direction[0];
+                int ny = p[1] + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny]) {
+                    visited[nx][ny] = true;
+                    isWater[nx][ny] = isWater[p[0]][p[1]] + 1;
+                    queue.offer(new int[] { nx, ny });
+                }
+            }
+        }
+        return isWater;
+
+    }
+
     // 207. 课程表 (Course Schedule)
     // public boolean canFinish(int numCourses, int[][] prerequisites) {
 
