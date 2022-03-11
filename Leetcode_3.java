@@ -2923,6 +2923,37 @@ public class Leetcode_3 {
 
     }
 
+    // 1992. 找到所有的农场组 (Find All Groups of Farmland) 
+    public int[][] findFarmland(int[][] land) {
+        int m = land.length;
+        int n = land[0].length;
+        List<int[]> list = new ArrayList<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (land[i][j] == 0) {
+                    continue;
+                }
+                int row = i;
+                int col = j;
+                while (row + 1 < m && land[row + 1][j] == 1) {
+                    ++row;
+                }
+                while (col + 1 < n && land[i][col + 1] == 1) {
+                    ++col;
+                }
+
+                list.add(new int[] { i, j, row, col });
+                for (int k = i; k <= row; ++k) {
+                    for (int l = j; l <= col; ++l) {
+                        land[k][l] = 0;
+                    }
+                }
+            }
+        }
+        return list.toArray(new int[list.size()][]);
+
+    }
+
     // 207. 课程表 (Course Schedule)
     // public boolean canFinish(int numCourses, int[][] prerequisites) {
 
