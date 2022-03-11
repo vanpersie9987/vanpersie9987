@@ -2923,7 +2923,7 @@ public class Leetcode_3 {
 
     }
 
-    // 1992. 找到所有的农场组 (Find All Groups of Farmland) 
+    // 1992. 找到所有的农场组 (Find All Groups of Farmland)
     public int[][] findFarmland(int[][] land) {
         int m = land.length;
         int n = land[0].length;
@@ -2951,6 +2951,71 @@ public class Leetcode_3 {
             }
         }
         return list.toArray(new int[list.size()][]);
+
+    }
+
+    // 417. 太平洋大西洋水流问题 (Pacific Atlantic Water Flow) --bfs
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int m = heights.length;
+        int n = heights[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        // 可流入太平洋的岛屿
+        boolean[][] canFlowToPacificOcean = new boolean[m][n];
+        for (int j = 0; j < n; ++j) {
+            canFlowToPacificOcean[0][j] = true;
+            queue.offer(new int[] { 0, j });
+        }
+        for (int i = 0; i < m; ++i) {
+            canFlowToPacificOcean[i][0] = true;
+            queue.offer(new int[] { i, 0 });
+        }
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            for (int[] direction : directions) {
+                int nx = cur[0] + direction[0];
+                int ny = cur[1] + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !canFlowToPacificOcean[nx][ny]
+                        && heights[nx][ny] >= heights[cur[0]][cur[1]]) {
+                    canFlowToPacificOcean[nx][ny] = true;
+                    queue.offer(new int[] { nx, ny });
+                }
+            }
+        }
+        // 可流入大西洋的岛屿
+        boolean[][] canFlowToAtlanticOcean = new boolean[m][n];
+        for (int j = 0; j < n; ++j) {
+            canFlowToAtlanticOcean[m - 1][j] = true;
+            queue.offer(new int[] { m - 1, j });
+        }
+        for (int i = 0; i < m; ++i) {
+            canFlowToAtlanticOcean[i][n - 1] = true;
+            queue.offer(new int[] { i, n - 1 });
+        }
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            for (int[] direction : directions) {
+                int nx = cur[0] + direction[0];
+                int ny = cur[1] + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !canFlowToAtlanticOcean[nx][ny]
+                        && heights[nx][ny] >= heights[cur[0]][cur[1]]) {
+                    canFlowToAtlanticOcean[nx][ny] = true;
+                    queue.offer(new int[] { nx, ny });
+                }
+            }
+        }
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (canFlowToPacificOcean[i][j] && canFlowToAtlanticOcean[i][j]) {
+                    List<Integer> item = new ArrayList<>();
+                    item.add(i);
+                    item.add(j);
+                    res.add(item);
+                }
+            }
+        }
+        return res;
 
     }
 
