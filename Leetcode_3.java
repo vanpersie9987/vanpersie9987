@@ -159,6 +159,32 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 面试题32 - I. 从上到下打印二叉树 --bfs
+    public int[] levelOrder(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        if (root == null) {
+            return new int[0];
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            list.add(node.val);
+            if (node.left != null) {
+                queue.offer(node.left);
+            }
+            if (node.right != null) {
+                queue.offer(node.right);
+            }
+        }
+        int[] res = new int[list.size()];
+        for (int i = 0; i < res.length; ++i) {
+            res[i] = list.get(i);
+        }
+        return res;
+
+    }
+
     // 103. 二叉树的锯齿形层序遍历 (Binary Tree Zigzag Level Order Traversal) --bfs
     // 剑指 Offer 32 - III. 从上到下打印二叉树 III --bfs
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
@@ -2620,32 +2646,6 @@ public class Leetcode_3 {
             }
         }
         return null;
-
-    }
-
-    // 面试题32 - I. 从上到下打印二叉树 --bfs
-    public int[] levelOrder(TreeNode root) {
-        List<Integer> list = new ArrayList<>();
-        if (root == null) {
-            return new int[0];
-        }
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-        while (!queue.isEmpty()) {
-            TreeNode node = queue.poll();
-            list.add(node.val);
-            if (node.left != null) {
-                queue.offer(node.left);
-            }
-            if (node.right != null) {
-                queue.offer(node.right);
-            }
-        }
-        int[] res = new int[list.size()];
-        for (int i = 0; i < res.length; ++i) {
-            res[i] = list.get(i);
-        }
-        return res;
 
     }
 
