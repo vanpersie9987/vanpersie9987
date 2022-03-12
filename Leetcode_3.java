@@ -3084,8 +3084,9 @@ public class Leetcode_3 {
         Queue<String> queue = new LinkedList<>();
         queue.offer("0000");
         visited.add("0000");
-        int res = 1;
+        int res = 0;
         while (!queue.isEmpty()) {
+            ++res;
             int size = queue.size();
             for (int i = 0; i < size; ++i) {
                 char[] cur = queue.poll().toCharArray();
@@ -3115,7 +3116,6 @@ public class Leetcode_3 {
                     cur[j] = temp;
                 }
             }
-            ++res;
         }
         return -1;
 
