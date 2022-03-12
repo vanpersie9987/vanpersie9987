@@ -3067,6 +3067,60 @@ public class Leetcode_3 {
         return diff == 1;
     }
 
+    // 752. 打开转盘锁 (Open the Lock) --bfs
+    // 剑指 Offer II 109. 开密码锁 --bfs 还需掌握 启发式搜索
+    public int openLock(String[] deadends, String target) {
+        Set<String> set = new HashSet<>();
+        for (String deadend : deadends) {
+            set.add(deadend);
+        }
+        if (set.contains("0000")) {
+            return -1;
+        }
+        if (target.equals("0000")) {
+            return 0;
+        }
+        boolean[] visited = new boolean[10000];
+        Queue<String> queue = new LinkedList<>();
+        queue.offer("0000");
+        visited[0] = true;
+        int res = 1;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                char[] cur = queue.poll().toCharArray();
+                for (int j = 0; j < 4; ++j) {
+                    char temp = cur[j];
+                    int bit = cur[j] - '0';
+                    char change1 = (char) ((bit + 1) % 10 + '0');
+                    cur[j] = change1;
+                    String candidate1 = String.valueOf(cur);
+                    if (target.equals(candidate1)) {
+                        return res;
+                    }
+                    if (!set.contains(candidate1) && !visited[Integer.parseInt(candidate1)]) {
+                        visited[Integer.parseInt(candidate1)] = true;
+                        queue.offer(candidate1);
+                    }
+                    char change2 = (char) ((bit - 1 + 10) % 10 + '0');
+                    cur[j] = change2;
+                    String candidate2 = String.valueOf(cur);
+                    if (target.equals(candidate2)) {
+                        return res;
+                    }
+                    if (!set.contains(candidate2) && !visited[Integer.parseInt(candidate2)]) {
+                        visited[Integer.parseInt(candidate2)] = true;
+                        queue.offer(candidate2);
+                    }
+                    cur[j] = temp;
+                }
+            }
+            ++res;
+        }
+        return -1;
+
+    }
+
     // 407. 接雨水 II (Trapping Rain Water II)
     // public int trapRainWater(int[][] heightMap) {
 
@@ -3074,12 +3128,6 @@ public class Leetcode_3 {
 
     // 207. 课程表 (Course Schedule)
     // public boolean canFinish(int numCourses, int[][] prerequisites) {
-
-    // }
-
-    // 剑指 Offer II 109. 开密码锁
-    // 752. 打开转盘锁 (Open the Lock) --bfs
-    // public int openLock(String[] deadends, String target) {
 
     // }
 
