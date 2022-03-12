@@ -2648,58 +2648,6 @@ public class Leetcode_3 {
 
     }
 
-    // 面试题 17.22. 单词转换 (Word Transformer LCCI) --bfs
-    public List<String> findLadders(String beginWord, String endWord, List<String> wordList) {
-        List<String> res = new ArrayList<>();
-        if (!wordList.contains(endWord)) {
-            return res;
-        }
-        boolean[] visited = new boolean[wordList.size()];
-        Queue<String> queue = new LinkedList<>();
-        Map<String, String> map = new HashMap<>();
-        boolean legal = false;
-        queue.offer(beginWord);
-        while (!queue.isEmpty()) {
-            String word = queue.poll();
-            if (word.equals(endWord)) {
-                legal = true;
-                break;
-            }
-            for (int i = 0; i < wordList.size(); ++i) {
-                if (!visited[i] && compare17_22(wordList.get(i), word)) {
-                    visited[i] = true;
-                    queue.offer(wordList.get(i));
-                    map.put(wordList.get(i), word);
-                }
-            }
-        }
-        if (!legal) {
-            return res;
-        }
-        String word = endWord;
-        while (!map.get(word).equals(beginWord)) {
-            res.add(word);
-            word = map.get(word);
-        }
-        res.add(word);
-        res.add(map.get(word));
-
-        Collections.reverse(res);
-        return res;
-    }
-
-    private boolean compare17_22(String word1, String word2) {
-        int diff = 0;
-        for (int i = 0; i < word1.length(); ++i) {
-            if (word1.charAt(i) != word2.charAt(i)) {
-                if (++diff > 1) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
     // 面试题 08.10. 颜色填充 (Color Fill LCCI)
     public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
         int m = image.length;
@@ -3018,6 +2966,105 @@ public class Leetcode_3 {
         }
         return res;
 
+    }
+
+    // 面试题 17.22. 单词转换 (Word Transformer LCCI) --bfs
+    public List<String> findLadders(String beginWord, String endWord, List<String> wordList) {
+        List<String> res = new ArrayList<>();
+        if (!wordList.contains(endWord)) {
+            return res;
+        }
+        boolean[] visited = new boolean[wordList.size()];
+        Queue<String> queue = new LinkedList<>();
+        Map<String, String> map = new HashMap<>();
+        boolean legal = false;
+        queue.offer(beginWord);
+        while (!queue.isEmpty()) {
+            String word = queue.poll();
+            if (word.equals(endWord)) {
+                legal = true;
+                break;
+            }
+            for (int i = 0; i < wordList.size(); ++i) {
+                if (!visited[i] && compare17_22(wordList.get(i), word)) {
+                    visited[i] = true;
+                    queue.offer(wordList.get(i));
+                    map.put(wordList.get(i), word);
+                }
+            }
+        }
+        if (!legal) {
+            return res;
+        }
+        String word = endWord;
+        while (!map.get(word).equals(beginWord)) {
+            res.add(word);
+            word = map.get(word);
+        }
+        res.add(word);
+        res.add(map.get(word));
+
+        Collections.reverse(res);
+        return res;
+    }
+
+    private boolean compare17_22(String word1, String word2) {
+        int diff = 0;
+        for (int i = 0; i < word1.length(); ++i) {
+            if (word1.charAt(i) != word2.charAt(i)) {
+                if (++diff > 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    // 127. 单词接龙 (Word Ladder) --bfs 还需掌握 双向bfs、优化建图
+    // 剑指 Offer II 108. 单词演变
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        if (!wordList.contains(endWord)) {
+            return 0;
+        }
+        boolean[] visited = new boolean[wordList.size()];
+        Queue<String> queue = new LinkedList<>();
+        int res = 1;
+        queue.offer(beginWord);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            boolean flag = false;
+            for (int i = 0; i < size; ++i) {
+                String cur = queue.poll();
+                if (cur.equals(endWord)) {
+                    return res;
+                }
+                for (int j = 0; j < wordList.size(); ++j) {
+                    if (!visited[j] && isDiffWithOneCharacter(cur, wordList.get(j))) {
+                        flag = true;
+                        visited[j] = true;
+                        queue.offer(wordList.get(j));
+                    }
+                }
+            }
+            if (!flag) {
+                return 0;
+            }
+            ++res;
+        }
+        return res;
+
+    }
+
+    private boolean isDiffWithOneCharacter(String word1, String word2) {
+        int diff = 0;
+        for (int i = 0; i < word1.length(); ++i) {
+            if (word1.charAt(i) != word2.charAt(i)) {
+                if (++diff > 1) {
+                    return false;
+                }
+            }
+        }
+        return diff == 1;
     }
 
     // 407. 接雨水 II (Trapping Rain Water II)
