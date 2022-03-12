@@ -3067,9 +3067,12 @@ public class Leetcode_3 {
         return diff == 1;
     }
 
-    // 752. 打开转盘锁 (Open the Lock) --bfs
-    // 剑指 Offer II 109. 开密码锁 --bfs 还需掌握 启发式搜索
+    // 752. 打开转盘锁 (Open the Lock) --bfs 还需掌握 启发式搜索
+    // 剑指 Offer II 109. 开密码锁 --bfs
     public int openLock(String[] deadends, String target) {
+        if (target.equals("0000")) {
+            return 0;
+        }
         Set<String> set = new HashSet<>();
         for (String deadend : deadends) {
             set.add(deadend);
@@ -3077,13 +3080,10 @@ public class Leetcode_3 {
         if (set.contains("0000")) {
             return -1;
         }
-        if (target.equals("0000")) {
-            return 0;
-        }
-        boolean[] visited = new boolean[10000];
+        Set<String> visited = new HashSet<>();
         Queue<String> queue = new LinkedList<>();
         queue.offer("0000");
-        visited[0] = true;
+        visited.add("0000");
         int res = 1;
         while (!queue.isEmpty()) {
             int size = queue.size();
@@ -3098,8 +3098,8 @@ public class Leetcode_3 {
                     if (target.equals(candidate1)) {
                         return res;
                     }
-                    if (!set.contains(candidate1) && !visited[Integer.parseInt(candidate1)]) {
-                        visited[Integer.parseInt(candidate1)] = true;
+                    if (!set.contains(candidate1) && !visited.contains(candidate1)) {
+                        visited.add(candidate1);
                         queue.offer(candidate1);
                     }
                     char change2 = (char) ((bit - 1 + 10) % 10 + '0');
@@ -3108,8 +3108,8 @@ public class Leetcode_3 {
                     if (target.equals(candidate2)) {
                         return res;
                     }
-                    if (!set.contains(candidate2) && !visited[Integer.parseInt(candidate2)]) {
-                        visited[Integer.parseInt(candidate2)] = true;
+                    if (!set.contains(candidate2) && !visited.contains(candidate2)) {
+                        visited.add(candidate2);
                         queue.offer(candidate2);
                     }
                     cur[j] = temp;
