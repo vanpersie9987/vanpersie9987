@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
@@ -3133,8 +3134,117 @@ public class Leetcode_3 {
     // }
 
     // 909. 蛇梯棋 (Snakes and Ladders) --bfs
-    // public int snakesAndLadders(int[][] board) {
+    public int snakesAndLadders(int[][] board) {
+        int n = board.length;
+        int[] arr = new int[n * n];
+        int index = 0;
+        boolean reverse = false;
+        for (int i = n - 1; i >= 0; --i) {
+            if (reverse) {
+                for (int j = n - 1; j >= 0; --j) {
+                    arr[index++] = board[i][j];
+                }
+            } else {
+                for (int j = 0; j < n; ++j) {
+                    arr[index++] = board[i][j];
+                }
+            }
+            reverse = !reverse;
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        boolean[] visited = new boolean[n * n];
+        queue.offer(0);
+        visited[0] = true;
+        int res = 0;
+        while (!queue.isEmpty()) {
+            ++res;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int cur = queue.poll();
+                for (int j = 1; j <= 6; ++j) {
+                    int nIndex = cur + j;
+                    if (arr[nIndex] == -1) {
+                        if (nIndex == n * n - 1) {
+                            return res;
+                        }
+                        if (!visited[nIndex]) {
+                            visited[nIndex] = true;
+                            queue.offer(nIndex);
+                        }
+                    } else {
+                        if (arr[nIndex] - 1 == n * n - 1) {
+                            return res;
+                        }
+                        if (!visited[arr[nIndex] - 1]) {
+                            visited[arr[nIndex] - 1] = true;
+                            queue.offer(arr[nIndex] - 1);
+                        }
+                    }
+                }
+            }
+        }
+        return -1;
 
+    }
+
+    // public List<Integer> findKDistantIndices(int[] nums, int key, int k) {
+    // List<int[]> list = new ArrayList<>();
+    // for (int i = 0; i < nums.length; ++i) {
+    // if (nums[i] == key) {
+    // int min = Math.max(i - k, 0);
+    // int max = Math.min(i + k, nums.length - 1);
+    // if (list.isEmpty()) {
+    // list.add(new int[] { min, max });
+    // } else {
+    // int[] pre = list.get(list.size() - 1);
+    // if (min - pre[1] >= 2) {
+    // list.add(new int[] { min, max });
+    // } else {
+    // list.set(list.size() - 1, new int[] { pre[0], max });
+    // }
+    // }
+    // }
+    // }
+    // List<Integer> res = new ArrayList<>();
+    // for (int[] scope : list) {
+    // for (int i = scope[0]; i <= scope[1]; ++i) {
+    // res.add(i);
+    // }
+    // }
+    // return res;
+    // }
+
+    // public int digArtifacts(int n, int[][] artifacts, int[][] dig) {
+    // boolean[][] isDig = new boolean[n][n];
+    // for (int[] d : dig) {
+    // isDig[d[0]][d[1]] = true;
+    // }
+    // int res = 0;
+    // search: for (int[] artifact : artifacts) {
+    // int startX = artifact[0];
+    // int startY = artifact[1];
+    // int endX = artifact[2];
+    // int endY = artifact[3];
+    // for (int i = startX; i <= endX; ++i) {
+    // for (int j = startY; j <= endY; ++j) {
+    // if (!isDig[i][j]) {
+    // continue search;
+    // }
+    // }
+    // }
+    // ++res;
+    // }
+    // return res;
+
+    // }
+
+    // public int maximumTop(int[] nums, int k) {
+    // if (nums.length == 0) {
+    // return -1;
+    // }
+    // if (k == 0) {
+    // return nums[0];
+    // }
     // }
 
 }
