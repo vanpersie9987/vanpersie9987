@@ -3386,6 +3386,12 @@ public class Leetcode_3 {
 
     }
 
+    // 1625. 执行操作后字典序最小的字符串 (Lexicographically Smallest String After Applying
+    // Operations)
+    public String findLexSmallestString(String s, int a, int b) {
+
+    }
+
     // 407. 接雨水 II (Trapping Rain Water II)
     // public int trapRainWater(int[][] heightMap) {
 
