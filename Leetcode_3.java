@@ -3310,6 +3310,28 @@ public class Leetcode_3 {
 
     }
 
+    // 559. N 叉树的最大深度 (Maximum Depth of N-ary Tree) --bfs
+    public int maxDepth(Node root) {
+        int res = 0;
+        if (root == null) {
+            return res;
+        }
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        res = 0;
+        while (!queue.isEmpty()) {
+            ++res;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                Node cur = queue.poll();
+                for (Node child : cur.children) {
+                    queue.offer(child);
+                }
+            }
+        }
+        return res;
+    }
+
     // 407. 接雨水 II (Trapping Rain Water II)
     // public int trapRainWater(int[][] heightMap) {
 
