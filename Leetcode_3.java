@@ -3340,14 +3340,11 @@ public class Leetcode_3 {
         visited[0] = true;
         queue.offer(0);
         while (!queue.isEmpty()) {
-            int size = queue.size();
-            for (int i = 0; i < size; ++i) {
-                int cur = queue.poll();
-                for (int j : rooms.get(cur)) {
-                    if (!visited[j]) {
-                        queue.offer(j);
-                        visited[j] = true;
-                    }
+            int cur = queue.poll();
+            for (int i : rooms.get(cur)) {
+                if (!visited[i]) {
+                    queue.offer(i);
+                    visited[i] = true;
                 }
             }
         }
@@ -3357,7 +3354,6 @@ public class Leetcode_3 {
             }
         }
         return true;
-
     }
 
     // 407. 接雨水 II (Trapping Rain Water II)
