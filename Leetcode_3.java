@@ -1,3 +1,4 @@
+import java.security.cert.TrustAnchor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -9,7 +10,6 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
@@ -3177,6 +3177,52 @@ public class Leetcode_3 {
 
     }
 
+    // 994. 腐烂的橘子 (Rotting Oranges) --多源bfs (图bfs)
+    public int orangesRotting(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                // rotten
+                if (grid[i][j] == 2) {
+                    queue.offer(new int[] { i, j });
+                }
+            }
+        }
+        int res = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            boolean flag = false;
+            for (int i = 0; i < size; ++i) {
+                int[] cur = queue.poll();
+                for (int[] direction : directions) {
+                    int nx = cur[0] + direction[0];
+                    int ny = cur[1] + direction[1];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1) {
+                        grid[nx][ny] = 2;
+                        queue.offer(new int[] { nx, ny });
+                        flag = true;
+                    }
+                }
+            }
+            if (!flag) {
+                break;
+            }
+            ++res;
+        }
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    return -1;
+                }
+            }
+        }
+        return res;
+
+    }
+
     // 407. 接雨水 II (Trapping Rain Water II)
     // public int trapRainWater(int[][] heightMap) {
 
@@ -3184,11 +3230,6 @@ public class Leetcode_3 {
 
     // 207. 课程表 (Course Schedule)
     // public boolean canFinish(int numCourses, int[][] prerequisites) {
-
-    // }
-
-    // 994. 腐烂的橘子 (Rotting Oranges) --多源bfs
-    // public int orangesRotting(int[][] grid) {
 
     // }
 
