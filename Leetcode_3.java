@@ -3182,11 +3182,15 @@ public class Leetcode_3 {
         int m = grid.length;
         int n = grid[0].length;
         int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int freshCounts = 0;
         Queue<int[]> queue = new LinkedList<>();
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    ++freshCounts;
+                }
                 // rotten
-                if (grid[i][j] == 2) {
+                else if (grid[i][j] == 2) {
                     queue.offer(new int[] { i, j });
                 }
             }
@@ -3201,6 +3205,7 @@ public class Leetcode_3 {
                     int nx = cur[0] + direction[0];
                     int ny = cur[1] + direction[1];
                     if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1) {
+                        --freshCounts;
                         grid[nx][ny] = 2;
                         queue.offer(new int[] { nx, ny });
                         flag = true;
@@ -3212,15 +3217,7 @@ public class Leetcode_3 {
             }
             ++res;
         }
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (grid[i][j] == 1) {
-                    return -1;
-                }
-            }
-        }
-        return res;
-
+        return freshCounts > 0 ? -1 : res;
     }
 
     // 407. 接雨水 II (Trapping Rain Water II)
