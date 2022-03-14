@@ -1313,6 +1313,19 @@ public class Leetcode_3 {
         public Node left;
         public Node right;
         public Node parent;
+        public List<Node> children;
+
+        public Node() {
+        }
+
+        public Node(int _val) {
+            val = _val;
+        }
+
+        public Node(int _val, List<Node> _children) {
+            val = _val;
+            children = _children;
+        }
     };
 
     // 1650. 二叉树的最近公共祖先 III (Lowest Common Ancestor of a Binary Tree III) --plus
@@ -3270,6 +3283,33 @@ public class Leetcode_3 {
         return diff == 1;
     }
 
+    // 429. N 叉树的层序遍历 (N-ary Tree Level Order Traversal) --bfs
+    public List<List<Integer>> levelOrder(Node root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < size; ++i) {
+                Node node = queue.poll();
+                list.add(node.val);
+                List<Node> children = node.children;
+                if (children != null) {
+                    for (Node child : children) {
+                        queue.offer(child);
+                    }
+                }
+            }
+            res.add(list);
+        }
+        return res;
+
+    }
+
     // 407. 接雨水 II (Trapping Rain Water II)
     // public int trapRainWater(int[][] heightMap) {
 
@@ -3339,5 +3379,4 @@ public class Leetcode_3 {
     // return nums[0];
     // }
     // }
-
 }
