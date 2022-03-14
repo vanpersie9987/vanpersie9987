@@ -3220,6 +3220,56 @@ public class Leetcode_3 {
         return freshCounts > 0 ? -1 : res;
     }
 
+    // 433. 最小基因变化 (Minimum Genetic Mutation) --dfs
+    public int minMutation(String start, String end, String[] bank) {
+        Set<String> set = new HashSet<>();
+        for (String item : bank) {
+            set.add(item);
+        }
+        if (!set.contains(end)) {
+            return -1;
+        }
+        set.clear();
+        int res = 0;
+        Queue<String> queue = new LinkedList<>();
+        queue.offer(start);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            boolean flag = false;
+            for (int i = 0; i < size; ++i) {
+                String cur = queue.poll();
+                if (cur.equals(end)) {
+                    return res;
+                }
+                for (String item : bank) {
+                    if (!set.contains(item) && isDiffOnlyOne(cur, item)) {
+                        set.add(item);
+                        queue.offer(item);
+                        flag = true;
+                    }
+                }
+            }
+            if (!flag) {
+                return -1;
+            }
+            ++res;
+        }
+        return res;
+
+    }
+
+    private boolean isDiffOnlyOne(String word1, String word2) {
+        int diff = 0;
+        for (int i = 0; i < word1.length(); ++i) {
+            if (word1.charAt(i) != word2.charAt(i)) {
+                if (++diff > 1) {
+                    return false;
+                }
+            }
+        }
+        return diff == 1;
+    }
+
     // 407. 接雨水 II (Trapping Rain Water II)
     // public int trapRainWater(int[][] heightMap) {
 
