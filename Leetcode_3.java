@@ -3356,6 +3356,36 @@ public class Leetcode_3 {
         return true;
     }
 
+    // 797. 所有可能的路径 (All Paths From Source to Target) --bfs
+    // 剑指 Offer II 110. 所有路径
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        int n = graph.length;
+        Queue<List<Integer>> queue = new LinkedList<>();
+        for (int i : graph[0]) {
+            List<Integer> item = new LinkedList<>();
+            item.add(0);
+            item.add(i);
+            queue.offer(item);
+        }
+
+        List<List<Integer>> res = new LinkedList<>();
+        while (!queue.isEmpty()) {
+            List<Integer> cur = queue.poll();
+            int last = cur.get(cur.size() - 1);
+            if (last == n - 1) {
+                res.add(cur);
+            } else {
+                for (int i : graph[last]) {
+                    List<Integer> item = new LinkedList<>(cur);
+                    item.add(i);
+                    queue.offer(item);
+                }
+            }
+        }
+        return res;
+
+    }
+
     // 407. 接雨水 II (Trapping Rain Water II)
     // public int trapRainWater(int[][] heightMap) {
 
