@@ -3332,6 +3332,34 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 841. 钥匙和房间 (Keys and Rooms) --bfs
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        int n = rooms.size();
+        boolean[] visited = new boolean[n];
+        Queue<Integer> queue = new LinkedList<>();
+        visited[0] = true;
+        queue.offer(0);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int cur = queue.poll();
+                for (int j : rooms.get(cur)) {
+                    if (!visited[j]) {
+                        queue.offer(j);
+                        visited[j] = true;
+                    }
+                }
+            }
+        }
+        for (boolean visit : visited) {
+            if (!visit) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
     // 407. 接雨水 II (Trapping Rain Water II)
     // public int trapRainWater(int[][] heightMap) {
 
