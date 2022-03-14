@@ -11800,23 +11800,21 @@ public class LeetCodeText {
 
     }
 
-    // 599. 两个列表的最小索引总和
+    // 599. 两个列表的最小索引总和 (Minimum Index Sum of Two Lists)
     public String[] findRestaurant(String[] list1, String[] list2) {
         Map<String, Integer> map = new HashMap<>();
         for (int i = 0; i < list1.length; ++i) {
             map.put(list1[i], i);
         }
         List<String> res = new ArrayList<>();
-        int minSumIndex = Integer.MAX_VALUE;
-        int curSumIndex = 0;
+        int minIndexSum = Integer.MAX_VALUE;
         for (int i = 0; i < list2.length; ++i) {
             if (map.containsKey(list2[i])) {
-                curSumIndex = map.get(list2[i]) + i;
-                if (curSumIndex < minSumIndex) {
+                if (map.get(list2[i]) + i < minIndexSum) {
+                    minIndexSum = map.get(list2[i]) + i;
                     res.clear();
                     res.add(list2[i]);
-                    minSumIndex = curSumIndex;
-                } else if (curSumIndex == minSumIndex) {
+                } else if (minIndexSum == map.get(list2[i]) + i) {
                     res.add(list2[i]);
                 }
             }
