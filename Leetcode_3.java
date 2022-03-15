@@ -1,4 +1,3 @@
-import java.security.cert.TrustAnchor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -3436,6 +3435,35 @@ public class Leetcode_3 {
             }
         }
         return res;
+
+    }
+
+    // 847. 访问所有节点的最短路径 (Shortest Path Visiting All Nodes) --bfs + 状态压缩
+    public int shortestPathLength(int[][] graph) {
+        int n = graph.length;
+        Queue<int[]> queue = new LinkedList<>();
+        boolean[][] visited = new boolean[n][1 << n];
+        for (int i = 0; i < n; ++i) {
+            queue.offer(new int[] { i, 1 << i, 0 });
+            visited[i][1 << i] = true;
+        }
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int p = cur[0];
+            int mask = cur[1];
+            int step = cur[2];
+            if (mask == (1 << n) - 1) {
+                return step;
+            }
+            for (int x : graph[p]) {
+                int newMask = mask | (1 << x);
+                if (!visited[x][newMask]) {
+                    visited[x][newMask] = true;
+                    queue.offer(new int[] { x, newMask, step + 1 });
+                }
+            }
+        }
+        return -1;
 
     }
 
