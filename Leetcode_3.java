@@ -3386,6 +3386,30 @@ public class Leetcode_3 {
 
     }
 
+    // 2044. 统计按位或能得到最大值的子集数目 (Count Number of Maximum Bitwise-OR Subsets) -- 枚举
+    // 还需掌握“回溯”
+    public int countMaxOrSubsets(int[] nums) {
+        int n = nums.length;
+        int maxVal = Integer.MIN_VALUE;
+        int res = 0;
+        for (int i = 0; i < (1 << n); ++i) {
+            int xorVal = 0;
+            for (int j = 0; j < n; ++j) {
+                if (((i >>> j) & 1) == 1) {
+                    xorVal |= nums[j];
+                }
+            }
+            if (xorVal > maxVal) {
+                maxVal = xorVal;
+                res = 1;
+            } else if (xorVal == maxVal) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
     // 1625. 执行操作后字典序最小的字符串 (Lexicographically Smallest String After Applying
     // Operations)
     public String findLexSmallestString(String s, int a, int b) {
