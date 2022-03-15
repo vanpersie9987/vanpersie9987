@@ -3411,8 +3411,31 @@ public class Leetcode_3 {
     }
 
     // 1625. 执行操作后字典序最小的字符串 (Lexicographically Smallest String After Applying
-    // Operations)
+    // Operations) --bfs
     public String findLexSmallestString(String s, int a, int b) {
+        String res = s;
+        Set<String> visited = new HashSet<>();
+        Queue<String> queue = new LinkedList<>();
+        queue.offer(s);
+        visited.add(s);
+        while (!queue.isEmpty()) {
+            String cur = queue.poll();
+            if (cur.compareTo(res) < 0) {
+                res = cur;
+            }
+            char[] curChars = cur.toCharArray();
+            for (int i = 1; i < curChars.length; i += 2) {
+                curChars[i] = (char) (((curChars[i] - '0' + a) % 10) + '0');
+            }
+            if (visited.add(String.valueOf(curChars))) {
+                queue.offer(String.valueOf(curChars));
+            }
+            cur = cur.substring(cur.length() - b) + cur.substring(0, cur.length() - b);
+            if (visited.add(cur)) {
+                queue.offer(cur);
+            }
+        }
+        return res;
 
     }
 
