@@ -16,6 +16,7 @@ import java.util.TreeSet;
 
 public class Leetcode_3 {
     public static void main(String[] args) {
+        int[] res = numsSameConsecDiff(3, 7);
 
     }
 
@@ -3501,6 +3502,34 @@ public class Leetcode_3 {
             grid[changColor[0]][changColor[1]] = color;
         }
         return grid;
+
+    }
+
+    // 967. 连续差相同的数字 (Numbers With Same Consecutive Differences) --dfs
+    public static int[] numsSameConsecDiff(int n, int k) {
+        List<Integer> candidates = new ArrayList<>();
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 1; i <= 9; ++i) {
+            queue.offer(i);
+        }
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            if (String.valueOf(cur).length() == n) {
+                candidates.add(cur);
+            } else {
+                if (cur % 10 - k >= 0) {
+                    queue.offer(cur * 10 + cur % 10 - k);
+                }
+                if (k != 0 && cur % 10 + k <= 9) {
+                    queue.offer(cur * 10 + cur % 10 + k);
+                }
+            }
+        }
+        int[] res = new int[candidates.size()];
+        for (int i = 0; i < candidates.size(); ++i) {
+            res[i] = candidates.get(i);
+        }
+        return res;
 
     }
 
