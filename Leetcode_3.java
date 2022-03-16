@@ -100,6 +100,7 @@ public class Leetcode_3 {
     }
 
     // 104. 二叉树的最大深度 (Maximum Depth of Binary Tree) --bfs
+    // 剑指 Offer 55 - I. 二叉树的深度
     public int maxDepth(TreeNode root) {
         if (root == null) {
             return 0;
@@ -126,6 +127,7 @@ public class Leetcode_3 {
     }
 
     // 104. 二叉树的最大深度 (Maximum Depth of Binary Tree) --dfs
+    // 剑指 Offer 55 - I. 二叉树的深度
     public int maxDepth2(TreeNode root) {
         if (root == null) {
             return 0;
