@@ -3467,6 +3467,40 @@ public class Leetcode_3 {
 
     }
 
+    // 1034. 边界着色 (Coloring A Border) --bfs
+    public int[][] colorBorder(int[][] grid, int row, int col, int color) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        List<int[]> changedList = new ArrayList<>();
+        boolean[][] visited = new boolean[m][n];
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] { row, col });
+        visited[row][col] = true;
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            boolean flag = false;
+            for (int[] direction : directions) {
+                int nx = cur[0] + direction[0];
+                int ny = cur[1] + direction[1];
+                if (!(nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == grid[row][col])) {
+                    flag = true;
+                } else if (!visited[nx][ny]) {
+                    visited[nx][ny] = true;
+                    queue.offer(new int[] { nx, ny });
+                }
+            }
+            if (flag) {
+                changedList.add(new int[] { cur[0], cur[1] });
+            }
+        }
+        for (int[] changColor : changedList) {
+            grid[changColor[0]][changColor[1]] = color;
+        }
+        return grid;
+
+    }
+
     // 407. 接雨水 II (Trapping Rain Water II)
     // public int trapRainWater(int[][] heightMap) {
 
