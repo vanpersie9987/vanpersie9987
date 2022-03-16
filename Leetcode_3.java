@@ -12,11 +12,10 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class Leetcode_3 {
     public static void main(String[] args) {
-        int[] res = numsSameConsecDiff(3, 7);
+        // int[] res = numsSameConsecDiff(3, 7);
 
     }
 
@@ -3505,8 +3504,8 @@ public class Leetcode_3 {
 
     }
 
-    // 967. 连续差相同的数字 (Numbers With Same Consecutive Differences) --dfs
-    public static int[] numsSameConsecDiff(int n, int k) {
+    // 967. 连续差相同的数字 (Numbers With Same Consecutive Differences) --bfs
+    public int[] numsSameConsecDiff(int n, int k) {
         List<Integer> candidates = new ArrayList<>();
         Queue<Integer> queue = new LinkedList<>();
         for (int i = 1; i <= 9; ++i) {
