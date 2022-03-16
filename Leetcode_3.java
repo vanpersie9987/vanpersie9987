@@ -3532,6 +3532,72 @@ public class Leetcode_3 {
 
     }
 
+    // 934. 最短的桥 (Shortest Bridge) --bfs
+    public int shortestBridge(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        Queue<Integer> queue = new LinkedList<>();
+        boolean[][] visited = new boolean[m][n];
+        boolean flag = false;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    flag = true;
+                    queue.offer(i * n + j);
+                    visited[i][j] = true;
+                    break;
+                }
+            }
+            if (flag) {
+                break;
+            }
+        }
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            int x = cur / n;
+            int y = cur % n;
+            for (int[] direction : directions) {
+                int nx = x + direction[0];
+                int ny = y + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny] && grid[nx][ny] == 1) {
+                    visited[nx][ny] = true;
+                    queue.offer(nx * n + ny);
+                }
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (visited[i][j]) {
+                    queue.offer(i * n + j);
+                }
+            }
+        }
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int cur = queue.poll();
+                int x = cur / n;
+                int y = cur % n;
+                for (int[] direction : directions) {
+                    int nx = x + direction[0];
+                    int ny = y + direction[1];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny]) {
+                        if (grid[nx][ny] == 1) {
+                            return res;
+                        }
+                        visited[nx][ny] = true;
+                        queue.offer(nx * n + ny);
+                    }
+                }
+            }
+            ++res;
+        }
+        return res;
+
+    }
+
     // 407. 接雨水 II (Trapping Rain Water II)
     // public int trapRainWater(int[][] heightMap) {
 
