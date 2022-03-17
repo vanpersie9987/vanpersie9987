@@ -3647,6 +3647,41 @@ public class Leetcode_3 {
 
     }
 
+    // 407. 接雨水 II (Trapping Rain Water II) --优先队列
+    public int trapRainWater(int[][] heightMap) {
+        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>((o1, o2) -> o1[2] - o2[2]);
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int m = heightMap.length;
+        int n = heightMap[0].length;
+        boolean[][] visited = new boolean[m][n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i == 0 || i == m - 1 || j == 0 || j == n - 1) {
+                    priorityQueue.offer(new int[] { i, j, heightMap[i][j] });
+                    visited[i][j] = true;
+                }
+            }
+        }
+        int res = 0;
+        while (!priorityQueue.isEmpty()) {
+            int[] cur = priorityQueue.poll();
+            for (int[] direction : directions) {
+                int nx = cur[0] + direction[0];
+                int ny = cur[1] + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny]) {
+                    if (heightMap[nx][ny] < cur[2]) {
+                        res += cur[2] - heightMap[nx][ny];
+                    }
+                    visited[nx][ny] = true;
+                    heightMap[nx][ny] = Math.max(heightMap[nx][ny], cur[2]);
+                    priorityQueue.offer(new int[] { nx, ny, heightMap[nx][ny] });
+                }
+            }
+        }
+        return res;
+
+    }
+
     // 1376. 通知所有员工所需的时间 (Time Needed to Inform All Employees)
     public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
 
@@ -3656,11 +3691,6 @@ public class Leetcode_3 {
     public int minReorder(int n, int[][] connections) {
 
     }
-
-    // 407. 接雨水 II (Trapping Rain Water II)
-    // public int trapRainWater(int[][] heightMap) {
-
-    // }
 
     // 207. 课程表 (Course Schedule)
     // public boolean canFinish(int numCourses, int[][] prerequisites) {
