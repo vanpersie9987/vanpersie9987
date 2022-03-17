@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -3595,6 +3596,44 @@ public class Leetcode_3 {
             ++res;
         }
         return res;
+
+    }
+
+    // 720. 词典中最长的单词 (Longest Word in Dictionary)
+    public String longestWord(String[] words) {
+        Arrays.sort(words, new Comparator<String>() {
+
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.length() != o2.length() ? o1.length() - o2.length() : o2.compareTo(o1);
+            }
+
+        });
+        String res = "";
+        Set<String> set = new HashSet<>();
+        set.add("");
+        for (int i = 0; i < words.length; ++i) {
+            if (set.contains(words[i].substring(0, words[i].length() - 1))) {
+                res = words[i];
+                set.add(words[i]);
+            }
+        }
+        return res;
+
+    }
+
+    // 1376. 通知所有员工所需的时间 (Time Needed to Inform All Employees)
+    public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
+
+    }
+
+    // 1926. 迷宫中离入口最近的出口 (Nearest Exit from Entrance in Maze)
+    public int nearestExit(char[][] maze, int[] entrance) {
+
+    }
+
+    // 1466. 重新规划路线 (Reorder Routes to Make All Paths Lead to the City Zero)
+    public int minReorder(int n, int[][] connections) {
 
     }
 
