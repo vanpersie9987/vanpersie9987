@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -3599,16 +3598,9 @@ public class Leetcode_3 {
 
     }
 
-    // 720. 词典中最长的单词 (Longest Word in Dictionary)
+    // 720. 词典中最长的单词 (Longest Word in Dictionary) --哈希表 + 排序
     public String longestWord(String[] words) {
-        Arrays.sort(words, new Comparator<String>() {
-
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.length() != o2.length() ? o1.length() - o2.length() : o2.compareTo(o1);
-            }
-
-        });
+        Arrays.sort(words, (o1, o2) -> o1.length() != o2.length() ? o1.length() - o2.length() : o2.compareTo(o1));
         String res = "";
         Set<String> set = new HashSet<>();
         set.add("");
@@ -3622,13 +3614,41 @@ public class Leetcode_3 {
 
     }
 
-    // 1376. 通知所有员工所需的时间 (Time Needed to Inform All Employees)
-    public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
+    // 1926. 迷宫中离入口最近的出口 (Nearest Exit from Entrance in Maze) --bfs
+    public int nearestExit(char[][] maze, int[] entrance) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int m = maze.length;
+        int n = maze[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(entrance);
+        maze[entrance[0]][entrance[1]] = '+';
+        int res = 0;
+        while (!queue.isEmpty()) {
+            ++res;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = queue.poll();
+                for (int[] direction : directions) {
+                    int nx = cur[0] + direction[0];
+                    int ny = cur[1] + direction[1];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                        if ((nx == 0 || nx == m - 1 || ny == 0 || ny == n - 1) && maze[nx][ny] == '.') {
+                            return res;
+                        }
+                        if (maze[nx][ny] == '.') {
+                            maze[nx][ny] = '+';
+                            queue.offer(new int[] { nx, ny });
+                        }
+                    }
+                }
+            }
+        }
+        return -1;
 
     }
 
-    // 1926. 迷宫中离入口最近的出口 (Nearest Exit from Entrance in Maze)
-    public int nearestExit(char[][] maze, int[] entrance) {
+    // 1376. 通知所有员工所需的时间 (Time Needed to Inform All Employees)
+    public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
 
     }
 
