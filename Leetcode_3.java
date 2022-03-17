@@ -3648,6 +3648,7 @@ public class Leetcode_3 {
     }
 
     // 407. 接雨水 II (Trapping Rain Water II) --优先队列
+    // 还需掌握 bfs
     public int trapRainWater(int[][] heightMap) {
         PriorityQueue<int[]> priorityQueue = new PriorityQueue<>((o1, o2) -> o1[2] - o2[2]);
         int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
