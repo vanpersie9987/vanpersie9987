@@ -3733,6 +3733,48 @@ public class Leetcode_3 {
 
     }
 
+    // 1315. 祖父节点值为偶数的节点和 (Sum of Nodes with Even-Valued Grandparent) --bfs
+    public int sumEvenGrandparent(TreeNode root) {
+        int res = 0;
+        if (root == null) {
+            return res;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode cur = queue.poll();
+            if (cur.left != null) {
+                queue.offer(cur.left);
+                if (cur.val % 2 == 0) {
+                    if (cur.left.left != null) {
+                        res += cur.left.left.val;
+                    }
+                    if (cur.left.right != null) {
+                        res += cur.left.right.val;
+                    }
+                }
+            }
+            if (cur.right != null) {
+                queue.offer(cur.right);
+                if (cur.val % 2 == 0) {
+                    if (cur.right.left != null) {
+                        res += cur.right.left.val;
+                    }
+                    if (cur.right.right != null) {
+                        res += cur.right.right.val;
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 787. K 站中转内最便宜的航班 (Cheapest Flights Within K Stops)
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+
+    }
+
     // 1376. 通知所有员工所需的时间 (Time Needed to Inform All Employees)
     public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
 
