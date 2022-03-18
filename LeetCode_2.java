@@ -837,30 +837,25 @@ public class LeetCode_2 {
    // 2043. 简易银行系统 (Simple Bank System)
    class Bank {
       private long[] balance;
-      private int n;
 
       public Bank(long[] balance) {
          this.balance = balance;
-         this.n = balance.length;
-
       }
 
       public boolean transfer(int account1, int account2, long money) {
-         if (account1 <= 0 || account1 > n || account2 <= 0 || account2 > n) {
+         if (!accountIsLegal(account1) || !accountIsLegal(account2)) {
             return false;
          }
-         long res = balance[account1 - 1] - money;
-         if (res < 0) {
+         if (balance[account1 - 1] < money) {
             return false;
          }
-         balance[account1 - 1] = res;
-         balance[account2 - 1] += money;
+         withdraw(account1, money);
+         deposit(account2, money);
          return true;
-
       }
 
       public boolean deposit(int account, long money) {
-         if (account <= 0 || account > n) {
+         if (!accountIsLegal(account)) {
             return false;
          }
          balance[account - 1] += money;
@@ -868,16 +863,20 @@ public class LeetCode_2 {
 
       }
 
+      private boolean accountIsLegal(int account) {
+         return account >= 1 && account <= balance.length;
+      }
+
       public boolean withdraw(int account, long money) {
-         if (account <= 0 || account > n) {
+         if (!accountIsLegal(account)) {
             return false;
          }
-         long res = balance[account - 1] - money;
-         if (res < 0) {
+         if (balance[account - 1] < money) {
             return false;
          }
-         balance[account - 1] = res;
+         balance[account - 1] -= money;
          return true;
+
       }
    }
 

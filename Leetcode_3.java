@@ -3799,6 +3799,21 @@ public class Leetcode_3 {
 
     }
 
+    // 2157. 字符串分组 (Groups of Strings)
+    public int[] groupStrings(String[] words) {
+
+    }
+
+    // 529. 扫雷游戏 (Minesweeper)
+    // public char[][] updateBoard(char[][] board, int[] click) {
+
+    // }
+
+    // 1443. 收集树上所有苹果的最少时间 (Minimum Time to Collect All Apples in a Tree)
+    // public int minTime(int n, int[][] edges, List<Boolean> hasApple) {
+
+    // }
+
     // 617. 合并二叉树 (Merge Two Binary Trees)
     // public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
 
