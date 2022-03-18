@@ -673,7 +673,8 @@ public class Leetcode_3 {
         return 'X';
     }
 
-    // 199. 二叉树的右视图 (Binary Tree Right Side View) --广度优先 bfs
+    // 199. 二叉树的右视图 (Binary Tree Right Side View) --bfs
+    // 剑指 Offer II 046. 二叉树的右侧视图 --bfs
     public List<Integer> rightSideView(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         if (root == null) {
@@ -701,6 +702,7 @@ public class Leetcode_3 {
     }
 
     // 199. 二叉树的右视图 (Binary Tree Right Side View) --深度优先 dfs
+    // 剑指 Offer II 046. 二叉树的右侧视图 --dfs
     private List<Integer> res199;
 
     public List<Integer> rightSideView2(TreeNode root) {
@@ -3767,6 +3769,11 @@ public class Leetcode_3 {
             }
         }
         return res;
+
+    }
+
+    // 617. 合并二叉树 (Merge Two Binary Trees)
+    public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
 
     }
 
