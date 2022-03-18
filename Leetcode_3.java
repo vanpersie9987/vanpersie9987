@@ -3772,25 +3772,53 @@ public class Leetcode_3 {
 
     }
 
-    // 617. 合并二叉树 (Merge Two Binary Trees)
-    public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
+    // 637. 二叉树的层平均值 (Average of Levels in Binary Tree) --bfs
+    public List<Double> averageOfLevels(TreeNode root) {
+        List<Double> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            double sum = 0d;
+            for (int i = 0; i < size; ++i) {
+                TreeNode cur = queue.poll();
+                sum += cur.val;
+                if (cur.left != null) {
+                    queue.offer(cur.left);
+                }
+                if (cur.right != null) {
+                    queue.offer(cur.right);
+                }
+            }
+            res.add(sum / size);
+        }
+        return res;
 
     }
+
+    // 617. 合并二叉树 (Merge Two Binary Trees)
+    // public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
+
+    // }
 
     // 787. K 站中转内最便宜的航班 (Cheapest Flights Within K Stops)
-    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+    // public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k)
+    // {
 
-    }
+    // }
 
     // 1376. 通知所有员工所需的时间 (Time Needed to Inform All Employees)
-    public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
+    // public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
 
-    }
+    // }
 
     // 1466. 重新规划路线 (Reorder Routes to Make All Paths Lead to the City Zero)
-    public int minReorder(int n, int[][] connections) {
+    // public int minReorder(int n, int[][] connections) {
 
-    }
+    // }
 
     // 207. 课程表 (Course Schedule)
     // public boolean canFinish(int numCourses, int[][] prerequisites) {
