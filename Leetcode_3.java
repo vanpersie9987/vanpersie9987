@@ -3648,7 +3648,6 @@ public class Leetcode_3 {
     }
 
     // 407. 接雨水 II (Trapping Rain Water II) --优先队列
-    // 还需掌握 bfs
     public int trapRainWater(int[][] heightMap) {
         PriorityQueue<int[]> priorityQueue = new PriorityQueue<>((o1, o2) -> o1[2] - o2[2]);
         int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
@@ -3677,6 +3676,57 @@ public class Leetcode_3 {
                     heightMap[nx][ny] = Math.max(heightMap[nx][ny], cur[2]);
                     priorityQueue.offer(new int[] { nx, ny, heightMap[nx][ny] });
                 }
+            }
+        }
+        return res;
+
+    }
+
+    // 407. 接雨水 II (Trapping Rain Water II) --bfs
+    public int trapRainWater2(int[][] heightMap) {
+        int maxHeight = 0;
+        int m = heightMap.length;
+        int n = heightMap[0].length;
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                maxHeight = Math.max(maxHeight, heightMap[i][j]);
+            }
+        }
+        int[][] water = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                water[i][j] = maxHeight;
+            }
+        }
+
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i == 0 || i == m - 1 || j == 0 || j == n - 1) {
+                    if (water[i][j] > heightMap[i][j]) {
+                        water[i][j] = heightMap[i][j];
+                        queue.offer(new int[] { i, j });
+                    }
+                }
+            }
+        }
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            for (int[] direction : directions) {
+                int nx = cur[0] + direction[0];
+                int ny = cur[1] + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && water[nx][ny] > water[cur[0]][cur[1]]
+                        && water[nx][ny] > heightMap[nx][ny]) {
+                    water[nx][ny] = Math.max(water[cur[0]][cur[1]], heightMap[nx][ny]);
+                    queue.offer(new int[] { nx, ny });
+                }
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                res += water[i][j] - heightMap[i][j];
             }
         }
         return res;
