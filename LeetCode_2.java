@@ -10008,6 +10008,7 @@ public class LeetCode_2 {
    }
 
    // 226. 翻转二叉树 (Invert Binary Tree) --dfs
+   // 剑指 Offer 27. 二叉树的镜像 --dfs
    public TreeNode invertTree(TreeNode root) {
       if (root == null) {
          return null;
@@ -10020,25 +10021,27 @@ public class LeetCode_2 {
    }
 
    // 226. 翻转二叉树 (Invert Binary Tree) --bfs
+   // 剑指 Offer 27. 二叉树的镜像 --bfs
    public TreeNode invertTree2(TreeNode root) {
       if (root == null) {
-         return null;
+         return root;
       }
       Queue<TreeNode> queue = new LinkedList<>();
       queue.offer(root);
       while (!queue.isEmpty()) {
-         TreeNode node = queue.poll();
-         TreeNode tmp = node.left;
-         node.left = node.right;
-         node.right = tmp;
-         if (node.left != null) {
-            queue.offer(node.left);
+         TreeNode cur = queue.poll();
+         TreeNode temp = cur.left;
+         cur.left = cur.right;
+         cur.right = temp;
+         if (cur.left != null) {
+            queue.offer(cur.left);
          }
-         if (node.right != null) {
-            queue.offer(node.right);
+         if (cur.right != null) {
+            queue.offer(cur.right);
          }
       }
       return root;
+
    }
 
    // 107. 二叉树的层序遍历 II (Binary Tree Level Order Traversal II)
