@@ -3938,6 +3938,38 @@ public class Leetcode_3 {
 
     }
 
+    // 银联-01. 回文链表
+    public boolean isPalindrome(ListNode head) {
+        List<Integer> list = new ArrayList<>();
+        while (head != null) {
+            list.add(head.val);
+            head = head.next;
+        }
+        int left = 0;
+        int right = list.size() - 1;
+        while (left < right) {
+            if (list.get(left) == list.get(right)) {
+                ++left;
+                --right;
+            } else {
+                return judge01(list, left + 1, right) || judge01(list, left, right - 1);
+            }
+        }
+        return true;
+
+    }
+
+    private boolean judge01(List<Integer> list, int left, int right) {
+        while (left < right) {
+            if (list.get(left) != list.get(right)) {
+                return false;
+            }
+            ++left;
+            --right;
+        }
+        return true;
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
