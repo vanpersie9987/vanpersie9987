@@ -3918,6 +3918,26 @@ public class Leetcode_3 {
 
     }
 
+    // 2202. K 次操作后最大化顶端元素 (Maximize the Topmost Element After K Moves)
+    public int maximumTop(int[] nums, int k) {
+        int n = nums.length;
+        if (n == 1) {
+            return k % 2 == 1 ? -1 : nums[0];
+        }
+        if (k <= 1) {
+            return nums[k];
+        }
+        if (k > n) {
+            return Arrays.stream(nums).max().getAsInt();
+        }
+        if (k == n) {
+            return Arrays.stream(Arrays.copyOfRange(nums, 0, n - 1)).max().getAsInt();
+        }
+        // 1 < k < n
+        return Math.max(Arrays.stream(Arrays.copyOfRange(nums, 0, k - 1)).max().getAsInt(), nums[k]);
+
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
@@ -3962,14 +3982,5 @@ public class Leetcode_3 {
     // 207. 课程表 (Course Schedule)
     // public boolean canFinish(int numCourses, int[][] prerequisites) {
 
-    // }
-
-    // public int maximumTop(int[] nums, int k) {
-    // if (nums.length == 0) {
-    // return -1;
-    // }
-    // if (k == 0) {
-    // return nums[0];
-    // }
     // }
 }
