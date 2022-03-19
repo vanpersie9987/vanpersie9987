@@ -3844,6 +3844,27 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 6022. 将数组和减半的最少操作次数 (Minimum Operations to Halve Array Sum)
+    public int halveArray(int[] nums) {
+        PriorityQueue<Double> priorityQueue = new PriorityQueue<>((o1, o2) -> o2.compareTo(o1));
+        double sum = 0d;
+        for (int num : nums) {
+            sum += num;
+            priorityQueue.offer((double) num);
+        }
+        int res = 0;
+        double curSum = 0d;
+        do {
+            double firstNum = priorityQueue.poll();
+            firstNum /= 2;
+            curSum += firstNum;
+            priorityQueue.offer(firstNum);
+            ++res;
+        } while (curSum * 2 < sum);
+        return res;
+
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
@@ -3949,24 +3970,4 @@ public class Leetcode_3 {
     // return nums[0];
     // }
     // }
-
-    public int halveArray(int[] nums) {
-        PriorityQueue<Double> priorityQueue = new PriorityQueue<>((o1, o2) -> o2.compareTo(o1));
-        double sum = 0d;
-        for (int num : nums) {
-            sum += num;
-            priorityQueue.offer((double) num);
-        }
-        int res = 0;
-        double curSum = 0d;
-        do {
-            double firstNum = priorityQueue.poll();
-            firstNum /= 2;
-            curSum += firstNum;
-            priorityQueue.offer(firstNum);
-            ++res;
-        } while (curSum * 2 < sum);
-        return res;
-
-    }
 }
