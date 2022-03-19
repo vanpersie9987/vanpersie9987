@@ -3865,6 +3865,59 @@ public class Leetcode_3 {
 
     }
 
+    // 2200. 找出数组中的所有 K 近邻下标 (Find All K-Distant Indices in an Array)
+    public List<Integer> findKDistantIndices(int[] nums, int key, int k) {
+        List<int[]> list = new ArrayList<>();
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] == key) {
+                int min = Math.max(i - k, 0);
+                int max = Math.min(i + k, nums.length - 1);
+                if (list.isEmpty()) {
+                    list.add(new int[] { min, max });
+                } else {
+                    int[] pre = list.get(list.size() - 1);
+                    if (min - pre[1] >= 2) {
+                        list.add(new int[] { min, max });
+                    } else {
+                        list.set(list.size() - 1, new int[] { pre[0], max });
+                    }
+                }
+            }
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int[] scope : list) {
+            for (int i = scope[0]; i <= scope[1]; ++i) {
+                res.add(i);
+            }
+        }
+        return res;
+    }
+
+    // 2201. 统计可以提取的工件 (Count Artifacts That Can Be Extracted)
+    public int digArtifacts(int n, int[][] artifacts, int[][] dig) {
+        boolean[][] isDig = new boolean[n][n];
+        for (int[] d : dig) {
+            isDig[d[0]][d[1]] = true;
+        }
+        int res = 0;
+        search: for (int[] artifact : artifacts) {
+            int startX = artifact[0];
+            int startY = artifact[1];
+            int endX = artifact[2];
+            int endY = artifact[3];
+            for (int i = startX; i <= endX; ++i) {
+                for (int j = startY; j <= endY; ++j) {
+                    if (!isDig[i][j]) {
+                        continue search;
+                    }
+                }
+            }
+            ++res;
+        }
+        return res;
+
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
@@ -3908,58 +3961,6 @@ public class Leetcode_3 {
 
     // 207. 课程表 (Course Schedule)
     // public boolean canFinish(int numCourses, int[][] prerequisites) {
-
-    // }
-
-    // 2200. 找出数组中的所有 K 近邻下标 (Find All K-Distant Indices in an Array)
-    public List<Integer> findKDistantIndices(int[] nums, int key, int k) {
-        List<int[]> list = new ArrayList<>();
-        for (int i = 0; i < nums.length; ++i) {
-            if (nums[i] == key) {
-                int min = Math.max(i - k, 0);
-                int max = Math.min(i + k, nums.length - 1);
-                if (list.isEmpty()) {
-                    list.add(new int[] { min, max });
-                } else {
-                    int[] pre = list.get(list.size() - 1);
-                    if (min - pre[1] >= 2) {
-                        list.add(new int[] { min, max });
-                    } else {
-                        list.set(list.size() - 1, new int[] { pre[0], max });
-                    }
-                }
-            }
-        }
-        List<Integer> res = new ArrayList<>();
-        for (int[] scope : list) {
-            for (int i = scope[0]; i <= scope[1]; ++i) {
-                res.add(i);
-            }
-        }
-        return res;
-    }
-
-    // public int digArtifacts(int n, int[][] artifacts, int[][] dig) {
-    // boolean[][] isDig = new boolean[n][n];
-    // for (int[] d : dig) {
-    // isDig[d[0]][d[1]] = true;
-    // }
-    // int res = 0;
-    // search: for (int[] artifact : artifacts) {
-    // int startX = artifact[0];
-    // int startY = artifact[1];
-    // int endX = artifact[2];
-    // int endY = artifact[3];
-    // for (int i = startX; i <= endX; ++i) {
-    // for (int j = startY; j <= endY; ++j) {
-    // if (!isDig[i][j]) {
-    // continue search;
-    // }
-    // }
-    // }
-    // ++res;
-    // }
-    // return res;
 
     // }
 
