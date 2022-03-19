@@ -3911,32 +3911,33 @@ public class Leetcode_3 {
 
     // }
 
-    // public List<Integer> findKDistantIndices(int[] nums, int key, int k) {
-    // List<int[]> list = new ArrayList<>();
-    // for (int i = 0; i < nums.length; ++i) {
-    // if (nums[i] == key) {
-    // int min = Math.max(i - k, 0);
-    // int max = Math.min(i + k, nums.length - 1);
-    // if (list.isEmpty()) {
-    // list.add(new int[] { min, max });
-    // } else {
-    // int[] pre = list.get(list.size() - 1);
-    // if (min - pre[1] >= 2) {
-    // list.add(new int[] { min, max });
-    // } else {
-    // list.set(list.size() - 1, new int[] { pre[0], max });
-    // }
-    // }
-    // }
-    // }
-    // List<Integer> res = new ArrayList<>();
-    // for (int[] scope : list) {
-    // for (int i = scope[0]; i <= scope[1]; ++i) {
-    // res.add(i);
-    // }
-    // }
-    // return res;
-    // }
+    // 2200. 找出数组中的所有 K 近邻下标 (Find All K-Distant Indices in an Array)
+    public List<Integer> findKDistantIndices(int[] nums, int key, int k) {
+        List<int[]> list = new ArrayList<>();
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] == key) {
+                int min = Math.max(i - k, 0);
+                int max = Math.min(i + k, nums.length - 1);
+                if (list.isEmpty()) {
+                    list.add(new int[] { min, max });
+                } else {
+                    int[] pre = list.get(list.size() - 1);
+                    if (min - pre[1] >= 2) {
+                        list.add(new int[] { min, max });
+                    } else {
+                        list.set(list.size() - 1, new int[] { pre[0], max });
+                    }
+                }
+            }
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int[] scope : list) {
+            for (int i = scope[0]; i <= scope[1]; ++i) {
+                res.add(i);
+            }
+        }
+        return res;
+    }
 
     // public int digArtifacts(int n, int[][] artifacts, int[][] dig) {
     // boolean[][] isDig = new boolean[n][n];
