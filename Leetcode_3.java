@@ -3811,6 +3811,39 @@ public class Leetcode_3 {
 
     }
 
+    // 6021. 字符串中最多数目的子字符串 (Maximize Number of Subsequences in a String)
+    public long maximumSubsequenceCount(String text, String pattern) {
+        return Math.max(getRes6021(pattern.charAt(0) + text, pattern), getRes6021(text + pattern.charAt(1), pattern));
+
+    }
+
+    private long getRes6021(String text, String pattern) {
+        char pattern1 = pattern.charAt(0);
+        char pattern2 = pattern.charAt(1);
+        StringBuilder builder = new StringBuilder();
+        for (char c : text.toCharArray()) {
+            if (c == pattern1 || c == pattern2) {
+                builder.append(c);
+            }
+        }
+        int[] counts = new int[builder.length()];
+        for (int i = counts.length - 2; i >= 0; --i) {
+            if (builder.charAt(i + 1) == pattern2) {
+                counts[i] = counts[i + 1] + 1;
+            } else {
+                counts[i] = counts[i + 1];
+            }
+        }
+        long res = 0L;
+        for (int i = 0; i < builder.length(); ++i) {
+            if (builder.charAt(i) == pattern1) {
+                res += counts[i];
+            }
+        }
+
+        return res;
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
@@ -3916,38 +3949,6 @@ public class Leetcode_3 {
     // return nums[0];
     // }
     // }
-
-    public long maximumSubsequenceCount(String text, String pattern) {
-        return Math.max(getRes6021(pattern.charAt(0) + text, pattern), getRes6021(text + pattern.charAt(1), pattern));
-
-    }
-
-    private long getRes6021(String text, String pattern) {
-        char pattern1 = pattern.charAt(0);
-        char pattern2 = pattern.charAt(1);
-        StringBuilder builder = new StringBuilder();
-        for (char c : text.toCharArray()) {
-            if (c == pattern1 || c == pattern2) {
-                builder.append(c);
-            }
-        }
-        int[] counts = new int[builder.length()];
-        for (int i = counts.length - 2; i >= 0; --i) {
-            if (builder.charAt(i + 1) == pattern2) {
-                counts[i] = counts[i + 1] + 1;
-            } else {
-                counts[i] = counts[i + 1];
-            }
-        }
-        long res = 0L;
-        for (int i = 0; i < builder.length(); ++i) {
-            if (builder.charAt(i) == pattern1) {
-                res += counts[i];
-            }
-        }
-
-        return res;
-    }
 
     public int halveArray(int[] nums) {
         PriorityQueue<Double> priorityQueue = new PriorityQueue<>((o1, o2) -> o2.compareTo(o1));
