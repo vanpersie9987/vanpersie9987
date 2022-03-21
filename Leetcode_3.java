@@ -4045,6 +4045,12 @@ public class Leetcode_3 {
 
     // }
 
+    // 647. 回文子串 (Palindromic Substrings)
+    // 剑指 Offer II 020. 回文子字符串的个数
+    // public int countSubstrings(String s) {
+
+    // }
+
     // // 6027. 统计数组中峰和谷的数量
     // public int countHillValley(int[] nums) {
     // int res = 0;
