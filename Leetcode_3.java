@@ -3970,6 +3970,29 @@ public class Leetcode_3 {
         return true;
     }
 
+    // 面试题 10.10. 数字流的秩 (Rank from Stream LCCI)
+    // --还需掌握树状数组、二分查找
+    class StreamRank {
+        private int[] counts;
+
+        public StreamRank() {
+            counts = new int[50001];
+
+        }
+
+        public void track(int x) {
+            ++counts[x];
+        }
+
+        public int getRankOfNumber(int x) {
+            int res = 0;
+            for (int i = 0; i <= x; ++i) {
+                res += counts[i];
+            }
+            return res;
+        }
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
@@ -4014,5 +4037,127 @@ public class Leetcode_3 {
     // 207. 课程表 (Course Schedule)
     // public boolean canFinish(int numCourses, int[][] prerequisites) {
 
+    // }
+
+    // // 6027. 统计数组中峰和谷的数量
+    // public int countHillValley(int[] nums) {
+    // int res = 0;
+    // for (int i = 1; i < nums.length - 1; ++i) {
+    // if (nums[i] == nums[i - 1]) {
+    // continue;
+    // }
+    // if (isPeek6027(i, i - 1, i + 1, nums)) {
+    // ++res;
+    // }
+    // }
+    // return res;
+
+    // }
+
+    // private boolean isPeek6027(int index, int left, int right, int[] nums) {
+    // while (left >= 0 && right < nums.length) {
+    // if (nums[index] == nums[left]) {
+    // --left;
+    // continue;
+    // }
+    // if (nums[index] == nums[right]) {
+    // ++right;
+    // continue;
+    // }
+    // if (nums[left] > nums[index] && nums[index] > nums[right]) {
+    // return false;
+    // } else if (nums[left] < nums[index] && nums[index] < nums[right]) {
+    // return false;
+    // }
+    // if ((nums[index] > nums[left] && nums[index] > nums[right]) || (nums[index] <
+    // nums[left]
+    // && nums[index] < nums[right])) {
+    // return true;
+    // }
+    // }
+    // return false;
+    // }
+
+    // // 6028. 统计道路上的碰撞次数
+    // public int countCollisions(String directions) {
+    // int res = 0;
+    // for (int i = 0; i < directions.length(); ++i) {
+    // if (directions.charAt(i) == 'S') {
+    // int left = i - 1;
+    // int right = i + 1;
+    // while (left >= 0 && directions.charAt(left) == 'R') {
+    // --left;
+    // ++res;
+    // }
+    // while (right < directions.length() && directions.charAt(right) == 'L') {
+    // ++right;
+    // ++res;
+    // }
+    // }
+    // }
+    // for (int i = 0; i < directions.length() - 1; ++i) {
+    // if (directions.charAt(i) == 'R' && directions.charAt(i + 1) == 'L') {
+    // res += 2;
+    // int left = i - 1;
+    // int right = i + 2;
+    // while (left >= 0 && directions.charAt(left) == 'R') {
+    // ++res;
+    // --left;
+    // }
+    // while (right < directions.length() && directions.charAt(right) == 'L') {
+    // ++right;
+    // ++res;
+    // }
+    // }
+    // }
+    // return res;
+    // }
+
+    // // 6029. 射箭比赛中的最大得分
+    // public int[] maximumBobPoints(int numArrows, int[] aliceArrows) {
+    // int max = 0;
+    // int status = 0;
+    // for (int i = 0; i < (1 << 12); ++i) {
+    // int cur = getRes6029(numArrows, aliceArrows, i);
+    // if (cur > max) {
+    // max = cur;
+    // status = i;
+    // }
+    // }
+    // int[] res = new int[12];
+    // for (int i = 0; i < 12; ++i) {
+    // if (((status >>> i) & 1) == 1) {
+    // if (aliceArrows[i] + 1 < numArrows) {
+    // res[i] = aliceArrows[i] + 1;
+    // numArrows -= aliceArrows[i] + 1;
+    // } else if (aliceArrows[i] + 1 == numArrows) {
+    // res[i] = aliceArrows[i] + 1;
+    // return res;
+    // } else {
+    // continue;
+    // }
+    // }
+    // }
+    // res[0] += numArrows;
+    // return res;
+
+    // }
+
+    // private int getRes6029(int numArrows, int[] aliceArrows, int status) {
+    // int res = 0;
+    // for (int i = 0; i < 12; ++i) {
+    // if (((status >>> i) & 1) == 1) {
+    // if (aliceArrows[i] + 1 < numArrows) {
+    // res += i;
+    // numArrows -= aliceArrows[i] + 1;
+    // } else if (aliceArrows[i] + 1 == numArrows) {
+    // res += i;
+    // return res;
+    // } else {
+    // continue;
+    // }
+    // }
+    // }
+    // return res;
     // }
 }
