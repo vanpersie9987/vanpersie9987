@@ -3993,69 +3993,6 @@ public class Leetcode_3 {
         }
     }
 
-    // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
-    // public int networkBecomesIdle(int[][] edges, int[] patience) {
-
-    // }
-
-    // 2157. 字符串分组 (Groups of Strings)
-    // public int[] groupStrings(String[] words) {
-
-    // }
-
-    // 529. 扫雷游戏 (Minesweeper)
-    // public char[][] updateBoard(char[][] board, int[] click) {
-
-    // }
-
-    // 1443. 收集树上所有苹果的最少时间 (Minimum Time to Collect All Apples in a Tree)
-    // public int minTime(int n, int[][] edges, List<Boolean> hasApple) {
-
-    // }
-
-    // 617. 合并二叉树 (Merge Two Binary Trees)
-    // public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
-
-    // }
-
-    // 787. K 站中转内最便宜的航班 (Cheapest Flights Within K Stops)
-    // public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k)
-    // {
-
-    // }
-
-    // 1376. 通知所有员工所需的时间 (Time Needed to Inform All Employees)
-    // public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
-
-    // }
-
-    // 1466. 重新规划路线 (Reorder Routes to Make All Paths Lead to the City Zero)
-    // public int minReorder(int n, int[][] connections) {
-
-    // }
-
-    // 207. 课程表 (Course Schedule)
-    // public boolean canFinish(int numCourses, int[][] prerequisites) {
-
-    // }
-
-    // 210. 课程表 II (Course Schedule II)
-    // 剑指 Offer II 113. 课程顺序
-    // public int[] findOrder(int numCourses, int[][] prerequisites) {
-
-    // }
-
-    // 647. 回文子串 (Palindromic Substrings)
-    // 剑指 Offer II 020. 回文子字符串的个数
-    // public int countSubstrings(String s) {
-
-    // }
-
-    // 452. 用最少数量的箭引爆气球 (Minimum Number of Arrows to Burst Balloons)
-    // public int findMinArrowShots(int[][] points) {
-
-    // }
-
     // 453. 最小操作次数使数组元素相等 (Minimum Moves to Equal Array Elements)
     public int minMoves(int[] nums) {
         int min = Integer.MAX_VALUE;
@@ -4177,4 +4114,67 @@ public class Leetcode_3 {
         }
         return res;
     }
+
+    // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
+    // public int networkBecomesIdle(int[][] edges, int[] patience) {
+
+    // }
+
+    // 2157. 字符串分组 (Groups of Strings)
+    // public int[] groupStrings(String[] words) {
+
+    // }
+
+    // 529. 扫雷游戏 (Minesweeper)
+    // public char[][] updateBoard(char[][] board, int[] click) {
+
+    // }
+
+    // 1443. 收集树上所有苹果的最少时间 (Minimum Time to Collect All Apples in a Tree)
+    // public int minTime(int n, int[][] edges, List<Boolean> hasApple) {
+
+    // }
+
+    // 617. 合并二叉树 (Merge Two Binary Trees)
+    // public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
+
+    // }
+
+    // 787. K 站中转内最便宜的航班 (Cheapest Flights Within K Stops)
+    // public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k)
+    // {
+
+    // }
+
+    // 1376. 通知所有员工所需的时间 (Time Needed to Inform All Employees)
+    // public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
+
+    // }
+
+    // 1466. 重新规划路线 (Reorder Routes to Make All Paths Lead to the City Zero)
+    // public int minReorder(int n, int[][] connections) {
+
+    // }
+
+    // 207. 课程表 (Course Schedule)
+    // public boolean canFinish(int numCourses, int[][] prerequisites) {
+
+    // }
+
+    // 210. 课程表 II (Course Schedule II)
+    // 剑指 Offer II 113. 课程顺序
+    // public int[] findOrder(int numCourses, int[][] prerequisites) {
+
+    // }
+
+    // 647. 回文子串 (Palindromic Substrings)
+    // 剑指 Offer II 020. 回文子字符串的个数
+    // public int countSubstrings(String s) {
+
+    // }
+
+    // 452. 用最少数量的箭引爆气球 (Minimum Number of Arrows to Burst Balloons)
+    // public int findMinArrowShots(int[][] points) {
+
+    // }
 }
