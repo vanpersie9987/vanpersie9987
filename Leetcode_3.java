@@ -4189,11 +4189,39 @@ public class Leetcode_3 {
 
     }
 
-    // 210. 课程表 II (Course Schedule II)
+    // 210. 课程表 II (Course Schedule II) --bfs + 拓扑排序
     // 剑指 Offer II 113. 课程顺序
-    // public int[] findOrder(int numCourses, int[][] prerequisites) {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        int[] inDegrees = new int[numCourses];
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int[] prerequisite : prerequisites) {
+            ++inDegrees[prerequisite[0]];
+            map.computeIfAbsent(prerequisite[1], k -> new ArrayList<>()).add(prerequisite[0]);
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < numCourses; ++i) {
+            if (inDegrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        int[] res = new int[numCourses];
+        int count = 0;
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            res[count++] = cur;
+            List<Integer> list = map.get(cur);
+            if (list == null) {
+                continue;
+            }
+            for (int index : list) {
+                if (--inDegrees[index] == 0) {
+                    queue.offer(index);
+                }
+            }
+        }
+        return count == numCourses ? res : new int[0];
 
-    // }
+    }
 
     // 647. 回文子串 (Palindromic Substrings)
     // 剑指 Offer II 020. 回文子字符串的个数
