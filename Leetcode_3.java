@@ -4156,10 +4156,38 @@ public class Leetcode_3 {
 
     // }
 
-    // 207. 课程表 (Course Schedule)
-    // public boolean canFinish(int numCourses, int[][] prerequisites) {
+    // 207. 课程表 (Course Schedule) --bfs + 拓扑排序
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        Map<Integer, Integer> inDegrees = new HashMap<>();
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int[] prerequisite : prerequisites) {
+            inDegrees.put(prerequisite[0], inDegrees.getOrDefault(prerequisite[0], 0) + 1);
+            map.computeIfAbsent(prerequisite[1], k -> new ArrayList<>()).add(prerequisite[0]);
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < numCourses; ++i) {
+            if (inDegrees.getOrDefault(i, 0) == 0) {
+                queue.offer(i);
+            }
+        }
+        int count = 0;
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            ++count;
+            List<Integer> list = map.get(cur);
+            if (list == null) {
+                continue;
+            }
+            for (int index : list) {
+                inDegrees.put(index, inDegrees.get(index) - 1);
+                if (inDegrees.get(index) == 0) {
+                    queue.offer(index);
+                }
+            }
+        }
+        return count == numCourses;
 
-    // }
+    }
 
     // 210. 课程表 II (Course Schedule II)
     // 剑指 Offer II 113. 课程顺序
