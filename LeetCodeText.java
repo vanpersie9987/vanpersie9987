@@ -17102,20 +17102,6 @@ public class LeetCodeText {
 
     }
 
-    // 453. 最小操作次数使数组元素相等 (Minimum Moves to Equal Array Elements)
-    public int minMoves(int[] nums) {
-        int min = Integer.MAX_VALUE;
-        for (int num : nums) {
-            min = Math.min(min, num);
-        }
-        int res = 0;
-        for (int num : nums) {
-            res += num - min;
-        }
-        return res;
-
-    }
-
     // 233. 数字 1 的个数 (Number of Digit One)
     public int countDigitOne(int n) {
         int res = 0;

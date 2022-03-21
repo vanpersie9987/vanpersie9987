@@ -4051,6 +4051,24 @@ public class Leetcode_3 {
 
     // }
 
+    // 452. 用最少数量的箭引爆气球 (Minimum Number of Arrows to Burst Balloons)
+    // public int findMinArrowShots(int[][] points) {
+
+    // }
+
+    // 453. 最小操作次数使数组元素相等 (Minimum Moves to Equal Array Elements)
+    public int minMoves(int[] nums) {
+        int min = Integer.MAX_VALUE;
+        for (int num : nums) {
+            min = Math.min(min, num);
+        }
+        int res = 0;
+        for (int num : nums) {
+            res += num - min;
+        }
+        return res;
+
+    }
     // // 6027. 统计数组中峰和谷的数量
     // public int countHillValley(int[] nums) {
     // int res = 0;
