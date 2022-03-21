@@ -4109,40 +4109,26 @@ public class Leetcode_3 {
         return false;
     }
 
-    // // 6028. 统计道路上的碰撞次数
-    // public int countCollisions(String directions) {
-    // int res = 0;
-    // for (int i = 0; i < directions.length(); ++i) {
-    // if (directions.charAt(i) == 'S') {
-    // int left = i - 1;
-    // int right = i + 1;
-    // while (left >= 0 && directions.charAt(left) == 'R') {
-    // --left;
-    // ++res;
-    // }
-    // while (right < directions.length() && directions.charAt(right) == 'L') {
-    // ++right;
-    // ++res;
-    // }
-    // }
-    // }
-    // for (int i = 0; i < directions.length() - 1; ++i) {
-    // if (directions.charAt(i) == 'R' && directions.charAt(i + 1) == 'L') {
-    // res += 2;
-    // int left = i - 1;
-    // int right = i + 2;
-    // while (left >= 0 && directions.charAt(left) == 'R') {
-    // ++res;
-    // --left;
-    // }
-    // while (right < directions.length() && directions.charAt(right) == 'L') {
-    // ++right;
-    // ++res;
-    // }
-    // }
-    // }
-    // return res;
-    // }
+    // 2211. 统计道路上的碰撞次数 (Count Collisions on a Road)
+    public int countCollisions(String directions) {
+        int n = directions.length();
+        int left = 0;
+        int right = n - 1;
+        while (left < n && directions.charAt(left) == 'L') {
+            ++left;
+        }
+        while (right >= 0 && directions.charAt(right) == 'R') {
+            --right;
+        }
+        int countS = 0;
+        for (int i = left; i <= right; ++i) {
+            if (directions.charAt(i) == 'S') {
+                ++countS;
+            }
+        }
+        return right - left + 1 - countS;
+
+    }
 
     // // 6029. 射箭比赛中的最大得分
     // public int[] maximumBobPoints(int numArrows, int[] aliceArrows) {
