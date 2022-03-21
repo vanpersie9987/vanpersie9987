@@ -4130,51 +4130,51 @@ public class Leetcode_3 {
 
     }
 
-    // // 6029. 射箭比赛中的最大得分
-    // public int[] maximumBobPoints(int numArrows, int[] aliceArrows) {
-    // int max = 0;
-    // int status = 0;
-    // for (int i = 0; i < (1 << 12); ++i) {
-    // int cur = getRes6029(numArrows, aliceArrows, i);
-    // if (cur > max) {
-    // max = cur;
-    // status = i;
-    // }
-    // }
-    // int[] res = new int[12];
-    // for (int i = 0; i < 12; ++i) {
-    // if (((status >>> i) & 1) == 1) {
-    // if (aliceArrows[i] + 1 < numArrows) {
-    // res[i] = aliceArrows[i] + 1;
-    // numArrows -= aliceArrows[i] + 1;
-    // } else if (aliceArrows[i] + 1 == numArrows) {
-    // res[i] = aliceArrows[i] + 1;
-    // return res;
-    // } else {
-    // continue;
-    // }
-    // }
-    // }
-    // res[0] += numArrows;
-    // return res;
+    // 2212. 射箭比赛中的最大得分 (Maximum Points in an Archery Competition)
+    public int[] maximumBobPoints(int numArrows, int[] aliceArrows) {
+        int max = 0;
+        int status = 0;
+        for (int i = 0; i < (1 << 12); ++i) {
+            int cur = getRes6029(numArrows, aliceArrows, i);
+            if (cur > max) {
+                max = cur;
+                status = i;
+            }
+        }
+        int[] res = new int[12];
+        for (int i = 0; i < 12; ++i) {
+            if (((status >>> i) & 1) == 1) {
+                if (aliceArrows[i] + 1 <= numArrows) {
+                    res[i] = aliceArrows[i] + 1;
+                    numArrows -= aliceArrows[i] + 1;
+                    if (numArrows == 0) {
+                        return res;
+                    }
+                } else {
+                    continue;
+                }
+            }
+        }
+        res[0] += numArrows;
+        return res;
 
-    // }
+    }
 
-    // private int getRes6029(int numArrows, int[] aliceArrows, int status) {
-    // int res = 0;
-    // for (int i = 0; i < 12; ++i) {
-    // if (((status >>> i) & 1) == 1) {
-    // if (aliceArrows[i] + 1 < numArrows) {
-    // res += i;
-    // numArrows -= aliceArrows[i] + 1;
-    // } else if (aliceArrows[i] + 1 == numArrows) {
-    // res += i;
-    // return res;
-    // } else {
-    // continue;
-    // }
-    // }
-    // }
-    // return res;
-    // }
+    private int getRes6029(int numArrows, int[] aliceArrows, int status) {
+        int res = 0;
+        for (int i = 0; i < 12; ++i) {
+            if (((status >>> i) & 1) == 1) {
+                if (aliceArrows[i] + 1 <= numArrows) {
+                    res += i;
+                    numArrows -= aliceArrows[i] + 1;
+                    if (numArrows == 0) {
+                        return res;
+                    }
+                } else {
+                    continue;
+                }
+            }
+        }
+        return res;
+    }
 }
