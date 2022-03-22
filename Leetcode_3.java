@@ -4253,6 +4253,33 @@ public class Leetcode_3 {
         return res[dst] == Integer.MAX_VALUE ? -1 : res[dst];
     }
 
+    // 1306. 跳跃游戏 III (Jump Game III) --bfs
+    public boolean canReach(int[] arr, int start) {
+        int n = arr.length;
+        Queue<Integer> queue = new LinkedList<>();
+        boolean[] visited = new boolean[n];
+        queue.offer(start);
+        visited[start] = true;
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            if (arr[cur] == 0) {
+                return true;
+            }
+            int index1 = cur - arr[cur];
+            if (index1 >= 0 && !visited[index1]) {
+                visited[index1] = true;
+                queue.offer(index1);
+            }
+            int index2 = cur + arr[cur];
+            if (index2 < n && !visited[index2]) {
+                visited[index2] = true;
+                queue.offer(index2);
+            }
+        }
+        return false;
+
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
