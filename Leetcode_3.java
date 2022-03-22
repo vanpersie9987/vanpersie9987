@@ -4088,8 +4088,6 @@ public class Leetcode_3 {
                     if (numArrows == 0) {
                         return res;
                     }
-                } else {
-                    continue;
                 }
             }
         }
@@ -4108,8 +4106,6 @@ public class Leetcode_3 {
                     if (numArrows == 0) {
                         return res;
                     }
-                } else {
-                    continue;
                 }
             }
         }
@@ -4220,6 +4216,42 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 787. K 站中转内最便宜的航班 (Cheapest Flights Within K Stops) --bfs
+    // --还需掌握动态规划
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        Map<Integer, List<int[]>> map = new HashMap<>();
+        for (int[] flight : flights) {
+            map.computeIfAbsent(flight[0], o -> new ArrayList<>()).add(new int[] { flight[1], flight[2] });
+        }
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] { src, 0 });
+        int[] res = new int[n];
+        Arrays.fill(res, Integer.MAX_VALUE);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = queue.poll();
+                List<int[]> list = map.get(cur[0]);
+                if (list == null) {
+                    continue;
+                }
+                for (int[] item : list) {
+                    int cost = item[1] + cur[1];
+                    if (cost < res[item[0]] && cost < res[dst]) {
+                        res[item[0]] = cost;
+                        if (item[0] != dst) {
+                            queue.offer(new int[] { item[0], cost });
+                        }
+                    }
+                }
+            }
+            if (k-- == 0) {
+                break;
+            }
+        }
+        return res[dst] == Integer.MAX_VALUE ? -1 : res[dst];
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
@@ -4242,12 +4274,6 @@ public class Leetcode_3 {
 
     // 617. 合并二叉树 (Merge Two Binary Trees)
     // public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
-
-    // }
-
-    // 787. K 站中转内最便宜的航班 (Cheapest Flights Within K Stops)
-    // public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k)
-    // {
 
     // }
 
