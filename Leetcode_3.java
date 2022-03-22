@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class Leetcode_3 {
     public static void main(String[] args) {
@@ -4180,6 +4181,43 @@ public class Leetcode_3 {
         }
         return count == numCourses ? res : new int[0];
 
+    }
+
+    // 2192. 有向无环图中一个节点的所有祖先 (All Ancestors of a Node in a Directed Acyclic Graph)
+    // --拓扑排序 + bfs
+    public List<List<Integer>> getAncestors(int n, int[][] edges) {
+        int[] inDegrees = new int[n];
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int[] edge : edges) {
+            ++inDegrees[edge[1]];
+            map.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+        }
+        List<Set<Integer>> list = new ArrayList<>();
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            list.add(new TreeSet<>());
+            if (inDegrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            if (map.get(cur) == null) {
+                continue;
+            }
+            for (int index : map.get(cur)) {
+                list.get(index).add(cur);
+                list.get(index).addAll(list.get(cur));
+                if (--inDegrees[index] == 0) {
+                    queue.offer(index);
+                }
+            }
+        }
+        List<List<Integer>> res = new ArrayList<>();
+        for (Set<Integer> set : list) {
+            res.add(new ArrayList<>(set));
+        }
+        return res;
     }
 
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
