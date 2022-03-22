@@ -4280,6 +4280,36 @@ public class Leetcode_3 {
 
     }
 
+    // 1161. 最大层内元素和 (Maximum Level Sum of a Binary Tree) --bfs
+    public int maxLevelSum(TreeNode root) {
+        int res = 1;
+        int maxSum = root.val;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        int curLevel = 0;
+        while (!queue.isEmpty()) {
+            ++curLevel;
+            int size = queue.size();
+            int levelSum = 0;
+            for (int i = 0; i < size; ++i) {
+                TreeNode cur = queue.poll();
+                levelSum += cur.val;
+                if (cur.left != null) {
+                    queue.offer(cur.left);
+                }
+                if (cur.right != null) {
+                    queue.offer(cur.right);
+                }
+            }
+            if (levelSum > maxSum) {
+                maxSum = levelSum;
+                res = curLevel;
+            }
+        }
+        return res;
+
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
