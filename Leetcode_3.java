@@ -4402,7 +4402,7 @@ public class Leetcode_3 {
     }
 
     // 269. 火星词典 --plus
-    // 剑指 Offer II 114. 外星文字典
+    // 剑指 Offer II 114. 外星文字典 --拓扑排序
     public String alienOrder(String[] words) {
         int[] inDegrees = new int[26];
         int count = 0;
