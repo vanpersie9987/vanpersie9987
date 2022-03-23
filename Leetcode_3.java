@@ -4473,7 +4473,7 @@ public class Leetcode_3 {
             for (String item : ingredients.get(i)) {
                 map.computeIfAbsent(item, k -> new LinkedList<>()).add(recipes[i]);
             }
-            degrees.put(recipes[i], degrees.getOrDefault(recipes[i], ingredients.get(i).size()));
+            degrees.put(recipes[i], ingredients.get(i).size());
         }
         List<String> res = new LinkedList<>();
         Queue<String> queue = new LinkedList<>();
