@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -4308,6 +4309,43 @@ public class Leetcode_3 {
         }
         return res;
 
+    }
+
+    // 802. 找到最终的安全状态 (Find Eventual Safe States) --拓扑排序
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        int n = graph.length;
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int[] inDegrees = new int[n];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < graph[i].length; ++j) {
+                map.computeIfAbsent(graph[i][j], k -> new ArrayList<>()).add(i);
+                ++inDegrees[i];
+            }
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            if (inDegrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            if (map.get(cur) == null) {
+                continue;
+            }
+            for (int index : map.get(cur)) {
+                if (--inDegrees[index] == 0) {
+                    queue.offer(index);
+                }
+            }
+        }
+        List<Integer> res = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            if (inDegrees[i] == 0) {
+                res.add(i);
+            }
+        }
+        return res;
     }
 
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
