@@ -4349,6 +4349,7 @@ public class Leetcode_3 {
     }
 
     // 329. 矩阵中的最长递增路径 (Longest Increasing Path in a Matrix) --拓扑排序 + bfs
+    // 剑指 Offer II 112. 最长递增路径
     public int longestIncreasingPath(int[][] matrix) {
         int m = matrix.length;
         int n = matrix[0].length;
