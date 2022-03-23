@@ -4348,6 +4348,58 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 329. 矩阵中的最长递增路径 (Longest Increasing Path in a Matrix) --拓扑排序 + bfs
+    public int longestIncreasingPath(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int[] inDegrees = new int[m * n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                for (int[] direction : directions) {
+                    int nx = i + direction[0];
+                    int ny = j + direction[1];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                        if (matrix[nx][ny] < matrix[i][j]) {
+                            ++inDegrees[getTrans329(i, j, n)];
+                        } else if (matrix[nx][ny] > matrix[i][j]) {
+                            map.computeIfAbsent(getTrans329(i, j, n), k -> new ArrayList<>())
+                                    .add(getTrans329(nx, ny, n));
+                        }
+                    }
+                }
+            }
+        }
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < inDegrees.length; ++i) {
+            if (inDegrees[i] == 0) {
+                queue.offer(new int[] { i, 1 });
+            }
+
+        }
+        int res = 1;
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            res = Math.max(res, cur[1]);
+            List<Integer> list = map.get(cur[0]);
+            if (list == null) {
+                continue;
+            }
+            for (int index : list) {
+                if (--inDegrees[index] == 0) {
+                    queue.offer(new int[] { index, cur[1] + 1 });
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int getTrans329(int i, int j, int n) {
+        return i * n + j;
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
