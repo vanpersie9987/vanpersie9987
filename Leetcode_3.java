@@ -4401,6 +4401,69 @@ public class Leetcode_3 {
         return i * n + j;
     }
 
+    // 269. 火星词典 --plus
+    // 剑指 Offer II 114. 外星文字典
+    public String alienOrder(String[] words) {
+        int[] inDegrees = new int[26];
+        int count = 0;
+        Arrays.fill(inDegrees, Integer.MIN_VALUE);
+        for (String word : words) {
+            for (char c : word.toCharArray()) {
+                if (inDegrees[c - 'a'] == Integer.MIN_VALUE) {
+                    inDegrees[c - 'a'] = 0;
+                    ++count;
+                }
+            }
+        }
+        Map<Character, List<Character>> map = new HashMap<>();
+        for (int i = 1; i < words.length; ++i) {
+            String cur = words[i];
+            String pre = words[i - 1];
+            int minLen = Math.min(cur.length(), pre.length());
+            boolean flag = false;
+            for (int j = 0; j < minLen; ++j) {
+                if (pre.charAt(j) != cur.charAt(j)) {
+                    flag = true;
+                    if (!map.containsKey(pre.charAt(j))) {
+                        map.put(pre.charAt(j), new ArrayList<>());
+                    }
+                    List<Character> list = map.get(pre.charAt(j));
+                    if (!list.contains(cur.charAt(j))) {
+                        list.add(cur.charAt(j));
+                        map.put(pre.charAt(j), list);
+                        ++inDegrees[cur.charAt(j) - 'a'];
+                    }
+                    break;
+                }
+            }
+            if (!flag && pre.length() > cur.length()) {
+                return "";
+            }
+        }
+
+        Queue<Character> queue = new LinkedList<>();
+        for (int i = 0; i < inDegrees.length; ++i) {
+            if (inDegrees[i] == 0) {
+                queue.offer((char) (i + 'a'));
+            }
+        }
+        StringBuilder res = new StringBuilder();
+        while (!queue.isEmpty()) {
+            char cur = queue.poll();
+            res.append(cur);
+            List<Character> list = map.get(cur);
+            if (list == null) {
+                continue;
+            }
+            for (char c : list) {
+                if (--inDegrees[c - 'a'] == 0) {
+                    queue.offer(c);
+                }
+            }
+        }
+        return res.length() == count ? res.toString() : "";
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
