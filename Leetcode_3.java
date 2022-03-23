@@ -4464,6 +4464,39 @@ public class Leetcode_3 {
         return res.length() == count ? res.toString() : "";
     }
 
+    // 2115. 从给定原材料中找到所有可以做出的菜 (Find All Possible Recipes from Given Supplies)
+    // --拓扑排序
+    public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, String[] supplies) {
+        Map<String, Integer> degrees = new HashMap<>();
+        Map<String, List<String>> map = new HashMap<>();
+        for (int i = 0; i < ingredients.size(); ++i) {
+            for (String item : ingredients.get(i)) {
+                map.computeIfAbsent(item, k -> new LinkedList<>()).add(recipes[i]);
+            }
+            degrees.put(recipes[i], degrees.getOrDefault(recipes[i], ingredients.get(i).size()));
+        }
+        List<String> res = new LinkedList<>();
+        Queue<String> queue = new LinkedList<>();
+        for (String supply : supplies) {
+            queue.offer(supply);
+        }
+        while (!queue.isEmpty()) {
+            String cur = queue.poll();
+            if (map.get(cur) == null) {
+                continue;
+            }
+            for (String item : map.get(cur)) {
+                degrees.put(item, degrees.get(item) - 1);
+                if (degrees.get(item) == 0) {
+                    queue.offer(item);
+                    res.add(item);
+                }
+            }
+        }
+        return res;
+
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
