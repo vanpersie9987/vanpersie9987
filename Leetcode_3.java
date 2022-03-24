@@ -4606,9 +4606,6 @@ public class Leetcode_3 {
                 queue.offer(i);
             }
         }
-        if (queue.size() != 1) {
-            return false;
-        }
         List<Integer> res = new ArrayList<>();
         while (!queue.isEmpty()) {
             if (queue.size() != 1) {
