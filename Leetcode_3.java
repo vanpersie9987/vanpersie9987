@@ -4572,6 +4572,7 @@ public class Leetcode_3 {
 
     }
 
+    // 444. 重建序列 --plus
     // 剑指 Offer II 115. 重建序列 --拓扑排序
     public boolean sequenceReconstruction(int[] org, List<List<Integer>> seqs) {
         int[] inDegrees = new int[org.length + 1];
