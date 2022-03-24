@@ -4572,6 +4572,71 @@ public class Leetcode_3 {
 
     }
 
+    // 剑指 Offer II 115. 重建序列 --拓扑排序
+    public boolean sequenceReconstruction(int[] org, List<List<Integer>> seqs) {
+        int[] inDegrees = new int[org.length + 1];
+        Set<Integer> set = new HashSet<>();
+        for (List<Integer> seg : seqs) {
+            for (int s : seg) {
+                set.add(s);
+            }
+        }
+        if (org.length == 1 && !set.contains(1)) {
+            return false;
+        }
+        if (set.size() != org.length) {
+            return false;
+        }
+        Map<Integer, Set<Integer>> graph = new HashMap<>();
+        for (int i = 1; i <= org.length; ++i) {
+            graph.put(i, new HashSet<>());
+        }
+        for (List<Integer> seg : seqs) {
+            for (int i = 1; i < seg.size(); ++i) {
+                if (!graph.get(seg.get(i - 1)).contains(seg.get(i))) {
+                    graph.get(seg.get(i - 1)).add(seg.get(i));
+                    ++inDegrees[seg.get(i)];
+                }
+
+            }
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 1; i < inDegrees.length; ++i) {
+            if (inDegrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        if (queue.size() != 1) {
+            return false;
+        }
+        List<Integer> res = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            if (queue.size() != 1) {
+                return false;
+            }
+            int cur = queue.poll();
+            res.add(cur);
+            if (graph.get(cur) == null) {
+                continue;
+            }
+            for (int item : graph.get(cur)) {
+                if (--inDegrees[item] == 0) {
+                    queue.offer(item);
+                }
+            }
+        }
+        if (res.size() != org.length) {
+            return false;
+        }
+        for (int i = 0; i < res.size(); ++i) {
+            if (res.get(i) != org[i]) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
