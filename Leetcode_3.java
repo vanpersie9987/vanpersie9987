@@ -4496,6 +4496,41 @@ public class Leetcode_3 {
 
     }
 
+    // 851. 喧闹和富有 (Loud and Rich) --拓扑排序
+    public int[] loudAndRich(int[][] richer, int[] quiet) {
+        int n = quiet.length;
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int[] inDegrees = new int[n];
+        for (int[] rich : richer) {
+            map.computeIfAbsent(rich[0], k -> new LinkedList<>()).add(rich[1]);
+            ++inDegrees[rich[1]];
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = i;
+            if (inDegrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            if (map.get(cur) == null) {
+                continue;
+            }
+            for (int item : map.get(cur)) {
+                if (quiet[res[cur]] < quiet[res[item]]) {
+                    res[item] = res[cur];
+                }
+                if (--inDegrees[item] == 0) {
+                    queue.offer(item);
+                }
+            }
+        }
+        return res;
+
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
