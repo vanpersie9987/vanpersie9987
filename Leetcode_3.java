@@ -4531,6 +4531,47 @@ public class Leetcode_3 {
 
     }
 
+    // 1462. 课程表 IV (Course Schedule IV) --拓扑排序
+    public List<Boolean> checkIfPrerequisite(int numCourses, int[][] prerequisites, int[][] queries) {
+        int[] degrees = new int[numCourses];
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int[] prerequisite : prerequisites) {
+            map.computeIfAbsent(prerequisite[0], k -> new LinkedList<>()).add(prerequisite[1]);
+            ++degrees[prerequisite[1]];
+        }
+        Map<Integer, Set<Integer>> relationMap = new HashMap<>();
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < numCourses; ++i) {
+            relationMap.put(i, new TreeSet<>());
+            if (degrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            if (map.get(cur) == null) {
+                continue;
+            }
+            for (int item : map.get(cur)) {
+                relationMap.get(item).add(cur);
+                relationMap.get(item).addAll(relationMap.get(cur));
+                if (--degrees[item] == 0) {
+                    queue.offer(item);
+                }
+            }
+        }
+        List<Boolean> res = new LinkedList<>();
+        for (int[] query : queries) {
+            if (relationMap.get(query[1]) != null && relationMap.get(query[1]).contains(query[0])) {
+                res.add(true);
+            } else {
+                res.add(false);
+            }
+        }
+        return res;
+
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
