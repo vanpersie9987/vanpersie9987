@@ -4635,6 +4635,11 @@ public class Leetcode_3 {
 
     }
 
+    // 2050. 并行课程 III (Parallel Courses III)
+    // public int minimumTime(int n, int[][] relations, int[] time) {
+
+    // }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
