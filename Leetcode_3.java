@@ -4360,13 +4360,10 @@ public class Leetcode_3 {
                 for (int[] direction : directions) {
                     int nx = i + direction[0];
                     int ny = j + direction[1];
-                    if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
-                        if (matrix[nx][ny] < matrix[i][j]) {
-                            ++inDegrees[getTrans329(i, j, n)];
-                        } else if (matrix[nx][ny] > matrix[i][j]) {
-                            map.computeIfAbsent(getTrans329(i, j, n), k -> new ArrayList<>())
-                                    .add(getTrans329(nx, ny, n));
-                        }
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && matrix[i][j] < matrix[nx][ny]) {
+                        map.computeIfAbsent(getTrans329(i, j, n), k -> new LinkedList<>())
+                                .add(getTrans329(nx, ny, n));
+                        ++inDegrees[getTrans329(nx, ny, n)];
                     }
                 }
             }
