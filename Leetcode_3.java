@@ -4632,10 +4632,46 @@ public class Leetcode_3 {
 
     }
 
-    // 2050. 并行课程 III (Parallel Courses III)
-    // public int minimumTime(int n, int[][] relations, int[] time) {
+    // 2050. 并行课程 III (Parallel Courses III) --拓扑排序 + dp
+    public int minimumTime(int n, int[][] relations, int[] time) {
+        int[] inDegrees = new int[n];
+        Map<Integer, Set<Integer>> graph = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            graph.put(i, new HashSet<>());
+        }
+        for (int[] relation : relations) {
+            if (!graph.get(relation[0] - 1).contains(relation[1] - 1)) {
+                graph.get(relation[0] - 1).add(relation[1] - 1);
+                ++inDegrees[relation[1] - 1];
+            }
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            if (inDegrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        int[] dp = new int[n];
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            dp[cur] += time[cur];
+            if (graph.get(cur) == null) {
+                continue;
+            }
+            for (int item : graph.get(cur)) {
+                if (--inDegrees[item] == 0) {
+                    queue.offer(item);
+                }
+                dp[item] = Math.max(dp[item], dp[cur]);
+            }
+        }
+        int res = 0;
+        for (int num : dp) {
+            res = Math.max(res, num);
+        }
+        return res;
 
-    // }
+    }
 
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
