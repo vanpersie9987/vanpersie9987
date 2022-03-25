@@ -4673,6 +4673,54 @@ public class Leetcode_3 {
 
     }
 
+    // 1857. 有向图中最大颜色值 (Largest Color Value in a Directed Graph) --拓扑排序
+    public int largestPathValue(String colors, int[][] edges) {
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        Map<Integer, Integer> inDegrees = new HashMap<>();
+
+        for (int[] edge : edges) {
+            graph.computeIfAbsent(edge[0], k -> new LinkedList<>()).add(edge[1]);
+            inDegrees.put(edge[1], inDegrees.getOrDefault(edge[1], 0) + 1);
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        int n = colors.length();
+        int[][] dp = new int[n][26];
+        for (int i = 0; i < n; ++i) {
+            if (inDegrees.getOrDefault(i, 0) == 0) {
+                queue.offer(i);
+            }
+        }
+        int count = 0;
+        while (!queue.isEmpty()) {
+            ++count;
+            int cur = queue.poll();
+            ++dp[cur][colors.charAt(cur) - 'a'];
+            if (graph.get(cur) == null) {
+                continue;
+            }
+            for (int item : graph.get(cur)) {
+                for (int i = 0; i < 26; ++i) {
+                    dp[item][i] = Math.max(dp[item][i], dp[cur][i]);
+                }
+                inDegrees.put(item, inDegrees.getOrDefault(item, 0) - 1);
+                if (inDegrees.getOrDefault(item, 0) == 0) {
+                    queue.offer(item);
+                }
+            }
+        }
+        if (n != count) {
+            return -1;
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < 26; ++j) {
+                res = Math.max(res, dp[i][j]);
+            }
+        }
+        return res;
+
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
