@@ -4753,6 +4753,49 @@ public class Leetcode_3 {
 
     }
 
+    // 886. 可能的二分法 (Possible Bipartition) --bfs
+    public boolean possibleBipartition(int n, int[][] dislikes) {
+        final int UNCOVERED = 0;
+        final int RED = 1;
+        final int GREEN = 2;
+        int[] color = new int[n];
+        Arrays.fill(color, UNCOVERED);
+        Map<Integer, List<Integer>> graph = buildGraph(n, dislikes);
+
+        for (int i = 0; i < n; ++i) {
+            if (color[i] == UNCOVERED) {
+                color[i] = RED;
+                Queue<Integer> queue = new LinkedList<>();
+                queue.offer(i);
+                while (!queue.isEmpty()) {
+                    int node = queue.poll();
+                    if (graph.get(node) == null) {
+                        continue;
+                    }
+                    int colorNeighborShouldBe = color[node] == RED ? GREEN : RED;
+                    for (int neighbor : graph.get(node)) {
+                        if (color[neighbor] == UNCOVERED) {
+                            color[neighbor] = colorNeighborShouldBe;
+                            queue.offer(neighbor);
+                        } else if (color[neighbor] != colorNeighborShouldBe) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    private Map<Integer, List<Integer>> buildGraph(int n, int[][] dislikes) {
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int[] dislike : dislikes) {
+            graph.computeIfAbsent(dislike[0] - 1, k -> new LinkedList<>()).add(dislike[1] - 1);
+            graph.computeIfAbsent(dislike[1] - 1, k -> new LinkedList<>()).add(dislike[0] - 1);
+        }
+        return graph;
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
