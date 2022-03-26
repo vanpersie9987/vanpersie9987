@@ -4721,6 +4721,38 @@ public class Leetcode_3 {
 
     }
 
+    // 785. 判断二分图 (Is Graph Bipartite?) --bfs
+    // 剑指 Offer II 106. 二分图
+    public boolean isBipartite(int[][] graph) {
+        final int UNCOVERED = 0;
+        final int GREEN = 1;
+        final int RED = 2;
+        int n = graph.length;
+        int[] color = new int[n];
+        Arrays.fill(color, UNCOVERED);
+        for (int i = 0; i < n; ++i) {
+            if (color[i] == UNCOVERED) {
+                color[i] = RED;
+                Queue<Integer> queue = new LinkedList<>();
+                queue.offer(i);
+                while (!queue.isEmpty()) {
+                    int node = queue.poll();
+                    int colorNeighborShouldBe = color[node] == RED ? GREEN : RED;
+                    for (int neighbor : graph[node]) {
+                        if (color[neighbor] == UNCOVERED) {
+                            color[neighbor] = colorNeighborShouldBe;
+                            queue.offer(neighbor);
+                        } else if (color[neighbor] != colorNeighborShouldBe) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+
+    }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
