@@ -1,3 +1,4 @@
+import java.security.Policy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -4794,6 +4795,42 @@ public class Leetcode_3 {
             graph.computeIfAbsent(dislike[1] - 1, k -> new LinkedList<>()).add(dislike[0] - 1);
         }
         return graph;
+    }
+
+    // 1448. 统计二叉树中好节点的数目 (Count Good Nodes in Binary Tree) --bfs
+    public int goodNodes(TreeNode root) {
+        int res = 0;
+        if (root == null) {
+            return 0;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        Queue<Integer> maxValue = new LinkedList<>();
+        queue.offer(root);
+        maxValue.offer(root.val);
+        ++res;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = queue.poll();
+                int max = maxValue.poll();
+                if (node.left != null) {
+                    queue.offer(node.left);
+                    maxValue.offer(Math.max(node.left.val, max));
+                    if (node.left.val >= max) {
+                        ++res;
+                    }
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                    maxValue.offer(Math.max(node.right.val, max));
+                    if (node.right.val >= max) {
+                        ++res;
+                    }
+                }
+            }
+        }
+        return res;
+
     }
 
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
