@@ -4882,6 +4882,37 @@ public class Leetcode_3 {
 
     }
 
+    // 2028. 找出缺失的观测数据 (Find Missing Observations)
+    public int[] missingRolls(int[] rolls, int mean, int n) {
+        int length = n + rolls.length;
+        int rollsSum = 0;
+        for (int roll : rolls) {
+            rollsSum += roll;
+        }
+        int missingSum = length * mean - rollsSum;
+        if (n > missingSum || missingSum > 6 * n) {
+            return new int[0];
+        }
+        int[] res = new int[n];
+        int quotient = missingSum / n;
+        int remainder = missingSum % n;
+        for (int i = 0; i < n; ++i) {
+            res[i] = quotient + (i < remainder ? 1 : 0);
+        }
+        return res;
+
+    }
+
+    // 1654. 到家的最少跳跃次数 (Minimum Jumps to Reach Home)
+    // public int minimumJumps(int[] forbidden, int a, int b, int x) {
+
+    // }
+
+    // LCP 09. 最小跳跃次数
+    // public int minJump(int[] jump) {
+
+    // }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
