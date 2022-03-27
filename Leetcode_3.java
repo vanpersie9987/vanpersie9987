@@ -4903,6 +4903,11 @@ public class Leetcode_3 {
 
     }
 
+    // 1657. 确定两个字符串是否接近 (Determine if Two Strings Are Close)
+    // public boolean closeStrings(String word1, String word2) {
+
+    // }
+
     // 1654. 到家的最少跳跃次数 (Minimum Jumps to Reach Home)
     // public int minimumJumps(int[] forbidden, int a, int b, int x) {
 
