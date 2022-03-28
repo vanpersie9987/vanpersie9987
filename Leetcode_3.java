@@ -4957,6 +4957,30 @@ public class Leetcode_3 {
         chars[j] = temp;
     }
 
+    // 133. 克隆图 (Clone Graph) --bfs
+    public Node cloneGraph(Node node) {
+        if (node == null) {
+            return node;
+        }
+        Node res = new Node(node.val, new ArrayList<>());
+        Map<Node, Node> visited = new HashMap<>();
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(node);
+        visited.put(node, res);
+        while (!queue.isEmpty()) {
+            Node cur = queue.poll();
+            for (Node neighbor : cur.children) {
+                if (!visited.containsKey(neighbor)) {
+                    visited.put(neighbor, new Node(neighbor.val, new ArrayList<>()));
+                    queue.offer(neighbor);
+                }
+                visited.get(cur).children.add(visited.get(neighbor));
+            }
+        }
+        return res;
+
+    }
+
     // public List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
     // List<List<Integer>> res = new ArrayList<>();
     // res.add(new ArrayList<>());
