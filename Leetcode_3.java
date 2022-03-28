@@ -4981,6 +4981,80 @@ public class Leetcode_3 {
 
     }
 
+    // 1284. 转化为全零矩阵的最少反转次数 (Minimum Number of Flips to Convert Binary Matrix to
+    // Zero Matrix) --bfs
+    public int minFlips(int[][] mat) {
+        int m = mat.length;
+        int n = mat[0].length;
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 }, { 0, 0 } };
+        int inital = encode1284(mat);
+        int res = 0;
+        if (inital == 0) {
+            return res;
+        }
+        Set<Integer> visited = new HashSet<>();
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(inital);
+        visited.add(inital);
+        while (!queue.isEmpty()) {
+            ++res;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int status = queue.poll();
+                int[][] curMat = decode1284(status, m, n);
+                for (int x = 0; x < m; ++x) {
+                    for (int y = 0; y < n; ++y) {
+                        convert1284(curMat, x, y, m, n, directions);
+                        int nStatus = encode1284(curMat);
+                        if (nStatus == 0) {
+                            return res;
+                        }
+                        if (!visited.contains(nStatus)) {
+                            queue.offer(nStatus);
+                            visited.add(nStatus);
+                        }
+                        convert1284(curMat, x, y, m, n, directions);
+                    }
+                }
+            }
+        }
+        return -1;
+
+    }
+
+    private void convert1284(int[][] mat, int x, int y, int m, int n, int[][] directions) {
+        for (int[] direction : directions) {
+            int nx = x + direction[0];
+            int ny = y + direction[1];
+            if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                mat[nx][ny] ^= 1;
+            }
+        }
+    }
+
+    private int[][] decode1284(int status, int m, int n) {
+        int[][] res = new int[m][n];
+        for (int i = m - 1; i >= 0; --i) {
+            for (int j = n - 1; j >= 0; --j) {
+                res[i][j] = status & 1;
+                status >>>= 1;
+            }
+        }
+        return res;
+    }
+
+    private int encode1284(int[][] mat) {
+        int res = 0;
+        int m = mat.length;
+        int n = mat[0].length;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                res = (res << 1) | mat[i][j];
+            }
+        }
+        return res;
+    }
+
     // public List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
     // List<List<Integer>> res = new ArrayList<>();
     // res.add(new ArrayList<>());
