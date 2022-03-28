@@ -5055,6 +5055,39 @@ public class Leetcode_3 {
         return res;
     }
 
+    // LCP 09. 最小跳跃次数 --bfs
+    public int minJump(int[] jump) {
+        int res = 0;
+        int n = jump.length;
+        int far = 0;
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(0);
+        boolean[] visited = new boolean[n];
+        visited[0] = true;
+        while (!queue.isEmpty()) {
+            ++res;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int index = queue.poll();
+                for (int j = far + 1; j < index; ++j) {
+                    if (!visited[j]) {
+                        visited[j] = true;
+                        queue.offer(j);
+                    }
+                }
+                far = Math.max(index, far);
+                if (index + jump[index] >= n) {
+                    return res;
+                } else if (!visited[index + jump[index]]) {
+                    visited[index + jump[index]] = true;
+                    queue.offer(index + jump[index]);
+                }
+            }
+        }
+        return res;
+
+    }
+
     // public List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
     // List<List<Integer>> res = new ArrayList<>();
     // res.add(new ArrayList<>());
@@ -5140,11 +5173,6 @@ public class Leetcode_3 {
 
     // 1654. 到家的最少跳跃次数 (Minimum Jumps to Reach Home)
     // public int minimumJumps(int[] forbidden, int a, int b, int x) {
-
-    // }
-
-    // LCP 09. 最小跳跃次数
-    // public int minJump(int[] jump) {
 
     // }
 
