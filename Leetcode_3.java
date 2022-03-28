@@ -5055,7 +5055,7 @@ public class Leetcode_3 {
         return res;
     }
 
-    // LCP 09. 最小跳跃次数 --bfs
+    // LCP 09. 最小跳跃次数 --bfs 还需掌握 线断树、动态规划
     public int minJump(int[] jump) {
         int res = 0;
         int n = jump.length;
