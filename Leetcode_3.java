@@ -4903,6 +4903,138 @@ public class Leetcode_3 {
 
     }
 
+    // 773. 滑动谜题 (Sliding Puzzle) --bfs
+    public int slidingPuzzle(int[][] board) {
+        int[][] neighbors = { { 1, 3 }, { 0, 2, 4 }, { 1, 5 }, { 0, 4 }, { 1, 3, 5 }, { 2, 4 } };
+        StringBuilder initalStatus = new StringBuilder();
+        for (int i = 0; i < 2; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                initalStatus.append(board[i][j]);
+            }
+        }
+        int res = 0;
+        Queue<String> queue = new LinkedList<>();
+        queue.offer(initalStatus.toString());
+        Set<String> visited = new HashSet<>();
+        visited.add(initalStatus.toString());
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                String node = queue.poll();
+                if ("123450".equals(node)) {
+                    return res;
+                }
+                for (String neighbor : getNeighbors773(node, neighbors)) {
+                    if (!visited.contains(neighbor)) {
+                        visited.add(neighbor);
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+            ++res;
+        }
+        return -1;
+
+    }
+
+    private List<String> getNeighbors773(String status, int[][] neighbors) {
+        List<String> neightborsStatus = new ArrayList<>();
+
+        char[] chars = status.toCharArray();
+        int index = status.indexOf("0");
+        for (int neightbor : neighbors[index]) {
+            swap773(chars, neightbor, index);
+            neightborsStatus.add(String.valueOf(chars));
+            swap773(chars, neightbor, index);
+
+        }
+        return neightborsStatus;
+    }
+
+    private void swap773(char[] chars, int i, int j) {
+        char temp = chars[i];
+        chars[i] = chars[j];
+        chars[j] = temp;
+    }
+
+    // public List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
+    // List<List<Integer>> res = new ArrayList<>();
+    // res.add(new ArrayList<>());
+    // res.add(new ArrayList<>());
+    // Set<Integer> set1 = new HashSet<>();
+    // for (int num : nums1) {
+    // set1.add(num);
+    // }
+    // Set<Integer> set2 = new HashSet<>();
+    // for (int num : nums2) {
+    // set2.add(num);
+    // }
+    // for (int num : nums1) {
+    // if (!set2.contains(num) && !res.get(0).contains(num)) {
+    // res.get(0).add(num);
+    // }
+    // }
+    // for (int num : nums2) {
+    // if (!set1.contains(num) && !res.get(1).contains(num)) {
+    // res.get(1).add(num);
+    // }
+    // }
+    // return res;
+
+    // }
+
+    // public int minDeletion(int[] nums) {
+    // int index = 0;
+    // int res = 0;
+    // while (index < nums.length - 1) {
+    // if (index % 2 == 0 && nums[index] == nums[index + 1]) {
+    // ++res;
+    // ++index;
+    // } else {
+    // index += 2;
+    // }
+    // }
+    // if ((nums.length - res) % 2 == 1) {
+    // ++res;
+    // }
+
+    // // }
+
+    // }
+
+    // public long[] kthPalindrome(int[] queries, int intLength) {
+    // List<Long> list = new LinkedList<>();
+    // for (long i = (long) Math.pow(10, intLength - 1); i < (long) Math.pow(10,
+    // intLength); ++i) {
+    // if (judge5253(i)) {
+    // list.add(i);
+    // }
+    // }
+    // long[] res = new long[queries.length];
+    // for (int i = 0; i < res.length; ++i) {
+    // if (queries[i] - 1 >= 0 && queries[i] - 1 < list.size()) {
+    // res[i] = list.get(queries[i] - 1);
+    // } else {
+    // res[i] = -1;
+    // }
+
+    // }
+    // return res;
+
+    // }
+
+    // private boolean judge5253(long num) {
+    // char[] chars = String.valueOf(num).toCharArray();
+    // int left = 0;
+    // int right = chars.length - 1;
+    // while (left < right) {
+    // if (chars[left++] != chars[right--]) {
+    // return false;
+    // }
+    // }
+    // return true;
+    // }
+
     // 1657. 确定两个字符串是否接近 (Determine if Two Strings Are Close)
     // public boolean closeStrings(String word1, String word2) {
 
