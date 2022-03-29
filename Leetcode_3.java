@@ -5213,24 +5213,22 @@ public class Leetcode_3 {
 
     }
 
-    // public int minDeletion(int[] nums) {
-    // int index = 0;
-    // int res = 0;
-    // while (index < nums.length - 1) {
-    // if (index % 2 == 0 && nums[index] == nums[index + 1]) {
-    // ++res;
-    // ++index;
-    // } else {
-    // index += 2;
-    // }
-    // }
-    // if ((nums.length - res) % 2 == 1) {
-    // ++res;
-    // }
+    // 2216. 美化数组的最少删除数 (Minimum Deletions to Make Array Beautiful) --栈
+    public int minDeletion(int[] nums) {
+        int size = 0;
+        int peek = -1;
+        for (int i = 0; i < nums.length; ++i) {
+            if (size % 2 == 0 || peek != nums[i]) {
+                ++size;
+            }
+            peek = nums[i];
+        }
+        if (size % 2 == 1) {
+            --size;
+        }
+        return nums.length - size;
 
-    // // }
-
-    // }
+    }
 
     // public long[] kthPalindrome(int[] queries, int intLength) {
     // List<Long> list = new LinkedList<>();
