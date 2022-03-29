@@ -5133,6 +5133,59 @@ public class Leetcode_3 {
         return -1;
     }
 
+    // 987. 二叉树的垂序遍历 (Vertical Order Traversal of a Binary Tree) --bfs
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        // key : coloum
+        // val : value
+        Map<Integer, List<TreeWrapNode>> map = new TreeMap<>();
+        Queue<TreeWrapNode> queue = new LinkedList<>();
+
+        queue.offer(new TreeWrapNode(0, 0, root));
+        while (!queue.isEmpty()) {
+
+            TreeWrapNode node = queue.poll();
+            map.computeIfAbsent(node.colunm, k -> new ArrayList<>())
+                    .add(new TreeWrapNode(node.level, node.colunm, node.node));
+            if (node.node.left != null) {
+                queue.offer(new TreeWrapNode(node.level + 1, node.colunm - 1, node.node.left));
+            }
+            if (node.node.right != null) {
+                queue.offer(new TreeWrapNode(node.level + 1, node.colunm + 1, node.node.right));
+            }
+        }
+        for (List<TreeWrapNode> list : map.values()) {
+            Collections.sort(list);
+            List<Integer> sub = new ArrayList<>();
+            for (TreeWrapNode item : list) {
+                sub.add(item.node.val);
+            }
+            res.add(sub);
+        }
+        return res;
+    }
+
+    class TreeWrapNode implements Comparable<TreeWrapNode> {
+        int level;
+        int colunm;
+        TreeNode node;
+
+        TreeWrapNode(int level, int colunm, TreeNode node) {
+            this.level = level;
+            this.colunm = colunm;
+            this.node = node;
+        }
+
+        @Override
+        public int compareTo(TreeWrapNode oNode) {
+            return level == oNode.level ? node.val - oNode.node.val : level - oNode.level;
+        }
+
+    }
+
     // public List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
     // List<List<Integer>> res = new ArrayList<>();
     // res.add(new ArrayList<>());
