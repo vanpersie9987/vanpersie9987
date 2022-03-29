@@ -5230,38 +5230,29 @@ public class Leetcode_3 {
 
     }
 
-    // public long[] kthPalindrome(int[] queries, int intLength) {
-    // List<Long> list = new LinkedList<>();
-    // for (long i = (long) Math.pow(10, intLength - 1); i < (long) Math.pow(10,
-    // intLength); ++i) {
-    // if (judge5253(i)) {
-    // list.add(i);
-    // }
-    // }
-    // long[] res = new long[queries.length];
-    // for (int i = 0; i < res.length; ++i) {
-    // if (queries[i] - 1 >= 0 && queries[i] - 1 < list.size()) {
-    // res[i] = list.get(queries[i] - 1);
-    // } else {
-    // res[i] = -1;
-    // }
-
-    // }
-    // return res;
-
-    // }
-
-    // private boolean judge5253(long num) {
-    // char[] chars = String.valueOf(num).toCharArray();
-    // int left = 0;
-    // int right = chars.length - 1;
-    // while (left < right) {
-    // if (chars[left++] != chars[right--]) {
-    // return false;
-    // }
-    // }
-    // return true;
-    // }
+    // 2217. 找到指定长度的回文数 (Find Palindrome With Fixed Length)
+    public long[] kthPalindrome(int[] queries, int intLength) {
+        int n = queries.length;
+        long[] res = new long[n];
+        long min = (long) Math.pow(10, (intLength - 1) / 2);
+        // long max = (long) Math.pow(10, (intLength + 1) / 2) - 1;
+        for (int i = 0; i < n; ++i) {
+            if ((long) queries[i] > (long) 9 * min) {
+                res[i] = -1;
+                continue;
+            }
+            int index = (int) (queries[i] - 1 + min);
+            String s = String.valueOf(index);
+            StringBuilder builder = new StringBuilder(s);
+            if (intLength % 2 == 0) {
+                s += builder.reverse().toString();
+            } else {
+                s += builder.reverse().toString().substring(1);
+            }
+            res[i] = Long.parseLong(s);
+        }
+        return res;
+    }
 
     // 1657. 确定两个字符串是否接近 (Determine if Two Strings Are Close)
     // public boolean closeStrings(String word1, String word2) {
