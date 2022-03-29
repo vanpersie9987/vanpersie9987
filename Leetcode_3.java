@@ -5235,9 +5235,9 @@ public class Leetcode_3 {
         int n = queries.length;
         long[] res = new long[n];
         long min = (long) Math.pow(10, (intLength - 1) / 2);
-        // long max = (long) Math.pow(10, (intLength + 1) / 2) - 1;
+        long max = (long) Math.pow(10, (intLength + 1) / 2) - 1;
         for (int i = 0; i < n; ++i) {
-            if ((long) queries[i] > (long) 9 * min) {
+            if ((long) queries[i] > (long) (max - min + 1)) {
                 res[i] = -1;
                 continue;
             }
