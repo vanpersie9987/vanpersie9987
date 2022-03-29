@@ -5087,6 +5087,52 @@ public class Leetcode_3 {
 
     }
 
+    // 815. 公交路线 (Bus Routes) --bfs
+    public int numBusesToDestination(int[][] routes, int source, int target) {
+        if (source == target) {
+            return 0;
+        }
+
+        // key : 路线
+        // value : 该路线可到达的站点
+        Map<Integer, Set<Integer>> graph = new HashMap<>();
+
+        // key : 0 ~ n-1中的某一个站点
+        // value : 到达该站点的步数
+        Map<Integer, Integer> map = new HashMap<>();
+
+        Queue<Integer> queue = new LinkedList<>();
+        int n = routes.length;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < routes[i].length; ++j) {
+                if (routes[i][j] == source) {
+                    map.put(i, 1);
+                    queue.offer(i);
+                }
+                graph.computeIfAbsent(routes[i][j], k -> new HashSet<>()).add(i);
+            }
+        }
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            int step = map.get(cur);
+            for (int station : routes[cur]) {
+                if (station == target) {
+                    return step;
+                }
+                if (graph.get(station) == null) {
+                    continue;
+                }
+                for (int neighbor : graph.get(station)) {
+                    if (!map.containsKey(neighbor)) {
+                        map.put(neighbor, step + 1);
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
     // public List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
     // List<List<Integer>> res = new ArrayList<>();
     // res.add(new ArrayList<>());
