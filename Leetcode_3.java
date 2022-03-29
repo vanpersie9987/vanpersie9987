@@ -5186,31 +5186,32 @@ public class Leetcode_3 {
 
     }
 
-    // public List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
-    // List<List<Integer>> res = new ArrayList<>();
-    // res.add(new ArrayList<>());
-    // res.add(new ArrayList<>());
-    // Set<Integer> set1 = new HashSet<>();
-    // for (int num : nums1) {
-    // set1.add(num);
-    // }
-    // Set<Integer> set2 = new HashSet<>();
-    // for (int num : nums2) {
-    // set2.add(num);
-    // }
-    // for (int num : nums1) {
-    // if (!set2.contains(num) && !res.get(0).contains(num)) {
-    // res.get(0).add(num);
-    // }
-    // }
-    // for (int num : nums2) {
-    // if (!set1.contains(num) && !res.get(1).contains(num)) {
-    // res.get(1).add(num);
-    // }
-    // }
-    // return res;
+    // 2215. 找出两数组的不同 (Find the Difference of Two Arrays)
+    public List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
+        List<List<Integer>> res = new ArrayList<>();
+        res.add(new ArrayList<>());
+        res.add(new ArrayList<>());
+        Set<Integer> set1 = new HashSet<>();
+        for (int num : nums1) {
+            set1.add(num);
+        }
+        Set<Integer> set2 = new HashSet<>();
+        for (int num : nums2) {
+            set2.add(num);
+        }
+        for (int num : nums1) {
+            if (!set2.contains(num) && !res.get(0).contains(num)) {
+                res.get(0).add(num);
+            }
+        }
+        for (int num : nums2) {
+            if (!set1.contains(num) && !res.get(1).contains(num)) {
+                res.get(1).add(num);
+            }
+        }
+        return res;
 
-    // }
+    }
 
     // public int minDeletion(int[] nums) {
     // int index = 0;
