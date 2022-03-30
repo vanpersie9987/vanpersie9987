@@ -5290,6 +5290,23 @@ public class Leetcode_3 {
         return res;
     }
 
+    // LCP 41. 黑白翻转棋
+    // public int flipChess(String[] chessboard) {
+
+    // }
+
+    // LCP 45. 自行车炫技赛场
+    // public int[][] bicycleYard(int[] position, int[][] terrain, int[][] obstacle)
+    // {
+
+    // }
+
+    // 1298. 你能从盒子里获得的最大糖果数 (Maximum Candies You Can Get from Boxes)
+    // public int maxCandies(int[] status, int[] candies, int[][] keys, int[][]
+    // containedBoxes, int[] initialBoxes) {
+
+    // }
+
     // 301. 删除无效的括号 (Remove Invalid Parentheses)
     // public List<String> removeInvalidParentheses(String s) {
 
