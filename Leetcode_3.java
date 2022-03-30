@@ -5254,6 +5254,47 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 剑指 Offer 13. 机器人的运动范围 --bfs
+    public int movingCount(int m, int n, int k) {
+        int[][] directions = { { 0, 1 }, { 1, 0 } };
+        int res = 0;
+        boolean[][] visited = new boolean[m][n];
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] { 0, 0 });
+        visited[0][0] = true;
+        ++res;
+        while (!queue.isEmpty()) {
+            int cur[] = queue.poll();
+            for (int[] direction : directions) {
+                int nx = cur[0] + direction[0];
+                int ny = cur[1] + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n
+                        && !visited[nx][ny]
+                        && getBitsSum(nx) + getBitsSum(ny) <= k) {
+                    visited[nx][ny] = true;
+                    ++res;
+                    queue.offer(new int[] { nx, ny });
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int getBitsSum(int num) {
+        int res = 0;
+        while (num != 0) {
+            res += num % 10;
+            num /= 10;
+        }
+        return res;
+    }
+
+    // 301. 删除无效的括号 (Remove Invalid Parentheses)
+    // public List<String> removeInvalidParentheses(String s) {
+
+    // }
+
     // 1657. 确定两个字符串是否接近 (Determine if Two Strings Are Close)
     // public boolean closeStrings(String word1, String word2) {
 
