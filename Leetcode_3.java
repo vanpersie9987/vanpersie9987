@@ -5290,6 +5290,37 @@ public class Leetcode_3 {
         return res;
     }
 
+    // LCP 22. 黑白方格画
+    public int paintingPlan(int n, int k) {
+        if (k == 0 || k == n * n) {
+            return 1;
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i * n + j * n - i * j == k) {
+                    res += combinationLCP22(i, n) * combinationLCP22(j, n);
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int combinationLCP22(int k, int n) {
+        if (k == 0) {
+            return 1;
+        }
+        int res = 1;
+        for (int i = 0; i < k; ++i) {
+            res *= n - i;
+        }
+        for (int i = 1; i <= k; ++i) {
+            res /= i;
+        }
+        return res;
+    }
+
     // LCP 41. 黑白翻转棋
     // public int flipChess(String[] chessboard) {
 
