@@ -15,8 +15,6 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import javax.crypto.MacSpi;
-
 public class Leetcode_3 {
     public static void main(String[] args) {
         // int[] res = numsSameConsecDiff(3, 7);
