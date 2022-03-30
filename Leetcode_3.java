@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -13,6 +14,8 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
+import javax.crypto.MacSpi;
 
 public class Leetcode_3 {
     public static void main(String[] args) {
@@ -5321,14 +5324,48 @@ public class Leetcode_3 {
         return res;
     }
 
+    // LCP 45. 自行车炫技赛场
+    public int[][] bicycleYard(int[] position, int[][] terrain, int[][] obstacle) {
+        int m = terrain.length;
+        int n = terrain[0].length;
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        boolean[][][] visited = new boolean[m][n][102];
+        List<int[]> res = new ArrayList<>();
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] { position[0], position[1], 1 });
+        visited[position[0]][position[1]][1] = true;
+        while (!queue.isEmpty()) {
+            int[] p = queue.poll();
+            for (int[] direction : directions) {
+                int nx = p[0] + direction[0];
+                int ny = p[1] + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                    int h1 = terrain[p[0]][p[1]];
+                    int h2 = terrain[nx][ny];
+                    int o2 = obstacle[nx][ny];
+                    int nSpeedChanged = h1 - h2 - o2;
+                    int nSpeed = p[2] + nSpeedChanged;
+                    if (nSpeed > 0 && !visited[nx][ny][nSpeed]) {
+                        visited[nx][ny][nSpeed] = true;
+                        queue.offer(new int[] { nx, ny, nSpeed });
+                    }
+
+                }
+            }
+        }
+        visited[position[0]][position[1]][1] = false;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (visited[i][j][1]) {
+                    res.add(new int[] { i, j });
+                }
+            }
+        }
+        return res.toArray(new int[res.size()][]);
+    }
+
     // LCP 41. 黑白翻转棋
     // public int flipChess(String[] chessboard) {
-
-    // }
-
-    // LCP 45. 自行车炫技赛场
-    // public int[][] bicycleYard(int[] position, int[][] terrain, int[][] obstacle)
-    // {
 
     // }
 
