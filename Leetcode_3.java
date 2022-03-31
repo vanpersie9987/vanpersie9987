@@ -5392,6 +5392,33 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 1376. 通知所有员工所需的时间 (Time Needed to Inform All Employees) --bfs
+    public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
+        Map<Integer, List<Integer>> tree = new HashMap<>();
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < manager.length; ++i) {
+            if (manager[i] != -1) {
+                tree.computeIfAbsent(manager[i], k -> new LinkedList<>()).add(i);
+            }
+        }
+        int res = 0;
+        queue.offer(new int[] { headID, 0 });
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int id = cur[0];
+            int time = cur[1];
+            res = Math.max(res, informTime[id] + time);
+            if (tree.get(id) == null) {
+                continue;
+            }
+            for (int subordinate : tree.get(id)) {
+                queue.offer(new int[] { subordinate, informTime[id] + time });
+            }
+        }
+        return res;
+
+    }
+
     // LCP 41. 黑白翻转棋
     // public int flipChess(String[] chessboard) {
 
@@ -5440,11 +5467,6 @@ public class Leetcode_3 {
 
     // 617. 合并二叉树 (Merge Two Binary Trees)
     // public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
-
-    // }
-
-    // 1376. 通知所有员工所需的时间 (Time Needed to Inform All Employees)
-    // public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
 
     // }
 
