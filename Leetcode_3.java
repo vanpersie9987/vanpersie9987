@@ -5471,6 +5471,30 @@ public class Leetcode_3 {
         return count == 0;
     }
 
+    // 728. 自除数 (Self Dividing Numbers)
+    public List<Integer> selfDividingNumbers(int left, int right) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = left; i <= right; ++i) {
+            if (isValid728(i)) {
+                res.add(i);
+            }
+        }
+        return res;
+
+    }
+
+    private boolean isValid728(int num) {
+        int numCopy = num;
+        while (numCopy != 0) {
+            int bit = numCopy % 10;
+            if (bit == 0 || num % bit != 0) {
+                return false;
+            }
+            numCopy /= 10;
+        }
+        return true;
+    }
+
     // LCP 41. 黑白翻转棋
     // public int flipChess(String[] chessboard) {
 
