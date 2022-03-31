@@ -5362,6 +5362,36 @@ public class Leetcode_3 {
         return res.toArray(new int[res.size()][]);
     }
 
+    // 452. 用最少数量的箭引爆气球 (Minimum Number of Arrows to Burst Balloons) --排序 + 贪心
+    public int findMinArrowShots(int[][] points) {
+        Arrays.sort(points, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] > o2[0]) {
+                    return 1;
+                } else if (o1[0] < o2[0]) {
+                    return -1;
+                } else if (o1[1] > o2[1]) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
+        int res = 1;
+        int min = points[0][1];
+        for (int i = 1; i < points.length; ++i) {
+            if (points[i][0] > min) {
+                ++res;
+                min = points[i][1];
+            } else {
+                min = Math.min(min, points[i][1]);
+            }
+        }
+        return res;
+    }
+
     // LCP 41. 黑白翻转棋
     // public int flipChess(String[] chessboard) {
 
@@ -5429,33 +5459,4 @@ public class Leetcode_3 {
 
     // }
 
-    // 452. 用最少数量的箭引爆气球 (Minimum Number of Arrows to Burst Balloons) --排序 + 贪心
-    public int findMinArrowShots(int[][] points) {
-        Arrays.sort(points, new Comparator<int[]>() {
-
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                if (o1[0] > o2[0]) {
-                    return 1;
-                } else if (o1[0] < o2[0]) {
-                    return -1;
-                } else if (o1[1] > o2[1]) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            }
-        });
-        int res = 1;
-        int min = points[0][1];
-        for (int i = 1; i < points.length; ++i) {
-            if (points[i][0] > min) {
-                ++res;
-                min = points[i][1];
-            } else {
-                min = Math.min(min, points[i][1]);
-            }
-        }
-        return res;
-    }
 }
