@@ -5495,6 +5495,34 @@ public class Leetcode_3 {
         return true;
     }
 
+    // 397. 整数替换 (Integer Replacement) --bfs 还需掌握 贪心、dfs
+    public int integerReplacement(int n) {
+        Queue<long[]> queue = new LinkedList<>();
+        queue.offer(new long[] { (long) n, 0L });
+        Set<Long> visited = new HashSet<>();
+        visited.add((long) n);
+        while (!queue.isEmpty()) {
+            long cur[] = queue.poll();
+            if (cur[0] == 1L) {
+                return (int) cur[1];
+            }
+            if (cur[0] % 2 == 0L) {
+                if (visited.add((long) (cur[0] / 2))) {
+                    queue.offer(new long[] { (long) (cur[0] / 2), cur[1] + 1 });
+                }
+            } else {
+                if (visited.add((long) (cur[0] - 1))) {
+                    queue.offer(new long[] { (long) (cur[0] - 1), cur[1] + 1 });
+                }
+                if (visited.add((long) (cur[0] + 1))) {
+                    queue.offer(new long[] { (long) (cur[0] + 1), cur[1] + 1 });
+                }
+            }
+        }
+        return -1;
+
+    }
+
     // LCP 41. 黑白翻转棋
     // public int flipChess(String[] chessboard) {
 
