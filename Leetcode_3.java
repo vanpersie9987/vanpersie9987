@@ -5419,6 +5419,58 @@ public class Leetcode_3 {
 
     }
 
+    // 301. 删除无效的括号 (Remove Invalid Parentheses) --bfs
+    public List<String> removeInvalidParentheses(String s) {
+        Queue<String> queue = new LinkedList<>();
+        queue.offer(s);
+        List<String> res = new LinkedList<>();
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                String cur = queue.poll();
+                if (isValid301(cur)) {
+                    res.add(cur);
+                }
+                queue.offer(cur);
+            }
+            if (!res.isEmpty()) {
+                return res;
+            }
+            Set<String> set = new HashSet<>();
+            for (int i = 0; i < size; ++i) {
+                String cur = queue.poll();
+                for (int j = 0; j < cur.length(); ++j) {
+                    if (cur.charAt(j) == '(' || cur.charAt(j) == ')') {
+                        String nString = cur.substring(0, j) + cur.substring(j + 1);
+                        if (!set.contains(nString)) {
+                            set.add(nString);
+                            queue.offer(nString);
+                        }
+                    }
+                }
+            }
+        }
+        res.add("");
+        return res;
+
+    }
+
+    private boolean isValid301(String string) {
+        int count = 0;
+        for (char c : string.toCharArray()) {
+            if (c == '(') {
+                ++count;
+            } else if (c == ')') {
+                --count;
+                if (count < 0) {
+                    return false;
+                }
+            }
+        }
+
+        return count == 0;
+    }
+
     // LCP 41. 黑白翻转棋
     // public int flipChess(String[] chessboard) {
 
@@ -5427,11 +5479,6 @@ public class Leetcode_3 {
     // 1298. 你能从盒子里获得的最大糖果数 (Maximum Candies You Can Get from Boxes)
     // public int maxCandies(int[] status, int[] candies, int[][] keys, int[][]
     // containedBoxes, int[] initialBoxes) {
-
-    // }
-
-    // 301. 删除无效的括号 (Remove Invalid Parentheses)
-    // public List<String> removeInvalidParentheses(String s) {
 
     // }
 
