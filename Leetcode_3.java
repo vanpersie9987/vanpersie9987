@@ -5535,7 +5535,8 @@ public class Leetcode_3 {
             ++counts2[word2.charAt(i) - 'a'];
         }
         for (int i = 0; i < 26; ++i) {
-            if ((counts1[i] == 0 && counts2[i] != 0) || (counts1[i] != 0 && counts2[i] == 0)) {
+            // 一个为0 一个不为0
+            if ((counts1[i] == 0) ^ (counts2[i] == 0)) {
                 return false;
             }
         }
