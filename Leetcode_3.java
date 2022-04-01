@@ -5523,6 +5523,28 @@ public class Leetcode_3 {
 
     }
 
+    // 1657. 确定两个字符串是否接近 (Determine if Two Strings Are Close)
+    public boolean closeStrings(String word1, String word2) {
+        if (word1.length() != word2.length()) {
+            return false;
+        }
+        int[] counts1 = new int[26];
+        int[] counts2 = new int[26];
+        for (int i = 0; i < word1.length(); ++i) {
+            ++counts1[word1.charAt(i) - 'a'];
+            ++counts2[word2.charAt(i) - 'a'];
+        }
+        for (int i = 0; i < 26; ++i) {
+            if ((counts1[i] == 0 && counts2[i] != 0) || (counts1[i] != 0 && counts2[i] == 0)) {
+                return false;
+            }
+        }
+        Arrays.sort(counts1);
+        Arrays.sort(counts2);
+        return Arrays.equals(counts1, counts2);
+
+    }
+
     // LCP 41. 黑白翻转棋
     // public int flipChess(String[] chessboard) {
 
@@ -5531,11 +5553,6 @@ public class Leetcode_3 {
     // 1298. 你能从盒子里获得的最大糖果数 (Maximum Candies You Can Get from Boxes)
     // public int maxCandies(int[] status, int[] candies, int[][] keys, int[][]
     // containedBoxes, int[] initialBoxes) {
-
-    // }
-
-    // 1657. 确定两个字符串是否接近 (Determine if Two Strings Are Close)
-    // public boolean closeStrings(String word1, String word2) {
 
     // }
 
