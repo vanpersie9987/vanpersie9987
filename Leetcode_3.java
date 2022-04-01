@@ -5546,6 +5546,24 @@ public class Leetcode_3 {
 
     }
 
+    // 647. 回文子串 (Palindromic Substrings) --dp 还需掌握 中心扩展法
+    // 剑指 Offer II 020. 回文子字符串的个数
+    public int countSubstrings(String s) {
+        int res = 0;
+        int n = s.length();
+        boolean[][] dp = new boolean[n][n];
+        for (int j = 0; j < n; ++j) {
+            for (int i = 0; i <= j; ++i) {
+                if (s.charAt(i) == s.charAt(j) && (j - i < 2 || dp[i + 1][j - 1])) {
+                    ++res;
+                    dp[i][j] = true;
+                }
+            }
+        }
+        return res;
+
+    }
+
     // LCP 41. 黑白翻转棋
     // public int flipChess(String[] chessboard) {
 
@@ -5589,12 +5607,6 @@ public class Leetcode_3 {
 
     // 1466. 重新规划路线 (Reorder Routes to Make All Paths Lead to the City Zero)
     // public int minReorder(int n, int[][] connections) {
-
-    // }
-
-    // 647. 回文子串 (Palindromic Substrings)
-    // 剑指 Offer II 020. 回文子字符串的个数
-    // public int countSubstrings(String s) {
 
     // }
 
