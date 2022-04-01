@@ -5564,6 +5564,22 @@ public class Leetcode_3 {
 
     }
 
+    // 400. 第 N 位数字 (Nth Digit) --模拟 还需掌握 二分查找
+    public int findNthDigit(int n) {
+        int bits = 1;
+        int count = 9;
+        while (n > (long) bits * count) {
+            n -= bits * count;
+            ++bits;
+            count *= 10;
+        }
+        --n;
+        int num = (int) Math.pow(10, bits - 1) + n / bits;
+        int numIndex = n % bits;
+        return (num / (int) Math.pow(10, bits - numIndex - 1)) % 10;
+
+    }
+
     // LCP 41. 黑白翻转棋
     // public int flipChess(String[] chessboard) {
 
