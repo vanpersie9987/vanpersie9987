@@ -5670,40 +5670,22 @@ public class Leetcode_3 {
 
     }
 
-    // 6036. 构造字符串的总得分和
-    // public long sumScores(String s) {
-    // }
+    // 6055. 转化时间需要的最少操作数 (Minimum Number of Operations to Convert Time)
+    public int convertTime(String current, String correct) {
+        String[] time1 = current.split(":");
+        String[] time2 = correct.split(":");
+        int res = 0;
+        int m2 = Integer.parseInt(time2[1]) + Integer.parseInt(time2[0]) * 60;
+        int m1 = Integer.parseInt(time1[1]) + Integer.parseInt(time1[0]) * 60;
+        int diff = m2 - m1;
+        int[] divides = { 60, 15, 5, 1 };
+        for (int divide : divides) {
+            res += diff / divide;
+            diff %= divide;
+        }
+        return res;
 
-    // 6055. 转化时间需要的最少操作数
-    // public int convertTime(String current, String correct) {
-    // String[] time1 = current.split(":");
-    // String[] time2 = correct.split(":");
-    // int res = 0;
-    // int m2 = Integer.parseInt(time2[1]) + Integer.parseInt(time2[0]) * 60;
-    // int m1 = Integer.parseInt(time1[1]) + Integer.parseInt(time1[0]) * 60;
-    // int diff = m2 - m1;
-    // res += diff / 60;
-    // // if (diff / 60 == 0) {
-    // // return res;
-    // // }
-    // diff %= 60;
-
-    // res += diff / 15;
-    // // if (diff / 15 == 0) {
-    // // return res;
-    // // }
-    // diff %= 15;
-
-    // res += diff / 5;
-    // // if (diff / 5 == 0) {
-    // // return res;
-    // // }
-    // diff %= 5;
-
-    // res += diff;
-    // return res;
-
-    // }
+    }
 
     // 5235. 找出输掉零场或一场比赛的玩家
     // public List<List<Integer>> findWinners(int[][] matches) {
