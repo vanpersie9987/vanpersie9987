@@ -5687,30 +5687,30 @@ public class Leetcode_3 {
 
     }
 
-    // 5235. 找出输掉零场或一场比赛的玩家
-    // public List<List<Integer>> findWinners(int[][] matches) {
-    // List<List<Integer>> res = new ArrayList<>();
-    // Map<Integer, Integer> lose = new HashMap<>();
-    // for (int[] match : matches) {
-    // lose.put(match[1], lose.getOrDefault(match[1], 0) + 1);
-    // }
-    // Set<Integer> res1 = new TreeSet<>();
-    // for (int[] match : matches) {
-    // if (!lose.containsKey(match[0])) {
-    // res1.add(match[0]);
-    // }
-    // }
-    // res.add(new ArrayList<>(res1));
-    // Set<Integer> res2 = new TreeSet<>();
-    // for (Map.Entry<Integer, Integer> entry : lose.entrySet()) {
-    // if (entry.getValue() == 1) {
-    // res2.add(entry.getKey());
-    // }
-    // }
-    // res.add(new ArrayList<>(res2));
-    // return res;
+    // 5235. 找出输掉零场或一场比赛的玩家 (Find Players With Zero or One Losses)
+    public List<List<Integer>> findWinners(int[][] matches) {
+        List<List<Integer>> res = new ArrayList<>();
+        Map<Integer, Integer> lose = new HashMap<>();
+        for (int[] match : matches) {
+            lose.put(match[1], lose.getOrDefault(match[1], 0) + 1);
+        }
+        Set<Integer> res1 = new TreeSet<>();
+        for (int[] match : matches) {
+            if (!lose.containsKey(match[0])) {
+                res1.add(match[0]);
+            }
+        }
+        res.add(new ArrayList<>(res1));
+        Set<Integer> res2 = new TreeSet<>();
+        for (Map.Entry<Integer, Integer> entry : lose.entrySet()) {
+            if (entry.getValue() == 1) {
+                res2.add(entry.getKey());
+            }
+        }
+        res.add(new ArrayList<>(res2));
+        return res;
 
-    // }
+    }
 
     // 5219. 每个小孩最多能分到多少糖果
     // public int maximumCandies(int[] candies, long k) {
