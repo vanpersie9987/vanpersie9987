@@ -5643,36 +5643,32 @@ public class Leetcode_3 {
         return nums[0];
     }
 
-    // 6035. 选择建筑的方案数
-    // public long numberOfWays(String s) {
-    // int n = s.length();
-    // // 当前位置左边0的个数
-    // int[] dp0left = new int[n];
-    // // 当前位置左边1的个数
-    // int[] dp1left = new int[n];
-    // for (int i = 1; i < n; ++i) {
-    // dp0left[i] = dp0left[i - 1] + (s.charAt(i - 1) == '0' ? 1 : 0);
-    // dp1left[i] = dp1left[i - 1] + (s.charAt(i - 1) == '1' ? 1 : 0);
-    // }
-    // // 当前位置右边0的个数
-    // int[] dp0right = new int[n];
-    // // 当前位置右边1的个数
-    // int[] dp1right = new int[n];
-    // for (int i = n - 2; i >= 0; --i) {
-    // dp0right[i] = dp0right[i + 1] + (s.charAt(i + 1) == '0' ? 1 : 0);
-    // dp1right[i] = dp1right[i + 1] + (s.charAt(i + 1) == '1' ? 1 : 0);
-    // }
-    // long res = 0L;
-    // for (int i = 1; i < n - 1; ++i) {
-    // if (s.charAt(i) == '0') {
-    // res += dp1left[i] * dp1right[i];
-    // } else {
-    // res += dp0left[i] * dp0right[i];
-    // }
-    // }
-    // return res;
+    // 6035. 选择建筑的方案数 (Number of Ways to Select Buildings)
+    public long numberOfWays(String s) {
+        int n = s.length();
+        // 当前位置左边0的个数
+        int[] dp0left = new int[n];
+        for (int i = 1; i < n; ++i) {
+            dp0left[i] = dp0left[i - 1] + 1 - (s.charAt(i - 1) - '0');
+        }
+        // 当前位置右边0的个数
+        int[] dp0right = new int[n];
+        for (int i = n - 2; i >= 0; --i) {
+            dp0right[i] = dp0right[i + 1] + 1 - (s.charAt(i + 1) - '0');
+        }
+        long res = 0L;
+        for (int i = 1; i < n - 1; ++i) {
+            if (s.charAt(i) == '0') {
+                // 左边1的个数 * 右边1的个数
+                res += (i - dp0left[i]) * (n - i - 1 - dp0right[i]);
+            } else {
+                // 左边0的个数 * 右边0的个数
+                res += dp0left[i] * dp0right[i];
+            }
+        }
+        return res;
 
-    // }
+    }
 
     // 6036. 构造字符串的总得分和
     // public long sumScores(String s) {
