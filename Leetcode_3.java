@@ -5580,6 +5580,12 @@ public class Leetcode_3 {
 
     }
 
+    // 6033. 转换数字的最少位翻转次数 (Minimum Bit Flips to Convert Number)
+    public int minBitFlips(int start, int goal) {
+        int diff = start ^ goal;
+        return Integer.bitCount(diff);
+    }
+
     // LCP 41. 黑白翻转棋
     // public int flipChess(String[] chessboard) {
 
@@ -5626,4 +5632,145 @@ public class Leetcode_3 {
 
     // }
 
+    // 6034. 数组的三角和
+    // public int triangularSum(int[] nums) {
+    // if (nums.length == 1) {
+    // return nums[0];
+    // }
+    // int count = nums.length - 1;
+    // for (int i = count - 1; i >= 0; --i) {
+    // for (int j = 0; j <= i; ++j) {
+    // nums[j] = (nums[j] + nums[j + 1]) % 10;
+    // }
+    // }
+    // return nums[0];
+
+    // }
+
+    // 6035. 选择建筑的方案数
+    // public long numberOfWays(String s) {
+    // int n = s.length();
+    // // 当前位置左边0的个数
+    // int[] dp0left = new int[n];
+    // // 当前位置左边1的个数
+    // int[] dp1left = new int[n];
+    // for (int i = 1; i < n; ++i) {
+    // dp0left[i] = dp0left[i - 1] + (s.charAt(i - 1) == '0' ? 1 : 0);
+    // dp1left[i] = dp1left[i - 1] + (s.charAt(i - 1) == '1' ? 1 : 0);
+    // }
+    // // 当前位置右边0的个数
+    // int[] dp0right = new int[n];
+    // // 当前位置右边1的个数
+    // int[] dp1right = new int[n];
+    // for (int i = n - 2; i >= 0; --i) {
+    // dp0right[i] = dp0right[i + 1] + (s.charAt(i + 1) == '0' ? 1 : 0);
+    // dp1right[i] = dp1right[i + 1] + (s.charAt(i + 1) == '1' ? 1 : 0);
+    // }
+    // long res = 0L;
+    // for (int i = 1; i < n - 1; ++i) {
+    // if (s.charAt(i) == '0') {
+    // res += dp1left[i] * dp1right[i];
+    // } else {
+    // res += dp0left[i] * dp0right[i];
+    // }
+    // }
+    // return res;
+
+    // }
+
+    // 6036. 构造字符串的总得分和
+    // public long sumScores(String s) {
+    // }
+
+    // 6055. 转化时间需要的最少操作数
+    // public int convertTime(String current, String correct) {
+    // String[] time1 = current.split(":");
+    // String[] time2 = correct.split(":");
+    // int res = 0;
+    // int m2 = Integer.parseInt(time2[1]) + Integer.parseInt(time2[0]) * 60;
+    // int m1 = Integer.parseInt(time1[1]) + Integer.parseInt(time1[0]) * 60;
+    // int diff = m2 - m1;
+    // res += diff / 60;
+    // // if (diff / 60 == 0) {
+    // // return res;
+    // // }
+    // diff %= 60;
+
+    // res += diff / 15;
+    // // if (diff / 15 == 0) {
+    // // return res;
+    // // }
+    // diff %= 15;
+
+    // res += diff / 5;
+    // // if (diff / 5 == 0) {
+    // // return res;
+    // // }
+    // diff %= 5;
+
+    // res += diff;
+    // return res;
+
+    // }
+
+    // 5235. 找出输掉零场或一场比赛的玩家
+    // public List<List<Integer>> findWinners(int[][] matches) {
+    // List<List<Integer>> res = new ArrayList<>();
+    // Map<Integer, Integer> lose = new HashMap<>();
+    // for (int[] match : matches) {
+    // lose.put(match[1], lose.getOrDefault(match[1], 0) + 1);
+    // }
+    // Set<Integer> res1 = new TreeSet<>();
+    // for (int[] match : matches) {
+    // if (!lose.containsKey(match[0])) {
+    // res1.add(match[0]);
+    // }
+    // }
+    // res.add(new ArrayList<>(res1));
+    // Set<Integer> res2 = new TreeSet<>();
+    // for (Map.Entry<Integer, Integer> entry : lose.entrySet()) {
+    // if (entry.getValue() == 1) {
+    // res2.add(entry.getKey());
+    // }
+    // }
+    // res.add(new ArrayList<>(res2));
+    // return res;
+
+    // }
+
+    // 5219. 每个小孩最多能分到多少糖果
+    // public int maximumCandies(int[] candies, long k) {
+    // // long sum = 0L;
+    // // long min = Long.MAX_VALUE;
+    // long max = Long.MIN_VALUE;
+    // for (int candy : candies) {
+    // // sum += candy;
+    // // min = Math.min(min, candy);
+    // max = Math.max(candy, max);
+    // }
+    // long min = 1;
+    // long res = 0;
+    // while (min <= max) {
+    // long mid = min + ((max - min) >>> 1);
+    // if (canDivided(candies, k, mid)) {
+    // res = mid;
+    // min = mid + 1;
+    // } else {
+    // max = mid - 1;
+    // }
+    // }
+    // return (int) (res);
+
+    // }
+
+    // private boolean canDivided(int[] candies, long k, long unit) {
+    // long res = 0;
+    // for (int candy : candies) {
+    // res += candy / unit;
+    // if (res >= k) {
+    // return true;
+    // }
+    // }
+    // return false;
+    // }
 }
