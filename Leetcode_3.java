@@ -5712,39 +5712,35 @@ public class Leetcode_3 {
 
     }
 
-    // 5219. 每个小孩最多能分到多少糖果
-    // public int maximumCandies(int[] candies, long k) {
-    // // long sum = 0L;
-    // // long min = Long.MAX_VALUE;
-    // long max = Long.MIN_VALUE;
-    // for (int candy : candies) {
-    // // sum += candy;
-    // // min = Math.min(min, candy);
-    // max = Math.max(candy, max);
-    // }
-    // long min = 1;
-    // long res = 0;
-    // while (min <= max) {
-    // long mid = min + ((max - min) >>> 1);
-    // if (canDivided(candies, k, mid)) {
-    // res = mid;
-    // min = mid + 1;
-    // } else {
-    // max = mid - 1;
-    // }
-    // }
-    // return (int) (res);
+    // 5219. 每个小孩最多能分到多少糖果 (Maximum Candies Allocated to K Children)
+    public int maximumCandies(int[] candies, long k) {
+        long max = Long.MIN_VALUE;
+        for (int candy : candies) {
+            max = Math.max(candy, max);
+        }
+        long min = 1;
+        long res = 0;
+        while (min <= max) {
+            long mid = min + ((max - min) >>> 1);
+            if (canDivided(candies, k, mid)) {
+                res = mid;
+                min = mid + 1;
+            } else {
+                max = mid - 1;
+            }
+        }
+        return (int) (res);
 
-    // }
+    }
 
-    // private boolean canDivided(int[] candies, long k, long unit) {
-    // long res = 0;
-    // for (int candy : candies) {
-    // res += candy / unit;
-    // if (res >= k) {
-    // return true;
-    // }
-    // }
-    // return false;
-    // }
+    private boolean canDivided(int[] candies, long k, long unit) {
+        long res = 0;
+        for (int candy : candies) {
+            res += candy / unit;
+            if (res >= k) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
