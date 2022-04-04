@@ -5632,20 +5632,16 @@ public class Leetcode_3 {
 
     // }
 
-    // 6034. 数组的三角和
-    // public int triangularSum(int[] nums) {
-    // if (nums.length == 1) {
-    // return nums[0];
-    // }
-    // int count = nums.length - 1;
-    // for (int i = count - 1; i >= 0; --i) {
-    // for (int j = 0; j <= i; ++j) {
-    // nums[j] = (nums[j] + nums[j + 1]) % 10;
-    // }
-    // }
-    // return nums[0];
-
-    // }
+    // 6034. 数组的三角和 (Find Triangular Sum of an Array)
+    public int triangularSum(int[] nums) {
+        int count = nums.length - 1;
+        for (int i = count - 1; i >= 0; --i) {
+            for (int j = 0; j <= i; ++j) {
+                nums[j] = (nums[j] + nums[j + 1]) % 10;
+            }
+        }
+        return nums[0];
+    }
 
     // 6035. 选择建筑的方案数
     // public long numberOfWays(String s) {
