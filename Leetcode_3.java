@@ -5836,40 +5836,4 @@ public class Leetcode_3 {
         return root;
 
     }
-
-    // LCP 41. 黑白翻转棋
-    // public int flipChess(String[] chessboard) {
-
-    // }
-
-    // 1298. 你能从盒子里获得的最大糖果数 (Maximum Candies You Can Get from Boxes)
-    // public int maxCandies(int[] status, int[] candies, int[][] keys, int[][]
-    // containedBoxes, int[] initialBoxes) {
-
-    // }
-
-    // 1654. 到家的最少跳跃次数 (Minimum Jumps to Reach Home)
-    // public int minimumJumps(int[] forbidden, int a, int b, int x) {
-
-    // }
-
-    // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
-    // public int networkBecomesIdle(int[][] edges, int[] patience) {
-
-    // }
-
-    // 2157. 字符串分组 (Groups of Strings)
-    // public int[] groupStrings(String[] words) {
-
-    // }
-
-    // 1443. 收集树上所有苹果的最少时间 (Minimum Time to Collect All Apples in a Tree)
-    // public int minTime(int n, int[][] edges, List<Boolean> hasApple) {
-
-    // }
-
-    // 617. 合并二叉树 (Merge Two Binary Trees)
-    // public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
-
-    // }
 }
