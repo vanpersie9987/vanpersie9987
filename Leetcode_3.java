@@ -5727,6 +5727,48 @@ public class Leetcode_3 {
 
     }
 
+    // 529. 扫雷游戏 (Minesweeper) --bfs
+    public char[][] updateBoard(char[][] board, int[] click) {
+        int x = click[0];
+        int y = click[1];
+        if (board[x][y] == 'M') {
+            board[x][y] = 'X';
+            return board;
+        }
+        int m = board.length;
+        int n = board[0].length;
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 }, { 1, 1 }, { 1, -1 }, { -1, 1 }, { -1, -1 } };
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] { x, y });
+        boolean[][] visited = new boolean[m][n];
+        while (!queue.isEmpty()) {
+            int[] p = queue.poll();
+            int count = 0;
+            for (int[] direction : directions) {
+                int nx = p[0] + direction[0];
+                int ny = p[1] + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && board[nx][ny] == 'M') {
+                    ++count;
+                }
+            }
+            if (count > 0) {
+                board[p[0]][p[1]] = (char) (count + '0');
+            } else {
+                board[p[0]][p[1]] = 'B';
+                for (int[] direction : directions) {
+                    int nx = p[0] + direction[0];
+                    int ny = p[1] + direction[1];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny]) {
+                        visited[nx][ny] = true;
+                        queue.offer(new int[] { nx, ny });
+                    }
+                }
+            }
+        }
+        return board;
+
+    }
+
     // LCP 41. 黑白翻转棋
     // public int flipChess(String[] chessboard) {
 
@@ -5750,11 +5792,6 @@ public class Leetcode_3 {
 
     // 2157. 字符串分组 (Groups of Strings)
     // public int[] groupStrings(String[] words) {
-
-    // }
-
-    // 529. 扫雷游戏 (Minesweeper)
-    // public char[][] updateBoard(char[][] board, int[] click) {
 
     // }
 
