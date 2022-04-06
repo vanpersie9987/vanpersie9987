@@ -5698,6 +5698,35 @@ public class Leetcode_3 {
         return false;
     }
 
+    // 1042. 不邻接植花 (Flower Planting With No Adjacent)
+    public int[] gardenNoAdj(int n, int[][] paths) {
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int[] path : paths) {
+            graph.computeIfAbsent(path[0] - 1, k -> new LinkedList<>()).add(path[1] - 1);
+            graph.computeIfAbsent(path[1] - 1, k -> new LinkedList<>()).add(path[0] - 1);
+        }
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            Set<Integer> set = new HashSet<>();
+            for (int j = 1; j <= 4; ++j) {
+                set.add(j);
+            }
+            if (graph.get(i) == null) {
+                res[i] = 1;
+                continue;
+            }
+            for (int neighbor : graph.get(i)) {
+                set.remove(res[neighbor]);
+            }
+            for (int item : set) {
+                res[i] = item;
+                break;
+            }
+        }
+        return res;
+
+    }
+
     // LCP 41. 黑白翻转棋
     // public int flipChess(String[] chessboard) {
 
