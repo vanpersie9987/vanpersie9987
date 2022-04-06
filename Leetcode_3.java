@@ -5769,6 +5769,35 @@ public class Leetcode_3 {
 
     }
 
+    // 1466. 重新规划路线 (Reorder Routes to Make All Paths Lead to the City Zero) --bfs
+    public int minReorder(int n, int[][] connections) {
+        Map<Integer, List<int[]>> map = new HashMap<>();
+        for (int[] connection : connections) {
+            map.computeIfAbsent(connection[0], k -> new LinkedList<>()).add(new int[] { connection[1], 1 });
+            map.computeIfAbsent(connection[1], k -> new LinkedList<>()).add(new int[] { connection[0], 0 });
+        }
+        boolean[] visited = new boolean[n];
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(0);
+        visited[0] = true;
+        int res = 0;
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            if (map.get(cur) == null) {
+                continue;
+            }
+            for (int[] neighbor : map.get(cur)) {
+                if (!visited[neighbor[0]]) {
+                    queue.offer(neighbor[0]);
+                    visited[neighbor[0]] = true;
+                    res += neighbor[1];
+                }
+            }
+        }
+        return res;
+
+    }
+
     // LCP 41. 黑白翻转棋
     // public int flipChess(String[] chessboard) {
 
@@ -5802,11 +5831,6 @@ public class Leetcode_3 {
 
     // 617. 合并二叉树 (Merge Two Binary Trees)
     // public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
-
-    // }
-
-    // 1466. 重新规划路线 (Reorder Routes to Make All Paths Lead to the City Zero)
-    // public int minReorder(int n, int[][] connections) {
 
     // }
 }
