@@ -5836,4 +5836,63 @@ public class Leetcode_3 {
         return root;
 
     }
+
+    // 863. 二叉树中所有距离为 K 的结点 (All Nodes Distance K in Binary Tree) --bfs
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+        List<Integer> res = new LinkedList<>();
+        if (k == 0) {
+            res.add(target.val);
+            return res;
+        }
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = queue.poll();
+                if (!graph.containsKey(node.val)) {
+                    graph.put(node.val, new LinkedList<>());
+                }
+                if (node.left != null) {
+                    graph.computeIfAbsent(node.val, o -> new LinkedList<>()).add(node.left.val);
+                    graph.computeIfAbsent(node.left.val, o -> new LinkedList<>()).add(node.val);
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    graph.computeIfAbsent(node.val, o -> new LinkedList<>()).add(node.right.val);
+                    graph.computeIfAbsent(node.right.val, o -> new LinkedList<>()).add(node.val);
+                    queue.offer(node.right);
+                }
+            }
+        }
+
+        int level = 0;
+        Set<Integer> visited = new HashSet<>();
+        Queue<Integer> queue2 = new LinkedList<>();
+        queue2.offer(target.val);
+        visited.add(target.val);
+        while (!queue2.isEmpty()) {
+            ++level;
+            int size = queue2.size();
+            for (int i = 0; i < size; ++i) {
+                int cur = queue2.poll();
+                if (graph.get(cur) == null) {
+                    continue;
+                }
+                for (int neighbor : graph.get(cur)) {
+                    if (!visited.contains(neighbor)) {
+                        visited.add(neighbor);
+                        queue2.offer(neighbor);
+                    }
+                }
+            }
+            if (level == k) {
+                res.addAll(queue2);
+                break;
+            }
+        }
+        return res;
+
+    }
 }
