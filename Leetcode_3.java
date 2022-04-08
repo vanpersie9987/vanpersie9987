@@ -5990,7 +5990,43 @@ public class Leetcode_3 {
 
     // 662. 二叉树最大宽度 (Maximum Width of Binary Tree) --bfs
     public int widthOfBinaryTree(TreeNode root) {
+        Queue<Node662> queue = new LinkedList<>();
+        queue.offer(new Node662(root, 1));
+        int res = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            int minPosition = Integer.MAX_VALUE;
+            int maxPosition = Integer.MIN_VALUE;
+            for (int i = 0; i < size; ++i) {
+                Node662 node662 = queue.poll();
+                if (i == 0) {
+                    minPosition = node662.position;
+                }
+                if (i == size - 1) {
+                    maxPosition = node662.position;
+                }
+                if (node662.node.left != null) {
+                    queue.offer(new Node662(node662.node.left, node662.position << 1));
+                }
+                if (node662.node.right != null) {
+                    queue.offer(new Node662(node662.node.right, (node662.position << 1) + 1));
+                }
+            }
+            res = Math.max(res, maxPosition - minPosition + 1);
+        }
+        return res;
 
+    }
+
+    class Node662 {
+        TreeNode node;
+        int position;
+
+        Node662(TreeNode node, int position) {
+            this.node = node;
+            this.position = position;
+
+        }
     }
 
     // 1298. 你能从盒子里获得的最大糖果数 (Maximum Candies You Can Get from Boxes) --bfs
