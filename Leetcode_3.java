@@ -6029,18 +6029,63 @@ public class Leetcode_3 {
         }
     }
 
-    // 1298. 你能从盒子里获得的最大糖果数 (Maximum Candies You Can Get from Boxes) --bfs
-    public int maxCandies(int[] status, int[] candies, int[][] keys, int[][] containedBoxes, int[] initialBoxes) {
-
-    }
-
     // 1293. 网格中的最短路径 (Shortest Path in a Grid with Obstacles Elimination) --bfs
     public int shortestPath(int[][] grid, int k) {
-
+        int m = grid.length;
+        int n = grid[0].length;
+        if (m == 1 && n == 1) {
+            return 0;
+        }
+        if (k >= m + n - 3) {
+            return m + n - 2;
+        }
+        k = Math.min(m + n - 3, k);
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] { 0, 0, k });
+        int[][] visited = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                visited[i][j] = -1;
+            }
+        }
+        visited[0][0] = k;
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int res = 0;
+        while (!queue.isEmpty()) {
+            ++res;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = queue.poll();
+                for (int[] direction : directions) {
+                    int nx = cur[0] + direction[0];
+                    int ny = cur[1] + direction[1];
+                    int remain = cur[2];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                        if (nx == m - 1 && ny == n - 1) {
+                            return res;
+                        }
+                        remain = grid[nx][ny] == 0 ? remain : --remain;
+                        if (remain >= 0) {
+                            if (visited[nx][ny] == -1 || remain > visited[nx][ny]) {
+                                visited[nx][ny] = remain;
+                                queue.offer(new int[] { nx, ny, remain });
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return -1;
     }
+
+    // 1298. 你能从盒子里获得的最大糖果数 (Maximum Candies You Can Get from Boxes) --bfs
+    // public int maxCandies(int[] status, int[] candies, int[][] keys, int[][]
+    // containedBoxes, int[] initialBoxes) {
+
+    // }
 
     // 1263. 推箱子 (Minimum Moves to Move a Box to Their Target Location) --bfs
-    public int minPushBox(char[][] grid) {
+    // public int minPushBox(char[][] grid) {
 
-    }
+    // }
 }
