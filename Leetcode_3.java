@@ -3304,11 +3304,8 @@ public class Leetcode_3 {
             for (int i = 0; i < size; ++i) {
                 Node node = queue.poll();
                 list.add(node.val);
-                List<Node> children = node.children;
-                if (children != null) {
-                    for (Node child : children) {
-                        queue.offer(child);
-                    }
+                for (Node child : node.children) {
+                    queue.offer(child);
                 }
             }
             res.add(list);
@@ -5922,5 +5919,31 @@ public class Leetcode_3 {
             }
         }
         return true;
+    }
+
+    // 655. 输出二叉树 (Print Binary Tree) --bfs
+    public List<List<String>> printTree(TreeNode root) {
+        int height = 0;
+
+    }
+
+    // 662. 二叉树最大宽度 (Maximum Width of Binary Tree) --bfs
+    public int widthOfBinaryTree(TreeNode root) {
+
+    }
+
+    // 1298. 你能从盒子里获得的最大糖果数 (Maximum Candies You Can Get from Boxes) --bfs
+    public int maxCandies(int[] status, int[] candies, int[][] keys, int[][] containedBoxes, int[] initialBoxes) {
+
+    }
+
+    // 1293. 网格中的最短路径 (Shortest Path in a Grid with Obstacles Elimination) --bfs
+    public int shortestPath(int[][] grid, int k) {
+
+    }
+
+    // 1263. 推箱子 (Minimum Moves to Move a Box to Their Target Location) --bfs
+    public int minPushBox(char[][] grid) {
+
     }
 }
