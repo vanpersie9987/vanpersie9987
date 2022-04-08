@@ -5895,4 +5895,32 @@ public class Leetcode_3 {
         return res;
 
     }
+
+    // 958. 二叉树的完全性检验 (Check Completeness of a Binary Tree) --bfs
+    public boolean isCompleteTree(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        boolean flag = false;
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node.left != null) {
+                if (flag) {
+                    return false;
+                }
+                queue.offer(node.left);
+            } else {
+                flag = true;
+            }
+
+            if (node.right != null) {
+                if (flag) {
+                    return false;
+                }
+                queue.offer(node.right);
+            } else {
+                flag = true;
+            }
+        }
+        return true;
+    }
 }
