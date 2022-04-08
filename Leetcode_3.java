@@ -5923,8 +5923,69 @@ public class Leetcode_3 {
 
     // 655. 输出二叉树 (Print Binary Tree) --bfs
     public List<List<String>> printTree(TreeNode root) {
-        int height = 0;
+        int m = getHeight655(root);
+        int n = (1 << m) - 1;
+        List<List<String>> res = new ArrayList<>();
+        for (int i = 0; i < m; ++i) {
+            List<String> row = new ArrayList<>();
+            for (int j = 0; j < n; ++j) {
+                row.add("");
+            }
+            res.add(row);
+        }
+        Queue<Node655> queue = new LinkedList<>();
+        queue.offer(new Node655(root, 0, (n - 1) / 2));
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                Node655 node655 = queue.poll();
+                int row = node655.row;
+                int col = node655.col;
+                TreeNode node = node655.node;
+                res.get(row).set(col, String.valueOf(node.val));
+                if (node.left != null) {
+                    queue.offer(new Node655(node.left, row + 1, col - (1 << (m - 1 - row - 1))));
+                }
+                if (node.right != null) {
+                    queue.offer(new Node655(node.right, row + 1, col + (1 << (m - 1 - row - 1))));
+                }
+            }
+        }
+        return res;
 
+    }
+
+    class Node655 {
+        TreeNode node;
+        int row;
+        int col;
+
+        Node655(TreeNode node, int row, int col) {
+            this.node = node;
+            this.row = row;
+            this.col = col;
+        }
+
+    }
+
+    private int getHeight655(TreeNode root) {
+        int level = 0;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            ++level;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = queue.poll();
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+        }
+        return level;
     }
 
     // 662. 二叉树最大宽度 (Maximum Width of Binary Tree) --bfs
