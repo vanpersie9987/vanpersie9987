@@ -6079,10 +6079,49 @@ public class Leetcode_3 {
     }
 
     // 1298. 你能从盒子里获得的最大糖果数 (Maximum Candies You Can Get from Boxes) --bfs
-    // public int maxCandies(int[] status, int[] candies, int[][] keys, int[][]
-    // containedBoxes, int[] initialBoxes) {
+    public int maxCandies(int[] status, int[] candies, int[][] keys, int[][] containedBoxes, int[] initialBoxes) {
+        int n = status.length;
+        int res = 0;
+        // 是否使用过
+        boolean[] used_boxes = new boolean[n];
+        // 是否拥有箱子📦
+        boolean[] have_boxes = new boolean[n];
+        // 是否拥有钥匙🔑
+        boolean[] can_open = new boolean[n];
+        for (int i = 0; i < n; ++i) {
+            can_open[i] = status[i] == 1;
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int initialBox : initialBoxes) {
+            have_boxes[initialBox] = true;
+            if (can_open[initialBox]) {
+                res += candies[initialBox];
+                used_boxes[initialBox] = true;
+                queue.offer(initialBox);
+            }
+        }
+        while (!queue.isEmpty()) {
+            int bigBox = queue.poll();
+            for (int key : keys[bigBox]) {
+                can_open[key] = true;
+                if (!used_boxes[key] && have_boxes[key]) {
+                    used_boxes[key] = true;
+                    queue.offer(key);
+                    res += candies[key];
+                }
+            }
+            for (int box : containedBoxes[bigBox]) {
+                have_boxes[box] = true;
+                if (!used_boxes[box] && can_open[box]) {
+                    used_boxes[box] = true;
+                    queue.offer(box);
+                    res += candies[box];
+                }
+            }
+        }
+        return res;
 
-    // }
+    }
 
     // 1263. 推箱子 (Minimum Moves to Move a Box to Their Target Location) --bfs
     // public int minPushBox(char[][] grid) {
