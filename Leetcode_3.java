@@ -6123,6 +6123,49 @@ public class Leetcode_3 {
 
     }
 
+    // 剑指 Offer II 043. 往完全二叉树添加节点
+    // 919. 完全二叉树插入器 (Complete Binary Tree Inserter) --bfs
+    class CBTInserter {
+        private Queue<TreeNode> queue;
+        private TreeNode root;
+
+        public CBTInserter(TreeNode root) {
+            this.root = root;
+            this.queue = new LinkedList<>();
+            queue.offer(root);
+            while (!queue.isEmpty()) {
+                TreeNode node = queue.peek();
+                if (node.left == null) {
+                    break;
+                }
+                if (node.right == null) {
+                    queue.offer(node.left);
+                    break;
+                }
+                node = queue.poll();
+                queue.offer(node.left);
+                queue.offer(node.right);
+            }
+        }
+
+        public int insert(int val) {
+            TreeNode node = queue.peek();
+            if (node.left == null) {
+                node.left = new TreeNode(val);
+                queue.offer(node.left);
+            } else {
+                node.right = new TreeNode(val);
+                queue.offer(node.right);
+                node = queue.poll();
+            }
+            return node.val;
+        }
+
+        public TreeNode get_root() {
+            return root;
+        }
+    }
+
     // 1263. 推箱子 (Minimum Moves to Move a Box to Their Target Location) --bfs
     // public int minPushBox(char[][] grid) {
 
