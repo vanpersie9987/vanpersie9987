@@ -6199,4 +6199,28 @@ public class Leetcode_3 {
             return set.contains(target);
         }
     }
+
+    // 1261. 在受污染的二叉树中查找元素 (Find Elements in a Contaminated Binary Tree) --不用set
+    class FindElements2 {
+        private TreeNode root;
+
+        public FindElements2(TreeNode root) {
+            this.root = root;
+        }
+
+        public boolean find(int target) {
+            TreeNode node = root;
+            ++target;
+            int bit = Integer.highestOneBit(target) >> 1;
+            while (bit != 0 && node != null) {
+                if ((target & bit) == 0) {
+                    node = node.left;
+                } else {
+                    node = node.right;
+                }
+                bit >>= 1;
+            }
+            return node != null;
+        }
+    }
 }
