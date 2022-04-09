@@ -1,3 +1,4 @@
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -6166,8 +6167,36 @@ public class Leetcode_3 {
         }
     }
 
-    // 1263. 推箱子 (Minimum Moves to Move a Box to Their Target Location) --bfs
-    // public int minPushBox(char[][] grid) {
+    // 1261. 在受污染的二叉树中查找元素 (Find Elements in a Contaminated Binary Tree) --bfs
+    class FindElements {
+        private Set<Integer> set;
+        private Queue<TreeNode> queue;
 
-    // }
+        public FindElements(TreeNode root) {
+            queue = new LinkedList<>();
+            set = new HashSet<>();
+            root.val = 0;
+            queue.offer(root);
+            set.add(0);
+            while (!queue.isEmpty()) {
+                TreeNode node = queue.poll();
+                if (node.left != null) {
+                    int val = (node.val << 1) + 1;
+                    node.left.val = val;
+                    queue.offer(node.left);
+                    set.add(val);
+                }
+                if (node.right != null) {
+                    int val = (node.val << 1) + 2;
+                    node.right.val = val;
+                    queue.offer(node.right);
+                    set.add(val);
+                }
+            }
+        }
+
+        public boolean find(int target) {
+            return set.contains(target);
+        }
+    }
 }
