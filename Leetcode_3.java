@@ -6301,4 +6301,58 @@ public class Leetcode_3 {
         }
         return (int) res;
     }
+
+    // 297. 二叉树的序列化与反序列化 (Serialize and Deserialize Binary Tree)
+    // 剑指 Offer 37. 序列化二叉树
+    // 剑指 Offer II 048. 序列化与反序列化二叉树
+    // 449. 序列化和反序列化二叉搜索树 (Serialize and Deserialize BST) --bfs
+    public class Codec {
+
+        // Encodes a tree to a single string.
+        public String serialize(TreeNode root) {
+            if (root == null) {
+                return "#";
+            }
+            StringBuilder builder = new StringBuilder();
+            Queue<TreeNode> queue = new LinkedList<>();
+            queue.offer(root);
+            while (!queue.isEmpty()) {
+                TreeNode node = queue.poll();
+                if (node == null) {
+                    builder.append("#").append(",");
+                    continue;
+                }
+                builder.append(node.val).append(",");
+                queue.offer(node.left);
+                queue.offer(node.right);
+            }
+            return builder.toString();
+        }
+
+        // Decodes your encoded data to tree.
+        public TreeNode deserialize(String data) {
+            if ("#".equals(data)) {
+                return null;
+            }
+            String[] strings = data.split(",");
+            Queue<TreeNode> queue = new LinkedList<>();
+            TreeNode root = new TreeNode(Integer.parseInt(strings[0]));
+            queue.offer(root);
+            int index = 1;
+            while (index < strings.length) {
+                TreeNode node = queue.poll();
+                if (!"#".equals(strings[index])) {
+                    node.left = new TreeNode(Integer.parseInt(strings[index]));
+                    queue.offer(node.left);
+                }
+                ++index;
+                if (!"#".equals(strings[index])) {
+                    node.right = new TreeNode(Integer.parseInt(strings[index]));
+                    queue.offer(node.right);
+                }
+                ++index;
+            }
+            return root;
+        }
+    }
 }
