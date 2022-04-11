@@ -6284,30 +6284,21 @@ public class Leetcode_3 {
         return res;
     }
 
-    // public int maximumProduct(int[] nums, int k) {
-    // PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(new
-    // Comparator<Integer>() {
-
-    // @Override
-    // public int compare(Integer o1, Integer o2) {
-    // return o1 - o2;
-    // }
-
-    // });
-    // for (int num : nums) {
-    // priorityQueue.offer(num);
-    // }
-    // while (k-- > 0) {
-    // int cur = priorityQueue.poll();
-    // ++cur;
-    // priorityQueue.offer(cur);
-    // }
-    // long res = 1L;
-    // while (!priorityQueue.isEmpty()) {
-    // res = ((res % 1000000007) * (priorityQueue.poll() % 1000000007)) %
-    // 1000000007;
-    // }
-    // return (int) res;
-
-    // }
+    // 6039. K 次增加后的最大乘积 (Maximum Product After K Increments)
+    public int maximumProduct(int[] nums, int k) {
+        final int MOD = 1000000007;
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
+        for (int num : nums) {
+            priorityQueue.offer(num);
+        }
+        while (k-- > 0) {
+            int cur = priorityQueue.poll();
+            priorityQueue.offer(cur + 1);
+        }
+        long res = 1L;
+        while (!priorityQueue.isEmpty()) {
+            res = ((res % MOD) * (priorityQueue.poll() % MOD)) % MOD;
+        }
+        return (int) res;
+    }
 }
