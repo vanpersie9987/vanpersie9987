@@ -6250,68 +6250,39 @@ public class Leetcode_3 {
         return res;
     }
 
-    // public String minimizeResult(String expression) {
-    // int j = 0;
-    // for (int i = 0; i < expression.length(); ++i) {
-    // if (expression.charAt(i) == '+') {
-    // j = i;
-    // break;
-    // }
-    // }
-    // // String[] added = expression.split("\\s+");
-    // int num1 = Integer.parseInt(expression.substring(0, j));
-    // int num2 = Integer.parseInt(expression.substring(j + 1));
-    // List<int[]> list1 = getRes6038_1(num1);
-    // List<int[]> list2 = getRes6038_2(num2);
-    // int res = Integer.MAX_VALUE;
-    // StringBuilder sBuilder = new StringBuilder();
-    // for (int[] item1 : list1) {
-    // for (int[] item2 : list2) {
-    // int cur = item1[0] * (item1[1] + item2[0]) * item2[1];
-    // if (cur < res) {
-    // res = cur;
-    // sBuilder.setLength(0);
-    // String s1 = String.valueOf(item1[0]);
-    // String s2 = String.valueOf(item1[1]);
-    // if ((s1 + s2).equals(expression.substring(0, j))) {
-    // sBuilder.append(item1[0]);
-    // }
-    // sBuilder.append("(").append(item1[1]).append("+").append(item2[0]).append(")");
-    // String s3 = String.valueOf(item2[0]);
-    // String s4 = String.valueOf(item2[1]);
-    // if ((s3 + s4).equals(expression.substring(j + 1))) {
-    // sBuilder.append(item2[1]);
-    // }
-    // }
-    // }
-    // }
-    // return sBuilder.toString();
-    // }
+    // 2232. 向表达式添加括号后的最小结果 (Minimize Result by Adding Parentheses to Expression)
+    public String minimizeResult(String expression) {
+        int pos = expression.indexOf("+");
+        int minVal = Integer.MAX_VALUE;
+        int n = expression.length();
+        String res = "";
+        for (int i = 0; i < pos; ++i) {
+            for (int j = pos + 1; j < n; ++j) {
+                String s1 = expression.substring(0, i);
+                String s2 = expression.substring(i, j + 1);
+                String s3 = expression.substring(j + 1);
+                int cur = getRes2232(s1, s2, s3);
+                if (cur < minVal) {
+                    minVal = cur;
+                    res = String.format("%s(%s)%s", s1, s2, s3);
+                }
+            }
+        }
+        return res;
 
-    // private List<int[]> getRes6038_2(int num) {
-    // List<int[]> res = new ArrayList<>();
-    // res.add(new int[] { num, 1 });
-    // String string = String.valueOf(num);
-    // for (int i = string.length() - 1; i >= 1; --i) {
-    // int split1 = Integer.parseInt(string.substring(0, i));
-    // int split2 = Integer.parseInt(string.substring(i));
-    // res.add(new int[] { split1, split2 });
-    // }
+    }
 
-    // return res;
-    // }
-
-    // private List<int[]> getRes6038_1(int num) {
-    // List<int[]> res = new ArrayList<>();
-    // res.add(new int[] { 1, num });
-    // String string = String.valueOf(num);
-    // for (int i = 1; i < string.length(); ++i) {
-    // int split1 = Integer.parseInt(string.substring(0, i));
-    // int split2 = Integer.parseInt(string.substring(i));
-    // res.add(new int[] { split1, split2 });
-    // }
-    // return res;
-    // }
+    private int getRes2232(String s1, String s2, String s3) {
+        String[] split = s2.split("\\+");
+        int res = Integer.parseInt(split[0]) + Integer.parseInt(split[1]);
+        if (!s1.isEmpty()) {
+            res *= Integer.parseInt(s1);
+        }
+        if (!s3.isEmpty()) {
+            res *= Integer.parseInt(s3);
+        }
+        return res;
+    }
 
     // public int maximumProduct(int[] nums, int k) {
     // PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(new
