@@ -1,4 +1,3 @@
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -6223,4 +6222,121 @@ public class Leetcode_3 {
             return node != null;
         }
     }
+
+    // 6037. 按奇偶性交换后的最大数字 (Largest Number After Digit Swaps by Parity)
+    public int largestInteger(int num) {
+        char[] chars = String.valueOf(num).toCharArray();
+        int n = chars.length;
+        PriorityQueue<Integer> oddQueue = new PriorityQueue<>((o1, o2) -> o2 - o1);
+        PriorityQueue<Integer> evenQueue = new PriorityQueue<>((o1, o2) -> o2 - o1);
+
+        for (int i = 0; i < chars.length; ++i) {
+            int cur = chars[i] - '0';
+            if (cur % 2 == 0) {
+                evenQueue.offer(cur);
+            } else {
+                oddQueue.offer(cur);
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            int cur = chars[i] - '0';
+            if ((cur & 1) == 0) {
+                res = res * 10 + evenQueue.poll();
+            } else {
+                res = res * 10 + oddQueue.poll();
+            }
+        }
+        return res;
+    }
+
+    // public String minimizeResult(String expression) {
+    // int j = 0;
+    // for (int i = 0; i < expression.length(); ++i) {
+    // if (expression.charAt(i) == '+') {
+    // j = i;
+    // break;
+    // }
+    // }
+    // // String[] added = expression.split("\\s+");
+    // int num1 = Integer.parseInt(expression.substring(0, j));
+    // int num2 = Integer.parseInt(expression.substring(j + 1));
+    // List<int[]> list1 = getRes6038_1(num1);
+    // List<int[]> list2 = getRes6038_2(num2);
+    // int res = Integer.MAX_VALUE;
+    // StringBuilder sBuilder = new StringBuilder();
+    // for (int[] item1 : list1) {
+    // for (int[] item2 : list2) {
+    // int cur = item1[0] * (item1[1] + item2[0]) * item2[1];
+    // if (cur < res) {
+    // res = cur;
+    // sBuilder.setLength(0);
+    // String s1 = String.valueOf(item1[0]);
+    // String s2 = String.valueOf(item1[1]);
+    // if ((s1 + s2).equals(expression.substring(0, j))) {
+    // sBuilder.append(item1[0]);
+    // }
+    // sBuilder.append("(").append(item1[1]).append("+").append(item2[0]).append(")");
+    // String s3 = String.valueOf(item2[0]);
+    // String s4 = String.valueOf(item2[1]);
+    // if ((s3 + s4).equals(expression.substring(j + 1))) {
+    // sBuilder.append(item2[1]);
+    // }
+    // }
+    // }
+    // }
+    // return sBuilder.toString();
+    // }
+
+    // private List<int[]> getRes6038_2(int num) {
+    // List<int[]> res = new ArrayList<>();
+    // res.add(new int[] { num, 1 });
+    // String string = String.valueOf(num);
+    // for (int i = string.length() - 1; i >= 1; --i) {
+    // int split1 = Integer.parseInt(string.substring(0, i));
+    // int split2 = Integer.parseInt(string.substring(i));
+    // res.add(new int[] { split1, split2 });
+    // }
+
+    // return res;
+    // }
+
+    // private List<int[]> getRes6038_1(int num) {
+    // List<int[]> res = new ArrayList<>();
+    // res.add(new int[] { 1, num });
+    // String string = String.valueOf(num);
+    // for (int i = 1; i < string.length(); ++i) {
+    // int split1 = Integer.parseInt(string.substring(0, i));
+    // int split2 = Integer.parseInt(string.substring(i));
+    // res.add(new int[] { split1, split2 });
+    // }
+    // return res;
+    // }
+
+    // public int maximumProduct(int[] nums, int k) {
+    // PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(new
+    // Comparator<Integer>() {
+
+    // @Override
+    // public int compare(Integer o1, Integer o2) {
+    // return o1 - o2;
+    // }
+
+    // });
+    // for (int num : nums) {
+    // priorityQueue.offer(num);
+    // }
+    // while (k-- > 0) {
+    // int cur = priorityQueue.poll();
+    // ++cur;
+    // priorityQueue.offer(cur);
+    // }
+    // long res = 1L;
+    // while (!priorityQueue.isEmpty()) {
+    // res = ((res % 1000000007) * (priorityQueue.poll() % 1000000007)) %
+    // 1000000007;
+    // }
+    // return (int) res;
+
+    // }
 }
