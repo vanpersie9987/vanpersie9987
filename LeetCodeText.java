@@ -17059,14 +17059,13 @@ public class LeetCodeText {
         if (n == 0) {
             return 1;
         }
+        if (n == 1) {
+            return 10;
+        }
         int res = 10;
-        for (int i = 2; i <= n; ++i) {
-            // 第一位可选 1-9 共9个数
-            // 第二位可选 0-9除了第一位已选的一个数 共9个数
-            int cur = 9 * 9;
-            for (int j = i - 2; j > 0; --j) {
-                cur *= 9 - j;
-            }
+        int cur = 9;
+        for (int i = 0; i < n - 1; ++i) {
+            cur *= 9 - i;
             res += cur;
         }
         return res;
