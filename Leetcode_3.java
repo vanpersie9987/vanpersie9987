@@ -6486,6 +6486,15 @@ public class Leetcode_3 {
             }
         }
         return true;
-
     }
+
+    // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
+    // public int networkBecomesIdle(int[][] edges, int[] patience) {
+
+    // }
+
+    // 854. 相似度为 K 的字符串 (K-Similar Strings)
+    // public int kSimilarity(String s1, String s2) {
+
+    // }
 }
