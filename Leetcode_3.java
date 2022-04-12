@@ -6412,33 +6412,20 @@ public class Leetcode_3 {
         queue.offer(root);
         while (!queue.isEmpty()) {
             int size = queue.size();
-            int pre = level % 2 == 0 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            int pre = level % 2 == 0 ? Integer.MIN_VALUE : Integer.MAX_VALUE;
             for (int i = 0; i < size; ++i) {
                 TreeNode node = queue.poll();
-                // 奇数层的值不可为奇数
-                // 偶数层的值不可为偶数
+                // 奇数层的值应为偶数
+                // 偶数层的值应为奇数
                 if (((node.val & 1) ^ (level & 1)) == 0) {
                     return false;
                 }
-                if (i == 0) {
-                    if (level % 2 == 0) {
-                        pre = Math.min(pre, node.val);
-                    } else {
-                        pre = Math.max(pre, node.val);
-                    }
-                } else {
-                    if (level % 2 == 0) {
-                        if (node.val <= pre) {
-                            return false;
-                        }
-                        pre = node.val;
-                    } else {
-                        if (node.val >= pre) {
-                            return false;
-                        }
-                        pre = node.val;
-                    }
+                // 偶数层应严格递增
+                // 奇数层应严格递减
+                if (level % 2 == 0 && node.val <= pre || level % 2 == 1 && node.val >= pre) {
+                    return false;
                 }
+                pre = node.val;
                 if (node.left != null) {
                     queue.offer(node.left);
                 }
