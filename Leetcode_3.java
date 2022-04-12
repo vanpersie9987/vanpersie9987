@@ -6404,4 +6404,51 @@ public class Leetcode_3 {
         return root;
 
     }
+
+    // 1609. 奇偶树 (Even Odd Tree) --bfs
+    public boolean isEvenOddTree(TreeNode root) {
+        int level = 0;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            int pre = level % 2 == 0 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = queue.poll();
+                // 奇数层的值不可为奇数
+                // 偶数层的值不可为偶数
+                if (((node.val & 1) ^ (level & 1)) == 0) {
+                    return false;
+                }
+                if (i == 0) {
+                    if (level % 2 == 0) {
+                        pre = Math.min(pre, node.val);
+                    } else {
+                        pre = Math.max(pre, node.val);
+                    }
+                } else {
+                    if (level % 2 == 0) {
+                        if (node.val <= pre) {
+                            return false;
+                        }
+                        pre = node.val;
+                    } else {
+                        if (node.val >= pre) {
+                            return false;
+                        }
+                        pre = node.val;
+                    }
+                }
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+            ++level;
+        }
+        return true;
+
+    }
 }
