@@ -6451,4 +6451,54 @@ public class Leetcode_3 {
         return true;
 
     }
+
+    // 993. 二叉树的堂兄弟节点 (Cousins in Binary Tree) --bfs
+    public boolean isCousins(TreeNode root, int x, int y) {
+        if (root.val == x || root.val == y) {
+            return false;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        int parentX = -1;
+        int parentY = -1;
+        while (!queue.isEmpty()) {
+            int count = 0;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = queue.poll();
+                if (node.left != null) {
+                    if (node.left.val == x) {
+                        ++count;
+                        parentX = node.val;
+                    } else if (node.left.val == y) {
+                        ++count;
+                        parentY = node.val;
+                    }
+                    if (count == 2 && parentX == parentY) {
+                        return false;
+                    }
+                    queue.offer(node.left);
+                }
+
+                if (node.right != null) {
+                    if (node.right.val == x) {
+                        ++count;
+                        parentX = node.val;
+                    } else if (node.right.val == y) {
+                        ++count;
+                        parentY = node.val;
+                    }
+                    if (count == 2 && parentX == parentY) {
+                        return false;
+                    }
+                    queue.offer(node.right);
+                }
+            }
+            if (count == 1) {
+                return false;
+            }
+        }
+        return true;
+
+    }
 }
