@@ -2925,17 +2925,18 @@ public class LeetCode_2 {
 
    // 806. 写字符串需要的行数 (Number of Lines To Write String)
    public int[] numberOfLines(int[] widths, String s) {
-      int lines = 1;
+      int level = 1;
       int cur = 0;
-      for (char c : s.toCharArray()) {
-         if (cur + widths[c - 'a'] <= 100) {
-            cur += widths[c - 'a'];
+      for (int i = 0; i < s.length(); ++i) {
+         int count = widths[s.charAt(i) - 'a'];
+         if (cur + count <= 100) {
+            cur += count;
          } else {
-            cur = widths[c - 'a'];
-            ++lines;
+            ++level;
+            cur = count;
          }
       }
-      return new int[] { lines, cur };
+      return new int[] { level, cur };
 
    }
 
