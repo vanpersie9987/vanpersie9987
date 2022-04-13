@@ -6488,6 +6488,49 @@ public class Leetcode_3 {
         return true;
     }
 
+    // 222. 完全二叉树的节点个数 (Count Complete Tree Nodes)
+    public int countNodes(TreeNode root) {
+        int left = 0;
+        int right = 50000;
+        int res = 0;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            TreeNode node = root;
+            if (hasNode222(node, mid)) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean hasNode222(TreeNode node, int target) {
+        int bit = Integer.highestOneBit(target) >> 1;
+        while (bit != 0 && node != null) {
+            if ((target & bit) == 0) {
+                node = node.left;
+            } else {
+                node = node.right;
+            }
+            bit >>= 1;
+        }
+        return node != null;
+    }
+
+    // 310. 最小高度树 (Minimum Height Trees)
+    // public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+
+    // }
+
+    // 126. 单词接龙 II (Word Ladder II) --bfs
+    // public List<List<String>> findLadders(String beginWord, String endWord,
+    // List<String> wordList) {
+
+    // }
+
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
     // public int networkBecomesIdle(int[][] edges, int[] patience) {
 
