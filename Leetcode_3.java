@@ -6555,6 +6555,69 @@ public class Leetcode_3 {
         }
     }
 
+    // 113. 路径总和 II (Path Sum II) --bfs
+    // 剑指 Offer 34. 二叉树中和为某一值的路径
+    private List<List<Integer>> res113 = new ArrayList<>();
+
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        if (root == null) {
+            return res113;
+        }
+        Map<TreeNode, TreeNode> map = new HashMap<>();
+        Queue<TreeNode> queueNode = new LinkedList<>();
+        Queue<Integer> queueSum = new LinkedList<>();
+        queueNode.offer(root);
+        queueSum.offer(0);
+        while (!queueNode.isEmpty()) {
+            TreeNode node = queueNode.poll();
+            int sum = node.val + queueSum.poll();
+            if (node.left == null && node.right == null && sum == targetSum) {
+                res113.add(getPath113(node, map));
+            }
+            if (node.left != null) {
+                queueNode.offer(node.left);
+                queueSum.offer(sum);
+                map.put(node.left, node);
+            }
+            if (node.right != null) {
+                queueNode.offer(node.right);
+                queueSum.offer(sum);
+                map.put(node.right, node);
+            }
+        }
+        return res113;
+    }
+
+    private List<Integer> getPath113(TreeNode node, Map<TreeNode, TreeNode> map) {
+        List<Integer> res = new ArrayList<>();
+        while (node != null) {
+            res.add(node.val);
+            node = map.get(node);
+        }
+        Collections.reverse(res);
+        return res;
+    }
+
+    // 380. O(1) 时间插入、删除和获取随机元素 (Insert Delete GetRandom O(1))
+    // class RandomizedSet {
+
+    // public RandomizedSet() {
+
+    // }
+
+    // public boolean insert(int val) {
+
+    // }
+
+    // public boolean remove(int val) {
+
+    // }
+
+    // public int getRandom() {
+
+    // }
+    // }
+
     // 310. 最小高度树 (Minimum Height Trees)
     // public List<Integer> findMinHeightTrees(int n, int[][] edges) {
 
