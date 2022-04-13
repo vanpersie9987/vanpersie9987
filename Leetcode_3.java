@@ -6598,6 +6598,43 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 236. 二叉树的最近公共祖先 (Lowest Common Ancestor of a Binary Tree) --bfs
+    // 剑指 Offer 68 - II. 二叉树的最近公共祖先
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        Map<TreeNode, TreeNode> map = new HashMap<>();
+        int count = 0;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (p == node || q == node) {
+                if (++count == 2) {
+                    break;
+                }
+            }
+            if (node.left != null) {
+                queue.offer(node.left);
+                map.put(node.left, node);
+            }
+            if (node.right != null) {
+                queue.offer(node.right);
+                map.put(node.right, node);
+            }
+        }
+        return getAncestor236(p, q, map);
+
+    }
+
+    private TreeNode getAncestor236(TreeNode p, TreeNode q, Map<TreeNode, TreeNode> map) {
+        TreeNode pCopy = p;
+        TreeNode qCopy = q;
+        while (qCopy != pCopy) {
+            pCopy = pCopy == null ? q : map.get(pCopy);
+            qCopy = qCopy == null ? p : map.get(qCopy);
+        }
+        return qCopy;
+    }
+
     // 380. O(1) 时间插入、删除和获取随机元素 (Insert Delete GetRandom O(1))
     // class RandomizedSet {
 
