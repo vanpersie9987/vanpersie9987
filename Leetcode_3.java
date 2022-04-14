@@ -6685,6 +6685,48 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 310. 最小高度树 (Minimum Height Trees) --bfs
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        List<Integer> res = new LinkedList<>();
+        if (n == 1) {
+            res.add(0);
+            return res;
+        }
+        int[] degrees = new int[n];
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int[] edge : edges) {
+            ++degrees[edge[0]];
+            ++degrees[edge[1]];
+            graph.computeIfAbsent(edge[0], k -> new LinkedList<>()).add(edge[1]);
+            graph.computeIfAbsent(edge[1], k -> new LinkedList<>()).add(edge[0]);
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            if (degrees[i] == 1) {
+                queue.offer(i);
+            }
+        }
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            res.clear();
+            for (int i = 0; i < size; ++i) {
+                int cur = queue.poll();
+                res.add(cur);
+                if (graph.get(cur) == null) {
+                    continue;
+                }
+                for (int neighbor : graph.get(cur)) {
+                    if (--degrees[neighbor] == 1) {
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
     // 380. O(1) 时间插入、删除和获取随机元素 (Insert Delete GetRandom O(1))
     // class RandomizedSet {
 
@@ -6703,11 +6745,6 @@ public class Leetcode_3 {
     // public int getRandom() {
 
     // }
-    // }
-
-    // 310. 最小高度树 (Minimum Height Trees)
-    // public List<Integer> findMinHeightTrees(int n, int[][] edges) {
-
     // }
 
     // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
