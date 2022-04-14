@@ -6727,6 +6727,42 @@ public class Leetcode_3 {
 
     }
 
+    // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle) --bfs
+    public int networkBecomesIdle(int[][] edges, int[] patience) {
+        int n = patience.length;
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int[] edge : edges) {
+            graph.computeIfAbsent(edge[0], k -> new LinkedList<>()).add(edge[1]);
+            graph.computeIfAbsent(edge[1], k -> new LinkedList<>()).add(edge[0]);
+        }
+        boolean[] visited = new boolean[n];
+        Queue<Integer> queue = new LinkedList<>();
+        visited[0] = true;
+        queue.offer(0);
+        int level = 1;
+        int res = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int cur = queue.poll();
+                if (graph.get(cur) == null) {
+                    continue;
+                }
+                for (int neighbor : graph.get(cur)) {
+                    if (!visited[neighbor]) {
+                        visited[neighbor] = true;
+                        queue.offer(neighbor);
+                        int val = patience[neighbor] * ((2 * level - 1) / patience[neighbor]) + 2 * level + 1;
+                        res = Math.max(res, val);
+                    }
+                }
+            }
+            ++level;
+        }
+        return res;
+
+    }
+
     // 380. O(1) 时间插入、删除和获取随机元素 (Insert Delete GetRandom O(1))
     // class RandomizedSet {
 
@@ -6745,11 +6781,6 @@ public class Leetcode_3 {
     // public int getRandom() {
 
     // }
-    // }
-
-    // 2039. 网络空闲的时刻 (The Time When the Network Becomes Idle)
-    // public int networkBecomesIdle(int[][] edges, int[] patience) {
-
     // }
 
     // 854. 相似度为 K 的字符串 (K-Similar Strings)
