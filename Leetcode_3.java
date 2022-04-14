@@ -15,6 +15,10 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+import javax.swing.text.View;
 
 public class Leetcode_3 {
     public static void main(String[] args) {
@@ -6633,6 +6637,50 @@ public class Leetcode_3 {
             qCopy = qCopy == null ? p : map.get(qCopy);
         }
         return qCopy;
+    }
+
+    // 1311. 获取你好友已观看的视频 (Get Watched Videos by Your Friends) --bfs
+    public List<String> watchedVideosByFriends(List<List<String>> watchedVideos, int[][] friends, int id, int level) {
+        int n = watchedVideos.size();
+        Queue<Integer> queue = new LinkedList<>();
+        boolean[] visited = new boolean[n];
+        queue.offer(id);
+        visited[id] = true;
+        while (!queue.isEmpty()) {
+            --level;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int cur = queue.poll();
+                for (int neightbor : friends[cur]) {
+                    if (!visited[neightbor]) {
+                        visited[neightbor] = true;
+                        queue.offer(neightbor);
+                    }
+                }
+            }
+            if (level == 0) {
+                break;
+            }
+        }
+        Map<String, Integer> map = new HashMap<>();
+        while (!queue.isEmpty()) {
+            int index = queue.poll();
+            for (String video : watchedVideos.get(index)) {
+                map.put(video, map.getOrDefault(video, 0) + 1);
+            }
+        }
+        List<String> res = new ArrayList<>();
+        for (String video : map.keySet()) {
+            res.add(video);
+        }
+
+        res = res.stream().sorted(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return map.get(o1) != map.get(o2) ? map.get(o1) - map.get(o2) : o1.compareTo(o2);
+            }
+        }).collect(Collectors.toList());
+        return res;
     }
 
     // 380. O(1) 时间插入、删除和获取随机元素 (Insert Delete GetRandom O(1))
