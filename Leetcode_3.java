@@ -1,4 +1,3 @@
-import java.beans.BeanInfo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,11 +15,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
-import javax.print.attribute.standard.Sides;
-import javax.swing.text.View;
 
 public class Leetcode_3 {
     public static void main(String[] args) {
