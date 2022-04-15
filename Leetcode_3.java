@@ -6759,24 +6759,46 @@ public class Leetcode_3 {
     }
 
     // 380. O(1) 时间插入、删除和获取随机元素 (Insert Delete GetRandom O(1))
-    // class RandomizedSet {
+    class RandomizedSet {
+        private List<Integer> list;
+        private Map<Integer, Integer> map;
+        private Random random;
 
-    // public RandomizedSet() {
+        public RandomizedSet() {
+            list = new ArrayList<>();
+            map = new HashMap<>();
+            random = new Random();
+        }
 
-    // }
+        public boolean insert(int val) {
+            if (map.containsKey(val)) {
+                return false;
+            }
+            int index = list.size();
+            map.put(val, index);
+            list.add(val);
+            return true;
+        }
 
-    // public boolean insert(int val) {
+        public boolean remove(int val) {
+            if (!map.containsKey(val)) {
+                return false;
+            }
+            int index = map.get(val);
+            int last = list.get(list.size() - 1);
+            list.set(index, last);
+            list.remove(list.size() - 1);
 
-    // }
+            map.put(last, index);
+            map.remove(val);
+            return true;
+        }
 
-    // public boolean remove(int val) {
-
-    // }
-
-    // public int getRandom() {
-
-    // }
-    // }
+        public int getRandom() {
+            int randomIndex = random.nextInt(list.size());
+            return list.get(randomIndex);
+        }
+    }
 
     // 854. 相似度为 K 的字符串 (K-Similar Strings)
     // public int kSimilarity(String s1, String s2) {
