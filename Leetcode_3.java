@@ -6800,8 +6800,148 @@ public class Leetcode_3 {
         }
     }
 
-    // 854. 相似度为 K 的字符串 (K-Similar Strings)
-    // public int kSimilarity(String s1, String s2) {
+    // 399. 除法求值 --并查集
+    // 剑指 Offer II 111. 计算除法
+    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        Map<String, Integer> map = new HashMap<>();
+        Union399 union = new Union399(equations.size() * 2);
+        int index = 0;
+        int i = 0;
+        for (List<String> equation : equations) {
+            String s1 = equation.get(0);
+            String s2 = equation.get(1);
+            if (!map.containsKey(s1)) {
+                map.put(s1, index++);
+            }
+            if (!map.containsKey(s2)) {
+                map.put(s2, index++);
+            }
+            union.union(map.get(s1), map.get(s2), values[i++]);
+        }
+        double[] res = new double[queries.size()];
+        i = 0;
+        for (List<String> query : queries) {
+            String s1 = query.get(0);
+            String s2 = query.get(1);
+            Integer index1 = map.get(s1);
+            Integer index2 = map.get(s2);
+            if (index1 == null || index2 == null) {
+                res[i++] = -1.0d;
+            } else {
+                res[i++] = union.isConnected(index1, index2);
+            }
+        }
+        return res;
 
-    // }
+    }
+
+    public class Union399 {
+        private double[] weight;
+        private int[] parent;
+
+        public Union399(int n) {
+            weight = new double[n];
+            Arrays.fill(weight, 1.0d);
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] != p) {
+                int origin = parent[p];
+                parent[p] = getRoot(parent[p]);
+                weight[p] *= weight[origin];
+            }
+            return parent[p];
+        }
+
+        public double isConnected(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return weight[p1] / weight[p2];
+            }
+            return -1.0d;
+        }
+
+        public void union(int p1, int p2, double value) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            parent[root1] = root2;
+            weight[root1] = weight[p2] * value / weight[p1];
+        }
+    }
+
+    // 399. 除法求值 --bfs
+    // 剑指 Offer II 111. 计算除法
+    public double[] calcEquation2(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        int count = 0;
+        // 映射
+        Map<String, Integer> map = new HashMap<>();
+        for (List<String> equation : equations) {
+            if (!map.containsKey(equation.get(0))) {
+                map.put(equation.get(0), count++);
+            }
+
+            if (!map.containsKey(equation.get(1))) {
+                map.put(equation.get(1), count++);
+            }
+        }
+        // 邻接表
+        int n = values.length;
+        Map<Integer, List<Bean399>> edges = new HashMap<>();
+
+        for (int i = 0; i < n; ++i) {
+            int a = map.get(equations.get(i).get(0));
+            int b = map.get(equations.get(i).get(1));
+            edges.computeIfAbsent(a, k -> new LinkedList<>()).add(new Bean399(b, values[i]));
+            edges.computeIfAbsent(b, k -> new LinkedList<>()).add(new Bean399(a, 1.0d / values[i]));
+        }
+        double[] res = new double[queries.size()];
+        for (int i = 0; i < res.length; ++i) {
+            double ans = -1d;
+            if (map.containsKey(queries.get(i).get(0)) && map.containsKey(queries.get(i).get(1))) {
+                int a = map.get(queries.get(i).get(0));
+                int b = map.get(queries.get(i).get(1));
+                if (a == b) {
+                    ans = 1d;
+                } else {
+                    Queue<Integer> queue = new LinkedList<>();
+                    double[] ratios = new double[count];
+                    queue.offer(a);
+                    Arrays.fill(ratios, -1d);
+                    ratios[a] = 1d;
+                    while (!queue.isEmpty() && ratios[b] < 0) {
+                        int x = queue.poll();
+                        if (edges.get(x) == null) {
+                            continue;
+                        }
+                        for (Bean399 bean399 : edges.get(x)) {
+                            int y = bean399.index;
+                            if (ratios[y] < 0) {
+                                ratios[y] = ratios[x] * bean399.val;
+                                queue.offer(y);
+                            }
+                        }
+                    }
+                    ans = ratios[b];
+                }
+            }
+            res[i] = ans;
+        }
+        return res;
+    }
+
+    class Bean399 {
+        int index;
+        double val;
+
+        Bean399(int index, double val) {
+            this.index = index;
+            this.val = val;
+        }
+    }
+
 }
