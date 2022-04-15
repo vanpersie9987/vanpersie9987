@@ -6944,4 +6944,68 @@ public class Leetcode_3 {
         }
     }
 
+    // 1129. 颜色交替的最短路径 (Shortest Path with Alternating Colors) --bfs
+    public int[] shortestAlternatingPaths(int n, int[][] redEdges, int[][] blueEdges) {
+        int[] res = new int[n];
+        if (n == 1) {
+            return res;
+        }
+        Map<Integer, List<Integer>> graphRed = new HashMap<>();
+        for (int[] redEdge : redEdges) {
+            graphRed.computeIfAbsent(redEdge[0], k -> new LinkedList<>()).add(redEdge[1]);
+        }
+        Map<Integer, List<Integer>> graphBlue = new HashMap<>();
+        for (int[] blueEdge : blueEdges) {
+            graphBlue.computeIfAbsent(blueEdge[0], k -> new LinkedList<>()).add(blueEdge[1]);
+        }
+        Queue<int[]> queue = new LinkedList<>();
+        // id , next : red
+        queue.offer(new int[] { 0, 0 });
+        // id , next : blue
+        queue.offer(new int[] { 0, 1 });
+        boolean[][] visited = new boolean[n][2];
+        visited[0][0] = true;
+        visited[0][1] = true;
+        int level = 0;
+        Arrays.fill(res, Integer.MAX_VALUE);
+        res[0] = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            ++level;
+            for (int i = 0; i < size; ++i) {
+                int[] cur = queue.poll();
+                if (cur[1] == 0) {
+                    if (graphRed.get(cur[0]) == null) {
+                        continue;
+                    }
+                    for (int neightbor : graphRed.get(cur[0])) {
+                        if (!visited[neightbor][1]) {
+                            visited[neightbor][1] = true;
+                            res[neightbor] = Math.min(res[neightbor], level);
+                            queue.offer(new int[] { neightbor, 1 });
+                        }
+                    }
+                } else {
+                    if (graphBlue.get(cur[0]) == null) {
+                        continue;
+                    }
+                    for (int neightbor : graphBlue.get(cur[0])) {
+                        if (!visited[neightbor][0]) {
+                            visited[neightbor][0] = true;
+                            res[neightbor] = Math.min(res[neightbor], level);
+                            queue.offer(new int[] { neightbor, 0 });
+                        }
+                    }
+                }
+            }
+        }
+        for (int i = 1; i < n; ++i) {
+            if (res[i] == Integer.MAX_VALUE) {
+                res[i] = -1;
+            }
+        }
+        return res;
+
+    }
+
 }
