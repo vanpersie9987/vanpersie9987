@@ -6967,45 +6967,30 @@ public class Leetcode_3 {
         visited[0][0] = true;
         visited[0][1] = true;
         int level = 0;
-        Arrays.fill(res, Integer.MAX_VALUE);
+        Arrays.fill(res, -1);
         res[0] = 0;
+        Map<Integer, List<Integer>> graph = null;
         while (!queue.isEmpty()) {
             int size = queue.size();
             ++level;
             for (int i = 0; i < size; ++i) {
                 int[] cur = queue.poll();
-                if (cur[1] == 0) {
-                    if (graphRed.get(cur[0]) == null) {
-                        continue;
-                    }
-                    for (int neightbor : graphRed.get(cur[0])) {
-                        if (!visited[neightbor][1]) {
-                            visited[neightbor][1] = true;
-                            res[neightbor] = Math.min(res[neightbor], level);
-                            queue.offer(new int[] { neightbor, 1 });
+                graph = cur[1] == 0 ? graphRed : graphBlue;
+                if (graph.get(cur[0]) == null) {
+                    continue;
+                }
+                for (int neighbor : graph.get(cur[0])) {
+                    if (!visited[neighbor][cur[1] ^ 1]) {
+                        visited[neighbor][cur[1] ^ 1] = true;
+                        if (res[neighbor] == -1) {
+                            res[neighbor] = level;
                         }
-                    }
-                } else {
-                    if (graphBlue.get(cur[0]) == null) {
-                        continue;
-                    }
-                    for (int neightbor : graphBlue.get(cur[0])) {
-                        if (!visited[neightbor][0]) {
-                            visited[neightbor][0] = true;
-                            res[neightbor] = Math.min(res[neightbor], level);
-                            queue.offer(new int[] { neightbor, 0 });
-                        }
+                        queue.offer(new int[] { neighbor, cur[1] ^ 1 });
                     }
                 }
             }
         }
-        for (int i = 1; i < n; ++i) {
-            if (res[i] == Integer.MAX_VALUE) {
-                res[i] = -1;
-            }
-        }
         return res;
-
     }
 
 }
