@@ -11571,38 +11571,35 @@ public class LeetCodeText {
         }
     }
 
-    // 385. 迷你语法分析器
+    // 385. 迷你语法分析器 (Mini Parser) --stack
     public NestedInteger deserialize(String s) {
-
         if (s.charAt(0) != '[') {
             return new NestedInteger(Integer.parseInt(s));
         }
-        int i = 0;
         Stack<NestedInteger> stack = new Stack<>();
-        while (i < s.length()) {
-            if (s.charAt(i) == '[') {
+        int index = 0;
+        while (index < s.length()) {
+            if (s.charAt(index) == '[') {
                 stack.push(new NestedInteger());
-            } else if (Character.isDigit(s.charAt(i)) || s.charAt(i) == '-') {
+            } else if (s.charAt(index) == '-' || Character.isDigit(s.charAt(index))) {
                 int sign = 1;
-                if (s.charAt(i) == '-') {
+                if (s.charAt(index) == '-') {
                     sign = -1;
-                    ++i;
+                    ++index;
                 }
                 int num = 0;
-                while (Character.isDigit(s.charAt(i))) {
-                    num = num * 10 + (s.charAt(i) - '0');
-                    ++i;
+                while (Character.isDigit(s.charAt(index))) {
+                    num = num * 10 + (s.charAt(index++) - '0');
                 }
-                --i;
-                stack.peek().add(new NestedInteger(sign * num));
-            } else if (s.charAt(i) == ']') {
+                --index;
+                stack.peek().add(new NestedInteger(num * sign));
+            } else if (s.charAt(index) == ']') {
                 if (stack.size() > 1) {
-                    NestedInteger nestedInteger = stack.pop();
-                    stack.peek().add(nestedInteger);
+                    NestedInteger last = stack.pop();
+                    stack.peek().add(last);
                 }
             }
-            ++i;
-
+            ++index;
         }
         return stack.pop();
 
