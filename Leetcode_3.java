@@ -6993,4 +6993,48 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 2059. 转化数字的最小运算数 (Minimum Operations to Convert Number) --bfs
+    public int minimumOperations(int[] nums, int start, int goal) {
+        boolean[] visited = new boolean[1001];
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(start);
+        visited[start] = true;
+        int level = 0;
+        while (!queue.isEmpty()) {
+            ++level;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int x = queue.poll();
+                for (int num : nums) {
+                    int added = x + num;
+                    int sub = x - num;
+                    int xor = x ^ num;
+                    if (added == goal || sub == goal || xor == goal) {
+                        return level;
+                    }
+                    if (added <= 1000 && added >= 0) {
+                        if (!visited[added]) {
+                            visited[added] = true;
+                            queue.offer(added);
+                        }
+                    }
+                    if (sub <= 1000 && sub >= 0) {
+                        if (!visited[sub]) {
+                            visited[sub] = true;
+                            queue.offer(sub);
+                        }
+                    }
+                    if (xor <= 1000 && xor >= 0) {
+                        if (!visited[xor]) {
+                            visited[xor] = true;
+                            queue.offer(xor);
+                        }
+                    }
+                }
+            }
+        }
+        return -1;
+
+    }
+
 }
