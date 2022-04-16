@@ -7037,4 +7037,83 @@ public class Leetcode_3 {
 
     }
 
+    // 2146. 价格范围内最高排名的 K 样物品 (K Highest Ranked Items Within a Price Range) --bfs
+    public List<List<Integer>> highestRankedKItems(int[][] grid, int[] pricing, int[] start, int k) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int startX = start[0];
+        int startY = start[1];
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+
+        List<int[]> candidates = new ArrayList<>();
+        Queue<int[]> queue = new LinkedList<>();
+        boolean[][] visited = new boolean[m][n];
+
+        // posX, posY, step
+        queue.offer(new int[] { startX, startY, 0 });
+        visited[startX][startY] = true;
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = queue.poll();
+                int x = cur[0];
+                int y = cur[1];
+                int step = cur[2];
+                if (grid[x][y] != 1 && grid[x][y] <= pricing[1] && grid[x][y] >= pricing[0]) {
+                    candidates.add(new int[] { x, y, step });
+                }
+                for (int[] direction : directions) {
+                    int nx = x + direction[0];
+                    int ny = y + direction[1];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny] && grid[nx][ny] != 0) {
+                        visited[nx][ny] = true;
+                        queue.offer(new int[] { nx, ny, step + 1 });
+                    }
+                }
+            }
+            if (candidates.size() >= k) {
+                break;
+            }
+        }
+        Collections.sort(candidates, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                int x1 = o1[0];
+                int y1 = o1[1];
+                int x2 = o2[0];
+                int y2 = o2[1];
+                int step1 = o1[2];
+                int step2 = o2[2];
+                // step
+                if (step1 != step2) {
+                    return step1 - step2;
+                }
+                // val
+                if (grid[x1][y1] != grid[x2][y2]) {
+                    return grid[x1][y1] - grid[x2][y2];
+                }
+                // row
+                if (x1 != x2) {
+                    return x1 - x2;
+                }
+                // col
+                return y1 - y2;
+            }
+
+        });
+        List<List<Integer>> res = new ArrayList<>();
+        for (int[] candidate : candidates) {
+            List<Integer> item = new ArrayList<>();
+            item.add(candidate[0]);
+            item.add(candidate[1]);
+            res.add(item);
+            if (res.size() == k) {
+                break;
+            }
+        }
+        return res;
+    }
+
 }
