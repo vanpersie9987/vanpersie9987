@@ -7116,4 +7116,47 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 2101. 引爆最多的炸弹 (Detonate the Maximum Bombs) --bfs
+    public int maximumDetonation(int[][] bombs) {
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        int n = bombs.length;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i != j && canDetonate(bombs[i], bombs[j])) {
+                    graph.computeIfAbsent(i, k -> new LinkedList<>()).add(j);
+                }
+            }
+        }
+        int res = 1;
+        for (int i = 0; i < n; ++i) {
+            int max = 1;
+            Queue<Integer> queue = new LinkedList<>();
+            queue.offer(i);
+            boolean[] visited = new boolean[n];
+            visited[i] = true;
+            while (!queue.isEmpty()) {
+                int cur = queue.poll();
+                if (graph.get(cur) == null) {
+                    continue;
+                }
+                for (int neighbor : graph.get(cur)) {
+                    if (!visited[neighbor]) {
+                        visited[neighbor] = true;
+                        queue.offer(neighbor);
+                        ++max;
+                    }
+                }
+            }
+            res = Math.max(res, max);
+        }
+        return res;
+    }
+
+    // return : bomb1 能否引爆 bomb2
+    private boolean canDetonate(int[] bomb1, int[] bomb2) {
+        long dx = bomb1[0] - bomb2[0];
+        long dy = bomb1[1] - bomb2[1];
+        return (long) bomb1[2] * bomb1[2] >= (long) dx * dx + dy * dy;
+    }
+
 }
