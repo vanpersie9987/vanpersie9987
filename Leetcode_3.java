@@ -7159,4 +7159,131 @@ public class Leetcode_3 {
         return (long) bomb1[2] * bomb1[2] >= (long) dx * dx + dy * dy;
     }
 
+    // 6060. 找到最接近 0 的数字 (Find Closest Number to Zero)
+    public int findClosestNumber(int[] nums) {
+        int res = -100000;
+        for (int num : nums) {
+            if (Math.abs(num) < Math.abs(res)) {
+                res = num;
+            } else if (Math.abs(num) == Math.abs(res) && num > res) {
+                res = num;
+            }
+        }
+        return res;
+
+    }
+
+    public long waysToBuyPensPencils(int total, int cost1, int cost2) {
+        if (cost1 > total && cost2 > total) {
+            return 1L;
+        }
+        long res = 0L;
+        long penCounts = 0L;
+        while (penCounts * cost1 <= total) {
+            long remain = total - penCounts * cost1;
+            res += remain / cost2 + 1;
+            ++penCounts;
+        }
+        return res;
+
+    }
+
+    public String digitSum(String s, int k) {
+        if (s.length() <= k) {
+            return s;
+        }
+        while (s.length() > k) {
+            s = getRes6070(s, k);
+        }
+        return s;
+
+    }
+
+    private String getRes6070(String s, int k) {
+        StringBuilder builder = new StringBuilder();
+        StringBuilder cur = new StringBuilder();
+        for (int i = 0; i < s.length(); ++i) {
+            cur.append(s.charAt(i));
+            if (cur.length() == k) {
+                int num = getNum6070(cur.toString());
+                builder.append(num);
+                cur.setLength(0);
+            }
+        }
+        if (cur.length() != 0) {
+            int num = getNum6070(cur.toString());
+            builder.append(num);
+            cur.setLength(0);
+        }
+
+        return builder.toString();
+    }
+
+    private int getNum6070(String s) {
+        int res = 0;
+        for (char c : s.toCharArray()) {
+            res += c - '0';
+        }
+        return res;
+    }
+
+    public int minimumRounds(int[] tasks) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int task : tasks) {
+            map.put(task, map.getOrDefault(task, 0) + 1);
+        }
+        int res = 0;
+        for (int count : map.values()) {
+            if (count == 1) {
+                return -1;
+            }
+            res += count / 3;
+            if (count % 3 != 0) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    // 6073. 相邻字符不同的最长路径 (超时)
+    public int longestPath(int[] parent, String s) {
+        if (s.length() == 1) {
+            return 1;
+        }
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int n = s.length();
+        for (int i = 1; i < parent.length; ++i) {
+            map.computeIfAbsent(parent[i], k -> new LinkedList<>()).add(i);
+            map.computeIfAbsent(i, k -> new LinkedList<>()).add(parent[i]);
+        }
+        int res = 1;
+        for (int i = 0; i < n; ++i) {
+            boolean[] visited = new boolean[n];
+            Queue<int[]> queue = new LinkedList<>();
+            queue.offer(new int[] { i, s.charAt(i) - 'a' });
+            visited[i] = true;
+            int level = 1;
+            while (!queue.isEmpty()) {
+                int size = queue.size();
+                res = Math.max(res, level);
+                for (int j = 0; j < size; ++j) {
+                    int[] cur = queue.poll();
+                    if (map.get(cur[0]) == null) {
+                        continue;
+                    }
+                    for (int neightbor : map.get(cur[0])) {
+                        if (!visited[neightbor] && cur[1] != s.charAt(neightbor) - 'a') {
+                            visited[neightbor] = true;
+                            queue.offer(new int[] { neightbor, s.charAt(neightbor) - 'a' });
+                        }
+                    }
+                }
+                ++level;
+            }
+        }
+        return res;
+
+    }
+
 }
