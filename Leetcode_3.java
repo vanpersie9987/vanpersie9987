@@ -7286,44 +7286,112 @@ public class Leetcode_3 {
 
     }
 
-    // 6073. 相邻字符不同的最长路径 (超时)
-    public int longestPath(int[] parent, String s) {
-        if (s.length() == 1) {
-            return 1;
-        }
-        Map<Integer, List<Integer>> map = new HashMap<>();
-        int n = s.length();
-        for (int i = 1; i < parent.length; ++i) {
-            map.computeIfAbsent(parent[i], k -> new LinkedList<>()).add(i);
-            map.computeIfAbsent(i, k -> new LinkedList<>()).add(parent[i]);
-        }
-        int res = 1;
-        for (int i = 0; i < n; ++i) {
-            boolean[] visited = new boolean[n];
-            Queue<int[]> queue = new LinkedList<>();
-            queue.offer(new int[] { i, s.charAt(i) - 'a' });
-            visited[i] = true;
-            int level = 1;
-            while (!queue.isEmpty()) {
-                int size = queue.size();
-                res = Math.max(res, level);
-                for (int j = 0; j < size; ++j) {
-                    int[] cur = queue.poll();
-                    if (map.get(cur[0]) == null) {
-                        continue;
-                    }
-                    for (int neightbor : map.get(cur[0])) {
-                        if (!visited[neightbor] && cur[1] != s.charAt(neightbor) - 'a') {
-                            visited[neightbor] = true;
-                            queue.offer(new int[] { neightbor, s.charAt(neightbor) - 'a' });
-                        }
-                    }
+    // 675. 为高尔夫比赛砍树 (Cut Off Trees for Golf Event) --bfs
+    public int cutOffTree(List<List<Integer>> forest) {
+        int m = forest.size();
+        int n = forest.get(0).size();
+
+        List<int[]> trees = new ArrayList<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int val = forest.get(i).get(j);
+                if (val > 1) {
+                    trees.add(new int[] { i, j, val });
                 }
-                ++level;
             }
+        }
+        Collections.sort(trees, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[2] - o2[2];
+            }
+
+        });
+        int sr = 0;
+        int sc = 0;
+        int res = 0;
+        for (int[] tree : trees) {
+            int distance = getDistance675(forest, sr, sc, tree[0], tree[1]);
+            if (distance == -1) {
+                return -1;
+            }
+            res += distance;
+            sr = tree[0];
+            sc = tree[1];
         }
         return res;
 
     }
+
+    private int getDistance675(List<List<Integer>> forest, int sr, int sc, int tr, int tc) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int m = forest.size();
+        int n = forest.get(0).size();
+        Queue<int[]> queue = new LinkedList<>();
+        boolean[][] visited = new boolean[m][n];
+        queue.offer(new int[] { sr, sc, 0 });
+        visited[sr][sc] = true;
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            if (cur[0] == tr && cur[1] == tc) {
+                return cur[2];
+            }
+            for (int[] direction : directions) {
+                int nx = cur[0] + direction[0];
+                int ny = cur[1] + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny] && forest.get(nx).get(ny) > 0) {
+                    visited[nx][ny] = true;
+                    queue.offer(new int[] { nx, ny, cur[2] + 1 });
+                }
+            }
+        }
+        return -1;
+    }
+
+    // 6072. 转角路径的乘积中最多能有几个尾随零 (Maximum Trailing Zeros in a Cornered Path)
+    // public int maxTrailingZeros(int[][] grid) {
+
+    // }
+
+    // 6073. 相邻字符不同的最长路径 (超时)
+    // public int longestPath(int[] parent, String s) {
+    // if (s.length() == 1) {
+    // return 1;
+    // }
+    // Map<Integer, List<Integer>> map = new HashMap<>();
+    // int n = s.length();
+    // for (int i = 1; i < parent.length; ++i) {
+    // map.computeIfAbsent(parent[i], k -> new LinkedList<>()).add(i);
+    // map.computeIfAbsent(i, k -> new LinkedList<>()).add(parent[i]);
+    // }
+    // int res = 1;
+    // for (int i = 0; i < n; ++i) {
+    // boolean[] visited = new boolean[n];
+    // Queue<int[]> queue = new LinkedList<>();
+    // queue.offer(new int[] { i, s.charAt(i) - 'a' });
+    // visited[i] = true;
+    // int level = 1;
+    // while (!queue.isEmpty()) {
+    // int size = queue.size();
+    // res = Math.max(res, level);
+    // for (int j = 0; j < size; ++j) {
+    // int[] cur = queue.poll();
+    // if (map.get(cur[0]) == null) {
+    // continue;
+    // }
+    // for (int neightbor : map.get(cur[0])) {
+    // if (!visited[neightbor] && cur[1] != s.charAt(neightbor) - 'a') {
+    // visited[neightbor] = true;
+    // queue.offer(new int[] { neightbor, s.charAt(neightbor) - 'a' });
+    // }
+    // }
+    // }
+    // ++level;
+    // }
+    // }
+    // return res;
+
+    // }
 
 }
