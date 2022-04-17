@@ -7173,10 +7173,8 @@ public class Leetcode_3 {
 
     }
 
+    // 6061. 买钢笔和铅笔的方案数 (Number of Ways to Buy Pens and Pencils)
     public long waysToBuyPensPencils(int total, int cost1, int cost2) {
-        if (cost1 > total && cost2 > total) {
-            return 1L;
-        }
         long res = 0L;
         long penCounts = 0L;
         while (penCounts * cost1 <= total) {
