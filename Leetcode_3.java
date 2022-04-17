@@ -7349,6 +7349,27 @@ public class Leetcode_3 {
         return -1;
     }
 
+    // 面试题 05.03. Reverse Bits LCCI --滑动窗口
+    public int reverseBits(int num) {
+        int right = 0;
+        int res = 0;
+        int count = 0;
+        for (int left = 0; left < 32; ++left) {
+            if ((num & (1 << left)) == 0) {
+                ++count;
+                while (count > 1) {
+                    if ((num & (1 << right)) == 0) {
+                        --count;
+                    }
+                    ++right;
+                }
+            }
+            res = Math.max(res, left - right + 1);
+        }
+        return res;
+
+    }
+
     // 6072. 转角路径的乘积中最多能有几个尾随零 (Maximum Trailing Zeros in a Cornered Path)
     // public int maxTrailingZeros(int[][] grid) {
 
