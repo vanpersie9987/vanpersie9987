@@ -7186,6 +7186,46 @@ public class Leetcode_3 {
 
     }
 
+    // 6062. 设计一个 ATM 机器 (Design an ATM Machine)
+    class ATM {
+        // 个数
+        private long[] count;
+        // 面值
+        private int[] denomination;
+
+        public ATM() {
+            count = new long[5];
+            denomination = new int[] { 20, 50, 100, 200, 500 };
+
+        }
+
+        public void deposit(int[] banknotesCount) {
+            for (int i = 0; i < 5; ++i) {
+                count[i] += banknotesCount[i];
+            }
+
+        }
+
+        public int[] withdraw(int amount) {
+            int[] res = new int[5];
+            for (int i = 4; i >= 0; --i) {
+                if (amount >= denomination[i] && count[i] > 0) {
+                    res[i] = (int) ((amount / denomination[i] >= count[i]) ? count[i] : amount / denomination[i]);
+                    count[i] -= res[i];
+                    amount -= res[i] * denomination[i];
+                }
+            }
+            // 取钱失败，恢复状态
+            if (amount != 0) {
+                for (int i = 0; i < 5; ++i) {
+                    count[i] += res[i];
+                }
+                return new int[] { -1 };
+            }
+            return res;
+        }
+    }
+
     public String digitSum(String s, int k) {
         if (s.length() <= k) {
             return s;
