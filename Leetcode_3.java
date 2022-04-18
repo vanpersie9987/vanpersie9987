@@ -7400,6 +7400,32 @@ public class Leetcode_3 {
 
     }
 
+    // 1457. 二叉树中的伪回文路径 (Pseudo-Palindromic Paths in a Binary Tree) --bfs
+    public int pseudoPalindromicPaths(TreeNode root) {
+        root.val = 1 << root.val;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        int res = 0;
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node.left == null && node.right == null) {
+                if (Integer.bitCount(node.val) <= 1) {
+                    ++res;
+                }
+            }
+            if (node.left != null) {
+                node.left.val = node.val ^ (1 << node.left.val);
+                queue.offer(node.left);
+            }
+            if (node.right != null) {
+                node.right.val = node.val ^ (1 << node.right.val);
+                queue.offer(node.right);
+            }
+        }
+        return res;
+
+    }
+
     // 6072. 转角路径的乘积中最多能有几个尾随零 (Maximum Trailing Zeros in a Cornered Path)
     // public int maxTrailingZeros(int[][] grid) {
 
