@@ -7370,6 +7370,36 @@ public class Leetcode_3 {
 
     }
 
+    // 1971. 寻找图中是否存在路径 (Find if Path Exists in Graph) --bfs
+    public boolean validPath(int n, int[][] edges, int source, int destination) {
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int[] edge : edges) {
+            graph.computeIfAbsent(edge[0], k -> new LinkedList<>()).add(edge[1]);
+            graph.computeIfAbsent(edge[1], k -> new LinkedList<>()).add(edge[0]);
+        }
+        boolean[] visited = new boolean[n];
+        visited[source] = true;
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(source);
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            if (cur == destination) {
+                return true;
+            }
+            if (graph.get(cur) == null) {
+                continue;
+            }
+            for (int neighbor : graph.get(cur)) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    queue.offer(neighbor);
+                }
+            }
+        }
+        return false;
+
+    }
+
     // 6072. 转角路径的乘积中最多能有几个尾随零 (Maximum Trailing Zeros in a Cornered Path)
     // public int maxTrailingZeros(int[][] grid) {
 
