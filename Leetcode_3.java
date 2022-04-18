@@ -7426,6 +7426,43 @@ public class Leetcode_3 {
 
     }
 
+    // 865. 具有所有最深节点的最小子树 (Smallest Subtree with all the Deepest Nodes) --bfs
+    // 1123. 最深叶节点的最近公共祖先 (Lowest Common Ancestor of Deepest Leaves)
+    public TreeNode lcaDeepestLeaves(TreeNode root) {
+        Map<TreeNode, TreeNode> map = new HashMap<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        Queue<TreeNode> queue2 = new LinkedList<>();
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            queue2.clear();
+            queue2.addAll(queue);
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = queue.poll();
+                if (node.left != null) {
+                    queue.offer(node.left);
+                    map.put(node.left, node);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                    map.put(node.right, node);
+                }
+            }
+        }
+        Set<TreeNode> set = new HashSet<>();
+        while (queue2.size() != 1) {
+            TreeNode node = queue2.poll();
+            TreeNode parent = map.get(node);
+            if (!set.contains(parent)) {
+                set.add(parent);
+                queue2.offer(parent);
+            }
+        }
+
+        return queue2.poll();
+
+    }
+
     // 6072. 转角路径的乘积中最多能有几个尾随零 (Maximum Trailing Zeros in a Cornered Path)
     // public int maxTrailingZeros(int[][] grid) {
 
