@@ -14961,7 +14961,7 @@ public class LeetCodeText {
     }
 
     // 821. 字符的最短距离 (Shortest Distance to a Character)
-    public int[] shortestToChar2(String s, char c) {
+    public int[] shortestToChar(String s, char c) {
         int prePos = -1;
         int[] res = new int[s.length()];
         Arrays.fill(res, Integer.MAX_VALUE);
