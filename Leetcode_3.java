@@ -7494,9 +7494,75 @@ public class Leetcode_3 {
     }
 
     // 1210. 穿过迷宫的最少移动次数 (Minimum Moves to Reach Target with Rotations) --bfs
-    // public int minimumMoves(int[][] grid) {
+    public int minimumMoves(int[][] grid) {
+        int n = grid.length;
+        if (grid[n - 1][n - 1] == 1 || grid[n - 1][n - 2] == 1) {
+            return -1;
+        }
+        final int HORIZONTAL = 0;
+        final int VERTICAL = 1;
+        boolean[][][] visited = new boolean[n][n][2];
+        visited[0][1][HORIZONTAL] = true;
+        Queue<int[]> queue = new LinkedList<>();
+        // 蛇头位置：x,y 蛇头方向：orientation
+        queue.offer(new int[] { 0, 1, HORIZONTAL });
+        int step = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = queue.poll();
+                int x = cur[0];
+                int y = cur[1];
+                int orientation = cur[2];
+                if (x == n - 1 && y == n - 1 && orientation == HORIZONTAL) {
+                    return step;
+                }
+                // 横向
+                if (orientation == HORIZONTAL) {
+                    // 横着往右👉 移动一格
+                    if (y + 1 < n && grid[x][y + 1] == 0 && !visited[x][y + 1][HORIZONTAL]) {
+                        visited[x][y + 1][HORIZONTAL] = true;
+                        queue.offer(new int[] { x, y + 1, HORIZONTAL });
+                    }
+                    // 横着往下👇 移动一格
+                    if (x + 1 < n && y - 1 >= 0 && grid[x + 1][y] == 0 && grid[x + 1][y - 1] == 0
+                            && !visited[x + 1][y][HORIZONTAL]) {
+                        visited[x + 1][y][HORIZONTAL] = true;
+                        queue.offer(new int[] { x + 1, y, HORIZONTAL });
+                    }
+                    // 顺时针旋转90度
+                    if (x + 1 < n && y - 1 >= 0 && grid[x + 1][y] == 0 && grid[x + 1][y - 1] == 0
+                            && !visited[x + 1][y - 1][VERTICAL]) {
+                        visited[x + 1][y - 1][VERTICAL] = true;
+                        queue.offer(new int[] { x + 1, y - 1, VERTICAL });
+                    }
+                }
+                // 纵向
+                else {
+                    // 竖着往右👉 移动一格
+                    if (y + 1 < n && x - 1 >= 0 && grid[x][y + 1] == 0 && grid[x - 1][y + 1] == 0
+                            && !visited[x][y + 1][VERTICAL]) {
+                        visited[x][y + 1][VERTICAL] = true;
+                        queue.offer(new int[] { x, y + 1, VERTICAL });
+                    }
+                    // 竖着向下👇 移动一格
+                    if (x + 1 < n && grid[x + 1][y] == 0 && !visited[x + 1][y][VERTICAL]) {
+                        visited[x + 1][y][VERTICAL] = true;
+                        queue.offer(new int[] { x + 1, y, VERTICAL });
+                    }
+                    // 逆时针旋转90度
+                    if (x - 1 < n && y + 1 < n && grid[x][y + 1] == 0 && grid[x - 1][y + 1] == 0
+                            && !visited[x - 1][y + 1][HORIZONTAL]) {
+                        visited[x - 1][y + 1][HORIZONTAL] = true;
+                        queue.offer(new int[] { x - 1, y + 1, HORIZONTAL });
+                    }
+                }
+            }
+            ++step;
+        }
+        return -1;
 
-    // }
+    }
 
     // 1096. 花括号展开 II (Brace Expansion II) --bfs
     // public List<String> braceExpansionII(String expression) {
