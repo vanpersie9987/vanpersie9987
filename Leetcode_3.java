@@ -7463,6 +7463,46 @@ public class Leetcode_3 {
 
     }
 
+    // 1091. 二进制矩阵中的最短路径 (Shortest Path in Binary Matrix) --bfs
+    public int shortestPathBinaryMatrix(int[][] grid) {
+        int n = grid.length;
+        if (grid[0][0] == 1 || grid[n - 1][n - 1] == 1) {
+            return -1;
+        }
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 }, { 1, -1 }, { 1, 1 }, { -1, 1 }, { -1, -1 } };
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] { 0, 0, 1 });
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int step = cur[2];
+            if (x == n - 1 && y == n - 1) {
+                return step;
+            }
+            for (int[] direction : directions) {
+                int nx = x + direction[0];
+                int ny = y + direction[1];
+                if (nx >= 0 && nx < n && ny >= 0 && ny < n && grid[nx][ny] == 0) {
+                    grid[nx][ny] = 1;
+                    queue.offer(new int[] { nx, ny, step + 1 });
+                }
+            }
+        }
+        return -1;
+
+    }
+
+    // 1210. 穿过迷宫的最少移动次数 (Minimum Moves to Reach Target with Rotations) --bfs
+    // public int minimumMoves(int[][] grid) {
+
+    // }
+
+    // 1096. 花括号展开 II (Brace Expansion II) --bfs
+    // public List<String> braceExpansionII(String expression) {
+
+    // }
+
     // 6072. 转角路径的乘积中最多能有几个尾随零 (Maximum Trailing Zeros in a Cornered Path)
     // public int maxTrailingZeros(int[][] grid) {
 
