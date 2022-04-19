@@ -606,6 +606,40 @@ public class LeetCode_2 {
 
    }
 
+   // 322. 零钱兑换 (Coin Change) --bfs
+   public int coinChange2(int[] coins, int amount) {
+      if (amount == 0) {
+         return 0;
+      }
+      Queue<int[]> queue = new LinkedList<>();
+      Set<Integer> visited = new HashSet<>();
+      for (int coin : coins) {
+         if (coin == amount) {
+            return 1;
+         }
+         if (coin < amount) {
+            queue.offer(new int[] { coin, 1 });
+            visited.add(coin);
+         }
+      }
+      while (!queue.isEmpty()) {
+         int[] cur = queue.poll();
+         int sum = cur[0];
+         int count = cur[1];
+         if (sum == amount) {
+            return count;
+         }
+         for (int coin : coins) {
+            if (sum + coin <= amount && !visited.contains(sum + coin)) {
+               visited.add(sum + coin);
+               queue.offer(new int[] { sum + coin, count + 1 });
+            }
+         }
+      }
+      return -1;
+
+   }
+
    // 520. 检测大写字母 (Detect Capital)
    public boolean detectCapitalUse(String word) {
       return allUpperCases(word) || allLowerCases(word) || onlyLeadingCharUpperCase(word);
