@@ -7564,6 +7564,51 @@ public class Leetcode_3 {
 
     }
 
+    // 1368. 使网格图至少有一条有效路径的最小代价 (Minimum Cost to Make at Least One Valid Path in a
+    // Grid) --SPFA
+    public int minCost(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        // 是否在队列中
+        boolean[][] inTheQueue = new boolean[m][n];
+        inTheQueue[0][0] = true;
+        int[][] distance = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(distance[i], 0x3f3f3f3f);
+        }
+        distance[0][0] = 0;
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] { 0, 0 });
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            inTheQueue[x][y] = false;
+            for (int i = 0; i < directions.length; ++i) {
+                int nx = x + directions[i][0];
+                int ny = y + directions[i][1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                    int newDistance = distance[x][y] + ((grid[x][y] == i + 1) ? 0 : 1);
+                    if (newDistance < distance[nx][ny]) {
+                        distance[nx][ny] = newDistance;
+                        if (!inTheQueue[nx][ny]) {
+                            inTheQueue[nx][ny] = true;
+                            queue.offer(new int[] { nx, ny });
+                        }
+                    }
+                }
+            }
+        }
+        return distance[m - 1][n - 1];
+
+    }
+
+    // 864. 获取所有钥匙的最短路径 (Shortest Path to Get All Keys) --bfs
+    // public int shortestPathAllKeys(String[] grid) {
+
+    // }
+
     // 1096. 花括号展开 II (Brace Expansion II) --bfs
     // public List<String> braceExpansionII(String expression) {
 
