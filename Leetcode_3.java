@@ -7661,7 +7661,7 @@ public class Leetcode_3 {
         int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
         boolean[][] visited = new boolean[m][n];
         Deque<int[]> deque = new LinkedList<>();
-        deque.offer(new int[] { 0, 0 });
+        deque.offer(new int[] { 0, 0, 0 });
         int[][] distance = new int[m][n];
         for (int i = 0; i < m; ++i) {
             Arrays.fill(distance[i], Integer.MAX_VALUE >> 1);
@@ -7671,6 +7671,10 @@ public class Leetcode_3 {
             int[] cur = deque.pollFirst();
             int x = cur[0];
             int y = cur[1];
+            int step = cur[2];
+            if (x == m - 1 && y == n - 1) {
+                return step;
+            }
             if (visited[x][y]) {
                 continue;
             }
@@ -7678,13 +7682,11 @@ public class Leetcode_3 {
             for (int i = 0; i < directions.length; ++i) {
                 int nx = x + directions[i][0];
                 int ny = y + directions[i][1];
-                int nDist = distance[x][y] + (grid[x][y] == i + 1 ? 0 : 1);
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n && nDist < distance[nx][ny]) {
-                    distance[nx][ny] = nDist;
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
                     if (grid[x][y] == i + 1) {
-                        deque.offerFirst(new int[] { nx, ny });
+                        deque.offerFirst(new int[] { nx, ny, step });
                     } else {
-                        deque.offerLast(new int[] { nx, ny });
+                        deque.offerLast(new int[] { nx, ny, step + 1 });
                     }
                 }
             }
