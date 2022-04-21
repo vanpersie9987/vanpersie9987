@@ -17,6 +17,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import javax.swing.text.Keymap;
+
 public class Leetcode_3 {
     public static void main(String[] args) {
         // int[] res = numsSameConsecDiff(3, 7);
@@ -7605,7 +7607,75 @@ public class Leetcode_3 {
     }
 
     // 864. 获取所有钥匙的最短路径 (Shortest Path to Get All Keys) --bfs
-    // public int shortestPathAllKeys(String[] grid) {
+    public int shortestPathAllKeys(String[] grid) {
+        int m = grid.length;
+        int n = grid[0].length();
+        int keyMask = 0;
+        int startX = 0;
+        int startY = 0;
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                char c = grid[i].charAt(j);
+                if (c == '@') {
+                    startX = i;
+                    startY = j;
+                } else if (Character.isLowerCase(c)) {
+                    keyMask |= 1 << (c - 'a');
+                }
+            }
+        }
+        Queue<int[]> queue = new LinkedList<>();
+        // x, y, key, step;
+        queue.offer(new int[] { startX, startY, 0, 0 });
+        boolean[][][] visited = new boolean[m][n][1 << 6];
+        visited[startX][startY][0] = true;
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int curMask = cur[2];
+            int step = cur[3];
+            if (curMask == keyMask) {
+                return step;
+            }
+            for (int[] direction : directions) {
+                int nx = x + direction[0];
+                int ny = y + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                    char c = grid[nx].charAt(ny);
+                    // 遇到了墙
+                    if (c == '#') {
+                        continue;
+                    }
+                    // 遇到了锁🔒 但没有钥匙🔑
+                    if (Character.isUpperCase(c) && (curMask & (1 << (c - 'A'))) == 0) {
+                        continue;
+                    }
+                    if (Character.isLowerCase(c)) {
+                        int nMask = curMask | (1 << (c - 'a'));
+                        if (!visited[nx][ny][nMask]) {
+                            visited[nx][ny][nMask] = true;
+                            queue.offer(new int[] { nx, ny, nMask, step + 1 });
+                        }
+                    } else {
+                        if (!visited[nx][ny][curMask]) {
+                            visited[nx][ny][curMask] = true;
+                            queue.offer(new int[] { nx, ny, curMask, step + 1 });
+
+                        }
+
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
+    // 1334. 阈值距离内邻居最少的城市 (Find the City With the Smallest Number of Neighbors at a
+    // Threshold Distance)
+    // public int findTheCity(int n, int[][] edges, int distanceThreshold) {
 
     // }
 
