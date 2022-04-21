@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -7604,6 +7605,91 @@ public class Leetcode_3 {
         }
         return distance[m - 1][n - 1];
 
+    }
+
+    // 1368. 使网格图至少有一条有效路径的最小代价 (Minimum Cost to Make at Least One Valid Path in a
+    // Grid) --Dijkstra
+    public int minCost2(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        boolean[][] visited = new boolean[m][n];
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+
+        int[][] distance = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(distance[i], Integer.MAX_VALUE >> 1);
+        }
+        distance[0][0] = 0;
+
+        // index0 : x ; index1 : y ; index3 : distance
+        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[2] - o2[2];
+            }
+
+        });
+        priorityQueue.offer(new int[] { 0, 0, 0 });
+        while (!priorityQueue.isEmpty()) {
+            int[] cur = priorityQueue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int dist = cur[2];
+            if (visited[x][y]) {
+                continue;
+            }
+            visited[x][y] = true;
+            for (int i = 0; i < directions.length; ++i) {
+                int nx = x + directions[i][0];
+                int ny = y + directions[i][1];
+                int nDist = dist + (grid[x][y] == i + 1 ? 0 : 1);
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && nDist < distance[nx][ny]) {
+                    distance[nx][ny] = nDist;
+                    priorityQueue.offer(new int[] { nx, ny, nDist });
+                }
+            }
+        }
+        return distance[m - 1][n - 1];
+    }
+
+    // 1368. 使网格图至少有一条有效路径的最小代价 (Minimum Cost to Make at Least One Valid Path in a
+    // Grid) -- 0-1 bfs
+    public int minCost3(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        boolean[][] visited = new boolean[m][n];
+        Deque<int[]> deque = new LinkedList<>();
+        deque.offer(new int[] { 0, 0 });
+        int[][] distance = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(distance[i], Integer.MAX_VALUE >> 1);
+        }
+        distance[0][0] = 0;
+        while (!deque.isEmpty()) {
+            int[] cur = deque.pollFirst();
+            int x = cur[0];
+            int y = cur[1];
+            if (visited[x][y]) {
+                continue;
+            }
+            visited[x][y] = true;
+            for (int i = 0; i < directions.length; ++i) {
+                int nx = x + directions[i][0];
+                int ny = y + directions[i][1];
+                int nDist = distance[x][y] + (grid[x][y] == i + 1 ? 0 : 1);
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && nDist < distance[nx][ny]) {
+                    distance[nx][ny] = nDist;
+                    if (grid[x][y] == i + 1) {
+                        deque.offerFirst(new int[] { nx, ny });
+                    } else {
+                        deque.offerLast(new int[] { nx, ny });
+                    }
+                }
+            }
+        }
+        return distance[m - 1][n - 1];
     }
 
     // 864. 获取所有钥匙的最短路径 (Shortest Path to Get All Keys) --bfs
