@@ -7860,6 +7860,48 @@ public class Leetcode_3 {
         return new ArrayList<>();
     }
 
+    // 743. 网络延迟时间 (Network Delay Time) --SPFA
+    public int networkDelayTime(int[][] times, int n, int k) {
+        int[] distance = new int[n];
+        Arrays.fill(distance, 0x3f3f3f3f);
+        distance[k - 1] = 0;
+        Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            map.put(i, new HashMap<>());
+        }
+        for (int[] time : times) {
+            map.get(time[0] - 1).put(time[1] - 1, time[2]);
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(k - 1);
+
+        boolean[] inTheQueue = new boolean[n];
+        inTheQueue[k - 1] = true;
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            inTheQueue[cur] = false;
+            for (int neighbor : map.get(cur).keySet()) {
+                int nTime = distance[cur] + map.get(cur).get(neighbor);
+                if (nTime < distance[neighbor]) {
+                    distance[neighbor] = nTime;
+                    if (!inTheQueue[neighbor]) {
+                        inTheQueue[neighbor] = true;
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+        }
+        int res = -1;
+        for (int i = 0; i < distance.length; ++i) {
+            if (distance[i] == 0x3f3f3f3f) {
+                return -1;
+            }
+            res = Math.max(res, distance[i]);
+        }
+        return res;
+
+    }
+
     // 1334. 阈值距离内邻居最少的城市 (Find the City With the Smallest Number of Neighbors at a
     // Threshold Distance)
     // public int findTheCity(int n, int[][] edges, int distanceThreshold) {
