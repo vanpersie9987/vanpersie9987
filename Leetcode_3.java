@@ -7761,6 +7761,23 @@ public class Leetcode_3 {
         return -1;
     }
 
+    // 396. 旋转函数 (Rotate Function)
+    public int maxRotateFunction(int[] nums) {
+        int res = 0;
+        int sum = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            res += nums[i] * i;
+            sum += nums[i];
+        }
+        int cur = res;
+        for (int i = 1; i < nums.length; ++i) {
+            cur += sum - nums[nums.length - i] * nums.length;
+            res = Math.max(cur, res);
+        }
+        return res;
+
+    }
+
     // 1334. 阈值距离内邻居最少的城市 (Find the City With the Smallest Number of Neighbors at a
     // Threshold Distance)
     // public int findTheCity(int n, int[][] edges, int distanceThreshold) {
