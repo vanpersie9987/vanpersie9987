@@ -8000,6 +8000,62 @@ public class Leetcode_3 {
     }
 
     // 1334. 阈值距离内邻居最少的城市 (Find the City With the Smallest Number of Neighbors at a
+    // Threshold Distance) --Dijkstra
+    public int findTheCity2(int n, int[][] edges, int distanceThreshold) {
+        int res = -1;
+        int min = n;
+        Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            map.put(i, new HashMap<>());
+        }
+        for (int[] edge : edges) {
+            map.get(edge[0]).put(edge[1], edge[2]);
+            map.get(edge[1]).put(edge[0], edge[2]);
+        }
+        for (int i = 0; i < n; ++i) {
+            PriorityQueue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
+
+                @Override
+                public int compare(int[] o1, int[] o2) {
+                    return o1[1] - o2[1];
+                }
+
+            });
+            queue.offer(new int[] { i, 0 });
+            boolean[] visited = new boolean[n];
+            int[] distance = new int[n];
+            Arrays.fill(distance, Integer.MAX_VALUE >> 1);
+            distance[i] = 0;
+            while (!queue.isEmpty()) {
+                int[] cur = queue.poll();
+                if (visited[cur[0]]) {
+                    continue;
+                }
+                visited[cur[0]] = true;
+                for (int neightbor : map.get(cur[0]).keySet()) {
+                    int nDist = cur[1] + map.get(cur[0]).getOrDefault(neightbor, 0);
+                    if (nDist < distance[neightbor]) {
+                        distance[neightbor] = nDist;
+                        queue.offer(new int[] { neightbor, nDist });
+                    }
+                }
+            }
+            int count = 0;
+            for (int d : distance) {
+                if (d <= distanceThreshold) {
+                    ++count;
+                }
+            }
+            if (count <= min) {
+                min = count;
+                res = i;
+            }
+        }
+        return res;
+
+    }
+
+    // 1334. 阈值距离内邻居最少的城市 (Find the City With the Smallest Number of Neighbors at a
     // Threshold Distance)
     // public int findTheCity(int n, int[][] edges, int distanceThreshold) {
 
