@@ -8055,6 +8055,12 @@ public class Leetcode_3 {
 
     }
 
+    // 1404. 将二进制表示减到 1 的步骤数 (Number of Steps to Reduce a Number in Binary
+    // Representation to One)
+    // public int numSteps(String s) {
+
+    // }
+
     // 488. 祖玛游戏 (Zuma Game) --bfs
     // public int findMinStep(String board, String hand) {
 
