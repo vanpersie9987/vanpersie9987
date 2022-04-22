@@ -7863,7 +7863,7 @@ public class Leetcode_3 {
     // 743. 网络延迟时间 (Network Delay Time) --SPFA
     public int networkDelayTime(int[][] times, int n, int k) {
         int[] distance = new int[n];
-        Arrays.fill(distance, 0x3f3f3f3f);
+        Arrays.fill(distance, Integer.MAX_VALUE >> 1);
         distance[k - 1] = 0;
         Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
         for (int i = 0; i < n; ++i) {
@@ -7893,7 +7893,7 @@ public class Leetcode_3 {
         }
         int res = -1;
         for (int i = 0; i < distance.length; ++i) {
-            if (distance[i] == 0x3f3f3f3f) {
+            if (distance[i] == Integer.MAX_VALUE >> 1) {
                 return -1;
             }
             res = Math.max(res, distance[i]);
