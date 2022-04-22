@@ -7778,6 +7778,88 @@ public class Leetcode_3 {
 
     }
 
+    // 1203. 项目管理 (Sort Items by Groups Respecting Dependencies) --拓扑排序
+    public int[] sortItems(int n, int m, int[] group, List<List<Integer>> beforeItems) {
+        // 为 group[i] == -1 的组编号
+        for (int i = 0; i < group.length; ++i) {
+            if (group[i] == -1) {
+                group[i] = m++;
+            }
+        }
+        // 初始化group、item 邻接表
+        List<Integer>[] groupsAdj = new ArrayList[m];
+        List<Integer>[] itemsAdj = new ArrayList[n];
+        for (int i = 0; i < m; ++i) {
+            groupsAdj[i] = new ArrayList<>();
+        }
+        for (int i = 0; i < n; ++i) {
+            itemsAdj[i] = new ArrayList<>();
+        }
+        // 设置邻接表和入度数组
+        int[] groupsInDegrees = new int[m];
+        int[] itemsInDegrees = new int[n];
+        for (int i = 0; i < group.length; ++i) {
+            int currentGroup = group[i];
+            for (int beforeItem : beforeItems.get(i)) {
+                int beforeGroup = group[beforeItem];
+                if (beforeGroup != currentGroup) {
+                    groupsAdj[beforeGroup].add(currentGroup);
+                    ++groupsInDegrees[currentGroup];
+                }
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            for (int beforeItem : beforeItems.get(i)) {
+                itemsAdj[beforeItem].add(i);
+                ++itemsInDegrees[i];
+            }
+        }
+        // 拓扑排序
+        List<Integer> groupsList = topologicalSort(groupsAdj, groupsInDegrees);
+        if (groupsList.isEmpty()) {
+            return new int[0];
+        }
+        List<Integer> itemsList = topologicalSort(itemsAdj, itemsInDegrees);
+        if (itemsList.isEmpty()) {
+            return new int[0];
+        }
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int item : itemsList) {
+            map.computeIfAbsent(group[item], k -> new ArrayList<>()).add(item);
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int g : groupsList) {
+            List<Integer> items = map.getOrDefault(g, new ArrayList<>());
+            res.addAll(items);
+        }
+        return res.stream().mapToInt(Integer::valueOf).toArray();
+
+    }
+
+    private List<Integer> topologicalSort(List<Integer>[] listAdj, int[] inDegrees) {
+        int n = inDegrees.length;
+        Queue<Integer> queue = new LinkedList<>();
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            if (inDegrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            res.add(cur);
+            for (int neighbor : listAdj[cur]) {
+                if (--inDegrees[neighbor] == 0) {
+                    queue.offer(neighbor);
+                }
+            }
+        }
+        if (res.size() == n) {
+            return res;
+        }
+        return new ArrayList<>();
+    }
+
     // 1334. 阈值距离内邻居最少的城市 (Find the City With the Smallest Number of Neighbors at a
     // Threshold Distance)
     // public int findTheCity(int n, int[][] edges, int distanceThreshold) {
