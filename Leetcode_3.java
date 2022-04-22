@@ -8055,53 +8055,23 @@ public class Leetcode_3 {
 
     }
 
-    // 1096. 花括号展开 II (Brace Expansion II) --bfs
-    // public List<String> braceExpansionII(String expression) {
+    // 488. 祖玛游戏 (Zuma Game) --bfs
+    // public int findMinStep(String board, String hand) {
 
     // }
 
-    // 6072. 转角路径的乘积中最多能有几个尾随零 (Maximum Trailing Zeros in a Cornered Path)
-    // public int maxTrailingZeros(int[][] grid) {
+    // 514. 自由之路 (Freedom Trail) --bfs
+    // public int findRotateSteps(String ring, String key) {
 
     // }
 
-    // 6073. 相邻字符不同的最长路径 (超时)
-    // public int longestPath(int[] parent, String s) {
-    // if (s.length() == 1) {
-    // return 1;
+    // 685. 冗余连接 II (Redundant Connection II) --并查集
+    // public int[] findRedundantDirectedConnection(int[][] edges) {
+
     // }
-    // Map<Integer, List<Integer>> map = new HashMap<>();
-    // int n = s.length();
-    // for (int i = 1; i < parent.length; ++i) {
-    // map.computeIfAbsent(parent[i], k -> new LinkedList<>()).add(i);
-    // map.computeIfAbsent(i, k -> new LinkedList<>()).add(parent[i]);
-    // }
-    // int res = 1;
-    // for (int i = 0; i < n; ++i) {
-    // boolean[] visited = new boolean[n];
-    // Queue<int[]> queue = new LinkedList<>();
-    // queue.offer(new int[] { i, s.charAt(i) - 'a' });
-    // visited[i] = true;
-    // int level = 1;
-    // while (!queue.isEmpty()) {
-    // int size = queue.size();
-    // res = Math.max(res, level);
-    // for (int j = 0; j < size; ++j) {
-    // int[] cur = queue.poll();
-    // if (map.get(cur[0]) == null) {
-    // continue;
-    // }
-    // for (int neightbor : map.get(cur[0])) {
-    // if (!visited[neightbor] && cur[1] != s.charAt(neightbor) - 'a') {
-    // visited[neightbor] = true;
-    // queue.offer(new int[] { neightbor, s.charAt(neightbor) - 'a' });
-    // }
-    // }
-    // }
-    // ++level;
-    // }
-    // }
-    // return res;
+
+    // 854. 相似度为 K 的字符串 (K-Similar Strings) -- bfs
+    // public int kSimilarity(String s1, String s2) {
 
     // }
 
