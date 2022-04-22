@@ -7902,6 +7902,55 @@ public class Leetcode_3 {
 
     }
 
+    // 743. 网络延迟时间 (Network Delay Time) --Dijkstra
+    public int networkDelayTime2(int[][] times, int n, int k) {
+        Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            map.put(i, new HashMap<>());
+        }
+        for (int[] time : times) {
+            map.get(time[0] - 1).put(time[1] - 1, time[2]);
+        }
+        int[] distance = new int[n];
+        Arrays.fill(distance, Integer.MAX_VALUE >> 1);
+        distance[k - 1] = 0;
+        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[1] - o2[1];
+            }
+
+        });
+        boolean[] visited = new boolean[n];
+        priorityQueue.offer(new int[] { k - 1, 0 });
+        while (!priorityQueue.isEmpty()) {
+            int[] cur = priorityQueue.poll();
+            int index = cur[0];
+            int dist = cur[1];
+            if (visited[index]) {
+                continue;
+            }
+            visited[index] = true;
+            for (int neightbor : map.get(index).keySet()) {
+                int nDist = map.get(index).get(neightbor) + dist;
+                if (nDist < distance[neightbor]) {
+                    distance[neightbor] = nDist;
+                    priorityQueue.offer(new int[] { neightbor, nDist });
+                }
+            }
+        }
+        int res = -1;
+        for (int d : distance) {
+            if (d == (Integer.MAX_VALUE >> 1)) {
+                return -1;
+            }
+            res = Math.max(d, res);
+        }
+        return res;
+
+    }
+
     // 1334. 阈值距离内邻居最少的城市 (Find the City With the Smallest Number of Neighbors at a
     // Threshold Distance)
     // public int findTheCity(int n, int[][] edges, int distanceThreshold) {
