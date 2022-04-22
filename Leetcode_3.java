@@ -7952,6 +7952,54 @@ public class Leetcode_3 {
     }
 
     // 1334. 阈值距离内邻居最少的城市 (Find the City With the Smallest Number of Neighbors at a
+    // Threshold Distance) --SPFA
+    public int findTheCity(int n, int[][] edges, int distanceThreshold) {
+        int res = -1;
+        int min = n;
+        Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            map.put(i, new HashMap<>());
+        }
+        for (int[] edge : edges) {
+            map.get(edge[0]).put(edge[1], edge[2]);
+            map.get(edge[1]).put(edge[0], edge[2]);
+        }
+        for (int i = 0; i < n; ++i) {
+            int[] distance = new int[n];
+            Arrays.fill(distance, Integer.MAX_VALUE >> 1);
+            distance[i] = 0;
+            Queue<int[]> queue = new LinkedList<>();
+            boolean[] inTheQueue = new boolean[n];
+            inTheQueue[i] = true;
+            queue.offer(new int[] { i, 0 });
+            while (!queue.isEmpty()) {
+                int[] cur = queue.poll();
+                inTheQueue[cur[0]] = false;
+                for (int neightbor : map.get(cur[0]).keySet()) {
+                    int nDist = cur[1] + map.get(cur[0]).get(neightbor);
+                    if (nDist < distance[neightbor]) {
+                        distance[neightbor] = nDist;
+                        queue.offer(new int[] { neightbor, nDist });
+                        inTheQueue[neightbor] = true;
+                    }
+                }
+            }
+            int count = 0;
+            for (int d : distance) {
+                if (d <= distanceThreshold) {
+                    ++count;
+                }
+            }
+            if (count <= min) {
+                min = count;
+                res = i;
+            }
+        }
+        return res;
+
+    }
+
+    // 1334. 阈值距离内邻居最少的城市 (Find the City With the Smallest Number of Neighbors at a
     // Threshold Distance)
     // public int findTheCity(int n, int[][] edges, int distanceThreshold) {
 
