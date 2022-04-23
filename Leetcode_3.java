@@ -8105,13 +8105,60 @@ public class Leetcode_3 {
 
     }
 
+    // 514. 自由之路 (Freedom Trail) --bfs
+    public int findRotateSteps(String ring, String key) {
+        int m = ring.length();
+        int n = key.length();
+        List<Integer>[] pos = new ArrayList[26];
+        int[][] memo = new int[m + 1][n + 1];
+        for (int i = 0; i < memo.length; ++i) {
+            Arrays.fill(memo[i], Integer.MAX_VALUE >> 1);
+        }
+        for (int i = 0; i < 26; ++i) {
+            pos[i] = new ArrayList<>();
+        }
+        for (int i = 0; i < m; ++i) {
+            pos[ring.charAt(i) - 'a'].add(i);
+        }
+        PriorityQueue<Status514> queue = new PriorityQueue<>((o1, o2) -> o1.step - o2.step);
+
+        for (int id : pos[key.charAt(0) - 'a']) {
+            queue.offer(new Status514(Math.min(id, m - id) + 1, id, 1));
+        }
+        while (!queue.isEmpty()) {
+            Status514 status = queue.poll();
+            if (status.res >= n) {
+                return status.step;
+            }
+            for (int id : pos[key.charAt(status.res) - 'a']) {
+                int distance = Math.abs(status.cur - id);
+                int nStep = status.step + Math.min(distance, m - distance) + 1;
+                if (nStep < memo[id][status.res + 1]) {
+                    memo[id][status.res + 1] = nStep;
+                    queue.offer(new Status514(nStep, id, status.res + 1));
+                }
+            }
+        }
+        return 0;
+    }
+
+    class Status514 {
+        // 步数
+        int step;
+        // 在ring中，当前指向12点的位置
+        int cur;
+        // 当前已经匹配的key中的字符个数 (key中，即将匹配的下一个位置)
+        int res;
+
+        public Status514(int step, int cur, int res) {
+            this.step = step;
+            this.cur = cur;
+            this.res = res;
+        }
+    }
+
     // 488. 祖玛游戏 (Zuma Game) --bfs
     // public int findMinStep(String board, String hand) {
-
-    // }
-
-    // 514. 自由之路 (Freedom Trail) --bfs
-    // public int findRotateSteps(String ring, String key) {
 
     // }
 
