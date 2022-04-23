@@ -11437,18 +11437,18 @@ public class LeetCodeText {
 
     // 868. 二进制间距
     public int binaryGap2(int n) {
-        int pos = -1;
+        int prePos = -1;
         int res = 0;
-        int times = 0;
+        int count = 0;
         while (n != 0) {
-            if (n % 2 == 1) {
-                if (pos != -1) {
-                    res = Math.max(times - pos, res);
+            if ((n & 1) == 1) {
+                if (prePos != -1) {
+                    res = Math.max(count - prePos, res);
                 }
-                pos = times;
+                prePos = count;
             }
-            ++times;
-            n /= 2;
+            ++count;
+            n >>>= 1;
         }
         return res;
 
