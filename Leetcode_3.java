@@ -18,12 +18,10 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import javax.swing.text.Keymap;
-
 public class Leetcode_3 {
     public static void main(String[] args) {
         // int[] res = numsSameConsecDiff(3, 7);
-
+        // int count = numSteps("1101");
     }
 
     public class ListNode {
@@ -8056,10 +8054,56 @@ public class Leetcode_3 {
     }
 
     // 1404. 将二进制表示减到 1 的步骤数 (Number of Steps to Reduce a Number in Binary
-    // Representation to One)
-    // public int numSteps(String s) {
+    // Representation to One) --模拟
+    public int numSteps(String s) {
+        int res = 0;
+        while (!"1".equals(s)) {
+            ++res;
+            if (s.charAt(s.length() - 1) == '0') {
+                s = s.substring(0, s.length() - 1);
+            } else {
+                char[] chars = s.toCharArray();
+                for (int i = chars.length - 1; i >= 0; --i) {
+                    if (chars[i] == '1') {
+                        chars[i] = '0';
+                        if (i == 0) {
+                            s = "1" + String.valueOf(chars);
+                            break;
+                        }
+                    } else {
+                        chars[i] = '1';
+                        s = String.valueOf(chars);
+                        break;
+                    }
+                }
+            }
+        }
+        return res;
+    }
 
-    // }
+    // 1404. 将二进制表示减到 1 的步骤数 (Number of Steps to Reduce a Number in Binary
+    // Representation to One) -- 贪心
+    public int numSteps2(String s) {
+        boolean meet1 = false;
+        int n = s.length();
+        int res = 0;
+        for (int i = n - 1; i >= 0; --i) {
+            if (s.charAt(i) == '0') {
+                res += meet1 ? 2 : 1;
+            } else {
+                if (!meet1) {
+                    if (i != 0) {
+                        res += 2;
+                    }
+                    meet1 = true;
+                } else {
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
 
     // 488. 祖玛游戏 (Zuma Game) --bfs
     // public int findMinStep(String board, String hand) {
