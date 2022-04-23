@@ -8120,7 +8120,12 @@ public class Leetcode_3 {
         for (int i = 0; i < m; ++i) {
             pos[ring.charAt(i) - 'a'].add(i);
         }
-        PriorityQueue<Status514> queue = new PriorityQueue<>((o1, o2) -> o1.step - o2.step);
+        PriorityQueue<Status514> queue = new PriorityQueue<>(new Comparator<Leetcode_3.Status514>() {
+            @Override
+            public int compare(Leetcode_3.Status514 o1, Leetcode_3.Status514 o2) {
+                return o1.step - o2.step;
+            }
+        });
 
         for (int id : pos[key.charAt(0) - 'a']) {
             queue.offer(new Status514(Math.min(id, m - id) + 1, id, 1));
