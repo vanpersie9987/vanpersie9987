@@ -8162,13 +8162,120 @@ public class Leetcode_3 {
         }
     }
 
+    // 685. 冗余连接 II (Redundant Connection II) --并查集
+    public int[] findRedundantDirectedConnection(int[][] edges) {
+        int n = edges.length;
+        // 预处理
+        for (int[] edge : edges) {
+            --edge[0];
+            --edge[1];
+        }
+        int[] inDegrees = new int[n];
+        int nodeIndexWithTwoIndegrees = -1;
+        for (int[] edge : edges) {
+            ++inDegrees[edge[1]];
+            if (inDegrees[edge[1]] == 2) {
+                nodeIndexWithTwoIndegrees = edge[1];
+            }
+        }
+        // 存在入度为2的节点
+        if (nodeIndexWithTwoIndegrees != -1) {
+            List<Integer> pos = new ArrayList<>();
+            for (int i = edges.length - 1; i >= 0; --i) {
+                if (edges[i][1] == nodeIndexWithTwoIndegrees) {
+                    pos.add(i);
+                }
+            }
+            // 判断删除一条边 能否成为一棵树🌲
+            if (isTreeAfterRemoveEdge(edges, pos.get(0))) {
+                int[] res = edges[pos.get(0)];
+                ++res[0];
+                ++res[1];
+                return res;
+            } else {
+                int[] res = edges[pos.get(1)];
+                ++res[0];
+                ++res[1];
+                return edges[pos.get(1)];
+            }
+        }
+        // 存在环，删除构成环的边
+        return deleteAEdgeToEliminateCycle(edges);
+
+    }
+
+    private boolean isTreeAfterRemoveEdge(int[][] edges, int deletePos) {
+        int n = edges.length;
+        Union685 union = new Union685(n);
+        for (int i = 0; i < n; ++i) {
+            if (i != deletePos) {
+                if (union.isConnected(edges[i][0], edges[i][1])) {
+                    return false;
+                }
+                union.union(edges[i][0], edges[i][1]);
+            }
+        }
+        return true;
+    }
+
+    private int[] deleteAEdgeToEliminateCycle(int[][] edges) {
+        int n = edges.length;
+        Union685 union = new Union685(n);
+        for (int i = 0; i < n; ++i) {
+            if (union.isConnected(edges[i][0], edges[i][1])) {
+                int[] res = edges[i];
+                ++res[0];
+                ++res[1];
+                return res;
+            }
+            union.union(edges[i][0], edges[i][1]);
+        }
+        return null;
+    }
+
+    class Union685 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union685(int n) {
+            this.rank = new int[n];
+            Arrays.fill(rank, 1);
+            this.parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+    }
+
     // 488. 祖玛游戏 (Zuma Game) --bfs
     // public int findMinStep(String board, String hand) {
-
-    // }
-
-    // 685. 冗余连接 II (Redundant Connection II) --并查集
-    // public int[] findRedundantDirectedConnection(int[][] edges) {
 
     // }
 
