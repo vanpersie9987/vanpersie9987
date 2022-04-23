@@ -8323,4 +8323,55 @@ public class Leetcode_3 {
         chars[j] = temp;
     }
 
+    // 1361. 验证二叉树 (Validate Binary Tree Nodes) --拓扑排序
+    public boolean validateBinaryTreeNodes(int n, int[] leftChild, int[] rightChild) {
+        int[] inDegrees = new int[n];
+        // 入度
+        for (int left : leftChild) {
+            if (left != -1) {
+                ++inDegrees[left];
+            }
+        }
+        for (int right : rightChild) {
+            if (right != -1) {
+                ++inDegrees[right];
+            }
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < inDegrees.length; ++i) {
+            // 存在 入度 > 1 的节点
+            if (inDegrees[i] > 1) {
+                return false;
+            }
+            if (inDegrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        // 树🌲：入度 == 0 的节点个数，有且只能有1个 (root)
+        if (queue.size() != 1) {
+            return false;
+        }
+        // 拓扑排序 
+        int count = 0;
+        while (!queue.isEmpty()) {
+            ++count;
+            int cur = queue.poll();
+            if (leftChild[cur] != -1) {
+                --inDegrees[leftChild[cur]];
+                if (inDegrees[leftChild[cur]] == 0) {
+                    queue.offer(leftChild[cur]);
+                }
+            }
+
+            if (rightChild[cur] != -1) {
+                --inDegrees[rightChild[cur]];
+                if (inDegrees[rightChild[cur]] == 0) {
+                    queue.offer(rightChild[cur]);
+                }
+            }
+        }
+        return count == n;
+
+    }
+
 }
