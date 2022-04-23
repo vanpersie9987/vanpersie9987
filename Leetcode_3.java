@@ -8274,14 +8274,53 @@ public class Leetcode_3 {
         }
     }
 
-    // 488. 祖玛游戏 (Zuma Game) --bfs
-    // public int findMinStep(String board, String hand) {
-
-    // }
-
     // 854. 相似度为 K 的字符串 (K-Similar Strings) -- bfs
-    // public int kSimilarity(String s1, String s2) {
+    public int kSimilarity(String s1, String s2) {
+        Queue<String> queue = new LinkedList<>();
+        queue.offer(s1);
+        Map<String, Integer> visited = new HashMap<>();
+        visited.put(s1, 0);
+        while (!queue.isEmpty()) {
+            String cur = queue.poll();
+            if (cur.equals(s2)) {
+                return visited.get(cur);
+            }
+            for (String neighbor : getNeighbor854(cur, s2)) {
+                if (!visited.containsKey(neighbor)) {
+                    visited.put(neighbor, visited.get(cur) + 1);
+                    queue.offer(neighbor);
+                }
+            }
+        }
+        return 0;
 
-    // }
+    }
+
+    private List<String> getNeighbor854(String s, String target) {
+        int n = s.length();
+        int i = 0;
+        while (i < n) {
+            if (s.charAt(i) != target.charAt(i)) {
+                break;
+            }
+            ++i;
+        }
+        List<String> res = new ArrayList<>();
+        char[] chars = s.toCharArray();
+        for (int j = i + 1; j < n; ++j) {
+            if (s.charAt(j) == target.charAt(i)) {
+                swap854(chars, j, i);
+                res.add(new String(chars));
+                swap854(chars, j, i);
+            }
+        }
+        return res;
+    }
+
+    private void swap854(char[] chars, int i, int j) {
+        char temp = chars[i];
+        chars[i] = chars[j];
+        chars[j] = temp;
+    }
 
 }
