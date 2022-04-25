@@ -8438,4 +8438,60 @@ public class Leetcode_3 {
 
     }
 
+    // 面试题 08.02. 迷路的机器人 (Robot in a Grid LCCI) --bfs
+    public List<List<Integer>> pathWithObstacles(int[][] obstacleGrid) {
+
+        int m = obstacleGrid.length;
+        int n = obstacleGrid[0].length;
+        if (obstacleGrid[0][0] == 1 || obstacleGrid[m - 1][n - 1] == 1) {
+            return new ArrayList<>();
+        }
+        int[][] directions = { { 0, 1 }, { 1, 0 } };
+        // son , parent
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, null);
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(0);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int pos = queue.poll();
+                if (pos / n == m - 1 && pos % n == n - 1) {
+                    return getPath0802(map, n, pos);
+                }
+                for (int[] direction : directions) {
+                    int nx = pos / n + direction[0];
+                    int ny = pos % n + direction[1];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && obstacleGrid[nx][ny] != 1) {
+                        map.put(getIndex0802(n, nx, ny), pos);
+                        obstacleGrid[nx][ny] = 1;
+                        queue.offer(getIndex0802(n, nx, ny));
+                    }
+                }
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    private List<List<Integer>> getPath0802(Map<Integer, Integer> map, int n, int pos) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> first = new ArrayList<>();
+        first.add(pos / n);
+        first.add(pos % n);
+        res.add(first);
+        while (map.get(pos) != null) {
+            pos = map.get(pos);
+            List<Integer> next = new ArrayList<>();
+            next.add(pos / n);
+            next.add(pos % n);
+            res.add(next);
+        }
+        Collections.reverse(res);
+        return res;
+    }
+
+    private int getIndex0802(int colCounts, int x, int y) {
+        return x * colCounts + y;
+    }
+
 }
