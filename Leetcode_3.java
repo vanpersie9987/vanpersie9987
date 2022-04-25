@@ -8351,7 +8351,7 @@ public class Leetcode_3 {
         if (queue.size() != 1) {
             return false;
         }
-        // 拓扑排序 
+        // 拓扑排序
         int count = 0;
         while (!queue.isEmpty()) {
             ++count;
@@ -8371,6 +8371,69 @@ public class Leetcode_3 {
             }
         }
         return count == n;
+
+    }
+
+    // 1591. 奇怪的打印机 II (Strange Printer II) --拓扑排序
+    public boolean isPrintable(int[][] targetGrid) {
+        int m = targetGrid.length;
+        int n = targetGrid[0].length;
+        // from -> to 是否访问过
+        boolean[][] visited = new boolean[61][61];
+        // 每种颜色 上下左右四个方向的边界
+        int[][] border = new int[61][4];
+        for (int i = 0; i < border.length; ++i) {
+            Arrays.fill(border[i], -1);
+        }
+        // 入度
+        int[] inDegrees = new int[61];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int color = targetGrid[i][j];
+                // 上边界
+                border[color][0] = border[color][0] == -1 ? i : Math.min(border[color][0], i);
+                // 下边界
+                border[color][1] = border[color][1] == -1 ? i : Math.max(border[color][1], i);
+                // 左边界
+                border[color][2] = border[color][2] == -1 ? j : Math.min(border[color][2], j);
+                // 右边界
+                border[color][3] = border[color][3] == -1 ? j : Math.max(border[color][3], j);
+            }
+        }
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int to = targetGrid[i][j];
+                for (int from = 1; from <= 60; ++from) {
+                    if (from != to && !visited[from][to] && border[from][0] <= i && border[from][1] >= i
+                            && border[from][2] <= j && border[from][3] >= j) {
+                        visited[from][to] = true;
+                        graph.computeIfAbsent(from, k -> new LinkedList<>()).add(to);
+                        ++inDegrees[to];
+                    }
+                }
+            }
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 1; i <= 60; ++i) {
+            if (inDegrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        int count = 0;
+        while (!queue.isEmpty()) {
+            ++count;
+            int color = queue.poll();
+            if (graph.get(color) == null) {
+                continue;
+            }
+            for (int neighbor : graph.get(color)) {
+                if (--inDegrees[neighbor] == 0) {
+                    queue.offer(neighbor);
+                }
+            }
+        }
+        return count == 60;
 
     }
 
