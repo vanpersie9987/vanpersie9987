@@ -1336,19 +1336,6 @@ public class Leetcode_3 {
         }
     };
 
-    // 1650. 二叉树的最近公共祖先 III (Lowest Common Ancestor of a Binary Tree III) --plus
-    // 类似于找链表公共节点
-    public Node lowestCommonAncestor(Node p, Node q) {
-        Node curP = p;
-        Node curQ = q;
-        while (curP != curQ) {
-            curP = curP == null ? q : curP.parent;
-            curQ = curQ == null ? p : curQ.parent;
-        }
-        return curP;
-
-    }
-
     // 1213. 三个有序数组的交集 (Intersection of Three Sorted Arrays) --plus 三指针+贪心
     public List<Integer> arraysIntersection(int[] arr1, int[] arr2, int[] arr3) {
         List<Integer> res = new ArrayList<>();
@@ -6600,8 +6587,22 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 1650. 二叉树的最近公共祖先 III (Lowest Common Ancestor of a Binary Tree III) --plus
+    // 类似于找链表公共节点
+    public Node lowestCommonAncestor(Node p, Node q) {
+        Node curP = p;
+        Node curQ = q;
+        while (curP != curQ) {
+            curP = curP == null ? q : curP.parent;
+            curQ = curQ == null ? p : curQ.parent;
+        }
+        return curP;
+
+    }
+
     // 236. 二叉树的最近公共祖先 (Lowest Common Ancestor of a Binary Tree) --bfs
     // 剑指 Offer 68 - II. 二叉树的最近公共祖先
+    // 面试题 04.08. 首个共同祖先 (First Common Ancestor LCCI) --bfs
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         Map<TreeNode, TreeNode> map = new HashMap<>();
         int count = 0;
