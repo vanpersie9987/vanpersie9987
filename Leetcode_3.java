@@ -8473,19 +8473,15 @@ public class Leetcode_3 {
         return new ArrayList<>();
     }
 
-    private List<List<Integer>> getPath0802(Map<Integer, Integer> map, int n, int pos) {
+    private List<List<Integer>> getPath0802(Map<Integer, Integer> map, int n, Integer pos) {
         List<List<Integer>> res = new ArrayList<>();
-        List<Integer> first = new ArrayList<>();
-        first.add(pos / n);
-        first.add(pos % n);
-        res.add(first);
-        while (map.get(pos) != null) {
-            pos = map.get(pos);
+        do {
             List<Integer> next = new ArrayList<>();
             next.add(pos / n);
             next.add(pos % n);
             res.add(next);
-        }
+            pos = map.get(pos);
+        } while (pos != null);
         Collections.reverse(res);
         return res;
     }
