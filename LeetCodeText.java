@@ -17358,6 +17358,31 @@ public class LeetCodeText {
         return second;
     }
 
+    // 面试题 08.01. 三步问题 (Three Steps Problem LCCI)
+    public int waysToStep(int n) {
+        if (n == 1) {
+            return 1;
+        }
+        if (n == 2) {
+            return 2;
+        }
+        if (n == 3) {
+            return 4;
+        }
+        final int MOD = 1000000007;
+        int first = 1;
+        int second = 2;
+        int third = 4;
+        for (int i = 4; i <= n; ++i) {
+            int temp = ((first + second) % MOD + third) % MOD;
+            first = second;
+            second = third;
+            third = temp;
+        }
+        return third;
+
+    }
+
     // 70. 爬楼梯 (Climbing Stairs)
     public int climbStairs(int n) {
         if (n == 1) {
