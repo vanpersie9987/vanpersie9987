@@ -8539,4 +8539,52 @@ public class Leetcode_3 {
 
     }
 
+    // 面试题 01.05. 一次编辑 (One Away LCCI)
+    public boolean oneEditAway(String first, String second) {
+        // 长度差最多为1
+        int diff = Math.abs(first.length() - second.length());
+        if (diff >= 2) {
+            return false;
+        }
+        if (diff == 0) {
+            return diffAtMostOneBit(first, second);
+        }
+        return insertOnlyOneBit(first, second);
+    }
+
+    private boolean insertOnlyOneBit(String first, String second) {
+        if (first.length() > second.length()) {
+            String temp = first;
+            first = second;
+            second = temp;
+        }
+        int i = 0;
+        int j = 0;
+        boolean flag = false;
+        while (i < first.length() && j < second.length()) {
+            if (first.charAt(i) != second.charAt(j)) {
+                if (flag) {
+                    return false;
+                }
+                flag = true;
+            } else {
+                ++i;
+            }
+            ++j;
+        }
+        return true;
+    }
+
+    private boolean diffAtMostOneBit(String first, String second) {
+        int diff = 0;
+        for (int i = 0; i < first.length(); ++i) {
+            if (first.charAt(i) != second.charAt(i)) {
+                if (++diff > 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 }
