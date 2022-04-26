@@ -22,6 +22,9 @@ public class Leetcode_3 {
     public static void main(String[] args) {
         // int[] res = numsSameConsecDiff(3, 7);
         // int count = numSteps("1101");
+        // int[][] input = { { 1, 1, 1, 1 }, { 1, 1, 2, 1 }, { 1, 2, 1, 1 }, { 1, 1, 1,
+        // 1 } };
+        // boolean ans = isPrintable(input);
     }
 
     public class ListNode {
@@ -8488,6 +8491,52 @@ public class Leetcode_3 {
 
     private int getIndex0802(int colCounts, int x, int y) {
         return x * colCounts + y;
+    }
+
+    // 2045. 到达目的地的第二短时间 (Second Minimum Time to Reach Destination) --bfs
+    public int secondMinimum(int n, int[][] edges, int time, int change) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 1; i <= n; ++i) {
+            map.put(i, new ArrayList<>());
+        }
+        for (int[] edge : edges) {
+            map.get(edge[0]).add(edge[1]);
+            map.get(edge[1]).add(edge[0]);
+        }
+        Queue<int[]> queue = new LinkedList<>();
+        // 节点索引 , 距离节点1的距离
+        queue.offer(new int[] { 1, 0 });
+        // distance[i][0] : 节点1到节点i的最短距离
+        // distance[i][1] : 节点1到节点i的次短距离
+        int[][] distance = new int[n + 1][2];
+        for (int i = 0; i < distance.length; ++i) {
+            Arrays.fill(distance[i], Integer.MAX_VALUE);
+        }
+        distance[1][0] = 0;
+        while (distance[n][1] == Integer.MAX_VALUE) {
+            int[] cur = queue.poll();
+            int node = cur[0];
+            int dist = cur[1];
+            int nDist = dist + 1;
+            for (int neighbor : map.get(node)) {
+                if (nDist < distance[neighbor][0]) {
+                    distance[neighbor][0] = nDist;
+                    queue.offer(new int[] { neighbor, nDist });
+                } else if (nDist > distance[neighbor][0] && nDist < distance[neighbor][1]) {
+                    distance[neighbor][1] = nDist;
+                    queue.offer(new int[] { neighbor, nDist });
+                }
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < distance[n][1]; ++i) {
+            if (res % (2 * change) >= change) {
+                res = res + (2 * change - res % (2 * change));
+            }
+            res += time;
+        }
+        return res;
+
     }
 
 }
