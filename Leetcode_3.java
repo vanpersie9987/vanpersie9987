@@ -8637,4 +8637,36 @@ public class Leetcode_3 {
         }
     }
 
+    // 1514. 概率最大的路径 (Path with Maximum Probability) --SPFA
+    public double maxProbability2(int n, int[][] edges, double[] succProb, int start, int end) {
+        Map<Integer, Map<Integer, Double>> graph = new HashMap<>();
+        for (int i = 0; i < edges.length; ++i) {
+            graph.computeIfAbsent(edges[i][0], k -> new HashMap<>()).put(edges[i][1], succProb[i]);
+            graph.computeIfAbsent(edges[i][1], k -> new HashMap<>()).put(edges[i][0], succProb[i]);
+        }
+
+        double[] probability = new double[n];
+        probability[start] = 1d;
+        boolean[] inTheQueue = new boolean[n];
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(start);
+        inTheQueue[start] = true;
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            inTheQueue[node] = false;
+            if (graph.get(node) == null) {
+                continue;
+            }
+            for (int neighbor : graph.get(node).keySet()) {
+                double nProb = probability[node] * graph.get(node).get(neighbor);
+                if (nProb > probability[neighbor]) {
+                    probability[neighbor] = nProb;
+                    if (!inTheQueue[neighbor]) {
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+        }
+        return probability[end];
+    }
 }
