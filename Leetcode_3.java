@@ -8669,4 +8669,57 @@ public class Leetcode_3 {
         }
         return probability[end];
     }
+
+    // 1976. 到达目的地的方案数 (Number of Ways to Arrive at Destination) --Dijkstra
+    public int countPaths(int n, int[][] roads) {
+        final int MOD = (int) (Math.pow(10, 9) + 7);
+
+        Map<Integer, Map<Integer, Integer>> graph = new HashMap<>();
+        for (int[] road : roads) {
+            graph.computeIfAbsent(road[0], k -> new HashMap<>()).put(road[1], road[2]);
+            graph.computeIfAbsent(road[1], k -> new HashMap<>()).put(road[0], road[2]);
+        }
+
+        long[] distance = new long[n];
+        Arrays.fill(distance, Long.MAX_VALUE >>> 1);
+        distance[0] = 0l;
+        boolean[] visited = new boolean[n];
+        int[] counts = new int[n];
+        counts[0] = 1;
+        // node , distance
+        PriorityQueue<long[]> queue = new PriorityQueue<>(new Comparator<long[]>() {
+
+            @Override
+            public int compare(long[] o1, long[] o2) {
+                return Long.compare(o1[1], o2[1]);
+            }
+
+        });
+
+        queue.offer(new long[] { 0, 0 });
+        while (!queue.isEmpty()) {
+            long[] cur = queue.poll();
+            int node = (int) cur[0];
+            if (visited[node]) {
+                continue;
+            }
+            visited[node] = true;
+            if (graph.get(node) == null) {
+                continue;
+            }
+            for (int neighbor : graph.get(node).keySet()) {
+                long nDist = cur[1] + graph.get(node).get(neighbor);
+                if (nDist < distance[neighbor]) {
+                    distance[neighbor] = nDist;
+                    counts[neighbor] = counts[node];
+                    queue.offer(new long[] { neighbor, nDist });
+                } else if (nDist == distance[neighbor]) {
+                    counts[neighbor] = (counts[neighbor] % MOD + counts[node] % MOD) % MOD;
+                    queue.offer(new long[] { neighbor, nDist });
+                }
+            }
+        }
+        return counts[n - 1];
+
+    }
 }
