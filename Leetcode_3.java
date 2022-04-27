@@ -8588,4 +8588,53 @@ public class Leetcode_3 {
         return true;
     }
 
+    // 1514. 概率最大的路径 (Path with Maximum Probability) --Dijkstra
+    public double maxProbability(int n, int[][] edges, double[] succProb, int start, int end) {
+        Map<Integer, List<Bean1514>> graph = new HashMap<>();
+        for (int i = 0; i < edges.length; ++i) {
+            graph.computeIfAbsent(edges[i][0], k -> new ArrayList<>()).add(new Bean1514(edges[i][1], succProb[i]));
+            graph.computeIfAbsent(edges[i][1], k -> new ArrayList<>()).add(new Bean1514(edges[i][0], succProb[i]));
+        }
+        double[] probability = new double[n];
+        probability[start] = 1d;
+        boolean[] visited = new boolean[n];
+        PriorityQueue<Bean1514> queue = new PriorityQueue<>(new Comparator<Bean1514>() {
+
+            @Override
+            public int compare(Bean1514 o1, Bean1514 o2) {
+                return o2.probability.compareTo(o1.probability);
+            }
+
+        });
+        queue.offer(new Bean1514(start, 1d));
+        while (!queue.isEmpty()) {
+            Bean1514 cur = queue.poll();
+            if (visited[cur.node]) {
+                continue;
+            }
+            visited[cur.node] = true;
+            if (graph.get(cur.node) == null) {
+                continue;
+            }
+            for (Bean1514 neighbor : graph.get(cur.node)) {
+                double nProb = cur.probability * neighbor.probability;
+                if (nProb > probability[neighbor.node]) {
+                    probability[neighbor.node] = nProb;
+                    queue.offer(new Bean1514(neighbor.node, nProb));
+                }
+            }
+        }
+        return probability[end];
+    }
+
+    class Bean1514 {
+        int node;
+        Double probability;
+
+        public Bean1514(int node, double probability) {
+            this.node = node;
+            this.probability = probability;
+        }
+    }
+
 }
