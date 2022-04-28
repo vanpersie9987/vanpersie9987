@@ -2900,24 +2900,24 @@ public class LeetCodeText {
 
     }
 
-    // 905. 按奇偶排序数组
-    public int[] sortArrayByParity(final int[] A) {
+    // 905. 按奇偶排序数组 (Sort Array By Parity)
+    public int[] sortArrayByParity(int[] nums) {
         int left = 0;
-        int right = A.length - 1;
+        int right = nums.length - 1;
         while (left < right) {
-            while (left < right && A[left] % 2 == 0) {
+            while (left < right && nums[left] % 2 == 0) {
                 ++left;
             }
-            while (left < right && A[right] % 2 == 1) {
+            while (left < right && nums[right] % 2 == 1) {
                 --right;
             }
-            int temp = A[left];
-            A[left] = A[right];
-            A[right] = temp;
+            int temp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = temp;
             ++left;
             --right;
         }
-        return A;
+        return nums;
 
     }
 
