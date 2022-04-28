@@ -8125,9 +8125,9 @@ public class Leetcode_3 {
         for (int i = 0; i < m; ++i) {
             pos[ring.charAt(i) - 'a'].add(i);
         }
-        PriorityQueue<Status514> queue = new PriorityQueue<>(new Comparator<Leetcode_3.Status514>() {
+        PriorityQueue<Status514> queue = new PriorityQueue<>(new Comparator<Status514>() {
             @Override
-            public int compare(Leetcode_3.Status514 o1, Leetcode_3.Status514 o2) {
+            public int compare(Status514 o1, Status514 o2) {
                 return o1.step - o2.step;
             }
         });
