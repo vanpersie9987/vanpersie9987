@@ -8722,4 +8722,28 @@ public class Leetcode_3 {
         return counts[n - 1];
 
     }
+
+    // 1046. 最后一块石头的重量 (Last Stone Weight)
+    public int lastStoneWeight(int[] stones) {
+        Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2.compareTo(o1);
+            }
+
+        });
+        for (int stone : stones) {
+            queue.offer(stone);
+        }
+        while (queue.size() > 1) {
+            int first = queue.poll();
+            int second = queue.poll();
+            if (first != second) {
+                queue.offer(first - second);
+            }
+        }
+        return queue.isEmpty() ? 0 : queue.poll();
+
+    }
 }
