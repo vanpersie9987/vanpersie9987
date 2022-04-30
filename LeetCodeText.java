@@ -16801,6 +16801,36 @@ public class LeetCodeText {
         return m * m == n;
     }
 
+    // 279. 完全平方数 (Perfect Squares) --bfs
+    public int numSquares2(int n) {
+        Queue<Integer> queue = new LinkedList<>();
+        Set<Integer> visited = new HashSet<>();
+        queue.offer(0);
+        visited.add(0);
+        int level = 0;
+        while (!queue.isEmpty()) {
+            ++level;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int cur = queue.poll();
+                for (int j = 1; j <= Math.sqrt(n); ++j) {
+                    int neighbor = cur + j * j;
+                    if (neighbor == n) {
+                        return level;
+                    }
+                    if (neighbor > n) {
+                        break;
+                    }
+                    if (!visited.contains(neighbor)) {
+                        visited.add(neighbor);
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
     // 1970. 你能穿过矩阵的最后一天 (Last Day Where You Can Still Cross)
     public int latestDayToCross(int row, int col, int[][] cells) {
         int n = cells.length;
