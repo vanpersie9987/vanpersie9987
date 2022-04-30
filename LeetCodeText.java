@@ -8859,7 +8859,7 @@ public class LeetCodeText {
         }
     }
 
-    // 200. 岛屿数量
+    // 200. 岛屿数量 (Number of Islands) --并查集
     public int numIslands(char[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
