@@ -1,3 +1,4 @@
+import java.beans.BeanInfo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -3034,39 +3035,45 @@ public class Leetcode_3 {
         if (!wordList.contains(endWord)) {
             return 0;
         }
-        boolean[] visited = new boolean[wordList.size()];
+        int n = wordList.size();
+        boolean[] visited = new boolean[n];
+        for (int i = 0; i < n; ++i) {
+            if (wordList.get(i).equals(beginWord)) {
+                visited[i] = true;
+                break;
+            }
+        }
         Queue<String> queue = new LinkedList<>();
-        int res = 1;
         queue.offer(beginWord);
+        int res = 1;
         while (!queue.isEmpty()) {
             int size = queue.size();
-            boolean flag = false;
             for (int i = 0; i < size; ++i) {
                 String cur = queue.poll();
                 if (cur.equals(endWord)) {
                     return res;
                 }
-                for (int j = 0; j < wordList.size(); ++j) {
-                    if (!visited[j] && isDiffWithOneCharacter(cur, wordList.get(j))) {
-                        flag = true;
+                for (int j = 0; j < n; ++j) {
+                    if (!visited[j] && differByOnlyOneCharacter(cur, wordList.get(j))) {
                         visited[j] = true;
                         queue.offer(wordList.get(j));
                     }
                 }
             }
-            if (!flag) {
+            if (queue.isEmpty()) {
                 return 0;
             }
             ++res;
         }
-        return res;
+        return 0;
 
     }
 
-    private boolean isDiffWithOneCharacter(String word1, String word2) {
+    private boolean differByOnlyOneCharacter(String s1, String s2) {
         int diff = 0;
-        for (int i = 0; i < word1.length(); ++i) {
-            if (word1.charAt(i) != word2.charAt(i)) {
+        int n = s1.length();
+        for (int i = 0; i < n; ++i) {
+            if (s1.charAt(i) != s2.charAt(i)) {
                 if (++diff > 1) {
                     return false;
                 }
