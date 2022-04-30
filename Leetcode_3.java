@@ -8746,4 +8746,28 @@ public class Leetcode_3 {
         return queue.isEmpty() ? 0 : queue.poll();
 
     }
+
+    // 2034. 股票价格波动 (Stock Price Fluctuation)
+    class StockPrice {
+
+        public StockPrice() {
+
+        }
+
+        public void update(int timestamp, int price) {
+
+        }
+
+        public int current() {
+
+        }
+
+        public int maximum() {
+
+        }
+
+        public int minimum() {
+
+        }
+    }
 }

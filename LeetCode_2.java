@@ -9958,24 +9958,39 @@ public class LeetCode_2 {
 
    // 100. 相同的树 (Same Tree) --bfs
    public boolean isSameTree2(TreeNode p, TreeNode q) {
+      if ((p == null && q != null) || (p != null && q == null)) {
+         return false;
+      }
+      if (p == null && q == null) {
+         return true;
+      }
       Queue<TreeNode> queue = new LinkedList<>();
       queue.offer(p);
       queue.offer(q);
       while (!queue.isEmpty()) {
-         TreeNode node1 = queue.poll();
-         TreeNode node2 = queue.poll();
-         if (node1 == null && node2 == null) {
-            continue;
-         }
-         if (node1 == null || node2 == null || node1.val != node2.val) {
+         TreeNode nodeP = queue.poll();
+         TreeNode nodeQ = queue.poll();
+         if (nodeP.val != nodeQ.val) {
             return false;
          }
-         queue.offer(node1.left);
-         queue.offer(node2.left);
-         queue.offer(node1.right);
-         queue.offer(node2.right);
+         if ((nodeP.left == null && nodeQ.left != null) || (nodeP.left != null && nodeQ.left == null)) {
+            return false;
+         }
+         if (nodeP.left != null && nodeQ.left != null) {
+            queue.offer(nodeP.left);
+            queue.offer(nodeQ.left);
+         }
+
+         if ((nodeP.right == null && nodeQ.right != null) || (nodeP.right != null && nodeQ.right == null)) {
+            return false;
+         }
+         if (nodeP.right != null && nodeQ.right != null) {
+            queue.offer(nodeP.right);
+            queue.offer(nodeQ.right);
+         }
       }
-      return queue.isEmpty();
+      return true;
+
    }
 
    // 102. 二叉树的层序遍历 (Binary Tree Level Order Traversal)
