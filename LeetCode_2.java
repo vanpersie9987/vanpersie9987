@@ -9474,26 +9474,26 @@ public class LeetCode_2 {
       return slow;
    }
 
-   // 116. 填充每个节点的下一个右侧节点指针 (Populating Next Right Pointers in Each Node)
+   // 116. 填充每个节点的下一个右侧节点指针 (Populating Next Right Pointers in Each Node) --bfs
    // --还需掌握空间O(1)的解法
    public Node connect(Node root) {
       if (root == null) {
          return null;
       }
-      Deque<Node> deque = new LinkedList<>();
-      deque.offerLast(root);
+      Queue<Node> deque = new LinkedList<>();
+      deque.offer(root);
       while (!deque.isEmpty()) {
          int size = deque.size();
          for (int i = 0; i < size; ++i) {
-            Node node = deque.pollFirst();
+            Node node = deque.poll();
             if (i < size - 1) {
-               node.next = deque.peekFirst();
+               node.next = deque.peek();
             }
             if (node.left != null) {
-               deque.offerLast(node.left);
+               deque.offer(node.left);
             }
             if (node.right != null) {
-               deque.offerLast(node.right);
+               deque.offer(node.right);
             }
          }
       }
