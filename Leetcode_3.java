@@ -202,20 +202,15 @@ public class Leetcode_3 {
         if (root == null) {
             return res;
         }
+        int level = 0;
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
-        boolean reverse = false;
         while (!queue.isEmpty()) {
             int size = queue.size();
             List<Integer> list = new LinkedList<>();
             for (int i = 0; i < size; ++i) {
                 TreeNode node = queue.poll();
-                if (reverse) {
-                    list.add(0, node.val);
-                } else {
-                    list.add(node.val);
-                }
-
+                list.add((level & 1) == 0 ? list.size() : 0, node.val);
                 if (node.left != null) {
                     queue.offer(node.left);
                 }
@@ -223,8 +218,8 @@ public class Leetcode_3 {
                     queue.offer(node.right);
                 }
             }
-            reverse = !reverse;
             res.add(list);
+            ++level;
         }
         return res;
 
