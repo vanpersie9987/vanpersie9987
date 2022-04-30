@@ -113,12 +113,13 @@ public class Leetcode_3 {
         if (root == null) {
             return 0;
         }
-        int res = 0;
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
+        int level = 0;
         while (!queue.isEmpty()) {
+            ++level;
             int size = queue.size();
-            while (size > 0) {
+            for (int i = 0; i < size; ++i) {
                 TreeNode node = queue.poll();
                 if (node.left != null) {
                     queue.offer(node.left);
@@ -126,12 +127,9 @@ public class Leetcode_3 {
                 if (node.right != null) {
                     queue.offer(node.right);
                 }
-                --size;
             }
-            ++res;
         }
-        return res;
-
+        return level;
     }
 
     // 104. 二叉树的最大深度 (Maximum Depth of Binary Tree) --dfs
