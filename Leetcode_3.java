@@ -4132,14 +4132,14 @@ public class Leetcode_3 {
 
     }
 
-    // 210. 课程表 II (Course Schedule II) --bfs + 拓扑排序
+    // 210. 课程表 II (Course Schedule II) --拓扑排序
     // 剑指 Offer II 113. 课程顺序
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         int[] inDegrees = new int[numCourses];
-        Map<Integer, List<Integer>> map = new HashMap<>();
+        Map<Integer, List<Integer>> graph = new HashMap<>();
         for (int[] prerequisite : prerequisites) {
+            graph.computeIfAbsent(prerequisite[1], k -> new ArrayList<>()).add(prerequisite[0]);
             ++inDegrees[prerequisite[0]];
-            map.computeIfAbsent(prerequisite[1], k -> new ArrayList<>()).add(prerequisite[0]);
         }
         Queue<Integer> queue = new LinkedList<>();
         for (int i = 0; i < numCourses; ++i) {
@@ -4148,22 +4148,17 @@ public class Leetcode_3 {
             }
         }
         int[] res = new int[numCourses];
-        int count = 0;
+        int index = 0;
         while (!queue.isEmpty()) {
             int cur = queue.poll();
-            res[count++] = cur;
-            List<Integer> list = map.get(cur);
-            if (list == null) {
-                continue;
-            }
-            for (int index : list) {
-                if (--inDegrees[index] == 0) {
-                    queue.offer(index);
+            res[index++] = cur;
+            for (int neighbor : graph.getOrDefault(cur, new ArrayList<>())) {
+                if (--inDegrees[neighbor] == 0) {
+                    queue.offer(neighbor);
                 }
             }
         }
-        return count == numCourses ? res : new int[0];
-
+        return index == numCourses ? res : new int[0];
     }
 
     // 2192. 有向无环图中一个节点的所有祖先 (All Ancestors of a Node in a Directed Acyclic Graph)
