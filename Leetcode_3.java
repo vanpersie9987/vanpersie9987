@@ -24,7 +24,12 @@ public class Leetcode_3 {
         // int count = numSteps("1101");
         // int[][] input = { { 1, 1, 1, 1 }, { 1, 1, 2, 1 }, { 1, 2, 1, 1 }, { 1, 1, 1,
         // 1 } };
-        // boolean ans = isPrintable(input);
+        // boolean ans = isPrintable(input)
+        // int[][] example = { { 0, 2, 0, 0, 1 }, { 0, 2, 0, 2, 2 }, { 0, 2, 0, 0, 0 },
+        // { 0, 0, 2, 2, 0 },
+        // { 0, 0, 0, 0, 0 } };
+        // int res = maximumMinutes(example);
+
     }
 
     public class ListNode {
@@ -8736,27 +8741,243 @@ public class Leetcode_3 {
 
     }
 
-    // 2034. 股票价格波动 (Stock Price Fluctuation)
-    // class StockPrice {
+    // 6051. 统计是给定字符串前缀的字符串数目
+    public int countPrefixes(String[] words, String s) {
+        int res = 0;
+        for (String word : words) {
+            if (s.indexOf(word) == 0) {
+                ++res;
+            }
+        }
+        return res;
 
-    // public StockPrice() {
+    }
 
-    // }
+    // 6052. 最小平均差
+    public int minimumAverageDifference(int[] nums) {
+        if (nums.length == 1) {
+            return 0;
 
-    // public void update(int timestamp, int price) {
+        }
+        int res = nums.length - 1;
 
-    // }
+        long sum = 0l;
+        for (int num : nums) {
+            sum += num;
+        }
+        long min = sum / nums.length;
 
-    // public int current() {
+        long leftSum = 0l;
+        for (int i = 0; i < nums.length - 1; ++i) {
+            leftSum += nums[i];
+            long leftAverage = leftSum / (i + 1);
 
-    // }
+            long rightSum = sum - leftSum;
+            long rightAverage = rightSum / (nums.length - i - 1);
 
-    // public int maximum() {
+            long diff = Math.abs(leftAverage - rightAverage);
 
-    // }
+            if (diff < min) {
+                min = diff;
+                res = i;
+            } else if (diff == min) {
+                res = Math.min(res, i);
+            }
+        }
+        return res;
 
-    // public int minimum() {
+    }
 
-    // }
-    // }
+    // 6053. 统计网格图中没有被保卫的格子数
+    public int countUnguarded(int m, int n, int[][] guards, int[][] walls) {
+        boolean[][] seenInRow = new boolean[m][n];
+        Set<Long> g = new HashSet<>();
+        for (int[] guard : guards) {
+            g.add((long) (guard[0] * n) + (long) guard[1]);
+        }
+        Set<Long> w = new HashSet<>();
+        for (int[] wall : walls) {
+            w.add((long) (wall[0] * n) + (long) wall[1]);
+        }
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                long cur = (long) (i * n) + (long) j;
+                if (g.contains(cur)) {
+                    int x = i;
+                    int y = j - 1;
+                    while (y >= 0) {
+                        long now = (long) (x * n) + (long) y;
+                        if (w.contains(now) || g.contains(now) || seenInRow[x][y]) {
+                            break;
+                        }
+                        seenInRow[x][y] = true;
+                        --y;
+                    }
+                    x = i;
+                    y = j + 1;
+                    while (y < n) {
+                        long now = (long) (x * n) + (long) y;
+                        if (w.contains(now) || g.contains(now) || seenInRow[x][y]) {
+                            break;
+                        }
+                        seenInRow[x][y] = true;
+                        ++y;
+                    }
+                }
+            }
+        }
+        boolean[][] seenInCol = new boolean[m][n];
+        for (int j = 0; j < n; ++j) {
+            for (int i = 0; i < m; ++i) {
+                long cur = (long) i * n + (long) j;
+
+                if (g.contains(cur)) {
+                    int x = i - 1;
+                    int y = j;
+                    while (x >= 0) {
+                        long now = (long) (x * n) + (long) y;
+                        if (w.contains(now) || g.contains(now)
+                                || seenInCol[x][y]) {
+                            break;
+                        }
+                        seenInCol[x][y] = true;
+                        --x;
+                    }
+                    x = i + 1;
+                    y = j;
+                    while (x < m) {
+                        long now = (long) (x * n) + (long) y;
+                        if (w.contains(now) || g.contains(now)
+                                || seenInCol[x][y]) {
+                            break;
+                        }
+                        seenInCol[x][y] = true;
+                        ++x;
+                    }
+                }
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                long cur = (long) i * n + (long) j;
+                if (w.contains(cur) || g.contains(cur)) {
+                    continue;
+                }
+                if (!seenInRow[i][j] && !seenInCol[i][j]) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 6054. 逃离火灾 (Escape the Spreading Fire) --bfs + 二分查找
+    public int maximumMinutes(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int res = -1;
+        int left = 0;
+        int right = m * n - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (check6054(mid, grid)) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        if (check6054(1000000000, grid)) {
+            return 1000000000;
+        }
+        return res;
+
+    }
+
+    private boolean check6054(int time, int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        boolean[][] fire = new boolean[m][n];
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    fire[i][j] = true;
+                    queue.offer(new int[] { i, j });
+                }
+            }
+        }
+        while (!queue.isEmpty()) {
+            if (time == 0) {
+                break;
+            }
+            --time;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = queue.poll();
+                for (int[] direction : directions) {
+                    int nx = cur[0] + direction[0];
+                    int ny = cur[1] + direction[1];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                        if (!fire[nx][ny] && grid[nx][ny] == 0) {
+                            fire[nx][ny] = true;
+                            queue.offer(new int[] { nx, ny });
+                        }
+                    }
+                }
+            }
+        }
+        if (fire[0][0] || fire[m - 1][n - 1]) {
+            return false;
+        }
+        boolean[][] visited = new boolean[m][n];
+        visited[0][0] = true;
+        Queue<int[]> queuePerson = new LinkedList<>();
+        queuePerson.offer(new int[] { 0, 0 });
+        while (!queuePerson.isEmpty()) {
+            int size = queuePerson.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = queuePerson.poll();
+                int x = cur[0];
+                int y = cur[1];
+                if (!fire[x][y]) {
+                    for (int[] direction : directions) {
+                        int nx = x + direction[0];
+                        int ny = y + direction[1];
+                        if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                            if (!visited[nx][ny] && !fire[nx][ny] && grid[nx][ny] == 0) {
+                                if (nx == m - 1 && ny == n - 1) {
+                                    return true;
+                                }
+                                visited[nx][ny] = true;
+                                queuePerson.offer(new int[] { nx, ny });
+                            }
+                        }
+                    }
+                }
+            }
+            size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = queue.poll();
+                int x = cur[0];
+                int y = cur[1];
+
+                for (int[] direction : directions) {
+                    int nx = x + direction[0];
+                    int ny = y + direction[1];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                        if (!fire[nx][ny] && grid[nx][ny] == 0) {
+                            fire[nx][ny] = true;
+                            queue.offer(new int[] { nx, ny });
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 }
