@@ -8939,6 +8939,39 @@ public class LeetCodeText {
         }
     }
 
+    // 200. 岛屿数量 (Number of Islands) --bfs
+    public int numIslands2(char[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == '1') {
+                    grid[i][j] = '0';
+                    Queue<int[]> queue = new LinkedList<>();
+                    queue.offer(new int[] { i, j });
+                    while (!queue.isEmpty()) {
+                        int[] cur = queue.poll();
+                        for (int[] direction : directions) {
+                            int nx = cur[0] + direction[0];
+                            int ny = cur[1] + direction[1];
+                            if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                                if (grid[nx][ny] == '1') {
+                                    grid[nx][ny] = '0';
+                                    queue.offer(new int[] { nx, ny });
+                                }
+                            }
+                        }
+                    }
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
+
     // 1319. 连通网络的操作次数
     public int makeConnected(int n, int[][] connections) {
         if (connections.length < n - 1) {
