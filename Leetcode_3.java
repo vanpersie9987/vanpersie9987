@@ -4104,32 +4104,27 @@ public class Leetcode_3 {
         return res;
     }
 
-    // 207. 课程表 (Course Schedule) --bfs + 拓扑排序
+    // 207. 课程表 (Course Schedule) --拓扑排序
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        Map<Integer, Integer> inDegrees = new HashMap<>();
-        Map<Integer, List<Integer>> map = new HashMap<>();
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        int[] inDegrees = new int[numCourses];
         for (int[] prerequisite : prerequisites) {
-            inDegrees.put(prerequisite[0], inDegrees.getOrDefault(prerequisite[0], 0) + 1);
-            map.computeIfAbsent(prerequisite[1], k -> new ArrayList<>()).add(prerequisite[0]);
+            graph.computeIfAbsent(prerequisite[1], k -> new LinkedList<>()).add(prerequisite[0]);
+            ++inDegrees[prerequisite[0]];
         }
         Queue<Integer> queue = new LinkedList<>();
         for (int i = 0; i < numCourses; ++i) {
-            if (inDegrees.getOrDefault(i, 0) == 0) {
+            if (inDegrees[i] == 0) {
                 queue.offer(i);
             }
         }
         int count = 0;
         while (!queue.isEmpty()) {
-            int cur = queue.poll();
             ++count;
-            List<Integer> list = map.get(cur);
-            if (list == null) {
-                continue;
-            }
-            for (int index : list) {
-                inDegrees.put(index, inDegrees.get(index) - 1);
-                if (inDegrees.get(index) == 0) {
-                    queue.offer(index);
+            int cur = queue.poll();
+            for (int neightbor : graph.getOrDefault(cur, new LinkedList<>())) {
+                if (--inDegrees[neightbor] == 0) {
+                    queue.offer(neightbor);
                 }
             }
         }
