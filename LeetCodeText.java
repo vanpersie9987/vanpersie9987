@@ -9766,7 +9766,7 @@ public class LeetCodeText {
 
     }
 
-    // 130. 被围绕的区域
+    // 130. 被围绕的区域 (Surrounded Regions) --并查集
     public void solve(char[][] board) {
         int m = board.length;
         int n = board[0].length;
@@ -9847,6 +9847,46 @@ public class LeetCodeText {
             }
         }
 
+    }
+
+    // 130. 被围绕的区域 (Surrounded Regions) --bfs
+    public void solvw2(char[][] board) {
+        int m = board.length;
+        int n = board[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (board[i][j] == 'O') {
+                    if (i == 0 || j == 0 || i == m - 1 || j == n - 1) {
+                        queue.offer(new int[] { i, j });
+                        board[i][j] = 'A';
+                    }
+                }
+            }
+        }
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            for (int[] direction : directions) {
+                int nx = cur[0] + direction[0];
+                int ny = cur[1] + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                    if (board[nx][ny] == 'O') {
+                        board[nx][ny] = 'A';
+                        queue.offer(new int[] { nx, ny });
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (board[i][j] == 'A') {
+                    board[i][j] = 'O';
+                } else if (board[i][j] == 'O') {
+                    board[i][j] = 'X';
+                }
+            }
+        }
     }
 
     // 721. 账户合并
