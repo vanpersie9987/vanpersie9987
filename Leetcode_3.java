@@ -8980,4 +8980,80 @@ public class Leetcode_3 {
         return false;
     }
 
+    public String removeDigit(String number, char digit) {
+        int firstIndex = number.indexOf(digit + "");
+        String res = number.substring(0, firstIndex) + number.substring(firstIndex + 1);
+        for (int i = firstIndex + 1; i < number.length(); ++i) {
+            if (number.charAt(i) == digit) {
+                String cur = number.substring(0, i) + number.substring(i + 1);
+                if (cur.compareTo(res) > 0) {
+                    res = cur;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 6048. 必须拿起的最小连续卡牌数
+    public int minimumCardPickup(int[] cards) {
+        int left = 0;
+        int right = 0;
+        int res = Integer.MAX_VALUE;
+        Map<Integer, Integer> map = new HashMap<>();
+        while (right < cards.length) {
+            map.put(cards[right], map.getOrDefault(cards[right], 0) + 1);
+
+            while (map.getOrDefault(cards[right], 0) >= 2) {
+                res = Math.min(right - left + 1, res);
+                if (res == 2) {
+                    return res;
+                }
+                map.put(cards[left], map.getOrDefault(cards[left], 0) - 1);
+                ++left;
+            }
+            ++right;
+        }
+        return res == Integer.MAX_VALUE ? -1 : res;
+
+    }
+
+    // 2261. 含最多 K 个可整除元素的子数组 (K Divisible Elements Subarrays) --还需掌握字典树
+    public int countDistinct(int[] nums, int k, int p) {
+        int res = 0;
+        Set<String> set = new HashSet<>();
+        for (int i = 0; i < nums.length; ++i) {
+            int count = 0;
+            StringBuilder builder = new StringBuilder();
+            for (int j = i; j >= 0; --j) {
+                if (nums[j] % p == 0) {
+                    ++count;
+                }
+                builder.append(nums[j] + " ");
+                if (count <= k && !set.contains(builder.toString())) {
+                    set.add(builder.toString());
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 2262. 字符串的总引力 (Total Appeal of A String) --dp
+    public long appealSum(String s) {
+        int[] pos = new int[26];
+        Arrays.fill(pos, -1);
+        long sumG = 0l;
+        long res = 0l;
+        for (int i = 0; i < s.length(); ++i) {
+            char c = s.charAt(i);
+            sumG += i - pos[c - 'a'];
+            res += sumG;
+            pos[c - 'a'] = i;
+        }
+        return res;
+
+    }
+
 }
