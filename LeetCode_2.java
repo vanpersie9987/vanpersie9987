@@ -10049,9 +10049,6 @@ public class LeetCode_2 {
    // 404. 左叶子之和 (Sum of Left Leaves) --bfs
    public int sumOfLeftLeaves(TreeNode root) {
       int res = 0;
-      if (root == null) {
-         return res;
-      }
       Queue<TreeNode> queue = new LinkedList<>();
       queue.offer(root);
       while (!queue.isEmpty()) {
