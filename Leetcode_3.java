@@ -6680,7 +6680,7 @@ public class Leetcode_3 {
         return res;
     }
 
-    // 310. 最小高度树 (Minimum Height Trees) --bfs
+    // 310. 最小高度树 (Minimum Height Trees) --拓扑排序
     public List<Integer> findMinHeightTrees(int n, int[][] edges) {
         List<Integer> res = new LinkedList<>();
         if (n == 1) {
