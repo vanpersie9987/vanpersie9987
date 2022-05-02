@@ -4332,57 +4332,50 @@ public class Leetcode_3 {
         return res;
     }
 
-    // 329. 矩阵中的最长递增路径 (Longest Increasing Path in a Matrix) --拓扑排序 + bfs
+    // 329. 矩阵中的最长递增路径 (Longest Increasing Path in a Matrix) --拓扑排序
     // 剑指 Offer II 112. 最长递增路径
     public int longestIncreasingPath(int[][] matrix) {
         int m = matrix.length;
         int n = matrix[0].length;
         int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
-        Map<Integer, List<Integer>> map = new HashMap<>();
-        int[] inDegrees = new int[m * n];
+        int[][] inDegrees = new int[m][n];
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
                 for (int[] direction : directions) {
                     int nx = i + direction[0];
                     int ny = j + direction[1];
                     if (nx >= 0 && nx < m && ny >= 0 && ny < n && matrix[i][j] < matrix[nx][ny]) {
-                        map.computeIfAbsent(getTrans329(i, j, n), k -> new LinkedList<>())
-                                .add(getTrans329(nx, ny, n));
-                        ++inDegrees[getTrans329(nx, ny, n)];
+                        ++inDegrees[nx][ny];
                     }
                 }
             }
         }
-        Queue<Integer> queue = new LinkedList<>();
-        for (int i = 0; i < inDegrees.length; ++i) {
-            if (inDegrees[i] == 0) {
-                queue.offer(i);
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (inDegrees[i][j] == 0) {
+                    queue.offer(new int[] { i, j });
+                }
             }
-
         }
         int res = 0;
         while (!queue.isEmpty()) {
             ++res;
             int size = queue.size();
             for (int i = 0; i < size; ++i) {
-                int cur = queue.poll();
-                List<Integer> list = map.get(cur);
-                if (list == null) {
-                    continue;
-                }
-                for (int index : list) {
-                    if (--inDegrees[index] == 0) {
-                        queue.offer(index);
+                int[] cur = queue.poll();
+                for (int[] direction : directions) {
+                    int nx = cur[0] + direction[0];
+                    int ny = cur[1] + direction[1];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && matrix[cur[0]][cur[1]] < matrix[nx][ny]) {
+                        if (--inDegrees[nx][ny] == 0) {
+                            queue.offer(new int[] { nx, ny });
+                        }
                     }
                 }
             }
         }
         return res;
-
-    }
-
-    private int getTrans329(int i, int j, int n) {
-        return i * n + j;
     }
 
     // 269. 火星词典 --plus
