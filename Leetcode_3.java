@@ -8992,22 +8992,20 @@ public class Leetcode_3 {
 
     }
 
-    // 6048. 必须拿起的最小连续卡牌数
+    // 2260. 必须拿起的最小连续卡牌数 --滑动窗口
     public int minimumCardPickup(int[] cards) {
         int left = 0;
         int right = 0;
         int res = Integer.MAX_VALUE;
-        Map<Integer, Integer> map = new HashMap<>();
+        int[] counts = new int[1000001];
         while (right < cards.length) {
-            map.put(cards[right], map.getOrDefault(cards[right], 0) + 1);
-
-            while (map.getOrDefault(cards[right], 0) >= 2) {
+            ++counts[cards[right]];
+            while (counts[cards[right]] >= 2) {
                 res = Math.min(right - left + 1, res);
                 if (res == 2) {
                     return res;
                 }
-                map.put(cards[left], map.getOrDefault(cards[left], 0) - 1);
-                ++left;
+                --counts[cards[left++]];
             }
             ++right;
         }
