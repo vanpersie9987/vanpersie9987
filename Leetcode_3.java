@@ -4353,24 +4353,27 @@ public class Leetcode_3 {
                 }
             }
         }
-        Queue<int[]> queue = new LinkedList<>();
+        Queue<Integer> queue = new LinkedList<>();
         for (int i = 0; i < inDegrees.length; ++i) {
             if (inDegrees[i] == 0) {
-                queue.offer(new int[] { i, 1 });
+                queue.offer(i);
             }
 
         }
-        int res = 1;
+        int res = 0;
         while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
-            res = Math.max(res, cur[1]);
-            List<Integer> list = map.get(cur[0]);
-            if (list == null) {
-                continue;
-            }
-            for (int index : list) {
-                if (--inDegrees[index] == 0) {
-                    queue.offer(new int[] { index, cur[1] + 1 });
+            ++res;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int cur = queue.poll();
+                List<Integer> list = map.get(cur);
+                if (list == null) {
+                    continue;
+                }
+                for (int index : list) {
+                    if (--inDegrees[index] == 0) {
+                        queue.offer(index);
+                    }
                 }
             }
         }
