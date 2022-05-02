@@ -8980,6 +8980,7 @@ public class Leetcode_3 {
         return false;
     }
 
+    // 2259. 移除指定数字得到的最大结果 (Remove Digit From Number to Maximize Result)
     public String removeDigit(String number, char digit) {
         int firstIndex = number.indexOf(digit + "");
         String res = number.substring(0, firstIndex) + number.substring(firstIndex + 1);
