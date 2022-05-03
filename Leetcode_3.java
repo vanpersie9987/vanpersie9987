@@ -9069,4 +9069,39 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 463. 岛屿的周长 (Island Perimeter) --bfs
+    public int islandPerimeter2(int[][] grid) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int m = grid.length;
+        int n = grid[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        boolean[][] visited = new boolean[m][n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    queue.offer(new int[] { i, j });
+                    visited[i][j] = true;
+                }
+            }
+        }
+        int res = 0;
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            res += 4;
+            for (int[] direction : directions) {
+                int nx = cur[0] + direction[0];
+                int ny = cur[1] + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1) {
+                    --res;
+                    if (!visited[nx][ny]) {
+                        visited[nx][ny] = true;
+                        queue.offer(new int[] { nx, ny });
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
 }
