@@ -9046,4 +9046,27 @@ public class Leetcode_3 {
 
     }
 
+    // 463. 岛屿的周长 (Island Perimeter)
+    public int islandPerimeter(int[][] grid) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int res = 0;
+        int m = grid.length;
+        int n = grid[0].length;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    res += 4;
+                    for (int[] direction : directions) {
+                        int ni = i + direction[0];
+                        int nj = j + direction[1];
+                        if (ni >= 0 && ni < m && nj >= 0 && nj < n && grid[ni][nj] == 1) {
+                            --res;
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
 }
