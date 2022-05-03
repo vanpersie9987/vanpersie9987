@@ -9088,7 +9088,8 @@ public class LeetCodeText {
 
     }
 
-    // 547. 省份数量 // 剑指 Offer II 119. 最长连续序列
+    // 547. 省份数量 (Number of Provinces) --并查集
+    // 剑指 Offer II 119. 最长连续序列
     public int findCircleNum(int[][] isConnected) {
         int n = isConnected.length;
         Union547 union = new Union547(n);
@@ -9149,6 +9150,33 @@ public class LeetCodeText {
         public int getCount() {
             return count;
         }
+
+    }
+
+    // 547. 省份数量 (Number of Provinces) --bfs
+    // 剑指 Offer II 119. 最长连续序列
+    public int findCircleNum2(int[][] isConnected) {
+        int n = isConnected.length;
+        boolean[] visited = new boolean[n];
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            if (!visited[i]) {
+                Queue<Integer> queue = new LinkedList<>();
+                queue.offer(i);
+                while (!queue.isEmpty()) {
+                    int cur = queue.poll();
+                    visited[cur] = true;
+                    for (int j = 0; j < n; ++j) {
+                        if (!visited[j] && isConnected[cur][j] == 1) {
+                            visited[j] = true;
+                            queue.offer(j);
+                        }
+                    }
+                }
+                ++res;
+            }
+        }
+        return res;
 
     }
 
