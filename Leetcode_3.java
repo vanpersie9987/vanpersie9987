@@ -875,7 +875,7 @@ public class Leetcode_3 {
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (mat[i][j] == 0) {
-                    queue.offer(new int[] { i, j, 0 });
+                    queue.offer(new int[] { i, j });
                     seen[i][j] = true;
                 }
             }
@@ -890,8 +890,8 @@ public class Leetcode_3 {
                 int ny = cur[1] + direction[1];
                 if (nx >= 0 && nx < m && ny >= 0 && ny < n && !seen[nx][ny]) {
                     seen[nx][ny] = true;
-                    mat[nx][ny] = cur[2] + 1;
-                    queue.offer(new int[] { nx, ny, mat[nx][ny] });
+                    mat[nx][ny] = mat[cur[0]][cur[1]] + 1;
+                    queue.offer(new int[] { nx, ny });
                 }
             }
         }
