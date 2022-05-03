@@ -3252,7 +3252,6 @@ public class Leetcode_3 {
         queue.offer(start);
         while (!queue.isEmpty()) {
             int size = queue.size();
-            boolean flag = false;
             for (int i = 0; i < size; ++i) {
                 String cur = queue.poll();
                 if (cur.equals(end)) {
@@ -3262,16 +3261,12 @@ public class Leetcode_3 {
                     if (!set.contains(item) && isDiffOnlyOne(cur, item)) {
                         set.add(item);
                         queue.offer(item);
-                        flag = true;
                     }
                 }
             }
-            if (!flag) {
-                return -1;
-            }
             ++res;
         }
-        return res;
+        return -1;
 
     }
 
