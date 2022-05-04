@@ -9994,55 +9994,50 @@ public class LeetCodeText {
         }
     }
 
-    // 721. 账户合并
+    // 721. 账户合并 (Accounts Merge) --并查集
     public List<List<String>> accountsMerge(List<List<String>> accounts) {
-        Map<String, Integer> emailToIndex = new HashMap<>();
-        Map<String, String> emailToName = new HashMap<>();
+        Map<String, String> emailsToName = new HashMap<>();
+        Map<String, Integer> emailsToIndex = new HashMap<>();
         int index = 0;
         for (List<String> account : accounts) {
-
             for (int i = 1; i < account.size(); ++i) {
-                if (!emailToIndex.containsKey(account.get(i))) {
-                    emailToIndex.put(account.get(i), index++);
-                    emailToName.put(account.get(i), account.get(0));
+                emailsToName.put(account.get(i), account.get(0));
+                if (!emailsToIndex.containsKey(account.get(i))) {
+                    emailsToIndex.put(account.get(i), index++);
                 }
             }
         }
         Union721 union = new Union721(index);
         for (List<String> account : accounts) {
-            int index1 = emailToIndex.get(account.get(1));
             for (int i = 2; i < account.size(); ++i) {
-                union.union(index1, emailToIndex.get(account.get(i)));
+                union.union(emailsToIndex.get(account.get(i)), emailsToIndex.get(account.get(i - 1)));
             }
         }
-        Map<Integer, List<String>> mergedAccounts = new HashMap<>();
-        for (Map.Entry<String, Integer> entry : emailToIndex.entrySet()) {
-            String key = entry.getKey();
-            int value = entry.getValue();
-            int root = union.getRoot(value);
-            mergedAccounts.computeIfAbsent(root, k -> new ArrayList<>()).add(key);
+        Map<Integer, Set<String>> rootToGroup = new HashMap<>();
+        for (String email : emailsToIndex.keySet()) {
+            int root = union.getRoot(emailsToIndex.get(email));
+            rootToGroup.computeIfAbsent(root, k -> new HashSet<>()).add(email);
         }
         List<List<String>> res = new ArrayList<>();
-        for (List<String> list : mergedAccounts.values()) {
-            Collections.sort(list);
-            String name = emailToName.get(list.get(0));
-            List<String> sub = new ArrayList<>();
-            sub.add(name);
-            sub.addAll(list);
+        for (Set<String> set : rootToGroup.values()) {
+            List<String> sub = new ArrayList<>(set);
+            Collections.sort(sub);
+            String name = emailsToName.get(sub.get(0));
+            sub.add(0, name);
             res.add(sub);
         }
         return res;
 
     }
 
-    public class Union721 {
-        private int[] parent;
+    class Union721 {
         private int[] rank;
+        private int[] parent;
 
         public Union721(int n) {
-            parent = new int[n];
-            rank = new int[n];
+            this.rank = new int[n];
             Arrays.fill(rank, 1);
+            this.parent = new int[n];
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
             }
@@ -10065,16 +10060,15 @@ public class LeetCodeText {
             if (root1 == root2) {
                 return;
             }
-            if (rank[root1] > rank[root2]) {
-                parent[root2] = root1;
-            } else {
+            if (rank[root1] < rank[root2]) {
                 parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
                 if (rank[root1] == rank[root2]) {
-                    ++rank[root2];
+                    ++rank[root1];
                 }
             }
         }
-
     }
 
     // 1869. 哪种连续子字符串更长
