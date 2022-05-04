@@ -10071,6 +10071,51 @@ public class LeetCodeText {
         }
     }
 
+    // 721. 账户合并 (Accounts Merge) --bfs
+    public List<List<String>> accountsMerge2(List<List<String>> accounts) {
+        Map<String, String> emailsToName = new HashMap<>();
+        Map<String, Set<String>> graph = new HashMap<>();
+        for (List<String> account : accounts) {
+            for (int i = 1; i < account.size(); ++i) {
+                emailsToName.put(account.get(i), account.get(0));
+                if (i > 1) {
+                    graph.computeIfAbsent(account.get(i), k -> new HashSet<>()).add(account.get(i - 1));
+                    graph.computeIfAbsent(account.get(i - 1), k -> new HashSet<>()).add(account.get(i));
+                }
+            }
+        }
+        List<List<String>> res = new ArrayList<>();
+        Set<String> visited = new HashSet<>();
+        for (List<String> account : accounts) {
+            Queue<String> queue = new LinkedList<>();
+            List<String> sub = new ArrayList<>();
+            for (int i = 1; i < account.size(); ++i) {
+                if (!visited.contains(account.get(i))) {
+                    visited.add(account.get(i));
+                    queue.offer(account.get(i));
+                    sub.add(account.get(i));
+                }
+            }
+            while (!queue.isEmpty()) {
+                String cur = queue.poll();
+                for (String neighbor : graph.getOrDefault(cur, new HashSet<>())) {
+                    if (!visited.contains(neighbor)) {
+                        visited.add(neighbor);
+                        queue.offer(neighbor);
+                        sub.add(neighbor);
+                    }
+                }
+            }
+            if (sub.isEmpty()) {
+                continue;
+            }
+            Collections.sort(sub);
+            sub.add(0, emailsToName.get(sub.get(0)));
+            res.add(sub);
+        }
+        return res;
+    }
+
     // 1869. 哪种连续子字符串更长
     public static boolean checkZeroOnes(String s) {
         int maxZero = 0;
