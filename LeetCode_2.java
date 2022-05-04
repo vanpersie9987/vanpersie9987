@@ -9081,6 +9081,30 @@ public class LeetCode_2 {
       return false;
    }
 
+   // 653. 两数之和 IV - 输入 BST (Two Sum IV - Input is a BST) --bfs
+   // 剑指 Offer II 056. 二叉搜索树中两个节点之和
+   public boolean findTarget2(TreeNode root, int k) {
+      Set<Integer> set = new HashSet<>();
+      Queue<TreeNode> queue = new LinkedList<>();
+      queue.offer(root);
+      while (!queue.isEmpty()) {
+         TreeNode node = queue.poll();
+         int remain = k - node.val;
+         if (set.contains(remain)) {
+            return true;
+         }
+         set.add(node.val);
+         if (node.left != null) {
+            queue.offer(node.left);
+         }
+         if (node.right != null) {
+            queue.offer(node.right);
+         }
+      }
+      return false;
+
+   }
+
    public class Node {
       public int val;
       public Node left;
