@@ -2664,19 +2664,21 @@ public class Leetcode_3 {
     public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
         int m = image.length;
         int n = image[0].length;
-        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
-        int oldColor = image[sr][sc];
+        if (image[sr][sc] == newColor) {
+            return image;
+        }
+        int originalColor = image[sr][sc];
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 } };
         Queue<int[]> queue = new LinkedList<>();
         queue.offer(new int[] { sr, sc });
+        image[sr][sc] = newColor;
         while (!queue.isEmpty()) {
             int[] cur = queue.poll();
-            image[cur[0]][cur[1]] = newColor;
             for (int[] direction : directions) {
                 int nx = cur[0] + direction[0];
                 int ny = cur[1] + direction[1];
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n
-                        && image[nx][ny] == oldColor
-                        && image[nx][ny] != newColor) {
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && image[nx][ny] == originalColor) {
+                    image[nx][ny] = newColor;
                     queue.offer(new int[] { nx, ny });
                 }
             }
