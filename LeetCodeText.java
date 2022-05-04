@@ -2066,7 +2066,8 @@ public class LeetCodeText {
 
     }
 
-    // 695. 岛屿的最大面积 // 剑指 Offer II 105. 岛屿的最大面积
+    // 695. 岛屿的最大面积 (Max Area of Island) --dfs
+    // 剑指 Offer II 105. 岛屿的最大面积
     public int maxAreaOfIsland(final int[][] grid) {
         int max = 0;
         for (int i = 0; i < grid.length; ++i) {
@@ -2096,7 +2097,8 @@ public class LeetCodeText {
         return count;
     }
 
-    // 695. 岛屿的最大面积(并查集)
+    // 695. 岛屿的最大面积 (Max Area of Island) --并查集
+    // 剑指 Offer II 105. 岛屿的最大面积
     public int maxAreaOfIsland2(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
@@ -2173,6 +2175,47 @@ public class LeetCodeText {
                 }
             }
         }
+
+    }
+
+    // 695. 岛屿的最大面积 (Max Area of Island) --bfs
+    // 剑指 Offer II 105. 岛屿的最大面积
+    public int maxAreaOfIsland3(int[][] grid) {
+        int res = 0;
+        int m = grid.length;
+        int n = grid[0].length;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    res = Math.max(res, maxAreaWithBFS695(grid, i, j));
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int maxAreaWithBFS695(int[][] grid, int i, int j) {
+        int res = 0;
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] { i, j });
+        grid[i][j] = 0;
+        while (!queue.isEmpty()) {
+            ++res;
+            int[] cur = queue.poll();
+            for (int[] direction : directions) {
+                int nx = cur[0] + direction[0];
+                int ny = cur[1] + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1) {
+                    grid[nx][ny] = 0;
+                    queue.offer(new int[] { nx, ny });
+                }
+            }
+        }
+        return res;
 
     }
 
