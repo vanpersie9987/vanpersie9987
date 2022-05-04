@@ -9033,7 +9033,8 @@ public class LeetCodeText {
         }
     }
 
-    // 684. 冗余连接 // 剑指 Offer II 118. 多余的边
+    // 684. 冗余连接 (Redundant Connection) --并查集
+    // 剑指 Offer II 118. 多余的边
     public int[] findRedundantConnection(int[][] edges) {
         Union684 union = new Union684(edges.length);
         for (int[] edge : edges) {
