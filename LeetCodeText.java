@@ -10073,15 +10073,12 @@ public class LeetCodeText {
 
     // 721. 账户合并 (Accounts Merge) --bfs
     public List<List<String>> accountsMerge2(List<List<String>> accounts) {
-        Map<String, String> emailsToName = new HashMap<>();
         Map<String, Set<String>> graph = new HashMap<>();
         for (List<String> account : accounts) {
-            for (int i = 1; i < account.size(); ++i) {
-                emailsToName.put(account.get(i), account.get(0));
-                if (i > 1) {
-                    graph.computeIfAbsent(account.get(i), k -> new HashSet<>()).add(account.get(i - 1));
-                    graph.computeIfAbsent(account.get(i - 1), k -> new HashSet<>()).add(account.get(i));
-                }
+            for (int i = 2; i < account.size(); ++i) {
+                graph.computeIfAbsent(account.get(i), k -> new HashSet<>()).add(account.get(i - 1));
+                graph.computeIfAbsent(account.get(i - 1), k -> new HashSet<>()).add(account.get(i));
+
             }
         }
         List<List<String>> res = new ArrayList<>();
@@ -10096,6 +10093,9 @@ public class LeetCodeText {
                     sub.add(account.get(i));
                 }
             }
+            if (sub.isEmpty()) {
+                continue;
+            }
             while (!queue.isEmpty()) {
                 String cur = queue.poll();
                 for (String neighbor : graph.getOrDefault(cur, new HashSet<>())) {
@@ -10106,11 +10106,8 @@ public class LeetCodeText {
                     }
                 }
             }
-            if (sub.isEmpty()) {
-                continue;
-            }
             Collections.sort(sub);
-            sub.add(0, emailsToName.get(sub.get(0)));
+            sub.add(0, account.get(0));
             res.add(sub);
         }
         return res;
