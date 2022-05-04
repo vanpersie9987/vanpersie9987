@@ -8194,11 +8194,11 @@ public class Leetcode_3 {
 
     }
 
-    private boolean isTreeAfterRemoveEdge(int[][] edges, int deletePos) {
+    private boolean isTreeAfterRemoveEdge(int[][] edges, int removedEdge) {
         int n = edges.length;
         Union685 union = new Union685(n);
         for (int i = 0; i < n; ++i) {
-            if (i != deletePos) {
+            if (i != removedEdge) {
                 if (union.isConnected(edges[i][0], edges[i][1])) {
                     return false;
                 }
