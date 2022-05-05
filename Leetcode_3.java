@@ -4699,6 +4699,66 @@ public class Leetcode_3 {
 
     }
 
+    // 785. 判断二分图 (Is Graph Bipartite?) --并查集
+    // 剑指 Offer II 106. 二分图
+    public boolean isBipartite2(int[][] graph) {
+        int n = graph.length;
+        Union785 union = new Union785(n);
+        for (int i = 0; i < graph.length; ++i) {
+            int[] neighbors = graph[i];
+            for (int neighbor : neighbors) {
+                if (union.isConnected(i, neighbor)) {
+                    return false;
+                }
+                union.union(neighbors[0], neighbor);
+            }
+        }
+        return true;
+
+    }
+
+    class Union785 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union785(int n) {
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] > rank[root2]) {
+                parent[root2] = root1;
+            } else {
+                parent[root1] = root2;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root2];
+                }
+            }
+        }
+
+    }
+
     // 785. 判断二分图 (Is Graph Bipartite?) --bfs
     // 剑指 Offer II 106. 二分图
     public boolean isBipartite(int[][] graph) {
