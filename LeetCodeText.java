@@ -8,10 +8,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.concurrent.PriorityBlockingQueue;
 
 public class LeetCodeText {
     private int[] nums;
@@ -8824,7 +8826,7 @@ public class LeetCodeText {
 
     }
 
-    // 778. 水位上升的泳池中游泳
+    // 778. 水位上升的泳池中游泳 (Swim in Rising Water) --并查集
     public int swimInWater(int[][] grid) {
         int n = grid.length;
         Union778 union = new Union778(n * n);
@@ -8900,6 +8902,46 @@ public class LeetCodeText {
                 }
             }
         }
+    }
+
+    // 778. 水位上升的泳池中游泳 (Swim in Rising Water) --Dijkstra
+    public int swimInWater2(int[][] grid) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int n = grid.length;
+        int res = 0;
+        Queue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[2] - o2[2];
+            }
+
+        });
+
+        queue.offer(new int[] { 0, 0, grid[0][0] });
+        boolean[][] visited = new boolean[n][n];
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            if (visited[x][y]) {
+                continue;
+            }
+            visited[x][y] = true;
+            res = Math.max(res, cur[2]);
+            if (x == n - 1 && y == n - 1) {
+                return res;
+            }
+            for (int[] direction : directions) {
+                int nx = x + direction[0];
+                int ny = y + direction[1];
+                if (nx >= 0 && nx < n && ny >= 0 && ny < n) {
+                    queue.offer(new int[] { nx, ny, grid[nx][ny] });
+                }
+            }
+        }
+        return -1;
+
     }
 
     // 200. 岛屿数量 (Number of Islands) --并查集
