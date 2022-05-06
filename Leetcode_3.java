@@ -3358,25 +3358,24 @@ public class Leetcode_3 {
     // 剑指 Offer II 110. 所有路径
     public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
         int n = graph.length;
+        List<List<Integer>> res = new ArrayList<>();
         Queue<List<Integer>> queue = new LinkedList<>();
-        for (int i : graph[0]) {
-            List<Integer> item = new LinkedList<>();
-            item.add(0);
-            item.add(i);
-            queue.offer(item);
+        for (int node : graph[0]) {
+            List<Integer> list = new ArrayList<>();
+            list.add(0);
+            list.add(node);
+            queue.offer(list);
         }
-
-        List<List<Integer>> res = new LinkedList<>();
         while (!queue.isEmpty()) {
             List<Integer> cur = queue.poll();
-            int last = cur.get(cur.size() - 1);
-            if (last == n - 1) {
+            int lastNode = cur.get(cur.size() - 1);
+            if (lastNode == n - 1) {
                 res.add(cur);
             } else {
-                for (int i : graph[last]) {
-                    List<Integer> item = new LinkedList<>(cur);
-                    item.add(i);
-                    queue.offer(item);
+                for (int neighbor : graph[lastNode]) {
+                    List<Integer> nList = new ArrayList<>(cur);
+                    nList.add(neighbor);
+                    queue.offer(nList);
                 }
             }
         }
