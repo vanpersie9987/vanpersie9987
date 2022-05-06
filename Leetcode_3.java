@@ -3172,10 +3172,10 @@ public class Leetcode_3 {
                 int cur = queue.poll();
                 for (int j = 1; j <= 6; ++j) {
                     int nIndex = cur + j;
-                    if (nIndex == n * n - 1) {
-                        return res;
-                    }
                     if (arr[nIndex] == -1) {
+                        if (nIndex == n * n - 1) {
+                            return res;
+                        }
                         if (!visited[nIndex]) {
                             visited[nIndex] = true;
                             queue.offer(nIndex);
