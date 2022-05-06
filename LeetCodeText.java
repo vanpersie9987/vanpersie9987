@@ -9483,6 +9483,45 @@ public class LeetCodeText {
 
     }
 
+    // 839. 相似字符串组 (Similar String Groups) --bfs
+    // 剑指 Offer II 117. 相似的字符串
+    public int numSimilarGroups(String[] strs) {
+        int res = 0;
+        int n = strs.length;
+        boolean[] visited = new boolean[n];
+        Queue<String> queue = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            if (!visited[i]) {
+                ++res;
+                visited[i] = true;
+                queue.offer(strs[i]);
+                while (!queue.isEmpty()) {
+                    String cur = queue.poll();
+                    for (int j = 0; j < strs.length; ++j) {
+                        if (!visited[j] && similar839(cur, strs[j])) {
+                            visited[j] = true;
+                            queue.offer(strs[j]);
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private boolean similar839(String s1, String s2) {
+        int diff = 0;
+        for (int i = 0; i < s1.length(); ++i) {
+            if (s1.charAt(i) != s2.charAt(i)) {
+                if (++diff > 2) {
+                    return false;
+                }
+            }
+        }
+        return diff == 0 || diff == 2;
+    }
+
     // 839. 相似字符串组 (Similar String Groups) --并查集
     // 剑指 Offer II 117. 相似的字符串
     public int numSimilarGroups(String[] strs) {
