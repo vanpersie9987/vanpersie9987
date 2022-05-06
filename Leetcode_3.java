@@ -4839,6 +4839,68 @@ public class Leetcode_3 {
         return graph;
     }
 
+    // 886. 可能的二分法 (Possible Bipartition) --并查集
+    public boolean possibleBipartition2(int n, int[][] dislikes) {
+        Union886 union = new Union886(n);
+        Map<Integer, List<Integer>> graph = buildGraph(n, dislikes);
+        for (int i = 0; i < n; ++i) {
+            List<Integer> neighbors = graph.get(i);
+            if (neighbors == null) {
+                continue;
+            }
+            for (int neighbor : neighbors) {
+                if (union.isConnected(i, neighbor)) {
+                    return false;
+                }
+                union.union(neighbors.get(0), neighbor);
+            }
+        }
+        return true;
+
+    }
+
+    class Union886 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union886(int n) {
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] > rank[root2]) {
+                parent[root2] = root1;
+            } else {
+                parent[root1] = root2;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root2];
+                }
+            }
+        }
+
+    }
+
     // 1448. 统计二叉树中好节点的数目 (Count Good Nodes in Binary Tree) --bfs
     public int goodNodes(TreeNode root) {
         int res = 0;
