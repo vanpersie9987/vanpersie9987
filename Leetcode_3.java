@@ -3439,27 +3439,31 @@ public class Leetcode_3 {
     // 847. 访问所有节点的最短路径 (Shortest Path Visiting All Nodes) --bfs + 状态压缩
     public int shortestPathLength(int[][] graph) {
         int n = graph.length;
-        Queue<int[]> queue = new LinkedList<>();
         boolean[][] visited = new boolean[n][1 << n];
+        Queue<int[]> queue = new LinkedList<>();
         for (int i = 0; i < n; ++i) {
-            queue.offer(new int[] { i, 1 << i, 0 });
+            queue.offer(new int[] { i, 1 << i });
             visited[i][1 << i] = true;
         }
+        int res = 0;
         while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
-            int p = cur[0];
-            int mask = cur[1];
-            int step = cur[2];
-            if (mask == (1 << n) - 1) {
-                return step;
-            }
-            for (int x : graph[p]) {
-                int newMask = mask | (1 << x);
-                if (!visited[x][newMask]) {
-                    visited[x][newMask] = true;
-                    queue.offer(new int[] { x, newMask, step + 1 });
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = queue.poll();
+                int node = cur[0];
+                int bitMask = cur[1];
+                if (bitMask == ((1 << n) - 1)) {
+                    return res;
+                }
+                for (int neighbor : graph[node]) {
+                    int nMask = (1 << neighbor) | bitMask;
+                    if (!visited[neighbor][nMask]) {
+                        visited[neighbor][nMask] = true;
+                        queue.offer(new int[] { neighbor, nMask });
+                    }
                 }
             }
+            ++res;
         }
         return -1;
 
