@@ -9483,7 +9483,8 @@ public class LeetCodeText {
 
     }
 
-    // 839. 相似字符串组 // 剑指 Offer II 117. 相似的字符串
+    // 839. 相似字符串组 --并查集
+    // 剑指 Offer II 117. 相似的字符串
     public int numSimilarGroups(String[] strs) {
         Union839 union = new Union839(strs.length);
         for (int i = 0; i < strs.length; ++i) {
@@ -9509,7 +9510,7 @@ public class LeetCodeText {
                 }
             }
         }
-        return true;
+        return count == 0 || count == 2;
     }
 
     public class Union839 {
