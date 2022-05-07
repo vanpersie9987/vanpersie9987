@@ -5835,10 +5835,12 @@ public class Leetcode_3 {
             for (int j = 1; j <= 4; ++j) {
                 set.add(j);
             }
+            // 该花园独立，随便种一种花
             if (graph.get(i) == null) {
                 res[i] = 1;
                 continue;
             }
+            // 最多与三个花园🔗连接，而花的🌹种类有四种，删除周围花坛种的花🌹的种类，即可
             for (int neighbor : graph.get(i)) {
                 set.remove(res[neighbor]);
             }
