@@ -3217,7 +3217,7 @@ public class Leetcode_3 {
 
     }
 
-    // 994. 腐烂的橘子 (Rotting Oranges) --多源bfs (图bfs)
+    // 994. 腐烂的橘子 (Rotting Oranges) --bfs
     public int orangesRotting(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
@@ -3238,7 +3238,6 @@ public class Leetcode_3 {
         int res = 0;
         while (!queue.isEmpty()) {
             int size = queue.size();
-            boolean flag = false;
             for (int i = 0; i < size; ++i) {
                 int[] cur = queue.poll();
                 for (int[] direction : directions) {
@@ -3248,11 +3247,10 @@ public class Leetcode_3 {
                         --freshCounts;
                         grid[nx][ny] = 2;
                         queue.offer(new int[] { nx, ny });
-                        flag = true;
                     }
                 }
             }
-            if (!flag) {
+            if (queue.isEmpty()) {
                 break;
             }
             ++res;
