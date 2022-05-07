@@ -774,6 +774,27 @@ public class Leetcode_3 {
         return isUnivalTree2(root.left) && isUnivalTree2(root.right);
     }
 
+    // 965. 单值二叉树 (Univalued Binary Tree) --bfs
+    public boolean isUnivalTree3(TreeNode root) {
+        int uniVal = root.val;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node.val != uniVal) {
+                return false;
+            }
+            if (node.left != null) {
+                queue.offer(node.left);
+            }
+            if (node.right != null) {
+                queue.offer(node.right);
+            }
+        }
+        return true;
+
+    }
+
     // 面试题 08.06. 汉诺塔问题 (Hanota LCCI)
     public void hanota(List<Integer> A, List<Integer> B, List<Integer> C) {
         getHanota(A, B, C, A.size());
