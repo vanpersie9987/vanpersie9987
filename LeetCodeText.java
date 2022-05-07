@@ -12255,8 +12255,44 @@ public class LeetCodeText {
 
     }
 
-    // 1020. 飞地的数量
+    // 1020. 飞地的数量 (Number of Enclaves) --bfs
     public int numEnclaves(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if ((i == 0 || i == m - 1 || j == 0 || j == n - 1) && grid[i][j] == 1) {
+                    queue.offer(new int[] { i, j });
+                    grid[i][j] = 0;
+                }
+            }
+        }
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            for (int[] direction : directions) {
+                int nx = cur[0] + direction[0];
+                int ny = cur[1] + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1) {
+                    grid[nx][ny] = 0;
+                    queue.offer(new int[] { nx, ny });
+                }
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+    }
+
+    // 1020. 飞地的数量 (Number of Enclaves) --并查集
+    public int numEnclaves2(int[][] grid) {
         int res = 0;
         int m = grid.length;
         int n = grid[0].length;
