@@ -7610,6 +7610,7 @@ public class Leetcode_3 {
         if (grid[0][0] == 1 || grid[n - 1][n - 1] == 1) {
             return -1;
         }
+        grid[0][0] = 1;
         int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 }, { 1, -1 }, { 1, 1 }, { -1, 1 }, { -1, -1 } };
         Queue<int[]> queue = new LinkedList<>();
         queue.offer(new int[] { 0, 0, 1 });
