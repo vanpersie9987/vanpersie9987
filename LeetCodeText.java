@@ -9266,8 +9266,54 @@ public class LeetCodeText {
 
     }
 
-    // 959. 由斜杠划分区域
+    // 959. 由斜杠划分区域 (Regions Cut By Slashes) --bfs
     public int regionsBySlashes(String[] grid) {
+        int n = grid.length;
+        // 每个格，转换为 3 * 3 矩阵 相应的斜线置为1
+        int[][] arr = new int[n * 3][n * 3];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                char c = grid[i].charAt(j);
+                if (c == '/') {
+                    arr[i * 3][j * 3 + 2] = 1;
+                    arr[i * 3 + 1][j * 3 + 1] = 1;
+                    arr[i * 3 + 2][j * 3] = 1;
+                } else if (c == '\\') {
+                    arr[i * 3][j * 3] = 1;
+                    arr[i * 3 + 1][j * 3 + 1] = 1;
+                    arr[i * 3 + 2][j * 3 + 2] = 1;
+                }
+            }
+        }
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int m = arr.length;
+        Queue<int[]> queue = new LinkedList<>();
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < m; ++j) {
+                if (arr[i][j] == 0) {
+                    ++res;
+                    queue.offer(new int[] { i, j });
+                    arr[i][j] = 1;
+                    while (!queue.isEmpty()) {
+                        int[] cur = queue.poll();
+                        for (int[] direction : directions) {
+                            int nx = cur[0] + direction[0];
+                            int ny = cur[1] + direction[1];
+                            if (nx >= 0 && nx < m && ny >= 0 && ny < m && arr[nx][ny] == 0) {
+                                arr[nx][ny] = 1;
+                                queue.offer(new int[] { nx, ny });
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    // 959. 由斜杠划分区域 (Regions Cut By Slashes) --并查集
+    public int regionsBySlashes2(String[] grid) {
         int n = grid.length;
         Union959 union = new Union959(n * n * 4);
         int index = 0;
