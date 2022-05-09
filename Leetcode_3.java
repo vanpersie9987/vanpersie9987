@@ -29,6 +29,8 @@ public class Leetcode_3 {
         // { 0, 0, 2, 2, 0 },
         // { 0, 0, 0, 0, 0 } };
         // int res = maximumMinutes(example);
+        // int[][] exp = { { 1, 0, 1 }, { 0, 0, 0 }, { 1, 0, 1 } };
+        // int res = maxDistance222(exp);
 
     }
 
@@ -853,35 +855,39 @@ public class Leetcode_3 {
 
     // 1162. 地图分析 (As Far from Land as Possible) --图的bfs
     public int maxDistance2(int[][] grid) {
-        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
         int n = grid.length;
         Queue<int[]> queue = new LinkedList<>();
+        boolean[][] visited = new boolean[n][n];
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (grid[i][j] == 1) {
                     queue.offer(new int[] { i, j });
+                    visited[i][j] = true;
                 }
             }
         }
-        boolean hasOcean = false;
-        int[] f = null;
-        while (!queue.isEmpty()) {
-            f = queue.poll();
-            for (int[] direction : directions) {
-                int nx = f[0] + direction[0];
-                int ny = f[1] + direction[1];
-                if (nx < 0 || nx >= n || ny < 0 || ny >= n || grid[nx][ny] != 0) {
-                    continue;
-                }
-                hasOcean = true;
-                grid[nx][ny] = grid[f[0]][f[1]] + 1;
-                queue.offer(new int[] { nx, ny });
-            }
-        }
-        if (!hasOcean || f == null) {
+        if (queue.size() == 0 || queue.size() == n * n) {
             return -1;
         }
-        return grid[f[0]][f[1]] - 1;
+        int[][] directions = { { 0, -1 }, { 0, 1 }, { -1, 0 }, { 1, 0 } };
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            for (int[] direction : directions) {
+                int nx = cur[0] + direction[0];
+                int ny = cur[1] + direction[1];
+                if (nx >= 0 && nx < n && ny >= 0 && ny < n && grid[nx][ny] == 0) {
+                    grid[nx][ny] = grid[cur[0]][cur[1]] + 1;
+                    queue.offer(new int[] { nx, ny });
+                }
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                res = Math.max(res, grid[i][j]);
+            }
+        }
+        return res - 1;
 
     }
 
