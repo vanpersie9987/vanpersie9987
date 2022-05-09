@@ -7091,6 +7091,8 @@ public class Leetcode_3 {
         if (n == 1) {
             return res;
         }
+        final int BLUE = 0;
+        final int RED = 1;
         Map<Integer, List<Integer>> graphRed = new HashMap<>();
         for (int[] redEdge : redEdges) {
             graphRed.computeIfAbsent(redEdge[0], k -> new LinkedList<>()).add(redEdge[1]);
@@ -7100,13 +7102,13 @@ public class Leetcode_3 {
             graphBlue.computeIfAbsent(blueEdge[0], k -> new LinkedList<>()).add(blueEdge[1]);
         }
         Queue<int[]> queue = new LinkedList<>();
-        // id , next : red
-        queue.offer(new int[] { 0, 0 });
-        // id , next : blue
-        queue.offer(new int[] { 0, 1 });
+        // id , current color BLUE
+        queue.offer(new int[] { 0, BLUE });
+        // id , current color RED
+        queue.offer(new int[] { 0, RED });
         boolean[][] visited = new boolean[n][2];
-        visited[0][0] = true;
-        visited[0][1] = true;
+        visited[0][BLUE] = true;
+        visited[0][RED] = true;
         int level = 0;
         Arrays.fill(res, -1);
         res[0] = 0;
@@ -7116,7 +7118,7 @@ public class Leetcode_3 {
             ++level;
             for (int i = 0; i < size; ++i) {
                 int[] cur = queue.poll();
-                graph = cur[1] == 0 ? graphRed : graphBlue;
+                graph = cur[1] == BLUE ? graphRed : graphBlue;
                 if (graph.get(cur[0]) == null) {
                     continue;
                 }
@@ -9282,63 +9284,65 @@ public class Leetcode_3 {
     }
 
     // public int averageOfSubtree(TreeNode root) {
-    //     Map<Node6057, Node6057> map = new HashMap<>();
-    //     Map<Node6057, Integer> inDegrees = new HashMap<>();
-    //     Queue<Node6057> queue = new LinkedList<>();
-    //     queue.offer(new Node6057(root, root.val, 1));
-    //     Queue<Node6057> queue2 = new LinkedList<>();
-    //     while (!queue.isEmpty()) {
-    //         int size = queue.size();
-    //         queue2.clear();
-    //         queue2.addAll(queue);
-    //         for (int i = 0; i < size; ++i) {
-    //             Node6057 node6057 = queue.poll();
-    //             if (node6057.node.left != null) {
-    //                 Node6057 leftNode = new Node6057(node6057.node.left, node6057.node.left.val, 1);
-    //                 queue.offer(leftNode);
-    //                 inDegrees.put(node6057, inDegrees.getOrDefault(node6057, 0) + 1);
-    //                 map.put(leftNode, node6057);
-    //             }
+    // Map<Node6057, Node6057> map = new HashMap<>();
+    // Map<Node6057, Integer> inDegrees = new HashMap<>();
+    // Queue<Node6057> queue = new LinkedList<>();
+    // queue.offer(new Node6057(root, root.val, 1));
+    // Queue<Node6057> queue2 = new LinkedList<>();
+    // while (!queue.isEmpty()) {
+    // int size = queue.size();
+    // queue2.clear();
+    // queue2.addAll(queue);
+    // for (int i = 0; i < size; ++i) {
+    // Node6057 node6057 = queue.poll();
+    // if (node6057.node.left != null) {
+    // Node6057 leftNode = new Node6057(node6057.node.left, node6057.node.left.val,
+    // 1);
+    // queue.offer(leftNode);
+    // inDegrees.put(node6057, inDegrees.getOrDefault(node6057, 0) + 1);
+    // map.put(leftNode, node6057);
+    // }
 
-    //             if (node6057.node.right != null) {
-    //                 Node6057 rightNode = new Node6057(node6057.node.right, node6057.node.right.val, 1);
-    //                 queue.offer(rightNode);
-    //                 inDegrees.put(node6057, inDegrees.getOrDefault(node6057, 0) + 1);
-    //                 map.put(rightNode, node6057);
-    //             }
-    //         }
-    //     }
-    //     int res = 0;
-    //     while (!queue2.isEmpty()) {
-    //         Node6057 node6057 = queue2.poll();
-    //         if (node6057.sum / node6057.count == node6057.node.val) {
-    //             ++res;
-    //         }
-    //         Node6057 parentNode = map.get(node6057);
-    //         if (parentNode != null) {
-    //             parentNode.sum += node6057.sum;
-    //             parentNode.count += 1;
-    //             inDegrees.put(parentNode, inDegrees.get(parentNode) - 1);
-    //             if (inDegrees.get(parentNode) == 0) {
-    //                 queue2.offer(parentNode);
-    //             }
-    //         }
+    // if (node6057.node.right != null) {
+    // Node6057 rightNode = new Node6057(node6057.node.right,
+    // node6057.node.right.val, 1);
+    // queue.offer(rightNode);
+    // inDegrees.put(node6057, inDegrees.getOrDefault(node6057, 0) + 1);
+    // map.put(rightNode, node6057);
+    // }
+    // }
+    // }
+    // int res = 0;
+    // while (!queue2.isEmpty()) {
+    // Node6057 node6057 = queue2.poll();
+    // if (node6057.sum / node6057.count == node6057.node.val) {
+    // ++res;
+    // }
+    // Node6057 parentNode = map.get(node6057);
+    // if (parentNode != null) {
+    // parentNode.sum += node6057.sum;
+    // parentNode.count += 1;
+    // inDegrees.put(parentNode, inDegrees.get(parentNode) - 1);
+    // if (inDegrees.get(parentNode) == 0) {
+    // queue2.offer(parentNode);
+    // }
+    // }
 
-    //     }
-    //     return res;
+    // }
+    // return res;
 
     // }
 
     // class Node6057 {
-    //     TreeNode node;
-    //     int sum;
-    //     int count;
+    // TreeNode node;
+    // int sum;
+    // int count;
 
-    //     Node6057(TreeNode node, int sum, int count) {
-    //         this.node = node;
-    //         this.sum = sum;
-    //         this.count = count;
-    //     }
+    // Node6057(TreeNode node, int sum, int count) {
+    // this.node = node;
+    // this.sum = sum;
+    // this.count = count;
+    // }
     // }
 
     // // 6058. 统计打字方案数
