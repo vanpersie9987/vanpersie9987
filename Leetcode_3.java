@@ -5536,12 +5536,13 @@ public class Leetcode_3 {
             int[] cur = queue.poll();
             int id = cur[0];
             int time = cur[1];
-            res = Math.max(res, informTime[id] + time);
             if (tree.get(id) == null) {
                 continue;
             }
             for (int subordinate : tree.get(id)) {
-                queue.offer(new int[] { subordinate, informTime[id] + time });
+                int curTime = informTime[id] + time;
+                queue.offer(new int[] { subordinate, curTime });
+                res = Math.max(res, curTime);
             }
         }
         return res;
