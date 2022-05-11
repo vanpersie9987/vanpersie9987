@@ -9057,7 +9057,7 @@ public class LeetCodeText {
 
     }
 
-    // 1319. 连通网络的操作次数
+    // 1319. 连通网络的操作次数 (Number of Operations to Make Network Connected) --并查集
     public int makeConnected(int n, int[][] connections) {
         if (connections.length < n - 1) {
             return -1;
