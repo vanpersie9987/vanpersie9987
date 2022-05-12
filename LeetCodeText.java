@@ -13054,8 +13054,78 @@ public class LeetCodeText {
         }
     }
 
-    // LCS 03. 主题空间
+    // LCS 03. 主题空间 --bfs
     public int largestArea(String[] grid) {
+        int m = grid.length;
+        int n = grid[0].length();
+
+        int[][] array = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                array[i][j] = grid[i].charAt(j) - '0';
+            }
+        }
+        boolean[][] visited = new boolean[m][n];
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i == 0 || i == m - 1 || j == 0 || j == n - 1 || array[i][j] == 0) {
+                    queue.offer(new int[] { i, j });
+                    visited[i][j] = true;
+                }
+            }
+        }
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            for (int[] direction : directions) {
+                int nx = x + direction[0];
+                int ny = y + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                    if (array[x][y] == 0 && array[nx][ny] != 0 && !visited[nx][ny]) {
+                        visited[nx][ny] = true;
+                        queue.offer(new int[] { nx, ny });
+                    } else if (array[x][y] != 0 && array[nx][ny] == array[x][y] && !visited[nx][ny]) {
+                        visited[nx][ny] = true;
+                        queue.offer(new int[] { nx, ny });
+                    }
+                }
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (!visited[i][j]) {
+                    int curRes = 0;
+                    queue.offer(new int[] { i, j });
+                    visited[i][j] = true;
+                    while (!queue.isEmpty()) {
+                        ++curRes;
+                        int[] cur = queue.poll();
+                        int x = cur[0];
+                        int y = cur[1];
+                        for (int[] direction : directions) {
+                            int nx = x + direction[0];
+                            int ny = y + direction[1];
+                            if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                                if (array[nx][ny] == array[x][y] && !visited[nx][ny]) {
+                                    visited[nx][ny] = true;
+                                    queue.offer(new int[] { nx, ny });
+                                }
+                            }
+                        }
+                    }
+                    res = Math.max(res, curRes);
+                }
+            }
+        }
+        return res;
+    }
+
+    // LCS 03. 主题空间 --并查集
+    public int largestArea2(String[] grid) {
         int m = grid.length;
         int n = grid[0].length();
         UnionLCS03 union = new UnionLCS03(m * n + 1);
