@@ -12516,7 +12516,139 @@ public class LeetCodeText {
 
     }
 
-    // 1391. 检查网格中是否存在有效路径
+    // 1391. 检查网格中是否存在有效路径 (Check if There is a Valid Path in a Grid) --bfs
+    public boolean hasValidPath(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        boolean[][] visited = new boolean[m][n];
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] { 0, 0 });
+        visited[0][0] = true;
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            if (x == m - 1 && y == n - 1) {
+                return true;
+            }
+            int val = grid[x][y];
+            if (val == 1) {
+                if (canAccessLeft(x, y, visited, grid)) {
+                    visited[x][y - 1] = true;
+                    queue.offer(new int[] { x, y - 1 });
+                }
+                if (canAccessRight(x, y, visited, grid)) {
+                    visited[x][y + 1] = true;
+                    queue.offer(new int[] { x, y + 1 });
+                }
+            } else if (val == 2) {
+                if (canAccessUp(x, y, visited, grid)) {
+                    visited[x - 1][y] = true;
+                    queue.offer(new int[] { x - 1, y });
+                }
+                if (canAccessDown(x, y, visited, grid)) {
+                    visited[x + 1][y] = true;
+                    queue.offer(new int[] { x + 1, y });
+                }
+            } else if (val == 3) {
+                if (canAccessLeft(x, y, visited, grid)) {
+                    visited[x][y - 1] = true;
+                    queue.offer(new int[] { x, y - 1 });
+                }
+                if (canAccessDown(x, y, visited, grid)) {
+                    visited[x + 1][y] = true;
+                    queue.offer(new int[] { x + 1, y });
+                }
+            } else if (val == 4) {
+                if (canAccessRight(x, y, visited, grid)) {
+                    visited[x][y + 1] = true;
+                    queue.offer(new int[] { x, y + 1 });
+                }
+                if (canAccessDown(x, y, visited, grid)) {
+                    visited[x + 1][y] = true;
+                    queue.offer(new int[] { x + 1, y });
+                }
+            } else if (val == 5) {
+                if (canAccessUp(x, y, visited, grid)) {
+                    visited[x - 1][y] = true;
+                    queue.offer(new int[] { x - 1, y });
+                }
+                if (canAccessLeft(x, y, visited, grid)) {
+                    visited[x][y - 1] = true;
+                    queue.offer(new int[] { x, y - 1 });
+                }
+            } else {
+                if (canAccessUp(x, y, visited, grid)) {
+                    visited[x - 1][y] = true;
+                    queue.offer(new int[] { x - 1, y });
+                }
+                if (canAccessRight(x, y, visited, grid)) {
+                    visited[x][y + 1] = true;
+                    queue.offer(new int[] { x, y + 1 });
+                }
+            }
+        }
+        return false;
+
+    }
+
+    private boolean canAccessDown(int x, int y, boolean[][] visited, int[][] grid) {
+        ++x;
+        if (x >= grid.length) {
+            return false;
+        }
+        if (visited[x][y]) {
+            return false;
+        }
+        if (grid[x][y] == 2 || grid[x][y] == 5 || grid[x][y] == 6) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean canAccessUp(int x, int y, boolean[][] visited, int[][] grid) {
+        --x;
+        if (x < 0) {
+            return false;
+        }
+        if (visited[x][y]) {
+            return false;
+        }
+        if (grid[x][y] == 2 || grid[x][y] == 3 || grid[x][y] == 4) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean canAccessRight(int x, int y, boolean[][] visited, int[][] grid) {
+        ++y;
+        if (y >= grid[0].length) {
+            return false;
+        }
+        if (visited[x][y]) {
+            return false;
+        }
+        if (grid[x][y] == 1 || grid[x][y] == 3 || grid[x][y] == 5) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean canAccessLeft(int x, int y, boolean[][] visited, int[][] grid) {
+        --y;
+        if (y < 0) {
+            return false;
+        }
+        if (visited[x][y]) {
+            return false;
+        }
+        if (grid[x][y] == 1 || grid[x][y] == 4 || grid[x][y] == 6) {
+            return true;
+        }
+        return false;
+    }
+
+    // 1391. 检查网格中是否存在有效路径 (Check if There is a Valid Path in a Grid) --并查集
 
     // 1 表示连接左单元格和右单元格的街道。
     // 2 表示连接上单元格和下单元格的街道。
@@ -12525,7 +12657,7 @@ public class LeetCodeText {
     // 5 表示连接左单元格和上单元格的街道。
     // 6 表示连接右单元格和上单元格的街道。
 
-    public boolean hasValidPath(int[][] grid) {
+    public boolean hasValidPath2(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
         Union1391 union = new Union1391(m * n);
