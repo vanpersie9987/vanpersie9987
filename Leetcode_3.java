@@ -6558,7 +6558,7 @@ public class Leetcode_3 {
                 }
                 // 偶数层应严格递增
                 // 奇数层应严格递减
-                if (level % 2 == 0 && node.val <= pre || level % 2 == 1 && node.val >= pre) {
+                if ((level & 1) == 0 && node.val <= pre || (level & 1) == 1 && node.val >= pre) {
                     return false;
                 }
                 pre = node.val;
@@ -9289,7 +9289,5 @@ public class Leetcode_3 {
         return res;
 
     }
-
-   
 
 }
