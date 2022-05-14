@@ -9826,6 +9826,9 @@ public class LeetCodeText {
             int[] cur = queue.poll();
             int x = cur[0];
             int y = cur[1];
+            if (x == m - 1 && y == n - 1) {
+                return true;
+            }
             for (int[] direction : directions) {
                 int nx = x + direction[0];
                 int ny = y + direction[1];
@@ -9835,9 +9838,6 @@ public class LeetCodeText {
                     visited[nx][ny] = true;
                 }
             }
-        }
-        if (visited[m - 1][n - 1]) {
-            return true;
         }
         return false;
     }
@@ -9920,6 +9920,50 @@ public class LeetCodeText {
                 }
             }
         }
+
+    }
+
+    // 1631. 最小体力消耗路径 (Path With Minimum Effort) --Dijkstra
+    public int minimumEffortPath3(int[][] heights) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 } };
+        int m = heights.length;
+        int n = heights[0].length;
+        boolean[][] visited = new boolean[m][n];
+        int[][] distances = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(distances[i], Integer.MAX_VALUE);
+        }
+        Queue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[2] - o2[2];
+            }
+
+        });
+        queue.offer(new int[] { 0, 0, 0 });
+        distances[0][0] = 0;
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int d = cur[2];
+            if (visited[x][y]) {
+                continue;
+            }
+            visited[x][y] = true;
+            for (int[] direction : directions) {
+                int nx = x + direction[0];
+                int ny = y + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                    if (Math.max(Math.abs(heights[x][y] - heights[nx][ny]), d) < distances[nx][ny]) {
+                        distances[nx][ny] = Math.max(Math.abs(heights[x][y] - heights[nx][ny]), d);
+                        queue.offer(new int[] { nx, ny, distances[nx][ny] });
+                    }
+                }
+            }
+        }
+        return distances[m - 1][n - 1];
 
     }
 
