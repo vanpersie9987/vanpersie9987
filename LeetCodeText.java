@@ -12160,7 +12160,50 @@ public class LeetCodeText {
 
     }
 
-    // 1905. 统计子岛屿
+    // 1905. 统计子岛屿 (Count Sub Islands) --bfs
+    public int countSubIslands2(int[][] grid1, int[][] grid2) {
+        int m = grid2.length;
+        int n = grid2[0].length;
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid2[i][j] == 1) {
+                    res += check1905(i, j, grid1, grid2) ? 1 : 0;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private boolean check1905(int i, int j, int[][] grid1, int[][] grid2) {
+        int m = grid2.length;
+        int n = grid2[0].length;
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        boolean check = grid1[i][j] == 1;
+        grid2[i][j] = 0;
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] { i, j });
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            for (int[] direction : directions) {
+                int nx = x + direction[0];
+                int ny = y + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid2[nx][ny] == 1) {
+                    grid2[nx][ny] = 0;
+                    queue.offer(new int[] { nx, ny });
+                    if (grid1[nx][ny] == 0) {
+                        check = false;
+                    }
+                }
+            }
+        }
+        return check;
+    }
+
+    // 1905. 统计子岛屿 (Count Sub Islands) --并查集
     public int countSubIslands(int[][] grid1, int[][] grid2) {
         int m = grid2.length;
         int n = grid2[0].length;
