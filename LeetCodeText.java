@@ -9797,48 +9797,52 @@ public class LeetCodeText {
 
     }
 
-    // 1631. 最小体力消耗路径
+    // 1631. 最小体力消耗路径 (Path With Minimum Effort) --bfs
     public int minimumEffortPath(int[][] heights) {
-        int rows = heights.length;
-        int cols = heights[0].length;
-        Union1631 union;
         int left = 0;
         int right = 1000000;
-        int ans = 0;
+        int res = -1;
         while (left <= right) {
             int mid = left + ((right - left) >>> 1);
-            union = new Union1631(rows * cols);
-            if (check(union, heights, mid)) {
-                ans = mid;
+            if (check1631(heights, mid)) {
+                res = mid;
                 right = mid - 1;
             } else {
                 left = mid + 1;
             }
         }
-        return ans;
-
+        return res;
     }
 
-    private boolean check(Union1631 union, int[][] heights, int mid) {
-        int rows = heights.length;
-        int cols = heights[0].length;
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; ++j) {
-                if (i + 1 < rows && Math.abs(heights[i][j] - heights[i + 1][j]) <= mid) {
-                    union.union(i * cols + j, (i + 1) * cols + j);
-                }
-                if (j + 1 < cols && Math.abs(heights[i][j] - heights[i][j + 1]) <= mid) {
-                    union.union(i * cols + j, i * cols + (j + 1));
-                }
-                if (union.isConnected(0, cols * rows - 1)) {
-                    return true;
+    private boolean check1631(int[][] heights, int h) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 } };
+        int m = heights.length;
+        int n = heights[0].length;
+        boolean[][] visited = new boolean[m][n];
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] { 0, 0 });
+        visited[0][0] = true;
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            for (int[] direction : directions) {
+                int nx = x + direction[0];
+                int ny = y + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny]
+                        && Math.abs(heights[x][y] - heights[nx][ny]) <= h) {
+                    queue.offer(new int[] { nx, ny });
+                    visited[nx][ny] = true;
                 }
             }
+        }
+        if (visited[m - 1][n - 1]) {
+            return true;
         }
         return false;
     }
 
-    // 1631. 最小体力消耗路径
+    // 1631. 最小体力消耗路径 (Path With Minimum Effort) --并查集
     public int minimumEffortPath2(int[][] heights) {
         int m = heights.length;
         int n = heights[0].length;
