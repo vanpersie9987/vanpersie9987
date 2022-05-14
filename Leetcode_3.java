@@ -3655,14 +3655,12 @@ public class Leetcode_3 {
                 for (int[] direction : directions) {
                     int nx = cur[0] + direction[0];
                     int ny = cur[1] + direction[1];
-                    if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
-                        if ((nx == 0 || nx == m - 1 || ny == 0 || ny == n - 1) && maze[nx][ny] == '.') {
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && maze[nx][ny] == '.') {
+                        if (nx == 0 || nx == m - 1 || ny == 0 || ny == n - 1) {
                             return res;
                         }
-                        if (maze[nx][ny] == '.') {
-                            maze[nx][ny] = '+';
-                            queue.offer(new int[] { nx, ny });
-                        }
+                        maze[nx][ny] = '+';
+                        queue.offer(new int[] { nx, ny });
                     }
                 }
             }
