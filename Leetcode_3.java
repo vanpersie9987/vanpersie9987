@@ -31,6 +31,8 @@ public class Leetcode_3 {
         // int res = maximumMinutes(example);
         // int[][] exp = { { 1, 0, 1 }, { 0, 0, 0 }, { 1, 0, 1 } };
         // int res = maxDistance222(exp);
+        int[][] arr = { { 1, 5 }, { 10, 11 }, { 12, 18 }, { 20, 25 }, { 30, 32 } };
+        int res = maximumWhiteTiles(arr, 10);
 
     }
 
@@ -9283,6 +9285,87 @@ public class Leetcode_3 {
             } else {
                 count = 1;
             }
+        }
+        return res;
+
+    }
+
+    // 5299. 找到一个数字的 K 美丽值
+    public int divisorSubstrings(int num, int k) {
+        String NUM = String.valueOf(num);
+        int res = 0;
+        int index = k;
+        while (index <= NUM.length()) {
+            String cur = NUM.substring(index - k, index);
+            int n = Integer.parseInt(cur);
+            if (n != 0 && num % n == 0) {
+                ++res;
+
+            }
+            ++index;
+        }
+        return res;
+
+    }
+
+    // 6067. 分割数组的方案数
+    public int waysToSplitArray(int[] nums) {
+        int res = 0;
+        long sum = 0l;
+        for (int num : nums) {
+            sum += num;
+        }
+        long preSum = 0l;
+        for (int i = 0; i < nums.length - 1; ++i) {
+            preSum += nums[i];
+            if (preSum >= sum - preSum) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    // 6068. 毯子覆盖的最多白色砖块数
+    public static int maximumWhiteTiles(int[][] tiles, int carpetLen) {
+        int res = 0;
+        Arrays.sort(tiles, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+
+        });
+        int min = tiles[0][0];
+        for (int[] tile : tiles) {
+            tile[0] -= min;
+            tile[1] -= min;
+        }
+        int max = tiles[tiles.length - 1][1];
+        int[] arr = new int[max + 1];
+        int sum = 0;
+        for (int[] tile : tiles) {
+            Arrays.fill(arr, tile[0], tile[1] + 1, 1);
+            sum += tile[1] - tile[0] + 1;
+        }
+        if (carpetLen >= max) {
+            return sum;
+
+        }
+        int cur = 0;
+        for (int i = 0; i < carpetLen; ++i) {
+            cur += arr[i];
+        }
+        res = cur;
+        for (int i = carpetLen; i < arr.length; ++i) {
+            if (arr[i] == 1) {
+                ++cur;
+            }
+            if (arr[i - carpetLen] == 1) {
+                --cur;
+            }
+            res = Math.max(res, cur);
         }
         return res;
 
