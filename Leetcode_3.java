@@ -9371,4 +9371,96 @@ public class Leetcode_3 {
 
     }
 
+    // 5234. 移除字母异位词后的结果数组
+    public List<String> removeAnagrams(String[] words) {
+        List<String> res = new ArrayList<>();
+        for (String word : words) {
+            res.add(word);
+        }
+
+        while (true) {
+            boolean flag = false;
+            for (int i = 1; i < res.size(); ++i) {
+                if (check5234(res.get(i - 1), res.get(i))) {
+                    res.remove(i);
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag) {
+                break;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean check5234(String s1, String s2) {
+        int[] counts1 = new int[26];
+        int[] counts2 = new int[26];
+        for (char c : s1.toCharArray()) {
+            ++counts1[c - 'a'];
+        }
+
+        for (char c : s2.toCharArray()) {
+            ++counts2[c - 'a'];
+        }
+
+        return Arrays.equals(counts1, counts2);
+    }
+
+    // 6064. 不含特殊楼层的最大连续楼层数
+    public int maxConsecutive(int bottom, int top, int[] special) {
+        Arrays.sort(special);
+        int res = Math.max(special[0] - bottom, top - special[special.length - 1]);
+
+        for (int i = 1; i < special.length; ++i) {
+            res = Math.max(res, special[i] - special[i - 1] - 1);
+        }
+        return res;
+
+    }
+
+    // 6065. 按位与结果大于零的最长组合
+    public int largestCombination(int[] candidates) {
+        int res = 0;
+        for (int i = 0; i < 30; ++i) {
+            int count = 0;
+            for (int candidate : candidates) {
+                if (((candidate >> i) & 1) == 1) {
+                    ++count;
+                }
+            }
+            res = Math.max(res, count);
+        }
+        return res;
+
+    }
+
+    // 6066. 统计区间中的整数数目
+    class CountIntervals {
+        private int[] arr;
+
+        public CountIntervals() {
+            arr = new int[1000000001];
+        }
+
+        public void add(int left, int right) {
+            ++arr[left];
+            --arr[right + 1];
+        }
+
+        public int count() {
+            int[] copy = arr.clone();
+            int res = 0;
+            for (int i = 1; i < copy.length; ++i) {
+                copy[i] += copy[i - 1];
+                if (copy[i] != 0) {
+                    ++res;
+                }
+            }
+            return res;
+        }
+    }
+
 }
