@@ -17446,8 +17446,62 @@ public class LeetCodeText {
         return -1;
     }
 
-    // 1970. 你能穿过矩阵的最后一天 (Last Day Where You Can Still Cross)
+    // 1970.你能穿过矩阵的最后一天 (Last Day Where You Can Still Cross) --bfs
     public int latestDayToCross(int row, int col, int[][] cells) {
+        int left = 0;
+        int right = cells.length - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (check1970(row, col, cells, mid)) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean check1970(int row, int col, int[][] cells, int mid) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int[][] arr = new int[row][col];
+        for (int i = 0; i < row; ++i) {
+            Arrays.fill(arr[i], 1);
+        }
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < mid; ++i) {
+            int x = cells[i][0] - 1;
+            int y = cells[i][1] - 1;
+            arr[x][y] = 0;
+        }
+        for (int j = 0; j < col; ++j) {
+            if (arr[0][j] == 1) {
+                queue.offer(new int[] { 0, j });
+                arr[0][j] = 0;
+            }
+
+        }
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            if (cur[0] == row - 1) {
+                return true;
+            }
+            for (int[] direction : directions) {
+                int nx = cur[0] + direction[0];
+                int ny = cur[1] + direction[1];
+                if (nx >= 0 && nx < row && ny >= 0 && ny < col && arr[nx][ny] == 1) {
+                    arr[nx][ny] = 0;
+                    queue.offer(new int[] { nx, ny });
+                }
+            }
+        }
+        return false;
+    }
+
+    // 1970. 你能穿过矩阵的最后一天 (Last Day Where You Can Still Cross) --并查集
+    public int latestDayToCross2(int row, int col, int[][] cells) {
         int n = cells.length;
         Union1970 union = new Union1970(n + 2);
         int dummyTop = n;
