@@ -4489,6 +4489,65 @@ public class LeetCode_2 {
 
    }
 
+   // 2092. 找出知晓秘密的所有专家 (Find All People With Secret) --bfs
+   public List<Integer> findAllPeople2(int n, int[][] meetings, int firstPerson) {
+      boolean[] knows = new boolean[n];
+      knows[0] = true;
+      knows[firstPerson] = true;
+      Arrays.sort(meetings, new Comparator<int[]>() {
+
+         @Override
+         public int compare(int[] o1, int[] o2) {
+            return o1[2] - o2[2];
+         }
+
+      });
+
+      Map<Integer, List<Integer>> graph = new HashMap<>();
+      Set<Integer> nodes = new HashSet<>();
+      Queue<Integer> queue = new LinkedList<>();
+
+      for (int i = 0; i < meetings.length; ++i) {
+         int time = meetings[i][2];
+         int j = i;
+         while (j + 1 < meetings.length && meetings[j + 1][2] == time) {
+            ++j;
+         }
+         graph.clear();
+         nodes.clear();
+         for (int k = i; k <= j; ++k) {
+            nodes.add(meetings[k][0]);
+            nodes.add(meetings[k][1]);
+            graph.computeIfAbsent(meetings[k][0], o -> new ArrayList<>()).add(meetings[k][1]);
+            graph.computeIfAbsent(meetings[k][1], o -> new ArrayList<>()).add(meetings[k][0]);
+         }
+
+         for (int node : nodes) {
+            if (knows[node]) {
+               queue.offer(node);
+            }
+         }
+         while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            for (int neighbor : graph.getOrDefault(cur, new ArrayList<>())) {
+               if (!knows[neighbor]) {
+                  knows[neighbor] = true;
+                  queue.offer(neighbor);
+               }
+            }
+         }
+         i = j;
+      }
+
+      List<Integer> res = new ArrayList<>();
+      for (int i = 0; i < knows.length; ++i) {
+         if (knows[i]) {
+            res.add(i);
+         }
+      }
+      return res;
+   }
+
    // 2092. 找出知晓秘密的所有专家 (Find All People With Secret) --并查集
    public List<Integer> findAllPeople(int n, int[][] meetings, int firstPerson) {
       UnionFind2092 unionFind = new UnionFind2092(n);
