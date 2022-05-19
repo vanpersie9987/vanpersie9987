@@ -2947,6 +2947,42 @@ public class Leetcode_3 {
 
     }
 
+    // 1992. 找到所有的农场组 (Find All Groups of Farmland) --bfs
+    public int[][] findFarmland2(int[][] land) {
+        int[][] directions = { { 0, 1 }, { 1, 0 } };
+        List<int[]> res = new ArrayList<>();
+        int m = land.length;
+        int n = land[0].length;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (land[i][j] == 1) {
+                    land[i][j] = 0;
+                    Queue<int[]> queue = new LinkedList<>();
+                    int endX = i;
+                    int endY = j;
+                    queue.offer(new int[] { i, j });
+                    while (!queue.isEmpty()) {
+                        int[] cur = queue.poll();
+                        endX = cur[0];
+                        endY = cur[1];
+                        for (int[] direction : directions) {
+                            int nx = endX + direction[0];
+                            int ny = endY + direction[1];
+                            if (nx >= 0 && nx < m && ny >= 0 && ny < n && land[nx][ny] == 1) {
+                                land[nx][ny] = 0;
+                                queue.offer(new int[] { nx, ny });
+                            }
+                        }
+                    }
+                    res.add(new int[] { i, j, endX, endY });
+                }
+            }
+        }
+        return res.toArray(new int[0][]);
+
+    }
+
+
     // 417. 太平洋大西洋水流问题 (Pacific Atlantic Water Flow) --bfs
     public List<List<Integer>> pacificAtlantic(int[][] heights) {
         int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
