@@ -5455,6 +5455,32 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 剑指 Offer 13. 机器人的运动范围 --递推
+    public int movingCount2(int m, int n, int k) {
+        if (k == 0) {
+            return 1;
+        }
+        int res = 1;
+        boolean[][] visited = new boolean[m][n];
+        visited[0][0] = true;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if ((i == 0 && j == 0) || getBitsSum(i) + getBitsSum(j) > k) {
+                    continue;
+                }
+                if (i - 1 >= 0) {
+                    visited[i][j] |= visited[i - 1][j];
+                }
+                if (j - 1 >= 0) {
+                    visited[i][j] |= visited[i][j - 1];
+                }
+                res += visited[i][j] ? 1 : 0;
+            }
+        }
+        return res;
+
+    }
+
     // LCP 22. 黑白方格画
     public int paintingPlan(int n, int k) {
         if (k == 0 || k == n * n) {
