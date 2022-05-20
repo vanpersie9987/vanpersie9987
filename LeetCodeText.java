@@ -13586,7 +13586,58 @@ public class LeetCodeText {
 
     }
 
-    // 面试题 17.07. 婴儿名字 (Baby Names LCCI)
+    // 面试题 17.07. 婴儿名字 (Baby Names LCCI) --bfs
+    public String[] trulyMostPopular2(String[] names, String[] synonyms) {
+        Map<String, List<String>> graph = new HashMap<>();
+        for (String synonym : synonyms) {
+            int commaIndex = synonym.indexOf(",");
+            String s1 = synonym.substring(1, commaIndex);
+            String s2 = synonym.substring(commaIndex + 1, synonym.length() - 1);
+            graph.computeIfAbsent(s1, k -> new ArrayList<>()).add(s2);
+            graph.computeIfAbsent(s2, k -> new ArrayList<>()).add(s1);
+        }
+
+        List<String> res = new ArrayList<>();
+        Set<String> visited = new HashSet<>();
+        Map<String, Integer> nameToCount = new HashMap<>();
+        for (String name : names) {
+            int bracketIndex = name.indexOf("(");
+            String realName = name.substring(0, bracketIndex);
+            int count = Integer.parseInt(name.substring(bracketIndex + 1, name.length() - 1));
+            nameToCount.put(realName, count);
+        }
+        for (String name : nameToCount.keySet()) {
+            if (!visited.contains(name)) {
+                int curCount = nameToCount.get(name);
+                String curName = name;
+                visited.add(name);
+                Queue<String> queue = new LinkedList<>();
+                queue.add(name);
+                while (!queue.isEmpty()) {
+                    String cur = queue.poll();
+                    if (graph.get(cur) == null) {
+                        continue;
+                    }
+                    for (String neighbor : graph.get(cur)) {
+                        if (!visited.contains(neighbor)) {
+                            visited.add(neighbor);
+                            queue.offer(neighbor);
+                            if (nameToCount.containsKey(neighbor) && neighbor.compareTo(curName) < 0) {
+                                curName = neighbor;
+                            }
+                            curCount += nameToCount.getOrDefault(neighbor, 0);
+                        }
+                    }
+                }
+                res.add(curName + "(" + curCount + ")");
+
+            }
+        }
+        return res.toArray(new String[res.size()]);
+
+    }
+
+    // 面试题 17.07. 婴儿名字 (Baby Names LCCI) --并查集
     public String[] trulyMostPopular(String[] names, String[] synonyms) {
         int index = 0;
         Map<String, Integer> nameToIndex = new HashMap<>();
