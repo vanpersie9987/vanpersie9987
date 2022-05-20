@@ -13306,11 +13306,8 @@ public class LeetCodeText {
             for (int[] direction : directions) {
                 int nx = x + direction[0];
                 int ny = y + direction[1];
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
-                    if (array[x][y] == 0 && array[nx][ny] != 0 && !visited[nx][ny]) {
-                        visited[nx][ny] = true;
-                        queue.offer(new int[] { nx, ny });
-                    } else if (array[x][y] != 0 && array[nx][ny] == array[x][y] && !visited[nx][ny]) {
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny]) {
+                    if ((array[x][y] == 0 && array[nx][ny] != 0) || (array[nx][ny] == array[x][y])) {
                         visited[nx][ny] = true;
                         queue.offer(new int[] { nx, ny });
                     }
