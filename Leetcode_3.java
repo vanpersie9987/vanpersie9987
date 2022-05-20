@@ -5486,15 +5486,14 @@ public class Leetcode_3 {
         return res;
     }
 
-    // LCP 45. 自行车炫技赛场
+    // LCP 45. 自行车炫技赛场 --bfs
     public int[][] bicycleYard(int[] position, int[][] terrain, int[][] obstacle) {
         int m = terrain.length;
         int n = terrain[0].length;
         int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
-        boolean[][][] visited = new boolean[m][n][102];
-        List<int[]> res = new ArrayList<>();
         Queue<int[]> queue = new LinkedList<>();
         queue.offer(new int[] { position[0], position[1], 1 });
+        boolean[][][] visited = new boolean[m][n][102];
         visited[position[0]][position[1]][1] = true;
         while (!queue.isEmpty()) {
             int[] p = queue.poll();
@@ -5515,6 +5514,7 @@ public class Leetcode_3 {
                 }
             }
         }
+        List<int[]> res = new ArrayList<>();
         visited[position[0]][position[1]][1] = false;
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
