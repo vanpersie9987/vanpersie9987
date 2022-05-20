@@ -9838,6 +9838,25 @@ public class LeetCode_2 {
 
    }
 
+   // LCP 44. 开幕式焰火 --bfs
+   public int numColor2(TreeNode root) {
+      Set<Integer> set = new HashSet<>();
+      Queue<TreeNode> queue = new LinkedList<>();
+      queue.offer(root);
+      while (!queue.isEmpty()) {
+         TreeNode node = queue.poll();
+         set.add(node.val);
+         if (node.left != null) {
+            queue.offer(node.left);
+         }
+         if (node.right != null) {
+            queue.offer(node.right);
+         }
+      }
+      return set.size();
+
+   }
+
    // 101. 对称二叉树 (Symmetric Tree) --dfs
    // 剑指 Offer 28. 对称的二叉树
    public boolean isSymmetric(TreeNode root) {
