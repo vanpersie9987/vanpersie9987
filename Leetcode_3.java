@@ -31,8 +31,8 @@ public class Leetcode_3 {
         // int res = maximumMinutes(example);
         // int[][] exp = { { 1, 0, 1 }, { 0, 0, 0 }, { 1, 0, 1 } };
         // int res = maxDistance222(exp);
-        int[][] arr = { { 1, 5 }, { 10, 11 }, { 12, 18 }, { 20, 25 }, { 30, 32 } };
-        int res = maximumWhiteTiles(arr, 10);
+        // int[][] arr = { { 1, 5 }, { 10, 11 }, { 12, 18 }, { 20, 25 }, { 30, 32 } };
+        // int res = maximumWhiteTiles(arr, 10);
 
     }
 
