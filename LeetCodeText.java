@@ -9251,7 +9251,7 @@ public class LeetCodeText {
                 while (!queue.isEmpty()) {
                     int cur = queue.poll();
                     visited[cur] = true;
-                    for (int j = 0; j < n; ++j) {
+                    for (int j = i + 1; j < n; ++j) {
                         if (!visited[j] && isConnected[cur][j] == 1) {
                             visited[j] = true;
                             queue.offer(j);
