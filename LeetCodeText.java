@@ -9542,7 +9542,7 @@ public class LeetCodeText {
                 queue.offer(strs[i]);
                 while (!queue.isEmpty()) {
                     String cur = queue.poll();
-                    for (int j = 0; j < strs.length; ++j) {
+                    for (int j = i + 1; j < n; ++j) {
                         if (!visited[j] && similar839(cur, strs[j])) {
                             visited[j] = true;
                             queue.offer(strs[j]);
@@ -13181,7 +13181,7 @@ public class LeetCodeText {
         }
     }
 
-     // 面试题 16.19. 水域大小 (Pond Sizes LCCI) --bfs
+    // 面试题 16.19. 水域大小 (Pond Sizes LCCI) --bfs
     public int[] pondSizes(int[][] land) {
         int m = land.length;
         int n = land[0].length;
