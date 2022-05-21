@@ -9488,17 +9488,17 @@ public class LeetCode_2 {
       return list;
    }
 
-   // 面试题 04.03. List of Depth LCCI --广度优先
+   // 面试题 04.03. List of Depth LCCI --bfs
    public ListNode[] listOfDepth(TreeNode tree) {
       List<ListNode> list = new ArrayList<>();
-      Deque<TreeNode> deque = new LinkedList<>();
-      deque.offerLast(tree);
-      while (!deque.isEmpty()) {
-         int size = deque.size();
+      Queue<TreeNode> queue = new LinkedList<>();
+      queue.offer(tree);
+      while (!queue.isEmpty()) {
+         int size = queue.size();
          ListNode pre = null;
          ListNode head = null;
          for (int i = 0; i < size; ++i) {
-            TreeNode treeNode = deque.pollFirst();
+            TreeNode treeNode = queue.poll();
             ListNode cur = new ListNode(treeNode.val);
             if (pre == null) {
                head = cur;
@@ -9507,10 +9507,10 @@ public class LeetCode_2 {
             }
             pre = cur;
             if (treeNode.left != null) {
-               deque.offerLast(treeNode.left);
+               queue.offer(treeNode.left);
             }
             if (treeNode.right != null) {
-               deque.offerLast(treeNode.right);
+               queue.offer(treeNode.right);
             }
          }
          list.add(head);
