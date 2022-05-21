@@ -13181,8 +13181,48 @@ public class LeetCodeText {
         }
     }
 
-    // 面试题 16.19. 水域大小
+     // 面试题 16.19. 水域大小 (Pond Sizes LCCI) --bfs
     public int[] pondSizes(int[][] land) {
+        int m = land.length;
+        int n = land[0].length;
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 }, { 1, -1 }, { 1, 1 }, { -1, -1 }, { -1, 1 } };
+        List<Integer> res = new ArrayList<>();
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (land[i][j] == 0) {
+                    int count = 0;
+                    queue.offer(new int[] { i, j });
+                    land[i][j] = 1;
+                    while (!queue.isEmpty()) {
+                        int[] cur = queue.poll();
+                        ++count;
+                        int x = cur[0];
+                        int y = cur[1];
+                        for (int[] direction : directions) {
+                            int nx = x + direction[0];
+                            int ny = y + direction[1];
+                            if (nx >= 0 && nx < m && ny >= 0 && ny < n && land[nx][ny] == 0) {
+                                land[nx][ny] = 1;
+                                queue.offer(new int[] { nx, ny });
+                            }
+                        }
+                    }
+                    res.add(count);
+                }
+            }
+        }
+        int[] ret = new int[res.size()];
+        for (int i = 0; i < res.size(); ++i) {
+            ret[i] = res.get(i);
+        }
+        Arrays.sort(ret);
+        return ret;
+
+    }
+
+    // 面试题 16.19. 水域大小 (Pond Sizes LCCI) --并查集
+    public int[] pondSizes2(int[][] land) {
         int m = land.length;
         int n = land[0].length;
         Union16_19 union = new Union16_19(m * n);
