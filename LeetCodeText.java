@@ -10169,6 +10169,42 @@ public class LeetCodeText {
         }
     }
 
+    // 130. 被围绕的区域 (Surrounded Regions) --dfs
+    public void solve3(char[][] board) {
+        int m = board.length;
+        int n = board[0].length;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if ((i == 0 || i == m - 1 || j == 0 || j == n - 1) && board[i][j] == 'O') {
+                    dfs130(board, i, j);
+                }
+            }
+        }
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (board[i][j] == 'A') {
+                    board[i][j] = 'O';
+                } else if (board[i][j] == 'O') {
+                    board[i][j] = 'X';
+                }
+            }
+        }
+
+    }
+
+    private void dfs130(char[][] board, int i, int j) {
+        int m = board.length;
+        int n = board[0].length;
+        if (!(i >= 0 && i < m && j >= 0 && j < n && board[i][j] == 'O')) {
+            return;
+        }
+        board[i][j] = 'A';
+        dfs130(board, i - 1, j);
+        dfs130(board, i + 1, j);
+        dfs130(board, i, j - 1);
+        dfs130(board, i, j + 1);
+    }
+
     // 721. 账户合并 (Accounts Merge) --并查集
     public List<List<String>> accountsMerge(List<List<String>> accounts) {
         Map<String, String> emailsToName = new HashMap<>();
