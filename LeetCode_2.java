@@ -9715,46 +9715,45 @@ public class LeetCode_2 {
 
    }
 
-   // 99. 恢复二叉搜索树 (Recover Binary Search Tree) --中序遍历
+   // 99. 恢复二叉搜索树 (Recover Binary Search Tree) --中序遍历 + 莫里斯
    public void recoverTree(TreeNode root) {
       TreeNode x = null;
       TreeNode y = null;
-      TreeNode cur = root;
-      TreeNode pre = null;
       TreeNode predecessor = null;
+      TreeNode pre = null;
+      TreeNode cur = root;
       while (cur != null) {
          if (cur.left != null) {
-            pre = cur.left;
-            while (pre.right != null && pre.right != cur) {
-               pre = pre.right;
+            predecessor = cur.left;
+            while (predecessor.right != null && predecessor.right != cur) {
+               predecessor = predecessor.right;
             }
-            if (pre.right == null) {
-               pre.right = cur;
+            if (predecessor.right == null) {
+               predecessor.right = cur;
                cur = cur.left;
             } else {
-               pre.right = null;
-               if (predecessor != null && predecessor.val > cur.val) {
+               predecessor.right = null;
+               if (pre != null && pre.val > cur.val) {
                   x = cur;
                   if (y == null) {
-                     y = predecessor;
+                     y = pre;
                   }
                }
-               predecessor = cur;
+               pre = cur;
                cur = cur.right;
             }
          } else {
-            if (predecessor != null && predecessor.val > cur.val) {
+            if (pre != null && pre.val > cur.val) {
                x = cur;
                if (y == null) {
-                  y = predecessor;
+                  y = pre;
                }
             }
-            predecessor = cur;
+            pre = cur;
             cur = cur.right;
          }
       }
       swap99(x, y);
-
    }
 
    private void swap99(TreeNode x, TreeNode y) {
