@@ -179,4 +179,20 @@ public class LeetCode_4 {
         return root.val == root.left.val + root.right.val;
     }
 
+    // 1557. 可以到达所有点的最少点数目 (Minimum Number of Vertices to Reach All Nodes) --拓扑排序
+    public List<Integer> findSmallestSetOfVertices(int n, List<List<Integer>> edges) {
+        int[] inDegrees = new int[n];
+        for (List<Integer> edge : edges) {
+            ++inDegrees[edge.get(1)];
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            if (inDegrees[i] == 0) {
+                res.add(i);
+            }
+        }
+        return res;
+
+    }
+
 }
