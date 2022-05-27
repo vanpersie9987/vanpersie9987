@@ -200,7 +200,7 @@ public class LeetCode_4 {
         return num == 0 || num % 10 != 0;
     }
 
-    // 2169. Count Operations to Obtain Zero
+    // 2169. 得到 0 的操作数 (Count Operations to Obtain Zero)
     public int countOperations(int num1, int num2) {
         int res = 0;
         while (num1 != 0 && num2 != 0) {
@@ -215,7 +215,7 @@ public class LeetCode_4 {
 
     }
 
-    // 2169. Count Operations to Obtain Zero --辗转相除
+    // 2169. 得到 0 的操作数 (Count Operations to Obtain Zero) --辗转相除
     public int countOperations2(int num1, int num2) {
         int res = 0;
         while (num1 != 0 && num2 != 0) {
@@ -227,5 +227,35 @@ public class LeetCode_4 {
         }
         return res;
     }
+
+    // 剑指 Offer II 049. 从根节点到叶节点的路径数字之和 --bfs
+    public int sumNumbers(TreeNode root) {
+        int res = 0;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node.left == null && node.right == null) {
+                res += node.val;
+                continue;
+            }
+            if (node.left != null) {
+                node.left.val += node.val * 10;
+                queue.offer(node.left);
+            }
+            if (node.right != null) {
+                node.right.val += node.val * 10;
+                queue.offer(node.right);
+            }
+
+        }
+        return res;
+
+    }
+
+    // 1104. 二叉树寻路 (Path In Zigzag Labelled Binary Tree) --位运算
+    // public List<Integer> pathInZigZagTree(int label) {
+
+    // }
 
 }
