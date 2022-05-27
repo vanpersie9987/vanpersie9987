@@ -228,7 +228,8 @@ public class LeetCode_4 {
         return res;
     }
 
-    // 剑指 Offer II 049. 从根节点到叶节点的路径数字之和 --bfs
+    // 129. 求根节点到叶节点数字之和 (Sum Root to Leaf Numbers) --bfs
+    // 剑指 Offer II 049. 从根节点到叶节点的路径数字之和
     public int sumNumbers(TreeNode root) {
         int res = 0;
         Queue<TreeNode> queue = new LinkedList<>();
