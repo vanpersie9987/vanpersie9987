@@ -195,4 +195,9 @@ public class LeetCode_4 {
 
     }
 
+    // 2119. 反转两次的数字 (A Number After a Double Reversal)
+    public boolean isSameAfterReversals(int num) {
+        return num == 0 || num % 10 != 0;
+    }
+
 }
