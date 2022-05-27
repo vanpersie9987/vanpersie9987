@@ -9715,8 +9715,35 @@ public class LeetCode_2 {
 
    }
 
-   // 99. 恢复二叉搜索树 (Recover Binary Search Tree) --中序遍历 + 莫里斯
+   // 99. 恢复二叉搜索树 (Recover Binary Search Tree) --中序遍历 + 隐式栈
+   private TreeNode x99;
+   private TreeNode y99;
+   private TreeNode pre99;
+
    public void recoverTree(TreeNode root) {
+      TreeNode cur = root;
+      dfs99(cur);
+      swap99(x99, y99);
+
+   }
+
+   private void dfs99(TreeNode root) {
+      if (root == null) {
+         return;
+      }
+      dfs99(root.left);
+      if (pre99 != null && pre99.val > root.val) {
+         x99 = root;
+         if (y99 == null) {
+            y99 = pre99;
+         }
+      }
+      pre99 = root;
+      dfs99(root.right);
+   }
+
+   // 99. 恢复二叉搜索树 (Recover Binary Search Tree) --中序遍历 + 莫里斯
+   public void recoverTree2(TreeNode root) {
       TreeNode x = null;
       TreeNode y = null;
       TreeNode predecessor = null;
