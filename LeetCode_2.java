@@ -9989,9 +9989,38 @@ public class LeetCode_2 {
       return dfsOffer28(L.left, R.right) && dfsOffer28(L.right, R.left);
    }
 
-   // 101. 对称二叉树 (Symmetric Tree) --bfs
+   // 101. 对称二叉树 (Symmetric Tree) --dfs 隐式栈
    // 剑指 Offer 28. 对称的二叉树
    public boolean isSymmetric2(TreeNode root) {
+      Stack<TreeNode> stackLeft = new Stack<>();
+      TreeNode rootLeft = root;
+      Stack<TreeNode> stackRight = new Stack<>();
+      TreeNode rootRight = root;
+      while ((!stackLeft.isEmpty() || !stackRight.isEmpty()) || rootLeft != null || rootRight != null) {
+         while (rootLeft != null || rootRight != null) {
+            if (rootLeft == null || rootRight == null) {
+               return false;
+            }
+            stackLeft.push(rootLeft);
+            rootLeft = rootLeft.left;
+            stackRight.push(rootRight);
+            rootRight = rootRight.right;
+         }
+         rootLeft = stackLeft.pop();
+         rootRight = stackRight.pop();
+         if (rootLeft.val != rootRight.val) {
+            return false;
+         }
+         rootLeft = rootLeft.right;
+         rootRight = rootRight.left;
+      }
+      return true;
+
+   }
+
+   // 101. 对称二叉树 (Symmetric Tree) --bfs
+   // 剑指 Offer 28. 对称的二叉树
+   public boolean isSymmetric3(TreeNode root) {
       Queue<TreeNode> queue = new LinkedList<>();
       queue.offer(root);
       queue.offer(root);
