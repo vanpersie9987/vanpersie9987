@@ -8851,42 +8851,34 @@ public class LeetCode_2 {
    // 98. 验证二叉搜索树 (Validate Binary Search Tree) --莫里斯迭代 + 中序遍历
    // 面试题 04.05. Legal Binary Search Tree LCCI
    public boolean isValidBST2(TreeNode root) {
-      Integer preValue = null;
-      TreeNode pre = null;
+      TreeNode predecessor = null;
+      Integer pre = null;
       while (root != null) {
          if (root.left != null) {
-            pre = root.left;
-            while (pre.right != null && pre.right != root) {
-               pre = pre.right;
+            predecessor = root.left;
+            while (predecessor.right != null && predecessor.right != root) {
+               predecessor = predecessor.right;
             }
-            if (pre.right == null) {
-               pre.right = root;
+            if (predecessor.right == null) {
+               predecessor.right = root;
                root = root.left;
             } else {
-               pre.right = null;
-               if (preValue == null) {
-                  preValue = root.val;
-               } else if (root.val > preValue) {
-                  preValue = root.val;
-               } else {
+               predecessor.right = null;
+               if (pre != null && root.val <= pre) {
                   return false;
                }
+               pre = root.val;
                root = root.right;
             }
-
          } else {
-            if (preValue == null) {
-               preValue = root.val;
-            } else if (root.val > preValue) {
-               preValue = root.val;
-            } else {
+            if (pre != null && root.val <= pre) {
                return false;
             }
+            pre = root.val;
             root = root.right;
          }
       }
       return true;
-
    }
 
    // 面试题 17.12. BiNode
