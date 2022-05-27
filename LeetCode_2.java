@@ -8831,9 +8831,26 @@ public class LeetCode_2 {
    }
 
    // 面试题 17.12. BiNode
-   // 98. 验证二叉搜索树 (Validate Binary Search Tree) --莫里斯迭代 + 中序遍历
+   // 98. 验证二叉搜索树 (Validate Binary Search Tree) --递归
    // 面试题 04.05. Legal Binary Search Tree LCCI
    public boolean isValidBST(TreeNode root) {
+      return isValid98(root, Long.MIN_VALUE, Long.MAX_VALUE);
+   }
+
+   private boolean isValid98(TreeNode root, long minValue, long maxValue) {
+      if (root == null) {
+         return true;
+      }
+      if (root.val <= minValue || root.val >= maxValue) {
+         return false;
+      }
+      return isValid98(root.left, minValue, root.val) && isValid98(root.right, root.val, maxValue);
+   }
+
+   // 面试题 17.12. BiNode
+   // 98. 验证二叉搜索树 (Validate Binary Search Tree) --莫里斯迭代 + 中序遍历
+   // 面试题 04.05. Legal Binary Search Tree LCCI
+   public boolean isValidBST2(TreeNode root) {
       Integer preValue = null;
       TreeNode pre = null;
       while (root != null) {
@@ -8870,6 +8887,55 @@ public class LeetCode_2 {
       }
       return true;
 
+   }
+
+   // 面试题 17.12. BiNode
+   // 98. 验证二叉搜索树 (Validate Binary Search Tree) --dfs 隐式栈
+   // 面试题 04.05. Legal Binary Search Tree LCCI
+   private Integer pre98;
+   private boolean flag98 = true;
+
+   public boolean isValidBST3(TreeNode root) {
+      dfs98(root);
+      return flag98;
+
+   }
+
+   private void dfs98(TreeNode root) {
+      if (root == null) {
+         return;
+      }
+      dfs98(root.left);
+      if (pre98 == null || root.val > pre98) {
+         pre98 = root.val;
+      } else {
+         flag98 = false;
+         return;
+      }
+      dfs98(root.right);
+   }
+
+   // 面试题 17.12. BiNode
+   // 98. 验证二叉搜索树 (Validate Binary Search Tree) --dfs 显式栈
+   // 面试题 04.05. Legal Binary Search Tree LCCI
+   public boolean isValidBST4(TreeNode root) {
+      Stack<TreeNode> stack = new Stack<>();
+      Integer pre = null;
+      while (!stack.isEmpty() || root != null) {
+         while (root != null) {
+            stack.push(root);
+            root = root.left;
+         }
+         if (!stack.isEmpty()) {
+            TreeNode cur = stack.pop();
+            if (pre != null && cur.val <= pre) {
+               return false;
+            }
+            pre = cur.val;
+            root = cur.right;
+         }
+      }
+      return true;
    }
 
    // 235. 二叉搜索树的最近公共祖先 (Lowest Common Ancestor of a Binary Search Tree)
