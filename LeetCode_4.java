@@ -148,4 +148,25 @@ public class LeetCode_4 {
         }
     }
 
+    // 110. 平衡二叉树 (Balanced Binary Tree) --dfs
+    private boolean flag110 = true;
+
+    public boolean isBalanced(TreeNode root) {
+        dfs110(root);
+        return flag110;
+
+    }
+
+    private int dfs110(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int l = dfs110(root.left);
+        int r = dfs110(root.right);
+        if (Math.abs(l - r) > 1) {
+            flag110 = false;
+        }
+        return Math.max(l, r) + 1;
+    }
+
 }
