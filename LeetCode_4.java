@@ -169,4 +169,9 @@ public class LeetCode_4 {
         return Math.max(l, r) + 1;
     }
 
+    // 2235. 两整数相加 (Add Two Integers)
+    public int sum(int num1, int num2) {
+        return num1 + num2;
+    }
+
 }
