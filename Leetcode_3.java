@@ -144,12 +144,14 @@ public class Leetcode_3 {
     // 104. 二叉树的最大深度 (Maximum Depth of Binary Tree) --dfs
     // 剑指 Offer 55 - I. 二叉树的深度
     public int maxDepth2(TreeNode root) {
+        return dfs104(root, 0);
+    }
+
+    private int dfs104(TreeNode root, int level) {
         if (root == null) {
-            return 0;
+            return level;
         }
-        int leftDepth = maxDepth2(root.left);
-        int rightDepth = maxDepth2(root.right);
-        return Math.max(leftDepth, rightDepth) + 1;
+        return Math.max(dfs104(root.left, level + 1), dfs104(root.right, level + 1));
     }
 
     // 1380. 矩阵中的幸运数 (Lucky Numbers in a Matrix)
