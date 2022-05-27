@@ -10199,11 +10199,11 @@ public class LeetCode_2 {
 
    // 100. 相同的树 (Same Tree) --bfs
    public boolean isSameTree2(TreeNode p, TreeNode q) {
-      if ((p == null && q != null) || (p != null && q == null)) {
-         return false;
-      }
       if (p == null && q == null) {
          return true;
+      }
+      if (p == null || q == null) {
+         return false;
       }
       Queue<TreeNode> queue = new LinkedList<>();
       queue.offer(p);
