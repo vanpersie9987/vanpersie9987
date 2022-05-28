@@ -583,4 +583,68 @@ public class LeetCode_4 {
 
     }
 
+    // 6083. 判断一个数的数字计数是否等于数位的值
+    public boolean digitCount(String num) {
+        int[] counts = new int[10];
+        for (char c : num.toCharArray()) {
+            ++counts[c - '0'];
+        }
+        for (int i = 0; i < num.length(); ++i) {
+            int c = num.charAt(i) - '0';
+
+            if (c != counts[i]) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    // 6084. 最多单词数的发件人
+    public String largestWordCount(String[] messages, String[] senders) {
+        Map<String, Integer> map = new HashMap<>();
+        for (int i = 0; i < senders.length; ++i) {
+            int count = getWords(messages[i]);
+            map.put(senders[i], map.getOrDefault(senders[i], 0) + count);
+        }
+        String res = "";
+        int max = 0;
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            if (entry.getValue() > max) {
+                max = entry.getValue();
+                res = entry.getKey();
+            } else if (entry.getValue() == max && entry.getKey().compareTo(res) > 0) {
+                res = entry.getKey();
+            }
+        }
+        return res;
+
+    }
+
+    private int getWords(String string) {
+        int count = 1;
+        for (char c : string.toCharArray()) {
+            if (c == ' ') {
+                ++count;
+            }
+        }
+        return count;
+    }
+
+    // 6085. 道路的最大总重要性
+    public long maximumImportance(int n, int[][] roads) {
+        int[] degrees = new int[n];
+        for (int[] road : roads) {
+            ++degrees[road[0]];
+            ++degrees[road[1]];
+        }
+        long res = 0l;
+        Arrays.sort(degrees);
+        for (int i = n - 1; i >= 0; --i) {
+            res += (long) degrees[i] * (i + 1);
+        }
+        return res;
+
+    }
+
 }
