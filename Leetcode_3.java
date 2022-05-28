@@ -5139,6 +5139,24 @@ public class Leetcode_3 {
 
     }
 
+    // 133. 克隆图 (Clone Graph) --dfs
+    private Map<Node, Node> map133 = new HashMap<>();
+
+    public Node cloneGraph2(Node node) {
+        if (node == null) {
+            return node;
+        }
+        if (map133.containsKey(node)) {
+            return map133.get(node);
+        }
+        Node cloneNode = new Node(node.val, new ArrayList<>());
+        map133.put(node, cloneNode);
+        for (Node neighbor : node.children) {
+            cloneNode.children.add(cloneGraph(neighbor));
+        }
+        return cloneNode;
+    }
+
     // 1284. 转化为全零矩阵的最少反转次数 (Minimum Number of Flips to Convert Binary Matrix to
     // Zero Matrix) --bfs
     public int minFlips(int[][] mat) {
