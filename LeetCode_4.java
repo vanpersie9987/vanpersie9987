@@ -512,8 +512,33 @@ public class LeetCode_4 {
     }
 
     // 1104. 二叉树寻路 (Path In Zigzag Labelled Binary Tree) --位运算
-    // public List<Integer> pathInZigZagTree(int label) {
+    public List<Integer> pathInZigZagTree(int label) {
+        int row = 1;
+        int rowStart = 1;
+        while ((rowStart << 1) <= label) {
+            ++row;
+            rowStart <<= 1;
+        }
+        if ((row & 1) == 0) {
+            label = getReverse1104(row, label);
+        }
+        List<Integer> res = new ArrayList<>();
+        while (row > 0) {
+            if ((row & 1) == 0) {
+                res.add(getReverse1104(row, label));
+            } else {
+                res.add(label);
+            }
+            --row;
+            label >>= 1;
+        }
+        Collections.reverse(res);
+        return res;
 
-    // }
+    }
+
+    private int getReverse1104(int row, int label) {
+        return (1 << (row - 1)) + ((1 << row) - 1) - label;
+    }
 
 }
