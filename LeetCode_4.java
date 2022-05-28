@@ -254,6 +254,33 @@ public class LeetCode_4 {
 
     }
 
+    // 129. 求根节点到叶节点数字之和 (Sum Root to Leaf Numbers) --dfs
+    // 剑指 Offer II 049. 从根节点到叶节点的路径数字之和
+    private int res129;
+
+    public int sumNumbers2(TreeNode root) {
+        dfs129(root);
+        return res129;
+
+    }
+
+    private void dfs129(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        if (root.left == null && root.right == null) {
+            res129 += root.val;
+        }
+        if (root.left != null) {
+            root.left.val += root.val * 10;
+            dfs129(root.left);
+        }
+        if (root.right != null) {
+            root.right.val += root.val * 10;
+            dfs129(root.right);
+        }
+    }
+
     // 114. 二叉树展开为链表 (Flatten Binary Tree to Linked List) --dfs + 显式栈
     public void flatten(TreeNode root) {
         List<TreeNode> list = new ArrayList<>();
