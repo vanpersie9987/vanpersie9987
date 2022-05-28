@@ -254,6 +254,28 @@ public class LeetCode_4 {
 
     }
 
+    // 114. 二叉树展开为链表 (Flatten Binary Tree to Linked List) --dfs + 显式栈
+    public void flatten(TreeNode root) {
+        List<TreeNode> list = new ArrayList<>();
+        dfs114(root, list);
+        for (int i = 1; i < list.size(); ++i) {
+            TreeNode pre = list.get(i - 1);
+            TreeNode cur = list.get(i);
+            pre.right = cur;
+            pre.left = null;
+        }
+
+    }
+
+    private void dfs114(TreeNode root, List<TreeNode> list) {
+        if (root == null) {
+            return;
+        }
+        list.add(root);
+        dfs114(root.left, list);
+        dfs114(root.right, list);
+    }
+
     // 1104. 二叉树寻路 (Path In Zigzag Labelled Binary Tree) --位运算
     // public List<Integer> pathInZigZagTree(int label) {
 
