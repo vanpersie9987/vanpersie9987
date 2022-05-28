@@ -9668,28 +9668,6 @@ public class LeetCode_2 {
       return root;
    }
 
-   // 114. 二叉树展开为链表 (Flatten Binary Tree to Linked List) --还需掌握方法二、方法三
-   public void flatten(TreeNode root) {
-      List<TreeNode> list = new ArrayList<>();
-      Stack<TreeNode> stack = new Stack<>();
-      TreeNode node = root;
-      while (!stack.isEmpty() || node != null) {
-         while (node != null) {
-            list.add(node);
-            stack.push(node);
-            node = node.left;
-         }
-         node = stack.pop();
-         node = node.right;
-      }
-      for (int i = 1; i < list.size(); ++i) {
-         TreeNode pre = list.get(i - 1);
-         pre.left = null;
-         pre.right = list.get(i);
-      }
-
-   }
-
    // 701. 二叉搜索树中的插入操作 (Insert into a Binary Search Tree)
    public TreeNode insertIntoBST(TreeNode root, int val) {
       TreeNode added = new TreeNode(val);
