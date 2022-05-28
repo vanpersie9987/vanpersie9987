@@ -322,6 +322,26 @@ public class LeetCode_4 {
 
     }
 
+    // 124. 二叉树中的最大路径和 (Binary Tree Maximum Path Sum) --dfs
+    private int res124 = Integer.MIN_VALUE;
+
+    public int maxPathSum(TreeNode root) {
+        dfs124(root);
+        return res124;
+
+    }
+
+    private int dfs124(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = Math.max(dfs124(root.left), 0);
+        int right = Math.max(dfs124(root.right), 0);
+        int max = root.val + left + right;
+        res124 = Math.max(max, res124);
+        return root.val + Math.max(left, right);
+    }
+
     // 1104. 二叉树寻路 (Path In Zigzag Labelled Binary Tree) --位运算
     // public List<Integer> pathInZigZagTree(int label) {
 
