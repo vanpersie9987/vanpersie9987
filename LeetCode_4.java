@@ -541,4 +541,46 @@ public class LeetCode_4 {
         return (1 << (row - 1)) + ((1 << row) - 1) - label;
     }
 
+    // 1419. 数青蛙 (Minimum Number of Frogs Croaking)
+    public int minNumberOfFrogs(String croakOfFrogs) {
+        char[] chars = croakOfFrogs.toCharArray();
+        int c = 0;
+        int r = 0;
+        int o = 0;
+        int a = 0;
+        int k = 0;
+        int res = 0;
+        for (int i = 0; i < chars.length; ++i) {
+            char ch = chars[i];
+            if (ch == 'c') {
+                if (k > 0) {
+                    --k;
+                } else {
+                    ++res;
+                }
+                ++c;
+            } else if (ch == 'r') {
+                ++r;
+                --c;
+            } else if (ch == 'o') {
+                ++o;
+                --r;
+            } else if (ch == 'a') {
+                ++a;
+                --o;
+            } else if (ch == 'k') {
+                ++k;
+                --a;
+            }
+            if (c < 0 || r < 0 || o < 0 || a < 0) {
+                break;
+            }
+        }
+        if (c != 0 || r != 0 || o != 0 || a != 0) {
+            return -1;
+        }
+        return res;
+
+    }
+
 }
