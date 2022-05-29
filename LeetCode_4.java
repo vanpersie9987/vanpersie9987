@@ -16,6 +16,8 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class LeetCode_4 {
@@ -644,6 +646,142 @@ public class LeetCode_4 {
             res += (long) degrees[i] * (i + 1);
         }
         return res;
+
+    }
+
+    // 6078. 重排字符形成目标字符串
+    public int rearrangeCharacters(String s, String target) {
+        int[] counts = new int[26];
+        for (char c : target.toCharArray()) {
+            ++counts[c - 'a'];
+        }
+        int[] counts2 = new int[26];
+        for (char c : s.toCharArray()) {
+            ++counts2[c - 'a'];
+        }
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < 26; ++i) {
+            if (counts[i] > 0) {
+                res = Math.min(res, counts2[i] / counts[i]);
+            }
+        }
+        return res;
+
+    }
+
+    // 6079. 价格减免
+    public String discountPrices(String sentence, int discount) {
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < sentence.length(); ++i) {
+            if (i == 0 && sentence.charAt(i) == '$' && (i + 1) < sentence.length()) {
+                int spaceIndex = sentence.indexOf(" ", i + 1);
+                if (spaceIndex != -1) {
+                    String sub = sentence.substring(i + 1, spaceIndex);
+                    if (isNum(sub)) {
+                        double dis = (100 - discount) * 0.01d;
+                        double d = Double.parseDouble(sub) * dis;
+                        String r = String.format("%.2f", d);
+                        res.append("$");
+                        res.append(r);
+
+                        i = spaceIndex - 1;
+                    } else {
+                        res.append(sentence.charAt(i));
+                    }
+                } else if (i + 1 < sentence.length()) {
+                    String sub = sentence.substring(i + 1);
+                    if (isNum(sub)) {
+                        double dis = (100 - discount) * 0.01d;
+                        double d = Double.parseDouble(sub) * dis;
+                        String r = String.format("%.2f", d);
+                        res.append("$");
+                        res.append(r);
+                        i = sentence.length() - 1;
+                    } else {
+                        res.append(sentence.charAt(i));
+                    }
+                } else {
+                    res.append(sentence.charAt(i));
+                }
+            } else if (sentence.charAt(i) == ' ' && (i + 1) < sentence.length() && sentence.charAt(i + 1) == '$') {
+                int spaceIndex = sentence.indexOf(" ", i + 1);
+                if (spaceIndex != -1) {
+                    String sub = sentence.substring(i + 2, spaceIndex);
+                    if (isNum(sub)) {
+                        double dis = (100 - discount) * 0.01d;
+                        double d = Double.parseDouble(sub) * dis;
+                        String r = String.format("%.2f", d);
+                        res.append(" ");
+                        res.append("$");
+                        res.append(r);
+
+                        i = spaceIndex - 1;
+                    } else {
+                        res.append(sentence.charAt(i));
+                    }
+                } else if (i + 2 < sentence.length()) {
+                    String sub = sentence.substring(i + 2);
+                    if (isNum(sub)) {
+                        double dis = (100 - discount) * 0.01d;
+                        double d = Double.parseDouble(sub) * dis;
+                        String r = String.format("%.2f", d);
+                        res.append(" ");
+                        res.append("$");
+                        res.append(r);
+                        i = sentence.length() - 1;
+                    } else {
+                        res.append(sentence.charAt(i));
+                    }
+                } else {
+                    res.append(sentence.charAt(i));
+                }
+
+            } else {
+                res.append(sentence.charAt(i));
+            }
+        }
+        return res.toString();
+
+    }
+
+    private boolean isNum(String str) {
+        if (str.isEmpty()) {
+            return false;
+        }
+        Matcher isNum = Pattern.compile("[0-9]*").matcher(str);
+        return isNum.matches();
+    }
+
+    public int minimumObstacles(int[][] grid) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int m = grid.length;
+        int n = grid[0].length;
+        boolean[][] visited = new boolean[m][n];
+        int[][] dp = new int[m][n];
+        PriorityQueue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return dp[o1[0]][o1[1]] - dp[o2[0]][o2[1]];
+            }
+
+        });
+        queue.offer(new int[] { 0, 0 });
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            for (int[] direction : directions) {
+                int nx = x + direction[0];
+                int ny = y + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny]) {
+                    visited[nx][ny] = true;
+                    dp[nx][ny] = grid[nx][ny] + dp[x][y];
+                    queue.offer(new int[] { nx, ny });
+                }
+            }
+        }
+        return dp[m - 1][n - 1];
 
     }
 
