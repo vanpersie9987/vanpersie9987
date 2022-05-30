@@ -4225,9 +4225,55 @@ public class Leetcode_3 {
 
     }
 
+    // 210. 课程表 II (Course Schedule II) --dfs
+    // 剑指 Offer II 113. 课程顺序
+    private int[] visited210;
+    private boolean isValid210 = true;
+    private int[] res210;
+    private int index210;
+
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        index210 = numCourses - 1;
+        res210 = new int[numCourses];
+        visited210 = new int[numCourses];
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int[] prerequisite : prerequisites) {
+            graph.computeIfAbsent(prerequisite[1], k -> new ArrayList<>()).add(prerequisite[0]);
+        }
+        for (int i = 0; i < numCourses && isValid210; ++i) {
+            if (visited210[i] == 0) {
+                dfs210(i, graph);
+            }
+
+        }
+        if (!isValid210) {
+            return new int[0];
+        }
+
+        return res210;
+
+    }
+
+    private void dfs210(int u, Map<Integer, List<Integer>> graph) {
+        visited210[u] = 1;
+        for (int v : graph.getOrDefault(u, new ArrayList<>())) {
+            if (visited210[v] == 0) {
+                dfs210(v, graph);
+                if (!isValid210) {
+                    return;
+                }
+            } else if (visited210[v] == 1) {
+                isValid210 = false;
+                return;
+            }
+        }
+        visited210[u] = 2;
+        res210[index210--] = u;
+    }
+
     // 210. 课程表 II (Course Schedule II) --拓扑排序
     // 剑指 Offer II 113. 课程顺序
-    public int[] findOrder(int numCourses, int[][] prerequisites) {
+    public int[] findOrder2(int numCourses, int[][] prerequisites) {
         int[] inDegrees = new int[numCourses];
         Map<Integer, List<Integer>> graph = new HashMap<>();
         for (int[] prerequisite : prerequisites) {
