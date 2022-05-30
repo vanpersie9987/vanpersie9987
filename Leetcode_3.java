@@ -4162,8 +4162,43 @@ public class Leetcode_3 {
         return res;
     }
 
-    // 207. 课程表 (Course Schedule) --拓扑排序
+    // 207. 课程表 (Course Schedule) --dfs
+    private boolean isValid207 = true;
+    private int[] visited207;
+
     public boolean canFinish(int numCourses, int[][] prerequisites) {
+        visited207 = new int[numCourses];
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int[] prerequisite : prerequisites) {
+            graph.computeIfAbsent(prerequisite[1], k -> new ArrayList<>()).add(prerequisite[0]);
+        }
+        for (int i = 0; i < numCourses && isValid207; ++i) {
+            if (visited207[i] == 0) {
+                dfs207(i, graph);
+            }
+        }
+        return isValid207;
+
+    }
+
+    private void dfs207(int u, Map<Integer, List<Integer>> graph) {
+        visited207[u] = 1;
+        for (int v : graph.getOrDefault(u, new ArrayList<>())) {
+            if (visited207[v] == 0) {
+                dfs207(v, graph);
+                if (!isValid207) {
+                    return;
+                }
+            } else if (visited207[v] == 1) {
+                isValid207 = false;
+                return;
+            }
+        }
+        visited207[u] = 2;
+    }
+
+    // 207. 课程表 (Course Schedule) --拓扑排序
+    public boolean canFinish2(int numCourses, int[][] prerequisites) {
         Map<Integer, List<Integer>> graph = new HashMap<>();
         int[] inDegrees = new int[numCourses];
         for (int[] prerequisite : prerequisites) {
