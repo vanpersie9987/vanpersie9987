@@ -830,4 +830,73 @@ public class LeetCode_4 {
             return node != null;
         }
     }
+
+    // 211. 添加与搜索单词 - 数据结构设计 (Design Add and Search Words Data Structure) --dfs Trie
+    class WordDictionary {
+        private Trie211 trie;
+
+        public WordDictionary() {
+            trie = new Trie211();
+        }
+
+        public void addWord(String word) {
+            trie.addWord(word);
+        }
+
+        public boolean search(String word) {
+            return dfs211(word, 0, trie);
+        }
+
+        private boolean dfs211(String word, int index, Trie211 node) {
+            if (index == word.length()) {
+                return node.isEnd();
+            }
+            char c = word.charAt(index);
+            if (Character.isLetter(c)) {
+                Trie211 childNode = node.getChildren()[c - 'a'];
+                if (childNode != null && dfs211(word, index + 1, childNode)) {
+                    return true;
+                }
+            } else {
+                for (Trie211 child : node.getChildren()) {
+                    if (child != null && dfs211(word, index + 1, child)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    }
+
+    class Trie211 {
+        private Trie211[] children;
+        private boolean isEnd;
+
+        public Trie211() {
+            children = new Trie211[26];
+            isEnd = false;
+        }
+
+        public void addWord(String word) {
+            Trie211 node = this;
+            for (char c : word.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie211();
+                }
+                node = node.children[index];
+            }
+            node.isEnd = true;
+        }
+
+        public Trie211[] getChildren() {
+            return children;
+        }
+
+        public boolean isEnd() {
+            return isEnd;
+        }
+
+    }
+
 }
