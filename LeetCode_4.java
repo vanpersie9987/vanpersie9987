@@ -20,6 +20,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import javax.swing.text.html.HTMLDocument.RunElement;
+
 public class LeetCode_4 {
     public static void main(String[] args) {
 
@@ -897,6 +899,37 @@ public class LeetCode_4 {
         public boolean isEnd() {
             return isEnd;
         }
+
+    }
+
+    // 1792. 最大平均通过率 (Maximum Average Pass Ratio) --贪心
+    public double maxAverageRatio(int[][] classes, int extraStudents) {
+        Queue<double[]> queue = new PriorityQueue<>(new Comparator<double[]>() {
+
+            @Override
+            public int compare(double[] o1, double[] o2) {
+                Double x = (o1[0] + 1) / (o1[1] + 1) - o1[0] / o1[1];
+                Double y = (o2[0] + 1) / (o2[1] + 1) - o2[0] / o2[1];
+                return y.compareTo(x);
+            }
+
+        });
+        for (int[] c : classes) {
+            queue.offer(new double[] { c[0], c[1] });
+        }
+
+        while (extraStudents-- > 0) {
+            double[] c = queue.poll();
+            ++c[0];
+            ++c[1];
+            queue.offer(c);
+        }
+        double res = 0d;
+        while (!queue.isEmpty()) {
+            double[] c = queue.poll();
+            res += c[0] / c[1];
+        }
+        return res / classes.length;
 
     }
 
