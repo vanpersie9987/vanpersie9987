@@ -999,6 +999,65 @@ public class LeetCode_4 {
 
     }
 
+    // 648. 单词替换 (Replace Words) --字典树
+    public String replaceWords(List<String> dictionary, String sentence) {
+        Trie648 trie = new Trie648();
+        for (String dic : dictionary) {
+            trie.insert(dic);
+        }
+        StringBuilder res = new StringBuilder();
+        String[] strings = sentence.split(" ");
+        for (String s : strings) {
+            String item = trie.findSmallestPrefix(s);
+            if (item.isEmpty()) {
+                res.append(s).append(" ");
+            } else {
+                res.append(item).append(" ");
+            }
+        }
+        return res.toString().trim();
+
+    }
+
+    class Trie648 {
+        private Trie648[] children;
+        private boolean isEnd;
+
+        Trie648() {
+            this.children = new Trie648[26];
+            this.isEnd = false;
+        }
+
+        public void insert(String s) {
+            Trie648 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie648();
+                }
+                node = node.children[index];
+            }
+            node.isEnd = true;
+        }
+
+        public String findSmallestPrefix(String s) {
+            StringBuilder builder = new StringBuilder();
+            Trie648 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    return "";
+                }
+                builder.append(c);
+                node = node.children[index];
+                if (node.isEnd) {
+                    return builder.toString();
+                }
+            }
+            return "";
+        }
+    }
+
     // 473. 火柴拼正方形 (Matchsticks to Square)
     // public boolean makesquare(int[] matchsticks) {
 
