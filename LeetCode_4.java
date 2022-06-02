@@ -20,10 +20,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import javax.swing.text.html.HTMLDocument.RunElement;
-
 public class LeetCode_4 {
     public static void main(String[] args) {
+        // String[] strings = { "mobile", "mouse", "moneypot", "monitor", "mousepad" };
+        // suggestedProducts(strings, "mouse");
 
     }
 
@@ -1082,6 +1082,71 @@ public class LeetCode_4 {
         }
         return res.toString();
 
+    }
+
+    // 1268. 搜索推荐系统 (Search Suggestions System) --字段树
+    public List<List<String>> suggestedProducts(String[] products, String searchWord) {
+        Trie1268 trie = new Trie1268();
+        for (String product : products) {
+            trie.insert(product);
+        }
+        return trie.startWith(searchWord);
+
+    }
+
+    class Trie1268 {
+        private Trie1268[] children;
+        private PriorityQueue<String> priorityQueue;
+
+        public Trie1268() {
+            children = new Trie1268[26];
+            priorityQueue = new PriorityQueue<>(new Comparator<String>() {
+
+                @Override
+                public int compare(String o1, String o2) {
+                    return o2.compareTo(o1);
+                }
+
+            });
+
+        }
+
+        public void insert(String s) {
+            Trie1268 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie1268();
+                }
+                node = node.children[index];
+                node.priorityQueue.offer(s);
+                if (node.priorityQueue.size() > 3) {
+                    node.priorityQueue.poll();
+                }
+            }
+        }
+
+        public List<List<String>> startWith(String searchWord) {
+            Trie1268 node = this;
+            List<List<String>> res = new ArrayList<>();
+            boolean exists = true;
+            for (char c : searchWord.toCharArray()) {
+                List<String> sub = new ArrayList<>();
+                int index = c - 'a';
+                if (!exists || node.children[index] == null) {
+                    exists = false;
+                    res.add(sub);
+                    continue;
+                }
+                node = node.children[index];
+                while (!node.priorityQueue.isEmpty()) {
+                    sub.add(node.priorityQueue.poll());
+                }
+                Collections.reverse(sub);
+                res.add(sub);
+            }
+            return res;
+        }
     }
 
     // 473. 火柴拼正方形 (Matchsticks to Square)
