@@ -1084,7 +1084,7 @@ public class LeetCode_4 {
 
     }
 
-    // 1268. 搜索推荐系统 (Search Suggestions System) --字段树
+    // 1268. 搜索推荐系统 (Search Suggestions System) --字典树
     public List<List<String>> suggestedProducts(String[] products, String searchWord) {
         Trie1268 trie = new Trie1268();
         for (String product : products) {
