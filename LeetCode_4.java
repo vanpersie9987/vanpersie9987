@@ -1000,6 +1000,7 @@ public class LeetCode_4 {
     }
 
     // 648. 单词替换 (Replace Words) --字典树
+    // 剑指 Offer II 063. 替换单词
     public String replaceWords(List<String> dictionary, String sentence) {
         Trie648 trie = new Trie648();
         for (String dic : dictionary) {
@@ -1062,6 +1063,7 @@ public class LeetCode_4 {
     }
 
     // 648. 单词替换 (Replace Words) --哈希表
+    // 剑指 Offer II 063. 替换单词
     public String replaceWords2(List<String> dictionary, String sentence) {
         Set<String> set = new HashSet<>(dictionary);
         StringBuilder res = new StringBuilder();
