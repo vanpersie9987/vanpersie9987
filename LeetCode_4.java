@@ -1058,6 +1058,27 @@ public class LeetCode_4 {
         }
     }
 
+    // 648. 单词替换 (Replace Words) --哈希表
+    public String replaceWords2(List<String> dictionary, String sentence) {
+        Set<String> set = new HashSet<>(dictionary);
+        StringBuilder res = new StringBuilder();
+        for (String s : sentence.split("\\s+")) {
+            String prefix = "";
+            for (int i = 1; i <= s.length(); ++i) {
+                prefix = s.substring(0, i);
+                if (set.contains(prefix)) {
+                    break;
+                }
+            }
+            if (!res.isEmpty()) {
+                res.append(" ");
+            }
+            res.append(prefix);
+        }
+        return res.toString();
+
+    }
+
     // 473. 火柴拼正方形 (Matchsticks to Square)
     // public boolean makesquare(int[] matchsticks) {
 
