@@ -1008,14 +1008,17 @@ public class LeetCode_4 {
         StringBuilder res = new StringBuilder();
         String[] strings = sentence.split(" ");
         for (String s : strings) {
+            if (!res.isEmpty()) {
+                res.append(" ");
+            }
             String item = trie.findSmallestPrefix(s);
             if (item.isEmpty()) {
-                res.append(s).append(" ");
+                res.append(s);
             } else {
-                res.append(item).append(" ");
+                res.append(item);
             }
         }
-        return res.toString().trim();
+        return res.toString();
 
     }
 
