@@ -1149,9 +1149,80 @@ public class LeetCode_4 {
         }
     }
 
-    // 473. 火柴拼正方形 (Matchsticks to Square)
-    // public boolean makesquare(int[] matchsticks) {
+    // 面试题 17.13.恢复空格 (Re-Space LCCI) --dp
+    public int respace(String[] dictionary, String sentence) {
+        Set<String> set = new HashSet<>(Arrays.asList(dictionary));
+        int n = sentence.length();
+        int[] dp = new int[n + 1];
+        for (int i = 1; i <= sentence.length(); ++i) {
+            dp[i] = dp[i - 1] + 1;
+            for (int j = 0; j <= i; ++j) {
+                if (set.contains(sentence.substring(j, i))) {
+                    dp[i] = Math.min(dp[i], dp[j]);
+                }
+            }
+        }
+        return dp[n];
 
-    // }
+    }
+
+    // 面试题 17.13.恢复空格 (Re-Space LCCI) --dp + Trie
+    public int respace2(String[] dictionary, String sentence) {
+        Trie17_13 trie = new Trie17_13();
+        for (String dic : dictionary) {
+            trie.insert(dic);
+        }
+        int n = sentence.length();
+        int[] dp = new int[n + 1];
+        for (int i = 1; i <= n; ++i) {
+            dp[i] = dp[i - 1] + 1;
+            for (int startPos : trie.getStartIndex(sentence, i - 1)) {
+                dp[i] = Math.min(dp[i], dp[startPos]);
+            }
+        }
+        return dp[n];
+
+    }
+
+    class Trie17_13 {
+        private Trie17_13[] children;
+        private boolean isEnd;
+
+        public Trie17_13() {
+            this.children = new Trie17_13[26];
+            this.isEnd = false;
+        }
+
+        /**
+         * 返回以sentence中endPos结尾的单词的起始坐标列表
+         */
+        public List<Integer> getStartIndex(String sentence, int endPos) {
+            List<Integer> res = new ArrayList<>();
+            Trie17_13 node = this;
+            for (int i = endPos; i >= 0; --i) {
+                int index = sentence.charAt(i) - 'a';
+                if (node.children[index] == null) {
+                    return res;
+                }
+                node = node.children[index];
+                if (node.isEnd) {
+                    res.add(i);
+                }
+            }
+            return res;
+        }
+
+        public void insert(String s) {
+            Trie17_13 node = this;
+            for (int i = s.length() - 1; i >= 0; --i) {
+                int index = s.charAt(i) - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie17_13();
+                }
+                node = node.children[index];
+            }
+            node.isEnd = true;
+        }
+    }
 
 }
