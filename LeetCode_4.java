@@ -1225,4 +1225,71 @@ public class LeetCode_4 {
         }
     }
 
+    // 面试题 17.17. 多次搜索 --字典树
+    public int[][] multiSearch(String big, String[] smalls) {
+        int n = smalls.length;
+        Trie17_17 trie = new Trie17_17();
+        for (int i = 0; i < n; ++i) {
+            trie.insert(smalls[i], i);
+        }
+        List<List<Integer>> list = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            list.add(new ArrayList<>());
+        }
+        for (int i = 0; i < big.length(); ++i) {
+            for (int id : trie.search(big.substring(i))) {
+                list.get(id).add(i);
+            }
+        }
+        int[][] res = new int[n][];
+        for (int i = 0; i < n; ++i) {
+            res[i] = list.get(i).stream().mapToInt(Integer::intValue).toArray();
+        }
+        return res;
+
+    }
+
+    class Trie17_17 {
+        private Trie17_17[] children;
+        private boolean isEnd;
+        private int i;
+
+        public Trie17_17() {
+            this.children = new Trie17_17[26];
+            this.isEnd = false;
+            this.i = -1;
+        }
+
+        public void insert(String s, int pos) {
+            Trie17_17 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie17_17();
+                }
+                node = node.children[index];
+            }
+            node.isEnd = true;
+            node.i = pos;
+        }
+
+        public List<Integer> search(String s) {
+            List<Integer> res = new ArrayList<>();
+            Trie17_17 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    break;
+                }
+                node = node.children[index];
+                if (node.isEnd) {
+                    res.add(node.i);
+                }
+            }
+            return res;
+
+        }
+
+    }
+
 }
