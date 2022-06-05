@@ -1292,4 +1292,106 @@ public class LeetCode_4 {
 
     }
 
+    // 6090. 极大极小游戏
+    public int minMaxGame(int[] nums) {
+        int n = nums.length;
+        while (n != 1) {
+            for (int i = 0; i < n / 2; ++i) {
+                if (i % 2 == 0) {
+                    nums[i] = Math.min(nums[i * 2], nums[i * 2 + 1]);
+                } else {
+                    nums[i] = Math.max(nums[i * 2], nums[i * 2 + 1]);
+                }
+            }
+            n /= 2;
+        }
+        return nums[0];
+
+    }
+
+    // 6091. 划分数组使最大差为 K
+    public int partitionArray(int[] nums, int k) {
+        Arrays.sort(nums);
+        int res = 1;
+        int min = nums[0];
+        for (int i = 1; i < nums.length; ++i) {
+            if (nums[i] - min > k) {
+                ++res;
+                min = nums[i];
+            }
+        }
+        return res;
+
+    }
+
+    // 6092. 替换数组中的元素
+    public int[] arrayChange(int[] nums, int[][] operations) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; ++i) {
+            map.put(nums[i], i);
+        }
+        for (int[] operation : operations) {
+            int index = map.remove(operation[0]);
+            map.put(operation[1], index);
+        }
+        int[] res = new int[nums.length];
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            int index = entry.getValue();
+            res[index] = entry.getKey();
+        }
+        return res;
+
+    }
+
+    // 6093. 设计一个文本编辑器
+    class TextEditor {
+        private StringBuilder s;
+
+        private int cursorIndex;
+
+        public TextEditor() {
+            s = new StringBuilder();
+            cursorIndex = 0;
+
+        }
+
+        public void addText(String text) {
+            if (s.isEmpty()) {
+                s.append(text);
+                cursorIndex = text.length();
+                return;
+            }
+            s.insert(cursorIndex, text);
+            cursorIndex += text.length();
+        }
+
+        public int deleteText(int k) {
+            if (s.isEmpty()) {
+                return 0;
+            }
+            int leftCount = Math.min(k, cursorIndex);
+            s.delete(cursorIndex - leftCount, cursorIndex);
+            cursorIndex -= leftCount;
+            return leftCount;
+
+        }
+
+        public String cursorLeft(int k) {
+            if (cursorIndex == 0) {
+                return "";
+            }
+            cursorIndex = Math.max(cursorIndex - k, 0);
+            return s.substring(Math.max(0, cursorIndex - 10), cursorIndex);
+
+        }
+
+        public String cursorRight(int k) {
+            if (cursorIndex == s.length()) {
+                return s.substring(Math.max(0, cursorIndex - 10), cursorIndex);
+            }
+            cursorIndex = Math.min(cursorIndex + k, s.length());
+            return s.substring(Math.max(0, cursorIndex - 10), cursorIndex);
+        }
+    }
+
 }
