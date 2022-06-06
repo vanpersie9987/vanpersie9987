@@ -1416,4 +1416,64 @@ public class LeetCode_4 {
         return new int[] { sum, count };
     }
 
+    // 面试题 08.07. 无重复字符串的排列组合 (Permutation I LCCI) --回溯
+    private List<String> res0807;
+
+    public String[] permutation(String S) {
+        res0807 = new ArrayList<>();
+        int n = S.length();
+        boolean[] visited = new boolean[n];
+        char[] chars = S.toCharArray();
+        StringBuilder path = new StringBuilder();
+        dfs0807(chars, 0, visited, path);
+        return res0807.toArray(new String[0]);
+
+    }
+
+    private void dfs0807(char[] chars, int index, boolean[] visited, StringBuilder path) {
+        if (chars.length == index) {
+            res0807.add(path.toString());
+            return;
+        }
+        for (int i = 0; i < chars.length; ++i) {
+            if (!visited[i]) {
+                path.append(chars[i]);
+                visited[i] = true;
+                dfs0807(chars, index + 1, visited, path);
+                visited[i] = false;
+                path.deleteCharAt(path.length() - 1);
+            }
+        }
+    }
+
+    // 46. 全排列 (Permutations) --回溯
+    // 剑指 Offer II 083. 没有重复元素集合的全排列
+    private List<List<Integer>> res46;
+
+    public List<List<Integer>> permute(int[] nums) {
+        res46 = new ArrayList<>();
+        int n = nums.length;
+        boolean[] visited = new boolean[n];
+        List<Integer> path = new ArrayList<>();
+        dfs46(nums, 0, visited, path);
+        return res46;
+
+    }
+
+    private void dfs46(int[] nums, int index, boolean[] visited, List<Integer> path) {
+        if (index == nums.length) {
+            res46.add(new ArrayList<>(path));
+            return;
+        }
+        for (int i = 0; i < nums.length; ++i) {
+            if (!visited[i]) {
+                path.add(nums[i]);
+                visited[i] = true;
+                dfs46(nums, index + 1, visited, path);
+                visited[i] = false;
+                path.remove(path.size() - 1);
+            }
+        }
+    }
+
 }
