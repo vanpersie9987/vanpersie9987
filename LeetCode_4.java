@@ -1343,7 +1343,7 @@ public class LeetCode_4 {
 
     }
 
-    // 6093. 设计一个文本编辑器
+    // 2296. 设计一个文本编辑器 (Design a Text Editor)
     class TextEditor {
         private StringBuilder s;
 
@@ -1356,19 +1356,11 @@ public class LeetCode_4 {
         }
 
         public void addText(String text) {
-            if (s.isEmpty()) {
-                s.append(text);
-                cursorIndex = text.length();
-                return;
-            }
             s.insert(cursorIndex, text);
             cursorIndex += text.length();
         }
 
         public int deleteText(int k) {
-            if (s.isEmpty()) {
-                return 0;
-            }
             int leftCount = Math.min(k, cursorIndex);
             s.delete(cursorIndex - leftCount, cursorIndex);
             cursorIndex -= leftCount;
@@ -1377,18 +1369,12 @@ public class LeetCode_4 {
         }
 
         public String cursorLeft(int k) {
-            if (cursorIndex == 0) {
-                return "";
-            }
             cursorIndex = Math.max(cursorIndex - k, 0);
             return s.substring(Math.max(0, cursorIndex - 10), cursorIndex);
 
         }
 
         public String cursorRight(int k) {
-            if (cursorIndex == s.length()) {
-                return s.substring(Math.max(0, cursorIndex - 10), cursorIndex);
-            }
             cursorIndex = Math.min(cursorIndex + k, s.length());
             return s.substring(Math.max(0, cursorIndex - 10), cursorIndex);
         }
