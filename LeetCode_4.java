@@ -1394,4 +1394,26 @@ public class LeetCode_4 {
         }
     }
 
+    // 2265. 统计值等于子树平均值的节点数 (Count Nodes Equal to Average of Subtree) --dfs
+    private int res2265;
+
+    public int averageOfSubtree(TreeNode root) {
+        dfs2265(root);
+        return res2265;
+    }
+
+    private int[] dfs2265(TreeNode root) {
+        if (root == null) {
+            return new int[] { 0, 0 };
+        }
+        int[] left = dfs2265(root.left);
+        int[] right = dfs2265(root.right);
+        int sum = left[0] + right[0] + root.val;
+        int count = left[1] + right[1] + 1;
+        if (sum / count == root.val) {
+            ++res2265;
+        }
+        return new int[] { sum, count };
+    }
+
 }
