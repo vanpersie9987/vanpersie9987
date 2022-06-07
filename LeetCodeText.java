@@ -14374,7 +14374,7 @@ public class LeetCodeText {
 
     }
 
-    // 面试题 16.02. 单词频率 (还需掌握字典树方法)
+    // 面试题 16.02. 单词频率 --哈希表
     class WordsFrequency {
         Map<String, Integer> map;
 
@@ -14387,6 +14387,59 @@ public class LeetCodeText {
 
         public int get(String word) {
             return map.getOrDefault(word, 0);
+        }
+    }
+
+    // 面试题 16.02. 单词频率 --字典树
+    class WordsFrequency2 {
+        Trie16_02 trie;
+
+        public WordsFrequency2(String[] book) {
+            trie = new Trie16_02();
+            for (String word : book) {
+                trie.insert(word);
+            }
+        }
+
+        public int get(String word) {
+            return trie.getCount(word);
+        }
+    }
+
+    class Trie16_02 {
+        private Trie16_02[] children;
+        private int count;
+
+        public Trie16_02() {
+            children = new Trie16_02[26];
+            count = 0;
+        }
+
+        public void insert(String s) {
+            Trie16_02 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie16_02();
+                }
+                node = node.children[index];
+            }
+            ++node.count;
+        }
+
+        public int getCount(String s) {
+            Trie16_02 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    return 0;
+                }
+                node = node.children[index];
+            }
+            if (node == null) {
+                return 0;
+            }
+            return node.count;
         }
     }
 
