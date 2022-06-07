@@ -676,7 +676,7 @@ public class LeetCode_2 {
       return true;
    }
 
-   // 677. 键值映射 (Map Sum Pairs) --还需掌握字典树
+   // 677. 键值映射 (Map Sum Pairs) --哈希表
    class MapSum {
       private Map<String, Integer> map;
       private Map<String, Integer> prefixMap;
@@ -698,6 +698,64 @@ public class LeetCode_2 {
 
       public int sum(String prefix) {
          return prefixMap.getOrDefault(prefix, 0);
+      }
+   }
+
+   // 677. 键值映射 (Map Sum Pairs) --字典树
+   class MapSum2 {
+      private Trie667 trie;
+
+      public MapSum2() {
+         trie = new Trie667();
+      }
+
+      public void insert(String key, int val) {
+         trie.insert(key, val);
+      }
+
+      public int sum(String prefix) {
+         return trie.getPrefixCount(prefix);
+      }
+   }
+
+   class Trie667 {
+      private Trie667[] children;
+      private int count;
+      private Map<String, Integer> map;
+
+      public Trie667() {
+         children = new Trie667[26];
+         count = 0;
+         map = new HashMap<>();
+      }
+
+      public void insert(String s, int val) {
+         Trie667 node = this;
+         int delta = val - map.getOrDefault(s, 0);
+         map.put(s, val);
+         for (char c : s.toCharArray()) {
+            int index = c - 'a';
+            if (node.children[index] == null) {
+               node.children[index] = new Trie667();
+            }
+            node = node.children[index];
+            node.count += delta;
+         }
+      }
+
+      public int getPrefixCount(String s) {
+         Trie667 node = this;
+         for (char c : s.toCharArray()) {
+            int index = c - 'a';
+            if (node.children[index] == null) {
+               return 0;
+            }
+            node = node.children[index];
+         }
+         if (node == null) {
+            return 0;
+         }
+         return node.count;
       }
    }
 
