@@ -1462,4 +1462,126 @@ public class LeetCode_4 {
         }
     }
 
+    // 6095. 强密码检验器 II (Strong Password Checker II)
+    public boolean strongPasswordCheckerII(String password) {
+        if (password.length() < 8) {
+            return false;
+        }
+        boolean hasLower = false;
+        boolean hasUpper = false;
+        boolean hasDigit = false;
+        boolean hasSpecial = false;
+        char[] chars = password.toCharArray();
+        for (int i = 0; i < chars.length; ++i) {
+            if (i != 0) {
+                if (chars[i] == chars[i - 1]) {
+                    return false;
+                }
+            }
+            if (Character.isUpperCase(chars[i])) {
+                hasUpper = true;
+            }
+            if (Character.isLowerCase(chars[i])) {
+                hasLower = true;
+            }
+            if (Character.isDigit(chars[i])) {
+                hasDigit = true;
+            }
+            if (chars[i] == '!' || chars[i] == '@' || chars[i] == '$' || chars[i] == '#' || chars[i] == '%'
+                    || chars[i] == '^' || chars[i] == '&' || chars[i] == '*' || chars[i] == '(' || chars[i] == ')'
+                    || chars[i] == '-' || chars[i] == '+') {
+                hasSpecial = true;
+            }
+        }
+        return hasLower && hasUpper && hasDigit && hasSpecial;
+
+    }
+
+    // 6096. 咒语和药水的成功对数 (Successful Pairs of Spells and Potions) --二分查找
+    public int[] successfulPairs(int[] spells, int[] potions, long success) {
+        Arrays.sort(potions);
+        long[] longPotions = new long[potions.length];
+        for (int i = 0; i < potions.length; ++i) {
+            longPotions[i] = potions[i];
+        }
+        int[] res = new int[spells.length];
+        for (int i = 0; i < spells.length; ++i) {
+            int index = search6096(spells[i], longPotions, success);
+            res[i] = longPotions.length - index;
+        }
+        return res;
+
+    }
+
+    private int search6096(int spell, long[] longPotions, long success) {
+        if (longPotions[longPotions.length - 1] * spell < success) {
+            return longPotions.length;
+        }
+        int left = 0;
+        int right = longPotions.length - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (longPotions[mid] * spell >= success) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+
+    // 6097. 替换字符后匹配 (Match Substring After Replacement)
+    public boolean matchReplacement(String s, String sub, char[][] mappings) {
+        int m = s.length();
+        int n = sub.length();
+        if (m < n) {
+            return false;
+        }
+        Map<Character, Set<Character>> map = new HashMap<>();
+        for (char[] mapping : mappings) {
+            map.computeIfAbsent(mapping[0], k -> new HashSet<>()).add(mapping[1]);
+        }
+        for (int i = 0; i <= m - n; ++i) {
+            if (s.charAt(i) == sub.charAt(0)
+                    || map.getOrDefault(sub.charAt(0), new HashSet<>()).contains(s.charAt(i))) {
+                if (match6097(map, s.substring(i, i + n), sub)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
+
+    private boolean match6097(Map<Character, Set<Character>> map, String s, String sub) {
+        for (int i = 0; i < sub.length(); ++i) {
+            if (sub.charAt(i) != s.charAt(i)
+                    && !map.getOrDefault(sub.charAt(i), new HashSet<>()).contains(s.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // 6098. 统计得分小于 K 的子数组数目 (Count Subarrays With Score Less Than K)
+    public long countSubarrays(int[] nums, long k) {
+        int i = 0;
+        int j = 0;
+        long preSum = 0l;
+        long res = 0l;
+        while (j < nums.length) {
+            preSum += nums[j];
+            while (preSum * (j - i + 1) >= k) {
+                preSum -= nums[i];
+                ++i;
+            }
+            res += j - i + 1;
+            ++j;
+        }
+        return res;
+
+    }
+
 }
