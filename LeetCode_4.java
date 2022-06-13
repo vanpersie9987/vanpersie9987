@@ -1655,4 +1655,85 @@ public class LeetCode_4 {
         }
     }
 
+    // 17. 电话号码的字母组合 (Letter Combinations of a Phone Number) --回溯
+    public List<String> letterCombinations(String digits) {
+        List<String> res = new ArrayList<>();
+        if (digits.length() == 0) {
+            return res;
+        }
+        Map<Character, String> map = new HashMap<>() {
+            {
+                put('2', "abc");
+                put('3', "def");
+                put('4', "ghi");
+                put('5', "jkl");
+                put('6', "mno");
+                put('7', "pqrs");
+                put('8', "tuv");
+                put('9', "wxyz");
+            }
+        };
+
+        StringBuilder builder = new StringBuilder();
+        backtrack17(res, builder, digits, 0, map);
+        return res;
+    }
+
+    private void backtrack17(List<String> res, StringBuilder builder, String digits, int index,
+            Map<Character, String> map) {
+        if (index == digits.length()) {
+            res.add(builder.toString());
+            return;
+        }
+        char c = digits.charAt(index);
+        String s = map.get(c);
+        for (int i = 0; i < s.length(); ++i) {
+            builder.append(s.charAt(i));
+            backtrack17(res, builder, digits, index + 1, map);
+            builder.deleteCharAt(builder.length() - 1);
+        }
+    }
+
+    // 17. 电话号码的字母组合 (Letter Combinations of a Phone Number) --队列
+    public List<String> letterCombinations2(String digits) {
+        List<String> res = new ArrayList<>();
+        if (digits.length() == 0) {
+            return res;
+        }
+        Queue<String> queue = new LinkedList<>();
+        Map<Character, String> map = new HashMap<>() {
+            {
+                put('2', "abc");
+                put('3', "def");
+                put('4', "ghi");
+                put('5', "jkl");
+                put('6', "mno");
+                put('7', "pqrs");
+                put('8', "tuv");
+                put('9', "wxyz");
+            }
+        };
+        for (int i = 0; i < digits.length(); ++i) {
+            handle17(queue, map.get(digits.charAt(i)));
+        }
+        return new ArrayList<>(queue);
+
+    }
+
+    private void handle17(Queue<String> queue, String string) {
+        if (queue.isEmpty()) {
+            for (char c : string.toCharArray()) {
+                queue.offer(String.valueOf(c));
+            }
+        } else {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                String cur = queue.poll();
+                for (char c : string.toCharArray()) {
+                    queue.offer(cur + String.valueOf(c));
+                }
+            }
+        }
+    }
+
 }
