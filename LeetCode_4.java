@@ -1630,13 +1630,14 @@ public class LeetCode_4 {
 
     public int distributeCookies(int[] cookies, int k) {
         res2305 = Integer.MAX_VALUE;
-        dfs2305(cookies, 0, new int[k]);
+        Arrays.sort(cookies);
+        dfs2305(cookies, cookies.length - 1, new int[k]);
         return res2305;
 
     }
 
     private void dfs2305(int[] cookies, int start, int[] cur) {
-        if (start >= cookies.length) {
+        if (start < 0) {
             int max = Integer.MIN_VALUE;
             for (int c : cur) {
                 max = Math.max(c, max);
@@ -1645,8 +1646,11 @@ public class LeetCode_4 {
             return;
         }
         for (int i = 0; i < cur.length; ++i) {
+            if (i > 0 && start == cookies.length) {
+                return;
+            }
             cur[i] += cookies[start];
-            dfs2305(cookies, start + 1, cur);
+            dfs2305(cookies, start - 1, cur);
             cur[i] -= cookies[start];
         }
     }
