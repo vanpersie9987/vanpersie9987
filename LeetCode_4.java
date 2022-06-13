@@ -1584,4 +1584,71 @@ public class LeetCode_4 {
 
     }
 
+    // 5259. 计算应缴税款总额 (Calculate Amount Paid in Taxes)
+    public double calculateTax(int[][] brackets, int income) {
+        double res = 0d;
+        for (int i = 0; i < brackets.length; ++i) {
+            if (income == 0) {
+                break;
+            }
+            int min = 0;
+            if (i == 0) {
+                min = Math.min(income, brackets[i][0]);
+            } else {
+                min = Math.min(income, brackets[i][0] - brackets[i - 1][0]);
+            }
+            res += min * brackets[i][1] * 0.01d;
+            income -= min;
+        }
+        return res;
+
+    }
+
+    // 5270. 网格中的最小路径代价 (Minimum Path Cost in a Grid)
+    public int minPathCost(int[][] grid, int[][] moveCost) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < n; ++i) {
+            dp[0][i] = grid[0][i];
+        }
+        for (int i = 1; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int min = Integer.MAX_VALUE;
+                for (int k = 0; k < n; ++k) {
+                    min = Math.min(min, dp[i - 1][k] + grid[i][j] + moveCost[grid[i - 1][k]][j]);
+                }
+                dp[i][j] = min;
+            }
+        }
+        return Arrays.stream(dp[m - 1]).min().getAsInt();
+
+    }
+
+    // 2305. 公平分发饼干 (Fair Distribution of Cookies)
+    private int res2305;
+
+    public int distributeCookies(int[] cookies, int k) {
+        res2305 = Integer.MAX_VALUE;
+        dfs2305(cookies, 0, new int[k]);
+        return res2305;
+
+    }
+
+    private void dfs2305(int[] cookies, int start, int[] cur) {
+        if (start >= cookies.length) {
+            int max = Integer.MIN_VALUE;
+            for (int c : cur) {
+                max = Math.max(c, max);
+            }
+            res2305 = Math.min(res2305, max);
+            return;
+        }
+        for (int i = 0; i < cur.length; ++i) {
+            cur[i] += cookies[start];
+            dfs2305(cookies, start + 1, cur);
+            cur[i] -= cookies[start];
+        }
+    }
+
 }
