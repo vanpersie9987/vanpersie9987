@@ -1803,4 +1803,55 @@ public class LeetCode_4 {
 
     }
 
+    // 37. 解数独 (Sudoku Solver) --回溯
+    private boolean[][] line;
+    private boolean[][] column;
+    private boolean[][][] block;
+    private List<int[]> spaces;
+    private boolean valid;
+
+    public void solveSudoku(char[][] board) {
+        int n = board.length;
+        line = new boolean[n][n];
+        column = new boolean[n][n];
+        block = new boolean[3][3][n];
+        spaces = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (board[i][j] == '.') {
+                    spaces.add(new int[] { i, j });
+                } else {
+                    int num = board[i][j] - '0' - 1;
+                    line[i][num] = true;
+                    column[j][num] = true;
+                    block[i / 3][j / 3][num] = true;
+                }
+            }
+        }
+        dfs37(board, 0);
+
+    }
+
+    private void dfs37(char[][] board, int index) {
+        if (index == spaces.size()) {
+            valid = true;
+            return;
+        }
+        int[] cur = spaces.get(index);
+        int x = cur[0];
+        int y = cur[1];
+        for (int val = 0; val < 9 && !valid; ++val) {
+            if (!line[x][val] && !column[y][val] && !block[x / 3][y / 3][val]) {
+                line[x][val] = true;
+                column[y][val] = true;
+                block[x / 3][y / 3][val] = true;
+                board[x][y] = (char) (val + '0' + 1);
+                dfs37(board, index + 1);
+                line[x][val] = false;
+                column[y][val] = false;
+                block[x / 3][y / 3][val] = false;
+            }
+        }
+    }
+
 }
