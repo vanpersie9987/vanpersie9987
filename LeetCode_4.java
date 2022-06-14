@@ -1736,4 +1736,71 @@ public class LeetCode_4 {
         }
     }
 
+    // 剑指 Offer II 085. 生成匹配的括号 --backtrack
+    // 22. 括号生成 (Generate Parentheses)
+    // 面试题 08.09.括号 (Bracket LCCI)
+    public List<String> generateParenthesis(int n) {
+        List<String> res = new ArrayList<>();
+        StringBuilder builder = new StringBuilder();
+        backtrack22(res, builder, 0, 0, n);
+        return res;
+
+    }
+
+    private void backtrack22(List<String> res, StringBuilder builder, int open, int close, int n) {
+        if (builder.length() == n * 2) {
+            res.add(builder.toString());
+            return;
+        }
+        if (open < n) {
+            builder.append('(');
+            backtrack22(res, builder, open + 1, close, n);
+            builder.deleteCharAt(builder.length() - 1);
+        }
+        if (open > close) {
+            builder.append(')');
+            backtrack22(res, builder, open, close + 1, n);
+            builder.deleteCharAt(builder.length() - 1);
+        }
+    }
+
+    class Node22 {
+        int left;
+        int right;
+        String cur;
+
+        public Node22(String cur, int left, int right) {
+            this.cur = cur;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    // 剑指 Offer II 085. 生成匹配的括号 --bfs
+    // 22. 括号生成 (Generate Parentheses)
+    // 面试题 08.09.括号 (Bracket LCCI)
+    public List<String> generateParenthesis2(int n) {
+        List<String> res = new ArrayList<>();
+        Queue<Node22> queue = new LinkedList<>();
+        queue.offer(new Node22("", 0, 0));
+        while (!queue.isEmpty()) {
+            Node22 node = queue.poll();
+            String cur = node.cur;
+            if (cur.length() == n * 2) {
+                res.add(node.cur);
+                continue;
+            }
+            int left = node.left;
+            int right = node.right;
+            if (left < n) {
+                queue.offer(new Node22(cur + "(", left + 1, right));
+            }
+            if (right < left) {
+                queue.offer(new Node22(cur + ")", left, right + 1));
+            }
+        }
+        return res;
+
+    }
+
 }

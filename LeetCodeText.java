@@ -6364,29 +6364,6 @@ public class LeetCodeText {
 
     }
 
-    // 剑指 Offer II 085. 生成匹配的括号
-    // 22. 括号生成 (Generate Parentheses)
-    // 面试题 08.09.括号 (Bracket LCCI)
-    public List<String> generateParenthesis(int n) {
-        List<String> res = new ArrayList<>();
-        backtrack(res, "", 0, 0, n);
-        return res;
-
-    }
-
-    private void backtrack(List<String> res, String string, int open, int close, int n) {
-        if (string.length() == n * 2) {
-            res.add(string);
-            return;
-        }
-        if (open < n) {
-            backtrack(res, string + "(", open + 1, close, n);
-        }
-        if (close < open) {
-            backtrack(res, string + ")", open, close + 1, n);
-        }
-    }
-
     public int strStr(final String haystack, final String needle) {
         return haystack.indexOf(needle);
     }
