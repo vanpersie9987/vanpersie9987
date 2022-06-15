@@ -4987,6 +4987,24 @@ public class LeetCodeText {
         return res;
     }
 
+    // 78. 子集 / 面试题 08.04. 幂集 --回溯
+    public List<List<Integer>> subsets3(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        backtrack78(res, nums, path, 0);
+        return res;
+
+    }
+
+    private void backtrack78(List<List<Integer>> res, int[] nums, List<Integer> path, int index) {
+        res.add(new ArrayList<>(path));
+        for (int i = index; i < nums.length; ++i) {
+            path.add(nums[i]);
+            backtrack78(res, nums, path, i + 1);
+            path.remove(path.size() - 1);
+        }
+    }
+
     // 90. 子集 II (Subsets II)
     public List<List<Integer>> subsetsWithDup(int[] nums) {
         Arrays.sort(nums);
