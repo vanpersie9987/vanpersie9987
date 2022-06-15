@@ -19261,6 +19261,32 @@ public class LeetCodeText {
 
     }
 
+    // 77. 组合 (Combinations) --回溯
+    // 剑指 Offer II 080. 含有 k 个元素的组合
+    public List<List<Integer>> combine2(int n, int k) {
+        List<List<Integer>> res = new ArrayList<>();
+        int[] nums = new int[n];
+        for (int i = 1; i <= n; ++i) {
+            nums[i - 1] = i;
+        }
+        List<Integer> path = new ArrayList<>();
+        backtrack77(res, nums, path, 0, k);
+        return res;
+
+    }
+
+    private void backtrack77(List<List<Integer>> res, int[] nums, List<Integer> path, int index, int k) {
+        if (path.size() == k) {
+            res.add(new ArrayList<>(path));
+            return;
+        }
+        for (int i = index; i < nums.length; ++i) {
+            path.add(nums[i]);
+            backtrack77(res, nums, path, i + 1, k);
+            path.remove(path.size() - 1);
+        }
+    }
+
     // 740. 删除并获得点数 (Delete and Earn)
     public int deleteAndEarn(int[] nums) {
         int max = Arrays.stream(nums).max().getAsInt();
