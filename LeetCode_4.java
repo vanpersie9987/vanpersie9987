@@ -1,3 +1,4 @@
+import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,6 +20,8 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import javax.management.monitor.Monitor;
 
 public class LeetCode_4 {
     public static void main(String[] args) {
@@ -1804,27 +1807,27 @@ public class LeetCode_4 {
     }
 
     // 37. 解数独 (Sudoku Solver) --回溯
-    private boolean[][] line;
-    private boolean[][] column;
-    private boolean[][][] block;
-    private List<int[]> spaces;
-    private boolean valid;
+    private boolean[][] line_1;
+    private boolean[][] column_1;
+    private boolean[][][] block_1;
+    private List<int[]> spaces_1;
+    private boolean valid_1;
 
     public void solveSudoku(char[][] board) {
         int n = board.length;
-        line = new boolean[n][n];
-        column = new boolean[n][n];
-        block = new boolean[3][3][n];
-        spaces = new ArrayList<>();
+        line_1 = new boolean[n][n];
+        column_1 = new boolean[n][n];
+        block_1 = new boolean[3][3][n];
+        spaces_1 = new ArrayList<>();
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (board[i][j] == '.') {
-                    spaces.add(new int[] { i, j });
+                    spaces_1.add(new int[] { i, j });
                 } else {
                     int num = board[i][j] - '0' - 1;
-                    line[i][num] = true;
-                    column[j][num] = true;
-                    block[i / 3][j / 3][num] = true;
+                    line_1[i][num] = true;
+                    column_1[j][num] = true;
+                    block_1[i / 3][j / 3][num] = true;
                 }
             }
         }
@@ -1833,45 +1836,45 @@ public class LeetCode_4 {
     }
 
     private void dfs37(char[][] board, int index) {
-        if (index == spaces.size()) {
-            valid = true;
+        if (index == spaces_1.size()) {
+            valid_1 = true;
             return;
         }
-        int[] cur = spaces.get(index);
+        int[] cur = spaces_1.get(index);
         int x = cur[0];
         int y = cur[1];
-        for (int val = 0; val < 9 && !valid; ++val) {
-            if (!line[x][val] && !column[y][val] && !block[x / 3][y / 3][val]) {
-                line[x][val] = true;
-                column[y][val] = true;
-                block[x / 3][y / 3][val] = true;
+        for (int val = 0; val < 9 && !valid_1; ++val) {
+            if (!line_1[x][val] && !column_1[y][val] && !block_1[x / 3][y / 3][val]) {
+                line_1[x][val] = true;
+                column_1[y][val] = true;
+                block_1[x / 3][y / 3][val] = true;
                 board[x][y] = (char) (val + '0' + 1);
                 dfs37(board, index + 1);
-                line[x][val] = false;
-                column[y][val] = false;
-                block[x / 3][y / 3][val] = false;
+                line_1[x][val] = false;
+                column_1[y][val] = false;
+                block_1[x / 3][y / 3][val] = false;
             }
         }
     }
 
     // 37. 解数独 (Sudoku Solver) -- 位运算 + 回溯
-    private int[] line37;
-    private int[] column37;
-    private int[][] block37;
-    private List<int[]> spaces37;
-    private boolean valid37;
+    private int[] line37_2;
+    private int[] column37_2;
+    private int[][] block37_2;
+    private List<int[]> spaces37_2;
+    private boolean valid37_2;
 
     public void solveSudoku2(char[][] board) {
         int n = board.length;
-        line37 = new int[n];
-        column37 = new int[n];
-        block37 = new int[n][n];
-        spaces37 = new ArrayList<>();
+        line37_2 = new int[n];
+        column37_2 = new int[n];
+        block37_2 = new int[n][n];
+        spaces37_2 = new ArrayList<>();
 
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (board[i][j] == '.') {
-                    spaces37.add(new int[] { i, j });
+                    spaces37_2.add(new int[] { i, j });
                 } else {
                     int digit = board[i][j] - '0' - 1;
                     flip37(i, j, digit);
@@ -1883,15 +1886,15 @@ public class LeetCode_4 {
     }
 
     private void dfs37_2(char[][] board, int index) {
-        if (index == spaces37.size()) {
-            valid37 = true;
+        if (index == spaces37_2.size()) {
+            valid37_2 = true;
             return;
         }
-        int[] cur = spaces37.get(index);
+        int[] cur = spaces37_2.get(index);
         int x = cur[0];
         int y = cur[1];
-        int mask = ~(line37[x] | column37[y] | block37[x / 3][y / 3]) & 0x1FF;
-        for (; mask != 0 && !valid37; mask &= (mask - 1)) {
+        int mask = ~(line37_2[x] | column37_2[y] | block37_2[x / 3][y / 3]) & 0x1FF;
+        for (; mask != 0 && !valid37_2; mask &= (mask - 1)) {
             int bit = mask & (-mask);
             int digit = Integer.bitCount(bit - 1);
             flip37(x, y, digit);
@@ -1902,9 +1905,87 @@ public class LeetCode_4 {
     }
 
     private void flip37(int i, int j, int digit) {
-        line37[i] ^= 1 << digit;
-        column37[j] ^= 1 << digit;
-        block37[i / 3][j / 3] ^= 1 << digit;
+        line37_2[i] ^= 1 << digit;
+        column37_2[j] ^= 1 << digit;
+        block37_2[i / 3][j / 3] ^= 1 << digit;
+    }
+
+    // 37. 解数独 (Sudoku Solver) -- 位运算 + 回溯 + 预处理 (把只有唯一一个数可选的位置先填上值)
+    private int[] line37_3;
+    private int[] column37_3;
+    private int[][] block37_3;
+    private List<int[]> spaces37_3;
+    private boolean valid37_3;
+
+    public void solveSudoku3(char[][] board) {
+        int n = board.length;
+        line37_3 = new int[n];
+        column37_3 = new int[n];
+        block37_3 = new int[n][n];
+        spaces37_3 = new ArrayList<>();
+
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (board[i][j] != '.') {
+                    int digit = board[i][j] - '0' - 1;
+                    flip37_3(i, j, digit);
+                }
+            }
+        }
+        while (true) {
+            boolean modified = false;
+            for (int i = 0; i < n; ++i) {
+                for (int j = 0; j < n; ++j) {
+                    if (board[i][j] == '.') {
+                        int mask = ~(line37_3[i] | column37_3[j] | block37_3[i / 3][j / 3]) & 0x1FF;
+                        // 只有一个1，即该位置的值已唯一确定
+                        if ((mask & (mask - 1)) == 0) {
+                            int digit = Integer.bitCount(mask - 1);
+                            board[i][j] = (char) (digit + '0' + 1);
+                            flip37_3(i, j, digit);
+                            modified = true;
+                        }
+                    }
+                }
+            }
+            if (!modified) {
+                break;
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (board[i][j] == '.') {
+                    spaces37_3.add(new int[] { i, j });
+                }
+            }
+        }
+        dfs37_3(board, 0);
+
+    }
+
+    private void dfs37_3(char[][] board, int index) {
+        if (index == spaces37_3.size()) {
+            valid37_3 = true;
+            return;
+        }
+        int[] cur = spaces37_3.get(index);
+        int x = cur[0];
+        int y = cur[1];
+        int mask = ~(line37_3[x] | column37_3[y] | block37_3[x / 3][y / 3]) & 0x1FF;
+        for (; mask != 0 && !valid37_3; mask &= (mask - 1)) {
+            int bit = mask & (-mask);
+            int digit = Integer.bitCount(bit - 1);
+            board[x][y] = (char) (digit + '0' + 1);
+            flip37_3(x, y, digit);
+            dfs37_3(board, index + 1);
+            flip37_3(x, y, digit);
+        }
+    }
+
+    private void flip37_3(int i, int j, int digit) {
+        line37_3[i] ^= 1 << digit;
+        column37_3[j] ^= 1 << digit;
+        block37_3[i / 3][j / 3] ^= 1 << digit;
     }
 
 }
