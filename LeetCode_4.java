@@ -21,8 +21,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import javax.management.monitor.Monitor;
-
 public class LeetCode_4 {
     public static void main(String[] args) {
         // String[] strings = { "mobile", "mouse", "moneypot", "monitor", "mousepad" };
@@ -2017,6 +2015,36 @@ public class LeetCode_4 {
             backtrack40(res, candidates, path, sum, target, i + 1);
             path.remove(path.size() - 1);
             sum -= candidates[i];
+        }
+    }
+
+    // 47. 全排列 II (Permutations II) --回溯
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        boolean[] used = new boolean[nums.length];
+        backtrack47(res, path, nums, used);
+        return res;
+    }
+
+    private void backtrack47(List<List<Integer>> res, List<Integer> path, int[] nums, boolean[] used) {
+        if (path.size() == nums.length) {
+            res.add(new ArrayList<>(path));
+            return;
+        }
+        for (int i = 0; i < nums.length; ++i) {
+            if (used[i]) {
+                continue;
+            }
+            if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {
+                continue;
+            }
+            used[i] = true;
+            path.add(nums[i]);
+            backtrack47(res, path, nums, used);
+            path.remove(path.size() - 1);
+            used[i] = false;
         }
     }
 
