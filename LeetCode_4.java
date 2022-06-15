@@ -1854,4 +1854,57 @@ public class LeetCode_4 {
         }
     }
 
+    // 37. 解数独 (Sudoku Solver) -- 位运算 + 回溯
+    private int[] line37;
+    private int[] column37;
+    private int[][] block37;
+    private List<int[]> spaces37;
+    private boolean valid37;
+
+    public void solveSudoku2(char[][] board) {
+        int n = board.length;
+        line37 = new int[n];
+        column37 = new int[n];
+        block37 = new int[n][n];
+        spaces37 = new ArrayList<>();
+
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (board[i][j] == '.') {
+                    spaces37.add(new int[] { i, j });
+                } else {
+                    int digit = board[i][j] - '0' - 1;
+                    flip37(i, j, digit);
+                }
+            }
+        }
+        dfs37_2(board, 0);
+
+    }
+
+    private void dfs37_2(char[][] board, int index) {
+        if (index == spaces37.size()) {
+            valid37 = true;
+            return;
+        }
+        int[] cur = spaces37.get(index);
+        int x = cur[0];
+        int y = cur[1];
+        int mask = ~(line37[x] | column37[y] | block37[x / 3][y / 3]) & 0x1FF;
+        for (; mask != 0 && !valid37; mask &= (mask - 1)) {
+            int bit = mask & (-mask);
+            int digit = Integer.bitCount(bit - 1);
+            flip37(x, y, digit);
+            board[x][y] = (char) (digit + '0' + 1);
+            dfs37_2(board, index + 1);
+            flip37(x, y, digit);
+        }
+    }
+
+    private void flip37(int i, int j, int digit) {
+        line37[i] ^= 1 << digit;
+        column37[j] ^= 1 << digit;
+        block37[i / 3][j / 3] ^= 1 << digit;
+    }
+
 }
