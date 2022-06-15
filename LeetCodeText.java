@@ -5029,6 +5029,28 @@ public class LeetCodeText {
 
     }
 
+    // 90. 子集 II (Subsets II) --回溯
+    public List<List<Integer>> subsetsWithDup2(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        backtrack90(res, path, nums, 0);
+        return res;
+
+    }
+
+    private void backtrack90(List<List<Integer>> res, List<Integer> path, int[] nums, int index) {
+        res.add(new ArrayList<>(path));
+        for (int i = index; i < nums.length; ++i) {
+            if (i > index && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            path.add(nums[i]);
+            backtrack90(res, path, nums, i + 1);
+            path.remove(path.size() - 1);
+        }
+    }
+
     // 1329. 将矩阵按对角线排序
     public int[][] diagonalSort(final int[][] mat) {
         Map<Integer, ArrayList<Integer>> map = new HashMap<>();
