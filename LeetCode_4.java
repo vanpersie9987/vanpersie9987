@@ -1988,4 +1988,36 @@ public class LeetCode_4 {
         block37_3[i / 3][j / 3] ^= 1 << digit;
     }
 
+    // 40. 组合总和 II (Combination Sum II) --回溯
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        int sum = 0;
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        backtrack40(res, candidates, path, sum, target, 0);
+        return res;
+
+    }
+
+    private void backtrack40(List<List<Integer>> res, int[] candidates, List<Integer> path, int sum, int target,
+            int index) {
+        if (sum == target) {
+            res.add(new ArrayList<>(path));
+            return;
+        }
+        if (sum > target) {
+            return;
+        }
+        for (int i = index; i < candidates.length; ++i) {
+            if (i > index && candidates[i] == candidates[i - 1]) {
+                continue;
+            }
+            sum += candidates[i];
+            path.add(candidates[i]);
+            backtrack40(res, candidates, path, sum, target, i + 1);
+            path.remove(path.size() - 1);
+            sum -= candidates[i];
+        }
+    }
+
 }
