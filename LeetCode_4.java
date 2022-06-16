@@ -2048,4 +2048,32 @@ public class LeetCode_4 {
         }
     }
 
+    // 39. 组合总和 (Combination Sum) --回溯
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        backtrack39(candidates, path, res, target, 0, 0);
+        return res;
+
+    }
+
+    private void backtrack39(int[] candidates, List<Integer> path, List<List<Integer>> res, int target, int sum,
+            int index) {
+        if (target == sum) {
+            res.add(new ArrayList<>(path));
+            return;
+        }
+        if (sum > target) {
+            return;
+        }
+        for (int i = index; i < candidates.length; ++i) {
+            sum += candidates[i];
+            path.add(candidates[i]);
+            backtrack39(candidates, path, res, target, sum, i);
+            path.remove(path.size() - 1);
+            sum -= candidates[i];
+        }
+    }
+
 }
