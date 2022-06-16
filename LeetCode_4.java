@@ -1435,6 +1435,8 @@ public class LeetCode_4 {
 
     // 46. 全排列 (Permutations) --回溯
     // 剑指 Offer II 083. 没有重复元素集合的全排列
+    // 排列：需要用used数组
+    // 无重复元素：不需要排序
     private List<List<Integer>> res46;
 
     public List<List<Integer>> permute(int[] nums) {
@@ -1987,6 +1989,9 @@ public class LeetCode_4 {
     }
 
     // 40. 组合总和 II (Combination Sum II) --回溯
+    // 组合：不需要用used数组
+    // 有重复元素：需要排序
+    // 每个元素只能用一次 ：回溯的时候 index = i + 1
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         Arrays.sort(candidates);
         int sum = 0;
@@ -2019,6 +2024,8 @@ public class LeetCode_4 {
     }
 
     // 47. 全排列 II (Permutations II) --回溯
+    // 排列：需要用used数组
+    // 有重复元素：需要排序
     public List<List<Integer>> permuteUnique(int[] nums) {
         Arrays.sort(nums);
         List<List<Integer>> res = new ArrayList<>();
@@ -2049,8 +2056,10 @@ public class LeetCode_4 {
     }
 
     // 39. 组合总和 (Combination Sum) --回溯
+    // 组合：不需要用used数组
+    // 无重复元素：不需要排序
+    // 每个元素可以多次使用 ：回溯的时候 index = i
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        Arrays.sort(candidates);
         List<List<Integer>> res = new ArrayList<>();
         List<Integer> path = new ArrayList<>();
         backtrack39(candidates, path, res, target, 0, 0);
@@ -2073,6 +2082,54 @@ public class LeetCode_4 {
             backtrack39(candidates, path, res, target, sum, i);
             path.remove(path.size() - 1);
             sum -= candidates[i];
+        }
+    }
+
+    // 77. 组合 (Combinations)
+    // 剑指 Offer II 080. 含有 k 个元素的组合
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < (1 << n); ++i) {
+            if (Integer.bitCount(i) == k) {
+                List<Integer> list = new ArrayList<>();
+                for (int j = 0; j < n; ++j) {
+                    if ((i & (1 << j)) != 0) {
+                        list.add(j + 1);
+                    }
+                }
+                res.add(list);
+            }
+        }
+        return res;
+
+    }
+
+    // 77. 组合 (Combinations) --回溯
+    // 剑指 Offer II 080. 含有 k 个元素的组合
+    // 组合：不需要用used数组
+    // 无重复元素：不需要排序
+    // 每个元素只能使用一次 ：回溯的时候 index = i + 1
+    public List<List<Integer>> combine2(int n, int k) {
+        List<List<Integer>> res = new ArrayList<>();
+        int[] nums = new int[n];
+        for (int i = 1; i <= n; ++i) {
+            nums[i - 1] = i;
+        }
+        List<Integer> path = new ArrayList<>();
+        backtrack77(res, nums, path, 0, k);
+        return res;
+
+    }
+
+    private void backtrack77(List<List<Integer>> res, int[] nums, List<Integer> path, int index, int k) {
+        if (path.size() == k) {
+            res.add(new ArrayList<>(path));
+            return;
+        }
+        for (int i = index; i < nums.length; ++i) {
+            path.add(nums[i]);
+            backtrack77(res, nums, path, i + 1, k);
+            path.remove(path.size() - 1);
         }
     }
 
