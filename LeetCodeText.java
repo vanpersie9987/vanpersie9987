@@ -19089,6 +19089,34 @@ public class LeetCodeText {
 
     }
 
+    // 36. 有效的数独 (Valid Sudoku) --位运算
+    public boolean isValidSudoku2(char[][] board) {
+        int[] rows = new int[9];
+        int[] cols = new int[9];
+        int[][] blocks = new int[3][3];
+        for (int i = 0; i < 9; ++i) {
+            for (int j = 0; j < 9; ++j) {
+                if (board[i][j] != '.') {
+                    int digit = board[i][j] - '0' - 1;
+                    if ((rows[i] & (1 << digit)) != 0) {
+                        return false;
+                    }
+                    rows[i] |= 1 << digit;
+                    if ((cols[j] & (1 << digit)) != 0) {
+                        return false;
+                    }
+                    cols[j] |= 1 << digit;
+                    if ((blocks[i / 3][j / 3] & (1 << digit)) != 0) {
+                        return false;
+                    }
+                    blocks[i / 3][j / 3] |= 1 << digit;
+                }
+            }
+        }
+        return true;
+
+    }
+
     // 139. 单词拆分 (Word Break)
     public boolean wordBreak(String s, List<String> wordDict) {
         Set<String> set = new HashSet<>(wordDict);
