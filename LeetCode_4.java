@@ -2056,6 +2056,7 @@ public class LeetCode_4 {
     }
 
     // 39. 组合总和 (Combination Sum) --回溯
+    // 剑指 Offer II 081. 允许重复选择元素的组合
     // 组合：不需要用used数组
     // 无重复元素：不需要排序
     // 每个元素可以多次使用 ：回溯的时候 index = i
