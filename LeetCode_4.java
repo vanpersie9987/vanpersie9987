@@ -2193,12 +2193,9 @@ public class LeetCode_4 {
     // 51. N 皇后 (N-Queens) --回溯 + 位运算
     public List<List<String>> solveNQueens2(int n) {
         List<List<String>> res = new ArrayList<>();
-        int colunms = 0;
-        int diagonal1 = 0;
-        int diagonal2 = 0;
         int[] queens = new int[n];
         Arrays.fill(queens, -1);
-        backtrack51_2(res, queens, n, 0, colunms, diagonal1, diagonal2);
+        backtrack51_2(res, queens, n, 0, 0, 0, 0);
         return res;
     }
 
@@ -2232,6 +2229,28 @@ public class LeetCode_4 {
             res.add(String.valueOf(sub));
         }
         return res;
+    }
+
+    // 52. N皇后 II (N-Queens II) --回溯
+    private int res52;
+
+    public int totalNQueens(int n) {
+        backtrack52(n, 0, 0, 0, 0);
+        return res52;
+
+    }
+
+    private void backtrack52(int n, int row, int colunms, int diagonal1, int diagonal2) {
+        if (row == n) {
+            ++res52;
+            return;
+        }
+        int availablePositions = ((1 << n) - 1) & (~(colunms | diagonal1 | diagonal2));
+        while (availablePositions != 0) {
+            int position = availablePositions & (-availablePositions);
+            backtrack52(n, row + 1, colunms | position, (diagonal1 | position) << 1, (diagonal2 | position) >> 1);
+            availablePositions &= availablePositions - 1;
+        }
     }
 
 }
