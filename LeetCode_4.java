@@ -2133,4 +2133,60 @@ public class LeetCode_4 {
         }
     }
 
+    // 51. N 皇后 (N-Queens) --回溯
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> res = new ArrayList<>();
+        int[] queens = new int[n];
+        Arrays.fill(queens, -1);
+        Set<Integer> colunms = new HashSet<>();
+        Set<Integer> diagonals1 = new HashSet<>();
+        Set<Integer> diagonals2 = new HashSet<>();
+        backtrack51(res, queens, n, 0, colunms, diagonals1, diagonals2);
+        return res;
+
+    }
+
+    private void backtrack51(List<List<String>> res, int[] queens, int n, int row, Set<Integer> colunms,
+            Set<Integer> diagonals1, Set<Integer> diagonals2) {
+        if (row == n) {
+            List<String> board = generate51(queens);
+            res.add(board);
+        }
+        for (int i = 0; i < n; ++i) {
+            if (colunms.contains(i)) {
+                continue;
+            }
+            int diagonal1 = row - i;
+            if (diagonals1.contains(diagonal1)) {
+                continue;
+            }
+            int diagonal2 = row + i;
+            if (diagonals2.contains(diagonal2)) {
+                continue;
+            }
+            colunms.add(i);
+            diagonals1.add(diagonal1);
+            diagonals2.add(diagonal2);
+            queens[row] = i;
+            backtrack51(res, queens, n, row + 1, colunms, diagonals1, diagonals2);
+            queens[row] = -1;
+            diagonals2.remove(diagonal2);
+            diagonals1.remove(diagonal1);
+            colunms.remove(i);
+        }
+
+    }
+
+    private List<String> generate51(int[] queens) {
+        int n = queens.length;
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            char[] row = new char[n];
+            Arrays.fill(row, '.');
+            row[queens[i]] = 'Q';
+            res.add(String.valueOf(row));
+        }
+        return res;
+    }
+
 }
