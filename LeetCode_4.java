@@ -2134,6 +2134,7 @@ public class LeetCode_4 {
     }
 
     // 51. N 皇后 (N-Queens) --回溯
+    // 面试题 08.12. 八皇后 (Eight Queens LCCI)
     public List<List<String>> solveNQueens(int n) {
         List<List<String>> res = new ArrayList<>();
         int[] queens = new int[n];
@@ -2191,6 +2192,7 @@ public class LeetCode_4 {
     }
 
     // 51. N 皇后 (N-Queens) --回溯 + 位运算
+    // 面试题 08.12. 八皇后 (Eight Queens LCCI)
     public List<List<String>> solveNQueens2(int n) {
         List<List<String>> res = new ArrayList<>();
         int[] queens = new int[n];
