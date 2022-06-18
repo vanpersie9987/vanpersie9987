@@ -2151,6 +2151,7 @@ public class LeetCode_4 {
         if (row == n) {
             List<String> board = generate51(queens);
             res.add(board);
+            return;
         }
         for (int i = 0; i < n; ++i) {
             if (colunms.contains(i)) {
@@ -2185,6 +2186,50 @@ public class LeetCode_4 {
             Arrays.fill(row, '.');
             row[queens[i]] = 'Q';
             res.add(String.valueOf(row));
+        }
+        return res;
+    }
+
+    // 51. N 皇后 (N-Queens) --回溯 + 位运算
+    public List<List<String>> solveNQueens2(int n) {
+        List<List<String>> res = new ArrayList<>();
+        int colunms = 0;
+        int diagonal1 = 0;
+        int diagonal2 = 0;
+        int[] queens = new int[n];
+        Arrays.fill(queens, -1);
+        backtrack51_2(res, queens, n, 0, colunms, diagonal1, diagonal2);
+        return res;
+    }
+
+    private void backtrack51_2(List<List<String>> res, int[] queens, int n, int row, int colunms, int diagonal1,
+            int diagonal2) {
+        if (row == n) {
+            List<String> board = generate51_2(queens);
+            res.add(board);
+            return;
+        }
+        int availablePositions = ((1 << n) - 1) & (~(colunms | diagonal1 | diagonal2));
+        while (availablePositions != 0) {
+            int position = availablePositions & (-availablePositions);
+            int index = Integer.bitCount(position - 1);
+            queens[row] = index;
+            backtrack51_2(res, queens, n, row + 1, colunms | position, (diagonal1 | position) << 1,
+                    (diagonal2 | position) >> 1);
+            queens[row] = -1;
+            availablePositions &= availablePositions - 1;
+        }
+
+    }
+
+    private List<String> generate51_2(int[] queens) {
+        int n = queens.length;
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            char[] sub = new char[n];
+            Arrays.fill(sub, '.');
+            sub[queens[i]] = 'Q';
+            res.add(String.valueOf(sub));
         }
         return res;
     }
