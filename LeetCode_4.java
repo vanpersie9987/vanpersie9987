@@ -2255,4 +2255,47 @@ public class LeetCode_4 {
         }
     }
 
+    // 93. 复原 IP 地址 (Restore IP Addresses) --回溯
+    // 剑指 Offer II 087. 复原 IP
+    public List<String> restoreIpAddresses(String s) {
+        List<String> res = new ArrayList<>();
+        if (s.length() > 16) {
+            return res;
+        }
+        StringBuilder builder = new StringBuilder();
+        backtrack93(res, builder, 0, s);
+        return res;
+
+    }
+
+    private void backtrack93(List<String> res, StringBuilder builder, int start, String s) {
+        if (start == s.length() || builder.length() == s.length() + 3) {
+            if (start == s.length() && builder.length() == s.length() + 3) {
+                res.add(builder.toString());
+            }
+            return;
+        }
+        for (int end = start + 1; end <= s.length(); ++end) {
+            // 超过1位时，首位不可为0
+            if (end - start > 1 && s.charAt(start) == '0') {
+                return;
+            }
+            int cur = Integer.parseInt(s.substring(start, end));
+            if (cur > 255) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.append(".");
+            }
+            builder.append(cur);
+            backtrack93(res, builder, end, s);
+            int lastIndexOfDot = builder.lastIndexOf(".");
+            if (lastIndexOfDot == -1) {
+                builder.setLength(0);
+            } else {
+                builder.delete(lastIndexOfDot, builder.length());
+            }
+        }
+    }
+
 }
