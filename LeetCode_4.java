@@ -2259,7 +2259,7 @@ public class LeetCode_4 {
     // 剑指 Offer II 087. 复原 IP
     public List<String> restoreIpAddresses(String s) {
         List<String> res = new ArrayList<>();
-        if (s.length() > 16) {
+        if (s.length() > 12) {
             return res;
         }
         StringBuilder builder = new StringBuilder();
