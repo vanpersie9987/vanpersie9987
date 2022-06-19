@@ -2386,4 +2386,21 @@ public class LeetCode_4 {
 
     }
 
+    // 6099. 小于等于 K 的最长二进制子序列 (Longest Binary Subsequence Less Than or Equal to K)
+    public int longestSubsequence(String s, int k) {
+        int res = 0;
+        int sum = 0;
+        for (int i = s.length() - 1; i >= 0; --i) {
+            if (s.charAt(i) == '0') {
+                ++res;
+            } else {
+                if (res <= 30 && sum + (1 << res) <= k) {
+                    sum += 1 << res;
+                    ++res;
+                }
+            }
+        }
+        return res;
+    }
+
 }
