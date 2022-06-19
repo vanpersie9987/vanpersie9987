@@ -2299,4 +2299,76 @@ public class LeetCode_4 {
         }
     }
 
+    // LCP 55. 采集果实
+    public int getMinimumTime(int[] time, int[][] fruits, int limit) {
+        int res = 0;
+        for (int fruit[] : fruits) {
+            int t = time[fruit[0]];
+            res += (fruit[1] / limit + (fruit[1] % limit == 0 ? 0 : 1)) * t;
+        }
+        return res;
+
+    }
+
+    public String greatestLetter(String s) {
+        // 第0维 : 大写
+        // 第1维 : 小写
+        boolean[][] map = new boolean[26][2];
+        for (char c : s.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                map[c - 'A'][0] = true;
+            } else {
+                map[c - 'a'][1] = true;
+            }
+        }
+        for (int i = map.length - 1; i >= 0; --i) {
+            if (map[i][0] && map[i][1]) {
+                char c = (char) (i + 'A');
+                return String.valueOf(c);
+            }
+        }
+        return "";
+
+    }
+
+    // 473. 火柴拼正方形 (Matchsticks to Square) --回溯
+    public boolean makesquare(int[] matchsticks) {
+        int sum = Arrays.stream(matchsticks).sum();
+        if (sum % 4 != 0) {
+            return false;
+        }
+        int side = sum / 4;
+        Arrays.sort(matchsticks);
+        // 从大到小排序
+        int left = 0;
+        int right = matchsticks.length - 1;
+        while (left < right) {
+            int temp = matchsticks[left];
+            matchsticks[left] = matchsticks[right];
+            matchsticks[right] = temp;
+            ++left;
+            --right;
+        }
+        int[] square = new int[4];
+        return backtrack473(square, matchsticks, 0, side);
+
+    }
+
+    private boolean backtrack473(int[] square, int[] matchsticks, int indexMatchsticks, int side) {
+        if (indexMatchsticks == matchsticks.length) {
+            return true;
+        }
+        for (int i = 0; i < square.length; ++i) {
+            if (square[i] + matchsticks[indexMatchsticks] > side || i > 0 && square[i - 1] == square[i]) {
+                continue;
+            }
+            square[i] += matchsticks[indexMatchsticks];
+            if (backtrack473(square, matchsticks, indexMatchsticks + 1, side)) {
+                return true;
+            }
+            square[i] -= matchsticks[indexMatchsticks];
+        }
+        return false;
+    }
+
 }
