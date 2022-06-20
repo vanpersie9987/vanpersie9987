@@ -2436,4 +2436,30 @@ public class LeetCode_4 {
         }
     }
 
+    // 216. 组合总和 III (Combination Sum III) --回溯
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> cur = new ArrayList<>();
+        backtrack216(res, cur, k, n, 0, 0);
+        return res;
+    }
+
+    private void backtrack216(List<List<Integer>> res, List<Integer> cur, int k, int n, int index, int sum) {
+        if (cur.size() > k || sum > n) {
+            return;
+        }
+        if (sum == n && cur.size() == k) {
+            res.add(new ArrayList<>(cur));
+            return;
+        }
+        for (int i = index; i < 9; ++i) {
+            int num = i + 1;
+            cur.add(num);
+            sum += num;
+            backtrack216(res, cur, k, n, i + 1, sum);
+            sum -= num;
+            cur.remove(cur.size() - 1);
+        }
+    }
+
 }
