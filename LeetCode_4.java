@@ -2403,4 +2403,41 @@ public class LeetCode_4 {
         return res;
     }
 
+    // 131. 分割回文串 (Palindrome Partitioning) --回溯
+    // 剑指 Offer II 086. 分割回文子字符串
+    public List<List<String>> partition(String s) {
+        List<List<String>> res = new ArrayList<>();
+        List<String> cur = new ArrayList<>();
+        backtrack131(res, cur, s, 0);
+        return res;
+    }
+
+    private void backtrack131(List<List<String>> res, List<String> cur, String s, int index) {
+        if (index == s.length()) {
+            res.add(new ArrayList<>(cur));
+            return;
+        }
+        for (int i = index; i < s.length(); ++i) {
+            String sub = s.substring(index, i + 1);
+            if (isPalindrome131(sub)) {
+                cur.add(sub);
+                backtrack131(res, cur, s, i + 1);
+                cur.remove(cur.size() - 1);
+            }
+        }
+    }
+
+    private boolean isPalindrome131(String s) {
+        int left = 0;
+        int right = s.length() - 1;
+        while (left < right) {
+            if (s.charAt(left) != s.charAt(right)) {
+                return false;
+            }
+            ++left;
+            --right;
+        }
+        return true;
+    }
+
 }
