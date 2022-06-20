@@ -2499,4 +2499,23 @@ public class LeetCode_4 {
 
     }
 
+    // 494. 目标和 (Target Sum) --回溯
+    private int res494;
+
+    public int findTargetSumWays(int[] nums, int target) {
+        backtrack494(nums, target, 0, 0);
+        return res494;
+    }
+
+    private void backtrack494(int[] nums, int target, int index, int sum) {
+        if (index == nums.length) {
+            if (sum == target) {
+                ++res494;
+            }
+            return;
+        }
+        backtrack494(nums, target, index + 1, sum + nums[index]);
+        backtrack494(nums, target, index + 1, sum - nums[index]);
+    }
+
 }
