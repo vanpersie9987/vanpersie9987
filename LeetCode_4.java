@@ -2439,6 +2439,11 @@ public class LeetCode_4 {
     // 216. 组合总和 III (Combination Sum III) --回溯
     public List<List<Integer>> combinationSum3(int k, int n) {
         List<List<Integer>> res = new ArrayList<>();
+        // 1--9的和最大是45
+        if (n > 45) {
+            return res;
+        }
+
         List<Integer> cur = new ArrayList<>();
         backtrack216(res, cur, k, n, 0, 0);
         return res;
@@ -2460,6 +2465,38 @@ public class LeetCode_4 {
             sum -= num;
             cur.remove(cur.size() - 1);
         }
+    }
+
+    // 216. 组合总和 III (Combination Sum III) --位运算 + 二进制枚举
+    public List<List<Integer>> combinationSum3_2(int k, int n) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (n > 45) {
+            return res;
+        }
+        List<Integer> cur = new ArrayList<>();
+        // 第0位---第8位 表示整数 1---9
+        for (int i = 0; i < (1 << 9); ++i) {
+            if (Integer.bitCount(i) == k) {
+                int sum = 0;
+                int mask = i;
+                while (mask != 0) {
+                    int last = mask & (-mask);
+                    int num = Integer.bitCount(last - 1) + 1;
+                    sum += num;
+                    cur.add(num);
+                    if (sum > n) {
+                        break;
+                    }
+                    mask &= mask - 1;
+                }
+                if (sum == n) {
+                    res.add(new ArrayList<>(cur));
+                }
+                cur.clear();
+            }
+        }
+        return res;
+
     }
 
 }
