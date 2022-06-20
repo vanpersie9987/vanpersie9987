@@ -2403,41 +2403,37 @@ public class LeetCode_4 {
         return res;
     }
 
-    // 131. 分割回文串 (Palindrome Partitioning) --回溯
+    // 131. 分割回文串 (Palindrome Partitioning) --回溯 + dp
     // 剑指 Offer II 086. 分割回文子字符串
     public List<List<String>> partition(String s) {
+        int n = s.length();
+        boolean[][] dp = new boolean[n][n];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(dp[i], true);
+        }
+        for (int i = n - 1; i >= 0; --i) {
+            for (int j = i + 1; j < n; ++j) {
+                dp[i][j] = dp[i + 1][j - 1] && s.charAt(i) == s.charAt(j);
+            }
+        }
         List<List<String>> res = new ArrayList<>();
         List<String> cur = new ArrayList<>();
-        backtrack131(res, cur, s, 0);
+        backtrack131(res, cur, s, 0, dp);
         return res;
     }
 
-    private void backtrack131(List<List<String>> res, List<String> cur, String s, int index) {
+    private void backtrack131(List<List<String>> res, List<String> cur, String s, int index, boolean[][] dp) {
         if (index == s.length()) {
             res.add(new ArrayList<>(cur));
             return;
         }
         for (int i = index; i < s.length(); ++i) {
-            String sub = s.substring(index, i + 1);
-            if (isPalindrome131(sub)) {
-                cur.add(sub);
-                backtrack131(res, cur, s, i + 1);
+            if (dp[index][i]) {
+                cur.add(s.substring(index, i + 1));
+                backtrack131(res, cur, s, i + 1, dp);
                 cur.remove(cur.size() - 1);
             }
         }
-    }
-
-    private boolean isPalindrome131(String s) {
-        int left = 0;
-        int right = s.length() - 1;
-        while (left < right) {
-            if (s.charAt(left) != s.charAt(right)) {
-                return false;
-            }
-            ++left;
-            --right;
-        }
-        return true;
     }
 
 }
