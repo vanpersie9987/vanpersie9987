@@ -2595,4 +2595,23 @@ public class LeetCode_4 {
         }
     }
 
+    // 1392. 最长快乐前缀 (Longest Happy Prefix) --Rabin Karp
+    public String longestPrefix(String s) {
+        final int base = 31;
+        final int MOD = 1000000009;
+        long prefix = 0l;
+        long suffix = 0l;
+        long mul = 1l;
+        int happy = 0;
+        for (int i = 1; i < s.length(); ++i) {
+            prefix = (prefix * base + s.charAt(i - 1) - 'a') % MOD;
+            suffix = (suffix + (s.charAt(s.length() - i) - 'a') * mul) % MOD;
+            if (prefix == suffix) {
+                happy = i;
+            }
+            mul = mul * base % MOD;
+        }
+        return s.substring(0, happy);
+    }
+
 }
