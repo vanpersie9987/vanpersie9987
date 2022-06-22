@@ -2518,4 +2518,54 @@ public class LeetCode_4 {
         backtrack494(nums, target, index + 1, sum - nums[index]);
     }
 
+    // 491. 递增子序列 (Increasing Subsequences) --枚举 + 位运算
+    public List<List<Integer>> findSubsequences(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        Set<Integer> set = new HashSet<>();
+        int n = nums.length;
+        for (int i = 0; i < (1 << n); ++i) {
+            if (Integer.bitCount(i) >= 2) {
+                List<Integer> candidateList = getSubSequence(i, nums);
+                int hashVal = getHash(candidateList);
+                if (!set.contains(hashVal) && checkNoneDecrease(candidateList)) {
+                    set.add(hashVal);
+                    res.add(candidateList);
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private boolean checkNoneDecrease(List<Integer> candidateList) {
+        for (int i = 1; i < candidateList.size(); ++i) {
+            if (candidateList.get(i - 1) > candidateList.get(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private int getHash(List<Integer> candidateList) {
+        int hashVal = 0;
+        for (int num : candidateList) {
+            hashVal = (int) (hashVal * 263 % 1E9 + 101 + num);
+            hashVal %= 1E9;
+        }
+        return hashVal;
+    }
+
+    private List<Integer> getSubSequence(int mask, int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        int index = nums.length - 1;
+        while (mask != 0) {
+            if ((mask & 1) != 0) {
+                res.add(0, nums[index]);
+            }
+            --index;
+            mask >>= 1;
+        }
+        return res;
+    }
+
 }
