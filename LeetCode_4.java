@@ -2568,4 +2568,31 @@ public class LeetCode_4 {
         return res;
     }
 
+    // 491. 递增子序列 (Increasing Subsequences) --递归枚举 + 位运算
+    private List<List<Integer>> res491;
+
+    public List<List<Integer>> findSubsequences2(int[] nums) {
+        res491 = new ArrayList<>();
+        backtrack491(0, Integer.MIN_VALUE, nums, new ArrayList<>());
+        return res491;
+
+    }
+
+    private void backtrack491(int index, int last, int[] nums, List<Integer> cur) {
+        if (index == nums.length) {
+            if (cur.size() >= 2) {
+                res491.add(new ArrayList<>(cur));
+            }
+            return;
+        }
+        if (nums[index] >= last) {
+            cur.add(nums[index]);
+            backtrack491(index + 1, nums[index], nums, cur);
+            cur.remove(cur.size() - 1);
+        }
+        if (nums[index] != last) {
+            backtrack491(index + 1, last, nums, cur);
+        }
+    }
+
 }
