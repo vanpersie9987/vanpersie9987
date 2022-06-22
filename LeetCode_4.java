@@ -1989,6 +1989,7 @@ public class LeetCode_4 {
     }
 
     // 40. 组合总和 II (Combination Sum II) --回溯
+    // 剑指 Offer II 082. 含有重复元素集合的组合
     // 组合：不需要用used数组
     // 有重复元素：需要排序
     // 每个元素只能用一次 ：回溯的时候 index = i + 1
@@ -2646,5 +2647,4 @@ public class LeetCode_4 {
         }
         return s.substring(0, happy);
     }
-
 }
