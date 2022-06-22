@@ -2056,6 +2056,37 @@ public class LeetCode_4 {
         }
     }
 
+    // 面试题 08.08. 有重复字符串的排列组合
+    public String[] permutation3(String S) {
+        boolean[] used = new boolean[S.length()];
+        List<String> res = new ArrayList<>();
+        StringBuilder builder = new StringBuilder();
+        char[] chars = S.toCharArray();
+        Arrays.sort(chars);
+        backtrack0808(res, used, builder, chars);
+        return res.toArray(new String[0]);
+    }
+
+    private void backtrack0808(List<String> res, boolean[] used, StringBuilder builder, char[] chars) {
+        if (builder.length() == chars.length) {
+            res.add(builder.toString());
+            return;
+        }
+        for (int i = 0; i < chars.length; ++i) {
+            if (used[i]) {
+                continue;
+            }
+            if (i > 0 && chars[i] == chars[i - 1] && !used[i - 1]) {
+                continue;
+            }
+            used[i] = true;
+            builder.append(chars[i]);
+            backtrack0808(res, used, builder, chars);
+            builder.deleteCharAt(builder.length() - 1);
+            used[i] = false;
+        }
+    }
+
     // 39. 组合总和 (Combination Sum) --回溯
     // 剑指 Offer II 081. 允许重复选择元素的组合
     // 组合：不需要用used数组
@@ -2614,37 +2645,6 @@ public class LeetCode_4 {
             mul = mul * base % MOD;
         }
         return s.substring(0, happy);
-    }
-
-    // 面试题 08.08. 有重复字符串的排列组合
-    public String[] permutation3(String S) {
-        boolean[] used = new boolean[S.length()];
-        List<String> res = new ArrayList<>();
-        StringBuilder builder = new StringBuilder();
-        char[] chars = S.toCharArray();
-        Arrays.sort(chars);
-        backtrack0808(res, used, builder, chars);
-        return res.toArray(new String[0]);
-    }
-
-    private void backtrack0808(List<String> res, boolean[] used, StringBuilder builder, char[] chars) {
-        if (builder.length() == chars.length) {
-            res.add(builder.toString());
-            return;
-        }
-        for (int i = 0; i < chars.length; ++i) {
-            if (used[i]) {
-                continue;
-            }
-            if (i > 0 && chars[i] == chars[i - 1] && !used[i - 1]) {
-                continue;
-            }
-            used[i] = true;
-            builder.append(chars[i]);
-            backtrack0808(res, used, builder, chars);
-            builder.deleteCharAt(builder.length() - 1);
-            used[i] = false;
-        }
     }
 
 }
