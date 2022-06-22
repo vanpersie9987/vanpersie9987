@@ -2024,6 +2024,7 @@ public class LeetCode_4 {
     }
 
     // 47. 全排列 II (Permutations II) --回溯
+    // 剑指 Offer II 084. 含有重复元素集合的全排列
     // 排列：需要用used数组
     // 有重复元素：需要排序
     public List<List<Integer>> permuteUnique(int[] nums) {
