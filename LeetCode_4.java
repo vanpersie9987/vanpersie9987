@@ -2738,4 +2738,32 @@ public class LeetCode_4 {
         grid980[i][j] = 0;
     }
 
+    // 1415. 长度为 n 的开心字符串中字典序第 k 小的字符串 (The k-th Lexicographical String of All Happy
+    // Strings of Length n) --回溯
+    public String getHappyString(int n, int k) {
+        char[] candidateChars = { 'a', 'b', 'c' };
+        List<String> list = new ArrayList<>();
+        backtrack1415(n, candidateChars, new StringBuilder(), list, new HashSet<>());
+        if (list.size() < k) {
+            return "";
+        }
+        return list.get(k - 1);
+    }
+
+    private void backtrack1415(int n, char[] candidateChars, StringBuilder cur, List<String> list, Set<String> set) {
+        if (cur.length() == n) {
+            if (set.add(cur.toString())) {
+                list.add(cur.toString());
+            }
+            return;
+        }
+        for (int i = 0; i < candidateChars.length; ++i) {
+            if (cur.isEmpty() || candidateChars[i] != cur.charAt(cur.length() - 1)) {
+                cur.append(candidateChars[i]);
+                backtrack1415(n, candidateChars, cur, list, set);
+                cur.deleteCharAt(cur.length() - 1);
+            }
+        }
+    }
+
 }
