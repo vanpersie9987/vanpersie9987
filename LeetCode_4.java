@@ -2766,6 +2766,19 @@ public class LeetCode_4 {
         }
     }
 
-  
+    // 1887. 使数组元素相等的减少操作次数 (Reduction Operations to Make the Array Elements Equal)
+    // -- 排序
+    public int reductionOperations(int[] nums) {
+        Arrays.sort(nums);
+        int res = 0;
+        int count = 0;
+        for (int i = 1; i < nums.length; ++i) {
+            if (nums[i] != nums[i - 1]) {
+                ++count;
+            }
+            res += count;
+        }
+        return res;
+    }
 
 }
