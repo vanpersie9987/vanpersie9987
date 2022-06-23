@@ -6844,11 +6844,35 @@ public class Leetcode_3 {
         }
     }
 
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        backtrack113(res, path, targetSum, root);
+        return res;
+
+    }
+
+    // 113. 路径总和 II (Path Sum II) --回溯
+    // 剑指 Offer 34. 二叉树中和为某一值的路径
+    private void backtrack113(List<List<Integer>> res, List<Integer> path, int targetSum, TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        path.add(root.val);
+        targetSum -= root.val;
+        if (root.left == null && root.right == null && targetSum == 0) {
+            res.add(new ArrayList<>(path));
+        }
+        backtrack113(res, path, targetSum, root.left);
+        backtrack113(res, path, targetSum, root.right);
+        path.remove(path.size() - 1);
+    }
+
     // 113. 路径总和 II (Path Sum II) --bfs
     // 剑指 Offer 34. 二叉树中和为某一值的路径
     private List<List<Integer>> res113 = new ArrayList<>();
 
-    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+    public List<List<Integer>> pathSum2(TreeNode root, int targetSum) {
         if (root == null) {
             return res113;
         }
