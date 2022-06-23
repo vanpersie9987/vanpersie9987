@@ -21,6 +21,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import javax.swing.text.html.HTMLDocument.RunElement;
+
 public class LeetCode_4 {
     public static void main(String[] args) {
         // String[] strings = { "mobile", "mouse", "moneypot", "monitor", "mousepad" };
@@ -2679,6 +2681,61 @@ public class LeetCode_4 {
             backtrack1079(chars, n - 1, used);
             used[i] = false;
         }
+    }
+
+    // 980. 不同路径 III (Unique Paths III) --回溯
+    private int res980;
+    private int[][] grid980;
+    private int tr980;
+    private int tc980;
+    private int[][] directions980 = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+
+    public int uniquePathsIII(int[][] grid) {
+        this.grid980 = grid;
+        int todo = 0;
+        int sr = 0;
+        int sc = 0;
+        for (int i = 0; i < grid.length; ++i) {
+            for (int j = 0; j < grid[0].length; ++j) {
+                if (grid[i][j] != -1) {
+                    ++todo;
+                }
+                if (grid[i][j] == 1) {
+                    sr = i;
+                    sc = j;
+                } else if (grid[i][j] == 2) {
+                    this.tr980 = i;
+                    this.tc980 = j;
+                }
+            }
+        }
+        backtrack980(sr, sc, todo);
+        return res980;
+
+    }
+
+    private void backtrack980(int i, int j, int todo) {
+        --todo;
+        if (todo < 0) {
+            return;
+        }
+        if (tr980 == i && tc980 == j) {
+            if (todo == 0) {
+                ++res980;
+            }
+            return;
+        }
+        grid980[i][j] = 3;
+        for (int[] direction : directions980) {
+            int nx = i + direction[0];
+            int ny = j + direction[1];
+            if (nx >= 0 && nx < grid980.length && ny >= 0 && ny < grid980[0].length) {
+                if (grid980[nx][ny] % 2 == 0) {
+                    backtrack980(nx, ny, todo);
+                }
+            }
+        }
+        grid980[i][j] = 0;
     }
 
 }
