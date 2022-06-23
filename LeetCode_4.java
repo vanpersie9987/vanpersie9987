@@ -2647,4 +2647,38 @@ public class LeetCode_4 {
         }
         return s.substring(0, happy);
     }
+
+    // 1079. 活字印刷 (Letter Tile Possibilities)
+    private int res1079;
+
+    public int numTilePossibilities(String tiles) {
+        int n = tiles.length();
+        char[] chars = tiles.toCharArray();
+        Arrays.sort(chars);
+        boolean[] used = new boolean[n];
+        for (int i = 1; i <= n; ++i) {
+            backtrack1079(chars, i, used);
+        }
+        return res1079;
+
+    }
+
+    private void backtrack1079(char[] chars, int n, boolean[] used) {
+        if (n == 0) {
+            ++res1079;
+            return;
+        }
+        for (int i = 0; i < chars.length; ++i) {
+            if (used[i]) {
+                continue;
+            }
+            if (i > 0 && chars[i] == chars[i - 1] && !used[i - 1]) {
+                continue;
+            }
+            used[i] = true;
+            backtrack1079(chars, n - 1, used);
+            used[i] = false;
+        }
+    }
+
 }
