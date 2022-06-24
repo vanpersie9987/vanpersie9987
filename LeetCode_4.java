@@ -2837,4 +2837,52 @@ public class LeetCode_4 {
         index[i] = index[j];
         index[j] = temp;
     }
+
+    // 1947. 最大兼容性评分和 (Maximum Compatibility Score Sum) -- dp + 回溯
+    private int res1947;
+
+    public int maxCompatibilitySum2(int[][] students, int[][] mentors) {
+        int m = students.length;
+        int n = students[0].length;
+        int[][] dp = new int[m][m];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < m; ++j) {
+                for (int k = 0; k < n; ++k) {
+                    if (students[i][k] == mentors[j][k]) {
+                        ++dp[i][j];
+                    }
+                }
+            }
+        }
+        List<Integer> path = new ArrayList<>();
+        boolean[] used = new boolean[m];
+        backtrack1947(path, used, dp);
+        return res1947;
+
+    }
+
+    private void backtrack1947(List<Integer> path, boolean[] used, int[][] dp) {
+        if (path.size() == used.length) {
+            res1947 = Math.max(res1947, checkScore1947(path, dp));
+            return;
+        }
+        for (int i = 0; i < used.length; ++i) {
+            if (!used[i]) {
+                used[i] = true;
+                path.add(i);
+                backtrack1947(path, used, dp);
+                used[i] = false;
+                path.remove(path.size() - 1);
+            }
+        }
+    }
+
+    private int checkScore1947(List<Integer> path, int[][] dp) {
+        int res = 0;
+        int n = path.size();
+        for (int i = 0; i < n; ++i) {
+            res += dp[path.get(i)][i];
+        }
+        return res;
+    }
 }
