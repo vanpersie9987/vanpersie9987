@@ -43,3 +43,12 @@ WHERE
     area >= 3000000 OR population >= 25000000
 ;
 
+
+-- 1757. 可回收且低脂的产品 (Recyclable and Low Fat Products)
+SELECT 
+    product_id
+FROM 
+    Products
+WHERE
+    low_fats = 'Y' AND recyclable = 'Y'
+;
