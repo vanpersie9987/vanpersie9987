@@ -2781,7 +2781,7 @@ public class LeetCode_4 {
         return res;
     }
 
-    // 1947. 最大兼容性评分和 (Maximum Compatibility Score Sum)
+    // 1947. 最大兼容性评分和 (Maximum Compatibility Score Sum) -- dp + 下一个排列枚举
     public int maxCompatibilitySum(int[][] students, int[][] mentors) {
         int m = students.length;
         int n = students[0].length;
