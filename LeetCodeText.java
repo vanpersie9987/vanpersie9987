@@ -883,7 +883,8 @@ public class LeetCodeText {
 
     }
 
-    // 79. 单词搜索
+    // 79. 单词搜索 (Word Search) --回溯
+    // 剑指 Offer 12. 矩阵中的路径
     public boolean exist(final char[][] board, final String word) {
         boolean[][] flag = new boolean[board.length][board[0].length];
         int[][] directions = { { 1, 0 }, { 0, 1 }, { 0, -1 }, { -1, 0 } };
