@@ -2909,4 +2909,28 @@ public class LeetCode_4 {
             }
         }
     }
+
+    // 1784. 检查二进制字符串字段 (Check if Binary String Has at Most One Segment of Ones)
+    public boolean checkOnesSegment(String s) {
+        int index = 0;
+        while (index < s.length()) {
+            if (s.charAt(index) == '0') {
+                break;
+            }
+            ++index;
+        }
+        while (index < s.length()) {
+            if (s.charAt(index) == '1') {
+                return false;
+            }
+            ++index;
+        }
+        return true;
+    }
+
+    // 1784. 检查二进制字符串字段 (Check if Binary String Has at Most One Segment of Ones)
+    public boolean checkOnesSegment2(String s) {
+        return !s.contains("01");
+    }
+
 }
