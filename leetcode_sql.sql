@@ -12,6 +12,34 @@
 -- DROP INDEX - 删除索引
 
 -- 620. 有趣的电影 (Not Boring Movies)
-SELECT * FROM cinema WHERE id % 2 = 1 AND description != 'boring' ORDER BY rating DESC;
-SELECT * FROM cinema WHERE MOD(id,2) = 1 AND description <> 'boring' ORDER BY rating DESC;
+SELECT
+    * 
+FROM 
+    cinema 
+WHERE
+    id % 2 = 1 AND description != 'boring'
+ORDER BY 
+    rating DESC
+;
+
+-- 620. 有趣的电影 (Not Boring Movies)
+SELECT 
+    * 
+FROM 
+    cinema 
+WHERE 
+    MOD(id,2) = 1 AND description <> 'boring' 
+ORDER BY 
+    rating DESC
+;
+
+
+-- 595. 大的国家 (Big Countries)
+SELECT
+    name , population , area 
+FROM 
+    World
+WHERE 
+    area >= 3000000 OR population >= 25000000
+;
 
