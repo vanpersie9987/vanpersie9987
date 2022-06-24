@@ -2780,4 +2780,61 @@ public class LeetCode_4 {
         }
         return res;
     }
+
+    // 1947. 最大兼容性评分和 (Maximum Compatibility Score Sum)
+    public int maxCompatibilitySum(int[][] students, int[][] mentors) {
+        int m = students.length;
+        int n = students[0].length;
+        int[][] dp = new int[m][m];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < m; ++j) {
+                for (int k = 0; k < n; ++k) {
+                    if (students[i][k] == mentors[j][k]) {
+                        ++dp[i][j];
+                    }
+                }
+            }
+        }
+        int[] index = new int[m];
+        for (int i = 0; i < m; ++i) {
+            index[i] = i;
+        }
+        int res = 0;
+        while (true) {
+            int max = 0;
+            for (int i = 0; i < m; ++i) {
+                max += dp[index[i]][i];
+            }
+            res = Math.max(res, max);
+
+            // next permutation
+            int i = m - 2;
+            while (i >= 0) {
+                if (index[i] < index[i + 1]) {
+                    break;
+                }
+                --i;
+            }
+            if (i < 0) {
+                break;
+            }
+            int j = m - 1;
+            while (i < j) {
+                if (index[i] < index[j]) {
+                    break;
+                }
+                --j;
+            }
+            swap1947(index, i, j);
+            Arrays.sort(index, i + 1, index.length);
+        }
+        return res;
+
+    }
+
+    private void swap1947(int[] index, int i, int j) {
+        int temp = index[i];
+        index[i] = index[j];
+        index[j] = temp;
+    }
 }
