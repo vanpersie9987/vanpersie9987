@@ -2885,4 +2885,31 @@ public class LeetCode_4 {
         }
         return res;
     }
+
+    // 1593.拆分字符串使唯一子字符串的数目最大 (Split a String Into the Max Number of Unique
+    // Substrings) --回溯
+    private int res1593;
+
+    public int maxUniqueSplit(String s) {
+        res1593 = 1;
+        Set<String> set = new HashSet<>();
+        backtrack1593(s, 0, 0, set);
+        return res1593;
+
+    }
+
+    private void backtrack1593(String s, int index, int split, Set<String> set) {
+        if (index == s.length()) {
+            res1593 = Math.max(res1593, split);
+            return;
+        }
+        for (int i = index; i < s.length(); ++i) {
+            String sub = s.substring(index, i + 1);
+            if (!set.contains(sub)) {
+                set.add(sub);
+                backtrack1593(s, i + 1, split + 1, set);
+                set.remove(sub);
+            }
+        }
+    }
 }
