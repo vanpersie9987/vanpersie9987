@@ -69,7 +69,7 @@ FROM
     (
         SELECT employee_id FROM employees
         UNION ALL
-         SELECT employee_id FROM salaries
+        SELECT employee_id FROM salaries
     ) 
     AS t
 GROUP BY
