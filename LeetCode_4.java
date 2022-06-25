@@ -2964,12 +2964,11 @@ public class LeetCode_4 {
         }
 
         public boolean hasNext() {
-            int copyMask = mask;
-            while (copyMask != 0) {
-                if (Integer.bitCount(copyMask) == combinationLength) {
+            while (mask != 0) {
+                if (Integer.bitCount(mask) == combinationLength) {
                     return true;
                 }
-                --copyMask;
+                --mask;
             }
             return false;
         }
