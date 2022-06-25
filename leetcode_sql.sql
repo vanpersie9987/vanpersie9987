@@ -91,6 +91,15 @@ ON
     Person.personId = Address.personId
 ;
 
-
+-- 182. 查找重复的电子邮箱 (Duplicate Emails)
+SELECT
+    Email
+FROM
+    Person
+GROUP BY
+    Email
+HAVING
+    COUNT(Email) > 1
+;
 
 
