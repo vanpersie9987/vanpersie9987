@@ -2952,9 +2952,7 @@ public class LeetCode_4 {
             StringBuilder builder = new StringBuilder();
             int copyMask = mask;
             while (copyMask != 0) {
-                int lastOne = copyMask & (-copyMask);
-                int countTrailingZero = Integer.bitCount(lastOne - 1);
-                int index = characters.length() - countTrailingZero - 1;
+                int index = characters.length() - Integer.numberOfTrailingZeros(copyMask) - 1;
                 builder.insert(0, characters.charAt(index));
                 copyMask &= copyMask - 1;
             }
