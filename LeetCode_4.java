@@ -2933,4 +2933,46 @@ public class LeetCode_4 {
         return !s.contains("01");
     }
 
+    // 1286. 字母组合迭代器 (Iterator for Combination)
+    class CombinationIterator {
+        private int mask;
+        private int combinationLength;
+        private String characters;
+
+        public CombinationIterator(String characters, int combinationLength) {
+            this.mask = (1 << characters.length()) - 1;
+            this.combinationLength = combinationLength;
+            this.characters = characters;
+        }
+
+        public String next() {
+            while (Integer.bitCount(mask) != combinationLength) {
+                --mask;
+            }
+            StringBuilder builder = new StringBuilder();
+            int copyMask = mask;
+            while (copyMask != 0) {
+                int lastOne = copyMask & (-copyMask);
+                int countTrailingZero = Integer.bitCount(lastOne - 1);
+                int index = characters.length() - countTrailingZero - 1;
+                builder.insert(0, characters.charAt(index));
+                copyMask &= copyMask - 1;
+            }
+            --mask;
+            return builder.toString();
+
+        }
+
+        public boolean hasNext() {
+            int copyMask = mask;
+            while (copyMask != 0) {
+                if (Integer.bitCount(copyMask) == combinationLength) {
+                    return true;
+                }
+                --copyMask;
+            }
+            return false;
+        }
+    }
+
 }
