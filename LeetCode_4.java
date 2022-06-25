@@ -3011,4 +3011,133 @@ public class LeetCode_4 {
         return res;
     }
 
+    // 6104. 统计星号
+    public int countAsterisks(String s) {
+        int count = 0;
+        int res = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '|') {
+                ++count;
+            } else if (c == '*' && ((count & 1) == 0)) {
+                ++res;
+            }
+        }
+        return res;
+    }
+
+    // 6106. 统计无向图中无法互相到达点对数
+    public long countPairs(int n, int[][] edges) {
+        UnionFind6106 union = new UnionFind6106(n);
+        for (int[] edge : edges) {
+            union.union(edge[0], edge[1]);
+        }
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            int root = union.getRoot(i);
+            map.put(root, map.getOrDefault(root, 0) + 1);
+        }
+        long res = 0l;
+        long sum = 0l;
+        for (int num : map.values()) {
+            sum += num;
+        }
+        for (int num : map.values()) {
+            sum -= num;
+            res += num * sum;
+        }
+        return res;
+    }
+
+    public class UnionFind6106 {
+        private int[] parent;
+        private int[] rank;
+
+        public UnionFind6106(int n) {
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] > rank[root2]) {
+                parent[root2] = root1;
+            } else {
+                parent[root1] = root2;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root2];
+                }
+            }
+        }
+    }
+
+    // 6105. 操作后的最大异或和
+    public int maximumXOR(int[] nums) {
+        int res = 0;
+        for (int i = 0; i <= 27; ++i) {
+            for (int num : nums) {
+                if (((num >> i) & 1) != 0) {
+                    res |= 1 << i;
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+
+    // 6105. 操作后的最大异或和
+    public int maximumXOR2(int[] nums) {
+        int res = 0;
+        for (int num : nums) {
+            res |= num;
+        }
+        return res;
+    }
+
+    // 6107. 不同骰子序列的数目
+    public int distinctSequences(int n) {
+        return backtrack6107(0, 0, 0, n);
+    }
+
+    private int backtrack6107(int lastButOne, int last, int index, int n) {
+        if (index == n) {
+            return 1;
+        }
+        int res = 0;
+        for (int i = 1; i <= 6; ++i) {
+            if (lastButOne != i && last != i && getGCD6107(last, i) == 1 || last == 0) {
+                res += backtrack6107(last, i, index + 1, n);
+                res %= 1000000007;
+            }
+        }
+        return res;
+    }
+
+    private int getGCD6107(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
 }
