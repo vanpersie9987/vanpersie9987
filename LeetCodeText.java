@@ -18761,6 +18761,21 @@ public class LeetCodeText {
 
     }
 
+    // 256. 粉刷房子 (Paint House) --plus dp
+    // 剑指 Offer II 091. 粉刷房子
+    public int minCost2(int[][] costs) {
+        int[] dp = costs[0];
+        for (int i = 1; i < costs.length; ++i) {
+            int[] newDp = new int[3];
+            for (int j = 0; j < 3; ++j) {
+                newDp[j] = Math.min(dp[(j + 1) % 3], dp[(j + 2) % 3]) + costs[i][j];
+            }
+            dp = newDp;
+        }
+        return Arrays.stream(dp).min().getAsInt();
+
+    }
+
     // 1816. 截断句子 (Truncate Sentence)
     public String truncateSentence(String s, int k) {
         String[] strings = s.split("\\s+");
