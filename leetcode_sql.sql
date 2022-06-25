@@ -102,4 +102,18 @@ HAVING
     COUNT(Email) > 1
 ;
 
+-- 1587. 银行账户概要 II (Bank Account Summary II)
+SELECT
+    name , SUM(Transactions.amount) AS balance
+FROM
+    Users
+LEFT JOIN
+    Transactions
+GROUP BY
+    Users.account
+HAVING
+    balance > 10000
+;
+
+
 
