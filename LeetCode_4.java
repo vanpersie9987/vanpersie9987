@@ -20,6 +20,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import javax.xml.crypto.KeySelector.Purpose;
+
 public class LeetCode_4 {
     public static void main(String[] args) {
         // String[] strings = { "mobile", "mouse", "moneypot", "monitor", "mousepad" };
@@ -3140,7 +3142,7 @@ public class LeetCode_4 {
         return a;
     }
 
-    // 6101. 判断矩阵是否是一个 X 矩阵
+    // 6101. 判断矩阵是否是一个 X 矩阵 (Check if Matrix Is X-Matrix)
     public boolean checkXMatrix(int[][] grid) {
         int n = grid.length;
         for (int i = 0; i < n; ++i) {
@@ -3160,61 +3162,49 @@ public class LeetCode_4 {
 
     }
 
-    // 6100. 统计放置房子的方式数
+    // 6100. 统计放置房子的方式数 (Count Number of Ways to Place Houses)
     public int countHousePlacements(int n) {
         final int MOD = 1000000007;
-        int[][] dp = new int[n][2];
-        dp[0][0] = 1;
-        dp[0][1] = 1;
+        // 放置
+        int put = 1;
+        // 不放置
+        int notPut = 1;
         for (int i = 1; i < n; ++i) {
-            dp[i][0] = (dp[i - 1][0] + dp[i - 1][1]) % MOD;
-            dp[i][1] = dp[i - 1][0] % MOD;
+            int temp = put;
+            // 当前放置的数量，为之前一个地方不放置的值
+            put = notPut;
+            // 当前不放置的数量，为之前一个地方不放置与放置之和
+            notPut = (notPut + temp) % MOD;
         }
-        long res = (dp[n - 1][0] + dp[n - 1][1]) % MOD;
+        // 最终结果为最后一个地方放置与不放置之和的平方
+        long res = (put + notPut) % MOD;
         return (int) ((res * res) % MOD);
 
     }
 
-    // 5229. 拼接数组的最大分数
+    // 5229. 拼接数组的最大分数 (Maximum Score Of Spliced Array)
     public int maximumsSplicedArray(int[] nums1, int[] nums2) {
         int n = nums1.length;
+        int[] preSum1 = getPreSum5229(nums1);
+        int[] preSum2 = getPreSum5229(nums2);
+        int res = Math.max(preSum1[n], preSum2[n]);
+        res = Math.max(res, getMax5229(preSum1, preSum2));
+        res = Math.max(res, getMax5229(preSum2, preSum1));
+        return res;
 
-        int[] preSum1 = new int[n + 1];
-        for (int i = 1; i < preSum1.length; ++i) {
-            preSum1[i] = preSum1[i - 1] + nums1[i - 1];
-        }
-        int sum1 = preSum1[n];
+    }
 
-        int[] preSum2 = new int[n + 1];
-        for (int i = 1; i < preSum2.length; ++i) {
-            preSum2[i] = preSum2[i - 1] + nums2[i - 1];
-        }
-        int sum2 = preSum2[n];
-        int res = Math.max(sum1, sum2);
-
+    private int getMax5229(int[] preSum1, int[] preSum2) {
+        int res = 0;
         int left = 0;
         int right = 1;
         int diffPre = 0;
-        while (right < n + 1) {
+        int n = preSum1.length;
+        int sum = preSum1[n - 1];
+        while (right < n) {
             diffPre = preSum2[right] - preSum2[left] - (preSum1[right] - preSum1[left]);
             if (diffPre > 0) {
-                res = Math.max(res, sum1 + diffPre);
-                ++right;
-            } else if (left >= right) {
-                ++right;
-            } else {
-                ++left;
-            }
-        }
-
-        left = 0;
-        right = 1;
-        diffPre = 0;
-
-        while (right < n + 1) {
-            diffPre = preSum1[right] - preSum1[left] - (preSum2[right] - preSum2[left]);
-            if (diffPre > 0) {
-                res = Math.max(res, sum2 + diffPre);
+                res = Math.max(res, sum + diffPre);
                 ++right;
             } else if (left >= right) {
                 ++right;
@@ -3223,7 +3213,14 @@ public class LeetCode_4 {
             }
         }
         return res;
+    }
 
+    private int[] getPreSum5229(int[] nums) {
+        int[] preSum = new int[nums.length + 1];
+        for (int i = 1; i < preSum.length; ++i) {
+            preSum[i] = preSum[i - 1] + nums[i - 1];
+        }
+        return preSum;
     }
 
 }
