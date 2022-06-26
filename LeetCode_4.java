@@ -3140,4 +3140,90 @@ public class LeetCode_4 {
         return a;
     }
 
+    // 6101. 判断矩阵是否是一个 X 矩阵
+    public boolean checkXMatrix(int[][] grid) {
+        int n = grid.length;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i == j || i + j == n - 1) {
+                    if (grid[i][j] == 0) {
+                        return false;
+                    }
+                } else {
+                    if (grid[i][j] != 0) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+
+    }
+
+    // 6100. 统计放置房子的方式数
+    public int countHousePlacements(int n) {
+        final int MOD = 1000000007;
+        int[][] dp = new int[n][2];
+        dp[0][0] = 1;
+        dp[0][1] = 1;
+        for (int i = 1; i < n; ++i) {
+            dp[i][0] = (dp[i - 1][0] + dp[i - 1][1]) % MOD;
+            dp[i][1] = dp[i - 1][0] % MOD;
+        }
+        long res = (dp[n - 1][0] + dp[n - 1][1]) % MOD;
+        return (int) ((res * res) % MOD);
+
+    }
+
+    // 5229. 拼接数组的最大分数
+    public int maximumsSplicedArray(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+
+        int[] preSum1 = new int[n + 1];
+        for (int i = 1; i < preSum1.length; ++i) {
+            preSum1[i] = preSum1[i - 1] + nums1[i - 1];
+        }
+        int sum1 = preSum1[n];
+
+        int[] preSum2 = new int[n + 1];
+        for (int i = 1; i < preSum2.length; ++i) {
+            preSum2[i] = preSum2[i - 1] + nums2[i - 1];
+        }
+        int sum2 = preSum2[n];
+        int res = Math.max(sum1, sum2);
+
+        int left = 0;
+        int right = 1;
+        int diffPre = 0;
+        while (right < n + 1) {
+            diffPre = preSum2[right] - preSum2[left] - (preSum1[right] - preSum1[left]);
+            if (diffPre > 0) {
+                res = Math.max(res, sum1 + diffPre);
+                ++right;
+            } else if (left >= right) {
+                ++right;
+            } else {
+                ++left;
+            }
+        }
+
+        left = 0;
+        right = 1;
+        diffPre = 0;
+
+        while (right < n + 1) {
+            diffPre = preSum1[right] - preSum1[left] - (preSum2[right] - preSum2[left]);
+            if (diffPre > 0) {
+                res = Math.max(res, sum2 + diffPre);
+                ++right;
+            } else if (left >= right) {
+                ++right;
+            } else {
+                ++left;
+            }
+        }
+        return res;
+
+    }
+
 }
