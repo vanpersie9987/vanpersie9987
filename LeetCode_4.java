@@ -3294,4 +3294,22 @@ public class LeetCode_4 {
         return true;
     }
 
+    // 剑指 Offer 26. 树的子结构 --dfs
+    public boolean isSubStructure2(TreeNode A, TreeNode B) {
+        if (A == null || B == null) {
+            return false;
+        }
+        return dfsOffer26(A, B) || isSubStructure2(A.left, B) || isSubStructure2(A.right, B);
+    }
+
+    private boolean dfsOffer26(TreeNode A, TreeNode B) {
+        if (B == null) {
+            return true;
+        }
+        if (A == null || A.val != B.val) {
+            return false;
+        }
+        return dfsOffer26(A.left, B.left) && dfsOffer26(A.right, B.right);
+    }
+
 }
