@@ -117,5 +117,17 @@ HAVING
     balance > 10000
 ;
 
+-- 1890. 2020年最后一次登录 (The Latest Login in 2020)
+SELECT
+    user_id , max(time_stamp) AS last_stamp
+FROM
+    Logins
+WHERE
+    year(time_stamp) = '2020'
+GROUP BY
+    user_id
+;
+
+
 
 
