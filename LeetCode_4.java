@@ -3216,4 +3216,28 @@ public class LeetCode_4 {
         return preSum;
     }
 
+    // 572. 另一棵树的子树 (Subtree of Another Tree)
+    // 面试题 04.10. 检查子树
+    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        if (root == null && subRoot == null) {
+            return true;
+        }
+        if (root == null || subRoot == null) {
+            return false;
+        }
+        return isSameTree572(root, subRoot) || isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+
+    }
+
+    private boolean isSameTree572(TreeNode root1, TreeNode root2) {
+        if (root1 == null && root2 == null) {
+            return true;
+        }
+        if (root1 == null || root2 == null) {
+            return false;
+        }
+        return root1.val == root2.val && isSameTree572(root1.left, root2.left)
+                && isSameTree572(root1.right, root2.right);
+    }
+
 }
