@@ -128,6 +128,19 @@ GROUP BY
     user_id
 ;
 
+-- 1050. 合作过至少三次的演员和导演 (Actors and Directors Who Cooperated At Least Three Times)
+SELECT
+    actor_id , director_id
+FROM
+    ActorDirector
+GROUP BY
+    actor_id , director_id
+HAVING
+    count(*) >= 3
+;
+
+
+
 
 
 
