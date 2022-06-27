@@ -15,6 +15,8 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import LeetCodeText.Node;
+
 public class LeetCode_4 {
     public static void main(String[] args) {
         // String[] strings = { "mobile", "mouse", "moneypot", "monitor", "mousepad" };
@@ -3238,6 +3240,58 @@ public class LeetCode_4 {
         }
         return root1.val == root2.val && isSameTree572(root1.left, root2.left)
                 && isSameTree572(root1.right, root2.right);
+    }
+
+    // 剑指 Offer 26. 树的子结构 --bfs
+    public boolean isSubStructure(TreeNode A, TreeNode B) {
+        if (B == null || A == null) {
+            return false;
+        }
+        Queue<TreeNode> queueA = new LinkedList<>();
+        queueA.offer(A);
+        while (!queueA.isEmpty()) {
+            TreeNode node = queueA.poll();
+            if (node.val == B.val && checkOffer26(node, B)) {
+                return true;
+            }
+            if (node.left != null) {
+                queueA.offer(node.left);
+            }
+            if (node.right != null) {
+                queueA.offer(node.right);
+            }
+        }
+        return false;
+
+    }
+
+    private boolean checkOffer26(TreeNode A, TreeNode B) {
+        Queue<TreeNode> queueA = new LinkedList<>();
+        Queue<TreeNode> queueB = new LinkedList<>();
+        queueA.offer(A);
+        queueB.offer(B);
+        while (!queueA.isEmpty() && !queueB.isEmpty()) {
+            TreeNode nodeA = queueA.poll();
+            TreeNode nodeB = queueB.poll();
+            if (nodeA.val != nodeB.val) {
+                return false;
+            }
+            if (nodeB.left != null) {
+                if (nodeA.left == null) {
+                    return false;
+                }
+                queueA.offer(nodeA.left);
+                queueB.offer(nodeB.left);
+            }
+            if (nodeB.right != null) {
+                if (nodeA.right == null) {
+                    return false;
+                }
+                queueA.offer(nodeA.right);
+                queueB.offer(nodeB.right);
+            }
+        }
+        return true;
     }
 
 }
