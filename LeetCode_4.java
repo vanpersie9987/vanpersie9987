@@ -15,6 +15,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.management.Query;
 
 public class LeetCode_4 {
     public static void main(String[] args) {
@@ -3217,7 +3218,7 @@ public class LeetCode_4 {
         return preSum;
     }
 
-    // 572. 另一棵树的子树 (Subtree of Another Tree)
+    // 572. 另一棵树的子树 (Subtree of Another Tree) --dfs
     // 面试题 04.10. 检查子树
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
         if (root == null && subRoot == null) {
@@ -3239,6 +3240,57 @@ public class LeetCode_4 {
         }
         return root1.val == root2.val && isSameTree572(root1.left, root2.left)
                 && isSameTree572(root1.right, root2.right);
+    }
+
+    // 572. 另一棵树的子树 (Subtree of Another Tree) --bfs
+    // 面试题 04.10. 检查子树
+    public boolean isSubtree2(TreeNode root, TreeNode subRoot) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node.val == subRoot.val && checkIsSameTree572(node, subRoot)) {
+                return true;
+            }
+            if (node.left != null) {
+                queue.offer(node.left);
+            }
+            if (node.right != null) {
+                queue.offer(node.right);
+            }
+        }
+        return false;
+
+    }
+
+    private boolean checkIsSameTree572(TreeNode A, TreeNode B) {
+        Queue<TreeNode> queueA = new LinkedList<>();
+        Queue<TreeNode> queueB = new LinkedList<>();
+        queueA.offer(A);
+        queueB.offer(B);
+        while (!queueA.isEmpty() && !queueB.isEmpty()) {
+            TreeNode nodeA = queueA.poll();
+            TreeNode nodeB = queueB.poll();
+            if (nodeA.val != nodeB.val) {
+                return false;
+            }
+            if ((nodeA.left == null && nodeB.left != null) || (nodeA.left != null && nodeB.left == null)) {
+                return false;
+            }
+            if (nodeA.left != null && nodeB.left != null) {
+                queueA.offer(nodeA.left);
+                queueB.offer(nodeB.left);
+            }
+
+            if ((nodeA.right == null && nodeB.right != null) || (nodeA.right != null && nodeB.right == null)) {
+                return false;
+            }
+            if (nodeA.right != null && nodeB.right != null) {
+                queueA.offer(nodeA.right);
+                queueB.offer(nodeB.right);
+            }
+        }
+        return true;
     }
 
     // 剑指 Offer 26. 树的子结构 --bfs
