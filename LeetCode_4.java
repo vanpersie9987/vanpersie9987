@@ -3363,4 +3363,25 @@ public class LeetCode_4 {
         return dfsOffer26(A.left, B.left) && dfsOffer26(A.right, B.right);
     }
 
+    // 413. 等差数列划分 (Arithmetic Slices)
+    public int numberOfArithmeticSlices(int[] nums) {
+        if (nums.length <= 1) {
+            return 0;
+        }
+        int d = nums[1] - nums[0];
+        int count = 0;
+        int res = 0;
+        for (int i = 2; i < nums.length; ++i) {
+            if (nums[i] - nums[i - 1] == d) {
+                ++count;
+            } else {
+                d = nums[i] - nums[i - 1];
+                count = 0;
+            }
+            res += count;
+        }
+        return res;
+
+    }
+
 }
