@@ -15,8 +15,6 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.management.Query;
-
 public class LeetCode_4 {
     public static void main(String[] args) {
         // String[] strings = { "mobile", "mouse", "moneypot", "monitor", "mousepad" };
@@ -3490,6 +3488,35 @@ public class LeetCode_4 {
                 right = mid;
             }
         }
+    }
+
+    // 508. 出现次数最多的子树元素和 (Most Frequent Subtree Sum)
+    public int[] findFrequentTreeSum(TreeNode root) {
+        Map<Integer, Integer> map = new HashMap<>();
+        dfs508(root, map);
+        int max = Collections.max(map.values());
+        List<Integer> list = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (entry.getValue() == max) {
+                list.add(entry.getKey());
+            }
+        }
+        int n = list.size();
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = list.get(i);
+        }
+        return res;
+
+    }
+
+    private int dfs508(TreeNode root, Map<Integer, Integer> map) {
+        if (root == null) {
+            return 0;
+        }
+        root.val += dfs508(root.left, map) + dfs508(root.right, map);
+        map.put(root.val, map.getOrDefault(root.val, 0) + 1);
+        return root.val;
     }
 
 }
