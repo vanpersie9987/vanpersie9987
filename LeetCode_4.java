@@ -3397,4 +3397,19 @@ public class LeetCode_4 {
 
     }
 
+    // 931. 下降路径最小和 (Minimum Falling Path Sum) --dp
+    public int minFallingPathSum(int[][] matrix) {
+        int n = matrix.length;
+        for (int i = 1; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int min = Integer.MAX_VALUE;
+                for (int k = Math.max(0, j - 1); k <= Math.min(j + 1, n - 1); ++k) {
+                    min = Math.min(min, matrix[i - 1][k]);
+                }
+                matrix[i][j] += min;
+            }
+        }
+        return Arrays.stream(matrix[n - 1]).min().getAsInt();
+    }
+
 }
