@@ -3459,4 +3459,37 @@ public class LeetCode_4 {
 
     }
 
+    // 786. 第 K 个最小的素数分数 (K-th Smallest Prime Fraction) --二分查找
+    public int[] kthSmallestPrimeFraction3(int[] arr, int k) {
+        double left = 0d;
+        double right = 1d;
+        while (true) {
+            double mid = (left + right) / 2;
+            int count = 0;
+            int x = 0;
+            int y = 1;
+            int i = -1;
+            for (int j = 1; j < arr.length; ++j) {
+                while ((double) arr[i + 1] / arr[j] < mid) {
+                    ++i;
+                    int a = arr[i];
+                    int b = arr[j];
+                    if (a * y > b * x) {
+                        x = a;
+                        y = b;
+                    }
+                }
+                count += i + 1;
+            }
+            if (count == k) {
+                return new int[] { x, y };
+            }
+            if (count < k) {
+                left = mid;
+            } else {
+                right = mid;
+            }
+        }
+    }
+
 }
