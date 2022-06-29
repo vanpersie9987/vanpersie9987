@@ -3434,4 +3434,29 @@ public class LeetCode_4 {
 
     }
 
+    // 786. 第 K 个最小的素数分数 (K-th Smallest Prime Fraction) --优先队列
+    public int[] kthSmallestPrimeFraction2(int[] arr, int k) {
+        Queue<int[]> priorityQueue = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return arr[o1[0]] * arr[o2[1]] - arr[o2[0]] * arr[o1[1]];
+            }
+
+        });
+        int n = arr.length;
+        for (int j = 1; j < n; ++j) {
+            priorityQueue.offer(new int[] { 0, j });
+        }
+        for (int i = 1; i < k; ++i) {
+            int[] cur = priorityQueue.poll();
+            if (cur[0] + 1 < cur[1]) {
+                priorityQueue.offer(new int[] { cur[0] + 1, cur[1] });
+            }
+        }
+        int[] index = priorityQueue.peek();
+        return new int[] { arr[index[0]], arr[index[1]] };
+
+    }
+
 }
