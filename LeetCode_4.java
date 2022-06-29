@@ -3412,4 +3412,26 @@ public class LeetCode_4 {
         return Arrays.stream(matrix[n - 1]).min().getAsInt();
     }
 
+    // 786. 第 K 个最小的素数分数 (K-th Smallest Prime Fraction) --暴力
+    public int[] kthSmallestPrimeFraction(int[] arr, int k) {
+        List<int[]> list = new ArrayList<>();
+        int n = arr.length;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                list.add(new int[] { arr[i], arr[j] });
+            }
+        }
+        Collections.sort(list, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] * o2[1] - o1[1] * o2[0];
+            }
+
+        });
+
+        return list.get(k - 1);
+
+    }
+
 }
