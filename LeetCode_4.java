@@ -3384,4 +3384,17 @@ public class LeetCode_4 {
 
     }
 
+    // LCP 50. 宝石补给
+    public int giveGem(int[] gem, int[][] operations) {
+        for (int[] operation : operations) {
+            int give = gem[operation[0]] / 2;
+            gem[operation[0]] -= give;
+            gem[operation[1]] += give;
+        }
+        int max = Arrays.stream(gem).max().getAsInt();
+        int min = Arrays.stream(gem).min().getAsInt();
+        return max - min;
+
+    }
+
 }
