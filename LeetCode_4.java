@@ -3519,4 +3519,40 @@ public class LeetCode_4 {
         return root.val;
     }
 
+    // 1175. 质数排列 (Prime Arrangements)
+    public int numPrimeArrangements(int n) {
+        final int MOD = 1000000007;
+        int primeCount = 0;
+        for (int i = 1; i <= n; ++i) {
+            if (isPrime1175(i)) {
+                ++primeCount;
+            }
+        }
+        return (int) ((factorial1175(primeCount) * factorial1175(n - primeCount)) % MOD);
+
+    }
+
+    private long factorial1175(int n) {
+        final int MOD = 1000000007;
+        long res = 1l;
+        while (n != 0) {
+            res *= n;
+            res %= MOD;
+            --n;
+        }
+        return res;
+    }
+
+    private boolean isPrime1175(int num) {
+        if (num == 1) {
+            return false;
+        }
+        for (int i = 2; i * i <= num; ++i) {
+            if (num % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
