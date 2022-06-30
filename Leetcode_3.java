@@ -4099,22 +4099,28 @@ public class Leetcode_3 {
 
     // 2211. 统计道路上的碰撞次数 (Count Collisions on a Road)
     public int countCollisions(String directions) {
-        int n = directions.length();
-        int left = 0;
-        int right = n - 1;
-        while (left < n && directions.charAt(left) == 'L') {
-            ++left;
+        int res = 0;
+        char[] chars = directions.toCharArray();
+        int i = 0;
+        int j = chars.length - 1;
+        while (i < chars.length) {
+            if (chars[i] != 'L') {
+                break;
+            }
+            ++i;
         }
-        while (right >= 0 && directions.charAt(right) == 'R') {
-            --right;
+        while (j >= 0) {
+            if (chars[j] != 'R') {
+                break;
+            }
+            --j;
         }
-        int countS = 0;
-        for (int i = left; i <= right; ++i) {
-            if (directions.charAt(i) == 'S') {
-                ++countS;
+        for (int k = i; k <= j; ++k) {
+            if (chars[k] != 'S') {
+                ++res;
             }
         }
-        return right - left + 1 - countS;
+        return res;
 
     }
 
