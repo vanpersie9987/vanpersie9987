@@ -3555,4 +3555,42 @@ public class LeetCode_4 {
         return true;
     }
 
+    // 2227. 加密解密字符串 (Encrypt and Decrypt Strings)
+    class Encrypter {
+        private Map<Character, String> map;
+        private Map<String, Integer> count;
+
+        public Encrypter(char[] keys, String[] values, String[] dictionary) {
+            map = new HashMap<>();
+            count = new HashMap<>();
+            int n = keys.length;
+            for (int i = 0; i < n; ++i) {
+                map.put(keys[i], values[i]);
+            }
+            search: for (String dic : dictionary) {
+                StringBuilder builder = new StringBuilder();
+                for (char c : dic.toCharArray()) {
+                    if (!map.containsKey(c)) {
+                        continue search;
+                    }
+                    builder.append(map.get(c));
+                }
+                count.put(builder.toString(), count.getOrDefault(builder.toString(), 0) + 1);
+            }
+
+        }
+
+        public String encrypt(String word1) {
+            StringBuilder builder = new StringBuilder();
+            for (char c : word1.toCharArray()) {
+                builder.append(map.get(c));
+            }
+            return builder.toString();
+        }
+
+        public int decrypt(String word2) {
+            return count.getOrDefault(word2, 0);
+        }
+    }
+
 }
