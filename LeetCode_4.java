@@ -3625,4 +3625,30 @@ public class LeetCode_4 {
 
     }
 
+    // 2136. 全部开花的最早一天 (Earliest Possible Day of Full Bloom)
+    public int earliestFullBloom(int[] plantTime, int[] growTime) {
+        int n = plantTime.length;
+        List<Integer> id = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            id.add(i);
+        }
+        Collections.sort(id, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return growTime[o2] - growTime[o1];
+            }
+
+        });
+
+        int res = 0;
+        int day = 0;
+        for (int i : id) {
+            day += plantTime[i];
+            res = Math.max(res, day + growTime[i]);
+        }
+        return res;
+
+    }
+
 }
