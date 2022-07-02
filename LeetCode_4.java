@@ -3651,4 +3651,47 @@ public class LeetCode_4 {
 
     }
 
+    // 2266. 统计打字方案数 (Count Number of Texts) --dp
+    public int countTexts(String pressedKeys) {
+        final int MOD = 1000000007;
+        int n = pressedKeys.length();
+        List<Long> dp3 = new ArrayList<>();
+        dp3.add(1L);
+        dp3.add(1L);
+        dp3.add(2L);
+        dp3.add(4L);
+        List<Long> dp4 = new ArrayList<>();
+        dp4.add(1L);
+        dp4.add(1L);
+        dp4.add(2L);
+        dp4.add(4L);
+        for (int i = 4; i < n + 1; ++i) {
+            dp3.add((dp3.get(i - 1) + dp3.get(i - 2) + dp3.get(i - 3)) % MOD);
+            dp4.add((dp4.get(i - 1) + dp4.get(i - 2) + dp4.get(i - 3) + dp4.get(i - 4)) % MOD);
+        }
+        long res = 1l;
+        int count = 1;
+        for (int i = 1; i < n; ++i) {
+            if (pressedKeys.charAt(i) == pressedKeys.charAt(i - 1)) {
+                ++count;
+            } else {
+                if (pressedKeys.charAt(i - 1) == '7' || pressedKeys.charAt(i - 1) == '9') {
+                    res *= dp4.get(count);
+                } else {
+                    res *= dp3.get(count);
+                }
+                res %= MOD;
+                count = 1;
+            }
+        }
+        if (pressedKeys.charAt(n - 1) == '7' || pressedKeys.charAt(n - 1) == '9') {
+            res *= dp4.get(count);
+        } else {
+            res *= dp3.get(count);
+        }
+        res %= MOD;
+        return (int) res;
+
+    }
+
 }
