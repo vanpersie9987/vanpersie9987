@@ -19,6 +19,7 @@ public class LeetCode_4 {
     public static void main(String[] args) {
         // String[] strings = { "mobile", "mouse", "moneypot", "monitor", "mousepad" };
         // suggestedProducts(strings, "mouse");
+        // int res = nextGreaterElement(13);
 
     }
 
@@ -3878,6 +3879,41 @@ public class LeetCode_4 {
             }
         }
         return dp[0][n];
+    }
+
+    // 556. 下一个更大元素 III (Next Greater Element III)
+    public int nextGreaterElement(int n) {
+        char[] chars = String.valueOf(n).toCharArray();
+        int len = chars.length;
+        int i = len - 2;
+        while (i >= 0) {
+            if (chars[i] < chars[i + 1]) {
+                break;
+            }
+            --i;
+        }
+        if (i == -1) {
+            return -1;
+        }
+        int j = len - 1;
+        while (i < j) {
+            if (chars[i] < chars[j]) {
+                char temp = chars[i];
+                chars[i] = chars[j];
+                chars[j] = temp;
+                Arrays.sort(chars, i + 1, len);
+                break;
+            }
+            --j;
+        }
+
+        String candicate = String.valueOf(chars);
+        String max = String.valueOf(Integer.MAX_VALUE);
+        if (candicate.length() == max.length() && candicate.compareTo(max) > 0) {
+            return -1;
+        }
+        return Integer.parseInt(candicate);
+
     }
 
 }
