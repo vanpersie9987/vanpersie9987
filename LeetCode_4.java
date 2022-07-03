@@ -3694,4 +3694,146 @@ public class LeetCode_4 {
 
     }
 
+    public String decodeMessage(String key, String message) {
+        Set<Character> set = new HashSet<>();
+        Map<Character, Character> map = new HashMap<>();
+        char c = 'a';
+        for (char ch : key.toCharArray()) {
+            if (ch != ' ') {
+                if (!set.contains(ch)) {
+                    set.add(ch);
+                    map.put(ch, c++);
+                }
+            }
+        }
+        StringBuilder res = new StringBuilder();
+        for (char ch : message.toCharArray()) {
+            if (ch == ' ') {
+                res.append(ch);
+            } else {
+                res.append(map.get(ch));
+            }
+        }
+        return res.toString();
+
+    }
+
+    public class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
+    }
+
+    // 6111. 螺旋矩阵 IV
+    public int[][] spiralMatrix(int m, int n, ListNode head) {
+        int[][] res = new int[m][n];
+        int r1 = 0;
+        int r2 = m - 1;
+        int c1 = 0;
+        int c2 = n - 1;
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(res[i], -1);
+        }
+        while (r1 <= r2 && c1 <= c2) {
+            for (int c = c1; c <= c2; ++c) {
+                if (head != null) {
+                    res[r1][c] = head.val;
+                    head = head.next;
+                } else {
+                    return res;
+                }
+            }
+            for (int r = r1 + 1; r <= r2; ++r) {
+                if (head != null) {
+                    res[r][c2] = head.val;
+                    head = head.next;
+                } else {
+                    return res;
+                }
+            }
+            for (int c = c2 - 1; c >= c1; --c) {
+                if (head != null) {
+                    res[r2][c] = head.val;
+                    head = head.next;
+                } else {
+                    return res;
+                }
+            }
+            for (int r = r2 - 1; r >= r1 + 1; --r) {
+                if (head != null) {
+                    res[r][c1] = head.val;
+                    head = head.next;
+                } else {
+                    return res;
+                }
+            }
+            ++r1;
+            --r2;
+            ++c1;
+            --c2;
+        }
+        return res;
+
+    }
+
+    // 6109. 知道秘密的人数 --dp
+    public int peopleAwareOfSecret(int n, int delay, int forget) {
+        final int MOD = 1000000007;
+        long[] sum = new long[n + 1];
+        sum[1] = 1l;
+        for (int i = 2; i <= n; ++i) {
+            long diff = (sum[Math.max(i - delay, 0)] - sum[Math.max(i - forget, 0)]) % MOD;
+            sum[i] = (sum[i - 1] + diff) % MOD;
+        }
+        return (int) (((sum[n] - sum[Math.max(0, n - forget)]) % MOD + MOD) % MOD);
+
+    }
+
+    // 6110. 网格图中递增路径的数目 -- 记忆化搜索
+    public int countPaths(int[][] grid) {
+        final int MOD = 1000000007;
+        final int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] dp = new int[m][n];
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(dp[i], -1);
+        }
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                res = (res + dfs6110(i, j, grid, dp, directions, MOD)) % MOD;
+            }
+        }
+        return res;
+    }
+
+    private int dfs6110(int i, int j, int[][] grid, int[][] dp, int[][] directions, int MOD) {
+        if (dp[i][j] != -1) {
+            return dp[i][j];
+        }
+        int m = grid.length;
+        int n = grid[0].length;
+        int res = 1;
+        for (int[] direction : directions) {
+            int nx = direction[0] + i;
+            int ny = direction[1] + j;
+            if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] > grid[i][j]) {
+                res = (res + dfs6110(nx, ny, grid, dp, directions, MOD)) % MOD;
+            }
+        }
+        return dp[i][j] = res;
+    }
+
 }
