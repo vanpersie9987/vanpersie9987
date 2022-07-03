@@ -3916,4 +3916,90 @@ public class LeetCode_4 {
 
     }
 
+    // 面试题 05.04. 下一个数 --还需掌握位运算
+    public int[] findClosedNumbers(int num) {
+        char[] chars = Integer.toBinaryString(num).toCharArray();
+        return new int[] { getNextSmallest(chars.clone()), getPreLargest(chars.clone()) };
+    }
+
+    private int getPreLargest(char[] chars) {
+        int n = chars.length;
+        int i = n - 2;
+        while (i >= 0) {
+            if (chars[i] > chars[i + 1]) {
+                break;
+            }
+            --i;
+        }
+        if (i < 0) {
+            return -1;
+        }
+        int j = i + 1;
+        while (j < n) {
+            if (chars[i] > chars[j]) {
+                chars[i] = '0';
+                chars[j] = '1';
+                Arrays.sort(chars, i + 1, n);
+                break;
+            }
+            ++j;
+        }
+        int left = i + 1;
+        int right = n - 1;
+        while (left < right) {
+            char temp = chars[left];
+            chars[left] = chars[right];
+            chars[right] = temp;
+            ++left;
+            --right;
+        }
+
+        return binaryToDecimal(chars);
+    }
+
+    private int binaryToDecimal(char[] chars) {
+        int n = chars.length;
+        int r = 0;
+        int res = 0;
+        for (int index = n - 1; index >= 0; --index) {
+            if (chars[index] == '1') {
+                res += Math.pow(2, r);
+            }
+            ++r;
+        }
+        return res;
+    }
+
+    private int getNextSmallest(char[] chars) {
+        int n = chars.length;
+        int i = n - 2;
+        while (i >= 0) {
+            if (chars[i] < chars[i + 1]) {
+                break;
+            }
+            --i;
+        }
+        if (i < 0) {
+            if (n == 31) {
+                return -1;
+            }
+            char[] newchars = new char[n + 1];
+            System.arraycopy(chars, 0, newchars, 0, n);
+            Arrays.sort(newchars, 1, n + 1);
+            return binaryToDecimal(newchars);
+        }
+        int j = n - 1;
+        while (i < j) {
+            if (chars[i] < chars[j]) {
+                chars[i] = '1';
+                chars[j] = '0';
+                Arrays.sort(chars, i + 1, n);
+                break;
+            }
+            --j;
+        }
+
+        return binaryToDecimal(chars);
+    }
+
 }
