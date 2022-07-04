@@ -4021,4 +4021,16 @@ public class LeetCode_4 {
         return h;
     }
 
+    // 1641. 统计字典序元音字符串的数目 (Count Sorted Vowel Strings) --dp
+    public int countVowelStrings(int n) {
+        int[] dp = { 1, 1, 1, 1, 1 };
+        for (int i = 1; i < n; ++i) {
+            for (int j = 3; j >= 0; --j) {
+                dp[j] += dp[j + 1];
+            }
+        }
+        return Arrays.stream(dp).sum();
+
+    }
+
 }
