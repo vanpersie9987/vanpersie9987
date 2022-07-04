@@ -4033,4 +4033,29 @@ public class LeetCode_4 {
 
     }
 
+    // 1638. 统计只差一个字符的子串数目 (Count Substrings That Differ by One Character) --枚举
+    public int countSubstrings(String s, String t) {
+        int res = 0;
+        int m = s.length();
+        int n = t.length();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int diff = 0;
+                for (int k = 0; i + k < m && j + k < n; ++k) {
+                    if (s.charAt(i + k) != t.charAt(j + k)) {
+                        ++diff;
+                    }
+                    if (diff == 1) {
+                        ++res;
+                    }
+                    if (diff > 1) {
+                        break;
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
 }
