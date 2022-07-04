@@ -3959,13 +3959,11 @@ public class LeetCode_4 {
 
     private int binaryToDecimal(char[] chars) {
         int n = chars.length;
-        int r = 0;
         int res = 0;
         for (int index = n - 1; index >= 0; --index) {
             if (chars[index] == '1') {
-                res += Math.pow(2, r);
+                res += (chars[index] - '0') << (n - 1 - index);
             }
-            ++r;
         }
         return res;
     }
