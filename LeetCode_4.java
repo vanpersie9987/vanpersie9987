@@ -4080,6 +4080,7 @@ public class LeetCode_4 {
                 }
             }
         }
+        int res = 0;
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (i == 0 || j == 0) {
@@ -4093,11 +4094,8 @@ public class LeetCode_4 {
                         dp[i][j] = commonSuffixLength[i - 1][j - 1] + 1;
                     }
                 }
+                res += dp[i][j];
             }
-        }
-        int res = 0;
-        for (int i = 0; i < m; ++i) {
-            res += Arrays.stream(dp[i]).sum();
         }
         return res;
 
