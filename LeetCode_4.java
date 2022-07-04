@@ -4058,4 +4058,49 @@ public class LeetCode_4 {
 
     }
 
+    // 1638. 统计只差一个字符的子串数目 (Count Substrings That Differ by One Character) --dp
+    public int countSubstrings2(String s, String t) {
+        int m = s.length();
+        int n = t.length();
+        // commonSuffixLength[i][j] 表示以s[i]、t[j] 为结尾的两个字符串的公共后缀长度
+        int[][] commonSuffixLength = new int[m][n];
+        // dp 表示以s[i]、t[j] 为结尾的两个字符串只有一个字符不同的数目
+        int[][] dp = new int[m][n];
+
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i == 0 || j == 0) {
+                    if (s.charAt(i) == t.charAt(j)) {
+                        commonSuffixLength[i][j] = 1;
+                    }
+                } else {
+                    if (s.charAt(i) == t.charAt(j)) {
+                        commonSuffixLength[i][j] = commonSuffixLength[i - 1][j - 1] + 1;
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i == 0 || j == 0) {
+                    if (s.charAt(i) != t.charAt(j)) {
+                        dp[i][j] = 1;
+                    }
+                } else {
+                    if (s.charAt(i) == t.charAt(j)) {
+                        dp[i][j] = dp[i - 1][j - 1];
+                    } else {
+                        dp[i][j] = commonSuffixLength[i - 1][j - 1] + 1;
+                    }
+                }
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            res += Arrays.stream(dp[i]).sum();
+        }
+        return res;
+
+    }
+
 }
