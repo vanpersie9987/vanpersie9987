@@ -3998,4 +3998,27 @@ public class LeetCode_4 {
         return binaryToDecimal(chars);
     }
 
+    // 274. H 指数 (H-Index)
+    public int hIndex(int[] citations) {
+        Arrays.sort(citations);
+        int i = citations.length - 1;
+        int h = 0;
+        while (i >= 0 && citations[i] > h) {
+            ++h;
+            --i;
+        }
+        return h;
+    }
+
+    // 275. H 指数 II (H-Index II)
+    public int hIndex275(int[] citations) {
+        int i = citations.length - 1;
+        int h = 0;
+        while (i >= 0 && citations[i] > h) {
+            ++h;
+            --i;
+        }
+        return h;
+    }
+
 }
