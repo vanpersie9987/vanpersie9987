@@ -3695,21 +3695,23 @@ public class LeetCode_4 {
 
     }
 
+    // 2325. 解密消息 (Decode the Message)
     public String decodeMessage(String key, String message) {
-        Set<Character> set = new HashSet<>();
         Map<Character, Character> map = new HashMap<>();
         char c = 'a';
         for (char ch : key.toCharArray()) {
-            if (ch != ' ') {
-                if (!set.contains(ch)) {
-                    set.add(ch);
+            if (!Character.isWhitespace(ch)) {
+                if (!map.containsKey(ch)) {
                     map.put(ch, c++);
                 }
+                // if (map.putIfAbsent(ch, c) == null) {
+                // ++c;
+                // }
             }
         }
         StringBuilder res = new StringBuilder();
         for (char ch : message.toCharArray()) {
-            if (ch == ' ') {
+            if (Character.isWhitespace(ch)) {
                 res.append(ch);
             } else {
                 res.append(map.get(ch));
