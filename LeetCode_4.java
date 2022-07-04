@@ -3873,10 +3873,8 @@ public class LeetCode_4 {
                     dp[1][j] = Math.max(dp[1][j - 1], dp[0][j]);
                 }
             }
-            for (int j = 1; j < n + 1; ++j) {
-                dp[0][j] = dp[1][j];
-                dp[1][j] = 0;
-            }
+            System.arraycopy(dp[1], 0, dp[0], 0, n + 1);
+            Arrays.fill(dp[1], 0);
         }
         return dp[0][n];
     }
