@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
@@ -4132,5 +4131,36 @@ public class LeetCode_4 {
         return res;
 
     }
+
+    // 1796. 字符串中第二大的数字 (Second Largest Digit in a String)
+    public int secondHighest(String s) {
+        int mask = 0;
+        for (char c : s.toCharArray()) {
+            if (Character.isDigit(c)) {
+                mask |= 1 << (c - '0');
+            }
+        }
+        int max = -1;
+        int secondMax = -1;
+        while (mask != 0) {
+            int last = mask & (-mask);
+            int num = Integer.bitCount(last - 1);
+            secondMax = max;
+            max = num;
+            mask &= mask - 1;
+        }
+        return secondMax;
+
+    }
+
+    // 522. 最长特殊序列 II (Longest Uncommon Subsequence II)
+    // public int findLUSlength(String[] strs) {
+
+    // }
+
+    // 609. 在系统中查找重复文件 (Find Duplicate File in System)
+    // public List<List<String>> findDuplicate(String[] paths) {
+
+    // }
 
 }
