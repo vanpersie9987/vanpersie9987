@@ -4104,4 +4104,33 @@ public class LeetCode_4 {
 
     }
 
+    // 1452. 收藏清单 (People Whose List of Favorite Companies Is Not a Subset of
+    // Another List)
+    public List<Integer> peopleIndexes(List<List<String>> favoriteCompanies) {
+        Set<Integer> notAns = new HashSet<>();
+        int n = favoriteCompanies.size();
+        for (int i = 0; i < n; ++i) {
+            Set<String> set = new HashSet<>(favoriteCompanies.get(i));
+            search: for (int j = 0; j < n; ++j) {
+                if (i == j) {
+                    continue;
+                }
+                for (String item : favoriteCompanies.get(j)) {
+                    if (!set.contains(item)) {
+                        continue search;
+                    }
+                }
+                notAns.add(j);
+            }
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            if (!notAns.contains(i)) {
+                res.add(i);
+            }
+        }
+        return res;
+
+    }
+
 }
