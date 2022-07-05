@@ -4204,8 +4204,28 @@ public class LeetCode_4 {
     }
 
     // 609. 在系统中查找重复文件 (Find Duplicate File in System)
-    // public List<List<String>> findDuplicate(String[] paths) {
-
-    // }
+    public List<List<String>> findDuplicate(String[] paths) {
+        Map<String, List<String>> map = new HashMap<>();
+        for (String path : paths) {
+            String[] split = path.split("\\s+");
+            String directory = split[0];
+            for (int i = 1; i < split.length; ++i) {
+                // 左括号索引
+                int leftParentheseIndex = split[i].indexOf("(");
+                // 文件名
+                String fileName = split[i].substring(0, leftParentheseIndex);
+                // 文件内容
+                String fileContent = split[i].substring(leftParentheseIndex + 1, split[i].length() - 1);
+                map.computeIfAbsent(fileContent, k -> new ArrayList<>()).add(directory + "/" + fileName);
+            }
+        }
+        List<List<String>> res = new ArrayList<>();
+        for (List<String> list : map.values()) {
+            if (list.size() > 1) {
+                res.add(list);
+            }
+        }
+        return res;
+    }
 
 }
