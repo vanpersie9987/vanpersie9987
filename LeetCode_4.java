@@ -4172,9 +4172,36 @@ public class LeetCode_4 {
     }
 
     // 522. 最长特殊序列 II (Longest Uncommon Subsequence II)
-    // public int findLUSlength(String[] strs) {
+    public int findLUSlength(String[] strs) {
+        int n = strs.length;
+        int res = -1;
+        search: for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i == j) {
+                    continue;
+                }
+                if (isLUS522(strs[i], strs[j])) {
+                    continue search;
+                }
+            }
+            res = Math.max(res, strs[i].length());
+        }
+        return res;
 
-    // }
+    }
+
+    // 判断s1是否为s2的子序列
+    private boolean isLUS522(String s1, String s2) {
+        int i = 0;
+        int j = 0;
+        while (i < s1.length() && j < s2.length()) {
+            if (s1.charAt(i) == s2.charAt(j)) {
+                ++i;
+            }
+            ++j;
+        }
+        return i == s1.length();
+    }
 
     // 609. 在系统中查找重复文件 (Find Duplicate File in System)
     // public List<List<String>> findDuplicate(String[] paths) {
