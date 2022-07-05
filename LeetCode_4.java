@@ -4153,6 +4153,24 @@ public class LeetCode_4 {
 
     }
 
+    // 1796. 字符串中第二大的数字 (Second Largest Digit in a String)
+    public int secondHighest2(String s) {
+        int max = -1;
+        int secondMax = -1;
+        for (char c : s.toCharArray()) {
+            if (Character.isDigit(c)) {
+                int num = c - '0';
+                if (num > max) {
+                    secondMax = max;
+                    max = num;
+                } else if (max > num && num > secondMax) {
+                    secondMax = num;
+                }
+            }
+        }
+        return secondMax;
+    }
+
     // 522. 最长特殊序列 II (Longest Uncommon Subsequence II)
     // public int findLUSlength(String[] strs) {
 
