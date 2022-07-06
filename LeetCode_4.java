@@ -4308,4 +4308,61 @@ public class LeetCode_4 {
         }
     }
 
+    // 1455. 检查单词是否为句中其他单词的前缀 (Check If a Word Occurs As a Prefix of Any Word in a
+    // Sentence)
+    public int isPrefixOfWord(String sentence, String searchWord) {
+        String[] split = sentence.split("\\s+");
+        for (int i = 0; i < split.length; ++i) {
+            if (split[i].indexOf(searchWord) == 0) {
+                return i + 1;
+            }
+        }
+        return -1;
+    }
+
+    // 1455. 检查单词是否为句中其他单词的前缀 (Check If a Word Occurs As a Prefix of Any Word in a
+    // Sentence)
+    public int isPrefixOfWord2(String sentence, String searchWord) {
+        Trie1455 trie = new Trie1455();
+        String[] split = sentence.split("\\s+");
+        for (int i = 0; i < split.length; ++i) {
+            trie.insert(split[i], i + 1);
+        }
+        return trie.getPrefixIndex(searchWord);
+    }
+
+    class Trie1455 {
+        private Trie1455[] children;
+        private int index;
+
+        public Trie1455() {
+            children = new Trie1455[26];
+            index = -1;
+        }
+
+        public void insert(String s, int index) {
+            Trie1455 node = this;
+            for (char c : s.toCharArray()) {
+                int i = c - 'a';
+                if (node.children[i] == null) {
+                    node.children[i] = new Trie1455();
+                    node.children[i].index = index;
+                }
+                node = node.children[i];
+            }
+        }
+
+        public int getPrefixIndex(String s) {
+            Trie1455 node = this;
+            for (char c : s.toCharArray()) {
+                int i = c - 'a';
+                if (node.children[i] == null) {
+                    return -1;
+                }
+                node = node.children[i];
+            }
+            return node.index;
+        }
+    }
+
 }
