@@ -4365,4 +4365,16 @@ public class LeetCode_4 {
         }
     }
 
+    // 1668. 最大重复子字符串 (Maximum Repeating Substring)
+    public int maxRepeating(String sequence, String word) {
+        StringBuilder builder = new StringBuilder(word);
+        int res = 0;
+        while (sequence.indexOf(builder.toString()) != -1) {
+            ++res;
+            builder.append(word);
+        }
+        return res;
+
+    }
+
 }
