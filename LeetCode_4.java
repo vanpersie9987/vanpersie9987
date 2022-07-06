@@ -4228,4 +4228,21 @@ public class LeetCode_4 {
         return res;
     }
 
+    // 1072. 按列翻转得到最大值等行数 (Flip Columns For Maximum Number of Equal Rows)
+    public int maxEqualRowsAfterFlips(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        Map<String, Integer> map = new HashMap<>();
+        for (int i = 0; i < m; ++i) {
+            StringBuilder builder = new StringBuilder();
+            for (int j = n - 1; j >= 0; --j) {
+                matrix[i][j] ^= matrix[i][0];
+                builder.append(matrix[i][j]);
+            }
+            map.put(builder.toString(), map.getOrDefault(builder.toString(), 0) + 1);
+        }
+        return Collections.max(map.values());
+
+    }
+
 }
