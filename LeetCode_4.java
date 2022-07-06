@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -4243,6 +4244,68 @@ public class LeetCode_4 {
         }
         return Collections.max(map.values());
 
+    }
+
+    // 2249. 统计圆内格点数目 (Count Lattice Points Inside a Circle)
+    public int countLatticePoints(int[][] circles) {
+        Set<Integer> set = new HashSet<>();
+        for (int[] circle : circles) {
+            int x = circle[0];
+            int y = circle[1];
+            int r = circle[2];
+            for (int nx = x; nx <= x + r; ++nx) {
+                for (int ny = y; ny <= y + r; ++ny) {
+                    if ((nx - x) * (nx - x) + (ny - y) * (ny - y) <= r * r) {
+                        set.add(nx * 200 + ny);
+                        set.add((2 * x - nx) * 200 + ny);
+                        set.add(nx * 200 + 2 * y - ny);
+                        set.add((2 * x - nx) * 200 + 2 * y - ny);
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+        return set.size();
+
+    }
+
+    // 2013. 检测正方形 (Detect Squares)
+    class DetectSquares {
+        private Map<Integer, Integer> map;
+
+        public DetectSquares() {
+            map = new HashMap<>();
+        }
+
+        public void add(int[] point) {
+            int x = point[0];
+            int y = point[1];
+            map.put((x << 10) + y, map.getOrDefault((x << 10) + y, 0) + 1);
+        }
+
+        public int count(int[] point) {
+            int res = 0;
+            int x = point[0];
+            int y = point[1];
+            for (int p : map.keySet()) {
+                int x0 = p >> 10;
+                int y0 = p & 1023;
+                if (y != y0) {
+                    continue;
+                }
+                if (x == x0) {
+                    continue;
+                }
+                int side = Math.abs(x - x0);
+                res += map.getOrDefault((x0 << 10) + y, 0) * map.getOrDefault((x0 << 10) + y + side, 0)
+                        * map.getOrDefault((x << 10) + y + side, 0);
+
+                res += map.getOrDefault((x0 << 10) + y, 0) * map.getOrDefault((x0 << 10) + y - side, 0)
+                        * map.getOrDefault((x << 10) + y - side, 0);
+            }
+            return res;
+        }
     }
 
 }
