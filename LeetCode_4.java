@@ -4478,4 +4478,38 @@ public class LeetCode_4 {
 
     }
 
+    // 2135. 统计追加字母可以获得的单词数 (Count Words Obtained After Adding a Letter)
+    public int wordCount1(String[] startWords, String[] targetWords) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (String targetWord : targetWords) {
+            int mask = getMask2153(targetWord);
+            map.put(mask, map.getOrDefault(mask, 0) + 1);
+        }
+        int res = 0;
+        for (String startWord : startWords) {
+            int mask = getMask2153(startWord);
+            for (int i = 0; i < 26; ++i) {
+                int candidateMask = mask | (1 << i);
+                if (candidateMask != mask && map.containsKey(candidateMask)) {
+                    res += map.get(candidateMask);
+                    map.remove(candidateMask);
+                }
+            }
+        }
+        return res;
+    }
+
+    private int getMask2153(String word) {
+        int mask = 0;
+        for (char c : word.toCharArray()) {
+            mask |= 1 << (c - 'a');
+        }
+        return mask;
+    }
+
+    // 2121. 相同元素的间隔之和 (Intervals Between Identical Elements)
+    // public long[] getDistances(int[] arr) {
+
+    // }
+
 }
