@@ -15,6 +15,8 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import LeetCodeText.Node;
+
 public class LeetCode_4 {
     public static void main(String[] args) {
         // String[] strings = { "mobile", "mouse", "moneypot", "monitor", "mousepad" };
@@ -4398,6 +4400,54 @@ public class LeetCode_4 {
         }
         return res.toString();
 
+    }
+
+    // 652. 寻找重复的子树 (Find Duplicate Subtrees) --序列化
+    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+        Map<String, Integer> map = new HashMap<>();
+        List<TreeNode> res = new ArrayList<>();
+        collect652(root, map, res);
+        return res;
+    }
+
+    private String collect652(TreeNode root, Map<String, Integer> map, List<TreeNode> res) {
+        if (root == null) {
+            return "#";
+        }
+        String key = root.val + "," + collect652(root.left, map, res) + "," + collect652(root.right, map, res);
+        map.put(key, map.getOrDefault(key, 0) + 1);
+        if (map.get(key) == 2) {
+            res.add(root);
+        }
+        return key;
+    }
+
+    // 652. 寻找重复的子树 (Find Duplicate Subtrees)
+    private int id652;
+
+    public List<TreeNode> findDuplicateSubtrees2(TreeNode root) {
+        id652 = 1;
+        Map<String, Integer> map = new HashMap<>();
+        Map<Integer, Integer> count = new HashMap<>();
+        List<TreeNode> res = new ArrayList<>();
+        collect652_2(root, map, count, res);
+        return res;
+
+    }
+
+    private int collect652_2(TreeNode root, Map<String, Integer> map, Map<Integer, Integer> count,
+            List<TreeNode> res) {
+        if (root == null) {
+            return 0;
+        }
+        String key = root.val + "," + collect652_2(root.left, map, count, res) + ","
+                + collect652_2(root.right, map, count, res);
+        int uid = map.computeIfAbsent(key, k -> id652++);
+        count.put(uid, count.getOrDefault(uid, 0) + 1);
+        if (count.get(uid) == 2) {
+            res.add(root);
+        }
+        return uid;
     }
 
 }
