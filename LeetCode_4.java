@@ -4507,6 +4507,27 @@ public class LeetCode_4 {
         return mask;
     }
 
+    // 2135. 统计追加字母可以获得的单词数 (Count Words Obtained After Adding a Letter)
+    public int wordCount2(String[] startWords, String[] targetWords) {
+        Set<Integer> set = new HashSet<>();
+        for (String startWord : startWords) {
+            int mask = getMask2153(startWord);
+            set.add(mask);
+        }
+        int res = 0;
+        for (String targetWord : targetWords) {
+            int mask = getMask2153(targetWord);
+            for (int i = 0; i < targetWord.length(); ++i) {
+                if (set.contains(mask ^ (1 << (targetWord.charAt(i) - 'a')))) {
+                    ++res;
+                    break;
+                }
+            }
+        }
+        return res;
+
+    }
+
     // 2121. 相同元素的间隔之和 (Intervals Between Identical Elements)
     // public long[] getDistances(int[] arr) {
 
