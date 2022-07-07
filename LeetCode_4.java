@@ -15,8 +15,6 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import LeetCodeText.Node;
-
 public class LeetCode_4 {
     public static void main(String[] args) {
         // String[] strings = { "mobile", "mouse", "moneypot", "monitor", "mousepad" };
@@ -4448,6 +4446,36 @@ public class LeetCode_4 {
             res.add(root);
         }
         return uid;
+    }
+
+    // 2131. 连接两字母单词得到的最长回文串 (Longest Palindrome by Concatenating Two Letter Words)
+    public int longestPalindrome(String[] words) {
+        Map<String, Integer> map = new HashMap<>();
+        for (String word : words) {
+            map.put(word, map.getOrDefault(word, 0) + 1);
+        }
+        boolean hasOddSame = false;
+        int countSame = 0;
+        int countDiff = 0;
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            String key = entry.getKey();
+            if (key.charAt(0) == key.charAt(1)) {
+                if (entry.getValue() % 2 == 1) {
+                    hasOddSame = true;
+                    countSame += entry.getValue() - 1;
+                } else {
+                    countSame += entry.getValue();
+                }
+            } else {
+                int count1 = entry.getValue();
+                String reverse = String.valueOf(key.charAt(1)) + String.valueOf(key.charAt(0));
+                int count2 = map.getOrDefault(reverse, 0);
+                countDiff += Math.min(count1, count2);
+            }
+        }
+        countSame += hasOddSame ? 1 : 0;
+        return (countDiff + countSame) * 2;
+
     }
 
 }
