@@ -4643,4 +4643,39 @@ public class LeetCode_4 {
 
     }
 
+    // 957. N 天后的牢房 (Prison Cells After N Days)
+    public int[] prisonAfterNDays(int[] cells, int n) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int state = 0;
+        for (int i = 0; i < 8; ++i) {
+            state |= cells[i] << i;
+        }
+        while (n > 0) {
+            if (map.containsKey(state)) {
+                n %= map.get(state) - n;
+            }
+            map.put(state, n);
+            if (n >= 1) {
+                state = getNextState957(state);
+                --n;
+            }
+        }
+        int[] res = new int[8];
+        for (int i = 1; i < 7; ++i) {
+            res[i] = (state >> i) & 1;
+        }
+        return res;
+
+    }
+
+    private int getNextState957(int state) {
+        int res = 0;
+        for (int i = 1; i < 7; ++i) {
+            if (((state >> (i - 1)) & 1) == ((state >> (i + 1)) & 1)) {
+                res |= 1 << i;
+            }
+        }
+        return res;
+    }
+
 }
