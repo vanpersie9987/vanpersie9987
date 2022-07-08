@@ -4587,4 +4587,60 @@ public class LeetCode_4 {
 
     }
 
+    // 面试题 16.22. 兰顿蚂蚁 (Langtons Ant LCCI)
+    public List<String> printKMoves(int K) {
+        // false 白
+        // true 黑
+        boolean[][] board = new boolean[3000][3000];
+        int x = 2000;
+        int y = 2000;
+        // 当前位置
+        int minX = x;
+        int maxX = x;
+        int minY = y;
+        int maxY = y;
+        // 右、下、左、上
+        int[][] directions = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+        char[] dir = { 'R', 'D', 'L', 'U' };
+        char[] color = { '_', 'X' };
+        // 当前方向
+        int p = 0;
+        for (int i = 0; i < K; ++i) {
+            // true 当前为黑色
+            if (board[x][y]) {
+                // 变白
+                board[x][y] = false;
+                // 逆时针
+                p = (p - 1 + 4) % 4;
+            }
+            // false 当前为白色
+            else {
+                // 变黑
+                board[x][y] = true;
+                // 顺时针
+                p = (p + 1) % 4;
+            }
+            x += directions[p][0];
+            y += directions[p][1];
+            minX = Math.min(minX, x);
+            maxX = Math.max(maxX, x);
+            minY = Math.min(minY, y);
+            maxY = Math.max(maxY, y);
+        }
+        List<String> res = new ArrayList<>();
+        for (int i = minX; i <= maxX; ++i) {
+            StringBuilder builder = new StringBuilder();
+            for (int j = minY; j <= maxY; ++j) {
+                if (x == i && y == j) {
+                    builder.append(dir[p]);
+                } else {
+                    builder.append(color[board[i][j] ? 1 : 0]);
+                }
+            }
+            res.add(builder.toString());
+        }
+        return res;
+
+    }
+
 }
