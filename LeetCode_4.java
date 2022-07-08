@@ -18,6 +18,8 @@ import java.util.regex.Pattern;
 
 import javax.swing.text.html.HTMLDocument.RunElement;
 
+import LeetCodeText.RepInteger;
+
 public class LeetCode_4 {
     public static void main(String[] args) {
         // String[] strings = { "mobile", "mouse", "moneypot", "monitor", "mousepad" };
@@ -4676,6 +4678,63 @@ public class LeetCode_4 {
             }
         }
         return res;
+    }
+
+    // 1325. 删除给定值的叶子节点 (Delete Leaves With a Given Value) --bfs + 拓扑排序
+    public TreeNode removeLeafNodes(TreeNode root, int target) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        Map<TreeNode, TreeNode> map = new HashMap<>();
+        Map<TreeNode, Integer> degree = new HashMap<>();
+        Queue<TreeNode> topologicalQueue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node.left == null && node.right == null && node.val == target) {
+                topologicalQueue.offer(node);
+            }
+            if (node.left != null) {
+                map.put(node.left, node);
+                degree.put(node, degree.getOrDefault(node, 0) + 1);
+                queue.offer(node.left);
+            }
+            if (node.right != null) {
+                map.put(node.right, node);
+                degree.put(node, degree.getOrDefault(node, 0) + 1);
+                queue.offer(node.right);
+            }
+        }
+        while (!topologicalQueue.isEmpty()) {
+            TreeNode node = topologicalQueue.poll();
+            TreeNode parent = map.get(node);
+            if (parent == null) {
+                return null;
+            }
+            if (parent.left == node) {
+                parent.left = null;
+            } else {
+                parent.right = null;
+            }
+            degree.put(parent, degree.get(parent) - 1);
+            if (degree.get(parent) == 0 && parent.val == target) {
+                topologicalQueue.offer(parent);
+            }
+        }
+        return root;
+
+    }
+
+    // 1325. 删除给定值的叶子节点 (Delete Leaves With a Given Value) --递归
+    public TreeNode removeLeafNodes2(TreeNode root, int target) {
+        if (root == null) {
+            return null;
+        }
+        root.left = removeLeafNodes(root.left, target);
+        root.right = removeLeafNodes(root.right, target);
+        if (root.left == null && root.right == null && root.val == target) {
+            return null;
+        }
+        return root;
+
     }
 
 }
