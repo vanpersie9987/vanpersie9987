@@ -1,3 +1,4 @@
+import java.nio.MappedByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,6 +15,8 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.swing.text.html.HTMLDocument.RunElement;
 
 public class LeetCode_4 {
     public static void main(String[] args) {
@@ -4528,9 +4531,60 @@ public class LeetCode_4 {
 
     }
 
-    // 2121. 相同元素的间隔之和 (Intervals Between Identical Elements)
-    // public long[] getDistances(int[] arr) {
+    // 2121. 相同元素的间隔之和 (Intervals Between Identical Elements) --超时
+    public long[] getDistances(int[] arr) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int n = arr.length;
+        long[] res = new long[n];
+        for (int i = 0; i < n; ++i) {
+            List<Integer> list = map.getOrDefault(arr[i], new ArrayList<>());
+            for (int j = 0; j < list.size(); ++j) {
+                res[list.get(j)] += i - list.get(j);
+                res[i] += i - list.get(j);
+            }
+            list.add(i);
+            map.put(arr[i], list);
+        }
+        return res;
 
-    // }
+    }
+
+    // 2121. 相同元素的间隔之和 (Intervals Between Identical Elements) --前缀和
+    public long[] getDistances2(int[] arr) {
+        int n = arr.length;
+        Map<Integer, int[]> map = new HashMap<>();
+        // 前缀和
+        // pre[i] 表示 索引i之前 所有值为arr[i]的元素 到i位置的间隔之和
+        long[] pre = new long[n];
+        for (int i = 0; i < n; ++i) {
+            // cur[0] 表示 上一个值为arr[i]的索引
+            // cur[1] 表示 索引i的前面，值为arr[i]的个数
+            int[] cur = map.getOrDefault(arr[i], new int[2]);
+            if (cur[1] != 0) {
+                pre[i] += pre[cur[0]] + (i - cur[0]) * cur[1];
+            }
+            cur[0] = i;
+            ++cur[1];
+            map.put(arr[i], cur);
+        }
+
+        map.clear();
+        long[] suf = new long[n];
+        for (int i = n - 1; i >= 0; --i) {
+            int[] cur = map.getOrDefault(arr[i], new int[2]);
+            if (cur[1] != 0) {
+                suf[i] += suf[cur[0]] + (cur[0] - i) * cur[1];
+            }
+            cur[0] = i;
+            ++cur[1];
+            map.put(arr[i], cur);
+        }
+        long[] res = new long[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = pre[i] + suf[i];
+        }
+        return res;
+
+    }
 
 }
