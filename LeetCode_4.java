@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
@@ -4730,6 +4731,37 @@ public class LeetCode_4 {
         }
         return root;
 
+    }
+
+    // 519. 随机翻转矩阵 (Random Flip Matrix)
+    class Solution {
+        private Random random;
+        private int count;
+        private Map<Integer, Integer> map;
+        private int m;
+        private int n;
+
+        public Solution(int m, int n) {
+            count = m * n;
+            random = new Random();
+            map = new HashMap<>();
+            this.m = m;
+            this.n = n;
+
+        }
+
+        public int[] flip() {
+            int x = random.nextInt(count);
+            --count;
+            int index = map.getOrDefault(x, x);
+            map.put(x, map.getOrDefault(count, count));
+            return new int[] { index / n, index % n };
+        }
+
+        public void reset() {
+            map.clear();
+            count = m * n;
+        }
     }
 
 }
