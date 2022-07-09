@@ -4764,4 +4764,46 @@ public class LeetCode_4 {
         }
     }
 
+    // 1592. 重新排列单词间的空格 (Rearrange Spaces Between Words)
+    public String reorderSpaces(String text) {
+        int space = 0;
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < text.length(); ++i) {
+            char c = text.charAt(i);
+            if (c == ' ') {
+                ++space;
+            } else {
+                int right = i;
+                while (right < text.length() && text.charAt(right) != ' ') {
+                    ++right;
+                }
+                list.add(text.substring(i, right));
+                i = right - 1;
+            }
+        }
+        StringBuilder res = new StringBuilder();
+        if (list.size() == 1) {
+            res.append(list.get(0));
+            while (space-- != 0) {
+                res.append(" ");
+            }
+        } else {
+            int intervalSpaceCount = space / (list.size() - 1);
+            int remainSpaceCount = space % (list.size() - 1);
+            int index = 0;
+            while (index < list.size()) {
+                res.append(list.get(index));
+                for (int i = 0; i < intervalSpaceCount && index != list.size() - 1; ++i) {
+                    res.append(" ");
+                }
+                ++index;
+            }
+            while (remainSpaceCount-- != 0) {
+                res.append(" ");
+            }
+        }
+        return res.toString();
+
+    }
+
 }
