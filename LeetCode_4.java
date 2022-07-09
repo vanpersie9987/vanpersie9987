@@ -4781,26 +4781,23 @@ public class LeetCode_4 {
                 i = right - 1;
             }
         }
+
+        int intervalSpaceCount = 0;
+        if (list.size() > 1) {
+            intervalSpaceCount = space / (list.size() - 1);
+            space = space % (list.size() - 1);
+        }
+        int index = 0;
         StringBuilder res = new StringBuilder();
-        if (list.size() == 1) {
-            res.append(list.get(0));
-            while (space-- != 0) {
+        while (index < list.size()) {
+            res.append(list.get(index));
+            for (int i = 0; i < intervalSpaceCount && index != list.size() - 1; ++i) {
                 res.append(" ");
             }
-        } else {
-            int intervalSpaceCount = space / (list.size() - 1);
-            int remainSpaceCount = space % (list.size() - 1);
-            int index = 0;
-            while (index < list.size()) {
-                res.append(list.get(index));
-                for (int i = 0; i < intervalSpaceCount && index != list.size() - 1; ++i) {
-                    res.append(" ");
-                }
-                ++index;
-            }
-            while (remainSpaceCount-- != 0) {
-                res.append(" ");
-            }
+            ++index;
+        }
+        while (space-- != 0) {
+            res.append(" ");
         }
         return res.toString();
 
