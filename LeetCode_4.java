@@ -1,3 +1,4 @@
+import java.security.KeyStore.Entry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,8 +14,11 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.swing.text.html.parser.Entity;
 
 public class LeetCode_4 {
     public static void main(String[] args) {
@@ -4831,6 +4835,179 @@ public class LeetCode_4 {
             chars[4] = '9';
         }
         return String.valueOf(chars);
+
+    }
+
+    // 6116. 计算布尔二叉树的值
+    public boolean evaluateTree(TreeNode root) {
+        if (root.left == null && root.right == null) {
+            return root.val == 1;
+        }
+        if (root.val == 2) {
+            return evaluateTree(root.left) || evaluateTree(root.right);
+        } else {
+            return evaluateTree(root.left) && evaluateTree(root.right);
+        }
+    }
+
+    // 6117. 坐上公交的最晚时间
+    public int latestTimeCatchTheBus(int[] buses, int[] passengers, int capacity) {
+        Arrays.sort(buses);
+        Arrays.sort(passengers);
+        int j = 0;
+        int c = 0;
+        for (int i = 0; i < buses.length; ++i) {
+            for (c = capacity; c > 0 && j < passengers.length && passengers[j] <= buses[i]; ++j) {
+                --c;
+            }
+        }
+        --j;
+        int res = c > 0 ? buses[buses.length - 1] : passengers[j];
+        while (j >= 0 && res == passengers[j--]) {
+            --res;
+        }
+        return res;
+
+    }
+
+    // 6118. 最小差值平方和 (Minimum Sum of Squared Difference)
+    public long minSumSquareDiff(int[] nums1, int[] nums2, int k1, int k2) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int n = nums1.length;
+        int max = 0;
+        long sum = 0l;
+        for (int i = 0; i < n; ++i) {
+            int diff = Math.abs(nums1[i] - nums2[i]);
+            map.put(diff, map.getOrDefault(diff, 0) + 1);
+            max = Math.max(max, diff);
+            sum += diff;
+        }
+        int k = k1 + k2;
+        if (k >= sum) {
+            return 0;
+        }
+        while (k > 0) {
+            int count = map.get(max);
+            if (k >= count) {
+                map.remove(max);
+                --max;
+                map.put(max, map.getOrDefault(max, 0) + count);
+                k -= count;
+            } else {
+                int diff = count - k;
+                map.put(max, diff);
+                --max;
+                map.put(max, map.getOrDefault(max, 0) + k);
+                k = 0;
+            }
+        }
+        long res = 0l;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            res += (long) entry.getKey() * entry.getKey() * entry.getValue();
+        }
+        return res;
+
+    }
+
+    // 6112. 装满杯子需要的最短总时长
+    public int fillCups(int[] amount) {
+        PriorityQueue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                // TODO Auto-generated method stub
+                return o2.compareTo(o1);
+            }
+
+        });
+        for (int a : amount) {
+            queue.offer(a);
+        }
+        int count = 0;
+        while (!queue.isEmpty()) {
+            int poll1 = queue.poll();
+            int poll2 = queue.poll();
+            int poll3 = queue.poll();
+            if (poll1 == 0) {
+                return count;
+            }
+            if (poll2 == 0) {
+                return poll1 + count;
+            }
+            if (poll3 == 0) {
+                return poll1 + count;
+            }
+            --poll1;
+            --poll2;
+            count += 1;
+            queue.offer(poll1);
+            queue.offer(poll2);
+            queue.offer(poll3);
+        }
+        return count;
+
+    }
+
+    // 6113. 无限集中的最小数字
+    class SmallestInfiniteSet {
+        private TreeSet<Integer> set;
+
+        public SmallestInfiniteSet() {
+            set = new TreeSet<>();
+            for (int i = 1; i <= 1000; ++i) {
+                set.add(i);
+            }
+        }
+
+        public int popSmallest() {
+            int res = set.first();
+            set.remove(res);
+            return res;
+        }
+
+        public void addBack(int num) {
+            set.add(num);
+        }
+    }
+
+    // 6114. 移动片段得到字符串
+    public boolean canChange(String start, String target) {
+        List<int[]> starts = new ArrayList<>();
+        List<int[]> targets = new ArrayList<>();
+        int n = start.length();
+        for (int i = 0; i < n; ++i) {
+            if (start.charAt(i) != '_') {
+                if (start.charAt(i) == 'L') {
+                    starts.add(new int[] { 0, i });
+                } else {
+                    starts.add(new int[] { 1, i });
+                }
+            }
+
+            if (target.charAt(i) != '_') {
+                if (target.charAt(i) == 'L') {
+                    targets.add(new int[] { 0, i });
+                } else {
+                    targets.add(new int[] { 1, i });
+                }
+            }
+        }
+        if (starts.size() != targets.size()) {
+            return false;
+        }
+        int m = starts.size();
+        for (int i = 0; i < m; ++i) {
+            if (starts.get(i)[0] != targets.get(i)[0]) {
+                return false;
+            }
+            if (starts.get(i)[0] == 0 && starts.get(i)[1] < targets.get(i)[1]) {
+                return false;
+            }
+            if (starts.get(i)[0] == 1 && starts.get(i)[1] > targets.get(i)[1]) {
+                return false;
+            }
+        }
+        return true;
 
     }
 
