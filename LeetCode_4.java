@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -5127,6 +5128,91 @@ public class LeetCode_4 {
         }
         return res;
 
+    }
+
+    public interface NestedInteger {
+
+        // @return true if this NestedInteger holds a single integer, rather than a
+        // nested list.
+        public boolean isInteger();
+
+        // @return the single integer that this NestedInteger holds, if it holds a
+        // single integer
+        // Return null if this NestedInteger holds a nested list
+        public Integer getInteger();
+
+        // @return the nested list that this NestedInteger holds, if it holds a nested
+        // list
+        // Return empty list if this NestedInteger holds a single integer
+        public List<NestedInteger> getList();
+    }
+
+    // 341. 扁平化嵌套列表迭代器 (Flatten Nested List Iterator)
+    public class NestedIterator implements Iterator<Integer> {
+        private List<Integer> list;
+        private int index;
+
+        public NestedIterator(List<NestedInteger> nestedList) {
+            list = new ArrayList<>();
+            dfs341(nestedList);
+
+        }
+
+        private void dfs341(List<NestedInteger> nestedList) {
+            for (int i = 0; i < nestedList.size(); ++i) {
+                NestedInteger nestedInteger = nestedList.get(i);
+                if (nestedInteger.isInteger()) {
+                    list.add(nestedInteger.getInteger());
+                } else {
+                    dfs341(nestedInteger.getList());
+                }
+            }
+        }
+
+        @Override
+        public Integer next() {
+            return list.get(index++);
+        }
+
+        @Override
+        public boolean hasNext() {
+            return index < list.size();
+        }
+    }
+
+    // 341. 扁平化嵌套列表迭代器 (Flatten Nested List Iterator) --迭代
+    public class NestedIterator2 implements Iterator<Integer> {
+        private Stack<Iterator<NestedInteger>> stack;
+
+        public NestedIterator2(List<NestedInteger> nestedList) {
+            stack = new Stack<>();
+            stack.push(nestedList.iterator());
+        }
+
+        @Override
+        public Integer next() {
+            return stack.peek().next().getInteger();
+        }
+
+        @Override
+        public boolean hasNext() {
+            while (!stack.isEmpty()) {
+                Iterator<NestedInteger> nIterator = stack.peek();
+                if (!nIterator.hasNext()) {
+                    stack.pop();
+                    continue;
+                }
+                NestedInteger nest = nIterator.next();
+                if (nest.isInteger()) {
+                    List<NestedInteger> list = new ArrayList<>();
+                    list.add(nest);
+                    stack.push(list.iterator());
+                    return true;
+                }
+                stack.push(nest.getList().iterator());
+            }
+            return false;
+        }
     }
 
 }
