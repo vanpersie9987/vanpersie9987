@@ -5047,7 +5047,7 @@ public class LeetCode_4 {
             val = _val;
             children = _children;
         }
-    };
+    }
 
     // 589. N 叉树的前序遍历 (N-ary Tree Preorder Traversal)
     public List<Integer> preorder(Node root) {
@@ -5081,6 +5081,49 @@ public class LeetCode_4 {
             for (int i = node.children.size() - 1; i >= 0; --i) {
                 stack.push(node.children.get(i));
             }
+        }
+        return res;
+
+    }
+
+    // 590. N 叉树的后序遍历 (N-ary Tree Postorder Traversal)
+    public List<Integer> postorder(Node root) {
+        List<Integer> res = new ArrayList<>();
+        dfs590(root, res);
+        return res;
+
+    }
+
+    private void dfs590(Node node, List<Integer> res) {
+        if (node == null) {
+            return;
+        }
+        for (int i = 0; i < node.children.size(); ++i) {
+            dfs590(node.children.get(i), res);
+        }
+        res.add(node.val);
+    }
+
+    // 590. N 叉树的后序遍历 (N-ary Tree Postorder Traversal) --迭代
+    public List<Integer> postorder2(Node root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Stack<Node> stack = new Stack<>();
+        stack.push(root);
+        Set<Node> visited = new HashSet<>();
+        while (!stack.isEmpty()) {
+            Node node = stack.peek();
+            if (node.children.isEmpty() || visited.contains(node)) {
+                stack.pop();
+                res.add(node.val);
+                continue;
+            }
+            for (int i = node.children.size() - 1; i >= 0; --i) {
+                stack.push(node.children.get(i));
+            }
+            visited.add(node);
         }
         return res;
 
