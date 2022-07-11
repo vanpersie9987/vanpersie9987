@@ -5007,4 +5007,29 @@ public class LeetCode_4 {
 
     }
 
+    // 1487. 保证文件名唯一 (Making File Names Unique)
+    public String[] getFolderNames(String[] names) {
+        int n = names.length;
+        Map<String, Integer> map = new HashMap<>();
+        String[] res = new String[n];
+        for (int i = 0; i < n; ++i) {
+            if (!map.containsKey(names[i])) {
+                res[i] = names[i];
+                map.put(names[i], 0);
+            } else {
+                int index = map.get(names[i]) + 1;
+                String cur = names[i] + "(" + index + ")";
+                while (map.containsKey(cur)) {
+                    ++index;
+                    cur = names[i] + "(" + index + ")";
+                }
+                res[i] = cur;
+                map.put(cur, 0);
+                map.put(names[i], index);
+            }
+        }
+        return res;
+
+    }
+
 }
