@@ -5303,13 +5303,24 @@ public class LeetCode_4 {
         return root;
     }
 
+    // 1043. 分隔数组以得到最大和 (Partition Array for Maximum Sum) --dp
+    public int maxSumAfterPartitioning(int[] arr, int k) {
+        int n = arr.length;
+        int[] dp = new int[n];
+        for (int i = 0; i < k; ++i) {
+            dp[i] = Arrays.stream(arr, 0, i + 1).max().getAsInt() * (i + 1);
+        }
+        for (int i = k; i < n; ++i) {
+            for (int j = 1; j <= k; ++j) {
+                dp[i] = Math.max(dp[i], dp[i - j] + Arrays.stream(arr, i - j + 1, i + 1).max().getAsInt() * j);
+            }
+        }
+        return dp[n - 1];
+
+    }
+
     // 979. 在二叉树中分配硬币 (Distribute Coins in Binary Tree)
     // public int distributeCoins(TreeNode root) {
-
-    // }
-
-    // 1043. 分隔数组以得到最大和 (Partition Array for Maximum Sum)
-    // public int maxSumAfterPartitioning(int[] arr, int k) {
 
     // }
 
