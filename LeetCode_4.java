@@ -5215,4 +5215,67 @@ public class LeetCode_4 {
         }
     }
 
+    // 814. 二叉树剪枝 (Binary Tree Pruning) --dfs
+    // 剑指 Offer II 047. 二叉树剪枝
+    public TreeNode pruneTree(TreeNode root) {
+        dfs814(root);
+        if (root.val == 2) {
+            return null;
+        }
+        return root;
+
+    }
+
+    private void dfs814(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        dfs814(root.left);
+        dfs814(root.right);
+        if (root.left != null && root.left.val == 2) {
+            root.left = null;
+        }
+        if (root.right != null && root.right.val == 2) {
+            root.right = null;
+        }
+        if (root.left == null && root.right == null) {
+            if (root.val == 0) {
+                root.val = 2;
+            }
+        }
+    }
+
+    // 814. 二叉树剪枝 (Binary Tree Pruning) --dfs
+    // 剑指 Offer II 047. 二叉树剪枝
+    public TreeNode pruneTree2(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        root.left = pruneTree2(root.left);
+        root.right = pruneTree2(root.right);
+        if (root.left == null && root.right == null && root.val == 0) {
+            return null;
+        }
+        return root;
+    }
+
+    // 979. 在二叉树中分配硬币 (Distribute Coins in Binary Tree)
+    // public int distributeCoins(TreeNode root) {
+
+    // }
+
+    // 1043. 分隔数组以得到最大和 (Partition Array for Maximum Sum)
+    // public int maxSumAfterPartitioning(int[] arr, int k) {
+
+    // }
+
+    // 1026. 节点与其祖先之间的最大差值 (Maximum Difference Between Node and Ancestor)
+    // public int maxAncestorDiff(TreeNode root) {
+
+    // }
+
+    // 712. 两个字符串的最小ASCII删除和 (Minimum ASCII Delete Sum for Two Strings)
+    // public int minimumDeleteSum(String s1, String s2) {
+
+    // }
 }
