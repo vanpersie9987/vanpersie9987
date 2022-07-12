@@ -5259,6 +5259,50 @@ public class LeetCode_4 {
         return root;
     }
 
+    // 814. 二叉树剪枝 (Binary Tree Pruning) --bfs
+    // 剑指 Offer II 047. 二叉树剪枝
+    public TreeNode pruneTree3(TreeNode root) {
+        Map<TreeNode, Integer> degrees = new HashMap<>();
+        Map<TreeNode, TreeNode> map = new HashMap<>();
+        Queue<TreeNode> topologicalQueue = new LinkedList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node.left == null && node.right == null && node.val == 0) {
+                topologicalQueue.offer(node);
+                continue;
+            }
+            if (node.left != null) {
+                map.put(node.left, node);
+                degrees.put(node, degrees.getOrDefault(node, 0) + 1);
+                queue.offer(node.left);
+            }
+            if (node.right != null) {
+                map.put(node.right, node);
+                degrees.put(node, degrees.getOrDefault(node, 0) + 1);
+                queue.offer(node.right);
+            }
+        }
+        while (!topologicalQueue.isEmpty()) {
+            TreeNode node = topologicalQueue.poll();
+            TreeNode parent = map.get(node);
+            if (parent == null) {
+                return null;
+            }
+            if (parent.left == node) {
+                parent.left = null;
+            } else {
+                parent.right = null;
+            }
+            degrees.put(parent, degrees.get(parent) - 1);
+            if (degrees.get(parent) == 0 && parent.val == 0) {
+                topologicalQueue.offer(parent);
+            }
+        }
+        return root;
+    }
+
     // 979. 在二叉树中分配硬币 (Distribute Coins in Binary Tree)
     // public int distributeCoins(TreeNode root) {
 
