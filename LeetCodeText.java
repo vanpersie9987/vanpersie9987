@@ -11273,7 +11273,8 @@ public class LeetCodeText {
 
     }
 
-    // 735. 行星碰撞
+    // 735. 行星碰撞 (Asteroid Collision)
+    // 剑指 Offer II 037. 小行星碰撞
     public int[] asteroidCollision(int[] asteroids) {
         Stack<Integer> stack = new Stack<>();
         for (int asteroid : asteroids) {
@@ -11312,26 +11313,27 @@ public class LeetCodeText {
 
     }
 
-    // 735. 行星碰撞
+    // 735. 行星碰撞 (Asteroid Collision)
+    // 剑指 Offer II 037. 小行星碰撞
     public int[] asteroidCollision2(int[] asteroids) {
         Stack<Integer> stack = new Stack<>();
-        for (int asteroid : asteroids) {
-            collisions: {
-                while (!stack.isEmpty() && asteroid < 0 && stack.peek() > 0) {
-                    if (stack.peek() + asteroid < 0) {
-                        stack.pop();
-                        continue;
-                    } else if (stack.peek() + asteroid == 0) {
-                        stack.pop();
-                    }
-                    break collisions;
+        search: for (int asteroid : asteroids) {
+            while (!stack.isEmpty() && stack.peek() > 0 && asteroid < 0) {
+                if (stack.peek() + asteroid < 0) {
+                    stack.pop();
+                } else if (stack.peek() + asteroid == 0) {
+                    stack.pop();
+                    continue search;
+                } else if (stack.peek() + asteroid > 0) {
+                    continue search;
                 }
-                stack.push(asteroid);
             }
+            stack.push(asteroid);
         }
-        int[] res = new int[stack.size()];
-        for (int i = 0; i < stack.size(); ++i) {
-            res[i] = stack.get(i);
+        int n = stack.size();
+        int[] res = new int[n];
+        while (!stack.isEmpty()) {
+            res[--n] = stack.pop();
         }
         return res;
 
