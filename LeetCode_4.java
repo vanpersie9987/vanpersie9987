@@ -5343,6 +5343,25 @@ public class LeetCode_4 {
 
     }
 
+    // 390. 消除游戏 (Elimination Game)
+    public int lastRemaining(int n) {
+        boolean fromLeft = true;
+        // 记录最左侧的元素
+        int head = 1;
+        // 公差
+        int diff = 1;
+        while (n > 1) {
+            if (fromLeft || (n & 1) == 1) {
+                head += diff;
+            }
+            diff <<= 1;
+            fromLeft = !fromLeft;
+            n >>= 1;
+        }
+        return head;
+
+    }
+
     // 979. 在二叉树中分配硬币 (Distribute Coins in Binary Tree)
     // public int distributeCoins(TreeNode root) {
 
@@ -5350,11 +5369,6 @@ public class LeetCode_4 {
 
     // 1026. 节点与其祖先之间的最大差值 (Maximum Difference Between Node and Ancestor)
     // public int maxAncestorDiff(TreeNode root) {
-
-    // }
-
-    // 390. 消除游戏 (Elimination Game)
-    // public int lastRemaining(int n) {
 
     // }
 
