@@ -5405,6 +5405,82 @@ public class LeetCode_4 {
         return count >= 2 ? count : -1;
     }
 
+    // 91. 解码方法 (Decode Ways) --dp
+    public int numDecodings(String s) {
+        int n = s.length();
+        int[] dp = new int[n];
+        char[] chars = s.toCharArray();
+        dp[0] = chars[0] == '0' ? 0 : 1;
+        for (int i = 1; i < chars.length; ++i) {
+            char c = chars[i];
+            char pre = chars[i - 1];
+            if (c != '0') {
+                dp[i] += dp[i - 1];
+                if (i - 2 >= 0) {
+                    if (c >= '7' && c <= '9' && pre == '1') {
+                        dp[i] += dp[i - 2];
+                    } else if (c >= '1' && c <= '6' && pre >= '1' && pre <= '2') {
+                        dp[i] += dp[i - 2];
+                    }
+                } else {
+                    if (pre == '1' || (pre == '2' && c >= '0' && c <= '6')) {
+                        ++dp[i];
+                    }
+                }
+
+            } else {
+                if (i - 2 >= 0) {
+                    if (pre >= '1' && pre <= '2') {
+                        dp[i] += dp[i - 2];
+                    }
+                } else {
+                    if (pre == '1' || (pre == '2' && c >= '0' && c <= '6')) {
+                        ++dp[i];
+                    }
+                }
+            }
+        }
+        return dp[n - 1];
+
+    }
+
+    // 91. 解码方法 (Decode Ways) --dp
+    public int numDecodings2(String s) {
+        int n = s.length();
+        int[] dp = new int[n + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= n; ++i) {
+            if (s.charAt(i - 1) != '0') {
+                dp[i] += dp[i - 1];
+            }
+            if (i - 2 >= 0 && s.charAt(i - 2) != '0' && (s.charAt(i - 2) - '0') * 10 + s.charAt(i - 1) - '0' <= 26) {
+                dp[i] += dp[i - 2];
+            }
+        }
+        return dp[n];
+    }
+
+    // 91. 解码方法 (Decode Ways) --dp
+    public int numDecodings3(String s) {
+        int n = s.length();
+        int a = 0;
+        int b = 1;
+        int c = 0;
+        for (int i = 1; i <= n; ++i) {
+            c = 0;
+            if (s.charAt(i - 1) != '0') {
+                c += b;
+            }
+            if (i - 2 >= 0 && s.charAt(i - 2) != '0' && (s.charAt(i - 2) - '0') * 10 + s.charAt(i - 1) - '0' <= 26) {
+                c += a;
+            }
+            a = b;
+            b = c;
+        }
+        return c;
+
+    }
+
     // 979. 在二叉树中分配硬币 (Distribute Coins in Binary Tree)
     // public int distributeCoins(TreeNode root) {
 
