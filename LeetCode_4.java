@@ -5362,6 +5362,49 @@ public class LeetCode_4 {
 
     }
 
+    // 393. UTF-8 编码验证 (UTF-8 Validation)
+    public boolean validUtf8(int[] data) {
+        int n = data.length;
+        int index = 0;
+        while (index < n) {
+            int count = getBytes393(data[index]);
+            if (count < 0 || index + count - 1 >= n) {
+                return false;
+            }
+            for (int j = 1; j < count; ++j) {
+                if (!isValid393(data[index + j])) {
+                    return false;
+                }
+            }
+            index += count;
+        }
+
+        return true;
+
+    }
+
+    private boolean isValid393(int i) {
+        int mask1 = 1 << 7;
+        int mask2 = (1 << 7) | (1 << 6);
+        return (mask2 & i) == mask1;
+    }
+
+    private int getBytes393(int n) {
+        int mask = 1 << 7;
+        int count = 0;
+        if ((n & mask) == 0) {
+            return 1;
+        }
+        while ((n & mask) != 0) {
+            ++count;
+            if (count > 4) {
+                return -1;
+            }
+            mask >>= 1;
+        }
+        return count >= 2 ? count : -1;
+    }
+
     // 979. 在二叉树中分配硬币 (Distribute Coins in Binary Tree)
     // public int distributeCoins(TreeNode root) {
 
@@ -5372,8 +5415,4 @@ public class LeetCode_4 {
 
     // }
 
-    // 393. UTF-8 编码验证 (UTF-8 Validation)
-    // public boolean validUtf8(int[] data) {
-
-    // }
 }
