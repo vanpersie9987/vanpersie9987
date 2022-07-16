@@ -5534,6 +5534,52 @@ public class LeetCode_4 {
         return new int[] { notStole, stole };
     }
 
+    // 1054. 距离相等的条形码 (Distant Barcodes)
+    public int[] rearrangeBarcodes(int[] barcodes) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int barcode : barcodes) {
+            map.put(barcode, map.getOrDefault(barcode, 0) + 1);
+        }
+        Queue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o2[1] - o1[1];
+            }
+
+        });
+
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            queue.offer(new int[] { entry.getKey(), entry.getValue() });
+        }
+        int index = 0;
+        int n = barcodes.length;
+        int[] res = new int[n];
+        while (index < n) {
+            int[] max = queue.poll();
+            if (queue.isEmpty()) {
+                res[index++] = max[0];
+            } else {
+                int[] secondMax = queue.poll();
+                if (index > 0 && max[0] == res[index - 1]) {
+                    res[index++] = secondMax[0];
+                    res[index++] = max[0];
+                } else {
+                    res[index++] = max[0];
+                    res[index++] = secondMax[0];
+                }
+                if (--secondMax[1] != 0) {
+                    queue.offer(secondMax);
+                }
+            }
+            if (--max[1] != 0) {
+                queue.offer(max);
+            }
+        }
+        return res;
+
+    }
+
     // 979. 在二叉树中分配硬币 (Distribute Coins in Binary Tree)
     // public int distributeCoins(TreeNode root) {
 
