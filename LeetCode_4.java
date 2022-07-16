@@ -5580,6 +5580,34 @@ public class LeetCode_4 {
 
     }
 
+    // 2001. 可互换矩形的组数 (Number of Pairs of Interchangeable Rectangles)
+    public long interchangeableRectangles(int[][] rectangles) {
+        Map<Long, Integer> map = new HashMap<>();
+        for (int[] rectangle : rectangles) {
+            int radio = getGCD2001(rectangle[0], rectangle[1]);
+            rectangle[0] /= radio;
+            rectangle[1] /= radio;
+            long key = rectangle[0] * 10001 + rectangle[1];
+            map.put(key, map.getOrDefault(key, 0) + 1);
+        }
+        long res = 0l;
+        for (Map.Entry<Long, Integer> entry : map.entrySet()) {
+            res += (long) entry.getValue() * (entry.getValue() - 1) / 2;
+        }
+        return res;
+
+    }
+
+    // 计算最大公约数
+    private int getGCD2001(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
     // 979. 在二叉树中分配硬币 (Distribute Coins in Binary Tree)
     // public int distributeCoins(TreeNode root) {
 
