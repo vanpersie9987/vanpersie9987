@@ -2015,6 +2015,7 @@ public class Leetcode_3 {
     }
 
     // 346. 数据流中的移动平均值 (Moving Average from Data Stream) --plus
+    // 剑指 Offer II 041. 滑动窗口的平均值
     class MovingAverage {
         private Queue<Integer> queue;
         private int size;

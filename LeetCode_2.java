@@ -6834,30 +6834,6 @@ public class LeetCode_2 {
 
    }
 
-   // 剑指 Offer II 041. 滑动窗口的平均值
-   // 346
-   class MovingAverage {
-      private Queue<Integer> mQueue;
-      private int mSum;
-      private int mSize;
-
-      /** Initialize your data structure here. */
-      public MovingAverage(int size) {
-         this.mSize = size;
-         this.mQueue = new LinkedList<>();
-
-      }
-
-      public double next(int val) {
-         mQueue.offer(val);
-         mSum += val;
-         while (mQueue.size() > mSize) {
-            mSum -= mQueue.poll();
-         }
-         return (double) mSum / mQueue.size();
-      }
-   }
-
    // 剑指 Offer 59 - II. 队列的最大值
    class MaxQueue {
       private Queue<Integer> mQueue;

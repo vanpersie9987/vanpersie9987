@@ -5608,6 +5608,37 @@ public class LeetCode_4 {
         return a;
     }
 
+    // 1519. 子树中标签相同的节点数 (Number of Nodes in the Sub-Tree With the Same Label)
+    private int[] res1519;
+    private boolean[] visited1519;
+
+    public int[] countSubTrees(int n, int[][] edges, String labels) {
+        res1519 = new int[n];
+        visited1519 = new boolean[n];
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int[] edge : edges) {
+            map.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            map.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+        }
+        dfs1519(map, labels, visited1519, 0);
+        return res1519;
+    }
+
+    private int[] dfs1519(Map<Integer, List<Integer>> map, String labels, boolean[] visited, int node) {
+        visited[node] = true;
+        int[] count = new int[26];
+        for (int child : map.getOrDefault(node, new ArrayList<>())) {
+            if (!visited[child]) {
+                int[] res = dfs1519(map, labels, visited, child);
+                for (int i = 0; i < 26; ++i) {
+                    count[i] += res[i];
+                }
+            }
+        }
+        ++count[labels.charAt(node) - 'a'];
+        res1519[node] = count[labels.charAt(node) - 'a'];
+        return count;
+    }
     // 979. 在二叉树中分配硬币 (Distribute Coins in Binary Tree)
     // public int distributeCoins(TreeNode root) {
 
