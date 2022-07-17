@@ -5639,6 +5639,147 @@ public class LeetCode_4 {
         res1519[node] = count[labels.charAt(node) - 'a'];
         return count;
     }
+
+    // 6120. 数组能形成多少数对
+    public int[] numberOfPairs(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        int pairs = 0;
+        int remain = 0;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            int count = entry.getValue();
+            pairs += count / 2;
+            remain += count % 2;
+        }
+        return new int[] { pairs, remain };
+
+    }
+
+    // 6164. 数位和相等数对的最大和
+    public int maximumSum(int[] nums) {
+        int res = -1;
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int num : nums) {
+            int sum = getBitSum(num);
+            map.computeIfAbsent(sum, k -> new ArrayList<>()).add(num);
+        }
+        for (Map.Entry<Integer, List<Integer>> entry : map.entrySet()) {
+            List<Integer> list = entry.getValue();
+            if (list.size() < 2) {
+                continue;
+            }
+            Collections.sort(list);
+            res = Math.max(res, list.get(list.size() - 1) + list.get(list.size() - 2));
+        }
+        return res;
+
+    }
+
+    private int getBitSum(int num) {
+        int res = 0;
+        while (num != 0) {
+            res += num % 10;
+            num /= 10;
+        }
+        return res;
+    }
+
+    // 6121. 裁剪数字后查询第 K 小的数字
+    public int[] smallestTrimmedNumbers(String[] nums, int[][] queries) {
+        Map<Integer, List<Bean6121>> map = new HashMap<>();
+        int[] res = new int[queries.length];
+        for (int i = 0; i < queries.length; ++i) {
+            int[] cur = queries[i];
+            int suf = cur[1];
+            if (map.containsKey(suf)) {
+                Bean6121 bean = map.get(suf).get(cur[0] - 1);
+                res[i] = bean.index;
+            } else {
+                List<Bean6121> list = new ArrayList<>();
+                for (int j = 0; j < nums.length; ++j) {
+                    String s = nums[j];
+
+                    String sub = s.substring(s.length() - suf);
+                    list.add(new Bean6121(j, sub));
+                }
+                Collections.sort(list);
+                Bean6121 bean = list.get(cur[0] - 1);
+                res[i] = bean.index;
+                map.put(suf, list);
+            }
+        }
+        return res;
+
+    }
+
+    class Bean6121 implements Comparable<Bean6121> {
+        int index;
+        String num;
+
+        public Bean6121(int index, String num) {
+            this.index = index;
+            int i = 0;
+            while (i < num.length()) {
+                if (num.charAt(i) != '0') {
+                    break;
+                }
+                ++i;
+            }
+            if (i == num.length()) {
+                this.num = "0";
+            } else {
+                this.num = num.substring(i);
+            }
+
+        }
+
+        @Override
+        public int compareTo(Bean6121 o) {
+            if (o.num.length() == this.num.length()) {
+                return this.num.compareTo(o.num);
+            } else {
+                return this.num.length() - o.num.length();
+            }
+        }
+    }
+
+    // 6122. 使数组可以被整除的最少删除次数
+    public int minOperations6122(int[] nums, int[] numsDivide) {
+        Set<Integer> set = new HashSet<>();
+        for (int num : numsDivide) {
+            set.add(num);
+        }
+        Map<Integer, Integer> map = new TreeMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        int res = 0;
+        search: for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            int y = entry.getKey();
+            for (int x : set) {
+                if (x % y != 0) {
+                    res += entry.getValue();
+                    continue search;
+                }
+            }
+            return res;
+        }
+        return -1;
+    }
+
+    // 面试题 17.01. 不用加号的加法
+    // 剑指 Offer 65. 不用加减乘除做加法
+    // public int add(int a, int b) {
+    //     while (b != 0) {
+    //         int c = (a & b) << 1;
+    //         a ^= b;
+    //         b = c;
+    //     }
+    //     return a;
+    // }
+
     // 979. 在二叉树中分配硬币 (Distribute Coins in Binary Tree)
     // public int distributeCoins(TreeNode root) {
 
