@@ -1688,24 +1688,22 @@ public class LeetCodeText {
 
     }
 
-    // 565. 数组嵌套
-    public int arrayNesting(final int[] nums) {
-        int max = 1;
-        int count = 0;
-        boolean[] visited = new boolean[nums.length];
-        for (int i = 0; i < nums.length; ++i) {
+    // 565. 数组嵌套 (Array Nesting)
+    public int arrayNesting(int[] nums) {
+        int n = nums.length;
+        int res = 0;
+        boolean[] visited = new boolean[n];
+        for (int i = 0; i < n; ++i) {
+            int count = 0;
             int index = i;
             while (!visited[index]) {
+                ++count;
                 visited[index] = true;
                 index = nums[index];
-                ++count;
             }
-            max = Math.max(max, count);
-            count = 0;
-
+            res = Math.max(res, count);
         }
-        return max;
-
+        return res;
     }
 
     // 448. 找到所有数组中消失的数字
