@@ -5665,10 +5665,10 @@ public class LeetCode_4 {
         Map<Integer, List<Integer>> map = new HashMap<>();
         for (int num : nums) {
             int sum = getBitSum(num);
+            
             map.computeIfAbsent(sum, k -> new ArrayList<>()).add(num);
         }
-        for (Map.Entry<Integer, List<Integer>> entry : map.entrySet()) {
-            List<Integer> list = entry.getValue();
+        for (List<Integer> list : map.values()) {
             if (list.size() < 2) {
                 continue;
             }
@@ -5676,7 +5676,6 @@ public class LeetCode_4 {
             res = Math.max(res, list.get(list.size() - 1) + list.get(list.size() - 2));
         }
         return res;
-
     }
 
     private int getBitSum(int num) {
