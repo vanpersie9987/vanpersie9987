@@ -5644,17 +5644,15 @@ public class LeetCode_4 {
 
     // 6120. 数组能形成多少数对
     public int[] numberOfPairs(int[] nums) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int num : nums) {
-            map.put(num, map.getOrDefault(num, 0) + 1);
-        }
         int pairs = 0;
-        int remain = 0;
-        for (int count : map.values()) {
-            pairs += count / 2;
-            remain += count % 2;
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            if (!set.add(num)) {
+                set.remove(num);
+                ++pairs;
+            }
         }
-        return new int[] { pairs, remain };
+        return new int[] { pairs, set.size() };
     }
 
     // 6164. 数位和相等数对的最大和
