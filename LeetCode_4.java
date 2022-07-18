@@ -5650,13 +5650,11 @@ public class LeetCode_4 {
         }
         int pairs = 0;
         int remain = 0;
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            int count = entry.getValue();
+        for (int count : map.values()) {
             pairs += count / 2;
             remain += count % 2;
         }
         return new int[] { pairs, remain };
-
     }
 
     // 6164. 数位和相等数对的最大和
@@ -5665,7 +5663,7 @@ public class LeetCode_4 {
         Map<Integer, List<Integer>> map = new HashMap<>();
         for (int num : nums) {
             int sum = getBitSum(num);
-            
+
             map.computeIfAbsent(sum, k -> new ArrayList<>()).add(num);
         }
         for (List<Integer> list : map.values()) {
