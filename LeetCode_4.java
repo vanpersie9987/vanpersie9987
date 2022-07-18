@@ -5823,9 +5823,19 @@ public class LeetCode_4 {
     }
 
     // 991. 坏了的计算器 (Broken Calculator)
-    // public int brokenCalc(int startValue, int target) {
+    public int brokenCalc(int startValue, int target) {
+        int res = 0;
+        while (startValue < target) {
+            ++res;
+            if (target % 2 == 0) {
+                target >>= 1;
+            } else {
+                ++target;
+            }
+        }
+        return res + startValue - target;
 
-    // }
+    }
 
     // 912. 排序数组 (Sort an Array)
     // public int[] sortArray(int[] nums) {
