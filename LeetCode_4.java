@@ -18,6 +18,8 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.management.openmbean.OpenType;
+
 public class LeetCode_4 {
     public static void main(String[] args) {
         // String[] strings = { "mobile", "mouse", "moneypot", "monitor", "mousepad" };
@@ -5787,6 +5789,31 @@ public class LeetCode_4 {
 
     private int gcd6122(int a, int b) {
         return b == 0 ? a : gcd6122(b, a % b);
+    }
+
+    // 6122. 使数组可以被整除的最少删除次数
+    public int minOperations6122_3(int[] nums, int[] numsDivide) {
+        int g = 0;
+        for (int num : numsDivide) {
+            g = gcd6122(num, g);
+        }
+        int min = Integer.MAX_VALUE;
+        for (int num : nums) {
+            if (g % num == 0) {
+                min = Math.min(min, num);
+            }
+        }
+        if (min == Integer.MAX_VALUE) {
+            return -1;
+        }
+        int res = 0;
+        for (int num : nums) {
+            if (num < min) {
+                ++res;
+            }
+        }
+        return res;
+
     }
 
     // 面试题 17.01. 不用加号的加法
