@@ -5769,6 +5769,26 @@ public class LeetCode_4 {
         return -1;
     }
 
+    // 6122. 使数组可以被整除的最少删除次数
+    public int minOperations6122_2(int[] nums, int[] numsDivide) {
+        int g = 0;
+        for (int num : numsDivide) {
+            g = gcd6122(num, g);
+        }
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length; ++i) {
+            if (g % nums[i] == 0) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
+    private int gcd6122(int a, int b) {
+        return b == 0 ? a : gcd6122(b, a % b);
+    }
+
     // 面试题 17.01. 不用加号的加法
     // 剑指 Offer 65. 不用加减乘除做加法
     public int add(int a, int b) {
