@@ -5779,6 +5779,11 @@ public class LeetCode_4 {
         }
         return a;
     }
+    
+    //749. 隔离病毒 (Contain Virus)
+    // public int containVirus(int[][] isInfected) {
+
+    // }
 
     // 979. 在二叉树中分配硬币 (Distribute Coins in Binary Tree)
     // public int distributeCoins(TreeNode root) {
