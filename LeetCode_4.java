@@ -5837,6 +5837,25 @@ public class LeetCode_4 {
 
     }
 
+    // 543. 二叉树的直径 (Diameter of Binary Tree)
+    private int res543;
+
+    public int diameterOfBinaryTree(TreeNode root) {
+        dfs543(root);
+        return res543;
+
+    }
+
+    private int dfs543(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = dfs543(root.left);
+        int right = dfs543(root.right);
+        res543 = Math.max(res543, left + right);
+        return Math.max(left, right) + 1;
+    }
+
     // 731. 我的日程安排表 II (My Calendar II)
     // class MyCalendarTwo {
 
