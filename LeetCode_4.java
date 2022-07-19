@@ -5884,7 +5884,7 @@ public class LeetCode_4 {
         }
     }
 
-    // 731. 我的日程安排表 II (My Calendar II) --哈希表
+    // 731. 我的日程安排表 II (My Calendar II) --哈希表 还需掌握线段树
     class MyCalendarTwo_2 {
         private Map<Integer, Integer> map;
 
