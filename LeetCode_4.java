@@ -5857,16 +5857,32 @@ public class LeetCode_4 {
     }
 
     // 731. 我的日程安排表 II (My Calendar II)
-    // class MyCalendarTwo {
+    class MyCalendarTwo {
+        private List<int[]> booked;
+        private List<int[]> overlaped;
 
-    // public MyCalendarTwo() {
+        public MyCalendarTwo() {
+            booked = new ArrayList<>();
+            overlaped = new ArrayList<>();
+        }
 
-    // }
-
-    // public boolean book(int start, int end) {
-
-    // }
-    // }
+        public boolean book(int start, int end) {
+            for (int[] overlape : overlaped) {
+                if (!(end <= overlape[0] || start >= overlape[1])) {
+                    return false;
+                }
+            }
+            for (int[] book : booked) {
+                if (book[0] < end && start < book[1]) {
+                    int min = Math.max(start, book[0]);
+                    int max = Math.min(end, book[1]);
+                    overlaped.add(new int[] { min, max });
+                }
+            }
+            booked.add(new int[] { start, end });
+            return true;
+        }
+    }
 
     // 912. 排序数组 (Sort an Array)
     // public int[] sortArray(int[] nums) {
