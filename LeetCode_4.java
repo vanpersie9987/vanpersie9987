@@ -5884,6 +5884,31 @@ public class LeetCode_4 {
         }
     }
 
+    // 731. 我的日程安排表 II (My Calendar II) --哈希表
+    class MyCalendarTwo_2 {
+        private Map<Integer, Integer> map;
+
+        public MyCalendarTwo_2() {
+            map = new TreeMap<>();
+
+        }
+
+        public boolean book(int start, int end) {
+            int sum = 0;
+            map.put(start, map.getOrDefault(start, 0) + 1);
+            map.put(end, map.getOrDefault(end, 0) - 1);
+            for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+                sum += entry.getValue();
+                if (sum > 2) {
+                    map.put(start, map.getOrDefault(start, 0) - 1);
+                    map.put(end, map.getOrDefault(end, 0) + 1);
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
     // 912. 排序数组 (Sort an Array)
     // public int[] sortArray(int[] nums) {
 
