@@ -4747,7 +4747,7 @@ public class LeetCodeText {
 
     }
 
-    // 1260. 二维网格迁移
+    // 1260. 二维网格迁移 (Shift 2D Grid)
     public List<List<Integer>> shiftGrid3(int[][] grid, int k) {
         int m = grid.length;
         int n = grid[0].length;
