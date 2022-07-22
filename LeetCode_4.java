@@ -5907,11 +5907,6 @@ public class LeetCode_4 {
         }
     }
 
-    // 757. 设置交集大小至少为2 (Set Intersection Size At Least Two)
-    public int intersectionSizeTwo(int[][] intervals) {
-
-    }
-
     // 912. 排序数组 (Sort an Array)
     // public int[] sortArray(int[] nums) {
 

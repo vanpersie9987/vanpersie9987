@@ -5674,6 +5674,42 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 757. 设置交集大小至少为2 (Set Intersection Size At Least Two)
+    public int intersectionSizeTwo(int[][] intervals) {
+        int n = intervals.length;
+        Arrays.sort(intervals, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] == o2[0]) {
+                    return o2[1] - o1[1];
+                }
+                return o1[0] - o2[0];
+            }
+
+        });
+        int res = 2;
+        int cur = intervals[n - 1][0];
+        int next = cur + 1;
+        for (int i = n - 2; i >= 0; --i) {
+            if (intervals[i][1] >= next) {
+                continue;
+            }
+            if (intervals[i][1] >= cur && intervals[i][1] < next) {
+                res += 1;
+                next = cur;
+                cur = intervals[i][0];
+            } else if (intervals[i][1] < cur) {
+                res += 2;
+                cur = intervals[i][0];
+                next = cur + 1;
+            }
+
+        }
+        return res;
+
+    }
+
     // 1376. 通知所有员工所需的时间 (Time Needed to Inform All Employees) --bfs
     public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
         Map<Integer, List<Integer>> tree = new HashMap<>();
