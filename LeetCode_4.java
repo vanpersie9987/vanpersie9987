@@ -5907,13 +5907,53 @@ public class LeetCode_4 {
         }
     }
 
+    // 164. 最大间距 (Maximum Gap) --基数排序 时间：O(kn) k:最大数的位数
+    public int maximumGap(int[] nums) {
+        int n = nums.length;
+        if (n < 2) {
+            return 0;
+        }
+        int[] buf = new int[n];
+        int max = Arrays.stream(nums).max().getAsInt();
+        // 最大数的位数
+        int times = getBits164(max);
+        int div = 1;
+        for (int i = 0; i < times; ++i) {
+            int[] count = new int[10];
+            for (int num : nums) {
+                int digit = (num / div) % 10;
+                ++count[digit];
+            }
+            for (int j = 1; j < 10; ++j) {
+                count[j] += count[j - 1];
+            }
+            for (int j = n - 1; j >= 0; --j) {
+                int digit = (nums[j] / div) % 10;
+                buf[count[digit] - 1] = nums[j];
+                --count[digit];
+            }
+            nums = Arrays.copyOf(buf, n);
+            div *= 10;
+        }
+        int res = 0;
+        for (int i = 1; i < n; ++i) {
+            res = Math.max(res, nums[i] - nums[i - 1]);
+        }
+        return res;
+
+    }
+
+    private int getBits164(int num) {
+        int res = 0;
+        while (num != 0) {
+            ++res;
+            num /= 10;
+        }
+        return res;
+    }
+
     // 912. 排序数组 (Sort an Array)
     // public int[] sortArray(int[] nums) {
-
-    // }
-
-    // 164. 最大间距 (Maximum Gap)
-    // public int maximumGap(int[] nums) {
 
     // }
 
