@@ -5658,15 +5658,7 @@ public class Leetcode_3 {
 
             @Override
             public int compare(int[] o1, int[] o2) {
-                if (o1[0] > o2[0]) {
-                    return 1;
-                } else if (o1[0] < o2[0]) {
-                    return -1;
-                } else if (o1[1] > o2[1]) {
-                    return 1;
-                } else {
-                    return -1;
-                }
+                return Integer.valueOf(o1[0]).compareTo(Integer.valueOf(o2[0]));
             }
         });
         int res = 1;
