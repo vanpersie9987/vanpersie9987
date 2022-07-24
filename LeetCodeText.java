@@ -2697,35 +2697,6 @@ public class LeetCodeText {
 
     }
 
-    // public boolean oneEditAway(String first, String second) {
-    // if (first.length() == second.length()) {
-    // int count = 0;
-    // for (int i = 0; i < first.length(); ++i) {
-    // if (first.charAt(i) != second.charAt(i)) {
-    // ++count;
-    // if (count > 1) {
-    // return false;
-    // }
-    // }
-    // }
-    // return true;
-    // } else if (Math.abs(first.length() - second.length()) == 1) {
-    // if (second.length() > first.length()) {
-    // String tmp;
-    // tmp = first;
-    // first = second;
-    // second = tmp;
-    // }
-    // for (int i = 0; i < first.length(); ++i) {
-    // if (first.charAt(i) != second.charAt(i)) {
-
-    // }
-
-    // }
-
-    // }
-
-    // }
     public String compressString(final String S) {
         if (S.isEmpty()) {
             return S;
