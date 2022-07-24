@@ -6226,6 +6226,18 @@ public class LeetCode_4 {
 
     }
 
+    // 343. 整数拆分 (Integer Break) --dp
+    public int integerBreak(int n) {
+        int[] dp = new int[n + 1];
+        for (int i = 2; i <= n; ++i) {
+            for (int j = 1; j < i; ++j) {
+                dp[i] = Math.max(dp[i], Math.max(j * (i - j), j * dp[i - j]));
+            }
+        }
+        return dp[n];
+
+    }
+
     // 749. 隔离病毒 (Contain Virus)
     // public int containVirus(int[][] isInfected) {
 
