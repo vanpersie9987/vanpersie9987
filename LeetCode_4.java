@@ -6134,21 +6134,6 @@ public class LeetCode_4 {
         }
     }
 
-    // 749. 隔离病毒 (Contain Virus)
-    // public int containVirus(int[][] isInfected) {
-
-    // }
-
-    // 979. 在二叉树中分配硬币 (Distribute Coins in Binary Tree)
-    // public int distributeCoins(TreeNode root) {
-
-    // }
-
-    // 1026. 节点与其祖先之间的最大差值 (Maximum Difference Between Node and Ancestor)
-    // public int maxAncestorDiff(TreeNode root) {
-
-    // }
-
     // 6128. 最好的扑克手牌
     public String bestHand(int[] ranks, char[] suits) {
         Set<Character> set = new HashSet<>();
@@ -6240,5 +6225,20 @@ public class LeetCode_4 {
         return res + 1;
 
     }
+
+    // 749. 隔离病毒 (Contain Virus)
+    // public int containVirus(int[][] isInfected) {
+
+    // }
+
+    // 979. 在二叉树中分配硬币 (Distribute Coins in Binary Tree)
+    // public int distributeCoins(TreeNode root) {
+
+    // }
+
+    // 1026. 节点与其祖先之间的最大差值 (Maximum Difference Between Node and Ancestor)
+    // public int maxAncestorDiff(TreeNode root) {
+
+    // }
 
 }
