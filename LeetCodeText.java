@@ -4537,18 +4537,18 @@ public class LeetCodeText {
 
     }
 
-    // 1184. 公交站间的距离
-    public int distanceBetweenBusStops2(final int[] distance, int start, int destination) {
+    // 1184. 公交站间的距离 (Distance Between Bus Stops)
+    public int distanceBetweenBusStops(final int[] distance, int start, int destination) {
         if (start > destination) {
             int temp = start;
             start = destination;
             destination = temp;
         }
-        int result = 0;
+        int res = 0;
         for (int i = start; i < destination; ++i) {
-            result += distance[i];
+            res += distance[i];
         }
-        return Math.min(result, Arrays.stream(distance).sum() - result);
+        return Math.min(res, Arrays.stream(distance).sum() - res);
 
     }
 
