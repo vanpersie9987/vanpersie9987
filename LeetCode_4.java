@@ -6203,8 +6203,8 @@ public class LeetCode_4 {
         }
 
         public int find(int number) {
-            TreeSet<Integer> set = map2.get(number);
-            if (set == null || set.size() < 1) {
+            TreeSet<Integer> set = map2.getOrDefault(number, new TreeSet<>());
+            if (set.size() < 1) {
                 return -1;
             }
             return set.first();
