@@ -6048,6 +6048,92 @@ public class LeetCode_4 {
         return maxLen;
     }
 
+    // 6124. 第一个出现两次的字母
+    public char repeatedCharacter(String s) {
+        Set<Character> set = new HashSet<>();
+        for (char c : s.toCharArray()) {
+            if (set.contains(c)) {
+                return c;
+            }
+            set.add(c);
+        }
+        return '1';
+
+    }
+
+    // 6125. 相等行列对
+    public int equalPairs(int[][] grid) {
+        int n = grid.length;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            int[] row = grid[i];
+            int[] col = new int[n];
+            for (int j = 0; j < n; ++j) {
+                for (int k = 0; k < n; ++k) {
+                    col[k] = grid[k][j];
+                }
+                if (Arrays.equals(row, col)) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 6126. 设计食物评分系统
+    class FoodRatings {
+        public class Bean6126 implements Comparable<Bean6126> {
+            int ratings;
+            String food;
+
+            public Bean6126(int ratings, String food) {
+                this.ratings = ratings;
+                this.food = food;
+            }
+
+            @Override
+            public int compareTo(FoodRatings.Bean6126 o) {
+                if (o.ratings == this.ratings) {
+                    return this.food.compareTo(o.food);
+                }
+                return o.ratings - this.ratings;
+            }
+        }
+
+        private Map<String, Bean6126> foodToBean;
+        private Map<String, String> foodToCusine;
+
+        private Map<String, TreeSet<Bean6126>> cuisineToFoodRatings;
+
+        public FoodRatings(String[] foods, String[] cuisines, int[] ratings) {
+            int n = foods.length;
+            foodToBean = new HashMap<>();
+            foodToCusine = new HashMap<>();
+            cuisineToFoodRatings = new HashMap<>();
+            for (int i = 0; i < n; ++i) {
+                Bean6126 bean = new Bean6126(ratings[i], foods[i]);
+                foodToBean.put(foods[i], bean);
+                foodToCusine.put(foods[i], cuisines[i]);
+                cuisineToFoodRatings.computeIfAbsent(cuisines[i], k -> new TreeSet<>()).add(bean);
+            }
+        }
+
+        public void changeRating(String food, int newRating) {
+            String c = foodToCusine.get(food);
+            TreeSet<Bean6126> set = cuisineToFoodRatings.get(c);
+            set.remove(foodToBean.get(food));
+            Bean6126 bean = new Bean6126(newRating, food);
+            set.add(bean);
+            foodToBean.put(food, bean);
+        }
+
+        public String highestRated(String cuisine) {
+            TreeSet<Bean6126> set = cuisineToFoodRatings.get(cuisine);
+            return set.first().food;
+        }
+    }
+
     // 749. 隔离病毒 (Contain Virus)
     // public int containVirus(int[][] isInfected) {
 
