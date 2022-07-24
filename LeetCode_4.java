@@ -6149,4 +6149,96 @@ public class LeetCode_4 {
 
     // }
 
+    // 6128. 最好的扑克手牌
+    public String bestHand(int[] ranks, char[] suits) {
+        Set<Character> set = new HashSet<>();
+        for (char c : suits) {
+            set.add(c);
+        }
+        if (set.size() == 1) {
+            return "Flush";
+        }
+        int[] counts = new int[14];
+        for (int rank : ranks) {
+            ++counts[rank];
+        }
+        boolean three = false;
+        boolean two = false;
+        for (int count : counts) {
+            if (count >= 3) {
+                three = true;
+            } else if (count == 2) {
+                two = true;
+            }
+        }
+        if (three) {
+            return "Three of a Kind";
+        }
+        if (two) {
+            return "Pair";
+        }
+        return "High Card";
+
+    }
+
+    // 6129. 全 0 子数组的数目
+    public long zeroFilledSubarray(int[] nums) {
+        long res = 0l;
+        int count = 0;
+        for (int num : nums) {
+            if (num != 0) {
+                count = 0;
+            } else {
+                ++count;
+                res += count;
+            }
+        }
+        return res;
+
+    }
+
+    // 6130. 设计数字容器系统
+    class NumberContainers {
+        private Map<Integer, Integer> map;
+        private Map<Integer, TreeSet<Integer>> map2;
+
+        public NumberContainers() {
+            map = new HashMap<>();
+            map2 = new HashMap<>();
+        }
+
+        public void change(int index, int number) {
+            int original = map.getOrDefault(index, 0);
+            if (original != 0) {
+                TreeSet<Integer> set = map2.getOrDefault(original, new TreeSet<>());
+                set.remove(index);
+            }
+            map.put(index, number);
+            map2.computeIfAbsent(number, k -> new TreeSet<>()).add(index);
+        }
+
+        public int find(int number) {
+            TreeSet<Integer> set = map2.get(number);
+            if (set == null || set.size() < 1) {
+                return -1;
+            }
+            return set.first();
+        }
+    }
+
+    // 6131. 不可能得到的最短骰子序列
+    public int shortestSequence(int[] rolls, int k) {
+        Set<Integer> set = new HashSet<>();
+        int res = 0;
+        for (int roll : rolls) {
+            set.add(roll);
+            if (set.size() == k) {
+                ++res;
+                set.clear();
+            }
+        }
+        return res + 1;
+
+    }
+
 }
