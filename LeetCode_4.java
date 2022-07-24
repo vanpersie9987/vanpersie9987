@@ -6238,6 +6238,54 @@ public class LeetCode_4 {
 
     }
 
+    // 384. 打乱数组 (Shuffle an Array)
+    class Solution384 {
+        private int[] original;
+        private int[] nums;
+        private int n;
+        private Random random;
+
+        public Solution384(int[] nums) {
+            this.n = nums.length;
+            this.nums = nums;
+            this.random = new Random();
+            this.original = new int[n];
+            System.arraycopy(nums, 0, original, 0, n);
+        }
+
+        public int[] reset() {
+            System.arraycopy(original, 0, nums, 0, n);
+            return nums;
+        }
+
+        public int[] shuffle() {
+            List<Integer> list = new ArrayList<>();
+            for (int num : nums) {
+                list.add(num);
+            }
+            int index = 0;
+            int i = 0;
+            while (!list.isEmpty()) {
+                index = random.nextInt(list.size());
+                nums[i++] = list.remove(index);
+            }
+            return nums;
+
+            /*
+             * Fisher-Yates 洗牌算法
+             * int[] shuffle = new int[n];
+             * for (int i = 0; i < n; ++i) {
+             * int j = i + random.nextInt(n - i);
+             * shuffle[i] = nums[j];
+             * int temp = nums[j];
+             * nums[j] = nums[i];
+             * nums[i] = temp;
+             * }
+             * return shuffle;
+             */
+        }
+    }
+
     // 749. 隔离病毒 (Contain Virus)
     // public int containVirus(int[][] isInfected) {
 
