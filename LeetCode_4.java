@@ -6325,6 +6325,27 @@ public class LeetCode_4 {
 
     }
 
+    // 658. 找到 K 个最接近的元素 (Find K Closest Elements) --双指针
+    public List<Integer> findClosestElements2(int[] arr, int k, int x) {
+        int left = 0;
+        int right = arr.length - 1;
+        int times = arr.length - k;
+        while (times-- > 0) {
+            if (x - arr[left] <= arr[right] - x) {
+                --right;
+            } else {
+                ++left;
+            }
+        }
+
+        List<Integer> res = new ArrayList<>();
+        for (int i = left; i <= right; ++i) {
+            res.add(arr[i]);
+        }
+        return res;
+
+    }
+
     // 749. 隔离病毒 (Contain Virus)
     // public int containVirus(int[][] isInfected) {
 
