@@ -179,7 +179,7 @@ public class LeetCode_4 {
         if (root == null) {
             return true;
         }
-        return isBalanced(root.left) && isBalanced(root.right)
+        return isBalanced2(root.left) && isBalanced2(root.right)
                 && Math.abs(height110(root.left) - height110(root.right)) <= 1;
     }
 
