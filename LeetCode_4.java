@@ -17,6 +17,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class LeetCode_4 {
     public static void main(String[] args) {
@@ -6302,6 +6303,26 @@ public class LeetCode_4 {
              * return shuffle;
              */
         }
+    }
+
+    // 658. 找到 K 个最接近的元素 (Find K Closest Elements) --自定义排序
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        List<Integer> list = Arrays.stream(arr).boxed().collect(Collectors.toList());
+        Collections.sort(list, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                if (Math.abs(o1 - x) == Math.abs(o2 - x)) {
+                    return o1 - o2;
+                }
+                return Math.abs(o1 - x) - Math.abs(o2 - x);
+            }
+
+        });
+        list = list.subList(0, k);
+        Collections.sort(list);
+        return list;
+
     }
 
     // 749. 隔离病毒 (Contain Virus)
