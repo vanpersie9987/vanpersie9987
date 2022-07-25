@@ -3105,22 +3105,6 @@ public class LeetCodeText {
 
     }
 
-    public int minFlipsMonoIncr(final String S) {
-        int numOfOne = 0;
-        final int[] dp = new int[S.length()];
-        for (int i = 0; i < S.length(); ++i) {
-            if (S.charAt(i) == '1') {
-                dp[i] = i == 0 ? 0 : Math.min(dp[i - 1], numOfOne + 1);
-                ++numOfOne;
-            } else {
-                dp[i] = i == 0 ? 0 : Math.min(dp[i - 1] + 1, numOfOne);
-
-            }
-        }
-        return dp[S.length() - 1];
-
-    }
-
     // 945. 使数组唯一的最小增量 (Minimum Increment to Make Array Unique)
     public int minIncrementForUnique(int[] nums) {
         int[] counts = new int[80001];

@@ -17,6 +17,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.swing.text.html.HTMLDocument.RunElement;
@@ -6349,6 +6350,51 @@ public class LeetCode_4 {
         return res;
 
     }
+
+    // 1110. 删点成林 (Delete Nodes And Return Forest) --dfs 后序遍历
+    public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
+        List<TreeNode> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Set<Integer> set = Arrays.stream(to_delete).boxed().collect(Collectors.toSet());
+        res.add(root);
+        dfs1110(root, res, set);
+        return res;
+
+    }
+
+    private TreeNode dfs1110(TreeNode node, List<TreeNode> res, Set<Integer> set) {
+        if (node == null) {
+            return null;
+        }
+        node.left = dfs1110(node.left, res, set);
+        node.right = dfs1110(node.right, res, set);
+        if (set.contains(node.val)) {
+            if (node.left != null) {
+                res.add(node.left);
+            }
+            if (node.right != null) {
+                res.add(node.right);
+            }
+            if (res.contains(node)) {
+                res.remove(node);
+            }
+            return null;
+        }
+        return node;
+    }
+
+    // 1276. 不浪费原料的汉堡制作方案 (Number of Burgers with No Waste of Ingredients)
+    // public List<Integer> numOfBurgers(int tomatoSlices, int cheeseSlices) {
+
+    // }
+
+    // 926. 将字符串翻转到单调递增 (Flip String to Monotone Increasing)
+    // 剑指 Offer II 092. 翻转字符
+    // public int minFlipsMonoIncr(String s) {
+
+    // }
 
     // 749. 隔离病毒 (Contain Virus)
     // public int containVirus(int[][] isInfected) {
