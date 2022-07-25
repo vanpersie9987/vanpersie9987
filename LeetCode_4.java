@@ -6385,10 +6385,22 @@ public class LeetCode_4 {
         return node;
     }
 
-    // 1276. 不浪费原料的汉堡制作方案 (Number of Burgers with No Waste of Ingredients)
-    // public List<Integer> numOfBurgers(int tomatoSlices, int cheeseSlices) {
+    // 1276. 不浪费原料的汉堡制作方案 (Number of Burgers with No Waste of Ingredients) --二元一次方程组
+    public List<Integer> numOfBurgers(int tomatoSlices, int cheeseSlices) {
+        List<Integer> res = new ArrayList<>();
+        if (tomatoSlices % 2 == 1) {
+            return res;
+        }
+        int JumboBurge = tomatoSlices / 2 - cheeseSlices;
+        int SmallBurger = cheeseSlices - JumboBurge;
+        if (JumboBurge >= 0 && SmallBurger >= 0) {
+            res.add(JumboBurge);
+            res.add(SmallBurger);
+            return res;
+        }
+        return res;
 
-    // }
+    }
 
     // 926. 将字符串翻转到单调递增 (Flip String to Monotone Increasing)
     // 剑指 Offer II 092. 翻转字符
