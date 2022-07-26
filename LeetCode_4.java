@@ -6451,6 +6451,31 @@ public class LeetCode_4 {
 
     }
 
+    // 872. 叶子相似的树 (Leaf-Similar Trees) --dfs
+    public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+        List<Integer> list1 = new ArrayList<>();
+        dfs872(root1, list1);
+
+        List<Integer> list2 = new ArrayList<>();
+        dfs872(root2, list2);
+
+        return list1.equals(list2);
+
+    }
+
+    private void dfs872(TreeNode node, List<Integer> list) {
+        if (node.left == null && node.right == null) {
+            list.add(node.val);
+        } else {
+            if (node.left != null) {
+                dfs872(node.left, list);
+            }
+            if (node.right != null) {
+                dfs872(node.right, list);
+            }
+        }
+    }
+
     // 1049. 最后一块石头的重量 II (Last Stone Weight II)
     // public int lastStoneWeightII(int[] stones) {
 
