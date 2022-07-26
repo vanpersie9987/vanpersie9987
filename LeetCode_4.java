@@ -6402,11 +6402,34 @@ public class LeetCode_4 {
 
     }
 
-    // 926. 将字符串翻转到单调递增 (Flip String to Monotone Increasing)
+    // 926. 将字符串翻转到单调递增 (Flip String to Monotone Increasing) -- 空间 O(n)
     // 剑指 Offer II 092. 翻转字符
-    // public int minFlipsMonoIncr(String s) {
+    public int minFlipsMonoIncr(String s) {
+        int n = s.length();
+        int[][] dp = new int[n][2];
+        dp[0][0] = s.charAt(0) - '0';
+        dp[0][1] = '1' - s.charAt(0);
+        for (int i = 1; i < n; ++i) {
+            dp[i][0] = dp[i - 1][0] + s.charAt(i) - '0';
+            dp[i][1] = Math.min(dp[i - 1][0], dp[i - 1][1]) + '1' - s.charAt(i);
+        }
+        return Math.min(dp[n - 1][0], dp[n - 1][1]);
 
-    // }
+    }
+
+    // 926. 将字符串翻转到单调递增 (Flip String to Monotone Increasing) -- 空间 O(1)
+    // 剑指 Offer II 092. 翻转字符
+    public int minFlipsMonoIncr2(String s) {
+        int n = s.length();
+        int put0 = s.charAt(0) - '0';
+        int put1 = '1' - s.charAt(0);
+        for (int i = 1; i < n; ++i) {
+            put1 = Math.min(put0, put1) + '1' - s.charAt(i);
+            put0 = put0 + s.charAt(i) - '0';
+        }
+        return Math.min(put0, put1);
+
+    }
 
     // 749. 隔离病毒 (Contain Virus)
     // public int containVirus(int[][] isInfected) {
