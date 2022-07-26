@@ -17,10 +17,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
-import javax.swing.text.html.HTMLDocument.RunElement;
 
 public class LeetCode_4 {
     public static void main(String[] args) {
@@ -6476,13 +6473,98 @@ public class LeetCode_4 {
         }
     }
 
+    // 749. 隔离病毒 (Contain Virus) --bfs
+    public int containVirus(int[][] isInfected) {
+        int[][] directions = { { 0, -1 }, { 0, 1 }, { 1, 0 }, { -1, 0 } };
+        int m = isInfected.length;
+        int n = isInfected[0].length;
+        int res = 0;
+        while (true) {
+            List<Set<Integer>> neighbors = new ArrayList<>();
+            List<Integer> firewalls = new ArrayList<>();
+            for (int i = 0; i < m; ++i) {
+                for (int j = 0; j < n; ++j) {
+                    if (isInfected[i][j] == 1) {
+                        Queue<int[]> queue = new LinkedList<>();
+                        queue.offer(new int[] { i, j });
+                        // 某一个感染区块周围的非感染区域
+                        Set<Integer> neighbor = new HashSet<>();
+                        // 隔离该感染区块所需要建立的墙的数量
+                        int firewall = 0;
+                        int idx = neighbors.size() + 1;
+                        isInfected[i][j] = -idx;
+                        while (!queue.isEmpty()) {
+                            int[] cur = queue.poll();
+                            int x = cur[0];
+                            int y = cur[1];
+                            for (int[] direction : directions) {
+                                int nx = direction[0] + x;
+                                int ny = direction[1] + y;
+                                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                                    if (isInfected[nx][ny] == 1) {
+                                        queue.offer(new int[] { nx, ny });
+                                        isInfected[nx][ny] = -idx;
+                                    } else if (isInfected[nx][ny] == 0) {
+                                        ++firewall;
+                                        neighbor.add(getHash749(nx, ny));
+                                    }
+                                }
+                            }
+                        }
+                        neighbors.add(neighbor);
+                        firewalls.add(firewall);
+                    }
+                }
+            }
+            // 没有病毒
+            if (neighbors.isEmpty()) {
+                break;
+            }
+            // 找到最大的扩散区域
+            int idx = 0;
+            for (int i = 1; i < neighbors.size(); ++i) {
+                if (neighbors.get(i).size() > neighbors.get(idx).size()) {
+                    idx = i;
+                }
+            }
+            res += firewalls.get(idx);
+            // 恢复非隔离区域的病毒🦠为1
+            for (int i = 0; i < m; ++i) {
+                for (int j = 0; j < n; ++j) {
+                    if (isInfected[i][j] < 0) {
+                        if (isInfected[i][j] != -idx - 1) {
+                            isInfected[i][j] = 1;
+                        } else {
+                            isInfected[i][j] = 2;
+                        }
+                    }
+                }
+            }
+            // 将非隔离区域的病毒🦠扩散
+            for (int i = 0; i < neighbors.size(); ++i) {
+                if (i != idx) {
+                    for (int val : neighbors.get(i)) {
+                        int x = val >> 16;
+                        int y = val & ((1 << 16) - 1);
+                        isInfected[x][y] = 1;
+                    }
+                }
+            }
+            // 病毒块只有一个，则不会再扩散
+            if (neighbors.size() == 1) {
+                break;
+            }
+        }
+        return res;
+
+    }
+
+    private int getHash749(int x, int y) {
+        return (x << 16) | y;
+    }
+
     // 1049. 最后一块石头的重量 II (Last Stone Weight II)
     // public int lastStoneWeightII(int[] stones) {
-
-    // }
-
-    // 749. 隔离病毒 (Contain Virus)
-    // public int containVirus(int[][] isInfected) {
 
     // }
 
