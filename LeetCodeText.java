@@ -14865,61 +14865,54 @@ public class LeetCodeText {
         return x == 0 && y == 0;
     }
 
-    // 592. 分数加减运算
+    // 592. 分数加减运算 (Fraction Addition and Subtraction)
     public String fractionAddition(String expression) {
         List<Character> sign = new ArrayList<>();
-        // 不引入第一个符号 若为负号 则可能被正则表达式和谐掉
-        for (int i = 1; i < expression.length(); ++i) {
-            if (expression.charAt(i) == '+' || expression.charAt(i) == '-') {
-                sign.add(expression.charAt(i));
-            }
-        }
         List<Integer> num = new ArrayList<>();
         List<Integer> den = new ArrayList<>();
-        for (String sub : expression.split("\\+")) {
-            for (String subsub : sub.split("\\-")) {
-                if (subsub.length() != 0) {
-                    String[] item = subsub.split("/");
-                    num.add(Integer.parseInt(item[0]));
-                    den.add(Integer.parseInt(item[1]));
+        for (int i = 0; i < expression.length(); ++i) {
+            char c = expression.charAt(i);
+            if (c == '-' || c == '+') {
+                sign.add(c);
+            } else {
+                int left = i;
+                int right = left + 1;
+                while (right < expression.length() && expression.charAt(right) != '-'
+                        && expression.charAt(right) != '+') {
+                    ++right;
                 }
+                String[] split = expression.substring(left, right).split("/");
+                num.add(Integer.parseInt(split[0]));
+                den.add(Integer.parseInt(split[1]));
+                i = right - 1;
             }
         }
-        // 这里再加入负号
-        if (expression.charAt(0) == '-') {
-            num.set(0, -num.get(0));
+        if (expression.charAt(0) != '-') {
+            sign.add(0, '+');
         }
-        // 计算分母的最小公倍数
         int lcm = 1;
         for (int d : den) {
-            lcm = getLCM(lcm, d);
+            lcm = getLCM592(lcm, d);
         }
-        int res = lcm / den.get(0) * num.get(0);
-        for (int i = 1; i < num.size(); ++i) {
-            if (sign.get(i - 1) == '+') {
-                res += lcm / den.get(i) * num.get(i);
+        int res = 0;
+        for (int i = 0; i < num.size(); ++i) {
+            int curNum = lcm / den.get(i) * num.get(i);
+            if (sign.get(i) == '+') {
+                res += curNum;
             } else {
-                res -= lcm / den.get(i) * num.get(i);
+                res -= curNum;
             }
         }
-        int x = getGCD(Math.abs(res), Math.abs(lcm));
+        int x = getGCD592(Math.abs(res), Math.abs(lcm));
         return (res / x) + "/" + (lcm / x);
-
     }
 
-    // 计算最小公倍数
-    private int getLCM(int a, int b) {
-        return a * b / getGCD(a, b);
+    private int getLCM592(int a, int b) {
+        return a * b / getGCD592(a, b);
     }
 
-    // 计算最大公约数
-    private int getGCD(int a, int b) {
-        while (b != 0) {
-            int temp = b;
-            b = a % b;
-            a = temp;
-        }
-        return a;
+    private int getGCD592(int a, int b) {
+        return b == 0 ? a : getGCD592(b, a % b);
     }
 
     // 1706. 球会落何处
