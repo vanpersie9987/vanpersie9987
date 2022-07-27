@@ -4476,19 +4476,22 @@ public class LeetCodeText {
         return count;
     }
 
-    // 1331. 数组序号转换
-    public int[] arrayRankTransform(final int[] arr) {
-        int[] arrCopy = arr.clone();
-        Arrays.sort(arrCopy);
-        int index = 0;
+    // 1331. 数组序号转换 (Rank Transform of an Array)
+    public int[] arrayRankTransform(int[] arr) {
         Map<Integer, Integer> map = new HashMap<>();
-        for (int num : arrCopy) {
-            map.put(num, map.get(num) == null ? ++index : index);
+        int n = arr.length;
+        int[] res = arr.clone();
+        Arrays.sort(res);
+        int index = 1;
+        for (int num : res) {
+            if (!map.containsKey(num)) {
+                map.put(num, index++);
+            }
         }
-        for (int i = 0; i < arr.length; ++i) {
-            arr[i] = map.get(arr[i]);
+        for (int i = 0; i < n; ++i) {
+            res[i] = map.get(arr[i]);
         }
-        return arr;
+        return res;
 
     }
 
