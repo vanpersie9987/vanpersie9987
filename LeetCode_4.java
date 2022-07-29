@@ -6805,6 +6805,11 @@ public class LeetCode_4 {
         return root;
     }
 
+    // 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
+    // public int minInsertions(String s) {
+
+    // }
+
     // 526. 优美的排列 (Beautiful Arrangement)
     // public int countArrangement(int n) {
 
