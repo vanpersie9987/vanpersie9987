@@ -6770,6 +6770,41 @@ public class LeetCode_4 {
         }
     }
 
+    // 1660. 纠正二叉树 (Correct a Binary Tree) --bfs --plus
+    public TreeNode correctBinaryTree(TreeNode root) {
+        Map<Integer, TreeNode> parent = new HashMap<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = queue.poll();
+                if (map.containsKey(node.val)) {
+                    int deleteNodeVal = map.get(node.val);
+                    TreeNode p = parent.get(deleteNodeVal);
+                    if (p.left != null && p.left.val == deleteNodeVal) {
+                        p.left = null;
+                    } else {
+                        p.right = null;
+                    }
+                    return root;
+                }
+
+                if (node.left != null) {
+                    queue.offer(node.left);
+                    parent.put(node.left.val, node);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                    parent.put(node.right.val, node);
+                    map.put(node.right.val, node.val);
+                }
+            }
+        }
+        return root;
+    }
+
     // 526. 优美的排列 (Beautiful Arrangement)
     // public int countArrangement(int n) {
 
