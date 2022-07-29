@@ -6662,6 +6662,19 @@ public class LeetCode_4 {
         return counts;
     }
 
+    // 2323. Find Minimum Time to Finish All Jobs II --plus
+    public int minimumTime(int[] jobs, int[] workers) {
+        int res = 0;
+        Arrays.sort(jobs);
+        Arrays.sort(workers);
+        int n = jobs.length;
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, (jobs[i] - 1) / workers[i] + 1);
+        }
+        return res;
+
+    }
+
     // 526. 优美的排列 (Beautiful Arrangement)
     // public int countArrangement(int n) {
 
