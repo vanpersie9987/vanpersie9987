@@ -6693,7 +6693,7 @@ public class LeetCode_4 {
 
     }
 
-    // 1490. 克隆 N 叉树 (Clone N-ary Tree) --plus
+    // 1490. 克隆 N 叉树 (Clone N-ary Tree) --bfs --plus
     public Node cloneTree(Node root) {
         if (root == null) {
             return null;
@@ -6720,7 +6720,7 @@ public class LeetCode_4 {
 
     }
 
-    // 1490. 克隆 N 叉树 (Clone N-ary Tree) --plus
+    // 1490. 克隆 N 叉树 (Clone N-ary Tree) --dfs --plus
     public Node cloneTree2(Node root) {
         if (root == null) {
             return null;
@@ -6731,6 +6731,24 @@ public class LeetCode_4 {
         }
         return clone;
 
+    }
+
+    // 339. 嵌套列表权重和 (Nested List Weight Sum) --plus
+    private int res339;
+
+    public int depthSum(List<NestedInteger> nestedList) {
+        dfs339(nestedList, 1);
+        return res339;
+    }
+
+    private void dfs339(List<NestedInteger> nestedList, int level) {
+        for (NestedInteger nested : nestedList) {
+            if (nested.isInteger()) {
+                res339 += level * nested.getInteger();
+            } else {
+                dfs339(nested.getList(), level + 1);
+            }
+        }
     }
 
     // 526. 优美的排列 (Beautiful Arrangement)
