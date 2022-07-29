@@ -6675,6 +6675,24 @@ public class LeetCode_4 {
 
     }
 
+    // 2330. Valid Palindrome IV --plus
+    public boolean makePalindrome(String s) {
+        int left = 0;
+        int right = s.length() - 1;
+        int change = 0;
+        while (left < right) {
+            if (s.charAt(left) != s.charAt(right)) {
+                if (++change > 2) {
+                    return false;
+                }
+            }
+            ++left;
+            --right;
+        }
+        return true;
+
+    }
+
     // 526. 优美的排列 (Beautiful Arrangement)
     // public int countArrangement(int n) {
 
