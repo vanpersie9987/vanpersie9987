@@ -6693,6 +6693,46 @@ public class LeetCode_4 {
 
     }
 
+    // 1490. 克隆 N 叉树 (Clone N-ary Tree) --plus
+    public Node cloneTree(Node root) {
+        if (root == null) {
+            return null;
+        }
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        Node copyRoot = new Node(root.val);
+        Queue<Node> copyQueue = new LinkedList<>();
+        copyQueue.offer(copyRoot);
+        while (!queue.isEmpty()) {
+            Node node = queue.poll();
+            Node copy = copyQueue.poll();
+            List<Node> children = node.children;
+            if (children != null) {
+                for (Node child : children) {
+                    Node copyChild = new Node(child.val);
+                    copy.children.add(copyChild);
+                    queue.offer(child);
+                    copyQueue.offer(copyChild);
+                }
+            }
+        }
+        return copyRoot;
+
+    }
+
+    // 1490. 克隆 N 叉树 (Clone N-ary Tree) --plus
+    public Node cloneTree2(Node root) {
+        if (root == null) {
+            return null;
+        }
+        Node clone = new Node(root.val);
+        for (Node node : root.children) {
+            clone.children.add(cloneTree(node));
+        }
+        return clone;
+
+    }
+
     // 526. 优美的排列 (Beautiful Arrangement)
     // public int countArrangement(int n) {
 
