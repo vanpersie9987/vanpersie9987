@@ -6751,6 +6751,25 @@ public class LeetCode_4 {
         }
     }
 
+    // 1756. 设计最近使用（MRU）队列 (Design Most Recently Used Queue) --plus
+    class MRUQueue {
+        private List<Integer> list;
+
+        public MRUQueue(int n) {
+            list = new ArrayList<>();
+            for (int i = 1; i <= n; ++i) {
+                list.add(i);
+            }
+        }
+
+        public int fetch(int k) {
+            int res = list.get(k - 1);
+            list.remove(k - 1);
+            list.add(res);
+            return res;
+        }
+    }
+
     // 526. 优美的排列 (Beautiful Arrangement)
     // public int countArrangement(int n) {
 
