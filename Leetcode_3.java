@@ -2475,7 +2475,7 @@ public class Leetcode_3 {
 
     }
 
-    // 573. 松鼠模拟 (Squirrel Simulation) --plus (未提交)
+    // 573. 松鼠模拟 (Squirrel Simulation) --plus
     public int minDistance(int height, int width, int[] tree, int[] squirrel, int[][] nuts) {
         int res = Integer.MAX_VALUE;
         int sum = 0;
