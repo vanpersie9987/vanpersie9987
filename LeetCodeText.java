@@ -12001,7 +12001,7 @@ public class LeetCodeText {
 
     }
 
-    // 593. 有效的正方形
+    // 593. 有效的正方形 (Valid Square) --数学
     public boolean validSquare(int[] p1, int[] p2, int[] p3, int[] p4) {
         int[][] points = { p1, p2, p3, p4 };
         Arrays.sort(points, new Comparator<int[]>() {
