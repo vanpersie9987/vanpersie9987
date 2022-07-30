@@ -6805,6 +6805,32 @@ public class LeetCode_4 {
         return root;
     }
 
+    // 2340. Minimum Adjacent Swaps to Make a Valid Array --plus
+    public int minimumSwaps(int[] nums) {
+        int n = nums.length;
+        int maxIndex = -1;
+        int max = -1;
+        int minIndex = n;
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] < min) {
+                min = nums[i];
+                minIndex = i;
+            }
+        }
+        for (int i = n - 1; i >= 0; --i) {
+            if (nums[i] > max) {
+                max = nums[i];
+                maxIndex = i;
+            }
+        }
+        if (maxIndex >= minIndex) {
+            return n - 1 - maxIndex + minIndex;
+        }
+        return n - 1 - maxIndex + minIndex - 1;
+
+    }
+
     // 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
     // public int minInsertions(String s) {
 
