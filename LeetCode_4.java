@@ -6879,6 +6879,77 @@ public class LeetCode_4 {
 
     }
 
+    // 952. 按公因数计算最大组件大小 (Largest Component Size by Common Factor) --并查集
+    public int largestComponentSize(int[] nums) {
+        int max = Arrays.stream(nums).max().getAsInt();
+        Union952 union = new Union952(max + 1);
+        for (int num : nums) {
+            for (int i = 2; i * i <= num; ++i) {
+                if (num % i == 0) {
+                    union.union(num, i);
+                    union.union(num, num / i);
+                }
+            }
+        }
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            int root = union.getRoot(num);
+            map.put(root, map.getOrDefault(root, 0) + 1);
+        }
+        return Collections.max(map.values());
+    }
+
+    public class Union952 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union952(int n) {
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] > rank[root2]) {
+                parent[root2] = root1;
+            } else {
+                parent[root1] = root2;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root2];
+                }
+            }
+        }
+    }
+
+    // 2237. Count Positions on Street With Required Brightness --差分数组
+    public int meetRequirement(int n, int[][] lights, int[] requirement) {
+
+    }
+
+    // 2355. Maximum Number of Books You Can Take
+    public long maximumBooks(int[] books) {
+
+    }
+
     // 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
     // public int minInsertions(String s) {
 
