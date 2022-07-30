@@ -6831,6 +6831,25 @@ public class LeetCode_4 {
 
     }
 
+    // 1676. 二叉树的最近公共祖先 IV (Lowest Common Ancestor of a Binary Tree IV) --dfs
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode[] nodes) {
+        if (root == null) {
+            return null;
+        }
+        for (TreeNode node : nodes) {
+            if (root == node) {
+                return root;
+            }
+        }
+        TreeNode left = lowestCommonAncestor(root.left, nodes);
+        TreeNode right = lowestCommonAncestor(root.right, nodes);
+        if (left != null && right != null) {
+            return root;
+        }
+        return left != null ? left : right;
+
+    }
+
     // 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
     // public int minInsertions(String s) {
 
