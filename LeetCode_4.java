@@ -6850,6 +6850,35 @@ public class LeetCode_4 {
 
     }
 
+    // 1213. 三个有序数组的交集 (Intersection of Three Sorted Arrays)
+    public List<Integer> arraysIntersection(int[] arr1, int[] arr2, int[] arr3) {
+        int n1 = arr1.length;
+        int n2 = arr2.length;
+        int n3 = arr3.length;
+        int index1 = 0;
+        int index2 = 0;
+        int index3 = 0;
+        List<Integer> res = new ArrayList<>();
+        while (index1 < n1 && index2 < n2 && index3 < n3) {
+            if (arr1[index1] == arr2[index2] && arr2[index2] == arr3[index3]) {
+                res.add(arr1[index1]);
+                ++index1;
+                ++index2;
+                ++index3;
+            } else {
+                if (arr1[index1] <= arr2[index2] && arr1[index1] <= arr3[index3]) {
+                    ++index1;
+                } else if (arr2[index2] <= arr1[index1] && arr2[index2] <= arr3[index3]) {
+                    ++index2;
+                } else {
+                    ++index3;
+                }
+            }
+        }
+        return res;
+
+    }
+
     // 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
     // public int minInsertions(String s) {
 
