@@ -7009,6 +7009,86 @@ public class LeetCode_4 {
         }
     }
 
+    // 305. 岛屿数量 II (Number of Islands II) -- 并查集
+    public List<Integer> numIslands2(int m, int n, int[][] positions) {
+        Union305 union = new Union305(m * n);
+        boolean[] visited = new boolean[m * n];
+        int[][] directions = { { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } };
+        List<Integer> res = new ArrayList<>();
+        for (int[] position : positions) {
+            int x = position[0];
+            int y = position[1];
+            int index = x * n + y;
+            if (!visited[index]) {
+                union.addCount();
+                visited[index] = true;
+                for (int[] direction : directions) {
+                    int nx = x + direction[0];
+                    int ny = y + direction[1];
+                    int nIndex = nx * n + ny;
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && visited[nIndex]
+                            && !union.isConnected(nIndex, index)) {
+                        union.union(nIndex, index);
+                    }
+                }
+            }
+            res.add(union.getCount());
+        }
+        return res;
+    }
+
+    public class Union305 {
+        private int[] rank;
+        private int[] parent;
+        private int count;
+
+        public Union305(int n) {
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+            count = 0;
+        }
+
+        public void addCount() {
+            ++count;
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] > rank[root2]) {
+                parent[root2] = root1;
+            } else {
+                parent[root1] = root2;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root2];
+                }
+            }
+            --count;
+        }
+
+        public int getCount() {
+            return count;
+        }
+    }
+
     // 2237. Count Positions on Street With Required Brightness --差分数组
     // public int meetRequirement(int n, int[][] lights, int[] requirement) {
 
