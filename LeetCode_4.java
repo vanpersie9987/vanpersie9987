@@ -6958,6 +6958,57 @@ public class LeetCode_4 {
         return res;
     }
 
+    // 359. 日志速率限制器 (Logger Rate Limiter) --哈希表
+    class Logger {
+        private Map<String, Integer> map;
+
+        public Logger() {
+            map = new HashMap<>();
+        }
+
+        public boolean shouldPrintMessage(int timestamp, String message) {
+            if (!map.containsKey(message) || timestamp - map.get(message) >= 10) {
+                map.put(message, timestamp);
+                return true;
+            }
+            return false;
+        }
+    }
+
+    // 359. 日志速率限制器 (Logger Rate Limiter) --队列
+    class Logger2 {
+        private Queue<Pair359> queue;
+        private Set<String> set;
+
+        public Logger2() {
+            queue = new LinkedList<>();
+            set = new HashSet<>();
+        }
+
+        public boolean shouldPrintMessage(int timestamp, String message) {
+            while (!queue.isEmpty() && timestamp - queue.peek().timestamp >= 10) {
+                set.remove(queue.peek().message);
+                queue.poll();
+            }
+            if (!set.contains(message)) {
+                queue.offer(new Pair359(message, timestamp));
+                set.add(message);
+                return true;
+            }
+            return false;
+        }
+    }
+
+    public class Pair359 {
+        public String message;
+        public int timestamp;
+
+        public Pair359(String message, int timestamp) {
+            this.message = message;
+            this.timestamp = timestamp;
+        }
+    }
+
     // 2237. Count Positions on Street With Required Brightness --差分数组
     // public int meetRequirement(int n, int[][] lights, int[] requirement) {
 
