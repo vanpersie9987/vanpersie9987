@@ -6940,15 +6940,28 @@ public class LeetCode_4 {
         }
     }
 
-    // 2237. Count Positions on Street With Required Brightness --差分数组
-    public int meetRequirement(int n, int[][] lights, int[] requirement) {
-
-    }
-
-    // 2355. Maximum Number of Books You Can Take
+    // 2355. Maximum Number of Books You Can Take --单调栈 + dp
     public long maximumBooks(int[] books) {
-
+        Stack<long[]> stack = new Stack<>();
+        // index , maxVal
+        stack.push(new long[] { -1l, 0l });
+        long res = 0l;
+        for (int i = 0; i < books.length; ++i) {
+            while (stack.size() > 1 && books[(int) stack.peek()[0]] - stack.peek()[0] >= books[i] - i) {
+                stack.pop();
+            }
+            long size = Math.min(books[i], i - (int) stack.peek()[0]);
+            long max = (books[i] + books[i] - size + 1) * size / 2 + stack.peek()[1];
+            res = Math.max(res, max);
+            stack.push(new long[] { i, max });
+        }
+        return res;
     }
+
+    // 2237. Count Positions on Street With Required Brightness --差分数组
+    // public int meetRequirement(int n, int[][] lights, int[] requirement) {
+
+    // }
 
     // 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
     // public int minInsertions(String s) {
