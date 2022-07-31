@@ -7160,6 +7160,30 @@ public class LeetCode_4 {
         }
         return res;
     }
+
+    // 2268. Minimum Number of Keypresses --plus
+    public int minimumKeypresses(String s) {
+        int[] counts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++counts[c - 'a'];
+        }
+        Arrays.sort(counts);
+        int res = 0;
+        for (int i = counts.length - 1; i >= 0; --i) {
+            if (counts[i] == 0) {
+                break;
+            }
+            if (i >= 17) {
+                res += counts[i];
+            } else if (i >= 8) {
+                res += counts[i] * 2;
+            } else {
+                res += counts[i] * 3;
+            }
+        }
+        return res;
+
+    }
     // 2237. Count Positions on Street With Required Brightness --差分数组
     // public int meetRequirement(int n, int[][] lights, int[] requirement) {
 
