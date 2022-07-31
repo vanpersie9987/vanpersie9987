@@ -7089,6 +7089,77 @@ public class LeetCode_4 {
         }
     }
 
+    // 6132. 使数组中所有元素都等于零
+    public int minimumOperations(int[] nums) {
+        int res = 0;
+        int n = nums.length;
+        int[] zero = new int[n];
+
+        while (true) {
+            if (Arrays.equals(zero, nums)) {
+                break;
+            }
+            ++res;
+            int min = Integer.MAX_VALUE;
+            for (int num : nums) {
+                if (num != 0 && num < min) {
+                    min = num;
+                }
+            }
+            for (int i = 0; i < n; ++i) {
+                if (nums[i] != 0) {
+                    nums[i] -= min;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 6133. 分组的最大数量
+    public int maximumGroups(int[] grades) {
+        Arrays.sort(grades);
+        int res = 1;
+        int i = 1;
+        int count = 2;
+        while (i + count - 1 < grades.length) {
+            ++res;
+            i += count;
+            ++count;
+        }
+        return res;
+
+    }
+
+    // 6134. 找到离给定两个节点最近的节点
+    public int closestMeetingNode(int[] edges, int node1, int node2) {
+        int[] dis1 = getDis6134(node1, edges);
+        int[] dis2 = getDis6134(node2, edges);
+        int n = edges.length;
+        int res = -1;
+        int dis = n;
+        for (int i = 0; i < n; ++i) {
+            int max = Math.max(dis1[i], dis2[i]);
+            if (max < dis) {
+                dis = max;
+                res = i;
+            }
+        }
+        return res;
+
+    }
+
+    private int[] getDis6134(int node, int[] edges) {
+        int n = edges.length;
+        int[] res = new int[n];
+        Arrays.fill(res, n);
+        int d = 0;
+        while (node != -1 && res[node] == n) {
+            res[node] = d++;
+            node = edges[node];
+        }
+        return res;
+    }
     // 2237. Count Positions on Street With Required Brightness --差分数组
     // public int meetRequirement(int n, int[][] lights, int[] requirement) {
 
