@@ -7118,7 +7118,6 @@ public class LeetCode_4 {
 
     // 6133. 分组的最大数量
     public int maximumGroups(int[] grades) {
-        Arrays.sort(grades);
         int res = 1;
         int i = 1;
         int count = 2;
@@ -7129,6 +7128,13 @@ public class LeetCode_4 {
         }
         return res;
 
+    }
+
+    // 6133. 分组的最大数量
+    public int maximumGroups2(int[] grades) {
+        // (1+x)* x/2 = n;
+        // x^2+x-2*n=0;
+        return (-1 + (int) Math.sqrt(1 + 8 * grades.length)) / 2;
     }
 
     // 6134. 找到离给定两个节点最近的节点
