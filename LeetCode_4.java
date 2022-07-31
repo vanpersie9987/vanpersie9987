@@ -7184,9 +7184,47 @@ public class LeetCode_4 {
         return res;
 
     }
+
+    // 364. 加权嵌套序列和 II (Nested List Weight Sum II) --plus
+    private int maxDepth364;
+    private int res364;
+
+    public int depthSumInverse(List<NestedInteger> nestedList) {
+        if (nestedList.isEmpty()) {
+            return 0;
+        }
+        dfs364(nestedList, 1);
+        dfs364_getRes(nestedList, 1);
+        return res364;
+    }
+
+    private void dfs364_getRes(List<NestedInteger> nestedList, int level) {
+        if (nestedList.isEmpty()) {
+            return;
+        }
+        for (NestedInteger nestedInteger : nestedList) {
+            if (nestedInteger.isInteger()) {
+                res364 += nestedInteger.getInteger() * (maxDepth364 - level + 1);
+            } else {
+                dfs364_getRes(nestedInteger.getList(), level + 1);
+            }
+        }
+    }
+
+    private void dfs364(List<NestedInteger> nestedList, int level) {
+        if (nestedList.isEmpty()) {
+            return;
+        }
+        maxDepth364 = Math.max(maxDepth364, level);
+        for (NestedInteger nestedInteger : nestedList) {
+            if (!nestedInteger.isInteger()) {
+                dfs364(nestedInteger.getList(), level + 1);
+            }
+        }
+    }
+
     // 2237. Count Positions on Street With Required Brightness --差分数组
     // public int meetRequirement(int n, int[][] lights, int[] requirement) {
-
     // }
 
     // 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
