@@ -7257,6 +7257,49 @@ public class LeetCode_4 {
 
     }
 
+    // 750. 角矩形的数量 (Number Of Corner Rectangles) --plus
+    public int countCornerRectangles(int[][] grid) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int res = 0;
+        int n = grid[0].length;
+        for (int[] row : grid) {
+            for (int c1 = 0; c1 < n; ++c1) {
+                if (row[c1] == 1) {
+                    for (int c2 = c1 + 1; c2 < n; ++c2) {
+                        if (row[c2] == 1) {
+                            int index = c1 * 200 + c2;
+                            int c = map.getOrDefault(index, 0);
+                            res += c;
+                            map.put(index, c + 1);
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 750. 角矩形的数量 (Number Of Corner Rectangles) --plus
+    public int countCornerRectangles2(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int res = 0;
+        for (int r1 = 0; r1 < m; ++r1) {
+            for (int r2 = r1 + 1; r2 < m; ++r2) {
+                int count = 0;
+                for (int c = 0; c < n; ++c) {
+                    if (grid[r1][c] == 1 && grid[r2][c] == 1) {
+                        ++count;
+                    }
+                }
+                res += count * (count - 1) / 2;
+            }
+        }
+        return res;
+
+    }
+
     // 2237. Count Positions on Street With Required Brightness --差分数组
     // public int meetRequirement(int n, int[][] lights, int[] requirement) {
     // }
