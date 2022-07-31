@@ -7223,6 +7223,40 @@ public class LeetCode_4 {
         }
     }
 
+    // 2219. Maximum Sum Score of Array --plus
+    public long maximumSumScore(int[] nums) {
+        int n = nums.length;
+        long[] prefix = new long[n + 1];
+        for (int i = 1; i <= n; ++i) {
+            prefix[i] = prefix[i - 1] + nums[i - 1];
+        }
+        long res = Integer.MIN_VALUE;
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, prefix[i + 1]);
+            res = Math.max(res, prefix[n] - prefix[i]);
+        }
+        return res;
+
+    }
+
+    // 2219. Maximum Sum Score of Array --plus
+    public long maximumSumScore2(int[] nums) {
+        long sum = 0l;
+        for (int num : nums) {
+            sum += num;
+        }
+        long preSum = 0l;
+        long res = Integer.MIN_VALUE;
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            preSum += nums[i];
+            res = Math.max(res, preSum);
+            res = Math.max(res, sum - preSum + nums[i]);
+        }
+        return res;
+
+    }
+
     // 2237. Count Positions on Street With Required Brightness --差分数组
     // public int meetRequirement(int n, int[][] lights, int[] requirement) {
     // }
