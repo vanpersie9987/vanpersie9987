@@ -7412,6 +7412,72 @@ public class LeetCode_4 {
 
     }
 
+    // 1858. 包含所有前缀的最长单词 (Longest Word With All Prefixes) --字典树 --plus
+    public String longestWord(String[] words) {
+        // Arrays.sort(words, new Comparator<String>() {
+
+        // @Override
+        // public int compare(String o1, String o2) {
+        // if (o1.length() == o2.length()) {
+        // return o2.compareTo(o1);
+        // }
+        // return o1.length() - o2.length();
+        // }
+
+        // });
+        Trie1858 trie = new Trie1858();
+        for (String word : words) {
+            trie.insert(word);
+        }
+        String res = "";
+        int maxLen = 0;
+        for (String word : words) {
+            if (trie.isLegal(word)) {
+                if (word.length() > maxLen) {
+                    maxLen = word.length();
+                    res = word;
+                } else if (word.length() == maxLen && word.compareTo(res) < 0) {
+                    res = word;
+                }
+            }
+        }
+        return res;
+    }
+
+    public class Trie1858 {
+        public Trie1858[] children;
+        public boolean isEnd;
+
+        public Trie1858() {
+            children = new Trie1858[26];
+            isEnd = false;
+        }
+
+        public void insert(String word) {
+            Trie1858 node = this;
+            for (char c : word.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie1858();
+                }
+                node = node.children[index];
+            }
+            node.isEnd = true;
+        }
+
+        public boolean isLegal(String word) {
+            Trie1858 node = this;
+            for (char c : word.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null || !node.children[index].isEnd) {
+                    return false;
+                }
+                node = node.children[index];
+            }
+            return node.isEnd;
+        }
+    }
+
     // 156. 上下翻转二叉树 (Binary Tree Upside Down)
     // public TreeNode upsideDownBinaryTree(TreeNode root) {
 
