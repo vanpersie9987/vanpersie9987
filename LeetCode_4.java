@@ -7307,8 +7307,26 @@ public class LeetCode_4 {
     }
 
     // 2237. Count Positions on Street With Required Brightness --差分数组
-    // public int meetRequirement(int n, int[][] lights, int[] requirement) {
-    // }
+    public int meetRequirement(int n, int[][] lights, int[] requirement) {
+        int[] diff = new int[n + 1];
+        for (int[] light : lights) {
+            int min = Math.max(0, light[0] - light[1]);
+            int max = Math.min(n - 1, light[0] + light[1]);
+            ++diff[min];
+            --diff[max + 1];
+        }
+        for (int i = 1; i < n; ++i) {
+            diff[i] += diff[i - 1];
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            if (diff[i] >= requirement[i]) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
 
     // 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
     // public int minInsertions(String s) {
