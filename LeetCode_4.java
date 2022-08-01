@@ -7328,6 +7328,63 @@ public class LeetCode_4 {
 
     }
 
+    // 2204. Distance to a Cycle in Undirected Graph --拓扑排序
+    public int[] distanceToCycle(int n, int[][] edges) {
+        int[] degrees = new int[n];
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int[] edge : edges) {
+            map.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            map.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+            ++degrees[edge[0]];
+            ++degrees[edge[1]];
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            if (degrees[i] == 1) {
+                queue.offer(i);
+            }
+        }
+        int[] res = new int[n];
+        if (queue.isEmpty()) {
+            return res;
+        }
+        boolean[] visited = new boolean[n];
+        Arrays.fill(visited, true);
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            visited[node] = false;
+            --degrees[node];
+            for (int neighbor : map.getOrDefault(node, new ArrayList<>())) {
+                --degrees[neighbor];
+                if (degrees[neighbor] == 1) {
+                    queue.offer(neighbor);
+                }
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            if (visited[i]) {
+                queue.offer(i);
+            }
+        }
+        int level = 0;
+        while (!queue.isEmpty()) {
+            ++level;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int node = queue.poll();
+                for (int neighbor : map.getOrDefault(node, new ArrayList<>())) {
+                    if (!visited[neighbor]) {
+                        visited[neighbor] = true;
+                        res[neighbor] = level;
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
     // 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
     // public int minInsertions(String s) {
 
