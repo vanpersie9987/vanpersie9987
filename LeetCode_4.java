@@ -7385,6 +7385,38 @@ public class LeetCode_4 {
 
     }
 
+    // 2229. Check if an Array Is Consecutive
+    public boolean isConsecutive(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+
+        int min = Arrays.stream(nums).min().getAsInt();
+        int max = min + nums.length - 1;
+        for (int num : nums) {
+            if (num < min || num > max) {
+                return false;
+            }
+            if (!set.add(num)) {
+                return false;
+            }
+        }
+        return set.size() == nums.length;
+
+    }
+
+    // 2229. Check if an Array Is Consecutive
+    public boolean isConsecutive2(int[] nums) {
+        Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toSet());
+        int min = Arrays.stream(nums).min().getAsInt();
+        int max = Arrays.stream(nums).max().getAsInt();
+        return max - min == nums.length - 1 && set.size() == nums.length;
+
+    }
+
+    // 156. 上下翻转二叉树 (Binary Tree Upside Down)
+    // public TreeNode upsideDownBinaryTree(TreeNode root) {
+
+    // }
+
     // 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
     // public int minInsertions(String s) {
 
