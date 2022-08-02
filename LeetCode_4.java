@@ -7478,6 +7478,48 @@ public class LeetCode_4 {
         }
     }
 
+    // 1229. 安排会议日程 (Meeting Scheduler) --plus
+    public List<Integer> minAvailableDuration(int[][] slots1, int[][] slots2, int duration) {
+        int n1 = slots1.length;
+        int n2 = slots2.length;
+        Arrays.sort(slots1, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+
+        });
+
+        Arrays.sort(slots2, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+
+        });
+
+        int i = 0;
+        int j = 0;
+        while (i < n1 && j < n2) {
+            int[] cur1 = slots1[i];
+            int[] cur2 = slots2[j];
+            int min = Math.max(cur1[0], cur2[0]);
+            int max = Math.min(cur1[1], cur2[1]);
+            if (max - min >= duration) {
+                return List.of(min, min + duration);
+            }
+            if (cur1[1] < cur2[1]) {
+                ++i;
+            } else {
+                ++j;
+            }
+        }
+        return List.of();
+
+    }
+
     // 2127. 参加会议的最多员工数 (Maximum Employees to Be Invited to a Meeting)
     // public int maximumInvitations(int[] favorite) {
 
