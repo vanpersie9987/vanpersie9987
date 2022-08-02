@@ -7520,7 +7520,8 @@ public class LeetCode_4 {
 
     }
 
-    // 2127. 参加会议的最多员工数 (Maximum Employees to Be Invited to a Meeting) --基环内向树 (拓扑排序 + dp)
+    // 2127. 参加会议的最多员工数 (Maximum Employees to Be Invited to a Meeting) --基环内向树 (拓扑排序
+    // + dp)
     public int maximumInvitations(int[] favorite) {
         int n = favorite.length;
         int[] degrees = new int[n];
@@ -7567,6 +7568,23 @@ public class LeetCode_4 {
         }
         return Math.max(threeOrMoreNodesRing, twoNodesRing);
 
+    }
+
+    // 1506. 找到 N 叉树的根节点 (Find Root of N-Ary Tree) --plus
+    public Node findRoot(List<Node> tree) {
+        int xor = 0;
+        for (Node node : tree) {
+            xor ^= node.val;
+            for (Node sub : node.children) {
+                xor ^= sub.val;
+            }
+        }
+        for (Node node : tree) {
+            if (node.val == xor) {
+                return node;
+            }
+        }
+        return null;
     }
 
     // 156. 上下翻转二叉树 (Binary Tree Upside Down)
