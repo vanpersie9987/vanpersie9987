@@ -7520,10 +7520,54 @@ public class LeetCode_4 {
 
     }
 
-    // 2127. 参加会议的最多员工数 (Maximum Employees to Be Invited to a Meeting)
-    // public int maximumInvitations(int[] favorite) {
+    // 2127. 参加会议的最多员工数 (Maximum Employees to Be Invited to a Meeting) --基环内向树 (拓扑排序 + dp)
+    public int maximumInvitations(int[] favorite) {
+        int n = favorite.length;
+        int[] degrees = new int[n];
+        for (int f : favorite) {
+            ++degrees[f];
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            if (degrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        int[] dp = new int[n];
+        Arrays.fill(dp, 1);
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            int neighbor = favorite[node];
+            dp[neighbor] = Math.max(dp[node] + 1, dp[neighbor]);
+            --degrees[neighbor];
+            if (degrees[neighbor] == 0) {
+                queue.offer(neighbor);
+            }
+        }
+        int twoNodesRing = 0;
+        int threeOrMoreNodesRing = 0;
+        for (int i = 0; i < n; ++i) {
+            if (degrees[i] != 0) {
+                int neighbor = favorite[i];
+                if (favorite[neighbor] == i) {
+                    degrees[i] = 0;
+                    degrees[neighbor] = 0;
+                    twoNodesRing += dp[neighbor] + dp[i];
+                } else {
+                    int count = 0;
+                    int node = i;
+                    while (degrees[node] != 0) {
+                        degrees[node] = 0;
+                        ++count;
+                        node = favorite[node];
+                    }
+                    threeOrMoreNodesRing = Math.max(threeOrMoreNodesRing, count);
+                }
+            }
+        }
+        return Math.max(threeOrMoreNodesRing, twoNodesRing);
 
-    // }
+    }
 
     // 156. 上下翻转二叉树 (Binary Tree Upside Down)
     // public TreeNode upsideDownBinaryTree(TreeNode root) {
