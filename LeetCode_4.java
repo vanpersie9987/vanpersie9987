@@ -7587,6 +7587,25 @@ public class LeetCode_4 {
         return null;
     }
 
+    // 311. 稀疏矩阵的乘法 (Sparse Matrix Multiplication) --plus
+    public int[][] multiply(int[][] mat1, int[][] mat2) {
+        int m = mat1.length;
+        int n = mat2[0].length;
+        int k = mat1[0].length;
+        int[][] res = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            for (int c = 0; c < k; ++c) {
+                if (mat1[i][c] == 0) {
+                    continue;
+                }
+                for (int j = 0; j < n; ++j) {
+                    res[i][j] += mat1[i][c] * mat2[c][j];
+                }
+            }
+        }
+        return res;
+    }
+
     // 156. 上下翻转二叉树 (Binary Tree Upside Down)
     // public TreeNode upsideDownBinaryTree(TreeNode root) {
 
