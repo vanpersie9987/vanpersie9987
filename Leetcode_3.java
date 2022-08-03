@@ -8923,27 +8923,21 @@ public class Leetcode_3 {
         return insertOnlyOneBit(first, second);
     }
 
-    private boolean insertOnlyOneBit(String first, String second) {
-        if (first.length() > second.length()) {
-            String temp = first;
-            first = second;
-            second = temp;
+    private boolean insertOnlyOneBit(String s, String t) {
+        if (s.length() > t.length()) {
+            String temp = s;
+            s = t;
+            t = temp;
         }
         int i = 0;
         int j = 0;
-        boolean flag = false;
-        while (i < first.length() && j < second.length()) {
-            if (first.charAt(i) != second.charAt(j)) {
-                if (flag) {
-                    return false;
-                }
-                flag = true;
-            } else {
+        while (i < s.length() && j < t.length()) {
+            if (s.charAt(i) == t.charAt(j)) {
                 ++i;
             }
             ++j;
         }
-        return true;
+        return i == s.length();
     }
 
     private boolean diffAtMostOneBit(String first, String second) {
@@ -8956,6 +8950,75 @@ public class Leetcode_3 {
             }
         }
         return true;
+    }
+
+    // 161. 相隔为 1 的编辑距离 (One Edit Distance)
+    public boolean isOneEditDistance(String s, String t) {
+        if (Math.abs(s.length() - t.length()) > 1) {
+            return false;
+        }
+        if (s.length() == t.length()) {
+            return replaceOneToEqual(s, t);
+        }
+        return s.length() < t.length() ? addOneToEqual(s, t) : addOneToEqual(t, s);
+    }
+
+    private boolean addOneToEqual(String s, String t) {
+        int i = 0;
+        int j = 0;
+        while (i < s.length() && j < t.length()) {
+            if (s.charAt(i) == t.charAt(j)) {
+                ++i;
+            }
+            ++j;
+        }
+        return i == s.length();
+    }
+
+    private boolean replaceOneToEqual(String s, String t) {
+        int diff = 0;
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) != t.charAt(i)) {
+                if (++diff > 1) {
+                    return false;
+                }
+            }
+        }
+        return diff == 1;
+    }
+
+    // 161. 相隔为 1 的编辑距离 (One Edit Distance)
+    public boolean isOneEditDistance2(String s, String t) {
+        int ns = s.length();
+        int nt = t.length();
+
+        // Ensure that s is shorter than t.
+        if (ns > nt)
+            return isOneEditDistance(t, s);
+
+        // The strings are NOT one edit away distance
+        // if the length diff is more than 1.
+        if (nt - ns > 1)
+            return false;
+
+        for (int i = 0; i < ns; i++) {
+            if (s.charAt(i) != t.charAt(i)) {
+                // if strings have the same length
+                if (ns == nt) {
+                    return s.substring(i + 1).equals(t.substring(i + 1));
+                }
+
+                // if strings have different lengths
+                else {
+                    return s.substring(i).equals(t.substring(i + 1));
+                }
+            }
+        }
+        // If there is no diffs on ns distance
+        // the strings are one edit away only if
+        // t has one more character.
+        // "ab"、"abc"
+        return (ns + 1 == nt);
     }
 
     // 1514. 概率最大的路径 (Path with Maximum Probability) --Dijkstra
