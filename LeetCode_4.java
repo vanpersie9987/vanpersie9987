@@ -7606,6 +7606,28 @@ public class LeetCode_4 {
         return res;
     }
 
+    // 899. 有序队列 (Orderly Queue)
+    public String orderlyQueue(String s, int k) {
+        if (k == 1) {
+            String res = s;
+            StringBuilder builder = new StringBuilder(s);
+            for (int i = 0; i < s.length(); ++i) {
+                char first = builder.charAt(0);
+                builder.deleteCharAt(0);
+                builder.append(first);
+                if (builder.toString().compareTo(res) < 0) {
+                    res = builder.toString();
+                }
+            }
+            return res;
+        } else {
+            char[] chars = s.toCharArray();
+            Arrays.sort(chars);
+            return String.valueOf(chars);
+        }
+
+    }
+
     // 156. 上下翻转二叉树 (Binary Tree Upside Down)
     // public TreeNode upsideDownBinaryTree(TreeNode root) {
 
