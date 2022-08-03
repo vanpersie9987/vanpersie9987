@@ -7628,6 +7628,48 @@ public class LeetCode_4 {
 
     }
 
+    // 159. 至多包含两个不同字符的最长子串 (Longest Substring with At Most Two Distinct Characters)
+    public int lengthOfLongestSubstringTwoDistinct(String s) {
+        int res = 0;
+        int[] countsLower = new int[26];
+        int[] countsUpper = new int[26];
+        int left = 0;
+        int right = 0;
+        int kinds = 0;
+        while (right < s.length()) {
+            if (Character.isUpperCase(s.charAt(right))) {
+                ++countsUpper[s.charAt(right) - 'A'];
+                if (countsUpper[s.charAt(right) - 'A'] == 1) {
+                    ++kinds;
+                }
+            } else {
+                ++countsLower[s.charAt(right) - 'a'];
+                if (countsLower[s.charAt(right) - 'a'] == 1) {
+                    ++kinds;
+                }
+            }
+
+            while (kinds > 2) {
+                if (Character.isUpperCase(s.charAt(left))) {
+                    --countsUpper[s.charAt(left) - 'A'];
+                    if (countsUpper[s.charAt(left) - 'A'] == 0) {
+                        --kinds;
+                    }
+                } else {
+                    --countsLower[s.charAt(left) - 'a'];
+                    if (countsLower[s.charAt(left) - 'a'] == 0) {
+                        --kinds;
+                    }
+                }
+                ++left;
+            }
+            res = Math.max(res, right - left + 1);
+            ++right;
+        }
+        return res;
+
+    }
+
     // 156. 上下翻转二叉树 (Binary Tree Upside Down)
     // public TreeNode upsideDownBinaryTree(TreeNode root) {
 
