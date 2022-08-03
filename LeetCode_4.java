@@ -7718,6 +7718,37 @@ public class LeetCode_4 {
 
     }
 
+    // 1056. 易混淆数 (Confusing Number)
+    public boolean confusingNumber(int n) {
+        int rotating = 0;
+        int original = n;
+        while (n != 0) {
+            int mod = n % 10;
+            if (mod == 2 || mod == 3 || mod == 4 || mod == 5 || mod == 7) {
+                return false;
+            }
+            if (mod == 6) {
+                mod = 9;
+            } else if (mod == 9) {
+                mod = 6;
+            }
+            rotating = rotating * 10 + mod;
+            n /= 10;
+        }
+        return rotating != original;
+
+    }
+
+    // 2282. Number of People That Can Be Seen in a Grid
+    // public int[][] seePeople(int[][] heights) {
+
+    // }
+
+    // 1944. 队列中可以看到的人数 (Number of Visible People in a Queue)
+    // public int[] canSeePersonsCount(int[] heights) {
+
+    // }
+
     // 156. 上下翻转二叉树 (Binary Tree Upside Down)
     // public TreeNode upsideDownBinaryTree(TreeNode root) {
 
