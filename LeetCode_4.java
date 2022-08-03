@@ -7692,6 +7692,33 @@ public class LeetCode_4 {
 
     }
 
+    // 340. 至多包含 K 个不同字符的最长子串 (Longest Substring with At Most K Distinct Characters)
+    public int lengthOfLongestSubstringKDistinct(String s, int k) {
+        Map<Character, Integer> map = new HashMap<>();
+        int left = 0;
+        int right = 0;
+        int kinds = 0;
+        int res = 0;
+        while (right < s.length()) {
+            map.put(s.charAt(right), map.getOrDefault(s.charAt(right), 0) + 1);
+            if (map.get(s.charAt(right)) == 1) {
+                ++kinds;
+            }
+            while (kinds > k) {
+                map.put(s.charAt(left), map.get(s.charAt(left)) - 1);
+                if (map.get(s.charAt(left)) == 0) {
+                    map.remove(s.charAt(left));
+                    --kinds;
+                }
+                ++left;
+            }
+            res = Math.max(res, right - left + 1);
+            ++right;
+        }
+        return res;
+
+    }
+
     // 156. 上下翻转二叉树 (Binary Tree Upside Down)
     // public TreeNode upsideDownBinaryTree(TreeNode root) {
 
