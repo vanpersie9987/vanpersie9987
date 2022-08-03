@@ -7670,6 +7670,28 @@ public class LeetCode_4 {
 
     }
 
+    // 163. 缺失的区间 (Missing Ranges)
+    public List<String> findMissingRanges(int[] nums, int lower, int upper) {
+        List<String> res = new ArrayList<>();
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] - lower == 1) {
+                res.add(String.valueOf(lower));
+            } else if (nums[i] - lower > 1) {
+                res.add(lower + "->" + (nums[i] - 1));
+            }
+            lower = nums[i] + 1;
+            ++i;
+        }
+        if (upper == lower) {
+            res.add(String.valueOf(upper));
+        } else if (upper > lower) {
+            res.add(lower + "->" + upper);
+        }
+        return res;
+
+    }
+
     // 156. 上下翻转二叉树 (Binary Tree Upside Down)
     // public TreeNode upsideDownBinaryTree(TreeNode root) {
 
