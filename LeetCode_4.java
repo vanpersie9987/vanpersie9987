@@ -7739,6 +7739,38 @@ public class LeetCode_4 {
 
     }
 
+    // 1933. 判断字符串是否可分解为值均等的子串 (Check if String Is Decomposable Into Value-Equal
+    // Substrings)
+    public boolean isDecomposable(String s) {
+        int index = 1;
+        int count = 1;
+        boolean flag = false;
+        while (index < s.length()) {
+            if (s.charAt(index) == s.charAt(index - 1)) {
+                ++count;
+            } else {
+                if (count % 3 == 1) {
+                    return false;
+                }
+                if (count % 3 == 2) {
+                    if (flag) {
+                        return false;
+                    }
+                    flag = true;
+                }
+                count = 1;
+            }
+            ++index;
+        }
+        if (count % 3 == 1) {
+            return false;
+        }
+        if (count % 3 == 0) {
+            return flag;
+        }
+        return !flag;
+    }
+
     // 2282. Number of People That Can Be Seen in a Grid
     // public int[][] seePeople(int[][] heights) {
 
