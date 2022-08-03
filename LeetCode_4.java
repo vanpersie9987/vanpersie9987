@@ -7707,7 +7707,6 @@ public class LeetCode_4 {
             while (kinds > k) {
                 map.put(s.charAt(left), map.get(s.charAt(left)) - 1);
                 if (map.get(s.charAt(left)) == 0) {
-                    map.remove(s.charAt(left));
                     --kinds;
                 }
                 ++left;
