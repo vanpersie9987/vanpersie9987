@@ -2490,6 +2490,37 @@ public class Leetcode_3 {
         }
     }
 
+    // 245. 最短单词距离 III (Shortest Word Distance III)
+    public int shortestWordDistance(String[] wordsDict, String word1, String word2) {
+        int res = Integer.MAX_VALUE;
+        if (word1.equals(word2)) {
+            int pre = -1;
+            for (int i = 0; i < wordsDict.length; ++i) {
+                if (word1.equals(wordsDict[i])) {
+                    if (pre != -1) {
+                        res = Math.min(res, i - pre);
+                    }
+                    pre = i;
+                }
+            }
+        } else {
+            int index1 = -1;
+            int index2 = -1;
+            for (int i = 0; i < wordsDict.length; ++i) {
+                if (word1.equals(wordsDict[i])) {
+                    index1 = i;
+                } else if (word2.equals(wordsDict[i])) {
+                    index2 = i;
+                }
+                if (index1 != -1 && index2 != -1) {
+                    res = Math.min(res, Math.abs(index1 - index2));
+                }
+            }
+        }
+        return res;
+
+    }
+
     // 2128. Remove All Ones With Row and Column Flips --plus
     // 思路：看每一行是否可以转换成第一行即可
     public boolean removeOnes(int[][] grid) {
