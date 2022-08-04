@@ -7652,23 +7652,6 @@ public class LeetCode_2 {
       return res;
    }
 
-   // 1403. 非递增顺序的最小子序列 (Minimum Subsequence in Non-Increasing Order)
-   public List<Integer> minSubsequence(int[] nums) {
-      List<Integer> res = new ArrayList<>();
-      int sum = Arrays.stream(nums).sum();
-      Arrays.sort(nums);
-      int curSum = 0;
-      for (int i = nums.length - 1; i >= 0; --i) {
-         curSum += nums[i];
-         res.add(nums[i]);
-         if (curSum > sum - curSum) {
-            return res;
-         }
-      }
-      return res;
-
-   }
-
    // 1029. 两地调度 (Two City Scheduling)
    public int twoCitySchedCost(int[][] costs) {
       Arrays.sort(costs, new Comparator<int[]>() {

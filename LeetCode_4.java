@@ -7797,6 +7797,30 @@ public class LeetCode_4 {
 
     }
 
+    // 1403. 非递增顺序的最小子序列 (Minimum Subsequence in Non-Increasing Order)
+    public List<Integer> minSubsequence(int[] nums) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        Arrays.sort(nums);
+        int curSum = 0;
+        List<Integer> res = new ArrayList<>();
+        for (int i = nums.length - 1; i >= 0; --i) {
+            curSum += nums[i];
+            res.add(nums[i]);
+            if (curSum > sum - curSum) {
+                return res;
+            }
+        }
+        return res;
+    }
+
+    // 2360. 图中的最长环 (Longest Cycle in a Graph)
+    // public int longestCycle(int[] edges) {
+
+    // }
+
     // 2282. Number of People That Can Be Seen in a Grid
     // public int[][] seePeople(int[][] heights) {
 
