@@ -2458,6 +2458,38 @@ public class Leetcode_3 {
 
     }
 
+    // 244. 最短单词距离 II (Shortest Word Distance II)
+    class WordDistance {
+        private Map<String, List<Integer>> map;
+
+        public WordDistance(String[] wordsDict) {
+            map = new HashMap<>();
+            for (int i = 0; i < wordsDict.length; ++i) {
+                map.computeIfAbsent(wordsDict[i], k -> new ArrayList<>()).add(i);
+            }
+
+        }
+
+        public int shortest(String word1, String word2) {
+            List<Integer> list1 = map.get(word1);
+            List<Integer> list2 = map.get(word2);
+            int i = 0;
+            int j = 0;
+            int res = Integer.MAX_VALUE;
+            while (i < list1.size() && j < list2.size()) {
+                int index1 = list1.get(i);
+                int index2 = list2.get(j);
+                res = Math.min(res, Math.abs(index1 - index2));
+                if (index1 < index2) {
+                    ++i;
+                } else {
+                    ++j;
+                }
+            }
+            return res;
+        }
+    }
+
     // 2128. Remove All Ones With Row and Column Flips --plus
     // 思路：看每一行是否可以转换成第一行即可
     public boolean removeOnes(int[][] grid) {
