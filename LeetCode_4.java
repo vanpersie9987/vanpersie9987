@@ -7901,9 +7901,49 @@ public class LeetCode_4 {
     }
 
     // 2282. Number of People That Can Be Seen in a Grid
-    // public int[][] seePeople(int[][] heights) {
+    public int[][] seePeople(int[][] heights) {
+        int m = heights.length;
+        int n = heights[0].length;
+        int[][] res = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            int[] counts = getPeople2282(heights[i]);
+            for (int j = 0; j < n; ++j) {
+                res[i][j] += counts[j];
+            }
+        }
+        for (int j = 0; j < n; ++j) {
+            int[] height = new int[m];
+            for (int i = 0; i < m; ++i) {
+                height[i] = heights[i][j];
+            }
+            int[] counts = getPeople2282(height);
+            for (int i = 0; i < m; ++i) {
+                res[i][j] += counts[i];
+            }
+        }
+        return res;
 
-    // }
+    }
+
+    private int[] getPeople2282(int[] height) {
+        int n = height.length;
+        int[] res = new int[n];
+        Stack<Integer> stack = new Stack<>();
+        for (int i = n - 1; i >= 0; --i) {
+            while (!stack.isEmpty() && height[i] > height[stack.peek()]) {
+                ++res[i];
+                stack.pop();
+            }
+            if (!stack.isEmpty()) {
+                ++res[i];
+            }
+            while (!stack.isEmpty() && height[i] == height[stack.peek()]) {
+                stack.pop();
+            }
+            stack.push(i);
+        }
+        return res;
+    }
 
     // 156. 上下翻转二叉树 (Binary Tree Upside Down)
     // public TreeNode upsideDownBinaryTree(TreeNode root) {
