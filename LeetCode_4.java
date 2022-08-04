@@ -7817,9 +7817,69 @@ public class LeetCode_4 {
     }
 
     // 2360. 图中的最长环 (Longest Cycle in a Graph)
-    // public int longestCycle(int[] edges) {
+    public int longestCycle(int[] edges) {
+        int n = edges.length;
+        int[] degrees = new int[n];
+        for (int edge : edges) {
+            if (edge != -1) {
+                ++degrees[edge];
+            }
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            if (degrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            int neighbor = edges[node];
+            if (neighbor != -1) {
+                --degrees[neighbor];
+                if (degrees[neighbor] == 0) {
+                    queue.offer(neighbor);
+                }
+            }
+        }
+        int res = -1;
+        for (int i = 0; i < n; ++i) {
+            if (degrees[i] != 0) {
+                int cur = 0;
+                int node = i;
+                while (degrees[node] != 0) {
+                    degrees[node] = 0;
+                    ++cur;
+                    node = edges[node];
+                }
+                res = Math.max(res, cur);
+            }
+        }
+        return res;
 
-    // }
+    }
+
+    // 2360. 图中的最长环 (Longest Cycle in a Graph) --时间戳
+    public int longestCycle2(int[] edges) {
+        int res = -1;
+        int n = edges.length;
+        int[] time = new int[n];
+        int clock = 1;
+        for (int i = 0; i < n; ++i) {
+            if (time[i] > 0) {
+                continue;
+            }
+            for (int x = i, start_time = clock; x >= 0; x = edges[x]) {
+                if (time[x] > 0) {
+                    if (time[x] >= start_time) {
+                        res = Math.max(res, clock - time[x]);
+                    }
+                    break;
+                }
+                time[x] = clock++;
+            }
+        }
+        return res;
+    }
 
     // 2282. Number of People That Can Be Seen in a Grid
     // public int[][] seePeople(int[][] heights) {
