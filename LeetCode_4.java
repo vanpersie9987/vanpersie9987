@@ -7881,13 +7881,27 @@ public class LeetCode_4 {
         return res;
     }
 
+    // 1944. 队列中可以看到的人数 (Number of Visible People in a Queue) --单调栈
+    public int[] canSeePersonsCount(int[] heights) {
+        int n = heights.length;
+        Stack<Integer> stack = new Stack<>();
+        int[] res = new int[n];
+        for (int i = n - 1; i >= 0; --i) {
+            while (!stack.isEmpty()) {
+                ++res[i];
+                if (heights[i] < heights[stack.peek()]) {
+                    break;
+                }
+                stack.pop();
+            }
+            stack.push(i);
+        }
+        return res;
+
+    }
+
     // 2282. Number of People That Can Be Seen in a Grid
     // public int[][] seePeople(int[][] heights) {
-
-    // }
-
-    // 1944. 队列中可以看到的人数 (Number of Visible People in a Queue)
-    // public int[] canSeePersonsCount(int[] heights) {
 
     // }
 
