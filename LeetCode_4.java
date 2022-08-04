@@ -7945,6 +7945,33 @@ public class LeetCode_4 {
         return res;
     }
 
+    // 259. 较小的三数之和 (3Sum Smaller)
+    public int threeSumSmaller(int[] nums, int target) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int res = 0;
+        for (int i = 0; i < n - 2; ++i) {
+            res += getCounts259(nums, i + 1, target - nums[i]);
+        }
+        return res;
+
+    }
+
+    private int getCounts259(int[] nums, int i, int target) {
+        int left = i;
+        int right = nums.length - 1;
+        int count = 0;
+        while (left < right) {
+            if (nums[left] + nums[right] < target) {
+                count += right - left;
+                ++left;
+            } else {
+                --right;
+            }
+        }
+        return count;
+    }
+
     // 156. 上下翻转二叉树 (Binary Tree Upside Down)
     // public TreeNode upsideDownBinaryTree(TreeNode root) {
 
