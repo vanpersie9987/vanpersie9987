@@ -6051,49 +6051,6 @@ public class LeetCodeText {
 
     }
 
-    public int myAtoi(final String str) {
-        int index = 0;
-        while (index < str.length()) {
-            if (str.charAt(index) != ' ') {
-                break;
-            }
-            ++index;
-        }
-        if (index == str.length()) {
-            return 0;
-        }
-
-        int sign = 1;
-        final char firstChar = str.charAt(index);
-        if (firstChar == '+') {
-            ++index;
-            sign = 1;
-        } else if (firstChar == '-') {
-            ++index;
-            sign = -1;
-        }
-        int res = 0;
-        while (index < str.length()) {
-            final char currentChar = str.charAt(index);
-            if (currentChar > '9' || currentChar < '0') {
-                break;
-            }
-            if (res > Integer.MAX_VALUE / 10
-                    || ((res == Integer.MAX_VALUE / 10 && ((currentChar - '0') > Integer.MAX_VALUE % 10)))) {
-                return Integer.MAX_VALUE;
-            }
-            if (res < Integer.MIN_VALUE / 10
-                    || ((res == Integer.MIN_VALUE / 10) && ((currentChar - '0') > -(Integer.MIN_VALUE % 10)))) {
-                return Integer.MIN_VALUE;
-            }
-            res = res * 10 + sign * (currentChar - '0');
-            ++index;
-
-        }
-        return res;
-
-    }
-
     public String intToRoman2(int num) {
         final StringBuilder builder = new StringBuilder();
         // 处理千位
@@ -6220,45 +6177,6 @@ public class LeetCodeText {
         }
         return builder.toString();
 
-    }
-
-    public int myAtoi2(final String str) {
-        int index = 0;
-        while (index < str.length()) {
-            if (str.charAt(index) != ' ') {
-                break;
-            }
-            ++index;
-        }
-        if (index == str.length()) {
-            return 0;
-        }
-        int sign = 1;
-        if (str.charAt(index) == '+') {
-            ++index;
-            sign = 1;
-        } else if (str.charAt(index) == '-') {
-            ++index;
-            sign = -1;
-        }
-        int res = 0;
-        while (index < str.length()) {
-            final char currentChar = str.charAt(index);
-            if (currentChar < '0' || currentChar > '9') {
-                break;
-            }
-            if (res > Integer.MAX_VALUE / 10
-                    || ((res == Integer.MAX_VALUE / 10 && ((currentChar - '0') > Integer.MAX_VALUE % 10)))) {
-                return Integer.MAX_VALUE;
-            }
-            if (res < Integer.MIN_VALUE / 10
-                    || (res == Integer.MIN_VALUE / 10 && ((currentChar - '0') > -(Integer.MIN_VALUE % 10)))) {
-                return Integer.MIN_VALUE;
-            }
-            res = res * 10 + sign * (currentChar - '0');
-            ++index;
-        }
-        return res;
     }
 
     public String intToRoman3(int num) {

@@ -7972,6 +7972,50 @@ public class LeetCode_4 {
         return count;
     }
 
+    // 671. 二叉树中第二小的节点 (Second Minimum Node In a Binary Tree)
+    private int res671;
+    private int min671;
+
+    public int findSecondMinimumValue(TreeNode root) {
+        res671 = -1;
+        min671 = root.val;
+        dfs671(root);
+        return res671;
+
+    }
+
+    private void dfs671(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        if (res671 != -1 && node.val >= res671) {
+            return;
+        }
+        if (node.val > min671) {
+            res671 = node.val;
+        }
+        dfs671(node.left);
+        dfs671(node.right);
+    }
+
+    // 8. 字符串转换整数 (atoi) (String to Integer (atoi))
+    // 剑指 Offer 67. 把字符串转换成整数
+    // public int myAtoi(String str) {
+
+    // }
+
+    // 剑指 Offer II 058. 日程表
+    // class MyCalendar {
+
+    // public MyCalendar() {
+
+    // }
+
+    // public boolean book(int start, int end) {
+
+    // }
+    // }
+
     // 156. 上下翻转二叉树 (Binary Tree Upside Down)
     // public TreeNode upsideDownBinaryTree(TreeNode root) {
 
