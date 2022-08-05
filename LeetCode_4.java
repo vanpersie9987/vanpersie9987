@@ -8000,9 +8000,37 @@ public class LeetCode_4 {
 
     // 8. 字符串转换整数 (atoi) (String to Integer (atoi))
     // 剑指 Offer 67. 把字符串转换成整数
-    // public int myAtoi(String str) {
-
-    // }
+    public int myAtoi(String str) {
+        int res = 0;
+        int i = 0;
+        while (i < str.length() && str.charAt(i) == ' ') {
+            ++i;
+        }
+        if (i == str.length()) {
+            return res;
+        }
+        int sign = 1;
+        if (str.charAt(i) == '-') {
+            sign = -1;
+            ++i;
+        } else if (str.charAt(i) == '+') {
+            sign = 1;
+            ++i;
+        }
+        while (i < str.length() && Character.isDigit(str.charAt(i))) {
+            if (res > Integer.MAX_VALUE / 10
+                    || (res == Integer.MAX_VALUE / 10 && (str.charAt(i) - '0') > (Integer.MAX_VALUE % 10))) {
+                if (sign == 1) {
+                    return Integer.MAX_VALUE;
+                } else {
+                    return Integer.MIN_VALUE;
+                }
+            }
+            res = res * 10 + str.charAt(i) - '0';
+            ++i;
+        }
+        return res * sign;
+    }
 
     // 剑指 Offer II 058. 日程表
     // class MyCalendar {
