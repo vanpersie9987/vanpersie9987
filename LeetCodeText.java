@@ -400,7 +400,8 @@ public class LeetCodeText {
 
     }
 
-    // 42. 接雨水
+    // 42. 接雨水 (Trapping Rain Water)
+    // 面试题 17.21. 直方图的水量
     public int trap(final int[] height) {
         int res = 0;
         int[] leftMax = new int[height.length];
@@ -421,7 +422,8 @@ public class LeetCodeText {
 
     }
 
-    // 42. 接雨水
+    // 42. 接雨水 (Trapping Rain Water)
+    // 面试题 17.21. 直方图的水量
     public int trap2(final int[] height) {
         Stack<Integer> stack = new Stack<>();
         int res = 0;

@@ -8032,10 +8032,33 @@ public class LeetCode_4 {
         return res * sign;
     }
 
-    // 156. 上下翻转二叉树 (Binary Tree Upside Down)
-    // public TreeNode upsideDownBinaryTree(TreeNode root) {
+    // 面试题 17.21. 直方图的水量 (Volume of Histogram LCCI)
+    public int trap(int[] height) {
+        int res = 0;
 
-    // }
+        int n = height.length;
+        if (n == 0) {
+            return res;
+        }
+        int[] left = new int[n];
+        left[0] = height[0];
+        for (int i = 1; i < n; ++i) {
+            left[i] = Math.max(left[i - 1], height[i]);
+        }
+        int[] right = new int[n];
+        right[n - 1] = height[n - 1];
+        for (int i = n - 2; i >= 0; --i) {
+            right[i] = Math.max(right[i + 1], height[i]);
+        }
+        for (int i = 1; i < n - 1; ++i) {
+            int minHeight = Math.min(right[i], left[i]);
+            if (minHeight - height[i] > 0) {
+                res += minHeight - height[i];
+            }
+        }
+        return res;
+
+    }
 
     // 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
     // public int minInsertions(String s) {
