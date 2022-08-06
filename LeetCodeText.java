@@ -2266,7 +2266,8 @@ public class LeetCodeText {
 
     }
 
-    // 729. 我的日程安排表 I
+    // 729. 我的日程安排表 I (My Calendar I) --还需掌握线段树
+    // 剑指 Offer II 058. 日程表
     class MyCalendar {
         List<int[]> list;
 
@@ -2276,7 +2277,7 @@ public class LeetCodeText {
 
         public boolean book(int start, int end) {
             for (int[] cur : list) {
-                if (end > cur[0] && start < cur[1]) {
+                if (!(end <= cur[0] || start >= cur[1])) {
                     return false;
                 }
             }
