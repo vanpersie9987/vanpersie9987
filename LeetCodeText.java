@@ -11773,24 +11773,24 @@ public class LeetCodeText {
         return true;
     }
 
-    // 636. 函数的独占时间
+    // 636. 函数的独占时间 (Exclusive Time of Functions)
     public int[] exclusiveTime(int n, List<String> logs) {
-        Stack<Integer> stack = new Stack<>();
         int[] res = new int[n];
-        String[] log0 = logs.get(0).split(":");
-        int prev = Integer.parseInt(log0[2]);
-        stack.push(Integer.parseInt(log0[0]));
-        for (int i = 1; i < logs.size(); ++i) {
-            String[] log = logs.get(i).split(":");
-            if (log[1].equals("start")) {
+        Stack<Integer> stack = new Stack<>();
+        int pre = -1;
+        for (String log : logs) {
+            int id = Integer.parseInt(log.substring(0, log.indexOf(":")));
+            int startOrEndTime = Integer.parseInt(log.substring(log.lastIndexOf(":") + 1));
+            if (log.contains("start")) {
                 if (!stack.isEmpty()) {
-                    res[stack.peek()] += Integer.parseInt(log[2]) - prev;
+                    res[stack.peek()] += startOrEndTime - pre;
                 }
-                prev = Integer.parseInt(log[2]);
-                stack.push(Integer.parseInt(log[0]));
+                stack.push(id);
+                pre = startOrEndTime;
             } else {
-                res[stack.pop()] += Integer.parseInt(log[2]) - prev + 1;
-                prev = Integer.parseInt(log[2]) + 1;
+                int pop = stack.pop();
+                res[pop] += startOrEndTime - pre + 1;
+                pre = startOrEndTime + 1;
             }
         }
         return res;
