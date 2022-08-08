@@ -8297,7 +8297,7 @@ public class LeetCode_4 {
         return four;
     }
 
-    // 2370. 最长理想子序列 (Longest Ideal Subsequence)
+    // 2370. 最长理想子序列 (Longest Ideal Subsequence) (参考第300题)
     public int longestIdealString(String s, int k) {
         int[] dp = new int[26];
         for (char c : s.toCharArray()) {
@@ -8313,6 +8313,11 @@ public class LeetCode_4 {
         return Arrays.stream(dp).max().getAsInt();
 
     }
+
+    // 761. 特殊的二进制序列 (Special Binary String)
+    // public String makeLargestSpecial(String s) {
+
+    // }
 
     // 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
     // public int minInsertions(String s) {
