@@ -8297,34 +8297,22 @@ public class LeetCode_4 {
         return four;
     }
 
-    // public int longestIdealString(String s, int k) {
-    // int n = s.length();
-    // int[][] dp = new int[n][2];
-    // // 0 不取
-    // // 1 取
-    // dp[0][0] = 0;
-    // dp[0][1] = 1;
-    // for (int i = 1; i < n; ++i) {
-    // // 取
-    // int max = 0;
-    // for (int j = i - 1; j >= 0; --j) {
-    // if (Math.abs(s.charAt(j) - s.charAt(i)) <= k) {
-    // max = Math.max(dp[j][1], max);
-    // break;
-    // } else {
-    // for (int m = j - 1; m >= 0; --m) {
-    // if (Math.abs(s.charAt(m) - s.charAt(i)) <= k) {
-    // max = Math.max(dp[m][1], max);
-    // break;
-    // }
-    // }
-    // }
-    // }
-    // dp[i][1] = max + 1;
-    // dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1]);
-    // }
-    // return Math.max(dp[n - 1][1], dp[n - 1][0]);
-    // }
+    // 2370. 最长理想子序列 (Longest Ideal Subsequence)
+    public int longestIdealString(String s, int k) {
+        int[] dp = new int[26];
+        for (char c : s.toCharArray()) {
+            int x = c - 'a';
+            int cur = 0;
+            for (int i = 0; i < 26; ++i) {
+                if (Math.abs(x - i) <= k) {
+                    cur = Math.max(cur, dp[i] + 1);
+                }
+            }
+            dp[x] = Math.max(dp[x], cur);
+        }
+        return Arrays.stream(dp).max().getAsInt();
+
+    }
 
     // 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
     // public int minInsertions(String s) {
