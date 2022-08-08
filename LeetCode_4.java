@@ -8032,33 +8032,299 @@ public class LeetCode_4 {
         return res * sign;
     }
 
-    // 面试题 17.21. 直方图的水量 (Volume of Histogram LCCI)
-    public int trap(int[] height) {
-        int res = 0;
+    // 2363. 合并相似的物品 (Merge Similar Items)
+    public List<List<Integer>> mergeSimilarItems(int[][] items1, int[][] items2) {
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        for (int[] item : items1) {
+            map.put(item[0], map.getOrDefault(item[0], 0) + item[1]);
+        }
+        for (int[] item : items2) {
+            map.put(item[0], map.getOrDefault(item[0], 0) + item[1]);
+        }
+        List<List<Integer>> res = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            res.add(List.of(entry.getKey(), entry.getValue()));
+        }
+        return res;
 
-        int n = height.length;
-        if (n == 0) {
-            return res;
+    }
+
+    // 2364. 统计坏数对的数目 (Count Number of Bad Pairs)
+    public long countBadPairs(int[] nums) {
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            nums[i] -= i;
         }
-        int[] left = new int[n];
-        left[0] = height[0];
-        for (int i = 1; i < n; ++i) {
-            left[i] = Math.max(left[i - 1], height[i]);
+        long res = (long) (n) * (n - 1) / 2;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
         }
-        int[] right = new int[n];
-        right[n - 1] = height[n - 1];
+        for (int val : map.values()) {
+            res -= (long) val * (val - 1) / 2;
+        }
+        return res;
+
+    }
+
+    // 6174. 任务调度器 II (Task Scheduler II)
+    public long taskSchedulerII(int[] tasks, int space) {
+        long res = 0l;
+        Map<Integer, Long> map = new HashMap<>();
+        for (int task : tasks) {
+            if (map.containsKey(task) && res - map.get(task) < space) {
+                res += space - (res - map.get(task));
+            }
+            map.put(task, ++res);
+        }
+        return res;
+
+    }
+
+    // 6144. 将数组排序的最少替换次数 (Minimum Replacements to Sort the Array)
+    public long minimumReplacement(int[] nums) {
+        int n = nums.length;
+        int last = nums[n - 1];
+        long res = 0;
         for (int i = n - 2; i >= 0; --i) {
-            right[i] = Math.max(right[i + 1], height[i]);
+            int k = (nums[i] - 1) / last;
+            res += k;
+            last = nums[i] / (k + 1);
         }
-        for (int i = 1; i < n - 1; ++i) {
-            int minHeight = Math.min(right[i], left[i]);
-            if (minHeight - height[i] > 0) {
-                res += minHeight - height[i];
+        return res;
+
+    }
+
+    // 6136. 算术三元组的数目 (Number of Arithmetic Triplets) --暴力 O(n^3)
+    public int arithmeticTriplets(int[] nums, int diff) {
+        int n = nums.length;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                for (int k = j + 1; k < n; ++k) {
+                    if (nums[j] - nums[i] == diff && nums[k] - nums[j] == diff) {
+                        ++res;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    // 6136. 算术三元组的数目 (Number of Arithmetic Triplets) --哈希表 O(n) 空间：O(n)
+    public int arithmeticTriplets2(int[] nums, int diff) {
+        Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toSet());
+        int res = 0;
+        for (int num : nums) {
+            if (set.contains(num - diff) && set.contains(num + diff)) {
+                ++res;
+            }
+        }
+        return res;
+    }
+
+    // 6136. 算术三元组的数目 (Number of Arithmetic Triplets) --三指针 O(n) 空间：O(1)
+    public int arithmeticTriplets3(int[] nums, int diff) {
+        int n = nums.length;
+        int res = 0;
+        int i = 0;
+        int j = 1;
+        for (int k = 2; k < n; ++k) {
+            while (nums[j] + diff < nums[k]) {
+                ++j;
+            }
+            if (nums[j] + diff > nums[k]) {
+                continue;
+            }
+            while (nums[i] + 2 * diff < nums[k]) {
+                ++i;
+            }
+            if (nums[i] + 2 * diff == nums[k]) {
+                ++res;
             }
         }
         return res;
 
     }
+
+    // 6139. 受限条件下可到达节点的数目 (Reachable Nodes With Restrictions) --bfs
+    public int reachableNodes(int n, int[][] edges, int[] restricted) {
+        Set<Integer> set = Arrays.stream(restricted).boxed().collect(Collectors.toSet());
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int[] edge : edges) {
+            map.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            map.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+        }
+        int res = 0;
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(0);
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            set.add(cur);
+            ++res;
+            for (int neighbor : map.getOrDefault(cur, new ArrayList<>())) {
+                if (set.add(neighbor)) {
+                    queue.offer(neighbor);
+                }
+            }
+        }
+        return res;
+    }
+
+    // 6139. 受限条件下可到达节点的数目 (Reachable Nodes With Restrictions) --并查集
+    public int reachableNodes2(int n, int[][] edges, int[] restricted) {
+        Set<Integer> set = Arrays.stream(restricted).boxed().collect(Collectors.toSet());
+        Union6139 union = new Union6139(n);
+        for (int[] edge : edges) {
+            if (!set.contains(edge[0]) && !set.contains(edge[1])) {
+                union.union(edge[0], edge[1]);
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            if (union.isConnected(i, 0)) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    public class Union6139 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union6139(int n) {
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+
+    }
+
+    // 6137. 检查数组是否存在有效划分 (Check if There is a Valid Partition For The Array)
+    public boolean validPartition(int[] nums) {
+        int n = nums.length;
+        boolean[] dp = new boolean[n];
+        if (nums[1] == nums[0]) {
+            dp[1] = true;
+        }
+        for (int i = 2; i < n; ++i) {
+            if (nums[i] == nums[i - 1] && dp[i - 2]) {
+                dp[i] = true;
+            } else if (nums[i] == nums[i - 1] && nums[i - 1] == nums[i - 2]) {
+                if (i == 2 || dp[i - 3]) {
+                    dp[i] = true;
+                }
+            } else if (nums[i] - nums[i - 1] == 1 && nums[i - 1] - nums[i - 2] == 1) {
+                if (i == 2 || dp[i - 3]) {
+                    dp[i] = true;
+                }
+            }
+        }
+        return dp[n - 1];
+
+    }
+
+    // 6137. 检查数组是否存在有效划分 (Check if There is a Valid Partition For The Array)
+    public boolean validPartition2(int[] nums) {
+        int n = nums.length;
+        boolean one = false;
+        boolean two = false;
+        boolean three = false;
+        boolean four = false;
+        if (nums[0] == nums[1]) {
+            two = true;
+            if (n == 2) {
+                return two;
+            }
+        }
+        if (n >= 3) {
+            if (nums[1] == nums[2] && one) {
+                three = true;
+            } else if (nums[0] == nums[1] && nums[1] == nums[2]) {
+                three = true;
+            } else if (nums[2] - nums[1] == 1 && nums[1] - nums[0] == 1) {
+                three = true;
+            }
+            if (n == 3) {
+                return three;
+            }
+        }
+        for (int i = 3; i < n; ++i) {
+            four = false;
+            if (nums[i] == nums[i - 1] && two) {
+                four = true;
+            } else if (nums[i] == nums[i - 1] && nums[i - 1] == nums[i - 2] && one) {
+                four = true;
+            } else if (nums[i] - nums[i - 1] == 1 && nums[i - 1] - nums[i - 2] == 1 && one) {
+                four = true;
+            }
+            one = two;
+            two = three;
+            three = four;
+        }
+        return four;
+    }
+
+    // public int longestIdealString(String s, int k) {
+    // int n = s.length();
+    // int[][] dp = new int[n][2];
+    // // 0 不取
+    // // 1 取
+    // dp[0][0] = 0;
+    // dp[0][1] = 1;
+    // for (int i = 1; i < n; ++i) {
+    // // 取
+    // int max = 0;
+    // for (int j = i - 1; j >= 0; --j) {
+    // if (Math.abs(s.charAt(j) - s.charAt(i)) <= k) {
+    // max = Math.max(dp[j][1], max);
+    // break;
+    // } else {
+    // for (int m = j - 1; m >= 0; --m) {
+    // if (Math.abs(s.charAt(m) - s.charAt(i)) <= k) {
+    // max = Math.max(dp[m][1], max);
+    // break;
+    // }
+    // }
+    // }
+    // }
+    // dp[i][1] = max + 1;
+    // dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1]);
+    // }
+    // return Math.max(dp[n - 1][1], dp[n - 1][0]);
+    // }
 
     // 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
     // public int minInsertions(String s) {
