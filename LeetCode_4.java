@@ -8336,6 +8336,78 @@ public class LeetCode_4 {
 
     }
 
+    // 1576. 替换所有的问号 (Replace All ?'s to Avoid Consecutive Repeating Characters)
+    public String modifyString(String s) {
+        char[] chars = s.toCharArray();
+        int n = chars.length;
+        for (int i = 0; i < n; ++i) {
+            if (chars[i] == '?') {
+                chars[i] = 'a';
+                while ((i - 1 >= 0 && chars[i] == chars[i - 1]) || (i + 1 < n && chars[i] == chars[i + 1])) {
+                    ++chars[i];
+                }
+            }
+        }
+        return String.valueOf(chars);
+
+    }
+
+    // 1507. 转变日期格式 (Reformat Date)
+    public String reformatDate(String date) {
+        Map<String, String> map = new HashMap<>();
+        map.put("Jan", "01");
+        map.put("Feb", "02");
+        map.put("Mar", "03");
+        map.put("Apr", "04");
+        map.put("May", "05");
+        map.put("Jun", "06");
+        map.put("Jul", "07");
+        map.put("Aug", "08");
+        map.put("Sep", "09");
+        map.put("Oct", "10");
+        map.put("Nov", "11");
+        map.put("Dec", "12");
+        StringBuilder res = new StringBuilder();
+        int n = date.length();
+        // year
+        res.append(date.substring(n - 4, n)).append("-");
+
+        // month
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            if (date.contains(entry.getKey())) {
+                res.append(entry.getValue()).append("-");
+                break;
+            }
+        }
+
+        // day
+        for (int i = 31; i > 0; --i) {
+            if (date.substring(0, 4).contains(String.valueOf(i))) {
+                if (i < 10) {
+                    res.append(0);
+                }
+                res.append(i);
+                break;
+            }
+        }
+        return res.toString();
+
+    }
+
+    // 1507. 转变日期格式 (Reformat Date)
+    public String reformatDate2(String date) {
+        String[] months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+        Map<String, Integer> s2month = new HashMap<String, Integer>();
+        for (int i = 1; i <= 12; i++) {
+            s2month.put(months[i - 1], i);
+        }
+        String[] array = date.split(" ");
+        int year = Integer.parseInt(array[2]);
+        int month = s2month.get(array[1]);
+        int day = Integer.parseInt(array[0].substring(0, array[0].length() - 2));
+        return String.format("%d-%02d-%02d", year, month, day);
+    }
+
     // 761. 特殊的二进制序列 (Special Binary String)
     // public String makeLargestSpecial(String s) {
 
