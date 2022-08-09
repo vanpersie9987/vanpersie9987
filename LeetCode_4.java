@@ -8314,6 +8314,28 @@ public class LeetCode_4 {
 
     }
 
+    // 1422. 分割字符串的最大得分 (Maximum Score After Splitting a String)
+    public int maxScore(String s) {
+        int n = s.length();
+        int zero = 0;
+        for (char c : s.toCharArray()) {
+            if (c - '0' == 0) {
+                ++zero;
+            }
+        }
+        int res = 0;
+        int curZeroLeft = 0;
+        for (int i = 1; i < n; ++i) {
+            if (s.charAt(i - 1) == '0') {
+                ++curZeroLeft;
+            }
+            int curOneRight = (n - i) - (zero - curZeroLeft);
+            res = Math.max(res, curZeroLeft + curOneRight);
+        }
+        return res;
+
+    }
+
     // 761. 特殊的二进制序列 (Special Binary String)
     // public String makeLargestSpecial(String s) {
 

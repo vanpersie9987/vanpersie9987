@@ -5096,16 +5096,6 @@ public class LeetCodeText {
         return sum;
     }
 
-    // 1413. 逐步求和得到正数的最小值
-    public int minStartValue(int[] nums) {
-        for (int i = 1; i < nums.length; ++i) {
-            nums[i] += nums[i - 1];
-        }
-        int min = Arrays.stream(nums).min().getAsInt();
-        return min > 0 ? 1 : 1 - min;
-
-    }
-
     // 1431. 拥有最多糖果的孩子
     public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
         int max = Arrays.stream(candies).max().getAsInt();
