@@ -8408,6 +8408,57 @@ public class LeetCode_4 {
         return String.format("%d-%02d-%02d", year, month, day);
     }
 
+    // 436. 寻找右区间 (Find Right Interval)
+    public int[] findRightInterval(int[][] intervals) {
+        int n = intervals.length;
+        List<int[]> list = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            list.add(new int[] { intervals[i][0], i });
+        }
+        Collections.sort(list, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+
+        });
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            int right = intervals[i][1];
+            int index = binarySearch436(list, right);
+            if (index < 0) {
+                res[i] = -1;
+            } else {
+                res[i] = list.get(index)[1];
+            }
+        }
+        return res;
+
+    }
+
+    private int binarySearch436(List<int[]> list, int num) {
+        int res = -1;
+        int left = 0;
+        int right = list.size() - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (list.get(mid)[0] >= num) {
+                res = mid;
+                right = mid - 1;
+            } else if (list.get(mid)[0] < num) {
+                left = mid + 1;
+            }
+        }
+        return res;
+
+    }
+
+    // 面试题 17.15. 最长单词 (Longest Word LCCI)
+    // public String longestWord(String[] words) {
+
+    // }
+
     // 761. 特殊的二进制序列 (Special Binary String)
     // public String makeLargestSpecial(String s) {
 
