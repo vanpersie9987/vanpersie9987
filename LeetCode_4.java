@@ -8454,10 +8454,89 @@ public class LeetCode_4 {
 
     }
 
-    // 面试题 17.15. 最长单词 (Longest Word LCCI)
-    // public String longestWord(String[] words) {
+    // 面试题 17.15. 最长单词 (Longest Word LCCI) -- 回溯 + 字典树
+    public String longestWord_17_15(String[] words) {
+        Arrays.sort(words, new Comparator<String>() {
 
-    // }
+            @Override
+            public int compare(String o1, String o2) {
+                if (o1.length() == o2.length()) {
+                    return o1.compareTo(o2);
+                }
+                return o2.length() - o1.length();
+            }
+
+        });
+
+        Trie17_15 trie = new Trie17_15();
+
+        for (String word : words) {
+            trie.add(word);
+        }
+
+        for (String word : words) {
+            if (dfs17_15(word.toCharArray(), 0, 0, trie) > 1) {
+                return word;
+            }
+        }
+        return "";
+
+    }
+
+    private int dfs17_15(char[] chars, int start, int size, Trie17_15 trie) {
+        if (start == chars.length) {
+            return size;
+        }
+        Trie17_15 node = trie;
+        for (int i = start; i < chars.length; ++i) {
+            int index = chars[i] - 'a';
+            if (node.children[index] == null) {
+                return 0;
+            }
+            node = node.children[index];
+            if (node.isEnd) {
+                int res = dfs17_15(chars, i + 1, size + 1, trie);
+                if (res > 0) {
+                    return res;
+                }
+            }
+        }
+        return 0;
+    }
+
+    public class Trie17_15 {
+        public Trie17_15[] children;
+        public boolean isEnd;
+
+        public Trie17_15() {
+            children = new Trie17_15[26];
+            isEnd = false;
+        }
+
+        public void add(String s) {
+            Trie17_15 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie17_15();
+                }
+                node = node.children[index];
+            }
+            node.isEnd = true;
+        }
+
+        public boolean search(String s) {
+            Trie17_15 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    return false;
+                }
+                node = node.children[index];
+            }
+            return node.isEnd;
+        }
+    }
 
     // 761. 特殊的二进制序列 (Special Binary String)
     // public String makeLargestSpecial(String s) {
