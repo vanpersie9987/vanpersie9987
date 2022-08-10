@@ -8595,16 +8595,25 @@ public class LeetCode_4 {
         return head;
 
     }
-    
-    // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
-    // 剑指 Offer II 061. 和最小的 k 个数对
-    // public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
-
-    // }
 
     // 233. 数字 1 的个数 (Number of Digit One)
     // 剑指 Offer 43. 1～n 整数中 1 出现的次数
-    // public int countDigitOne(int n) {
+    public int countDigitOne(int n) {
+        // mulk 表示 10^k
+        // 在下面的代码中，可以发现 k 并没有被直接使用到（都是使用 10^k）
+        // 但为了让代码看起来更加直观，这里保留了 k
+        long mulk = 1;
+        int ans = 0;
+        while (n >= mulk) {
+            ans += (n / (mulk * 10)) * mulk + Math.min(Math.max(n % (mulk * 10) - mulk + 1, 0), mulk);
+            mulk *= 10;
+        }
+        return ans;
+    }
+
+    // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
+    // 剑指 Offer II 061. 和最小的 k 个数对
+    // public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
 
     // }
 
