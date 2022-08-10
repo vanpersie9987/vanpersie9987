@@ -8611,6 +8611,59 @@ public class LeetCode_4 {
         return ans;
     }
 
+    // 1492. n 的第 k 个因子 (The kth Factor of n)
+    public int kthFactor(int n, int k) {
+        int d = (int) Math.sqrt(n);
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
+        for (int i = 1; i <= d; ++i) {
+            if (n % i == 0) {
+                priorityQueue.offer(i);
+                if (n / i != i) {
+                    priorityQueue.offer(n / i);
+                }
+            }
+        }
+        if (priorityQueue.size() < k) {
+            return -1;
+        }
+        while (k-- > 0) {
+            int poll = priorityQueue.poll();
+            if (k == 0) {
+                return poll;
+            }
+        }
+        return -1;
+
+    }
+
+    // 1492. n 的第 k 个因子 (The kth Factor of n) --O(√n)
+    public int kthFactor2(int n, int k) {
+        int factor = 1;
+        while (factor * factor <= n) {
+            if (n % factor == 0) {
+                --k;
+                if (k == 0) {
+                    return factor;
+                }
+            }
+            ++factor;
+        }
+        --factor;
+        if (factor * factor == n) {
+            --factor;
+        }
+        while (factor > 0) {
+            if (n % factor == 0) {
+                --k;
+                if (k == 0) {
+                    return n / factor;
+                }
+            }
+            --factor;
+        }
+        return -1;
+    }
+
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
     // 剑指 Offer II 061. 和最小的 k 个数对
     // public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
