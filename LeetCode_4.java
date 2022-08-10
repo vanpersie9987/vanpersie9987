@@ -5057,6 +5057,7 @@ public class LeetCode_4 {
     class Node {
         public int val;
         public List<Node> children;
+        public Node next;
 
         public Node() {
         }
@@ -5068,6 +5069,11 @@ public class LeetCode_4 {
         public Node(int _val, List<Node> _children) {
             val = _val;
             children = _children;
+        }
+
+        public Node(int _val, Node _next) {
+            val = _val;
+            next = _next;
         }
     }
 
@@ -8565,15 +8571,34 @@ public class LeetCode_4 {
 
     }
 
+    // 剑指 Offer II 029. 排序的循环链表
+    // 708 --plus
+    public Node insert(Node head, int insertVal) {
+        if (head == null) {
+            head = new Node(insertVal);
+            head.next = head;
+            return head;
+        }
+        Node node = head;
+        while (node.next != head) {
+            if (node.val <= insertVal && insertVal <= node.next.val) {
+                break;
+            }
+            if (node.next.val < node.val && (insertVal < node.next.val || insertVal > node.val)) {
+                break;
+            }
+            node = node.next;
+        }
+        Node insertNode = new Node(insertVal);
+        insertNode.next = node.next;
+        node.next = insertNode;
+        return head;
+
+    }
+    
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
     // 剑指 Offer II 061. 和最小的 k 个数对
     // public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
-
-    // }
-
-    // 剑指 Offer II 029. 排序的循环链表
-    // 708 --plus
-    // public Node insert(Node head, int insertVal) {
 
     // }
 
