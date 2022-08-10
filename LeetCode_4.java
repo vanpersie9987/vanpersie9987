@@ -8538,6 +8538,24 @@ public class LeetCode_4 {
         }
     }
 
+    // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
+    // 剑指 Offer II 061. 和最小的 k 个数对
+    // public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+
+    // }
+
+    // 剑指 Offer II 029. 排序的循环链表
+    // 708 --plus
+    // public Node insert(Node head, int insertVal) {
+
+    // }
+
+    // 233. 数字 1 的个数 (Number of Digit One)
+    // 剑指 Offer 43. 1～n 整数中 1 出现的次数
+    // public int countDigitOne(int n) {
+
+    // }
+
     // 761. 特殊的二进制序列 (Special Binary String)
     // public String makeLargestSpecial(String s) {
 

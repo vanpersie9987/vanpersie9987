@@ -14858,65 +14858,54 @@ public class LeetCodeText {
 
     }
 
-    // 640. 求解方程
+    // 640. 求解方程 (Solve the Equation)
     public String solveEquation(String equation) {
         String[] strings = equation.split("=");
-        int[] res1 = getResult640(strings[0]);
-        int[] res2 = getResult640(strings[1]);
-        // a1 * x + b1 = a2 * x + b2;
-        int a1 = res1[0];
-        int b1 = res1[1];
-        int a2 = res2[0];
-        int b2 = res2[1];
-        int a = a1 - a2;
-        int b = b2 - b1;
-        if (a == 0) {
-            if (b == 0) {
+        int[] coefficient1 = getResult640(strings[0]);
+        int[] coefficient2 = getResult640(strings[1]);
+        if (coefficient1[0] == coefficient2[0]) {
+            if (coefficient1[1] == coefficient2[1]) {
                 return "Infinite solutions";
             } else {
                 return "No solution";
             }
         }
-        return "x=" + (b / a);
+        return "x=" + (coefficient2[1] - coefficient1[1]) / (coefficient1[0] - coefficient2[0]);
 
     }
 
     private int[] getResult640(String string) {
-        List<String> list = new ArrayList<>();
-        List<Character> sign = new ArrayList<>();
-        for (int i = 1; i < string.length(); ++i) {
-            if (string.charAt(i) == '+' || string.charAt(i) == '-') {
-                sign.add(string.charAt(i));
+        List<Integer> sign = new ArrayList<>();
+        for (char c : string.toCharArray()) {
+            if (c == '+') {
+                sign.add(1);
+            } else if (c == '-') {
+                sign.add(-1);
             }
         }
-        for (String sub : string.split("\\+")) {
-            for (String subsub : sub.split("\\-")) {
-                if (subsub.length() != 0) {
-                    list.add(subsub);
+        if (string.charAt(0) != '-') {
+            sign.add(0, 1);
+        }
+        int[] res = new int[2];
+        int index = 0;
+        for (String s1 : string.split("\\+")) {
+            for (String s2 : s1.split("\\-")) {
+                if (s2.isEmpty()) {
+                    continue;
                 }
+                if (s2.charAt(s2.length() - 1) == 'x') {
+                    if ("x".equals(s2)) {
+                        res[0] += sign.get(index);
+                    } else {
+                        res[0] += Integer.parseInt(s2.substring(0, s2.length() - 1)) * sign.get(index);
+                    }
+                } else {
+                    res[1] += Integer.parseInt(s2) * sign.get(index);
+                }
+                ++index;
             }
         }
-        // a * x + b
-        int a = 0;
-        int b = 0;
-        for (int i = 0; i < list.size(); ++i) {
-            String item = list.get(i);
-            int num = 0;
-            if (item.charAt(item.length() - 1) == 'x') {
-                num = item.equals("x") ? 1 : Integer.parseInt(item.substring(0, item.length() - 1));
-                if ((i == 0 && string.charAt(0) == '-') || (i > 0 && sign.get(i - 1) == '-')) {
-                    num = -num;
-                }
-                a += num;
-            } else {
-                num = Integer.parseInt(item);
-                if ((i == 0 && string.charAt(0) == '-') || (i > 0 && sign.get(i - 1) == '-')) {
-                    num = -num;
-                }
-                b += num;
-            }
-        }
-        return new int[] { a, b };
+        return res;
     }
 
     // 874. 模拟行走机器人
@@ -17714,18 +17703,6 @@ public class LeetCodeText {
             }
         }
         return num == sum;
-
-    }
-
-    // 233. 数字 1 的个数 (Number of Digit One)
-    public int countDigitOne(int n) {
-        int res = 0;
-        long mulk = 1;
-        while (n >= mulk) {
-            res += (n / (mulk * 10)) * mulk + Math.min(Math.max(n % (mulk * 10) - mulk + 1, 0), mulk);
-            mulk *= 10;
-        }
-        return res;
 
     }
 
