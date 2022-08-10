@@ -8538,6 +8538,33 @@ public class LeetCode_4 {
         }
     }
 
+    // 833. 字符串中的查找与替换 (Find And Replace in String)
+    public String findReplaceString(String s, int[] indices, String[] sources, String[] targets) {
+        int n = s.length();
+        int[] match = new int[n];
+        Arrays.fill(match, -1);
+        int k = indices.length;
+        for (int i = 0; i < k; ++i) {
+            int index = indices[i];
+            if (s.substring(index, Math.min(index + sources[i].length(), s.length())).equals(sources[i])) {
+                match[index] = i;
+            }
+        }
+        StringBuilder res = new StringBuilder();
+        int i = 0;
+        while (i < n) {
+            if (match[i] >= 0) {
+                res.append(targets[match[i]]);
+                i += sources[match[i]].length();
+            } else {
+                res.append(s.charAt(i));
+                ++i;
+            }
+        }
+        return res.toString();
+
+    }
+
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
     // 剑指 Offer II 061. 和最小的 k 个数对
     // public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
