@@ -8686,7 +8686,9 @@ public class LeetCode_4 {
     }
 
     // 1049. 最后一块石头的重量 II (Last Stone Weight II)
-    // -- 0-1背包（至多选择一次；外层循环：nums ； 内层循环：target；倒序遍历)、求最值
+    // -- 0-1背包（至多选择一次；外层循环：nums ； 内层循环：target；倒序遍历)
+    // --求最值dp[i]=max/min(dp[i], dp[i-nums] + 1)或dp[i]=max/min(dp[i], dp[i-num] +
+    // nums);
     public int lastStoneWeightII(int[] stones) {
         int sum = Arrays.stream(stones).sum();
         int target = sum / 2;
@@ -8702,8 +8704,10 @@ public class LeetCode_4 {
     }
 
     // 322. 零钱兑换 (Coin Change)
-    // -- 完全背包(可重复选择；外层循环：nums ； 内层循环：target；正序遍历)、求最值
     // 剑指 Offer II 103. 最少的硬币数目
+    // -- 完全背包(可重复选择；外层循环：nums ； 内层循环：target；正序遍历)
+    // --求最值dp[i]=max/min(dp[i], dp[i-nums] + 1)或dp[i]=max/min(dp[i], dp[i-num] +
+    // nums);
     public int coinChange(int[] coins, int amount) {
         int[] dp = new int[amount + 1];
         Arrays.fill(dp, amount + 1);
@@ -8750,6 +8754,27 @@ public class LeetCode_4 {
             }
         }
         return -1;
+
+    }
+
+    // 416. 分割等和子集 (Partition Equal Subset Sum)
+    // 剑指 Offer II 101. 分割等和子集
+    // -- 0-1背包（至多选择一次；外层循环：nums ； 内层循环：target；倒序遍历)
+    // 存在问题(boolean)：dp[i]=dp[i]||dp[i-num];
+    public boolean canPartition(int[] nums) {
+        int sum = Arrays.stream(nums).sum();
+        if (sum % 2 == 1) {
+            return false;
+        }
+        int target = sum / 2;
+        boolean[] dp = new boolean[target + 1];
+        dp[0] = true;
+        for (int num : nums) {
+            for (int i = target; i >= num; --i) {
+                dp[i] = dp[i] || dp[i - num];
+            }
+        }
+        return dp[target];
 
     }
 
