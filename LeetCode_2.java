@@ -3888,10 +3888,17 @@ public class LeetCode_2 {
          return "";
       }
       char[] res = new char[s.length()];
-      int i = digitCount >= alphabetCount ? 0 : 1;
-      int j = i == 0 ? 1 : 0;
+      int i = 0;
+      int j = 0;
+      if (alphabetCount >= digitCount) {
+         i = 0;
+         j = 1;
+      } else {
+         i = 1;
+         j = 0;
+      }
       for (char c : s.toCharArray()) {
-         if (Character.isDigit(c)) {
+         if (Character.isLetter(c)) {
             res[i] = c;
             i += 2;
          } else {
@@ -3901,6 +3908,37 @@ public class LeetCode_2 {
       }
       return String.valueOf(res);
 
+   }
+
+   // 1417. 重新格式化字符串 (Reformat The String)
+   public String reformat2(String s) {
+      List<Character> characters = new ArrayList<>();
+      List<Character> integers = new ArrayList<>();
+      StringBuilder res = new StringBuilder();
+      for (char c : s.toCharArray()) {
+         if (Character.isDigit(c)) {
+            integers.add(c);
+         } else {
+            characters.add(c);
+         }
+      }
+      if (Math.abs(characters.size() - integers.size()) > 1) {
+         return "";
+      }
+
+      int i = 0;
+      int j = 0;
+      while (i < characters.size() && j < integers.size()) {
+         res.append(characters.get(i++));
+         res.append(integers.get(j++));
+      }
+      if (i < characters.size()) {
+         res.append(characters.get(i));
+      }
+      if (j < integers.size()) {
+         res.insert(0, String.valueOf(integers.get(j)));
+      }
+      return res.toString();
    }
 
    // 796. 旋转字符串 (Rotate String) --还需掌握 Rabin-Karp 字符串哈希 ； KMP 算法
