@@ -8664,6 +8664,27 @@ public class LeetCode_4 {
         return -1;
     }
 
+    // 479. 最大回文数乘积 (Largest Palindrome Product)
+    public int largestPalindrome(int n) {
+        if (n == 1) {
+            return 9;
+        }
+        int upper = (int) (Math.pow(10, n) - 1);
+        for (int left = upper; left > 0; --left) {
+            long p = left;
+            for (int x = left; x > 0; x /= 10) {
+                p = p * 10 + x % 10;
+            }
+            for (long x = upper; x * x >= p; --x) {
+                if (p % x == 0 && String.valueOf(x).length() == n && String.valueOf(p / x).length() == n) {
+                    return (int) (p % 1337);
+                }
+            }
+        }
+        return -1;
+
+    }
+
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
     // 剑指 Offer II 061. 和最小的 k 个数对
     // public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
