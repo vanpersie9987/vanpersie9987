@@ -2551,26 +2551,6 @@ public class LeetCode_4 {
 
     }
 
-    // 494. 目标和 (Target Sum) --回溯
-    // 剑指 Offer II 102. 加减的目标值
-    private int res494;
-
-    public int findTargetSumWays(int[] nums, int target) {
-        backtrack494(nums, target, 0, 0);
-        return res494;
-    }
-
-    private void backtrack494(int[] nums, int target, int index, int sum) {
-        if (index == nums.length) {
-            if (sum == target) {
-                ++res494;
-            }
-            return;
-        }
-        backtrack494(nums, target, index + 1, sum + nums[index]);
-        backtrack494(nums, target, index + 1, sum - nums[index]);
-    }
-
     // 491. 递增子序列 (Increasing Subsequences) --枚举 + 位运算
     public List<List<Integer>> findSubsequences(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
@@ -8775,6 +8755,27 @@ public class LeetCode_4 {
             }
         }
         return dp[target];
+
+    }
+
+    // 494. 目标和 (Target Sum)
+    // 剑指 Offer II 102. 加减的目标值
+    // -- 0-1背包（至多选择一次；外层循环：nums ； 内层循环：target；倒序遍历)
+    // 组合问题 dp[i]+=dp[i-num];
+    public int findTargetSumWays(int[] nums, int target) {
+        int sum = Arrays.stream(nums).sum();
+        if ((sum + target) % 2 != 0 || sum < target || -sum > target) {
+            return 0;
+        }
+        int neg = (sum - target) / 2;
+        int[] dp = new int[neg + 1];
+        dp[0] = 1;
+        for (int num : nums) {
+            for (int i = neg; i >= num; --i) {
+                dp[i] += dp[i - num];
+            }
+        }
+        return dp[neg];
 
     }
 
