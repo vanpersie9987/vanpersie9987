@@ -8685,6 +8685,21 @@ public class LeetCode_4 {
 
     }
 
+    // 1049. 最后一块石头的重量 II (Last Stone Weight II) -- 0-1背包
+    public int lastStoneWeightII(int[] stones) {
+        int sum = Arrays.stream(stones).sum();
+        int target = sum / 2;
+        // dp[i] ：容量为i的背包可装下石头的最大重量
+        int[] dp = new int[target + 1];
+        for (int stone : stones) {
+            for (int i = target; i >= stone; --i) {
+                dp[i] = Math.max(dp[i], dp[i - stone] + stone);
+            }
+        }
+        return sum - 2 * dp[target];
+
+    }
+
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
     // 剑指 Offer II 061. 和最小的 k 个数对
     // public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
@@ -8703,11 +8718,6 @@ public class LeetCode_4 {
 
     // 526. 优美的排列 (Beautiful Arrangement)
     // public int countArrangement(int n) {
-
-    // }
-
-    // 1049. 最后一块石头的重量 II (Last Stone Weight II)
-    // public int lastStoneWeightII(int[] stones) {
 
     // }
 
