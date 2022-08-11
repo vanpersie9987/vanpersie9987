@@ -8685,7 +8685,8 @@ public class LeetCode_4 {
 
     }
 
-    // 1049. 最后一块石头的重量 II (Last Stone Weight II) -- 0-1背包
+    // 1049. 最后一块石头的重量 II (Last Stone Weight II)
+    // -- 0-1背包（至多选择一次；外层循环：nums ； 内层循环：target；倒序遍历)、求最值
     public int lastStoneWeightII(int[] stones) {
         int sum = Arrays.stream(stones).sum();
         int target = sum / 2;
@@ -8697,6 +8698,58 @@ public class LeetCode_4 {
             }
         }
         return sum - 2 * dp[target];
+
+    }
+
+    // 322. 零钱兑换 (Coin Change)
+    // -- 完全背包(可重复选择；外层循环：nums ； 内层循环：target；正序遍历)、求最值
+    // 剑指 Offer II 103. 最少的硬币数目
+    public int coinChange(int[] coins, int amount) {
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, amount + 1);
+        dp[0] = 0;
+        for (int coin : coins) {
+            for (int i = 0; i < amount + 1; ++i) {
+                if (i - coin >= 0) {
+                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+                }
+            }
+        }
+        return dp[amount] == amount + 1 ? -1 : dp[amount];
+
+    }
+
+    // 322. 零钱兑换 (Coin Change) --bfs
+    public int coinChange2(int[] coins, int amount) {
+        if (amount == 0) {
+            return 0;
+        }
+        Queue<int[]> queue = new LinkedList<>();
+        Set<Integer> visited = new HashSet<>();
+        for (int coin : coins) {
+            if (coin == amount) {
+                return 1;
+            }
+            if (coin < amount) {
+                queue.offer(new int[] { coin, 1 });
+                visited.add(coin);
+            }
+        }
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int sum = cur[0];
+            int count = cur[1];
+            if (sum == amount) {
+                return count;
+            }
+            for (int coin : coins) {
+                if (sum + coin <= amount && !visited.contains(sum + coin)) {
+                    visited.add(sum + coin);
+                    queue.offer(new int[] { sum + coin, count + 1 });
+                }
+            }
+        }
+        return -1;
 
     }
 
