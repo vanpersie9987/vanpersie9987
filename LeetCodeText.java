@@ -5536,31 +5536,27 @@ public class LeetCodeText {
 
     }
 
-    public List<List<Integer>> groupThePeople(final int[] groupSizes) {
-        final Map<Integer, List<Integer>> map = new HashMap<>();
-        for (int i = 0; i < groupSizes.length; ++i) {
-            if (map.get(groupSizes[i]) == null) {
-                final List<Integer> list = new ArrayList<>();
-                list.add(i);
-                map.put(groupSizes[i], list);
-            } else {
-                final List<Integer> list = map.get(groupSizes[i]);
-                list.add(i);
-                map.put(groupSizes[i], list);
+    // 1282. 用户分组 (Group the People Given the Group Size They Belong To)
+    public List<List<Integer>> groupThePeople(int[] groupSizes) {
+        int n = groupSizes.length;
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            map.computeIfAbsent(groupSizes[i], k -> new ArrayList<>()).add(i);
+        }
+        List<List<Integer>> res = new ArrayList<>();
+        for (Map.Entry<Integer, List<Integer>> entry : map.entrySet()) {
+            int count = 0;
+            List<Integer> list = new ArrayList<>();
+            for (int id : entry.getValue()) {
+                list.add(id);
+                if (++count == entry.getKey()) {
+                    count = 0;
+                    res.add(new ArrayList<>(list));
+                    list.clear();
+                }
             }
         }
-        final List<List<Integer>> results = new ArrayList<>();
-        for (final int size : map.keySet()) {
-            final List<Integer> list = map.get(size);
-            int i = 0;
-            while (i < list.size()) {
-                final List<Integer> result = list.subList(i, i + size);
-                results.add(result);
-                i += size;
-            }
-        }
-        return results;
-
+        return res;
     }
 
     // 1773. 统计匹配检索规则的物品数量
