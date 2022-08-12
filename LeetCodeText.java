@@ -1998,26 +1998,19 @@ public class LeetCodeText {
 
     }
 
-    // 665. 非递减数列
-    public boolean checkPossibility(final int[] nums) {
-        if (nums.length <= 2) {
-            return true;
-        }
-        int n = 1;
-        if (nums[0] > nums[1]) {
-            nums[0] = nums[1];
-            --n;
-        }
-        for (int i = 1; i < nums.length - 1; ++i) {
-            if (nums[i] > nums[i + 1]) {
-                --n;
-                if (n < 0) {
+    // 665. 非递减数列 (Non-decreasing Array)
+    public boolean checkPossibility(int[] nums) {
+        int n = nums.length;
+        int count = 0;
+        for (int i = 0; i < n - 1; ++i) {
+            int x = nums[i];
+            int y = nums[i + 1];
+            if (x > y) {
+                if (++count > 1) {
                     return false;
                 }
-                if (nums[i + 1] < nums[i - 1]) {
-                    nums[i + 1] = nums[i];
-                } else {
-                    nums[i] = nums[i + 1];
+                if (i > 0 && y < nums[i - 1]) {
+                    nums[i + 1] = x;
                 }
             }
         }
