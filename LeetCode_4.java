@@ -8764,7 +8764,7 @@ public class LeetCode_4 {
     // 组合问题 dp[i]+=dp[i-num];
     public int findTargetSumWays(int[] nums, int target) {
         int sum = Arrays.stream(nums).sum();
-        if ((sum + target) % 2 != 0 || sum < target || -sum > target) {
+        if ((sum - target) % 2 != 0 || sum < target || -sum > target) {
             return 0;
         }
         int neg = (sum - target) / 2;
