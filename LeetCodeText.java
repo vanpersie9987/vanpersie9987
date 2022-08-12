@@ -11260,7 +11260,8 @@ public class LeetCodeText {
 
     }
 
-    // 316. 去除重复字母 // 1081. 不同字符的最小子序列
+    // 316. 去除重复字母 (Remove Duplicate Letters)
+    // 1081. 不同字符的最小子序列 (Smallest Subsequence of Distinct Characters)
     public String removeDuplicateLetters(String s) {
         int[] counts = new int[26];
         boolean[] seen = new boolean[26];
@@ -11270,18 +11271,18 @@ public class LeetCodeText {
         StringBuilder res = new StringBuilder();
         for (char c : s.toCharArray()) {
             if (!seen[c - 'a']) {
-                while (res.length() != 0 && c < res.charAt(res.length() - 1)
-                        && counts[res.charAt(res.length() - 1) - 'a'] > 1) {
-                    --counts[res.charAt(res.length() - 1) - 'a'];
-                    seen[res.charAt(res.length() - 1) - 'a'] = false;
-                    res.setLength(res.length() - 1);
+                while (res.length() != 0 && c < res.charAt(res.length() - 1)) {
+                    if (counts[res.charAt(res.length() - 1) - 'a'] > 0) {
+                        seen[res.charAt(res.length() - 1) - 'a'] = false;
+                        res.setLength(res.length() - 1);
+                    } else {
+                        break;
+                    }
                 }
                 res.append(c);
                 seen[c - 'a'] = true;
-
-            } else {
-                --counts[c - 'a'];
             }
+            --counts[c - 'a'];
         }
         return res.toString();
 
