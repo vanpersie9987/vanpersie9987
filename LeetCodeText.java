@@ -5540,20 +5540,13 @@ public class LeetCodeText {
     public List<List<Integer>> groupThePeople(int[] groupSizes) {
         int n = groupSizes.length;
         Map<Integer, List<Integer>> map = new HashMap<>();
+        List<List<Integer>> res = new ArrayList<>();
+
         for (int i = 0; i < n; ++i) {
             map.computeIfAbsent(groupSizes[i], k -> new ArrayList<>()).add(i);
-        }
-        List<List<Integer>> res = new ArrayList<>();
-        for (Map.Entry<Integer, List<Integer>> entry : map.entrySet()) {
-            int count = 0;
-            List<Integer> list = new ArrayList<>();
-            for (int id : entry.getValue()) {
-                list.add(id);
-                if (++count == entry.getKey()) {
-                    count = 0;
-                    res.add(new ArrayList<>(list));
-                    list.clear();
-                }
+            if (map.get(groupSizes[i]).size() == groupSizes[i]) {
+                res.add(map.get(groupSizes[i]));
+                map.remove(groupSizes[i]);
             }
         }
         return res;
