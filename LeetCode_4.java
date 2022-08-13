@@ -8779,6 +8779,85 @@ public class LeetCode_4 {
 
     }
 
+    // 279. 完全平方数 (Perfect Squares)
+    // -- 完全背包（可重复选择；外层循环：nums ； 内层循环：target；正序遍历)
+    // -- 求最值dp[i]=max/min(dp[i], dp[i-nums] + 1)或dp[i]=max/min(dp[i], dp[i-num] +
+    // nums);
+    public int numSquares(int n) {
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[0] = 0;
+        for (int num = 1; num <= Math.sqrt(n); ++num) {
+            for (int i = 1; i <= n; ++i) {
+                if (i - num * num >= 0) {
+                    dp[i] = Math.min(dp[i], dp[i - num * num] + 1);
+                }
+            }
+        }
+        return dp[n];
+
+    }
+
+    // 279. 完全平方数 (Perfect Squares) --数学：四平方和定理
+    public int numSquares2(int n) {
+        if (isPerfectSquare279(n)) {
+            return 1;
+        }
+        if (isAnswer4(n)) {
+            return 4;
+        }
+        for (int i = 1; i * i < n; ++i) {
+            int j = n - i * i;
+            if (isPerfectSquare279(j)) {
+                return 2;
+            }
+        }
+        return 3;
+
+    }
+
+    private boolean isAnswer4(int n) {
+        while (n % 4 == 0) {
+            n /= 4;
+        }
+        return n % 8 == 7;
+    }
+
+    private boolean isPerfectSquare279(int n) {
+        int m = (int) Math.sqrt(n);
+        return m * m == n;
+    }
+
+    // 279. 完全平方数 (Perfect Squares) --bfs
+    public int numSquares3(int n) {
+        Queue<Integer> queue = new LinkedList<>();
+        Set<Integer> visited = new HashSet<>();
+        queue.offer(0);
+        visited.add(0);
+        int level = 0;
+        while (!queue.isEmpty()) {
+            ++level;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int cur = queue.poll();
+                for (int j = 1; j <= Math.sqrt(n); ++j) {
+                    int neighbor = cur + j * j;
+                    if (neighbor == n) {
+                        return level;
+                    }
+                    if (neighbor > n) {
+                        break;
+                    }
+                    if (!visited.contains(neighbor)) {
+                        visited.add(neighbor);
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
     // 剑指 Offer II 061. 和最小的 k 个数对
     // public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {

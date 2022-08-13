@@ -17322,66 +17322,6 @@ public class LeetCodeText {
 
     }
 
-    // 279. 完全平方数 (Perfect Squares)
-    public int numSquares(int n) {
-        if (isPerfectSquare279(n)) {
-            return 1;
-        }
-        if (isAnswer4(n)) {
-            return 4;
-        }
-        for (int i = 1; i * i < n; ++i) {
-            int j = n - i * i;
-            if (isPerfectSquare279(j)) {
-                return 2;
-            }
-        }
-        return 3;
-
-    }
-
-    private boolean isAnswer4(int n) {
-        while (n % 4 == 0) {
-            n /= 4;
-        }
-        return n % 8 == 7;
-    }
-
-    private boolean isPerfectSquare279(int n) {
-        int m = (int) Math.sqrt(n);
-        return m * m == n;
-    }
-
-    // 279. 完全平方数 (Perfect Squares) --bfs
-    public int numSquares2(int n) {
-        Queue<Integer> queue = new LinkedList<>();
-        Set<Integer> visited = new HashSet<>();
-        queue.offer(0);
-        visited.add(0);
-        int level = 0;
-        while (!queue.isEmpty()) {
-            ++level;
-            int size = queue.size();
-            for (int i = 0; i < size; ++i) {
-                int cur = queue.poll();
-                for (int j = 1; j <= Math.sqrt(n); ++j) {
-                    int neighbor = cur + j * j;
-                    if (neighbor == n) {
-                        return level;
-                    }
-                    if (neighbor > n) {
-                        break;
-                    }
-                    if (!visited.contains(neighbor)) {
-                        visited.add(neighbor);
-                        queue.offer(neighbor);
-                    }
-                }
-            }
-        }
-        return -1;
-    }
-
     // 1970.你能穿过矩阵的最后一天 (Last Day Where You Can Still Cross) --bfs
     public int latestDayToCross(int row, int col, int[][] cells) {
         int left = 0;
