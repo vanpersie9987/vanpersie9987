@@ -8775,6 +8775,7 @@ public class LeetCode_4 {
     }
 
     // 377. 组合总和 Ⅳ (Combination Sum IV)
+    // 剑指 Offer II 104. 排列的数目
     // 考虑顺序的组合问题（可重复选择；外层循环：target； 内层循环：nums)
     // -- 组合 dp[i] += dp[i - num];
     public int combinationSum4(int[] nums, int target) {
