@@ -8683,60 +8683,6 @@ public class LeetCode_4 {
 
     }
 
-    // 322. 零钱兑换 (Coin Change)
-    // 剑指 Offer II 103. 最少的硬币数目
-    // -- 完全背包(可重复选择；外层循环：nums ； 内层循环：target；正序遍历)
-    // --求最值dp[i]=max/min(dp[i], dp[i-nums] + 1)或dp[i]=max/min(dp[i], dp[i-num] +
-    // nums);
-    public int coinChange(int[] coins, int amount) {
-        int[] dp = new int[amount + 1];
-        Arrays.fill(dp, amount + 1);
-        dp[0] = 0;
-        for (int coin : coins) {
-            for (int i = 0; i < amount + 1; ++i) {
-                if (i - coin >= 0) {
-                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-                }
-            }
-        }
-        return dp[amount] == amount + 1 ? -1 : dp[amount];
-
-    }
-
-    // 322. 零钱兑换 (Coin Change) --bfs
-    public int coinChange2(int[] coins, int amount) {
-        if (amount == 0) {
-            return 0;
-        }
-        Queue<int[]> queue = new LinkedList<>();
-        Set<Integer> visited = new HashSet<>();
-        for (int coin : coins) {
-            if (coin == amount) {
-                return 1;
-            }
-            if (coin < amount) {
-                queue.offer(new int[] { coin, 1 });
-                visited.add(coin);
-            }
-        }
-        while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
-            int sum = cur[0];
-            int count = cur[1];
-            if (sum == amount) {
-                return count;
-            }
-            for (int coin : coins) {
-                if (sum + coin <= amount && !visited.contains(sum + coin)) {
-                    visited.add(sum + coin);
-                    queue.offer(new int[] { sum + coin, count + 1 });
-                }
-            }
-        }
-        return -1;
-
-    }
-
     // 416. 分割等和子集 (Partition Equal Subset Sum)
     // 剑指 Offer II 101. 分割等和子集
     // -- 0-1背包（至多选择一次；外层循环：nums ； 内层循环：target；倒序遍历)
@@ -8873,6 +8819,76 @@ public class LeetCode_4 {
         }
         return dp[target];
 
+    }
+
+    // 322. 零钱兑换 (Coin Change)
+    // 剑指 Offer II 103. 最少的硬币数目
+    // -- 完全背包(可重复选择；外层循环：nums ； 内层循环：target；正序遍历)
+    // --求最值dp[i]=max/min(dp[i], dp[i-nums] + 1)或dp[i]=max/min(dp[i], dp[i-num] +
+    // nums);
+    public int coinChange(int[] coins, int amount) {
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, amount + 1);
+        dp[0] = 0;
+        for (int coin : coins) {
+            for (int i = 0; i < amount + 1; ++i) {
+                if (i - coin >= 0) {
+                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+                }
+            }
+        }
+        return dp[amount] == amount + 1 ? -1 : dp[amount];
+
+    }
+
+    // 322. 零钱兑换 (Coin Change) --bfs
+    public int coinChange2(int[] coins, int amount) {
+        if (amount == 0) {
+            return 0;
+        }
+        Queue<int[]> queue = new LinkedList<>();
+        Set<Integer> visited = new HashSet<>();
+        for (int coin : coins) {
+            if (coin == amount) {
+                return 1;
+            }
+            if (coin < amount) {
+                queue.offer(new int[] { coin, 1 });
+                visited.add(coin);
+            }
+        }
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int sum = cur[0];
+            int count = cur[1];
+            if (sum == amount) {
+                return count;
+            }
+            for (int coin : coins) {
+                if (sum + coin <= amount && !visited.contains(sum + coin)) {
+                    visited.add(sum + coin);
+                    queue.offer(new int[] { sum + coin, count + 1 });
+                }
+            }
+        }
+        return -1;
+
+    }
+
+    // 518. 零钱兑换 II (Coin Change 2)
+    // -- 完全背包(可重复选择；外层循环：nums ； 内层循环：target；正序遍历)
+    // -- 组合 dp[i] += dp[i - num];
+    public int change(int amount, int[] coins) {
+        int[] dp = new int[amount + 1];
+        dp[0] = 1;
+        for (int coin : coins) {
+            for (int i = 1; i <= amount; ++i) {
+                if (i >= coin) {
+                    dp[i] += dp[i - coin];
+                }
+            }
+        }
+        return dp[amount];
     }
 
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
