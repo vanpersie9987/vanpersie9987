@@ -8895,7 +8895,7 @@ public class LeetCode_4 {
                 for (int k = 0; k <= n; ++k) {
                     dp[i][j][k] = dp[i - 1][j][k];
                     if (j >= zeroes && k >= ones) {
-                        dp[i][j][k] = Math.max(dp[i - 1][j - zeroes][k - ones] + 1, dp[i - 1][j][k]);
+                        dp[i][j][k] = Math.max(dp[i - 1][j - zeroes][k - ones] + 1, dp[i][j][k]);
                     }
                 }
             }
