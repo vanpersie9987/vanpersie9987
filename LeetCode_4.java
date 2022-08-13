@@ -8892,13 +8892,13 @@ public class LeetCode_4 {
     }
 
     // 1155. 掷骰子的N种方法 (Number of Dice Rolls With Target Sum)
-    // 分组0/1背包的组合问题：dp[i][j]表示投掷i个骰子点数和为j的方法数;三层循环：最外层为背包d,然后先遍历target后遍历点数f
+    // 分组背包的组合问题：dp[i][j]表示投掷i个骰子点数和为j的方法数;三层循环：最外层为背包d,然后先遍历target后遍历点数f
     public int numRollsToTarget(int n, int k, int target) {
         final int MOD = (int) (1e9 + 7);
         int[][] dp = new int[n + 1][target + 1];
         dp[0][0] = 1;
-        for (int i = 1; i <= n; ++i) {
-            for (int j = 1; j <= target; ++j) {
+        for (int j = 1; j <= target; ++j) {
+            for (int i = 1; i <= n; ++i) {
                 for (int m = 1; m <= k; ++m) {
                     if (j - m >= 0) {
                         dp[i][j] = (dp[i][j] + dp[i - 1][j - m]) % MOD;
