@@ -8858,6 +8858,23 @@ public class LeetCode_4 {
         return -1;
     }
 
+    // 377. 组合总和 Ⅳ (Combination Sum IV)
+    // 考虑顺序的组合问题（可重复选择；外层循环：target； 内层循环：nums)
+    // -- 组合 dp[i] += dp[i - num];
+    public int combinationSum4(int[] nums, int target) {
+        int[] dp = new int[target + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= target; ++i) {
+            for (int num : nums) {
+                if (i - num >= 0) {
+                    dp[i] += dp[i - num];
+                }
+            }
+        }
+        return dp[target];
+
+    }
+
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
     // 剑指 Offer II 061. 和最小的 k 个数对
     // public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
