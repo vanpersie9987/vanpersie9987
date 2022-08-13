@@ -6618,36 +6618,6 @@ public class LeetCode_4 {
 
     }
 
-    // 474. 一和零 (Ones and Zeroes) --0-1背包
-    public int findMaxForm(String[] strs, int m, int n) {
-        int len = strs.length;
-        // dp[i][j][k] ：在前i个字符串中，使用j个0和k个1可获得的最多字符串个数
-        int[][][] dp = new int[len + 1][m + 1][n + 1];
-        for (int i = 1; i <= len; ++i) {
-            int[] count = getCounts474(strs[i - 1]);
-            int zeroes = count[0];
-            int ones = count[1];
-            for (int j = 0; j <= m; ++j) {
-                for (int k = 0; k <= n; ++k) {
-                    dp[i][j][k] = dp[i - 1][j][k];
-                    if (j >= zeroes && k >= ones) {
-                        dp[i][j][k] = Math.max(dp[i - 1][j - zeroes][k - ones] + 1, dp[i - 1][j][k]);
-                    }
-                }
-            }
-        }
-        return dp[len][m][n];
-
-    }
-
-    private int[] getCounts474(String str) {
-        int[] counts = new int[2];
-        for (char c : str.toCharArray()) {
-            ++counts[c - '0'];
-        }
-        return counts;
-    }
-
     // 2323. Find Minimum Time to Finish All Jobs II --plus
     public int minimumTime(int[] jobs, int[] workers) {
         int res = 0;
@@ -8897,8 +8867,8 @@ public class LeetCode_4 {
         final int MOD = (int) (1e9 + 7);
         int[][] dp = new int[n + 1][target + 1];
         dp[0][0] = 1;
-        for (int j = 1; j <= target; ++j) {
-            for (int i = 1; i <= n; ++i) {
+        for (int i = 1; i <= n; ++i) {
+            for (int j = 1; j <= target; ++j) {
                 for (int m = 1; m <= k; ++m) {
                     if (j - m >= 0) {
                         dp[i][j] = (dp[i][j] + dp[i - 1][j - m]) % MOD;
@@ -8907,6 +8877,39 @@ public class LeetCode_4 {
             }
         }
         return dp[n][target];
+    }
+
+    // 474. 一和零 (Ones and Zeroes)
+    // -- 0-1背包
+    // -- 求最值dp[i]=max/min(dp[i], dp[i-nums] + 1)或dp[i]=max/min(dp[i], dp[i-num] +
+    // nums);
+    public int findMaxForm(String[] strs, int m, int n) {
+        int len = strs.length;
+        // dp[i][j][k] ：在前i个字符串中，使用j个0和k个1可获得的最多字符串个数
+        int[][][] dp = new int[len + 1][m + 1][n + 1];
+        for (int i = 1; i <= len; ++i) {
+            int[] count = getCounts474(strs[i - 1]);
+            int zeroes = count[0];
+            int ones = count[1];
+            for (int j = 0; j <= m; ++j) {
+                for (int k = 0; k <= n; ++k) {
+                    dp[i][j][k] = dp[i - 1][j][k];
+                    if (j >= zeroes && k >= ones) {
+                        dp[i][j][k] = Math.max(dp[i - 1][j - zeroes][k - ones] + 1, dp[i - 1][j][k]);
+                    }
+                }
+            }
+        }
+        return dp[len][m][n];
+
+    }
+
+    private int[] getCounts474(String str) {
+        int[] counts = new int[2];
+        for (char c : str.toCharArray()) {
+            ++counts[c - '0'];
+        }
+        return counts;
     }
 
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
