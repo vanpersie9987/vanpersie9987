@@ -2341,8 +2341,32 @@ public class LeetCodeText {
 
     }
 
-    // 768. 最多能完成排序的块 II
+    // 768. 最多能完成排序的块 II (Max Chunks To Make Sorted II) --哈希表
     public int maxChunksToSorted768(int[] arr) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int res = 0;
+        int n = arr.length;
+        int[] sortedArr = Arrays.copyOf(arr, n);
+        Arrays.sort(sortedArr);
+        for (int i = 0; i < n; ++i) {
+            map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
+            if (map.get(arr[i]) == 0) {
+                map.remove(arr[i]);
+            }
+            map.put(sortedArr[i], map.getOrDefault(sortedArr[i], 0) - 1);
+            if (map.get(sortedArr[i]) == 0) {
+                map.remove(sortedArr[i]);
+            }
+            if (map.isEmpty()) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    // 768. 最多能完成排序的块 II (Max Chunks To Make Sorted II)
+    public int maxChunksToSorted768_2(int[] arr) {
         Stack<Integer> stack = new Stack<>();
         for (int num : arr) {
             if (!stack.isEmpty() && num < stack.peek()) {
