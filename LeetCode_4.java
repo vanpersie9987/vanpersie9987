@@ -8912,6 +8912,32 @@ public class LeetCode_4 {
         return counts;
     }
 
+    // 879. 盈利计划 (Profitable Schemes) --多维0-1背包
+    public int profitableSchemes(int n, int minProfit, int[] group, int[] profit) {
+        int MOD = (int) 1e9 + 7;
+        int size = group.length;
+        // dp[i][j][k] : 选择前i项工作，选择j个人，可获得利润至少为k的方案数
+        int[][][] dp = new int[size + 1][n + 1][minProfit + 1];
+        dp[0][0][0] = 1;
+        for (int i = 1; i <= size; ++i) {
+            int people = group[i - 1];
+            int earn = profit[i - 1];
+            for (int j = 0; j <= n; ++j) {
+                for (int k = 0; k <= minProfit; ++k) {
+                    dp[i][j][k] = dp[i - 1][j][k];
+                    if (j >= people) {
+                        dp[i][j][k] = (dp[i - 1][j][k] + dp[i - 1][j - people][Math.max(0, k - earn)]) % MOD;
+                    }
+                }
+            }
+        }
+        int res = 0;
+        for (int j = 0; j <= n; ++j) {
+            res = (res + dp[size][j][minProfit]) % MOD;
+        }
+        return res;
+    }
+
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
     // 剑指 Offer II 061. 和最小的 k 个数对
     // public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
