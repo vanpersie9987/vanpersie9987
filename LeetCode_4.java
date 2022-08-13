@@ -8938,6 +8938,36 @@ public class LeetCode_4 {
         }
         return res;
     }
+    
+    // 2116. 判断一个括号字符串是否有效 (Check if a Parentheses String Can Be Valid)
+    public boolean canBeValid(String s, String locked) {
+        int n = s.length();
+        if (n % 2 == 1) {
+            return false;
+        }
+        int count = 0;
+        for (int i = 0; i < n; ++i) {
+            if (s.charAt(i) == '(' || locked.charAt(i) == '0') {
+                ++count;
+            } else if (count > 0) {
+                --count;
+            } else {
+                return false;
+            }
+        }
+        count = 0;
+        for (int i = n - 1; i >= 0; --i) {
+            if (s.charAt(i) == ')' || locked.charAt(i) == '0') {
+                ++count;
+            } else if (count > 0) {
+                --count;
+            } else {
+                return false;
+            }
+        }
+        return true;
+
+    }
 
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
     // 剑指 Offer II 061. 和最小的 k 个数对
