@@ -9037,6 +9037,60 @@ public class LeetCode_4 {
 
     }
 
+    // 剑指 Offer 60. n个骰子的点数
+    public double[] dicesProbability(int n) {
+        double denomiator = Math.pow(6, n);
+        // dp[i][j] : 投i个骰子，得到j分的投法数
+        int[][] dp = new int[n + 1][6 * n + 1];
+        for (int j = 1; j <= 6; ++j) {
+            dp[1][j] = 1;
+        }
+        for (int i = 2; i <= n; ++i) {
+            for (int j = i; j <= 6 * i; ++j) {
+                for (int k = 1; k <= 6; ++k) {
+                    if (j - k >= 0) {
+                        dp[i][j] += dp[i - 1][j - k];
+                    }
+                }
+            }
+        }
+        double[] res = new double[6 * n - n + 1];
+        int index = 0;
+        int score = n;
+        while (index < res.length) {
+            res[index++] = dp[n][score++] / denomiator;
+        }
+        return res;
+    }
+
+    // 剑指 Offer 60. n个骰子的点数
+    public double[] dicesProbability2(int n) {
+        int[] dp = new int[70];
+        for (int i = 1; i <= 6; ++i) {
+            dp[i] = 1;
+        }
+        for (int i = 2; i <= n; ++i) {
+            for (int j = 6 * i; j >= i; --j) {
+                dp[j] = 0;
+                for (int cur = 1; cur <= 6; ++cur) {
+                    if (j - cur < i - 1) {
+                        break;
+                    }
+                    dp[j] += dp[j - cur];
+                }
+            }
+        }
+        double denomiator = Math.pow(6, n);
+        double[] res = new double[6 * n - n + 1];
+        int index = 0;
+        int score = n;
+        while (index < res.length) {
+            res[index++] = dp[score++] / denomiator;
+        }
+        return res;
+
+    }
+
     // 6151. 统计特殊整数 (Count Special Integers) --数位DP
     // public int countSpecialNumbers(int n) {
     // }
