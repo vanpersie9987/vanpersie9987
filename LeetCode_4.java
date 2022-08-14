@@ -8938,7 +8938,7 @@ public class LeetCode_4 {
         }
         return res;
     }
-    
+
     // 2116. 判断一个括号字符串是否有效 (Check if a Parentheses String Can Be Valid)
     public boolean canBeValid(String s, String locked) {
         int n = s.length();
@@ -8968,6 +8968,78 @@ public class LeetCode_4 {
         return true;
 
     }
+
+    // 6148. 矩阵中的局部最大值
+    public int[][] largestLocal(int[][] grid) {
+        int n = grid.length;
+        int[][] res = new int[n - 2][n - 2];
+        for (int i = 1; i < n - 1; ++i) {
+            for (int j = 1; j < n - 1; ++j) {
+                int max = 0;
+                int top = i - 1;
+                int down = i + 1;
+                int left = j - 1;
+                int right = j + 1;
+                for (int m = top; m <= down; ++m) {
+                    for (int k = left; k <= right; ++k) {
+                        max = Math.max(max, grid[m][k]);
+                    }
+                }
+                res[i - 1][j - 1] = max;
+            }
+        }
+        return res;
+
+    }
+
+    // 6149. 边积分最高的节点 (Node With Highest Edge Score)
+    public int edgeScore(int[] edges) {
+        int n = edges.length;
+        long[] res = new long[n];
+
+        for (int i = 0; i < n; ++i) {
+            res[edges[i]] += i;
+        }
+        long max = 0;
+        int ret = -1;
+        for (int i = 0; i < n; ++i) {
+            if (res[i] > max) {
+                max = res[i];
+                ret = i;
+            }
+        }
+        return ret;
+
+    }
+
+    // 6150. 根据模式串构造最小数字 (Construct Smallest Number From DI String)
+    public String smallestNumber(String pattern) {
+        int n = pattern.length();
+        char cur = '1';
+        char[] res = new char[n + 1];
+        for (int i = 0; i < n; ++i) {
+            if (pattern.charAt(i) == 'I') {
+                res[i] = cur++;
+                int j = i - 1;
+                while (j >= 0 && pattern.charAt(j) == 'D') {
+                    res[j] = cur++;
+                    --j;
+                }
+            }
+        }
+        for (int i = n; i >= 0; --i) {
+            if (res[i] != 0) {
+                break;
+            }
+            res[i] = cur++;
+        }
+        return String.valueOf(res);
+
+    }
+
+    // 6151. 统计特殊整数 (Count Special Integers)
+    // public int countSpecialNumbers(int n) {
+    // }
 
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
     // 剑指 Offer II 061. 和最小的 k 个数对
