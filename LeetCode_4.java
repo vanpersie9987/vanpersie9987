@@ -9073,6 +9073,7 @@ public class LeetCode_4 {
             for (int j = 6 * i; j >= i; --j) {
                 dp[j] = 0;
                 for (int cur = 1; cur <= 6; ++cur) {
+                    // 前 i - 1 个骰子的和应最少为 i - 1
                     if (j - cur < i - 1) {
                         break;
                     }
