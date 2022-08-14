@@ -9037,7 +9037,7 @@ public class LeetCode_4 {
 
     }
 
-    // 6151. 统计特殊整数 (Count Special Integers)
+    // 6151. 统计特殊整数 (Count Special Integers) --数位DP
     // public int countSpecialNumbers(int n) {
     // }
 
