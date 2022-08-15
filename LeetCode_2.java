@@ -5921,7 +5921,7 @@ public class LeetCode_2 {
 
    }
 
-   // 641. 设计循环双端队列 (Design Circular Deque)
+   // 641. 设计循环双端队列 (Design Circular Deque) --数组
    class MyCircularDeque {
       private int[] arr;
       private int size;
@@ -6000,6 +6000,122 @@ public class LeetCode_2 {
       public boolean isFull() {
          return size == capacity;
 
+      }
+   }
+
+   // 641. 设计循环双端队列 (Design Circular Deque) --双向链表
+   class MyCircularDeque2 {
+      private class InnerNode {
+         int val;
+         InnerNode prev;
+         InnerNode next;
+
+         InnerNode(int val) {
+            this.val = val;
+         }
+      }
+
+      private InnerNode head;
+      private InnerNode tail;
+      private int capacity;
+      private int curSize;
+
+      public MyCircularDeque2(int k) {
+         capacity = k;
+      }
+
+      public boolean insertFront(int value) {
+         if (isFull()) {
+            return false;
+         }
+         if (head == null) {
+            head = new InnerNode(value);
+            tail = head;
+         } else {
+            InnerNode node = new InnerNode(value);
+            head.prev = node;
+            node.next = head;
+            head = node;
+         }
+         ++curSize;
+         return true;
+      }
+
+      public boolean insertLast(int value) {
+         if (isFull()) {
+            return false;
+         }
+         if (head == null) {
+            head = new InnerNode(value);
+            tail = head;
+         } else {
+            InnerNode node = new InnerNode(value);
+            tail.next = node;
+            node.prev = tail;
+            tail = node;
+         }
+         ++curSize;
+         return true;
+
+      }
+
+      public boolean deleteFront() {
+         if (isEmpty()) {
+            return false;
+         }
+         --curSize;
+         if (isEmpty()) {
+            head = null;
+            tail = null;
+            return true;
+         }
+         InnerNode newHead = head.next;
+         head.next = null;
+         newHead.prev = null;
+         head = newHead;
+
+         return true;
+      }
+
+      public boolean deleteLast() {
+         if (isEmpty()) {
+            return false;
+         }
+         --curSize;
+         if (isEmpty()) {
+            head = null;
+            tail = null;
+            return true;
+         }
+         InnerNode newTail = tail.prev;
+         tail.prev = null;
+         newTail.next = null;
+         tail = newTail;
+
+         return true;
+      }
+
+      public int getFront() {
+         if (isEmpty()) {
+            return -1;
+         }
+         return head.val;
+      }
+
+      public int getRear() {
+         if (isEmpty()) {
+            return -1;
+         }
+         return tail.val;
+      }
+
+      public boolean isEmpty() {
+         return curSize == 0;
+
+      }
+
+      public boolean isFull() {
+         return curSize == capacity;
       }
    }
 
