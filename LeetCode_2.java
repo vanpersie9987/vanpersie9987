@@ -6028,7 +6028,7 @@ public class LeetCode_2 {
          if (isFull()) {
             return false;
          }
-         if (head == null) {
+         if (isEmpty()) {
             head = new InnerNode(value);
             tail = head;
          } else {
@@ -6045,7 +6045,7 @@ public class LeetCode_2 {
          if (isFull()) {
             return false;
          }
-         if (head == null) {
+         if (isEmpty()) {
             head = new InnerNode(value);
             tail = head;
          } else {
@@ -6063,17 +6063,11 @@ public class LeetCode_2 {
          if (isEmpty()) {
             return false;
          }
-         --curSize;
-         if (isEmpty()) {
-            head = null;
-            tail = null;
-            return true;
+         head = head.next;
+         if (head != null) {
+            head.prev = null;
          }
-         InnerNode newHead = head.next;
-         head.next = null;
-         newHead.prev = null;
-         head = newHead;
-
+         --curSize;
          return true;
       }
 
@@ -6081,17 +6075,11 @@ public class LeetCode_2 {
          if (isEmpty()) {
             return false;
          }
-         --curSize;
-         if (isEmpty()) {
-            head = null;
-            tail = null;
-            return true;
+         tail = tail.prev;
+         if (tail != null) {
+            tail.next = null;
          }
-         InnerNode newTail = tail.prev;
-         tail.prev = null;
-         newTail.next = null;
-         tail = newTail;
-
+         --curSize;
          return true;
       }
 
