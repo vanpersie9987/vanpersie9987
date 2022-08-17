@@ -9122,33 +9122,39 @@ public class LeetCode_4 {
 
     }
 
+    // 430. 扁平化多级双向链表 (Flatten a Multilevel Doubly Linked List)
     // 剑指 Offer II 028. 展平多级双向链表
-    // public Node flatten(Node head) {
-    // Node res = head;
-    // dfs430(head);
-    // return res;
-    // }
+    public Node flatten(Node head) {
+        dfs430(head);
+        return head;
+    }
 
-    // private Node dfs430(Node node) {
-    // Node ret = node;
-    // while (node != null) {
-    // if (node.child == null) {
-    // ret = node;
-    // node = node.next;
-    // } else {
-    // Node temp = node.next;
-    // node.next = node.child;
-    // node.child.prev = node;
-    // Node pre = dfs430(node.child);
-    // if (temp != null) {
-    // pre.next = temp;
-    // temp.prev = pre;
-    // node = temp;
-    // }
-    // }
-    // }
-    // return ret;
-    // }
+    private Node dfs430(Node node) {
+        Node cur = node;
+        Node last = null;
+
+        while (cur != null) {
+            Node next = cur.next;
+            if (cur.child == null) {
+                last = cur;
+            } else {
+                Node childLast = dfs430(cur.child);
+
+                cur.next = cur.child;
+                cur.child.prev = cur;
+
+                if (next != null) {
+                    childLast.next = next;
+                    next.prev = childLast;
+                }
+
+                cur.child = null;
+                last = childLast;
+            }
+            cur = next;
+        }
+        return last;
+    }
 
     // 745. 前缀和后缀搜索 (Prefix and Suffix Search)
     // class WordFilter {
