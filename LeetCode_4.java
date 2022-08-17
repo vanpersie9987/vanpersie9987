@@ -5037,7 +5037,9 @@ public class LeetCode_4 {
     class Node {
         public int val;
         public List<Node> children;
+        public Node prev;
         public Node next;
+        public Node child;
 
         public Node() {
         }
@@ -9091,6 +9093,74 @@ public class LeetCode_4 {
         return res;
 
     }
+
+    // 面试题 16.14. 最佳直线 (Best Line LCCI)
+    public int[] bestLine(int[][] points) {
+        int n = points.length;
+        int[] res = new int[2];
+        int max = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                int count = 2;
+                long x1 = points[i][0] - points[j][0];
+                long y1 = points[i][1] - points[j][1];
+                for (int k = j + 1; k < n; ++k) {
+                    long x2 = points[i][0] - points[k][0];
+                    long y2 = points[i][1] - points[k][1];
+                    if (x1 * y2 == x2 * y1) {
+                        ++count;
+                    }
+                }
+                if (count > max) {
+                    max = count;
+                    res[0] = i;
+                    res[1] = j;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 剑指 Offer II 028. 展平多级双向链表
+    // public Node flatten(Node head) {
+    // Node res = head;
+    // dfs430(head);
+    // return res;
+    // }
+
+    // private Node dfs430(Node node) {
+    // Node ret = node;
+    // while (node != null) {
+    // if (node.child == null) {
+    // ret = node;
+    // node = node.next;
+    // } else {
+    // Node temp = node.next;
+    // node.next = node.child;
+    // node.child.prev = node;
+    // Node pre = dfs430(node.child);
+    // if (temp != null) {
+    // pre.next = temp;
+    // temp.prev = pre;
+    // node = temp;
+    // }
+    // }
+    // }
+    // return ret;
+    // }
+
+    // 745. 前缀和后缀搜索 (Prefix and Suffix Search)
+    // class WordFilter {
+
+    // public WordFilter(String[] words) {
+
+    // }
+
+    // public int f(String pref, String suff) {
+
+    // }
+    // }
 
     // 6151. 统计特殊整数 (Count Special Integers) --数位DP
     // public int countSpecialNumbers(int n) {
