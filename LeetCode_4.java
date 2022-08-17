@@ -9156,17 +9156,26 @@ public class LeetCode_4 {
         return last;
     }
 
-    // 745. 前缀和后缀搜索 (Prefix and Suffix Search)
-    // class WordFilter {
+    // 745. 前缀和后缀搜索 (Prefix and Suffix Search) --暴力 + 哈希表
+    class WordFilter {
+        private Map<String, Integer> map;
 
-    // public WordFilter(String[] words) {
+        public WordFilter(String[] words) {
+            map = new HashMap<>();
+            for (int index = 0; index < words.length; ++index) {
+                int n = words[index].length();
+                for (int i = 1; i <= n; ++i) {
+                    for (int j = n - 1; j >= 0; --j) {
+                        map.put(words[index].substring(0, i) + "#" + words[index].substring(j), index);
+                    }
+                }
+            }
+        }
 
-    // }
-
-    // public int f(String pref, String suff) {
-
-    // }
-    // }
+        public int f(String pref, String suff) {
+            return map.getOrDefault(pref + "#" + suff, -1);
+        }
+    }
 
     // 6151. 统计特殊整数 (Count Special Integers) --数位DP
     // public int countSpecialNumbers(int n) {
