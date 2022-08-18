@@ -9156,7 +9156,7 @@ public class LeetCode_4 {
         return last;
     }
 
-    // 745. 前缀和后缀搜索 (Prefix and Suffix Search) --暴力 + 哈希表
+    // 745. 前缀和后缀搜索 (Prefix and Suffix Search) --暴力 + 哈希表 (还需掌握字典树)
     class WordFilter {
         private Map<String, Integer> map;
 
@@ -9175,6 +9175,37 @@ public class LeetCode_4 {
         public int f(String pref, String suff) {
             return map.getOrDefault(pref + "#" + suff, -1);
         }
+    }
+
+    // 1224. 最大相等频率 (Maximum Equal Frequency) --哈希表
+    public int maxEqualFreq(int[] nums) {
+        int n = nums.length;
+        // key : nums[i] , val : 出现的频率
+        Map<Integer, Integer> count = new HashMap<>();
+        // key:数字出现的频率 , val:出现key频率的个数
+        Map<Integer, Integer> freq = new HashMap<>();
+        // 出现最大频率
+        int maxFreq = 0;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            if (count.getOrDefault(nums[i], 0) > 0) {
+                freq.put(count.get(nums[i]), freq.get(count.get(nums[i])) - 1);
+            }
+            count.put(nums[i], count.getOrDefault(nums[i], 0) + 1);
+            maxFreq = Math.max(maxFreq, count.get(nums[i]));
+            freq.put(count.get(nums[i]), freq.getOrDefault(count.get(nums[i]), 0) + 1);
+            // maxFreq == 1
+            // 数字出现的频率只有 maxFreq 和 maxFreq - 1，而且出现值为 maxFreq 的元素只有1个
+            // 数字出现的频率只有 maxFreq 和 非maxFreq，而且出现值为 非maxFreq 的元素只有1个
+            if (maxFreq == 1
+                    || ((freq.get(maxFreq) * maxFreq + freq.get(maxFreq - 1) * (maxFreq - 1) == i + 1)
+                            && (freq.get(maxFreq) == 1))
+                    || (freq.get(maxFreq) * maxFreq + 1 == i + 1)) {
+                res = Math.max(res, i + 1);
+            }
+        }
+        return res;
+
     }
 
     // 6151. 统计特殊整数 (Count Special Integers) --数位DP
