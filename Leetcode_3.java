@@ -3961,23 +3961,29 @@ public class Leetcode_3 {
 
     // 6022. 将数组和减半的最少操作次数 (Minimum Operations to Halve Array Sum)
     public int halveArray(int[] nums) {
-        PriorityQueue<Double> priorityQueue = new PriorityQueue<>((o1, o2) -> o2.compareTo(o1));
-        double sum = 0d;
+        PriorityQueue<Double> priorityQueue = new PriorityQueue<>(new Comparator<Double>() {
+
+            @Override
+            public int compare(Double o1, Double o2) {
+                return o2.compareTo(o1);
+            }
+
+        });
+        double sum = 0;
         for (int num : nums) {
             sum += num;
             priorityQueue.offer((double) num);
         }
         int res = 0;
-        double curSum = 0d;
-        do {
-            double firstNum = priorityQueue.poll();
-            firstNum /= 2;
-            curSum += firstNum;
-            priorityQueue.offer(firstNum);
+        double deleteSum = 0;
+        while (deleteSum < sum / 2) {
+            double max = priorityQueue.poll();
+            max /= 2;
+            deleteSum += max;
+            priorityQueue.offer(max);
             ++res;
-        } while (curSum * 2 < sum);
+        }
         return res;
-
     }
 
     // 2200. 找出数组中的所有 K 近邻下标 (Find All K-Distant Indices in an Array)
