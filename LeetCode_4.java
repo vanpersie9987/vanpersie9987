@@ -9214,7 +9214,7 @@ public class LeetCode_4 {
         if (n <= 2) {
             return s;
         }
-        List<String> res = new ArrayList<>();
+        List<String> list = new ArrayList<>();
         int left = 0;
         int count = 0;
         for (int i = 0; i < n; ++i) {
@@ -9223,12 +9223,12 @@ public class LeetCode_4 {
             } else if (s.charAt(i) == '0') {
                 --count;
                 if (count == 0) {
-                    res.add('1' + makeLargestSpecial(s.substring(left + 1, i)) + '0');
+                    list.add('1' + makeLargestSpecial(s.substring(left + 1, i)) + '0');
                     left = i + 1;
                 }
             }
         }
-        Collections.sort(res, new Comparator<String>() {
+        Collections.sort(list, new Comparator<String>() {
 
             @Override
             public int compare(String o1, String o2) {
@@ -9237,11 +9237,11 @@ public class LeetCode_4 {
 
         });
 
-        StringBuilder builder = new StringBuilder();
-        for (String string : res) {
-            builder.append(string);
+        StringBuilder res = new StringBuilder();
+        for (String string : list) {
+            res.append(string);
         }
-        return builder.toString();
+        return res.toString();
 
     }
 
