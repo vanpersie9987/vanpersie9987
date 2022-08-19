@@ -9302,9 +9302,34 @@ public class LeetCode_4 {
 
     }
 
-    // 6151. 统计特殊整数 (Count Special Integers) --数位DP
-    // public int countSpecialNumbers(int n) {
-    // }
+    // 2134. 最少交换次数来组合所有的 1 II (Minimum Swaps to Group All 1's Together II)
+    public int minSwaps(int[] nums) {
+        int n = nums.length;
+        int countOne = 0;
+        for (int num : nums) {
+            countOne += num;
+        }
+        if (countOne <= 1) {
+            return 0;
+        }
+        int res = Integer.MAX_VALUE;
+        int curZero = 0;
+        for (int i = 0; i < countOne; ++i) {
+            curZero += 1 - nums[i];
+        }
+        res = Math.min(res, curZero);
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] == 0) {
+                --curZero;
+            }
+            if (nums[(i + countOne) % n] == 0) {
+                ++curZero;
+            }
+            res = Math.min(res, curZero);
+        }
+        return res;
+
+    }
 
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
     // 剑指 Offer II 061. 和最小的 k 个数对
