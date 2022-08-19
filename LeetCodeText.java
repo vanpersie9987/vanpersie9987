@@ -5139,15 +5139,16 @@ public class LeetCodeText {
 
     }
 
-    // 1450. 在既定时间做作业的学生人数
+    // 1450. 在既定时间做作业的学生人数 (Number of Students Doing Homework at a Given Time)
     public int busyStudent(int[] startTime, int[] endTime, int queryTime) {
-        int count = 0;
-        for (int i = 0; i < startTime.length; ++i) {
+        var n = startTime.length;
+        var res = 0;
+        for (var i = 0; i < n; ++i) {
             if (startTime[i] <= queryTime && queryTime <= endTime[i]) {
-                ++count;
+                ++res;
             }
         }
-        return count;
+        return res;
 
     }
 
