@@ -9121,8 +9121,8 @@ public class LeetCode_4 {
         return res;
 
     }
-    
-    // 149. 直线上最多的点数 (Max Points on a Line)
+
+    // 149. 直线上最多的点数 (Max Points on a Line) --还需掌握哈希表
     public int maxPoints(int[][] points) {
         int n = points.length;
         if (n <= 2) {
