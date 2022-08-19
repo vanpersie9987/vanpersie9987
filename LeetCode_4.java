@@ -9285,6 +9285,23 @@ public class LeetCode_4 {
         }
     }
 
+    // 2110. 股票平滑下跌阶段的数目 (Number of Smooth Descent Periods of a Stock)
+    public long getDescentPeriods(int[] prices) {
+        int n = prices.length;
+        long res = 0l;
+        long count = 0l;
+        for (int i = 0; i < n; ++i) {
+            if (i - 1 >= 0 && prices[i - 1] - prices[i] == 1) {
+                ++count;
+            } else {
+                count = 1l;
+            }
+            res += count;
+        }
+        return res;
+
+    }
+
     // 6151. 统计特殊整数 (Count Special Integers) --数位DP
     // public int countSpecialNumbers(int n) {
     // }
