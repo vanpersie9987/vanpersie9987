@@ -9121,6 +9121,34 @@ public class LeetCode_4 {
         return res;
 
     }
+    
+    // 149. 直线上最多的点数 (Max Points on a Line)
+    public int maxPoints(int[][] points) {
+        int n = points.length;
+        if (n <= 2) {
+            return n;
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            int x1 = points[i][0];
+            int y1 = points[i][1];
+            for (int j = i + 1; j < n; ++j) {
+                int x2 = points[j][0];
+                int y2 = points[j][1];
+                int count = 2;
+                for (int k = j + 1; k < n; ++k) {
+                    int x3 = points[k][0];
+                    int y3 = points[k][1];
+                    if ((y2 - y3) * (x1 - x2) == (x2 - x3) * (y1 - y2)) {
+                        ++count;
+                    }
+                }
+                res = Math.max(res, count);
+            }
+        }
+        return res;
+
+    }
 
     // 430. 扁平化多级双向链表 (Flatten a Multilevel Doubly Linked List)
     // 剑指 Offer II 028. 展平多级双向链表
