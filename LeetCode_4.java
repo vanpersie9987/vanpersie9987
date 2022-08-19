@@ -9259,6 +9259,32 @@ public class LeetCode_4 {
 
     }
 
+    // 478. 在圆内随机生成点 (Generate Random Point in a Circle) --拒绝采样
+    class Solution478 {
+        private Random random;
+        private double x_center;
+        private double y_center;
+        private double radius;
+
+        public Solution478(double radius, double x_center, double y_center) {
+            random = new Random();
+            this.radius = radius;
+            this.x_center = x_center;
+            this.y_center = y_center;
+
+        }
+
+        public double[] randPoint() {
+            while (true) {
+                double x = random.nextDouble() * 2 * radius - radius;
+                double y = random.nextDouble() * 2 * radius - radius;
+                if ((x * x + y * y <= radius * radius)) {
+                    return new double[] { x_center + x, y_center + y };
+                }
+            }
+        }
+    }
+
     // 6151. 统计特殊整数 (Count Special Integers) --数位DP
     // public int countSpecialNumbers(int n) {
     // }
