@@ -9208,6 +9208,43 @@ public class LeetCode_4 {
 
     }
 
+    // 761. 特殊的二进制序列 (Special Binary String) --分治
+    public String makeLargestSpecial(String s) {
+        int n = s.length();
+        if (n <= 2) {
+            return s;
+        }
+        List<String> res = new ArrayList<>();
+        int left = 0;
+        int count = 0;
+        for (int i = 0; i < n; ++i) {
+            if (s.charAt(i) == '1') {
+                ++count;
+            } else if (s.charAt(i) == '0') {
+                --count;
+                if (count == 0) {
+                    res.add('1' + makeLargestSpecial(s.substring(left + 1, i)) + '0');
+                    left = i + 1;
+                }
+            }
+        }
+        Collections.sort(res, new Comparator<String>() {
+
+            @Override
+            public int compare(String o1, String o2) {
+                return o2.compareTo(o1);
+            }
+
+        });
+
+        StringBuilder builder = new StringBuilder();
+        for (String string : res) {
+            builder.append(string);
+        }
+        return builder.toString();
+
+    }
+
     // 6151. 统计特殊整数 (Count Special Integers) --数位DP
     // public int countSpecialNumbers(int n) {
     // }
@@ -9215,11 +9252,6 @@ public class LeetCode_4 {
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
     // 剑指 Offer II 061. 和最小的 k 个数对
     // public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
-
-    // }
-
-    // 761. 特殊的二进制序列 (Special Binary String)
-    // public String makeLargestSpecial(String s) {
 
     // }
 
