@@ -9312,13 +9312,12 @@ public class LeetCode_4 {
         if (countOne <= 1) {
             return 0;
         }
-        int res = Integer.MAX_VALUE;
         int curZero = 0;
         for (int i = 0; i < countOne; ++i) {
             curZero += 1 - nums[i];
         }
-        res = Math.min(res, curZero);
-        for (int i = 0; i < n; ++i) {
+        int res = curZero;
+        for (int i = 0; i < n - 1; ++i) {
             if (nums[i] == 0) {
                 --curZero;
             }
