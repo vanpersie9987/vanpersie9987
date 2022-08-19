@@ -9302,7 +9302,7 @@ public class LeetCode_4 {
 
     }
 
-    // 2134. 最少交换次数来组合所有的 1 II (Minimum Swaps to Group All 1's Together II)
+    // 2134. 最少交换次数来组合所有的 1 II (Minimum Swaps to Group All 1's Together II) --滑动窗口
     public int minSwaps(int[] nums) {
         int n = nums.length;
         int countOne = 0;
