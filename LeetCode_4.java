@@ -9245,6 +9245,20 @@ public class LeetCode_4 {
 
     }
 
+    // 2171. 拿出最少数目的魔法豆 (Removing Minimum Number of Magic Beans)
+    public long minimumRemoval(int[] beans) {
+        int n = beans.length;
+        Arrays.sort(beans);
+        long sum = 0l;
+        long max = 0l;
+        for (var i = 0; i < n; ++i) {
+            sum += beans[i];
+            max = Math.max(max, (long) (n - i) * beans[i]);
+        }
+        return sum - max;
+
+    }
+
     // 6151. 统计特殊整数 (Count Special Integers) --数位DP
     // public int countSpecialNumbers(int n) {
     // }
