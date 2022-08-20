@@ -9426,7 +9426,7 @@ public class LeetCode_4 {
             int cur = num / unit;
             if (cur != 0) {
                 num -= cur * unit;
-                res.append(getHundred273(cur)).append(thousand[i]).append(" ");
+                res.append(getHundred273(cur)).append(" ").append(thousand[i]).append(" ");
             }
             unit /= 1000;
         }
@@ -9447,11 +9447,11 @@ public class LeetCode_4 {
             num %= 10;
         }
         if (num >= 10) {
-            builder.append(teens[num - 10]).append(" ");
-        } else if (num > 0) {
-            builder.append(singles[num]).append(" ");
+            builder.append(teens[num - 10]);
+        } else {
+            builder.append(singles[num]);
         }
-        return builder.toString();
+        return builder.toString().trim();
     }
 
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
