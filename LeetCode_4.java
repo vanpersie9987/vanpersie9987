@@ -9454,6 +9454,28 @@ public class LeetCode_4 {
         return builder.toString().trim();
     }
 
+    // 115. 不同的子序列 (Distinct Subsequences)
+    // 剑指 Offer II 097. 子序列的数目
+    public int numDistinct(String s, String t) {
+        int m = s.length();
+        int n = t.length();
+        int[][] dp = new int[n + 1][m + 1];
+        Arrays.fill(dp[0], 1);
+        for (int i = 1; i <= n; ++i) {
+            char tChar = t.charAt(i - 1);
+            for (int j = 1; j <= m; ++j) {
+                char sChar = s.charAt(j - 1);
+                if (sChar == tChar) {
+                    dp[i][j] = dp[i - 1][j - 1] + dp[i][j - 1];
+                } else {
+                    dp[i][j] = dp[i][j - 1];
+                }
+            }
+        }
+        return dp[n][m];
+
+    }
+
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
     // 剑指 Offer II 061. 和最小的 k 个数对
     // public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
