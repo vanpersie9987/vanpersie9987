@@ -9125,7 +9125,7 @@ public class LeetCode_4 {
 
     }
 
-    // 149. 直线上最多的点数 (Max Points on a Line) --还需掌握哈希表
+    // 149. 直线上最多的点数 (Max Points on a Line) --暴力枚举
     public int maxPoints(int[][] points) {
         int n = points.length;
         if (n <= 2) {
@@ -9154,6 +9154,48 @@ public class LeetCode_4 {
         }
         return res;
 
+    }
+
+    // 149. 直线上最多的点数 (Max Points on a Line) --哈希表
+    public int maxPoints2(int[][] points) {
+        int n = points.length;
+        if (n <= 2) {
+            return n;
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            if (res > n / 2 || res > n - i) {
+                break;
+            }
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int j = i + 1; j < n; ++j) {
+                int deltaX = points[i][0] - points[j][0];
+                int deltaY = points[i][1] - points[j][1];
+                if (deltaX == 0) {
+                    deltaY = 1;
+                } else if (deltaY == 0) {
+                    deltaX = 1;
+                } else {
+                    if (deltaY < 0) {
+                        deltaX = -deltaX;
+                        deltaY = -deltaY;
+                    }
+                    int abs = gcd149(Math.abs(deltaX), Math.abs(deltaY));
+                    deltaX /= abs;
+                    deltaY /= abs;
+                }
+                int key = deltaX * 20001 + deltaY;
+                map.put(key, map.getOrDefault(key, 0) + 1);
+            }
+            int max = Collections.max(map.values()) + 1;
+            res = Math.max(res, max);
+        }
+        return res;
+
+    }
+
+    private int gcd149(int a, int b) {
+        return b == 0 ? a : gcd149(b, a % b);
     }
 
     // 430. 扁平化多级双向链表 (Flatten a Multilevel Doubly Linked List)
