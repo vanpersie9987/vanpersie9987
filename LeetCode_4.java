@@ -9100,6 +9100,9 @@ public class LeetCode_4 {
         int[] res = new int[2];
         int max = 0;
         for (int i = 0; i < n; ++i) {
+            if (max > n / 2 || max > n - i) {
+                break;
+            }
             for (int j = i + 1; j < n; ++j) {
                 int count = 2;
                 long x1 = points[i][0] - points[j][0];
@@ -9130,6 +9133,9 @@ public class LeetCode_4 {
         }
         int res = 0;
         for (int i = 0; i < n; ++i) {
+            if (res > n / 2 || res > n - i) {
+                break;
+            }
             int x1 = points[i][0];
             int y1 = points[i][1];
             for (int j = i + 1; j < n; ++j) {
