@@ -4326,6 +4326,28 @@ public class LeetCode_4 {
     // 1455. 检查单词是否为句中其他单词的前缀 (Check If a Word Occurs As a Prefix of Any Word in a
     // Sentence)
     public int isPrefixOfWord2(String sentence, String searchWord) {
+        int left = 0;
+        int right = 0;
+        int count = 0;
+        while (left < sentence.length()) {
+            while (right < sentence.length() && sentence.charAt(right) != ' ') {
+                ++right;
+            }
+            ++count;
+            String s = sentence.substring(left, right);
+            if (s.startsWith(searchWord)) {
+                return count;
+            }
+            left = right + 1;
+            right = left;
+        }
+        return -1;
+
+    }
+
+    // 1455. 检查单词是否为句中其他单词的前缀 (Check If a Word Occurs As a Prefix of Any Word in a
+    // Sentence)
+    public int isPrefixOfWord3(String sentence, String searchWord) {
         Trie1455 trie = new Trie1455();
         String[] split = sentence.split("\\s+");
         for (int i = 0; i < split.length; ++i) {
@@ -9475,7 +9497,75 @@ public class LeetCode_4 {
         return dp[n][m];
 
     }
-    
 
+    // 6156. 得到 K 个黑块的最少涂色次数
+    public int minimumRecolors(String blocks, int k) {
+        int n = blocks.length();
+        int cur = 0;
+        for (int i = 0; i < k; ++i) {
+            if (blocks.charAt(i) == 'W') {
+                ++cur;
+            }
+        }
+        int res = cur;
+        for (int i = k; i < n; ++i) {
+            if (blocks.charAt(i - k) == 'W') {
+                --cur;
+            }
+            if (blocks.charAt(i) == 'W') {
+                ++cur;
+            }
+            res = Math.min(res, cur);
+        }
+        return res;
+
+    }
+
+    // 6157. 二进制字符串重新安排顺序需要的时间
+    public int secondsToRemoveOccurrences(String s) {
+        char[] chars = s.toCharArray();
+        int res = 0;
+        while (String.valueOf(chars).indexOf("01") != -1) {
+            ++res;
+            for (int i = 1; i < chars.length; ++i) {
+                if (chars[i] == '1' && chars[i - 1] == '0') {
+                    chars[i] = '0';
+                    chars[i - 1] = '1';
+                    ++i;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 6158. 字母移位 II
+    public String shiftingLetters(String s, int[][] shifts) {
+        int n = s.length();
+        int[] diff = new int[n + 1];
+        for (int[] shift : shifts) {
+            if (shift[2] == 1) {
+                ++diff[shift[0]];
+                --diff[shift[1] + 1];
+            } else {
+                --diff[shift[0]];
+                ++diff[shift[1] + 1];
+            }
+        }
+        for (int i = 1; i < n + 1; ++i) {
+            diff[i] += diff[i - 1];
+        }
+        char[] res = new char[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = (char) (((s.charAt(i) - 'a' + diff[i]) % 26 + 26) % 26 + 'a');
+        }
+
+        return String.valueOf(res);
+
+    }
+
+    // 6159. 删除操作后的最大子段和
+    // public long[] maximumSegmentSum(int[] nums, int[] removeQueries) {
+    // }
 
 }
