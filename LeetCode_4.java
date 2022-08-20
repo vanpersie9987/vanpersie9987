@@ -9406,6 +9406,54 @@ public class LeetCode_4 {
 
     }
 
+    // 273. 整数转换英文表示 (Integer to English Words)
+    private String[] singles = new String[] { "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
+            "Nine" };
+    private String[] teens = new String[] { "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
+            "Seventeen", "Eighteen", "Nineteen" };
+    private String[] tens = new String[] { "", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy",
+            "Eighty",
+            "Ninety" };
+    private String[] thousand = new String[] { "", "Thousand", "Million", "Billion" };
+
+    public String numberToWords(int num) {
+        if (num == 0) {
+            return "Zero";
+        }
+        StringBuilder res = new StringBuilder();
+        int unit = 1000000000;
+        for (int i = 3; i >= 0; --i) {
+            int cur = num / unit;
+            if (cur != 0) {
+                num -= cur * unit;
+                res.append(getHundred273(cur)).append(thousand[i]).append(" ");
+            }
+            unit /= 1000;
+        }
+        return res.toString().trim();
+
+    }
+
+    private String getHundred273(int num) {
+        StringBuilder builder = new StringBuilder();
+        int hundred = num / 100;
+        if (hundred != 0) {
+            builder.append(singles[hundred]).append(" Hundred ");
+            num %= 100;
+        }
+        int ten = num / 10;
+        if (ten >= 2) {
+            builder.append(tens[ten]).append(" ");
+            num %= 10;
+        }
+        if (num >= 10) {
+            builder.append(teens[num - 10]).append(" ");
+        } else if (num > 0) {
+            builder.append(singles[num]).append(" ");
+        }
+        return builder.toString();
+    }
+
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
     // 剑指 Offer II 061. 和最小的 k 个数对
     // public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
