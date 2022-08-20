@@ -9475,30 +9475,7 @@ public class LeetCode_4 {
         return dp[n][m];
 
     }
+    
 
-    // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums)
-    // 剑指 Offer II 061. 和最小的 k 个数对
-    // public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
 
-    // }
-
-    // 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
-    // public int minInsertions(String s) {
-
-    // }
-
-    // 526. 优美的排列 (Beautiful Arrangement)
-    // public int countArrangement(int n) {
-
-    // }
-
-    // 979. 在二叉树中分配硬币 (Distribute Coins in Binary Tree)
-    // public int distributeCoins(TreeNode root) {
-
-    // }
-
-    // 1026. 节点与其祖先之间的最大差值 (Maximum Difference Between Node and Ancestor)
-    // public int maxAncestorDiff(TreeNode root) {
-
-    // }
 }
