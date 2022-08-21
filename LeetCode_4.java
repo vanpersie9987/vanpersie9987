@@ -9607,7 +9607,7 @@ public class LeetCode_4 {
 
     }
 
-    // 2070. 每一个查询的最大美丽值 (Most Beautiful Item for Each Query)
+    // 2070. 每一个查询的最大美丽值 (Most Beautiful Item for Each Query) -- 排序 + 二分查找
     public int[] maximumBeauty(int[][] items, int[] queries) {
 
         Arrays.sort(items, new Comparator<int[]>() {
