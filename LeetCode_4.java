@@ -9697,11 +9697,11 @@ public class LeetCode_4 {
             }
 
         }
-        String rev = new StringBuilder(res).reverse().toString();
+        StringBuilder rev = new StringBuilder(res).reverse();
         if (oddIndex != -1) {
             res.append(oddIndex);
         }
-        res = res.append(rev);
+        res.append(rev);
         int i = 0;
         while (i < res.length()) {
             if (res.charAt(i) != '0') {
