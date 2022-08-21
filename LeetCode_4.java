@@ -9654,8 +9654,117 @@ public class LeetCode_4 {
         return res;
     }
 
+    // 6152. 赢得比赛需要的最少训练时长
+    public int minNumberOfHours(int initialEnergy, int initialExperience, int[] energy, int[] experience) {
+        int n = energy.length;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            if (initialEnergy <= energy[i]) {
+                res += energy[i] - initialEnergy + 1;
+                initialEnergy = 1;
+            } else {
+                initialEnergy -= energy[i];
+            }
+            if (initialExperience <= experience[i]) {
+                int num = experience[i] - initialExperience + 1;
+                res += num;
+                initialExperience += num + experience[i];
+            } else {
+                initialExperience += experience[i];
+            }
+        }
+        return res;
+
+    }
+
+    // 6166. 最大回文数字
+    public String largestPalindromic(String num) {
+        int[] counts = new int[10];
+        for (char c : num.toCharArray()) {
+            ++counts[c - '0'];
+        }
+        int oddIndex = -1;
+        StringBuilder res = new StringBuilder();
+        for (int i = 9; i >= 0; --i) {
+            if (counts[i] % 2 == 1) {
+                if (oddIndex == -1) {
+                    oddIndex = i;
+                }
+            }
+            counts[i] /= 2;
+            while (counts[i]-- > 0) {
+                res.append(i);
+            }
+
+        }
+        String rev = new StringBuilder(res).reverse().toString();
+        if (oddIndex != -1) {
+            res.append(oddIndex);
+        }
+        res = res.append(rev);
+        int i = 0;
+        while (i < res.length()) {
+            if (res.charAt(i) != '0') {
+                break;
+            }
+            ++i;
+        }
+        if (i == res.length()) {
+            return "0";
+        }
+        return res.substring(i, res.length() - i);
+
+    }
+
+    // 6154. 感染二叉树需要的总时间
+    public int amountOfTime(TreeNode root, int start) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node.left != null) {
+                map.computeIfAbsent(node.val, k -> new ArrayList<>()).add(node.left.val);
+                map.computeIfAbsent(node.left.val, k -> new ArrayList<>()).add(node.val);
+                queue.offer(node.left);
+
+            }
+            if (node.right != null) {
+                map.computeIfAbsent(node.val, k -> new ArrayList<>()).add(node.right.val);
+                map.computeIfAbsent(node.right.val, k -> new ArrayList<>()).add(node.val);
+                queue.offer(node.right);
+            }
+
+        }
+        int res = -1;
+        Queue<Integer> queue2 = new LinkedList<>();
+        queue2.offer(start);
+        Set<Integer> visited = new HashSet<>();
+        visited.add(start);
+        while (!queue2.isEmpty()) {
+            int size = queue2.size();
+            for (int i = 0; i < size; ++i) {
+                int cur = queue2.poll();
+                for (int neighbor : map.getOrDefault(cur, new ArrayList<>())) {
+                    if (!visited.contains(neighbor)) {
+                        visited.add(neighbor);
+                        queue2.offer(neighbor);
+                    }
+                }
+            }
+            ++res;
+        }
+        return res;
+
+    }
+
     // 6159. 删除操作后的最大子段和
     // public long[] maximumSegmentSum(int[] nums, int[] removeQueries) {
+    // }
+
+    // 6155. 找出数组的第 K 大和
+    // public long kSum(int[] nums, int k) {
+
     // }
 
 }
