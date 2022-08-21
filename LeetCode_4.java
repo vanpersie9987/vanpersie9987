@@ -9609,39 +9609,27 @@ public class LeetCode_4 {
 
     // 2070. 每一个查询的最大美丽值 (Most Beautiful Item for Each Query)
     public int[] maximumBeauty(int[][] items, int[] queries) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int[] item : items) {
-            if (map.containsKey(item[0])) {
-                int val = Math.max(map.get(item[0]), item[1]);
-                map.put(item[0], val);
-            } else {
-                map.put(item[0], item[1]);
-            }
-        }
-        List<int[]> list = new ArrayList<>();
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            list.add(new int[] { entry.getKey(), entry.getValue() });
-        }
 
-        Collections.sort(list, new Comparator<int[]>() {
+        Arrays.sort(items, new Comparator<int[]>() {
 
             @Override
             public int compare(int[] o1, int[] o2) {
+                if (o1[0] == o2[0]) {
+                    return o2[1] - o1[1];
+                }
                 return o1[0] - o2[0];
             }
 
         });
-        for (int i = 1; i < list.size(); ++i) {
-            int[] cur = list.get(i);
-            cur[1] = Math.max(list.get(i - 1)[1], cur[1]);
-            list.set(i, cur);
+        for (int i = 1; i < items.length; ++i) {
+            items[i][1] = Math.max(items[i - 1][1], items[i][1]);
         }
 
         int n = queries.length;
         int[] res = new int[n];
         for (int i = 0; i < n; ++i) {
             int bound = queries[i];
-            int beauty = binarySearch2070(list, bound);
+            int beauty = binarySearch2070(items, bound);
             if (beauty >= 0) {
                 res[i] = beauty;
             }
@@ -9650,14 +9638,14 @@ public class LeetCode_4 {
 
     }
 
-    private int binarySearch2070(List<int[]> list, int bound) {
+    private int binarySearch2070(int[][] items, int bound) {
         int left = 0;
-        int right = list.size() - 1;
+        int right = items.length - 1;
         int res = -1;
         while (left <= right) {
             int mid = left + ((right - left) >>> 1);
-            if (list.get(mid)[0] <= bound) {
-                res = list.get(mid)[1];
+            if (items[mid][0] <= bound) {
+                res = items[mid][1];
                 left = mid + 1;
             } else {
                 right = mid - 1;
