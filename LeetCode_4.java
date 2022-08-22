@@ -9758,9 +9758,34 @@ public class LeetCode_4 {
 
     }
 
-    // 6159. 删除操作后的最大子段和
-    // public long[] maximumSegmentSum(int[] nums, int[] removeQueries) {
-    // }
+    // 6159. 删除操作后的最大子段和 --并查集运用
+    private int[] parent6159;
+
+    public long[] maximumSegmentSum(int[] nums, int[] removeQueries) {
+        int n = nums.length;
+        long[] res = new long[removeQueries.length];
+        parent6159 = new int[n + 1];
+        for (int i = 0; i <= n; ++i) {
+            parent6159[i] = i;
+        }
+        long[] sum = new long[n + 1];
+        for (int i = removeQueries.length - 1; i > 0; --i) {
+            int p = removeQueries[i];
+            int pa = getRoot6159(p + 1);
+            parent6159[p] = pa;
+            sum[pa] += sum[p] + nums[p];
+            res[i - 1] = Math.max(res[i], sum[pa]);
+        }
+        return res;
+
+    }
+
+    private int getRoot6159(int p) {
+        if (parent6159[p] == p) {
+            return p;
+        }
+        return parent6159[p] = getRoot6159(parent6159[p]);
+    }
 
     // 6155. 找出数组的第 K 大和
     // public long kSum(int[] nums, int k) {
