@@ -35,12 +35,13 @@ public class Leetcode_5 {
         List<String> list = new ArrayList<>();
         int left = 0;
         int right = 0;
-        while (right <= builder.length()) {
-            if (right == builder.length() || builder.charAt(right) == ' ') {
-                list.add(builder.substring(left, right));
-                left = right + 1;
+        while (right < builder.length()) {
+            while (right < builder.length() && Character.isLetter(builder.charAt(right))) {
+                ++right;
             }
-            ++right;
+            list.add(builder.substring(left, right));
+            left = right + 1;
+            right = left;
         }
         Collections.sort(list, new Comparator<String>() {
 
