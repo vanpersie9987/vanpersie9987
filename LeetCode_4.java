@@ -9763,13 +9763,13 @@ public class LeetCode_4 {
 
     public long[] maximumSegmentSum(int[] nums, int[] removeQueries) {
         int n = nums.length;
-        long[] res = new long[removeQueries.length];
+        long[] res = new long[n];
         parent6159 = new int[n + 1];
         for (int i = 0; i <= n; ++i) {
             parent6159[i] = i;
         }
         long[] sum = new long[n + 1];
-        for (int i = removeQueries.length - 1; i > 0; --i) {
+        for (int i = n - 1; i > 0; --i) {
             int p = removeQueries[i];
             int pa = getRoot6159(p + 1);
             parent6159[p] = pa;
@@ -9815,6 +9815,37 @@ public class LeetCode_4 {
         }
         return (int) Math.max(-1, maxDP[m - 1][n - 1] % MOD);
 
+    }
+
+    // 2064. 分配给商店的最多商品的最小值 (Minimized Maximum of Products Distributed to Any Store) --二分查找
+    public int minimizedMaximum(int n, int[] quantities) {
+        int res = -1;
+        int left = 1;
+        int right = 0;
+        for (int quantity : quantities) {
+            right = Math.max(right, quantity);
+        }
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (canDistribute2064(mid, quantities, n)) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+
+    private boolean canDistribute2064(int max, int[] quantities, int n) {
+        int count = 0;
+        for (int quantity : quantities) {
+            count += (quantity - 1) / max + 1;
+            if (count > n) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // 6155. 找出数组的第 K 大和
