@@ -61,5 +61,4 @@ public class Leetcode_5 {
         }
         return res.replace(0, 1, String.valueOf(Character.toUpperCase(res.charAt(0)))).toString();
     }
-
 }

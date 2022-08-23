@@ -5152,7 +5152,7 @@ public class LeetCodeText {
 
     }
 
-    // 1460. 通过翻转子数组使两个数组相等
+    // 1460. 通过翻转子数组使两个数组相等 (Make Two Arrays Equal by Reversing Sub-arrays)
     public boolean canBeEqual(int[] target, int[] arr) {
         Arrays.sort(target);
         Arrays.sort(arr);
@@ -5165,7 +5165,7 @@ public class LeetCodeText {
 
     }
 
-    // 1460. 通过翻转子数组使两个数组相等
+    // 1460. 通过翻转子数组使两个数组相等 (Make Two Arrays Equal by Reversing Sub-arrays)
     public boolean canBeEqual2(int[] target, int[] arr) {
         int[] counts = new int[1001];
         for (int num : arr) {
