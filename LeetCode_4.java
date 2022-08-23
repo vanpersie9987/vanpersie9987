@@ -9968,9 +9968,4 @@ public class LeetCode_4 {
         return Math.max(Math.max(maxA - minA, maxB - minB), Math.max(maxC - minC, maxD - minD));
     }
 
-    // 6155. 找出数组的第 K 大和
-    // public long kSum(int[] nums, int k) {
-
-    // }
-
 }
