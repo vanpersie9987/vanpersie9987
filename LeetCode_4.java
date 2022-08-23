@@ -9817,7 +9817,8 @@ public class LeetCode_4 {
 
     }
 
-    // 2064. 分配给商店的最多商品的最小值 (Minimized Maximum of Products Distributed to Any Store) --二分查找
+    // 2064. 分配给商店的最多商品的最小值 (Minimized Maximum of Products Distributed to Any Store)
+    // --二分查找
     public int minimizedMaximum(int n, int[] quantities) {
         int res = -1;
         int left = 1;
@@ -9846,6 +9847,30 @@ public class LeetCode_4 {
             }
         }
         return true;
+    }
+
+    // 2033. 获取单值网格的最小操作数 (Minimum Operations to Make a Uni-Value Grid)
+    public int minOperations(int[][] grid, int x) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[] nums = new int[m * n];
+        int index = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if ((grid[i][j] - grid[0][0]) % x != 0) {
+                    return -1;
+                }
+                nums[index++] = grid[i][j];
+            }
+        }
+        Arrays.sort(nums);
+        int midNum = nums[m * n / 2];
+        int res = 0;
+        for (int num : nums) {
+            res += Math.abs(num - midNum) / x;
+        }
+        return res;
+
     }
 
     // 6155. 找出数组的第 K 大和
