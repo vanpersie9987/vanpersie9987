@@ -9912,6 +9912,62 @@ public class LeetCode_4 {
 
     }
 
+    /*
+     * |arr1[i] - arr1[j]| + |arr2[i] - arr2[j]| + |i - j|
+     * 
+     * = (arr1[i] + arr2[i] + i) - (arr1[j] + arr2[j] + j)
+     * = (arr1[i] + arr2[i] - i) - (arr1[j] + arr2[j] - j)
+     * = (arr1[i] - arr2[i] + i) - (arr1[j] - arr2[j] + j)
+     * = (arr1[i] - arr2[i] - i) - (arr1[j] - arr2[j] - j)
+     * = -(arr1[i] + arr2[i] + i) + (arr1[j] + arr2[j] + j)
+     * = -(arr1[i] + arr2[i] - i) + (arr1[j] + arr2[j] - j)
+     * = -(arr1[i] - arr2[i] + i) + (arr1[j] - arr2[j] + j)
+     * = -(arr1[i] - arr2[i] - i) + (arr1[j] - arr2[j] - j)
+     * 
+     * 因为存在四组两两等价的展开，所以可以优化为四个表达式：
+     * A = arr1[i] + arr2[i] + i
+     * B = arr1[i] + arr2[i] - i
+     * C = arr1[i] - arr2[i] + i
+     * D = arr1[i] - arr2[i] - i
+     * 
+     * max( |arr1[i] - arr1[j]| + |arr2[i] - arr2[j]| + |i - j|)
+     * = max(max(A) - min(A),
+     * max(B) - min(B),
+     * max(C) - min(C),
+     * max(D) - min(D))
+     * 
+     */
+    // 1131. 绝对值表达式的最大值 (Maximum of Absolute Value Expression)
+    public int maxAbsValExpr(int[] arr1, int[] arr2) {
+        int n = arr1.length;
+
+        int maxA = Integer.MIN_VALUE;
+        int maxB = Integer.MIN_VALUE;
+        int maxC = Integer.MIN_VALUE;
+        int maxD = Integer.MIN_VALUE;
+
+        int minA = Integer.MAX_VALUE;
+        int minB = Integer.MAX_VALUE;
+        int minC = Integer.MAX_VALUE;
+        int minD = Integer.MAX_VALUE;
+
+        for (int i = 0; i < n; ++i) {
+            maxA = Math.max(arr1[i] + arr2[i] + i, maxA);
+            minA = Math.min(arr1[i] + arr2[i] + i, minA);
+
+            maxB = Math.max(arr1[i] + arr2[i] - i, maxB);
+            minB = Math.min(arr1[i] + arr2[i] - i, minB);
+
+            maxC = Math.max(arr1[i] - arr2[i] + i, maxC);
+            minC = Math.min(arr1[i] - arr2[i] + i, minC);
+
+            maxD = Math.max(arr1[i] - arr2[i] - i, maxD);
+            minD = Math.min(arr1[i] - arr2[i] - i, minD);
+
+        }
+        return Math.max(Math.max(maxA - minA, maxB - minB), Math.max(maxC - minC, maxD - minD));
+    }
+
     // 6155. 找出数组的第 K 大和
     // public long kSum(int[] nums, int k) {
 
