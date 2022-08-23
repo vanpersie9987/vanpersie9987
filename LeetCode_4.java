@@ -9873,6 +9873,45 @@ public class LeetCode_4 {
 
     }
 
+    // 764. 最大加号标志 (Largest Plus Sign) --dp
+    public int orderOfLargestPlusSign(int n, int[][] mines) {
+        Set<Integer> set = new HashSet<>();
+        for (int[] mine : mines) {
+            set.add(mine[0] * n + mine[1]);
+        }
+        int[][] dp = new int[n][n];
+        int count = 0;
+        for (int i = 0; i < n; ++i) {
+            count = 0;
+            for (int j = 0; j < n; ++j) {
+                count = set.contains(i * n + j) ? 0 : count + 1;
+                dp[i][j] = count;
+            }
+            count = 0;
+            for (int j = n - 1; j >= 0; --j) {
+                count = set.contains(i * n + j) ? 0 : count + 1;
+                dp[i][j] = Math.min(dp[i][j], count);
+            }
+        }
+        int res = 0;
+
+        for (int j = 0; j < n; ++j) {
+            count = 0;
+            for (int i = 0; i < n; ++i) {
+                count = set.contains(i * n + j) ? 0 : count + 1;
+                dp[i][j] = Math.min(dp[i][j], count);
+            }
+            count = 0;
+            for (int i = n - 1; i >= 0; --i) {
+                count = set.contains(i * n + j) ? 0 : count + 1;
+                dp[i][j] = Math.min(dp[i][j], count);
+                res = Math.max(res, dp[i][j]);
+            }
+        }
+        return res;
+
+    }
+
     // 6155. 找出数组的第 K 大和
     // public long kSum(int[] nums, int k) {
 
