@@ -83,4 +83,21 @@ public class Leetcode_5 {
             queue.offer(seatNumber);
         }
     }
+
+    // 1749. 任意子数组和的绝对值的最大值 (Maximum Absolute Sum of Any Subarray)
+    public int maxAbsoluteSum(int[] nums) {
+        int prefix = 0;
+        int min = 0;
+        int max = 0;
+        int res = 0;
+        for (int num : nums) {
+            prefix += num;
+            res = Math.max(Math.abs(prefix - min), res);
+            res = Math.max(Math.abs(prefix - max), res);
+            min = Math.min(min, prefix);
+            max = Math.max(max, prefix);
+        }
+        return res;
+
+    }
 }
