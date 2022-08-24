@@ -1,8 +1,10 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 public class Leetcode_5 {
     public static void main(String[] args) {
@@ -124,5 +126,43 @@ public class Leetcode_5 {
             }
         }
         return list;
+    }
+
+    // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums) --优先队列 + BFS （还需掌握二分查找）
+    // 剑指 Offer II 061. 和最小的 k 个数对
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        int m = nums1.length;
+        int n = nums2.length;
+        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return nums1[o1[0]] + nums2[o1[1]] - (nums1[o2[0]] + nums2[o2[1]]);
+            }
+
+        });
+
+        List<List<Integer>> res = new ArrayList<>();
+
+        Set<String> visited = new HashSet<>();
+
+        priorityQueue.offer(new int[] { 0, 0 });
+        visited.add(0 + "_" + 0);
+        while (k-- > 0 && !priorityQueue.isEmpty()) {
+            int[] cur = priorityQueue.poll();
+            int index1 = cur[0];
+            int index2 = cur[1];
+            res.add(List.of(nums1[index1], nums2[index2]));
+
+            if (index1 + 1 < m && visited.add((index1 + 1) + "_" + index2)) {
+                priorityQueue.offer(new int[] { index1 + 1, index2 });
+            }
+
+            if (index2 + 1 < n && visited.add(index1 + "_" + (index2 + 1))) {
+                priorityQueue.offer(new int[] { index1, index2 + 1 });
+            }
+        }
+        return res;
+
     }
 }
