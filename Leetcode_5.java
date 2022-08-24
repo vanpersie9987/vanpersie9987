@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -99,5 +98,31 @@ public class Leetcode_5 {
         }
         return res;
 
+    }
+
+    // 816. 模糊坐标 (Ambiguous Coordinates)
+    public List<String> ambiguousCoordinates(String s) {
+        int n = s.length();
+        List<String> res = new ArrayList<>();
+        for (int i = 2; i < n - 1; ++i) {
+            for (String left : makeString816(s, 1, i)) {
+                for (String right : makeString816(s, i, n - 1)) {
+                    res.add("(" + left + ", " + right + ")");
+                }
+            }
+        }
+        return res;
+    }
+
+    private List<String> makeString816(String s, int i, int j) {
+        List<String> list = new ArrayList<>();
+        for (int d = 1; d <= j - i; ++d) {
+            String left = s.substring(i, i + d);
+            String right = s.substring(i + d, j);
+            if ((!left.startsWith("0") || "0".equals(left)) && !right.endsWith("0")) {
+                list.add(left + (d < j - i ? "." : "") + right);
+            }
+        }
+        return list;
     }
 }
