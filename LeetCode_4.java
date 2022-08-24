@@ -3439,27 +3439,31 @@ public class LeetCode_4 {
 
     // 786. 第 K 个最小的素数分数 (K-th Smallest Prime Fraction) --优先队列
     public int[] kthSmallestPrimeFraction2(int[] arr, int k) {
-        Queue<int[]> priorityQueue = new PriorityQueue<>(new Comparator<int[]>() {
+        int n = arr.length;
+        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>(new Comparator<int[]>() {
 
             @Override
             public int compare(int[] o1, int[] o2) {
-                return arr[o1[0]] * arr[o2[1]] - arr[o2[0]] * arr[o1[1]];
+                return arr[o1[0]] * arr[o2[1]] - arr[o1[1]] * arr[o2[0]];
             }
 
         });
-        int n = arr.length;
-        for (int j = 1; j < n; ++j) {
-            priorityQueue.offer(new int[] { 0, j });
-        }
-        for (int i = 1; i < k; ++i) {
+
+        priorityQueue.offer(new int[] { 0, n - 1 });
+        Set<String> set = new HashSet<>();
+        set.add(0 + "_" + (n - 1));
+        while (--k > 0 && !priorityQueue.isEmpty()) {
             int[] cur = priorityQueue.poll();
-            if (cur[0] + 1 < cur[1]) {
-                priorityQueue.offer(new int[] { cur[0] + 1, cur[1] });
+            int index1 = cur[0];
+            int index2 = cur[1];
+            if (index1 + 1 < index2 && set.add((index1 + 1) + "_" + index2)) {
+                priorityQueue.offer(new int[] { index1 + 1, index2 });
+            }
+            if (index1 < index2 - 1 && set.add(index1 + "_" + (index2 - 1))) {
+                priorityQueue.offer(new int[] { index1, index2 - 1 });
             }
         }
-        int[] index = priorityQueue.peek();
-        return new int[] { arr[index[0]], arr[index[1]] };
-
+        return new int[] { arr[priorityQueue.peek()[0]], arr[priorityQueue.peek()[1]] };
     }
 
     // 786. 第 K 个最小的素数分数 (K-th Smallest Prime Fraction) --二分查找
