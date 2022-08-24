@@ -128,7 +128,8 @@ public class Leetcode_5 {
         return list;
     }
 
-    // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums) --优先队列 + BFS （还需掌握二分查找）
+    // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums) --优先队列 + BFS 与786原理相同
+    // （还需掌握二分查找）
     // 剑指 Offer II 061. 和最小的 k 个数对
     public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
         int m = nums1.length;
