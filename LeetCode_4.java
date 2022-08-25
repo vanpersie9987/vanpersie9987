@@ -6343,22 +6343,17 @@ public class LeetCode_4 {
 
     // 658. 找到 K 个最接近的元素 (Find K Closest Elements) --双指针
     public List<Integer> findClosestElements2(int[] arr, int k, int x) {
+        int remove = arr.length - k;
         int left = 0;
         int right = arr.length - 1;
-        int times = arr.length - k;
-        while (times-- > 0) {
-            if (x - arr[left] <= arr[right] - x) {
+        while (remove-- > 0) {
+            if (Math.abs(arr[left] - x) <= Math.abs(arr[right] - x)) {
                 --right;
             } else {
                 ++left;
             }
         }
-
-        List<Integer> res = new ArrayList<>();
-        for (int i = left; i <= right; ++i) {
-            res.add(arr[i]);
-        }
-        return res;
+        return Arrays.stream(arr).boxed().collect(Collectors.toList()).subList(left, right + 1);
 
     }
 

@@ -1,10 +1,12 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Leetcode_5 {
     public static void main(String[] args) {
@@ -166,4 +168,9 @@ public class Leetcode_5 {
         return res;
 
     }
+
+    // 813. 最大平均值和的分组 (Largest Sum of Averages)
+    // public double largestSumOfAverages(int[] nums, int k) {
+
+    // }
 }
