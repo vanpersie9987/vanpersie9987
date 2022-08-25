@@ -182,8 +182,25 @@ public class Leetcode_5 {
 
     }
 
-    // 813. 最大平均值和的分组 (Largest Sum of Averages)
-    // public double largestSumOfAverages(int[] nums, int k) {
+    // 813. 最大平均值和的分组 (Largest Sum of Averages) --dp
+    public double largestSumOfAverages(int[] nums, int k) {
+        // dp[i][j] : 前i个元素，分成j份，可得到的最大平均值
+        int n = nums.length;
+        double[][] dp = new double[n + 1][k + 1];
+        double[] prefix = new double[n + 1];
+        for (int i = 1; i < n + 1; ++i) {
+            prefix[i] = prefix[i - 1] + nums[i - 1];
+        }
 
-    // }
+        for (int i = 1; i < n + 1; ++i) {
+            dp[i][1] = prefix[i] / i;
+            for (int kk = 2; kk <= k && kk <= i; ++kk) {
+                for (int j = 1; j < i; ++j) {
+                    dp[i][kk] = Math.max(dp[i][kk], dp[j][kk - 1] + (prefix[i] - prefix[j]) / (i - j));
+                }
+            }
+        }
+        return dp[n][k];
+
+    }
 }
