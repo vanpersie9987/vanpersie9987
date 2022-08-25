@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -220,5 +221,38 @@ public class Leetcode_5 {
         int right = dfs563(node.right);
         res563 += Math.abs(left - right);
         return left + right + node.val;
+    }
+
+    // 2054. 两个最好的不重叠活动 (Two Best Non-Overlapping Events) --优先队列
+    public int maxTwoEvents(int[][] events) {
+        Arrays.sort(events, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+
+        });
+
+        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+
+        });
+        int max = 0;
+        int res = 0;
+
+        for (int[] event : events) {
+            while (!priorityQueue.isEmpty() && priorityQueue.peek()[0] < event[0]) {
+                int[] cur = priorityQueue.poll();
+                max = Math.max(max, cur[1]);
+            }
+            res = Math.max(res, max + event[2]);
+            priorityQueue.offer(new int[] { event[1], event[2] });
+        }
+        return res;
     }
 }
