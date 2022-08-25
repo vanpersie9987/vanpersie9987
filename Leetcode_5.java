@@ -203,4 +203,22 @@ public class Leetcode_5 {
         return dp[n][k];
 
     }
+
+    // 563. 二叉树的坡度 (Binary Tree Tilt) --dfs
+    private int res563;
+
+    public int findTilt(TreeNode root) {
+        dfs563(root);
+        return res563;
+    }
+
+    private int dfs563(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+        int left = dfs563(node.left);
+        int right = dfs563(node.right);
+        res563 += Math.abs(left - right);
+        return left + right + node.val;
+    }
 }
