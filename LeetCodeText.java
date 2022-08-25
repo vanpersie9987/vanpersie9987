@@ -3515,19 +3515,20 @@ public class LeetCodeText {
 
     }
 
-    // 1464. 数组中两元素的最大乘积
+    // 1464. 数组中两元素的最大乘积 (Maximum Product of Two Elements in an Array)
     public int maxProduct1464(int[] nums) {
-        int max1 = Integer.MIN_VALUE;
-        int max2 = Integer.MIN_VALUE;
+        int max = 0;
+        int secondMax = 0;
         for (int num : nums) {
-            if (num >= max1) {
-                max2 = max1;
-                max1 = num;
-            } else if (num >= max2) {
-                max2 = num;
+            num -= 1;
+            if (num >= max) {
+                secondMax = max;
+                max = num;
+            } else if (num >= secondMax) {
+                secondMax = num;
             }
         }
-        return (max1 - 1) * (max2 - 1);
+        return max * secondMax;
 
     }
 
