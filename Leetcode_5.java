@@ -256,22 +256,6 @@ public class Leetcode_5 {
         return res;
     }
 
-    public int maxProduct(int[] nums) {
-        int max = -1;
-        int secondMax = -1;
-        for (int num : nums) {
-            num -= 1;
-            if (num >= max) {
-                secondMax = max;
-                max = num;
-            } else if (num >= secondMax) {
-                secondMax = num;
-            }
-        }
-        return max * secondMax;
-
-    }
-
     // 437. 路径总和 III (Path Sum III)
     // 剑指 Offer II 050. 向下的路径节点之和
     // 面试题 04.12. 求和路径 (Paths with Sum LCCI)
