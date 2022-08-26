@@ -2,8 +2,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
@@ -259,7 +261,26 @@ public class Leetcode_5 {
     // 437. 路径总和 III (Path Sum III)
     // 剑指 Offer II 050. 向下的路径节点之和
     // 面试题 04.12. 求和路径 (Paths with Sum LCCI)
-    // public int pathSum(TreeNode root, int targetSum) {
+    private int res437;
+    private Map<Long, Integer> map437;
 
-    // }
+    public int pathSum(TreeNode root, int targetSum) {
+        map437 = new HashMap<>();
+        map437.put(0L, 1);
+        dfs437(root, targetSum, 0L);
+        return res437;
+
+    }
+
+    private void dfs437(TreeNode node, int targetSum, long cur) {
+        if (node == null) {
+            return;
+        }
+        cur += node.val;
+        res437 += map437.getOrDefault(cur - targetSum, 0);
+        map437.put(cur, map437.getOrDefault(cur, 0) + 1);
+        dfs437(node.left, targetSum, cur);
+        dfs437(node.right, targetSum, cur);
+        map437.put(cur, map437.getOrDefault(cur, 0) - 1);
+    }
 }
