@@ -6379,43 +6379,35 @@ public class Leetcode_3 {
 
     // 662. 二叉树最大宽度 (Maximum Width of Binary Tree) --bfs
     public int widthOfBinaryTree(TreeNode root) {
-        Queue<Node662> queue = new LinkedList<>();
-        queue.offer(new Node662(root, 1));
-        int res = 0;
+        int res = 1;
+        Queue<TreeNode> queue = new LinkedList<>();
+        root.val = 1;
+        queue.offer(root);
         while (!queue.isEmpty()) {
+            int min = -1;
+            int max = -1;
             int size = queue.size();
-            int minPosition = Integer.MAX_VALUE;
-            int maxPosition = Integer.MIN_VALUE;
             for (int i = 0; i < size; ++i) {
-                Node662 node662 = queue.poll();
+                TreeNode node = queue.poll();
+                if (node.left != null) {
+                    node.left.val = node.val << 1;
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    node.right.val = (node.val << 1) + 1;
+                    queue.offer(node.right);
+                }
                 if (i == 0) {
-                    minPosition = node662.position;
+                    min = node.val;
                 }
                 if (i == size - 1) {
-                    maxPosition = node662.position;
-                }
-                if (node662.node.left != null) {
-                    queue.offer(new Node662(node662.node.left, node662.position << 1));
-                }
-                if (node662.node.right != null) {
-                    queue.offer(new Node662(node662.node.right, (node662.position << 1) + 1));
+                    max = node.val;
                 }
             }
-            res = Math.max(res, maxPosition - minPosition + 1);
+            res = Math.max(res, max - min + 1);
         }
         return res;
 
-    }
-
-    class Node662 {
-        TreeNode node;
-        int position;
-
-        Node662(TreeNode node, int position) {
-            this.node = node;
-            this.position = position;
-
-        }
     }
 
     // 1293. 网格中的最短路径 (Shortest Path in a Grid with Obstacles Elimination) --bfs

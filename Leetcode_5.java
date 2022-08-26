@@ -4,9 +4,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Set;
 
 public class Leetcode_5 {
@@ -283,4 +285,26 @@ public class Leetcode_5 {
         dfs437(node.right, targetSum, cur);
         map437.put(cur, map437.getOrDefault(cur, 0) - 1);
     }
+
+    // 467. 环绕字符串中唯一的子字符串 (Unique Substrings in Wraparound String)
+    // public int findSubstringInWraproundString(String p) {
+    // Map<Character, Set<Integer>> map = new HashMap<>();
+    // int count = 0;
+    // char pre = '?';
+    // int res = 0;
+    // for (char c : p.toCharArray()) {
+    // if (pre != '?' && ((char) ((pre - 'a' + 1) % 26 + 'a')) == c) {
+    // ++count;
+    // } else {
+    // count = 1;
+    // }
+    // if (!map.getOrDefault(c, new HashSet<>()).contains(count)) {
+    // res += count;
+    // }
+    // map.computeIfAbsent(c, k -> new HashSet<>()).add(count);
+    // pre = c;
+    // }
+    // return res;
+
+    // }
 }
