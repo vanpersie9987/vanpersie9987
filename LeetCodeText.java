@@ -6656,33 +6656,36 @@ public class LeetCodeText {
         }
     }
 
+    // 97. 交错字符串 (Interleaving String)
+    // 剑指 Offer II 096. 字符串交织
     public boolean isInterleave(final String s1, final String s2, final String s3) {
-        if (s1 == null || s2 == null || s3 == null) {
+        int n1 = s1.length();
+        int n2 = s2.length();
+        int n3 = s3.length();
+        if (n1 + n2 != n3) {
             return false;
         }
-        if (s1.length() + s2.length() != s3.length()) {
-            return false;
-        }
-        final boolean[][] dp = new boolean[s1.length() + 1][s2.length() + 1];
+        boolean[][] dp = new boolean[n1 + 1][n2 + 1];
         dp[0][0] = true;
-        // 遍历第一行
-        for (int i = 1; i < s2.length() + 1; ++i) {
-            dp[0][i] = dp[0][i - 1] && s2.charAt(i - 1) == s3.charAt(i - 1);
-        }
-        // 遍历第一列
-        for (int i = 1; i < s1.length() + 1; ++i) {
+        for (int i = 1; i < n1 + 1; ++i) {
             dp[i][0] = dp[i - 1][0] && s1.charAt(i - 1) == s3.charAt(i - 1);
         }
-        // 遍历其余项
-        for (int i = 1; i < s1.length() + 1; ++i) {
-            for (int j = 1; j < s2.length() + 1; ++j) {
+        for (int j = 1; j < n2 + 1; ++j) {
+            dp[0][j] = dp[0][j - 1] && s2.charAt(j - 1) == s3.charAt(j - 1);
+        }
+
+        for (int i = 1; i < n1 + 1; ++i) {
+            for (int j = 1; j < n2 + 1; ++j) {
                 dp[i][j] = (dp[i - 1][j] && s1.charAt(i - 1) == s3.charAt(i + j - 1))
                         || (dp[i][j - 1] && s2.charAt(j - 1) == s3.charAt(i + j - 1));
             }
         }
-        return dp[s1.length()][s2.length()];
+        return dp[n1][n2];
+
     }
 
+    // 97. 交错字符串 (Interleaving String)
+    // 剑指 Offer II 096. 字符串交织
     public boolean isInterleave2(final String s1, final String s2, final String s3) {
         if (s1 == null || s2 == null || s3 == null) {
             return false;
