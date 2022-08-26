@@ -6262,6 +6262,7 @@ public class LeetCode_4 {
     }
 
     // 343. 整数拆分 (Integer Break) --dp
+    // 剑指 Offer 14- I. 剪绳子
     public int integerBreak(int n) {
         int[] dp = new int[n + 1];
         for (int i = 2; i <= n; ++i) {
