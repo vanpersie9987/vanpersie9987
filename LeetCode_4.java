@@ -9997,7 +9997,7 @@ public class LeetCode_4 {
 
     }
 
-    // 1760. 袋子里最少数目的球 (Minimum Limit of Balls in a Bag)
+    // 1760. 袋子里最少数目的球 (Minimum Limit of Balls in a Bag) --二分查找
     public int minimumSize(int[] nums, int maxOperations) {
         int left = 1;
         int right = (int) 1e9;
