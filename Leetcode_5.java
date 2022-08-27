@@ -287,24 +287,47 @@ public class Leetcode_5 {
     }
 
     // 467. 环绕字符串中唯一的子字符串 (Unique Substrings in Wraparound String)
-    // public int findSubstringInWraproundString(String p) {
-    // Map<Character, Set<Integer>> map = new HashMap<>();
-    // int count = 0;
-    // char pre = '?';
-    // int res = 0;
-    // for (char c : p.toCharArray()) {
-    // if (pre != '?' && ((char) ((pre - 'a' + 1) % 26 + 'a')) == c) {
-    // ++count;
-    // } else {
-    // count = 1;
-    // }
-    // if (!map.getOrDefault(c, new HashSet<>()).contains(count)) {
-    // res += count;
-    // }
-    // map.computeIfAbsent(c, k -> new HashSet<>()).add(count);
-    // pre = c;
-    // }
-    // return res;
+    public int findSubstringInWraproundString(String p) {
+        Map<Character, Integer> map = new HashMap<>();
+        int count = 0;
+        char pre = '?';
+        int res = 0;
+        for (char c : p.toCharArray()) {
+            if (pre != '?' && ((char) ((pre - 'a' + 1) % 26 + 'a')) == c) {
+                ++count;
+            } else {
+                count = 1;
+            }
+            if (count > map.getOrDefault(c, 0)) {
+                res += count - map.getOrDefault(c, 0);
+                map.put(c, count);
+            }
+            pre = c;
+        }
+        return res;
 
-    // }
+    }
+
+    // 467. 环绕字符串中唯一的子字符串 (Unique Substrings in Wraparound String)
+    public int findSubstringInWraproundString2(String p) {
+        int[] max = new int[26];
+        int count = 0;
+        int pre = -1;
+        int res = 0;
+        for (char c : p.toCharArray()) {
+            int cur = c - 'a';
+            if (pre != -1 && (pre + 1) % 26 == cur) {
+                ++count;
+            } else {
+                count = 1;
+            }
+            if (count > max[cur]) {
+                res += count - max[cur];
+                max[cur] = count;
+            }
+            pre = cur;
+        }
+        return res;
+
+    }
 }
