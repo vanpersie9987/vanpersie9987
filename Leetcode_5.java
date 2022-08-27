@@ -330,4 +330,21 @@ public class Leetcode_5 {
         return res;
 
     }
+
+    // 1953. 你可以工作的最大周数 (Maximum Number of Weeks for Which You Can Work)
+    public long numberOfWeeks(int[] milestones) {
+        int max = 0;
+        long sum = 0l;
+        for (int milestone : milestones) {
+            sum += milestone;
+            max = Math.max(max, milestone);
+        }
+        sum -= max;
+
+        if (max > sum + 1) {
+            return sum * 2 + 1;
+        }
+        return sum + max;
+
+    }
 }
