@@ -347,4 +347,95 @@ public class Leetcode_5 {
         return sum + max;
 
     }
+
+    // 809. 情感丰富的文字 (Expressive Words)
+    public int expressiveWords(String s, String[] words) {
+        int res = 0;
+        search: for (String word : words) {
+            int left1 = 0;
+            int left2 = 0;
+            int right1 = 0;
+            int right2 = 0;
+            while (right1 < s.length() && right2 < word.length()) {
+                if (s.charAt(left1) != word.charAt(left2)) {
+                    continue search;
+                }
+                while (right1 < s.length() && s.charAt(right1) == s.charAt(left1)) {
+                    ++right1;
+                }
+
+                while (right2 < word.length() && word.charAt(right2) == word.charAt(left2)) {
+                    ++right2;
+                }
+
+                int count1 = right1 - left1;
+                int count2 = right2 - left2;
+                if (count1 < count2) {
+                    continue search;
+                }
+                if (count1 >= 3 || count1 == count2) {
+                    left1 = right1;
+                    left2 = right2;
+                } else {
+                    continue search;
+                }
+            }
+            if (right1 == s.length() && right2 == word.length()) {
+                ++res;
+            }
+        }
+        return res;
+    }
+
+    // 809. 情感丰富的文字 (Expressive Words)
+    public int expressiveWords2(String s, String[] words) {
+        int res = 0;
+
+        String shrinkS = getShrink809(s);
+        List<Integer> countS = getCount809(s);
+
+        search: for (String word : words) {
+            String shrinkWord = getShrink809(word);
+            if (!shrinkS.equals(shrinkWord)) {
+                continue search;
+            }
+            List<Integer> countWord = getCount809(word);
+            for (int i = 0; i < countS.size(); ++i) {
+                int count1 = countS.get(i);
+                int count2 = countWord.get(i);
+                if (count1 < count2 || (count1 < 3 && count1 != count2)) {
+                    continue search;
+                }
+            }
+            ++res;
+        }
+        return res;
+    }
+
+    private List<Integer> getCount809(String s) {
+        List<Integer> list = new ArrayList<>();
+        int left = 0;
+        int right = 0;
+        while (right < s.length()) {
+            while (right < s.length() && s.charAt(left) == s.charAt(right)) {
+                ++right;
+            }
+            list.add(right - left);
+            left = right;
+        }
+        return list;
+    }
+
+    private String getShrink809(String s) {
+        StringBuilder builder = new StringBuilder();
+        char pre = '?';
+        for (char c : s.toCharArray()) {
+            if (pre != '?' && pre == c) {
+                continue;
+            }
+            builder.append(c);
+            pre = c;
+        }
+        return builder.toString();
+    }
 }
