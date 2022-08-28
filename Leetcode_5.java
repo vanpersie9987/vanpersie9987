@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 public class Leetcode_5 {
     public static void main(String[] args) {
@@ -456,4 +457,157 @@ public class Leetcode_5 {
         return n * 8;
 
     }
+
+    // 6160. 和有限的最长子序列 (Longest Subsequence With Limited Sum)
+    public int[] answerQueries(int[] nums, int[] queries) {
+        int n = nums.length;
+        int m = queries.length;
+        int[] res = new int[m];
+        int sum = Arrays.stream(nums).sum();
+        Arrays.sort(nums);
+        for (int i = 0; i < m; ++i) {
+            int j = n - 1;
+            int copySum = sum;
+            while (j >= 0 && copySum > queries[i]) {
+                copySum -= nums[j--];
+            }
+            res[i] = j + 1;
+        }
+        return res;
+    }
+
+    // 6161. 从字符串中移除星号 (Removing Stars From a String)
+    public String removeStars(String s) {
+        Stack<Character> stack = new Stack<>();
+        for (char c : s.toCharArray()) {
+            if (c != '*') {
+                stack.push(c);
+            } else {
+                stack.pop();
+            }
+        }
+        StringBuilder res = new StringBuilder();
+        while (!stack.isEmpty()) {
+            res.append(stack.pop());
+        }
+        return res.reverse().toString();
+
+    }
+
+    // 6162. 收集垃圾的最少总时间 (Minimum Amount of Time to Collect Garbage)
+    public int garbageCollection(String[] garbage, int[] travel) {
+        int n = garbage.length;
+        int[][] counts = new int[n][3];
+        for (int i = 0; i < garbage.length; ++i) {
+            for (char c : garbage[i].toCharArray()) {
+                if (c == 'M') {
+                    ++counts[i][0];
+                } else if (c == 'P') {
+                    ++counts[i][1];
+                } else {
+                    ++counts[i][2];
+                }
+            }
+        }
+        int counts1 = getGarbage(counts, travel, 0);
+        int counts2 = getGarbage(counts, travel, 1);
+        int counts3 = getGarbage(counts, travel, 2);
+        return counts1 + counts2 + counts3;
+
+    }
+
+    private int getGarbage(int[][] counts, int[] travel, int kind) {
+        int res = 0;
+        int i = counts.length - 1;
+        while (i >= 0) {
+            if (counts[i][kind] != 0) {
+                break;
+            }
+            --i;
+        }
+        for (int j = 0; j <= i; ++j) {
+            res += counts[j][kind];
+        }
+        for (int j = 0; j < i; ++j) {
+            res += travel[j];
+        }
+        return res;
+    }
+
+    // public int[][] buildMatrix(int k, int[][] rowConditions, int[][]
+    // colConditions) {
+    // int[] degree1 = new int[k + 1];
+    // Map<Integer, List<Integer>> map1 = new HashMap<>();
+    // for (int[] row : rowConditions) {
+    // map1.computeIfAbsent(row[0], o -> new ArrayList<>()).add(row[1]);
+    // ++degree1[row[1]];
+    // }
+    // Queue<Integer> queue1 = new LinkedList<>();
+    // for (int i = 0; i < degree1.length; ++i) {
+    // if (degree1[i] == 0) {
+    // queue1.offer(i);
+    // }
+    // }
+    // Map<Integer, Set<Integer>> rowRes = new HashMap<>();
+    // int c = 0;
+    // while (!queue1.isEmpty()) {
+    // int size = queue1.size();
+    // for (int i = 0; i < size; ++i) {
+    // int cur = queue1.poll();
+    // rowRes.computeIfAbsent(size - 1 + c, o -> new HashSet<>()).add(cur);
+    // for (int neighbor : map1.getOrDefault(cur, new ArrayList<>())) {
+    // --degree1[neighbor];
+    // if (degree1[neighbor] == 0) {
+    // queue1.offer(neighbor);
+    // }
+    // }
+    // }
+    // c += size;
+    // }
+    // for (int d : degree1) {
+    // if (d != 0) {
+    // return new int[0][0];
+    // }
+    // }
+
+    // int[] degree2 = new int[k + 1];
+    // Map<Integer, List<Integer>> map2 = new HashMap<>();
+    // for (int[] row : colConditions) {
+    // map2.computeIfAbsent(row[0], o -> new ArrayList<>()).add(row[1]);
+    // ++degree2[row[1]];
+    // }
+    // Queue<Integer> queue2 = new LinkedList<>();
+    // for (int i = 0; i < degree2.length; ++i) {
+    // if (degree2[i] == 0) {
+    // queue2.offer(i);
+    // }
+    // }
+    // Map<Integer, Set<Integer>> rowCol = new HashMap<>();
+    // int c2 = 0;
+    // while (!queue2.isEmpty()) {
+    // int size = queue2.size();
+    // for (int i = 0; i < size; ++i) {
+    // int cur = queue2.poll();
+    // rowCol.computeIfAbsent(size - 1 + c, o -> new HashSet<>()).add(cur);
+    // for (int neighbor : map2.getOrDefault(cur, new ArrayList<>())) {
+    // --degree2[neighbor];
+    // if (degree2[neighbor] == 0) {
+    // queue2.offer(neighbor);
+    // }
+    // }
+    // }
+    // c2 += size;
+    // }
+    // for (int d : degree2) {
+    // if (d != 0) {
+    // return new int[0][0];
+    // }
+    // }
+
+    // }
+
+    // 793. 阶乘函数后 K 个零 (Preimage Size of Factorial Zeroes Function)
+    // public int preimageSizeFZF(int k) {
+
+    // }
 }
