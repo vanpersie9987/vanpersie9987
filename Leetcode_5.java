@@ -533,6 +533,35 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 1567. 乘积为正数的最长子数组长度 (Maximum Length of Subarray With Positive Product) --dp
+    public int getMaxLen(int[] nums) {
+        int n = nums.length;
+        int[] positive = new int[n];
+        int[] negative = new int[n];
+        int res = 0;
+        if (nums[0] > 0) {
+            positive[0] = 1;
+            res = 1;
+        } else if (nums[0] < 0) {
+            negative[0] = 1;
+        }
+        for (int i = 1; i < n; ++i) {
+            if (nums[i] > 0) {
+                positive[i] = positive[i - 1] + 1;
+                negative[i] = negative[i - 1] == 0 ? 0 : negative[i - 1] + 1;
+            } else if (nums[i] < 0) {
+                negative[i] = positive[i - 1] + 1;
+                positive[i] = negative[i - 1] == 0 ? 0 : negative[i - 1] + 1;
+            } else {
+                positive[i] = 0;
+                negative[i] = 0;
+            }
+            res = Math.max(res, positive[i]);
+        }
+        return res;
+
+    }
+
     // public int[][] buildMatrix(int k, int[][] rowConditions, int[][]
     // colConditions) {
     // int[] degree1 = new int[k + 1];
