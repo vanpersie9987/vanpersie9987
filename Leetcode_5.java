@@ -463,15 +463,14 @@ public class Leetcode_5 {
         int n = nums.length;
         int m = queries.length;
         int[] res = new int[m];
-        int sum = Arrays.stream(nums).sum();
         Arrays.sort(nums);
         for (int i = 0; i < m; ++i) {
-            int j = n - 1;
-            int copySum = sum;
-            while (j >= 0 && copySum > queries[i]) {
-                copySum -= nums[j--];
+            int sum = 0;
+            int j = 0;
+            while (j < n && sum + nums[j] <= queries[i]) {
+                sum += nums[j++];
             }
-            res[i] = j + 1;
+            res[i] = j;
         }
         return res;
     }
