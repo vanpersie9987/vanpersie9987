@@ -487,9 +487,9 @@ public class Leetcode_5 {
         }
         StringBuilder res = new StringBuilder();
         while (!stack.isEmpty()) {
-            res.append(stack.pop());
+            res.insert(0, stack.pop());
         }
-        return res.reverse().toString();
+        return res.toString();
 
     }
 
