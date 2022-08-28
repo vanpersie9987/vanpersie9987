@@ -438,4 +438,22 @@ public class Leetcode_5 {
         }
         return builder.toString();
     }
+
+    // 1954. 收集足够苹果的最小花园周长 (Minimum Garden Perimeter to Collect Enough Apples)
+    public long minimumPerimeter(long neededApples) {
+        long n = -1l;
+        long left = 1l;
+        long right = 100000l;
+        while (left <= right) {
+            long mid = left + ((right - left) >>> 1);
+            if (2 * mid * (mid + 1) * (2 * mid + 1) >= neededApples) {
+                n = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return n * 8;
+
+    }
 }
