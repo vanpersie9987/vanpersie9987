@@ -785,22 +785,20 @@ public class Leetcode_5 {
         if (n.charAt(0) == '-') {
             for (int i = 1; i < builder.length(); ++i) {
                 if (builder.charAt(i) - '0' > x) {
-                    builder.insert(i, (char) (x + '0'));
+                    builder.insert(i, x);
                     return builder.toString();
                 }
             }
-            builder.append(x);
 
         } else {
             for (int i = 0; i < builder.length(); ++i) {
                 if (builder.charAt(i) - '0' < x) {
-                    builder.insert(i, (char) (x + '0'));
+                    builder.insert(i, x);
                     return builder.toString();
                 }
             }
-            builder.append(x);
         }
-        return builder.toString();
+        return builder.append(x).toString();
 
     }
 
