@@ -734,6 +734,19 @@ public class Leetcode_5 {
         for (int i = 0; i < k; ++i) {
             res[i][pos[row[i]]] = row[i] + 1;
         }
+
+        // int[][] res = new int[k][k];
+        // Map<Integer, List<Integer>> map = new HashMap<>();
+        // for (int i = 0; i < k; ++i) {
+        // map.computeIfAbsent(row[i], o -> new ArrayList<>()).add(i);
+        // }
+        // for (int i = 0; i < k; ++i) {
+        // map.computeIfAbsent(col[i], o -> new ArrayList<>()).add(i);
+        // }
+
+        // for (int key : map.keySet()) {
+        // res[map.get(key).get(0)][map.get(key).get(1)] = key + 1;
+        // }
         return res;
 
     }
