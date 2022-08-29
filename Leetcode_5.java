@@ -695,24 +695,25 @@ public class Leetcode_5 {
             if (index1 == n && index2 == n) {
                 return true;
             }
-            if (index1 < n && index2 < n) {
-                if (start.charAt(index1) != end.charAt(index2)) {
-                    return false;
-                }
-                if (start.charAt(index1) == 'R') {
-                    if (index1 > index2) {
-                        return false;
-                    }
-                } else {
-                    if (index1 < index2) {
-                        return false;
-                    }
-                }
-                ++index1;
-                ++index2;
-            } else {
+            if (index1 == n || index2 == n) {
                 return false;
             }
+
+            // condition : index1 < n && index2 < n
+            if (start.charAt(index1) != end.charAt(index2)) {
+                return false;
+            }
+            if (start.charAt(index1) == 'R') {
+                if (index1 > index2) {
+                    return false;
+                }
+            } else {
+                if (index1 < index2) {
+                    return false;
+                }
+            }
+            ++index1;
+            ++index2;
         }
         return true;
 
