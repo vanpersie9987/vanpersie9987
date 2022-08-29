@@ -475,6 +475,45 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 6160. 和有限的最长子序列 (Longest Subsequence With Limited Sum) --前缀和 + 二分查找
+    public int[] answerQueries2(int[] nums, int[] queries) {
+        int n = nums.length;
+        int m = queries.length;
+        Arrays.sort(nums);
+        for (int i = 1; i < n; ++i) {
+            nums[i] += nums[i - 1];
+        }
+        for (int i = 0; i < m; ++i) {
+            queries[i] = binarySearch6160(nums, queries[i]);
+        }
+        return queries;
+    }
+
+    /**
+     * @return 排序数组nums中，小于等于target的元素个数
+     */
+    private int binarySearch6160(int[] nums, int target) {
+        int n = nums.length;
+        if (target < nums[0]) {
+            return 0;
+        } else if (target > nums[n - 1]) {
+            return n;
+        }
+        int res = -1;
+        int left = 0;
+        int right = n - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (nums[mid] <= target) {
+                res = mid + 1;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
+
     // 6161. 从字符串中移除星号 (Removing Stars From a String)
     public String removeStars(String s) {
         Stack<Character> stack = new Stack<>();
