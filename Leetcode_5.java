@@ -719,77 +719,52 @@ public class Leetcode_5 {
 
     }
 
-    // public int[][] buildMatrix(int k, int[][] rowConditions, int[][]
-    // colConditions) {
-    // int[] degree1 = new int[k + 1];
-    // Map<Integer, List<Integer>> map1 = new HashMap<>();
-    // for (int[] row : rowConditions) {
-    // map1.computeIfAbsent(row[0], o -> new ArrayList<>()).add(row[1]);
-    // ++degree1[row[1]];
-    // }
-    // Queue<Integer> queue1 = new LinkedList<>();
-    // for (int i = 0; i < degree1.length; ++i) {
-    // if (degree1[i] == 0) {
-    // queue1.offer(i);
-    // }
-    // }
-    // Map<Integer, Set<Integer>> rowRes = new HashMap<>();
-    // int c = 0;
-    // while (!queue1.isEmpty()) {
-    // int size = queue1.size();
-    // for (int i = 0; i < size; ++i) {
-    // int cur = queue1.poll();
-    // rowRes.computeIfAbsent(size - 1 + c, o -> new HashSet<>()).add(cur);
-    // for (int neighbor : map1.getOrDefault(cur, new ArrayList<>())) {
-    // --degree1[neighbor];
-    // if (degree1[neighbor] == 0) {
-    // queue1.offer(neighbor);
-    // }
-    // }
-    // }
-    // c += size;
-    // }
-    // for (int d : degree1) {
-    // if (d != 0) {
-    // return new int[0][0];
-    // }
-    // }
+    // 2392. 给定条件下构造矩阵 (Build a Matrix With Conditions)
+    public int[][] buildMatrix(int k, int[][] rowConditions, int[][] colConditions) {
+        int[] row = getTopologicalSort2392(rowConditions, k);
+        int[] col = getTopologicalSort2392(colConditions, k);
+        if (row.length < k || col.length < k) {
+            return new int[][] {};
+        }
+        int[] pos = new int[k];
+        for (int i = 0; i < k; ++i) {
+            pos[col[i]] = i;
+        }
+        int[][] res = new int[k][k];
+        for (int i = 0; i < k; ++i) {
+            res[i][pos[row[i]]] = row[i] + 1;
+        }
+        return res;
 
-    // int[] degree2 = new int[k + 1];
-    // Map<Integer, List<Integer>> map2 = new HashMap<>();
-    // for (int[] row : colConditions) {
-    // map2.computeIfAbsent(row[0], o -> new ArrayList<>()).add(row[1]);
-    // ++degree2[row[1]];
-    // }
-    // Queue<Integer> queue2 = new LinkedList<>();
-    // for (int i = 0; i < degree2.length; ++i) {
-    // if (degree2[i] == 0) {
-    // queue2.offer(i);
-    // }
-    // }
-    // Map<Integer, Set<Integer>> rowCol = new HashMap<>();
-    // int c2 = 0;
-    // while (!queue2.isEmpty()) {
-    // int size = queue2.size();
-    // for (int i = 0; i < size; ++i) {
-    // int cur = queue2.poll();
-    // rowCol.computeIfAbsent(size - 1 + c, o -> new HashSet<>()).add(cur);
-    // for (int neighbor : map2.getOrDefault(cur, new ArrayList<>())) {
-    // --degree2[neighbor];
-    // if (degree2[neighbor] == 0) {
-    // queue2.offer(neighbor);
-    // }
-    // }
-    // }
-    // c2 += size;
-    // }
-    // for (int d : degree2) {
-    // if (d != 0) {
-    // return new int[0][0];
-    // }
-    // }
+    }
 
-    // }
+    private int[] getTopologicalSort2392(int[][] conditions, int k) {
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        int[] inDegrees = new int[k];
+        for (int[] condition : conditions) {
+            graph.computeIfAbsent(condition[0] - 1, o -> new ArrayList<>()).add(condition[1] - 1);
+            ++inDegrees[condition[1] - 1];
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < k; ++i) {
+            if (inDegrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        List<Integer> res = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            res.add(cur);
+            for (int neighbor : graph.getOrDefault(cur, new ArrayList<>())) {
+                --inDegrees[neighbor];
+                if (inDegrees[neighbor] == 0) {
+                    queue.offer(neighbor);
+                }
+            }
+        }
+        return res.stream().mapToInt(o -> o).toArray();
+
+    }
 
     // 793. 阶乘函数后 K 个零 (Preimage Size of Factorial Zeroes Function)
     // public int preimageSizeFZF(int k) {
