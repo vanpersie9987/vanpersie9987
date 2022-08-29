@@ -779,6 +779,31 @@ public class Leetcode_5 {
 
     }
 
+    // 1881. 插入后的最大值 (Maximum Value after Insertion)
+    public String maxValue(String n, int x) {
+        StringBuilder builder = new StringBuilder(n);
+        if (n.charAt(0) == '-') {
+            for (int i = 1; i < builder.length(); ++i) {
+                if (builder.charAt(i) - '0' > x) {
+                    builder.insert(i, (char) (x + '0'));
+                    return builder.toString();
+                }
+            }
+            builder.append(x);
+
+        } else {
+            for (int i = 0; i < builder.length(); ++i) {
+                if (builder.charAt(i) - '0' < x) {
+                    builder.insert(i, (char) (x + '0'));
+                    return builder.toString();
+                }
+            }
+            builder.append(x);
+        }
+        return builder.toString();
+
+    }
+
     // 793. 阶乘函数后 K 个零 (Preimage Size of Factorial Zeroes Function)
     // public int preimageSizeFZF(int k) {
 
