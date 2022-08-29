@@ -633,6 +633,53 @@ public class Leetcode_5 {
 
     }
 
+    // 2170. 使数组变成交替数组的最少操作数 (Minimum Operations to Make the Array Alternating)
+    public int minimumOperations(int[] nums) {
+        int n = nums.length;
+        if (n == 1) {
+            return 0;
+        }
+        Map<Integer, Integer> odd = new HashMap<>();
+        Map<Integer, Integer> even = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            if (i % 2 == 0) {
+                even.put(nums[i], even.getOrDefault(nums[i], 0) + 1);
+            } else {
+                odd.put(nums[i], odd.getOrDefault(nums[i], 0) + 1);
+            }
+        }
+        int maxEvenKey = -1;
+        int maxEvenCount = 0;
+        int secondEvenCount = 0;
+        for (Map.Entry<Integer, Integer> entry : even.entrySet()) {
+            if (entry.getValue() >= maxEvenCount) {
+                maxEvenKey = entry.getKey();
+                secondEvenCount = maxEvenCount;
+                maxEvenCount = entry.getValue();
+            } else if (entry.getValue() >= secondEvenCount) {
+                secondEvenCount = entry.getValue();
+            }
+        }
+        int maxOddCount = 0;
+        int secondOddCount = 0;
+        int maxOddKey = -1;
+        for (Map.Entry<Integer, Integer> entry : odd.entrySet()) {
+            if (entry.getValue() >= maxOddCount) {
+                maxOddKey = entry.getKey();
+                secondOddCount = maxOddCount;
+                maxOddCount = entry.getValue();
+            } else if (entry.getValue() >= secondOddCount) {
+                secondOddCount = entry.getValue();
+            }
+        }
+
+        if (maxEvenKey != maxOddKey) {
+            return n - maxEvenCount - maxOddCount;
+        }
+        return n - Math.max(maxEvenCount + secondOddCount, secondEvenCount + maxOddCount);
+
+    }
+
     // public int[][] buildMatrix(int k, int[][] rowConditions, int[][]
     // colConditions) {
     // int[] degree1 = new int[k + 1];
