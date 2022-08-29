@@ -680,6 +680,44 @@ public class Leetcode_5 {
 
     }
 
+    // 777. 在LR字符串中交换相邻字符 (Swap Adjacent in LR String)
+    public boolean canTransform(String start, String end) {
+        int n = start.length();
+        int index1 = 0;
+        int index2 = 0;
+        while (index1 < n || index2 < n) {
+            while (index1 < n && start.charAt(index1) == 'X') {
+                ++index1;
+            }
+            while (index2 < n && end.charAt(index2) == 'X') {
+                ++index2;
+            }
+            if (index1 == n && index2 == n) {
+                return true;
+            }
+            if (index1 < n && index2 < n) {
+                if (start.charAt(index1) != end.charAt(index2)) {
+                    return false;
+                }
+                if (start.charAt(index1) == 'R') {
+                    if (index1 > index2) {
+                        return false;
+                    }
+                } else {
+                    if (index1 < index2) {
+                        return false;
+                    }
+                }
+                ++index1;
+                ++index2;
+            } else {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
     // public int[][] buildMatrix(int k, int[][] rowConditions, int[][]
     // colConditions) {
     // int[] degree1 = new int[k + 1];
