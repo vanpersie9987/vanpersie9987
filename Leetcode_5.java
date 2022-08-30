@@ -802,6 +802,39 @@ public class Leetcode_5 {
 
     }
 
+    // 722. 删除注释 (Remove Comments)
+    public List<String> removeComments(String[] source) {
+        boolean inBlock = false;
+        List<String> res = new ArrayList<>();
+        StringBuilder newLine = new StringBuilder();
+        for (String s : source) {
+            char[] chars = s.toCharArray();
+            int n = chars.length;
+            int i = 0;
+            if (!inBlock) {
+                newLine = new StringBuilder();
+            }
+            while (i < n) {
+                if (!inBlock && i + 1 < n && chars[i] == '/' && chars[i + 1] == '*') {
+                    inBlock = true;
+                    ++i;
+                } else if (inBlock && i + 1 < n && chars[i] == '*' && chars[i + 1] == '/') {
+                    inBlock = false;
+                    ++i;
+                } else if (!inBlock && i + 1 < n && chars[i] == '/' && chars[i + 1] == '/') {
+                    break;
+                } else if (!inBlock) {
+                    newLine.append(chars[i]);
+                }
+                ++i;
+            }
+            if (!inBlock && !newLine.isEmpty()) {
+                res.add(newLine.toString());
+            }
+        }
+        return res;
+    }
+
     // 793. 阶乘函数后 K 个零 (Preimage Size of Factorial Zeroes Function)
     // public int preimageSizeFZF(int k) {
 
