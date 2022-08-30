@@ -9974,10 +9974,9 @@ public class LeetCode_4 {
         for (String word : words2) {
             int[] counts = new int[26];
             for (char c : word.toCharArray()) {
-                ++counts[c - 'a'];
-            }
-            for (int i = 0; i < 26; ++i) {
-                maxCounts[i] = Math.max(maxCounts[i], counts[i]);
+                int index = c - 'a';
+                ++counts[index];
+                maxCounts[index] = Math.max(maxCounts[index], counts[index]);
             }
         }
 
