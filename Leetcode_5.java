@@ -835,6 +835,11 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 673. 最长递增子序列的个数 (Number of Longest Increasing Subsequence)
+    public int findNumberOfLIS(int[] nums) {
+
+    }
+
     // 793. 阶乘函数后 K 个零 (Preimage Size of Factorial Zeroes Function)
     // public int preimageSizeFZF(int k) {
 
