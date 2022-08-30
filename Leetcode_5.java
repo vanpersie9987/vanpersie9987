@@ -835,8 +835,36 @@ public class Leetcode_5 {
         return res;
     }
 
-    // 673. 最长递增子序列的个数 (Number of Longest Increasing Subsequence)
+    // 673. 最长递增子序列的个数 (Number of Longest Increasing Subsequence) --参考300题 dp
+    // 还需掌握 ：贪心 + 前缀和 + 二分查找
     public int findNumberOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        int[] count = new int[n];
+        int maxLen = 0;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            dp[i] = 1;
+            count[i] = 1;
+            for (int j = 0; j < i; ++j) {
+                if (nums[i] > nums[j]) {
+                    if (dp[j] + 1 > dp[i]) {
+                        dp[i] = dp[j] + 1;
+                        count[i] = count[j];
+                    } else if (dp[j] + 1 == dp[i]) {
+                        count[i] += count[j];
+                    }
+                }
+            }
+
+            if (dp[i] > maxLen) {
+                maxLen = dp[i];
+                res = count[i];
+            } else if (dp[i] == maxLen) {
+                res += count[i];
+            }
+        }
+        return res;
 
     }
 
