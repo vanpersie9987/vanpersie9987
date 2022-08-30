@@ -899,4 +899,19 @@ public class Leetcode_5 {
         }
         return res;
     }
+
+    public boolean validateStackSequences(int[] pushed, int[] popped) {
+        int n = pushed.length;
+        int j = 0;
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < n; ++i) {
+            stack.push(pushed[i]);
+            while (!stack.isEmpty() && j < n && popped[j] == stack.peek()) {
+                ++j;
+                stack.pop();
+            }
+        }
+        return stack.isEmpty();
+
+    }
 }

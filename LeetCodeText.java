@@ -10727,20 +10727,22 @@ public class LeetCodeText {
 
     }
 
-    // 946. 验证栈序列 // 剑指 Offer 31. 栈的压入、弹出序列
+    // 946. 验证栈序列
+    // 剑指 Offer 31. 栈的压入、弹出序列
     // pushed = [1,2,3,4,5], popped = [4,5,3,2,1] true
     // pushed = [1,2,3,4,5], popped = [4,3,5,1,2] false
     public boolean validateStackSequences(int[] pushed, int[] popped) {
-        Stack<Integer> stack = new Stack<>();
+        int n = pushed.length;
         int j = 0;
+        Stack<Integer> stack = new Stack<>();
         for (int push : pushed) {
             stack.push(push);
-            while (!stack.isEmpty() && stack.peek() == popped[j]) {
-                stack.pop();
+            while (!stack.isEmpty() && j < n && popped[j] == stack.peek()) {
                 ++j;
+                stack.pop();
             }
         }
-        return j == popped.length;
+        return stack.isEmpty();
 
     }
 
