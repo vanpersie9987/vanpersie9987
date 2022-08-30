@@ -868,7 +868,7 @@ public class Leetcode_5 {
 
     }
 
-    // 793. 阶乘函数后 K 个零 (Preimage Size of Factorial Zeroes Function) --二分查找
+    // 793. 阶乘函数后 K 个零 (Preimage Size of Factorial Zeroes Function) --二分查找 参考172题
     public int preimageSizeFZF(int k) {
         return help793(k + 1) - help793(k);
 
