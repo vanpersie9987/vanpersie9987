@@ -924,6 +924,36 @@ public class Leetcode_5 {
 
     }
 
+    // This is the custom function interface.
+    // You should not implement it, or speculate about its implementation
+    interface CustomFunction {
+        // Returns f(x, y) for any given positive integers x and y.
+        // Note that f(x, y) is increasing with respect to both x and y.
+        // i.e. f(x, y) < f(x + 1, y), f(x, y) < f(x, y + 1)
+        public int f(int x, int y);
+    };
+
+    // 1237. 找出给定方程的正整数解 (Find Positive Integer Solution for a Given Equation)
+    public List<List<Integer>> findSolution(CustomFunction customfunction, int z) {
+        List<List<Integer>> res = new ArrayList<>();
+        int i = 1;
+        int j = 1000;
+        while (i <= 1000 && j >= 1) {
+            int candidate = customfunction.f(i, j);
+            if (candidate == z) {
+                res.add(List.of(i++, j--));
+                continue;
+            }
+            if (candidate < z) {
+                ++i;
+            } else {
+                --j;
+            }
+        }
+        return res;
+
+    }
+
     // 2008. 出租车的最大盈利 (Maximum Earnings From Taxi)
     // public long maxTaxiEarnings(int n, int[][] rides) {
 
