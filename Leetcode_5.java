@@ -958,4 +958,9 @@ public class Leetcode_5 {
     // public long maxTaxiEarnings(int n, int[][] rides) {
 
     // }
+
+    // 2306. 公司命名 (Naming a Company)
+    // public long distinctNames(String[] ideas) {
+
+    // }
 }
