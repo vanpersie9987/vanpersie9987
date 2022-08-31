@@ -899,4 +899,33 @@ public class Leetcode_5 {
         }
         return res;
     }
+
+    // 983. 最低票价 (Minimum Cost For Tickets) --dp
+    public int mincostTickets(int[] days, int[] costs) {
+        int n = days.length;
+        int maxDay = days[n - 1];
+        int minDay = days[0];
+        // 以 i 为开头的 day 的最低票价
+        int[] dp = new int[maxDay + 31];
+        int i = n - 1;
+        int d = maxDay;
+        while (d >= minDay) {
+            if (d == days[i]) {
+                dp[d] = Math.min(dp[d + 1] + costs[0], dp[d + 7] + costs[1]);
+                dp[d] = Math.min(dp[d], dp[d + 30] + costs[2]);
+                --i;
+                --d;
+            } else {
+                Arrays.fill(dp, days[i] + 1, days[i + 1], dp[d + 1]);
+                d = days[i];
+            }
+        }
+        return dp[minDay];
+
+    }
+
+    // 2008. 出租车的最大盈利 (Maximum Earnings From Taxi)
+    // public long maxTaxiEarnings(int n, int[][] rides) {
+
+    // }
 }
