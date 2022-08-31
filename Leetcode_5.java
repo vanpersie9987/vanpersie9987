@@ -905,7 +905,7 @@ public class Leetcode_5 {
         int n = days.length;
         int maxDay = days[n - 1];
         int minDay = days[0];
-        // 以 i 为开头的 day 的最低票价
+        // dp[day] 以 day 开始的最低票价
         int[] dp = new int[maxDay + 31];
         int i = n - 1;
         int d = maxDay;
