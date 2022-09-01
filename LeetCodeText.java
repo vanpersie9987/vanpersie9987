@@ -7186,7 +7186,7 @@ public class LeetCodeText {
 
     }
 
-    // 1475. 商品折扣后的最终价格
+    // 1475. 商品折扣后的最终价格 (Final Prices With a Special Discount in a Shop) --暴力
     public int[] finalPrices(int[] prices) {
         for (int i = 0; i < prices.length; ++i) {
             for (int j = i + 1; j < prices.length; ++j) {
@@ -7200,15 +7200,19 @@ public class LeetCodeText {
 
     }
 
-    // 1475. 商品折扣后的最终价格
+    // 1475. 商品折扣后的最终价格 (Final Prices With a Special Discount in a Shop) --单调栈
     public int[] finalPrices2(int[] prices) {
         Stack<Integer> stack = new Stack<>();
-        for (int i = 0; i < prices.length; ++i) {
-            while (!stack.isEmpty() && prices[i] <= prices[stack.peek()]) {
-                int index = stack.pop();
-                prices[index] -= prices[i];
+        int n = prices.length;
+        for (int i = n - 1; i >= 0; --i) {
+            int temp = prices[i];
+            while (!stack.isEmpty() && prices[i] < stack.peek()) {
+                stack.pop();
             }
-            stack.push(i);
+            if (!stack.isEmpty()) {
+                prices[i] -= stack.peek();
+            }
+            stack.push(temp);
         }
         return prices;
 
