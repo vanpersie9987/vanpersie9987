@@ -954,6 +954,20 @@ public class Leetcode_5 {
 
     }
 
+    // 848. 字母移位 (Shifting Letters)
+    public String shiftingLetters(String s, int[] shifts) {
+        int n = s.length();
+        for (int i = n - 2; i >= 0; --i) {
+            shifts[i] = (shifts[i] + shifts[i + 1]) % 26;
+        }
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < n; ++i) {
+            chars[i] = (char) ((chars[i] - 'a' + shifts[i]) % 26 + 'a');
+        }
+        return String.valueOf(chars);
+
+    }
+
     // 2008. 出租车的最大盈利 (Maximum Earnings From Taxi)
     // public long maxTaxiEarnings(int n, int[][] rides) {
 
