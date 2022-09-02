@@ -1005,6 +1005,20 @@ public class Leetcode_5 {
 
     }
 
+    // 754. 到达终点数字 (Reach a Number)
+    public int reachNumber(int target) {
+        target = Math.abs(target);
+        int sum = 0;
+        for (int i = 1; i <= Integer.MAX_VALUE; ++i) {
+            sum += i;
+            if (sum >= target && (sum - target) % 2 == 0) {
+                return i;
+            }
+        }
+        return 0;
+
+    }
+
     // 2008. 出租车的最大盈利 (Maximum Earnings From Taxi)
     // public long maxTaxiEarnings(int n, int[][] rides) {
 
