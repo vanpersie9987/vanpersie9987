@@ -1233,14 +1233,38 @@ public class Leetcode_5 {
 
     }
 
+    // 828. 统计子串中的唯一字符 (Count Unique Characters of All Substrings of a Given String)
+    public int uniqueLetterString(String s) {
+        int[] last = new int[26];
+        Arrays.fill(last, -1);
+        int n = s.length();
+        // left[i] : s[i]左侧的第一个与s[i]相同的字符索引，不存在则为 -1
+        int[] left = new int[n];
+        for (int i = 0; i < n; ++i) {
+            int index = s.charAt(i) - 'A';
+            left[i] = last[index];
+            last[index] = i;
+        }
+
+        Arrays.fill(last, n);
+        // right[i] : s[i]右侧的第一个与s[i]相同的字符索引，不存在则为 n
+        int[] right = new int[n];
+        for (int i = n - 1; i >= 0; --i) {
+            int index = s.charAt(i) - 'A';
+            right[i] = last[index];
+            last[index] = i;
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            res += (i - left[i]) * (right[i] - i);
+        }
+        return res;
+
+    }
+
     // 2400. 恰好移动 k 步到达某一位置的方法数目 (Number of Ways to Reach a Position After Exactly k
     // Steps)
     // public int numberOfWays(int startPos, int endPos, int k) {
-
-    // }
-
-    // 828. 统计子串中的唯一字符 (Count Unique Characters of All Substrings of a Given String)
-    // public int uniqueLetterString(String s) {
 
     // }
 
