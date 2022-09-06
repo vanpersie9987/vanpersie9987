@@ -1262,6 +1262,50 @@ public class Leetcode_5 {
 
     }
 
+    // 1401. 圆和矩形是否有重叠 (Circle and Rectangle Overlapping)
+    public boolean checkOverlap(int radius, int xCenter, int yCenter, int x1, int y1, int x2, int y2) {
+        if (inRectangle1401(xCenter, yCenter, x1, y1, x2, y2)) {
+            return true;
+        }
+
+        if (inRectangle1401(xCenter, yCenter, x1 - radius, y1, x1, y2)) {
+            return true;
+        }
+        if (inRectangle1401(xCenter, yCenter, x1, y2, x2, y2 + radius)) {
+            return true;
+        }
+        if (inRectangle1401(xCenter, yCenter, x2, y1, x2 + radius, y2)) {
+            return true;
+        }
+        if (inRectangle1401(xCenter, yCenter, x1, y1 - radius, x2, y1)) {
+            return true;
+        }
+
+        if (inCircle1401(xCenter, yCenter, x1, y1) <= radius * radius) {
+            return true;
+        }
+        if (inCircle1401(xCenter, yCenter, x1, y2) <= radius * radius) {
+            return true;
+        }
+        if (inCircle1401(xCenter, yCenter, x2, y2) <= radius * radius) {
+            return true;
+        }
+        if (inCircle1401(xCenter, yCenter, x2, y1) <= radius * radius) {
+            return true;
+        }
+        return false;
+
+    }
+
+    private int inCircle1401(int xCenter, int yCenter, int x1, int y1) {
+        return (xCenter - x1) * (xCenter - x1) + (yCenter - y1) * (yCenter - y1);
+    }
+
+    private boolean inRectangle1401(int xCenter, int yCenter, int x1, int y1, int x2, int y2) {
+        return xCenter >= x1 && xCenter <= x2 && yCenter >= y1 && yCenter <= y2;
+
+    }
+
     // 2400. 恰好移动 k 步到达某一位置的方法数目 (Number of Ways to Reach a Position After Exactly k
     // Steps)
     // public int numberOfWays(int startPos, int endPos, int k) {
