@@ -1044,7 +1044,7 @@ public class Leetcode_5 {
 
     }
 
-    // 2401. 最长优雅子数组 (Longest Nice Subarray)
+    // 2401. 最长优雅子数组 (Longest Nice Subarray) 时间：O(n) 空间：O(n)
     public int longestNiceSubarray(int[] nums) {
         int n = nums.length;
         int max = 0;
@@ -1096,6 +1096,40 @@ public class Leetcode_5 {
             ++i;
             num /= 2;
         }
+    }
+
+    // 2401. 最长优雅子数组 (Longest Nice Subarray) 时间：O(nlog(max(nums))) 空间：O(1)
+    public int longestNiceSubarray2(int[] nums) {
+        int res = 0;
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            int or = 0;
+            int j = i;
+            while (j >= 0 && (or & nums[j]) == 0) {
+                or |= nums[j--];
+            }
+            res = Math.max(res, i - j);
+        }
+        return res;
+
+    }
+
+    // 2401. 最长优雅子数组 (Longest Nice Subarray) 时间：O(n) 空间：O(1)
+    public int longestNiceSubarray3(int[] nums) {
+        int left = 0;
+        int right = 0;
+        int mask = 0;
+        int res = 0;
+        int n = nums.length;
+        while (right < n) {
+            while ((mask & nums[right]) != 0) {
+                mask ^= nums[left++];
+            }
+            res = Math.max(res, right - left + 1);
+            mask ^= nums[right++];
+        }
+        return res;
+
     }
 
     public int numberOfWays(int startPos, int endPos, int k) {
