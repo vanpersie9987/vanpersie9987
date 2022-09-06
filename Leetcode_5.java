@@ -12,6 +12,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
+import javax.sql.rowset.serial.SerialDatalink;
+
 public class Leetcode_5 {
     public static void main(String[] args) {
 
@@ -1019,13 +1021,114 @@ public class Leetcode_5 {
 
     }
 
-    // 2008. 出租车的最大盈利 (Maximum Earnings From Taxi)
-    // public long maxTaxiEarnings(int n, int[][] rides) {
+    // 2399. 检查相同字母间的距离 (Check Distances Between Same Letters)
+    public boolean checkDistances(String s, int[] distance) {
+        int[] diff = new int[26];
+        Arrays.fill(diff, -1);
+        for (int i = 0; i < s.length(); ++i) {
+            int index = s.charAt(i) - 'a';
+            if (diff[index] == -1) {
+                diff[index] = i;
+            } else {
+                diff[index] = i - diff[index] - 1;
+            }
+        }
+        for (int i = 0; i < 26; ++i) {
+            if (diff[i] != -1) {
+                if (distance[i] != diff[i]) {
+                    return false;
+                }
+            }
+        }
+        return true;
 
-    // }
+    }
 
-    // 2306. 公司命名 (Naming a Company)
-    // public long distinctNames(String[] ideas) {
+    public int longestNiceSubarray(int[] nums) {
+        int n = nums.length;
+        int[] counts = new int[31];
+        int res = 1;
+        int left = 0;
+        int right = 0;
+        while (right < n) {
+            counts = addCounts6169(counts, nums[right]);
+            int max = Arrays.stream(counts).max().getAsInt();
+            if (max <= 1) {
+                res = Math.max(res, right - left + 1);
+            } else {
+                while (left < right && Arrays.stream(counts).max().getAsInt() > 1) {
+                    counts = mineCounts6169(counts, nums[left++]);
+                }
+            }
+            ++right;
 
-    // }
+        }
+        return res;
+
+    }
+
+    private int[] mineCounts6169(int[] counts, int num) {
+        int i = 0;
+        while (num != 0) {
+            if (num % 2 != 0) {
+                --counts[i];
+            }
+            ++i;
+            num /= 2;
+        }
+        return counts;
+    }
+
+    private int[] addCounts6169(int[] counts, int num) {
+        int i = 0;
+        while (num != 0) {
+            if (num % 2 != 0) {
+                ++counts[i];
+            }
+            ++i;
+            num /= 2;
+        }
+        return counts;
+
+    }
+
+    public int numberOfWays(int startPos, int endPos, int k) {
+        // int target = endPos - startPos;
+        // if (Math.abs(target) > k) {
+        // return 0;
+        // }
+        // // x + y = k
+        // // x - y = target
+        // if ((k + target) % 2 != 0) {
+        // return 0;
+        // }
+        // if ((k + target) / 2 < 0) {
+        // return 0;
+        // }
+        // if ((k - (k + target) / 2) < 0) {
+        // return 0;
+        // }
+        // // C (k - (k + target) / 2) target
+        // // 从k个数中选(k - (k + target) / 2) 个数
+        // int count = k - (k + target) / 2;
+        // if (count == 0) {
+        // return 1;
+        // }
+        // count = Math.min((k + target) / 2, k - (k + target) / 2);
+        // int mod = (int) (1e9 + 7);
+        // long res = 1l;
+        // int cur = 0;
+        // while (cur < count) {
+        // res = (res * k) % mod;
+        // --k;
+        // ++cur;
+        // }
+        // while (count > 0) {
+        // res = (res / count) % mod;
+        // --count;
+        // }
+        // return (int) res;
+
+    }
+
 }
