@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -11,8 +12,6 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
-
-import javax.sql.rowset.serial.SerialDatalink;
 
 public class Leetcode_5 {
     public static void main(String[] args) {
@@ -1132,43 +1131,122 @@ public class Leetcode_5 {
 
     }
 
-    public int numberOfWays(int startPos, int endPos, int k) {
-        // int target = endPos - startPos;
-        // if (Math.abs(target) > k) {
-        // return 0;
-        // }
-        // // x + y = k
-        // // x - y = target
-        // if ((k + target) % 2 != 0) {
-        // return 0;
-        // }
-        // if ((k + target) / 2 < 0) {
-        // return 0;
-        // }
-        // if ((k - (k + target) / 2) < 0) {
-        // return 0;
-        // }
-        // // C (k - (k + target) / 2) target
-        // // 从k个数中选(k - (k + target) / 2) 个数
-        // int count = k - (k + target) / 2;
-        // if (count == 0) {
-        // return 1;
-        // }
-        // count = Math.min((k + target) / 2, k - (k + target) / 2);
-        // int mod = (int) (1e9 + 7);
-        // long res = 1l;
-        // int cur = 0;
-        // while (cur < count) {
-        // res = (res * k) % mod;
-        // --k;
-        // ++cur;
-        // }
-        // while (count > 0) {
-        // res = (res / count) % mod;
-        // --count;
-        // }
-        // return (int) res;
+    // 2395. 和相等的子数组
+    public boolean findSubarrays(int[] nums) {
+        int n = nums.length;
+        Set<Integer> set = new HashSet<>();
+        for (int i = 1; i < n; ++i) {
+            int sum = nums[i - 1] + nums[i];
+            if (set.contains(sum)) {
+                return true;
+            }
+            set.add(sum);
+        }
+        return false;
 
     }
+
+    // 2396. 严格回文的数字 (Strictly Palindromic Number)
+    public boolean isStrictlyPalindromic(int n) {
+        for (int i = 2; i <= n - 2; ++i) {
+            if (!getXNary(n, i)) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    private boolean getXNary(int n, int i) {
+        StringBuilder builder = new StringBuilder();
+        while (n != 0) {
+            builder.append(n % i);
+            n /= i;
+        }
+        return builder.toString().equals(builder.reverse().toString());
+    }
+
+    // 2397. 被列覆盖的最多行数 (Maximum Rows Covered by Columns)
+    public int maximumRows(int[][] matrix, int numSelect) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int max = 1 << n;
+        int[] arr = new int[m];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                arr[i] |= matrix[i][j] << j;
+            }
+        }
+        int res = 0;
+        for (int i = 1; i < max; ++i) {
+            if (Integer.bitCount(i) != numSelect) {
+                continue;
+            }
+            int[] copy = arr.clone();
+            int mask = i;
+            for (int j = 0; j < n; ++j) {
+                if ((mask & (1 << j)) != 0) {
+                    for (int k = 0; k < copy.length; ++k) {
+                        if ((copy[k] & (1 << j)) != 0) {
+                            copy[k] ^= 1 << j;
+                        }
+                    }
+                }
+            }
+            int cur = 0;
+            for (int c : copy) {
+                if (c == 0) {
+                    ++cur;
+                }
+            }
+            res = Math.max(res, cur);
+        }
+        return res;
+
+    }
+
+    // 2398. 预算内的最多机器人数目 (Maximum Number of Robots Within Budget)
+    // --同：239 双指针 + 单调队列 + 滑动窗口
+    public int maximumRobots(int[] chargeTimes, int[] runningCosts, long budget) {
+        int n = chargeTimes.length;
+        Deque<Integer> deque = new LinkedList<>();
+        int left = 0;
+        int right = 0;
+        long sum = 0l;
+        int res = 0;
+        while (right < n) {
+            while (!deque.isEmpty() && chargeTimes[deque.peekLast()] <= chargeTimes[right]) {
+                deque.pollLast();
+            }
+            deque.offerLast(right);
+            sum += runningCosts[right];
+            while (!deque.isEmpty() && chargeTimes[deque.peekFirst()] + (right - left + 1) * sum > budget) {
+                if (deque.peekFirst() == left) {
+                    deque.pollFirst();
+                }
+                sum -= runningCosts[left++];
+            }
+            res = Math.max(res, right - left + 1);
+            ++right;
+        }
+        return res;
+
+    }
+
+    // 2400. 恰好移动 k 步到达某一位置的方法数目 (Number of Ways to Reach a Position After Exactly k
+    // Steps)
+    // public int numberOfWays(int startPos, int endPos, int k) {
+
+    // }
+
+    // 828. 统计子串中的唯一字符 (Count Unique Characters of All Substrings of a Given String)
+    // public int uniqueLetterString(String s) {
+
+    // }
+
+    // 2402. 会议室 III (Meeting Rooms III)
+    // public int mostBooked(int n, int[][] meetings) {
+
+    // }
 
 }
