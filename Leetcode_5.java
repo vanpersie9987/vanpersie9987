@@ -1044,22 +1044,23 @@ public class Leetcode_5 {
 
     }
 
+    // 2401. 最长优雅子数组 (Longest Nice Subarray)
     public int longestNiceSubarray(int[] nums) {
         int n = nums.length;
-        int[] counts = new int[31];
+        int max = 0;
+        for (int num : nums) {
+            max = Math.max(max, num);
+        }
+        int[] counts = new int[Integer.toBinaryString(max).length() + 1];
         int res = 1;
         int left = 0;
         int right = 0;
         while (right < n) {
-            counts = addCounts6169(counts, nums[right]);
-            int max = Arrays.stream(counts).max().getAsInt();
-            if (max <= 1) {
-                res = Math.max(res, right - left + 1);
-            } else {
-                while (left < right && Arrays.stream(counts).max().getAsInt() > 1) {
-                    counts = mineCounts6169(counts, nums[left++]);
-                }
+            addCounts6169(counts, nums[right]);
+            while (getMaxCounts(counts) > 1) {
+                mineCounts6169(counts, nums[left++]);
             }
+            res = Math.max(res, right - left + 1);
             ++right;
 
         }
@@ -1067,7 +1068,15 @@ public class Leetcode_5 {
 
     }
 
-    private int[] mineCounts6169(int[] counts, int num) {
+    private int getMaxCounts(int[] counts) {
+        int max = 0;
+        for (int count : counts) {
+            max = Math.max(max, count);
+        }
+        return max;
+    }
+
+    private void mineCounts6169(int[] counts, int num) {
         int i = 0;
         while (num != 0) {
             if (num % 2 != 0) {
@@ -1076,10 +1085,9 @@ public class Leetcode_5 {
             ++i;
             num /= 2;
         }
-        return counts;
     }
 
-    private int[] addCounts6169(int[] counts, int num) {
+    private void addCounts6169(int[] counts, int num) {
         int i = 0;
         while (num != 0) {
             if (num % 2 != 0) {
@@ -1088,8 +1096,6 @@ public class Leetcode_5 {
             ++i;
             num /= 2;
         }
-        return counts;
-
     }
 
     public int numberOfWays(int startPos, int endPos, int k) {
