@@ -4795,41 +4795,45 @@ public class LeetCode_4 {
 
     // 1592. 重新排列单词间的空格 (Rearrange Spaces Between Words)
     public String reorderSpaces(String text) {
+        int n = text.length();
         int space = 0;
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < text.length(); ++i) {
-            char c = text.charAt(i);
-            if (c == ' ') {
+        List<String> words = new ArrayList<>();
+        int left = 0;
+        int right = 0;
+        while (right < n) {
+            while (right < n && !Character.isLetter(text.charAt(right))) {
+                ++right;
                 ++space;
-            } else {
-                int right = i;
-                while (right < text.length() && text.charAt(right) != ' ') {
-                    ++right;
+            }
+            left = right;
+            while (right < n && Character.isLetter(text.charAt(right))) {
+                ++right;
+            }
+            if (left != right) {
+                words.add(text.substring(left, right));
+            }
+            left = right;
+        }
+        StringBuilder builder = new StringBuilder();
+        int mod = space;
+        int tab = 0;
+        if (words.size() != 1) {
+            tab = space / (words.size() - 1);
+            mod = space % (words.size() - 1);
+        }
+        for (String word : words) {
+            if (!builder.isEmpty()) {
+                int count = tab;
+                while (count-- > 0) {
+                    builder.append(" ");
                 }
-                list.add(text.substring(i, right));
-                i = right - 1;
             }
+            builder.append(word);
         }
-
-        int intervalSpaceCount = 0;
-        if (list.size() > 1) {
-            intervalSpaceCount = space / (list.size() - 1);
-            space = space % (list.size() - 1);
+        while (mod-- > 0) {
+            builder.append(" ");
         }
-        int index = 0;
-        StringBuilder res = new StringBuilder();
-        while (index < list.size()) {
-            res.append(list.get(index));
-            for (int i = 0; i < intervalSpaceCount && index != list.size() - 1; ++i) {
-                res.append(" ");
-            }
-            ++index;
-        }
-        while (space-- != 0) {
-            res.append(" ");
-        }
-        return res.toString();
-
+        return builder.toString();
     }
 
     // 1736. 替换隐藏数字得到的最晚时间 (Latest Time by Replacing Hidden Digits)
