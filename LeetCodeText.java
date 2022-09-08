@@ -2023,23 +2023,27 @@ public class LeetCodeText {
     // k == 2 // 1 8 7 6 5 4 3 2
     // k == 3 // 1 8 2 3 4 5 6 7
 
-    // 667.优美的排列 II
-    public int[] constructArray(final int n, final int k) {
+    // 667. 优美的排列 II (Beautiful Arrangement II)
+    public int[] constructArray(int n, int k) {
         int[] res = new int[n];
-        for (int i = 0; i < n; ++i) {
-            res[i] = i + 1;
+        for (int i = 1; i <= n; ++i) {
+            res[i - 1] = i;
         }
         for (int i = 1; i < k; ++i) {
-            reverse667(res, i, n - 1);
+            reverse667(res, i);
+
         }
         return res;
+
     }
 
-    private void reverse667(int[] nums, int left, int right) {
+    private void reverse667(int[] res, int i) {
+        int left = i;
+        int right = res.length - 1;
         while (left < right) {
-            int temp = nums[left];
-            nums[left] = nums[right];
-            nums[right] = temp;
+            int temp = res[left];
+            res[left] = res[right];
+            res[right] = temp;
             ++left;
             --right;
         }

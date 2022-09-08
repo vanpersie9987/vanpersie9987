@@ -1306,8 +1306,6 @@ public class Leetcode_5 {
 
     }
 
-    // 今天任务：2400、2402、2398用二分写
-
     // 2400. 恰好移动 k 步到达某一位置的方法数目 (Number of Ways to Reach a Position After Exactly k
     // Steps)
     // public int numberOfWays(int startPos, int endPos, int k) {
