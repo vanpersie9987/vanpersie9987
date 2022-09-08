@@ -1376,7 +1376,7 @@ public class Leetcode_5 {
 
     }
 
-    // 252. 会议室 (Meeting Rooms)
+    // 252. 会议室 (Meeting Rooms) --plus
     public boolean canAttendMeetings(int[][] intervals) {
         Arrays.sort(intervals, new Comparator<int[]>() {
 
@@ -1392,6 +1392,27 @@ public class Leetcode_5 {
             int curStart = intervals[i][0];
             if (curStart < lastEnd) {
                 return false;
+            }
+        }
+        return true;
+
+    }
+
+    // 422. 有效的单词方块 (Valid Word Square) --plus
+    public boolean validWordSquare(List<String> words) {
+        int n = words.size();
+        for (int i = 0; i < n; ++i) {
+            String word = words.get(i);
+            for (int j = 0; j < word.length(); ++j) {
+                if (j >= n) {
+                    return false;
+                }
+                if (words.get(j).length() <= i) {
+                    return false;
+                }
+                if (word.charAt(j) != words.get(j).charAt(i)) {
+                    return false;
+                }
             }
         }
         return true;
