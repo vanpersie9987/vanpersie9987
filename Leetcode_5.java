@@ -1376,6 +1376,26 @@ public class Leetcode_5 {
 
     }
 
-    
+    // 252. 会议室 (Meeting Rooms)
+    public boolean canAttendMeetings(int[][] intervals) {
+        Arrays.sort(intervals, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+
+        });
+
+        for (int i = 1; i < intervals.length; ++i) {
+            int lastEnd = intervals[i - 1][1];
+            int curStart = intervals[i][0];
+            if (curStart < lastEnd) {
+                return false;
+            }
+        }
+        return true;
+
+    }
 
 }
