@@ -1459,8 +1459,10 @@ public class Leetcode_5 {
         // dp[i] ： 预算为i时，可获得的最大利润
         int[] dp = new int[budget + 1];
         for (int i = 0; i < n; ++i) {
-            for (int j = budget; j >= present[i]; --j) {
-                dp[j] = Math.max(dp[j], dp[j - present[i]] + future[i] - present[i]);
+            if (future[i] > present[i]) {
+                for (int j = budget; j >= present[i]; --j) {
+                    dp[j] = Math.max(dp[j], dp[j - present[i]] + future[i] - present[i]);
+                }
             }
         }
         return dp[budget];
