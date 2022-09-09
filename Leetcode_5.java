@@ -1426,4 +1426,30 @@ public class Leetcode_5 {
 
     }
 
+    interface ArrayReader {
+        public int get(int index);
+    }
+
+    // 702. 搜索长度未知的有序数组 (Search in a Sorted Array of Unknown Size)
+    public int search(ArrayReader reader, int target) {
+        int left = 0;
+        int right = 10001;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            int search = reader.get(mid);
+            if (search == Integer.MAX_VALUE) {
+                right = mid - 1;
+            }
+            if (search == target) {
+                return mid;
+            } else if (search > target) {
+                right = mid - 1;
+            } else if (search < target) {
+                left = mid + 1;
+            }
+        }
+        return -1;
+
+    }
+
 }
