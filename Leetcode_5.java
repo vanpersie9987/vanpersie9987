@@ -1408,4 +1408,22 @@ public class Leetcode_5 {
 
     }
 
+    // 2393. Count Strictly Increasing Subarrays --plus
+    public long countSubarrays(int[] nums) {
+        long count = 0l;
+        int pre = -1;
+        long res = 0l;
+        for (int num : nums) {
+            if (num > pre) {
+                ++count;
+            } else {
+                count = 1;
+            }
+            res += count;
+            pre = num;
+        }
+        return res;
+
+    }
+
 }
