@@ -11053,7 +11053,7 @@ public class LeetCodeText {
 
     }
 
-    // 1598. 文件夹操作日志搜集器
+    // 1598. 文件夹操作日志搜集器 (Crawler Log Folder)
     public int minOperations(String[] logs) {
         Stack<String> stack = new Stack<>();
         for (String log : logs) {
@@ -11070,7 +11070,7 @@ public class LeetCodeText {
         return stack.size();
     }
 
-    // 1598. 文件夹操作日志搜集器
+    // 1598. 文件夹操作日志搜集器 (Crawler Log Folder)
     public int minOperations_2(String[] logs) {
         int count = 0;
         for (String log : logs) {
