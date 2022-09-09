@@ -1178,24 +1178,13 @@ public class Leetcode_5 {
             }
         }
         int res = 0;
-        for (int i = 1; i < max; ++i) {
-            if (Integer.bitCount(i) != numSelect) {
+        for (int mask = 0; mask < max; ++mask) {
+            if (n - Integer.bitCount(mask) != numSelect) {
                 continue;
             }
-            int[] copy = arr.clone();
-            int mask = i;
-            for (int j = 0; j < n; ++j) {
-                if ((mask & (1 << j)) != 0) {
-                    for (int k = 0; k < copy.length; ++k) {
-                        if ((copy[k] & (1 << j)) != 0) {
-                            copy[k] ^= 1 << j;
-                        }
-                    }
-                }
-            }
             int cur = 0;
-            for (int c : copy) {
-                if (c == 0) {
+            for (int k = 0; k < arr.length; ++k) {
+                if ((arr[k] & mask) == 0) {
                     ++cur;
                 }
             }
