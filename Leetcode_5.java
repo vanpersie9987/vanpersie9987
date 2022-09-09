@@ -1430,7 +1430,7 @@ public class Leetcode_5 {
         public int get(int index);
     }
 
-    // 702. 搜索长度未知的有序数组 (Search in a Sorted Array of Unknown Size)
+    // 702. 搜索长度未知的有序数组 (Search in a Sorted Array of Unknown Size) --plus
     public int search(ArrayReader reader, int target) {
         int left = 0;
         int right = 10001;
@@ -1447,6 +1447,23 @@ public class Leetcode_5 {
             }
         }
         return -1;
+
+    }
+
+    // 2291. Maximum Profit From Trading Stocks --plus
+    // -- 0-1背包（至多选择一次；外层循环：nums ； 内层循环：target；倒序遍历)
+    // --求最值dp[i]=max/min(dp[i], dp[i-nums] + 1)或dp[i]=max/min(dp[i], dp[i-num] +
+    // nums);
+    public int maximumProfit(int[] present, int[] future, int budget) {
+        int n = present.length;
+        // dp[i] ： 预算为i时，可获得的最大利润
+        int[] dp = new int[budget + 1];
+        for (int i = 0; i < n; ++i) {
+            for (int j = budget; j >= present[i]; --j) {
+                dp[j] = Math.max(dp[j], dp[j - present[i]] + future[i] - present[i]);
+            }
+        }
+        return dp[budget];
 
     }
 
