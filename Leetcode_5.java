@@ -1437,12 +1437,10 @@ public class Leetcode_5 {
         while (left <= right) {
             int mid = left + ((right - left) >>> 1);
             int search = reader.get(mid);
-            if (search == Integer.MAX_VALUE) {
-                right = mid - 1;
-            }
+
             if (search == target) {
                 return mid;
-            } else if (search > target) {
+            } else if (search == Integer.MAX_VALUE || search > target) {
                 right = mid - 1;
             } else if (search < target) {
                 left = mid + 1;
