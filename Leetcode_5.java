@@ -1505,8 +1505,20 @@ public class Leetcode_5 {
 
     }
 
-    // 2361. 乘坐火车路线的最少费用 (Minimum Costs Using the Train Line)
-    // public long[] minimumCosts(int[] regular, int[] express, int expressCost) {
+    // 2361. 乘坐火车路线的最少费用 (Minimum Costs Using the Train Line) --plus
+    public long[] minimumCosts(int[] regular, int[] express, int expressCost) {
+        int n = regular.length;
+        long[] res = new long[n];
+        // dp[i][0] ：从第 0 站到第 i 的普通站 所需的最小费用
+        // dp[i][1] ：从第 0 站到第 i 的特快站 所需的最小费用
+        long[][] dp = new long[n + 1][2];
+        dp[0][1] = expressCost;
+        for (int i = 0; i < n; ++i) {
+            dp[i + 1][0] = Math.min(dp[i][0] + regular[i], dp[i][1] + express[i]);
+            dp[i + 1][1] = Math.min(dp[i][0] + regular[i] + expressCost, dp[i][1] + express[i]);
+            res[i] = Math.min(dp[i + 1][0], dp[i + 1][1]);
+        }
+        return res;
 
-    // }
+    }
 }
