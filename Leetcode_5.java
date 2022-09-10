@@ -1469,4 +1469,44 @@ public class Leetcode_5 {
 
     }
 
+    interface Relation {
+        boolean knows(int a, int b);
+    }
+
+    // 277. 搜寻名人 (Find the Celebrity) --plus
+    class Resolusion277 implements Relation {
+
+        public int findCelebrity(int n) {
+            int i = 0;
+            int j = 1;
+            while (j < n) {
+                if (knows(i, j)) {
+                    i = j;
+                }
+                ++j;
+            }
+            while (--j > i) {
+                if (!knows(j, i)) {
+                    return -1;
+                }
+            }
+            while (--j >= 0) {
+                if (!knows(j, i) || knows(i, j)) {
+                    return -1;
+                }
+            }
+            return i;
+        }
+
+        @Override
+        public boolean knows(int a, int b) {
+            return false;
+        }
+
+    }
+
+    // 2361. 乘坐火车路线的最少费用 (Minimum Costs Using the Train Line)
+    // public long[] minimumCosts(int[] regular, int[] express, int expressCost) {
+
+    // }
 }
