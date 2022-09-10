@@ -9920,6 +9920,38 @@ public class LeetCode_2 {
 
    }
 
+   // 669. 修剪二叉搜索树 (Trim a Binary Search Tree) --迭代
+   public TreeNode trimBST2(TreeNode root, int low, int high) {
+      while (root != null && (root.val < low || root.val > high)) {
+         if (root.val < low) {
+            root = root.right;
+         } else if (root.val > high) {
+            root = root.left;
+         }
+      }
+      if (root == null) {
+         return null;
+      }
+      TreeNode node = root;
+      while (node.left != null) {
+         if (node.left.val < low) {
+            node.left = node.left.right;
+         } else {
+            node = node.left;
+         }
+      }
+      node = root;
+      while (node.right != null) {
+         if (node.right.val > high) {
+            node.right = node.right.left;
+         } else {
+            node = node.right;
+         }
+      }
+      return root;
+
+   }
+
    // 703. 数据流中的第 K 大元素 (Kth Largest Element in a Stream)
    // 剑指 Offer II 059. 数据流的第 K 大数值
    class KthLargest {
