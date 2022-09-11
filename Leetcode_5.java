@@ -1537,4 +1537,59 @@ public class Leetcode_5 {
         return res;
 
     }
+
+    // 6176. 出现最频繁的偶数元素
+    public int mostFrequentEven(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            if (num % 2 == 0) {
+                map.put(num, map.getOrDefault(num, 0) + 1);
+            }
+        }
+        if (map.isEmpty()) {
+            return -1;
+        }
+        int max = Collections.max(map.values());
+        int min = Integer.MAX_VALUE;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (max == entry.getValue()) {
+                if (min > entry.getKey()) {
+                    min = entry.getKey();
+                }
+            }
+        }
+        return min;
+
+    }
+
+    // 6177. 子字符串的最优划分
+    public int partitionString(String s) {
+        int res = 0;
+        int mask = 0;
+        for (char c : s.toCharArray()) {
+            if ((mask | (1 << (c - 'a'))) == mask) {
+                ++res;
+                mask = 0;
+            }
+            mask |= 1 << (c - 'a');
+        }
+        return res + 1;
+
+    }
+
+    // 6178. 将区间分为最少组数
+    public int minGroups(int[][] intervals) {
+        int[] diff = new int[10000002];
+        for (int[] interval : intervals) {
+            ++diff[interval[0]];
+            --diff[interval[1] + 1];
+        }
+        int res = diff[0];
+        for (int i = 1; i < diff.length; ++i) {
+            diff[i] += diff[i - 1];
+            res = Math.max(res, diff[i]);
+        }
+        return res;
+
+    }
 }
