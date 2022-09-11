@@ -5423,7 +5423,8 @@ public class LeetCodeText {
 
     }
 
-    // 1608. 特殊数组的特征值--o(n)
+    // 1608. 特殊数组的特征值--o(n) (Special Array With X Elements Greater Than or
+    // Equal X)
     public int specialArray(int[] nums) {
         int[] counts = new int[1001];
         for (int num : nums) {
@@ -5439,28 +5440,38 @@ public class LeetCodeText {
 
     }
 
-    // 1608. 特殊数组的特征值--o(log(n))
+    // 1608. 特殊数组的特征值--o(log(n)) (Special Array With X Elements Greater Than or
+    // Equal X)
     public int specialArray2(int[] nums) {
         int left = 0;
-        int right = 100;
+        int right = 0;
+        for (int num : nums) {
+            right = Math.max(right, num);
+        }
         while (left <= right) {
             int mid = left + ((right - left) >>> 1);
-            int count = 0;
-            for (int num : nums) {
-                if (num >= mid) {
-                    ++count;
-                }
-            }
-            if (mid == count) {
+            int count = getMoreOrEqualsCounts(nums, mid);
+            if (count == mid) {
                 return mid;
-            } else if (mid > count) {
+            }
+            if (count < mid) {
                 right = mid - 1;
-            } else if (mid < count) {
+            } else {
                 left = mid + 1;
             }
         }
         return -1;
 
+    }
+
+    private int getMoreOrEqualsCounts(int[] nums, int findNum) {
+        int count = 0;
+        for (int num : nums) {
+            if (num >= findNum) {
+                ++count;
+            }
+        }
+        return count;
     }
 
     // 1414. 和为 K 的最少斐波那契数字数目
