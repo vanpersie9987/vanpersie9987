@@ -1579,7 +1579,11 @@ public class Leetcode_5 {
 
     // 6178. 将区间分为最少组数
     public int minGroups(int[][] intervals) {
-        int[] diff = new int[10000002];
+        int max = 0;
+        for (int[] interval : intervals) {
+            max = Math.max(max, interval[1]);
+        }
+        int[] diff = new int[max + 2];
         for (int[] interval : intervals) {
             ++diff[interval[0]];
             --diff[interval[1] + 1];
