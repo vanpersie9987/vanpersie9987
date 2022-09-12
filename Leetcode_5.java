@@ -1633,4 +1633,44 @@ public class Leetcode_5 {
         return list.get(k - 1);
 
     }
+
+    // 1387. 将整数按权重排序 (Sort Integers by The Power Value) --plus 记忆化搜索
+    private Map<Integer, Integer> map1387;
+
+    public int getKth2(int lo, int hi, int k) {
+        map1387 = new HashMap<>();
+        List<Integer> list = new ArrayList<>();
+        for (int i = lo; i <= hi; ++i) {
+            list.add(i);
+        }
+        Collections.sort(list, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                int p1 = getPowerValue1387(o1);
+                int p2 = getPowerValue1387(o2);
+                if (p1 == p2) {
+                    return o1 - o2;
+                }
+                return p1 - p2;
+
+            }
+
+            private int getPowerValue1387(int num) {
+                if (!map1387.containsKey(num)) {
+                    if (num == 1) {
+                        map1387.put(num, 0);
+                    } else if (num % 2 == 0) {
+                        map1387.put(num, getPowerValue1387(num / 2) + 1);
+                    } else {
+                        map1387.put(num, getPowerValue1387(3 * num + 1) + 1);
+                    }
+                }
+                return map1387.get(num);
+            }
+
+        });
+        return list.get(k - 1);
+
+    }
 }
