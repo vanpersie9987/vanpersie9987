@@ -1596,4 +1596,41 @@ public class Leetcode_5 {
         return res;
 
     }
+
+    // 1387. 将整数按权重排序 (Sort Integers by The Power Value) --plus
+    public int getKth(int lo, int hi, int k) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = lo; i <= hi; ++i) {
+            list.add(i);
+        }
+        Collections.sort(list, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                int p1 = getPowerValue1387(o1);
+                int p2 = getPowerValue1387(o2);
+                if (p1 == p2) {
+                    return o1 - o2;
+                }
+                return p1 - p2;
+            }
+
+            private int getPowerValue1387(int num) {
+                int step = 0;
+                while (num != 1) {
+                    if (num % 2 == 0) {
+                        num /= 2;
+                    } else {
+                        num = 3 * num + 1;
+                    }
+                    ++step;
+                }
+                return step;
+            }
+
+        });
+
+        return list.get(k - 1);
+
+    }
 }
