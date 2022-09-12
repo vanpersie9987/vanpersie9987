@@ -1673,4 +1673,95 @@ public class Leetcode_5 {
         return list.get(k - 1);
 
     }
+
+    // 323. 无向图中连通分量的数目 (Number of Connected Components in an Undirected Graph)
+    // --bfs
+    public int countComponents(int n, int[][] edges) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int[] edge : edges) {
+            map.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            map.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+        }
+        int res = 0;
+        Queue<Integer> queue = new LinkedList<>();
+        boolean[] visited = new boolean[n];
+        for (int i = 0; i < n; ++i) {
+            if (!visited[i]) {
+                visited[i] = true;
+                queue.offer(i);
+                while (!queue.isEmpty()) {
+                    int node = queue.poll();
+                    for (int neighbor : map.getOrDefault(node, new ArrayList<>())) {
+                        if (!visited[neighbor]) {
+                            visited[neighbor] = true;
+                            queue.offer(neighbor);
+                        }
+                    }
+                }
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    public class Union323 {
+        private int[] rank;
+        private int[] parent;
+        private int count;
+
+        public Union323(int n) {
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+            count = n;
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] > rank[root2]) {
+                parent[root2] = root1;
+            } else {
+                parent[root1] = root2;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root2];
+                }
+            }
+            --count;
+        }
+
+        public int getCount() {
+            return count;
+        }
+
+    }
+
+    // 323. 无向图中连通分量的数目 (Number of Connected Components in an Undirected Graph)
+    // 并查集
+    public int countComponents2(int n, int[][] edges) {
+        Union323 union = new Union323(n);
+        for (int[] edge : edges) {
+            union.union(edge[0], edge[1]);
+        }
+        return union.getCount();
+
+    }
 }
