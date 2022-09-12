@@ -1675,6 +1675,7 @@ public class Leetcode_5 {
     }
 
     // 323. 无向图中连通分量的数目 (Number of Connected Components in an Undirected Graph)
+    // --plus
     // --bfs
     public int countComponents(int n, int[][] edges) {
         Map<Integer, List<Integer>> map = new HashMap<>();
@@ -1755,6 +1756,7 @@ public class Leetcode_5 {
     }
 
     // 323. 无向图中连通分量的数目 (Number of Connected Components in an Undirected Graph)
+    // --plus
     // 并查集
     public int countComponents2(int n, int[][] edges) {
         Union323 union = new Union323(n);
@@ -1763,5 +1765,11 @@ public class Leetcode_5 {
         }
         return union.getCount();
 
+    }
+
+    // 660. 移除 9 (Remove 9) --plus
+    public int newInteger(int n) {
+        // 第n个9进制数字
+        return Integer.parseInt(Integer.toString(n, 9));
     }
 }
