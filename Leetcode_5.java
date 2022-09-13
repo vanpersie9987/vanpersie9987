@@ -1827,4 +1827,29 @@ public class Leetcode_5 {
         return s.substring(n - perform) + s.substring(0, n - perform);
 
     }
+
+    // 1271. 十六进制魔术数字 (Hexspeak)
+    public String toHexspeak(String num) {
+        Map<Long, Character> map = new HashMap<>();
+        map.put(0l, 'O');
+        map.put(1l, 'I');
+        map.put(10l, 'A');
+        map.put(11l, 'B');
+        map.put(12l, 'C');
+        map.put(13l, 'D');
+        map.put(14l, 'E');
+        map.put(15l, 'F');
+        long n = Long.parseLong(num);
+        StringBuilder builder = new StringBuilder();
+        while (n != 0l) {
+            long mod = n % 16;
+            if (!map.containsKey(mod)) {
+                return "ERROR";
+            }
+            builder.append(map.get(mod));
+            n /= 16;
+        }
+        return builder.reverse().toString();
+
+    }
 }
