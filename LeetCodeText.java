@@ -7152,27 +7152,29 @@ public class LeetCodeText {
 
     }
 
-    // 670. 最大交换
+    // 670. 最大交换 (Maximum Swap)
     public int maximumSwap(int num) {
         int[] last = new int[10];
         char[] chars = String.valueOf(num).toCharArray();
-        for (int i = 0; i < chars.length; ++i) {
-            last[chars[i] - '0'] = i;
+        int n = chars.length;
+        for (int i = 0; i < n; ++i) {
+            int bit = chars[i] - '0';
+            last[bit] = i;
         }
-
-        for (int i = 0; i < chars.length; ++i) {
-            int cur = chars[i] - '0';
-            for (int bit = 9; bit > cur; --bit) {
-                if (last[bit] > i) {
-                    swap(chars, last[bit], i);
-                    return Integer.parseInt(new String(chars));
+        for (int i = 0; i < n; ++i) {
+            int bit = chars[i] - '0';
+            for (int j = 9; j > bit; --j) {
+                if (last[j] > i) {
+                    swap670(chars, i, last[j]);
+                    return Integer.parseInt(String.valueOf(chars));
                 }
             }
         }
         return num;
+
     }
 
-    private void swap(char[] chars, int i, int j) {
+    private void swap670(char[] chars, int i, int j) {
         char temp = chars[i];
         chars[i] = chars[j];
         chars[j] = temp;
