@@ -1852,32 +1852,32 @@ public class Leetcode_5 {
     }
 
     // 2312. 卖木头块 (Selling Pieces of Wood) --plus 记忆化搜索
-    private Map<Integer, Long> map2312;
+    private long[][] memo2312;
 
     public long sellingWood(int m, int n, int[][] prices) {
-        map2312 = new HashMap<>();
-        Map<Integer, Integer> values = new HashMap<>();
+        memo2312 = new long[m + 1][n + 1];
+        for (int i = 0; i < m + 1; ++i) {
+            Arrays.fill(memo2312[i], -1l);
+        }
+        int[][] values = new int[m + 1][n + 1];
         for (int[] price : prices) {
-            int key = (price[0] << 10) | price[1];
-            values.put(key, price[2]);
+            values[price[0]][price[1]] = price[2];
         }
         return dfs2312(m, n, values);
 
     }
 
-    private long dfs2312(int m, int n, Map<Integer, Integer> values) {
-        int key = (m << 10) | n;
-        if (map2312.containsKey(key)) {
-            return map2312.get(key);
+    private long dfs2312(int m, int n, int[][] values) {
+        if (memo2312[m][n] != -1) {
+            return memo2312[m][n];
         }
-        long max = values.getOrDefault(key, 0);
+        long max = values[m][n];
         for (int i = 1; i < m; ++i) {
             max = Math.max(max, dfs2312(i, n, values) + dfs2312(m - i, n, values));
         }
         for (int i = 1; i < n; ++i) {
             max = Math.max(max, dfs2312(m, i, values) + dfs2312(m, n - i, values));
         }
-        map2312.put(key, max);
-        return max;
+        return memo2312[m][n] = max;
     }
 }
