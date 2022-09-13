@@ -13,6 +13,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
+import javax.security.auth.login.FailedLoginException;
+
 public class Leetcode_5 {
     public static void main(String[] args) {
 
@@ -1771,5 +1773,42 @@ public class Leetcode_5 {
     public int newInteger(int n) {
         // 第n个9进制数字
         return Integer.parseInt(Integer.toString(n, 9));
+    }
+
+    // 1826. 有缺陷的传感器 (Faulty Sensor) --plus
+    public int badSensor(int[] sensor1, int[] sensor2) {
+        int n = sensor1.length;
+        int i = 0;
+        while (i < n) {
+            if (sensor1[i] != sensor2[i]) {
+                break;
+            }
+            ++i;
+        }
+        if (i >= n - 1) {
+            return -1;
+        }
+        int j = i + 1;
+        while (j < n) {
+            if (sensor1[j - 1] != sensor2[j]) {
+                break;
+            }
+            ++j;
+        }
+        if (j < n) {
+            return 2;
+        }
+        j = i + 1;
+        while (j < n) {
+            if (sensor1[j] != sensor2[j - 1]) {
+                break;
+            }
+            ++j;
+        }
+        if (j < n) {
+            return 1;
+        }
+        return -1;
+
     }
 }
