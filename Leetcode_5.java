@@ -13,6 +13,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
+import org.jcp.xml.dsig.internal.MacOutputStream;
+
 public class Leetcode_5 {
     public static void main(String[] args) {
 
@@ -1849,5 +1851,35 @@ public class Leetcode_5 {
         }
         return builder.reverse().toString();
 
+    }
+
+    // 2312. 卖木头块 (Selling Pieces of Wood) --plus 记忆化搜索
+    private Map<Integer, Long> map2312;
+
+    public long sellingWood(int m, int n, int[][] prices) {
+        map2312 = new HashMap<>();
+        Map<Integer, Integer> values = new HashMap<>();
+        for (int[] price : prices) {
+            int key = (price[0] << 10) | price[1];
+            values.put(key, price[2]);
+        }
+        return dfs2312(m, n, values);
+
+    }
+
+    private long dfs2312(int m, int n, Map<Integer, Integer> values) {
+        int key = (m << 10) | n;
+        if (map2312.containsKey(key)) {
+            return map2312.get(key);
+        }
+        long max = values.getOrDefault(key, 0);
+        for (int i = 1; i < m; ++i) {
+            max = Math.max(max, dfs2312(i, n, values) + dfs2312(m - i, n, values));
+        }
+        for (int i = 1; i < n; ++i) {
+            max = Math.max(max, dfs2312(m, i, values) + dfs2312(m, n - i, values));
+        }
+        map2312.put(key, max);
+        return max;
     }
 }
