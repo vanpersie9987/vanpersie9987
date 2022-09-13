@@ -1811,4 +1811,20 @@ public class Leetcode_5 {
         return -1;
 
     }
+
+    // 1427. 字符串的左右移 (Perform String Shifts)
+    public String stringShift(String s, int[][] shift) {
+        int n = s.length();
+        int perform = 0;
+        for (int[] shif : shift) {
+            if (shif[0] == 0) {
+                perform = (perform - shif[1]) % n;
+            } else {
+                perform = (perform + shif[1]) % n;
+            }
+        }
+        perform = (perform % n + n) % n;
+        return s.substring(n - perform) + s.substring(0, n - perform);
+
+    }
 }
