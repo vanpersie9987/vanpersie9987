@@ -1851,7 +1851,7 @@ public class Leetcode_5 {
 
     }
 
-    // 2312. 卖木头块 (Selling Pieces of Wood) --plus 记忆化搜索
+    // 2312. 卖木头块 (Selling Pieces of Wood) --记忆化搜索
     private long[][] memo2312;
 
     public long sellingWood(int m, int n, int[][] prices) {
@@ -1879,5 +1879,40 @@ public class Leetcode_5 {
             max = Math.max(max, dfs2312(m, i, values) + dfs2312(m, n - i, values));
         }
         return memo2312[m][n] = max;
+    }
+
+    // 1575. 统计所有可行路径 (Count All Possible Routes) --记忆化搜索
+    private int[][] memo1575;
+    private final int MOD1575 = (int) (1e9 + 7);
+
+    public int countRoutes(int[] locations, int start, int finish, int fuel) {
+        int n = locations.length;
+        memo1575 = new int[n][fuel + 1];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo1575[i], -1);
+        }
+        return dfs1575(locations, start, finish, fuel);
+    }
+
+    private int dfs1575(int[] locations, int start, int finish, int fuel) {
+        if (memo1575[start][fuel] != -1) {
+            return memo1575[start][fuel];
+        }
+        memo1575[start][fuel] = 0;
+        if (Math.abs(locations[start] - locations[finish]) > fuel) {
+            return 0;
+        }
+        for (int i = 0; i < locations.length; ++i) {
+            int need = Math.abs(locations[i] - locations[start]);
+            if (i != start && need <= fuel) {
+                memo1575[start][fuel] += dfs1575(locations, i, finish, fuel - need);
+                memo1575[start][fuel] %= MOD1575;
+            }
+        }
+        if (start == finish) {
+            memo1575[start][fuel] += 1;
+            memo1575[start][fuel] %= MOD1575;
+        }
+        return memo1575[start][fuel];
     }
 }
