@@ -5539,16 +5539,17 @@ public class LeetCodeText {
 
     }
 
-    // 1619. 删除某些元素后的数组均值
+    // 1619. 删除某些元素后的数组均值 (Mean of Array After Removing Some Elements)
     public double trimMean(int[] arr) {
-        int sum = 0;
-        int count = 0;
         Arrays.sort(arr);
-        for (int i = (int) (arr.length * 0.05); i < (int) (arr.length * 0.95); ++i) {
+        int n = arr.length;
+        int start = (int) ((double) n * 0.05);
+        int end = n - 1 - (int) ((double) n * 0.05);
+        int sum = 0;
+        for (int i = start; i <= end; ++i) {
             sum += arr[i];
-            ++count;
         }
-        return (double) sum / count;
+        return (double) sum / (end - start + 1);
 
     }
 
