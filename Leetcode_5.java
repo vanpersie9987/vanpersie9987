@@ -1915,4 +1915,30 @@ public class Leetcode_5 {
         }
         return memo1575[start][fuel];
     }
+
+    // 294. 翻转游戏 II (Flip Game II) --记忆化搜索
+    private Map<String, Boolean> memo294;
+
+    public boolean canWin(String currentState) {
+        memo294 = new HashMap<>();
+        return dfs294(currentState);
+
+    }
+
+    private boolean dfs294(String currentState) {
+        if (memo294.containsKey(currentState)) {
+            return memo294.get(currentState);
+        }
+        for (int i = 1; i < currentState.length(); ++i) {
+            if (currentState.charAt(i - 1) == '+' && currentState.charAt(i) == '+') {
+                String next = currentState.substring(0, i - 1) + "--" + currentState.substring(i + 1);
+                if (!dfs294(next)) {
+                    memo294.put(next, false);
+                    return true;
+                }
+                memo294.put(next, true);
+            }
+        }
+        return false;
+    }
 }
