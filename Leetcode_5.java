@@ -13,6 +13,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
+import javax.xml.crypto.dsig.Transform;
+
 public class Leetcode_5 {
     public static void main(String[] args) {
 
@@ -2013,5 +2015,41 @@ public class Leetcode_5 {
         }
         return res;
 
+    }
+
+    // 360. 有序转化数组 (Sort Transformed Array) --plus
+    public int[] sortTransformedArray(int[] nums, int a, int b, int c) {
+        return a == 0 ? transformLinear(nums, b, c) : transformQuadratic(nums, a, b, c);
+    }
+
+    private int[] transformQuadratic(int[] nums, int a, int b, int c) {
+        int n = nums.length;
+        int[] res = new int[n];
+
+        double symmetryAxis = -b / (2.0 * a);
+        int index = a > 0 ? n - 1 : 0;
+        int left = 0;
+        int right = n - 1;
+        while (left <= right) {
+            if (Math.abs(nums[left] - symmetryAxis) > Math.abs(nums[right] - symmetryAxis)) {
+                res[index] = a * nums[left] * nums[left] + b * nums[left] + c;
+                ++left;
+            } else {
+                res[index] = a * nums[right] * nums[right] + b * nums[right] + c;
+                --right;
+            }
+            index += a > 0 ? -1 : 1;
+        }
+        return res;
+
+    }
+
+    private int[] transformLinear(int[] nums, int b, int c) {
+        int n = nums.length;
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            res[b >= 0 ? i : n - i - 1] = b * nums[i] + c;
+        }
+        return res;
     }
 }
