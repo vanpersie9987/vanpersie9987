@@ -2099,11 +2099,11 @@ public class Leetcode_5 {
         int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
         int m = rooms.length;
         int n = rooms[0].length;
-        Queue<int[]> queue = new LinkedList<>();
+        Queue<Integer> queue = new LinkedList<>();
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (rooms[i][j] == 0) {
-                    queue.offer(new int[] { i, j });
+                    queue.offer((i << 8) | j);
                 }
             }
         }
@@ -2112,13 +2112,13 @@ public class Leetcode_5 {
             int size = queue.size();
             ++distance;
             for (int i = 0; i < size; ++i) {
-                int[] cur = queue.poll();
+                int cur = queue.poll();
                 for (int[] direction : directions) {
-                    int nx = cur[0] + direction[0];
-                    int ny = cur[1] + direction[1];
+                    int nx = (cur >> 8) + direction[0];
+                    int ny = (cur & ((1 << 8) - 1)) + direction[1];
                     if (nx >= 0 && nx < m && ny >= 0 && ny < n && distance < rooms[nx][ny]) {
                         rooms[nx][ny] = distance;
-                        queue.offer(new int[] { nx, ny });
+                        queue.offer((nx << 8) | ny);
                     }
                 }
             }
