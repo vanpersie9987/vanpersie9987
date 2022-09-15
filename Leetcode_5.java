@@ -2052,4 +2052,45 @@ public class Leetcode_5 {
         }
         return res;
     }
+
+    // 604. 迭代压缩字符串 (Design Compressed String Iterator) --plus
+    class StringIterator {
+        private int curLetterIndex;
+        private int curCount;
+        private int nextLetterIndex;
+        private int n;
+        private String compressedString;
+
+        public StringIterator(String compressedString) {
+            this.compressedString = compressedString;
+            this.n = compressedString.length();
+            getNext();
+        }
+
+        public char next() {
+            if (!hasNext()) {
+                return ' ';
+            }
+            if (curCount == 0) {
+                getNext();
+            }
+            --curCount;
+            return compressedString.charAt(curLetterIndex);
+        }
+
+        public boolean hasNext() {
+            return curCount > 0 || nextLetterIndex < n;
+
+        }
+
+        private void getNext() {
+            curLetterIndex = nextLetterIndex;
+            ++nextLetterIndex;
+            curCount = 0;
+            while (nextLetterIndex < n && Character.isDigit(compressedString.charAt(nextLetterIndex))) {
+                curCount = curCount * 10 + compressedString.charAt(nextLetterIndex) - '0';
+                ++nextLetterIndex;
+            }
+        }
+    }
 }
