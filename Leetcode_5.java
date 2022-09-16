@@ -2123,4 +2123,39 @@ public class Leetcode_5 {
         }
 
     }
+
+    // 472. 连接词 (Concatenated Words)
+    // public List<String> findAllConcatenatedWordsInADict(String[] words) {
+
+    // }
+
+    // 2017. 网格游戏 (Grid Game)
+    // public long gridGame(int[][] grid) {
+
+    // }
+
+    // 1936. 新增的最少台阶数 (Add Minimum Number of Rungs)
+    // public int addRungs(int[] rungs, int dist) {
+
+    // }
+
+    // 1943. 描述绘画结果 (Describe the Painting)
+    // public List<List<Long>> splitPainting(int[][] segments) {
+
+    // }
+
+    // 1942. 最小未被占据椅子的编号 (The Number of the Smallest Unoccupied Chair)
+    // public int smallestChair(int[][] times, int targetFriend) {
+
+    // }
+
+    // 1936. 新增的最少台阶数 (Add Minimum Number of Rungs)
+    // public int addRungs(int[] rungs, int dist) {
+
+    // }
+
+    // 1922. 统计好数字的数目 (Count Good Numbers)
+    // public int countGoodNumbers(long n) {
+
+    // }
 }

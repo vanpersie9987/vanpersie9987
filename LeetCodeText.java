@@ -19283,18 +19283,18 @@ public class LeetCodeText {
 
     // 1624. 两个相同字符之间的最长子字符串 (Largest Substring Between Two Equal Characters)
     public int maxLengthBetweenEqualCharacters(String s) {
-        Map<Character, Integer> map = new HashMap<>();
-        char[] chars = s.toCharArray();
         int res = -1;
-        for (int i = 0; i < chars.length; ++i) {
-            if (!map.containsKey(chars[i])) {
-                map.put(chars[i], i);
+        int[] pos = new int[26];
+        Arrays.fill(pos, -1);
+        for (int i = 0; i < s.length(); ++i) {
+            int index = s.charAt(i) - 'a';
+            if (pos[index] == -1) {
+                pos[index] = i;
             } else {
-                res = Math.max(res, i - map.get(chars[i]) - 1);
+                res = Math.max(res, i - pos[index] - 1);
             }
         }
         return res;
-
     }
 
     // 1309. 解码字母到整数映射 (Decrypt String from Alphabet to Integer Mapping)
