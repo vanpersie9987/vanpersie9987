@@ -2154,6 +2154,24 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 2017. 网格游戏 (Grid Game)
+    public long gridGame(int[][] grid) {
+        int n = grid[0].length;
+        long left0 = 0l;
+        for (int g : grid[0]) {
+            left0 += g;
+        }
+        long left1 = 0l;
+        long res = Long.MAX_VALUE;
+        for (int i = 0; i < n; ++i) {
+            left0 -= grid[0][i];
+            res = Math.min(res, Math.max(left0, left1));
+            left1 += grid[1][i];
+        }
+        return res;
+
+    }
+
     // 1942. 最小未被占据椅子的编号 (The Number of the Smallest Unoccupied Chair)
     // public int smallestChair(int[][] times, int targetFriend) {
 
@@ -2164,18 +2182,8 @@ public class Leetcode_5 {
 
     // }
 
-    // 2017. 网格游戏 (Grid Game)
-    // public long gridGame(int[][] grid) {
-
-    // }
-
     // 1943. 描述绘画结果 (Describe the Painting)
     // public List<List<Long>> splitPainting(int[][] segments) {
-
-    // }
-
-    // 1936. 新增的最少台阶数 (Add Minimum Number of Rungs)
-    // public int addRungs(int[] rungs, int dist) {
 
     // }
 
