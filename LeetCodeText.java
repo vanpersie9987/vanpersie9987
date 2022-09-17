@@ -17236,14 +17236,14 @@ public class LeetCodeText {
         return res == 0x3ffffff;
     }
 
-    // 50. Pow(x, n) (Pow(x, n))
+    // 50. Pow(x, n) (Pow(x, n)) --快速幂 迭代
     public double myPow(double x, int n) {
         long N = n;
-        return n > 0 ? getQuickMultiply(x, N) : 1.0 / getQuickMultiply(x, -N);
+        return n > 0 ? getQuickMultiplyIteration(x, N) : 1.0 / getQuickMultiplyIteration(x, -N);
 
     }
 
-    private double getQuickMultiply(double x, long n) {
+    private double getQuickMultiplyIteration(double x, long n) {
         double res = 1.0;
         while (n > 0) {
             if ((n & 1) != 0) {
@@ -17253,6 +17253,21 @@ public class LeetCodeText {
             n >>= 1;
         }
         return res;
+    }
+
+    // 50. Pow(x, n) (Pow(x, n)) --快速幂 递归
+    public double myPow2(double x, int n) {
+        long N = n;
+        return n > 0 ? getQuickMultiplyRecursion(x, N) : 1.0 / getQuickMultiplyRecursion(x, -N);
+
+    }
+
+    private double getQuickMultiplyRecursion(double x, long n) {
+        if (n == 0) {
+            return 1.0d;
+        }
+        double y = getQuickMultiplyRecursion(x, n / 2);
+        return n % 2 == 0 ? y * y : y * y * x;
     }
 
     // 172. 阶乘后的零 (Factorial Trailing Zeroes)
