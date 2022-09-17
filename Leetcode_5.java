@@ -2134,6 +2134,31 @@ public class Leetcode_5 {
 
     }
 
+    // 1922. 统计好数字的数目 (Count Good Numbers) --快速幂
+    private final int MOD1922 = (int) (1e9 + 7);
+
+    public int countGoodNumbers(long n) {
+        return (int) ((long) quickMul(5, (n + 1) / 2) * quickMul(4, n / 2) % MOD1922);
+    }
+
+    private long quickMul(int x, long k) {
+        int res = 1;
+        int x_contribute = x;
+        while (k > 0) {
+            if (k % 2 == 1) {
+                res = (int) ((long) res * x_contribute % MOD1922);
+            }
+            x_contribute = (int) ((long) x_contribute * x_contribute % MOD1922);
+            k /= 2;
+        }
+        return res;
+    }
+
+    // 1942. 最小未被占据椅子的编号 (The Number of the Smallest Unoccupied Chair)
+    // public int smallestChair(int[][] times, int targetFriend) {
+
+    // }
+
     // 472. 连接词 (Concatenated Words)
     // public List<String> findAllConcatenatedWordsInADict(String[] words) {
 
@@ -2149,18 +2174,9 @@ public class Leetcode_5 {
 
     // }
 
-    // 1942. 最小未被占据椅子的编号 (The Number of the Smallest Unoccupied Chair)
-    // public int smallestChair(int[][] times, int targetFriend) {
-
-    // }
-
     // 1936. 新增的最少台阶数 (Add Minimum Number of Rungs)
     // public int addRungs(int[] rungs, int dist) {
 
     // }
 
-    // 1922. 统计好数字的数目 (Count Good Numbers)
-    // public int countGoodNumbers(long n) {
-
-    // }
 }
