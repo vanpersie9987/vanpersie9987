@@ -2124,6 +2124,16 @@ public class Leetcode_5 {
 
     }
 
+    // 1936. 新增的最少台阶数 (Add Minimum Number of Rungs)
+    public int addRungs(int[] rungs, int dist) {
+        int res = (rungs[0] - 1) / dist;
+        for (int i = 1; i < rungs.length; ++i) {
+            res += (rungs[i] - rungs[i - 1] - 1) / dist;
+        }
+        return res;
+
+    }
+
     // 472. 连接词 (Concatenated Words)
     // public List<String> findAllConcatenatedWordsInADict(String[] words) {
 
@@ -2131,11 +2141,6 @@ public class Leetcode_5 {
 
     // 2017. 网格游戏 (Grid Game)
     // public long gridGame(int[][] grid) {
-
-    // }
-
-    // 1936. 新增的最少台阶数 (Add Minimum Number of Rungs)
-    // public int addRungs(int[] rungs, int dist) {
 
     // }
 
