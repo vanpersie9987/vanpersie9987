@@ -2210,10 +2210,8 @@ public class Leetcode_5 {
             if (players[i] <= trainers[j]) {
                 ++res;
                 ++i;
-                ++j;
-            } else {
-                ++j;
             }
+            ++j;
         }
         return res;
 
