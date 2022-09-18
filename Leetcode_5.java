@@ -2280,6 +2280,12 @@ public class Leetcode_5 {
 
     }
 
+    // 6180. 最小偶倍数
+    public int smallestEvenMultiple2(int n) {
+        return (n % 2 + 1) * n;
+
+    }
+
     // 6181. 最长的字母序连续子字符串的长度
     public int longestContinuousSubstring(String s) {
         int res = 1;
