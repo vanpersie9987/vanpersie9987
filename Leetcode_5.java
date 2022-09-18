@@ -2291,7 +2291,7 @@ public class Leetcode_5 {
         int res = 1;
         int count = 1;
         for (int i = 1; i < s.length(); ++i) {
-            if (((int) (s.charAt(i) - s.charAt(i - 1))) == 1) {
+            if (s.charAt(i) - s.charAt(i - 1) == 1) {
                 ++count;
             } else {
                 count = 1;
