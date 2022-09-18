@@ -2174,35 +2174,23 @@ public class Leetcode_5 {
 
     // 6184. 统计共同度过的日子数
     public int countDaysTogether(String arriveAlice, String leaveAlice, String arriveBob, String leaveBob) {
-        int startAlice = getDays6184(arriveAlice);
-        int endAlice = getDays6184(leaveAlice);
-        int startBob = getDays6184(arriveBob);
-        int endBob = getDays6184(leaveBob);
+        int[] prefix = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+        for (int i = 1; i < 13; ++i) {
+            prefix[i] += prefix[i - 1];
+        }
+        int startAlice = getDays6184(arriveAlice,prefix);
+        int endAlice = getDays6184(leaveAlice, prefix);
+        int startBob = getDays6184(arriveBob, prefix);
+        int endBob = getDays6184(leaveBob, prefix);
 
         return Math.max(0, Math.min(endAlice, endBob) - Math.max(startAlice, startBob) + 1);
 
     }
 
-    private int getDays6184(String time) {
-        int[] m = new int[13];
-        m[1] = 31;
-        m[2] = 28;
-        m[3] = 31;
-        m[4] = 30;
-        m[5] = 31;
-        m[6] = 30;
-        m[7] = 31;
-        m[8] = 31;
-        m[9] = 30;
-        m[10] = 31;
-        m[11] = 30;
-        m[12] = 31;
-        for (int i = 1; i < m.length; ++i) {
-            m[i] += m[i - 1];
-        }
+    private int getDays6184(String time,int[] prefix) {
         int res = 0;
         int month = Integer.parseInt(time.substring(0, 2));
-        res += m[month - 1];
+        res += prefix[month - 1];
         int days = Integer.parseInt(time.substring(3));
         res += days;
         return res;
