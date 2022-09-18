@@ -2172,6 +2172,239 @@ public class Leetcode_5 {
 
     }
 
+    // 6184. 统计共同度过的日子数
+    public int countDaysTogether(String arriveAlice, String leaveAlice, String arriveBob, String leaveBob) {
+        int startAlice = getDays6184(arriveAlice);
+        int endAlice = getDays6184(leaveAlice);
+        int startBob = getDays6184(arriveBob);
+        int endBob = getDays6184(leaveBob);
+
+        return Math.max(0, Math.min(endAlice, endBob) - Math.max(startAlice, startBob) + 1);
+
+    }
+
+    private int getDays6184(String time) {
+        int[] m = new int[13];
+        m[1] = 31;
+        m[2] = 28;
+        m[3] = 31;
+        m[4] = 30;
+        m[5] = 31;
+        m[6] = 30;
+        m[7] = 31;
+        m[8] = 31;
+        m[9] = 30;
+        m[10] = 31;
+        m[11] = 30;
+        m[12] = 31;
+        for (int i = 1; i < m.length; ++i) {
+            m[i] += m[i - 1];
+        }
+        int res = 0;
+        int month = Integer.parseInt(time.substring(0, 2));
+        res += m[month - 1];
+        int days = Integer.parseInt(time.substring(3));
+        res += days;
+        return res;
+    }
+
+    // 6185. 运动员和训练师的最大匹配数
+    public int matchPlayersAndTrainers(int[] players, int[] trainers) {
+        Arrays.sort(players);
+        Arrays.sort(trainers);
+        int res = 0;
+
+        int n = players.length;
+        int m = trainers.length;
+        int i = 0;
+        int j = 0;
+        while (i < n && j < m) {
+            if (players[i] <= trainers[j]) {
+                ++res;
+                ++i;
+                ++j;
+            } else {
+                ++j;
+            }
+        }
+        return res;
+
+    }
+
+    // 6186. 按位或最大的最小子数组长度
+    public int[] smallestSubarrays(int[] nums) {
+        int n = nums.length;
+        int[] counts = new int[32];
+        int[] res = new int[n];
+        int j = n - 1;
+        int i = n - 1;
+        while (i >= 0) {
+            addCounts(nums[i], counts);
+            while (j > i && tryMine(nums[j], counts.clone())) {
+                mine(nums[j--], counts);
+            }
+            res[i] = j - i + 1;
+            --i;
+        }
+        return res;
+
+    }
+
+    private void mine(int num, int[] counts) {
+        int[] c = new int[counts.length];
+        int i = 0;
+        while (num != 0) {
+            c[i++] = num % 2;
+            num /= 2;
+        }
+        for (int ij = 0; ij < counts.length; ++ij) {
+            counts[ij] -= c[ij];
+        }
+
+    }
+
+    private boolean tryMine(int num, int[] counts) {
+        int[] c = new int[counts.length];
+        int i = 0;
+        while (num != 0) {
+            c[i++] = num % 2;
+            num /= 2;
+        }
+        for (int ij = 0; ij < counts.length; ++ij) {
+            if (counts[ij] != 0) {
+                if (counts[ij] - c[ij] == 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private void addCounts(int num, int[] counts) {
+        int i = 0;
+        while (num != 0) {
+            counts[i++] += num % 2;
+            num /= 2;
+        }
+    }
+
+    // 6180. 最小偶倍数
+    public int smallestEvenMultiple(int n) {
+        return n % 2 == 0 ? n : n * 2;
+
+    }
+
+    // 6181. 最长的字母序连续子字符串的长度
+    public int longestContinuousSubstring(String s) {
+        int res = 1;
+        int count = 1;
+        for (int i = 1; i < s.length(); ++i) {
+            if (((int) (s.charAt(i) - s.charAt(i - 1))) == 1) {
+                ++count;
+            } else {
+                count = 1;
+            }
+            res = Math.max(res, count);
+        }
+
+        return res;
+
+    }
+
+    public TreeNode reverseOddLevels(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        int level = 0;
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            if (level % 2 == 1) {
+                List<TreeNode> list = new ArrayList<>(queue);
+                int i = 0;
+                int j = list.size() - 1;
+                while (i < j) {
+                    int temp = list.get(i).val;
+                    list.get(i).val = list.get(j).val;
+                    list.get(j).val = temp;
+                    ++i;
+                    --j;
+                }
+                queue = new LinkedList<>(list);
+            }
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = queue.poll();
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+
+            ++level;
+
+        }
+        return root;
+
+    }
+    
+    // 6183. 字符串的前缀分数和
+    public int[] sumPrefixScores(String[] words) {
+        int n = words.length;
+        Trie6183 trie = new Trie6183();
+        for (String word : words) {
+            trie.insert(word);
+        }
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = trie.getCount(words[i]);
+        }
+        return res;
+
+    }
+
+    class Trie6183 {
+        private Trie6183[] children;
+        private int count;
+
+        Trie6183() {
+            this.children = new Trie6183[26];
+            this.count = 0;
+        }
+
+        public void insert(String s) {
+            Trie6183 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie6183();
+                }
+                node = node.children[index];
+                ++node.count;
+            }
+        }
+
+        public int getCount(String s) {
+            int res = 0;
+            Trie6183 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    break;
+                }
+                node = node.children[index];
+                res += node.count;
+            }
+            return res;
+
+        }
+
+    }
+    
+    // 827. 最大人工岛 (Making A Large Island)
+    // public int largestIsland(int[][] grid) {
+
+    // }
+
     // 1942. 最小未被占据椅子的编号 (The Number of the Smallest Unoccupied Chair)
     // public int smallestChair(int[][] times, int targetFriend) {
 
