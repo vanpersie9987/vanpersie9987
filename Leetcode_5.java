@@ -12,6 +12,8 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class Leetcode_5 {
     public static void main(String[] args) {
@@ -2443,6 +2445,32 @@ public class Leetcode_5 {
             }
         }
         return false;
+
+    }
+
+    // 475. 供暖器 (Heaters)
+    public int findRadius(int[] houses, int[] heaters) {
+        Arrays.sort(houses);
+        Arrays.sort(heaters);
+
+        List<Integer> heaterList = Arrays.stream(heaters).boxed().collect(Collectors.toList());
+        heaterList.add(0, Integer.MIN_VALUE);
+        heaterList.add(Integer.MAX_VALUE);
+
+        int cur = 0;
+        long res = 0;
+
+        for (int i = 0; i < houses.length; ++i) {
+            while (cur < heaterList.size()) {
+                if (heaterList.get(cur) >= houses[i]) {
+                    break;
+                }
+                ++cur;
+            }
+            res = Math.max(res,
+                    Math.min((long) heaterList.get(cur) - houses[i], (long) houses[i] - heaterList.get(cur - 1)));
+        }
+        return (int) res;
 
     }
 
