@@ -2396,15 +2396,15 @@ public class Leetcode_5 {
     private final int MOD576 = (int) (1e9 + 7);
 
     public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
-        int[][][] dp = new int[m][n][maxMove + 1];
+        int[][][] memo = new int[m][n][maxMove + 1];
         int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
 
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                Arrays.fill(dp[i][j], -1);
+                Arrays.fill(memo[i][j], -1);
             }
         }
-        return dfs576(m, n, maxMove, startRow, startColumn, dp, directions);
+        return dfs576(m, n, maxMove, startRow, startColumn, memo, directions);
 
     }
 
