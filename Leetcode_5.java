@@ -2178,7 +2178,7 @@ public class Leetcode_5 {
         for (int i = 1; i < 13; ++i) {
             prefix[i] += prefix[i - 1];
         }
-        int startAlice = getDays6184(arriveAlice,prefix);
+        int startAlice = getDays6184(arriveAlice, prefix);
         int endAlice = getDays6184(leaveAlice, prefix);
         int startBob = getDays6184(arriveBob, prefix);
         int endBob = getDays6184(leaveBob, prefix);
@@ -2187,7 +2187,7 @@ public class Leetcode_5 {
 
     }
 
-    private int getDays6184(String time,int[] prefix) {
+    private int getDays6184(String time, int[] prefix) {
         int res = 0;
         int month = Integer.parseInt(time.substring(0, 2));
         res += prefix[month - 1];
@@ -2338,7 +2338,7 @@ public class Leetcode_5 {
         return root;
 
     }
-    
+
     // 6183. 字符串的前缀分数和
     public int[] sumPrefixScores(String[] words) {
         int n = words.length;
@@ -2391,7 +2391,43 @@ public class Leetcode_5 {
         }
 
     }
-    
+
+    // 576. 出界的路径数 (Out of Boundary Paths) --记忆化搜索
+    private final int MOD576 = (int) (1e9 + 7);
+
+    public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
+        int[][][] dp = new int[m][n][maxMove + 1];
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                Arrays.fill(dp[i][j], -1);
+            }
+        }
+        return dfs576(m, n, maxMove, startRow, startColumn, dp, directions);
+
+    }
+
+    private int dfs576(int m, int n, int maxMove, int startRow, int startColumn, int[][][] dp, int[][] directions) {
+        if (startRow >= m || startRow < 0 || startColumn >= n || startColumn < 0) {
+            return 1;
+        }
+        if (maxMove == 0) {
+            return 0;
+        }
+
+        if (dp[startRow][startColumn][maxMove] != -1) {
+            return dp[startRow][startColumn][maxMove];
+        }
+        dp[startRow][startColumn][maxMove] = 0;
+        for (int[] direction : directions) {
+            dp[startRow][startColumn][maxMove] = (dp[startRow][startColumn][maxMove]
+                    + dfs576(m, n, maxMove - 1, startRow + direction[0], startColumn + direction[1], dp, directions))
+                    % MOD576;
+        }
+        return dp[startRow][startColumn][maxMove] % MOD576;
+    }
+
     // 827. 最大人工岛 (Making A Large Island)
     // public int largestIsland(int[][] grid) {
 
