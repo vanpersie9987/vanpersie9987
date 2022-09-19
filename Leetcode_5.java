@@ -2428,6 +2428,24 @@ public class Leetcode_5 {
         return dp[startRow][startColumn][maxMove] % MOD576;
     }
 
+    // 334. 递增的三元子序列 (Increasing Triplet Subsequence) --贪心
+    public boolean increasingTriplet(int[] nums) {
+        int first = nums[0];
+        int second = Integer.MAX_VALUE;
+        for (int num : nums) {
+            if (num > second) {
+                return true;
+            }
+            if (num > first) {
+                second = num;
+            } else {
+                first = num;
+            }
+        }
+        return false;
+
+    }
+
     // 827. 最大人工岛 (Making A Large Island)
     // public int largestIsland(int[][] grid) {
 
