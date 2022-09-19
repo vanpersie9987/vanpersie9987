@@ -7236,6 +7236,7 @@ public class LeetCodeText {
 
     }
 
+    // 1636. 按照频率将数组升序排序 (Sort Array by Increasing Frequency)
     public int[] frequencySort(int[] nums) {
         int[] counts = new int[201];
         for (int num : nums) {
@@ -7247,6 +7248,39 @@ public class LeetCodeText {
         Arrays.sort(nums);
         for (int i = 0; i < nums.length; ++i) {
             nums[i] = 100 - nums[i] % 1000;
+        }
+        return nums;
+
+    }
+
+    // 1636. 按照频率将数组升序排序 (Sort Array by Increasing Frequency)
+    public int[] frequencySort2(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        int[][] arr = new int[map.size()][2];
+        int index = 0;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            arr[index++] = new int[] { entry.getKey(), entry.getValue() };
+        }
+        Arrays.sort(arr, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[1] == o2[1]) {
+                    return o2[0] - o1[0];
+                }
+                return o1[1] - o2[1];
+            }
+
+        });
+
+        index = 0;
+        for (int[] cur : arr) {
+            for (int i = 0; i < cur[1]; ++i) {
+                nums[index++] = cur[0];
+            }
         }
         return nums;
 
