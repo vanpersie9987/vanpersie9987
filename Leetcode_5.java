@@ -2612,12 +2612,12 @@ public class Leetcode_5 {
 
     // 1943. 描述绘画结果 (Describe the Painting) --前缀和 + 差分数组
     public List<List<Long>> splitPainting(int[][] segments) {
-        TreeSet<Integer> queue = new TreeSet<>();
+        TreeSet<Integer> set = new TreeSet<>();
         int max = 0;
         for (int[] segment : segments) {
             max = Math.max(max, segment[1]);
-            queue.add(segment[0]);
-            queue.add(segment[1]);
+            set.add(segment[0]);
+            set.add(segment[1]);
         }
         long[] diff = new long[max + 1];
         for (int[] segment : segments) {
@@ -2630,9 +2630,9 @@ public class Leetcode_5 {
         }
         List<List<Long>> res = new ArrayList<>();
 
-        while (queue.size() > 1) {
-            int left = queue.pollFirst();
-            int right = queue.first();
+        while (set.size() > 1) {
+            int left = set.pollFirst();
+            int right = set.first();
             if (diff[left] == 0) {
                 continue;
             }
