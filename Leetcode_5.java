@@ -2606,18 +2606,6 @@ public class Leetcode_5 {
             }
             node.isEnd = true;
         }
-
-        public boolean isEnd(String s) {
-            Trie472 node = this;
-            for (char c : s.toCharArray()) {
-                int index = c - 'a';
-                if (node.children[index] == null) {
-                    return false;
-                }
-                node = node.children[index];
-            }
-            return node.isEnd;
-        }
     
     }
 
