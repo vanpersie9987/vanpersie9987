@@ -12,6 +12,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeSet;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -2609,10 +2610,37 @@ public class Leetcode_5 {
     
     }
 
-    // 1943. 描述绘画结果 (Describe the Painting)
-    // public List<List<Long>> splitPainting(int[][] segments) {
+    // 1943. 描述绘画结果 (Describe the Painting) --前缀和 + 差分数组
+    public List<List<Long>> splitPainting(int[][] segments) {
+        TreeSet<Integer> queue = new TreeSet<>();
+        int max = 0;
+        for (int[] segment : segments) {
+            max = Math.max(max, segment[1]);
+            queue.add(segment[0]);
+            queue.add(segment[1]);
+        }
+        long[] diff = new long[max + 1];
+        for (int[] segment : segments) {
+            diff[segment[0]] += segment[2];
+            diff[segment[1]] -= segment[2];
+        }
 
-    // }
+        for (int i = 1; i < diff.length; ++i) {
+            diff[i] += diff[i - 1];
+        }
+        List<List<Long>> res = new ArrayList<>();
+
+        while (queue.size() > 1) {
+            int left = queue.pollFirst();
+            int right = queue.first();
+            if (diff[left] == 0) {
+                continue;
+            }
+            res.add(List.of((long) left, (long) right, diff[left]));
+        }
+        return res;
+
+    }
 
     // 827. 最大人工岛 (Making A Large Island)
     // public int largestIsland(int[][] grid) {
