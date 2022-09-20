@@ -17271,6 +17271,7 @@ public class LeetCodeText {
     }
 
     // 50. Pow(x, n) (Pow(x, n)) --快速幂 迭代
+    // 剑指 Offer 16. 数值的整数次方
     public double myPow(double x, int n) {
         long N = n;
         return n > 0 ? getQuickMultiplyIteration(x, N) : 1.0 / getQuickMultiplyIteration(x, -N);
@@ -17290,6 +17291,7 @@ public class LeetCodeText {
     }
 
     // 50. Pow(x, n) (Pow(x, n)) --快速幂 递归
+    // 剑指 Offer 16. 数值的整数次方
     public double myPow2(double x, int n) {
         long N = n;
         return n > 0 ? getQuickMultiplyRecursion(x, N) : 1.0 / getQuickMultiplyRecursion(x, -N);

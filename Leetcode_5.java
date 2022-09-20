@@ -2495,6 +2495,11 @@ public class Leetcode_5 {
 
     }
 
+    // 698. 划分为k个相等的子集 (Partition to K Equal Sum Subsets)
+    // public boolean canPartitionKSubsets(int[] nums, int k) {
+
+    // }
+
     // 827. 最大人工岛 (Making A Large Island)
     // public int largestIsland(int[][] grid) {
 
