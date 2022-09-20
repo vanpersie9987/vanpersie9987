@@ -2430,8 +2430,29 @@ public class Leetcode_5 {
         return dp[startRow][startColumn][maxMove] % MOD576;
     }
 
-    // 334. 递增的三元子序列 (Increasing Triplet Subsequence) --贪心
+    // 334. 递增的三元子序列 (Increasing Triplet Subsequence) --dp
     public boolean increasingTriplet(int[] nums) {
+        int n = nums.length;
+        int[] leftMax = new int[n];
+        leftMax[0] = nums[0];
+        for (int i = 1; i < n; ++i) {
+            leftMax[i] = Math.min(leftMax[i - 1], nums[i]);
+        }
+        int[] rightMax = new int[n];
+        rightMax[n - 1] = nums[n - 1];
+        for (int i = n - 2; i >= 0; --i) {
+            rightMax[i] = Math.max(rightMax[i + 1], nums[i]);
+        }
+        for (int i = 1; i < n - 1; ++i) {
+            if (leftMax[i] < nums[i] && nums[i] < rightMax[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 334. 递增的三元子序列 (Increasing Triplet Subsequence) --贪心
+    public boolean increasingTriplet2(int[] nums) {
         int first = nums[0];
         int second = Integer.MAX_VALUE;
         for (int num : nums) {
