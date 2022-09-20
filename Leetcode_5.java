@@ -2623,6 +2623,7 @@ public class Leetcode_5 {
     
     }
 
+    // 698. 划分为k个相等的子集 (Partition to K Equal Sum Subsets) --状态压缩 + 记忆化搜索
     public boolean canPartitionKSubsets(int[] nums, int k) {
         int sum = Arrays.stream(nums).sum();
         if (sum % k != 0) {
