@@ -2497,6 +2497,8 @@ public class Leetcode_5 {
 
     // 698. 划分为k个相等的子集 (Partition to K Equal Sum Subsets) --状态压缩 + 记忆化搜索
     private boolean[] memo698;
+<<<<<<< HEAD
+=======
 
     public boolean canPartitionKSubsets(int[] nums, int k) {
         int sum = Arrays.stream(nums).sum();
@@ -2537,10 +2539,128 @@ public class Leetcode_5 {
         return false;
     }
 
-    // 472. 连接词 (Concatenated Words)
-    // public List<String> findAllConcatenatedWordsInADict(String[] words) {
+    // 472. 连接词 (Concatenated Words) --记忆化搜索 + 字典树
+    public List<String> findAllConcatenatedWordsInADict(String[] words) {
+        Trie472 trie = new Trie472();
+        Arrays.sort(words,new Comparator<String>() {
 
-    // }
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.length() - o2.length();
+            }
+            
+        });
+
+        List<String> res = new ArrayList<>();
+        for (String word : words) {
+            boolean[] visited = new boolean[word.length()];
+            if (dfs472(word, trie, visited, 0)) {
+                res.add(word);
+            } else {
+                trie.insert(word);
+            }
+        }
+        return res;
+
+    }
+
+    private boolean dfs472(String word, Trie472 trie, boolean[] visited, int start) {
+        if (start == word.length()) {
+            return true;
+        }
+        if (visited[start]) {
+            return false;
+        }
+        Trie472 node = trie;
+        visited[start] = true;
+        for (int i = start; i < word.length(); ++i) {
+            int index = word.charAt(i) - 'a';
+            if (node.children[index] == null) {
+                return false;
+            }
+            node = node.children[index];
+            if (node.isEnd) {
+                if (dfs472(word, trie, visited, i + 1)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public class Trie472 {
+        private Trie472[] children;
+        private boolean isEnd;
+
+        public Trie472() {
+            this.children = new Trie472[26];
+            this.isEnd = false;
+        }
+
+        public void insert(String s) {
+            Trie472 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie472();
+                }
+                node = node.children[index];
+            }
+            node.isEnd = true;
+        }
+
+        public boolean isEnd(String s) {
+            Trie472 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    return false;
+                }
+                node = node.children[index];
+            }
+            return node.isEnd;
+        }
+    
+    }
+
+    public boolean canPartitionKSubsets(int[] nums, int k) {
+        int sum = Arrays.stream(nums).sum();
+        if (sum % k != 0) {
+            return false;
+        }
+        Arrays.sort(nums);
+        int per = sum / k;
+        int n = nums.length;
+        if (nums[n - 1] > per) {
+            return false;
+        }
+        this.memo698 = new boolean[1 << n];
+        Arrays.fill(memo698, true);
+
+        return dfs698((1 << n) - 1, 0, per, nums);
+
+    }
+
+    private boolean dfs698(int mask, int curSum,int per, int[] nums) {
+        if (mask == 0) {
+            return true;
+        }
+        if (!memo698[mask]) {
+            return memo698[mask];
+        }
+        memo698[mask] = false;
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] + curSum > per) {
+                break;
+            }
+            if (((mask >> i) & 1) != 0) {
+                if (dfs698(mask ^ (1 << i), (nums[i] + curSum) % per, per, nums)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     // 1943. 描述绘画结果 (Describe the Painting)
     // public List<List<Long>> splitPainting(int[][] segments) {
