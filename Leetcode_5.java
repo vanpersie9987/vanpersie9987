@@ -2495,8 +2495,55 @@ public class Leetcode_5 {
 
     }
 
-    // 698. 划分为k个相等的子集 (Partition to K Equal Sum Subsets)
-    // public boolean canPartitionKSubsets(int[] nums, int k) {
+    // 698. 划分为k个相等的子集 (Partition to K Equal Sum Subsets) --状态压缩 + 记忆化搜索
+    private boolean[] memo698;
+
+    public boolean canPartitionKSubsets(int[] nums, int k) {
+        int sum = Arrays.stream(nums).sum();
+        if (sum % k != 0) {
+            return false;
+        }
+        Arrays.sort(nums);
+        int per = sum / k;
+        int n = nums.length;
+        if (nums[n - 1] > per) {
+            return false;
+        }
+        this.memo698 = new boolean[1 << n];
+        Arrays.fill(memo698, true);
+
+        return dfs698((1 << n) - 1, 0, per, nums);
+
+    }
+
+    private boolean dfs698(int mask, int curSum,int per, int[] nums) {
+        if (mask == 0) {
+            return true;
+        }
+        if (!memo698[mask]) {
+            return memo698[mask];
+        }
+        memo698[mask] = false;
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] + curSum > per) {
+                break;
+            }
+            if (((mask >> i) & 1) != 0) {
+                if (dfs698(mask ^ (1 << i), (nums[i] + curSum) % per, per, nums)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // 472. 连接词 (Concatenated Words)
+    // public List<String> findAllConcatenatedWordsInADict(String[] words) {
+
+    // }
+
+    // 1943. 描述绘画结果 (Describe the Painting)
+    // public List<List<Long>> splitPainting(int[][] segments) {
 
     // }
 
@@ -2507,16 +2554,6 @@ public class Leetcode_5 {
 
     // 1942. 最小未被占据椅子的编号 (The Number of the Smallest Unoccupied Chair)
     // public int smallestChair(int[][] times, int targetFriend) {
-
-    // }
-
-    // 472. 连接词 (Concatenated Words)
-    // public List<String> findAllConcatenatedWordsInADict(String[] words) {
-
-    // }
-
-    // 1943. 描述绘画结果 (Describe the Painting)
-    // public List<List<Long>> splitPainting(int[][] segments) {
 
     // }
 
