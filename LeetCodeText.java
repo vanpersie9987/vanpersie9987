@@ -13,6 +13,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class LeetCodeText {
     private int[] nums;
@@ -5197,6 +5199,8 @@ public class LeetCodeText {
                 list.add(num);
             }
             map.put(piece[0], list);
+            // 自动装箱
+            // map.put(piece[0], Arrays.stream(piece).boxed().collect(Collectors.toList()));
         }
         for (int i = 0; i < arr.length; ++i) {
             if (!map.containsKey(arr[i])) {
