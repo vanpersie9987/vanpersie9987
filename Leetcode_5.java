@@ -2642,6 +2642,63 @@ public class Leetcode_5 {
 
     }
 
+    // 2080. 区间内查询数字的频率 (Range Frequency Queries) --二分 + 哈希表
+    class RangeFreqQuery {
+        private Map<Integer, List<Integer>> map;
+
+        public RangeFreqQuery(int[] arr) {
+            map = new HashMap<>();
+            for (int i = 0; i < arr.length; ++i) {
+                map.computeIfAbsent(arr[i], k -> new ArrayList<>()).add(i);
+            }
+        }
+
+        public int query(int left, int right, int value) {
+            List<Integer> pos = map.getOrDefault(value, new ArrayList<>());
+            if (pos.isEmpty() || pos.get(0) != Integer.MIN_VALUE) {
+                pos.add(0, Integer.MIN_VALUE);
+                pos.add(Integer.MAX_VALUE);
+            }
+            int l = binarySearchLowerBound(left, pos);
+            int r = binarySearchUpperBound(right, pos);
+            return r - l + 1;
+        }
+
+        // pos[i]中的大于等于target的最小索引i
+        private int binarySearchLowerBound(int target, List<Integer> pos) {
+            int left = 0;
+            int right = pos.size() - 1;
+            int res = -1;
+            while (left <= right) {
+                int mid = left + ((right - left) >>> 1);
+                if (pos.get(mid) >= target) {
+                    res = mid;
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            return res;
+        }
+
+        // pos[i]中的小于等于target的最大索引i
+        private int binarySearchUpperBound(int target, List<Integer> pos) {
+            int left = 0;
+            int right = pos.size() - 1;
+            int res = -1;
+            while (left <= right) {
+                int mid = left + ((right - left) >>> 1);
+                if (pos.get(mid) <= target) {
+                    res = mid;
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+            return res;
+        }
+    }
+
     // 827. 最大人工岛 (Making A Large Island)
     // public int largestIsland(int[][] grid) {
 
