@@ -5188,27 +5188,31 @@ public class LeetCodeText {
 
     }
 
-    // 1640. 能否连接形成数组
+    // 1640. 能否连接形成数组 (Check Array Formation Through Concatenation)
     public boolean canFormArray(int[] arr, int[][] pieces) {
-        int[] map = new int[101];
-        Arrays.fill(map, -1);
-        for (int i = 0; i < pieces.length; ++i) {
-            map[pieces[i][0]] = i;
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int[] piece : pieces) {
+            List<Integer> list = new ArrayList<>();
+            for (int num : piece) {
+                list.add(num);
+            }
+            map.put(piece[0], list);
         }
-        int i = 0;
-        while (i < arr.length) {
-            int pieceIndex = map[arr[i]];
-            if (pieceIndex == -1) {
+        for (int i = 0; i < arr.length; ++i) {
+            if (!map.containsKey(arr[i])) {
                 return false;
             }
-            ++i;
-            int[] piece = pieces[pieceIndex];
-            for (int j = 1; j < piece.length; ++j) {
-                if (piece[j] != arr[i]) {
+            List<Integer> list = map.get(arr[i]);
+            for (int j = 0; j < list.size(); ++j) {
+                if (i == arr.length) {
+                    return false;
+                }
+                if (arr[i] != list.get(j)) {
                     return false;
                 }
                 ++i;
             }
+            --i;
         }
         return true;
 
