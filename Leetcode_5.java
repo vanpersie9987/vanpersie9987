@@ -13,7 +13,6 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class Leetcode_5 {
@@ -2517,7 +2516,7 @@ public class Leetcode_5 {
 
     }
 
-    private boolean dfs698(int mask, int curSum,int per, int[] nums) {
+    private boolean dfs698(int mask, int curSum, int per, int[] nums) {
         if (mask == 0) {
             return true;
         }
@@ -2541,13 +2540,13 @@ public class Leetcode_5 {
     // 472. 连接词 (Concatenated Words) --记忆化搜索 + 字典树
     public List<String> findAllConcatenatedWordsInADict(String[] words) {
         Trie472 trie = new Trie472();
-        Arrays.sort(words,new Comparator<String>() {
+        Arrays.sort(words, new Comparator<String>() {
 
             @Override
             public int compare(String o1, String o2) {
                 return o1.length() - o2.length();
             }
-            
+
         });
 
         List<String> res = new ArrayList<>();
@@ -2607,7 +2606,7 @@ public class Leetcode_5 {
             }
             node.isEnd = true;
         }
-    
+
     }
 
     // 1943. 描述绘画结果 (Describe the Painting) --前缀和 + 差分数组
@@ -2698,6 +2697,21 @@ public class Leetcode_5 {
             return res;
         }
     }
+
+    // 2029. 石子游戏 IX (Stone Game IX)
+    // public boolean stoneGameIX(int[] stones) {
+
+    // }
+
+    // 2049. 统计最高分的节点数目 (Count Nodes With the Highest Score)
+    // public int countHighestScoreNodes(int[] parents) {
+
+    // }
+
+    // 1911. 最大子序列交替和 (Maximum Alternating Subsequence Sum)
+    // public long maxAlternatingSum(int[] nums) {
+
+    // }
 
     // 827. 最大人工岛 (Making A Large Island)
     // public int largestIsland(int[][] grid) {
