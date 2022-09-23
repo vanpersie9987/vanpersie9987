@@ -2722,5 +2722,4 @@ public class Leetcode_5 {
     // public int smallestChair(int[][] times, int targetFriend) {
 
     // }
-
 }

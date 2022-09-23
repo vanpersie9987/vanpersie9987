@@ -1763,16 +1763,18 @@ public class LeetCode_2 {
    // 707. 设计链表 (Design Linked List) --双链表
    class MyLinkedList2 {
       class Node {
+         int val;
          Node prev;
          Node next;
-         int val;
-
-         Node() {
-
-         }
 
          Node(int val) {
             this.val = val;
+         }
+
+         Node(int val, Node prev, Node next) {
+            this.val = val;
+            this.prev = prev;
+            this.next = next;
          }
 
       }
@@ -1782,28 +1784,29 @@ public class LeetCode_2 {
       private int size;
 
       public MyLinkedList2() {
-         head = new Node();
-         tail = new Node();
+         head = new Node(0);
+         tail = new Node(0);
          head.next = tail;
          tail.prev = head;
-
+         size = 0;
       }
 
       public int get(int index) {
          if (index < 0 || index >= size) {
             return -1;
          }
-         // 从后往前
-         if (2 * index >= size) {
-            Node cur = tail;
-            for (int i = 0; i < size - index; ++i) {
-               cur = cur.prev;
-            }
-            return cur.val;
-         } else {
+
+         if (index < size / 2) {
             Node cur = head;
             for (int i = 0; i <= index; ++i) {
                cur = cur.next;
+            }
+            return cur.val;
+         } else {
+            index = size - index - 1;
+            Node cur = tail;
+            for (int i = 0; i <= index; ++i) {
+               cur = cur.prev;
             }
             return cur.val;
          }
@@ -1821,30 +1824,33 @@ public class LeetCode_2 {
       }
 
       public void addAtIndex(int index, int val) {
-         if (index < 0 || index > size) {
+         if (index > size) {
             return;
          }
-         if (2 * index >= size) {
-            Node cur = tail;
-            for (int i = 0; i < size - index; ++i) {
-               cur = cur.prev;
-            }
-            Node added = new Node(val);
-            added.prev = cur.prev;
-            cur.prev = added;
-            added.prev.next = added;
-            added.next = cur;
-         } else {
+
+         if (index < size / 2) {
             Node cur = head;
             for (int i = 0; i < index; ++i) {
                cur = cur.next;
             }
-            Node added = new Node(val);
-            added.next = cur.next;
-            cur.next = added;
-            added.next.prev = added;
-            added.prev = cur;
+            Node node = new Node(val);
+            node.next = cur.next;
+            node.next.prev = node;
+            cur.next = node;
+            node.prev = cur;
+         } else {
+            index = size - index;
+            Node cur = tail;
+            for (int i = 0; i < index; ++i) {
+               cur = cur.prev;
+            }
+            Node node = new Node(val);
+            node.prev = cur.prev;
+            node.prev.next = node;
+            cur.prev = node;
+            node.next = cur;
          }
+
          ++size;
 
       }
@@ -1853,20 +1859,21 @@ public class LeetCode_2 {
          if (index < 0 || index >= size) {
             return;
          }
-         if (2 * index >= size) {
-            Node cur = tail;
-            for (int i = 0; i < size - index - 1; ++i) {
-               cur = cur.prev;
-            }
-            cur.prev = cur.prev.prev;
-            cur.prev.next = cur;
-         } else {
+         if (index < size / 2) {
             Node cur = head;
             for (int i = 0; i < index; ++i) {
                cur = cur.next;
             }
             cur.next = cur.next.next;
             cur.next.prev = cur;
+         } else {
+            Node cur = tail;
+            index = size - index - 1;
+            for (int i = 0; i < index; ++i) {
+               cur = cur.prev;
+            }
+            cur.prev = cur.prev.prev;
+            cur.prev.next = cur;
          }
          --size;
 
