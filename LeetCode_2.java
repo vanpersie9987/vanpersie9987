@@ -1691,11 +1691,12 @@ public class LeetCode_2 {
          int val;
          Node next;
 
-         Node() {
+         public Node(int val) {
+            this.val = val;
 
          }
 
-         Node(int val, Node next) {
+         public Node(int val, Node next) {
             this.val = val;
             this.next = next;
          }
@@ -1705,7 +1706,9 @@ public class LeetCode_2 {
       private int size;
 
       public MyLinkedList() {
-         head = new Node();
+         head = new Node(0);
+         size = 0;
+
       }
 
       public int get(int index) {
@@ -1722,6 +1725,7 @@ public class LeetCode_2 {
 
       public void addAtHead(int val) {
          addAtIndex(0, val);
+
       }
 
       public void addAtTail(int val) {
@@ -1730,20 +1734,21 @@ public class LeetCode_2 {
       }
 
       public void addAtIndex(int index, int val) {
-         if (index < 0 || index > size) {
+         if (index > size) {
             return;
          }
          Node cur = head;
          for (int i = 0; i < index; ++i) {
             cur = cur.next;
          }
-         Node added = new Node(val, cur.next);
-         cur.next = added;
+         Node node = new Node(val);
+         node.next = cur.next;
+         cur.next = node;
          ++size;
       }
 
       public void deleteAtIndex(int index) {
-         if (index < 0 || index >= size) {
+         if (index >= size || index < 0) {
             return;
          }
          Node cur = head;
