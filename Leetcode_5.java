@@ -2654,7 +2654,10 @@ public class Leetcode_5 {
 
         public int query(int left, int right, int value) {
             List<Integer> pos = map.getOrDefault(value, new ArrayList<>());
-            if (pos.isEmpty() || pos.get(0) != Integer.MIN_VALUE) {
+            if (pos.isEmpty()) {
+                return 0;
+            }
+            if (pos.get(0) != Integer.MIN_VALUE) {
                 pos.add(0, Integer.MIN_VALUE);
                 pos.add(Integer.MAX_VALUE);
             }
