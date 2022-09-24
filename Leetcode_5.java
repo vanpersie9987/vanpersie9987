@@ -2753,18 +2753,18 @@ public class Leetcode_5 {
         return even[n - 1];
     }
 
-      // 1911. 最大子序列交替和 (Maximum Alternating Subsequence Sum) --dp
-      public long maxAlternatingSum2(int[] nums) {
-          int n = nums.length;
-          long even = nums[0];
-          long odd = 0;
-          for (int i = 1; i < n; ++i) {
-              long temp = even;
-              even = Math.max(odd + nums[i], even);
-              odd = Math.max(temp - nums[i], odd);
-          }
-          return even;
-      }
+    // 1911. 最大子序列交替和 (Maximum Alternating Subsequence Sum) --dp
+    public long maxAlternatingSum2(int[] nums) {
+        int n = nums.length;
+        long even = nums[0];
+        long odd = 0;
+        for (int i = 1; i < n; ++i) {
+            long temp = even;
+            even = Math.max(odd + nums[i], even);
+            odd = Math.max(temp - nums[i], odd);
+        }
+        return even;
+    }
 
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
