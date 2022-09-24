@@ -2701,8 +2701,8 @@ public class Leetcode_5 {
         }
     }
 
-    // 1744. 你能在你最喜欢的那天吃到你最喜欢的糖果吗？
-    // (Can You Eat Your Favorite Candy on Your Favorite Day?)
+    // 1744. 你能在你最喜欢的那天吃到你最喜欢的糖果吗？(Can You Eat Your Favorite Candy on Your Favorite
+    // Day?)
     public boolean[] canEat(int[] candiesCount, int[][] queries) {
         long[] prefix = new long[candiesCount.length + 1];
         for (int i = 1; i < prefix.length; ++i) {
@@ -2724,6 +2724,18 @@ public class Leetcode_5 {
             res[i] = min <= actMax && actMin <= max;
         }
         return res;
+
+    }
+
+    // 1016. 子串能表示从 1 到 N 数字的二进制串 (Binary String With Substrings Representing 1 To
+    // N)
+    public boolean queryString(String s, int n) {
+        for (int i = 1; i <= n; ++i) {
+            if (!s.contains(Integer.toBinaryString(i))) {
+                return false;
+           }
+        }
+        return true;
 
     }
 
