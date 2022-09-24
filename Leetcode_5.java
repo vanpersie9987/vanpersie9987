@@ -2733,11 +2733,38 @@ public class Leetcode_5 {
         for (int i = 1; i <= n; ++i) {
             if (!s.contains(Integer.toBinaryString(i))) {
                 return false;
-           }
+            }
         }
         return true;
 
     }
+    
+    // 1911. 最大子序列交替和 (Maximum Alternating Subsequence Sum) --dp
+    public long maxAlternatingSum(int[] nums) {
+        int n = nums.length;
+        long[] even = new long[n];
+        even[0] = nums[0];
+        long[] odd = new long[n];
+
+        for (int i = 1; i < n; ++i) {
+            even[i] = Math.max(odd[i - 1] + nums[i], even[i - 1]);
+            odd[i] = Math.max(even[i - 1] - nums[i], odd[i - 1]);
+        }
+        return even[n - 1];
+    }
+
+      // 1911. 最大子序列交替和 (Maximum Alternating Subsequence Sum) --dp
+      public long maxAlternatingSum2(int[] nums) {
+          int n = nums.length;
+          long even = nums[0];
+          long odd = 0;
+          for (int i = 1; i < n; ++i) {
+              long temp = even;
+              even = Math.max(odd + nums[i], even);
+              odd = Math.max(temp - nums[i], odd);
+          }
+          return even;
+      }
 
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
@@ -2746,11 +2773,6 @@ public class Leetcode_5 {
 
     // 2049. 统计最高分的节点数目 (Count Nodes With the Highest Score)
     // public int countHighestScoreNodes(int[] parents) {
-
-    // }
-
-    // 1911. 最大子序列交替和 (Maximum Alternating Subsequence Sum)
-    // public long maxAlternatingSum(int[] nums) {
 
     // }
 
