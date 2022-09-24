@@ -2721,7 +2721,7 @@ public class Leetcode_5 {
             long actMin = prefix[favoriteType] + 1;
             long actMax = prefix[favoriteType + 1];
 
-            res[i] = (min <= actMax && actMin <= max);
+            res[i] = min <= actMax && actMin <= max;
         }
         return res;
 
