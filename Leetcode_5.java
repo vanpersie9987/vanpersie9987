@@ -2701,6 +2701,32 @@ public class Leetcode_5 {
         }
     }
 
+    // 1744. 你能在你最喜欢的那天吃到你最喜欢的糖果吗？
+    // (Can You Eat Your Favorite Candy on Your Favorite Day?)
+    public boolean[] canEat(int[] candiesCount, int[][] queries) {
+        long[] prefix = new long[candiesCount.length + 1];
+        for (int i = 1; i < prefix.length; ++i) {
+            prefix[i] = prefix[i - 1] + candiesCount[i - 1];
+        }
+        int n = queries.length;
+        boolean[] res = new boolean[n];
+        for (int i = 0; i < n; ++i) {
+            int dailyCap = queries[i][2];
+            int favoriteDay = queries[i][1];
+            int favoriteType = queries[i][0];
+
+            long max = (long) dailyCap * (favoriteDay + 1);
+            long min = favoriteDay + 1;
+
+            long actMin = prefix[favoriteType] + 1;
+            long actMax = prefix[favoriteType + 1];
+
+            res[i] = (min <= actMax && actMin <= max);
+        }
+        return res;
+
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
