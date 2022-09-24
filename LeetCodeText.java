@@ -4895,31 +4895,28 @@ public class LeetCodeText {
         return max;
 
     }
-
-    // 1652. 拆炸弹
+    
+    // 1652. 拆炸弹 (Defuse the Bomb)
     public int[] decrypt(int[] code, int k) {
-        int[] res = new int[code.length];
+        int n = code.length;
+        int[] res = new int[n];
         if (k == 0) {
             return res;
-        } else if (k > 0) {
-            for (int i = 0; i < code.length; ++i) {
-                int sum = 0;
-                for (int j = 1; j <= k; ++j) {
-                    sum += code[(i + j) % code.length];
-                }
-                res[i] = sum;
+        }
+        int[] prefix = new int[n + 1];
+        for (int i = 1; i < n + 1; ++i) {
+            prefix[i] = prefix[i - 1] + code[i - 1];
+        }
+        if (k > 0) {
+            for (int i = 0; i < n; ++i) {
+                res[i] = prefix[Math.min(i + k + 1, n)] - prefix[i + 1] + prefix[k - Math.min(k, (n - (i + 1)))];
             }
         } else {
-            for (int i = 0; i < code.length; ++i) {
-                int sum = 0;
-                for (int j = -1; j >= k; --j) {
-                    sum += code[((i + j) % code.length + code.length) % code.length];
-                }
-                res[i] = sum;
+            for (int i = 0; i < n; ++i) {
+                res[i] = prefix[i] - prefix[Math.max(0, i + k)] + prefix[n] - prefix[n - Math.max(0, -k - i)];
             }
         }
         return res;
-
     }
 
     // 1646. 获取生成数组中的最大值
