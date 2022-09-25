@@ -2738,7 +2738,7 @@ public class Leetcode_5 {
         return true;
 
     }
-    
+
     // 1911. 最大子序列交替和 (Maximum Alternating Subsequence Sum) --dp
     public long maxAlternatingSum(int[] nums) {
         int n = nums.length;
@@ -2765,6 +2765,101 @@ public class Leetcode_5 {
         }
         return even;
     }
+
+    // 6188. 按身高排序
+    public String[] sortPeople(String[] names, int[] heights) {
+        int n = names.length;
+        List<Node6188> list = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            list.add(new Node6188(names[i], heights[i]));
+        }
+        Collections.sort(list, new Comparator<Node6188>() {
+
+            @Override
+            public int compare(Node6188 o1, Node6188 o2) {
+                return o2.height - o1.height;
+            }
+
+        });
+
+        String[] res = new String[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = list.get(i).name;
+        }
+        return res;
+
+    }
+
+    class Node6188 {
+        public String name;
+        public int height;
+
+        public Node6188(String name, int height) {
+            this.name = name;
+            this.height = height;
+        }
+
+    }
+
+    // 6189. 按位与最大的最长子数组
+    public int longestSubarray(int[] nums) {
+        int n = nums.length;
+        int res = 0;
+        int cur = 0;
+        int max = Arrays.stream(nums).max().getAsInt();
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] == max) {
+                ++cur;
+            } else {
+                cur = 0;
+            }
+            res = Math.max(res, cur);
+
+        }
+        return res;
+
+    }
+
+    // 6190. 找到所有好下标
+    public List<Integer> goodIndices(int[] nums, int k) {
+        int n = nums.length;
+        int[] left = new int[n];
+        Arrays.fill(left, 1);
+        for (int i = 2; i < n; ++i) {
+            if (nums[i - 1] <= nums[i - 2]) {
+                left[i] = left[i - 1] + 1;
+            }
+        }
+
+        int[] right = new int[n];
+        Arrays.fill(right, 1);
+        for (int i = n - 3; i >= 0; --i) {
+            if (nums[i + 1] <= nums[i + 2]) {
+                right[i] = right[i + 1] + 1;
+            }
+        }
+
+        List<Integer> res = new ArrayList<>();
+        for (int i = k; i < n - k; ++i) {
+            if (left[i] >= k && right[i] >= k) {
+                res.add(i);
+            }
+        }
+        return res;
+    }
+
+    // 6191. 好路径的数目
+    // public int numberOfGoodPaths(int[] vals, int[][] edges) {
+    // int n = edges.length;
+    // Map<Integer, List<Integer>> map = new HashMap<>();
+    // for (int[] edge : edges) {
+    // map.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+    // map.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+    // }
+    // int[] dp = new int[n + 1];
+    // // Arrays.fill(vals, 1);
+
+    // }
 
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
