@@ -5840,23 +5840,34 @@ public class LeetCodeText {
     }
 
     // 面试题 17.19. 消失的两个数字
-    public int[] missingTwo(final int[] nums) {
-        int actualSum = 0;
-        for (final int num : nums) {
-            actualSum += num;
+    public int[] missingTwo(int[] nums) {
+        int xor = 0;
+        for (int num : nums) {
+            xor ^= num;
         }
-        final int shouldSum = (1 + nums.length + 2) * (nums.length + 2) / 2;
-        final int diff = shouldSum - actualSum;
-
-        final int threshold = diff / 2;
-        int sum = 0;
-        for (int i = 0; i < nums.length; ++i) {
-            if (nums[i] <= threshold) {
-                sum += nums[i];
+        int n = nums.length;
+        for (int i = 1; i <= n + 2; ++i) {
+            xor ^= i;
+        }
+        int type1 = 0;
+        int type2 = 0;
+        int bitDiff = xor & (-xor);
+        for (int i = 1; i <= n + 2; ++i) {
+            if ((i & bitDiff) != 0) {
+                type1 ^= i;
+            } else {
+                type2 ^= i;
             }
         }
-        final int result1 = (1 + threshold) * threshold / 2 - sum;
-        return new int[] { result1, diff - result1 };
+
+        for (int num : nums) {
+            if ((num & bitDiff) != 0) {
+                type1 ^= num;
+            } else {
+                type2 ^= num;
+            }
+        }
+        return new int[] { type1, type2 };
 
     }
 
