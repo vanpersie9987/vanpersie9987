@@ -17794,6 +17794,42 @@ public class LeetCodeText {
         return flag;
     }
 
+    // 788. 旋转数字 (Rotated Digits) --数位dp
+    private int[] DIFFS788 = { 0, 0, 1, -1, -1, 1, 1, -1, 0, 1 };
+    private char[] chars788;
+    private int[][] memo788;
+
+    public int rotatedDigits2(int n) {
+        chars788 = String.valueOf(n).toCharArray();
+        int m = chars788.length;
+        memo788 = new int[m][2];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(memo788[i], -1);
+        }
+        return dfs788(0, 0, true);
+
+    }
+
+    private int dfs788(int i, int diff, boolean isLimit) {
+        if (i == chars788.length) {
+            return diff;
+        }
+        if (!isLimit && memo788[i][diff] != -1) {
+            return memo788[i][diff];
+        }
+        int res = 0;
+        int up = isLimit ? chars788[i] - '0' : 9;
+        for (int bit = 0; bit <= up; ++bit) {
+            if (DIFFS788[bit] != -1) {
+                res += dfs788(i + 1, diff | DIFFS788[bit], isLimit && bit == up);
+            }
+        }
+        if (!isLimit) {
+            memo788[i][diff] = res;
+        }
+        return res;
+    }
+
     // 858. 镜面反射 (Mirror Reflection)
     public int mirrorReflection(int p, int q) {
         int gcd = gcd858(p, q);
