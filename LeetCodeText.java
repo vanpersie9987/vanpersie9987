@@ -2743,18 +2743,19 @@ public class LeetCodeText {
         return builder.length() >= S.length() ? S : builder.toString();
     }
 
-    public boolean isFlipedString(final String s1, final String s2) {
+    // 面试题 01.09. 字符串轮转
+    public boolean isFlipedString(String s1, String s2) {
         if (s1.equals(s2)) {
             return true;
         }
         if (s1.length() != s2.length()) {
             return false;
         }
-        final char[] chars1 = s1.toCharArray();
-        final char[] chars2 = s2.toCharArray();
+         char[] chars1 = s1.toCharArray();
+         char[] chars2 = s2.toCharArray();
         reverse2(chars1, 0, chars1.length - 1);
         for (int i = 0; i < chars1.length; ++i) {
-            final char[] chars1Clone = chars1.clone();
+             char[] chars1Clone = chars1.clone();
             reverse2(chars1Clone, 0, i);
             reverse2(chars1Clone, i + 1, chars1Clone.length - 1);
             if (Arrays.equals(chars1Clone, chars2)) {
@@ -2764,7 +2765,8 @@ public class LeetCodeText {
         return false;
     }
 
-    private void reverse2(final char[] chars1, int left, int right) {
+    // 面试题 01.09. 字符串轮转
+    private void reverse2(char[] chars1, int left, int right) {
         char temp;
         while (left < right) {
             temp = chars1[left];
@@ -2775,8 +2777,8 @@ public class LeetCodeText {
         }
     }
 
-    public boolean isFlipedString2(final String s1, final String s2) {
-        final String s = s1 + s1;
+    public boolean isFlipedString2(String s1, String s2) {
+        String s = s1 + s1;
         return s.contains(s2) && (s.length() == s2.length() * 2);
 
     }
