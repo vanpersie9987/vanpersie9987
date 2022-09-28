@@ -18217,8 +18217,29 @@ public class LeetCodeText {
 
     }
 
-    // 面试题 17.09. 第 k 个数 (Get Kth Magic Number LCCI)
+    // 面试题 17.09. 第 k 个数 (Get Kth Magic Number LCCI) --优先队列
     public int getKthMagicNumber(int k) {
+        int[] factors = { 3, 5, 7 };
+        Queue<Long> queue = new PriorityQueue<>();
+        Set<Long> seen = new HashSet<>();
+        queue.offer(1L);
+        seen.add(1L);
+        int res = 0;
+        while (k-- > 0) {
+            long poll = queue.poll();
+            res = (int) poll;
+            for (int factor : factors) {
+                long next = factor * poll;
+                if (seen.add(next)) {
+                    queue.offer(next);
+                }
+            }
+        }
+        return res;
+    }
+
+    // 面试题 17.09. 第 k 个数 (Get Kth Magic Number LCCI)
+    public int getKthMagicNumber2(int k) {
         int[] dp = new int[k + 1];
         int p3 = 1;
         int p5 = 1;
