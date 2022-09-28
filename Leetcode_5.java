@@ -2849,17 +2849,77 @@ public class Leetcode_5 {
     }
 
     // 6191. 好路径的数目
-    // public int numberOfGoodPaths(int[] vals, int[][] edges) {
-    // int n = edges.length;
-    // Map<Integer, List<Integer>> map = new HashMap<>();
-    // for (int[] edge : edges) {
-    // map.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
-    // map.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
-    // }
-    // int[] dp = new int[n + 1];
-    // // Arrays.fill(vals, 1); 
+    public int numberOfGoodPaths(int[] vals, int[][] edges) {
+        int n = vals.length;
+        Union6191 union = new Union6191(n);
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int[] edge : edges) {
+            graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            graph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+        }
+        //当前索引对应的值 所在的联通块内等于当前值的个数
+        int[] size = new int[n];
+        Arrays.fill(size, 1);
 
-    // }
+        Integer[] indexes = new Integer[n];
+        for (int i = 0; i < n; ++i) {
+            indexes[i] = i;
+        }
+        Arrays.sort(indexes,new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return vals[o1] - vals[o2];
+            }
+            
+        });
+        int res = 0;
+
+        for (int x : indexes) {
+            int xVal = vals[x];
+            int paX = union.getRoot(x);
+            for (int y : graph.getOrDefault(x, new ArrayList<>())) {
+                int paY = union.getRoot(y);
+                if (paX == paY || vals[paY] > xVal) {
+                    continue;
+                }
+                if (vals[paY] == xVal) {
+                    res += size[paX] * size[paY];
+                    size[paX] += size[paY];
+                }
+                union.union(paY, paX);
+            }
+        }
+        return res + n;
+
+    }
+
+    public class Union6191 {
+        private int[] parent;
+
+        public Union6191(int n) {
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+
+        }
+
+        public void union(int p1, int p2) {
+            parent[p1] = p2;
+        }
+    }
 
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
@@ -2878,6 +2938,11 @@ public class Leetcode_5 {
 
     // 1942. 最小未被占据椅子的编号 (The Number of the Smallest Unoccupied Chair)
     // public int smallestChair(int[][] times, int targetFriend) {
+
+    // }
+
+    // 30. 串联所有单词的子串 (Substring with Concatenation of All Words)
+    // public List<Integer> findSubstring(String s, String[] words) {
 
     // }
 }
