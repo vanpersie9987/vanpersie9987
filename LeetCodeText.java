@@ -2765,7 +2765,6 @@ public class LeetCodeText {
         return false;
     }
 
-    // 面试题 01.09. 字符串轮转
     private void reverse2(char[] chars1, int left, int right) {
         char temp;
         while (left < right) {
@@ -2777,6 +2776,7 @@ public class LeetCodeText {
         }
     }
 
+    // 面试题 01.09. 字符串轮转
     public boolean isFlipedString2(String s1, String s2) {
         String s = s1 + s1;
         return s.contains(s2) && (s.length() == s2.length() * 2);
