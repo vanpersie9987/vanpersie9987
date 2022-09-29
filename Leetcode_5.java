@@ -2921,6 +2921,69 @@ public class Leetcode_5 {
         }
     }
 
+    // 988. 从叶结点开始的最小字符串 (Smallest String Starting From Leaf) --bfs
+    public String smallestFromLeaf(TreeNode root) {
+        String res = "";
+        Queue<NodeWrapper988> queue = new LinkedList<>();
+        queue.offer(new NodeWrapper988(root, "" + (char) ('a' + root.val)));
+        while (!queue.isEmpty()) {
+            NodeWrapper988 node = queue.poll();
+            if (node.node.left == null && node.node.right == null) {
+                if (res.isEmpty() || res.compareTo(node.s) > 0) {
+                    res = node.s;
+                }
+            }
+
+            if (node.node.left != null) {
+                queue.offer(new NodeWrapper988(node.node.left, (char) ('a' + node.node.left.val) + node.s));
+            }
+            if (node.node.right != null) {
+                queue.offer(new NodeWrapper988(node.node.right, (char) ('a' + node.node.right.val) + node.s));
+            }
+        }
+
+        return res;
+
+    }
+
+    public class NodeWrapper988 {
+        TreeNode node;
+        String s;
+
+        public NodeWrapper988(TreeNode node, String s) {
+            this.node = node;
+            this.s = s;
+        }
+
+    }
+    
+    // 988. 从叶结点开始的最小字符串 (Smallest String Starting From Leaf) --dfs
+    private String res988;
+    public String smallestFromLeaf2(TreeNode root) {
+        res988 = "";
+        dfs988(root, new StringBuilder());
+        return res988;
+
+    }
+
+    private void dfs988(TreeNode node, StringBuilder builder) {
+        if (node == null) {
+            return;
+        }
+        builder.append((char) (node.val + 'a'));
+        if (node.left == null && node.right == null) {
+            builder.reverse();
+            String S = builder.toString();
+            builder.reverse();
+            if (res988.isEmpty() || S.compareTo(res988) < 0) {
+                res988 = S;
+            }
+        }
+        dfs988(node.left, builder);
+        dfs988(node.right, builder);
+        builder.deleteCharAt(builder.length() - 1);
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
