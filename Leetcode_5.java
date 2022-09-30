@@ -3117,6 +3117,32 @@ public class Leetcode_5 {
         return count >= k;
     }
 
+    // 题目-01. 化学反应
+    public int lastMaterial(int[] material) {
+        Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2 - o1;
+            }
+            
+        });
+
+        for (int m : material) {
+            queue.offer(m);
+        }
+        while (queue.size() >= 2) {
+            int max = queue.poll();
+            int second = queue.poll();
+            if (max == second) {
+                continue;
+            }
+            queue.offer(max - second);
+        }
+
+        return queue.isEmpty() ? 0 : queue.poll();
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
