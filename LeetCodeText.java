@@ -777,49 +777,53 @@ public class LeetCodeText {
     }
 
     // 73. 矩阵置零 / 面试题 01.08. 零矩阵
-    public void setZeroes(final int[][] matrix) {
-        boolean firstRowHasZero = false;
-        for (int i = 0; i < matrix[0].length; ++i) {
-            if (matrix[0][i] == 0) {
-                firstRowHasZero = true;
-                break;
-            }
-        }
-        boolean firstColHaszero = false;
-        for (int i = 0; i < matrix.length; ++i) {
+    public void setZeroes(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        boolean firstCol0 = false;
+        boolean firstRow0 = false;
+        for (int i = 0; i < m; ++i) {
             if (matrix[i][0] == 0) {
-                firstColHaszero = true;
+                firstCol0 = true;
                 break;
             }
         }
-        for (int i = 1; i < matrix.length; ++i) {
-            for (int j = 1; j < matrix[0].length; ++j) {
+        for (int j = 0; j < n; ++j) {
+            if (matrix[0][j] == 0) {
+                firstRow0 = true;
+                break;
+            }
+        }
+
+        for (int i = 1; i < m; ++i) {
+            for (int j = 1; j < n; ++j) {
                 if (matrix[i][j] == 0) {
-                    matrix[0][j] = 0;
-                    matrix[i][0] = 0;
+                    matrix[0][j] = matrix[i][0] = 0;
                 }
             }
         }
-        for (int i = 1; i < matrix[0].length; ++i) {
-            if (matrix[0][i] == 0) {
-                for (int j = 1; j < matrix.length; ++j) {
-                    matrix[j][i] = 0;
+
+        for (int i = 1; i < m; ++i) {
+            for (int j = 1; j < n; ++j) {
+                if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+                    matrix[i][j] = 0;
                 }
+
             }
         }
-        for (int i = 1; i < matrix.length; ++i) {
-            if (matrix[i][0] == 0) {
-                Arrays.fill(matrix[i], 0);
-            }
-        }
-        if (firstRowHasZero) {
-            Arrays.fill(matrix[0], 0);
-        }
-        if (firstColHaszero) {
-            for (int i = 0; i < matrix.length; ++i) {
+
+        if (firstCol0) {
+            for (int i = 0; i < m; ++i) {
                 matrix[i][0] = 0;
             }
         }
+
+        if (firstRow0) {
+            for (int j = 0; j < n; ++j) {
+                matrix[0][j] = 0;
+            }
+        }
+
 
     }
 

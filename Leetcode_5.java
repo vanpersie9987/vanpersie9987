@@ -2865,13 +2865,13 @@ public class Leetcode_5 {
         for (int i = 0; i < n; ++i) {
             indexes[i] = i;
         }
-        Arrays.sort(indexes,new Comparator<Integer>() {
+        Arrays.sort(indexes, new Comparator<Integer>() {
 
             @Override
             public int compare(Integer o1, Integer o2) {
                 return vals[o1] - vals[o2];
             }
-            
+
         });
         int res = 0;
 
@@ -2956,9 +2956,10 @@ public class Leetcode_5 {
         }
 
     }
-    
+
     // 988. 从叶结点开始的最小字符串 (Smallest String Starting From Leaf) --dfs
     private String res988;
+
     public String smallestFromLeaf2(TreeNode root) {
         res988 = "";
         dfs988(root, new StringBuilder());
