@@ -3143,6 +3143,11 @@ public class Leetcode_5 {
         return queue.isEmpty() ? 0 : queue.poll();
     }
 
+    // 1642. 可以到达的最远建筑 (Furthest Building You Can Reach)
+    // public int furthestBuilding(int[] heights, int bricks, int ladders) {
+
+    // }
+
     // 1033. 移动石子直到连续 (Moving Stones Until Consecutive)
     // public int[] numMovesStones(int a, int b, int c) {
 
