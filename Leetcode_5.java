@@ -3102,7 +3102,7 @@ public class Leetcode_5 {
         return res;
     }
 
-    private boolean checkCount668(int num, int m, int n,int k) {
+    private boolean checkCount668(int num, int m, int n, int k) {
         int count = 0;
         int i = 1;
         int j = n;
@@ -3125,7 +3125,7 @@ public class Leetcode_5 {
             public int compare(Integer o1, Integer o2) {
                 return o2 - o1;
             }
-            
+
         });
 
         for (int m : material) {
@@ -3142,6 +3142,11 @@ public class Leetcode_5 {
 
         return queue.isEmpty() ? 0 : queue.poll();
     }
+
+    // 1033. 移动石子直到连续 (Moving Stones Until Consecutive)
+    // public int[] numMovesStones(int a, int b, int c) {
+
+    // }
 
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
@@ -3165,6 +3170,11 @@ public class Leetcode_5 {
 
     // 30. 串联所有单词的子串 (Substring with Concatenation of All Words)
     // public List<Integer> findSubstring(String s, String[] words) {
+
+    // }
+
+    // 932. 漂亮数组 (Beautiful Array)
+    // public int[] beautifulArray(int n) {
 
     // }
 }
