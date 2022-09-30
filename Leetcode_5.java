@@ -3004,6 +3004,26 @@ public class Leetcode_5 {
 
     }
 
+    // LCP 62. 交通枢纽
+    public int transportationHub(int[][] path) {
+        Set<Integer> set = new HashSet<>();
+        int[] inDegrees = new int[1001];
+        int[] outDegrees = new int[1001];
+        for (int[] p : path) {
+            ++inDegrees[p[1]];
+            ++outDegrees[p[0]];
+            set.add(p[1]);
+            set.add(p[0]);
+        }
+        for (int i = 0; i < 1001; ++i) {
+            if (inDegrees[i] == set.size() - 1 && outDegrees[i] == 0) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
