@@ -3085,6 +3085,38 @@ public class Leetcode_5 {
 
     }
 
+    // 668. 乘法表中第k小的数 (Kth Smallest Number in Multiplication Table) --二分
+    public int findKthNumber(int m, int n, int k) {
+        int res = -1;
+        int left = 1;
+        int right = m * n;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (checkCount668(mid, m, n, k)) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+
+    private boolean checkCount668(int num, int m, int n,int k) {
+        int count = 0;
+        int i = 1;
+        int j = n;
+        while (i <= m && j >= 1) {
+            if (i * j <= num) {
+                count += j;
+                ++i;
+            } else {
+                --j;
+            }
+        }
+        return count >= k;
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
