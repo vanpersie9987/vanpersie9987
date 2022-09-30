@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
@@ -3021,6 +3022,66 @@ public class Leetcode_5 {
             }
         }
         return -1;
+
+    }
+
+    // LCP 63. 弹珠游戏
+    public int[][] ballGame(int num, String[] plate) {
+        int m = plate.length;
+        int n = plate[0].length();
+        List<int[]> res = new ArrayList<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                char c = plate[i].charAt(j);
+                if (c != '.') {
+                    continue;
+                }
+                if (i == 0 && j != 0 && j != n - 1) {
+                    if (checkLCP63(i, j, plate, 0, num)) {
+                        res.add(new int[] { i, j });
+                    }
+                } else if (i == m - 1 && j != 0 && j != n - 1) {
+                    if (checkLCP63(i, j, plate, 2, num)) {
+                        res.add(new int[] { i, j });
+                    }
+                } else if (j == 0 && i != 0 && i != m - 1) {
+                    if (checkLCP63(i, j, plate, 3, num)) {
+                        res.add(new int[] { i, j });
+                    }
+                } else if (j == n - 1 && i != 0 && i != m - 1) {
+                    if (checkLCP63(i, j, plate, 1, num)) {
+                        res.add(new int[] { i, j });
+                    }
+                }
+            }
+        }
+        return res.toArray(new int[res.size()][]);
+
+    }
+
+    private boolean checkLCP63(int i, int j, String[] plate, int d, int step) {
+        int m = plate.length;
+        int n = plate[0].length();
+        // down / left / up / right
+        int[][] directions = { { 1, 0 }, { 0, -1 }, { -1, 0 }, { 0, 1 } };
+        while (step-- > 0) {
+            i += directions[d][0];
+            j += directions[d][1];
+            if (i < 0 || i >= m || j < 0 || j >= n) {
+                return false;
+            }
+            char c = plate[i].charAt(j);
+            if (c == 'O') {
+                return true;
+            }
+
+            if (c == 'W') {
+                d = (d - 1 + 4) % 4;
+            } else if (c == 'E') {
+                d = (d + 1) % 4;
+            }
+        }
+        return false;
 
     }
 
