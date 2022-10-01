@@ -3142,6 +3142,37 @@ public class Leetcode_5 {
         return queue.isEmpty() ? 0 : queue.poll();
     }
 
+    /**
+     * The rand7() API is already defined in the parent class SolBase.
+     * public int rand7();
+     * 
+     * @return a random integer in the range 1 to 7
+     */
+
+    interface SolBase {
+        public int rand7();
+    }
+
+    // 470. 用 Rand7() 实现 Rand10() (Implement Rand10() Using Rand7()) --拒绝采样
+    class Solution implements SolBase {
+        public int rand10() {
+            int row;
+            int col;
+            int idx;
+            do {
+                row = rand7();
+                col = rand7();
+                idx = row + (col - 1) * 7;
+            } while (idx > 40);
+            return 1 + (idx - 1) % 10;
+        }
+
+        @Override
+        public int rand7() {
+            return 0;
+        }
+    }
+
     // 1642. 可以到达的最远建筑 (Furthest Building You Can Reach)
     // public int furthestBuilding(int[] heights, int bricks, int ladders) {
 
