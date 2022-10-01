@@ -2647,39 +2647,24 @@ public class LeetCode_2 {
 
    // 1694. 重新格式化电话号码 (Reformat Phone Number)
    public String reformatNumber(String number) {
-      StringBuilder numberBuilder = new StringBuilder();
+      StringBuilder builder = new StringBuilder();
       for (char c : number.toCharArray()) {
          if (Character.isDigit(c)) {
-            numberBuilder.append(c);
+            builder.append(c);
          }
       }
       StringBuilder res = new StringBuilder();
-      if (numberBuilder.length() % 3 == 1) {
-         int i = 0;
-         while (i < numberBuilder.length() - 4) {
-            res.append(numberBuilder.substring(i, i + 3)).append('-');
-            i += 3;
-         }
-         while (i < numberBuilder.length() - 2) {
-            res.append(numberBuilder.substring(i, i + 2)).append('-');
-            i += 2;
-         }
-         res.append(numberBuilder.substring(i));
-      } else if (numberBuilder.length() % 3 == 2) {
-         int i = 0;
-         while (i < numberBuilder.length() - 2) {
-            res.append(numberBuilder.substring(i, i + 3)).append('-');
-            i += 3;
-         }
-         res.append(numberBuilder.substring(i));
-      } else {
-         int i = 0;
-         while (i < numberBuilder.length() - 3) {
-            res.append(numberBuilder.substring(i, i + 3)).append('-');
-            i += 3;
-         }
-         res.append(numberBuilder.substring(i));
+      int i = 0;
+      while (i < builder.length() - 4) {
+         res.append(builder.substring(i, i + 3)).append("-");
+         i += 3;
       }
+      if (i == builder.length() - 4) {
+         res.append(builder.substring(i, i + 2)).append("-");
+         i += 2;
+      }
+      res.append(builder.substring(i));
+
       return res.toString();
 
    }
