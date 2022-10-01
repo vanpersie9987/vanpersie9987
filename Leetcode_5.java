@@ -1,3 +1,4 @@
+import java.security.interfaces.ECKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -3173,10 +3174,27 @@ public class Leetcode_5 {
         }
     }
 
-    // 1642. 可以到达的最远建筑 (Furthest Building You Can Reach)
-    // public int furthestBuilding(int[] heights, int bricks, int ladders) {
+    // 1642. 可以到达的最远建筑 (Furthest Building You Can Reach) -- 优先队列 + 贪心
+    public int furthestBuilding(int[] heights, int bricks, int ladders) {
+        Queue<Integer> queue = new PriorityQueue<>();
+        int sum = 0;
+        int n = heights.length;
+        for (int i = 1; i < n; ++i) {
+            int delta = heights[i] - heights[i - 1];
+            if (delta > 0) {
+                queue.offer(delta);
+                if (queue.size() > ladders) {
+                    sum += queue.poll();
+                }
+                if (sum > bricks) {
+                    return i - 1;
+                }
+            }
+        }
+        return n - 1;
 
-    // }
+
+    }
 
     // 1033. 移动石子直到连续 (Moving Stones Until Consecutive)
     // public int[] numMovesStones(int a, int b, int c) {
