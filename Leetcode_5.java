@@ -3197,9 +3197,21 @@ public class Leetcode_5 {
     }
 
     // 1033. 移动石子直到连续 (Moving Stones Until Consecutive)
-    // public int[] numMovesStones(int a, int b, int c) {
+    public int[] numMovesStones(int a, int b, int c) {
+        int min = 0;
+        int[] arr = { a, b, c };
+        Arrays.sort(arr);
+        if (arr[2] - arr[1] == 1 && arr[1] - arr[0] == 1) {
+            min = 0;
+        } else if (arr[2] - arr[1] <= 2 || arr[1] - arr[0] <= 2) {
+            min = 1;
+        } else {
+            min = 2;
+        }
+        int max = (arr[1] - 1) - arr[0] + arr[2] - (arr[1] + 1);
+        return new int[] { min, max };
 
-    // }
+    }
 
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
