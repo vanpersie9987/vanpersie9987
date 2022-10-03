@@ -3620,6 +3620,33 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 九坤-01. 可以读通讯稿的组数
+    public int numberOfPairs(int[] nums) {
+        int mod = (int) (1e9 + 7);
+        int n = nums.length;
+        Map<Long, Integer> counts = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            long diff = getCounts_jiukun01(nums[i]);
+            counts.put(diff, counts.getOrDefault(diff, 0) + 1);
+        }
+        long res = 0l;
+        for (int count : counts.values()) {
+            res = (res + (long) count * (count - 1) / 2) % mod;
+        }
+        return (int) res;
+    }
+
+    private long getCounts_jiukun01(int num) {
+        long rev = 0;
+        int copy = num;
+        while (num != 0) {
+            int mod = num % 10;
+            rev = rev * 10 + mod;
+            num /= 10;
+        }
+        return copy - rev;
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
