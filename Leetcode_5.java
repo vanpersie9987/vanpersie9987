@@ -3386,34 +3386,33 @@ public class Leetcode_5 {
     // 6194. 最小 XOR
     public int minimizeXor(int num1, int num2) {
         int count = Integer.bitCount(num2);
-        String n1 = Integer.toBinaryString(num1);
-        int countNum1 = n1.length();
+        int copy = num1;
+        int countNum1 = 0;
+        while (copy != 0) {
+            ++countNum1;
+            copy >>= 1;
+        }
         if (count >= countNum1) {
             return (1 << count) - 1;
         }
-        StringBuilder res = new StringBuilder();
-        for (int i = 0; i < n1.length(); ++i) {
+        int res = 0;
+        while (countNum1 > 0) {
             if (count == 0) {
-                res.append(0);
-                continue;
-            }
-            int remain = n1.length() - i;
-            if (remain > count) {
-                if (n1.charAt(i) == '1') {
-                    res.append(1);
+                res <<= 1;
+            } else if (count == countNum1) {
+                res = (res << 1) | 1;
+                --count;
+            } else {
+                if (((num1 >> (countNum1 - 1)) & 1) == 1) {
+                    res = (res << 1) | 1;
                     --count;
                 } else {
-                    res.append(0);
+                    res <<= 1;
                 }
-
-            } else if (remain == count) {
-                break;
             }
+            --countNum1;
         }
-        while (count-- > 0) {
-            res.append(1);
-        }
-        return Integer.parseInt(res.toString(), 2);
+        return res;
 
     }
     
@@ -3446,7 +3445,7 @@ public class Leetcode_5 {
         int res = 1;
         int span = 1;
         while (start + span * 2 <= s.length()) {
-            if (s.substring(start, start + span).equals(s.subSequence(start + span, start
+            if (s.substring(start, start + span).equals(s.substring(start + span, start
                     + span * 2))) {
                 res = Math.max(res, 1 + dfs6195(s, start + span, memo));
             }
@@ -3471,9 +3470,10 @@ public class Leetcode_5 {
     }
 
     // 2029. 石子游戏 IX (Stone Game IX)
-    // public boolean stoneGameIX(int[] stones) {
+    public boolean stoneGameIX(int[] stones) {
 
-    // }
+
+    }
 
     // 2049. 统计最高分的节点数目 (Count Nodes With the Highest Score)
     // public int countHighestScoreNodes(int[] parents) {
