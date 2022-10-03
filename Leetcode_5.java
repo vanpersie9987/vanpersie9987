@@ -3302,6 +3302,24 @@ public class Leetcode_5 {
         }
         return xor1 ^ xor2;
 
+    }
+    
+    // 6213. 所有数对的异或和
+    public int xorAllNums2(int[] nums1, int[] nums2) {
+        int res = 0;
+        int m = nums1.length;
+        int n = nums2.length;
+        if (m % 2 == 1) {
+            for (int num : nums2) {
+                res ^= num;
+            }
+        }
+        if (n % 2 == 1) {
+            for (int num : nums1) {
+                res ^= num;
+            }
+        }
+        return res;
 
     }
 
