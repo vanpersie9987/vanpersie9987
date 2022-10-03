@@ -1,3 +1,4 @@
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -3545,6 +3546,44 @@ public class Leetcode_5 {
         }
         return dummy.next;
 
+    }
+
+    // 银联-2. 勘探补给
+    public int[] explorationSupply(int[] station, int[] pos) {
+        int n = pos.length;
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = check_yinlian_2(station, pos[i]);
+        }
+        return res;
+
+    }
+
+    // station 为排序数组 ，返回接近target值的station[i]的索引i (若距离相同，则选择坐标更小的那一个)
+    private int check_yinlian_2(int[] station, int target) {
+        int n = station.length;
+        if (station[n - 1] <= target) {
+            return n - 1;
+        }
+        if (target <= station[0]) {
+            return 0;
+        }
+        int res = 0;
+        int left = 0;
+        int right = station.length - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (station[mid] <= target) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        if (target - station[res] > station[res + 1] - target) {
+            return res + 1;
+        }
+        return res;
     }
 
     // 2029. 石子游戏 IX (Stone Game IX)
