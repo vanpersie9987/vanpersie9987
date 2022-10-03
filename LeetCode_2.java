@@ -576,19 +576,6 @@ public class LeetCode_2 {
 
    }
 
-   // 518. 零钱兑换 II (Coin Change 2)
-   public int change(int amount, int[] coins) {
-      int[] dp = new int[amount + 1];
-      dp[0] = 1;
-      for (int coin : coins) {
-         for (int i = coin; i <= amount; ++i) {
-            dp[i] += dp[i - coin];
-         }
-      }
-      return dp[dp.length - 1];
-
-   }
-
    // 520. 检测大写字母 (Detect Capital)
    public boolean detectCapitalUse(String word) {
       return allUpperCases(word) || allLowerCases(word) || onlyLeadingCharUpperCase(word);
