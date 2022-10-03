@@ -3724,6 +3724,78 @@ public class Leetcode_5 {
         }
     }
 
+    // 九坤-02. 池塘计数 --并查集
+    public int lakeCount3(String[] field) {
+        int m = field.length;
+        int n = field[0].length();
+        Union_Find_JiuKun_02 union = new Union_Find_JiuKun_02(m * n);
+        int count = 0;
+
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 }, { 1, 1 }, { -1, -1 }, { 1, -1 }, { -1, 1 } };
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (field[i].charAt(j) == 'W') {
+                    ++count;
+                    for (int[] direction : directions) {
+                        int nx = i + direction[0];
+                        int ny = j + direction[1];
+                        if (nx >= 0 && nx < m && ny >= 0 && ny < n && field[nx].charAt(ny) == 'W') {
+                            if (union.union(i * n + j, nx * n + ny)) {
+                                --count;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return count;
+
+    }
+    
+    public class Union_Find_JiuKun_02 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union_Find_JiuKun_02(int n) {
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public boolean union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return false;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+            return true;
+        }
+    
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
