@@ -3531,6 +3531,22 @@ public class Leetcode_5 {
 
     }
 
+    // 银联-1. 重构链表
+    public ListNode reContruct(ListNode head) {
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode node = dummy;
+        while (node.next != null) {
+            if (node.next.val % 2 == 0) {
+                node.next = node.next.next;
+            } else {
+                node = node.next;
+            }
+        }
+        return dummy.next;
+
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
