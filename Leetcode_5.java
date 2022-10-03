@@ -3647,6 +3647,40 @@ public class Leetcode_5 {
         return copy - rev;
     }
 
+    // 九坤-02. 池塘计数 --dfs
+    public int lakeCount(String[] field) {
+        int res = 0;
+        int m = field.length;
+        int n = field[0].length();
+        char[][] chars = new char[m][n];
+        for (int i = 0; i < m; ++i) {
+            chars[i] = field[i].toCharArray();
+        }
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 }, { 1, 1 }, { -1, -1 }, { 1, -1 }, { -1, 1 } };
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (chars[i][j] == 'W') {
+                    dfs_jiukun_02(i, j, chars, directions);
+                    ++res;
+                }
+            }
+        }
+        return res;
+    }
+
+    private void dfs_jiukun_02(int i, int j, char[][] field, int[][] directions) {
+        int m = field.length;
+        int n = field[0].length;
+        field[i][j] = '.';
+        for (int[] direction : directions) {
+            int nx = i + direction[0];
+            int ny = j + direction[1];
+            if (nx >= 0 && nx < m && ny >= 0 && ny < n && field[nx][ny] == 'W') {
+                dfs_jiukun_02(nx, ny, field, directions);
+            }
+        }
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
