@@ -3603,6 +3603,7 @@ public class Leetcode_5 {
 
     }
 
+    // 返回supply[i]中，小雨等于target的最大的i
     private int binarySearch_yinlian_3(int[][] supply, int target) {
         int res = 0;
         int left = 0;
