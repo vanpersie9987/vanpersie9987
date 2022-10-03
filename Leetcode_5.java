@@ -3681,6 +3681,49 @@ public class Leetcode_5 {
         }
     }
 
+    // 九坤-02. 池塘计数 --bfs
+    public int lakeCount2(String[] field) {
+        int res = 0;
+        int m = field.length;
+        int n = field[0].length();
+        char[][] chars = new char[m][n];
+        for (int i = 0; i < m; ++i) {
+            chars[i] = field[i].toCharArray();
+        }
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 }, { 1, 1 }, { -1, -1 }, { 1, -1 }, { -1, 1 } };
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (chars[i][j] == 'W') {
+                    bfs_jiukun_02(i, j, chars, directions);
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private void bfs_jiukun_02(int i, int j, char[][] field, int[][] directions) {
+        int m = field.length;
+        int n = field[0].length;
+        Queue<Integer> queue = new LinkedList<>();
+        field[i][j] = '.';
+        queue.offer((i << 7) | j);
+        while (!queue.isEmpty()) {
+            int mask = queue.poll();
+            int x = mask >> 7;
+            int y = mask & ((1 << 7) - 1);
+            for (int[] direction : directions) {
+                int nx = x + direction[0];
+                int ny = y + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && field[nx][ny] == 'W') {
+                    field[nx][ny] = '.';
+                    queue.offer((nx << 7) | ny);
+                }
+            }
+        }
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
