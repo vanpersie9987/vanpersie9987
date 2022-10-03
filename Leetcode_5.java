@@ -1,4 +1,3 @@
-import java.security.interfaces.ECKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,6 +17,9 @@ import java.util.stream.Collectors;
 
 public class Leetcode_5 {
     public static void main(String[] args) {
+        // int[] nums1 = { -4, -4, 4, -1, -2, 5 };
+        // int[] nums2 = { -2, 2, -1, 4, 4, 3 };
+        // long res = numberOfPairs(nums1, nums2, 1);
 
     }
 
@@ -3193,7 +3195,6 @@ public class Leetcode_5 {
         }
         return n - 1;
 
-
     }
 
     // 1033. 移动石子直到连续 (Moving Stones Until Consecutive)
@@ -3210,6 +3211,262 @@ public class Leetcode_5 {
         }
         int max = (arr[1] - 1) - arr[0] + arr[2] - (arr[1] + 1);
         return new int[] { min, max };
+
+    }
+
+    // 6212. 删除字符使频率相同
+    public boolean equalFrequency(String word) {
+        int[] counts = new int[26];
+        for (char c : word.toCharArray()) {
+            ++counts[c - 'a'];
+        }
+        Arrays.sort(counts);
+        int[] copy1 = counts.clone();
+        int i = 0;
+        while (i < copy1.length) {
+            if (copy1[i] != 0) {
+                --copy1[i];
+                break;
+            }
+            ++i;
+        }
+        int[] copy2 = counts.clone();
+        --copy2[25];
+
+        if (check6212(copy1) || check6212(copy2)) {
+            return true;
+        }
+        return false;
+
+    }
+
+    private boolean check6212(int[] counts) {
+        int same = -1;
+        for (int count : counts) {
+            if (count != 0) {
+                if (same == -1) {
+                    same = count;
+                } else if (same != count) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+    // 6197. 最长上传前缀
+    class LUPrefix {
+        private int res;
+        private Queue<Integer> queue;
+
+        public LUPrefix(int n) {
+            queue = new PriorityQueue<>();
+        }
+
+        public void upload(int video) {
+            queue.offer(video);
+            while (!queue.isEmpty() && queue.peek() == res + 1) {
+                ++res;
+                queue.poll();
+            }
+        }
+
+        public int longest() {
+            return res;
+
+        }
+    }
+    
+    // 6213. 所有数对的异或和
+    public int xorAllNums(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        int m = nums2.length;
+        int xor1 = 0;
+        int xor2 = 0;
+        for (int num : nums1) {
+            xor1 ^= num;
+        }
+        for (int num : nums2) {
+            xor2 ^= num;
+        }
+
+        if (m % 2 == 0 && n % 2 == 0) {
+            return 0;
+        }
+        if (m % 2 == 0) {
+            return xor2;
+        }
+        if (n % 2 == 0) {
+            return xor1;
+        }
+        return xor1 ^ xor2;
+
+
+    }
+
+    // 6198. 满足不等式的数对数目
+    // public long numberOfPairs(int[] nums1, int[] nums2, int diff) {
+    //     int n = nums1.length;
+    //     int[] d = new int[n];
+    //     for (int i = 0; i < n; ++i) {
+    //         d[i] = nums1[i] - nums2[i];
+    //     }
+    //     Queue<Integer> queue = new PriorityQueue<>();
+    //     queue.offer(d[0]);
+    //     long res = 0l;
+    //     for (int j = 1; j < n; ++j) {
+    //         int dj = d[j] + diff;
+    //         res += binarySearch6198(new ArrayList<>(queue), dj);
+    //         queue.offer(d[j]);
+    //     }
+    //     return res;
+
+    // }
+
+    // // 有序数组中 小于等于target的值有多少个
+    // private int binarySearch6198(ArrayList<Integer> list, int target) {
+    //     if (target >= list.get(list.size() - 1)) {
+    //         return list.size();
+    //     }
+    //     if (target < list.get(0)) {
+    //         return 0;
+    //     }
+
+    //     int res = 0;
+    //     int left = 0;
+    //     int right = list.size() - 1;
+    //     while (left <= right) {
+    //         int mid = left + ((right - left) >> 1);
+    //         if (list.get(mid) <= target) {
+    //             res = mid + 1;
+    //             left = mid + 1;
+    //         } else {
+    //             right = mid - 1;
+    //         }
+    //     }
+    //     return res;
+
+    // }
+
+    // 6192. 公因子的数目
+    public int commonFactors(int a, int b) {
+        int res = 0;
+        for (int i = 1; i <= Math.min(a, b); ++i) {
+            if (a % i == 0 && b % i == 0) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    // 6193. 沙漏的最大总和
+    public int maxSum(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int res = 0;
+        for (int i = 1; i < m - 1; ++i) {
+            for (int j = 1; j < n - 1; ++j) {
+                int cur = 0;
+                cur += grid[i][j];
+                cur += grid[i - 1][j];
+                cur += grid[i + 1][j];
+                cur += grid[i - 1][j - 1];
+                cur += grid[i - 1][j + 1];
+                cur += grid[i + 1][j - 1];
+                cur += grid[i + 1][j + 1];
+                res = Math.max(res, cur);
+            }
+        }
+        return res;
+
+    }
+
+    // 6194. 最小 XOR
+    public int minimizeXor(int num1, int num2) {
+        int count = Integer.bitCount(num2);
+        String n1 = Integer.toBinaryString(num1);
+        int countNum1 = n1.length();
+        if (count >= countNum1) {
+            return (1 << count) - 1;
+        }
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < n1.length(); ++i) {
+            if (count == 0) {
+                res.append(0);
+                continue;
+            }
+            int remain = n1.length() - i;
+            if (remain > count) {
+                if (n1.charAt(i) == '1') {
+                    res.append(1);
+                    --count;
+                } else {
+                    res.append(0);
+                }
+
+            } else if (remain == count) {
+                break;
+            }
+        }
+        while (count-- > 0) {
+            res.append(1);
+        }
+        return Integer.parseInt(res.toString(), 2);
+
+    }
+    
+    // 6195. 对字母串可执行的最大删除数
+    public int deleteString(String s) {
+        int n = s.length();
+        Set<Character> set = new HashSet<>();
+        for (char c : s.toCharArray()) {
+            set.add(c);
+        }
+        if (set.size() == 1) {
+            return s.length();
+        }
+        int[] memo = new int[n + 1];
+
+        Arrays.fill(memo, -1);
+        return dfs6195(s, 0, memo);
+    }
+
+    private int dfs6195(String s, int start, int[] memo) {
+        if (start == s.length() - 1) {
+            return 1;
+        }
+        if (start == s.length()) {
+            return 0;
+        }
+        if (memo[start] != -1) {
+            return memo[start];
+        }
+        int res = 1;
+        int span = 1;
+        while (start + span * 2 <= s.length()) {
+            if (s.substring(start, start + span).equals(s.subSequence(start + span, start
+                    + span * 2))) {
+                res = Math.max(res, 1 + dfs6195(s, start + span, memo));
+            }
+            ++span;
+        }
+
+        return memo[start] = res;
+    }
+
+    // 1785. 构成特定和需要添加的最少元素 (Minimum Elements to Add to Form a Given Sum)
+    public int minElements(int[] nums, int limit, int goal) {
+        long sum = 0l;
+        for (int num : nums) {
+            sum += num;
+        }
+        long diff = Math.abs(sum - goal);
+        if (diff == 0) {
+            return 0;
+        }
+        return (int) ((diff - 1) / limit + 1);
 
     }
 
