@@ -3586,6 +3586,39 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 银联-3. 风能发电
+    public int storedEnergy(int storeLimit, int[] power, int[][] supply) {
+        int res = 0;
+        for (int i = 0; i < power.length; ++i) {
+            int time = binarySearch_yinlian_3(supply, i);
+            int min = supply[time][1];
+            int max = supply[time][2];
+            if (power[i] > max) {
+                res = Math.min(storeLimit, res + power[i] - max);
+            } else if (power[i] < min) {
+                res = Math.max(0, res - (min - power[i]));
+            }
+        }
+        return res;
+
+    }
+
+    private int binarySearch_yinlian_3(int[][] supply, int target) {
+        int res = 0;
+        int left = 0;
+        int right = supply.length - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (supply[mid][0] <= target) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
