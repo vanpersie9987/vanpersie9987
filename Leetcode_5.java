@@ -3254,6 +3254,40 @@ public class Leetcode_5 {
         return true;
     }
 
+    // 6212. 删除字符使频率相同 --暴力
+    public boolean equalFrequency2(String word) {
+        int[] count = new int[26];
+        for (char c : word.toCharArray()) {
+            ++count[c - 'a'];
+        }
+        for (int i = 0; i < count.length; ++i) {
+            if (count[i] != 0) {
+                --count[i];
+                if (check6212_2(count)) {
+                    return true;
+                }
+                ++count[i];
+            }
+        }
+        return false;
+
+
+    }
+
+
+    private boolean check6212_2(int[] count) {
+        int same = -1;
+        for (int c : count) {
+            if (c != 0) {
+                if (same == -1) {
+                    same = c;
+                } else if(same != c){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     // 6197. 最长上传前缀
     class LUPrefix {
