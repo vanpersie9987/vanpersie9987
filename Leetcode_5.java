@@ -3351,14 +3351,24 @@ public class Leetcode_5 {
 
     // 6192. 公因子的数目
     public int commonFactors(int a, int b) {
+        int gcd = gcd6192(a, b);
         int res = 0;
-        for (int i = 1; i <= Math.min(a, b); ++i) {
-            if (a % i == 0 && b % i == 0) {
+        int i = 1;
+        while (i * i <= gcd) {
+            if (gcd % i == 0) {
                 ++res;
+                if (i * i < gcd) {
+                    ++res;
+                }
             }
+            ++i;
         }
         return res;
 
+    }
+
+    private int gcd6192(int a, int b) {
+        return b == 0 ? a : gcd6192(b, a % b);
     }
 
     // 6193. 沙漏的最大总和
