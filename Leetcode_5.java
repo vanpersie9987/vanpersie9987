@@ -3532,10 +3532,9 @@ public class Leetcode_5 {
     }
 
     // 2029. 石子游戏 IX (Stone Game IX)
-    public boolean stoneGameIX(int[] stones) {
+    // public boolean stoneGameIX(int[] stones) {
 
-
-    }
+    // }
 
     // 2049. 统计最高分的节点数目 (Count Nodes With the Highest Score)
     // public int countHighestScoreNodes(int[] parents) {
