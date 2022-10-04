@@ -10533,7 +10533,7 @@ public class LeetCodeText {
         }
     }
 
-    // 921. 使括号有效的最少添加
+    // 921. 使括号有效的最少添加 (Minimum Add to Make Parentheses Valid)
     public int minAddToMakeValid(String s) {
         int count = 0;
         Stack<Integer> stack = new Stack<>();
@@ -10551,7 +10551,7 @@ public class LeetCodeText {
         return stack.size() + count;
     }
 
-    // 921. 使括号有效的最少添加
+    // 921. 使括号有效的最少添加 (Minimum Add to Make Parentheses Valid)
     public int minAddToMakeValid2(String s) {
         int left = 0;
         int count = 0;
