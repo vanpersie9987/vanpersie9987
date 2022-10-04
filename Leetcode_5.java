@@ -3792,7 +3792,48 @@ public class Leetcode_5 {
             }
             return true;
         }
+
+    }
     
+    // 1615. 最大网络秩 (Maximal Network Rank)
+    public int maximalNetworkRank(int n, int[][] roads) {
+        int[] inDegrees = new int[n];
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+        for (int[] road : roads) {
+            ++inDegrees[road[0]];
+            ++inDegrees[road[1]];
+            map.computeIfAbsent(road[0], k -> new HashSet<>()).add(road[1]);
+            map.computeIfAbsent(road[1], k -> new HashSet<>()).add(road[0]);
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                int cur = inDegrees[i] + inDegrees[j] - (map.getOrDefault(i, new HashSet<>()).contains(j) ? 1 : 0);
+                res = Math.max(res, cur);
+            }
+        }
+        return res;
+
+    }
+
+     // 1615. 最大网络秩 (Maximal Network Rank)
+     public int maximalNetworkRank2(int n, int[][] roads) {
+         int[] inDegrees = new int[n];
+         int[][] connected = new int[n][n];
+         for (int[] road : roads) {
+             ++inDegrees[road[0]];
+             ++inDegrees[road[1]];
+             connected[road[0]][road[1]] = 1;
+             connected[road[1]][road[0]] = 1;
+         }
+         int res = 0;
+         for (int i = 0; i < n; ++i) {
+             for (int j = i + 1; j < n; ++j) {
+                 res = Math.max(res, inDegrees[i] + inDegrees[j] - connected[i][j]);
+             }
+         }
+         return res;
+     
     }
 
     // 2029. 石子游戏 IX (Stone Game IX)
