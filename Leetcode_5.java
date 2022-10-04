@@ -3860,6 +3860,27 @@ public class Leetcode_5 {
 
     }
 
+    // 1871. 跳跃游戏 VII (Jump Game VII)
+    public boolean canReach(String s, int minJump, int maxJump) {
+        int n = s.length();
+        boolean[] dp = new boolean[n];
+        dp[0] = true;
+        int count = 1;
+        for (int i = minJump; i < n; ++i) {
+            if (s.charAt(i) == '0' && count > 0) {
+                dp[i] = true;
+            }
+            if (i - maxJump >= 0 && dp[i - maxJump]) {
+                --count;
+            }
+            if (dp[i - minJump + 1]) {
+                ++count;
+            }
+        }
+        return dp[n - 1];
+
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
