@@ -3881,6 +3881,28 @@ public class Leetcode_5 {
 
     }
 
+    // 811. 子域名访问计数 (Subdomain Visit Count)
+    public List<String> subdomainVisits(String[] cpdomains) {
+        Map<String, Integer> map = new HashMap<>();
+        for (String cpdomain : cpdomains) {
+            int spaceIndex = cpdomain.indexOf(" ");
+            int count = Integer.parseInt(cpdomain.substring(0, spaceIndex));
+            int i = cpdomain.length() - 1;
+            while (i >= spaceIndex) {
+                if (cpdomain.charAt(i) == '.' || i == spaceIndex) {
+                    map.put(cpdomain.substring(i + 1), map.getOrDefault(cpdomain.substring(i + 1), 0) + count);
+                }
+                --i;
+            }
+        }
+        List<String> res = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            res.add(entry.getValue() + " " + entry.getKey());
+        }
+        return res;
+
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
