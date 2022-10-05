@@ -3989,6 +3989,35 @@ public class Leetcode_5 {
         return j == n;
     }
 
+    // 1283. 使结果不超过阈值的最小除数 (Find the Smallest Divisor Given a Threshold)
+    public int smallestDivisor(int[] nums, int threshold) {
+        int res = 1;
+        int left = 1;
+        int right = 0;
+        for (int num : nums) {
+            right = Math.max(num, right);
+        }
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (check1283(nums, mid) <= threshold) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+
+    }
+
+    private int check1283(int[] nums, int divide) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += (num - 1) / divide + 1;
+        }
+        return sum;
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
