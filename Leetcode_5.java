@@ -4018,6 +4018,42 @@ public class Leetcode_5 {
         return sum;
     }
 
+    // 1901. 寻找峰值 II (Find a Peak Element II) --二分查找
+    public int[] findPeakGrid(int[][] mat) {
+        int m = mat.length;
+        int left = 0;
+        int right = m - 1;
+        int[] res = null;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            int colIndex = getMaxColIndex(mat[mid]);
+            if (mid == m - 1) {
+                res = new int[] { mid, colIndex };
+                break;
+            }
+            if (mat[mid][colIndex] >= mat[mid + 1][colIndex]) {
+                res = new int[] { mid, colIndex };
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+
+    }
+
+    private int getMaxColIndex(int[] nums) {
+        int index = -1;
+        int max = -1;
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] > max) {
+                max = nums[i];
+                index = i;
+            }
+        }
+        return index;
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
