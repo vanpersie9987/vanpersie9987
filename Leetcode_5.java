@@ -3953,6 +3953,42 @@ public class Leetcode_5 {
         return res.toString();
     }
 
+    // 1898. 可移除字符的最大数目 (Maximum Number of Removable Characters) --二分查找
+    public int maximumRemovals2(String s, String p, int[] removable) {
+        int res = 0;
+        int left = 0;
+        int right = removable.length;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (check1898_2(s, p, removable, mid)) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean check1898_2(String s, String p, int[] removable, int count) {
+        int m = s.length();
+        int n = p.length();
+        boolean[] deleted = new boolean[m];
+        for (int i = 0; i < count; ++i) {
+            deleted[removable[i]] = true;
+        }
+        int i = 0;
+        int j = 0;
+        while (i < m && j < n) {
+            if (!deleted[i] && s.charAt(i) == p.charAt(j)) {
+                ++j;
+            }
+            ++i;
+        }
+        return j == n;
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
