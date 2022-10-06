@@ -4054,6 +4054,43 @@ public class Leetcode_5 {
         return index;
     }
 
+    // 927. 三等分 (Three Equal Parts)
+    public int[] threeEqualParts(int[] arr) {
+        int n = arr.length;
+        int count = 0;
+        for (int num : arr) {
+            count += num;
+        }
+        if (count % 3 != 0) {
+            return new int[] { -1, -1 };
+        }
+        if (count == 0) {
+            return new int[] { 0, n - 1 };
+        }
+        count /= 3;
+        int i = findFirstOne927(arr, 1);
+        int j = findFirstOne927(arr, 1 + count);
+        int k = findFirstOne927(arr, 1 + count * 2);
+        while (k < n && arr[i] == arr[j] && arr[j] == arr[k]) {
+            ++i;
+            ++j;
+            ++k;
+        }
+        return k == n ? new int[] { i - 1, j } : new int[] { -1, -1 };
+
+    }
+
+    private int findFirstOne927(int[] arr, int count) {
+        int i = 0;
+        while (count > 0) {
+            if (arr[i] == 1) {
+                --count;
+            }
+            ++i;
+        }
+        return i;
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
