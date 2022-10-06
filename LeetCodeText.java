@@ -8528,19 +8528,19 @@ public class LeetCodeText {
 
     }
 
-    // 1800. 最大升序子数组和
+    // 1800. 最大升序子数组和 (Maximum Ascending Subarray Sum)
     public int maxAscendingSum(int[] nums) {
-        int max = nums[0];
-        int cur = nums[0];
-        for (int i = 1; i < nums.length; ++i) {
-            if (nums[i] > nums[i - 1]) {
-                cur += nums[i];
-            } else {
-                max = Math.max(max, cur);
+        int res = 0;
+        int cur = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            if (i == 0 || nums[i] <= nums[i - 1]) {
                 cur = nums[i];
+            } else {
+                cur += nums[i];
             }
+            res = Math.max(res, cur);
         }
-        return Math.max(max, cur);
+        return res;
 
     }
 
