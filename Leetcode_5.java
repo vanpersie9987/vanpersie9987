@@ -4135,6 +4135,29 @@ public class Leetcode_5 {
 
     }
 
+    // 2167. 移除所有载有违禁货物车厢所需的最少时间 (Minimum Time to Remove All Cars Containing Illegal
+    // Goods) --前缀和、dp
+    public int minimumTime(String s) {
+
+        // (i)+(n−j−1)+2⋅Count(i,j) --Count(i,j)表示 [i,j]之间的1的个数
+        //(i)+(n−j−1)+2⋅(pre[j]−pre[i−1])
+        //(i−2⋅pre[i−1])+(2⋅pre[j]−j)+(n−1)
+
+        int n = s.length();
+        int preBest = 0;
+        int preSum = 0;
+        int res = Integer.MAX_VALUE;
+        for (int j = 0; j < n; ++j) {
+            preBest = Math.min(preBest, j - 2 * preSum);
+            preSum += s.charAt(j) - '0';
+            res = Math.min(res, preBest + 2 * preSum - j);
+        }
+
+        return Math.min(res + n - 1, n);
+
+
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
