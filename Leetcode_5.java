@@ -4155,7 +4155,40 @@ public class Leetcode_5 {
 
         return Math.min(res + n - 1, n);
 
+    }
+    
+    // 1870. 准时到达的列车最小时速 (Minimum Speed to Arrive on Time) --二分查找
+    public int minSpeedOnTime(int[] dist, double hour) {
+        int res = -1;
+        int left = 1;
+        int right = (int) 1e7;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (check1870(dist, mid, hour)) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
 
+    }
+
+    private boolean check1870(int[] dist, int speed, double hour) {
+        double sum = 0;
+        for (int i = 0; i < dist.length; ++i) {
+            if (i == dist.length - 1) {
+                sum += (double) dist[i] / speed;
+            } else {
+                sum += (dist[i] - 1) / speed + 1;
+            }
+            if ((double) sum > hour) {
+                return false;
+            }
+        
+        }
+        return true;
     }
 
     // 2029. 石子游戏 IX (Stone Game IX)
