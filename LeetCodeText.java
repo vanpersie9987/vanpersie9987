@@ -30,10 +30,6 @@ public class LeetCodeText {
     public static void main(final String[] args) {
         // int[] nums = new int[5];
         // System.out.println(majorityElement(nums));
-        // int[] A = new int[] { 12, 24, 8, 32 };
-        // int[] B = new int[] { 13, 25, 32, 11 };
-        // int[] C = advantageCount(A, B);
-        // System.out.println(C);
 
         // int[] arr = { 3, 2, 4, 1 };
         // pancakeSort(arr);
@@ -2833,33 +2829,44 @@ public class LeetCodeText {
 
     }
 
-    // 870. 优势洗牌
-    public static int[] advantageCount(final int[] A, final int[] B) {
-        boolean[] visited = new boolean[A.length];
-        Arrays.sort(A);
-        for (int i = 0; i < B.length; ++i) {
-            boolean flag = false;
-            for (int j = 0; j < A.length; ++j) {
-                if (!visited[j] && A[j] > B[i]) {
-                    visited[j] = true;
-                    flag = true;
-                    B[i] = A[j];
-                    break;
-                }
-            }
-            if (!flag) {
-                for (int j = 0; j < A.length; ++j) {
-                    if (!visited[j]) {
-                        visited[j] = true;
-                        B[i] = A[j];
-                        break;
-                    }
-                }
+    // 870. 优势洗牌 (Advantage Shuffle) --二分查找
+    public int[] advantageCount(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        Arrays.sort(nums1);
+        List<Integer> list = Arrays.stream(nums1).boxed().collect(Collectors.toList());
+        int[] res = new int[n];
+        int i = 0;
+        while (i < n) {
+            int index = binarySearch870(list, nums2[i]);
+            res[i] = list.get(index);
+            list.remove(index);
+            ++i;
+        }
+        return res;
 
+    }
+
+    private int binarySearch870(List<Integer> list, int target) {
+        int n = list.size();
+        if (target >= list.get(n - 1)) {
+            return 0;
+        }
+        if (target < list.get(0)) {
+            return 0;
+        }
+        int res = 0;
+        int left = 0;
+        int right = n - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (list.get(mid) > target) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
             }
         }
-        return B;
-
+        return res;
     }
 
     // 873. 最长的斐波那契子序列的长度
