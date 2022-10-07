@@ -4208,6 +4208,17 @@ public class Leetcode_5 {
 
     }
 
+    // 1498. 满足条件的子序列数目 (Number of Subsequences That Satisfy the Given Sum
+    // Condition)
+    // public int numSubseq(int[] nums, int target) {
+
+    // }
+
+    // 1300. 转变数组后最接近目标值的数组和 (Sum of Mutated Array Closest to Target)
+    // public int findBestValue(int[] arr, int target) {
+
+    // }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
