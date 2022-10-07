@@ -4191,6 +4191,23 @@ public class Leetcode_5 {
         return true;
     }
 
+    // 1027. 最长等差数列 (Longest Arithmetic Subsequence) --dp
+    public int longestArithSeqLength(int[] nums) {
+        int res = 0;
+        int n = nums.length;
+        //dp[i][d] 以索引i为结尾的元素，公差为d时的最长序列
+        int[][] dp = new int[n][1001];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < i; ++j) {
+                int d = nums[i] - nums[j] + 500;
+                dp[i][d] = dp[j][d] + 1;
+                res = Math.max(res, dp[i][d]);
+            }
+        }
+        return res + 1;
+
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
