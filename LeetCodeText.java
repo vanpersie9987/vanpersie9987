@@ -2869,6 +2869,35 @@ public class LeetCodeText {
         return res;
     }
 
+    // 870. 优势洗牌 (Advantage Shuffle) --双指针
+    public int[] advantageCount2(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        Arrays.sort(nums1);
+        Integer[] ids2 = new Integer[n];
+        for (int i = 0; i < n; ++i) {
+            ids2[i] = i;
+        }
+
+        Arrays.sort(ids2, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return nums2[o1] - nums2[o2];
+
+            }
+
+        });
+
+        int[] res = new int[n];
+        int left = 0;
+        int right = n - 1;
+        for (int x : nums1) {
+            res[x > nums2[ids2[left]] ? ids2[left++] : ids2[right--]] = x;
+        }
+        return res;
+
+    }
+
     // 873. 最长的斐波那契子序列的长度
     // 剑指 Offer II 093. 最长斐波那契数列
     public int lenLongestFibSubseq(int[] arr) {
