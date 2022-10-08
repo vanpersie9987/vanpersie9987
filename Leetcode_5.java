@@ -4235,10 +4235,52 @@ public class Leetcode_5 {
 
     }
 
-    // 1300. 转变数组后最接近目标值的数组和 (Sum of Mutated Array Closest to Target)
-    // public int findBestValue(int[] arr, int target) {
+    // 1300. 转变数组后最接近目标值的数组和 (Sum of Mutated Array Closest to Target) --二分查找 + 前缀和
+    public int findBestValue(int[] arr, int target) {
+        int n = arr.length;
+        Arrays.sort(arr);
+        int[] prefix = new int[n + 1];
+        for (int i = 1; i < n + 1; ++i) {
+            prefix[i] = prefix[i - 1] + arr[i - 1];
+        }
+        int res = 0;
+        int diff = Integer.MAX_VALUE;
+        int right = arr[n - 1];
+        for (int value = 0; value <= right; ++value) {
+            int count = binarySearch1300(arr, value);
+            int sum = prefix[count] + (n - count) * value;
+            if (Math.abs(sum - target) < diff) {
+                res = value;
+                diff = Math.abs(sum - target);
+            }
+        }
+        return res;
+    }
 
-    // }
+    // 排序数组arr中，小于value的元素个数
+    private int binarySearch1300(int[] arr, int value) {
+        int n = arr.length;
+        if (value <= arr[0]) {
+            return 0;
+        }
+        if (value > arr[n - 1]) {
+            return n;
+        }
+        int res = 0;
+        int left = 0;
+        int right = n - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (arr[mid] < value) {
+                res = mid + 1;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+
+    }
 
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
