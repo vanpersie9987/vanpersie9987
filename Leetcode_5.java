@@ -4244,9 +4244,9 @@ public class Leetcode_5 {
             prefix[i] = prefix[i - 1] + arr[i - 1];
         }
         int res = 0;
-        int diff = Integer.MAX_VALUE;
+        int diff = target;
         int right = arr[n - 1];
-        for (int value = 0; value <= right; ++value) {
+        for (int value = 1; value <= right; ++value) {
             int count = binarySearch1300(arr, value);
             int sum = prefix[count] + (n - count) * value;
             if (Math.abs(sum - target) < diff) {
