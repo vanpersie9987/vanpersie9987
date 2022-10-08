@@ -4209,10 +4209,31 @@ public class Leetcode_5 {
     }
 
     // 1498. 满足条件的子序列数目 (Number of Subsequences That Satisfy the Given Sum
-    // Condition)
-    // public int numSubseq(int[] nums, int target) {
+    // Condition) --双指针
+    public int numSubseq(int[] nums, int target) {
+        int n = nums.length;
+        int mod = (int) (1e9 + 7);
+        Arrays.sort(nums);
+        int[] power = new int[n];
+        power[0] = 1;
+        for (int i = 1; i < n; ++i) {
+            power[i] = (power[i - 1] << 1) % mod;
+        }
+        int res = 0;
+        int left = 0;
+        int right = n - 1;
+        while (left <= right) {
+            if (nums[left] + nums[right] > target) {
+                --right;
+            } else {
+                res = (res + power[right - left]) % mod;
+                ++left;
+            }
+        }
+        return res;
 
-    // }
+
+    }
 
     // 1300. 转变数组后最接近目标值的数组和 (Sum of Mutated Array Closest to Target)
     // public int findBestValue(int[] arr, int target) {
