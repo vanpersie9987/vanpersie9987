@@ -4282,6 +4282,82 @@ public class Leetcode_5 {
 
     }
 
+    public int hardestWorker(int n, int[][] logs) {
+        int max = logs[0][1];
+        int res = logs[0][0];
+        for (int i = 1; i < logs.length; ++i) {
+            int diff = logs[i][1] - logs[i - 1][1];
+            if (diff > max) {
+                max = diff;
+                res = logs[i][0];
+            } else if (diff == max) {
+                res = Math.min(res, logs[i][0]);
+            }
+        }
+        return res;
+
+    }
+    
+    // 6201. 找出前缀异或的原始数组
+    public int[] findArray(int[] pref) {
+        int n = pref.length;
+        int[] res = new int[n];
+        res[0] = pref[0];
+        for (int i = 1; i < n; ++i) {
+            res[i] = pref[i - 1] ^ pref[i];
+        }
+        return res;
+
+
+    }
+
+    // 6203. 矩阵中和能被 K 整除的路径
+    public int numberOfPaths(int[][] grid, int k) {
+        int mod = (int) (1e9 + 7);
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][][] dp = new int[m][n][k];
+        dp[0][0][grid[0][0] % k] = 1;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                for (int d = 0; d < k; ++d) {
+                    if (i > 0) {
+                        dp[i][j][d] = (dp[i][j][d] + dp[i - 1][j][(d - grid[i][j] % k + k) % k]) % mod;
+                    }
+                    if (j > 0) {
+                        dp[i][j][d] = (dp[i][j][d] + dp[i][j - 1][(d - grid[i][j] % k + k) % k]) % mod;
+                    }
+                }
+            }
+        }
+        return dp[m - 1][n - 1][0];
+
+
+
+    }
+
+    // 6202. 使用机器人打印字典序最小的字符串
+    public String robotWithString(String s) {
+        StringBuilder res = new StringBuilder();
+        Stack<Character> stack = new Stack<>();
+        int[] count = new int[26];
+        for (char c : s.toCharArray()) {
+            ++count[c - 'a'];
+        }
+        int min = 0;
+        for (char c : s.toCharArray()) {
+            --count[c - 'a'];
+            while (min < 26 && count[min] == 0) {
+                ++min;
+            }
+            stack.push(c);
+            while (!stack.isEmpty() && stack.peek() - 'a' <= min) {
+                res.append(stack.pop());
+            }
+        }
+        return res.toString();
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
