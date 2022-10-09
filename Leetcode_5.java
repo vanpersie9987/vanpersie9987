@@ -2860,7 +2860,7 @@ public class Leetcode_5 {
             graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
             graph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
         }
-        //当前索引对应的值 所在的联通块内等于当前值的个数
+        // 当前索引对应的值 所在的联通块内等于当前值的个数
         int[] size = new int[n];
         Arrays.fill(size, 1);
 
@@ -3271,9 +3271,7 @@ public class Leetcode_5 {
         }
         return false;
 
-
     }
-
 
     private boolean check6212_2(int[] count) {
         int same = -1;
@@ -3281,7 +3279,7 @@ public class Leetcode_5 {
             if (c != 0) {
                 if (same == -1) {
                     same = c;
-                } else if(same != c){
+                } else if (same != c) {
                     return false;
                 }
             }
@@ -3311,7 +3309,7 @@ public class Leetcode_5 {
 
         }
     }
-    
+
     // 6213. 所有数对的异或和
     public int xorAllNums(int[] nums1, int[] nums2) {
         int n = nums1.length;
@@ -3337,7 +3335,7 @@ public class Leetcode_5 {
         return xor1 ^ xor2;
 
     }
-    
+
     // 6213. 所有数对的异或和
     public int xorAllNums2(int[] nums1, int[] nums2) {
         int res = 0;
@@ -3359,45 +3357,45 @@ public class Leetcode_5 {
 
     // 6198. 满足不等式的数对数目
     // public long numberOfPairs(int[] nums1, int[] nums2, int diff) {
-    //     int n = nums1.length;
-    //     int[] d = new int[n];
-    //     for (int i = 0; i < n; ++i) {
-    //         d[i] = nums1[i] - nums2[i];
-    //     }
-    //     Queue<Integer> queue = new PriorityQueue<>();
-    //     queue.offer(d[0]);
-    //     long res = 0l;
-    //     for (int j = 1; j < n; ++j) {
-    //         int dj = d[j] + diff;
-    //         res += binarySearch6198(new ArrayList<>(queue), dj);
-    //         queue.offer(d[j]);
-    //     }
-    //     return res;
+    // int n = nums1.length;
+    // int[] d = new int[n];
+    // for (int i = 0; i < n; ++i) {
+    // d[i] = nums1[i] - nums2[i];
+    // }
+    // Queue<Integer> queue = new PriorityQueue<>();
+    // queue.offer(d[0]);
+    // long res = 0l;
+    // for (int j = 1; j < n; ++j) {
+    // int dj = d[j] + diff;
+    // res += binarySearch6198(new ArrayList<>(queue), dj);
+    // queue.offer(d[j]);
+    // }
+    // return res;
 
     // }
 
     // // 有序数组中 小于等于target的值有多少个
     // private int binarySearch6198(ArrayList<Integer> list, int target) {
-    //     if (target >= list.get(list.size() - 1)) {
-    //         return list.size();
-    //     }
-    //     if (target < list.get(0)) {
-    //         return 0;
-    //     }
+    // if (target >= list.get(list.size() - 1)) {
+    // return list.size();
+    // }
+    // if (target < list.get(0)) {
+    // return 0;
+    // }
 
-    //     int res = 0;
-    //     int left = 0;
-    //     int right = list.size() - 1;
-    //     while (left <= right) {
-    //         int mid = left + ((right - left) >> 1);
-    //         if (list.get(mid) <= target) {
-    //             res = mid + 1;
-    //             left = mid + 1;
-    //         } else {
-    //             right = mid - 1;
-    //         }
-    //     }
-    //     return res;
+    // int res = 0;
+    // int left = 0;
+    // int right = list.size() - 1;
+    // while (left <= right) {
+    // int mid = left + ((right - left) >> 1);
+    // if (list.get(mid) <= target) {
+    // res = mid + 1;
+    // left = mid + 1;
+    // } else {
+    // right = mid - 1;
+    // }
+    // }
+    // return res;
 
     // }
 
@@ -3477,7 +3475,7 @@ public class Leetcode_5 {
         return res;
 
     }
-    
+
     // 6195. 对字母串可执行的最大删除数
     public int deleteString(String s) {
         int n = s.length();
@@ -3751,7 +3749,7 @@ public class Leetcode_5 {
         return count;
 
     }
-    
+
     public class Union_Find_JiuKun_02 {
         private int[] rank;
         private int[] parent;
@@ -3794,7 +3792,7 @@ public class Leetcode_5 {
         }
 
     }
-    
+
     // 1615. 最大网络秩 (Maximal Network Rank)
     public int maximalNetworkRank(int n, int[][] roads) {
         int[] inDegrees = new int[n];
@@ -3816,24 +3814,24 @@ public class Leetcode_5 {
 
     }
 
-     // 1615. 最大网络秩 (Maximal Network Rank)
-     public int maximalNetworkRank2(int n, int[][] roads) {
-         int[] inDegrees = new int[n];
-         int[][] connected = new int[n][n];
-         for (int[] road : roads) {
-             ++inDegrees[road[0]];
-             ++inDegrees[road[1]];
-             connected[road[0]][road[1]] = 1;
-             connected[road[1]][road[0]] = 1;
-         }
-         int res = 0;
-         for (int i = 0; i < n; ++i) {
-             for (int j = i + 1; j < n; ++j) {
-                 res = Math.max(res, inDegrees[i] + inDegrees[j] - connected[i][j]);
-             }
-         }
-         return res;
-     
+    // 1615. 最大网络秩 (Maximal Network Rank)
+    public int maximalNetworkRank2(int n, int[][] roads) {
+        int[] inDegrees = new int[n];
+        int[][] connected = new int[n][n];
+        for (int[] road : roads) {
+            ++inDegrees[road[0]];
+            ++inDegrees[road[1]];
+            connected[road[0]][road[1]] = 1;
+            connected[road[1]][road[0]] = 1;
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                res = Math.max(res, inDegrees[i] + inDegrees[j] - connected[i][j]);
+            }
+        }
+        return res;
+
     }
 
     // 1754. 构造字典序最大的合并字符串 (Largest Merge Of Two Strings) --双指针
@@ -3918,7 +3916,6 @@ public class Leetcode_5 {
             }
         }
         return res;
-
 
     }
 
@@ -4140,8 +4137,8 @@ public class Leetcode_5 {
     public int minimumTime(String s) {
 
         // (i)+(n−j−1)+2⋅Count(i,j) --Count(i,j)表示 [i,j]之间的1的个数
-        //(i)+(n−j−1)+2⋅(pre[j]−pre[i−1])
-        //(i−2⋅pre[i−1])+(2⋅pre[j]−j)+(n−1)
+        // (i)+(n−j−1)+2⋅(pre[j]−pre[i−1])
+        // (i−2⋅pre[i−1])+(2⋅pre[j]−j)+(n−1)
 
         int n = s.length();
         int preBest = 0;
@@ -4156,7 +4153,7 @@ public class Leetcode_5 {
         return Math.min(res + n - 1, n);
 
     }
-    
+
     // 1870. 准时到达的列车最小时速 (Minimum Speed to Arrive on Time) --二分查找
     public int minSpeedOnTime(int[] dist, double hour) {
         int res = -1;
@@ -4186,7 +4183,7 @@ public class Leetcode_5 {
             if ((double) sum > hour) {
                 return false;
             }
-        
+
         }
         return true;
     }
@@ -4195,7 +4192,7 @@ public class Leetcode_5 {
     public int longestArithSeqLength(int[] nums) {
         int res = 0;
         int n = nums.length;
-        //dp[i][d] 以索引i为结尾的元素，公差为d时的最长序列
+        // dp[i][d] 以索引i为结尾的元素，公差为d时的最长序列
         int[][] dp = new int[n][1001];
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < i; ++j) {
@@ -4231,7 +4228,6 @@ public class Leetcode_5 {
             }
         }
         return res;
-
 
     }
 
@@ -4298,7 +4294,7 @@ public class Leetcode_5 {
         return res;
 
     }
-    
+
     // 6201. 找出前缀异或的原始数组
     public int[] findArray(int[] pref) {
         int n = pref.length;
@@ -4308,7 +4304,6 @@ public class Leetcode_5 {
             res[i] = pref[i - 1] ^ pref[i];
         }
         return res;
-
 
     }
 
@@ -4332,8 +4327,6 @@ public class Leetcode_5 {
             }
         }
         return dp[m - 1][n - 1][0];
-
-
 
     }
 
@@ -4359,6 +4352,117 @@ public class Leetcode_5 {
         return res.toString();
     }
 
+    // 827. 最大人工岛 (Making A Large Island) --并查集 + 枚举
+    public int largestIsland(int[][] grid) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int n = grid.length;
+        int[] size = new int[n * n];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    size[i * n + j] = 1;
+                }
+            }
+        }
+        UnionFind827 union = new UnionFind827(size);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    for (int[] direction : directions) {
+                        int nx = i + direction[0];
+                        int ny = j + direction[1];
+                        if (nx >= 0 && nx < n && ny >= 0 && ny < n && grid[nx][ny] == 1) {
+                            union.union(i * n + j, nx * n + ny);
+                        }
+                    }
+                }
+            }
+        }
+
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    int root = union.getRoot(i * n + j);
+                    res = Math.max(res, union.getCount(root));
+                } else {
+                    int cur = 1;
+                    Set<Integer> set = new HashSet<>();
+                    for (int[] direction : directions) {
+                        int nx = i + direction[0];
+                        int ny = j + direction[1];
+                        if (nx >= 0 && nx < n && ny >= 0 && ny < n && grid[nx][ny] == 1) {
+                            int root = union.getRoot(nx * n + ny);
+                            if (set.add(root)) {
+                                cur += union.getCount(root);
+                            }
+                        }
+                    }
+                    res = Math.max(res, cur);
+                }
+            }
+        }
+        return res;
+
+    }
+
+    public class UnionFind827 {
+        private int[] parent;
+        private int[] rank;
+        private int[] size;
+
+        public UnionFind827(int[] size) {
+            int n = size.length;
+            this.parent = new int[n];
+            this.rank = new int[n];
+            this.size = size;
+
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] > rank[root2]) {
+                parent[root2] = root1;
+                size[root1] += size[root2];
+            } else {
+                parent[root1] = root2;
+                size[root2] += size[root1];
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root2];
+                }
+            }
+
+        }
+
+        public int getCount(int p) {
+            int root = getRoot(p);
+            return size[root];
+        }
+
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
@@ -4366,11 +4470,6 @@ public class Leetcode_5 {
 
     // 2049. 统计最高分的节点数目 (Count Nodes With the Highest Score)
     // public int countHighestScoreNodes(int[] parents) {
-
-    // }
-
-    // 827. 最大人工岛 (Making A Large Island)
-    // public int largestIsland(int[][] grid) {
 
     // }
 
