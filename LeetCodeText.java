@@ -10511,7 +10511,7 @@ public class LeetCodeText {
 
     }
 
-    // 856. 括号的分数
+    // 856. 括号的分数 (Score of Parentheses)
     public int scoreOfParentheses(String s) {
         Stack<Integer> stack = new Stack<>();
         stack.push(0);
@@ -10529,7 +10529,7 @@ public class LeetCodeText {
 
     }
 
-    // 856. 括号的分数
+    // 856. 括号的分数 (Score of Parentheses)
     public int scoreOfParentheses2(String s) {
         int left = 0;
         int score = 0;
@@ -10544,6 +10544,33 @@ public class LeetCodeText {
             }
         }
         return score;
+
+    }
+
+    // 856. 括号的分数 (Score of Parentheses) --分治
+    public int scoreOfParentheses3(String s) {
+        int n = s.length();
+        if (n == 2) {
+            return 1;
+        }
+        int len = 0;
+        int bal = 0;
+        for (int i = 0; i < n; ++i) {
+            if (s.charAt(i) == '(') {
+                ++bal;
+            } else {
+                --bal;
+            }
+            if (bal == 0) {
+                len = i + 1;
+                break;
+            }
+        }
+        if (len == n) {
+            return 2 * scoreOfParentheses(s.substring(1, len - 1));
+        } else {
+            return scoreOfParentheses(s.substring(0, len)) + scoreOfParentheses(s.substring(len));
+        }
 
     }
 
