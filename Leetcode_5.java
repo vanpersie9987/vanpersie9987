@@ -4282,6 +4282,7 @@ public class Leetcode_5 {
 
     }
 
+    // 6200. 处理用时最长的那个任务的员工
     public int hardestWorker(int n, int[][] logs) {
         int max = logs[0][1];
         int res = logs[0][0];
