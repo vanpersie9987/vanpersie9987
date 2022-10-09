@@ -4463,6 +4463,68 @@ public class Leetcode_5 {
 
     }
 
+    // 1568. 使陆地分离的最少天数 (Minimum Number of Days to Disconnect Island) --bfs + 枚举
+    public int minDays(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        if (check1568(grid)) {
+            return 0;
+        }
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    grid[i][j] = 0;
+                    if (check1568(grid)) {
+                        return 1;
+                    }
+                    grid[i][j] = 1;
+                }
+            }
+        }
+        return 2;
+
+    }
+
+    private boolean check1568(int[][] grid) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int m = grid.length;
+        int n = grid[0].length;
+        int x = 0;
+        int y = 0;
+        int countIsland = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    ++countIsland;
+                    x = i;
+                    y = j;
+                }
+            }
+        }
+        if (countIsland == 0) {
+            return true;
+        }
+        boolean[][] visited = new boolean[m][n];
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] { x, y });
+        visited[x][y] = true;
+        --countIsland;
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            for (int[] direction : directions) {
+                int nx = cur[0] + direction[0];
+                int ny = cur[1] + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1 && !visited[nx][ny]) {
+                    visited[nx][ny] = true;
+                    queue.offer(new int[] { nx, ny });
+                    --countIsland;
+                }
+            }
+        }
+        return countIsland > 0;
+
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
