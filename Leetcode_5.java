@@ -4576,6 +4576,27 @@ public class Leetcode_5 {
 
     }
 
+    // 1362. 最接近的因数 (Closest Divisors)
+    public int[] closestDivisors(int num) {
+        int[] res = new int[] { 1, (int) 1e9 };
+        division1362(num + 1, res);
+        division1362(num + 2, res);
+        return res;
+        
+    }
+
+    private void division1362(int target, int[] res) {
+        for (int i = (int) Math.sqrt(target); i > 0; --i) {
+            if (target % i == 0) {
+                if (Math.abs(target / i - i) < Math.abs(res[0] - res[1])) {
+                    res[0] = target / i;
+                    res[1] = i;
+                    return;
+                }
+            }
+        }
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
