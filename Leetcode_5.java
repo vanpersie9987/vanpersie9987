@@ -4525,6 +4525,57 @@ public class Leetcode_5 {
 
     }
 
+    // 801. 使序列递增的最小交换次数 (Minimum Swaps To Make Sequences Increasing) --dp
+    public int minSwap(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        int[][] dp = new int[n][2];
+        dp[0][0] = 0;
+        dp[0][1] = 1;
+        for (int i = 1; i < n; ++i) {
+            int a1 = nums1[i - 1];
+            int a2 = nums1[i];
+            int b1 = nums2[i - 1];
+            int b2 = nums2[i];
+            if (a1 < a2 && b1 < b2 && a1 < b2 && b1 < a2) {
+                dp[i][0] = Math.min(dp[i - 1][0], dp[i - 1][1]);
+                dp[i][1] = Math.min(dp[i - 1][0], dp[i - 1][1]) + 1;
+            } else if (a1 < a2 && b1 < b2) {
+                dp[i][0] = dp[i - 1][0];
+                dp[i][1] = dp[i - 1][1] + 1;
+            } else if (a1 < b2 && b1 < a2) {
+                dp[i][0] = dp[i - 1][1];
+                dp[i][1] = dp[i - 1][0] + 1;
+            }
+        }
+        return Math.min(dp[n - 1][0], dp[n - 1][1]);
+
+    }
+    
+    // 801. 使序列递增的最小交换次数 (Minimum Swaps To Make Sequences Increasing) --dp
+    public int minSwap2(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        int notExchange = 0;
+        int exchange = 1;
+        for (int i = 1; i < n; ++i) {
+            int a1 = nums1[i - 1];
+            int a2 = nums1[i];
+            int b1 = nums2[i - 1];
+            int b2 = nums2[i];
+            if (a1 < a2 && b1 < b2 && a1 < b2 && b1 < a2) {
+                notExchange = Math.min(notExchange, exchange);
+                exchange = notExchange + 1;
+            } else if (a1 < a2 && b1 < b2) {
+                ++exchange;
+            } else if (a1 < b2 && b1 < a2) {
+                int temp = notExchange;
+                notExchange = exchange;
+                exchange = temp + 1;
+            }
+        }
+        return Math.min(notExchange, exchange);
+
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
