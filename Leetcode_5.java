@@ -4597,10 +4597,87 @@ public class Leetcode_5 {
         }
     }
 
-    // 2334. 元素值大于变化阈值的子数组 (Subarray With Elements Greater Than Varying Threshold)
-    // public int validSubarraySize(int[] nums, int threshold) {
+    // 2334. 元素值大于变化阈值的子数组 (Subarray With Elements Greater Than Varying Threshold) --并查集
+    public int validSubarraySize(int[] nums, int threshold) {
+        int n = nums.length;
+        UnionFind2334 union = new UnionFind2334(n + 1);
+        Integer[] ids = new Integer[n];
+        for (int i = 0; i < n; ++i) {
+            ids[i] = i;
+        }
+        Arrays.sort(ids,new Comparator<Integer>() {
 
-    // }
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return nums[o2] - nums[o1];
+            }
+            
+        });
+
+        for (int id : ids) {
+            union.union(id, id + 1);
+            int size = union.getSize(id) - 1;
+            if (nums[id] > threshold / size) {
+                return size;
+            }
+
+        }
+        return -1;
+
+    }
+
+    public class UnionFind2334 {
+        private int[] rank;
+        private int[] parent;
+        private int[] size;
+
+        public UnionFind2334(int n) {
+            this.rank = new int[n];
+            Arrays.fill(rank, 1);
+            this.parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+            this.size = new int[n];
+            Arrays.fill(size, 1);
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+                size[root2] += size[root1];
+            } else {
+                parent[root2] = root1;
+                size[root1] += size[root2];
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+        
+        public int getSize(int id) {
+            int root = getRoot(id);
+            return size[root];
+        
+        }
+    
+    }
 
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
