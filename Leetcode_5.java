@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Leetcode_5 {
     public static void main(String[] args) {
@@ -4601,11 +4602,8 @@ public class Leetcode_5 {
     public int validSubarraySize(int[] nums, int threshold) {
         int n = nums.length;
         UnionFind2334 union = new UnionFind2334(n + 1);
-        Integer[] ids = new Integer[n];
-        for (int i = 0; i < n; ++i) {
-            ids[i] = i;
-        }
-        Arrays.sort(ids,new Comparator<Integer>() {
+        Integer[] ids = IntStream.range(0, n).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
 
             @Override
             public int compare(Integer o1, Integer o2) {
