@@ -15546,20 +15546,16 @@ public class LeetCodeText {
         int diff = 0;
         char a = '-';
         char b = '-';
-        boolean flag = false;
         for (int i = 0; i < n; ++i) {
             if (s1.charAt(i) != s2.charAt(i)) {
                 if (++diff > 2) {
                     return false;
                 }
-                if (!flag) {
+                if (a == '-') {
                     a = s1.charAt(i);
                     b = s2.charAt(i);
-                    flag = true;
-                } else {
-                    if (s1.charAt(i) != b || s2.charAt(i) != a) {
-                        return false;
-                    }
+                } else if (s1.charAt(i) != b || s2.charAt(i) != a) {
+                    return false;
                 }
             }
         }
