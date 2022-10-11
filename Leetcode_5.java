@@ -4614,7 +4614,7 @@ public class Leetcode_5 {
 
         for (int id : ids) {
             union.union(id, id + 1);
-            int size = union.getSize(id) - 1;
+            int size = union.getSize(id);
             if (nums[id] > threshold / size) {
                 return size;
             }
@@ -4637,7 +4637,6 @@ public class Leetcode_5 {
                 parent[i] = i;
             }
             this.size = new int[n];
-            Arrays.fill(size, 1);
         }
 
         public int getRoot(int p) {
@@ -4659,10 +4658,10 @@ public class Leetcode_5 {
             }
             if (rank[root1] < rank[root2]) {
                 parent[root1] = root2;
-                size[root2] += size[root1];
+                size[root2] += size[root1] + 1;
             } else {
                 parent[root2] = root1;
-                size[root1] += size[root2];
+                size[root1] += size[root2] + 1;
                 if (rank[root1] == rank[root2]) {
                     ++rank[root1];
                 }
