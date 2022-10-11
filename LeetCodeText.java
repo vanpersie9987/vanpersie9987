@@ -15540,6 +15540,33 @@ public class LeetCodeText {
         return stack.isEmpty();
     }
 
+    // 1790.仅执行一次字符串交换能否使两个字符串相等 (Check if One String Swap Can Make Strings Equal)
+    public boolean areAlmostEqual3(String s1, String s2) {
+        int n = s1.length();
+        int diff = 0;
+        char a = '-';
+        char b = '-';
+        boolean flag = false;
+        for (int i = 0; i < n; ++i) {
+            if (s1.charAt(i) != s2.charAt(i)) {
+                if (++diff > 2) {
+                    return false;
+                }
+                if (!flag) {
+                    a = s1.charAt(i);
+                    b = s2.charAt(i);
+                    flag = true;
+                } else {
+                    if (s1.charAt(i) != b || s2.charAt(i) != a) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return diff != 1;
+
+    }
+
     // 1400. 构造 K 个回文字符串 (Construct K Palindrome Strings)
     public boolean canConstruct(String s, int k) {
         int max = s.length();
