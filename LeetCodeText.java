@@ -15489,59 +15489,6 @@ public class LeetCodeText {
 
     // 1790.仅执行一次字符串交换能否使两个字符串相等 (Check if One String Swap Can Make Strings Equal)
     public boolean areAlmostEqual(String s1, String s2) {
-        int[] counts = new int[26];
-        for (char c : s1.toCharArray()) {
-            ++counts[c - 'a'];
-        }
-        for (char c : s2.toCharArray()) {
-            --counts[c - 'a'];
-        }
-        for (int count : counts) {
-            if (count != 0) {
-                return false;
-            }
-        }
-        int i = 0;
-        int diff = 0;
-        while (i < s1.length()) {
-            if (s1.charAt(i) != s2.charAt(i)) {
-                if (++diff > 2) {
-                    return false;
-                }
-            }
-            ++i;
-        }
-        return true;
-
-    }
-
-    // 1790.仅执行一次字符串交换能否使两个字符串相等 (Check if One String Swap Can Make Strings Equal)
-    public boolean areAlmostEqual2(String s1, String s2) {
-        Stack<Character> stack = new Stack<>();
-        int diff = 0;
-        for (int i = 0; i < s1.length(); ++i) {
-            if (stack.isEmpty() && s1.charAt(i) != s2.charAt(i)) {
-                stack.push(s1.charAt(i));
-                stack.push(s2.charAt(i));
-                continue;
-            }
-            if (s1.charAt(i) != s2.charAt(i)) {
-                if (s1.charAt(i) != stack.pop()) {
-                    return false;
-                }
-                if (s2.charAt(i) != stack.pop()) {
-                    return false;
-                }
-                if (++diff > 1) {
-                    return false;
-                }
-            }
-        }
-        return stack.isEmpty();
-    }
-
-    // 1790.仅执行一次字符串交换能否使两个字符串相等 (Check if One String Swap Can Make Strings Equal)
-    public boolean areAlmostEqual3(String s1, String s2) {
         int n = s1.length();
         int diff = 0;
         char a = '-';
