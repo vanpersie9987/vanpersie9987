@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class LeetCode_2 {
 
@@ -1652,24 +1653,25 @@ public class LeetCode_2 {
 
    // 817. 链表组件 (Linked List Components)
    public int numComponents(ListNode head, int[] nums) {
-      Set<Integer> set = new HashSet<>();
-      for (int num : nums) {
-         set.add(num);
-      }
+      Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toSet());
+      ListNode dummy = new ListNode(-1);
+      dummy.next = head;
+      ListNode node = dummy;
       int res = 0;
-      while (head != null) {
-         while (head != null && !set.contains(head.val)) {
-            head = head.next;
+      while (node.next != null) {
+         while (node.next != null && !set.contains(node.next.val)) {
+            node = node.next;
          }
-         if (head == null) {
+         if (node.next == null) {
             break;
          }
-         while (head != null && set.contains(head.val)) {
-            head = head.next;
-         }
          ++res;
+         while (node.next != null && set.contains(node.next.val)) {
+            node = node.next;
+         }
       }
       return res;
+
    }
 
    // 707. 设计链表 (Design Linked List) --单链表
