@@ -4714,8 +4714,34 @@ public class Leetcode_5 {
         return res;
 
     }
-    
 
+    // 30. 串联所有单词的子串 (Substring with Concatenation of All Words)
+    public List<Integer> findSubstring(String s, String[] words) {
+        int n = s.length();
+        int m = words.length;
+        int w = words[0].length();
+        List<Integer> res = new ArrayList<>();
+        Map<String, Integer> count = new HashMap<>();
+        for (String word : words) {
+            count.put(word, count.getOrDefault(word, 0) + 1);
+        }
+        search: for (int i = 0; i + m * w <= n; ++i) {
+            Map<String, Integer> curCount = new HashMap<>();
+            String sub = s.substring(i, i + m * w);
+            for (int j = 0; j + w <= m * w; j += w) {
+                String word = sub.substring(j, j + w);
+                if (!count.containsKey(word)) {
+                    continue search;
+                }
+                curCount.put(word, curCount.getOrDefault(word, 0) + 1);
+            }
+            if (count.equals(curCount)) {
+                res.add(i);
+            }
+        }
+        return res;
+
+    }
 
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
@@ -4729,11 +4755,6 @@ public class Leetcode_5 {
 
     // 1942. 最小未被占据椅子的编号 (The Number of the Smallest Unoccupied Chair)
     // public int smallestChair(int[][] times, int targetFriend) {
-
-    // }
-
-    // 30. 串联所有单词的子串 (Substring with Concatenation of All Words)
-    // public List<Integer> findSubstring(String s, String[] words) {
 
     // }
 }
