@@ -4667,14 +4667,56 @@ public class Leetcode_5 {
                 }
             }
         }
-        
+
         public int getSize(int id) {
             int root = getRoot(id);
             return size[root];
-        
+
         }
-    
+
     }
+
+    // 932. 漂亮数组 (Beautiful Array)
+    public int[] beautifulArray(int n) {
+        if (n == 1) {
+            return new int[] { 1 };
+        }
+        if (n == 2) {
+            return new int[] { 1, 2 };
+        }
+        if (n == 3) {
+            return new int[] { 1, 3, 2 };
+        }
+        if (n == 4) {
+            return new int[] { 1, 3, 2, 4 };
+        }
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(3);
+        list.add(2);
+        list.add(4);
+        while (list.size() < n) {
+            for (int i = 0; i < list.size(); ++i) {
+                list.set(i, list.get(i) * 2 - 1);
+            }
+            int size = list.size();
+            for (int i = 0; i < size; ++i) {
+                list.add(list.get(i) + 1);
+            }
+        }
+        int[] res = new int[n];
+        int i = 0;
+        for (int e : list) {
+            if (e <= n) {
+                res[i++] = e;
+            }
+        }
+        return res;
+  
+
+    }
+    
+
 
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
@@ -4693,11 +4735,6 @@ public class Leetcode_5 {
 
     // 30. 串联所有单词的子串 (Substring with Concatenation of All Words)
     // public List<Integer> findSubstring(String s, String[] words) {
-
-    // }
-
-    // 932. 漂亮数组 (Beautiful Array)
-    // public int[] beautifulArray(int n) {
 
     // }
 }
