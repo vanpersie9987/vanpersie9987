@@ -3638,6 +3638,52 @@ public class LeetCode_2 {
 
    }
 
+   // 438. 找到字符串中所有字母异位词 (Find All Anagrams in a String) --优化的滑动窗口
+   // 剑指 Offer II 015. 字符串中的所有变位词
+   public List<Integer> findAnagrams2(String s, String p) {
+      List<Integer> res = new ArrayList<>();
+      if (p.length() > s.length()) {
+         return res;
+      }
+      int[] counts = new int[26];
+      for (int i = 0; i < p.length(); ++i) {
+         ++counts[s.charAt(i) - 'a'];
+         --counts[p.charAt(i) - 'a'];
+      }
+      int diff = 0;
+      for (int i = 0; i < counts.length; ++i) {
+         if (counts[i] != 0) {
+            ++diff;
+         }
+      }
+
+      if (diff == 0) {
+         res.add(0);
+      }
+      for (int i = p.length(); i < s.length(); ++i) {
+
+         if (counts[s.charAt(i - p.length()) - 'a'] == 1) {
+            --diff;
+         } else if (counts[s.charAt(i - p.length()) - 'a'] == 0) {
+            ++diff;
+         }
+         --counts[s.charAt(i - p.length()) - 'a'];
+
+         if (counts[s.charAt(i) - 'a'] == -1) {
+            --diff;
+         } else if (counts[s.charAt(i) - 'a'] == 0) {
+            ++diff;
+         }
+         ++counts[s.charAt(i) - 'a'];
+
+         if (diff == 0) {
+            res.add(i - p.length() + 1);
+         }
+      }
+      return res;
+
+   }
+
    // 567. 字符串的排列 (Permutation in String)
    // 剑指 Offer II 014. 字符串中的变位词 --滑动窗口
    public boolean checkInclusion(String s1, String s2) {
