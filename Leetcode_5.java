@@ -4743,6 +4743,11 @@ public class Leetcode_5 {
 
     }
 
+    // 1139. 最大的以 1 为边界的正方形 (Largest 1-Bordered Square)
+    // public int largest1BorderedSquare(int[][] grid) {
+
+    // }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
