@@ -4817,9 +4817,41 @@ public class Leetcode_5 {
     }
 
     // 1139. 最大的以 1 为边界的正方形 (Largest 1-Bordered Square)
-    // public int largest1BorderedSquare(int[][] grid) {
+    public int largest1BorderedSquare(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
 
-    // }
+        // 行的前缀
+        int[][] prefixRow = new int[m + 1][n + 1];
+        // 列的前缀
+        int[][] prefixCol = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; ++i) {
+            for (int j = 1; j <= n; ++j) {
+                prefixRow[i][j] = prefixRow[i][j - 1] + grid[i - 1][j - 1];
+                prefixCol[i][j] = prefixCol[i - 1][j] + grid[i - 1][j - 1];
+            }
+        }
+        int side = 0;
+        for (int i = 0; i < m && i + side - 1 < m; ++i) {
+            for (int j = 0; j < n && j + side - 1 < n; ++j) {
+                if (grid[i][j] == 1) {
+                    for (int k = Math.max(1, side); k <= Math.min(m, n) && i + k <= m && j + k <= n; ++k) {
+                        if (grid[i][j + k - 1] == 1
+                                && grid[i + k - 1][j] == 1
+                                && grid[i + k - 1][j + k - 1] == 1
+                                && prefixRow[i + 1][j + k] - prefixRow[i + 1][j] == k
+                                && prefixRow[i + k][j + k] - prefixRow[i + k][j] == k
+                                && prefixCol[i + k][j + 1] - prefixCol[i][j + 1] == k
+                                && prefixCol[i + k][j + k] - prefixCol[i][j + k] == k) {
+                            side = k;
+                        }
+                    }
+                }
+            }
+        }
+        return side * side;
+
+    }
 
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
