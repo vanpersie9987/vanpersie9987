@@ -4732,9 +4732,89 @@ public class Leetcode_5 {
     }
 
     // 2245. 转角路径的乘积中最多能有几个尾随零 (Maximum Trailing Zeros in a Cornered Path)
-    // public int maxTrailingZeros(int[][] grid) {
+    public int maxTrailingZeros(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int count2 = calCount(grid[i][j], 2);
+                int count5 = calCount(grid[i][j], 5);
+                grid[i][j] = (count2 << 16) | count5;
+            }
+        }
+        // grid[i][j]的左边，因子2的个数
+        int[][] left2 = new int[m][n];
+        // grid[i][j]的右边，因子2的个数
+        int[][] right2 = new int[m][n];
+        // grid[i][j]的上边，因子2的个数
+        int[][] up2 = new int[m][n];
+        // grid[i][j]的下边，因子2的个数
+        int[][] down2 = new int[m][n];
+        // grid[i][j]的左边，因子5的个数
+        int[][] left5 = new int[m][n];
+        // grid[i][j]的右边，因子5的个数
+        int[][] right5 = new int[m][n];
+        // grid[i][j]的上边，因子5的个数
+        int[][] up5 = new int[m][n];
+        // grid[i][j]的下边，因子5的个数
+        int[][] down5 = new int[m][n];
 
-    // }
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i != 0) {
+                    up2[i][j] = up2[i - 1][j] + (grid[i - 1][j] >> 16);
+                    up5[i][j] = up5[i - 1][j] + (((1 << 16) - 1) & grid[i - 1][j]);
+                }
+                if (j != 0) {
+                    left2[i][j] = left2[i][j - 1] + (grid[i][j - 1] >> 16);
+                    left5[i][j] = left5[i][j - 1] + (((1 << 16) - 1) & grid[i][j - 1]);
+                }
+            }
+        }
+
+        for (int i = m - 1; i >= 0; --i) {
+            for (int j = n - 1; j >= 0; --j) {
+                if (i != m - 1) {
+                    down2[i][j] = down2[i + 1][j] + (grid[i + 1][j] >> 16);
+                    down5[i][j] = down5[i + 1][j] + (((1 << 16) - 1) & grid[i + 1][j]);
+                }
+                if (j != n - 1) {
+                    right2[i][j] = right2[i][j + 1] + (grid[i][j + 1] >> 16);
+                    right5[i][j] = right5[i][j + 1] + (((1 << 16) - 1) & grid[i][j + 1]);
+                }
+            }
+        }
+
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int count1 = Math.min(
+                        left2[i][j] + up2[i][j] + (grid[i][j] >> 16),
+                        left5[i][j] + up5[i][j] + (((1 << 16) - 1) & grid[i][j]));
+                int count2 = Math.min(
+                        up2[i][j] + right2[i][j] + (grid[i][j] >> 16),
+                        up5[i][j] + right5[i][j] + (((1 << 16) - 1) & grid[i][j]));
+                int count3 = Math.min(
+                        right2[i][j] + down2[i][j] + (grid[i][j] >> 16),
+                        right5[i][j] + down5[i][j] + (((1 << 16) - 1) & grid[i][j]));
+                int count4 = Math.min(
+                        down2[i][j] + left2[i][j] + (grid[i][j] >> 16),
+                        down5[i][j] + left5[i][j] + (((1 << 16) - 1) & grid[i][j]));
+                res = Math.max(res, Math.max(Math.max(count1, count2), Math.max(count3, count4)));
+            }
+        }
+        return res;
+
+    }
+
+    private int calCount(int num, int factor) {
+        int count = 0;
+        while (num % factor == 0) {
+            ++count;
+            num /= factor;
+        }
+        return count;
+    }
 
     // 1139. 最大的以 1 为边界的正方形 (Largest 1-Bordered Square)
     // public int largest1BorderedSquare(int[][] grid) {
