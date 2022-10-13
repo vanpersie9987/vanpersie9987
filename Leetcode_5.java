@@ -4681,20 +4681,8 @@ public class Leetcode_5 {
         if (n == 1) {
             return new int[] { 1 };
         }
-        if (n == 2) {
-            return new int[] { 1, 2 };
-        }
-        if (n == 3) {
-            return new int[] { 1, 3, 2 };
-        }
-        if (n == 4) {
-            return new int[] { 1, 3, 2, 4 };
-        }
         List<Integer> list = new ArrayList<>();
         list.add(1);
-        list.add(3);
-        list.add(2);
-        list.add(4);
         while (list.size() < n) {
             for (int i = 0; i < list.size(); ++i) {
                 list.set(i, list.get(i) * 2 - 1);
@@ -4742,6 +4730,11 @@ public class Leetcode_5 {
         return res;
 
     }
+
+    // 2245. 转角路径的乘积中最多能有几个尾随零 (Maximum Trailing Zeros in a Cornered Path)
+    // public int maxTrailingZeros(int[][] grid) {
+
+    // }
 
     // 1139. 最大的以 1 为边界的正方形 (Largest 1-Bordered Square)
     // public int largest1BorderedSquare(int[][] grid) {
