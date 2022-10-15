@@ -4853,6 +4853,20 @@ public class Leetcode_5 {
 
     }
 
+    // 940. 不同的子序列 II (Distinct Subsequences II)
+    public int distinctSubseqII(String s) {
+        final int mod = (int) (1e9 + 7);
+        int[] last = new int[26];
+        int res = 1;
+        for (int i = 0; i < s.length(); ++i) {
+            int newCount = res;
+            res = ((res % mod + newCount % mod) % mod - last[s.charAt(i) - 'a'] % mod + mod) % mod;
+            last[s.charAt(i) - 'a'] = newCount;
+        }
+        return res - 1;
+
+    }
+
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
 
