@@ -10689,20 +10689,20 @@ public class LeetCodeText {
         return builder.toString();
     }
 
-    // 1441. 用栈操作构建数组
+    // 1441. 用栈操作构建数组 (Build an Array With Stack Operations)
     public List<String> buildArray(int[] target, int n) {
-        List<String> list = new ArrayList<>();
+        List<String> res = new ArrayList<>();
         int index = 0;
         int num = 1;
         while (index < target.length) {
-            while (target[index] != num++) {
-                list.add("Push");
-                list.add("Pop");
+            res.add("Push");
+            if (target[index] == num++) {
+                ++index;
+            } else {
+                res.add("Pop");
             }
-            list.add("Push");
-            ++index;
         }
-        return list;
+        return res;
 
     }
 
