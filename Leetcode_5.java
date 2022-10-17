@@ -4990,19 +4990,18 @@ public class Leetcode_5 {
     
     }
 
+    // 2442. 反转之后不同整数的数目 (Count Number of Distinct Integers After Reverse
+    // Operations)
     public int countDistinctIntegers(int[] nums) {
         Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toSet());
-        Set<Integer> added = new HashSet<>();
-        for (int num : set) {
-            added.add(reverse111(num));
+        for (int num : nums) {
+            set.add(reverse2442(num));
         }
-        set.addAll(added);
         return set.size();
-
 
     }
 
-    private int reverse111(int num) {
+    private int reverse2442(int num) {
         int res = 0;
         while (num != 0) {
             int mod = num % 10;
