@@ -5034,6 +5034,8 @@ public class Leetcode_5 {
 
         return res;
     }
+
+    // 2444. 统计定界子数组的数目 (Count Subarrays With Fixed Bounds)
     public long countSubarrays(int[] nums, int minK, int maxK) {
         long res = 0l;
         int lastMinIndex = -1;
@@ -5054,13 +5056,7 @@ public class Leetcode_5 {
             }
 
             if (lastMaxIndex != -1 && lastMinIndex != -1) {
-                if (nums[i] == minK) {
-                    res += lastMaxIndex - dividerIndex + 1;
-                } else if (nums[i] == maxK) {
-                    res += lastMinIndex - dividerIndex + 1;
-                } else {
-                    res += Math.min(lastMaxIndex, lastMinIndex) - dividerIndex + 1;
-                }
+                res += Math.min(lastMaxIndex, lastMinIndex) - dividerIndex + 1;
             }
         }
         return res;
