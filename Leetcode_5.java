@@ -4897,6 +4897,7 @@ public class Leetcode_5 {
         return true;
     }
 
+    // 2438. 二的幂数组中查询范围内的乘积 (Range Product Queries of Powers)
     public int[] productQueries(int n, int[][] queries) {
         List<Integer> powers = new ArrayList<>();
         int bit = 0;
@@ -4917,8 +4918,7 @@ public class Leetcode_5 {
         for (int i = 0; i < len; ++i) {
             int start = queries[i][0];
             int end = queries[i][1];
-            long cur = prefix[end + 1] - prefix[start];
-
+            int cur = prefix[end + 1] - prefix[start];
             long ans = 1l;
             while (cur != 0) {
                 ans = (ans << 1) % mod;
