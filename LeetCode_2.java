@@ -5269,6 +5269,33 @@ public class LeetCode_2 {
       return res;
 
    }
+  
+   // 904. 水果成篮 (Fruit Into Baskets)
+   public int totalFruit2(int[] fruits) {
+      int n = fruits.length;
+      int[] counts = new int[n];
+      int kinds = 0;
+      int res = 0;
+      int left = 0;
+      int right = 0;
+      while (right < n) {
+         ++counts[fruits[right]];
+         if (counts[fruits[right]] == 1) {
+            ++kinds;
+         }
+         while (kinds > 2) {
+            --counts[fruits[left]];
+            if (counts[fruits[left]] == 0) {
+               --kinds;
+            }
+            ++left;
+         }
+         res = Math.max(res, right - left + 1);
+         ++right;
+      }
+      return res;
+
+   }
 
    // 2104. 子数组范围和 (Sum of Subarray Ranges) --O(n^2) 还需掌握O(n)的解法
    public long subArrayRanges(int[] nums) {

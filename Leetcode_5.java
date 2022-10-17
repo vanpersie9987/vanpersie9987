@@ -1,3 +1,4 @@
+import java.lang.constant.DirectMethodHandleDesc.Kind;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -4551,7 +4552,7 @@ public class Leetcode_5 {
         return Math.min(dp[n - 1][0], dp[n - 1][1]);
 
     }
-    
+
     // 801. 使序列递增的最小交换次数 (Minimum Swaps To Make Sequences Increasing) --dp
     public int minSwap2(int[] nums1, int[] nums2) {
         int n = nums1.length;
@@ -4583,7 +4584,7 @@ public class Leetcode_5 {
         division1362(num + 1, res);
         division1362(num + 2, res);
         return res;
-        
+
     }
 
     private void division1362(int target, int[] res) {
@@ -4609,7 +4610,7 @@ public class Leetcode_5 {
             public int compare(Integer o1, Integer o2) {
                 return nums[o2] - nums[o1];
             }
-            
+
         });
 
         for (int id : ids) {
@@ -4866,6 +4867,175 @@ public class Leetcode_5 {
         return res - 1;
 
     }
+
+    public int countTime(String time) {
+        int res = 0;
+        for (int i = 0; i <= 23; ++i) {
+            for (int j = 0; j <= 59; ++j) {
+                StringBuilder builder = new StringBuilder();
+                if (i < 10) {
+                    builder.append(0);
+                }
+                builder.append(i);
+                builder.append(":");
+                if (j < 10) {
+                    builder.append(0);
+                }
+                builder.append(j);
+                if (check6208(builder.toString(), time)) {
+                    ++res;
+                }
+            }
+
+        }
+        return res;
+
+    }
+
+    private boolean check6208(String s, String time) {
+        for (int i = 0; i < time.length(); ++i) {
+            if (time.charAt(i) == '?') {
+                continue;
+            }
+            if (time.charAt(i) != s.charAt(i)) {
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
+    public int[] productQueries(int n, int[][] queries) {
+        List<Integer> powers = new ArrayList<>();
+        int bit = 0;
+        while (n != 0) {
+            if (n % 2 == 1) {
+                powers.add(bit);
+            }
+            n /= 2;
+            ++bit;
+        }
+        int mod = (int) (1e9 + 7);
+        int[] prefix = new int[powers.size() + 1];
+        for (int i = 1; i < prefix.length; ++i) {
+            prefix[i] = prefix[i - 1] + powers.get(i - 1);
+        }
+        int len = queries.length;
+        int[] res = new int[len];
+        for (int i = 0; i < len; ++i) {
+            int start = queries[i][0];
+            int end = queries[i][1];
+            long cur = prefix[end + 1] - prefix[start];
+
+            long ans = 1l;
+            while (cur != 0) {
+                ans = (ans << 1) % mod;
+                --cur;
+            }
+            res[i] = (int) (ans % mod);
+
+        }
+        return res;
+    }
+
+    // public int minimizeArrayValue(int[] nums) {
+    // }
+
+    public int findMaxK(int[] nums) {
+        Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toSet());
+        for (int i = 1000; i >= 1; --i) {
+            if (set.contains(i) && set.contains(-i)) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
+    public int countDistinctIntegers(int[] nums) {
+        Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toSet());
+        Set<Integer> added = new HashSet<>();
+        for (int num : set) {
+            added.add(reverse111(num));
+        }
+        set.addAll(added);
+        return set.size();
+
+
+    }
+
+    private int reverse111(int num) {
+        int res = 0;
+        while (num != 0) {
+            int mod = num % 10;
+            res = res * 10 + mod;
+            num /= 10;
+        }
+
+        return res;
+    }
+
+    public boolean sumOfNumberAndReverse(int num) {
+        for (int i = 0; i <= num; ++i) {
+            if (reverse111(i) + i == num) {
+                return true;
+            }
+
+        }
+        return false;
+
+    }
+
+    public long countSubarrays(int[] nums, int minK, int maxK) {
+        long res = 0l;
+        int lastMinIndex = -1;
+        int lastMaxIndex = -1;
+        int dividerIndex = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            if ((nums[i] > maxK) || nums[i] < minK) {
+                lastMinIndex = -1;
+                lastMaxIndex = -1;
+                dividerIndex = i + 1;
+                continue;
+            }
+            if (nums[i] == minK) {
+                lastMinIndex = i;
+            }
+            if (nums[i] == maxK) {
+                lastMaxIndex = i;
+            }
+
+            if (lastMaxIndex != -1 && lastMinIndex != -1) {
+                if (nums[i] == minK) {
+                    res += lastMaxIndex - dividerIndex + 1;
+                } else if (nums[i] == maxK) {
+                    res += lastMinIndex - dividerIndex + 1;
+                } else {
+                    res += Math.min(lastMaxIndex, lastMinIndex) - dividerIndex + 1;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 面试题 16.08. 整数的英语表示
+    // public String numberToWords(int num) {
+
+    // }
+    
+    // 497. 非重叠矩形中的随机点
+    // class Solution497 {
+
+    // public Solution497(int[][] rects) {
+
+    // }
+
+    // public int[] pick() {
+
+    // }
+    // }
 
     // 2029. 石子游戏 IX (Stone Game IX)
     // public boolean stoneGameIX(int[] stones) {
