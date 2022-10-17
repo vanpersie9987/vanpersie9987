@@ -5012,9 +5012,10 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 2443. 反转之后的数字和 (Sum of Number and Its Reverse)
     public boolean sumOfNumberAndReverse(int num) {
         for (int i = 0; i <= num; ++i) {
-            if (reverse111(i) + i == num) {
+            if (reverse2443(i) + i == num) {
                 return true;
             }
 
@@ -5023,6 +5024,16 @@ public class Leetcode_5 {
 
     }
 
+    private int reverse2443(int num) {
+        int res = 0;
+        while (num != 0) {
+            int mod = num % 10;
+            res = res * 10 + mod;
+            num /= 10;
+        }
+
+        return res;
+    }
     public long countSubarrays(int[] nums, int minK, int maxK) {
         long res = 0l;
         int lastMinIndex = -1;
