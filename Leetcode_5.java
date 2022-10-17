@@ -4868,31 +4868,22 @@ public class Leetcode_5 {
 
     }
 
+    // 2437. 有效时间的数目 (Number of Valid Clock Times)
     public int countTime(String time) {
         int res = 0;
         for (int i = 0; i <= 23; ++i) {
             for (int j = 0; j <= 59; ++j) {
-                StringBuilder builder = new StringBuilder();
-                if (i < 10) {
-                    builder.append(0);
-                }
-                builder.append(i);
-                builder.append(":");
-                if (j < 10) {
-                    builder.append(0);
-                }
-                builder.append(j);
-                if (check6208(builder.toString(), time)) {
+                String curTime = String.format("%02d:%02d", i, j);
+                if (check2437(curTime, time)) {
                     ++res;
                 }
             }
-
         }
         return res;
 
     }
 
-    private boolean check6208(String s, String time) {
+    private boolean check2437(String s, String time) {
         for (int i = 0; i < time.length(); ++i) {
             if (time.charAt(i) == '?') {
                 continue;
