@@ -4930,8 +4930,38 @@ public class Leetcode_5 {
         return res;
     }
 
-    // public int minimizeArrayValue(int[] nums) {
-    // }
+    // 2439. 最小化数组中的最大值 (Minimize Maximum of Array)
+    public int minimizeArrayValue(int[] nums) {
+        int res = -1;
+        int left = 0;
+        int right = Arrays.stream(nums).max().getAsInt();
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (check2439(nums, mid)) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+
+    private boolean check2439(int[] nums, int limit) {
+        long have = 0l;
+        for (int num : nums) {
+            if (num <= limit) {
+                have += limit - num;
+            } else {
+                if (have < num - limit) {
+                    return false;
+                } else {
+                    have -= num - limit;
+                }
+            }
+        }
+        return true;
+    }
 
     public int findMaxK(int[] nums) {
         Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toSet());
