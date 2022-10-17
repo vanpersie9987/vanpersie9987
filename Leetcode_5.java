@@ -4963,6 +4963,8 @@ public class Leetcode_5 {
         return true;
     }
 
+    // 2441. 与对应负数同时存在的最大正整数 (Largest Positive Integer That Exists With Its
+    // Negative)
     public int findMaxK(int[] nums) {
         Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toSet());
         for (int i = 1000; i >= 1; --i) {
@@ -4972,6 +4974,20 @@ public class Leetcode_5 {
         }
         return -1;
 
+    }
+    // 2441. 与对应负数同时存在的最大正整数 (Largest Positive Integer That Exists With Its
+    // Negative)
+    public int findMaxK2(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        int res = -1;
+        for (int num : nums) {
+            set.add(num);
+            if (set.contains(-num)) {
+                res = Math.max(res, Math.abs(num));
+            }
+        }
+        return res;
+    
     }
 
     public int countDistinctIntegers(int[] nums) {
