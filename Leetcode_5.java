@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
@@ -5063,21 +5064,58 @@ public class Leetcode_5 {
 
     }
 
+    // 497. 非重叠矩形中的随机点 (Random Point in Non-overlapping Rectangles)
+    class Solution497 {
+        private int[][] rects;
+        private int[] prefix;
+        private Random random;
+
+        public Solution497(int[][] rects) {
+            int n = rects.length;
+            this.rects = rects;
+            this.prefix = new int[n + 1];
+            for (int i = 1; i <= n; ++i) {
+                int count = (rects[i - 1][3] - rects[i - 1][1] + 1) * (rects[i - 1][2] - rects[i - 1][0] + 1);
+                prefix[i] = prefix[i - 1] + count;
+            }
+            this.random = new Random();
+
+        }
+
+        public int[] pick() {
+            int target = random.nextInt(prefix[prefix.length - 1]) + 1;
+            int index = binarySearch497(target) - 1;
+            int[] arr = rects[index];
+            int num = target - prefix[index] - 1;
+            int col = arr[3] - arr[1] + 1;
+            int da = num / col;
+            int db = num - col * da;
+            return new int[] { arr[0] + da, arr[1] + db };
+
+        }
+
+        // 返回单调递增数组prefix中，大于等于target的最小数的索引
+        private int binarySearch497(int target) {
+            int res = -1;
+            int left = 1;
+            int right = prefix.length - 1;
+            while (left <= right) {
+                int mid = left + (right - left >>> 1);
+                if (prefix[mid] >= target) {
+                    res = mid;
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            return res;
+
+        }
+    }
+
     // 面试题 16.08. 整数的英语表示
     // public String numberToWords(int num) {
 
-    // }
-
-    // 497. 非重叠矩形中的随机点
-    // class Solution497 {
-
-    // public Solution497(int[][] rects) {
-
-    // }
-
-    // public int[] pick() {
-
-    // }
     // }
 
     // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
