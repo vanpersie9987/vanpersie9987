@@ -4974,6 +4974,7 @@ public class Leetcode_5 {
         return -1;
 
     }
+
     // 2441. 与对应负数同时存在的最大正整数 (Largest Positive Integer That Exists With Its
     // Negative)
     public int findMaxK2(int[] nums) {
@@ -4986,7 +4987,7 @@ public class Leetcode_5 {
             }
         }
         return res;
-    
+
     }
 
     // 2442. 反转之后不同整数的数目 (Count Number of Distinct Integers After Reverse
@@ -5041,7 +5042,7 @@ public class Leetcode_5 {
         int lastMaxIndex = -1;
         int dividerIndex = 0;
         for (int i = 0; i < nums.length; ++i) {
-            if ((nums[i] > maxK) || nums[i] < minK) {
+            if (nums[i] > maxK || nums[i] < minK) {
                 lastMinIndex = -1;
                 lastMaxIndex = -1;
                 dividerIndex = i + 1;
@@ -5066,7 +5067,7 @@ public class Leetcode_5 {
     // public String numberToWords(int num) {
 
     // }
-    
+
     // 497. 非重叠矩形中的随机点
     // class Solution497 {
 
@@ -5077,6 +5078,11 @@ public class Leetcode_5 {
     // public int[] pick() {
 
     // }
+    // }
+
+    // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
+    // public int atMostNGivenDigitSet(String[] digits, int n) {
+
     // }
 
     // 2029. 石子游戏 IX (Stone Game IX)
