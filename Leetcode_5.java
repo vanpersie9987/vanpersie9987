@@ -5142,6 +5142,52 @@ public class Leetcode_5 {
 
     }
 
+    // 1737. 满足三条件之一需改变的最少字符数 (Change Minimum Characters to Satisfy One of Three)
+    public int minCharacters(String a, String b) {
+        int lenA = a.length();
+        int lenB = b.length();
+        int[] countsA = getCounts1737(a);
+        int[] countsB = getCounts1737(b);
+        int[] prefixA = getPrefix1737(countsA);
+        int[] prefixB = getPrefix1737(countsB);
+
+        int res = Integer.MAX_VALUE;
+
+        // condition 3
+        for (int i = 0; i < 26; ++i) {
+            int leftA = lenA - countsA[i];
+            int leftB = lenB - countsB[i];
+            res = Math.min(res, leftA + leftB);
+
+            if (i == 0) {
+                continue;
+            }
+            // condition 1
+            res = Math.min(res, lenA + lenB - (prefixA[i] + (lenB - prefixB[i])));
+            // condition 2
+            res = Math.min(res, lenA + lenB - (prefixB[i] + (lenA - prefixA[i])));
+        }
+        return res;
+
+    }
+
+    private int[] getPrefix1737(int[] counts) {
+        // prefix[i] : 小于 ((char)(i + 'a')) 的个数
+        int[] prefix = new int[26];
+        for (int i = 1; i < 26; ++i) {
+            prefix[i] = prefix[i - 1] + counts[i - 1];
+        }
+        return prefix;
+    }
+
+    private int[] getCounts1737(String s) {
+        int[] counts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++counts[c - 'a'];
+        }
+        return counts;
+    }
+
     // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
     // public int atMostNGivenDigitSet(String[] digits, int n) {
 
