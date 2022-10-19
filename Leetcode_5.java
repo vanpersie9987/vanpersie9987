@@ -5168,9 +5168,7 @@ public class Leetcode_5 {
             prefixA += countsA[i - 1];
             // 字符串 b 中，严格小于 ((char) (i + 'a'))的字母的个数
             prefixB += countsB[i - 1];
-            // condition 1
             res = Math.min(res, lenA - prefixA + prefixB);
-            // condition 2
             res = Math.min(res, lenB - prefixB + prefixA);
         }
         return res;
