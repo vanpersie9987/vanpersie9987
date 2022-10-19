@@ -5153,12 +5153,13 @@ public class Leetcode_5 {
 
         int res = Integer.MAX_VALUE;
 
-        // condition 3
         for (int i = 0; i < 26; ++i) {
+            // condition 3
             int leftA = lenA - countsA[i];
             int leftB = lenB - countsB[i];
             res = Math.min(res, leftA + leftB);
 
+            // 不存在严格小于'a'的字符
             if (i == 0) {
                 continue;
             }
