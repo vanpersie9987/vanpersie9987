@@ -5148,10 +5148,11 @@ public class Leetcode_5 {
         int lenB = b.length();
         int[] countsA = getCounts1737(a);
         int[] countsB = getCounts1737(b);
-        int[] prefixA = getPrefix1737(countsA);
-        int[] prefixB = getPrefix1737(countsB);
 
         int res = Integer.MAX_VALUE;
+
+        int prefixA = 0;
+        int prefixB = 0;
 
         for (int i = 0; i < 26; ++i) {
             // condition 3
@@ -5163,22 +5164,17 @@ public class Leetcode_5 {
             if (i == 0) {
                 continue;
             }
+            // 字符串 a 中，严格小于 ((char) (i + 'a'))的字母的个数
+            prefixA += countsA[i - 1];
+            // 字符串 b 中，严格小于 ((char) (i + 'a'))的字母的个数
+            prefixB += countsB[i - 1];
             // condition 1
-            res = Math.min(res, lenA + lenB - (prefixA[i] + (lenB - prefixB[i])));
+            res = Math.min(res, lenA - prefixA + prefixB);
             // condition 2
-            res = Math.min(res, lenA + lenB - (prefixB[i] + (lenA - prefixA[i])));
+            res = Math.min(res, lenB - prefixB + prefixA);
         }
         return res;
 
-    }
-
-    private int[] getPrefix1737(int[] counts) {
-        // prefix[i] : 小于 ((char)(i + 'a')) 的个数
-        int[] prefix = new int[26];
-        for (int i = 1; i < 26; ++i) {
-            prefix[i] = prefix[i - 1] + counts[i - 1];
-        }
-        return prefix;
     }
 
     private int[] getCounts1737(String s) {
