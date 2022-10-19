@@ -5130,6 +5130,18 @@ public class Leetcode_5 {
 
     }
 
+    // 1780. 判断一个数字是否可以表示成三的幂的和 (Check if Number is a Sum of Powers of Three)
+    public boolean checkPowersOfThree(int n) {
+        while (n != 0) {
+            if (n % 3 == 2) {
+                return false;
+            }
+            n /= 3;
+        }
+        return true;
+
+    }
+
     // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
     // public int atMostNGivenDigitSet(String[] digits, int n) {
 
