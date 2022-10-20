@@ -5183,6 +5183,65 @@ public class Leetcode_5 {
         return counts;
     }
 
+    // 1864. 构成交替字符串需要的最小交换次数 (Minimum Number of Swaps to Make the Binary String)
+    public int minSwaps(String s) {
+        int n = s.length();
+        int[] counts = new int[2];
+        for (char c : s.toCharArray()) {
+            ++counts[c - '0'];
+        }
+        if (Math.abs(counts[0] - counts[1]) > 1) {
+            return -1;
+        }
+        int res = Integer.MAX_VALUE;
+        if (counts[0] > counts[1]) {
+            int cur = 0;
+            for (int i = 0; i < n; ++i) {
+                if (i % 2 == 0) {
+                    if (s.charAt(i) == '1') {
+                        ++cur;
+                    }
+                } else {
+                    if (s.charAt(i) == '0') {
+                        ++cur;
+                    }
+                }
+            }
+            res = Math.min(res, cur / 2);
+        } else if (counts[0] < counts[1]) {
+            int cur = 0;
+            for (int i = 0; i < n; ++i) {
+                if (i % 2 == 0) {
+                    if (s.charAt(i) == '0') {
+                        ++cur;
+                    }
+                } else {
+                    if (s.charAt(i) == '1') {
+                        ++cur;
+                    }
+                }
+            }
+            res = Math.min(res, cur / 2);
+        } else {
+            int cur = 0;
+            for (int i = 0; i < n; ++i) {
+                if (i % 2 == 0) {
+                    if (s.charAt(i) == '1') {
+                        ++cur;
+                    }
+                } else {
+                    if (s.charAt(i) == '0') {
+                        ++cur;
+                    }
+                }
+            }
+            res = Math.min(res, Math.min(cur / 2, (n - cur) / 2));
+
+        }
+        return res;
+
+    }
+
     // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
     // public int atMostNGivenDigitSet(String[] digits, int n) {
 
