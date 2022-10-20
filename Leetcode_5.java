@@ -5209,10 +5209,46 @@ public class Leetcode_5 {
 
     }
 
-    // 1856. 子数组最小乘积的最大值 (Maximum Subarray Min-Product)
-    // public int maxSumMinProduct(int[] nums) {
+    // 1856. 子数组最小乘积的最大值 (Maximum Subarray Min-Product) --单调栈 + 前缀和
+    public int maxSumMinProduct(int[] nums) {
+        final int mod = (int) (1e9 + 7);
+        int n = nums.length;
+        // right[i] = j 表示 ：位置 i 的右侧中， 比 nums[i] 小、而且离 i 最近的位置 j，若该位置不存在 ，则为 n 
+        int[] right = new int[n];
+        Arrays.fill(right, n);
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < n; ++i) {
+            while (!stack.isEmpty() && nums[stack.peek()] > nums[i]) {
+                right[stack.pop()] = i;
+            }
+            stack.push(i);
+        }
 
-    // }
+        stack.clear();
+        // left[i] = j 表示 ：位置 i 的左侧中， 比 nums[i] 小、而且离 i 最近的位置 j，若该位置不存在 ，则为 -1
+        int[] left = new int[n];
+        Arrays.fill(left, -1);
+        for (int i = n - 1; i >= 0; --i) {
+            while (!stack.isEmpty() && nums[stack.peek()] > nums[i]) {
+                left[stack.pop()] = i;
+            }
+            stack.push(i);
+        }
+
+        long[] prefix = new long[n + 1];
+        for (int i = 1; i < n + 1; ++i) {
+            prefix[i] = prefix[i - 1] + nums[i - 1];
+        }
+
+        long res = 0l;
+
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, nums[i] * (prefix[right[i]] - prefix[left[i] + 1]));
+        }
+
+        return (int) (res % mod);
+
+    }
 
     // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
     // public int atMostNGivenDigitSet(String[] digits, int n) {
