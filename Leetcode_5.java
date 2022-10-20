@@ -5193,52 +5193,19 @@ public class Leetcode_5 {
         if (Math.abs(counts[0] - counts[1]) > 1) {
             return -1;
         }
-        int res = Integer.MAX_VALUE;
-        if (counts[0] > counts[1]) {
-            int cur = 0;
-            for (int i = 0; i < n; ++i) {
-                if (i % 2 == 0) {
-                    if (s.charAt(i) == '1') {
-                        ++cur;
-                    }
-                } else {
-                    if (s.charAt(i) == '0') {
-                        ++cur;
-                    }
-                }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            if (((i % 2) ^ (s.charAt(i) - '0')) == 1) {
+                ++res;
             }
-            res = Math.min(res, cur / 2);
-        } else if (counts[0] < counts[1]) {
-            int cur = 0;
-            for (int i = 0; i < n; ++i) {
-                if (i % 2 == 0) {
-                    if (s.charAt(i) == '0') {
-                        ++cur;
-                    }
-                } else {
-                    if (s.charAt(i) == '1') {
-                        ++cur;
-                    }
-                }
-            }
-            res = Math.min(res, cur / 2);
-        } else {
-            int cur = 0;
-            for (int i = 0; i < n; ++i) {
-                if (i % 2 == 0) {
-                    if (s.charAt(i) == '1') {
-                        ++cur;
-                    }
-                } else {
-                    if (s.charAt(i) == '0') {
-                        ++cur;
-                    }
-                }
-            }
-            res = Math.min(res, Math.min(cur / 2, (n - cur) / 2));
-
         }
-        return res;
+
+        if (counts[0] > counts[1]) {
+            return res / 2;
+        } else if (counts[0] < counts[1]) {
+            return (n - res) / 2;
+        }
+        return Math.min(res / 2, (n - res) / 2);
 
     }
 
