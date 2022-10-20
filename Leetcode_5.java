@@ -5209,13 +5209,13 @@ public class Leetcode_5 {
 
     }
 
-    // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
-    // public int atMostNGivenDigitSet(String[] digits, int n) {
+    // 1856. 子数组最小乘积的最大值 (Maximum Subarray Min-Product)
+    // public int maxSumMinProduct(int[] nums) {
 
     // }
 
-    // 2029. 石子游戏 IX (Stone Game IX)
-    // public boolean stoneGameIX(int[] stones) {
+    // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
+    // public int atMostNGivenDigitSet(String[] digits, int n) {
 
     // }
 
