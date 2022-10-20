@@ -5213,7 +5213,7 @@ public class Leetcode_5 {
     public int maxSumMinProduct(int[] nums) {
         final int mod = (int) (1e9 + 7);
         int n = nums.length;
-        // right[i] = j 表示 ：位置 i 的右侧中， 比 nums[i] 小、而且离 i 最近的位置 j，若该位置不存在 ，则为 n 
+        // right[i] = j 表示 ：位置 i 的右侧中， 比 nums[i] 小、而且离 i 最近的 nums[j] 的位置 j，若不存在 ，则为 n 
         int[] right = new int[n];
         Arrays.fill(right, n);
         Stack<Integer> stack = new Stack<>();
@@ -5225,7 +5225,7 @@ public class Leetcode_5 {
         }
 
         stack.clear();
-        // left[i] = j 表示 ：位置 i 的左侧中， 比 nums[i] 小、而且离 i 最近的位置 j，若该位置不存在 ，则为 -1
+        // left[i] = j 表示 ：位置 i 的左侧中， 比 nums[i] 小、而且离 i 最近的 nums[j] 的位置 j，若不存在 ，则为 -1
         int[] left = new int[n];
         Arrays.fill(left, -1);
         for (int i = n - 1; i >= 0; --i) {
