@@ -18518,6 +18518,12 @@ public class LeetCodeText {
         }
     }
 
+    // 779. 第K个语法符号 (K-th Symbol in Grammar)
+    public int kthGrammar2(int n, int k) {
+        return n == 1 ? 0 : (1 - k % 2) ^ kthGrammar2(n - 1, (k + 1) / 2);
+
+    }
+    
     // 2011. 执行操作后的变量值 (Final Value of Variable After Performing Operations)
     public int finalValueAfterOperations(String[] operations) {
         int res = 0;
