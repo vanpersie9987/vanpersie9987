@@ -10575,25 +10575,27 @@ public class LeetCodeText {
 
     }
 
-    // 901. 股票价格跨度
+    // 901. 股票价格跨度 (Online Stock Span) --单调栈
     class StockSpanner {
-        Stack<Integer> stack;
-        Stack<Integer> weight;
+        private Stack<int[]> stack;
+        private int index;
 
         public StockSpanner() {
             stack = new Stack<>();
-            weight = new Stack<>();
+            // index , val
+            stack.push(new int[] { -1, Integer.MAX_VALUE });
         }
 
         public int next(int price) {
-            int w = 1;
-            while (!stack.isEmpty() && stack.peek() <= price) {
+            int[] cur = new int[] { index, price };
+            while (stack.peek()[1] <= price) {
                 stack.pop();
-                w += weight.pop();
             }
-            stack.push(price);
-            weight.push(w);
-            return w;
+            int res = index - stack.peek()[0];
+            stack.push(cur);
+            ++index;
+            return res;
+
         }
     }
 
