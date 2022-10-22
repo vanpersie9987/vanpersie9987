@@ -1019,7 +1019,7 @@ public class LeetCodeText {
     }
 
     // 122. 买卖股票的最佳时机 II
-    public int maxProfit2(final int[] prices) {
+    public int maxProfit2(int[] prices) {
         int max = 0;
         for (int i = 1; i < prices.length; ++i) {
             if (prices[i] > prices[i - 1]) {
@@ -1030,7 +1030,7 @@ public class LeetCodeText {
 
     }
 
-    // 123. 买卖股票的最佳时机 III
+    // 123. 买卖股票的最佳时机 III (Best Time to Buy and Sell Stock III)
     public int maxProfit3(int[] prices) {
         int n = prices.length;
         int buy1 = prices[0], sell1 = 0;
@@ -1045,10 +1045,8 @@ public class LeetCodeText {
 
     }
 
-    public int maxProfit4(final int[] prices, final int fee) {
-        if (prices == null || prices.length == 0) {
-            return 0;
-        }
+    // 714. 买卖股票的最佳时机含手续费 (Best Time to Buy and Sell Stock with Transaction Fee)
+    public int maxProfit4(int[] prices, int fee) {
         int min = prices[0];
         int profit = 0;
         for (int i = 0; i < prices.length; ++i) {
