@@ -5292,6 +5292,51 @@ public class Leetcode_5 {
 
     }
 
+    // 221021天池-01. 统计链表奇数节点
+    public int numberEvenListNode(ListNode head) {
+        int res = 0;
+        while (head != null) {
+            if (head.val % 2 == 1) {
+                ++res;
+            }
+            head = head.next;
+        }
+        return res;
+
+    }
+
+    // 221021天池-02. 光线反射
+    public int getLength(String[] grid) {
+        int m = grid.length;
+        int n = grid[0].length();
+        // down , left , up , right
+        int[][] directions = { { 1, 0 }, { 0, -1 }, { -1, 0 }, { 0, 1 } };
+        int d = 0;
+        int res = 0;
+        int i = 0;
+        int j = 0;
+        while (i >= 0 && j >= 0 && i < m && j < n) {
+            ++res;
+            if (grid[i].charAt(j) == 'L') {
+                if (d == 0 || d == 2) {
+                    d = (d - 1 + 4) % 4;
+                } else {
+                    d = (d + 1) % 4;
+                }
+            } else if (grid[i].charAt(j) == 'R') {
+                if (d == 0 || d == 2) {
+                    d = (d + 1) % 4;
+                } else {
+                    d = (d - 1 + 4) % 4;
+                }
+            }
+            i += directions[d][0];
+            j += directions[d][1];
+        }
+        return res;
+        
+    }
+
     // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
     // public int atMostNGivenDigitSet(String[] digits, int n) {
 
