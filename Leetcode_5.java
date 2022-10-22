@@ -5309,32 +5309,24 @@ public class Leetcode_5 {
     public int getLength(String[] grid) {
         int m = grid.length;
         int n = grid[0].length();
-        // down , left , up , right
-        int[][] directions = { { 1, 0 }, { 0, -1 }, { -1, 0 }, { 0, 1 } };
-        int d = 0;
+        // up , down , left , right
+        int[][] directions = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+        int d = 1;
         int res = 0;
         int i = 0;
         int j = 0;
         while (i >= 0 && j >= 0 && i < m && j < n) {
             ++res;
             if (grid[i].charAt(j) == 'L') {
-                if (d == 0 || d == 2) {
-                    d = (d - 1 + 4) % 4;
-                } else {
-                    d = (d + 1) % 4;
-                }
+                d ^= 2;
             } else if (grid[i].charAt(j) == 'R') {
-                if (d == 0 || d == 2) {
-                    d = (d + 1) % 4;
-                } else {
-                    d = (d - 1 + 4) % 4;
-                }
+                d ^= 3;
             }
             i += directions[d][0];
             j += directions[d][1];
         }
         return res;
-        
+
     }
 
     // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
