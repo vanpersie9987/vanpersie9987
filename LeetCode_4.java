@@ -2322,12 +2322,11 @@ public class LeetCode_4 {
     }
 
     private void backtrack93(List<String> res, StringBuilder builder, int start, String s) {
-        if (start == s.length() || builder.length() == s.length() + 3) {
-            if (start == s.length() && builder.length() == s.length() + 3) {
-                res.add(builder.toString());
-            }
+        if (start == s.length() && builder.length() == s.length() + 3) {
+            res.add(builder.toString());
             return;
         }
+
         for (int end = start + 1; end <= s.length(); ++end) {
             // 超过1位时，首位不可为0
             if (end - start > 1 && s.charAt(start) == '0') {
@@ -2343,11 +2342,7 @@ public class LeetCode_4 {
             builder.append(cur);
             backtrack93(res, builder, end, s);
             int lastIndexOfDot = builder.lastIndexOf(".");
-            if (lastIndexOfDot == -1) {
-                builder.setLength(0);
-            } else {
-                builder.delete(lastIndexOfDot, builder.length());
-            }
+            builder.setLength(Math.max(0, lastIndexOfDot));
         }
     }
 
