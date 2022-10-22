@@ -5250,6 +5250,48 @@ public class Leetcode_5 {
 
     }
 
+    // 1235. 规划兼职工作 (Maximum Profit in Job Scheduling)
+    public int jobScheduling(int[] startTime, int[] endTime, int[] profit) {
+        int n = startTime.length;
+        int[][] jobs = new int[n][];
+        for (int i = 0; i < n; ++i) {
+            jobs[i] = new int[] { startTime[i], endTime[i], profit[i] };
+        }
+        Arrays.sort(jobs, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[1] - o2[1];
+            }
+
+        });
+
+        // dp[i] : 前 i 份工作可获得的最大利润
+        int[] dp = new int[n + 1];
+        for (int i = 0; i < n; ++i) {
+            int j = binarySearch1235(jobs, i, jobs[i][0]);
+            dp[i + 1] = Math.max(dp[i], dp[j + 1] + jobs[i][2]);
+        }
+        return dp[n];
+
+    }
+
+    private int binarySearch1235(int[][] jobs, int right, int upper) {
+        int res = -1;
+        int left = 0;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (jobs[mid][1] <= upper) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+
+    }
+
     // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
     // public int atMostNGivenDigitSet(String[] digits, int n) {
 
