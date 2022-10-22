@@ -17,6 +17,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.sound.sampled.LineEvent;
+
 public class Leetcode_5 {
     public static void main(String[] args) {
         // int[] nums1 = { -4, -4, 4, -1, -2, 5 };
@@ -5326,6 +5328,40 @@ public class Leetcode_5 {
             j += directions[d][1];
         }
         return res;
+
+    }
+
+    // 221021天池-03. 整理书架
+    public int[] arrangeBookshelf(int[] order, int limit) {
+        Stack<Integer> stack = new Stack<>();
+        stack.push(0);
+        int[] leftCount = new int[1000001];
+        for (int c : order) {
+            ++leftCount[c];
+        }
+        int[] stackCount = new int[1000001];
+        for (int c : order) {
+            if (stackCount[c] == limit) {
+                --leftCount[c];
+                continue;
+            }
+            while (c < stack.peek() && leftCount[stack.peek()] > limit) {
+                --leftCount[stack.peek()];
+                --stackCount[stack.peek()];
+                stack.pop();
+            }
+            stack.push(c);
+            stackCount[c] += 1;
+        }
+        int n = stack.size() - 1;
+        int i = 0;
+        int[] res = new int[n];
+        while (stack.size() > 1) {
+            res[n - i - 1] = stack.pop();
+            ++i;
+        }
+        return res;
+
 
     }
 
