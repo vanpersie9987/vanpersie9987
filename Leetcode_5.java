@@ -3357,50 +3357,6 @@ public class Leetcode_5 {
 
     }
 
-    // 6198. 满足不等式的数对数目
-    // public long numberOfPairs(int[] nums1, int[] nums2, int diff) {
-    // int n = nums1.length;
-    // int[] d = new int[n];
-    // for (int i = 0; i < n; ++i) {
-    // d[i] = nums1[i] - nums2[i];
-    // }
-    // Queue<Integer> queue = new PriorityQueue<>();
-    // queue.offer(d[0]);
-    // long res = 0l;
-    // for (int j = 1; j < n; ++j) {
-    // int dj = d[j] + diff;
-    // res += binarySearch6198(new ArrayList<>(queue), dj);
-    // queue.offer(d[j]);
-    // }
-    // return res;
-
-    // }
-
-    // // 有序数组中 小于等于target的值有多少个
-    // private int binarySearch6198(ArrayList<Integer> list, int target) {
-    // if (target >= list.get(list.size() - 1)) {
-    // return list.size();
-    // }
-    // if (target < list.get(0)) {
-    // return 0;
-    // }
-
-    // int res = 0;
-    // int left = 0;
-    // int right = list.size() - 1;
-    // while (left <= right) {
-    // int mid = left + ((right - left) >> 1);
-    // if (list.get(mid) <= target) {
-    // res = mid + 1;
-    // left = mid + 1;
-    // } else {
-    // right = mid - 1;
-    // }
-    // }
-    // return res;
-
-    // }
-
     // 6192. 公因子的数目
     public int commonFactors(int a, int b) {
         int gcd = gcd6192(a, b);
