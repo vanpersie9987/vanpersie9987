@@ -3092,24 +3092,22 @@ public class LeetCodeText {
 
     }
 
-    // 915. 分割数组
-    public int partitionDisjoint(final int[] A) {
-        int[] leftMax = new int[A.length];
-        int[] rightMin = new int[A.length];
-        leftMax[0] = A[0];
-        for (int i = 1; i < A.length; ++i) {
-            leftMax[i] = Math.max(A[i], leftMax[i - 1]);
+    // 915. 分割数组 (Partition Array into Disjoint Intervals)
+    public int partitionDisjoint(int[] A) {
+        int n = nums.length;
+        int[] rightMin = new int[n];
+        rightMin[n - 1] = nums[n - 1];
+        for (int i = n - 2; i >= 0; --i) {
+            rightMin[i] = Math.min(rightMin[i + 1], nums[i]);
         }
-        rightMin[A.length - 1] = A[A.length - 1];
-        for (int i = A.length - 2; i >= 0; --i) {
-            rightMin[i] = Math.min(A[i], rightMin[i + 1]);
-        }
-        for (int i = 0; i < A.length - 1; ++i) {
-            if (leftMax[i] <= rightMin[i + 1]) {
+        int leftMax = 0;
+        for (int i = 0; i < n - 1; ++i) {
+            leftMax = Math.max(leftMax, nums[i]);
+            if (leftMax <= rightMin[i + 1]) {
                 return i + 1;
             }
         }
-        return -1;
+        return n - 1;
 
     }
 
