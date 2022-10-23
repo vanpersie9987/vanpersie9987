@@ -5362,6 +5362,88 @@ public class Leetcode_5 {
 
     }
 
+    // 992. K 个不同整数的子数组 (Subarrays with K Different Integers)
+    public int subarraysWithKDistinct(int[] nums, int k) {
+        return getSubarraysWithMostKKinds992(nums, k) - getSubarraysWithMostKKinds992(nums, k - 1);
+
+    }
+
+    private int getSubarraysWithMostKKinds992(int[] nums, int k) {
+        if (k == 0) {
+            return 0;
+        }
+        int n = nums.length;
+        int[] counts = new int[n + 1];
+        int kinds = 0;
+        int left = 0;
+        int right = 0;
+        int res = 0;
+        while (right < n) {
+            if (counts[nums[right]]++ == 0) {
+                ++kinds;
+            }
+            while (kinds > k) {
+                if (--counts[nums[left++]] == 0) {
+                    --kinds;
+                }
+            }
+            res += right - left + 1;
+            ++right;
+        }
+        return res;
+    }
+
+    // 6214. 判断两个事件是否存在冲突
+    public boolean haveConflict(String[] event1, String[] event2) {
+        if (transToMinutes(event1[1]) < transToMinutes(event2[0])
+                || transToMinutes(event2[1]) < transToMinutes(event1[0])) {
+            return false;
+        }
+        return true;
+    }
+
+    private int transToMinutes(String s) {
+        int hours = Integer.parseInt(s.substring(0, 2));
+        int minutes = Integer.parseInt(s.substring(3));
+        return hours * 60 + minutes;
+    }
+
+    // 6224. 最大公因数等于 K 的子数组数目
+    public int subarrayGCD(int[] nums, int k) {
+        int n = nums.length;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] % k != 0) {
+                continue;
+            }
+            int gcd = 0;
+            for (int j = i; j < n; ++j) {
+                gcd = gcd6224(gcd, nums[j]);
+                if (gcd == k) {
+                    ++res;
+                } else if (gcd % k != 0) {
+                    break;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int gcd6224(int a, int b) {
+        return b == 0 ? a : gcd6224(b, a % b);
+    }
+
+    // 6216. 使数组相等的最小开销
+    // public long minCost(int[] nums, int[] cost) {
+
+    // }
+
+    // 6217. 使数组相似的最少操作次数
+    // public long makeSimilar(int[] nums, int[] target) {
+
+    // }
+
     // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
     // public int atMostNGivenDigitSet(String[] digits, int n) {
 
