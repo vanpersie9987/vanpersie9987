@@ -5435,12 +5435,46 @@ public class Leetcode_5 {
     }
 
     // 6216. 使数组相等的最小开销
-    // public long minCost(int[] nums, int[] cost) {
+    public long minCost(int[] nums, int[] cost) {
+        int n = nums.length;
+        long[][] pairs = new long[n][2];
+        long sumCost = 0l;
+        long cur = 0l;
+        for (int i = 0; i < n; ++i) {
+            pairs[i][0] = nums[i];
+            pairs[i][1] = cost[i];
+            sumCost += cost[i];
+        }
+        Arrays.sort(pairs,new Comparator<long[]>() {
 
-    // }
+            @Override
+            public int compare(long[] o1, long[] o2) {
+                return Long.valueOf(o1[0]).compareTo(Long.valueOf(o2[0]));
+            }
+            
+        });
+      
+        for (int i = 1; i < n; ++i) {
+            cur += (pairs[i][0] - pairs[0][0]) * pairs[i][1];
+        }
+        long res = cur;
+        long prefix = 0l;
+        for (int i = 1; i < n; ++i) {
+            prefix += pairs[i - 1][1];
+            cur += (prefix * 2 - sumCost) * (pairs[i][0] - pairs[i - 1][0]);
+            res = Math.min(res, cur);
+        }
+        return res;
+
+    }
 
     // 6217. 使数组相似的最少操作次数
     // public long makeSimilar(int[] nums, int[] target) {
+
+    // }
+
+    // 135. 分发糖果 (Candy)
+    // public int candy(int[] ratings) {
 
     // }
 
