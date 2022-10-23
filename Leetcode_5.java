@@ -5469,9 +5469,21 @@ public class Leetcode_5 {
     }
 
     // 6217. 使数组相似的最少操作次数
-    // public long makeSimilar(int[] nums, int[] target) {
+    public long makeSimilar(int[] nums, int[] target) {
+        Arrays.sort(nums);
+        Arrays.sort(target);
+        int[] j = new int[2];
+        long res = 0l;
+        for (int num : nums) {
+            int p = num % 2;
+            while (target[j[p]] % 2 != p) {
+                ++j[p];
+            }
+            res += Math.abs(num - target[j[p]++]);
+        }
+        return res / 4;
 
-    // }
+    }
 
     // 135. 分发糖果 (Candy)
     // public int candy(int[] ratings) {
