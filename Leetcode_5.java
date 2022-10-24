@@ -5431,6 +5431,40 @@ public class Leetcode_5 {
         return res / 4;
 
     }
+    
+    // 2354. 优质数对的数目 (Number of Excellent Pairs)
+    public long countExcellentPairs(int[] nums, int k) {
+        Set<Integer> visited = new HashSet<>();
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            if (visited.add(num)) {
+                int bits = Integer.bitCount(num);
+                map.put(bits, map.getOrDefault(bits, 0) + 1);
+            }
+        }
+        long res = 0l;
+        for (int key1 : map.keySet()) {
+            for (int key2 : map.keySet()) {
+                if (key1 + key2 >= k) {
+                    res += map.get(key1) * map.get(key2);
+                }
+            }
+        }
+        return res;
+    }
+
+
+
+    
+
+    // 315. 计算右侧小于当前元素的个数 (Count of Smaller Numbers After Self)
+    // public List<Integer> countSmaller(int[] nums) {
+    // }
+
+    // 948. 令牌放置 (Bag of Tokens)
+    // public int bagOfTokensScore(int[] tokens, int power) {
+
+    // }
 
     // 135. 分发糖果 (Candy)
     // public int candy(int[] ratings) {
