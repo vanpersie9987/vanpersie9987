@@ -5453,18 +5453,28 @@ public class Leetcode_5 {
         return res;
     }
 
-
-
-    
-
-    // 315. 计算右侧小于当前元素的个数 (Count of Smaller Numbers After Self)
-    // public List<Integer> countSmaller(int[] nums) {
-    // }
-
     // 948. 令牌放置 (Bag of Tokens)
-    // public int bagOfTokensScore(int[] tokens, int power) {
+    public int bagOfTokensScore(int[] tokens, int power) {
+        int res = 0;
+        Arrays.sort(tokens);
+        int n = tokens.length;
+        int i = 0;
+        int j = n - 1;
+        int points = 0;
+        while (i <= j && (power >= tokens[i] || points > 0)) {
+            while (i <= j && power >= tokens[i]) {
+                ++points;
+                power -= tokens[i++];
+            }
+            res = Math.max(res, points);
+            if (i <= j && points > 0) {
+                --points;
+                power += tokens[j--];
+            }
+        }
+        return res;
 
-    // }
+    }
 
     // 135. 分发糖果 (Candy)
     // public int candy(int[] ratings) {
