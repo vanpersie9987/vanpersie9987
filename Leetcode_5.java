@@ -5477,9 +5477,32 @@ public class Leetcode_5 {
     }
 
     // 135. 分发糖果 (Candy)
-    // public int candy(int[] ratings) {
+    public int candy(int[] ratings) {
+        int n = ratings.length;
+        int[] left = new int[n];
+        left[0] = 1;
+        for (int i = 1; i < n; ++i) {
+            if (ratings[i] > ratings[i - 1]) {
+                left[i] = left[i - 1] + 1;
+            } else {
+                left[i] = 1;
+            }
+        }
+        int res = 0;
+        int j = n - 1;
+        int right = 0;
+        while (j >= 0) {
+            if (j < n - 1 && ratings[j] > ratings[j + 1]) {
+                ++right;
+            } else {
+                right = 1;
+            }
+            res += Math.max(left[j], right);
+            --j;
+        }
+        return res;
 
-    // }
+    }
 
     // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
     // public int atMostNGivenDigitSet(String[] digits, int n) {
