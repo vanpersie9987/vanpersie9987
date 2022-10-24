@@ -5351,17 +5351,8 @@ public class Leetcode_5 {
 
     // 6214. 判断两个事件是否存在冲突
     public boolean haveConflict(String[] event1, String[] event2) {
-        if (transToMinutes(event1[1]) < transToMinutes(event2[0])
-                || transToMinutes(event2[1]) < transToMinutes(event1[0])) {
-            return false;
-        }
-        return true;
-    }
-
-    private int transToMinutes(String s) {
-        int hours = Integer.parseInt(s.substring(0, 2));
-        int minutes = Integer.parseInt(s.substring(3));
-        return hours * 60 + minutes;
+        return !(event1[1].compareTo(event2[0]) < 0 || event2[1].compareTo(event1[0]) < 0);
+        
     }
 
     // 6224. 最大公因数等于 K 的子数组数目
