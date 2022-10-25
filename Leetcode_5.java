@@ -5504,6 +5504,44 @@ public class Leetcode_5 {
 
     }
 
+    // LCP 67. 装饰树
+    public TreeNode expandBinaryTree(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = queue.poll();
+                if (node.left != null) {
+                    TreeNode added = new TreeNode(-1);
+                    added.left = node.left;
+                    node.left = added;
+                    queue.offer(node.left.left);
+                }
+
+                if (node.right != null) {
+                    TreeNode added = new TreeNode(-1);
+                    added.right = node.right;
+                    node.right = added;
+                    queue.offer(node.right.right);
+                }
+            }
+        }
+        return root;
+
+    }
+
+    // LCP 67. 装饰树
+    public TreeNode expandBinaryTree2(TreeNode root) {
+        if (root == null || (root.left == null && root.right == null))
+            return root;
+        if (root.left != null)
+            root.left = new TreeNode(-1, expandBinaryTree2(root.left), null);
+        if (root.right != null)
+            root.right = new TreeNode(-1, null, expandBinaryTree2(root.right));
+        return root;
+    }
+
     // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
     // public int atMostNGivenDigitSet(String[] digits, int n) {
 
