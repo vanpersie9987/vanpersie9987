@@ -5533,12 +5533,15 @@ public class Leetcode_5 {
 
     // LCP 67. 装饰树
     public TreeNode expandBinaryTree2(TreeNode root) {
-        if (root == null || (root.left == null && root.right == null))
+        if (root == null || (root.left == null && root.right == null)) {
             return root;
-        if (root.left != null)
+        }
+        if (root.left != null) {
             root.left = new TreeNode(-1, expandBinaryTree2(root.left), null);
-        if (root.right != null)
+        }
+        if (root.right != null) {
             root.right = new TreeNode(-1, null, expandBinaryTree2(root.right));
+        }
         return root;
     }
 
