@@ -5545,6 +5545,22 @@ public class Leetcode_5 {
         return root;
     }
 
+    // LCP 66. 最小展台数量
+    public int minNumBooths(String[] demand) {
+        int[] counts = new int[26];
+        for (String d : demand) {
+            int[] curCounts = new int[26];
+            for (char c : d.toCharArray()) {
+                ++curCounts[c - 'a'];
+            }
+            for (int i = 0; i < 26; ++i) {
+                counts[i] = Math.max(counts[i], curCounts[i]);
+            }
+        }
+        return Arrays.stream(counts).sum();
+
+    }
+
     // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
     // public int atMostNGivenDigitSet(String[] digits, int n) {
 
