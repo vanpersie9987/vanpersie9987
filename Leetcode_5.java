@@ -5560,6 +5560,73 @@ public class Leetcode_5 {
         return Arrays.stream(counts).sum();
 
     }
+    
+    // 352. 将数据流变为多个不相交区间 (Data Stream as Disjoint Intervals) --并查集 还需掌握：二分查找
+    class SummaryRanges {
+        private Union352 union;
+        private Set<Integer> set;
+
+        public SummaryRanges() {
+            union = new Union352(10002);
+            set = new HashSet<>();
+        }
+
+        public void addNum(int value) {
+            if (set.add(value)) {
+                union.union(value, value + 1);
+            }
+        }
+
+        public int[][] getIntervals() {
+            List<int[]> res = new ArrayList<>();
+            int i = 0;
+            while (i <= 10000) {
+                if (!set.contains(i)) {
+                    ++i;
+                    continue;
+                }
+                int j = union.getRoot(i);
+                res.add(new int[] { i, j - 1 });
+                i = j;
+            }
+            return res.toArray(new int[0][]);
+        }
+    }
+
+    public class Union352 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union352(int n) {
+            rank = new int[n];
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            parent[root1] = root2;
+        }
+    }
+
 
     // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
     // public int atMostNGivenDigitSet(String[] digits, int n) {
