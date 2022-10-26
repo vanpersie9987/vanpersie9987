@@ -6296,27 +6296,25 @@ public class LeetCode_2 {
       }
    }
 
-   // 862. 和至少为 K 的最短子数组 (Shortest Subarray with Sum at Least K)
+   // 862. 和至少为 K 的最短子数组 (Shortest Subarray with Sum at Least K) --单调队列
    public int shortestSubarray(int[] nums, int k) {
-      long[] preSum = new long[nums.length + 1];
-      for (int i = 1; i < preSum.length; ++i) {
-         preSum[i] += preSum[i - 1] + nums[i - 1];
-         // if (nums[i - 1] >= k) {
-         // return 1;
-         // }
+      int n = nums.length;
+      long[] prefix = new long[n + 1];
+      for (int i = 1; i <= n; ++i) {
+         prefix[i] = prefix[i - 1] + nums[i - 1];
       }
-      int res = Integer.MAX_VALUE;
       Deque<Integer> deque = new LinkedList<>();
-      for (int i = 0; i < preSum.length; ++i) {
-         while (!deque.isEmpty() && preSum[i] <= preSum[deque.peekLast()]) {
+      int res = n + 1;
+      for (int i = 0; i <= n; ++i) {
+         while (!deque.isEmpty() && prefix[deque.peekLast()] >= prefix[i]) {
             deque.pollLast();
          }
-         while (!deque.isEmpty() && preSum[i] - preSum[deque.peekFirst()] >= k) {
+         while (!deque.isEmpty() && prefix[i] - prefix[deque.peekFirst()] >= k) {
             res = Math.min(res, i - deque.pollFirst());
          }
          deque.offerLast(i);
       }
-      return res == Integer.MAX_VALUE ? -1 : res;
+      return res == n + 1 ? -1 : res;
 
    }
 
