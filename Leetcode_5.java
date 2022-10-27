@@ -5352,7 +5352,7 @@ public class Leetcode_5 {
     // 6214. 判断两个事件是否存在冲突
     public boolean haveConflict(String[] event1, String[] event2) {
         return !(event1[1].compareTo(event2[0]) < 0 || event2[1].compareTo(event1[0]) < 0);
-        
+
     }
 
     // 6224. 最大公因数等于 K 的子数组数目
@@ -5392,15 +5392,15 @@ public class Leetcode_5 {
             pairs[i][1] = cost[i];
             sumCost += cost[i];
         }
-        Arrays.sort(pairs,new Comparator<long[]>() {
+        Arrays.sort(pairs, new Comparator<long[]>() {
 
             @Override
             public int compare(long[] o1, long[] o2) {
                 return Long.valueOf(o1[0]).compareTo(Long.valueOf(o2[0]));
             }
-            
+
         });
-      
+
         for (int i = 1; i < n; ++i) {
             cur += (pairs[i][0] - pairs[0][0]) * pairs[i][1];
         }
@@ -5431,7 +5431,7 @@ public class Leetcode_5 {
         return res / 4;
 
     }
-    
+
     // 2354. 优质数对的数目 (Number of Excellent Pairs)
     public long countExcellentPairs(int[] nums, int k) {
         Set<Integer> visited = new HashSet<>();
@@ -5560,7 +5560,7 @@ public class Leetcode_5 {
         return Arrays.stream(counts).sum();
 
     }
-    
+
     // 352. 将数据流变为多个不相交区间 (Data Stream as Disjoint Intervals) --并查集 还需掌握：二分查找
     class SummaryRanges {
         private Union352 union;
@@ -5626,8 +5626,52 @@ public class Leetcode_5 {
             parent[root1] = root2;
         }
     }
+    // 1156. 单字符重复子串的最大长度 (Swap For Longest Repeated Character Substring)
+    public int maxRepOpt1(String text) {
+        int[] counts = new int[26];
+        for (char c : text.toCharArray()) {
+            ++counts[c - 'a'];
+        }
+        int res = 0;
+        int i = 0;
+        int n = text.length();
+        while (i < n) {
+            char c = text.charAt(i);
+            int len1 = 0;
+            while (i + len1 < n && c == text.charAt(i + len1)) {
+                ++len1;
+            }
+            int j = i + len1 + 1;
+            int len2 = 0;
+            while (j + len2 < n && c == text.charAt(j + len2)) {
+                ++len2;
+            }
+            res = Math.max(res, Math.min(len1 + len2 + 1, counts[c - 'a']));
+            i = j - 1;
+        }
+        return res;
 
+    }
 
+    // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
+    // public int maximumSum(int[] arr) {
+
+    // }
+    
+    // 1664. 生成平衡数组的方案数 (Ways to Make a Fair Array)
+    // public int waysToMakeFair(int[] nums) {
+
+    // }
+
+    // 1178. 猜字谜 (Number of Valid Words for Each Puzzle)
+    // public List<Integer> findNumOfValidWords(String[] words, String[] puzzles) {
+
+    // }
+
+    // 1921. 消灭怪物的最大数量 (Eliminate Maximum Number of Monsters)
+    // public int eliminateMaximum(int[] dist, int[] speed) {
+
+    // }
     // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
     // public int atMostNGivenDigitSet(String[] digits, int n) {
 
