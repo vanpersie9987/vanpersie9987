@@ -5690,6 +5690,50 @@ public class Leetcode_5 {
 
     }
 
+
+    // 1664. 生成平衡数组的方案数 (Ways to Make a Fair Array)
+    public int waysToMakeFair2(int[] nums) {
+        int oddSum = 0;
+        int evenSum = 0;
+        int prefixOddSum = 0;
+        int prefixEvenSum = 0;
+        int n = nums.length;
+
+        for (int i = 0; i < n; ++i) {
+            if (i % 2 == 0) {
+                evenSum += nums[i];
+            } else {
+                oddSum += nums[i];
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            if (i > 0) {
+                if (i % 2 == 1) {
+                    prefixEvenSum += nums[i - 1];
+                } else {
+                    prefixOddSum += nums[i - 1];
+                }
+            }
+
+            if (i % 2 == 1) {
+                int curOddSum = prefixOddSum + evenSum - prefixEvenSum;
+                int curEvenSum = prefixEvenSum + oddSum - prefixOddSum - nums[i];
+                if (curOddSum == curEvenSum) {
+                    ++res;
+                }
+            } else {
+                int curOddSum = prefixOddSum + evenSum - prefixEvenSum - nums[i];
+                int curEvenSum = prefixEvenSum + oddSum - prefixOddSum;
+                if (curOddSum == curEvenSum) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // public int maximumSum(int[] arr) {
 
