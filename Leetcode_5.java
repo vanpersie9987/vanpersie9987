@@ -5801,6 +5801,11 @@ public class Leetcode_5 {
 
     // }
 
+    // 面试题 17.06. 2出现的次数 (Number Of 2s In Range LCCI)
+    // public int numberOf2sInRange(int n) {
+
+    // }
+
     // 1921. 消灭怪物的最大数量 (Eliminate Maximum Number of Monsters)
     // public int eliminateMaximum(int[] dist, int[] speed) {
 
