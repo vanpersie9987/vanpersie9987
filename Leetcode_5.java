@@ -5734,6 +5734,63 @@ public class Leetcode_5 {
 
     }
 
+    // 2069. 模拟行走机器人 II (Walking Robot Simulation II)
+    class Robot {
+        private int width;
+        private int height;
+        private String[] dirStrings = { "East", "North", "West", "South" };
+        private int d;
+        private int x;
+        private int y;
+        private int circleSteps;
+
+        public Robot(int width, int height) {
+            this.width = width;
+            this.height = height;
+            circleSteps = (height + width) * 2 - 4;
+        }
+
+        public void step(int num) {
+            num %= circleSteps;
+            while (num != 0) {
+                int steps = 0;
+                switch (d) {
+                    case 0:
+                        steps = Math.min(num, width - x - 1);
+                        x += steps;
+                        break;
+                    case 1:
+                        steps = Math.min(num, height - y - 1);
+                        y += steps;
+                        break;
+                    case 2:
+                        steps = Math.min(num, x);
+                        x -= steps;
+                        break;
+                    case 3:
+                        steps = Math.min(num, y);
+                        y -= steps;
+                        break;
+                }
+                num -= steps;
+                if (num > 0) {
+                    d = (d + 1) % 4;
+                }
+            }
+            if (x == 0 && y == 0) {
+                d = 3;
+            }
+        }
+
+        public int[] getPos() {
+            return new int[] { x, y };
+        }
+
+        public String getDir() {
+            return dirStrings[d];
+        }
+    }
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // public int maximumSum(int[] arr) {
 
