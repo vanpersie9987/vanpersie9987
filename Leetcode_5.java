@@ -5626,6 +5626,7 @@ public class Leetcode_5 {
             parent[root1] = root2;
         }
     }
+
     // 1156. 单字符重复子串的最大长度 (Swap For Longest Repeated Character Substring)
     public int maxRepOpt1(String text) {
         int[] counts = new int[26];
@@ -5653,13 +5654,44 @@ public class Leetcode_5 {
 
     }
 
+    // 1664. 生成平衡数组的方案数 (Ways to Make a Fair Array)
+    public int waysToMakeFair(int[] nums) {
+        int n = nums.length;
+        int[][] dp1 = new int[n][2];
+        for (int i = 1; i < n; ++i) {
+            if (i % 2 == 1) {
+                dp1[i][0] = dp1[i - 1][0] + nums[i - 1];
+                dp1[i][1] = dp1[i - 1][1];
+            } else {
+                dp1[i][0] = dp1[i - 1][0];
+                dp1[i][1] = dp1[i - 1][1] + nums[i - 1];
+            }
+        }
+        int[][] dp2 = new int[n][2];
+        for (int i = n - 2; i >= 0; --i) {
+            if (i % 2 == 1) {
+                dp2[i][0] = dp2[i + 1][0] + nums[i + 1];
+                dp2[i][1] = dp2[i + 1][1];
+            } else {
+                dp2[i][0] = dp2[i + 1][0];
+                dp2[i][1] = dp2[i + 1][1] + nums[i + 1];
+            }
+        }
+
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            int evenSum = dp1[i][0] + dp2[i][1];
+            int oddSum = dp1[i][1] + dp2[i][0];
+            if (evenSum == oddSum) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // public int maximumSum(int[] arr) {
-
-    // }
-    
-    // 1664. 生成平衡数组的方案数 (Ways to Make a Fair Array)
-    // public int waysToMakeFair(int[] nums) {
 
     // }
 
