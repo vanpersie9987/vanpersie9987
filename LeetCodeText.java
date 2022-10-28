@@ -3111,35 +3111,37 @@ public class LeetCodeText {
 
     }
 
-    public int sumSubarrayMins(final int[] A) {
-        final int MOD = 1_000_000_007;
-        final Stack<RepInteger> stack = new Stack<>();
-        int ans = 0;
-        int dot = 0;
-        for (int j = 0; j < A.length; ++j) {
-            int count = 1;
-            while (!stack.isEmpty() && stack.peek().val >= A[j]) {
-                final RepInteger repInteger = stack.pop();
-                count += repInteger.count;
-                dot -= repInteger.count * repInteger.val;
+    // 907. 子数组的最小值之和 (Sum of Subarray Minimums) --单调栈
+    public int sumSubarrayMins(int[] arr) {
+        int n = arr.length;
+        Stack<Integer> stack = new Stack<>();
+        // left[i]表示i左侧第一个比arr[i]小的元素索引
+        int[] left = new int[n];
+        stack.push(-1);
+        for (int i = 0; i < n; ++i) {
+            while (stack.size() > 1 && arr[stack.peek()] >= arr[i]) {
+                stack.pop();
             }
-            stack.push(new RepInteger(A[j], count));
-            dot += A[j] * count;
-            ans += dot;
-            ans %= MOD;
+            left[i] = stack.peek();
+            stack.push(i);
         }
-        return ans;
 
-    }
-
-    public class RepInteger {
-        int val;
-        int count;
-
-        public RepInteger(final int val, final int count) {
-            this.val = val;
-            this.count = count;
+        stack.clear();
+        int[] right = new int[n];
+        stack.push(n);
+        for (int i = n - 1; i >= 0; --i) {
+            while (stack.size() > 1 && arr[stack.peek()] > arr[i]) {
+                stack.pop();
+            }
+            right[i] = stack.peek();
+            stack.push(i);
         }
+        long res = 0l;
+        final int mod = (int) (1e9 + 7);
+        for (int i = 0; i < n; ++i) {
+            res += (long) arr[i] * (i - left[i]) * (right[i] - i) % mod;
+        }
+        return (int) (res % mod);
 
     }
 
