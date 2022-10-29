@@ -5832,31 +5832,17 @@ public class Leetcode_5 {
                     if (side != 0) {
                         int leftX = i;
                         int leftY = j - side;
-                        for (int offset = 0; offset < side; ++offset) {
-                            cur += grid[leftX][leftY];
-                            --leftX;
-                            ++leftY;
-                        }
                         int topX = i - side;
                         int topY = j;
-                        for (int offset = 0; offset < side; ++offset) {
-                            cur += grid[topX][topY];
-                            ++topX;
-                            ++topY;
-                        }
                         int rightX = i;
                         int rightY = j + side;
-                        for (int offset = 0; offset < side; ++offset) {
-                            cur += grid[rightX][rightY];
-                            ++rightX;
-                            --rightY;
-                        }
                         int bottomX = i + side;
                         int bottomY = j;
                         for (int offset = 0; offset < side; ++offset) {
-                            cur += grid[bottomX][bottomY];
-                            --bottomX;
-                            --bottomY;
+                            cur += grid[leftX--][leftY++];
+                            cur += grid[topX++][topY++];
+                            cur += grid[rightX++][rightY--];
+                            cur += grid[bottomX--][bottomY--];
                         }
                     }
                     if (cur > first) {
