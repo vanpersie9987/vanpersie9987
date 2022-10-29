@@ -5934,6 +5934,11 @@ public class Leetcode_5 {
 
     }
 
+    // 1494. 并行课程 II (Parallel Courses II)
+    // public int minNumberOfSemesters(int n, int[][] relations, int k) {
+
+    // }
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // public int maximumSum(int[] arr) {
 
