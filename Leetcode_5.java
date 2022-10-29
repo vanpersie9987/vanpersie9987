@@ -5791,6 +5791,33 @@ public class Leetcode_5 {
         }
     }
 
+    // 1761. 一个图中连通三元组的最小度数 (Minimum Degree of a Connected Trio in a Graph)
+    public int minTrioDegree(int n, int[][] edges) {
+        boolean[][] connected = new boolean[n][n];
+        int[] degrees = new int[n];
+        for (int[] edge : edges) {
+            connected[edge[0] - 1][edge[1] - 1] = true;
+            connected[edge[1] - 1][edge[0] - 1] = true;
+            ++degrees[edge[0] - 1];
+            ++degrees[edge[1] - 1];
+        }
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                if (!connected[i][j]) {
+                    continue;
+                }
+                for (int k = 0; k < n; ++k) {
+                    if (connected[i][k] && connected[j][k]) {
+                        res = Math.min(res, degrees[i] + degrees[j] + degrees[k] - 6);
+                    }
+                }
+            }
+        }
+        return res == Integer.MAX_VALUE ? -1 : res;
+
+    }
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // public int maximumSum(int[] arr) {
 
