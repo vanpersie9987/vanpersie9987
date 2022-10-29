@@ -5818,6 +5818,74 @@ public class Leetcode_5 {
 
     }
 
+    // 1878. 矩阵中最大的三个菱形和 (Get Biggest Three Rhombus Sums in a Grid) --枚举中心点
+    public int[] getBiggestThree(int[][] grid) {
+        int first = 0;
+        int second = 0;
+        int third = 0;
+        int m = grid.length;
+        int n = grid[0].length;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int cur = grid[i][j];
+                for (int side = 0; side <= Math.min(Math.min(j, n - 1 - j), Math.min(i, m - 1 - i)); ++side) {
+                    if (side != 0) {
+                        int leftX = i;
+                        int leftY = j - side;
+                        for (int offset = 0; offset < side; ++offset) {
+                            cur += grid[leftX][leftY];
+                            --leftX;
+                            ++leftY;
+                        }
+                        int topX = i - side;
+                        int topY = j;
+                        for (int offset = 0; offset < side; ++offset) {
+                            cur += grid[topX][topY];
+                            ++topX;
+                            ++topY;
+                        }
+                        int rightX = i;
+                        int rightY = j + side;
+                        for (int offset = 0; offset < side; ++offset) {
+                            cur += grid[rightX][rightY];
+                            ++rightX;
+                            --rightY;
+                        }
+                        int bottomX = i + side;
+                        int bottomY = j;
+                        for (int offset = 0; offset < side; ++offset) {
+                            cur += grid[bottomX][bottomY];
+                            --bottomX;
+                            --bottomY;
+                        }
+                    }
+                    if (cur > first) {
+                        third = second;
+                        second = first;
+                        first = cur;
+                    } else if (cur > second && cur < first) {
+                        third = second;
+                        second = cur;
+                    } else if (cur > third && cur < second) {
+                        third = cur;
+                    }
+                    cur = 0;
+                }
+            }
+        }
+        if (first == 0) {
+            return new int[0];
+        }
+        if (second == 0) {
+            return new int[] { first };
+        }
+        if (third == 0) {
+            return new int[] { first, second };
+        }
+        return new int[] { first, second, third };
+
+    }
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // public int maximumSum(int[] arr) {
 
