@@ -5632,39 +5632,22 @@ public class LeetCodeText {
         return res;
     }
 
-    // 1773. 统计匹配检索规则的物品数量
+    // 1773. 统计匹配检索规则的物品数量 (Count Items Matching a Rule)
     public int countMatches(List<List<String>> items, String ruleKey, String ruleValue) {
-        int count = 0;
+        Map<String, Integer> map = new HashMap<>();
+        map.put("type", 0);
+        map.put("color", 1);
+        map.put("name", 2);
+
+        int id = map.get(ruleKey);
+        int res = 0;
+
         for (List<String> item : items) {
-            if ("type".equals(ruleKey) && item.get(0).equals(ruleValue)) {
-                ++count;
-            } else if ("color".equals(ruleKey) && item.get(1).equals(ruleValue)) {
-                ++count;
-            } else if ("name".equals(ruleKey) && item.get(2).equals(ruleValue)) {
-                ++count;
+            if (item.get(id).equals(ruleValue)) {
+                ++res;
             }
         }
-        return count;
-
-    }
-
-    // 1773. 统计匹配检索规则的物品数量
-    public int countMatches2(List<List<String>> items, String ruleKey, String ruleValue) {
-        int typeIndex = -1;
-        int count = 0;
-        if ("type".equals(ruleKey)) {
-            typeIndex = 0;
-        } else if ("color".equals(ruleKey)) {
-            typeIndex = 1;
-        } else if ("name".equals(ruleKey)) {
-            typeIndex = 2;
-        }
-        for (List<String> item : items) {
-            if (item.get(typeIndex).equals(ruleValue)) {
-                ++count;
-            }
-        }
-        return count;
+        return res;
 
     }
 
