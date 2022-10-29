@@ -13,6 +13,7 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -5869,6 +5870,67 @@ public class Leetcode_5 {
             return new int[] { first, second };
         }
         return new int[] { first, second, third };
+
+    }
+
+    // 2034. 股票价格波动 (Stock Price Fluctuation)
+    class StockPrice {
+        private Map<Integer, Integer> timePriceMap;
+        private TreeMap<Integer, Integer> countMap;
+        private int currentTimeStamp = -1;
+
+        public StockPrice() {
+            timePriceMap = new HashMap<>();
+            countMap = new TreeMap<>();
+
+        }
+
+        public void update(int timestamp, int price) {
+            if (timestamp > currentTimeStamp) {
+                currentTimeStamp = timestamp;
+            }
+            if (timePriceMap.containsKey(timestamp)) {
+                int originalPrice = timePriceMap.get(timestamp);
+                int count = countMap.get(originalPrice);
+                countMap.put(originalPrice, count - 1);
+                if (countMap.get(originalPrice) == 0) {
+                    countMap.remove(originalPrice);
+                }
+            }
+            timePriceMap.put(timestamp, price);
+            countMap.put(price, countMap.getOrDefault(price, 0) + 1);
+
+        }
+
+        public int current() {
+            return timePriceMap.get(currentTimeStamp);
+
+        }
+
+        public int maximum() {
+            return countMap.lastKey();
+
+        }
+
+        public int minimum() {
+            return countMap.firstKey();
+        }
+    }
+
+    // 1513. 仅含 1 的子串数 (Number of Substrings With Only 1s)
+    public int numSub(String s) {
+        final int mod = (int) (1e9 + 7);
+        long res = 0l;
+        int count = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '1') {
+                ++count;
+            } else {
+                count = 0;
+            }
+            res = (res + count) % mod;
+        }
+        return (int) res;
 
     }
 
