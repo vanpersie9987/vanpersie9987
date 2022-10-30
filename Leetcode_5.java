@@ -5691,7 +5691,6 @@ public class Leetcode_5 {
 
     }
 
-
     // 1664. 生成平衡数组的方案数 (Ways to Make a Fair Array)
     public int waysToMakeFair2(int[] nums) {
         int oddSum = 0;
@@ -5933,6 +5932,193 @@ public class Leetcode_5 {
         return (int) res;
 
     }
+
+    // 6225. 差值数组不同的字符串
+    public String oddString(String[] words) {
+        int n = words.length;
+        int m = words[0].length();
+        for (int j = 1; j < m; ++j) {
+            Map<Integer, Integer> diff = new HashMap<>();
+            for (int i = 0; i < n; ++i) {
+                int d = words[i].charAt(j) - words[i].charAt(j - 1);
+                diff.put(d, diff.getOrDefault(d, 0) + 1);
+            }
+            if (diff.size() == 1) {
+                continue;
+            }
+            int k = 0;
+            for (int key : diff.keySet()) {
+                if (diff.get(key) == 1) {
+                    k = key;
+                    break;
+                }
+            }
+            for (int i = 0; i < n; ++i) {
+                int d = words[i].charAt(j) - words[i].charAt(j - 1);
+                if (d == k) {
+                    return words[i];
+                }
+            }
+        }
+        return "";
+
+    }
+
+    // 6228. 距离字典两次编辑以内的单词
+    public List<String> twoEditWords(String[] queries, String[] dictionary) {
+        List<String> res = new ArrayList<>();
+        for (String query : queries) {
+            if (check6228(query, dictionary)) {
+                res.add(query);
+            }
+        }
+        return res;
+
+    }
+
+    private boolean check6228(String query, String[] dictionary) {
+        search: for (String dic : dictionary) {
+            int count = 0;
+            for (int i = 0; i < dic.length(); ++i) {
+                if (dic.charAt(i) != query.charAt(i)) {
+                    ++count;
+                    if (count > 2) {
+                        continue search;
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    // 6226. 摧毁一系列目标
+    public int destroyTargets(int[] nums, int space) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num % space, map.getOrDefault(num % space, 0) + 1);
+        }
+        int maxSize = 0;
+        int res = Integer.MAX_VALUE;
+        for (int num : nums) {
+            if (map.get(num % space) > maxSize) {
+                maxSize = map.get(num % space);
+                res = num;
+            } else if (map.get(num % space) == maxSize) {
+                res = Math.min(res, num);
+            }
+        }
+        return res;
+
+    }
+
+    // 6220. 可被三整除的偶数的平均值
+    public int averageValue(int[] nums) {
+        int count = 0;
+        int sum = 0;
+        for (int num : nums) {
+            if (num % 6 == 0) {
+                ++count;
+                sum += num;
+            }
+        }
+        if (count == 0) {
+            return 0;
+
+        }
+        return sum / count;
+
+    }
+
+    // 6221. 最流行的视频创作者
+    public List<List<String>> mostPopularCreator(String[] creators, String[] ids, int[] views) {
+        int n = creators.length;
+        Map<String, Integer> map = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            String creator = creators[i];
+            map.put(creator, map.getOrDefault(creator, 0) + views[i]);
+        }
+        int max = Collections.max(map.values());
+        Map<String, Bean6221> countsMap = new HashMap<>();
+        for (String creator : creators) {
+            if (map.get(creator) == max) {
+                countsMap.put(creator, new Bean6221(0, ""));
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            if (countsMap.containsKey(creators[i])) {
+                Bean6221 bean = countsMap.get(creators[i]);
+                if (views[i] > bean.max) {
+                    bean.max = views[i];
+                    bean.ids = ids[i];
+                } else if (views[i] == bean.max) {
+                    if (bean.ids.isEmpty() || ids[i].compareTo(bean.ids) <= 0) {
+                        bean.ids = ids[i];
+                    }
+                }
+            }
+        }
+        List<List<String>> res = new ArrayList<>();
+        for (Map.Entry<String, Bean6221> entry : countsMap.entrySet()) {
+            List<String> list = new ArrayList<>();
+            list.add(entry.getKey());
+            list.add(entry.getValue().ids);
+            res.add(list);
+        }
+        return res;
+
+    }
+
+    class Bean6221 {
+        int max;
+        String ids;
+
+        Bean6221(int max, String ids) {
+            this.max = max;
+            this.ids = ids;
+
+        }
+
+    }
+
+    // 6222. 美丽整数的最小增量
+    public long makeIntegerBeautiful(long n, int target) {
+        int sum = getSum6222(n);
+        if (sum <= target) {
+            return 0l;
+        }
+        long d = 10l;
+        long copy = n;
+        while (true) {
+            long cur = ((copy / d) + 1) * d;
+            if (getSum6222(cur) <= target) {
+                return cur - n;
+            }
+            copy = cur;
+            d *= 10;
+
+        }
+
+    }
+
+    private int getSum6222(long n) {
+        int sum = 0;
+        while (n != 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+
+    // 6227. 下一个更大元素 IV
+    // public int[] secondGreaterElement(int[] nums) {
+
+    // }
+
+    // 6223. 移除子树后的二叉树高度
+    // public int[] treeQueries(TreeNode root, int[] queries) {
+
+    // }
 
     // 1494. 并行课程 II (Parallel Courses II)
     // public int minNumberOfSemesters(int n, int[][] relations, int k) {
