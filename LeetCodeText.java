@@ -16824,8 +16824,30 @@ public class LeetCodeText {
 
     }
 
-    // 784. 字母大小写全排列 (Letter Case Permutation)
+    // 784. 字母大小写全排列 (Letter Case Permutation) --回溯
     public List<String> letterCasePermutation(String s) {
+        List<String> res = new ArrayList<>();
+        dfs784(s.toCharArray(), 0, res);
+        return res;
+
+    }
+
+    private void dfs784(char[] arr, int pos, List<String> res) {
+        while (pos < arr.length && Character.isDigit(arr[pos])) {
+            ++pos;
+        }
+        if (pos == arr.length) {
+            res.add(String.valueOf(arr));
+            return;
+        }
+        arr[pos] ^= 32;
+        dfs784(arr, pos + 1, res);
+        arr[pos] ^= 32;
+        dfs784(arr, pos + 1, res);
+    }
+
+    // 784. 字母大小写全排列 (Letter Case Permutation) --二进制位图
+    public List<String> letterCasePermutation2(String s) {
         List<String> res = new ArrayList<>();
         int count = 0;
         for (char c : s.toCharArray()) {
@@ -16833,26 +16855,60 @@ public class LeetCodeText {
                 ++count;
             }
         }
-        if (count == 0) {
-            res.add(s);
-            return res;
-        }
-        for (int i = (1 << count); i < (1 << (count + 1)); ++i) {
-            String bitMask = Integer.toBinaryString(i).substring(1);
+
+        for (int i = 0; i < (1 << count); ++i) {
             StringBuilder builder = new StringBuilder();
-            int j = 0;
-            for (char c : s.toCharArray()) {
-                if (Character.isLetter(c)) {
-                    if (bitMask.charAt(j++) == '0') {
-                        builder.append(Character.toLowerCase(c));
+            int mask = i;
+            for (int j = 0; j < s.length(); ++j) {
+                if (Character.isLetter(s.charAt(j))) {
+                    if ((mask & 1) == 0) {
+                        builder.append(Character.toUpperCase(s.charAt(j)));
                     } else {
-                        builder.append(Character.toUpperCase(c));
+                        builder.append(Character.toLowerCase(s.charAt(j)));
                     }
+                    mask >>= 1;
                 } else {
-                    builder.append(c);
+                    builder.append(s.charAt(j));
                 }
             }
             res.add(builder.toString());
+        }
+        return res;
+
+    }
+
+    // 784. 字母大小写全排列 (Letter Case Permutation) --bfs
+    public List<String> letterCasePermutation3(String s) {
+        List<String> res = new ArrayList<>();
+        int n = s.length();
+        Queue<StringBuilder> queue = new LinkedList<>();
+        queue.offer(new StringBuilder());
+        search: while (!queue.isEmpty()) {
+            StringBuilder cur = queue.poll();
+            if (cur.length() == n) {
+                res.add(cur.toString());
+                continue;
+            }
+            int index = cur.length();
+            while (index < n) {
+                if (Character.isDigit(s.charAt(index))) {
+                    cur.append(s.charAt(index));
+                    ++index;
+                } else {
+                    StringBuilder builder1 = new StringBuilder(cur);
+                    builder1.append(Character.toUpperCase(s.charAt(index)));
+                    queue.offer(builder1);
+
+                    StringBuilder builder2 = new StringBuilder(cur);
+                    builder2.append(Character.toLowerCase(s.charAt(index)));
+                    queue.offer(builder2);
+
+                    continue search;
+
+                }
+            }
+            queue.offer(new StringBuilder(cur));
+
         }
         return res;
 
