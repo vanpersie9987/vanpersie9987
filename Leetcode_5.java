@@ -6123,7 +6123,7 @@ public class Leetcode_5 {
         }
 
         List<String> res = new ArrayList<>();
-        search: for (Map.Entry<String, PriorityQueue<Integer>> entry : map.entrySet()) {
+        for (Map.Entry<String, PriorityQueue<Integer>> entry : map.entrySet()) {
             PriorityQueue<Integer> time = entry.getValue();
             if (time.size() <= 2) {
                 continue;
@@ -6133,7 +6133,7 @@ public class Leetcode_5 {
             while (!time.isEmpty()) {
                 if (time.peek() - first <= 60) {
                     res.add(entry.getKey());
-                    continue search;
+                    break;
                 }
                 first = second;
                 second = time.poll();
