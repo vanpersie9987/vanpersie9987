@@ -6110,6 +6110,35 @@ public class Leetcode_5 {
         return sum;
     }
 
+
+    // 1604. 警告一小时内使用相同员工卡大于等于三次的人 (Alert Using Same Key-Card Three or More Times in
+    // a One Hour)
+    public List<String> alertNames(String[] keyName, String[] keyTime) {
+        int n = keyName.length;
+        Map<String, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            int h = Integer.parseInt(keyTime[i].substring(0, 2));
+            int m = Integer.parseInt(keyTime[i].substring(3));
+            map.computeIfAbsent(keyName[i], k -> new ArrayList<>()).add(h * 60 + m);
+        }
+
+        List<String> res = new ArrayList<>();
+        search: for (Map.Entry<String, List<Integer>> entry : map.entrySet()) {
+            List<Integer> time = entry.getValue();
+            Collections.sort(time);
+            for (int i = 2; i < time.size(); ++i) {
+                if (time.get(i) - time.get(i - 2) <= 60) {
+                    res.add(entry.getKey());
+                    continue search;
+                }
+            }
+        }
+        Collections.sort(res);
+        return res;
+
+
+    }
+
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
     // public int subarrayBitwiseORs(int[] arr) {
 
