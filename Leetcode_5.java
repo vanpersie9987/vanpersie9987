@@ -6181,6 +6181,34 @@ public class Leetcode_5 {
 
     }
 
+    // 1662. 检查两个字符串数组是否相等 (Check If Two String Arrays are Equivalent)
+    public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
+        int i1 = 0;
+        int i2 = 0;
+        int j1 = 0;
+        int j2 = 0;
+        while (i1 < word1.length && i2 < word2.length) {
+            String w1 = word1[i1];
+            String w2 = word2[i2];
+
+            if (w1.charAt(j1++) != w2.charAt(j2++)) {
+                return false;
+            }
+            if (j1 == w1.length()) {
+                j1 = 0;
+                ++i1;
+            }
+            if (j2 == w2.length()) {
+                j2 = 0;
+                ++i2;
+            }
+
+        }
+        return i1 == word1.length && i2 == word2.length;
+
+
+    }
+
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
     // public int subarrayBitwiseORs(int[] arr) {
 
