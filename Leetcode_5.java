@@ -6115,27 +6115,32 @@ public class Leetcode_5 {
     // a One Hour)
     public List<String> alertNames(String[] keyName, String[] keyTime) {
         int n = keyName.length;
-        Map<String, List<Integer>> map = new HashMap<>();
+        Map<String, PriorityQueue<Integer>> map = new HashMap<>();
         for (int i = 0; i < n; ++i) {
             int h = Integer.parseInt(keyTime[i].substring(0, 2));
             int m = Integer.parseInt(keyTime[i].substring(3));
-            map.computeIfAbsent(keyName[i], k -> new ArrayList<>()).add(h * 60 + m);
+            map.computeIfAbsent(keyName[i], k -> new PriorityQueue<>()).add(h * 60 + m);
         }
 
         List<String> res = new ArrayList<>();
-        search: for (Map.Entry<String, List<Integer>> entry : map.entrySet()) {
-            List<Integer> time = entry.getValue();
-            Collections.sort(time);
-            for (int i = 2; i < time.size(); ++i) {
-                if (time.get(i) - time.get(i - 2) <= 60) {
+        search: for (Map.Entry<String, PriorityQueue<Integer>> entry : map.entrySet()) {
+            PriorityQueue<Integer> time = entry.getValue();
+            if (time.size() <= 2) {
+                continue;
+            }
+            int first = time.poll();
+            int second = time.poll();
+            while (!time.isEmpty()) {
+                if (time.peek() - first <= 60) {
                     res.add(entry.getKey());
                     continue search;
                 }
+                first = second;
+                second = time.poll();
             }
         }
         Collections.sort(res);
         return res;
-
 
     }
 
