@@ -6144,6 +6144,28 @@ public class Leetcode_5 {
 
     }
 
+    // 1573. 分割字符串的方案数 (Number of Ways to Split a String)
+    public int numWays(String s) {
+        List<Integer> indexes = new ArrayList<>();
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) == '1') {
+                indexes.add(i);
+            }
+        }
+        if (indexes.size() % 3 != 0) {
+            return 0;
+        }
+        final int mod = (int) (1e9 + 7);
+        if (indexes.size() == 0) {
+            return (int) (((long) s.length() - 1) * (s.length() - 2) / 2 % mod);
+        }
+        int index1 = indexes.size() / 3;
+        int index2 = indexes.size() / 3 * 2;
+        return (int) (((long) indexes.get(index1) - indexes.get(index1 - 1))
+                * (indexes.get(index2) - indexes.get(index2 - 1)) % mod);
+
+    }
+
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
     // public int subarrayBitwiseORs(int[] arr) {
 
