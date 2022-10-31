@@ -6146,23 +6146,38 @@ public class Leetcode_5 {
 
     // 1573. 分割字符串的方案数 (Number of Ways to Split a String)
     public int numWays(String s) {
-        List<Integer> indexes = new ArrayList<>();
-        for (int i = 0; i < s.length(); ++i) {
-            if (s.charAt(i) == '1') {
-                indexes.add(i);
-            }
+        int n = s.length();
+        int countOne = 0;
+        for (int i = 0; i < n; ++i) {
+            countOne += s.charAt(i) - '0';
         }
-        if (indexes.size() % 3 != 0) {
+        if (countOne % 3 != 0) {
             return 0;
         }
         final int mod = (int) (1e9 + 7);
-        if (indexes.size() == 0) {
-            return (int) (((long) s.length() - 1) * (s.length() - 2) / 2 % mod);
+        if (countOne == 0) {
+            return (int) (((long) n - 1) * (n - 2) / 2 % mod);
         }
-        int index1 = indexes.size() / 3;
-        int index2 = indexes.size() / 3 * 2;
-        return (int) (((long) indexes.get(index1) - indexes.get(index1 - 1))
-                * (indexes.get(index2) - indexes.get(index2 - 1)) % mod);
+        int count1 = -1;
+        int count2 = -1;
+        int count = 0;
+        for (int i = 0; i < n; ++i) {
+            if (s.charAt(i) == '1') {
+                ++count;
+                if (count == countOne / 3) {
+                    count1 = i;
+                } else if (count == countOne / 3 + 1) {
+                    count1 = i - count1;
+                }
+                if (count == countOne / 3 * 2) {
+                    count2 = i;
+                } else if (count == countOne / 3 * 2 + 1) {
+                    count2 = i - count2;
+                    break;
+                }
+            }
+        }
+        return (int) ((long) count1 * count2 % mod);
 
     }
 
