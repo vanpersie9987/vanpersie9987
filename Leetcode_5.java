@@ -6110,6 +6110,16 @@ public class Leetcode_5 {
         return sum;
     }
 
+    // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
+    // public int subarrayBitwiseORs(int[] arr) {
+
+    // }
+
+    // 966. 元音拼写检查器 (Vowel Spellchecker)
+    // public String[] spellchecker(String[] wordlist, String[] queries) {
+
+    // }
+
     // 6227. 下一个更大元素 IV
     // public int[] secondGreaterElement(int[] nums) {
 
