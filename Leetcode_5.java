@@ -6295,6 +6295,36 @@ public class Leetcode_5 {
 
     }
 
+    // 1705. 吃苹果的最大数目 (Maximum Number of Eaten Apples)
+    public int eatenApples(int[] apples, int[] days) {
+        int res = 0;
+        // int[0] ：过期时间 ； int[1] ：腐烂苹果的数量
+        Queue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+
+        });
+        int d = 0;
+
+        while (d < apples.length || !queue.isEmpty()) {
+            if (d < apples.length && apples[d] > 0) {
+                queue.offer(new int[] { d + days[d], apples[d] });
+            }
+            while (!queue.isEmpty() && (queue.peek()[0] <= d || queue.peek()[1] == 0)) {
+                queue.poll();
+            }
+            if (!queue.isEmpty()) {
+                --queue.peek()[1];
+                ++res;
+            }
+            ++d;
+        }
+        return res;
+    }
+
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
     // public int subarrayBitwiseORs(int[] arr) {
 
