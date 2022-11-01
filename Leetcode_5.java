@@ -6270,6 +6270,31 @@ public class Leetcode_5 {
 
     }
 
+    // 1946. 子字符串突变后可能得到的最大整数 (Largest Number After Mutating Substring)
+    public String maximumNumber(String num, int[] change) {
+        char[] chars = num.toCharArray();
+        int n = chars.length;
+        int i = 0;
+        while (i < n) {
+            int cur = chars[i] - '0';
+            if (cur < change[cur]) {
+                break;
+            }
+            ++i;
+        }
+
+        while (i < n) {
+            int cur = chars[i] - '0';
+            if (cur > change[cur]) {
+                break;
+            }
+            chars[i] = (char) (change[cur] + '0');
+            ++i;
+        }
+        return String.valueOf(chars);
+
+    }
+
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
     // public int subarrayBitwiseORs(int[] arr) {
 
