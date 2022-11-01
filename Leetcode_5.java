@@ -6253,6 +6253,23 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 1968. 构造元素不等于两相邻元素平均值的数组 (Array With Elements Not Equal to Average of
+    // Neighbors)
+    public int[] rearrangeArray(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        int[] res = new int[n];
+        for (int i = 0; i < (n + 1) / 2; ++i) {
+            res[i * 2] = nums[i];
+            if (i * 2 + 1 < n) {
+                res[i * 2 + 1] = nums[(n + 1) / 2 + i];
+            }
+
+        }
+        return res;
+
+    }
+
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
     // public int subarrayBitwiseORs(int[] arr) {
 
