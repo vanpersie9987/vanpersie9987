@@ -6325,6 +6325,48 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 给定一个只由小写字母和数字组成的字符串，要求子串必须只有一个小写字母，求这样的子串的最大长度
+    public int getMaxLengthWithOneLetter(String s) {
+        List<Integer> list = new ArrayList<>();
+        int n = s.length();
+        list.add(-1);
+        for (int i = 0; i < n; ++i) {
+            if (Character.isLetter(s.charAt(i))) {
+                list.add(i);
+            }
+        }
+        list.add(n);
+        int res = 0;
+        for (int i = 2; i < list.size(); ++i) {
+            res = Math.max(res, list.get(i) - list.get(i - 2) - 1);
+        }
+        return res;
+    }
+
+    // 给定一个只由小写字母和数字组成的字符串，要求子串必须「最多」只有一个小写字母，求这样的子串的最大长度
+    public int getMaxLengthWithMostOneLetter(String s) {
+        int n = s.length();
+        int left = 0;
+        int right = 0;
+        int letterCount = 0;
+        int res = 0;
+        while (right < n) {
+            if (Character.isLetter(s.charAt(right))) {
+                ++letterCount;
+            }
+            while (letterCount >= 2) {
+                if (Character.isLetter(s.charAt(left))) {
+                    --letterCount;
+                }
+                ++left;
+            }
+            res = Math.max(res, right - left + 1);
+            ++right;
+        }
+        return res;
+
+    }
+
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
     // public int subarrayBitwiseORs(int[] arr) {
 
