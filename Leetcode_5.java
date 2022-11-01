@@ -6233,6 +6233,26 @@ public class Leetcode_5 {
 
     }
 
+    // 2012. 数组美丽值求和 (Sum of Beauty in the Array)
+    public int sumOfBeauties2(int[] nums) {
+        int n = nums.length;
+        int[] left = new int[n];
+        for (int i = 1; i < n; ++i) {
+            left[i] = Math.max(left[i - 1], nums[i - 1]);
+        }
+        int res = 0;
+        int rightMin = Integer.MAX_VALUE;
+        for (int i = n - 2; i >= 1; --i) {
+            rightMin = Math.min(rightMin, nums[i + 1]);
+            if (left[i] < nums[i] && nums[i] < rightMin) {
+                res += 2;
+            } else if (nums[i - 1] < nums[i] && nums[i] < nums[i + 1]) {
+                res += 1;
+            }
+        }
+        return res;
+    }
+
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
     // public int subarrayBitwiseORs(int[] arr) {
 
