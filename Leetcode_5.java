@@ -6489,6 +6489,11 @@ public class Leetcode_5 {
             if ((num == 0 && counts[num] % 2 == 1) || num * 2 >= counts.length || counts[num * 2] == 0) {
                 return new int[0];
             }
+            if (num == 0 && counts[num] % 2 == 0) {
+                i += counts[num] / 2;
+                counts[num] = 0;
+                continue;
+            }
             res[i++] = num;
             --counts[num];
             --counts[num * 2];
