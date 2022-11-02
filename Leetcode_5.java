@@ -6367,13 +6367,62 @@ public class Leetcode_5 {
 
     }
 
+    // 966. 元音拼写检查器 (Vowel Spellchecker)
+    public String[] spellchecker(String[] wordlist, String[] queries) {
+        Set<String> set = new HashSet<>();
+        Map<String, Integer> capMapToIndex = new HashMap<>();
+        Map<String, Integer> vowMapToIndex = new HashMap<>();
+        for (int i = 0; i < wordlist.length; ++i) {
+            String word = wordlist[i];
+            set.add(word);
+            String lowerStr = word.toLowerCase();
+            if (!capMapToIndex.containsKey(lowerStr)) {
+                capMapToIndex.put(lowerStr, i);
+            }
+            char[] chars = lowerStr.toCharArray();
+            for (int j = 0; j < chars.length; ++j) {
+                if (checkVowel(chars[j])) {
+                    chars[j] = '_';
+                }
+            }
+            String vowString = String.valueOf(chars);
+            if (!vowMapToIndex.containsKey(vowString)) {
+                vowMapToIndex.put(vowString, i);
+            }
+        }
+        for (int i = 0; i < queries.length; ++i) {
+            String query = queries[i];
+            if (set.contains(query)) {
+                continue;
+            }
+            String lowerQuery = query.toLowerCase();
+            if (capMapToIndex.containsKey(lowerQuery)) {
+                queries[i] = wordlist[capMapToIndex.get(lowerQuery)];
+            } else {
+                char[] chars = lowerQuery.toCharArray();
+                for (int j = 0; j < chars.length; ++j) {
+                    if (checkVowel(chars[j])) {
+                        chars[j] = '_';
+                    }
+                }
+                String vowQuery = String.valueOf(chars);
+                if (vowMapToIndex.containsKey(vowQuery)) {
+                    queries[i] = wordlist[vowMapToIndex.get(vowQuery)];
+                } else {
+                    queries[i] = "";
+                }
+            }
+        }
+        return queries;
+
+    }
+
+    private boolean checkVowel(char c) {
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+    }
+
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
     // public int subarrayBitwiseORs(int[] arr) {
-
-    // }
-
-    // 966. 元音拼写检查器 (Vowel Spellchecker)
-    // public String[] spellchecker(String[] wordlist, String[] queries) {
 
     // }
 
