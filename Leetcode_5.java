@@ -6376,9 +6376,8 @@ public class Leetcode_5 {
             String word = wordlist[i];
             set.add(word);
             String lowerStr = word.toLowerCase();
-            if (!capMapToIndex.containsKey(lowerStr)) {
-                capMapToIndex.put(lowerStr, i);
-            }
+            capMapToIndex.putIfAbsent(lowerStr, i);
+            
             char[] chars = lowerStr.toCharArray();
             for (int j = 0; j < chars.length; ++j) {
                 if (checkVowel(chars[j])) {
@@ -6386,31 +6385,32 @@ public class Leetcode_5 {
                 }
             }
             String vowString = String.valueOf(chars);
-            if (!vowMapToIndex.containsKey(vowString)) {
-                vowMapToIndex.put(vowString, i);
-            }
+            vowMapToIndex.putIfAbsent(vowString, i);
+
         }
         for (int i = 0; i < queries.length; ++i) {
             String query = queries[i];
             if (set.contains(query)) {
                 continue;
             }
+
             String lowerQuery = query.toLowerCase();
             if (capMapToIndex.containsKey(lowerQuery)) {
                 queries[i] = wordlist[capMapToIndex.get(lowerQuery)];
+                continue;
+            }
+            
+            char[] chars = lowerQuery.toCharArray();
+            for (int j = 0; j < chars.length; ++j) {
+                if (checkVowel(chars[j])) {
+                    chars[j] = '_';
+                }
+            }
+            String vowQuery = String.valueOf(chars);
+            if (vowMapToIndex.containsKey(vowQuery)) {
+                queries[i] = wordlist[vowMapToIndex.get(vowQuery)];
             } else {
-                char[] chars = lowerQuery.toCharArray();
-                for (int j = 0; j < chars.length; ++j) {
-                    if (checkVowel(chars[j])) {
-                        chars[j] = '_';
-                    }
-                }
-                String vowQuery = String.valueOf(chars);
-                if (vowMapToIndex.containsKey(vowQuery)) {
-                    queries[i] = wordlist[vowMapToIndex.get(vowQuery)];
-                } else {
-                    queries[i] = "";
-                }
+                queries[i] = "";
             }
         }
         return queries;
