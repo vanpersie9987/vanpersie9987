@@ -6191,23 +6191,6 @@ public class LeetCodeText {
         return r - l - 1;
     }
 
-    public String intToRoman3(int num) {
-        final StringBuilder builder = new StringBuilder();
-        final int[] numbers = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
-        final String[] chars = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
-        for (int i = 0; i < numbers.length; ++i) {
-            while (num >= numbers[i]) {
-                builder.append(chars[i]);
-                num -= numbers[i];
-            }
-            if (num == 0) {
-                break;
-            }
-        }
-        return builder.toString();
-
-    }
-
     public int romanToInt(final String s) {
         int res = 0;
         int preNum = getValue(s.charAt(0));
