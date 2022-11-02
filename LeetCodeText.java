@@ -6054,56 +6054,30 @@ public class LeetCodeText {
         return r - l - 1;
     }
 
-    public String convert(final String s, final int numRows) {
-        if (numRows == 0) {
-            return "";
-        }
-        if (s == null || numRows == 1 || s.length() <= numRows) {
+    // 6. Z 字形变换 (Zigzag Conversion)
+    public String convert(String s, int numRows) {
+        if (numRows <= 1) {
             return s;
         }
-        final StringBuilder builder = new StringBuilder();
-        // 第0行
-        for (int i = 0; i < s.length(); i += (numRows - 1) * 2) {
-            builder.append(s.charAt(i));
-        }
-        // 第1行 ~ 第n-1行
-        for (int i = 1; i < numRows - 1; ++i) {
-            builder.append(s.charAt(i));
-            int j = i + (numRows - 1) * 2 - i * 2;
-            while (j < s.length()) {
-                builder.append(s.charAt(j));
-                j += i * 2;
-                if (j < s.length()) {
-                    builder.append(s.charAt(j));
-                } else {
-                    break;
-                }
-                j += (numRows - 1) * 2 - i * 2;
-            }
-        }
-        // 第n行
-        for (int i = numRows - 1; i < s.length(); i += (numRows - 1) * 2) {
-            builder.append(s.charAt(i));
-        }
-        return builder.toString();
-
-    }
-
-    public String convert2(final String s, final int numRows) {
-        if (numRows == 1) {
-            return s;
-        }
-        final StringBuilder builder = new StringBuilder();
-        final int cycleLen = (numRows - 1) * 2;
+        List<StringBuilder> list = new ArrayList<>();
         for (int i = 0; i < numRows; ++i) {
-            for (int j = 0; j + i < s.length(); j += cycleLen) {
-                builder.append(s.charAt(j + i));
-                if (i != 0 && i != numRows - 1 && j + cycleLen - i < s.length()) {
-                    builder.append(s.charAt(j + cycleLen - i));
-                }
-            }
+            list.add(new StringBuilder());
         }
-        return builder.toString();
+        int flag = -1;
+        int index = 0;
+        int rowIndex = 0;
+        while (index < s.length()) {
+            list.get(rowIndex).append(s.charAt(index++));
+            if (rowIndex == 0 || rowIndex == numRows - 1) {
+                flag = -flag;
+            }
+            rowIndex += flag;
+        }
+        StringBuilder res = new StringBuilder();
+        for (StringBuilder row : list) {
+            res.append(row);
+        }
+        return res.toString();
 
     }
 
