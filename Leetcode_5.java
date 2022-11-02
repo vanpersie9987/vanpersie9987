@@ -6478,7 +6478,7 @@ public class Leetcode_5 {
         int[] res = new int[n / 2];
         int i = 0;
         Arrays.sort(changed);
-        int[] counts = new int[changed[n - 1] * 2 + 1];
+        int[] counts = new int[changed[n - 1] + 1];
         for (int num : changed) {
             ++counts[num];
         }
@@ -6486,7 +6486,7 @@ public class Leetcode_5 {
             if (counts[num] == 0) {
                 continue;
             }
-            if (counts[num * 2] == 0 || (num == 0 && counts[num] % 2 == 1)) {
+            if ((num == 0 && counts[num] % 2 == 1) || num * 2 >= counts.length || counts[num * 2] == 0) {
                 return new int[0];
             }
             res[i++] = num;
