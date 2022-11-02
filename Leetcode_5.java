@@ -6469,6 +6469,37 @@ public class Leetcode_5 {
         return count == 4 ? sum : -1;
     }
 
+    // 2007. 从双倍数组中还原原数组 (Find Original Array From Doubled Array)
+    public int[] findOriginalArray(int[] changed) {
+        int n = changed.length;
+        if (n % 2 == 1) {
+            return new int[0];
+        }
+        int[] res = new int[n / 2];
+        int i = 0;
+        Arrays.sort(changed);
+        int[] counts = new int[changed[n - 1] * 2 + 1];
+        for (int num : changed) {
+            ++counts[num];
+        }
+        for (int num : changed) {
+            if (counts[num] == 0) {
+                continue;
+            }
+            if (counts[num * 2] == 0 || (num == 0 && counts[num] % 2 == 1)) {
+                return new int[0];
+            }
+            res[i++] = num;
+            --counts[num];
+            --counts[num * 2];
+            if (i == n / 2) {
+                break;
+            }
+        }
+        return res;
+
+    }
+
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
     // public int subarrayBitwiseORs(int[] arr) {
 
