@@ -6399,7 +6399,7 @@ public class Leetcode_5 {
                 queries[i] = wordlist[capMapToIndex.get(lowerQuery)];
                 continue;
             }
-            
+
             char[] chars = lowerQuery.toCharArray();
             for (int j = 0; j < chars.length; ++j) {
                 if (checkVowel(chars[j])) {
@@ -6419,6 +6419,54 @@ public class Leetcode_5 {
 
     private boolean checkVowel(char c) {
         return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+    }
+
+    // 1390. 四因数 (Four Divisors)
+    public int sumFourDivisors(int[] nums) {
+        int max = 0;
+        for (int num : nums) {
+            max = Math.max(max, num);
+        }
+        int[] arr = new int[max + 1];
+        int res = 0;
+        for (int num : nums) {
+            if (arr[num] == -1) {
+                continue;
+            }
+            if (arr[num] > 0) {
+                res += arr[num];
+                continue;
+            }
+            int sum = check1390(num);
+            arr[num] = sum;
+            if (arr[num] > 0) {
+                res += sum;
+            }
+        }
+        return res;
+
+    }
+
+    private int check1390(int num) {
+        int count = 0;
+        int sum = 0;
+        int i = 1;
+        while (i * i <= num) {
+            if (num % i == 0) {
+                if (++count > 4) {
+                    return -1;
+                }
+                sum += i;
+                if (num / i != i) {
+                    if (++count > 4) {
+                        return -1;
+                    }
+                    sum += num / i;
+                }
+            }
+            ++i;
+        }
+        return count == 4 ? sum : -1;
     }
 
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
