@@ -7470,25 +7470,20 @@ public class LeetCode_2 {
 
    // 1620. 网络信号最好的坐标 (Coordinate With Maximum Network Quality)
    public int[] bestCoordinate(int[][] towers, int radius) {
-      int[] res = new int[2];
+      int[] res = new int[] { 0, 0 };
       int max = 0;
-      for (int i = 0; i < 51; ++i) {
-         for (int j = 0; j < 51; ++j) {
+      for (int i = 0; i <= 50; ++i) {
+         for (int j = 0; j <= 50; ++j) {
             int cur = 0;
-            int x1 = i;
-            int y1 = j;
             for (int[] tower : towers) {
-               int x2 = tower[0];
-               int y2 = tower[1];
-               double distance = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
-               if (distance <= radius) {
-                  cur += tower[2] / (1 + distance);
+               int dis = (tower[0] - i) * (tower[0] - i) + (tower[1] - j) * (tower[1] - j);
+               if (dis <= radius * radius) {
+                  cur += tower[2] / (1 + Math.sqrt(dis));
                }
             }
             if (cur > max) {
                max = cur;
-               res[0] = i;
-               res[1] = j;
+               res = new int[] { i, j };
             }
          }
       }
