@@ -6191,24 +6191,6 @@ public class LeetCodeText {
         return r - l - 1;
     }
 
-    public String convert3(final String s, final int numRows) {
-        if (s == null || numRows == 1 || s.length() <= numRows) {
-            return s;
-        }
-        final int cycleLen = (numRows - 1) * 2;
-        final StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < numRows; ++i) {
-            for (int j = 0; j + i < s.length(); j += cycleLen) {
-                builder.append(s.charAt(j + i));
-                if (i != 0 && i != numRows - 1 && j + cycleLen - i < s.length()) {
-                    builder.append(s.charAt(j + cycleLen - i));
-                }
-            }
-        }
-        return builder.toString();
-
-    }
-
     public String intToRoman3(int num) {
         final StringBuilder builder = new StringBuilder();
         final int[] numbers = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
