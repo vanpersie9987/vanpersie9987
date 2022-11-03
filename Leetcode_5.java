@@ -6525,6 +6525,30 @@ public class Leetcode_5 {
 
     }
 
+    // LCP 68. 美观的花束
+    public int beautifulBouquet(int[] flowers, int cnt) {
+        int n = flowers.length;
+        int max = 0;
+        for (int flower : flowers) {
+            max = Math.max(max, flower);
+        }
+        int[] counts = new int[max + 1];
+        int left = 0;
+        int right = 0;
+        long res = 0l;
+        final int mod = (int) (1e9 + 7);
+        while (right < n) {
+            ++counts[flowers[right]];
+            while (counts[flowers[right]] > cnt) {
+                --counts[flowers[left++]];
+            }
+            res = (res + right - left + 1) % mod;
+            ++right;
+        }
+        return (int) (res % mod);
+
+    }
+
     // 2157. 字符串分组 (Groups of Strings)
     // public int[] groupStrings(String[] words) {
 
