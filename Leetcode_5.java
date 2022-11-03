@@ -6549,10 +6549,60 @@ public class Leetcode_5 {
 
     }
 
-    // 2157. 字符串分组 (Groups of Strings)
-    // public int[] groupStrings(String[] words) {
+    // 2157. 字符串分组 (Groups of Strings) --bfs + 状态压缩
+    public int[] groupStrings(String[] words) {
+        Map<Integer, Integer> counts = new HashMap<>();
+        for (String word : words) {
+            int mask = 0;
+            for (char c : word.toCharArray()) {
+                mask |= 1 << (c - 'a');
+            }
+            counts.put(mask, counts.getOrDefault(mask, 0) + 1);
+        }
+        Set<Integer> visited = new HashSet<>();
+        Queue<Integer> queue = new LinkedList<>();
+        int max = 0;
+        int groups = 0;
+        for (Map.Entry<Integer, Integer> entry : counts.entrySet()) {
+            if (visited.contains(entry.getKey())) {
+                continue;
+            }
+            int curTotal = entry.getValue();
+            queue.offer(entry.getKey());
+            visited.add(entry.getKey());
+            while (!queue.isEmpty()) {
+                int cur = queue.poll();
+                for (int neighbor : getNeighbors2157(cur)) {
+                    if (counts.containsKey(neighbor) && !visited.contains(neighbor)) {
+                        curTotal += counts.get(neighbor);
+                        visited.add(neighbor);
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+            max = Math.max(max, curTotal);
+            ++groups;
+        }
+        return new int[] { groups, max };
 
-    // }
+    }
+
+    private List<Integer> getNeighbors2157(int mask) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < 26; ++i) {
+            res.add(mask ^ (1 << i));
+        }
+        for (int i = 0; i < 26; ++i) {
+            if ((mask & (1 << i)) == 0) {
+                for (int j = 0; j < 26; ++j) {
+                    if ((mask & (1 << j)) != 0) {
+                        res.add(mask ^ (1 << i) ^ (1 << j));
+                    }
+                }
+            }
+        }
+        return res;
+    }
 
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
     // public int subarrayBitwiseORs(int[] arr) {
