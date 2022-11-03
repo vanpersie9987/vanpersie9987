@@ -6505,6 +6505,31 @@ public class Leetcode_5 {
 
     }
 
+    // 686. 重复叠加字符串匹配 (Repeated String Match)
+    public int repeatedStringMatch(String a, String b) {
+        int res = 1;
+        StringBuilder builder = new StringBuilder(a);
+        while (builder.length() < b.length()) {
+            builder.append(a);
+            ++res;
+        }
+        if (builder.toString().indexOf(b) != -1) {
+            return res;
+        }
+        builder.append(a);
+        ++res;
+        if (builder.toString().indexOf(b) != -1) {
+            return res;
+        }
+        return -1;
+
+    }
+
+    // 2157. 字符串分组 (Groups of Strings)
+    // public int[] groupStrings(String[] words) {
+
+    // }
+
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
     // public int subarrayBitwiseORs(int[] arr) {
 
