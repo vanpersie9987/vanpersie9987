@@ -6750,6 +6750,25 @@ public class Leetcode_5 {
         }
     }
 
+    // 1124. 表现良好的最长时间段 (Longest Well-Performing Interval)
+    public int longestWPI(int[] hours) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int n = hours.length;
+        int prefix = 0;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            prefix += hours[i] > 8 ? 1 : -1;
+            if (prefix > 0) {
+                res = Math.max(res, i + 1);
+            } else if (map.containsKey(prefix - 1)) {
+                res = Math.max(res, i - map.get(prefix - 1));
+            }
+            map.putIfAbsent(prefix, i);
+        }
+        return res;
+
+    }
+
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
     // public int subarrayBitwiseORs(int[] arr) {
 
