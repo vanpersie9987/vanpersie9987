@@ -14218,7 +14218,7 @@ public class LeetCodeText {
         return ans;
     }
 
-    // 1106. 解析布尔表达式
+    // 1106. 解析布尔表达式 (Parsing A Boolean Expression)
     public boolean parseBoolExpr(String expression) {
         Stack<Character> stack = new Stack<>();
         for (char c : expression.toCharArray()) {
@@ -14264,6 +14264,62 @@ public class LeetCodeText {
         else {
             return subStack.pop() == 't' ? 'f' : 't';
         }
+    }
+
+    // 1106. 解析布尔表达式 (Parsing A Boolean Expression)
+    public boolean parseBoolExpr2(String expression) {
+        int n = expression.length();
+        char c = expression.charAt(0);
+        if ('t' == c) {
+            return true;
+        }
+        if ('f' == c) {
+            return false;
+        }
+        String sub = expression.substring(2, n - 1);
+        if (c == '!') {
+            return !parseBoolExpr(sub);
+        }
+
+        List<String> items = getItems1106(sub);
+        if (c == '&') {
+            for (String item : items) {
+                if (!parseBoolExpr(item)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        for (String item : items) {
+            if (parseBoolExpr(item)) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    private List<String> getItems1106(String s) {
+        List<String> res = new ArrayList<>();
+        int n = s.length();
+        int i = 0;
+        int j = 0;
+        int balance = 0;
+        while (j < n) {
+            char c = s.charAt(j);
+            if (c == ',' && balance == 0) {
+                res.add(s.substring(i, j));
+                i = j + 1;
+            } else if (c == '(') {
+                ++balance;
+            } else if (c == ')') {
+                --balance;
+            }
+            ++j;
+        }
+        res.add(s.substring(i, j));
+        return res;
     }
 
     // 1704. 判断字符串的两半是否相似 (Determine if String Halves Are Alike)

@@ -4556,7 +4556,8 @@ public class Leetcode_5 {
         }
     }
 
-    // 2334. 元素值大于变化阈值的子数组 (Subarray With Elements Greater Than Varying Threshold) --并查集
+    // 2334. 元素值大于变化阈值的子数组 (Subarray With Elements Greater Than Varying Threshold)
+    // --并查集
     public int validSubarraySize(int[] nums, int threshold) {
         int n = nums.length;
         UnionFind2334 union = new UnionFind2334(n + 1);
@@ -5170,7 +5171,7 @@ public class Leetcode_5 {
     public int maxSumMinProduct(int[] nums) {
         final int mod = (int) (1e9 + 7);
         int n = nums.length;
-        // right[i] = j 表示 ：位置 i 的右侧中， 比 nums[i] 小、而且离 i 最近的 nums[j] 的位置 j，若不存在 ，则为 n 
+        // right[i] = j 表示 ：位置 i 的右侧中， 比 nums[i] 小、而且离 i 最近的 nums[j] 的位置 j，若不存在 ，则为 n
         int[] right = new int[n];
         Arrays.fill(right, n);
         Stack<Integer> stack = new Stack<>();
@@ -6110,7 +6111,6 @@ public class Leetcode_5 {
         return sum;
     }
 
-
     // 1604. 警告一小时内使用相同员工卡大于等于三次的人 (Alert Using Same Key-Card Three or More Times in
     // a One Hour)
     public List<String> alertNames(String[] keyName, String[] keyTime) {
@@ -6377,7 +6377,7 @@ public class Leetcode_5 {
             set.add(word);
             String lowerStr = word.toLowerCase();
             capMapToIndex.putIfAbsent(lowerStr, i);
-            
+
             char[] chars = lowerStr.toCharArray();
             for (int j = 0; j < chars.length; ++j) {
                 if (checkVowel(chars[j])) {
