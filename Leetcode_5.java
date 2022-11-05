@@ -6604,6 +6604,34 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 1234. 替换子串得到平衡字符串 (Replace the Substring for Balanced String) --滑动窗口
+    public int balancedString(String s) {
+        int n = s.length();
+        int[] counts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++counts[c - 'A'];
+        }
+        int per = n / 4;
+        int l = 0;
+        int r = 0;
+        int res = n;
+        while (r < n) {
+            --counts[s.charAt(r) - 'A'];
+            while (l < n
+                    && counts['Q' - 'A'] <= per
+                    && counts['W' - 'A'] <= per
+                    && counts['E' - 'A'] <= per
+                    && counts['R' - 'A'] <= per) {
+                res = Math.min(res, r - l + 1);
+                ++counts[s.charAt(l) - 'A'];
+                ++l;
+            }
+            ++r;
+        }
+        return res;
+
+    }
+
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
     // public int subarrayBitwiseORs(int[] arr) {
 
