@@ -6769,6 +6769,11 @@ public class Leetcode_5 {
 
     }
 
+    // 1288. 删除被覆盖区间 (Remove Covered Intervals)
+    // public int removeCoveredIntervals(int[][] intervals) {
+
+    // }
+
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
     // public int subarrayBitwiseORs(int[] arr) {
 
