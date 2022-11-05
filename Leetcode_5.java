@@ -6632,6 +6632,72 @@ public class Leetcode_5 {
 
     }
 
+    // 1895. 最大的幻方 (Largest Magic Square)
+    public int largestMagicSquare(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] prefixRow = new int[m][n + 1];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 1; j < n + 1; ++j) {
+                prefixRow[i][j] = prefixRow[i][j - 1] + grid[i][j - 1];
+            }
+        }
+        int[][] prefixCol = new int[m + 1][n];
+        for (int j = 0; j < n; ++j) {
+            for (int i = 1; i < m + 1; ++i) {
+                prefixCol[i][j] = prefixCol[i - 1][j] + grid[i - 1][j];
+            }
+        }
+        // main diagonal
+        int[][] mainDiagonal = new int[m + 1][n + 1];
+        for (int i = 1; i < m + 1; ++i) {
+            for (int j = 1; j < n + 1; ++j) {
+                mainDiagonal[i][j] = mainDiagonal[i - 1][j - 1] + grid[i - 1][j - 1];
+            }
+        }
+
+        // counter diagonal
+        // int[][] counterDiagonal = new int[m + 1][n + 1];
+        // for (int i = 1; i < m + 1; ++i) {
+        // for (int j = n - 2; j >= 0; --j) {
+        // counterDiagonal[i][j] = counterDiagonal[i - 1][j + 1] + grid[i - 1][j + 1];
+        // }
+        // }
+
+        for (int side = Math.min(m, n); side >= 2; --side) {
+            for (int i = 0; i + side - 1 < m; ++i) {
+                search: for (int j = 0; j + side - 1 < n; ++j) {
+                    int val = prefixRow[i][j + side] - prefixRow[i][j];
+                    for (int x = i + 1; x < i + side; ++x) {
+                        if (prefixRow[x][j + side] - prefixRow[x][j] != val) {
+                            continue search;
+                        }
+                    }
+                    for (int y = j; y < j + side; ++y) {
+                        if (prefixCol[i + side][y] - prefixCol[i][y] != val) {
+                            continue search;
+                        }
+                    }
+                    if (mainDiagonal[i + side][j + side] - mainDiagonal[i][j] != val) {
+                        continue search;
+                    }
+                    int counterSum = 0;
+                    int y = j + side - 1;
+                    for (int x = i; x < i + side; ++x) {
+                        counterSum += grid[x][y];
+                        --y;
+                    }
+                    if (counterSum != val) {
+                        continue search;
+                    }
+                    return side;
+                }
+            }
+        }
+        return 1;
+
+    }
+
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
     // public int subarrayBitwiseORs(int[] arr) {
 
