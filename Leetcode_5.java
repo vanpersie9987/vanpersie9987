@@ -6656,14 +6656,6 @@ public class Leetcode_5 {
             }
         }
 
-        // counter diagonal
-        // int[][] counterDiagonal = new int[m + 1][n + 1];
-        // for (int i = 1; i < m + 1; ++i) {
-        // for (int j = n - 2; j >= 0; --j) {
-        // counterDiagonal[i][j] = counterDiagonal[i - 1][j + 1] + grid[i - 1][j + 1];
-        // }
-        // }
-
         for (int side = Math.min(m, n); side >= 2; --side) {
             for (int i = 0; i + side - 1 < m; ++i) {
                 search: for (int j = 0; j + side - 1 < n; ++j) {
