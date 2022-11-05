@@ -6769,6 +6769,25 @@ public class Leetcode_5 {
 
     }
 
+    // 1678. 设计 Goal 解析器 (Goal Parser Interpretation)
+    public String interpret(String command) {
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < command.length(); ++i) {
+            char c = command.charAt(i);
+            if (c == 'G') {
+                res.append(c);
+            } else if (c == ')') {
+                if (command.charAt(i - 1) == '(') {
+                    res.append('o');
+                } else {
+                    res.append("al");
+                }
+            }
+        }
+        return res.toString();
+
+    }
+
     // 1288. 删除被覆盖区间 (Remove Covered Intervals)
     // public int removeCoveredIntervals(int[][] intervals) {
 
