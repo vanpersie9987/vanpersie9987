@@ -6690,6 +6690,66 @@ public class Leetcode_5 {
 
     }
 
+    // 981. 基于时间的键值存储 (Time Based Key-Value Store) --二分查找
+    class TimeMap {
+        class Bean {
+            String value;
+            int timeStamp;
+
+            Bean(String value, int timeStamp) {
+                this.value = value;
+                this.timeStamp = timeStamp;
+
+            }
+        }
+
+        private Map<String, List<Bean>> map;
+
+        public TimeMap() {
+            map = new HashMap<>();
+        }
+
+        public void set(String key, String value, int timestamp) {
+            map.computeIfAbsent(key, k -> new ArrayList<>()).add(new Bean(value, timestamp));
+        }
+
+        public String get(String key, int timestamp) {
+            if (!map.containsKey(key)) {
+                return "";
+            }
+            List<Bean> list = map.get(key);
+            int index = binarySearch981(list, timestamp);
+            if (index == -1) {
+                return "";
+            }
+            return list.get(index).value;
+
+        }
+
+        private int binarySearch981(List<Bean> list, int timestamp) {
+            int n = list.size();
+            if (timestamp >= list.get(n - 1).timeStamp) {
+                return n - 1;
+            }
+            if (timestamp < list.get(0).timeStamp) {
+                return -1;
+            }
+            int left = 0;
+            int right = n - 1;
+            int res = -1;
+            while (left <= right) {
+                int mid = left + ((right - left) >>> 1);
+                if (list.get(mid).timeStamp <= timestamp) {
+                    res = mid;
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            return res;
+        }
+    }
+
     // 898. 子数组按位或操作 (Bitwise ORs of Subarrays)
     // public int subarrayBitwiseORs(int[] arr) {
 
