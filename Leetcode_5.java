@@ -6788,6 +6788,113 @@ public class Leetcode_5 {
 
     }
 
+    // 6229. 对数组执行操作
+    public int[] applyOperations(int[] nums) {
+        int n = nums.length;
+        for (int i = 0; i < n - 1; ++i) {
+            if (nums[i] == nums[i + 1]) {
+                nums[i] *= 2;
+                nums[i + 1] = 0;
+            }
+        }
+        int i = 0;
+        int j = 0;
+        while (j < n) {
+            if (nums[j] != 0) {
+                nums[i++] = nums[j];
+            }
+            ++j;
+        }
+        while (i < n) {
+            nums[i++] = 0;
+        }
+        return nums;
+
+    }
+
+    // 6230. 长度为 K 子数组中的最大和
+    public long maximumSubarraySum(int[] nums, int k) {
+        int max = 0;
+        for (int num : nums) {
+            max = Math.max(max, num);
+        }
+        int[] counts = new int[max + 1];
+        int repeats = 0;
+        long res = 0l;
+        long cur = 0l;
+        for (int i = 0; i < k; ++i) {
+            if (++counts[nums[i]] > 1) {
+                ++repeats;
+            }
+            cur += nums[i];
+        }
+        if (repeats == 0) {
+            res = cur;
+        }
+        int n = nums.length;
+        for (int i = k; i < n; ++i) {
+            if (++counts[nums[i]] > 1) {
+                ++repeats;
+            }
+            if (--counts[nums[i - k]] >= 1) {
+                --repeats;
+            }
+            cur += nums[i];
+            cur -= nums[i - k];
+            if (repeats == 0) {
+                res = Math.max(res, cur);
+            }
+        }
+        return res;
+
+    }
+
+    // 6231. 雇佣 K 位工人的总代价
+    public long totalCost(int[] costs, int k, int candidates) {
+        int n = costs.length;
+        long res = 0l;
+        if (candidates * 2 >= n) {
+            Arrays.sort(costs);
+            for (int i = 0; i < k; ++i) {
+                res += costs[i];
+            }
+            return res;
+        }
+        int count = n - candidates * 2;
+        Queue<Integer> queue1 = new PriorityQueue<>();
+        Queue<Integer> queue2 = new PriorityQueue<>();
+        for (int i = 0; i < candidates; ++i) {
+            queue1.offer(costs[i]);
+            queue2.offer(costs[n - i - 1]);
+        }
+        int index1 = candidates;
+        int index2 = n - candidates - 1;
+        while (count > 0 && k > 0) {
+            if (queue1.peek() <= queue2.peek()) {
+                res += queue1.poll();
+                queue1.offer(costs[index1++]);
+            } else {
+                res += queue2.poll();
+                queue2.offer(costs[index2--]);
+            }
+            --count;
+            --k;
+        }
+        if (k == 0) {
+            return res;
+        }
+        queue1.addAll(queue2);
+        while (k-- > 0) {
+            res += queue1.poll();
+        }
+        return res;
+    }
+
+    // 6232. 最小移动总距离
+    // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
+
+    // }
+
     // 1288. 删除被覆盖区间 (Remove Covered Intervals)
     // public int removeCoveredIntervals(int[][] intervals) {
 
