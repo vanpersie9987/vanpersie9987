@@ -6890,13 +6890,35 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 1288. 删除被覆盖区间 (Remove Covered Intervals)
+    public int removeCoveredIntervals(int[][] intervals) {
+        int n = intervals.length;
+        int res = intervals.length;
+        Arrays.sort(intervals, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] == o2[0]) {
+                    return o2[1] - o1[1];
+                }
+                return o1[0] - o2[0];
+            }
+
+        });
+
+        int rightMax = intervals[0][1];
+        for (int i = 1; i < n; ++i) {
+            if (intervals[i][1] <= rightMax) {
+                --res;
+            }
+            rightMax = Math.max(rightMax, intervals[i][1]);
+        }
+        return res;
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
-
-    // }
-
-    // 1288. 删除被覆盖区间 (Remove Covered Intervals)
-    // public int removeCoveredIntervals(int[][] intervals) {
 
     // }
 
