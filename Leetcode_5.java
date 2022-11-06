@@ -6917,6 +6917,51 @@ public class Leetcode_5 {
 
     }
 
+    // 1589. 所有排列中的最大和 (Maximum Sum Obtained of Any Permutation)
+    public int maxSumRangeQuery(int[] nums, int[][] requests) {
+        int n = nums.length;
+        int[] diff = new int[n + 1];
+        for (int[] request : requests) {
+            ++diff[request[0]];
+            --diff[request[1] + 1];
+        }
+        for (int i = 1; i < n + 1; ++i) {
+            diff[i] += diff[i - 1];
+        }
+        int[][] pairs = new int[n][2];
+        for (int i = 0; i < n; ++i) {
+            pairs[i][0] = i;
+            pairs[i][1] = diff[i];
+        }
+
+        Arrays.sort(pairs, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o2[1] - o1[1]; 
+            }
+
+        });
+
+        Arrays.sort(nums);
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; ++i) {
+            arr[pairs[i][0]] = nums[n - i - 1];
+        }
+        long[] prefix = new long[n + 1];
+        for (int i = 1; i < n + 1; ++i) {
+            prefix[i] = prefix[i - 1] + arr[i - 1];
+        }
+        long res = 0l;
+        final int mod = (int) (1e9 + 7);
+        for (int[] request : requests) {
+            res = (res + prefix[request[1] + 1] - prefix[request[0]]) % mod;
+        }
+        return (int) res;
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
