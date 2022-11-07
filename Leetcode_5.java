@@ -18,6 +18,10 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.print.attribute.standard.Sides;
+
+import apple.laf.JRSUIConstants.Size;
+
 public class Leetcode_5 {
     public static void main(String[] args) {
         // int[] nums1 = { -4, -4, 4, -1, -2, 5 };
@@ -6987,6 +6991,40 @@ public class Leetcode_5 {
             res = (res + (long) nums[i] * diff[i]) % mod;
         }
         return (int) res;
+
+    }
+
+    // 880. 索引处的解码字符串 (Decoded String at Index)
+    public String decodeAtIndex(String s, int k) {
+        int n = s.length();
+        int i = 0;
+        long count = 0l;
+        while (i < n) {
+            char c = s.charAt(i);
+            if (Character.isDigit(c)) {
+                count *= c - '0';
+            } else {
+                ++count;
+            }
+            if (count >= k) {
+                break;
+            }
+            ++i;
+        }
+        while (i >= 0) {
+            char c = s.charAt(i);
+            k %= count;
+            if (k == 0 && Character.isLetter(c)) {
+                return String.valueOf(c);
+            }
+            if (Character.isDigit(c)) {
+                count /= c - '0';
+            } else {
+                --count;
+            }
+            --i;
+        }
+        return "";
 
     }
 
