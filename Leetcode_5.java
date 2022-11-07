@@ -7028,6 +7028,21 @@ public class Leetcode_5 {
 
     }
 
+    // 1015. 可被 K 整除的最小整数 (Smallest Integer Divisible by K)
+    public int smallestRepunitDivByK(int k) {
+        if (k % 2 == 0 || k % 5 == 0) {
+            return -1;
+        }
+        int res = 1;
+        int cur = 1;
+        while (cur % k != 0) {
+            cur = (cur * 10 + 1) % k;
+            ++res;
+        }
+        return res;
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
