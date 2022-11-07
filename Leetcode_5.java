@@ -6791,22 +6791,22 @@ public class Leetcode_5 {
     // 6229. 对数组执行操作
     public int[] applyOperations(int[] nums) {
         int n = nums.length;
+        int j = 0;
         for (int i = 0; i < n - 1; ++i) {
+            if (nums[i] == 0) {
+                continue;
+            }
             if (nums[i] == nums[i + 1]) {
                 nums[i] *= 2;
                 nums[i + 1] = 0;
             }
+            nums[j++] = nums[i];
         }
-        int i = 0;
-        int j = 0;
+        if (nums[n - 1] != 0) {
+            nums[j++] = nums[n - 1];
+        }
         while (j < n) {
-            if (nums[j] != 0) {
-                nums[i++] = nums[j];
-            }
-            ++j;
-        }
-        while (i < n) {
-            nums[i++] = 0;
+            nums[j++] = 0;
         }
         return nums;
 
