@@ -7151,9 +7151,4 @@ public class Leetcode_5 {
 
     // }
 
-    // 2049. 统计最高分的节点数目 (Count Nodes With the Highest Score)
-    // public int countHighestScoreNodes(int[] parents) {
-
-    // }
-
 }
