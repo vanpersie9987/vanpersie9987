@@ -176,7 +176,6 @@ public class Leetcode_5 {
         }
         return res;
     }
-   
 
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums) --优先队列 + BFS 与786原理相同
     // （还需掌握二分查找）
@@ -7058,6 +7057,51 @@ public class Leetcode_5 {
 
     }
 
+    // 1942. 最小未被占据椅子的编号 (The Number of the Smallest Unoccupied Chair)
+    public int smallestChair(int[][] times, int targetFriend) {
+        int n = times.length;
+        Queue<Integer> queue = new PriorityQueue<>();
+        int[][] arrive = new int[n][2];
+        int[][] leave = new int[n][2];
+        for (int i = 0; i < n; ++i) {
+            queue.offer(i);
+            arrive[i][0] = times[i][0];
+            arrive[i][1] = i;
+            leave[i][0] = times[i][1];
+            leave[i][1] = i;
+        }
+        Arrays.sort(arrive, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+
+        });
+        Arrays.sort(leave, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+
+        });
+        Map<Integer, Integer> map = new HashMap<>();
+        int j = 0;
+        for (int[] arr : arrive) {
+            while (j < n && leave[j][0] <= arr[0]) {
+                queue.offer(map.get(leave[j][1]));
+                ++j;
+            }
+            map.put(arr[1], queue.poll());
+            if (arr[1] == targetFriend) {
+                return map.get(arr[1]);
+            }
+        }
+        return -1;
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
@@ -7112,8 +7156,4 @@ public class Leetcode_5 {
 
     // }
 
-    // 1942. 最小未被占据椅子的编号 (The Number of the Smallest Unoccupied Chair)
-    // public int smallestChair(int[][] times, int targetFriend) {
-
-    // }
 }
