@@ -3568,7 +3568,6 @@ public class LeetCodeText {
         int max = 0;
         int secondMax = 0;
         for (int num : nums) {
-            num -= 1;
             if (num >= max) {
                 secondMax = max;
                 max = num;
@@ -3576,7 +3575,7 @@ public class LeetCodeText {
                 secondMax = num;
             }
         }
-        return max * secondMax;
+        return (max - 1) * (secondMax - 1);
 
     }
 
