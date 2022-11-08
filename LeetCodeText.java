@@ -3582,13 +3582,13 @@ public class LeetCodeText {
 
     // 1470. 重新排列数组 (Shuffle the Array)
     public int[] shuffle(int[] nums, int n) {
-        int[] res = new int[2 * n];
         int i = 0;
-        int j = 0;
+        int j = n;
+        int[] res = new int[n * 2];
+        int index = 0;
         while (i < n) {
-            res[j++] = nums[i];
-            res[j++] = nums[i + n];
-            ++i;
+            res[index++] = nums[i++];
+            res[index++] = nums[j++];
         }
         return res;
 
