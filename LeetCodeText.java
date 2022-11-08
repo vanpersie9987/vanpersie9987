@@ -7091,11 +7091,15 @@ public class LeetCodeText {
 
     // 1394. 找出数组中的幸运数 (Find Lucky Integer in an Array)
     public int findLucky(int[] arr) {
-        int[] counts = new int[501];
+        int max = 0;
+        for (int num : arr) {
+            max = Math.max(max, num);
+        }
+        int[] counts = new int[max + 1];
         for (int num : arr) {
             ++counts[num];
         }
-        for (int i = counts.length - 1; i >= 1; --i) {
+        for (int i = counts.length; i > 0; --i) {
             if (counts[i] == i) {
                 return i;
             }
