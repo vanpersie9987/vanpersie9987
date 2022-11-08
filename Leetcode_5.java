@@ -7102,6 +7102,20 @@ public class Leetcode_5 {
 
     }
 
+    // 1108. IP 地址无效化 (Defanging an IP Address)
+    public String defangIPaddr(String address) {
+        StringBuilder res = new StringBuilder();
+        for (char c : address.toCharArray()) {
+            if (c == '.') {
+                res.append("[.]");
+            } else {
+                res.append(c);
+            }
+        }
+        return res.toString();
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
