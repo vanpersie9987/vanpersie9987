@@ -133,30 +133,50 @@ public class Leetcode_5 {
     }
 
     // 816. 模糊坐标 (Ambiguous Coordinates)
-    public List<String> ambiguousCoordinates(String s) {
-        int n = s.length();
+    public List<String> ambiguousCoordinates2(String s) {
         List<String> res = new ArrayList<>();
-        for (int i = 2; i < n - 1; ++i) {
-            for (String left : makeString816(s, 1, i)) {
-                for (String right : makeString816(s, i, n - 1)) {
-                    res.add("(" + left + ", " + right + ")");
+        String digits = s.substring(1, s.length() - 1);
+        for (int i = 0; i < digits.length(); ++i) {
+            String first = digits.substring(0, i);
+            String second = digits.substring(i, digits.length());
+            for (String sub1 : getSub(first)) {
+                if (!sub1.isEmpty()) {
+                    for (String sub2 : getSub(second)) {
+                        if (!sub2.isEmpty()) {
+                            res.add("(" + sub1 + ", " + sub2 + ")");
+                        }
+                    }
                 }
             }
         }
         return res;
+
     }
 
-    private List<String> makeString816(String s, int i, int j) {
-        List<String> list = new ArrayList<>();
-        for (int d = 1; d <= j - i; ++d) {
-            String left = s.substring(i, i + d);
-            String right = s.substring(i + d, j);
-            if ((!left.startsWith("0") || "0".equals(left)) && !right.endsWith("0")) {
-                list.add(left + (d < j - i ? "." : "") + right);
-            }
+    private List<String> getSub(String s) {
+        List<String> res = new ArrayList<>();
+        if (s.isEmpty()) {
+            return res;
         }
-        return list;
+        if (s.charAt(0) != '0' || s.length() == 1) {
+            res.add(s);
+        }
+        for (int i = 1; i < s.length(); ++i) {
+            String first = s.substring(0, i);
+            // 整数部分
+            if (first.charAt(0) == '0' && first.length() > 1) {
+                break;
+            }
+            // 小数部分
+            String second = s.substring(i, s.length());
+            if (second.charAt(second.length() - 1) == '0') {
+                break;
+            }
+            res.add(first + "." + second);
+        }
+        return res;
     }
+   
 
     // 373. 查找和最小的 K 对数字 (Find K Pairs with Smallest Sums) --优先队列 + BFS 与786原理相同
     // （还需掌握二分查找）
