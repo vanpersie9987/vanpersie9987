@@ -1841,21 +1841,23 @@ public class LeetCodeText {
 
     }
 
+    // 1684. 统计一致字符串的数目 (Count the Number of Consistent Strings)
     public int countConsistentStrings(String allowed, String[] words) {
-        int count = 0;
-        for (String word : words) {
-            boolean flag = false;
-            for (char a : word.toCharArray()) {
-                if (!allowed.contains(String.valueOf(a))) {
-                    flag = true;
-                    break;
+        int mask = 0;
+        for (char c : allowed.toCharArray()) {
+            mask |= 1 << (c - 'a');
+        }
+        int res = 0;
+        search: for (String word : words) {
+            for (char c : word.toCharArray()) {
+                int cur = 1 << (c - 'a');
+                if ((cur & mask) == 0) {
+                    continue search;
                 }
             }
-            if (!flag) {
-                ++count;
-            }
+            ++res;
         }
-        return count;
+        return res;
 
     }
 

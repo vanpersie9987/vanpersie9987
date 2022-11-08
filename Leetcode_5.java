@@ -6938,7 +6938,7 @@ public class Leetcode_5 {
 
             @Override
             public int compare(int[] o1, int[] o2) {
-                return o2[1] - o1[1]; 
+                return o2[1] - o1[1];
             }
 
         });
@@ -6961,7 +6961,6 @@ public class Leetcode_5 {
         return (int) res;
 
     }
-
 
     // 1589. 所有排列中的最大和 (Maximum Sum Obtained of Any Permutation)
     public int maxSumRangeQuery2(int[] nums, int[][] requests) {
