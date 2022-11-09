@@ -4021,20 +4021,22 @@ public class LeetCodeText {
 
     }
 
-    // 1351. 统计有序矩阵中的负数
-    public int countNegatives(final int[][] grid) {
-        int count = 0;
+    // 1351. 统计有序矩阵中的负数 (Count Negative Numbers in a Sorted Matrix)
+    public int countNegatives(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
         int i = 0;
-        int j = grid[0].length - 1;
-        while (i < grid.length && j >= 0) {
+        int j = n - 1;
+        int res = 0;
+        while (i < m && j >= 0) {
             if (grid[i][j] < 0) {
-                count += grid.length - i;
+                res += m - i;
                 --j;
             } else {
                 ++i;
             }
         }
-        return count;
+        return res;
 
     }
 
