@@ -928,8 +928,8 @@ public class LeetCodeText {
 
     }
 
-    // 1295. 统计位数为偶数的数字
-    public int findNumbers(final int[] nums) {
+    // 1295. 统计位数为偶数的数字 (Find Numbers with Even Number of Digits)
+    public int findNumbers(int[] nums) {
         int count = 0;
         for (int num : nums) {
             if (((int) (Math.log10(num) + 1)) % 2 == 0) {
