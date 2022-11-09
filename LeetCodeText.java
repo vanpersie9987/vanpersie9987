@@ -3286,44 +3286,32 @@ public class LeetCodeText {
 
     }
 
-    // 977. 有序数组的平方
-    public int[] sortedSquares(final int[] A) {
-        for (int i = 0; i < A.length; ++i) {
-            A[i] *= A[i];
+    // 977. 有序数组的平方 (Squares of a Sorted Array)
+    public int[] sortedSquares(int[] nums) {
+        int n = nums.length;
+        int j = 0;
+        while (j < n && nums[j] < 0) {
+            ++j;
         }
-        Arrays.sort(A);
-        return A;
-
-    }
-
-    // 977. 有序数组的平方
-    public int[] sortedSquares2(final int[] A) {
-        int i = 0;
-        while (i < A.length) {
-            if (A[i] >= 0) {
-                break;
-            }
-            ++i;
-        }
-        int j = i - 1;
-        int[] res = new int[A.length];
+        int i = j - 1;
+        int[] res = new int[n];
         int index = 0;
-        while (j >= 0 && i < A.length) {
-            if (A[j] * A[j] > A[i] * A[i]) {
-                res[index++] = A[i] * A[i];
-                ++i;
+        while (i >= 0 && j < n) {
+            if (nums[i] * nums[i] < nums[j] * nums[j]) {
+                res[index++] = nums[i] * nums[i];
+                --i;
             } else {
-                res[index++] = A[j] * A[j];
-                j--;
+                res[index++] = nums[j] * nums[j];
+                ++j;
             }
         }
-        while (j >= 0) {
-            res[index++] = A[j] * A[j];
-            --j;
+        while (i >= 0) {
+            res[index++] = nums[i] * nums[i];
+            --i;
         }
-        while (i < A.length) {
-            res[index++] = A[i] * A[i];
-            ++i;
+        while (j < n) {
+            res[index++] = nums[j] * nums[j];
+            ++j;
         }
         return res;
 
