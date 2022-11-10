@@ -7116,6 +7116,26 @@ public class Leetcode_5 {
 
     }
 
+    // 249. 移位字符串分组 (Group Shifted Strings) --plus
+    public List<List<String>> groupStrings249(String[] strings) {
+        List<List<String>> res = new ArrayList<>();
+        Map<String, List<String>> map = new HashMap<>();
+        for (String string : strings) {
+            char[] chars = string.toCharArray();
+            int shifts = chars[0] - 'a';
+            for (int i = 0; i < chars.length; ++i) {
+                chars[i] = (char) ((chars[i] - shifts + 26) % 26);
+            }
+            String s = String.valueOf(chars);
+            map.computeIfAbsent(s, k -> new ArrayList<>()).add(string);
+        }
+        for (List<String> list : map.values()) {
+            res.add(list);
+        }
+        return res;
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
