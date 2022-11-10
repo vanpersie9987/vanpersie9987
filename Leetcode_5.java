@@ -7136,6 +7136,29 @@ public class Leetcode_5 {
 
     }
 
+    // 254. 因子的组合 (Factor Combinations) --plus
+    public List<List<Integer>> getFactors(int n) {
+        List<List<Integer>> res = new ArrayList<>();
+        dfs254(n, 2, res, new ArrayList<>());
+        return res;
+
+    }
+
+    private void dfs254(int n, int i, List<List<Integer>> res, List<Integer> cur) {
+        if (!cur.isEmpty()) {
+            cur.add(n);
+            res.add(new ArrayList<>(cur));
+            cur.remove(cur.size() - 1);
+        }
+        for (int x = i; x * x <= n; ++x) {
+            if (n % x == 0) {
+                cur.add(x);
+                dfs254(n / x, x, res, cur);
+                cur.remove(cur.size() - 1);
+            }
+        }
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
