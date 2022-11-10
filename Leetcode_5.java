@@ -7284,7 +7284,7 @@ public class Leetcode_5 {
 
     }
 
-    // 681. 最近时刻 (Next Closest Time)
+    // 681. 最近时刻 (Next Closest Time) --plus
     public String nextClosestTime(String time) {
         boolean[] occur = new boolean[10];
         occur[time.charAt(0) - '0'] = true;
@@ -7317,7 +7317,7 @@ public class Leetcode_5 {
 
     }
 
-    // 742. 二叉树最近的叶节点 (Closest Leaf in a Binary Tree)
+    // 742. 二叉树最近的叶节点 (Closest Leaf in a Binary Tree) --plus
     public int findClosestLeaf(TreeNode root, int k) {
         Queue<TreeNode> queue = new LinkedList<>();
         Map<Integer, List<Integer>> graph = new HashMap<>();
@@ -7366,7 +7366,7 @@ public class Leetcode_5 {
         return -1;
     }
 
-    // 2450. Number of Distinct Binary Strings After Applying Operations
+    // 2450. Number of Distinct Binary Strings After Applying Operations --plus
     public int countDistinctStrings(String s, int k) {
         long res = 2l;
         final int mod = (int) (1e9 + 7);
@@ -7374,6 +7374,31 @@ public class Leetcode_5 {
             res = res * 2 % mod;
         }
         return (int) res;
+
+    }
+
+    // 1243. 数组变换 (Array Transformation)
+    public List<Integer> transformArray(int[] arr) {
+        while (true) {
+            boolean flag = false;
+            int pre = arr[0];
+            for (int i = 1; i < arr.length - 1; ++i) {
+                if (pre < arr[i] && arr[i] > arr[i + 1]) {
+                    flag = true;
+                    pre = arr[i];
+                    --arr[i];
+                } else if (pre > arr[i] && arr[i] < arr[i + 1]) {
+                    flag = true;
+                    pre = arr[i];
+                    ++arr[i];
+                } else {
+                    pre = arr[i];
+                }
+            }
+            if (!flag) {
+                return Arrays.stream(arr).boxed().collect(Collectors.toList());
+            }
+        }
 
     }
 
