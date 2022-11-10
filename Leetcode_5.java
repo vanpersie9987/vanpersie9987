@@ -7433,6 +7433,24 @@ public class Leetcode_5 {
 
     }
 
+    // 325.和等于 k 的最长子数组长度 (Maximum Size Subarray Sum Equals k) --plus
+    public int maxSubArrayLen(int[] nums, int k) {
+        int res = 0;
+        int n = nums.length;
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, -1);
+        int prefix = 0;
+        for (int i = 0; i < n; ++i) {
+            prefix += nums[i];
+            if (map.containsKey(prefix - k)) {
+                res = Math.max(res, i - map.get(prefix - k));
+            }
+            map.putIfAbsent(prefix, i);
+        }
+        return res;
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
