@@ -7284,6 +7284,39 @@ public class Leetcode_5 {
 
     }
 
+    // 681. 最近时刻 (Next Closest Time)
+    public String nextClosestTime(String time) {
+        boolean[] occur = new boolean[10];
+        occur[time.charAt(0) - '0'] = true;
+        occur[time.charAt(1) - '0'] = true;
+        occur[time.charAt(3) - '0'] = true;
+        occur[time.charAt(4) - '0'] = true;
+  
+        int original = Integer.parseInt(time.substring(0, 2)) * 60 + Integer.parseInt(time.substring(3));
+        int cur = original + 1;
+        while (cur < 24 * 60) {
+            int hour = cur / 60;
+            int min = cur % 60;
+            if (occur[hour / 10] && occur[hour % 10] && occur[min / 10]
+                    && occur[min % 10]) {
+                return String.format("%02d:%02d", hour, min);
+            }
+            ++cur;
+        }
+        cur = 0;
+        while (cur <= original) {
+            int hour = cur / 60;
+            int min = cur % 60;
+            if (occur[hour / 10] && occur[hour % 10] && occur[min / 10]
+                    && occur[min % 10]) {
+                return String.format("%02d:%02d", hour, min);
+            }
+            ++cur;
+        }
+        return "";
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
