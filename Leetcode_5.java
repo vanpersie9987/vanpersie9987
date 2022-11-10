@@ -7377,7 +7377,7 @@ public class Leetcode_5 {
 
     }
 
-    // 1243. 数组变换 (Array Transformation)
+    // 1243. 数组变换 (Array Transformation) --plus
     public List<Integer> transformArray(int[] arr) {
         while (true) {
             boolean flag = false;
@@ -7399,6 +7399,37 @@ public class Leetcode_5 {
                 return Arrays.stream(arr).boxed().collect(Collectors.toList());
             }
         }
+
+    }
+
+    // 1228. 等差数列中缺失的数字 (Missing Number In Arithmetic Progression) --plus
+    public int missingNumber(int[] arr) {
+        int n = arr.length;
+        int d1 = arr[1] - arr[0];
+        int d2 = arr[n - 1] - arr[n - 2];
+        int d = 0;
+        if (Math.abs(d1) < Math.abs(d2)) {
+            d = d1;
+        } else {
+            d = d2;
+        }
+        for (int i = 1; i < n; ++i) {
+            if (arr[i] - arr[i - 1] != d) {
+                return arr[i - 1] + d;
+            }
+        }
+        return arr[0];
+
+    }
+
+    // 1228. 等差数列中缺失的数字 (Missing Number In Arithmetic Progression) --plus
+    public int missingNumber2(int[] arr) {
+        int n = arr.length;
+        int sum = (arr[0] + arr[n - 1]) * (n + 1) / 2;
+        for (int a : arr) {
+            sum -= a;
+        }
+        return sum;
 
     }
 
