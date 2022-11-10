@@ -7194,7 +7194,7 @@ public class Leetcode_5 {
                 int ny = y + direction[1];
                 if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1) {
                     grid[nx][ny] = 0;
-                    builder.append(",").append(nx - i).append(ny - j);
+                    builder.append(nx - i).append(ny - j);
                     queue.offer(new int[] { nx, ny });
                 }
             }
