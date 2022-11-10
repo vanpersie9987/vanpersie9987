@@ -7291,7 +7291,7 @@ public class Leetcode_5 {
         occur[time.charAt(1) - '0'] = true;
         occur[time.charAt(3) - '0'] = true;
         occur[time.charAt(4) - '0'] = true;
-  
+
         int original = Integer.parseInt(time.substring(0, 2)) * 60 + Integer.parseInt(time.substring(3));
         int cur = original + 1;
         while (cur < 24 * 60) {
@@ -7364,6 +7364,17 @@ public class Leetcode_5 {
             }
         }
         return -1;
+    }
+
+    // 2450. Number of Distinct Binary Strings After Applying Operations
+    public int countDistinctStrings(String s, int k) {
+        long res = 2l;
+        final int mod = (int) (1e9 + 7);
+        for (int x = 1; x <= s.length() - k; x++) {
+            res = res * 2 % mod;
+        }
+        return (int) res;
+
     }
 
     // 6232. 最小移动总距离
