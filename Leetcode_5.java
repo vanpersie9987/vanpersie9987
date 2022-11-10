@@ -7159,6 +7159,50 @@ public class Leetcode_5 {
         }
     }
 
+    // 694. 不同岛屿的数量 (Number of Distinct Islands) --plus
+    public int numDistinctIslands(int[][] grid) {
+        Set<String> set = new HashSet<>();
+        int m = grid.length;
+        int n = grid[0].length;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    String s = getIslandDisplay(grid, i, j);
+                    set.add(s);
+                }
+            }
+        }
+        return set.size();
+
+    }
+
+    private String getIslandDisplay(int[][] grid, int i, int j) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        StringBuilder builder = new StringBuilder();
+        Queue<int[]> queue = new LinkedList<>();
+        int m = grid.length;
+        int n = grid[0].length;
+        queue.offer(new int[] { i, j });
+        builder.append(0).append(0);
+        grid[i][j] = 0;
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            for (int[] direction : directions) {
+                int nx = x + direction[0];
+                int ny = y + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1) {
+                    grid[nx][ny] = 0;
+                    builder.append(",").append(nx - i).append(ny - j);
+                    queue.offer(new int[] { nx, ny });
+                }
+            }
+        }
+        return builder.toString();
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
