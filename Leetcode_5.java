@@ -7317,6 +7317,55 @@ public class Leetcode_5 {
 
     }
 
+    // 742. 二叉树最近的叶节点 (Closest Leaf in a Binary Tree)
+    public int findClosestLeaf(TreeNode root, int k) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        Set<Integer> leaves = new HashSet<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = queue.poll();
+                if (node.left == null && node.right == null) {
+                    if (node.val == k) {
+                        return k;
+                    }
+                    leaves.add(node.val);
+                }
+                if (node.left != null) {
+                    graph.computeIfAbsent(node.val, o -> new ArrayList<>()).add(node.left.val);
+                    graph.computeIfAbsent(node.left.val, o -> new ArrayList<>()).add(node.val);
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    graph.computeIfAbsent(node.val, o -> new ArrayList<>()).add(node.right.val);
+                    graph.computeIfAbsent(node.right.val, o -> new ArrayList<>()).add(node.val);
+                    queue.offer(node.right);
+                }
+            }
+        }
+        Set<Integer> visited = new HashSet<>();
+        Queue<Integer> queue2 = new LinkedList<>();
+        queue2.offer(k);
+        visited.add(k);
+        while (!queue2.isEmpty()) {
+            int size = queue2.size();
+            for (int i = 0; i < size; ++i) {
+                int cur = queue2.poll();
+                for (int neighbor : graph.getOrDefault(cur, new ArrayList<>())) {
+                    if (visited.add(neighbor)) {
+                        if (leaves.contains(neighbor)) {
+                            return neighbor;
+                        }
+                        queue2.offer(neighbor);
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
