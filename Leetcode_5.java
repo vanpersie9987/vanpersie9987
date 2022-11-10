@@ -7203,6 +7203,87 @@ public class Leetcode_5 {
 
     }
 
+    // 737. 句子相似性 II (Sentence Similarity II) --plus
+    public boolean areSentencesSimilarTwo(String[] sentence1, String[] sentence2, List<List<String>> similarPairs) {
+        int n1 = sentence1.length;
+        int n2 = sentence2.length;
+        if (n1 != n2) {
+            return false;
+        }
+        int count = 0;
+        Map<String, Integer> map = new HashMap<>();
+        for (String s : sentence1) {
+            if (!map.containsKey(s)) {
+                map.put(s, count++);
+            }
+        }
+        for (String s : sentence2) {
+            if (!map.containsKey(s)) {
+                map.put(s, count++);
+            }
+        }
+        for (List<String> pair : similarPairs) {
+            for (String s : pair) {
+                if (!map.containsKey(s)) {
+                    map.put(s, count++);
+                }
+            }
+        }
+        Union737 union = new Union737(count);
+        for (List<String> pair : similarPairs) {
+            union.union(map.get(pair.get(0)), map.get(pair.get(1)));
+        }
+        for (int i = 0; i < n1; ++i) {
+            if (!union.isConnected(map.get(sentence1[i]), map.get(sentence2[i]))) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    class Union737 {
+        private int[] rank;
+        private int[] parent;
+
+        Union737(int n) {
+            rank = new int[n];
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (p == parent[p]) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
