@@ -7475,6 +7475,40 @@ public class Leetcode_5 {
 
     }
 
+    // 484. 寻找排列 (Find Permutation) --plus
+    public int[] findPermutation(String s) {
+        int n = s.length();
+        int[] res = new int[n + 1];
+        for (int i = 0; i < n + 1; ++i) {
+            res[i] = i + 1;
+        }
+        int i = 0;
+        while (i < n) {
+            if (s.charAt(i) == 'D') {
+                int j = i;
+                while (j < n && s.charAt(j) == 'D') {
+                    ++j;
+                }
+                swap484(res, i, j);
+                i = j;
+            } else {
+                ++i;
+            }
+        }
+        return res;
+
+    }
+
+    private void swap484(int[] arr, int i, int j) {
+        while (i < j) {
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            ++i;
+            --j;
+        }
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
