@@ -7509,6 +7509,31 @@ public class Leetcode_5 {
         }
     }
 
+    // 1055. 形成字符串的最短路径 (Shortest Way to Form String) --plus
+    public int shortestWay(String source, String target) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < source.length(); ++i) {
+            map.putIfAbsent(source.charAt(i), i);
+        }
+        int n = target.length();
+        int res = 0;
+        int i = 0;
+        while (i < n) {
+            if (!map.containsKey(target.charAt(i))) {
+                return -1;
+            }
+            ++res;
+            int j = map.get(target.charAt(i));
+            while (j < source.length() && i < target.length()) {
+                if (source.charAt(j) == target.charAt(i)) {
+                    ++i;
+                }
+                ++j;
+            }
+        }
+        return res;
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
