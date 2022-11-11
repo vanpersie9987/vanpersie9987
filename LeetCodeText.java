@@ -14319,21 +14319,26 @@ public class LeetCodeText {
 
     // 1704. 判断字符串的两半是否相似 (Determine if String Halves Are Alike)
     public boolean halvesAreAlike(String s) {
-        int i = 0;
-        int j = s.length() / 2;
-        int count1 = 0;
-        int count2 = 0;
-        while (j < s.length()) {
-            char c1 = Character.toLowerCase(s.charAt(i++));
-            if (c1 == 'a' || c1 == 'e' || c1 == 'i' || c1 == 'o' || c1 == 'u') {
-                ++count1;
-            }
-            char c2 = Character.toLowerCase(s.charAt(j++));
-            if (c2 == 'a' || c2 == 'e' || c2 == 'i' || c2 == 'o' || c2 == 'u') {
-                ++count2;
+        int n = s.length();
+        return getEvenLettersCount(s.substring(0, n / 2)) == getEvenLettersCount(s.substring(n / 2));
+
+    }
+
+    private int getEvenLettersCount(String s) {
+        int count = 0;
+        for (char c : s.toCharArray()) {
+            if (judgeVowel1704(Character.toLowerCase(c))) {
+                ++count;
             }
         }
-        return count1 == count2;
+        return count;
+    }
+
+    private boolean judgeVowel1704(char c) {
+        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+            return true;
+        }
+        return false;
     }
 
     // 869. 重新排序得到 2 的幂
