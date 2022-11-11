@@ -7534,6 +7534,22 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 1150. 检查一个数是否在数组中占绝大多数 (Check If a Number Is Majority Element in a Sorted
+    // Array) --plus
+    public boolean isMajorityElement(int[] nums, int target) {
+        int n = nums.length;
+        int count = 0;
+        for (int num : nums) {
+            if (num == target) {
+                ++count;
+            } else if (num > target) {
+                break;
+            }
+        }
+        return count > n / 2;
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
