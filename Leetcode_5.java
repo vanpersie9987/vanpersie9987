@@ -7550,6 +7550,34 @@ public class Leetcode_5 {
 
     }
 
+    // 1176. 健身计划评估 (Diet Plan Performance)
+    public int dietPlanPerformance(int[] calories, int k, int lower, int upper) {
+        int n = calories.length;
+        int res = 0;
+        int sum = 0;
+        for (int i = 0; i < k; ++i) {
+            sum += calories[i];
+        }
+        if (sum < lower) {
+            --res;
+        } else if (sum > upper) {
+            ++res;
+        }
+
+        for (int i = k; i < n; ++i) {
+            sum += calories[i];
+            sum -= calories[i - k];
+            if (sum < lower) {
+                --res;
+            } else if (sum > upper) {
+                ++res;
+            }
+        }
+        return res;
+
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
