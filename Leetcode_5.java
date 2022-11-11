@@ -7451,6 +7451,30 @@ public class Leetcode_5 {
 
     }
 
+    // 2422. Merge Operations to Turn Array Into a Palindrome
+    public int minimumOperations2422(int[] nums) {
+        int n = nums.length;
+        int i = 0;
+        int j = n - 1;
+        long prefix = nums[0];
+        long suffix = nums[n-1];
+        int res = 0;
+        while (i < j) {
+            if (prefix == suffix) {
+                prefix = nums[++i];
+                suffix = nums[--j];
+            } else if (prefix < suffix) {
+                ++res;
+                prefix += nums[++i];
+            } else {
+                ++res;
+                suffix += nums[--j];
+            }
+        }
+        return res;
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
