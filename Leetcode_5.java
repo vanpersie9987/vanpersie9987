@@ -7594,6 +7594,17 @@ public class Leetcode_5 {
 
     }
 
+    // 1064. 不动点 (Fixed Point) --plus
+    public int fixedPoint(int[] arr) {
+        for (int i = 0; i < arr.length; ++i) {
+            if (arr[i] == i) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
