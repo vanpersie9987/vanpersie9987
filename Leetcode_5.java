@@ -7605,6 +7605,33 @@ public class Leetcode_5 {
 
     }
 
+    // 1065. 字符串的索引对 (Index Pairs of a String) --plus
+    public int[][] indexPairs(String text, String[] words) {
+        List<int[]> res = new ArrayList<>();
+        int n = text.length();
+        for (int i = 0; i < n; ++i) {
+            String sub = text.substring(i);
+            for (String word : words) {
+                if (sub.startsWith(word)) {
+                    res.add(new int[] { i, i + word.length() - 1 });
+                }
+            }
+        }
+        Collections.sort(res, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] == o2[0]) {
+                    return o1[1] - o2[1];
+                }
+                return o1[0] - o2[0];
+            }
+
+        });
+        return res.toArray(new int[0][]);
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
