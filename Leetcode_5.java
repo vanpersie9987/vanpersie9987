@@ -7203,6 +7203,31 @@ public class Leetcode_5 {
 
     }
 
+    // 734. 句子相似性 (Sentence Similarity)
+    public boolean areSentencesSimilar(String[] sentence1, String[] sentence2, List<List<String>> similarPairs) {
+        int n1 = sentence1.length;
+        int n2 = sentence2.length;
+        if (n1 != n2) {
+            return false;
+        }
+        Map<String, Set<String>> map = new HashMap<>();
+        for (List<String> pair : similarPairs) {
+            map.computeIfAbsent(pair.get(0), k -> new HashSet<>()).add(pair.get(1));
+            map.computeIfAbsent(pair.get(1), k -> new HashSet<>()).add(pair.get(0));
+        }
+        for (int i = 0; i < n1; ++i) {
+            if (sentence1[i].equals(sentence2[i])) {
+                continue;
+            }
+            if (!map.getOrDefault(sentence1[i], new HashSet<>()).contains(sentence2[i])
+                    && !map.getOrDefault(sentence2[i], new HashSet<>()).contains(sentence1[i])) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
     // 737. 句子相似性 II (Sentence Similarity II) --plus
     public boolean areSentencesSimilarTwo(String[] sentence1, String[] sentence2, List<List<String>> similarPairs) {
         int n1 = sentence1.length;
