@@ -7761,6 +7761,26 @@ public class Leetcode_5 {
 
     }
 
+    // 1099. 小于 K 的两数之和 (Two Sum Less Than K) --plus
+    public int twoSumLessThanK(int[] nums, int k) {
+        int n = nums.length;
+        int i = 0;
+        int j = n - 1;
+        Arrays.sort(nums);
+        int res = -1;
+        while (i < j) {
+            int sum = nums[i] + nums[j];
+            if (sum < k) {
+                res = Math.max(res, sum);
+                ++i;
+            } else {
+                --j;
+            }
+        }
+        return res;
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
