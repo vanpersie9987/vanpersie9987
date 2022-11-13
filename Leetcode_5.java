@@ -7632,6 +7632,108 @@ public class Leetcode_5 {
 
     }
 
+    // 6237. 不同的平均值数目 (Number of Distinct Averages)
+    public int distinctAverages(int[] nums) {
+        Arrays.sort(nums);
+        Set<Integer> set = new HashSet<>();
+        int i = 0;
+        int j = nums.length - 1;
+        while (i < j) {
+            set.add(nums[i++] + nums[j--]);
+        }
+        return set.size();
+
+    }
+
+    // 6233. 温度转换 (Convert the Temperature)
+    public double[] convertTemperature(double celsius) {
+        return new double[] { celsius + 273.15d, celsius * 1.80d + 32.00d };
+    }
+
+    // 6234. 最小公倍数为 K 的子数组数目 (Number of Subarrays With LCM Equal to K)
+    public int subarrayLCM(int[] nums, int k) {
+        int res = 0;
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] > k) {
+                continue;
+            }
+            int lcm = nums[i];
+            for (int j = i; j < n; ++j) {
+                if (nums[j] > k) {
+                    break;
+                }
+                lcm = lcm6243(nums[j], lcm);
+                if (lcm == k) {
+                    ++res;
+                } else if (lcm > k) {
+                    break;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int lcm6243(int a, int b) {
+        return a * b / gcd6243(a, b);
+    }
+
+    private int gcd6243(int a, int b) {
+        return b == 0 ? a : gcd6243(b, a % b);
+    }
+
+    // 6235. 逐层排序二叉树所需的最少操作数目 (Minimum Number of Operations to Sort a Binary Tree by
+    // Level)
+    public int minimumOperations(TreeNode root) {
+        int res = 0;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            int[] nums = new int[size];
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = queue.poll();
+                nums[i] = node.val;
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+           res += getSwapCounts(nums);
+        }
+        return res;
+
+    }
+
+    private int getSwapCounts(int[] nums) {
+        int res = 0;
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            int min = nums[i];
+            int minIndex = i;
+            for (int j = i; j < n; ++j) {
+                if (nums[j] < min) {
+                    min = nums[j];
+                    j = minIndex;
+                }
+            }
+            if (minIndex != i) {
+                swap6235(nums, i, minIndex);
+                ++res;
+            }
+        }
+        return res;
+    }
+
+    private void swap6235(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
