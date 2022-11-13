@@ -19014,13 +19014,12 @@ public class LeetCodeText {
         }
         StringBuilder res = new StringBuilder();
         for (char c : order.toCharArray()) {
-            for (int i = 0; i < counts[c - 'a']; ++i) {
+            while (counts[c - 'a']-- > 0) {
                 res.append(c);
             }
-            counts[c - 'a'] = 0;
         }
-        for (int i = 0; i < counts.length; ++i) {
-            for (int j = 0; j < counts[i]; ++j) {
+        for (int i = 0; i < 26; ++i) {
+            while (counts[i]-- > 0) {
                 res.append((char) (i + 'a'));
             }
         }
