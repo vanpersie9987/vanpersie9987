@@ -7753,6 +7753,14 @@ public class Leetcode_5 {
 
     }
 
+    // 1118. 一月有多少天 (Number of Days in a Month) --plus
+    public int numberOfDays(int year, int month) {
+        boolean isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+        int[] monthOfDays = { 0, 31, isLeapYear ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+        return monthOfDays[month];
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
