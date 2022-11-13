@@ -7850,6 +7850,42 @@ public class Leetcode_5 {
         }
     }
 
+    // 1999. 最小的仅由两个数组成的倍数 (Smallest Greater Multiple Made of Two Digits)
+    public int findInteger(int k, int digit1, int digit2) {
+        if (digit1 > digit2) {
+            return findInteger(k, digit2, digit1);
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        Set<Integer> set = new HashSet<>();
+        queue.offer(0);
+        set.add(0);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int num = queue.poll();
+                if (num > Integer.MAX_VALUE / 10) {
+                    continue;
+                }
+                int num1 = num * 10 + digit1;
+                if (num1 > k && num1 % k == 0) {
+                    return num1;
+                }
+                if (set.add(num1)) {
+                    queue.offer(num1);
+                }
+                int num2 = num * 10 + digit2;
+                if (num2 > k && num2 % k == 0) {
+                    return num2;
+                }
+                if (set.add(num2)) {
+                    queue.offer(num2);
+                }
+            }
+        }
+        return -1;
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
