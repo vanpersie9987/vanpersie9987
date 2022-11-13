@@ -7734,6 +7734,25 @@ public class Leetcode_5 {
         nums[j] = temp;
     }
 
+    // 1133. 最大唯一数 (Largest Unique Number) --plus
+    public int largestUniqueNumber(int[] nums) {
+        int max = 0;
+        for (int num : nums) {
+            max = Math.max(max, num);
+        }
+        int[] counts = new int[max + 1];
+        for (int num : nums) {
+            ++counts[num];
+        }
+        for (int i = max; i >= 0; --i) {
+            if (counts[i] == 1) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
