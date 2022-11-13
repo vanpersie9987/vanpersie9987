@@ -7806,6 +7806,30 @@ public class Leetcode_5 {
 
     }
 
+    // 1885. 统计数对 (Count Pairs in Two Arrays) --plus
+    public long countPairs(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        int[] diff = new int[n];
+        for (int i = 0; i < n; ++i) {
+            diff[i] = nums1[i] - nums2[i];
+        }
+        Arrays.sort(diff);
+        long res = 0l;
+        int left = 0;
+        int right = n - 1;
+        while (left < right) {
+            if (diff[left] + diff[right] > 0) {
+                res += right - left;
+                --right;
+            } else {
+                ++left;
+            }
+        }
+        return res;
+
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
