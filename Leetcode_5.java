@@ -7827,7 +7827,27 @@ public class Leetcode_5 {
         }
         return res;
 
-
+    }
+    
+    // 2417. Closest Fair Integer --plus
+    public int closestFair(int n) {
+        while (true) {
+            int digits = (int) Math.log10(n) + 1;
+            if (digits % 2 == 1) {
+                n = (int) Math.pow(10, digits);
+            }
+            int[] arr = new int[2];
+            int num = n;
+            while (num != 0) {
+                int mod = num % 10;
+                ++arr[mod % 2];
+                num /= 10;
+            }
+            if (arr[0] == arr[1]) {
+                return n;
+            }
+            ++n;
+        }
     }
 
     // 6232. 最小移动总距离
