@@ -8032,6 +8032,39 @@ public class Leetcode_5 {
 
     }
 
+
+    // 1580. 把箱子放进仓库里 II (Put Boxes Into the Warehouse II) --plus
+    public int maxBoxesInWarehouse1500(int[] boxes, int[] warehouse) {
+        int n = warehouse.length;
+        int[] minHeight = new int[n];
+        minHeight[0] = warehouse[0];
+        for (int i = 1; i < n; ++i) {
+            minHeight[i] = Math.min(minHeight[i - 1], warehouse[i]);
+        }
+        int rightMin = warehouse[n - 1];
+        for (int i = n - 1; i >= 0; --i) {
+            if (i < n - 1) {
+                rightMin = Math.min(rightMin, warehouse[i]);
+            }
+            minHeight[i] = Math.max(minHeight[i], rightMin);
+        }
+
+        Arrays.sort(boxes);
+        Arrays.sort(minHeight);
+
+        int i = 0;
+        int j = 0;
+
+        while (i < boxes.length && j < n) {
+            if (boxes[i] <= minHeight[j]) {
+                ++i;
+            }
+            ++j;
+        }
+        return i;
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
