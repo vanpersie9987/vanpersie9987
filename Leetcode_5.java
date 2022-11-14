@@ -7886,6 +7886,26 @@ public class Leetcode_5 {
 
     }
 
+    // 2021. 街上最亮的位置 (Brightest Position on Street) --plus
+    public int brightestPosition(int[][] lights) {
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        for (int[] light : lights) {
+            map.put(light[0] - light[1], map.getOrDefault(light[0] - light[1], 0) + 1);
+            map.put(light[0] + light[1] + 1, map.getOrDefault(light[0] + light[1] + 1, 0) - 1);
+        }
+        int res = 0;
+        int max = 0;
+        int cur = 0;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            cur += entry.getValue();
+            if (cur > max) {
+                max = cur;
+                res = entry.getKey();
+            }
+        }
+        return res;
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
