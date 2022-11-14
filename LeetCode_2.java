@@ -548,20 +548,25 @@ public class LeetCode_2 {
 
    // 1710. 卡车上的最大单元数 (Maximum Units on a Truck)
    public int maximumUnits(int[][] boxTypes, int truckSize) {
-      Arrays.sort(boxTypes, (o1, o2) -> o2[1] - o1[1]);
-      int res = 0;
-      for (int[] boxType : boxTypes) {
-         if (truckSize <= 0) {
-            break;
+      Arrays.sort(boxTypes, new Comparator<int[]>() {
+
+         @Override
+         public int compare(int[] o1, int[] o2) {
+            return o2[1] - o1[1];
          }
-         int min = Math.min(truckSize, boxType[0]);
-         res += boxType[1] * min;
-         truckSize -= min;
+
+      });
+      int res = 0;
+      int i = 0;
+      while (truckSize > 0 && i < boxTypes.length) {
+         int count = Math.min(truckSize, boxTypes[i][0]);
+         res += count * boxTypes[i][1];
+         truckSize -= count;
+         ++i;
       }
       return res;
-
    }
-
+   
    // 面试题 08.11. 硬币 (Coin LCCI)
    public int waysToChange(int n) {
       final int MOD = 1000000007;
