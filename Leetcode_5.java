@@ -7978,26 +7978,30 @@ public class Leetcode_5 {
     public int numberOfCleanRooms(int[][] room) {
         int m = room.length;
         int n = room[0].length;
-        int[][] visited = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                room[i][j] = -room[i][j];
+            }
+        }
         int i = 0;
         int j = 0;
-        int[][] directions = {{0,1},{1,0},{0,-1},{-1,0}};
+        int[][] directions = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
         int d = 0;
         int res = 0;
         while (true) {
-            if (visited[i][j] == 0) {
+            if (room[i][j] == 0) {
                 ++res;
-                visited[i][j] |= 1 << d;
-            } else if ((visited[i][j] | (1 << d)) == visited[i][j]) {
+                room[i][j] |= 1 << d;
+            } else if ((room[i][j] | (1 << d)) == room[i][j]) {
                 return res;
             } else {
-                visited[i][j] |= 1 << d;
+                room[i][j] |= 1 << d;
             }
 
             int nx = i + directions[d][0];
             int ny = j + directions[d][1];
 
-            if (nx >= 0 && nx < m && ny >= 0 && ny < n && room[nx][ny] == 0) {
+            if (nx >= 0 && nx < m && ny >= 0 && ny < n && room[nx][ny] >= 0) {
                 i = nx;
                 j = ny;
             } else {
