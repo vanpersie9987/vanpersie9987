@@ -7906,6 +7906,54 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 2015. 每段建筑物的平均高度 (Average Height of Buildings in Each Segment) --plus
+    public int[][] averageHeightOfBuildings(int[][] buildings) {
+        TreeMap<Integer, int[]> map = new TreeMap<>();
+        for (int[] building : buildings) {
+            if (!map.containsKey(building[0])) {
+                map.put(building[0], new int[] { building[2], 1 });
+            } else {
+                int[] cur = map.get(building[0]);
+                cur[0] += building[2];
+                cur[1] += 1;
+                map.put(building[0], cur);
+            }
+            if (!map.containsKey(building[1])) {
+                map.put(building[1], new int[] { -building[2], -1 });
+            } else {
+                int[] cur = map.get(building[1]);
+                cur[0] -= building[2];
+                cur[1] -= 1;
+                map.put(building[1], cur);
+            }
+        }
+        int height = 0;
+        int count = 0;
+        List<int[]> list = new ArrayList<>();
+        for (Map.Entry<Integer, int[]> entry : map.entrySet()) {
+            height += entry.getValue()[0];
+            count += entry.getValue()[1];
+            list.add(new int[] { entry.getKey(), count == 0 ? 0 : height / count });
+        }
+        List<int[]> res = new ArrayList<>();
+        int i = 0;
+        while (i < list.size()) {
+            if (list.get(i)[1] == 0) {
+                ++i;
+                continue;
+            }
+            int average = list.get(i)[1];
+            int j = i + 1;
+            while (j < list.size() && list.get(j)[1] == average) {
+                ++j;
+            }
+            res.add(new int[] { list.get(i)[0], list.get(j)[0], average });
+            i = j;
+        }
+        return res.toArray(new int[0][]);
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
