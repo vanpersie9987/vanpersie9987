@@ -8009,6 +8009,26 @@ public class Leetcode_5 {
             }
         }
 
+    }
+
+    // 1564. 把箱子放进仓库里 I (Put Boxes Into the Warehouse I) --plus
+    public int maxBoxesInWarehouse(int[] boxes, int[] warehouse) {
+        int n = warehouse.length;
+        int[] minHeight = new int[n];
+        minHeight[0] = warehouse[0];
+        for (int i = 1; i < n; ++i) {
+            minHeight[i] = Math.min(minHeight[i - 1], warehouse[i]);
+        }
+        Arrays.sort(boxes);
+        int i = 0;
+        int j = n - 1;
+        while (i < boxes.length && j >= 0) {
+            if (boxes[i] <= minHeight[j]) {
+                ++i;
+            }
+            --j;
+        }
+        return i;
 
     }
 
