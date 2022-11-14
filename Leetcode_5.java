@@ -8041,11 +8041,9 @@ public class Leetcode_5 {
         for (int i = 1; i < n; ++i) {
             minHeight[i] = Math.min(minHeight[i - 1], warehouse[i]);
         }
-        int rightMin = warehouse[n - 1];
+        int rightMin = Integer.MAX_VALUE;
         for (int i = n - 1; i >= 0; --i) {
-            if (i < n - 1) {
-                rightMin = Math.min(rightMin, warehouse[i]);
-            }
+            rightMin = Math.min(rightMin, warehouse[i]);
             minHeight[i] = Math.max(minHeight[i], rightMin);
         }
 
