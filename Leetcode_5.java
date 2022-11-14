@@ -7974,6 +7974,40 @@ public class Leetcode_5 {
         return sum + node.val;
     }
 
+    // 2061. 扫地机器人清扫过的空间个数 (Number of Spaces Cleaning Robot Cleaned) --plus
+    public int numberOfCleanRooms(int[][] room) {
+        int m = room.length;
+        int n = room[0].length;
+        int[][] visited = new int[m][n];
+        int i = 0;
+        int j = 0;
+        int[][] directions = {{0,1},{1,0},{0,-1},{-1,0}};
+        int d = 0;
+        int res = 0;
+        while (true) {
+            if (visited[i][j] == 0) {
+                ++res;
+                visited[i][j] |= 1 << d;
+            } else if ((visited[i][j] | (1 << d)) == visited[i][j]) {
+                return res;
+            } else {
+                visited[i][j] |= 1 << d;
+            }
+
+            int nx = i + directions[d][0];
+            int ny = j + directions[d][1];
+
+            if (nx >= 0 && nx < m && ny >= 0 && ny < n && room[nx][ny] == 0) {
+                i = nx;
+                j = ny;
+            } else {
+                d = (d + 1) % 4;
+            }
+        }
+
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
