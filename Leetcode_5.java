@@ -7954,6 +7954,26 @@ public class Leetcode_5 {
 
     }
 
+    // 1973. 值等于子节点值之和的节点数量 (Count Nodes Equal to Sum of Descendants) --plus
+    private int res1973;
+
+    public int equalToDescendants(TreeNode root) {
+        dfs1973(root);
+        return res1973;
+        
+    }
+
+    private int dfs1973(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+        int sum = dfs1973(node.left) + dfs1973(node.right);
+        if (node.val == sum) {
+            ++res1973;
+        }
+        return sum + node.val;
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
