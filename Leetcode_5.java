@@ -8206,6 +8206,43 @@ public class Leetcode_5 {
 
     }
 
+    // 1236. 网络爬虫 (Web Crawler) --plus
+    /**
+     * // This is the HtmlParser's API interface.
+     * // You should not implement it, or speculate about its implementation
+     */
+    interface HtmlParser {
+        public List<String> getUrls(String url);
+    }
+
+    public List<String> crawl(String startUrl, HtmlParser htmlParser) {
+        Set<String> set = new HashSet<>();
+        Queue<String> queue = new LinkedList<>();
+        String prefix = getPrefix1236(startUrl);
+        set.add(startUrl);
+        queue.offer(startUrl);
+        while (!queue.isEmpty()) {
+            String url = queue.poll();
+            for (String neighbor : htmlParser.getUrls(url)) {
+                String pre = getPrefix1236(neighbor);
+                if (pre.equals(prefix) && set.add(neighbor)) {
+                    queue.offer(neighbor);
+                }
+            }
+        }
+        return new ArrayList<>(set);
+
+    }
+
+    private String getPrefix1236(String s) {
+        String url = s.substring(7);
+        int index = url.indexOf("/");
+        if (index == -1) {
+            return s;
+        }
+        return s.substring(0, index + 7);
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
