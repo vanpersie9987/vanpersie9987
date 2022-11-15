@@ -8218,13 +8218,13 @@ public class Leetcode_5 {
     public List<String> crawl(String startUrl, HtmlParser htmlParser) {
         Set<String> set = new HashSet<>();
         Queue<String> queue = new LinkedList<>();
-        String prefix = getPrefix1236(startUrl);
+        String prefix = getHostName1236(startUrl);
         set.add(startUrl);
         queue.offer(startUrl);
         while (!queue.isEmpty()) {
             String url = queue.poll();
             for (String neighbor : htmlParser.getUrls(url)) {
-                String pre = getPrefix1236(neighbor);
+                String pre = getHostName1236(neighbor);
                 if (pre.equals(prefix) && set.add(neighbor)) {
                     queue.offer(neighbor);
                 }
@@ -8234,7 +8234,7 @@ public class Leetcode_5 {
 
     }
 
-    private String getPrefix1236(String s) {
+    private String getHostName1236(String s) {
         String url = s.substring(7);
         int index = url.indexOf("/");
         if (index == -1) {
