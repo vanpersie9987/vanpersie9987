@@ -8063,6 +8063,47 @@ public class Leetcode_5 {
 
     }
 
+    // 1102. 得分最高的路径 (Path With Maximum Minimum Value) --plus
+    public int maximumMinimumPath(int[][] grid) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int m = grid.length;
+        int n = grid[0].length;
+        Queue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o2[2] - o1[2];
+            }
+
+        });
+        queue.offer(new int[] { 0, 0, grid[0][0] });
+        boolean[][] visited = new boolean[m][n];
+        int res = Integer.MAX_VALUE;
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int val = cur[2];
+            if (visited[x][y]) {
+                continue;
+            }
+            visited[x][y] = true;
+            res = Math.min(res, val);
+            if (x == m - 1 && y == n - 1) {
+                return res;
+            }
+            for (int[] direction : directions) {
+                int nx = x + direction[0];
+                int ny = y + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                    queue.offer(new int[] { nx, ny, grid[nx][ny] });
+                }
+            }
+        }
+        return res;
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
