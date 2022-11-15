@@ -8271,6 +8271,25 @@ public class Leetcode_5 {
 
     }
 
+     // 1257. 最小公共区域 (Smallest Common Region) --plus
+     public String findSmallestRegion2(List<List<String>> regions, String region1, String region2) {
+         Map<String, String> map = new HashMap<>();
+         for (List<String> region : regions) {
+             String parent = region.get(0);
+             for (int i = 1; i < region.size(); ++i) {
+                 map.put(region.get(i), parent);
+             }
+         }
+         String r1 = region1;
+         String r2 = region2;
+         while (!r1.equals(r2)) {
+             r1 = map.getOrDefault(r1, region2);
+             r2 = map.getOrDefault(r2, region1);
+         }
+         return r1;
+     
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
