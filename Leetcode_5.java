@@ -8243,6 +8243,34 @@ public class Leetcode_5 {
         return s.substring(0, index + 7);
     }
 
+    // 1257. 最小公共区域 (Smallest Common Region) --plus
+    public String findSmallestRegion(List<List<String>> regions, String region1, String region2) {
+        Map<String, String> map = new HashMap<>();
+        for (List<String> region : regions) {
+            String parent = region.get(0);
+            for (int i = 1; i < region.size(); ++i) {
+                map.put(region.get(i), parent);
+            }
+        }
+        Set<String> parents = new HashSet<>();
+
+        do {
+            parents.add(region1);
+            region1 = map.get(region1);
+        } while (region1 != null);
+
+        do {
+            if (parents.contains(region2)) {
+                return region2;
+            }
+            parents.add(region2);
+            region2 = map.get(region2);
+        } while (region2 != null);
+
+        return "";
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
