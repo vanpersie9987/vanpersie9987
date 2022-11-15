@@ -8137,6 +8137,75 @@ public class Leetcode_5 {
 
     }
 
+    // 1135. 最低成本联通所有城市 (Connecting Cities With Minimum Cost) --plus 最小生成树
+    public int minimumCost(int n, int[][] connections) {
+        Arrays.sort(connections, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[2] - o2[2];
+            }
+
+        });
+        Union1135 union = new Union1135(n);
+        int res = 0;
+        int count = 0;
+        for (int[] connection : connections) {
+            if (count == n - 1) {
+                return res;
+            }
+            if (union.isConnected(connection[0] - 1, connection[1] - 1)) {
+                continue;
+            }
+            res += connection[2];
+            union.union(connection[0] - 1, connection[1] - 1);
+            ++count;
+        }
+        return count == n - 1 ? res : -1;
+    }
+
+    public class Union1135 {
+        private int[] parent;
+        private int[] rank;
+
+        public Union1135(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] > rank[root2]) {
+                parent[root2] = root1;
+            } else {
+                parent[root1] = root2;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root2];
+                }
+            }
+        }
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
