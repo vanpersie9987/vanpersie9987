@@ -8104,6 +8104,39 @@ public class Leetcode_5 {
 
     }
 
+    // 1136. 并行课程 (Parallel Courses) --plus 拓扑排序
+    public int minimumSemesters(int n, int[][] relations) {
+        int[] degrees = new int[n];
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int[] relation : relations) {
+            graph.computeIfAbsent(relation[0] - 1, k -> new ArrayList<>()).add(relation[1] - 1);
+            ++degrees[relation[1] - 1];
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            if (degrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        int res = 0;
+        while (!queue.isEmpty()) {
+            ++res;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                --n;
+                int cur = queue.poll();
+                for (int neighbor : graph.getOrDefault(cur, new ArrayList<>())) {
+                    --degrees[neighbor];
+                    if (degrees[neighbor] == 0) {
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+        }
+        return n == 0 ? res : -1;
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
