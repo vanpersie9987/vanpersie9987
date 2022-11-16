@@ -8290,6 +8290,40 @@ public class Leetcode_5 {
      
     }
 
+    // 2107. 分享 K 个糖果后独特口味的数量 (Number of Unique Flavors After Sharing K Candies) --plus
+    public int shareCandies(int[] candies, int k) {
+        int max = 0;
+        for (int candy : candies) {
+            max = Math.max(max, candy);
+        }
+        int[] counts = new int[max + 1];
+        for (int candy : candies) {
+            ++counts[candy];
+        }
+        for (int i = 0; i < k; ++i) {
+            --counts[candies[i]];
+        }
+        int left = 0;
+        for (int count : counts) {
+            if (count > 0) {
+                ++left;
+            }
+        }
+        int res = left;
+        for (int i = k; i < candies.length; ++i) {
+            if (--counts[candies[i]] == 0) {
+                --left;
+            }
+            if (++counts[candies[i - k]] == 1) {
+                ++left;
+            }
+            res = Math.max(res, left);
+        }
+        return res;
+
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
