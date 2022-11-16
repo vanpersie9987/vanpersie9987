@@ -8369,6 +8369,91 @@ public class Leetcode_5 {
 
     }
 
+    // 1258. 近义词句子 (Synonymous Sentences) --plus
+    public List<String> generateSentences(List<List<String>> synonyms, String text) {
+        Map<String, Integer> map = new HashMap<>();
+        int count = 0;
+        for (List<String> synouym : synonyms) {
+            for (String s : synouym) {
+                if (!map.containsKey(s)) {
+                    map.put(s, count++);
+                }
+            }
+        }
+        String[] split = text.split("\\s+");
+
+        List<String> res = new ArrayList<>();
+        Union1258 union = new Union1258(count);
+        for (List<String> synonym : synonyms) {
+            union.union(map.get(synonym.get(0)), map.get(synonym.get(1)));
+        }
+        dfs1258(res, map, union, split, 0);
+        Collections.sort(res);
+        return res;
+
+    }
+
+    private void dfs1258(List<String> res, Map<String, Integer> map, Union1258 union, String[] split, int i) {
+        if (i == split.length) {
+            res.add(String.join(" ", split));
+            return;
+        }
+        if (map.containsKey(split[i])) {
+            String originalString = split[i];
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                if (union.isConnected(entry.getValue(), map.get(originalString))) {
+                    split[i] = entry.getKey();
+                    dfs1258(res, map, union, split.clone(), i + 1);
+                    split[i] = originalString;
+                }
+            }
+        } else {
+            dfs1258(res, map, union, split.clone(), i + 1);
+        }
+    }
+
+    public class Union1258 {
+        private int[] parent;
+        private int[] rank;
+
+        public Union1258(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+    }
+
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
