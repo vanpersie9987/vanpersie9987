@@ -8324,6 +8324,51 @@ public class Leetcode_5 {
 
     }
 
+    // 1740. 找到二叉树中的距离 (Find Distance in a Binary Tree) --plus
+    public int findDistance(TreeNode root, int p, int q) {
+        if (p == q) {
+            return 0;
+        }
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node.left != null) {
+                graph.computeIfAbsent(node.val, k -> new ArrayList<>()).add(node.left.val);
+                graph.computeIfAbsent(node.left.val, k -> new ArrayList<>()).add(node.val);
+                queue.offer(node.left);
+            }
+            if (node.right != null) {
+                graph.computeIfAbsent(node.val, k -> new ArrayList<>()).add(node.right.val);
+                graph.computeIfAbsent(node.right.val, k -> new ArrayList<>()).add(node.val);
+                queue.offer(node.right);
+            }
+        }
+        int res = 0;
+        Set<Integer> visited = new HashSet<>();
+        visited.add(p);
+        Queue<Integer> queue2 = new LinkedList<>();
+        queue2.offer(p);
+        while (!queue2.isEmpty()) {
+            int size = queue2.size();
+            ++res;
+            for (int i = 0; i < size; ++i) {
+                int cur = queue2.poll();
+                for (int neighbor : graph.getOrDefault(cur, new ArrayList<>())) {
+                    if (neighbor == q) {
+                        return res;
+                    }
+                    if (visited.add(neighbor)) {
+                        queue2.offer(neighbor);
+                    }
+                }
+            }
+        }
+        return -1;
+
+    }
+
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 
