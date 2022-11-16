@@ -2389,29 +2389,30 @@ public class LeetCodeText {
 
     }
 
-    // 775. 全局倒置与局部倒置
-    public boolean isIdealPermutation(final int[] A) {
-        for (int i = 0; i < A.length; ++i) {
-            for (int j = i + 2; j < A.length; ++j) {
-                if (A[i] > A[j]) {
-                    return false;
-                }
+    // 775. 全局倒置与局部倒置 (Global and Local Inversions)
+    public boolean isIdealPermutation(int[] nums) {
+        int n = nums.length;
+        int min = nums[n - 1];
+        for (int i = n - 3; i >= 0; --i) {
+            if (nums[i] > min) {
+                return false;
             }
+            min = Math.min(min, nums[i + 1]);
         }
         return true;
+
     }
 
-    // 775. 全局倒置与局部倒置
-    public boolean isIdealPermutation2(final int[] A) {
-        int min = A[A.length - 1];
-        for (int i = A.length - 1; i >= 2; --i) {
-            min = Math.min(min, A[i]);
-            if (A[i - 2] > min) {
+    // 775. 全局倒置与局部倒置 (Global and Local Inversions)
+    public boolean isIdealPermutation2(int[] nums) {
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            if (Math.abs(nums[i] - i) > 1) {
                 return false;
             }
         }
         return true;
-
+    
     }
 
     // 1779. 找到最近的有相同 X 或 Y 坐标的点
