@@ -8464,10 +8464,12 @@ public class Leetcode_5 {
             ++diff[interval[0]];
             --diff[interval[1]];
         }
+        int res = diff[0];
         for (int i = 1; i < diff.length; ++i) {
             diff[i] += diff[i - 1];
+            res = Math.max(res, diff[i]);
         }
-        return Arrays.stream(diff).max().getAsInt();
+        return res;
 
     }
 
