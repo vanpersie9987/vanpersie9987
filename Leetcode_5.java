@@ -8453,6 +8453,24 @@ public class Leetcode_5 {
         }
     }
 
+    // 253. 会议室 II (Meeting Rooms II) --plus
+    public int minMeetingRooms(int[][] intervals) {
+        int max = 0;
+        for (int[] interval : intervals) {
+            max = Math.max(max, interval[1]);
+        }
+        int[] diff = new int[max + 1];
+        for (int[] interval : intervals) {
+            ++diff[interval[0]];
+            --diff[interval[1]];
+        }
+        for (int i = 1; i < diff.length; ++i) {
+            diff[i] += diff[i - 1];
+        }
+        return Arrays.stream(diff).max().getAsInt();
+
+    }
+
 
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
