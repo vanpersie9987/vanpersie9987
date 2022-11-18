@@ -8473,6 +8473,46 @@ public class Leetcode_5 {
 
     }
 
+    // 891. 子序列宽度之和 (Sum of Subsequence Widths)
+    public int sumSubseqWidths(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        long x = nums[0];
+        long y = 2l;
+        long res = 0l;
+        final int mod = (int) (1e9 + 7);
+        for (int j = 1; j < n; ++j) {
+            res = (res + nums[j] * (y - 1) - x) % mod;
+            x = (x * 2 + nums[j]) % mod;
+            y = y * 2 % mod;
+        }
+        return (int) (res % mod);
+
+    }
+
+    // 1477. 找两个和为目标值且不重叠的子数组 (Find Two Non-overlapping Sub-arrays Each With Target
+    // Sum)
+    // public int minSumOfLengths(int[] arr, int target) {
+
+    // }
+
+    // 1348. 推文计数 (Tweet Counts Per Frequency)
+    // class TweetCounts {
+
+    // public TweetCounts() {
+
+    // }
+
+    // public void recordTweet(String tweetName, int time) {
+
+    // }
+
+    // public List<Integer> getTweetCountsPerFrequency(String freq, String
+    // tweetName, int startTime, int endTime) {
+
+    // }
+    // }
+
 
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
