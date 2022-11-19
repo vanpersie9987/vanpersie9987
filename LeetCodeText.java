@@ -2432,62 +2432,59 @@ public class LeetCodeText {
 
     }
 
-    // 792. 匹配子序列的单词数--超时
-    public int numMatchingSubseq(final String S, final String[] words) {
-        int count = 0;
+    // 792. 匹配子序列的单词数 (Number of Matching Subsequences) --二分查找
+    public int numMatchingSubseq(String s, String[] words) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int n = s.length();
+        for (int i = 0; i < n; ++i) {
+            int index = s.charAt(i) - 'a';
+            map.computeIfAbsent(index, k -> new ArrayList<>()).add(i);
+        }
+        int res = words.length;
         for (String word : words) {
-            int i = 0;
-            for (char s : S.toCharArray()) {
-                if (s == word.charAt(i)) {
-                    ++i;
-                }
-                if (i == word.length()) {
-                    ++count;
+            if (word.length() > n) {
+                --res;
+                continue;
+            }
+            int p = -1;
+            for (char c : word.toCharArray()) {
+                int index = c - 'a';
+                p = binarySearch792(map.getOrDefault(index, new ArrayList<>()), p);
+                if (p == -1) {
+                    --res;
                     break;
                 }
             }
-
         }
-        return count;
+        return res;
 
     }
 
-    // 792. 匹配子序列的单词数
-    public int numMatchingSubseq2(final String S, final String[] words) {
-        int count = 0;
-        final ArrayList<Node>[] heads = new ArrayList[26];
-        for (int i = 0; i < 26; ++i) {
-            heads[i] = new ArrayList<>();
+    // 返回排序数组list中，第一个比target值大的的元素值，若不存在，返回-1
+    private int binarySearch792(List<Integer> list, int target) {
+        if (list.isEmpty()) {
+            return -1;
         }
-        for (final String word : words) {
-            heads[word.charAt(0) - 'a'].add(new Node(word, 0));
+        int n = list.size();
+        if (target >= list.get(n - 1)) {
+            return -1;
         }
-        for (final char a : S.toCharArray()) {
-            final ArrayList<Node> old = heads[a - 'a'];
-            heads[a - 'a'] = new ArrayList<>();
-            for (final Node node : old) {
-                ++node.index;
-                if (node.index == node.word.length()) {
-                    ++count;
-                } else {
-                    heads[node.word.charAt(node.index) - 'a'].add(node);
-                }
+        if (list.get(0) > target) {
+            return list.get(0);
+        }
+        int left = 0;
+        int right = list.size() - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (list.get(mid) > target) {
+                res = list.get(mid);
+                right = mid - 1;
+            } else {
+                left = mid + 1;
             }
-            old.clear();
         }
-        return count;
-
-    }
-
-    public class Node {
-        int index;
-        String word;
-
-        public Node(final String word, final int index) {
-            this.index = index;
-            this.word = word;
-        }
-
+        return res;
     }
 
     // 795. 区间子数组个数
