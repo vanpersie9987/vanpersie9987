@@ -8490,6 +8490,208 @@ public class Leetcode_5 {
 
     }
 
+    // 6241. 数组中不等三元组的数目
+    public int unequalTriplets(int[] nums) {
+        int n = nums.length;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                for (int k = j + 1; k < n; ++k) {
+                    if (nums[i] != nums[j] && nums[j] != nums[k] && nums[i] != nums[k]) {
+                        ++res;
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 6241. 数组中不等三元组的数目
+    public int unequalTriplets2(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int left = 0;
+        int right = 1;
+        int res = 0;
+        while (right < n) {
+            if (nums[left] != nums[right]) {
+                res += left * (right - left) * (n - right);
+                left = right;
+            } else {
+                ++right;
+            }
+        }
+        return res;
+
+    }
+
+    // 6242. 二叉搜索树最近节点查询
+    public List<List<Integer>> closestNodes(TreeNode root, List<Integer> queries) {
+        List<Integer> list = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        list.add(root.val);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node.left != null) {
+                queue.offer(node.left);
+                list.add(node.left.val);
+            }
+
+            if (node.right != null) {
+                queue.offer(node.right);
+                list.add(node.right.val);
+            }
+        }
+
+        Collections.sort(list);
+
+        List<List<Integer>> res = new ArrayList<>();
+        for (int query : queries) {
+            int min = binarySearchMin6242(list, query);
+            int max = binarySearchMax6242(list, query);
+            List<Integer> item = new ArrayList<>();
+            item.add(min);
+            item.add(max);
+            res.add(item);
+
+        }
+        return res;
+    }
+
+    private int binarySearchMax6242(List<Integer> list, int target) {
+        if (list.isEmpty()) {
+            return -1;
+        }
+        int n = list.size();
+
+        if (target > list.get(n - 1)) {
+            return -1;
+        }
+        if (target <= list.get(0)) {
+            return list.get(0);
+        }
+        int left = 0;
+        int right = n - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (list.get(mid) >= target) {
+                res = list.get(mid);
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        return res;
+    }
+
+    private int binarySearchMin6242(List<Integer> list, int target) {
+        if (list.isEmpty()) {
+            return -1;
+        }
+        int n = list.size();
+        if (list.get(n - 1) <= target) {
+            return list.get(n - 1);
+        }
+        if (target < list.get(0)) {
+            return -1;
+        }
+        int left = 0;
+        int right = n - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (list.get(mid) <= target) {
+                res = list.get(mid);
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return res;
+    }
+
+    // 6243. 到达首都的最少油耗
+    public long minimumFuelCost(int[][] roads, int seats) {
+        int n = roads.length + 1;
+        long[] dp = new long[n + 1];
+        Arrays.fill(dp, 1);
+        int[] degrees = new int[n + 1];
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int[] road : roads) {
+            graph.computeIfAbsent(road[0], k -> new ArrayList<>()).add(road[1]);
+            graph.computeIfAbsent(road[1], k -> new ArrayList<>()).add(road[0]);
+            ++degrees[road[0]];
+            ++degrees[road[1]];
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < degrees.length; ++i) {
+            --degrees[i];
+            if (degrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        long res = 0l;
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            if (node == 0) {
+                continue;
+            }
+            res = res + (dp[node] - 1) / seats + 1;
+            for (int neighbor : graph.getOrDefault(node, new ArrayList<>())) {
+                --degrees[neighbor];
+                dp[neighbor] += dp[node];
+                if (degrees[neighbor] == 0) {
+                    queue.offer(neighbor);
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 6244. 完美分割的方案数
+    // long res6244 = 0l;
+
+    // public int beautifulPartitions(String s, int k, int minLength) {
+    //     if (k > s.length() - 1) {
+    //         return 0;
+    //     }
+
+    //     char[] chars = s.toCharArray();
+    //     dfs6244(chars, k, minLength, 0);
+    //     return (int) (res6244 % (1e9 + 7));
+
+    // }
+
+    // private void dfs6244(char[] chars, int k, int minLength, int start) {
+    //     final int mod = (int) (1e9 + 7);
+    //     int n = chars.length;
+    //     if (k == 0) {
+    //         return;
+    //     }
+    //     if (k == 1) {
+    //         if ((chars[start] == '2' || chars[start] == '3' || chars[start] == '5' || chars[start] == '7')
+    //                 && !(chars[n - 1] == '2' || chars[n - 1] == '3' || chars[n - 1] == '5' || chars[n - 1] == '7')
+    //                 && n - start >= minLength) {
+    //             res6244 = (res6244 + 1) % mod;
+    //         }
+    //         return;
+    //     }
+    //     if (chars[start] == '2' || chars[start] == '3' || chars[start] == '5' || chars[start] == '7') {
+    //         for (int i = start + minLength - 1; i < n; ++i) {
+    //             if (!(chars[i] == '2' || chars[i] == '3' || chars[i] == '5' || chars[i] == '7')) {
+    //                 dfs6244(chars, k - 1, minLength, start + 1);
+    //             }
+    //         }
+    //     }
+
+    // }
+
     // 1477. 找两个和为目标值且不重叠的子数组 (Find Two Non-overlapping Sub-arrays Each With Target
     // Sum)
     // public int minSumOfLengths(int[] arr, int target) {
@@ -8512,7 +8714,6 @@ public class Leetcode_5 {
 
     // }
     // }
-
 
     // 6232. 最小移动总距离
     // public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
