@@ -8529,23 +8529,7 @@ public class Leetcode_5 {
     // 6242. 二叉搜索树最近节点查询
     public List<List<Integer>> closestNodes(TreeNode root, List<Integer> queries) {
         List<Integer> list = new ArrayList<>();
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-        list.add(root.val);
-        while (!queue.isEmpty()) {
-            TreeNode node = queue.poll();
-            if (node.left != null) {
-                queue.offer(node.left);
-                list.add(node.left.val);
-            }
-
-            if (node.right != null) {
-                queue.offer(node.right);
-                list.add(node.right.val);
-            }
-        }
-
-        Collections.sort(list);
+        dfs6242(list, root);
 
         List<List<Integer>> res = new ArrayList<>();
         for (int query : queries) {
@@ -8558,6 +8542,16 @@ public class Leetcode_5 {
 
         }
         return res;
+    }
+
+    private void dfs6242(List<Integer> list, TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        dfs6242(list, root.left);
+        list.add(root.val);
+        dfs6242(list, root.right);
+        
     }
 
     private int binarySearchMax6242(List<Integer> list, int target) {
