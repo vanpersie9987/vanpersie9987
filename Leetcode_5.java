@@ -8528,23 +8528,27 @@ public class Leetcode_5 {
 
     // 6242. 二叉搜索树最近节点查询
     public List<List<Integer>> closestNodes(TreeNode root, List<Integer> queries) {
-        List<Integer> list = new ArrayList<>();
-        dfs6242(list, root);
+        TreeSet<Integer> set = new TreeSet<>();
+        dfs6242(set, root);
 
         List<List<Integer>> res = new ArrayList<>();
         for (int query : queries) {
-            int min = binarySearchMin6242(list, query);
-            int max = binarySearchMax6242(list, query);
-            List<Integer> item = new ArrayList<>();
-            item.add(min);
-            item.add(max);
-            res.add(item);
+            Integer floor = set.floor(query);
+            if (floor == null) {
+                floor = -1;
+            }
+
+            Integer ceil = set.ceiling(query);
+            if (ceil == null) {
+                ceil = -1;
+            }
+            res.add(List.of(floor, ceil));
 
         }
         return res;
     }
 
-    private void dfs6242(List<Integer> list, TreeNode root) {
+    private void dfs6242(TreeSet<Integer> list, TreeNode root) {
         if (root == null) {
             return;
         }
@@ -8552,61 +8556,6 @@ public class Leetcode_5 {
         list.add(root.val);
         dfs6242(list, root.right);
         
-    }
-
-    private int binarySearchMax6242(List<Integer> list, int target) {
-        if (list.isEmpty()) {
-            return -1;
-        }
-        int n = list.size();
-
-        if (target > list.get(n - 1)) {
-            return -1;
-        }
-        if (target <= list.get(0)) {
-            return list.get(0);
-        }
-        int left = 0;
-        int right = n - 1;
-        int res = -1;
-        while (left <= right) {
-            int mid = left + ((right - left) >>> 1);
-            if (list.get(mid) >= target) {
-                res = list.get(mid);
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
-        }
-
-        return res;
-    }
-
-    private int binarySearchMin6242(List<Integer> list, int target) {
-        if (list.isEmpty()) {
-            return -1;
-        }
-        int n = list.size();
-        if (list.get(n - 1) <= target) {
-            return list.get(n - 1);
-        }
-        if (target < list.get(0)) {
-            return -1;
-        }
-        int left = 0;
-        int right = n - 1;
-        int res = -1;
-        while (left <= right) {
-            int mid = left + ((right - left) >>> 1);
-            if (list.get(mid) <= target) {
-                res = list.get(mid);
-                left = mid + 1;
-            } else {
-                right = mid - 1;
-            }
-        }
-
-        return res;
     }
 
     // 6243. 到达首都的最少油耗
