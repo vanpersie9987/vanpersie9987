@@ -4959,18 +4959,15 @@ public class LeetCode_2 {
 
    // 799. 香槟塔 (Champagne Tower)
    public double champagneTower(int poured, int query_row, int query_glass) {
-      double[][] dp = new double[102][102];
+      double[][] dp = new double[query_row + 2][query_row + 2];
       dp[0][0] = poured;
-      for (int r = 0; r <= query_row; ++r) {
-         for (int c = 0; c <= r; ++c) {
-            double q = (dp[r][c] - 1.0) / 2;
-            if (q > 0) {
-               dp[r + 1][c] += q;
-               dp[r + 1][c + 1] += q;
-            }
+      for (int i = 0; i <= query_row; ++i) {
+         for (int j = 0; j <= query_glass; ++j) {
+            dp[i + 1][j] += Math.max(0d, dp[i][j] - 1) / 2;
+            dp[i + 1][j + 1] += Math.max(0d, dp[i][j] - 1) / 2;
          }
       }
-      return Math.min(1.0d, dp[query_row][query_glass]);
+      return Math.min(1d, dp[query_row][query_glass]);
 
    }
 
