@@ -4963,8 +4963,9 @@ public class LeetCode_2 {
       dp[0][0] = poured;
       for (int i = 0; i <= query_row; ++i) {
          for (int j = 0; j <= query_glass; ++j) {
-            dp[i + 1][j] += Math.max(0d, dp[i][j] - 1) / 2;
-            dp[i + 1][j + 1] += Math.max(0d, dp[i][j] - 1) / 2;
+            double q = Math.max(0d, dp[i][j] - 1) / 2;
+            dp[i + 1][j] += q;
+            dp[i + 1][j + 1] += q;
          }
       }
       return Math.min(1d, dp[query_row][query_glass]);
