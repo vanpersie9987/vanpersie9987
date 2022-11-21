@@ -8597,6 +8597,83 @@ public class Leetcode_5 {
 
     }
 
+    // 1348. 推文计数 (Tweet Counts Per Frequency)
+    class TweetCounts {
+        private Map<String, List<Integer>> map;
+
+        public TweetCounts() {
+            map = new HashMap<>();
+
+        }
+
+        public void recordTweet(String tweetName, int time) {
+            map.computeIfAbsent(tweetName, k -> new ArrayList<>()).add(Integer.MIN_VALUE);
+            map.computeIfAbsent(tweetName, k -> new ArrayList<>()).add(Integer.MAX_VALUE);
+            map.computeIfAbsent(tweetName, k -> new ArrayList<>()).add(time);
+        }
+
+        public List<Integer> getTweetCountsPerFrequency(String freq, String tweetName, int startTime, int endTime) {
+            List<Integer> res = new ArrayList<>();
+          
+            List<Integer> list = map.getOrDefault(tweetName, new ArrayList<>());
+            Collections.sort(list);
+            if (list.isEmpty()) {
+                return res;
+            }
+            int divider = 0;
+            if ("minute".equals(freq)) {
+                divider = 60;
+            } else if ("hour".equals(freq)) {
+                divider = 3600;
+            } else if ("day".equals(freq)) {
+                divider = 86400;
+            }
+            while (startTime <= endTime) {
+                int min = startTime;
+                int max = Math.min(startTime + divider - 1, endTime);
+                int leftIndex = binarySearchCeiling1348(list, min);
+                int rightIndex = binarySearchFloor1348(list, max);
+                res.add(rightIndex - leftIndex + 1);
+                startTime = max + 1;
+            }
+            return res;
+
+        }
+
+        private int binarySearchFloor1348(List<Integer> list, int target) {
+            int left = 0;
+            int right = list.size();
+            int res = -1;
+            while (left <= right) {
+                int mid = left + ((right - left) >>> 1);
+                if (list.get(mid) <= target) {
+                    res = mid;
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+            return res;
+
+        }
+
+        private int binarySearchCeiling1348(List<Integer> list, int target) {
+            int left = 0;
+            int right = list.size() - 1;
+            int res = -1;
+            while (left <= right) {
+                int mid = left + ((right - left) >>> 1);
+                if (list.get(mid) >= target) {
+                    res = mid;
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            return res;
+        }
+    }
+
     // 6244. 完美分割的方案数
     // long res6244 = 0l;
 
@@ -8639,23 +8716,6 @@ public class Leetcode_5 {
     // Sum)
     // public int minSumOfLengths(int[] arr, int target) {
 
-    // }
-
-    // 1348. 推文计数 (Tweet Counts Per Frequency)
-    // class TweetCounts {
-
-    // public TweetCounts() {
-
-    // }
-
-    // public void recordTweet(String tweetName, int time) {
-
-    // }
-
-    // public List<Integer> getTweetCountsPerFrequency(String freq, String
-    // tweetName, int startTime, int endTime) {
-
-    // }
     // }
 
     // 6232. 最小移动总距离
