@@ -7482,7 +7482,7 @@ public class Leetcode_5 {
         int i = 0;
         int j = n - 1;
         long prefix = nums[0];
-        long suffix = nums[n-1];
+        long suffix = nums[n - 1];
         int res = 0;
         while (i < j) {
             if (prefix == suffix) {
@@ -7599,7 +7599,6 @@ public class Leetcode_5 {
             }
         }
         return res;
-
 
     }
 
@@ -7727,7 +7726,7 @@ public class Leetcode_5 {
                     queue.offer(node.right);
                 }
             }
-           res += getSwapCounts(nums);
+            res += getSwapCounts(nums);
         }
         return res;
 
@@ -7828,7 +7827,7 @@ public class Leetcode_5 {
         return res;
 
     }
-    
+
     // 2417. Closest Fair Integer --plus
     public int closestFair(int n) {
         while (true) {
@@ -7960,7 +7959,7 @@ public class Leetcode_5 {
     public int equalToDescendants(TreeNode root) {
         dfs1973(root);
         return res1973;
-        
+
     }
 
     private int dfs1973(TreeNode node) {
@@ -8031,7 +8030,6 @@ public class Leetcode_5 {
         return i;
 
     }
-
 
     // 1580. 把箱子放进仓库里 II (Put Boxes Into the Warehouse II) --plus
     public int maxBoxesInWarehouse1500(int[] boxes, int[] warehouse) {
@@ -8271,23 +8269,23 @@ public class Leetcode_5 {
 
     }
 
-     // 1257. 最小公共区域 (Smallest Common Region) --plus
-     public String findSmallestRegion2(List<List<String>> regions, String region1, String region2) {
-         Map<String, String> map = new HashMap<>();
-         for (List<String> region : regions) {
-             String parent = region.get(0);
-             for (int i = 1; i < region.size(); ++i) {
-                 map.put(region.get(i), parent);
-             }
-         }
-         String r1 = region1;
-         String r2 = region2;
-         while (!r1.equals(r2)) {
-             r1 = map.getOrDefault(r1, region2);
-             r2 = map.getOrDefault(r2, region1);
-         }
-         return r1;
-     
+    // 1257. 最小公共区域 (Smallest Common Region) --plus
+    public String findSmallestRegion2(List<List<String>> regions, String region1, String region2) {
+        Map<String, String> map = new HashMap<>();
+        for (List<String> region : regions) {
+            String parent = region.get(0);
+            for (int i = 1; i < region.size(); ++i) {
+                map.put(region.get(i), parent);
+            }
+        }
+        String r1 = region1;
+        String r2 = region2;
+        while (!r1.equals(r2)) {
+            r1 = map.getOrDefault(r1, region2);
+            r2 = map.getOrDefault(r2, region1);
+        }
+        return r1;
+
     }
 
     // 2107. 分享 K 个糖果后独特口味的数量 (Number of Unique Flavors After Sharing K Candies) --plus
@@ -8320,7 +8318,6 @@ public class Leetcode_5 {
             res = Math.max(res, left);
         }
         return res;
-
 
     }
 
@@ -8555,7 +8552,7 @@ public class Leetcode_5 {
         dfs6242(list, root.left);
         list.add(root.val);
         dfs6242(list, root.right);
-        
+
     }
 
     // 6243. 到达首都的最少油耗
@@ -8614,7 +8611,7 @@ public class Leetcode_5 {
 
         public List<Integer> getTweetCountsPerFrequency(String freq, String tweetName, int startTime, int endTime) {
             List<Integer> res = new ArrayList<>();
-          
+
             List<Integer> list = map.getOrDefault(tweetName, new ArrayList<>());
             Collections.sort(list);
             if (list.isEmpty()) {
@@ -8674,42 +8671,75 @@ public class Leetcode_5 {
         }
     }
 
+    // 1191. K 次串联后最大子数组之和 (K-Concatenation Maximum Sum)
+    public int kConcatenationMaxSum(int[] arr, int k) {
+        final int mod = (int) (1e9 + 7);
+        int n = arr.length;
+        long preSum = 0l;
+        long sufSum = 0l;
+        long maxSum = 0l;
+        long minPreSum = 0l;
+        long maxPreSum = 0l;
+        long maxSufSum = 0l;
+        for (int num : arr) {
+            preSum += num;
+            maxSum = Math.max(maxSum, preSum - minPreSum);
+            minPreSum = Math.min(minPreSum, preSum);
+            maxPreSum = Math.max(maxPreSum, preSum);
+        }
+
+        for (int i = n - 1; i >= 0; --i) {
+            sufSum += arr[i];
+            maxSufSum = Math.max(maxSufSum, sufSum);
+        }
+        long res = 0l;
+        res = Math.max(res, maxSum);
+        if (k >= 2) {
+            res = Math.max(res, Math.max(preSum * (k - 2) + maxPreSum + maxSufSum, maxPreSum + maxSufSum));
+        }
+        return (int) (res % mod);
+
+    }
+
     // 6244. 完美分割的方案数
     // long res6244 = 0l;
 
     // public int beautifulPartitions(String s, int k, int minLength) {
-    //     if (k > s.length() - 1) {
-    //         return 0;
-    //     }
+    // if (k > s.length() - 1) {
+    // return 0;
+    // }
 
-    //     char[] chars = s.toCharArray();
-    //     dfs6244(chars, k, minLength, 0);
-    //     return (int) (res6244 % (1e9 + 7));
+    // char[] chars = s.toCharArray();
+    // dfs6244(chars, k, minLength, 0);
+    // return (int) (res6244 % (1e9 + 7));
 
     // }
 
     // private void dfs6244(char[] chars, int k, int minLength, int start) {
-    //     final int mod = (int) (1e9 + 7);
-    //     int n = chars.length;
-    //     if (k == 0) {
-    //         return;
-    //     }
-    //     if (k == 1) {
-    //         if ((chars[start] == '2' || chars[start] == '3' || chars[start] == '5' || chars[start] == '7')
-    //                 && !(chars[n - 1] == '2' || chars[n - 1] == '3' || chars[n - 1] == '5' || chars[n - 1] == '7')
-    //                 && n - start >= minLength) {
-    //             res6244 = (res6244 + 1) % mod;
-    //         }
-    //         return;
-    //     }
-    //     if (chars[start] == '2' || chars[start] == '3' || chars[start] == '5' || chars[start] == '7') {
-    //         for (int i = start + minLength - 1; i < n; ++i) {
-    //             if (!(chars[i] == '2' || chars[i] == '3' || chars[i] == '5' || chars[i] == '7')) {
-    //                 dfs6244(chars, k - 1, minLength, start + 1);
-    //             }
-    //         }
-    //     }
-
+    // final int mod = (int) (1e9 + 7);
+    // int n = chars.length;
+    // if (k == 0) {
+    // return;
+    // }
+    // if (k == 1) {
+    // if ((chars[start] == '2' || chars[start] == '3' || chars[start] == '5' ||
+    // chars[start] == '7')
+    // && !(chars[n - 1] == '2' || chars[n - 1] == '3' || chars[n - 1] == '5' ||
+    // chars[n - 1] == '7')
+    // && n - start >= minLength) {
+    // res6244 = (res6244 + 1) % mod;
+    // }
+    // return;
+    // }
+    // if (chars[start] == '2' || chars[start] == '3' || chars[start] == '5' ||
+    // chars[start] == '7') {
+    // for (int i = start + minLength - 1; i < n; ++i) {
+    // if (!(chars[i] == '2' || chars[i] == '3' || chars[i] == '5' || chars[i] ==
+    // '7')) {
+    // dfs6244(chars, k - 1, minLength, start + 1);
+    // }
+    // }
     // }
 
+    // }
 }
