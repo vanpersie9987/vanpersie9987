@@ -399,7 +399,7 @@ public class LeetCodeText {
 
     // 42. 接雨水 (Trapping Rain Water)
     // 面试题 17.21. 直方图的水量
-    public int trap(final int[] height) {
+    public int trap(int[] height) {
         int res = 0;
         int[] leftMax = new int[height.length];
         int[] rightMax = new int[height.length];
@@ -421,7 +421,7 @@ public class LeetCodeText {
 
     // 42. 接雨水 (Trapping Rain Water)
     // 面试题 17.21. 直方图的水量
-    public int trap2(final int[] height) {
+    public int trap2(int[] height) {
         Stack<Integer> stack = new Stack<>();
         int res = 0;
         for (int i = 0; i < height.length; ++i) {
@@ -434,6 +434,27 @@ public class LeetCodeText {
                 res += (Math.min(height[stack.peek()], height[i]) - h) * distance;
             }
             stack.push(i);
+        }
+        return res;
+
+    }
+
+    // 42. 接雨水 (Trapping Rain Water) --双指针
+    // 面试题 17.21. 直方图的水量
+    public int trap3(int[] height) {
+        int res = 0;
+        int preMax = 0;
+        int sufMax = 0;
+        int i = 0;
+        int j = height.length - 1;
+        while (i <= j) {
+            preMax = Math.max(preMax, height[i]);
+            sufMax = Math.max(sufMax, height[j]);
+            if (preMax < sufMax) {
+                res += preMax - height[i++];
+            } else {
+                res += sufMax - height[j--];
+            }
         }
         return res;
 
