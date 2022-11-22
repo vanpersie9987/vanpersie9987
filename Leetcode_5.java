@@ -8730,45 +8730,4 @@ public class Leetcode_5 {
         return b == 0 ? a : gcd878(b, a % b);
     }
 
-    // 6244. 完美分割的方案数
-    // long res6244 = 0l;
-
-    // public int beautifulPartitions(String s, int k, int minLength) {
-    // if (k > s.length() - 1) {
-    // return 0;
-    // }
-
-    // char[] chars = s.toCharArray();
-    // dfs6244(chars, k, minLength, 0);
-    // return (int) (res6244 % (1e9 + 7));
-
-    // }
-
-    // private void dfs6244(char[] chars, int k, int minLength, int start) {
-    // final int mod = (int) (1e9 + 7);
-    // int n = chars.length;
-    // if (k == 0) {
-    // return;
-    // }
-    // if (k == 1) {
-    // if ((chars[start] == '2' || chars[start] == '3' || chars[start] == '5' ||
-    // chars[start] == '7')
-    // && !(chars[n - 1] == '2' || chars[n - 1] == '3' || chars[n - 1] == '5' ||
-    // chars[n - 1] == '7')
-    // && n - start >= minLength) {
-    // res6244 = (res6244 + 1) % mod;
-    // }
-    // return;
-    // }
-    // if (chars[start] == '2' || chars[start] == '3' || chars[start] == '5' ||
-    // chars[start] == '7') {
-    // for (int i = start + minLength - 1; i < n; ++i) {
-    // if (!(chars[i] == '2' || chars[i] == '3' || chars[i] == '5' || chars[i] ==
-    // '7')) {
-    // dfs6244(chars, k - 1, minLength, start + 1);
-    // }
-    // }
-    // }
-
-    // }
 }
