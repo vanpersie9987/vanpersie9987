@@ -8701,6 +8701,35 @@ public class Leetcode_5 {
 
     }
 
+    // 878. 第 N 个神奇数字 (Nth Magical Number)
+    public int nthMagicalNumber(int n, int a, int b) {
+        final int mod = (int) (1e9 + 7);
+        long left = Math.min(a, b);
+        long right = (long) n * Math.min(a, b);
+        int c = lcm878(a, b);
+        long res = -1;
+        while (left <= right) {
+            long mid = left + ((right - left) >>> 1);
+            long num = mid / a + mid / b - mid / c;
+            if (num >= n) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return (int) (res % mod);
+
+    }
+
+    private int lcm878(int a, int b) {
+        return a * b / gcd878(a, b);
+    }
+
+    private int gcd878(int a, int b) {
+        return b == 0 ? a : gcd878(b, a % b);
+    }
+
     // 6244. 完美分割的方案数
     // long res6244 = 0l;
 
