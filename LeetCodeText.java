@@ -2507,21 +2507,22 @@ public class LeetCodeText {
         return res;
     }
 
-    // 795. 区间子数组个数
-    public int numSubarrayBoundedMax(final int[] A, final int L, final int R) {
-        return count(A, R) - count(A, L - 1);
+    // 795. 区间子数组个数 (Number of Subarrays with Bounded Maximum)
+    public int numSubarrayBoundedMax(int[] nums, int left, int right) {
+        return (int) (counts795(nums, right) - counts795(nums, left - 1));
     }
 
-    private int count(int[] A, int bound) {
+    // 统计nums中，子数组的最大值 <= bound的个数
+    private long counts795(int[] nums, int bound) {
         int count = 0;
-        int res = 0;
-        for (int i = 0; i < A.length; ++i) {
-            if (A[i] <= bound) {
-                ++count;
-                res += count;
-            } else {
+        long res = 0l;
+        for (int num : nums) {
+            if (num > bound) {
                 count = 0;
+            } else {
+                ++count;
             }
+            res += count;
         }
         return res;
     }
