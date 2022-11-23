@@ -8730,4 +8730,33 @@ public class Leetcode_5 {
         return b == 0 ? a : gcd878(b, a % b);
     }
 
+    // 2400. 恰好移动 k 步到达某一位置的方法数目 (Number of Ways to Reach a Position After Exactly k
+    // Steps)
+    public int numberOfWays(int startPos, int endPos, int k) {
+        Map<String, Long> memo = new HashMap<>();
+        return dfs2400(startPos, endPos, k, memo);
+    }
+
+    private int dfs2400(int startPos, int endPos, int k, Map<String, Long> memo) {
+        if (Math.abs(startPos - endPos) > k) {
+            return 0;
+        }
+        if (k == 0) {
+            if (startPos == endPos) {
+                return 1;
+            }
+            return 0;
+        }
+        final int mod = (int) (1e9 + 7);
+        String visited = startPos + "_" + k;
+        if (memo.containsKey(visited)) {
+            return (int) (memo.get(visited) % mod);
+        }
+        long res = 0l;
+        res = (res + dfs2400(startPos + 1, endPos, k - 1, memo)) % mod;
+        res = (res + dfs2400(startPos - 1, endPos, k - 1, memo)) % mod;
+        memo.put(visited, res);
+        return (int) (memo.get(visited) % mod);
+    }
+
 }
