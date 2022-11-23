@@ -8759,4 +8759,31 @@ public class Leetcode_5 {
         return (int) (memo.get(visited) % mod);
     }
 
+    // 1540. K 次操作转变字符串 (Can Convert String in K Moves)
+    public boolean canConvertString(String s, String t, int k) {
+        int m = s.length();
+        int n = t.length();
+        if (m != n) {
+            return false;
+        }
+        int[] counts = new int[26];
+        int div = k / 26;
+        int mod = k % 26;
+        for (int i = 1; i < 26; ++i) {
+            counts[i] = div + (i <= mod ? 1 : 0);
+        }
+        for (int i = 0; i < m; ++i) {
+            char c1 = s.charAt(i);
+            char c2 = t.charAt(i);
+            if (c1 == c2) {
+                continue;
+            }
+            int diff = (c2 - c1 + 26) % 26;
+            if (--counts[diff] < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
