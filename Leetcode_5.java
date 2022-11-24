@@ -8775,15 +8775,24 @@ public class Leetcode_5 {
         for (int i = 0; i < m; ++i) {
             char c1 = s.charAt(i);
             char c2 = t.charAt(i);
-            if (c1 == c2) {
-                continue;
-            }
             int diff = (c2 - c1 + 26) % 26;
-            if (--counts[diff] < 0) {
+            if (diff > 0 && --counts[diff] < 0) {
                 return false;
             }
         }
         return true;
     }
+
+
+    // 2466. 统计构造好字符串的方案数 (Count Ways To Build Good Strings)
+    // public int countGoodStrings(int low, int high, int zero, int one) {
+
+    // }
+
+
+    // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
+    // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
+
+    // }
 
 }
