@@ -2527,6 +2527,27 @@ public class LeetCodeText {
         return res;
     }
 
+    // 795. 区间子数组个数 (Number of Subarrays with Bounded Maximum)
+    public int numSubarrayBoundedMax2(int[] nums, int left, int right) {
+        int index1 = -1;
+        int index2 = -1;
+        int res = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            int num = nums[i];
+            if (num > right) {
+                index1 = i;
+                index2 = i;
+            } else {
+                if (num <= right && num >= left) {
+                    index2 = i;
+                }
+                res += index2 - index1;
+            }
+        }
+        return res;
+
+    }
+
     // 825. 适龄的朋友
     public int numFriendRequests(final int[] ages) {
         int res = 0;
