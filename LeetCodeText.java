@@ -2537,12 +2537,10 @@ public class LeetCodeText {
             if (num > right) {
                 index1 = i;
                 index2 = i;
-            } else {
-                if (num <= right && num >= left) {
-                    index2 = i;
-                }
-                res += index2 - index1;
+            } else if (num <= right && num >= left) {
+                index2 = i;
             }
+            res += index2 - index1;
         }
         return res;
 
