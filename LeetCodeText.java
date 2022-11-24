@@ -2533,11 +2533,10 @@ public class LeetCodeText {
         int index2 = -1;
         int res = 0;
         for (int i = 0; i < nums.length; ++i) {
-            int num = nums[i];
-            if (num > right) {
+            if (nums[i] > right) {
                 index1 = i;
-                index2 = i;
-            } else if (num <= right && num >= left) {
+            }
+            if (nums[i] >= left) {
                 index2 = i;
             }
             res += index2 - index1;
