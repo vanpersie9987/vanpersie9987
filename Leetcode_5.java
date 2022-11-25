@@ -8966,6 +8966,62 @@ public class Leetcode_5 {
         }
     }
 
+    // 1432. 改变一个整数能得到的最大差值 (Max Difference You Can Get From Changing an Integer)
+    public int maxDiff(int num) {
+        char[] chars = String.valueOf(num).toCharArray();
+        int n = chars.length;
+        int i = 0;
+        while (i < n) {
+            if (chars[i] != '9') {
+                break;
+            }
+            ++i;
+        }
+        if (i < n) {
+            char c = chars[i];
+            while (i < n) {
+                if (chars[i] == c) {
+                    chars[i] = '9';
+                }
+                ++i;
+            }
+        }
+        int max = Integer.parseInt(String.valueOf(chars));
+
+        chars = String.valueOf(num).toCharArray();
+        i = 0;
+        if (chars[0] != '1') {
+            char c = chars[0];
+            while (i < n) {
+                if (chars[i] == c) {
+                    chars[i] = '1';
+                }
+                ++i;
+            }
+            int min = Integer.parseInt(String.valueOf(chars));
+            return max - min;
+        }
+        ++i;
+        while (i < n) {
+            if (chars[i] != '0' && chars[i] != '1') {
+                break;
+            }
+            ++i;
+        }
+        if (i < n) {
+            char c = chars[i];
+            while (i < n) {
+                if (chars[i] == c) {
+                    chars[i] = '0';
+                }
+                ++i;
+            }
+        }
+        int min = Integer.parseInt(String.valueOf(chars));
+        return max - min;
+
+    }
+
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
     // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
     //     Map<Integer, List<Integer>> graph = new HashMap<>();
