@@ -468,6 +468,50 @@ public class Leetcode_5 {
         return builder.toString();
     }
 
+    // 809. 情感丰富的文字 (Expressive Words)
+    public int expressiveWords3(String s, String[] words) {
+        List<int[]> list = new ArrayList<>();
+        int i = 0;
+        while (i < s.length()) {
+            char c = s.charAt(i);
+            int j = i;
+            while (j < s.length() && s.charAt(j) == c) {
+                ++j;
+            }
+            list.add(new int[] { c - 'a', j - i });
+            i = j;
+        }
+        int res = 0;
+        search: for (String word : words) {
+            i = 0;
+            int indexI = 0;
+            while (indexI < word.length() && i < list.size()) {
+                char c1 = word.charAt(indexI);
+                char c2 = (char) (list.get(i)[0] + 'a');
+                if (c1 != c2) {
+                    continue search;
+                }
+                int indexJ = indexI;
+                while (indexJ < word.length() && word.charAt(indexJ) == c1) {
+                    ++indexJ;
+                    if (indexJ - indexI > list.get(i)[1]) {
+                        continue search;
+                    }
+                }
+                if (list.get(i)[1] != indexJ - indexI && list.get(i)[1] < 3) {
+                    continue search;
+                }
+                indexI = indexJ;
+                ++i;
+            }
+            if (indexI == word.length() && i == list.size()) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
     // 1954. 收集足够苹果的最小花园周长 (Minimum Garden Perimeter to Collect Enough Apples)
     public long minimumPerimeter(long neededApples) {
         long n = -1l;
@@ -8783,15 +8827,21 @@ public class Leetcode_5 {
         return true;
     }
 
-
-    // 2466. 统计构造好字符串的方案数 (Count Ways To Build Good Strings)
-    // public int countGoodStrings(int low, int high, int zero, int one) {
+    // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
+    // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
+    //     Map<Integer, List<Integer>> graph = new HashMap<>();
+    //     for (int[] edge : edges) {
+    //         graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+    //         graph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+    //     }
+    //     int n = amount.length;
+    //     Map<Integer, Integer> bobVisited = new HashMap<>();
+    //     for() 
 
     // }
 
-
-    // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
-    // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
+    // 2466. 统计构造好字符串的方案数 (Count Ways To Build Good Strings)
+    // public int countGoodStrings(int low, int high, int zero, int one) {
 
     // }
 
