@@ -8913,6 +8913,59 @@ public class Leetcode_5 {
         }
     }
 
+    // 855. 考场就座 (Exam Room)
+    class ExamRoom {
+        private TreeSet<Integer> set;
+        private int n;
+
+        public ExamRoom(int n) {
+            this.set = new TreeSet<>();
+            this.n = n;
+        }
+
+        public int seat() {
+            if (set.isEmpty()) {
+                set.add(0);
+                return 0;
+            }
+            int res = 0;
+            int maxInterval = 0;
+            int first = set.first();
+            if (first != 0) {
+                res = 0;
+                maxInterval = first;
+            }
+            int last = set.last();
+            if (last != n - 1) {
+                int curInterval = n - 1 - last;
+                if (curInterval > maxInterval) {
+                    maxInterval = curInterval;
+                    res = n - 1;
+                }
+            }
+
+            int pre = -1;
+            for (int p : set) {
+                if (pre != -1) {
+                    int interval = (p - pre) / 2;
+                    if (interval > maxInterval) {
+                        maxInterval = interval;
+                        res = pre + interval;
+                    } else if (interval == maxInterval && res > pre + interval) {
+                        res = pre + interval;
+                    }
+                }
+                pre = p;
+            }
+            set.add(res);
+            return res;
+        }
+
+        public void leave(int p) {
+            set.remove(p);
+        }
+    }
+
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
     // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
     //     Map<Integer, List<Integer>> graph = new HashMap<>();
