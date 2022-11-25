@@ -8872,6 +8872,47 @@ public class Leetcode_5 {
         return left;
     }
 
+    // 1396. 设计地铁系统 (Design Underground System)
+    class UndergroundSystem {
+        private Map<Integer, Bean> map;
+        private Map<String, long[]> countMap;
+
+        class Bean {
+            String startStation;
+            int startTime;
+
+            Bean(String startStation, int startTime) {
+                this.startStation = startStation;
+                this.startTime = startTime;
+            }
+        }
+
+        public UndergroundSystem() {
+            map = new HashMap<>();
+            countMap = new HashMap<>();
+
+        }
+
+        public void checkIn(int id, String stationName, int t) {
+            map.put(id, new Bean(stationName, t));
+        }
+
+        public void checkOut(int id, String stationName, int t) {
+            Bean bean = map.get(id);
+            long[] sum = countMap.getOrDefault(bean.startStation + "_" + stationName, new long[] { 0l, 0l });
+            sum[0] += (long) t - bean.startTime;
+            sum[1] += 1;
+            countMap.put(bean.startStation + "_" + stationName, sum);
+            map.remove(id);
+        }
+
+        public double getAverageTime(String startStation, String endStation) {
+            long[] sum = countMap.get(startStation + "_" + endStation);
+            return (double) sum[0] / sum[1];
+
+        }
+    }
+
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
     // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
     //     Map<Integer, List<Integer>> graph = new HashMap<>();
