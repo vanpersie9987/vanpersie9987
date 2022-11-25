@@ -8827,6 +8827,51 @@ public class Leetcode_5 {
         return true;
     }
 
+    // 1093. 大样本统计 (Statistics from a Large Sample)
+    public double[] sampleStats(int[] count) {
+        int min = -1;
+        int max = -1;
+        long sum = 0;
+        int mojority = -1;
+        int mojorityCount = 0;
+        for (int i = 0; i < count.length; ++i) {
+            if (count[i] != 0) {
+                if (min == -1) {
+                    min = i;
+                }
+                max = i;
+            }
+            if (count[i] > mojorityCount) {
+                mojorityCount = count[i];
+                mojority = i;
+            }
+            sum += (long) count[i] * i;
+            if (i > 0) {
+                count[i] += count[i - 1];
+            }
+        }
+        double median = binarySearch1093(count, count[255] / 2 + 1);
+        if (count[255] % 2 == 0) {
+            median = (binarySearch1093(count, count[255] / 2) + median) / 2d;
+        }
+        return new double[] { min, max, (double) sum / count[255] , median, mojority };
+
+    }
+
+    private double binarySearch1093(int[] count, int target) {
+        int left = 0;
+        int right = count.length - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (count[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return left;
+    }
+
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
     // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
     //     Map<Integer, List<Integer>> graph = new HashMap<>();
