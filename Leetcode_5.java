@@ -9022,6 +9022,65 @@ public class Leetcode_5 {
 
     }
 
+    // 882. 细分图中的可到达节点 (Reachable Nodes In Subdivided Graph)
+    public int reachableNodes(int[][] edges, int maxMoves, int n) {
+        Map<Integer, List<int[]>> graph = new HashMap<>();
+        for (int[] edge : edges) {
+            graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(new int[] { edge[1], edge[2] + 1 });
+            graph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(new int[] { edge[0], edge[2] + 1 });
+        }
+        int[] dis = dijkstra882(graph, n);
+        int res = 0;
+        for (int d : dis) {
+            if (d <= maxMoves) {
+                ++res;
+            }
+        }
+        for (int[] edge : edges) {
+            int node1 = edge[0];
+            int node2 = edge[1];
+            int d = edge[2];
+            int a = Math.max(maxMoves - dis[node1], 0);
+            int b = Math.max(maxMoves - dis[node2], 0);
+            res += Math.min(a + b, d);
+        }
+        return res;
+
+    }
+
+    private int[] dijkstra882(Map<Integer, List<int[]>> graph, int n) {
+        int[] dis = new int[n];
+        Arrays.fill(dis, Integer.MAX_VALUE);
+        Queue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[1] - o2[1];
+            }
+
+        });
+
+        dis[0] = 0;
+        queue.offer(new int[] { 0, 0 });
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int node = cur[0];
+            int d = cur[1];
+            if (d > dis[node]) {
+                continue;
+            }
+            for (int[] neighbor : graph.getOrDefault(node, new ArrayList<>())) {
+                int neighborNode = neighbor[0];
+                int neighborDis = neighbor[1] + d;
+                if (neighborDis < dis[neighborNode]) {
+                    dis[neighborNode] = neighborDis;
+                    queue.offer(new int[] { neighborNode, neighborDis });
+                }
+            }
+        }
+        return dis;
+    }
+
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
     // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
     //     Map<Integer, List<Integer>> graph = new HashMap<>();
