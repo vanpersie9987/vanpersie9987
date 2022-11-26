@@ -9081,6 +9081,25 @@ public class Leetcode_5 {
         return dis;
     }
 
+    // 1921. 消灭怪物的最大数量 (Eliminate Maximum Number of Monsters)
+    public int eliminateMaximum(int[] dist, int[] speed) {
+        int n = dist.length;
+        Queue<Integer> queue = new PriorityQueue<>();
+        for (int i = 0; i < n; ++i) {
+            queue.offer((dist[i] - 1) / speed[i] + 1);
+        }
+        int res = 0;
+        while (!queue.isEmpty()) {
+            if (res < queue.poll()) {
+                ++res;
+            } else {
+                break;
+            }
+        }
+        return res;
+
+    }
+
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
     // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
     //     Map<Integer, List<Integer>> graph = new HashMap<>();
