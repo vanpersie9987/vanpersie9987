@@ -9100,6 +9100,17 @@ public class Leetcode_5 {
 
     }
 
+    // 6249. 分割圆的最少切割次数 (Minimum Cuts to Divide a Circle)
+    public int numberOfCuts(int n) {
+        if (n == 1) {
+            return 0;
+        }
+        if (n % 2 == 0) {
+            return n / 2;
+        }
+        return n;
+    }
+
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
     // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
     //     Map<Integer, List<Integer>> graph = new HashMap<>();
