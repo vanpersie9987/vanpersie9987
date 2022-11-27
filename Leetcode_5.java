@@ -9158,7 +9158,24 @@ public class Leetcode_5 {
 
     }
 
+    // 1904. 你完成的完整对局数 (The Number of Full Rounds You Have Played)
+    public int numberOfRounds(String loginTime, String logoutTime) {
+        int minute1 = getMinutes1904(loginTime);
+        int minute2 = getMinutes1904(logoutTime);
+        if (minute1 > minute2) {
+            minute2 += 24 * 60;
+        }
+        int mod = minute1 % 15;
+        minute1 += (15 - mod) % 15;
+        minute2 = minute2 / 15 * 15;
+        return Math.max(0, (minute2 - minute1) / 15);
+    }
 
+    private int getMinutes1904(String time) {
+        int h = Integer.parseInt(time.substring(0, 2));
+        int m = Integer.parseInt(time.substring(3));
+        return h * 60 + m;
+    }
 
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
     // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
