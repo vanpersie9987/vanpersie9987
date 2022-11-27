@@ -9111,6 +9111,57 @@ public class Leetcode_5 {
         return n;
     }
 
+    // 6277. 行和列中一和零的差值 (Difference Between Ones and Zeros in Row and Column)
+    public int[][] onesMinusZeros(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[] row1 = new int[m];
+        int[] col1 = new int[n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                row1[i] += grid[i][j];
+                col1[j] += grid[i][j];
+            }
+        }
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                grid[i][j] = row1[i] + col1[j] - (m - row1[i]) - (n - col1[j]);
+            }
+        }
+        return grid;
+
+    }
+
+    // 6250. 商店的最少代价 (Minimum Penalty for a Shop)
+    public int bestClosingTime(String customers) {
+        int curCost = 0;
+        int minCost = 0;
+        int res = customers.length();
+        for (char c : customers.toCharArray()) {
+            if (c == 'N') {
+                ++curCost;
+            }
+        }
+        minCost = curCost;
+        for (int i = customers.length() - 1; i >= 0; --i) {
+            if (customers.charAt(i) == 'Y') {
+                ++curCost;
+            } else {
+                --curCost;
+            }
+            if (curCost < minCost) {
+                minCost = curCost;
+                res = i;
+            } else if (curCost == minCost) {
+                res = i;
+            }
+        }
+        return res;
+
+    }
+
+
+
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
     // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
     //     Map<Integer, List<Integer>> graph = new HashMap<>();
