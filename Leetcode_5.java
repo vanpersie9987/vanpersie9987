@@ -9149,10 +9149,8 @@ public class Leetcode_5 {
             } else {
                 --curCost;
             }
-            if (curCost < minCost) {
+            if (curCost <= minCost) {
                 minCost = curCost;
-                res = i;
-            } else if (curCost == minCost) {
                 res = i;
             }
         }
