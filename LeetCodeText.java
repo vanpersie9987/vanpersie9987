@@ -5343,44 +5343,21 @@ public class LeetCodeText {
 
     }
 
-    // 1758. 生成交替二进制字符串的最少操作数
+    // 1758. 生成交替二进制字符串的最少操作数 (Minimum Changes To Make Alternating Binary String)
     public int minOperations1758(String s) {
-        char[] chars = s.toCharArray();
+        int n = s.length();
+        // 1 0 1 0 1 。。。
         int count1 = 0;
+        // 0 1 0 1 0 。。。
         int count2 = 0;
-
-        // 0101010 形式
-        for (int i = 0; i < chars.length; ++i) {
-            if (i % 2 == 0 && chars[i] != '0') {
+        for (int i = 0; i < n; ++i) {
+            if (s.charAt(i) - '0' == i % 2) {
                 ++count1;
-            }
-            if (i % 2 == 1 && chars[i] != '1') {
-                ++count1;
-            }
-        }
-
-        // 1010101 形式
-        for (int i = 0; i < chars.length; ++i) {
-            if (i % 2 == 1 && chars[i] != '0') {
-                ++count2;
-            }
-            if (i % 2 == 0 && chars[i] != '1') {
+            } else {
                 ++count2;
             }
         }
         return Math.min(count1, count2);
-
-    }
-
-    // 1758. 生成交替二进制字符串的最少操作数
-    public int minOperations1758_2(String s) {
-        int count = 0;
-        for (int i = 0; i < s.length(); ++i) {
-            if ((i % 2) != (s.charAt(i) - '0')) {
-                ++count;
-            }
-        }
-        return Math.min(count, s.length() - count);
 
     }
 

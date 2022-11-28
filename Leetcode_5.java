@@ -9179,14 +9179,14 @@ public class Leetcode_5 {
 
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
     // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
-    //     Map<Integer, List<Integer>> graph = new HashMap<>();
-    //     for (int[] edge : edges) {
-    //         graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
-    //         graph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
-    //     }
-    //     int n = amount.length;
-    //     Map<Integer, Integer> bobVisited = new HashMap<>();
-    //     for() 
+    // Map<Integer, List<Integer>> graph = new HashMap<>();
+    // for (int[] edge : edges) {
+    // graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+    // graph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+    // }
+    // int n = amount.length;
+    // Map<Integer, Integer> bobVisited = new HashMap<>();
+    // for()
 
     // }
 
