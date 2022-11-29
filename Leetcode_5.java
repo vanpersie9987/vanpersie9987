@@ -9177,6 +9177,20 @@ public class Leetcode_5 {
         return h * 60 + m;
     }
 
+    // 2485. 找出中枢整数 (Find the Pivot Integer)
+    public int pivotInteger(int n) {
+        int sum = (1 + n) * n / 2;
+        int preSum = 0;
+        for (int i = 1; i <= n; ++i) {
+            preSum += i;
+            if (preSum == sum - preSum + i) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
     // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
     // Map<Integer, List<Integer>> graph = new HashMap<>();
