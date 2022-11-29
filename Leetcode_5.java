@@ -9255,6 +9255,21 @@ public class Leetcode_5 {
         return pre;
     }
 
+    // 813. 最大平均值和的分组 (Largest Sum of Averages)
+    // public double largestSumOfAverages(int[] nums, int k) {
+
+    // }
+
+    // 2484. 统计回文子序列数目 (Count Palindromic Subsequences)
+    // public int countPalindromes(String s) {
+
+    // }
+
+    // 2488. 统计中位数为 K 的子数组 (Count Subarrays With Median K)
+    // public int countSubarrays(int[] nums, int k) {
+
+    // }
+
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
     // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
     // Map<Integer, List<Integer>> graph = new HashMap<>();
