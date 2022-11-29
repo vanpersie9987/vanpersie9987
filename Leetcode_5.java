@@ -9191,6 +9191,22 @@ public class Leetcode_5 {
 
     }
 
+    // 2486. 追加字符以获得子序列 (Append Characters to String to Make Subsequence)
+    public int appendCharacters(String s, String t) {
+        int m = s.length();
+        int n = t.length();
+        int i = 0;
+        int j = 0;
+        while (i < m && j < n) {
+            if (s.charAt(i) == t.charAt(j)) {
+                ++j;
+            }
+            ++i;
+        }
+        return n - j;
+
+    }
+
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
     // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
     // Map<Integer, List<Integer>> graph = new HashMap<>();
