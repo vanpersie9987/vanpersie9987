@@ -9207,6 +9207,26 @@ public class Leetcode_5 {
 
     }
 
+    // 2487. 从链表中移除节点 (Remove Nodes From Linked List)
+    public ListNode removeNodes(ListNode head) {
+        ListNode dummy = new ListNode(Integer.MAX_VALUE);
+        Stack<ListNode> stack = new Stack<>();
+        stack.push(dummy);
+        ListNode pre = dummy;
+        while (head != null) {
+            while (stack.peek().val < head.val) {
+                stack.pop();
+                pre = stack.peek();
+            }
+            stack.push(head);
+            pre.next = head;
+            pre = head;
+            head = head.next;
+        }
+        return dummy.next;
+
+    }
+
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
     // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
     // Map<Integer, List<Integer>> graph = new HashMap<>();
