@@ -9301,6 +9301,83 @@ public class Leetcode_5 {
 
     }
 
+    // 1818. 绝对差值和 (Minimum Absolute Sum Difference)
+    public int minAbsoluteSumDiff2(int[] nums1, int[] nums2) {
+        long sum = 0l;
+        int n = nums1.length;
+        int[] sort1 = new int[n];
+        for (int i = 0; i < n; ++i) {
+            sum += Math.abs(nums1[i] - nums2[i]);
+            sort1[i] = nums1[i];
+        }
+        Arrays.sort(sort1);
+        long res = sum;
+        for (int i = 0; i < n; ++i) {
+            int original = Math.abs(nums1[i] - nums2[i]);
+            int minus = Integer.MAX_VALUE;
+            int floor = binarySearchFloor1818(sort1, nums2[i]);
+            int ceiling = binarySearchCeiling1818(sort1, nums2[i]);
+            if (floor != -1) {
+                minus = Math.min(minus, Math.abs(floor - nums2[i]));
+            }
+            if (ceiling != -1) {
+                minus = Math.min(minus, Math.abs(ceiling - nums2[i]));
+            }
+            res = Math.min(res, sum - original + minus);
+        }
+        final int mod = (int) (1e9 + 7);
+        return (int) (res % mod);
+
+    }
+
+    // 找排序数组nums中 <= target 的最大元素
+    private int binarySearchFloor1818(int[] nums, int target) {
+        int n = nums.length;
+        if (target < nums[0]) {
+            return -1;
+        }
+        if (target >= nums[n - 1]) {
+            return nums[n - 1];
+        }
+        int left = 0;
+        int right = n - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (nums[mid] <= target) {
+                res = nums[mid];
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
+
+    // 找排序数组nums中 >= target 的最小元素
+    private int binarySearchCeiling1818(int[] nums, int target) {
+        int n = nums.length;
+        if (nums[0] >= target) {
+            return nums[0];
+        }
+        if (nums[n - 1] < target) {
+            return -1;
+        }
+        int left = 0;
+        int right = n - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (nums[mid] >= target) {
+                res = nums[mid];
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+
     // 813. 最大平均值和的分组 (Largest Sum of Averages)
     // public double largestSumOfAverages(int[] nums, int k) {
 
