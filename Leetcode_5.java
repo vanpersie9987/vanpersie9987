@@ -9255,6 +9255,24 @@ public class Leetcode_5 {
         return pre;
     }
 
+    // 1177. 构建回文串检测 (Can Make Palindrome from Substring)
+    public List<Boolean> canMakePaliQueries(String s, int[][] queries) {
+        int n = s.length();
+        int[] prefix = new int[n + 1];
+        int mask = 0;
+        for (int i = 1; i < n + 1; ++i) {
+            mask ^= 1 << (s.charAt(i - 1) - 'a');
+            prefix[i] = mask;
+        }
+        List<Boolean> res = new ArrayList<>();
+        for (int[] query : queries) {
+            int odd = Integer.bitCount(prefix[query[1] + 1] ^ prefix[query[0]]);
+            res.add(odd / 2 <= query[2]);
+        }
+        return res;
+
+    }
+
     // 813. 最大平均值和的分组 (Largest Sum of Averages)
     // public double largestSumOfAverages(int[] nums, int k) {
 
