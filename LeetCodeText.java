@@ -2435,7 +2435,8 @@ public class LeetCodeText {
     
     }
 
-    // 1779. 找到最近的有相同 X 或 Y 坐标的点
+    // 1779. 找到最近的有相同 X 或 Y 坐标的点 (Find Nearest Point That Has the Same X or Y
+    // Coordinate)
     public int nearestValidPoint(int x, int y, int[][] points) {
         int distance = Integer.MAX_VALUE;
         int index = -1;
