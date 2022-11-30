@@ -9273,6 +9273,34 @@ public class Leetcode_5 {
 
     }
 
+    // 1818. 绝对差值和 (Minimum Absolute Sum Difference)
+    public int minAbsoluteSumDiff(int[] nums1, int[] nums2) {
+        long sum = 0l;
+        int n = nums1.length;
+        TreeSet<Integer> set = new TreeSet<>();
+        for (int i = 0; i < n; ++i) {
+            sum += Math.abs(nums1[i] - nums2[i]);
+            set.add(nums1[i]);
+        }
+        long res = sum;
+        for (int i = 0; i < n; ++i) {
+            int original = Math.abs(nums1[i] - nums2[i]);
+            int minus = Integer.MAX_VALUE;
+            Integer floor = set.floor(nums2[i]);
+            Integer ceiling = set.ceiling(nums2[i]);
+            if (floor != null) {
+                minus = Math.min(minus, Math.abs(nums2[i] - floor));
+            }
+            if (ceiling != null) {
+                minus = Math.min(minus, Math.abs(nums2[i] - ceiling));
+            }
+            res = Math.min(res, sum - original + minus);
+        }
+        final int mod = (int) (1e9 + 7);
+        return (int) (res % mod);
+
+    }
+
     // 813. 最大平均值和的分组 (Largest Sum of Averages)
     // public double largestSumOfAverages(int[] nums, int k) {
 
