@@ -9378,6 +9378,45 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 1577. 数的平方等于两数乘积的方法数 (Number of Ways Where Square of Number Is Equal to
+    // Product of Two Numbers)
+    public int numTriplets(int[] nums1, int[] nums2) {
+        Map<Integer, Integer> map1 = new HashMap<>();
+        Map<Integer, Integer> map2 = new HashMap<>();
+        for (int num : nums1) {
+            map1.put(num, map1.getOrDefault(num, 0) + 1);
+        }
+        for (int num : nums2) {
+            map2.put(num, map2.getOrDefault(num, 0) + 1);
+        }
+        return getTriplets1577(map1, map2) + getTriplets1577(map2, map1);
+
+    }
+
+    private int getTriplets1577(Map<Integer, Integer> map1, Map<Integer, Integer> map2) {
+        int res = 0;
+        Set<Integer> set1 = map1.keySet();
+        Set<Integer> set2 = map2.keySet();
+        for (int num1 : set1) {
+            int count1 = map1.get(num1);
+            long square = (long) num1 * num1;
+            for (int num2 : set2) {
+                if (square % num2 == 0 && square / num2 <= Integer.MAX_VALUE) {
+                    int count2 = map2.get(num2);
+                    int num3 = (int) (square / num2);
+
+                    if (num2 == num3) {
+                        res += count1 * count2 * (count2 - 1) / 2;
+                    } else if (num2 < num3 && set2.contains(num3)) {
+                        int count3 = map2.get(num3);
+                        res += count1 * count2 * count3;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
     // 1562. 查找大小为 M 的最新分组 (Find Latest Group of Size M)
     // public int findLatestStep(int[] arr, int m) {
     //     int n = arr.length;
