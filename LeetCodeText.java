@@ -5662,26 +5662,29 @@ public class LeetCodeText {
 
     }
 
-    // 1769. 移动所有球到每个盒子所需的最小操作数
+    // 1769. 移动所有球到每个盒子所需的最小操作数 (Minimum Number of Operations to Move All Balls to
+    // Each Box)
     public int[] minOperations(String boxes) {
-        int[] left = new int[boxes.length()];
-        int[] right = new int[boxes.length()];
+        int n = boxes.length();
+        char[] arr = boxes.toCharArray();
+        int[] left = new int[n];
+        int count = arr[0] - '0';
+        for (int i = 1; i < n; ++i) {
+            left[i] += left[i - 1] + count;
+            count += arr[i] - '0';
+        }
+        int[] right = new int[n];
+        count = arr[n - 1] - '0';
+        for (int i = n - 2; i >= 0; --i) {
+            right[i] += right[i + 1] + count;
+            count += arr[i] - '0';
+        }
 
-        int count = boxes.charAt(0) - '0';
-        for (int i = 1; i < boxes.length(); ++i) {
-            left[i] = left[i - 1] + count;
-            count += boxes.charAt(i) - '0';
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = left[i] + right[i];
         }
-        count = boxes.charAt(boxes.length() - 1) - '0';
-        for (int i = boxes.length() - 2; i >= 0; --i) {
-            right[i] = right[i + 1] + count;
-            count += boxes.charAt(i) - '0';
-        }
-        int[] answer = new int[boxes.length()];
-        for (int i = 0; i < answer.length; ++i) {
-            answer[i] = left[i] + right[i];
-        }
-        return answer;
+        return res;
 
     }
 
