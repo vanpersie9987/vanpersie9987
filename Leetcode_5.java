@@ -9490,15 +9490,13 @@ public class Leetcode_5 {
         return cur;
     }
 
-    
-
     // 1562. 查找大小为 M 的最新分组 (Find Latest Group of Size M)
     // public int findLatestStep(int[] arr, int m) {
-    //     int n = arr.length;
-    //     int[] bin = new int[n];
-    //     int res = -1;
-    //     for (int i = 0; i < n; ++i) {
-    //         bin[arr[i] - 1] = 1;
+    // int n = arr.length;
+    // int[] bin = new int[n];
+    // int res = -1;
+    // for (int i = 0; i < n; ++i) {
+    // bin[arr[i] - 1] = 1;
     //         int count = 0;
     //         for (int b : bin) {
     //             if (b == 1) {
