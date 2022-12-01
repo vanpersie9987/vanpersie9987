@@ -8854,7 +8854,7 @@ public class Leetcode_5 {
         if (count[255] % 2 == 0) {
             median = (binarySearch1093(count, count[255] / 2) + median) / 2d;
         }
-        return new double[] { min, max, (double) sum / count[255] , median, mojority };
+        return new double[] { min, max, (double) sum / count[255], median, mojority };
 
     }
 
@@ -9417,6 +9417,48 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 866. 回文素数 (Prime Palindrome)
+    public int primePalindrome(int n) {
+        for (int L = 1; L <= 5; ++L) {
+            for (int root = (int) Math.pow(10, L - 1); root < Math.pow(10, L); ++root) {
+                StringBuilder builder = new StringBuilder(String.valueOf(root));
+                for (int k = L - 2; k >= 0; --k) {
+                    builder.append(builder.charAt(k));
+                }
+                int num = Integer.parseInt(builder.toString());
+                if (num >= n && isPrime866(num)) {
+                    return num;
+                }
+            }
+
+            for (int root = (int) Math.pow(10, L - 1); root < Math.pow(10, L); ++root) {
+                StringBuilder builder = new StringBuilder(String.valueOf(root));
+                for (int k = L - 1; k >= 0; --k) {
+                    builder.append(builder.charAt(k));
+                }
+                int num = Integer.parseInt(builder.toString());
+                if (num >= n && isPrime866(num)) {
+                    return num;
+                }
+            }
+        }
+        return -1;
+
+    }
+
+    private boolean isPrime866(int num) {
+        if (num < 2) {
+            return false;
+        }
+        int sqrt = (int) Math.sqrt(num);
+        for (int i = 2; i <= sqrt; ++i) {
+            if (num % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // 1562. 查找大小为 M 的最新分组 (Find Latest Group of Size M)
     // public int findLatestStep(int[] arr, int m) {
     //     int n = arr.length;
@@ -9441,7 +9483,6 @@ public class Leetcode_5 {
     //         }
     //     }
     //     return res;
-        
 
     // }
 
