@@ -9459,6 +9459,39 @@ public class Leetcode_5 {
         return true;
     }
 
+    // 1339. 分裂二叉树的最大乘积 (Maximum Product of Splitted Binary Tree)
+    private int sum1339;
+    private int best1339;
+
+    public int maxProduct(TreeNode root) {
+        dfs_sum1339(root);
+        dfs_best1339(root);
+        final int mod = (int) (1e9 + 7);
+        return (int) ((long) best1339 * (sum1339 - best1339) % mod);
+    }
+
+    private void dfs_sum1339(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        sum1339 += node.val;
+        dfs_sum1339(node.left);
+        dfs_sum1339(node.right);
+    }
+
+    private int dfs_best1339(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+        int cur = dfs_best1339(node.left) + dfs_best1339(node.right) + node.val;
+        if (Math.abs(cur * 2 - sum1339) < Math.abs(best1339 * 2 - sum1339)) {
+            best1339 = cur;
+        }
+        return cur;
+    }
+
+    
+
     // 1562. 查找大小为 M 的最新分组 (Find Latest Group of Size M)
     // public int findLatestStep(int[] arr, int m) {
     //     int n = arr.length;
