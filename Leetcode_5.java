@@ -9659,6 +9659,29 @@ public class Leetcode_5 {
 
     }
 
+    // 170. 两数之和 III - 数据结构设计 (Two Sum III - Data structure design) --plus 还需更优方法
+    class TwoSum {
+        private List<Integer> list;
+        private Set<Integer> set;
+
+        public TwoSum() {
+            list = new ArrayList<>();
+            set = new HashSet<>();
+
+        }
+
+        public void add(int number) {
+            for (int a : list) {
+                set.add(a + number);
+            }
+            list.add(number);
+        }
+
+        public boolean find(int value) {
+            return set.contains(value);
+        }
+    }
+
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
     // Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
