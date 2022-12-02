@@ -9490,6 +9490,64 @@ public class Leetcode_5 {
         return cur;
     }
 
+
+    // 276. 栅栏涂色 (Paint Fence) --plus
+    public int numWays(int n, int k) {
+        if (n <= 1) {
+            return k;
+        }
+        int[] dp = new int[n];
+        dp[0] = k;
+        dp[1] = k * k;
+        for (int i = 2; i < n; ++i) {
+            dp[i] = dp[i - 1] * (k - 1) + dp[i - 2] * (k - 1);
+        }
+        return dp[n - 1];
+
+    }
+
+    // 276. 栅栏涂色 (Paint Fence) --plus
+    public int numWays2(int n, int k) {
+        if (n <= 1) {
+            return k;
+        }
+        int a = k;
+        int b = k * k;
+        for (int i = 2; i < n; ++i) {
+            int c = (a + b) * (k - 1);
+            a = b;
+            b = c;
+        }
+        return b;
+
+
+
+    }
+
+    // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
+    // public int maxProfit(int[] inventory, int orders) {
+    // Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
+
+    // @Override
+    // public int compare(Integer o1, Integer o2) {
+    // return o2 - o1;
+    // }
+
+    // });
+    // for (int i : inventory) {
+    // queue.offer(i);
+    // }
+    // final int mod = (int) (1e9 + 7);
+    // long res = 0l;
+    // while (orders-- > 0) {
+    // int max = queue.poll();
+    // res = (res + max) % mod;
+    // --max;
+    // queue.offer(max);
+    // }
+    // return (int) (res % mod);
+    // }
+
     // 1562. 查找大小为 M 的最新分组 (Find Latest Group of Size M)
     // public int findLatestStep(int[] arr, int m) {
     // int n = arr.length;
@@ -9497,23 +9555,23 @@ public class Leetcode_5 {
     // int res = -1;
     // for (int i = 0; i < n; ++i) {
     // bin[arr[i] - 1] = 1;
-    //         int count = 0;
-    //         for (int b : bin) {
-    //             if (b == 1) {
-    //                 ++count;
-    //             } else {
-    //                 if (count == m) {
-    //                     res = i + 1;
-    //                     break;
-    //                 }
-    //                 count = 0;
-    //             }
-    //         }
-    //         if (count == m) {
-    //             res = i + 1;
-    //         }
-    //     }
-    //     return res;
+    // int count = 0;
+    // for (int b : bin) {
+    // if (b == 1) {
+    // ++count;
+    // } else {
+    // if (count == m) {
+    // res = i + 1;
+    // break;
+    // }
+    // count = 0;
+    // }
+    // }
+    // if (count == m) {
+    // res = i + 1;
+    // }
+    // }
+    // return res;
 
     // }
 
