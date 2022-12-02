@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
@@ -13,9 +14,11 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -9555,6 +9558,51 @@ public class Leetcode_5 {
                 }
             }
             return false;
+        }
+    }
+
+    // 635. 设计日志存储系统 (Design Log Storage System) --plus
+    class LogSystem {
+        private TreeMap<String, Integer> map;
+        private Map<String, Integer> unit;
+
+        public LogSystem() {
+            map = new TreeMap<>();
+            unit = new HashMap<>();
+            // ["Year", "Month", "Day", "Hour", "Minute", "Second"]
+            unit.put("Year", 0);
+            unit.put("Month", 1);
+            unit.put("Day", 2);
+            unit.put("Hour", 3);
+            unit.put("Minute", 4);
+            unit.put("Second", 5);
+        }
+
+        public void put(int id, String timestamp) {
+            map.put(timestamp, id);
+        }
+
+        public List<Integer> retrieve(String start, String end, String granularity) {
+            String s1 = formatTime635(start, granularity, false);
+            String s2 = formatTime635(end, granularity, true);
+            return new ArrayList<>(map.subMap(s1, s2).values());
+        }
+
+        private String formatTime635(String time, String granularity, boolean isEnd) {
+            // 2017:01:01:23:59:59
+            String[] split = time.split(":");
+            int[] parseInt = new int[6];
+            for (int i = 0; i < 6; ++i) {
+                parseInt[i] = Integer.parseInt(split[i]);
+                if (i == unit.get(granularity)) {
+                    if (isEnd) {
+                        ++parseInt[i];
+                    }
+                    break;
+                }
+            }
+            return String.format("%04d:%02d:%02d:%02d:%02d:%02d", parseInt[0], parseInt[1], parseInt[2], parseInt[3],
+                    parseInt[4], parseInt[5]);
         }
     }
 
