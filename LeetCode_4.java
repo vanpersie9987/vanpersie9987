@@ -4158,20 +4158,21 @@ public class LeetCode_4 {
 
     // 1796. 字符串中第二大的数字 (Second Largest Digit in a String)
     public int secondHighest2(String s) {
-        int max = -1;
-        int secondMax = -1;
+        int max1 = -1;
+        int max2 = -1;
         for (char c : s.toCharArray()) {
             if (Character.isDigit(c)) {
                 int num = c - '0';
-                if (num > max) {
-                    secondMax = max;
-                    max = num;
-                } else if (max > num && num > secondMax) {
-                    secondMax = num;
+                if (num > max1) {
+                    max2 = max1;
+                    max1 = num;
+                } else if (max1 > num && num > max2) {
+                    max2 = num;
                 }
             }
         }
-        return secondMax;
+        return max2;
+
     }
 
     // 522. 最长特殊序列 II (Longest Uncommon Subsequence II)
