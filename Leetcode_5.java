@@ -1,3 +1,4 @@
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -9600,6 +9601,32 @@ public class Leetcode_5 {
             return String.format("%04d:%02d:%02d:%02d:%02d:%02d", parseInt[0], parseInt[1], parseInt[2], parseInt[3],
                     parseInt[4], parseInt[5]);
         }
+    }
+
+    // 270. 最接近的二叉搜索树值 (Closest Binary Search Tree Value) --plus
+    private double maxDiff270;
+    private int res270;
+    private double target270;
+
+    public int closestValue(TreeNode root, double target) {
+        maxDiff270 = Math.abs(target - root.val);
+        res270 = root.val;
+        target270 = target;
+        dfs270(root);
+        return res270;
+
+    }
+
+    private void dfs270(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        if (Math.abs(node.val - target270) < maxDiff270) {
+            maxDiff270 = Math.abs(node.val - target270);
+            res270 = node.val;
+        }
+        dfs270(node.left);
+        dfs270(node.right);
     }
 
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
