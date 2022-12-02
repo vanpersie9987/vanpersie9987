@@ -9629,6 +9629,36 @@ public class Leetcode_5 {
         dfs270(node.right);
     }
 
+    // 408. 有效单词缩写 (Valid Word Abbreviation) --plus
+    public boolean validWordAbbreviation(String word, String abbr) {
+        int m = word.length();
+        int n = abbr.length();
+        int i = 0;
+        int j = 0;
+        while (i < m && j < n) {
+            char c = abbr.charAt(j);
+            if (Character.isLetter(c)) {
+                if (c != word.charAt(i)) {
+                    return false;
+                }
+                ++i;
+                ++j;
+                continue;
+            }
+            if (c == '0') {
+                return false;
+            }
+            int count = 0;
+            while (j < n && Character.isDigit(abbr.charAt(j))) {
+                count = count * 10 + abbr.charAt(j) - '0';
+                ++j;
+            }
+            i += count;
+        }
+        return i == m && j == n;
+
+    }
+
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
     // Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
