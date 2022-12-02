@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -9520,8 +9521,41 @@ public class Leetcode_5 {
         }
         return b;
 
+    }
 
+    // 251. 展开二维向量 (Flatten 2D Vector) --plus
+    class Vector2D {
+        private int[][] vec;
+        private int n;
+        private int index;
+        private int itemIndex;
 
+        public Vector2D(int[][] vec) {
+            this.vec = vec;
+            this.n = vec.length;
+
+        }
+
+        public int next() {
+            int res = vec[index][itemIndex];
+            if (++itemIndex == vec[index].length) {
+                itemIndex = 0;
+                ++index;
+            }
+            return res;
+        }
+
+        public boolean hasNext() {
+            while (index < n) {
+                if (itemIndex == vec[index].length) {
+                    ++index;
+                    itemIndex = 0;
+                } else {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
