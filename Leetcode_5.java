@@ -9720,6 +9720,36 @@ public class Leetcode_5 {
         }
     }
 
+    // 170. 两数之和 III - 数据结构设计 (Two Sum III - Data structure design) --plus
+    class TwoSum3 {
+        private Map<Integer, Integer> map;
+
+        public TwoSum3() {
+            map = new HashMap<>();
+
+        }
+
+        public void add(int number) {
+            map.put(number, map.getOrDefault(number, 0) + 1);
+        }
+
+        public boolean find(int value) {
+            for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+                int complement = value - entry.getKey();
+                if (complement != entry.getKey()) {
+                    if (map.containsKey(complement)) {
+                        return true;
+                    }
+                } else {
+                    if (entry.getValue() > 1) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    }
+
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
     // Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
