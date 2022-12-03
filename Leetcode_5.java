@@ -9809,6 +9809,73 @@ public class Leetcode_5 {
         return k + nums[0] + res;
     }
 
+    // 1061. 按字典序排列最小的等效字符串 (Lexicographically Smallest Equivalent String) --plus
+    public String smallestEquivalentString(String s1, String s2, String baseStr) {
+        Union1061 union = new Union1061(26);
+        int n = s1.length();
+        for (int i = 0; i < n; ++i) {
+            int index1 = s1.charAt(i) - 'a';
+            int index2 = s2.charAt(i) - 'a';
+            union.union(index1, index2);
+        }
+        Map<Integer, TreeSet<Integer>> map = new HashMap<>();
+        for (int i = 0; i < 26; ++i) {
+            int root = union.getRoot(i);
+            map.computeIfAbsent(root, k -> new TreeSet<>()).add(i);
+        }
+        StringBuilder res = new StringBuilder();
+        for (char c : baseStr.toCharArray()) {
+            int index = c - 'a';
+            int root = union.getRoot(index);
+            res.append((char) (map.get(root).first() + 'a'));
+        }
+        return res.toString();
+
+    }
+
+    public class Union1061 {
+        private int[] parent;
+        private int[] rank;
+
+        public Union1061(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+
+    }
+
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
     // Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
