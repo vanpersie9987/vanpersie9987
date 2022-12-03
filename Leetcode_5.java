@@ -9818,16 +9818,18 @@ public class Leetcode_5 {
             int index2 = s2.charAt(i) - 'a';
             union.union(index1, index2);
         }
-        Map<Integer, TreeSet<Integer>> map = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < 26; ++i) {
             int root = union.getRoot(i);
-            map.computeIfAbsent(root, k -> new TreeSet<>()).add(i);
+            if (!map.containsKey(root) || i < map.get(root)) {
+                map.put(root, i);
+            }
         }
         StringBuilder res = new StringBuilder();
         for (char c : baseStr.toCharArray()) {
             int index = c - 'a';
             int root = union.getRoot(index);
-            res.append((char) (map.get(root).first() + 'a'));
+            res.append((char) (map.get(root) + 'a'));
         }
         return res.toString();
 
