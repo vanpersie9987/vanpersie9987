@@ -9754,6 +9754,40 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 755. 倒水 (Pour Water) --plus
+    public int[] pourWater(int[] heights, int volume, int k) {
+        int n = heights.length;
+        while (volume-- > 0) {
+            int i = k - 1;
+            int targetIndex = -1;
+            while (i >= 0 && heights[i] <= heights[i + 1]) {
+                if (heights[i] < heights[i + 1]) {
+                    targetIndex = i;
+                }
+                --i;
+            }
+            if (targetIndex != -1) {
+                ++heights[targetIndex];
+                continue;
+            }
+            i = k + 1;
+            targetIndex = -1;
+            while (i < n && heights[i - 1] >= heights[i]) {
+                if (heights[i - 1] > heights[i]) {
+                    targetIndex = i;
+                }
+                ++i;
+            }
+            if (targetIndex != -1) {
+                ++heights[targetIndex];
+                continue;
+            }
+            ++heights[k];
+        }
+        return heights;
+
+    }
+
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
     // Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
