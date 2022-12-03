@@ -9788,6 +9788,25 @@ public class Leetcode_5 {
 
     }
 
+    // 1060. 有序数组中的缺失元素 (Missing Element in Sorted Array) --plus
+    public int missingElement(int[] nums, int k) {
+        int n = nums.length;
+        int right = n - 1;
+        int left = 0;
+        int res = 0;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            int count = nums[mid] - nums[0] - 1 - (mid - 0 - 1);
+            if (count < k) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return nums[res] + k - (nums[res] - nums[0] - 1 - (res - 0 - 1));
+    }
+
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
     // Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
