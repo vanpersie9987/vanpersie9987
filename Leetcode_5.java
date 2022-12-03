@@ -9796,7 +9796,8 @@ public class Leetcode_5 {
         int res = 0;
         while (left <= right) {
             int mid = left + ((right - left) >>> 1);
-            int count = nums[mid] - nums[0] - 1 - (mid - 0 - 1);
+            // int count = nums[mid] - nums[0] - 1 - (mid - 0 - 1);
+            int count = nums[mid] - nums[0] - mid;
             if (count < k) {
                 res = mid;
                 left = mid + 1;
@@ -9804,7 +9805,8 @@ public class Leetcode_5 {
                 right = mid - 1;
             }
         }
-        return nums[res] + k - (nums[res] - nums[0] - 1 - (res - 0 - 1));
+        // return nums[res] + k - (nums[res] - nums[0] - 1 - (res - 0 - 1));
+        return k + nums[0] + res;
     }
 
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
