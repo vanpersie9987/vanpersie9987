@@ -9890,6 +9890,24 @@ public class Leetcode_5 {
 
     }
 
+    // 2436. Minimum Split Into Subarrays With GCD Greater Than One --plus
+    public int minimumSplits(int[] nums) {
+        int res = 0;
+        int gcd = 0;
+        for (int num : nums) {
+            gcd = getGCD2436(gcd, num);
+            if (gcd == 1) {
+                ++res;
+                gcd = num;
+            }
+        }
+        return res + 1;
+    }
+
+    private int getGCD2436(int a, int b) {
+        return b == 0 ? a : getGCD2436(b, a % b);
+    }
+
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
     // Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
