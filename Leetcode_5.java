@@ -9727,6 +9727,33 @@ public class Leetcode_5 {
         }
     }
 
+    // 418. 屏幕可显示句子的数量 (Sentence Screen Fitting) --plus
+    public int wordsTyping(String[] sentence, int rows, int cols) {
+        int n = sentence.length;
+        int[] len = new int[n];
+        for (int i = 0; i < n; ++i) {
+            len[i] = sentence[i].length();
+        }
+        int i = 0;
+        int j = 0;
+        int index = 0;
+        int res = 0;
+        while (i < rows && j < cols) {
+            while (index < n && j + len[index] - 1 < cols) {
+                j += len[index++] + 1;
+            }
+            if (index == n) {
+                ++res;
+                index = 0;
+            }
+            if (j + len[index] - 1 >= cols) {
+                ++i;
+                j = 0;
+            }
+        }
+        return res;
+    }
+
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
     // Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
