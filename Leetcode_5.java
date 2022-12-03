@@ -9878,6 +9878,18 @@ public class Leetcode_5 {
 
     }
 
+    // 2083. 求以相同字母开头和结尾的子串总数 (Substrings That Begin and End With the Same Letter)
+    // --plus
+    public long numberOfSubstrings(String s) {
+        int[] counts = new int[26];
+        long res = 0l;
+        for (char c : s.toCharArray()) {
+            res += ++counts[c - 'a'];
+        }
+        return res;
+
+    }
+
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
     // Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
