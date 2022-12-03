@@ -9658,7 +9658,7 @@ public class Leetcode_5 {
 
     }
 
-    // 170. 两数之和 III - 数据结构设计 (Two Sum III - Data structure design) --plus 还需更优方法
+    // 170. 两数之和 III - 数据结构设计 (Two Sum III - Data structure design) --plus
     class TwoSum {
         private List<Integer> list;
         private Set<Integer> set;
@@ -9678,6 +9678,45 @@ public class Leetcode_5 {
 
         public boolean find(int value) {
             return set.contains(value);
+        }
+    }
+
+    // 170. 两数之和 III - 数据结构设计 (Two Sum III - Data structure design) --plus
+    class TwoSum2 {
+        private List<Integer> list;
+        private boolean isSorted;
+
+        public TwoSum2() {
+            list = new ArrayList<>();
+
+        }
+
+        public void add(int number) {
+            list.add(number);
+            isSorted = false;
+
+        }
+
+        public boolean find(int value) {
+            if (!isSorted) {
+                isSorted = true;
+                Collections.sort(list);
+            }
+            int left = 0;
+            int right = list.size() - 1;
+            while (left < right) {
+                int sum = list.get(left) + list.get(right);
+                if (sum == value) {
+                    return true;
+                }
+                if (sum < value) {
+                    ++left;
+                } else {
+                    --right;
+                }
+            }
+            return false;
+
         }
     }
 
