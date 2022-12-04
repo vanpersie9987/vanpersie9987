@@ -9908,54 +9908,180 @@ public class Leetcode_5 {
         return b == 0 ? a : getGCD2436(b, a % b);
     }
 
+    // 6253. 回环句
+    public boolean isCircularSentence(String sentence) {
+        int n = sentence.length();
+        if (sentence.charAt(0) != sentence.charAt(n - 1)) {
+            return false;
+        }
+        for (int i = 0; i < n; ++i) {
+            if (sentence.charAt(i) == ' ') {
+                if (sentence.charAt(i - 1) != sentence.charAt(i + 1)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }
+
+    // 6254. 划分技能点相等的团队
+    public long dividePlayers(int[] skill) {
+        long res = 0l;
+        Arrays.sort(skill);
+        int i = 0;
+        int j = skill.length - 1;
+        int sum = skill[i] + skill[j];
+        while (i < j) {
+            int curSum = skill[i] + skill[j];
+            if (curSum != sum) {
+                return -1;
+            }
+            res += skill[i] * skill[j];
+            ++i;
+            --j;
+        }
+        return res;
+
+    }
+
+    // 6255. 两个城市间路径的最小分数
+    public int minScore(int n, int[][] roads) {
+        Map<Integer, List<int[]>> map = new HashMap<>();
+        for (int[] road : roads) {
+            map.computeIfAbsent(road[0] - 1, k -> new ArrayList<>()).add(new int[] { road[1] - 1, road[2] });
+            map.computeIfAbsent(road[1] - 1, k -> new ArrayList<>()).add(new int[] { road[0] - 1, road[2] });
+
+        }
+        int res = Integer.MAX_VALUE;
+        boolean[] visited = new boolean[n];
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(0);
+        visited[0] = true;
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            for (int[] neighbor : map.getOrDefault(node, new ArrayList<>())) {
+                int nNode = neighbor[0];
+                int nDis = neighbor[1];
+                if (!visited[nNode]) {
+                    visited[nNode] = true;
+                    queue.offer(nNode);
+                }
+                res = Math.min(res, nDis);
+            }
+        }
+        return res;
+
+    }
+
+    // 6256. 将节点分成尽可能多的组
+    public int magnificentSets(int n, int[][] edges) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        Union6256 union = new Union6256(n);
+        for (int[] edge : edges) {
+            map.computeIfAbsent(edge[0] - 1, k -> new ArrayList<>()).add(edge[1] - 1);
+            map.computeIfAbsent(edge[1] - 1, k -> new ArrayList<>()).add(edge[0] - 1);
+            union.union(edge[0] - 1, edge[1] - 1);
+        }
+
+        Map<Integer, Integer> group = new HashMap<>();
+
+        for (int i = 0; i < n; ++i) {
+            int root = union.getRoot(i);
+            int cur = bfs6256(n, i, map, edges);
+            if (cur == -1) {
+                return -1;
+            }
+            if (!group.containsKey(root) || group.get(root) < cur) {
+                group.put(root, cur);
+            }
+        }
+        int res = 0;
+        for (int g : group.values()) {
+            res += g;
+        }
+        return res;
+    }
+
+    private int bfs6256(int n, int root, Map<Integer, List<Integer>> map, int[][] edges) {
+        int[] levels = new int[n];
+        Arrays.fill(levels, -1);
+        Queue<Integer> queue = new LinkedList<>();
+        int level = 0;
+        levels[root] = level;
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            ++level;
+            for (int i = 0; i < size; ++i) {
+                int node = queue.poll();
+                for (int neighbor : map.getOrDefault(node, new ArrayList<>())) {
+                    if (levels[neighbor] == -1) {
+                        levels[neighbor] = level;
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+        }
+        for (int[] edge : edges) {
+            int level1 = levels[edge[0] - 1];
+            int level2 = levels[edge[1] - 1];
+            if (level1 != -1 && level2 != -1 && Math.abs(level1 - level2) != 1) {
+                return -1;
+            }
+        }
+        return level;
+    }
+
+    public class Union6256 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union6256(int n) {
+            rank = new int[n];
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                rank[i] = 1;
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] > rank[root2]) {
+                parent[root2] = root1;
+            } else {
+                parent[root1] = root2;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root2];
+                }
+            }
+        }
+
+    }
+
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
-    // Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
 
-    // @Override
-    // public int compare(Integer o1, Integer o2) {
-    // return o2 - o1;
-    // }
-
-    // });
-    // for (int i : inventory) {
-    // queue.offer(i);
-    // }
-    // final int mod = (int) (1e9 + 7);
-    // long res = 0l;
-    // while (orders-- > 0) {
-    // int max = queue.poll();
-    // res = (res + max) % mod;
-    // --max;
-    // queue.offer(max);
-    // }
-    // return (int) (res % mod);
     // }
 
     // 1562. 查找大小为 M 的最新分组 (Find Latest Group of Size M)
     // public int findLatestStep(int[] arr, int m) {
-    // int n = arr.length;
-    // int[] bin = new int[n];
-    // int res = -1;
-    // for (int i = 0; i < n; ++i) {
-    // bin[arr[i] - 1] = 1;
-    // int count = 0;
-    // for (int b : bin) {
-    // if (b == 1) {
-    // ++count;
-    // } else {
-    // if (count == m) {
-    // res = i + 1;
-    // break;
-    // }
-    // count = 0;
-    // }
-    // }
-    // if (count == m) {
-    // res = i + 1;
-    // }
-    // }
-    // return res;
 
     // }
 
@@ -9976,14 +10102,6 @@ public class Leetcode_5 {
 
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
     // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
-    // Map<Integer, List<Integer>> graph = new HashMap<>();
-    // for (int[] edge : edges) {
-    // graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
-    // graph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
-    // }
-    // int n = amount.length;
-    // Map<Integer, Integer> bobVisited = new HashMap<>();
-    // for()
 
     // }
 
