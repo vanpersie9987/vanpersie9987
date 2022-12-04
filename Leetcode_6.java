@@ -37,6 +37,33 @@ public class Leetcode_6 {
         }
     }
 
+    // 1151. 最少交换次数来组合所有的 1 (Minimum Swaps to Group All 1's Together) --plus
+    public int minSwaps(int[] data) {
+        int n = data.length;
+        int k = 0;
+        for (int d : data) {
+            k += d;
+        }
+        int cur = 0;
+        for (int i = 0; i < k; ++i) {
+            if (data[i] == 0) {
+                ++cur;
+            }
+        }
+        int res = cur;
+        for (int i = k; i < n; ++i) {
+            if (data[i] == 0) {
+                ++cur;
+            }
+            if (data[i - k] == 0) {
+                --cur;
+            }
+            res = Math.min(res, cur);
+        }
+        return res;
+
+    }
+
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
 
