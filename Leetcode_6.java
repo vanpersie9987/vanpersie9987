@@ -133,6 +133,33 @@ public class Leetcode_6 {
         dfs285(node.right, p);
     }
 
+    // 288. 单词的唯一缩写 (Unique Word Abbreviation) --plus
+    class ValidWordAbbr {
+        private Map<String, String> map;
+
+        public ValidWordAbbr(String[] dictionary) {
+            map = new HashMap<>();
+            for (String dic : dictionary) {
+                int n = dic.length();
+                String abbr = n <= 2 ? dic
+                        : String.valueOf(dic.charAt(0)) + String.valueOf(n - 2) + String.valueOf(dic.charAt(n - 1));
+                if (!map.containsKey(abbr)) {
+                    map.put(abbr, dic);
+                } else if (!map.get(abbr).equals(dic)) {
+                    map.put(abbr, "_");
+                }
+            }
+        }
+
+        public boolean isUnique(String word) {
+            int n = word.length();
+            String abbr = n <= 2 ? word
+                    : String.valueOf(word.charAt(0)) + String.valueOf(n - 2) + String.valueOf(word.charAt(n - 1));
+            return !map.containsKey(abbr) || map.get(abbr).equals(word);
+
+        }
+    }
+
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
 
