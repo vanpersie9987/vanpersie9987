@@ -145,8 +145,7 @@ public class Leetcode_6 {
             map = new HashMap<>();
             for (String dic : dictionary) {
                 int n = dic.length();
-                String abbr = n <= 2 ? dic
-                        : String.valueOf(dic.charAt(0)) + String.valueOf(n - 2) + String.valueOf(dic.charAt(n - 1));
+                String abbr = n <= 2 ? dic : dic.charAt(0) + String.valueOf(n - 2) + dic.charAt(n - 1);
                 if (!map.containsKey(abbr)) {
                     map.put(abbr, dic);
                 } else if (!map.get(abbr).equals(dic)) {
@@ -157,8 +156,7 @@ public class Leetcode_6 {
 
         public boolean isUnique(String word) {
             int n = word.length();
-            String abbr = n <= 2 ? word
-                    : String.valueOf(word.charAt(0)) + String.valueOf(n - 2) + String.valueOf(word.charAt(n - 1));
+            String abbr = n <= 2 ? word : word.charAt(0) + String.valueOf(n - 2) + word.charAt(n - 1);
             return !map.containsKey(abbr) || map.get(abbr).equals(word);
 
         }
@@ -203,6 +201,11 @@ public class Leetcode_6 {
         return String.format("%.3f", (double) res / 1000);
 
     }
+
+    // 2371. Minimize Maximum Value in a Grid
+    // public int[][] minScore(int[][] grid) {
+
+    // }
 
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
