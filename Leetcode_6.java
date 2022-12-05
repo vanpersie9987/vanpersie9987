@@ -109,6 +109,30 @@ public class Leetcode_6 {
         return n == 0;
     }
 
+    // 285. 二叉搜索树中的中序后继 (Inorder Successor in BST) --plus
+    private boolean flag285;
+    private TreeNode res285;
+
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        dfs285(root, p);
+        return res285;
+
+    }
+
+    private void dfs285(TreeNode node, TreeNode p) {
+        if (node == null) {
+            return;
+        }
+        dfs285(node.left, p);
+        if (flag285 && res285 == null) {
+            res285 = node;
+        }
+        if (node == p) {
+            flag285 = true;
+        }
+        dfs285(node.right, p);
+    }
+
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
 
