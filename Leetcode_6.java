@@ -202,6 +202,42 @@ public class Leetcode_6 {
 
     }
 
+    // 624. 数组列表中的最大距离 (Maximum Distance in Arrays) --plus
+    public int maxDistance(List<List<Integer>> arrays) {
+        int max1 = Integer.MIN_VALUE;
+        int max2 = Integer.MIN_VALUE;
+        int min1 = Integer.MAX_VALUE;
+        int min2 = Integer.MAX_VALUE;
+        int maxRowIndex = -1;
+        int minRowIndex = -1;
+        for (int i = 0; i < arrays.size(); ++i) {
+            if (arrays.get(i) == null || arrays.get(i).isEmpty()) {
+                continue;
+            }
+            int curMax = arrays.get(i).get(arrays.get(i).size() - 1);
+            if (curMax >= max1) {
+                max2 = max1;
+                max1 = curMax;
+                maxRowIndex = i;
+            } else if (curMax >= max2) {
+                max2 = curMax;
+            }
+            int curMin = arrays.get(i).get(0);
+            if (curMin <= min1) {
+                min2 = min1;
+                min1 = curMin;
+                minRowIndex = i;
+            } else if (curMin <= min2) {
+                min2 = curMin;
+            }
+        }
+        if (maxRowIndex != minRowIndex) {
+            return max1 - min1;
+        }
+        return Math.max(Math.abs(max1 - min2), Math.abs(max2 - min1));
+
+    }
+
     // 2371. Minimize Maximum Value in a Grid
     // public int[][] minScore(int[][] grid) {
 
