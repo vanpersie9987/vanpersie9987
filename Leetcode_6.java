@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,6 +9,8 @@ import java.util.Queue;
 
 public class Leetcode_6 {
     public static void main(String[] args) {
+        // String[] strs = { "1.500", "2.500", "3.500" };
+        // String s = minimizeError(strs, 9);
 
     }
 
@@ -158,6 +162,46 @@ public class Leetcode_6 {
             return !map.containsKey(abbr) || map.get(abbr).equals(word);
 
         }
+    }
+
+    // 1058. 最小化舍入误差以满足目标 (Minimize Rounding Error to Meet Target) --plus
+    public String minimizeError(String[] prices, int target) {
+        int min = 0;
+        int max = 0;
+        List<Integer> trans = new ArrayList<>();
+        for (String price : prices) {
+            int dot = price.indexOf(".");
+            int tran = Integer.parseInt(price.substring(0, dot)) * 1000
+                    + Integer.parseInt(price.substring(dot + 1));
+            min += tran / 1000;
+            max += tran / 1000 + (tran % 1000 == 0 ? 0 : 1);
+            trans.add(tran);
+        }
+        if (min > target || max < target) {
+            return "-1";
+        }
+        Collections.sort(trans, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2 % 1000 - o1 % 1000;
+
+            }
+
+        });
+
+        int n = prices.length;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            int num = trans.get(i);
+            if (i < target - min) {
+                res += (num / 1000 + 1) * 1000 - num;
+            } else {
+                res += num - num / 1000 * 1000;
+            }
+        }
+        return String.format("%.3f", (double) res / 1000);
+
     }
 
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
