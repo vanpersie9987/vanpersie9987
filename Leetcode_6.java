@@ -238,6 +238,37 @@ public class Leetcode_6 {
 
     }
 
+    // 663. 均匀树划分 (Equal Tree Partition) --plus
+    private int sum663;
+    private boolean res663;
+
+    public boolean checkEqualTree(TreeNode root) {
+        dfs663(root);
+        dfs_div663(root.left);
+        dfs_div663(root.right);
+        return res663;
+    }
+
+    private void dfs663(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        sum663 += node.val;
+        dfs663(node.left);
+        dfs663(node.right);
+    }
+
+    private int dfs_div663(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+        int cur = dfs_div663(node.left) + dfs_div663(node.right) + node.val;
+        if (cur * 2 == sum663) {
+            res663 = true;
+        }
+        return cur;
+    }
+
     // 2371. Minimize Maximum Value in a Grid
     // public int[][] minScore(int[][] grid) {
 
