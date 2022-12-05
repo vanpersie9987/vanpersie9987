@@ -3306,25 +3306,28 @@ public class LeetCode_2 {
 
    // 1805. 字符串中不同整数的数目 (Number of Different Integers in a String)
    public int numDifferentIntegers(String word) {
+      int i = 0;
+      int n = word.length();
       Set<String> set = new HashSet<>();
-      char[] chars = word.toCharArray();
-      StringBuilder builder = new StringBuilder();
-      for (int i = 0; i < chars.length; ++i) {
-         if (Character.isDigit(chars[i])) {
-            while (i < chars.length && chars[i] == '0') {
-               ++i;
-            }
-            while (i < chars.length && Character.isDigit(chars[i])) {
-               builder.append(chars[i]);
-               ++i;
-            }
-            if (builder.length() == 0) {
-               set.add("0");
-            } else {
-               set.add(builder.toString());
-            }
-            builder.setLength(0);
+      while (i < n) {
+         if (i < n && Character.isLetter(word.charAt(i))) {
+            ++i;
+            continue;
          }
+         int j = i;
+         while (j < n && word.charAt(j) == '0') {
+            ++j;
+         }
+         i = j;
+         while (j < n && Character.isDigit(word.charAt(j))) {
+            ++j;
+         }
+         if (i == j) {
+            set.add("0");
+         } else {
+            set.add(word.substring(i, j));
+         }
+         i = j;
       }
       return set.size();
 
