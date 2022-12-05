@@ -234,7 +234,7 @@ public class Leetcode_6 {
         if (maxRowIndex != minRowIndex) {
             return max1 - min1;
         }
-        return Math.max(Math.abs(max1 - min2), Math.abs(max2 - min1));
+        return Math.max(max1 - min2, max2 - min1);
 
     }
 
