@@ -411,6 +411,38 @@ public class Leetcode_6 {
         return res;
     }
 
+    // 2445. Number of Nodes With Value One --plus
+    public int numberOfNodes(int n, int[] queries) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 1; i <= n; ++i) {
+            if (i * 2 <= n) {
+                map.computeIfAbsent(i, k -> new ArrayList<>()).add(i * 2);
+            }
+            if (i * 2 + 1 <= n) {
+                map.computeIfAbsent(i, k -> new ArrayList<>()).add(i * 2 + 1);
+            }
+        }
+        int[] count = new int[n + 1];
+        for (int query : queries) {
+            ++count[query];
+        }
+        int res = 0;
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(1);
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            if (count[node] % 2 == 1) {
+                ++res;
+            }
+            for (int neighbor : map.getOrDefault(node, new ArrayList<>())) {
+                count[neighbor] += count[node];
+                queue.offer(neighbor);
+            }
+        }
+        return res;
+
+    }
+
     // 2371. Minimize Maximum Value in a Grid
     // public int[][] minScore(int[][] grid) {
 
