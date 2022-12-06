@@ -464,8 +464,19 @@ public class Leetcode_6 {
         return res;
     }
 
+    // 490. 迷宫 (The Maze) --plus
+    // public boolean hasPath(int[][] maze, int[] start, int[] destination) {
+
+    // }
+
     // 505. 迷宫 II (The Maze II) --plus
     // public int shortestDistance(int[][] maze, int[] start, int[] destination) {
+
+    // }
+
+    // 499. 迷宫 III (The Maze III) --plus
+    // public String findShortestWay(int[][] maze, int[] ball, int[] hole) {
+
     // }
 
     // 2371. Minimize Maximum Value in a Grid
