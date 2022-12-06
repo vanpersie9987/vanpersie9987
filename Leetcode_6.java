@@ -269,6 +269,26 @@ public class Leetcode_6 {
         return cur;
     }
 
+    // 1120. 子树的最大平均值 (Maximum Average Subtree) --plus
+    private double res1120;
+
+    public double maximumAverageSubtree(TreeNode root) {
+        dfs1120(root);
+        return res1120;
+    }
+
+    private int[] dfs1120(TreeNode node) {
+        if (node == null) {
+            return new int[] { 0, 0 };
+        }
+        int[] left = dfs1120(node.left);
+        int[] right = dfs1120(node.right);
+        int sum = left[0] + right[0] + node.val;
+        int count = left[1] + right[1] + 1;
+        res1120 = Math.max(res1120, (double) sum / count);
+        return new int[] { sum, count };
+    }
+
     // 2371. Minimize Maximum Value in a Grid
     // public int[][] minScore(int[][] grid) {
 
