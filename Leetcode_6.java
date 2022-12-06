@@ -443,6 +443,26 @@ public class Leetcode_6 {
 
     }
 
+    // 2445. Number of Nodes With Value One --plus
+    public int numberOfNodes2(int n, int[] queries) {
+        int[] count = new int[n + 1];
+        for (int query : queries) {
+            ++count[query];
+        }
+        return dfs2445(1, 0, n, count);
+    }
+
+    private int dfs2445(int node, int sum, int n, int[] count) {
+        if (node > n) {
+            return 0;
+        }
+        int cur = (sum + count[node]) % 2;
+        int res = cur;
+        res += dfs2445(node * 2, cur, n, count);
+        res += dfs2445(node * 2 + 1, cur, n, count);
+        return res;
+    }
+
     // 2371. Minimize Maximum Value in a Grid
     // public int[][] minScore(int[][] grid) {
 
