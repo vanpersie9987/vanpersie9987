@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
@@ -316,6 +317,22 @@ public class Leetcode_6 {
         }
 
         return new ArrayList<>(set);
+
+    }
+
+    // 1167. 连接棒材的最低费用 (Minimum Cost to Connect Sticks) --plus
+    public int connectSticks(int[] sticks) {
+        Queue<Integer> queue = new PriorityQueue<>();
+        for (int stick : sticks) {
+            queue.offer(stick);
+        }
+        int res = 0;
+        while (queue.size() > 1) {
+            int cost = queue.poll() + queue.poll();
+            res += cost;
+            queue.offer(cost);
+        }
+        return res;
 
     }
 
