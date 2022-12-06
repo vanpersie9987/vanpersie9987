@@ -336,6 +336,31 @@ public class Leetcode_6 {
 
     }
 
+    // 1182. 与目标颜色间的最短距离 (Shortest Distance to Target Color) --plus
+    public List<Integer> shortestDistanceColor(int[] colors, int[][] queries) {
+        int n = queries.length;
+        List<Integer> res = new ArrayList<>();
+        Map<Integer, TreeSet<Integer>> map = new HashMap<>();
+        for (int i = 0; i < colors.length; ++i) {
+            map.computeIfAbsent(colors[i], k -> new TreeSet<>()).add(i);
+        }
+        for (int i = 0; i < n; ++i) {
+            TreeSet<Integer> index = map.getOrDefault(queries[i][1], new TreeSet<>());
+            int min = Integer.MAX_VALUE;
+            Integer floor = index.floor(queries[i][0]);
+            if (floor != null) {
+                min = Math.min(min, queries[i][0] - floor);
+            }
+            Integer ceiling = index.ceiling(queries[i][0]);
+            if (ceiling != null) {
+                min = Math.min(min, ceiling - queries[i][0]);
+            }
+            res.add(min == Integer.MAX_VALUE ? -1 : min);
+        }
+        return res;
+
+    }
+
     // 2371. Minimize Maximum Value in a Grid
     // public int[][] minScore(int[][] grid) {
 
