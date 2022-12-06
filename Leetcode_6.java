@@ -2,10 +2,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Leetcode_6 {
     public static void main(String[] args) {
@@ -287,6 +290,33 @@ public class Leetcode_6 {
         int count = left[1] + right[1] + 1;
         res1120 = Math.max(res1120, (double) sum / count);
         return new int[] { sum, count };
+    }
+
+    // 1181. 前后拼接 (Before and After Puzzle) --plus
+    public List<String> beforeAndAfterPuzzles(String[] phrases) {
+        Map<String, Set<String>> prefix = new HashMap<>();
+        Map<String, Set<String>> suffix = new HashMap<>();
+        TreeSet<String> set = new TreeSet<>();
+        for (String phrase : phrases) {
+            int firstSpace = phrase.indexOf(" ");
+            String curPrefix = firstSpace != -1 ? phrase.substring(0, firstSpace) : phrase;
+            String curPreRemain = firstSpace != -1 ? phrase.substring(firstSpace + 1) : "";
+            for (String s : suffix.getOrDefault(curPrefix, new HashSet<>())) {
+                set.add(String.join(" ", new String[] { s, phrase }).trim());
+            }
+
+            int lastSpace = phrase.lastIndexOf(" ");
+            String curSuffix = lastSpace != -1 ? phrase.substring(lastSpace + 1) : phrase;
+            String curSufRemain = lastSpace != -1 ? phrase.substring(0, lastSpace) : "";
+            for (String s : prefix.getOrDefault(curSuffix, new HashSet<>())) {
+                set.add(String.join(" ", new String[] { phrase, s }).trim());
+            }
+            prefix.computeIfAbsent(curPrefix, k -> new HashSet<>()).add(curPreRemain);
+            suffix.computeIfAbsent(curSuffix, k -> new HashSet<>()).add(curSufRemain);
+        }
+
+        return new ArrayList<>(set);
+
     }
 
     // 2371. Minimize Maximum Value in a Grid
