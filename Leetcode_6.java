@@ -340,25 +340,75 @@ public class Leetcode_6 {
     public List<Integer> shortestDistanceColor(int[] colors, int[][] queries) {
         int n = queries.length;
         List<Integer> res = new ArrayList<>();
-        Map<Integer, TreeSet<Integer>> map = new HashMap<>();
+        Map<Integer, List<Integer>> map = new HashMap<>();
         for (int i = 0; i < colors.length; ++i) {
-            map.computeIfAbsent(colors[i], k -> new TreeSet<>()).add(i);
+            map.computeIfAbsent(colors[i], k -> new ArrayList<>()).add(i);
         }
         for (int i = 0; i < n; ++i) {
-            TreeSet<Integer> index = map.getOrDefault(queries[i][1], new TreeSet<>());
+            List<Integer> index = map.get(queries[i][1]);
+            if (index == null) {
+                res.add(-1);
+                continue;
+            }
             int min = Integer.MAX_VALUE;
-            Integer floor = index.floor(queries[i][0]);
-            if (floor != null) {
-                min = Math.min(min, queries[i][0] - floor);
+            int target1 = binarySearchFloor1182(index, queries[i][0]);
+            if (target1 != -1) {
+                min = Math.min(min, queries[i][0] - target1);
             }
-            Integer ceiling = index.ceiling(queries[i][0]);
-            if (ceiling != null) {
-                min = Math.min(min, ceiling - queries[i][0]);
+            int target2 = binarySearchCeiling1182(index, queries[i][0]);
+            if (target2 != -1) {
+                min = Math.min(min, target2 - queries[i][0]);
             }
-            res.add(min == Integer.MAX_VALUE ? -1 : min);
+            res.add(min);
         }
         return res;
 
+    }
+
+    private int binarySearchCeiling1182(List<Integer> index, int target) {
+        int n = index.size();
+        if (target > index.get(n - 1)) {
+            return -1;
+        }
+        if (target <= index.get(0)) {
+            return index.get(0);
+        }
+        int left = 0;
+        int right = index.size() - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (index.get(mid) >= target) {
+                res = index.get(mid);
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+
+    private int binarySearchFloor1182(List<Integer> index, int target) {
+        int n = index.size();
+        if (target < index.get(0)) {
+            return -1;
+        }
+        if (target >= index.get(n - 1)) {
+            return index.get(n - 1);
+        }
+        int left = 0;
+        int right = index.size() - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (index.get(mid) <= target) {
+                res = index.get(mid);
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
     }
 
     // 2371. Minimize Maximum Value in a Grid
