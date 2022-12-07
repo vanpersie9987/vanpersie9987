@@ -487,9 +487,37 @@ public class Leetcode_6 {
     }
 
     // 490. 迷宫 (The Maze) --plus
-    // public boolean hasPath(int[][] maze, int[] start, int[] destination) {
+    public boolean hasPath(int[][] maze, int[] start, int[] destination) {
+        int[][] directions = { { 0, -1 }, { 1, 0 }, { -1, 0 }, { 0, 1 } };
+        int m = maze.length;
+        int n = maze[0].length;
+        boolean[][] visited = new boolean[m][n];
+        visited[start[0]][start[1]] = true;
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(start);
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            if (cur[0] == destination[0] && cur[1] == destination[1]) {
+                return true;
+            }
+            for (int[] direction : directions) {
+                int nx = cur[0] + direction[0];
+                int ny = cur[1] + direction[1];
+                while (nx >= 0 && nx < m && ny >= 0 && ny < n && maze[nx][ny] == 0) {
+                    nx += direction[0];
+                    ny += direction[1];
+                }
+                nx -= direction[0];
+                ny -= direction[1];
+                if (!visited[nx][ny]) {
+                    visited[nx][ny] = true;
+                    queue.offer(new int[] { nx, ny });
+                }
+            }
+        }
+        return false;
 
-    // }
+    }
 
     // 505. 迷宫 II (The Maze II) --plus
     // public int shortestDistance(int[][] maze, int[] start, int[] destination) {
