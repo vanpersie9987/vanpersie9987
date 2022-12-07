@@ -1,4 +1,6 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -520,9 +522,43 @@ public class Leetcode_6 {
     }
 
     // 505. 迷宫 II (The Maze II) --plus
-    // public int shortestDistance(int[][] maze, int[] start, int[] destination) {
+    public int shortestDistance(int[][] maze, int[] start, int[] destination) {
+        int[][] directions = { { 0, -1 }, { 1, 0 }, { -1, 0 }, { 0, 1 } };
+        int m = maze.length;
+        int n = maze[0].length;
+        int[][] distance = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(distance[i], Integer.MAX_VALUE);
+        }
+        distance[start[0]][start[1]] = 0;
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(start);
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int dis = distance[x][y];
+            for (int[] direction : directions) {
+                int nx = x + direction[0];
+                int ny = y + direction[1];
+                while (nx >= 0 && nx < m && ny >= 0 && ny < n && maze[nx][ny] == 0) {
+                    nx += direction[0];
+                    ny += direction[1];
+                }
+                nx -= direction[0];
+                ny -= direction[1];
+                int curDis = Math.max(Math.abs(x - nx), Math.abs(y - ny));
+                int nDis = curDis + dis;
+                if (nDis < distance[nx][ny]) {
+                    distance[nx][ny] = nDis;
+                    queue.offer(new int[] { nx, ny });
+                }
+            }
+        }
+        return distance[destination[0]][destination[1]] == Integer.MAX_VALUE ? -1
+                : distance[destination[0]][destination[1]];
 
-    // }
+    }
 
     // 499. 迷宫 III (The Maze III) --plus
     // public String findShortestWay(int[][] maze, int[] ball, int[] hole) {
