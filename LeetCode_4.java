@@ -976,47 +976,41 @@ public class LeetCode_4 {
     }
 
     // 1775. 通过最少操作次数使数组的和相等 (Equal Sum Arrays With Minimum Number of Operations)
-    // --贪心
     public int minOperations(int[] nums1, int[] nums2) {
-        int sumA = Arrays.stream(nums1).sum();
-        int sumB = Arrays.stream(nums2).sum();
-
-        if (sumA == sumB) {
-            return 0;
+        int n1 = nums1.length;
+        int n2 = nums2.length;
+        if (n1 * 6 < n2 || n2 * 6 < n1) {
+            return -1;
         }
-        if (sumA > sumB) {
-            int temp = sumA;
-            sumA = sumB;
-            sumB = temp;
-
-            int[] tempArr = nums1;
+        int d = 0;
+        for (int num : nums1) {
+            d -= num;
+        }
+        for (int num : nums2) {
+            d += num;
+        }
+        if (d < 0) {
+            d = -d;
+            int[] temp = nums1;
             nums1 = nums2;
-            nums2 = tempArr;
+            nums2 = temp;
         }
-        Arrays.sort(nums1);
-        Arrays.sort(nums2);
+        int[] count = new int[6];
+        for (int num : nums1) {
+            ++count[6 - num];
+        }
+        for (int num : nums2) {
+            ++count[num - 1];
+        }
         int res = 0;
-        int i = 0;
-        int j = nums2.length - 1;
-        while (i < nums1.length && j >= 0 && sumA < sumB) {
-            if (6 - nums1[i] > nums2[j] - 1) {
-                sumA += 6 - nums1[i++];
-            } else {
-                sumB -= nums2[j--] - 1;
+        for (int i = 5; i >= 1; --i) {
+            if (count[i] * i >= d) {
+                return res + (d + i - 1) / i;
             }
-            ++res;
+            res += count[i];
+            d -= count[i] * i;
         }
-        while (i < nums1.length && sumA < sumB) {
-            sumA += 6 - nums1[i++];
-            ++res;
-        }
-
-        while (j >= 0 && sumA < sumB) {
-            sumB -= nums2[j--] - 1;
-            ++res;
-        }
-        return sumA >= sumB ? res : -1;
-
+        return -1;
     }
 
     // 648. 单词替换 (Replace Words) --字典树
