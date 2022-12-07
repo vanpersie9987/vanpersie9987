@@ -463,6 +463,29 @@ public class Leetcode_6 {
         return res;
     }
 
+    // 2488. 统计中位数为 K 的子数组 (Count Subarrays With Median K)
+    public int countSubarrays(int[] nums, int k) {
+        int n = nums.length;
+        int res = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        int prefix = 0;
+        boolean flag = false;
+        for (int i = 0; i < n; ++i) {
+            prefix += nums[i] > k ? 1 : (nums[i] < k ? -1 : 0);
+            if (!flag && nums[i] == k) {
+                flag = true;
+            }
+            if (flag) {
+                res += map.getOrDefault(prefix, 0) + map.getOrDefault(prefix - 1, 0);
+            } else {
+                map.put(prefix, map.getOrDefault(prefix, 0) + 1);
+            }
+        }
+        return res;
+
+    }
+
     // 490. 迷宫 (The Maze) --plus
     // public boolean hasPath(int[][] maze, int[] start, int[] destination) {
 
@@ -500,11 +523,6 @@ public class Leetcode_6 {
 
     // 2484. 统计回文子序列数目 (Count Palindromic Subsequences)
     // public int countPalindromes(String s) {
-
-    // }
-
-    // 2488. 统计中位数为 K 的子数组 (Count Subarrays With Median K)
-    // public int countSubarrays(int[] nums, int k) {
 
     // }
 
