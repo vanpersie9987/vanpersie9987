@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -626,6 +627,51 @@ public class Leetcode_6 {
         }
         return distance[hole[0]][hole[1]] == Integer.MAX_VALUE ? "impossible" : list.get(hole[0]).get(hole[1]);
     }
+
+    // 528. 按权重随机选择 (Random Pick with Weight)
+    // 剑指 Offer II 071. 按权重生成随机数
+    class Solution528 {
+        private Random random;
+        private int[] prefix;
+        private int n;
+
+        public Solution528(int[] w) {
+            random = new Random();
+            n = w.length;
+            prefix = new int[n];
+            prefix[0] = w[0];
+            for (int i = 1; i < n; ++i) {
+                prefix[i] = prefix[i - 1] + w[i];
+            }
+
+        }
+
+        public int pickIndex() {
+            int target = random.nextInt(prefix[n - 1]) + 1;
+            return binarySearch528(prefix, target);
+        }
+
+        private int binarySearch528(int[] nums, int target) {
+            int left = 0;
+            int right = nums.length - 1;
+            int res = -1;
+            while (left <= right) {
+                int mid = left + ((right - left) >>> 1);
+                if (nums[mid] >= target) {
+                    res = mid;
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            return res;
+        }
+    }
+
+    // 2031. 1 比 0 多的子数组个数 (Count Subarrays With More Ones Than Zeros) --plus
+    // public int subarraysWithMoreZerosThanOnes(int[] nums) {
+
+    // }
 
     // 2371. Minimize Maximum Value in a Grid
     // public int[][] minScore(int[][] grid) {
