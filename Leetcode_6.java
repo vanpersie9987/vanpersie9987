@@ -734,6 +734,16 @@ public class Leetcode_6 {
         }
     }
 
+    // 2168. 每个数字的频率都相同的独特子字符串的数量 (Unique Substrings With Equal Digit Frequency) --plus
+    // public int equalDigitFrequency(String s) {
+
+    // }
+
+    // 2214. Minimum Health to Beat Game --plus
+    // public long minimumHealth(int[] damage, int armor) {
+
+    // }
+
     // 2031. 1 比 0 多的子数组个数 (Count Subarrays With More Ones Than Zeros) --plus
     // public int subarraysWithMoreZerosThanOnes(int[] nums) {
 
