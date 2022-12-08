@@ -668,6 +668,76 @@ public class Leetcode_6 {
         }
     }
 
+    // 1804. 实现 Trie （前缀树） II (Implement Trie II (Prefix Tree)) --plus
+    class Trie1804 {
+        class Inner_Trie {
+            int prefixCount;
+            int wordCount;
+            Inner_Trie[] children;
+
+            Inner_Trie() {
+                this.children = new Inner_Trie[26];
+                this.prefixCount = 0;
+                this.wordCount = 0;
+            }
+        }
+
+        private Inner_Trie trie;
+
+        public Trie1804() {
+            trie = new Inner_Trie();
+        }
+
+        public void insert(String word) {
+            Inner_Trie node = trie;
+            for (char c : word.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new Inner_Trie();
+                }
+                node = node.children[index];
+                ++node.prefixCount;
+            }
+            ++node.wordCount;
+        }
+
+        public int countWordsEqualTo(String word) {
+            Inner_Trie node = this.trie;
+            for (char c : word.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    return 0;
+                }
+                node = node.children[index];
+            }
+            return node.wordCount;
+
+        }
+
+        public int countWordsStartingWith(String prefix) {
+            Inner_Trie node = this.trie;
+            for (char c : prefix.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    return 0;
+                }
+                node = node.children[index];
+            }
+            return node.prefixCount;
+
+        }
+
+        public void erase(String word) {
+            Inner_Trie node = this.trie;
+            for (char c : word.toCharArray()) {
+                int index = c - 'a';
+                node = node.children[index];
+                --node.prefixCount;
+            }
+            --node.wordCount;
+        }
+    }
+
     // 2031. 1 比 0 多的子数组个数 (Count Subarrays With More Ones Than Zeros) --plus
     // public int subarraysWithMoreZerosThanOnes(int[] nums) {
 
