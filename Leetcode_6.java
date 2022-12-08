@@ -563,11 +563,7 @@ public class Leetcode_6 {
     // 499. 迷宫 III (The Maze III) --plus
     public String findShortestWay(int[][] maze, int[] ball, int[] hole) {
         int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
-        Map<Integer, Character> map = new HashMap<>();
-        map.put(0, 'r');
-        map.put(1, 'l');
-        map.put(2, 'd');
-        map.put(3, 'u');
+        char[] d = { 'r', 'l', 'd', 'u' };
         int m = maze.length;
         int n = maze[0].length;
         int[][] distance = new int[m][n];
@@ -595,10 +591,10 @@ public class Leetcode_6 {
                         int steps = Math.max(Math.abs(nx - x), Math.abs(ny - y));
                         if (distance[x][y] + steps < distance[nx][ny]) {
                             distance[nx][ny] = distance[x][y] + steps;
-                            String s = list.get(x).get(y) + map.get(i);
+                            String s = list.get(x).get(y) + d[i];
                             list.get(nx).set(ny, s);
                         } else if (distance[x][y] + steps == distance[nx][ny]) {
-                            String s = list.get(x).get(y) + map.get(i);
+                            String s = list.get(x).get(y) + d[i];
                             if (s.compareTo(list.get(nx).get(ny)) < 0) {
                                 list.get(nx).set(ny, s);
                             }
@@ -613,11 +609,11 @@ public class Leetcode_6 {
                 int steps = Math.max(Math.abs(nx - x), Math.abs(ny - y));
                 if (distance[x][y] + steps < distance[nx][ny]) {
                     distance[nx][ny] = distance[x][y] + steps;
-                    String s = list.get(x).get(y) + map.get(i);
+                    String s = list.get(x).get(y) + d[i];
                     list.get(nx).set(ny, s);
                     queue.offer(new int[] { nx, ny });
                 } else if (distance[x][y] + steps == distance[nx][ny]) {
-                    String s = list.get(x).get(y) + map.get(i);
+                    String s = list.get(x).get(y) + d[i];
                     if (s.compareTo(list.get(nx).get(ny)) < 0) {
                         list.get(nx).set(ny, s);
                         queue.offer(new int[] { nx, ny });
