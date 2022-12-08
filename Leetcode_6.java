@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -561,9 +560,72 @@ public class Leetcode_6 {
     }
 
     // 499. 迷宫 III (The Maze III) --plus
-    // public String findShortestWay(int[][] maze, int[] ball, int[] hole) {
-
-    // }
+    public String findShortestWay(int[][] maze, int[] ball, int[] hole) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        Map<Integer, Character> map = new HashMap<>();
+        map.put(0, 'r');
+        map.put(1, 'l');
+        map.put(2, 'd');
+        map.put(3, 'u');
+        int m = maze.length;
+        int n = maze[0].length;
+        int[][] distance = new int[m][n];
+        List<List<String>> list = new ArrayList<>();
+        for (int i = 0; i < m; ++i) {
+            List<String> rowList = new ArrayList<>();
+            for (int j = 0; j < n; ++j) {
+                distance[i][j] = Integer.MAX_VALUE;
+                rowList.add("");
+            }
+            list.add(rowList);
+        }
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(ball);
+        distance[ball[0]][ball[1]] = 0;
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            search: for (int i = 0; i < 4; ++i) {
+                int nx = x + directions[i][0];
+                int ny = y + directions[i][1];
+                while (nx >= 0 && nx < m && ny >= 0 && ny < n && maze[nx][ny] == 0) {
+                    if (nx == hole[0] && ny == hole[1]) {
+                        int steps = Math.max(Math.abs(nx - x), Math.abs(ny - y));
+                        if (distance[x][y] + steps < distance[nx][ny]) {
+                            distance[nx][ny] = distance[x][y] + steps;
+                            String s = list.get(x).get(y) + map.get(i);
+                            list.get(nx).set(ny, s);
+                        } else if (distance[x][y] + steps == distance[nx][ny]) {
+                            String s = list.get(x).get(y) + map.get(i);
+                            if (s.compareTo(list.get(nx).get(ny)) < 0) {
+                                list.get(nx).set(ny, s);
+                            }
+                        }
+                        continue search;
+                    }
+                    nx += directions[i][0];
+                    ny += directions[i][1];
+                }
+                nx -= directions[i][0];
+                ny -= directions[i][1];
+                int steps = Math.max(Math.abs(nx - x), Math.abs(ny - y));
+                if (distance[x][y] + steps < distance[nx][ny]) {
+                    distance[nx][ny] = distance[x][y] + steps;
+                    String s = list.get(x).get(y) + map.get(i);
+                    list.get(nx).set(ny, s);
+                    queue.offer(new int[] { nx, ny });
+                } else if (distance[x][y] + steps == distance[nx][ny]) {
+                    String s = list.get(x).get(y) + map.get(i);
+                    if (s.compareTo(list.get(nx).get(ny)) < 0) {
+                        list.get(nx).set(ny, s);
+                        queue.offer(new int[] { nx, ny });
+                    }
+                }
+            }
+        }
+        return distance[hole[0]][hole[1]] == Integer.MAX_VALUE ? "impossible" : list.get(hole[0]).get(hole[1]);
+    }
 
     // 2371. Minimize Maximum Value in a Grid
     // public int[][] minScore(int[][] grid) {
