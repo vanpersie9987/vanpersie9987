@@ -768,9 +768,64 @@ public class Leetcode_6 {
     }
 
     // 2214. Minimum Health to Beat Game --plus
-    // public long minimumHealth(int[] damage, int armor) {
+    public long minimumHealth(int[] damage, int armor) {
+        long right = 1l;
+        for (int d : damage) {
+            right += d;
+        }
+        long left = 1l;
+        long res = -1;
+        while (left <= right) {
+            long mid = left + ((right - left) >>> 1);
+            if (check2214(mid, damage, armor)) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
 
-    // }
+    }
+
+    private boolean check2214(long target, int[] damage, int armor) {
+        int n = damage.length;
+        int i = 0;
+        boolean usedArmor = false;
+        int max = 0;
+        while (i < n) {
+            max = Math.max(max, damage[i]);
+            if (target > damage[i]) {
+                target -= damage[i];
+                ++i;
+            } else if (!usedArmor) {
+                usedArmor = true;
+                int recovery = Math.min(max, armor);
+                target += recovery;
+                if (target > damage[i]) {
+                    target -= damage[i];
+                    ++i;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // 2214. Minimum Health to Beat Game --plus
+    public long minimumHealth2(int[] damage, int armor) {
+        long sum = 0l;
+        int max = 0;
+        for (int d : damage) {
+            sum += d;
+            max = Math.max(max, d);
+        }
+        return sum + 1 - Math.min(max, armor);
+
+    }
 
     // 2031. 1 比 0 多的子数组个数 (Count Subarrays With More Ones Than Zeros) --plus
     // public int subarraysWithMoreZerosThanOnes(int[] nums) {
