@@ -828,6 +828,43 @@ public class Leetcode_6 {
 
     }
 
+    // LCP 56. 信物传送
+    public int conveyorBelt(String[] matrix, int[] start, int[] end) {
+        int m = matrix.length;
+        int n = matrix[0].length();
+        int[][] steps = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(steps[i], Integer.MAX_VALUE);
+        }
+        steps[start[0]][start[1]] = 0;
+        int[][] directions = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+        Map<Character, Integer> map = new HashMap<>();
+        map.put('^', 0);
+        map.put('v', 1);
+        map.put('<', 2);
+        map.put('>', 3);
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(start);
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int signDir = map.get(matrix[x].charAt(y));
+            int step = steps[x][y];
+            for (int i = 0; i < 4; ++i) {
+                int nStep = step + (i == signDir ? 0 : 1);
+                int nx = x + directions[i][0];
+                int ny = y + directions[i][1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && nStep < steps[nx][ny]) {
+                    steps[nx][ny] = nStep;
+                    queue.offer(new int[] { nx, ny });
+                }
+            }
+        }
+        return steps[end[0]][end[1]];
+
+    }
+
     // 2371. Minimize Maximum Value in a Grid
     // public int[][] minScore(int[][] grid) {
 
