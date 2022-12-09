@@ -734,10 +734,38 @@ public class Leetcode_6 {
         }
     }
 
-    // 2168. 每个数字的频率都相同的独特子字符串的数量 (Unique Substrings With Equal Digit Frequency) --plus
-    // public int equalDigitFrequency(String s) {
+    // 2168. 每个数字的频率都相同的独特子字符串的数量 (Unique Substrings With Equal Digit Frequency)
+    // --plus
+    public int equalDigitFrequency(String s) {
+        int n = s.length();
+        int[][] prefix = new int[n + 1][10];
+        for (int i = 1; i <= n; ++i) {
+            prefix[i] = prefix[i - 1].clone();
+            ++prefix[i][s.charAt(i - 1) - '0'];
+        }
+        Set<String> set = new HashSet<>();
+        for (int right = 0; right <= n; ++right) {
+            int[] countRight = prefix[right];
+            search: for (int left = 0; left < right; ++left) {
+                int[] countLeft = prefix[left];
+                int diff = -1;
+                for (int i = 0; i < 10; ++i) {
+                    int d = countRight[i] - countLeft[i];
+                    if (d == 0) {
+                        continue;
+                    }
+                    if (diff == -1) {
+                        diff = d;
+                    } else if (diff != d) {
+                        continue search;
+                    }
+                }
+                set.add(s.substring(left, right));
+            }
+        }
+        return set.size();
 
-    // }
+    }
 
     // 2214. Minimum Health to Beat Game --plus
     // public long minimumHealth(int[] damage, int armor) {
