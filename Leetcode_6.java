@@ -843,7 +843,14 @@ public class Leetcode_6 {
         map.put('v', 1);
         map.put('<', 2);
         map.put('>', 3);
-        Queue<int[]> queue = new LinkedList<>();
+        Queue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return steps[o1[0]][o1[1]] - steps[o2[0]][o2[1]];
+            }
+            
+        });
         queue.offer(start);
         while (!queue.isEmpty()) {
             int[] cur = queue.poll();
