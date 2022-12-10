@@ -873,6 +873,7 @@ public class Leetcode_6 {
     
     // 295. 数据流的中位数 (Find Median from Data Stream)
     // 剑指 Offer 41. 数据流中的中位数
+    // 面试题 17.20. 连续中值
     class MedianFinder {
         private Queue<Integer> minQueue;
         private Queue<Integer> maxQueue;
