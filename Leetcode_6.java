@@ -870,7 +870,7 @@ public class Leetcode_6 {
         return steps[end[0]][end[1]];
 
     }
-    
+
     // 295. 数据流的中位数 (Find Median from Data Stream)
     // 剑指 Offer 41. 数据流中的中位数
     // 面试题 17.20. 连续中值
@@ -923,7 +923,7 @@ public class Leetcode_6 {
 
         }
     }
-    
+
     // 2065. 最大化一张图中的路径价值 (Maximum Path Quality of a Graph)
     private int res2065;
     private int maxTime2065;
@@ -1010,6 +1010,67 @@ public class Leetcode_6 {
 
     }
 
+    // 6261. 数组中字符串的最大值 (Maximum Value of a String in an Array)
+    public int maximumValue(String[] strs) {
+        int res = 0;
+        search: for (String s : strs) {
+            int num = 0;
+            for (char c : s.toCharArray()) {
+                if (Character.isDigit(c)) {
+                    num = num * 10 + c - '0';
+                } else {
+                    res = Math.max(res, s.length());
+                    continue search;
+                }
+            }
+            res = Math.max(res, num);
+        }
+        return res;
+
+    }
+
+    // 6262. 图中最大星和 (Maximum Star Sum of a Graph)
+    public int maxStarSum(int[] vals, int[][] edges, int k) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int[] edge : edges) {
+            map.computeIfAbsent(edge[0], o -> new ArrayList<>()).add(edge[1]);
+            map.computeIfAbsent(edge[1], o -> new ArrayList<>()).add(edge[0]);
+        }
+        int n = vals.length;
+        int res = Integer.MIN_VALUE;
+        for (int i = 0; i < n; ++i) {
+            int cur = vals[i];
+            List<Integer> neighbors = map.getOrDefault(i, new ArrayList<>());
+            List<Integer> valss = new ArrayList<>();
+            for (int nei : neighbors) {
+                valss.add(vals[nei]);
+            }
+            Collections.sort(valss);
+            int j = valss.size() - 1;
+            int copyK = k;
+            while (j >= 0 && valss.get(j) > 0 && copyK > 0) {
+                cur += valss.get(j);
+                --j;
+                --copyK;
+            }
+            res = Math.max(res, cur);
+
+        }
+        return res;
+
+    }
+
+    // 6263. 青蛙过河 II (Frog Jump II)
+    public int maxJump(int[] stones) {
+        int n = stones.length;
+        int res = stones[1] - stones[0];
+        for (int i = 2; i < n; ++i) {
+            res = Math.max(res, stones[i] - stones[i - 2]);
+        }
+        return res;
+
+    }
+
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
 
@@ -1039,5 +1100,4 @@ public class Leetcode_6 {
     // public int countGoodStrings(int low, int high, int zero, int one) {
 
     // }
-
 }

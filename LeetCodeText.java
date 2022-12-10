@@ -7764,16 +7764,16 @@ public class LeetCodeText {
 
     }
 
-    // 1827. 最少操作使数组递增
+    // 1827. 最少操作使数组递增 (Minimum Operations to Make the Array Increasing)
     public int minOperations(int[] nums) {
-        int count = 0;
+        int res = 0;
         for (int i = 1; i < nums.length; ++i) {
-            if (nums[i - 1] >= nums[i]) {
-                count += nums[i - 1] - nums[i] + 1;
+            if (nums[i] <= nums[i - 1]) {
+                res += nums[i - 1] - nums[i] + 1;
                 nums[i] = nums[i - 1] + 1;
             }
         }
-        return count;
+        return res;
 
     }
 
