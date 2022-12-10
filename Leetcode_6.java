@@ -965,6 +965,50 @@ public class Leetcode_6 {
         }
     }
 
+    // 2440. 创建价值相同的连通块 (Create Components With Same Value)
+    private Map<Integer, List<Integer>> graph2440;
+    private int target2440;
+    private int[] nums2440;
+
+    public int componentValue(int[] nums, int[][] edges) {
+        graph2440 = new HashMap<>();
+        nums2440 = nums;
+        for (int[] edge : edges) {
+            graph2440.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            graph2440.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+        }
+        int sum = Arrays.stream(nums).sum();
+        int max = Arrays.stream(nums).max().getAsInt();
+        for (int i = sum / max; i > 0; --i) {
+            if (sum % i == 0) {
+                target2440 = sum / i;
+                if (dfs2440(0, -1) == 0) {
+                    return i - 1;
+                }
+            }
+        }
+        return -1;
+
+    }
+
+    private int dfs2440(int x, int fa) {
+        int sum = nums2440[x];
+        for (int neighbor : graph2440.getOrDefault(x, new ArrayList<>())) {
+            if (neighbor != fa) {
+                int res = dfs2440(neighbor, x);
+                if (res < 0) {
+                    return -1;
+                }
+                sum += res;
+            }
+        }
+        if (sum > target2440) {
+            return -1;
+        }
+        return sum < target2440 ? sum : 0;
+
+    }
+
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
 
