@@ -927,6 +927,7 @@ public class Leetcode_6 {
     private int res2065;
     private int maxTime2065;
     private int[] values2065;
+    private Map<Integer, List<int[]>> graph2065;
 
     public int maximalPathQuality(int[] values, int[][] edges, int maxTime) {
         Map<Integer, List<int[]>> graph = new HashMap<>();
@@ -936,18 +937,19 @@ public class Leetcode_6 {
         }
         maxTime2065 = maxTime;
         values2065 = values;
+        graph2065 = graph;
         int n = values.length;
         boolean[] visited = new boolean[n];
         visited[0] = true;
-        dfs2065(0, values[0], 0, visited, graph);
+        dfs2065(0, values[0], 0, visited);
         return res2065;
     }
 
-    private void dfs2065(int node, int curVal, int curTime, boolean[] visited, Map<Integer, List<int[]>> graph) {
+    private void dfs2065(int node, int curVal, int curTime, boolean[] visited) {
         if (node == 0) {
             res2065 = Math.max(res2065, curVal);
         }
-        for (int[] neighbor : graph.getOrDefault(node, new ArrayList<>())) {
+        for (int[] neighbor : graph2065.getOrDefault(node, new ArrayList<>())) {
             int nNode = neighbor[0];
             int time = neighbor[1];
             if (curTime + time > maxTime2065) {
@@ -955,10 +957,10 @@ public class Leetcode_6 {
             }
             if (!visited[nNode]) {
                 visited[nNode] = true;
-                dfs2065(nNode, curVal + values2065[nNode], curTime + time, visited, graph);
+                dfs2065(nNode, curVal + values2065[nNode], curTime + time, visited);
                 visited[nNode] = false;
             } else {
-                dfs2065(nNode, curVal, curTime + time, visited, graph);
+                dfs2065(nNode, curVal, curTime + time, visited);
             }
         }
     }
