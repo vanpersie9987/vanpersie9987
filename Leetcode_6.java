@@ -848,7 +848,7 @@ public class Leetcode_6 {
             public int compare(int[] o1, int[] o2) {
                 return steps[o1[0]][o1[1]] - steps[o2[0]][o2[1]];
             }
-            
+
         });
         queue.offer(start);
         while (!queue.isEmpty()) {
@@ -869,6 +869,58 @@ public class Leetcode_6 {
         }
         return steps[end[0]][end[1]];
 
+    }
+    
+    // 295. 数据流的中位数 (Find Median from Data Stream)
+    // 剑指 Offer 41. 数据流中的中位数
+    class MedianFinder {
+        private Queue<Integer> minQueue;
+        private Queue<Integer> maxQueue;
+
+        /** initialize your data structure here. */
+        public MedianFinder() {
+            minQueue = new PriorityQueue<>(new Comparator<Integer>() {
+
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return o2 - o1;
+                }
+                
+            });
+
+            maxQueue = new PriorityQueue<>(new Comparator<Integer>() {
+
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return o1 - o2;
+                }
+                
+            });
+
+        }
+
+        public void addNum(int num) {
+            if (minQueue.isEmpty() || num <= minQueue.peek()) {
+                minQueue.offer(num);
+                if (minQueue.size() - 1 > maxQueue.size()) {
+                    maxQueue.offer(minQueue.poll());
+                }
+            } else {
+                maxQueue.offer(num);
+                if (maxQueue.size() - 1 == minQueue.size()) {
+                    minQueue.offer(maxQueue.poll());
+                }
+            }
+        }
+
+        public double findMedian() {
+            int total = minQueue.size() + maxQueue.size();
+            if (total % 2 == 0) {
+                return ((double) minQueue.peek() + maxQueue.peek()) / 2;
+            }
+            return minQueue.peek();
+
+        }
     }
 
     // 2371. Minimize Maximum Value in a Grid
