@@ -923,11 +923,6 @@ public class Leetcode_6 {
         }
     }
 
-    // 2371. Minimize Maximum Value in a Grid
-    // public int[][] minScore(int[][] grid) {
-
-    // }
-
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
 
