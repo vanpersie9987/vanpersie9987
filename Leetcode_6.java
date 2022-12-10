@@ -885,7 +885,7 @@ public class Leetcode_6 {
                 public int compare(Integer o1, Integer o2) {
                     return o2 - o1;
                 }
-                
+
             });
 
             maxQueue = new PriorityQueue<>(new Comparator<Integer>() {
@@ -894,7 +894,7 @@ public class Leetcode_6 {
                 public int compare(Integer o1, Integer o2) {
                     return o1 - o2;
                 }
-                
+
             });
 
         }
@@ -920,6 +920,46 @@ public class Leetcode_6 {
             }
             return minQueue.peek();
 
+        }
+    }
+    
+    // 2065. 最大化一张图中的路径价值 (Maximum Path Quality of a Graph)
+    private int res2065;
+    private int maxTime2065;
+    private int[] values2065;
+
+    public int maximalPathQuality(int[] values, int[][] edges, int maxTime) {
+        Map<Integer, List<int[]>> graph = new HashMap<>();
+        for (int[] edge : edges) {
+            graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(new int[] { edge[1], edge[2] });
+            graph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(new int[] { edge[0], edge[2] });
+        }
+        maxTime2065 = maxTime;
+        values2065 = values;
+        int n = values.length;
+        boolean[] visited = new boolean[n];
+        visited[0] = true;
+        dfs2065(0, values[0], 0, visited, graph);
+        return res2065;
+    }
+
+    private void dfs2065(int node, int curVal, int curTime, boolean[] visited, Map<Integer, List<int[]>> graph) {
+        if (node == 0) {
+            res2065 = Math.max(res2065, curVal);
+        }
+        for (int[] neighbor : graph.getOrDefault(node, new ArrayList<>())) {
+            int nNode = neighbor[0];
+            int time = neighbor[1];
+            if (curTime + time > maxTime2065) {
+                continue;
+            }
+            if (!visited[nNode]) {
+                visited[nNode] = true;
+                dfs2065(nNode, curVal + values2065[nNode], curTime + time, visited, graph);
+                visited[nNode] = false;
+            } else {
+                dfs2065(nNode, curVal, curTime + time, visited, graph);
+            }
         }
     }
 
