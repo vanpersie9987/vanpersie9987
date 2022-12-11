@@ -1100,4 +1100,102 @@ public class Leetcode_6 {
     // public int countGoodStrings(int low, int high, int zero, int one) {
 
     // }
+
+    // 6257. 删除每行中的最大值
+    public int deleteGreatestValue(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int res = 0;
+        int nCopy = n;
+        while (nCopy-- > 0) {
+            int curMax = 0;
+            for (int i = 0; i < m; ++i) {
+                int max = Arrays.stream(grid[i]).max().getAsInt();
+                for (int j = 0; j < n; ++j) {
+                    if (max == grid[i][j]) {
+                        grid[i][j] = 0;
+                        curMax = Math.max(curMax, max);
+                        break;
+                    }
+                }
+            }
+            res += curMax;
+        }
+        return res;
+
+    }
+    
+    // 6258. 数组中最长的方波
+    public int longestSquareStreak(int[] nums) {
+        int res = 0;
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+        for (int i = 2; i <= 316; ++i) {
+            if (set.contains(i)) {
+                int cur = 0;
+                int base = i;
+                set.remove(i);
+                while (set.contains(base * base)) {
+                    set.remove(base * base);
+                    base = base * base;
+                    ++cur;
+                }
+                if (cur != 0) {
+                    res = Math.max(res, cur + 1);
+                }
+            }
+        }
+        return res == 0 ? -1 : res;
+
+
+    }
+
+    // 6259. 设计内存分配器
+    class Allocator {
+        private int n;
+        private int[] arr;
+
+        public Allocator(int n) {
+            arr = new int[n];
+            this.n = n;
+
+        }
+
+        public int allocate(int size, int mID) {
+            if (size > n) {
+                return -1;
+            }
+            int count = 0;
+            for (int i = 0; i < n; ++i) {
+                if (arr[i] == 0) {
+                    ++count;
+                    if (count == size) {
+                        Arrays.fill(arr, i - count + 1, i + 1, mID);
+                        return i - count + 1;
+                    }
+                } else {
+                    count = 0;
+                }
+            }
+            return -1;
+
+        }
+
+        public int free(int mID) {
+            int count = 0;
+            for (int i = 0; i < n; ++i) {
+                if (arr[i] == mID) {
+                    arr[i] = 0;
+                    ++count;
+                }
+            }
+            return count;
+        }
+    }
+
+    // 6260. 矩阵查询可获得的最大分数
+    // public int[] maxPoints(int[][] grid, int[] queries) {
+    // }
 }
