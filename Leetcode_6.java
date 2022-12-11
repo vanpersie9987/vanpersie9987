@@ -1071,36 +1071,6 @@ public class Leetcode_6 {
 
     }
 
-    // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
-    // public int maxProfit(int[] inventory, int orders) {
-
-    // }
-
-    // 1562. 查找大小为 M 的最新分组 (Find Latest Group of Size M)
-    // public int findLatestStep(int[] arr, int m) {
-
-    // }
-
-    // 813. 最大平均值和的分组 (Largest Sum of Averages)
-    // public double largestSumOfAverages(int[] nums, int k) {
-
-    // }
-
-    // 2484. 统计回文子序列数目 (Count Palindromic Subsequences)
-    // public int countPalindromes(String s) {
-
-    // }
-
-    // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
-    // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
-
-    // }
-
-    // 2466. 统计构造好字符串的方案数 (Count Ways To Build Good Strings)
-    // public int countGoodStrings(int low, int high, int zero, int one) {
-
-    // }
-
     // 6257. 删除每行中的最大值
     public int deleteGreatestValue(int[][] grid) {
         int m = grid.length;
@@ -1124,7 +1094,7 @@ public class Leetcode_6 {
         return res;
 
     }
-    
+
     // 6258. 数组中最长的方波
     public int longestSquareStreak(int[] nums) {
         int res = 0;
@@ -1148,7 +1118,6 @@ public class Leetcode_6 {
             }
         }
         return res == 0 ? -1 : res;
-
 
     }
 
@@ -1195,7 +1164,98 @@ public class Leetcode_6 {
         }
     }
 
+    // 2322. 从树中删除边的最小分数 (Minimum Score After Removals on a Tree)
+    private Map<Integer, List<Integer>> graph2322;
+    private int[] nums2322;
+    private int[] xor2322;
+    private int[] in2322;
+    private int[] out2322;
+    private int clock2322;
+
+    public int minimumScore(int[] nums, int[][] edges) {
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int[] edge : edges) {
+            graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            graph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+        }
+        int n = nums.length;
+        graph2322 = graph;
+        nums2322 = nums;
+        in2322 = new int[n];
+        out2322 = new int[n];
+        xor2322 = new int[n];
+        dfs2322(0, -1);
+        int res = Integer.MAX_VALUE;
+        for (int i = 2, x, y, z; i < n; ++i) {
+            for (int j = 1; j < i; ++j) {
+                if (in2322[i] < in2322[j] && in2322[j] <= out2322[i]) {
+                    x = xor2322[j];
+                    y = xor2322[i] ^ x;
+                    z = xor2322[0] ^ xor2322[i];
+                } else if (in2322[j] < in2322[i] && in2322[i] <= out2322[j]) {
+                    x = xor2322[i];
+                    y = xor2322[j] ^ x;
+                    z = xor2322[0] ^ xor2322[j];
+                } else {
+                    x = xor2322[i];
+                    y = xor2322[j];
+                    z = xor2322[0] ^ x ^ y;
+                }
+                res = Math.min(res, Math.max(Math.max(x, y), z) - Math.min(Math.min(x, y), z));
+                if (res == 0) {
+                    return res;
+                }
+            }
+        }
+        return res;
+
+
+    }
+
+    private void dfs2322(int x, int fa) {
+        in2322[x] = ++clock2322;
+        xor2322[x] = nums2322[x];
+        for (int y : graph2322.getOrDefault(x, new ArrayList<>())) {
+            if (y != fa) {
+                dfs2322(y, x);
+                xor2322[x] ^= xor2322[y];
+            }
+        }
+        out2322[x] = clock2322;
+    }
+
     // 6260. 矩阵查询可获得的最大分数
     // public int[] maxPoints(int[][] grid, int[] queries) {
     // }
+
+    // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
+    // public int maxProfit(int[] inventory, int orders) {
+
+    // }
+
+    // 1562. 查找大小为 M 的最新分组 (Find Latest Group of Size M)
+    // public int findLatestStep(int[] arr, int m) {
+
+    // }
+
+    // 813. 最大平均值和的分组 (Largest Sum of Averages)
+    // public double largestSumOfAverages(int[] nums, int k) {
+
+    // }
+
+    // 2484. 统计回文子序列数目 (Count Palindromic Subsequences)
+    // public int countPalindromes(String s) {
+
+    // }
+
+    // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
+    // public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
+
+    // }
+
+    // 2466. 统计构造好字符串的方案数 (Count Ways To Build Good Strings)
+    // public int countGoodStrings(int low, int high, int zero, int one) {
+
+    // }
+
 }
