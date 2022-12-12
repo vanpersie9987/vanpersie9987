@@ -1516,6 +1516,66 @@ public class Leetcode_6 {
 
     }
 
+    // 1627. 带阈值的图连通性 (Graph Connectivity With Threshold)
+    public List<Boolean> areConnected(int n, int threshold, int[][] queries) {
+        Union1627 union = new Union1627(n + 1);
+        for (int i = threshold + 1; i <= n; i++) {
+            for (int j = i; j <= n; j += i) {
+                union.union(i, j);
+            }
+        }
+        List<Boolean> res = new ArrayList<>();
+        for (int[] query : queries) {
+            res.add(union.isConnected(query[0], query[1]));
+        }
+        return res;
+
+    }
+
+    class Union1627 {
+        private int[] parent;
+        private int[] rank;
+
+        public Union1627(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (p == parent[p]) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+
+    }
+
 
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
