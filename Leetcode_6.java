@@ -1576,6 +1576,66 @@ public class Leetcode_6 {
 
     }
 
+    // 2203. 得到要求路径的最小带权子图 (Minimum Weighted Subgraph With the Required Paths)
+    public long minimumWeight(int n, int[][] edges, int src1, int src2, int dest) {
+        Map<Integer, List<Pair2203>> graph = new HashMap<>();
+        Map<Integer, List<Pair2203>> rGraph = new HashMap<>();
+        for (int[] edge : edges) {
+            graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(new Pair2203(edge[1], edge[2]));
+            rGraph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(new Pair2203(edge[0], edge[2]));
+        }
+        long[] d1 = dijkstra2203(graph, src1, n);
+        long[] d2 = dijkstra2203(graph, src2, n);
+        long[] d3 = dijkstra2203(rGraph, dest, n);
+        long res = Long.MAX_VALUE / 3;
+        for (int i = 0; i < n; ++i) {
+            res = Math.min(res, d1[i] + d2[i] + d3[i]);
+        }
+        return res == Long.MAX_VALUE / 3 ? -1 : res;
+
+    }
+
+    private long[] dijkstra2203(Map<Integer, List<Pair2203>> graph, int start, int n) {
+        long[] distance = new long[n];
+        Arrays.fill(distance, Long.MAX_VALUE / 3);
+        distance[start] = 0l;
+        Queue<Pair2203> queue = new PriorityQueue<>(new Comparator<Pair2203>() {
+
+            @Override
+            public int compare(Pair2203 o1, Pair2203 o2) {
+                return Long.valueOf(o1.dis).compareTo(Long.valueOf(o2.dis));
+            }
+
+        });
+
+        queue.offer(new Pair2203(start, 0L));
+        while (!queue.isEmpty()) {
+            Pair2203 p = queue.poll();
+            int x = p.n;
+            long wt = p.dis;
+            if (wt > distance[x]) {
+                continue;
+            }
+            for (Pair2203 pair : graph.getOrDefault(x, new ArrayList<>())) {
+                long nDis = wt + pair.dis;
+                if (nDis < distance[pair.n]) {
+                    distance[pair.n] = nDis;
+                    queue.offer(new Pair2203(pair.n, nDis));
+                }
+            }
+        }
+        return distance;
+    }
+
+    class Pair2203 {
+        int n;
+        long dis;
+
+        Pair2203(int n, long dis) {
+            this.n = n;
+            this.dis = dis;
+        }
+    }
 
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
