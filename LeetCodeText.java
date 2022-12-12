@@ -17365,20 +17365,15 @@ public class LeetCodeText {
 
     // 1832. 判断句子是否为全字母句 (Check if the Sentence Is Pangram)
     public boolean checkIfPangram(String sentence) {
-        Set<Character> set = new HashSet<>();
+        int mask = 0;
         for (char c : sentence.toCharArray()) {
-            set.add(c);
+            mask |= 1 << (c - 'a');
+            if (mask == ((1 << 26) - 1)) {
+                return true;
+            }
         }
-        return set.size() == 26;
-    }
+        return false;
 
-    // 1832. 判断句子是否为全字母句 (Check if the Sentence Is Pangram)
-    public boolean checkIfPangram2(String sentence) {
-        int res = 0;
-        for (char c : sentence.toCharArray()) {
-            res |= 1 << (c - 'a');
-        }
-        return res == 0x3ffffff;
     }
 
     // 50. Pow(x, n) (Pow(x, n)) --快速幂 迭代
