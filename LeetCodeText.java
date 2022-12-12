@@ -15581,29 +15581,22 @@ public class LeetCodeText {
 
     }
 
-    // 1781. 所有子字符串美丽值之和 (Sum of Beauty of All Substrings) 暴力法
+    // 1781. 所有子字符串美丽值之和 (Sum of Beauty of All Substrings)
     public int beautySum(String s) {
         int res = 0;
-        for (int i = 0; i < s.length(); ++i) {
-            for (int j = i + 1; j < s.length(); ++j) {
-                int[] counts = new int[26];
-                for (int k = i; k <= j; ++k) {
-                    ++counts[s.charAt(k) - 'a'];
-                }
-                int max = Integer.MIN_VALUE;
-                int min = Integer.MAX_VALUE;
-                for (int count : counts) {
-                    if (count == 0) {
-                        continue;
-                    }
-                    if (max < count) {
-                        max = count;
-                    }
-                    if (min > count) {
-                        min = count;
+        int n = s.length();
+        for (int i = 0; i < n; ++i) {
+            int[] counts = new int[26];
+            int maxFreq = 0;
+            for (int j = i; j < n; ++j) {
+                maxFreq = Math.max(maxFreq, ++counts[s.charAt(j) - 'a']);
+                int minFreq = n;
+                for (int k = 0; k < 26; ++k) {
+                    if (counts[k] != 0) {
+                        minFreq = Math.min(minFreq, counts[k]);
                     }
                 }
-                res += max - min;
+                res += maxFreq - minFreq;
             }
         }
         return res;
