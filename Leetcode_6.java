@@ -1387,6 +1387,56 @@ public class Leetcode_6 {
 
     }
 
+    // 6260. 矩阵查询可获得的最大分数
+    public int[] maxPoints2(int[][] grid, int[] queries) {
+        int m = grid.length;
+        int n = grid[0].length;
+        Queue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+
+        });
+
+        int k = queries.length;
+        Integer[] ids = IntStream.range(0, k).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return queries[o1] - queries[o2];
+            }
+
+        });
+        int[] res = new int[k];
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 } };
+        queue.offer(new int[] { grid[0][0], 0, 0 });
+        grid[0][0] = 0;
+        int count = 0;
+        for (int i : ids) {
+            int q = queries[i];
+            while (!queue.isEmpty() && queue.peek()[0] < q) {
+                ++count;
+                int[] cur = queue.poll();
+                int x = cur[1];
+                int y = cur[2];
+                for (int[] direction : directions) {
+                    int nx = x + direction[0];
+                    int ny = y + direction[1];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] != 0) {
+                        queue.offer(new int[] { grid[nx][ny], nx, ny });
+                        grid[nx][ny] = 0;
+                    }
+                }
+            }
+            res[i] = count;
+        }
+        return res;
+    
+    }
+
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
 
