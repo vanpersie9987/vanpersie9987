@@ -1434,8 +1434,88 @@ public class Leetcode_6 {
             res[i] = count;
         }
         return res;
-    
+
     }
+    
+    // 1697. 检查边长度限制的路径是否存在 (Checking Existence of Edge Length Limited Paths)
+    public boolean[] distanceLimitedPathsExist(int n, int[][] edgeList, int[][] queries) {
+        Union1697 union = new Union1697(n);
+        Arrays.sort(edgeList, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[2] - o2[2];
+            }
+
+        });
+        int k = queries.length;
+        boolean[] res = new boolean[k];
+        Integer[] ids = IntStream.range(0, k).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return queries[o1][2] - queries[o2][2];
+            }
+
+        });
+        int j = 0;
+        for (int i : ids) {
+            int limit = queries[i][2];
+            while (j < edgeList.length && edgeList[j][2] < limit) {
+                union.union(edgeList[j][0], edgeList[j][1]);
+                ++j;
+            }
+            res[i] = union.isConnected(queries[i][0], queries[i][1]);
+        }
+        return res;
+
+    }
+
+    class Union1697 {
+        private int[] parent;
+        private int[] rank;
+
+        public Union1697(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (p == parent[p]) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+
+    }
+
 
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
