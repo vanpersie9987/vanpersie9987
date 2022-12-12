@@ -12,6 +12,7 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.IntStream;
 
 public class Leetcode_6 {
     public static void main(String[] args) {
@@ -1279,8 +1280,112 @@ public class Leetcode_6 {
     }
 
     // 6260. 矩阵查询可获得的最大分数
-    // public int[] maxPoints(int[][] grid, int[] queries) {
-    // }
+    public int[] maxPoints(int[][] grid, int[] queries) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 } };
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] arr = new int[m * n][3];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                arr[i * n + j] = new int[] { grid[i][j], i, j };
+            }
+        }
+        Arrays.sort(arr, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+
+        });
+        int k = queries.length;
+        int[] res = new int[k];
+        Integer[] ids = IntStream.range(0, k).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return queries[o1] - queries[o2];
+            }
+
+        });
+        Union6260 union = new Union6260(m * n);
+
+        int j = 0;
+        for (int i : ids) {
+            int q = queries[i];
+            while (j < m * n && arr[j][0] < q) {
+                int x = arr[j][1];
+                int y = arr[j][2];
+                for (int[] direction : directions) {
+                    int nx = x + direction[0];
+                    int ny = y + direction[1];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] < q) {
+                        union.union(x * n + y, nx * n + ny);
+                    }
+                }
+                ++j;
+            }
+            if (grid[0][0] < q) {
+                res[i] = union.getSize(0);
+            }
+        }
+
+        return res;
+
+    }
+
+    class Union6260 {
+        private int[] parent;
+        private int[] rank;
+        private int[] size;
+
+        Union6260(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            size = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+                rank[i] = 1;
+                size[i] = 1;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+                size[root2] += size[root1];
+            } else {
+                parent[root2] = root1;
+                size[root1] += size[root2];
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+
+        public int getSize(int p) {
+            int root = getRoot(p);
+            return size[root];
+        }
+
+    }
 
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
