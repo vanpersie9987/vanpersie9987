@@ -1,3 +1,4 @@
+import java.sql.RowId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -1676,6 +1677,40 @@ public class Leetcode_6 {
         }
         res2246 = Math.max(res2246, 1 + max1 + max2);
         return max1 + 1;
+    }
+
+    // 687. 最长同值路径 ( Longest Univalue Path)
+    private int res687;
+
+    public int longestUnivaluePath(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        res687 = 1;
+        dfs687(root);
+        return res687 - 1;
+
+    }
+
+    private int dfs687(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+        int cur = 1;
+        int left = dfs687(node.left);
+        if (node.left != null && node.val == node.left.val) {
+            cur += left;
+        } else {
+            left = 0;
+        }
+        int right = dfs687(node.right);
+        if (node.right != null && node.val == node.right.val) {
+            cur += right;
+        } else {
+            right = 0;
+        }
+        res687 = Math.max(res687, cur);
+        return 1 + Math.max(left, right);
     }
 
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
