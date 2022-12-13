@@ -9781,29 +9781,32 @@ public class Leetcode_3 {
 
     }
 
-    // 6066. 统计区间中的整数数目
+    // 2276. 统计区间中的整数数目 (Count Integers in Intervals)
     class CountIntervals {
-        private int[] arr;
+        private TreeMap<Integer, int[]> map;
+        private int sum;
 
         public CountIntervals() {
-            arr = new int[1000000001];
+            map = new TreeMap<>();
         }
 
         public void add(int left, int right) {
-            ++arr[left];
-            --arr[right + 1];
+            int nLeft = left;
+            int nRight = right;
+            Map.Entry<Integer, int[]> entry = map.ceilingEntry(left - 1);
+            while (entry != null && entry.getValue()[0] - 1 <= right) {
+                sum -= entry.getValue()[1] - entry.getValue()[0] + 1;
+                nLeft = Math.min(entry.getValue()[0], nLeft);
+                nRight = Math.max(entry.getValue()[1], nRight);
+                map.remove(entry.getKey());
+                entry = map.ceilingEntry(left - 1);
+            }
+            sum += nRight - nLeft + 1;
+            map.put(nRight, new int[] { nLeft, nRight });
         }
 
         public int count() {
-            int[] copy = arr.clone();
-            int res = 0;
-            for (int i = 1; i < copy.length; ++i) {
-                copy[i] += copy[i - 1];
-                if (copy[i] != 0) {
-                    ++res;
-                }
-            }
-            return res;
+            return sum;
         }
     }
 
