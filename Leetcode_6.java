@@ -1637,6 +1637,11 @@ public class Leetcode_6 {
         }
     }
 
+    // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
+    // public int[] countRectangles(int[][] rectangles, int[][] points) {
+
+    // }
+
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
     // public int maxProfit(int[] inventory, int orders) {
 
