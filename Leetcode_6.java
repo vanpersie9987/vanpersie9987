@@ -1637,6 +1637,47 @@ public class Leetcode_6 {
         }
     }
 
+    // 2246. 相邻字符不同的最长路径 (Longest Path With Different Adjacent Characters)
+    private Map<Integer, List<Integer>> graph2246;
+    private char[] char2246;
+    private int res2246;
+
+    public int longestPath(int[] parent, String s) {
+        graph2246 = new HashMap<>();
+        for (int i = 0; i < parent.length; ++i) {
+            graph2246.computeIfAbsent(i, k -> new ArrayList<>()).add(parent[i]);
+            graph2246.computeIfAbsent(parent[i], k -> new ArrayList<>()).add(i);
+        }
+        res2246 = 1;
+        char2246 = s.toCharArray();
+        dfs2246(0, -1);
+        return res2246;
+    }
+
+    private int dfs2246(int x, int fa) {
+        if (graph2246.getOrDefault(x, new ArrayList<>()).size() == 1) {
+            return 1;
+        }
+        int max1 = 0;
+        int max2 = 0;
+        for (int y : graph2246.getOrDefault(x, new ArrayList<>())) {
+            if (y != fa) {
+                int cnt = dfs2246(y, x);
+                if (char2246[y] != char2246[x]) {
+                    if (cnt >= max1) {
+                        max2 = max1;
+                        max1 = cnt;
+                    } else if (cnt >= max2) {
+                        max2 = cnt;
+                    }
+                }
+
+            }
+        }
+        res2246 = Math.max(res2246, 1 + max1 + max2);
+        return max1 + 1;
+    }
+
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
     // public int[] countRectangles(int[][] rectangles, int[][] points) {
 
