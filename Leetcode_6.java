@@ -1712,6 +1712,44 @@ public class Leetcode_6 {
         return 1 + Math.max(left, right);
     }
 
+    // 1080. 根到叶路径上的不足节点 (Insufficient Nodes in Root to Leaf Paths)
+    public TreeNode sufficientSubset(TreeNode root, int limit) {
+        TreeNode dummy = new TreeNode(0);
+        dummy.left = root;
+        dfs1080(root, dummy, true, 0, limit);
+        return dummy.left;
+
+    }
+
+    private boolean dfs1080(TreeNode node, TreeNode fa, boolean isLeft, int sum, int limit) {
+        if (node == null) {
+            return true;
+        }
+        sum += node.val;
+        if (node.left == null && node.right == null) {
+            if (sum < limit) {
+                if (isLeft) {
+                    fa.left = null;
+                } else {
+                    fa.right = null;
+                }
+                return true;
+            }
+            return false;
+        }
+        boolean left = dfs1080(node.left, node, true, sum, limit);
+        boolean right = dfs1080(node.right, node, false, sum, limit);
+        if (left && right) {
+            if (isLeft) {
+                fa.left = null;
+            } else {
+                fa.right = null;
+            }
+            return true;
+        }
+        return false;
+    }
+
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
     // public int[] countRectangles(int[][] rectangles, int[][] points) {
 
