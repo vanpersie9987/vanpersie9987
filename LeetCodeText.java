@@ -16045,31 +16045,24 @@ public class LeetCodeText {
 
     // 1945. 字符串转化后的各位数字之和 (Sum of Digits of String After Convert)
     public int getLucky(String s, int k) {
-        int sum = getSum1945(s);
-        int i = 1;
-        while (i++ < k) {
-            sum = getTotal(sum);
-        }
-        return sum;
-
-    }
-
-    private int getSum1945(String s) {
-        int sum = 0;
+        int num = 0;
         for (char c : s.toCharArray()) {
-            sum += getTotal(c - 'a' + 1);
+            int cur = c - 'a' + 1;
+            while (cur > 0) {
+                num += cur % 10;
+                cur /= 10;
+            }
         }
-        return sum;
-    }
-
-    private int getTotal(int num) {
-        int sum = 0;
-        while (num > 0) {
-            sum += num % 10;
-            num /= 10;
+        while (--k > 0 && num >= 10) {
+            int cur = 0;
+            while (num > 0) {
+                cur += num % 10;
+                num /= 10;
+            }
+            num = cur;
         }
+        return num;
 
-        return sum;
     }
 
     // 1903. 字符串中的最大奇数 (Largest Odd Number in String)
