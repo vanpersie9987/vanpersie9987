@@ -1716,19 +1716,18 @@ public class Leetcode_6 {
     public TreeNode sufficientSubset(TreeNode root, int limit) {
         TreeNode dummy = new TreeNode(0);
         dummy.left = root;
-        dfs1080(root, dummy, true, 0, limit);
+        dfs1080(root, dummy, 0, limit);
         return dummy.left;
 
     }
 
-    private boolean dfs1080(TreeNode node, TreeNode fa, boolean isLeft, int sum, int limit) {
+    private boolean dfs1080(TreeNode node, TreeNode fa, int sum, int limit) {
         if (node == null) {
             return true;
         }
-        sum += node.val;
         if (node.left == null && node.right == null) {
-            if (sum < limit) {
-                if (isLeft) {
+            if (sum + node.val < limit) {
+                if (fa.left == node) {
                     fa.left = null;
                 } else {
                     fa.right = null;
@@ -1737,10 +1736,10 @@ public class Leetcode_6 {
             }
             return false;
         }
-        boolean left = dfs1080(node.left, node, true, sum, limit);
-        boolean right = dfs1080(node.right, node, false, sum, limit);
+        boolean left = dfs1080(node.left, node, sum + node.val, limit);
+        boolean right = dfs1080(node.right, node, sum + node.val, limit);
         if (left && right) {
-            if (isLeft) {
+            if (fa.left == node) {
                 fa.left = null;
             } else {
                 fa.right = null;
