@@ -374,6 +374,7 @@ public class LeetCode_4 {
     }
 
     // 124. 二叉树中的最大路径和 (Binary Tree Maximum Path Sum) --dfs
+    // 剑指 Offer II 051. 节点之和最大的路径
     private int res124 = Integer.MIN_VALUE;
 
     public int maxPathSum(TreeNode root) {
