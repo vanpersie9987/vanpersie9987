@@ -1829,6 +1829,69 @@ public class Leetcode_6 {
         return nodeCounts + 1;
     }
 
+    // 2096. 从二叉树一个节点到另一个节点每一步的方向 (Step-By-Step Directions From a Binary Tree Node
+    // to Another)
+    public String getDirections(TreeNode root, int startValue, int destValue) {
+        char[] dirs = { 'L', 'R', 'U' };
+        Map<Integer, List<int[]>> graph = new HashMap<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        int n = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = queue.poll();
+                ++n;
+                if (node.left != null) {
+                    graph.computeIfAbsent(node.val, k -> new ArrayList<>()).add(new int[] { node.left.val, 0 });
+                    graph.computeIfAbsent(node.left.val, k -> new ArrayList<>()).add(new int[] { node.val, 2 });
+                    queue.offer(node.left);
+                }
+
+                if (node.right != null) {
+                    graph.computeIfAbsent(node.val, k -> new ArrayList<>()).add(new int[] { node.right.val, 1 });
+                    graph.computeIfAbsent(node.right.val, k -> new ArrayList<>()).add(new int[] { node.val, 2 });
+                    queue.offer(node.right);
+                }
+            }
+        }
+        boolean[] visited = new boolean[n + 1];
+        visited[startValue] = true;
+        Queue<Bean2096> queue2 = new LinkedList<>();
+        queue2.offer(new Bean2096(startValue, ""));
+        while (!queue2.isEmpty()) {
+            int size = queue2.size();
+            for (int i = 0; i < size; ++i) {
+                Bean2096 bean = queue2.poll();
+                int x = bean.node;
+                String s = bean.s;
+                if (x == destValue) {
+                    return s;
+                }
+                for (int[] neighbor : graph.getOrDefault(x, new ArrayList<>())) {
+                    int y = neighbor[0];
+                    char dir = dirs[neighbor[1]];
+                    if (!visited[y]) {
+                        visited[y] = true;
+                        queue2.offer(new Bean2096(y, s + dir));
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    class Bean2096 {
+        int node;
+        String s;
+
+        Bean2096(int node, String s) {
+            this.node = node;
+            this.s = s;
+
+        }
+    }
+
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
     // public int[] countRectangles(int[][] rectangles, int[][] points) {
 
