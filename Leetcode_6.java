@@ -1749,6 +1749,37 @@ public class Leetcode_6 {
         return false;
     }
 
+    // 1026. 节点与其祖先之间的最大差值 (Maximum Difference Between Node and Ancestor)
+    private int res1026;
+
+    public int maxAncestorDiff(TreeNode root) {
+        dfs1026(root);
+        return res1026;
+
+    }
+
+    private int[] dfs1026(TreeNode node) {
+        if (node == null) {
+            return new int[] { -1, -1 };
+        }
+        int x = node.val;
+        int[] left = dfs1026(node.left);
+        if (left[0] == -1) {
+            left[0] = left[1] = node.val;
+        }
+        res1026 = Math.max(res1026, Math.max(Math.abs(left[1] - x), Math.abs(left[0] - x)));
+        int[] right = dfs1026(node.right);
+        if (right[0] == -1) {
+            right[0] = right[1] = node.val;
+        }
+        res1026 = Math.max(res1026, Math.max(Math.abs(right[1] - x), Math.abs(right[0] - x)));
+
+        int min = Math.min(x, Math.min(left[0], right[0]));
+        int max = Math.max(x, Math.max(left[1], right[1]));
+        return new int[] { min, max };
+
+    }
+
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
     // public int[] countRectangles(int[][] rectangles, int[][] points) {
 
