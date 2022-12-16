@@ -8088,7 +8088,8 @@ public class LeetCodeText {
 
     }
 
-    // 1764. 通过连接另一个数组的子数组得到一个数组
+    // 1764. 通过连接另一个数组的子数组得到一个数组 (Form Array by Concatenating Subarrays of Another
+    // Array)
     public boolean canChoose(int[][] groups, int[] nums) {
         int m = 0;
         int n = 0;
@@ -8111,6 +8112,75 @@ public class LeetCodeText {
         }
         return false;
 
+    }
+
+    // 1764. 通过连接另一个数组的子数组得到一个数组 (Form Array by Concatenating Subarrays of Another
+    // Array)
+    public boolean canChoose2(int[][] groups, int[] nums) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < nums.length; ++i) {
+            map.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i);
+        }
+        int index = 0;
+        search: for (int[] group : groups) {
+            if (group.length == 0) {
+                continue;
+            }
+            int num = group[0];
+            List<Integer> list = map.getOrDefault(num, new ArrayList<>());
+            int i = binarySearch1746(list, index);
+            if (i == -1) {
+                return false;
+            }
+            while (i < list.size()) {
+                if (check1764(list.get(i), nums, group)) {
+                    index = list.get(i) + group.length;
+                    continue search;
+                }
+                ++i;
+            }
+            return false;
+        }
+        return true;
+
+    }
+
+    private boolean check1764(int i, int[] nums, int[] group) {
+        int j = 0;
+        while (i < nums.length && j < group.length) {
+            if (nums[i] != group[j]) {
+                return false;
+            }
+            ++i;
+            ++j;
+        }
+        return j == group.length;
+    }
+
+    private int binarySearch1746(List<Integer> list, int target) {
+        if (list.isEmpty()) {
+            return -1;
+        }
+        int n = list.size();
+        if (target > list.get(n - 1)) {
+            return -1;
+        }
+        if (target <= list.get(0)) {
+            return 0;
+        }
+        int left = 0;
+        int right = list.size() - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (list.get(mid) >= target) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
     }
 
     // 1733. 需要教语言的最少人数
