@@ -1977,6 +1977,17 @@ public class Leetcode_6 {
 
     }
 
+    // 923. 三数之和的多种可能 (3Sum With Multiplicity)
+    // public int threeSumMulti(int[] arr, int target) {
+    // int[] counts = new int[101];
+    // for (int a : arr) {
+    // ++counts[a];
+    // }
+    // long res = 0l;
+    // final int mod = (int) (1e9 + 7);
+
+    // }
+
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
     // public int[] countRectangles(int[][] rectangles, int[][] points) {
 
