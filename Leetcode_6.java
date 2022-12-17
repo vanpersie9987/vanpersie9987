@@ -18,6 +18,7 @@ public class Leetcode_6 {
     public static void main(String[] args) {
         // String[] strs = { "1.500", "2.500", "3.500" };
         // String s = minimizeError(strs, 9);
+        // int res = maxValue(4, 2, 6);
 
     }
 
@@ -1893,41 +1894,39 @@ public class Leetcode_6 {
     }
 
     // 1802. 有界数组中指定下标处的最大值 (Maximum Value at a Given Index in a Bounded Array)
-    // public int maxValue(int n, int index, int maxSum) {
-    //     int left = 1;
-    //     int right = maxSum;
-    //     int res = -1;
-    //     while (left <= right) {
-    //         int mid = left + ((right - left) >>> 1);
-    //         if (check1802(n, index, mid) <= maxSum) {
-    //             res = mid;
-    //             left = mid + 1;
-    //         } else {
-    //             right = mid - 1;
-    //         }
-    //     }
-    //     return res;
+    public int maxValue(int n, int index, int maxSum) {
+        int left = 1;
+        int right = maxSum;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (check1802(n, index, mid) <= (long) maxSum) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
 
-    // }
+    }
 
-    // private long check1802(int n, int index, long target) {
-    //     long sum = 0l;
-    //     if (index >= target - 1) {
-    //         sum += (1l + target) * target / 2;
-    //         sum += (index - target + 1l);
-    //     } else {
-    //         long a1 = target - index;
-    //         sum += (a1 + target) * (index + 1) / 2;
-    //     }
-    //     if (n - index >= target) {
-    //         sum += (1l + target) * target / 2;
-    //         sum += n - (index + target);
-    //     } else {
-    //         long a1 = target + (n - index - 1);
-    //         sum += (a1 + target) * (n - index) / 2;
-    //     }
-    //     return sum - target;
-    // }
+    private long check1802(int n, int index, long val) {
+        long res = 0l;
+        if (index + 1 >= val) {
+            res += (1 + val) * val / 2 + (index - val) + 1;
+        } else {
+            res += ((val - index) + val) * (index + 1) / 2;
+        }
+
+        if (index + val <= n) {
+            res += (1 + val) * val / 2 + n - (index + val);
+        } else {
+            res += ((val - (n - index) + 1) + val) * (n - index) / 2;
+        }
+        return res - val;
+
+    }
 
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
     // public int[] countRectangles(int[][] rectangles, int[][] points) {
