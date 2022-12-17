@@ -1928,6 +1928,55 @@ public class Leetcode_6 {
 
     }
 
+    // 1849. 将字符串拆分为递减的连续值 (Splitting a String Into Descending Consecutive Values)
+    public boolean splitString(String s) {
+        StringBuilder builder = new StringBuilder(s);
+        while (builder.length() > 0 && builder.charAt(0) == '0') {
+            builder.deleteCharAt(0);
+        }
+        s = builder.toString();
+        int n = s.length();
+        search: for (int i = 1; i < n; ++i) {
+            String ss = s.substring(0, i);
+            if (ss.length() > 10) {
+                return false;
+            }
+            long num = Long.parseLong(ss.toString());
+            int j = i;
+            search1: while (true) {
+                if (num == 1l) {
+                    while (j < n) {
+                        if (s.charAt(j) != '0') {
+                            continue search;
+                        }
+                        ++j;
+                    }
+                    return true;
+                } else {
+                    long cur = 0l;
+                    while (j < n && cur < num) {
+                        cur = cur * 10 + s.charAt(j) - '0';
+                        if (cur + 1 == num) {
+                            break;
+                        }
+                        ++j;
+                    }
+                    if (cur + 1 == num) {
+                        ++j;
+                        if (j == n) {
+                            return true;
+                        }
+                        --num;
+                        continue search1;
+                    }
+                    continue search;
+                }
+            }
+        }
+        return false;
+
+    }
+
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
     // public int[] countRectangles(int[][] rectangles, int[][] points) {
 
