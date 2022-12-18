@@ -1977,6 +1977,126 @@ public class Leetcode_6 {
 
     }
 
+    // 6265. 统计相似字符串对的数目
+    public int similarPairs(String[] words) {
+        int n = words.length;
+        Map<Integer, Integer> counts = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            int bit = 0;
+            for (char c : words[i].toCharArray()) {
+                bit |= (1 << (c - 'a'));
+            }
+            counts.put(bit, counts.getOrDefault(bit, 0) + 1);
+        }
+        int res = 0;
+        for (int count : counts.values()) {
+            res += count * (count - 1) / 2;
+        }
+        return res;
+
+    }
+
+    // 6266. 使用质因数之和替换后可以取到的最小值
+    public int smallestValue(int n) {
+        while (true) {
+            int sum = getFactorsSum(n);
+            if (sum == n) {
+                return n;
+            }
+            n = sum;
+        }
+    }
+
+    private int getFactorsSum(int n) {
+        int sum = 0;
+        for (int i = 2; i * i <= n; ++i) {
+            while (n % i == 0) {
+                sum += i;
+                n /= i;
+            }
+        }
+        if (n != 1) {
+            sum += n;
+        }
+        return sum;
+    }
+
+    // 6268. 查询树中环的长度
+    public int[] cycleLengthQueries(int n, int[][] queries) {
+        int[] res = new int[queries.length];
+        for (int i = 0; i < queries.length; ++i) {
+            int u = queries[i][0];
+            int v = queries[i][1];
+            int count = 1;
+            while (u != v) {
+                if (u < v) {
+                    int temp = u;
+                    u = v;
+                    v = temp;
+                }
+                u >>>= 1;
+                ++count;
+            }
+            res[i] = count;
+        }
+        return res;
+    }
+
+    // 6267. 添加边使所有节点度数都为偶数
+    public boolean isPossible(int n, List<List<Integer>> edges) {
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+        int[] degrees = new int[n + 1];
+        for (List<Integer> edge : edges) {
+            map.computeIfAbsent(edge.get(0), k -> new HashSet<>()).add(edge.get(1));
+            map.computeIfAbsent(edge.get(1), k -> new HashSet<>()).add(edge.get(0));
+            ++degrees[edge.get(0)];
+            ++degrees[edge.get(1)];
+        }
+        List<Integer> odd = new ArrayList<>();
+        for (int i = 1; i <= n; ++i) {
+            if (degrees[i] > 0 && degrees[i] % 2 == 1) {
+                odd.add(i);
+            }
+        }
+        if (odd.size() == 0) {
+            return true;
+        }
+        if (odd.size() == 2) {
+            int u = odd.get(0);
+            int v = odd.get(1);
+            if (!map.getOrDefault(u, new HashSet<>()).contains(v)) {
+                return true;
+            }
+            for (int i = 1; i <= n; ++i) {
+                if (i != u && i != v) {
+                    Set<Integer> set = map.getOrDefault(i, new HashSet<>());
+                    if (!set.contains(u) && !set.contains(v)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        if (odd.size() == 4) {
+            int a = odd.get(0);
+            int b = odd.get(1);
+            int c = odd.get(2);
+            int d = odd.get(3);
+            if (!map.getOrDefault(a, new HashSet<>()).contains(b)
+                    && !map.getOrDefault(c, new HashSet<>()).contains(d)) {
+                return true;
+            }
+            if (!map.getOrDefault(a, new HashSet<>()).contains(c)
+                    && !map.getOrDefault(b, new HashSet<>()).contains(d)) {
+                return true;
+            }
+            if (!map.getOrDefault(a, new HashSet<>()).contains(d)
+                    && !map.getOrDefault(b, new HashSet<>()).contains(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // 923. 三数之和的多种可能 (3Sum With Multiplicity)
     // public int threeSumMulti(int[] arr, int target) {
     // int[] counts = new int[101];
