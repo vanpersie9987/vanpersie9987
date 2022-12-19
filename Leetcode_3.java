@@ -7831,6 +7831,63 @@ public class Leetcode_3 {
 
     }
 
+    // 1971. 寻找图中是否存在路径 (Find if Path Exists in Graph) --并查集
+    public boolean validPath2(int n, int[][] edges, int source, int destination) {
+        if (source == destination) {
+            return true;
+        }
+        Union1971 union = new Union1971(n);
+        for (int[] edge : edges) {
+            union.union(edge[0], edge[1]);
+            if (union.isConnected(source, destination)) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    class Union1971 {
+        private int[] rank;
+        private int[] parent;
+
+        Union1971(int n) {
+            rank = new int[n];
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+    }
+
     // 1457. 二叉树中的伪回文路径 (Pseudo-Palindromic Paths in a Binary Tree) --bfs
     public int pseudoPalindromicPaths(TreeNode root) {
         root.val = 1 << root.val;
