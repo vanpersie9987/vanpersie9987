@@ -2172,4 +2172,44 @@ public class Leetcode_6 {
 
     // }
 
+
+    // 1600. 王位继承顺序 (Throne Inheritance)
+    class ThroneInheritance {
+        private String kingName;
+        private Map<String, List<String>> inheritanceTree;
+        private Set<String> setDeath;
+        private List<String> res;
+
+        public ThroneInheritance(String kingName) {
+            this.kingName = kingName;
+            this.inheritanceTree = new HashMap<>();
+            this.setDeath = new HashSet<>();
+            inheritanceTree.put(kingName, new ArrayList<>());
+        }
+
+        public void birth(String parentName, String childName) {
+            inheritanceTree.computeIfAbsent(parentName, k -> new ArrayList<>()).add(childName);
+        }
+
+        public void death(String name) {
+            setDeath.add(name);
+        }
+
+        public List<String> getInheritanceOrder() {
+            res = new ArrayList<>();
+            dfs1600(kingName);
+            return res;
+        }
+
+        private void dfs1600(String x) {
+            if (!setDeath.contains(x)) {
+                res.add(x);
+            }
+            for (String y : inheritanceTree.getOrDefault(x, new ArrayList<>())) {
+                dfs1600(y);
+            }
+        }
+
+    }
+
 }
