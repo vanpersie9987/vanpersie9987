@@ -18638,11 +18638,7 @@ public class LeetCodeText {
     public int finalValueAfterOperations(String[] operations) {
         int res = 0;
         for (String operation : operations) {
-            if ("++X".equals(operation) || "X++".equals(operation)) {
-                ++res;
-            } else {
-                --res;
-            }
+            res += operation.charAt(1) == '+' ? 1 : -1;
         }
         return res;
 
