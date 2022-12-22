@@ -11,6 +11,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.IntStream;
 
@@ -2142,37 +2143,6 @@ public class Leetcode_6 {
 
     }
 
-    // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
-    // public int[] countRectangles(int[][] rectangles, int[][] points) {
-
-    // }
-
-    // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
-    // public int maxProfit(int[] inventory, int orders) {
-
-    // }
-
-    // 1562. 查找大小为 M 的最新分组 (Find Latest Group of Size M)
-    // public int findLatestStep(int[] arr, int m) {
-
-    // }
-
-    // 813. 最大平均值和的分组 (Largest Sum of Averages)
-    // public double largestSumOfAverages(int[] nums, int k) {
-
-    // }
-
-    // 2484. 统计回文子序列数目 (Count Palindromic Subsequences)
-    // public int countPalindromes(String s) {
-
-    // }
-
-    // 2466. 统计构造好字符串的方案数 (Count Ways To Build Good Strings)
-    // public int countGoodStrings(int low, int high, int zero, int one) {
-
-    // }
-
-
     // 1600. 王位继承顺序 (Throne Inheritance)
     class ThroneInheritance {
         private String kingName;
@@ -2211,5 +2181,94 @@ public class Leetcode_6 {
         }
 
     }
+
+    // 1797. 设计一个验证系统 (Design Authentication Manager)
+    class AuthenticationManager {
+        private TreeMap<Integer, String> treeMap;
+        private Map<String, Integer> map;
+        private int timeToLive;
+
+        public AuthenticationManager(int timeToLive) {
+            this.timeToLive = timeToLive;
+            this.treeMap = new TreeMap<>();
+            this.map = new HashMap<>();
+
+        }
+
+        public void generate(String tokenId, int currentTime) {
+            treeMap.put(currentTime + timeToLive, tokenId);
+            map.put(tokenId, currentTime + timeToLive);
+        }
+
+        public void renew(String tokenId, int currentTime) {
+            Integer expiredTime = map.get(tokenId);
+            if (expiredTime == null || expiredTime <= currentTime) {
+                return;
+            }
+            map.put(tokenId, currentTime + timeToLive);
+            treeMap.remove(expiredTime);
+            treeMap.put(currentTime + timeToLive, tokenId);
+
+        }
+
+        public int countUnexpiredTokens(int currentTime) {
+            return treeMap.tailMap(currentTime + 1).size();
+        }
+    }
+
+    // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
+    // public int[] countRectangles(int[][] rectangles, int[][] points) {
+
+    // }
+
+    // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
+    // public int maxProfit(int[] inventory, int orders) {
+
+    // }
+
+    // 1562. 查找大小为 M 的最新分组 (Find Latest Group of Size M)
+    // public int findLatestStep(int[] arr, int m) {
+
+    // }
+
+    // 813. 最大平均值和的分组 (Largest Sum of Averages)
+    // public double largestSumOfAverages(int[] nums, int k) {
+
+    // }
+
+    // 2484. 统计回文子序列数目 (Count Palindromic Subsequences)
+    // public int countPalindromes(String s) {
+
+    // }
+
+    // 2466. 统计构造好字符串的方案数 (Count Ways To Build Good Strings)
+    // public int countGoodStrings(int low, int high, int zero, int one) {
+
+    // }
+
+    // 1372. 二叉树中的最长交错路径 (Longest ZigZag Path in a Binary Tree)
+    // private int res1372;
+
+    // public int longestZigZag(TreeNode root) {
+    //     int[] left = dfs1372(root.left, true);
+    //     int[] right = dfs1372(root.right,false);
+    //     res1372 = Math.max(res1372, left[1] + 1);
+    //     res1372 = Math.max(res1372, right[0] + 1);
+    //     return res1372 - 1;
+    // }
+
+    // private int[] dfs1372(TreeNode node, boolean isLeft) {
+    //     if (node == null) {
+    //         return new int[] { 0, 0 };
+    //     }
+    //     if (node.left == null && node.right == null) {
+    //         return new int[] { 0, 0 };
+    //     }
+    //     int[] left = dfs1372(node.left,true);
+    //     int[] right = dfs1372(node.right,false);
+    //     res1372 = Math.max(res1372, left[1] + 1);
+    //     res1372 = Math.max(res1372, right[0] + 1);
+    //     return new int[] { isLeft ? left[1] + 1 : 0, isLeft ? 0 : right[0] + 1 };
+    // }
 
 }
