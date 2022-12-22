@@ -2196,8 +2196,7 @@ public class Leetcode_6 {
         }
 
         public void generate(String tokenId, int currentTime) {
-            treeMap.put(currentTime + timeToLive, tokenId);
-            map.put(tokenId, currentTime + timeToLive);
+            putNewToken(tokenId, currentTime);
         }
 
         public void renew(String tokenId, int currentTime) {
@@ -2205,14 +2204,17 @@ public class Leetcode_6 {
             if (expiredTime == null || expiredTime <= currentTime) {
                 return;
             }
-            map.put(tokenId, currentTime + timeToLive);
             treeMap.remove(expiredTime);
-            treeMap.put(currentTime + timeToLive, tokenId);
-
+            putNewToken(tokenId, currentTime);
         }
 
         public int countUnexpiredTokens(int currentTime) {
             return treeMap.tailMap(currentTime + 1).size();
+        }
+
+        private void putNewToken(String tokenId, int currentTime) {
+            treeMap.put(currentTime + timeToLive, tokenId);
+            map.put(tokenId, currentTime + timeToLive);
         }
     }
 
