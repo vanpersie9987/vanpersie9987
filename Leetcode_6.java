@@ -2218,6 +2218,55 @@ public class Leetcode_6 {
         }
     }
 
+    // 2102. 序列顺序查询 (Sequentially Ordinal Rank Tracker)
+    class SORTracker {
+        class Pair2102 {
+            String name;
+            int score;
+
+            Pair2102(String name, int score) {
+                this.name = name;
+                this.score = score;
+            }
+
+        }
+
+        private Queue<Pair2102> min;
+        private Queue<Pair2102> max;
+
+        public SORTracker() {
+            min = new PriorityQueue<>(new Comparator<Pair2102>() {
+
+                @Override
+                public int compare(Pair2102 o1, Pair2102 o2) {
+                    return o1.score == o2.score ? o2.name.compareTo(o1.name) : o1.score - o2.score;
+                }
+
+            });
+
+            max = new PriorityQueue<>(new Comparator<Pair2102>() {
+
+                @Override
+                public int compare(Pair2102 o1, Pair2102 o2) {
+                    return o1.score == o2.score ? o1.name.compareTo(o2.name) : o2.score - o1.score;
+                }
+
+            });
+
+        }
+
+        public void add(String name, int score) {
+            min.offer(new Pair2102(name, score));
+            max.offer(min.poll());
+        }
+
+        public String get() {
+            String res = max.peek().name;
+            min.offer(max.poll());
+            return res;
+        }
+    }
+
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
     // public int[] countRectangles(int[][] rectangles, int[][] points) {
 
