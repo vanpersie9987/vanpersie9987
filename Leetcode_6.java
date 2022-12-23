@@ -2267,6 +2267,21 @@ public class Leetcode_6 {
         }
     }
 
+    // 1835. 所有数对按位与结果的异或和 (Find XOR Sum of All Pairs Bitwise AND)
+    // (a&b)^(a&c) == a&(b^c)
+    public int getXORSum(int[] arr1, int[] arr2) {
+        int xor1 = 0;
+        int xor2 = 0;
+        for (int a : arr1) {
+            xor1 ^= a;
+        }
+        for (int a : arr2) {
+            xor2 ^= a;
+        }
+        return xor1 & xor2;
+
+    }
+
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
     // public int[] countRectangles(int[][] rectangles, int[][] points) {
 
