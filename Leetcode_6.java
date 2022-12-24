@@ -2443,6 +2443,72 @@ public class Leetcode_6 {
         return max1 + 1;
     }
 
+    // 1273. 删除树节点 (Delete Tree Nodes) --plus
+    private int[] value1273;
+    private Map<Integer, List<Integer>> tree1273;
+
+    public int deleteTreeNodes(int nodes, int[] parent, int[] value) {
+        value1273 = value;
+        tree1273 = new HashMap<>();
+        for (int i = 0; i < parent.length; ++i) {
+            tree1273.computeIfAbsent(i, k -> new ArrayList<>()).add(parent[i]);
+            tree1273.computeIfAbsent(parent[i], k -> new ArrayList<>()).add(i);
+        }
+        return dfs1273(0, -1)[1];
+
+    }
+
+    private int[] dfs1273(int x, int fa) {
+        int sum = value1273[x];
+        int count = 1;
+        for (int y : tree1273.getOrDefault(x, new ArrayList<>())) {
+            if (y != fa) {
+                int[] cur = dfs1273(y, x);
+                sum += cur[0];
+                count += cur[1];
+            }
+        }
+        if (sum == 0) {
+            count = 0;
+        }
+        return new int[] { sum, count };
+    }
+
+    // 1273. 删除树节点 (Delete Tree Nodes) --plus 拓扑排序
+    public int deleteTreeNodes2(int nodes, int[] parent, int[] value) {
+        int[] count = new int[nodes];
+        Arrays.fill(count, 1);
+        int[] degrees = new int[nodes];
+        for (int i = 1; i < parent.length; ++i) {
+            ++degrees[parent[i]];
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < nodes; ++i) {
+            if (degrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        while (!queue.isEmpty()) {
+            int x = queue.poll();
+            if (value[x] == 0) {
+                count[x] = 0;
+            }
+            int y = parent[x];
+            if (y == -1) {
+                continue;
+            }
+            --degrees[y];
+            value[y] += value[x];
+            count[y] += count[x];
+            if (degrees[y] == 0) {
+                queue.offer(y);
+            }
+
+        }
+        return count[0];
+
+    }
+
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
     // public int[] countRectangles(int[][] rectangles, int[][] points) {
 
