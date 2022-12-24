@@ -2403,13 +2403,44 @@ public class Leetcode_6 {
 
     }
 
-    private void dfs1214(TreeNode root,List<Integer> list) {
+    private void dfs1214(TreeNode root, List<Integer> list) {
         if (root == null) {
             return;
         }
-        dfs1214(root.left,list);
+        dfs1214(root.left, list);
         list.add(root.val);
         dfs1214(root.right, list);
+    }
+
+    // 1245. 树的直径 (Tree Diameter) --plus
+    private int res1245;
+
+    public int treeDiameter(int[][] edges) {
+        Map<Integer, List<Integer>> tree = new HashMap<>();
+        for (int[] edge : edges) {
+            tree.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            tree.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+        }
+        dfs1245(0, -1, tree);
+        return res1245;
+    }
+
+    private int dfs1245(int x, int fa, Map<Integer, List<Integer>> tree) {
+        int max1 = 0;
+        int max2 = 0;
+        for (int y : tree.getOrDefault(x, new ArrayList<>())) {
+            if (y != fa) {
+                int cur = dfs1245(y, x, tree);
+                if (cur >= max1) {
+                    max2 = max1;
+                    max1 = cur;
+                } else if (cur >= max2) {
+                    max2 = cur;
+                }
+            }
+        }
+        res1245 = Math.max(res1245, max1 + max2);
+        return max1 + 1;
     }
 
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
