@@ -2282,6 +2282,77 @@ public class Leetcode_6 {
 
     }
 
+    // 333. 最大 BST 子树 (Largest BST Subtree) --plus
+    private int res333;
+
+    public int largestBSTSubtree(TreeNode root) {
+        dfs333(root);
+        return res333;
+
+    }
+
+    private int[] dfs333(TreeNode node) {
+        if (node == null) {
+            return new int[] { Integer.MAX_VALUE, Integer.MIN_VALUE, 0 };
+        }
+        int[] left = dfs333(node.left);
+        int[] right = dfs333(node.right);
+        if (left[1] >= node.val || right[0] <= node.val) {
+            return new int[] { Integer.MIN_VALUE, Integer.MAX_VALUE, 0 };
+        }
+        int count = left[2] + right[2] + 1;
+        res333 = Math.max(res333, count);
+        return new int[] { Math.min(node.val, left[0]), Math.max(node.val, right[1]), count };
+    }
+
+     // Definition for a Node.
+    class Node {
+        public int val;
+        public List<Node> children;
+
+        public Node() {
+            children = new ArrayList<Node>();
+        }
+
+        public Node(int _val) {
+            val = _val;
+            children = new ArrayList<Node>();
+        }
+
+        public Node(int _val, ArrayList<Node> _children) {
+            val = _val;
+            children = _children;
+        }
+    };
+
+    // 1522. N 叉树的直径 (Diameter of N-Ary Tree) --plus
+    private int res1522;
+
+    public int diameter(Node root) {
+        dfs1522(root);
+        return res1522;
+
+    }
+
+    private int dfs1522(Node node) {
+        if (node == null) {
+            return 0;
+        }
+        int max1 = 0;
+        int max2 = 0;
+        for (Node y : node.children) {
+            int cur = dfs1522(y);
+            if (cur >= max1) {
+                max2 = max1;
+                max1 = cur;
+            } else if (cur >= max2) {
+                max2 = cur;
+            }
+        }
+        res1522 = Math.max(res1522, max1 + max2);
+        return max1 + 1;
+    }
+
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
     // public int[] countRectangles(int[][] rectangles, int[][] points) {
 
