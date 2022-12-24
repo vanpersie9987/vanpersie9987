@@ -1,3 +1,4 @@
+import java.rmi.server.RemoteStub;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -2506,6 +2507,34 @@ public class Leetcode_6 {
 
         }
         return count[0];
+
+    }
+
+    // 1059. 从始点到终点的所有路径 (All Paths from Source Lead to Destination) --plus
+    public boolean leadsToDestination(int n, int[][] edges, int source, int destination) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int[] inDegrees = new int[n];
+        for (int[] edge : edges) {
+            map.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+            ++inDegrees[edge[0]];
+        }
+        if (inDegrees[destination] != 0) {
+            return false;
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(destination);
+        while (!queue.isEmpty()) {
+            int x = queue.poll();
+            if (x == source) {
+                return true;
+            }
+            for (int y : map.getOrDefault(x, new ArrayList<>())) {
+                if (--inDegrees[y] == 0) {
+                    queue.offer(y);
+                }
+            }
+        }
+        return false;
 
     }
 
