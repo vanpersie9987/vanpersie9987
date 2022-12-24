@@ -3856,7 +3856,7 @@ public class Leetcode_5 {
 
     }
 
-    // 1754. 构造字典序最大的合并字符串 (Largest Merge Of Two Strings) --双指针
+    // 1754. 构造字典序最大的合并字符串 (Largest Merge Of Two Strings)
     public String largestMerge(String word1, String word2) {
         int m = word1.length();
         int n = word2.length();
@@ -3870,12 +3870,8 @@ public class Leetcode_5 {
                 res.append(word2.charAt(j++));
             }
         }
-        while (i < m) {
-            res.append(word1.charAt(i++));
-        }
-        while (j < n) {
-            res.append(word2.charAt(j++));
-        }
+        res.append(word1.substring(i));
+        res.append(word2.substring(j));
         return res.toString();
 
     }
