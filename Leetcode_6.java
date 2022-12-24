@@ -2353,6 +2353,31 @@ public class Leetcode_6 {
         return max1 + 1;
     }
 
+    // 250. 统计同值子树 (Count Univalue Subtrees)
+    private int res250;
+
+    public int countUnivalSubtrees(TreeNode root) {
+        dfs250(root);
+        return res250;
+
+    }
+
+    private Integer dfs250(TreeNode node) {
+        if (node == null) {
+            return null;
+        }
+        Integer left = dfs250(node.left);
+        Integer right = dfs250(node.right);
+        if (left != null && left != node.val) {
+            return 1001;
+        }
+        if (right != null && right != node.val) {
+            return 1001;
+        }
+        ++res250;
+        return node.val;
+    }
+
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
     // public int[] countRectangles(int[][] rectangles, int[][] points) {
 
