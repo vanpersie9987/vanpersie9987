@@ -1438,7 +1438,7 @@ public class Leetcode_6 {
         return res;
 
     }
-    
+
     // 1697. 检查边长度限制的路径是否存在 (Checking Existence of Edge Length Limited Paths)
     public boolean[] distanceLimitedPathsExist(int n, int[][] edgeList, int[][] queries) {
         Union1697 union = new Union1697(n);
@@ -2305,7 +2305,7 @@ public class Leetcode_6 {
         return new int[] { Math.min(node.val, left[0]), Math.max(node.val, right[1]), count };
     }
 
-     // Definition for a Node.
+    // Definition for a Node.
     class Node {
         public int val;
         public List<Node> children;
@@ -2543,25 +2543,69 @@ public class Leetcode_6 {
     // private int res1372;
 
     // public int longestZigZag(TreeNode root) {
-    //     int[] left = dfs1372(root.left, true);
-    //     int[] right = dfs1372(root.right,false);
-    //     res1372 = Math.max(res1372, left[1] + 1);
-    //     res1372 = Math.max(res1372, right[0] + 1);
-    //     return res1372 - 1;
+    // int[] left = dfs1372(root.left, true);
+    // int[] right = dfs1372(root.right,false);
+    // res1372 = Math.max(res1372, left[1] + 1);
+    // res1372 = Math.max(res1372, right[0] + 1);
+    // return res1372 - 1;
     // }
 
     // private int[] dfs1372(TreeNode node, boolean isLeft) {
-    //     if (node == null) {
-    //         return new int[] { 0, 0 };
-    //     }
-    //     if (node.left == null && node.right == null) {
-    //         return new int[] { 0, 0 };
-    //     }
-    //     int[] left = dfs1372(node.left,true);
-    //     int[] right = dfs1372(node.right,false);
-    //     res1372 = Math.max(res1372, left[1] + 1);
-    //     res1372 = Math.max(res1372, right[0] + 1);
-    //     return new int[] { isLeft ? left[1] + 1 : 0, isLeft ? 0 : right[0] + 1 };
+    // if (node == null) {
+    // return new int[] { 0, 0 };
+    // }
+    // if (node.left == null && node.right == null) {
+    // return new int[] { 0, 0 };
+    // }
+    // int[] left = dfs1372(node.left,true);
+    // int[] right = dfs1372(node.right,false);
+    // res1372 = Math.max(res1372, left[1] + 1);
+    // res1372 = Math.max(res1372, right[0] + 1);
+    // return new int[] { isLeft ? left[1] + 1 : 0, isLeft ? 0 : right[0] + 1 };
     // }
 
+    // 549. 二叉树中最长的连续序列 (Binary Tree Longest Consecutive Sequence II) --plus
+    // private int res549;
+
+    // public int longestConsecutive(TreeNode root) {
+    // dfs549_inc(root);
+    // dfs549_dec(root);
+    // return res549;
+    // }
+
+    // private int dfs549_inc(TreeNode node) {
+    // if (node == null) {
+    // return 0;
+    // }
+    // int count = 1;
+    // int left = dfs549_inc(node.left);
+    // int right = dfs549_inc(node.right);
+    // if (node.left != null && node.val - node.left.val == 1) {
+    // count += left;
+    // }
+    // if (node.right != null && node.right.val - node.val == 1) {
+    // count += right;
+    // }
+    // res549 = Math.max(res549, count);
+    // return Math.max(left, right) + 1;
+
+    // }
+
+    // private int dfs549_dec(TreeNode node) {
+    // if (node == null) {
+    // return 0;
+    // }
+    // int count = 1;
+    // int left = dfs549_dec(node.left);
+    // int right = dfs549_dec(node.right);
+    // if (node.left != null && node.left.val - node.val == 1) {
+    // count += left;
+    // }
+    // if (node.right != null && node.val - node.right.val == 1) {
+    // count += right;
+    // }
+    // res549 = Math.max(res549, count);
+    // return Math.max(left, right) + 1;
+
+    // }
 }
