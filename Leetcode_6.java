@@ -2538,6 +2538,35 @@ public class Leetcode_6 {
 
     }
 
+    // 1852. 每个子数组的数字种类数 (Distinct Numbers in Each Subarray) --plus
+    public int[] distinctNumbers(int[] nums, int k) {
+        int n = nums.length;
+        int max = 0;
+        for (int num : nums) {
+            max = Math.max(max, num);
+        }
+        int[] counts = new int[max + 1];
+        int[] res = new int[n - k + 1];
+        int kinds = 0;
+        for (int i = 0; i < k; ++i) {
+            if (counts[nums[i]]++ == 0) {
+                ++kinds;
+            }
+        }
+        res[0] = kinds;
+        for (int i = k; i < n; ++i) {
+            if (counts[nums[i]]++ == 0) {
+                ++kinds;
+            }
+            if (--counts[nums[i - k]] == 0) {
+                --kinds;
+            }
+            res[i - k + 1] = kinds;
+        }
+        return res;
+
+    }
+
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
     // public int[] countRectangles(int[][] rectangles, int[][] points) {
 
@@ -2637,4 +2666,90 @@ public class Leetcode_6 {
     // return Math.max(left, right) + 1;
 
     // }
+
+    public int captureForts(int[] forts) {
+        int res = 0;
+        int n = forts.length;
+        for (int i = 0; i < n; ++i) {
+            if (forts[i] == 1) {
+                int j = i - 1;
+                while (j >= 0) {
+                    if (forts[j] == 1) {
+                        break;
+                    }
+                    if (forts[j] == 0) {
+                        --j;
+                    } else {
+                        res = Math.max(res, i - j - 1);
+                        break;
+                    }
+                }
+                j = i + 1;
+                while (j < n) {
+                    if (forts[j] == 1) {
+                        break;
+                    }
+                    if (forts[j] == 0) {
+                        ++j;
+                    } else {
+                        res = Math.max(res, j - i - 1);
+                        break;
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+    
+    public List<Integer> topStudents(String[] positive_feedback, String[] negative_feedback, String[] report,
+            int[] student_id, int k) {
+        Set<String> postive = new HashSet<>();
+        for (String p : positive_feedback) {
+            postive.add(p);
+        }
+        Set<String> negative = new HashSet<>();
+        for (String n : negative_feedback) {
+            negative.add(n);
+        }
+        List<int[]> list = new ArrayList<>();
+        int n = report.length;
+        for (int i = 0; i < n; ++i) {
+            String[] split = report[i].split(" ");
+            int score = 0;
+            for (String s : split) {
+                if (postive.contains(s)) {
+                    score += 3;
+                } else if (negative.contains(s)) {
+                    score -= 1;
+                }
+            }
+            list.add(new int[] { student_id[i], score });
+        }
+        Collections.sort(list, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[1] == o2[1] ? o1[0] - o2[0] : o2[1] - o1[1];
+            }
+
+        });
+        List<Integer> res = new ArrayList<>();
+
+        for (int i = 0; i < k; ++i) {
+            res.add(list.get(i)[0]);
+        }
+        return res;
+    }
+
+
+    // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int uniqueCnt2) {
+
+
+    // }
+
+    
+
+
+
 }
