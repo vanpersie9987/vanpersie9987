@@ -2378,6 +2378,40 @@ public class Leetcode_6 {
         return node.val;
     }
 
+    // 1214. 查找两棵二叉搜索树之和 (Two Sum BSTs) --plus
+    public boolean twoSumBSTs(TreeNode root1, TreeNode root2, int target) {
+        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        dfs1214(root1, list1);
+        dfs1214(root2, list2);
+        int n1 = list1.size();
+        int n2 = list2.size();
+        int i = 0;
+        int j = n2 - 1;
+        while (i < n1 && j >= 0) {
+            int cur = list1.get(i) + list2.get(j);
+            if (cur == target) {
+                return true;
+            }
+            if (cur < target) {
+                ++i;
+            } else {
+                --j;
+            }
+        }
+        return false;
+
+    }
+
+    private void dfs1214(TreeNode root,List<Integer> list) {
+        if (root == null) {
+            return;
+        }
+        dfs1214(root.left,list);
+        list.add(root.val);
+        dfs1214(root.right, list);
+    }
+
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
     // public int[] countRectangles(int[][] rectangles, int[][] points) {
 
