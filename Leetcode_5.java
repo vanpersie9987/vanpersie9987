@@ -5132,16 +5132,18 @@ public class Leetcode_5 {
 
     // 1759. 统计同构子字符串的数目 (Count Number of Homogenous Substrings)
     public int countHomogenous(String s) {
-        int mod = (int) (1e9 + 7);
-        long count = 0l;
+        final int mod = (int) (1e9 + 7);
         int res = 0;
-        for (int i = 0; i < s.length(); ++i) {
-            if (i == 0 || s.charAt(i) != s.charAt(i - 1)) {
-                count = 1;
-            } else {
+        int count = 0;
+        char pre = 'A';
+        for (char c : s.toCharArray()) {
+            if (c == pre) {
                 ++count;
+            } else {
+                count = 1;
+                pre = c;
             }
-            res = (int) ((res + count) % mod);
+            res = (res + count) % mod;
         }
         return res;
 
