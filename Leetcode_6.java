@@ -2567,6 +2567,73 @@ public class Leetcode_6 {
 
     }
 
+    // 1215. 步进数 (Stepping Numbers) --plus
+    public List<Integer> countSteppingNumbers(int low, int high) {
+        Queue<Long> queue = new LinkedList<>();
+        List<Integer> res = new ArrayList<>();
+        if (low == 0) {
+            res.add(0);
+        }
+        for (long i = 1; i <= 9; ++i) {
+            queue.offer(i);
+        }
+
+        while (!queue.isEmpty()) {
+            long cur = queue.poll();
+            int lastDigit = (int) (cur % 10);
+            if (cur > high) {
+                return res;
+            }
+            if (cur >= low) {
+                res.add((int) cur);
+            }
+            if (lastDigit != 0) {
+                queue.offer(cur * 10 + lastDigit - 1);
+            }
+            if (lastDigit != 9) {
+                queue.offer(cur * 10 + lastDigit + 1);
+            }
+        }
+        return res;
+
+    }
+
+    // 1215. 步进数 (Stepping Numbers) --plus
+    public List<Integer> countSteppingNumbers2(int low, int high) {
+        List<Integer> list = new ArrayList<>();
+        if (low == 0) {
+            list.add(low);
+        }
+        for (long i = 1; i <= 9; ++i) {
+            dfs1215(i, high, list);
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int num : list) {
+            if (num >= low && num <= high) {
+                res.add(num);
+            }
+        }
+        Collections.sort(res);
+        return res;
+
+    }
+
+    private void dfs1215(long num, int high, List<Integer> list) {
+        if (num > high) {
+            return;
+        }
+        list.add((int) num);
+        int lastDigit = (int) (num % 10);
+
+        if (lastDigit != 0) {
+            dfs1215(num * 10 + lastDigit - 1, high, list);
+        }
+        if (lastDigit != 9) {
+            dfs1215(num * 10 + lastDigit + 1, high, list);
+        }
+
+    }
+
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
     // public int[] countRectangles(int[][] rectangles, int[][] points) {
 
@@ -2748,7 +2815,61 @@ public class Leetcode_6 {
 
     // }
 
-    
+
+    public int closetTarget(String[] words, String target, int startIndex) {
+        List<Integer> tarIndex = new ArrayList<>();
+        for (int i = 0; i < words.length; ++i) {
+            if (target.equals(words[i])) {
+                tarIndex.add(i);
+            }
+        }
+        if (tarIndex.isEmpty()) {
+            return -1;
+        }
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < tarIndex.size(); ++i) {
+            res = Math.min(res, Math.abs(tarIndex.get(i) - startIndex));
+        }
+        res = Math.min(res, Math.abs(words.length - tarIndex.get(tarIndex.size() - 1) + startIndex));
+        res = Math.min(res, Math.abs(words.length - startIndex + tarIndex.get(0)));
+        return res;
+
+
+
+    }
+
+    public int takeCharacters(String s, int k) {
+        if (k == 0) {
+            return 0;
+        }
+        int[] counts = new int[3];
+        for (char ch : s.toCharArray()) {
+            ++counts[ch - 'a'];
+        }
+        for (int i = 0; i < 3; ++i) {
+            counts[i] -= k;
+            if (counts[i] < 0) {
+                return -1;
+            }
+        }
+
+        int[] cur = new int[3];
+        int res = s.length();
+        int i = 0;
+        int j = 0;
+        while (j < s.length()) {
+            ++cur[s.charAt(j) - 'a'];
+            while (cur[0] > counts[0] || cur[1] > counts[1] || cur[2] > counts[2]) {
+                --cur[s.charAt(i) - 'a'];
+                ++i;
+            }
+            res = Math.min(res, s.length() - (j - i + 1));
+            ++j;
+        }
+        return res;
+        
+
+    }
 
 
 
