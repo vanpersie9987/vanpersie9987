@@ -16,6 +16,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.IntStream;
 
+import javax.sound.midi.Track;
+
 public class Leetcode_6 {
     public static void main(String[] args) {
         // String[] strs = { "1.500", "2.500", "3.500" };
@@ -2755,6 +2757,44 @@ public class Leetcode_6 {
         return res;
 
     }
+
+    // 1989. 捉迷藏中可捕获的最大人数 (Maximum Number of People That Can Be Caught in Tag) --plus
+    public int catchMaximumAmountofPeople(int[] team, int dist) {
+        int n = team.length;
+        // 人
+        int i = 0;
+        // 鬼
+        int j = 0;
+        int res = 0;
+        while (i < n && j < n) {
+            while (i < n && team[i] == 1) {
+                ++i;
+            }
+            while (j < n && team[j] == 0) {
+                ++j;
+            }
+            if (i == n || j == n) {
+                break;
+            }
+            if (j - dist <= i && i <= j + dist) {
+                ++i;
+                ++j;
+                ++res;
+            } else if (j - dist > i) {
+                ++i;
+            } else {
+                ++j;
+            }
+
+        }
+        return res;
+
+    }
+
+    // 2093. 前往目标城市的最小费用 (Minimum Cost to Reach City With Discounts) --plus
+    // public int minimumCost(int n, int[][] highways, int discounts) {
+
+    // }
 
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
