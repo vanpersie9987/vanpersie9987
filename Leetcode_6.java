@@ -2634,106 +2634,7 @@ public class Leetcode_6 {
 
     }
 
-    // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
-    // public int[] countRectangles(int[][] rectangles, int[][] points) {
-
-    // }
-
-    // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
-    // public int maxProfit(int[] inventory, int orders) {
-
-    // }
-
-    // 1562. 查找大小为 M 的最新分组 (Find Latest Group of Size M)
-    // public int findLatestStep(int[] arr, int m) {
-
-    // }
-
-    // 813. 最大平均值和的分组 (Largest Sum of Averages)
-    // public double largestSumOfAverages(int[] nums, int k) {
-
-    // }
-
-    // 2484. 统计回文子序列数目 (Count Palindromic Subsequences)
-    // public int countPalindromes(String s) {
-
-    // }
-
-    // 2466. 统计构造好字符串的方案数 (Count Ways To Build Good Strings)
-    // public int countGoodStrings(int low, int high, int zero, int one) {
-
-    // }
-
-    // 1372. 二叉树中的最长交错路径 (Longest ZigZag Path in a Binary Tree)
-    // private int res1372;
-
-    // public int longestZigZag(TreeNode root) {
-    // int[] left = dfs1372(root.left, true);
-    // int[] right = dfs1372(root.right,false);
-    // res1372 = Math.max(res1372, left[1] + 1);
-    // res1372 = Math.max(res1372, right[0] + 1);
-    // return res1372 - 1;
-    // }
-
-    // private int[] dfs1372(TreeNode node, boolean isLeft) {
-    // if (node == null) {
-    // return new int[] { 0, 0 };
-    // }
-    // if (node.left == null && node.right == null) {
-    // return new int[] { 0, 0 };
-    // }
-    // int[] left = dfs1372(node.left,true);
-    // int[] right = dfs1372(node.right,false);
-    // res1372 = Math.max(res1372, left[1] + 1);
-    // res1372 = Math.max(res1372, right[0] + 1);
-    // return new int[] { isLeft ? left[1] + 1 : 0, isLeft ? 0 : right[0] + 1 };
-    // }
-
-    // 549. 二叉树中最长的连续序列 (Binary Tree Longest Consecutive Sequence II) --plus
-    // private int res549;
-
-    // public int longestConsecutive(TreeNode root) {
-    // dfs549_inc(root);
-    // dfs549_dec(root);
-    // return res549;
-    // }
-
-    // private int dfs549_inc(TreeNode node) {
-    // if (node == null) {
-    // return 0;
-    // }
-    // int count = 1;
-    // int left = dfs549_inc(node.left);
-    // int right = dfs549_inc(node.right);
-    // if (node.left != null && node.val - node.left.val == 1) {
-    // count += left;
-    // }
-    // if (node.right != null && node.right.val - node.val == 1) {
-    // count += right;
-    // }
-    // res549 = Math.max(res549, count);
-    // return Math.max(left, right) + 1;
-
-    // }
-
-    // private int dfs549_dec(TreeNode node) {
-    // if (node == null) {
-    // return 0;
-    // }
-    // int count = 1;
-    // int left = dfs549_dec(node.left);
-    // int right = dfs549_dec(node.right);
-    // if (node.left != null && node.left.val - node.val == 1) {
-    // count += left;
-    // }
-    // if (node.right != null && node.val - node.right.val == 1) {
-    // count += right;
-    // }
-    // res549 = Math.max(res549, count);
-    // return Math.max(left, right) + 1;
-
-    // }
-
+    // 6273. 最多可以摧毁的敌人城堡数目
     public int captureForts(int[] forts) {
         int res = 0;
         int n = forts.length;
@@ -2768,7 +2669,8 @@ public class Leetcode_6 {
         return res;
 
     }
-    
+
+    // 6274. 奖励最顶尖的 K 名学生
     public List<Integer> topStudents(String[] positive_feedback, String[] negative_feedback, String[] report,
             int[] student_id, int k) {
         Set<String> postive = new HashSet<>();
@@ -2809,39 +2711,22 @@ public class Leetcode_6 {
         return res;
     }
 
-
-    // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int uniqueCnt2) {
-
-
-    // }
-
-
+    // 6269. 到目标字符串的最短距离
     public int closetTarget(String[] words, String target, int startIndex) {
-        List<Integer> tarIndex = new ArrayList<>();
-        for (int i = 0; i < words.length; ++i) {
-            if (target.equals(words[i])) {
-                tarIndex.add(i);
+        int n = words.length;
+        int res = n;
+        for (int i = 0; i < n; ++i) {
+            if (words[i].equals(target)) {
+                res = Math.min(res, Math.abs(startIndex - i));
+                res = Math.min(res, n - Math.abs(startIndex - i));
             }
         }
-        if (tarIndex.isEmpty()) {
-            return -1;
-        }
-        int res = Integer.MAX_VALUE;
-        for (int i = 0; i < tarIndex.size(); ++i) {
-            res = Math.min(res, Math.abs(tarIndex.get(i) - startIndex));
-        }
-        res = Math.min(res, Math.abs(words.length - tarIndex.get(tarIndex.size() - 1) + startIndex));
-        res = Math.min(res, Math.abs(words.length - startIndex + tarIndex.get(0)));
-        return res;
-
-
+        return res == n ? -1 : res;
 
     }
 
+    // 6270. 每种字符至少取 K 个
     public int takeCharacters(String s, int k) {
-        if (k == 0) {
-            return 0;
-        }
         int[] counts = new int[3];
         for (char ch : s.toCharArray()) {
             ++counts[ch - 'a'];
@@ -2853,24 +2738,83 @@ public class Leetcode_6 {
             }
         }
 
+        int n = s.length();
         int[] cur = new int[3];
-        int res = s.length();
+        int res = n;
         int i = 0;
         int j = 0;
-        while (j < s.length()) {
+        while (j < n) {
             ++cur[s.charAt(j) - 'a'];
             while (cur[0] > counts[0] || cur[1] > counts[1] || cur[2] > counts[2]) {
                 --cur[s.charAt(i) - 'a'];
                 ++i;
             }
-            res = Math.min(res, s.length() - (j - i + 1));
+            res = Math.min(res, n - (j - i + 1));
             ++j;
         }
         return res;
-        
 
     }
 
+    // 6295. 最小化两个数组中的最大值
+    // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
+    // uniqueCnt2) {
 
+    // }
+
+    // 6276. 统计同位异构字符串数目
+    // public int countAnagrams(String s) {
+
+    // }
+
+    // 6271. 礼盒的最大甜蜜度
+    // public int maximumTastiness(int[] price, int k) {
+
+    // }
+
+    // 6272. 好分区的数目
+    // public int countPartitions(int[] nums, int k) {
+
+    // }
+
+    // 1372. 二叉树中的最长交错路径 (Longest ZigZag Path in a Binary Tree)
+    // public int longestZigZag(TreeNode root) {
+
+    // }
+
+    // 549. 二叉树中最长的连续序列 (Binary Tree Longest Consecutive Sequence II) --plus
+    // public int longestConsecutive(TreeNode root) {
+
+    // }
+
+    // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
+    // public int[] countRectangles(int[][] rectangles, int[][] points) {
+
+    // }
+
+    // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
+    // public int maxProfit(int[] inventory, int orders) {
+
+    // }
+
+    // 1562. 查找大小为 M 的最新分组 (Find Latest Group of Size M)
+    // public int findLatestStep(int[] arr, int m) {
+
+    // }
+
+    // 813. 最大平均值和的分组 (Largest Sum of Averages)
+    // public double largestSumOfAverages(int[] nums, int k) {
+
+    // }
+
+    // 2484. 统计回文子序列数目 (Count Palindromic Subsequences)
+    // public int countPalindromes(String s) {
+
+    // }
+
+    // 2466. 统计构造好字符串的方案数 (Count Ways To Build Good Strings)
+    // public int countGoodStrings(int low, int high, int zero, int one) {
+
+    // }
 
 }
