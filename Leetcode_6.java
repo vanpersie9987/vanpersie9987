@@ -2755,7 +2755,8 @@ public class Leetcode_6 {
 
     }
 
-    // 1989. 捉迷藏中可捕获的最大人数 (Maximum Number of People That Can Be Caught in Tag) --plus
+    // 1989. 捉迷藏中可捕获的最大人数 (Maximum Number of People That Can Be Caught in Tag)
+    // --plus
     public int catchMaximumAmountofPeople(int[] team, int dist) {
         int n = team.length;
         // 人
@@ -2892,6 +2893,59 @@ public class Leetcode_6 {
             }
         }
         return index == n;
+
+    }
+    
+    // 1730. 获取食物的最短路径 (Shortest Path to Get Food) --plus
+    public int getFood(char[][] grid) {
+        int[][] directions = { { 0, -1 }, { 0, 1 }, { -1, 0 }, { 1, 0 } };
+        int m = grid.length;
+        int n = grid[0].length;
+        int x = -1;
+        int y = -1;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == '*') {
+                    x = i;
+                    y = j;
+                    break;
+                }
+            }
+            if (x != -1) {
+                break;
+            }
+        }
+        int res = 0;
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] { x, y });
+        grid[x][y] = 'X';
+        while (!queue.isEmpty()) {
+            ++res;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = queue.poll();
+                x = cur[0];
+                y = cur[1];
+                for (int[] d : directions) {
+                    int nx = x + d[0];
+                    int ny = y + d[1];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                        if (grid[nx][ny] == '#') {
+                            return res;
+                        }
+                        if (grid[nx][ny] == 'X') {
+                            continue;
+                        }
+                        grid[nx][ny] = 'X';
+                        queue.offer(new int[] { nx, ny });
+                    }
+
+                }
+
+            }
+
+        }
+        return -1;
 
     }
 
