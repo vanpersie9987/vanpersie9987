@@ -2855,6 +2855,46 @@ public class Leetcode_6 {
 
     }
 
+    // 444. 序列重建 (Sequence Reconstruction) --plus
+    public boolean sequenceReconstruction(int[] nums, List<List<Integer>> sequences) {
+        int n = nums.length;
+        int[] degees = new int[n + 1];
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (List<Integer> sequence : sequences) {
+            for (int i = 0; i < sequence.size() - 1; ++i) {
+                graph.computeIfAbsent(sequence.get(i), k -> new ArrayList<>()).add(sequence.get(i + 1));
+                ++degees[sequence.get(i + 1)];
+            }
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 1; i <= n; ++i) {
+            if (degees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        int index = 0;
+        while (!queue.isEmpty()) {
+            int x = queue.poll();
+            if (!queue.isEmpty()) {
+                return false;
+            }
+            if (index == n) {
+                return false;
+            }
+            if (x != nums[index]) {
+                return false;
+            }
+            ++index;
+            for (int y : graph.getOrDefault(x, new ArrayList<>())) {
+                if (--degees[y] == 0) {
+                    queue.offer(y);
+                }
+            }
+        }
+        return index == n;
+
+    }
+
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
     // uniqueCnt2) {
