@@ -2788,6 +2788,22 @@ public class Leetcode_6 {
 
     }
 
+    // 1272. 删除区间 (Remove Interval) --plus
+    public List<List<Integer>> removeInterval(int[][] intervals, int[] toBeRemoved) {
+        List<List<Integer>> res = new ArrayList<>();
+        for (int[] interval : intervals) {
+            if (interval[0] < toBeRemoved[0]) {
+                res.add(List.of(interval[0], Math.min(interval[1], toBeRemoved[0])));
+            }
+
+            if (interval[1] > toBeRemoved[1]) {
+                res.add(List.of(Math.max(interval[0], toBeRemoved[1]), interval[1]));
+            }
+
+        }
+        return res;
+    }
+
     // 2093. 前往目标城市的最小费用 (Minimum Cost to Reach City With Discounts) --plus
     // public int minimumCost(int n, int[][] highways, int discounts) {
 
