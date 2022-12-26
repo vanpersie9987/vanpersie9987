@@ -2805,9 +2805,55 @@ public class Leetcode_6 {
     }
 
     // 2093. 前往目标城市的最小费用 (Minimum Cost to Reach City With Discounts) --plus
-    // public int minimumCost(int n, int[][] highways, int discounts) {
+    public int minimumCost(int n, int[][] highways, int discounts) {
+        Map<Integer, List<int[]>> graph = new HashMap<>();
+        for (int[] highway : highways) {
+            graph.computeIfAbsent(highway[0], k -> new ArrayList<>()).add(new int[] { highway[1], highway[2] });
+            graph.computeIfAbsent(highway[1], k -> new ArrayList<>()).add(new int[] { highway[0], highway[2] });
+        }
+        int[][] fees = new int[n][discounts + 1];
+        for (int i = 1; i < n; ++i) {
+            Arrays.fill(fees[i], Integer.MAX_VALUE);
+        }
+        Queue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
 
-    // }
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[2] - o2[2];
+            }
+
+        });
+        // node, usedDiscounts, fee
+        queue.offer(new int[] { 0, 0, 0 });
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int usedDiscounts = cur[1];
+            int xFee = cur[2];
+            if (x == n - 1) {
+                return xFee;
+            }
+            for (int[] neighbor : graph.getOrDefault(x, new ArrayList<>())) {
+                int y = neighbor[0];
+                int fee = neighbor[1];
+                if (usedDiscounts < discounts) {
+                    int nFee2 = xFee + fee / 2;
+                    if (nFee2 < fees[y][usedDiscounts + 1]) {
+                        fees[y][usedDiscounts + 1] = nFee2;
+                        queue.offer(new int[] { y, usedDiscounts + 1, nFee2 });
+                    }
+                }
+                int nFee = fee + xFee;
+                if (nFee < fees[y][usedDiscounts]) {
+                    fees[y][usedDiscounts] = nFee;
+                    queue.offer(new int[] { y, usedDiscounts, nFee });
+                }
+
+            }
+        }
+        return -1;
+
+    }
 
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
