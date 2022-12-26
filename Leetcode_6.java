@@ -2895,6 +2895,16 @@ public class Leetcode_6 {
 
     }
 
+    // 2077. 殊途同归 (Paths in Maze That Lead to Same Room) --plus
+    // public int numberOfPaths(int n, int[][] corridors) {
+
+    // }
+
+    // 2473. Minimum Cost to Buy Apples --plus
+    // public long[] minCost(int n, int[][] roads, int[] appleCost, int k) {
+
+    // }
+
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
     // uniqueCnt2) {
