@@ -15,6 +15,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.IntStream;
 
+import javax.print.attribute.standard.PrinterURI;
+
 public class Leetcode_6 {
     public static void main(String[] args) {
         // String[] strs = { "1.500", "2.500", "3.500" };
@@ -3082,6 +3084,58 @@ public class Leetcode_6 {
         }
         return res;
 
+    }
+
+    // 1244. 力扣排行榜 (Design A Leaderboard) --plus
+    class Leaderboard {
+        private TreeMap<Integer, Set<Integer>> treeMap;
+        private Map<Integer, Integer> map;
+
+        public Leaderboard() {
+            treeMap = new TreeMap<>(new Comparator<Integer>() {
+
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return o2 - o1;
+                }
+
+            });
+            map = new HashMap<>();
+        }
+
+        public void addScore(int playerId, int score) {
+            int originalScore = map.getOrDefault(playerId, 0);
+            map.put(playerId, map.getOrDefault(playerId, 0) + score);
+            treeMap.getOrDefault(originalScore, new HashSet<>()).remove(playerId);
+            if (treeMap.getOrDefault(originalScore, new HashSet<>()).isEmpty()) {
+                treeMap.remove(originalScore);
+            }
+            treeMap.computeIfAbsent(score + originalScore, k -> new HashSet<>()).add(playerId);
+
+        }
+
+        public int top(int K) {
+            int sum = 0;
+            for (Map.Entry<Integer, Set<Integer>> entry : treeMap.entrySet()) {
+                int size = entry.getValue().size();
+                if (K <= size) {
+                    sum += entry.getKey() * K;
+                    break;
+                }
+                sum += entry.getKey() * size;
+                K -= size;
+            }
+            return sum;
+
+        }
+
+        public void reset(int playerId) {
+            int score = map.remove(playerId);
+            treeMap.get(score).remove(playerId);
+            if (treeMap.get(score).isEmpty()) {
+                treeMap.remove(score);
+            }
+        }
     }
 
     // 2077. 殊途同归 (Paths in Maze That Lead to Same Room) --plus
