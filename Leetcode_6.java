@@ -15,8 +15,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.IntStream;
 
-import javax.print.attribute.standard.PrinterURI;
-
 public class Leetcode_6 {
     public static void main(String[] args) {
         // String[] strs = { "1.500", "2.500", "3.500" };
