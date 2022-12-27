@@ -3056,6 +3056,34 @@ public class Leetcode_6 {
         return false;
     }
 
+    // 1868. 两个行程编码数组的积 (Product of Two Run-Length Encoded Arrays) --plus
+    public List<List<Integer>> findRLEArray(int[][] encoded1, int[][] encoded2) {
+        int i = 0;
+        int j = 0;
+        int n1 = encoded1.length;
+        List<List<Integer>> res = new ArrayList<>();
+        while (i < n1) {
+            int count = Math.min(encoded1[i][1], encoded2[j][1]);
+            int num = encoded1[i][0] * encoded2[j][0];
+            int size = res.size();
+            if (size != 0 && res.get(size - 1).get(0) == num) {
+                res.set(size - 1, List.of(num, res.get(size - 1).get(1) + count));
+            } else {
+                res.add(List.of(num, count));
+            }
+            encoded1[i][1] -= count;
+            encoded2[j][1] -= count;
+            if (encoded1[i][1] == 0) {
+                ++i;
+            }
+            if (encoded2[j][1] == 0) {
+                ++j;
+            }
+        }
+        return res;
+
+    }
+
     // 2077. 殊途同归 (Paths in Maze That Lead to Same Room) --plus
     // public int numberOfPaths(int n, int[][] corridors) {
 
