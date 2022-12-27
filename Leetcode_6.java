@@ -2967,6 +2967,39 @@ public class Leetcode_6 {
         return dfs1430(root.left, arr, index + 1) || dfs1430(root.right, arr, index + 1);
     }
 
+    // 1429. 第一个唯一数字 (First Unique Number) --plus
+    class FirstUnique {
+        private Map<Integer, Integer> counts;
+        private List<Integer> list;
+        private int index;
+
+        public FirstUnique(int[] nums) {
+            list = new ArrayList<>();
+            counts = new HashMap<>();
+            for (int num : nums) {
+                list.add(num);
+                counts.put(num, counts.getOrDefault(num, 0) + 1);
+            }
+        }
+
+        public int showFirstUnique() {
+            int n = list.size();
+            while (index < n) {
+                if (counts.get(list.get(index)) == 1) {
+                    return list.get(index);
+                }
+                ++index;
+            }
+            return -1;
+
+        }
+
+        public void add(int value) {
+            list.add(value);
+            counts.put(value, counts.getOrDefault(value, 0) + 1);
+        }
+    }
+
     // 2077. 殊途同归 (Paths in Maze That Lead to Same Room) --plus
     // public int numberOfPaths(int n, int[][] corridors) {
 
