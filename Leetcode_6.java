@@ -3027,6 +3027,35 @@ public class Leetcode_6 {
         }
     }
 
+    // 1891. 割绳子 (Cutting Ribbons) --plus
+    public int maxLength(int[] ribbons, int k) {
+        int left = 1;
+        int right = (int) 1e5;
+        int res = 0;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (check1891(ribbons, mid, k)) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean check1891(int[] ribbons, int target, int k) {
+        int count = 0;
+        for (int ribbon : ribbons) {
+            count += ribbon / target;
+            if (count >= k) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // 2077. 殊途同归 (Paths in Maze That Lead to Same Room) --plus
     // public int numberOfPaths(int n, int[][] corridors) {
 
