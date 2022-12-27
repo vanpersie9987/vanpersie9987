@@ -16325,22 +16325,25 @@ public class LeetCodeText {
     // 1750. 删除字符串两端相同字符后的最短长度 (Minimum Length of String After Deleting Similar
     // Ends)
     public int minimumLength(String s) {
-        int left = 0;
-        int right = s.length() - 1;
-        while (left < right) {
-            if (s.charAt(left) != s.charAt(right)) {
-                return right - left + 1;
+        int n = s.length();
+        int i = 0;
+        int j = n - 1;
+        while (i < j) {
+            if (s.charAt(i) != s.charAt(j)) {
+                break;
             }
-            while (left < right && s.charAt(left) == s.charAt(left + 1)) {
-                ++left;
+            char c = s.charAt(i);
+            while (i < j && s.charAt(i) == c) {
+                ++i;
             }
-            while (left < right && s.charAt(right) == s.charAt(right - 1)) {
-                --right;
+            if (i == j) {
+                return 0;
             }
-            ++left;
-            --right;
+            while (i < j && s.charAt(j) == c) {
+                --j;
+            }
         }
-        return Math.max(right - left + 1, 0);
+        return j - i + 1;
 
     }
 
