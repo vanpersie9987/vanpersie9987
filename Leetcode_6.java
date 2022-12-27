@@ -3000,6 +3000,33 @@ public class Leetcode_6 {
         }
     }
 
+    // 1166. 设计文件系统 (Design File System) --plus
+    class FileSystem {
+        private Map<String, Integer> map;
+
+        public FileSystem() {
+            map = new HashMap<>();
+        }
+
+        public boolean createPath(String path, int value) {
+            if (map.containsKey(path)) {
+                return false;
+            }
+            int index = path.lastIndexOf("/");
+            String fa = path.substring(0, index);
+
+            if (!"".equals(fa) && !map.containsKey(fa)) {
+                return false;
+            }
+            map.put(path, value);
+            return true;
+        }
+
+        public int get(String path) {
+            return map.getOrDefault(path, -1);
+        }
+    }
+
     // 2077. 殊途同归 (Paths in Maze That Lead to Same Room) --plus
     // public int numberOfPaths(int n, int[][] corridors) {
 
