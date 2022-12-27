@@ -2949,6 +2949,24 @@ public class Leetcode_6 {
 
     }
 
+    // 1430. 判断给定的序列是否是二叉树从根到叶的路径 (Check If a String Is a Valid Sequence from Root
+    // to Leaves Path in a Binary Tree)
+    public boolean isValidSequence(TreeNode root, int[] arr) {
+        return dfs1430(root, arr, 0);
+
+    }
+
+    private boolean dfs1430(TreeNode root, int[] arr, int index) {
+        if (root == null || arr[index] != root.val) {
+            return false;
+        }
+        if (index == arr.length - 1) {
+            return root.left == null && root.right == null;
+
+        }
+        return dfs1430(root.left, arr, index + 1) || dfs1430(root.right, arr, index + 1);
+    }
+
     // 2077. 殊途同归 (Paths in Maze That Lead to Same Room) --plus
     // public int numberOfPaths(int n, int[][] corridors) {
 
