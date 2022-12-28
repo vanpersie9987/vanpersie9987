@@ -3272,9 +3272,25 @@ public class Leetcode_6 {
     }
 
     // 2077. 殊途同归 (Paths in Maze That Lead to Same Room) --plus
-    // public int numberOfPaths(int n, int[][] corridors) {
+    public int numberOfPaths(int n, int[][] corridors) {
+        Map<Integer, Set<Integer>> graph = new HashMap<>();
+        for (int[] corridor : corridors) {
+            graph.computeIfAbsent(corridor[0], k -> new HashSet<>()).add(corridor[1]);
+            graph.computeIfAbsent(corridor[1], k -> new HashSet<>()).add(corridor[0]);
+        }
+        int res = 0;
+        for (int[] corridor : corridors) {
+            Set<Integer> set1 = graph.getOrDefault(corridor[0], new HashSet<>());
+            Set<Integer> set2 = graph.getOrDefault(corridor[1], new HashSet<>());
+            for (int x : set1) {
+                if (set2.contains(x)) {
+                    ++res;
+                }
+            }
+        }
+        return res / 3;
 
-    // }
+    }
 
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
