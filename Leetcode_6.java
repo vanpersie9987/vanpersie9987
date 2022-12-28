@@ -3153,42 +3153,72 @@ public class Leetcode_6 {
 
     // 1786. 从第一个节点出发到最后一个节点的受限路径数 (Number of Restricted Paths From First to Last
     // Node)
-    // public int countRestrictedPaths(int n, int[][] edges) {
-    //     Map<Integer, List<int[]>> graph = new HashMap<>();
-    //     for (int[] edge : edges) {
-    //         graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(new int[] { edge[1], edge[2] });
-    //         graph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(new int[] { edge[0], edge[2] });
-    //     }
-    //     int[] dist = new int[n + 1];
-    //     Arrays.fill(dist, Integer.MAX_VALUE);
-    //     dist[n] = 0;
-    //     Queue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
+    public int countRestrictedPaths(int n, int[][] edges) {
+        Map<Integer, List<int[]>> graph = new HashMap<>();
+        for (int[] edge : edges) {
+            graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(new int[] { edge[1], edge[2] });
+            graph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(new int[] { edge[0], edge[2] });
+        }
+        int[] dist = new int[n + 1];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[n] = 0;
+        Queue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
 
-    //         @Override
-    //         public int compare(int[] o1, int[] o2) {
-    //             return o1[1] - o2[1];
-    //         }
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[1] - o2[1];
+            }
 
-    //     });
-    //     queue.offer(new int[] { n, 0 });
-    //     while (!queue.isEmpty()) {
-    //         int[] cur = queue.poll();
-    //         int x = cur[0];
-    //         int d = cur[1];
-    //         if (d > dist[x]) {
-    //             continue;
-    //         }
-    //         for (int[] neighbor : graph.getOrDefault(x, new ArrayList<>())) {
-    //             int y = neighbor[0];
-    //             int nDist = d + neighbor[1];
-    //             if (nDist < dist[y]) {
-    //                 dist[y] = nDist;
-    //                 queue.offer(new int[] { y, nDist });
-    //             }
-    //         }
-    //     }
+        });
+        queue.offer(new int[] { n, 0 });
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int d = cur[1];
+            if (d > dist[x]) {
+                continue;
+            }
+            for (int[] neighbor : graph.getOrDefault(x, new ArrayList<>())) {
+                int y = neighbor[0];
+                int nDist = d + neighbor[1];
+                if (nDist < dist[y]) {
+                    dist[y] = nDist;
+                    queue.offer(new int[] { y, nDist });
+                }
+            }
+        }
+        int[][] ids = new int[n][2];
+        for (int i = 0; i < n; ++i) {
+            ids[i][0] = i + 1;
+            ids[i][1] = dist[i + 1];
+        }
+        Arrays.sort(ids, new Comparator<int[]>() {
 
-    // }
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[1] - o2[1];
+            }
+
+        });
+        final int mod = (int) (1e9 + 7);
+        int[] dp = new int[n + 1];
+        dp[n] = 1;
+        for (int i = 0; i < n; ++i) {
+            int x = ids[i][0];
+            int d = ids[i][1];
+            for (int[] neighbor : graph.getOrDefault(x, new ArrayList<>())) {
+                int y = neighbor[0];
+                if (dist[y] < d) {
+                    dp[x] = (dp[x] + dp[y]) % mod;
+                }
+            }
+            if (x == 1) {
+                break;
+            }
+        }
+        return dp[1];
+
+    }
 
     // 2077. 殊途同归 (Paths in Maze That Lead to Same Room) --plus
     // public int numberOfPaths(int n, int[][] corridors) {
