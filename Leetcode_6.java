@@ -2895,7 +2895,7 @@ public class Leetcode_6 {
         return index == n;
 
     }
-    
+
     // 1730. 获取食物的最短路径 (Shortest Path to Get Food) --plus
     public int getFood(char[][] grid) {
         int[][] directions = { { 0, -1 }, { 0, 1 }, { -1, 0 }, { 1, 0 } };
@@ -3248,6 +3248,7 @@ public class Leetcode_6 {
             }
         });
 
+        long res = appleCost[start];
         queue.offer(new long[] { start, 0l });
         while (!queue.isEmpty()) {
             long[] cur = queue.poll();
@@ -3256,25 +3257,18 @@ public class Leetcode_6 {
             if (d > dis[x]) {
                 continue;
             }
+            res = Math.min(res, d + appleCost[x]);
             for (int[] neighbor : graph.getOrDefault(x, new ArrayList<>())) {
                 int y = neighbor[0];
                 long fee = neighbor[1];
                 long total = d + fee + fee * k;
                 if (total < dis[y]) {
-                    dis[y] = total;
+                    dis[y] = Math.min(dis[y], total);
                     queue.offer(new long[] { y, total });
                 }
             }
         }
-        long res = appleCost[start];
-        for (int i = 0; i < n; ++i) {
-            if (dis[i] != Long.MAX_VALUE) {
-                res = Math.min(res, dis[i] + appleCost[i]);
-            }
-
-        }
         return res;
-
     }
 
     // 2077. 殊途同归 (Paths in Maze That Lead to Same Room) --plus
