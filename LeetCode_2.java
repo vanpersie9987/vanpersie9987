@@ -31,48 +31,23 @@ public class LeetCode_2 {
 
    // 2032. 至少在两个数组中出现的值 (Two Out of Three)
    public List<Integer> twoOutOfThree(int[] nums1, int[] nums2, int[] nums3) {
-      int[] count1 = new int[101];
-      for (int num : nums1) {
-         count1[num] = 1;
-      }
-      int[] count2 = new int[101];
-      for (int num : nums2) {
-         count2[num] = 1;
-      }
-      int[] count3 = new int[101];
-      for (int num : nums3) {
-         count3[num] = 1;
-      }
+      int[] counts = new int[101];
+      getCounts2032(nums1, 1 << 0, counts);
+      getCounts2032(nums2, 1 << 1, counts);
+      getCounts2032(nums3, 1 << 2, counts);
       List<Integer> res = new ArrayList<>();
       for (int i = 1; i <= 100; ++i) {
-         if (count1[i] + count2[i] + count3[i] > 1) {
+         if (Integer.bitCount(counts[i]) >= 2) {
             res.add(i);
          }
       }
       return res;
-
    }
 
-   // 2032. 至少在两个数组中出现的值 (Two Out of Three)
-   public List<Integer> twoOutOfThree2(int[] nums1, int[] nums2, int[] nums3) {
-      int[] arr = new int[101];
-      for (int num : nums1) {
-         arr[num] |= 1 << 0;
+   private void getCounts2032(int[] nums, int mask, int[] counts) {
+      for (int num : nums) {
+         counts[num] |= mask;
       }
-      for (int num : nums2) {
-         arr[num] |= 1 << 1;
-      }
-      for (int num : nums3) {
-         arr[num] |= 1 << 2;
-      }
-      List<Integer> res = new ArrayList<>();
-      for (int i = 1; i <= 100; ++i) {
-         if ((arr[i] & (arr[i] - 1)) != 0) {
-            res.add(i);
-         }
-      }
-      return res;
-
    }
 
    // 215. 数组中的第K个最大元素 (Kth Largest Element in an Array) 需掌握官方题解的方法
