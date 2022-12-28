@@ -3263,7 +3263,7 @@ public class Leetcode_6 {
                 long fee = neighbor[1];
                 long total = d + fee + fee * k;
                 if (total < dis[y]) {
-                    dis[y] = Math.min(dis[y], total);
+                    dis[y] = total;
                     queue.offer(new long[] { y, total });
                 }
             }
