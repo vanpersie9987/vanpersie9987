@@ -3136,6 +3136,21 @@ public class Leetcode_6 {
         }
     }
 
+    // 2495. 乘积为偶数的子数组数 (Number of Subarrays Having Even Product) --plus
+    public long evenProduct(int[] nums) {
+        int n = nums.length;
+        long res = 0l;
+        int lastEvenIndex = -1;
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] % 2 == 0) {
+                lastEvenIndex = i;
+            }
+            res += lastEvenIndex + 1;
+        }
+        return res;
+
+    }
+
     // 1786. 从第一个节点出发到最后一个节点的受限路径数 (Number of Restricted Paths From First to Last
     // Node)
     // public int countRestrictedPaths(int n, int[][] edges) {
