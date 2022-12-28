@@ -3220,13 +3220,65 @@ public class Leetcode_6 {
 
     }
 
+    // 2473. Minimum Cost to Buy Apples --plus
+    public long[] minCost(int n, int[][] roads, int[] appleCost, int k) {
+        long[] res = new long[n];
+        Map<Integer, List<int[]>> graph = new HashMap<>();
+        for (int[] road : roads) {
+            graph.computeIfAbsent(road[0] - 1, o -> new ArrayList<>()).add(new int[] { road[1] - 1, road[2] });
+            graph.computeIfAbsent(road[1] - 1, o -> new ArrayList<>()).add(new int[] { road[0] - 1, road[2] });
+        }
+        for (int i = 0; i < n; ++i) {
+            res[i] = dijkstra2473(i, graph, appleCost, k);
+        }
+        return res;
+
+    }
+
+    private long dijkstra2473(int start, Map<Integer, List<int[]>> graph, int[] appleCost, int k) {
+        int n = appleCost.length;
+        long[] dis = new long[n];
+        Arrays.fill(dis, Long.MAX_VALUE);
+        dis[start] = 0;
+        Queue<long[]> queue = new PriorityQueue<>(new Comparator<long[]>() {
+
+            @Override
+            public int compare(long[] o1, long[] o2) {
+                return Long.valueOf(o1[1]).compareTo(Long.valueOf(o2[1]));
+            }
+        });
+
+        queue.offer(new long[] { start, 0l });
+        while (!queue.isEmpty()) {
+            long[] cur = queue.poll();
+            int x = (int) cur[0];
+            long d = cur[1];
+            if (d > dis[x]) {
+                continue;
+            }
+            for (int[] neighbor : graph.getOrDefault(x, new ArrayList<>())) {
+                int y = neighbor[0];
+                long fee = neighbor[1];
+                long total = d + fee + fee * k;
+                if (total < dis[y]) {
+                    dis[y] = total;
+                    queue.offer(new long[] { y, total });
+                }
+            }
+        }
+        long res = appleCost[start];
+        for (int i = 0; i < n; ++i) {
+            if (dis[i] != Long.MAX_VALUE) {
+                res = Math.min(res, dis[i] + appleCost[i]);
+            }
+
+        }
+        return res;
+
+    }
+
     // 2077. 殊途同归 (Paths in Maze That Lead to Same Room) --plus
     // public int numberOfPaths(int n, int[][] corridors) {
-
-    // }
-
-    // 2473. Minimum Cost to Buy Apples --plus
-    // public long[] minCost(int n, int[][] roads, int[] appleCost, int k) {
 
     // }
 
