@@ -3304,6 +3304,46 @@ public class Leetcode_6 {
                 || flipEquiv(root1.left, root2.right) && flipEquiv(root1.right, root2.left);
     }
 
+    // 6271. 礼盒的最大甜蜜度
+    public int maximumTastiness(int[] price, int k) {
+        Arrays.sort(price);
+        int left = 0;
+        int max = 0;
+        int min = 0;
+        for (int p : price) {
+            max = Math.max(max, p);
+            min = Math.min(min, p);
+        }
+        int right = (max - min) / (k - 1);
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (check6271(price, mid) >= k) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+
+    }
+
+    private int check6271(int[] price, int target) {
+        int count = 0;
+        int n = price.length;
+        int pre = price[0];
+        int i = 1;
+        while (i < n) {
+            if (price[i] - pre >= target) {
+                ++count;
+                pre = price[i];
+            }
+            ++i;
+        }
+        return count == 0 ? 0 : count + 1;
+    }
+
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
     // uniqueCnt2) {
@@ -3312,11 +3352,6 @@ public class Leetcode_6 {
 
     // 6276. 统计同位异构字符串数目
     // public int countAnagrams(String s) {
-
-    // }
-
-    // 6271. 礼盒的最大甜蜜度
-    // public int maximumTastiness(int[] price, int k) {
 
     // }
 
