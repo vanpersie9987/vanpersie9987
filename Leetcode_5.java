@@ -8917,8 +8917,9 @@ public class Leetcode_5 {
         private int n;
 
         public ExamRoom(int n) {
-            this.set = new TreeSet<>();
+            set = new TreeSet<>();
             this.n = n;
+
         }
 
         public int seat() {
@@ -8926,41 +8927,36 @@ public class Leetcode_5 {
                 set.add(0);
                 return 0;
             }
-            int res = 0;
-            int maxInterval = 0;
-            int first = set.first();
-            if (first != 0) {
+            int d = 0;
+            int res = -1;
+            if (!set.contains(0)) {
+                d = set.first();
                 res = 0;
-                maxInterval = first;
             }
-            int last = set.last();
-            if (last != n - 1) {
-                int curInterval = n - 1 - last;
-                if (curInterval > maxInterval) {
-                    maxInterval = curInterval;
+            int pre = -1;
+            for (int pos : set) {
+                if (pre != -1) {
+                    if ((pos - pre) / 2 > d) {
+                        d = (pos - pre) / 2;
+                        res = pre + (pos - pre) / 2;
+                    }
+                }
+                pre = pos;
+            }
+            if (!set.contains(n - 1)) {
+                if (d < n - 1 - set.last()) {
+                    d = n - 1 - set.last();
                     res = n - 1;
                 }
             }
-
-            int pre = -1;
-            for (int p : set) {
-                if (pre != -1) {
-                    int interval = (p - pre) / 2;
-                    if (interval > maxInterval) {
-                        maxInterval = interval;
-                        res = pre + interval;
-                    } else if (interval == maxInterval && res > pre + interval) {
-                        res = pre + interval;
-                    }
-                }
-                pre = p;
-            }
             set.add(res);
             return res;
+
         }
 
         public void leave(int p) {
             set.remove(p);
+
         }
     }
 
