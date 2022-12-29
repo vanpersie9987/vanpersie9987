@@ -3292,6 +3292,18 @@ public class Leetcode_6 {
 
     }
 
+    // 951. 翻转等价二叉树 (Flip Equivalent Binary Trees)
+    public boolean flipEquiv(TreeNode root1, TreeNode root2) {
+        if (root1 == null || root2 == null) {
+            return root1 == null && root2 == null;
+        }
+        if (root1.val != root2.val) {
+            return false;
+        }
+        return flipEquiv(root1.left, root2.left) && flipEquiv(root1.right, root2.right)
+                || flipEquiv(root1.left, root2.right) && flipEquiv(root1.right, root2.left);
+    }
+
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
     // uniqueCnt2) {
