@@ -13,7 +13,10 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.Map.Entry;
 import java.util.stream.IntStream;
+
+import apple.laf.JRSUIUtils.Tree;
 
 public class Leetcode_6 {
     public static void main(String[] args) {
@@ -3380,6 +3383,22 @@ public class Leetcode_6 {
         }
         return res.toString();
 
+    }
+    
+    // 1902. 给定二叉搜索树的插入顺序求深度 (Depth of BST Given Insertion Order) --plus
+    public int maxDepthBST(int[] order) {
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        map.put(0, 0);
+        map.put(Integer.MAX_VALUE, 0);
+        map.put(order[0], 1);
+        int res = 1;
+        for (int i = 1; i < order.length; ++i) {
+            int val = order[i];
+            int max = Math.max(map.lowerEntry(val).getValue(), map.higherEntry(val).getValue()) + 1;
+            res = Math.max(res, max);
+            map.put(val, max);
+        }
+        return res;
 
     }
 
