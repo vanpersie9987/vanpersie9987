@@ -3344,6 +3344,45 @@ public class Leetcode_6 {
         return count == 0 ? 0 : count + 1;
     }
 
+    // 616. 给字符串添加加粗标签 (Add Bold Tag in String) --plus
+    // 758. 字符串中的加粗单词 (Bold Words in String) --plus
+    public String addBoldTag(String s, String[] words) {
+        int n = s.length();
+        boolean[] bold = new boolean[n];
+        for (int i = 0; i < n; ++i) {
+            search: for (String word : words) {
+                int k = i;
+                int j = 0;
+                int m = word.length();
+                while (k < n && j < m) {
+                    if (s.charAt(k) != word.charAt(j)) {
+                        continue search;
+                    }
+                    ++k;
+                    ++j;
+                }
+                if (j == m) {
+                    for (int x = i; x < i + m; ++x) {
+                        bold[x] = true;
+                    }
+                }
+            }
+        }
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < n; ++i) {
+            if (bold[i] && (i == 0 || !bold[i - 1])) {
+                res.append("<b>");
+            }
+            res.append(s.charAt(i));
+            if (bold[i] && (i == n - 1 || !bold[i + 1])) {
+                res.append("</b>");
+            }
+        }
+        return res.toString();
+
+
+    }
+
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
     // uniqueCnt2) {
