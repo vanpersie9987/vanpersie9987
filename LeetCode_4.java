@@ -6078,16 +6078,16 @@ public class LeetCode_4 {
         return maxLen;
     }
 
-    // 6124. 第一个出现两次的字母
+    // 2351. 第一个出现两次的字母 (First Letter to Appear Twice)
     public char repeatedCharacter(String s) {
-        Set<Character> set = new HashSet<>();
+        int mask = 0;
         for (char c : s.toCharArray()) {
-            if (set.contains(c)) {
+            if ((mask | (1 << (c - 'a'))) == mask) {
                 return c;
             }
-            set.add(c);
+            mask |= 1 << (c - 'a');
         }
-        return '1';
+        throw new IllegalStateException();
 
     }
 
