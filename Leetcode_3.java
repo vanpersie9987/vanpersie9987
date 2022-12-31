@@ -7053,6 +7053,25 @@ public class Leetcode_3 {
         return qCopy;
     }
 
+    // 236. 二叉树的最近公共祖先 (Lowest Common Ancestor of a Binary Tree) --dfs
+    // 剑指 Offer 68 - II. 二叉树的最近公共祖先
+    // 面试题 04.08. 首个共同祖先 (First Common Ancestor LCCI) --dfs
+    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == p || root == q || root == null) {
+            return root;
+        }
+        TreeNode left = lowestCommonAncestor2(root.left, p, q);
+        TreeNode right = lowestCommonAncestor2(root.right, p, q);
+        if (left == null) {
+            return right;
+        }
+        if (right == null) {
+            return left;
+        }
+        return root;
+
+    }
+
     // 1311. 获取你好友已观看的视频 (Get Watched Videos by Your Friends) --bfs
     public List<String> watchedVideosByFriends(List<List<String>> watchedVideos, int[][] friends, int id, int level) {
         int n = watchedVideos.size();
