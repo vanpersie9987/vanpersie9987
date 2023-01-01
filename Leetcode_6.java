@@ -3461,12 +3461,26 @@ public class Leetcode_6 {
 
     // 6280. 范围内最接近的两个质数
     public int[] closestPrimes(int left, int right) {
+        boolean[] isPrim = new boolean[right + 1];
+        Arrays.fill(isPrim, true);
+        isPrim[1] = false;
+        // 从 2 开始枚举到 sqrt(n)。
+        for (int i = 2; i * i <= right; i++) {
+            // 如果当前是素数
+            if (isPrim[i]) {
+                // 就把从 i*i 开始，i 的所有倍数都设置为 false。
+                for (int j = i * i; j <= right; j += i) {
+                    isPrim[j] = false;
+                }
+            }
+        }
+
+        int[] res = { -1, -1 };
         int num1 = -1;
         int num2 = -1;
         int diff = Integer.MAX_VALUE;
-        int[] res = { -1, -1 };
-        for (int i = left; i <= right; ++i) {
-            if (isPrime6280(i)) {
+        for (int i = left; i <= right; i++) {
+            if (isPrim[i]) {
                 num1 = num2;
                 num2 = i;
                 if (num1 != -1 && num2 != -1) {
@@ -3479,18 +3493,6 @@ public class Leetcode_6 {
         }
         return res;
 
-    }
-
-    public boolean isPrime6280(int n) {
-        if (n == 1) {
-            return false;
-        }
-        for (int i = 2; i * i <= n; i++) {
-            if (n % i == 0) {
-                return false;
-            }
-        }
-        return true;
     }
 
     // 6295. 最小化两个数组中的最大值
