@@ -3399,6 +3399,100 @@ public class Leetcode_6 {
 
     }
 
+    // 6278. 统计能整除数字的位数
+    public int countDigits(int num) {
+        int copy = num;
+        int res = 0;
+        while (copy > 0) {
+            int mod = copy % 10;
+            if (num % mod == 0) {
+                ++res;
+            }
+            copy /= 10;
+        }
+        return res;
+
+
+    }
+
+    // 6279. 数组乘积中的不同质因数数目
+    public int distinctPrimeFactors(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            for (int i = 2; i * i <= num; ++i) {
+                while (num % i == 0) {
+                    set.add(i);
+                    num /= i;
+                }
+            }
+            if (num != 1) {
+                set.add(num);
+            }
+        }
+        return set.size();
+
+    }
+
+    // 6196. 将字符串分割成值不超过 K 的子字符串
+    public int minimumPartition(String s, int k) {
+        int res = 0;
+        int n = s.length();
+        int i = 0;
+        while (i < n) {
+            long num = s.charAt(i) - '0';
+            if (num > k) {
+                return -1;
+            }
+            int j = i + 1;
+            while (j < n) {
+                num = num * 10 + s.charAt(j) - '0';
+                if (num > k) {
+                    break;
+                }
+                ++j;
+            }
+            ++res;
+            i = j;
+
+        }
+        return res;
+
+    }
+
+    // 6280. 范围内最接近的两个质数
+    public int[] closestPrimes(int left, int right) {
+        int num1 = -1;
+        int num2 = -1;
+        int diff = Integer.MAX_VALUE;
+        int[] res = { -1, -1 };
+        for (int i = left; i <= right; ++i) {
+            if (isPrime6280(i)) {
+                num1 = num2;
+                num2 = i;
+                if (num1 != -1 && num2 != -1) {
+                    if (num2 - num1 < diff) {
+                        diff = num2 - num1;
+                        res = new int[] { num1, num2 };
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
+    public boolean isPrime6280(int n) {
+        if (n == 1) {
+            return false;
+        }
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
     // uniqueCnt2) {
