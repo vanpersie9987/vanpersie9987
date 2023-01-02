@@ -4887,31 +4887,29 @@ public class Leetcode_5 {
 
     // 2437. 有效时间的数目 (Number of Valid Clock Times)
     public int countTime(String time) {
-        int res = 0;
-        for (int i = 0; i <= 23; ++i) {
-            for (int j = 0; j <= 59; ++j) {
-                String curTime = String.format("%02d:%02d", i, j);
-                if (check2437(curTime, time)) {
-                    ++res;
-                }
-            }
-        }
-        return res;
+        String h = time.substring(0, 2);
+        int count1 = getCounts2437(h, 23);
+        String m = time.substring(3);
+        int count2 = getCounts2437(m, 59);
+        return count1 * count2;
 
     }
 
-    private boolean check2437(String s, String time) {
-        for (int i = 0; i < time.length(); ++i) {
-            if (time.charAt(i) == '?') {
-                continue;
+    private int getCounts2437(String h, int limit) {
+        int count = 0;
+        search: for (int i = 0; i <= limit; ++i) {
+            String t = String.format("%02d", i);
+            for (int j = 0; j < h.length(); ++j) {
+                if (h.charAt(j) == '?') {
+                    continue;
+                }
+                if (h.charAt(j) != t.charAt(j)) {
+                    continue search;
+                }
             }
-            if (time.charAt(i) != s.charAt(i)) {
-                return false;
-            }
-
+            ++count;
         }
-
-        return true;
+        return count;
     }
 
     // 2438. 二的幂数组中查询范围内的乘积 (Range Product Queries of Powers)
