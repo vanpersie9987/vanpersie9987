@@ -6090,55 +6090,40 @@ public class Leetcode_5 {
 
     }
 
-    // 6221. 最流行的视频创作者
+    // 2456. 最流行的视频创作者
     public List<List<String>> mostPopularCreator(String[] creators, String[] ids, int[] views) {
         int n = creators.length;
-        Map<String, Integer> map = new HashMap<>();
+        Map<String, TreeSet<Bean2456>> map = new HashMap<>();
+        Map<String, Long> maxMap = new HashMap<>();
+        long maxSum = 0l;
         for (int i = 0; i < n; ++i) {
-            String creator = creators[i];
-            map.put(creator, map.getOrDefault(creator, 0) + views[i]);
-        }
-        int max = Collections.max(map.values());
-        Map<String, Bean6221> countsMap = new HashMap<>();
-        for (String creator : creators) {
-            if (map.get(creator) == max) {
-                countsMap.put(creator, new Bean6221(0, ""));
-            }
-        }
-        for (int i = 0; i < n; ++i) {
-            if (countsMap.containsKey(creators[i])) {
-                Bean6221 bean = countsMap.get(creators[i]);
-                if (views[i] > bean.max) {
-                    bean.max = views[i];
-                    bean.ids = ids[i];
-                } else if (views[i] == bean.max) {
-                    if (bean.ids.isEmpty() || ids[i].compareTo(bean.ids) <= 0) {
-                        bean.ids = ids[i];
-                    }
-                }
-            }
+            map.computeIfAbsent(creators[i], k -> new TreeSet<>()).add(new Bean2456(ids[i], views[i]));
+            maxMap.put(creators[i], maxMap.getOrDefault(creators[i], 0l) + views[i]);
+            maxSum = Math.max(maxSum, maxMap.get(creators[i]));
         }
         List<List<String>> res = new ArrayList<>();
-        for (Map.Entry<String, Bean6221> entry : countsMap.entrySet()) {
-            List<String> list = new ArrayList<>();
-            list.add(entry.getKey());
-            list.add(entry.getValue().ids);
-            res.add(list);
+        for (Map.Entry<String, TreeSet<Bean2456>> entry : map.entrySet()) {
+            if (maxMap.get(entry.getKey()) == maxSum) {
+                res.add(List.of(entry.getKey(), entry.getValue().first().id));
+            }
         }
         return res;
 
     }
 
-    class Bean6221 {
-        int max;
-        String ids;
+    class Bean2456 implements Comparable<Bean2456> {
+        String id;
+        int score;
 
-        Bean6221(int max, String ids) {
-            this.max = max;
-            this.ids = ids;
-
+        public Bean2456(String id, int score) {
+            this.id = id;
+            this.score = score;
         }
 
+        @Override
+        public int compareTo(Bean2456 o) {
+            return this.score == o.score ? this.id.compareTo(o.id) : o.score - this.score;
+        }
     }
 
     // 6222. 美丽整数的最小增量
