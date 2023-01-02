@@ -2243,28 +2243,23 @@ public class Leetcode_5 {
 
     }
 
-    // 6184. 统计共同度过的日子数
+    // 2409. 统计共同度过的日子数
     public int countDaysTogether(String arriveAlice, String leaveAlice, String arriveBob, String leaveBob) {
         int[] prefix = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-        for (int i = 1; i < 13; ++i) {
+        for (int i = 1; i < prefix.length; ++i) {
             prefix[i] += prefix[i - 1];
         }
-        int startAlice = getDays6184(arriveAlice, prefix);
-        int endAlice = getDays6184(leaveAlice, prefix);
-        int startBob = getDays6184(arriveBob, prefix);
-        int endBob = getDays6184(leaveBob, prefix);
-
-        return Math.max(0, Math.min(endAlice, endBob) - Math.max(startAlice, startBob) + 1);
+        int a1 = getCounts2409(arriveAlice, prefix);
+        int a2 = getCounts2409(leaveAlice, prefix);
+        int b1 = getCounts2409(arriveBob, prefix);
+        int b2 = getCounts2409(leaveBob, prefix);
+        return Math.max(0, Math.min(a2, b2) - Math.max(a1, b1) + 1);
 
     }
 
-    private int getDays6184(String time, int[] prefix) {
-        int res = 0;
-        int month = Integer.parseInt(time.substring(0, 2));
-        res += prefix[month - 1];
-        int days = Integer.parseInt(time.substring(3));
-        res += days;
-        return res;
+    private int getCounts2409(String date, int[] prefix) {
+        int month = Integer.parseInt(date.substring(0, 2));
+        return prefix[month - 1] + Integer.parseInt(date.substring(3));
     }
 
     // 6185. 运动员和训练师的最大匹配数
