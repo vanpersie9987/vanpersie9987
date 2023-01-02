@@ -6212,32 +6212,28 @@ public class LeetCode_4 {
 
     }
 
-    // 6130. 设计数字容器系统
+    // 2349. 设计数字容器系统
     class NumberContainers {
-        private Map<Integer, Integer> map;
-        private Map<Integer, TreeSet<Integer>> map2;
+        private TreeMap<Integer, Integer> indexMap;
+        private Map<Integer, TreeSet<Integer>> map;
 
         public NumberContainers() {
+            indexMap = new TreeMap<>();
             map = new HashMap<>();
-            map2 = new HashMap<>();
         }
 
         public void change(int index, int number) {
-            int original = map.getOrDefault(index, 0);
-            if (original != 0) {
-                TreeSet<Integer> set = map2.getOrDefault(original, new TreeSet<>());
-                set.remove(index);
+            int original = indexMap.getOrDefault(index, -1);
+            if (original != -1) {
+                map.get(original).remove(index);
             }
-            map.put(index, number);
-            map2.computeIfAbsent(number, k -> new TreeSet<>()).add(index);
+            indexMap.put(index, number);
+            map.computeIfAbsent(number, k -> new TreeSet<>()).add(index);
         }
 
         public int find(int number) {
-            TreeSet<Integer> set = map2.getOrDefault(number, new TreeSet<>());
-            if (set.size() < 1) {
-                return -1;
-            }
-            return set.first();
+            TreeSet<Integer> set = map.getOrDefault(number, new TreeSet<>());
+            return set.isEmpty() ? -1 : set.first();
         }
     }
 
