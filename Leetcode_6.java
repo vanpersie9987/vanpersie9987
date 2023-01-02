@@ -3495,6 +3495,122 @@ public class Leetcode_6 {
 
     }
 
+    // 803. 打砖块 (Bricks Falling When Hit)
+    public int[] hitBricks(int[][] grid, int[][] hits) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] copy = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                copy[i][j] = grid[i][j];
+            }
+        }
+        for (int[] hit : hits) {
+            copy[hit[0]][hit[1]] = 0;
+        }
+        Union803 union = new Union803(m * n + 1);
+        int dummy = m * n;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (copy[i][j] == 0) {
+                    continue;
+                }
+                if (i == 0) {
+                    union.union(getIndex803(i, j, n), dummy);
+                } else {
+                    if (i - 1 >= 0 && copy[i - 1][j] == 1) {
+                        union.union(getIndex803(i, j, n), getIndex803(i - 1, j, n));
+                    }
+                    if (j - 1 >= 0 && copy[i][j - 1] == 1) {
+                        union.union(getIndex803(i, j, n), getIndex803(i, j - 1, n));
+                    }
+                }
+            }
+        }
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+
+        int[] res = new int[hits.length];
+        for (int i = hits.length - 1; i >= 0; --i) {
+            int x = hits[i][0];
+            int y = hits[i][1];
+            if (grid[x][y] == 0) {
+                continue;
+            }
+            int origin = union.getSize(dummy);
+            if (x == 0) {
+                union.union(getIndex803(x, y, n), dummy);
+            }
+            for (int[] direction : directions) {
+                int nx = x + direction[0];
+                int ny = y + direction[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && copy[nx][ny] == 1) {
+                    union.union(getIndex803(x, y, n), getIndex803(nx, ny, n));
+                }
+            }
+            int current = union.getSize(dummy);
+            res[i] = Math.max(0, current - origin - 1);
+            copy[x][y] = 1;
+        }
+        return res;
+
+    }
+
+    private int getIndex803(int i, int j, int n) {
+        return i * n + j;
+    }
+
+    public class Union803 {
+        private int[] rank;
+        private int[] parent;
+        private int[] size;
+
+        public Union803(int n) {
+            rank = new int[n];
+            parent = new int[n];
+            size = new int[n];
+            for (int i = 0; i < n; ++i) {
+                rank[i] = 1;
+                size[i] = 1;
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] > rank[root2]) {
+                parent[root2] = root1;
+                size[root1] += size[root2];
+            } else {
+                parent[root1] = root2;
+                size[root2] += size[root1];
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root2];
+                }
+            }
+        }
+
+        public int getSize(int p) {
+            int root = getRoot(p);
+            return size[root];
+        }
+
+    }
+
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
     // uniqueCnt2) {
