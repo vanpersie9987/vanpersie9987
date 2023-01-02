@@ -6111,56 +6111,59 @@ public class LeetCode_4 {
 
     }
 
-    // 6126. 设计食物评分系统
+    // 2353. 设计食物评分系统
     class FoodRatings {
-        public class Bean6126 implements Comparable<Bean6126> {
-            int ratings;
+        class Bean implements Comparable<Bean> {
             String food;
+            int rating;
 
-            public Bean6126(int ratings, String food) {
-                this.ratings = ratings;
+            Bean(String food, int rating) {
                 this.food = food;
+                this.rating = rating;
             }
 
             @Override
-            public int compareTo(FoodRatings.Bean6126 o) {
-                if (o.ratings == this.ratings) {
-                    return this.food.compareTo(o.food);
-                }
-                return o.ratings - this.ratings;
+            public int compareTo(Bean o) {
+                return o.rating == this.rating ? this.food.compareTo(o.food) : o.rating - this.rating;
+
             }
+
+            @Override
+            public boolean equals(Object obj) {
+                Bean b = (Bean) obj;
+                return b.food.equals(this.food) && b.rating == this.rating;
+            }
+
         }
 
-        private Map<String, Bean6126> foodToBean;
-        private Map<String, String> foodToCusine;
-
-        private Map<String, TreeSet<Bean6126>> cuisineToFoodRatings;
+        private TreeMap<String, TreeSet<Bean>> treeMap;
+        private Map<String, Integer> map;
+        private Map<String, String> cuiMap;
 
         public FoodRatings(String[] foods, String[] cuisines, int[] ratings) {
+            treeMap = new TreeMap<>();
+            map = new HashMap<>();
+            cuiMap = new HashMap<>();
             int n = foods.length;
-            foodToBean = new HashMap<>();
-            foodToCusine = new HashMap<>();
-            cuisineToFoodRatings = new HashMap<>();
             for (int i = 0; i < n; ++i) {
-                Bean6126 bean = new Bean6126(ratings[i], foods[i]);
-                foodToBean.put(foods[i], bean);
-                foodToCusine.put(foods[i], cuisines[i]);
-                cuisineToFoodRatings.computeIfAbsent(cuisines[i], k -> new TreeSet<>()).add(bean);
+                treeMap.computeIfAbsent(cuisines[i], k -> new TreeSet<>()).add(new Bean(foods[i], ratings[i]));
+                map.put(foods[i], ratings[i]);
+                cuiMap.put(foods[i], cuisines[i]);
             }
+
         }
 
         public void changeRating(String food, int newRating) {
-            String c = foodToCusine.get(food);
-            TreeSet<Bean6126> set = cuisineToFoodRatings.get(c);
-            set.remove(foodToBean.get(food));
-            Bean6126 bean = new Bean6126(newRating, food);
-            set.add(bean);
-            foodToBean.put(food, bean);
+            int old = map.get(food);
+            map.put(food, newRating);
+            String cui = cuiMap.get(food);
+            TreeSet<Bean> set = treeMap.get(cui);
+            set.remove(new Bean(food, old));
+            set.add(new Bean(food, newRating));
         }
 
         public String highestRated(String cuisine) {
-            TreeSet<Bean6126> set = cuisineToFoodRatings.get(cuisine);
-            return set.first().food;
+            return treeMap.get(cuisine).first().food;
         }
     }
 
