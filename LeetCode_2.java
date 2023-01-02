@@ -2949,22 +2949,23 @@ public class LeetCode_2 {
 
    // 2042. 检查句子中的数字是否递增 (Check if Numbers Are Ascending in a Sentence)
    public boolean areNumbersAscending(String s) {
-      String preNum = "0";
-      char[] chars = s.toCharArray();
-      for (int i = 0; i < chars.length; ++i) {
-         if (Character.isDigit(chars[i])) {
-            StringBuilder num = new StringBuilder();
-            num.append(chars[i]);
-            while (i + 1 < chars.length && Character.isDigit(chars[i + 1])) {
-               num.append(chars[i + 1]);
-               ++i;
-            }
-            if (num.length() < preNum.length()
-                  || (num.length() == preNum.length() && num.toString().compareTo(preNum) <= 0)) {
-               return false;
-            }
-            preNum = num.toString();
+      int n = s.length();
+      int i = 0;
+      int pre = -1;
+      while (i < n) {
+         if (!Character.isDigit(s.charAt(i))) {
+            ++i;
+            continue;
          }
+         int num = 0;
+         while (i < n && Character.isDigit(s.charAt(i))) {
+            num = num * 10 + s.charAt(i) - '0';
+            ++i;
+         }
+         if (pre >= num) {
+            return false;
+         }
+         pre = num;
       }
       return true;
 
