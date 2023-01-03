@@ -793,62 +793,53 @@ public class Leetcode_5 {
 
     // 2392. 给定条件下构造矩阵 (Build a Matrix With Conditions)
     public int[][] buildMatrix(int k, int[][] rowConditions, int[][] colConditions) {
-        int[] row = getTopologicalSort2392(rowConditions, k);
-        int[] col = getTopologicalSort2392(colConditions, k);
-        if (row.length < k || col.length < k) {
-            return new int[][] {};
+        int[] row = getTopologicalSort(rowConditions, k);
+        int[] col = getTopologicalSort(colConditions, k);
+        if (row == null || col == null) {
+            return new int[0][];
         }
-        int[] pos = new int[k];
+        Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < k; ++i) {
-            pos[col[i]] = i;
+            map.put(col[i], i);
         }
         int[][] res = new int[k][k];
         for (int i = 0; i < k; ++i) {
-            res[i][pos[row[i]]] = row[i] + 1;
+            int num = row[i];
+            int colIndex = map.get(num);
+            res[i][colIndex] = num;
         }
-
-        // int[][] res = new int[k][k];
-        // Map<Integer, List<Integer>> map = new HashMap<>();
-        // for (int i = 0; i < k; ++i) {
-        // map.computeIfAbsent(row[i], o -> new ArrayList<>()).add(i);
-        // }
-        // for (int i = 0; i < k; ++i) {
-        // map.computeIfAbsent(col[i], o -> new ArrayList<>()).add(i);
-        // }
-
-        // for (int key : map.keySet()) {
-        // res[map.get(key).get(0)][map.get(key).get(1)] = key + 1;
-        // }
         return res;
 
     }
 
-    private int[] getTopologicalSort2392(int[][] conditions, int k) {
+    private int[] getTopologicalSort(int[][] conditions, int k) {
+        int[] res = new int[k];
+        int[] degrees = new int[k + 1];
         Map<Integer, List<Integer>> graph = new HashMap<>();
-        int[] inDegrees = new int[k];
         for (int[] condition : conditions) {
-            graph.computeIfAbsent(condition[0] - 1, o -> new ArrayList<>()).add(condition[1] - 1);
-            ++inDegrees[condition[1] - 1];
+            graph.computeIfAbsent(condition[0], o -> new ArrayList<>()).add(condition[1]);
+            ++degrees[condition[1]];
         }
         Queue<Integer> queue = new LinkedList<>();
-        for (int i = 0; i < k; ++i) {
-            if (inDegrees[i] == 0) {
+        for (int i = 1; i <= k; ++i) {
+            if (degrees[i] == 0) {
                 queue.offer(i);
             }
         }
-        List<Integer> res = new ArrayList<>();
+        int count = 0;
         while (!queue.isEmpty()) {
-            int cur = queue.poll();
-            res.add(cur);
-            for (int neighbor : graph.getOrDefault(cur, new ArrayList<>())) {
-                --inDegrees[neighbor];
-                if (inDegrees[neighbor] == 0) {
-                    queue.offer(neighbor);
+            int x = queue.poll();
+            res[count++] = x;
+            for (int y : graph.getOrDefault(x, new ArrayList<>())) {
+                if (--degrees[y] == 0) {
+                    queue.offer(y);
                 }
             }
         }
-        return res.stream().mapToInt(o -> o).toArray();
-
+        if (count != k) {
+            return null;
+        }
+        return res;
     }
 
     // 1881. 插入后的最大值 (Maximum Value after Insertion)
