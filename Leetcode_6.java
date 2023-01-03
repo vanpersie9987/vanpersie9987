@@ -3611,6 +3611,89 @@ public class Leetcode_6 {
 
     }
 
+    // 1036. 逃离大迷宫 (Escape a Large Maze)
+    private static final int BLOCKED1036 = -1;
+    private static final int CONNECTED1036 = 0;
+    private static final int VALID1036 = 1;
+    private static final int SIDE = (int) 1e6;
+
+    public boolean isEscapePossible(int[][] blocked, int[] source, int[] target) {
+        int n = blocked.length;
+        if (n <= 1) {
+            return true;
+        }
+        Set<Bean1036> blockedSet = new HashSet<>();
+        for (int[] b : blocked) {
+            blockedSet.add(new Bean1036(b[0], b[1]));
+        }
+        int check = check1036(blockedSet, source, target);
+        if (check == BLOCKED1036) {
+            return false;
+        }
+        if (check == CONNECTED1036) {
+            return true;
+        }
+        check = check1036(blockedSet, target, source);
+        return check != BLOCKED1036;
+
+    }
+
+    private int check1036(Set<Bean1036> blockedSet, int[] source, int[] target) {
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        Set<Bean1036> visitedSet = new HashSet<>();
+        Queue<Bean1036> queue = new LinkedList<>();
+        visitedSet.add(new Bean1036(source[0], source[1]));
+        queue.offer(new Bean1036(source[0], source[1]));
+        int limit = blockedSet.size() * (blockedSet.size() - 1) / 2;
+        while (!queue.isEmpty() && limit > 0) {
+            Bean1036 bean = queue.poll();
+            int x = bean.x;
+            int y = bean.y;
+            if (x == target[0] && y == target[1]) {
+                return CONNECTED1036;
+            }
+            for (int[] d : directions) {
+                int nx = x + d[0];
+                int ny = y + d[1];
+                Bean1036 nbean = new Bean1036(nx, ny);
+                if (nx >= 0 && nx < SIDE && ny >= 0 && ny < SIDE && !blockedSet.contains(nbean)
+                        && !visitedSet.contains(nbean)) {
+                    --limit;
+                    visitedSet.add(nbean);
+                    queue.offer(nbean);
+                }
+            }
+        }
+        if (limit > 0) {
+            return BLOCKED1036;
+        }
+        return VALID1036;
+    }
+
+    class Bean1036 {
+        int x;
+        int y;
+
+        public Bean1036(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public int hashCode() {
+            return (x << 20) + y;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof Bean1036) {
+                Bean1036 b = (Bean1036) obj;
+                return b.x == this.x && b.y == this.y;
+            }
+            return false;
+        }
+    }
+
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
     // uniqueCnt2) {
