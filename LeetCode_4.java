@@ -9755,7 +9755,7 @@ public class LeetCode_4 {
 
     }
 
-    // 6154. 感染二叉树需要的总时间
+    // 2385. 感染二叉树需要的总时间 --bfs + bfs
     public int amountOfTime(TreeNode root, int start) {
         Map<Integer, List<Integer>> map = new HashMap<>();
         Queue<TreeNode> queue = new LinkedList<>();
@@ -9795,6 +9795,47 @@ public class LeetCode_4 {
         }
         return res;
 
+    }
+
+    // 2385. 感染二叉树需要的总时间 --dfs + bfs
+    private Map<Integer, List<Integer>> graph2385;
+
+    public int amountOfTime2(TreeNode root, int start) {
+        graph2385 = new HashMap<>();
+        dfs2385(root);
+        int res = -1;
+        Queue<Integer> queue = new LinkedList<>();
+        Set<Integer> visited = new HashSet<>();
+        queue.offer(start);
+        visited.add(start);
+        while (!queue.isEmpty()) {
+            ++res;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                int x = queue.poll();
+                for (int y : graph2385.getOrDefault(x, new ArrayList<>())) {
+                    if (visited.add(y)) {
+                        queue.offer(y);
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private void dfs2385(TreeNode x) {
+
+        if (x.left != null) {
+            graph2385.computeIfAbsent(x.val, k -> new ArrayList<>()).add(x.left.val);
+            graph2385.computeIfAbsent(x.left.val, k -> new ArrayList<>()).add(x.val);
+            dfs2385(x.left);
+        }
+        if (x.right != null) {
+            graph2385.computeIfAbsent(x.val, k -> new ArrayList<>()).add(x.right.val);
+            graph2385.computeIfAbsent(x.right.val, k -> new ArrayList<>()).add(x.val);
+            dfs2385(x.right);
+        }
     }
 
     // 6159. 删除操作后的最大子段和 --并查集运用
