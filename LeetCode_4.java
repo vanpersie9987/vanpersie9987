@@ -6127,6 +6127,10 @@ public class LeetCode_4 {
                 return o.rating == this.rating ? this.food.compareTo(o.food) : o.rating - this.rating;
 
             }
+            @Override
+            public int hashCode() {
+                return food.hashCode() * 31 + rating;
+            }
 
             @Override
             public boolean equals(Object obj) {
