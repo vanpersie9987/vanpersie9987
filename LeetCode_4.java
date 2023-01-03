@@ -6127,6 +6127,7 @@ public class LeetCode_4 {
                 return o.rating == this.rating ? this.food.compareTo(o.food) : o.rating - this.rating;
 
             }
+
             @Override
             public int hashCode() {
                 return food.hashCode() * 31 + rating;
@@ -8125,58 +8126,89 @@ public class LeetCode_4 {
 
     }
 
-    // 6139. 受限条件下可到达节点的数目 (Reachable Nodes With Restrictions) --bfs
+    // 2368. 受限条件下可到达节点的数目 (Reachable Nodes With Restrictions) --dfs
+    private Map<Integer, List<Integer>> graph2368;
+    private Set<Integer> restrictedSet;
+
     public int reachableNodes(int n, int[][] edges, int[] restricted) {
-        Set<Integer> set = Arrays.stream(restricted).boxed().collect(Collectors.toSet());
-        Map<Integer, List<Integer>> map = new HashMap<>();
+        restrictedSet = new HashSet<>();
+        for (int r : restricted) {
+            restrictedSet.add(r);
+        }
+        graph2368 = new HashMap<>();
         for (int[] edge : edges) {
-            map.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
-            map.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+            graph2368.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            graph2368.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+        }
+        return dfs2368(0, -1);
+
+    }
+
+    private int dfs2368(int x, int fa) {
+        if (restrictedSet.contains(x)) {
+            return 0;
+        }
+        int res = 1;
+        for (int y : graph2368.getOrDefault(x, new ArrayList<>())) {
+            if (y != fa) {
+                res += dfs2368(y, x);
+            }
+        }
+        return res;
+    }
+
+    // 2368. 受限条件下可到达节点的数目 (Reachable Nodes With Restrictions) --bfs
+    public int reachableNodes2(int n, int[][] edges, int[] restricted) {
+        Set<Integer> restrictedSet = Arrays.stream(restricted).boxed().collect(Collectors.toSet());
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int[] edge : edges) {
+            graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            graph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
         }
         int res = 0;
         Queue<Integer> queue = new LinkedList<>();
         queue.offer(0);
+        restrictedSet.add(0);
         while (!queue.isEmpty()) {
-            int cur = queue.poll();
-            set.add(cur);
             ++res;
-            for (int neighbor : map.getOrDefault(cur, new ArrayList<>())) {
-                if (set.add(neighbor)) {
-                    queue.offer(neighbor);
+            int x = queue.poll();
+            for (int y : graph.getOrDefault(x, new ArrayList<>())) {
+                if (restrictedSet.add(y)) {
+                    queue.offer(y);
                 }
             }
         }
         return res;
     }
 
-    // 6139. 受限条件下可到达节点的数目 (Reachable Nodes With Restrictions) --并查集
-    public int reachableNodes2(int n, int[][] edges, int[] restricted) {
-        Set<Integer> set = Arrays.stream(restricted).boxed().collect(Collectors.toSet());
-        Union6139 union = new Union6139(n);
+    // 2368. 受限条件下可到达节点的数目 (Reachable Nodes With Restrictions) --并查集
+    public int reachableNodes3(int n, int[][] edges, int[] restricted) {
+        Set<Integer> restrictedSet = Arrays.stream(restricted).boxed().collect(Collectors.toSet());
+        Union2368 union = new Union2368(n);
         for (int[] edge : edges) {
-            if (!set.contains(edge[0]) && !set.contains(edge[1])) {
-                union.union(edge[0], edge[1]);
+            int p1 = edge[0];
+            int p2 = edge[1];
+            if (!restrictedSet.contains(p1) && !restrictedSet.contains(p2)) {
+                union.union(p1, p2);
             }
         }
-        int res = 0;
-        for (int i = 0; i < n; ++i) {
-            if (union.isConnected(i, 0)) {
-                ++res;
-            }
-        }
-        return res;
+        return union.getCount(0);
+
 
     }
 
-    public class Union6139 {
+    public class Union2368 {
         private int[] rank;
         private int[] parent;
+        private int[] size;
 
-        public Union6139(int n) {
+        public Union2368(int n) {
             rank = new int[n];
-            Arrays.fill(rank, 1);
             parent = new int[n];
+            size = new int[n];
             for (int i = 0; i < n; ++i) {
+                rank[i] = 1;
+                size[i] = 1;
                 parent[i] = i;
             }
         }
@@ -8200,14 +8232,22 @@ public class LeetCode_4 {
             }
             if (rank[root1] < rank[root2]) {
                 parent[root1] = root2;
+                size[root2] += size[root1];
             } else {
                 parent[root2] = root1;
+                size[root1] += size[root2];
                 if (rank[root1] == rank[root2]) {
                     ++rank[root1];
                 }
             }
         }
 
+        public int getCount(int p) {
+            int root = getRoot(p);
+            return size[root];
+
+        }
+        
     }
 
     // 6137. 检查数组是否存在有效划分 (Check if There is a Valid Partition For The Array)
