@@ -3681,7 +3681,7 @@ public class Leetcode_6 {
 
         @Override
         public int hashCode() {
-            return (x << 20) + y;
+            return (int) ((long) x << 20 | y);
         }
 
         @Override
