@@ -3694,6 +3694,44 @@ public class Leetcode_6 {
         }
     }
 
+    // 剑指 Offer 51. 数组中的逆序对 --二分查找 还需掌握：线段树、树状数组、归并排序
+    public int reversePairs(int[] nums) {
+        List<Integer> list = new ArrayList<>();
+        int res = 0;
+        for (int i = nums.length - 1; i >= 0; --i) {
+            res += binarySearchOffer51(list, nums[i]);
+        }
+        return res;
+
+    }
+
+    // 查找有序list中，小于target的个数，并插入，保持list有序
+    private int binarySearchOffer51(List<Integer> list, int target) {
+        int count = 0;
+        if (list.isEmpty() || list.get(0) >= target) {
+            list.add(0, target);
+            return count;
+        }
+        if (list.get(list.size() - 1) < target) {
+            count = list.size();
+            list.add(target);
+            return count;
+        }
+        int left = 0;
+        int right = list.size() - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (target > list.get(mid)) {
+                count = mid + 1;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        list.add(left, target);
+        return count;
+    }
+
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
     // uniqueCnt2) {
