@@ -9937,70 +9937,69 @@ public class Leetcode_5 {
 
     }
 
-    // 6256. 将节点分成尽可能多的组
+    // 2493. 将节点分成尽可能多的组 (Divide Nodes Into the Maximum Number of Groups)
+    private Map<Integer, List<Integer>> graph2493;
+    private Union2493 union2493;
+    private static final int RED2493 = 1;
+    private static final int GREEN2493 = -1;
+    private static final int NONE2493 = 0;
+    private int n2493;
+
     public int magnificentSets(int n, int[][] edges) {
-        Map<Integer, List<Integer>> map = new HashMap<>();
-        Union6256 union = new Union6256(n);
+        this.n2493 = n;
+        graph2493 = new HashMap<>();
+        union2493 = new Union2493(n);
         for (int[] edge : edges) {
-            map.computeIfAbsent(edge[0] - 1, k -> new ArrayList<>()).add(edge[1] - 1);
-            map.computeIfAbsent(edge[1] - 1, k -> new ArrayList<>()).add(edge[0] - 1);
-            union.union(edge[0] - 1, edge[1] - 1);
+            graph2493.computeIfAbsent(edge[0] - 1, k -> new ArrayList<>()).add(edge[1] - 1);
+            graph2493.computeIfAbsent(edge[1] - 1, k -> new ArrayList<>()).add(edge[0] - 1);
+            union2493.union(edge[0] - 1, edge[1] - 1);
         }
-
-        Map<Integer, Integer> group = new HashMap<>();
-
+        Map<Integer, Integer> counts = new HashMap<>();
         for (int i = 0; i < n; ++i) {
-            int root = union.getRoot(i);
-            int cur = bfs6256(n, i, map, edges);
-            if (cur == -1) {
+            int groups = getGroups(i);
+            if (groups == -1) {
                 return -1;
             }
-            if (!group.containsKey(root) || group.get(root) < cur) {
-                group.put(root, cur);
-            }
+            int root = union2493.getRoot(i);
+            counts.put(root, Math.max(counts.getOrDefault(root, 0), groups));
         }
         int res = 0;
-        for (int g : group.values()) {
-            res += g;
+        for (int c : counts.values()) {
+            res += c;
         }
         return res;
+
     }
 
-    private int bfs6256(int n, int root, Map<Integer, List<Integer>> map, int[][] edges) {
-        int[] levels = new int[n];
-        Arrays.fill(levels, -1);
+    private int getGroups(int node) {
+        int[] colors = new int[n2493];
+        int res = 0;
         Queue<Integer> queue = new LinkedList<>();
-        int level = 0;
-        levels[root] = level;
-        queue.offer(root);
+        queue.offer(node);
+        colors[node] = RED2493;
         while (!queue.isEmpty()) {
             int size = queue.size();
-            ++level;
+            ++res;
             for (int i = 0; i < size; ++i) {
-                int node = queue.poll();
-                for (int neighbor : map.getOrDefault(node, new ArrayList<>())) {
-                    if (levels[neighbor] == -1) {
-                        levels[neighbor] = level;
-                        queue.offer(neighbor);
+                int x = queue.poll();
+                for (int y : graph2493.getOrDefault(x, new ArrayList<>())) {
+                    if (colors[y] == NONE2493) {
+                        colors[y] = colors[x] == RED2493 ? GREEN2493 : RED2493;
+                        queue.offer(y);
+                    } else if (colors[y] == colors[x]) {
+                        return -1;
                     }
                 }
             }
         }
-        for (int[] edge : edges) {
-            int level1 = levels[edge[0] - 1];
-            int level2 = levels[edge[1] - 1];
-            if (level1 != -1 && level2 != -1 && Math.abs(level1 - level2) != 1) {
-                return -1;
-            }
-        }
-        return level;
+        return res;
     }
 
-    public class Union6256 {
+    class Union2493 {
         private int[] rank;
         private int[] parent;
 
-        public Union6256(int n) {
+        public Union2493(int n) {
             rank = new int[n];
             parent = new int[n];
             for (int i = 0; i < n; ++i) {
