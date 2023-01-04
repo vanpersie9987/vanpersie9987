@@ -3381,7 +3381,7 @@ public class Leetcode_6 {
         return res.toString();
 
     }
-    
+
     // 1902. 给定二叉搜索树的插入顺序求深度 (Depth of BST Given Insertion Order) --plus
     public int maxDepthBST(int[] order) {
         TreeMap<Integer, Integer> map = new TreeMap<>();
@@ -3411,7 +3411,6 @@ public class Leetcode_6 {
             copy /= 10;
         }
         return res;
-
 
     }
 
@@ -3731,6 +3730,67 @@ public class Leetcode_6 {
         list.add(left, target);
         return count;
     }
+
+    // 834. 树中距离之和 (Sum of Distances in Tree) --树型dp
+    private Map<Integer, List<Integer>> tree834;
+    private int[] size834;
+    private int[] dp834;
+    private int[] res834;
+
+    public int[] sumOfDistancesInTree(int n, int[][] edges) {
+        tree834 = new HashMap<>();
+        for (int[] edge : edges) {
+            tree834.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            tree834.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+        }
+        size834 = new int[n];
+        dp834 = new int[n];
+        res834 = new int[n];
+        dfs834(0, -1);
+        dfs834_2(0, -1);
+        return res834;
+    }
+
+    private void dfs834(int x, int fa) {
+        dp834[x] = 0;
+        size834[x] = 1;
+        for (int y : tree834.getOrDefault(x, new ArrayList<>())) {
+            if (y != fa) {
+                dfs834(y, x);
+                dp834[x] += dp834[y] + size834[y];
+                size834[x] += size834[y];
+            }
+        }
+    }
+
+    private void dfs834_2(int x, int fa) {
+        res834[x] = dp834[x];
+        for (int y : tree834.getOrDefault(x, new ArrayList<>())) {
+            if (y != fa) {
+                int dy = dp834[y];
+                int sy = size834[y];
+                int dx = dp834[x];
+                int sx = size834[x];
+
+                dp834[x] -= dp834[y] + size834[y];
+                size834[x] -= size834[y];
+                dp834[y] += dp834[x] + size834[x];
+                size834[y] += size834[x];
+
+                dfs834_2(y, x);
+
+                dp834[y] = dy;
+                size834[y] = sy;
+                dp834[x] = dx;
+                size834[x] = sx;
+            }
+        }
+    }
+
+    // 2458. 移除子树后的二叉树高度 (Height of Binary Tree After Subtree Removal Queries)
+    // public int[] treeQueries(TreeNode root, int[] queries) {
+
+    // }
 
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
