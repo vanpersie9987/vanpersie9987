@@ -3814,9 +3814,44 @@ public class Leetcode_6 {
     }
 
     // 2458. 移除子树后的二叉树高度 (Height of Binary Tree After Subtree Removal Queries)
-    // public int[] treeQueries(TreeNode root, int[] queries) {
+    private int[] left2458;
+    private int[] right2458;
+    private static final int N2458 = (int) (1e5 + 1);
+    private int maxHeight2458;
 
-    // }
+    public int[] treeQueries(TreeNode root, int[] queries) {
+        left2458 = new int[N2458];
+        right2458 = new int[N2458];
+        maxHeight2458 = 0;
+        dfs2458_1(root, 0);
+        maxHeight2458 = 0;
+        dfs2458_2(root, 0);
+        for (int i = 0; i < queries.length; ++i) {
+            queries[i] = Math.max(left2458[queries[i]], right2458[queries[i]]);
+        }
+        return queries;
+
+    }
+
+    private void dfs2458_1(TreeNode node, int h) {
+        if (node == null) {
+            return;
+        }
+        left2458[node.val] = maxHeight2458;
+        maxHeight2458 = Math.max(maxHeight2458, h);
+        dfs2458_1(node.left, h + 1);
+        dfs2458_1(node.right, h + 1);
+    }
+
+    private void dfs2458_2(TreeNode node, int h) {
+        if (node == null) {
+            return;
+        }
+        right2458[node.val] = maxHeight2458;
+        maxHeight2458 = Math.max(maxHeight2458, h);
+        dfs2458_2(node.right, h + 1);
+        dfs2458_2(node.left, h + 1);
+    }
 
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
