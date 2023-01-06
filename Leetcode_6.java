@@ -3853,6 +3853,46 @@ public class Leetcode_6 {
         dfs2458_2(node.left, h + 1);
     }
 
+    // 315. 计算右侧小于当前元素的个数 (Count of Smaller Numbers After Self) --二分查找 还需掌握 树状数组 归并排序
+    private List<Integer> list315;
+
+    public List<Integer> countSmaller(int[] nums) {
+        int n = nums.length;
+        list315 = new ArrayList<>();
+        int[] res = new int[n];
+        for (int i = n - 1; i >= 0; --i) {
+            res[i] = binarySearch315(nums[i]);
+        }
+        return Arrays.stream(res).boxed().toList();
+
+    }
+
+    private int binarySearch315(int target) {
+        if (list315.isEmpty() || target <= list315.get(0)) {
+            list315.add(0, target);
+            return 0;
+        }
+        int count = 0;
+        if (list315.get(list315.size() - 1) < target) {
+            count = list315.size();
+            list315.add(target);
+            return count;
+        }
+        int left = 0;
+        int right = list315.size() - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (list315.get(mid) < target) {
+                count = mid + 1;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        list315.add(left, target);
+        return count;
+    }
+
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
     // uniqueCnt2) {
