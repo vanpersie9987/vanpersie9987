@@ -572,6 +572,25 @@ public class Leetcode_3 {
         return sum % 2 == 0;
     }
 
+    // 2180. 统计各位数字之和为偶数的整数个数 (Count Integers With Even Digit Sum)
+    public int countEven2(int num) {
+        int y = num / 10;
+        int x = num % 10;
+        int res = y * 5;
+        int t = 0;
+        while (y != 0) {
+            t += y % 10;
+            y /= 10;
+        }
+        if (t % 2 == 0) {
+            res += x / 2 + 1;
+        } else {
+            res += (x + 1) / 2;
+        }
+        return res - 1;
+
+    }
+
     // 2181. 合并零之间的节点 (Merge Nodes in Between Zeros)
     public ListNode mergeNodes(ListNode head) {
         ListNode res = head;
