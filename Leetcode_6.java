@@ -3896,16 +3896,12 @@ public class Leetcode_6 {
     // 2426. 满足不等式的数对数目 (Number of Pairs Satisfying Inequality) --二分查找 还需掌握 树状数组 归并排序
     public long numberOfPairs(int[] nums1, int[] nums2, int diff) {
         int n = nums1.length;
-        int[] d = new int[n];
-        for (int i = 0; i < n; ++i) {
-            d[i] = nums1[i] - nums2[i];
-        }
         List<Integer> list = new ArrayList<>();
         long res = 0l;
         for (int i = 0; i < n; ++i) {
-            int target = d[i] + diff;
+            int target = nums1[i] - nums2[i] + diff;
             res += binarySearch2426(list, target);
-            binarySearch2426_2(list, d[i]);
+            binarySearch2426_2(list, nums1[i] - nums2[i]);
         }
         return res;
 
