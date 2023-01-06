@@ -3893,6 +3893,74 @@ public class Leetcode_6 {
         return count;
     }
 
+    // 2426. 满足不等式的数对数目 (Number of Pairs Satisfying Inequality) --二分查找 还需掌握 树状数组 归并排序
+    public long numberOfPairs(int[] nums1, int[] nums2, int diff) {
+        int n = nums1.length;
+        int[] d = new int[n];
+        for (int i = 0; i < n; ++i) {
+            d[i] = nums1[i] - nums2[i];
+        }
+        List<Integer> list = new ArrayList<>();
+        long res = 0l;
+        for (int i = 0; i < n; ++i) {
+            int target = d[i] + diff;
+            res = res + binarySearch2426(list, target);
+            binarySearch2426_2(list, d[i]);
+        }
+        return res;
+
+    }
+
+    private int binarySearch2426(List<Integer> list, int target) {
+        int n = list.size();
+        if (n == 0 || target < list.get(0)) {
+            return 0;
+        }
+        if (target >= list.get(n - 1)) {
+            return n;
+        }
+        int count = 0;
+        int left = 0;
+        int right = n - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (list.get(mid) <= target) {
+                count = mid + 1;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return count;
+    }
+
+    private void binarySearch2426_2(List<Integer> list, int target) {
+        int n = list.size();
+        if (n == 0 || target <= list.get(0)) {
+            list.add(0, target);
+            return;
+        }
+        if (target >= list.get(n - 1)) {
+            list.add(target);
+            return;
+        }
+        int left = 0;
+        int right = n - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (list.get(mid) < target) {
+                left = mid + 1;
+            } else if (list.get(mid) > target) {
+                right = mid - 1;
+            } else {
+                list.add(mid, target);
+                return;
+            }
+        }
+        list.add(left, target);
+        return;
+    }
+
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
     // uniqueCnt2) {
