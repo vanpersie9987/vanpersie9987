@@ -3904,7 +3904,7 @@ public class Leetcode_6 {
         long res = 0l;
         for (int i = 0; i < n; ++i) {
             int target = d[i] + diff;
-            res = res + binarySearch2426(list, target);
+            res += binarySearch2426(list, target);
             binarySearch2426_2(list, d[i]);
         }
         return res;
