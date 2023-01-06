@@ -4385,24 +4385,34 @@ public class LeetCode_2 {
    }
 
    // 1658. 将 x 减到 0 的最小操作数 (Minimum Operations to Reduce X to Zero)
-   // --滑动窗口 + 双指针 + 前缀和
    public int minOperations(int[] nums, int x) {
-      int target = Arrays.stream(nums).sum() - x;
-      int left = 0;
-      int right = 0;
-      int maxLen = -1;
-      int prefix = 0;
-      while (right < nums.length) {
-         prefix += nums[right];
-         while (left <= right && prefix > target) {
-            prefix -= nums[left++];
-         }
-         if (prefix == target) {
-            maxLen = Math.max(maxLen, right - left + 1);
-         }
-         ++right;
+      int n = nums.length;
+      int sum = 0;
+      for (int i = 0; i < n; ++i) {
+         sum += nums[i];
       }
-      return maxLen == -1 ? -1 : nums.length - maxLen;
+      int target = sum - x;
+      if (target < 0) {
+         return -1;
+      }
+      if (target == 0) {
+         return n;
+      }
+      int res = Integer.MAX_VALUE;
+      int i = 0;
+      int j = 0;
+      int windowSum = 0;
+      while (j < n) {
+         windowSum += nums[j];
+         while (windowSum > target) {
+            windowSum -= nums[i++];
+         }
+         if (windowSum == target) {
+            res = Math.min(res, n - (j - i + 1));
+         }
+         ++j;
+      }
+      return res == Integer.MAX_VALUE ? -1 : res;
 
    }
 
