@@ -1973,15 +1973,59 @@ public class Leetcode_3 {
 
     }
 
-    // 6008. 统计包含给定前缀的字符串
+    // 2185. 统计包含给定前缀的字符串 (Counting Words With a Given Prefix)
     public int prefixCount(String[] words, String pref) {
         int res = 0;
         for (String word : words) {
-            if (word.indexOf(pref) == 0) {
+            if (word.startsWith(pref)) {
                 ++res;
             }
         }
         return res;
+
+    }
+
+    // 2185. 统计包含给定前缀的字符串 (Counting Words With a Given Prefix) --字典树
+    public int prefixCount2(String[] words, String pref) {
+        Trie2185 trie = new Trie2185();
+        for (String word : words) {
+            trie.insert(word);
+        }
+        return trie.getCount(pref);
+
+    }
+
+    public class Trie2185 {
+        private Trie2185[] children;
+        private int count;
+
+        public Trie2185() {
+            children = new Trie2185[26];
+        }
+
+        public void insert(String s) {
+            Trie2185 trie = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (trie.children[index] == null) {
+                    trie.children[index] = new Trie2185();
+                }
+                trie = trie.children[index];
+                ++trie.count;
+            }
+        }
+
+        public int getCount(String s) {
+            Trie2185 trie = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (trie.children[index] == null) {
+                    return 0;
+                }
+                trie = trie.children[index];
+            }
+            return trie.count;
+        }
 
     }
 

@@ -3978,6 +3978,112 @@ public class Leetcode_6 {
 
     }
 
+    // 6287. 根据规则将箱子分类
+    public String categorizeBox(int length, int width, int height, int mass) {
+        long a = 1l;
+        a = a * length;
+        a = a * width;
+        a = a * height;
+        boolean tiji = a >= 1e9;
+        int b =  (int) 1e4;
+        boolean weidu = length >= b || width >= b || height >= b || mass >= b;
+        boolean isBluky = tiji || weidu;
+        boolean isHeavy = mass >= 100;
+        if (isBluky && isHeavy) {
+            return "Both";
+        }
+        if (isBluky) {
+            return "Bulky";
+        }
+        if (isHeavy) {
+            return "Heavy";
+        }
+        return "Neither";
+
+    }
+
+    // 6288. 找到数据流中的连续整数
+    class DataStream {
+        private int count;
+        private int value;
+        private int k;
+
+        public DataStream(int value, int k) {
+            this.value = value;
+            this.k = k;
+        }
+
+        public boolean consec(int num) {
+            if (value == num) {
+                ++count;
+            } else {
+                count = 0;
+            }
+            return count >= k;
+        }
+    }
+
+    // 6289. 查询数组 Xor 美丽值
+    public int xorBeauty(int[] nums) {
+        int res = 0;
+        for (int num : nums) {
+            res ^= num;
+        }
+        return res;
+
+    }
+
+    // 6290. 最大化城市的最小供电站数目
+    // public long maxPower(int[] stations, int r, int k) {
+    //     int n = stations.length;
+    //     long[] diff = new long[n + 1];
+    //     for (int i = 0; i < n; ++i) {
+    //         int left = Math.max(0, i - r);
+    //         diff[left] += stations[i];
+    //         int right = Math.min(n, i + r + 1);
+    //         diff[right] -= stations[i];
+    //     }
+    //     for (int i = 1; i < n; ++i) {
+    //         diff[i] += diff[i - 1];
+    //     }
+    //     long left = 0l;
+    //     long right = max + k;
+    //     long res = 0l;
+    //     while (left <= right) {
+    //         long mid = left + ((right - left) >> 1);
+    //         if (check(arr, mid, r, k)) {
+    //             res = mid;
+    //             left = mid + 1;
+    //         } else {
+    //             right = mid - 1;
+    //         }
+    //     }
+    //     return res;
+        
+    // }
+
+    // private boolean check(long[] arr, long target, int r, int k) {
+    //     long[] diff = new long[arr.length+1];
+    //     for (int i = 0; i < arr.length; ++i) {
+    //         if (target > arr[i]) {
+    //             long min = Math.min(target - arr[i], k);
+    //             int left = Math.max(0, i - r);
+    //             diff[left] += min;
+    //             int right = Math.min(arr.length, i + r + 1);
+    //             diff[right] -= min;
+    //         }
+    //         if (k == 0) {
+    //             break;
+    //         }
+    //     }
+    //     long res = diff[0] + arr[0];
+    //     for (int i = 1; i < arr.length; ++i) {
+    //         diff[i] += diff[i - 1] + arr[i];
+    //         res = Math.min(res, diff[i]); 
+    //     }
+    //     return res >= target;
+    // }
+
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
     // uniqueCnt2) {
