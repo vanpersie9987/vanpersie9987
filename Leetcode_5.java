@@ -1232,7 +1232,6 @@ public class Leetcode_5 {
     public int maximumRows(int[][] matrix, int numSelect) {
         int m = matrix.length;
         int n = matrix[0].length;
-        int max = 1 << n;
         int[] arr = new int[m];
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
@@ -1240,17 +1239,16 @@ public class Leetcode_5 {
             }
         }
         int res = 0;
-        for (int mask = 0; mask < max; ++mask) {
-            if (n - Integer.bitCount(mask) != numSelect) {
-                continue;
-            }
-            int cur = 0;
-            for (int k = 0; k < arr.length; ++k) {
-                if ((arr[k] & mask) == 0) {
-                    ++cur;
+        for (int i = 0; i < (1 << n); ++i) {
+            if (Integer.bitCount(i) == numSelect) {
+                int cur = 0;
+                for (int a : arr) {
+                    if ((i & a) == a) {
+                        ++cur;
+                    }
                 }
+                res = Math.max(res, cur);
             }
-            res = Math.max(res, cur);
         }
         return res;
 
