@@ -2875,32 +2875,35 @@ public class Leetcode_5 {
 
     }
 
-    // 6190. 找到所有好下标
+    // 2420. 找到所有好下标 (Find All Good Indices)
     public List<Integer> goodIndices(int[] nums, int k) {
         int n = nums.length;
         int[] left = new int[n];
-        Arrays.fill(left, 1);
+        left[1] = 1;
         for (int i = 2; i < n; ++i) {
             if (nums[i - 1] <= nums[i - 2]) {
                 left[i] = left[i - 1] + 1;
+            } else {
+                left[i] = 1;
             }
         }
-
         int[] right = new int[n];
-        Arrays.fill(right, 1);
+        right[n - 2] = 1;
         for (int i = n - 3; i >= 0; --i) {
             if (nums[i + 1] <= nums[i + 2]) {
                 right[i] = right[i + 1] + 1;
+            } else {
+                right[i] = 1;
             }
         }
-
         List<Integer> res = new ArrayList<>();
-        for (int i = k; i < n - k; ++i) {
+        for (int i = 0; i < n; ++i) {
             if (left[i] >= k && right[i] >= k) {
                 res.add(i);
             }
         }
         return res;
+
     }
 
     // 6191. 好路径的数目
