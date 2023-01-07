@@ -3957,6 +3957,27 @@ public class Leetcode_6 {
         return;
     }
 
+    // 2466. 统计构造好字符串的方案数 (Count Ways To Build Good Strings)
+    public int countGoodStrings(int low, int high, int zero, int one) {
+        int[] dp = new int[high + 1];
+        int res = 0;
+        dp[0] = 1;
+        final int MOD = (int) (1e9 + 7);
+        for (int i = 1; i <= high; ++i) {
+            if (i - zero >= 0) {
+                dp[i] = (dp[i] + dp[i - zero]) % MOD;
+            }
+            if (i - one >= 0) {
+                dp[i] = (dp[i] + dp[i - one]) % MOD;
+            }
+            if (i >= low) {
+                res = (res + dp[i]) % MOD;
+            }
+        }
+        return res;
+
+    }
+
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
     // uniqueCnt2) {
