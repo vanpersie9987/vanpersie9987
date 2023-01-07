@@ -4029,9 +4029,4 @@ public class Leetcode_6 {
 
     // }
 
-    // 2466. 统计构造好字符串的方案数 (Count Ways To Build Good Strings)
-    // public int countGoodStrings(int low, int high, int zero, int one) {
-
-    // }
-
 }
