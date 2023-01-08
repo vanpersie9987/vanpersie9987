@@ -4139,7 +4139,7 @@ public class Leetcode_6 {
             mask2 |= 1 << (c - 'a');
             ++counts2[c - 'a'];
         }
-        if (Math.abs(Integer.bitCount(mask1)) == Math.abs(Integer.bitCount(mask2))) {
+        if (Integer.bitCount(mask1) == Integer.bitCount(mask2)) {
             boolean flag1 = false;
             boolean flag2 = false;
             boolean flag3 = false;
