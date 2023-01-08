@@ -4033,55 +4033,222 @@ public class Leetcode_6 {
 
     }
 
+    // 6283. 正整数和负整数的最大计数
+    public int maximumCount(int[] nums) {
+        int pos = 0;
+        int neg = 0;
+        for (int num : nums) {
+            if (num < 0) {
+                ++neg;
+            } else if (num > 0) {
+                ++pos;
+            }
+        }
+        return Math.max(pos, neg);
+
+    }
+    
+    // 6283. 正整数和负整数的最大计数
+    public int maximumCount2(int[] nums) {
+        int neg = binarySearch6283_neg(nums);
+        int pos = binarySearch6283_pos(nums);
+        return Math.max(neg, pos);
+
+    }
+
+    private int binarySearch6283_pos(int[] nums) {
+        int n = nums.length;
+        if (nums[n - 1] <= 0) {
+            return 0;
+        }
+        if (nums[0] > 0) {
+            return n;
+        }
+        int left = 0;
+        int right = n - 1;
+        int count = 0;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (nums[mid] > 0) {
+                count = n - mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return count;
+    }
+
+    private int binarySearch6283_neg(int[] nums) {
+        int n = nums.length;
+        if (nums[0] >= 0) {
+            return 0;
+        }
+        if (nums[n - 1] < 0) {
+            return n;
+        }
+        int left = 0;
+        int right = n - 1;
+        int count = 0;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (nums[mid] < 0) {
+                count = mid + 1;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return count;
+    }
+
+    // 6285. 执行 K 次操作后的最大分数
+    public long maxKelements(int[] nums, int k) {
+        Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2 - o1;
+            }
+
+        });
+        for (int num : nums) {
+            queue.offer(num);
+        }
+        long res = 0l;
+        while (queue.peek() != 0 && k-- > 0) {
+            int cur = queue.poll();
+            res += cur;
+            queue.offer((cur + 2) / 3);
+        }
+        return res;
+
+    }
+    
+    // 6284. 使字符串总不同字符的数目相等
+    public boolean isItPossible(String word1, String word2) {
+        int mask1 = 0;
+        int mask2 = 0;
+        int[] counts1 = new int[26];
+        int[] counts2 = new int[26];
+        for (char c : word1.toCharArray()) {
+            mask1 |= 1 << (c - 'a');
+            ++counts1[c - 'a'];
+        }
+        for (char c : word2.toCharArray()) {
+            mask2 |= 1 << (c - 'a');
+            ++counts2[c - 'a'];
+        }
+        if (Math.abs(Integer.bitCount(mask1)) == Math.abs(Integer.bitCount(mask2))) {
+            boolean flag1 = false;
+            boolean flag2 = false;
+            boolean flag3 = false;
+            boolean flag4 = false;
+            for (int i = 0; i < 26; ++i) {
+                if (counts1[i] > 0 && counts2[i] > 0) {
+                    return true;
+                }
+                if (counts1[i] == 1 && counts2[i] == 0) {
+                    flag1 = true;
+                }
+                if (counts1[i] == 0 && counts2[i] == 1) {
+                    flag2 = true;
+                }
+                if (counts1[i] > 1 && counts2[i] == 0) {
+                    flag3 = true;
+                }
+                if (counts1[i] == 0 && counts2[i] > 1) {
+                    flag4 = true;
+                }
+
+                if (flag1 && flag2 || flag3 && flag4) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        for (int i = 0; i < 26; ++i) {
+            for (int j = 0; j < 26; ++j) {
+                if (i == j) {
+                    continue;
+                }
+                int copy1 = mask1;
+                int copy2 = mask2;
+
+                if (counts1[i] > 0 && counts2[j] > 0) {
+                    if (counts1[i] == 1) {
+                        copy1 ^= 1 << i;
+                    }
+                    if (counts2[i] == 0) {
+                        copy2 ^= 1 << i;
+                    }
+                    if (counts2[j] == 1) {
+                        copy2 ^= 1 << j;
+                    }
+                    if (counts1[j] == 0) {
+                        copy1 ^= 1 << j;
+                    }
+                    if (Integer.bitCount(copy1) == Integer.bitCount(copy2)) {
+                        return true;
+                    }
+                }
+
+            }
+        }
+        return false;
+
+    }
+
     // 6290. 最大化城市的最小供电站数目
     // public long maxPower(int[] stations, int r, int k) {
-    //     int n = stations.length;
-    //     long[] diff = new long[n + 1];
-    //     for (int i = 0; i < n; ++i) {
-    //         int left = Math.max(0, i - r);
-    //         diff[left] += stations[i];
-    //         int right = Math.min(n, i + r + 1);
-    //         diff[right] -= stations[i];
-    //     }
-    //     for (int i = 1; i < n; ++i) {
-    //         diff[i] += diff[i - 1];
-    //     }
-    //     long left = 0l;
-    //     long right = max + k;
-    //     long res = 0l;
-    //     while (left <= right) {
-    //         long mid = left + ((right - left) >> 1);
-    //         if (check(arr, mid, r, k)) {
-    //             res = mid;
-    //             left = mid + 1;
-    //         } else {
-    //             right = mid - 1;
-    //         }
-    //     }
-    //     return res;
-        
+    // int n = stations.length;
+    // long[] diff = new long[n + 1];
+    // for (int i = 0; i < n; ++i) {
+    // int left = Math.max(0, i - r);
+    // diff[left] += stations[i];
+    // int right = Math.min(n, i + r + 1);
+    // diff[right] -= stations[i];
+    // }
+    // for (int i = 1; i < n; ++i) {
+    // diff[i] += diff[i - 1];
+    // }
+    // long left = 0l;
+    // long right = max + k;
+    // long res = 0l;
+    // while (left <= right) {
+    // long mid = left + ((right - left) >> 1);
+    // if (check(arr, mid, r, k)) {
+    // res = mid;
+    // left = mid + 1;
+    // } else {
+    // right = mid - 1;
+    // }
+    // }
+    // return res;
+
     // }
 
     // private boolean check(long[] arr, long target, int r, int k) {
-    //     long[] diff = new long[arr.length+1];
-    //     for (int i = 0; i < arr.length; ++i) {
-    //         if (target > arr[i]) {
-    //             long min = Math.min(target - arr[i], k);
-    //             int left = Math.max(0, i - r);
-    //             diff[left] += min;
-    //             int right = Math.min(arr.length, i + r + 1);
-    //             diff[right] -= min;
-    //         }
-    //         if (k == 0) {
-    //             break;
-    //         }
-    //     }
-    //     long res = diff[0] + arr[0];
-    //     for (int i = 1; i < arr.length; ++i) {
-    //         diff[i] += diff[i - 1] + arr[i];
-    //         res = Math.min(res, diff[i]); 
-    //     }
-    //     return res >= target;
+    // long[] diff = new long[arr.length+1];
+    // for (int i = 0; i < arr.length; ++i) {
+    // if (target > arr[i]) {
+    // long min = Math.min(target - arr[i], k);
+    // int left = Math.max(0, i - r);
+    // diff[left] += min;
+    // int right = Math.min(arr.length, i + r + 1);
+    // diff[right] -= min;
+    // }
+    // if (k == 0) {
+    // break;
+    // }
+    // }
+    // long res = diff[0] + arr[0];
+    // for (int i = 1; i < arr.length; ++i) {
+    // diff[i] += diff[i - 1] + arr[i];
+    // res = Math.min(res, diff[i]);
+    // }
+    // return res >= target;
     // }
 
     // 6295. 最小化两个数组中的最大值
