@@ -15251,16 +15251,18 @@ public class LeetCodeText {
         return grid;
     }
 
-    // 1806. 还原排列的最少操作步数
+    // 1806. 还原排列的最少操作步数 (Minimum Number of Operations to Reinitialize a
+    // Permutation)
     public int reinitializePermutation(int n) {
-        int ans = 1;
-        int pos = 1;
-        pos = n / 2 + (pos - 1) / 2;
-        while (pos != 1) {
-            pos = pos % 2 == 0 ? pos / 2 : n / 2 + (pos - 1) / 2;
-            ++ans;
+        int i = 1;
+        int res = 0;
+        while (true) {
+            ++res;
+            i = (i & 1) == 1 ? n / 2 + (i - 1) / 2 : i / 2;
+            if (i == 1) {
+                return res;
+            }
         }
-        return ans;
 
     }
 
