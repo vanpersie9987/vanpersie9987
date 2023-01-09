@@ -9578,7 +9578,7 @@ public class LeetCode_4 {
 
     }
 
-    // 6158. 字母移位 II
+    // 2381. 字母移位 II (Shifting Letters II)
     public String shiftingLetters(String s, int[][] shifts) {
         int n = s.length();
         int[] diff = new int[n + 1];
@@ -9591,14 +9591,14 @@ public class LeetCode_4 {
                 ++diff[shift[1] + 1];
             }
         }
-        for (int i = 1; i < n + 1; ++i) {
-            diff[i] += diff[i - 1];
-        }
         char[] res = new char[n];
         for (int i = 0; i < n; ++i) {
-            res[i] = (char) (((s.charAt(i) - 'a' + diff[i]) % 26 + 26) % 26 + 'a');
+            if (i > 0) {
+                diff[i] += diff[i - 1];
+            }
+            char c = (char) (((s.charAt(i) - 'a' + diff[i]) % 26 + 26) % 26 + 'a');
+            res[i] = c;
         }
-
         return String.valueOf(res);
 
     }

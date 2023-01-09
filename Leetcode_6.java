@@ -3985,7 +3985,7 @@ public class Leetcode_6 {
         a = a * width;
         a = a * height;
         boolean tiji = a >= 1e9;
-        int b =  (int) 1e4;
+        int b = (int) 1e4;
         boolean weidu = length >= b || width >= b || height >= b || mass >= b;
         boolean isBluky = tiji || weidu;
         boolean isHeavy = mass >= 100;
@@ -4047,7 +4047,7 @@ public class Leetcode_6 {
         return Math.max(pos, neg);
 
     }
-    
+
     // 6283. 正整数和负整数的最大计数
     public int maximumCount2(int[] nums) {
         int neg = binarySearch6283_neg(nums);
@@ -4124,7 +4124,7 @@ public class Leetcode_6 {
         return res;
 
     }
-    
+
     // 6284. 使字符串总不同字符的数目相等
     public boolean isItPossible(String word1, String word2) {
         int mask1 = 0;
@@ -4279,6 +4279,5 @@ public class Leetcode_6 {
     // public int countPalindromes(String s) {
 
     // }
-
 
 }
