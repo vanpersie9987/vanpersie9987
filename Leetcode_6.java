@@ -4139,61 +4139,37 @@ public class Leetcode_6 {
             mask2 |= 1 << (c - 'a');
             ++counts2[c - 'a'];
         }
-        if (Integer.bitCount(mask1) == Integer.bitCount(mask2)) {
-            boolean flag1 = false;
-            boolean flag2 = false;
-            boolean flag3 = false;
-            boolean flag4 = false;
-            for (int i = 0; i < 26; ++i) {
-                if (counts1[i] > 0 && counts2[i] > 0) {
-                    return true;
-                }
-                if (counts1[i] == 1 && counts2[i] == 0) {
-                    flag1 = true;
-                }
-                if (counts1[i] == 0 && counts2[i] == 1) {
-                    flag2 = true;
-                }
-                if (counts1[i] > 1 && counts2[i] == 0) {
-                    flag3 = true;
-                }
-                if (counts1[i] == 0 && counts2[i] > 1) {
-                    flag4 = true;
-                }
-
-                if (flag1 && flag2 || flag3 && flag4) {
-                    return true;
-                }
-            }
-            return false;
-        }
 
         for (int i = 0; i < 26; ++i) {
-            for (int j = 0; j < 26; ++j) {
-                if (i == j) {
-                    continue;
+            if (counts1[i] > 0) {
+                for (int j = 0; j < 26; ++j) {
+                    if (counts2[j] > 0) {
+                        if (i == j) {
+                            if (Integer.bitCount(mask1) == Integer.bitCount(mask2)) {
+                                return true;
+                            }
+                        } else {
+                            int copy1 = mask1;
+                            int copy2 = mask2;
+                            
+                            if (counts1[i] == 1) {
+                                copy1 ^= 1 << i;
+                            }
+                            if (counts2[i] == 0) {
+                                copy2 ^= 1 << i;
+                            }
+                            if (counts2[j] == 1) {
+                                copy2 ^= 1 << j;
+                            }
+                            if (counts1[j] == 0) {
+                                copy1 ^= 1 << j;
+                            }
+                            if (Integer.bitCount(copy1) == Integer.bitCount(copy2)) {
+                                return true;
+                            }
+                        }
+                    }
                 }
-                int copy1 = mask1;
-                int copy2 = mask2;
-
-                if (counts1[i] > 0 && counts2[j] > 0) {
-                    if (counts1[i] == 1) {
-                        copy1 ^= 1 << i;
-                    }
-                    if (counts2[i] == 0) {
-                        copy2 ^= 1 << i;
-                    }
-                    if (counts2[j] == 1) {
-                        copy2 ^= 1 << j;
-                    }
-                    if (counts1[j] == 0) {
-                        copy1 ^= 1 << j;
-                    }
-                    if (Integer.bitCount(copy1) == Integer.bitCount(copy2)) {
-                        return true;
-                    }
-                }
-
             }
         }
         return false;
