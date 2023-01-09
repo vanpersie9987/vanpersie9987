@@ -4217,7 +4217,7 @@ public class Leetcode_6 {
         }
 
         long left = mn;
-        long right = (long) (1e10 + k);
+        long right = (long) (mn + k);
         long res = 0l;
         while (left <= right) {
             long mid = left + ((right - left) >> 1);
