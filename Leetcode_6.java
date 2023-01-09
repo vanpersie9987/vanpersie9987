@@ -3304,21 +3304,16 @@ public class Leetcode_6 {
                 || flipEquiv(root1.left, root2.right) && flipEquiv(root1.right, root2.left);
     }
 
-    // 6271. 礼盒的最大甜蜜度
+    // 2517. 礼盒的最大甜蜜度 (Maximum Tastiness of Candy Basket)
     public int maximumTastiness(int[] price, int k) {
         Arrays.sort(price);
+        int n = price.length;
         int left = 0;
-        int max = 0;
-        int min = 0;
-        for (int p : price) {
-            max = Math.max(max, p);
-            min = Math.min(min, p);
-        }
-        int right = (max - min) / (k - 1);
-        int res = -1;
+        int right = price[n - 1] - price[0];
+        int res = 0;
         while (left <= right) {
             int mid = left + ((right - left) >>> 1);
-            if (check6271(price, mid) >= k) {
+            if (check2517(price, mid, k)) {
                 res = mid;
                 left = mid + 1;
             } else {
@@ -3329,19 +3324,21 @@ public class Leetcode_6 {
 
     }
 
-    private int check6271(int[] price, int target) {
+    private boolean check2517(int[] price, int target, int k) {
         int count = 0;
-        int n = price.length;
         int pre = price[0];
         int i = 1;
-        while (i < n) {
+        while (i < price.length) {
             if (price[i] - pre >= target) {
                 ++count;
                 pre = price[i];
+                if (count + 1 >= k) {
+                    return true;
+                }
             }
             ++i;
         }
-        return count == 0 ? 0 : count + 1;
+        return false;
     }
 
     // 616. 给字符串添加加粗标签 (Add Bold Tag in String) --plus
