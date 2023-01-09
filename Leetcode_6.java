@@ -4201,55 +4201,62 @@ public class Leetcode_6 {
     }
 
     // 6290. 最大化城市的最小供电站数目
-    // public long maxPower(int[] stations, int r, int k) {
-    // int n = stations.length;
-    // long[] diff = new long[n + 1];
-    // for (int i = 0; i < n; ++i) {
-    // int left = Math.max(0, i - r);
-    // diff[left] += stations[i];
-    // int right = Math.min(n, i + r + 1);
-    // diff[right] -= stations[i];
-    // }
-    // for (int i = 1; i < n; ++i) {
-    // diff[i] += diff[i - 1];
-    // }
-    // long left = 0l;
-    // long right = max + k;
-    // long res = 0l;
-    // while (left <= right) {
-    // long mid = left + ((right - left) >> 1);
-    // if (check(arr, mid, r, k)) {
-    // res = mid;
-    // left = mid + 1;
-    // } else {
-    // right = mid - 1;
-    // }
-    // }
-    // return res;
+    public long maxPower(int[] stations, int r, int k) {
+        int n = stations.length;
+        long[] diff = new long[n];
+        for (int i = 0; i < n; ++i) {
+            diff[Math.max(0, i - r)] += stations[i];
+            if (i + r + 1 < n) {
+                diff[i + r + 1] -= stations[i];
+            }
+        }
+        long mn = diff[0];
+        for (int i = 1; i < n; ++i) {
+            diff[i] += diff[i - 1];
+            mn = Math.min(mn, diff[i]);
+        }
 
-    // }
+        long left = mn;
+        long right = (long) (1e10 + k);
+        long res = 0l;
+        while (left <= right) {
+            long mid = left + ((right - left) >> 1);
+            if (check6290(diff, r, k, mid)) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
 
-    // private boolean check(long[] arr, long target, int r, int k) {
-    // long[] diff = new long[arr.length+1];
-    // for (int i = 0; i < arr.length; ++i) {
-    // if (target > arr[i]) {
-    // long min = Math.min(target - arr[i], k);
-    // int left = Math.max(0, i - r);
-    // diff[left] += min;
-    // int right = Math.min(arr.length, i + r + 1);
-    // diff[right] -= min;
-    // }
-    // if (k == 0) {
-    // break;
-    // }
-    // }
-    // long res = diff[0] + arr[0];
-    // for (int i = 1; i < arr.length; ++i) {
-    // diff[i] += diff[i - 1] + arr[i];
-    // res = Math.min(res, diff[i]);
-    // }
-    // return res >= target;
-    // }
+    }
+
+    private boolean check6290(long[] stations, int r, int k, long target) {
+        int n = stations.length;
+        long[] diff = new long[n];
+        long delta = 0l;
+        for (int i = 0; i < n; ++i) {
+            long d = 0l;
+            if (i == 0) {
+                d = target - stations[i];
+            } else {
+                diff[i] += diff[i - 1];
+                d = target - stations[i] - diff[i];
+            }
+            if (d > 0) {
+                delta += d;
+                if (delta > k) {
+                    return false;
+                }
+                diff[i] += d;
+                if (i + 2 * r + 1 < n) {
+                    diff[i + 2 * r + 1] -= d;
+                }
+            }
+        }
+        return true;
+    }
 
     // 6295. 最小化两个数组中的最大值
     // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
