@@ -4970,26 +4970,26 @@ public class Leetcode_5 {
 
     // 2444. 统计定界子数组的数目 (Count Subarrays With Fixed Bounds)
     public long countSubarrays(int[] nums, int minK, int maxK) {
+        int n = nums.length;
+        int minIndex = -1;
+        int maxIndex = -1;
+        int d = -1;
         long res = 0l;
-        int lastMinIndex = -1;
-        int lastMaxIndex = -1;
-        int dividerIndex = 0;
-        for (int i = 0; i < nums.length; ++i) {
+        for (int i = 0; i < n; ++i) {
             if (nums[i] > maxK || nums[i] < minK) {
-                lastMinIndex = -1;
-                lastMaxIndex = -1;
-                dividerIndex = i + 1;
+                minIndex = -1;
+                maxIndex = -1;
+                d = i;
                 continue;
             }
             if (nums[i] == minK) {
-                lastMinIndex = i;
+                minIndex = i;
             }
             if (nums[i] == maxK) {
-                lastMaxIndex = i;
+                maxIndex = i;
             }
-
-            if (lastMaxIndex != -1 && lastMinIndex != -1) {
-                res += Math.min(lastMaxIndex, lastMinIndex) - dividerIndex + 1;
+            if (minIndex != -1 && maxIndex != -1) {
+                res += Math.min(minIndex, maxIndex) - d;
             }
         }
         return res;
