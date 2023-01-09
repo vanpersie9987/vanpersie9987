@@ -4144,14 +4144,9 @@ public class Leetcode_6 {
             if (counts1[i] > 0) {
                 for (int j = 0; j < 26; ++j) {
                     if (counts2[j] > 0) {
-                        if (i == j) {
-                            if (Integer.bitCount(mask1) == Integer.bitCount(mask2)) {
-                                return true;
-                            }
-                        } else {
-                            int copy1 = mask1;
-                            int copy2 = mask2;
-                            
+                        int copy1 = mask1;
+                        int copy2 = mask2;
+                        if (i != j) {
                             if (counts1[i] == 1) {
                                 copy1 ^= 1 << i;
                             }
@@ -4164,9 +4159,9 @@ public class Leetcode_6 {
                             if (counts1[j] == 0) {
                                 copy1 ^= 1 << j;
                             }
-                            if (Integer.bitCount(copy1) == Integer.bitCount(copy2)) {
-                                return true;
-                            }
+                        }
+                        if (Integer.bitCount(copy1) == Integer.bitCount(copy2)) {
+                            return true;
                         }
                     }
                 }
