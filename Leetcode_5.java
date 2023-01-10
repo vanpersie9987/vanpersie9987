@@ -4864,35 +4864,36 @@ public class Leetcode_5 {
 
     // 2439. 最小化数组中的最大值 (Minimize Maximum of Array)
     public int minimizeArrayValue(int[] nums) {
-        int res = -1;
         int left = 0;
-        int right = Arrays.stream(nums).max().getAsInt();
+        int right = 0;
+        int res = -1;
+        for (int i = 0; i < nums.length; ++i) {
+            right = Math.max(right, nums[i]);
+            left = Math.min(left, nums[i]);
+        }
         while (left <= right) {
-            int mid = left + ((right - left) >>> 1);
-            if (check2439(nums, mid)) {
+            int mid = left + ((right - left) >> 1);
+            if (check2439(mid, nums)) {
                 res = mid;
                 right = mid - 1;
             } else {
                 left = mid + 1;
             }
         }
-        return res;
+        return (int) res;
+
     }
 
-    private boolean check2439(int[] nums, int limit) {
+    private boolean check2439(int target, int[] nums) {
         long have = 0l;
-        for (int num : nums) {
-            if (num <= limit) {
-                have += limit - num;
+        for (int i = nums.length - 1; i >= 0; --i) {
+            if (nums[i] > target) {
+                have += nums[i] - target;
             } else {
-                if (have < num - limit) {
-                    return false;
-                } else {
-                    have -= num - limit;
-                }
+                have -= Math.min(have, target - nums[i]);
             }
         }
-        return true;
+        return have <= 0;
     }
 
     // 2441. 与对应负数同时存在的最大正整数 (Largest Positive Integer That Exists With Its
