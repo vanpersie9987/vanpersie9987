@@ -2324,7 +2324,7 @@ public class Leetcode_5 {
 
     }
 
-    // 6183. 字符串的前缀分数和
+    // 2416. 字符串的前缀分数和 (Sum of Prefix Scores of Strings)
     public int[] sumPrefixScores(String[] words) {
         int n = words.length;
         Trie6183 trie = new Trie6183();
