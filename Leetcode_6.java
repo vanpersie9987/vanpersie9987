@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -830,7 +831,7 @@ public class Leetcode_6 {
 
     }
 
-    // LCP 56. 信物传送
+    // LCP 56. 信物传送 -- 0-1 bfs
     public int conveyorBelt(String[] matrix, int[] start, int[] end) {
         int m = matrix.length;
         int n = matrix[0].length();
@@ -845,28 +846,33 @@ public class Leetcode_6 {
         map.put('v', 1);
         map.put('<', 2);
         map.put('>', 3);
-        Queue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
 
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return steps[o1[0]][o1[1]] - steps[o2[0]][o2[1]];
-            }
-
-        });
-        queue.offer(start);
-        while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
+        Deque<int[]> deque = new LinkedList<>();
+        deque.offer(new int[] { start[0], start[1], 0 });
+        while (!deque.isEmpty()) {
+            int[] cur = deque.pollFirst();
             int x = cur[0];
             int y = cur[1];
             int signDir = map.get(matrix[x].charAt(y));
-            int step = steps[x][y];
+            int curStep = cur[2];
+            if (x == end[0] && y == end[1]) {
+                break;
+            }
+            if (curStep > steps[x][y]) {
+                continue;
+            }
             for (int i = 0; i < 4; ++i) {
-                int nStep = step + (i == signDir ? 0 : 1);
+                int nStep = curStep + (i == signDir ? 0 : 1);
                 int nx = x + directions[i][0];
                 int ny = y + directions[i][1];
                 if (nx >= 0 && nx < m && ny >= 0 && ny < n && nStep < steps[nx][ny]) {
                     steps[nx][ny] = nStep;
-                    queue.offer(new int[] { nx, ny });
+                    if (i == signDir) {
+                        deque.offerFirst(new int[] { nx, ny, nStep });
+                    } else {
+                        deque.offerLast(new int[] { nx, ny, nStep });
+                    }
+
                 }
             }
         }
