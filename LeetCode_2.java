@@ -5835,22 +5835,18 @@ public class LeetCode_2 {
       }
       int[] res = new int[nums.length - k + 1];
       Deque<Integer> deque = new LinkedList<>();
-      for (int i = 0; i < k; ++i) {
-         while (!deque.isEmpty() && nums[deque.peekLast()] <= nums[i]) {
-            deque.pollLast();
-         }
-         deque.offerLast(i);
-      }
-      res[0] = nums[deque.peekFirst()];
-      for (int i = k; i < nums.length; ++i) {
-         while (!deque.isEmpty() && nums[deque.peekLast()] <= nums[i]) {
-            deque.pollLast();
-         }
-         deque.offerLast(i);
+      for (int i = 0; i < nums.length; ++i) {
          while (!deque.isEmpty() && i - deque.peekFirst() >= k) {
             deque.pollFirst();
          }
-         res[i - k + 1] = nums[deque.peekFirst()];
+         while (!deque.isEmpty() && nums[deque.peekLast()] <= nums[i]) {
+            deque.pollLast();
+         }
+         deque.offerLast(i);
+         if (i - k + 1 >= 0) {
+            res[i - k + 1] = nums[deque.peekFirst()];
+         }
+
       }
       return res;
 
