@@ -6494,15 +6494,20 @@ public class LeetCodeText {
         return count;
     }
 
-    // 67. 二进制求和 // 剑指 Offer II 002. 二进制加法
+    // 67. 二进制求和 (Add Binary)
+    // 剑指 Offer II 002. 二进制加法
     public String addBinary(String a, String b) {
         StringBuilder res = new StringBuilder();
-        int indexA = a.length() - 1;
-        int indexB = b.length() - 1;
+        int m = a.length() - 1;
+        int n = b.length() - 1;
         int carry = 0;
-        while (indexA >= 0 || indexB >= 0 || carry != 0) {
-            carry += indexA >= 0 ? a.charAt(indexA--) - '0' : 0;
-            carry += indexB >= 0 ? b.charAt(indexB--) - '0' : 0;
+        while (m >= 0 || n >= 0 || carry > 0) {
+            if (m >= 0) {
+                carry += a.charAt(m--) - '0';
+            }
+            if (n >= 0) {
+                carry += b.charAt(n--) - '0';
+            }
             res.append(carry % 2);
             carry /= 2;
         }
