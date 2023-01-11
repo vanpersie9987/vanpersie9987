@@ -4458,21 +4458,23 @@ public class LeetCode_4 {
     // 1807. 替换字符串中的括号内容 (Evaluate the Bracket Pairs of a String)
     public String evaluate(String s, List<List<String>> knowledge) {
         Map<String, String> map = new HashMap<>();
-        for (List<String> know : knowledge) {
-            map.put(know.get(0), know.get(1));
+        for (List<String> k : knowledge) {
+            map.put(k.get(0), k.get(1));
         }
+        int n = s.length();
         StringBuilder res = new StringBuilder();
-        int index = 0;
-        while (index < s.length()) {
-            if (s.charAt(index) != '(') {
-                res.append(s.charAt(index++));
-            } else {
-                int right = index + 1;
-                while (right < s.length() && s.charAt(right) != ')') {
-                    ++right;
+        int i = 0;
+        while (i < n) {
+            if (s.charAt(i) == '(') {
+                int j = i + 1;
+                while (s.charAt(j) != ')') {
+                    ++j;
                 }
-                res.append(map.getOrDefault(s.substring(index + 1, right), "?"));
-                index = right + 1;
+                String key = s.substring(i + 1, j);
+                res.append(map.getOrDefault(key, "?"));
+                i = j + 1;
+            } else {
+                res.append(s.charAt(i++));
             }
         }
         return res.toString();
