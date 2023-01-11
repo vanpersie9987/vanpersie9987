@@ -775,36 +775,49 @@ public class LeetCode_4 {
         return isNum.matches();
     }
 
+    // 2290. 到达角落需要移除障碍物的最小数目 (Minimum Obstacle Removal to Reach Corner)
     public int minimumObstacles(int[][] grid) {
-        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        int[][] directions = { { 0, -1 }, { 1, 0 }, { -1, 0 }, { 0, 1 } };
         int m = grid.length;
         int n = grid[0].length;
-        boolean[][] visited = new boolean[m][n];
-        int[][] dp = new int[m][n];
-        PriorityQueue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
+        int[][] dis = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(dis[i], Integer.MAX_VALUE);
+        }
+        dis[0][0] = 0;
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
 
             @Override
             public int compare(int[] o1, int[] o2) {
-                return dp[o1[0]][o1[1]] - dp[o2[0]][o2[1]];
+                return o1[2] - o2[2];
             }
 
         });
-        queue.offer(new int[] { 0, 0 });
-        while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
+        q.offer(new int[] { 0, 0, 0 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
             int x = cur[0];
             int y = cur[1];
-            for (int[] direction : directions) {
-                int nx = x + direction[0];
-                int ny = y + direction[1];
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny]) {
-                    visited[nx][ny] = true;
-                    dp[nx][ny] = grid[nx][ny] + dp[x][y];
-                    queue.offer(new int[] { nx, ny });
+            int curDis = cur[2];
+            if (x == m - 1 && y == n - 1) {
+                return curDis;
+            }
+            if (curDis > dis[x][y]) {
+                continue;
+            }
+            for (int[] d : directions) {
+                int nx = x + d[0];
+                int ny = y + d[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                    int newDis = grid[nx][ny] == 0 ? curDis : curDis + 1;
+                    if (newDis < dis[nx][ny]) {
+                        dis[nx][ny] = newDis;
+                        q.offer(new int[] { nx, ny, newDis });
+                    }
                 }
             }
         }
-        return dp[m - 1][n - 1];
+        return dis[m - 1][n - 1];
 
     }
 
