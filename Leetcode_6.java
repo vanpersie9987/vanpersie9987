@@ -4232,7 +4232,6 @@ public class Leetcode_6 {
         return true;
     }
 
-
     // 1383. 最大的团队表现值 (Maximum Performance of a Team)
     // public int maxPerformance(int n, int[] speed, int[] efficiency, int k) {
 

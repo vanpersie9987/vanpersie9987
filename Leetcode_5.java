@@ -9835,7 +9835,7 @@ public class Leetcode_5 {
 
     }
 
-    // 6255. 两个城市间路径的最小分数
+    // 2492. 两个城市间路径的最小分数 (Minimum Score of a Path Between Two Cities)
     public int minScore(int n, int[][] roads) {
         Map<Integer, List<int[]>> map = new HashMap<>();
         for (int[] road : roads) {
@@ -9861,6 +9861,65 @@ public class Leetcode_5 {
             }
         }
         return res;
+
+    }
+
+    // 2492. 两个城市间路径的最小分数 (Minimum Score of a Path Between Two Cities)
+    public int minScore2(int n, int[][] roads) {
+        Union2492 union = new Union2492(n);
+        for (int[] road : roads) {
+            union.union(road[0] - 1, road[1] - 1);
+        }
+        int res = Integer.MAX_VALUE;
+        for (int[] road : roads) {
+            if (union.isConnected(0, road[0] - 1)) {
+                res = Math.min(res, road[2]);
+            }
+        }
+        return res;
+
+    }
+
+    public class Union2492 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union2492(int n) {
+            rank = new int[n];
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                rank[i] = 1;
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
 
     }
 
