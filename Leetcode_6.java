@@ -4232,6 +4232,62 @@ public class Leetcode_6 {
         return true;
     }
 
+    // 1032. 字符流 (Stream of Characters)
+    class StreamChecker {
+        private class Trie1032 {
+            private Trie1032[] children;
+            private boolean isEnd;
+
+            public Trie1032() {
+                children = new Trie1032[26];
+            }
+
+            public void insert(String s) {
+                Trie1032 node = this;
+                for (int i = s.length() - 1; i >= 0; --i) {
+                    int index = s.charAt(i) - 'a';
+                    if (node.children[index] == null) {
+                        node.children[index] = new Trie1032();
+                    }
+                    node = node.children[index];
+                }
+                node.isEnd = true;
+            }
+
+            public boolean checkSuffix(String s) {
+                Trie1032 node = this;
+                for (int i = s.length() - 1; i >= 0; --i) {
+                    int index = s.charAt(i) - 'a';
+                    if (node.children[index] == null) {
+                        return false;
+                    }
+                    node = node.children[index];
+                    if (node.isEnd) {
+                        return true;
+                    }
+                }
+                return false;
+
+            }
+
+        }
+
+        private Trie1032 trie;
+        private StringBuilder builder;
+
+        public StreamChecker(String[] words) {
+            builder = new StringBuilder();
+            trie = new Trie1032();
+            for (String word : words) {
+                trie.insert(word);
+            }
+        }
+
+        public boolean query(char letter) {
+            return trie.checkSuffix(builder.append(letter).toString());
+        }
+    }
+
     // 1383. 最大的团队表现值 (Maximum Performance of a Team)
     // public int maxPerformance(int n, int[] speed, int[] efficiency, int k) {
 
