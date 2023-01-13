@@ -9753,23 +9753,25 @@ public class LeetCode_4 {
         return res;
     }
 
-    // 6152. 赢得比赛需要的最少训练时长
+    // 2383. 赢得比赛需要的最少训练时长 (Minimum Hours of Training to Win a Competition)
     public int minNumberOfHours(int initialEnergy, int initialExperience, int[] energy, int[] experience) {
         int n = energy.length;
         int res = 0;
+        int curEnergy = initialEnergy;
+        int curExperience = initialExperience;
         for (int i = 0; i < n; ++i) {
-            if (initialEnergy <= energy[i]) {
-                res += energy[i] - initialEnergy + 1;
-                initialEnergy = 1;
+            if (curEnergy > energy[i]) {
+                curEnergy -= energy[i];
             } else {
-                initialEnergy -= energy[i];
+                res += energy[i] - curEnergy + 1;
+                curEnergy = 1;
             }
-            if (initialExperience <= experience[i]) {
-                int num = experience[i] - initialExperience + 1;
-                res += num;
-                initialExperience += num + experience[i];
+
+            if (curExperience > experience[i]) {
+                curExperience += experience[i];
             } else {
-                initialExperience += experience[i];
+                res += experience[i] - curExperience + 1;
+                curExperience = experience[i] + 1 + experience[i];
             }
         }
         return res;
