@@ -5049,42 +5049,22 @@ public class LeetCode_4 {
         }
     }
 
-    // 6114. 移动片段得到字符串
+    // 2337. 移动片段得到字符串 (Move Pieces to Obtain a String)
     public boolean canChange(String start, String target) {
-        List<int[]> starts = new ArrayList<>();
-        List<int[]> targets = new ArrayList<>();
-        int n = start.length();
-        for (int i = 0; i < n; ++i) {
-            if (start.charAt(i) != '_') {
-                if (start.charAt(i) == 'L') {
-                    starts.add(new int[] { 0, i });
-                } else {
-                    starts.add(new int[] { 1, i });
-                }
-            }
-
-            if (target.charAt(i) != '_') {
-                if (target.charAt(i) == 'L') {
-                    targets.add(new int[] { 0, i });
-                } else {
-                    targets.add(new int[] { 1, i });
-                }
-            }
-        }
-        if (starts.size() != targets.size()) {
+        if (!start.replaceAll("_", "").equals(target.replaceAll("_", ""))) {
             return false;
         }
-        int m = starts.size();
-        for (int i = 0; i < m; ++i) {
-            if (starts.get(i)[0] != targets.get(i)[0]) {
+        for (int i = 0, j = 0; i < start.length(); ++i) {
+            if (start.charAt(i) == '_') {
+                continue;
+            }
+            while (target.charAt(j) == '_') {
+                ++j;
+            }
+            if (i != j && (start.charAt(i) == 'L') == (i < j)) {
                 return false;
             }
-            if (starts.get(i)[0] == 0 && starts.get(i)[1] < targets.get(i)[1]) {
-                return false;
-            }
-            if (starts.get(i)[0] == 1 && starts.get(i)[1] > targets.get(i)[1]) {
-                return false;
-            }
+            ++j;
         }
         return true;
 
