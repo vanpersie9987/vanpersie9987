@@ -15422,23 +15422,32 @@ public class LeetCodeText {
 
     // 1189. “气球” 的最大数量 (Maximum Number of Balloons)
     public int maxNumberOfBalloons(String text) {
-        int[] counts = new int[5];
+        int[] counts = new int[26];
         for (char c : text.toCharArray()) {
-            if (c == 'b') {
-                ++counts[0];
-            } else if (c == 'a') {
-                ++counts[1];
-            } else if (c == 'l') {
-                ++counts[2];
-            } else if (c == 'o') {
-                ++counts[3];
-            } else if (c == 'n') {
-                ++counts[4];
-            }
+            ++counts[c - 'a'];
         }
-        counts[2] /= 2;
-        counts[3] /= 2;
-        return Arrays.stream(counts).min().getAsInt();
+        int res = Integer.MAX_VALUE;
+        if (counts['b' - 'a'] == 0) {
+            return 0;
+        }
+        res = Math.min(res, counts['b' - 'a']);
+        if (counts['a' - 'a'] == 0) {
+            return 0;
+        }
+        res = Math.min(res, counts['a' - 'a']);
+        if (counts['l' - 'a'] == 0) {
+            return 0;
+        }
+        res = Math.min(res, counts['l' - 'a'] >> 1);
+        if (counts['o' - 'a'] == 0) {
+            return 0;
+        }
+        res = Math.min(res, counts['o' - 'a'] >> 1);
+        if (counts['n' - 'a'] == 0) {
+            return 0;
+        }
+        res = Math.min(res, counts['n' - 'a']);
+        return res;
 
     }
 
