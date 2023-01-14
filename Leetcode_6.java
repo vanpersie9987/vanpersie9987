@@ -3696,7 +3696,7 @@ public class Leetcode_6 {
         }
     }
 
-    // 剑指 Offer 51. 数组中的逆序对 --二分查找 还需掌握：线段树、树状数组、归并排序
+    // 剑指 Offer 51. 数组中的逆序对 --二分查找 还需掌握：线段树、树状数组
     public int reversePairs(int[] nums) {
         List<Integer> list = new ArrayList<>();
         int res = 0;
@@ -3732,6 +3732,64 @@ public class Leetcode_6 {
         }
         list.add(left, target);
         return count;
+    }
+
+    // 剑指 Offer 51. 数组中的逆序对 --归并排序 还需掌握：线段树、树状数组
+    private int res_offer_051;
+
+    public int reversePairs2(int[] nums) {
+        int n = nums.length;
+        if (n <= 1) {
+            return 0;
+        }
+        dfs_offer_051(nums);
+        return res_offer_051;
+
+    }
+
+    private int[] dfs_offer_051(int[] nums) {
+        int n = nums.length;
+        if (n <= 1) {
+            return nums;
+        }
+        int mid = n >> 1;
+        int[] a = new int[mid];
+        int[] b = new int[n - mid];
+        for (int i = 0; i < n; ++i) {
+            if (i < mid) {
+                a[i] = nums[i];
+            } else {
+                b[i - mid] = nums[i];
+            }
+        }
+        int[] sorted1 = dfs_offer_051(a);
+        int[] sorted2 = dfs_offer_051(b);
+        int i = 0;
+        for (int x : sorted1) {
+            while (i < sorted2.length && x > sorted2[i]) {
+                ++i;
+            }
+            res_offer_051 += i;
+        }
+        int[] res = new int[n];
+        int j = 0;
+        int k = 0;
+        int index = 0;
+        while (j < sorted1.length && k < sorted2.length) {
+            if (sorted1[j] < sorted2[k]) {
+                res[index++] = sorted1[j++];
+            } else {
+                res[index++] = sorted2[k++];
+            }
+        }
+        while (j < sorted1.length) {
+            res[index++] = sorted1[j++];
+        }
+        while (k < sorted2.length) {
+            res[index++] = sorted2[k++];
+        }
+        return res;
+
     }
 
     // 834. 树中距离之和 (Sum of Distances in Tree) --树型dp
@@ -4559,4 +4617,5 @@ public class Leetcode_6 {
     // public int countPalindromes(String s) {
 
     // }
+
 }
