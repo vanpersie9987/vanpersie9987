@@ -4331,7 +4331,7 @@ public class Leetcode_6 {
         public NumArray(int[] nums) {
             this.n = nums.length;
             this.nums = nums;
-            this.segmentTree = new int[Integer.highestOneBit(n) << 2];
+            this.segmentTree = new int[Integer.highestOneBit(n << 2)];
             build(1, 1, n);
         }
 
