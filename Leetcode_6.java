@@ -1,3 +1,4 @@
+import java.nio.channels.Pipe;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -4319,6 +4320,68 @@ public class Leetcode_6 {
 
     private int getGCD1839(int a, int b) {
         return b == 0 ? a : getGCD1839(b, a % b);
+    }
+
+    // 307. 区域和检索 - 数组可修改 (Range Sum Query - Mutable) --线段树
+    class NumArray {
+        private int[] segmentTree;
+        private int[] nums;
+        private int n;
+
+        public NumArray(int[] nums) {
+            this.n = nums.length;
+            this.nums = nums;
+            this.segmentTree = new int[Integer.highestOneBit(n) << 2];
+            build(1, 1, n);
+        }
+
+        private void build(int o, int l, int r) {
+            if (l == r) {
+                segmentTree[o] = nums[l - 1];
+                return;
+            }
+            int mid = l + ((r - l) >> 1);
+            build(o * 2, l, mid);
+            build(o * 2 + 1, mid + 1, r);
+            segmentTree[o] = segmentTree[o * 2] + segmentTree[o * 2 + 1];
+        }
+
+        public void update(int index, int val) {
+            // nums[index] = val;
+            change(1, 1, n, index + 1, val);
+        }
+
+        private void change(int o, int l, int r, int index, int val) {
+            if (l == r) {
+                segmentTree[o] = val;
+                return;
+            }
+            int mid = l + ((r - l) >> 1);
+            if (index <= mid) {
+                change(o * 2, l, mid, index, val);
+            } else {
+                change(o * 2 + 1, mid + 1, r, index, val);
+            }
+            segmentTree[o] = segmentTree[o * 2] + segmentTree[o * 2 + 1];
+        }
+
+        public int sumRange(int left, int right) {
+            return query(1, 1, n, left + 1, right + 1);
+        }
+
+        private int query(int o, int l, int r, int L, int R) {
+            if (L <= l && r <= R) {
+                return segmentTree[o];
+            }
+            int mid = l + ((r - l) >> 1);
+            if (R <= mid) {
+                return query(o * 2, l, mid, L, R);
+            }
+            if (L >= mid + 1) {
+                return query(o * 2 + 1, mid + 1, r, L, R);
+            }
+            return query(o * 2, l, mid, L, mid) + query(o * 2 + 1, mid + 1, r, mid + 1, R);
+        }
     }
 
     // 1383. 最大的团队表现值 (Maximum Performance of a Team)
