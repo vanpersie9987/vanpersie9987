@@ -4288,6 +4288,39 @@ public class Leetcode_6 {
         }
     }
 
+    // 1819. 序列中不同最大公约数的数目 (Number of Different Subsequences GCDs)
+    public int countDifferentSubsequenceGCDs(int[] nums) {
+        int max = Arrays.stream(nums).max().getAsInt();
+        boolean[] occour = new boolean[max + 1];
+        for (int num : nums) {
+            occour[num] = true;
+        }
+        int res = 0;
+        for (int i = 1; i <= max; ++i) {
+            int subGCD = 0;
+            for (int j = i; j <= max; j += i) {
+                if (occour[j]) {
+                    if (subGCD == 0) {
+                        subGCD = j;
+                    } else {
+                        subGCD = getGCD1839(subGCD, j);
+                    }
+
+                    if (subGCD == i) {
+                        ++res;
+                        break;
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int getGCD1839(int a, int b) {
+        return b == 0 ? a : getGCD1839(b, a % b);
+    }
+
     // 1383. 最大的团队表现值 (Maximum Performance of a Team)
     // public int maxPerformance(int n, int[] speed, int[] efficiency, int k) {
 
@@ -4343,5 +4376,4 @@ public class Leetcode_6 {
     // public int countPalindromes(String s) {
 
     // }
-
 }
