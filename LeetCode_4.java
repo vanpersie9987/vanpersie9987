@@ -6118,6 +6118,46 @@ public class LeetCode_4 {
         return maxLen;
     }
 
+    // 912. 排序数组 (Sort an Array) --归并排序
+    public int[] sortArray2(int[] nums) {
+        int n = nums.length;
+        if (n <= 1) {
+            return nums;
+        }
+        int mid = n >> 1;
+        int[] a = new int[mid];
+        int[] b = new int[n - mid];
+        for (int i = 0; i < n; ++i) {
+            if (i < mid) {
+                a[i] = nums[i];
+            } else {
+                b[i - mid] = nums[i];
+            }
+        }
+        int[] res1 = sortArray(a);
+        int[] res2 = sortArray(b);
+
+        int i = 0;
+        int j = 0;
+        int index = 0;
+        int[] res = new int[n];
+        while (i < res1.length || j < res2.length) {
+            if (i < res1.length && j < res2.length) {
+                if (res1[i] < res2[j]) {
+                    res[index++] = res1[i++];
+                } else {
+                    res[index++] = res2[j++];
+                }
+            } else if (i < res1.length) {
+                res[index++] = res1[i++];
+            } else {
+                res[index++] = res2[j++];
+            }
+        }
+        return res;
+
+    }
+
     // 2351. 第一个出现两次的字母 (First Letter to Appear Twice)
     public char repeatedCharacter(String s) {
         int mask = 0;
