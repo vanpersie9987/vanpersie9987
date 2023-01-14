@@ -4384,7 +4384,7 @@ public class Leetcode_6 {
         }
     }
 
-    // 1649. 通过指令创建有序数组 (Create Sorted Array through Instructions)
+    // 1649. 通过指令创建有序数组 (Create Sorted Array through Instructions) --还需掌握线段树、树状数组
     public int createSortedArray(int[] instructions) {
         final int MOD = (int) (1e9 + 7);
         int res = 0;
