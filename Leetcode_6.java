@@ -4384,6 +4384,70 @@ public class Leetcode_6 {
         }
     }
 
+    // 1649. 通过指令创建有序数组 (Create Sorted Array through Instructions)
+    public int createSortedArray(int[] instructions) {
+        final int MOD = (int) (1e9 + 7);
+        int res = 0;
+        List<Integer> list = new ArrayList<>();
+        for (int instruction : instructions) {
+            int count1 = binarySearchLower1649(list, instruction);
+            int count2 = binarySearchHigher1649(list, instruction);
+            res = (res + Math.min(count1, count2)) % MOD;
+        }
+        return res;
+
+    }
+
+    private int binarySearchLower1649(List<Integer> list, int target) {
+        int n = list.size();
+        if (list.isEmpty() || target <= list.get(0)) {
+            return 0;
+        }
+        if (target > list.get(n - 1)) {
+            return n;
+        }
+        int left = 0;
+        int right = n - 1;
+        int count = 0;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (list.get(mid) < target) {
+                count = mid + 1;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return count;
+    }
+
+
+    private int binarySearchHigher1649(List<Integer> list, int target) {
+        int n = list.size();
+        if (list.isEmpty() || target >= list.get(n - 1)) {
+            list.add(target);
+            return 0;
+        }
+        if (target < list.get(0)) {
+            list.add(0, target);
+            return n;
+        }
+        int left = 0;
+        int right = n - 1;
+        int count = 0;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (list.get(mid) > target) {
+                count = n - mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        list.add(left, target);
+        return count;
+    }
+
     // 1383. 最大的团队表现值 (Maximum Performance of a Team)
     // public int maxPerformance(int n, int[] speed, int[] efficiency, int k) {
 
