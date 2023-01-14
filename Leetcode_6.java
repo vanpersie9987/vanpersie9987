@@ -4420,7 +4420,6 @@ public class Leetcode_6 {
         return count;
     }
 
-
     private int binarySearchHigher1649(List<Integer> list, int target) {
         int n = list.size();
         if (list.isEmpty() || target >= list.get(n - 1)) {
@@ -4445,6 +4444,64 @@ public class Leetcode_6 {
         }
         list.add(left, target);
         return count;
+    }
+
+    // 493. 翻转对 (Reverse Pairs)
+    private int res493;
+
+    public int reversePairs493(int[] nums) {
+        int n = nums.length;
+        if (n <= 1) {
+            return 0;
+        }
+        dfs493(nums);
+
+        return res493;
+    }
+
+    private int[] dfs493(int[] nums) {
+        int n = nums.length;
+        if (n <= 1) {
+            return nums;
+        }
+        int mid = n >> 1;
+        int[] a = new int[mid];
+        int[] b = new int[n - mid];
+        for (int i = 0; i < n; ++i) {
+            if (i < mid) {
+                a[i] = nums[i];
+            } else {
+                b[i - mid] = nums[i];
+            }
+        }
+        int[] res1 = dfs493(a);
+        int[] res2 = dfs493(b);
+        int i = 0;
+        for (int x : res1) {
+            while (i < res2.length && (long) x > res2[i] * 2l) {
+                ++i;
+            }
+            res493 += i;
+        }
+
+        int j = 0;
+        int k = 0;
+        int index = 0;
+        int[] res = new int[n];
+        while (j < res1.length || k < res2.length) {
+            if (j < res1.length && k < res2.length) {
+                if (res1[j] < res2[k]) {
+                    res[index++] = res1[j++];
+                } else {
+                    res[index++] = res2[k++];
+                }
+            } else if (j < res1.length) {
+                res[index++] = res1[j++];
+            } else {
+                res[index++] = res2[k++];
+            }
+        }
+        return res;
     }
 
     // 1383. 最大的团队表现值 (Maximum Performance of a Team)
