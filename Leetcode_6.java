@@ -3954,7 +3954,7 @@ public class Leetcode_6 {
         return count;
     }
 
-    // 2426. 满足不等式的数对数目 (Number of Pairs Satisfying Inequality) --二分查找 还需掌握 树状数组 归并排序
+    // 2426. 满足不等式的数对数目 (Number of Pairs Satisfying Inequality) --二分查找 还需掌握 树状数组
     public long numberOfPairs(int[] nums1, int[] nums2, int diff) {
         int n = nums1.length;
         List<Integer> list = new ArrayList<>();
@@ -4016,6 +4016,69 @@ public class Leetcode_6 {
         }
         list.add(left, target);
         return;
+    }
+
+    // 2426. 满足不等式的数对数目 (Number of Pairs Satisfying Inequality) --归并排序 还需掌握 树状数组
+    private long res2426;
+    private int diff2426;
+    public long numberOfPairs2(int[] nums1, int[] nums2, int diff) {
+        int n = nums1.length;
+        int[] arr = new int[n];
+        for (int i = 0; i < n; ++i) {
+            arr[i] = nums1[i] - nums2[i];
+        }
+        this.diff2426 = diff;
+        mergingSort2426(arr);
+        return res2426;
+    }
+
+    private int[] mergingSort2426(int[] arr) {
+        int n = arr.length;
+        if (n <= 1) {
+            return arr;
+        }
+        int mid = n >> 1;
+        int[] a = new int[mid];
+        int[] b = new int[n - mid];
+        for (int i = 0; i < n; ++i) {
+            if (i < mid) {
+                a[i] = arr[i];
+            } else {
+                b[i - mid] = arr[i];
+            }
+        }
+        int[] sorted1 = mergingSort2426(a);
+        int[] sorted2 = mergingSort2426(b);
+        int i = 0;
+        int j = 0;
+        while (i < sorted1.length && j < sorted2.length) {
+            if (sorted2[j] + diff2426 >= sorted1[i]) {
+                res2426 += sorted2.length - j;
+                ++i;
+            } else {
+                ++j;
+            }
+        }
+        
+        int[] res = new int[n];
+        i = 0;
+        j = 0;
+        int index = 0;
+        while (i < sorted1.length && j < sorted2.length) {
+            if (sorted1[i] < sorted2[j]) {
+                res[index++] = sorted1[i++];
+            } else {
+                res[index++] = sorted2[j++];
+            }
+        }
+        while (i < sorted1.length) {
+            res[index++] = sorted1[i++];
+        }
+        while (j < sorted2.length) {
+            res[index++] = sorted2[j++];
+        }
+        return res;
+
     }
 
     // 2466. 统计构造好字符串的方案数 (Count Ways To Build Good Strings)
@@ -4504,7 +4567,7 @@ public class Leetcode_6 {
         return count;
     }
 
-    // 493. 翻转对 (Reverse Pairs)
+    // 493. 翻转对 (Reverse Pairs) --归并排序
     private int res493;
 
     public int reversePairs493(int[] nums) {
@@ -4562,60 +4625,130 @@ public class Leetcode_6 {
         return res;
     }
 
-    // 1383. 最大的团队表现值 (Maximum Performance of a Team)
-    // public int maxPerformance(int n, int[] speed, int[] efficiency, int k) {
+    // 6291. 数组元素和与数字和的绝对差
+    public int differenceOfSum(int[] nums) {
+        int sum = Arrays.stream(nums).sum();
+        int bitSum = 0;
+        for (int num : nums) {
+            bitSum += getSum(num);
+        }
+        return Math.abs(sum - bitSum);
+
+    }
+
+    private int getSum(int num) {
+        int sum = 0;
+        while (num != 0) {
+            sum += num % 10;
+            num /= 10;
+        }
+        return sum;
+    }
+    
+    // 6292. 子矩阵元素加 1
+    public int[][] rangeAddQueries(int n, int[][] queries) {
+        int[][] diff = new int[n][n + 1];
+        for (int[] query : queries) {
+            int r1 = query[0];
+            int c1 = query[1];
+            int r2 = query[2];
+            int c2 = query[3];
+            for (int i = r1; i <= r2; ++i) {
+                ++diff[i][c1];
+                --diff[i][c2 + 1];
+            }
+        }
+
+        for (int i = 0; i < n; ++i) {
+            for (int j = 1; j <= n; ++j) {
+                diff[i][j] += diff[i][j - 1];
+            }
+        }
+        int[][] res = new int[n][n];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                res[i][j] = diff[i][j];
+            }
+        }
+
+        return res;
+
+    }
+
+    // 6293. 统计好子数组的数目
+    public long countGood(int[] nums, int k) {
+        int n = nums.length;
+        long res = 0l;
+        Map<Integer, Integer> map = new HashMap<>();
+        int i = 0;
+        int j = 0;
+        int cur = 0;
+        while (j < n) {
+            map.put(nums[j], map.getOrDefault(nums[j], 0) + 1);
+            cur += map.get(nums[j]) - 1;
+            while (cur >= k) {
+                res += n - j;
+                map.put(nums[i], map.getOrDefault(nums[i], 0) - 1);
+                cur -= map.get(nums[i]);
+                ++i;
+            }
+            ++j;
+        }
+        return res;
+
+    }
+
+    // private Map<Integer, List<Integer>> map;
+    // private int[] price;
+
+    // private long[] max;
+
+    // private long res;
+
+    // public long maxOutput(int n, int[][] edges, int[] price) {
+    //     map = new HashMap<>();
+    //     for (int[] edge : edges) {
+    //         map.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+    //         map.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+    //     }
+    //     map.computeIfAbsent(-1, k -> new ArrayList<>()).add(0);
+    //     map.computeIfAbsent(0, k -> new ArrayList<>()).add(-1);
+    //     max = new long[n];
+    //     this.price = price;
+    //     max[0] = dfs(0, -1);
+    //     res = max[0] - price[0];
+    //     dfs_2(0, -1);
+    //     return res;
 
     // }
 
-    // 6295. 最小化两个数组中的最大值
-    // public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
-    // uniqueCnt2) {
+    // private void dfs_2(int x, int fa) {
+    //     long m = 0l;
+    //     for (int y : map.getOrDefault(x, new ArrayList<>())) {
+    //         if (y != fa) {
+    //             // res = Math.max(res, max[y] - price[y]);
+    //             m = Math.max(m, max[y]);
+    //             // res = Math.max(res, price[x] + m);
+    //             // dfs_2(y, x);
+    //         }
+    //     }
 
     // }
 
-    // 6276. 统计同位异构字符串数目
-    // public int countAnagrams(String s) {
+    // private long dfs(int x, int fa) {
+    //     // if (map.getOrDefault(x, new ArrayList<>()).size() == 1) {
+    //     // max[x] = price[x];
+    //     // return max[x];
+    //     // }
+    //     long curMax = price[x];
+    //     for (int y : map.getOrDefault(x, new ArrayList<>())) {
+    //         if (y != fa) {
+    //             long max = dfs(y, x);
+    //             curMax = Math.max(curMax, max + price[x]);
+    //         }
+    //     }
+    //     max[x] = curMax;
+    //     return max[x];
 
     // }
-
-    // 6272. 好分区的数目
-    // public int countPartitions(int[] nums, int k) {
-
-    // }
-
-    // 1372. 二叉树中的最长交错路径 (Longest ZigZag Path in a Binary Tree)
-    // public int longestZigZag(TreeNode root) {
-
-    // }
-
-    // 549. 二叉树中最长的连续序列 (Binary Tree Longest Consecutive Sequence II) --plus
-    // public int longestConsecutive(TreeNode root) {
-
-    // }
-
-    // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
-    // public int[] countRectangles(int[][] rectangles, int[][] points) {
-
-    // }
-
-    // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls)
-    // public int maxProfit(int[] inventory, int orders) {
-
-    // }
-
-    // 1562. 查找大小为 M 的最新分组 (Find Latest Group of Size M)
-    // public int findLatestStep(int[] arr, int m) {
-
-    // }
-
-    // 813. 最大平均值和的分组 (Largest Sum of Averages)
-    // public double largestSumOfAverages(int[] nums, int k) {
-
-    // }
-
-    // 2484. 统计回文子序列数目 (Count Palindromic Subsequences)
-    // public int countPalindromes(String s) {
-
-    // }
-
 }
