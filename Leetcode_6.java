@@ -4645,7 +4645,7 @@ public class Leetcode_6 {
         return sum;
     }
     
-    // 6292. 子矩阵元素加 1
+    // 6292. 子矩阵元素加 1 --一维差分数组
     public int[][] rangeAddQueries(int n, int[][] queries) {
         int[][] diff = new int[n][n + 1];
         for (int[] query : queries) {
