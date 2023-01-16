@@ -8052,15 +8052,13 @@ public class LeetCodeText {
 
     // 1814. 统计一个数组中好对子的数目 (Count Nice Pairs in an Array)
     public int countNicePairs(int[] nums) {
-        final int MOD = 1000000007;
+        final int MOD = (int) (1e9 + 7);
+        long res = 0l;
         Map<Integer, Integer> map = new HashMap<>();
         for (int num : nums) {
-            int res = num - rev(num);
-            map.put(res, map.getOrDefault(res, 0) + 1);
-        }
-        long res = 0;
-        for (long value : map.values()) {
-            res = res + value * (value - 1) / 2 % MOD;
+            int diff = num - rev(num);
+            res = (res + map.getOrDefault(diff, 0)) % MOD;
+            map.put(diff, map.getOrDefault(diff, 0) + 1);
         }
         return (int) (res % MOD);
 
