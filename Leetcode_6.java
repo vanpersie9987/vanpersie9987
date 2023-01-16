@@ -4627,12 +4627,12 @@ public class Leetcode_6 {
 
     // 6291. 数组元素和与数字和的绝对差
     public int differenceOfSum(int[] nums) {
-        int sum = Arrays.stream(nums).sum();
-        int bitSum = 0;
+        int sum = 0;
         for (int num : nums) {
-            bitSum += getSum(num);
+            sum += num;
+            sum -= getSum(num);
         }
-        return Math.abs(sum - bitSum);
+        return sum;
 
     }
 
