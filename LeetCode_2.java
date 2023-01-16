@@ -1317,27 +1317,38 @@ public class LeetCode_2 {
 
    }
 
-   // 148. 排序链表 (Sort List) -- 还需掌握空间复杂度为O(1)的归并排序、分治算法
+   // 148. 排序链表 (Sort List) --归并排序
    // 剑指 Offer II 077. 链表排序
    public ListNode sortList(ListNode head) {
-      List<ListNode> list = new ArrayList<>();
-      ListNode cur = head;
-      while (cur != null) {
-         list.add(cur);
-         cur = cur.next;
+      if (head == null || head.next == null) {
+         return head;
       }
-      Collections.sort(list, (o1, o2) -> o1.val - o2.val);
+      ListNode slow = head;
+      ListNode fast = head;
+      while (fast.next != null && fast.next.next != null) {
+         slow = slow.next;
+         fast = fast.next.next;
+      }
+      ListNode head2 = slow.next;
+      slow.next = null;
+
+      ListNode sorted1 = sortList(head);
+      ListNode sorted2 = sortList(head2);
 
       ListNode dummy = new ListNode(0);
-      cur = dummy;
-      for (int i = 0; i < list.size(); ++i) {
-         ListNode added = list.get(i);
-         cur.next = added;
+      ListNode cur = dummy;
+      while (sorted1 != null && sorted2 != null) {
+         if (sorted1.val < sorted2.val) {
+            cur.next = sorted1;
+            sorted1 = sorted1.next;
+         } else {
+            cur.next = sorted2;
+            sorted2 = sorted2.next;
+         }
          cur = cur.next;
       }
-      cur.next = null;
+      cur.next = sorted1 == null ? sorted2 : sorted1;
       return dummy.next;
-
    }
 
    // 160. 相交链表 (Intersection of Two Linked Lists)

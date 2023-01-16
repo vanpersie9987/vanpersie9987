@@ -4021,6 +4021,7 @@ public class Leetcode_6 {
     // 2426. 满足不等式的数对数目 (Number of Pairs Satisfying Inequality) --归并排序 还需掌握 树状数组
     private long res2426;
     private int diff2426;
+
     public long numberOfPairs2(int[] nums1, int[] nums2, int diff) {
         int n = nums1.length;
         int[] arr = new int[n];
@@ -4059,7 +4060,7 @@ public class Leetcode_6 {
                 ++j;
             }
         }
-        
+
         int[] res = new int[n];
         i = 0;
         j = 0;
@@ -4644,7 +4645,7 @@ public class Leetcode_6 {
         }
         return sum;
     }
-    
+
     // 6292. 子矩阵元素加 1 --一维差分数组
     public int[][] rangeAddQueries(int n, int[][] queries) {
         int[][] diff = new int[n][n + 1];
