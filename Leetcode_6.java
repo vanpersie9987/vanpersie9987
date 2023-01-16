@@ -4685,8 +4685,8 @@ public class Leetcode_6 {
         int j = 0;
         int cur = 0;
         while (j < n) {
+            cur += map.getOrDefault(nums[j], 0);
             map.put(nums[j], map.getOrDefault(nums[j], 0) + 1);
-            cur += map.get(nums[j]) - 1;
             while (cur >= k) {
                 res += n - j;
                 map.put(nums[i], map.getOrDefault(nums[i], 0) - 1);
