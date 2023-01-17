@@ -8670,31 +8670,35 @@ public class Leetcode_5 {
 
     // 2400. 恰好移动 k 步到达某一位置的方法数目 (Number of Ways to Reach a Position After Exactly k
     // Steps)
+    private Map<Integer, Integer> memo2400;
+
+    private static final int MOD2400 = (int) (1e9 + 7);
+
     public int numberOfWays(int startPos, int endPos, int k) {
-        Map<String, Long> memo = new HashMap<>();
-        return dfs2400(startPos, endPos, k, memo);
+        memo2400 = new HashMap<>();
+        return dfs2400(startPos, endPos, k);
+
     }
 
-    private int dfs2400(int startPos, int endPos, int k, Map<String, Long> memo) {
+    private int dfs2400(int startPos, int endPos, int k) {
         if (Math.abs(startPos - endPos) > k) {
             return 0;
         }
         if (k == 0) {
-            if (startPos == endPos) {
-                return 1;
-            }
-            return 0;
+            return startPos == endPos ? 1 : 0;
         }
-        final int mod = (int) (1e9 + 7);
-        String visited = startPos + "_" + k;
-        if (memo.containsKey(visited)) {
-            return (int) (memo.get(visited) % mod);
+        if (memo2400.containsKey(trans2400(k, startPos))) {
+            return memo2400.get(trans2400(k, startPos));
         }
         long res = 0l;
-        res = (res + dfs2400(startPos + 1, endPos, k - 1, memo)) % mod;
-        res = (res + dfs2400(startPos - 1, endPos, k - 1, memo)) % mod;
-        memo.put(visited, res);
-        return (int) (memo.get(visited) % mod);
+        res = (res + dfs2400(startPos + 1, endPos, k - 1)) % MOD2400;
+        res = (res + dfs2400(startPos - 1, endPos, k - 1)) % MOD2400;
+        memo2400.put(trans2400(k, startPos), (int) (res % MOD2400));
+        return (int) (res % MOD2400);
+    }
+
+    private int trans2400(int k, int startPos) {
+        return k * 1000 + startPos + 1000;
     }
 
     // 1540. K 次操作转变字符串 (Can Convert String in K Moves)
