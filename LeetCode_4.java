@@ -8355,6 +8355,7 @@ public class LeetCode_4 {
     // 2370. 最长理想子序列 (Longest Ideal Subsequence) (参考第300题)
     public int longestIdealString(String s, int k) {
         int[] dp = new int[26];
+        int res = 0;
         for (char c : s.toCharArray()) {
             int x = c - 'a';
             int cur = 0;
@@ -8364,8 +8365,9 @@ public class LeetCode_4 {
                 }
             }
             dp[x] = Math.max(dp[x], cur);
+            res = Math.max(res, dp[x]);
         }
-        return Arrays.stream(dp).max().getAsInt();
+        return res;
 
     }
 
