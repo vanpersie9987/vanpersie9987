@@ -8333,66 +8333,23 @@ public class LeetCode_4 {
     // 6137. 检查数组是否存在有效划分 (Check if There is a Valid Partition For The Array)
     public boolean validPartition(int[] nums) {
         int n = nums.length;
-        boolean[] dp = new boolean[n];
-        if (nums[1] == nums[0]) {
-            dp[1] = true;
-        }
-        for (int i = 2; i < n; ++i) {
-            if (nums[i] == nums[i - 1] && dp[i - 2]) {
-                dp[i] = true;
-            } else if (nums[i] == nums[i - 1] && nums[i - 1] == nums[i - 2]) {
-                if (i == 2 || dp[i - 3]) {
-                    dp[i] = true;
+        boolean[] valid = new boolean[n + 1];
+        valid[0] = true;
+        for (int i = 2; i <= n; ++i) {
+            if (valid[i - 2] && nums[i - 1] == nums[i - 2]) {
+                valid[i] = true;
+            }
+            if (i > 2 && valid[i - 3]) {
+                if (nums[i - 1] == nums[i - 2] && nums[i - 2] == nums[i - 3]) {
+                    valid[i] = true;
                 }
-            } else if (nums[i] - nums[i - 1] == 1 && nums[i - 1] - nums[i - 2] == 1) {
-                if (i == 2 || dp[i - 3]) {
-                    dp[i] = true;
+                if (nums[i - 1] - nums[i - 2] == 1 && nums[i - 2] - nums[i - 3] == 1) {
+                    valid[i] = true;
                 }
             }
         }
-        return dp[n - 1];
+        return valid[n];
 
-    }
-
-    // 6137. 检查数组是否存在有效划分 (Check if There is a Valid Partition For The Array)
-    public boolean validPartition2(int[] nums) {
-        int n = nums.length;
-        boolean one = false;
-        boolean two = false;
-        boolean three = false;
-        boolean four = false;
-        if (nums[0] == nums[1]) {
-            two = true;
-            if (n == 2) {
-                return two;
-            }
-        }
-        if (n >= 3) {
-            if (nums[1] == nums[2] && one) {
-                three = true;
-            } else if (nums[0] == nums[1] && nums[1] == nums[2]) {
-                three = true;
-            } else if (nums[2] - nums[1] == 1 && nums[1] - nums[0] == 1) {
-                three = true;
-            }
-            if (n == 3) {
-                return three;
-            }
-        }
-        for (int i = 3; i < n; ++i) {
-            four = false;
-            if (nums[i] == nums[i - 1] && two) {
-                four = true;
-            } else if (nums[i] == nums[i - 1] && nums[i - 1] == nums[i - 2] && one) {
-                four = true;
-            } else if (nums[i] - nums[i - 1] == 1 && nums[i - 1] - nums[i - 2] == 1 && one) {
-                four = true;
-            }
-            one = two;
-            two = three;
-            three = four;
-        }
-        return four;
     }
 
     // 2370. 最长理想子序列 (Longest Ideal Subsequence) (参考第300题)
