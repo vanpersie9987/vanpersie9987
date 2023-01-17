@@ -4244,19 +4244,19 @@ public class Leetcode_5 {
 
     // 6203. 矩阵中和能被 K 整除的路径
     public int numberOfPaths(int[][] grid, int k) {
-        int mod = (int) (1e9 + 7);
+        final int mod = (int) (1e9 + 7);
         int m = grid.length;
         int n = grid[0].length;
         int[][][] dp = new int[m][n][k];
         dp[0][0][grid[0][0] % k] = 1;
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                for (int d = 0; d < k; ++d) {
+                for (int x = 0; x < k; ++x) {
                     if (i > 0) {
-                        dp[i][j][d] = (dp[i][j][d] + dp[i - 1][j][(d - grid[i][j] % k + k) % k]) % mod;
+                        dp[i][j][x] = (dp[i][j][x] + dp[i - 1][j][((x - grid[i][j]) % k + k) % k]) % mod;
                     }
                     if (j > 0) {
-                        dp[i][j][d] = (dp[i][j][d] + dp[i][j - 1][(d - grid[i][j] % k + k) % k]) % mod;
+                        dp[i][j][x] = (dp[i][j][x] + dp[i][j - 1][((x - grid[i][j]) % k + k) % k]) % mod;
                     }
                 }
             }
