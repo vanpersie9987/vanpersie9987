@@ -4703,57 +4703,35 @@ public class Leetcode_6 {
 
     }
 
-    // private Map<Integer, List<Integer>> map;
-    // private int[] price;
+    // 2538. 最大价值和与最小价值和的差值 (Difference Between Maximum and Minimum Price Sum)
+    private Map<Integer, List<Integer>> map2538;
+    private int[] price2538;
+    private long res2538;
 
-    // private long[] max;
+    public long maxOutput(int n, int[][] edges, int[] price) {
+        map2538 = new HashMap<>();
+        for (int[] edge : edges) {
+            map2538.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            map2538.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+        }
+        this.price2538 = price;
+        dfs2538(0, -1);
+        return res2538;
 
-    // private long res;
+    }
 
-    // public long maxOutput(int n, int[][] edges, int[] price) {
-    //     map = new HashMap<>();
-    //     for (int[] edge : edges) {
-    //         map.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
-    //         map.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
-    //     }
-    //     map.computeIfAbsent(-1, k -> new ArrayList<>()).add(0);
-    //     map.computeIfAbsent(0, k -> new ArrayList<>()).add(-1);
-    //     max = new long[n];
-    //     this.price = price;
-    //     max[0] = dfs(0, -1);
-    //     res = max[0] - price[0];
-    //     dfs_2(0, -1);
-    //     return res;
+    private long[] dfs2538(int x, int fa) {
+        long withLeafMax = price2538[x];
+        long withoutLeafMax = 0l;
+        for (int y : map2538.getOrDefault(x, new ArrayList<>())) {
+            if (y != fa) {
+                long[] cur = dfs2538(y, x);
+                res2538 = Math.max(res2538, Math.max(withLeafMax + cur[1], withoutLeafMax + cur[0]));
+                withLeafMax = Math.max(withLeafMax, cur[0] + price2538[x]);
+                withoutLeafMax = Math.max(withoutLeafMax, cur[1] + price2538[x]);
+            }
+        }
+        return new long[] { withLeafMax, withoutLeafMax };
+    }
 
-    // }
-
-    // private void dfs_2(int x, int fa) {
-    //     long m = 0l;
-    //     for (int y : map.getOrDefault(x, new ArrayList<>())) {
-    //         if (y != fa) {
-    //             // res = Math.max(res, max[y] - price[y]);
-    //             m = Math.max(m, max[y]);
-    //             // res = Math.max(res, price[x] + m);
-    //             // dfs_2(y, x);
-    //         }
-    //     }
-
-    // }
-
-    // private long dfs(int x, int fa) {
-    //     // if (map.getOrDefault(x, new ArrayList<>()).size() == 1) {
-    //     // max[x] = price[x];
-    //     // return max[x];
-    //     // }
-    //     long curMax = price[x];
-    //     for (int y : map.getOrDefault(x, new ArrayList<>())) {
-    //         if (y != fa) {
-    //             long max = dfs(y, x);
-    //             curMax = Math.max(curMax, max + price[x]);
-    //         }
-    //     }
-    //     max[x] = curMax;
-    //     return max[x];
-
-    // }
 }
