@@ -1653,37 +1653,24 @@ public class Leetcode_6 {
     public int longestPath(int[] parent, String s) {
         graph2246 = new HashMap<>();
         for (int i = 0; i < parent.length; ++i) {
-            graph2246.computeIfAbsent(i, k -> new ArrayList<>()).add(parent[i]);
             graph2246.computeIfAbsent(parent[i], k -> new ArrayList<>()).add(i);
         }
         res2246 = 1;
         char2246 = s.toCharArray();
-        dfs2246(0, -1);
+        dfs2246(0);
         return res2246;
     }
 
-    private int dfs2246(int x, int fa) {
-        if (graph2246.getOrDefault(x, new ArrayList<>()).size() == 1) {
-            return 1;
-        }
-        int max1 = 0;
-        int max2 = 0;
+    private int dfs2246(int x) {
+        int max = 0;
         for (int y : graph2246.getOrDefault(x, new ArrayList<>())) {
-            if (y != fa) {
-                int cnt = dfs2246(y, x);
-                if (char2246[y] != char2246[x]) {
-                    if (cnt >= max1) {
-                        max2 = max1;
-                        max1 = cnt;
-                    } else if (cnt >= max2) {
-                        max2 = cnt;
-                    }
-                }
-
+            int cnt = dfs2246(y);
+            if (char2246[y] != char2246[x]) {
+                res2246 = Math.max(res2246, cnt + max + 1);
+                max = Math.max(max, cnt);
             }
         }
-        res2246 = Math.max(res2246, 1 + max1 + max2);
-        return max1 + 1;
+        return max + 1;
     }
 
     // 687. 最长同值路径 ( Longest Univalue Path)
