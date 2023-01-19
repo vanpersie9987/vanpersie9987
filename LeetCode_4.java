@@ -1539,36 +1539,30 @@ public class LeetCode_4 {
 
     // 6095. 强密码检验器 II (Strong Password Checker II)
     public boolean strongPasswordCheckerII(String password) {
-        if (password.length() < 8) {
+        int n = password.length();
+        if (n < 8) {
             return false;
         }
-        boolean hasLower = false;
-        boolean hasUpper = false;
-        boolean hasDigit = false;
-        boolean hasSpecial = false;
-        char[] chars = password.toCharArray();
-        for (int i = 0; i < chars.length; ++i) {
-            if (i != 0) {
-                if (chars[i] == chars[i - 1]) {
-                    return false;
-                }
+        boolean a = false;
+        boolean b = false;
+        boolean c = false;
+        boolean d = false;
+        for (int i = 0; i < n; ++i) {
+            char ch = password.charAt(i);
+            if (i > 0 && ch == password.charAt(i - 1)) {
+                return false;
             }
-            if (Character.isUpperCase(chars[i])) {
-                hasUpper = true;
-            }
-            if (Character.isLowerCase(chars[i])) {
-                hasLower = true;
-            }
-            if (Character.isDigit(chars[i])) {
-                hasDigit = true;
-            }
-            if (chars[i] == '!' || chars[i] == '@' || chars[i] == '$' || chars[i] == '#' || chars[i] == '%'
-                    || chars[i] == '^' || chars[i] == '&' || chars[i] == '*' || chars[i] == '(' || chars[i] == ')'
-                    || chars[i] == '-' || chars[i] == '+') {
-                hasSpecial = true;
+            if (Character.isLowerCase(ch)) {
+                a = true;
+            } else if (Character.isUpperCase(ch)) {
+                b = true;
+            } else if (Character.isDigit(ch)) {
+                c = true;
+            } else if ("!@#$%^&*()-+".indexOf(String.valueOf(ch)) != -1) {
+                d = true;
             }
         }
-        return hasLower && hasUpper && hasDigit && hasSpecial;
+        return a && b && c && d;
 
     }
 
