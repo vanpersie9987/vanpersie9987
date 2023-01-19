@@ -4646,33 +4646,28 @@ public class Leetcode_6 {
         return sum;
     }
 
-    // 6292. 子矩阵元素加 1 --一维差分数组
+    // 6292. 子矩阵元素加 1 --二维差分数组
     public int[][] rangeAddQueries(int n, int[][] queries) {
-        int[][] diff = new int[n][n + 1];
+        int[][] diff = new int[n + 1][n + 1];
         for (int[] query : queries) {
             int r1 = query[0];
             int c1 = query[1];
-            int r2 = query[2];
-            int c2 = query[3];
-            for (int i = r1; i <= r2; ++i) {
-                ++diff[i][c1];
-                --diff[i][c2 + 1];
-            }
+            int r2 = query[2] + 1;
+            int c2 = query[3] + 1;
+            ++diff[r1][c1];
+            --diff[r1][c2];
+            --diff[r2][c1];
+            ++diff[r2][c2];
         }
-
-        for (int i = 0; i < n; ++i) {
-            for (int j = 1; j <= n; ++j) {
-                diff[i][j] += diff[i][j - 1];
-            }
-        }
-        int[][] res = new int[n][n];
+        int[][] res = new int[n + 1][n + 1];
+        int[][] finalRes = new int[n][n];
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
-                res[i][j] = diff[i][j];
+                res[i + 1][j + 1] = res[i + 1][j] + res[i][j + 1] - res[i][j] + diff[i][j];
+                finalRes[i][j] = res[i + 1][j + 1];
             }
         }
-
-        return res;
+        return finalRes;
 
     }
 
