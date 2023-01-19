@@ -4652,22 +4652,31 @@ public class Leetcode_6 {
         for (int[] query : queries) {
             int r1 = query[0];
             int c1 = query[1];
-            int r2 = query[2] + 1;
-            int c2 = query[3] + 1;
+            int r2 = query[2];
+            int c2 = query[3];
             ++diff[r1][c1];
-            --diff[r1][c2];
-            --diff[r2][c1];
-            ++diff[r2][c2];
+            --diff[r1][c2 + 1];
+            --diff[r2 + 1][c1];
+            ++diff[r2 + 1][c2 + 1];
         }
-        int[][] res = new int[n + 1][n + 1];
-        int[][] finalRes = new int[n][n];
+
         for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                res[i + 1][j + 1] = res[i + 1][j] + res[i][j + 1] - res[i][j] + diff[i][j];
-                finalRes[i][j] = res[i + 1][j + 1];
+            for (int j = 1; j <= n; ++j) {
+                diff[i][j] += diff[i][j - 1];
             }
         }
-        return finalRes;
+        for (int i = 1; i <= n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                diff[i][j] += diff[i - 1][j];
+            }
+        }
+        int[][] res = new int[n][n];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                res[i][j] = diff[i][j];
+            }
+        }
+        return res;
 
     }
 
