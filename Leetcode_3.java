@@ -1,3 +1,4 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -8255,39 +8256,41 @@ public class Leetcode_3 {
         int m = grid.length;
         int n = grid[0].length;
         int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
-        boolean[][] visited = new boolean[m][n];
-        Deque<int[]> deque = new LinkedList<>();
-        deque.offer(new int[] { 0, 0, 0 });
-        int[][] distance = new int[m][n];
+        int[][] dis = new int[m][n];
         for (int i = 0; i < m; ++i) {
-            Arrays.fill(distance[i], Integer.MAX_VALUE >> 1);
+            Arrays.fill(dis[i], m + n - 1);
         }
-        distance[0][0] = 0;
+        dis[0][0] = 0;
+        Deque<int[]> deque = new ArrayDeque<>();
+        deque.offer(new int[] { 0, 0 });
         while (!deque.isEmpty()) {
             int[] cur = deque.pollFirst();
             int x = cur[0];
             int y = cur[1];
-            int step = cur[2];
+            int d = dis[x][y];
+            int originalDirection = grid[x][y] - 1;
             if (x == m - 1 && y == n - 1) {
-                return step;
+                return d;
             }
-            if (visited[x][y]) {
-                continue;
-            }
-            visited[x][y] = true;
-            for (int i = 0; i < directions.length; ++i) {
-                int nx = x + directions[i][0];
-                int ny = y + directions[i][1];
+            for (int i = 0; i < 4; ++i) {
+                int nx = directions[i][0] + x;
+                int ny = directions[i][1] + y;
                 if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
-                    if (grid[x][y] == i + 1) {
-                        deque.offerFirst(new int[] { nx, ny, step });
+                    if (i == originalDirection) {
+                        if (d < dis[nx][ny]) {
+                            dis[nx][ny] = d;
+                            deque.offerFirst(new int[] { nx, ny });
+                        }
                     } else {
-                        deque.offerLast(new int[] { nx, ny, step + 1 });
+                        if (d + 1 < dis[nx][ny]) {
+                            dis[nx][ny] = d + 1;
+                            deque.offerLast(new int[] { nx, ny });
+                        }
                     }
                 }
             }
         }
-        return distance[m - 1][n - 1];
+        return dis[m - 1][n - 1];
     }
 
     // 864. 获取所有钥匙的最短路径 (Shortest Path to Get All Keys) --bfs
