@@ -1,3 +1,4 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -827,43 +828,39 @@ public class LeetCode_4 {
         int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
         int m = grid.length;
         int n = grid[0].length;
-        Deque<int[]> deque = new LinkedList<>();
         int[][] dis = new int[m][n];
         for (int i = 0; i < m; ++i) {
-            Arrays.fill(dis[i], Integer.MAX_VALUE);
+            Arrays.fill(dis[i], m + n - 1);
         }
         dis[0][0] = 0;
-        deque.offer(new int[] { 0, 0, 0 });
+        Deque<int[]> deque = new ArrayDeque<>();
+        deque.offer(new int[] { 0, 0 });
         while (!deque.isEmpty()) {
             int[] cur = deque.pollFirst();
             int x = cur[0];
             int y = cur[1];
-            int d = cur[2];
+            int d = dis[x][y];
             if (x == m - 1 && y == n - 1) {
                 return d;
-            }
-            if (d > dis[x][y]) {
-                continue;
             }
             for (int[] direction : directions) {
                 int nx = x + direction[0];
                 int ny = y + direction[1];
                 if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
-                    int newDis = d + grid[nx][ny];
-                    if (newDis < dis[nx][ny]) {
-                        dis[nx][ny] = newDis;
+                    int newD = d + grid[nx][ny];
+                    if (newD < dis[nx][ny]) {
+                        dis[nx][ny] = newD;
                         if (grid[nx][ny] == 0) {
-                            deque.offerFirst(new int[] { nx, ny, newDis });
+                            deque.offerFirst(new int[] { nx, ny, newD });
                         } else {
-                            deque.offerLast(new int[] { nx, ny, newDis });
+                            deque.offerLast(new int[] { nx, ny, newD });
                         }
                     }
                 }
             }
         }
-        return dis[m - 1][n - 1];
+        return -1;
 
-    
     }
 
     // 208. 实现 Trie (前缀树) (Implement Trie (Prefix Tree))
