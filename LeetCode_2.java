@@ -7845,6 +7845,39 @@ public class LeetCode_2 {
 
    }
 
+   // 1824. 最少侧跳次数 (Minimum Sideway Jumps) -- 0-1 bfs
+   public int minSideJumps2(int[] obstacles) {
+      int n = obstacles.length;
+      int[][] dis = new int[n][3];
+      for (int i = 0; i < n; ++i) {
+         Arrays.fill(dis[i], n);
+      }
+      dis[0][1] = 0;
+      Deque<int[]> deque = new LinkedList<>();
+      deque.offer(new int[] { 0, 1 });
+      while (!deque.isEmpty()) {
+         int[] cur = deque.pollFirst();
+         int i = cur[0];
+         int j = cur[1];
+         int d = dis[i][j];
+         if (i == n - 1) {
+            return d;
+         }
+         if (obstacles[i + 1] != j + 1 && d < dis[i + 1][j]) {
+            dis[i + 1][j] = d;
+            deque.offerFirst(new int[] { i + 1, j });
+         }
+         for (int k : new int[] { (j + 1) % 3, (j + 2) % 3 }) {
+            if (obstacles[i] != k + 1 && d + 1 < dis[i][k]) {
+               dis[i][k] = d + 1;
+               deque.offerLast(new int[] { i, k });
+            }
+         }
+      }
+      return -1;
+
+   }
+
    // 1899. 合并若干三元组以形成目标三元组 (Merge Triplets to Form Target Triplet)
    public boolean mergeTriplets(int[][] triplets, int[] target) {
       int[] expected = new int[3];
