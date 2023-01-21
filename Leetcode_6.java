@@ -4791,4 +4791,43 @@ public class Leetcode_6 {
         return -1;
     }
 
+    // 853. 车队 (Car Fleet)
+    public int carFleet(int target, int[] position, int[] speed) {
+        int n = position.length;
+        Car853[] cars = new Car853[n];
+        for (int i = 0; i < n; ++i) {
+            cars[i] = new Car853(position[i], (double) (target - position[i]) / speed[i]);
+        }
+        Arrays.sort(cars, new Comparator<Car853>() {
+
+            @Override
+            public int compare(Car853 o1, Car853 o2) {
+                return Integer.compare(o1.pos, o2.pos);
+            }
+
+        });
+
+        int res = 0;
+        for (int i = n - 1; i > 0; --i) {
+            if (cars[i].time < cars[i - 1].time) {
+                ++res;
+            } else {
+                cars[i - 1] = cars[i];
+            }
+        }
+        return res + 1;
+
+    }
+
+    public class Car853 {
+        private int pos;
+        private double time;
+
+        public Car853(int pos, double time) {
+            this.pos = pos;
+            this.time = time;
+        }
+
+    }
+
 }
