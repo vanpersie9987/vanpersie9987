@@ -1,3 +1,4 @@
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -4719,6 +4720,75 @@ public class Leetcode_6 {
             }
         }
         return new long[] { withLeafMax, withoutLeafMax };
+    }
+
+    // 1095. 山脉数组中查找目标值 (Find in Mountain Array)
+    abstract class MountainArray {
+        public int get(int index) {
+            return 0;
+        }
+
+        public int length() {
+            return 0;
+
+        }
+    }
+
+    // 1095. 山脉数组中查找目标值 (Find in Mountain Array)
+    private MountainArray mountainArray;
+
+    public int findInMountainArray(int target, MountainArray mountainArr) {
+        this.mountainArray = mountainArr;
+        int maxIndex = binarySearchToGetMax(0, mountainArr.length() - 1);
+        int res = binarySearchLeft1095(0, maxIndex, target);
+        if (res != -1) {
+            return res;
+        }
+        return binarySearchRight1095(maxIndex + 1, mountainArr.length() - 1, target);
+
+    }
+
+    private int binarySearchToGetMax(int left, int right) {
+        while (left < right) {
+            int mid = left + ((right - left) >> 1);
+            if (mountainArray.get(mid) < mountainArray.get(mid + 1)) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return left;
+    }
+
+    private int binarySearchLeft1095(int left, int right, int target) {
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (mountainArray.get(mid) == target) {
+                return mid;
+            }
+            if (mountainArray.get(mid) > target) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return -1;
+    }
+
+    private int binarySearchRight1095(int left, int right, int target) {
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (mountainArray.get(mid) == target) {
+                return mid;
+            }
+            if (mountainArray.get(mid) > target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return -1;
     }
 
 }
