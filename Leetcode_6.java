@@ -4963,11 +4963,38 @@ public class Leetcode_6 {
         return new ArrayList<>(set);
 
     }
-    
-    // 6302. 最大子序列的分数
-    // public long maxScore(int[] nums1, int[] nums2, int k) {
 
-    // }
+    // 6302. 最大子序列的分数
+    public long maxScore(int[] nums1, int[] nums2, int k) {
+        int n = nums1.length;
+        Integer[] ids = IntStream.range(0, n).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(nums2[o2], nums2[o1]);
+            }
+
+        });
+        Queue<Integer> queue = new PriorityQueue<>();
+        long sum1 = 0l;
+        long res = 0l;
+        for (int id : ids) {
+            int num1 = nums1[id];
+            int num2 = nums2[id];
+            while (queue.size() > k - 1) {
+                sum1 -= queue.poll();
+            }
+            sum1 += num1;
+            queue.offer(num1);
+            if (queue.size() == k) {
+                long cur = sum1 * num2;
+                res = Math.max(res, cur);
+            }
+        }
+        return res;
+
+    }
 
     // 6301. 判断一个点是否可以到达
     // public boolean isReachable(int targetX, int targetY) {
