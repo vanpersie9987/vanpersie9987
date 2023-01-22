@@ -4943,6 +4943,27 @@ public class Leetcode_6 {
         return dp[n];
 
     }
+
+    // 970. 强整数 (Powerful Integers)
+    public List<Integer> powerfulIntegers(int x, int y, int bound) {
+        Set<Integer> set = new HashSet<>();
+        for (int i = 1; i <= bound; i *= x) {
+            for (int j = 1; j <= bound; j *= y) {
+                if (i + j <= bound) {
+                    set.add(i + j);
+                }
+                if (y == 1) {
+                    break;
+                }
+            }
+            if (x == 1) {
+                break;
+            }
+        }
+        return new ArrayList<>(set);
+
+    }
+    
     // 6302. 最大子序列的分数
     // public long maxScore(int[] nums1, int[] nums2, int k) {
 
