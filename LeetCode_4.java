@@ -1653,18 +1653,16 @@ public class LeetCode_4 {
     // 5259. 计算应缴税款总额 (Calculate Amount Paid in Taxes)
     public double calculateTax(int[][] brackets, int income) {
         double res = 0d;
-        for (int i = 0; i < brackets.length; ++i) {
+        int min = 0;
+        int pre = 0;
+        for (int[] bracket : brackets) {
+            min = Math.min(income, bracket[0] - pre);
+            res += min * bracket[1] * 0.01d;
+            pre = bracket[0];
+            income -= min;
             if (income == 0) {
                 break;
             }
-            int min = 0;
-            if (i == 0) {
-                min = Math.min(income, brackets[i][0]);
-            } else {
-                min = Math.min(income, brackets[i][0] - brackets[i - 1][0]);
-            }
-            res += min * brackets[i][1] * 0.01d;
-            income -= min;
         }
         return res;
 
