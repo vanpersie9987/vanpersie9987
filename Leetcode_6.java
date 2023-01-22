@@ -1,4 +1,3 @@
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -4829,5 +4828,130 @@ public class Leetcode_6 {
         }
 
     }
+
+    // 6300. 最小公共值
+    public int getCommon(int[] nums1, int[] nums2) {
+        int i = 0;
+        int j = 0;
+        int n1 = nums1.length;
+        int n2 = nums2.length;
+        while (i < n1 && j < n2) {
+            if (nums1[i] == nums2[j]) {
+                return nums1[i];
+            }
+            if (nums1[i] < nums2[j]) {
+                ++i;
+            } else {
+                ++j;
+            }
+        }
+        return -1;
+
+    }
+
+    // 6275. 使数组中所有元素相等的最小操作数 II
+    public long minOperations(int[] nums1, int[] nums2, int k) {
+        int n = nums1.length;
+        if (k == 0) {
+            return Arrays.equals(nums1, nums2) ? 0 : -1;
+        }
+        long pairs = 0;
+        long bal = 0l;
+
+        for (int i = 0; i < n; ++i) {
+            if ((nums1[i] - nums2[i]) % k != 0) {
+                return -1;
+            }
+            long cur = (nums1[i] - nums2[i]) / k;
+            pairs += Math.abs(cur);
+            bal += cur;
+
+        }
+        return bal == 0 ? pairs / 2 : -1;
+
+    }
+
+    // 6296. 交替数字和
+    public int alternateDigitSum(int n) {
+        int sign = 1;
+        int sum = 0;
+        while (n != 0) {
+            int mod = n % 10;
+            sum += sign * mod;
+            sign = -sign;
+            n /= 10;
+        }
+        return sum * -sign;
+
+    }
+
+    // 6297. 根据第 K 场考试的分数排序
+    public int[][] sortTheStudents(int[][] score, int k) {
+        Arrays.sort(score, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o2[k], o1[k]);
+            }
+
+        });
+        return score;
+
+    }
+
+    // 6298. 执行逐位运算使字符串相等
+    public boolean makeStringsEqual(String s, String target) {
+        int scount1 = getCount1_6298(s);
+        int tcount1 = getCount1_6298(target);
+        return scount1 == tcount1 || Math.min(scount1, tcount1) > 0;
+
+    }
+
+    private int getCount1_6298(String s) {
+        int count = 0;
+        for (char c : s.toCharArray()) {
+            count += c - '0';
+        }
+        return count;
+    }
+
+    // 6299. 拆分数组的最小代价
+    public int minCost(int[] nums, int k) {
+        int max = 0;
+        for (int num : nums) {
+            max = Math.max(max, num);
+        }
+        int n = nums.length;
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[0] = 0;
+        for (int i = 1; i <= n; ++i) {
+            int unique = 0;
+            int[] counts = new int[max + 1];
+            int min = Integer.MAX_VALUE;
+            for (int j = i; j > 0; --j) {
+                ++counts[nums[j - 1]];
+                if (counts[nums[j - 1]] == 1) {
+                    ++unique;
+                } else if (counts[nums[j - 1]] == 2) {
+                    --unique;
+                }
+                min = Math.min(min, dp[j - 1] + i - j + 1 - unique + k);
+            }
+            dp[i] = min;
+        }
+        return dp[n];
+
+    }
+    // 6302. 最大子序列的分数
+    // public long maxScore(int[] nums1, int[] nums2, int k) {
+
+    // }
+
+    // 6301. 判断一个点是否可以到达
+    // public boolean isReachable(int targetX, int targetY) {
+
+    // }
+
 
 }
