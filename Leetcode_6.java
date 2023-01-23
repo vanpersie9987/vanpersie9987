@@ -4996,7 +4996,7 @@ public class Leetcode_6 {
 
     }
 
-    // 995. K 连续位的最小翻转次数 (Minimum Number of K Consecutive Bit Flips) --差分
+    // 995. K 连续位的最小翻转次数 (Minimum Number of K Consecutive Bit Flips) --差分 空间O(n)
     public int minKBitFlips(int[] nums, int k) {
         int n = nums.length;
         int[] diff = new int[n + 1];
@@ -5015,6 +5015,29 @@ public class Leetcode_6 {
         }
         return res;
 
+    }
+
+    // 995. K 连续位的最小翻转次数 (Minimum Number of K Consecutive Bit Flips) --差分 空间O(1)
+    public int minKBitFlips2(int[] nums, int k) {
+        int n = nums.length;
+        int res = 0;
+        int revCnt = 0;
+        for (int i = 0; i < n; ++i) {
+            if (i >= k && nums[i - k] > 1) {
+                revCnt ^= 1;
+                // 恢复原数组
+                nums[i - k] -= 2;
+            }
+            if (nums[i] == revCnt) {
+                if (i + k > n) {
+                    return -1;
+                }
+                revCnt ^= 1;
+                ++res;
+                nums[i] += 2;
+            }
+        }
+        return res;
     }
 
     // 6301. 判断一个点是否可以到达
