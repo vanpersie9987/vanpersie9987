@@ -5065,4 +5065,32 @@ public class Leetcode_6 {
         return b == 0 ? a : getGCD6301(b, a % b);
     }
 
+    // 1962. 移除石子使总数最小 (Remove Stones to Minimize the Total)
+    public int minStoneSum(int[] piles, int k) {
+        Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(o2, o1);
+            }
+            
+        });
+        int sum = 0;
+
+        for (int pile : piles) {
+            sum += pile;
+            queue.offer(pile);
+        }
+        while (k-- > 0 && !queue.isEmpty()) {
+            int num = queue.poll();
+            sum -= num / 2;
+            int added = (num + 1) / 2;
+            if (added > 1) {
+                queue.offer(added);
+            }
+        }
+        return sum;
+
+    }
+
 }
