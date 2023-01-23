@@ -4996,6 +4996,27 @@ public class Leetcode_6 {
 
     }
 
+    // 995. K 连续位的最小翻转次数 (Minimum Number of K Consecutive Bit Flips) --差分
+    public int minKBitFlips(int[] nums, int k) {
+        int n = nums.length;
+        int[] diff = new int[n + 1];
+        int res = 0;
+        int revCnt = 0;
+        for (int i = 0; i < n; ++i) {
+            revCnt += diff[i];
+            if (((revCnt + nums[i]) & 1) == 0) {
+                if (i + k > n) {
+                    return -1;
+                }
+                ++res;
+                ++revCnt;
+                --diff[i + k];
+            }
+        }
+        return res;
+
+    }
+
     // 6301. 判断一个点是否可以到达
     // public boolean isReachable(int targetX, int targetY) {
 
