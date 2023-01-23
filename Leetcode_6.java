@@ -5093,4 +5093,25 @@ public class Leetcode_6 {
 
     }
 
+    // 1975. 最大方阵和 (Maximum Matrix Sum)
+    public long maxMatrixSum(int[][] matrix) {
+        long res = 0l;
+        int countNegative = 0;
+        int min = Integer.MAX_VALUE;
+        int n = matrix.length;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                min = Math.min(min, Math.abs(matrix[i][j]));
+                if (matrix[i][j] < 0) {
+                    ++countNegative;
+                }
+                res += Math.abs(matrix[i][j]);
+            }
+        }
+        if (countNegative % 2 == 0) {
+            return res;
+        }
+        return res - min * 2;
+    }
+
 }
