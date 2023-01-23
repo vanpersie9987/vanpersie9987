@@ -5040,6 +5040,30 @@ public class Leetcode_6 {
         return res;
     }
 
+    // 780. 到达终点 (Reaching Points)
+    public boolean reachingPoints(int sx, int sy, int tx, int ty) {
+        while (tx > sx && ty > sy && tx != ty) {
+            if (tx > ty) {
+                tx %= ty;
+            } else {
+                ty %= tx;
+            }
+        }
+        if (sx == tx && sy == ty) {
+            return true;
+        }
+
+        if (sx == tx) {
+            return ty > sy && (ty - sy) % sx == 0;
+        }
+
+        if (sy == ty) {
+            return tx > sx && (tx - sx) % sy == 0;
+        }
+        return false;
+
+    }
+
     // 6301. 判断一个点是否可以到达
     // public boolean isReachable(int targetX, int targetY) {
 
