@@ -16,6 +16,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.IntStream;
 
+import javax.swing.text.html.HTMLDocument.RunElement;
+
 public class Leetcode_6 {
     public static void main(String[] args) {
         // String[] strs = { "1.500", "2.500", "3.500" };
@@ -5112,6 +5114,63 @@ public class Leetcode_6 {
             return res;
         }
         return res - min * 2;
+    }
+
+    // 1834. 单线程 CPU (Single-Threaded CPU)
+    public int[] getOrder(int[][] tasks) {
+        int n = tasks.length;
+        int[][] arr = new int[n][3];
+        for (int i = 0; i < n; ++i) {
+            arr[i][0] = tasks[i][0];
+            arr[i][1] = tasks[i][1];
+            arr[i][2] = i;
+        }
+        Arrays.sort(arr, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] == o2[0]) {
+                    return Integer.compare(o1[1], o2[1]);
+                }
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+
+        Queue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[1] == o2[1]) {
+                    return Integer.compare(o1[2], o2[2]);
+                }
+                return Integer.compare(o1[1], o2[1]);
+
+            }
+
+        });
+        int[] res = new int[n];
+        int i = 0;
+
+        long time = 0l;
+        int index = 0;
+        queue.offer(arr[index++]);
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int enqueueTime = cur[0];
+            int processingTime = cur[1];
+            int id = cur[2];
+            res[i++] = id;
+            time = Math.max(time, enqueueTime) + processingTime;
+            while (index < n && arr[index][0] <= time) {
+                queue.offer(arr[index++]);
+            }
+            if (queue.isEmpty() && index < n) {
+                queue.offer(arr[index++]);
+            }
+        }
+        return res;
+
     }
 
 }
