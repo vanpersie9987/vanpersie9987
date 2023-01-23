@@ -5065,9 +5065,14 @@ public class Leetcode_6 {
     }
 
     // 6301. 判断一个点是否可以到达
-    // public boolean isReachable(int targetX, int targetY) {
+    public boolean isReachable(int targetX, int targetY) {
+        int g = getGCD6301(targetX, targetY);
+        return Integer.bitCount(g) == 1;
 
-    // }
+    }
 
+    private int getGCD6301(int a, int b) {
+        return b == 0 ? a : getGCD6301(b, a % b);
+    }
 
 }
