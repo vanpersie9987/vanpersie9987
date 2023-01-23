@@ -4901,18 +4901,8 @@ public class Leetcode_6 {
 
     // 6298. 执行逐位运算使字符串相等
     public boolean makeStringsEqual(String s, String target) {
-        int scount1 = getCount1_6298(s);
-        int tcount1 = getCount1_6298(target);
-        return scount1 == tcount1 || Math.min(scount1, tcount1) > 0;
+        return s.contains("1") == target.contains("1");
 
-    }
-
-    private int getCount1_6298(String s) {
-        int count = 0;
-        for (char c : s.toCharArray()) {
-            count += c - '0';
-        }
-        return count;
     }
 
     // 6299. 拆分数组的最小代价
