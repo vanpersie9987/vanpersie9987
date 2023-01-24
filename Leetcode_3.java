@@ -7581,20 +7581,16 @@ public class Leetcode_3 {
 
     // 2146. 价格范围内最高排名的 K 样物品 (K Highest Ranked Items Within a Price Range) --bfs
     public List<List<Integer>> highestRankedKItems(int[][] grid, int[] pricing, int[] start, int k) {
+        int[][] directions = { { 0, -1 }, { 0, 1 }, { 1, 0 }, { -1, 0 } };
         int m = grid.length;
         int n = grid[0].length;
-        int startX = start[0];
-        int startY = start[1];
-        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
-
-        List<int[]> candidates = new ArrayList<>();
+        List<int[]> list = new ArrayList<>();
         Queue<int[]> queue = new LinkedList<>();
-        boolean[][] visited = new boolean[m][n];
-
-        // posX, posY, step
-        queue.offer(new int[] { startX, startY, 0 });
-        visited[startX][startY] = true;
-
+        queue.offer(new int[] { start[0], start[1], 0 });
+        if (grid[start[0]][start[1]] >= pricing[0] && grid[start[0]][start[1]] <= pricing[1]) {
+            list.add(new int[] { start[0], start[1], 0, grid[start[0]][start[1]] });
+        }
+        grid[start[0]][start[1]] = 0;
         while (!queue.isEmpty()) {
             int size = queue.size();
             for (int i = 0; i < size; ++i) {
@@ -7602,60 +7598,46 @@ public class Leetcode_3 {
                 int x = cur[0];
                 int y = cur[1];
                 int step = cur[2];
-                if (grid[x][y] != 1 && grid[x][y] <= pricing[1] && grid[x][y] >= pricing[0]) {
-                    candidates.add(new int[] { x, y, step });
-                }
                 for (int[] direction : directions) {
                     int nx = x + direction[0];
                     int ny = y + direction[1];
-                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny] && grid[nx][ny] != 0) {
-                        visited[nx][ny] = true;
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] != 0) {
+                        if (grid[nx][ny] >= pricing[0] && grid[nx][ny] <= pricing[1]) {
+                            list.add(new int[] { nx, ny, step + 1, grid[nx][ny] });
+                        }
+                        grid[nx][ny] = 0;
                         queue.offer(new int[] { nx, ny, step + 1 });
                     }
                 }
             }
-            if (candidates.size() >= k) {
+            if (list.size() >= k) {
                 break;
             }
         }
-        Collections.sort(candidates, new Comparator<int[]>() {
+        Collections.sort(list, new Comparator<int[]>() {
 
             @Override
             public int compare(int[] o1, int[] o2) {
-                int x1 = o1[0];
-                int y1 = o1[1];
-                int x2 = o2[0];
-                int y2 = o2[1];
-                int step1 = o1[2];
-                int step2 = o2[2];
-                // step
-                if (step1 != step2) {
-                    return step1 - step2;
+                if (o1[2] != o2[2]) {
+                    return Integer.compare(o1[2], o2[2]);
                 }
-                // val
-                if (grid[x1][y1] != grid[x2][y2]) {
-                    return grid[x1][y1] - grid[x2][y2];
+                if (o1[3] != o2[3]) {
+                    return Integer.compare(o1[3], o2[3]);
                 }
-                // row
-                if (x1 != x2) {
-                    return x1 - x2;
+                if (o1[0] != o2[0]) {
+                    return Integer.compare(o1[0], o2[0]);
                 }
-                // col
-                return y1 - y2;
+                return Integer.compare(o1[1], o2[1]);
             }
 
         });
+
         List<List<Integer>> res = new ArrayList<>();
-        for (int[] candidate : candidates) {
-            List<Integer> item = new ArrayList<>();
-            item.add(candidate[0]);
-            item.add(candidate[1]);
-            res.add(item);
-            if (res.size() == k) {
-                break;
-            }
+        for (int i = 0; i < Math.min(k, list.size()); ++i) {
+            res.add(List.of(list.get(i)[0], list.get(i)[1]));
         }
         return res;
+
     }
 
     // 2101. 引爆最多的炸弹 (Detonate the Maximum Bombs) --bfs
