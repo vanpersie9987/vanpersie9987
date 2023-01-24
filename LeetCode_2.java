@@ -7661,6 +7661,34 @@ public class LeetCode_2 {
       return true;
    }
 
+   // 5992. 基于陈述统计最多好人数 (Maximum Good People Based on Statements)
+   public int maximumGood2(int[][] statements) {
+      int n = statements.length;
+      int res = 0;
+      s: for (int i = 0; i < (1 << n); ++i) {
+         int mask = i;
+         int index = 0;
+         while (index < n) {
+            int status = (mask >> index) & 1;
+            if (status == 1) {
+               int[] statement = statements[index];
+               for (int j = 0; j < n; ++j) {
+                  if (statement[j] == 0 && ((mask >> j) & 1) == 1) {
+                     continue s;
+                  }
+                  if (statement[j] == 1 && ((mask >> j) & 1) == 0) {
+                     continue s;
+                  }
+               }
+            }
+            ++index;
+         }
+         res = Math.max(res, Integer.bitCount(mask));
+      }
+      return res;
+
+   }
+
    // 2081. k 镜像数字的和 (Sum of k-Mirror Numbers)
    public long kMirror(int k, int n) {
       long res = 0L;
