@@ -5199,4 +5199,52 @@ public class Leetcode_6 {
         return b;
     }
 
+    // 1530. 好叶子节点对的数量 (Number of Good Leaf Nodes Pairs)
+    private int res1530;
+    private int distance1530;
+
+    public int countPairs(TreeNode root, int distance) {
+        distance1530 = distance;
+        dfs1530(root);
+        return res1530;
+
+    }
+
+    private List<Integer> dfs1530(TreeNode node) {
+        List<Integer> list = new ArrayList<>();
+        if (node == null) {
+            return list;
+        }
+        if (node.left == null && node.right == null) {
+            list.add(1);
+            return list;
+        }
+        List<Integer> left = dfs1530(node.left);
+        List<Integer> right = dfs1530(node.right);
+        for (int i : left) {
+            if (i < distance1530) {
+                for (int j : right) {
+                    if (j < distance1530) {
+                        if (i + j <= distance1530) {
+                            ++res1530;
+                        }
+                    }
+                }
+            }
+        }
+        for (int i : left) {
+            if (i + 1 < distance1530) {
+                list.add(i + 1);
+            }
+        }
+        for (int i : right) {
+            if (i + 1 < distance1530) {
+                list.add(i + 1);
+            }
+
+        }
+        return list;
+
+    }
+
 }
