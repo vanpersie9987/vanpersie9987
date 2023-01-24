@@ -5247,4 +5247,27 @@ public class Leetcode_6 {
 
     }
 
+    // 1145. 二叉树着色游戏 (Binary Tree Coloring Game)
+    private int leftCnt_1145;
+    private int rightCnt_1145;
+
+    public boolean btreeGameWinningMove(TreeNode root, int n, int x) {
+        dfs(root, x);
+        int cntParent = n - leftCnt_1145 - rightCnt_1145 - 1;
+        return leftCnt_1145 * 2 > n || rightCnt_1145 * 2 > n || cntParent * 2 > n;
+    }
+
+    private int dfs(TreeNode root, int x) {
+        if (root == null) {
+            return 0;
+        }
+        int left = dfs(root.left, x);
+        int right = dfs(root.right, x);
+        if (root.val == x) {
+            leftCnt_1145 = left;
+            rightCnt_1145 = right;
+        }
+        return left + right + 1;
+    }
+
 }
