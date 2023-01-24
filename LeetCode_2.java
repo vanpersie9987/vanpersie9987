@@ -7673,10 +7673,7 @@ public class LeetCode_2 {
             if (status == 1) {
                int[] statement = statements[index];
                for (int j = 0; j < n; ++j) {
-                  if (statement[j] == 0 && ((mask >> j) & 1) == 1) {
-                     continue s;
-                  }
-                  if (statement[j] == 1 && ((mask >> j) & 1) == 0) {
+                  if ((statement[j] ^ ((mask >> j) & 1)) == 1) {
                      continue s;
                   }
                }
