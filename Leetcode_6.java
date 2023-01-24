@@ -5160,10 +5160,7 @@ public class Leetcode_6 {
             int id = cur[2];
             res[i++] = id;
             time = Math.max(time, enqueueTime) + processingTime;
-            while (index < n && arr[index][0] <= time) {
-                queue.offer(arr[index++]);
-            }
-            if (queue.isEmpty() && index < n) {
+            while (index < n && (arr[index][0] <= time || queue.isEmpty())) {
                 queue.offer(arr[index++]);
             }
         }
