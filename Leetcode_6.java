@@ -5168,4 +5168,35 @@ public class Leetcode_6 {
 
     }
 
+    // 1443. 收集树上所有苹果的最少时间 (Minimum Time to Collect All Apples in a Tree)
+    private int res1443;
+    private Map<Integer, List<Integer>> graph1443;
+    private List<Boolean> hasApple1443;
+
+    public int minTime(int n, int[][] edges, List<Boolean> hasApple) {
+        graph1443 = new HashMap<>();
+        for (int[] edge : edges) {
+            graph1443.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            graph1443.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+        }
+        this.hasApple1443 = hasApple;
+        dfs1443(0, -1);
+        return res1443;
+
+    }
+
+    private boolean dfs1443(int x, int fa) {
+        boolean b = hasApple1443.get(x);
+        for (int y : graph1443.getOrDefault(x, new ArrayList<>())) {
+            if (y != fa) {
+                boolean has = dfs1443(y, x);
+                if (has) {
+                    res1443 += 2;
+                }
+                b = b || has;
+            }
+        }
+        return b;
+    }
+
 }
