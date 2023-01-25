@@ -5359,6 +5359,9 @@ public class Leetcode_6 {
                 } else if (Math.abs(sum - target) == diff && sum < res) {
                     res = sum;
                 }
+                if (diff == 0) {
+                    return target;
+                }
             }
         }
         return res;
