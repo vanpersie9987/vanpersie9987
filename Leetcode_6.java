@@ -5270,4 +5270,54 @@ public class Leetcode_6 {
         return left + right + 1;
     }
 
+    // 1477. 找两个和为目标值且不重叠的子数组 (Find Two Non-overlapping Sub-arrays Each With Target
+    // Sum)
+    public int minSumOfLengths(int[] arr, int target) {
+        int n = arr.length;
+        List<int[]> list = new ArrayList<>();
+        int i = 0;
+        int j = 0;
+        int sum = 0;
+        while (j < n) {
+            sum += arr[j];
+            while (sum > target) {
+                sum -= arr[i++];
+            }
+            if (sum == target) {
+                list.add(new int[] { i, j });
+            }
+            ++j;
+        }
+        Collections.sort(list, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[1] - o1[0], o2[1] - o2[0]);
+            }
+
+        });
+
+        int res = Integer.MAX_VALUE;
+        i = 0;
+        while (i < list.size()) {
+            int l1 = list.get(i)[0];
+            int r1 = list.get(i)[1];
+            if ((r1 - l1 + 1) * 2 >= res) {
+                break;
+            }
+            j = i + 1;
+            while (j < list.size()) {
+                int l2 = list.get(j)[0];
+                int r2 = list.get(j)[1];
+                if (l2 > r1 || r2 < l1) {
+                    res = Math.min(res, r2 - l2 + 1 + r1 - l1 + 1);
+                    break;
+                }
+                ++j;
+            }
+            ++i;
+        }
+        return res == Integer.MAX_VALUE ? -1 : res;
+    }
+
 }
