@@ -5320,7 +5320,7 @@ public class Leetcode_6 {
         return res == Integer.MAX_VALUE ? -1 : res;
     }
 
-    // 1372. 二叉树中的最长交错路径 (Longest ZigZag Path in a Binary Tree)
+    // 1372. 二叉树中的最长交错路径 (Longest ZigZag Path in a Binary Tree) --先序便利
     private int res1372;
 
     public int longestZigZag(TreeNode root) {
