@@ -5339,4 +5339,50 @@ public class Leetcode_6 {
 
     }
 
+    // 1774. 最接近目标价格的甜点成本 (Closest Dessert Cost)
+    public int closestCost(int[] baseCosts, int[] toppingCosts, int target) {
+        int n = toppingCosts.length;
+        int[] topCost = new int[n * 2];
+        for (int i = 0; i < n; ++i) {
+            topCost[i] = toppingCosts[i];
+            topCost[i + n] = toppingCosts[i];
+        }
+        Set<Integer> set = getTopCosts1774(topCost);
+        int res = Integer.MAX_VALUE;
+        int diff = Integer.MAX_VALUE;
+        for (int top : set) {
+            for (int base : baseCosts) {
+                int sum = base + top;
+                if (Math.abs(sum - target) < diff) {
+                    diff = Math.abs(sum - target);
+                    res = sum;
+                } else if (Math.abs(sum - target) == diff && sum < res) {
+                    res = sum;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private Set<Integer> getTopCosts1774(int[] topCost) {
+        Set<Integer> set = new HashSet<>();
+        int n = topCost.length;
+        for (int i = 0; i < (1 << n); ++i) {
+            int mask = i;
+            int index = 0;
+            int sum = 0;
+            while (mask != 0) {
+                if ((mask & 1) == 1) {
+                    sum += topCost[index];
+                }
+                mask >>= 1;
+                ++index;
+            }
+            set.add(sum);
+
+        }
+        return set;
+    }
+
 }
