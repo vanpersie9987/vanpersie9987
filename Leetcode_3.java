@@ -4926,47 +4926,41 @@ public class Leetcode_3 {
 
     // 1857. 有向图中最大颜色值 (Largest Color Value in a Directed Graph) --拓扑排序
     public int largestPathValue(String colors, int[][] edges) {
-        Map<Integer, List<Integer>> graph = new HashMap<>();
-        Map<Integer, Integer> inDegrees = new HashMap<>();
-
+        int n = colors.length();
+        int[] indegrees = new int[n];
+        Map<Integer, List<Integer>> map = new HashMap<>();
         for (int[] edge : edges) {
-            graph.computeIfAbsent(edge[0], k -> new LinkedList<>()).add(edge[1]);
-            inDegrees.put(edge[1], inDegrees.getOrDefault(edge[1], 0) + 1);
+            map.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            ++indegrees[edge[1]];
         }
         Queue<Integer> queue = new LinkedList<>();
-        int n = colors.length();
-        int[][] dp = new int[n][26];
         for (int i = 0; i < n; ++i) {
-            if (inDegrees.getOrDefault(i, 0) == 0) {
+            if (indegrees[i] == 0) {
                 queue.offer(i);
             }
+
         }
+        int[][] dp = new int[n][26];
         int count = 0;
+        int res = 0;
         while (!queue.isEmpty()) {
             ++count;
-            int cur = queue.poll();
-            ++dp[cur][colors.charAt(cur) - 'a'];
-            if (graph.get(cur) == null) {
-                continue;
+            int x = queue.poll();
+            ++dp[x][colors.charAt(x) - 'a'];
+            for (int i = 0; i < 26; ++i) {
+                res = Math.max(res, dp[x][colors.charAt(x) - 'a']);
             }
-            for (int item : graph.get(cur)) {
+            for (int y : map.getOrDefault(x, new ArrayList<>())) {
                 for (int i = 0; i < 26; ++i) {
-                    dp[item][i] = Math.max(dp[item][i], dp[cur][i]);
+                    dp[y][i] = Math.max(dp[y][i], dp[x][i]);
                 }
-                inDegrees.put(item, inDegrees.getOrDefault(item, 0) - 1);
-                if (inDegrees.getOrDefault(item, 0) == 0) {
-                    queue.offer(item);
+                if (--indegrees[y] == 0) {
+                    queue.offer(y);
                 }
             }
         }
-        if (n != count) {
+        if (count != n) {
             return -1;
-        }
-        int res = 0;
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < 26; ++j) {
-                res = Math.max(res, dp[i][j]);
-            }
         }
         return res;
 
