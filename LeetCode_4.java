@@ -2399,24 +2399,22 @@ public class LeetCode_4 {
 
     }
 
+    // 2309. 兼具大小写的最好英文字母 (Greatest English Letter in Upper and Lower Case)
     public String greatestLetter(String s) {
-        // 第0维 : 大写
-        // 第1维 : 小写
-        boolean[][] map = new boolean[26][2];
+        int mask1 = 0;
+        int mask2 = 0;
         for (char c : s.toCharArray()) {
-            if (Character.isUpperCase(c)) {
-                map[c - 'A'][0] = true;
+            if (Character.isLowerCase(c)) {
+                mask1 |= 1 << (c - 'a');
             } else {
-                map[c - 'a'][1] = true;
+                mask2 |= 1 << (c - 'A');
             }
         }
-        for (int i = map.length - 1; i >= 0; --i) {
-            if (map[i][0] && map[i][1]) {
-                char c = (char) (i + 'A');
-                return String.valueOf(c);
-            }
+        int mask = mask1 & mask2;
+        if (mask == 0) {
+            return "";
         }
-        return "";
+        return String.valueOf((char) (Integer.bitCount(Integer.highestOneBit(mask) - 1) + 'A'));
 
     }
 
