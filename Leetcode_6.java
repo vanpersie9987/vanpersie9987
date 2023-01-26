@@ -14,8 +14,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Leetcode_6 {
@@ -5459,6 +5457,25 @@ public class Leetcode_6 {
             }
         }
         return dp[(1 << n) - 1];
+    }
+
+    /**
+     * You are given a string
+     * S of length
+     * N consisting of A and B.
+     * 
+     * You can repeat the following operation zero or more times:
+     * 
+     * choose a pair of adjacent characters in
+     * S and replace them with AB.
+     * Determine whether
+     * S can be turned into a palindrome.
+     */
+    public boolean isValid(String s) {
+        if ("BA".equals(s) || s.charAt(0) == 'A' && s.charAt(s.length() - 1) == 'B') {
+            return false;
+        }
+        return true;
     }
 
 }
