@@ -4947,9 +4947,7 @@ public class Leetcode_3 {
             ++count;
             int x = queue.poll();
             ++dp[x][colors.charAt(x) - 'a'];
-            for (int i = 0; i < 26; ++i) {
-                res = Math.max(res, dp[x][colors.charAt(x) - 'a']);
-            }
+            res = Math.max(res, dp[x][colors.charAt(x) - 'a']);
             for (int y : map.getOrDefault(x, new ArrayList<>())) {
                 for (int i = 0; i < 26; ++i) {
                     dp[y][i] = Math.max(dp[y][i], dp[x][i]);
