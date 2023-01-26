@@ -14,6 +14,8 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Leetcode_6 {
@@ -5339,7 +5341,7 @@ public class Leetcode_6 {
 
     }
 
-    // 1774. 最接近目标价格的甜点成本 (Closest Dessert Cost)
+    // 1774. 最接近目标价格的甜点成本 (Closest Dessert Cost) --二进制枚举
     public int closestCost(int[] baseCosts, int[] toppingCosts, int target) {
         int n = toppingCosts.length;
         int[] topCost = new int[n * 2];
@@ -5384,6 +5386,46 @@ public class Leetcode_6 {
             }
             set.add(sum);
 
+        }
+        return set;
+    }
+
+    // 1774. 最接近目标价格的甜点成本 (Closest Dessert Cost) --三进制枚举
+    public int closestCost2(int[] baseCosts, int[] toppingCosts, int target) {
+        Set<Integer> topCost = getTopCosts1774_2(toppingCosts);
+        int res = Integer.MAX_VALUE;
+        int diff = Integer.MAX_VALUE;
+        for (int base : baseCosts) {
+            for (int top : topCost) {
+                int sum = base + top;
+                if (Math.abs(sum - target) < diff) {
+                    diff = Math.abs(sum - target);
+                    res = sum;
+                } else if (Math.abs(sum - target) == diff && sum < res) {
+                    res = sum;
+                }
+                if (diff == 0) {
+                    return target;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private Set<Integer> getTopCosts1774_2(int[] toppingCosts) {
+        int n = toppingCosts.length;
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < Math.pow(3, n); ++i) {
+            int sum = 0;
+            int mask = i;
+            int index = 0;
+            while (mask != 0) {
+                sum += toppingCosts[index] * (mask % 3);
+                mask /= 3;
+                ++index;
+            }
+            set.add(sum);
         }
         return set;
     }
