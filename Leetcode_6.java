@@ -5430,4 +5430,35 @@ public class Leetcode_6 {
         return set;
     }
 
+    // 1986. 完成任务的最少工作时间段 (Minimum Number of Work Sessions to Finish the Tasks) --状态压缩dp
+    public int minSessions(int[] tasks, int sessionTime) {
+        int n = tasks.length;
+        boolean[] valid = new boolean[1 << n];
+        for (int i = 0; i < (1 << n); ++i) {
+            int cur = 0;
+            int mask = i;
+            int index = 0;
+            while (mask != 0) {
+                if ((mask & 1) == 1) {
+                    cur += tasks[index];
+                }
+                ++index;
+                mask >>= 1;
+            }
+            valid[i] = cur <= sessionTime;
+        }
+
+        int[] dp = new int[1 << n];
+        Arrays.fill(dp, Integer.MAX_VALUE / 2);
+        dp[0] = 0;
+        for (int mask = 1; mask < (1 << n); ++mask) {
+            for (int sub = mask; sub != 0; sub = (sub - 1) & mask) {
+                if (valid[sub]) {
+                    dp[mask] = Math.min(dp[mask], dp[mask ^ sub] + 1);
+                }
+            }
+        }
+        return dp[(1 << n) - 1];
+    }
+
 }
