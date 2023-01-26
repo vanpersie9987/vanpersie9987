@@ -4892,40 +4892,33 @@ public class Leetcode_3 {
 
     // 2050. 并行课程 III (Parallel Courses III) --拓扑排序 + dp
     public int minimumTime(int n, int[][] relations, int[] time) {
-        int[] inDegrees = new int[n];
-        Map<Integer, Set<Integer>> graph = new HashMap<>();
-        for (int i = 0; i < n; ++i) {
-            graph.put(i, new HashSet<>());
-        }
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int[] indegrees = new int[n];
         for (int[] relation : relations) {
-            if (!graph.get(relation[0] - 1).contains(relation[1] - 1)) {
-                graph.get(relation[0] - 1).add(relation[1] - 1);
-                ++inDegrees[relation[1] - 1];
-            }
+            int a = relation[0] - 1;
+            int b = relation[1] - 1;
+            map.computeIfAbsent(a, k -> new ArrayList<>()).add(b);
+            ++indegrees[b];
         }
+
         Queue<Integer> queue = new LinkedList<>();
+        int[] t = new int[n];
         for (int i = 0; i < n; ++i) {
-            if (inDegrees[i] == 0) {
+            if (indegrees[i] == 0) {
                 queue.offer(i);
-            }
-        }
-        int[] dp = new int[n];
-        while (!queue.isEmpty()) {
-            int cur = queue.poll();
-            dp[cur] += time[cur];
-            if (graph.get(cur) == null) {
-                continue;
-            }
-            for (int item : graph.get(cur)) {
-                if (--inDegrees[item] == 0) {
-                    queue.offer(item);
-                }
-                dp[item] = Math.max(dp[item], dp[cur]);
+                t[i] = time[i];
             }
         }
         int res = 0;
-        for (int num : dp) {
-            res = Math.max(res, num);
+        while (!queue.isEmpty()) {
+            int x = queue.poll();
+            res = Math.max(res, t[x]);
+            for (int y : map.getOrDefault(x, new ArrayList<>())) {
+                t[y] = Math.max(t[y], t[x] + time[y]);
+                if (--indegrees[y] == 0) {
+                    queue.offer(y);
+                }
+            }
         }
         return res;
 
