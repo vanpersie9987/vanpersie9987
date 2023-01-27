@@ -5500,7 +5500,7 @@ public class Leetcode_6 {
 
     }
 
-    // 摘至少target个草莓，从startPos出发，至少需要走多少步？
+    // 从startPos出发，摘至少target个草莓，至少需要走多少步？
     private int check2106(int[][] fruits, int startPos, int target) {
         int minStep = Integer.MAX_VALUE;
         int n = fruits.length;
