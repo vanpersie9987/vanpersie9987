@@ -4906,15 +4906,15 @@ public class Leetcode_3 {
         for (int i = 0; i < n; ++i) {
             if (indegrees[i] == 0) {
                 queue.offer(i);
-                t[i] = time[i];
             }
         }
         int res = 0;
         while (!queue.isEmpty()) {
             int x = queue.poll();
+            t[x] += time[x];
             res = Math.max(res, t[x]);
             for (int y : map.getOrDefault(x, new ArrayList<>())) {
-                t[y] = Math.max(t[y], t[x] + time[y]);
+                t[y] = Math.max(t[y], t[x]);
                 if (--indegrees[y] == 0) {
                     queue.offer(y);
                 }
