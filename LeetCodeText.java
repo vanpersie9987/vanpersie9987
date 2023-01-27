@@ -8833,49 +8833,42 @@ public class LeetCodeText {
     // 778. 水位上升的泳池中游泳 (Swim in Rising Water) --并查集
     public int swimInWater(int[][] grid) {
         int n = grid.length;
-        Union778 union = new Union778(n * n);
-        int[] index = new int[n * n];
+        Map<Integer, int[]> map = new HashMap<>();
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
-                index[grid[i][j]] = getIndex778(n, i, j);
+                map.put(grid[i][j], new int[] { i, j });
             }
         }
-        for (int time = 0; time < n * n; ++time) {
-            int x = index[time] / n;
-            int y = index[time] % n;
-            if (x - 1 >= 0 && grid[x - 1][y] < time) {
-                union.union(getIndex778(n, x, y), getIndex778(n, x - 1, y));
-            }
-            if (y - 1 >= 0 && grid[x][y - 1] < time) {
-                union.union(getIndex778(n, x, y), getIndex778(n, x, y - 1));
-            }
-            if (x + 1 < n && grid[x + 1][y] < time) {
-                union.union(getIndex778(n, x, y), getIndex778(n, x + 1, y));
-            }
-            if (y + 1 < n && grid[x][y + 1] < time) {
-                union.union(getIndex778(n, x, y), getIndex778(n, x, y + 1));
+        int[][] directions = { { 0, -1 }, { 0, 1 }, { 1, 0 }, { -1, 0 } };
+        Union778 union = new Union778(n * n);
+        for (int i = 0; i < n * n; ++i) {
+            int[] cur = map.get(i);
+            int x = cur[0];
+            int y = cur[1];
+            for (int[] d : directions) {
+                int nx = x + d[0];
+                int ny = y + d[1];
+                if (nx >= 0 && nx < n && ny >= 0 && ny < n && grid[nx][ny] <= i) {
+                    union.union(x * n + y, nx * n + ny);
+                }
             }
             if (union.isConnected(0, n * n - 1)) {
-                return time;
+                return i;
             }
         }
         return -1;
 
     }
 
-    private int getIndex778(int n, int i, int j) {
-        return n * i + j;
-    }
-
     public class Union778 {
-        private int[] parent;
         private int[] rank;
+        private int[] parent;
 
         public Union778(int n) {
-            parent = new int[n];
             rank = new int[n];
-            Arrays.fill(rank, 1);
+            parent = new int[n];
             for (int i = 0; i < n; ++i) {
+                rank[i] = 1;
                 parent[i] = i;
             }
         }
@@ -8897,12 +8890,12 @@ public class LeetCodeText {
             if (root1 == root2) {
                 return;
             }
-            if (rank[root1] < rank[root2]) {
-                parent[root1] = root2;
-            } else {
+            if (rank[root1] > rank[root2]) {
                 parent[root2] = root1;
+            } else {
+                parent[root1] = root2;
                 if (rank[root1] == rank[root2]) {
-                    ++rank[root1];
+                    ++rank[root2];
                 }
             }
         }
