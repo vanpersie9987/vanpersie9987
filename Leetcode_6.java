@@ -16,6 +16,9 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.IntStream;
 
+import Leetcode_3.Element;
+import apple.laf.JRSUIConstants.Widget;
+
 public class Leetcode_6 {
     public static void main(String[] args) {
         // String[] strs = { "1.500", "2.500", "3.500" };
@@ -5476,6 +5479,47 @@ public class Leetcode_6 {
             return false;
         }
         return true;
+    }
+
+    // 2106. 摘水果 (Maximum Fruits Harvested After at Most K Steps)
+    public int maxTotalFruits(int[][] fruits, int startPos, int k) {
+        int sum = 0;
+        for (int[] fruit : fruits) {
+            sum += fruit[1];
+        }
+        int res = 0;
+        int left = 0;
+        int right = sum;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check2106(fruits, startPos, mid) <= k) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+
+    }
+
+    // 摘至少target个草莓，从startPos出发，至少需要走多少步？
+    private int check2106(int[][] fruits, int startPos, int target) {
+        int minStep = Integer.MAX_VALUE;
+        int n = fruits.length;
+        int sum = 0;
+        int i = 0;
+        int j = 0;
+        while (j < n) {
+            sum += fruits[j][1];
+            while (i <= j && sum >= target) {
+                minStep = Math.min(minStep, fruits[j][0] - fruits[i][0]
+                        + Math.min(Math.abs(startPos - fruits[i][0]), Math.abs(fruits[j][0] - startPos)));
+                sum -= fruits[i++][1];
+            }
+            ++j;
+        }
+        return minStep;
     }
 
 }
