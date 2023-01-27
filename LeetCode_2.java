@@ -4842,27 +4842,19 @@ public class LeetCode_2 {
       }
    }
 
-   // 2103. 环和杆 (Rings and Rods) --哈希表+位运算+状态压缩
+   // 2103. 环和杆 (Rings and Rods)
    public int countPoints(String rings) {
-      int[] mask = new int[10];
-      char[] chars = rings.toCharArray();
-      for (int i = 0; i < chars.length; i += 2) {
-         int index = chars[i + 1] - '0';
-         if (chars[i] == 'R') {
-            mask[index] |= 1 << 0;
-         } else if (chars[i] == 'G') {
-            mask[index] |= 1 << 1;
-         } else if (chars[i] == 'B') {
-            mask[index] |= 1 << 2;
+      int[] mask = new int[3];
+      for (int i = 0; i < rings.length(); i += 2) {
+         if (rings.charAt(i) == 'R') {
+            mask[0] |= 1 << (rings.charAt(i + 1) - '0');
+         } else if (rings.charAt(i) == 'G') {
+            mask[1] |= 1 << (rings.charAt(i + 1) - '0');
+         } else {
+            mask[2] |= 1 << (rings.charAt(i + 1) - '0');
          }
       }
-      int res = 0;
-      for (int num : mask) {
-         if (num == 0b111) {
-            ++res;
-         }
-      }
-      return res;
+      return Integer.bitCount(mask[0] & mask[1] & mask[2]);
 
    }
 
