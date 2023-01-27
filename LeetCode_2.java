@@ -4494,29 +4494,28 @@ public class LeetCode_2 {
    // 2105. 给植物浇水 II (Watering Plants II)
    public int minimumRefill(int[] plants, int capacityA, int capacityB) {
       int res = 0;
-      int remainA = capacityA;
-      int remainB = capacityB;
+      int leftA = capacityA;
+      int leftB = capacityB;
       int i = 0;
       int j = plants.length - 1;
       while (i < j) {
-         if (remainA >= plants[i]) {
-            remainA -= plants[i];
-         } else {
+         if (leftA < plants[i]) {
             ++res;
-            remainA = capacityA - plants[i];
+            leftA = capacityA;
          }
-         ++i;
+         leftA -= plants[i++];
 
-         if (remainB >= plants[j]) {
-            remainB -= plants[j];
-         } else {
+         if (leftB < plants[j]) {
             ++res;
-            remainB = capacityB - plants[j];
+            leftB = capacityB;
          }
-         --j;
+         leftB -= plants[j--];
       }
-      if (i == j && remainA < plants[i] && remainB < plants[i]) {
-         ++res;
+
+      if (i == j) {
+         if (Math.max(leftA, leftB) < plants[i]) {
+            ++res;
+         }
       }
       return res;
 
