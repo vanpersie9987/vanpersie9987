@@ -5544,7 +5544,7 @@ public class Leetcode_6 {
 
         boolean[][][] vis = new boolean[m][n][(m + n - 1) / 2 + 1];
 
-        // i, j, 左括号数量 - 右括号数量
+        // {i, j, 左括号数量 - 右括号数量}
         queue.offer(new int[] { 0, 0, 1 });
         vis[0][0][1] = true;
         while (!queue.isEmpty()) {
