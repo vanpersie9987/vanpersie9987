@@ -5579,4 +5579,67 @@ public class Leetcode_6 {
 
     }
 
+    // 1801. 积压订单中的订单总数 (Number of Orders in the Backlog)
+    public int getNumberOfBacklogOrders(int[][] orders) {
+        Queue<int[]> sell = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+
+        Queue<int[]> buy = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o2[0], o1[0]);
+            }
+
+        });
+
+        for (int[] order : orders) {
+            int price = order[0];
+            int amount = order[1];
+            int type = order[2];
+            if (type == 0) {
+                while (!sell.isEmpty() && sell.peek()[0] <= price && amount != 0) {
+                    int minus = Math.min(sell.peek()[1], amount);
+                    sell.peek()[1] -= minus;
+                    amount -= minus;
+                    if (sell.peek()[1] == 0) {
+                        sell.poll();
+                    }
+                }
+                if (amount != 0) {
+                    buy.offer(new int[] { price, amount });
+                }
+            } else {
+                while (!buy.isEmpty() && buy.peek()[0] >= price && amount != 0) {
+                    int minus = Math.min(buy.peek()[1], amount);
+                    buy.peek()[1] -= minus;
+                    amount -= minus;
+                    if (buy.peek()[1] == 0) {
+                        buy.poll();
+                    }
+                }
+                if (amount != 0) {
+                    sell.offer(new int[] { price, amount });
+                }
+            }
+        }
+
+        long res = 0l;
+        final int MOD = (int) (1e9 + 7);
+        while (!sell.isEmpty()) {
+            res = (res + sell.poll()[1]) % MOD;
+        }
+        while (!buy.isEmpty()) {
+            res = (res + buy.poll()[1]) % MOD;
+        }
+        return (int) res;
+
+    }
+
 }
