@@ -5636,76 +5636,35 @@ public class Leetcode_5 {
     // 1664. 生成平衡数组的方案数 (Ways to Make a Fair Array)
     public int waysToMakeFair(int[] nums) {
         int n = nums.length;
-        int[][] dp1 = new int[n][2];
-        for (int i = 1; i < n; ++i) {
-            if (i % 2 == 1) {
-                dp1[i][0] = dp1[i - 1][0] + nums[i - 1];
-                dp1[i][1] = dp1[i - 1][1];
-            } else {
-                dp1[i][0] = dp1[i - 1][0];
-                dp1[i][1] = dp1[i - 1][1] + nums[i - 1];
-            }
-        }
-        int[][] dp2 = new int[n][2];
-        for (int i = n - 2; i >= 0; --i) {
-            if (i % 2 == 1) {
-                dp2[i][0] = dp2[i + 1][0] + nums[i + 1];
-                dp2[i][1] = dp2[i + 1][1];
-            } else {
-                dp2[i][0] = dp2[i + 1][0];
-                dp2[i][1] = dp2[i + 1][1] + nums[i + 1];
-            }
-        }
-
-        int res = 0;
-        for (int i = 0; i < n; ++i) {
-            int evenSum = dp1[i][0] + dp2[i][1];
-            int oddSum = dp1[i][1] + dp2[i][0];
-            if (evenSum == oddSum) {
-                ++res;
-            }
-        }
-        return res;
-
-    }
-
-    // 1664. 生成平衡数组的方案数 (Ways to Make a Fair Array)
-    public int waysToMakeFair2(int[] nums) {
         int oddSum = 0;
         int evenSum = 0;
-        int prefixOddSum = 0;
-        int prefixEvenSum = 0;
-        int n = nums.length;
-
         for (int i = 0; i < n; ++i) {
-            if (i % 2 == 0) {
+            if ((i & 1) == 0) {
                 evenSum += nums[i];
             } else {
                 oddSum += nums[i];
             }
         }
+        int sufOddSum = 0;
+        int sufEvenSum = 0;
         int res = 0;
-        for (int i = 0; i < n; ++i) {
-            if (i > 0) {
-                if (i % 2 == 1) {
-                    prefixEvenSum += nums[i - 1];
-                } else {
-                    prefixOddSum += nums[i - 1];
-                }
-            }
-
-            if (i % 2 == 1) {
-                int curOddSum = prefixOddSum + evenSum - prefixEvenSum;
-                int curEvenSum = prefixEvenSum + oddSum - prefixOddSum - nums[i];
-                if (curOddSum == curEvenSum) {
-                    ++res;
-                }
+        for (int i = n - 1; i >= 0; --i) {
+            int curOddSum = 0;
+            int curEvenSum = 0;
+            if ((i & 1) == 0) {
+                curEvenSum = evenSum - nums[i] - sufEvenSum + sufOddSum;
+                curOddSum = oddSum - sufOddSum + sufEvenSum;
             } else {
-                int curOddSum = prefixOddSum + evenSum - prefixEvenSum - nums[i];
-                int curEvenSum = prefixEvenSum + oddSum - prefixOddSum;
-                if (curOddSum == curEvenSum) {
-                    ++res;
-                }
+                curOddSum = oddSum - nums[i] - sufOddSum + sufEvenSum;
+                curEvenSum = evenSum - sufEvenSum + sufOddSum;
+            }
+            if (curOddSum == curEvenSum) {
+                ++res;
+            }
+            if ((i & 1) == 0) {
+                sufEvenSum += nums[i];
+            } else {
+                sufOddSum += nums[i];
             }
         }
         return res;
