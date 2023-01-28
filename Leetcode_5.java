@@ -5654,17 +5654,14 @@ public class Leetcode_5 {
             if ((i & 1) == 0) {
                 curEvenSum = evenSum - nums[i] - sufEvenSum + sufOddSum;
                 curOddSum = oddSum - sufOddSum + sufEvenSum;
+                sufEvenSum += nums[i];
             } else {
                 curOddSum = oddSum - nums[i] - sufOddSum + sufEvenSum;
                 curEvenSum = evenSum - sufEvenSum + sufOddSum;
+                sufOddSum += nums[i];
             }
             if (curOddSum == curEvenSum) {
                 ++res;
-            }
-            if ((i & 1) == 0) {
-                sufEvenSum += nums[i];
-            } else {
-                sufOddSum += nums[i];
             }
         }
         return res;
