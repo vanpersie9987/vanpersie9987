@@ -5605,6 +5605,7 @@ public class Leetcode_6 {
 
     }
 
+    // (x, y, 左括号数量 - 右括号数量)
     private boolean dfs2267(int x, int y, int diff) {
         if (x == m2267 - 1 && y == n2267 - 1 && diff == 0) {
             return true;
