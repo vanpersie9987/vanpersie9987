@@ -5519,4 +5519,64 @@ public class Leetcode_6 {
         return minStep;
     }
 
+    // 2267. 检查是否有合法括号字符串路径 (Check if There Is a Valid Parentheses String Path)
+    public boolean hasValidPath(char[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int len = m + n - 1;
+        if (len % 2 == 1) {
+            return false;
+        }
+        if (grid[0][0] != '(') {
+            return false;
+        }
+        if (grid[m - 1][n - 1] != ')') {
+            return false;
+        }
+        Queue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[2], o2[2]);
+            }
+        });
+        int[][] directions = { { 1, 0 }, { 0, 1 } };
+
+        boolean[][][] vis = new boolean[m][n][(m + n - 1) / 2 + 1];
+
+        // i, j, 左括号数量 - 右括号数量
+        queue.offer(new int[] { 0, 0, 1 });
+        vis[0][0][1] = true;
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int diff = cur[2];
+            if (diff < 0) {
+                continue;
+            }
+            if (diff > m - 1 - x + n - 1 - y) {
+                continue;
+            }
+            if (x == m - 1 && y == n - 1 && diff == 0) {
+                return true;
+            }
+            for (int[] d : directions) {
+                int nx = x + d[0];
+                int ny = y + d[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                    if (grid[nx][ny] == '(' && diff + 1 <= (m + n - 1) / 2 && !vis[nx][ny][diff + 1]) {
+                        vis[nx][ny][diff + 1] = true;
+                        queue.offer(new int[] { nx, ny, diff + 1 });
+                    } else if (grid[nx][ny] == ')' && diff - 1 >= 0 && !vis[nx][ny][diff - 1]) {
+                        vis[nx][ny][diff - 1] = true;
+                        queue.offer(new int[] { nx, ny, diff - 1 });
+                    }
+                }
+            }
+        }
+        return false;
+
+    }
+
 }
