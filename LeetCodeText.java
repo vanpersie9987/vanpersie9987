@@ -491,27 +491,19 @@ public class LeetCodeText {
     // 剑指 Offer 42. 连续子数组的最大和
     // 面试题 16.17. 连续数列
     public int maxSubArray(int[] nums) {
-        for (int i = 1; i < nums.length; ++i) {
-            nums[i] = Math.max(nums[i], nums[i - 1] + nums[i]);
-        }
-        int res = nums[0];
-        for (int i = 1; i < nums.length; ++i) {
-            res = Math.max(res, nums[i]);
+        int n = nums.length;
+        int min = 0;
+        int res = Integer.MIN_VALUE;
+        for (int i = 0; i < n; ++i) {
+            if (i > 0) {
+                nums[i] += nums[i - 1];
+            }
+            res = Math.max(res, nums[i] - min);
+            min = Math.min(min, nums[i]);
+
         }
         return res;
-    }
 
-    // 53. 最大子序和
-    // 剑指 Offer 42. 连续子数组的最大和
-    // 面试题 16.17. 连续数列
-    public int maxSubArray2(int[] nums) {
-        int pre = nums[0];
-        int max = nums[0];
-        for (int i = 1; i < nums.length; ++i) {
-            pre = Math.max(nums[i], pre + nums[i]);
-            max = Math.max(max, pre);
-        }
-        return max;
     }
 
     // 54. 螺旋矩阵
