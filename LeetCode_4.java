@@ -3048,16 +3048,20 @@ public class LeetCode_4 {
 
     // 6104. 统计星号
     public int countAsterisks(String s) {
-        int count = 0;
+        int n = s.length();
+        char[] arr = s.toCharArray();
         int res = 0;
-        for (char c : s.toCharArray()) {
-            if (c == '|') {
+        int count = 0;
+        for (int i = 0; i < n; ++i) {
+            if (arr[i] == '|') {
                 ++count;
-            } else if (c == '*' && ((count & 1) == 0)) {
+            }
+            if ((count & 1) == 0 && arr[i] == '*') {
                 ++res;
             }
         }
         return res;
+
     }
 
     // 6106. 统计无向图中无法互相到达点对数
