@@ -5691,9 +5691,9 @@ public class Leetcode_6 {
     // 2549. 统计桌面上的不同数字 (Count Distinct Numbers on Board)
     public int distinctIntegers(int n) {
         return Math.max(1, n - 1);
-    }
+    };
 
-    // 2550 猴子碰撞的方法数
+    // 2550. 猴子碰撞的方法数
     public int monkeyMove(int n) {
         final int MOD = (int) (1e9 + 7);
         long res = myPow2550(n);
@@ -5705,14 +5705,13 @@ public class Leetcode_6 {
     public long myPow2550(int n) {
         final int MOD = (int) (1e9 + 7);
         long x = 2l;
-        int b = n;
         long res = 1l;
-        while (b > 0) {
-            if ((b & 1) == 1) {
+        while (n > 0) {
+            if ((n & 1) == 1) {
                 res = (res * x) % MOD;
             }
             x = (x * x) % MOD;
-            b >>= 1;
+            n >>>= 1;
         }
         return res % MOD == 0l ? 1l : res % MOD;
     }
