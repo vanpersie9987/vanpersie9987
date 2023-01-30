@@ -5766,7 +5766,7 @@ public class Leetcode_6 {
                     }
                 }
                 if (j == n) {
-                    return s.substring(left);
+                    break;
                 }
 
             }
