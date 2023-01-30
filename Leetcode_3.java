@@ -340,41 +340,38 @@ public class Leetcode_3 {
         return dummy.next;
     }
 
-    public class Status implements Comparable<Status> {
-        public int val;
-        public ListNode node;
-
-        public Status(int val, ListNode node) {
-            this.val = val;
-            this.node = node;
-        }
-
-        @Override
-        public int compareTo(Status s) {
-            return this.val - s.val;
-        }
-    }
-
     // 23. 合并K个升序链表 (Merge k Sorted Lists) --优先队列
     // 剑指 Offer II 078. 合并排序链表
     public ListNode mergeKLists3(ListNode[] lists) {
-        PriorityQueue<Status> priorityQueue = new PriorityQueue<>();
+        Queue<ListNode> queue = new PriorityQueue<>(new Comparator<ListNode>() {
+
+            @Override
+            public int compare(ListNode o1, ListNode o2) {
+                return Integer.compare(o1.val, o2.val);
+            }
+
+        });
+
         for (ListNode list : lists) {
             if (list != null) {
-                priorityQueue.offer(new Status(list.val, list));
+                queue.offer(list);
             }
+
         }
-        ListNode dummy = new ListNode(0);
+
+        ListNode dummy = new ListNode(-1);
         ListNode cur = dummy;
-        while (!priorityQueue.isEmpty()) {
-            Status pop = priorityQueue.poll();
-            cur.next = pop.node;
-            cur = cur.next;
-            if (pop.node.next != null) {
-                priorityQueue.offer(new Status(pop.node.next.val, pop.node.next));
+
+        while (!queue.isEmpty()) {
+            ListNode head = queue.poll();
+            cur.next = head;
+            if (head.next != null) {
+                queue.offer(head.next);
             }
+            cur = cur.next;
         }
         return dummy.next;
+
     }
 
     // 25. K 个一组翻转链表 (Reverse Nodes in k-Group)
