@@ -1927,23 +1927,28 @@ public class LeetCode_2 {
 
    // 1669. 合并两个链表 (Merge In Between Linked Lists)
    public ListNode mergeInBetween(ListNode list1, int a, int b, ListNode list2) {
-      ListNode dummy = new ListNode(0, list1);
-      ListNode cur = dummy;
-      for (int i = 0; i < a; ++i) {
+      int count = 0;
+      ListNode cur = list1;
+      ListNode d1 = null;
+      ListNode d2 = null;
+      while (cur != null) {
+         if (count == a - 1) {
+            d1 = cur;
+         }
+         if (count == b) {
+            d2 = cur;
+            break;
+         }
+         ++count;
          cur = cur.next;
       }
-      ListNode node1 = cur;
-      int diff = b - a + 1;
-      for (int i = 0; i < diff; ++i) {
+      cur = list2;
+      while (cur.next != null) {
          cur = cur.next;
       }
-      node1.next = list2;
-      ListNode head2 = list2;
-      while (head2.next != null) {
-         head2 = head2.next;
-      }
-      head2.next = cur.next;
-      return dummy.next;
+      cur.next = d2.next;
+      d1.next = list2;
+      return list1;
 
    }
 
