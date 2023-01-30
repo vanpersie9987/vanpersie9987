@@ -5713,7 +5713,7 @@ public class Leetcode_6 {
             x = (x * x) % MOD;
             n >>>= 1;
         }
-        return res % MOD == 0l ? 1l : res % MOD;
+        return res;
     }
 
 }
