@@ -5716,4 +5716,20 @@ public class Leetcode_6 {
         return res;
     }
 
+    // 2551. 将珠子放入背包中 (Put Marbles in Bags)
+    public long putMarbles(int[] weights, int k) {
+        int n = weights.length;
+        for (int i = 0; i < n - 1; ++i) {
+            weights[i] += weights[i + 1];
+        }
+        Arrays.sort(weights, 0, n - 1);
+        long res = 0l;
+        for (int i = 0; i < k - 1; ++i) {
+            res += weights[n - i - 2] - weights[i];
+        }
+        return res;
+
+
+    }
+
 }
