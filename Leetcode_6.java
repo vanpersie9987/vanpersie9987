@@ -5731,5 +5731,49 @@ public class Leetcode_6 {
 
 
     }
+    
+    // 1163. 按字典序排在最后的子串 (Last Substring in Lexicographical Order)
+    public String lastSubstring(String s) {
+        int n = s.length();
+        char max = 'a';
+        int pos = n - 1;
+        for (int i = n - 1; i >= 0; --i) {
+            if (s.charAt(i) >= max) {
+                max = s.charAt(i);
+                pos = i;
+            }
+        }
+        int left = pos;
+        int count = 1;
+        while (left + count < n) {
+            if (s.charAt(left + count) < max) {
+                ++count;
+            } else {
+                int i = left;
+                int j = left + count;
+                while (j < n) {
+                    if (s.charAt(i) == s.charAt(j)) {
+                        ++i;
+                        ++j;
+                    } else {
+                        if (s.charAt(i) < s.charAt(j)) {
+                            left += count;
+                            count = 1;
+                        } else {
+                            ++count;
+                        }
+                        break;
+                    }
+                }
+                if (j == n) {
+                    return s.substring(left);
+                }
+
+            }
+        }
+        return s.substring(left);
+
+
+    }
 
 }
