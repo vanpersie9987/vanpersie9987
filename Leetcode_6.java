@@ -5773,6 +5773,53 @@ public class Leetcode_6 {
         }
         return s.substring(left);
 
+    }
+
+    // 1562. 查找大小为 M 的最新分组 (Find Latest Group of Size M)
+    public int findLatestStep(int[] arr, int m) {
+        int n = arr.length;
+        int[][] ends = new int[n + 2][2];
+        for (int i = 0; i < n + 2; ++i) {
+            ends[i][0] = -1;
+            ends[i][1] = -1;
+        }
+        int res = -1;
+        Map<Integer, Integer> counts = new HashMap<>();
+        int step = 0;
+        for (int pos : arr) {
+            ++step;
+            if (ends[pos - 1][0] != -1 && ends[pos + 1][0] != -1) {
+                int len1 = ends[pos - 1][1] - ends[pos - 1][0] + 1;
+                int len2 = ends[pos + 1][1] - ends[pos + 1][0] + 1;
+                ends[ends[pos - 1][0]][1] = ends[pos + 1][1];
+                ends[ends[pos + 1][1]][0] = ends[pos - 1][0];
+                counts.put(len1, counts.get(len1) - 1);
+                counts.put(len2, counts.get(len2) - 1);
+                counts.put(len1 + len2 + 1, counts.getOrDefault(len1 + len2 + 1, 0) + 1);
+            } else if (ends[pos - 1][0] != -1) {
+                int len = ends[pos - 1][1] - ends[pos - 1][0] + 1;
+                ends[ends[pos - 1][0]][1] = pos;
+                ends[pos][0] = ends[ends[pos - 1][0]][0];
+                ends[pos][1] = pos;
+                counts.put(len, counts.get(len) - 1);
+                counts.put(len + 1, counts.getOrDefault(len + 1, 0) + 1);
+            } else if (ends[pos + 1][0] != -1) {
+                int len = ends[pos + 1][1] - ends[pos + 1][0] + 1;
+                ends[ends[pos + 1][1]][0] = pos;
+                ends[pos][0] = pos;
+                ends[pos][1] = ends[ends[pos + 1][1]][1];
+                counts.put(len, counts.get(len) - 1);
+                counts.put(len + 1, counts.getOrDefault(len + 1, 0) + 1);
+            } else {
+                ends[pos][0] = pos;
+                ends[pos][1] = pos;
+                counts.put(1, counts.getOrDefault(1, 0) + 1);
+            }
+            if (counts.getOrDefault(m, 0) > 0) {
+                res = step;
+            }
+        }
+        return res;
 
     }
 
