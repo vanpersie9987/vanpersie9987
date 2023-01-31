@@ -5825,39 +5825,34 @@ public class Leetcode_6 {
 
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls) --优先队列
     public int maxProfit(int[] inventory, int orders) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i : inventory) {
-            map.put(i, map.getOrDefault(i, 0) + 1);
-        }
-        Queue<long[]> queue = new PriorityQueue<>(new Comparator<long[]>() {
+        TreeMap<Long, Long> map = new TreeMap<>(new Comparator<Long>() {
 
             @Override
-            public int compare(long[] o1, long[] o2) {
-                return Long.compare(o2[0], o1[0]);
+            public int compare(Long o1, Long o2) {
+                return Long.compare(o2, o1);
             }
-
+            
         });
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            queue.offer(new long[] { entry.getKey(), entry.getValue() });
+        for (long i : inventory) {
+            map.put(i, map.getOrDefault(i, 0l) + 1);
         }
         final int MOD = (int) (1e9 + 7);
         long res = 0l;
         while (true) {
-            long[] cur = queue.poll();
-            long val = cur[0];
-            long count = cur[1];
-            if (queue.isEmpty() || (val - queue.peek()[0]) * count >= orders) {
+            Map.Entry<Long, Long> entry = map.pollFirstEntry();
+            long val = entry.getKey();
+            long count = entry.getValue();
+            if (map.isEmpty() || (val - map.firstKey()) * count >= orders) {
                 long d = orders / count;
                 long m = orders % count;
                 res = (res + (val - d + 1 + val) * d / 2 * count) % MOD;
                 res = (res + (val - d) * m) % MOD;
                 return (int) res;
             } else {
-                long[] next = queue.peek();
-                long nextVal = next[0];
+                long nextVal = map.firstKey();
                 res = (res + (nextVal + 1 + val) * (val - nextVal) / 2 * count) % MOD;
                 orders -= (val - nextVal) * count;
-                queue.peek()[1] += count;
+                map.put(nextVal, map.getOrDefault(nextVal, 0l) + count);
             }
         }
     }
