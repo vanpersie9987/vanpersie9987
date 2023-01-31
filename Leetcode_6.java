@@ -5825,34 +5825,34 @@ public class Leetcode_6 {
 
     // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls) --优先队列
     public int maxProfit(int[] inventory, int orders) {
-        TreeMap<Long, Long> map = new TreeMap<>(new Comparator<Long>() {
+        TreeMap<Integer, Integer> map = new TreeMap<>(new Comparator<Integer>() {
 
             @Override
-            public int compare(Long o1, Long o2) {
-                return Long.compare(o2, o1);
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(o2, o1);
             }
-            
+
         });
-        for (long i : inventory) {
-            map.put(i, map.getOrDefault(i, 0l) + 1);
+        for (int i : inventory) {
+            map.put(i, map.getOrDefault(i, 0) + 1);
         }
         final int MOD = (int) (1e9 + 7);
         long res = 0l;
         while (true) {
-            Map.Entry<Long, Long> entry = map.pollFirstEntry();
-            long val = entry.getKey();
-            long count = entry.getValue();
-            if (map.isEmpty() || (val - map.firstKey()) * count >= orders) {
-                long d = orders / count;
-                long m = orders % count;
-                res = (res + (val - d + 1 + val) * d / 2 * count) % MOD;
-                res = (res + (val - d) * m) % MOD;
+            Map.Entry<Integer, Integer> entry = map.pollFirstEntry();
+            int val = entry.getKey();
+            int count = entry.getValue();
+            if (map.isEmpty() || ((long) (val - map.firstKey())) * count >= orders) {
+                int d = orders / count;
+                int m = orders % count;
+                res = (res + ((long) (val - d + 1 + val)) * d / 2 * (long) count) % MOD;
+                res = (res + ((long) (val - d)) * m) % MOD;
                 return (int) res;
             } else {
-                long nextVal = map.firstKey();
-                res = (res + (nextVal + 1 + val) * (val - nextVal) / 2 * count) % MOD;
+                int nextVal = map.firstKey();
+                res = (res + ((long) (nextVal + 1 + val)) * (val - nextVal) / 2 * (long) count) % MOD;
                 orders -= (val - nextVal) * count;
-                map.put(nextVal, map.getOrDefault(nextVal, 0l) + count);
+                map.put(nextVal, map.getOrDefault(nextVal, 0) + count);
             }
         }
     }
