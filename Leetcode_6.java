@@ -5939,8 +5939,9 @@ public class Leetcode_6 {
                 if (curTime < nextTime) {
                     res1192.add(List.of(x, y));
                 }
-            }    
+            }
         }
         return visited1192[x];
     }
+
 }
