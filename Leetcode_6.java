@@ -5903,4 +5903,44 @@ public class Leetcode_6 {
         }
         return sum;
     }
+
+    // 1192. 查找集群内的关键连接 (Critical Connections in a Network)
+    private Map<Integer, List<Integer>> graph1192;
+    private int time1192;
+    private int[] visited1192;
+    private List<List<Integer>> res1192;
+
+    public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
+        graph1192 = new HashMap<>();
+        for (List<Integer> connection : connections) {
+            int a = connection.get(0);
+            int b = connection.get(1);
+            graph1192.computeIfAbsent(a, k -> new ArrayList<>()).add(b);
+            graph1192.computeIfAbsent(b, k -> new ArrayList<>()).add(a);
+        }
+        res1192 = new ArrayList<>();
+        visited1192 = new int[n];
+        Arrays.fill(visited1192, -1);
+        dfs1192(0, -1);
+        return res1192;
+
+    }
+
+    private int dfs1192(int x, int fa) {
+        if (visited1192[x] != -1) {
+            return visited1192[x];
+        }
+        int curTime = time1192++;
+        visited1192[x] = curTime;
+        for (int y : graph1192.getOrDefault(x, new ArrayList<>())) {
+            if (y != fa) {
+                int nextTime = dfs1192(y, x);
+                visited1192[x] = Math.min(visited1192[x], nextTime);
+                if (curTime < nextTime) {
+                    res1192.add(List.of(x, y));
+                }
+            }    
+        }
+        return visited1192[x];
+    }
 }
