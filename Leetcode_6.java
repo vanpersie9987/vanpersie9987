@@ -5856,4 +5856,51 @@ public class Leetcode_6 {
             }
         }
     }
+
+    // 1648. 销售价值减少的颜色球 (Sell Diminishing-Valued Colored Balls) --二分查找
+    public int maxProfit2(int[] inventory, int orders) {
+        final int MOD = (int) (1e9 + 7);
+        int T = -1;
+        int left = 0;
+        int right = 0;
+        long rest = 0;
+        for (int i : inventory) {
+            right = Math.max(right, i);
+        }
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            long curOrders = check1648(inventory, mid);
+            if (curOrders <= orders) {
+                T = mid;
+                right = mid - 1;
+                rest = orders - curOrders;
+            } else {
+                left = mid + 1;
+            }
+        }
+        long res = 0l;
+        for (int i : inventory) {
+            if (i >= T) {
+                if (rest-- > 0) {
+                    res = (res + getSum1648(T, i)) % MOD;
+                } else {
+                    res = (res + getSum1648(T + 1, i)) % MOD;
+                }
+            }
+        }
+        return (int) (res % MOD);
+
+    }
+
+    private long getSum1648(int low, int high) {
+        return ((long) (low + high)) * (high - low + 1) / 2;
+    }
+
+    private long check1648(int[] inventory, int target) {
+        long sum = 0l;
+        for (int i : inventory) {
+            sum += Math.max(i - target, 0l);
+        }
+        return sum;
+    }
 }
