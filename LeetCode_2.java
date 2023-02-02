@@ -3525,25 +3525,41 @@ public class LeetCode_2 {
 
    }
 
-   // 209. 长度最小的子数组 (Minimum Size Subarray Sum) --O(nlog(n)) 还需要掌握二分查找法
+   // 209. 长度最小的子数组 (Minimum Size Subarray Sum) --O(nlog(n)) 二分查找
    // 剑指 Offer II 008. 和大于等于 target 的最短子数组 --O(nlog(n))
    public int minSubArrayLen2(int target, int[] nums) {
-      int[] prefix = new int[nums.length + 1];
-      int res = Integer.MAX_VALUE;
-      for (int i = 1; i < prefix.length; ++i) {
+      int n = nums.length;
+      int[] prefix = new int[n + 1];
+      for (int i = 1; i < n + 1; ++i) {
          prefix[i] = prefix[i - 1] + nums[i - 1];
       }
-      for (int i = 1; i < prefix.length; ++i) {
-         int find = target + prefix[i - 1];
-         int bound = Arrays.binarySearch(prefix, find);
-         if (bound < 0) {
-            bound = -bound - 1;
-         }
-         if (bound <= nums.length) {
-            res = Math.min(res, bound - i + 1);
+      int res = n + 1;
+      for (int i = 1; i < n + 1; ++i) {
+         int find = prefix[i] - target;
+         int index = binarySearch209(prefix, find);
+         if (index != -1) {
+            res = Math.min(res, i - index);
          }
       }
-      return res == Integer.MAX_VALUE ? 0 : res;
+      return res == n + 1 ? 0 : res;
+
+   }
+
+   private int binarySearch209(int[] prefix, int target) {
+      int n = prefix.length;
+      int res = -1;
+      int left = 0;
+      int right = n - 1;
+      while (left <= right) {
+         int mid = left + ((right - left) >>> 1);
+         if (prefix[mid] <= target) {
+            res = mid;
+            left = mid + 1;
+         } else {
+            right = mid - 1;
+         }
+      }
+      return res;
 
    }
 
