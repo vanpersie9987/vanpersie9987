@@ -3508,19 +3508,20 @@ public class LeetCode_2 {
    // 209. 长度最小的子数组 (Minimum Size Subarray Sum) --O(n) 滑动窗口
    // 剑指 Offer II 008. 和大于等于 target 的最短子数组 --O(n)
    public int minSubArrayLen(int target, int[] nums) {
-      int left = 0;
-      int right = 0;
-      int preSum = 0;
-      int res = Integer.MAX_VALUE;
-      while (right < nums.length) {
-         preSum += nums[right];
-         while (preSum >= target) {
-            res = Math.min(res, right - left + 1);
-            preSum -= nums[left++];
+      int n = nums.length;
+      int res = n + 1;
+      int sum = 0;
+      int i = 0;
+      int j = 0;
+      while (j < n) {
+         sum += nums[j];
+         while (sum >= target) {
+            res = Math.min(res, j - i + 1);
+            sum -= nums[i++];
          }
-         ++right;
+         ++j;
       }
-      return res == Integer.MAX_VALUE ? 0 : res;
+      return res == n + 1 ? 0 : res;
 
    }
 
