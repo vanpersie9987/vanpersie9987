@@ -7467,58 +7467,50 @@ public class Leetcode_3 {
 
     // 1129. 颜色交替的最短路径 (Shortest Path with Alternating Colors)
     public int[] shortestAlternatingPaths(int n, int[][] redEdges, int[][] blueEdges) {
-        List<Integer>[][] g1192 = new ArrayList[2][n];
-        int[][] dis1192 = new int[2][n];
-        final int BLUE1192 = 0;
-        final int RED1192 = 1;
+        List<Integer>[][] g = new ArrayList[2][n];
+        int[][] dis = new int[2][n];
+        final int BLUE = 0;
+        final int RED = 1;
         int[] res = new int[n];
         for (int i = 0; i < n; ++i) {
-            g1192[BLUE1192][i] = new ArrayList<>();
-            g1192[RED1192][i] = new ArrayList<>();
-            dis1192[BLUE1192][i] = Integer.MAX_VALUE;
-            dis1192[RED1192][i] = Integer.MAX_VALUE;
-            res[i] = -1;
+            g[BLUE][i] = new ArrayList<>();
+            g[RED][i] = new ArrayList<>();
+            dis[BLUE][i] = Integer.MAX_VALUE;
+            dis[RED][i] = Integer.MAX_VALUE;
         }
         for (int[] e : redEdges) {
             int a = e[0];
             int b = e[1];
-            g1192[RED1192][a].add(b);
+            g[RED][a].add(b);
         }
         for (int[] e : blueEdges) {
             int a = e[0];
             int b = e[1];
-            g1192[BLUE1192][a].add(b);
+            g[BLUE][a].add(b);
         }
 
-        dis1192[BLUE1192][0] = 0;
-        dis1192[RED1192][0] = 0;
-        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
-
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return Integer.compare(o1[2], o2[2]);
-            }
-
-        });
-        q.offer(new int[] { 0, BLUE1192, 0 });
-        q.offer(new int[] { 0, RED1192, 0 });
+        dis[BLUE][0] = 0;
+        dis[RED][0] = 0;
+        Queue<int[]> q = new PriorityQueue<>((o1, o2) -> Integer.compare(o1[2], o2[2]));
+        q.offer(new int[] { 0, BLUE, 0 });
+        q.offer(new int[] { 0, RED, 0 });
         while (!q.isEmpty()) {
             int[] cur = q.poll();
             int x = cur[0];
             int color = cur[1];
             int d = cur[2];
-            if (d > dis1192[color][x]) {
+            if (d > dis[color][x]) {
                 continue;
             }
-            for (int y : g1192[color ^ 1][x]) {
-                if (d + 1 < dis1192[color ^ 1][y]) {
-                    dis1192[color ^ 1][y] = d + 1;
+            for (int y : g[color ^ 1][x]) {
+                if (d + 1 < dis[color ^ 1][y]) {
+                    dis[color ^ 1][y] = d + 1;
                     q.offer(new int[] { y, color ^ 1, d + 1 });
                 }
             }
         }
         for (int i = 0; i < n; ++i) {
-            int min = Math.min(dis1192[RED1192][i], dis1192[BLUE1192][i]);
+            int min = Math.min(dis[RED][i], dis[BLUE][i]);
             res[i] = min == Integer.MAX_VALUE ? -1 : min;
         }
         return res;
