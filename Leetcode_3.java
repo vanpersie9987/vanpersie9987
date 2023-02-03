@@ -8542,8 +8542,10 @@ public class Leetcode_3 {
     }
 
     private int getDis(List<int[]>[] g, int n, int start, int distanceThreshold) {
+        int count = 0;
         int[] dis = new int[n];
         Arrays.fill(dis, Integer.MAX_VALUE);
+        dis[start] = 0;
         Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
 
             @Override
@@ -8569,7 +8571,6 @@ public class Leetcode_3 {
                 }
             }
         }
-        int count = 0;
         for (int i = 0; i < n; ++i) {
             if (i != start) {
                 if (dis[i] <= distanceThreshold) {
