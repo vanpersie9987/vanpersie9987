@@ -4474,42 +4474,57 @@ public class Leetcode_3 {
         return res;
     }
 
-    // 787. K 站中转内最便宜的航班 (Cheapest Flights Within K Stops) --SPFA
-    // --还需掌握动态规划
+    // 787. K 站中转内最便宜的航班 (Cheapest Flights Within K Stops) --Dijkstra
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        Map<Integer, List<int[]>> map = new HashMap<>();
-        for (int[] flight : flights) {
-            map.computeIfAbsent(flight[0], o -> new ArrayList<>()).add(new int[] { flight[1], flight[2] });
+        List<int[]>[] g = new ArrayList[n];
+        for (int i = 0; i < n; ++i) {
+            g[i] = new ArrayList<>();
         }
-        int[] price = new int[n];
-        Arrays.fill(price, Integer.MAX_VALUE);
-        price[src] = 0;
+        for (int[] f : flights) {
+            int a = f[0];
+            int b = f[1];
+            int c = f[2];
+            g[a].add(new int[] { b, c });
+        }
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
 
-        Queue<int[]> queue = new LinkedList<>();
-        // 目的地，步数，花销
-        queue.offer(new int[] { src, 0, price[src] });
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[2] == o2[2]) {
+                    return Integer.compare(o1[1], o2[1]);
+                }
+                return Integer.compare(o1[2], o2[2]);
 
-        while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
-            int node = cur[0];
-            int step = cur[1];
-            int cost = cur[2];
-            // 超过了k站中转
-            if (step > k) {
-                break;
             }
-            if (map.get(node) == null) {
+
+        });
+        int res = Integer.MAX_VALUE;
+        int[] cost = new int[n];
+        Arrays.fill(cost, Integer.MAX_VALUE);
+        // {city, cost, k}
+        q.offer(new int[] { src, 0, -1 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int curCost = cur[1];
+            int curK = cur[2];
+            if (x == dst && curK <= k) {
+                res = Math.min(res, curCost);
                 continue;
             }
-            for (int[] neighbor : map.get(node)) {
-                int nCost = cost + neighbor[1];
-                if (nCost < price[neighbor[0]]) {
-                    price[neighbor[0]] = nCost;
-                    queue.offer(new int[] { neighbor[0], step + 1, nCost });
+            for (int[] nei : g[x]) {
+                int y = nei[0];
+                int delta = nei[1];
+                if (curK + 1 <= k) {
+                    if (curCost + delta < cost[y]) {
+                        cost[y] = curCost + delta;
+                        q.offer(new int[] { y, cost[y], curK + 1 });
+                    }
                 }
             }
         }
-        return price[dst] == Integer.MAX_VALUE ? -1 : price[dst];
+        return res == Integer.MAX_VALUE ? -1 : res;
+
     }
 
     // 1306. 跳跃游戏 III (Jump Game III) --bfs
