@@ -4508,18 +4508,16 @@ public class Leetcode_3 {
             int x = cur[0];
             int curCost = cur[1];
             int curK = cur[2];
-            if (x == dst && curK <= k) {
+            if (x == dst) {
                 res = Math.min(res, curCost);
                 continue;
             }
             for (int[] nei : g[x]) {
                 int y = nei[0];
                 int delta = nei[1];
-                if (curK + 1 <= k) {
-                    if (curCost + delta < cost[y]) {
-                        cost[y] = curCost + delta;
-                        q.offer(new int[] { y, cost[y], curK + 1 });
-                    }
+                if (curK + 1 <= k && curCost + delta < cost[y]) {
+                    cost[y] = curCost + delta;
+                    q.offer(new int[] { y, cost[y], curK + 1 });
                 }
             }
         }
