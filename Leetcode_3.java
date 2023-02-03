@@ -9149,84 +9149,51 @@ public class Leetcode_3 {
 
     // 1514. 概率最大的路径 (Path with Maximum Probability) --Dijkstra
     public double maxProbability(int n, int[][] edges, double[] succProb, int start, int end) {
-        Map<Integer, List<Bean1514>> graph = new HashMap<>();
-        for (int i = 0; i < edges.length; ++i) {
-            graph.computeIfAbsent(edges[i][0], k -> new ArrayList<>()).add(new Bean1514(edges[i][1], succProb[i]));
-            graph.computeIfAbsent(edges[i][1], k -> new ArrayList<>()).add(new Bean1514(edges[i][0], succProb[i]));
+        List<double[]>[] g = new ArrayList[n];
+        for (int i = 0; i < n; ++i) {
+            g[i] = new ArrayList<>();
         }
-        double[] probability = new double[n];
-        probability[start] = 1d;
-        boolean[] visited = new boolean[n];
-        PriorityQueue<Bean1514> queue = new PriorityQueue<>(new Comparator<Bean1514>() {
+        for (int i = 0; i < edges.length; ++i) {
+            int a = edges[i][0];
+            int b = edges[i][1];
+            double p = succProb[i];
+            g[a].add(new double[] { b, p });
+            g[b].add(new double[] { a, p });
+        }
+        double[] dis = new double[n];
+        dis[start] = 1d;
+        Queue<double[]> q = new PriorityQueue<>(new Comparator<double[]>() {
 
             @Override
-            public int compare(Bean1514 o1, Bean1514 o2) {
-                return o2.probability.compareTo(o1.probability);
+            public int compare(double[] o1, double[] o2) {
+                return Double.compare(o2[1], o1[1]);
             }
 
         });
-        queue.offer(new Bean1514(start, 1d));
-        while (!queue.isEmpty()) {
-            Bean1514 cur = queue.poll();
-            if (visited[cur.node]) {
+
+        q.offer(new double[] { start, 1d });
+        while (!q.isEmpty()) {
+            double[] cur = q.poll();
+            int x = (int) cur[0];
+            double p = cur[1];
+            if (Double.compare(p, dis[x]) < 0) {
                 continue;
             }
-            visited[cur.node] = true;
-            if (graph.get(cur.node) == null) {
-                continue;
+            if (x == end) {
+                break;
             }
-            for (Bean1514 neighbor : graph.get(cur.node)) {
-                double nProb = cur.probability * neighbor.probability;
-                if (nProb > probability[neighbor.node]) {
-                    probability[neighbor.node] = nProb;
-                    queue.offer(new Bean1514(neighbor.node, nProb));
+            for (double[] nei : g[x]) {
+                int y = (int) nei[0];
+                double delta = nei[1];
+                if (Double.compare(p * delta, dis[y]) > 0) {
+                    dis[y] = p * delta;
+                    q.offer(new double[] { y, dis[y] });
+
                 }
             }
         }
-        return probability[end];
-    }
+        return dis[end];
 
-    class Bean1514 {
-        int node;
-        Double probability;
-
-        public Bean1514(int node, double probability) {
-            this.node = node;
-            this.probability = probability;
-        }
-    }
-
-    // 1514. 概率最大的路径 (Path with Maximum Probability) --SPFA
-    public double maxProbability2(int n, int[][] edges, double[] succProb, int start, int end) {
-        Map<Integer, Map<Integer, Double>> graph = new HashMap<>();
-        for (int i = 0; i < edges.length; ++i) {
-            graph.computeIfAbsent(edges[i][0], k -> new HashMap<>()).put(edges[i][1], succProb[i]);
-            graph.computeIfAbsent(edges[i][1], k -> new HashMap<>()).put(edges[i][0], succProb[i]);
-        }
-
-        double[] probability = new double[n];
-        probability[start] = 1d;
-        boolean[] inTheQueue = new boolean[n];
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(start);
-        inTheQueue[start] = true;
-        while (!queue.isEmpty()) {
-            int node = queue.poll();
-            inTheQueue[node] = false;
-            if (graph.get(node) == null) {
-                continue;
-            }
-            for (int neighbor : graph.get(node).keySet()) {
-                double nProb = probability[node] * graph.get(node).get(neighbor);
-                if (nProb > probability[neighbor]) {
-                    probability[neighbor] = nProb;
-                    if (!inTheQueue[neighbor]) {
-                        queue.offer(neighbor);
-                    }
-                }
-            }
-        }
-        return probability[end];
     }
 
     // 1976. 到达目的地的方案数 (Number of Ways to Arrive at Destination) --Dijkstra
