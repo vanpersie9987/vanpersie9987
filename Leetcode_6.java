@@ -5073,7 +5073,7 @@ public class Leetcode_6 {
             public int compare(Integer o1, Integer o2) {
                 return Integer.compare(o2, o1);
             }
-            
+
         });
         int sum = 0;
 
@@ -5729,9 +5729,8 @@ public class Leetcode_6 {
         }
         return res;
 
-
     }
-    
+
     // 1163. 按字典序排在最后的子串 (Last Substring in Lexicographical Order)
     public String lastSubstring(String s) {
         int n = s.length();
@@ -5943,5 +5942,21 @@ public class Leetcode_6 {
         }
         return visited1192[x];
     }
+
+    // 395. 至少有 K 个重复字符的最长子串 (Longest Substring with At Least K Repeating
+    // Characters)
+    // public int longestSubstring(String s, int k) {
+
+    // }
+
+    // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
+    // public int waysToSplit(int[] nums) {
+
+    // }
+
+    // 2402.会议室 III (Meeting Rooms III)
+    // public int mostBooked(int n, int[][] meetings) {
+
+    // }
 
 }
