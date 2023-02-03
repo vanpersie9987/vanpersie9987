@@ -8423,94 +8423,52 @@ public class Leetcode_3 {
         return new ArrayList<>();
     }
 
-    // 743. 网络延迟时间 (Network Delay Time) --SPFA
+    // 743. 网络延迟时间 (Network Delay Time)
     public int networkDelayTime(int[][] times, int n, int k) {
-        int[] distance = new int[n];
-        Arrays.fill(distance, Integer.MAX_VALUE >> 1);
-        distance[k - 1] = 0;
-        Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
+        List<int[]>[] g = new ArrayList[n];
         for (int i = 0; i < n; ++i) {
-            map.put(i, new HashMap<>());
+            g[i] = new ArrayList<>();
         }
-        for (int[] time : times) {
-            map.get(time[0] - 1).put(time[1] - 1, time[2]);
+        for (int[] t : times) {
+            int a = t[0] - 1;
+            int b = t[1] - 1;
+            int d = t[2];
+            g[a].add(new int[] { b, d });
         }
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(k - 1);
-
-        boolean[] inTheQueue = new boolean[n];
-        inTheQueue[k - 1] = true;
-        while (!queue.isEmpty()) {
-            int cur = queue.poll();
-            inTheQueue[cur] = false;
-            for (int neighbor : map.get(cur).keySet()) {
-                int nTime = distance[cur] + map.get(cur).get(neighbor);
-                if (nTime < distance[neighbor]) {
-                    distance[neighbor] = nTime;
-                    if (!inTheQueue[neighbor]) {
-                        inTheQueue[neighbor] = true;
-                        queue.offer(neighbor);
-                    }
-                }
-            }
-        }
-        int res = -1;
-        for (int i = 0; i < distance.length; ++i) {
-            if (distance[i] == Integer.MAX_VALUE >> 1) {
-                return -1;
-            }
-            res = Math.max(res, distance[i]);
-        }
-        return res;
-
-    }
-
-    // 743. 网络延迟时间 (Network Delay Time) --Dijkstra
-    public int networkDelayTime2(int[][] times, int n, int k) {
-        Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
-        for (int i = 0; i < n; ++i) {
-            map.put(i, new HashMap<>());
-        }
-        for (int[] time : times) {
-            map.get(time[0] - 1).put(time[1] - 1, time[2]);
-        }
-        int[] distance = new int[n];
-        Arrays.fill(distance, Integer.MAX_VALUE >> 1);
-        distance[k - 1] = 0;
-        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>(new Comparator<int[]>() {
+        int[] dis = new int[n];
+        Arrays.fill(dis, Integer.MAX_VALUE);
+        dis[k - 1] = 0;
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
 
             @Override
             public int compare(int[] o1, int[] o2) {
-                return o1[1] - o2[1];
+                return Integer.compare(o1[1], o2[1]);
             }
 
         });
-        boolean[] visited = new boolean[n];
-        priorityQueue.offer(new int[] { k - 1, 0 });
-        while (!priorityQueue.isEmpty()) {
-            int[] cur = priorityQueue.poll();
-            int index = cur[0];
-            int dist = cur[1];
-            if (visited[index]) {
+
+        q.offer(new int[] { k - 1, 0 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int d = cur[1];
+            if (d > dis[x]) {
                 continue;
             }
-            visited[index] = true;
-            for (int neightbor : map.get(index).keySet()) {
-                int nDist = map.get(index).get(neightbor) + dist;
-                if (nDist < distance[neightbor]) {
-                    distance[neightbor] = nDist;
-                    priorityQueue.offer(new int[] { neightbor, nDist });
+            for (int[] nei : g[x]) {
+                int y = nei[0];
+                int delta = nei[1];
+                if (d + delta < dis[y]) {
+                    dis[y] = d + delta;
+                    q.offer(new int[] { y, dis[y] });
                 }
             }
         }
-        int res = -1;
-        for (int d : distance) {
-            if (d == (Integer.MAX_VALUE >> 1)) {
-                return -1;
-            }
-            res = Math.max(d, res);
+        int max = 0;
+        for (int i = 0; i < n; ++i) {
+            max = Math.max(max, dis[i]);
         }
-        return res;
+        return max == Integer.MAX_VALUE ? -1 : max;
 
     }
 
