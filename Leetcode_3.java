@@ -8078,64 +8078,49 @@ public class Leetcode_3 {
         }
         final int HORIZONTAL = 0;
         final int VERTICAL = 1;
-        boolean[][][] visited = new boolean[n][n][2];
-        visited[0][1][HORIZONTAL] = true;
-        Queue<int[]> queue = new LinkedList<>();
-        // 蛇头位置：x,y 蛇头方向：orientation
-        queue.offer(new int[] { 0, 1, HORIZONTAL });
-        int step = 0;
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            for (int i = 0; i < size; ++i) {
-                int[] cur = queue.poll();
-                int x = cur[0];
-                int y = cur[1];
-                int orientation = cur[2];
-                if (x == n - 1 && y == n - 1 && orientation == HORIZONTAL) {
-                    return step;
+        boolean[][][] vis = new boolean[n][n][2];
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[] { 0, 0, HORIZONTAL, 0 });
+        vis[0][0][HORIZONTAL] = true;
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int orientation = cur[2];
+            int step = cur[3];
+            if (x == n - 1 && y == n - 2 && orientation == HORIZONTAL) {
+                return step;
+            }
+            if (orientation == HORIZONTAL) {
+                if (y + 2 < n && grid[x][y + 2] == 0 && !vis[x][y + 1][HORIZONTAL]) {
+                    vis[x][y + 1][HORIZONTAL] = true;
+                    q.offer(new int[] { x, y + 1, HORIZONTAL, step + 1 });
                 }
-                // 横向
-                if (orientation == HORIZONTAL) {
-                    // 横着往右👉 移动一格
-                    if (y + 1 < n && grid[x][y + 1] == 0 && !visited[x][y + 1][HORIZONTAL]) {
-                        visited[x][y + 1][HORIZONTAL] = true;
-                        queue.offer(new int[] { x, y + 1, HORIZONTAL });
-                    }
-                    // 横着往下👇 移动一格
-                    if (x + 1 < n && y - 1 >= 0 && grid[x + 1][y] == 0 && grid[x + 1][y - 1] == 0
-                            && !visited[x + 1][y][HORIZONTAL]) {
-                        visited[x + 1][y][HORIZONTAL] = true;
-                        queue.offer(new int[] { x + 1, y, HORIZONTAL });
-                    }
-                    // 顺时针旋转90度
-                    if (x + 1 < n && y - 1 >= 0 && grid[x + 1][y] == 0 && grid[x + 1][y - 1] == 0
-                            && !visited[x + 1][y - 1][VERTICAL]) {
-                        visited[x + 1][y - 1][VERTICAL] = true;
-                        queue.offer(new int[] { x + 1, y - 1, VERTICAL });
-                    }
+                if (x + 1 < n && y + 1 < n && grid[x + 1][y] == 0 && grid[x + 1][y + 1] == 0
+                        && !vis[x + 1][y][HORIZONTAL]) {
+                    vis[x + 1][y][HORIZONTAL] = true;
+                    q.offer(new int[] { x + 1, y, HORIZONTAL, step + 1 });
                 }
-                // 纵向
-                else {
-                    // 竖着往右👉 移动一格
-                    if (y + 1 < n && x - 1 >= 0 && grid[x][y + 1] == 0 && grid[x - 1][y + 1] == 0
-                            && !visited[x][y + 1][VERTICAL]) {
-                        visited[x][y + 1][VERTICAL] = true;
-                        queue.offer(new int[] { x, y + 1, VERTICAL });
-                    }
-                    // 竖着向下👇 移动一格
-                    if (x + 1 < n && grid[x + 1][y] == 0 && !visited[x + 1][y][VERTICAL]) {
-                        visited[x + 1][y][VERTICAL] = true;
-                        queue.offer(new int[] { x + 1, y, VERTICAL });
-                    }
-                    // 逆时针旋转90度
-                    if (x - 1 < n && y + 1 < n && grid[x][y + 1] == 0 && grid[x - 1][y + 1] == 0
-                            && !visited[x - 1][y + 1][HORIZONTAL]) {
-                        visited[x - 1][y + 1][HORIZONTAL] = true;
-                        queue.offer(new int[] { x - 1, y + 1, HORIZONTAL });
-                    }
+                if (x + 1 < n && y + 1 < n && grid[x + 1][y] == 0 && grid[x + 1][y + 1] == 0 && !vis[x][y][VERTICAL]) {
+                    vis[x][y][VERTICAL] = true;
+                    q.offer(new int[] { x, y, VERTICAL, step + 1 });
+                }
+            } else {
+                if (x + 2 < n && grid[x + 2][y] == 0 && !vis[x + 1][y][VERTICAL]) {
+                    vis[x + 1][y][VERTICAL] = true;
+                    q.offer(new int[] { x + 1, y, VERTICAL, step + 1 });
+                }
+                if (x + 1 < n && y + 1 < n && grid[x][y + 1] == 0 && grid[x + 1][y + 1] == 0
+                        && !vis[x][y + 1][VERTICAL]) {
+                    vis[x][y + 1][VERTICAL] = true;
+                    q.offer(new int[] { x, y + 1, VERTICAL, step + 1 });
+                }
+                if (x + 1 < n && y + 1 < n && grid[x][y + 1] == 0 && grid[x + 1][y + 1] == 0
+                        && !vis[x][y][HORIZONTAL]) {
+                    vis[x][y][HORIZONTAL] = true;
+                    q.offer(new int[] { x, y, HORIZONTAL, step + 1 });
                 }
             }
-            ++step;
         }
         return -1;
 
