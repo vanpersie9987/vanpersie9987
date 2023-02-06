@@ -6070,8 +6070,8 @@ public class Leetcode_6 {
         int n = basket1.length;
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < n; ++i) {
-            map.put(basket1[i], map.getOrDefault(basket1[i], 0) + 1);
-            map.put(basket2[i], map.getOrDefault(basket2[i], 0) - 1);
+            map.merge(basket1[i], 1, Integer::sum);
+            map.merge(basket2[i], -1, Integer::sum);
         }
         int min = Integer.MAX_VALUE;
         List<Integer> list = new ArrayList<>();
