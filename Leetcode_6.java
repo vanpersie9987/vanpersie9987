@@ -6092,14 +6092,28 @@ public class Leetcode_6 {
 
     }
 
-    // 2555. 两个线段获得的最多奖品 (Maximize Win From Two Segments)
-    // public int maximizeWin(int[] prizePositions, int k) {
-
-    // }
-
     // 2556. 二进制矩阵中翻转最多一次使路径不连通 (Disconnect Path in a Binary Matrix by at Most One
     // Flip)
-    // public boolean isPossibleToCutPath(int[][] grid) {
+    private int[][] grid2556;
+
+    public boolean isPossibleToCutPath(int[][] grid) {
+        this.grid2556 = grid;
+        return !dfs2556(0, 0) || !dfs2556(0, 0);
+
+    }
+
+    private boolean dfs2556(int i, int j) {
+        int m = grid2556.length;
+        int n = grid2556[0].length;
+        if (m - 1 == i && n - 1 == j) {
+            return true;
+        }
+        grid2556[i][j] = 0;
+        return i + 1 < m && grid2556[i + 1][j] == 1 && dfs2556(i + 1, j) || j + 1 < n && grid2556[i][j + 1] == 1 && dfs2556(i, j + 1);
+    }
+
+    // 2555. 两个线段获得的最多奖品 (Maximize Win From Two Segments)
+    // public int maximizeWin(int[] prizePositions, int k) {
 
     // }
 
