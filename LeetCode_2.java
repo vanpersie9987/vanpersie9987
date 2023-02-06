@@ -3584,14 +3584,14 @@ public class LeetCode_2 {
       if (s.length() < k) {
          return 0;
       }
-      Map<Character, Integer> map = new HashMap<>();
+      int[] counts = new int[26];
       for (char c : s.toCharArray()) {
-         map.put(c, map.getOrDefault(c, 0) + 1);
+         ++counts[c - 'a'];
       }
-      for (Map.Entry<Character, Integer> entry : map.entrySet()) {
-         if (entry.getValue() < k) {
+      for (int i = 0; i < 26; ++i) {
+         if (counts[i] > 0 && counts[i] < k) {
             int max = 0;
-            for (String sub : s.split(String.valueOf(entry.getKey()))) {
+            for (String sub : s.split(String.valueOf((char) (i + 'a')))) {
                max = Math.max(max, longestSubstring(sub, k));
             }
             return max;
