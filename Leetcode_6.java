@@ -5943,6 +5943,166 @@ public class Leetcode_6 {
         return visited1192[x];
     }
 
+    // 2553. 分割数组中数字的数位 (Separate the Digits in an Array)
+    public int[] separateDigits(int[] nums) {
+        List<Integer> list = new ArrayList<>();
+        for (int num : nums) {
+            int index = list.size();
+            while (num != 0) {
+                list.add(index, num % 10);
+                num /= 10;
+            }
+        }
+        int n = list.size();
+        int[] res = new int[n];
+        res = list.stream().mapToInt(Integer::intValue).toArray();
+        return res;
+
+    }
+
+    // 2554. 从一个范围内选择最多整数 I (Maximum Number of Integers to Choose From a Range I)
+    public int maxCount(int[] banned, int n, int maxSum) {
+        long curSum = 0l;
+        Set<Integer> set = new HashSet<>();
+        for (int b : banned) {
+            set.add(b);
+        }
+        int res = 0;
+        for (int i = 1; i <= n; ++i) {
+            if (set.contains(i)) {
+                continue;
+            }
+            if (curSum + i <= maxSum) {
+                curSum += i;
+                ++res;
+            } else {
+                break;
+            }
+        }
+        return res;
+
+    }
+
+    // 2558. 从数量最多的堆取走礼物 (Take Gifts From the Richest Pile)
+    public long pickGifts(int[] gifts, int k) {
+        Queue<Integer> q = new PriorityQueue<>(new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(o2, o1);
+            }
+
+        });
+        for (int g : gifts) {
+            q.offer(g);
+        }
+        while (k-- > 0 && q.peek() > 1) {
+            int cur = q.poll();
+            cur = (int) Math.sqrt(cur);
+            q.offer(cur);
+        }
+        long res = 0l;
+        while (!q.isEmpty()) {
+            res += q.poll();
+        }
+        return res;
+
+    }
+
+    // 2559. 统计范围内的元音字符串数 (Count Vowel Strings in Ranges)
+    public int[] vowelStrings(String[] words, int[][] queries) {
+        int n = words.length;
+        int[] prefix = new int[n + 1];
+        for (int i = 1; i < n + 1; ++i) {
+            prefix[i] += prefix[i - 1] + (check6347(words[i - 1]) ? 1 : 0);
+        }
+        int[] res = new int[queries.length];
+        for (int i = 0; i < queries.length; ++i) {
+            int a = queries[i][0];
+            int b = queries[i][1];
+            res[i] = prefix[b + 1] - prefix[a];
+        }
+        return res;
+
+    }
+
+    private boolean check6347(String s) {
+        String v = "aeiou";
+        return v.indexOf(s.charAt(0)) != -1 && v.indexOf(s.charAt(s.length() - 1)) != -1;
+    }
+
+    // 2560. 打家劫舍 IV (House Robber IV)
+    public int minCapability(int[] nums, int k) {
+        int left = Arrays.stream(nums).min().getAsInt();
+        int right = Arrays.stream(nums).max().getAsInt();
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (check6346(nums, mid) >= k) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+
+    }
+
+    private int check6346(int[] nums, int target) {
+        int res = 0;
+        int count = 0;
+        for (int num : nums) {
+            if (num <= target) {
+                ++count;
+            } else {
+                res += (count + 1) / 2;
+                count = 0;
+            }
+        }
+        res += (count + 1) / 2;
+        return res;
+    }
+
+    // 2561. 重排水果 (Rearranging Fruits)
+    public long minCost(int[] basket1, int[] basket2) {
+        long res = 0l;
+        int n = basket1.length;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            map.put(basket1[i], map.getOrDefault(basket1[i], 0) + 1);
+            map.put(basket2[i], map.getOrDefault(basket2[i], 0) - 1);
+        }
+        int min = Integer.MAX_VALUE;
+        List<Integer> list = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> e : map.entrySet()) {
+            min = Math.min(e.getKey(), min);
+            if ((e.getValue() & 1) != 0) {
+                return -1l;
+            }
+            for (int c = Math.abs(e.getValue() / 2); c > 0; --c) {
+                list.add(e.getKey());
+            }
+        }
+        Collections.sort(list);
+        for (int i = 0; i < list.size() / 2; ++i) {
+            res += Math.min(min * 2, list.get(i));
+        }
+        return res;
+
+    }
+
+    // 2555. 两个线段获得的最多奖品 (Maximize Win From Two Segments)
+    // public int maximizeWin(int[] prizePositions, int k) {
+
+    // }
+
+    // 2556. 二进制矩阵中翻转最多一次使路径不连通 (Disconnect Path in a Binary Matrix by at Most One
+    // Flip)
+    // public boolean isPossibleToCutPath(int[][] grid) {
+
+    // }
+
     // 395. 至少有 K 个重复字符的最长子串 (Longest Substring with At Least K Repeating
     // Characters)
     // public int longestSubstring(String s, int k) {

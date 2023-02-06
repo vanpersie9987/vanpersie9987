@@ -4907,13 +4907,15 @@ public class LeetCode_4 {
     // 6116. 计算布尔二叉树的值
     public boolean evaluateTree(TreeNode root) {
         if (root.left == null && root.right == null) {
-            return root.val == 1;
+            return root.val != 0;
         }
+        boolean left = evaluateTree(root.left);
+        boolean right = evaluateTree(root.right);
         if (root.val == 2) {
-            return evaluateTree(root.left) || evaluateTree(root.right);
-        } else {
-            return evaluateTree(root.left) && evaluateTree(root.right);
+            return left | right;
         }
+        return left & right;
+
     }
 
     // 6117. 坐上公交的最晚时间
