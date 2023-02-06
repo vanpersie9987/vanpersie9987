@@ -6130,6 +6130,27 @@ public class Leetcode_6 {
         return res;
 
     }
+
+    // 1545. 找出第 N 个二进制字符串中的第 K 位 (Find Kth Bit in Nth Binary String)
+    public char findKthBit(int n, int k) {
+        if (k == 1) {
+            return '0';
+        }
+        int mid = 1 << (n - 1);
+        if (mid == k) {
+            return '1';
+        } else if (k < mid) {
+            return findKthBit(n - 1, k);
+        } else {
+            k = (mid << 1) - k;
+            return invert1545(findKthBit(n - 1, k));
+        }
+
+    }
+
+    private char invert1545(char c) {
+        return (char) (((c - '0') ^ 1) + '0');
+    }
   
 
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
