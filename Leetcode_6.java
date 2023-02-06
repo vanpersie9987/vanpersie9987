@@ -6113,9 +6113,23 @@ public class Leetcode_6 {
     }
 
     // 2555. 两个线段获得的最多奖品 (Maximize Win From Two Segments)
-    // public int maximizeWin(int[] prizePositions, int k) {
+    public int maximizeWin(int[] prizePositions, int k) {
+        int n = prizePositions.length;
+        int[] pre = new int[n + 1];
+        int left = 0;
+        int right = 0;
+        int res = 0;
+        while (right < n) {
+            while (prizePositions[right] - prizePositions[left] > k) {
+                ++left;
+            }
+            res = Math.max(res, right - left + 1 + pre[left]);
+            pre[right + 1] = Math.max(pre[right], right - left + 1);
+            ++right;
+        }
+        return res;
 
-    // }
+    }
 
     // 395. 至少有 K 个重复字符的最长子串 (Longest Substring with At Least K Repeating
     // Characters)
