@@ -6109,7 +6109,8 @@ public class Leetcode_6 {
             return true;
         }
         grid2556[i][j] = 0;
-        return i + 1 < m && grid2556[i + 1][j] == 1 && dfs2556(i + 1, j) || j + 1 < n && grid2556[i][j + 1] == 1 && dfs2556(i, j + 1);
+        return i + 1 < m && grid2556[i + 1][j] == 1 && dfs2556(i + 1, j)
+                || j + 1 < n && grid2556[i][j + 1] == 1 && dfs2556(i, j + 1);
     }
 
     // 2555. 两个线段获得的最多奖品 (Maximize Win From Two Segments)
@@ -6151,7 +6152,6 @@ public class Leetcode_6 {
     private char invert1545(char c) {
         return (char) (((c - '0') ^ 1) + '0');
     }
-  
 
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
