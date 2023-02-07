@@ -19514,7 +19514,7 @@ public class LeetCodeText {
 
     }
 
-    // 300. 最长递增子序列 (Longest Increasing Subsequence) 不是最优解
+    // 300. 最长递增子序列 (Longest Increasing Subsequence)
     public int lengthOfLIS(int[] nums) {
         int res = 0;
         int n = nums.length;
@@ -19530,6 +19530,36 @@ public class LeetCodeText {
             res = Math.max(dp[i], res);
         }
         return res;
+
+    }
+
+    // 300. 最长递增子序列 (Longest Increasing Subsequence) --二分
+    public int lengthOfLIS2(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n + 1];
+        int len = 1;
+        dp[len] = nums[0];
+        for (int i = 1; i < n; ++i) {
+            if (nums[i] > dp[len]) {
+                dp[++len] = nums[i];
+            } else {
+                int left = 1;
+                int right = len;
+                int pos = 0;
+                while (left <= right) {
+                    int mid = left + ((right - left) >>> 1);
+                    if (dp[mid] < nums[i]) {
+                        pos = mid;
+                        left = mid + 1;
+                    } else {
+                        right = mid - 1;
+                    }
+                }
+                dp[pos + 1] = nums[i];
+            }
+
+        }
+        return len;
 
     }
 

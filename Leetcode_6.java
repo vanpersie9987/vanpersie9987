@@ -6153,6 +6153,46 @@ public class Leetcode_6 {
         return (char) (((c - '0') ^ 1) + '0');
     }
 
+    // 2111. 使数组 K 递增的最少操作次数 (Minimum Operations to Make the Array K-Increasing)
+    public int kIncreasing(int[] arr, int k) {
+        int res = 0;
+        for (int i = 0; i < k; ++i) {
+            List<Integer> list = new ArrayList<>();
+            int j = i;
+            while (j < arr.length) {
+                list.add(arr[j]);
+                j += k;
+            }
+            int n = list.size();
+            int[] dp = new int[n + 1];
+            int len = 1;
+            dp[len] = list.get(0);
+            for (int x = 1; x < n; ++x) {
+                if (list.get(x) >= dp[len]) {
+                    dp[++len] = list.get(x);
+                } else {
+                    int left = 1;
+                    int right = len;
+                    int pos = 0;
+                    while (left <= right) {
+                        int mid = left + ((right - left) >>> 1);
+                        if (dp[mid] <= list.get(x)) {
+                            pos = mid;
+                            left = mid + 1;
+                        } else {
+                            right = mid - 1;
+                        }
+                    }
+                    dp[pos + 1] = list.get(x);
+                }
+            }
+            res += len;
+        }
+        return arr.length - res;
+
+
+    }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
