@@ -6193,6 +6193,27 @@ public class Leetcode_6 {
 
     }
 
+    // 2008. 出租车的最大盈利 (Maximum Earnings From Taxi)
+    public long maxTaxiEarnings(int n, int[][] rides) {
+        long[] dp = new long[n + 1];
+        Map<Integer, List<int[]>> map = new HashMap<>();
+        for (int[] r : rides) {
+            map.computeIfAbsent(r[1], k -> new ArrayList<>()).add(new int[] { r[0], r[2] });
+        }
+        long res = 0l;
+        for (int i = 1; i < n + 1; ++i) {
+            dp[i] = dp[i - 1];
+            for (int[] r : map.getOrDefault(i, new ArrayList<>())) {
+                int start = r[0];
+                int tips = r[1];
+                dp[i] = Math.max(dp[i], dp[start] + i - start + tips);
+            }
+            res = Math.max(res, dp[i]);
+        }
+        return res;
+
+    }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
