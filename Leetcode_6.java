@@ -5953,10 +5953,7 @@ public class Leetcode_6 {
                 num /= 10;
             }
         }
-        int n = list.size();
-        int[] res = new int[n];
-        res = list.stream().mapToInt(Integer::intValue).toArray();
-        return res;
+        return list.stream().mapToInt(Integer::intValue).toArray();
 
     }
 
