@@ -14,6 +14,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Leetcode_6 {
@@ -6215,9 +6216,36 @@ public class Leetcode_6 {
     }
 
     // 2009. 使数组连续的最少操作数 (Minimum Number of Operations to Make Array Continuous)
-    // public int minOperations(int[] nums) {
+    public int minOperations(int[] nums) {
+        int n = nums.length;
+        Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toSet());
+        int[] arr = new int[set.size()];
+        int index = 0;
+        for (int num : set) {
+            arr[index++] = num;
+        }
+        Arrays.sort(arr);
+        int res = 0;
+        for (int i = 0; i < arr.length; ++i) {
+            int target = arr[i] - n + 1;
+            int left = 0;
+            int right = i;
+            int cur = i;
+            while (left <= right) {
+                int mid = left + ((right - left) >>> 1);
+                if (arr[mid] >= target) {
+                    cur = mid;
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            res = Math.max(res, i - cur + 1);
+        }
+        return n - res;
 
-    // }
+
+    }
 
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
