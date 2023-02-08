@@ -7841,15 +7841,16 @@ public class LeetCodeText {
 
     }
 
-    // 1233. 删除子文件夹
+    // 1233. 删除子文件夹 (Remove Sub-Folders from the Filesystem)
     public List<String> removeSubfolders(String[] folder) {
         Arrays.sort(folder);
         List<String> res = new ArrayList<>();
         res.add(folder[0]);
         for (int i = 1; i < folder.length; ++i) {
-            String pre = res.get(res.size() - 1) + "/";
-            if (folder[i].indexOf(pre) == -1) {
+            String pre = res.get(res.size() - 1);
+            if (!folder[i].startsWith(pre + "/")) {
                 res.add(folder[i]);
+                pre = folder[i];
             }
         }
         return res;

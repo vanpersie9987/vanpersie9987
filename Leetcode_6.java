@@ -6214,6 +6214,11 @@ public class Leetcode_6 {
 
     }
 
+    // 2009. 使数组连续的最少操作数 (Minimum Number of Operations to Make Array Continuous)
+    // public int minOperations(int[] nums) {
+
+    // }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
