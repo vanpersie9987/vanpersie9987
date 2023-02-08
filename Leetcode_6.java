@@ -2178,37 +2178,36 @@ public class Leetcode_6 {
 
     // 1797. 设计一个验证系统 (Design Authentication Manager)
     class AuthenticationManager {
+
         private TreeMap<Integer, String> treeMap;
         private Map<String, Integer> map;
         private int timeToLive;
 
         public AuthenticationManager(int timeToLive) {
+            treeMap = new TreeMap<>();
+            map = new HashMap<>();
             this.timeToLive = timeToLive;
-            this.treeMap = new TreeMap<>();
-            this.map = new HashMap<>();
-
         }
 
         public void generate(String tokenId, int currentTime) {
-            putNewToken(tokenId, currentTime);
+            map.put(tokenId, currentTime);
+            treeMap.put(currentTime, tokenId);
         }
 
         public void renew(String tokenId, int currentTime) {
-            Integer expiredTime = map.get(tokenId);
-            if (expiredTime == null || expiredTime <= currentTime) {
+            if (!map.containsKey(tokenId) || currentTime - map.get(tokenId) >= timeToLive) {
                 return;
             }
-            treeMap.remove(expiredTime);
-            putNewToken(tokenId, currentTime);
+            treeMap.remove(map.get(tokenId));
+            map.put(tokenId, currentTime);
+            treeMap.put(currentTime, tokenId);
         }
 
         public int countUnexpiredTokens(int currentTime) {
-            return treeMap.tailMap(currentTime + 1).size();
-        }
-
-        private void putNewToken(String tokenId, int currentTime) {
-            treeMap.put(currentTime + timeToLive, tokenId);
-            map.put(tokenId, currentTime + timeToLive);
+            while (!treeMap.isEmpty() && currentTime - treeMap.firstKey() >= timeToLive) {
+                map.remove(treeMap.pollFirstEntry().getValue());
+            }
+            return map.size();
         }
     }
 
