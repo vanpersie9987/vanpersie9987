@@ -7850,7 +7850,6 @@ public class LeetCodeText {
             String pre = res.get(res.size() - 1);
             if (!folder[i].startsWith(pre + "/")) {
                 res.add(folder[i]);
-                pre = folder[i];
             }
         }
         return res;
