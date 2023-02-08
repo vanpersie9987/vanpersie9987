@@ -7856,6 +7856,61 @@ public class LeetCodeText {
 
     }
 
+    // 1233. 删除子文件夹 (Remove Sub-Folders from the Filesystem)
+    public List<String> removeSubfolders2(String[] folder) {
+        Trie1233 root = new Trie1233();
+        for (int i = 0; i < folder.length; ++i) {
+            Trie1233 node = root;
+            List<String> list = getList1233(folder[i]);
+            for (int j = 0; j < list.size(); ++j) {
+                node.child.putIfAbsent(list.get(j), new Trie1233());
+                node = node.child.get(list.get(j));
+            }
+            node.pos = i;
+        }
+        List<String> res = new ArrayList<>();
+        dfs1233(res, folder, root);
+        return res;
+
+    }
+
+    private List<String> getList1233(String s) {
+        List<String> list = new ArrayList<>();
+        StringBuilder builder = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (c == '/') {
+                list.add(builder.toString());
+                builder.setLength(0);
+            } else {
+                builder.append(c);
+            }
+        }
+        list.add(builder.toString());
+        return list;
+    }
+
+    private void dfs1233(List<String> res, String[] folder, Trie1233 root) {
+        if (root.pos != -1) {
+            res.add(folder[root.pos]);
+            return;
+        }
+        for (Trie1233 trie : root.child.values()) {
+            dfs1233(res, folder, trie);
+        }
+
+    }
+
+    public class Trie1233 {
+        public int pos;
+        public Map<String, Trie1233> child;
+
+        public Trie1233() {
+            pos = -1;
+            child = new HashMap<>();
+        }
+
+    }
+
     // 1296. 划分数组为连续数字的集合
     public boolean isPossibleDivide(int[] nums, int k) {
         if (nums.length % k != 0) {
