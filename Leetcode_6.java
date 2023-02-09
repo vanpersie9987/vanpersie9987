@@ -6279,8 +6279,7 @@ public class Leetcode_6 {
         long curHashVal = 0l;
         int pow = k - 1;
         for (int i = s.length() - 1; i >= s.length() - k; --i) {
-            curHashVal = ((curHashVal + (s.charAt(i) & 31) * pow2156(power, pow, modulo)) % modulo + modulo)
-                    % modulo;
+            curHashVal = (curHashVal + (s.charAt(i) & 31) * pow2156(power, pow, modulo)) % modulo;
             --pow;
         }
         String res = "";
