@@ -17,6 +17,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.management.modelmbean.ModelMBean;
+
 public class Leetcode_6 {
     public static void main(String[] args) {
         // String[] strs = { "1.500", "2.500", "3.500" };
@@ -6270,6 +6272,42 @@ public class Leetcode_6 {
         return res;
         
     
+    }
+
+    // 2156. 查找给定哈希值的子串 (Find Substring With Given Hash Value)
+    public String subStrHash(String s, int power, int modulo, int k, int hashValue) {
+        long curHashVal = 0l;
+        int pow = k - 1;
+        for (int i = s.length() - 1; i >= s.length() - k; --i) {
+            curHashVal = ((curHashVal + (s.charAt(i) & 31) * pow2156(power, pow, modulo)) % modulo + modulo)
+                    % modulo;
+            --pow;
+        }
+        String res = "";
+        if (curHashVal == hashValue) {
+            res = s.substring(s.length() - k);
+        }
+        for (int i = s.length() - k - 1; i >= 0; --i) {
+            curHashVal = ((curHashVal * power + (s.charAt(i) & 31)
+                    - (s.charAt(i + k) & 31) * pow2156(power, k, modulo)) % modulo + modulo) % modulo;
+            if (curHashVal == hashValue) {
+                res = s.substring(i, i + k);
+            }
+        }
+        return res;
+
+    }
+
+    private long pow2156(long a, long n, int modulo) {
+        long res = 1l;
+        while (n > 0) {
+            if ((n & 1) == 1) {
+                res = (res * a) % modulo;
+            }
+            a = (a * a) % modulo;
+            n >>>= 1;
+        }
+        return res;
     }
 
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
