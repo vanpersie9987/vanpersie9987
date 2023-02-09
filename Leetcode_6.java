@@ -6307,7 +6307,7 @@ public class Leetcode_6 {
         return res;
     }
 
-    // 2156. 查找给定哈希值的子串 (Find Substring With Given Hash Value) --秦九韶算法
+    // 2156. 查找给定哈希值的子串 (Find Substring With Given Hash Value) --秦九韶算法、反向Rabin-Karp(滚动哈希)
     public String subStrHash2(String s, int power, int modulo, int k, int hashValue) {
         long hash = 0l;
         long mult = 1l;
