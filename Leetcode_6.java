@@ -6307,14 +6307,14 @@ public class Leetcode_6 {
         return res;
     }
 
-    // 2156. 查找给定哈希值的子串 (Find Substring With Given Hash Value)
+    // 2156. 查找给定哈希值的子串 (Find Substring With Given Hash Value) --秦九韶算法
     public String subStrHash2(String s, int power, int modulo, int k, int hashValue) {
         long hash = 0l;
         long mult = 1l;
         int pos = -1;
         int n = s.length();
         for (int i = n - 1; i >= n - k; --i) {
-            hash = ((hash * power) + (s.charAt(i) & 31)) % modulo;
+            hash = (hash * power + (s.charAt(i) & 31)) % modulo;
             if (i != n - k) {
                 mult = (mult * power) % modulo;
             }
