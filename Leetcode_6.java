@@ -17,8 +17,6 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.management.modelmbean.ModelMBean;
-
 public class Leetcode_6 {
     public static void main(String[] args) {
         // String[] strs = { "1.500", "2.500", "3.500" };
@@ -6308,6 +6306,33 @@ public class Leetcode_6 {
         }
         return res;
     }
+
+    // 2156. 查找给定哈希值的子串 (Find Substring With Given Hash Value)
+    public String subStrHash2(String s, int power, int modulo, int k, int hashValue) {
+        long hash = 0l;
+        long mult = 1l;
+        int pos = -1;
+        int n = s.length();
+        for (int i = n - 1; i >= n - k; --i) {
+            hash = ((hash * power) + (s.charAt(i) & 31)) % modulo;
+            if (i != n - k) {
+                mult = (mult * power) % modulo;
+            }
+        }
+        if (hash == hashValue) {
+            pos = n - k;
+        }
+        for (int i = n - k - 1; i >= 0; --i) {
+            hash = ((hash - (s.charAt(i + k) & 31) * mult % modulo + modulo) % modulo * power + (s.charAt(i) & 31))
+                    % modulo;
+            if (hash == hashValue) {
+                pos = i;
+            }
+        }
+        return s.substring(pos, pos + k);
+
+    }
+
 
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
