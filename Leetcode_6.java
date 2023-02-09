@@ -6243,6 +6243,35 @@ public class Leetcode_6 {
 
     }
 
+    // 2009. 使数组连续的最少操作数 (Minimum Number of Operations to Make Array Continuous)
+    public int minOperations2(int[] nums) {
+        Arrays.sort(nums);
+        int res = Integer.MAX_VALUE;
+        int count = 0;
+        int n = nums.length;
+        Map<Integer, Integer> map = new HashMap<>();
+        int i = 0;
+        int j = 0;
+        while (i < n) {
+            while (j < n && nums[j] - nums[i] + 1 <= n) {
+                map.merge(nums[j], 1, Integer::sum);
+                if (map.get(nums[j]) == 1) {
+                    ++count;
+                }
+                ++j;
+            }
+            res = Math.min(res, n - count);
+            map.merge(nums[i], -1, Integer::sum);
+            if (map.get(nums[i]) == 0) {
+                --count;
+            }
+            ++i;
+        }
+        return res;
+        
+    
+    }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
