@@ -22,7 +22,6 @@ public class Leetcode_6 {
         // String[] strs = { "1.500", "2.500", "3.500" };
         // String s = minimizeError(strs, 9);
         // int res = maxValue(4, 2, 6);
- 
 
     }
 
@@ -6188,7 +6187,6 @@ public class Leetcode_6 {
         }
         return arr.length - res;
 
-
     }
 
     // 2008. 出租车的最大盈利 (Maximum Earnings From Taxi)
@@ -6241,7 +6239,6 @@ public class Leetcode_6 {
         }
         return n - res;
 
-
     }
 
     // 2009. 使数组连续的最少操作数 (Minimum Number of Operations to Make Array Continuous)
@@ -6269,8 +6266,7 @@ public class Leetcode_6 {
             ++i;
         }
         return res;
-        
-    
+
     }
 
     // 2156. 查找给定哈希值的子串 (Find Substring With Given Hash Value)
