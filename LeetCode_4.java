@@ -4977,41 +4977,15 @@ public class LeetCode_4 {
 
     }
 
-    // 6112. 装满杯子需要的最短总时长
+    // 2335. 装满杯子需要的最短总时长 (Minimum Amount of Time to Fill Cups)
     public int fillCups(int[] amount) {
-        PriorityQueue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
-
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o2.compareTo(o1);
-            }
-
-        });
-        for (int a : amount) {
-            queue.offer(a);
+        int res = 0;
+        for (Arrays.sort(amount); amount[1] > 0; Arrays.sort(amount)) {
+            --amount[1];
+            --amount[2];
+            ++res;
         }
-        int count = 0;
-        while (!queue.isEmpty()) {
-            int poll1 = queue.poll();
-            int poll2 = queue.poll();
-            int poll3 = queue.poll();
-            if (poll1 == 0) {
-                return count;
-            }
-            if (poll2 == 0) {
-                return poll1 + count;
-            }
-            if (poll3 == 0) {
-                return poll1 + count;
-            }
-            --poll1;
-            --poll2;
-            count += 1;
-            queue.offer(poll1);
-            queue.offer(poll2);
-            queue.offer(poll3);
-        }
-        return count;
+        return res + amount[2];
 
     }
 
