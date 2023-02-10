@@ -6458,10 +6458,10 @@ public class Leetcode_6 {
         if ((left[0] & right[0]) == 0) {
             return new int[] { 0, 0, 0, 0 };
         }
-        if (root.left != null && left[3] >= root.val) {
+        if (left[3] >= root.val) {
             return new int[] { 0, 0, 0, 0 };
         }
-        if (root.right != null && right[2] <= root.val) {
+        if (right[2] <= root.val) {
             return new int[] { 0, 0, 0, 0 };
         }
         int lmin = Math.min(root.val, left[2]);
