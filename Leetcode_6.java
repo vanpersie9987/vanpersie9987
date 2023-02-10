@@ -6334,7 +6334,6 @@ public class Leetcode_6 {
     }
 
     // 1223. 掷骰子模拟 (Dice Roll Simulation) --记忆化搜索
-    private int res1223;
     private int[] rollMax1223;
     private int[][][] memo1223;
 
@@ -6352,13 +6351,15 @@ public class Leetcode_6 {
             }
         }
 
+        int res = 0;
         for (int i = 0; i < 6; ++i) {
-            res1223 = (res1223 + dfs1223(n - 1, i, rollMax[i] - 1)) % MOD;
+            res = (res + dfs1223(n - 1, i, rollMax[i] - 1)) % MOD;
         }
-        return res1223;
+        return res;
 
     }
 
+    // 表示还剩n次可投，上一次是投掷点数是last，该点数还有left次可投的方案数
     private int dfs1223(int n, int last, int left) {
         final int MOD = (int) (1e9 + 7);
         if (n == 0) {
@@ -6379,6 +6380,39 @@ public class Leetcode_6 {
         }
         return memo1223[n][last][left] = res;
     }
+
+    // 1223. 掷骰子模拟 (Dice Roll Simulation) --动态规划
+    public int dieSimulator2(int n, int[] rollMax) {
+        final int MOD = (int) (1e9 + 7);
+        int m = rollMax.length;
+        // f[i][j][k] 表示「投了i + 1次，上一次投的点数是j，该点数还剩k次可投掷」的不同方案数
+        int[][][] f = new int[n][m][15];
+        for (int j = 0; j < m; ++j) {
+            Arrays.fill(f[0][j], 1);
+        }
+        for (int i = 1; i < n; ++i) {
+            for (int last = 0; last < m; ++last) {
+                for (int left = 0; left < rollMax[last]; ++left) {
+                    long res = 0l;
+                    for (int j = 0; j < m; ++j) {
+                        if (j != last) {
+                            res += f[i - 1][j][rollMax[j] - 1];
+                        } else if (left > 0) {
+                            res += f[i - 1][j][left - 1];
+                        }
+                    }
+                    f[i][last][left] = (int) (res % MOD);
+                }
+            }
+        }
+        long res = 0l;
+        for (int j = 0; j < m; ++j) {
+            res += f[n - 1][j][rollMax[j] - 1];
+        }
+        return (int) (res % MOD);
+
+   }
+
 
 
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
