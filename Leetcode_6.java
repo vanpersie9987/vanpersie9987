@@ -6439,6 +6439,40 @@ public class Leetcode_6 {
         return min;
     }
 
+    // 1373. 二叉搜索子树的最大键值和 (Maximum Sum BST in Binary Tree)
+    private int res1373;
+
+    public int maxSumBST(TreeNode root) {
+        dfs1373(root);
+        return res1373;
+
+    }
+
+    // return [i,j,m,n] i:是否为BST 1为true 0为false ； j:sum ；最小值:m ；最大值:n
+    private int[] dfs1373(TreeNode root) {
+        if (root == null) {
+            return new int[] { 1, 0, Integer.MAX_VALUE, Integer.MIN_VALUE };
+        }
+        int[] left = dfs1373(root.left);
+        int[] right = dfs1373(root.right);
+        if ((left[0] & right[0]) == 0) {
+            return new int[] { 0, 0, 0, 0 };
+        }
+        if (root.left != null && left[3] >= root.val) {
+            return new int[] { 0, 0, 0, 0 };
+        }
+        if (root.right != null && right[2] <= root.val) {
+            return new int[] { 0, 0, 0, 0 };
+        }
+        int lmin = Math.min(root.val, left[2]);
+        int rmax = Math.max(root.val, right[3]);
+        int sum = left[1] + right[1] + root.val;
+        res1373 = Math.max(res1373, sum);
+        return new int[] { 1, sum, lmin, rmax };
+
+    }
+
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
