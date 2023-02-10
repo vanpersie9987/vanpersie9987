@@ -6333,6 +6333,53 @@ public class Leetcode_6 {
 
     }
 
+    // 1223. 掷骰子模拟 (Dice Roll Simulation) --记忆化搜索
+    private int res1223;
+    private int[] rollMax1223;
+    private int[][][] memo1223;
+
+    public int dieSimulator(int n, int[] rollMax) {
+        final int MOD = (int) (1e9 + 7);
+        this.rollMax1223 = rollMax;
+        int max = 0;
+        for (int i = 0; i < 6; ++i) {
+            max = Math.max(max, rollMax[i]);
+        }
+        memo1223 = new int[n][6][max];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < 6; ++j) {
+                Arrays.fill(memo1223[i][j], -1);
+            }
+        }
+
+        for (int i = 0; i < 6; ++i) {
+            res1223 = (res1223 + dfs1223(n - 1, i, rollMax[i] - 1)) % MOD;
+        }
+        return res1223;
+
+    }
+
+    private int dfs1223(int n, int last, int left) {
+        final int MOD = (int) (1e9 + 7);
+        if (n == 0) {
+            return 1;
+        }
+        if (memo1223[n][last][left] != -1) {
+            return memo1223[n][last][left];
+        }
+        int res = 0;
+        for (int i = 0; i < 6; ++i) {
+            if (last == i) {
+                if (left > 0) {
+                    res = (res + dfs1223(n - 1, last, left - 1)) % MOD;
+                }
+            } else {
+                res = (res + dfs1223(n - 1, i, rollMax1223[i] - 1)) % MOD;
+            }
+        }
+        return memo1223[n][last][left] = res;
+    }
+
 
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
