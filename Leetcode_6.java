@@ -22,6 +22,7 @@ public class Leetcode_6 {
         // String[] strs = { "1.500", "2.500", "3.500" };
         // String s = minimizeError(strs, 9);
         // int res = maxValue(4, 2, 6);
+ 
 
     }
 
@@ -6411,45 +6412,45 @@ public class Leetcode_6 {
         }
         return (int) (res % MOD);
 
-   }
+    }
 
-   // 1553. 吃掉 N 个橘子的最少天数 (Minimum Number of Days to Eat N Oranges) --记忆化搜索
-   private Map<Integer, Integer> memo1553;
+    // 1553. 吃掉 N 个橘子的最少天数 (Minimum Number of Days to Eat N Oranges) --记忆化搜索
+    private Map<Integer, Integer> memo1553;
 
-   public int minDays(int n) {
-       memo1553 = new HashMap<>();
-       return dfs1553(n);
-   }
+    public int minDays(int n) {
+        memo1553 = new HashMap<>();
+        return dfs1553(n);
+    }
 
-   private int dfs1553(int n) {
-       if (n == 1) {
-           return 1;
-       }
-       if (memo1553.containsKey(n)) {
-           return memo1553.get(n);
-       }
-       int min = Integer.MAX_VALUE;
-       if (n % 2 == 0) {
-           min = Math.min(min, dfs1553(n >> 1) + 1);
-       }
-       if (n % 3 == 0) {
-           min = Math.min(min, dfs1553(n - 2 * (n / 3)) + 1);
-       }
-       if (n % 6 != 0) {
-           min = Math.min(min, dfs1553(n - 1) + 1);
-       }
-       memo1553.put(n, min);
-       return min;
-   }
+    private int dfs1553(int n) {
+        if (n == 1) {
+            return 1;
+        }
+        if (memo1553.containsKey(n)) {
+            return memo1553.get(n);
+        }
+        int min = Integer.MAX_VALUE;
+        if (n % 2 == 0) {
+            min = Math.min(min, dfs1553(n >> 1) + 1);
+        }
+        if (n % 3 == 0) {
+            min = Math.min(min, dfs1553(n - 2 * (n / 3)) + 1);
+        }
+        if (n % 6 != 0) {
+            min = Math.min(min, dfs1553(n - 1) + 1);
+        }
+        memo1553.put(n, min);
+        return min;
+    }
 
-   // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
-   // public int waysToSplit(int[] nums) {
+    // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
+    // public int waysToSplit(int[] nums) {
 
-   // }
+    // }
 
-   // 2402. 会议室 III (Meeting Rooms III)
-   // public int mostBooked(int n, int[][] meetings) {
+    // 2402. 会议室 III (Meeting Rooms III)
+    // public int mostBooked(int n, int[][] meetings) {
 
-   // }
+    // }
 
 }
