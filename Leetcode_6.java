@@ -6448,11 +6448,11 @@ public class Leetcode_6 {
 
     }
 
-    // return [i,j,m,n]
-    // i : 是否为BST 1为true 0为false
-    // j : sum
-    // 最小值 : m
-    // 最大值 : n
+    // return [isBST, sum, min, max]
+    // isBST : 是否为BST 1为true 0为false
+    // sum : 节点和
+    // min : 最小值
+    // max : 最大值
     private int[] dfs1373(TreeNode root) {
         if (root == null) {
             return new int[] { 1, 0, Integer.MAX_VALUE, Integer.MIN_VALUE };
