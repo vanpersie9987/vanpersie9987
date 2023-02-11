@@ -450,42 +450,31 @@ public class LeetCode_2 {
 
    // 1138. 字母板上的路径 (Alphabet Board Path)
    public String alphabetBoardPath(String target) {
+      int x = 0;
+      int y = 0;
       StringBuilder res = new StringBuilder();
-      int preX = 0;
-      int preY = 0;
       for (char c : target.toCharArray()) {
-         int curX = (c - 'a') / 5;
-         int curY = (c - 'a') % 5;
-         if (curX < preX) {
-            int count = preX - curX;
-            while (count-- > 0) {
-               res.append('U');
-            }
+         int nx = (c - 'a') / 5;
+         int ny = (c - 'a') % 5;
+         while (x > nx) {
+            res.append('U');
+            --x;
          }
-         if (curY < preY) {
-            int count = preY - curY;
-            while (count-- > 0) {
-               res.append('L');
-            }
+         while (y < ny) {
+            res.append('R');
+            ++y;
          }
-         if (curX > preX) {
-            int count = curX - preX;
-            while (count-- > 0) {
-               res.append('D');
-            }
+         while (ny < y) {
+            res.append('L');
+            --y;
          }
-         if (curY > preY) {
-            int count = curY - preY;
-            while (count-- > 0) {
-               res.append('R');
-            }
+         while (nx > x) {
+            res.append('D');
+            ++x;
          }
          res.append('!');
-         preX = curX;
-         preY = curY;
       }
       return res.toString();
-
    }
 
    // 1402. 做菜顺序 (Reducing Dishes)
