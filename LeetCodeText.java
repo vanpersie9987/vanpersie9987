@@ -7446,9 +7446,47 @@ public class LeetCodeText {
 
     }
 
+    // 213. 打家劫舍 II (House Robber II) --记忆化搜索
+    private int[] memo213;
+    private int[] nums213;
+
+    public int robII(int[] nums) {
+        int n = nums.length;
+        this.nums213 = nums;
+        if (n <= 1) {
+            return nums[0];
+        }
+        memo213 = new int[n];
+        Arrays.fill(memo213, -1);
+        int res1 = dfs213(n - 2);
+        int i = 0;
+        int j = n - 1;
+        while (i < j) {
+            int t = nums[i];
+            nums[i] = nums[j];
+            nums[j] = t;
+            ++i;
+            --j;
+        }
+        Arrays.fill(memo213, -1);
+        int res2 = dfs213(n - 2);
+        return Math.max(res1, res2);
+
+    }
+
+    private int dfs213(int i) {
+        if (i < 0) {
+            return 0;
+        }
+        if (memo213[i] != -1) {
+            return memo213[i];
+        }
+        return memo213[i] = Math.max(dfs213(i - 2) + nums213[i], dfs213(i - 1));
+    }
+
     // 213. 打家劫舍 II --动态规划
     // 剑指 Offer II 090. 环形房屋偷盗
-    public int rob213II(int[] nums) {
+    public int rob213II_2(int[] nums) {
         if (nums.length == 1) {
             return nums[0];
         }
