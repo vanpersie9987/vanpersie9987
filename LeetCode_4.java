@@ -6304,13 +6304,14 @@ public class LeetCode_4 {
 
     // 343. 整数拆分 (Integer Break) --记忆化搜索
     // 剑指 Offer 14- I. 剪绳子
-    private Map<Integer, Integer> map343;
+    private int[] memo343;
 
     public int integerBreak(int n) {
         if (n <= 3) {
             return n - 1;
         }
-        map343 = new HashMap<>();
+        memo343 = new int[n + 1];
+        Arrays.fill(memo343, -1);
         return dfs343(n);
 
     }
@@ -6319,15 +6320,15 @@ public class LeetCode_4 {
         if (n <= 3) {
             return n;
         }
-        if (map343.containsKey(n)) {
-            return map343.get(n);
+        if (memo343[n] != -1) {
+            return memo343[n];
         }
-        int res = 0;
+        int max = 0;
         for (int i = 2; i <= n - 2; ++i) {
-            res = Math.max(res, dfs343(n - i) * dfs343(i));
+            max = Math.max(max, dfs343(n - i) * dfs343(i));
         }
-        map343.put(n, res);
-        return res;
+        return memo343[n] = max;
+
     }
 
     // 343. 整数拆分 (Integer Break) --dp
