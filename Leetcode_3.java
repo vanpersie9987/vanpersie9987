@@ -4798,40 +4798,41 @@ public class Leetcode_3 {
 
     // 1462. 课程表 IV (Course Schedule IV) --拓扑排序
     public List<Boolean> checkIfPrerequisite(int numCourses, int[][] prerequisites, int[][] queries) {
-        int[] degrees = new int[numCourses];
-        Map<Integer, List<Integer>> map = new HashMap<>();
-        for (int[] prerequisite : prerequisites) {
-            map.computeIfAbsent(prerequisite[0], k -> new LinkedList<>()).add(prerequisite[1]);
-            ++degrees[prerequisite[1]];
-        }
-        Map<Integer, Set<Integer>> relationMap = new HashMap<>();
-        Queue<Integer> queue = new LinkedList<>();
+        List<Integer>[] g = new ArrayList[numCourses];
+        int[] d = new int[numCourses];
         for (int i = 0; i < numCourses; ++i) {
-            relationMap.put(i, new TreeSet<>());
-            if (degrees[i] == 0) {
-                queue.offer(i);
-            }
+            g[i] = new ArrayList<>();
         }
-        while (!queue.isEmpty()) {
-            int cur = queue.poll();
-            if (map.get(cur) == null) {
-                continue;
+        for (int[] pre : prerequisites) {
+            int a = pre[0];
+            int b = pre[1];
+            g[a].add(b);
+            ++d[b];
+        }
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < numCourses; ++i) {
+            if (d[i] == 0) {
+                q.offer(i);
             }
-            for (int item : map.get(cur)) {
-                relationMap.get(item).add(cur);
-                relationMap.get(item).addAll(relationMap.get(cur));
-                if (--degrees[item] == 0) {
-                    queue.offer(item);
+            map.put(i, new HashSet<>());
+        }
+        while (!q.isEmpty()) {
+            int x = q.poll();
+            for (int y : g[x]) {
+                Set<Integer> set = new HashSet<>(map.get(x));
+                set.add(x);
+                map.computeIfAbsent(y, k -> new HashSet<>()).addAll(set);
+                if (--d[y] == 0) {
+                    q.offer(y);
                 }
             }
         }
-        List<Boolean> res = new LinkedList<>();
+        List<Boolean> res = new ArrayList<>();
         for (int[] query : queries) {
-            if (relationMap.get(query[1]) != null && relationMap.get(query[1]).contains(query[0])) {
-                res.add(true);
-            } else {
-                res.add(false);
-            }
+            int a = query[0];
+            int b = query[1];
+            res.add(map.get(b).contains(a));
         }
         return res;
 
