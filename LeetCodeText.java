@@ -7405,35 +7405,32 @@ public class LeetCodeText {
 
     }
 
-    // 198. 打家劫舍 --记忆化搜索
+    // 198. 打家劫舍 (House Robber) --记忆化搜索
     // 剑指 Offer II 089. 房屋偷盗
-    private Map<Integer, Integer> memo198;
     private int[] nums198;
+    private int[] memo198;
 
     public int rob(int[] nums) {
         this.nums198 = nums;
         int n = nums.length;
-        memo198 = new HashMap<>();
+        memo198 = new int[n];
+        Arrays.fill(memo198, -1);
         return dfs198(n - 1);
 
     }
 
     private int dfs198(int index) {
-        if (index == 0) {
-            return nums198[0];
+        if (index < 0) {
+            return 0;
         }
-        if (index == 1) {
-            return Math.max(nums198[0], nums198[1]);
-        }
-        if (memo198.containsKey(index)) {
-            return memo198.get(index);
+        if (memo198[index] != -1) {
+            return memo198[index];
         }
         int max = Math.max(dfs198(index - 2) + nums198[index], dfs198(index - 1));
-        memo198.put(index, max);
-        return max;
+        return memo198[index] = max;
     }
 
-    // 198. 打家劫舍 --动态规划
+    // 198. 打家劫舍 (House Robber) --动态规划
     // 剑指 Offer II 089. 房屋偷盗
     public int rob198_2(int[] nums) {
         if (nums.length == 1) {
