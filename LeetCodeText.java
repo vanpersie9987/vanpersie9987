@@ -18454,8 +18454,28 @@ public class LeetCodeText {
 
     }
 
-    // 70. 爬楼梯 (Climbing Stairs)
+    // 70. 爬楼梯 (Climbing Stairs) --记忆化搜索
+    private int[] memo70;
+
     public int climbStairs(int n) {
+        memo70 = new int[n + 1];
+        return dfs70(n);
+
+    }
+
+    private int dfs70(int n) {
+        if (n <= 2) {
+            return n;
+        }
+        if (memo70[n] != 0) {
+            return memo70[n];
+        }
+        return memo70[n] = dfs70(n - 1) + dfs70(n - 2);
+
+    }
+
+    // 70. 爬楼梯 (Climbing Stairs)
+    public int climbStairs2(int n) {
         if (n == 1) {
             return n;
         }
