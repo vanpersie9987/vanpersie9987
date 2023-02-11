@@ -6476,6 +6476,54 @@ public class Leetcode_6 {
 
     }
 
+    // 10. 正则表达式匹配 (Regular Expression Matching)
+    // 剑指 Offer 19. 正则表达式匹配
+    public boolean isMatch(String s, String p) {
+        if (p.isEmpty()) {
+            return s.isEmpty();
+        }
+        boolean match = !s.isEmpty() && (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.');
+        if (p.length() >= 2 && p.charAt(1) == '*') {
+            return isMatch(s, p.substring(2)) || (match && isMatch(s.substring(1), p));
+        }
+        return match && isMatch(s.substring(1), p.substring(1));
+
+    }
+
+    // 10. 正则表达式匹配 (Regular Expression Matching) --记忆化搜索
+    // 剑指 Offer 19. 正则表达式匹配
+    private int[][] memo10;
+    private char[] s10;
+    private char[] p10;
+
+    public boolean isMatch2(String s, String p) {
+        int m = s.length();
+        int n = p.length();
+        memo10 = new int[m + 1][n + 1];
+        s10 = s.toCharArray();
+        p10 = p.toCharArray();
+        return dfs10(0, 0);
+
+    }
+
+    private boolean dfs10(int i, int j) {
+        if (j == p10.length) {
+            return i == s10.length;
+        }
+        if (memo10[i][j] != 0) {
+            return memo10[i][j] > 0;
+        }
+        boolean match = i < s10.length && (s10[i] == p10[j] || p10[j] == '.');
+        if (j + 1 < p10.length && p10[j + 1] == '*') {
+            boolean b = dfs10(i, j + 2) || (match && dfs10(i + 1, j));
+            memo10[i][j] = b ? memo10[i][j] = 1 : -1;
+            return b;
+        }
+        boolean b2 = match && dfs10(i + 1, j + 1);
+        memo10[i][j] = b2 ? memo10[i][j] = 1 : -1;
+        return b2;
+    }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
