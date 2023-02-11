@@ -4796,7 +4796,7 @@ public class Leetcode_3 {
 
     }
 
-    // 1462. 课程表 IV (Course Schedule IV) --拓扑排序
+    // 1462. 课程表 IV (Course Schedule IV) --拓扑排序 (还需掌握floyd算法)
     public List<Boolean> checkIfPrerequisite(int numCourses, int[][] prerequisites, int[][] queries) {
         List<Integer>[] g = new ArrayList[numCourses];
         int[] d = new int[numCourses];
