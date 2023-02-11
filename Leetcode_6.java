@@ -6524,6 +6524,37 @@ public class Leetcode_6 {
         return b2;
     }
 
+    // 1510. 石子游戏 IV (Stone Game IV) --记忆化搜索
+    private int[] memo1510;
+
+    public boolean winnerSquareGame(int n) {
+        memo1510 = new int[n + 1];
+        return dfs1510(n);
+
+    }
+
+    private boolean dfs1510(int n) {
+        if (n == 0) {
+            return false;
+        }
+        if (n == 1) {
+            return true;
+        }
+
+        if (memo1510[n] != 0) {
+            return memo1510[n] > 0;
+        }
+        for (int i = 1; i * i <= n; ++i) {
+            boolean b = dfs1510(n - i * i);
+            if (!b) {
+                memo1510[n] = 1;
+                return true;
+            }
+        }
+        memo1510[n] = -1;
+        return false;
+    }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
@@ -6533,5 +6564,4 @@ public class Leetcode_6 {
     // public int mostBooked(int n, int[][] meetings) {
 
     // }
-
 }
