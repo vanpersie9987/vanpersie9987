@@ -4068,9 +4068,41 @@ public class Leetcode_6 {
         return res;
 
     }
+    
+    // 2466. 统计构造好字符串的方案数 (Count Ways To Build Good Strings)
+    private int[] memo2466;
+    private int zero2466;
+    private int one2466;
+    private final int MOD2466 = (int) (1e9 + 7);
+
+    public int countGoodStrings(int low, int high, int zero, int one) {
+        memo2466 = new int[high + 1];
+        Arrays.fill(memo2466, -1);
+        this.zero2466 = zero;
+        this.one2466 = one;
+        int res = 0;
+        for (int i = high; i >= low; --i) {
+            res = (res + dfs2466(i)) % MOD2466;
+        }
+        return res;
+
+    }
+
+    private int dfs2466(int i) {
+        if (i < 0) {
+            return 0;
+        }
+        if (i == 0) {
+            return 1;
+        }
+        if (memo2466[i] != -1) {
+            return memo2466[i];
+        }
+        return memo2466[i] = (dfs2466(i - zero2466) + dfs2466(i - one2466)) % MOD2466;
+    }
 
     // 2466. 统计构造好字符串的方案数 (Count Ways To Build Good Strings)
-    public int countGoodStrings(int low, int high, int zero, int one) {
+    public int countGoodStrings2(int low, int high, int zero, int one) {
         int[] dp = new int[high + 1];
         int res = 0;
         dp[0] = 1;
