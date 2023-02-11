@@ -2298,9 +2298,35 @@ public class LeetCodeText {
         }
     }
 
-    // 746. 使用最小花费爬楼梯
+    // 746. 使用最小花费爬楼梯 (Min Cost Climbing Stairs)
     // 剑指 Offer II 088. 爬楼梯的最少成本
+    private int[] cost746;
+    private int[] memo746;
+
     public int minCostClimbingStairs(int[] cost) {
+        int n = cost.length;
+        this.cost746 = cost;
+        this.memo746 = new int[n];
+        return Math.min(dfs746(n - 1), dfs746(n - 2));
+
+    }
+
+    private int dfs746(int i) {
+        if (i < 0) {
+            return 0;
+        }
+        if (i <= 1) {
+            return cost746[i];
+        }
+        if (memo746[i] > 0) {
+            return memo746[i];
+        }
+        return memo746[i] = Math.min(dfs746(i - 2), dfs746(i - 1)) + cost746[i];
+    }
+
+    // 746. 使用最小花费爬楼梯 (Min Cost Climbing Stairs)
+    // 剑指 Offer II 088. 爬楼梯的最少成本
+    public int minCostClimbingStairs2(int[] cost) {
         int pre = cost[0];
         int cur = cost[1];
         for (int i = 2; i < cost.length; ++i) {
