@@ -755,8 +755,51 @@ public class LeetCodeText {
 
     }
 
+    // 63. 不同路径 II --记忆化搜索
+    private int[][] memo63;
+    private int[][] obstacleGrid63;
+
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int m = obstacleGrid.length;
+        int n = obstacleGrid[0].length;
+        memo63 = new int[m][n];
+        obstacleGrid63 = obstacleGrid;
+        for (int i = 1; i < m; ++i) {
+            for (int j = 1; j < n; ++j) {
+                memo63[i][j] = -1;
+            }
+        }
+        for (int i = 0; i < m; ++i) {
+            if (obstacleGrid[i][0] == 0) {
+                memo63[i][0] = 1;
+            } else {
+                break;
+            }
+        }
+
+        for (int j = 0; j < n; ++j) {
+            if (obstacleGrid[0][j] == 0) {
+                memo63[0][j] = 1;
+            } else {
+                break;
+            }
+        }
+        return dfs63(m - 1, n - 1);
+
+    }
+
+    private int dfs63(int i, int j) {
+        if (obstacleGrid63[i][j] == 1) {
+            return 0;
+        }
+        if (memo63[i][j] != -1) {
+            return memo63[i][j];
+        }
+        return memo63[i][j] = dfs63(i - 1, j) + dfs63(i, j - 1);
+    }
+
     // 63. 不同路径 II
-    public int uniquePathsWithObstacles(final int[][] obstacleGrid) {
+    public int uniquePathsWithObstacles2(final int[][] obstacleGrid) {
         if (obstacleGrid[0][0] == 1) {
             return 0;
         }
