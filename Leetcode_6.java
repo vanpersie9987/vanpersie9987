@@ -6695,6 +6695,43 @@ public class Leetcode_6 {
 
     }
 
+    // 823. 带因子的二叉树 (Binary Trees With Factors) --记忆化搜索
+    private Map<Integer, Long> memo823;
+    private Set<Integer> set823;
+    private int[] arr823;
+
+    public int numFactoredBinaryTrees(int[] arr) {
+        memo823 = new HashMap<>();
+        Arrays.sort(arr);
+        this.arr823 = arr;
+        set823 = Arrays.stream(arr).boxed().collect(Collectors.toSet());
+        long res = 0l;
+        final int MOD = (int) (1e9 + 7);
+        for (int a : arr) {
+            res = (res + dfs823(a)) % MOD;
+        }
+        return (int) res;
+
+    }
+
+    private long dfs823(int num) {
+        final int MOD = (int) (1e9 + 7);
+        if (memo823.containsKey(num)) {
+            return memo823.get(num);
+        }
+        long res = 1l;
+        for (int a : arr823) {
+            if (a * arr823[0] > num) {
+                break;
+            }
+            if (num % a == 0 && set823.contains(num / a)) {
+                res = (res + dfs823(a) * dfs823(num / a)) % MOD;
+            }
+        }
+        memo823.put(num, res);
+        return res;
+    }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
@@ -6713,56 +6750,57 @@ public class Leetcode_6 {
     // private final int MOD = (int) (1e9 + 7);
 
     // public int ways(String[] pizza, int k) {
-    //     this.m = pizza.length;
-    //     this.n = pizza[0].length();
-    //     memo = new int[m][n][k];
-    //     for (int i = 0; i < m; ++i) {
-    //         for (int j = 0; j < n; ++j) {
-    //             Arrays.fill(memo[i][j], -1);
-    //         }
-    //     }
-    //     this.pre = new int[m + 1][n + 1];
-    //     for (int i = 1; i < m + 1; ++i) {
-    //         for (int j = 1; j < n + 1; ++j) {
-    //             pre[i][j] = pre[i - 1][j] + pre[i][j - 1] + (pizza[i - 1].charAt(j - 1) == 'A' ? 1 : 0);
-    //         }
-    //     }
+    // this.m = pizza.length;
+    // this.n = pizza[0].length();
+    // memo = new int[m][n][k];
+    // for (int i = 0; i < m; ++i) {
+    // for (int j = 0; j < n; ++j) {
+    // Arrays.fill(memo[i][j], -1);
+    // }
+    // }
+    // this.pre = new int[m + 1][n + 1];
+    // for (int i = 1; i < m + 1; ++i) {
+    // for (int j = 1; j < n + 1; ++j) {
+    // pre[i][j] = pre[i - 1][j] + pre[i][j - 1] + (pizza[i - 1].charAt(j - 1) ==
+    // 'A' ? 1 : 0);
+    // }
+    // }
 
-    //     return dfs(0, 0, k - 1);
+    // return dfs(0, 0, k - 1);
 
     // }
 
     // private int dfs(int x, int y, int left) {
-    //     int count = getApplesCounts(x, y, m - 1, n - 1);
-    //     if (left == 0) {
-    //         return count > 0 ? 1 : 0;
-    //     }
-    //     if (count < left + 1) {
-    //         return 0;
-    //     }
-    //     if (memo[x][y][left] != -1) {
-    //         return memo[x][y][left];
-    //     }
-    //     memo[x][y][left] = 0;
-    //     for (int i = x; i < m - 1; ++i) {
-    //         int c = getApplesCounts(x, y, i, n - 1);
-    //         if (c == 0) {
-    //             continue;
-    //         }
-    //         memo[x][y][left] = (memo[x][y][left] + dfs(i + 1, y, left - 1)) % MOD;
-    //     }
-    //     for (int j = y; j < n - 1; ++j) {
-    //         int c = getApplesCounts(x, y, m - 1, j);
-    //         if (c == 0) {
-    //             continue;
-    //         }
-    //         memo[x][y][left] = (memo[x][y][left] + dfs(x, j + 1, left - 1)) % MOD;
-    //     }
-    //     return memo[x][y][left];
+    // int count = getApplesCounts(x, y, m - 1, n - 1);
+    // if (left == 0) {
+    // return count > 0 ? 1 : 0;
+    // }
+    // if (count < left + 1) {
+    // return 0;
+    // }
+    // if (memo[x][y][left] != -1) {
+    // return memo[x][y][left];
+    // }
+    // memo[x][y][left] = 0;
+    // for (int i = x; i < m - 1; ++i) {
+    // int c = getApplesCounts(x, y, i, n - 1);
+    // if (c == 0) {
+    // continue;
+    // }
+    // memo[x][y][left] = (memo[x][y][left] + dfs(i + 1, y, left - 1)) % MOD;
+    // }
+    // for (int j = y; j < n - 1; ++j) {
+    // int c = getApplesCounts(x, y, m - 1, j);
+    // if (c == 0) {
+    // continue;
+    // }
+    // memo[x][y][left] = (memo[x][y][left] + dfs(x, j + 1, left - 1)) % MOD;
+    // }
+    // return memo[x][y][left];
     // }
 
     // private int getApplesCounts(int x1, int y1, int x2, int y2) {
-    //     return pre[x2 + 1][y2 + 1] - pre[x2 + 1][y1] - pre[x1][y2 + 1] + pre[x1][y1];
+    // return pre[x2 + 1][y2 + 1] - pre[x2 + 1][y1] - pre[x1][y2 + 1] + pre[x1][y1];
     // }
 
 }
