@@ -2378,39 +2378,46 @@ public class Leetcode_5 {
     }
 
     // 576. 出界的路径数 (Out of Boundary Paths) --记忆化搜索
-    private final int MOD576 = (int) (1e9 + 7);
+    private int[][][] memo576;
+    private int m576;
+    private int n576;
 
     public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
-        int[][][] memo = new int[m][n][maxMove + 1];
-        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
-
+        memo576 = new int[m][n][maxMove + 1];
+        this.m576 = m;
+        this.n576 = n;
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                Arrays.fill(memo[i][j], -1);
+                Arrays.fill(memo576[i][j], -1);
             }
         }
-        return dfs576(m, n, maxMove, startRow, startColumn, memo, directions);
+        return dfs576(startRow, startColumn, maxMove);
 
     }
 
-    private int dfs576(int m, int n, int maxMove, int startRow, int startColumn, int[][][] dp, int[][] directions) {
-        if (startRow >= m || startRow < 0 || startColumn >= n || startColumn < 0) {
+    private int dfs576(int i, int j, int left) {
+        if (!(i >= 0 && i < m576 && j >= 0 && j < n576)) {
             return 1;
         }
-        if (maxMove == 0) {
+        if (left == 0) {
             return 0;
         }
-
-        if (dp[startRow][startColumn][maxMove] != -1) {
-            return dp[startRow][startColumn][maxMove];
+        int min = Math.min(Math.min(i + 1, m576 - i), Math.min(j + 1, n576 - j));
+        if (min - left >= 1) {
+            return 0;
         }
-        dp[startRow][startColumn][maxMove] = 0;
-        for (int[] direction : directions) {
-            dp[startRow][startColumn][maxMove] = (dp[startRow][startColumn][maxMove]
-                    + dfs576(m, n, maxMove - 1, startRow + direction[0], startColumn + direction[1], dp, directions))
-                    % MOD576;
+        if (memo576[i][j][left] != -1) {
+            return memo576[i][j][left];
         }
-        return dp[startRow][startColumn][maxMove] % MOD576;
+        int res = 0;
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        final int MOD = (int) (1e9 + 7);
+        for (int[] d : dirs) {
+            int nx = d[0] + i;
+            int ny = d[1] + j;
+            res = (res + dfs576(nx, ny, left - 1)) % MOD;
+        }
+        return memo576[i][j][left] = res;
     }
 
     // 334. 递增的三元子序列 (Increasing Triplet Subsequence) --dp
