@@ -3845,40 +3845,47 @@ public class LeetCode_4 {
 
     }
 
-    // 6110. 网格图中递增路径的数目 -- 记忆化搜索
+    // 2328. 网格图中递增路径的数目 -- 记忆化搜索
+    private int[][] memo2328;
+    private final int MOD2328 = (int) (1e9 + 7);
+    private int[][] grid2328;
+    private int m2328;
+    private int n2328;
+    private int[][] directions2328 = { { 0, -1 }, { 0, 1 }, { 1, 0 }, { -1, 0 } };
+
     public int countPaths(int[][] grid) {
-        final int MOD = 1000000007;
-        final int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
-        int m = grid.length;
-        int n = grid[0].length;
-        int[][] dp = new int[m][n];
-        int res = 0;
-        for (int i = 0; i < m; ++i) {
-            Arrays.fill(dp[i], -1);
+        this.m2328 = grid.length;
+        this.n2328 = grid[0].length;
+        this.grid2328 = grid;
+        memo2328 = new int[m2328][n2328];
+        for (int i = 0; i < m2328; ++i) {
+            Arrays.fill(memo2328[i], -1);
         }
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                res = (res + dfs6110(i, j, grid, dp, directions, MOD)) % MOD;
+        int res = 0;
+        for (int i = 0; i < m2328; ++i) {
+            for (int j = 0; j < n2328; ++j) {
+                res = (res + dfs2328(i, j)) % MOD2328;
             }
         }
         return res;
+
     }
 
-    private int dfs6110(int i, int j, int[][] grid, int[][] dp, int[][] directions, int MOD) {
-        if (dp[i][j] != -1) {
-            return dp[i][j];
+    private int dfs2328(int i, int j) {
+        if (memo2328[i][j] != -1) {
+            return memo2328[i][j];
         }
-        int m = grid.length;
-        int n = grid[0].length;
-        int res = 1;
-        for (int[] direction : directions) {
-            int nx = direction[0] + i;
-            int ny = direction[1] + j;
-            if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] > grid[i][j]) {
-                res = (res + dfs6110(nx, ny, grid, dp, directions, MOD)) % MOD;
+        memo2328[i][j] = 1;
+        for (int[] d : directions2328) {
+            int nx = i + d[0];
+            int ny = j + d[1];
+            if (nx >= 0 && nx < m2328 && ny >= 0 && ny < n2328) {
+                if (grid2328[nx][ny] < grid2328[i][j]) {
+                    memo2328[i][j] = (memo2328[i][j] + dfs2328(nx, ny)) % MOD2328;
+                }
             }
         }
-        return dp[i][j] = res;
+        return memo2328[i][j];
     }
 
     // 1143. 最长公共子序列 (Longest Common Subsequence) --二维dp
