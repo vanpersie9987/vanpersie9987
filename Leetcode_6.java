@@ -4068,7 +4068,7 @@ public class Leetcode_6 {
         return res;
 
     }
-    
+
     // 2466. 统计构造好字符串的方案数 (Count Ways To Build Good Strings)
     private int[] memo2466;
     private int zero2466;
@@ -6604,7 +6604,7 @@ public class Leetcode_6 {
             res += nums[i];
         }
         return res;
-        
+
     }
 
     // 6355. 统计公平数对的数目
@@ -6694,7 +6694,6 @@ public class Leetcode_6 {
         return queries;
 
     }
-
 
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {

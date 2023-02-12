@@ -833,7 +833,43 @@ public class LeetCodeText {
 
     // 64. 最小路径和
     // 剑指 Offer II 099. 最小路径之和
+    private int[][] memo64;
+    private int[][] grid64;
+
     public int minPathSum(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        grid64 = grid;
+        memo64 = new int[m][n];
+        for (int i = 1; i < m; ++i) {
+            for (int j = 1; j < n; ++j) {
+                memo64[i][j] = -1;
+            }
+        }
+        memo64[0][0] = grid[0][0];
+        for (int i = 1; i < m; ++i) {
+            memo64[i][0] += memo64[i - 1][0] + grid[i][0];
+        }
+        for (int j = 1; j < n; ++j) {
+            memo64[0][j] += memo64[0][j - 1] + grid[0][j];
+        }
+        return dfs64(m - 1, n - 1);
+
+    }
+
+    private int dfs64(int i, int j) {
+        if (i < 0 || j < 0) {
+            return 0;
+        }
+        if (memo64[i][j] != -1) {
+            return memo64[i][j];
+        }
+        return memo64[i][j] = Math.min(dfs64(i - 1, j), dfs64(i, j - 1)) + grid64[i][j];
+    }
+
+    // 64. 最小路径和
+    // 剑指 Offer II 099. 最小路径之和
+    public int minPathSum2(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
         for (int i = 1; i < n; ++i) {
