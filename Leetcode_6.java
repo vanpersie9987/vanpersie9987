@@ -6587,6 +6587,115 @@ public class Leetcode_6 {
         return false;
     }
 
+    // 6354. 找出数组的串联值
+    public long findTheArrayConcVal(int[] nums) {
+        int n = nums.length;
+        int i = 0;
+        int j = n - 1;
+        long res = 0l;
+        while (i < j) {
+            String s = String.valueOf(nums[i]) + String.valueOf(nums[j]);
+            int num = Integer.parseInt(s);
+            res += num;
+            ++i;
+            --j;
+        }
+        if (i == j) {
+            res += nums[i];
+        }
+        return res;
+        
+    }
+
+    // 6355. 统计公平数对的数目
+    private int[] nums6355;
+
+    public long countFairPairs(int[] nums, int lower, int upper) {
+        Arrays.sort(nums);
+        this.nums6355 = nums;
+        int n = nums.length;
+        long res = 0l;
+        for (int i = 0; i < n; ++i) {
+            int r = binarySearch6335(i + 1, n - 1, upper - nums[i]);
+            int l = binarySearch6335_2(i + 1, n - 1, lower - nums[i]);
+            if (r != -1 && l != -1 && r >= l) {
+                res += r - l + 1;
+            }
+        }
+        return res;
+
+    }
+
+    private int binarySearch6335_2(int left, int right, int target) {
+        if (left > right) {
+            return -1;
+        }
+        if (nums6355[right] < target) {
+            return -1;
+        }
+        if (nums6355[left] >= target) {
+            return left;
+        }
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (nums6355[mid] >= target) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+
+        }
+        return res;
+    }
+
+    private int binarySearch6335(int left, int right, int target) {
+        if (left > right) {
+            return -1;
+        }
+        if (nums6355[left] > target) {
+            return -1;
+        }
+        if (nums6355[right] <= target) {
+            return right;
+        }
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (nums6355[mid] <= target) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
+
+    // 6356. 子字符串异或查询
+    public int[][] substringXorQueries(String s, int[][] queries) {
+        Map<Integer, int[]> map = new HashMap<>();
+        int n = queries.length;
+        for (int i = 0; i < s.length(); ++i) {
+            int num = 0;
+            for (int j = i; j < Math.min(i + 30, s.length()); ++j) {
+                num = (num << 1) | (s.charAt(j) - '0');
+                if (!map.containsKey(num) || j - i < map.get(num)[1] - map.get(num)[0]) {
+                    map.put(num, new int[] { i, j });
+                }
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            int[] q = queries[i];
+            int xor = q[0] ^ q[1];
+            queries[i] = map.getOrDefault(xor, new int[] { -1, -1 });
+        }
+        return queries;
+
+    }
+
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
@@ -6596,4 +6705,5 @@ public class Leetcode_6 {
     // public int mostBooked(int n, int[][] meetings) {
 
     // }
+
 }
