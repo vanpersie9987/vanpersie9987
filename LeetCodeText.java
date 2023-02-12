@@ -717,8 +717,32 @@ public class LeetCodeText {
 
     }
 
-    // 62. 不同路径 // 剑指 Offer II 098. 路径的数目 m行 n列
-    public int uniquePaths(final int m, final int n) {
+    // 62. 不同路径 --记忆化搜索
+    // 剑指 Offer II 098. 路径的数目 m行 n列
+    private int[][] memo62;
+
+    public int uniquePaths(int m, int n) {
+        memo62 = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(memo62[i], -1);
+        }
+        return dfs62(m - 1, n - 1);
+
+    }
+
+    private int dfs62(int i, int j) {
+        if (i == 0 || j == 0) {
+            return 1;
+        }
+        if (memo62[i][j] != -1) {
+            return memo62[i][j];
+        }
+        return memo62[i][j] = dfs62(i - 1, j) + dfs62(i, j - 1);
+    }
+
+    // 62. 不同路径
+    // 剑指 Offer II 098. 路径的数目 m行 n列
+    public int uniquePaths2(final int m, final int n) {
         // m行数 n列数
         int[] dp = new int[n];
         Arrays.fill(dp, 1);
