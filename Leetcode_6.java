@@ -6705,4 +6705,64 @@ public class Leetcode_6 {
 
     // }
 
+    // 1444. 切披萨的方案数 (Number of Ways of Cutting a Pizza)
+    // private int[][][] memo;
+    // private int[][] pre;
+    // private int m;
+    // private int n;
+    // private final int MOD = (int) (1e9 + 7);
+
+    // public int ways(String[] pizza, int k) {
+    //     this.m = pizza.length;
+    //     this.n = pizza[0].length();
+    //     memo = new int[m][n][k];
+    //     for (int i = 0; i < m; ++i) {
+    //         for (int j = 0; j < n; ++j) {
+    //             Arrays.fill(memo[i][j], -1);
+    //         }
+    //     }
+    //     this.pre = new int[m + 1][n + 1];
+    //     for (int i = 1; i < m + 1; ++i) {
+    //         for (int j = 1; j < n + 1; ++j) {
+    //             pre[i][j] = pre[i - 1][j] + pre[i][j - 1] + (pizza[i - 1].charAt(j - 1) == 'A' ? 1 : 0);
+    //         }
+    //     }
+
+    //     return dfs(0, 0, k - 1);
+
+    // }
+
+    // private int dfs(int x, int y, int left) {
+    //     int count = getApplesCounts(x, y, m - 1, n - 1);
+    //     if (left == 0) {
+    //         return count > 0 ? 1 : 0;
+    //     }
+    //     if (count < left + 1) {
+    //         return 0;
+    //     }
+    //     if (memo[x][y][left] != -1) {
+    //         return memo[x][y][left];
+    //     }
+    //     memo[x][y][left] = 0;
+    //     for (int i = x; i < m - 1; ++i) {
+    //         int c = getApplesCounts(x, y, i, n - 1);
+    //         if (c == 0) {
+    //             continue;
+    //         }
+    //         memo[x][y][left] = (memo[x][y][left] + dfs(i + 1, y, left - 1)) % MOD;
+    //     }
+    //     for (int j = y; j < n - 1; ++j) {
+    //         int c = getApplesCounts(x, y, m - 1, j);
+    //         if (c == 0) {
+    //             continue;
+    //         }
+    //         memo[x][y][left] = (memo[x][y][left] + dfs(x, j + 1, left - 1)) % MOD;
+    //     }
+    //     return memo[x][y][left];
+    // }
+
+    // private int getApplesCounts(int x1, int y1, int x2, int y2) {
+    //     return pre[x2 + 1][y2 + 1] - pre[x2 + 1][y1] - pre[x1][y2 + 1] + pre[x1][y1];
+    // }
+
 }

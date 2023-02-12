@@ -8794,11 +8794,40 @@ public class LeetCode_4 {
 
     }
 
+    // 279. 完全平方数 (Perfect Squares) --记忆化搜索
+    private int[] memo279;
+
+    public int numSquares(int n) {
+        memo279 = new int[n + 1];
+        Arrays.fill(memo279, -1);
+        return dfs279(n);
+
+    }
+
+    private int dfs279(int n) {
+        if (n == 0) {
+            return 0;
+        }
+        int sqrt = (int) Math.sqrt(n);
+        if (sqrt * sqrt == n) {
+            return 1;
+        }
+        if (memo279[n] != -1) {
+            return memo279[n];
+        }
+        int res = Integer.MAX_VALUE;
+        while (sqrt >= 1) {
+            res = Math.min(res, dfs279(n - sqrt * sqrt) + 1);
+            --sqrt;
+        }
+        return memo279[n] = res;
+    }
+
     // 279. 完全平方数 (Perfect Squares)
     // -- 完全背包（可重复选择；外层循环：nums ； 内层循环：target；正序遍历)
     // -- 求最值dp[i]=max/min(dp[i], dp[i-nums] + 1)或dp[i]=max/min(dp[i], dp[i-num] +
     // nums);
-    public int numSquares(int n) {
+    public int numSquares2(int n) {
         int[] dp = new int[n + 1];
         Arrays.fill(dp, Integer.MAX_VALUE);
         dp[0] = 0;
@@ -8814,7 +8843,7 @@ public class LeetCode_4 {
     }
 
     // 279. 完全平方数 (Perfect Squares) --数学：四平方和定理
-    public int numSquares2(int n) {
+    public int numSquares3(int n) {
         if (isPerfectSquare279(n)) {
             return 1;
         }
@@ -8844,7 +8873,7 @@ public class LeetCode_4 {
     }
 
     // 279. 完全平方数 (Perfect Squares) --bfs
-    public int numSquares3(int n) {
+    public int numSquares4(int n) {
         Queue<Integer> queue = new LinkedList<>();
         Set<Integer> visited = new HashSet<>();
         queue.offer(0);
