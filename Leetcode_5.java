@@ -6524,27 +6524,30 @@ public class Leetcode_5 {
 
     // 1234. 替换子串得到平衡字符串 (Replace the Substring for Balanced String) --滑动窗口
     public int balancedString(String s) {
-        int n = s.length();
         int[] counts = new int[26];
         for (char c : s.toCharArray()) {
             ++counts[c - 'A'];
         }
+        int n = s.length();
         int per = n / 4;
-        int l = 0;
-        int r = 0;
+        counts['Q' - 'A'] -= per;
+        counts['W' - 'A'] -= per;
+        counts['E' - 'A'] -= per;
+        counts['R' - 'A'] -= per;
+        int i = 0;
+        int j = 0;
+        int[] cur = new int[26];
         int res = n;
-        while (r < n) {
-            --counts[s.charAt(r) - 'A'];
-            while (l < n
-                    && counts['Q' - 'A'] <= per
-                    && counts['W' - 'A'] <= per
-                    && counts['E' - 'A'] <= per
-                    && counts['R' - 'A'] <= per) {
-                res = Math.min(res, r - l + 1);
-                ++counts[s.charAt(l) - 'A'];
-                ++l;
+        while (j < n) {
+            ++cur[s.charAt(j) - 'A'];
+            while (i < n && cur['Q' - 'A'] >= counts['Q' - 'A']
+                    && cur['W' - 'A'] >= counts['W' - 'A']
+                    && cur['E' - 'A'] >= counts['E' - 'A']
+                    && cur['R' - 'A'] >= counts['R' - 'A']) {
+                res = Math.min(res, j - i + 1);
+                --cur[s.charAt(i++) - 'A'];
             }
-            ++r;
+            ++j;
         }
         return res;
 
