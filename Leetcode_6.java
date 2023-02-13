@@ -6732,6 +6732,57 @@ public class Leetcode_6 {
         return res;
     }
 
+    // 1220. 统计元音字母序列的数目 (Count Vowels Permutation)
+    private int[][] memo1220;
+
+    public int countVowelPermutation(int n) {
+        memo1220 = new int[n + 1][5];
+        for (int i = 0; i < n + 1; ++i) {
+            Arrays.fill(memo1220[i], -1);
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = 0;
+        for (int i = 0; i < 5; ++i) {
+            res = (res + dfs1220(n, i)) % MOD;
+        }
+        return res;
+    }
+
+    private int dfs1220(int n, int i) {
+        final int MOD = (int) (1e9 + 7);
+        if (n == 1) {
+            return 1;
+        }
+        if (memo1220[n][i] != -1) {
+            return memo1220[n][i];
+        }
+        int res = 0;
+        // a
+        if (i == 0) {
+            res = (res + dfs1220(n - 1, 1)) % MOD;
+            res = (res + dfs1220(n - 1, 2)) % MOD;
+            res = (res + dfs1220(n - 1, 4)) % MOD;
+        }
+        // e
+        else if (i == 1) {
+            res = (res + dfs1220(n - 1, 0)) % MOD;
+            res = (res + dfs1220(n - 1, 2)) % MOD;
+        }
+        // i
+        else if (i == 2) {
+            res = (res + dfs1220(n - 1, 1)) % MOD;
+            res = (res + dfs1220(n - 1, 3)) % MOD;
+        }
+        // o
+        else if (i == 3) {
+            res = (res + dfs1220(n - 1, 2)) % MOD;
+        } else {
+            res = (res + dfs1220(n - 1, 2)) % MOD;
+            res = (res + dfs1220(n - 1, 3)) % MOD;
+        }
+        return memo1220[n][i] = res;
+    }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
