@@ -6776,7 +6776,9 @@ public class Leetcode_6 {
         // o
         else if (i == 3) {
             res = (res + dfs1220(n - 1, 2)) % MOD;
-        } else {
+        }
+        // u
+        else {
             res = (res + dfs1220(n - 1, 2)) % MOD;
             res = (res + dfs1220(n - 1, 3)) % MOD;
         }
