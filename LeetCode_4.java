@@ -5520,6 +5520,51 @@ public class LeetCode_4 {
 
     }
 
+    // 91. 解码方法 (Decode Ways) --记忆化搜索
+    private int[] memo91;
+    private String s91;
+
+    public int numDecodings4(String s) {
+        if (s.charAt(0) == '0') {
+            return 0;
+        }
+        this.s91 = s;
+        int n = s.length();
+        memo91 = new int[n];
+        Arrays.fill(memo91, -1);
+        return dfs91(n - 1);
+
+    }
+
+    private int dfs91(int i) {
+        if (i <= 0) {
+            return 1;
+        }
+        if (memo91[i] != -1) {
+            return memo91[i];
+        }
+        int res = 0;
+        if (s91.charAt(i) == '0') {
+            if (i > 0 && (s91.charAt(i - 1) == '1' || s91.charAt(i - 1) == '2')) {
+                res += dfs91(i - 2);
+            } else {
+                return 0;
+            }
+        } else if (s91.charAt(i) >= '1' && s91.charAt(i) <= '6') {
+            res += dfs91(i - 1);
+            if (i > 0 && (s91.charAt(i - 1) == '1' || s91.charAt(i - 1) == '2')) {
+                res += dfs91(i - 2);
+            }
+        } else {
+            res += dfs91(i - 1);
+            if (i > 0 && s91.charAt(i - 1) == '1') {
+                res += dfs91(i - 2);
+            }
+        }
+
+        return memo91[i] = res;
+    }
+
     // 337. 打家劫舍 III (House Robber III)
     public int rob(TreeNode root) {
         Map<TreeNode, int[]> map = new HashMap<>();

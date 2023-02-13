@@ -6856,4 +6856,22 @@ public class Leetcode_6 {
     // return pre[x2 + 1][y2 + 1] - pre[x2 + 1][y1] - pre[x1][y2 + 1] + pre[x1][y1];
     // }
 
+    // 1458. 两个子序列的最大点积 (Max Dot Product of Two Subsequences)
+    // private int[][][] memo1458;
+
+    // public int maxDotProduct(int[] nums1, int[] nums2) {
+    //     int m = nums1.length;
+    //     int n = nums2.length;
+    //     memo1458 = new int[m][n][4];
+    //     for (int i = 0; i < m; ++i) {
+    //         for (int j = 0; j < n; ++j) {
+    //             Arrays.fill(memo1458[i][j], Integer.MIN_VALUE);
+    //         }
+    //     }
+    //     int res = Integer.MIN_VALUE;
+    //     for (int i = 0; i < 4; ++i) {
+
+    //     }
+
+    // }
 }
