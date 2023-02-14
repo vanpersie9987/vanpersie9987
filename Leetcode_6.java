@@ -6856,10 +6856,58 @@ public class Leetcode_6 {
     // 1411. 给 N x 3 网格图涂色的方案数 (Number of Ways to Paint N × 3 Grid)
     private int[][] memo1411;
     private int n1411;
+    private List<Integer>[] g1411;
 
     public int numOfWays(int n) {
         final int MOD = (int) (1e9 + 7);
         memo1411 = new int[n][12];
+        g1411 = new ArrayList[12];
+        for (int i = 0; i < 12; ++i) {
+            g1411[i] = new ArrayList<>();
+        }
+        for (int i = 0; i < 12; ++i) {
+            switch (i) {
+                case 0:
+                    g1411[i].addAll(List.of(5, 6, 7, 8, 10));
+                    break;
+                case 1:
+                    g1411[i].addAll(List.of(5, 6, 8, 10, 11));
+                    break;
+                case 2:
+                    g1411[i].addAll(List.of(4, 6, 7, 8));
+                    break;
+                case 3:
+                    g1411[i].addAll(List.of(5, 9, 10, 11));
+                    break;
+                case 4:
+                    g1411[i].addAll(List.of(2, 8, 10, 11));
+                    break;
+                case 5:
+                    g1411[i].addAll(List.of(0, 1, 3, 9));
+                    break;
+                case 6:
+                    g1411[i].addAll(List.of(0, 1, 2, 9, 11));
+                    break;
+                case 7:
+                    g1411[i].addAll(List.of(0, 2, 9, 10, 11));
+                    break;
+                case 8:
+                    g1411[i].addAll(List.of(0, 1, 2, 4));
+                    break;
+                case 9:
+                    g1411[i].addAll(List.of(3, 5, 6, 7));
+                    break;
+                case 10:
+                    g1411[i].addAll(List.of(0, 1, 3, 4, 7));
+                    break;
+                case 11:
+                    g1411[i].addAll(List.of(1, 3, 4, 6, 7));
+                    break;
+                default:
+                    break;
+            }
+
+        }
         for (int i = 0; i < n; ++i) {
             Arrays.fill(memo1411[i], -1);
         }
@@ -6881,87 +6929,8 @@ public class Leetcode_6 {
         }
         final int MOD = (int) (1e9 + 7);
         int res = 0;
-        switch (type) {
-            case 0:
-                res = (res + dfs1411(i + 1, 5)) % MOD;
-                res = (res + dfs1411(i + 1, 6)) % MOD;
-                res = (res + dfs1411(i + 1, 7)) % MOD;
-                res = (res + dfs1411(i + 1, 8)) % MOD;
-                res = (res + dfs1411(i + 1, 10)) % MOD;
-                break;
-            case 1:
-                res = (res + dfs1411(i + 1, 5)) % MOD;
-                res = (res + dfs1411(i + 1, 6)) % MOD;
-                res = (res + dfs1411(i + 1, 8)) % MOD;
-                res = (res + dfs1411(i + 1, 10)) % MOD;
-                res = (res + dfs1411(i + 1, 11)) % MOD;
-                break;
-            case 2:
-                res = (res + dfs1411(i + 1, 4)) % MOD;
-                res = (res + dfs1411(i + 1, 6)) % MOD;
-                res = (res + dfs1411(i + 1, 7)) % MOD;
-                res = (res + dfs1411(i + 1, 8)) % MOD;
-                break;
-            case 3:
-                res = (res + dfs1411(i + 1, 5)) % MOD;
-                res = (res + dfs1411(i + 1, 9)) % MOD;
-                res = (res + dfs1411(i + 1, 10)) % MOD;
-                res = (res + dfs1411(i + 1, 11)) % MOD;
-                break;
-            case 4:
-                res = (res + dfs1411(i + 1, 2)) % MOD;
-                res = (res + dfs1411(i + 1, 8)) % MOD;
-                res = (res + dfs1411(i + 1, 10)) % MOD;
-                res = (res + dfs1411(i + 1, 11)) % MOD;
-                break;
-            case 5:
-                res = (res + dfs1411(i + 1, 0)) % MOD;
-                res = (res + dfs1411(i + 1, 1)) % MOD;
-                res = (res + dfs1411(i + 1, 3)) % MOD;
-                res = (res + dfs1411(i + 1, 9)) % MOD;
-                break;
-            case 6:
-                res = (res + dfs1411(i + 1, 0)) % MOD;
-                res = (res + dfs1411(i + 1, 1)) % MOD;
-                res = (res + dfs1411(i + 1, 2)) % MOD;
-                res = (res + dfs1411(i + 1, 9)) % MOD;
-                res = (res + dfs1411(i + 1, 11)) % MOD;
-                break;
-            case 7:
-                res = (res + dfs1411(i + 1, 0)) % MOD;
-                res = (res + dfs1411(i + 1, 2)) % MOD;
-                res = (res + dfs1411(i + 1, 9)) % MOD;
-                res = (res + dfs1411(i + 1, 10)) % MOD;
-                res = (res + dfs1411(i + 1, 11)) % MOD;
-                break;
-            case 8:
-                res = (res + dfs1411(i + 1, 0)) % MOD;
-                res = (res + dfs1411(i + 1, 1)) % MOD;
-                res = (res + dfs1411(i + 1, 2)) % MOD;
-                res = (res + dfs1411(i + 1, 4)) % MOD;
-                break;
-            case 9:
-                res = (res + dfs1411(i + 1, 3)) % MOD;
-                res = (res + dfs1411(i + 1, 5)) % MOD;
-                res = (res + dfs1411(i + 1, 6)) % MOD;
-                res = (res + dfs1411(i + 1, 7)) % MOD;
-                break;
-            case 10:
-                res = (res + dfs1411(i + 1, 0)) % MOD;
-                res = (res + dfs1411(i + 1, 1)) % MOD;
-                res = (res + dfs1411(i + 1, 3)) % MOD;
-                res = (res + dfs1411(i + 1, 4)) % MOD;
-                res = (res + dfs1411(i + 1, 7)) % MOD;
-                break;
-            case 11:
-                res = (res + dfs1411(i + 1, 1)) % MOD;
-                res = (res + dfs1411(i + 1, 3)) % MOD;
-                res = (res + dfs1411(i + 1, 4)) % MOD;
-                res = (res + dfs1411(i + 1, 6)) % MOD;
-                res = (res + dfs1411(i + 1, 7)) % MOD;
-                break;
-            default:
-                break;
+        for (int next : g1411[type]) {
+            res = (res + dfs1411(i + 1, next)) % MOD;
         }
         return memo1411[i][type] = res;
     }
