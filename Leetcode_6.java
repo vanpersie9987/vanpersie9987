@@ -6926,8 +6926,8 @@ public class Leetcode_6 {
         }
         this.n1411 = n;
         int res = 0;
-        for (int i = 0; i < 12; ++i) {
-            res = (res + dfs1411(0, i)) % MOD;
+        for (int type = 0; type < 12; ++type) {
+            res = (res + dfs1411(0, type)) % MOD;
         }
         return res;
 
