@@ -6853,6 +6853,119 @@ public class Leetcode_6 {
         return memo1289[i][j] = min;
     }
 
+    // 1411. 给 N x 3 网格图涂色的方案数 (Number of Ways to Paint N × 3 Grid)
+    private int[][] memo1411;
+    private int n1411;
+
+    public int numOfWays(int n) {
+        final int MOD = (int) (1e9 + 7);
+        memo1411 = new int[n][12];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo1411[i], -1);
+        }
+        this.n1411 = n;
+        int res = 0;
+        for (int i = 0; i < 12; ++i) {
+            res = (res + dfs1411(0, i)) % MOD;
+        }
+        return res;
+
+    }
+
+    private int dfs1411(int i, int type) {
+        if (i == n1411 - 1) {
+            return 1;
+        }
+        if (memo1411[i][type] != -1) {
+            return memo1411[i][type];
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = 0;
+        switch (type) {
+            case 0:
+                res = (res + dfs1411(i + 1, 5)) % MOD;
+                res = (res + dfs1411(i + 1, 6)) % MOD;
+                res = (res + dfs1411(i + 1, 7)) % MOD;
+                res = (res + dfs1411(i + 1, 8)) % MOD;
+                res = (res + dfs1411(i + 1, 10)) % MOD;
+                break;
+            case 1:
+                res = (res + dfs1411(i + 1, 5)) % MOD;
+                res = (res + dfs1411(i + 1, 6)) % MOD;
+                res = (res + dfs1411(i + 1, 8)) % MOD;
+                res = (res + dfs1411(i + 1, 10)) % MOD;
+                res = (res + dfs1411(i + 1, 11)) % MOD;
+                break;
+            case 2:
+                res = (res + dfs1411(i + 1, 4)) % MOD;
+                res = (res + dfs1411(i + 1, 6)) % MOD;
+                res = (res + dfs1411(i + 1, 7)) % MOD;
+                res = (res + dfs1411(i + 1, 8)) % MOD;
+                break;
+            case 3:
+                res = (res + dfs1411(i + 1, 5)) % MOD;
+                res = (res + dfs1411(i + 1, 9)) % MOD;
+                res = (res + dfs1411(i + 1, 10)) % MOD;
+                res = (res + dfs1411(i + 1, 11)) % MOD;
+                break;
+            case 4:
+                res = (res + dfs1411(i + 1, 2)) % MOD;
+                res = (res + dfs1411(i + 1, 8)) % MOD;
+                res = (res + dfs1411(i + 1, 10)) % MOD;
+                res = (res + dfs1411(i + 1, 11)) % MOD;
+                break;
+            case 5:
+                res = (res + dfs1411(i + 1, 0)) % MOD;
+                res = (res + dfs1411(i + 1, 1)) % MOD;
+                res = (res + dfs1411(i + 1, 3)) % MOD;
+                res = (res + dfs1411(i + 1, 9)) % MOD;
+                break;
+            case 6:
+                res = (res + dfs1411(i + 1, 0)) % MOD;
+                res = (res + dfs1411(i + 1, 1)) % MOD;
+                res = (res + dfs1411(i + 1, 2)) % MOD;
+                res = (res + dfs1411(i + 1, 9)) % MOD;
+                res = (res + dfs1411(i + 1, 11)) % MOD;
+                break;
+            case 7:
+                res = (res + dfs1411(i + 1, 0)) % MOD;
+                res = (res + dfs1411(i + 1, 2)) % MOD;
+                res = (res + dfs1411(i + 1, 9)) % MOD;
+                res = (res + dfs1411(i + 1, 10)) % MOD;
+                res = (res + dfs1411(i + 1, 11)) % MOD;
+                break;
+            case 8:
+                res = (res + dfs1411(i + 1, 0)) % MOD;
+                res = (res + dfs1411(i + 1, 1)) % MOD;
+                res = (res + dfs1411(i + 1, 2)) % MOD;
+                res = (res + dfs1411(i + 1, 4)) % MOD;
+                break;
+            case 9:
+                res = (res + dfs1411(i + 1, 3)) % MOD;
+                res = (res + dfs1411(i + 1, 5)) % MOD;
+                res = (res + dfs1411(i + 1, 6)) % MOD;
+                res = (res + dfs1411(i + 1, 7)) % MOD;
+                break;
+            case 10:
+                res = (res + dfs1411(i + 1, 0)) % MOD;
+                res = (res + dfs1411(i + 1, 1)) % MOD;
+                res = (res + dfs1411(i + 1, 3)) % MOD;
+                res = (res + dfs1411(i + 1, 4)) % MOD;
+                res = (res + dfs1411(i + 1, 7)) % MOD;
+                break;
+            case 11:
+                res = (res + dfs1411(i + 1, 1)) % MOD;
+                res = (res + dfs1411(i + 1, 3)) % MOD;
+                res = (res + dfs1411(i + 1, 4)) % MOD;
+                res = (res + dfs1411(i + 1, 6)) % MOD;
+                res = (res + dfs1411(i + 1, 7)) % MOD;
+                break;
+            default:
+                break;
+        }
+        return memo1411[i][type] = res;
+    }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
