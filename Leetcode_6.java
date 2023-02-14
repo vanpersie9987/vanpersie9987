@@ -6785,6 +6785,74 @@ public class Leetcode_6 {
         return memo1220[n][i] = res;
     }
 
+    // 1458. 两个子序列的最大点积 (Max Dot Product of Two Subsequences)
+    private Integer[][] memo1458;
+    private int[] nums1_1458;
+    private int[] nums2_1458;
+
+    public int maxDotProduct(int[] nums1, int[] nums2) {
+        int m = nums1.length;
+        int n = nums2.length;
+        this.nums1_1458 = nums1;
+        this.nums2_1458 = nums2;
+        memo1458 = new Integer[m][n];
+        return dfs1458(m - 1, n - 1);
+
+    }
+
+    private int dfs1458(int i, int j) {
+        if (i < 0 || j < 0) {
+            return -100001;
+        }
+        if (memo1458[i][j] != null) {
+            return memo1458[i][j];
+        }
+        int res = Integer.MIN_VALUE;
+        res = Math.max(res, nums1_1458[i] * nums2_1458[j]);
+        res = Math.max(res, nums1_1458[i] * nums2_1458[j] + dfs1458(i - 1, j - 1));
+        res = Math.max(res, dfs1458(i - 1, j));
+        res = Math.max(res, dfs1458(i, j - 1));
+        res = Math.max(res, dfs1458(i - 1, j - 1));
+        return memo1458[i][j] = res;
+    }
+
+    // 1289. 下降路径最小和 II (Minimum Falling Path Sum II)
+    private int[][] memo1289;
+    private int n1289;
+    private int[][] grid1289;
+
+    public int minFallingPathSum(int[][] grid) {
+        int n = grid.length;
+        memo1289 = new int[n][n];
+        n1289 = n;
+        grid1289 = grid;
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo1289[i], Integer.MAX_VALUE);
+        }
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < n; ++i) {
+            res = Math.min(res, dfs1289(0, i));
+        }
+        return res;
+
+    }
+
+    private int dfs1289(int i, int j) {
+        if (i == n1289 - 1) {
+            return grid1289[i][j];
+        }
+        if (memo1289[i][j] != Integer.MAX_VALUE) {
+            return memo1289[i][j];
+        }
+        int min = Integer.MAX_VALUE;
+        for (int k = 0; k < n1289; ++k) {
+            if (j != k) {
+                min = Math.min(min, grid1289[i][j] + dfs1289(i + 1, k));
+            }
+        }
+        return memo1289[i][j] = min;
+    }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
@@ -6856,22 +6924,4 @@ public class Leetcode_6 {
     // return pre[x2 + 1][y2 + 1] - pre[x2 + 1][y1] - pre[x1][y2 + 1] + pre[x1][y1];
     // }
 
-    // 1458. 两个子序列的最大点积 (Max Dot Product of Two Subsequences)
-    // private int[][][] memo1458;
-
-    // public int maxDotProduct(int[] nums1, int[] nums2) {
-    //     int m = nums1.length;
-    //     int n = nums2.length;
-    //     memo1458 = new int[m][n][4];
-    //     for (int i = 0; i < m; ++i) {
-    //         for (int j = 0; j < n; ++j) {
-    //             Arrays.fill(memo1458[i][j], Integer.MIN_VALUE);
-    //         }
-    //     }
-    //     int res = Integer.MIN_VALUE;
-    //     for (int i = 0; i < 4; ++i) {
-
-    //     }
-
-    // }
 }
