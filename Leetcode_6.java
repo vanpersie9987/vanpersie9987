@@ -6948,6 +6948,40 @@ public class Leetcode_6 {
         return memo1411[i][type] = res;
     }
 
+    // 1964. 找出到每个位置为止最长的有效障碍赛跑路线 (Find the Longest Valid Obstacle Course at Each
+    // Position) --300
+    public int[] longestObstacleCourseAtEachPosition(int[] obstacles) {
+        int n = obstacles.length;
+        int[] dp = new int[n + 1];
+        int len = 1;
+        dp[len] = obstacles[0];
+        int[] res = new int[n];
+        res[0] = 1;
+        for (int i = 1; i < n; ++i) {
+            if (dp[len] <= obstacles[i]) {
+                dp[++len] = obstacles[i];
+                res[i] = len;
+            } else {
+                int left = 1;
+                int right = len;
+                int pos = 0;
+                while (left <= right) {
+                    int mid = left + ((right - left) >>> 1);
+                    if (dp[mid] <= obstacles[i]) {
+                        pos = mid;
+                        left = mid + 1;
+                    } else {
+                        right = mid - 1;
+                    }
+                }
+                dp[pos + 1] = obstacles[i];
+                res[i] = pos + 1;
+            }
+        }
+        return res;
+
+    }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
@@ -7018,5 +7052,4 @@ public class Leetcode_6 {
     // private int getApplesCounts(int x1, int y1, int x2, int y2) {
     // return pre[x2 + 1][y2 + 1] - pre[x2 + 1][y1] - pre[x1][y2 + 1] + pre[x1][y1];
     // }
-
 }
