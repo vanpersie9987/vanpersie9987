@@ -6982,6 +6982,41 @@ public class Leetcode_6 {
 
     }
 
+    // 1981. 最小化目标值与所选元素的差 (Minimize the Difference Between Target and Chosen
+    // Elements)
+    private int m1981;
+    private int n1981;
+    private int res1981;
+    private int[][] mat1981;
+    private int target1981;
+    private boolean[][] memo1981;
+
+    public int minimizeTheDifference(int[][] mat, int target) {
+        this.m1981 = mat.length;
+        this.n1981 = mat[0].length;
+        this.mat1981 = mat;
+        this.target1981 = target;
+        this.memo1981 = new boolean[m1981][5000];
+        res1981 = Integer.MAX_VALUE;
+        dfs(0, 0);
+        return res1981;
+
+    }
+
+    private void dfs(int i, int sum) {
+        if (i == m1981) {
+            res1981 = Math.min(res1981, Math.abs(sum - target1981));
+            return;
+        }
+        if (sum - target1981 >= res1981 || memo1981[i][sum]) {
+            return;
+        }
+        memo1981[i][sum] = true;
+        for (int j = 0; j < n1981; ++j) {
+            dfs(i + 1, sum + mat1981[i][j]);
+        }
+    }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
