@@ -6998,12 +6998,12 @@ public class Leetcode_6 {
         this.target1981 = target;
         this.memo1981 = new boolean[m1981][5000];
         res1981 = Integer.MAX_VALUE;
-        dfs(0, 0);
+        dfs1981(0, 0);
         return res1981;
 
     }
 
-    private void dfs(int i, int sum) {
+    private void dfs1981(int i, int sum) {
         if (i == m1981) {
             res1981 = Math.min(res1981, Math.abs(sum - target1981));
             return;
@@ -7013,7 +7013,7 @@ public class Leetcode_6 {
         }
         memo1981[i][sum] = true;
         for (int j = 0; j < n1981; ++j) {
-            dfs(i + 1, sum + mat1981[i][j]);
+            dfs1981(i + 1, sum + mat1981[i][j]);
         }
     }
 
@@ -7087,4 +7087,51 @@ public class Leetcode_6 {
     // private int getApplesCounts(int x1, int y1, int x2, int y2) {
     // return pre[x2 + 1][y2 + 1] - pre[x2 + 1][y1] - pre[x1][y2 + 1] + pre[x1][y1];
     // }
+
+    // 1377. T 秒后青蛙的位置 (Frog Position After T Seconds)
+    // private Map<Integer, List<Integer>> g;
+    // private double[] prob;
+    // private boolean[] vis;
+
+    // public double frogPosition(int n, int[][] edges, int t, int target) {
+    //     g = new HashMap<>();
+    //     prob = new double[n];
+    //     vis = new boolean[n];
+    //     vis[0] = true;
+    //     prob[0] = 1.0d;
+    //     for (int[] e : edges) {
+    //         int a = e[0] - 1;
+    //         int b = e[1] - 1;
+    //         g.computeIfAbsent(a, k -> new ArrayList<>()).add(b);
+    //         g.computeIfAbsent(b, k -> new ArrayList<>()).add(a);
+    //     }
+    //     Queue<Integer> q = new LinkedList<>();
+    //     q.offer(0);
+    //     prob[0] = 1.0d;
+    //     while (!q.isEmpty() && t-- == 0) {
+    //         int size = q.size();
+    //         for (int i = 0; i < size; ++i) {
+    //             int x = q.poll();
+    //             double p = prob[x];
+    //             if (x == target - 1) {
+    //                 return p;
+    //             }
+    //             int childCount = 0;
+    //             if (x == 0) {
+    //                 childCount = g.getOrDefault(x, new ArrayList<>()).size();
+    //             } else {
+    //                 childCount = g.getOrDefault(x, new ArrayList<>()).size() - 1;
+    //             }
+    //             for (int y : g.getOrDefault(x, new ArrayList<>())) {
+    //                 if (!vis[y]) {
+    //                     prob[x] = 0d;
+    //                     vis[y] = true;
+    //                     prob[y] = p * (1d / childCount);
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return prob[target - 1];
+    // }
+
 }
