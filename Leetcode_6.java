@@ -7171,4 +7171,67 @@ public class Leetcode_6 {
     // return pre[x2 + 1][y2 + 1] - pre[x2 + 1][y1] - pre[x1][y2 + 1] + pre[x1][y1];
     // }
 
+    // 1537. 最大得分 (Get the Maximum Score) --建图 记忆化搜索
+    private Map<Integer, List<Integer>> g1537;
+    private Map<Integer, Long> memo1537;
+
+    public int maxSum(int[] nums1, int[] nums2) {
+        g1537 = new HashMap<>();
+        memo1537 = new HashMap<>();
+        for (int i = 0; i < nums1.length; ++i) {
+            if (i + 1 < nums1.length) {
+                g1537.computeIfAbsent(nums1[i], k -> new ArrayList<>(2)).add(nums1[i + 1]);
+            }
+        }
+        for (int i = 0; i < nums2.length; ++i) {
+            if (i + 1 < nums2.length) {
+                g1537.computeIfAbsent(nums2[i], k -> new ArrayList<>(2)).add(nums2[i + 1]);
+            }
+        }
+        final int MOD = (int) (1e9 + 7);
+        return (int) (Math.max(dfs1537(nums1[0]), dfs1537(nums2[0])) % MOD);
+
+    }
+
+    private long dfs1537(int x) {
+        if (memo1537.containsKey(x)) {
+            return memo1537.get(x);
+        }
+        long max = 0l;
+        for (int y : g1537.getOrDefault(x, new ArrayList<>())) {
+            max = Math.max(max, dfs1537(y));
+        }
+        memo1537.put(x, max + x);
+        return max + x;
+    }
+
+    // 1537. 最大得分 (Get the Maximum Score) --双指针 贪心
+    public int maxSum2(int[] nums1, int[] nums2) {
+        int m = nums1.length;
+        int n = nums2.length;
+        int i = 0;
+        int j = 0;
+        long sum1 = 0l;
+        long sum2 = 0l;
+        while (i < m && j < n) {
+            if (nums1[i] < nums2[j]) {
+                sum1 += nums1[i++];
+            } else if (nums1[i] > nums2[j]) {
+                sum2 += nums2[j++];
+            } else {
+                sum1 = sum2 = Math.max(sum1, sum2) + nums1[i];
+                ++i;
+                ++j;
+            }
+        }
+        while (i < m) {
+            sum1 += nums1[i++];
+        }
+        while (j < n) {
+            sum2 += nums2[j++];
+        }
+        final int MOD = (int) (1e9 + 7);
+        return (int) (Math.max(sum1, sum2) % MOD);
+    }
+
 }
