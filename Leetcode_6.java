@@ -7018,21 +7018,21 @@ public class Leetcode_6 {
     }
 
     // 1377. T 秒后青蛙的位置 (Frog Position After T Seconds) --bfs
-    private Map<Integer, Set<Integer>> g;
-    private boolean[] vis;
+    private Map<Integer, Set<Integer>> g1377;
+    private boolean[] vis1377;
 
     public double frogPosition(int n, int[][] edges, int t, int target) {
-        g = new HashMap<>();
+        g1377 = new HashMap<>();
         for (int[] e : edges) {
             int a = e[0] - 1;
             int b = e[1] - 1;
-            g.computeIfAbsent(a, k -> new HashSet<>()).add(b);
-            g.computeIfAbsent(b, k -> new HashSet<>()).add(a);
+            g1377.computeIfAbsent(a, k -> new HashSet<>()).add(b);
+            g1377.computeIfAbsent(b, k -> new HashSet<>()).add(a);
         }
         Queue<double[]> q = new LinkedList<>();
         q.offer(new double[] { 0, 1.0d, 0 });
-        vis = new boolean[n];
-        vis[0] = true;
+        vis1377 = new boolean[n];
+        vis1377[0] = true;
         while (!q.isEmpty()) {
             double[] cur = q.poll();
             int x = (int) cur[0];
@@ -7042,17 +7042,17 @@ public class Leetcode_6 {
                 return p;
             }
             int childCount = 0;
-            for (int y : g.getOrDefault(x, new HashSet<>())) {
-                if (!vis[y]) {
+            for (int y : g1377.getOrDefault(x, new HashSet<>())) {
+                if (!vis1377[y]) {
                     ++childCount;
                 }
             }
             if (curT < t) {
                 boolean find = false;
-                for (int y : g.getOrDefault(x, new HashSet<>())) {
-                    if (!vis[y]) {
+                for (int y : g1377.getOrDefault(x, new HashSet<>())) {
+                    if (!vis1377[y]) {
                         find = true;
-                        vis[y] = true;
+                        vis1377[y] = true;
                         q.offer(new double[] { y, p / childCount, curT + 1 });
                     }
                 }
