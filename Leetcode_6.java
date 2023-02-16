@@ -7069,13 +7069,13 @@ public class Leetcode_6 {
         List<List<Integer>> res = new ArrayList<>();
         res.add(new ArrayList<>());
         res.add(new ArrayList<>());
-        for (int i = 0; i < colsum.length; ++i) {
-            if (colsum[i] == 2) {
+        for (int sum : colsum) {
+            if (sum == 2) {
                 upper -= 1;
                 lower -= 1;
                 res.get(0).add(1);
                 res.get(1).add(1);
-            } else if (colsum[i] == 1) {
+            } else if (sum == 1) {
                 if (upper >= lower) {
                     res.get(0).add(1);
                     res.get(1).add(0);
