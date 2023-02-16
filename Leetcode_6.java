@@ -7064,6 +7064,42 @@ public class Leetcode_6 {
         return 0d;
     }
 
+    // 1253. 重构 2 行二进制矩阵 (Reconstruct a 2-Row Binary Matrix)
+    public List<List<Integer>> reconstructMatrix(int upper, int lower, int[] colsum) {
+        List<List<Integer>> res = new ArrayList<>();
+        res.add(new ArrayList<>());
+        res.add(new ArrayList<>());
+        for (int i = 0; i < colsum.length; ++i) {
+            if (colsum[i] == 2) {
+                upper -= 1;
+                lower -= 1;
+                res.get(0).add(1);
+                res.get(1).add(1);
+            } else if (colsum[i] == 1) {
+                if (upper >= lower) {
+                    res.get(0).add(1);
+                    res.get(1).add(0);
+                    upper -= 1;
+                } else {
+                    res.get(0).add(0);
+                    res.get(1).add(1);
+                    lower -= 1;
+                }
+            } else {
+                res.get(0).add(0);
+                res.get(1).add(0);
+            }
+            if (lower < 0 || upper < 0) {
+                return new ArrayList<>();
+            }
+        }
+        if (lower != 0 || upper != 0) {
+            return new ArrayList<>();
+        }
+        return res;
+
+    }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
