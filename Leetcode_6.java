@@ -7234,4 +7234,32 @@ public class Leetcode_6 {
     // return pre[x2 + 1][y2 + 1] - pre[x2 + 1][y1] - pre[x1][y2 + 1] + pre[x1][y1];
     // }
 
+    // LCP 52. 二叉搜索树染色
+    // public int getNumber(TreeNode root, int[][] ops) {
+    //     TreeSet<Integer> set = new TreeSet<>();
+    //     dfs_LCP52(root, set);
+    //     for (int i = ops.length - 1; i >= 0; --i) {
+    //         int color = ops[i][0];
+    //         int left = ops[i][1];
+    //         int right = ops[i][2];
+    //         while (true) {
+                
+
+            
+    //         }
+
+    //     }
+
+    // }
+
+    // private void dfs_LCP52(TreeNode root, TreeSet<Integer> set) {
+    //     if (root == null) {
+    //         return;
+    //     }
+    //     dfs_LCP52(root.left, set);
+    //     set.add(root.val);
+    //     dfs_LCP52(root.right, set);
+    // }
+
+
 }
