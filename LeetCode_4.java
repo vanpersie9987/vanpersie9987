@@ -6562,8 +6562,36 @@ public class LeetCode_4 {
 
     }
 
-    // 516. 最长回文子序列 (Longest Palindromic Subsequence) --dp
+    // 516. 最长回文子序列 (Longest Palindromic Subsequence) --记忆化搜索
+    private int[][] memo;
+    private String s516;
+
     public int longestPalindromeSubseq(String s) {
+        int n = s.length();
+        memo = new int[n][n];
+        this.s516 = s;
+        return dfs516(0, n - 1);
+
+    }
+
+    private int dfs516(int i, int j) {
+        if (i > j) {
+            return 0;
+        }
+        if (i == j) {
+            return 1;
+        }
+        if (memo[i][j] != 0) {
+            return memo[i][j];
+        }
+        if (s516.charAt(i) == s516.charAt(j)) {
+            return memo[i][j] = dfs516(i + 1, j - 1) + 2;
+        }
+        return memo[i][j] = Math.max(dfs516(i + 1, j), dfs516(i, j - 1));
+    }
+
+    // 516. 最长回文子序列 (Longest Palindromic Subsequence) --dp
+    public int longestPalindromeSubseq2(String s) {
         int n = s.length();
         int[][] dp = new int[n][n];
         for (int i = n - 1; i >= 0; --i) {
