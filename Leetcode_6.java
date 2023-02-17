@@ -7190,6 +7190,77 @@ public class Leetcode_6 {
         return memo1312[i][j] = Math.min(dfs1312(i + 1, j), dfs1312(i, j - 1)) + 1;
     }
 
+    // 935. 骑士拨号器 (Knight Dialer)
+    private int[][] memo935;
+
+    public int knightDialer(int n) {
+        memo935 = new int[10][n];
+        for (int i = 0; i < 10; ++i) {
+            Arrays.fill(memo935[i], -1);
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int i = 0; i <= 9; ++i) {
+            res = (res + dfs935(i, n - 1)) % MOD;
+        }
+        return res;
+
+    }
+
+    private int dfs935(int num, int left) {
+        if (left == 0) {
+            return 1;
+        }
+        if (memo935[num][left] != -1) {
+            return memo935[num][left];
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = 0;
+        switch (num) {
+            case 0:
+                res = (res + dfs935(4, left - 1)) % MOD;
+                res = (res + dfs935(6, left - 1)) % MOD;
+                break;
+            case 1:
+                res = (res + dfs935(6, left - 1)) % MOD;
+                res = (res + dfs935(8, left - 1)) % MOD;
+                break;
+            case 2:
+                res = (res + dfs935(7, left - 1)) % MOD;
+                res = (res + dfs935(9, left - 1)) % MOD;
+                break;
+            case 3:
+                res = (res + dfs935(4, left - 1)) % MOD;
+                res = (res + dfs935(8, left - 1)) % MOD;
+                break;
+            case 4:
+                res = (res + dfs935(0, left - 1)) % MOD;
+                res = (res + dfs935(3, left - 1)) % MOD;
+                res = (res + dfs935(9, left - 1)) % MOD;
+                break;
+            case 6:
+                res = (res + dfs935(0, left - 1)) % MOD;
+                res = (res + dfs935(1, left - 1)) % MOD;
+                res = (res + dfs935(7, left - 1)) % MOD;
+                break;
+            case 7:
+                res = (res + dfs935(2, left - 1)) % MOD;
+                res = (res + dfs935(6, left - 1)) % MOD;
+                break;
+            case 8:
+                res = (res + dfs935(1, left - 1)) % MOD;
+                res = (res + dfs935(3, left - 1)) % MOD;
+                break;
+            case 9:
+                res = (res + dfs935(2, left - 1)) % MOD;
+                res = (res + dfs935(4, left - 1)) % MOD;
+                break;
+            default:
+                break;
+        }
+        return memo935[num][left] = res;
+    }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
@@ -7263,27 +7334,32 @@ public class Leetcode_6 {
 
     // LCP 52. 二叉搜索树染色
     // public int getNumber(TreeNode root, int[][] ops) {
-    //     TreeSet<Integer> set = new TreeSet<>();
-    //     dfs_LCP52(root, set);
-    //     for (int i = ops.length - 1; i >= 0; --i) {
-    //         int color = ops[i][0];
-    //         int left = ops[i][1];
-    //         int right = ops[i][2];
-    //         while (true) {
+    // TreeSet<Integer> set = new TreeSet<>();
+    // dfs_LCP52(root, set);
+    // for (int i = ops.length - 1; i >= 0; --i) {
+    // int color = ops[i][0];
+    // int left = ops[i][1];
+    // int right = ops[i][2];
+    // while (true) {
 
-    //         }
+    // }
 
-    //     }
+    // }
 
     // }
 
     // private void dfs_LCP52(TreeNode root, TreeSet<Integer> set) {
-    //     if (root == null) {
-    //         return;
-    //     }
-    //     dfs_LCP52(root.left, set);
-    //     set.add(root.val);
-    //     dfs_LCP52(root.right, set);
+    // if (root == null) {
+    // return;
     // }
+    // dfs_LCP52(root.left, set);
+    // set.add(root.val);
+    // dfs_LCP52(root.right, set);
+    // }
+
+    // 1363. 形成三的最大倍数 (Largest Multiple of Three)
+    public String largestMultipleOfThree(int[] digits) {
+
+    }
 
 }
