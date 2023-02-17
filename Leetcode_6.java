@@ -7192,12 +7192,11 @@ public class Leetcode_6 {
 
     // 935. 骑士拨号器 (Knight Dialer)
     private int[][] memo935;
+    private int[][] map935 = { { 4, 6 }, { 6, 8 }, { 7, 9 }, { 4, 8 }, { 0, 3, 9 }, {}, { 0, 1, 7 }, { 2, 6 }, { 1, 3 },
+            { 2, 4 } };
 
     public int knightDialer(int n) {
         memo935 = new int[10][n];
-        for (int i = 0; i < 10; ++i) {
-            Arrays.fill(memo935[i], -1);
-        }
         int res = 0;
         final int MOD = (int) (1e9 + 7);
         for (int i = 0; i <= 9; ++i) {
@@ -7211,52 +7210,16 @@ public class Leetcode_6 {
         if (left == 0) {
             return 1;
         }
-        if (memo935[num][left] != -1) {
+        if (num == 5) {
+            return 0;
+        }
+        if (memo935[num][left] != 0) {
             return memo935[num][left];
         }
         final int MOD = (int) (1e9 + 7);
         int res = 0;
-        switch (num) {
-            case 0:
-                res = (res + dfs935(4, left - 1)) % MOD;
-                res = (res + dfs935(6, left - 1)) % MOD;
-                break;
-            case 1:
-                res = (res + dfs935(6, left - 1)) % MOD;
-                res = (res + dfs935(8, left - 1)) % MOD;
-                break;
-            case 2:
-                res = (res + dfs935(7, left - 1)) % MOD;
-                res = (res + dfs935(9, left - 1)) % MOD;
-                break;
-            case 3:
-                res = (res + dfs935(4, left - 1)) % MOD;
-                res = (res + dfs935(8, left - 1)) % MOD;
-                break;
-            case 4:
-                res = (res + dfs935(0, left - 1)) % MOD;
-                res = (res + dfs935(3, left - 1)) % MOD;
-                res = (res + dfs935(9, left - 1)) % MOD;
-                break;
-            case 6:
-                res = (res + dfs935(0, left - 1)) % MOD;
-                res = (res + dfs935(1, left - 1)) % MOD;
-                res = (res + dfs935(7, left - 1)) % MOD;
-                break;
-            case 7:
-                res = (res + dfs935(2, left - 1)) % MOD;
-                res = (res + dfs935(6, left - 1)) % MOD;
-                break;
-            case 8:
-                res = (res + dfs935(1, left - 1)) % MOD;
-                res = (res + dfs935(3, left - 1)) % MOD;
-                break;
-            case 9:
-                res = (res + dfs935(2, left - 1)) % MOD;
-                res = (res + dfs935(4, left - 1)) % MOD;
-                break;
-            default:
-                break;
+        for (int next : map935[num]) {
+            res = (res + dfs935(next, left - 1)) % MOD;
         }
         return memo935[num][left] = res;
     }
