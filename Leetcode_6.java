@@ -7163,6 +7163,33 @@ public class Leetcode_6 {
         return (int) (Math.max(sum1, sum2) % MOD);
     }
 
+    // 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
+    private int[][] memo1312;
+    private String s1312;
+
+    public int minInsertions(String s) {
+        int n = s.length();
+        memo1312 = new int[n][n];
+        this.s1312 = s;
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo1312[i], Integer.MAX_VALUE);
+        }
+        return dfs1312(0, n - 1);
+    }
+
+    private int dfs1312(int i, int j) {
+        if (i >= j) {
+            return 0;
+        }
+        if (memo1312[i][j] != Integer.MAX_VALUE) {
+            return memo1312[i][j];
+        }
+        if (s1312.charAt(i) == s1312.charAt(j)) {
+            return memo1312[i][j] = dfs1312(i + 1, j - 1);
+        }
+        return memo1312[i][j] = Math.min(dfs1312(i + 1, j), dfs1312(i, j - 1)) + 1;
+    }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
@@ -7236,29 +7263,27 @@ public class Leetcode_6 {
 
     // LCP 52. 二叉搜索树染色
     // public int getNumber(TreeNode root, int[][] ops) {
-    //     TreeSet<Integer> set = new TreeSet<>();
-    //     dfs_LCP52(root, set);
-    //     for (int i = ops.length - 1; i >= 0; --i) {
-    //         int color = ops[i][0];
-    //         int left = ops[i][1];
-    //         int right = ops[i][2];
-    //         while (true) {
-                
+    // TreeSet<Integer> set = new TreeSet<>();
+    // dfs_LCP52(root, set);
+    // for (int i = ops.length - 1; i >= 0; --i) {
+    // int color = ops[i][0];
+    // int left = ops[i][1];
+    // int right = ops[i][2];
+    // while (true) {
 
-            
-    //         }
+    // }
 
-    //     }
+    // }
 
     // }
 
     // private void dfs_LCP52(TreeNode root, TreeSet<Integer> set) {
-    //     if (root == null) {
-    //         return;
-    //     }
-    //     dfs_LCP52(root.left, set);
-    //     set.add(root.val);
-    //     dfs_LCP52(root.right, set);
+    // if (root == null) {
+    // return;
+    // }
+    // dfs_LCP52(root.left, set);
+    // set.add(root.val);
+    // dfs_LCP52(root.right, set);
     // }
 
 
