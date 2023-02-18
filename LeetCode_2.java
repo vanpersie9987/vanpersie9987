@@ -7314,8 +7314,31 @@ public class LeetCode_2 {
 
    }
 
-   // 2140. 解决智力问题 (Solving Questions With Brainpower) --倒序 填表法
+   // 2140. 解决智力问题 (Solving Questions With Brainpower) --记忆化搜索
+   private long[] memo2140;
+   private int[][] questions2140;
+
    public long mostPoints(int[][] questions) {
+      int n = questions.length;
+      this.questions2140 = questions;
+      memo2140 = new long[n];
+      Arrays.fill(memo2140, -1l);
+      return dfs2140(0);
+
+   }
+
+   private long dfs2140(int i) {
+      if (i >= questions2140.length) {
+         return 0l;
+      }
+      if (memo2140[i] != -1l) {
+         return memo2140[i];
+      }
+      return memo2140[i] = Math.max(questions2140[i][0] + dfs2140(i + questions2140[i][1] + 1), dfs2140(i + 1));
+   }
+
+   // 2140. 解决智力问题 (Solving Questions With Brainpower) --倒序 填表法
+   public long mostPoints2(int[][] questions) {
       long[] dp = new long[questions.length + 1];
       for (int i = questions.length - 1; i >= 0; --i) {
          int j = i + questions[i][1] + 1;
