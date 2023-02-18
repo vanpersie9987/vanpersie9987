@@ -7240,11 +7240,11 @@ public class Leetcode_6 {
                 Arrays.fill(memo1463[i][j], -1);
             }
         }
-        return dfs(0, 0, n1463 - 1);
+        return dfs1463(0, 0, n1463 - 1);
 
     }
 
-    private int dfs(int i, int j1, int j2) {
+    private int dfs1463(int i, int j1, int j2) {
         int cur = j1 == j2 ? grid1463[i][j1] : (grid1463[i][j1] + grid1463[i][j2]);
         if (i == m1463 - 1) {
             return cur;
@@ -7255,10 +7255,45 @@ public class Leetcode_6 {
         int max = 0;
         for (int nj1 = Math.max(0, j1 - 1); nj1 <= Math.min(n1463 - 1, j1 + 1); ++nj1) {
             for (int nj2 = Math.max(0, j2 - 1); nj2 <= Math.min(n1463 - 1, j2 + 1); ++nj2) {
-                max = Math.max(max, dfs(i + 1, nj1, nj2));
+                max = Math.max(max, dfs1463(i + 1, nj1, nj2));
             }
         }
         return memo1463[i][j1][j2] = max + cur;
+    }
+
+    // 1269. 停在原地的方案数 (Number of Ways to Stay in the Same Place After Some Steps)
+    private int[][] memo1269;
+    private int arrLen1269;
+
+    public int numWays(int steps, int arrLen) {
+        this.arrLen1269 = arrLen;
+        memo1269 = new int[steps + 1][steps + 1];
+        for (int i = 0; i < steps + 1; ++i) {
+            Arrays.fill(memo1269[i], -1);
+        }
+        return dfs1269(0, steps);
+
+    }
+
+    private int dfs1269(int i, int steps) {
+        if (i >= arrLen1269 || i < 0) {
+            return 0;
+        }
+        if (i == 0 && steps == 0) {
+            return 1;
+        }
+        if (i > steps) {
+            return 0;
+        }
+        if (memo1269[i][steps] != -1) {
+            return memo1269[i][steps];
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = 0;
+        res = (res + dfs1269(i + 1, steps - 1)) % MOD;
+        res = (res + dfs1269(i, steps - 1)) % MOD;
+        res = (res + dfs1269(i - 1, steps - 1)) % MOD;
+        return memo1269[i][steps] = res;
     }
 
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
@@ -7372,4 +7407,29 @@ public class Leetcode_6 {
 
     // }
 
+    // 805. 数组的均值分割 (Split Array With Same Average)
+    // public boolean splitArraySameAverage(int[] nums) {
+    //     int n = nums.length;
+    //     for (int i = 1; i < (1 << n) - 1; ++i) {
+    //         int mask = i;
+    //         int sum1 = 0;
+    //         int n1 = Integer.bitCount(mask);
+    //         int sum2 = 0;
+    //         int n2 = n - n1;
+    //         int index = 0;
+    //         while (index < n) {
+    //             if ((mask & 1) == 1) {
+    //                 sum1 += nums[index++];
+    //             } else {
+    //                 sum2 += nums[index++];
+    //             }
+    //             mask >>= 1;
+    //         }
+    //         if (sum1 * n2 == sum2 * n1) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+
+    // }
 }
