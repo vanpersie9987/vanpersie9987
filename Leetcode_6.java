@@ -7224,6 +7224,43 @@ public class Leetcode_6 {
         return memo935[num][left] = res;
     }
 
+    // 1463. 摘樱桃 II (Cherry Pickup II)
+    private int[][][] memo1463;
+    private int m1463;
+    private int n1463;
+    private int[][] grid1463;
+
+    public int cherryPickup(int[][] grid) {
+        this.m1463 = grid.length;
+        this.n1463 = grid[0].length;
+        this.grid1463 = grid;
+        memo1463 = new int[m1463][n1463][n1463];
+        for (int i = 0; i < m1463; ++i) {
+            for (int j = 0; j < n1463; ++j) {
+                Arrays.fill(memo1463[i][j], -1);
+            }
+        }
+        return dfs(0, 0, n1463 - 1);
+
+    }
+
+    private int dfs(int i, int j1, int j2) {
+        int cur = j1 == j2 ? grid1463[i][j1] : (grid1463[i][j1] + grid1463[i][j2]);
+        if (i == m1463 - 1) {
+            return cur;
+        }
+        if (memo1463[i][j1][j2] != -1) {
+            return memo1463[i][j1][j2];
+        }
+        int max = 0;
+        for (int nj1 = Math.max(0, j1 - 1); nj1 <= Math.min(n1463 - 1, j1 + 1); ++nj1) {
+            for (int nj2 = Math.max(0, j2 - 1); nj2 <= Math.min(n1463 - 1, j2 + 1); ++nj2) {
+                max = Math.max(max, dfs(i + 1, nj1, nj2));
+            }
+        }
+        return memo1463[i][j1][j2] = max + cur;
+    }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
@@ -7321,8 +7358,13 @@ public class Leetcode_6 {
     // }
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
-    public String largestMultipleOfThree(int[] digits) {
+    // public String largestMultipleOfThree(int[] digits) {
 
-    }
+    // }
+
+    // 1340. 跳跃游戏 V (Jump Game V)
+    // public int maxJumps(int[] arr, int d) {
+
+    // }
 
 }
