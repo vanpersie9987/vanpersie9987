@@ -6270,30 +6270,25 @@ public class LeetCode_4 {
 
     // 6128. 最好的扑克手牌
     public String bestHand(int[] ranks, char[] suits) {
-        Set<Character> set = new HashSet<>();
-        for (char c : suits) {
-            set.add(c);
-        }
-        if (set.size() == 1) {
-            return "Flush";
-        }
         int[] counts = new int[14];
-        for (int rank : ranks) {
-            ++counts[rank];
-        }
-        boolean three = false;
-        boolean two = false;
-        for (int count : counts) {
-            if (count >= 3) {
-                three = true;
-            } else if (count == 2) {
-                two = true;
+        int max = 0;
+        boolean flush = true;
+        for (int i = 0; i < 5; ++i) {
+            ++counts[ranks[i]];
+            max = Math.max(counts[ranks[i]], max);
+            if (i > 0) {
+                if (suits[i] != suits[i - 1]) {
+                    flush = false;
+                }
             }
         }
-        if (three) {
+        if (flush) {
+            return "Flush";
+        }
+        if (max >= 3) {
             return "Three of a Kind";
         }
-        if (two) {
+        if (max == 2) {
             return "Pair";
         }
         return "High Card";
