@@ -7296,6 +7296,106 @@ public class Leetcode_6 {
         return memo1269[i][steps] = res;
     }
 
+    // 6359. 替换一个数字后的最大差值 (Maximum Difference by Remapping a Digit)
+    public int minMaxDifference(int num) {
+        char[] chars = String.valueOf(num).toCharArray();
+        char[] max = chars.clone();
+        char c = '_';
+        for (int i = 0; i < max.length; ++i) {
+            if (max[i] != '9' && c == '_') {
+                c = max[i];
+            }
+            if (max[i] == c) {
+                max[i] = '9';
+            }
+        }
+        char[] min = chars.clone();
+        c = min[0];
+        for (int i = 0; i < min.length; ++i) {
+            if (min[i] == c) {
+                min[i] = '0';
+            }
+        }
+        int max1 = Integer.parseInt(String.valueOf(max));
+        int min1 = Integer.parseInt(String.valueOf(min));
+        return max1 - min1;
+
+    }
+    
+    // 2567. 修改两个元素的最小分数 (Minimum Score by Changing Two Elements)
+    public int minimizeSum(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        return Math.min(nums[n - 2] - nums[1], Math.min(nums[n - 3] - nums[0], nums[n - 1] - nums[2]));
+
+    }
+
+    // 6360. 最小无法得到的或值 (Minimum Impossible OR)
+    public int minImpossibleOR(int[] nums) {
+        int mask = 0;
+        for (int num : nums) {
+            // 判断「num为2的整数次幂」的三种方法
+            // Integer.bitCount(num) == 1;
+            // num & -num == num;
+            // num & (num - 1) == 0
+            if ((num & (num - 1)) == 0) {
+                mask |= num;
+            }
+        }
+        mask = ~mask;
+        return mask & -mask;
+
+    }
+    
+    // 2570. 合并两个二维数组 - 求和法 (Merge Two 2D Arrays by Summing Values)
+    public int[][] mergeArrays(int[][] nums1, int[][] nums2) {
+        int i = 0;
+        int j = 0;
+        int n1 = nums1.length;
+        int n2 = nums2.length;
+        List<int[]> res = new ArrayList<>();
+        while (i < n1 && j < n2) {
+            if (nums1[i][0] == nums2[j][0]) {
+                res.add(new int[] { nums1[i][0], nums1[i][1] + nums2[j][1] });
+                ++i;
+                ++j;
+            } else if (nums1[i][0] < nums2[j][0]) {
+                res.add(nums1[i++]);
+            } else {
+                res.add(nums2[j++]);
+            }
+        }
+        while (i < n1) {
+            res.add(nums1[i++]);
+        }
+        while (j < n2) {
+            res.add(nums2[j++]);
+        }
+        return res.toArray(new int[res.size()][]);
+    }
+    
+    // 2571. 将整数减少到零需要的最少操作数 (Minimum Operations to Reduce an Integer to 0)
+    private Map<Integer, Integer> memo2571;
+
+    public int minOperations(int n) {
+        memo2571 = new HashMap<>();
+        return dfs2571(n);
+
+    }
+
+    private int dfs2571(int n) {
+        if (n == 0) {
+            return 0;
+        }
+        if (memo2571.containsKey(n)) {
+            return memo2571.get(n);
+        }
+        int x = n & (-n);
+        int min = Math.min(dfs2571(n - x), dfs2571(n + x)) + 1;
+        memo2571.put(n, min);
+        return min;
+    }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
@@ -7409,27 +7509,27 @@ public class Leetcode_6 {
 
     // 805. 数组的均值分割 (Split Array With Same Average)
     // public boolean splitArraySameAverage(int[] nums) {
-    //     int n = nums.length;
-    //     for (int i = 1; i < (1 << n) - 1; ++i) {
-    //         int mask = i;
-    //         int sum1 = 0;
-    //         int n1 = Integer.bitCount(mask);
-    //         int sum2 = 0;
-    //         int n2 = n - n1;
-    //         int index = 0;
-    //         while (index < n) {
-    //             if ((mask & 1) == 1) {
-    //                 sum1 += nums[index++];
-    //             } else {
-    //                 sum2 += nums[index++];
-    //             }
-    //             mask >>= 1;
-    //         }
-    //         if (sum1 * n2 == sum2 * n1) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
+    // int n = nums.length;
+    // for (int i = 1; i < (1 << n) - 1; ++i) {
+    // int mask = i;
+    // int sum1 = 0;
+    // int n1 = Integer.bitCount(mask);
+    // int sum2 = 0;
+    // int n2 = n - n1;
+    // int index = 0;
+    // while (index < n) {
+    // if ((mask & 1) == 1) {
+    // sum1 += nums[index++];
+    // } else {
+    // sum2 += nums[index++];
+    // }
+    // mask >>= 1;
+    // }
+    // if (sum1 * n2 == sum2 * n1) {
+    // return true;
+    // }
+    // }
+    // return false;
 
     // }
 
@@ -7440,74 +7540,76 @@ public class Leetcode_6 {
     // private int maxSum;
 
     // public int[] pathsWithMaxScore(List<String> board) {
-    //     this.n = board.size();
-    //     this.board = board;
-    //     this.memo = new int[n][n];
-    //     for (int i = 0; i < n; ++i) {
-    //         Arrays.fill(memo[i], -1);
-    //     }
-    //     dfs(n - 1, n - 1, 0);
-    //     if (maxSum == 0) {
-    //         return new int[] { 0, 0 };
-    //     }
-    //     for (int i = 0; i < n; ++i) {
-    //         Arrays.fill(memo[i], -1);
-    //     }
-    //     return new int[] { maxSum, dfs2(n - 1, n - 1, maxSum) };
+    // this.n = board.size();
+    // this.board = board;
+    // this.memo = new int[n][n];
+    // for (int i = 0; i < n; ++i) {
+    // Arrays.fill(memo[i], -1);
+    // }
+    // dfs(n - 1, n - 1, 0);
+    // if (maxSum == 0) {
+    // return new int[] { 0, 0 };
+    // }
+    // for (int i = 0; i < n; ++i) {
+    // Arrays.fill(memo[i], -1);
+    // }
+    // return new int[] { maxSum, dfs2(n - 1, n - 1, maxSum) };
 
     // }
 
     // private int dfs2(int i, int j, int sum) {
-    //     if (i < 0 || j < 0 || board.get(i).charAt(j) == 'X') {
-    //         return 0;
-    //     }
-    //     if (i == 0 && j == 0) {
-    //         if (sum == 0) {
-    //             return 1;
-    //         }
-    //         return 0;
-    //     }
-    //     if (memo[i][j] != -1) {
-    //         return memo[i][j];
-    //     }
+    // if (i < 0 || j < 0 || board.get(i).charAt(j) == 'X') {
+    // return 0;
+    // }
+    // if (i == 0 && j == 0) {
+    // if (sum == 0) {
+    // return 1;
+    // }
+    // return 0;
+    // }
+    // if (memo[i][j] != -1) {
+    // return memo[i][j];
+    // }
 
-    //     int cur = 0;
-    //     final int MOD = (int) (1e9 + 7);
-    //     if (i == n - 1 && j == n - 1) {
-    //         cur = (cur + dfs2(i - 1, j - 1, sum)) % MOD;
-    //         cur = (cur + dfs2(i - 1, j, sum)) % MOD;
-    //         cur = (cur + dfs2(i, j - 1, sum)) % MOD;
-    //         return cur;
-    //     }
-    //     cur = sum - (board.get(i).charAt(j) - '0');
-    //     int count = 0;
-    //     count = (count + dfs2(i - 1, j, cur)) % MOD;
-    //     count = (count + dfs2(i, j - 1, cur)) % MOD;
-    //     count = (count + dfs2(i - 1, j - 1, cur)) % MOD;
-    //     return memo[i][j] = count;
+    // int cur = 0;
+    // final int MOD = (int) (1e9 + 7);
+    // if (i == n - 1 && j == n - 1) {
+    // cur = (cur + dfs2(i - 1, j - 1, sum)) % MOD;
+    // cur = (cur + dfs2(i - 1, j, sum)) % MOD;
+    // cur = (cur + dfs2(i, j - 1, sum)) % MOD;
+    // return cur;
+    // }
+    // cur = sum - (board.get(i).charAt(j) - '0');
+    // int count = 0;
+    // count = (count + dfs2(i - 1, j, cur)) % MOD;
+    // count = (count + dfs2(i, j - 1, cur)) % MOD;
+    // count = (count + dfs2(i - 1, j - 1, cur)) % MOD;
+    // return memo[i][j] = count;
     // }
 
     // private int dfs(int i, int j, int sum) {
-    //     if (i == n - 1 && j == n - 1) {
-    //         return Math.max(dfs(i - 1, j - 1, sum), Math.max(dfs(i - 1, j, sum), dfs(i, j - 1, sum)));
-    //     }
-    //     if (i < 0 || j < 0 || board.get(i).charAt(j) == 'X') {
-    //         return 0;
-    //     }
-
-    //     if (i == 0 && j == 0) {
-    //         maxSum = Math.max(maxSum, sum);
-    //         return maxSum;
-    //     }
-
-    //     int cur = board.get(i).charAt(j) - '0' + sum;
-    //     if (memo[i][j] >= cur) {
-    //         return 0;
-    //     }
-    //     int max = 0;
-    //     max = Math.max(max, dfs(i - 1, j, cur));
-    //     max = Math.max(max, dfs(i, j - 1, cur));
-    //     max = Math.max(max, dfs(i - 1, j - 1, cur));
-    //     return memo[i][j] = max;
+    // if (i == n - 1 && j == n - 1) {
+    // return Math.max(dfs(i - 1, j - 1, sum), Math.max(dfs(i - 1, j, sum), dfs(i, j
+    // - 1, sum)));
     // }
+    // if (i < 0 || j < 0 || board.get(i).charAt(j) == 'X') {
+    // return 0;
+    // }
+
+    // if (i == 0 && j == 0) {
+    // maxSum = Math.max(maxSum, sum);
+    // return maxSum;
+    // }
+
+    // int cur = board.get(i).charAt(j) - '0' + sum;
+    // if (memo[i][j] >= cur) {
+    // return 0;
+    // }
+    // int max = 0;
+    // max = Math.max(max, dfs(i - 1, j, cur));
+    // max = Math.max(max, dfs(i, j - 1, cur));
+    // max = Math.max(max, dfs(i - 1, j - 1, cur));
+    // return memo[i][j] = max;
+    // }
+
 }
