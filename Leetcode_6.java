@@ -7396,6 +7396,100 @@ public class Leetcode_6 {
         return min;
     }
 
+    // 1301. 最大得分的路径数目 (Number of Paths with Max Score)
+    private int n1301;
+    private int[][] vis1301;
+    private char[][] boards1301;
+    private int[][] memo1301;
+    private int[][][] memo2_1301;
+
+    public int[] pathsWithMaxScore(List<String> board) {
+        this.n1301 = board.size();
+        vis1301 = new int[n1301][n1301];
+        boards1301 = new char[n1301][n1301];
+        memo1301 = new int[n1301][n1301];
+        for (int i = 0; i < n1301; ++i) {
+            for (int j = 0; j < n1301; ++j) {
+                boards1301[i][j] = board.get(i).charAt(j);
+                memo1301[i][j] = -1;
+           
+            }
+        }
+        boards1301[0][0] = boards1301[n1301 - 1][n1301 - 1] = '0';
+        if (dfs_1301(n1301 - 1, n1301 - 1) != 1) {
+            return new int[] { 0, 0 };
+        }
+        int max = dfs2_1301(n1301 - 1, n1301 - 1);
+        memo2_1301 = new int[n1301][n1301][max + 1];
+        for (int i = 0; i < n1301; ++i) {
+            for (int j = 0; j < n1301; ++j) {
+                Arrays.fill(memo2_1301[i][j], -1);
+            }        
+        }
+        int ways = dfs3_1301(n1301 - 1, n1301 - 1, max);
+        return new int[] { max, ways };
+    }
+
+    private int dfs3_1301(int i, int j, int sum) {
+        if (i < 0 || j < 0 || vis1301[i][j] != 1) {
+            return 0;
+        }
+        if (i == 0 && j == 0) {
+            return sum == 0 ? 1 : 0;
+        }
+        if (memo2_1301[i][j][sum] != -1) {
+            return memo2_1301[i][j][sum];
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = 0;
+        res = (res + dfs3_1301(i - 1, j, sum - (boards1301[i][j] - '0'))) % MOD;
+        res = (res + dfs3_1301(i, j - 1, sum - (boards1301[i][j] - '0'))) % MOD;
+        res = (res + dfs3_1301(i - 1, j - 1, sum - (boards1301[i][j] - '0'))) % MOD;
+        return memo2_1301[i][j][sum] = res;
+    }
+
+    private int dfs2_1301(int i, int j) {
+        if (i == 0 && j == 0) {
+            return memo1301[i][j] = 0;
+        }
+        if (memo1301[i][j] != -1) {
+            return memo1301[i][j];
+        }
+        int res = 0;
+        if (i - 1 >= 0 && vis1301[i - 1][j] > 0) {
+            res = Math.max(res, dfs2_1301(i - 1, j) + boards1301[i][j] - '0');
+        }
+        if (i - 1 >= 0 && j - 1 >= 0 && vis1301[i - 1][j - 1] > 0) {
+            res = Math.max(res, dfs2_1301(i - 1, j - 1) + boards1301[i][j] - '0');
+        }
+        if (j - 1 >= 0 && vis1301[i][j - 1] > 0) {
+            res = Math.max(res, dfs2_1301(i, j - 1) + boards1301[i][j] - '0');
+        }
+        return memo1301[i][j] = res;
+    }
+
+    private int dfs_1301(int i, int j) {
+        if (i < 0 || j < 0) {
+            return -1;
+        }
+        if (boards1301[i][j] == 'X') {
+            return vis1301[i][j] = -1;
+        }
+        if (i == 0 && j == 0) {
+            return vis1301[i][j] = 1;
+        }
+        if (vis1301[i][j] != 0) {
+            return vis1301[i][j];
+        }
+        int res1 = dfs_1301(i - 1, j);
+        int res2 = dfs_1301(i - 1, j - 1);
+        int res3 = dfs_1301(i, j - 1);
+        if (res1 == 1 || res2 == 1 || res3 == 1) {
+            return vis1301[i][j] = 1;
+        }
+        return vis1301[i][j] = -1;
+    }
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
@@ -7531,85 +7625,6 @@ public class Leetcode_6 {
     // }
     // return false;
 
-    // }
-
-    // 1301. 最大得分的路径数目 (Number of Paths with Max Score)
-    // private int n;
-    // private List<String> board;
-    // private int[][] memo;
-    // private int maxSum;
-
-    // public int[] pathsWithMaxScore(List<String> board) {
-    // this.n = board.size();
-    // this.board = board;
-    // this.memo = new int[n][n];
-    // for (int i = 0; i < n; ++i) {
-    // Arrays.fill(memo[i], -1);
-    // }
-    // dfs(n - 1, n - 1, 0);
-    // if (maxSum == 0) {
-    // return new int[] { 0, 0 };
-    // }
-    // for (int i = 0; i < n; ++i) {
-    // Arrays.fill(memo[i], -1);
-    // }
-    // return new int[] { maxSum, dfs2(n - 1, n - 1, maxSum) };
-
-    // }
-
-    // private int dfs2(int i, int j, int sum) {
-    // if (i < 0 || j < 0 || board.get(i).charAt(j) == 'X') {
-    // return 0;
-    // }
-    // if (i == 0 && j == 0) {
-    // if (sum == 0) {
-    // return 1;
-    // }
-    // return 0;
-    // }
-    // if (memo[i][j] != -1) {
-    // return memo[i][j];
-    // }
-
-    // int cur = 0;
-    // final int MOD = (int) (1e9 + 7);
-    // if (i == n - 1 && j == n - 1) {
-    // cur = (cur + dfs2(i - 1, j - 1, sum)) % MOD;
-    // cur = (cur + dfs2(i - 1, j, sum)) % MOD;
-    // cur = (cur + dfs2(i, j - 1, sum)) % MOD;
-    // return cur;
-    // }
-    // cur = sum - (board.get(i).charAt(j) - '0');
-    // int count = 0;
-    // count = (count + dfs2(i - 1, j, cur)) % MOD;
-    // count = (count + dfs2(i, j - 1, cur)) % MOD;
-    // count = (count + dfs2(i - 1, j - 1, cur)) % MOD;
-    // return memo[i][j] = count;
-    // }
-
-    // private int dfs(int i, int j, int sum) {
-    // if (i == n - 1 && j == n - 1) {
-    // return Math.max(dfs(i - 1, j - 1, sum), Math.max(dfs(i - 1, j, sum), dfs(i, j
-    // - 1, sum)));
-    // }
-    // if (i < 0 || j < 0 || board.get(i).charAt(j) == 'X') {
-    // return 0;
-    // }
-
-    // if (i == 0 && j == 0) {
-    // maxSum = Math.max(maxSum, sum);
-    // return maxSum;
-    // }
-
-    // int cur = board.get(i).charAt(j) - '0' + sum;
-    // if (memo[i][j] >= cur) {
-    // return 0;
-    // }
-    // int max = 0;
-    // max = Math.max(max, dfs(i - 1, j, cur));
-    // max = Math.max(max, dfs(i, j - 1, cur));
-    // max = Math.max(max, dfs(i - 1, j - 1, cur));
-    // return memo[i][j] = max;
     // }
 
 }
