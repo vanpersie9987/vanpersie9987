@@ -4248,9 +4248,52 @@ public class Leetcode_5 {
         return res;
 
     }
+    
+    // 2435. 矩阵中和能被 K 整除的路径 (Paths in Matrix Whose Sum Is Divisible by K)
+    private int[][][] memo2435;
+    private int m2435;
+    private int n2435;
+    private int k2435;
+    private int[][] grid2435;
+
+    public int numberOfPaths(int[][] grid, int k) {
+        this.m2435 = grid.length;
+        this.n2435 = grid[0].length;
+        this.k2435 = k;
+        memo2435 = new int[m2435][n2435][k];
+        this.grid2435 = grid;
+        for (int i = 0; i < m2435; ++i) {
+            for (int j = 0; j < n2435; ++j) {
+                Arrays.fill(memo2435[i][j], -1);
+            }
+        }
+        return dfs2435(0, 0, 0);
+
+    }
+
+    private int dfs2435(int i, int j, int mod) {
+        if (i >= m2435 || j >= n2435) {
+            return 0;
+        }
+        mod = (mod + grid2435[i][j]) % k2435;
+        if (i == m2435 - 1 && j == n2435 - 1) {
+            if (mod == 0) {
+                return 1;
+            }
+            return 0;
+        }
+        if (memo2435[i][j][mod] != -1) {
+            return memo2435[i][j][mod];
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        res = (res + dfs2435(i + 1, j, mod)) % MOD;
+        res = (res + dfs2435(i, j + 1, mod)) % MOD;
+        return memo2435[i][j][mod] = res;
+    }
 
     // 6203. 矩阵中和能被 K 整除的路径
-    public int numberOfPaths(int[][] grid, int k) {
+    public int numberOfPaths2(int[][] grid, int k) {
         final int mod = (int) (1e9 + 7);
         int m = grid.length;
         int n = grid[0].length;
