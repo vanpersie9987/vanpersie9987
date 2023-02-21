@@ -602,21 +602,23 @@ public class LeetCodeText {
 
     }
 
-    // 45
-    public int jump(int[] nums) {
-        int step = 0;
-        int maxPosition = 0;
-        int end = 0;
-        for (int i = 0; i < nums.length - 1; ++i) {
-            maxPosition = Math.max(maxPosition, i + nums[i]);
-            if (i == end) {
-                end = maxPosition;
-                ++step;
+    // 45. 跳跃游戏 II (Jump Game II)
+    public int jump2(int[] nums) {
+        int n = nums.length;
+        int right = 0;
+        int cur = 0;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            right = Math.max(right, i + nums[i]);
+            if (cur >= n - 1) {
+                return res;
             }
-
+            if (cur == i) {
+                cur = right;
+                ++res;
+            }
         }
-        return step;
-
+        return -1;
     }
 
     // 1748. 唯一元素的和 (Sum of Unique Elements)
