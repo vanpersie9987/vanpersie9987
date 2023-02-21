@@ -7424,7 +7424,7 @@ public class Leetcode_6 {
         for (int i = 0; i < n1301; ++i) {
             for (int j = 0; j < n1301; ++j) {
                 Arrays.fill(memo2_1301[i][j], -1);
-            }        
+            }
         }
         int ways = dfs3_1301(n1301 - 1, n1301 - 1, max);
         return new int[] { max, ways };
@@ -7488,6 +7488,34 @@ public class Leetcode_6 {
             return vis1301[i][j] = 1;
         }
         return vis1301[i][j] = -1;
+    }
+
+    // 1326. 灌溉花园的最少水龙头数目 (Minimum Number of Taps to Open to Water a Garden)
+    public int minTaps(int n, int[] ranges) {
+        int[] rightMost = new int[n + 1];
+        for (int i = 0; i <= n; ++i) {
+            int r = ranges[i];
+            if (i - r > 0) {
+                rightMost[i - r] = i + r;
+            } else {
+                rightMost[0] = Math.max(rightMost[0], i + r);
+            }
+        }
+        int res = 0;
+        int cur = 0;
+        int right = 0;
+        for (int i = 0; i < n; ++i) {
+            right = Math.max(right, rightMost[i]);
+            if (i == cur) {
+                cur = right;
+                ++res;
+            }
+        }
+        if (cur >= n) {
+            return res;
+        }
+        return -1;
+
     }
 
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
