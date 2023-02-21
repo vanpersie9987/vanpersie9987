@@ -7230,7 +7230,7 @@ public class Leetcode_6 {
     private int n1463;
     private int[][] grid1463;
 
-    public int cherryPickup(int[][] grid) {
+    public int cherryPickupⅡ(int[][] grid) {
         this.m1463 = grid.length;
         this.n1463 = grid[0].length;
         this.grid1463 = grid;
@@ -7519,6 +7519,51 @@ public class Leetcode_6 {
 
     }
 
+    // 741. 摘樱桃 (Cherry Pickup)
+    private int n741;
+    private int[][][] memo741;
+    private int[][] grid741;
+
+    public int cherryPickup(int[][] grid) {
+        this.n741 = grid.length;
+        this.grid741 = grid;
+        memo741 = new int[n741][n741][2 * n741 - 1];
+        for (int i = 0; i < n741; ++i) {
+            for (int j = 0; j < n741; ++j) {
+                Arrays.fill(memo741[i][j], -1);
+            }
+        }
+        return Math.max(dfs741(n741 - 1, n741 - 1, 2 * n741 - 2), 0);
+    }
+
+    // c1 = k - r1
+    // c2 = k - r2
+    private int dfs741(int r1, int r2, int k) {
+        if (r1 < 0 || r2 < 0 || k < 0 || k - r1 < 0 || k - r2 < 0) {
+            return Integer.MIN_VALUE;
+        }
+        if (grid741[r1][k - r1] == -1 || grid741[r2][k - r2] == -1) {
+            return Integer.MIN_VALUE;
+        }
+        if (k == 0) {
+            return memo741[0][0][0] = grid741[0][0];
+        }
+        if (memo741[r1][r2][k] != -1) {
+            return memo741[r1][r2][k];
+        }
+        int res = grid741[r1][k - r1];
+        if (r1 != r2) {
+            res += grid741[r2][k - r2];
+        }
+        int max = Integer.MIN_VALUE;
+        max = Math.max(max, dfs741(r1 - 1, r2, k - 1));
+        max = Math.max(max, dfs741(r1, r2 - 1, k - 1));
+        max = Math.max(max, dfs741(r1 - 1, r2 - 1, k - 1));
+        max = Math.max(max, dfs741(r1, r2, k - 1));
+        return memo741[r1][r2][k] = max + res;
+    }
+
+
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
 
@@ -7622,11 +7667,6 @@ public class Leetcode_6 {
 
     // 1340. 跳跃游戏 V (Jump Game V)
     // public int maxJumps(int[] arr, int d) {
-
-    // }
-
-    // 741. 摘樱桃 (Cherry Pickup)
-    // public int cherryPickup(int[][] grid) {
 
     // }
 
