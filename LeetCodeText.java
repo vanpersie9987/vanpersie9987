@@ -572,7 +572,7 @@ public class LeetCodeText {
 
     }
 
-    // 55. 跳跃游戏
+    // 55. 跳跃游戏 (Jump Game)
     public boolean canJump(final int[] nums) {
         int lastPos = nums.length - 1;
         for (int i = nums.length - 2; i >= 0; --i) {
@@ -581,6 +581,24 @@ public class LeetCodeText {
             }
         }
         return lastPos == 0;
+
+    }
+
+    // 55. 跳跃游戏 (Jump Game)
+    public boolean canJump2(int[] nums) {
+        int right = 0;
+        int cur = 0;
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            right = Math.max(right, i + nums[i]);
+            if (i == cur) {
+                cur = right;
+            }
+            if (cur >= n - 1) {
+                return true;
+            }
+        }
+        return false;
 
     }
 

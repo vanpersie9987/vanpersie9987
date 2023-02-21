@@ -7491,6 +7491,7 @@ public class Leetcode_6 {
     }
 
     // 1326. 灌溉花园的最少水龙头数目 (Minimum Number of Taps to Open to Water a Garden)
+    // 相似题目：55. 跳跃游戏 // 45. 跳跃游戏 II // 1024. 视频拼接
     public int minTaps(int n, int[] ranges) {
         int[] rightMost = new int[n + 1];
         for (int i = 0; i <= n; ++i) {
