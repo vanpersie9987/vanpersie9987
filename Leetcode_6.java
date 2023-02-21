@@ -7563,6 +7563,30 @@ public class Leetcode_6 {
         return memo741[r1][r2][k] = max + res;
     }
 
+    // LCP 40. 心算挑战
+    public int maxmiumScore(int[] cards, int cnt) {
+        Arrays.sort(cards);
+        List<Integer> odds = new ArrayList<>();
+        odds.add(0);
+        List<Integer> evens = new ArrayList<>();
+        evens.add(0);
+        for (int i = cards.length - 1; i >= 0; --i) {
+            if ((cards[i] & 1) == 0) {
+                evens.add(evens.get(evens.size() - 1) + cards[i]);
+            } else {
+                odds.add(odds.get(odds.size() - 1) + cards[i]);
+            }
+        }
+        int res = 0;
+        for (int k = 0; k <= odds.size() - 1; k += 2) {
+            if (cnt - k >= 0 && cnt - k <= evens.size() - 1) {
+                res = Math.max(res, evens.get(cnt - k) + odds.get(k));
+            }
+        }
+        return res;
+
+    }
+
 
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
