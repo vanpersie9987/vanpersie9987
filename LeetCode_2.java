@@ -8339,6 +8339,31 @@ public class LeetCode_2 {
 
    }
 
+   // 1024. 视频拼接 (Video Stitching) --贪心
+   public int videoStitching3(int[][] clips, int time) {
+      int[] rightMost = new int[time + 1];
+      for (int[] clip : clips) {
+         if (clip[0] <= time) {
+            rightMost[clip[0]] = Math.max(rightMost[clip[0]], clip[1]);
+         }
+      }
+      int res = 0;
+      int right = 0;
+      int cur = 0;
+      for (int i = 0; i <= time; ++i) {
+         right = Math.max(right, rightMost[i]);
+         if (cur >= time) {
+            return res;
+         }
+         if (cur == i) {
+            ++res;
+            cur = right;
+         }
+      }
+      return -1;
+
+   }
+
    // 1262. 可被三整除的最大和 (Greatest Sum Divisible by Three)
    public int maxSumDivThree(int[] nums) {
       int[] reminder = new int[3];

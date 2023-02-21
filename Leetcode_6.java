@@ -7321,7 +7321,7 @@ public class Leetcode_6 {
         return max1 - min1;
 
     }
-    
+
     // 2567. 修改两个元素的最小分数 (Minimum Score by Changing Two Elements)
     public int minimizeSum(int[] nums) {
         int n = nums.length;
@@ -7346,7 +7346,7 @@ public class Leetcode_6 {
         return mask & -mask;
 
     }
-    
+
     // 2570. 合并两个二维数组 - 求和法 (Merge Two 2D Arrays by Summing Values)
     public int[][] mergeArrays(int[][] nums1, int[][] nums2) {
         int i = 0;
@@ -7373,7 +7373,7 @@ public class Leetcode_6 {
         }
         return res.toArray(new int[res.size()][]);
     }
-    
+
     // 2571. 将整数减少到零需要的最少操作数 (Minimum Operations to Reduce an Integer to 0)
     private Map<Integer, Integer> memo2571;
 
@@ -7412,7 +7412,7 @@ public class Leetcode_6 {
             for (int j = 0; j < n1301; ++j) {
                 boards1301[i][j] = board.get(i).charAt(j);
                 memo1301[i][j] = -1;
-           
+
             }
         }
         boards1301[0][0] = boards1301[n1301 - 1][n1301 - 1] = '0';
@@ -7655,5 +7655,4 @@ public class Leetcode_6 {
     // return false;
 
     // }
-
 }
