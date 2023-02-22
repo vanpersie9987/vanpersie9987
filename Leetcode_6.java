@@ -7587,6 +7587,37 @@ public class Leetcode_6 {
 
     }
 
+    // 1140. 石子游戏 II (Stone Game II)
+    private int[][] memo1140;
+    private int[] piles1140;
+
+    public int stoneGameII(int[] piles) {
+        this.piles1140 = piles;
+        int n = piles.length;
+        for (int i = n - 2; i >= 0; --i) {
+            piles[i] += piles[i + 1];
+        }
+        memo1140 = new int[n - 1][n];
+        for (int i = 0; i < n - 1; ++i) {
+            Arrays.fill(memo1140[i], -1);
+        }
+        return dfs1140(0, 1);
+    }
+
+    private int dfs1140(int i, int m) {
+        if (i + 2 * m >= piles1140.length) {
+            return piles1140[i];
+        }
+        if (memo1140[i][m] != -1) {
+            return memo1140[i][m];
+        }
+        int min = Integer.MAX_VALUE;
+        for (int j = 1; j <= 2 * m; ++j) {
+            min = Math.min(min, dfs1140(i + j, Math.max(j, m)));
+        }
+        return memo1140[i][m] = piles1140[i] - min;
+    }
+
 
     // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
     // public int waysToSplit(int[] nums) {
