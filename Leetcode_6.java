@@ -7683,24 +7683,24 @@ public class Leetcode_6 {
     }
 
     // LCP 52. 二叉搜索树染色
-    private List<Integer> list;
+    private List<Integer> listLCP_52;
     public int getNumber(TreeNode root, int[][] ops) {
-        list = new ArrayList<>();
+        listLCP_52 = new ArrayList<>();
         dfs_LCP52(root);
         int res = 0;
         for (int i = ops.length - 1; i >= 0; --i) {
             int type = ops[i][0];
             int left = ops[i][1];
             int right = ops[i][2];
-            List<Integer> temp = new ArrayList<>(list);
+            List<Integer> temp = new ArrayList<>(listLCP_52);
             int index1 = binarySearchLCP52_1(left);
             int index2 = binarySearchLCP52_2(right);
             if (index1 != -1 && index2 != -1) {
                 if (type == 1) {
                     res += index2 - index1 + 1;
                 }
-                list = temp.subList(0, index1);
-                list.addAll(temp.subList(index2 + 1, temp.size()));
+                listLCP_52 = temp.subList(0, index1);
+                listLCP_52.addAll(temp.subList(index2 + 1, temp.size()));
             }
         }
         return res;
@@ -7708,14 +7708,14 @@ public class Leetcode_6 {
 
     // <= target 的最大索引
     private int binarySearchLCP52_2(int target) {
-        if (list.isEmpty()) {
+        if (listLCP_52.isEmpty()) {
             return -1;
         }
-        int n = list.size();
-        if (target < list.get(0)) {
+        int n = listLCP_52.size();
+        if (target < listLCP_52.get(0)) {
             return -1;
         }
-        if (list.get(n - 1) <= target) {
+        if (listLCP_52.get(n - 1) <= target) {
             return n - 1;
         }
         int left = 0;
@@ -7723,7 +7723,7 @@ public class Leetcode_6 {
         int res = -1;
         while (left <= right) {
             int mid = left + ((right - left) >>> 1);
-            if (list.get(mid) <= target) {
+            if (listLCP_52.get(mid) <= target) {
                 res = mid;
                 left = mid + 1;   
             } else {
@@ -7735,14 +7735,14 @@ public class Leetcode_6 {
 
     // >= target 的最小索引
     private int binarySearchLCP52_1(int target) {
-        if (list.isEmpty()) {
+        if (listLCP_52.isEmpty()) {
             return -1;
         }
-        int n = list.size();
-        if (list.get(0) >= target) {
+        int n = listLCP_52.size();
+        if (listLCP_52.get(0) >= target) {
             return 0;
         }
-        if (target > list.get(n - 1)) {
+        if (target > listLCP_52.get(n - 1)) {
             return -1;
         }
         int left = 0;
@@ -7750,7 +7750,7 @@ public class Leetcode_6 {
         int res = -1;
         while (left <= right) {
             int mid = left + ((right - left) >>> 1);
-            if (list.get(mid) >= target) {
+            if (listLCP_52.get(mid) >= target) {
                 res = mid;
                 right = mid - 1;
             } else {
@@ -7766,7 +7766,7 @@ public class Leetcode_6 {
             return;
         }
         dfs_LCP52(root.left);
-        list.add(root.val);
+        listLCP_52.add(root.val);
         dfs_LCP52(root.right);
     }
 
