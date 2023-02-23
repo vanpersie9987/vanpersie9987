@@ -7683,29 +7683,92 @@ public class Leetcode_6 {
     }
 
     // LCP 52. 二叉搜索树染色
-    // public int getNumber(TreeNode root, int[][] ops) {
-    // TreeSet<Integer> set = new TreeSet<>();
-    // dfs_LCP52(root, set);
-    // for (int i = ops.length - 1; i >= 0; --i) {
-    // int color = ops[i][0];
-    // int left = ops[i][1];
-    // int right = ops[i][2];
-    // while (true) {
+    private List<Integer> list;
+    public int getNumber(TreeNode root, int[][] ops) {
+        list = new ArrayList<>();
+        dfs_LCP52(root);
+        int res = 0;
+        for (int i = ops.length - 1; i >= 0; --i) {
+            int type = ops[i][0];
+            int left = ops[i][1];
+            int right = ops[i][2];
+            List<Integer> temp = new ArrayList<>(list);
+            int index1 = binarySearchLCP52_1(left);
+            int index2 = binarySearchLCP52_2(right);
+            if (index1 != -1 && index2 != -1) {
+                if (type == 1) {
+                    res += index2 - index1 + 1;
+                }
+                list = temp.subList(0, index1);
+                list.addAll(temp.subList(index2 + 1, temp.size()));
+            }
+        }
+        return res;
+    }
 
-    // }
+    // <= target 的最大索引
+    private int binarySearchLCP52_2(int target) {
+        if (list.isEmpty()) {
+            return -1;
+        }
+        int n = list.size();
+        if (target < list.get(0)) {
+            return -1;
+        }
+        if (list.get(n - 1) <= target) {
+            return n - 1;
+        }
+        int left = 0;
+        int right = n - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (list.get(mid) <= target) {
+                res = mid;
+                left = mid + 1;   
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
 
-    // }
+    // >= target 的最小索引
+    private int binarySearchLCP52_1(int target) {
+        if (list.isEmpty()) {
+            return -1;
+        }
+        int n = list.size();
+        if (list.get(0) >= target) {
+            return 0;
+        }
+        if (target > list.get(n - 1)) {
+            return -1;
+        }
+        int left = 0;
+        int right = n - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (list.get(mid) >= target) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
 
-    // }
+    }
 
-    // private void dfs_LCP52(TreeNode root, TreeSet<Integer> set) {
-    // if (root == null) {
-    // return;
-    // }
-    // dfs_LCP52(root.left, set);
-    // set.add(root.val);
-    // dfs_LCP52(root.right, set);
-    // }
+    private void dfs_LCP52(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        dfs_LCP52(root.left);
+        list.add(root.val);
+        dfs_LCP52(root.right);
+    }
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
