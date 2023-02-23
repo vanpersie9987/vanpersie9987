@@ -8667,35 +8667,35 @@ public class Leetcode_5 {
 
     // 2400. 恰好移动 k 步到达某一位置的方法数目 (Number of Ways to Reach a Position After Exactly k
     // Steps)
-    private Map<Integer, Integer> memo2400;
-
-    private static final int MOD2400 = (int) (1e9 + 7);
+    private int endPos2400;
+    private int[][] memo2400;
 
     public int numberOfWays(int startPos, int endPos, int k) {
-        memo2400 = new HashMap<>();
-        return dfs2400(startPos, endPos, k);
+        this.endPos2400 = endPos + 1000;
+        startPos += 1000;
+        memo2400 = new int[Math.max(startPos, this.endPos2400) + k / 2 + 1][k + 1];
+        for (int i = 0; i < Math.max(startPos, this.endPos2400) + k / 2 + 1; ++i) {
+            Arrays.fill(memo2400[i], -1);
+        }
+        return dfs2400(startPos, k);
 
     }
 
-    private int dfs2400(int startPos, int endPos, int k) {
-        if (Math.abs(startPos - endPos) > k) {
+    private int dfs2400(int startPos, int k) {
+        if (Math.abs(startPos - endPos2400) > k) {
             return 0;
         }
         if (k == 0) {
-            return startPos == endPos ? 1 : 0;
+            return startPos == endPos2400 ? 1 : 0;
         }
-        if (memo2400.containsKey(trans2400(k, startPos))) {
-            return memo2400.get(trans2400(k, startPos));
+        if (memo2400[startPos][k] != -1) {
+            return memo2400[startPos][k];
         }
-        long res = 0l;
-        res = (res + dfs2400(startPos + 1, endPos, k - 1)) % MOD2400;
-        res = (res + dfs2400(startPos - 1, endPos, k - 1)) % MOD2400;
-        memo2400.put(trans2400(k, startPos), (int) (res % MOD2400));
-        return (int) (res % MOD2400);
-    }
-
-    private int trans2400(int k, int startPos) {
-        return k * 1000 + startPos + 1000;
+        final int MOD = (int) (1e9 + 7);
+        int res = 0;
+        res = (res + dfs2400(startPos - 1, k - 1)) % MOD;
+        res = (res + dfs2400(startPos + 1, k - 1)) % MOD;
+        return memo2400[startPos][k] = res;
     }
 
     // 1540. K 次操作转变字符串 (Can Convert String in K Moves)
