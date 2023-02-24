@@ -7216,30 +7216,13 @@ public class LeetCode_4 {
         }
     }
 
-    // 6132. 使数组中所有元素都等于零
+    // 2357. 使数组中所有元素都等于零 (Make Array Zero by Subtracting Equal Amounts)
     public int minimumOperations(int[] nums) {
-        int res = 0;
-        int n = nums.length;
-        int[] zero = new int[n];
-
-        while (true) {
-            if (Arrays.equals(zero, nums)) {
-                break;
-            }
-            ++res;
-            int min = Integer.MAX_VALUE;
-            for (int num : nums) {
-                if (num != 0 && num < min) {
-                    min = num;
-                }
-            }
-            for (int i = 0; i < n; ++i) {
-                if (nums[i] != 0) {
-                    nums[i] -= min;
-                }
-            }
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
         }
-        return res;
+        return set.size() - (set.contains(0) ? 1 : 0);
 
     }
 
