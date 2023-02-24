@@ -7813,6 +7813,48 @@ public class Leetcode_6 {
         return false;
     }
 
+    // 132. 分割回文串 II (Palindrome Partitioning II)
+    // 剑指 Offer II 094. 最少回文分割
+    private boolean[][] isPalindromes132;
+    private int n132;
+    private int[] memo132;
+
+    public int minCut(String s) {
+        this.n132 = s.length();
+        isPalindromes132 = new boolean[n132][n132];
+        for (int i = n132 - 1; i >= 0; --i) {
+            for (int j = i; j < n132; ++j) {
+                if (s.charAt(i) == s.charAt(j) && (j - i < 2 || isPalindromes132[i + 1][j - 1])) {
+                    isPalindromes132[i][j] = true;
+                }
+            }
+        }
+        memo132 = new int[n132];
+        Arrays.fill(memo132, -1);
+        return dfs(0);
+
+    }
+
+    private int dfs(int i) {
+        if (i >= n132 - 1) {
+            return 0;
+        }
+        if (isPalindromes132[i][n132 - 1]) {
+            return 0;
+        }
+        if (memo132[i] != -1) {
+            return memo132[i];
+        }
+        
+        int cur = n132;
+        for (int j = i; j < n132; ++j) {
+            if (isPalindromes132[i][j]) {
+                cur = Math.min(cur, dfs(j + 1) + 1);
+            }
+        }
+        return memo132[i] = cur;
+    }
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
@@ -7857,5 +7899,58 @@ public class Leetcode_6 {
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
 
+    // }
+
+    // 2472. 不重叠回文子字符串的最大数目 (Maximum Number of Non-overlapping Palindrome
+    // Substrings)
+    // private boolean[][] isPalindromes;
+    // private String s;
+    // private int[] memo;
+    // private int k;
+
+    // public int maxPalindromes(String s, int k) {
+    // int n = s.length();
+    // this.s = s;
+    // this.k = k;
+    // isPalindromes = new boolean[n][n];
+    // for (int i = 0; i < n; ++i) {
+    // for (int j = i + k - 1; j < n; ++j) {
+    // isPalindromes[i][j] = check(i, j);
+    // }
+    // }
+    // memo = new int[n];
+    // Arrays.fill(memo, -1);
+    // return dfs(0);
+
+    // }
+
+    // private int dfs(int i) {
+    // if (memo[i] != -1) {
+    // return memo[i];
+    // }
+    // int max = 0;
+    // int j = i + k - 1;
+    // while (j < s.length()) {
+    // if (isPalindromes[i][j]) {
+    // int r = s.length() - 1;
+    // while (r >= j + 1) {
+    // max = Math.max(max, dfs(r) + 1);
+    // --r;
+    // }
+    // }
+    // ++j;
+    // }
+    // return memo[i] = max;
+    // }
+
+    // private boolean check(int i, int j) {
+    // while (i < j) {
+    // if (s.charAt(i) != s.charAt(j)) {
+    // return false;
+    // }
+    // ++i;
+    // --j;
+    // }
+    // return true;
     // }
 }
