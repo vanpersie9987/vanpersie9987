@@ -7770,6 +7770,51 @@ public class Leetcode_6 {
         dfs_LCP52(root.right);
     }
 
+    // 403. 青蛙过河 (Frog Jump)
+    private int[][] memo403;
+    private int[] stones403;
+    private Map<Integer, Integer> map403;
+
+    public boolean canCross(int[] stones) {
+        if (stones[1] != 1) {
+            return false;
+        }
+        int n = stones.length;
+        map403 = new HashMap<>();
+        memo403 = new int[n][n + 1];
+        this.stones403 = stones;
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo403[i], -1);
+            map403.put(stones[i], i);
+        }
+        return dfs403(1, 1);
+
+    }
+
+    private boolean dfs403(int i, int k) {
+        if (i >= stones403.length) {
+            return false;
+        }
+        if (i == stones403.length - 1) {
+            return true;
+        }
+        if (memo403[i][k] != -1) {
+            return memo403[i][k] > 0;
+        }
+        int step = Math.max(1, k - 1);
+        while (step <= k + 1) {
+            if (map403.containsKey(stones403[i] + step)) {
+                if (dfs403(map403.get(stones403[i] + step), step)) {
+                    memo403[i][k] = 1;
+                    return true;
+                }
+            }
+            ++step;
+        }
+        memo403[i][k] = 0;
+        return false;
+    }
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
