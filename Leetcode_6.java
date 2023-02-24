@@ -7855,6 +7855,57 @@ public class Leetcode_6 {
         return memo132[i] = cur;
     }
 
+    // 2472. 不重叠回文子字符串的最大数目 (Maximum Number of Non-overlapping Palindrome
+    // Substrings)
+    private boolean[][] isPalindromes2472;
+    private String s2472;
+    private int[] memo2472;
+    private int k2472;
+
+    public int maxPalindromes(String s, int k) {
+        int n = s.length();
+        this.s2472 = s;
+        this.k2472 = k;
+        isPalindromes2472 = new boolean[n][n];
+        for (int i = n - 1; i >= 0; --i) {
+            for (int j = i; j < n; ++j) {
+                if (s.charAt(i) == s.charAt(j) && (j - i < 2 || isPalindromes2472[i + 1][j - 1])) {
+                    isPalindromes2472[i][j] = true;
+                }
+            }
+        }
+        memo2472 = new int[n];
+        Arrays.fill(memo2472, -1);
+        int res = 0;
+        for (int i = n - 1; i >= 0; --i) {
+            memo2472[i] = Math.max(memo2472[i], dfs2472(i));
+            if (i + 1 < n) {
+                memo2472[i] = Math.max(memo2472[i], memo2472[i + 1]);
+            }
+            res = Math.max(memo2472[i], res);
+        }
+        return res;
+
+    }
+
+    private int dfs2472(int i) {
+        if (i + k2472 - 1 >= s2472.length()) {
+            return 0;
+        }
+        if (memo2472[i] != -1) {
+            return memo2472[i];
+        }
+        int max = 0;
+        int j = i + k2472 - 1;
+        while (j < s2472.length()) {
+            if (isPalindromes2472[i][j]) {
+                max = Math.max(max, dfs2472(j + 1) + 1);
+            }
+            ++j;
+        }
+        return memo2472[i] = max;
+    }
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
@@ -7899,58 +7950,5 @@ public class Leetcode_6 {
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
 
-    // }
-
-    // 2472. 不重叠回文子字符串的最大数目 (Maximum Number of Non-overlapping Palindrome
-    // Substrings)
-    // private boolean[][] isPalindromes;
-    // private String s;
-    // private int[] memo;
-    // private int k;
-
-    // public int maxPalindromes(String s, int k) {
-    // int n = s.length();
-    // this.s = s;
-    // this.k = k;
-    // isPalindromes = new boolean[n][n];
-    // for (int i = 0; i < n; ++i) {
-    // for (int j = i + k - 1; j < n; ++j) {
-    // isPalindromes[i][j] = check(i, j);
-    // }
-    // }
-    // memo = new int[n];
-    // Arrays.fill(memo, -1);
-    // return dfs(0);
-
-    // }
-
-    // private int dfs(int i) {
-    // if (memo[i] != -1) {
-    // return memo[i];
-    // }
-    // int max = 0;
-    // int j = i + k - 1;
-    // while (j < s.length()) {
-    // if (isPalindromes[i][j]) {
-    // int r = s.length() - 1;
-    // while (r >= j + 1) {
-    // max = Math.max(max, dfs(r) + 1);
-    // --r;
-    // }
-    // }
-    // ++j;
-    // }
-    // return memo[i] = max;
-    // }
-
-    // private boolean check(int i, int j) {
-    // while (i < j) {
-    // if (s.charAt(i) != s.charAt(j)) {
-    // return false;
-    // }
-    // ++i;
-    // --j;
-    // }
-    // return true;
     // }
 }
