@@ -7803,11 +7803,9 @@ public class Leetcode_6 {
         }
         int step = Math.max(1, k - 1);
         while (step <= k + 1) {
-            if (map403.containsKey(stones403[i] + step)) {
-                if (dfs403(map403.get(stones403[i] + step), step)) {
-                    memo403[i][k] = 1;
-                    return true;
-                }
+            if (dfs403(map403.getOrDefault(stones403[i] + step, stones403.length), step)) {
+                memo403[i][k] = 1;
+                return true;
             }
             ++step;
         }
