@@ -7831,11 +7831,11 @@ public class Leetcode_6 {
         }
         memo132 = new int[n132];
         Arrays.fill(memo132, -1);
-        return dfs(0);
+        return dfs132(0);
 
     }
 
-    private int dfs(int i) {
+    private int dfs132(int i) {
         if (i >= n132 - 1) {
             return 0;
         }
@@ -7849,7 +7849,7 @@ public class Leetcode_6 {
         int cur = n132;
         for (int j = i; j < n132; ++j) {
             if (isPalindromes132[i][j]) {
-                cur = Math.min(cur, dfs(j + 1) + 1);
+                cur = Math.min(cur, dfs132(j + 1) + 1);
             }
         }
         return memo132[i] = cur;
