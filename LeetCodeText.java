@@ -6699,13 +6699,10 @@ public class LeetCodeText {
     }
 
     private int dfs72(int i, int j) {
-        if (i < 0 || j < 0) {
-            if (i < 0 && j < 0) {
-                return 0;
-            }
-            if (i < 0) {
-                return j + 1;
-            }
+        if (i < 0) {
+            return j + 1;
+        }
+        if (j < 0) {
             return i + 1;
         }
         if (memo72[i][j] != -1) {
