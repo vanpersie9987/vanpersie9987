@@ -8076,4 +8076,9 @@ public class Leetcode_6 {
     // return memo[i][lastColor][target1473] = min;
     // }
 
+    // 638. 大礼包 (Shopping Offers)
+    // public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
+
+    // }
+
 }

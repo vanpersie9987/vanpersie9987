@@ -3888,9 +3888,42 @@ public class LeetCode_4 {
         return memo2328[i][j];
     }
 
+    // 1143. 最长公共子序列 (Longest Common Subsequence) --记忆化搜索
+    // 剑指 Offer II 095. 最长公共子序列
+    private int[][] memo1143;
+    private String text1_1143;
+    private String text2_1143;
+
+    public int longestCommonSubsequence(String text1, String text2) {
+        int m = text1.length();
+        int n = text2.length();
+        memo1143 = new int[m][n];
+        this.text1_1143 = text1;
+        this.text2_1143 = text2;
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(memo1143[i], -1);
+        }
+        return dfs1143(m - 1, n - 1);
+
+    }
+
+    private int dfs1143(int i, int j) {
+        if (i < 0 || j < 0) {
+            return 0;
+        }
+        if (memo1143[i][j] != -1) {
+            return memo1143[i][j];
+        }
+        int max = 0;
+        max = Math.max(max, dfs1143(i - 1, j));
+        max = Math.max(max, dfs1143(i, j - 1));
+        max = Math.max(max, dfs1143(i - 1, j - 1) + (text1_1143.charAt(i) == text2_1143.charAt(j) ? 1 : 0));
+        return memo1143[i][j] = max;
+    }
+
     // 1143. 最长公共子序列 (Longest Common Subsequence) --二维dp
     // 剑指 Offer II 095. 最长公共子序列
-    public int longestCommonSubsequence(String text1, String text2) {
+    public int longestCommonSubsequence2(String text1, String text2) {
         int m = text1.length();
         int n = text2.length();
         int[][] dp = new int[m + 1][n + 1];
@@ -3910,7 +3943,7 @@ public class LeetCode_4 {
 
     // 1143. 最长公共子序列 (Longest Common Subsequence) --一维dp
     // 剑指 Offer II 095. 最长公共子序列
-    public int longestCommonSubsequence2(String text1, String text2) {
+    public int longestCommonSubsequence3(String text1, String text2) {
         int m = text1.length();
         int n = text2.length();
         int[][] dp = new int[2][n + 1];
