@@ -18729,18 +18729,15 @@ public class LeetCodeText {
 
     // 1247. 交换字符使得字符串相同 (Minimum Swaps to Make Strings Equal)
     public int minimumSwap(String s1, String s2) {
-        int countXY = 0;
-        int countYX = 0;
-        for (int i = 0; i < s1.length(); ++i) {
+        int[] counts = new int[2];
+        int n = s1.length();
+        for (int i = 0; i < n; ++i) {
             if (s1.charAt(i) != s2.charAt(i)) {
-                if (s1.charAt(i) == 'x') {
-                    ++countXY;
-                } else {
-                    ++countYX;
-                }
+                ++counts[s1.charAt(i) % 2];
             }
         }
-        return ((countXY + countYX) & 1) == 1 ? -1 : (countXY + 1) / 2 + (countYX + 1) / 2;
+        int d = counts[0] + counts[1];
+        return d % 2 != 0 ? -1 : d / 2 + counts[0] % 2;
     }
 
     // 447. 回旋镖的数量 (Number of Boomerangs)
