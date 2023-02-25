@@ -7950,8 +7950,8 @@ public class Leetcode_6 {
     }
 
     // 312. 戳气球 (Burst Balloons)
-    private int[][] memo;
-    private int[] arr;
+    private int[][] memo312;
+    private int[] arr312;
 
     public int maxCoins(int[] nums) {
         int n = nums.length;
@@ -7960,28 +7960,28 @@ public class Leetcode_6 {
             arr[i + 1] = nums[i];
         }
         arr[0] = arr[n + 1] = 1;
-        this.arr = arr;
-        memo = new int[n + 2][n + 2];
+        this.arr312 = arr;
+        memo312 = new int[n + 2][n + 2];
         for (int i = 0; i < n + 2; ++i) {
-            Arrays.fill(memo[i], -1);
+            Arrays.fill(memo312[i], -1);
         }
-        return dfs(0, n + 1);
+        return dfs312(0, n + 1);
 
     }
 
-    private int dfs(int left, int right) {
+    private int dfs312(int left, int right) {
         if (right - left <= 1) {
             return 0;
         }
-        if (memo[left][right] != -1) {
-            return memo[left][right];
+        if (memo312[left][right] != -1) {
+            return memo312[left][right];
         }
         int max = 0;
         for (int i = left + 1; i < right; ++i) {
-            int sum = arr[left] * arr[i] * arr[right] + dfs(left, i) + dfs(i, right);
+            int sum = arr312[left] * arr312[i] * arr312[right] + dfs312(left, i) + dfs312(i, right);
             max = Math.max(max, sum);
         }
-        return memo[left][right] = max;
+        return memo312[left][right] = max;
     }
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
