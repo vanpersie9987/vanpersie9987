@@ -19106,9 +19106,50 @@ public class LeetCodeText {
 
     }
 
+    // 256. 粉刷房子 (Paint House) --plus 记忆化搜索
+    // 剑指 Offer II 091. 粉刷房子
+    private int[][] memo256;
+    private int[][] costs256;
+
+    public int minCost(int[][] costs) {
+        int n = costs.length;
+        this.costs256 = costs;
+        memo256 = new int[n][3];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo256[i], Integer.MAX_VALUE);
+        }
+        int res = Integer.MAX_VALUE;
+        res = Math.min(res, dfs256(0, 0));
+        res = Math.min(res, dfs256(0, 1));
+        res = Math.min(res, dfs256(0, 2));
+        return res;
+
+    }
+
+    private int dfs256(int i, int type) {
+        if (i == costs256.length - 1) {
+            return costs256[i][type];
+        }
+        if (memo256[i][type] != Integer.MAX_VALUE) {
+            return memo256[i][type];
+        }
+        int min = Integer.MAX_VALUE;
+        if (type == 0) {
+            min = Math.min(costs256[i][type] + dfs256(i + 1, 1), min);
+            min = Math.min(costs256[i][type] + dfs256(i + 1, 2), min);
+        } else if (type == 1) {
+            min = Math.min(costs256[i][type] + dfs256(i + 1, 0), min);
+            min = Math.min(costs256[i][type] + dfs256(i + 1, 2), min);
+        } else {
+            min = Math.min(costs256[i][type] + dfs256(i + 1, 0), min);
+            min = Math.min(costs256[i][type] + dfs256(i + 1, 1), min);
+        }
+        return memo256[i][type] = min;
+    }
+
     // 256. 粉刷房子 (Paint House) --plus dp
     // 剑指 Offer II 091. 粉刷房子
-    public int minCost(int[][] costs) {
+    public int minCost2(int[][] costs) {
         int[][] dp = new int[costs.length][3];
         dp[0][0] = costs[0][0];
         dp[0][1] = costs[0][1];
@@ -19124,7 +19165,7 @@ public class LeetCodeText {
 
     // 256. 粉刷房子 (Paint House) --plus dp
     // 剑指 Offer II 091. 粉刷房子
-    public int minCost2(int[][] costs) {
+    public int minCost3(int[][] costs) {
         int[] dp = costs[0];
         for (int i = 1; i < costs.length; ++i) {
             int[] newDp = new int[3];
