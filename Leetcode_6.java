@@ -22,7 +22,14 @@ public class Leetcode_6 {
         // String[] strs = { "1.500", "2.500", "3.500" };
         // String s = minimizeError(strs, 9);
         // int res = maxValue(4, 2, 6);
-
+        // houses = [0,2,1,2,0], cost = [[1,10],[10,1],[10,1],[1,10],[5,1]], m = 5, n =
+        // 2, target = 3 int[] houses = {}
+        // int[] houses = { 0, 2, 1, 2, 0 };
+        // int[][] cost = { { 1, 10 }, { 10, 1 }, { 10, 1 }, { 1, 10 }, { 5, 1 } };
+        // int m = 5;
+        // int n = 2;
+        // int target = 3;
+        // int res = minCost(houses, cost, m, n, target);
     }
 
     public class ListNode {
@@ -7684,6 +7691,7 @@ public class Leetcode_6 {
 
     // LCP 52. 二叉搜索树染色
     private List<Integer> listLCP_52;
+
     public int getNumber(TreeNode root, int[][] ops) {
         listLCP_52 = new ArrayList<>();
         dfs_LCP52(root);
@@ -7725,7 +7733,7 @@ public class Leetcode_6 {
             int mid = left + ((right - left) >>> 1);
             if (listLCP_52.get(mid) <= target) {
                 res = mid;
-                left = mid + 1;   
+                left = mid + 1;
             } else {
                 right = mid - 1;
             }
@@ -7845,7 +7853,7 @@ public class Leetcode_6 {
         if (memo132[i] != -1) {
             return memo132[i];
         }
-        
+
         int cur = n132;
         for (int j = i; j < n132; ++j) {
             if (isPalindromes132[i][j]) {
@@ -7906,6 +7914,44 @@ public class Leetcode_6 {
         return memo2472[i] = max;
     }
 
+    // 410. 分割数组的最大值 (Split Array Largest Sum)
+    public int splitArray(int[] nums, int k) {
+        int left = Integer.MAX_VALUE;
+        int right = 0;
+        for (int num : nums) {
+            left = Math.min(left, num);
+            right += num;
+        }
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (check410(mid, nums) > k) {
+                left = mid + 1;
+            } else {
+                res = mid;
+                right = mid - 1;
+            }
+        }
+        return res;
+
+    }
+
+    private int check410(int target, int[] nums) {
+        int sum = 0;
+        int count = 0;
+        for (int num : nums) {
+            if (num > target) {
+                return 51;
+            }
+            if (num + sum > target) {
+                sum = 0;
+                ++count;
+            }
+            sum += num;
+        }
+        return count + 1;
+    }
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
@@ -7951,4 +7997,51 @@ public class Leetcode_6 {
     // public int mostBooked(int n, int[][] meetings) {
 
     // }
+
+    // 1473. 粉刷房子 III (Paint House III)
+    // private static int[][][] memo;
+    // private static int m1473;
+    // private static int n1473;
+    // private static int target1473;
+    // private static int[] houses1473;
+    // private static int[][] cost1473;
+
+    // public static int minCost(int[] houses, int[][] cost, int m, int n, int
+    // target) {
+    // // memo[i][j][k]
+    // memo = new int[m][n + 2][target + 1];
+    // m1473 = m;
+    // n1473 = n;
+    // target1473 = target;
+    // cost1473 = cost;
+    // houses1473 = houses;
+    // int res = dfs(0, n + 1, target);
+    // return res == (int) 1e8 ? -1 : res;
+
+    // }
+
+    // private static int dfs(int i, int lastColor, int kinds) {
+    // if (i == m1473 || kinds < 0 || kinds > m1473 - i) {
+    // if (i == m1473 && kinds == 0) {
+    // return 0;
+    // }
+    // return (int) 1e8;
+    // }
+
+    // if (memo[i][lastColor][target1473] != 0) {
+    // return memo[i][lastColor][target1473];
+    // }
+    // int min = (int) 1e8;
+    // if (houses1473[i] != 0) {
+    // min = Math.min(min, dfs(i + 1, houses1473[i], kinds + (lastColor !=
+    // houses1473[i] ? -1 : 0)));
+    // return memo[i][lastColor][target1473] = min;
+    // }
+    // for (int color = 1; color <= n1473; ++color) {
+    // min = Math.min(min, cost1473[i][color - 1] + dfs(i + 1, color, kinds +
+    // (lastColor != color ? -1 : 0)));
+    // }
+    // return memo[i][lastColor][target1473] = min;
+    // }
+
 }
