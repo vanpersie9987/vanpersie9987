@@ -6680,29 +6680,46 @@ public class LeetCodeText {
 
     }
 
-    public int minDistance(final String word1, final String word2) {
-        if (word1.isEmpty() || word2.isEmpty()) {
-            return word1.length() + word2.length();
+    // 72. 编辑距离 (Edit Distance)
+    private int[][] memo72;
+    private String text1_72;
+    private String text2_72;
+
+    public int minDistance(String text1, String text2) {
+        int m = text1.length();
+        int n = text2.length();
+        memo72 = new int[m][n];
+        this.text1_72 = text1;
+        this.text2_72 = text2;
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(memo72[i], -1);
         }
-        final int[][] dp = new int[word1.length() + 1][word2.length() + 1];
-        for (int i = 0; i < word1.length() + 1; ++i) {
-            dp[i][0] = i;
-        }
-        for (int i = 0; i < word2.length() + 1; ++i) {
-            dp[0][i] = i;
-        }
-        for (int i = 1; i < word1.length() + 1; ++i) {
-            for (int j = 1; j < word2.length() + 1; ++j) {
-                final int left = dp[i][j - 1] + 1;
-                final int up = dp[i - 1][j] + 1;
-                int left_up = dp[i - 1][j - 1];
-                if (word1.charAt(i - 1) != word2.charAt(j - 1)) {
-                    left_up += 1;
-                }
-                dp[i][j] = Math.min(Math.min(left, up), left_up);
+        return dfs72(m - 1, n - 1);
+
+    }
+
+    private int dfs72(int i, int j) {
+        if (i < 0 || j < 0) {
+            if (i < 0 && j < 0) {
+                return 0;
             }
+            if (i < 0) {
+                return j + 1;
+            }
+            return i + 1;
         }
-        return dp[word1.length()][word2.length()];
+        if (memo72[i][j] != -1) {
+            return memo72[i][j];
+        }
+        int min = Integer.MAX_VALUE;
+        if (text1_72.charAt(i) == text2_72.charAt(j)) {
+            min = Math.min(min, dfs72(i - 1, j - 1));
+        } else {
+            min = Math.min(min, dfs72(i - 1, j) + 1);
+            min = Math.min(min, dfs72(i, j - 1) + 1);
+            min = Math.min(min, dfs72(i - 1, j - 1) + 1);
+        }
+        return memo72[i][j] = min;
     }
 
     public int numDecodings(final String s) {
