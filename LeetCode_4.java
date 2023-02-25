@@ -3915,9 +3915,12 @@ public class LeetCode_4 {
             return memo1143[i][j];
         }
         int max = 0;
-        max = Math.max(max, dfs1143(i - 1, j));
-        max = Math.max(max, dfs1143(i, j - 1));
-        max = Math.max(max, dfs1143(i - 1, j - 1) + (text1_1143.charAt(i) == text2_1143.charAt(j) ? 1 : 0));
+        if (text1_1143.charAt(i) == text2_1143.charAt(j)) {
+            max = Math.max(max, dfs1143(i - 1, j - 1) + 1);
+        } else {
+            max = Math.max(max, dfs1143(i - 1, j));
+            max = Math.max(max, dfs1143(i, j - 1));
+        }
         return memo1143[i][j] = max;
     }
 
