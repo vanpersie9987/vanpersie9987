@@ -7949,6 +7949,41 @@ public class Leetcode_6 {
         return count + 1;
     }
 
+    // 312. 戳气球 (Burst Balloons)
+    private int[][] memo;
+    private int[] arr;
+
+    public int maxCoins(int[] nums) {
+        int n = nums.length;
+        int[] arr = new int[n + 2];
+        for (int i = 0; i < n; ++i) {
+            arr[i + 1] = nums[i];
+        }
+        arr[0] = arr[n + 1] = 1;
+        this.arr = arr;
+        memo = new int[n + 2][n + 2];
+        for (int i = 0; i < n + 2; ++i) {
+            Arrays.fill(memo[i], -1);
+        }
+        return dfs(0, n + 1);
+
+    }
+
+    private int dfs(int left, int right) {
+        if (right - left <= 1) {
+            return 0;
+        }
+        if (memo[left][right] != -1) {
+            return memo[left][right];
+        }
+        int max = 0;
+        for (int i = left + 1; i < right; ++i) {
+            int sum = arr[left] * arr[i] * arr[right] + dfs(left, i) + dfs(i, right);
+            max = Math.max(max, sum);
+        }
+        return memo[left][right] = max;
+    }
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
