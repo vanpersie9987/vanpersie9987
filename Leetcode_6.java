@@ -7916,10 +7916,10 @@ public class Leetcode_6 {
 
     // 410. 分割数组的最大值 (Split Array Largest Sum)
     public int splitArray(int[] nums, int k) {
-        int left = Integer.MAX_VALUE;
+        int left = 0;
         int right = 0;
         for (int num : nums) {
-            left = Math.min(left, num);
+            left = Math.max(left, num);
             right += num;
         }
         int res = -1;
@@ -7940,9 +7940,6 @@ public class Leetcode_6 {
         int sum = 0;
         int count = 0;
         for (int num : nums) {
-            if (num > target) {
-                return 51;
-            }
             if (num + sum > target) {
                 sum = 0;
                 ++count;
