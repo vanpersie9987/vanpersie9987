@@ -8075,22 +8075,22 @@ public class Leetcode_6 {
         if (memo1340[i] != -1) {
             return memo1340[i];
         }
-        memo1340[i] = 1;
+        int res = 1;
         int j = i - 1;
         while (j >= 0 && i - j <= d1340) {
             if (arr1340[j] >= arr1340[i]) {
                 break;
             }
-            memo1340[i] = Math.max(memo1340[i], dfs1340(j--) + 1);
+            res = Math.max(res, dfs1340(j--) + 1);
         }
         j = i + 1;
         while (j < n1340 && j - i <= d1340) {
             if (arr1340[j] >= arr1340[i]) {
                 break;
             }
-            memo1340[i] = Math.max(memo1340[i], dfs1340(j++) + 1);
+            res = Math.max(res, dfs1340(j++) + 1);
         }
-        return memo1340[i];
+        return memo1340[i] = res;
     }
 
     // public int maxNumOfMarkedIndices(int[] nums) {
