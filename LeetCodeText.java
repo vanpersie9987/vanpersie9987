@@ -4564,44 +4564,34 @@ public class LeetCodeText {
 
     }
 
-    // 1144. 递减元素使数组呈锯齿状
-    public int movesToMakeZigzag(final int[] nums) {
-        int res = 0;
-        if (nums == null || nums.length < 3) {
-            return res;
-        }
-        // 判断偶数位 将偶数位上的数减小到比两侧的奇数位的数都小
-        int count = 0;
-        int temp;
-        for (int i = 0; i < nums.length; i += 2) {
-            temp = nums[i];
-            // 若当前偶数位的数 >= 它左边奇数位的数 ，那么将当前的数减小到它左边的数 - 1 ，注意使用temp存储该减小以后的值，目的是不改变数组
-            if (i > 0 && temp >= nums[i - 1]) {
-                count += temp - nums[i - 1] + 1;
-                temp = nums[i - 1] - 1;
+    // 1144. 递减元素使数组呈锯齿状 (Decrease Elements To Make Array Zigzag)
+    public int movesToMakeZigzag(int[] nums) {
+        int n = nums.length;
+        int count1 = 0;
+        for (int i = 1; i < n; i += 2) {
+            int min = nums[i - 1];
+            if (i + 1 < n) {
+                min = Math.min(min, nums[i + 1]);
             }
-            // 若当前偶数位的数（该数已经存储在temp中，可能已经被上面的if更新） >= 它右边奇数位的数 ，那么将当前的数减小到它右边的数 - 1
-            if (i < nums.length - 1 && temp >= nums[i + 1]) {
-                count += temp - nums[i + 1] + 1;
-                // nums[i] = nums[i + 1] - 1;
+            if (nums[i] >= min) {
+                count1 += nums[i] - min + 1;
             }
         }
-        res = count;
-        count = 0;
-        // 判断奇数位 将奇数位上的数减小到比两侧的偶数位的数都小
-        for (int i = 1; i < nums.length; i += 2) {
-            // 若当前奇数位的数 >= 它左边偶数位的数 ，那么将当前的数减小到它左边的数 - 1
-            if (i > 0 && nums[i] >= nums[i - 1]) {
-                count += nums[i] - nums[i - 1] + 1;
-                nums[i] = nums[i - 1] - 1;
+        int count2 = 0;
+        for (int i = 0; i < n; i += 2) {
+            int min = Integer.MAX_VALUE;
+            if (i + 1 < n) {
+                min = nums[i + 1];
             }
-            if (i < nums.length - 1 && nums[i] >= nums[i + 1]) {
-                count += nums[i] - nums[i + 1] + 1;
-                // nums[i] = nums[i + 1] - 1;
+            if (i - 1 >= 0) {
+                min = Math.min(min, nums[i - 1]);
+            }
+            if (min != Integer.MAX_VALUE && nums[i] >= min) {
+                count2 += nums[i] - min + 1;
             }
         }
-        res = Math.min(res, count);
-        return res;
+        return Math.min(count1, count2);
+
     }
 
     class SnapshotArray {
