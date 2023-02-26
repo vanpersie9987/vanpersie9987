@@ -7985,6 +7985,101 @@ public class Leetcode_6 {
         return memo312[left][right] = max;
     }
 
+    // 面试题 17.23. 最大黑方阵
+    public int[] findSquare(int[][] matrix) {
+        int n = matrix.length;
+        int[][] preRow = new int[n][n + 1];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 1; j < n + 1; ++j) {
+                preRow[i][j] = preRow[i][j - 1] + matrix[i][j - 1];
+            }
+
+        }
+        int[][] preCol = new int[n][n + 1];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 1; j < n + 1; ++j) {
+                preCol[i][j] = preCol[i][j - 1] + matrix[j - 1][i];
+            }
+        }
+        for (int r = n; r > 0; --r) {
+            for (int i = 0; i < n - r + 1; ++i) {
+                for (int j = 0; j < n - r + 1; ++j) {
+                    if (preRow[i][j + r] - preRow[i][j] == 0
+                            && preRow[i + r - 1][j + r] - preRow[i + r - 1][j] == 0
+                            && preCol[j][i + r] - preCol[j][i] == 0
+                            && preCol[j + r - 1][i + r] - preCol[j + r - 1][i] == 0) {
+                        return new int[] { i, j, r };
+                    }
+                }
+            }
+        }
+        return new int[0];
+
+    }
+
+    public int[] leftRigthDifference(int[] nums) {
+        int n = nums.length;
+        int[] res = new int[n];
+        int[] leftSum = new int[n];
+        for (int i = 1; i < n; ++i) {
+            leftSum[i] = leftSum[i - 1] + nums[i - 1];
+        }
+        int[] rightSum = new int[n];
+        for (int i = n - 2; i >= 0; --i) {
+            rightSum[i] = rightSum[i + 1] + nums[i + 1];
+        }
+        for (int i = 0; i < n; ++i) {
+            res[i] = Math.abs(Math.abs(leftSum[i] - rightSum[i]));
+        }
+        return res;
+
+    }
+
+    public int[] divisibilityArray(String word, int m) {
+        int n = word.length();
+        int[] res = new int[n];
+        long mod = 0;
+        for (int i = 0; i < n; ++i) {
+            mod = (mod * 10 + word.charAt(i) - '0') % m;
+            if (mod == 0) {
+                res[i] = 1;
+            }
+        }
+        return res;
+
+    }
+
+    // public int maxNumOfMarkedIndices(int[] nums) {
+    // int n = nums.length;
+    // Arrays.sort(nums);
+    // TreeMap<Integer, Integer> map = new TreeMap<>();
+    // for (int num : nums) {
+    // map.put(num, map.getOrDefault(num, 0) + 1);
+    // }
+    // int res = 0;
+    // for (int i = n - 1; i >= 0; --i) {
+    // if (map.getOrDefault(nums[i], 0) != 0) {
+    // int target = nums[i] / 2;
+    // Integer floor = map.floorKey(target);
+    // if (floor != null) {
+    // map.put(floor, map.getOrDefault(floor, 0) - 1);
+    // if (map.getOrDefault(floor, 0) == 0) {
+    // map.remove(floor);
+    // }
+    // map.put(nums[i], map.getOrDefault(nums[i], 0) - 1);
+    // if (map.getOrDefault(nums[i], 0) == 0) {
+    // map.remove(nums[i]);
+    // }
+    // res += 2;
+    // }
+
+    // }
+    // }
+    // return res;
+
+    // }
+
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
@@ -8078,69 +8173,8 @@ public class Leetcode_6 {
     // }
 
     // 638. 大礼包 (Shopping Offers)
-    // public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
-
-    // }
-
-    public int[] leftRigthDifference(int[] nums) {
-        int n = nums.length;
-        int[] res = new int[n];
-        int[] leftSum = new int[n];
-        for (int i = 1; i < n; ++i) {
-            leftSum[i] = leftSum[i - 1] + nums[i - 1];
-        }
-        int[] rightSum = new int[n];
-        for (int i = n - 2; i >= 0; --i) {
-            rightSum[i] = rightSum[i + 1] + nums[i + 1];
-        }
-        for (int i = 0; i < n; ++i) {
-            res[i] = Math.abs(Math.abs(leftSum[i] - rightSum[i]));
-        }
-        return res;
-
-    }
-
-    public int[] divisibilityArray(String word, int m) {
-        int n = word.length();
-        int[] res = new int[n];
-        long mod = 0;
-        for (int i = 0; i < n; ++i) {
-            mod = (mod * 10 + word.charAt(i) - '0') % m;
-            if (mod == 0) {
-                res[i] = 1;
-            }
-        }
-        return res;
-
-    }
-
-    // public int maxNumOfMarkedIndices(int[] nums) {
-    // int n = nums.length;
-    // Arrays.sort(nums);
-    // TreeMap<Integer, Integer> map = new TreeMap<>();
-    // for (int num : nums) {
-    // map.put(num, map.getOrDefault(num, 0) + 1);
-    // }
-    // int res = 0;
-    // for (int i = n - 1; i >= 0; --i) {
-    // if (map.getOrDefault(nums[i], 0) != 0) {
-    // int target = nums[i] / 2;
-    // Integer floor = map.floorKey(target);
-    // if (floor != null) {
-    // map.put(floor, map.getOrDefault(floor, 0) - 1);
-    // if (map.getOrDefault(floor, 0) == 0) {
-    // map.remove(floor);
-    // }
-    // map.put(nums[i], map.getOrDefault(nums[i], 0) - 1);
-    // if (map.getOrDefault(nums[i], 0) == 0) {
-    // map.remove(nums[i]);
-    // }
-    // res += 2;
-    // }
-
-    // }
-    // }
-    // return res;
+    // public int shoppingOffers(List<Integer> price, List<List<Integer>> special,
+    // List<Integer> needs) {
 
     // }
 
