@@ -8048,6 +8048,51 @@ public class Leetcode_6 {
 
     }
 
+    // 1340. 跳跃游戏 V (Jump Game V)
+    private int n1340;
+    private int[] arr1340;
+    private int[] memo1340;
+    private int d1340;
+
+    public int maxJumps(int[] arr, int d) {
+        this.n1340 = arr.length;
+        this.arr1340 = arr;
+        this.d1340 = d;
+        memo1340 = new int[n1340];
+        Arrays.fill(memo1340, -1);
+        int res = 0;
+        for (int i = 0; i < n1340; ++i) {
+            res = Math.max(res, dfs1340(i));
+        }
+        return res;
+
+    }
+
+    private int dfs1340(int i) {
+        if (i < 0 || i >= n1340) {
+            return 0;
+        }
+        if (memo1340[i] != -1) {
+            return memo1340[i];
+        }
+        memo1340[i] = 1;
+        int j = i - 1;
+        while (j >= 0 && i - j <= d1340) {
+            if (arr1340[j] >= arr1340[i]) {
+                break;
+            }
+            memo1340[i] = Math.max(memo1340[i], dfs1340(j--) + 1);
+        }
+        j = i + 1;
+        while (j < n1340 && j - i <= d1340) {
+            if (arr1340[j] >= arr1340[i]) {
+                break;
+            }
+            memo1340[i] = Math.max(memo1340[i], dfs1340(j++) + 1);
+        }
+        return memo1340[i];
+    }
+
     // public int maxNumOfMarkedIndices(int[] nums) {
     // int n = nums.length;
     // Arrays.sort(nums);
@@ -8081,11 +8126,6 @@ public class Leetcode_6 {
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
-
-    // }
-
-    // 1340. 跳跃游戏 V (Jump Game V)
-    // public int maxJumps(int[] arr, int d) {
 
     // }
 
