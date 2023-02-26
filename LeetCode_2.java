@@ -6631,61 +6631,65 @@ public class LeetCode_2 {
 
    }
 
-   // 1255. 得分最高的单词集合 (Maximum Score Words Formed by Letters) --状态压缩
+   // 1255. 得分最高的单词集合 (Maximum Score Words Formed by Letters)
    public int maxScoreWords(String[] words, char[] letters, int[] score) {
       int[] counts = new int[26];
       for (char c : letters) {
          ++counts[c - 'a'];
       }
-      // 记录不合法的单个词
-      int illegalStatus = 0;
-      for (int i = 0; i < words.length; ++i) {
-         if (!isLegal(words[i], counts.clone())) {
-            illegalStatus |= (1 << i);
+      Map<String, Bean1255> map = new HashMap<>();
+      List<String> wordStrings = new ArrayList<>();
+      search: for (String word : words) {
+         int[] curCounts = new int[26];
+         int curScore = 0;
+         for (char c : word.toCharArray()) {
+            ++curCounts[c - 'a'];
+            if (curCounts[c - 'a'] > counts[c - 'a']) {
+               continue search;
+            }
+            curScore += score[c - 'a'];
          }
+         map.put(word, new Bean1255(curScore, curCounts));
+         wordStrings.add(word);
       }
       int res = 0;
-      for (int i = 1; i < (1 << words.length); ++i) {
-         // 若枚举值中存在不合法的单个词，则跳过
-         if ((illegalStatus & i) == 0) {
-            res = Math.max(res, check1255(i, words, counts.clone(), score));
+      int n = wordStrings.size();
+      search: for (int i = 0; i < (1 << n); ++i) {
+         int mask = i;
+         int index = 0;
+         int[] curCounts = new int[26];
+         int curScore = 0;
+         while (mask > 0) {
+            if ((mask & 1) == 1) {
+               String curWord = wordStrings.get(index);
+               int[] cnts = map.get(curWord).wordCounts;
+               for (int j = 0; j < 26; ++j) {
+                  curCounts[j] += cnts[j];
+                  if (curCounts[j] > counts[j]) {
+                     continue search;
+                  }
+               }
+               curScore += map.get(curWord).score;
+            }
+            ++index;
+            mask >>= 1;
          }
+         res = Math.max(res, curScore);
       }
       return res;
 
    }
 
-   private int check1255(int mask, String[] words, int[] counts, int[] score) {
-      int sum = 0;
-      int index = 0;
-      while (mask != 0) {
-         if (mask % 2 == 1) {
-            if (!isLegal(words[index], counts)) {
-               return -1;
-            }
-            sum += getSum(words[index], score);
-         }
-         ++index;
-         mask /= 2;
-      }
-      return sum;
-   }
+   public class Bean1255 {
+      int score;
+      int[] wordCounts;
 
-   private int getSum(String s, int[] score) {
-      int sum = 0;
-      for (char c : s.toCharArray()) {
-         sum += score[c - 'a'];
-      }
-      return sum;
-   }
+      Bean1255(int score, int[] wordCounts) {
+         this.score = score;
+         this.wordCounts = wordCounts;
 
-   private boolean isLegal(String s, int[] counts) {
-      for (char c : s.toCharArray()) {
-         if (--counts[c - 'a'] < 0) {
-            return false;
-         }
       }
-      return true;
+
    }
 
    // 1601. 最多可达成的换楼请求数目 (Maximum Number of Achievable Transfer Requests) --状态压缩
