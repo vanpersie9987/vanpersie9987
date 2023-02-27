@@ -8255,17 +8255,18 @@ public class Leetcode_6 {
                     || mainDiag.getOrDefault(r - c, 0) != 0
                     || counterDiag.getOrDefault(r + c, 0) != 0) {
                 res[i] = 1;
-            }
-            for (int x = Math.max(0, r - 1); x <= Math.min(n - 1, r + 1); ++x) {
-                for (int y = Math.max(0, c - 1); y <= Math.min(n - 1, c + 1); ++y) {
-                    if (set.remove((long) x * n + y)) {
-                        row.merge(x, -1, Integer::sum);
-                        col.merge(y, -1, Integer::sum);
-                        mainDiag.merge(x - y, -1, Integer::sum);
-                        counterDiag.merge(x + y, -1, Integer::sum);
+                for (int x = Math.max(0, r - 1); x <= Math.min(n - 1, r + 1); ++x) {
+                    for (int y = Math.max(0, c - 1); y <= Math.min(n - 1, c + 1); ++y) {
+                        if (set.remove((long) x * n + y)) {
+                            row.merge(x, -1, Integer::sum);
+                            col.merge(y, -1, Integer::sum);
+                            mainDiag.merge(x - y, -1, Integer::sum);
+                            counterDiag.merge(x + y, -1, Integer::sum);
+                        }
                     }
                 }
             }
+
         }
         return res;
     }
