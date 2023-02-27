@@ -8247,4 +8247,32 @@ public class Leetcode_6 {
     // List<Integer> needs) {
 
     // }
+
+    // 955. 删列造序 II (Delete Columns to Make Sorted II)
+    public int minDeletionSize(String[] strs) {
+        int n = strs.length;
+        int m = strs[0].length();
+        int res = 0;
+        char[][] arr = new char[n][m];
+        for (int i = 0; i < n; ++i) {
+            arr[i] = strs[i].toCharArray();
+        }
+        boolean[] cuts = new boolean[n - 1];
+        search: for (int j = 0; j < m; ++j) {
+            for (int i = 0; i < n - 1; ++i) {
+                if (!cuts[i] && arr[i][j] > arr[i + 1][j]) {
+                    ++res;
+                    continue search;
+                }
+            }
+            for (int i = 0; i < n - 1; ++i) {
+                if (arr[i][j] < arr[i + 1][j]) {
+                    cuts[i] = true;
+                }
+            }
+        }
+        return res;
+
+
+    }
 }
