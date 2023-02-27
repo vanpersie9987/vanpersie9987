@@ -8180,16 +8180,18 @@ public class LeetCode_4 {
 
     // 2363. 合并相似的物品 (Merge Similar Items)
     public List<List<Integer>> mergeSimilarItems(int[][] items1, int[][] items2) {
-        TreeMap<Integer, Integer> map = new TreeMap<>();
+        int[] counts = new int[1001];
         for (int[] item : items1) {
-            map.put(item[0], map.getOrDefault(item[0], 0) + item[1]);
+            counts[item[0]] += item[1];
         }
         for (int[] item : items2) {
-            map.put(item[0], map.getOrDefault(item[0], 0) + item[1]);
+            counts[item[0]] += item[1];
         }
         List<List<Integer>> res = new ArrayList<>();
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            res.add(List.of(entry.getKey(), entry.getValue()));
+        for (int i = 0; i < 1001; ++i) {
+            if (counts[i] != 0) {
+                res.add(List.of(i, counts[i]));
+            }
         }
         return res;
 
