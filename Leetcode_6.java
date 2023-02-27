@@ -8179,6 +8179,9 @@ public class Leetcode_6 {
         if (counts == 0 || i == n1745) {
             return counts == 0 && i == n1745;
         }
+        if (counts == 1) {
+            return isPalindromes1745[i][n1745 - 1];
+        }
         if (memo1745[i][counts] != -1) {
             return memo1745[i][counts] > 0;
         }
@@ -8313,6 +8316,7 @@ public class Leetcode_6 {
     // 638. 大礼包 (Shopping Offers)
     // public int shoppingOffers(List<Integer> price, List<List<Integer>> special,
     // List<Integer> needs) {
+
 
     // }
 }
