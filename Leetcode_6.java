@@ -8195,6 +8195,39 @@ public class Leetcode_6 {
         return false;
     }
 
+    // 526. 优美的排列 (Beautiful Arrangement)
+    private int n526;
+    private int[][] memo526;
+
+    public int countArrangement(int n) {
+        this.n526 = n;
+        memo526 = new int[n + 1][1 << (n + 1)];
+        for (int i = 0; i < n + 1; ++i) {
+            Arrays.fill(memo526[i], -1);
+        }
+        return dfs526(1, 0);
+
+    }
+
+    private int dfs526(int i, int mask) {
+        if (i == n526 + 1) {
+            if (mask == (1 << (n526 + 1)) - 2) {
+                return 1;
+            }
+            return 0;
+        }
+        if (memo526[i][mask] != -1) {
+            return memo526[i][mask];
+        }
+        int res = 0;
+        for (int num = 1; num <= n526; ++num) {
+            if ((num % i == 0 || i % num == 0) && (mask ^ (1 << num)) != mask) {
+                res += dfs526(i + 1, mask ^ (1 << num));
+            }
+        }
+        return memo526[i][mask] = res;
+    }
+
 
     // public int maxNumOfMarkedIndices(int[] nums) {
     // int n = nums.length;
@@ -8316,7 +8349,6 @@ public class Leetcode_6 {
     // 638. 大礼包 (Shopping Offers)
     // public int shoppingOffers(List<Integer> price, List<List<Integer>> special,
     // List<Integer> needs) {
-
 
     // }
 }
