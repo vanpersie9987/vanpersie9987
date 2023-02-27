@@ -8124,6 +8124,74 @@ public class Leetcode_6 {
         }
     }
 
+    // 955. 删列造序 II (Delete Columns to Make Sorted II)
+    public int minDeletionSize(String[] strs) {
+        int n = strs.length;
+        int m = strs[0].length();
+        int res = 0;
+        char[][] arr = new char[n][m];
+        for (int i = 0; i < n; ++i) {
+            arr[i] = strs[i].toCharArray();
+        }
+        boolean[] cuts = new boolean[n - 1];
+        search: for (int j = 0; j < m; ++j) {
+            for (int i = 0; i < n - 1; ++i) {
+                if (!cuts[i] && arr[i][j] > arr[i + 1][j]) {
+                    ++res;
+                    continue search;
+                }
+            }
+            for (int i = 0; i < n - 1; ++i) {
+                if (arr[i][j] < arr[i + 1][j]) {
+                    cuts[i] = true;
+                }
+            }
+        }
+        return res;
+
+
+    }
+
+    // 1745. 回文串分割 IV (Palindrome Partitioning IV)
+    private boolean[][] isPalindromes1745;
+    private int[][] memo1745;
+    private int n1745;
+
+    public boolean checkPartitioning(String s) {
+        this.n1745 = s.length();
+        isPalindromes1745 = new boolean[n1745][n1745];
+        for (int i = n1745 - 1; i >= 0; --i) {
+            for (int j = i; j < n1745; ++j) {
+                if (s.charAt(i) == s.charAt(j) && (j - i < 2 || isPalindromes1745[i + 1][j - 1])) {
+                    isPalindromes1745[i][j] = true;
+                }
+            }
+        }
+        memo1745 = new int[n1745][4];
+        for (int i = 0; i < n1745; ++i) {
+            Arrays.fill(memo1745[i], -1);
+        }
+        return dfs1745(0, 3);
+
+    }
+
+    private boolean dfs1745(int i, int counts) {
+        if (counts == 0 || i == n1745) {
+            return counts == 0 && i == n1745;
+        }
+        if (memo1745[i][counts] != -1) {
+            return memo1745[i][counts] > 0;
+        }
+        for (int j = i; j < n1745; ++j) {
+            if (isPalindromes1745[i][j] && dfs1745(j + 1, counts - 1)) {
+                memo1745[i][counts] = 1;
+                return true;
+            }
+        }
+        memo1745[i][counts] = 0;
+        return false;
+    }
+
 
     // public int maxNumOfMarkedIndices(int[] nums) {
     // int n = nums.length;
@@ -8247,32 +8315,4 @@ public class Leetcode_6 {
     // List<Integer> needs) {
 
     // }
-
-    // 955. 删列造序 II (Delete Columns to Make Sorted II)
-    public int minDeletionSize(String[] strs) {
-        int n = strs.length;
-        int m = strs[0].length();
-        int res = 0;
-        char[][] arr = new char[n][m];
-        for (int i = 0; i < n; ++i) {
-            arr[i] = strs[i].toCharArray();
-        }
-        boolean[] cuts = new boolean[n - 1];
-        search: for (int j = 0; j < m; ++j) {
-            for (int i = 0; i < n - 1; ++i) {
-                if (!cuts[i] && arr[i][j] > arr[i + 1][j]) {
-                    ++res;
-                    continue search;
-                }
-            }
-            for (int i = 0; i < n - 1; ++i) {
-                if (arr[i][j] < arr[i + 1][j]) {
-                    cuts[i] = true;
-                }
-            }
-        }
-        return res;
-
-
-    }
 }
