@@ -8228,6 +8228,48 @@ public class Leetcode_6 {
         return memo526[i][mask] = res;
     }
 
+    // 1001. 网格照明 (Grid Illumination)
+    public int[] gridIllumination(int n, int[][] lamps, int[][] queries) {
+        Map<Integer, Integer> row = new HashMap<>();
+        Map<Integer, Integer> col = new HashMap<>();
+        Map<Integer, Integer> mainDiag = new HashMap<>();
+        Map<Integer, Integer> counterDiag = new HashMap<>();
+        Set<Long> set = new HashSet<>();
+        for (int[] lamp : lamps) {
+            int r = lamp[0];
+            int c = lamp[1];
+            if (set.add((long) r * n + c)) {
+                row.merge(r, 1, Integer::sum);
+                col.merge(c, 1, Integer::sum);
+                mainDiag.merge(r - c, 1, Integer::sum);
+                counterDiag.merge(r + c, 1, Integer::sum);
+            }
+        }
+        int m = queries.length;
+        int[] res = new int[m];
+        for (int i = 0; i < m; ++i) {
+            int r = queries[i][0];
+            int c = queries[i][1];
+            if (row.getOrDefault(r, 0) != 0
+                    || col.getOrDefault(c, 0) != 0
+                    || mainDiag.getOrDefault(r - c, 0) != 0
+                    || counterDiag.getOrDefault(r + c, 0) != 0) {
+                res[i] = 1;
+            }
+            for (int x = Math.max(0, r - 1); x <= Math.min(n - 1, r + 1); ++x) {
+                for (int y = Math.max(0, c - 1); y <= Math.min(n - 1, c + 1); ++y) {
+                    if (set.remove((long) x * n + y)) {
+                        row.merge(x, -1, Integer::sum);
+                        col.merge(y, -1, Integer::sum);
+                        mainDiag.merge(x - y, -1, Integer::sum);
+                        counterDiag.merge(x + y, -1, Integer::sum);
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
 
     // public int maxNumOfMarkedIndices(int[] nums) {
     // int n = nums.length;
