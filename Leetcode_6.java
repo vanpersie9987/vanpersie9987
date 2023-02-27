@@ -8093,6 +8093,38 @@ public class Leetcode_6 {
         return memo1340[i] = res;
     }
 
+    // 140. 单词拆分 II (Word Break II)
+    private List<String> res140;
+    private Set<String> set140;
+    private String s140;
+
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        res140 = new ArrayList<>();
+        set140 = new HashSet<>(wordDict);
+        this.s140 = s;
+        dfs140(0, new ArrayList<>());
+        return res140;
+
+    }
+
+    private void dfs140(int i, List<String> list) {
+        if (i == s140.length()) {
+            res140.add(String.join(" ", list));
+        }
+        StringBuilder b = new StringBuilder();
+        int j = i;
+        while (j < s140.length()) {
+            b.append(s140.charAt(j));
+            if (set140.contains(b.toString())) {
+                list.add(b.toString());
+                dfs140(j + 1, list);
+                list.remove(list.size() - 1);
+            }
+            ++j;
+        }
+    }
+
+
     // public int maxNumOfMarkedIndices(int[] nums) {
     // int n = nums.length;
     // Arrays.sort(nums);
@@ -8122,7 +8154,6 @@ public class Leetcode_6 {
     // return res;
 
     // }
-
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
@@ -8216,5 +8247,4 @@ public class Leetcode_6 {
     // List<Integer> needs) {
 
     // }
-
 }
