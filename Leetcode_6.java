@@ -8332,6 +8332,7 @@ public class Leetcode_6 {
         private int globalTime;
         private Map<Integer, Node> userToTwitter;
         private Map<Integer, Set<Integer>> userToFollower;
+        private Queue<Node> q;
 
         class Node {
             int time;
@@ -8353,6 +8354,14 @@ public class Leetcode_6 {
         public Twitter() {
             userToTwitter = new HashMap<>();
             userToFollower = new HashMap<>();
+            q = new PriorityQueue<>(new Comparator<Node>() {
+
+                @Override
+                public int compare(Node o1, Node o2) {
+                    return Integer.compare(o2.time, o1.time);
+                }
+
+            });
         }
 
         public void postTweet(int userId, int tweetId) {
@@ -8363,15 +8372,8 @@ public class Leetcode_6 {
         }
 
         public List<Integer> getNewsFeed(int userId) {
+            q.clear();
             List<Integer> res = new ArrayList<>();
-            Queue<Node> q = new PriorityQueue<>(new Comparator<Node>() {
-
-                @Override
-                public int compare(Node o1, Node o2) {
-                    return Integer.compare(o2.time, o1.time);
-                }
-
-            });
             if (userToTwitter.get(userId) != null) {
                 q.offer(userToTwitter.get(userId));
             }
