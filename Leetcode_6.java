@@ -8327,6 +8327,82 @@ public class Leetcode_6 {
         return minModifyPalindrome1278[i][j] = min;
     }
 
+    // 355. 设计推特 (Design Twitter)
+    class Twitter {
+        private int globalTime;
+        private Map<Integer, Node> userToTwitter;
+        private Map<Integer, Set<Integer>> userToFollower;
+
+        class Node {
+            int time;
+            int twitterId;
+            Node next;
+
+            Node(int time, int twitterId, Node next) {
+                this.time = time;
+                this.twitterId = twitterId;
+                this.next = next;
+            }
+
+            Node(int time, int twitterId) {
+                this.time = time;
+                this.twitterId = twitterId;
+            }
+        }
+
+        public Twitter() {
+            userToTwitter = new HashMap<>();
+            userToFollower = new HashMap<>();
+        }
+
+        public void postTweet(int userId, int tweetId) {
+            Node head = new Node(globalTime++, tweetId);
+            Node next = userToTwitter.getOrDefault(userId, null);
+            head.next = next;
+            userToTwitter.put(userId, head);
+        }
+
+        public List<Integer> getNewsFeed(int userId) {
+            List<Integer> res = new ArrayList<>();
+            Queue<Node> q = new PriorityQueue<>(new Comparator<Node>() {
+
+                @Override
+                public int compare(Node o1, Node o2) {
+                    return Integer.compare(o2.time, o1.time);
+                }
+
+            });
+            if (userToTwitter.get(userId) != null) {
+                q.offer(userToTwitter.get(userId));
+            }
+            for (int followeeId : userToFollower.getOrDefault(userId, new HashSet<>())) {
+                if (userToTwitter.get(followeeId) != null) {
+                    q.offer(userToTwitter.get(followeeId));
+                }
+            }
+            while (!q.isEmpty() && res.size() != 10) {
+                Node node = q.poll();
+                if (node == null) {
+                    continue;
+                }
+                res.add(node.twitterId);
+                node = node.next;
+                if (node != null) {
+                    q.offer(node);
+                }
+            }
+            return res;
+        }
+
+        public void follow(int followerId, int followeeId) {
+            userToFollower.computeIfAbsent(followerId, k -> new HashSet<>()).add(followeeId);
+        }
+
+        public void unfollow(int followerId, int followeeId) {
+            userToFollower.getOrDefault(followerId, new HashSet<>()).remove(followeeId);
+        }
+    }
+
 
     // public int maxNumOfMarkedIndices(int[] nums) {
     // int n = nums.length;
@@ -8450,4 +8526,5 @@ public class Leetcode_6 {
     // List<Integer> needs) {
 
     // }
+
 }
