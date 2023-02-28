@@ -8396,7 +8396,64 @@ public class Leetcode_6 {
     // }
 
     // 1278. 分割回文串 III (Palindrome Partitioning III)
-    // public int palindromePartition(String s, int k) {
+    private int[][] minModifyPalindrome1278;
+    private String s1278;
+    private int n1278;
+    private int[][] memo1278;
 
-    // }
+    public int palindromePartition(String s, int k) {
+        this.n1278 = s.length();
+        this.minModifyPalindrome1278 = new int[n1278][n1278];
+        this.memo1278 = new int[n1278][k + 1];
+        this.s1278 = s;
+        for (int i = 0; i < n1278; ++i) {
+            Arrays.fill(minModifyPalindrome1278[i], n1278);
+            Arrays.fill(memo1278[i], n1278);
+        }
+        for (int i = 0; i < n1278; ++i) {
+            for (int j = i; j < n1278; ++j) {
+                dfs1278(i, j);
+            }
+        }
+        return dfs2_1278(0, k);
+
+    }
+
+    private int dfs2_1278(int i, int k) {
+        if (i == n1278 || k == 0) {
+            return (i == n1278 && k == 0) ? 0 : n1278;
+        }
+        if (n1278 - i == k) {
+            return 0;
+        }
+        if (n1278 - i < k) {
+            return n1278;
+        }
+        if (k == 1) {
+            return minModifyPalindrome1278[i][n1278 - 1];
+        }
+        if (memo1278[i][k] != n1278) {
+            return memo1278[i][k];
+        }
+        int res = n1278;
+        for (int j = i; j < n1278; ++j) {
+            res = Math.min(res, minModifyPalindrome1278[i][j] + dfs2_1278(j + 1, k - 1));
+        }
+        return memo1278[i][k] = res;
+
+    }
+
+    private int dfs1278(int i, int j) {
+        if (i > j) {
+            return 0;
+        }
+        if (i == j) {
+            return minModifyPalindrome1278[i][j] = 0;
+        }
+        if (minModifyPalindrome1278[i][j] != n1278) {
+            return minModifyPalindrome1278[i][j];
+        }
+        int min = dfs1278(i + 1, j - 1) + (s1278.charAt(i) == s1278.charAt(j) ? 0 : 1);
+        return minModifyPalindrome1278[i][j] = min;
+    }
 }
