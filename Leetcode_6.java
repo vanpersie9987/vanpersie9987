@@ -8405,6 +8405,38 @@ public class Leetcode_6 {
         }
     }
 
+    // 1488. 避免洪水泛滥 (Avoid Flood in The City)
+    public int[] avoidFlood(int[] rains) {
+        int n = rains.length;
+        TreeSet<Integer> set = new TreeSet<>();
+        Map<Integer, Integer> last = new HashMap<>();
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            if (rains[i] == 0) {
+                set.add(i);
+            } else {
+                if (last.containsKey(rains[i])) {
+                    int lastIndex = last.get(rains[i]);
+                    Integer val = set.higher(lastIndex);
+                    if (val == null) {
+                        return new int[0];
+                    }
+                    res[val] = rains[i];
+                    set.remove(val);
+                }
+                last.put(rains[i], i);
+                res[i] = -1;
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            if (res[i] == 0) {
+                res[i] = 1;
+            }
+        }
+        return res;
+
+
+    }
 
     // public int maxNumOfMarkedIndices(int[] nums) {
     // int n = nums.length;
