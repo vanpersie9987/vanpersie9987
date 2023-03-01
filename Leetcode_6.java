@@ -8435,8 +8435,89 @@ public class Leetcode_6 {
         }
         return res;
 
+    }
+
+    // LCP 51. 烹饪料理
+    public int perfectMenu(int[] materials, int[][] cookbooks, int[][] attribute, int limit) {
+        int res = -1;
+        int n = cookbooks.length;
+        List<int[]> copyBooks = new ArrayList<>();
+        List<int[]> copyAttribute = new ArrayList<>();
+        search: for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < 5; ++j) {
+                if (materials[j] < cookbooks[i][j]) {
+                    continue search;
+                }
+            }
+            copyBooks.add(cookbooks[i]);
+            copyAttribute.add(attribute[i]);
+        }
+        n = copyBooks.size();
+        if (n == 0) {
+            return -1;
+        }
+        search: for (int i = 1; i < (1 << n); ++i) {
+            int mask = i;
+            int[] curCounts = new int[5];
+            int index = 0;
+            int x = 0;
+            int y = 0;
+            while (index < n && mask != 0) {
+                if ((mask & 1) == 1) {
+                    for (int j = 0; j < 5; ++j) {
+                        curCounts[j] += copyBooks.get(index)[j];
+                        if (curCounts[j] > materials[j]) {
+                            continue search;
+                        }
+                    }
+                    x += copyAttribute.get(index)[0];
+                    y += copyAttribute.get(index)[1];
+                }
+                ++index;
+                mask >>= 1;
+            }
+            if (y >= limit) {
+                res = Math.max(res, x);
+            }
+        }
+        return res;
 
     }
+
+    // LCP 64. 二叉树灯饰
+    public int closeLampInTree(TreeNode root) {
+        int[] res = dfs(root);
+        return res[1];
+
+    }
+
+    // return int[4]:  1、全亮；2、全灭； 3、根亮，其余全灭； 4、根灭，其余全亮
+    private int[] dfs(TreeNode root) {
+        if (root == null) {
+            return new int[] { 0, 0, 0, 0 };
+        }
+        
+        int[] l = dfs(root.left);
+        int[] r = dfs(root.right);
+        int min1 = Integer.MAX_VALUE;
+        int min2 = Integer.MAX_VALUE;
+        int min3 = Integer.MAX_VALUE;
+        int min4 = Integer.MAX_VALUE;
+        if (root.val == 1) {
+            min1 = Math.min(Math.min(l[0] + r[0], l[1] + r[1] + 2), Math.min(l[2] + r[2] + 2, l[3] + r[3] + 2));
+            min2 = Math.min(Math.min(l[0] + r[0] + 1, l[1] + r[1] + 1), Math.min(l[2] + r[2] + 1, l[3] + r[3] + 3));
+            min3 = Math.min(Math.min(l[0] + r[0] + 2, l[1] + r[1]), Math.min(l[2] + r[2] + 2, l[3] + r[3] + 2));
+            min4 = Math.min(Math.min(l[0] + r[0] + 1, l[1] + r[1] + 1), Math.min(l[2] + r[2] + 3, l[3] + r[3] + 1));
+        } else {
+            min1 = Math.min(Math.min(l[0] + r[0] + 1, l[1] + r[1] + 1), Math.min(l[2] + r[2] + 3,l[3] + r[3] + 1));
+            min2 = Math.min(Math.min(l[0] + r[0] + 2, l[1] + r[1]), Math.min(l[2] + r[2] + 2, l[3] + r[3] + 2));
+            min3 = Math.min(Math.min(l[0] + r[0] + 1, l[1] + r[1] + 1), Math.min(l[2] + r[2] + 1, l[3] + r[3] + 3));
+            min4 = Math.min(Math.min(l[0] + r[0], l[1] + r[1] + 2), Math.min(l[2] + r[2] + 2, l[3] + r[3] + 2));
+        }
+        return new int[] { min1, min2, min3, min4 };
+    }
+
+
 
     // public int maxNumOfMarkedIndices(int[] nums) {
     // int n = nums.length;
@@ -8560,85 +8641,5 @@ public class Leetcode_6 {
     // List<Integer> needs) {
 
     // }
-
-    // LCP 51. 烹饪料理
-    public int perfectMenu(int[] materials, int[][] cookbooks, int[][] attribute, int limit) {
-        int res = -1;
-        int n = cookbooks.length;
-        List<int[]> copyBooks = new ArrayList<>();
-        List<int[]> copyAttribute = new ArrayList<>();
-        search: for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < 5; ++j) {
-                if (materials[j] < cookbooks[i][j]) {
-                    continue search;
-                }
-            }
-            copyBooks.add(cookbooks[i]);
-            copyAttribute.add(attribute[i]);
-        }
-        n = copyBooks.size();
-        if (n == 0) {
-            return -1;
-        }
-        search: for (int i = 1; i < (1 << n); ++i) {
-            int mask = i;
-            int[] curCounts = new int[5];
-            int index = 0;
-            int x = 0;
-            int y = 0;
-            while (index < n && mask != 0) {
-                if ((mask & 1) == 1) {
-                    for (int j = 0; j < 5; ++j) {
-                        curCounts[j] += copyBooks.get(index)[j];
-                        if (curCounts[j] > materials[j]) {
-                            continue search;
-                        }
-                    }
-                    x += copyAttribute.get(index)[0];
-                    y += copyAttribute.get(index)[1];
-                }
-                ++index;
-                mask >>= 1;
-            }
-            if (y >= limit) {
-                res = Math.max(res, x);
-            }
-        }
-        return res;
-
-    }
-
-    // LCP 64. 二叉树灯饰
-    public int closeLampInTree(TreeNode root) {
-        int[] res = dfs(root);
-        return res[1];
-
-    }
-
-    // return int[4]:  1、全亮；2、全灭； 3、根亮，其余全灭； 4、根灭，其余全亮
-    private int[] dfs(TreeNode root) {
-        if (root == null) {
-            return new int[] { 0, 0, 0, 0 };
-        }
-        
-        int[] l = dfs(root.left);
-        int[] r = dfs(root.right);
-        int min1 = Integer.MAX_VALUE;
-        int min2 = Integer.MAX_VALUE;
-        int min3 = Integer.MAX_VALUE;
-        int min4 = Integer.MAX_VALUE;
-        if (root.val == 1) {
-            min1 = Math.min(Math.min(l[0] + r[0], l[1] + r[1] + 2), Math.min(l[2] + r[2] + 2, l[3] + r[3] + 2));
-            min2 = Math.min(Math.min(l[0] + r[0] + 1, l[1] + r[1] + 1), Math.min(l[2] + r[2] + 1, l[3] + r[3] + 3));
-            min3 = Math.min(Math.min(l[0] + r[0] + 2, l[1] + r[1]), Math.min(l[2] + r[2] + 2, l[3] + r[3] + 2));
-            min4 = Math.min(Math.min(l[0] + r[0] + 1, l[1] + r[1] + 1), Math.min(l[2] + r[2] + 3, l[3] + r[3] + 1));
-        } else {
-            min1 = Math.min(Math.min(l[0] + r[0] + 1, l[1] + r[1] + 1), Math.min(l[2] + r[2] + 3,l[3] + r[3] + 1));
-            min2 = Math.min(Math.min(l[0] + r[0] + 2, l[1] + r[1]), Math.min(l[2] + r[2] + 2, l[3] + r[3] + 2));
-            min3 = Math.min(Math.min(l[0] + r[0] + 1, l[1] + r[1] + 1), Math.min(l[2] + r[2] + 1, l[3] + r[3] + 3));
-            min4 = Math.min(Math.min(l[0] + r[0], l[1] + r[1] + 2), Math.min(l[2] + r[2] + 2, l[3] + r[3] + 2));
-        }
-        return new int[] { min1, min2, min3, min4 };
-    }
 
 }
