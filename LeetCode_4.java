@@ -9227,13 +9227,9 @@ public class LeetCode_4 {
         for (int i = 1; i < n - 1; ++i) {
             for (int j = 1; j < n - 1; ++j) {
                 int max = 0;
-                int top = i - 1;
-                int down = i + 1;
-                int left = j - 1;
-                int right = j + 1;
-                for (int m = top; m <= down; ++m) {
-                    for (int k = left; k <= right; ++k) {
-                        max = Math.max(max, grid[m][k]);
+                for (int x = i - 1; x <= i + 1; ++x) {
+                    for (int y = j - 1; y <= j + 1; ++y) {
+                        max = Math.max(max, grid[x][y]);
                     }
                 }
                 res[i - 1][j - 1] = max;
