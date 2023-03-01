@@ -8677,4 +8677,9 @@ public class Leetcode_6 {
 
     // }
 
+    // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
+    // public int distinctEchoSubstrings(String text) {
+
+    // }
+
 }

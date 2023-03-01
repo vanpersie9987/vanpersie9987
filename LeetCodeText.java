@@ -17157,20 +17157,17 @@ public class LeetCodeText {
 
     // 面试题 05.02. 二进制数转字符串 (Bianry Number to String LCCI)
     public String printBin(double num) {
-        String res = "0.";
-        while (num != 0) {
-            num *= 2;
-            if (num >= 1) {
-                res += "1";
-                num -= 1;
-            } else {
-                res += "0";
-            }
-            if (res.length() > 32) {
-                return "ERROR";
-            }
+        final int M = 1000000;
+        int count = 30;
+        StringBuilder res = new StringBuilder();
+        res.append("0.");
+        int n = (int) (num * M);
+        while (count-- > 0 && n != 0) {
+            n <<= 1;
+            res.append(n / M);
+            n %= M;
         }
-        return res;
+        return n != 0 ? "ERROR" : res.toString();
 
     }
 
