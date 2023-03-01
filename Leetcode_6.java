@@ -8561,4 +8561,51 @@ public class Leetcode_6 {
 
     // }
 
+    // LCP 51. 烹饪料理
+    public int perfectMenu(int[] materials, int[][] cookbooks, int[][] attribute, int limit) {
+        int res = -1;
+        int n = cookbooks.length;
+        List<int[]> copyBooks = new ArrayList<>();
+        List<int[]> copyAttribute = new ArrayList<>();
+        search: for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < 5; ++j) {
+                if (materials[j] < cookbooks[i][j]) {
+                    continue search;
+                }
+            }
+            copyBooks.add(cookbooks[i]);
+            copyAttribute.add(attribute[i]);
+        }
+        n = copyBooks.size();
+        if (n == 0) {
+            return -1;
+        }
+        search: for (int i = 1; i < (1 << n); ++i) {
+            int mask = i;
+            int[] curCounts = new int[5];
+            int index = 0;
+            int x = 0;
+            int y = 0;
+            while (index < n && mask != 0) {
+                if ((mask & 1) == 1) {
+                    for (int j = 0; j < 5; ++j) {
+                        curCounts[j] += copyBooks.get(index)[j];
+                        if (curCounts[j] > materials[j]) {
+                            continue search;
+                        }
+                    }
+                    x += copyAttribute.get(index)[0];
+                    y += copyAttribute.get(index)[1];
+                }
+                ++index;
+                mask >>= 1;
+            }
+            if (y >= limit) {
+                res = Math.max(res, x);
+            }
+        }
+        return res;
+
+    }
+
 }
