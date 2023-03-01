@@ -8608,4 +8608,37 @@ public class Leetcode_6 {
 
     }
 
+    // LCP 64. 二叉树灯饰
+    public int closeLampInTree(TreeNode root) {
+        int[] res = dfs(root);
+        return res[1];
+
+    }
+
+    // return int[4]:  1、全亮；2、全灭； 3、根亮，其余全灭； 4、根灭，其余全亮
+    private int[] dfs(TreeNode root) {
+        if (root == null) {
+            return new int[] { 0, 0, 0, 0 };
+        }
+        
+        int[] l = dfs(root.left);
+        int[] r = dfs(root.right);
+        int min1 = Integer.MAX_VALUE;
+        int min2 = Integer.MAX_VALUE;
+        int min3 = Integer.MAX_VALUE;
+        int min4 = Integer.MAX_VALUE;
+        if (root.val == 1) {
+            min1 = Math.min(Math.min(l[0] + r[0], l[1] + r[1] + 2), Math.min(l[2] + r[2] + 2, l[3] + r[3] + 2));
+            min2 = Math.min(Math.min(l[0] + r[0] + 1, l[1] + r[1] + 1), Math.min(l[2] + r[2] + 1, l[3] + r[3] + 3));
+            min3 = Math.min(Math.min(l[0] + r[0] + 2, l[1] + r[1]), Math.min(l[2] + r[2] + 2, l[3] + r[3] + 2));
+            min4 = Math.min(Math.min(l[0] + r[0] + 1, l[1] + r[1] + 1), Math.min(l[2] + r[2] + 3, l[3] + r[3] + 1));
+        } else {
+            min1 = Math.min(Math.min(l[0] + r[0] + 1, l[1] + r[1] + 1), Math.min(l[2] + r[2] + 3,l[3] + r[3] + 1));
+            min2 = Math.min(Math.min(l[0] + r[0] + 2, l[1] + r[1]), Math.min(l[2] + r[2] + 2, l[3] + r[3] + 2));
+            min3 = Math.min(Math.min(l[0] + r[0] + 1, l[1] + r[1] + 1), Math.min(l[2] + r[2] + 1, l[3] + r[3] + 3));
+            min4 = Math.min(Math.min(l[0] + r[0], l[1] + r[1] + 2), Math.min(l[2] + r[2] + 2, l[3] + r[3] + 2));
+        }
+        return new int[] { min1, min2, min3, min4 };
+    }
+
 }
