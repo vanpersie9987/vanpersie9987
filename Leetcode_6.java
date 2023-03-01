@@ -8520,14 +8520,14 @@ public class Leetcode_6 {
     // 1616. 分割两个字符串得到回文串 (Split Two Strings to Make Palindrome)
     public boolean checkPalindromeFormation(String a, String b) {
         int n = a.length();
-        if (isPalindrome1616(a,0,n-1) || isPalindrome1616(b,0,n-1)) {
+        if (isPalindrome1616(a, 0, n - 1) || isPalindrome1616(b, 0, n - 1)) {
             return true;
         }
         return check1616(a, b) || check1616(b, a);
 
     }
 
-    private boolean isPalindrome1616(String s,int i ,int j) {
+    private boolean isPalindrome1616(String s, int i, int j) {
         while (i < j) {
             if (s.charAt(i) != s.charAt(j)) {
                 return false;
