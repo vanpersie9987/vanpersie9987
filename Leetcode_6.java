@@ -8552,6 +8552,25 @@ public class Leetcode_6 {
         return true;
     }
 
+    // 面试题 05.08. 绘制直线
+    public int[] drawLine(int length, int w, int x1, int x2, int y) {
+        int[] res = new int[length];
+        int mask = 0;
+        int index = 0;
+        for (int i = 0; i < w; ++i) {
+            mask = (mask << 1) | ((i >= x1 && i <= x2) ? 1 : 0);
+            if (i % 32 == 31) {
+                res[w / 32 * y + index++] = mask;
+                mask = 0;
+            }
+        }
+        return res;
+
+    }
+
+    // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
+    // public int[] countRectangles(int[][] rectangles, int[][] points) {
+    // }
 
 
     // public int maxNumOfMarkedIndices(int[] nums) {
@@ -8681,21 +8700,5 @@ public class Leetcode_6 {
     // public int distinctEchoSubstrings(String text) {
 
     // }
-
-    // 面试题 05.08. 绘制直线
-    public int[] drawLine(int length, int w, int x1, int x2, int y) {
-        int[] res = new int[length];
-        int mask = 0;
-        int index = 0;
-        for (int i = 0; i < w; ++i) {
-            mask = (mask << 1) | ((i >= x1 && i <= x2) ? 1 : 0);
-            if (i % 32 == 31) {
-                res[w / 32 * y + index++] = mask;
-                mask = 0;
-            }
-        }
-        return res;
-
-    }
 
 }
