@@ -8682,4 +8682,55 @@ public class Leetcode_6 {
 
     // }
 
+    // 面试题 05.08. 绘制直线
+    public int[] drawLine(int length, int w, int x1, int x2, int y) {
+        int[] res = new int[length];
+        int mask = 0;
+        int index = 0;
+        for (int i = 0; i < w; ++i) {
+            mask = (mask << 1) | ((i >= x1 && i <= x2) ? 1 : 0);
+            if (i % 32 == 31) {
+                res[w / 32 * y + index++] = mask;
+                mask = 0;
+            }
+        }
+        return res;
+
+    }
+
+    // 面试题 05.08. 绘制直线
+    // public int[] drawLine2(int length, int w, int x1, int x2, int y) {
+    //     int[] res = new int[length];
+    //     int mask = 0;
+    //     int index = 0;
+    //     while (index * 32 < w) {
+    //         int left = index * 32;
+    //         int right = index * 32 + 31;
+    //         if (left > x2) {
+    //             break;
+    //         }
+    //         if (right < x1) {
+    //             ++index;
+    //             continue;
+    //         } else if (right <= x2 && left >= x1) {
+    //            int mod1 =x1 % 32;
+    //            int mod2=  x2 % 32;
+    //             1 << left
+    //         }
+
+
+
+           
+        
+    //     }
+    //     for (int i = 0; i < w; ++i) {
+    //         mask = (mask << 1) | ((i >= x1 && i <= x2) ? 1 : 0);
+    //         if (i % 32 == 31) {
+    //             res[w / 32 * y + index++] = mask;
+    //             mask = 0;
+    //         }
+    //     }
+    //     return res;
+    // }
+
 }
