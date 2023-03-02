@@ -17158,7 +17158,7 @@ public class LeetCodeText {
     // 面试题 05.02. 二进制数转字符串 (Bianry Number to String LCCI)
     public String printBin(double num) {
         final int M = 1000000;
-        int count = 30;
+        int count = 6;
         StringBuilder res = new StringBuilder();
         res.append("0.");
         int n = (int) (num * M);
