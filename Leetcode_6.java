@@ -8569,9 +8569,53 @@ public class Leetcode_6 {
     }
 
     // 2250. 统计包含每个点的矩形数目 (Count Number of Rectangles Containing Each Point)
-    // public int[] countRectangles(int[][] rectangles, int[][] points) {
-    // }
+    public int[] countRectangles(int[][] rectangles, int[][] points) {
+        int n = points.length;
+        int[] res = new int[n];
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int[] r : rectangles) {
+            map.computeIfAbsent(r[1], k -> new ArrayList<>()).add(r[0]);
+        }
+        for (List<Integer> vals : map.values()) {
+            Collections.sort(vals);
+        }
+        for (int i = 0; i < n; ++i) {
+            int x = points[i][0];
+            int y = points[i][1];
+            int cur = 0;
+            for (int j = y; j <= 100; ++j) {
+                cur += binarySearch2250(map.getOrDefault(j, new ArrayList<>()), x);
+            }
+            res[i] = cur;
+        }
+        return res;
+    }
 
+    private int binarySearch2250(List<Integer> list, int target) {
+        if (list.isEmpty()) {
+            return 0;
+        }
+        int n = list.size();
+        if (target <= list.get(0)) {
+            return n;
+        }
+        if (target > list.get(n - 1)) {
+            return 0;
+        }
+        int left= 0;
+        int right = n - 1;
+        int res = 0;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (list.get(mid) >= target) {
+                res = n - mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
 
     // public int maxNumOfMarkedIndices(int[] nums) {
     // int n = nums.length;
