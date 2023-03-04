@@ -8637,6 +8637,27 @@ public class Leetcode_6 {
 
     }
 
+    // 982. 按位与为零的三元组 (Triples with Bitwise AND Equal To Zero) --枚举子集技巧
+    public int countTriplets2(int[] nums) {
+        int[] counts = new int[1 << 16];
+        for (int x : nums) {
+            for (int y : nums) {
+                ++counts[x & y];
+            }
+        }
+        int res = 0;
+        for (int x : nums) {
+            x ^= 0xffff;
+            int sub = x;
+            do {
+                res += counts[sub];
+                sub = (sub - 1) & x;
+            } while (sub != x);
+
+        }
+        return res;
+
+    }
 
     // public int maxNumOfMarkedIndices(int[] nums) {
     // int n = nums.length;
