@@ -8845,61 +8845,62 @@ public class Leetcode_6 {
 
     }
 
-    private Map<Integer, Set<Integer>> tree;
-    private Map<Integer, Set<Integer>> gus;
-    private int cur;
-    private int res = 0;
-    private int k;
+    // 6314. 统计可能的树根数目 (Count Number of Possible Root Nodes)
+    private Map<Integer, Set<Integer>> tree6314;
+    private Map<Integer, Set<Integer>> gus6314;
+    private int cur6314;
+    private int res6314;
+    private int k6314;
 
     public int rootCount(int[][] edges, int[][] guesses, int k) {
-        tree = new HashMap<>();
-        this.k = k;
+        tree6314 = new HashMap<>();
+        this.k6314 = k;
         for (int[] e : edges) {
-            tree.computeIfAbsent(e[0], o -> new HashSet<>()).add(e[1]);
-            tree.computeIfAbsent(e[1], o -> new HashSet<>()).add(e[0]);
+            tree6314.computeIfAbsent(e[0], o -> new HashSet<>()).add(e[1]);
+            tree6314.computeIfAbsent(e[1], o -> new HashSet<>()).add(e[0]);
         }
-        gus = new HashMap<>();
+        gus6314 = new HashMap<>();
         for (int[] g : guesses) {
-            gus.computeIfAbsent(g[0], o -> new HashSet<>()).add(g[1]);
+            gus6314.computeIfAbsent(g[0], o -> new HashSet<>()).add(g[1]);
         }
 
-        dfs(0, -1);
-        if (cur >= k) {
-            ++res;
+        dfs6314(0, -1);
+        if (cur6314 >= k) {
+            ++res6314;
         }
-        dfs2(0, -1, cur);
-        return res;
+        dfs2_6314(0, -1, cur6314);
+        return res6314;
 
     }
 
-    private void dfs2(int x, int fa, int cur) {
-        for (int y : tree.getOrDefault(x, new HashSet<>())) {
+    private void dfs2_6314(int x, int fa, int cur) {
+        for (int y : tree6314.getOrDefault(x, new HashSet<>())) {
             int curK = cur;
             if (y != fa) {
-                Set<Integer> s = gus.getOrDefault(x, new HashSet<>());
+                Set<Integer> s = gus6314.getOrDefault(x, new HashSet<>());
                 if (s.contains(y)) {
                     --curK;
                 }
-                Set<Integer> s2 = gus.getOrDefault(y, new HashSet<>());
+                Set<Integer> s2 = gus6314.getOrDefault(y, new HashSet<>());
                 if (s2.contains(x)) {
                     ++curK;
                 }
-                if (curK >= k) {
-                    ++res;
+                if (curK >= k6314) {
+                    ++res6314;
                 }
-                dfs2(y, x, curK);
+                dfs2_6314(y, x, curK);
             }
         }
     }
 
-    private void dfs(int x, int fa) {
-        for (int y : tree.getOrDefault(x, new HashSet<>())) {
+    private void dfs6314(int x, int fa) {
+        for (int y : tree6314.getOrDefault(x, new HashSet<>())) {
             if (y != fa) {
-                Set<Integer> s = gus.getOrDefault(x, new HashSet<>());
+                Set<Integer> s = gus6314.getOrDefault(x, new HashSet<>());
                 if (s.contains(y)) {
-                    ++cur;
+                    ++cur6314;
                 }
-                dfs(y, x);
+                dfs6314(y, x);
             }
         }
     }
