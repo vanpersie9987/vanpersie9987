@@ -8661,6 +8661,123 @@ public class Leetcode_6 {
 
     }
 
+    // 6312. 最小和分割 (Split With Minimum Sum)
+    public int splitNum(int num) {
+        int[] counts = new int[10];
+        while (num != 0) {
+            int mod = num % 10;
+            ++counts[mod];
+            num /= 10;
+        }
+        int num1 = 0;
+        int num2 = 0;
+        for (int i = 0; i < 10; ++i) {
+            while (counts[i] != 0) {
+                if (num1 < num2) {
+                    num1 = num1 * 10 + i;
+                } else {
+                    num2 = num2 * 10 + i;
+                }
+                --counts[i];
+            }
+        }
+        return num1 + num2;
+    }
+
+    // 6311. 统计染色格子数 (Count Total Number of Colored Cells)
+    public long coloredCells(int n) {
+        long res = 1l;
+        for (int i = 2; i <= n; ++i) {
+            res = res + (i - 1) * 4;
+        }
+        return res;
+
+    }
+
+    // 6313. 统计将重叠区间合并成组的方案数 (Count Ways to Group Overlapping Ranges)
+    public int countWays(int[][] ranges) {
+        Arrays.sort(ranges, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+            
+        });
+        int res = 1;
+        final int MOD = (int) (1e9 + 7);
+        int right = ranges[0][1];
+        for (int i = 1; i < ranges.length; ++i) {
+            if (right < ranges[i][0]) {
+                res = (res * 2) % MOD;
+            }
+            right = Math.max(right, ranges[i][1]);
+        }
+        return res * 2 % MOD;
+
+    }
+
+    // 6314. 统计可能的树根数目 (Count Number of Possible Root Nodes)
+    private Map<Integer, Set<Integer>> tree6314;
+    private Map<Integer, Set<Integer>> gus6314;
+    private int cur6314;
+    private int res6314;
+    private int k6314;
+
+    public int rootCount(int[][] edges, int[][] guesses, int k) {
+        tree6314 = new HashMap<>();
+        this.k6314 = k;
+        for (int[] e : edges) {
+            tree6314.computeIfAbsent(e[0], o -> new HashSet<>()).add(e[1]);
+            tree6314.computeIfAbsent(e[1], o -> new HashSet<>()).add(e[0]);
+        }
+        gus6314 = new HashMap<>();
+        for (int[] g : guesses) {
+            gus6314.computeIfAbsent(g[0], o -> new HashSet<>()).add(g[1]);
+        }
+
+        dfs6314(0, -1);
+        if (cur6314 >= k) {
+            ++res6314;
+        }
+        dfs2_6314(0, -1, cur6314);
+        return res6314;
+
+    }
+
+    private void dfs2_6314(int x, int fa, int cur) {
+        for (int y : tree6314.getOrDefault(x, new HashSet<>())) {
+            int curK = cur;
+            if (y != fa) {
+                Set<Integer> s = gus6314.getOrDefault(x, new HashSet<>());
+                if (s.contains(y)) {
+                    --curK;
+                }
+                Set<Integer> s2 = gus6314.getOrDefault(y, new HashSet<>());
+                if (s2.contains(x)) {
+                    ++curK;
+                }
+                if (curK >= k6314) {
+                    ++res6314;
+                }
+                dfs2_6314(y, x, curK);
+            }
+        }
+    }
+
+    private void dfs6314(int x, int fa) {
+        for (int y : tree6314.getOrDefault(x, new HashSet<>())) {
+            if (y != fa) {
+                Set<Integer> s = gus6314.getOrDefault(x, new HashSet<>());
+                if (s.contains(y)) {
+                    ++cur6314;
+                }
+                dfs6314(y, x);
+            }
+        }
+    }
+
+
     // public int maxNumOfMarkedIndices(int[] nums) {
     // int n = nums.length;
     // Arrays.sort(nums);
@@ -8788,121 +8905,5 @@ public class Leetcode_6 {
     // public int distinctEchoSubstrings(String text) {
 
     // }
-
-    // 6312. 最小和分割 (Split With Minimum Sum)
-    public int splitNum(int num) {
-        int[] counts = new int[10];
-        while (num != 0) {
-            int mod = num % 10;
-            ++counts[mod];
-            num /= 10;
-        }
-        int num1 = 0;
-        int num2 = 0;
-        for (int i = 0; i < 10; ++i) {
-            while (counts[i] != 0) {
-                if (num1 < num2) {
-                    num1 = num1 * 10 + i;
-                } else {
-                    num2 = num2 * 10 + i;
-                }
-                --counts[i];
-            }
-        }
-        return num1 + num2;
-    }
-
-    // 6311. 统计染色格子数 (Count Total Number of Colored Cells)
-    public long coloredCells(int n) {
-        long res = 1l;
-        for (int i = 2; i <= n; ++i) {
-            res = res + (i - 1) * 4;
-        }
-        return res;
-
-    }
-
-    // 6313. 统计将重叠区间合并成组的方案数 (Count Ways to Group Overlapping Ranges)
-    public int countWays(int[][] ranges) {
-        Arrays.sort(ranges, new Comparator<int[]>() {
-
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return o1[0] - o2[0];
-            }
-            
-        });
-        int res = 1;
-        final int MOD = (int) (1e9 + 7);
-        int right = ranges[0][1];
-        for (int i = 1; i < ranges.length; ++i) {
-            if (right < ranges[i][0]) {
-                res = (res * 2) % MOD;
-            }
-            right = Math.max(right, ranges[i][1]);
-        }
-        return res * 2 % MOD;
-
-    }
-
-    // 6314. 统计可能的树根数目 (Count Number of Possible Root Nodes)
-    private Map<Integer, Set<Integer>> tree6314;
-    private Map<Integer, Set<Integer>> gus6314;
-    private int cur6314;
-    private int res6314;
-    private int k6314;
-
-    public int rootCount(int[][] edges, int[][] guesses, int k) {
-        tree6314 = new HashMap<>();
-        this.k6314 = k;
-        for (int[] e : edges) {
-            tree6314.computeIfAbsent(e[0], o -> new HashSet<>()).add(e[1]);
-            tree6314.computeIfAbsent(e[1], o -> new HashSet<>()).add(e[0]);
-        }
-        gus6314 = new HashMap<>();
-        for (int[] g : guesses) {
-            gus6314.computeIfAbsent(g[0], o -> new HashSet<>()).add(g[1]);
-        }
-
-        dfs6314(0, -1);
-        if (cur6314 >= k) {
-            ++res6314;
-        }
-        dfs2_6314(0, -1, cur6314);
-        return res6314;
-
-    }
-
-    private void dfs2_6314(int x, int fa, int cur) {
-        for (int y : tree6314.getOrDefault(x, new HashSet<>())) {
-            int curK = cur;
-            if (y != fa) {
-                Set<Integer> s = gus6314.getOrDefault(x, new HashSet<>());
-                if (s.contains(y)) {
-                    --curK;
-                }
-                Set<Integer> s2 = gus6314.getOrDefault(y, new HashSet<>());
-                if (s2.contains(x)) {
-                    ++curK;
-                }
-                if (curK >= k6314) {
-                    ++res6314;
-                }
-                dfs2_6314(y, x, curK);
-            }
-        }
-    }
-
-    private void dfs6314(int x, int fa) {
-        for (int y : tree6314.getOrDefault(x, new HashSet<>())) {
-            if (y != fa) {
-                Set<Integer> s = gus6314.getOrDefault(x, new HashSet<>());
-                if (s.contains(y)) {
-                    ++cur6314;
-                }
-                dfs6314(y, x);
-            }
-        }
-    }
 
 }
