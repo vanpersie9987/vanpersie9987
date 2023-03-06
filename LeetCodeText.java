@@ -13706,32 +13706,35 @@ public class LeetCodeText {
 
     }
 
-    // 1653. 使字符串平衡的最少删除次数
+    // 1653. 使字符串平衡的最少删除次数 (Minimum Deletions to Make String Balanced)
     public int minimumDeletions(String s) {
-        Stack<Character> stack = new Stack<>();
-        int res = 0;
+        int cntA = 0;
         for (char c : s.toCharArray()) {
-            if (c == 'b') {
-                stack.push(c);
-            } else if (!stack.isEmpty()) {
-                ++res;
-                stack.pop();
+            cntA += 'b' - c;
+        }
+        int res = cntA;
+        int cur = cntA;
+        for (char c : s.toCharArray()) {
+            if (c == 'a') {
+                --cur;
+            } else {
+                ++cur;
             }
+            res = Math.min(res, cur);
         }
         return res;
 
     }
 
-    // 1653. 使字符串平衡的最少删除次数
+    // 1653. 使字符串平衡的最少删除次数 (Minimum Deletions to Make String Balanced) --动态规划
     public int minimumDeletions2(String s) {
-        int bCount = 0;
         int res = 0;
+        int cntB = 0;
         for (char c : s.toCharArray()) {
             if (c == 'b') {
-                ++bCount;
-            } else if (bCount != 0) {
-                ++res;
-                --bCount;
+                ++cntB;
+            } else {
+                res = Math.min(res + 1, cntB);
             }
         }
         return res;
