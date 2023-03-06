@@ -8777,6 +8777,148 @@ public class Leetcode_6 {
         }
     }
 
+    // 2582. 递枕头 (Pass the Pillow)
+    public int passThePillow(int n, int time) {
+        int t = time / (n - 1);
+        return (t & 1) == 1 ? n - time % (n - 1) : 1 + time % (n - 1);
+
+    }
+
+    // 2583. 二叉树中的第 K 大层和 (Kth Largest Sum in a Binary Tree)
+    public long kthLargestLevelSum(TreeNode root, int k) {
+        List<Long> list = new ArrayList<>();
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            long curSum = 0l;
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = q.poll();
+                curSum += node.val;
+                if (node.left != null) {
+                    q.offer(node.left);
+                }
+                if (node.right != null) {
+                    q.offer(node.right);
+                }
+            }
+            list.add(curSum);
+        }
+        if (k > list.size()) {
+            return -1;
+        }
+        Collections.sort(list, new Comparator<Long>() {
+
+            @Override
+            public int compare(Long o1, Long o2) {
+                return Long.compare(o2, o1);
+            }
+            
+        });
+        return list.get(k - 1);
+
+
+    }
+
+    // 2584. 分割数组使乘积互质 (Split the Array to Make Coprime Products)
+    public int findValidSplit(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int n = nums.length;
+        if (n == 1) {
+            return -1;
+        }
+        if (nums[0] == 1) {
+            return 0;
+        }
+        for (int i = 0; i < n; ++i) {
+            int num = nums[i];
+            for (int j = 2; j * j <= num; ++j) {
+                while (num % j == 0) {
+                    map.put(j, i);
+                    num /= j;
+                }
+            }
+            if (num != 1) {
+                map.put(num, i);
+            }
+            
+        }
+        
+        int right = -1;
+        for (int i = 0; i < n; ++i) {
+            int num = nums[i];
+            if (num == 1) {
+                continue;
+            }
+            int curRight = i;
+            for (int j = 2; j * j <= num; ++j) {
+                while (num % j == 0) {
+                    int r = map.get(j);
+                    curRight = Math.max(r, curRight);
+                    num /= j;
+                }
+            }
+            if (num != 1) {
+                curRight = Math.max(curRight, map.get(num));
+            }
+            if (curRight == n - 1) {
+                return -1;
+            }
+            right = Math.max(right, curRight);
+            if (i == right) {
+                return right;
+            }
+        }
+        return -1;
+
+
+    }
+
+    // 2585. 获得分数的方法数 (Number of Ways to Earn Points)
+    int[][] memo2585;
+    int[][] types2585;
+    int target2585;
+    int n2585;
+
+    public int waysToReachTarget(int target, int[][] types) {
+        this.n2585 = types.length;
+        int sumScores = 0;
+        this.target2585 = target;
+        for (int[] type : types) {
+            sumScores += type[0] * type[1];
+        }
+        if (sumScores < target) {
+            return 0;
+        }
+        this.types2585 = types;
+        memo2585 = new int[n2585 + 1][Math.min(1000, sumScores) + 1];
+        for (int i = 0; i < n2585 + 1; ++i) {
+            Arrays.fill(memo2585[i], -1);
+        }
+        return dfs2585(0, 0);
+
+    }
+
+    private int dfs2585(int i, int score) {
+        if (i == n2585 || score >= target2585) {
+            if (score == target2585) {
+                return 1;
+            }
+            return 0;
+        }
+        if (memo2585[i][score] != -1) {
+            return memo2585[i][score];
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        int curCount = types2585[i][0];
+        int curScore = types2585[i][1];
+        for (int j = 0; j <= curCount; ++j) {
+            res = (res + dfs2585(i + 1, score + j * curScore)) % MOD;
+        }
+        return memo2585[i][score] = res;
+    }
+
 
     // public int maxNumOfMarkedIndices(int[] nums) {
     // int n = nums.length;
@@ -8906,4 +9048,8 @@ public class Leetcode_6 {
 
     // }
 
+    // 688. 骑士在棋盘上的概率 (Knight Probability in Chessboard)
+    // public double knightProbability(int n, int k, int row, int column) {
+
+    // }
 }
