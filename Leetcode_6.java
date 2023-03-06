@@ -9027,52 +9027,6 @@ public class Leetcode_6 {
 
     // }
 
-    // 1473. 粉刷房子 III (Paint House III)
-    // private static int[][][] memo;
-    // private static int m1473;
-    // private static int n1473;
-    // private static int target1473;
-    // private static int[] houses1473;
-    // private static int[][] cost1473;
-
-    // public static int minCost(int[] houses, int[][] cost, int m, int n, int
-    // target) {
-    // // memo[i][j][k]
-    // memo = new int[m][n + 2][target + 1];
-    // m1473 = m;
-    // n1473 = n;
-    // target1473 = target;
-    // cost1473 = cost;
-    // houses1473 = houses;
-    // int res = dfs(0, n + 1, target);
-    // return res == (int) 1e8 ? -1 : res;
-
-    // }
-
-    // private static int dfs(int i, int lastColor, int kinds) {
-    // if (i == m1473 || kinds < 0 || kinds > m1473 - i) {
-    // if (i == m1473 && kinds == 0) {
-    // return 0;
-    // }
-    // return (int) 1e8;
-    // }
-
-    // if (memo[i][lastColor][target1473] != 0) {
-    // return memo[i][lastColor][target1473];
-    // }
-    // int min = (int) 1e8;
-    // if (houses1473[i] != 0) {
-    // min = Math.min(min, dfs(i + 1, houses1473[i], kinds + (lastColor !=
-    // houses1473[i] ? -1 : 0)));
-    // return memo[i][lastColor][target1473] = min;
-    // }
-    // for (int color = 1; color <= n1473; ++color) {
-    // min = Math.min(min, cost1473[i][color - 1] + dfs(i + 1, color, kinds +
-    // (lastColor != color ? -1 : 0)));
-    // }
-    // return memo[i][lastColor][target1473] = min;
-    // }
-
     // 638. 大礼包 (Shopping Offers)
     // public int shoppingOffers(List<Integer> price, List<List<Integer>> special,
     // List<Integer> needs) {
@@ -9082,5 +9036,49 @@ public class Leetcode_6 {
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
 
+    // }
+
+    // 1473. 粉刷房子 III (Paint House III)
+    // private int[][][] memo;
+    // private int m1473;
+    // private int n1473;
+    // private int target1473;
+    // private int[] houses1473;
+    // private int[][] cost1473;
+
+    // public int minCost(int[] houses, int[][] cost, int m, int n, int target) {
+    //     // memo[i][j][k] 将[0,i]房子涂色 第i个房子被涂成第j种颜色 且它属于第k个街区的 最小花销
+    //     memo = new int[m][n][target];
+    //     m1473 = m;
+    //     n1473 = n;
+    //     target1473 = target;
+    //     cost1473 = cost;
+    //     houses1473 = houses;
+    //     int res = dfs(0, n + 1, target);
+    //     return res == (int) 1e8 ? -1 : res;
+
+    // }
+
+    // private int dfs(int i, int lastColor, int kinds) {
+    //     if (i == m1473 || kinds < 0 || kinds > m1473 - i) {
+    //         if (i == m1473 && kinds == 0) {
+    //             return 0;
+    //         }
+    //         return (int) 1e8;
+    //     }
+
+    //     if (memo[i][lastColor][target1473] != 0) {
+    //         return memo[i][lastColor][target1473];
+    //     }
+    //     int min = (int) 1e8;
+    //     if (houses1473[i] != 0) {
+    //         min = Math.min(min, dfs(i + 1, houses1473[i], kinds + (lastColor != houses1473[i] ? -1 : 0)));
+    //         return memo[i][lastColor][target1473] = min;
+    //     }
+    //     for (int color = 1; color <= n1473; ++color) {
+    //         min = Math.min(min, cost1473[i][color - 1] + dfs(i + 1, color, kinds +
+    //                 (lastColor != color ? -1 : 0)));
+    //     }
+    //     return memo[i][lastColor][target1473] = min;
     // }
 }
