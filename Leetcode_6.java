@@ -8919,6 +8919,42 @@ public class Leetcode_6 {
         return memo2585[i][score] = res;
     }
 
+    // 688. 骑士在棋盘上的概率 (Knight Probability in Chessboard)
+    private double[][][] memo688;
+    private int n688;
+    private int[][] dirs688 = { { -2, 1 }, { -1, 2 }, { 1, 2 }, { 2, 1 }, { 2, -1 }, { 1, -2 }, { -1, -2 }, { -2, -1 } };
+
+    public double knightProbability(int n, int k, int row, int column) {
+        memo688 = new double[n][n][k + 1];
+        this.n688 = n;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                Arrays.fill(memo688[i][j], -1.0d);
+            }
+        }
+        return dfs688(row, column, k);
+    }
+
+    private double dfs688(int r, int c, int k) {
+        if (r < 0 || r >= n688 || c < 0 || c >= n688) {
+            return 0d;
+        }
+        if (k == 0) {
+            return 1.0d;
+        }
+        if (memo688[r][c][k] >= 0d) {
+            return memo688[r][c][k];
+        }
+        double res = 0d;
+        for (int[] d : dirs688) {
+            int nr = r + d[0];
+            int nc = c + d[1];
+            res += dfs688(nr, nc, k - 1) / 8.0d;
+        }
+
+        return memo688[r][c][k] = res;
+    }
+
 
     // public int maxNumOfMarkedIndices(int[] nums) {
     // int n = nums.length;
@@ -9045,11 +9081,6 @@ public class Leetcode_6 {
 
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
-
-    // }
-
-    // 688. 骑士在棋盘上的概率 (Knight Probability in Chessboard)
-    // public double knightProbability(int n, int k, int row, int column) {
 
     // }
 }
