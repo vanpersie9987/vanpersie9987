@@ -8719,7 +8719,6 @@ public class Leetcode_6 {
     // 6314. 统计可能的树根数目 (Count Number of Possible Root Nodes)
     private Map<Integer, Set<Integer>> tree6314;
     private Map<Integer, Set<Integer>> gus6314;
-    private int cur6314;
     private int res6314;
     private int k6314;
 
@@ -8735,16 +8734,16 @@ public class Leetcode_6 {
             gus6314.computeIfAbsent(g[0], o -> new HashSet<>()).add(g[1]);
         }
 
-        dfs6314(0, -1);
-        if (cur6314 >= k) {
+        int cur = dfs6314(0, -1);
+        if (cur >= k) {
             ++res6314;
         }
-        dfs2_6314(0, -1, cur6314);
+        dfs6314(0, -1, cur);
         return res6314;
 
     }
 
-    private void dfs2_6314(int x, int fa, int cur) {
+    private void dfs6314(int x, int fa, int cur) {
         for (int y : tree6314.getOrDefault(x, new HashSet<>())) {
             int curK = cur;
             if (y != fa) {
@@ -8759,21 +8758,23 @@ public class Leetcode_6 {
                 if (curK >= k6314) {
                     ++res6314;
                 }
-                dfs2_6314(y, x, curK);
+                dfs6314(y, x, curK);
             }
         }
     }
 
-    private void dfs6314(int x, int fa) {
+    private int dfs6314(int x, int fa) {
+        int count = 0;
         for (int y : tree6314.getOrDefault(x, new HashSet<>())) {
             if (y != fa) {
                 Set<Integer> s = gus6314.getOrDefault(x, new HashSet<>());
                 if (s.contains(y)) {
-                    ++cur6314;
+                    ++count;
                 }
-                dfs6314(y, x);
+                count += dfs6314(y, x);
             }
         }
+        return count;
     }
 
     // 2582. 递枕头 (Pass the Pillow)
