@@ -9117,6 +9117,45 @@ public class Leetcode_6 {
         return memo2297[i] = res;
     }
 
+    // 265. 粉刷房子 II (Paint House II) --plus
+    private int[][] costs265;
+    private int n265;
+    private int k265;
+    private int[][] memo265;
+
+    public int minCostII(int[][] costs) {
+        this.n265 = costs.length;
+        this.k265 = costs[0].length;
+        this.costs265 = costs;
+        memo265 = new int[n265][k265];
+        for (int i = 0; i < n265; ++i) {
+            Arrays.fill(memo265[i], Integer.MAX_VALUE);
+        }
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < k265; ++i) {
+            res = Math.min(res, dfs265(1, i) + costs[0][i]);
+        }
+        return res;
+
+    }
+
+    private int dfs265(int i, int lastColor) {
+        if (i == n265) {
+            return 0;
+        }
+        if (memo265[i][lastColor] != Integer.MAX_VALUE) {
+            return memo265[i][lastColor];
+        }
+        int min = Integer.MAX_VALUE;
+        for (int j = 0; j < k265; ++j) {
+            if (lastColor != j) {
+                min = Math.min(min, dfs265(i + 1, j) + costs265[i][j]);
+            }
+        }
+        return memo265[i][lastColor] = min;
+    }
+
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
