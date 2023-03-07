@@ -9045,35 +9045,23 @@ public class Leetcode_6 {
     }
 
 
-    // public int maxNumOfMarkedIndices(int[] nums) {
-    // int n = nums.length;
-    // Arrays.sort(nums);
-    // TreeMap<Integer, Integer> map = new TreeMap<>();
-    // for (int num : nums) {
-    // map.put(num, map.getOrDefault(num, 0) + 1);
-    // }
-    // int res = 0;
-    // for (int i = n - 1; i >= 0; --i) {
-    // if (map.getOrDefault(nums[i], 0) != 0) {
-    // int target = nums[i] / 2;
-    // Integer floor = map.floorKey(target);
-    // if (floor != null) {
-    // map.put(floor, map.getOrDefault(floor, 0) - 1);
-    // if (map.getOrDefault(floor, 0) == 0) {
-    // map.remove(floor);
-    // }
-    // map.put(nums[i], map.getOrDefault(nums[i], 0) - 1);
-    // if (map.getOrDefault(nums[i], 0) == 0) {
-    // map.remove(nums[i]);
-    // }
-    // res += 2;
-    // }
-
-    // }
-    // }
-    // return res;
-
-    // }
+    // 487. 最大连续1的个数 II (Max Consecutive Ones II)
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int n = nums.length;
+        int left = 0;
+        int right = 0;
+        int cnt0 = 0;
+        int res = 0;
+        while (right < n) {
+            cnt0 += 1 - nums[right];
+            while (cnt0 > 1) {
+                cnt0 -= 1 - nums[left++];
+            }
+            res = Math.max(res, right - left + 1);
+            ++right;
+        }
+        return res;
+    }
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {

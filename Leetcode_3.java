@@ -7131,34 +7131,6 @@ public class Leetcode_3 {
 
     }
 
-    // 1644. 二叉树的最近公共祖先 II --plus (未提交)
-    private int count1644;
-
-    public TreeNode lowestCommonAncestor1644(TreeNode root, TreeNode p, TreeNode q) {
-        TreeNode res = dfs1644(root, p, q);
-        return count1644 == 2 ? res : null;
-
-    }
-
-    private TreeNode dfs1644(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null || root == p || root == q) {
-            if (root == p || root == q) {
-                ++count1644;
-            }
-            return root;
-        }
-        TreeNode left = dfs1644(root.left, p, q);
-        TreeNode right = dfs1644(root.right, p, q);
-        if (left == null) {
-            return right;
-        }
-        if (right == null) {
-            return left;
-        }
-        return root;
-
-    }
-
     // 1311. 获取你好友已观看的视频 (Get Watched Videos by Your Friends) --bfs
     public List<String> watchedVideosByFriends(List<List<String>> watchedVideos, int[][] friends, int id, int level) {
         int n = watchedVideos.size();
