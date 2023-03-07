@@ -9017,7 +9017,7 @@ public class Leetcode_6 {
 
     }
 
-    // 找大于等于target的最小值对应的索引, 若不存在，返回-1
+    // 找大于等于target的最小值对应的索引
     private int binarySearch1712(int[] nums, int left, int right, int target) {
         while (left < right) {
             int mid = left + ((right - left) >>> 1);
@@ -9030,7 +9030,7 @@ public class Leetcode_6 {
         return left;
     }
 
-    // 找小于等于target的最大值对应的索引, 若不存在，返回-1
+    // 找小于等于target的最大值对应的索引
     private int binarySearch1712_2(int[] nums, int left, int right, int target) {
         while (left < right) {
             int mid = left + ((right - left) >>> 1);
