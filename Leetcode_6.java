@@ -8992,6 +8992,58 @@ public class Leetcode_6 {
         return memo1563[i][j];
     }
 
+    // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
+    public int waysToSplit(int[] nums) {
+        int res = 0;
+        int n = nums.length;
+        int[] pre = new int[n];
+        pre[0] = nums[0];
+        for (int i = 1; i < n; ++i) {
+            pre[i] = pre[i - 1] + nums[i];
+        }
+        int cut = pre[n - 1] / 3;
+        final int MOD = (int) (1e9 + 7);
+        for (int i = 0; i < n && pre[i] <= cut; ++i) {
+            // 第二个分割位置的左边界
+            int left = binarySearch1712(pre, i + 1, n - 1, pre[i] * 2);
+            // 第二个分割位置的右边界
+            int right = binarySearch1712_2(pre, i + 1, n - 1, pre[i] + (pre[n - 1] - pre[i]) / 2);
+            if (left != -1 && right != -1 && right >= left) {
+                res = (res + right - left + 1) % MOD;
+            }
+        }
+        return res;
+
+    }
+
+    // 找大于等于target的最小值对应的索引, 若不存在，返回-1
+    private int binarySearch1712(int[] nums, int left, int right, int target) {
+        while (left < right) {
+            int mid = left + ((right - left) >>> 1);
+            if (nums[mid] >= target) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    // 找小于等于target的最大值对应的索引, 若不存在，返回-1
+    private int binarySearch1712_2(int[] nums, int left, int right, int target) {
+        while (left < right) {
+            int mid = left + ((right - left) >>> 1);
+            if (nums[mid] <= target) {
+                // res = mid;
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return right - 1;
+
+    }
+
 
     // public int maxNumOfMarkedIndices(int[] nums) {
     // int n = nums.length;
@@ -9051,11 +9103,6 @@ public class Leetcode_6 {
     // }
     // }
     // return false;
-
-    // }
-
-    // 1712. 将数组分成三个子数组的方案数 (Ways to Split Array Into Three Subarrays)
-    // public int waysToSplit(int[] nums) {
 
     // }
 
