@@ -8151,7 +8151,6 @@ public class Leetcode_6 {
         }
         return res;
 
-
     }
 
     // 1745. 回文串分割 IV (Palindrome Partitioning IV)
@@ -8498,7 +8497,7 @@ public class Leetcode_6 {
         if (root == null) {
             return new int[] { 0, 0, 0, 0 };
         }
-        
+
         int[] l = dfs(root.left);
         int[] r = dfs(root.right);
         int min1 = Integer.MAX_VALUE;
@@ -8511,7 +8510,7 @@ public class Leetcode_6 {
             min3 = Math.min(Math.min(l[0] + r[0] + 2, l[1] + r[1]), Math.min(l[2] + r[2] + 2, l[3] + r[3] + 2));
             min4 = Math.min(Math.min(l[0] + r[0] + 1, l[1] + r[1] + 1), Math.min(l[2] + r[2] + 3, l[3] + r[3] + 1));
         } else {
-            min1 = Math.min(Math.min(l[0] + r[0] + 1, l[1] + r[1] + 1), Math.min(l[2] + r[2] + 3,l[3] + r[3] + 1));
+            min1 = Math.min(Math.min(l[0] + r[0] + 1, l[1] + r[1] + 1), Math.min(l[2] + r[2] + 3, l[3] + r[3] + 1));
             min2 = Math.min(Math.min(l[0] + r[0] + 2, l[1] + r[1]), Math.min(l[2] + r[2] + 2, l[3] + r[3] + 2));
             min3 = Math.min(Math.min(l[0] + r[0] + 1, l[1] + r[1] + 1), Math.min(l[2] + r[2] + 1, l[3] + r[3] + 3));
             min4 = Math.min(Math.min(l[0] + r[0], l[1] + r[1] + 2), Math.min(l[2] + r[2] + 2, l[3] + r[3] + 2));
@@ -8604,7 +8603,7 @@ public class Leetcode_6 {
         if (target > list.get(n - 1)) {
             return 0;
         }
-        int left= 0;
+        int left = 0;
         int right = n - 1;
         int res = 0;
         while (left <= right) {
@@ -8702,7 +8701,7 @@ public class Leetcode_6 {
             public int compare(int[] o1, int[] o2) {
                 return o1[0] - o2[0];
             }
-            
+
         });
         int res = 1;
         final int MOD = (int) (1e9 + 7);
@@ -8813,10 +8812,9 @@ public class Leetcode_6 {
             public int compare(Long o1, Long o2) {
                 return Long.compare(o2, o1);
             }
-            
+
         });
         return list.get(k - 1);
-
 
     }
 
@@ -8841,9 +8839,9 @@ public class Leetcode_6 {
             if (num != 1) {
                 map.put(num, i);
             }
-            
+
         }
-        
+
         int right = -1;
         for (int i = 0; i < n; ++i) {
             int num = nums[i];
@@ -8870,7 +8868,6 @@ public class Leetcode_6 {
             }
         }
         return -1;
-
 
     }
 
@@ -8922,7 +8919,8 @@ public class Leetcode_6 {
     // 688. 骑士在棋盘上的概率 (Knight Probability in Chessboard)
     private double[][][] memo688;
     private int n688;
-    private int[][] dirs688 = { { -2, 1 }, { -1, 2 }, { 1, 2 }, { 2, 1 }, { 2, -1 }, { 1, -2 }, { -1, -2 }, { -2, -1 } };
+    private int[][] dirs688 = { { -2, 1 }, { -1, 2 }, { 1, 2 }, { 2, 1 }, { 2, -1 }, { 1, -2 }, { -1, -2 },
+            { -2, -1 } };
 
     public double knightProbability(int n, int k, int row, int column) {
         memo688 = new double[n][n][k + 1];
@@ -8953,6 +8951,44 @@ public class Leetcode_6 {
         }
 
         return memo688[r][c][k] = res;
+    }
+
+    // 1563. 石子游戏 V (Stone Game V)
+    private int[][] memo1563;
+    private int[] stoneValue1563;
+
+    public int stoneGameV(int[] stoneValue) {
+        int n = stoneValue.length;
+        this.stoneValue1563 = stoneValue;
+        memo1563 = new int[n][n];
+        return dfs1563(0, n - 1);
+
+    }
+
+    private int dfs1563(int i, int j) {
+        if (i == j) {
+            return 0;
+        }
+        if (memo1563[i][j] != 0) {
+            return memo1563[i][j];
+        }
+        int sum = 0;
+        for (int k = i; k <= j; ++k) {
+            sum += stoneValue1563[k];
+        }
+        int leftSum = 0;
+        for (int k = i; k < j; ++k) {
+            leftSum += stoneValue1563[k];
+            int rightSum = sum - leftSum;
+            if (leftSum < rightSum) {
+                memo1563[i][j] = Math.max(memo1563[i][j], dfs1563(i, k) + leftSum);
+            } else if (leftSum > rightSum) {
+                memo1563[i][j] = Math.max(memo1563[i][j], dfs1563(k + 1, j) + rightSum);
+            } else {
+                memo1563[i][j] = Math.max(memo1563[i][j], Math.max(dfs1563(i, k), dfs1563(k + 1, j)) + leftSum);
+            }
+        }
+        return memo1563[i][j];
     }
 
 
@@ -9047,38 +9083,40 @@ public class Leetcode_6 {
     // private int[][] cost1473;
 
     // public int minCost(int[] houses, int[][] cost, int m, int n, int target) {
-    //     // memo[i][j][k] 将[0,i]房子涂色 第i个房子被涂成第j种颜色 且它属于第k个街区的 最小花销
-    //     memo = new int[m][n][target];
-    //     m1473 = m;
-    //     n1473 = n;
-    //     target1473 = target;
-    //     cost1473 = cost;
-    //     houses1473 = houses;
-    //     int res = dfs(0, n + 1, target);
-    //     return res == (int) 1e8 ? -1 : res;
+    // // memo[i][j][k] 将[0,i]房子涂色 第i个房子被涂成第j种颜色 且它属于第k个街区的 最小花销
+    // memo = new int[m][n][target];
+    // m1473 = m;
+    // n1473 = n;
+    // target1473 = target;
+    // cost1473 = cost;
+    // houses1473 = houses;
+    // int res = dfs(0, n + 1, target);
+    // return res == (int) 1e8 ? -1 : res;
 
     // }
 
     // private int dfs(int i, int lastColor, int kinds) {
-    //     if (i == m1473 || kinds < 0 || kinds > m1473 - i) {
-    //         if (i == m1473 && kinds == 0) {
-    //             return 0;
-    //         }
-    //         return (int) 1e8;
-    //     }
-
-    //     if (memo[i][lastColor][target1473] != 0) {
-    //         return memo[i][lastColor][target1473];
-    //     }
-    //     int min = (int) 1e8;
-    //     if (houses1473[i] != 0) {
-    //         min = Math.min(min, dfs(i + 1, houses1473[i], kinds + (lastColor != houses1473[i] ? -1 : 0)));
-    //         return memo[i][lastColor][target1473] = min;
-    //     }
-    //     for (int color = 1; color <= n1473; ++color) {
-    //         min = Math.min(min, cost1473[i][color - 1] + dfs(i + 1, color, kinds +
-    //                 (lastColor != color ? -1 : 0)));
-    //     }
-    //     return memo[i][lastColor][target1473] = min;
+    // if (i == m1473 || kinds < 0 || kinds > m1473 - i) {
+    // if (i == m1473 && kinds == 0) {
+    // return 0;
     // }
+    // return (int) 1e8;
+    // }
+
+    // if (memo[i][lastColor][target1473] != 0) {
+    // return memo[i][lastColor][target1473];
+    // }
+    // int min = (int) 1e8;
+    // if (houses1473[i] != 0) {
+    // min = Math.min(min, dfs(i + 1, houses1473[i], kinds + (lastColor !=
+    // houses1473[i] ? -1 : 0)));
+    // return memo[i][lastColor][target1473] = min;
+    // }
+    // for (int color = 1; color <= n1473; ++color) {
+    // min = Math.min(min, cost1473[i][color - 1] + dfs(i + 1, color, kinds +
+    // (lastColor != color ? -1 : 0)));
+    // }
+    // return memo[i][lastColor][target1473] = min;
+    // }
+
 }
