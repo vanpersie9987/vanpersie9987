@@ -9110,20 +9110,12 @@ public class Leetcode_6 {
         }
         long res = Long.MAX_VALUE;
         res = Math.min(res, dfs2297(i + 1) + cost2297[i + 1]);
-        if (nums2297[i + 1] < nums2297[i]) {
-            int index = rightCeiling2297[i];
-            if (index != -1) {
-                res = Math.min(res, dfs2297(index) + cost2297[index]);
-            }
-        } else {
-            int index = rightLower2297[i];
-            if (index != -1) {
-                res = Math.min(res, dfs2297(index) + cost2297[index]);
-            }
+        int index = nums2297[i + 1] < nums2297[i] ? rightCeiling2297[i] : rightLower2297[i];
+        if (index != -1) {
+            res = Math.min(res, dfs2297(index) + cost2297[index]);
         }
         return memo2297[i] = res;
     }
-
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
