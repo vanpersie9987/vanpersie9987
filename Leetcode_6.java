@@ -12,6 +12,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
+import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -9045,7 +9046,7 @@ public class Leetcode_6 {
     }
 
 
-    // 487. 最大连续1的个数 II (Max Consecutive Ones II)
+    // 487. 最大连续1的个数 II (Max Consecutive Ones II) --plus
     public int findMaxConsecutiveOnes(int[] nums) {
         int n = nums.length;
         int left = 0;
@@ -9062,6 +9063,67 @@ public class Leetcode_6 {
         }
         return res;
     }
+
+    // 2297. 跳跃游戏 VIII (Jump Game VIII) --plus
+    private long[] memo2297;
+    private int[] nums2297;
+    private int[] cost2297;
+    private int n2297;
+    private int[] rightCeiling2297;
+    private int[] rightLower2297;
+    public long minCost2297(int[] nums, int[] costs) {
+        this.n2297 = nums.length;
+        this.nums2297 = nums;
+        this.cost2297 = costs;
+        // rightCeiling[i] ： i右侧，第一个大于等于nums[i]的数的索引，若不存在，则为-1
+        this.rightCeiling2297 = new int[n2297];
+        // rightLower[i] ： i右侧，第一个小于nums[i]的数的索引，若不存在，则为-1
+        this.rightLower2297 = new int[n2297];
+        Arrays.fill(rightCeiling2297, -1);
+        Arrays.fill(rightLower2297, -1);
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < n2297; ++i) {
+            while (!stack.isEmpty() && nums[stack.peek()] <= nums[i]) {
+                rightCeiling2297[stack.pop()] = i;
+            }
+            stack.push(i);
+        }
+        stack.clear();
+        for (int i = 0; i < n2297; ++i) {
+            while (!stack.isEmpty() && nums[stack.peek()] > nums[i]) {
+                rightLower2297[stack.pop()] = i;
+            }
+            stack.push(i);
+        }
+        memo2297 = new long[n2297];
+        Arrays.fill(memo2297, Long.MAX_VALUE);
+        return dfs2297(0);
+
+    }
+
+    private long dfs2297(int i) {
+        if (i >= n2297 - 1) {
+            return 0;
+        }
+        if (memo2297[i] != Long.MAX_VALUE) {
+            return memo2297[i];
+        }
+        long res = Long.MAX_VALUE;
+        res = Math.min(res, dfs2297(i + 1) + cost2297[i + 1]);
+        if (nums2297[i + 1] < nums2297[i]) {
+            int index = rightCeiling2297[i];
+            if (index != -1) {
+                res = Math.min(res, dfs2297(index) + cost2297[index]);
+            }
+        } else {
+            int index = rightLower2297[i];
+            if (index != -1) {
+                res = Math.min(res, dfs2297(index) + cost2297[index]);
+            }
+        }
+        return memo2297[i] = res;
+    }
+
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
