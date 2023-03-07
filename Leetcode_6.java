@@ -9080,32 +9080,6 @@ public class Leetcode_6 {
 
     // }
 
-    // 805. 数组的均值分割 (Split Array With Same Average)
-    // public boolean splitArraySameAverage(int[] nums) {
-    // int n = nums.length;
-    // for (int i = 1; i < (1 << n) - 1; ++i) {
-    // int mask = i;
-    // int sum1 = 0;
-    // int n1 = Integer.bitCount(mask);
-    // int sum2 = 0;
-    // int n2 = n - n1;
-    // int index = 0;
-    // while (index < n) {
-    // if ((mask & 1) == 1) {
-    // sum1 += nums[index++];
-    // } else {
-    // sum2 += nums[index++];
-    // }
-    // mask >>= 1;
-    // }
-    // if (sum1 * n2 == sum2 * n1) {
-    // return true;
-    // }
-    // }
-    // return false;
-
-    // }
-
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
 
