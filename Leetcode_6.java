@@ -9008,7 +9008,7 @@ public class Leetcode_6 {
             int left = binarySearch1712(pre, i + 1, n - 1, pre[i] * 2);
             // 第二个分割位置的右边界
             int right = binarySearch1712_2(pre, i + 1, n - 1, pre[i] + (pre[n - 1] - pre[i]) / 2);
-            if (left != -1 && right != -1 && right >= left) {
+            if (right >= left) {
                 res = (res + right - left + 1) % MOD;
             }
         }
