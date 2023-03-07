@@ -9127,15 +9127,11 @@ public class Leetcode_6 {
         this.n265 = costs.length;
         this.k265 = costs[0].length;
         this.costs265 = costs;
-        memo265 = new int[n265][k265];
+        memo265 = new int[n265][k265 + 1];
         for (int i = 0; i < n265; ++i) {
             Arrays.fill(memo265[i], Integer.MAX_VALUE);
         }
-        int res = Integer.MAX_VALUE;
-        for (int i = 0; i < k265; ++i) {
-            res = Math.min(res, dfs265(1, i) + costs[0][i]);
-        }
-        return res;
+        return dfs265(0, k265);
 
     }
 
