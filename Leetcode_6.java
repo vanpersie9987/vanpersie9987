@@ -9151,6 +9151,51 @@ public class Leetcode_6 {
         return memo265[i][lastColor] = min;
     }
 
+    // 1216. 验证回文字符串 III (Valid Palindrome III) --plus
+    private boolean[][] isPalindrome1216;
+    private int n1216;
+    private String s1216;
+    private int[][] memo1216;
+
+    public boolean isValidPalindrome(String s, int k) {
+        this.n1216 = s.length();
+        this.s1216 = s;
+        isPalindrome1216 = new boolean[n1216][n1216];
+        for (int i = n1216 - 1; i >= 0; --i) {
+            for (int j = i; j < n1216; ++j) {
+                if (s.charAt(i) == s.charAt(j) && (j - i < 2 || isPalindrome1216[i + 1][j - 1])) {
+                    isPalindrome1216[i][j] = true;
+                }
+            }
+        }
+        memo1216 = new int[n1216][n1216];
+        for (int i = 0; i < n1216; ++i) {
+            Arrays.fill(memo1216[i], n1216);
+        }
+        return dfs1216(0, n1216 - 1) <= k;
+    }
+
+    private int dfs1216(int i, int j) {
+        if (i > j) {
+            return 0;
+        }
+        if (isPalindrome1216[i][j]) {
+            return 0;
+        }
+        if (memo1216[i][j] != n1216) {
+            return memo1216[i][j];
+        }
+        int min = n1216;
+        if (s1216.charAt(i) == s1216.charAt(j)) {
+            min = Math.min(min, dfs1216(i + 1, j - 1));
+        } else {
+            min = Math.min(min, dfs1216(i, j - 1) + 1);
+            min = Math.min(min, dfs1216(i + 1, j) + 1);
+        }
+        return memo1216[i][j] = min;
+    }
+
+
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
