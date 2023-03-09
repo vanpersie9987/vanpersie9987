@@ -9234,6 +9234,58 @@ public class Leetcode_6 {
         return new long[] { max1, max2 };
     }
 
+    // 723. 粉碎糖果 (Candy Crush) --plus
+    public int[][] candyCrush(int[][] board) {
+        int m = board.length;
+        int n = board[0].length;
+        boolean cycle = true;
+        while (cycle) {
+            cycle = false;
+            boolean[][] delete = new boolean[m][n];
+            for (int i = 0; i < m; ++i) {
+                for (int j = 1; j < n - 1; ++j) {
+                    if (board[i][j] != 0 && board[i][j - 1] == board[i][j] && board[i][j + 1] == board[i][j]) {
+                        delete[i][j - 1] = delete[i][j] = delete[i][j + 1] = true;
+                        cycle = true;
+                    }
+                }
+            }
+            for (int j = 0; j < n; ++j) {
+                for (int i = 1; i < m - 1; ++i) {
+                    if (board[i][j] != 0 && board[i - 1][j] == board[i][j] && board[i + 1][j] == board[i][j]) {
+                        delete[i - 1][j] = delete[i][j] = delete[i + 1][j] = true;
+                        cycle = true;
+                    }
+                }
+            }
+            for (int i = m - 1; i >= 0; --i) {
+                for (int j = 0; j < n; ++j) {
+                    if (delete[i][j]) {
+                        int index = i;
+                        while (index >= 0 && delete[index][j] == true && board[index][j] != 0) {
+                            --index;
+                        }
+                        if (index >= 0) {
+                            board[i][j] = board[index][j];
+                            delete[i][j] = false;
+                            delete[index][j] = true;
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < m; ++i) {
+                for (int j = 0; j < n; ++j) {
+                    if (delete[i][j]) {
+                        board[i][j] = 0;
+                    }
+                }
+            }
+        }
+        return board;
+
+    }
+
+
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
