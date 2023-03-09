@@ -9285,6 +9285,49 @@ public class Leetcode_6 {
 
     }
 
+    // 1087. 花括号展开 (Brace Expansion)
+    List<String> list1087;
+
+    public String[] expand(String s) {
+        list1087 = new ArrayList<>();
+        dfs1087(s, 0, new StringBuilder());
+        int n = list1087.size();
+        Collections.sort(list1087);
+        return list1087.toArray(new String[n]);
+
+    }
+
+    private void dfs1087(String s, int start, StringBuilder builder) {
+        if (start == s.length()) {
+            list1087.add(builder.toString());
+            return;
+        }
+        int i = start;
+        while (i < s.length() && s.charAt(i) == ',') {
+            ++i;
+        }
+        if (i < s.length()) {
+            if (Character.isLetter(s.charAt(i))) {
+                builder.append(s.charAt(i));
+                dfs1087(s, i + 1, builder);
+                builder.deleteCharAt(builder.length() - 1);
+            } else {
+                List<Character> list = new ArrayList<>();
+                while (s.charAt(i) != '}') {
+                    if (Character.isLetter(s.charAt(i))) {
+                        list.add(s.charAt(i));
+                    }
+                    ++i;
+                }
+                for (char c : list) {
+                    builder.append(c);
+                    dfs1087(s, i + 1, builder);
+                    builder.deleteCharAt(builder.length() - 1);
+                }
+            }
+        }
+    }
+
 
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
