@@ -9195,6 +9195,44 @@ public class Leetcode_6 {
         return memo1216[i][j] = min;
     }
 
+    // 2378. 选择边来最大化树的得分 (Choose Edges to Maximize Score in a Tree) --plus
+    private Map<Integer, List<int[]>> g2378;
+
+    public long maxScore(int[][] edges) {
+        g2378 = new HashMap<>();
+        int n = edges.length;
+        for (int i = 0; i < n; ++i) {
+            int fa = edges[i][0];
+            int weight = edges[i][1];
+            if (fa == -1) {
+                continue;
+            }
+            g2378.computeIfAbsent(fa, k -> new ArrayList<>()).add(new int[] { i, weight });
+        }
+        // dp[0] = 孩子节点都没选
+        // dp[1] = 孩子节点选了一个
+        long[] dp = dfs2378(0);
+        return Math.max(0, Math.max(dp[0], dp[1]));
+
+    }
+
+    private long[] dfs2378(int x) {
+        long max1 = 0l;
+        long max2 = 0l;
+        List<long[]> list = new ArrayList<>();
+        for (int[] children : g2378.getOrDefault(x, new ArrayList<>())) {
+            int y = children[0];
+            long[] cur = dfs2378(y);
+            list.add(new long[] { cur[0], cur[1] });
+            max1 += Math.max(cur[0], cur[1]);
+        }
+        int index = 0;
+        for (int[] children : g2378.getOrDefault(x, new ArrayList<>())) {
+            long[] item = list.get(index++);
+            max2 = Math.max(max2, max1 - Math.max(item[0], item[1]) + item[0] + children[1]);
+        }
+        return new long[] { max1, max2 };
+    }
 
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
