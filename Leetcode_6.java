@@ -9328,6 +9328,19 @@ public class Leetcode_6 {
         }
     }
 
+    // 666. 路径总和 IV (Path Sum IV) --plus
+    public int pathSum(int[] nums) {
+        Map<Integer, Integer> counts = new HashMap<>();
+        int res = 0;
+        for (int i = nums.length - 1; i >= 0; --i) {
+            int key = nums[i] / 10;
+            res += (nums[i] % 10) * counts.getOrDefault(key, 1);
+            int fa = (nums[i] / 100 - 1) * 10 + (nums[i] / 10 % 10 + 1) / 2;
+            counts.merge(fa, counts.getOrDefault(key, 1), Integer::sum);
+        }
+        return res;
+    }
+
 
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
