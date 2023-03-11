@@ -9494,6 +9494,42 @@ public class Leetcode_6 {
 
     }
 
+    // 1231. 分享巧克力 (Divide Chocolate) --plus
+    public int maximizeSweetness(int[] sweetness, int k) {
+        int left = Integer.MAX_VALUE;
+        int right = 0;
+        for (int s : sweetness) {
+            left = Math.min(left, s);
+            right += s;
+        }
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check1231(sweetness, mid) < k + 1) {
+                right = mid - 1;
+            } else {
+                res = mid;
+                left = mid + 1;
+            }
+        }
+        return res;
+
+    }
+
+    private int check1231(int[] sweetness, int target) {
+        int count = 0;
+        int sum = 0;
+        for (int s : sweetness) {
+            sum += s;
+            if (sum >= target) {
+                ++count;
+                sum = 0;
+            }
+        }
+        return count;
+    }
+
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
