@@ -31,6 +31,8 @@ public class Leetcode_6 {
         // int n = 2;
         // int target = 3;
         // int res = minCost(houses, cost, m, n, target);
+        // int min = minimumCost("i love leetcode", 12);
+        // System.out.println(min);
     }
 
     public class ListNode {
@@ -9339,6 +9341,50 @@ public class Leetcode_6 {
             counts.merge(fa, counts.getOrDefault(key, 1), Integer::sum);
         }
         return res;
+    }
+
+    // 2052. 将句子分隔成行的最低成本 (Minimum Cost to Separate Sentence Into Rows)
+    private int n2052;
+    private int[] arr2052;
+    private int k2052;
+    private int[] memo2052;
+
+    public int minimumCost(String sentence, int k) {
+        String[] sentences = sentence.split("\\s+");
+        this.n2052 = sentences.length;
+        arr2052 = new int[n2052];
+        for (int i = 0; i < n2052; ++i) {
+            arr2052[i] = sentences[i].length();
+        }
+        this.k2052 = k;
+        this.memo2052 = new int[n2052];
+        Arrays.fill(memo2052, Integer.MAX_VALUE);
+        return dfs2052(0);
+
+    }
+
+    private int dfs2052(int i) {
+        int len = arr2052[i];
+        int j = i + 1;
+        while (j < n2052 && len + arr2052[j] + 1 <= k2052) {
+            len += arr2052[j++] + 1;
+        }
+        if (j == n2052) {
+            return 0;
+        }
+        if (memo2052[i] != Integer.MAX_VALUE) {
+            return memo2052[i];
+        }
+        int min = Integer.MAX_VALUE;
+        min = Math.min(min, dfs2052(i + 1) + (k2052 - arr2052[i]) * (k2052 - arr2052[i]));
+        len = arr2052[i];
+        j = i + 1;
+        while (j < n2052 && len + arr2052[j] + 1 <= k2052) {
+            len += arr2052[j] + 1;
+            min = Math.min(min, dfs2052(j + 1) + (k2052 - len) * (k2052 - len));
+            ++j;
+        }
+        return memo2052[i] = min;
     }
 
 
