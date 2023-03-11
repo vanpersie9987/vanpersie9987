@@ -9387,6 +9387,52 @@ public class Leetcode_6 {
         return memo2052[i] = min;
     }
 
+    // 296. 最佳的碰头地点 (Best Meeting Point) --中位数
+    public int minTotalDistance(int[][] grid) {
+        List<Integer> rows = getRowsIndex(grid);
+        List<Integer> cols = getColsIndex(grid);
+        return getTotalCosts(rows) + getTotalCosts(cols);
+
+    }
+
+    private int getTotalCosts(List<Integer> list) {
+        int i = 0;
+        int j = list.size() - 1;
+        int cost = 0;
+        while (i < j) {
+            cost += list.get(j--) - list.get(i++);
+        }
+        return cost;
+    }
+
+    private List<Integer> getColsIndex(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        List<Integer> list = new ArrayList<>();
+        for (int j = 0; j < n; ++j) {
+            for (int i = 0; i < m; ++i) {
+                if (grid[i][j] == 1) {
+                    list.add(j);
+                }
+            }
+        }
+        return list;
+    }
+
+    private List<Integer> getRowsIndex(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    list.add(i);
+                }
+            }
+        }
+        return list;
+    }
+
 
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
