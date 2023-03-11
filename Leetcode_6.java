@@ -9047,7 +9047,6 @@ public class Leetcode_6 {
 
     }
 
-
     // 487. 最大连续1的个数 II (Max Consecutive Ones II) --plus
     public int findMaxConsecutiveOnes(int[] nums) {
         int n = nums.length;
@@ -9073,6 +9072,7 @@ public class Leetcode_6 {
     private int n2297;
     private int[] rightCeiling2297;
     private int[] rightLower2297;
+
     public long minCost2297(int[] nums, int[] costs) {
         this.n2297 = nums.length;
         this.nums2297 = nums;
@@ -9387,7 +9387,7 @@ public class Leetcode_6 {
         return memo2052[i] = min;
     }
 
-    // 296. 最佳的碰头地点 (Best Meeting Point) --中位数
+    // 296. 最佳的碰头地点 (Best Meeting Point) --中位数 plus
     public int minTotalDistance(int[][] grid) {
         List<Integer> rows = getRowsIndex(grid);
         List<Integer> cols = getColsIndex(grid);
@@ -9433,7 +9433,66 @@ public class Leetcode_6 {
         return list;
     }
 
+    // 562. 矩阵中最长的连续1线段 (Longest Line of Consecutive One in Matrix) --plus
+    public int longestLine(int[][] mat) {
+        int m = mat.length;
+        int n = mat[0].length;
+        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> counterMap = new HashMap<>();
+        int res = 0;
+        int max = 0;
+        // row
+        for (int i = 0; i < m; ++i) {
+            max = 0;
+            for (int j = 0; j < n; ++j) {
+                // row
+                if (mat[i][j] == 1) {
+                    ++max;
+                } else {
+                    max = 0;
+                }
+                res = Math.max(res, max);
+                // mainDiagonal
+                if (map.containsKey(i - j)) {
+                    if (mat[i][j] == 1) {
+                        map.merge(i - j, 1, Integer::sum);
+                    } else {
+                        map.put(i - j, 0);
+                    }
+                } else {
+                    map.put(i - j, mat[i][j]);
+                }
+                res = Math.max(map.get(i - j), res);
+            }
+            // counterDiagonal
+            for (int j = n - 1; j >= 0; --j) {
+                if (counterMap.containsKey(i + j)) {
+                    if (mat[i][j] == 1) {
+                        counterMap.merge(i + j, 1, Integer::sum);
+                    } else {
+                        counterMap.put(i + j, 0);
+                    }
+                } else {
+                    counterMap.put(i + j, mat[i][j]);
+                }
+                res = Math.max(counterMap.get(i + j), res);
+            }
+        }
+        // col
+        for (int j = 0; j < n; ++j) {
+            max = 0;
+            for (int i = 0; i < m; ++i) {
+                if (mat[i][j] == 1) {
+                    ++max;
+                } else {
+                    max = 0;
+                }
+                res = Math.max(res, max);
+            }
+        }
+        return res;
 
+    }
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
@@ -9500,5 +9559,4 @@ public class Leetcode_6 {
     // }
     // return memo[i][lastColor][target1473] = min;
     // }
-
 }
