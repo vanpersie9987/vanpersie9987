@@ -9529,6 +9529,100 @@ public class Leetcode_6 {
         return count;
     }
 
+    // 2387. 行排序矩阵的中位数 (Median of a Row Wise Sorted Matrix) --plus
+    public int matrixMedian(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        Queue<Bean2387> q = new PriorityQueue<>(new Comparator<Bean2387>() {
+
+            @Override
+            public int compare(Bean2387 o1, Bean2387 o2) {
+                return Integer.compare(o1.row[o1.index], o2.row[o2.index]);
+            }
+
+        });
+
+        for (int i = 0; i < m; ++i) {
+            q.offer(new Bean2387(grid[i], 0));
+        }
+        int cur = 0;
+        while (!q.isEmpty()) {
+            Bean2387 bean = q.poll();
+            if (cur == m * n / 2) {
+                return bean.row[bean.index];
+            }
+            if (++bean.index < n) {
+                q.offer(bean);
+            }
+            ++cur;
+        }
+        return -1;
+
+    }
+
+    public class Bean2387 {
+        int[] row;
+        int index;
+
+        Bean2387(int[] row, int index) {
+            this.row = row;
+            this.index = index;
+
+        }
+    }
+
+    // 6315. 统计范围内的元音字符串数 (Count the Number of Vowel Strings in Range)
+    public int vowelStrings(String[] words, int left, int right) {
+        int res = 0;
+        for (int i = left; i <= right; ++i) {
+            String word = words[i];
+            if (check6315(word.charAt(0)) && check6315(word.charAt(word.length() - 1))) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean check6315(char c) {
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+    }
+
+    // 6316. 重排数组以得到最大前缀分数 (Rearrange Array to Maximize Prefix Score)
+    public int maxScore(int[] nums) {
+        Arrays.sort(nums);
+        int res = 0;
+        long pre = 0l;
+        for (int i = nums.length - 1; i >= 0; --i) {
+            pre += nums[i];
+            if (pre <= 0) {
+                break;
+            }
+            ++res;
+        }
+        return res;
+    }
+
+    // 6317. 统计美丽子数组数目 (Count the Number of Beautiful Subarrays)
+    public long beautifulSubarrays(int[] nums) {
+        long res = 0l;
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        int mask = 0;
+        for (int num : nums) {
+            mask ^= num;
+            res = res + map.getOrDefault(mask, 0);
+            map.merge(mask, 1, Integer::sum);
+        }
+        return res;
+    }
+
+    // 6318. 完成所有任务的最少时间 (Minimum Time to Complete All Tasks)
+    // public int findMinimumTime(int[][] tasks) {
+
+    // }
+
+
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
@@ -9595,4 +9689,5 @@ public class Leetcode_6 {
     // }
     // return memo[i][lastColor][target1473] = min;
     // }
+
 }
