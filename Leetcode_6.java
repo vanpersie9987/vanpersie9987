@@ -9617,12 +9617,50 @@ public class Leetcode_6 {
         return res;
     }
 
+    // 1416. 恢复数组 (Restore The Array)
+    private int n1416;
+    private int[] memo1416;
+    private int k1416;
+    private String s1416;
+
+    public int numberOfArrays(String s, int k) {
+        this.n1416 = s.length();
+        this.memo1416 = new int[n1416];
+        Arrays.fill(memo1416, -1);
+        this.k1416 = k;
+        this.s1416 = s;
+        return dfs1416(0);
+
+    }
+
+    private int dfs1416(int i) {
+        if (i == n1416) {
+            return 1;
+        }
+        if (s1416.charAt(i) == '0') {
+            return 0;
+        }
+        if (memo1416[i] != -1) {
+            return memo1416[i];
+        }
+        int res = 0;
+        long num = 0l;
+        final int MOD = (int) (1e9 + 7);
+        for (int j = i; j < n1416; ++j) {
+            num = num * 10 + s1416.charAt(j) - '0';
+            if (num > k1416) {
+                break;
+            }
+            res = (res + dfs1416(j + 1)) % MOD;
+        }
+
+        return memo1416[i] = res;
+    }
+
     // 6318. 完成所有任务的最少时间 (Minimum Time to Complete All Tasks)
     // public int findMinimumTime(int[][] tasks) {
 
     // }
-
-
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
