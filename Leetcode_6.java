@@ -9348,6 +9348,7 @@ public class Leetcode_6 {
     private int[] arr2052;
     private int k2052;
     private int[] memo2052;
+    private int last2052;
 
     public int minimumCost(String sentence, int k) {
         String[] sentences = sentence.split("\\s+");
@@ -9356,6 +9357,16 @@ public class Leetcode_6 {
         for (int i = 0; i < n2052; ++i) {
             arr2052[i] = sentences[i].length();
         }
+        last2052 = n2052 - 1;
+        int suf = sentences[n2052 - 1].length();
+        for (int i = n2052 - 2; i >= 0; --i) {
+            if (sentences[i].length() + suf + 1 > k) {
+                break;
+            }
+            suf += sentences[i].length() + 1;
+            last2052 = i;
+        }
+
         this.k2052 = k;
         this.memo2052 = new int[n2052];
         Arrays.fill(memo2052, Integer.MAX_VALUE);
@@ -9364,12 +9375,7 @@ public class Leetcode_6 {
     }
 
     private int dfs2052(int i) {
-        int len = arr2052[i];
-        int j = i + 1;
-        while (j < n2052 && len + arr2052[j] + 1 <= k2052) {
-            len += arr2052[j++] + 1;
-        }
-        if (j == n2052) {
+        if (i >= last2052) {
             return 0;
         }
         if (memo2052[i] != Integer.MAX_VALUE) {
@@ -9377,8 +9383,8 @@ public class Leetcode_6 {
         }
         int min = Integer.MAX_VALUE;
         min = Math.min(min, dfs2052(i + 1) + (k2052 - arr2052[i]) * (k2052 - arr2052[i]));
-        len = arr2052[i];
-        j = i + 1;
+        int len = arr2052[i];
+        int j = i + 1;
         while (j < n2052 && len + arr2052[j] + 1 <= k2052) {
             len += arr2052[j] + 1;
             min = Math.min(min, dfs2052(j + 1) + (k2052 - len) * (k2052 - len));
