@@ -9689,6 +9689,43 @@ public class Leetcode_6 {
         return memo1770[i][j] = max;
     }
 
+    // 1197. 进击的骑士 (Minimum Knight Moves)
+    public int minKnightMoves(int x, int y) {
+        if (x == 0 && y == 0) {
+            return 0;
+        }
+        x = Math.abs(x);
+        y = Math.abs(y);
+        Set<Integer> visited = new HashSet<>();
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[] { 0, 0 });
+        visited.add(0);
+        int res = 0;
+        int[][] directions = { { -2, 1 }, { -2, -1 }, { -1, 2 }, { -1, -2 }, { 1, 2 }, { 1, -2 }, { 2, 1 }, { 2, -1 } };
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = q.poll();
+                int x0 = cur[0];
+                int y0 = cur[1];
+                if (x0 == x && y0 == y) {
+                    return res;
+                }
+                for (int[] d : directions) {
+                    int nx = x0 + d[0];
+                    int ny = y0 + d[1];
+                    if (nx >= -5 && nx <= x + 5 && ny >= -5 && ny <= y + 5 && !visited.contains(nx * 310 + ny)) {
+                        visited.add(nx * 310 + ny);
+                        q.offer(new int[] { nx, ny });
+                    }
+                }
+            }
+            ++res;
+        }
+        return -1;
+    }
+
+
 
     // 6318. 完成所有任务的最少时间 (Minimum Time to Complete All Tasks)
     // public int findMinimumTime(int[][] tasks) {
