@@ -9655,6 +9655,41 @@ public class Leetcode_6 {
         return memo1416[i] = res;
     }
 
+    // 1770. 执行乘法运算的最大分数 (Maximum Score from Performing Multiplication Operations)
+    private int[][] memo1770;
+    private int m1770;
+    private int n1770;
+    private int[] nums1770;
+    private int[] multipliers1770;
+
+    public int maximumScore(int[] nums, int[] multipliers) {
+        this.n1770 = nums.length;
+        this.m1770 = multipliers.length;
+        this.nums1770 = nums;
+        this.multipliers1770 = multipliers;
+        // memo[i][j] : 左边选i个数，右边选j个数的最大值
+        memo1770 = new int[m1770 + 1][m1770 + 1];
+        for (int i = 0; i < m1770 + 1; ++i) {
+            Arrays.fill(memo1770[i], Integer.MIN_VALUE);
+        }
+        return dfs1770(0, 0);
+
+    }
+
+    private int dfs1770(int i, int j) {
+        if (i + j >= m1770) {
+            return 0;
+        }
+        if (memo1770[i][j] != Integer.MIN_VALUE) {
+            return memo1770[i][j];
+        }
+        int max = Integer.MIN_VALUE;
+        max = Math.max(max, dfs1770(i + 1, j) + nums1770[i] * multipliers1770[i + j]);
+        max = Math.max(max, dfs1770(i, j + 1) + nums1770[n1770 - j - 1] * multipliers1770[i + j]);
+        return memo1770[i][j] = max;
+    }
+
+
     // 6318. 完成所有任务的最少时间 (Minimum Time to Complete All Tasks)
     // public int findMinimumTime(int[][] tasks) {
 
@@ -9724,14 +9759,6 @@ public class Leetcode_6 {
     // (lastColor != color ? -1 : 0)));
     // }
     // return memo[i][lastColor][target1473] = min;
-    // }
-
-    // 1770. 执行乘法运算的最大分数 (Maximum Score from Performing Multiplication Operations)
-    // public int maximumScore(int[] nums, int[] multipliers) {
-    //     int n = nums.length;
-    //     int m = multipliers.length;
-
-
     // }
 
 }
