@@ -9533,42 +9533,34 @@ public class Leetcode_6 {
     public int matrixMedian(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
-        Queue<Bean2387> q = new PriorityQueue<>(new Comparator<Bean2387>() {
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
 
             @Override
-            public int compare(Bean2387 o1, Bean2387 o2) {
-                return Integer.compare(o1.row[o1.index], o2.row[o2.index]);
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(grid[o1[0]][o1[1]], grid[o2[0]][o2[1]]);
             }
 
         });
 
         for (int i = 0; i < m; ++i) {
-            q.offer(new Bean2387(grid[i], 0));
+            q.offer(new int[] { i, 0 });
         }
         int cur = 0;
         while (!q.isEmpty()) {
-            Bean2387 bean = q.poll();
+            int[] p = q.poll();
+            int x = p[0];
+            int y = p[1];
+
             if (cur == m * n / 2) {
-                return bean.row[bean.index];
+                return grid[x][y];
             }
-            if (++bean.index < n) {
-                q.offer(bean);
+            if (++y < n) {
+                q.offer(new int[] { x, y });
             }
             ++cur;
         }
         return -1;
 
-    }
-
-    public class Bean2387 {
-        int[] row;
-        int index;
-
-        Bean2387(int[] row, int index) {
-            this.row = row;
-            this.index = index;
-
-        }
     }
 
     // 6315. 统计范围内的元音字符串数 (Count the Number of Vowel Strings in Range)
@@ -9726,6 +9718,14 @@ public class Leetcode_6 {
     // (lastColor != color ? -1 : 0)));
     // }
     // return memo[i][lastColor][target1473] = min;
+    // }
+
+    // 1770. 执行乘法运算的最大分数 (Maximum Score from Performing Multiplication Operations)
+    // public int maximumScore(int[] nums, int[] multipliers) {
+    //     int n = nums.length;
+    //     int m = multipliers.length;
+
+
     // }
 
 }
