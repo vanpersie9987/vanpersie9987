@@ -510,6 +510,28 @@ public class LeetCode_2 {
 
    }
 
+   // 1605. 给定行和列的和求可行矩阵 (Find Valid Matrix Given Row and Column Sums)
+   public int[][] restoreMatrix2(int[] rowSum, int[] colSum) {
+      int m = rowSum.length;
+      int n = colSum.length;
+      int[][] res = new int[m][n];
+      int i = 0;
+      int j = 0;
+      while (i < m && j < n) {
+         if (rowSum[i] < colSum[j]) {
+            res[i][j] = rowSum[i];
+            colSum[j] -= rowSum[i];
+            ++i;
+         } else {
+            res[i][j] = colSum[j];
+            rowSum[i] -= colSum[j];
+            ++j;
+         }
+      }
+      return res;
+
+   }
+
    // 1710. 卡车上的最大单元数 (Maximum Units on a Truck)
    public int maximumUnits(int[][] boxTypes, int truckSize) {
       Arrays.sort(boxTypes, new Comparator<int[]>() {

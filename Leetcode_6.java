@@ -9725,8 +9725,6 @@ public class Leetcode_6 {
         return -1;
     }
 
-
-
     // 6318. 完成所有任务的最少时间 (Minimum Time to Complete All Tasks)
     // public int findMinimumTime(int[][] tasks) {
 
@@ -9796,6 +9794,12 @@ public class Leetcode_6 {
     // (lastColor != color ? -1 : 0)));
     // }
     // return memo[i][lastColor][target1473] = min;
+    // }
+
+    // // 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array)
+    // public int minimumMountainRemovals(int[] nums) {
+        
+
     // }
 
 }
