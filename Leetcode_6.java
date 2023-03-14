@@ -9726,9 +9726,45 @@ public class Leetcode_6 {
     }
 
     // 6318. 完成所有任务的最少时间 (Minimum Time to Complete All Tasks)
-    // public int findMinimumTime(int[][] tasks) {
+    public int findMinimumTime(int[][] tasks) {
+        int res = 0;
+        boolean[] run = new boolean[2001];
+        Arrays.sort(tasks, new Comparator<int[]>() {
 
-    // }
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[1], o2[1]);
+            }
+
+        });
+
+        for (int[] task : tasks) {
+            int s = task[0];
+            int e = task[1];
+            int d = task[2];
+            for (int i = s; i <= e; ++i) {
+                if (run[i]) {
+                    --d;
+                }
+            }
+            if (d > 0) {
+                for (int i = e; i >= s; --i) {
+                    if (run[i]) {
+                        continue;
+                    }
+                    run[i] = true;
+                    ++res;
+                    --d;
+                    if (d == 0) {
+                        break;
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
@@ -9796,10 +9832,8 @@ public class Leetcode_6 {
     // return memo[i][lastColor][target1473] = min;
     // }
 
-    // // 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array)
+    // 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array)
     // public int minimumMountainRemovals(int[] nums) {
-        
-
     // }
 
 }
