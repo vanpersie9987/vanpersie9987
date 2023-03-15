@@ -9765,6 +9765,61 @@ public class Leetcode_6 {
 
     }
 
+    // 1847. 最近的房间 (Closest Room)
+    public int[] closestRoom(int[][] rooms, int[][] queries) {
+        int n = rooms.length;
+        int k = queries.length;
+        int[] res = new int[k];
+        Arrays.fill(res, -1);
+        Integer[] ids = IntStream.range(0, k).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(queries[o2][1], queries[o1][1]);
+            }
+
+        });
+
+        Arrays.sort(rooms, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o2[1], o1[1]);
+            }
+
+        });
+
+        TreeSet<Integer> set = new TreeSet<>();
+        int i = 0;
+        for (int id : ids) {
+            int minSize = queries[id][1];
+            while (i < n && rooms[i][1] >= minSize) {
+                set.add(rooms[i][0]);
+                ++i;
+            }
+            int preferId = queries[id][0];
+            Integer floorId = set.floor(preferId);
+            Integer ceilingId = set.ceiling(preferId);
+            if (floorId != null || ceilingId != null) {
+                if (floorId == null) {
+                    res[id] = ceilingId;
+                } else if (ceilingId == null) {
+                    res[id] = floorId;
+                } else {
+                    if (Math.abs(floorId - preferId) <= Math.abs(ceilingId - preferId)) {
+                        res[id] = floorId;
+                    } else {
+                        res[id] = ceilingId;
+                    }
+                }
+            }
+        }
+        return res;
+
+
+    }
+
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
