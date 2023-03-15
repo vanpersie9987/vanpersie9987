@@ -9820,6 +9820,59 @@ public class Leetcode_6 {
 
     }
 
+    // 1320. 二指输入的的最小距离 (Minimum Distance to Type a Word Using Two Fingers)
+    private int[][][] memo1320;
+    private String word1320;
+    private int res1320;
+    private int n1320;
+    private Map<Integer, int[]> map1320;
+
+    public int minimumDistance(String word) {
+        this.n1320 = word.length();
+        this.map1320 = new HashMap<>();
+        for (int i = 0; i < 26; ++i) {
+            int row = i / 6;
+            int col = i % 6;
+            map1320.put(i, new int[] { row, col });
+        }
+        // memo[i][j][k] : 左手在字母i上，右手在字母j上，输入了第k个字符后的最短移动距离
+        memo1320 = new int[26][26][n1320];
+        for (int i = 0; i < 26; ++i) {
+            for (int j = 0; j < 26; ++j) {
+                Arrays.fill(memo1320[i][j], -1);
+            }
+        }
+        this.word1320 = word;
+        this.res1320 = Integer.MAX_VALUE;
+
+        for (int i = 0; i < 26; ++i) {
+            res1320 = Math.min(res1320, dfs1320(word.charAt(0) - 'A', i, 0));
+        }
+        return res1320;
+    }
+
+    private int dfs1320(int left, int right, int i) {
+        if (i == n1320) {
+            return 0;
+        }
+        if (memo1320[left][right][i] != -1) {
+            return memo1320[left][right][i];
+        }
+        int min = Integer.MAX_VALUE;
+        int pos = word1320.charAt(i) - 'A';
+        min = Math.min(min, dfs1320(pos, right, i + 1) + getDis1320(left, pos));
+        min = Math.min(min, dfs1320(left, pos, i + 1) + getDis1320(right, pos));
+
+        return memo1320[left][right][i] = min;
+    }
+
+    private int getDis1320(int i, int j) {
+        int[] a = map1320.get(i);
+        int[] b = map1320.get(j);
+        return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
+    }
+
+
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
