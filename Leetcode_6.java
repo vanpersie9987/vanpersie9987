@@ -8490,19 +8490,19 @@ public class Leetcode_6 {
 
     // LCP 64. 二叉树灯饰
     public int closeLampInTree(TreeNode root) {
-        int[] res = dfs(root);
+        int[] res = dfs_LCP_64(root);
         return res[1];
 
     }
 
     // return int[4]:  1、全亮；2、全灭； 3、根亮，其余全灭； 4、根灭，其余全亮
-    private int[] dfs(TreeNode root) {
+    private int[] dfs_LCP_64(TreeNode root) {
         if (root == null) {
             return new int[] { 0, 0, 0, 0 };
         }
 
-        int[] l = dfs(root.left);
-        int[] r = dfs(root.right);
+        int[] l = dfs_LCP_64(root.left);
+        int[] r = dfs_LCP_64(root.right);
         int min1 = Integer.MAX_VALUE;
         int min2 = Integer.MAX_VALUE;
         int min3 = Integer.MAX_VALUE;
@@ -9957,21 +9957,21 @@ public class Leetcode_6 {
 
     }
 
-    // 549. 二叉树中最长的连续序列 --plus
-    private int maxval = 0;
+    // 549. 二叉树中最长的连续序列 --plus (未提交，还需理解)
+    private int res549;
 
     public int longestConsecutive(TreeNode root) {
-        longestPath(root);
-        return maxval;
+        dfs549(root);
+        return res549;
     }
 
-    public int[] longestPath(TreeNode root) {
+    public int[] dfs549(TreeNode root) {
         if (root == null) {
             return new int[] { 0, 0 };
         }
         int inr = 1, dcr = 1;
         if (root.left != null) {
-            int[] l = longestPath(root.left);
+            int[] l = dfs549(root.left);
             if (root.val == root.left.val + 1) {
                 dcr = l[1] + 1;
             } else if (root.val == root.left.val - 1) {
@@ -9979,14 +9979,14 @@ public class Leetcode_6 {
             }
         }
         if (root.right != null) {
-            int[] r = longestPath(root.right);
+            int[] r = dfs549(root.right);
             if (root.val == root.right.val + 1) {
                 dcr = Math.max(dcr, r[1] + 1);
             } else if (root.val == root.right.val - 1) {
                 inr = Math.max(inr, r[0] + 1);
             }
         }
-        maxval = Math.max(maxval, dcr + inr - 1);
+        res549 = Math.max(res549, dcr + inr - 1);
         return new int[] { inr, dcr };
     }
 
