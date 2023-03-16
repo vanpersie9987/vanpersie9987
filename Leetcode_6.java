@@ -9821,7 +9821,7 @@ public class Leetcode_6 {
     }
 
     // 1320. 二指输入的的最小距离 (Minimum Distance to Type a Word Using Two Fingers)
-    private int[][][] memo1320;
+    private int[][] memo1320;
     private String word1320;
     private int res1320;
     private int n1320;
@@ -9836,34 +9836,37 @@ public class Leetcode_6 {
             map1320.put(i, new int[] { row, col });
         }
         // memo[i][j][k] : 左手在字母i上，右手在字母j上，输入了第k个字符后的最短移动距离
-        memo1320 = new int[26][26][n1320];
+        memo1320 = new int[26][n1320];
         for (int i = 0; i < 26; ++i) {
-            for (int j = 0; j < 26; ++j) {
-                Arrays.fill(memo1320[i][j], -1);
-            }
+            Arrays.fill(memo1320[i], -1);
         }
         this.word1320 = word;
         this.res1320 = Integer.MAX_VALUE;
 
         for (int i = 0; i < 26; ++i) {
-            res1320 = Math.min(res1320, dfs1320(word.charAt(0) - 'A', i, 0));
+            res1320 = Math.min(res1320, dfs1320(i, 0));
         }
         return res1320;
     }
 
-    private int dfs1320(int left, int right, int i) {
+    private int dfs1320(int another, int i) {
         if (i == n1320) {
             return 0;
         }
-        if (memo1320[left][right][i] != -1) {
-            return memo1320[left][right][i];
+        if (memo1320[another][i] != -1) {
+            return memo1320[another][i];
         }
         int min = Integer.MAX_VALUE;
         int pos = word1320.charAt(i) - 'A';
-        min = Math.min(min, dfs1320(pos, right, i + 1) + getDis1320(left, pos));
-        min = Math.min(min, dfs1320(left, pos, i + 1) + getDis1320(right, pos));
+        if (i > 0) {
+            int pre = word1320.charAt(i - 1) - 'A';
+            min = Math.min(min, dfs1320(another, i + 1) + getDis1320(pre, pos));
+            min = Math.min(min, dfs1320(pre, i + 1) + getDis1320(another, pos));
+        } else {
+            min = Math.min(min, dfs1320(another, i + 1));
+        }
 
-        return memo1320[left][right][i] = min;
+        return memo1320[another][i] = min;
     }
 
     private int getDis1320(int i, int j) {
@@ -9942,6 +9945,41 @@ public class Leetcode_6 {
 
     // 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array)
     // public int minimumMountainRemovals(int[] nums) {
+    // }
+
+    // #549 二叉树中最长的连续序列 --plus
+    // class Solution {
+    // int maxval = 0;
+
+    // public int longestConsecutive(TreeNode root) {
+    // longestPath(root);
+    // return maxval;
+    // }
+
+    // public int[] longestPath(TreeNode root) {
+    // if (root == null) {
+    // return new int[] { 0, 0 };
+    // }
+    // int inr = 1, dcr = 1;
+    // if (root.left != null) {
+    // int[] l = longestPath(root.left);
+    // if (root.val == root.left.val + 1) {
+    // dcr = l[1] + 1;
+    // } else if (root.val == root.left.val - 1) {
+    // inr = l[0] + 1;
+    // }
+    // }
+    // if (root.right != null) {
+    // int[] r = longestPath(root.right);
+    // if (root.val == root.right.val + 1) {
+    // dcr = Math.max(dcr, r[1] + 1);
+    // } else if (root.val == root.right.val - 1) {
+    // inr = Math.max(inr, r[0] + 1);
+    // }
+    // }
+    // maxval = Math.max(maxval, dcr + inr - 1);
+    // return new int[] { inr, dcr };
+    // }
     // }
 
 }
