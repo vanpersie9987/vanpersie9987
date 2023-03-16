@@ -57,6 +57,44 @@ public class Leetcode_7 {
         }
     }
 
+    // 1105. 填充书架 (Filling Bookcase Shelves)
+    private int[] memo1105;
+    private int n1105;
+    private int[][] books1105;
+    private int shelfWidth1105;
+
+    public int minHeightShelves(int[][] books, int shelfWidth) {
+        this.n1105 = books.length;
+        this.books1105 = books;
+        this.shelfWidth1105 = shelfWidth;
+        memo1105 = new int[n1105];
+
+        Arrays.fill(memo1105, -1);
+
+        return dfs1105(0);
+
+    }
+
+    private int dfs1105(int i) {
+        if (i == n1105) {
+            return 0;
+        }
+        if (memo1105[i] != -1) {
+            return memo1105[i];
+        }
+        int min = (int) 1e7;
+        int j = i;
+        int thick = 0;
+        int maxHeight = 0;
+        while (j < n1105 && thick + books1105[j][0] <= shelfWidth1105) {
+            thick += books1105[j][0];
+            maxHeight = Math.max(maxHeight, books1105[j][1]);
+            min = Math.min(min, dfs1105(j + 1) + maxHeight);
+            ++j;
+        }
+        return memo1105[i] = min;
+    }
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
