@@ -9870,6 +9870,125 @@ public class Leetcode_6 {
         return Math.abs(row1 - row2) + Math.abs(col1 - col2);
     }
 
+    // 1931. 用三种不同颜色为网格涂色 (Painting a Grid With Three Different Colors)
+    private Map<Integer, int[]> map1931;
+    private int m1931;
+    private int n1931;
+    private Map<Integer, List<Integer>> adj1931;
+    private int[][] memo1931;
+    private int pow1931;
+
+    public int colorTheGrid(int m, int n) {
+        this.m1931 = m;
+        this.n1931 = n;
+        this.map1931 = generate1931();
+        this.adj1931 = getAdj1931();
+        this.pow1931 = (int) Math.pow(3, m);
+
+        memo1931 = new int[n][pow1931];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo1931[i], -1);
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int y : adj1931.keySet()) {
+            res = (res + dfs1931(1, y)) % MOD;
+        }
+        return res;
+
+    }
+
+    private int dfs1931(int i, int state) {
+        if (i == n1931) {
+            return 1;
+        }
+        if (memo1931[i][state] != -1) {
+            return memo1931[i][state];
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int y : adj1931.getOrDefault(state, new ArrayList<>())) {
+            res = (res + dfs1931(i + 1, y)) % MOD;
+        }
+        return memo1931[i][state] = res;
+    }
+
+    private Map<Integer, List<Integer>> getAdj1931() {
+        Map<Integer, List<Integer>> res = new HashMap<>();
+        for (Map.Entry<Integer, int[]> entry1 : map1931.entrySet()) {
+            for (Map.Entry<Integer, int[]> entry2 : map1931.entrySet()) {
+                if (checkLegal1931(entry1.getValue(), entry2.getValue())) {
+                    res.computeIfAbsent(entry1.getKey(), k -> new ArrayList<>()).add(entry2.getKey());
+                }
+            }
+        }
+        return res;
+    }
+
+    private boolean checkLegal1931(int[] arr1, int[] arr2) {
+        int n = arr1.length;
+        for (int i = 0; i < n; ++i) {
+            if (arr1[i] == arr2[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private Map<Integer, int[]> generate1931() {
+        Map<Integer, int[]> res = new HashMap<>();
+        int states = (int) Math.pow(3, m1931);
+        search: for (int i = 0; i < states; ++i) {
+            int mask = i;
+            int[] arr = new int[m1931];
+            int index = 0;
+            while (mask != 0) {
+                arr[index++] = mask % 3;
+                mask /= 3;
+            }
+            for (int j = 1; j < m1931; ++j) {
+                if (arr[j] == arr[j - 1]) {
+                    continue search;
+                }
+            }
+            res.put(i, arr);
+        }
+        return res;
+
+    }
+
+    // 549. 二叉树中最长的连续序列 --plus
+    private int maxval = 0;
+
+    public int longestConsecutive(TreeNode root) {
+        longestPath(root);
+        return maxval;
+    }
+
+    public int[] longestPath(TreeNode root) {
+        if (root == null) {
+            return new int[] { 0, 0 };
+        }
+        int inr = 1, dcr = 1;
+        if (root.left != null) {
+            int[] l = longestPath(root.left);
+            if (root.val == root.left.val + 1) {
+                dcr = l[1] + 1;
+            } else if (root.val == root.left.val - 1) {
+                inr = l[0] + 1;
+            }
+        }
+        if (root.right != null) {
+            int[] r = longestPath(root.right);
+            if (root.val == root.right.val + 1) {
+                dcr = Math.max(dcr, r[1] + 1);
+            } else if (root.val == root.right.val - 1) {
+                inr = Math.max(inr, r[0] + 1);
+            }
+        }
+        maxval = Math.max(maxval, dcr + inr - 1);
+        return new int[] { inr, dcr };
+    }
 
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
@@ -9941,39 +10060,5 @@ public class Leetcode_6 {
     // 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array)
     // public int minimumMountainRemovals(int[] nums) {
     // }
-
-    // 549. 二叉树中最长的连续序列 --plus
-    private int maxval = 0;
-
-    public int longestConsecutive(TreeNode root) {
-        longestPath(root);
-        return maxval;
-    }
-
-    public int[] longestPath(TreeNode root) {
-        if (root == null) {
-            return new int[] { 0, 0 };
-        }
-        int inr = 1, dcr = 1;
-        if (root.left != null) {
-            int[] l = longestPath(root.left);
-            if (root.val == root.left.val + 1) {
-                dcr = l[1] + 1;
-            } else if (root.val == root.left.val - 1) {
-                inr = l[0] + 1;
-            }
-        }
-        if (root.right != null) {
-            int[] r = longestPath(root.right);
-            if (root.val == root.right.val + 1) {
-                dcr = Math.max(dcr, r[1] + 1);
-            } else if (root.val == root.right.val - 1) {
-                inr = Math.max(inr, r[0] + 1);
-            }
-        }
-        maxval = Math.max(maxval, dcr + inr - 1);
-        return new int[] { inr, dcr };
-    }
-    
 
 }
