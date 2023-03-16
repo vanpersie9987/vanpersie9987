@@ -530,7 +530,7 @@ public class Leetcode_5 {
 
     }
 
-    // 6160. 和有限的最长子序列 (Longest Subsequence With Limited Sum)
+    // 2389. 和有限的最长子序列 (Longest Subsequence With Limited Sum)
     public int[] answerQueries(int[] nums, int[] queries) {
         int n = nums.length;
         int m = queries.length;
@@ -547,7 +547,7 @@ public class Leetcode_5 {
         return res;
     }
 
-    // 6160. 和有限的最长子序列 (Longest Subsequence With Limited Sum) --前缀和 + 二分查找
+    // 2389. 和有限的最长子序列 (Longest Subsequence With Limited Sum) --前缀和 + 二分查找
     public int[] answerQueries2(int[] nums, int[] queries) {
         int n = nums.length;
         int m = queries.length;
@@ -556,7 +556,7 @@ public class Leetcode_5 {
             nums[i] += nums[i - 1];
         }
         for (int i = 0; i < m; ++i) {
-            queries[i] = binarySearch6160(nums, queries[i]);
+            queries[i] = binarySearch2389(nums, queries[i]);
         }
         return queries;
     }
@@ -564,7 +564,7 @@ public class Leetcode_5 {
     /**
      * @return 排序数组nums中，小于等于target的元素个数
      */
-    private int binarySearch6160(int[] nums, int target) {
+    private int binarySearch2389(int[] nums, int target) {
         int n = nums.length;
         if (target < nums[0]) {
             return 0;
@@ -584,6 +584,34 @@ public class Leetcode_5 {
             }
         }
         return res;
+    }
+
+    // 2389. 和有限的最长子序列 (Longest Subsequence With Limited Sum) --离线询问
+    public int[] answerQueries3(int[] nums, int[] queries) {
+        int n = nums.length;
+        int m = queries.length;
+        int[] res = new int[m];
+        Arrays.sort(nums);
+
+        Integer[] ids = IntStream.range(0, m).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(queries[o1], queries[o2]);
+            }
+
+        });
+        int i = 0;
+        int sum = 0;
+        for (int id : ids) {
+            while (i < n && sum + nums[i] <= queries[id]) {
+                sum += nums[i++];
+            }
+            res[id] = i;
+        }
+        return res;
+
     }
 
     // 6161. 从字符串中移除星号 (Removing Stars From a String)
