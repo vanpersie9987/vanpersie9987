@@ -9825,16 +9825,9 @@ public class Leetcode_6 {
     private String word1320;
     private int res1320;
     private int n1320;
-    private Map<Integer, int[]> map1320;
 
     public int minimumDistance(String word) {
         this.n1320 = word.length();
-        this.map1320 = new HashMap<>();
-        for (int i = 0; i < 26; ++i) {
-            int row = i / 6;
-            int col = i % 6;
-            map1320.put(i, new int[] { row, col });
-        }
         // memo[i][j][k] : 左手在字母i上，右手在字母j上，输入了第k个字符后的最短移动距离
         memo1320 = new int[26][n1320];
         for (int i = 0; i < 26; ++i) {
@@ -9869,10 +9862,12 @@ public class Leetcode_6 {
         return memo1320[another][i] = min;
     }
 
-    private int getDis1320(int i, int j) {
-        int[] a = map1320.get(i);
-        int[] b = map1320.get(j);
-        return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
+    private int getDis1320(int pos1, int pos2) {
+        int row1 = pos1 / 6;
+        int col1 = pos1 % 6;
+        int row2 = pos2 / 6;
+        int col2 = pos2 % 6;
+        return Math.abs(row1 - row2) + Math.abs(col1 - col2);
     }
 
 
@@ -9947,39 +9942,38 @@ public class Leetcode_6 {
     // public int minimumMountainRemovals(int[] nums) {
     // }
 
-    // #549 二叉树中最长的连续序列 --plus
-    // class Solution {
-    // int maxval = 0;
+    // 549. 二叉树中最长的连续序列 --plus
+    private int maxval = 0;
 
-    // public int longestConsecutive(TreeNode root) {
-    // longestPath(root);
-    // return maxval;
-    // }
+    public int longestConsecutive(TreeNode root) {
+        longestPath(root);
+        return maxval;
+    }
 
-    // public int[] longestPath(TreeNode root) {
-    // if (root == null) {
-    // return new int[] { 0, 0 };
-    // }
-    // int inr = 1, dcr = 1;
-    // if (root.left != null) {
-    // int[] l = longestPath(root.left);
-    // if (root.val == root.left.val + 1) {
-    // dcr = l[1] + 1;
-    // } else if (root.val == root.left.val - 1) {
-    // inr = l[0] + 1;
-    // }
-    // }
-    // if (root.right != null) {
-    // int[] r = longestPath(root.right);
-    // if (root.val == root.right.val + 1) {
-    // dcr = Math.max(dcr, r[1] + 1);
-    // } else if (root.val == root.right.val - 1) {
-    // inr = Math.max(inr, r[0] + 1);
-    // }
-    // }
-    // maxval = Math.max(maxval, dcr + inr - 1);
-    // return new int[] { inr, dcr };
-    // }
-    // }
+    public int[] longestPath(TreeNode root) {
+        if (root == null) {
+            return new int[] { 0, 0 };
+        }
+        int inr = 1, dcr = 1;
+        if (root.left != null) {
+            int[] l = longestPath(root.left);
+            if (root.val == root.left.val + 1) {
+                dcr = l[1] + 1;
+            } else if (root.val == root.left.val - 1) {
+                inr = l[0] + 1;
+            }
+        }
+        if (root.right != null) {
+            int[] r = longestPath(root.right);
+            if (root.val == root.right.val + 1) {
+                dcr = Math.max(dcr, r[1] + 1);
+            } else if (root.val == root.right.val - 1) {
+                inr = Math.max(inr, r[0] + 1);
+            }
+        }
+        maxval = Math.max(maxval, dcr + inr - 1);
+        return new int[] { inr, dcr };
+    }
+    
 
 }
