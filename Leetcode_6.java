@@ -9828,7 +9828,7 @@ public class Leetcode_6 {
 
     public int minimumDistance(String word) {
         this.n1320 = word.length();
-        // memo[i][j][k] : 左手在字母i上，右手在字母j上，输入了第k个字符后的最短移动距离
+        // memo[i][j] : 不指向当前字符的另一个手指的位置（因为其中一个手指一定指向的是当前字符），输入了第i个字符后的最短移动距离
         memo1320 = new int[26][n1320];
         for (int i = 0; i < 26; ++i) {
             Arrays.fill(memo1320[i], -1);
