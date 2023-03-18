@@ -239,6 +239,52 @@ public class Leetcode_7 {
         return minPrice;
     }
 
+    // 188. 买卖股票的最佳时机 IV (Best Time to Buy and Sell Stock IV)
+    private int[][][] memo188;
+    private int n188;
+    private int k188;
+    private int[] prices188;
+
+    public int maxProfit(int k, int[] prices) {
+        this.n188 = prices.length;
+        this.k188 = k;
+        this.prices188 = prices;
+        this.memo188 = new int[n188][k][2];
+        for (int i = 0; i < n188; ++i) {
+            for (int j = 0; j < k; ++j) {
+                Arrays.fill(memo188[i][j], -1);
+            }
+        }
+        return dfs(0, 0, 0);
+
+    }
+
+    private int dfs(int i, int count, int state) {
+        if (i == n188 || count == k188) {
+            return 0;
+        }
+        if (memo188[i][count][state] != -1) {
+            return memo188[i][count][state];
+        }
+        int res = 0;
+        // 已卖出状态 可买入
+        if (state == 0) {
+            // 买
+            res = Math.max(res, -prices188[i] + dfs(i + 1, count, state ^ 1));
+            // 不买
+            res = Math.max(res, dfs(i + 1, count, state));
+        }
+        // 已买入状态 可卖出
+        else {
+            // 卖
+            res = Math.max(res, prices188[i] + dfs(i + 1, count + 1, state ^ 1));
+            // 不卖
+            res = Math.max(res, dfs(i + 1, count, state));
+        }
+        return memo188[i][count][state] = res;
+    }
+
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
@@ -378,5 +424,4 @@ public class Leetcode_7 {
     // }
     // return memo[i][j] = Math.max(dfs(b, i + 1, j), dfs(b, i, j - 1));
     // }
-
 }
