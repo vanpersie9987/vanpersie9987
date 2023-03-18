@@ -98,19 +98,22 @@ public class Leetcode_7 {
     // 1993. 树上的操作 (Operations on Tree)
     class LockingTree {
         private int n;
-        private Map<Integer, List<Integer>> g;
+        private List<Integer>[] g;
         private int[] lockStatus;
 
         public LockingTree(int[] parent) {
             this.n = parent.length;
-            this.g = new HashMap<>();
+            this.g = new ArrayList[n];
+            this.lockStatus = new int[n];
+            for (int i = 0; i < n; ++i) {
+                g[i] = new ArrayList<>();
+            }
             for (int i = 0; i < n; ++i) {
                 if (parent[i] != -1) {
-                    g.computeIfAbsent(parent[i], k -> new ArrayList<>()).add(i);
+                    g[parent[i]].add(i);
                 }
+                lockStatus[i] = -1;
             }
-            this.lockStatus = new int[n];
-            Arrays.fill(lockStatus, -1);
         }
 
         public boolean lock(int num, int user) {
@@ -153,7 +156,7 @@ public class Leetcode_7 {
             if (x == num) {
                 return true;
             }
-            for (int y : g.getOrDefault(x, new ArrayList<>())) {
+            for (int y : g[x]) {
                 if (dfs(y, num)) {
                     return true;
                 }
@@ -163,7 +166,7 @@ public class Leetcode_7 {
 
         private boolean dfs2(int x) {
             boolean flag = false;
-            for (int y : g.getOrDefault(x, new ArrayList<>())) {
+            for (int y : g[x]) {
                 if (dfs2(y)) {
                     flag = true;
                 }
