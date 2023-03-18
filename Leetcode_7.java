@@ -95,6 +95,89 @@ public class Leetcode_7 {
         return memo1105[i] = min;
     }
 
+    // 1993. 树上的操作 (Operations on Tree)
+    class LockingTree {
+        private int n;
+        private Map<Integer, List<Integer>> g;
+        private int[] lockStatus;
+
+        public LockingTree(int[] parent) {
+            this.n = parent.length;
+            this.g = new HashMap<>();
+            for (int i = 0; i < n; ++i) {
+                if (parent[i] != -1) {
+                    g.computeIfAbsent(parent[i], k -> new ArrayList<>()).add(i);
+                }
+            }
+            this.lockStatus = new int[n];
+            Arrays.fill(lockStatus, -1);
+        }
+
+        public boolean lock(int num, int user) {
+            if (lockStatus[num] != -1) {
+                return false;
+            }
+            lockStatus[num] = user;
+            return true;
+        }
+
+        public boolean unlock(int num, int user) {
+            if (lockStatus[num] != user) {
+                return false;
+            }
+            lockStatus[num] = -1;
+            return true;
+        }
+
+        public boolean upgrade(int num, int user) {
+            if (lockStatus[num] != -1) {
+                return false;
+            }
+            // num的祖先节点是否都未上锁
+            if (!dfs(0, num)) {
+                return false;
+            }
+            // num是否至少有一个上锁的子孙节点，并将所有上锁节点解锁
+            if (dfs2(num)) {
+                lockStatus[num] = user;
+                return true;
+            }
+            return false;
+
+        }
+
+        private boolean dfs(int x, int num) {
+            if (lockStatus[x] != -1) {
+                return false;
+            }
+            if (x == num) {
+                return true;
+            }
+            for (int y : g.getOrDefault(x, new ArrayList<>())) {
+                if (dfs(y, num)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private boolean dfs2(int x) {
+            boolean flag = false;
+            for (int y : g.getOrDefault(x, new ArrayList<>())) {
+                if (dfs2(y)) {
+                    flag = true;
+                }
+            }
+            if (lockStatus[x] != -1) {
+                flag = true;
+                lockStatus[x] = -1;
+            }
+            return flag;
+        }
+
+    }
+
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
@@ -165,4 +248,81 @@ public class Leetcode_7 {
     // public int minimumMountainRemovals(int[] nums) {
     // }
 
+    // 1937. 扣分后的最大得分 (Maximum Number of Points with Cost)
+    // private int m;
+    // private int n;
+    // private int[][] points;
+    // private long[][] memo;
+
+    // public long maxPoints(int[][] points) {
+    // this.m = points.length;
+    // this.n = points[0].length;
+    // this.points = points;
+    // this.memo = new long[m][n];
+    // for (int i = 0; i < m; ++i) {
+    // Arrays.fill(memo[i], Long.MIN_VALUE);
+    // }
+    // long res = 0l;
+    // for (int j = 0; j < n; ++j) {
+    // res = Math.max(res, dfs(1, j) + points[0][j]);
+    // }
+    // return res;
+    // }
+
+    // private long dfs(int row, int lastCol) {
+    // if (row == m) {
+    // return 0;
+    // }
+    // if (memo[row][lastCol] != Long.MIN_VALUE) {
+    // return memo[row][lastCol];
+    // }
+    // long res = Long.MIN_VALUE;
+    // for (int j = 0; j < n; ++j) {
+    // res = Math.max(res, dfs(row + 1, j) + points[row][j] - Math.abs(lastCol -
+    // j));
+    // }
+    // return memo[row][lastCol] = res;
+    // }
+
+    // 1771. 由子序列构造的最长回文串的长度 (Maximize Palindrome Length From Subsequences)
+    // private int m;
+    // private int n;
+    // private String s;
+    // private int[][] memo;
+
+    // public int longestPalindrome(String word1, String word2) {
+    // this.m = word1.length();
+    // this.n = word2.length();
+    // this.s = word1 + word2;
+    // this.memo = new int[m + n][m + n];
+    // for (int i = 0; i < m + n; ++i) {
+    // Arrays.fill(memo[i], -1);
+    // }
+    // int res = dfs(false, 0, m + n - 1);
+    // return res > 1 ? res : 0;
+
+    // }
+
+    // private int dfs(boolean b, int i, int j) {
+    // if (i > j) {
+    // return 0;
+    // }
+    // if (i == j) {
+    // return 1;
+    // }
+    // if (memo[i][j] != -1) {
+    // return memo[i][j];
+    // }
+    // if (i >= m || j < m) {
+    // if (!b) {
+    // return 0;
+    // }
+    // }
+    // if (s.charAt(i) == s.charAt(j)) {
+    // return memo[i][j] = dfs(true, i + 1, j - 1) + 2;
+    // }
+    // return memo[i][j] = Math.max(dfs(b, i + 1, j), dfs(b, i, j - 1));
+    // }
+
+    
 }
