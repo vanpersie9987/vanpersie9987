@@ -180,6 +180,64 @@ public class Leetcode_7 {
 
     }
 
+    // 638. 大礼包 (Shopping Offers)
+    private List<List<Integer>> filterSpecial638;
+    private Map<List<Integer>, Integer> memo638;
+    private int n638;
+    private List<Integer> price638;
+
+    public int shoppingOffers(List<Integer> price, List<List<Integer>> special,
+            List<Integer> needs) {
+        this.n638 = price.size();
+        this.price638 = price;
+        this.filterSpecial638 = new ArrayList<>();
+        search: for (List<Integer> sp : special) {
+            int specialPrice = sp.get(n638);
+            int count = 0;
+            int total = 0;
+            for (int i = 0; i < n638; ++i) {
+                if (sp.get(i) > needs.get(i)) {
+                    continue search;
+                }
+                total += sp.get(i) * price.get(i);
+                count += sp.get(i);
+            }
+            if (count == 0) {
+                continue;
+            }
+            if (total <= specialPrice) {
+                continue;
+            }
+            filterSpecial638.add(sp);
+        }
+        this.memo638 = new HashMap<>();
+        return dfs638(needs);
+
+    }
+
+    private int dfs638(List<Integer> needs) {
+        if (memo638.containsKey(needs)) {
+            return memo638.get(needs);
+        }
+        int minPrice = 0;
+        for (int i = 0; i < n638; ++i) {
+            minPrice += needs.get(i) * price638.get(i);
+        }
+        for (List<Integer> sp : filterSpecial638) {
+            List<Integer> next = new ArrayList<>();
+            for (int i = 0; i < n638; ++i) {
+                if (sp.get(i) > needs.get(i)) {
+                    break;
+                }
+                next.add(needs.get(i) - sp.get(i));
+            }
+            if (next.size() == n638) {
+                minPrice = Math.min(minPrice, dfs638(next) + sp.get(n638));
+            }
+        }
+        memo638.put(needs, minPrice);
+        return minPrice;
+    }
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
@@ -188,12 +246,6 @@ public class Leetcode_7 {
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
-
-    // }
-
-    // 638. 大礼包 (Shopping Offers)
-    // public int shoppingOffers(List<Integer> price, List<List<Integer>> special,
-    // List<Integer> needs) {
 
     // }
 
@@ -327,5 +379,4 @@ public class Leetcode_7 {
     // return memo[i][j] = Math.max(dfs(b, i + 1, j), dfs(b, i, j - 1));
     // }
 
-    
 }
