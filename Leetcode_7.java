@@ -18,6 +18,9 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.swing.GroupLayout.Group;
+import javax.xml.catalog.GroupEntry.PreferType;
+
 public class Leetcode_7 {
     public static void main(String[] args) {
 
@@ -379,6 +382,92 @@ public class Leetcode_7 {
         return cars;
     }
 
+    // 6319. 奇偶位数 (Number of Even and Odd Bits)
+    public int[] evenOddBit(int n) {
+        int[] res = new int[2];
+        int i = 0;
+        while (n != 0) {
+            res[i] += n & 1;
+            i ^= 1;
+            n >>= 1;
+        }
+        return res;
+    }
+
+    // 6319. 奇偶位数 (Number of Even and Odd Bits)
+    public int[] evenOddBit2(int n) {
+       final int MASK = 0x55555;
+       return new int[] { Integer.bitCount(n & MASK), Integer.bitCount(n & (MASK >> 1)) };
+    }
+
+    // 6322. 检查骑士巡视方案 (Check Knight Tour Configuration)
+    public boolean checkValidGrid(int[][] grid) {
+        int n = grid.length;
+        int num = 0;
+        int[][] dirs = { { -2, 1 }, { -1, 2 }, { 1, 2 }, { 2, 1 }, { 2, -1 }, { 1, -2 }, { -1, -2 },
+                { -2, -1 } };
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[] { 0, 0 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int y = cur[1];
+            for (int[] dir : dirs) {
+                int nx = x + dir[0];
+                int ny = y + dir[1];
+                if (nx >= 0 && nx < n && ny >= 0 && ny < n && grid[nx][ny] == num + 1) {
+                    ++num;
+                    q.offer(new int[] { nx, ny });
+                }
+            }
+        }
+        return num == n * n - 1;
+    }
+
+    // 6352. 美丽子集的数目 (The Number of Beautiful Subsets)
+    private int n6352;
+    private int[] nums6352;
+    private int k6352;
+    private int[] count6352;
+    private int res6352;
+
+    public int beautifulSubsets(int[] nums, int k) {
+        this.n6352 = nums.length;
+        this.nums6352 = nums;
+        this.k6352 = k;
+        this.count6352 = new int[2 * k + 1001];
+        dfs6352(0);
+        return res6352 - 1;
+
+    }
+
+    private void dfs6352(int i) {
+        if (i == n6352) {
+            ++res6352;
+            return;
+        }
+        dfs6352(i + 1);
+        int x = nums6352[i] + k6352;
+        if (count6352[x - k6352] == 0 && count6352[x + k6352] == 0) {
+            ++count6352[x];
+            dfs6352(i + 1);
+            --count6352[x];
+        }
+    }
+
+    // 6321. 执行操作后的最大 MEX (Smallest Missing Non-negative Integer After Operations)
+    public int findSmallestInteger(int[] nums, int value) {
+        Map<Integer, Integer> count = new HashMap<>();
+        for (int num : nums) {
+            count.merge((num % value + value) % value, 1, Integer::sum);
+        }
+        int res = 0;
+        while (count.merge(res % value, -1, Integer::sum) >= 0) {
+            ++res;
+        }
+        return res;
+    }
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
@@ -518,4 +607,6 @@ public class Leetcode_7 {
     // }
     // return memo[i][j] = Math.max(dfs(b, i + 1, j), dfs(b, i, j - 1));
     // }
+
+
 }
