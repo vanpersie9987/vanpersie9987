@@ -284,6 +284,100 @@ public class Leetcode_7 {
         return memo188[i][count][state] = res;
     }
 
+    // 6323. 将钱分给最多的儿童 (Distribute Money to Maximum Children)
+    public int distMoney(int money, int children) {
+        money -= children;
+        if (money < 0) {
+            return -1;
+        }
+        int res = Math.min(money / 7, children);
+        money -= res * 7;
+        children -= res;
+
+        if (money > 0 && children == 0 || children == 1 && money == 3) {
+            --res;
+        }
+        return res;
+
+    }
+
+    // 6324. 最大化数组的伟大值 (Maximize Greatness of an Array)
+    public int maximizeGreatness(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        int res = 0;
+        int i = 0;
+        int j = 0;
+        while (i < n && j < n) {
+            if (nums[j] > nums[i]) {
+                ++res;
+                ++i;
+            }
+            ++j;
+        }
+        return res;
+
+    }
+
+    // 6351. 标记所有元素后数组的分数 (Find Score of an Array After Marking All Elements)
+    public long findScore(int[] nums) {
+        int n = nums.length;
+        boolean[] vis = new boolean[n];
+        Integer[] ids = IntStream.range(0, n).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                if (nums[o1] == nums[o2]) {
+                    return Integer.compare(o1, o2);
+                }
+                return Integer.compare(nums[o1], nums[o2]);
+            }
+
+        });
+        long res = 0l;
+        for (int id : ids) {
+            if (vis[id]) {
+                continue;
+            }
+            vis[id] = true;
+            res += nums[id];
+            if (id - 1 >= 0) {
+                vis[id - 1] = true;
+            }
+            if (id + 1 < n) {
+                vis[id + 1] = true;
+            }
+        }
+        return res;
+
+    }
+
+    // 6325. 修车的最少时间 (Minimum Time to Repair Cars)
+    public long repairCars(int[] ranks, int cars) {
+        long left = 1l;
+        long right = (long) 1e15;
+        long res = -1;
+        while (left <= right) {
+            long mid = left + ((right - left) >> 1);
+            if (check6325(mid, ranks) >= cars) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+
+    }
+
+    private long check6325(long target, int[] ranks) {
+        long cars = 0l;
+        for (int r : ranks) {
+            cars += Math.sqrt(target / r);
+        }
+        return cars;
+    }
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
