@@ -396,8 +396,8 @@ public class Leetcode_7 {
 
     // 6319. 奇偶位数 (Number of Even and Odd Bits)
     public int[] evenOddBit2(int n) {
-       final int MASK = 0x55555;
-       return new int[] { Integer.bitCount(n & MASK), Integer.bitCount(n & (MASK >> 1)) };
+        final int MASK = 0x55555;
+        return new int[] { Integer.bitCount(n & MASK), Integer.bitCount(n & (MASK >> 1)) };
     }
 
     // 6322. 检查骑士巡视方案 (Check Knight Tour Configuration)
@@ -607,6 +607,5 @@ public class Leetcode_7 {
     // }
     // return memo[i][j] = Math.max(dfs(b, i + 1, j), dfs(b, i, j - 1));
     // }
-
 
 }
