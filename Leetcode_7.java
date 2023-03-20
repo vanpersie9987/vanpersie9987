@@ -542,6 +542,7 @@ public class Leetcode_7 {
     }
 
     // 2376. 统计特殊整数 (Count Special Integers) --数位dfs
+    // (本题可以通过判断mask是否为0，即前面是否选过数字，从而去掉isNum)
     private int[][] memo2376;
     private char[] arr2376;
     private int k2376;
