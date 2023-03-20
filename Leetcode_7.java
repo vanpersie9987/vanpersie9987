@@ -504,7 +504,7 @@ public class Leetcode_7 {
         return res;
     }
 
-    // 面试题 17.06. 2出现的次数 (Number Of 2s In Range LCCI) --数位dfs
+    // 面试题 17.06. 2出现的次数 (Number Of 2s In Range LCCI) --数位dfs (本题可以不要isNum)
     private int[][] memo17_06;
     private char[] arr17_06;
     private int k17_06;
