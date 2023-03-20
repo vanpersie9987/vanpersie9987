@@ -466,6 +466,7 @@ public class Leetcode_7 {
     }
 
     // 1012. 至少有 1 位重复的数字 (Numbers With Repeated Digits) --数位dfs
+    // (本题可以通过判断mask是否为0，即前面是否选过数字，从而去掉isNum)
     private int[][] memo1012;
     private char[] arr1012;
     private int k1012;
