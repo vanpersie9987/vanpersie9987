@@ -8783,6 +8783,43 @@ public class LeetCode_4 {
         return ans;
     }
 
+    // 233. 数字 1 的个数 (Number of Digit One) --数位dfs
+    private char[] arr233;
+    private int k233;
+    private int[][] memo;
+
+    public int countDigitOne2(int n) {
+        this.arr233 = String.valueOf(n).toCharArray();
+        this.k233 = arr233.length;
+        this.memo = new int[k233][k233];
+        for (int i = 0; i < k233; ++i) {
+            Arrays.fill(memo[i], -1);
+        }
+        return dfs233(0, 0, true, false);
+
+    }
+
+    private int dfs233(int i, int count, boolean isLimit, boolean isNum) {
+        if (i == k233) {
+            return count;
+        }
+        if (!isLimit && isNum && memo[i][count] != -1) {
+            return memo[i][count];
+        }
+        int res = 0;
+        if (!isNum) {
+            res = dfs233(i + 1, count, false, false);
+        }
+        int up = isLimit ? arr233[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            res += dfs233(i + 1, count + (d == 1 ? 1 : 0), isLimit && d == up, true);
+        }
+        if (!isLimit && isNum) {
+            memo[i][count] = res;
+        }
+        return res;
+    }
+
     // 1492. n 的第 k 个因子 (The kth Factor of n)
     public int kthFactor(int n, int k) {
         int d = (int) Math.sqrt(n);
