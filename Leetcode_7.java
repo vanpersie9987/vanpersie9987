@@ -18,6 +18,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.PreAction;
+
 public class Leetcode_7 {
     public static void main(String[] args) {
 
@@ -255,11 +257,11 @@ public class Leetcode_7 {
                 Arrays.fill(memo188[i][j], -1);
             }
         }
-        return dfs(0, 0, 0);
+        return dfs188(0, 0, 0);
 
     }
 
-    private int dfs(int i, int count, int state) {
+    private int dfs188(int i, int count, int state) {
         if (i == n188 || count == k188) {
             return 0;
         }
@@ -270,16 +272,16 @@ public class Leetcode_7 {
         // 已卖出状态 可买入
         if (state == 0) {
             // 买
-            res = Math.max(res, -prices188[i] + dfs(i + 1, count, state ^ 1));
+            res = Math.max(res, -prices188[i] + dfs188(i + 1, count, state ^ 1));
             // 不买
-            res = Math.max(res, dfs(i + 1, count, state));
+            res = Math.max(res, dfs188(i + 1, count, state));
         }
         // 已买入状态 可卖出
         else {
             // 卖
-            res = Math.max(res, prices188[i] + dfs(i + 1, count + 1, state ^ 1));
+            res = Math.max(res, prices188[i] + dfs188(i + 1, count + 1, state ^ 1));
             // 不卖
-            res = Math.max(res, dfs(i + 1, count, state));
+            res = Math.max(res, dfs188(i + 1, count, state));
         }
         return memo188[i][count][state] = res;
     }
@@ -582,6 +584,50 @@ public class Leetcode_7 {
         return res;
     }
 
+    // 309. 最佳买卖股票时机含冷冻期 (Best Time to Buy and Sell Stock with Cooldown)
+    private int[][] memo309;
+    private int n309;
+    private int[] prices309;
+
+    public int maxProfit(int[] prices) {
+        this.n309 = prices.length;
+        this.memo309 = new int[n309][3];
+        this.prices309 = prices;
+        for (int i = 0; i < n309; ++i) {
+            Arrays.fill(memo309[i], Integer.MIN_VALUE);
+        }
+        return dfs309(0, 0);
+
+    }
+
+    private int dfs309(int i, int state) {
+        if (i == n309) {
+            return 0;
+        }
+        if (memo309[i][state] != Integer.MIN_VALUE) {
+            return memo309[i][state];
+        }
+        int max = Integer.MIN_VALUE;
+        // 可买入
+        if (state == 0) {
+            // 买
+            max = Math.max(max, -prices309[i] + dfs309(i + 1, (state + 1) % 3));
+            // 不买
+            max = Math.max(max, dfs309(i + 1, state));
+        }
+        // 可卖出
+        else if (state == 1) {
+            // 卖
+            max = Math.max(max, prices309[i] + dfs309(i + 1, (state + 1) % 3));
+            // 不卖
+            max = Math.max(max, dfs309(i + 1, state));
+        }
+        // 冷冻期
+        else {
+            max = Math.max(max, dfs309(i + 1, (state + 1) % 3));
+        }
+        return memo309[i][state] = max;
+    }
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
