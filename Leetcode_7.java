@@ -18,9 +18,6 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.swing.GroupLayout.Group;
-import javax.xml.catalog.GroupEntry.PreferType;
-
 public class Leetcode_7 {
     public static void main(String[] args) {
 
@@ -468,6 +465,45 @@ public class Leetcode_7 {
         return res;
     }
 
+    // 1012. 至少有 1 位重复的数字 (Numbers With Repeated Digits) --数位dfs
+    private int[][] memo1012;
+    private char[] arr1012;
+    private int k1012;
+
+    public int numDupDigitsAtMostN(int n) {
+        this.arr1012 = String.valueOf(n).toCharArray();
+        this.k1012 = arr1012.length;
+        this.memo1012 = new int[k1012][1 << 10];
+        for (int i = 0; i < k1012; ++i) {
+            Arrays.fill(memo1012[i], -1);
+        }
+        return n - dfs1012(0, 0, true, false);
+
+    }
+
+    private int dfs1012(int i, int mask, boolean isLimit, boolean isNum) {
+        if (i == k1012) {
+            return isNum ? 1 : 0;
+        }
+        if (!isLimit && isNum && memo1012[i][mask] != -1) {
+            return memo1012[i][mask];
+        }
+        int res = 0;
+        if (!isNum) {
+            res = dfs1012(i + 1, mask, false, false);
+        }
+        int up = isLimit ? arr1012[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            if ((mask & (1 << d)) == 0) {
+                res += dfs1012(i + 1, mask | (1 << d), isLimit && d == up, true);
+            }
+        }
+        if (!isLimit && isNum) {
+            memo1012[i][mask] = res;
+        }
+        return res;
+    }
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
@@ -607,5 +643,4 @@ public class Leetcode_7 {
     // }
     // return memo[i][j] = Math.max(dfs(b, i + 1, j), dfs(b, i, j - 1));
     // }
-
 }
