@@ -541,6 +541,46 @@ public class Leetcode_7 {
         return res;
     }
 
+    // 2376. 统计特殊整数 (Count Special Integers) --数位dfs
+    private int[][] memo2376;
+    private char[] arr2376;
+    private int k2376;
+
+    public int countSpecialNumbers(int n) {
+        this.arr2376 = String.valueOf(n).toCharArray();
+        this.k2376 = arr2376.length;
+        this.memo2376 = new int[k2376][1 << 10];
+        for (int i = 0; i < k2376; ++i) {
+            Arrays.fill(memo2376[i], -1);
+        }
+        return dfs2376(0, 0, true, false);
+
+    }
+
+    private int dfs2376(int i, int mask, boolean isLimit, boolean isNum) {
+        if (i == k2376) {
+            return isNum ? 1 : 0;
+        }
+        if (!isLimit && isNum && memo2376[i][mask] != -1) {
+            return memo2376[i][mask];
+        }
+        int res = 0;
+        if (!isNum) {
+            res = dfs2376(i + 1, mask, false, false);
+        }
+        int up = isLimit ? arr2376[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            if ((mask & (1 << d)) == 0) {
+                res += dfs2376(i + 1, mask | (1 << d), isLimit && d == up, true);
+            }
+        }
+        if (!isLimit && isNum) {
+            memo2376[i][mask] = res;
+        }
+        return res;
+    }
+
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
