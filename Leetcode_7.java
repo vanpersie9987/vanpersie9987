@@ -504,6 +504,43 @@ public class Leetcode_7 {
         return res;
     }
 
+    // 面试题 17.06. 2出现的次数 (Number Of 2s In Range LCCI) --数位dfs
+    private int[][] memo17_06;
+    private char[] arr17_06;
+    private int k17_06;
+
+    public int numberOf2sInRange(int n) {
+        this.arr17_06 = String.valueOf(n).toCharArray();
+        this.k17_06 = arr17_06.length;
+        this.memo17_06 = new int[k17_06][k17_06];
+        for (int i = 0; i < k17_06; ++i) {
+            Arrays.fill(memo17_06[i], -1);
+        }
+        return dfs17_06(0, 0, true, false);
+
+    }
+
+    private int dfs17_06(int i, int count, boolean isLimit, boolean isNum) {
+        if (i == k17_06) {
+            return isNum ? count : 0;
+        }
+        if (!isLimit && isNum && memo17_06[i][count] != -1) {
+            return memo17_06[i][count];
+        }
+        int res = 0;
+        if (!isNum) {
+            res = dfs17_06(i + 1, count, false, false);
+        }
+        int up = isLimit ? arr17_06[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            res += dfs17_06(i + 1, count + (d == 2 ? 1 : 0), isLimit && d == up, true);
+        }
+        if (!isLimit && isNum) {
+            return memo17_06[i][count] = res;
+        }
+        return res;
+    }
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
@@ -643,4 +680,5 @@ public class Leetcode_7 {
     // }
     // return memo[i][j] = Math.max(dfs(b, i + 1, j), dfs(b, i, j - 1));
     // }
+
 }
