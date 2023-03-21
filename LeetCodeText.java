@@ -1138,7 +1138,7 @@ public class LeetCodeText {
 
     }
 
-    // 121. 买卖股票的最佳时机
+    // 121. 买卖股票的最佳时机 (Best Time to Buy and Sell Stock)
     // 剑指 Offer 63. 股票的最大利润
     public int maxProfit121(int[] prices) {
         int res = 0;
@@ -1151,6 +1151,48 @@ public class LeetCodeText {
             }
         }
         return res;
+    }
+
+    // 121. 买卖股票的最佳时机 (Best Time to Buy and Sell Stock)
+    // 剑指 Offer 63. 股票的最大利润
+    private int n121;
+    private int[] prices121;
+    private int[][] memo121;
+
+    public int maxProfit121_2(int[] prices) {
+        this.n121 = prices.length;
+        this.prices121 = prices;
+        this.memo121 = new int[n121][2];
+        for (int i = 0; i < n121; ++i) {
+            Arrays.fill(memo121[i], -1);
+        }
+        return dfs121(0, 0);
+
+    }
+
+    private int dfs121(int i, int state) {
+        if (i == n121) {
+            return 0;
+        }
+        if (memo121[i][state] != -1) {
+            return memo121[i][state];
+        }
+        int max = 0;
+        // 可买入
+        if (state == 0) {
+            // 买
+            max = Math.max(max, -prices121[i] + dfs121(i + 1, state ^ 1));
+            // 不买
+            max = Math.max(max, dfs121(i + 1, state));
+        }
+        // 可卖出
+        else {
+            // 卖
+            max = Math.max(max, prices121[i]);
+            // 不卖
+            max = Math.max(max, dfs121(i + 1, state));
+        }
+        return memo121[i][state] = max;
     }
 
     // 122. 买卖股票的最佳时机 II (Best Time to Buy and Sell Stock II)
