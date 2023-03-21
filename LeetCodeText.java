@@ -1140,7 +1140,7 @@ public class LeetCodeText {
 
     // 121. 买卖股票的最佳时机
     // 剑指 Offer 63. 股票的最大利润
-    public int maxProfit(int[] prices) {
+    public int maxProfit121(int[] prices) {
         int res = 0;
         int min = Integer.MAX_VALUE;
         for (int price : prices) {
@@ -1154,7 +1154,7 @@ public class LeetCodeText {
     }
 
     // 122. 买卖股票的最佳时机 II (Best Time to Buy and Sell Stock II)
-    public int maxProfit2(int[] prices) {
+    public int maxProfit122(int[] prices) {
         int max = 0;
         for (int i = 1; i < prices.length; ++i) {
             if (prices[i] > prices[i - 1]) {
@@ -1170,7 +1170,7 @@ public class LeetCodeText {
     private int[] prices122;
     private int n122;
 
-    public int maxProfit2_2(int[] prices) {
+    public int maxProfit122_2(int[] prices) {
         this.n122 = prices.length;
         this.prices122 = prices;
         this.memo122 = new int[n122][2];
@@ -1207,7 +1207,7 @@ public class LeetCodeText {
     }
 
     // 123. 买卖股票的最佳时机 III (Best Time to Buy and Sell Stock III)
-    public int maxProfit3(int[] prices) {
+    public int maxProfit123(int[] prices) {
         int n = prices.length;
         int buy1 = prices[0], sell1 = 0;
         int buy2 = prices[0], sell2 = 0;
@@ -1222,7 +1222,7 @@ public class LeetCodeText {
     }
 
     // 714. 买卖股票的最佳时机含手续费 (Best Time to Buy and Sell Stock with Transaction Fee)
-    public int maxProfit4(int[] prices, int fee) {
+    public int maxProfit714(int[] prices, int fee) {
         int min = prices[0];
         int profit = 0;
         for (int i = 0; i < prices.length; ++i) {
