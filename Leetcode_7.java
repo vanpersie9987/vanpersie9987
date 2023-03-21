@@ -630,41 +630,41 @@ public class Leetcode_7 {
     }
 
     // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
-    private int[] memo;
-    private int k;
-    private char[] arr;
-    private String[] digits;
+    private int[] memo902;
+    private int k902;
+    private char[] arr902;
+    private String[] digits902;
 
     public int atMostNGivenDigitSet(String[] digits, int n) {
-        this.arr = String.valueOf(n).toCharArray();
-        this.k = arr.length;
-        this.memo = new int[k];
-        Arrays.fill(memo, -1);
-        this.digits = digits;
-        return dfs(0, true, false);
+        this.arr902 = String.valueOf(n).toCharArray();
+        this.k902 = arr902.length;
+        this.memo902 = new int[k902];
+        Arrays.fill(memo902, -1);
+        this.digits902 = digits;
+        return dfs902(0, true, false);
     }
 
-    private int dfs(int i, boolean isLimit, boolean isNum) {
-        if (i == k) {
+    private int dfs902(int i, boolean isLimit, boolean isNum) {
+        if (i == k902) {
             return isNum ? 1 : 0;
         }
-        if (!isLimit && isNum && memo[i] != -1) {
-            return memo[i];
+        if (!isLimit && isNum && memo902[i] != -1) {
+            return memo902[i];
         }
         int res = 0;
         if (!isNum) {
-            res = dfs(i + 1, false, false);
+            res = dfs902(i + 1, false, false);
         }
-        char up = isLimit ? arr[i] : '9';
-        for (String dight : digits) {
+        char up = isLimit ? arr902[i] : '9';
+        for (String dight : digits902) {
             char d = dight.charAt(0);
             if (d > up) {
                 break;
             }
-            res += dfs(i + 1, isLimit && d == up, true);
+            res += dfs902(i + 1, isLimit && d == up, true);
         }
         if (!isLimit && isNum) {
-            memo[i] = res;
+            memo902[i] = res;
         }
         return res;
     }
