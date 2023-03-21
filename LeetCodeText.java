@@ -1280,6 +1280,49 @@ public class LeetCodeText {
 
     }
 
+    // 714. 买卖股票的最佳时机含手续费 (Best Time to Buy and Sell Stock with Transaction Fee)
+    private int[][] memo714;
+    private int[] prices714;
+    private int fee714;
+    private int n714;
+
+    public int maxProfit714_2(int[] prices, int fee) {
+        this.n714 = prices.length;
+        this.fee714 = fee;
+        this.prices714 = prices;
+        this.memo714 = new int[n714][2];
+        for (int i = 0; i < n714; ++i) {
+            Arrays.fill(memo714[i], -1);
+        }
+        return dfs714(0, 0);
+
+    }
+
+    private int dfs714(int i, int state) {
+        if (i == n714) {
+            return 0;
+        }
+        if (memo714[i][state] != -1) {
+            return memo714[i][state];
+        }
+        int max = 0;
+        // 可买入
+        if (state == 0) {
+            // 买
+            max = Math.max(max, -prices714[i] - fee714 + dfs714(i + 1, state ^ 1));
+            // 不买
+            max = Math.max(max, dfs714(i + 1, state));
+        }
+        // 可卖出
+        else {
+            // 卖
+            max = Math.max(max, prices714[i] + dfs714(i + 1, state ^ 1));
+            // 不卖
+            max = Math.max(max, dfs714(i + 1, state));
+        }
+        return memo714[i][state] = max;
+    }
+
     // 128. 最长连续序列
     public int longestConsecutive(final int[] nums) {
         if (nums == null || nums.length == 0) {
