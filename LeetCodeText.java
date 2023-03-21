@@ -1221,6 +1221,49 @@ public class LeetCodeText {
 
     }
 
+    // 123. 买卖股票的最佳时机 III (Best Time to Buy and Sell Stock III)
+    private int[][][] memo123;
+    private int n123;
+    private int[] prices123;
+
+    public int maxProfit123_2(int[] prices) {
+        this.n123 = prices.length;
+        this.prices123 = prices;
+        this.memo123 = new int[n123][2][2];
+        for (int i = 0; i < n123; ++i) {
+            for (int j = 0; j < 2; ++j) {
+                Arrays.fill(memo123[i][j], -1);
+            }
+        }
+        return dfs123(0, 0, 0);
+
+    }
+
+    private int dfs123(int i, int count, int status) {
+        if (i == n123 || count == 2) {
+            return 0;
+        }
+        if (memo123[i][count][status] != -1) {
+            return memo123[i][count][status];
+        }
+        int max = 0;
+        // 可买入
+        if (status == 0) {
+            // 买
+            max = Math.max(max, -prices123[i] + dfs123(i + 1, count, status ^ 1));
+            // 不买
+            max = Math.max(max, dfs123(i + 1, count, status));
+        }
+        // 可卖出
+        else {
+            // 卖
+            max = Math.max(max, prices123[i] + dfs123(i + 1, count + 1, status ^ 1));
+            // 不卖
+            max = Math.max(max, dfs123(i + 1, count, status));
+        }
+        return memo123[i][count][status] = max;
+    }
+
     // 714. 买卖股票的最佳时机含手续费 (Best Time to Buy and Sell Stock with Transaction Fee)
     public int maxProfit714(int[] prices, int fee) {
         int min = prices[0];

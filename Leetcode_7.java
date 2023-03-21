@@ -589,7 +589,7 @@ public class Leetcode_7 {
     private int n309;
     private int[] prices309;
 
-    public int maxProfit(int[] prices) {
+    public int maxProfit309(int[] prices) {
         this.n309 = prices.length;
         this.memo309 = new int[n309][3];
         this.prices309 = prices;
