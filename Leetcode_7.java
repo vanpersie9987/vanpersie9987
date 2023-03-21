@@ -629,6 +629,47 @@ public class Leetcode_7 {
         return memo309[i][state] = max;
     }
 
+    // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
+    private int[] memo;
+    private int k;
+    private char[] arr;
+    private String[] digits;
+
+    public int atMostNGivenDigitSet(String[] digits, int n) {
+        this.arr = String.valueOf(n).toCharArray();
+        this.k = arr.length;
+        this.memo = new int[k];
+        Arrays.fill(memo, -1);
+        this.digits = digits;
+        return dfs(0, true, false);
+    }
+
+    private int dfs(int i, boolean isLimit, boolean isNum) {
+        if (i == k) {
+            return isNum ? 1 : 0;
+        }
+        if (!isLimit && isNum && memo[i] != -1) {
+            return memo[i];
+        }
+        int res = 0;
+        if (!isNum) {
+            res = dfs(i + 1, false, false);
+        }
+        char up = isLimit ? arr[i] : '9';
+        for (String dight : digits) {
+            char d = dight.charAt(0);
+            if (d > up) {
+                break;
+            }
+            res += dfs(i + 1, isLimit && d == up, true);
+        }
+        if (!isLimit && isNum) {
+            memo[i] = res;
+        }
+        return res;
+    }
+
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
@@ -768,5 +809,4 @@ public class Leetcode_7 {
     // }
     // return memo[i][j] = Math.max(dfs(b, i + 1, j), dfs(b, i, j - 1));
     // }
-
 }
