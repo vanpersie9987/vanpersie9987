@@ -629,7 +629,7 @@ public class Leetcode_7 {
         return memo309[i][state] = max;
     }
 
-    // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
+    // 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set) --数位dfs
     private int[] memo902;
     private int k902;
     private char[] arr902;
@@ -665,6 +665,61 @@ public class Leetcode_7 {
         }
         if (!isLimit && isNum) {
             memo902[i] = res;
+        }
+        return res;
+    }
+
+    // 357. 计算各个位数不同的数字个数 (Count Numbers with Unique Digits)
+    public int countNumbersWithUniqueDigits(int n) {
+        if (n == 0) {
+            return 1;
+        }
+        if (n == 1) {
+            return 10;
+        }
+        int res = 10;
+        int cur = 9;
+        for (int i = 0; i < n - 1; ++i) {
+            cur *= 9 - i;
+            res += cur;
+        }
+        return res;
+    }
+
+    // 357. 统计各位数字都不同的数字个数 (Count Numbers with Unique Digits) --数位dfs
+    private int[][] memo357;
+    private char[] arr357;
+    private int k357;
+
+    public int countNumbersWithUniqueDigits2(int n) {
+        this.arr357 = String.valueOf((int) Math.pow(10, n) - 1).toCharArray();
+        this.k357 = arr357.length;
+        this.memo357 = new int[k357][1 << 10];
+        for (int i = 0; i < k357; ++i) {
+            Arrays.fill(memo357[i], -1);
+        }
+        return dfs357(0, 0, true, false) + 1;
+    }
+
+    private int dfs357(int i, int mask, boolean isLimit, boolean isNum) {
+        if (i == k357) {
+            return isNum ? 1 : 0;
+        }
+        if (!isLimit && isNum && memo357[i][mask] != -1) {
+            return memo357[i][mask];
+        }
+        int res = 0;
+        if (!isNum) {
+            res = dfs357(i + 1, mask, false, false);
+        }
+        int up = isLimit ? arr357[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            if ((mask & (1 << d)) == 0) {
+                res += dfs357(i + 1, mask | (1 << d), isLimit && d == up, true);
+            }
+        }
+        if (!isLimit && isNum) {
+            memo357[i][mask] = res;
         }
         return res;
     }
