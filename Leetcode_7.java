@@ -594,7 +594,7 @@ public class Leetcode_7 {
         this.memo309 = new int[n309][3];
         this.prices309 = prices;
         for (int i = 0; i < n309; ++i) {
-            Arrays.fill(memo309[i], Integer.MIN_VALUE);
+            Arrays.fill(memo309[i], -1);
         }
         return dfs309(0, 0);
 
@@ -604,10 +604,10 @@ public class Leetcode_7 {
         if (i == n309) {
             return 0;
         }
-        if (memo309[i][state] != Integer.MIN_VALUE) {
+        if (memo309[i][state] != -1) {
             return memo309[i][state];
         }
-        int max = Integer.MIN_VALUE;
+        int max = 0;
         // 可买入
         if (state == 0) {
             // 买
