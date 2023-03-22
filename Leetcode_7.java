@@ -18,8 +18,6 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.PreAction;
-
 public class Leetcode_7 {
     public static void main(String[] args) {
 
@@ -724,7 +722,6 @@ public class Leetcode_7 {
         return res;
     }
 
-
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
@@ -864,4 +861,10 @@ public class Leetcode_7 {
     // }
     // return memo[i][j] = Math.max(dfs(b, i + 1, j), dfs(b, i, j - 1));
     // }
+
+    // 788. 旋转数字 (Rotated Digits) --数位dfs
+    public int rotatedDigits(int n) {
+
+    }
+
 }

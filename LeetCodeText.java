@@ -19996,7 +19996,37 @@ public class LeetCodeText {
     }
 
     // 300. 最长递增子序列 (Longest Increasing Subsequence)
+    private int[] memo300;
+    private int n300;
+    private int[] nums300;
+
     public int lengthOfLIS(int[] nums) {
+        this.n300 = nums.length;
+        this.memo300 = new int[n300];
+        this.nums300 = nums;
+        int res = 0;
+        for (int i = 0; i < n300; ++i) {
+            res = Math.max(res, dfs300(i));
+        }
+        return res;
+
+    }
+
+    private int dfs300(int i) {
+        if (memo300[i] != 0) {
+            return memo300[i];
+        }
+        int max = 0;
+        for (int j = 0; j < i; ++j) {
+            if (nums300[j] < nums300[i]) {
+                max = Math.max(max, dfs300(j));
+            }
+        }
+        return memo300[i] = max + 1;
+    }
+
+    // 300. 最长递增子序列 (Longest Increasing Subsequence)
+    public int lengthOfLIS2(int[] nums) {
         int res = 0;
         int n = nums.length;
         // dp表示以dp[i]结尾的最长严格递增序列的长度
@@ -20015,7 +20045,7 @@ public class LeetCodeText {
     }
 
     // 300. 最长递增子序列 (Longest Increasing Subsequence) --二分
-    public int lengthOfLIS2(int[] nums) {
+    public int lengthOfLIS3(int[] nums) {
         int n = nums.length;
         int[] dp = new int[n + 1];
         int len = 1;
