@@ -722,6 +722,52 @@ public class Leetcode_7 {
         return res;
     }
 
+    // 1626. 无矛盾的最佳球队 (Best Team With No Conflicts)
+    private int[] memo1626;
+    private int[][] arr1626;
+    private int n1626;
+
+    public int bestTeamScore(int[] scores, int[] ages) {
+        this.n1626 = scores.length;
+        this.memo1626 = new int[n1626];
+        this.arr1626 = new int[n1626][2];
+        for (int i = 0; i < n1626; ++i) {
+            arr1626[i][0] = scores[i];
+            arr1626[i][1] = ages[i];
+        }
+        Arrays.sort(arr1626, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] == o2[0]) {
+                    return Integer.compare(o1[1], o2[1]);
+                }
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        int res = 0;
+        for (int i = 0; i < n1626; ++i) {
+            res = Math.max(res, dfs1626(i));
+        }
+        return res;
+
+    }
+
+    private int dfs1626(int i) {
+        if (memo1626[i] != 0) {
+            return memo1626[i];
+        }
+        int max = 0;
+        for (int j = 0; j < i; ++j) {
+            if (arr1626[j][1] <= arr1626[i][1]) {
+                max = Math.max(max, dfs1626(j));
+            }
+        }
+        return memo1626[i] = max + arr1626[i][0];
+    }
+
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
@@ -863,8 +909,8 @@ public class Leetcode_7 {
     // }
 
     // 788. 旋转数字 (Rotated Digits) --数位dfs
-    public int rotatedDigits(int n) {
+    // public int rotatedDigits(int n) {
 
-    }
+    // }
 
 }
