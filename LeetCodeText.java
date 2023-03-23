@@ -19280,9 +19280,9 @@ public class LeetCodeText {
             Arrays.fill(memo256[i], Integer.MAX_VALUE);
         }
         int res = Integer.MAX_VALUE;
-        res = Math.min(res, dfs256(0, 0));
-        res = Math.min(res, dfs256(0, 1));
-        res = Math.min(res, dfs256(0, 2));
+        for (int i = 0; i < 3; ++i) {
+            res = Math.min(res, dfs256(0, i));
+        }
         return res;
 
     }
@@ -19295,17 +19295,12 @@ public class LeetCodeText {
             return memo256[i][type];
         }
         int min = Integer.MAX_VALUE;
-        if (type == 0) {
-            min = Math.min(costs256[i][type] + dfs256(i + 1, 1), min);
-            min = Math.min(costs256[i][type] + dfs256(i + 1, 2), min);
-        } else if (type == 1) {
-            min = Math.min(costs256[i][type] + dfs256(i + 1, 0), min);
-            min = Math.min(costs256[i][type] + dfs256(i + 1, 2), min);
-        } else {
-            min = Math.min(costs256[i][type] + dfs256(i + 1, 0), min);
-            min = Math.min(costs256[i][type] + dfs256(i + 1, 1), min);
+        for (int j = 0; j < 3; ++j) {
+            if (j != type) {
+                min = Math.min(min, dfs256(i + 1, j));
+            }
         }
-        return memo256[i][type] = min;
+        return memo256[i][type] = min + costs256[i][type];
     }
 
     // 256. 粉刷房子 (Paint House) --plus dp
