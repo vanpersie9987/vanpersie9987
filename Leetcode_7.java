@@ -767,6 +767,50 @@ public class Leetcode_7 {
         return memo1626[i] = max + arr1626[i][0];
     }
 
+    // 1335. 工作计划的最低难度 (Minimum Difficulty of a Job Schedule)
+    private int[] jobDifficulty1335;
+    private int n1335;
+    private int d1335;
+    private int[][] memo1335;
+
+    public int minDifficulty(int[] jobDifficulty, int d) {
+        this.jobDifficulty1335 = jobDifficulty;
+        this.d1335 = d;
+        this.n1335 = jobDifficulty.length;
+        if (n1335 < d) {
+            return -1;
+        }
+        this.memo1335 = new int[d][n1335];
+        for (int i = 0; i < d; ++i) {
+            Arrays.fill(memo1335[i], -1);
+        }
+        return dfs1335(0, 0);
+
+    }
+
+    private int dfs1335(int days, int jobIndex) {
+        if (days == d1335 || jobIndex == n1335) {
+            if (days == d1335 && jobIndex == n1335) {
+                return 0;
+            }
+            return (int) 1e7;
+        }
+        if (n1335 - jobIndex < d1335 - days) {
+            return (int) 1e7;
+        }
+        if (memo1335[days][jobIndex] != -1) {
+            return memo1335[days][jobIndex];
+        }
+        int max = 0;
+        int res = (int) 1e7;
+        int j = jobIndex;
+        while (j < n1335) {
+            max = Math.max(max, jobDifficulty1335[j]);
+            res = Math.min(res, max + dfs1335(days + 1, j + 1));
+            ++j;
+        }
+        return memo1335[days][jobIndex] = res;
+    }
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
