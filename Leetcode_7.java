@@ -908,9 +908,4 @@ public class Leetcode_7 {
     // return memo[i][j] = Math.max(dfs(b, i + 1, j), dfs(b, i, j - 1));
     // }
 
-    // 788. 旋转数字 (Rotated Digits) --数位dfs
-    // public int rotatedDigits(int n) {
-
-    // }
-
 }
