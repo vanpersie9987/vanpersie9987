@@ -955,7 +955,6 @@ public class LeetCodeText {
             }
         }
 
-
     }
 
     // 74. 搜索二维矩阵
@@ -1206,7 +1205,7 @@ public class LeetCodeText {
         return max;
 
     }
-    
+
     // 122. 买卖股票的最佳时机 II (Best Time to Buy and Sell Stock II)
     private int[][] memo122;
     private int[] prices122;
@@ -2742,7 +2741,7 @@ public class LeetCodeText {
             }
         }
         return true;
-    
+
     }
 
     // 1779. 找到最近的有相同 X 或 Y 坐标的点 (Find Nearest Point That Has the Same X or Y
@@ -3099,11 +3098,11 @@ public class LeetCodeText {
         if (s1.length() != s2.length()) {
             return false;
         }
-         char[] chars1 = s1.toCharArray();
-         char[] chars2 = s2.toCharArray();
+        char[] chars1 = s1.toCharArray();
+        char[] chars2 = s2.toCharArray();
         reverse2(chars1, 0, chars1.length - 1);
         for (int i = 0; i < chars1.length; ++i) {
-             char[] chars1Clone = chars1.clone();
+            char[] chars1Clone = chars1.clone();
             reverse2(chars1Clone, 0, i);
             reverse2(chars1Clone, i + 1, chars1Clone.length - 1);
             if (Arrays.equals(chars1Clone, chars2)) {
@@ -5269,7 +5268,7 @@ public class LeetCodeText {
         return max;
 
     }
-    
+
     // 1652. 拆炸弹 (Defuse the Bomb)
     public int[] decrypt(int[] code, int k) {
         int n = code.length;
@@ -19075,7 +19074,7 @@ public class LeetCodeText {
         return n == 1 ? 0 : (1 - k % 2) ^ kthGrammar2(n - 1, (k + 1) / 2);
 
     }
-    
+
     // 2011. 执行操作后的变量值 (Final Value of Variable After Performing Operations)
     public int finalValueAfterOperations(String[] operations) {
         int res = 0;
@@ -19231,34 +19230,40 @@ public class LeetCodeText {
     // 1630. 等差子数组 (Arithmetic Subarrays)
     public List<Boolean> checkArithmeticSubarrays(int[] nums, int[] l, int[] r) {
         List<Boolean> res = new ArrayList<>();
-        for (int i = 0; i < l.length; ++i) {
-            res.add(isArithmeticSubarrays(nums, l[i], r[i]));
+        int m = l.length;
+        search: for (int i = 0; i < m; ++i) {
+            int left = l[i];
+            int right = r[i];
+            int min = nums[left];
+            int max = nums[right];
+            for (int j = left; j <= right; ++j) {
+                min = Math.min(min, nums[j]);
+                max = Math.max(max, nums[j]);
+            }
+            if (max == min) {
+                res.add(true);
+                continue;
+            }
+            if ((max - min) % (right - left) != 0) {
+                res.add(false);
+                continue;
+            }
+            int d = (max - min) / (right - left);
+            boolean[] seen = new boolean[right - left + 1];
+            for (int j = left; j <= right; ++j) {
+                if ((nums[j] - min) % d != 0) {
+                    res.add(false);
+                    continue search;
+                }
+                if (seen[(nums[j] - min) / d]) {
+                    res.add(false);
+                    continue search;
+                }
+                seen[(nums[j] - min) / d] = true;
+            }
+            res.add(true);
         }
         return res;
-    }
-
-    private boolean isArithmeticSubarrays(int[] nums, int left, int right) {
-        if (right - left < 2) {
-            return true;
-        }
-        Set<Integer> set = new HashSet<>();
-        int max = Integer.MIN_VALUE;
-        int min = Integer.MAX_VALUE;
-        for (int i = left; i <= right; ++i) {
-            set.add(nums[i]);
-            max = Math.max(max, nums[i]);
-            min = Math.min(min, nums[i]);
-        }
-        if ((max - min) % (right - left) != 0) {
-            return false;
-        }
-        int diff = (max - min) / (right - left);
-        for (int i = 1; i < right - left; ++i) {
-            if (!set.contains(min + diff * i)) {
-                return false;
-            }
-        }
-        return true;
 
     }
 
