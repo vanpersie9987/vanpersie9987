@@ -3009,41 +3009,22 @@ public class LeetCode_4 {
 
     // 2248. 多个数组求交集 (Intersection of Multiple Arrays)
     public List<Integer> intersection(int[][] nums) {
-        Map<Integer, Integer> map = new TreeMap<>();
-        for (int[] num : nums) {
-            for (int n : num) {
-                map.put(n, map.getOrDefault(n, 0) + 1);
+        int[] counts = new int[1001];
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < nums[i].length; ++j) {
+                ++counts[nums[i][j]];
             }
         }
         List<Integer> res = new ArrayList<>();
-        int n = nums.length;
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            if (entry.getValue() == n) {
-                res.add(entry.getKey());
+        for (int i = 0; i < counts.length; ++i) {
+            if (counts[i] == n) {
+                res.add(i);
             }
-        }
-        return res;
-    }
 
-    // 2248. 多个数组求交集 (Intersection of Multiple Arrays)
-    public List<Integer> intersection2(int[][] nums) {
-        int n = nums.length;
-        Set<Integer> cur = new HashSet<>();
-        for (int num : nums[0]) {
-            cur.add(num);
         }
-        for (int i = 1; i < n; ++i) {
-            Set<Integer> temp = new HashSet<>();
-            for (int num : nums[i]) {
-                if (cur.contains(num)) {
-                    temp.add(num);
-                }
-            }
-            cur = temp;
-        }
-        List<Integer> res = new ArrayList<>(cur);
-        Collections.sort(res);
         return res;
+
     }
 
     // 6104. 统计星号
