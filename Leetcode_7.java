@@ -839,6 +839,39 @@ public class Leetcode_7 {
 
     }
 
+    // 1690. 石子游戏 VII (Stone Game VII)
+    private int[] stones1690;
+    private int n1690;
+    private int[][] memo1690;
+
+    public int stoneGameVII(int[] stones) {
+        this.n1690 = stones.length;
+        this.stones1690 = stones;
+        this.memo1690 = new int[n1690][n1690];
+        for (int i = 0; i < n1690; ++i) {
+            Arrays.fill(memo1690[i], -1);
+        }
+        return dfs1690(0, n1690 - 1);
+
+    }
+
+    private int dfs1690(int left, int right) {
+        if (left == right) {
+            return 0;
+        }
+        if (left == right - 1) {
+            return Math.max(stones1690[left], stones1690[right]);
+        }
+        if (memo1690[left][right] != -1) {
+            return memo1690[left][right];
+        }
+        return memo1690[left][right] = Math.max(
+                Math.min(stones1690[left + 1] + dfs1690(left + 2, right),
+                        stones1690[right] + dfs1690(left + 1, right - 1)),
+                Math.min(stones1690[left] + dfs1690(left + 1, right - 1),
+                        stones1690[right - 1] + dfs1690(left, right - 2)));
+    }
+    
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
@@ -978,5 +1011,11 @@ public class Leetcode_7 {
     // return memo[i][j] = dfs(true, i + 1, j - 1) + 2;
     // }
     // return memo[i][j] = Math.max(dfs(b, i + 1, j), dfs(b, i, j - 1));
+    // }
+
+    // 面试题 17.08. 马戏团人塔 (Circus Tower LCCI)
+    // public int bestSeqAtIndex(int[] height, int[] weight) {
+    // int n = height.length;
+
     // }
 }
