@@ -956,6 +956,36 @@ public class Leetcode_7 {
 
     }
 
+    // 2218. 从栈中取出 K 个硬币的最大面值和 (Maximum Value of K Coins From Piles)
+    private List<List<Integer>> piles2218;
+    private int n2218;
+    private int[][] memo2218;
+
+    public int maxValueOfCoins(List<List<Integer>> piles, int k) {
+        this.piles2218 = piles;
+        this.n2218 = piles.size();
+        this.memo2218 = new int[n2218][k + 1];
+        return dfs2218(0, k);
+    }
+
+    private int dfs2218(int i, int count) {
+        if (i == n2218 || count == 0) {
+            return 0;
+        }
+        if (memo2218[i][count] != 0) {
+            return memo2218[i][count];
+        }
+        int pre = 0;
+        int res = 0;
+        for (int j = 0; j <= Math.min(count, piles2218.get(i).size()); ++j) {
+            res = Math.max(res, dfs2218(i + 1, count - j) + pre);
+            if (j < piles2218.get(i).size()) {
+                pre += piles2218.get(i).get(j);
+            }
+        }
+        return memo2218[i][count] = res;
+    }
+
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
@@ -1102,5 +1132,4 @@ public class Leetcode_7 {
     // int n = height.length;
 
     // }
-
 }
