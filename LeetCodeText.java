@@ -8778,35 +8778,22 @@ public class LeetCodeText {
 
     }
 
-    // 1574. 删除最短的子数组使剩余数组有序
+    // 1574. 删除最短的子数组使剩余数组有序 (Shortest Subarray to be Removed to Make Array Sorted)
     public int findLengthOfShortestSubarray(int[] arr) {
-        int left = 0;
-        while (left < arr.length - 1) {
-            if (arr[left] > arr[left + 1]) {
-                break;
-            }
-            ++left;
-        }
-        if (left == arr.length - 1) {
-            return 0;
-        }
-        int right = arr.length - 1;
-        while (right >= 1) {
-            if (arr[right - 1] > arr[right]) {
-                break;
-            }
+        int n = arr.length;
+        int right = n - 1;
+        while (right > 0 && arr[right - 1] <= arr[right]) {
             --right;
         }
-        int res = Math.min(arr.length - left - 1, right);
-        int i = 0;
-
-        while (i <= left && right < arr.length) {
-            if (arr[i] <= arr[right]) {
-                res = Math.min(res, right - i - 1);
-                ++i;
-            } else {
+        if (right == 0) {
+            return 0;
+        }
+        int res = right;
+        for (int left = 0; left == 0 || arr[left - 1] <= arr[left]; ++left) {
+            while (right < n && arr[left] > arr[right]) {
                 ++right;
             }
+            res = Math.min(res, right - left - 1);
         }
         return res;
 
