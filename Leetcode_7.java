@@ -871,7 +871,91 @@ public class Leetcode_7 {
                 Math.min(stones1690[left] + dfs1690(left + 1, right - 1),
                         stones1690[right - 1] + dfs1690(left, right - 2)));
     }
-    
+
+    // 924. 尽量减少恶意软件的传播 (Minimize Malware Spread)
+    public int minMalwareSpread(int[][] graph, int[] initial) {
+        int n = graph.length;
+        Union924 union = new Union924(n);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (graph[i][j] == 1) {
+                    union.union(i, j);
+                }
+            }
+        }
+        Map<Integer, Integer> countMap = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            int root = union.getRoot(i);
+            countMap.merge(root, 1, Integer::sum);
+        }
+        int infectionsNodes = 0;
+        Map<Integer, Integer> infection = new HashMap<>();
+        for (int i : initial) {
+            int root = union.getRoot(i);
+            if (!infection.containsKey(root)) {
+                infectionsNodes += countMap.getOrDefault(root, 0);
+            }
+            infection.merge(root, 1, Integer::sum);
+        }
+        Arrays.sort(initial);
+        int res = initial[0];
+        int min = infectionsNodes;
+        for (int i : initial) {
+            int root = union.getRoot(i);
+            if (infection.getOrDefault(root, 0) == 1) {
+                int actual = infectionsNodes - countMap.get(root);
+                if (actual < min) {
+                    min = actual;
+                    res = i;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    public class Union924 {
+        private int[] parent;
+        private int[] rank;
+
+        public Union924(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+
+    }
+
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
@@ -1018,4 +1102,5 @@ public class Leetcode_7 {
     // int n = height.length;
 
     // }
+
 }
