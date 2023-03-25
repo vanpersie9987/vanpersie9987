@@ -1,3 +1,4 @@
+import java.sql.RowId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,6 +18,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.print.DocFlavor.INPUT_STREAM;
 
 public class Leetcode_7 {
     public static void main(String[] args) {
@@ -984,6 +987,37 @@ public class Leetcode_7 {
             }
         }
         return memo2218[i][count] = res;
+    }
+
+    // 1449. 数位成本和为目标值的最大数字 (Form Largest Integer With Digits That Add up to Target)
+    private String[] memo1449;
+    private int[] cost1449;
+
+    public String largestNumber(int[] cost, int target) {
+        this.memo1449 = new String[target + 1];
+        this.cost1449 = cost;
+        return dfs1449(target);
+    }
+
+    private String dfs1449(int left) {
+        if (left == 0) {
+            return "";
+        }
+        if (memo1449[left] != null) {
+            return memo1449[left];
+        }
+        String res = "";
+        for (int j = 0; j < cost1449.length; ++j) {
+            if (left - cost1449[j] >= 0) {
+                String cur = String.valueOf(j + 1) + dfs1449(left - cost1449[j]);
+                if (!cur.contains("0")) {
+                    if (cur.length() > res.length() || cur.length() == res.length() && cur.compareTo(res) > 0) {
+                        res = cur;
+                    }
+                }
+            }
+        }
+        return memo1449[left] = res.isEmpty() ? "0" : res;
     }
 
 
