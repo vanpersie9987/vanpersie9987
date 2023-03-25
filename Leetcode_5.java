@@ -1151,16 +1151,14 @@ public class Leetcode_5 {
 
     }
 
-    // 2395. 和相等的子数组
+    // 2395. 和相等的子数组 (Find Subarrays With Equal Sum)
     public boolean findSubarrays(int[] nums) {
-        int n = nums.length;
         Set<Integer> set = new HashSet<>();
-        for (int i = 1; i < n; ++i) {
-            int sum = nums[i - 1] + nums[i];
-            if (set.contains(sum)) {
+        for (int i = 0; i < nums.length - 1; ++i) {
+            int sum = nums[i] + nums[i + 1];
+            if (!set.add(sum)) {
                 return true;
             }
-            set.add(sum);
         }
         return false;
 
