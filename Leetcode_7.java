@@ -1020,6 +1020,172 @@ public class Leetcode_7 {
         return memo1449[left] = res.isEmpty() ? "0" : res;
     }
 
+    // 6354. K 件物品的最大和 (K Items With the Maximum Sum)
+    public int kItemsWithMaximumSum(int numOnes, int numZeros, int numNegOnes, int k) {
+        if (k <= numOnes + numZeros) {
+            return Math.min(numOnes, k);
+        }
+        return numOnes - (k - numOnes - numZeros);
+
+    }
+
+    // 6355. 质数减法运算 (Prime Subtraction Operation)
+    public boolean primeSubOperation(int[] nums) {
+        int n = nums.length;
+        List<Integer> list = getPrimes6355();
+        int i = n - 2;
+        while (i >= 0) {
+            if (nums[i] < nums[i + 1]) {
+                --i;
+                continue;
+            }
+            int prime = binarySearch6355(list, nums[i] - nums[i + 1]);
+            if (prime >= nums[i]) {
+                return false;
+            }
+            nums[i] -= prime;
+            --i;
+        }
+        return true;
+
+    }
+
+    // 找排序数组list中，严格大于target的最小值
+    private int binarySearch6355(List<Integer> list, int target) {
+        int left = 0;
+        int right = list.size() - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (list.get(mid) > target) {
+                res = list.get(mid);
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+
+    // 埃式筛质数
+    private List<Integer> getPrimes6355() {
+        List<Integer> list = new ArrayList<>();
+        int[] isPrime = new int[1010];
+        Arrays.fill(isPrime, 1);
+        for (int i = 2; i < 1010; ++i) {
+            if (isPrime[i] == 1) {
+                list.add(i);
+                if ((long) i * i < 1010) {
+                    for (int j = i * i; j < 1010; j += i) {
+                        isPrime[j] = 0;
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    // 6357. 使数组元素全部相等的最少操作次数 (Minimum Operations to Make All Array Elements Equal)
+    public List<Long> minOperations(int[] nums, int[] queries) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        long[] preSum = new long[nums.length + 1];
+        for (int i = 1; i <= nums.length; ++i) {
+            preSum[i] = preSum[i - 1] + nums[i - 1];
+        }
+        List<Long> res = new ArrayList<>();
+        for (int q : queries) {
+            int less = binarySearch6357(nums, q);
+            int more = n - less;
+            long cur = (long) less * q - preSum[less] + (preSum[n] - preSum[less]) - (long) more * q;
+            res.add(cur);
+        }
+        return res;
+
+    }
+
+    // 找排序数组nums中，严格小于target的元素个数
+    private int binarySearch6357(int[] nums, int target) {
+        int n = nums.length;
+        if (target <= nums[0]) {
+            return 0;
+        }
+        if (target > nums[n - 1]) {
+            return n;
+        }
+        int left = 0;
+        int right = n - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (nums[mid] < target) {
+                res = mid + 1;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
+
+    // 6356. 收集树中金币 (Collect Coins in a Tree)
+    public int collectTheCoins(int[] coins, int[][] edges) {
+        int n = coins.length;
+        int leftEdges = n - 1;
+        Map<Integer, List<Integer>> g = new HashMap<>();
+        int[] deg = new int[n];
+        for (int[] e : edges) {
+            int a = e[0];
+            int b = e[1];
+            g.computeIfAbsent(a, k -> new ArrayList<>()).add(b);
+            g.computeIfAbsent(b, k -> new ArrayList<>()).add(a);
+            ++deg[a];
+            ++deg[b];
+        }
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            // 叶子结点 无金币
+            if (deg[i] == 1 && coins[i] == 0) {
+                q.offer(i);
+            }
+        }
+        // 去除没有金币的叶子结点
+        while (!q.isEmpty()) {
+            int x = q.poll();
+            --leftEdges;
+            --deg[x];
+            for (int y : g.getOrDefault(x, new ArrayList<>())) {
+                // 没有金币的叶子结点
+                if (--deg[y] == 1 && coins[y] == 0) {
+                    q.offer(y);
+                }
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            // 叶子结点 有金币
+            if (deg[i] == 1 && coins[i] == 1) {
+                q.offer(i);
+            }
+        }
+        int count = 0;
+        while (!q.isEmpty() && count++ < 2) {
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {
+                int x = q.poll();
+                --leftEdges;
+                --deg[x];
+                for (int y : g.getOrDefault(x, new ArrayList<>())) {
+                    if (--deg[y] == 1) {
+                        q.offer(y);
+                    }
+                }
+            }
+        }
+        return Math.max(0, leftEdges * 2);
+
+    }
+
+
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
 
@@ -1165,169 +1331,4 @@ public class Leetcode_7 {
     // int n = height.length;
 
     // }
-
-    // 6354. K 件物品的最大和 (K Items With the Maximum Sum)
-    public int kItemsWithMaximumSum(int numOnes, int numZeros, int numNegOnes, int k) {
-        if (k <= numOnes + numZeros) {
-            return Math.min(numOnes, k);
-        }
-        return numOnes - (k - numOnes - numZeros);
-
-    }
-
-    // 6355. 质数减法运算 (Prime Subtraction Operation)
-    public boolean primeSubOperation(int[] nums) {
-        int n = nums.length;
-        if (n == 1) {
-            return true;
-        }
-        List<Integer> list = getPrimes6355();
-        int i = n - 2;
-        while (i >= 0) {
-            if (nums[i] < nums[i + 1]) {
-                --i;
-                continue;
-            }
-            int prime = binarySearch6355(list, nums[i] - nums[i + 1]);
-            if (prime >= nums[i]) {
-                return false;
-            }
-            nums[i] -= prime;
-            --i;
-        }
-        return true;
-
-    }
-
-    private int binarySearch6355(List<Integer> list, int target) {
-        int left = 0;
-        int right = list.size() - 1;
-        int res = -1;
-        while (left <= right) {
-            int mid = left + ((right - left) >> 1);
-            if (list.get(mid) > target) {
-                res = list.get(mid);
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
-        }
-        return res;
-    }
-
-    private List<Integer> getPrimes6355() {
-        List<Integer> list = new ArrayList<>();
-        int[] isPrime = new int[1010];
-        Arrays.fill(isPrime, 1);
-        for (int i = 2; i < 1010; ++i) {
-            if (isPrime[i] == 1) {
-                list.add(i);
-                if ((long) i * i < 1010) {
-                    for (int j = i * i; j < 1010; j += i) {
-                        isPrime[j] = 0;
-                    }
-                }
-            }
-        }
-        return list;
-    }
-
-    // 6357. 使数组元素全部相等的最少操作次数 (Minimum Operations to Make All Array Elements Equal)
-    public List<Long> minOperations(int[] nums, int[] queries) {
-        Arrays.sort(nums);
-        int n = nums.length;
-        long[] preSum = new long[nums.length + 1];
-        for (int i = 1; i <= nums.length; ++i) {
-            preSum[i] = preSum[i - 1] + nums[i - 1];
-        }
-        List<Long> res = new ArrayList<>();
-        for (int q : queries) {
-            int less = binarySearch6357(nums, q);
-            int more = n - less;
-            long cur = (long) less * q - preSum[less] + (preSum[n] - preSum[less]) - (long) more * q;
-            res.add(cur);
-        }
-        return res;
-
-    }
-
-    private int binarySearch6357(int[] nums, int target) {
-        int n = nums.length;
-        if (target <= nums[0]) {
-            return 0;
-        }
-        if (target > nums[n - 1]) {
-            return n;
-        }
-        int left = 0;
-        int right = n - 1;
-        int res = -1;
-        while (left <= right) {
-            int mid = left + ((right - left) >> 1);
-            if (nums[mid] < target) {
-                res = mid + 1;
-                left = mid + 1;
-            } else {
-                right = mid - 1;
-            }
-        }
-        return res;
-    }
-
-    // 6356. 收集树中金币 (Collect Coins in a Tree)
-    public int collectTheCoins(int[] coins, int[][] edges) {
-        int n = coins.length;
-        int leftEdges = n - 1;
-        Map<Integer, List<Integer>> g = new HashMap<>();
-        int[] deg = new int[n];
-        for (int[] e : edges) {
-            int a = e[0];
-            int b = e[1];
-            g.computeIfAbsent(a, k -> new ArrayList<>()).add(b);
-            g.computeIfAbsent(b, k -> new ArrayList<>()).add(a);
-            ++deg[a];
-            ++deg[b];
-        }
-        Queue<Integer> q = new LinkedList<>();
-        for (int i = 0; i < n; ++i) {
-            // 叶子结点 无金币
-            if (deg[i] == 1 && coins[i] == 0) {
-                q.offer(i);
-            }
-        }
-        // 去除没有金币的叶子结点
-        while (!q.isEmpty()) {
-            int x = q.poll();
-            --leftEdges;
-            --deg[x];
-            for (int y : g.getOrDefault(x, new ArrayList<>())) {
-                // 没有金币的叶子结点
-                if (--deg[y] == 1 && coins[y] == 0) {
-                    q.offer(y);
-                }
-            }
-        }
-        for (int i = 0; i < n; ++i) {
-            // 叶子结点 有金币
-            if (deg[i] == 1 && coins[i] == 1) {
-                q.offer(i);
-            }
-        }
-        int count = 0;
-        while (!q.isEmpty() && count++ < 2) {
-            int size = q.size();
-            for (int i = 0; i < size; ++i) {
-                int x = q.poll();
-                --leftEdges;
-                --deg[x];
-                for (int y : g.getOrDefault(x, new ArrayList<>())) {
-                    if (--deg[y] == 1) {
-                        q.offer(y);
-                    }
-                }
-            }
-        }
-        return Math.max(0, leftEdges * 2);
-
-    }
 }
