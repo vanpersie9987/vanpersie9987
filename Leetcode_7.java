@@ -1273,4 +1273,61 @@ public class Leetcode_7 {
         }
         return res;
     }
+
+    // 6356. 收集树中金币 (Collect Coins in a Tree)
+    public int collectTheCoins(int[] coins, int[][] edges) {
+        int n = coins.length;
+        int leftEdges = n - 1;
+        Map<Integer, List<Integer>> g = new HashMap<>();
+        int[] deg = new int[n];
+        for (int[] e : edges) {
+            int a = e[0];
+            int b = e[1];
+            g.computeIfAbsent(a, k -> new ArrayList<>()).add(b);
+            g.computeIfAbsent(b, k -> new ArrayList<>()).add(a);
+            ++deg[a];
+            ++deg[b];
+        }
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            // 叶子结点 无金币
+            if (deg[i] == 1 && coins[i] == 0) {
+                q.offer(i);
+            }
+        }
+        // 去除没有金币的叶子结点
+        while (!q.isEmpty()) {
+            int x = q.poll();
+            --leftEdges;
+            --deg[x];
+            for (int y : g.getOrDefault(x, new ArrayList<>())) {
+                // 没有金币的叶子结点
+                if (--deg[y] == 1 && coins[y] == 0) {
+                    q.offer(y);
+                }
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            // 叶子结点 有金币
+            if (deg[i] == 1 && coins[i] == 1) {
+                q.offer(i);
+            }
+        }
+        int count = 0;
+        while (!q.isEmpty() && count++ < 2) {
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {
+                int x = q.poll();
+                --leftEdges;
+                --deg[x];
+                for (int y : g.getOrDefault(x, new ArrayList<>())) {
+                    if (--deg[y] == 1) {
+                        q.offer(y);
+                    }
+                }
+            }
+        }
+        return Math.max(0, leftEdges * 2);
+
+    }
 }
