@@ -1242,41 +1242,16 @@ public class Leetcode_7 {
         }
         List<Long> res = new ArrayList<>();
         for (int q : queries) {
-            int less = binarySearch_6357_1(nums, q);
-            int more = binarySearch_6357_2(nums, q);
-            long cur = (long) less * q - preSum[less] + (preSum[n] - preSum[n - more]) - (long) more * q;
+            int less = binarySearch6357(nums, q);
+            int more = n - less;
+            long cur = (long) less * q - preSum[less] + (preSum[n] - preSum[less]) - (long) more * q;
             res.add(cur);
         }
         return res;
 
-
-
     }
 
-    private int binarySearch_6357_2(int[] nums, int target) {
-        int n = nums.length;
-        if (nums[n - 1] <= target) {
-            return 0;
-        }
-        if (target < nums[0]) {
-            return n;
-        }
-        int left = 0;
-        int right = n - 1;
-        int res = -1;
-        while (left <= right) {
-            int mid = left + ((right - left) >> 1);
-            if (nums[mid] > target) {
-                res = n - mid;
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
-        }
-        return res;
-    }
-
-    private int binarySearch_6357_1(int[] nums, int target) {
+    private int binarySearch6357(int[] nums, int target) {
         int n = nums.length;
         if (target <= nums[0]) {
             return 0;
