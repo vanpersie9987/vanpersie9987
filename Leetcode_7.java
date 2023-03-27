@@ -1183,6 +1183,48 @@ public class Leetcode_7 {
 
     }
 
+    // 600. 不含连续1的非负整数 (Non-negative Integers without Consecutive Ones)
+    // 可以不要isNum参数
+    private int[][] memo600;
+    private char[] arr600;
+    private int k600;
+
+    public int findIntegers(int n) {
+        this.arr600 = Integer.toBinaryString(n).toCharArray();
+        this.k600 = arr600.length;
+        this.memo600 = new int[k600][2];
+        for (int i = 0; i < k600; ++i) {
+            Arrays.fill(memo600[i], -1);
+        }
+        return dfs600(0, 0, true, false) + 1;
+    }
+
+    private int dfs600(int i, int pre, boolean isLimit, boolean isNum) {
+        if (i == k600) {
+            if (isNum) {
+                return 1;
+            }
+            return 0;
+        }
+        if (!isLimit && isNum && memo600[i][pre] != -1) {
+            return memo600[i][pre];
+        }
+        int res = 0;
+        if (!isNum) {
+            res = dfs600(i + 1, pre, false, false);
+        }
+        int up = isLimit ? arr600[i] - '0' : 1;
+        for (int j = isNum ? 0 : 1; j <= up; ++j) {
+            if (j + pre <= 1) {
+                res += dfs600(i + 1, j, isLimit && j == up, true);
+            }
+        }
+        if (!isLimit && isNum) {
+            memo600[i][pre] = res;
+        }
+        return res;
+    }
+
 
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
     // public String largestMultipleOfThree(int[] digits) {
