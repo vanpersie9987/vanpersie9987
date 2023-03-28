@@ -1273,49 +1273,49 @@ public class Leetcode_7 {
     }
 
     // 1092. 最短公共超序列 (Shortest Common Supersequence)
-    private int[][] memo;
-    private String str1;
-    private String str2;
+    private int[][] memo1092;
+    private String str11092;
+    private String str21092;
 
     public String shortestCommonSupersequence(String str1, String str2) {
         int m = str1.length();
         int n = str2.length();
-        this.str1 = str1;
-        this.str2 = str2;
-        this.memo = new int[m][n];
+        this.str11092 = str1;
+        this.str21092 = str2;
+        this.memo1092 = new int[m][n];
         return makeAns(m - 1, n - 1);
     }
 
     private String makeAns(int i, int j) {
         if (i < 0) {
-            return str2.substring(0, j + 1);
+            return str21092.substring(0, j + 1);
         }
         if (j < 0) {
-            return str1.substring(0, i + 1);
+            return str11092.substring(0, i + 1);
         }
-        if (str1.charAt(i) == str2.charAt(j)) {
-            return makeAns(i - 1, j - 1) + str1.charAt(i);
+        if (str11092.charAt(i) == str21092.charAt(j)) {
+            return makeAns(i - 1, j - 1) + str11092.charAt(i);
         }
-        if (dfs(i, j) == dfs(i - 1, j) + 1) {
-            return makeAns(i - 1, j) + str1.charAt(i);
+        if (dfs1092(i, j) == dfs1092(i - 1, j) + 1) {
+            return makeAns(i - 1, j) + str11092.charAt(i);
         }
-        return makeAns(i, j - 1) + str2.charAt(j);
+        return makeAns(i, j - 1) + str21092.charAt(j);
     }
 
-    private int dfs(int i, int j) {
+    private int dfs1092(int i, int j) {
         if (i < 0) {
             return j + 1;
         }
         if (j < 0) {
             return i + 1;
         }
-        if (memo[i][j] != 0) {
-            return memo[i][j];
+        if (memo1092[i][j] != 0) {
+            return memo1092[i][j];
         }
-        if (str1.charAt(i) == str2.charAt(j)) {
-            return memo[i][j] = dfs(i - 1, j - 1) + 1;
+        if (str11092.charAt(i) == str21092.charAt(j)) {
+            return memo1092[i][j] = dfs1092(i - 1, j - 1) + 1;
         }
-        return memo[i][j] = Math.min(dfs(i - 1, j), dfs(i, j - 1)) + 1;
+        return memo1092[i][j] = Math.min(dfs1092(i - 1, j), dfs1092(i, j - 1)) + 1;
     }
 
 
