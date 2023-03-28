@@ -1225,11 +1225,53 @@ public class Leetcode_7 {
         return res;
     }
 
-
     // 1363. 形成三的最大倍数 (Largest Multiple of Three)
-    // public String largestMultipleOfThree(int[] digits) {
+    public String largestMultipleOfThree(int[] digits) {
+        int[] counts = new int[10];
+        int sum = 0;
+        for (int d : digits) {
+            ++counts[d];
+            sum += d;
+        }
+        if (sum % 3 == 1) {
+            // 减去一个mod 3 == 1的数 或者 减去两个mod 3 == 2的数 (根据反证法 以上两种情况一定存在一种)
+            if (!check1363(counts, 1, 1)) {
+                check1363(counts, 2, 2);
+            }
+        } else if (sum % 3 == 2) {
+            // 减去一个mod 3 == 2的数 或者 减去两个mod 3 == 1的数 (根据反证法 以上两种情况一定存在一种)
+            if (!check1363(counts, 2, 1)) {
+                check1363(counts, 1, 2);
+            }
+        }
+        StringBuilder res = new StringBuilder();
+        for (int i = 9; i >= 0; --i) {
+            while (counts[i]-- > 0) {
+                res.append(i);
+            }
+        }
+        if (res.isEmpty()) {
+            return "";
+        }
+        if (res.charAt(0) == '0') {
+            return "0";
+        }
+        return res.toString();
 
-    // }
+    }
+
+    private boolean check1363(int[] counts, int mod, int times) {
+        for (int i = mod; i <= 9; i += 3) {
+            while (counts[i] > 0) {
+                --counts[i];
+                if (--times == 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
