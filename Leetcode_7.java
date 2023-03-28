@@ -1272,6 +1272,52 @@ public class Leetcode_7 {
         return false;
     }
 
+    // 1092. 最短公共超序列 (Shortest Common Supersequence)
+    private int[][] memo;
+    private String str1;
+    private String str2;
+
+    public String shortestCommonSupersequence(String str1, String str2) {
+        int m = str1.length();
+        int n = str2.length();
+        this.str1 = str1;
+        this.str2 = str2;
+        this.memo = new int[m][n];
+        return makeAns(m - 1, n - 1);
+    }
+
+    private String makeAns(int i, int j) {
+        if (i < 0) {
+            return str2.substring(0, j + 1);
+        }
+        if (j < 0) {
+            return str1.substring(0, i + 1);
+        }
+        if (str1.charAt(i) == str2.charAt(j)) {
+            return makeAns(i - 1, j - 1) + str1.charAt(i);
+        }
+        if (dfs(i, j) == dfs(i - 1, j) + 1) {
+            return makeAns(i - 1, j) + str1.charAt(i);
+        }
+        return makeAns(i, j - 1) + str2.charAt(j);
+    }
+
+    private int dfs(int i, int j) {
+        if (i < 0) {
+            return j + 1;
+        }
+        if (j < 0) {
+            return i + 1;
+        }
+        if (memo[i][j] != 0) {
+            return memo[i][j];
+        }
+        if (str1.charAt(i) == str2.charAt(j)) {
+            return memo[i][j] = dfs(i - 1, j - 1) + 1;
+        }
+        return memo[i][j] = Math.min(dfs(i - 1, j), dfs(i, j - 1)) + 1;
+    }
+
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
