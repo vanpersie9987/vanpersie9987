@@ -1390,13 +1390,20 @@ public class Leetcode_7 {
 
     }
 
+    // 从第i地砖开始、已使用count个地毯时，最多能覆盖多少白色的地砖
     private int dfs2209(int i, int count) {
         if (i >= n2209) {
             return 0;
         }
+        // 地毯用完了
         if (count == numCarpets2209) {
             return 0;
         }
+        // 从i开始的floor没有白色地砖了
+        if (pre2209[n2209] - pre2209[i] == 0) {
+            return 0;
+        }
+        // 剩余的地毯个数 * 每个地毯的长度 >= 剩余的地砖个数
         if ((numCarpets2209 - count) * carpetLen2209 >= n2209 - i) {
             return pre2209[n2209] - pre2209[i];
         }
