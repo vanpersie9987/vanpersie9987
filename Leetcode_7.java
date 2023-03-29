@@ -1410,6 +1410,7 @@ public class Leetcode_7 {
         if (memo2209[i][count] != -1) {
             return memo2209[i][count];
         }
+        // 不覆盖i地砖 or 从覆盖i地砖
         return memo2209[i][count] = Math.max(dfs2209(i + 1, count),
                 pre2209[Math.min(n2209, i + carpetLen2209)] - pre2209[i] + dfs2209(i + carpetLen2209, count + 1));
     }
