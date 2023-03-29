@@ -4089,8 +4089,32 @@ public class LeetCode_4 {
         return h;
     }
 
-    // 1641. 统计字典序元音字符串的数目 (Count Sorted Vowel Strings) --dp
+    // 1641. 统计字典序元音字符串的数目
+    private int[][] memo1641;
+    private int n1641;
+
     public int countVowelStrings(int n) {
+        this.n1641 = n;
+        this.memo1641 = new int[n][5];
+        return dfs1641(0, 0);
+    }
+
+    private int dfs1641(int i, int letter) {
+        if (i == n1641) {
+            return 1;
+        }
+        if (memo1641[i][letter] != 0) {
+            return memo1641[i][letter];
+        }
+        int res = 0;
+        for (int j = letter; j < 5; ++j) {
+            res += dfs1641(i + 1, j);
+        }
+        return memo1641[i][letter] = res;
+    }
+
+    // 1641. 统计字典序元音字符串的数目 (Count Sorted Vowel Strings) --dp
+    public int countVowelStrings2(int n) {
         int[] dp = { 1, 1, 1, 1, 1 };
         for (int i = 1; i < n; ++i) {
             for (int j = 3; j >= 0; --j) {
