@@ -1364,6 +1364,48 @@ public class Leetcode_7 {
         return d;
     }
 
+    // 2209. 用地毯覆盖后的最少白色砖块 (Minimum White Tiles After Covering With Carpets)
+    private int[] pre2209;
+    private int numCarpets2209;
+    private int carpetLen2209;
+    private int[][] memo2209;
+    private int n2209;
+
+    public int minimumWhiteTiles(String floor, int numCarpets, int carpetLen) {
+        this.n2209 = floor.length();
+        this.pre2209 = new int[n2209 + 1];
+        for (int i = 1; i < n2209 + 1; ++i) {
+            pre2209[i] = pre2209[i - 1] + floor.charAt(i - 1) - '0';
+        }
+        if (pre2209[n2209] == 0) {
+            return 0;
+        }
+        this.numCarpets2209 = numCarpets;
+        this.carpetLen2209 = carpetLen;
+        this.memo2209 = new int[n2209][numCarpets];
+        for (int i = 0; i < n2209; ++i) {
+            Arrays.fill(memo2209[i], -1);
+        }
+        return pre2209[n2209] - dfs2209(0, 0);
+
+    }
+
+    private int dfs2209(int i, int count) {
+        if (i >= n2209) {
+            return 0;
+        }
+        if (count == numCarpets2209) {
+            return 0;
+        }
+        if ((numCarpets2209 - count) * carpetLen2209 >= n2209 - i) {
+            return pre2209[n2209] - pre2209[i];
+        }
+        if (memo2209[i][count] != -1) {
+            return memo2209[i][count];
+        }
+        return memo2209[i][count] = Math.max(dfs2209(i + 1, count),
+                pre2209[Math.min(n2209, i + carpetLen2209)] - pre2209[i] + dfs2209(i + carpetLen2209, count + 1));
+    }
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
@@ -1505,4 +1547,5 @@ public class Leetcode_7 {
     // int n = height.length;
 
     // }
+
 }
