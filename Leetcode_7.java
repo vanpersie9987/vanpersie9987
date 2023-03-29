@@ -1318,6 +1318,52 @@ public class Leetcode_7 {
         return memo1092[i][j] = Math.min(dfs1092(i - 1, j), dfs1092(i, j - 1)) + 1;
     }
 
+    // 1478.安排邮筒 (Allocate Mailboxes)
+    private int[] houses1478;
+    private int k1478;
+    private int n1478;
+    private int[][] memo1478;
+
+    public int minDistance(int[] houses, int k) {
+        Arrays.sort(houses);
+        this.n1478 = houses.length;
+        this.k1478 = k;
+        this.houses1478 = houses;
+        this.memo1478 = new int[n1478][k];
+        for (int i = 0; i < n1478; ++i) {
+            Arrays.fill(memo1478[i], Integer.MAX_VALUE);
+        }
+        return dfs1478(0, 0);
+
+    }
+
+    private int dfs1478(int i, int count) {
+        if (i == n1478 || count == k1478) {
+            if (i == n1478 && count == k1478) {
+                return 0;
+            }
+            return (int) 1e9;
+        }
+        if (memo1478[i][count] != Integer.MAX_VALUE) {
+            return memo1478[i][count];
+        }
+        int res = (int) 1e9;
+        for (int j = i; j < n1478; ++j) {
+            res = Math.min(res, getDistance1478(i, j) + dfs1478(j + 1, count + 1));
+        }
+        return memo1478[i][count] = res;
+    }
+
+    private int getDistance1478(int i, int j) {
+        int d = 0;
+        while (i < j) {
+            d += houses1478[j] - houses1478[i];
+            ++i;
+            --j;
+        }
+        return d;
+    }
+
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
