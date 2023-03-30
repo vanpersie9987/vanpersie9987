@@ -1461,6 +1461,39 @@ public class Leetcode_7 {
         return memo975[i][oddOrEven] = dfs975(pos975[i][oddOrEven & 1], oddOrEven ^ 1);
     }
 
+    // 871. 最低加油次数 (Minimum Number of Refueling Stops)
+    public int minRefuelStops(int target, int startFuel, int[][] stations) {
+        int n = stations.length;
+        int curPos = 0;
+        long curFuel = startFuel;
+        Queue<Integer> q = new PriorityQueue<>(new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(o2, o1);
+            }
+
+        });
+        int res = 0;
+        for (int i = 0; i <= n; ++i) {
+            int pos = i < n ? stations[i][0] : target;
+            while (!q.isEmpty() && pos - curPos > curFuel) {
+                ++res;
+                curFuel += q.poll();
+            }
+            if (pos - curPos > curFuel) {
+                return -1;
+            }
+            curFuel -= pos - curPos;
+            curPos = pos;
+            if (i < n) {
+                q.offer(stations[i][1]);
+            }
+        }
+        return res;
+
+    }
+
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
@@ -1602,4 +1635,5 @@ public class Leetcode_7 {
     // int n = height.length;
 
     // }
+
 }
