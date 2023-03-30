@@ -3921,7 +3921,7 @@ public class Leetcode_6 {
         for (int i = n - 1; i >= 0; --i) {
             res[i] = binarySearch315(nums[i]);
         }
-        return Arrays.stream(res).boxed().toList();
+        return Arrays.stream(res).boxed().collect(Collectors.toList());
 
     }
 
