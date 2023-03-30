@@ -8264,13 +8264,18 @@ public class LeetCode_4 {
         return res;
     }
 
-    // 6136. 算术三元组的数目 (Number of Arithmetic Triplets) --哈希表 O(n) 空间：O(n)
+    // 6136. 算术三元组的数目 (Number of Arithmetic Triplets) --哈希表/计数 O(n) 空间：O(n)
     public int arithmeticTriplets2(int[] nums, int diff) {
-        Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toSet());
+        int max = 0;
+        for (int num : nums) {
+            max = Math.max(max, num);
+        }
+        int[] counts = new int[max + 1];
         int res = 0;
         for (int num : nums) {
-            if (set.contains(num - diff) && set.contains(num + diff)) {
-                ++res;
+            ++counts[num];
+            if (num - diff >= 0 && num - 2 * diff >= 0) {
+                res += counts[num] * counts[num - diff] * counts[num - 2 * diff];
             }
         }
         return res;

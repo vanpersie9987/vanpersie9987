@@ -1494,7 +1494,6 @@ public class Leetcode_7 {
 
     }
 
-
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
 
@@ -1633,6 +1632,15 @@ public class Leetcode_7 {
     // 面试题 17.08. 马戏团人塔 (Circus Tower LCCI)
     // public int bestSeqAtIndex(int[] height, int[] weight) {
     // int n = height.length;
+
+    // }
+
+    // 1547. 切棍子的最小成本 (Minimum Cost to Cut a Stick)
+    // public int minCost(int n, int[] cuts) {
+    // }
+
+    // 1406. 石子游戏 III (Stone Game III)
+    // public String stoneGameIII(int[] stoneValue) {
 
     // }
 
