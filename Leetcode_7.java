@@ -1415,6 +1415,53 @@ public class Leetcode_7 {
                 pre2209[Math.min(n2209, i + carpetLen2209)] - pre2209[i] + dfs2209(i + carpetLen2209, count + 1));
     }
 
+    // 975. 奇偶跳 (Odd Even Jump)
+    private int n975;
+    private int[][] memo975;
+    private int[][] pos975;
+
+    public int oddEvenJumps(int[] arr) {
+        this.n975 = arr.length;
+        this.memo975 = new int[n975][2];
+        this.pos975 = new int[n975][2];
+        for (int i = 0; i < n975; ++i) {
+            Arrays.fill(memo975[i], -1);
+            Arrays.fill(pos975[i], -1);
+        }
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        map.put(arr[n975 - 1], n975 - 1);
+        for (int i = n975 - 1; i >= 0; --i) {
+            Integer ceiling = map.ceilingKey(arr[i]);
+            if (ceiling != null) {
+                pos975[i][1] = map.get(ceiling);
+            }
+            Integer floor = map.floorKey(arr[i]);
+            if (floor != null) {
+                pos975[i][0] = map.get(floor);
+            }
+            map.put(arr[i], i);
+        }
+        int res = 0;
+        for (int i = 0; i < n975; ++i) {
+            res += dfs975(i, 1);
+        }
+        return res;
+    }
+
+    private int dfs975(int i, int oddOrEven) {
+        if (i == n975 - 1) {
+            return 1;
+        }
+        if (pos975[i][oddOrEven & 1] == -1) {
+            return 0;
+        }
+        if (memo975[i][oddOrEven] != -1) {
+            return memo975[i][oddOrEven];
+        }
+        return memo975[i][oddOrEven] = dfs975(pos975[i][oddOrEven & 1], oddOrEven ^ 1);
+    }
+
+
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
 
@@ -1555,5 +1602,4 @@ public class Leetcode_7 {
     // int n = height.length;
 
     // }
-
 }
