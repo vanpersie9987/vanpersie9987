@@ -1494,6 +1494,41 @@ public class Leetcode_7 {
 
     }
 
+    // 1547. 切棍子的最小成本 (Minimum Cost to Cut a Stick)
+    private int[][] memo1547;
+    private int k1547;
+    private int[] cuts1547;
+    public int minCost(int n, int[] cuts) {
+        Arrays.sort(cuts);
+        this.cuts1547 = cuts;
+        this.k1547 = cuts.length;
+        this.memo1547 = new int[k1547][k1547];
+        for (int i = 0; i < k1547; ++i) {
+            Arrays.fill(memo1547[i], -1);
+        }
+        return dfs1547(0, n, 0, k1547 - 1);
+
+    }
+
+    private int dfs1547(int left, int right, int i, int j) {
+        if (i > j) {
+            return 0;
+        }
+        if (i == j) {
+            return right - left;
+        }
+        if (memo1547[i][j] != -1) {
+            return memo1547[i][j];
+        }
+        int min = (int) 1e9;
+        for (int cutPos = i; cutPos <= j; ++cutPos) {
+            min = Math.min(min,
+                    dfs1547(left, cuts1547[cutPos], i, cutPos - 1) + dfs1547(cuts1547[cutPos], right, cutPos + 1, j));
+        }
+        return memo1547[i][j] = min + right - left;
+    }
+
+
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
 
@@ -1633,10 +1668,6 @@ public class Leetcode_7 {
     // public int bestSeqAtIndex(int[] height, int[] weight) {
     // int n = height.length;
 
-    // }
-
-    // 1547. 切棍子的最小成本 (Minimum Cost to Cut a Stick)
-    // public int minCost(int n, int[] cuts) {
     // }
 
     // 1406. 石子游戏 III (Stone Game III)
