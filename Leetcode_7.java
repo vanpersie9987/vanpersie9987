@@ -1528,6 +1528,49 @@ public class Leetcode_7 {
         return memo1547[i][j] = min + right - left;
     }
 
+    // 2576. 求出最多标记下标 (Find the Maximum Number of Marked Indices) --二分
+    public int maxNumOfMarkedIndices(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        int res = 0;
+        int left = 0;
+        int right = n / 2;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check2576(nums, mid)) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res * 2;
+    }
+
+    private boolean check2576(int[] nums, int k) {
+        for (int i = 0; i < k; ++i) {
+            if (nums[i] * 2 > nums[nums.length - k + i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // 2576. 求出最多标记下标 (Find the Maximum Number of Marked Indices) --双指针
+    public int maxNumOfMarkedIndices2(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int i = 0;
+        for (int j = (n + 1) / 2; j < n; ++j) {
+            if (nums[i] * 2 <= nums[j]) {
+                ++i;
+            }
+        }
+        return i * 2;
+    
+    }
+
+
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
