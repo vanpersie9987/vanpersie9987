@@ -1665,6 +1665,32 @@ public class Leetcode_7 {
 
     }
 
+    // 1039. 多边形三角剖分的最低得分 (Minimum Score Triangulation of Polygon)
+    private int[][] memo1039;
+    private int n1039;
+    private int[] values1039;
+
+    public int minScoreTriangulation(int[] values) {
+        this.n1039 = values.length;
+        this.values1039 = values;
+        this.memo1039 = new int[n1039][n1039];
+        for (int i = 0; i < n1039; ++i) {
+            Arrays.fill(memo1039[i], -1);
+        }
+        return dfs1039(0, n1039 - 1);
+    }
+
+    private int dfs1039(int i, int j) {
+        if (memo1039[i][j] != -1) {
+            return memo1039[i][j];
+        }
+        int res = Integer.MAX_VALUE;
+        for (int k = (i + 1) % n1039; k < j; k = (k + 1) % n1039) {
+            res = Math.min(res, values1039[i] * values1039[j] * values1039[k] + dfs1039(i, k) + dfs1039(k, j));
+        }
+        return memo1039[i][j] = res == Integer.MAX_VALUE ? 0 : res;
+    }
+
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
