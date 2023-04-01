@@ -1596,6 +1596,79 @@ public class Leetcode_7 {
         return b == 0 ? a : getGCD2197(b, a % b);
     }
 
+    // 212. 单词搜索 II (Word Search II)
+    private Set<String> set212;
+    private char[][] board212;
+    private int m212;
+    private int n212;
+    private int[][] directions212 = { { 0, -1 }, { 0, 1 }, { 1, 0 }, { -1, 0 } };
+
+    public List<String> findWords(char[][] board, String[] words) {
+        Trie212 trie = new Trie212();
+        for (String s : words) {
+            trie.insert(s);
+        }
+        this.board212 = board;
+        this.set212 = new HashSet<>();
+        this.m212 = board.length;
+        this.n212 = board[0].length;
+        for (int i = 0; i < m212; ++i) {
+            for (int j = 0; j < n212; ++j) {
+                dfs212(i, j, trie);
+            }
+        }
+        return new ArrayList<>(set212);
+
+    }
+
+    private void dfs212(int x, int y, Trie212 node) {
+        if (board212[x][y] == '*') {
+            return;
+        }
+        if (node.childern[board212[x][y] - 'a'] == null) {
+            return;
+        }
+        node = node.childern[board212[x][y] - 'a'];
+        if (!node.word.isEmpty()) {
+            set212.add(node.word);
+        }
+        char temp = board212[x][y];
+        board212[x][y] = '*';
+        for (int[] d : directions212) {
+            int nx = x + d[0];
+            int ny = y + d[1];
+            if (nx >= 0 && nx < m212 && ny >= 0 && ny < n212) {
+                dfs212(nx, ny, node);
+            }
+        }
+        board212[x][y] = temp;
+
+    }
+
+    public class Trie212 {
+        private Trie212[] childern;
+        private String word;
+
+        public Trie212() {
+            childern = new Trie212[26];
+            word = "";
+        }
+
+        public void insert(String s) {
+            Trie212 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.childern[index] == null) {
+                    node.childern[index] = new Trie212();
+                }
+                node = node.childern[index];
+            }
+            node.word = s;
+        }
+
+    }
+
+
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
 
@@ -1739,11 +1812,6 @@ public class Leetcode_7 {
 
     // 1406. 石子游戏 III (Stone Game III)
     // public String stoneGameIII(int[] stoneValue) {
-
-    // }
-
-    // 212. 单词搜索 II (Word Search II)
-    // public List<String> findWords(char[][] board, String[] words) {
 
     // }
 }
