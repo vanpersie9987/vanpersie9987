@@ -1083,7 +1083,7 @@ public class Leetcode_5 {
                 }
                 res.append("+");
             }
-            res = res.reverse();
+            res.reverse();
         }
         return res.toString();
 
