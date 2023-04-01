@@ -1062,37 +1062,30 @@ public class Leetcode_5 {
     // 831. 隐藏个人信息 (Masking Personal Information)
     public String maskPII(String s) {
         StringBuilder res = new StringBuilder();
-        int atIndex = s.indexOf("@");
-        // 邮箱
         if (s.contains("@")) {
-            res.append(s.substring(0, 1)).append("*****").append(s.substring(atIndex - 1));
+            s = s.toLowerCase();
+            res.append(s.charAt(0));
+            res.append("*****");
+            res.append(s.substring(s.indexOf('@') - 1));
         } else {
-            // 电话
-            // String digits = S.replaceAll("\\D+", "");
-            int count = 0;
-            StringBuilder last = new StringBuilder();
+            int cnt = 0;
             for (int i = s.length() - 1; i >= 0; --i) {
-                if (Character.isDigit(s.charAt(i))) {
-                    ++count;
-                    if (count <= 4) {
-                        last.insert(0, s.charAt(i));
-                    }
+                if (Character.isDigit(s.charAt(i)) && cnt++ < 4) {
+                    res.append(s.charAt(i));
                 }
             }
-            if (count > 10) {
-                res.append("+");
-                while (count > 10) {
+            res.append("-***-***");
+            cnt -= 10;
+            if (cnt > 0) {
+                res.append("-");
+                while (cnt-- > 0) {
                     res.append("*");
-                    if (count == 11) {
-                        res.append("-");
-                    }
-                    --count;
                 }
+                res.append("+");
             }
-            res.append("***-***-");
-            res.append(last);
+            res = res.reverse();
         }
-        return res.toString().toLowerCase();
+        return res.toString();
 
     }
 

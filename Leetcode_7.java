@@ -1596,7 +1596,6 @@ public class Leetcode_7 {
         return b == 0 ? a : getGCD2197(b, a % b);
     }
 
-
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
 
