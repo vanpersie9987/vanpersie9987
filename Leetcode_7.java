@@ -1622,9 +1622,6 @@ public class Leetcode_7 {
     }
 
     private void dfs212(int x, int y, Trie212 node) {
-        if (board212[x][y] == '*') {
-            return;
-        }
         if (node.childern[board212[x][y] - 'a'] == null) {
             return;
         }
@@ -1637,7 +1634,7 @@ public class Leetcode_7 {
         for (int[] d : directions212) {
             int nx = x + d[0];
             int ny = y + d[1];
-            if (nx >= 0 && nx < m212 && ny >= 0 && ny < n212) {
+            if (nx >= 0 && nx < m212 && ny >= 0 && ny < n212 && board212[nx][ny] != '*') {
                 dfs212(nx, ny, node);
             }
         }
