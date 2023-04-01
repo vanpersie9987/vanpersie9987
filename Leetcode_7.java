@@ -1498,6 +1498,7 @@ public class Leetcode_7 {
     private int[][] memo1547;
     private int k1547;
     private int[] cuts1547;
+
     public int minCost(int n, int[] cuts) {
         Arrays.sort(cuts);
         this.cuts1547 = cuts;
@@ -1567,9 +1568,33 @@ public class Leetcode_7 {
             }
         }
         return i * 2;
-    
+
     }
 
+    // 2197. 替换数组中的非互质数 (Replace Non-Coprime Numbers in Array)
+    public List<Integer> replaceNonCoprimes(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        for (int num : nums) {
+            res.add(num);
+            while (res.size() > 1) {
+                int pop1 = res.get(res.size() - 1);
+                int pop2 = res.get(res.size() - 2);
+                int g = getGCD2197(pop1, pop2);
+                if (g == 1) {
+                    break;
+                }
+                res.remove(res.size() - 1);
+                res.set(res.size() - 1, pop1 / g * pop2);
+            }
+        }
+
+        return res;
+
+    }
+
+    private int getGCD2197(int a, int b) {
+        return b == 0 ? a : getGCD2197(b, a % b);
+    }
 
 
     // 2402. 会议室 III (Meeting Rooms III)
@@ -1718,4 +1743,8 @@ public class Leetcode_7 {
 
     // }
 
+    // 212. 单词搜索 II (Word Search II)
+    // public List<String> findWords(char[][] board, String[] words) {
+
+    // }
 }
