@@ -4054,29 +4054,28 @@ public class LeetCodeText {
 
     }
 
-    // 1053. 交换一次的先前排列
-    public int[] prevPermOpt1(final int[] A) {
-        int i = A.length - 2;
-        while (i >= 0) {
-            if (A[i] > A[i + 1]) {
+    // 1053. 交换一次的先前排列 (Previous Permutation With One Swap)
+    public int[] prevPermOpt1(int[] arr) {
+        int n = arr.length;
+        int i = n - 1;
+        while (i >= 1) {
+            if (arr[i - 1] > arr[i]) {
                 break;
             }
             --i;
         }
-        if (i < 0) {
-            return A;
+        if (i == 0) {
+            return arr;
         }
-        int j = A.length - 1;
-        while (j > i) {
-            if (A[j] < A[i] && A[j] != A[j - 1]) {
-                int temp = A[j];
-                A[j] = A[i];
-                A[i] = temp;
-                return A;
-            }
+        --i;
+        int j = n - 1;
+        while (arr[j] >= arr[i] || arr[j] == arr[j - 1]) {
             --j;
         }
-        return A;
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+        return arr;
 
     }
 
