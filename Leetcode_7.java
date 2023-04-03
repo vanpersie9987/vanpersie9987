@@ -1901,6 +1901,40 @@ public class Leetcode_7 {
         }
     }
 
+    // 1383. 最大的团队表现值 (Maximum Performance of a Team)
+    public int maxPerformance(int n, int[] speed, int[] efficiency, int k) {
+        int[][] pairs = new int[n][2];
+        for (int i = 0; i < n; ++i) {
+            pairs[i][0] = speed[i];
+            pairs[i][1] = efficiency[i];
+        }
+        Arrays.sort(pairs, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o2[1], o1[1]);
+            }
+
+        });
+        Queue<Integer> q = new PriorityQueue<>();
+        long res = 0l;
+        long sum = 0l;
+        for (int[] pair : pairs) {
+            int s = pair[0];
+            int e = pair[1];
+            sum += s;
+            res = Math.max(res, sum * e);
+            q.offer(s);
+            while (q.size() >= k) {
+                sum -= q.poll();
+            }
+        }
+        final int MOD = (int) (1e9 + 7);
+        return (int) (res % MOD);
+
+    }
+
+
     // 1172. 餐盘栈 (Dinner Plate Stacks)
     // class DinnerPlates {
     // private int capacity;
@@ -1987,7 +2021,6 @@ public class Leetcode_7 {
 
     // }
     // }
-
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
@@ -2134,4 +2167,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 }
