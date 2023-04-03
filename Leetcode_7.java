@@ -1,3 +1,4 @@
+import java.security.KeyStore.Entry;
 import java.sql.RowId;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +22,8 @@ import java.util.stream.IntStream;
 
 public class Leetcode_7 {
     public static void main(String[] args) {
+        // int[] arr = { 1, 4, 1, 3 };
+        // int k = 2;
 
     }
 
@@ -1622,10 +1625,10 @@ public class Leetcode_7 {
     }
 
     private void dfs212(int x, int y, Trie212 node) {
-        if (node.childern[board212[x][y] - 'a'] == null) {
+        if (node.children[board212[x][y] - 'a'] == null) {
             return;
         }
-        node = node.childern[board212[x][y] - 'a'];
+        node = node.children[board212[x][y] - 'a'];
         if (!node.word.isEmpty()) {
             set212.add(node.word);
         }
@@ -1643,11 +1646,11 @@ public class Leetcode_7 {
     }
 
     public class Trie212 {
-        private Trie212[] childern;
+        private Trie212[] children;
         private String word;
 
         public Trie212() {
-            childern = new Trie212[26];
+            children = new Trie212[26];
             word = "";
         }
 
@@ -1655,10 +1658,10 @@ public class Leetcode_7 {
             Trie212 node = this;
             for (char c : s.toCharArray()) {
                 int index = c - 'a';
-                if (node.childern[index] == null) {
-                    node.childern[index] = new Trie212();
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie212();
                 }
-                node = node.childern[index];
+                node = node.children[index];
             }
             node.word = s;
         }
@@ -1667,17 +1670,16 @@ public class Leetcode_7 {
 
     // 1039. 多边形三角剖分的最低得分 (Minimum Score Triangulation of Polygon)
     private int[][] memo1039;
-    private int n1039;
     private int[] values1039;
 
     public int minScoreTriangulation(int[] values) {
-        this.n1039 = values.length;
+        int n = values.length;
         this.values1039 = values;
-        this.memo1039 = new int[n1039][n1039];
-        for (int i = 0; i < n1039; ++i) {
+        this.memo1039 = new int[n][n];
+        for (int i = 0; i < n; ++i) {
             Arrays.fill(memo1039[i], -1);
         }
-        return dfs1039(0, n1039 - 1);
+        return dfs1039(0, n - 1);
     }
 
     private int dfs1039(int i, int j) {
@@ -1685,11 +1687,306 @@ public class Leetcode_7 {
             return memo1039[i][j];
         }
         int res = Integer.MAX_VALUE;
-        for (int k = (i + 1) % n1039; k < j; k = (k + 1) % n1039) {
+        for (int k = i + 1; k < j; ++k) {
             res = Math.min(res, values1039[i] * values1039[j] * values1039[k] + dfs1039(i, k) + dfs1039(k, j));
         }
         return memo1039[i][j] = res == Integer.MAX_VALUE ? 0 : res;
     }
+
+    // 2605. 从两个数字数组里生成最小数字 (Form Smallest Number From Two Digit Arrays)
+    public int minNumber(int[] nums1, int[] nums2) {
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < nums1.length; ++i) {
+            for (int j = 0; j < nums2.length; ++j) {
+                if (nums1[i] == nums2[j]) {
+                    res = Math.min(res, nums1[i]);
+                } else {
+                    res = Math.min(res, nums1[i] * 10 + nums2[j]);
+                    res = Math.min(res, nums2[j] * 10 + nums1[i]);
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 2606. 找到最大开销的子字符串 (Find the Substring With Maximum Cost)
+    public int maximumCostSubstring(String s, String chars, int[] vals) {
+        int[] fees = new int[26];
+        for (int i = 0; i < 26; ++i) {
+            fees[i] = i + 1;
+        }
+        for (int i = 0; i < chars.length(); ++i) {
+            int index = chars.charAt(i) - 'a';
+            fees[index] = vals[i];
+        }
+        int min = 0;
+        int pre = 0;
+        int res = 0;
+        for (char c : s.toCharArray()) {
+            pre += fees[c - 'a'];
+            res = Math.max(res, pre - min);
+            min = Math.min(pre, min);
+        }
+        return res;
+
+    }
+
+    // 2609. 最长平衡子字符串 (Find the Longest Balanced Substring of a Binary String)
+    public int findTheLongestBalancedSubstring(String s) {
+        int res = 0;
+        int cnt0 = 0;
+        int cnt1 = 0;
+        int pre = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '0') {
+                if (pre == 0) {
+                    ++cnt0;
+                } else {
+                    cnt0 = 1;
+                    cnt1 = 0;
+                }
+            } else {
+                ++cnt1;
+            }
+            res = Math.max(res, Math.min(cnt0, cnt1) * 2);
+            pre = c - '0';
+        }
+
+        return res;
+
+    }
+
+    // 2610. 转换二维数组 (Convert an Array Into a 2D Array With Conditions)
+    public List<List<Integer>> findMatrix(int[] nums) {
+        int n = nums.length;
+        int[] counts = new int[n + 1];
+        int max = 0;
+        for (int num : nums) {
+            max = Math.max(max, ++counts[num]);
+        }
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < max; ++i) {
+            res.add(new ArrayList<>());
+        }
+        for (int i = 0; i < n + 1; ++i) {
+            while (counts[i]-- > 0) {
+                res.get(counts[i]).add(i);
+            }
+        }
+        return res;
+
+    }
+
+    // 1912. 设计电影租借系统 (Design Movie Rental System)
+    class MovieRentingSystem {
+        // 借出的电影
+        // key : price
+        private TreeMap<Integer, TreeMap<Integer, TreeSet<Integer>>> loan;
+        // 未借出的电影
+        // key : movie
+        private TreeMap<Integer, TreeSet<Bean>> mapMovie;
+        // key : shop
+        private Map<Integer, Map<Integer, Integer>> mapShop;
+
+        // 统计 key : 来自shop的movie的price
+        private Map<Bean, Integer> mapData;
+
+        class Bean implements Comparable<Bean> {
+            int shop;
+            int movie;
+            int price;
+
+            Bean(int shop, int movie, int price) {
+                this.shop = shop;
+                this.movie = movie;
+                this.price = price;
+            }
+
+            @Override
+            public int compareTo(Bean o) {
+                if (this.price == o.price) {
+                    return Integer.compare(this.shop, o.shop);
+                }
+                return Integer.compare(this.price, o.price);
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                Bean o = (Bean) obj;
+                return this.shop == o.shop && this.movie == o.movie;
+            }
+
+            @Override
+            public int hashCode() {
+                return (int) (((long) shop * 10000 + movie) % (1e9 + 7));
+            }
+
+        }
+
+        public MovieRentingSystem(int n, int[][] entries) {
+            loan = new TreeMap<>();
+            mapMovie = new TreeMap<>();
+            mapShop = new HashMap<>();
+            mapData = new HashMap<>();
+            for (int[] e : entries) {
+                int shop = e[0];
+                int movie = e[1];
+                int price = e[2];
+                mapMovie.computeIfAbsent(movie, k -> new TreeSet<>()).add(new Bean(shop, movie, price));
+                mapShop.computeIfAbsent(shop, k -> new HashMap<>()).put(movie, price);
+                mapData.put(new Bean(shop, movie, price), price);
+            }
+
+        }
+
+        public List<Integer> search(int movie) {
+            List<Integer> res = new ArrayList<>();
+            TreeSet<Bean> set = mapMovie.getOrDefault(movie, new TreeSet<>());
+            for (Bean b : set) {
+                res.add(b.shop);
+                if (res.size() == 5) {
+                    break;
+                }
+            }
+            return res;
+        }
+
+        public void rent(int shop, int movie) {
+            // 从shop借走movie
+            Map<Integer, Integer> map = mapShop.getOrDefault(shop, new HashMap<>());
+            int price = map.get(movie);
+            map.remove(movie);
+
+            // 借走 movie
+            TreeSet<Bean> set = mapMovie.getOrDefault(movie, new TreeSet<>());
+            Bean removed = new Bean(shop, movie, price);
+            set.remove(removed);
+
+            // 借出的电影
+            loan.computeIfAbsent(price, k -> new TreeMap<>()).computeIfAbsent(shop, k -> new TreeSet<>()).add(movie);
+        }
+
+        public void drop(int shop, int movie) {
+            // 从已借出的还走
+            Bean b = new Bean(shop, movie, 0);
+            int price = mapData.get(b);
+            TreeMap<Integer, TreeSet<Integer>> map = loan.getOrDefault(price, new TreeMap<>());
+            TreeSet<Integer> movies = map.getOrDefault(shop, new TreeSet<>());
+            movies.remove(movie);
+
+            // 把已借出的还到商店
+            Map<Integer, Integer> s = mapShop.getOrDefault(shop, new HashMap<>());
+            s.put(movie, price);
+
+            TreeSet<Bean> m = mapMovie.getOrDefault(movie, new TreeSet<>());
+            m.add(new Bean(shop, movie, price));
+
+        }
+
+        public List<List<Integer>> report() {
+            List<List<Integer>> res = new ArrayList<>();
+            for (TreeMap<Integer, TreeSet<Integer>> shops : loan.values()) {
+                for (Map.Entry<Integer, TreeSet<Integer>> movies : shops.entrySet()) {
+                    int shop = movies.getKey();
+                    for (int movie : movies.getValue()) {
+                        res.add(List.of(shop, movie));
+                        if (res.size() == 5) {
+                            return res;
+                        }
+                    }
+                }
+            }
+            return res;
+        }
+    }
+
+    // 1172. 餐盘栈 (Dinner Plate Stacks)
+    // class DinnerPlates {
+    // private int capacity;
+    // private TreeMap<Integer, Stack<Integer>> fullStacks;
+    // private TreeMap<Integer, Stack<Integer>> notFullStacks;
+    // private TreeSet<Integer> emptyStacks;
+    // private int rightMost;
+
+    // public DinnerPlates(int capacity) {
+    // this.capacity = capacity;
+    // this.fullStacks = new TreeMap<>();
+    // this.notFullStacks = new TreeMap<>();
+    // this.emptyStacks = new TreeSet<>();
+    // }
+
+    // public void push(int val) {
+    // Integer notFullIndex = notFullStacks.firstKey();
+    // Integer emptyIndex = emptyStacks.first();
+
+    // if (notFullIndex == null && emptyIndex == null) {
+    // Stack<Integer> stack = new Stack<>();
+    // stack.push(val);
+    // if (stack.size() == capacity) {
+    // fullStacks.put(rightMost++, stack);
+    // } else {
+    // notFullStacks.put(rightMost, stack);
+    // }
+    // } else if (notFullIndex != null && emptyIndex == null) {
+    // Stack<Integer> stack = notFullStacks.get(notFullIndex);
+    // stack.push(val);
+    // if (stack.size() == capacity) {
+    // fullStacks.put(notFullIndex, stack);
+    // notFullStacks.remove(notFullIndex);
+    // if (rightMost == notFullIndex) {
+    // ++rightMost;
+    // }
+    // }
+    // } else if (notFullIndex == null && emptyIndex != null) {
+    // Stack<Integer> stack = new Stack<>();
+    // stack.push(val);
+    // if (stack.size() == capacity) {
+    // fullStacks.put(emptyIndex, stack);
+    // if (emptyIndex == rightMost) {
+    // ++rightMost;
+    // }
+    // } else {
+    // notFullStacks.put(emptyIndex, stack);
+    // }
+    // emptyStacks.remove(emptyIndex);
+    // } else {
+    // if (notFullIndex < emptyIndex) {
+    // Stack<Integer> stack = notFullStacks.get(notFullIndex);
+    // stack.push(val);
+    // if (stack.size() == capacity) {
+    // fullStacks.put(notFullIndex, stack);
+    // notFullStacks.remove(notFullIndex);
+    // if (rightMost == notFullIndex) {
+    // ++rightMost;
+    // }
+    // }
+    // } else {
+    // Stack<Integer> stack = new Stack<>();
+    // stack.push(val);
+    // if (stack.size() == capacity) {
+    // fullStacks.put(emptyIndex, stack);
+    // if (emptyIndex == rightMost) {
+    // ++rightMost;
+    // }
+    // } else {
+    // notFullStacks.put(emptyIndex, stack);
+    // }
+    // emptyStacks.remove(emptyIndex);
+    // }
+    // }
+    // }
+
+    // public int pop() {
+    // Integer fullIndex = fullStacks.lastKey();
+    // Integer notFullIndex = notFullStacks.lastKey();
+
+    // }
+
+    // public int popAtStack(int index) {
+
+    // }
+    // }
 
 
     // 2402. 会议室 III (Meeting Rooms III)
