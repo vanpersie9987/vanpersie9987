@@ -2003,6 +2003,43 @@ public class Leetcode_7 {
         return memo375[i][j] = min;
     }
 
+    // 1201. 丑数 III (Ugly Number III) ---容斥原理 二分查找
+    private long ab1201;
+    private long bc1201;
+    private long ca1201;
+    private long abc1201;
+
+    public int nthUglyNumber(int n, int a, int b, int c) {
+        long res = -1;
+        this.ab1201 = lcm1201(a, b);
+        this.bc1201 = lcm1201(b, c);
+        this.ca1201 = lcm1201(c, a);
+        this.abc1201 = lcm1201(ab1201, c);
+        int left = Math.min(Math.min(a, b), c);
+        int right = Integer.MAX_VALUE;
+        while (left <= right) {
+            long mid = left + ((right - left) >> 1);
+            long count = mid / a + mid / b + mid / c - mid / ab1201 - mid / bc1201 - mid / ca1201 + mid / abc1201;
+            if (count >= n) {
+                res = mid;
+                right = (int) mid - 1;
+            } else {
+                left = (int) mid + 1;
+            }
+        }
+        return (int) res;
+
+    }
+
+    private long lcm1201(long a, long b) {
+        return a / gcd1201(a, b) * b;
+    }
+
+    private long gcd1201(long a, long b) {
+        return b == 0 ? a : gcd1201(b, a % b);
+    }
+
+
     // 1172. 餐盘栈 (Dinner Plate Stacks)
     // class DinnerPlates {
     // private int capacity;
@@ -2235,5 +2272,4 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
-
 }
