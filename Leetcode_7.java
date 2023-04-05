@@ -2039,7 +2039,6 @@ public class Leetcode_7 {
         return b == 0 ? a : gcd1201(b, a % b);
     }
 
-
     // 1172. 餐盘栈 (Dinner Plate Stacks)
     // class DinnerPlates {
     // private int capacity;

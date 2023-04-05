@@ -4996,32 +4996,34 @@ public class Leetcode_6 {
 
     }
 
-    // 6302. 最大子序列的分数
+    // 2542. 最大子序列的分数 (Maximum Subsequence Score)
     public long maxScore(int[] nums1, int[] nums2, int k) {
         int n = nums1.length;
-        Integer[] ids = IntStream.range(0, n).boxed().toArray(Integer[]::new);
-        Arrays.sort(ids, new Comparator<Integer>() {
+        int[][] pairs = new int[n][2];
+        for (int i = 0; i < n; ++i) {
+            pairs[i][0] = nums1[i];
+            pairs[i][1] = nums2[i];
+        }
+        Arrays.sort(pairs, new Comparator<int[]>() {
 
             @Override
-            public int compare(Integer o1, Integer o2) {
-                return Integer.compare(nums2[o2], nums2[o1]);
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o2[1], o1[1]);
             }
 
         });
-        Queue<Integer> queue = new PriorityQueue<>();
-        long sum1 = 0l;
+
         long res = 0l;
-        for (int id : ids) {
-            int num1 = nums1[id];
-            int num2 = nums2[id];
-            while (queue.size() > k - 1) {
-                sum1 -= queue.poll();
+        long sum = 0l;
+        Queue<Integer> q = new PriorityQueue<>();
+        for (int[] pair : pairs) {
+            sum += pair[0];
+            q.offer(pair[0]);
+            if (q.size() == k - 1) {
+                res = Math.max(res, sum * pair[1]);
             }
-            sum1 += num1;
-            queue.offer(num1);
-            if (queue.size() == k) {
-                long cur = sum1 * num2;
-                res = Math.max(res, cur);
+            while (q.size() >= k) {
+                sum -= q.poll();
             }
         }
         return res;
