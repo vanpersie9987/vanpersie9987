@@ -5019,7 +5019,7 @@ public class Leetcode_6 {
         for (int[] pair : pairs) {
             sum += pair[0];
             q.offer(pair[0]);
-            if (q.size() == k - 1) {
+            if (q.size() == k) {
                 res = Math.max(res, sum * pair[1]);
             }
             while (q.size() >= k) {
