@@ -1976,9 +1976,32 @@ public class Leetcode_7 {
     }
 
     // 375. II 猜数字大小 II (Guess Number Higher or Lower)
-    // public int getMoneyAmount(int n) {
+    private int[][] memo375;
 
-    // }
+    public int getMoneyAmount(int n) {
+        this.memo375 = new int[n][n];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo375[i], -1);
+        }
+        return dfs375(1, n);
+    }
+
+    private int dfs375(int i, int j) {
+        if (i == j) {
+            return 0;
+        }
+        if (j - i == 1) {
+            return i;
+        }
+        if (memo375[i][j] != -1) {
+            return memo375[i][j];
+        }
+        int min = Integer.MAX_VALUE;
+        for (int k = i + 1; k < j; ++k) {
+            min = Math.min(min, Math.max(dfs375(i, k - 1), dfs375(k + 1, j)) + k);
+        }
+        return memo375[i][j] = min;
+    }
 
     // 1172. 餐盘栈 (Dinner Plate Stacks)
     // class DinnerPlates {
