@@ -1934,6 +1934,51 @@ public class Leetcode_7 {
 
     }
 
+    // 1000. 合并石头的最低成本 (Minimum Cost to Merge Stones)
+    private int[][][] memo1000;
+    private int k1000;
+    private int n1000;
+    private int[] pre1000;
+
+    public int mergeStones(int[] stones, int k) {
+        this.n1000 = stones.length;
+        this.k1000 = k;
+        if ((n1000 - 1) % (k - 1) != 0) {
+            return -1;
+
+        }
+        this.memo1000 = new int[n1000][n1000][k + 1];
+        this.pre1000 = new int[n1000 + 1];
+        for (int i = 0; i < n1000; ++i) {
+            pre1000[i + 1] = pre1000[i] + stones[i];
+        }
+        for (int i = 0; i < n1000; ++i) {
+            for (int j = i; j < n1000; ++j) {
+                Arrays.fill(memo1000[i][j], -1);
+            }
+        }
+        return dfs1000(0, n1000 - 1, 1);
+
+    }
+
+    private int dfs1000(int i, int j, int p) {
+        if (memo1000[i][j][p] != -1) {
+            return memo1000[i][j][p];
+        }
+        if (p == 1) {
+            return memo1000[i][j][p] = i == j ? 0 : dfs1000(i, j, k1000) + pre1000[j + 1] - pre1000[i];
+        }
+        int min = Integer.MAX_VALUE;
+        for (int m = i; m < j; m += k1000 - 1) {
+            min = Math.min(min, dfs1000(i, m, 1) + dfs1000(m + 1, j, p - 1));
+        }
+        return memo1000[i][j][p] = min;
+    }
+
+    // 375. II 猜数字大小 II (Guess Number Higher or Lower)
+    // public int getMoneyAmount(int n) {
+
+    // }
 
     // 1172. 餐盘栈 (Dinner Plate Stacks)
     // class DinnerPlates {
