@@ -2104,11 +2104,36 @@ public class Leetcode_7 {
 
     }
 
-    // 2611. 老鼠和奶酪
+    // 2611. 老鼠和奶酪 (Mice and Cheese) 参考1029
     public int miceAndCheese(int[] reward1, int[] reward2, int k) {
+        int n = reward1.length;
+        int[][] arr = new int[n][2];
+        for (int i = 0; i < n; ++i) {
+            arr[i][0] = reward1[i];
+            arr[i][1] = reward2[i];
+        }
+        Arrays.sort(arr, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o2[0] - o2[1], o1[0] - o1[1]);
+            }
+
+        });
+
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            if (i < k) {
+                res += arr[i][0];
+            } else {
+                res += arr[i][1];
+            }
+        }
+        return res;
+
+
 
     }
-
 
     // 1172. 餐盘栈 (Dinner Plate Stacks)
     // class DinnerPlates {
