@@ -2131,9 +2131,55 @@ public class Leetcode_7 {
         }
         return res;
 
+    }
 
+    // 2608. 图中的最短环 (Shortest Cycle in a Graph)
+    private List<Integer>[] g2608;
+    private int n2608;
+
+    public int findShortestCycle(int n, int[][] edges) {
+        this.g2608 = new ArrayList[n];
+        this.n2608 = n;
+        for (int i = 0; i < n; ++i) {
+            g2608[i] = new ArrayList<>();
+        }
+        for (int[] e : edges) {
+            int a = e[0];
+            int b = e[1];
+            g2608[a].add(b);
+            g2608[b].add(a);
+        }
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < n; ++i) {
+            res = Math.min(res, getMinimalCycle(i));
+        }
+        return res == Integer.MAX_VALUE ? -1 : res;
 
     }
+
+    private int getMinimalCycle(int start) {
+        int res = Integer.MAX_VALUE;
+        Queue<int[]> q = new LinkedList<>();
+        int[] dis = new int[n2608];
+        Arrays.fill(dis, -1);
+        dis[start] = 0;
+        q.offer(new int[] { start, -1 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int fa = cur[1];
+            for (int y : g2608[x]) {
+                if (dis[y] == -1) {
+                    dis[y] = dis[x] + 1;
+                    q.offer(new int[] { y, x });
+                } else if (y != fa) {
+                    res = Math.min(res, dis[x] + dis[y] + 1);
+                }
+            }
+        }
+        return res;
+    }
+
 
     // 1172. 餐盘栈 (Dinner Plate Stacks)
     // class DinnerPlates {
@@ -2367,5 +2413,4 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
-
 }
