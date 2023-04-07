@@ -2039,6 +2039,72 @@ public class Leetcode_7 {
         return b == 0 ? a : gcd1201(b, a % b);
     }
 
+    // 391. 完美矩形 (Perfect Rectangle)
+    public boolean isRectangleCover(int[][] rectangles) {
+        int n = rectangles.length;
+        int[][] arr = new int[n * 2][4];
+        int index = 0;
+        for (int i = 0; i < n; ++i) {
+            arr[index++] = new int[] { rectangles[i][0], rectangles[i][1], rectangles[i][3], 1 };
+            arr[index++] = new int[] { rectangles[i][2], rectangles[i][1], rectangles[i][3], -1 };
+        }
+        Arrays.sort(arr, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] == o2[0]) {
+                    return Integer.compare(o1[1], o2[1]);
+                }
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        int left = 0;
+        while (left < index) {
+            int right = left;
+            while (right < index && arr[right][0] == arr[left][0]) {
+                ++right;
+            }
+            List<int[]> list1 = new ArrayList<>();
+            List<int[]> list2 = new ArrayList<>();
+            for (int j = left; j < right; ++j) {
+                int[] cur = new int[] { arr[j][1], arr[j][2] };
+                List<int[]> list = arr[j][3] == 1 ? list1 : list2;
+                if (list.isEmpty()) {
+                    list.add(cur);
+                } else {
+                    int[] pre = list.get(list.size() - 1);
+                    if (pre[1] > cur[0]) {
+                        return false;
+                    }
+                    if (pre[1] == cur[0]) {
+                        pre[1] = cur[1];
+                    } else {
+                        list.add(cur);
+                    }
+                }
+            }
+            if (left > 0 && right < index) {
+                if (list1.size() != list2.size()) {
+                    return false;
+                }
+                for (int j = 0; j < list1.size(); ++j) {
+                    if (list1.get(j)[0] != list2.get(j)[0] || list1.get(j)[1] != list2.get(j)[1]) {
+                        return false;
+                    }
+                }
+            } else {
+                if (list1.size() + list2.size() != 1) {
+                    return false;
+                }
+            }
+            left = right;
+        }
+        return true;
+
+    }
+
+
     // 1172. 餐盘栈 (Dinner Plate Stacks)
     // class DinnerPlates {
     // private int capacity;
@@ -2271,4 +2337,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 }
