@@ -2178,6 +2178,59 @@ public class Leetcode_7 {
         return res;
     }
 
+    // 1125. 最小的必要团队 (Smallest Sufficient Team) --状态压缩dp
+    private int[] peopleSkills1125;
+    private int n1125;
+    private long[][] memo1125;
+    private int peopleSize1125;
+
+    public int[] smallestSufficientTeam(String[] req_skills, List<List<String>> people) {
+        this.n1125 = req_skills.length;
+        Map<String, Integer> map = new HashMap<>();
+        int index = 0;
+        for (String req : req_skills) {
+            map.put(req, index++);
+        }
+        this.peopleSize1125 = people.size();
+        peopleSkills1125 = new int[peopleSize1125];
+        for (int i = 0; i < peopleSize1125; ++i) {
+            for (int j = 0; j < people.get(i).size(); ++j) {
+                peopleSkills1125[i] |= 1 << map.get(people.get(i).get(j));
+            }
+        }
+        memo1125 = new long[people.size()][1 << n1125];
+        for (int i = 0; i < people.size(); ++i) {
+            Arrays.fill(memo1125[i], -1l);
+        }
+        long mask = dfs1125(peopleSize1125 - 1, (1 << n1125) - 1);
+        int[] res = new int[Long.bitCount(mask)];
+        int i = 0;
+        int j = 0;
+        while (mask != 0) {
+            if ((mask & 1) != 0) {
+                res[j++] = i;
+            }
+            ++i;
+            mask >>= 1;
+        }
+        return res;
+    }
+
+    private long dfs1125(int i, int mask) {
+        if (mask == 0) {
+            return 0l;
+        }
+        if (i < 0) {
+            return (1l << peopleSize1125) - 1;
+        }
+        if (memo1125[i][mask] != -1l) {
+            return memo1125[i][mask];
+        }
+        long mask1 = dfs1125(i - 1, mask);
+        long mask2 = dfs1125(i - 1, mask & ~peopleSkills1125[i]) | (1l << i);
+        return memo1125[i][mask] = Long.bitCount(mask1) < Long.bitCount(mask2) ? mask1 : mask2;
+    }
+
 
     // 1172. 餐盘栈 (Dinner Plate Stacks)
     // class DinnerPlates {
@@ -2411,4 +2464,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 }
