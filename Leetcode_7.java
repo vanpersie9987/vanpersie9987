@@ -2202,7 +2202,7 @@ public class Leetcode_7 {
         for (int i = 0; i < people.size(); ++i) {
             Arrays.fill(memo1125[i], -1l);
         }
-        long mask = dfs1125(peopleSize1125 - 1, (1 << n1125) - 1);
+        long mask = dfs1125(0, 0);
         int[] res = new int[Long.bitCount(mask)];
         int i = 0;
         int j = 0;
@@ -2217,17 +2217,17 @@ public class Leetcode_7 {
     }
 
     private long dfs1125(int i, int mask) {
-        if (mask == 0) {
+        if (mask == (1 << n1125) - 1) {
             return 0l;
         }
-        if (i < 0) {
+        if (i == peopleSize1125) {
             return (1l << peopleSize1125) - 1;
         }
         if (memo1125[i][mask] != -1l) {
             return memo1125[i][mask];
         }
-        long mask1 = dfs1125(i - 1, mask);
-        long mask2 = dfs1125(i - 1, mask & ~peopleSkills1125[i]) | (1l << i);
+        long mask1 = dfs1125(i + 1, mask);
+        long mask2 = dfs1125(i + 1, mask | peopleSkills1125[i]) | (1l << i);
         return memo1125[i][mask] = Long.bitCount(mask1) < Long.bitCount(mask2) ? mask1 : mask2;
     }
 
