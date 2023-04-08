@@ -2231,93 +2231,99 @@ public class Leetcode_7 {
         return memo1125[i][mask] = Long.bitCount(mask1) < Long.bitCount(mask2) ? mask1 : mask2;
     }
 
-
     // 1172. 餐盘栈 (Dinner Plate Stacks)
-    // class DinnerPlates {
-    // private int capacity;
-    // private TreeMap<Integer, Stack<Integer>> fullStacks;
-    // private TreeMap<Integer, Stack<Integer>> notFullStacks;
-    // private TreeSet<Integer> emptyStacks;
-    // private int rightMost;
+    class DinnerPlates {
+        private int capacity;
+        private TreeMap<Integer, Stack<Integer>> fullStacks;
+        private TreeMap<Integer, Stack<Integer>> notFullStacks;
+        private TreeSet<Integer> emptyStacks;
 
-    // public DinnerPlates(int capacity) {
-    // this.capacity = capacity;
-    // this.fullStacks = new TreeMap<>();
-    // this.notFullStacks = new TreeMap<>();
-    // this.emptyStacks = new TreeSet<>();
-    // }
+        public DinnerPlates(int capacity) {
+            this.capacity = capacity;
+            this.fullStacks = new TreeMap<>();
+            this.notFullStacks = new TreeMap<>();
+            this.emptyStacks = new TreeSet<>();
+            int stacks = 200000 / capacity + 1;
+            for (int i = 0; i <= stacks; ++i) {
+                emptyStacks.add(i);
+            }
+        }
 
-    // public void push(int val) {
-    // Integer notFullIndex = notFullStacks.firstKey();
-    // Integer emptyIndex = emptyStacks.first();
+        public void push(int val) {
+            if (!notFullStacks.isEmpty() || !emptyStacks.isEmpty()) {
+                if (!notFullStacks.isEmpty() && !emptyStacks.isEmpty() && notFullStacks.firstKey() < emptyStacks.first()
+                        || emptyStacks.isEmpty()) {
+                    Integer notFullIndex = notFullStacks.firstKey();
+                    Stack<Integer> stack = notFullStacks.get(notFullIndex);
+                    stack.push(val);
+                    if (stack.size() == capacity) {
+                        fullStacks.put(notFullIndex, stack);
+                        notFullStacks.remove(notFullIndex);
+                    }
+                } else {
+                    int index = emptyStacks.first();
+                    Stack<Integer> stack = new Stack<>();
+                    stack.push(val);
+                    if (stack.size() == capacity) {
+                        fullStacks.put(index, stack);
+                    } else {
+                        notFullStacks.put(index, stack);
+                    }
+                    emptyStacks.remove(index);
+                }
+            }
+        }
 
-    // if (notFullIndex == null && emptyIndex == null) {
-    // Stack<Integer> stack = new Stack<>();
-    // stack.push(val);
-    // if (stack.size() == capacity) {
-    // fullStacks.put(rightMost++, stack);
-    // } else {
-    // notFullStacks.put(rightMost, stack);
-    // }
-    // } else if (notFullIndex != null && emptyIndex == null) {
-    // Stack<Integer> stack = notFullStacks.get(notFullIndex);
-    // stack.push(val);
-    // if (stack.size() == capacity) {
-    // fullStacks.put(notFullIndex, stack);
-    // notFullStacks.remove(notFullIndex);
-    // if (rightMost == notFullIndex) {
-    // ++rightMost;
-    // }
-    // }
-    // } else if (notFullIndex == null && emptyIndex != null) {
-    // Stack<Integer> stack = new Stack<>();
-    // stack.push(val);
-    // if (stack.size() == capacity) {
-    // fullStacks.put(emptyIndex, stack);
-    // if (emptyIndex == rightMost) {
-    // ++rightMost;
-    // }
-    // } else {
-    // notFullStacks.put(emptyIndex, stack);
-    // }
-    // emptyStacks.remove(emptyIndex);
-    // } else {
-    // if (notFullIndex < emptyIndex) {
-    // Stack<Integer> stack = notFullStacks.get(notFullIndex);
-    // stack.push(val);
-    // if (stack.size() == capacity) {
-    // fullStacks.put(notFullIndex, stack);
-    // notFullStacks.remove(notFullIndex);
-    // if (rightMost == notFullIndex) {
-    // ++rightMost;
-    // }
-    // }
-    // } else {
-    // Stack<Integer> stack = new Stack<>();
-    // stack.push(val);
-    // if (stack.size() == capacity) {
-    // fullStacks.put(emptyIndex, stack);
-    // if (emptyIndex == rightMost) {
-    // ++rightMost;
-    // }
-    // } else {
-    // notFullStacks.put(emptyIndex, stack);
-    // }
-    // emptyStacks.remove(emptyIndex);
-    // }
-    // }
-    // }
+        public int pop() {
+            int res = -1;
+            if (!notFullStacks.isEmpty() || !fullStacks.isEmpty()) {
+                if (!notFullStacks.isEmpty() && !fullStacks.isEmpty() && notFullStacks.lastKey() > fullStacks.lastKey()
+                        || fullStacks.isEmpty()) {
+                    Integer notFullIndex = notFullStacks.lastKey();
+                    Stack<Integer> stack = notFullStacks.get(notFullIndex);
+                    res = stack.pop();
+                    if (stack.isEmpty()) {
+                        notFullStacks.remove(notFullIndex);
+                        emptyStacks.add(notFullIndex);
+                    }
+                } else {
+                    Integer fullIndex = fullStacks.lastKey();
+                    Stack<Integer> stack = fullStacks.get(fullIndex);
+                    res = stack.pop();
+                    fullStacks.remove(fullIndex);
+                    if (stack.isEmpty()) {
+                        emptyStacks.add(fullIndex);
+                    } else {
+                        notFullStacks.put(fullIndex, stack);
+                    }
+                }
 
-    // public int pop() {
-    // Integer fullIndex = fullStacks.lastKey();
-    // Integer notFullIndex = notFullStacks.lastKey();
+            }
+            return res;
+        }
 
-    // }
-
-    // public int popAtStack(int index) {
-
-    // }
-    // }
+        public int popAtStack(int index) {
+            int res = -1;
+            if (notFullStacks.containsKey(index)) {
+                Stack<Integer> stack = notFullStacks.get(index);
+                res = stack.pop();
+                if (stack.isEmpty()) {
+                    notFullStacks.remove(index);
+                    emptyStacks.add(index);
+                }
+            } else if (fullStacks.containsKey(index)) {
+                Stack<Integer> stack = fullStacks.get(index);
+                res = stack.pop();
+                fullStacks.remove(index);
+                if (stack.isEmpty()) {
+                    emptyStacks.add(index);
+                } else {
+                    notFullStacks.put(index, stack);
+                }
+            }
+            return res;
+        }
+    }
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
