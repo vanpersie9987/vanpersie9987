@@ -1105,25 +1105,17 @@ public class Leetcode_5 {
 
     // 2399. 检查相同字母间的距离 (Check Distances Between Same Letters)
     public boolean checkDistances(String s, int[] distance) {
-        int[] diff = new int[26];
-        Arrays.fill(diff, -1);
+        int[] dis = new int[26];
+        Arrays.fill(dis, -1);
         for (int i = 0; i < s.length(); ++i) {
             int index = s.charAt(i) - 'a';
-            if (diff[index] == -1) {
-                diff[index] = i;
-            } else {
-                diff[index] = i - diff[index] - 1;
-            }
-        }
-        for (int i = 0; i < 26; ++i) {
-            if (diff[i] != -1) {
-                if (distance[i] != diff[i]) {
-                    return false;
-                }
+            if (dis[index] == -1) {
+                dis[index] = i;
+            } else if (i - dis[index] - 1 != distance[index]) {
+                return false;
             }
         }
         return true;
-
     }
 
     // 2401. 最长优雅子数组 (Longest Nice Subarray) 时间：O(n) 空间：O(1)
