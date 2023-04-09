@@ -2325,7 +2325,7 @@ public class Leetcode_7 {
         }
     }
 
-    // 214. 最短回文串 (Shortest Palindrome) --rabin-karp
+    // 214. 最短回文串 (Shortest Palindrome) --rabin karp
     public String shortestPalindrome(String s) {
         int n = s.length();
         int left = 0;
