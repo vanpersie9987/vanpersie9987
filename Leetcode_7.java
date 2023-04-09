@@ -2325,6 +2325,32 @@ public class Leetcode_7 {
         }
     }
 
+    // 214. 最短回文串 (Shortest Palindrome) --rabin-karp
+    public String shortestPalindrome(String s) {
+        int n = s.length();
+        int left = 0;
+        int right = 0;
+        int base = 31;
+        int mod = (int) (1e9 + 7);
+        int mul = 1;
+        int best = -1;
+        for (int i = 0; i < n; ++i) {
+            left = (int) (((long) left * base + s.charAt(i)) % mod);
+            right = (int) ((right + (long) mul * s.charAt(i)) % mod);
+            if (left == right) {
+                best = i;
+            }
+            mul = (int) ((long) mul * base % mod);
+        }
+        if (best == n - 1) {
+            return s;
+        }
+        StringBuilder res = new StringBuilder(s.substring(best + 1)).reverse();
+        return res + s;
+
+
+    }
+
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
 
