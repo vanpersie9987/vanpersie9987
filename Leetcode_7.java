@@ -2348,8 +2348,134 @@ public class Leetcode_7 {
         StringBuilder res = new StringBuilder(s.substring(best + 1)).reverse();
         return res + s;
 
+    }
+
+    // 363. 矩形区域不超过 K 的最大数值和 (Max Sum of Rectangle No Larger Than K)
+    public int maxSumSubmatrix(int[][] matrix, int k) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int res = Integer.MIN_VALUE;
+        for (int up = 0; up < m; ++up) {
+            int[] pre = new int[n];
+            for (int down = up; down < m; ++down) {
+                TreeSet<Integer> set = new TreeSet<>();
+                set.add(0);
+                int curPre = 0;
+                for (int j = 0; j < n; ++j) {
+                    pre[j] += matrix[down][j];
+                    curPre += pre[j];
+                    Integer ceiling = set.ceiling(curPre - k);
+                    if (ceiling != null) {
+                        res = Math.max(res, curPre - ceiling);
+                    }
+                    set.add(curPre);
+                }
+            }
+        }
+        return res;
 
     }
+
+    // 6361. 对角线上的质数 (Prime In Diagonal)
+    public int diagonalPrime(int[][] nums) {
+        int res = 0;
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            if (checkPrime(nums[i][i])) {
+                res = Math.max(res, nums[i][i]);
+            }
+            if (checkPrime(nums[i][n - i - 1])) {
+                res = Math.max(res, nums[i][n - i - 1]);
+            }
+        }
+        return res;
+
+    }
+
+    private boolean checkPrime(int num) {
+        for (int i = 2; i * i <= num; ++i) {
+            if (num % i == 0) {
+                return false;
+            }
+        }
+        return num != 1;
+    }
+
+    // 6360. 等值距离和 (Sum of Distances)
+    public long[] distance(int[] nums) {
+        int n = nums.length;
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            map.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i);
+        }
+        long[] res = new long[n];
+        for (int i = 0; i < n; ++i) {
+            List<Integer> list = map.getOrDefault(nums[i], new ArrayList<>());
+            if (list.size() <= 1) {
+                continue;
+            }
+            long sum = 0l;
+            for (int num : list) {
+                sum += num;
+            }
+            long pre = 0l;
+            for (int j = 0; j < list.size(); ++j) {
+                res[list.get(j)] = (long) list.get(j) * j - pre + sum - pre - (list.size() - j) * (long) list.get(j);
+                pre += list.get(j);
+            }
+            map.remove(nums[i]);
+        }
+        return res;
+
+    }
+    
+    // 6353. 网格图中最少访问的格子数 (Minimum Number of Visited Cells in a Grid)
+    public int minimumVisitedCells(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] dis = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(dis[i], Integer.MAX_VALUE);
+        }
+        dis[0][0] = 1;
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(dis[o1[0]][o1[1]], dis[o2[0]][o2[1]]);
+            }
+
+        });
+        q.offer(new int[] { 0, 0 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int d = dis[x][y];
+            if (x == m - 1 && y == n - 1) {
+                return d;
+            }
+            for (int k = y + 1; k <= Math.min(n - 1, grid[x][y] + y); ++k) {
+                if (d + 1 < dis[x][k]) {
+                    dis[x][k] = d + 1;
+                    q.offer(new int[] { x, k, d + 1 });
+                }
+            }
+            for (int k = x + 1; k <= Math.min(m - 1, grid[x][y] + x); ++k) {
+                if (d + 1 < dis[k][y]) {
+                    dis[k][y] = d + 1;
+                    q.offer(new int[] { k, y, d + 1 });
+                }
+            }
+        }
+        return -1;
+    }
+
+
+    // 372. 超级次方 (Super Pow)
+    // public int superPow(int a, int[] b) {
+
+    // }
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
@@ -2496,5 +2622,4 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
-
 }
