@@ -2500,6 +2500,24 @@ public class Leetcode_7 {
         return -1;
     }
 
+    // 1955. 统计特殊子序列的数目 (Count Number of Special Subsequences)
+    public int countSpecialSubsequences(int[] nums) {
+        final int MOD = (int) (1e9 + 7);
+        int[] f = new int[3];
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] == 0) {
+                f[0] = (f[0] * 2 + 1) % MOD;
+            } else if (nums[i] == 1) {
+                f[1] = (f[1] * 2 % MOD + f[0]) % MOD;
+            } else {
+                f[2] = (f[2] * 2 % MOD + f[1]) % MOD;
+            }
+        }
+        return f[2];
+
+    }
+    
+
     // 372. 超级次方 (Super Pow)
     // public int superPow(int a, int[] b) {
 
@@ -2650,4 +2668,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 }
