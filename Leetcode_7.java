@@ -18,8 +18,6 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.swing.ListModel;
-
 public class Leetcode_7 {
     public static void main(String[] args) {
         // int[] arr = { 1, 4, 1, 3 };
