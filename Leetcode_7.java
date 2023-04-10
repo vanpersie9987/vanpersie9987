@@ -2252,28 +2252,26 @@ public class Leetcode_7 {
         }
 
         public void push(int val) {
-            if (!notFullStacks.isEmpty() || !emptyStacks.isEmpty()) {
-                if (!notFullStacks.isEmpty() && !emptyStacks.isEmpty() && notFullStacks.firstKey() < emptyStacks.first()
-                        || emptyStacks.isEmpty()) {
-                    Integer notFullIndex = notFullStacks.firstKey();
-                    Stack<Integer> stack = notFullStacks.get(notFullIndex);
-                    stack.push(val);
-                    if (stack.size() == capacity) {
-                        fullStacks.put(notFullIndex, stack);
-                        notFullStacks.remove(notFullIndex);
-                    }
-                } else {
-                    int index = emptyStacks.first();
-                    Stack<Integer> stack = new Stack<>();
-                    stack.push(val);
-                    if (stack.size() == capacity) {
-                        fullStacks.put(index, stack);
-                    } else {
-                        notFullStacks.put(index, stack);
-                    }
-                    emptyStacks.remove(index);
+            if (!notFullStacks.isEmpty() && notFullStacks.firstKey() < emptyStacks.first()) {
+                Integer notFullIndex = notFullStacks.firstKey();
+                Stack<Integer> stack = notFullStacks.get(notFullIndex);
+                stack.push(val);
+                if (stack.size() == capacity) {
+                    fullStacks.put(notFullIndex, stack);
+                    notFullStacks.remove(notFullIndex);
                 }
+            } else {
+                int index = emptyStacks.first();
+                Stack<Integer> stack = new Stack<>();
+                stack.push(val);
+                if (stack.size() == capacity) {
+                    fullStacks.put(index, stack);
+                } else {
+                    notFullStacks.put(index, stack);
+                }
+                emptyStacks.remove(index);
             }
+
         }
 
         public int pop() {
@@ -2289,14 +2287,14 @@ public class Leetcode_7 {
                         emptyStacks.add(notFullIndex);
                     }
                 } else {
-                    Integer fullIndex = fullStacks.lastKey();
-                    Stack<Integer> stack = fullStacks.get(fullIndex);
+                    Integer index = fullStacks.lastKey();
+                    Stack<Integer> stack = fullStacks.get(index);
                     res = stack.pop();
-                    fullStacks.remove(fullIndex);
+                    fullStacks.remove(index);
                     if (stack.isEmpty()) {
-                        emptyStacks.add(fullIndex);
+                        emptyStacks.add(index);
                     } else {
-                        notFullStacks.put(fullIndex, stack);
+                        notFullStacks.put(index, stack);
                     }
                 }
 
