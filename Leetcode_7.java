@@ -18,6 +18,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.swing.ListModel;
+
 public class Leetcode_7 {
     public static void main(String[] args) {
         // int[] arr = { 1, 4, 1, 3 };
@@ -2376,6 +2378,35 @@ public class Leetcode_7 {
 
     }
 
+    // 363. 矩形区域不超过 K 的最大数值和 (Max Sum of Rectangle No Larger Than K)
+    // follow up： 行数远大于列数时
+    // follow up: What if the number of rows is much larger than the
+    // number of columns?
+    public int maxSumSubmatrix2(int[][] matrix, int k) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int res = Integer.MIN_VALUE;
+        for (int left = 0; left < n; ++left) {
+            int[] pre = new int[m];
+            for (int right = left; right < n; ++right) {
+                int curPre = 0;
+                TreeSet<Integer> set = new TreeSet<>();
+                set.add(0);
+                for (int i = 0; i < m; ++i) {
+                    pre[i] += matrix[i][right];
+                    curPre += pre[i];
+                    Integer ceiling = set.ceiling(curPre - k);
+                    if (ceiling != null) {
+                        res = Math.max(res, curPre - ceiling);
+                    }
+                    set.add(curPre);
+                }
+            }
+        }
+        return res;
+
+    }
+
     // 6361. 对角线上的质数 (Prime In Diagonal)
     public int diagonalPrime(int[][] nums) {
         int res = 0;
@@ -2428,7 +2459,7 @@ public class Leetcode_7 {
         return res;
 
     }
-    
+
     // 6353. 网格图中最少访问的格子数 (Minimum Number of Visited Cells in a Grid)
     public int minimumVisitedCells(int[][] grid) {
         int m = grid.length;
@@ -2470,7 +2501,6 @@ public class Leetcode_7 {
         }
         return -1;
     }
-
 
     // 372. 超级次方 (Super Pow)
     // public int superPow(int a, int[] b) {
