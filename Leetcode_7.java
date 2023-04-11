@@ -2603,6 +2603,9 @@ public class Leetcode_7 {
             return 1;
         }
         final int MOD = 1337;
+        // pow(5,123) 
+        // == pow(5, 3) * pow(5, 130)
+        // == pow(5, 3) * pow(pow(5, 13), 10)
         int part1 = pow372(a, b[i]) % MOD;
         int part2 = pow372(superPow372(a, b, i - 1), 10) % MOD;
         return part1 * part2 % MOD;
