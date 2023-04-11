@@ -2604,8 +2604,8 @@ public class Leetcode_7 {
         }
         final int MOD = 1337;
         // pow(5, 123) 
-        // == pow(5, 3) * pow(5, 130)
-        // == pow(5, 3) * pow(pow(5, 13), 10)
+        // == pow(5, 3) * pow(5, 120)
+        // == pow(5, 3) * pow(pow(5, 12), 10)
         int part1 = pow372(a, b[i]) % MOD;
         int part2 = pow372(dfs372(a, b, i - 1), 10) % MOD;
         return part1 * part2 % MOD;
