@@ -2595,10 +2595,10 @@ public class Leetcode_7 {
 
     // 372. 超级次方 (Super Pow)
     public int superPow(int a, int[] b) {
-        return superPow372(a, b, b.length - 1);
+        return dfs372(a, b, b.length - 1);
     }
 
-    private int superPow372(int a, int[] b, int i) {
+    private int dfs372(int a, int[] b, int i) {
         if (i < 0) {
             return 1;
         }
@@ -2607,7 +2607,7 @@ public class Leetcode_7 {
         // == pow(5, 3) * pow(5, 130)
         // == pow(5, 3) * pow(pow(5, 13), 10)
         int part1 = pow372(a, b[i]) % MOD;
-        int part2 = pow372(superPow372(a, b, i - 1), 10) % MOD;
+        int part2 = pow372(dfs372(a, b, i - 1), 10) % MOD;
         return part1 * part2 % MOD;
     }
 
