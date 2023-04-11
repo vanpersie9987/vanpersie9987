@@ -8274,15 +8274,37 @@ public class LeetCode_2 {
 
    }
 
-   // 1147. 段式回文 (Longest Chunked Palindrome Decomposition) --递归+贪心
-   public int longestDecomposition(String text) {
-      for (int i = 0; i < text.length() / 2; ++i) {
-         if (text.substring(0, i + 1).equals(text.subSequence(text.length() - i - 1, text.length()))) {
-            return 2 + longestDecomposition(text.substring(i + 1, text.length() - i - 1));
-         }
-      }
-      return text.length() > 0 ? 1 : 0;
+   // 1147. 段式回文 (Longest Chunked Palindrome Decomposition)
+   private char[] chars1147;
+   private int n1147;
 
+   public int longestDecomposition(String text) {
+      this.chars1147 = text.toCharArray();
+      this.n1147 = chars1147.length;
+      return dfs1147(0, n1147 - 1);
+
+   }
+
+   private int dfs1147(int i, int j) {
+      if (i > j) {
+         return 0;
+      }
+      int left = 0;
+      int right = 0;
+      int base = 31;
+      int mul = 1;
+      int mod = (int) (1e9 + 7);
+      while (i < j) {
+         left = (int) (((long) left * base + chars1147[i]) % mod);
+         right = (int) ((right + (long) mul * chars1147[j]) % mod);
+         if (left == right) {
+            return dfs1147(i + 1, j - 1) + 2;
+         }
+         mul = (int) (((long) mul * base) % mod);
+         ++i;
+         --j;
+      }
+      return 1;
    }
 
    // 2087. 网格图中机器人回家的最小代价 (Minimum Cost Homecoming of a Robot in a Grid)
