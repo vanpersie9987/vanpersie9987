@@ -2543,6 +2543,56 @@ public class Leetcode_7 {
 
     }
 
+    // 2577. 在网格图中访问一个格子的最少时间 (Minimum Time to Visit a Cell In a Grid)
+    public int minimumTime(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        if (grid[1][0] > 1 && grid[0][1] > 1) {
+            return -1;
+        }
+        int[][] dirs = { { 0, -1 }, { 0, 1 }, { 1, 0 }, { -1, 0 } };
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[2], o2[2]);
+            }
+
+        });
+        int[][] dis = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(dis[i], Integer.MAX_VALUE);
+        }
+        dis[0][0] = 0;
+        q.offer(new int[] { 0, 0, 0 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int d = cur[2];
+            if (d > dis[x][y]) {
+                continue;
+            }
+            if (x == m - 1 && y == n - 1) {
+                return d;
+            }
+            for (int[] dir : dirs) {
+                int nx = x + dir[0];
+                int ny = y + dir[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                    int nd = Math.max(grid[nx][ny], d + 1);
+                    nd += (nd - nx - ny) % 2;
+                    if (nd < dis[nx][ny]) {
+                        dis[nx][ny] = nd;
+                        q.offer(new int[] { nx, ny, nd });
+                    }
+                }
+            }
+        }
+        return -1;
+
+    }
+
 
     // 372. 超级次方 (Super Pow)
     // public int superPow(int a, int[] b) {
