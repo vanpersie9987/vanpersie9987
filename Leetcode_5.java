@@ -1539,27 +1539,25 @@ public class Leetcode_5 {
 
     }
 
-    // 6176. 出现最频繁的偶数元素
+    // 2404. 出现最频繁的偶数元素 (Most Frequent Even Element)
     public int mostFrequentEven(int[] nums) {
+        int res = -1;
         Map<Integer, Integer> map = new HashMap<>();
         for (int num : nums) {
-            if (num % 2 == 0) {
-                map.put(num, map.getOrDefault(num, 0) + 1);
+            if ((num & 1) == 0) {
+                map.merge(num, 1, Integer::sum);
             }
         }
-        if (map.isEmpty()) {
-            return -1;
-        }
-        int max = Collections.max(map.values());
-        int min = Integer.MAX_VALUE;
+        int freq = 0;
         for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            if (max == entry.getValue()) {
-                if (min > entry.getKey()) {
-                    min = entry.getKey();
-                }
+            if (entry.getValue() > freq) {
+                res = entry.getKey();
+                freq = entry.getValue();
+            } else if (entry.getValue() == freq && entry.getKey() < res) {
+                res = entry.getKey();
             }
         }
-        return min;
+        return res;
 
     }
 

@@ -2698,6 +2698,10 @@ public class Leetcode_7 {
         return memo1639[i][j] = (int) (((long) count * dfs1639(i + 1, j + 1) % MOD + dfs1639(i + 1, j) % MOD) % MOD);
     }
 
+    // 1643. 第 K 条最小指令 (Kth Smallest Instructions)
+    // public String kthSmallestPath(int[] destination, int k) {
+
+    // }
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
@@ -2844,4 +2848,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 }
