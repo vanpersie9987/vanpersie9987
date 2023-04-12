@@ -2626,6 +2626,35 @@ public class Leetcode_7 {
         return y * y % MOD;
     }
 
+    // 968. 监控二叉树 (Binary Tree Cameras)
+    private int res968;
+
+    public int minCameraCover(TreeNode root) {
+        int status = dfs968(root);
+        return status == 0 ? ++res968 : res968;
+    }
+
+    private int dfs968(TreeNode root) {
+        // 0：未被覆盖(当前节点未被照到)
+        // 1：已被覆盖(摄像头已经照到这个节点)
+        // 2：需放置摄像头
+        if (root == null) {
+            return 1;
+        }
+        // 00 01 10 11 02 20 22 12 21
+        int left = dfs968(root.left);
+        int right = dfs968(root.right);
+        if (left == 0 || right == 0) {
+            ++res968;
+            return 2;
+        }
+        if (left == 1 && right == 1) {
+            return 0;
+        }
+        return 1;
+    }
+
+
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
 
@@ -2771,4 +2800,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 }
