@@ -2622,7 +2622,8 @@ public class Leetcode_7 {
         if (b % 2 == 1) {
             return a * pow372(a, b - 1) % MOD;
         }
-        return pow372(a, b / 2) * pow372(a, b / 2) % MOD;
+        int y = pow372(a, b / 2);
+        return y * y % MOD;
     }
 
     // 2402. 会议室 III (Meeting Rooms III)
