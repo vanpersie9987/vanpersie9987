@@ -5561,15 +5561,15 @@ public class LeetCode_4 {
 
     }
 
-    // 91. 解码方法 (Decode Ways) --记忆化搜索
+    // 91. 解码方法 (Decode Ways)
     private int[] memo91;
-    private String s91;
+    private char[] arr;
 
     public int numDecodings4(String s) {
         if (s.charAt(0) == '0') {
             return 0;
         }
-        this.s91 = s;
+        this.arr = s.toCharArray();
         int n = s.length();
         memo91 = new int[n];
         Arrays.fill(memo91, -1);
@@ -5578,31 +5578,33 @@ public class LeetCode_4 {
     }
 
     private int dfs91(int i) {
-        if (i <= 0) {
+        if (i < 0) {
             return 1;
         }
         if (memo91[i] != -1) {
             return memo91[i];
         }
         int res = 0;
-        if (s91.charAt(i) == '0') {
-            if (i > 0 && (s91.charAt(i - 1) == '1' || s91.charAt(i - 1) == '2')) {
-                res += dfs91(i - 2);
-            } else {
-                return 0;
+        char c = arr[i];
+        if (c >= '0' && c <= '6') {
+            if (c != '0') {
+                res += dfs91(i - 1);
             }
-        } else if (s91.charAt(i) >= '1' && s91.charAt(i) <= '6') {
-            res += dfs91(i - 1);
-            if (i > 0 && (s91.charAt(i - 1) == '1' || s91.charAt(i - 1) == '2')) {
-                res += dfs91(i - 2);
+            if (i > 0) {
+                char pre = arr[i - 1];
+                if (pre == '1' || pre == '2') {
+                    res += dfs91(i - 2);
+                }
             }
         } else {
             res += dfs91(i - 1);
-            if (i > 0 && s91.charAt(i - 1) == '1') {
-                res += dfs91(i - 2);
+            if (i > 0) {
+                char pre = arr[i - 1];
+                if (pre == '1') {
+                    res += dfs91(i - 2);
+                }
             }
         }
-
         return memo91[i] = res;
     }
 
