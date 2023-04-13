@@ -16321,28 +16321,37 @@ public class LeetCodeText {
 
     // 1023. 驼峰式匹配 (Camelcase Matching)
     public List<Boolean> camelMatch(String[] queries, String pattern) {
-        List<Boolean> list = new ArrayList<>();
+        List<Boolean> res = new ArrayList<>();
         for (String query : queries) {
-            list.add(isMatch(query, pattern));
+            res.add(check1023(query, pattern));
         }
-        return list;
+        return res;
 
     }
 
-    private boolean isMatch(String query, String pattern) {
+    private boolean check1023(String query, String pattern) {
+        int m = query.length();
+        int n = pattern.length();
+        if (m < n) {
+            return false;
+        }
         int i = 0;
         int j = 0;
-        while (i < query.length()) {
-            if (j < pattern.length() && query.charAt(i) == pattern.charAt(j)) {
+        while (i < m && j < n) {
+            if (query.charAt(i) == pattern.charAt(j)) {
                 ++i;
                 ++j;
-            } else if (Character.isUpperCase(query.charAt(i))) {
-                return false;
-            } else {
-                ++i;
+                continue;
             }
+            if (Character.isUpperCase(query.charAt(i))) {
+                return false;
+            }
+            ++i;
         }
-        return i == query.length() && j == pattern.length();
+        while (i < m && Character.isLowerCase(query.charAt(i))) {
+            ++i;
+        }
+        return i == m && j == n;
     }
 
     // 剑指 Offer II 018. 有效的回文
