@@ -6346,17 +6346,15 @@ public class LeetCodeText {
 
     }
 
+    // 5. 最长回文子串 (Longest Palindromic Substring)
     // 中心扩展算法
-    public String longestPalindrome2(final String s) {
-        if (s == null || s.length() < 1) {
-            return "";
-        }
+    public String longestPalindrome2(String s) {
         int left = 0;
         int right = 0;
         for (int i = 0; i < s.length(); ++i) {
-            final int len1 = calculateConsecutive(s, i, i);
-            final int len2 = calculateConsecutive(s, i, i + 1);
-            final int len = Math.max(len1, len2);
+            int len1 = calculateConsecutive(s, i, i);
+            int len2 = calculateConsecutive(s, i, i + 1);
+            int len = Math.max(len1, len2);
             if (len > right - left) {
                 left = i - (len - 1) / 2;
                 right = i + len / 2;
@@ -6482,35 +6480,6 @@ public class LeetCodeText {
         }
         return sb.toString();
 
-    }
-
-    public String longestPalindrome3(final String s) {
-        if (s == null || s.length() < 1) {
-            return "";
-        }
-        int left = 0;
-        int right = 0;
-        for (int i = 0; i < s.length(); ++i) {
-            final int len1 = checkPalindrome2(s, i, i);
-            final int len2 = checkPalindrome2(s, i, i + 1);
-            final int len = Math.max(len1, len2);
-            if (len > right - left + 1) {
-                left = i - (len - 1) / 2;
-                right = i + len / 2;
-            }
-        }
-        return s.substring(left, right + 1);
-
-    }
-
-    private int checkPalindrome2(final String s, final int left, final int right) {
-        int l = left;
-        int r = right;
-        while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
-            --l;
-            ++r;
-        }
-        return r - l - 1;
     }
 
     public int romanToInt(final String s) {
