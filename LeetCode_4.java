@@ -8798,14 +8798,14 @@ public class LeetCode_4 {
     // 233. 数字 1 的个数 (Number of Digit One) --数位dfs (本题可以不要isNum)
     private char[] arr233;
     private int k233;
-    private int[][] memo;
+    private int[][] memo233;
 
     public int countDigitOne2(int n) {
         this.arr233 = String.valueOf(n).toCharArray();
         this.k233 = arr233.length;
-        this.memo = new int[k233][k233];
+        this.memo233 = new int[k233][k233];
         for (int i = 0; i < k233; ++i) {
-            Arrays.fill(memo[i], -1);
+            Arrays.fill(memo233[i], -1);
         }
         return dfs233(0, 0, true, false);
 
@@ -8815,8 +8815,8 @@ public class LeetCode_4 {
         if (i == k233) {
             return count;
         }
-        if (!isLimit && isNum && memo[i][count] != -1) {
-            return memo[i][count];
+        if (!isLimit && isNum && memo233[i][count] != -1) {
+            return memo233[i][count];
         }
         int res = 0;
         if (!isNum) {
@@ -8827,7 +8827,7 @@ public class LeetCode_4 {
             res += dfs233(i + 1, count + (d == 1 ? 1 : 0), isLimit && d == up, true);
         }
         if (!isLimit && isNum) {
-            memo[i][count] = res;
+            memo233[i][count] = res;
         }
         return res;
     }
@@ -8943,6 +8943,32 @@ public class LeetCode_4 {
         }
         return dp[target];
 
+    }
+    
+    // 1049. 最后一块石头的重量 II (Last Stone Weight II)
+    private int[] stones1049;
+    private int n1049;
+    private int[][] memo1049;
+
+    public int lastStoneWeightII2(int[] stones) {
+        this.n1049 = stones.length;
+        this.stones1049 = stones;
+        this.memo1049 = new int[n1049][3001];
+        for (int i = 0; i < n1049; ++i) {
+            Arrays.fill(memo1049[i], -1);
+        }
+        return dfs1049(0, 0);
+
+    }
+
+    private int dfs1049(int i, int sum) {
+        if (i == n1049) {
+            return Math.abs(sum);
+        }
+        if (memo1049[i][Math.abs(sum)] != -1) {
+            return memo1049[i][Math.abs(sum)];
+        }
+        return memo1049[i][Math.abs(sum)] = Math.min(dfs1049(i + 1, sum + stones1049[i]), dfs1049(i + 1, sum - stones1049[i]));
     }
 
     // 494. 目标和 (Target Sum)
