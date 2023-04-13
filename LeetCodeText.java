@@ -6206,18 +6206,6 @@ public class LeetCodeText {
 
     }
 
-    public int longestPalindrome(final String s) {
-        final int[] counts = new int[60];
-        for (final char c : s.toCharArray()) {
-            ++counts[c - 'A'];
-        }
-        int count = 0;
-        for (int i = 0; i < counts.length; ++i) {
-            count += counts[i] - (counts[i] & 1);
-        }
-        return count < s.length() ? count + 1 : count;
-    }
-
     public int[] getLeastNumbers(final int[] arr, final int k) {
         if (arr == null || arr.length == 0 || k == 0) {
             return new int[] {};
@@ -6333,6 +6321,28 @@ public class LeetCodeText {
             }
         }
         return count;
+
+    }
+
+    // 5. 最长回文子串 (Longest Palindromic Substring)
+    public String longestPalindrome(String s) {
+        int n = s.length();
+        char[] arr = s.toCharArray();
+        boolean[][] isValid = new boolean[n][n];
+        int left = 0;
+        int right = -1;
+        for (int i = n - 1; i >= 0; --i) {
+            for (int j = i; j < n; ++j) {
+                if (arr[i] == arr[j] && (j - i < 2 || isValid[i + 1][j - 1])) {
+                    isValid[i][j] = true;
+                    if (j - i > right - left) {
+                        left = i;
+                        right = j;
+                    }
+                }
+            }
+        }
+        return s.substring(left, right + 1);
 
     }
 
