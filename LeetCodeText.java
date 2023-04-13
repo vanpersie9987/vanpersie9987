@@ -6330,7 +6330,7 @@ public class LeetCodeText {
         char[] arr = s.toCharArray();
         boolean[][] isValid = new boolean[n][n];
         int left = 0;
-        int right = -1;
+        int right = 0;
         for (int i = n - 1; i >= 0; --i) {
             for (int j = i; j < n; ++j) {
                 if (arr[i] == arr[j] && (j - i < 2 || isValid[i + 1][j - 1])) {
