@@ -2787,6 +2787,7 @@ public class Leetcode_7 {
                 } else if (pre == '2') {
                     res = (int) (res + (long) dfs639(i - 2) * 6 % MOD) % MOD;
                 } else if (pre == '*') {
+                    // 「**」 可以组成 11-19、21-26 共15种状态
                     res = (int) (res + (long) dfs639(i - 2) * 15 % MOD) % MOD;
                 }
             }
