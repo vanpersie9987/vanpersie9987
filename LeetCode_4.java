@@ -8923,27 +8923,6 @@ public class LeetCode_4 {
         return sum - 2 * dp[target];
 
     }
-
-    // 416. 分割等和子集 (Partition Equal Subset Sum)
-    // 剑指 Offer II 101. 分割等和子集
-    // -- 0-1背包（至多选择一次；外层循环：nums ； 内层循环：target；倒序遍历)
-    // 存在问题(boolean)：dp[i]=dp[i]||dp[i-num];
-    public boolean canPartition(int[] nums) {
-        int sum = Arrays.stream(nums).sum();
-        if (sum % 2 == 1) {
-            return false;
-        }
-        int target = sum / 2;
-        boolean[] dp = new boolean[target + 1];
-        dp[0] = true;
-        for (int num : nums) {
-            for (int i = target; i >= num; --i) {
-                dp[i] = dp[i] || dp[i - num];
-            }
-        }
-        return dp[target];
-
-    }
     
     // 1049. 最后一块石头的重量 II (Last Stone Weight II)
     private int[] stones1049;
@@ -8969,6 +8948,62 @@ public class LeetCode_4 {
             return memo1049[i][Math.abs(sum)];
         }
         return memo1049[i][Math.abs(sum)] = Math.min(dfs1049(i + 1, sum + stones1049[i]), dfs1049(i + 1, sum - stones1049[i]));
+    }
+
+    // 416. 分割等和子集 (Partition Equal Subset Sum)
+    // 剑指 Offer II 101. 分割等和子集
+    // -- 0-1背包（至多选择一次；外层循环：nums ； 内层循环：target；倒序遍历)
+    // 存在问题(boolean)：dp[i]=dp[i]||dp[i-num];
+    public boolean canPartition(int[] nums) {
+        int sum = Arrays.stream(nums).sum();
+        if (sum % 2 == 1) {
+            return false;
+        }
+        int target = sum / 2;
+        boolean[] dp = new boolean[target + 1];
+        dp[0] = true;
+        for (int num : nums) {
+            for (int i = target; i >= num; --i) {
+                dp[i] = dp[i] || dp[i - num];
+            }
+        }
+        return dp[target];
+
+    }
+
+    // 416. 分割等和子集 (Partition Equal Subset Sum)
+    // 剑指 Offer II 101. 分割等和子集
+    private int n416;
+    private int[] nums416;
+    private int sum416;
+    private Boolean[][] memo416;
+
+    public boolean canPartition2(int[] nums) {
+        this.n416 = nums.length;
+        this.nums416 = nums;
+        this.sum416 = Arrays.stream(nums).sum();
+        if (sum416 % 2 == 1) {
+            return false;
+        }
+        this.memo416 = new Boolean[n416][sum416 / 2 + 1];
+        return dfs416(0, 0);
+
+    }
+
+    private boolean dfs416(int i, int curSum) {
+        if (i == n416) {
+            return curSum * 2 == sum416;
+        }
+        if (curSum * 2 > sum416) {
+            return false;
+        }
+        if (curSum * 2 == sum416) {
+            return true;
+        }
+        if (memo416[i][curSum] != null) {
+            return memo416[i][curSum];
+        }
+        return memo416[i][curSum] = dfs416(i + 1, curSum + nums416[i]) || dfs416(i + 1, curSum);
     }
 
     // 494. 目标和 (Target Sum)
