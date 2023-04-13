@@ -2605,7 +2605,7 @@ public class Leetcode_7 {
             return 1;
         }
         final int MOD = 1337;
-        // pow(5, 123) 
+        // pow(5, 123)
         // == pow(5, 3) * pow(5, 120)
         // == pow(5, 3) * pow(pow(5, 12), 10)
         int part1 = pow372(a, b[i]);
@@ -2728,6 +2728,70 @@ public class Leetcode_7 {
         }
         return res.toString();
 
+    }
+
+    // 639. 解码方法 II (Decode Ways II)
+    private int n639;
+    private char[] arr639;
+    private int[] memo639;
+
+    public int numDecodings(String s) {
+        this.arr639 = s.toCharArray();
+        this.n639 = s.length();
+        if (s.charAt(0) == '0') {
+            return 0;
+        }
+        this.memo639 = new int[n639];
+        Arrays.fill(memo639, -1);
+        return dfs639(n639 - 1);
+    }
+
+    private int dfs639(int i) {
+        if (i < 0) {
+            return 1;
+        }
+        if (memo639[i] != -1) {
+            return memo639[i];
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = 0;
+        char c = arr639[i];
+        if (c >= '0' && c <= '6') {
+            if (c != '0') {
+                res = (res + dfs639(i - 1)) % MOD;
+            }
+            if (i > 0) {
+                char pre = arr639[i - 1];
+                if (pre == '1' || pre == '2' || pre == '*') {
+                    if (pre == '*') {
+                        res = (res + dfs639(i - 2) * 2 % MOD) % MOD;
+                    } else {
+                        res = (res + dfs639(i - 2)) % MOD;
+                    }
+                }
+            }
+        } else if (c >= '7' && c <= '9') {
+            res = (res + dfs639(i - 1)) % MOD;
+            if (i > 0) {
+                char pre = arr639[i - 1];
+                if (pre == '1' || pre == '*') {
+                    res = (res + dfs639(i - 2)) % MOD;
+                }
+            }
+        } else {
+            res = (int) (res + (long) dfs639(i - 1) * 9 % MOD) % MOD;
+            if (i > 0) {
+                char pre = arr639[i - 1];
+                if (pre == '1') {
+                    res = (int) (res + (long) dfs639(i - 2) * 9 % MOD) % MOD;
+                } else if (pre == '2') {
+                    res = (int) (res + (long) dfs639(i - 2) * 6 % MOD) % MOD;
+                } else if (pre == '*') {
+                    res = (int) (res + (long) dfs639(i - 2) * 15 % MOD) % MOD;
+                }
+            }
+        }
+        return memo639[i] = res;
     }
 
 
