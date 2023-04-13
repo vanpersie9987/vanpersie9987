@@ -2794,12 +2794,6 @@ public class Leetcode_7 {
         return memo639[i] = res;
     }
 
-
-    // 1643. 第 K 条最小指令 (Kth Smallest Instructions)
-    // public String kthSmallestPath(int[] destination, int k) {
-
-    // }
-
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
 
