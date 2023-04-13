@@ -2699,6 +2699,39 @@ public class Leetcode_7 {
     }
 
     // 1643. 第 K 条最小指令 (Kth Smallest Instructions)
+    public String kthSmallestPath(int[] destination, int k) {
+        int h = destination[1];
+        int v = destination[0];
+        // 组合数
+        int[][] comp = new int[h + v][h];
+        for (int i = 0; i < h + v; ++i) {
+            for (int j = 0; j <= i && j < h; ++j) {
+                comp[i][j] = j == 0 ? 1 : (comp[i - 1][j - 1] + comp[i - 1][j]);
+            }
+        }
+        StringBuilder res = new StringBuilder();
+        while (h + v > 0) {
+            if (h > 0) {
+                int o = comp[h + v - 1][h - 1];
+                if (k > o) {
+                    res.append("V");
+                    --v;
+                    k -= o;
+                } else {
+                    res.append("H");
+                    --h;
+                }
+            } else {
+                res.append("V");
+                --v;
+            }
+        }
+        return res.toString();
+
+    }
+
+
+    // 1643. 第 K 条最小指令 (Kth Smallest Instructions)
     // public String kthSmallestPath(int[] destination, int k) {
 
     // }
