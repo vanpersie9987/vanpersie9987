@@ -21,6 +21,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import javax.xml.crypto.KeySelector.Purpose;
+
 public class LeetCode_4 {
     public static void main(String[] args) {
         // String[] strings = { "mobile", "mouse", "moneypot", "monitor", "mousepad" };
@@ -9025,6 +9027,40 @@ public class LeetCode_4 {
         }
         return dp[neg];
 
+    }
+
+    // 494. 目标和 (Target Sum)
+    // 剑指 Offer II 102. 加减的目标值
+    private int[] nums494;
+    private int[][] memo494;
+
+    public int findTargetSumWays2(int[] nums, int target) {
+        this.nums494 = nums;
+        int n = nums.length;
+        target += Arrays.stream(nums).sum();
+        if (target < 0 || target % 2 != 0) {
+            return 0;
+        }
+        target /= 2;
+        this.memo494 = new int[n][target + 1];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo494[i], -1);
+        }
+        return dfs(n - 1, target);
+
+    }
+
+    private int dfs(int i, int c) {
+        if (i < 0) {
+            return c == 0 ? 1 : 0;
+        }
+        if (memo494[i][c] != -1) {
+            return memo494[i][c];
+        }
+        if (c < nums494[i]) {
+            return memo494[i][c] = dfs(i - 1, c);
+        }
+        return memo494[i][c] = dfs(i - 1, c - nums494[i]) + dfs(i - 1, c);
     }
 
     // 279. 完全平方数 (Perfect Squares) --记忆化搜索
