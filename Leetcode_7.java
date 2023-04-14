@@ -2817,6 +2817,31 @@ public class Leetcode_7 {
         }
     }
 
+    // 699. 掉落的方块 (Falling Squares) --还需掌握 有续集合
+    public List<Integer> fallingSquares(int[][] positions) {
+        int n = positions.length;
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            int left1 = positions[i][0];
+            int right1 = positions[i][0] + positions[i][1];
+            int height = positions[i][1];
+            for (int j = 0; j < i; ++j) {
+                int left2 = positions[j][0];
+                int right2 = positions[j][0] + positions[j][1];
+                if (right1 <= left2 || left1 >= right2) {
+                    continue;
+                }
+                height = Math.max(height, res.get(j) + positions[i][1]);
+            }
+            res.add(height);
+        }
+        for (int i = 1; i < n; ++i) {
+            res.set(i, Math.max(res.get(i - 1), res.get(i)));
+        }
+        return res;
+
+    }
+
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
