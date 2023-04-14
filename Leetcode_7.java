@@ -2795,6 +2795,29 @@ public class Leetcode_7 {
         return memo639[i] = res;
     }
 
+    // 732. 我的日程安排表 III (My Calendar III) --差分 还需掌握 线段树
+    class MyCalendarThree {
+        private TreeMap<Integer, Integer> map;
+
+        public MyCalendarThree() {
+            map = new TreeMap<>();
+
+        }
+
+        public int book(int startTime, int endTime) {
+            map.merge(startTime, 1, Integer::sum);
+            map.merge(endTime, -1, Integer::sum);
+            int max = 0;
+            int cur = 0;
+            for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+                cur += entry.getValue();
+                max = Math.max(max, cur);
+            }
+            return max;
+        }
+    }
+
+
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
 
@@ -2940,4 +2963,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 }
