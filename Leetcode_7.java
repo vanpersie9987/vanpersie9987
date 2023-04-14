@@ -2817,7 +2817,7 @@ public class Leetcode_7 {
         }
     }
 
-    // 699. 掉落的方块 (Falling Squares) --还需掌握 有续集合
+    // 699. 掉落的方块 (Falling Squares) --还需掌握 有续集合、线段树
     public List<Integer> fallingSquares(int[][] positions) {
         int n = positions.length;
         List<Integer> res = new ArrayList<>();
