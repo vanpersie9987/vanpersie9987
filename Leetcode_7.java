@@ -14,7 +14,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -1780,10 +1780,10 @@ public class Leetcode_7 {
     class MovieRentingSystem {
         // 借出的电影
         // key : price
-        private TreeMap<Integer, TreeMap<Integer, TreeSet<Integer>>> loan;
+        private TreeMap<Integer, TreeMap<Integer, List<Integer>>> loan;
         // 未借出的电影
         // key : movie
-        private TreeMap<Integer, TreeSet<Bean>> mapMovie;
+        private TreeMap<Integer, List<Bean>> mapMovie;
         // key : shop
         private Map<Integer, Map<Integer, Integer>> mapShop;
 
@@ -1831,7 +1831,7 @@ public class Leetcode_7 {
                 int shop = e[0];
                 int movie = e[1];
                 int price = e[2];
-                mapMovie.computeIfAbsent(movie, k -> new TreeSet<>()).add(new Bean(shop, movie, price));
+                mapMovie.computeIfAbsent(movie, k -> new List<>()).add(new Bean(shop, movie, price));
                 mapShop.computeIfAbsent(shop, k -> new HashMap<>()).put(movie, price);
                 mapData.put(new Bean(shop, movie, price), price);
             }
@@ -1840,7 +1840,7 @@ public class Leetcode_7 {
 
         public List<Integer> search(int movie) {
             List<Integer> res = new ArrayList<>();
-            TreeSet<Bean> set = mapMovie.getOrDefault(movie, new TreeSet<>());
+            List<Bean> set = mapMovie.getOrDefault(movie, new List<>());
             for (Bean b : set) {
                 res.add(b.shop);
                 if (res.size() == 5) {
@@ -1857,35 +1857,35 @@ public class Leetcode_7 {
             map.remove(movie);
 
             // 借走 movie
-            TreeSet<Bean> set = mapMovie.getOrDefault(movie, new TreeSet<>());
+            List<Bean> set = mapMovie.getOrDefault(movie, new List<>());
             Bean removed = new Bean(shop, movie, price);
             set.remove(removed);
 
             // 借出的电影
-            loan.computeIfAbsent(price, k -> new TreeMap<>()).computeIfAbsent(shop, k -> new TreeSet<>()).add(movie);
+            loan.computeIfAbsent(price, k -> new TreeMap<>()).computeIfAbsent(shop, k -> new List<>()).add(movie);
         }
 
         public void drop(int shop, int movie) {
             // 从已借出的还走
             Bean b = new Bean(shop, movie, 0);
             int price = mapData.get(b);
-            TreeMap<Integer, TreeSet<Integer>> map = loan.getOrDefault(price, new TreeMap<>());
-            TreeSet<Integer> movies = map.getOrDefault(shop, new TreeSet<>());
+            TreeMap<Integer, List<Integer>> map = loan.getOrDefault(price, new TreeMap<>());
+            List<Integer> movies = map.getOrDefault(shop, new List<>());
             movies.remove(movie);
 
             // 把已借出的还到商店
             Map<Integer, Integer> s = mapShop.getOrDefault(shop, new HashMap<>());
             s.put(movie, price);
 
-            TreeSet<Bean> m = mapMovie.getOrDefault(movie, new TreeSet<>());
+            List<Bean> m = mapMovie.getOrDefault(movie, new List<>());
             m.add(new Bean(shop, movie, price));
 
         }
 
         public List<List<Integer>> report() {
             List<List<Integer>> res = new ArrayList<>();
-            for (TreeMap<Integer, TreeSet<Integer>> shops : loan.values()) {
-                for (Map.Entry<Integer, TreeSet<Integer>> movies : shops.entrySet()) {
+            for (TreeMap<Integer, List<Integer>> shops : loan.values()) {
+                for (Map.Entry<Integer, List<Integer>> movies : shops.entrySet()) {
                     int shop = movies.getKey();
                     for (int movie : movies.getValue()) {
                         res.add(List.of(shop, movie));
@@ -2236,13 +2236,13 @@ public class Leetcode_7 {
         private int capacity;
         private TreeMap<Integer, Stack<Integer>> fullStacks;
         private TreeMap<Integer, Stack<Integer>> notFullStacks;
-        private TreeSet<Integer> emptyStacks;
+        private List<Integer> emptyStacks;
 
         public DinnerPlates(int capacity) {
             this.capacity = capacity;
             this.fullStacks = new TreeMap<>();
             this.notFullStacks = new TreeMap<>();
-            this.emptyStacks = new TreeSet<>();
+            this.emptyStacks = new List<>();
             int stacks = 200000 / capacity + 1;
             for (int i = 0; i <= stacks; ++i) {
                 emptyStacks.add(i);
@@ -2356,7 +2356,7 @@ public class Leetcode_7 {
         for (int up = 0; up < m; ++up) {
             int[] pre = new int[n];
             for (int down = up; down < m; ++down) {
-                TreeSet<Integer> set = new TreeSet<>();
+                List<Integer> set = new List<>();
                 set.add(0);
                 int curPre = 0;
                 for (int j = 0; j < n; ++j) {
@@ -2386,7 +2386,7 @@ public class Leetcode_7 {
             int[] pre = new int[m];
             for (int right = left; right < n; ++right) {
                 int curPre = 0;
-                TreeSet<Integer> set = new TreeSet<>();
+                List<Integer> set = new List<>();
                 set.add(0);
                 for (int i = 0; i < m; ++i) {
                     pre[i] += matrix[i][right];
@@ -2889,6 +2889,111 @@ public class Leetcode_7 {
 
     }
 
+    // 1157. 子数组中占绝大多数的元素 (Online Majority Element In Subarray)
+    class MajorityChecker {
+        private Map<Integer, List<Integer>> valToIndex;
+        private List<int[]> sizeToVal;
+
+        public MajorityChecker(int[] arr) {
+            valToIndex = new HashMap<>();
+            sizeToVal = new ArrayList<>();
+
+            for (int i = 0; i < arr.length; ++i) {
+                valToIndex.computeIfAbsent(arr[i], k -> new ArrayList<>()).add(i);
+            }
+            for (Map.Entry<Integer, List<Integer>> entry : valToIndex.entrySet()) {
+                int size = entry.getValue().size();
+                int val = entry.getKey();
+                sizeToVal.add(new int[] { size, val });
+            }
+            Collections.sort(sizeToVal, new Comparator<int[]>() {
+
+                @Override
+                public int compare(int[] o1, int[] o2) {
+                    return Integer.compare(o2[0], o1[0]);
+                }
+
+            });
+        }
+
+        public int query(int left, int right, int threshold) {
+            for (int[] item : sizeToVal) {
+                int size = item[0];
+                int val = item[1];
+                if (size < threshold) {
+                    return -1;
+                }
+                int ceiling = binarySearchCeiling(valToIndex.get(val), left);
+                if (ceiling == -1) {
+                    continue;
+                }
+                int floor = binarySearchFloor(valToIndex.get(val), right);
+                if (floor == -1) {
+                    continue;
+                }
+                if (floor - ceiling + 1 >= threshold) {
+                    return val;
+                }
+            }
+            return -1;
+        }
+
+        // 找排序list中 <= target 的最大值对应的索引
+        private int binarySearchFloor(List<Integer> list, int target) {
+            if (list == null || list.isEmpty()) {
+                return -1;
+            }
+            int n = list.size();
+            if (list.get(0) > target) {
+                return -1;
+            }
+            if (list.get(n - 1) <= target) {
+                return n - 1;
+            }
+            int res = -1;
+            int left = 0;
+            int right = n - 1;
+            while (left <= right) {
+                int mid = left + ((right - left) >> 1);
+                if (list.get(mid) <= target) {
+                    res = mid;
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+            return res;
+        }
+
+        // 找排序list中 >= target 的最小值对应的索引
+        private int binarySearchCeiling(List<Integer> list, int target) {
+            if (list == null || list.isEmpty()) {
+                return -1;
+            }
+            int n = list.size();
+            if (list.get(0) >= target) {
+                return 0;
+            }
+            if (list.get(n - 1) < target) {
+                return -1;
+            }
+            int res = -1;
+            int left = 0;
+            int right = n - 1;
+            while (left <= right) {
+                int mid = left + ((right - left) >> 1);
+                if (list.get(mid) >= target) {
+                    res = mid;
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            return res;
+        }
+    }
+
+
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
 
@@ -3034,4 +3139,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 }
