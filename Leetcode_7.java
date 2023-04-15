@@ -2889,7 +2889,7 @@ public class Leetcode_7 {
 
     }
 
-    // 1157. 子数组中占绝大多数的元素 (Online Majority Element In Subarray)
+    // 1157. 子数组中占绝大多数的元素 (Online Majority Element In Subarray) -- 还需掌握 线段树
     class MajorityChecker {
         private Map<Integer, List<Integer>> valToIndex;
         private List<int[]> sizeToVal;
