@@ -2842,6 +2842,52 @@ public class Leetcode_7 {
 
     }
 
+    // 1851. 包含每个查询的最小区间 (Minimum Interval to Include Each Query)
+    public int[] minInterval(int[][] intervals, int[] queries) {
+        int n = queries.length;
+        int[] res = new int[n];
+        Arrays.fill(res, -1);
+        Arrays.sort(intervals, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+        });
+        Integer[] ids = IntStream.range(0, n).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(queries[o1], queries[o2]);
+            }
+
+        });
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[1] - o1[0], o2[1] - o2[0]);
+            }
+
+        });
+        int i = 0;
+        for (int id : ids) {
+            int x = queries[id];
+            while (i < intervals.length && intervals[i][0] <= x) {
+                q.offer(intervals[i]);
+                ++i;
+            }
+            while (!q.isEmpty() && q.peek()[1] < x) {
+                q.poll();
+            }
+            if (!q.isEmpty()) {
+                res[id] = q.peek()[1] - q.peek()[0] + 1;
+            }
+        }
+        return res;
+
+    }
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
@@ -2988,5 +3034,4 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
-
 }
