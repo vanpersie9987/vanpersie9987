@@ -3405,22 +3405,23 @@ public class LeetCode_2 {
 
    }
 
-   // 3. 无重复字符的最长子串 (Longest Substring Without Repeating Characters) --滑动窗口
+   // 3. 无重复字符的最长子串 (Longest Substring Without Repeating Characters)
    // 剑指 Offer 48. 最长不含重复字符的子字符串
    // 剑指 Offer II 016. 不含重复字符的最长子字符串
    public int lengthOfLongestSubstring(String s) {
-      Set<Character> set = new HashSet<>();
+      int[] counts = new int[128];
       int res = 0;
-      char[] chars = s.toCharArray();
       int left = 0;
       int right = 0;
-      while (right < chars.length) {
-         if (set.add(chars[right])) {
-            res = Math.max(res, right - left + 1);
-            ++right;
-         } else {
-            set.remove(chars[left++]);
+      char[] arr = s.toCharArray();
+      int n = s.length();
+      while (right < n) {
+         ++counts[arr[right]];
+         while (counts[arr[right]] > 1) {
+            --counts[arr[left++]];
          }
+         res = Math.max(res, right - left + 1);
+         ++right;
       }
       return res;
    }
