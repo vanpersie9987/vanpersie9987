@@ -1761,29 +1761,24 @@ public class Leetcode_6 {
     public int maxAncestorDiff(TreeNode root) {
         dfs1026(root);
         return res1026;
-
     }
 
-    private int[] dfs1026(TreeNode node) {
-        if (node == null) {
-            return new int[] { -1, -1 };
+    private int[] dfs1026(TreeNode root) {
+        int min = root.val;
+        int max = root.val;
+        if (root.left != null) {
+            int[] left = dfs1026(root.left);
+            min = Math.min(min, left[0]);
+            max = Math.max(max, left[1]);
         }
-        int x = node.val;
-        int[] left = dfs1026(node.left);
-        if (left[0] == -1) {
-            left[0] = left[1] = node.val;
+        if (root.right != null) {
+            int[] right = dfs1026(root.right);
+            min = Math.min(min, right[0]);
+            max = Math.max(max, right[1]);
         }
-        res1026 = Math.max(res1026, Math.max(Math.abs(left[1] - x), Math.abs(left[0] - x)));
-        int[] right = dfs1026(node.right);
-        if (right[0] == -1) {
-            right[0] = right[1] = node.val;
-        }
-        res1026 = Math.max(res1026, Math.max(Math.abs(right[1] - x), Math.abs(right[0] - x)));
-
-        int min = Math.min(x, Math.min(left[0], right[0]));
-        int max = Math.max(x, Math.max(left[1], right[1]));
+        res1026 = Math.max(res1026, Math.abs(root.val - min));
+        res1026 = Math.max(res1026, Math.abs(root.val - max));
         return new int[] { min, max };
-
     }
 
     // 2049. 统计最高分的节点数目 (Count Nodes With the Highest Score)

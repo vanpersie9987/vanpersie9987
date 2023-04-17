@@ -3304,6 +3304,31 @@ public class Leetcode_7 {
         return memo1621[i][count] = res;
     }
 
+    // 1889. 装包裹的最小浪费空间 (Minimum Space Wasted From Packaging)
+    // public int minWastedSpace(int[] packages, int[][] boxes) {
+
+    // }
+
+    // 715. Range 模块 (Range Module)
+    // class RangeModule {
+
+    // public RangeModule() {
+
+    // }
+
+    // public void addRange(int left, int right) {
+
+    // }
+
+    // public boolean queryRange(int left, int right) {
+
+    // }
+
+    // public void removeRange(int left, int right) {
+
+    // }
+    // }
+
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
 
