@@ -14,6 +14,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -1831,7 +1832,7 @@ public class Leetcode_7 {
                 int shop = e[0];
                 int movie = e[1];
                 int price = e[2];
-                mapMovie.computeIfAbsent(movie, k -> new List<>()).add(new Bean(shop, movie, price));
+                mapMovie.computeIfAbsent(movie, k -> new ArrayList<>()).add(new Bean(shop, movie, price));
                 mapShop.computeIfAbsent(shop, k -> new HashMap<>()).put(movie, price);
                 mapData.put(new Bean(shop, movie, price), price);
             }
@@ -1840,7 +1841,7 @@ public class Leetcode_7 {
 
         public List<Integer> search(int movie) {
             List<Integer> res = new ArrayList<>();
-            List<Bean> set = mapMovie.getOrDefault(movie, new List<>());
+            List<Bean> set = mapMovie.getOrDefault(movie, new ArrayList<>());
             for (Bean b : set) {
                 res.add(b.shop);
                 if (res.size() == 5) {
@@ -1857,12 +1858,12 @@ public class Leetcode_7 {
             map.remove(movie);
 
             // 借走 movie
-            List<Bean> set = mapMovie.getOrDefault(movie, new List<>());
+            List<Bean> set = mapMovie.getOrDefault(movie, new ArrayList<>());
             Bean removed = new Bean(shop, movie, price);
             set.remove(removed);
 
             // 借出的电影
-            loan.computeIfAbsent(price, k -> new TreeMap<>()).computeIfAbsent(shop, k -> new List<>()).add(movie);
+            loan.computeIfAbsent(price, k -> new TreeMap<>()).computeIfAbsent(shop, k -> new ArrayList<>()).add(movie);
         }
 
         public void drop(int shop, int movie) {
@@ -1870,14 +1871,14 @@ public class Leetcode_7 {
             Bean b = new Bean(shop, movie, 0);
             int price = mapData.get(b);
             TreeMap<Integer, List<Integer>> map = loan.getOrDefault(price, new TreeMap<>());
-            List<Integer> movies = map.getOrDefault(shop, new List<>());
+            List<Integer> movies = map.getOrDefault(shop, new ArrayList<>());
             movies.remove(movie);
 
             // 把已借出的还到商店
             Map<Integer, Integer> s = mapShop.getOrDefault(shop, new HashMap<>());
             s.put(movie, price);
 
-            List<Bean> m = mapMovie.getOrDefault(movie, new List<>());
+            List<Bean> m = mapMovie.getOrDefault(movie, new ArrayList<>());
             m.add(new Bean(shop, movie, price));
 
         }
@@ -2236,13 +2237,13 @@ public class Leetcode_7 {
         private int capacity;
         private TreeMap<Integer, Stack<Integer>> fullStacks;
         private TreeMap<Integer, Stack<Integer>> notFullStacks;
-        private List<Integer> emptyStacks;
+        private TreeSet<Integer> emptyStacks;
 
         public DinnerPlates(int capacity) {
             this.capacity = capacity;
             this.fullStacks = new TreeMap<>();
             this.notFullStacks = new TreeMap<>();
-            this.emptyStacks = new List<>();
+            this.emptyStacks = new TreeSet<>();
             int stacks = 200000 / capacity + 1;
             for (int i = 0; i <= stacks; ++i) {
                 emptyStacks.add(i);
@@ -2356,7 +2357,7 @@ public class Leetcode_7 {
         for (int up = 0; up < m; ++up) {
             int[] pre = new int[n];
             for (int down = up; down < m; ++down) {
-                List<Integer> set = new List<>();
+                TreeSet<Integer> set = new TreeSet<>();
                 set.add(0);
                 int curPre = 0;
                 for (int j = 0; j < n; ++j) {
@@ -2386,7 +2387,7 @@ public class Leetcode_7 {
             int[] pre = new int[m];
             for (int right = left; right < n; ++right) {
                 int curPre = 0;
-                List<Integer> set = new List<>();
+                TreeSet<Integer> set = new TreeSet<>();
                 set.add(0);
                 for (int i = 0; i < m; ++i) {
                     pre[i] += matrix[i][right];
@@ -2993,6 +2994,282 @@ public class Leetcode_7 {
         }
     }
 
+    // 2639. 查询网格图中每一列的宽度 (Find the Width of Columns of a Grid)
+    public int[] findColumnWidth(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[] res = new int[n];
+        for (int j = 0; j < n; ++j) {
+            int max = 0;
+            for (int i = 0; i < m; ++i) {
+                int num = grid[i][j];
+                max = Math.max(max, String.valueOf(num).length());
+            }
+            res[j] = max;
+        }
+        return res;
+
+    }
+
+    // 2640. 一个数组所有前缀的分数 (Find the Score of All Prefixes of an Array)
+    public long[] findPrefixScore(int[] nums) {
+        int n = nums.length;
+        long[] res = new long[n];
+        long max = nums[0];
+        res[0] = nums[0] * 2;
+        for (int i = 1; i < n; ++i) {
+            max = Math.max(nums[i], max);
+            long co = max + nums[i];
+            res[i] = res[i - 1] + co;
+        }
+        return res;
+
+    }
+
+    // 2641. 二叉树的堂兄弟节点 II (Cousins in Binary Tree II)
+    public TreeNode replaceValueInTree(TreeNode root) {
+        Map<Integer, Integer> map = new HashMap<>();
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        int level = 0;
+        while (!q.isEmpty()) {
+            int size = q.size();
+            int sum = 0;
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = q.poll();
+                sum += node.val;
+                if (node.left != null) {
+                    q.offer(node.left);
+                }
+                if (node.right != null) {
+                    q.offer(node.right);
+                }
+            }
+            map.put(level++, sum);
+        }
+        map.put(level, 0);
+        root.val = 0;
+        level = 0;
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {
+                TreeNode node = q.poll();
+                int cur = 0;
+                if (node.left != null) {
+                    cur += node.left.val;
+                }
+                if (node.right != null) {
+                    cur += node.right.val;
+                }
+                if (node.left != null) {
+                    node.left.val = map.get(level + 1) - cur;
+                    q.offer(node.left);
+                }
+                if (node.right != null) {
+                    node.right.val = map.get(level + 1) - cur;
+                    q.offer(node.right);
+                }
+            }
+            ++level;
+        }
+        return root;
+
+    }
+
+    // 2642. 设计可以求最短路径的图类 (Design Graph With Shortest Path Calculator)
+    class Graph {
+        private int n;
+
+        private Map<Integer, List<int[]>> g;
+
+        public Graph(int n, int[][] edges) {
+            this.n = n;
+            this.g = new HashMap<>();
+            for (int[] e : edges) {
+                int a = e[0];
+                int b = e[1];
+                int cost = e[2];
+                g.computeIfAbsent(a, k -> new ArrayList<>()).add(new int[] { b, cost });
+            }
+        }
+
+        public void addEdge(int[] edge) {
+            int a = edge[0];
+            int b = edge[1];
+            int cost = edge[2];
+            g.computeIfAbsent(a, k -> new ArrayList<>()).add(new int[] { b, cost });
+        }
+
+        public int shortestPath(int node1, int node2) {
+            if (node1 == node2) {
+                return 0;
+            }
+            int[] dis = new int[n];
+            Arrays.fill(dis, Integer.MAX_VALUE);
+            dis[node1] = 0;
+            Queue<Integer> q = new PriorityQueue<>(new Comparator<Integer>() {
+
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return Integer.compare(dis[o1], dis[o2]);
+                }
+
+            });
+            q.offer(node1);
+            dis[node1] = 0;
+            while (!q.isEmpty()) {
+                int x = q.poll();
+                for (int[] nei : g.getOrDefault(x, new ArrayList<>())) {
+                    int y = nei[0];
+                    int c = nei[1];
+                    if (dis[x] + c < dis[y]) {
+                        dis[y] = dis[x] + c;
+                        q.offer(y);
+                    }
+                }
+            }
+            return dis[node2] == Integer.MAX_VALUE ? -1 : dis[node2];
+        }
+    }
+
+    // 2643. 一最多的行 (Row With Maximum Ones)
+    public int[] rowAndMaximumOnes(int[][] mat) {
+        int m = mat.length;
+        int[] res = new int[2];
+        for (int i = 0; i < m; ++i) {
+            int count = Arrays.stream(mat[i]).sum();
+            if (count > res[1]) {
+                res[0] = i;
+                res[1] = count;
+            }
+        }
+        return res;
+
+    }
+
+    // 2644. 找出可整除性得分最大的整数 (Find the Maximum Divisibility Score)
+    public int maxDivScore(int[] nums, int[] divisors) {
+        int count = 0;
+        int res = divisors[0];
+        for (int d : divisors) {
+            int cur = 0;
+            for (int num : nums) {
+                if (num % d == 0) {
+                    ++cur;
+                }
+            }
+            if (cur > count) {
+                count = cur;
+                res = d;
+            } else if (cur == count && res > d) {
+                res = d;
+            }
+        }
+        return res;
+
+    }
+
+    // 2645. 构造有效字符串的最少插入数 (Minimum Additions to Make Valid String)
+    public int addMinimum(String word) {
+        int n = word.length();
+        char[] arr = word.toCharArray();
+        int res = 0;
+        if (n == 1) {
+            return 2;
+        }
+        int i = 0;
+        while (i < n) {
+            if (arr[i] == 'a') {
+                if (i + 1 < n && arr[i + 1] == 'b') {
+                    if (i + 2 < n && arr[i + 2] == 'c') {
+                        i += 3;
+                    } else {
+                        i += 2;
+                        ++res;
+                    }
+                } else if (i + 1 < n && arr[i + 1] == 'c') {
+                    ++res;
+                    i += 2;
+                } else {
+                    res += 2;
+                    ++i;
+                }
+            } else if (arr[i] == 'b') {
+                if (i + 1 < n && arr[i + 1] == 'c') {
+                    ++res;
+                    i += 2;
+                } else {
+                    res += 2;
+                    ++i;
+                }
+            } else {
+                res += 2;
+                ++i;
+            }
+        }
+        return res;
+
+    }
+
+    // 2646. 最小化旅行的价格总和 (Minimize the Total Price of the Trips)
+    private Map<Integer, List<Integer>> g2646;
+    private int[] price2646;
+    private int[] counts2646;
+    private int end2646;
+
+    public int minimumTotalPrice(int n, int[][] edges, int[] price, int[][] trips) {
+        this.g2646 = new HashMap<>();
+        for (int[] e : edges) {
+            int a = e[0];
+            int b = e[1];
+            g2646.computeIfAbsent(a, k -> new ArrayList<>()).add(b);
+            g2646.computeIfAbsent(b, k -> new ArrayList<>()).add(a);
+        }
+        this.price2646 = price;
+        counts2646 = new int[n];
+        for (int[] t : trips) {
+            end2646 = t[1];
+            paths2646(t[0], -1);
+        }
+        int[] res = dfs2646(0, -1);
+
+        return Math.min(res[0], res[1]);
+
+    }
+
+    // [a,b] a价格减半 ，b价格不减半
+    private int[] dfs2646(int x, int fa) {
+        int half = price2646[x] * counts2646[x] / 2;
+        int notHalf = price2646[x] * counts2646[x];
+        for (int y : g2646.getOrDefault(x, new ArrayList<>())) {
+            if (y != fa) {
+                int[] cur = dfs2646(y, x);
+                notHalf += Math.min(cur[0], cur[1]);
+                half += cur[1];
+            }
+        }
+        return new int[] { half, notHalf };
+    }
+
+    private boolean paths2646(int x, int fa) {
+        if (x == end2646) {
+            ++counts2646[x];
+            return true;
+        }
+        for (int y : g2646.getOrDefault(x, new ArrayList<>())) {
+            if (y != fa && paths2646(y, x)) {
+                ++counts2646[x];
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 1621. 大小为 K 的不重叠线段的数目 (Number of Sets of K Non-Overlapping Line Segments)
+    // public int numberOfSets(int n, int k) {
+
+    // }
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
