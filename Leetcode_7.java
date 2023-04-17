@@ -3267,9 +3267,42 @@ public class Leetcode_7 {
     }
 
     // 1621. 大小为 K 的不重叠线段的数目 (Number of Sets of K Non-Overlapping Line Segments)
-    // public int numberOfSets(int n, int k) {
+    private int[][] memo1621;
+    private int n1621;
+    private int k1621;
 
-    // }
+    public int numberOfSets(int n, int k) {
+        this.n1621 = n;
+        this.k1621 = k;
+        this.memo1621 = new int[n][k];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo1621[i], -1);
+        }
+        return dfs1621(0, 0);
+
+    }
+
+    private int dfs1621(int i, int count) {
+        if (i == n1621 || count == k1621) {
+            return count == k1621 ? 1 : 0;
+        }
+        if (n1621 - i - 1 < k1621 - count) {
+            return 0;
+        }
+        if (memo1621[i][count] != -1) {
+            return memo1621[i][count];
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        res = (res + dfs1621(i + 1, count)) % MOD;
+        for (int j = i + 1; j < n1621; ++j) {
+            if (n1621 - j - 1 < k1621 - count - 1) {
+                break;
+            }
+            res = (res + dfs1621(j, count + 1)) % MOD;
+        }
+        return memo1621[i][count] = res;
+    }
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
