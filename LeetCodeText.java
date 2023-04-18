@@ -2371,33 +2371,40 @@ public class LeetCodeText {
 
     // 695. 岛屿的最大面积 (Max Area of Island) --dfs
     // 剑指 Offer II 105. 岛屿的最大面积
+    private int[][] grid695;
+    private int res695;
+    private int m695;
+    private int n695;
+
     public int maxAreaOfIsland(final int[][] grid) {
-        int max = 0;
+        this.grid695 = grid;
+        this.m695 = grid.length;
+        this.n695 = grid[0].length;
         for (int i = 0; i < grid.length; ++i) {
             for (int j = 0; j < grid[0].length; ++j) {
-                max = Math.max(max, getMaxArea695(grid, i, j));
+                if (grid[i][j] == 1) {
+                    res695 = Math.max(res695, dfs695(i, j));
+                }
             }
         }
-        return max;
+        return res695;
 
     }
 
-    private int getMaxArea695(int[][] grid, int i, int j) {
-        int count = 0;
-        if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length) {
+    private int dfs695(int i, int j) {
+        if (!(i >= 0 && i < m695 && j >= 0 && j < n695)) {
             return 0;
         }
-        if (grid[i][j] == 0) {
+        if (grid695[i][j] == 0) {
             return 0;
         }
-        grid[i][j] = 0;
-        ++count;
-
-        count += getMaxArea695(grid, i - 1, j);
-        count += getMaxArea695(grid, i + 1, j);
-        count += getMaxArea695(grid, i, j - 1);
-        count += getMaxArea695(grid, i, j + 1);
-        return count;
+        grid695[i][j] = 0;
+        int res = 1;
+        res += dfs695(i + 1, j);
+        res += dfs695(i - 1, j);
+        res += dfs695(i, j - 1);
+        res += dfs695(i, j + 1);
+        return res;
     }
 
     // 695. 岛屿的最大面积 (Max Area of Island) --并查集
