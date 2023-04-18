@@ -3086,10 +3086,7 @@ public class Leetcode_7 {
             this.n = n;
             this.g = new HashMap<>();
             for (int[] e : edges) {
-                int a = e[0];
-                int b = e[1];
-                int cost = e[2];
-                g.computeIfAbsent(a, k -> new ArrayList<>()).add(new int[] { b, cost });
+                addEdge(e);
             }
         }
 
