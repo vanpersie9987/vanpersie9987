@@ -1688,34 +1688,29 @@ public class Leetcode_6 {
     private int res687;
 
     public int longestUnivaluePath(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        res687 = 1;
         dfs687(root);
-        return res687 - 1;
+        return res687;
 
     }
 
-    private int dfs687(TreeNode node) {
-        if (node == null) {
+    private int dfs687(TreeNode root) {
+        if (root == null) {
             return 0;
         }
-        int cur = 1;
-        int left = dfs687(node.left);
-        if (node.left != null && node.val == node.left.val) {
-            cur += left;
-        } else {
-            left = 0;
+        int left = dfs687(root.left);
+        int right = dfs687(root.right);
+        int max = 0;
+        int count = 0;
+        if (root.left != null && root.left.val == root.val) {
+            count += left + 1;
+            max = Math.max(max, left + 1);
         }
-        int right = dfs687(node.right);
-        if (node.right != null && node.val == node.right.val) {
-            cur += right;
-        } else {
-            right = 0;
+        if (root.right != null && root.right.val == root.val) {
+            count += right + 1;
+            max = Math.max(max, right + 1);
         }
-        res687 = Math.max(res687, cur);
-        return 1 + Math.max(left, right);
+        res687 = Math.max(res687, count);
+        return max;
     }
 
     // 1080. 根到叶路径上的不足节点 (Insufficient Nodes in Root to Leaf Paths)
