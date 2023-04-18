@@ -3047,7 +3047,6 @@ public class Leetcode_7 {
             }
             map.put(level++, sum);
         }
-        map.put(level, 0);
         root.val = 0;
         level = 0;
         q.offer(root);
