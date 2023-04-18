@@ -3108,28 +3108,37 @@ public class Leetcode_7 {
             int[] dis = new int[n];
             Arrays.fill(dis, Integer.MAX_VALUE);
             dis[node1] = 0;
-            Queue<Integer> q = new PriorityQueue<>(new Comparator<Integer>() {
+            Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
 
                 @Override
-                public int compare(Integer o1, Integer o2) {
-                    return Integer.compare(dis[o1], dis[o2]);
+                public int compare(int[] o1, int[] o2) {
+                    return Integer.compare(o1[1], o2[1]);
                 }
 
             });
-            q.offer(node1);
+
+            q.offer(new int[] { node1, 0 });
             dis[node1] = 0;
             while (!q.isEmpty()) {
-                int x = q.poll();
+                int[] cur = q.poll();
+                int x = cur[0];
+                int d = cur[1];
+                if (d > dis[x]) {
+                    continue;
+                }
+                if (x == node2) {
+                    return d;
+                }
                 for (int[] nei : g.getOrDefault(x, new ArrayList<>())) {
                     int y = nei[0];
                     int c = nei[1];
-                    if (dis[x] + c < dis[y]) {
-                        dis[y] = dis[x] + c;
-                        q.offer(y);
+                    if (d + c < dis[y]) {
+                        dis[y] = d + c;
+                        q.offer(new int[] { y, d + c });
                     }
                 }
             }
-            return dis[node2] == Integer.MAX_VALUE ? -1 : dis[node2];
+            return -1;
         }
     }
 
