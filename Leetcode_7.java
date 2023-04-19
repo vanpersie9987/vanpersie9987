@@ -3309,6 +3309,115 @@ public class Leetcode_7 {
         return memo1621[i][count] = res;
     }
 
+    // 126. 单词接龙 II (Word Ladder II)
+    private List<List<String>> res126;
+    private Map<String, Set<String>> map126;
+    private int count126;
+    private String beginWord126;
+    private Map<Integer, List<String>> adj126;
+
+    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+        this.res126 = new ArrayList<>();
+        this.beginWord126 = beginWord;
+        Set<String> wordSet = new HashSet<>(wordList);
+        if (!wordSet.contains(endWord)) {
+            return res126;
+        }
+        wordSet.remove(beginWord);
+        this.adj126 = new HashMap<>();
+        this.map126 = new HashMap<>();
+        for (String s : wordSet) {
+            char[] arr = s.toCharArray();
+            for (int i = 0; i < arr.length; ++i) {
+                char temp = arr[i];
+                arr[i] = '_';
+                map126.computeIfAbsent(String.valueOf(arr), k -> new HashSet<>()).add(s);
+                arr[i] = temp;
+            }
+        }
+        this.count126 = 1;
+        boolean flag = false;
+        Queue<String> q = new LinkedList<>();
+        Set<String> set = new HashSet<>();
+        set.add(beginWord);
+        q.offer(beginWord);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {
+                String s = q.poll();
+                if (s.equals(endWord)) {
+                    flag = true;
+                    break;
+                }
+                char[] arr = s.toCharArray();
+                for (int j = 0; j < arr.length; ++j) {
+                    char temp = arr[j];
+                    arr[j] = '_';
+                    for (String search : map126.getOrDefault(String.valueOf(arr), new HashSet<>())) {
+                        if (!set.contains(search) && !search.equals(s)) {
+                            adj126.computeIfAbsent(count126, k -> new ArrayList<>()).add(search);
+                            set.add(search);
+                            q.offer(search);
+                        }
+                    }
+                    arr[j] = temp;
+                }
+            }
+            if (flag) {
+                break;
+            }
+            ++count126;
+        }
+        if (!flag) {
+            return res126;
+        }
+        set.clear();
+        set.add(endWord);
+        List<String> list = new ArrayList<>();
+        list.add(endWord);
+        dfs126(list, set);
+        return res126;
+    }
+
+    private void dfs126(List<String> list, Set<String> set) {
+        boolean flag = check126(list.get(list.size() - 1), beginWord126);
+        if (list.size() == count126 - 1 || flag) {
+            if (list.size() == count126 - 1 && flag) {
+                list.add(beginWord126);
+                Collections.reverse(list);
+                res126.add(new ArrayList<>(list));
+                Collections.reverse(list);
+                list.remove(list.size() - 1);
+            }
+            return;
+        }
+        String s = list.get(list.size() - 1);
+        for (String neighbor : adj126.getOrDefault(count126 - list.size() - 1, new ArrayList<>())) {
+            if (check126(s, neighbor) && !set.contains(neighbor)) {
+                set.add(neighbor);
+                list.add(neighbor);
+                dfs126(list, set);
+                set.remove(neighbor);
+                list.remove(list.size() - 1);
+            }
+
+        }
+    }
+
+    private boolean check126(String s1, String s2) {
+        int n = s1.length();
+        int count = 0;
+        for (int i = 0; i < n; ++i) {
+            if (s1.charAt(i) != s2.charAt(i)) {
+                if (++count > 1) {
+                    return false;
+                }
+            }
+        }
+        return count == 1;
+    }
+
+
     // 1617. 统计子树中城市之间最大距离 (Count Subtrees With Max Distance Between Cities)
     // public int[] countSubgraphsForEachDiameter(int n, int[][] edges) {
 
