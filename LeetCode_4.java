@@ -395,7 +395,7 @@ public class LeetCode_4 {
         int left = dfs124(root.left);
         int right = dfs124(root.right);
         res124 = Math.max(res124, left + right + root.val);
-        return Math.max(0, Math.max(left, right) + root.val) ;
+        return Math.max(0, Math.max(left, right) + root.val);
     }
 
     // 200. 岛屿数量 (Number of Islands) --dfs
@@ -5385,20 +5385,36 @@ public class LeetCode_4 {
         return root;
     }
 
-    // 1043. 分隔数组以得到最大和 (Partition Array for Maximum Sum) --dp
-    public int maxSumAfterPartitioning(int[] arr, int k) {
-        int n = arr.length;
-        int[] dp = new int[n];
-        for (int i = 0; i < k; ++i) {
-            dp[i] = Arrays.stream(arr, 0, i + 1).max().getAsInt() * (i + 1);
-        }
-        for (int i = k; i < n; ++i) {
-            for (int j = 1; j <= k; ++j) {
-                dp[i] = Math.max(dp[i], dp[i - j] + Arrays.stream(arr, i - j + 1, i + 1).max().getAsInt() * j);
-            }
-        }
-        return dp[n - 1];
+    // 1043. 分隔数组以得到最大和 (Partition Array for Maximum Sum)
+    private int[] arr1043;
+    private int k1043;
+    private int n1043;
+    private int[] memo1043;
 
+    public int maxSumAfterPartitioning(int[] arr, int k) {
+        this.arr1043 = arr;
+        this.k1043 = k;
+        this.n1043 = arr.length;
+        this.memo1043 = new int[n1043];
+        Arrays.fill(memo1043, -1);
+        return dfs1043(0);
+
+    }
+
+    private int dfs1043(int i) {
+        if (i == n1043) {
+            return 0;
+        }
+        if (memo1043[i] != -1) {
+            return memo1043[i];
+        }
+        int res = 0;
+        int max = 0;
+        for (int j = i; j < n1043 && j - i + 1 <= k1043; ++j) {
+            max = Math.max(max, arr1043[j]);
+            res = Math.max(res, max * (j - i + 1) + dfs1043(j + 1));
+        }
+        return memo1043[i] = res;
     }
 
     // 712. 两个字符串的最小ASCII删除和 (Minimum ASCII Delete Sum for Two Strings) --dp
@@ -5565,13 +5581,13 @@ public class LeetCode_4 {
 
     // 91. 解码方法 (Decode Ways)
     private int[] memo91;
-    private char[] arr;
+    private char[] arr91;
 
     public int numDecodings4(String s) {
         if (s.charAt(0) == '0') {
             return 0;
         }
-        this.arr = s.toCharArray();
+        this.arr91 = s.toCharArray();
         int n = s.length();
         memo91 = new int[n];
         Arrays.fill(memo91, -1);
@@ -5587,13 +5603,13 @@ public class LeetCode_4 {
             return memo91[i];
         }
         int res = 0;
-        char c = arr[i];
+        char c = arr91[i];
         if (c >= '0' && c <= '6') {
             if (c != '0') {
                 res += dfs91(i - 1);
             }
             if (i > 0) {
-                char pre = arr[i - 1];
+                char pre = arr91[i - 1];
                 if (pre == '1' || pre == '2') {
                     res += dfs91(i - 2);
                 }
@@ -5601,7 +5617,7 @@ public class LeetCode_4 {
         } else {
             res += dfs91(i - 1);
             if (i > 0) {
-                char pre = arr[i - 1];
+                char pre = arr91[i - 1];
                 if (pre == '1') {
                     res += dfs91(i - 2);
                 }
@@ -8377,7 +8393,6 @@ public class LeetCode_4 {
         }
         return union.getCount(0);
 
-
     }
 
     public class Union2368 {
@@ -8430,7 +8445,7 @@ public class LeetCode_4 {
             return size[root];
 
         }
-        
+
     }
 
     // 2369. 检查数组是否存在有效划分 (Check if There is a Valid Partition For The Array)
@@ -8459,8 +8474,10 @@ public class LeetCode_4 {
         if (memo2369[i] != -1) {
             return memo2369[i] > 0;
         }
-        boolean b = nums2369[i] == nums2369[i - 1] && dfs2369(i - 2) || (nums2369[i] == nums2369[i - 1] && nums2369[i - 1] == nums2369[i - 2]
-                || nums2369[i] - nums2369[i - 1] == 1 && nums2369[i - 1] - nums2369[i - 2] == 1) && dfs2369(i - 3);
+        boolean b = nums2369[i] == nums2369[i - 1] && dfs2369(i - 2)
+                || (nums2369[i] == nums2369[i - 1] && nums2369[i - 1] == nums2369[i - 2]
+                        || nums2369[i] - nums2369[i - 1] == 1 && nums2369[i - 1] - nums2369[i - 2] == 1)
+                        && dfs2369(i - 3);
         memo2369[i] = b ? 1 : 0;
         return b;
     }
@@ -8925,7 +8942,7 @@ public class LeetCode_4 {
         return sum - 2 * dp[target];
 
     }
-    
+
     // 1049. 最后一块石头的重量 II (Last Stone Weight II)
     private int[] stones1049;
     private int n1049;
@@ -8949,7 +8966,8 @@ public class LeetCode_4 {
         if (memo1049[i][Math.abs(sum)] != -1) {
             return memo1049[i][Math.abs(sum)];
         }
-        return memo1049[i][Math.abs(sum)] = Math.min(dfs1049(i + 1, sum + stones1049[i]), dfs1049(i + 1, sum - stones1049[i]));
+        return memo1049[i][Math.abs(sum)] = Math.min(dfs1049(i + 1, sum + stones1049[i]),
+                dfs1049(i + 1, sum - stones1049[i]));
     }
 
     // 416. 分割等和子集 (Partition Equal Subset Sum)

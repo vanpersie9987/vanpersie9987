@@ -3309,6 +3309,11 @@ public class Leetcode_7 {
         return memo1621[i][count] = res;
     }
 
+    // 1617. 统计子树中城市之间最大距离 (Count Subtrees With Max Distance Between Cities)
+    // public int[] countSubgraphsForEachDiameter(int n, int[][] edges) {
+
+    // }
+
     // 1889. 装包裹的最小浪费空间 (Minimum Space Wasted From Packaging)
     // public int minWastedSpace(int[] packages, int[][] boxes) {
 
