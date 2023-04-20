@@ -3592,6 +3592,8 @@ public class Leetcode_7 {
     }
 
     private int dfs1473(int i, int lastColor, int kinds) {
+        // kinds == 0 时，不可作为终止条件，
+        // 因为如果此时 i < m1473，即还没有遍历完所有的房子，但是剩下的房子有可能都被染成了和上一个房子同样的颜色，无需再新建街区，也是有可能的
         if (i == m1473 || kinds < 0 || kinds > m1473 - i) {
             if (i == m1473 && kinds == 0) {
                 return 0;
