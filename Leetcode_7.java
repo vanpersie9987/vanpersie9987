@@ -3525,6 +3525,54 @@ public class Leetcode_7 {
         return max;
     }
 
+    /**
+     * 小明跑D公里的马拉松，总共有H的体力。小明跑步有五种模式，模式的配速越快，消耗体力越多，写一个程序求出跑马拉松最快的时间。
+     * 例D=30,H=130
+     * 1 2 3 4 5模式
+     * 3 4 5 6 7跑每公里花的时间
+     * 7 5 4 3 2消耗的体力
+     */
+    private int[][] memo_example;
+    private int D_example;
+    private int H_example;
+    private int[][] mode_example;
+
+    public int f_example(int D, int H, int[][] mode) {
+        // memo[i][j] : 跑i公里且消耗了j体力时，所用的的最少时间
+        this.memo_example = new int[D][H];
+        this.D_example = D;
+        this.H_example = H;
+        this.mode_example = mode;
+        for (int i = 0; i < D; ++i) {
+            Arrays.fill(memo_example[i], -1);
+        }
+        this.mode_example = mode;
+        int res = dfs_example(0, 0);
+        return res == (int) 1e9 ? -1 : res;
+    }
+
+    private int dfs_example(int d, int h) {
+        if (d == D_example || h == H_example) {
+            if (d == D_example) {
+                return 0;
+            }
+            return (int) 1e9;
+        }
+        if (memo_example[d][h] != -1) {
+            return memo_example[d][h];
+        }
+        int res = (int) 1e9;
+        for (int i = 4; i >= 0; --i) {
+            // 标号越小的模式，消耗的体力越大，当前消耗的体力h + 第i号模式需要的体力时超过的总体力，则消耗更大体力的模式也不能选
+            if (h + mode_example[i][1] > H_example) {
+                break;
+            }
+            res = Math.min(res, dfs_example(d + 1, h + mode_example[i][1]) + mode_example[i][0]);
+        }
+        return memo_example[d][h] = res;
+    }
+
+
     // 1889. 装包裹的最小浪费空间 (Minimum Space Wasted From Packaging)
     // public int minWastedSpace(int[] packages, int[][] boxes) {
 
