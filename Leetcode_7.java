@@ -3417,6 +3417,68 @@ public class Leetcode_7 {
         return count == 1;
     }
 
+    // 1617. 统计子树中城市之间最大距离 (Count Subtrees With Max Distance Between Cities)
+    private Map<Integer, List<Integer>> g1617_1;
+    private int n1617_1;
+    private boolean[] inSet1617_1;
+    private int[] res1617_1;
+    private boolean[] vis1617_1;
+    private int diameter1617_1;
+
+    public int[] countSubgraphsForEachDiameter(int n, int[][] edges) {
+        this.g1617_1 = new HashMap<>();
+        this.n1617_1 = n;
+        this.inSet1617_1 = new boolean[n];
+        this.vis1617_1 = new boolean[n];
+        this.res1617_1 = new int[n - 1];
+        for (int[] e : edges) {
+            int a = e[0] - 1;
+            int b = e[1] - 1;
+            g1617_1.computeIfAbsent(a, k -> new ArrayList<>()).add(b);
+            g1617_1.computeIfAbsent(b, k -> new ArrayList<>()).add(a);
+        }
+        f1617_1(0);
+        return res1617_1;
+
+    }
+
+    private void f1617_1(int i) {
+        if (i == n1617_1) {
+            Arrays.fill(vis1617_1, false);
+            diameter1617_1 = 0;
+            for (int j = 0; j < n1617_1; ++j) {
+                if (inSet1617_1[j]) {
+                    dfs1617_1(j);
+                    break;
+                }
+            }
+            if (diameter1617_1 > 0 && Arrays.equals(inSet1617_1, vis1617_1)) {
+                ++res1617_1[diameter1617_1 - 1];
+            }
+            return;
+        }
+        // 不选
+        f1617_1(i + 1);
+
+        // 选
+        inSet1617_1[i] = true;
+        f1617_1(i + 1);
+        inSet1617_1[i] = false;
+    }
+
+    private int dfs1617_1(int x) {
+        vis1617_1[x] = true;
+        int max = 0;
+        for (int y : g1617_1.getOrDefault(x, new ArrayList<>())) {
+            if (!vis1617_1[y] && inSet1617_1[y]) {
+                int cur = dfs1617_1(y) + 1;
+                diameter1617_1 = Math.max(diameter1617_1, cur + max);
+                max = Math.max(max, cur);
+            }
+        }
+        return max;
+    }
+
 
     // 1617. 统计子树中城市之间最大距离 (Count Subtrees With Max Distance Between Cities)
     // public int[] countSubgraphsForEachDiameter(int n, int[][] edges) {
@@ -3593,5 +3655,4 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
-
 }
