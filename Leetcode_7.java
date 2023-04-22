@@ -3763,6 +3763,26 @@ public class Leetcode_7 {
         return res;
     }
 
+    // LCP 72. 补给马车
+    public int[] supplyWagon(int[] supplies) {
+        int n = supplies.length;
+        List<Integer> list = Arrays.stream(supplies).boxed().collect(Collectors.toList());
+        while (list.size() != n / 2) {
+            int min = Integer.MAX_VALUE;
+            int index = -1;
+            for (int i = 0; i < list.size() - 1; ++i) {
+                int curSum = list.get(i) + list.get(i + 1);
+                if (curSum < min) {
+                    min = curSum;
+                    index = i;
+                }
+            }
+            list.set(index, min);
+            list.remove(index + 1);
+        }
+        return list.stream().mapToInt(Integer::intValue).toArray();
+
+    }
 
     // 1889. 装包裹的最小浪费空间 (Minimum Space Wasted From Packaging)
     // public int minWastedSpace(int[] packages, int[][] boxes) {
