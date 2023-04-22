@@ -3784,6 +3784,31 @@ public class Leetcode_7 {
 
     }
 
+    // LCP 73. 探险营地
+    public int adventureCamp(String[] expeditions) {
+        Set<String> set = new HashSet<>();
+        int res = -1;
+        int max = 0;
+        for (int i = 0; i < expeditions.length; ++i) {
+            if (expeditions[i].isEmpty()) {
+                continue;
+            }
+            String[] split = expeditions[i].split("->");
+            int cur = 0;
+            for (int j = 0; j < split.length; ++j) {
+                if (set.add(split[j])) {
+                    ++cur;
+                }
+            }
+            if (i != 0 && cur > max) {
+                max = cur;
+                res = i;
+            }
+        }
+        return res;
+
+    }
+
     // 1889. 装包裹的最小浪费空间 (Minimum Space Wasted From Packaging)
     // public int minWastedSpace(int[] packages, int[][] boxes) {
 
