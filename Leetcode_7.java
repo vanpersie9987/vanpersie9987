@@ -3674,6 +3674,96 @@ public class Leetcode_7 {
         }
     }
 
+    // 327. 区间和的个数 (Count of Range Sum)
+    public int countRangeSum(int[] nums, int lower, int upper) {
+        List<Long> list = new ArrayList<>();
+        list.add(0L);
+        long pre = 0L;
+        int res = 0;
+        for (int num : nums) {
+            pre += num;
+            // 找 list中 <= pre - lower 的最大值的索引 不存在则为 -1
+            int r = upperBound327(list, pre - lower);
+            // 找 list中 >= pre - upper 的最小值的索引 不存在则为 -1
+            int l = lowerBound327(list, pre - upper);
+            if (r != -1 && l != -1) {
+                res += r - l + 1;
+            }
+            insert327(list, pre);
+        }
+        return res;
+    }
+
+    private void insert327(List<Long> list, long target) {
+        int n = list.size();
+        if (target <= list.get(0)) {
+            list.add(0, target);
+            return;
+        }
+        if (target >= list.get(n - 1)) {
+            list.add(target);
+            return;
+        }
+        int left = 0;
+        int right = n - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (list.get(mid) < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        list.add(left, target);
+    }
+
+    private int lowerBound327(List<Long> list, long target) {
+        int n = list.size();
+        if (list.get(0) >= target) {
+            return 0;
+        }
+        if (list.get(n - 1) < target) {
+            return -1;
+        }
+        int res = -1;
+        int left = 0;
+        int right = n - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (list.get(mid) >= target) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+
+    private int upperBound327(List<Long> list, long target) {
+        int n = list.size();
+        if (list.get(n - 1) <= target) {
+            return n - 1;
+        }
+        if (target < list.get(0)) {
+            return -1;
+        }
+        int res = -1;
+        int left = 0;
+        int right = n - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (list.get(mid) <= target) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
+
+
     // 1889. 装包裹的最小浪费空间 (Minimum Space Wasted From Packaging)
     // public int minWastedSpace(int[] packages, int[][] boxes) {
 
