@@ -3615,29 +3615,68 @@ public class Leetcode_7 {
         return memo1473[i][lastColor][kinds] = min;
     }
 
+    // 715. Range 模块 (Range Module)
+    class RangeModule {
+        private TreeMap<Integer, int[]> treeMap;
+
+        public RangeModule() {
+            treeMap = new TreeMap<>();
+        }
+
+        public void addRange(int left, int right) {
+            --right;
+            int nLeft = left;
+            int nRight = right;
+            Map.Entry<Integer, int[]> entry = treeMap.ceilingEntry(left - 1);
+            while (entry != null && entry.getValue()[0] - 1 <= right) {
+                int[] cur = treeMap.remove(entry.getKey());
+                nLeft = Math.min(nLeft, cur[0]);
+                nRight = Math.max(nRight, cur[1]);
+                entry = treeMap.ceilingEntry(left - 1);
+            }
+            treeMap.put(nRight, new int[] { nLeft, nRight });
+        }
+
+        public boolean queryRange(int left, int right) {
+            --right;
+            Map.Entry<Integer, int[]> entry = treeMap.ceilingEntry(right);
+            return entry != null && entry.getValue()[0] <= left;
+        }
+
+        public void removeRange(int left, int right) {
+            --right;
+            Map.Entry<Integer, int[]> entry = treeMap.ceilingEntry(left);
+            if (entry == null || entry.getValue()[0] > right) {
+                return;
+            }
+            if (entry.getValue()[0] < left && right < entry.getValue()[1]) {
+                int[] removed = treeMap.remove(entry.getKey());
+                treeMap.put(left - 1, new int[] { removed[0], left - 1 });
+                treeMap.put(removed[1], new int[] { right + 1, removed[1] });
+                return;
+            }
+            if (entry.getValue()[1] <= right && entry.getValue()[0] < left) {
+                int[] removed = treeMap.remove(entry.getKey());
+                treeMap.put(left - 1, new int[] { removed[0], left - 1 });
+                left = removed[1] + 1;
+            }
+            entry = treeMap.ceilingEntry(right);
+            if (entry != null && entry.getValue()[0] <= right && entry.getValue()[0] >= left) {
+                int[] removed = treeMap.remove(entry.getKey());
+                treeMap.put(removed[1], new int[] { right + 1, removed[1] });
+                right = removed[0] - 1;
+            }
+            entry = treeMap.ceilingEntry(left);
+            while (left <= right && entry != null && entry.getValue()[1] <= right && entry.getValue()[0] >= left) {
+                treeMap.remove(entry.getKey());
+                entry = treeMap.ceilingEntry(left);
+            }
+        }
+    }
+
     // 1889. 装包裹的最小浪费空间 (Minimum Space Wasted From Packaging)
     // public int minWastedSpace(int[] packages, int[][] boxes) {
 
-    // }
-
-    // 715. Range 模块 (Range Module)
-    // class RangeModule {
-
-    // public RangeModule() {
-
-    // }
-
-    // public void addRange(int left, int right) {
-
-    // }
-
-    // public boolean queryRange(int left, int right) {
-
-    // }
-
-    // public void removeRange(int left, int right) {
-
-    // }
     // }
 
     // 2402. 会议室 III (Meeting Rooms III)
