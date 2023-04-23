@@ -73,29 +73,23 @@ public class Leetcode_7 {
         this.books1105 = books;
         this.shelfWidth1105 = shelfWidth;
         memo1105 = new int[n1105];
-
-        Arrays.fill(memo1105, -1);
-
         return dfs1105(0);
-
     }
 
     private int dfs1105(int i) {
         if (i == n1105) {
             return 0;
         }
-        if (memo1105[i] != -1) {
+        if (memo1105[i] != 0) {
             return memo1105[i];
         }
-        int min = (int) 1e7;
-        int j = i;
+        int min = Integer.MAX_VALUE;
         int thick = 0;
-        int maxHeight = 0;
-        while (j < n1105 && thick + books1105[j][0] <= shelfWidth1105) {
+        int height = 0;
+        for (int j = i; j < n1105 && thick + books1105[j][0] <= shelfWidth1105; ++j) {
             thick += books1105[j][0];
-            maxHeight = Math.max(maxHeight, books1105[j][1]);
-            min = Math.min(min, dfs1105(j + 1) + maxHeight);
-            ++j;
+            height = Math.max(height, books1105[j][1]);
+            min = Math.min(min, dfs1105(j + 1) + height);
         }
         return memo1105[i] = min;
     }
