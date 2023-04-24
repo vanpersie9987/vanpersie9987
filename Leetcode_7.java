@@ -3908,4 +3908,188 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
+    // 6387. 计算列车到站时间 (Calculate Delayed Arrival Time)
+    public int findDelayedArrivalTime(int arrivalTime, int delayedTime) {
+        return (arrivalTime + delayedTime) % 24;
+    }
+
+    // 6391. 倍数求和
+    public int sumOfMultiples(int n) {
+        int res = 0;
+        for (int i = 1; i <= n; ++i) {
+            if (i % 3 == 0 || i % 5 == 0 || i % 7 == 0) {
+                res += i;
+            }
+        }
+        return res;
+
+    }
+
+    // 6391. 倍数求和
+    public int sumOfMultiples2(int n) {
+        return sum6391(n, 3) + sum6391(n, 5) + sum6391(n, 7) - sum6391(n, 15) - sum6391(n, 35) - sum6391(n, 21) + sum6391(n, 105);
+    }
+
+    private int sum6391(int n, int m) {
+        return (1 + n / m) * (n / m) / 2 * m;
+    }
+
+    // 6390. 滑动子数组的美丽值
+    public int[] getSubarrayBeauty(int[] nums, int k, int x) {
+        int n = nums.length;
+        int[] res = new int[n - k + 1];
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < k; ++i) {
+            list.add(nums[i]);
+        }
+        Collections.sort(list);
+        res[0] = Math.min(0, list.get(x - 1));
+        for (int i = k; i < n; ++i) {
+            insert6390(list, nums[i]);
+            remove6390(list, nums[i - k]);
+            res[i - k + 1] = Math.min(0, list.get(x - 1));
+        }
+        return res;
+
+    }
+
+    private void remove6390(List<Integer> list, int target) {
+        int left = 0;
+        int right = list.size() - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (list.get(mid) == target) {
+                list.remove(mid);
+                return;
+            } else if (list.get(mid) < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+    }
+
+    private void insert6390(List<Integer> list, int target) {
+        int n = list.size();
+        if (target <= list.get(0)) {
+            list.add(0, target);
+            return;
+        }
+        if (target >= list.get(n - 1)) {
+            list.add(target);
+            return;
+        }
+        int left = 0;
+        int right = n - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (list.get(mid) < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        list.add(left, target);
+    }
+
+    // 6390. 滑动子数组的美丽值
+    public int[] getSubarrayBeauty2(int[] nums, int k, int x) {
+        int n = nums.length;
+        int[] res = new int[n - k + 1];
+        int[] counts = new int[101];
+        for (int i = 0; i < k; ++i) {
+            ++counts[nums[i] + 50];
+        }
+        int y = 0;
+        for (int i = 0; i <= 100; ++i) {
+            y += counts[i];
+            if (y >= x) {
+                res[0] = Math.min(0, i - 50);
+                break;
+            }
+        }
+        y = 0;
+        for (int i = k; i < n; ++i) {
+            --counts[nums[i - k] + 50];
+            ++counts[nums[i] + 50];
+            y = 0;
+            for (int t = 0; t <= 100; ++t) {
+                y += counts[t];
+                if (y >= x) {
+                    res[i - k + 1] = Math.min(0, t - 50);
+                    break;
+                }
+            }
+        }
+        return res;
+
+    
+    }
+
+    // 6392. 使数组所有元素变成 1 的最少操作次数
+    public int minOperations(int[] nums) {
+        int n = nums.length;
+        int gcd = 0;
+        int cnt1 = 0;
+        for (int num : nums) {
+            gcd = getGCD6392(gcd, num);
+            if (num == 1) {
+                ++cnt1;
+            }
+        }
+        if (gcd > 1) {
+            return -1;
+        }
+        if (cnt1 > 0) {
+            return n - cnt1;
+        }
+        int min = n;
+        for (int i = 0; i < n; ++i) {
+            gcd = 0;
+            for (int j = i; j < n; ++j) {
+                gcd = getGCD6392(gcd, nums[j]);
+                if (gcd == 1) {
+                    min = Math.min(min, j - i + 1);
+                }
+            }
+        }
+        return min - 1 + n - 1;
+
+    }
+
+    private int getGCD6392(int a, int b) {
+        return b == 0 ? a : getGCD6392(b, a % b);
+    }
+
+    // 174. 地下城游戏 (Dungeon Game)
+    private int m174;
+    private int n174;
+    private int[][] dungeon174;
+    private int[][] memo174;
+
+    public int calculateMinimumHP(int[][] dungeon) {
+        this.m174 = dungeon.length;
+        this.n174 = dungeon[0].length;
+        this.dungeon174 = dungeon;
+        this.memo174 = new int[m174][n174];
+        return dfs174(0, 0);
+    }
+
+    private int dfs174(int i, int j) {
+        if (i == m174 - 1 && j == n174 - 1) {
+            return Math.max(1 - dungeon174[i][j], 1);
+        }
+        if (memo174[i][j] != 0) {
+            return memo174[i][j];
+        }
+        if (i == m174 - 1) {
+            return memo174[i][j] = Math.max(dfs174(i, j + 1) - dungeon174[i][j], 1);
+        }
+        if (j == n174 - 1) {
+            return memo174[i][j] = Math.max(dfs174(i + 1, j) - dungeon174[i][j], 1);
+        }
+        return memo174[i][j] = Math.max(Math.min(dfs174(i + 1, j), dfs174(i, j + 1)) - dungeon174[i][j], 1);
+    }
+
 }
