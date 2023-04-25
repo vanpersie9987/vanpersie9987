@@ -3803,112 +3803,6 @@ public class Leetcode_7 {
 
     }
 
-    // 1889. 装包裹的最小浪费空间 (Minimum Space Wasted From Packaging)
-    // public int minWastedSpace(int[] packages, int[][] boxes) {
-
-    // }
-
-    // 2402. 会议室 III (Meeting Rooms III)
-    // public int mostBooked(int n, int[][] meetings) {
-
-    // }
-
-    // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
-    // public int distinctEchoSubstrings(String text) {
-
-    // }
-
-    // 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array)
-    // public int minimumMountainRemovals(int[] nums) {
-    // }
-
-    // 1937. 扣分后的最大得分 (Maximum Number of Points with Cost)
-    // private int m;
-    // private int n;
-    // private int[][] points;
-    // private long[][] memo;
-
-    // public long maxPoints(int[][] points) {
-    // this.m = points.length;
-    // this.n = points[0].length;
-    // this.points = points;
-    // this.memo = new long[m][n];
-    // for (int i = 0; i < m; ++i) {
-    // Arrays.fill(memo[i], Long.MIN_VALUE);
-    // }
-    // long res = 0l;
-    // for (int j = 0; j < n; ++j) {
-    // res = Math.max(res, dfs(1, j) + points[0][j]);
-    // }
-    // return res;
-    // }
-
-    // private long dfs(int row, int lastCol) {
-    // if (row == m) {
-    // return 0;
-    // }
-    // if (memo[row][lastCol] != Long.MIN_VALUE) {
-    // return memo[row][lastCol];
-    // }
-    // long res = Long.MIN_VALUE;
-    // for (int j = 0; j < n; ++j) {
-    // res = Math.max(res, dfs(row + 1, j) + points[row][j] - Math.abs(lastCol -
-    // j));
-    // }
-    // return memo[row][lastCol] = res;
-    // }
-
-    // 1771. 由子序列构造的最长回文串的长度 (Maximize Palindrome Length From Subsequences)
-    // private int m;
-    // private int n;
-    // private String s;
-    // private int[][] memo;
-
-    // public int longestPalindrome(String word1, String word2) {
-    // this.m = word1.length();
-    // this.n = word2.length();
-    // this.s = word1 + word2;
-    // this.memo = new int[m + n][m + n];
-    // for (int i = 0; i < m + n; ++i) {
-    // Arrays.fill(memo[i], -1);
-    // }
-    // int res = dfs(false, 0, m + n - 1);
-    // return res > 1 ? res : 0;
-
-    // }
-
-    // private int dfs(boolean b, int i, int j) {
-    // if (i > j) {
-    // return 0;
-    // }
-    // if (i == j) {
-    // return 1;
-    // }
-    // if (memo[i][j] != -1) {
-    // return memo[i][j];
-    // }
-    // if (i >= m || j < m) {
-    // if (!b) {
-    // return 0;
-    // }
-    // }
-    // if (s.charAt(i) == s.charAt(j)) {
-    // return memo[i][j] = dfs(true, i + 1, j - 1) + 2;
-    // }
-    // return memo[i][j] = Math.max(dfs(b, i + 1, j), dfs(b, i, j - 1));
-    // }
-
-    // 面试题 17.08. 马戏团人塔 (Circus Tower LCCI)
-    // public int bestSeqAtIndex(int[] height, int[] weight) {
-    // int n = height.length;
-
-    // }
-
-    // 1406. 石子游戏 III (Stone Game III)
-    // public String stoneGameIII(int[] stoneValue) {
-
-    // }
-
     // 6387. 计算列车到站时间 (Calculate Delayed Arrival Time)
     public int findDelayedArrivalTime(int arrivalTime, int delayedTime) {
         return (arrivalTime + delayedTime) % 24;
@@ -4091,5 +3985,112 @@ public class Leetcode_7 {
         }
         return memo174[i][j] = Math.max(Math.min(dfs174(i + 1, j), dfs174(i, j + 1)) - dungeon174[i][j], 1);
     }
+
+
+    // 1889. 装包裹的最小浪费空间 (Minimum Space Wasted From Packaging)
+    // public int minWastedSpace(int[] packages, int[][] boxes) {
+
+    // }
+
+    // 2402. 会议室 III (Meeting Rooms III)
+    // public int mostBooked(int n, int[][] meetings) {
+
+    // }
+
+    // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
+    // public int distinctEchoSubstrings(String text) {
+
+    // }
+
+    // 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array)
+    // public int minimumMountainRemovals(int[] nums) {
+    // }
+
+    // 1937. 扣分后的最大得分 (Maximum Number of Points with Cost)
+    // private int m;
+    // private int n;
+    // private int[][] points;
+    // private long[][] memo;
+
+    // public long maxPoints(int[][] points) {
+    // this.m = points.length;
+    // this.n = points[0].length;
+    // this.points = points;
+    // this.memo = new long[m][n];
+    // for (int i = 0; i < m; ++i) {
+    // Arrays.fill(memo[i], Long.MIN_VALUE);
+    // }
+    // long res = 0l;
+    // for (int j = 0; j < n; ++j) {
+    // res = Math.max(res, dfs(1, j) + points[0][j]);
+    // }
+    // return res;
+    // }
+
+    // private long dfs(int row, int lastCol) {
+    // if (row == m) {
+    // return 0;
+    // }
+    // if (memo[row][lastCol] != Long.MIN_VALUE) {
+    // return memo[row][lastCol];
+    // }
+    // long res = Long.MIN_VALUE;
+    // for (int j = 0; j < n; ++j) {
+    // res = Math.max(res, dfs(row + 1, j) + points[row][j] - Math.abs(lastCol -
+    // j));
+    // }
+    // return memo[row][lastCol] = res;
+    // }
+
+    // 1771. 由子序列构造的最长回文串的长度 (Maximize Palindrome Length From Subsequences)
+    // private int m;
+    // private int n;
+    // private String s;
+    // private int[][] memo;
+
+    // public int longestPalindrome(String word1, String word2) {
+    // this.m = word1.length();
+    // this.n = word2.length();
+    // this.s = word1 + word2;
+    // this.memo = new int[m + n][m + n];
+    // for (int i = 0; i < m + n; ++i) {
+    // Arrays.fill(memo[i], -1);
+    // }
+    // int res = dfs(false, 0, m + n - 1);
+    // return res > 1 ? res : 0;
+
+    // }
+
+    // private int dfs(boolean b, int i, int j) {
+    // if (i > j) {
+    // return 0;
+    // }
+    // if (i == j) {
+    // return 1;
+    // }
+    // if (memo[i][j] != -1) {
+    // return memo[i][j];
+    // }
+    // if (i >= m || j < m) {
+    // if (!b) {
+    // return 0;
+    // }
+    // }
+    // if (s.charAt(i) == s.charAt(j)) {
+    // return memo[i][j] = dfs(true, i + 1, j - 1) + 2;
+    // }
+    // return memo[i][j] = Math.max(dfs(b, i + 1, j), dfs(b, i, j - 1));
+    // }
+
+    // 面试题 17.08. 马戏团人塔 (Circus Tower LCCI)
+    // public int bestSeqAtIndex(int[] height, int[] weight) {
+    // int n = height.length;
+
+    // }
+
+    // 1406. 石子游戏 III (Stone Game III)
+    // public String stoneGameIII(int[] stoneValue) {
+
+    // }
 
 }
