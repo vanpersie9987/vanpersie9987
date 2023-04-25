@@ -3822,7 +3822,8 @@ public class Leetcode_7 {
 
     // 6391. 倍数求和
     public int sumOfMultiples2(int n) {
-        return sum6391(n, 3) + sum6391(n, 5) + sum6391(n, 7) - sum6391(n, 15) - sum6391(n, 35) - sum6391(n, 21) + sum6391(n, 105);
+        return sum6391(n, 3) + sum6391(n, 5) + sum6391(n, 7) - sum6391(n, 15) - sum6391(n, 35) - sum6391(n, 21)
+                + sum6391(n, 105);
     }
 
     private int sum6391(int n, int m) {
@@ -3918,7 +3919,6 @@ public class Leetcode_7 {
         }
         return res;
 
-    
     }
 
     // 6392. 使数组所有元素变成 1 的最少操作次数
@@ -3985,7 +3985,6 @@ public class Leetcode_7 {
         }
         return memo174[i][j] = Math.max(Math.min(dfs174(i + 1, j), dfs174(i, j + 1)) - dungeon174[i][j], 1);
     }
-
 
     // 1889. 装包裹的最小浪费空间 (Minimum Space Wasted From Packaging)
     // public int minWastedSpace(int[] packages, int[][] boxes) {
