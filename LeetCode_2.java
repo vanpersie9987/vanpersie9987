@@ -4214,50 +4214,32 @@ public class LeetCode_2 {
 
    // 1031. 两个非重叠子数组的最大和 (Maximum Sum of Two Non-Overlapping Subarrays)
    public int maxSumTwoNoOverlap(int[] nums, int firstLen, int secondLen) {
-      return Math.max(getMax1031(nums, firstLen, secondLen), getMax1031(nums, secondLen, firstLen));
-
+      return Math.max(f1031(nums, firstLen, secondLen), f1031(nums, secondLen, firstLen));
    }
 
-   private int getMax1031(int[] nums, int leftLen, int rightLen) {
-      int[] prefix1 = new int[nums.length];
+   private int f1031(int[] nums, int len1, int len2) {
+      int n = nums.length;
       int max = 0;
-      int cur = 0;
-      int i = 0;
-      while (i < leftLen) {
-         cur += nums[i++];
+      int maxSum1 = 0;
+      int sum1 = 0;
+      int sum2 = 0;
+      for (int i = 0; i < len1; ++i) {
+         sum1 += nums[i];
       }
-      max = Math.max(max, cur);
-      prefix1[i - 1] = max;
-      while (i < nums.length) {
-         cur -= nums[i - leftLen];
-         cur += nums[i];
-         max = Math.max(max, cur);
-         prefix1[i] = max;
-         ++i;
+      for (int i = len1; i < len1 + len2; ++i) {
+         sum2 += nums[i];
       }
-
-      int[] prefix2 = new int[nums.length];
-      max = 0;
-      cur = 0;
-      i = nums.length - 1;
-      while (i >= nums.length - rightLen) {
-         cur += nums[i--];
+      maxSum1 = Math.max(maxSum1, sum1);
+      max = Math.max(max, maxSum1 + sum2);
+      for (int i = len1 + len2; i < n; ++i) {
+         sum2 -= nums[i - len2];
+         sum2 += nums[i];
+         sum1 -= nums[i - len1 - len2];
+         sum1 += nums[i - len2];
+         maxSum1 = Math.max(maxSum1, sum1);
+         max = Math.max(max, maxSum1 + sum2);
       }
-      max = Math.max(max, cur);
-      prefix2[i + 1] = cur;
-      while (i >= 0) {
-         cur -= nums[i + rightLen];
-         cur += nums[i];
-         max = Math.max(max, cur);
-         prefix2[i] = max;
-         --i;
-      }
-      int res = 0;
-      for (int j = leftLen; j <= nums.length - rightLen; ++j) {
-         res = Math.max(res, prefix1[j - 1] + prefix2[j]);
-
-      }
-      return res;
+      return max;
    }
 
    // 1052. 爱生气的书店老板 (Grumpy Bookstore Owner)
