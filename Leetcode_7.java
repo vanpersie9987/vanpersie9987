@@ -3987,9 +3987,66 @@ public class Leetcode_7 {
     }
 
     // 1889. 装包裹的最小浪费空间 (Minimum Space Wasted From Packaging)
-    // public int minWastedSpace(int[] packages, int[][] boxes) {
+    public int minWastedSpace(int[] packages, int[][] boxes) {
+        Arrays.sort(packages);
+        int n = packages.length;
+        long[] pre = new long[n + 1];
+        for (int i = 0; i < n; ++i) {
+            pre[i + 1] = pre[i] + packages[i];
+        }
+        long res = Long.MAX_VALUE;
+        search: for (int[] box : boxes) {
+            Arrays.sort(box);
+            int m = box.length;
+            if (packages[n - 1] > box[m - 1]) {
+                continue;
+            }
+            long cur = 0L;
+            int i = 0;
+            int j = 0;
+            while (i < n) {
+                int index = binarySearch1839(packages, i, box[j]);
+                if (index == -1) {
+                    ++j;
+                    continue;
+                }
+                cur += (long) box[j] * (index - i + 1) - (pre[index + 1] - pre[i]);
+                if (cur >= res) {
+                    continue search;
+                }
+                ++j;
+                i = index + 1;
+            }
+            res = Math.min(res, cur);
+        }
+        final int MOD = (int) (1e9 + 7);
+        return (int) (res == Long.MAX_VALUE ? -1 : res % MOD);
 
-    // }
+    }
+
+    // 在排序数组packages的i ～ n - 1的索引中 找 <= target的最大值对应的索引 若不存在 返回 -1
+    private int binarySearch1839(int[] packages, int i, int target) {
+        int n = packages.length;
+        if (target < packages[i]) {
+            return -1;
+        }
+        if (packages[n - 1] <= target) {
+            return n - 1;
+        }
+        int left = i;
+        int right = n - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (packages[mid] <= target) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
