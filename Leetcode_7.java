@@ -4048,6 +4048,50 @@ public class Leetcode_7 {
         return res;
     }
 
+    // 1353. 最多可以参加的会议数目
+    public int maxEvents(int[][] events) {
+        int n = events.length;
+        Queue<Integer> q = new PriorityQueue<>(new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(o1, o2);
+            }
+
+        });
+
+        Arrays.sort(events, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        int res = 0;
+        int curDay = 1;
+        int i = 0;
+        while (i < n || !q.isEmpty()) {
+            while (i < n && events[i][0] == curDay) {
+                q.offer(events[i][1]);
+                ++i;
+            }
+
+            while (!q.isEmpty() && q.peek() < curDay) {
+                q.poll();
+            }
+
+            if (!q.isEmpty()) {
+                q.poll();
+                ++res;
+            }
+            ++curDay;
+        }
+        return res;
+
+
+    }
+
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
 
