@@ -16744,6 +16744,36 @@ public class LeetCodeText {
         return true;
     }
 
+    // 1048. 最长字符串链 (Longest String Chain)
+    private Map<String, Integer> memo1048;
+
+    public int longestStrChain2(String[] words) {
+        memo1048 = new HashMap<>();
+        for (String s : words) {
+            memo1048.put(s, 0);
+        }
+        int res = 0;
+        for (String word : words) {
+            res = Math.max(res, dfs1048(word));
+        }
+        return res;
+    }
+
+    private int dfs1048(String s) {
+        if (memo1048.get(s) != 0) {
+            return memo1048.get(s);
+        }
+        int res = 1;
+        for (int i = 0; i < s.length(); ++i) {
+            String next = s.substring(0, i) + s.substring(i + 1);
+            if (memo1048.containsKey(next)) {
+                res = Math.max(res, dfs1048(next) + 1);
+            }
+        }
+        memo1048.put(s, res);
+        return res;
+    }
+
     // 1750. 删除字符串两端相同字符后的最短长度 (Minimum Length of String After Deleting Similar
     // Ends)
     public int minimumLength(String s) {
