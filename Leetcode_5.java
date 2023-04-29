@@ -3213,47 +3213,7 @@ public class Leetcode_5 {
 
     }
 
-    // 6212. 删除字符使频率相同
-    public boolean equalFrequency(String word) {
-        int[] counts = new int[26];
-        for (char c : word.toCharArray()) {
-            ++counts[c - 'a'];
-        }
-        Arrays.sort(counts);
-        int[] copy1 = counts.clone();
-        int i = 0;
-        while (i < copy1.length) {
-            if (copy1[i] != 0) {
-                --copy1[i];
-                break;
-            }
-            ++i;
-        }
-        int[] copy2 = counts.clone();
-        --copy2[25];
-
-        if (check6212(copy1) || check6212(copy2)) {
-            return true;
-        }
-        return false;
-
-    }
-
-    private boolean check6212(int[] counts) {
-        int same = -1;
-        for (int count : counts) {
-            if (count != 0) {
-                if (same == -1) {
-                    same = count;
-                } else if (same != count) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    // 6212. 删除字符使频率相同 --暴力
+    // 2423. 删除字符使频率相同 (Remove Letter To Equalize Frequency)
     public boolean equalFrequency2(String word) {
         int[] count = new int[26];
         for (char c : word.toCharArray()) {
@@ -3262,7 +3222,7 @@ public class Leetcode_5 {
         for (int i = 0; i < count.length; ++i) {
             if (count[i] != 0) {
                 --count[i];
-                if (check6212_2(count)) {
+                if (check2423(count)) {
                     return true;
                 }
                 ++count[i];
@@ -3272,7 +3232,7 @@ public class Leetcode_5 {
 
     }
 
-    private boolean check6212_2(int[] count) {
+    private boolean check2423(int[] count) {
         int same = -1;
         for (int c : count) {
             if (c != 0) {
@@ -3281,6 +3241,32 @@ public class Leetcode_5 {
                 } else if (same != c) {
                     return false;
                 }
+            }
+        }
+        return true;
+    }
+
+    // 2423. 删除字符使频率相同 (Remove Letter To Equalize Frequency)
+    public boolean equalFrequency(String word) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : word.toCharArray()) {
+            map.merge(c, 1, Integer::sum);
+        }
+        List<Integer> list = new ArrayList<>(map.values());
+        Collections.sort(list);
+        int size = list.size();
+        // 只有一种个数  如 aaaaaaa
+        // 有两种个数 且较少的个数是1 较大的个数相等 如 abbbbcccc
+        // 有两种个数 且较大的个数比较小的个数大1 较小的个数相等 如 bbbcccdddd
+        return size == 1 || list.get(0) == 1 && check2423_2(list.subList(1, size))
+                || list.get(size - 1) == list.get(size - 2) + 1 && check2423_2(list.subList(0, size - 1));
+    }
+
+    private boolean check2423_2(List<Integer> list) {
+        int c = list.get(0);
+        for (int cnt : list) {
+            if (cnt != c) {
+                return false;
             }
         }
         return true;

@@ -4089,12 +4089,91 @@ public class Leetcode_7 {
         }
         return res;
 
-
     }
 
     // 2402. 会议室 III (Meeting Rooms III)
     // public int mostBooked(int n, int[][] meetings) {
+    //     int[] times = new int[n];
+    //     // 空闲会议室
+    //     Queue<Integer> idleRoomsQueue = new PriorityQueue<>();
+    //     for (int i = 0; i < n; ++i) {
+    //         idleRoomsQueue.offer(i);
+    //     }
+    //     // 非空闲会议室 [i, j] : 编号为i的会议室被占用 结束时间为j
+    //     Queue<int[]> nonIdleRoomsQueue = new PriorityQueue<>(new Comparator<int[]>() {
 
+    //         @Override
+    //         public int compare(int[] o1, int[] o2) {
+    //             return Integer.compare(o1[1], o2[1]);
+    //         }
+
+    //     });
+
+    //     // 等待队列
+    //     Queue<int[]> awaitingQueue = new PriorityQueue<>(new Comparator<int[]>() {
+
+    //         @Override
+    //         public int compare(int[] o1, int[] o2) {
+    //             return Integer.compare(o1[0], o2[0]);
+    //         }
+
+    //     });
+
+    //     Arrays.sort(meetings, new Comparator<int[]>() {
+
+    //         @Override
+    //         public int compare(int[] o1, int[] o2) {
+    //             return Integer.compare(o1[0], o2[0]);
+    //         }
+
+    //     });
+
+    //     // int startDay = 0;
+    //     // int i = 0;
+    //     // while (i < meetings.length || !awaitingQueue.isEmpty()) {
+    //     //     if (i < meetings.length) {
+    //     //         startDay = meetings[i][0];
+    //     //         awaitingQueue.offer(meetings[i]);
+    //     //     }
+    //     //     while (!nonIdleRoomsQueue.isEmpty() && nonIdleRoomsQueue.peek()[1] <= startDay) {
+    //     //         idleRoomsQueue.offer(nonIdleRoomsQueue.poll()[0]);
+    //     //     }
+
+    //     //     while (!idleRoomsQueue.isEmpty() && !awaitingQueue.isEmpty()) {
+    //     //         int id = idleRoomsQueue.poll();
+    //     //         ++times[id];
+    //     //         nonIdleRoomsQueue.offer(new int[] { id, startDay awaitingQueue.peek()[1] });
+
+    //     //     }
+
+    //     // }
+
+    //     int day = 0;
+    //     int i = 0;
+    //     while (i < meetings.length || !awaitingQueue.isEmpty()) {
+    //         if (i < meetings.length && meetings[i][0] == day) {
+    //             awaitingQueue.offer(meetings[i++]);
+    //         }
+    //         while (!nonIdleRoomsQueue.isEmpty() && nonIdleRoomsQueue.peek()[1] <= day) {
+    //             idleRoomsQueue.offer(nonIdleRoomsQueue.poll()[0]);
+    //         }
+    //         while (!idleRoomsQueue.isEmpty() && !awaitingQueue.isEmpty()) {
+    //             int id = idleRoomsQueue.poll();
+    //             ++times[id];
+    //             nonIdleRoomsQueue.offer(new int[] { id, day + awaitingQueue.peek()[1] - awaitingQueue.peek()[0] });
+    //             awaitingQueue.poll();
+    //         }
+    //         ++day;
+    //     }
+    //     int max = 0;
+    //     int res = 0;
+    //     for (int t = 0; t < times.length; ++t) {
+    //         if (max < times[t]) {
+    //             max = times[t];
+    //             res = t;
+    //         }
+    //     }
+    //     return res;
     // }
 
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
