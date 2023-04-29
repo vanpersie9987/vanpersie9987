@@ -4149,6 +4149,66 @@ public class Leetcode_7 {
         return res;
     }
 
+    // 1751. 最多可以参加的会议数目 II (Maximum Number of Events That Can Be Attended II)
+    private int n1751;
+    private int k1751;
+    private int[][] memo1751;
+    private int[][] events1751;
+
+    public int maxValue(int[][] events, int k) {
+        Arrays.sort(events, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        this.events1751 = events;
+        this.n1751 = events.length;
+        this.k1751 = k;
+        this.memo1751 = new int[n1751][k];
+        return dfs1751(0, 0);
+
+    }
+
+    private int dfs1751(int i, int count) {
+        if (i == n1751 || count == k1751) {
+            return 0;
+        }
+        if (memo1751[i][count] != 0) {
+            return memo1751[i][count];
+        }
+        int right = binarySearch1751(events1751, events1751[i][1]);
+        return memo1751[i][count] = Math.max(dfs1751(i + 1, count), dfs1751(right, count + 1) + events1751[i][2]);
+    }
+
+    // 在「按照开始时间从小到大排序」的e数组中，找 >target 的开始时间中，最小值对应的索引，不存在返回n
+    private int binarySearch1751(int[][] e, int target) {
+        int n = e.length;
+        if (target < e[0][0]) {
+            return 0;
+        }
+        if (e[n - 1][0] <= target) {
+            return n;
+        }
+        int left = 0;
+        int right = n - 1;
+        int res = n;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (e[mid][0] > target) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+
+    
+
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
 
