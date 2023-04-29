@@ -4051,14 +4051,7 @@ public class Leetcode_7 {
     // 1353. 最多可以参加的会议数目 (Maximum Number of Events That Can Be Attended)
     public int maxEvents(int[][] events) {
         int n = events.length;
-        Queue<Integer> q = new PriorityQueue<>(new Comparator<Integer>() {
-
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return Integer.compare(o1, o2);
-            }
-
-        });
+        Queue<Integer> q = new PriorityQueue<>();
 
         Arrays.sort(events, new Comparator<int[]>() {
 
