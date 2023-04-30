@@ -4200,8 +4200,6 @@ public class Leetcode_7 {
         return res;
     }
 
-    
-
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
 
@@ -4295,6 +4293,194 @@ public class Leetcode_7 {
 
     // 1406. 石子游戏 III (Stone Game III)
     // public String stoneGameIII(int[] stoneValue) {
+
+    // }
+
+    // 6406. K 个元素的最大和 (Maximum Sum With Exactly K Elements)
+    public int maximizeSum(int[] nums, int k) {
+        int max = Arrays.stream(nums).max().getAsInt();
+        return (2 * max + k - 1) * k / 2;
+
+    }
+
+    // 6405. 找到两个数组的前缀公共数组 (Find the Prefix Common Array of Two Arrays)
+    public int[] findThePrefixCommonArray(int[] A, int[] B) {
+        int n = A.length;
+        int[] res = new int[n];
+        long maskA = 0L;
+        long maskB = 0L;
+        for (int i = 0; i < n; ++i) {
+            maskA |= 1L << A[i];
+            maskB |= 1L << B[i];
+            res[i] = Long.bitCount(maskA & maskB);
+        }
+        return res;
+
+    }
+
+    // 6403. 网格图中鱼的最大数目 (Maximum Number of Fish in a Grid)
+    private int[][] grid6403;
+    private int m6403;
+    private int n6403;
+
+    public int findMaxFish(int[][] grid) {
+        this.m6403 = grid.length;
+        this.n6403 = grid[0].length;
+        this.grid6403 = grid;
+        int res = 0;
+        for (int i = 0; i < m6403; ++i) {
+            for (int j = 0; j < n6403; ++j) {
+                if (grid[i][j] != 0) {
+                    res = Math.max(res, dfs6403(i, j));
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int dfs6403(int i, int j) {
+        if (!(i >= 0 && i < m6403 && j >= 0 && j < n6403)) {
+            return 0;
+        }
+        if (grid6403[i][j] == 0) {
+            return 0;
+        }
+        int res = grid6403[i][j];
+        grid6403[i][j] = 0;
+        res += dfs6403(i + 1, j);
+        res += dfs6403(i, j + 1);
+        res += dfs6403(i - 1, j);
+        res += dfs6403(i, j - 1);
+        return res;
+    }
+
+    // 6341. 保龄球游戏的获胜者 (Determine the Winner of a Bowling Game)
+    public int isWinner(int[] player1, int[] player2) {
+        int n = player1.length;
+        int sum1 = 0;
+        int sum2 = 0;
+        for (int i = 0; i < n; ++i) {
+            if (i - 1 >= 0 && player1[i - 1] == 10 || i - 2 >= 0 && player1[i - 2] == 10) {
+                sum1 += player1[i] * 2;
+            } else {
+                sum1 += player1[i];
+            }
+            if (i - 1 >= 0 && player2[i - 1] == 10 || i - 2 >= 0 && player2[i - 2] == 10) {
+                sum2 += player2[i] * 2;
+            } else {
+                sum2 += player2[i];
+            }
+        }
+        if (sum1 > sum2) {
+            return 1;
+        }
+        if (sum1 < sum2) {
+            return 2;
+        }
+        return 0;
+
+    }
+
+    // 6342. 找出叠涂元素 (First Completely Painted Row or Column)
+    public int firstCompleteIndex(int[] arr, int[][] mat) {
+        int m = mat.length;
+        int n = mat[0].length;
+        Map<Integer, int[]> map = new HashMap<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                map.put(mat[i][j], new int[] { i, j });
+            }
+        }
+        int[] row = new int[m];
+        int[] col = new int[n];
+        for (int i = 0; i < m * n; ++i) {
+            int[] cur = map.get(arr[i]);
+            int x = cur[0];
+            int y = cur[1];
+            ++row[x];
+            ++col[y];
+            if (row[x] == n || col[y] == m) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
+    // 2088. 统计农场中肥沃金字塔的数目 (Count Fertile Pyramids in a Land)
+    public int countPyramids(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        if (m == 1 || n == 1) {
+            return 0;
+        }
+        int res = 0;
+        res += getPyramids(grid);
+        reverse2088(grid);
+        res += getPyramids(grid);
+        return res;
+
+    }
+
+    private void reverse2088(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        for (int i = 0; i < m / 2; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int temp = grid[i][j];
+                grid[i][j] = grid[m - i - 1][j];
+                grid[m - i - 1][j] = temp;
+            }
+        }
+    }
+
+    private int getPyramids(int[][] grid) {
+        int res = 0;
+        int m = grid.length;
+        int n = grid[0].length;
+        // dp[i][j] : 以[i，j] 为顶点的金字塔的最大高度
+        int[][] dp = new int[m][n];
+        dp[m - 1] = grid[m - 1];
+        for (int i = m - 2; i >= 0; --i) {
+            // 左右两列特判
+            dp[i][0] = grid[i][0];
+            dp[i][n - 1] = grid[i][n - 1];
+            for (int j = 1; j < n - 1; ++j) {
+                if (grid[i][j] == 0) {
+                    dp[i][j] = 0;
+                } else {
+                    dp[i][j] = Math.min(dp[i + 1][j], Math.min(dp[i + 1][j + 1], dp[i + 1][j - 1])) + 1;
+                    res += dp[i][j] - 1;
+                }
+            }
+        }
+        return res;
+    }
+
+    // public int minimumCost(int[] start, int[] target, int[][] specialRoads) {
+    //     Map<List<Integer>, Integer> map = new HashMap<>();
+    //     Queue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
+    //         @Override
+    //         public int compare(int[] o1, int[] o2) {
+    //             return o1[0] - o2[0];
+    //         }
+    //     });
+    //     for (queue.offer(new int[] { 0, start[0], start[1] }); !queue.isEmpty();) {
+    //         int[] p = queue.poll();
+    //         if (!map.containsKey(List.of(p[1], p[2]))) {
+    //             map.put(List.of(p[1], p[2]), p[0]);
+    //             for (int[] r : specialRoads) {
+    //                 queue.offer(new int[] { p[0] + Math.abs(p[1] - r[0]) + Math.abs(p[2] - r[1]), r[0], r[1] });
+    //                 if (r[0] == p[1] && r[1] == p[2]) {
+    //                     queue.offer(new int[] { p[0] + r[4], r[2], r[3] });
+    //                 }
+    //             }
+    //             queue.offer(new int[] { p[0] + Math.abs(p[1] - target[0]) + Math.abs(p[2] - target[1]),
+    //                     target[0], target[1] });
+    //         }
+    //     }
+    //     return map.get(List.of(target[0], target[1]));
 
     // }
 
