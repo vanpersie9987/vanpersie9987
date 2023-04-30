@@ -4200,102 +4200,6 @@ public class Leetcode_7 {
         return res;
     }
 
-    // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
-    // public int distinctEchoSubstrings(String text) {
-
-    // }
-
-    // 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array)
-    // public int minimumMountainRemovals(int[] nums) {
-    // }
-
-    // 1937. 扣分后的最大得分 (Maximum Number of Points with Cost)
-    // private int m;
-    // private int n;
-    // private int[][] points;
-    // private long[][] memo;
-
-    // public long maxPoints(int[][] points) {
-    // this.m = points.length;
-    // this.n = points[0].length;
-    // this.points = points;
-    // this.memo = new long[m][n];
-    // for (int i = 0; i < m; ++i) {
-    // Arrays.fill(memo[i], Long.MIN_VALUE);
-    // }
-    // long res = 0l;
-    // for (int j = 0; j < n; ++j) {
-    // res = Math.max(res, dfs(1, j) + points[0][j]);
-    // }
-    // return res;
-    // }
-
-    // private long dfs(int row, int lastCol) {
-    // if (row == m) {
-    // return 0;
-    // }
-    // if (memo[row][lastCol] != Long.MIN_VALUE) {
-    // return memo[row][lastCol];
-    // }
-    // long res = Long.MIN_VALUE;
-    // for (int j = 0; j < n; ++j) {
-    // res = Math.max(res, dfs(row + 1, j) + points[row][j] - Math.abs(lastCol -
-    // j));
-    // }
-    // return memo[row][lastCol] = res;
-    // }
-
-    // 1771. 由子序列构造的最长回文串的长度 (Maximize Palindrome Length From Subsequences)
-    // private int m;
-    // private int n;
-    // private String s;
-    // private int[][] memo;
-
-    // public int longestPalindrome(String word1, String word2) {
-    // this.m = word1.length();
-    // this.n = word2.length();
-    // this.s = word1 + word2;
-    // this.memo = new int[m + n][m + n];
-    // for (int i = 0; i < m + n; ++i) {
-    // Arrays.fill(memo[i], -1);
-    // }
-    // int res = dfs(false, 0, m + n - 1);
-    // return res > 1 ? res : 0;
-
-    // }
-
-    // private int dfs(boolean b, int i, int j) {
-    // if (i > j) {
-    // return 0;
-    // }
-    // if (i == j) {
-    // return 1;
-    // }
-    // if (memo[i][j] != -1) {
-    // return memo[i][j];
-    // }
-    // if (i >= m || j < m) {
-    // if (!b) {
-    // return 0;
-    // }
-    // }
-    // if (s.charAt(i) == s.charAt(j)) {
-    // return memo[i][j] = dfs(true, i + 1, j - 1) + 2;
-    // }
-    // return memo[i][j] = Math.max(dfs(b, i + 1, j), dfs(b, i, j - 1));
-    // }
-
-    // 面试题 17.08. 马戏团人塔 (Circus Tower LCCI)
-    // public int bestSeqAtIndex(int[] height, int[] weight) {
-    // int n = height.length;
-
-    // }
-
-    // 1406. 石子游戏 III (Stone Game III)
-    // public String stoneGameIII(int[] stoneValue) {
-
-    // }
-
     // 6406. K 个元素的最大和 (Maximum Sum With Exactly K Elements)
     public int maximizeSum(int[] nums, int k) {
         int max = Arrays.stream(nums).max().getAsInt();
@@ -4458,29 +4362,99 @@ public class Leetcode_7 {
         return res;
     }
 
-    // public int minimumCost(int[] start, int[] target, int[][] specialRoads) {
-    //     Map<List<Integer>, Integer> map = new HashMap<>();
-    //     Queue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
-    //         @Override
-    //         public int compare(int[] o1, int[] o2) {
-    //             return o1[0] - o2[0];
-    //         }
-    //     });
-    //     for (queue.offer(new int[] { 0, start[0], start[1] }); !queue.isEmpty();) {
-    //         int[] p = queue.poll();
-    //         if (!map.containsKey(List.of(p[1], p[2]))) {
-    //             map.put(List.of(p[1], p[2]), p[0]);
-    //             for (int[] r : specialRoads) {
-    //                 queue.offer(new int[] { p[0] + Math.abs(p[1] - r[0]) + Math.abs(p[2] - r[1]), r[0], r[1] });
-    //                 if (r[0] == p[1] && r[1] == p[2]) {
-    //                     queue.offer(new int[] { p[0] + r[4], r[2], r[3] });
-    //                 }
-    //             }
-    //             queue.offer(new int[] { p[0] + Math.abs(p[1] - target[0]) + Math.abs(p[2] - target[1]),
-    //                     target[0], target[1] });
-    //         }
-    //     }
-    //     return map.get(List.of(target[0], target[1]));
+    // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
+    // public int distinctEchoSubstrings(String text) {
+
+    // }
+
+    // 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array)
+    // public int minimumMountainRemovals(int[] nums) {
+    // }
+
+    // 1937. 扣分后的最大得分 (Maximum Number of Points with Cost)
+    // private int m;
+    // private int n;
+    // private int[][] points;
+    // private long[][] memo;
+
+    // public long maxPoints(int[][] points) {
+    // this.m = points.length;
+    // this.n = points[0].length;
+    // this.points = points;
+    // this.memo = new long[m][n];
+    // for (int i = 0; i < m; ++i) {
+    // Arrays.fill(memo[i], Long.MIN_VALUE);
+    // }
+    // long res = 0l;
+    // for (int j = 0; j < n; ++j) {
+    // res = Math.max(res, dfs(1, j) + points[0][j]);
+    // }
+    // return res;
+    // }
+
+    // private long dfs(int row, int lastCol) {
+    // if (row == m) {
+    // return 0;
+    // }
+    // if (memo[row][lastCol] != Long.MIN_VALUE) {
+    // return memo[row][lastCol];
+    // }
+    // long res = Long.MIN_VALUE;
+    // for (int j = 0; j < n; ++j) {
+    // res = Math.max(res, dfs(row + 1, j) + points[row][j] - Math.abs(lastCol -
+    // j));
+    // }
+    // return memo[row][lastCol] = res;
+    // }
+
+    // 1771. 由子序列构造的最长回文串的长度 (Maximize Palindrome Length From Subsequences)
+    // private int m;
+    // private int n;
+    // private String s;
+    // private int[][] memo;
+
+    // public int longestPalindrome(String word1, String word2) {
+    // this.m = word1.length();
+    // this.n = word2.length();
+    // this.s = word1 + word2;
+    // this.memo = new int[m + n][m + n];
+    // for (int i = 0; i < m + n; ++i) {
+    // Arrays.fill(memo[i], -1);
+    // }
+    // int res = dfs(false, 0, m + n - 1);
+    // return res > 1 ? res : 0;
+
+    // }
+
+    // private int dfs(boolean b, int i, int j) {
+    // if (i > j) {
+    // return 0;
+    // }
+    // if (i == j) {
+    // return 1;
+    // }
+    // if (memo[i][j] != -1) {
+    // return memo[i][j];
+    // }
+    // if (i >= m || j < m) {
+    // if (!b) {
+    // return 0;
+    // }
+    // }
+    // if (s.charAt(i) == s.charAt(j)) {
+    // return memo[i][j] = dfs(true, i + 1, j - 1) + 2;
+    // }
+    // return memo[i][j] = Math.max(dfs(b, i + 1, j), dfs(b, i, j - 1));
+    // }
+
+    // 面试题 17.08. 马戏团人塔 (Circus Tower LCCI)
+    // public int bestSeqAtIndex(int[] height, int[] weight) {
+    // int n = height.length;
+
+    // }
+
+    // 1406. 石子游戏 III (Stone Game III)
+    // public String stoneGameIII(int[] stoneValue) {
 
     // }
 
