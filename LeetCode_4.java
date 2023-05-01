@@ -1984,7 +1984,7 @@ public class LeetCode_4 {
         int n = board.length;
         line37_3 = new int[n];
         column37_3 = new int[n];
-        block37_3 = new int[n][n];
+        block37_3 = new int[n / 3][n / 3];
         spaces37_3 = new ArrayList<>();
 
         for (int i = 0; i < n; ++i) {
@@ -2000,10 +2000,10 @@ public class LeetCode_4 {
             for (int i = 0; i < n; ++i) {
                 for (int j = 0; j < n; ++j) {
                     if (board[i][j] == '.') {
-                        int mask = ~(line37_3[i] | column37_3[j] | block37_3[i / 3][j / 3]) & 0x1FF;
+                        int mask = ~(line37_3[i] | column37_3[j] | block37_3[i / 3][j / 3]) & ((1 << 9) - 1);
                         // 只有一个1，即该位置的值已唯一确定
                         if ((mask & (mask - 1)) == 0) {
-                            int digit = Integer.bitCount(mask - 1);
+                            int digit = Integer.numberOfTrailingZeros(mask);
                             board[i][j] = (char) (digit + '0' + 1);
                             flip37_3(i, j, digit);
                             modified = true;
@@ -2034,10 +2034,10 @@ public class LeetCode_4 {
         int[] cur = spaces37_3.get(index);
         int x = cur[0];
         int y = cur[1];
-        int mask = ~(line37_3[x] | column37_3[y] | block37_3[x / 3][y / 3]) & 0x1FF;
+        int mask = ~(line37_3[x] | column37_3[y] | block37_3[x / 3][y / 3]) & ((1 << 9) - 1);
         for (; mask != 0 && !valid37_3; mask &= (mask - 1)) {
             int bit = mask & (-mask);
-            int digit = Integer.bitCount(bit - 1);
+            int digit = Integer.numberOfTrailingZeros(bit);
             board[x][y] = (char) (digit + '0' + 1);
             flip37_3(x, y, digit);
             dfs37_3(board, index + 1);
