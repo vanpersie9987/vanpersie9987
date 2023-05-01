@@ -1508,31 +1508,33 @@ public class LeetCode_4 {
     // 剑指 Offer II 083. 没有重复元素集合的全排列
     // 排列：需要用used数组
     // 无重复元素：不需要排序
+    private int n46;
+    private int[] nums46;
     private List<List<Integer>> res46;
+    private List<Integer> list46;
 
     public List<List<Integer>> permute(int[] nums) {
-        res46 = new ArrayList<>();
-        int n = nums.length;
-        boolean[] visited = new boolean[n];
-        List<Integer> path = new ArrayList<>();
-        dfs46(nums, 0, visited, path);
+        this.n46 = nums.length;
+        this.nums46 = nums;
+        this.res46 = new ArrayList<>();
+        this.list46 = new ArrayList<>();
+        dfs46(0, 0);
         return res46;
-
     }
 
-    private void dfs46(int[] nums, int index, boolean[] visited, List<Integer> path) {
-        if (index == nums.length) {
-            res46.add(new ArrayList<>(path));
+    private void dfs46(int i, int mask) {
+        if (i == n46) {
+            res46.add(new ArrayList<>(list46));
             return;
         }
-        for (int i = 0; i < nums.length; ++i) {
-            if (!visited[i]) {
-                path.add(nums[i]);
-                visited[i] = true;
-                dfs46(nums, index + 1, visited, path);
-                visited[i] = false;
-                path.remove(path.size() - 1);
-            }
+        int pos = (~mask) & ((1 << n46) - 1);
+        while (pos != 0) {
+            int last = pos & (-pos);
+            int index = Integer.numberOfTrailingZeros(last);
+            list46.add(nums46[index]);
+            dfs46(i + 1, mask | last);
+            list46.remove(list46.size() - 1);
+            pos &= pos - 1;
         }
     }
 
