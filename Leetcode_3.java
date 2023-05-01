@@ -5838,28 +5838,28 @@ public class Leetcode_3 {
 
     }
 
-    // 1376. 通知所有员工所需的时间 (Time Needed to Inform All Employees) --bfs
+    // 1376. 通知所有员工所需的时间 (Time Needed to Inform All Employees)
     public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
-        Map<Integer, List<Integer>> tree = new HashMap<>();
-        Queue<int[]> queue = new LinkedList<>();
-        for (int i = 0; i < manager.length; ++i) {
+        Map<Integer, List<Integer>> g = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
             if (manager[i] != -1) {
-                tree.computeIfAbsent(manager[i], k -> new LinkedList<>()).add(i);
+                g.computeIfAbsent(manager[i], k -> new ArrayList<>()).add(i);
             }
         }
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[] { headID, informTime[headID] });
         int res = 0;
-        queue.offer(new int[] { headID, 0 });
-        while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
-            int id = cur[0];
-            int time = cur[1];
-            if (tree.get(id) == null) {
-                continue;
-            }
-            for (int subordinate : tree.get(id)) {
-                int curTime = informTime[id] + time;
-                queue.offer(new int[] { subordinate, curTime });
-                res = Math.max(res, curTime);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = q.poll();
+                int x = cur[0];
+                int t = cur[1];
+                res = Math.max(res, t);
+                for (int y : g.getOrDefault(x, new ArrayList<>())) {
+                    q.offer(new int[] { y, t + informTime[y] });
+                    res = Math.max(res, t + informTime[y]);
+                }
             }
         }
         return res;
