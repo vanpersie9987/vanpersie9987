@@ -5866,6 +5866,45 @@ public class Leetcode_3 {
 
     }
 
+    // 1376. 通知所有员工所需的时间 (Time Needed to Inform All Employees)
+    private Map<Integer, List<Integer>> g1376;
+
+    private int[] informTime1376;
+    // private int res;
+
+    public int numOfMinutes2(int n, int headID, int[] manager, int[] informTime) {
+        this.g1376 = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            if (manager[i] != -1) {
+                g1376.computeIfAbsent(manager[i], k -> new ArrayList<>()).add(i);
+            }
+        }
+        this.informTime1376 = informTime;
+        // 自底向上
+        return dfs1376(headID);
+        // 自顶向下
+        // dfs1376(headID,informTime[headID]);
+        // return res;
+
+    }
+
+    // 自顶向下
+    // private void dfs1376(int x, int t) {
+    // res = Math.max(res, t);
+    // for (int y : g.getOrDefault(x, new ArrayList<>())) {
+    // dfs1376(y, t + informTime[y]);
+    // }
+    // }
+
+    // 自底向上
+    private int dfs1376(int x) {
+        int max = 0;
+        for (int y : g1376.getOrDefault(x, new ArrayList<>())) {
+            max = Math.max(max, dfs1376(y));
+        }
+        return max + informTime1376[x];
+    }
+
     // 301. 删除无效的括号 (Remove Invalid Parentheses) --bfs
     public List<String> removeInvalidParentheses(String s) {
         Queue<String> queue = new LinkedList<>();
