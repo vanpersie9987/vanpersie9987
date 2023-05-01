@@ -1,3 +1,4 @@
+import java.nio.channels.Pipe;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1476,31 +1477,33 @@ public class LeetCode_4 {
 
     // 面试题 08.07. 无重复字符串的排列组合 (Permutation I LCCI) --回溯
     private List<String> res0807;
+    private char[] chars;
+    private int n;
+    private StringBuilder path;
 
     public String[] permutation(String S) {
-        res0807 = new ArrayList<>();
-        int n = S.length();
-        boolean[] visited = new boolean[n];
-        char[] chars = S.toCharArray();
-        StringBuilder path = new StringBuilder();
-        dfs0807(chars, 0, visited, path);
+        this.res0807 = new ArrayList<>();
+        this.n = S.length();
+        this.chars = S.toCharArray();
+        this.path = new StringBuilder();
+        dfs0807(0);
         return res0807.toArray(new String[0]);
 
     }
 
-    private void dfs0807(char[] chars, int index, boolean[] visited, StringBuilder path) {
-        if (chars.length == index) {
+    private void dfs0807(int mask) {
+        if (mask == ((1 << n) - 1)) {
             res0807.add(path.toString());
             return;
         }
-        for (int i = 0; i < chars.length; ++i) {
-            if (!visited[i]) {
-                path.append(chars[i]);
-                visited[i] = true;
-                dfs0807(chars, index + 1, visited, path);
-                visited[i] = false;
-                path.deleteCharAt(path.length() - 1);
-            }
+        int candidates = (~mask) & ((1 << n) - 1);
+        while (candidates != 0) {
+            int last = candidates & (-candidates);
+            int index = Integer.numberOfTrailingZeros(last);
+            path.append(chars[index]);
+            dfs0807(mask | last);
+            path.deleteCharAt(path.length() - 1);
+            candidates &= candidates - 1;
         }
     }
 
@@ -1518,12 +1521,12 @@ public class LeetCode_4 {
         this.nums46 = nums;
         this.res46 = new ArrayList<>();
         this.list46 = new ArrayList<>();
-        dfs46(0, 0);
+        dfs46(0);
         return res46;
     }
 
-    private void dfs46(int i, int mask) {
-        if (i == n46) {
+    private void dfs46(int mask) {
+        if (mask == (1 << n46) - 1) {
             res46.add(new ArrayList<>(list46));
             return;
         }
@@ -1532,7 +1535,7 @@ public class LeetCode_4 {
             int last = pos & (-pos);
             int index = Integer.numberOfTrailingZeros(last);
             list46.add(nums46[index]);
-            dfs46(i + 1, mask | last);
+            dfs46(mask | last);
             list46.remove(list46.size() - 1);
             pos &= pos - 1;
         }
