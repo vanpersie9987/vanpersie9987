@@ -2308,7 +2308,7 @@ public class LeetCode_4 {
         int availablePositions = ((1 << n) - 1) & (~(colunms | diagonal1 | diagonal2));
         while (availablePositions != 0) {
             int position = availablePositions & (-availablePositions);
-            int index = Integer.bitCount(position - 1);
+            int index = Integer.numberOfTrailingZeros(position);
             queens[row] = index;
             backtrack51_2(res, queens, n, row + 1, colunms | position, (diagonal1 | position) << 1,
                     (diagonal2 | position) >> 1);
