@@ -9066,11 +9066,11 @@ public class LeetCode_4 {
         for (int i = 0; i < n; ++i) {
             Arrays.fill(memo494[i], -1);
         }
-        return dfs(n - 1, target);
+        return dfs494(n - 1, target);
 
     }
 
-    private int dfs(int i, int c) {
+    private int dfs494(int i, int c) {
         if (i < 0) {
             return c == 0 ? 1 : 0;
         }
@@ -9078,9 +9078,9 @@ public class LeetCode_4 {
             return memo494[i][c];
         }
         if (c < nums494[i]) {
-            return memo494[i][c] = dfs(i - 1, c);
+            return memo494[i][c] = dfs494(i - 1, c);
         }
-        return memo494[i][c] = dfs(i - 1, c - nums494[i]) + dfs(i - 1, c);
+        return memo494[i][c] = dfs494(i - 1, c - nums494[i]) + dfs494(i - 1, c);
     }
 
     // 279. 完全平方数 (Perfect Squares) --记忆化搜索
