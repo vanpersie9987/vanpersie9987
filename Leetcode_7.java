@@ -4474,7 +4474,7 @@ public class Leetcode_7 {
             if (num > list.get(list.size() - 1)) {
                 list.add(num);
             } else {
-                int j = binarySearc354(list, num);
+                int j = binarySearch354(list, num);
                 list.set(j, num);
             }
         }
@@ -4482,7 +4482,7 @@ public class Leetcode_7 {
     }
 
     // 找排序list中，第一个 >= target 的值的索引
-    private int binarySearc354(List<Integer> list, int target) {
+    private int binarySearch354(List<Integer> list, int target) {
         int left = 0;
         int right = list.size() - 1;
         int res = 0;
@@ -4499,9 +4499,9 @@ public class Leetcode_7 {
     }
 
     // 面试题 08.13. 堆箱子 (Pile Box LCCI)
-    private int n0813;
-    private int[][] box0813;
-    private int[] memo0813;
+    private int n08_13;
+    private int[][] box08_13;
+    private int[] memo08_13;
 
     public int pileBox(int[][] box) {
         Arrays.sort(box, new Comparator<int[]>() {
@@ -4518,28 +4518,73 @@ public class Leetcode_7 {
             }
 
         });
-        this.n0813 = box.length;
-        this.box0813 = box;
-        this.memo0813 = new int[n0813];
+        this.n08_13 = box.length;
+        this.box08_13 = box;
+        this.memo08_13 = new int[n08_13];
         int res = 0;
-        for (int i = 0; i < n0813; ++i) {
-            res = Math.max(res, dfs0813(i));
+        for (int i = 0; i < n08_13; ++i) {
+            res = Math.max(res, dfs08_13(i));
         }
         return res;
 
     }
 
-    private int dfs0813(int i) {
-        if (memo0813[i] != 0) {
-            return memo0813[i];
+    private int dfs08_13(int i) {
+        if (memo08_13[i] != 0) {
+            return memo08_13[i];
         }
         int max = 0;
         for (int j = i - 1; j >= 0; --j) {
-            if (box0813[j][0] < box0813[i][0] && box0813[j][1] < box0813[i][1] && box0813[j][2] < box0813[i][2]) {
-                max = Math.max(max, dfs0813(j));
+            if (box08_13[j][0] < box08_13[i][0] && box08_13[j][1] < box08_13[i][1] && box08_13[j][2] < box08_13[i][2]) {
+                max = Math.max(max, dfs08_13(j));
             }
         }
-        return memo0813[i] = max + box0813[i][2];
+        return memo08_13[i] = max + box08_13[i][2];
+    }
+
+    // 面试题 17.08. 马戏团人塔 (Circus Tower LCCI)
+    public int bestSeqAtIndex(int[] height, int[] weight) {
+        int n = height.length;
+        Integer[] ids = IntStream.range(0, n).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                if (height[o1] == height[o2]) {
+                    return Integer.compare(weight[o2], weight[o1]);
+                }
+                return Integer.compare(height[o1], height[o2]);
+            }
+
+        });
+
+        List<Integer> list = new ArrayList<>();
+        for (int id : ids) {
+            int num = weight[id];
+            if (list.isEmpty() || num > list.get(list.size() - 1)) {
+                list.add(num);
+            } else {
+                int j = binarySearch17_08(list, num);
+                list.set(j, num);
+            }
+        }
+        return list.size();
+
+    }
+
+    // 找排序list中，第一个 >= target 的值的索引
+    private int binarySearch17_08(List<Integer> list, int target) {
+        int left = 0;
+        int right = list.size() - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (list.get(mid) >= target) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
     }
 
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
@@ -4621,12 +4666,6 @@ public class Leetcode_7 {
     // return memo[i][j] = dfs(true, i + 1, j - 1) + 2;
     // }
     // return memo[i][j] = Math.max(dfs(b, i + 1, j), dfs(b, i, j - 1));
-    // }
-
-    // 面试题 17.08. 马戏团人塔 (Circus Tower LCCI)
-    // public int bestSeqAtIndex(int[] height, int[] weight) {
-    // int n = height.length;
-
     // }
 
     // 1406. 石子游戏 III (Stone Game III)
