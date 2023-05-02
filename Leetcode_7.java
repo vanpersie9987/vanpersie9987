@@ -4362,7 +4362,8 @@ public class Leetcode_7 {
         return res;
     }
 
-    // 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array) --O(n^2)
+    // 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array)
+    // --O(n^2)
     public int minimumMountainRemovals(int[] nums) {
         int n = nums.length;
         int[] pre = new int[n];
@@ -4392,6 +4393,59 @@ public class Leetcode_7 {
         return res;
     }
 
+    // 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array)
+    // --O(n^2)
+    private int[] pre1671;
+    private int[] suf1671;
+    private int[] nums1671;
+    private int n1671;
+
+    public int minimumMountainRemovals2(int[] nums) {
+        this.n1671 = nums.length;
+        this.pre1671 = new int[n1671];
+        this.nums1671 = nums;
+        for (int i = 0; i < n1671; ++i) {
+            dfs1671(i);
+        }
+        this.suf1671 = new int[n1671];
+        for (int i = n1671 - 1; i >= 0; --i) {
+            dfs2_1671(i);
+        }
+        int res = n1671;
+        for (int i = 0; i < n1671; ++i) {
+            if (pre1671[i] != 1 && suf1671[i] != 1) {
+                res = Math.min(res, n1671 - pre1671[i] - suf1671[i] + 1);
+            }
+        }
+        return res;
+
+    }
+
+    private int dfs2_1671(int i) {
+        if (suf1671[i] != 0) {
+            return suf1671[i];
+        }
+        int max = 0;
+        for (int j = i + 1; j < n1671; ++j) {
+            if (nums1671[j] < nums1671[i]) {
+                max = Math.max(max, dfs2_1671(j));
+            }
+        }
+        return suf1671[i] = max + 1;
+    }
+
+    private int dfs1671(int i) {
+        if (pre1671[i] != 0) {
+            return pre1671[i];
+        }
+        int max = 0;
+        for (int j = 0; j < i; ++j) {
+            if (nums1671[j] < nums1671[i]) {
+                max = Math.max(max, dfs1671(j));
+            }
+        }
+        return pre1671[i] = max + 1;
+    }
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
 
