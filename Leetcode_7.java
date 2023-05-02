@@ -4449,6 +4449,60 @@ public class Leetcode_7 {
         return pre1671[i] = max + 1;
     }
 
+    // 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array)
+    // --O(nlogn)
+    public int minimumMountainRemovals3(int[] nums) {
+        int n = nums.length;
+        int[] pre = new int[n];
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            if (list.isEmpty() || nums[i] > list.get(list.size() - 1)) {
+                list.add(nums[i]);
+                pre[i] = list.size();
+            } else {
+                int j = binarySearchCeiling1671(list, nums[i]);
+                list.set(j, nums[i]);
+                pre[i] = j + 1;
+            }
+        }
+
+        list.clear();
+        int[] suf = new int[n];
+        for (int i = n - 1; i >= 0; --i) {
+            if (list.isEmpty() || nums[i] > list.get(list.size() - 1)) {
+                list.add(nums[i]);
+                suf[i] = list.size();
+            } else {
+                int j = binarySearchCeiling1671(list, nums[i]);
+                list.set(j, nums[i]);
+                suf[i] = j + 1;
+            }
+        }
+        int res = n;
+        for (int i = 0; i < n; ++i) {
+            if (pre[i] != 1 && suf[i] != 1) {
+                res = Math.min(res, n - pre[i] - suf[i] + 1);
+            }
+        }
+        return res;
+
+    }
+
+    // 找排序list中，第一个 >= target 的值的索引
+    private int binarySearchCeiling1671(List<Integer> list, int target) {
+        int left = 0;
+        int right = list.size() - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (list.get(mid) >= target) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+    }
+
     // 354. 俄罗斯套娃信封问题 (Russian Doll Envelopes)
     public int maxEnvelopes(int[][] envelopes) {
         int n = envelopes.length;
