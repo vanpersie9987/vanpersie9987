@@ -1477,32 +1477,32 @@ public class LeetCode_4 {
 
     // 面试题 08.07. 无重复字符串的排列组合 (Permutation I LCCI) --回溯
     private List<String> res0807;
-    private char[] chars;
-    private int n;
-    private StringBuilder path;
+    private char[] chars0807;
+    private int n0807;
+    private StringBuilder path0807;
 
     public String[] permutation(String S) {
         this.res0807 = new ArrayList<>();
-        this.n = S.length();
-        this.chars = S.toCharArray();
-        this.path = new StringBuilder();
+        this.n0807 = S.length();
+        this.chars0807 = S.toCharArray();
+        this.path0807 = new StringBuilder();
         dfs0807(0);
         return res0807.toArray(new String[0]);
 
     }
 
     private void dfs0807(int mask) {
-        if (mask == ((1 << n) - 1)) {
-            res0807.add(path.toString());
+        if (mask == ((1 << n0807) - 1)) {
+            res0807.add(path0807.toString());
             return;
         }
-        int candidates = (~mask) & ((1 << n) - 1);
+        int candidates = (~mask) & ((1 << n0807) - 1);
         while (candidates != 0) {
             int last = candidates & (-candidates);
             int index = Integer.numberOfTrailingZeros(last);
-            path.append(chars[index]);
+            path0807.append(chars0807[index]);
             dfs0807(mask | last);
-            path.deleteCharAt(path.length() - 1);
+            path0807.deleteCharAt(path0807.length() - 1);
             candidates &= candidates - 1;
         }
     }
@@ -1727,41 +1727,36 @@ public class LeetCode_4 {
     }
 
     // 17. 电话号码的字母组合 (Letter Combinations of a Phone Number) --回溯
-    public List<String> letterCombinations(String digits) {
-        List<String> res = new ArrayList<>();
-        if (digits.length() == 0) {
-            return res;
-        }
-        Map<Character, String> map = new HashMap<>() {
-            {
-                put('2', "abc");
-                put('3', "def");
-                put('4', "ghi");
-                put('5', "jkl");
-                put('6', "mno");
-                put('7', "pqrs");
-                put('8', "tuv");
-                put('9', "wxyz");
-            }
-        };
+    private StringBuilder builder17;
+    private int n17;
+    private List<String> res17;
+    private String[] map17 = { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+    private String digits17;
 
-        StringBuilder builder = new StringBuilder();
-        backtrack17(res, builder, digits, 0, map);
-        return res;
+    public List<String> letterCombinations(String digits) {
+        res17 = new ArrayList<>();
+        if (digits.isEmpty()) {
+            return res17;
+        }
+        builder17 = new StringBuilder();
+        this.n17 = digits.length();
+
+        this.digits17 = digits;
+        dfs17(0);
+        return res17;
+
     }
 
-    private void backtrack17(List<String> res, StringBuilder builder, String digits, int index,
-            Map<Character, String> map) {
-        if (index == digits.length()) {
-            res.add(builder.toString());
+    private void dfs17(int i) {
+        if (i == n17) {
+            res17.add(builder17.toString());
             return;
         }
-        char c = digits.charAt(index);
-        String s = map.get(c);
-        for (int i = 0; i < s.length(); ++i) {
-            builder.append(s.charAt(i));
-            backtrack17(res, builder, digits, index + 1, map);
-            builder.deleteCharAt(builder.length() - 1);
+        int index = digits17.charAt(i) - '0';
+        for (char c : map17[index].toCharArray()) {
+            builder17.append(c);
+            dfs17(i + 1);
+            builder17.deleteCharAt(builder17.length() - 1);
         }
     }
 
