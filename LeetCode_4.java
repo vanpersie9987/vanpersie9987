@@ -2162,30 +2162,34 @@ public class LeetCode_4 {
     // 组合：不需要用used数组
     // 无重复元素：不需要排序
     // 每个元素可以多次使用 ：回溯的时候 index = i
-    public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        List<List<Integer>> res = new ArrayList<>();
-        List<Integer> path = new ArrayList<>();
-        backtrack39(candidates, path, res, target, 0, 0);
-        return res;
+    private int[] candidates39;
+    private int target39;
+    private List<List<Integer>> res39;
+    private List<Integer> list39;
 
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        this.candidates39 = candidates;
+        this.target39 = target;
+        this.res39 = new ArrayList<>();
+        this.list39 = new ArrayList<>();
+        dfs39(0, 0);
+        return res39;
     }
 
-    private void backtrack39(int[] candidates, List<Integer> path, List<List<Integer>> res, int target, int sum,
-            int index) {
-        if (target == sum) {
-            res.add(new ArrayList<>(path));
+    private void dfs39(int index, int sum) {
+        if (sum > target39) {
             return;
         }
-        if (sum > target) {
+        if (sum == target39) {
+            res39.add(new ArrayList<>(list39));
             return;
         }
-        for (int i = index; i < candidates.length; ++i) {
-            sum += candidates[i];
-            path.add(candidates[i]);
-            backtrack39(candidates, path, res, target, sum, i);
-            path.remove(path.size() - 1);
-            sum -= candidates[i];
+        for (int i = index; i < candidates39.length; ++i) {
+            list39.add(candidates39[i]);
+            dfs39(i, sum + candidates39[i]);
+            list39.remove(list39.size() - 1);
         }
+
     }
 
     // 77. 组合 (Combinations)
