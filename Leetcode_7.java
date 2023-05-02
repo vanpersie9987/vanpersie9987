@@ -4362,13 +4362,39 @@ public class Leetcode_7 {
         return res;
     }
 
+    // 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array) --O(n^2)
+    public int minimumMountainRemovals(int[] nums) {
+        int n = nums.length;
+        int[] pre = new int[n];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < i; ++j) {
+                if (nums[i] > nums[j]) {
+                    pre[i] = Math.max(pre[i], pre[j] + 1);
+                }
+            }
+        }
+        int[] suf = new int[n];
+        for (int i = n - 1; i >= 0; --i) {
+            for (int j = n - 1; j > i; --j) {
+                if (nums[i] > nums[j]) {
+                    suf[i] = Math.max(suf[i], suf[j] + 1);
+                }
+            }
+        }
+        int res = n;
+        for (int i = 0; i < n; ++i) {
+            // 山峰点的前提是左右两边都要有单调的非空子序列存在
+            if (suf[i] != 0 && pre[i] != 0) {
+                res = Math.min(res, n - pre[i] - suf[i] - 1);
+            }
+
+        }
+        return res;
+    }
+
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
 
-    // }
-
-    // 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array)
-    // public int minimumMountainRemovals(int[] nums) {
     // }
 
     // 1937. 扣分后的最大得分 (Maximum Number of Points with Cost)
