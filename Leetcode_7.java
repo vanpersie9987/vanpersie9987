@@ -4498,6 +4498,49 @@ public class Leetcode_7 {
         return res;
     }
 
+    // 面试题 08.13. 堆箱子 (Pile Box LCCI)
+    private int n0813;
+    private int[][] box0813;
+    private int[] memo0813;
+
+    public int pileBox(int[][] box) {
+        Arrays.sort(box, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] == o2[0]) {
+                    if (o1[1] == o2[1]) {
+                        return Integer.compare(o1[2], o2[2]);
+                    }
+                    return Integer.compare(o1[1], o2[1]);
+                }
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        this.n0813 = box.length;
+        this.box0813 = box;
+        this.memo0813 = new int[n0813];
+        int res = 0;
+        for (int i = 0; i < n0813; ++i) {
+            res = Math.max(res, dfs0813(i));
+        }
+        return res;
+
+    }
+
+    private int dfs0813(int i) {
+        if (memo0813[i] != 0) {
+            return memo0813[i];
+        }
+        int max = 0;
+        for (int j = i - 1; j >= 0; --j) {
+            if (box0813[j][0] < box0813[i][0] && box0813[j][1] < box0813[i][1] && box0813[j][2] < box0813[i][2]) {
+                max = Math.max(max, dfs0813(j));
+            }
+        }
+        return memo0813[i] = max + box0813[i][2];
+    }
 
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
@@ -4590,4 +4633,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 }
