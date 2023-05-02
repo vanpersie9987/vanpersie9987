@@ -1802,31 +1802,37 @@ public class LeetCode_4 {
         }
     }
 
-    // 剑指 Offer II 085. 生成匹配的括号 --backtrack
     // 22. 括号生成 (Generate Parentheses)
+    // 剑指 Offer II 085. 生成匹配的括号 --backtrack
     // 面试题 08.09.括号 (Bracket LCCI)
+
+    private int n22;
+    private List<String> res22;
+    private StringBuilder builder22;
+
     public List<String> generateParenthesis(int n) {
-        List<String> res = new ArrayList<>();
-        StringBuilder builder = new StringBuilder();
-        backtrack22(res, builder, 0, 0, n);
-        return res;
+        res22 = new ArrayList<>();
+        this.n22 = n;
+        this.builder22 = new StringBuilder();
+        dfs(0, 0);
+        return res22;
 
     }
 
-    private void backtrack22(List<String> res, StringBuilder builder, int open, int close, int n) {
-        if (builder.length() == n * 2) {
-            res.add(builder.toString());
+    private void dfs(int left, int right) {
+        if (left + right == n22 * 2) {
+            res22.add(builder22.toString());
             return;
         }
-        if (open < n) {
-            builder.append('(');
-            backtrack22(res, builder, open + 1, close, n);
-            builder.deleteCharAt(builder.length() - 1);
+        if (left < n22) {
+            builder22.append("(");
+            dfs(left + 1, right);
+            builder22.deleteCharAt(builder22.length() - 1);
         }
-        if (open > close) {
-            builder.append(')');
-            backtrack22(res, builder, open, close + 1, n);
-            builder.deleteCharAt(builder.length() - 1);
+        if (left > right) {
+            builder22.append(")");
+            dfs(left, right + 1);
+            builder22.deleteCharAt(builder22.length() - 1);
         }
     }
 
@@ -1842,8 +1848,8 @@ public class LeetCode_4 {
         }
     }
 
-    // 剑指 Offer II 085. 生成匹配的括号 --bfs
     // 22. 括号生成 (Generate Parentheses)
+    // 剑指 Offer II 085. 生成匹配的括号 --bfs
     // 面试题 08.09.括号 (Bracket LCCI)
     public List<String> generateParenthesis2(int n) {
         List<String> res = new ArrayList<>();
