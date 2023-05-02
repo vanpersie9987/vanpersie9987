@@ -4448,6 +4448,57 @@ public class Leetcode_7 {
         }
         return pre1671[i] = max + 1;
     }
+
+    // 354. 俄罗斯套娃信封问题 (Russian Doll Envelopes)
+    public int maxEnvelopes(int[][] envelopes) {
+        int n = envelopes.length;
+        Arrays.sort(envelopes, new Comparator<int[]>() {
+
+            // 优先级 ：按第 0 列升序，若相等，按第 1 列降序
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] == o2[0]) {
+                    // 降序
+                    return Integer.compare(o2[1], o1[1]);
+                }
+                return Integer.compare(o1[0], o2[0]);
+
+            }
+
+        });
+
+        List<Integer> list = new ArrayList<>();
+        list.add(envelopes[0][1]);
+        for (int i = 1; i < n; ++i) {
+            int num = envelopes[i][1];
+            if (num > list.get(list.size() - 1)) {
+                list.add(num);
+            } else {
+                int j = binarySearc354(list, num);
+                list.set(j, num);
+            }
+        }
+        return list.size();
+    }
+
+    // 找排序list中，第一个 >= target 的值的索引
+    private int binarySearc354(List<Integer> list, int target) {
+        int left = 0;
+        int right = list.size() - 1;
+        int res = 0;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (list.get(mid) >= target) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+
+
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
 
@@ -4539,5 +4590,4 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
-
 }
