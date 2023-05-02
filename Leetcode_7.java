@@ -19,8 +19,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.xml.crypto.KeySelector.Purpose;
-
 public class Leetcode_7 {
     public static void main(String[] args) {
         // int[] arr = { 1, 4, 1, 3 };
