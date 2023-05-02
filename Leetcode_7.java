@@ -4368,6 +4368,7 @@ public class Leetcode_7 {
         int n = nums.length;
         int[] pre = new int[n];
         for (int i = 0; i < n; ++i) {
+            pre[i] = 1;
             for (int j = 0; j < i; ++j) {
                 if (nums[i] > nums[j]) {
                     pre[i] = Math.max(pre[i], pre[j] + 1);
@@ -4376,6 +4377,7 @@ public class Leetcode_7 {
         }
         int[] suf = new int[n];
         for (int i = n - 1; i >= 0; --i) {
+            suf[i] = 1;
             for (int j = n - 1; j > i; --j) {
                 if (nums[i] > nums[j]) {
                     suf[i] = Math.max(suf[i], suf[j] + 1);
@@ -4385,8 +4387,8 @@ public class Leetcode_7 {
         int res = n;
         for (int i = 0; i < n; ++i) {
             // 山峰点的前提是左右两边都要有单调的非空子序列存在
-            if (suf[i] != 0 && pre[i] != 0) {
-                res = Math.min(res, n - pre[i] - suf[i] - 1);
+            if (suf[i] != 1 && pre[i] != 1) {
+                res = Math.min(res, n - pre[i] - suf[i] + 1);
             }
 
         }
