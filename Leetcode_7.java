@@ -4639,6 +4639,64 @@ public class Leetcode_7 {
         return right + 1;
     }
 
+    // 87. 扰乱字符串 (Scramble String)
+    private Map<String, Boolean> memo_87_1;
+    private int n_87_1;
+    private String s2_87_1;
+
+    public boolean isScramble(String s1, String s2) {
+        this.memo_87_1 = new HashMap<>();
+        this.n_87_1 = s1.length();
+        this.s2_87_1 = s2;
+        return dfs_87_1(s1, 0, n_87_1);
+
+    }
+
+    private boolean dfs_87_1(String s, int left, int right) {
+        String p = s + "_" + left + "_" + right;
+        if (memo_87_1.containsKey(p)) {
+            return memo_87_1.get(p);
+        }
+        if (s.equals(s2_87_1.substring(left, right))) {
+            return true;
+        }
+        if (!check_87_1(s, s2_87_1.substring(left, right))) {
+            memo_87_1.put(p, false);
+            return false;
+        }
+        for (int i = left + 1; i < right; ++i) {
+            String sub1 = s.substring(left - left, i - left);
+            String sub2 = s.substring(i - left, right - left);
+            if (dfs_87_1(sub1, left, i) && dfs_87_1(sub2, i, right)) {
+                memo_87_1.put(p, true);
+                return true;
+            }
+            if (dfs_87_1(sub2, left, left + sub2.length())
+                    && dfs_87_1(sub1, right - sub1.length(), right)) {
+                memo_87_1.put(p, true);
+                return true;
+            }
+        }
+        memo_87_1.put(p, false);
+        return false;
+    }
+
+    private boolean check_87_1(String a, String b) {
+        int[] cnt = new int[26];
+        for (char c : a.toCharArray()) {
+            ++cnt[c - 'a'];
+        }
+        for (char c : b.toCharArray()) {
+            --cnt[c - 'a'];
+        }
+        for (int i = 0; i < 26; ++i) {
+            if (cnt[i] != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
 
@@ -4724,5 +4782,4 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
-
 }
