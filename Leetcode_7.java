@@ -4697,6 +4697,68 @@ public class Leetcode_7 {
         return true;
     }
 
+    // 87. 扰乱字符串 (Scramble String)
+    private int n_87_2;
+    private String s1_87_2;
+    private String s2_87_2;
+    private int[][][] memo_87_2;
+
+    public boolean isScramble2(String s1, String s2) {
+        this.n_87_2 = s1.length();
+        this.s1_87_2 = s1;
+        this.s2_87_2 = s2;
+        memo_87_2 = new int[n_87_2][n_87_2][n_87_2 + 1];
+        return dfs_87_2(0, 0, n_87_2);
+
+    }
+
+    private boolean dfs_87_2(int i1, int i2, int len) {
+        if (memo_87_2[i1][i2][len] != 0) {
+            return memo_87_2[i1][i2][len] > 0;
+        }
+        if (s1_87_2.substring(i1, i1 + len).equals(s2_87_2.substring(i2, i2 + len))) {
+            memo_87_2[i1][i2][len] = 1;
+            return true;
+        }
+        if (!check_87_2(s1_87_2.substring(i1, i1 + len), s2_87_2.substring(i2, i2 + len))) {
+            memo_87_2[i1][i2][len] = -1;
+            return false;
+        }
+        for (int l = 1; l < len; ++l) {
+            if (dfs_87_2(i1, i2, l) && dfs_87_2(i1 + l, i2 + l, len - l)) {
+                memo_87_2[i1][i2][len] = 1;
+                return true;
+            }
+            if (dfs_87_2(i1 + l, i2, len - l) && dfs_87_2(i1, i2 + len - l, l)) {
+                memo_87_2[i1][i2][len] = 1;
+                return true;
+            }
+        }
+        memo_87_2[i1][i2][len] = -1;
+        return false;
+    }
+
+    private boolean check_87_2(String a, String b) {
+        int[] cnts = new int[26];
+        for (char c : a.toCharArray()) {
+            ++cnts[c - 'a'];
+        }
+        for (char c : b.toCharArray()) {
+            --cnts[c - 'a'];
+        }
+        for (int c : cnts) {
+            if (c != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // 1718. 构建字典序最大的可行序列 (Construct the Lexicographically Largest Valid Sequence)
+    // public int[] constructDistancedSequence(int n) {
+
+    // }
+
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
 
@@ -4782,4 +4844,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 }
