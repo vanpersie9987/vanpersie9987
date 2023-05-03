@@ -11545,36 +11545,28 @@ public class LeetCodeText {
 
     }
 
-    // 1003. 检查替换后的词是否有效
-    public boolean isValid1003(String s) {
-        String pattern = "abc";
-        StringBuilder builder = new StringBuilder(s);
-        while (builder.length() != 0) {
-            int index = builder.indexOf(pattern);
-            if (index == -1) {
-                return false;
-            }
-            builder.delete(index, index + 3);
-        }
-        return true;
-
-    }
-
-    // 1003. 检查替换后的词是否有效
+    // 1003. 检查替换后的词是否有效 (Check If Word Is Valid After Substitutions)
     // s = "abcabcababcc"
-    public boolean isValid1003_2(String s) {
-        StringBuilder res = new StringBuilder();
-        for (int i = 0; i < s.length(); ++i) {
-            if (s.charAt(i) == 'c') {
-                if (res.length() < 2 || res.charAt(res.length() - 1) != 'b' || res.charAt(res.length() - 2) != 'a') {
+    public boolean isValid1003(String s) {
+        int n = s.length();
+        if (n % 3 != 0) {
+            return false;
+        }
+        char[] arr = s.toCharArray();
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < n; ++i) {
+            char c = arr[i];
+            if (c == 'c') {
+                if (builder.length() <= 1 || builder.charAt(builder.length() - 1) != 'b'
+                        || builder.charAt(builder.length() - 2) != 'a') {
                     return false;
                 }
-                res.setLength(res.length() - 2);
+                builder.delete(builder.length() - 2, builder.length());
             } else {
-                res.append(s.charAt(i));
+                builder.append(c);
             }
         }
-        return res.length() == 0;
+        return builder.isEmpty();
 
     }
 
