@@ -4768,14 +4768,8 @@ public class Leetcode_7 {
     }
 
     private int dfs1866(int n, int k) {
-        if (n == 0 || k == 0) {
-            if (n == 0 && k == 0) {
-                return 1;
-            }
-            return 0;
-        }
-        if (k > n) {
-            return 0;
+        if (n == 0 || k == 0 || k >= n) {
+            return k == n ? 1 : 0;
         }
         if (memo1866[n][k] != -1) {
             return memo1866[n][k];
@@ -4783,6 +4777,11 @@ public class Leetcode_7 {
         final int MOD = (int) (1e9 + 7);
         return memo1866[n][k] = (int) (dfs1866(n - 1, k - 1) + ((long) (n - 1) * dfs1866(n - 1, k)) % MOD) % MOD;
     }
+
+    // 629. K个逆序对数组 (K Inverse Pairs Array)
+    // public int kInversePairs(int n, int k) {
+
+    // }
 
 
     // 1718. 构建字典序最大的可行序列 (Construct the Lexicographically Largest Valid Sequence)
