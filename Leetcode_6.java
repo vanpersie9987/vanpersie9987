@@ -5753,22 +5753,18 @@ public class Leetcode_6 {
     // 2550. 猴子碰撞的方法数
     public int monkeyMove(int n) {
         final int MOD = (int) (1e9 + 7);
-        long res = pow2550(n);
-
-        return (int) (((res - 2l) % MOD + MOD) % MOD);
-
+        return ((pow2550(n) - 2) % MOD + MOD) % MOD;
     }
 
-    public long pow2550(int n) {
+    private int pow2550(int n) {
         final int MOD = (int) (1e9 + 7);
-        long x = 2l;
-        long res = 1l;
-        while (n > 0) {
-            if ((n & 1) == 1) {
-                res = (res * x) % MOD;
-            }
-            x = (x * x) % MOD;
-            n >>>= 1;
+        if (n == 0) {
+            return 1;
+        }
+        int res = pow2550(n / 2) % MOD;
+        res = (int) (((long) res * res) % MOD);
+        if ((n & 1) == 1) {
+            res = res * 2 % MOD;
         }
         return res;
     }
