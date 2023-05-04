@@ -4754,6 +4754,37 @@ public class Leetcode_7 {
         return true;
     }
 
+    // 1866. 恰有 K 根木棍可以看到的排列数目 (Number of Ways to Rearrange Sticks With K Sticks
+    // Visible)
+    private int[][] memo1866;
+
+    public int rearrangeSticks(int n, int k) {
+        this.memo1866 = new int[n + 1][k + 1];
+        for (int i = 0; i < n + 1; ++i) {
+            Arrays.fill(memo1866[i], -1);
+        }
+        return dfs1866(n, k);
+
+    }
+
+    private int dfs1866(int n, int k) {
+        if (n == 0 || k == 0) {
+            if (n == 0 && k == 0) {
+                return 1;
+            }
+            return 0;
+        }
+        if (k > n) {
+            return 0;
+        }
+        if (memo1866[n][k] != -1) {
+            return memo1866[n][k];
+        }
+        final int MOD = (int) (1e9 + 7);
+        return memo1866[n][k] = (int) (dfs1866(n - 1, k - 1) + ((long) (n - 1) * dfs1866(n - 1, k)) % MOD) % MOD;
+    }
+
+
     // 1718. 构建字典序最大的可行序列 (Construct the Lexicographically Largest Valid Sequence)
     // public int[] constructDistancedSequence(int n) {
 
