@@ -5512,7 +5512,7 @@ public class Leetcode_6 {
         return true;
     }
 
-    // 2106. 摘水果 (Maximum Fruits Harvested After at Most K Steps)
+    // 2106. 摘水果 (Maximum Fruits Harvested After at Most K Steps) --二分查找
     public int maxTotalFruits(int[][] fruits, int startPos, int k) {
         int sum = 0;
         for (int[] fruit : fruits) {
@@ -5551,6 +5551,29 @@ public class Leetcode_6 {
             ++j;
         }
         return minStep;
+    }
+
+    // 2106. 摘水果 (Maximum Fruits Harvested After at Most K Steps) --双指针
+    public int maxTotalFruits2(int[][] fruits, int startPos, int k) {
+        int n = fruits.length;
+        int res = 0;
+        int i = 0;
+        int j = 0;
+        int sum = 0;
+        while (j < n) {
+            sum += fruits[j][1];
+            while (i <= j && step2106(fruits, startPos, i, j) > k) {
+                sum -= fruits[i++][1];
+            }
+            res = Math.max(res, sum);
+            ++j;
+        }
+        return res;
+    }
+
+    private int step2106(int[][] fruits, int startPos, int i, int j) {
+        return fruits[j][0] - fruits[i][0]
+                + Math.min(Math.abs(startPos - fruits[i][0]), Math.abs(startPos - fruits[j][0]));
     }
 
     // 2267. 检查是否有合法括号字符串路径 (Check if There Is a Valid Parentheses String Path)
