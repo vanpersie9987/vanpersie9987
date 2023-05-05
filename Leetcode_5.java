@@ -7532,7 +7532,7 @@ public class Leetcode_5 {
 
     }
 
-    // 790. 多米诺和托米诺平铺 (Domino and Tromino Tiling) --dp
+    // 790. 多米诺和托米诺平铺 (Domino and Tromino Tiling)
     public int numTilings(int n) {
         final int mod = (int) (1e9 + 7);
         int[][] dp = new int[n + 1][4];
@@ -7546,6 +7546,43 @@ public class Leetcode_5 {
         }
         return dp[n][3];
 
+    }
+
+    // 790. 多米诺和托米诺平铺 (Domino and Tromino Tiling)
+    private int[][] memo790;
+    private int n790;
+
+    public int numTilings2(int n) {
+        this.n790 = n;
+        this.memo790 = new int[n][3];
+        return dfs790(0, 0);
+    }
+
+    private int dfs790(int i, int type) {
+        if (i > n790) {
+            return 0;
+        }
+        if (i == n790) {
+            return type == 0 ? 1 : 0;
+        }
+        if (memo790[i][type] != 0) {
+            return memo790[i][type];
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        if (type == 0) {
+            res = (res + dfs790(i + 1, 0)) % MOD;
+            res = (res + dfs790(i + 2, 0)) % MOD;
+            res = (res + dfs790(i + 2, 1)) % MOD;
+            res = (res + dfs790(i + 2, 2)) % MOD;
+        } else if (type == 1) {
+            res = (res + dfs790(i + 1, 0)) % MOD;
+            res = (res + dfs790(i + 1, 2)) % MOD;
+        } else {
+            res = (res + dfs790(i + 1, 0)) % MOD;
+            res = (res + dfs790(i + 1, 1)) % MOD;
+        }
+        return memo790[i][type] = res;
     }
 
     // 1064. 不动点 (Fixed Point) --plus
