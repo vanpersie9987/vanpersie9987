@@ -4784,7 +4784,7 @@ public class Leetcode_7 {
     private int pLen44;
     private char[] sChars44;
     private char[] pChars44;
-    // suf[i] ： 以p[i]为开头的p子串中「*」的个数
+    // suf[i] ： 以p[i]为开头的字符串中「*」的个数
     private int[] suf44;
 
     public boolean isMatch(String s, String p) {
