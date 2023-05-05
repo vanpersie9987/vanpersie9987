@@ -4778,11 +4778,84 @@ public class Leetcode_7 {
         return memo1866[n][k] = (int) (dfs1866(n - 1, k - 1) + ((long) (n - 1) * dfs1866(n - 1, k)) % MOD) % MOD;
     }
 
+    // 44. 通配符匹配 (Wildcard Matching)
+    private int[][] memo44;
+    private int sLen44;
+    private int pLen44;
+    private char[] sChars44;
+    private char[] pChars44;
+    // suf[i] ： 以p[i]为开头的p子串中「*」的个数
+    private int[] suf44;
+
+    public boolean isMatch(String s, String p) {
+        this.sLen44 = s.length();
+        this.pLen44 = p.length();
+        this.memo44 = new int[sLen44][pLen44];
+        this.sChars44 = s.toCharArray();
+        this.pChars44 = p.toCharArray();
+        this.suf44 = new int[pLen44];
+        for (int i = pLen44 - 1; i >= 0; --i) {
+            if (i < pLen44 - 1) {
+                suf44[i] = suf44[i + 1] + (pChars44[i] == '*' ? 1 : 0);
+            } else {
+                suf44[i] = pChars44[i] == '*' ? 1 : 0;
+            }
+        }
+        return dfs44(0, 0);
+
+    }
+
+    private boolean dfs44(int i, int j) {
+        // s到头了 而且（p也到头了 或者 剩下的p都是「*」）
+        if (i == sLen44 || j == pLen44) {
+            return i == sLen44 && (j == pLen44 || suf44[j] == pLen44 - j);
+        }
+        // s和p都没到头 但是 剩下的p都是「*」 返回true
+        if (suf44[j] == pLen44 - j) {
+            memo44[i][j] = 1;
+            return true;
+        }
+        if (memo44[i][j] != 0) {
+            return memo44[i][j] > 0;
+        }
+        // 剩下的p没有「*」了 ，剩下的s和p长度不等 返回false
+        if (suf44[j] == 0 && sLen44 - i != pLen44 - j) {
+            memo44[i][j] = -1;
+            return false;
+        }
+        if (Character.isLetter(pChars44[j])) {
+            // p当前位是字母 s当前位和p当前位不等
+            if (sChars44[i] != pChars44[j]) {
+                memo44[i][j] = -1;
+                return false;
+            }
+            // p当前位是字母 s当前位和p当前位相等
+            boolean res = dfs44(i + 1, j + 1);
+            memo44[i][j] = res ? 1 : -1;
+            return res;
+        }
+        // p当前位是「?」
+        if (pChars44[j] == '?') {
+            boolean res = dfs44(i + 1, j + 1);
+            memo44[i][j] = res ? 1 : -1;
+            return res;
+        }
+        // p当前位是「*」，可以匹配p中的0个字符、1个字符、2个字符。。。。
+        for (int index = i; index <= sLen44; ++index) {
+            if (dfs44(index, j + 1)) {
+                memo44[i][j] = 1;
+                return true;
+            }
+        }
+        memo44[i][j] = -1;
+        return false;
+    }
+
+
     // 629. K个逆序对数组 (K Inverse Pairs Array)
     // public int kInversePairs(int n, int k) {
 
     // }
-
 
     // 1718. 构建字典序最大的可行序列 (Construct the Lexicographically Largest Valid Sequence)
     // public int[] constructDistancedSequence(int n) {
