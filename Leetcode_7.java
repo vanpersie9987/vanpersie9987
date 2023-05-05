@@ -4778,7 +4778,7 @@ public class Leetcode_7 {
         return memo1866[n][k] = (int) (dfs1866(n - 1, k - 1) + ((long) (n - 1) * dfs1866(n - 1, k)) % MOD) % MOD;
     }
 
-    // 44. 通配符匹配 (Wildcard Matching)
+    // 44. 通配符匹配 (Wildcard Matching) -- 还需掌握贪心算法
     private int[][] memo44;
     private int sLen44;
     private int pLen44;
