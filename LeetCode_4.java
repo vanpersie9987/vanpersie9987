@@ -573,43 +573,56 @@ public class LeetCode_4 {
 
     // 1419. 数青蛙 (Minimum Number of Frogs Croaking)
     public int minNumberOfFrogs(String croakOfFrogs) {
-        char[] chars = croakOfFrogs.toCharArray();
-        int c = 0;
-        int r = 0;
-        int o = 0;
-        int a = 0;
-        int k = 0;
-        int res = 0;
-        for (int i = 0; i < chars.length; ++i) {
-            char ch = chars[i];
-            if (ch == 'c') {
-                if (k > 0) {
-                    --k;
-                } else {
-                    ++res;
-                }
-                ++c;
-            } else if (ch == 'r') {
-                ++r;
-                --c;
-            } else if (ch == 'o') {
-                ++o;
-                --r;
-            } else if (ch == 'a') {
-                ++a;
-                --o;
-            } else if (ch == 'k') {
-                ++k;
-                --a;
-            }
-            if (c < 0 || r < 0 || o < 0 || a < 0) {
-                break;
+        int[] cnts = new int[5];
+        for (char ch : croakOfFrogs.toCharArray()) {
+            switch (ch) {
+                case 'c':
+                    if (cnts[4] > 0) {
+                        --cnts[4];
+                    }
+                    ++cnts[0];
+                    break;
+                case 'r':
+                    if (cnts[0] > 0) {
+                        --cnts[0];
+                    } else {
+                        return -1;
+                    }
+                    ++cnts[1];
+                    break;
+                case 'o':
+                    if (cnts[1] > 0) {
+                        --cnts[1];
+                    } else {
+                        return -1;
+                    }
+                    ++cnts[2];
+                    break;
+                case 'a':
+                    if (cnts[2] > 0) {
+                        --cnts[2];
+                    } else {
+                        return -1;
+                    }
+                    ++cnts[3];
+                    break;
+                case 'k':
+                    if (cnts[3] > 0) {
+                        --cnts[3];
+                    } else {
+                        return -1;
+                    }
+                    ++cnts[4];
+                    break;
+
+                default:
+                    break;
             }
         }
-        if (c != 0 || r != 0 || o != 0 || a != 0) {
+        if (cnts[0] > 0 || cnts[1] > 0 || cnts[2] > 0 || cnts[3] > 0) {
             return -1;
         }
-        return res;
+        return cnts[4];
 
     }
 
