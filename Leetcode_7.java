@@ -4919,6 +4919,62 @@ public class Leetcode_7 {
         return memo629[n][k] = res;
     }
 
+    // 1483. 树节点的第 K 个祖先 (Kth Ancestor of a Tree Node)
+    class TreeAncestor {
+        private Map<Integer, List<Integer>> g;
+        private int times;
+        // key : level
+        // val : int[] { timeStamp, x }
+        private Map<Integer, List<int[]>> levelNodes;
+        // key : x
+        // val : int[] { level, timeStamp}
+        private Map<Integer, int[]> nodeToLevel;
+
+        public TreeAncestor(int n, int[] parent) {
+            this.nodeToLevel = new HashMap<>();
+            g = new HashMap<>();
+            levelNodes = new HashMap<>();
+            for (int i = 0; i < n; ++i) {
+                g.computeIfAbsent(parent[i], k -> new ArrayList<>()).add(i);
+            }
+            dfs(0, 0);
+
+        }
+
+        private void dfs(int x, int level) {
+            nodeToLevel.put(x, new int[] { level, times });
+            levelNodes.computeIfAbsent(level, k -> new ArrayList<>()).add(new int[] { times++, x });
+            for (int y : g.getOrDefault(x, new ArrayList<>())) {
+                dfs(y, level + 1);
+            }
+        }
+
+        public int getKthAncestor(int node, int k) {
+            int[] cur = nodeToLevel.get(node);
+            int level = cur[0];
+            int timeStamp = cur[1];
+            List<int[]> kLevelNodes = levelNodes.getOrDefault(level - k, new ArrayList<>());
+            return binarySearchFloor(kLevelNodes, timeStamp);
+        }
+
+        private int binarySearchFloor(List<int[]> list, int target) {
+            int left = 0;
+            int right = list.size() - 1;
+            int res = -1;
+            while (left <= right) {
+                int mid = left + ((right - left) >> 1);
+                if (list.get(mid)[0] < target) {
+                    res = list.get(mid)[1];
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+            return res;
+        }
+    }
+
+
     // 1718. 构建字典序最大的可行序列 (Construct the Lexicographically Largest Valid Sequence)
     // public int[] constructDistancedSequence(int n) {
 
@@ -5009,4 +5065,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 }
