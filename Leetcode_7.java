@@ -18,6 +18,7 @@ import java.util.TreeSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.awt.Point;
 
 public class Leetcode_7 {
     public static void main(String[] args) {
@@ -4849,6 +4850,41 @@ public class Leetcode_7 {
         }
         memo44[i][j] = -1;
         return false;
+    }
+
+    // 963. 最小面积矩形 II (Minimum Area Rectangle II)
+    public double minAreaFreeRect(int[][] points) {
+        int n = points.length;
+        Point[] P = new Point[n];
+        double res = Double.MAX_VALUE;
+        Set<Point> set = new HashSet<>();
+        for (int i = 0; i < n; ++i) {
+            P[i] = new Point(points[i][0], points[i][1]);
+            set.add(P[i]);
+        }
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                for (int k = 0; k < n; ++k) {
+                    if (i != j && j != k && i != k) {
+                        Point p1 = P[i];
+                        Point p2 = P[j];
+                        Point p3 = P[k];
+                        Point p4 = new Point(p2.x + p3.x - p1.x, p2.y + p3.y - p1.y);
+                        if (set.contains(p4)) {
+                            if ((p2.x - p1.x) * (p3.x - p1.x) + (p2.y - p1.y) * (p3.y - p1.y) == 0) {
+                                double cur = p1.distance(p2) * p1.distance(p3);
+                                if (cur < res) {
+                                    res = cur;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+        return res == Double.MAX_VALUE ? 0 : res;
+
     }
 
 
