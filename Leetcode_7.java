@@ -4922,6 +4922,7 @@ public class Leetcode_7 {
     // 1483. 树节点的第 K 个祖先 (Kth Ancestor of a Tree Node)
     class TreeAncestor {
         private Map<Integer, List<Integer>> g;
+        // 时间戳
         private int times;
         // key : level
         // val : int[] { timeStamp, x }
