@@ -4889,9 +4889,35 @@ public class Leetcode_7 {
 
 
     // 629. K个逆序对数组 (K Inverse Pairs Array)
-    // public int kInversePairs(int n, int k) {
+    private int[][] memo629;
 
-    // }
+    public int kInversePairs(int n, int k) {
+        this.memo629 = new int[n + 1][k + 1];
+        for (int i = 0; i < n + 1; ++i) {
+            Arrays.fill(memo629[i], -1);
+        }
+        return dfs629(n, k);
+
+    }
+
+    private int dfs629(int n, int k) {
+        if (n == 1 || k == 0) {
+            return k == 0 ? 1 : 0;
+        }
+        if (k > n * (n - 1) / 2) {
+            return 0;
+        }
+        if (memo629[n][k] != -1) {
+            return memo629[n][k];
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = 0;
+        // 没理解
+        for (int j = Math.max(0, k - n + 1); j <= k; ++j) {
+            res = (res + dfs629(n - 1, j)) % MOD;
+        }
+        return memo629[n][k] = res;
+    }
 
     // 1718. 构建字典序最大的可行序列 (Construct the Lexicographically Largest Valid Sequence)
     // public int[] constructDistancedSequence(int n) {
