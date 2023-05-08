@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.awt.Point;
+import java.awt.event.ItemEvent;
+import java.lang.reflect.Constructor;
 import java.net.http.HttpRequest;
 
 public class Leetcode_7 {
@@ -5139,6 +5141,69 @@ public class Leetcode_7 {
         return i * n + j;
     }
 
+    // 756. 金字塔转换矩阵 (Pyramid Transition Matrix)
+    private Map<String, List<Character>> map756;
+    private Map<Integer, Set<String>> cans756;
+    private Map<String, Boolean> memo756;
+
+    public boolean pyramidTransition(String bottom, List<String> allowed) {
+        map756 = new HashMap<>();
+        cans756 = new HashMap<>();
+        memo756 = new HashMap<>();
+        for (String a : allowed) {
+            String b = a.substring(0, 2);
+            char t = a.charAt(2);
+            map756.computeIfAbsent(b, k -> new ArrayList<>()).add(t);
+        }
+        return dfs756(bottom);
+
+    }
+
+    private boolean dfs756(String s) {
+        if (s.length() == 1) {
+            return true;
+        }
+        if (memo756.containsKey(s)) {
+            return memo756.get(s);
+        }
+        if (check756(s)) {
+            construct756(s, 0, new StringBuilder());
+            for (String c : cans756.getOrDefault(s.length() - 1, new HashSet<>())) {
+                if (dfs756(c)) {
+                    memo756.put(s, true);
+                    return true;
+                }
+            }
+        }
+        memo756.put(s, false);
+        return false;
+    }
+
+    private boolean check756(String s) {
+        int n = s.length();
+        for (int i = 0; i < n - 1; ++i) {
+            if (!map756.containsKey(s.substring(i, i + 2))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void construct756(String s, int i, StringBuilder builder) {
+        if (builder.length() == s.length() - 1) {
+            cans756.computeIfAbsent(builder.length(), k -> new HashSet<>()).add(builder.toString());
+            return;
+        }
+        int n = s.length();
+        for (int j = i; j < n - 1; ++j) {
+            for (char c : map756.getOrDefault(s.substring(j, j + 2), new ArrayList<>())) {
+                builder.append(c);
+                construct756(s, j + 1, builder);
+                builder.deleteCharAt(builder.length() - 1);
+            }
+        }
+    }
+
 
     // 1718. 构建字典序最大的可行序列 (Construct the Lexicographically Largest Valid Sequence)
     // public int[] constructDistancedSequence(int n) {
@@ -5230,4 +5295,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 }
