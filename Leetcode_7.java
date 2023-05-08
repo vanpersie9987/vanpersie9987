@@ -5276,7 +5276,7 @@ public class Leetcode_7 {
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
             // 可以覆盖
-            if (check(rampart, mid)) {
+            if (check_LCP_78(rampart, mid)) {
                 res = mid;
                 left = mid + 1;
             }
@@ -5289,7 +5289,7 @@ public class Leetcode_7 {
 
     }
 
-    private boolean check(int[][] rampart, int target) {
+    private boolean check_LCP_78(int[][] rampart, int target) {
         int n = rampart.length;
         int give = rampart[1][0] - rampart[0][1];
         int i = 1;
