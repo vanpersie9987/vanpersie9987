@@ -5249,6 +5249,25 @@ public class Leetcode_7 {
         builder.setLength(expIndex);
     }
 
+    // LCP 77. 符文储备
+    public int runeReserve(int[] runes) {
+        Arrays.sort(runes);
+        int res = 1;
+        int pre = runes[0];
+        int max = 1;
+        for (int i = 1; i < runes.length; ++i) {
+            if (runes[i] - pre <= 1) {
+                ++max;
+            } else {
+                max = 1;
+            }
+            res = Math.max(res, max);
+            pre = runes[i];
+        }
+        return res;
+
+    }
+
     // 1718. 构建字典序最大的可行序列 (Construct the Lexicographically Largest Valid Sequence)
     // public int[] constructDistancedSequence(int n) {
 
@@ -5339,5 +5358,4 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
-
 }
