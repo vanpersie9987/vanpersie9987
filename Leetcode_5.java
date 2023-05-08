@@ -4869,6 +4869,43 @@ public class Leetcode_5 {
         return count;
     }
 
+    // 2437. 有效时间的数目 (Number of Valid Clock Times)
+    public int countTime2(String time) {
+        String h = time.substring(0, 2);
+        String m = time.substring(3);
+        int c1 = 0;
+        int c2 = 0;
+        if (h.charAt(0) == '?' && h.charAt(1) == '?') {
+            c1 = 24;
+        } else if (h.charAt(0) == '?') {
+            if (h.charAt(1) >= '0' && h.charAt(1) <= '3') {
+                c1 = 3;
+            } else {
+                c1 = 2;
+            }
+        } else if (h.charAt(1) == '?') {
+            if (h.charAt(0) >= '0' && h.charAt(0) <= '1') {
+                c1 = 10;
+            } else {
+                c1 = 4;
+            }
+        } else {
+            c1 = 1;
+        }
+
+        if (m.charAt(0) == '?' && m.charAt(1) == '?') {
+            c2 = 60;
+        } else if (m.charAt(0) == '?') {
+            c2 = 6;
+        } else if (m.charAt(1) == '?') {
+            c2 = 10;
+        } else {
+            c2 = 1;
+        }
+        return c1 * c2;
+
+    }
+
     // 2438. 二的幂数组中查询范围内的乘积 (Range Product Queries of Powers)
     public int[] productQueries(int n, int[][] queries) {
         List<Integer> powers = new ArrayList<>();
