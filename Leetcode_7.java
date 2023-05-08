@@ -4887,7 +4887,6 @@ public class Leetcode_7 {
 
     }
 
-
     // 629. K个逆序对数组 (K Inverse Pairs Array)
     private int[][] memo629;
 
@@ -4974,7 +4973,6 @@ public class Leetcode_7 {
             return res;
         }
     }
-
 
     // 1718. 构建字典序最大的可行序列 (Construct the Lexicographically Largest Valid Sequence)
     // public int[] constructDistancedSequence(int n) {
@@ -5067,4 +5065,100 @@ public class Leetcode_7 {
 
     // }
 
+    // 6416. 找出不同元素数目差数组 (Find the Distinct Difference Array)
+    public int[] distinctDifferenceArray(int[] nums) {
+        int[] cnts = new int[51];
+        int suf = 0;
+        for (int num : nums) {
+            if (++cnts[num] == 1) {
+                ++suf;
+            }
+        }
+        int[] curCnts = new int[51];
+        int pre = 0;
+        int n = nums.length;
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            if (++curCnts[nums[i]] == 1) {
+                ++pre;
+            }
+            if (--cnts[nums[i]] == 0) {
+                --suf;
+            }
+            res[i] = pre - suf;
+        }
+        return res;
+    }
+
+    // 6417. 频率跟踪器 (Frequency Tracker)
+    class FrequencyTracker {
+        private Map<Integer, Integer> map;
+        private Map<Integer, Set<Integer>> freq;
+
+        public FrequencyTracker() {
+            map = new HashMap<>();
+            freq = new HashMap<>();
+
+        }
+
+        public void add(int number) {
+            map.merge(number, 1, Integer::sum);
+            int count = map.get(number) - 1;
+            Set<Integer> set = freq.getOrDefault(count, new HashSet<>());
+            set.remove(number);
+            freq.computeIfAbsent(count + 1, k -> new HashSet<>()).add(number);
+        }
+
+        public void deleteOne(int number) {
+            int count = map.getOrDefault(number, 0);
+            if (count == 0) {
+                return;
+            }
+            map.merge(number, -1, Integer::sum);
+            Set<Integer> ori = freq.getOrDefault(count, new HashSet<>());
+            ori.remove(number);
+            freq.computeIfAbsent(count - 1, k -> new HashSet<>()).add(number);
+        }
+
+        public boolean hasFrequency(int frequency) {
+            return !freq.getOrDefault(frequency, new HashSet<>()).isEmpty();
+        }
+    }
+
+    // 6418. 有相同颜色的相邻元素数目 (Number of Adjacent Elements With the Same Color)
+    public int[] colorTheArray(int n, int[][] queries) {
+        int[] colors = new int[n];
+        int[] res = new int[queries.length];
+        int cur = 0;
+        for (int i = 0; i < queries.length; ++i) {
+            int index = queries[i][0];
+            int color = queries[i][1];
+            if (index > 0 && colors[index] != 0 && colors[index] == colors[index - 1]) {
+                --cur;
+            }
+            if (index < n - 1 && colors[index] != 0 && colors[index] == colors[index + 1]) {
+                --cur;
+            }
+            colors[index] = color;
+            if (index > 0 && colors[index] == colors[index - 1]) {
+                ++cur;
+            }
+            if (index < n - 1 && colors[index] == colors[index + 1]) {
+                ++cur;
+            }
+            res[i] = cur;
+        }
+        return res;
+
+    }
+
+    // 6419. 使二叉树所有路径值相等的最小代价 (Make Costs of Paths Equal in a Binary Tree)
+    public int minIncrements(int n, int[] cost) {
+        int res = 0;
+        for (int i = n / 2; i > 0; --i) {
+            res += Math.abs(cost[i * 2] - cost[i * 2 - 1]);
+            cost[i - 1] += Math.max(cost[i * 2], cost[i * 2 - 1]);
+        }
+        return res;
+    }
 }
