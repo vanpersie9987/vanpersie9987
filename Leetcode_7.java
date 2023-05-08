@@ -19,9 +19,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.awt.Point;
-import java.awt.event.ItemEvent;
-import java.lang.reflect.Constructor;
-import java.net.http.HttpRequest;
 
 public class Leetcode_7 {
     public static void main(String[] args) {
