@@ -5268,6 +5268,43 @@ public class Leetcode_7 {
 
     }
 
+    // LCP 78. 城墙防线
+    public int rampartDefensiveLine(int[][] rampart) {
+        int res = 0;
+        int left = 0;
+        int right = (int) 1e8;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            // 可以覆盖
+            if (check(rampart, mid)) {
+                res = mid;
+                left = mid + 1;
+            }
+            // 有重叠
+            else {
+                right = mid - 1;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean check(int[][] rampart, int target) {
+        int n = rampart.length;
+        int give = rampart[1][0] - rampart[0][1];
+        int i = 1;
+        while (i < n - 1) {
+            int r = rampart[i + 1][0] - rampart[i][1];
+            if (target > give + r) {
+                return false;
+            }
+            give = r - Math.max(0, target - give);
+            ++i;
+        }
+        return true;
+    }
+
+
     // 1718. 构建字典序最大的可行序列 (Construct the Lexicographically Largest Valid Sequence)
     // public int[] constructDistancedSequence(int n) {
 
@@ -5358,4 +5395,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 }
