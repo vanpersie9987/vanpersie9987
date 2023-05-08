@@ -5304,6 +5304,48 @@ public class Leetcode_7 {
         return true;
     }
 
+    // LCP 79. 提取咒文
+    public int extractMantra(String[] matrix, String mantra) {
+        int m = matrix.length;
+        int n = matrix[0].length();
+        int len = mantra.length();
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        boolean[][][] vis = new boolean[m][n][len + 1];
+        Queue<int[]> q = new LinkedList<>();
+        // i, j, l, d
+        q.offer(new int[] { 0, 0, 0, 0 });
+        vis[0][0][0] = true;
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int l = cur[2];
+            int d = cur[3];
+            if (l == len) {
+                return d;
+            }
+            if (matrix[x].charAt(y) == mantra.charAt(l)) {
+                if (!vis[x][y][l + 1]) {
+                    vis[x][y][l + 1] = true;
+                    q.offer(new int[] { x, y, l + 1, d + 1 });
+                }
+            } else {
+                for (int[] dir : dirs) {
+                    int nx = x + dir[0];
+                    int ny = y + dir[1];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                        if (!vis[nx][ny][l]) {
+                            vis[nx][ny][l] = true;
+                            q.offer(new int[] { nx, ny, l, d + 1 });
+                        }
+                    }
+                }
+            }
+        }
+        return -1;
+
+    }
+
 
     // 1718. 构建字典序最大的可行序列 (Construct the Lexicographically Largest Valid Sequence)
     // public int[] constructDistancedSequence(int n) {
