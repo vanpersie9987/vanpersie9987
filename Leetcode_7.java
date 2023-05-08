@@ -5204,6 +5204,50 @@ public class Leetcode_7 {
         }
     }
 
+    // 282. 给表达式添加运算符 (Expression Add Operators)
+    private List<String> res282;
+    private char[] arr282;
+    private int target282;
+    private int n282;
+
+    public List<String> addOperators(String num, int target) {
+        this.res282 = new ArrayList<>();
+        this.arr282 = num.toCharArray();
+        this.target282 = target;
+        this.n282 = arr282.length;
+        dfs282(0, 0L, 0L, new StringBuilder());
+        return res282;
+
+    }
+
+    private void dfs282(int i, long sum, long mul, StringBuilder builder) {
+        if (i == n282) {
+            if (sum == target282) {
+                res282.add(builder.toString());
+            }
+            return;
+        }
+        int expIndex = builder.length();
+        if (i > 0) {
+            builder.append(0);
+        }
+        long val = 0L;
+        for (int j = i; j < n282 && (i == j || arr282[i] != '0'); ++j) {
+            val = val * 10 + arr282[j] - '0';
+            builder.append(arr282[j]);
+            if (i == 0) {
+                dfs282(j + 1, val, val, builder);
+            } else {
+                builder.setCharAt(expIndex, '+');
+                dfs282(j + 1, sum + val, val, builder);
+                builder.setCharAt(expIndex, '-');
+                dfs282(j + 1, sum - val, -val, builder);
+                builder.setCharAt(expIndex, '*');
+                dfs282(j + 1, sum - mul + mul * val, mul * val, builder);
+            }
+        }
+        builder.setLength(expIndex);
+    }
 
     // 1718. 构建字典序最大的可行序列 (Construct the Lexicographically Largest Valid Sequence)
     // public int[] constructDistancedSequence(int n) {
