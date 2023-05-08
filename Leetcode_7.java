@@ -5188,8 +5188,8 @@ public class Leetcode_7 {
             }
         }
         int[][] dirs = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
-        q.offer(new int[] { transfer1263(sx, sy, n), transfer1263(bx, by, n), 0 });
-        dis[transfer1263(sx, sy, n)][transfer1263(bx, by, n)] = 0;
+        q.offer(new int[] { transfer(sx, sy, n), transfer(bx, by, n), 0 });
+        dis[transfer(sx, sy, n)][transfer(bx, by, n)] = 0;
         while (!q.isEmpty()) {
             int[] cur = q.pollFirst();
             int x = cur[0] / n;
@@ -5204,21 +5204,20 @@ public class Leetcode_7 {
                 int nx = x + dir[0];
                 int ny = y + dir[1];
                 if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] != '#') {
-                    // 人在箱子位置，说明推到了箱子
-                    if (nx == bi && ny == bj) {
+                    if (nx != bi || ny != bj) {
+                        if (d < dis[transfer(nx, ny, n)][transfer(bi, bj, n)]) {
+                            dis[transfer(nx, ny, n)][transfer(bi, bj, n)] = d;
+                            q.offerFirst(new int[] { transfer(nx, ny, n), transfer(bi, bj, n), d });
+                        }
+                    } else {
                         int nbi = nx + dir[0];
                         int nbj = ny + dir[1];
                         if (nbi >= 0 && nbi < m && nbj >= 0 && nbj < n && grid[nbi][nbj] != '#') {
-                            if (d < dis[transfer1263(nx, ny, n)][transfer1263(nbi, nbj, n)]) {
-                                dis[transfer1263(nx, ny, n)][transfer1263(nbi, nbj, n)] = d;
-                                q.offerLast(new int[] { transfer1263(nx, ny, n), transfer1263(nbi, nbj, n), d + 1 });
+                            if (d + 1 < dis[transfer(nx, ny, n)][transfer(nbi, nbj, n)]) {
+                                dis[transfer(nx, ny, n)][transfer(nbi, nbj, n)] = d + 1;
+                                q.offerLast(new int[] { transfer(nx, ny, n), transfer(nbi, nbj, n), d + 1 });
                             }
                         }
-                    }
-                    // 人可走的位置
-                    else if (d + 1 < dis[transfer1263(nx, ny, n)][transfer1263(bi, bj, n)]) {
-                        dis[transfer1263(nx, ny, n)][transfer1263(bi, bj, n)] = d;
-                        q.offerFirst(new int[] { transfer1263(nx, ny, n), transfer1263(bi, bj, n), d });
                     }
                 }
             }
@@ -5227,7 +5226,7 @@ public class Leetcode_7 {
 
     }
 
-    private int transfer1263(int i, int j, int n) {
+    private int transfer(int i, int j, int n) {
         return i * n + j;
     }
 }
