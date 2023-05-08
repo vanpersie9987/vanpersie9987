@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.awt.Point;
+import java.net.http.HttpRequest;
 
 public class Leetcode_7 {
     public static void main(String[] args) {
@@ -5160,5 +5161,73 @@ public class Leetcode_7 {
             cost[i - 1] += Math.max(cost[i * 2], cost[i * 2 - 1]);
         }
         return res;
+    }
+
+    // 1263. 推箱子 (Minimum Moves to Move a Box to Their Target)
+    public int minPushBox(char[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] dis = new int[m * n][m * n];
+        for (int i = 0; i < m * n; ++i) {
+            Arrays.fill(dis[i], Integer.MAX_VALUE);
+        }
+        Deque<int[]> q = new LinkedList<>();
+        int sx = -1;
+        int sy = -1;
+        int bx = -1;
+        int by = -1;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 'S') {
+                    sx = i;
+                    sy = j;
+                } else if (grid[i][j] == 'B') {
+                    bx = i;
+                    by = j;
+                }
+            }
+        }
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        q.offer(new int[] { transfer1263(sx, sy, n), transfer1263(bx, by, n), 0 });
+        dis[transfer1263(sx, sy, n)][transfer1263(bx, by, n)] = 0;
+        while (!q.isEmpty()) {
+            int[] cur = q.pollFirst();
+            int x = cur[0] / n;
+            int y = cur[0] % n;
+            int bi = cur[1] / n;
+            int bj = cur[1] % n;
+            int d = cur[2];
+            if (grid[bi][bj] == 'T') {
+                return d;
+            }
+            for (int[] dir : dirs) {
+                int nx = x + dir[0];
+                int ny = y + dir[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] != '#') {
+                    // 人在箱子位置，说明推到了箱子
+                    if (nx == bi && ny == bj) {
+                        int nbi = nx + dir[0];
+                        int nbj = ny + dir[1];
+                        if (nbi >= 0 && nbi < m && nbj >= 0 && nbj < n && grid[nbi][nbj] != '#') {
+                            if (d < dis[transfer1263(nx, ny, n)][transfer1263(nbi, nbj, n)]) {
+                                dis[transfer1263(nx, ny, n)][transfer1263(nbi, nbj, n)] = d;
+                                q.offerLast(new int[] { transfer1263(nx, ny, n), transfer1263(nbi, nbj, n), d + 1 });
+                            }
+                        }
+                    }
+                    // 人可走的位置
+                    else if (d + 1 < dis[transfer1263(nx, ny, n)][transfer1263(bi, bj, n)]) {
+                        dis[transfer1263(nx, ny, n)][transfer1263(bi, bj, n)] = d;
+                        q.offerFirst(new int[] { transfer1263(nx, ny, n), transfer1263(bi, bj, n), d });
+                    }
+                }
+            }
+        }
+        return -1;
+
+    }
+
+    private int transfer1263(int i, int j, int n) {
+        return i * n + j;
     }
 }
