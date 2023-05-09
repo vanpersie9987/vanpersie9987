@@ -5344,9 +5344,45 @@ public class Leetcode_7 {
     }
 
     // 1718. 构建字典序最大的可行序列 (Construct the Lexicographically Largest Valid Sequence)
-    // public int[] constructDistancedSequence(int n) {
+    private int n1718;
+    private int[] res1718;
+    private int vis1718;
+    private boolean flag1718;
 
-    // }
+    public int[] constructDistancedSequence(int n) {
+        this.n1718 = n;
+        this.res1718 = new int[n * 2 - 1];
+        dfs1718(0);
+        return res1718;
+
+    }
+
+    private void dfs1718(int i) {
+        if (i == n1718 * 2 - 1) {
+            flag1718 = true;
+            return;
+        }
+        if (res1718[i] != 0) {
+            dfs1718(i + 1);
+            return;
+        }
+        for (int num = n1718; num > 0; --num) {
+            int nextIndex = num == 1 ? i : num + i;
+            if ((vis1718 & (1 << num)) != 0 || nextIndex >= n1718 * 2 - 1 || res1718[nextIndex] != 0) {
+                continue;
+            }
+            vis1718 ^= 1 << num;
+            res1718[i] = num;
+            res1718[nextIndex] = num;
+            dfs1718(i + 1);
+            if (!flag1718) {
+                vis1718 ^= 1 << num;
+                res1718[i] = 0;
+                res1718[nextIndex] = 0;
+            }
+        }
+    }
+
 
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
@@ -5433,5 +5469,4 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
-
 }
