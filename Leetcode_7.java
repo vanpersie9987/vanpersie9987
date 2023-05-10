@@ -5436,6 +5436,60 @@ public class Leetcode_7 {
         }
     }
 
+    // 306. 累加数 (Additive Number)
+    private char[] arr306;
+    private int n306;
+    private boolean flag306;
+    private List<Long> list306;
+
+    public boolean isAdditiveNumber(String num) {
+        this.arr306 = num.toCharArray();
+        this.n306 = num.length();
+        this.list306 = new ArrayList<>();
+        if (n306 <= 2) {
+            return false;
+        }
+        dfs306(0);
+        return flag306;
+
+    }
+
+    private void dfs306(int i) {
+        if (i == n306) {
+            if (list306.size() >= 3) {
+                flag306 = true;
+            }
+            return;
+        }
+        long val = 0L;
+        for (int j = i; j < n306 && (i == j || arr306[i] != '0') && j - i + 1 <= n306 / 2; ++j) {
+            val = val * 10 + arr306[j] - '0';
+            if (list306.size() < 2) {
+                list306.add(val);
+                dfs306(j + 1);
+                if (flag306) {
+                    return;
+                }
+                list306.remove(list306.size() - 1);
+            } else {
+                long last = list306.get(list306.size() - 1);
+                long last2 = list306.get(list306.size() - 2);
+                if (last + last2 < val) {
+                    break;
+                }
+                if (last + last2 == val) {
+                    list306.add(val);
+                    dfs306(j + 1);
+                    if (flag306) {
+                        return;
+                    }
+                    list306.remove(list306.size() - 1);
+                }
+            }
+        }
+    }
+
+
 
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
