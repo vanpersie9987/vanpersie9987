@@ -5375,11 +5375,12 @@ public class Leetcode_7 {
             res1718[i] = num;
             res1718[nextIndex] = num;
             dfs1718(i + 1);
-            if (!flag1718) {
-                vis1718 ^= 1 << num;
-                res1718[i] = 0;
-                res1718[nextIndex] = 0;
+            if (flag1718) {
+                return;
             }
+            vis1718 ^= 1 << num;
+            res1718[i] = 0;
+            res1718[nextIndex] = 0;
         }
     }
 
