@@ -5384,6 +5384,58 @@ public class Leetcode_7 {
         }
     }
 
+    // 842. 将数组拆分成斐波那契序列 (Split Array into Fibonacci Sequence)
+    private List<Integer> res842;
+    private char[] arr842;
+    private int n842;
+    private boolean flag842;
+
+    public List<Integer> splitIntoFibonacci(String num) {
+        this.res842 = new ArrayList<>();
+        this.arr842 = num.toCharArray();
+        this.n842 = num.length();
+        dfs842(0);
+        return res842;
+    }
+
+    private void dfs842(int i) {
+        if (i == n842) {
+            if (res842.size() >= 3) {
+                flag842 = true;
+            }
+            return;
+        }
+        long val = 0L;
+        for (int j = i; j < n842 && (i == j || arr842[i] != '0'); ++j) {
+            val = val * 10 + arr842[j] - '0';
+            if (val > Integer.MAX_VALUE) {
+                break;
+            }
+            if (res842.size() < 2) {
+                res842.add((int) val);
+                dfs842(j + 1);
+                if (flag842) {
+                    return;
+                }
+                res842.remove(res842.size() - 1);
+            } else {
+                int last = res842.get(res842.size() - 1);
+                int last2 = res842.get(res842.size() - 2);
+                if (((long) last + last2) < val) {
+                    break;
+                }
+                if (((long) last + last2) == val) {
+                    res842.add((int) val);
+                    dfs842(j + 1);
+                    if (flag842) {
+                        return;
+                    }
+                    res842.remove(res842.size() - 1);
+                }
+            }
+        }
+    }
+
 
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
@@ -5468,6 +5520,18 @@ public class Leetcode_7 {
 
     // 1406. 石子游戏 III (Stone Game III)
     // public String stoneGameIII(int[] stoneValue) {
+
+    // }
+
+    /**
+     * // This is the Master's API interface.
+     * // You should not implement it, or speculate about its implementation
+     * interface Master {
+     * public int guess(String word) {}
+     * }
+     */
+    // 843. 猜猜这个单词 (Guess the Word)
+    // public void findSecretWord(String[] words, Master master) {
 
     // }
 }
