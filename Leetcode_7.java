@@ -5522,16 +5522,4 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
-
-    /**
-     * // This is the Master's API interface.
-     * // You should not implement it, or speculate about its implementation
-     * interface Master {
-     * public int guess(String word) {}
-     * }
-     */
-    // 843. 猜猜这个单词 (Guess the Word)
-    // public void findSecretWord(String[] words, Master master) {
-
-    // }
 }
