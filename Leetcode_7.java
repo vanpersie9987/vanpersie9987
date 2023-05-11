@@ -18,6 +18,9 @@ import java.util.TreeSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.xml.crypto.KeySelector.Purpose;
+
 import java.awt.Point;
 import java.lang.annotation.Target;
 
@@ -5532,6 +5535,53 @@ public class Leetcode_7 {
         return memo691[mask] = res;
     }
 
+    // 996. 正方形数组的数目 (Number of Squareful Arrays)
+    private int n996;
+    private int[] nums996;
+    private boolean[] used996;
+    private int res996;
+    private List<Integer> list996;
+
+    public int numSquarefulPerms(int[] nums) {
+        Arrays.sort(nums);
+        this.n996 = nums.length;
+        this.nums996 = nums;
+        this.used996 = new boolean[n996];
+        this.list996 = new ArrayList<>();
+        dfs996();
+        return res996;
+
+    }
+
+    private void dfs996() {
+        if (list996.size() == n996) {
+            ++res996;
+            return;
+        }
+        for (int i = 0; i < n996; ++i) {
+            if (used996[i] || i > 0 && nums996[i] == nums996[i - 1] && !used996[i - 1]) {
+                continue;
+            }
+            if (list996.isEmpty()) {
+                used996[i] = true;
+                list996.add(nums996[i]);
+                dfs996();
+                used996[i] = false;
+                list996.remove(list996.size() - 1);
+            } else {
+                int sqrt = (int) Math.sqrt(list996.get(list996.size() - 1) + nums996[i]);
+                if (sqrt * sqrt == list996.get(list996.size() - 1) + nums996[i]) {
+                    used996[i] = true;
+                    list996.add(nums996[i]);
+                    dfs996();
+                    used996[i] = false;
+                    list996.remove(list996.size() - 1);
+                }
+            }
+        }
+    }
+
+
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
 
@@ -5615,11 +5665,6 @@ public class Leetcode_7 {
 
     // 1406. 石子游戏 III (Stone Game III)
     // public String stoneGameIII(int[] stoneValue) {
-
-    // }
-
-    // 996. 正方形数组的数目 (Number of Squareful Arrays)
-    // public int numSquarefulPerms(int[] nums) {
 
     // }
 }
