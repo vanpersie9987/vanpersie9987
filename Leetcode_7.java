@@ -5491,45 +5491,45 @@ public class Leetcode_7 {
     }
 
     // 691. 贴纸拼词 (Stickers to Spell Word)
-    private int m;
-    private String[] stickers;
-    private int[] memo;
-    private char[] target;
+    private int m691;
+    private String[] stickers691;
+    private int[] memo691;
+    private char[] target691;
 
     public int minStickers(String[] stickers, String target) {
-        this.m = target.length();
-        this.stickers = stickers;
-        this.target = target.toCharArray();
-        this.memo = new int[1 << m];
-        Arrays.fill(memo, -1);
-        memo[0] = 0;
-        int res = dfs((1 << m) - 1);
-        return res <= m ? res : -1;
+        this.m691 = target.length();
+        this.stickers691 = stickers;
+        this.target691 = target.toCharArray();
+        this.memo691 = new int[1 << m691];
+        Arrays.fill(memo691, -1);
+        memo691[0] = 0;
+        int res = dfs691((1 << m691) - 1);
+        return res <= m691 ? res : -1;
 
     }
 
-    private int dfs(int mask) {
-        if (memo[mask] >= 0) {
-            return memo[mask];
+    private int dfs691(int mask) {
+        if (memo691[mask] >= 0) {
+            return memo691[mask];
         }
-        int res = m + 1;
-        for (String s : stickers) {
+        int res = m691 + 1;
+        for (String s : stickers691) {
             int left = mask;
             int[] cnts = new int[26];
             for (char c : s.toCharArray()) {
                 ++cnts[c - 'a'];
             }
-            for (int i = 0; i < m; ++i) {
-                if (((mask >> i) & 1) == 1 && cnts[target[i] - 'a'] > 0) {
-                    --cnts[target[i] - 'a'];
+            for (int i = 0; i < m691; ++i) {
+                if (((mask >> i) & 1) == 1 && cnts[target691[i] - 'a'] > 0) {
+                    --cnts[target691[i] - 'a'];
                     left ^= 1 << i;
                 }
             }
             if (left < mask) {
-                res = Math.min(res, dfs(left) + 1);
+                res = Math.min(res, dfs691(left) + 1);
             }
         }
-        return memo[mask] = res;
+        return memo691[mask] = res;
     }
 
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
