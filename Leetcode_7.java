@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.awt.Point;
+import java.lang.annotation.Target;
 
 public class Leetcode_7 {
     public static void main(String[] args) {
@@ -5489,7 +5490,47 @@ public class Leetcode_7 {
         }
     }
 
+    // 691. 贴纸拼词 (Stickers to Spell Word)
+    private int m;
+    private String[] stickers;
+    private int[] memo;
+    private char[] target;
 
+    public int minStickers(String[] stickers, String target) {
+        this.m = target.length();
+        this.stickers = stickers;
+        this.target = target.toCharArray();
+        this.memo = new int[1 << m];
+        Arrays.fill(memo, -1);
+        memo[0] = 0;
+        int res = dfs((1 << m) - 1);
+        return res <= m ? res : -1;
+
+    }
+
+    private int dfs(int mask) {
+        if (memo[mask] >= 0) {
+            return memo[mask];
+        }
+        int res = m + 1;
+        for (String s : stickers) {
+            int left = mask;
+            int[] cnts = new int[26];
+            for (char c : s.toCharArray()) {
+                ++cnts[c - 'a'];
+            }
+            for (int i = 0; i < m; ++i) {
+                if (((mask >> i) & 1) == 1 && cnts[target[i] - 'a'] > 0) {
+                    --cnts[target[i] - 'a'];
+                    left ^= 1 << i;
+                }
+            }
+            if (left < mask) {
+                res = Math.min(res, dfs(left) + 1);
+            }
+        }
+        return memo[mask] = res;
+    }
 
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
@@ -5574,6 +5615,11 @@ public class Leetcode_7 {
 
     // 1406. 石子游戏 III (Stone Game III)
     // public String stoneGameIII(int[] stoneValue) {
+
+    // }
+
+    // 996. 正方形数组的数目 (Number of Squareful Arrays)
+    // public int numSquarefulPerms(int[] nums) {
 
     // }
 }
