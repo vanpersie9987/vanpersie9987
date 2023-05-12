@@ -5622,6 +5622,41 @@ public class Leetcode_7 {
         return b == 0 ? a : gcd1799(b, a % b);
     }
 
+    // 464. 我能赢吗 (Can I Win)
+    private int[] memo464;
+    private int maxChoosableInteger464;
+    private int desiredTotal464;
+
+    public boolean canIWin(int maxChoosableInteger, int desiredTotal) {
+        if ((1 + maxChoosableInteger) * maxChoosableInteger < desiredTotal) {
+            return false;
+        }
+        this.memo464 = new int[1 << maxChoosableInteger];
+        this.maxChoosableInteger464 = maxChoosableInteger;
+        this.desiredTotal464 = desiredTotal;
+        return dfs464(0, 0);
+
+    }
+
+    private boolean dfs464(int mask, int score) {
+        if (memo464[mask] != 0) {
+            return memo464[mask] > 0;
+        }
+        for (int i = 0; i < maxChoosableInteger464; ++i) {
+            if (((mask >> i) & 1) == 0) {
+                if (1 + i + score >= desiredTotal464) {
+                    memo464[mask] = 1;
+                    return true;
+                }
+                if (!dfs464(mask | (1 << i), score + 1 + i)) {
+                    memo464[mask] = 1;
+                    return true;
+                }
+            }
+        }
+        memo464[mask] = -1;
+        return false;
+    }
 
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
