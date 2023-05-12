@@ -5577,6 +5577,52 @@ public class Leetcode_7 {
         }
     }
 
+    // 1799. N 次操作后的最大分数和 (Maximize Score After N Operations)
+    private int n1799;
+    private int[] memo1799;
+    private int[][] gcdArr1799;
+
+    public int maxScore(int[] nums) {
+        this.n1799 = nums.length;
+        this.memo1799 = new int[1 << n1799];
+        this.gcdArr1799 = new int[n1799][n1799];
+        for (int i = 0; i < n1799; ++i) {
+            for (int j = i + 1; j < n1799; ++j) {
+                gcdArr1799[i][j] = gcd1799(nums[i], nums[j]);
+            }
+
+        }
+        return dfs1799(0);
+
+    }
+
+    private int dfs1799(int mask) {
+        if (memo1799[mask] != 0) {
+            return memo1799[mask];
+        }
+        int res = 0;
+        for (int i = 0; i < n1799; ++i) {
+            if (((mask >> i) & 1) == 0) {
+                for (int j = i + 1; j < n1799; ++j) {
+                    if (((mask >> j) & 1) == 0) {
+                        res = Math.max(res,
+                                (Integer.bitCount(mask) / 2 + 1)
+                                        * (i < j ? gcdArr1799[i][j] : gcdArr1799[j][i])
+                                        + dfs1799(mask | (1 << i) | (1 << j)));
+
+                    }
+                }
+            }
+
+        }
+        return memo1799[mask] = res;
+    }
+
+    private int gcd1799(int a, int b) {
+        return b == 0 ? a : gcd1799(b, a % b);
+    }
+
+
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
 
