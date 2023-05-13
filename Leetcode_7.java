@@ -5707,6 +5707,48 @@ public class Leetcode_7 {
         return x ^ y;
     }
 
+    // 689. 三个无重叠子数组的最大和 (Maximum Sum of 3 Non-Overlapping Subarrays)
+    public int[] maxSumOfThreeSubarrays(int[] nums, int k) {
+        int n = nums.length;
+        int maxIndex1 = 0;
+        int maxIndex12_1 = 0;
+        int maxIndex12_2 = 0;
+        int max1 = 0;
+        int max12 = 0;
+        int max = 0;
+        int sum1 = 0;
+        int sum2 = 0;
+        int sum3 = 0;
+        int[] res = new int[3];
+        for (int i = k * 2; i < n; ++i) {
+            sum1 += nums[i - k * 2];
+            sum2 += nums[i - k];
+            sum3 += nums[i];
+            if (i >= k * 3 - 1) {
+                if (sum1 > max1) {
+                    max1 = sum1;
+                    maxIndex1 = i - (k * 3 - 1);
+                }
+                if (max1 + sum2 > max12) {
+                    max12 = max1 + sum2;
+                    maxIndex12_1 = maxIndex1;
+                    maxIndex12_2 = i - (k * 2 - 1);
+                }
+                if (max12 + sum3 > max) {
+                    max = max12 + sum3;
+                    res[0] = maxIndex12_1;
+                    res[1] = maxIndex12_2;
+                    res[2] = i - k + 1;
+                }
+                sum1 -= nums[i - k * 3 + 1];
+                sum2 -= nums[i - k * 2 + 1];
+                sum3 -= nums[i - k + 1];
+            }
+        }
+        return res;
+
+    }
+
 
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
