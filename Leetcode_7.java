@@ -5658,6 +5658,56 @@ public class Leetcode_7 {
         return false;
     }
 
+    // 面试题 08.14. 布尔运算 (Boolean Evaluation LCCI)
+    private int[][][] memo08_14;
+    private int n08_14;
+    private char[] arr08_14;
+
+    public int countEval(String s, int result) {
+        this.n08_14 = s.length();
+        this.arr08_14 = s.toCharArray();
+        this.memo08_14 = new int[n08_14][n08_14][2];
+        for (int i = 0; i < n08_14; ++i) {
+            for (int j = 0; j < n08_14; ++j) {
+                Arrays.fill(memo08_14[i][j], -1);
+            }
+        }
+        return dfs08_14(0, n08_14 - 1, result);
+
+    }
+
+    private int dfs08_14(int i, int j, int result) {
+        if (i == j) {
+            return 1 - ((arr08_14[i] - '0') ^ result);
+        }
+        if (memo08_14[i][j][result] != -1) {
+            return memo08_14[i][j][result];
+        }
+        int res = 0;
+        for (int k = i; k < j; k += 2) {
+            char op = arr08_14[k + 1];
+            for (int x = 0; x <= 1; ++x) {
+                for (int y = 0; y <= 1; ++y) {
+                    if (calculate08_14(x, y, op) == result) {
+                        res += dfs08_14(i, k, x) * dfs08_14(k + 2, j, y);
+                    }
+                }
+            }
+        }
+        return memo08_14[i][j][result] = res;
+    }
+
+    private int calculate08_14(int x, int y, char op) {
+        if (op == '&') {
+            return x & y;
+        }
+        if (op == '|') {
+            return x | y;
+        }
+        return x ^ y;
+    }
+
+
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
 
