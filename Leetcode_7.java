@@ -5749,6 +5749,51 @@ public class Leetcode_7 {
 
     }
 
+    // 689. 三个无重叠子数组的最大和 (Maximum Sum of 3 Non-Overlapping Subarrays)
+    private int[][] memo689;
+    private int n689;
+    private int k689;
+    private int[] pre689;
+    private int[] res689;
+
+    public int[] maxSumOfThreeSubarrays2(int[] nums, int k) {
+        this.n689 = nums.length;
+        this.k689 = k;
+        this.memo689 = new int[4][n689];
+        this.pre689 = new int[n689 + 1];
+        this.res689 = new int[3];
+        for (int i = 0; i < n689; ++i) {
+            pre689[i + 1] = pre689[i] + nums[i];
+        }
+        dfs689(3, n689 - 1);
+        int limit = n689 - 1;
+        for (int i = 3; i >= 1; --i) {
+            res689[i - 1] = limit - k + 1;
+            for (int j = limit; j >= i * k; --j) {
+                if (memo689[i][j] == memo689[i][j - 1]) {
+                    res689[i - 1] = j - k;
+                    limit = res689[i - 1] - 1;
+                } else {
+                    limit = res689[i - 1] - 1;
+                    break;
+                }
+            }
+        }
+        return res689;
+    }
+
+    private int dfs689(int count, int i) {
+        if (count <= 0 || i < 0) {
+            return 0;
+        }
+        if (count * k689 > i + 1) {
+            return 0;
+        }
+        if (memo689[count][i] != 0) {
+            return memo689[count][i];
+        }
+        return memo689[count][i] = Math.max(dfs689(count, i - 1), dfs689(count - 1, i - k689) + pre689[i + 1] - pre689[i - k689 + 1]);
+    }
 
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
