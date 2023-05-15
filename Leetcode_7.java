@@ -6054,7 +6054,7 @@ public class Leetcode_7 {
             if (!vis2685[i]) {
                 e2685 = 0;
                 v2685 = 0;
-                dfs(i);
+                dfs2685(i);
                 if (v2685 * (v2685 - 1) == e2685) {
                     ++res;
                 }
@@ -6063,13 +6063,13 @@ public class Leetcode_7 {
         return res;
     }
 
-    private void dfs(int x) {
+    private void dfs2685(int x) {
         vis2685[x] = true;
         ++v2685;
         e2685 += g2685[x].size();
         for (int y : g2685[x]) {
             if (!vis2685[y]) {
-                dfs(y);
+                dfs2685(y);
             }
         }
     }
