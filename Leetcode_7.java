@@ -5792,8 +5792,320 @@ public class Leetcode_7 {
         if (memo689[count][i] != 0) {
             return memo689[count][i];
         }
-        return memo689[count][i] = Math.max(dfs689(count, i - 1), dfs689(count - 1, i - k689) + pre689[i + 1] - pre689[i - k689 + 1]);
+        return memo689[count][i] = Math.max(dfs689(count, i - 1),
+                dfs689(count - 1, i - k689) + pre689[i + 1] - pre689[i - k689 + 1]);
     }
+
+    // 6366. 老人的数目 (Number of Senior Citizens)
+    public int countSeniors(String[] details) {
+        int res = 0;
+        for (String detail : details) {
+            int age = Integer.parseInt(detail.substring(11, 13));
+            if (age > 60) {
+                ++res;
+            }
+        }
+        return res;
+    }
+
+    // 6367. 矩阵中的和 (Sum in a Matrix)
+    public int matrixSum(int[][] nums) {
+        int m = nums.length;
+        int n = nums[0].length;
+        for (int i = 0; i < m; ++i) {
+            Arrays.sort(nums[i]);
+        }
+        int res = 0;
+        for (int j = n - 1; j >= 0; --j) {
+            int max = 0;
+            for (int i = 0; i < m; ++i) {
+                max = Math.max(max, nums[i][j]);
+            }
+            res += max;
+        }
+        return res;
+
+    }
+
+    // 6369. 最大或值 (Maximum OR)
+    public long maximumOr(int[] nums, int k) {
+        int n = nums.length;
+        long[] suf = new long[n + 1];
+        for (int i = n - 1; i >= 0; --i) {
+            suf[i] = suf[i + 1] | nums[i];
+        }
+        long res = 0L;
+        long pre = 0L;
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, pre | ((long) nums[i] << k) | suf[i + 1]);
+            pre |= nums[i];
+        }
+        return res;
+
+    }
+
+    // 2682. 找出转圈游戏输家 (Find the Losers of the Circular Game)
+    public int[] circularGameLosers(int n, int k) {
+        boolean[] vis = new boolean[n];
+        int mul = 0;
+        int cur = 0;
+        // do...while
+        do {
+            vis[cur] = true;
+            ++mul;
+            cur = (cur + k * mul) % n;
+        } while (!vis[cur]);
+
+        // while...do
+        // int mul = 1;
+        // vis[cur] = true;
+        // while (!vis[(cur + k * mul) % n]) {
+        // vis[(cur + k * mul) % n] = true;
+        // cur = (cur + k * mul) % n;
+        // ++mul;
+        // }
+        int[] res = new int[n - mul];
+        int index = 0;
+        for (int i = 0; i < n; ++i) {
+            if (!vis[i]) {
+                res[index++] = i + 1;
+            }
+        }
+        return res;
+
+    }
+
+    // 2683. 相邻值的按位异或 (Neighboring Bitwise XOR)
+    public boolean doesValidArrayExist(int[] derived) {
+        int xor = 0;
+        for (int derive : derived) {
+            xor ^= derive;
+        }
+        return xor == 0;
+
+    }
+
+    // 2684. 矩阵中移动的最大次数 (Maximum Number of Moves in a Grid)
+    private int[][] memo2684;
+    private int m2684;
+    private int n2684;
+    private int[][] grid2684;
+
+    public int maxMoves(int[][] grid) {
+        this.m2684 = grid.length;
+        this.n2684 = grid[0].length;
+        this.grid2684 = grid;
+        this.memo2684 = new int[m2684][n2684];
+        for (int i = 0; i < m2684; ++i) {
+            Arrays.fill(memo2684[i], -1);
+        }
+        int res = 0;
+        for (int i = 0; i < m2684; ++i) {
+            res = Math.max(res, dfs2684(i, 0));
+        }
+        return res;
+
+    }
+
+    private int dfs2684(int i, int j) {
+        if (j == n2684 - 1) {
+            return 0;
+        }
+        if (memo2684[i][j] != -1) {
+            return memo2684[i][j];
+        }
+        int max = 0;
+        for (int r = Math.max(0, i - 1); r <= Math.min(m2684 - 1, i + 1); ++r) {
+            if (grid2684[r][j + 1] > grid2684[i][j]) {
+                max = Math.max(max, dfs2684(r, j + 1) + 1);
+            }
+        }
+        return memo2684[i][j] = max;
+    }
+
+    // 2684. 矩阵中移动的最大次数 (Maximum Number of Moves in a Grid)
+    public int maxMoves2(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        boolean[][] vis = new boolean[m][n];
+        Queue<int[]> q = new LinkedList<>();
+        for (int i = 0; i < m; ++i) {
+            q.offer(new int[] { i, 0 });
+            vis[i][0] = true;
+        }
+        int res = 0;
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int y = cur[1];
+            res = Math.max(res, y);
+            if (res == n - 1) {
+                return res;
+            }
+            for (int nx = Math.max(0, x - 1); nx <= Math.min(m - 1, x + 1); ++nx) {
+                if (y + 1 < n && grid[nx][y + 1] > grid[x][y] && !vis[nx][y + 1]) {
+                    vis[nx][y + 1] = true;
+                    q.offer(new int[] { nx, y + 1 });
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 2685. 统计完全连通分量的数量 (Count the Number of Complete Components)
+    private Map<Integer, List<Integer>> map2685;
+    private Union2685 union2685;
+    private Set<Integer> set2685;
+    private int n2685;
+
+    public int countCompleteComponents(int n, int[][] edges) {
+        this.map2685 = new HashMap<>();
+        this.union2685 = new Union2685(n);
+        this.set2685 = new HashSet<>();
+        this.n2685 = n;
+        for (int[] e : edges) {
+            union2685.union(e[0], e[1]);
+            set2685.add(e[0] * n + e[1]);
+            set2685.add(e[1] * n + e[0]);
+        }
+        for (int i = 0; i < n; ++i) {
+            int root = union2685.getRoot(i);
+            map2685.computeIfAbsent(root, k -> new ArrayList<>()).add(i);
+        }
+
+        int res = 0;
+        for (List<Integer> vals : map2685.values()) {
+            if (check2685(vals)) {
+                ++res;
+            }
+        }
+        return res;
+    }
+
+    private boolean check2685(List<Integer> vals) {
+        for (int i = 0; i < vals.size(); ++i) {
+            for (int j = i + 1; j < vals.size(); ++j) {
+                if (!set2685.contains(vals.get(i) * n2685 + vals.get(j))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public class Union2685 {
+        private int[] parent;
+        private int[] rank;
+
+        public Union2685(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            Arrays.fill(rank, 1);
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+    }
+
+    // 2685. 统计完全连通分量的数量 (Count the Number of Complete Components)
+    private List<Integer>[] g2685;
+    private int e2685;
+    private int v2685;
+    private boolean[] vis2685;
+
+    public int countCompleteComponents2(int n, int[][] edges) {
+        this.g2685 = new ArrayList[n];
+        Arrays.setAll(g2685, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g2685[e[0]].add(e[1]);
+            g2685[e[1]].add(e[0]);
+        }
+        this.vis2685 = new boolean[n];
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            if (!vis2685[i]) {
+                e2685 = 0;
+                v2685 = 0;
+                dfs(i);
+                if (v2685 * (v2685 - 1) == e2685) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+    }
+
+    private void dfs(int x) {
+        vis2685[x] = true;
+        ++v2685;
+        e2685 += g2685[x].size();
+        for (int y : g2685[x]) {
+            if (!vis2685[y]) {
+                dfs(y);
+            }
+        }
+    }
+
+    // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
+    // private int[] arr1186;
+    // private int[][] memo1186;
+
+    // public int maximumSum(int[] arr) {
+    // int n = arr.length;
+    // this.arr1186 = arr;
+    // this.memo1186 = new int[n][2];
+    // for (int i = 0; i < n; ++i) {
+    // Arrays.fill(memo1186[i], Integer.MIN_VALUE);
+    // }
+    // // int res = Integer.MIN_VALUE;
+    // // for (int i = 0; i < n; ++i) {
+    // // res = Math.max(res, dfs(i, 1));
+    // // }
+    // return dfs(n - 1, 1);
+
+    // }
+
+    // private int dfs(int i, int count) {
+    // if (i == 0) {
+    // return arr1186[i];
+    // }
+    // if (count == 0) {
+    // return Math.max(0, dfs(i - 1, 0)) + arr1186[i];
+    // }
+    // if (memo1186[i][count] != Integer.MIN_VALUE) {
+    // return memo1186[i][count];
+    // }
+    // return memo1186[i][count] = Math.max(
+    // arr1186[i], Math.max(arr1186[i] + dfs(i - 1, count), dfs(i - 1, count - 1)));
+    // }
 
     // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
     // public int distinctEchoSubstrings(String text) {
