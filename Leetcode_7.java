@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.awt.Point;
-import java.nio.file.NotLinkException;
 
 public class Leetcode_7 {
     public static void main(String[] args) {
@@ -6079,12 +6078,12 @@ public class Leetcode_7 {
         this.m351 = m;
         this.n351 = n;
         this.list351 = new ArrayList<>();
-        dfs();
+        dfs351();
         return res351;
 
     }
 
-    private void dfs() {
+    private void dfs351() {
         if (list351.size() >= m351) {
             ++res351;
         }
@@ -6124,7 +6123,7 @@ public class Leetcode_7 {
             }
             list351.add(i);
             used351 ^= 1 << i;
-            dfs();
+            dfs351();
             list351.remove(list351.size() - 1);
             used351 ^= 1 << i;
         }
@@ -6231,6 +6230,40 @@ public class Leetcode_7 {
             used267 ^= 1 << i;
             builder267.deleteCharAt(builder267.length() - 1);
         }
+    }
+
+    // 1066. 校园自行车分配 II (Campus Bikes II) --plus
+    private int n1066;
+    private int m1066;
+    private int[][] workers1066;
+    private int[][] bikes1066;
+    private int[][] memo1066;
+
+    public int assignBikes(int[][] workers, int[][] bikes) {
+        this.n1066 = workers.length;
+        this.m1066 = bikes.length;
+        this.workers1066 = workers;
+        this.bikes1066 = bikes;
+        this.memo1066 = new int[n1066][1 << m1066];
+        return dfs1066(0, 0);
+
+    }
+
+    private int dfs1066(int i, int mask) {
+        if (i == n1066) {
+            return 0;
+        }
+        if (memo1066[i][mask] != 0) {
+            return memo1066[i][mask];
+        }
+        int min = Integer.MAX_VALUE;
+        for (int j = 0; j < m1066; ++j) {
+            if (((mask >> j) & 1) == 0) {
+                min = Math.min(min, Math.abs(workers1066[i][0] - bikes1066[j][0]) + Math.abs(workers1066[i][1] - bikes1066[j][1])
+                        + dfs1066(i + 1, mask | (1 << j)));
+            }
+        }
+        return memo1066[i][mask] = min;
     }
 
 
