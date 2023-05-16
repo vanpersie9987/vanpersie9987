@@ -11528,7 +11528,7 @@ public class LeetCodeText {
         }
     }
 
-    // 503. 下一个更大元素 II
+    // 503. 下一个更大元素 II (Next Greater Element II)
     public int[] nextGreaterElements(int[] nums) {
         int[] res = new int[nums.length];
         Arrays.fill(res, -1);
