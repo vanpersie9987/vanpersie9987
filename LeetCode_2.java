@@ -6823,7 +6823,8 @@ public class LeetCode_2 {
 
    // 31. 下一个排列 (Next Permutation)
    public void nextPermutation(int[] nums) {
-      int i = nums.length - 2;
+      int n = nums.length;
+      int i = n - 2;
       while (i >= 0) {
          if (nums[i] < nums[i + 1]) {
             break;
@@ -6834,17 +6835,18 @@ public class LeetCode_2 {
          Arrays.sort(nums);
          return;
       }
-      int j = nums.length - 1;
+      int j = n - 1;
       while (i < j) {
-         if (nums[j] > nums[i]) {
-            int temp = nums[j];
-            nums[j] = nums[i];
-            nums[i] = temp;
+         if (nums[i] < nums[j]) {
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+            Arrays.sort(nums, i + 1, n);
             break;
          }
          --j;
       }
-      Arrays.sort(nums, i + 1, nums.length);
+
    }
 
    // 剑指 Offer 38. 字符串的排列 --方法：31.下一个排列 还需掌握：回溯法
