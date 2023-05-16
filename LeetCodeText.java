@@ -11476,27 +11476,25 @@ public class LeetCodeText {
 
     }
 
-    // 496. 下一个更大元素 I
+    // 496. 下一个更大元素 (I Next Greater Element I)
     public int[] nextGreaterElement(int[] nums1, int[] nums2) {
-        int[] dp = new int[10001];
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums1.length; ++i) {
+            map.put(nums1[i], i);
+        }
         int[] res = new int[nums1.length];
         Arrays.fill(res, -1);
-        Arrays.fill(dp, -1);
-        for (int i = 0; i < nums1.length; ++i) {
-            dp[nums1[i]] = i;
-        }
-        Stack<Integer> stack = new Stack<>();
+        Stack<Integer> s = new Stack<>();
         for (int i = 0; i < nums2.length; ++i) {
-            while (!stack.isEmpty() && nums2[i] > stack.peek()) {
-                int num = stack.pop();
-                if (dp[num] != -1) {
-                    res[dp[num]] = nums2[i];
+            while (!s.isEmpty() && nums2[i] > nums2[s.peek()]) {
+                int pop = nums2[s.pop()];
+                if (map.containsKey(pop)) {
+                    res[map.get(pop)] = nums2[i];
                 }
             }
-            stack.push(nums2[i]);
+            s.push(i);
         }
         return res;
-
     }
 
     // 面试题 03.02. 栈的最小值 // 剑指 Offer 30. 包含min函数的栈 // 155. 最小栈
