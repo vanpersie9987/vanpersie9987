@@ -6130,10 +6130,10 @@ public class Leetcode_7 {
         }
     }
 
-    // 267. 回文排列 II --plus 未提交
+    // 267. 回文排列 II --plus
     private List<String> res267;
     private char[] arr267;
-    private boolean[] used267;
+    private int used267;
     private int n267;
     private StringBuilder builder267;
     private String mid267;
@@ -6159,28 +6159,22 @@ public class Leetcode_7 {
                 builder.append((char) (i + 'a'));
             }
         }
-        if (builder.isEmpty()) {
-            if (!mid267.isEmpty()) {
-                res267.add(mid267);
-            }
-            return res267;
-        }
+
         // 方法一：回溯 全排列
         // this.arr267 = builder.toString().toCharArray();
         // Arrays.sort(arr267);
         // this.n267 = arr267.length;
-        // this.used267 = new boolean[n267];
         // this.builder267 = new StringBuilder();
         // dfs267();
 
         // 方法二：下一个排列
         this.arr267 = builder.toString().toCharArray();
         Arrays.sort(arr267);
-        char[] original = arr267;
+        char[] original = arr267.clone();
         do {
             res267.add(String.valueOf(arr267) + mid267 + String.valueOf(reverse267(arr267)));
             nextPermutation267(arr267);
-        } while (original.equals(arr267));
+        } while (!String.valueOf(original).equals(String.valueOf(arr267)));
 
         return res267;
 
@@ -6224,18 +6218,17 @@ public class Leetcode_7 {
 
     private void dfs267() {
         if (builder267.length() == n267) {
-            res267.add(builder267 + mid267 + builder267.reverse());
-            builder267.reverse();
+            res267.add(builder267 + mid267 + String.valueOf(reverse267(builder267.toString().toCharArray())));
             return;
         }
         for (int i = 0; i < n267; ++i) {
-            if (used267[i] || i > 0 && arr267[i] == arr267[i - 1] && !used267[i - 1]) {
+            if (((used267 >> i) & 1) == 1 || i > 0 && arr267[i] == arr267[i - 1] && ((used267 >> (i - 1)) & 1) == 0) {
                 continue;
             }
-            builder267.append(used267[i]);
-            used267[i] = true;
+            builder267.append(arr267[i]);
+            used267 ^= 1 << i;
             dfs267();
-            used267[i] = false;
+            used267 ^= 1 << i;
             builder267.deleteCharAt(builder267.length() - 1);
         }
     }
