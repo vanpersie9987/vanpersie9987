@@ -6267,6 +6267,24 @@ public class Leetcode_7 {
         return memo1066[i][mask] = min;
     }
 
+    // 2599. 使前缀和数组非负 (Make the Prefix Sum Non-negative)
+    public int makePrefSumNonNegative(int[] nums) {
+        Queue<Long> q = new PriorityQueue<>();
+        long prefix = 0L;
+        int res = 0;
+        for (long num : nums) {
+            prefix += num;
+            q.offer(num);
+            if (prefix < 0) {
+                prefix -= q.poll();
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
     // private int[][] memo1186;
