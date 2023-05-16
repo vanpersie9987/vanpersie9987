@@ -6259,14 +6259,13 @@ public class Leetcode_7 {
         int min = Integer.MAX_VALUE;
         for (int j = 0; j < m1066; ++j) {
             if (((mask >> j) & 1) == 0) {
-                min = Math.min(min, Math.abs(workers1066[i][0] - bikes1066[j][0]) + Math.abs(workers1066[i][1] - bikes1066[j][1])
-                        + dfs1066(i + 1, mask | (1 << j)));
+                min = Math.min(min,
+                        Math.abs(workers1066[i][0] - bikes1066[j][0]) + Math.abs(workers1066[i][1] - bikes1066[j][1])
+                                + dfs1066(i + 1, mask | (1 << j)));
             }
         }
         return memo1066[i][mask] = min;
     }
-
-
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
