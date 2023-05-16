@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.awt.Point;
+import java.nio.file.NotLinkException;
 
 public class Leetcode_7 {
     public static void main(String[] args) {
@@ -766,48 +767,41 @@ public class Leetcode_7 {
     }
 
     // 1335. 工作计划的最低难度 (Minimum Difficulty of a Job Schedule)
-    private int[] jobDifficulty1335;
-    private int n1335;
-    private int d1335;
     private int[][] memo1335;
+    private int n1335;
+    private int[] jobDifficulty1335;
+    private int d1335;
 
     public int minDifficulty(int[] jobDifficulty, int d) {
-        this.jobDifficulty1335 = jobDifficulty;
-        this.d1335 = d;
         this.n1335 = jobDifficulty.length;
-        if (n1335 < d) {
-            return -1;
+        this.d1335 = d;
+        this.jobDifficulty1335 = jobDifficulty;
+        this.memo1335 = new int[n1335][d];
+        for (int i = 0; i < n1335; ++i) {
+            Arrays.fill(memo1335[i], (int) 1e6);
         }
-        this.memo1335 = new int[d][n1335];
-        for (int i = 0; i < d; ++i) {
-            Arrays.fill(memo1335[i], -1);
-        }
-        return dfs1335(0, 0);
+        int res = dfs1335(0, 0);
+        return res < (int) 1e6 ? res : -1;
 
     }
 
-    private int dfs1335(int days, int jobIndex) {
-        if (days == d1335 || jobIndex == n1335) {
-            if (days == d1335 && jobIndex == n1335) {
-                return 0;
-            }
-            return (int) 1e7;
+    private int dfs1335(int i, int count) {
+        if (d1335 - count > n1335 - i) {
+            return (int) 1e6;
         }
-        if (n1335 - jobIndex < d1335 - days) {
-            return (int) 1e7;
+        if (i == n1335 || count == d1335) {
+            return i == n1335 && count == d1335 ? 0 : (int) 1e6;
         }
-        if (memo1335[days][jobIndex] != -1) {
-            return memo1335[days][jobIndex];
+        if (memo1335[i][count] != (int) 1e6) {
+            return memo1335[i][count];
         }
         int max = 0;
-        int res = (int) 1e7;
-        int j = jobIndex;
-        while (j < n1335) {
+        int res = (int) 1e6;
+        for (int j = i; j < n1335; ++j) {
             max = Math.max(max, jobDifficulty1335[j]);
-            res = Math.min(res, max + dfs1335(days + 1, j + 1));
-            ++j;
+            res = Math.min(res, dfs1335(j + 1, count + 1) + max);
         }
-        return memo1335[days][jobIndex] = res;
+        return memo1335[i][count] = res;
     }
 
     // 2251. 花期内花的数目 (Number of Flowers in Full Bloom)
@@ -6192,4 +6186,172 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
+    // 351. 安卓系统手势解锁 --plus 未提交
+    private boolean[] used351;
+    private int res351;
+    private int m351;
+    private int n351;
+    private List<Integer> list351;
+
+    public int numberOfPatterns(int m, int n) {
+        this.used351 = new boolean[10];
+        this.m351 = m;
+        this.n351 = n;
+        this.list351 = new ArrayList<>();
+        dfs();
+        return res351;
+
+    }
+
+    private void dfs() {
+        if (list351.size() >= m351) {
+            ++res351;
+        }
+        if (list351.size() == n351) {
+            return;
+        }
+        for (int i = 1; i <= 9; ++i) {
+            if (used351[i]) {
+                continue;
+            }
+            if (!used351[i] && !list351.isEmpty()) {
+                if (i + list351.get(list351.size() - 1) == 10 && !used351[5]) {
+                    continue;
+                }
+                if (i == 1
+                        && (list351.get(list351.size() - 1) == 3 && !used351[2] || list351.get(list351.size() - 1) == 7 && !used351[4])) {
+                    continue;
+                }
+                if (i == 3
+                        && (list351.get(list351.size() - 1) == 1 && !used351[2] || list351.get(list351.size() - 1) == 9 && !used351[6])) {
+                    continue;
+                }
+                if (i == 9
+                        && (list351.get(list351.size() - 1) == 3 && !used351[6] || list351.get(list351.size() - 1) == 7 && !used351[8])) {
+                    continue;
+                }
+                if (i == 7
+                        && (list351.get(list351.size() - 1) == 1 && !used351[4] || list351.get(list351.size() - 1) == 9 && !used351[8])) {
+                    continue;
+                }
+                list351.add(i);
+                used351[i] = true;
+                dfs();
+                list351.remove(list351.size() - 1);
+                used351[i] = false;
+            }
+        }
+    }
+
+    // 267. 回文排列 II --plus
+    private List<String> res267;
+    private char[] arr267;
+    private boolean[] used267;
+    private int n267;
+    private StringBuilder builder267;
+    private String mid267;
+
+    public List<String> generatePalindromes(String s) {
+        int[] cnts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++cnts[c - 'a'];
+        }
+        res267 = new ArrayList<>();
+        mid267 = "";
+        int odds = 0;
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < 26; ++i) {
+            if ((cnts[i] & 1) == 1) {
+                if (++odds > 1) {
+                    return res267;
+                }
+                mid267 = String.valueOf((char) (i + 'a'));
+            }
+            int c = cnts[i] / 2;
+            while (c-- > 0) {
+                builder.append((char) (i + 'a'));
+            }
+        }
+        if (builder.isEmpty()) {
+            if (!mid267.isEmpty()) {
+                res267.add(mid267);
+            }
+            return res267;
+        }
+        // 方法一：回溯 全排列
+        // this.arr267 = builder.toString().toCharArray();
+        // Arrays.sort(arr267);
+        // this.n267 = arr267.length;
+        // this.used267 = new boolean[n267];
+        // this.builder267 = new StringBuilder();
+        // dfs267();
+
+        // 方法二：下一个排列
+        this.arr267 = builder.toString().toCharArray();
+        Arrays.sort(arr267);
+        char[] original = arr267;
+        do {
+            res267.add(String.valueOf(arr267) + mid267 + String.valueOf(reverse267(arr267)));
+            nextPermutation267(arr267);
+        } while (original.equals(arr267));
+
+        return res267;
+
+    }
+
+    private void nextPermutation267(char[] arr) {
+        int n = arr.length;
+        int i = n - 2;
+        while (i >= 0) {
+            if (arr[i] < arr[i + 1]) {
+                break;
+            }
+            --i;
+        }
+        if (i < 0) {
+            Arrays.sort(arr);
+            return;
+        }
+        int j = n - 1;
+        while (i < j) {
+            if (arr[i] < arr[j]) {
+                char temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+                Arrays.sort(arr, i + 1, n);
+                break;
+            }
+            --j;
+        }
+    }
+
+    private char[] reverse267(char[] arr) {
+        int n = arr.length;
+        char[] res = new char[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = arr[n - i - 1];
+        }
+
+        return res;
+    }
+
+    private void dfs267() {
+        if (builder267.length() == n267) {
+            res267.add(builder267 + mid267 + builder267.reverse());
+            builder267.reverse();
+            return;
+        }
+        for (int i = 0; i < n267; ++i) {
+            if (used267[i] || i > 0 && arr267[i] == arr267[i - 1] && !used267[i - 1]) {
+                continue;
+            }
+            builder267.append(used267[i]);
+            used267[i] = true;
+            dfs267();
+            used267[i] = false;
+            builder267.deleteCharAt(builder267.length() - 1);
+        }
+    }
+
 }
