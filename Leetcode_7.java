@@ -6325,6 +6325,48 @@ public class Leetcode_7 {
         return res;
     }
 
+    // 2510. 检查是否有路径经过相同数量的 0 和 1 (Check if There is a Path With Equal Number of 0's And 1's) --plus
+    private int[][][] memo2510;
+    private int m2510;
+    private int n2510;
+    private int[][] grid2510;
+
+    public boolean isThereAPath(int[][] grid) {
+        this.m2510 = grid.length;
+        this.n2510 = grid[0].length;
+        this.grid2510 = grid;
+        if ((m2510 + n2510 - 1) % 2 == 1) {
+            return false;
+        }
+        // memo[i][j][k] : 从 [i, j] 出发，且1比0多k个的情况下，能否在到达右下角时，存在1和0的个数相等的路径
+        // == 0 未访问
+        // == 1 存在合法路径
+        // == -1 不存在合法路径
+        this.memo2510 = new int[m2510][n2510][m2510 + n2510];
+        return dfs2510(0, 0, 0);
+
+    }
+
+    private boolean dfs2510(int i, int j, int k) {
+        if (i == m2510 || j == n2510) {
+            return false;
+        }
+        if (i == m2510 - 1 && j == n2510 - 1) {
+            return k + (grid2510[i][j] == 1 ? 1 : -1) == 0;
+        }
+        if (m2510 - i + n2510 - j - 1 < Math.abs(k)) {
+            return false;
+        }
+        if (memo2510[i][j][k + (m2510 + n2510) / 2] != 0) {
+            return memo2510[i][j][k + (m2510 + n2510) / 2] > 0;
+        }
+        boolean res = dfs2510(i + 1, j, grid2510[i][j] == 1 ? k + 1 : k - 1)
+                || dfs2510(i, j + 1, grid2510[i][j] == 1 ? k + 1 : k - 1);
+        memo2510[i][j][k + (m2510 + n2510) / 2] = res ? 1 : -1;
+        return res;
+    }
+    
+
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
