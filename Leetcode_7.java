@@ -6421,7 +6421,7 @@ public class Leetcode_7 {
         this.n1230 = prob.length;
         this.target1230 = target;
         this.prob1230 = prob;
-        this.memo1230 = new double[n1230][target + 1];
+        this.memo1230 = new double[n1230][target];
         for (int i = 0; i < n1230; ++i) {
             Arrays.fill(memo1230[i], -1D);
         }
