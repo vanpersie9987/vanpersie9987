@@ -6365,8 +6365,49 @@ public class Leetcode_7 {
         memo2510[i][j][k + (m2510 + n2510) / 2] = res ? 1 : -1;
         return res;
     }
-    
 
+    // 2510. 检查是否有路径经过相同数量的 0 和 1 (Check if There is a Path With Equal Number of 0's
+    // And 1's) --plus
+    public boolean isThereAPath2(int[][] grid) {
+        int[][] dirs = { { 0, 1 }, { 1, 0 } };
+        int m = grid.length;
+        int n = grid[0].length;
+        if ((m + n - 1) % 2 == 1) {
+            return false;
+        }
+        boolean[][][] vis = new boolean[m][n][m + n + m + n];
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[] { 0, 0, grid[0][0] > 0 ? 1 : -1 });
+        vis[0][0][(grid[0][0] > 0 ? 1 : -1) + m + n] = true;
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int k = cur[2];
+            if (x == m - 1 && y == n - 1) {
+                if (k == 0) {
+                    return true;
+                }
+                continue;
+            }
+            if (m - x + n - y - 1 < Math.abs(k)) {
+                continue;
+            }
+            for (int[] dir : dirs) {
+                int nx = x + dir[0];
+                int ny = y + dir[1];
+                if (nx == m || ny == n) {
+                    continue;
+                }
+                int nk = (grid[nx][ny] > 0 ? 1 : -1) + k + m + n;
+                if (!vis[nx][ny][nk]) {
+                    vis[nx][ny][nk] = true;
+                    q.offer(new int[] { nx, ny, (grid[nx][ny] > 0 ? 1 : -1) + k });
+                }
+            }
+        }
+        return false;
+    }
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
