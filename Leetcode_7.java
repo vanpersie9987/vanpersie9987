@@ -6409,6 +6409,58 @@ public class Leetcode_7 {
         return false;
     }
 
+    // 1230. 抛掷硬币 (Toss Strange Coins) --plus
+    private int n1230;
+    private int target1230;
+    private double[] prob1230;
+    private double[][] memo1230;
+    private double[] sufNeg1230;
+    private double[] sufPos1230;
+
+    public double probabilityOfHeads(double[] prob, int target) {
+        this.n1230 = prob.length;
+        this.target1230 = target;
+        this.prob1230 = prob;
+        this.memo1230 = new double[n1230][target + 1];
+        for (int i = 0; i < n1230; ++i) {
+            Arrays.fill(memo1230[i], -1D);
+        }
+        this.sufNeg1230 = new double[n1230];
+        this.sufPos1230 = new double[n1230];
+        sufNeg1230[n1230 - 1] = 1D - prob[n1230 - 1];
+        sufPos1230[n1230 - 1] = prob[n1230 - 1];
+        for (int i = n1230 - 2; i >= 0; --i) {
+            sufNeg1230[i] = sufNeg1230[i + 1] * (1D - prob[i]);
+            sufPos1230[i] = sufPos1230[i + 1] * prob[i];
+        }
+        return dfs1230(0, 0);
+
+    }
+
+    private double dfs1230(int i, int j) {
+        if (j == target1230) {
+            return i < n1230 ? sufNeg1230[i] : 1D;
+        }
+        if (i == n1230) {
+            return 0D;
+        }
+        // 需要再选 target - j 个硬币 > 还有 n - i 个硬币可选 
+        if (n1230 - i < target1230 - j) {
+            return 0D;
+        }
+        // 需要再选 target - j 个硬币 = 还有 n - i 个硬币可选 全部选正面朝上
+        if (target1230 - j == n1230 - i) {
+            return sufPos1230[i];
+        }
+        if (memo1230[i][j] != -1D) {
+            return memo1230[i][j];
+        }
+        // 第 i 枚硬币朝反 + 第 i 枚硬币朝正
+        return memo1230[i][j] = dfs1230(i + 1, j) * (1D - prob1230[i]) + dfs1230(i + 1, j + 1) * prob1230[i];
+
+    }
+
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
     // private int[][] memo1186;
