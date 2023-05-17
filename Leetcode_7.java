@@ -6284,6 +6284,47 @@ public class Leetcode_7 {
 
     }
 
+    // 2031. 1 比 0 多的子数组个数 (Count Subarrays With More Ones Than Zeros)
+    public int subarraysWithMoreZerosThanOnes(int[] nums) {
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        List<Integer> list = new ArrayList<>();
+        list.add(0);
+        int prefix = 0;
+        for (int num : nums) {
+            prefix += num * 2 - 1;
+            int index = binarySearch2031(list, prefix);
+            res = (res + index + 1) % MOD;
+            list.add(index + 1, prefix);
+        }
+        return res;
+
+    }
+
+    // 找排序list中，< target的最大值对应的最大索引，若不存在，返回-1
+    private int binarySearch2031(List<Integer> list, int target) {
+        int n = list.size();
+        if (list.get(n - 1) < target) {
+            return n - 1;
+        }
+        if (target <= list.get(0)) {
+            return -1;
+        }
+        int left = 0;
+        int right = n - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (list.get(mid) < target) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
+
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
