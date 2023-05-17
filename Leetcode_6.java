@@ -9968,7 +9968,7 @@ public class Leetcode_6 {
 
     }
 
-    // 549. 二叉树中最长的连续序列 --plus (未提交，还需理解)
+    // 549. 二叉树中最长的连续序列 --plus
     private int res549;
 
     public int longestConsecutive(TreeNode root) {
