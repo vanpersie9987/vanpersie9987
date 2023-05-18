@@ -6471,7 +6471,7 @@ public class Leetcode_7 {
                 mask |= 1 << (c - 'a');
             }
             if (i < n - 1) {
-                int[] cur = compare(words[i], words[i + 1]);
+                int[] cur = compare269(words[i], words[i + 1]);
                 if (cur == null) {
                     return "";
                 }
@@ -6501,7 +6501,7 @@ public class Leetcode_7 {
 
     }
 
-    private int[] compare(String s1, String s2) {
+    private int[] compare269(String s1, String s2) {
         for (int i = 0; i < Math.min(s1.length(), s2.length()); ++i) {
             if (s1.charAt(i) != s2.charAt(i)) {
                 return new int[] { s1.charAt(i) - 'a', s2.charAt(i) - 'a' };
@@ -6511,6 +6511,20 @@ public class Leetcode_7 {
             return null;
         }
         return new int[] { -1, -1 };
+    }
+
+    // 271. 字符串的编码与解码 (Encode and Decode Strings)
+    public class Codec {
+
+        // Encodes a list of strings to a single string.
+        public String encode(List<String> strs) {
+
+        }
+
+        // Decodes a single string to a list of strings.
+        public List<String> decode(String s) {
+
+        }
     }
 
 
