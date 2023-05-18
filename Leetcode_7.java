@@ -6604,6 +6604,57 @@ public class Leetcode_7 {
         return res;
     }
 
+    // 247. 中心对称数 II (Strobogrammatic Number II) --plus
+    private int n247;
+    private List<String> res247;
+    private int[] dic247 = { 0, 1, 6, 8, 9 };
+    private StringBuilder builder247;
+    private int[] map247;
+
+    public List<String> findStrobogrammatic(int n) {
+        this.n247 = n;
+        this.res247 = new ArrayList<>();
+        this.builder247 = new StringBuilder();
+        this.map247 = new int[10];
+        map247[8] = 8;
+        map247[1] = 1;
+        map247[6] = 9;
+        map247[9] = 6;
+        dfs247();
+        return res247;
+
+    }
+
+    private void dfs247() {
+        if (builder247.length() == n247 / 2) {
+            if ((n247 & 1) == 1) {
+                res247.add(builder247 + "0" + upSideDown247(builder247.toString().toCharArray()));
+                res247.add(builder247 + "1" + upSideDown247(builder247.toString().toCharArray()));
+                res247.add(builder247 + "8" + upSideDown247(builder247.toString().toCharArray()));
+            } else {
+                res247.add(builder247 + upSideDown247(builder247.toString().toCharArray()).toString());
+            }
+            return;
+        }
+        for (int i = 0; i < dic247.length; ++i) {
+            if (builder247.isEmpty() && dic247[i] == 0) {
+                continue;
+            }
+            builder247.append(dic247[i]);
+            dfs247();
+            builder247.deleteCharAt(builder247.length() - 1);
+        }
+    }
+
+    private StringBuilder upSideDown247(char[] array) {
+        StringBuilder b = new StringBuilder();
+        int n = array.length;
+        for (int i = n - 1; i >= 0; --i) {
+            b.append(map247[array[i] - '0']);
+        }
+        return b;
+    }
+
 
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
