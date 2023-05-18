@@ -6514,7 +6514,7 @@ public class Leetcode_7 {
         return new int[] { -1, -1 };
     }
 
-    // 271. 字符串的编码与解码 (Encode and Decode Strings)
+    // 271. 字符串的编码与解码 (Encode and Decode Strings) --plus
     public class Codec {
         private String sEmpty = Character.toString((char) 258);
         private String mDivider = Character.toString((char) 257);
