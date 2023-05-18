@@ -2707,36 +2707,34 @@ public class LeetCode_4 {
         return s.substring(0, happy);
     }
 
-    // 1079. 活字印刷 (Letter Tile Possibilities)
+    // 1079. 活字印刷 (Letter Tile Possibilities) --回溯 全排列
+    private int n1079;
+    private char[] arr1079;
     private int res1079;
+    private int used1079;
 
     public int numTilePossibilities(String tiles) {
-        int n = tiles.length();
-        char[] chars = tiles.toCharArray();
-        Arrays.sort(chars);
-        boolean[] used = new boolean[n];
-        for (int i = 1; i <= n; ++i) {
-            backtrack1079(chars, i, used);
-        }
-        return res1079;
+        this.n1079 = tiles.length();
+        this.arr1079 = tiles.toCharArray();
+        Arrays.sort(arr1079);
+        dfs1079();
+        return res1079 - 1;
 
     }
 
-    private void backtrack1079(char[] chars, int n, boolean[] used) {
-        if (n == 0) {
-            ++res1079;
+    private void dfs1079() {
+        ++res1079;
+        if (Integer.bitCount(used1079) == n1079) {
             return;
         }
-        for (int i = 0; i < chars.length; ++i) {
-            if (used[i]) {
+        for (int i = 0; i < n1079; ++i) {
+            if (((used1079 >> i) & 1) == 1
+                    || i > 0 && arr1079[i] == arr1079[i - 1] && ((used1079 >> (i - 1)) & 1) == 0) {
                 continue;
             }
-            if (i > 0 && chars[i] == chars[i - 1] && !used[i - 1]) {
-                continue;
-            }
-            used[i] = true;
-            backtrack1079(chars, n - 1, used);
-            used[i] = false;
+            used1079 ^= 1 << i;
+            dfs1079();
+            used1079 ^= 1 << i;
         }
     }
 
