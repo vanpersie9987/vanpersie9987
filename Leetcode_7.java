@@ -6655,6 +6655,23 @@ public class Leetcode_7 {
         return b;
     }
 
+    // 2674. 拆分循环链表 (Split a Circular Linked List) --plus
+    public ListNode[] splitCircularLinkedList(ListNode list) {
+        ListNode head = list;
+        ListNode slow = head;
+        ListNode fast = head;
+        while (!(fast.next == head || fast.next.next == head)) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        if (fast.next.next == head) {
+            fast = fast.next;
+        }
+        fast.next = slow.next;
+        slow.next = head;
+        return new ListNode[] { slow.next, fast.next };
+    }
+
 
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
