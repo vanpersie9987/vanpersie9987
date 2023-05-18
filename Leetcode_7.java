@@ -6542,6 +6542,26 @@ public class Leetcode_7 {
         }
     }
 
+    // 1121. 将数组分成几个递增序列 (Divide Array Into Increasing Sequences) --plus
+    public boolean canDivideIntoSubsequences(int[] nums, int k) {
+        int n = nums.length;
+        int cnt = 0;
+        int pre = nums[0];
+        for (int num : nums) {
+            if (pre == num) {
+                ++cnt;
+            } else {
+                cnt = 1;
+                pre = num;
+            }
+            if (cnt * k > n) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+    
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
