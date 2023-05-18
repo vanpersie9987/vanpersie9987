@@ -6560,7 +6560,51 @@ public class Leetcode_7 {
         return true;
 
     }
-    
+
+    // 1067. 范围内的数字计数 (Digit Count in Range) --plus
+    private int d1067;
+    private int[][] memo1067;
+    private char[] arr1067;
+    private int n1067;
+
+    public int digitsCount(int d, int low, int high) {
+        this.d1067 = d;
+        return count1067(high) - count1067(low - 1);
+
+    }
+
+    private int count1067(int num) {
+        this.arr1067 = String.valueOf(num).toCharArray();
+        this.n1067 = arr1067.length;
+        this.memo1067 = new int[n1067][n1067];
+        for (int i = 0; i < n1067; ++i) {
+            Arrays.fill(memo1067[i], -1);
+        }
+        return dfs1067(0, 0, true, false);
+    }
+
+    private int dfs1067(int i, int count, boolean isLimit, boolean isNum) {
+        if (i == n1067) {
+            return isNum ? count : 0;
+        }
+        if (isNum && !isLimit && memo1067[i][count] != -1) {
+            return memo1067[i][count];
+        }
+        int res = 0;
+        if (!isNum) {
+            res = dfs1067(i + 1, count, false, false);
+        }
+        int up = isLimit ? arr1067[i] - '0' : 9;
+        for (int num = isNum ? 0 : 1; num <= up; ++num) {
+            res += dfs1067(i + 1, count + (num == d1067 ? 1 : 0), isLimit && num == up, true);
+        }
+        if (isNum && !isLimit) {
+            memo1067[i][count] = res;
+        }
+        return res;
+    }
+
+
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
