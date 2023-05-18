@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.Semaphore;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -6515,15 +6516,29 @@ public class Leetcode_7 {
 
     // 271. 字符串的编码与解码 (Encode and Decode Strings)
     public class Codec {
+        private String sEmpty = Character.toString((char) 258);
+        private String mDivider = Character.toString((char) 257);
 
         // Encodes a list of strings to a single string.
         public String encode(List<String> strs) {
-
+            if (strs.isEmpty()) {
+                return sEmpty;
+            }
+            StringBuilder res = new StringBuilder();
+            for (String s : strs) {
+                res.append(s);
+                res.append(mDivider);
+            }
+            res.deleteCharAt(res.length() - 1);
+            return res.toString();
         }
 
         // Decodes a single string to a list of strings.
         public List<String> decode(String s) {
-
+            if (sEmpty.equals(s)) {
+                return new ArrayList<>();
+            }
+            return Arrays.asList(s.split(mDivider, -1));
         }
     }
 
