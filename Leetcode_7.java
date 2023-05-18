@@ -6460,6 +6460,59 @@ public class Leetcode_7 {
 
     }
 
+    // 269. 火星词典 (Alien Dictionary) --plus
+    public String alienOrder(String[] words) {
+        int mask = 0;
+        Map<Integer, List<Integer>> g = new HashMap<>();
+        int[] degree = new int[26];
+        int n = words.length;
+        for (int i = 0; i < n; ++i) {
+            for (char c : words[i].toCharArray()) {
+                mask |= 1 << (c - 'a');
+            }
+            if (i < n - 1) {
+                int[] cur = compare(words[i], words[i + 1]);
+                if (cur == null) {
+                    return "";
+                }
+                if (cur[0] != -1) {
+                    g.computeIfAbsent(cur[0], k -> new ArrayList<>()).add(cur[1]);
+                    ++degree[cur[1]];
+                }
+            }
+        }
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < 26; ++i) {
+            if (((mask >> i) & 1) == 1 && degree[i] == 0) {
+                q.offer(i);
+            }
+        }
+        StringBuilder res = new StringBuilder();
+        while (!q.isEmpty()) {
+            int x = q.poll();
+            res.append((char) (x + 'a'));
+            for (int y : g.getOrDefault(x, new ArrayList<>())) {
+                if (--degree[y] == 0) {
+                    q.offer(y);
+                }
+            }
+        }
+        return res.length() == Integer.bitCount(mask) ? res.toString() : "";
+
+    }
+
+    private int[] compare(String s1, String s2) {
+        for (int i = 0; i < Math.min(s1.length(), s2.length()); ++i) {
+            if (s1.charAt(i) != s2.charAt(i)) {
+                return new int[] { s1.charAt(i) - 'a', s2.charAt(i) - 'a' };
+            }
+        }
+        if (s1.length() > s2.length()) {
+            return null;
+        }
+        return new int[] { -1, -1 };
+    }
+
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
