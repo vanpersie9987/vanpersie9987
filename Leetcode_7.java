@@ -6724,6 +6724,53 @@ public class Leetcode_7 {
         return res.toArray(new int[0][]);
     }
 
+    // 2431. 最大限度地提高购买水果的口味 (Maximize Total Tastiness of Purchased Fruits) --plus
+    private int[][][] memo;
+    private int n;
+    private int[] price;
+    private int[] tastiness;
+    private int maxAmount;
+    private int maxCoupons;
+
+    public int maxTastiness(int[] price, int[] tastiness, int maxAmount, int maxCoupons) {
+        this.n = price.length;
+        this.price = price;
+        this.tastiness = tastiness;
+        this.maxAmount = maxAmount;
+        this.maxCoupons = maxCoupons;
+        this.memo = new int[n][maxAmount + 1][maxCoupons + 1];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < maxAmount + 1; ++j) {
+                Arrays.fill(memo[i][j], -1);
+            }
+        }
+        return dfs(0, 0, 0);
+    }
+
+    private int dfs(int i, int amount, int coupons) {
+        if (i == n) {
+            return 0;
+        }
+        if (memo[i][amount][coupons] != -1) {
+            return memo[i][amount][coupons];
+        }
+        // 不选
+        int max = dfs(i + 1, amount, coupons);
+        // 选 不用优惠券
+        if (amount + price[i] <= maxAmount) {
+            max = Math.max(max, dfs(i + 1, amount + price[i], coupons) + tastiness[i]);
+        }
+        // 选 用优惠券 (coupons < maxCoupons)
+        if (coupons < maxCoupons) {
+            int newAmount = amount + (price[i] >> 1);
+            if (newAmount <= maxAmount) {
+                max = Math.max(max, dfs(i + 1, newAmount, coupons + 1) + tastiness[i]);
+            }
+        }
+        return memo[i][amount][coupons] = max;
+    }
+
+
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
