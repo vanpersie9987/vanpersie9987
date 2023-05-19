@@ -6816,8 +6816,8 @@ public class Leetcode_7 {
         if (k > n - 1) {
             return -1;
         }
-        g2247 = new ArrayList[n];
         this.k2247 = k;
+        g2247 = new ArrayList[n];
         Arrays.setAll(g2247, o -> new ArrayList<>());
         for (int[] h : highways) {
             int a = h[0];
