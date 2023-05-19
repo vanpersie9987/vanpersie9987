@@ -6672,6 +6672,18 @@ public class Leetcode_7 {
         return new ListNode[] { slow.next, fast.next };
     }
 
+    // 2505. 所有子序列和的按位或 (Bitwise OR of All Subsequence Sums) --plus
+    public long subsequenceSumOr(int[] nums) {
+        long pre = 0L;
+        long res = 0L;
+        for (int num : nums) {
+            pre = pre + num;
+            res = res | num | pre;
+        }
+        return res;
+
+    }
+
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
