@@ -6807,6 +6807,64 @@ public class Leetcode_7 {
 
     }
 
+
+    // 2247. K 条高速公路的最大旅行费用 (Maximum Cost of Trip With K Highways) --plus
+    private List<int[]>[] g2247;
+    private int k2247;
+
+    public int maximumCost(int n, int[][] highways, int k) {
+        if (k > n - 1) {
+            return -1;
+        }
+        g2247 = new ArrayList[n];
+        this.k2247 = k;
+        Arrays.setAll(g2247, o -> new ArrayList<>());
+        for (int[] h : highways) {
+            int a = h[0];
+            int b = h[1];
+            int fee = h[2];
+            g2247[a].add(new int[] { b, fee });
+            g2247[b].add(new int[] { a, fee });
+        }
+        int res = -1;
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, calculateCost(i));
+        }
+        return res;
+
+    }
+
+    private int calculateCost(int start) {
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o2[1], o1[1]);
+            }
+
+        });
+        // node, fee, road
+        q.offer(new int[] { start, 0, 1 << start });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int curFee = cur[1];
+            int mask = cur[2];
+            if (Integer.bitCount(mask) - 1 == k2247) {
+                return curFee;
+            }
+            for (int[] nei : g2247[x]) {
+                int y = nei[0];
+                int fee = nei[1];
+                if (((mask >> y) & 1) == 0) {
+                    q.offer(new int[] { y, curFee + fee, mask | (1 << y) });
+                }
+            }
+        }
+        return -1;
+    }
+
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
     // private int[][] memo1186;
