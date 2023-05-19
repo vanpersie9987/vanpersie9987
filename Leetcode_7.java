@@ -6684,6 +6684,46 @@ public class Leetcode_7 {
 
     }
 
+    // 2655. 寻找最大长度的未覆盖区间 (Find Maximal Uncovered Ranges) --plus
+    public int[][] findMaximalUncoveredRanges(int n, int[][] ranges) {
+        Arrays.sort(ranges, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+
+        List<int[]> list = new ArrayList<>();
+        int i = 0;
+        int j = 1;
+        while (i < ranges.length) {
+            int left = ranges[i][0];
+            int right = ranges[i][1];
+            while (j < ranges.length && ranges[j][0] - 1 <= right) {
+                right = Math.max(right, ranges[j][1]);
+                ++j;
+            }
+            list.add(new int[] { left, right });
+            i = j;
+            ++j;
+        }
+        List<int[]> res = new ArrayList<>();
+        int left = 0;
+        for (int[] cur : list) {
+            if (cur[0] - 1 >= left) {
+                res.add(new int[] { left, cur[0] - 1 });
+            }
+            left = cur[1] + 1;
+        }
+        if (left <= n - 1) {
+            res.add(new int[] { left, n - 1 });
+        }
+
+        return res.toArray(new int[0][]);
+    }
+
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
