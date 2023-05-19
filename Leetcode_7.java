@@ -6770,7 +6770,26 @@ public class Leetcode_7 {
         return memo2431[i][amount][coupons] = max;
     }
 
-
+    // 2533. 好二进制字符串的数量 (Number of Good Binary Strings) --plus
+    public int goodBinaryStrings(int minLength, int maxLength, int oneGroup, int zeroGroup) {
+        int[] dp = new int[maxLength + 1];
+        dp[0] = 1;
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int i = 0; i <= maxLength; ++i) {
+            if (i - oneGroup >= 0) {
+                dp[i] = (dp[i] + dp[i - oneGroup]) % MOD;
+            }
+            if (i - zeroGroup >= 0) {
+                dp[i] = (dp[i] + dp[i - zeroGroup]) % MOD;
+            }
+            if (i >= minLength) {
+                res = (res + dp[i]) % MOD;
+            }
+        }
+        return res;
+    
+    }
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
