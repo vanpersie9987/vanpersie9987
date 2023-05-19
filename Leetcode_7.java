@@ -6791,6 +6791,22 @@ public class Leetcode_7 {
     
     }
 
+    // 2489. 固定比率的子字符串数 (Number of Substrings With Fixed Ratio) --plus
+    public long fixedRatio(String s, int num1, int num2) {
+        long[] cnts = new long[2];
+        Map<Long, Long> map = new HashMap<>();
+        map.put(0L, 1L);
+        long res = 0L;
+        for (char c : s.toCharArray()) {
+            ++cnts[c - '0'];
+            long key = cnts[0] * num2 - cnts[1] * num1;
+            res += map.getOrDefault(key, 0L);
+            map.merge(key, 1L, Long::sum);
+        }
+        return res;
+
+    }
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
     // private int[][] memo1186;
