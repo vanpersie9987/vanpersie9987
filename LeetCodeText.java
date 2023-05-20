@@ -19281,8 +19281,8 @@ public class LeetCodeText {
             Arrays.fill(memo256[i], Integer.MAX_VALUE);
         }
         int res = Integer.MAX_VALUE;
-        for (int i = 0; i < 3; ++i) {
-            res = Math.min(res, dfs256(0, i));
+        for (int type = 0; type < 3; ++type) {
+            res = Math.min(res, dfs256(0, type));
         }
         return res;
 
