@@ -9332,6 +9332,40 @@ public class LeetCode_4 {
         return dp[amount];
     }
 
+    // 518. 零钱兑换 II (Coin Change 2)
+    private int amount518;
+    private int[] coins518;
+    private int n518;
+    private int[][] memo518;
+
+    public int change2(int amount, int[] coins) {
+        this.amount518 = amount;
+        this.coins518 = coins;
+        this.n518 = coins.length;
+        this.memo518 = new int[n518][amount];
+        for (int i = 0; i < n518; ++i) {
+            Arrays.fill(memo518[i], -1);
+        }
+        return dfs518(0, 0);
+
+    }
+
+    private int dfs518(int i, int curAmount) {
+        if (i == n518 || curAmount >= amount518) {
+            return curAmount == amount518 ? 1 : 0;
+        }
+        if (memo518[i][curAmount] != -1) {
+            return memo518[i][curAmount];
+        }
+        int res = 0;
+        int c = 0;
+        while (c * coins518[i] + curAmount <= amount518) {
+            res += dfs518(i + 1, c * coins518[i] + curAmount);
+            ++c;
+        }
+        return memo518[i][curAmount] = res;
+    }
+
     // 1155. 掷骰子的N种方法 (Number of Dice Rolls With Target Sum)
     // 分组背包的组合问题：dp[i][j]表示投掷i个骰子点数和为j的方法数;三层循环：最外层为背包d,然后先遍历target后遍历点数f
     public int numRollsToTarget(int n, int k, int target) {
