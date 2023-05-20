@@ -1470,6 +1470,39 @@ public class Leetcode_5 {
 
     }
 
+    // 2291. 最大股票收益 (Maximum Profit From Trading Stocks) --plus
+    private int n2291;
+    private int[] present2291;
+    private int[] future2291;
+    private int budget2291;
+    private int[][] memo2291;
+
+    public int maximumProfit2(int[] present, int[] future, int budget) {
+        this.n2291 = present.length;
+        this.present2291 = present;
+        this.future2291 = future;
+        this.budget2291 = budget;
+        this.memo2291 = new int[n2291][budget + 1];
+        return dfs2291(0, 0);
+
+    }
+
+    private int dfs2291(int i, int used) {
+        if (i == n2291) {
+            return 0;
+        }
+        if (memo2291[i][used] != 0) {
+            return memo2291[i][used];
+        }
+        // 不选
+        int max = dfs2291(i + 1, used);
+        // 选
+        if (used + present2291[i] <= budget2291 && future2291[i] - present2291[i] > 0) {
+            max = Math.max(max, dfs2291(i + 1, used + present2291[i]) + future2291[i] - present2291[i]);
+        }
+        return memo2291[i][used] = max;
+    }
+
     interface Relation {
         boolean knows(int a, int b);
     }
