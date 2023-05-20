@@ -3901,7 +3901,8 @@ public class Leetcode_6 {
         dfs2458_2(node.left, h + 1);
     }
 
-    // 315. 计算右侧小于当前元素的个数 (Count of Smaller Numbers After Self) --二分查找 还需掌握 树状数组 归并排序
+    // 315. 计算右侧小于当前元素的个数 (Count of Smaller Numbers After Self) --二分查找 还需掌握 树状数组
+    // 归并排序
     private List<Integer> list315;
 
     public List<Integer> countSmaller(int[] nums) {
@@ -5462,7 +5463,8 @@ public class Leetcode_6 {
         return set;
     }
 
-    // 1986. 完成任务的最少工作时间段 (Minimum Number of Work Sessions to Finish the Tasks) --状态压缩dp
+    // 1986. 完成任务的最少工作时间段 (Minimum Number of Work Sessions to Finish the Tasks)
+    // --状态压缩dp
     public int minSessions(int[] tasks, int sessionTime) {
         int n = tasks.length;
         boolean[] valid = new boolean[1 << n];
@@ -5636,7 +5638,8 @@ public class Leetcode_6 {
 
     }
 
-    // 2267. 检查是否有合法括号字符串路径 (Check if There Is a Valid Parentheses String Path) --dfs
+    // 2267. 检查是否有合法括号字符串路径 (Check if There Is a Valid Parentheses String Path)
+    // --dfs
     private int m2267;
     private int n2267;
     private char[][] grid2267;
@@ -6357,7 +6360,8 @@ public class Leetcode_6 {
         return res;
     }
 
-    // 2156. 查找给定哈希值的子串 (Find Substring With Given Hash Value) --秦九韶算法、反向Rabin-Karp(滚动哈希)
+    // 2156. 查找给定哈希值的子串 (Find Substring With Given Hash Value)
+    // --秦九韶算法、反向Rabin-Karp(滚动哈希)
     public String subStrHash2(String s, int power, int modulo, int k, int hashValue) {
         long hash = 0l;
         long mult = 1l;
@@ -6496,37 +6500,35 @@ public class Leetcode_6 {
     private int res1373;
 
     public int maxSumBST(TreeNode root) {
+        this.res1373 = Integer.MIN_VALUE;
         dfs1373(root);
         return res1373;
 
     }
 
-    // return [isBST, sum, min, max]
-    // isBST : 是否为BST 1为true 0为false
-    // sum : 节点和
-    // min : 最小值
-    // max : 最大值
     private int[] dfs1373(TreeNode root) {
         if (root == null) {
-            return new int[] { 1, 0, Integer.MAX_VALUE, Integer.MIN_VALUE };
+            return new int[] { Integer.MAX_VALUE, Integer.MIN_VALUE, 0 };
         }
+        int sum = root.val;
         int[] left = dfs1373(root.left);
         int[] right = dfs1373(root.right);
-        if ((left[0] & right[0]) == 0) {
-            return new int[] { 0, 0, 0, 0 };
+        if (left[0] != Integer.MAX_VALUE) {
+            if (root.val > left[1]) {
+                sum += left[2];
+            } else {
+                return new int[] { Integer.MIN_VALUE, Integer.MAX_VALUE, 0 };
+            }
         }
-        if (left[3] >= root.val) {
-            return new int[] { 0, 0, 0, 0 };
+        if (right[0] != Integer.MAX_VALUE) {
+            if (root.val < right[0]) {
+                sum += right[2];
+            } else {
+                return new int[] { Integer.MIN_VALUE, Integer.MAX_VALUE, 0 };
+            }
         }
-        if (right[2] <= root.val) {
-            return new int[] { 0, 0, 0, 0 };
-        }
-        int lmin = Math.min(root.val, left[2]);
-        int rmax = Math.max(root.val, right[3]);
-        int sum = left[1] + right[1] + root.val;
         res1373 = Math.max(res1373, sum);
-        return new int[] { 1, sum, lmin, rmax };
-
+        return new int[] { Math.min(root.val, left[0]), Math.max(root.val, right[1]), sum };
     }
 
     // 10. 正则表达式匹配 (Regular Expression Matching) --暴力dfs
@@ -8506,7 +8508,7 @@ public class Leetcode_6 {
 
     }
 
-    // return int[4]:  1、全亮；2、全灭； 3、根亮，其余全灭； 4、根灭，其余全亮
+    // return int[4]: 1、全亮；2、全灭； 3、根亮，其余全灭； 4、根灭，其余全亮
     private int[] dfs_LCP_64(TreeNode root) {
         if (root == null) {
             return new int[] { 0, 0, 0, 0 };
@@ -9827,7 +9829,6 @@ public class Leetcode_6 {
             }
         }
         return res;
-
 
     }
 
