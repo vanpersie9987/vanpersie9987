@@ -6788,7 +6788,7 @@ public class Leetcode_7 {
             }
         }
         return res;
-    
+
     }
 
     // 2489. 固定比率的子字符串数 (Number of Substrings With Fixed Ratio) --plus
@@ -6806,7 +6806,6 @@ public class Leetcode_7 {
         return res;
 
     }
-
 
     // 2247. K 条高速公路的最大旅行费用 (Maximum Cost of Trip With K Highways) --plus
     private List<int[]>[] g2247;
@@ -6863,6 +6862,32 @@ public class Leetcode_7 {
         }
         return -1;
     }
+
+    // 2098. 长度为 K 的最大偶数和子序列 (Subsequence of Size K With the Largest Even Sum) --plus
+    public long largestEvenSum(int[] nums, int k) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        List<Long> odds = new ArrayList<>();
+        List<Long> evens = new ArrayList<>();
+        odds.add(0L);
+        evens.add(0L);
+        for (int i = n - 1; i >= 0; --i) {
+            if ((nums[i] & 1L) == 0) {
+                evens.add(evens.get(evens.size() - 1) + nums[i]);
+            } else {
+                odds.add(odds.get(odds.size() - 1) + nums[i]);
+            }
+        }
+        long res = -1L;
+        for (int i = 0; i < odds.size() && k - i >= 0; i += 2) {
+            if (k - i < evens.size()) {
+                res = Math.max(res, odds.get(i) + evens.get(k - i));
+            }
+        }
+        return res;
+
+    }
+
 
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
@@ -6983,5 +7008,4 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
-
 }
