@@ -6892,14 +6892,13 @@ public class Leetcode_7 {
 
     // 2590. 设计一个待办事项清单 (Design a Todo List) --plus
     class TodoList {
-        private final int N = 1000;
 
-        class Bean implements Comparable<Bean> {
+        class Task implements Comparable<Task> {
             String taskDescription;
             int dueDate;
             Set<String> tags;
 
-            public Bean(String taskDescription, int dueDate, Set<String> tags) {
+            public Task(String taskDescription, int dueDate, Set<String> tags) {
                 this.taskDescription = taskDescription;
                 this.dueDate = dueDate;
                 this.tags = tags;
@@ -6907,13 +6906,14 @@ public class Leetcode_7 {
             }
 
             @Override
-            public int compareTo(Bean o) {
+            public int compareTo(Task o) {
                 return Integer.compare(this.dueDate, o.dueDate);
             }
         }
 
+        private final int N = 1000;
         private int taskId;
-        private Map<Integer, Bean> map;
+        private Map<Integer, Task> map;
 
         public TodoList() {
             map = new HashMap<>();
@@ -6922,20 +6922,20 @@ public class Leetcode_7 {
 
         public int addTask(int userId, String taskDescription, int dueDate, List<String> tags) {
             int key = userId * N + taskId;
-            map.put(key, new Bean(taskDescription, dueDate, new HashSet<>(tags)));
+            map.put(key, new Task(taskDescription, dueDate, new HashSet<>(tags)));
             return taskId++;
         }
 
         public List<String> getAllTasks(int userId) {
-            List<Bean> list = new ArrayList<>();
-            for (Map.Entry<Integer, Bean> entry : map.entrySet()) {
+            List<Task> list = new ArrayList<>();
+            for (Map.Entry<Integer, Task> entry : map.entrySet()) {
                 if (entry.getKey() / N == userId) {
                     list.add(entry.getValue());
                 }
             }
             Collections.sort(list);
             List<String> res = new ArrayList<>();
-            for (Bean bean : list) {
+            for (Task bean : list) {
                 res.add(bean.taskDescription);
             }
             return res;
@@ -6943,10 +6943,10 @@ public class Leetcode_7 {
         }
 
         public List<String> getTasksForTag(int userId, String tag) {
-            List<Bean> list = new ArrayList<>();
-            for (Map.Entry<Integer, Bean> entry : map.entrySet()) {
+            List<Task> list = new ArrayList<>();
+            for (Map.Entry<Integer, Task> entry : map.entrySet()) {
                 if (entry.getKey() / N == userId) {
-                    Bean bean = entry.getValue();
+                    Task bean = entry.getValue();
                     if (bean.tags.contains(tag)) {
                         list.add(bean);
                     }
@@ -6954,7 +6954,7 @@ public class Leetcode_7 {
             }
             Collections.sort(list);
             List<String> res = new ArrayList<>();
-            for (Bean bean : list) {
+            for (Task bean : list) {
                 res.add(bean.taskDescription);
             }
             return res;
