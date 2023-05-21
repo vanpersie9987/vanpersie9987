@@ -18,6 +18,9 @@ import java.util.TreeSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.xml.crypto.KeySelector.Purpose;
+
 import java.awt.Point;
 
 public class Leetcode_7 {
@@ -6889,6 +6892,8 @@ public class Leetcode_7 {
 
     // 2590. 设计一个待办事项清单 (Design a Todo List) --plus
     class TodoList {
+        private final int N = 1000;
+
         class Bean implements Comparable<Bean> {
             String taskDescription;
             int dueDate;
@@ -6908,7 +6913,7 @@ public class Leetcode_7 {
         }
 
         private int taskId;
-        private Map<String, Bean> map;
+        private Map<Integer, Bean> map;
 
         public TodoList() {
             map = new HashMap<>();
@@ -6916,17 +6921,15 @@ public class Leetcode_7 {
         }
 
         public int addTask(int userId, String taskDescription, int dueDate, List<String> tags) {
-            String key = userId + "_" + taskId;
+            int key = userId * N + taskId;
             map.put(key, new Bean(taskDescription, dueDate, new HashSet<>(tags)));
             return taskId++;
         }
 
         public List<String> getAllTasks(int userId) {
             List<Bean> list = new ArrayList<>();
-            for (Map.Entry<String, Bean> entry : map.entrySet()) {
-                String key = entry.getKey();
-                int div = key.indexOf("_");
-                if (key.substring(0, div).equals(String.valueOf(userId))) {
+            for (Map.Entry<Integer, Bean> entry : map.entrySet()) {
+                if (entry.getKey() / N == userId) {
                     list.add(entry.getValue());
                 }
             }
@@ -6941,10 +6944,8 @@ public class Leetcode_7 {
 
         public List<String> getTasksForTag(int userId, String tag) {
             List<Bean> list = new ArrayList<>();
-            for (Map.Entry<String, Bean> entry : map.entrySet()) {
-                String key = entry.getKey();
-                int div = key.indexOf("_");
-                if (key.substring(0, div).equals(String.valueOf(userId))) {
+            for (Map.Entry<Integer, Bean> entry : map.entrySet()) {
+                if (entry.getKey() / N == userId) {
                     Bean bean = entry.getValue();
                     if (bean.tags.contains(tag)) {
                         list.add(bean);
@@ -6960,8 +6961,7 @@ public class Leetcode_7 {
         }
 
         public void completeTask(int userId, int taskId) {
-            String key = userId + "_" + taskId;
-            map.remove(key);
+            map.remove(userId * N + taskId);
         }
     }
 
