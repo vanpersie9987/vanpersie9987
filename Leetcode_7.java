@@ -6888,6 +6888,36 @@ public class Leetcode_7 {
 
     }
 
+    // 272. 最接近的二叉搜索树值 II (Closest Binary Search Tree Value II) --plus
+    private Queue<Integer> q272;
+
+    public List<Integer> closestKValues(TreeNode root, double target, int k) {
+        q272 = new PriorityQueue<>(new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Double.compare(Math.abs(o1 - target), Math.abs(o2 - target));
+            }
+
+        });
+        dfs272(root);
+        List<Integer> res = new ArrayList<>();
+        while (k-- > 0) {
+            res.add(q272.poll());
+        }
+        return res;
+
+    }
+
+    private void dfs272(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        dfs272(root.left);
+        q272.offer(root.val);
+        dfs272(root.right);
+    }
+
 
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
@@ -7006,6 +7036,16 @@ public class Leetcode_7 {
 
     // 1406. 石子游戏 III (Stone Game III)
     // public String stoneGameIII(int[] stoneValue) {
+
+    // }
+
+    // 2597. 美丽子集的数目 (The Number of Beautiful Subsets)
+    // public int beautifulSubsets(int[] nums, int k) {
+
+    // }
+
+    // 2638. 统计 K-Free 子集的总数 (Count the Number of K-Free Subsets) --plus
+    // public long countTheNumOfKFreeSubsets(int[] nums, int k) {
 
     // }
 }
