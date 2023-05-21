@@ -7101,7 +7101,7 @@ public class Leetcode_7 {
 
     // 2277. 树中最接近路径的节点 (Closest Node to Path in Tree) --plus
     private List<Integer>[] g2277;
-    private Set<Integer> set2277;
+    private boolean[] set2277;
     private int n2277;
 
     public int[] closestNode(int n, int[][] edges, int[][] query) {
@@ -7114,10 +7114,10 @@ public class Leetcode_7 {
             g2277[a].add(b);
             g2277[b].add(a);
         }
-        this.set2277 = new HashSet<>();
+        this.set2277 = new boolean[n];
         int[] res = new int[query.length];
         for (int i = 0; i < query.length; ++i) {
-            set2277.clear();
+            Arrays.fill(set2277, false);
             dfs2277(query[i][0], -1, query[i][1]);
             res[i] = bfs2277(query[i][2]);
         }
@@ -7132,7 +7132,7 @@ public class Leetcode_7 {
         q.offer(start);
         while (!q.isEmpty()) {
             int x = q.poll();
-            if (set2277.contains(x)) {
+            if (set2277[x]) {
                 return x;
             }
             for (int y : g2277[x]) {
@@ -7147,13 +7147,11 @@ public class Leetcode_7 {
 
     private boolean dfs2277(int x, int fa, int end) {
         if (x == end) {
-            set2277.add(x);
-            return true;
+            return set2277[x] = true;
         }
         for (int y : g2277[x]) {
             if (y != fa && dfs2277(y, x, end)) {
-                set2277.add(x);
-                return true;
+                return set2277[x] = true;
             }
         }
         return false;
