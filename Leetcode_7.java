@@ -7011,6 +7011,95 @@ public class Leetcode_7 {
         return memo2638[i] = res;
     }
 
+    // 2597. 美丽子集的数目 (The Number of Beautiful Subsets)
+    private int n2597_1;
+    private int[] nums2597_1;
+    private int k2597_1;
+    private int[] count2597_1;
+    private int res2597_1;
+
+    public int beautifulSubsets(int[] nums, int k) {
+        this.n2597_1 = nums.length;
+        this.nums2597_1 = nums;
+        this.k2597_1 = k;
+        this.count2597_1 = new int[2 * k + 1001];
+        dfs2597_1(0);
+        return res2597_1 - 1;
+
+    }
+
+    private void dfs2597_1(int i) {
+        if (i == n2597_1) {
+            ++res2597_1;
+            return;
+        }
+        dfs2597_1(i + 1);
+        int x = nums2597_1[i] + k2597_1;
+        if (count2597_1[x - k2597_1] == 0 && count2597_1[x + k2597_1] == 0) {
+            ++count2597_1[x];
+            dfs2597_1(i + 1);
+            --count2597_1[x];
+        }
+    }
+
+    // 2597. 美丽子集的数目 (The Number of Beautiful Subsets)
+    private int n2597_2;
+    private int[] memo2597_2;
+    private List<int[]> list2597_2;
+    private int k2597_2;
+
+    public int beautifulSubsets2(int[] nums, int k) {
+        Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
+        for (int num : nums) {
+            map.computeIfAbsent(num % k, o -> new HashMap<>()).merge(num, 1, Integer::sum);
+        }
+        this.k2597_2 = k;
+        int res = 1;
+        for (Map<Integer, Integer> entry : map.values()) {
+            List<int[]> list = new ArrayList<>();
+            for (Map.Entry<Integer, Integer> sub : entry.entrySet()) {
+                list.add(new int[] { sub.getKey(), sub.getValue() });
+            }
+            res *= getCounts2597_2(list);
+        }
+        return res - 1;
+
+    }
+
+    private int getCounts2597_2(List<int[]> list) {
+        Collections.sort(list, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        this.n2597_2 = list.size();
+        this.list2597_2 = list;
+        this.memo2597_2 = new int[n2597_2];
+        return dfs2597_2(n2597_2 - 1);
+    }
+
+    private int dfs2597_2(int i) {
+        if (i < 0) {
+            return 1;
+        }
+        if (memo2597_2[i] != 0) {
+            return memo2597_2[i];
+        }
+        // 不选
+        int res = dfs2597_2(i - 1);
+        // 选
+        if (i > 0 && list2597_2.get(i)[0] - list2597_2.get(i - 1)[0] == k2597_2) {
+            res += dfs2597_2(i - 2) * ((1 << list2597_2.get(i)[1]) - 1);
+        } else {
+            res += dfs2597_2(i - 1) * ((1 << list2597_2.get(i)[1]) - 1);
+        }
+        return memo2597_2[i] = res;
+    }
+
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
     // private int[][] memo1186;
@@ -7129,93 +7218,4 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
-
-    // 2597. 美丽子集的数目 (The Number of Beautiful Subsets)
-    private int n2597_1;
-    private int[] nums2597_1;
-    private int k2597_1;
-    private int[] count2597_1;
-    private int res2597_1;
-
-    public int beautifulSubsets(int[] nums, int k) {
-        this.n2597_1 = nums.length;
-        this.nums2597_1 = nums;
-        this.k2597_1 = k;
-        this.count2597_1 = new int[2 * k + 1001];
-        dfs2597_1(0);
-        return res2597_1 - 1;
-
-    }
-
-    private void dfs2597_1(int i) {
-        if (i == n2597_1) {
-            ++res2597_1;
-            return;
-        }
-        dfs2597_1(i + 1);
-        int x = nums2597_1[i] + k2597_1;
-        if (count2597_1[x - k2597_1] == 0 && count2597_1[x + k2597_1] == 0) {
-            ++count2597_1[x];
-            dfs2597_1(i + 1);
-            --count2597_1[x];
-        }
-    }
-
-    // 2597. 美丽子集的数目 (The Number of Beautiful Subsets)
-    private int n2597_2;
-    private int[] memo2597_2;
-    private List<int[]> list2597_2;
-    private int k2597_2;
-
-    public int beautifulSubsets2(int[] nums, int k) {
-        Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
-        for (int num : nums) {
-            map.computeIfAbsent(num % k, o -> new HashMap<>()).merge(num, 1, Integer::sum);
-        }
-        this.k2597_2 = k;
-        int res = 1;
-        for (Map<Integer, Integer> entry : map.values()) {
-            List<int[]> list = new ArrayList<>();
-            for (Map.Entry<Integer, Integer> sub : entry.entrySet()) {
-                list.add(new int[] { sub.getKey(), sub.getValue() });
-            }
-            res *= getCounts2597_2(list);
-        }
-        return res - 1;
-
-    }
-
-    private int getCounts2597_2(List<int[]> list) {
-        Collections.sort(list, new Comparator<int[]>() {
-
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return Integer.compare(o1[0], o2[0]);
-            }
-
-        });
-        this.n2597_2 = list.size();
-        this.list2597_2 = list;
-        this.memo2597_2 = new int[n2597_2];
-        return dfs2597_2(n2597_2 - 1);
-    }
-
-    private int dfs2597_2(int i) {
-        if (i < 0) {
-            return 1;
-        }
-        if (memo2597_2[i] != 0) {
-            return memo2597_2[i];
-        }
-        // 不选
-        int res = dfs2597_2(i - 1);
-        // 选
-        if (i > 0 && list2597_2.get(i)[0] - list2597_2.get(i - 1)[0] == k2597_2) {
-            res += dfs2597_2(i - 2) * ((1 << list2597_2.get(i)[1]) - 1);
-        } else {
-            res += dfs2597_2(i - 1) * ((1 << list2597_2.get(i)[1]) - 1);
-        }
-        return memo2597_2[i] = res;
-    }
-
 }
