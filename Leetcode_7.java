@@ -6996,6 +6996,52 @@ public class Leetcode_7 {
         }
     }
 
+    // 2638. 统计 K-Free 子集的总数 (Count the Number of K-Free Subsets) --plus
+    private int n2638;
+    private int k2638;
+    private long[] memo2638;
+    private List<Integer> vals2638;
+
+    public long countTheNumOfKFreeSubsets(int[] nums, int k) {
+        this.k2638 = k;
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int num : nums) {
+            map.computeIfAbsent(num % k, o -> new ArrayList<>()).add(num);
+        }
+        long res = 1L;
+        for (List<Integer> vals : map.values()) {
+            res *= getCounts(vals);
+        }
+        return res;
+
+    }
+
+    private long getCounts(List<Integer> vals) {
+        Collections.sort(vals);
+        this.vals2638 = vals;
+        this.n2638 = vals.size();
+        this.memo2638 = new long[n2638];
+        return dfs2638(n2638 - 1);
+    }
+
+    private long dfs2638(int i) {
+        if (i < 0) {
+            return 1L;
+        }
+        if (memo2638[i] != 0L) {
+            return memo2638[i];
+        }
+        // 不选
+        long res = dfs2638(i - 1);
+        // 选
+        if (i > 0 && vals2638.get(i) - vals2638.get(i - 1) == k2638) {
+            res += dfs2638(i - 2);
+        } else {
+            res += dfs2638(i - 1);
+        }
+        return memo2638[i] = res;
+    }
+
 
 
 
@@ -7120,11 +7166,6 @@ public class Leetcode_7 {
 
     // 2597. 美丽子集的数目 (The Number of Beautiful Subsets)
     // public int beautifulSubsets(int[] nums, int k) {
-
-    // }
-
-    // 2638. 统计 K-Free 子集的总数 (Count the Number of K-Free Subsets) --plus
-    // public long countTheNumOfKFreeSubsets(int[] nums, int k) {
 
     // }
 
