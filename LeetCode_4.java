@@ -9483,6 +9483,50 @@ public class LeetCode_4 {
         return res;
     }
 
+    // 879. 盈利计划 (Profitable Schemes)
+    private int n879;
+    private int minProfit879;
+    private int[] group879;
+    private int[] profit879;
+    private int[][][] memo879;
+
+    public int profitableSchemes2(int n, int minProfit, int[] group, int[] profit) {
+        this.n879 = n;
+        this.minProfit879 = minProfit;
+        this.group879 = group;
+        this.profit879 = profit;
+        this.memo879 = new int[group.length][n + 1][minProfit + 1];
+        for (int i = 0; i < group.length; ++i) {
+            for (int j = 0; j < n + 1; ++j) {
+                Arrays.fill(memo879[i][j], -1);
+            }
+        }
+        return dfs879(0, 0, 0);
+
+    }
+
+    private int dfs879(int i, int curWorkers, int curProfit) {
+        if (curWorkers > n879) {
+            return 0;
+        }
+        if (i == group879.length) {
+            return curProfit >= minProfit879 ? 1 : 0;
+        }
+
+        if (memo879[i][curWorkers][curProfit] != -1) {
+            return memo879[i][curWorkers][curProfit];
+        }
+
+        final int MOD = (int) (1e9 + 7);
+        // 不选
+        int res = dfs879(i + 1, curWorkers, curProfit);
+        // 选
+        if (curWorkers + group879[i] <= n879) {
+            res = (res + dfs879(i + 1, curWorkers + group879[i], Math.min(minProfit879, curProfit + profit879[i]))) % MOD;
+        }
+        return memo879[i][curWorkers][curProfit] = res;
+    }
+
     // 2116. 判断一个括号字符串是否有效 (Check if a Parentheses String Can Be Valid)
     public boolean canBeValid(String s, String locked) {
         int n = s.length();
