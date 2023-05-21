@@ -1,4 +1,3 @@
-import java.nio.channels.Pipe;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,8 +20,6 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import javax.xml.crypto.KeySelector.Purpose;
 
 public class LeetCode_4 {
     public static void main(String[] args) {
@@ -9382,6 +9379,49 @@ public class LeetCode_4 {
             }
         }
         return dp[n][target];
+    }
+
+    // 1155. 掷骰子的N种方法 (Number of Dice Rolls With Target Sum)
+    private int n1155;
+    private int k1155;
+    private int target1155;
+    private int[][] memo1155;
+
+    public int numRollsToTarget2(int n, int k, int target) {
+        this.n1155 = n;
+        this.k1155 = k;
+        this.target1155 = target;
+        this.memo1155 = new int[n][target];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo1155[i], -1);
+        }
+        return dfs1155(0, 0);
+
+    }
+
+    private int dfs1155(int i, int sum) {
+        if (i == n1155 || sum == target1155) {
+            return i == n1155 && sum == target1155 ? 1 : 0;
+        }
+        // 还剩 n - i 个骰子，还需要凑 target - sum 值，
+        // 即便每个骰子投最小的 1 点，也超出了需要凑的值时，不可能做到
+        if (n1155 - i > target1155 - sum) {
+            return 0;
+        }
+        // 还剩 n - i 个骰子，还需要凑 target - sum 值，
+        // 即便每个骰子投最大的 k 点，也不能达到需要凑的值时，不可能做到
+        if ((n1155 - i) * k1155 < target1155 - sum) {
+            return 0;
+        }
+        if (memo1155[i][sum] != -1) {
+            return memo1155[i][sum];
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int cur = 1; cur <= k1155 && cur + sum <= target1155; ++cur) {
+            res = (res + dfs1155(i + 1, cur + sum)) % MOD;
+        }
+        return memo1155[i][sum] = res;
     }
 
     // 474. 一和零 (Ones and Zeroes)
