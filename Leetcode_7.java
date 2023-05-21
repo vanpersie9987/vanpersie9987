@@ -6918,6 +6918,85 @@ public class Leetcode_7 {
         dfs272(root.right);
     }
 
+    // 2590. 设计一个待办事项清单 (Design a Todo List) --plus
+    class TodoList {
+        class Bean implements Comparable<Bean> {
+            String taskDescription;
+            int dueDate;
+            Set<String> tags;
+
+            public Bean(String taskDescription, int dueDate, Set<String> tags) {
+                this.taskDescription = taskDescription;
+                this.dueDate = dueDate;
+                this.tags = tags;
+
+            }
+
+            @Override
+            public int compareTo(Bean o) {
+                return Integer.compare(this.dueDate, o.dueDate);
+            }
+        }
+
+        private int taskId;
+        private Map<String, Bean> map;
+
+        public TodoList() {
+            map = new HashMap<>();
+            taskId = 1;
+        }
+
+        public int addTask(int userId, String taskDescription, int dueDate, List<String> tags) {
+            String key = userId + "_" + taskId;
+            map.put(key, new Bean(taskDescription, dueDate, new HashSet<>(tags)));
+            return taskId++;
+        }
+
+        public List<String> getAllTasks(int userId) {
+            List<Bean> list = new ArrayList<>();
+            for (Map.Entry<String, Bean> entry : map.entrySet()) {
+                String key = entry.getKey();
+                int div = key.indexOf("_");
+                if (key.substring(0, div).equals(String.valueOf(userId))) {
+                    list.add(entry.getValue());
+                }
+            }
+            Collections.sort(list);
+            List<String> res = new ArrayList<>();
+            for (Bean bean : list) {
+                res.add(bean.taskDescription);
+            }
+            return res;
+
+        }
+
+        public List<String> getTasksForTag(int userId, String tag) {
+            List<Bean> list = new ArrayList<>();
+            for (Map.Entry<String, Bean> entry : map.entrySet()) {
+                String key = entry.getKey();
+                int div = key.indexOf("_");
+                if (key.substring(0, div).equals(String.valueOf(userId))) {
+                    Bean bean = entry.getValue();
+                    if (bean.tags.contains(tag)) {
+                        list.add(bean);
+                    }
+                }
+            }
+            Collections.sort(list);
+            List<String> res = new ArrayList<>();
+            for (Bean bean : list) {
+                res.add(bean.taskDescription);
+            }
+            return res;
+        }
+
+        public void completeTask(int userId, int taskId) {
+            String key = userId + "_" + taskId;
+            map.remove(key);
+        }
+    }
+
+
 
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
@@ -7048,4 +7127,5 @@ public class Leetcode_7 {
     // public long countTheNumOfKFreeSubsets(int[] nums, int k) {
 
     // }
+
 }
