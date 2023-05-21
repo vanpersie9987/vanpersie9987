@@ -6533,7 +6533,7 @@ public class Leetcode_7 {
 
     }
 
-    // 1067. 范围内的数字计数 (Digit Count in Range) --plus
+    // 1067. 范围内的数字计数 (Digit Count in Range) --plus 数位dfs dp
     private int d1067;
     private int[][] memo1067;
     private char[] arr1067;
@@ -7099,6 +7099,67 @@ public class Leetcode_7 {
         return memo2597_2[i] = res;
     }
 
+    // 2277. 树中最接近路径的节点 (Closest Node to Path in Tree) --plus
+    private List<Integer>[] g2277;
+    private Set<Integer> set2277;
+    private int n2277;
+
+    public int[] closestNode(int n, int[][] edges, int[][] query) {
+        this.g2277 = new ArrayList[n];
+        this.n2277 = n;
+        Arrays.setAll(g2277, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            int a = e[0];
+            int b = e[1];
+            g2277[a].add(b);
+            g2277[b].add(a);
+        }
+        this.set2277 = new HashSet<>();
+        int[] res = new int[query.length];
+        for (int i = 0; i < query.length; ++i) {
+            set2277.clear();
+            dfs2277(query[i][0], -1, query[i][1]);
+            res[i] = bfs2277(query[i][2]);
+        }
+        return res;
+
+    }
+
+    private int bfs2277(int start) {
+        boolean[] vis = new boolean[n2277];
+        vis[start] = true;
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(start);
+        while (!q.isEmpty()) {
+            int x = q.poll();
+            if (set2277.contains(x)) {
+                return x;
+            }
+            for (int y : g2277[x]) {
+                if (!vis[y]) {
+                    vis[y] = true;
+                    q.offer(y);
+                }
+            }
+        }
+        return -1;
+    }
+
+    private boolean dfs2277(int x, int fa, int end) {
+        if (x == end) {
+            set2277.add(x);
+            return true;
+        }
+        for (int y : g2277[x]) {
+            if (y != fa && dfs2277(y, x, end)) {
+                set2277.add(x);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
@@ -7218,4 +7279,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 }
