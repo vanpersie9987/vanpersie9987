@@ -6500,7 +6500,6 @@ public class Leetcode_6 {
     private int res1373;
 
     public int maxSumBST(TreeNode root) {
-        this.res1373 = Integer.MIN_VALUE;
         dfs1373(root);
         return res1373;
 
@@ -6513,20 +6512,19 @@ public class Leetcode_6 {
         int sum = root.val;
         int[] left = dfs1373(root.left);
         int[] right = dfs1373(root.right);
-        if (left[0] != Integer.MAX_VALUE) {
-            if (root.val > left[1]) {
-                sum += left[2];
-            } else {
-                return new int[] { Integer.MIN_VALUE, Integer.MAX_VALUE, 0 };
-            }
+
+        if (root.val > left[1]) {
+            sum += left[2];
+        } else {
+            return new int[] { Integer.MIN_VALUE, Integer.MAX_VALUE, 0 };
         }
-        if (right[0] != Integer.MAX_VALUE) {
-            if (root.val < right[0]) {
-                sum += right[2];
-            } else {
-                return new int[] { Integer.MIN_VALUE, Integer.MAX_VALUE, 0 };
-            }
+
+        if (root.val < right[0]) {
+            sum += right[2];
+        } else {
+            return new int[] { Integer.MIN_VALUE, Integer.MAX_VALUE, 0 };
         }
+
         res1373 = Math.max(res1373, sum);
         return new int[] { Math.min(root.val, left[0]), Math.max(root.val, right[1]), sum };
     }
