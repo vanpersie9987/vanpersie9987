@@ -7157,6 +7157,86 @@ public class Leetcode_7 {
         return false;
     }
 
+    // 2696. 删除子串后的字符串最小长度 (Minimum String Length After Removing Substrings)
+    public int minLength(String s) {
+        while (s.indexOf("AB") != -1 || s.indexOf("CD") != -1) {
+            int i = s.indexOf("AB");
+            if (i != -1) {
+                s = s.substring(0, i) + s.substring(i + 2);
+                continue;
+            }
+            i = s.indexOf("CD");
+            s = s.substring(0, i) + s.substring(i + 2);
+        }
+        return s.length();
+
+    }
+
+    // 2697. 字典序最小回文串 (Lexicographically Smallest Palindrome)
+    public String makeSmallestPalindrome(String s) {
+        char[] arr = s.toCharArray();
+        int n = arr.length;
+        int i = 0;
+        int j = n - 1;
+        while (i < j) {
+            if (arr[i] != arr[j]) {
+                if (arr[i] > arr[j]) {
+                    arr[i] = arr[j];
+                } else {
+                    arr[j] = arr[i];
+                }
+            }
+            ++i;
+            --j;
+        }
+        return String.valueOf(arr);
+
+    }
+
+    // 2698. 求一个整数的惩罚数 (Find the Punishment Number of an Integer)
+    private boolean flag2698;
+    private char[] arr2698;
+    private int target2698;
+    public int punishmentNumber(int n) {
+        int res = 0;
+        for (int i = 1; i <= n; ++i) {
+            if (check2698(i)) {
+                res += i * i;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean check2698(int i) {
+        this.flag2698 = false;
+        this.target2698 = i;
+        this.arr2698 = String.valueOf(i * i).toCharArray();
+        dfs2698(0, 0);
+        return flag2698;
+    }
+
+    private void dfs2698(int i, int sum) {
+        if (i == arr2698.length) {
+            if (sum == target2698) {
+                flag2698 = true;
+            }
+            return;
+        }
+        int cur = 0;
+        for (int j = i; j < arr2698.length && (j == i || arr2698[i] != '0'); ++j) {
+            cur = cur * 10 + arr2698[j] - '0';
+            if (cur <= target2698) {
+                dfs2698(j + 1, cur + sum);
+                if (flag2698) {
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+    }
+
 
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
