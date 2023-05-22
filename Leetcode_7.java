@@ -19,8 +19,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.xml.crypto.KeySelector.Purpose;
-
 import java.awt.Point;
 
 public class Leetcode_7 {
@@ -7235,6 +7233,40 @@ public class Leetcode_7 {
                 break;
             }
         }
+    }
+
+    // 1772. 按受欢迎程度排列功能 (Sort Features by Popularity) --plus
+    public String[] sortFeatures(String[] features, String[] responses) {
+        Map<String, Integer> pos = new HashMap<>();
+        int i = 0;
+        Map<String, Integer> map = new HashMap<>();
+        for (String f : features) {
+            map.put(f, 0);
+            pos.put(f, i++);
+        }
+        for (String r : responses) {
+            String[] split = r.split("\\s+");
+            Set<String> vis = new HashSet<>();
+            for (String s : split) {
+                if (vis.add(s) && map.containsKey(s)) {
+                    map.merge(s, 1, Integer::sum);
+                }
+            }
+        }
+        List<String> res = new ArrayList<>(map.keySet());
+        Collections.sort(res, new Comparator<String>() {
+
+            @Override
+            public int compare(String o1, String o2) {
+                if (map.get(o1) == map.get(o2)) {
+                    return Integer.compare(pos.get(o1), pos.get(o2));
+                }
+                return Integer.compare(map.get(o2), map.get(o1));
+            }
+
+        });
+        return res.toArray(new String[0]);
+
     }
 
 
