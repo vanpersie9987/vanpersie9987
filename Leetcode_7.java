@@ -7269,6 +7269,25 @@ public class Leetcode_7 {
 
     }
 
+    // 1983. 范围和相等的最宽索引对 (Widest Pair of Indices With Equal Range Sum) --plus
+    public int widestPairOfIndices(int[] nums1, int[] nums2) {
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, -1);
+        int n = nums1.length;
+        int pre = 0;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            pre += nums1[i] - nums2[i];
+            if (map.containsKey(pre)) {
+                res = Math.max(res, i - map.get(pre));
+            } else {
+                map.put(pre, i);
+            }
+        }
+        return res;
+
+    }
+
 
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
