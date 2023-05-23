@@ -7295,6 +7295,9 @@ public class Leetcode_7 {
 
     public int validSubarraySplit(int[] nums) {
         this.n2464 = nums.length;
+        if (nums[0] == 1 || nums[n2464 - 1] == 1) {
+            return -1;
+        }
         this.nums2464 = nums;
         this.memo2464 = new int[n2464];
         Arrays.fill(memo2464, -1);
