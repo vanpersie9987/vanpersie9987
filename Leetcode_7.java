@@ -7288,6 +7288,42 @@ public class Leetcode_7 {
 
     }
 
+    // 2464. 有效分割中的最少子数组数目 (Minimum Subarrays in a Valid Split) --plus
+    private int[] memo2464;
+    private int n2464;
+    private int[] nums2464;
+
+    public int validSubarraySplit(int[] nums) {
+        this.n2464 = nums.length;
+        this.nums2464 = nums;
+        this.memo2464 = new int[n2464];
+        Arrays.fill(memo2464, -1);
+        int res = dfs2464(0);
+        return res <= n2464 ? res : -1;
+
+    }
+
+    private int dfs2464(int i) {
+        if (i == n2464) {
+            return 0;
+        }
+        if (memo2464[i] != -1) {
+            return memo2464[i];
+        }
+        int min = n2464 + 1;
+        for (int j = i; j < n2464; ++j) {
+            if (gcd2464(nums2464[i], nums2464[j]) > 1) {
+                min = Math.min(min, dfs2464(j + 1) + 1);
+            }
+        }
+        return memo2464[i] = min;
+    }
+
+    private int gcd2464(int a, int b) {
+        return b == 0 ? a : gcd2464(b, a % b);
+    }
+
+
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
@@ -7407,5 +7443,4 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
-
 }
