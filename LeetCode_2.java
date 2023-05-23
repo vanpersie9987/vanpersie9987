@@ -15,6 +15,7 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class LeetCode_2 {
 
@@ -8066,31 +8067,28 @@ public class LeetCode_2 {
    }
 
    // 1090. 受标签影响的最大值 (Largest Values From Labels)
-   public int largestValsFromLabels(int[] values, int[] labels, int num_wanted, int use_limit) {
+   public int largestValsFromLabels(int[] values, int[] labels, int numWanted, int useLimit) {
       int n = values.length;
-      int[][] set = new int[n][2];
-      for (int i = 0; i < n; ++i) {
-         set[i][0] = values[i];
-         set[i][1] = labels[i];
-      }
-      Arrays.sort(set, new Comparator<int[]>() {
+      Integer[] ids = IntStream.range(0, n).boxed().toArray(Integer[]::new);
+      Arrays.sort(ids, new Comparator<Integer>() {
 
          @Override
-         public int compare(int[] o1, int[] o2) {
-            return o2[0] - o1[0];
+         public int compare(Integer o1, Integer o2) {
+            return Integer.compare(values[o2], values[o1]);
          }
+
       });
+      Map<Integer, Integer> lab = new HashMap<>();
       int res = 0;
-      int count = 0;
-      Map<Integer, Integer> map = new HashMap<>();
-      for (int i = 0; i < n; ++i) {
-         int label = set[i][1];
-         map.put(label, map.getOrDefault(label, 0) + 1);
-         if (map.get(label) <= use_limit) {
-            res += set[i][0];
-            if (++count == num_wanted) {
-               return res;
-            }
+      for (int id : ids) {
+         int labelCnts = lab.getOrDefault(labels[id], 0);
+         if (labelCnts < useLimit) {
+            lab.merge(labels[id], 1, Integer::sum);
+            res += values[id];
+            --numWanted;
+         }
+         if (numWanted == 0) {
+            break;
          }
       }
       return res;
