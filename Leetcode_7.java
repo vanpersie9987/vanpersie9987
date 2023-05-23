@@ -7326,6 +7326,23 @@ public class Leetcode_7 {
         return b == 0 ? a : gcd2464(b, a % b);
     }
 
+    // 1250. 检查「好数组」(Check If It Is a Good Array) --裴蜀定理
+    public boolean isGoodArray(int[] nums) {
+        int g = 0;
+        for (int num : nums) {
+            g = gcd1250(g, num);
+            if (g == 1) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    private int gcd1250(int a, int b) {
+        return b == 0 ? a : gcd1250(b, a % b);
+    }
+
 
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
