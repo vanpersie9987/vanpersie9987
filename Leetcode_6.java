@@ -7048,19 +7048,19 @@ public class Leetcode_6 {
         }
         boolean[] vis = new boolean[n + 1];
         vis[1] = true;
-        Queue<double[]> q = new LinkedList<>();
+        Queue<long[]> q = new LinkedList<>();
         // node, prob, time
-        q.offer(new double[] { 1D, 1D, 0D });
+        q.offer(new long[] { 1, 1, 0 });
         while (!q.isEmpty()) {
-            double[] cur = q.poll();
+            long[] cur = q.poll();
             int x = (int) cur[0];
-            double p = cur[1];
+            long p = cur[1];
             int curT = (int) cur[2];
             if (curT > t) {
                 continue;
             }
             if (x == target && curT == t) {
-                return p;
+                return 1D / p;
             }
             int size = 0;
             for (int y : g[x]) {
@@ -7070,13 +7070,13 @@ public class Leetcode_6 {
             }
             if (size == 0) {
                 if (x == target) {
-                    return p;
+                    return 1D / p;
                 }
             } else {
                 for (int y : g[x]) {
                     if (!vis[y]) {
                         vis[y] = true;
-                        q.offer(new double[] { y, p / size, curT + 1 });
+                        q.offer(new long[] { y, p * size, curT + 1 });
                     }
                 }
             }
