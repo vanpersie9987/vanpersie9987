@@ -7038,51 +7038,51 @@ public class Leetcode_6 {
         }
     }
 
-    // 1377. T 秒后青蛙的位置 (Frog Position After T Seconds) --bfs
-    private Map<Integer, Set<Integer>> g1377;
-    private boolean[] vis1377;
-
+    // 1377. T 秒后青蛙的位置 (Frog Position After T Seconds)
     public double frogPosition(int n, int[][] edges, int t, int target) {
-        g1377 = new HashMap<>();
+        List<Integer>[] g = new ArrayList[n + 1];
+        Arrays.setAll(g, k -> new ArrayList<>());
         for (int[] e : edges) {
-            int a = e[0] - 1;
-            int b = e[1] - 1;
-            g1377.computeIfAbsent(a, k -> new HashSet<>()).add(b);
-            g1377.computeIfAbsent(b, k -> new HashSet<>()).add(a);
+            g[e[0]].add(e[1]);
+            g[e[1]].add(e[0]);
         }
+        boolean[] vis = new boolean[n + 1];
+        vis[1] = true;
         Queue<double[]> q = new LinkedList<>();
-        q.offer(new double[] { 0, 1.0d, 0 });
-        vis1377 = new boolean[n];
-        vis1377[0] = true;
+        // node, prob, time
+        q.offer(new double[] { 1D, 1D, 0D });
         while (!q.isEmpty()) {
             double[] cur = q.poll();
             int x = (int) cur[0];
             double p = cur[1];
             int curT = (int) cur[2];
-            if (curT == t && x == target - 1) {
+            if (curT > t) {
+                continue;
+            }
+            if (x == target && curT == t) {
                 return p;
             }
-            int childCount = 0;
-            for (int y : g1377.getOrDefault(x, new HashSet<>())) {
-                if (!vis1377[y]) {
-                    ++childCount;
+            int size = 0;
+            for (int y : g[x]) {
+                if (!vis[y]) {
+                    ++size;
                 }
             }
-            if (curT < t) {
-                boolean find = false;
-                for (int y : g1377.getOrDefault(x, new HashSet<>())) {
-                    if (!vis1377[y]) {
-                        find = true;
-                        vis1377[y] = true;
-                        q.offer(new double[] { y, p / childCount, curT + 1 });
-                    }
+            if (size == 0) {
+                if (x == target) {
+                    return p;
                 }
-                if (!find) {
-                    q.offer(new double[] { x, p, curT + 1 });
+            } else {
+                for (int y : g[x]) {
+                    if (!vis[y]) {
+                        vis[y] = true;
+                        q.offer(new double[] { y, p / size, curT + 1 });
+                    }
                 }
             }
         }
-        return 0d;
+        return 0D;
+
     }
 
     // 1253. 重构 2 行二进制矩阵 (Reconstruct a 2-Row Binary Matrix)
