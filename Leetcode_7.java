@@ -7345,18 +7345,18 @@ public class Leetcode_7 {
 
     // LCP 34. 二叉树染色
     public int maxValue(TreeNode root, int k) {
-        int[] dp = dfs(root, k);
+        int[] dp = dfs_LCP_34(root, k);
         return Arrays.stream(dp).max().getAsInt();
     }
 
-    private int[] dfs(TreeNode root, int k) {
+    private int[] dfs_LCP_34(TreeNode root, int k) {
         int[] dp = new int[k + 1];
         if (root == null) {
             return dp;
         }
         // 不选
-        int[] left = dfs(root.left, k);
-        int[] right = dfs(root.right, k);
+        int[] left = dfs_LCP_34(root.left, k);
+        int[] right = dfs_LCP_34(root.right, k);
         int ml = Arrays.stream(left).max().getAsInt();
         int mr = Arrays.stream(right).max().getAsInt();
         dp[0] = ml + mr;
