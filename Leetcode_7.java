@@ -7343,6 +7343,33 @@ public class Leetcode_7 {
         return b == 0 ? a : gcd1250(b, a % b);
     }
 
+    // LCP 34. 二叉树染色
+    public int maxValue(TreeNode root, int k) {
+        int[] dp = dfs(root, k);
+        return Arrays.stream(dp).max().getAsInt();
+    }
+
+    private int[] dfs(TreeNode root, int k) {
+        int[] dp = new int[k + 1];
+        if (root == null) {
+            return dp;
+        }
+        // 不选
+        int[] left = dfs(root.left, k);
+        int[] right = dfs(root.right, k);
+        int ml = Arrays.stream(left).max().getAsInt();
+        int mr = Arrays.stream(right).max().getAsInt();
+        dp[0] = ml + mr;
+        // 选
+        for (int i = 1; i <= k; ++i) {
+            for (int j = 0; j < i; ++j) {
+                dp[i] = Math.max(dp[i], left[j] + right[i - 1 - j] + root.val);
+            }
+        }
+        return dp;
+
+    }
+
 
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
@@ -7463,4 +7490,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 }
