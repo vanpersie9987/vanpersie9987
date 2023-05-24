@@ -7370,6 +7370,31 @@ public class Leetcode_7 {
 
     }
 
+    // 606. 根据二叉树创建字符串 (Construct String from Binary Tree)
+    public String tree2str(TreeNode root) {
+        StringBuilder res = dfs606(root);
+        return res.substring(1, res.length() - 1).toString();
+    }
+
+    private StringBuilder dfs606(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        StringBuilder res = new StringBuilder();
+        res.append("(");
+        res.append(root.val);
+        if (root.left != null) {
+            res.append(dfs606(root.left));
+        } else if (root.right != null) {
+            res.append("()");
+        }
+        if (root.right != null) {
+            res.append(dfs606(root.right));
+        }
+        res.append(")");
+        return res;
+    }
+
 
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
