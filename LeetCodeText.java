@@ -18769,7 +18769,7 @@ public class LeetCodeText {
     }
 
     private int dfs70(int n) {
-        if (n <= 2) {
+        if (n <= 1) {
             return n;
         }
         if (memo70[n] != 0) {
