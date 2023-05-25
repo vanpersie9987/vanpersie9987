@@ -7395,6 +7395,40 @@ public class Leetcode_7 {
         return res;
     }
 
+    // 894. 所有可能的真二叉树 (All Possible Full Binary Trees)
+    private Map<Integer, List<TreeNode>> memo894;
+
+    public List<TreeNode> allPossibleFBT(int n) {
+        memo894 = new HashMap<>();
+        return dfs894(n);
+
+    }
+
+    private List<TreeNode> dfs894(int n) {
+        if (memo894.containsKey(n)) {
+            return memo894.get(n);
+        }
+        List<TreeNode> list = new ArrayList<>();
+        if (n == 1) {
+            list.add(new TreeNode(0));
+        } else if ((n & 1) == 1) {
+            for (int i = 1; i < n; i += 2) {
+                List<TreeNode> list1 = dfs894(i);
+                List<TreeNode> list2 = dfs894(n - i - 1);
+                for (TreeNode left : list1) {
+                    for (TreeNode right : list2) {
+                        TreeNode node = new TreeNode(0);
+                        node.left = left;
+                        node.right = right;
+                        list.add(node);
+                    }
+                }
+            }
+        }
+        memo894.put(n, list);
+        return list;
+    }
+
 
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
