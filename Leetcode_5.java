@@ -5977,34 +5977,43 @@ public class Leetcode_5 {
 
     }
 
-    // 6225. 差值数组不同的字符串
+    // 2451. 差值数组不同的字符串 (Odd String Difference)
     public String oddString(String[] words) {
         int n = words.length;
-        int m = words[0].length();
-        for (int j = 1; j < m; ++j) {
-            Map<Integer, Integer> diff = new HashMap<>();
-            for (int i = 0; i < n; ++i) {
-                int d = words[i].charAt(j) - words[i].charAt(j - 1);
-                diff.put(d, diff.getOrDefault(d, 0) + 1);
+        int len = words[0].length();
+        int[][] cnts = new int[n][len];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < len - 1; ++j) {
+                cnts[i][j] = words[i].charAt(j + 1) - words[i].charAt(j);
             }
-            if (diff.size() == 1) {
-                continue;
-            }
-            int k = 0;
-            for (int key : diff.keySet()) {
-                if (diff.get(key) == 1) {
-                    k = key;
+        }
+        int i1 = 0;
+        int i2 = 0;
+        for (int i = 1; i < n; ++i) {
+            for (int j = 0; j < len; ++j) {
+                if (cnts[i][j] != cnts[0][j]) {
+                    i2 = i;
                     break;
                 }
             }
-            for (int i = 0; i < n; ++i) {
-                int d = words[i].charAt(j) - words[i].charAt(j - 1);
-                if (d == k) {
-                    return words[i];
+            if (i2 != 0) {
+                break;
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            if (i != i1 && i != i2) {
+                for (int j = 0; j < len; ++j) {
+                    if (cnts[i][j] != cnts[i1][j] || cnts[i][j] != cnts[i2][j]) {
+                        if (cnts[i][j] != cnts[i1][j]) {
+                            return words[i1];
+                        } else {
+                            return words[i2];
+                        }
+                    }
                 }
             }
         }
-        return "";
+        return null;
 
     }
 
