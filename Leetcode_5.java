@@ -5979,42 +5979,42 @@ public class Leetcode_5 {
 
     // 2451. 差值数组不同的字符串 (Odd String Difference)
     public String oddString(String[] words) {
+        int val0 = 0;
         int n = words.length;
-        int len = words[0].length();
-        int[][] cnts = new int[n][len];
+        int index = -1;
         for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < len - 1; ++j) {
-                cnts[i][j] = words[i].charAt(j + 1) - words[i].charAt(j);
-            }
-        }
-        int i1 = 0;
-        int i2 = 0;
-        for (int i = 1; i < n; ++i) {
-            for (int j = 0; j < len; ++j) {
-                if (cnts[i][j] != cnts[0][j]) {
-                    i2 = i;
-                    break;
-                }
-            }
-            if (i2 != 0) {
+            int cur = getNum(words[i]);
+            if (i == 0) {
+                val0 = cur;
+            } else if (cur != val0) {
+                index = i;
                 break;
             }
         }
-        for (int i = 0; i < n; ++i) {
-            if (i != i1 && i != i2) {
-                for (int j = 0; j < len; ++j) {
-                    if (cnts[i][j] != cnts[i1][j] || cnts[i][j] != cnts[i2][j]) {
-                        if (cnts[i][j] != cnts[i1][j]) {
-                            return words[i1];
-                        } else {
-                            return words[i2];
-                        }
-                    }
-                }
-            }
+        if (index > 1) {
+            return words[index];
         }
-        return null;
+        int val2 = getNum(words[2]);
+        if (val0 != val2) {
+            return words[0];
+        }
+        return words[1];
 
+    }
+
+    private int getNum(String s) {
+        final int BASE = 53;
+        final int MOD = 401;
+        char[] arr = s.toCharArray();
+        int n = arr.length;
+        int res = 0;
+        int mul = 1;
+        for (int j = 0; j < n - 1; ++j) {
+            int num = arr[j + 1] - arr[j] + 26;
+            res = (res + num * mul) % MOD;
+            mul = mul * BASE % MOD;
+        }
+        return res;
     }
 
     // 6228. 距离字典两次编辑以内的单词
