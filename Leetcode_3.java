@@ -8056,23 +8056,24 @@ public class Leetcode_3 {
             return -1;
         }
         grid[0][0] = 1;
-        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 }, { 1, -1 }, { 1, 1 }, { -1, 1 }, { -1, -1 } };
-        Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[] { 0, 0, 1 });
-        while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[] { 0, 0, 1 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
             int x = cur[0];
             int y = cur[1];
-            int step = cur[2];
+            int c = cur[2];
             if (x == n - 1 && y == n - 1) {
-                return step;
+                return c;
             }
-            for (int[] direction : directions) {
-                int nx = x + direction[0];
-                int ny = y + direction[1];
-                if (nx >= 0 && nx < n && ny >= 0 && ny < n && grid[nx][ny] == 0) {
-                    grid[nx][ny] = 1;
-                    queue.offer(new int[] { nx, ny, step + 1 });
+            for (int i = -1; i <= 1; ++i) {
+                for (int j = -1; j <= 1; ++j) {
+                    int nx = x + i;
+                    int ny = y + j;
+                    if (nx >= 0 && nx < n && ny >= 0 && ny < n && grid[nx][ny] == 0) {
+                        grid[nx][ny] = 1;
+                        q.offer(new int[] { nx, ny, c + 1 });
+                    }
                 }
             }
         }
