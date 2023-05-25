@@ -7068,11 +7068,10 @@ public class Leetcode_6 {
                     ++size;
                 }
             }
-            if (size == 0) {
-                if (x == target) {
-                    return 1D / p;
-                }
-            } else {
+            if (x == target) {
+                return size == 0 ? 1D / p : 0D;
+            }
+            if (size > 0) {
                 for (int y : g[x]) {
                     if (!vis[y]) {
                         vis[y] = true;
