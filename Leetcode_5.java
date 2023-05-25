@@ -5983,7 +5983,7 @@ public class Leetcode_5 {
         int n = words.length;
         int index = -1;
         for (int i = 0; i < n; ++i) {
-            int cur = getNum(words[i]);
+            int cur = getNum2451(words[i]);
             if (i == 0) {
                 val0 = cur;
             } else if (cur != val0) {
@@ -5994,7 +5994,7 @@ public class Leetcode_5 {
         if (index > 1) {
             return words[index];
         }
-        int val2 = getNum(words[2]);
+        int val2 = getNum2451(words[2]);
         if (val0 != val2) {
             return words[0];
         }
@@ -6002,7 +6002,7 @@ public class Leetcode_5 {
 
     }
 
-    private int getNum(String s) {
+    private int getNum2451(String s) {
         final int BASE = 53;
         final int MOD = 401;
         char[] arr = s.toCharArray();
