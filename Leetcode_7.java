@@ -7429,6 +7429,49 @@ public class Leetcode_7 {
         return list;
     }
 
+    // 1420. 生成数组 (Build Array Where You Can Find The Maximum Exactly K)
+    private int[][][] memo1420;
+    private int n1420;
+    private int m1420;
+    private int k1420;
+
+    public int numOfArrays(int n, int m, int k) {
+        this.n1420 = n;
+        this.m1420 = m;
+        this.k1420 = k;
+        this.memo1420 = new int[n][m + 1][k + 1];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m + 1; ++j) {
+                Arrays.fill(memo1420[i][j], -1);
+            }
+
+        }
+        return dfs1420(0, 0, 0);
+
+    }
+
+    private int dfs1420(int i, int max, int cost) {
+        if (i == n1420) {
+            return cost == k1420 ? 1 : 0;
+        }
+        if (max == m1420) {
+            if (cost < k1420) {
+                return 0;
+            }
+        }
+        if (memo1420[i][max][cost] != -1) {
+            return memo1420[i][max][cost];
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = (int) ((long) max * dfs1420(i + 1, max, cost) % MOD);
+        for (int cur = max + 1; cur <= m1420; ++cur) {
+            if (cost < k1420) {
+                res = (res + dfs1420(i + 1, cur, cost + 1)) % MOD;
+            }
+        }
+        return memo1420[i][max][cost] = res;
+    }
+
 
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
