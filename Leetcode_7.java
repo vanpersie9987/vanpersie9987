@@ -7474,24 +7474,27 @@ public class Leetcode_7 {
 
     // 1542. 找出最长的超赞子字符串 (Find Longest Awesome Substring)
     public int longestAwesome(String s) {
-        Map<Integer, Integer> map = new HashMap<>();
+        int[] map = new int[1 << 10];
+        int n = s.length();
+        Arrays.fill(map, n);
         char[] arr = s.toCharArray();
-        int n = arr.length;
-        map.put(0, -1);
+        map[0] = -1;
         int res = 0;
         int pre = 0;
         for (int i = 0; i < n; ++i) {
             pre ^= 1 << (arr[i] - '0');
-            if (map.containsKey(pre)) {
-                res = Math.max(res, i - map.get(pre));
+            if (map[pre] != n) {
+                res = Math.max(res, i - map[pre]);
             }
             for (int j = 0; j <= 9; ++j) {
                 int mask = pre ^ (1 << j);
-                if (map.containsKey(mask)) {
-                    res = Math.max(res, i - map.get(mask));
+                if (map[mask] != n) {
+                    res = Math.max(res, i - map[mask]);
                 }
             }
-            map.putIfAbsent(pre, i);
+            if (map[pre] == n) {
+                map[pre] = i;
+            }
         }
         return res;
 
