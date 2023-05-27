@@ -7157,16 +7157,17 @@ public class Leetcode_7 {
 
     // 2696. 删除子串后的字符串最小长度 (Minimum String Length After Removing Substrings)
     public int minLength(String s) {
-        while (s.indexOf("AB") != -1 || s.indexOf("CD") != -1) {
-            int i = s.indexOf("AB");
-            if (i != -1) {
-                s = s.substring(0, i) + s.substring(i + 2);
-                continue;
+        StringBuilder builder = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            builder.append(c);
+            if (builder.length() >= 2) {
+                String last = builder.substring(builder.length() - 2);
+                if (last.equals("AB") || last.equals("CD")) {
+                    builder.setLength(builder.length() - 2);
+                }
             }
-            i = s.indexOf("CD");
-            s = s.substring(0, i) + s.substring(i + 2);
         }
-        return s.length();
+        return builder.length();
 
     }
 
