@@ -7578,10 +7578,10 @@ public class Leetcode_7 {
     private Node dfs427(int x1, int y1, int x2, int y2) {
         int sum = prefix427[x2][y2] - prefix427[x2][y1] - prefix427[x1][y2] + prefix427[x1][y1];
         if (sum == 0) {
-            return new Node(false, true, null, null, null, null);
+            return new Node(false, true);
         }
         if (sum == (x2 - x1) * (y2 - y1)) {
-            return new Node(true, true, null, null, null, null);
+            return new Node(true, true);
         }
         int nx = (x1 + x2) / 2;
         int ny = (y1 + y2) / 2;
