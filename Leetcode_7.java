@@ -7524,6 +7524,72 @@ public class Leetcode_7 {
         return String.join("", list);
     }
 
+    class Node {
+        public boolean val;
+        public boolean isLeaf;
+        public Node topLeft;
+        public Node topRight;
+        public Node bottomLeft;
+        public Node bottomRight;
+
+        public Node() {
+            this.val = false;
+            this.isLeaf = false;
+            this.topLeft = null;
+            this.topRight = null;
+            this.bottomLeft = null;
+            this.bottomRight = null;
+        }
+
+        public Node(boolean val, boolean isLeaf) {
+            this.val = val;
+            this.isLeaf = isLeaf;
+            this.topLeft = null;
+            this.topRight = null;
+            this.bottomLeft = null;
+            this.bottomRight = null;
+        }
+
+        public Node(boolean val, boolean isLeaf, Node topLeft, Node topRight, Node bottomLeft, Node bottomRight) {
+            this.val = val;
+            this.isLeaf = isLeaf;
+            this.topLeft = topLeft;
+            this.topRight = topRight;
+            this.bottomLeft = bottomLeft;
+            this.bottomRight = bottomRight;
+        }
+    };
+
+    // 427. 建立四叉树 (Construct Quad Tree)
+    private int[][] prefix427;
+
+    public Node construct(int[][] grid) {
+        int n = grid.length;
+        this.prefix427 = new int[n + 1][n + 1];
+        for (int i = 1; i < n + 1; ++i) {
+            for (int j = 1; j < n + 1; ++j) {
+                prefix427[i][j] = prefix427[i - 1][j] + prefix427[i][j - 1] - prefix427[i - 1][j - 1] + grid[i - 1][j - 1];
+            }
+        }
+        return dfs427(0, 0, n, n);
+
+    }
+
+    private Node dfs427(int x1, int y1, int x2, int y2) {
+        int sum = prefix427[x2][y2] - prefix427[x2][y1] - prefix427[x1][y2] + prefix427[x1][y1];
+        if (sum == 0) {
+            return new Node(false, true, null, null, null, null);
+        }
+        if (sum == (x2 - x1) * (y2 - y1)) {
+            return new Node(true, true, null, null, null, null);
+        }
+        int nx = (x1 + x2) / 2;
+        int ny = (y1 + y2) / 2;
+        return new Node(false, false, dfs427(x1, y1, nx, ny), dfs427(x1, ny, nx, y2), dfs427(nx, y1, x2, ny),
+                dfs427(nx, ny, x2, y2));
+    }
+
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
     // private int[][] memo1186;
@@ -7642,70 +7708,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
-
-    class Node {
-        public boolean val;
-        public boolean isLeaf;
-        public Node topLeft;
-        public Node topRight;
-        public Node bottomLeft;
-        public Node bottomRight;
-
-        public Node() {
-            this.val = false;
-            this.isLeaf = false;
-            this.topLeft = null;
-            this.topRight = null;
-            this.bottomLeft = null;
-            this.bottomRight = null;
-        }
-
-        public Node(boolean val, boolean isLeaf) {
-            this.val = val;
-            this.isLeaf = isLeaf;
-            this.topLeft = null;
-            this.topRight = null;
-            this.bottomLeft = null;
-            this.bottomRight = null;
-        }
-
-        public Node(boolean val, boolean isLeaf, Node topLeft, Node topRight, Node bottomLeft, Node bottomRight) {
-            this.val = val;
-            this.isLeaf = isLeaf;
-            this.topLeft = topLeft;
-            this.topRight = topRight;
-            this.bottomLeft = bottomLeft;
-            this.bottomRight = bottomRight;
-        }
-    };
-
-    // 427. 建立四叉树 (Construct Quad Tree)
-    private int[][] prefix427;
-
-    public Node construct(int[][] grid) {
-        int n = grid.length;
-        this.prefix427 = new int[n + 1][n + 1];
-        for (int i = 1; i < n + 1; ++i) {
-            for (int j = 1; j < n + 1; ++j) {
-                prefix427[i][j] = prefix427[i - 1][j] + prefix427[i][j - 1] - prefix427[i - 1][j - 1] + grid[i - 1][j - 1];
-            }
-        }
-        return dfs427(0, 0, n, n);
-
-    }
-
-    private Node dfs427(int x1, int y1, int x2, int y2) {
-        int sum = prefix427[x2][y2] - prefix427[x2][y1] - prefix427[x1][y2] + prefix427[x1][y1];
-        if (sum == 0) {
-            return new Node(false, true, null, null, null, null);
-        }
-        if (sum == (x2 - x1) * (y2 - y1)) {
-            return new Node(true, true, null, null, null, null);
-        }
-        int nx = (x1 + x2) / 2;
-        int ny = (y1 + y2) / 2;
-        return new Node(false, false, dfs427(x1, y1, nx, ny), dfs427(x1, ny, nx, y2), dfs427(nx, y1, x2, ny),
-                dfs427(nx, ny, x2, y2));
-    }
 
 }
