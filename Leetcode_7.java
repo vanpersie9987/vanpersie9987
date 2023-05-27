@@ -7500,7 +7500,31 @@ public class Leetcode_7 {
 
     }
 
+    // LCP 80. 生物进化录
+    private Map<Integer, List<Integer>> g_LCP_80;
 
+    public String evolutionaryRecord(int[] parents) {
+        g_LCP_80 = new HashMap<>();
+        for (int i = 1; i < parents.length; ++i) {
+            g_LCP_80.computeIfAbsent(parents[i], k -> new ArrayList<>()).add(i);
+        }
+        String res = dfs_LCP_80(0);
+        int i = res.length() - 1;
+        while (i >= 0 && res.charAt(i) == '1') {
+            --i;
+        }
+        return res.substring(0, i + 1);
+
+    }
+
+    private String dfs_LCP_80(int x) {
+        List<String> list = new ArrayList<>();
+        for (int y : g_LCP_80.getOrDefault(x, new ArrayList<>())) {
+            list.add("0" + dfs_LCP_80(y) + "1");
+        }
+        Collections.sort(list);
+        return String.join("", list);
+    }
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
