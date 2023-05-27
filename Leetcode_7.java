@@ -7193,9 +7193,9 @@ public class Leetcode_7 {
     }
 
     // 2698. 求一个整数的惩罚数 (Find the Punishment Number of an Integer)
-    private boolean flag2698;
     private char[] arr2698;
     private int target2698;
+
     public int punishmentNumber(int n) {
         int res = 0;
         for (int i = 1; i <= n; ++i) {
@@ -7208,32 +7208,29 @@ public class Leetcode_7 {
     }
 
     private boolean check2698(int i) {
-        this.flag2698 = false;
         this.target2698 = i;
         this.arr2698 = String.valueOf(i * i).toCharArray();
-        dfs2698(0, 0);
-        return flag2698;
+        return dfs2698(0, 0);
     }
 
-    private void dfs2698(int i, int sum) {
+    private boolean dfs2698(int i, int sum) {
         if (i == arr2698.length) {
             if (sum == target2698) {
-                flag2698 = true;
+                return true;
             }
-            return;
         }
         int cur = 0;
         for (int j = i; j < arr2698.length && (j == i || arr2698[i] != '0'); ++j) {
             cur = cur * 10 + arr2698[j] - '0';
             if (cur <= target2698) {
-                dfs2698(j + 1, cur + sum);
-                if (flag2698) {
-                    break;
+                if (dfs2698(j + 1, cur + sum)) {
+                    return true;
                 }
             } else {
                 break;
             }
         }
+        return false;
     }
 
     // 1772. 按受欢迎程度排列功能 (Sort Features by Popularity) --plus
