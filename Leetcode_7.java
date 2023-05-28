@@ -7589,6 +7589,188 @@ public class Leetcode_7 {
                 dfs427(nx, ny, x2, y2));
     }
 
+    // 6395. 购买两块巧克力 (Buy Two Chocolates)
+    public int buyChoco(int[] prices, int money) {
+        Arrays.sort(prices);
+        int remain = money - (prices[0] + prices[1]);
+        return remain >= 0 ? remain : money;
+
+    }
+
+    // 6394. 字符串中的额外字符 (Extra Characters in a String)
+    private int[] memo6394;
+    private int n6394;
+    private String s6394;
+    private Set<String> set6394;
+
+    public int minExtraChar(String s, String[] dictionary) {
+        this.n6394 = s.length();
+        this.s6394 = s;
+        this.set6394 = new HashSet<>();
+        for (String d : dictionary) {
+            set6394.add(d);
+        }
+        this.memo6394 = new int[n6394];
+        Arrays.fill(memo6394, n6394 + 1);
+        return dfs6394(0);
+
+    }
+
+    private int dfs6394(int i) {
+        if (i == n6394) {
+            return 0;
+        }
+        if (memo6394[i] != n6394 + 1) {
+            return memo6394[i];
+        }
+        int min = n6394 + 1;
+        min = Math.min(min, dfs6394(i + 1) + 1);
+        for (int j = i; j < n6394; ++j) {
+            if (set6394.contains(s6394.substring(i, j + 1))) {
+                min = Math.min(min, dfs6394(j + 1));
+            }
+        }
+        return memo6394[i] = min;
+    }
+
+    // 6393. 一个小组的最大实力值 (Maximum Strength of a Group)
+    public long maxStrength(int[] nums) {
+        int n = nums.length;
+        if (n == 1) {
+            return nums[0];
+        }
+        List<Integer> pos = new ArrayList<>();
+        List<Integer> neg = new ArrayList<>();
+        int cnt0 = 0;
+        for (int num : nums) {
+            if (num > 0) {
+                pos.add(num);
+            } else if (num < 0) {
+                neg.add(num);
+            } else {
+                ++cnt0;
+            }
+        }
+        Collections.sort(pos, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(o2, o1);
+            }
+
+        });
+        Collections.sort(neg, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(o1, o2);
+            }
+
+        });
+        long res = 1L;
+        if (pos.isEmpty() && (neg.isEmpty() || neg.size() == 1 && cnt0 > 0)) {
+            return 0L;
+        }
+        for (int i = 0; i < (neg.size() % 2 == 0 ? neg.size() : neg.size() - 1); ++i) {
+            res *= neg.get(i);
+        }
+        for (int num : pos) {
+            res *= num;
+        }
+        return res;
+
+    }
+
+    // 6464. 最大公约数遍历 (Greatest Common Divisor Traversal)
+    private Union6464 union;
+
+    public boolean canTraverseAllPairs(int[] nums) {
+        int n = nums.length;
+        if (n == 1) {
+            return true;
+        }
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for (int num : nums) {
+            min = Math.min(min, num);
+            max = Math.max(max, num);
+        }
+        if (min == 1) {
+            return false;
+        }
+
+        this.union = new Union6464(max + 1);
+        for (int num : nums) {
+            check6464(num);
+        }
+        for (int i = 0; i < n; ++i) {
+            if (!union.isConnected(nums[0], nums[i])) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    private void check6464(int num) {
+        int ori = num;
+        for (int i = 2; i * i <= num; ++i) {
+            while (num % i == 0) {
+                union.union(num, i);
+                if (num / i != 1) {
+                    union.union(num / i, i);
+                }
+                num /= i;
+            }
+        }
+        if (num != 1) {
+            union.union(num, ori);
+        }
+    }
+
+    public class Union6464 {
+        private int[] parent;
+        private int[] rank;
+
+        public Union6464(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+
+    }
+
+
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
@@ -7708,5 +7890,4 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
-
 }
