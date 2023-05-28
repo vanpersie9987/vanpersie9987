@@ -7682,7 +7682,7 @@ public class Leetcode_7 {
     }
 
     // 6464. 最大公约数遍历 (Greatest Common Divisor Traversal)
-    private Union6464 union;
+    private Union6464 union6464;
 
     public boolean canTraverseAllPairs(int[] nums) {
         int n = nums.length;
@@ -7699,12 +7699,12 @@ public class Leetcode_7 {
             return false;
         }
 
-        this.union = new Union6464(max + 1);
+        this.union6464 = new Union6464(max + 1);
         for (int num : nums) {
             check6464(num);
         }
         for (int i = 0; i < n; ++i) {
-            if (!union.isConnected(nums[0], nums[i])) {
+            if (!union6464.isConnected(nums[0], nums[i])) {
                 return false;
             }
         }
@@ -7716,15 +7716,15 @@ public class Leetcode_7 {
         int ori = num;
         for (int i = 2; i * i <= num; ++i) {
             while (num % i == 0) {
-                union.union(num, i);
+                union6464.union(num, i);
                 if (num / i != 1) {
-                    union.union(num / i, i);
+                    union6464.union(num / i, i);
                 }
                 num /= i;
             }
         }
         if (num != 1) {
-            union.union(num, ori);
+            union6464.union(num, ori);
         }
     }
 
