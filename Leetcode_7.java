@@ -7699,6 +7699,23 @@ public class Leetcode_7 {
         dfs2708(i + 1, cur * nums2708[i], true);
     }
 
+    // 2708. 一个小组的最大实力值 (Maximum Strength of a Group)
+    public long maxStrength3(int[] nums) {
+        long min = nums[0];
+        long max = nums[0];
+        for (int i = 1; i < nums.length; ++i) {
+            long tmp = max;
+            max = Math.max(max, max * nums[i]);
+            max = Math.max(max, nums[i]);
+            max = Math.max(max, min * nums[i]);
+            min = Math.min(min, min * nums[i]);
+            min = Math.min(min, nums[i]);
+            min = Math.min(min, tmp * nums[i]);
+        }
+        return max;
+
+    }
+
     // 6464. 最大公约数遍历 (Greatest Common Divisor Traversal)
     private Union6464 union6464;
 
