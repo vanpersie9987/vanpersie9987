@@ -7674,6 +7674,31 @@ public class Leetcode_7 {
 
     }
 
+    // 6393. 一个小组的最大实力值 (Maximum Strength of a Group)
+    private long res;
+    private int n;
+    private int[] nums;
+
+    public long maxStrength2(int[] nums) {
+        this.res = Long.MIN_VALUE;
+        this.n = nums.length;
+        this.nums = nums;
+        dfs(0, 1L, false);
+        return res;
+
+    }
+
+    private void dfs(int i, long cur, boolean isNum) {
+        if (i == n) {
+            if (isNum) {
+                res = Math.max(res, cur);
+            }
+            return;
+        }
+        dfs(i + 1, cur, isNum);
+        dfs(i + 1, cur * nums[i], true);
+    }
+
     // 6464. 最大公约数遍历 (Greatest Common Divisor Traversal)
     private Union6464 union6464;
 
