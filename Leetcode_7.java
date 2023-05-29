@@ -7770,7 +7770,60 @@ public class Leetcode_7 {
 
     }
 
+    // 2710. 移除字符串中的尾随零 (Remove Trailing Zeros From a String)
+    public String removeTrailingZeros(String num) {
+        int i = num.length() - 1;
+        while (i >= 0 && num.charAt(i) == '0') {
+            --i;
+        }
+        return num.substring(0, i + 1);
 
+    }
+
+    // 2711. 对角线上不同值的数量差 (Difference of Number of Distinct Values on Diagonals)
+    public int[][] differenceOfDistinctValues(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] res = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                long leftTop = 0L;
+                long rightBottom = 0L;
+                int x = i - 1;
+                int y = j - 1;
+                while (x >= 0 && y >= 0) {
+                    leftTop |= 1L << grid[x][y];
+                    --x;
+                    --y;
+                }
+                x = i + 1;
+                y = j + 1;
+                while (x < m && y < n) {
+                    rightBottom |= 1L << grid[x][y];
+                    ++x;
+                    ++y;
+                }
+                res[i][j] = Math.abs(Long.bitCount(leftTop) - Long.bitCount(rightBottom));
+            }
+        }
+        return res;
+
+
+    }
+
+    // 2712. 使所有字符相等的最小成本 (Minimum Cost to Make All Characters Equal)
+    public long minimumCost(String s) {
+        long res = 0L;
+        char[] arr = s.toCharArray();
+        int n = arr.length;
+        for (int i = 1; i < n; ++i) {
+            if (arr[i] != arr[i - 1]) {
+                res += Math.min(i, n - i);
+            }
+        }
+        return res;
+
+    }
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
