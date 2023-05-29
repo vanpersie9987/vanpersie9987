@@ -7785,30 +7785,20 @@ public class Leetcode_7 {
         int m = grid.length;
         int n = grid[0].length;
         int[][] res = new int[m][n];
+        long[][] suf = new long[m][n];
+        for (int i = m - 1; i >= 0; --i) {
+            for (int j = n - 1; j >= 0; --j) {
+                suf[i][j] = (i + 1 < m && j + 1 < n ? suf[i + 1][j + 1] | (1L << grid[i + 1][j + 1]) : 0L);
+            }
+        }
+        long[][] pre = new long[m][n];
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                long leftTop = 0L;
-                long rightBottom = 0L;
-                int x = i - 1;
-                int y = j - 1;
-                while (x >= 0 && y >= 0) {
-                    leftTop |= 1L << grid[x][y];
-                    --x;
-                    --y;
-                }
-                x = i + 1;
-                y = j + 1;
-                while (x < m && y < n) {
-                    rightBottom |= 1L << grid[x][y];
-                    ++x;
-                    ++y;
-                }
-                res[i][j] = Math.abs(Long.bitCount(leftTop) - Long.bitCount(rightBottom));
+                pre[i][j] = i - 1 >= 0 && j - 1 >= 0 ? pre[i - 1][j - 1] | (1L << grid[i - 1][j - 1]) : 0L;
+                res[i][j] = Math.abs(Long.bitCount(pre[i][j]) - Long.bitCount(suf[i][j]));
             }
         }
         return res;
-
-
     }
 
     // 2712. 使所有字符相等的最小成本 (Minimum Cost to Make All Characters Equal)
