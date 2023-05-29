@@ -7632,8 +7632,7 @@ public class Leetcode_7 {
         if (memo6394[i] != n6394 + 1) {
             return memo6394[i];
         }
-        int min = n6394 + 1;
-        min = Math.min(min, dfs6394(i + 1) + 1);
+        int min = dfs6394(i + 1) + 1;
         for (int j = i; j < n6394; ++j) {
             if (set6394.contains(s6394.substring(i, j + 1))) {
                 min = Math.min(min, dfs6394(j + 1));
