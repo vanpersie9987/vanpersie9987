@@ -7651,22 +7651,7 @@ public class Leetcode_7 {
                 ++cnt0;
             }
         }
-        Collections.sort(pos, new Comparator<Integer>() {
-
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return Integer.compare(o2, o1);
-            }
-
-        });
-        Collections.sort(neg, new Comparator<Integer>() {
-
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return Integer.compare(o1, o2);
-            }
-
-        });
+        Collections.sort(neg);
         long res = 1L;
         if (pos.isEmpty() && (neg.isEmpty() || neg.size() == 1 && cnt0 > 0)) {
             return 0L;
