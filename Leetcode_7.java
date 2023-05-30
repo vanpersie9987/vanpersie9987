@@ -7941,6 +7941,73 @@ public class Leetcode_7 {
         return new Node(false, false, n1, n2, n3, n4);
     }
 
+    // LCP 19. 秋叶收藏集
+    private int[][] memo_LCP_19;
+    private int n_LCP_19;
+    private char[] arr_LCP_19;
+    private int[] suf_LCP_19;
+
+    public int minimumOperations(String leaves) {
+        this.n_LCP_19 = leaves.length();
+        this.arr_LCP_19 = leaves.toCharArray();
+        this.memo_LCP_19 = new int[n_LCP_19][2];
+        for (int i = 0; i < n_LCP_19; ++i) {
+            Arrays.fill(memo_LCP_19[i], n_LCP_19 + 1);
+        }
+        this.suf_LCP_19 = new int[n_LCP_19];
+        suf_LCP_19[n_LCP_19 - 1] = arr_LCP_19[n_LCP_19 - 1] == 'r' ? 0 : 1;
+        for (int i = n_LCP_19 - 2; i >= 0; --i) {
+            suf_LCP_19[i] = suf_LCP_19[i + 1] + (arr_LCP_19[i] == 'r' ? 0 : 1);
+        }
+        return dfs_LCP_19(0, 0);
+    }
+
+    private int dfs_LCP_19(int i, int state) {
+        if (i == 0) {
+            return dfs_LCP_19(i + 1, state) + (arr_LCP_19[i] == 'r' ? 0 : 1);
+        }
+        if (i == n_LCP_19) {
+            return state == 2 ? 0 : n_LCP_19 + 1;
+        }
+        if (n_LCP_19 - i < 2 - state) {
+            return n_LCP_19 + 1;
+        }
+        if (state == 2) {
+            return suf_LCP_19[i];
+        }
+        if (memo_LCP_19[i][state] != n_LCP_19 + 1) {
+            return memo_LCP_19[i][state];
+        }
+        int min = n_LCP_19 + 1;
+        if (state == 0) {
+            if (arr_LCP_19[i] == 'r') {
+                // 不变
+                min = Math.min(min, dfs_LCP_19(i + 1, state));
+                // 变
+                min = Math.min(min, dfs_LCP_19(i + 1, state + 1) + 1);
+            } else {
+                // 不变
+                min = Math.min(min, dfs_LCP_19(i + 1, state + 1));
+                // 变
+                min = Math.min(min, dfs_LCP_19(i + 1, state) + 1);
+            }
+        } else if (state == 1) {
+            if (arr_LCP_19[i] == 'r') {
+                // 不变
+                min = Math.min(min, dfs_LCP_19(i + 1, state + 1));
+                // 变
+                min = Math.min(min, dfs_LCP_19(i + 1, state) + 1);
+            } else {
+                // 不变
+                min = Math.min(min, dfs_LCP_19(i + 1, state));
+                // 变
+                min = Math.min(min, dfs_LCP_19(i + 1, state + 1) + 1);
+            }
+        }
+        return memo_LCP_19[i][state] = min;
+    }
+
+
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
