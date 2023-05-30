@@ -7850,6 +7850,26 @@ public class Leetcode_7 {
 
     }
 
+    // 558. 四叉树交集 (Logical OR of Two Binary Grids Represented as Quad-Trees)
+    public Node intersect(Node quadTree1, Node quadTree2) {
+        if (quadTree1.isLeaf) {
+            return quadTree1.val ? quadTree1 : quadTree2;
+        }
+        if (quadTree2.isLeaf) {
+            return intersect(quadTree2, quadTree1);
+        }
+        Node n1 = intersect(quadTree1.topLeft, quadTree2.topLeft);
+        Node n2 = intersect(quadTree1.topRight, quadTree2.topRight);
+        Node n3 = intersect(quadTree1.bottomLeft, quadTree2.bottomLeft);
+        Node n4 = intersect(quadTree1.bottomRight, quadTree2.bottomRight);
+        if (n1.isLeaf && n2.isLeaf && n3.isLeaf && n4.isLeaf && n1.val == n2.val && n1.val == n3.val
+                && n1.val == n4.val) {
+            return new Node(n1.val, true);
+        }
+        return new Node(false, false, n1, n2, n3, n4);
+    }
+
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
     // private int[][] memo1186;
@@ -7968,4 +7988,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 }
