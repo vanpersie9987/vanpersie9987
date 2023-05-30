@@ -7606,39 +7606,111 @@ public class Leetcode_7 {
 
     }
 
-    // 6394. 字符串中的额外字符 (Extra Characters in a String)
-    private int[] memo6394;
-    private int n6394;
-    private String s6394;
-    private Set<String> set6394;
+    // 2707. 字符串中的额外字符 (Extra Characters in a String)
+    private int[] memo2707_1;
+    private int n2707_1;
+    private String s2707_1;
+    private Set<String> set2707_1;
 
     public int minExtraChar(String s, String[] dictionary) {
-        this.n6394 = s.length();
-        this.s6394 = s;
-        this.set6394 = new HashSet<>();
+        this.n2707_1 = s.length();
+        this.s2707_1 = s;
+        this.set2707_1 = new HashSet<>();
         for (String d : dictionary) {
-            set6394.add(d);
+            set2707_1.add(d);
         }
-        this.memo6394 = new int[n6394];
-        Arrays.fill(memo6394, n6394 + 1);
-        return dfs6394(0);
+        this.memo2707_1 = new int[n2707_1];
+        Arrays.fill(memo2707_1, n2707_1 + 1);
+        return dfs2707_1(0);
 
     }
 
-    private int dfs6394(int i) {
-        if (i == n6394) {
+    private int dfs2707_1(int i) {
+        if (i == n2707_1) {
             return 0;
         }
-        if (memo6394[i] != n6394 + 1) {
-            return memo6394[i];
+        if (memo2707_1[i] != n2707_1 + 1) {
+            return memo2707_1[i];
         }
-        int min = dfs6394(i + 1) + 1;
-        for (int j = i; j < n6394; ++j) {
-            if (set6394.contains(s6394.substring(i, j + 1))) {
-                min = Math.min(min, dfs6394(j + 1));
+        int min = dfs2707_1(i + 1) + 1;
+        for (int j = i; j < n2707_1; ++j) {
+            if (set2707_1.contains(s2707_1.substring(i, j + 1))) {
+                min = Math.min(min, dfs2707_1(j + 1));
             }
         }
-        return memo6394[i] = min;
+        return memo2707_1[i] = min;
+    }
+
+    // 2707. 字符串中的额外字符 (Extra Characters in a String)
+    private int[] memo2707_2;
+    private String s2707_2;
+    private Trie2707 trie2707_2;
+    private int n2707_2;
+
+    public int minExtraChar2(String s, String[] dictionary) {
+        this.trie2707_2 = new Trie2707();
+        for (String dic : dictionary) {
+            trie2707_2.insert(dic);
+        }
+        this.n2707_2 = s.length();
+        this.memo2707_2 = new int[n2707_2];
+        this.s2707_2 = s;
+        Arrays.fill(memo2707_2, n2707_2 + 1);
+        return dfs2707(0);
+
+    }
+
+    private int dfs2707(int i) {
+        if (i == n2707_2) {
+            return 0;
+        }
+        if (memo2707_2[i] != n2707_2 + 1) {
+            return memo2707_2[i];
+        }
+        int min = dfs2707(i + 1) + 1;
+        for (int j : trie2707_2.isLegal(s2707_2.substring(i))) {
+            min = Math.min(min, dfs2707(i + j + 1));
+        }
+        return memo2707_2[i] = min;
+    }
+
+    public class Trie2707 {
+        private Trie2707[] children;
+        private boolean isWord;
+
+        public Trie2707() {
+            children = new Trie2707[26];
+        }
+
+        public void insert(String s) {
+            Trie2707 node = this;
+            for (char c : s.toCharArray()) {
+                int i = c - 'a';
+                if (node.children[i] == null) {
+                    node.children[i] = new Trie2707();
+                }
+                node = node.children[i];
+            }
+            node.isWord = true;
+        }
+
+        public List<Integer> isLegal(String s) {
+            char[] arr = s.toCharArray();
+            int n = s.length();
+            List<Integer> list = new ArrayList<>();
+            Trie2707 node = this;
+            for (int i = 0; i < n; ++i) {
+                int index = arr[i] - 'a';
+                if (node.children[index] == null) {
+                    break;
+                }
+                node = node.children[index];
+                if (node.isWord) {
+                    list.add(i);
+                }
+            }
+            return list;
+        }
     }
 
     // 6393. 一个小组的最大实力值 (Maximum Strength of a Group)
