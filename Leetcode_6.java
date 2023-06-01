@@ -3302,11 +3302,11 @@ public class Leetcode_6 {
         Arrays.sort(price);
         int n = price.length;
         int left = 0;
-        int right = price[n - 1] - price[0];
-        int res = 0;
+        int right = (price[n - 1] - price[0]) / (k - 1);
+        int res = -1;
         while (left <= right) {
-            int mid = left + ((right - left) >>> 1);
-            if (check2517(price, mid, k)) {
+            int mid = left + ((right - left) >> 1);
+            if (check2517(price, mid) >= k) {
                 res = mid;
                 left = mid + 1;
             } else {
@@ -3317,21 +3317,18 @@ public class Leetcode_6 {
 
     }
 
-    private boolean check2517(int[] price, int target, int k) {
-        int count = 0;
+    private int check2517(int[] price, int target) {
+        int cnt = 1;
         int pre = price[0];
         int i = 1;
         while (i < price.length) {
             if (price[i] - pre >= target) {
-                ++count;
+                ++cnt;
                 pre = price[i];
-                if (count + 1 >= k) {
-                    return true;
-                }
             }
             ++i;
         }
-        return false;
+        return cnt;
     }
 
     // 616. 给字符串添加加粗标签 (Add Bold Tag in String) --plus
