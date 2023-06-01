@@ -8042,6 +8042,30 @@ public class Leetcode_7 {
         return memo1130[i][j] = min;
     }
 
+    // 2663. 字典序最小的美丽字符串 (Lexicographically Smallest Beautiful String)
+    public String smallestBeautifulString(String s, int k) {
+        int n = s.length();
+        char[] arr = s.toCharArray();
+        char limit = (char) (k + 'a');
+        int i = n - 1;
+        ++arr[n - 1];
+        while (i >= 0 && i < n) {
+            if (arr[i] == limit) {
+                if (i == 0) {
+                    return "";
+                }
+                arr[i] = 'a';
+                --i;
+                ++arr[i];
+            } else if (i > 0 && arr[i] == arr[i - 1] || i > 1 && arr[i] == arr[i - 2]) {
+                ++arr[i];
+            } else {
+                ++i;
+            }
+        }
+        return String.valueOf(arr);
+
+    }
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
