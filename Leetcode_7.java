@@ -8007,6 +8007,40 @@ public class Leetcode_7 {
         return memo_LCP_19[i][state] = min;
     }
 
+    // 1130. 叶值的最小代价生成树 (Minimum Cost Tree From Leaf Values)
+    private int n1130;
+    private int[][] memo1130;
+    private int[][] sec1130;
+
+    public int mctFromLeafValues(int[] arr) {
+        this.n1130 = arr.length;
+        this.memo1130 = new int[n1130][n1130];
+        for (int i = 0; i < n1130; ++i) {
+            Arrays.fill(memo1130[i], -1);
+        }
+        this.sec1130 = new int[n1130][n1130];
+        for (int i = n1130 - 1; i >= 0; --i) {
+            sec1130[i][i] = arr[i];
+            for (int j = i + 1; j < n1130; ++j) {
+                sec1130[i][j] = Math.max(sec1130[i][j - 1], arr[j]);
+            }
+        }
+        return dfs1130(0, n1130 - 1);
+    }
+
+    private int dfs1130(int i, int j) {
+        if (i == j) {
+            return 0;
+        }
+        if (memo1130[i][j] != -1) {
+            return memo1130[i][j];
+        }
+        int min = Integer.MAX_VALUE;
+        for (int k = i; k < j; ++k) {
+            min = Math.min(min, dfs1130(i, k) + dfs1130(k + 1, j) + sec1130[i][k] * sec1130[k + 1][j]);
+        }
+        return memo1130[i][j] = min;
+    }
 
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
