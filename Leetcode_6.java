@@ -6062,23 +6062,24 @@ public class Leetcode_6 {
     // 2559. 统计范围内的元音字符串数 (Count Vowel Strings in Ranges)
     public int[] vowelStrings(String[] words, int[][] queries) {
         int n = words.length;
-        int[] prefix = new int[n + 1];
-        for (int i = 1; i < n + 1; ++i) {
-            prefix[i] += prefix[i - 1] + (check6347(words[i - 1]) ? 1 : 0);
+        int[] pre = new int[n + 1];
+        for (int i = 0; i < n; ++i) {
+            pre[i + 1] = pre[i] + (checkLegal2559(words[i]) ? 1 : 0);
         }
         int[] res = new int[queries.length];
         for (int i = 0; i < queries.length; ++i) {
-            int a = queries[i][0];
-            int b = queries[i][1];
-            res[i] = prefix[b + 1] - prefix[a];
+            res[i] = pre[queries[i][1] + 1] - pre[queries[i][0]];
         }
         return res;
 
     }
 
-    private boolean check6347(String s) {
-        String v = "aeiou";
-        return v.indexOf(s.charAt(0)) != -1 && v.indexOf(s.charAt(s.length() - 1)) != -1;
+    private boolean checkLegal2559(String s) {
+        return checkVowel2559(s.charAt(0)) && checkVowel2559(s.charAt(s.length() - 1));
+    }
+
+    private boolean checkVowel2559(char c) {
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
     }
 
     // 2560. 打家劫舍 IV (House Robber IV)
