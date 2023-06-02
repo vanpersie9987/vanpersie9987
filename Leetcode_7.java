@@ -7569,7 +7569,8 @@ public class Leetcode_7 {
         this.prefix427 = new int[n + 1][n + 1];
         for (int i = 1; i < n + 1; ++i) {
             for (int j = 1; j < n + 1; ++j) {
-                prefix427[i][j] = prefix427[i - 1][j] + prefix427[i][j - 1] - prefix427[i - 1][j - 1] + grid[i - 1][j - 1];
+                prefix427[i][j] = prefix427[i - 1][j] + prefix427[i][j - 1] - prefix427[i - 1][j - 1]
+                        + grid[i - 1][j - 1];
             }
         }
         return dfs427(0, 0, n, n);
@@ -8076,6 +8077,40 @@ public class Leetcode_7 {
         }
         return (int) (((long) countOrders(n - 1) * n % MOD) * (2 * n - 1) % MOD);
     }
+
+    // 2514. 统计同位异构字符串数目 (Count Anagrams) --逆元、费马小定理
+    public int countAnagrams(String s) {
+        int[] cnts = new int[26];
+        long res = 1L;
+        // 分子个数
+        int numCnts = 0;
+        // 分母的值
+        long den = 1L;
+        final int MOD = (int) (1e9 + 7);
+        for (char c : s.toCharArray()) {
+            if (c == ' ') {
+                Arrays.fill(cnts, 0);
+                numCnts = 0;
+            } else {
+                res = res * ++numCnts % MOD;
+                den = den * ++cnts[c - 'a'] % MOD;
+            }
+        }
+        return (int) (res * pow2514((int) den, MOD - 2) % MOD);
+
+    }
+
+    private long pow2514(int a, int b) {
+        if (b == 0) {
+            return 1L;
+        }
+        final int MOD = (int) (1e9 + 7);
+        long res = pow2514(a, b >> 1);
+        res = (res * res) % MOD;
+        return (b & 1) == 0 ? res : (res * a) % MOD;
+    }
+
+
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
