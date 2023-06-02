@@ -8068,6 +8068,15 @@ public class Leetcode_7 {
 
     }
 
+    // 1359. 有效的快递序列数目 (Count All Valid Pickup and Delivery Options)
+    public int countOrders(int n) {
+        final int MOD = (int) (1e9 + 7);
+        if (n == 1) {
+            return 1;
+        }
+        return (int) (((long) countOrders(n - 1) * n % MOD) * (2 * n - 1) % MOD);
+    }
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
     // private int[][] memo1186;
