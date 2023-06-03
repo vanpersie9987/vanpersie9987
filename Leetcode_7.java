@@ -8140,6 +8140,59 @@ public class Leetcode_7 {
         return b == 0 ? a : gcd2607(b, a % b);
     }
 
+    // 1434. 每个人戴不同帽子的方案数 (Number of Ways to Wear Different Hats to Each Other)
+    private List<Integer>[] hatsToPersons1434;
+    private int n1434;
+    private int[][] memo1434;
+    private int maxHatId1434;
+
+    public int numberWays(List<List<Integer>> hats) {
+        this.n1434 = hats.size();
+        int maxHatId = 0;
+        for (List<Integer> hat : hats) {
+            for (int h : hat) {
+                maxHatId = Math.max(maxHatId, h);
+            }
+        }
+        this.maxHatId1434 = maxHatId;
+        this.hatsToPersons1434 = new ArrayList[maxHatId + 1];
+        Arrays.setAll(hatsToPersons1434, k -> new ArrayList<>());
+        for (int i = 0; i < hats.size(); ++i) {
+            for (int h : hats.get(i)) {
+                hatsToPersons1434[h].add(i);
+            }
+        }
+        this.memo1434 = new int[maxHatId + 1][1 << n1434];
+        for (int i = 0; i < maxHatId + 1; ++i) {
+            Arrays.fill(memo1434[i], -1);
+        }
+        return dfs1434(0, 0);
+
+    }
+
+    private int dfs1434(int hatId, int mask) {
+        if (mask == (1 << n1434) - 1) {
+            return 1;
+        }
+        if (hatId == maxHatId1434 + 1) {
+            return 0;
+        }
+        if (memo1434[hatId][mask] != -1) {
+            return memo1434[hatId][mask];
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int i = hatId; i <= maxHatId1434; ++i) {
+            for (int p : hatsToPersons1434[i]) {
+                if (((mask >> p) & 1) == 0) {
+                    res = (res + dfs1434(i + 1, mask | (1 << p))) % MOD;
+                }
+            }
+        }
+        return memo1434[hatId][mask] = res;
+    }
+
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
     // private int[][] memo1186;
