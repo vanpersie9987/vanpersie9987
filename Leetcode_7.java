@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import java.awt.Point;
-import java.awt.desktop.QuitResponse;
 
 public class Leetcode_7 {
     public static void main(String[] args) {
@@ -8190,6 +8189,130 @@ public class Leetcode_7 {
             }
         }
         return memo1434[hatId][mask] = res;
+    }
+
+    // google mock interview
+    // https://www.youtube.com/watch?v=JU2ZpooE9PM
+    // 52'40"
+    private boolean flag_gmi_1;
+    private char[][] grid_gmi_1;
+    private int m_gmi_1;
+    private int n_gmi_1;
+    private final int[][] dirs_gmi_1 = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+
+    public int getMaxTerritory(char[][] grid) {
+        this.m_gmi_1 = grid.length;
+        this.n_gmi_1 = grid[0].length;
+        this.grid_gmi_1 = grid;
+        int res = 0;
+        for (int i = 0; i < m_gmi_1; ++i) {
+            for (int j = 0; j < n_gmi_1; ++j) {
+                if (grid[i][j] == 'W') {
+                    flag_gmi_1 = false;
+                    int cur = dfs_gmi_1(i, j);
+                    if (!flag_gmi_1) {
+                        res += cur;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    private int dfs_gmi_1(int i, int j) {
+        if (i == 0 || i == m_gmi_1 - 1 || j == 0 || j == n_gmi_1 - 1) {
+            flag_gmi_1 = true;
+        }
+        int cnt = 1;
+        grid_gmi_1[i][j] = 'B';
+        for (int[] d : dirs_gmi_1) {
+            int ni = i + d[0];
+            int nj = j + d[1];
+            if (ni >= 0 && ni < m_gmi_1 && nj >= 0 && nj < n_gmi_1 && grid_gmi_1[ni][nj] == 'W') {
+                cnt += dfs_gmi_1(ni, nj);
+            }
+        }
+        return cnt;
+    }
+
+    // google mock interview
+    // https://www.youtube.com/watch?v=JU2ZpooE9PM
+    // 52'40"
+    public int getMaxTerritory2(char[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        Union_gmi_1 union = new Union_gmi_1(m * n + 1);
+        int dummy = m * n;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 'W') {
+                    if (i == 0 || i == m - 1 || j == 0 || j == n - 1) {
+                        union.union(dummy, transIndex(i, j, n));
+                    }
+                    if (i + 1 < m && grid[i][j] == 'W') {
+                        union.union(transIndex(i + 1, j, n), transIndex(i, j, n));
+                    }
+                    if (j + 1 < n && grid[i][j] == 'W') {
+                        union.union(transIndex(i, j + 1, n), transIndex(i, j, n));
+                    }
+                }
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 'W' && !union.isConnected(transIndex(i, j, n), dummy)) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+    }
+
+    private int transIndex(int i, int j, int n) {
+        return i * n + j;
+    }
+
+    public class Union_gmi_1 {
+        private int[] parent;
+        private int[] rank;
+
+        public Union_gmi_1(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+    
     }
 
 
