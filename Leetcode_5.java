@@ -1594,7 +1594,7 @@ public class Leetcode_5 {
 
     }
 
-    // 6177. 子字符串的最优划分
+    // 2405. 子字符串的最优划分 (Optimal Partition of String)
     public int partitionString(String s) {
         int res = 0;
         int mask = 0;
@@ -1607,6 +1607,31 @@ public class Leetcode_5 {
         }
         return res + 1;
 
+    }
+
+    // 2405. 子字符串的最优划分 (Optimal Partition of String)
+    private int n2405;
+    private String s2405;
+
+    public int partitionString2(String s) {
+        this.n2405 = s.length();
+        this.s2405 = s;
+        return dfs2405(0);
+
+    }
+
+    private int dfs2405(int i) {
+        if (i == n2405) {
+            return 0;
+        }
+        int mask = 0;
+        for (int j = i; j < n2405; ++j) {
+            if (((mask >> (s2405.charAt(j) - 'a')) & 1) != 0) {
+                return dfs2405(j) + 1;
+            }
+            mask |= 1 << s2405.charAt(j) - 'a';
+        }
+        return 1;
     }
 
     // 6178. 将区间分为最少组数
