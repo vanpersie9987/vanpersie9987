@@ -8247,13 +8247,13 @@ public class Leetcode_7 {
             for (int j = 0; j < n; ++j) {
                 if (grid[i][j] == 'W') {
                     if (i == 0 || i == m - 1 || j == 0 || j == n - 1) {
-                        union.union(dummy, transIndex(i, j, n));
+                        union.union(dummy, transIndex_gmi_1(i, j, n));
                     }
                     if (i + 1 < m && grid[i][j] == 'W') {
-                        union.union(transIndex(i + 1, j, n), transIndex(i, j, n));
+                        union.union(transIndex_gmi_1(i + 1, j, n), transIndex_gmi_1(i, j, n));
                     }
                     if (j + 1 < n && grid[i][j] == 'W') {
-                        union.union(transIndex(i, j + 1, n), transIndex(i, j, n));
+                        union.union(transIndex_gmi_1(i, j + 1, n), transIndex_gmi_1(i, j, n));
                     }
                 }
             }
@@ -8261,7 +8261,7 @@ public class Leetcode_7 {
         int res = 0;
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                if (grid[i][j] == 'W' && !union.isConnected(transIndex(i, j, n), dummy)) {
+                if (grid[i][j] == 'W' && !union.isConnected(transIndex_gmi_1(i, j, n), dummy)) {
                     ++res;
                 }
             }
@@ -8269,7 +8269,7 @@ public class Leetcode_7 {
         return res;
     }
 
-    private int transIndex(int i, int j, int n) {
+    private int transIndex_gmi_1(int i, int j, int n) {
         return i * n + j;
     }
 
