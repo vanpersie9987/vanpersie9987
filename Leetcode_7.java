@@ -8115,7 +8115,29 @@ public class Leetcode_7 {
         return (b & 1) == 0 ? res : (res * a) % MOD;
     }
 
+    // 2607. 使子数组元素和相等 (Make K-Subarray Sums Equal) --裴蜀定理 贝祖定理 欧式定理
+    public long makeSubKSumEqual(int[] arr, int k) {
+        int n = arr.length;
+        int g = gcd2607(n, k);
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            map.computeIfAbsent(i % g, o -> new ArrayList<>()).add(arr[i]);
+        }
+        long res = 0L;
+        for (List<Integer> list : map.values()) {
+            Collections.sort(list);
+            int mid = list.get(list.size() / 2);
+            for (int num : list) {
+                res += Math.abs(num - mid);
+            }
+        }
+        return res;
 
+    }
+
+    private int gcd2607(int a, int b) {
+        return b == 0 ? a : gcd2607(b, a % b);
+    }
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
