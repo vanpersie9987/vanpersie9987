@@ -1681,22 +1681,15 @@ public class Leetcode_5 {
             }
 
         });
-        TreeMap<Integer, Integer> map = new TreeMap<>();
-
         int res = 0;
-        for (int[] interval : intervals) {
-            int left = interval[0];
-            int right = interval[1];
-            Integer lower = map.lowerKey(left);
-            if (lower == null) {
-                ++res;
+        Queue<Integer> q = new PriorityQueue<>();
+        for (int[] i : intervals) {
+            if (!q.isEmpty() && q.peek() < i[0]) {
+                q.poll();
             } else {
-                map.merge(lower, -1, Integer::sum);
-                if (map.get(lower) == 0) {
-                    map.remove(lower);
-                }
+                ++res;
             }
-            map.merge(right, 1, Integer::sum);
+            q.offer(i[1]);
         }
         return res;
 
