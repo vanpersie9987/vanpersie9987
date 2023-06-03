@@ -474,35 +474,37 @@ public class Leetcode_3 {
     }
 
     // 1219. 黄金矿工 (Path with Maximum Gold)
+    private int m1219;
+    private int n1219;
     private int res1219;
+    private int[][] grid1219;
+    private final int[][] dirs1219 = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
 
     public int getMaximumGold(int[][] grid) {
-        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
-        int m = grid.length;
-        int n = grid[0].length;
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (grid[i][j] != 0) {
-                    getMaxGold(grid, i, j, directions, 0);
-                }
+        this.m1219 = grid.length;
+        this.n1219 = grid[0].length;
+        this.grid1219 = grid;
+        for (int i = 0; i < m1219; ++i) {
+            for (int j = 0; j < n1219; ++j) {
+                dfs1219(i, j, grid[i][j]);
             }
         }
         return res1219;
+
     }
 
-    private void getMaxGold(int[][] grid, int i, int j, int[][] directions, int gold) {
-        gold += grid[i][j];
-        res1219 = Math.max(res1219, gold);
-        int temp = grid[i][j];
-        grid[i][j] = 0;
-        for (int[] direction : directions) {
-            int newI = i + direction[0];
-            int newJ = j + direction[1];
-            if (newI >= 0 && newI < grid.length && newJ >= 0 && newJ < grid[0].length && grid[newI][newJ] != 0) {
-                getMaxGold(grid, i + direction[0], j + direction[1], directions, gold);
+    private void dfs1219(int i, int j, int sum) {
+        res1219 = Math.max(res1219, sum);
+        int tmp = grid1219[i][j];
+        grid1219[i][j] = 0;
+        for (int[] d : dirs1219) {
+            int ni = i + d[0];
+            int nj = j + d[1];
+            if (ni >= 0 && ni < m1219 && nj >= 0 && nj < n1219 && grid1219[ni][nj] != 0) {
+                dfs1219(ni, nj, sum + grid1219[ni][nj]);
             }
         }
-        grid[i][j] = temp;
+        grid1219[i][j] = tmp;
     }
 
     // 2176. 统计数组中相等且可以被整除的数对 (Count Equal and Divisible Pairs in an Array)
