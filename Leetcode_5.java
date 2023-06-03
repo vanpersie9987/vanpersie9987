@@ -1634,7 +1634,7 @@ public class Leetcode_5 {
         return 1;
     }
 
-    // 6178. 将区间分为最少组数
+    // 2406. 将区间分为最少组数 (Divide Intervals Into Minimum Number of Groups)
     public int minGroups(int[][] intervals) {
         int max = 0;
         for (int[] interval : intervals) {
@@ -1649,6 +1649,37 @@ public class Leetcode_5 {
         for (int i = 1; i < diff.length; ++i) {
             diff[i] += diff[i - 1];
             res = Math.max(res, diff[i]);
+        }
+        return res;
+
+    }
+
+    // 2406. 将区间分为最少组数 (Divide Intervals Into Minimum Number of Groups)
+    public int minGroups2(int[][] intervals) {
+        Arrays.sort(intervals, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+
+        int res = 0;
+        for (int[] interval : intervals) {
+            int left = interval[0];
+            int right = interval[1];
+            Integer lower = map.lowerKey(left);
+            if (lower == null) {
+                ++res;
+            } else {
+                map.merge(lower, -1, Integer::sum);
+                if (map.get(lower) == 0) {
+                    map.remove(lower);
+                }
+            }
+            map.merge(right, 1, Integer::sum);
         }
         return res;
 
