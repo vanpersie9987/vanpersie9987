@@ -1656,6 +1656,23 @@ public class Leetcode_5 {
 
     // 2406. 将区间分为最少组数 (Divide Intervals Into Minimum Number of Groups)
     public int minGroups2(int[][] intervals) {
+        TreeMap<Integer, Integer> diff = new TreeMap<>();
+        for (int[] i : intervals) {
+            diff.merge(i[0], 1, Integer::sum);
+            diff.merge(i[1] + 1, -1, Integer::sum);
+        }
+        int res = 0;
+        int pre = 0;
+        for (int d : diff.values()) {
+            pre += d;
+            res = Math.max(res, pre);
+        }
+        return res;
+    
+    }
+
+    // 2406. 将区间分为最少组数 (Divide Intervals Into Minimum Number of Groups)
+    public int minGroups3(int[][] intervals) {
         Arrays.sort(intervals, new Comparator<int[]>() {
 
             @Override
