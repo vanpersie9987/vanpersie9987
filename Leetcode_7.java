@@ -8086,9 +8086,10 @@ public class Leetcode_7 {
     // 2514. 统计同位异构字符串数目 (Count Anagrams) --逆元、费马小定理
     public int countAnagrams(String s) {
         int[] cnts = new int[26];
-        long res = 1L;
         // 分子个数
         int numCnts = 0;
+        // 分子的值
+        long num = 1L;
         // 分母的值
         long den = 1L;
         final int MOD = (int) (1e9 + 7);
@@ -8097,11 +8098,11 @@ public class Leetcode_7 {
                 Arrays.fill(cnts, 0);
                 numCnts = 0;
             } else {
-                res = res * ++numCnts % MOD;
+                num = num * ++numCnts % MOD;
                 den = den * ++cnts[c - 'a'] % MOD;
             }
         }
-        return (int) (res * pow2514((int) den, MOD - 2) % MOD);
+        return (int) (num * pow2514((int) den, MOD - 2) % MOD);
 
     }
 
