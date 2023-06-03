@@ -1653,19 +1653,24 @@ public class Leetcode_7 {
 
     // 2605. 从两个数字数组里生成最小数字 (Form Smallest Number From Two Digit Arrays)
     public int minNumber(int[] nums1, int[] nums2) {
-        int res = Integer.MAX_VALUE;
-        for (int i = 0; i < nums1.length; ++i) {
-            for (int j = 0; j < nums2.length; ++j) {
-                if (nums1[i] == nums2[j]) {
-                    res = Math.min(res, nums1[i]);
-                } else {
-                    res = Math.min(res, nums1[i] * 10 + nums2[j]);
-                    res = Math.min(res, nums2[j] * 10 + nums1[i]);
-                }
-            }
+        int m1 = getMask2605(nums1);
+        int m2 = getMask2605(nums2);
+        int and = m1 & m2;
+        if (and != 0) {
+            return Integer.numberOfTrailingZeros(and);
         }
-        return res;
+        int x = Integer.numberOfTrailingZeros(m1);
+        int y = Integer.numberOfTrailingZeros(m2);
+        return Math.min(x * 10 + y, y * 10 + x);
 
+    }
+
+    private int getMask2605(int[] nums) {
+        int m = 0;
+        for (int num : nums) {
+            m |= 1 << num;
+        }
+        return m;
     }
 
     // 2606. 找到最大开销的子字符串 (Find the Substring With Maximum Cost)
