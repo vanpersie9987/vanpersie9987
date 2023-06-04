@@ -9279,38 +9279,40 @@ public class LeetCode_4 {
     }
 
     // 322. 零钱兑换 (Coin Change)
-    private int[] coins322;
-    private int n322;
-    private int amount322;
     private int[][] memo322;
+    private int[] coins322;
+    private int amount322;
+    private int n322;
 
     public int coinChange3(int[] coins, int amount) {
+        Arrays.sort(coins);
         this.coins322 = coins;
-        this.n322 = coins.length;
         this.amount322 = amount;
+        this.n322 = coins.length;
         this.memo322 = new int[n322][amount + 1];
         for (int i = 0; i < n322; ++i) {
             Arrays.fill(memo322[i], -1);
         }
-        int res = dfs322(0, 0);
-        return res <= amount ? res : -1;
+        int res = dfs322(n322 - 1, 0);
+        return res < amount + 1 ? res : -1;
 
     }
 
-    private int dfs322(int i, int curAmount) {
-        if (i == n322 || curAmount >= amount322) {
-            return curAmount == amount322 ? 0 : amount322 + 1;
+    private int dfs322(int i, int sum) {
+        if (sum == amount322 || i < 0) {
+            return sum == amount322 ? 0 : amount322 + 1;
         }
-        if (memo322[i][curAmount] != -1) {
-            return memo322[i][curAmount];
+        if (memo322[i][sum] != -1) {
+            return memo322[i][sum];
         }
         int min = amount322 + 1;
-        int c = 0;
-        while (c * coins322[i] + curAmount <= amount322) {
-            min = Math.min(min, dfs322(i + 1, c * coins322[i] + curAmount) + c);
-            ++c;
+        // 不选
+        min = Math.min(min, dfs322(i - 1, sum));
+        // 选
+        if ((long) sum + coins322[i] <= (long) amount322) {
+            min = Math.min(min, dfs322(i, sum + coins322[i]) + 1);
         }
-        return memo322[i][curAmount] = min;
+        return memo322[i][sum] = min;
     }
 
     // 518. 零钱兑换 II (Coin Change 2)
