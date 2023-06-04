@@ -8458,21 +8458,15 @@ public class Leetcode_7 {
 
     // 6472. 查询后矩阵的和 (Sum of Matrix After Queries)
     public long matrixSumQueries(int n, int[][] queries) {
-        Set<Integer> row = new HashSet<>();
-        Set<Integer> col = new HashSet<>();
+        Set<Integer>[] set = new HashSet[2];
+        Arrays.setAll(set, k -> new HashSet<>());
         long res = 0L;
         for (int i = queries.length - 1; i >= 0; --i) {
             int type = queries[i][0];
             int index = queries[i][1];
             int val = queries[i][2];
-            if (type == 0) {
-                if (row.add(index)) {
-                    res += (long) val * (n - col.size());
-                }
-            } else {
-                if (col.add(index)) {
-                    res += (long) val * (n - row.size());
-                }
+            if (set[type].add(index)) {
+                res += (long) val * (n - set[type ^ 1].size());
             }
         }
         return res;
