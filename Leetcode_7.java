@@ -8332,6 +8332,7 @@ public class Leetcode_7 {
         for (int i = 0; i < m_gmi_3; ++i) {
             for (int j = 0; j < n_gmi_3; ++j) {
                 if (grid[i][j] == 'W') {
+                    flag_gmi_3 = false;
                     int cur = checkMaxTerritory_gmi_3(i, j);
                     if (!flag_gmi_3) {
                         res += cur;
