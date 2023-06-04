@@ -8394,33 +8394,37 @@ public class Leetcode_7 {
     }
 
     // 6396. 统计整数数目 (Count of Integers)
+    private int min_sum6396;
+    private int max_sum6396;
+
     public int count(String num1, String num2, int min_sum, int max_sum) {
         final long MOD = (long) (1e9 + 7);
-        return (int) (((getNum6396(num2, min_sum, max_sum) - getNum6396(num1, min_sum, max_sum) + MOD) % MOD
-                + (check6396(num1, min_sum, max_sum) ? 1 : 0)) % MOD);
+        this.min_sum6396 = min_sum;
+        this.max_sum6396 = max_sum;
+        return (int) (((getNum6396(num2) - getNum6396(num1) + MOD) % MOD
+                + (check6396(num1) ? 1 : 0)) % MOD);
 
     }
 
-    private boolean check6396(String num, int min_sum, int max_sum) {
+    private boolean check6396(String num) {
         int sum = 0;
         for (char c : num.toCharArray()) {
             sum += c - '0';
+            if (sum > max_sum6396) {
+                return false;
+            }
         }
-        return sum >= min_sum && sum <= max_sum;
+        return sum >= min_sum6396;
     }
 
     private int[][] memo6396;
     private int n6396;
-    private int min_sum6396;
-    private int max_sum6396;
     private char[] arr6396;
 
-    private int getNum6396(String num, int min_sum, int max_sum) {
+    private int getNum6396(String num) {
         this.n6396 = num.length();
-        this.min_sum6396 = min_sum;
-        this.max_sum6396 = max_sum;
         this.arr6396 = num.toCharArray();
-        this.memo6396 = new int[n6396][max_sum + 1];
+        this.memo6396 = new int[n6396][max_sum6396 + 1];
         for (int i = 0; i < n6396; ++i) {
             Arrays.fill(memo6396[i], -1);
         }
