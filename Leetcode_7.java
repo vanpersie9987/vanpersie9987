@@ -8420,8 +8420,8 @@ public class Leetcode_7 {
         this.min_sum6396 = min_sum;
         this.max_sum6396 = max_sum;
         this.arr6396 = num.toCharArray();
-        this.memo6396 = new int[n6396 + 2][max_sum + 1];
-        for (int i = 0; i < n6396 + 2; ++i) {
+        this.memo6396 = new int[n6396][max_sum + 1];
+        for (int i = 0; i < n6396; ++i) {
             Arrays.fill(memo6396[i], -1);
         }
         return dfs6396(0, 0, false, true);
