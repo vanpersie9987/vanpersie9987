@@ -569,6 +569,45 @@ public class LeetCode_2 {
 
    }
 
+   // 面试题 08.11. 硬币 (Coin LCCI)
+   private int[][] memo_08_11;
+   private int n_08_11;
+   private int[] map_08_11 = { 25, 10, 5, 1 };
+
+   public int waysToChange2(int n) {
+      this.n_08_11 = n;
+      this.memo_08_11 = new int[n + 1][3];
+      for (int i = 0; i < n + 1; ++i) {
+         Arrays.fill(memo_08_11[i], -1);
+      }
+      return dfs_08_11(0, 0);
+
+   }
+
+   private int dfs_08_11(int sum, int coin) {
+      if (sum == n_08_11) {
+         return 1;
+      }
+      if (coin == 2) {
+         return (n_08_11 - sum + map_08_11[coin]) / map_08_11[coin];
+      }
+      // if (coin == 3) {
+      // return sum <= n ? 1 : 0;
+      // }
+      if (memo_08_11[sum][coin] != -1) {
+         return memo_08_11[sum][coin];
+      }
+      final int MOD = (int) (1e9 + 7);
+      int res = 0;
+      // 不选
+      res = (res + dfs_08_11(sum, coin + 1)) % MOD;
+      // 选
+      if (sum + map_08_11[coin] <= n_08_11) {
+         res = (res + dfs_08_11(sum + map_08_11[coin], coin)) % MOD;
+      }
+      return memo_08_11[sum][coin] = res;
+   }
+
    // 520. 检测大写字母 (Detect Capital)
    public boolean detectCapitalUse(String word) {
       return allUpperCases(word) || allLowerCases(word) || onlyLeadingCharUpperCase(word);
