@@ -9338,6 +9338,7 @@ public class LeetCode_4 {
     private int[][] memo518;
 
     public int change2(int amount, int[] coins) {
+        Arrays.sort(coins);
         this.amount518 = amount;
         this.coins518 = coins;
         this.n518 = coins.length;
@@ -9345,24 +9346,25 @@ public class LeetCode_4 {
         for (int i = 0; i < n518; ++i) {
             Arrays.fill(memo518[i], -1);
         }
-        return dfs518(0, 0);
+        return dfs518(n518 - 1, 0);
 
     }
 
-    private int dfs518(int i, int curAmount) {
-        if (i == n518 || curAmount >= amount518) {
-            return curAmount == amount518 ? 1 : 0;
+    private int dfs518(int i, int sum) {
+        if (i < 0 || sum == amount518) {
+            return sum == amount518 ? 1 : 0;
         }
-        if (memo518[i][curAmount] != -1) {
-            return memo518[i][curAmount];
+        if (memo518[i][sum] != -1) {
+            return memo518[i][sum];
         }
         int res = 0;
-        int c = 0;
-        while (c * coins518[i] + curAmount <= amount518) {
-            res += dfs518(i + 1, c * coins518[i] + curAmount);
-            ++c;
+        // 不选
+        res += dfs518(i - 1, sum);
+        // 选
+        if (sum + coins518[i] <= amount518) {
+            res += dfs518(i, sum + coins518[i]);
         }
-        return memo518[i][curAmount] = res;
+        return memo518[i][sum] = res;
     }
 
     // 1155. 掷骰子的N种方法 (Number of Dice Rolls With Target Sum)
