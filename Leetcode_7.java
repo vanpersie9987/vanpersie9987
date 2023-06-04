@@ -8315,6 +8315,56 @@ public class Leetcode_7 {
     
     }
 
+    // google mock interview
+    // https://www.youtube.com/watch?v=JU2ZpooE9PM
+    // 52'40"
+    private boolean flag_gmi_3;
+    private char[][] grid_gmi_3;
+    private int m_gmi_3;
+    private int n_gmi_3;
+    private int[][] dirs_gmi_3 = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+
+    public int getMaxTerritory3(char[][] grid) {
+        this.m_gmi_3 = grid.length;
+        this.n_gmi_3 = grid[0].length;
+        int res = 0;
+        this.grid_gmi_3 = grid;
+        for (int i = 0; i < m_gmi_3; ++i) {
+            for (int j = 0; j < n_gmi_3; ++j) {
+                if (grid[i][j] == 'W') {
+                    int cur = checkMaxTerritory_gmi_3(i, j);
+                    if (!flag_gmi_3) {
+                        res += cur;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    private int checkMaxTerritory_gmi_3(int i, int j) {
+        Queue<int[]> q = new LinkedList<>();
+        int cnts = 0;
+        q.offer(new int[] { i, j });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int y = cur[1];
+            if (x == 0 || x == m_gmi_3 - 1 || y == 0 || y == n_gmi_3 - 1) {
+                flag_gmi_3 = true;
+            }
+            ++cnts;
+            for (int[] d : dirs_gmi_3) {
+                int nx = x + d[0];
+                int ny = y + d[1];
+                if (nx >= 0 && nx < m_gmi_3 && ny >= 0 && ny < n_gmi_3 && grid_gmi_3[nx][ny] == 'W') {
+                    grid_gmi_3[nx][ny] = 'B';
+                    q.offer(new int[] { nx, ny });
+                }
+            }
+        }
+        return cnts;
+    }
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
