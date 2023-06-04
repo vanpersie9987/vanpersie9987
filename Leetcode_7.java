@@ -8312,7 +8312,7 @@ public class Leetcode_7 {
                 }
             }
         }
-    
+
     }
 
     // google mock interview
@@ -8365,6 +8365,114 @@ public class Leetcode_7 {
             }
         }
         return cnts;
+    }
+
+    // 6462. 最小化字符串长度 (Minimize String Length)
+    public int minimizedStringLength(String s) {
+        int m = 0;
+        for (char c : s.toCharArray()) {
+            m |= 1 << (c - 'a');
+        }
+        return Integer.bitCount(m);
+
+    }
+
+    // 6424. 半有序排列 (Semi-Ordered Permutation)
+    public int semiOrderedPermutation(int[] nums) {
+        int n = nums.length;
+        int i1 = -1;
+        int i2 = -1;
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] == 1) {
+                i1 = i;
+            } else if (nums[i] == n) {
+                i2 = i;
+            }
+        }
+        int cnts = i1 + n - 1 - i2;
+        return i1 < i2 ? cnts : cnts - 1;
+    }
+
+    // 6396. 统计整数数目 (Count of Integers)
+    public int count(String num1, String num2, int min_sum, int max_sum) {
+        final long MOD = (long) (1e9 + 7);
+        return (int) (((getNum6396(num2, min_sum, max_sum) - getNum6396(num1, min_sum, max_sum) + MOD) % MOD
+                + (check6396(num1, min_sum, max_sum) ? 1 : 0)) % MOD);
+
+    }
+
+    private boolean check6396(String num, int min_sum, int max_sum) {
+        int sum = 0;
+        for (char c : num.toCharArray()) {
+            sum += c - '0';
+        }
+        return sum >= min_sum && sum <= max_sum;
+    }
+
+    private int[][] memo6396;
+    private int n6396;
+    private int min_sum6396;
+    private int max_sum6396;
+    private char[] arr6396;
+
+    private int getNum6396(String num, int min_sum, int max_sum) {
+        this.n6396 = num.length();
+        this.min_sum6396 = min_sum;
+        this.max_sum6396 = max_sum;
+        this.arr6396 = num.toCharArray();
+        this.memo6396 = new int[n6396 + 2][max_sum + 1];
+        for (int i = 0; i < n6396 + 2; ++i) {
+            Arrays.fill(memo6396[i], -1);
+        }
+        return dfs6396(0, 0, false, true);
+    }
+
+    private int dfs6396(int i, int sum, boolean isNum, boolean isLimit) {
+        if (i == n6396) {
+            return sum >= min_sum6396 && sum <= max_sum6396 ? 1 : 0;
+        }
+        if (isNum && !isLimit && memo6396[i][sum] != -1) {
+            return memo6396[i][sum];
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = 0;
+        if (!isNum) {
+            res = (res + dfs6396(i + 1, sum, false, false)) % MOD;
+        }
+        int up = isLimit ? arr6396[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            if (d + sum > max_sum6396) {
+                break;
+            }
+            res = (res + dfs6396(i + 1, sum + d, true, d == up && isLimit)) % MOD;
+        }
+        if (isNum && !isLimit) {
+            memo6396[i][sum] = res;
+        }
+        return res;
+    }
+
+    // 6472. 查询后矩阵的和 (Sum of Matrix After Queries)
+    public long matrixSumQueries(int n, int[][] queries) {
+        Set<Integer> row = new HashSet<>();
+        Set<Integer> col = new HashSet<>();
+        long res = 0L;
+        for (int i = queries.length - 1; i >= 0; --i) {
+            int type = queries[i][0];
+            int index = queries[i][1];
+            int val = queries[i][2];
+            if (type == 0) {
+                if (row.add(index)) {
+                    res += (long) val * (n - col.size());
+                }
+            } else {
+                if (col.add(index)) {
+                    res += (long) val * (n - row.size());
+                }
+            }
+        }
+        return res;
+
     }
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
@@ -8485,5 +8593,4 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
-
 }
