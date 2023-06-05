@@ -8523,6 +8523,87 @@ public class Leetcode_7 {
         return original == reverse;
     }
 
+    // 928. 尽量减少恶意软件的传播  (Minimize Malware Spread II)
+    public int minMalwareSpreadII(int[][] graph, int[] initial) {
+        int n = graph.length;
+        int min = n + 1;
+        int res = -1;
+        Set<Integer> set = Arrays.stream(initial).boxed().collect(Collectors.toSet());
+        for (int remove : set) {
+            Union928 union = new Union928(n);
+            for (int i = 0; i < n; ++i) {
+                for (int j = 0; j < n; ++j) {
+                    if (graph[i][j] == 1 && i != remove && j != remove) {
+                        union.union(i, j);
+                    }
+                }
+            }
+            int cur = 0;
+            search: for (int i = 0; i < n; ++i) {
+                if (i == remove) {
+                    continue;
+                }
+                for (int poi : set) {
+                    if (poi == remove) {
+                        continue;
+                    }
+                    if (union.isConnected(i, poi)) {
+                        ++cur;
+                        continue search;
+                    }
+                }
+            }
+            if (cur < min) {
+                min = cur;
+                res = remove;
+            } else if (cur == min && res > remove) {
+                res = remove;
+            }
+        }
+        return res;
+    }
+
+    public class Union928 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union928(int n) {
+            rank = new int[n];
+            parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                rank[i] = 1;
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+    }
+
 
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
