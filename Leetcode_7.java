@@ -8473,6 +8473,58 @@ public class Leetcode_7 {
 
     }
 
+    // 906. 超级回文数 (Super Palindromes)
+    public int superpalindromesInRange(String left, String right) {
+        int res = 0;
+        long l = Long.valueOf(left);
+        long r = Long.valueOf(right);
+        int limit = (int) 1e5;
+        for (int i = 1; i < limit; ++i) {
+            StringBuilder builder = new StringBuilder(String.valueOf(i));
+            int j = builder.length() - 2;
+            while (j >= 0) {
+                builder.append(builder.charAt(j--));
+            }
+            long val = Long.valueOf(builder.toString());
+            val *= val;
+            if (val > r) {
+                break;
+            }
+            if (val >= l && check906(val)) {
+                ++res;
+            }
+        }
+
+        for (int i = 1; i < limit; ++i) {
+            StringBuilder builder = new StringBuilder(String.valueOf(i));
+            int j = builder.length() - 1;
+            while (j >= 0) {
+                builder.append(builder.charAt(j--));
+            }
+            long val = Long.valueOf(builder.toString());
+            val *= val;
+            if (val > r) {
+                break;
+            }
+            if (val >= l && check906(val)) {
+                ++res;
+            }
+        }
+        return res;
+    }
+
+    private boolean check906(long val) {
+        long original = val;
+        long reverse = 0L;
+        while (val != 0) {
+            reverse = reverse * 10 + val % 10;
+            val /= 10;
+        }
+        return original == reverse;
+    }
+
+
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
     // private int[][] memo1186;
@@ -8591,4 +8643,5 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 }
