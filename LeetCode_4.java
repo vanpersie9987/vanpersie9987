@@ -6268,21 +6268,23 @@ public class LeetCode_4 {
     // 6125. 相等行列对
     public int equalPairs(int[][] grid) {
         int n = grid.length;
-        int res = 0;
+        Map<List<Integer>, Integer> map = new HashMap<>();
         for (int i = 0; i < n; ++i) {
-            int[] row = grid[i];
-            int[] col = new int[n];
+            List<Integer> list = new ArrayList<>();
             for (int j = 0; j < n; ++j) {
-                for (int k = 0; k < n; ++k) {
-                    col[k] = grid[k][j];
-                }
-                if (Arrays.equals(row, col)) {
-                    ++res;
-                }
+                list.add(grid[i][j]);
             }
+            map.merge(list, 1, Integer::sum);
+        }
+        int res = 0;
+        for (int j = 0; j < n; ++j) {
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < n; ++i) {
+                list.add(grid[i][j]);
+            }
+            res += map.getOrDefault(list, 0);
         }
         return res;
-
     }
 
     // 2353. 设计食物评分系统
