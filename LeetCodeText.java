@@ -20094,38 +20094,38 @@ public class LeetCodeText {
         }
         this.seg300 = new int[Integer.bitCount(max) == 1 ? max << 1 : Integer.highestOneBit(max) << 2];
         for (int x : nums) {
-            int cur = query(1, 1, max, 1, x - 1) + 1;
-            modify(1, 1, max, x, cur);
+            int cur = query300(1, 1, max, 1, x - 1) + 1;
+            modify300(1, 1, max, x, cur);
         }
         return seg300[1];
 
     }
 
-    private void modify(int o, int l, int r, int id, int val) {
+    private void modify300(int o, int l, int r, int id, int val) {
         if (l == r) {
             seg300[o] = val;
             return;
         }
         int mid = l + ((r - l) >> 1);
         if (id <= mid) {
-            modify(o * 2, l, mid, id, val);
+            modify300(o * 2, l, mid, id, val);
         } else {
-            modify(o * 2 + 1, mid + 1, r, id, val);
+            modify300(o * 2 + 1, mid + 1, r, id, val);
         }
         seg300[o] = Math.max(seg300[o * 2], seg300[o * 2 + 1]);
     }
 
-    private int query(int o, int l, int r, int L, int R) {
+    private int query300(int o, int l, int r, int L, int R) {
         if (L <= l && r <= R) {
             return seg300[o];
         }
         int mid = l + ((r - l) >> 1);
         int max = 0;
         if (L <= mid) {
-            max = query(o * 2, l, mid, L, R);
+            max = query300(o * 2, l, mid, L, R);
         }
         if (R >= mid + 1) {
-            max = Math.max(max, query(o * 2 + 1, mid + 1, r, L, R));
+            max = Math.max(max, query300(o * 2 + 1, mid + 1, r, L, R));
         }
         return max;
     }
