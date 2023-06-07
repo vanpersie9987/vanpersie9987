@@ -8604,7 +8604,7 @@ public class Leetcode_7 {
         }
     }
 
-    // 2407. 最长递增子序列 II (Longest Increasing Subsequence II)
+    // 2407. 最长递增子序列 II (Longest Increasing Subsequence II) --线段树
     private int[] seg2407;
 
     public int lengthOfLIS(int[] nums, int k) {
@@ -8641,7 +8641,7 @@ public class Leetcode_7 {
 
     private void modify2407(int o, int l, int r, int id, int val) {
         if (l == r) {
-            seg2407[o] = Math.max(seg2407[o], val);
+            seg2407[o] = val;
             return;
         }
         int mid = l + ((r - l) >> 1);
