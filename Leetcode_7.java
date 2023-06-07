@@ -8653,7 +8653,7 @@ public class Leetcode_7 {
         seg2407[o] = Math.max(seg2407[o * 2], seg2407[o * 2 + 1]);
     }
 
-    // 2569. 更新数组后处理求和查询 (Handling Sum Queries After Update)
+    // 2569. 更新数组后处理求和查询 (Handling Sum Queries After Update) --线段树
     private int[] cnt1_2569;
     private boolean[] flip_2569;
     private int[] nums1_2569;
@@ -8729,6 +8729,11 @@ public class Leetcode_7 {
         cnt1_2569[o] = r - l + 1 - cnt1_2569[o];
         flip_2569[o] = !flip_2569[o];
     }
+
+    // 2179. 统计数组中好三元组数目 (Count Good Triplets in an Array)
+    // public long goodTriplets(int[] nums1, int[] nums2) {
+
+    // }
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
