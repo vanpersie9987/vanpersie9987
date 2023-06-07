@@ -8653,7 +8653,82 @@ public class Leetcode_7 {
         seg2407[o] = Math.max(seg2407[o * 2], seg2407[o * 2 + 1]);
     }
 
+    // 2569. 更新数组后处理求和查询 (Handling Sum Queries After Update)
+    private int[] cnt1_2569;
+    private boolean[] flip_2569;
+    private int[] nums1_2569;
 
+    public long[] handleQuery(int[] nums1, int[] nums2, int[][] queries) {
+        int n = nums1.length;
+        this.cnt1_2569 = new int[n * 4];
+        this.flip_2569 = new boolean[n * 4];
+        this.nums1_2569 = nums1;
+        long sum = 0L;
+        for (int x : nums2) {
+            sum += x;
+        }
+        int m = 0;
+        for (int[] q : queries) {
+            if (q[0] == 3) {
+                ++m;
+            }
+        }
+        build2569(1, 1, n);
+        long[] res = new long[m];
+        int i = 0;
+        for (int[] q : queries) {
+            if (q[0] == 1) {
+                update2569(1, 1, n, q[1] + 1, q[2] + 1);
+            } else if (q[0] == 2) {
+                sum += (long) q[1] * cnt1_2569[1];
+            } else {
+                res[i++] = sum;
+            }
+        }
+        return res;
+
+    }
+
+    private void build2569(int o, int l, int r) {
+        if (l == r) {
+            cnt1_2569[o] = nums1_2569[l - 1];
+            return;
+        }
+        int mid = l + ((r - l) >> 1);
+        build2569(o * 2, l, mid);
+        build2569(o * 2 + 1, mid + 1, r);
+        maintain2569(o);
+    }
+
+    private void maintain2569(int o) {
+        cnt1_2569[o] = cnt1_2569[o * 2] + cnt1_2569[o * 2 + 1];
+    }
+
+    private void update2569(int o, int l, int r, int L, int R) {
+        if (L <= l && r <= R) {
+            _do2569(o, l, r);
+            return;
+        }
+        int mid = l + ((r - l) >> 1);
+        if (flip_2569[o]) {
+            _do2569(o * 2, l, mid);
+            _do2569(o * 2 + 1, mid + 1, r);
+            flip_2569[o] = false;
+        }
+        if (L <= mid) {
+            update2569(o * 2, l, mid, L, R);
+        }
+        if (R >= mid + 1) {
+            update2569(o * 2 + 1, mid + 1, r, L, R);
+        }
+        maintain2569(o);
+
+    }
+
+    private void _do2569(int o, int l, int r) {
+        cnt1_2569[o] = r - l + 1 - cnt1_2569[o];
+        flip_2569[o] = !flip_2569[o];
+    }
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
