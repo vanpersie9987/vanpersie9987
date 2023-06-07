@@ -8604,6 +8604,55 @@ public class Leetcode_7 {
         }
     }
 
+    // 2407. 最长递增子序列 II (Longest Increasing Subsequence II)
+    private int[] seg2407;
+
+    public int lengthOfLIS(int[] nums, int k) {
+        int max = 0;
+        for (int x : nums) {
+            max = Math.max(max, x);
+        }
+        this.seg2407 = new int[max * 4];
+        for (int x : nums) {
+            if (x == 1) {
+                modify2407(1, 1, max, 1, 1);
+            } else {
+                int cur = query2407(1, 1, max, Math.max(1, x - k), x - 1) + 1;
+                modify2407(1, 1, max, x, cur);
+            }
+        }
+        return seg2407[1];
+    }
+
+    private int query2407(int o, int l, int r, int L, int R) {
+        if (L <= l && r <= R) {
+            return seg2407[o];
+        }
+        int mid = l + ((r - l) >> 1);
+        int max = 0;
+        if (L <= mid) {
+            max = query2407(o * 2, l, mid, L, R);
+        }
+        if (R >= mid + 1) {
+            max = Math.max(max, query2407(o * 2 + 1, mid + 1, r, L, R));
+        }
+        return max;
+    }
+
+    private void modify2407(int o, int l, int r, int id, int val) {
+        if (l == r) {
+            seg2407[o] = Math.max(seg2407[o], val);
+            return;
+        }
+        int mid = l + ((r - l) >> 1);
+        if (id <= mid) {
+            modify2407(o * 2, l, mid, id, val);
+        } else {
+            modify2407(o * 2 + 1, mid + 1, r, id, val);
+        }
+        seg2407[o] = Math.max(seg2407[o * 2], seg2407[o * 2 + 1]);
+    }
+
 
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
