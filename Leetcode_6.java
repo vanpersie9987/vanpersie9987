@@ -3898,8 +3898,8 @@ public class Leetcode_6 {
         dfs2458_2(node.left, h + 1);
     }
 
-    // 315. 计算右侧小于当前元素的个数 (Count of Smaller Numbers After Self) --二分查找 还需掌握 树状数组
-    // 归并排序
+    // 315. 计算右侧小于当前元素的个数 (Count of Smaller Numbers After Self) --二分查找 
+    // 还需掌握：树状数组 归并排序
     private List<Integer> list315;
 
     public List<Integer> countSmaller(int[] nums) {
