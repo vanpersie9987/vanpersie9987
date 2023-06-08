@@ -8838,6 +8838,83 @@ public class Leetcode_7 {
         return cnt;
     }
 
+    // 1707. 与数组中元素的最大异或值 (Maximum XOR With an Element From Array) --离线询问 字典树
+    public int[] maximizeXor(int[] nums, int[][] queries) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int m = queries.length;
+        int[][] nq = new int[m][3];
+        for (int i = 0; i < m; ++i) {
+            nq[i][0] = queries[i][0];
+            nq[i][1] = queries[i][1];
+            nq[i][2] = i;
+        }
+        Arrays.sort(nq, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[1], o2[1]);
+            }
+
+        });
+        Trie1707 trie = new Trie1707();
+        int[] res = new int[m];
+        int i = 0;
+        int j = 0;
+        while (i < n && j < m) {
+            while (i < n && nums[i] <= nq[j][1]) {
+                trie.insert(nums[i++]);
+            }
+            if (i == 0) {
+                res[nq[j++][2]] = -1;
+                continue;
+            }
+            int cur = trie.getMaxXOR(nq[j][0]);
+            res[nq[j++][2]] = cur;
+        }
+        while (j < m) {
+            int cur = trie.getMaxXOR(nq[j][0]);
+            res[nq[j++][2]] = cur;
+        }
+        return res;
+
+    }
+
+    public class Trie1707 {
+        private Trie1707[] children;
+        private final int L = 30;
+
+        public Trie1707() {
+            children = new Trie1707[2];
+        }
+
+        public void insert(int val) {
+            Trie1707 node = this;
+            for (int i = L - 1; i >= 0; --i) {
+                int index = (val >> i) & 1;
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie1707();
+                }
+                node = node.children[index];
+            }
+        }
+
+        public int getMaxXOR(int val) {
+            Trie1707 node = this;
+            int res = 0;
+            for (int i = L - 1; i >= 0; --i) {
+                int bit = (val >> i) & 1;
+                if (node.children[bit ^ 1] != null) {
+                    res |= 1 << i;
+                    bit ^= 1;
+                }
+                node = node.children[bit];
+            }
+            return res;
+        }
+    }
+
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
     // private int[][] memo1186;
