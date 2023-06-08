@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.logging.LogManager;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -8730,10 +8731,54 @@ public class Leetcode_7 {
         flip_2569[o] = !flip_2569[o];
     }
 
-    // 2179. 统计数组中好三元组数目 (Count Good Triplets in an Array)
-    // public long goodTriplets(int[] nums1, int[] nums2) {
+    // 2179. 统计数组中好三元组数目 (Count Good Triplets in an Array) --二分查找
+    public long goodTriplets(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        int[] arr = new int[n];
+        for (int i = 0; i < n; ++i) {
+            arr[nums1[i]] = i;
+        }
+        int[] t = new int[n];
+        for (int i = 0; i < n; ++i) {
+            t[i] = arr[nums2[i]];
+        }
+        long res = 0L;
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            int less = binarySearch2179(list, t[i]);
+            int more = n - i - 1 - (t[i] - less);
+            res += (long) less * more;
+        }
+        return res;
 
-    // }
+    }
+
+    // 找排序数组list中，严格小于target的个数
+    private int binarySearch2179(List<Integer> list, int target) {
+        int n = list.size();
+        if (list.isEmpty() || target <= list.get(0)) {
+            list.add(0, target);
+            return 0;
+        }
+        if (target > list.get(n - 1)) {
+            list.add(target);
+            return n;
+        }
+        int left = 0;
+        int right = n - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (list.get(mid) < target) {
+                res = mid + 1;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        list.add(res, target);
+        return res;
+    }
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
