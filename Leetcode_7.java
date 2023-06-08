@@ -8780,6 +8780,64 @@ public class Leetcode_7 {
         return res;
     }
 
+    // 2179. 统计数组中好三元组数目 (Count Good Triplets in an Array) --线段树
+    private int[] seg2179;
+
+    public long goodTriplets2(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        this.seg2179 = new int[n * 4];
+        int[] arr = new int[n];
+        for (int i = 0; i < n; ++i) {
+            arr[nums1[i]] = i;
+        }
+        int[] t = new int[n];
+        for (int i = 0; i < n; ++i) {
+            t[i] = arr[nums2[i]];
+        }
+        long res = 0L;
+        for (int i = 0; i < n; ++i) {
+            int x = t[i];
+            ++x;
+            if (x > 1) {
+                int less = query2179(1, 1, n, 1, x - 1);
+                int more = n - i - 1 - (t[i] - less);
+                res += (long) less * more;
+            }
+            modify2179(1, 1, n, x);
+        }
+        return res;
+
+    }
+
+    private void modify2179(int o, int l, int r, int id) {
+        if (l == r) {
+            seg2179[o] = 1;
+            return;
+        }
+        int mid = l + ((r - l) >> 1);
+        if (id <= mid) {
+            modify2179(o * 2, l, mid, id);
+        } else {
+            modify2179(o * 2 + 1, mid + 1, r, id);
+        }
+        seg2179[o] = seg2179[o * 2] + seg2179[o * 2 + 1];
+    }
+
+    private int query2179(int o, int l, int r, int L, int R) {
+        if (L <= l && r <= R) {
+            return seg2179[o];
+        }
+        int mid = l + ((r - l) >> 1);
+        int cnt = 0;
+        if (L <= mid) {
+            cnt += query2179(o * 2, l, mid, L, R);
+        }
+        if (R >= mid + 1) {
+            cnt += query2179(o * 2 + 1, mid + 1, r, L, R);
+        }
+        return cnt;
+    }
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
     // private int[][] memo1186;
