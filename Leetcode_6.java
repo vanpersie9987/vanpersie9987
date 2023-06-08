@@ -3939,6 +3939,61 @@ public class Leetcode_6 {
         return count;
     }
 
+    // 315. 计算右侧小于当前元素的个数 (Count of Smaller Numbers After Self) --线段树
+    private int[] cnts315;
+
+    public List<Integer> countSmaller2(int[] nums) {
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        int n = nums.length;
+        for (int x : nums) {
+            min = Math.min(min, x);
+            max = Math.max(max, x);
+        }
+        int add = Math.max(0, 2 - min);
+        int m = max + add;
+        this.cnts315 = new int[m * 4];
+        List<Integer> res = new ArrayList<>();
+        for (int i = n - 1; i >= 0; --i) {
+            int x = nums[i] + add;
+            int cnt = query315(1, 1, m, 1, x - 1);
+            res.add(cnt);
+            add315(1, 1, m, x);
+        }
+        Collections.reverse(res);
+        return res;
+
+    }
+
+    private void add315(int o, int l, int r, int id) {
+        if (l == r) {
+            ++cnts315[o];
+            return;
+        }
+        int m = l + ((r - l) >> 1);
+        if (id <= m) {
+            add315(o * 2, l, m, id);
+        } else {
+            add315(o * 2 + 1, m + 1, r, id);
+        }
+        cnts315[o] = cnts315[o * 2] + cnts315[o * 2 + 1];
+    }
+
+    private int query315(int o, int l, int r, int L, int R) {
+        if (L <= l && r <= R) {
+            return cnts315[o];
+        }
+        int m = l + ((r - l) >> 1);
+        int cnt = 0;
+        if (L <= m) {
+            cnt += query315(o * 2, l, m, L, R);
+        }
+        if (R >= m + 1) {
+            cnt += query315(o * 2 + 1, m + 1, r, L, R);
+        }
+        return cnt;
+    }
+
     // 2426. 满足不等式的数对数目 (Number of Pairs Satisfying Inequality) --二分查找 还需掌握 树状数组
     public long numberOfPairs(int[] nums1, int[] nums2, int diff) {
         int n = nums1.length;
