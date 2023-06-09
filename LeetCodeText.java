@@ -4879,6 +4879,57 @@ public class LeetCodeText {
         return cnt;
     }
 
+    // 1170. 比较字符串最小字母出现频次 (Compare Strings by Frequency of the Smallest Character)
+    // --线段树
+    private int[] seg1170;
+
+    public int[] numSmallerByFrequency2(String[] queries, String[] words) {
+        final int N = 10;
+        this.seg1170 = new int[N * 4];
+        for (String word : words) {
+            int cnt = check1170(word);
+            insert1170(1, 1, N, cnt);
+        }
+        int n = queries.length;
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            int cnt = check1170(queries[i]);
+            if (cnt < N) {
+                res[i] = query1170(1, 1, N, cnt + 1, N);
+            }
+        }
+        return res;
+    }
+
+    private int query1170(int o, int l, int r, int L, int R) {
+        if (L <= l && r <= R) {
+            return seg1170[o];
+        }
+        int mid = l + ((r - l) >> 1);
+        int cnt = 0;
+        if (L <= mid) {
+            cnt += query1170(o * 2, l, mid, L, R);
+        }
+        if (R >= mid + 1) {
+            cnt += query1170(o * 2 + 1, mid + 1, r, L, R);
+        }
+        return cnt;
+    }
+
+    private void insert1170(int o, int l, int r, int id) {
+        if (l == r) {
+            ++seg1170[o];
+            return;
+        }
+        int mid = l + ((r - l) >> 1);
+        if (id <= mid) {
+            insert1170(o * 2, l, mid, id);
+        } else {
+            insert1170(o * 2 + 1, mid + 1, r, id);
+        }
+        seg1170[o] = seg1170[o * 2] + seg1170[o * 2 + 1];
+    }
+
     // 1331. 数组序号转换 (Rank Transform of an Array)
     public int[] arrayRankTransform(int[] arr) {
         Map<Integer, Integer> map = new HashMap<>();
