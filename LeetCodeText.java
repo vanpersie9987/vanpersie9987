@@ -4846,35 +4846,37 @@ public class LeetCodeText {
 
     }
 
-    // 1170. 比较字符串最小字母出现频次
-    public int[] numSmallerByFrequency(final String[] queries, final String[] words) {
-        int[] counts = new int[12];
-        for (int i = 0; i < words.length; ++i) {
-            ++counts[checkNumSmaller(words[i])];
+    // 1170. 比较字符串最小字母出现频次 (Compare Strings by Frequency of the Smallest Character)
+    public int[] numSmallerByFrequency(String[] queries, String[] words) {
+        int[] cnts = new int[12];
+        for (String word : words) {
+            ++cnts[check1170(word)];
         }
-        for (int i = counts.length - 2; i >= 0; --i) {
-            counts[i] += counts[i + 1];
+        for (int i = 1; i < cnts.length; ++i) {
+            cnts[i] += cnts[i - 1];
         }
-        int[] res = new int[queries.length];
-        for (int i = 0; i < res.length; ++i) {
-            res[i] = counts[checkNumSmaller(queries[i]) + 1];
+        int n = queries.length;
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            int c = check1170(queries[i]);
+            res[i] = cnts[11] - cnts[c];
         }
         return res;
-
     }
 
-    private int checkNumSmaller(String string) {
-        char min = 'z';
-        int count = 0;
-        for (char c : string.toCharArray()) {
-            if (c < min) {
-                min = c;
-                count = 1;
-            } else if (c == min) {
-                ++count;
+    private int check1170(String s) {
+        int min = 26;
+        int cnt = 0;
+        for (char c : s.toCharArray()) {
+            int cur = c - 'a';
+            if (cur < min) {
+                min = cur;
+                cnt = 1;
+            } else if (cur == min) {
+                ++cnt;
             }
         }
-        return count;
+        return cnt;
     }
 
     // 1331. 数组序号转换 (Rank Transform of an Array)
