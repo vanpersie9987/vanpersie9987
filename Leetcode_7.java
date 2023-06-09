@@ -8914,6 +8914,11 @@ public class Leetcode_7 {
         }
     }
 
+    // 1938. 查询最大基因差 (Maximum Genetic Difference Query)
+    // public int[] maxGeneticDifference(int[] parents, int[][] queries) {
+
+    // }
+
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
@@ -9033,5 +9038,6 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
 
 }

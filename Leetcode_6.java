@@ -4577,7 +4577,7 @@ public class Leetcode_6 {
         }
     }
 
-    // 1649. 通过指令创建有序数组 (Create Sorted Array through Instructions) --还需掌握线段树、树状数组
+    // 1649. 通过指令创建有序数组 (Create Sorted Array through Instructions) 二分 --还需掌握 树状数组
     public int createSortedArray(int[] instructions) {
         final int MOD = (int) (1e9 + 7);
         int res = 0;
@@ -4638,6 +4638,61 @@ public class Leetcode_6 {
         }
         list.add(left, target);
         return count;
+    }
+
+    // 1649. 通过指令创建有序数组 (Create Sorted Array through Instructions) 线段树 --还需掌握 树状数组
+    private int[] seg1649;
+
+    public int createSortedArray2(int[] instructions) {
+        int max = Integer.MIN_VALUE;
+        for (int i : instructions) {
+            max = Math.max(max, i);
+        }
+        final int MOD = (int) (1e9 + 7);
+        int n = max + 1;
+        int[] cnts = new int[n + 1];
+        int res = 0;
+        int nums = 0;
+        this.seg1649 = new int[n * 4];
+        for (int i : instructions) {
+            ++i;
+            int less = query1649(1, 1, n, 1, i - 1);
+            // int more = query(1, 1, n, i + 1, n);
+            int more = nums - cnts[i]++ - less;
+            res = (res + Math.min(less, more)) % MOD;
+            insert1649(1, 1, n, i);
+            ++nums;
+        }
+        return res;
+    }
+
+    private void insert1649(int o, int l, int r, int id) {
+        if (l == r) {
+            ++seg1649[o];
+            return;
+        }
+        int mid = l + ((r - l) >> 1);
+        if (id <= mid) {
+            insert1649(o * 2, l, mid, id);
+        } else {
+            insert1649(o * 2 + 1, mid + 1, r, id);
+        }
+        seg1649[o] = seg1649[o * 2] + seg1649[o * 2 + 1];
+    }
+
+    private int query1649(int o, int l, int r, int L, int R) {
+        if (L <= l && r <= R) {
+            return seg1649[o];
+        }
+        int mid = l + ((r - l) >> 1);
+        int cnt = 0;
+        if (L <= mid) {
+            cnt += query1649(o * 2, l, mid, L, R);
+        }
+        if (R >= mid + 1) {
+            cnt += query1649(o * 2 + 1, mid + 1, r, L, R);
+        }
+        return cnt;
     }
 
     // 493. 翻转对 (Reverse Pairs) --归并排序
