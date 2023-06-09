@@ -4997,20 +4997,16 @@ public class LeetCodeText {
         }
 
         return result;
+
     }
 
-    public int minCostToMoveChips(final int[] chips) {
-        int odd = 0;
-        int even = 0;
-        for (int i = 0; i < chips.length; ++i) {
-            if (chips[i] % 2 == 0) {
-                ++even;
-            } else {
-                ++odd;
-            }
+    // 1217. 玩筹码 (Minimum Cost to Move Chips to The Same Position)
+    public int minCostToMoveChips(int[] position) {
+        int[] cnts = new int[2];
+        for (int p : position) {
+            ++cnts[p & 1];
         }
-        return Math.min(even, odd);
-
+        return Math.min(cnts[0], cnts[1]);
     }
 
     // 1222. 可以攻击国王的皇后
