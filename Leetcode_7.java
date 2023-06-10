@@ -3636,7 +3636,8 @@ public class Leetcode_7 {
         }
     }
 
-    // 327. 区间和的个数 (Count of Range Sum) -- 还需实现 归并排序/动态增加节点的线段树/树状数组/平衡二叉搜索树
+    // 327. 区间和的个数 (Count of Range Sum) --二分查找
+    // 还需实现 动态增加节点的线段树/树状数组/平衡二叉搜索树
     public int countRangeSum(int[] nums, int lower, int upper) {
         List<Long> list = new ArrayList<>();
         list.add(0L);
@@ -3725,11 +3726,64 @@ public class Leetcode_7 {
         return res;
     }
 
+    // 327. 区间和的个数 (Count of Range Sum) -- 归并排序
+    // 还需实现 动态增加节点的线段树/树状数组/平衡二叉搜索树
+    public int countRangeSum2(int[] nums, int lower, int upper) {
+        int n = nums.length;
+        long[] sum = new long[n + 1];
+        for (int i = 0; i < n; ++i) {
+            sum[i + 1] = sum[i] + nums[i];
+        }
+        return dfs327(sum, 0, sum.length - 1, lower, upper);
+    }
+
+    private int dfs327(long[] sum, int l, int r, int lower, int upper) {
+        if (l == r) {
+            return 0;
+        }
+        int m = l + ((r - l) >> 1);
+        int n1 = dfs327(sum, l, m, lower, upper);
+        int n2 = dfs327(sum, m + 1, r, lower, upper);
+        int res = n1 + n2;
+        int i = l;
+        int j1 = m + 1;
+        int j2 = m + 1;
+        while (i <= m) {
+            while (j1 <= r && sum[j1] - sum[i] < lower) {
+                ++j1;
+            }
+            while (j2 <= r && sum[j2] - sum[i] <= upper) {
+                ++j2;
+            }
+            res += j2 - j1;
+            ++i;
+        }
+        long[] sorted = new long[r - l + 1];
+        i = l;
+        int j = m + 1;
+        int p = 0;
+        while (i <= m && j <= r) {
+            if (sum[i] <= sum[j]) {
+                sorted[p++] = sum[i++];
+            } else {
+                sorted[p++] = sum[j++];
+            }
+        }
+        while (i <= m) {
+            sorted[p++] = sum[i++];
+        }
+        while (j <= r) {
+            sorted[p++] = sum[j++];
+        }
+        System.arraycopy(sorted, 0, sum, l, sorted.length);
+        return res;
+    }
+
     // 327. 区间和的个数 (Count of Range Sum) -- 离散化、线段树
-    // 还需实现 归并排序/动态增加节点的线段树/树状数组/平衡二叉搜索树
+    // 还需实现 动态增加节点的线段树/树状数组/平衡二叉搜索树
     private int[] seg327;
 
-    public int countRangeSum2(int[] nums, int lower, int upper) {
+    public int countRangeSum3(int[] nums, int lower, int upper) {
         long[] preSum = new long[nums.length + 1];
         for (int i = 0; i < nums.length; ++i) {
             preSum[i + 1] = preSum[i] + nums[i];
