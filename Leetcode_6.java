@@ -4836,10 +4836,10 @@ public class Leetcode_6 {
             int c1 = q[1];
             int r2 = q[2];
             int c2 = q[3];
-            diff[r1 + 1][c1 + 1] += 1;
-            diff[r1 + 1][c2 + 2] -= 1;
-            diff[r2 + 2][c1 + 1] -= 1;
-            diff[r2 + 2][c2 + 2] += 1;
+            ++diff[r1 + 1][c1 + 1];
+            --diff[r1 + 1][c2 + 2];
+            --diff[r2 + 2][c1 + 1];
+            ++diff[r2 + 2][c2 + 2];
         }
         int[][] res = new int[n][n];
         for (int i = 1; i <= n; ++i) {
