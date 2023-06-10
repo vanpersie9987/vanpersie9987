@@ -3680,7 +3680,7 @@ public class Leetcode_6 {
         }
     }
 
-    // 剑指 Offer 51. 数组中的逆序对 --二分查找 还需掌握：线段树、树状数组
+    // 剑指 Offer 51. 数组中的逆序对 --二分查找 还需掌握：树状数组
     public int reversePairs(int[] nums) {
         List<Integer> list = new ArrayList<>();
         int res = 0;
@@ -3718,7 +3718,7 @@ public class Leetcode_6 {
         return count;
     }
 
-    // 剑指 Offer 51. 数组中的逆序对 --归并排序 还需掌握：线段树、树状数组
+    // 剑指 Offer 51. 数组中的逆序对 --归并排序 还需掌握：树状数组
     private int res_offer_051;
 
     public int reversePairs2(int[] nums) {
@@ -3774,6 +3774,61 @@ public class Leetcode_6 {
         }
         return res;
 
+    }
+
+    // 剑指 Offer 51. 数组中的逆序对 -- 离散化、线段树 还需掌握：树状数组
+    private int[] seg_offer_51;
+
+    public int reversePairs3(int[] nums) {
+        // 离散化
+        TreeSet<Integer> treeSet = new TreeSet<>();
+        for (int num : nums) {
+            treeSet.add(num);
+        }
+        int n = treeSet.size() + 1;
+        // key : original num
+        // val : 离散化后的值 不影响计算逆序对
+        Map<Integer, Integer> map = new HashMap<>();
+        int cnt = 2;
+        for (int i : treeSet) {
+            map.put(i, cnt++);
+        }
+        int res = 0;
+        this.seg_offer_51 = new int[n * 4];
+        for (int num : nums) {
+            res += query_offer_51(1, 1, n, map.get(num) + 1, n);
+            insert_offer_51(1, 1, n, map.get(num));
+        }
+        return res;
+    }
+
+    private void insert_offer_51(int o, int l, int r, int id) {
+        if (l == r) {
+            ++seg_offer_51[o];
+            return;
+        }
+        int mid = l + ((r - l) >> 1);
+        if (id <= mid) {
+            insert_offer_51(o * 2, l, mid, id);
+        } else {
+            insert_offer_51(o * 2 + 1, mid + 1, r, id);
+        }
+        seg_offer_51[o] = seg_offer_51[o * 2] + seg_offer_51[o * 2 + 1];
+    }
+
+    private int query_offer_51(int o, int l, int r, int L, int R) {
+        if (L <= l && r <= R) {
+            return seg_offer_51[o];
+        }
+        int res = 0;
+        int mid = l + ((r - l) >> 1);
+        if (L <= mid) {
+            res += query_offer_51(o * 2, l, mid, L, R);
+        }
+        if (R >= mid + 1) {
+            res += query_offer_51(o * 2 + 1, mid + 1, r, L, R);
+        }
+        return res;
     }
 
     // 834. 树中距离之和 (Sum of Distances in Tree) --树型dp
