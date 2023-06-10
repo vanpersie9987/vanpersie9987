@@ -3789,7 +3789,7 @@ public class Leetcode_6 {
         // key : original num
         // val : 离散化后的值 不影响计算逆序对
         Map<Integer, Integer> map = new HashMap<>();
-        int cnt = 2;
+        int cnt = 1;
         for (int i : treeSet) {
             map.put(i, cnt++);
         }

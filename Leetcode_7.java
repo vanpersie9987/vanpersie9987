@@ -3636,7 +3636,7 @@ public class Leetcode_7 {
         }
     }
 
-    // 327. 区间和的个数 (Count of Range Sum) -- 还需实现 归并排序/线段树/动态增加节点的线段树/树状数组/平衡二叉搜索树
+    // 327. 区间和的个数 (Count of Range Sum) -- 还需实现 归并排序/动态增加节点的线段树/树状数组/平衡二叉搜索树
     public int countRangeSum(int[] nums, int lower, int upper) {
         List<Long> list = new ArrayList<>();
         list.add(0L);
@@ -3723,6 +3723,67 @@ public class Leetcode_7 {
             }
         }
         return res;
+    }
+
+    // 327. 区间和的个数 (Count of Range Sum) -- 离散化、线段树
+    // 还需实现 归并排序/动态增加节点的线段树/树状数组/平衡二叉搜索树
+    private int[] seg327;
+
+    public int countRangeSum2(int[] nums, int lower, int upper) {
+        long[] preSum = new long[nums.length + 1];
+        for (int i = 0; i < nums.length; ++i) {
+            preSum[i + 1] = preSum[i] + nums[i];
+        }
+        // 离散化
+        TreeSet<Long> set = new TreeSet<>();
+        for (long pre : preSum) {
+            set.add(pre);
+            set.add(pre - lower);
+            set.add(pre - upper);
+        }
+        int n = 1;
+        Map<Long, Integer> map = new HashMap<>();
+        for (long num : set) {
+            map.put(num, n++);
+        }
+        int res = 0;
+        this.seg327 = new int[n * 4];
+        for (long pre : preSum) {
+            res += query327(1, 1, n, map.get(pre - upper), map.get(pre - lower));
+            insert327(1, 1, n, map.get(pre));
+        }
+        return res;
+
+    }
+
+    private void insert327(int o, int l, int r, int id) {
+        if (l == r) {
+            ++seg327[o];
+            return;
+        }
+        int m = l + ((r - l) >> 1);
+        if (id <= m) {
+            insert327(o * 2, l, m, id);
+        } else {
+            insert327(o * 2 + 1, m + 1, r, id);
+        }
+        // maintain
+        seg327[o] = seg327[o * 2] + seg327[o * 2 + 1];
+    }
+
+    private int query327(int o, int l, int r, int L, int R) {
+        if (L <= l && r <= R) {
+            return seg327[o];
+        }
+        int m = l + ((r - l) >> 1);
+        int cnt = 0;
+        if (L <= m) {
+            cnt += query327(o * 2, l, m, L, R);
+        }
+        if (R >= m + 1) {
+            cnt += query327(o * 2 + 1, m + 1, r, L, R);
+        }
+        return cnt;
     }
 
     // LCP 72. 补给马车
@@ -8913,6 +8974,7 @@ public class Leetcode_7 {
             return res;
         }
     }
+
 
     // 1938. 查询最大基因差 (Maximum Genetic Difference Query)
     // public int[] maxGeneticDifference(int[] parents, int[][] queries) {
