@@ -9078,6 +9078,64 @@ public class Leetcode_7 {
 
     }
 
+    // 6461. 判断一个数是否迷人 (Check if The Number is Fascinating)
+    public boolean isFascinating(int n) {
+        String s = String.valueOf(n) + String.valueOf(n * 2) + String.valueOf(n * 3);
+        int mask = 0;
+        for (char c : s.toCharArray()) {
+            int i = c - '0';
+            if (((mask >> i) & 1) != 0) {
+                return false;
+            }
+            mask |= 1 << i;
+        }
+        return mask == (1 << 10) - 2;
+    }
+
+    // 6425. 找到最长的半重复子字符串 (Find the Longest Semi-Repetitive Substring)
+    public int longestSemiRepetitiveSubstring(String s) {
+        int cnt = 0;
+        int n = s.length();
+        char[] arr = s.toCharArray();
+        int res = 0;
+        int i = 0;
+        int j = 0;
+        while (j < n) {
+            if (j >= 1 && arr[j] == arr[j - 1]) {
+                ++cnt;
+            }
+            while (cnt > 1) {
+                if (arr[i] == arr[i + 1]) {
+                    --cnt;
+                }
+                ++i;
+            }
+            res = Math.max(res, j - i + 1);
+            ++j;
+        }
+        return res;
+
+    }
+
+    // 6426. 移动机器人 (Movement of Robots)
+    public int sumDistance(int[] nums, String s, int d) {
+        int n = nums.length;
+        long[] arr = new long[n];
+        for (int i = 0; i < n; ++i) {
+            arr[i] = (long) nums[i] + (s.charAt(i) == 'R' ? d : -d);
+        }
+        Arrays.sort(arr);
+        long res = 0L;
+        final int MOD = (int) (1e9 + 7);
+        long pre = 0L;
+        for (int i = 0; i < n; ++i) {
+            res = ((res + (long) i * arr[i] % MOD - pre) % MOD + MOD) % MOD;
+            pre = (pre + arr[i]) % MOD;
+        }
+        return (int) (res % MOD);
+
+    }
+
     // 1938. 查询最大基因差 (Maximum Genetic Difference Query)
     // public int[] maxGeneticDifference(int[] parents, int[][] queries) {
 
