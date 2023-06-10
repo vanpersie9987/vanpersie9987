@@ -10,13 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.logging.LogManager;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -9029,6 +9026,57 @@ public class Leetcode_7 {
         }
     }
 
+    // LCP 74. 最强祝福力场 --离散化、二维差分
+    public int fieldOfGreatestBlessing(int[][] forceField) {
+        // 离散化
+        TreeSet<Long> xs = new TreeSet<>();
+        TreeSet<Long> ys = new TreeSet<>();
+        for (int[] f : forceField) {
+            long x = f[0];
+            long y = f[1];
+            long side = f[2];
+            xs.add(x * 2 - side);
+            xs.add(x * 2 + side);
+            ys.add(y * 2 - side);
+            ys.add(y * 2 + side);
+        }
+        Map<Long, Integer> xm = new HashMap<>();
+        Map<Long, Integer> ym = new HashMap<>();
+        int cnt = 0;
+        for (long num : xs) {
+            xm.put(num, cnt++);
+        }
+        cnt = 0;
+        for (long num : ys) {
+            ym.put(num, cnt++);
+        }
+        int m = xm.size();
+        int n = ym.size();
+        int[][] diff = new int[m + 2][n + 2];
+        // 二维差分
+        for (int[] f : forceField) {
+            int x = f[0];
+            int y = f[1];
+            int side = f[2];
+            // 左上
+            diff[xm.get((long) x * 2 - side) + 1][ym.get((long) y * 2 - side) + 1] += 1;
+            // 右上
+            diff[xm.get((long) x * 2 + side) + 2][ym.get((long) y * 2 - side) + 1] -= 1;
+            // 左下
+            diff[xm.get((long) x * 2 - side) + 1][ym.get((long) y * 2 + side) + 2] -= 1;
+            // 右下
+            diff[xm.get((long) x * 2 + side) + 2][ym.get((long) y * 2 + side) + 2] += 1;
+        }
+        int res = 0;
+        for (int i = 1; i < m + 2; ++i) {
+            for (int j = 1; j < n + 2; ++j) {
+                diff[i][j] += diff[i - 1][j] + diff[i][j - 1] - diff[i - 1][j - 1];
+                res = Math.max(res, diff[i][j]);
+            }
+        }
+        return res;
+
+    }
 
     // 1938. 查询最大基因差 (Maximum Genetic Difference Query)
     // public int[] maxGeneticDifference(int[] parents, int[][] queries) {
