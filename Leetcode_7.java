@@ -9055,17 +9055,17 @@ public class Leetcode_7 {
         int[][] diff = new int[m + 2][n + 2];
         // 二维差分
         for (int[] f : forceField) {
-            int x = f[0];
-            int y = f[1];
-            int side = f[2];
+            long x = f[0];
+            long y = f[1];
+            long side = f[2];
             // 左上
-            ++diff[xm.get((long) x * 2 - side) + 1][ym.get((long) y * 2 - side) + 1];
+            ++diff[xm.get(x * 2 - side) + 1][ym.get(y * 2 - side) + 1];
             // 右上
-            --diff[xm.get((long) x * 2 + side) + 2][ym.get((long) y * 2 - side) + 1];
+            --diff[xm.get(x * 2 + side) + 2][ym.get(y * 2 - side) + 1];
             // 左下
-            --diff[xm.get((long) x * 2 - side) + 1][ym.get((long) y * 2 + side) + 2];
+            --diff[xm.get(x * 2 - side) + 1][ym.get(y * 2 + side) + 2];
             // 右下
-            ++diff[xm.get((long) x * 2 + side) + 2][ym.get((long) y * 2 + side) + 2];
+            ++diff[xm.get(x * 2 + side) + 2][ym.get(y * 2 + side) + 2];
         }
         int res = 0;
         for (int i = 1; i < m + 2; ++i) {
