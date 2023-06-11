@@ -9080,6 +9080,7 @@ public class Leetcode_7 {
 
     // 6461. 判断一个数是否迷人 (Check if The Number is Fascinating)
     public boolean isFascinating(int n) {
+        // n的范围123～329
         String s = String.valueOf(n) + String.valueOf(n * 2) + String.valueOf(n * 3);
         int mask = 0;
         for (char c : s.toCharArray()) {
