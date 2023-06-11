@@ -9136,6 +9136,70 @@ public class Leetcode_7 {
 
     }
 
+    // 6470. 既不是最小值也不是最大值 (Neither Minimum nor Maximum)
+    public int findNonMinOrMax(int[] nums) {
+        int n = nums.length;
+        if (n < 3) {
+            return -1;
+        }
+        Arrays.sort(nums, 0, 3);
+        return nums[1];
+
+    }
+
+    // 6465. 执行子串操作后的字典序最小字符串 (Lexicographically Smallest String After Substring Operation)
+    public String smallestString(String s) {
+        char[] arr = s.toCharArray();
+        int n = arr.length;
+        int i = 0;
+        while (i < n) {
+            if (arr[i] != 'a') {
+                break;
+            }
+            ++i;
+        }
+        if (i == n) {
+            arr[n - 1] = 'z';
+            return String.valueOf(arr);
+        }
+        while (i < n && arr[i] != 'a') {
+            --arr[i++];
+        }
+        return String.valueOf(arr);
+
+    }
+
+    // 6463. 找到矩阵中的好子集 (Find a Good Subset of the Matrix)
+    public List<Integer> goodSubsetofBinaryMatrix(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[] idx = new int[1 << n];
+        Arrays.fill(idx, -1);
+        for (int i = 0; i < m; ++i) {
+            int mask = 0;
+            for (int j = 0; j < n; ++j) {
+                mask |= grid[i][j] << j;
+            }
+            if (mask == 0) {
+                return List.of(i);
+            }
+            idx[mask] = i;
+        }
+        for (int i = 0; i < (1 << n); ++i) {
+            for (int j = 0; j < (1 << n); ++j) {
+                if (idx[i] != -1 && idx[j] != -1 && (i & j) == 0) {
+                    if (idx[i] <= idx[j]) {
+                        return List.of(idx[i], idx[j]);
+                    }
+                    return List.of(idx[j], idx[i]);
+                }
+            }
+        }
+        return List.of();
+
+    }
+
+
     // 1938. 查询最大基因差 (Maximum Genetic Difference Query)
     // public int[] maxGeneticDifference(int[] parents, int[][] queries) {
 
