@@ -9200,6 +9200,67 @@ public class Leetcode_7 {
 
     }
 
+    // 336. 回文对 (Palindrome Pairs)
+    public List<List<Integer>> palindromePairs(String[] words) {
+        int n = words.length;
+        Map<String, Integer> reverseMap = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            reverseMap.put(reverse336(words[i]), i);
+        }
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            String word = words[i];
+            if (checkPalindrome336(word) && reverseMap.containsKey("") && !word.isEmpty()) {
+                res.add(List.of(reverseMap.get(""), i));
+            }
+            for (int j = 0; j < word.length(); ++j) {
+                String left = word.substring(0, j);
+                String right = word.substring(j);
+                if (reverseMap.containsKey(left) && checkPalindrome336(right) && reverseMap.get(left) != i) {
+                    res.add(List.of(i, reverseMap.get(left)));
+                }
+                if (reverseMap.containsKey(right) && checkPalindrome336(left) && reverseMap.get(right) != i) {
+                    res.add(List.of(reverseMap.get(right), i));
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private boolean checkPalindrome336(String s) {
+        int n = s.length();
+        int i = 0;
+        int j = n - 1;
+        while (i < j) {
+            if (s.charAt(i) != s.charAt(j)) {
+                return false;
+            }
+            ++i;
+            --j;
+        }
+        return true;
+    }
+
+    private String reverse336(String s) {
+        if (s.isEmpty()) {
+            return s;
+        }
+        int n = s.length();
+        char[] arr = s.toCharArray();
+        int i = 0;
+        int j = n - 1;
+        while (i < j) {
+            if (i != j) {
+                char tmp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmp;
+            }
+            ++i;
+            --j;
+        }
+        return String.valueOf(arr);
+    }
 
     // 1938. 查询最大基因差 (Maximum Genetic Difference Query)
     // public int[] maxGeneticDifference(int[] parents, int[][] queries) {
