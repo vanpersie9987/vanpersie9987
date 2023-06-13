@@ -4861,6 +4861,72 @@ public class Leetcode_6 {
         seg493[o] = seg493[o * 2] + seg493[o * 2 + 1];
     }
 
+    // 493. 翻转对 (Reverse Pairs) --动态开点的线段树
+    public int reversePairs493_3(int[] nums) {
+        long min = Long.MAX_VALUE;
+        long max = Long.MIN_VALUE;
+        for (long num : nums) {
+            min = Math.min(min, num);
+            min = Math.min(min, num * 2);
+            max = Math.max(max, num);
+            max = Math.max(max, num * 2);
+        }
+        SegNode493 root = new SegNode493(min, max);
+        int res = 0;
+        for (long x : nums) {
+            res += count493(root, x * 2 + 1, max);
+            insert493(root, x);
+        }
+        return res;
+
+    }
+
+    private int count493(SegNode493 root, long L, long R) {
+        if (root == null) {
+            return 0;
+        }
+        if (L > root.hi || R < root.lo) {
+            return 0;
+        }
+        if (L <= root.lo && root.hi <= R) {
+            return root.add;
+        }
+        return count493(root.left, L, R) + count493(root.right, L, R);
+    }
+
+    private void insert493(SegNode493 root, long x) {
+        ++root.add;
+        if (root.lo == root.hi) {
+            return;
+        }
+        long mid = root.lo + ((root.hi - root.lo) >> 1);
+        if (x <= mid) {
+            if (root.left == null) {
+                root.left = new SegNode493(root.lo, mid);
+            }
+            insert493(root.left, x);
+        } else {
+            if (root.right == null) {
+                root.right = new SegNode493(mid + 1, root.hi);
+            }
+            insert493(root.right, x);
+        }
+    }
+
+    public class SegNode493 {
+        long lo;
+        long hi;
+        int add;
+        SegNode493 left;
+        SegNode493 right;
+
+        public SegNode493(long lo, long hi) {
+            this.lo = lo;
+            this.hi = hi;
+        }
+
+    }
+
     // 6291. 数组元素和与数字和的绝对差
     public int differenceOfSum(int[] nums) {
         int sum = 0;
