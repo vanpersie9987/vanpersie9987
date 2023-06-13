@@ -4808,6 +4808,59 @@ public class Leetcode_6 {
         return res;
     }
 
+    // 493. 翻转对 (Reverse Pairs) --离散化 线段树
+    private int[] seg493;
+
+    public int reversePairs493_2(int[] nums) {
+        TreeSet<Long> set = new TreeSet<>();
+        for (long num : nums) {
+            set.add(num);
+            set.add(num * 2);
+        }
+        int id = 1;
+        Map<Long, Integer> map = new HashMap<>();
+        for (long x : set) {
+            map.put(x, id++);
+        }
+        this.seg493 = new int[id * 4];
+        int res = 0;
+        for (long x : nums) {
+            res += count493(1, 1, id, map.get(x * 2) + 1, id);
+            insert493(1, 1, id, map.get(x));
+        }
+        return res;
+
+    }
+
+    private int count493(int o, int l, int r, int L, int R) {
+        if (L <= l && r <= R) {
+            return seg493[o];
+        }
+        int res = 0;
+        int mid = l + ((r - l) >> 1);
+        if (L <= mid) {
+            res += count493(o * 2, l, mid, L, R);
+        }
+        if (R >= mid + 1) {
+            res += count493(o * 2 + 1, mid + 1, r, L, R);
+        }
+        return res;
+    }
+
+    private void insert493(int o, int l, int r, int x) {
+        if (l == r) {
+            ++seg493[o];
+            return;
+        }
+        int mid = l + ((r - l) >> 1);
+        if (x <= mid) {
+            insert493(o * 2, l, mid, x);
+        } else {
+            insert493(o * 2 + 1, mid + 1, r, x);
+        }
+        seg493[o] = seg493[o * 2] + seg493[o * 2 + 1];
+    }
+
     // 6291. 数组元素和与数字和的绝对差
     public int differenceOfSum(int[] nums) {
         int sum = 0;
