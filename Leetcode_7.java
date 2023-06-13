@@ -3634,7 +3634,7 @@ public class Leetcode_7 {
     }
 
     // 327. 区间和的个数 (Count of Range Sum) --二分查找
-    // 还需实现 动态增加节点的线段树/树状数组/平衡二叉搜索树
+    // 还需实现 树状数组/平衡二叉搜索树
     public int countRangeSum(int[] nums, int lower, int upper) {
         List<Long> list = new ArrayList<>();
         list.add(0L);
@@ -3724,7 +3724,7 @@ public class Leetcode_7 {
     }
 
     // 327. 区间和的个数 (Count of Range Sum) -- 归并排序
-    // 还需实现 动态增加节点的线段树/树状数组/平衡二叉搜索树
+    // 还需实现 树状数组/平衡二叉搜索树
     public int countRangeSum2(int[] nums, int lower, int upper) {
         int n = nums.length;
         long[] sum = new long[n + 1];
@@ -3777,7 +3777,7 @@ public class Leetcode_7 {
     }
 
     // 327. 区间和的个数 (Count of Range Sum) -- 离散化、线段树
-    // 还需实现 动态增加节点的线段树/树状数组/平衡二叉搜索树
+    // 还需实现 树状数组/平衡二叉搜索树
     private int[] seg327;
 
     public int countRangeSum3(int[] nums, int lower, int upper) {
@@ -3835,6 +3835,75 @@ public class Leetcode_7 {
             cnt += query327(o * 2 + 1, m + 1, r, L, R);
         }
         return cnt;
+    }
+
+    // 327. 区间和的个数 (Count of Range Sum) -- 动态增加节点的线段树
+    // 还需实现 树状数组/平衡二叉搜索树
+    public int countRangeSum4(int[] nums, int lower, int upper) {
+        long[] pre = new long[nums.length + 1];
+        for (int i = 0; i < nums.length; ++i) {
+            pre[i + 1] = pre[i] + nums[i];
+        }
+        long min = Long.MAX_VALUE;
+        long max = Long.MIN_VALUE;
+        for (long x : pre) {
+            min = Math.min(min, x);
+            max = Math.max(max, x);
+        }
+        int res = 0;
+        SegNode327 root = new SegNode327(min, max);
+        for (long num : pre) {
+            res += count327(root, num - upper, num - lower);
+            insert327(root, num);
+        }
+        return res;
+
+    }
+
+    private int count327(SegNode327 root, long L, long R) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.high < L || root.low > R) {
+            return 0;
+        }
+        if (L <= root.low && root.high <= R) {
+            return root.add;
+        }
+        return count327(root.left, L, R) + count327(root.right, L, R);
+    }
+
+    private void insert327(SegNode327 root, long num) {
+        ++root.add;
+        if (root.low == root.high) {
+            return;
+        }
+        long mid = root.low + ((root.high - root.low) >> 1);
+        if (num <= mid) {
+            if (root.left == null) {
+                root.left = new SegNode327(root.low, mid);
+            }
+            insert327(root.left, num);
+        } else {
+            if (root.right == null) {
+                root.right = new SegNode327(mid + 1, root.high);
+            }
+            insert327(root.right, num);
+        }
+    }
+
+    public class SegNode327 {
+        public long low;
+        public long high;
+        public int add;
+        public SegNode327 left;
+        public SegNode327 right;
+
+        public SegNode327(long low, long high) {
+            this.low = low;
+            this.high = high;
+        }
+
     }
 
     // LCP 72. 补给马车
