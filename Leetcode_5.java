@@ -8597,7 +8597,7 @@ public class Leetcode_5 {
 
     }
 
-    // 6241. 数组中不等三元组的数目
+    // 2475. 数组中不等三元组的数目 (Number of Unequal Triplets in Array)
     public int unequalTriplets(int[] nums) {
         int n = nums.length;
         int res = 0;
@@ -8614,7 +8614,7 @@ public class Leetcode_5 {
 
     }
 
-    // 6241. 数组中不等三元组的数目
+    // 2475. 数组中不等三元组的数目 (Number of Unequal Triplets in Array)
     public int unequalTriplets2(int[] nums) {
         Arrays.sort(nums);
         int n = nums.length;
@@ -8628,6 +8628,25 @@ public class Leetcode_5 {
             } else {
                 ++right;
             }
+        }
+        return res;
+
+    }
+
+    // 2475. 数组中不等三元组的数目 (Number of Unequal Triplets in Array)
+    public int unequalTriplets3(int[] nums) {
+        int res = 0;
+        int[] cnts = new int[1001];
+        for (int num : nums) {
+            ++cnts[num];
+        }
+        int n = nums.length;
+        int a = 0;
+        int c = n;
+        for (int cnt : cnts) {
+            c -= cnt;
+            res += a * cnt * c;
+            a += cnt;
         }
         return res;
 
