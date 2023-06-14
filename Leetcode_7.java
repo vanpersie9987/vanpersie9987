@@ -8836,6 +8836,62 @@ public class Leetcode_7 {
         seg2407[o] = Math.max(seg2407[o * 2], seg2407[o * 2 + 1]);
     }
 
+    // 2407. 最长递增子序列 II (Longest Increasing Subsequence II) --动态开点线段树
+    public int lengthOfLIS2(int[] nums, int k) {
+        SegNode2407 root = new SegNode2407((int) -1e5, (int) 1e5);
+        for (int x : nums) {
+            int cur = query2407(root, x - k, x - 1) + 1;
+            modify2407(root, x, cur);
+        }
+        return root.val;
+
+    }
+
+    private void modify2407(SegNode2407 node, int x, int val) {
+        node.val = Math.max(node.val, val);
+        if (node.lo == node.hi) {
+            return;
+        }
+        int mid = node.lo + ((node.hi - node.lo) >> 1);
+        if (x <= mid) {
+            if (node.left == null) {
+                node.left = new SegNode2407(node.lo, mid);
+            }
+            modify2407(node.left, x, val);
+        } else {
+            if (node.right == null) {
+                node.right = new SegNode2407(mid + 1, node.hi);
+            }
+            modify2407(node.right, x, val);
+        }
+    }
+
+    private int query2407(SegNode2407 node, int L, int R) {
+        if (node == null) {
+            return 0;
+        }
+        if (L > node.hi || R < node.lo) {
+            return 0;
+        }
+        if (L <= node.lo && node.hi <= R) {
+            return node.val;
+        }
+        return Math.max(query2407(node.left, L, R), query2407(node.right, L, R));
+    }
+
+    public class SegNode2407 {
+        public int lo;
+        public int hi;
+        public int val;
+        public SegNode2407 left;
+        public SegNode2407 right;
+
+        public SegNode2407(int lo, int hi) {
+            this.lo = lo;
+            this.hi = hi;
+        }
+    }
+
     // 2569. 更新数组后处理求和查询 (Handling Sum Queries After Update) --线段树
     private int[] cnt1_2569;
     private boolean[] flip_2569;
