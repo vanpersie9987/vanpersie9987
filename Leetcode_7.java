@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
@@ -9329,6 +9330,81 @@ public class Leetcode_7 {
             --j;
         }
         return String.valueOf(arr);
+    }
+
+    // 315. 计算右侧小于当前元素的个数 (Count of Smaller Numbers After Self) --动态开点线段树
+    public List<Integer> countSmaller(int[] nums) {
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for (int x : nums) {
+            min = Math.min(min, x);
+            max = Math.max(max, x);
+        }
+        SegNode315 root = new SegNode315(min, max);
+        List<Integer> list = new ArrayList<>();
+        for (int i = nums.length - 1; i >= 0; --i) {
+            list.add(query315(root, min, nums[i] - 1));
+            insert315(root, nums[i]);
+        }
+        Collections.reverse(list);
+        return list;
+
+    }
+
+    private int query315(SegNode315 node, int L, int R) {
+        if (node == null) {
+            return 0;
+        }
+        if (L > node.hi || R < node.lo) {
+            return 0;
+        }
+        if (L <= node.lo && node.hi <= R) {
+            return node.val;
+        }
+        return query315(node.left, L, R) + query315(node.right, L, R);
+    }
+
+    private void insert315(SegNode315 node, int x) {
+        if (node == null) {
+            return;
+        }
+        if (node.hi == node.lo) {
+            ++node.val;
+            return;
+        }
+        int mid = node.lo + ((node.hi - node.lo) >> 1);
+        if (x <= mid) {
+            if (node.left == null) {
+                node.left = new SegNode315(node.lo, mid);
+            }
+            insert315(node.left, x);
+        } else {
+            if (node.right == null) {
+                node.right = new SegNode315(mid + 1, node.hi);
+            }
+            insert315(node.right, x);
+        }
+        node.val = 0;
+        if (node.left != null) {
+            node.val += node.left.val;
+        }
+        if (node.right != null) {
+            node.val += node.right.val;
+        }
+    }
+
+    public class SegNode315 {
+        public int lo;
+        public int hi;
+        public int val;
+        public SegNode315 left;
+        public SegNode315 right;
+
+        public SegNode315(int lo, int hi) {
+            this.lo = lo;
+            this.hi = hi;
+        }
+
     }
 
     // 1938. 查询最大基因差 (Maximum Genetic Difference Query)
