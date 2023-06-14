@@ -8838,7 +8838,7 @@ public class Leetcode_7 {
 
     // 2407. 最长递增子序列 II (Longest Increasing Subsequence II) --动态开点线段树
     public int lengthOfLIS2(int[] nums, int k) {
-        SegNode2407 root = new SegNode2407((int) -1e5, (int) 1e5);
+        SegNode2407 root = new SegNode2407(1, (int) 1e5);
         for (int x : nums) {
             int cur = query2407(root, x - k, x - 1) + 1;
             modify2407(root, x, cur);
