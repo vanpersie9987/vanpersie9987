@@ -3831,6 +3831,62 @@ public class Leetcode_6 {
         return res;
     }
 
+    // 剑指 Offer 51. 数组中的逆序对 -- 动态开点线段树 还需掌握：树状数组
+    public int reversePairs4(int[] nums) {
+        SegNode_Offer_51 root = new SegNode_Offer_51((long) -1e10, (long) 1e10);
+        int res = 0;
+        for (long x : nums) {
+            res += query_offer_51(root, x + 1, (long) 1e10);
+            insert_offer_51(root, x);
+        }
+        return res;
+    }
+
+    private int query_offer_51(SegNode_Offer_51 node, long L, long R) {
+        if (node == null) {
+            return 0;
+        }
+        if (L > node.hi || R < node.lo) {
+            return 0;
+        }
+        if (L <= node.lo && node.hi <= R) {
+            return node.val;
+        }
+        return query_offer_51(node.left, L, R) + query_offer_51(node.right, L, R);
+    }
+
+    private void insert_offer_51(SegNode_Offer_51 node, long x) {
+        ++node.val;
+        if (node.lo == node.hi) {
+            return;
+        }
+        long mid = node.lo + ((node.hi - node.lo) >> 1);
+        if (x <= mid) {
+            if (node.left == null) {
+                node.left = new SegNode_Offer_51(node.lo, mid);
+            }
+            insert_offer_51(node.left, x);
+        } else {
+            if (node.right == null) {
+                node.right = new SegNode_Offer_51(mid + 1, node.hi);
+            }
+            insert_offer_51(node.right, x);
+        }
+    }
+
+    public class SegNode_Offer_51 {
+        public long lo;
+        public long hi;
+        public int val;
+        public SegNode_Offer_51 left;
+        public SegNode_Offer_51 right;
+
+        public SegNode_Offer_51(long lo, long hi) {
+            this.lo = lo;
+            this.hi = hi;
+        }
+    }
+
     // 834. 树中距离之和 (Sum of Distances in Tree) --树型dp
     private Map<Integer, List<Integer>> tree834;
     private int[] size834;
