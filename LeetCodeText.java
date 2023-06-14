@@ -20178,6 +20178,68 @@ public class LeetCodeText {
         return max;
     }
 
+    // 300. 最长递增子序列 (Longest Increasing Subsequence) --动态开点线段树
+    public int lengthOfLIS5(int[] nums) {
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for (int x : nums) {
+            min = Math.min(min, x);
+            max = Math.max(max, x);
+        }
+        SegNode300 root = new SegNode300(min, max);
+        for (int x : nums) {
+            int cur = query300(root, min, x - 1) + 1;
+            modify300(root, x, cur);
+        }
+        return root.val;
+    }
+
+    private int query300(SegNode300 node, int L, int R) {
+        if (node == null) {
+            return 0;
+        }
+        if (L > node.hi || R < node.lo) {
+            return 0;
+        }
+        if (L <= node.lo && node.hi <= R) {
+            return node.val;
+        }
+        return Math.max(query300(node.left, L, R), query300(node.right, L, R));
+    }
+
+    private void modify300(SegNode300 node, int x, int val) {
+        node.val = Math.max(node.val, val);
+        if (node.lo == node.hi) {
+            return;
+        }
+        int mid = node.lo + ((node.hi - node.lo) >> 1);
+        if (x <= mid) {
+            if (node.left == null) {
+                node.left = new SegNode300(node.lo, mid);
+            }
+            modify300(node.left, x, val);
+        } else {
+            if (node.right == null) {
+                node.right = new SegNode300(mid + 1, node.hi);
+            }
+            modify300(node.right, x, val);
+        }
+    }
+
+    public class SegNode300 {
+        public int lo;
+        public int hi;
+        public int val;
+        public SegNode300 left;
+        public SegNode300 right;
+
+        public SegNode300(int lo, int hi) {
+            this.lo = lo;
+            this.hi = hi;
+        }
+
+    }
+
     // 1357. 每隔 n 个顾客打折 (Apply Discount Every n Orders)
     class Cashier {
         private int n;
