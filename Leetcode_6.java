@@ -3953,7 +3953,7 @@ public class Leetcode_6 {
         dfs2458_2(node.left, h + 1);
     }
 
-    // 315. 计算右侧小于当前元素的个数 (Count of Smaller Numbers After Self) --二分查找 
+    // 315. 计算右侧小于当前元素的个数 (Count of Smaller Numbers After Self) --二分查找
     // 还需掌握：树状数组 归并排序
     private List<Integer> list315;
 
@@ -4629,6 +4629,88 @@ public class Leetcode_6 {
                 return query(o * 2 + 1, mid + 1, r, L, R);
             }
             return query(o * 2, l, mid, L, mid) + query(o * 2 + 1, mid + 1, r, mid + 1, R);
+        }
+    }
+
+    // 307. 区域和检索 - 数组可修改 (Range Sum Query - Mutable) --动态开点线段树
+    class NumArray2 {
+        class SegNode {
+            int lo;
+            int hi;
+            int sum;
+            SegNode left;
+            SegNode right;
+
+            SegNode(int lo, int hi) {
+                this.lo = lo;
+                this.hi = hi;
+            }
+        }
+
+        private SegNode root;
+        private int[] nums;
+
+        public NumArray2(int[] nums) {
+            int n = nums.length;
+            this.nums = nums;
+            root = new SegNode(1, n);
+            build(root, 1, n);
+        }
+
+        private void build(SegNode node, int l, int r) {
+            if (l == r) {
+                node.sum = nums[l - 1];
+                return;
+            }
+            int mid = l + ((r - l) >> 1);
+            if (node.left == null) {
+                node.left = new SegNode(l, mid);
+            }
+            build(node.left, l, mid);
+            if (node.right == null) {
+                node.right = new SegNode(mid + 1, r);
+            }
+            build(node.right, mid + 1, r);
+            node.sum = node.left.sum + node.right.sum;
+        }
+
+        public void update(int index, int val) {
+            modify(root, index + 1, val);
+
+        }
+
+        private void modify(SegNode node, int index, int val) {
+            if (node == null) {
+                return;
+            }
+            if (node.lo == node.hi) {
+                node.sum = val;
+                return;
+            }
+            int mid = node.lo + ((node.hi - node.lo) >> 1);
+            if (index <= mid) {
+                modify(node.left, index, val);
+            } else {
+                modify(node.right, index, val);
+            }
+            node.sum = node.left.sum + node.right.sum;
+        }
+
+        public int sumRange(int left, int right) {
+            return query(root, left + 1, right + 1);
+        }
+
+        private int query(SegNode node, int L, int R) {
+            if (node == null) {
+                return 0;
+            }
+            if (L > node.hi || R < node.lo) {
+                return 0;
+            }
+            if (L <= node.lo && node.hi <= R) {
+                return node.sum;
+            }
+            return query(node.left, L, R) + query(node.right, L, R);
         }
     }
 
