@@ -3833,10 +3833,10 @@ public class Leetcode_6 {
 
     // 剑指 Offer 51. 数组中的逆序对 -- 动态开点线段树 还需掌握：树状数组
     public int reversePairs4(int[] nums) {
-        SegNode_Offer_51 root = new SegNode_Offer_51((long) -1e10, (long) 1e10);
+        SegNode_Offer_51 root = new SegNode_Offer_51((long) Integer.MIN_VALUE, (long) Integer.MAX_VALUE);
         int res = 0;
         for (long x : nums) {
-            res += query_offer_51(root, x + 1, (long) 1e10);
+            res += query_offer_51(root, x + 1, (long) Integer.MAX_VALUE);
             insert_offer_51(root, x);
         }
         return res;
