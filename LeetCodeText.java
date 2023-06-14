@@ -6366,18 +6366,17 @@ public class LeetCodeText {
 
     }
 
-    // 1375. 灯泡开关 III
-    public int numTimesAllBlue(final int[] light) {
-        int count = 0;
+    // 1375. 二进制字符串前缀一致的次数 (Number of Times Binary String Is Prefix-Aligned)
+    public int numTimesAllBlue(int[] flips) {
+        int res = 0;
         int max = 0;
-        for (int i = 0; i < light.length; ++i) {
-            max = Math.max(light[i], max);
-            if (max <= i + 1) {
-                ++count;
+        for (int i = 0; i < flips.length; ++i) {
+            max = Math.max(max, flips[i]);
+            if (max == i + 1) {
+                ++res;
             }
         }
-        return count;
-
+        return res;
     }
 
     // 5. 最长回文子串 (Longest Palindromic Substring)
