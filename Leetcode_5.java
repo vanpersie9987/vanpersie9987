@@ -9342,20 +9342,16 @@ public class Leetcode_5 {
 
     // 1177. 构建回文串检测 (Can Make Palindrome from Substring)
     public List<Boolean> canMakePaliQueries(String s, int[][] queries) {
-        int n = s.length();
-        int[] prefix = new int[n + 1];
-        int mask = 0;
-        for (int i = 1; i < n + 1; ++i) {
-            mask ^= 1 << (s.charAt(i - 1) - 'a');
-            prefix[i] = mask;
+        int[] pre = new int[s.length() + 1];
+        for (int i = 0; i < s.length(); ++i) {
+            pre[i + 1] = pre[i] ^ (1 << (s.charAt(i) - 'a'));
         }
         List<Boolean> res = new ArrayList<>();
-        for (int[] query : queries) {
-            int odd = Integer.bitCount(prefix[query[1] + 1] ^ prefix[query[0]]);
-            res.add(odd / 2 <= query[2]);
+        for (int[] q : queries) {
+            int xor = pre[q[1] + 1] ^ pre[q[0]];
+            res.add(Integer.bitCount(xor) - q[2] * 2 <= 1);
         }
         return res;
-
     }
 
     // 1818. 绝对差值和 (Minimum Absolute Sum Difference)
