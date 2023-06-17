@@ -9464,7 +9464,7 @@ public class Leetcode_7 {
             }
         });
 
-        SegNode2736 root = new SegNode2736(1, (int) 1e9, -1);
+        SegNode2736 root = new SegNode2736(1, (int) 1e9);
         int[] res = new int[m];
         int j = 0;
         for (int id : ids) {
@@ -9498,12 +9498,12 @@ public class Leetcode_7 {
         int mid = node.lo + ((node.hi - node.lo) >> 1);
         if (x <= mid) {
             if (node.left == null) {
-                node.left = new SegNode2736(node.lo, mid, -1);
+                node.left = new SegNode2736(node.lo, mid);
             }
             insert2736(node.left, x, val);
         } else {
             if (node.right == null) {
-                node.right = new SegNode2736(mid + 1, node.hi, -1);
+                node.right = new SegNode2736(mid + 1, node.hi);
             }
             insert2736(node.right, x, val);
         }
@@ -9516,10 +9516,10 @@ public class Leetcode_7 {
         SegNode2736 left;
         SegNode2736 right;
 
-        public SegNode2736(int lo, int hi, int max) {
+        public SegNode2736(int lo, int hi) {
             this.lo = lo;
             this.hi = hi;
-            this.max = max;
+            this.max = -1;
         }
 
     }
