@@ -9441,36 +9441,37 @@ public class Leetcode_7 {
     public int[] maximumSumQueries(int[] nums1, int[] nums2, int[][] queries) {
         int n = nums1.length;
         int m = queries.length;
-        int[][] arr = new int[m + n][3];
+        int[][] arr = new int[n][2];
         for (int i = 0; i < n; ++i) {
-            arr[i] = new int[] { nums1[i], nums2[i], -1 };
-        }
-        for (int i = n; i < m + n; ++i) {
-            arr[i] = new int[] { queries[i - n][0], queries[i - n][1], i - n };
+            arr[i] = new int[] { nums1[i], nums2[i] };
         }
         Arrays.sort(arr, new Comparator<int[]>() {
 
             @Override
             public int compare(int[] o1, int[] o2) {
-                if (o1[0] == o2[0]) {
-                    return Integer.compare(o1[2], o2[2]);
-                }
                 return Integer.compare(o2[0], o1[0]);
             }
 
         });
+        Integer[] ids = IntStream.range(0, m).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(queries[o2][0], queries[o1][0]);
+            }
+        });
 
         SegNode2736 root = new SegNode2736(1, (int) 1e9, -1);
         int[] res = new int[m];
-        for (int[] a : arr) {
-            if (a[2] == -1) {
-                insert2736(root, a[1], a[0] + a[1]);
-            } else {
-                res[a[2]] = query2736(root, a[1], (int) 1e9);
+        int j = 0;
+        for (int id : ids) {
+            while (j < n && arr[j][0] >= queries[id][0]) {
+                insert2736(root, arr[j][1], arr[j][0] + arr[j][1]);
+                ++j;
             }
+            res[id] = query2736(root, queries[id][1], (int) 1e9);
         }
         return res;
-
     }
 
     private int query2736(SegNode2736 node, int L, int R) {
@@ -9645,4 +9646,58 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
+
+    // 1882. 使用服务器处理任务 (Process Tasks Using Servers)
+    public int[] assignTasks(int[] servers, int[] tasks) {
+        // Queue<long[]> idle = new PriorityQueue<>(new Comparator<long[]>() {
+
+        //     @Override
+        //     public int compare(long[] o1, long[] o2) {
+        //         // 结束时间相等
+        //         if (o1[1] == o2[1]) {
+        //             // 权重相等
+        //             if (servers[(int) o1[0]] == servers[(int) o2[0]]) {
+        //                 return Long.compare(o1[0], o2[0]);
+        //             }
+        //             return Integer.compare(servers[(int) o1[0]], servers[(int) o2[0]]);
+        //         }
+        //         return Long.compare(o1[1], o2[1]);
+        //     }
+
+        // });
+        // // 下标， 结束时间
+        // for (int i = 0; i < servers.length; ++i) {
+        //     idle.offer(new long[] { i, 0L });
+        // }
+        // // long[i, j] 下标， 结束时间
+        // Queue<long[]> work = new PriorityQueue<>(new Comparator<long[]>() {
+
+        //     @Override
+        //     public int compare(long[] o1, long[] o2) {
+        //         return Long.compare(o1[1], o2[1]);
+        //     }
+
+        // });
+        // int[] res = new int[tasks.length];
+        // long time = 0L;
+        // for (int i = 0; i < tasks.length; ++i) {
+        //     while (!work.isEmpty() && time >= work.peek()[1]) {
+        //         long[] cur = work.poll();
+        //         idle.offer(cur);
+        //     }
+        //     if (idle.isEmpty()) {
+        //         long[] cur = work.poll();
+        //         time = cur[1];
+        //         idle.offer(cur);
+        //         res[i] = (int) idle.peek()[0];
+        //         work.offer(new long[] { idle.poll()[0], time + tasks[i] });
+        //     } else {
+        //         long[] cur = idle.poll();
+        //         res[i] = (int) cur[0];
+        //         work.offer(new long[] { cur[0], cur[1] + tasks[i] });
+        //     }
+        // }
+        // return res;
+
+    }
 }
