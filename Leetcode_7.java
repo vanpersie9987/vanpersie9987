@@ -6483,7 +6483,8 @@ public class Leetcode_7 {
         return res;
     }
 
-    // 2510. 检查是否有路径经过相同数量的 0 和 1 (Check if There is a Path With Equal Number of 0's And 1's) --plus
+    // 2510. 检查是否有路径经过相同数量的 0 和 1 (Check if There is a Path With Equal Number of 0's
+    // And 1's) --plus
     private int[][][] memo2510;
     private int m2510;
     private int n2510;
@@ -6602,7 +6603,7 @@ public class Leetcode_7 {
         if (i == n1230) {
             return 0D;
         }
-        // 需要再选 target - j 个硬币 > 还有 n - i 个硬币可选 
+        // 需要再选 target - j 个硬币 > 还有 n - i 个硬币可选
         if (n1230 - i < target1230 - j) {
             return 0D;
         }
@@ -7021,7 +7022,8 @@ public class Leetcode_7 {
         return -1;
     }
 
-    // 2098. 长度为 K 的最大偶数和子序列 (Subsequence of Size K With the Largest Even Sum) --plus
+    // 2098. 长度为 K 的最大偶数和子序列 (Subsequence of Size K With the Largest Even Sum)
+    // --plus
     public long largestEvenSum(int[] nums, int k) {
         int n = nums.length;
         Arrays.sort(nums);
@@ -8706,7 +8708,7 @@ public class Leetcode_7 {
         return original == reverse;
     }
 
-    // 928. 尽量减少恶意软件的传播  (Minimize Malware Spread II)
+    // 928. 尽量减少恶意软件的传播 (Minimize Malware Spread II)
     public int minMalwareSpreadII(int[][] graph, int[] initial) {
         int n = graph.length;
         int min = n + 1;
@@ -9274,7 +9276,8 @@ public class Leetcode_7 {
 
     }
 
-    // 6465. 执行子串操作后的字典序最小字符串 (Lexicographically Smallest String After Substring Operation)
+    // 6465. 执行子串操作后的字典序最小字符串 (Lexicographically Smallest String After Substring
+    // Operation)
     public String smallestString(String s) {
         char[] arr = s.toCharArray();
         int n = arr.length;
@@ -9521,8 +9524,6 @@ public class Leetcode_7 {
 
     }
 
-
-
     // 1938. 查询最大基因差 (Maximum Genetic Difference Query)
     // public int[] maxGeneticDifference(int[] parents, int[][] queries) {
 
@@ -9648,56 +9649,56 @@ public class Leetcode_7 {
     // }
 
     // 1882. 使用服务器处理任务 (Process Tasks Using Servers)
-    public int[] assignTasks(int[] servers, int[] tasks) {
-        // Queue<long[]> idle = new PriorityQueue<>(new Comparator<long[]>() {
+    // public int[] assignTasks(int[] servers, int[] tasks) {
+    // Queue<long[]> idle = new PriorityQueue<>(new Comparator<long[]>() {
 
-        //     @Override
-        //     public int compare(long[] o1, long[] o2) {
-        //         // 结束时间相等
-        //         if (o1[1] == o2[1]) {
-        //             // 权重相等
-        //             if (servers[(int) o1[0]] == servers[(int) o2[0]]) {
-        //                 return Long.compare(o1[0], o2[0]);
-        //             }
-        //             return Integer.compare(servers[(int) o1[0]], servers[(int) o2[0]]);
-        //         }
-        //         return Long.compare(o1[1], o2[1]);
-        //     }
+    // @Override
+    // public int compare(long[] o1, long[] o2) {
+    // // 结束时间相等
+    // if (o1[1] == o2[1]) {
+    // // 权重相等
+    // if (servers[(int) o1[0]] == servers[(int) o2[0]]) {
+    // return Long.compare(o1[0], o2[0]);
+    // }
+    // return Integer.compare(servers[(int) o1[0]], servers[(int) o2[0]]);
+    // }
+    // return Long.compare(o1[1], o2[1]);
+    // }
 
-        // });
-        // // 下标， 结束时间
-        // for (int i = 0; i < servers.length; ++i) {
-        //     idle.offer(new long[] { i, 0L });
-        // }
-        // // long[i, j] 下标， 结束时间
-        // Queue<long[]> work = new PriorityQueue<>(new Comparator<long[]>() {
+    // });
+    // // 下标， 结束时间
+    // for (int i = 0; i < servers.length; ++i) {
+    // idle.offer(new long[] { i, 0L });
+    // }
+    // // long[i, j] 下标， 结束时间
+    // Queue<long[]> work = new PriorityQueue<>(new Comparator<long[]>() {
 
-        //     @Override
-        //     public int compare(long[] o1, long[] o2) {
-        //         return Long.compare(o1[1], o2[1]);
-        //     }
+    // @Override
+    // public int compare(long[] o1, long[] o2) {
+    // return Long.compare(o1[1], o2[1]);
+    // }
 
-        // });
-        // int[] res = new int[tasks.length];
-        // long time = 0L;
-        // for (int i = 0; i < tasks.length; ++i) {
-        //     while (!work.isEmpty() && time >= work.peek()[1]) {
-        //         long[] cur = work.poll();
-        //         idle.offer(cur);
-        //     }
-        //     if (idle.isEmpty()) {
-        //         long[] cur = work.poll();
-        //         time = cur[1];
-        //         idle.offer(cur);
-        //         res[i] = (int) idle.peek()[0];
-        //         work.offer(new long[] { idle.poll()[0], time + tasks[i] });
-        //     } else {
-        //         long[] cur = idle.poll();
-        //         res[i] = (int) cur[0];
-        //         work.offer(new long[] { cur[0], cur[1] + tasks[i] });
-        //     }
-        // }
-        // return res;
+    // });
+    // int[] res = new int[tasks.length];
+    // long time = 0L;
+    // for (int i = 0; i < tasks.length; ++i) {
+    // while (!work.isEmpty() && time >= work.peek()[1]) {
+    // long[] cur = work.poll();
+    // idle.offer(cur);
+    // }
+    // if (idle.isEmpty()) {
+    // long[] cur = work.poll();
+    // time = cur[1];
+    // idle.offer(cur);
+    // res[i] = (int) idle.peek()[0];
+    // work.offer(new long[] { idle.poll()[0], time + tasks[i] });
+    // } else {
+    // long[] cur = idle.poll();
+    // res[i] = (int) cur[0];
+    // work.offer(new long[] { cur[0], cur[1] + tasks[i] });
+    // }
+    // }
+    // return res;
 
-    }
+    // }
 }
