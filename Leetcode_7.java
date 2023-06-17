@@ -9441,32 +9441,32 @@ public class Leetcode_7 {
     public int[] maximumSumQueries(int[] nums1, int[] nums2, int[][] queries) {
         int n = nums1.length;
         int m = queries.length;
-        Bean2736[] arr = new Bean2736[m + n];
+        int[][] arr = new int[m + n][3];
         for (int i = 0; i < n; ++i) {
-            arr[i] = new Bean2736(nums1[i], nums2[i], -1);
+            arr[i] = new int[] { nums1[i], nums2[i], -1 };
         }
         for (int i = n; i < m + n; ++i) {
-            arr[i] = new Bean2736(queries[i - n][0], queries[i - n][1], i - n);
+            arr[i] = new int[] { queries[i - n][0], queries[i - n][1], i - n };
         }
-        Arrays.sort(arr, new Comparator<Bean2736>() {
+        Arrays.sort(arr, new Comparator<int[]>() {
 
             @Override
-            public int compare(Bean2736 o1, Bean2736 o2) {
-                if (o1.x == o2.x) {
-                    return Integer.compare(o1.i, o2.i);
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] == o2[0]) {
+                    return Integer.compare(o1[2], o2[2]);
                 }
-                return Integer.compare(o2.x, o1.x);
+                return Integer.compare(o2[0], o1[0]);
             }
 
         });
 
         SegNode2736 root = new SegNode2736(1, (int) 1e9, -1);
         int[] res = new int[m];
-        for (Bean2736 b : arr) {
-            if (b.i == -1) {
-                insert2736(root, b.y, b.x + b.y);
+        for (int[] a : arr) {
+            if (a[2] == -1) {
+                insert2736(root, a[1], a[0] + a[1]);
             } else {
-                res[b.i] = query2736(root, b.y, (int) 1e9);
+                res[a[2]] = query2736(root, a[1], (int) 1e9);
             }
         }
         return res;
@@ -9518,18 +9518,6 @@ public class Leetcode_7 {
             this.max = max;
         }
 
-    }
-
-    public class Bean2736 {
-        int x;
-        int y;
-        int i;
-
-        public Bean2736(int x, int y, int i) {
-            this.x = x;
-            this.y = y;
-            this.i = i;
-        }
     }
 
 
