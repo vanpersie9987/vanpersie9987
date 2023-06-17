@@ -9437,6 +9437,103 @@ public class Leetcode_7 {
         return memo1494[i] = min;
     }
 
+    // 2736. 最大和查询 (Maximum Sum Queries) --动态开点线段树
+    public int[] maximumSumQueries(int[] nums1, int[] nums2, int[][] queries) {
+        int n = nums1.length;
+        int m = queries.length;
+        Bean2736[] arr = new Bean2736[m + n];
+        for (int i = 0; i < n; ++i) {
+            arr[i] = new Bean2736(nums1[i], nums2[i], -1);
+        }
+        for (int i = n; i < m + n; ++i) {
+            arr[i] = new Bean2736(queries[i - n][0], queries[i - n][1], i - n);
+        }
+        Arrays.sort(arr, new Comparator<Bean2736>() {
+
+            @Override
+            public int compare(Bean2736 o1, Bean2736 o2) {
+                if (o1.x == o2.x) {
+                    return Integer.compare(o1.i, o2.i);
+                }
+                return Integer.compare(o2.x, o1.x);
+            }
+
+        });
+
+        SegNode2736 root = new SegNode2736(1, (int) 1e9, -1);
+        int[] res = new int[m];
+        for (Bean2736 b : arr) {
+            if (b.i == -1) {
+                insert2736(root, b.y, b.x + b.y);
+            } else {
+                res[b.i] = query2736(root, b.y, (int) 1e9);
+            }
+        }
+        return res;
+
+    }
+
+    private int query2736(SegNode2736 node, int L, int R) {
+        if (node == null) {
+            return -1;
+        }
+        if (L > node.hi || R < node.lo) {
+            return -1;
+        }
+        if (L <= node.lo && node.hi <= R) {
+            return node.max;
+        }
+        return Math.max(query2736(node.left, L, R), query2736(node.right, L, R));
+    }
+
+    private void insert2736(SegNode2736 node, int x, int val) {
+        node.max = Math.max(node.max, val);
+        if (node.lo == node.hi) {
+            return;
+        }
+        int mid = node.lo + ((node.hi - node.lo) >> 1);
+        if (x <= mid) {
+            if (node.left == null) {
+                node.left = new SegNode2736(node.lo, mid, -1);
+            }
+            insert2736(node.left, x, val);
+        } else {
+            if (node.right == null) {
+                node.right = new SegNode2736(mid + 1, node.hi, -1);
+            }
+            insert2736(node.right, x, val);
+        }
+    }
+
+    public class SegNode2736 {
+        int lo;
+        int hi;
+        int max;
+        SegNode2736 left;
+        SegNode2736 right;
+
+        public SegNode2736(int lo, int hi, int max) {
+            this.lo = lo;
+            this.hi = hi;
+            this.max = max;
+        }
+
+    }
+
+    public class Bean2736 {
+        int x;
+        int y;
+        int i;
+
+        public Bean2736(int x, int y, int i) {
+            this.x = x;
+            this.y = y;
+            this.i = i;
+        }
+    }
+
+
+
     // 1938. 查询最大基因差 (Maximum Genetic Difference Query)
     // public int[] maxGeneticDifference(int[] parents, int[][] queries) {
 
@@ -9560,5 +9657,4 @@ public class Leetcode_7 {
     // public String stoneGameIII(int[] stoneValue) {
 
     // }
-
 }
