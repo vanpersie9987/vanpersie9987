@@ -9524,6 +9524,35 @@ public class Leetcode_7 {
 
     }
 
+    // 1888. 使二进制字符串字符交替的最少反转次数 (Minimum Number of Flips to Make the Binary String
+    // Alternating)
+    public int minFlips(String s) {
+        int n = s.length();
+        char[] arr = s.toCharArray();
+        int[][] pre = new int[n][2];
+        for (int i = 0; i < n; ++i) {
+            pre[i][0] = (i == 0 ? 0 : pre[i - 1][1]) + check1888(arr[i], '0');
+            pre[i][1] = (i == 0 ? 0 : pre[i - 1][0]) + check1888(arr[i], '1');
+        }
+        int res = Math.min(pre[n - 1][0], pre[n - 1][1]);
+        if ((n & 1) == 1) {
+            int[][] suf = new int[n][2];
+            for (int i = n - 1; i >= 0; --i) {
+                suf[i][0] = (i == n - 1 ? 0 : suf[i + 1][1]) + check1888(arr[i], '0');
+                suf[i][1] = (i == n - 1 ? 0 : suf[i + 1][0]) + check1888(arr[i], '1');
+            }
+            for (int i = 0; i < n - 1; ++i) {
+                res = Math.min(res, pre[i][0] + suf[i + 1][0]);
+                res = Math.min(res, pre[i][1] + suf[i + 1][1]);
+            }
+        }
+        return res;
+    }
+
+    private int check1888(char a, char b) {
+        return Math.abs(a - b);
+    }
+
     // 1938. 查询最大基因差 (Maximum Genetic Difference Query)
     // public int[] maxGeneticDifference(int[] parents, int[][] queries) {
 
