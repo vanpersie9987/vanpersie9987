@@ -9582,6 +9582,7 @@ public class Leetcode_7 {
     private int n6893;
     private int[][] memo6893;
     private int[] nums6893;
+    private int u6893;
 
     public int specialPerm(int[] nums) {
         this.n6893 = nums.length;
@@ -9590,6 +9591,7 @@ public class Leetcode_7 {
         for (int i = 0; i < n6893; ++i) {
             Arrays.fill(memo6893[i], -1);
         }
+        this.u6893 = (1 << n6893) - 1;
         final int MOD = (int) (1e9 + 7);
         int res = 0;
         for (int i = 0; i < n6893; ++i) {
@@ -9600,18 +9602,21 @@ public class Leetcode_7 {
     }
 
     private int dfs6893(int pre, int mask) {
-        if (mask == (1 << n6893) - 1) {
+        if (mask == u6893) {
             return 1;
         }
         if (memo6893[pre][mask] != -1) {
             return memo6893[pre][mask];
         }
         int res = 0;
+        int c = u6893 ^ mask;
         final int MOD = (int) (1e9 + 7);
-        for (int i = 0; i < n6893; ++i) {
-            if (((mask >> i) & 1) == 0 && (nums6893[pre] % nums6893[i] == 0 || nums6893[i] % nums6893[pre] == 0)) {
-                res = (res + dfs6893(i, mask | (1 << i))) % MOD;
+        while (c != 0) {
+            int bit = Integer.numberOfTrailingZeros(c);
+            if (nums6893[pre] % nums6893[bit] == 0 || nums6893[bit] % nums6893[pre] == 0) {
+                res = (res + dfs6893(bit, mask | (1 << bit))) % MOD;
             }
+            c &= c - 1;
         }
         return memo6893[pre][mask] = res;
     }
