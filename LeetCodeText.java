@@ -12868,50 +12868,38 @@ public class LeetCodeText {
     public int closedIsland(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
-        Queue<int[]> queue = new LinkedList<>();
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if ((i == 0 || i == m - 1 || j == 0 || j == n - 1) && (grid[i][j] == 0)) {
-                    queue.offer(new int[] { i, j });
-                    grid[i][j] = 1;
-                }
-            }
-        }
-        int[][] directions = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 } };
-        while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
-            for (int[] direction : directions) {
-                int nx = cur[0] + direction[0];
-                int ny = cur[1] + direction[1];
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 0) {
-                    grid[nx][ny] = 1;
-                    queue.offer(new int[] { nx, ny });
-                }
-            }
-        }
+        Queue<int[]> q = new LinkedList<>();
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 } };
         int res = 0;
+        boolean flag = false;
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (grid[i][j] == 0) {
-                    ++res;
-                    grid[i][j] = 1;
-                    queue.offer(new int[] { i, j });
-                    while (!queue.isEmpty()) {
-                        int[] cur = queue.poll();
-                        for (int[] direction : directions) {
-                            int nx = cur[0] + direction[0];
-                            int ny = cur[1] + direction[1];
+                    flag = false;
+                    q.offer(new int[] { i, j });
+                    while (!q.isEmpty()) {
+                        int[] cur = q.poll();
+                        int x = cur[0];
+                        int y = cur[1];
+                        grid[x][y] = 1;
+                        if (x == 0 || x == m - 1 || y == 0 || y == n - 1) {
+                            flag = true;
+                        }
+                        for (int[] d : dirs) {
+                            int nx = x + d[0];
+                            int ny = y + d[1];
                             if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 0) {
-                                grid[nx][ny] = 1;
-                                queue.offer(new int[] { nx, ny });
+                                q.offer(new int[] { nx, ny });
                             }
                         }
+                    }
+                    if (!flag) {
+                        ++res;
                     }
                 }
             }
         }
         return res;
-
     }
 
     // 1254. 统计封闭岛屿的数目 (Number of Closed Islands) --并查集
