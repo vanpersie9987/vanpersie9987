@@ -12926,19 +12926,12 @@ public class LeetCodeText {
                 if (grid[i][j] == 0) {
                     if (i == 0 || j == 0 || i == m - 1 || j == n - 1) {
                         union.union(getIndex1254(n, i, j), dummy);
-                    } else {
-                        if (grid[i + 1][j] == 0) {
-                            union.union(getIndex1254(n, i, j), getIndex1254(n, i + 1, j));
-                        }
-                        if (grid[i - 1][j] == 0) {
-                            union.union(getIndex1254(n, i, j), getIndex1254(n, i - 1, j));
-                        }
-                        if (grid[i][j + 1] == 0) {
-                            union.union(getIndex1254(n, i, j), getIndex1254(n, i, j + 1));
-                        }
-                        if (grid[i][j - 1] == 0) {
-                            union.union(getIndex1254(n, i, j), getIndex1254(n, i, j - 1));
-                        }
+                    }
+                    if (i + 1 < m && grid[i + 1][j] == 0) {
+                        union.union(getIndex1254(n, i, j), getIndex1254(n, i + 1, j));
+                    }
+                    if (j + 1 < n && grid[i][j + 1] == 0) {
+                        union.union(getIndex1254(n, i, j), getIndex1254(n, i, j + 1));
                     }
                 }
             }
