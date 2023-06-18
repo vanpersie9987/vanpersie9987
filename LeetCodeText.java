@@ -12884,6 +12884,49 @@ public class LeetCodeText {
         return i * n + j;
     }
 
+    // 1020. 飞地的数量 (Number of Enclaves) --dfs
+    private int m1020;
+    private int n1020;
+    private int[][] grid1020;
+    private boolean flag1020;
+
+    public int numEnclaves3(int[][] grid) {
+        this.m1020 = grid.length;
+        this.n1020 = grid[0].length;
+        this.grid1020 = grid;
+        int res = 0;
+        for (int i = 0; i < m1020; ++i) {
+            for (int j = 0; j < n1020; ++j) {
+                if (grid[i][j] == 1) {
+                    flag1020 = false;
+                    int cur = dfs1020(i, j);
+                    if (!flag1020) {
+                        res += cur;
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int dfs1020(int i, int j) {
+        if (i == 0 || i == m1020 - 1 || j == 0 || j == n1020 - 1) {
+            flag1020 = true;
+        }
+        int cnt = 1;
+        grid1020[i][j] = 0;
+        int[][] dirs = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+        for (int[] d : dirs) {
+            int nx = i + d[0];
+            int ny = j + d[1];
+            if (nx >= 0 && nx < m1020 && ny >= 0 && ny < n1020 && grid1020[nx][ny] == 1) {
+                cnt += dfs1020(nx, ny);
+            }
+        }
+        return cnt;
+    }
+
     // 1254. 统计封闭岛屿的数目 (Number of Closed Islands) --bfs
     public int closedIsland(int[][] grid) {
         int m = grid.length;
