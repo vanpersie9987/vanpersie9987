@@ -13002,6 +13002,46 @@ public class LeetCodeText {
 
     }
 
+    // 1254. 统计封闭岛屿的数目 (Number of Closed Islands) --dfs
+    private boolean flag1254;
+    private int m1254;
+    private int n1254;
+    private int[][] grid1254;
+    private int[][] dirs1254 = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+
+    public int closedIsland3(int[][] grid) {
+        int res = 0;
+        this.m1254 = grid.length;
+        this.n1254 = grid[0].length;
+        this.grid1254 = grid;
+        for (int i = 0; i < m1254; ++i) {
+            for (int j = 0; j < n1254; ++j) {
+                if (grid[i][j] == 0) {
+                    flag1254 = false;
+                    dfs1254(i, j);
+                    if (!flag1254) {
+                        ++res;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    private void dfs1254(int i, int j) {
+        if (i == 0 || i == m1254 - 1 || j == 0 || j == n1254 - 1) {
+            flag1254 = true;
+        }
+        grid1254[i][j] = 1;
+        for (int[] dir : dirs1254) {
+            int nx = i + dir[0];
+            int ny = j + dir[1];
+            if (nx >= 0 && nx < m1254 && ny >= 0 && ny < n1254 && grid1254[nx][ny] == 0) {
+                dfs1254(nx, ny);
+            }
+        }
+    }
+
     // 1391. 检查网格中是否存在有效路径 (Check if There is a Valid Path in a Grid) --bfs
     public boolean hasValidPath(int[][] grid) {
         int m = grid.length;
