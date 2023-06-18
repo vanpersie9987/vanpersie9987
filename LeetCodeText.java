@@ -65,6 +65,31 @@ public class LeetCodeText {
         // boolean i = areSentencesSimilar("My name is Haley", "My Haley");
         // int res = numSplits("aaaaa");
 
+        // int[][] grid = {
+        // { 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0 },
+        // { 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1 },
+        // { 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1 },
+        // { 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0 },
+        // { 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1 },
+        // { 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0 },
+        // { 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0 },
+        // { 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0 },
+        // { 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1 },
+        // { 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0 }
+        // };
+        // int[][] grid2 = {
+        // { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        // { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        // { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        // { 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0 },
+        // { 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0 },
+        // { 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0 },
+        // { 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0 },
+        // { 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0 },
+        // { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0 },
+        // { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+        // };
+
     }
 
     // 1.两数之和
@@ -12745,32 +12770,36 @@ public class LeetCodeText {
     public int numEnclaves(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
-        Queue<int[]> queue = new LinkedList<>();
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if ((i == 0 || i == m - 1 || j == 0 || j == n - 1) && grid[i][j] == 1) {
-                    queue.offer(new int[] { i, j });
-                    grid[i][j] = 0;
-                }
-            }
-        }
+        Queue<int[]> q = new LinkedList<>();
         int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
-        while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
-            for (int[] direction : directions) {
-                int nx = cur[0] + direction[0];
-                int ny = cur[1] + direction[1];
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1) {
-                    grid[nx][ny] = 0;
-                    queue.offer(new int[] { nx, ny });
-                }
-            }
-        }
         int res = 0;
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (grid[i][j] == 1) {
-                    ++res;
+                    int sum = 0;
+                    boolean flag = false;
+                    q.offer(new int[] { i, j });
+                    while (!q.isEmpty()) {
+                        int[] cur = q.poll();
+                        int x = cur[0];
+                        int y = cur[1];
+                        if (x == 0 || x == m - 1 || y == 0 || y == n - 1) {
+                            flag = true;
+                        }
+                        ++sum;
+                        grid[x][y] = 0;
+                        for (int[] d : directions) {
+                            int nx = x + d[0];
+                            int ny = y + d[1];
+                            if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1) {
+                                grid[nx][ny] = 0;
+                                q.offer(new int[] { nx, ny });
+                            }
+                        }
+                    }
+                    if (!flag) {
+                        res += sum;
+                    }
                 }
             }
         }
@@ -12789,29 +12818,20 @@ public class LeetCodeText {
                 if (grid[i][j] == 1) {
                     if (i == 0 || j == 0 || i == m - 1 || j == n - 1) {
                         union.union(getIndex1020(n, i, j), dummy);
-                    } else {
-                        if (grid[i + 1][j] == 1) {
-                            union.union(getIndex1020(n, i, j), getIndex1020(n, i + 1, j));
-                        }
-                        if (grid[i - 1][j] == 1) {
-                            union.union(getIndex1020(n, i, j), getIndex1020(n, i - 1, j));
-                        }
-                        if (grid[i][j + 1] == 1) {
-                            union.union(getIndex1020(n, i, j), getIndex1020(n, i, j + 1));
-                        }
-                        if (grid[i][j - 1] == 1) {
-                            union.union(getIndex1020(n, i, j), getIndex1020(n, i, j - 1));
-                        }
+                    }
+                    if (i + 1 < m && grid[i + 1][j] == 1) {
+                        union.union(getIndex1020(n, i, j), getIndex1020(n, i + 1, j));
+                    }
+                    if (j + 1 < n && grid[i][j + 1] == 1) {
+                        union.union(getIndex1020(n, i, j), getIndex1020(n, i, j + 1));
                     }
                 }
             }
         }
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                if (grid[i][j] == 1) {
-                    if (!union.isConnected(getIndex1020(n, i, j), dummy)) {
-                        ++res;
-                    }
+                if (grid[i][j] == 1 && !union.isConnected(getIndex1020(n, i, j), dummy)) {
+                    ++res;
                 }
             }
         }
