@@ -9730,4 +9730,100 @@ public class Leetcode_7 {
     // return res;
 
     // }
+
+    // 6901. 总行驶距离 (Total Distance Traveled)
+    public int distanceTraveled(int mainTank, int additionalTank) {
+        int res = 0;
+        while (mainTank >= 5 && additionalTank > 0) {
+            res += 50;
+            mainTank -= 5;
+            --additionalTank;
+            ++mainTank;
+        }
+        res += mainTank * 10;
+        return res;
+
+    }
+
+    // 6890. 找出分区值 (Find the Value of the Partition)
+    public int findValueOfPartition(int[] nums) {
+        Arrays.sort(nums);
+        int res = Integer.MAX_VALUE;
+        for (int i = 1; i < nums.length; ++i) {
+            res = Math.min(res, nums[i] - nums[i - 1]);
+        }
+        return res;
+
+    }
+
+    // 6893. 特别的排列 (Special Permutations)
+    private int n6893;
+    private int[][] memo6893;
+    private int[] nums6893;
+
+    public int specialPerm(int[] nums) {
+        this.n6893 = nums.length;
+        this.memo6893 = new int[n6893][1 << n6893];
+        this.nums6893 = nums;
+        for (int i = 0; i < n6893; ++i) {
+            Arrays.fill(memo6893[i], -1);
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = 0;
+        for (int i = 0; i < n6893; ++i) {
+            res = (res + dfs6893(i, 1 << i)) % MOD;
+        }
+        return res;
+
+    }
+
+    private int dfs6893(int pre, int mask) {
+        if (mask == (1 << n6893) - 1) {
+            return 1;
+        }
+        if (memo6893[pre][mask] != -1) {
+            return memo6893[pre][mask];
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int i = 0; i < n6893; ++i) {
+            if (((mask >> i) & 1) == 0 && (nums6893[pre] % nums6893[i] == 0 || nums6893[i] % nums6893[pre] == 0)) {
+                res = (res + dfs6893(i, mask | (1 << i))) % MOD;
+            }
+        }
+        return memo6893[pre][mask] = res;
+    }
+
+    // 6447. 给墙壁刷油漆 (Painting the Walls)
+    private int[][] memo6447;
+    private int n6447;
+    private int[] time6447;
+    private int[] cost6447;
+
+    public int paintWalls(int[] cost, int[] time) {
+        this.n6447 = cost.length;
+        this.memo6447 = new int[n6447][n6447 + 501];
+        this.cost6447 = cost;
+        this.time6447 = time;
+        for (int i = 0; i < n6447; ++i) {
+            Arrays.fill(memo6447[i], -1);
+        }
+        return dfs6447(0, 0);
+
+    }
+
+    private int dfs6447(int i, int t) {
+        if (i == n6447) {
+            return t >= 0 ? 0 : (int) 1e9;
+        }
+        if (t >= n6447 - i) {
+            return 0;
+        }
+        if (memo6447[i][t + 501] != -1) {
+            return memo6447[i][t + 501];
+        }
+        return memo6447[i][t + 501] = Math.min(dfs6447(i + 1, time6447[i] + t) + cost6447[i], dfs6447(i + 1, t - 1));
+
+    }
+    
 }
