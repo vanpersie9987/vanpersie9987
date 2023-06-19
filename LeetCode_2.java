@@ -8455,8 +8455,82 @@ public class LeetCode_2 {
 
    }
 
-   // 1262. 可被三整除的最大和 (Greatest Sum Divisible by Three)
+   // 1262. 可被三整除的最大和 (Greatest Sum Divisible by Three) --贪心
    public int maxSumDivThree(int[] nums) {
+      int sum = 0;
+      int mod1_1 = Integer.MAX_VALUE;
+      int mod1_2 = Integer.MAX_VALUE;
+      int mod2_1 = Integer.MAX_VALUE;
+      int mod2_2 = Integer.MAX_VALUE;
+      for (int num : nums) {
+         sum += num;
+         if (num % 3 == 1) {
+            if (num <= mod1_1) {
+               mod1_2 = mod1_1;
+               mod1_1 = num;
+            } else if (num <= mod1_2) {
+               mod1_2 = num;
+            }
+         } else if (num % 3 == 2) {
+            if (num <= mod2_1) {
+               mod2_2 = mod2_1;
+               mod2_1 = num;
+            } else if (num <= mod2_2) {
+               mod2_2 = num;
+            }
+         }
+      }
+      if (sum % 3 == 0) {
+         return sum;
+      }
+      if (sum % 3 == 1) {
+         int min1 = Integer.MAX_VALUE;
+         if (mod1_1 != Integer.MAX_VALUE) {
+            min1 = mod1_1;
+         }
+         int min2 = Integer.MAX_VALUE;
+         if (mod2_1 != Integer.MAX_VALUE && mod2_2 != Integer.MAX_VALUE) {
+            min2 = mod2_1 + mod2_2;
+         }
+         return sum - Math.min(min1, min2);
+      }
+      // sum % 3 == 2
+      int min1 = Integer.MAX_VALUE;
+      if (mod2_1 != Integer.MAX_VALUE) {
+         min1 = mod2_1;
+      }
+      int min2 = Integer.MAX_VALUE;
+      if (mod1_1 != Integer.MAX_VALUE && mod1_2 != Integer.MAX_VALUE) {
+         min2 = mod1_1 + mod1_2;
+      }
+      return sum - Math.min(min1, min2);
+
+   }
+
+   // 1262. 可被三整除的最大和 (Greatest Sum Divisible by Three) --记忆化搜索
+   private int[] nums1262;
+   private int[][] memo1262;
+   private int n1262;
+
+   public int maxSumDivThree2(int[] nums) {
+      this.n1262 = nums.length;
+      this.nums1262 = nums;
+      this.memo1262 = new int[n1262][3];
+      return dfs1262(0, 0);
+   }
+
+   private int dfs1262(int i, int mod) {
+      if (i == n1262) {
+         return mod == 0 ? 0 : (int) -1e9;
+      }
+      if (memo1262[i][mod] != 0) {
+         return memo1262[i][mod];
+      }
+      return memo1262[i][mod] = Math.max(dfs1262(i + 1, (nums1262[i] + mod) % 3) + nums1262[i], dfs1262(i + 1, mod));
+   }
+
+   // 1262. 可被三整除的最大和 (Greatest Sum Divisible by Three) --递推
+   public int maxSumDivThree3(int[] nums) {
       int[] reminder = new int[3];
       for (int num : nums) {
          int a = reminder[0] + num;
