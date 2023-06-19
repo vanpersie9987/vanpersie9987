@@ -9653,6 +9653,54 @@ public class Leetcode_7 {
 
     }
 
+    // 1595. 连通两组点的最小成本 (Minimum Cost to Connect Two Groups of Points)
+    private int[][] memo1595;
+    private int m1595;
+    private int n1595;
+    private List<List<Integer>> cost1595;
+    private int[] minCols1595;
+
+    public int connectTwoGroups(List<List<Integer>> cost) {
+        this.m1595 = cost.size();
+        this.n1595 = cost.get(0).size();
+        this.memo1595 = new int[m1595][1 << n1595];
+        for (int i = 0; i < m1595; ++i) {
+            Arrays.fill(memo1595[i], -1);
+        }
+        this.cost1595 = cost;
+        this.minCols1595 = new int[n1595];
+        for (int j = 0; j < n1595; ++j) {
+            int min = 101;
+            for (int i = 0; i < m1595; ++i) {
+                min = Math.min(min, cost.get(i).get(j));
+            }
+            minCols1595[j] = min;
+        }
+        return dfs1595(0, 0);
+    }
+
+    private int dfs1595(int i, int mask) {
+        if (i == m1595) {
+            int sum = 0;
+            int c = ((1 << n1595) - 1) ^ mask;
+            while (c != 0) {
+                int bit = Integer.numberOfTrailingZeros(c);
+                sum += minCols1595[bit];
+                c &= c - 1;
+            }
+            return sum;
+        }
+        if (memo1595[i][mask] != -1) {
+            return memo1595[i][mask];
+        }
+        int min = (int) 1e5;
+        for (int j = 0; j < n1595; ++j) {
+            min = Math.min(min, dfs1595(i + 1, mask | 1 << j) + cost1595.get(i).get(j));
+        }
+        return memo1595[i][mask] = min;
+    }
+
+
     // 1938. 查询最大基因差 (Maximum Genetic Difference Query)
     // public int[] maxGeneticDifference(int[] parents, int[][] queries) {
 
