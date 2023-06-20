@@ -9784,6 +9784,46 @@ public class Leetcode_7 {
 
     }
 
+    // 1723. 完成所有工作的最短时间 (Find Minimum Time to Finish All Jobs)
+    private int n1723;
+    private int k1723;
+    private int[] sum1723;
+    private int[][] memo1723;
+
+    public int minimumTimeRequired(int[] jobs, int k) {
+        this.n1723 = jobs.length;
+        this.k1723 = k;
+        this.sum1723 = new int[1 << n1723];
+        for (int i = 1; i < (1 << n1723); ++i) {
+            int x = Integer.numberOfTrailingZeros(i);
+            int y = i ^ (1 << x);
+            sum1723[i] = jobs[x] + sum1723[y];
+        }
+        this.memo1723 = new int[k][1 << n1723];
+        for (int i = 0; i < k; ++i) {
+            Arrays.fill(memo1723[i], -1);
+        }
+        return dfs1723(0, 0);
+    }
+
+    private int dfs1723(int i, int mask) {
+        if (mask == (1 << n1723) - 1) {
+            return 0;
+        }
+        if (i == k1723) {
+            return (int) 1e9;
+        }
+        if (memo1723[i][mask] != -1) {
+            return memo1723[i][mask];
+        }
+        int min = (int) 1e9;
+        int c = ((1 << n1723) - 1) ^ mask;
+        for (int j = c; j != 0; j = (j - 1) & c) {
+            min = Math.min(min, Math.max(dfs1723(i + 1, mask | j), sum1723[j]));
+        }
+        return memo1723[i][mask] = min;
+    }
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
     // private int[][] memo1186;
@@ -9956,5 +9996,4 @@ public class Leetcode_7 {
     // return res;
 
     // }
-
 }
