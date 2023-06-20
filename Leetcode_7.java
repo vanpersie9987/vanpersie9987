@@ -9700,11 +9700,89 @@ public class Leetcode_7 {
         return memo1595[i][mask] = min;
     }
 
-
     // 1938. 查询最大基因差 (Maximum Genetic Difference Query)
-    // public int[] maxGeneticDifference(int[] parents, int[][] queries) {
+    private Map<Integer, List<Integer>> g1938;
+    private Map<Integer, List<int[]>> q1938;
+    private Trie1938 trie1938;
+    private int[] res1938;
 
-    // }
+    public int[] maxGeneticDifference(int[] parents, int[][] queries) {
+        this.g1938 = new HashMap<>();
+        int root = -1;
+        for (int i = 0; i < parents.length; ++i) {
+            if (parents[i] != -1) {
+                g1938.computeIfAbsent(parents[i], k -> new ArrayList<>()).add(i);
+            } else {
+                root = i;
+            }
+        }
+        this.q1938 = new HashMap<>();
+        for (int i = 0; i < queries.length; ++i) {
+            q1938.computeIfAbsent(queries[i][0], k -> new ArrayList<>()).add(new int[] { queries[i][1], i });
+        }
+        this.trie1938 = new Trie1938();
+        this.res1938 = new int[queries.length];
+        dfs1938(root);
+        return res1938;
+
+    }
+
+    private void dfs1938(int x) {
+        trie1938.insert(x);
+        for (int[] item : q1938.getOrDefault(x, new ArrayList<>())) {
+            res1938[item[1]] = trie1938.getMaxXor(item[0]);
+        }
+        for (int y : g1938.getOrDefault(x, new ArrayList<>())) {
+            dfs1938(y);
+        }
+        trie1938.delete(x);
+    }
+
+    public class Trie1938 {
+        private Trie1938[] children;
+        private final int L = 18;
+        private int cnt;
+
+        public Trie1938() {
+            this.children = new Trie1938[2];
+        }
+
+        public void insert(int val) {
+            Trie1938 node = this;
+            for (int i = L - 1; i >= 0; --i) {
+                int index = (val >> i) & 1;
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie1938();
+                }
+                node = node.children[index];
+                ++node.cnt;
+            }
+        }
+
+        public void delete(int val) {
+            Trie1938 node = this;
+            for (int i = L - 1; i >= 0; --i) {
+                int bit = (val >> i) & 1;
+                node = node.children[bit];
+                --node.cnt;
+            }
+        }
+
+        public int getMaxXor(int val) {
+            Trie1938 node = this;
+            int res = 0;
+            for (int i = L - 1; i >= 0; --i) {
+                int bit = (val >> i) & 1;
+                if (node.children[bit ^ 1] != null && node.children[bit ^ 1].cnt > 0) {
+                    res |= 1 << i;
+                    bit ^= 1;
+                }
+                node = node.children[bit];
+            }
+            return res;
+        }
+
+    }
 
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
