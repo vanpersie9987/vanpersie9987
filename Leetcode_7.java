@@ -1290,27 +1290,27 @@ public class Leetcode_7 {
         this.houses1478 = houses;
         this.memo1478 = new int[n1478][k];
         for (int i = 0; i < n1478; ++i) {
-            Arrays.fill(memo1478[i], Integer.MAX_VALUE);
+            Arrays.fill(memo1478[i], -1);
         }
         return dfs1478(0, 0);
 
     }
 
-    private int dfs1478(int i, int count) {
-        if (i == n1478 || count == k1478) {
-            if (i == n1478 && count == k1478) {
-                return 0;
-            }
-            return (int) 1e9;
+    private int dfs1478(int i, int j) {
+        if (i == n1478) {
+            return 0;
         }
-        if (memo1478[i][count] != Integer.MAX_VALUE) {
-            return memo1478[i][count];
+        if (j == k1478) {
+            return (int) 1e7;
         }
-        int res = (int) 1e9;
-        for (int j = i; j < n1478; ++j) {
-            res = Math.min(res, getDistance1478(i, j) + dfs1478(j + 1, count + 1));
+        if (memo1478[i][j] != -1) {
+            return memo1478[i][j];
         }
-        return memo1478[i][count] = res;
+        int res = (int) 1e7;
+        for (int k = i; k < n1478; ++k) {
+            res = Math.min(res, getDistance1478(i, k) + dfs1478(k + 1, j + 1));
+        }
+        return memo1478[i][j] = res;
     }
 
     private int getDistance1478(int i, int j) {
