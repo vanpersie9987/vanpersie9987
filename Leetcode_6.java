@@ -8354,50 +8354,45 @@ public class Leetcode_6 {
     // 2472. 不重叠回文子字符串的最大数目 (Maximum Number of Non-overlapping Palindrome
     // Substrings)
     private boolean[][] isPalindromes2472;
-    private String s2472;
     private int[] memo2472;
     private int k2472;
+    private int n2472;
 
     public int maxPalindromes(String s, int k) {
-        int n = s.length();
-        this.s2472 = s;
+        this.n2472 = s.length();
         this.k2472 = k;
-        isPalindromes2472 = new boolean[n][n];
-        for (int i = n - 1; i >= 0; --i) {
-            for (int j = i; j < n; ++j) {
-                if (s.charAt(i) == s.charAt(j) && (j - i < 2 || isPalindromes2472[i + 1][j - 1])) {
+        isPalindromes2472 = new boolean[n2472][n2472];
+        char[] arr = s.toCharArray();
+        for (int i = n2472 - 1; i >= 0; --i) {
+            for (int j = i; j < n2472; ++j) {
+                if (arr[i] == arr[j] && (j - i < 2 || isPalindromes2472[i + 1][j - 1])) {
                     isPalindromes2472[i][j] = true;
                 }
             }
         }
-        memo2472 = new int[n];
+        memo2472 = new int[n2472];
         Arrays.fill(memo2472, -1);
-        int res = 0;
-        for (int i = n - 1; i >= 0; --i) {
-            memo2472[i] = Math.max(memo2472[i], dfs2472(i));
-            if (i + 1 < n) {
-                memo2472[i] = Math.max(memo2472[i], memo2472[i + 1]);
-            }
-            res = Math.max(memo2472[i], res);
-        }
-        return res;
+        return dfs(0);
 
     }
 
-    private int dfs2472(int i) {
-        if (i + k2472 - 1 >= s2472.length()) {
+    private int dfs(int i) {
+        if (i == n2472) {
+            return 0;
+        }
+        if (n2472 - i < k2472) {
             return 0;
         }
         if (memo2472[i] != -1) {
             return memo2472[i];
         }
-        int max = 0;
-        int j = i + k2472 - 1;
-        while (j < s2472.length()) {
+        // 不选
+        int max = dfs(i + 1);
+        // 选
+        for (int j = i + k2472 - 1; j < n2472; ++j) {
             if (isPalindromes2472[i][j]) {
-                max = Math.max(max, dfs2472(j + 1) + 1);
+                max = Math.max(max, dfs(j + 1) + 1);
             }
-            ++j;
         }
         return memo2472[i] = max;
     }
