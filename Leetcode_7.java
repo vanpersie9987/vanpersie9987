@@ -2371,10 +2371,10 @@ public class Leetcode_7 {
         int res = 0;
         int n = nums.length;
         for (int i = 0; i < n; ++i) {
-            if (checkPrime(nums[i][i])) {
+            if (checkPrime6361(nums[i][i])) {
                 res = Math.max(res, nums[i][i]);
             }
-            if (checkPrime(nums[i][n - i - 1])) {
+            if (checkPrime6361(nums[i][n - i - 1])) {
                 res = Math.max(res, nums[i][n - i - 1]);
             }
         }
@@ -2382,7 +2382,7 @@ public class Leetcode_7 {
 
     }
 
-    private boolean checkPrime(int num) {
+    private boolean checkPrime6361(int num) {
         for (int i = 2; i * i <= num; ++i) {
             if (num % i == 0) {
                 return false;
@@ -9824,6 +9824,57 @@ public class Leetcode_7 {
         return memo1723[i][mask] = min;
     }
 
+    // 2463. 最小移动总距离 (Minimum Total Distance Traveled)
+    private List<Integer> robot2463;
+    private int[][] factory2463;
+    private long[][] memo2463;
+    private int m2463;
+    private int n2463;
+
+    public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
+        Collections.sort(robot);
+        Arrays.sort(factory, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        this.robot2463 = robot;
+        this.factory2463 = factory;
+        this.m2463 = robot.size();
+        this.n2463 = factory.length;
+        this.memo2463 = new long[m2463][n2463];
+        for (int i = 0; i < m2463; ++i) {
+            Arrays.fill(memo2463[i], -1L);
+        }
+        return dfs2463(0, 0);
+
+    }
+
+    private long dfs2463(int i, int j) {
+        if (i == m2463) {
+            return 0L;
+        }
+        if (j == n2463) {
+            return (long) 1e13;
+        }
+        if (memo2463[i][j] != -1) {
+            return memo2463[i][j];
+        }
+        // 不修
+        long res = dfs2463(i, j + 1);
+        // 修
+        long dis = 0L;
+        for (int k = i; k < m2463 && k - i + 1 <= factory2463[j][1]; ++k) {
+            dis += Math.abs(robot2463.get(k) - factory2463[j][0]);
+            res = Math.min(res, dfs2463(k + 1, j + 1) + dis);
+        }
+        return memo2463[i][j] = res;
+    }
+
+
     // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
     // private int[] arr1186;
     // private int[][] memo1186;
@@ -9996,4 +10047,53 @@ public class Leetcode_7 {
     // return res;
 
     // }
+
+    // 2478. 完美分割的方案数 (Number of Beautiful Partitions)
+    // private int[][] memo;
+    // private List<Integer> list;
+    // private int n;
+    // public int beautifulPartitions(String s, int k, int minLength) {
+    // this.n = s.length();
+    // char[] arr = s.toCharArray();
+    // if (!checkPrime2478(arr[0])) {
+    // return 0;
+    // }
+    // if (checkPrime2478(arr[n - 1])) {
+    // return 0;
+    // }
+    // List<Integer> list = new ArrayList<>();
+    // for (int i = 0; i < n - 1; ++i) {
+    // if (!checkPrime2478(arr[i]) && checkPrime2478(arr[i + 1])) {
+    // list.add(i + 1);
+    // }
+    // }
+    // if (list.size() < k - 1) {
+    // return 0;
+    // }
+    // this.list = list;
+    // this.memo = new int[n][k + 1];
+    // for (int i = 0; i < n; ++i) {
+    // Arrays.fill(memo[i], -1);
+    // }
+    // return dfs(0, k);
+
+    // }
+
+    // private int dfs(int i, int cnt) {
+    // if (i == n || cnt == 0) {
+    // return i == n && cnt == 0 ? 1 : 0;
+    // }
+    // if (memo[i][cnt] != -1) {
+    // return memo[i][cnt];
+    // }
+    // int res = 0;
+    // final int MOD = (int) (1e9 + 7);
+
+    // return 0;
+    // }
+
+    // private boolean checkPrime2478(char c) {
+    // return c == '2' || c == '3' || c == '5' || c == '7';
+    // }
+
 }
