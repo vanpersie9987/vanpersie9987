@@ -9874,4 +9874,69 @@ public class Leetcode_7 {
         return memo2463[i][j] = res;
     }
 
+    // LCP 41. 黑白翻转棋
+    public int flipChess(String[] chessboard) {
+        int res = 0;
+        int m = chessboard.length;
+        int n = chessboard[0].length();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (chessboard[i].charAt(j) == '.') {
+                    res = Math.max(res, bfs_lcp_41(chessboard, i, j));
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int bfs_lcp_41(String[] chessboard, int x, int y) {
+        int m = chessboard.length;
+        int n = chessboard[0].length();
+        int cnt = 0;
+        char[][] arr = new char[m][n];
+        for (int i = 0; i < m; ++i) {
+            arr[i] = chessboard[i].toCharArray();
+        }
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[] { x, y });
+        final int[][] dirs = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 }, { -1, -1 }, { -1, 1 }, { 1, -1 }, { 1, 1 } };
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            x = cur[0];
+            y = cur[1];
+            for (int[] d : dirs) {
+                if (check_lcp_41(arr, x, y, d[0], d[1])) {
+                    int nx = x + d[0];
+                    int ny = y + d[1];
+                    while (arr[nx][ny] != 'X') {
+                        arr[nx][ny] = 'X';
+                        q.offer(new int[] { nx, ny });
+                        nx += d[0];
+                        ny += d[1];
+                        ++cnt;
+                    }
+                }
+            }
+        }
+        return cnt;
+    }
+
+    private boolean check_lcp_41(char[][] arr, int x, int y, int dx, int dy) {
+        int m = arr.length;
+        int n = arr[0].length;
+        x += dx;
+        y += dy;
+        while (x >= 0 && x < m && y >= 0 && y < n) {
+            if (arr[x][y] == 'X') {
+                return true;
+            } else if (arr[x][y] == '.') {
+                return false;
+            }
+            x += dx;
+            y += dy;
+        }
+        return false;
+    }
+
 }
