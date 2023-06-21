@@ -9860,7 +9860,7 @@ public class Leetcode_7 {
         if (j == n2463) {
             return (long) 1e13;
         }
-        if (memo2463[i][j] != -1) {
+        if (memo2463[i][j] != -1L) {
             return memo2463[i][j];
         }
         // 不修
