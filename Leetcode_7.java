@@ -1277,7 +1277,7 @@ public class Leetcode_7 {
         return memo1092[i][j] = Math.min(dfs1092(i - 1, j), dfs1092(i, j - 1)) + 1;
     }
 
-    // 1478.安排邮筒 (Allocate Mailboxes)
+    // 1478. 安排邮筒 (Allocate Mailboxes)
     private int[] houses1478;
     private int k1478;
     private int n1478;
