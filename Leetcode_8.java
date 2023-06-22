@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import LeetCode_4.FoodRatings.Bean;
-
 public class Leetcode_8 {
     public static void main(String[] args) {
 
