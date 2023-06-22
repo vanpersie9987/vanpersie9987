@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import LeetCode_4.FoodRatings.Bean;
+
 public class Leetcode_8 {
     public static void main(String[] args) {
 
@@ -68,6 +70,10 @@ public class Leetcode_8 {
             treeMap17_25.computeIfAbsent(word.length(), k -> new HashSet<>()).add(word);
         }
         for (Map.Entry<Integer, Set<String>> entry : treeMap17_25.entrySet()) {
+            int side = Math.min(entry.getValue().size(), entry.getKey());
+            if (side * side <= maxArea17_25) {
+                break;
+            }
             dfs17_25(entry.getValue(), new ArrayList<>(), entry.getKey());
         }
         return res17_25.toArray(new String[0]);
@@ -75,9 +81,6 @@ public class Leetcode_8 {
     }
 
     private void dfs17_25(Set<String> set, List<String> path, int len) {
-        if (set.size() * len <= maxArea17_25) {
-            return;
-        }
         if (path.size() > len) {
             return;
         }
