@@ -83,7 +83,7 @@ public class Leetcode_8 {
         }
         for (String word : set) {
             path.add(word);
-            boolean[] check = checkLegal17_25(path);
+            boolean[] check = root17_25.check(path);
             if (check[0]) {
                 if (check[1] && path.size() * len > maxArea17_25) {
                     maxArea17_25 = path.size() * len;
@@ -94,28 +94,6 @@ public class Leetcode_8 {
             path.remove(path.size() - 1);
         }
 
-    }
-
-    private boolean[] checkLegal17_25(List<String> path) {
-        int m = path.size();
-        int n = path.get(0).length();
-        boolean[] res = new boolean[2];
-        Arrays.fill(res, true);
-        for (int j = 0; j < n; ++j) {
-            Trie17_25 node = root17_25;
-            for (int i = 0; i < m; ++i) {
-                int index = path.get(i).charAt(j) - 'a';
-                if (node.children[index] == null) {
-                    Arrays.fill(res, false);
-                    return res;
-                }
-                node = node.children[index];
-            }
-            if (!node.isWord) {
-                res[1] = false;
-            }
-        }
-        return res;
     }
 
     public class Trie17_25 {
@@ -138,18 +116,27 @@ public class Leetcode_8 {
             node.isWord = true;
         }
 
-        public boolean isLegal(String s) {
-            Trie17_25 node = this;
-            for (char c : s.toCharArray()) {
-                int index = c - 'a';
-                if (node.children[index] == null) {
-                    return false;
+        public boolean[] check(List<String> path) {
+            int m = path.size();
+            int n = path.get(0).length();
+            boolean[] res = new boolean[2];
+            Arrays.fill(res, true);
+            for (int j = 0; j < n; ++j) {
+                Trie17_25 node = root17_25;
+                for (int i = 0; i < m; ++i) {
+                    int index = path.get(i).charAt(j) - 'a';
+                    if (node.children[index] == null) {
+                        Arrays.fill(res, false);
+                        return res;
+                    }
+                    node = node.children[index];
                 }
-                node = node.children[index];
+                if (!node.isWord) {
+                    res[1] = false;
+                }
             }
-            return node.isWord;
+            return res;
         }
-
     }
 
 }
