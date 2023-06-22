@@ -13796,6 +13796,50 @@ public class LeetCodeText {
         }
     }
 
+    // 面试题 16.19. 水域大小
+    private int m16_19;
+    private int n16_19;
+    private int[][] land16_19;
+
+    public int[] pondSizes3(int[][] land) {
+        this.m16_19 = land.length;
+        this.n16_19 = land[0].length;
+        this.land16_19 = land;
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < m16_19; ++i) {
+            for (int j = 0; j < n16_19; ++j) {
+                if (land[i][j] == 0) {
+                    list.add(dfs16_19(i, j));
+                }
+            }
+        }
+        Collections.sort(list);
+        int[] res = new int[list.size()];
+        for (int i = 0; i < list.size(); ++i) {
+            res[i] = list.get(i);
+        }
+        return res;
+
+    }
+
+    private int dfs16_19(int i, int j) {
+        if (!(i >= 0 && i < m16_19 && j >= 0 && j < n16_19)) {
+            return 0;
+        }
+        if (land16_19[i][j] != 0) {
+            return 0;
+        }
+        int cnt = 1;
+        land16_19[i][j] = 1;
+        final int[][] dirs = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { 1, 1 }, { 1, -1 }, { -1, 1 }, { -1, -1 } };
+        for (int[] d : dirs) {
+            int nx = i + d[0];
+            int ny = j + d[1];
+            cnt += dfs16_19(nx, ny);
+        }
+        return cnt;
+    }
+
     // LCS 03. 主题空间 --bfs
     public int largestArea(String[] grid) {
         int m = grid.length;
