@@ -3562,11 +3562,11 @@ public class Leetcode_7 {
         if (memo1473[i][lastColor][kinds] != 0) {
             return memo1473[i][lastColor][kinds];
         }
-        int min = (int) 1e8;
         if (houses1473[i] != 0) {
-            min = Math.min(min, dfs1473(i + 1, houses1473[i], kinds + (lastColor != houses1473[i] ? -1 : 0)));
-            return memo1473[i][lastColor][kinds] = min;
+            return memo1473[i][lastColor][kinds] = dfs1473(i + 1, houses1473[i],
+                    kinds + (lastColor != houses1473[i] ? -1 : 0));
         }
+        int min = (int) 1e8;
         for (int color = 1; color <= n1473; ++color) {
             min = Math.min(min, cost1473[i][color - 1] + dfs1473(i + 1, color, kinds +
                     (lastColor != color ? -1 : 0)));
