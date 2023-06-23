@@ -140,4 +140,41 @@ public class Leetcode_8 {
         }
     }
 
+    // 2484. 统计回文子序列数目 (Count Palindromic Subsequences)
+    public int countPalindromes(String s) {
+        int n = s.length();
+        int[] suf = new int[10];
+        int[][] suf2 = new int[10][10];
+        char[] arr = s.toCharArray();
+        for (int i = n - 1; i >= 0; --i) {
+            int d = arr[i] - '0';
+            for (int j = 0; j < 10; ++j) {
+                suf2[d][j] += suf[j];
+            }
+            ++suf[d];
+        }
+        final int MOD = (int) (1e9 + 7);
+        int[] pre = new int[10];
+        int[][] pre2 = new int[10][10];
+        int res = 0;
+        for (char d : s.toCharArray()) {
+            d -= '0';
+            --suf[d];
+            for (int j = 0; j < 10; ++j) {
+                suf2[d][j] -= suf[j];
+            }
+            for (int j = 0; j < 10; ++j) {
+                for (int k = 0; k < 10; ++k) {
+                    res = (int) ((res + (long) pre2[j][k] * suf2[j][k]) % MOD);
+                }
+            }
+            for (int j = 0; j < 10; ++j) {
+                pre2[d][j] += pre[j];
+            }
+            ++pre[d];
+        }
+        return res;
+
+    }
+
 }
