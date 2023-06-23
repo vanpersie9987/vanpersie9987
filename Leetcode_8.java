@@ -290,8 +290,9 @@ public class Leetcode_8 {
             return memo1682[i][j][k];
         }
         if (arr1682[i] == arr1682[j]) {
-            int max = 0;
-            max = Math.max(max, dfs1682(i + 1, j - 1, k));
+            // 不选
+            int max = dfs1682(i + 1, j - 1, k);
+            // 选
             if (arr1682[i] - 'a' != k) {
                 max = Math.max(max, dfs1682(i + 1, j - 1, arr1682[i] - 'a') + 2);
             }
@@ -333,7 +334,9 @@ public class Leetcode_8 {
         }
         int mask = ((preMask << 1) | (preMask >> 1) | rows1349[i]) & u1349;
         int c = mask ^ u1349;
+        // 不选
         int max = dfs1349(i - 1, 0);
+        // 选
         for (int j = c; j > 0; j = (j - 1) & c) {
             if ((j & (j >> 1)) == 0) {
                 max = Math.max(max, dfs1349(i - 1, j) + Integer.bitCount(j));
