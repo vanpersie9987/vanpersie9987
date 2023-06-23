@@ -266,4 +266,38 @@ public class Leetcode_8 {
         return memo1771[i][j][b] = Math.max(dfs1771(i + 1, j, b), dfs1771(i, j - 1, b));
     }
 
+    // 1682. 最长回文子序列 II --plus 未提交
+    private int[][][] memo1682;
+    private char[] arr1682;
+
+    public int longestPalindromeSubseq(String s) {
+        int n = s.length();
+        this.arr1682 = s.toCharArray();
+        this.memo1682 = new int[n][n][27];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                Arrays.fill(memo1682[i][j], -1);
+            }
+        }
+        return dfs1682(0, n - 1, 26);
+    }
+
+    private int dfs1682(int i, int j, int k) {
+        if (i >= j) {
+            return 0;
+        }
+        if (memo1682[i][j][k] != -1) {
+            return memo1682[i][j][k];
+        }
+        if (arr1682[i] == arr1682[j]) {
+            int max = 0;
+            max = Math.max(max, dfs1682(i + 1, j - 1, k));
+            if (arr1682[i] - 'a' != k) {
+                max = Math.max(max, dfs1682(i + 1, j - 1, arr1682[i] - 'a') + 2);
+            }
+            return memo1682[i][j][k] = max;
+        }
+        return memo1682[i][j][k] = Math.max(dfs1682(i, j - 1, k), dfs1682(i + 1, j, k));
+    }
+
 }
