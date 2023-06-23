@@ -177,4 +177,52 @@ public class Leetcode_8 {
 
     }
 
+    // 1691. 堆叠长方体的最大高度 (Maximum Height by Stacking Cuboids)
+    private int n1691;
+    private int[][] cuboids1691;
+    private int[] memo1691;
+
+    public int maxHeight(int[][] cuboids) {
+        this.n1691 = cuboids.length;
+        for (int[] c : cuboids) {
+            Arrays.sort(c);
+        }
+        Arrays.sort(cuboids, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o2[0] + o2[1] + o2[2], o1[0] + o1[1] + o1[2]);
+            }
+
+        });
+        this.cuboids1691 = cuboids;
+        this.memo1691 = new int[n1691];
+        int res = 0;
+        for (int i = 0; i < n1691; ++i) {
+            res = Math.max(res, dfs1691(i) + cuboids[i][2]);
+        }
+        return res;
+
+    }
+
+    private int dfs1691(int i) {
+        if (i == n1691) {
+            return 0;
+        }
+        if (memo1691[i] != 0) {
+            return memo1691[i];
+        }
+        int max = 0;
+        for (int j = i + 1; j < n1691; ++j) {
+            if (check1691(cuboids1691[i], cuboids1691[j])) {
+                max = Math.max(max, dfs1691(j) + cuboids1691[j][2]);
+            }
+        }
+        return memo1691[i] = max;
+    }
+
+    private boolean check1691(int[] a, int[] b) {
+        return b[0] <= a[0] && b[1] <= a[1] && b[2] <= a[2];
+    }
+
 }
