@@ -345,4 +345,68 @@ public class Leetcode_8 {
         return memo1349[i][preMask] = max;
     }
 
+    // 1681. 最小不兼容性 (Minimum Incompatibility)
+    private int[][] memo;
+    private int k;
+    private int[] map;
+    private int n;
+
+    public int minimumIncompatibility(int[] nums, int k) {
+        this.n = nums.length;
+        int[] cnts = new int[n + 1];
+        for (int num : nums) {
+            ++cnts[num];
+        }
+        for (int c : cnts) {
+            if (c > k) {
+                return -1;
+            }
+        }
+        this.k = k;
+        this.memo = new int[k][1 << n];
+        for (int i = 0; i < k; ++i) {
+            Arrays.fill(memo[i], -1);
+        }
+        this.map = new int[1 << n];
+        Arrays.fill(map, -1);
+        // 这里如何优化？
+        search: for (int i = 0; i < (1 << n); ++i) {
+            if (Integer.bitCount(i) == n / k) {
+                int bit = 0;
+                int tmp = i;
+                while (tmp != 0) {
+                    int b = Integer.numberOfTrailingZeros(tmp);
+                    int num = nums[b];
+                    if (((bit >> num) & 1) != 0) {
+                        continue search;
+                    }
+                    bit |= 1 << num;
+                    tmp &= tmp - 1;
+                }
+                int min = Integer.numberOfTrailingZeros(bit);
+                int max = 31 - Integer.numberOfLeadingZeros(bit);
+                map[i] = max - min;
+            }
+        }
+        return dfs(0, 0);
+
+    }
+
+    private int dfs(int i, int mask) {
+        if (i == k) {
+            return 0;
+        }
+        if (memo[i][mask] != -1) {
+            return memo[i][mask];
+        }
+        int res = 1000;
+        int c = ((1 << n) - 1) ^ mask;
+        for (int j = c; j > 0; j = (j - 1) & c) {
+            if (Integer.bitCount(j) == n / k && map[j] != -1) {
+                res = Math.min(res, dfs(i + 1, mask | j) + map[j]);
+            }
+        }
+        return memo[i][mask] = res;
+    }
+
 }
