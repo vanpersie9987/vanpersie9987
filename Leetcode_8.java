@@ -227,21 +227,20 @@ public class Leetcode_8 {
 
     // 1771. 由子序列构造的最长回文串的长度 (Maximize Palindrome Length From Subsequences)
     private int m1771;
-    private int n1771;
-    private String s1771;
+    private char[] arr1771;
     private int[][][] memo1771;
 
     public int longestPalindrome(String word1, String word2) {
         this.m1771 = word1.length();
-        this.n1771 = word2.length();
-        this.s1771 = word1 + word2;
-        this.memo1771 = new int[m1771 + n1771][m1771 + n1771][2];
-        for (int i = 0; i < m1771 + n1771; ++i) {
-            for (int j = 0; j < m1771 + n1771; ++j) {
+        int n = word2.length();
+        this.arr1771 = (word1 + word2).toCharArray();
+        this.memo1771 = new int[m1771 + n][m1771 + n][2];
+        for (int i = 0; i < m1771 + n; ++i) {
+            for (int j = 0; j < m1771 + n; ++j) {
                 Arrays.fill(memo1771[i][j], -1);
             }
         }
-        int res = dfs1771(0, m1771 + n1771 - 1, 0);
+        int res = dfs1771(0, m1771 + n - 1, 0);
         return res > 1 ? res : 0;
 
     }
@@ -261,7 +260,7 @@ public class Leetcode_8 {
         if (memo1771[i][j][b] != -1) {
             return memo1771[i][j][b];
         }
-        if (s1771.charAt(i) == s1771.charAt(j)) {
+        if (arr1771[i] == arr1771[j]) {
             return memo1771[i][j][b] = dfs1771(i + 1, j - 1, 1) + 2;
         }
         return memo1771[i][j][b] = Math.max(dfs1771(i + 1, j, b), dfs1771(i, j - 1, b));
