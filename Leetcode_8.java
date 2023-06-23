@@ -300,4 +300,46 @@ public class Leetcode_8 {
         return memo1682[i][j][k] = Math.max(dfs1682(i, j - 1, k), dfs1682(i + 1, j, k));
     }
 
+    // 1349. 参加考试的最大学生数 (Maximum Students Taking Exam)
+    private int u;
+    private int[] rows;
+    private int[][] memo;
+
+    public int maxStudents(char[][] seats) {
+        int m = seats.length;
+        int n = seats[0].length;
+        this.rows = new int[m];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (seats[i][j] == '#') {
+                    rows[i] |= 1 << j;
+                }
+            }
+        }
+        this.u = (1 << n) - 1;
+        this.memo = new int[m][1 << n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(memo[i], -1);
+        }
+        return dfs(m - 1, 0);
+    }
+
+    private int dfs(int i, int preMask) {
+        if (i < 0) {
+            return 0;
+        }
+        if (memo[i][preMask] != -1) {
+            return memo[i][preMask];
+        }
+        int mask = (preMask << 1) | (preMask >> 1) | rows[i];
+        int c = ~mask & u;
+        int max = dfs(i - 1, 0);
+        for (int j = c; j > 0; j = (j - 1) & c) {
+            if ((j & (j >> 1)) == 0) {
+                max = Math.max(max, dfs(i - 1, j) + Integer.bitCount(j));
+            }
+        }
+        return memo[i][preMask] = max;
+    }
+
 }
