@@ -466,4 +466,39 @@ public class Leetcode_8 {
         return res;
     }
 
+    // 1879. 两个数组最小的异或值之和 (Minimum XOR Sum of Two Arrays)
+    private int n1879;
+    private int[] nums1_1879;
+    private int[] nums2_1879;
+    private int[][] memo1879;
+
+    public int minimumXORSum(int[] nums1, int[] nums2) {
+        this.n1879 = nums1.length;
+        this.nums1_1879 = nums1;
+        this.nums2_1879 = nums2;
+        this.memo1879 = new int[n1879][1 << n1879];
+        for (int i = 0; i < n1879; ++i) {
+            Arrays.fill(memo1879[i], -1);
+        }
+        return dfs1879(0, 0);
+
+    }
+
+    private int dfs1879(int i, int mask) {
+        if (i == n1879) {
+            return 0;
+        }
+        if (memo1879[i][mask] != -1) {
+            return memo1879[i][mask];
+        }
+        int min = (int) 1e9;
+        int c = ((1 << n1879) - 1) ^ mask;
+        while (c != 0) {
+            int bit = Integer.numberOfTrailingZeros(c);
+            min = Math.min(min, dfs1879(i + 1, mask | (1 << bit)) + (nums1_1879[i] ^ nums2_1879[bit]));
+            c &= c - 1;
+        }
+        return memo1879[i][mask] = min;
+    }
+
 }
