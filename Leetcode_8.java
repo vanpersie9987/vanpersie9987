@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -406,6 +407,60 @@ public class Leetcode_8 {
             }
         }
         return memo1681[i][mask] = res;
+    }
+
+    // 1655. 分配重复整数 (Distribute Repeating Integers)
+    private int n1655;
+    private int[] sum1655;
+    private int[] cnts1655;
+    private int[][] memo1655;
+    private int u1655;
+
+    public boolean canDistribute(int[] nums, int[] quantity) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.merge(num, 1, Integer::sum);
+        }
+        this.n1655 = map.size();
+        this.cnts1655 = new int[n1655];
+        int id = 0;
+        for (int c : map.values()) {
+            cnts1655[id++] = c;
+        }
+        int m = quantity.length;
+        this.sum1655 = new int[1 << m];
+        for (int i = 1; i < (1 << m); ++i) {
+            int bit = Integer.numberOfTrailingZeros(i);
+            int y = i ^ (1 << bit);
+            sum1655[i] = sum1655[y] + quantity[bit];
+        }
+        this.memo1655 = new int[n1655][1 << m];
+        this.u1655 = (1 << m) - 1;
+        return dfs1655(0, 0);
+
+    }
+
+    private boolean dfs1655(int i, int mask) {
+        if (mask == u1655) {
+            return true;
+        }
+        if (i == n1655) {
+            return false;
+        }
+        if (memo1655[i][mask] != 0) {
+            return memo1655[i][mask] > 0;
+        }
+        // 不选
+        boolean res = dfs1655(i + 1, mask);
+        int c = u1655 ^ mask;
+        for (int j = c; j > 0; j = (j - 1) & c) {
+            if (cnts1655[i] >= sum1655[j]) {
+                // 选
+                res = res || dfs1655(i + 1, mask | j);
+            }
+        }
+        memo1655[i][mask] = res ? 1 : -1;
+        return res;
     }
 
 }
