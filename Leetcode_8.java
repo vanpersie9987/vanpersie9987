@@ -346,14 +346,14 @@ public class Leetcode_8 {
     }
 
     // 1681. 最小不兼容性 (Minimum Incompatibility)
-    private int[][] memo;
-    private int k;
-    private int[] map;
-    private int n;
+    private int[][] memo1681;
+    private int k1681;
+    private int[] map1681;
+    private int n1681;
 
     public int minimumIncompatibility(int[] nums, int k) {
-        this.n = nums.length;
-        int[] cnts = new int[n + 1];
+        this.n1681 = nums.length;
+        int[] cnts = new int[n1681 + 1];
         for (int num : nums) {
             ++cnts[num];
         }
@@ -362,16 +362,15 @@ public class Leetcode_8 {
                 return -1;
             }
         }
-        this.k = k;
-        this.memo = new int[k][1 << n];
+        this.k1681 = k;
+        this.memo1681 = new int[k][1 << n1681];
         for (int i = 0; i < k; ++i) {
-            Arrays.fill(memo[i], -1);
+            Arrays.fill(memo1681[i], -1);
         }
-        this.map = new int[1 << n];
-        Arrays.fill(map, -1);
-        // 这里如何优化？
-        search: for (int i = 0; i < (1 << n); ++i) {
-            if (Integer.bitCount(i) == n / k) {
+        this.map1681 = new int[1 << n1681];
+        Arrays.fill(map1681, -1);
+        search: for (int i = 0; i < (1 << n1681); ++i) {
+            if (Integer.bitCount(i) == n1681 / k) {
                 int bit = 0;
                 int tmp = i;
                 while (tmp != 0) {
@@ -385,28 +384,28 @@ public class Leetcode_8 {
                 }
                 int min = Integer.numberOfTrailingZeros(bit);
                 int max = 31 - Integer.numberOfLeadingZeros(bit);
-                map[i] = max - min;
+                map1681[i] = max - min;
             }
         }
-        return dfs(0, 0);
+        return dfs1681(0, 0);
 
     }
 
-    private int dfs(int i, int mask) {
-        if (i == k) {
+    private int dfs1681(int i, int mask) {
+        if (i == k1681) {
             return 0;
         }
-        if (memo[i][mask] != -1) {
-            return memo[i][mask];
+        if (memo1681[i][mask] != -1) {
+            return memo1681[i][mask];
         }
         int res = 1000;
-        int c = ((1 << n) - 1) ^ mask;
+        int c = ((1 << n1681) - 1) ^ mask;
         for (int j = c; j > 0; j = (j - 1) & c) {
-            if (Integer.bitCount(j) == n / k && map[j] != -1) {
-                res = Math.min(res, dfs(i + 1, mask | j) + map[j]);
+            if (Integer.bitCount(j) == n1681 / k1681 && map1681[j] != -1) {
+                res = Math.min(res, dfs1681(i + 1, mask | j) + map1681[j]);
             }
         }
-        return memo[i][mask] = res;
+        return memo1681[i][mask] = res;
     }
 
 }
