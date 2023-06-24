@@ -9796,7 +9796,7 @@ public class Leetcode_7 {
         for (int i = 1; i < (1 << n1723); ++i) {
             int x = Integer.numberOfTrailingZeros(i);
             int y = i ^ (1 << x);
-            sum1723[i] = jobs[x] + sum1723[y];
+            sum1723[i] = sum1723[y] + jobs[x];
         }
         this.memo1723 = new int[k][1 << n1723];
         for (int i = 0; i < k; ++i) {
