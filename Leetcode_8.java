@@ -458,6 +458,9 @@ public class Leetcode_8 {
                 // 选
                 res = res || dfs1655(i + 1, mask | j);
             }
+            if (res) {
+                break;
+            }
         }
         memo1655[i][mask] = res ? 1 : -1;
         return res;
