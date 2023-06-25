@@ -610,8 +610,10 @@ public class Leetcode_8 {
                     res += cnts[i];
                 }
             }
-            int a = String.valueOf(num).charAt(0) - '0';
-            ++cnts[a];
+            while (num >= 10) {
+                num /= 10;
+            }
+            ++cnts[num];
         }
         return res;
     }
