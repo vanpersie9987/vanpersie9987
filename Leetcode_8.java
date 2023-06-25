@@ -653,5 +653,46 @@ public class Leetcode_8 {
         }
         return pre < 0 ? 0 : res;
     }
-    
+
+    // 2172. 数组的最大与和 (Maximum AND Sum of Array)
+    private int[][] memo2172;
+    private int[] nums2172;
+    private int n2172;
+    private int u2172;
+
+    public int maximumANDSum(int[] nums, int numSlots) {
+        this.n2172 = nums.length;
+        // 看成有 numSlots * 2 个篮子，每个篮子可放最多1个数
+        this.u2172 = (1 << (numSlots * 2)) - 1;
+        this.nums2172 = nums;
+        this.memo2172 = new int[n2172][1 << (numSlots * 2)];
+        for (int i = 0; i < n2172; ++i) {
+            Arrays.fill(memo2172[i], Integer.MIN_VALUE);
+        }
+        return dfs2172(0, 0);
+
+    }
+
+    private int dfs2172(int i, int mask) {
+        if (i == n2172) {
+            return 0;
+        }
+        if (n2172 - i > Integer.bitCount(u2172 ^ mask)) {
+            return (int) -1e5;
+        }
+        if (memo2172[i][mask] != Integer.MIN_VALUE) {
+            return memo2172[i][mask];
+        }
+        // 不选
+        int max = dfs2172(i + 1, mask);
+        int c = u2172 ^ mask;
+        while (c > 0) {
+            int bit = Integer.numberOfTrailingZeros(c);
+            // 选
+            max = Math.max(max, dfs2172(i + 1, mask | (1 << bit)) + ((bit / 2 + 1) & nums2172[i]));
+            c &= c - 1;
+        }
+        return memo2172[i][mask] = max;
+    }
+
 }
