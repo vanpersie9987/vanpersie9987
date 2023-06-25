@@ -539,14 +539,14 @@ public class Leetcode_8 {
             return 0;
         }
         int len = words6898[i].length();
+        int left = words6898[i].charAt(0) - 'a';
+        int right = words6898[i].charAt(len - 1) - 'a';
         if (i == 0) {
-            return dfs6898(i + 1, words6898[i].charAt(0) - 'a', words6898[i].charAt(len - 1) - 'a') + len;
+            return dfs6898(i + 1, left, right) + len;
         }
         if (memo6898[i][start][end] != 0) {
             return memo6898[i][start][end];
         }
-        int left = words6898[i].charAt(0) - 'a';
-        int right = words6898[i].charAt(len - 1) - 'a';
         return memo6898[i][start][end] = Math.min(dfs6898(i + 1, start, right) + (left == end ? -1 : 0),
                 dfs6898(i + 1, left, end) + (right == start ? -1 : 0)) + len;
     }
