@@ -518,17 +518,7 @@ public class Leetcode_8 {
 
     // 6895. 构造最长的新字符串 (Construct the Longest New String)
     public int longestString(int x, int y, int z) {
-        int min = Math.min(x, y);
-        int res = 0;
-        res += min * 2 * 2;
-        x -= min;
-        y -= min;
-        if (x > 0 || y > 0) {
-            res += 2;
-        }
-        res += z * 2;
-        return res;
-
+        return (Math.min(x, y) * 2 + (x != y ? 1 : 0) + z) * 2;
     }
 
     // 6898. 字符串连接删减字母 (Decremental String Concatenation)
