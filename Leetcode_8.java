@@ -624,7 +624,7 @@ public class Leetcode_8 {
 
     // 6471. 得到整数零需要执行的最少操作数 (Minimum Operations to Make the Integer Zero)
     public int makeTheIntegerZero(int num1, int num2) {
-        for (int i = 1; i < 63; ++i) {
+        for (int i = 1; i <= 60; ++i) {
             long x = (long) num1 - (long) i * num2;
             if (x <= 0) {
                 continue;
