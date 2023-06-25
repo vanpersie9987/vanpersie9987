@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.IntStream;
 
 public class Leetcode_8 {
     public static void main(String[] args) {
@@ -501,4 +502,110 @@ public class Leetcode_8 {
         return memo1879[i][mask] = min;
     }
 
+    // 6892. 最大字符串配对数目 (Find Maximum Number of String Pairs)
+    public int maximumNumberOfStringPairs(String[] words) {
+        int res = 0;
+        Set<Integer> set = new HashSet<>();
+        for (String w : words) {
+            int h = (w.charAt(0) - 'a') * 26 + w.charAt(1) - 'a';
+            if (set.contains(h)) {
+                ++res;
+            }
+            set.add((w.charAt(1) - 'a') * 26 + w.charAt(0) - 'a');
+        }
+        return res;
+    }
+
+    // 6895. 构造最长的新字符串 (Construct the Longest New String)
+    public int longestString(int x, int y, int z) {
+        int min = Math.min(x, y);
+        int res = 0;
+        res += min * 2 * 2;
+        x -= min;
+        y -= min;
+        if (x > 0 || y > 0) {
+            res += 2;
+        }
+        res += z * 2;
+        return res;
+
+    }
+
+    // 6898. 字符串连接删减字母 (Decremental String Concatenation)
+    private int[][][] memo6898;
+    private int n6898;
+    private String[] words6898;
+
+    public int minimizeConcatenatedLength(String[] words) {
+        this.n6898 = words.length;
+        this.words6898 = words;
+        this.memo6898 = new int[n6898][26][26];
+        return dfs6898(0, 0, 0);
+
+    }
+
+    private int dfs6898(int i, int start, int end) {
+        if (i == n6898) {
+            return 0;
+        }
+        int len = words6898[i].length();
+        if (i == 0) {
+            return dfs6898(i + 1, words6898[i].charAt(0) - 'a', words6898[i].charAt(len - 1) - 'a') + len;
+        }
+        if (memo6898[i][start][end] != 0) {
+            return memo6898[i][start][end];
+        }
+        int left = words6898[i].charAt(0) - 'a';
+        int right = words6898[i].charAt(len - 1) - 'a';
+        return memo6898[i][start][end] = Math.min(dfs6898(i + 1, start, right) + (left == end ? -1 : 0),
+                dfs6898(i + 1, left, end) + (right == start ? -1 : 0)) + len;
+    }
+
+    // 6468. 统计没有收到请求的服务器数目 (Count Zero Request Servers)
+    public int[] countServers(int n, int[][] logs, int x, int[] queries) {
+        int m = queries.length;
+        Integer[] ids = IntStream.range(0, m).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(queries[o1], queries[o2]);
+            }
+
+        });
+        Arrays.sort(logs, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[1], o2[1]);
+            }
+
+        });
+        int[] res = new int[m];
+        int[] cnts = new int[n + 1];
+        int i = 0;
+        int j = 0;
+        int cur = 0;
+        for (int id : ids) {
+            int r = queries[id];
+            while (j < logs.length && logs[j][1] <= r) {
+                ++cnts[logs[j][0]];
+                if (cnts[logs[j][0]] == 1) {
+                    ++cur;
+                }
+                ++j;
+            }
+            int l = queries[id] - x;
+            while (i < logs.length && logs[i][1] < l) {
+                --cnts[logs[i][0]];
+                if (cnts[logs[i][0]] == 0) {
+                    --cur;
+                }
+                ++i;
+            }
+            res[id] = n - cur;
+        }
+        return res;
+
+    }
 }
