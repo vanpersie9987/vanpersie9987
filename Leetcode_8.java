@@ -598,4 +598,58 @@ public class Leetcode_8 {
         return res;
 
     }
+
+    // 6466. 美丽下标对的数目 (Number of Beautiful Pairs)
+    public int countBeautifulPairs(int[] nums) {
+        int res = 0;
+        int[] cnts = new int[10];
+        for (int num : nums) {
+            int b = num % 10;
+            for (int i = 1; i < 10; ++i) {
+                if (gcd6466(i, b) == 1) {
+                    res += cnts[i];
+                }
+            }
+            int a = String.valueOf(num).charAt(0) - '0';
+            ++cnts[a];
+        }
+        return res;
+    }
+
+    private int gcd6466(int a, int b) {
+        return b == 0 ? a : gcd6466(b, a % b);
+    }
+
+    // 6471. 得到整数零需要执行的最少操作数 (Minimum Operations to Make the Integer Zero)
+    public int makeTheIntegerZero(int num1, int num2) {
+        for (int i = 1; i < 63; ++i) {
+            long x = (long) num1 - (long) i * num2;
+            if (x <= 0) {
+                continue;
+            }
+            if (Long.bitCount(x) <= i && i <= x) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+    
+    // 6910. 将数组划分成若干好子数组的方式 (Ways to Split Array Into Good Subarrays)
+    public int numberOfGoodSubarraySplits(int[] nums) {
+        int n = nums.length;
+        int res = 1;
+        int pre = -1;
+        final int MOD = (int) (1e9 + 7);
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] == 1) {
+                if (pre >= 0) {
+                    res = (int) ((long) res * (i - pre) % MOD);
+                }
+                pre = i;
+            }
+        }
+        return pre < 0 ? 0 : res;
+    }
+    
 }
