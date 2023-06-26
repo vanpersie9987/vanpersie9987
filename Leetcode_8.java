@@ -1,11 +1,13 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
 
@@ -740,6 +742,60 @@ public class Leetcode_8 {
             res = (res + dfs730(c, l + 1, r - 1)) % MOD;
         }
         return memo730[c][l][r] = res;
+    }
+
+    // 2751. 机器人碰撞 (Robot Collisions)
+    public List<Integer> survivedRobotsHealths(int[] positions, int[] healths, String directions) {
+        int n = positions.length;
+        int[][] arr = new int[n][4];
+        for (int i = 0; i < n; ++i) {
+            // 编号，位置，健康度，方向
+            arr[i] = new int[] { i, positions[i], healths[i], directions.charAt(i) == 'L' ? 0 : 1 };
+        }
+        Arrays.sort(arr,new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[1], o2[1]);
+            }
+            
+        });
+        Stack<int[]> stack = new Stack<>();
+        search: for (int[] a : arr) {
+            // 向右 或 向左且stack为空
+            if (a[3] == 1 || stack.isEmpty()) {
+                stack.push(a);
+                continue;
+            }
+            // 向左 stack不为空
+            while (!stack.isEmpty() && stack.peek()[3] == 1) {
+                int[] cur = stack.pop();
+                if (cur[2] == a[2]) {
+                    continue search;
+                } else if (cur[2] > a[2]) {
+                    --cur[2];
+                    stack.push(cur);
+                    continue search;
+                } else {
+                    --a[2];
+                }
+            }
+            stack.push(a);
+        }
+        List<int[]> list = new ArrayList<>(stack);
+        Collections.sort(list, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+            
+        });
+        List<Integer> res = new ArrayList<>();
+        for (int[] a : list) {
+            res.add(a[2]);
+        }
+        return res;
     }
 
 }
