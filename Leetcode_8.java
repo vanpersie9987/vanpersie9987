@@ -683,12 +683,10 @@ public class Leetcode_8 {
         if (memo2172[i][mask] != Integer.MIN_VALUE) {
             return memo2172[i][mask];
         }
-        // 不选
-        int max = dfs2172(i + 1, mask);
+        int max = 0;
         int c = u2172 ^ mask;
         while (c > 0) {
             int bit = Integer.numberOfTrailingZeros(c);
-            // 选
             max = Math.max(max, dfs2172(i + 1, mask | (1 << bit)) + ((bit / 2 + 1) & nums2172[i]));
             c &= c - 1;
         }
