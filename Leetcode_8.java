@@ -762,12 +762,12 @@ public class Leetcode_8 {
         });
         Stack<int[]> stack = new Stack<>();
         search: for (int[] a : arr) {
-            // 向右 或 向左且stack为空
-            if (a[3] == 1 || stack.isEmpty()) {
+            // 向右
+            if (a[3] == 1) {
                 stack.push(a);
                 continue;
             }
-            // 向左 stack不为空
+            // 当前向左 栈不为空 栈顶向右
             while (!stack.isEmpty() && stack.peek()[3] == 1) {
                 int[] cur = stack.pop();
                 if (cur[2] == a[2]) {
