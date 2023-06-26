@@ -693,4 +693,53 @@ public class Leetcode_8 {
         return memo2172[i][mask] = max;
     }
 
+    // 730. 统计不同回文子序列 (Count Different Palindromic Subsequences)
+    private int n730;
+    private char[] arr730;
+    private int[][][] memo730;
+
+    public int countPalindromicSubsequences(String s) {
+        this.n730 = s.length();
+        this.arr730 = s.toCharArray();
+        this.memo730 = new int[4][n730][n730];
+        for (int i = 0; i < 4; ++i) {
+            for (int j = 0; j < n730; ++j) {
+                Arrays.fill(memo730[i][j], -1);
+            }
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = 0;
+        for (int i = 0; i < 4; ++i) {
+            res = (res + dfs730(i, 0, n730 - 1)) % MOD;
+        }
+        return res;
+    }
+
+    private int dfs730(int c, int l, int r) {
+        if (l > r) {
+            return 0;
+        }
+        if (l == r) {
+            return arr730[l] - 'a' == c ? 1 : 0;
+        }
+        if (memo730[c][l][r] != -1) {
+            return memo730[c][l][r];
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        if (arr730[l] - 'a' == c && arr730[r] - 'a' == c) {
+            res = (res + 2) % MOD;
+            for (int i = 0; i < 4; ++i) {
+                res = (res + dfs730(i, l + 1, r - 1)) % MOD;
+            }
+        } else if (arr730[l] - 'a' == c) {
+            res = (res + dfs730(c, l, r - 1) + 1) % MOD;
+        } else if (arr730[r] - 'a' == c) {
+            res = (res + dfs730(c, l + 1, r) + 1) % MOD;
+        } else {
+            res = (res + dfs730(c, l + 1, r - 1)) % MOD;
+        }
+        return memo730[c][l][r] = res;
+    }
+
 }
