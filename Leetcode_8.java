@@ -638,7 +638,7 @@ public class Leetcode_8 {
         return -1;
 
     }
-    
+
     // 6910. 将数组划分成若干好子数组的方式 (Ways to Split Array Into Good Subarrays)
     public int numberOfGoodSubarraySplits(int[] nums) {
         int n = nums.length;
@@ -752,13 +752,13 @@ public class Leetcode_8 {
             // 编号，位置，健康度，方向
             arr[i] = new int[] { i, positions[i], healths[i], directions.charAt(i) == 'L' ? 0 : 1 };
         }
-        Arrays.sort(arr,new Comparator<int[]>() {
+        Arrays.sort(arr, new Comparator<int[]>() {
 
             @Override
             public int compare(int[] o1, int[] o2) {
                 return Integer.compare(o1[1], o2[1]);
             }
-            
+
         });
         Stack<int[]> stack = new Stack<>();
         search: for (int[] a : arr) {
@@ -789,7 +789,7 @@ public class Leetcode_8 {
             public int compare(int[] o1, int[] o2) {
                 return Integer.compare(o1[0], o2[0]);
             }
-            
+
         });
         List<Integer> res = new ArrayList<>();
         for (int[] a : list) {
