@@ -798,4 +798,97 @@ public class Leetcode_8 {
         return res;
     }
 
+    // 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
+    private int n1186;
+    private int[] arr1186;
+    private int[][] memo1186;
+
+    public int maximumSum(int[] arr) {
+        this.n1186 = arr.length;
+        this.arr1186 = arr;
+        this.memo1186 = new int[n1186][2];
+        for (int i = 0; i < n1186; ++i) {
+            Arrays.fill(memo1186[i], Integer.MIN_VALUE);
+        }
+        int res = Integer.MIN_VALUE;
+        for (int i = 0; i < n1186; ++i) {
+            res = Math.max(res, Math.max(dfs1186(i, 1), dfs1186(i, 0)));
+        }
+        return res;
+    }
+
+    private int dfs1186(int i, int j) {
+        if (i < 0) {
+            return 0;
+        }
+        if (memo1186[i][j] != Integer.MIN_VALUE) {
+            return memo1186[i][j];
+        }
+        if (j == 0) {
+            return memo1186[i][j] = Math.max(dfs1186(i - 1, 0) + arr1186[i], arr1186[i]);
+        }
+        return memo1186[i][j] = Math.max(dfs1186(i - 1, 1) + arr1186[i], dfs1186(i - 1, 0));
+    }
+
+
+    // 1240. 铺瓷砖 (Tiling a Rectangle with the Fewest Squares)
+    // private int n;
+    // private int m;
+    // private int[] filled;
+    // private int res;
+
+    // public int tilingRectangle(int n, int m) {
+    // this.n = n;
+    // this.m = m;
+    // this.filled = new int[n];
+    // this.res = n * m;
+    // dfs(0, 0, 0);
+    // return res;
+    // }
+
+    // private void dfs(int i, int j, int k) {
+    // if (i == n) {
+    // res = k;
+    // return;
+    // }
+    // if (j == m) {
+    // dfs(i + 1, 0, k);
+    // return;
+    // }
+    // if (((filled[i] >> j) & 1) == 1) {
+    // dfs(i, j + 1, k);
+    // } else if (k + 1 < res) {
+    // int r = 0;
+    // int c = 0;
+    // for (int x = i; x < n; ++x) {
+    // if (((filled[x] >> j) & 1) == 1) {
+    // break;
+    // }
+    // ++r;
+    // }
+    // for (int y = j; y < m; ++y) {
+    // if (((filled[i] >> y) & 1) == 1) {
+    // break;
+    // }
+    // ++c;
+    // }
+    // int s = Math.min(r, c);
+    // for (int x = i; x < i + s; ++x) {
+    // for (int y = j; y < j + s; ++y) {
+    // filled[x] |= 1 << y;
+    // }
+    // // filled[x] |= ((1 << (j + s - 1)) - 1) ^ ((1 << j) - 1);
+    // }
+    // for (int w = s; w > 0; --w) {
+    // dfs(i, j + w, k + 1);
+    // for (int x = 0; x < w; ++x) {
+    // filled[i + w - 1] ^= 1 << (j + x);
+    // if (x < w - 1) {
+    // filled[i + x] ^= 1 << (j + w - 1);
+    // }
+    // }
+    // }
+    // }
+    // }
+
 }
