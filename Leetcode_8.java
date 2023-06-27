@@ -772,13 +772,13 @@ public class Leetcode_8 {
                 int[] cur = stack.pop();
                 if (cur[2] == a[2]) {
                     continue search;
-                } else if (cur[2] > a[2]) {
+                }
+                if (cur[2] > a[2]) {
                     --cur[2];
                     stack.push(cur);
                     continue search;
-                } else {
-                    --a[2];
                 }
+                --a[2];
             }
             stack.push(a);
         }
