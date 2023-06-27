@@ -832,63 +832,61 @@ public class Leetcode_8 {
 
 
     // 1240. 铺瓷砖 (Tiling a Rectangle with the Fewest Squares)
-    // private int n;
-    // private int m;
-    // private int[] filled;
-    // private int res;
+    private int n1240;
+    private int m1240;
+    private int[] filled1240;
+    private int res1240;
 
-    // public int tilingRectangle(int n, int m) {
-    // this.n = n;
-    // this.m = m;
-    // this.filled = new int[n];
-    // this.res = n * m;
-    // dfs(0, 0, 0);
-    // return res;
-    // }
+    public int tilingRectangle(int n, int m) {
+        this.n1240 = n;
+        this.m1240 = m;
+        this.filled1240 = new int[n];
+        this.res1240 = n * m;
+        dfs1240(0, 0, 0);
+        return res1240;
+    }
 
-    // private void dfs(int i, int j, int k) {
-    // if (i == n) {
-    // res = k;
-    // return;
-    // }
-    // if (j == m) {
-    // dfs(i + 1, 0, k);
-    // return;
-    // }
-    // if (((filled[i] >> j) & 1) == 1) {
-    // dfs(i, j + 1, k);
-    // } else if (k + 1 < res) {
-    // int r = 0;
-    // int c = 0;
-    // for (int x = i; x < n; ++x) {
-    // if (((filled[x] >> j) & 1) == 1) {
-    // break;
-    // }
-    // ++r;
-    // }
-    // for (int y = j; y < m; ++y) {
-    // if (((filled[i] >> y) & 1) == 1) {
-    // break;
-    // }
-    // ++c;
-    // }
-    // int s = Math.min(r, c);
-    // for (int x = i; x < i + s; ++x) {
-    // for (int y = j; y < j + s; ++y) {
-    // filled[x] |= 1 << y;
-    // }
-    // // filled[x] |= ((1 << (j + s - 1)) - 1) ^ ((1 << j) - 1);
-    // }
-    // for (int w = s; w > 0; --w) {
-    // dfs(i, j + w, k + 1);
-    // for (int x = 0; x < w; ++x) {
-    // filled[i + w - 1] ^= 1 << (j + x);
-    // if (x < w - 1) {
-    // filled[i + x] ^= 1 << (j + w - 1);
-    // }
-    // }
-    // }
-    // }
-    // }
+    private void dfs1240(int i, int j, int k) {
+        if (i == n1240) {
+            res1240 = k;
+            return;
+        }
+        if (j == m1240) {
+            dfs1240(i + 1, 0, k);
+            return;
+        }
+        if (((filled1240[i] >> j) & 1) == 1) {
+            dfs1240(i, j + 1, k);
+        } else if (k + 1 < res1240) {
+            int r = 0;
+            int c = 0;
+            for (int x = i; x < n1240; ++x) {
+                if (((filled1240[x] >> j) & 1) == 1) {
+                    break;
+                }
+                ++r;
+            }
+            for (int y = j; y < m1240; ++y) {
+                if (((filled1240[i] >> y) & 1) == 1) {
+                    break;
+                }
+                ++c;
+            }
+            int s = Math.min(r, c);
+            int mask = ((1 << (j + s)) - 1) ^ ((1 << j) - 1);
+            for (int x = i; x < i + s; ++x) {
+                filled1240[x] |= mask;
+            }
+            for (int w = s; w > 0; --w) {
+                dfs1240(i, j + w, k + 1);
+                for (int x = 0; x < w; ++x) {
+                    filled1240[i + w - 1] ^= 1 << (j + x);
+                    if (x < w - 1) {
+                        filled1240[i + x] ^= 1 << (j + w - 1);
+                    }
+                }
+            }
+        }
+    }
 
 }
