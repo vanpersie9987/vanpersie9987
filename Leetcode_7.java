@@ -3511,10 +3511,10 @@ public class Leetcode_7 {
     }
 
     private int dfs_example(int d, int h) {
-        if (d == D_example || h == H_example) {
-            if (d == D_example) {
-                return 0;
-            }
+        if (d == D_example) {
+            return 0;
+        }
+        if (h == H_example) {
             return (int) 1e9;
         }
         if (memo_example[d][h] != -1) {
