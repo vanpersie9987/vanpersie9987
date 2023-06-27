@@ -819,7 +819,7 @@ public class Leetcode_8 {
 
     private int dfs1186(int i, int j) {
         if (i < 0) {
-            return 0;
+            return Integer.MIN_VALUE / 2;
         }
         if (memo1186[i][j] != Integer.MIN_VALUE) {
             return memo1186[i][j];
