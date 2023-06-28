@@ -355,7 +355,7 @@ public class Leetcode_8 {
     private int[][] memo1681;
     private int u1681;
 
-    public int minimumIncompatibility2(int[] nums, int k) {
+    public int minimumIncompatibility(int[] nums, int k) {
         this.n1681 = nums.length;
         int[] cnts = new int[n1681 + 1];
         for (int num : nums) {
