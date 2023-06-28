@@ -238,6 +238,40 @@ public class Leetcode_5 {
 
     }
 
+    // 813. 最大平均值和的分组 (Largest Sum of Averages)
+    private int n813;
+    private int[] nums813;
+    private int k813;
+    private double[][] memo813;
+
+    public double largestSumOfAverages2(int[] nums, int k) {
+        this.n813 = nums.length;
+        this.k813 = k;
+        this.nums813 = nums;
+        this.memo813 = new double[n813][k];
+        return dfs813(0, 0);
+
+    }
+
+    private double dfs813(int i, int j) {
+        if (i == n813) {
+            return 0D;
+        }
+        if (j == k813) {
+            return -1e5;
+        }
+        if (memo813[i][j] != 0D) {
+            return memo813[i][j];
+        }
+        double max = 0D;
+        double pre = 0D;
+        for (int x = i; x < n813; ++x) {
+            pre += nums813[x];
+            max = Math.max(max, dfs813(x + 1, j + 1) + pre / (x - i + 1));
+        }
+        return memo813[i][j] = max;
+    }
+
     // 563. 二叉树的坡度 (Binary Tree Tilt) --dfs
     private int res563;
 
