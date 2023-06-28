@@ -350,66 +350,66 @@ public class Leetcode_8 {
     }
 
     // 1681. 最小不兼容性 (Minimum Incompatibility)
-    private int[][] memo1681;
-    private int k1681;
     private int[] map1681;
     private int n1681;
+    private int[][] memo1681;
+    private int u1681;
 
-    public int minimumIncompatibility(int[] nums, int k) {
+    public int minimumIncompatibility2(int[] nums, int k) {
         this.n1681 = nums.length;
         int[] cnts = new int[n1681 + 1];
         for (int num : nums) {
             ++cnts[num];
-        }
-        for (int c : cnts) {
-            if (c > k) {
+            if (cnts[num] > k) {
                 return -1;
             }
         }
-        this.k1681 = k;
+        this.map1681 = new int[1 << n1681];
+        Arrays.fill(map1681, -1);
+        search: for (int i = 1; i < (1 << n1681); ++i) {
+            if (Integer.bitCount(i) == n1681 / k) {
+                int mask = 0;
+                int j = i;
+                int min = Integer.MAX_VALUE;
+                int max = Integer.MIN_VALUE;
+                while (j != 0) {
+                    int index = Integer.numberOfTrailingZeros(j);
+                    int num = nums[index];
+                    if (((mask >> num) & 1) != 0) {
+                        continue search;
+                    }
+                    mask |= 1 << num;
+                    min = Math.min(min, num);
+                    max = Math.max(max, num);
+                    j &= j - 1;
+                }
+                map1681[i] = max - min;
+            }
+        }
         this.memo1681 = new int[k][1 << n1681];
         for (int i = 0; i < k; ++i) {
             Arrays.fill(memo1681[i], -1);
         }
-        this.map1681 = new int[1 << n1681];
-        Arrays.fill(map1681, -1);
-        search: for (int i = 0; i < (1 << n1681); ++i) {
-            if (Integer.bitCount(i) == n1681 / k) {
-                int bit = 0;
-                int tmp = i;
-                while (tmp != 0) {
-                    int b = Integer.numberOfTrailingZeros(tmp);
-                    int num = nums[b];
-                    if (((bit >> num) & 1) != 0) {
-                        continue search;
-                    }
-                    bit |= 1 << num;
-                    tmp &= tmp - 1;
-                }
-                int min = Integer.numberOfTrailingZeros(bit);
-                int max = 31 - Integer.numberOfLeadingZeros(bit);
-                map1681[i] = max - min;
-            }
-        }
+        this.u1681 = (1 << n1681) - 1;
         return dfs1681(0, 0);
 
     }
 
     private int dfs1681(int i, int mask) {
-        if (i == k1681) {
+        if (mask == u1681) {
             return 0;
         }
         if (memo1681[i][mask] != -1) {
             return memo1681[i][mask];
         }
-        int res = 1000;
-        int c = ((1 << n1681) - 1) ^ mask;
+        int c = u1681 ^ mask;
+        int min = (int) 1e5;
         for (int j = c; j > 0; j = (j - 1) & c) {
-            if (Integer.bitCount(j) == n1681 / k1681 && map1681[j] != -1) {
-                res = Math.min(res, dfs1681(i + 1, mask | j) + map1681[j]);
+            if (map1681[j] != -1) {
+                min = Math.min(min, dfs1681(i + 1, mask | j) + map1681[j]);
             }
         }
-        return memo1681[i][mask] = res;
+        return memo1681[i][mask] = min;
     }
 
     // 1655. 分配重复整数 (Distribute Repeating Integers)
@@ -829,7 +829,6 @@ public class Leetcode_8 {
         }
         return memo1186[i][j] = Math.max(dfs1186(i - 1, 1) + arr1186[i], dfs1186(i - 1, 0));
     }
-
 
     // 1240. 铺瓷砖 (Tiling a Rectangle with the Fewest Squares)
     private int n1240;
