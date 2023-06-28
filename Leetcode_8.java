@@ -6,10 +6,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
+
+import javax.management.Query;
 
 public class Leetcode_8 {
     public static void main(String[] args) {
@@ -921,6 +925,41 @@ public class Leetcode_8 {
             }
         }
         return memo960[i][j] = Math.max(max, dfs960(i + 1, i) + 1);
+    }
+
+    // 630. 课程表 III (Course Schedule III)
+    public int scheduleCourse(int[][] courses) {
+        Arrays.sort(courses, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[1], o2[1]);
+            }
+
+        });
+        Queue<Integer> q = new PriorityQueue<>(new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(o2, o1);
+            }
+
+        });
+        int day = 0;
+        for (int[] c : courses) {
+            int t = c[0];
+            int d = c[1];
+            if (day + t <= d) {
+                q.offer(t);
+                day += t;
+            } else if (!q.isEmpty() && q.peek() > t) {
+                day -= q.poll();
+                day += t;
+                q.offer(t);
+            }
+        }
+        return q.size();
+
     }
 
 }
