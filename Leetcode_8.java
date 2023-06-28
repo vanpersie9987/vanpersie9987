@@ -13,8 +13,6 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
 
-import javax.management.Query;
-
 public class Leetcode_8 {
     public static void main(String[] args) {
 
