@@ -971,6 +971,7 @@ public class Leetcode_8 {
 
     private boolean dfs679(double[] arr) {
         if (arr.length == 1) {
+            // arr[0] == 24
             return Math.abs(arr[0] - 24D) <= 1e-6;
         }
         for (int i = 0; i < arr.length; ++i) {
@@ -1004,12 +1005,15 @@ public class Leetcode_8 {
                     return true;
                 }
 
+                // b != 0
                 if (b > 1e-6) {
                     nArr[id] = a / b;
                     if (dfs679(nArr)) {
                         return true;
                     }
                 }
+
+                // a != 0
                 if (a > 1e-6) {
                     nArr[id] = b / a;
                     if (dfs679(nArr)) {
