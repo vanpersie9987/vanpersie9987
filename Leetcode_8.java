@@ -1025,4 +1025,39 @@ public class Leetcode_8 {
         return false;
     }
 
+    // 1178. 猜字谜 (Number of Valid Words for Each Puzzle)
+    public List<Integer> findNumOfValidWords(String[] words, String[] puzzles) {
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (String word : words) {
+            int m = getMask1178(word);
+            cnts.merge(m, 1, Integer::sum);
+        }
+        List<Integer> res = new ArrayList<>();
+        for (String p : puzzles) {
+            int cur = 0;
+            int m = getMask1178(p);
+            for (int i = m; i > 0; i = (i - 1) & m) {
+                if (((i >> (p.charAt(0) - 'a')) & 1) == 1) {
+                    cur += cnts.getOrDefault(i, 0);
+                }
+            }
+            res.add(cur);
+        }
+        return res;
+
+    }
+
+    private int getMask1178(String s) {
+        int m = 0;
+        for (char c : s.toCharArray()) {
+            m |= 1 << (c - 'a');
+        }
+        return m;
+    }
+
+    // 2193. 得到回文串的最少操作次数 (Minimum Number of Moves to Make Palindrome)
+    // public int minMovesToMakePalindrome(String s) {
+
+    // }
+
 }
