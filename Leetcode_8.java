@@ -960,4 +960,65 @@ public class Leetcode_8 {
 
     }
 
+    // 679. 24 点游戏 (24 Game)
+    public boolean judgePoint24(int[] cards) {
+        double[] arr = new double[4];
+        for (int i = 0; i < 4; ++i) {
+            arr[i] = cards[i];
+        }
+        return dfs679(arr);
+    }
+
+    private boolean dfs679(double[] arr) {
+        if (arr.length == 1) {
+            return Math.abs(arr[0] - 24D) <= 1e-6;
+        }
+        for (int i = 0; i < arr.length; ++i) {
+            for (int j = i + 1; j < arr.length; ++j) {
+                double a = arr[i];
+                double b = arr[j];
+                double[] nArr = new double[arr.length - 1];
+                int id = 0;
+                for (int k = 0; k < arr.length; ++k) {
+                    if (i != k && j != k) {
+                        nArr[id++] = arr[k];
+                    }
+                }
+                nArr[id] = a + b;
+                if (dfs679(nArr)) {
+                    return true;
+                }
+
+                nArr[id] = a - b;
+                if (dfs679(nArr)) {
+                    return true;
+                }
+
+                nArr[id] = b - a;
+                if (dfs679(nArr)) {
+                    return true;
+                }
+
+                nArr[id] = a * b;
+                if (dfs679(nArr)) {
+                    return true;
+                }
+
+                if (b > 1e-6) {
+                    nArr[id] = a / b;
+                    if (dfs679(nArr)) {
+                        return true;
+                    }
+                }
+                if (a > 1e-6) {
+                    nArr[id] = b / a;
+                    if (dfs679(nArr)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 }
