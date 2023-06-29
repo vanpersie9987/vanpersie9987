@@ -1035,9 +1035,10 @@ public class Leetcode_8 {
         List<Integer> res = new ArrayList<>();
         for (String p : puzzles) {
             int cur = 0;
+            int first = p.charAt(0) - 'a';
             int m = getMask1178(p);
             for (int i = m; i > 0; i = (i - 1) & m) {
-                if (((i >> (p.charAt(0) - 'a')) & 1) == 1) {
+                if (((i >> first) & 1) == 1) {
                     cur += cnts.getOrDefault(i, 0);
                 }
             }
