@@ -1056,6 +1056,51 @@ public class Leetcode_8 {
         return m;
     }
 
+    // 1959. K 次调整数组大小浪费的最小总空间 (Minimum Total Space Wasted With K Resizing
+    // Operations)
+    private int k1959;
+    private int n1959;
+    private int[][] arr1959;
+    private int[][] memo1959;
+
+    public int minSpaceWastedKResizing(int[] nums, int k) {
+        this.k1959 = k;
+        this.n1959 = nums.length;
+        this.arr1959 = new int[n1959][n1959];
+        int sum = 0;
+        for (int i = 0; i < n1959; ++i) {
+            int max = nums[i];
+            sum += nums[i];
+            for (int j = i; j < n1959; ++j) {
+                max = Math.max(max, nums[j]);
+                arr1959[i][j] = max * (j - i + 1);
+            }
+        }
+        this.memo1959 = new int[n1959][k];
+        for (int i = 0; i < n1959; ++i) {
+            Arrays.fill(memo1959[i], -1);
+        }
+        return dfs1959(0, 0) - sum;
+
+    }
+
+    private int dfs1959(int i, int j) {
+        if (i == n1959) {
+            return 0;
+        }
+        if (j == k1959) {
+            return arr1959[i][n1959 - 1];
+        }
+        if (memo1959[i][j] != -1) {
+            return memo1959[i][j];
+        }
+        int min = Integer.MAX_VALUE;
+        for (int x = i; x < n1959; ++x) {
+            min = Math.min(min, dfs1959(x + 1, j + 1) + arr1959[i][x]);
+        }
+        return memo1959[i][j] = min;
+    }
+
     // 2193. 得到回文串的最少操作次数 (Minimum Number of Moves to Make Palindrome)
     // public int minMovesToMakePalindrome(String s) {
 
