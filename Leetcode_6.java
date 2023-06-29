@@ -7561,31 +7561,31 @@ public class Leetcode_6 {
 
     // 1253. 重构 2 行二进制矩阵 (Reconstruct a 2-Row Binary Matrix)
     public List<List<Integer>> reconstructMatrix(int upper, int lower, int[] colsum) {
+        int n = colsum.length;
         List<List<Integer>> res = new ArrayList<>();
         res.add(new ArrayList<>());
         res.add(new ArrayList<>());
-        for (int sum : colsum) {
-            if (sum == 2) {
-                upper -= 1;
-                lower -= 1;
-                res.get(0).add(1);
-                res.get(1).add(1);
-            } else if (sum == 1) {
-                if (upper >= lower) {
+        for (int i = 0; i < n; ++i) {
+            if (colsum[i] == 1) {
+                if (upper > lower) {
+                    --upper;
                     res.get(0).add(1);
                     res.get(1).add(0);
-                    upper -= 1;
                 } else {
+                    --lower;
                     res.get(0).add(0);
                     res.get(1).add(1);
-                    lower -= 1;
                 }
             } else {
-                res.get(0).add(0);
-                res.get(1).add(0);
+                int add = colsum[i] / 2;
+                upper -= add;
+                lower -= add;
+                res.get(0).add(add);
+                res.get(1).add(add);
+
             }
             if (lower < 0 || upper < 0) {
-                return new ArrayList<>();
+                break;
             }
         }
         if (lower != 0 || upper != 0) {
