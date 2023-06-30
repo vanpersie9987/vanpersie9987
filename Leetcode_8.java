@@ -1102,8 +1102,37 @@ public class Leetcode_8 {
     }
 
     // 2193. 得到回文串的最少操作次数 (Minimum Number of Moves to Make Palindrome)
-    // public int minMovesToMakePalindrome(String s) {
+    public int minMovesToMakePalindrome(String s) {
+        int n = s.length();
+        char[] arr = s.toCharArray();
+        int res = 0;
+        for (int i = 0, j = n - 1; i < j; ++i) {
+            int k = j;
+            while (i < k) {
+                if (arr[i] == arr[k]) {
+                    break;
+                }
+                --k;
+            }
+            if (i != k) {
+                while (k + 1 <= j) {
+                    swap2193(arr, k, k + 1);
+                    ++res;
+                    ++k;
+                }
+                --j;
+            } else {
+                res += n / 2 - i;
+            }
+        }
+        return res;
 
-    // }
+    }
+
+    private void swap2193(char[] arr, int i, int j) {
+        char tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+    }
 
 }
