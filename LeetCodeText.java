@@ -92,17 +92,17 @@ public class LeetCodeText {
 
     }
 
-    // 1.两数之和
-    public int[] twoSum(final int[] nums, final int target) {
+
+    // 1. 两数之和 (Two Sum)
+    public int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; ++i) {
-            int remain = target - nums[i];
-            if (map.containsKey(remain)) {
-                return new int[] { map.get(remain), i };
+            if (map.containsKey(target - nums[i])) {
+                return new int[] { map.get(target - nums[i]), i };
             }
             map.put(nums[i], i);
         }
-        return null;
+        return new int[0];
 
     }
 
