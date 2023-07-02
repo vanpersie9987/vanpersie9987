@@ -1135,4 +1135,241 @@ public class Leetcode_8 {
         arr[j] = tmp;
     }
 
+    // 6909. 最长奇偶子数组 (Longest Even Odd Subarray With Threshold)
+    public int longestAlternatingSubarray(int[] nums, int threshold) {
+        int n = nums.length;
+        int res = 0;
+        int i = 0;
+        int j = 0;
+        while (j < n) {
+            if (nums[j] > threshold) {
+                ++j;
+                i = j;
+                continue;
+            }
+            if (nums[j] % 2 == 1) {
+                ++j;
+                i = j;
+                continue;
+            }
+            while (j < n && nums[j] <= threshold && (i == j || nums[j] % 2 != nums[j - 1] % 2)) {
+                ++j;
+            }
+            res = Math.max(res, j - i);
+            i = j;
+        }
+        return res;
+
+    }
+
+    // 6916. 和等于目标值的质数对 (Prime Pairs With Target Sum)
+    public List<List<Integer>> findPrimePairs(int n) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (n <= 3) {
+            return res;
+        }
+        if (n == 4) {
+            res.add(List.of(2, 2));
+        }
+        boolean[] isPrime = new boolean[n + 1];
+        Arrays.fill(isPrime, true);
+        for (int i = 2; i < n + 1; ++i) {
+            if (isPrime[i]) {
+                for (int j = i + i; j < n + 1; j += i) {
+                    isPrime[j] = false;
+                }
+            }
+        }
+
+        if (n % 2 == 1) {
+            if (isPrime[n - 2]) {
+                res.add(List.of(2, n - 2));
+            }
+            return res;
+        }
+        for (int i = 3; i < n + 1; i += 2) {
+            if (i > n - i) {
+                break;
+            }
+            if (isPrime[i] && isPrime[n - i]) {
+                res.add(List.of(i, n - i));
+            }
+        }
+        return res;
+
+    }
+
+    // 6911. 不间断子数组 (Continuous Subarrays)
+    public long continuousSubarrays(int[] nums) {
+        long res = 0L;
+        int n = nums.length;
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        int i = 0;
+        int j = 0;
+        while (j < n) {
+            map.merge(nums[j], 1, Integer::sum);
+            while (Math.abs(map.firstKey() - nums[j]) > 2 || Math.abs(map.lastKey() - nums[j]) > 2) {
+                map.merge(nums[i], -1, Integer::sum);
+                if (map.getOrDefault(nums[i], 0) == 0) {
+                    map.remove(nums[i]);
+                }
+                ++i;
+            }
+            res += j - i + 1;
+            ++j;
+        }
+        return res;
+
+    }
+
+    // 1307. 口算难题 (Verbal Arithmetic Puzzle)
+    private int used1307;
+    private String result1307;
+    private String[] words1307;
+    private boolean flag1307;
+    private int[] nums1307;
+
+    public boolean isSolvable(String[] words, String result) {
+        this.words1307 = words;
+        this.result1307 = result;
+        this.nums1307 = new int[26];
+        Arrays.fill(nums1307, -1);
+        dfs_result_1307(0, 0);
+        return flag1307;
+
+    }
+
+    private void dfs_result_1307(int i, int sum) {
+        if (i == result1307.length()) {
+            dfs_words_1307(0, 0, 0, sum);
+            return;
+        }
+        if (nums1307[result1307.charAt(i) - 'A'] != -1) {
+            dfs_result_1307(i + 1, sum * 10 + nums1307[result1307.charAt(i) - 'A']);
+        } else {
+            for (int j = 0; j < 10; ++j) {
+                if (i == 0 && j == 0 && result1307.length() > 1) {
+                    continue;
+                }
+                if (((used1307 >> j) & 1) != 0) {
+                    continue;
+                }
+                nums1307[result1307.charAt(i) - 'A'] = j;
+                used1307 ^= 1 << j;
+                dfs_result_1307(i + 1, sum * 10 + j);
+                if (flag1307) {
+                    return;
+                }
+                used1307 ^= 1 << j;
+                nums1307[result1307.charAt(i) - 'A'] = -1;
+            }
+        }
+    }
+
+    private void dfs_words_1307(int i, int j, int curSum, int sum) {
+        if (i == words1307.length) {
+            if (curSum == sum) {
+                flag1307 = true;
+            }
+            return;
+        }
+        if (j == words1307[i].length()) {
+            dfs_words_1307(i + 1, 0, curSum, sum);
+            return;
+        }
+        if (nums1307[words1307[i].charAt(j) - 'A'] != -1) {
+            int cur = curSum + nums1307[words1307[i].charAt(j) - 'A'] * (int) Math.pow(10, words1307[i].length() - j - 1);
+            if (cur <= sum) {
+                dfs_words_1307(i, j + 1, cur, sum);
+            }
+            return;
+        }
+        for (int k = 0; k < 10; ++k) {
+            if (j == 0 && k == 0 && words1307[i].length() > 1) {
+                continue;
+            }
+            if (((used1307 >> k) & 1) != 0) {
+                continue;
+            }
+            int cur = curSum + k * (int) Math.pow(10, words1307[i].length() - j - 1);
+            if (cur > sum) {
+                break;
+            }
+            nums1307[words1307[i].charAt(j) - 'A'] = k;
+            used1307 ^= 1 << k;
+            dfs_words_1307(i, j + 1, cur, sum);
+            if (flag1307) {
+                return;
+            }
+            used1307 ^= 1 << k;
+            nums1307[words1307[i].charAt(j) - 'A'] = -1;
+        }
+    }
+
+
+    // public int sumImbalanceNumbers(int[] nums) {
+    // int res = 0;
+    // int n = nums.length;
+    // for (int i = 0; i < n; ++i) {
+    // List<Integer> list = new ArrayList<>();
+    // int pre = 0;
+    // for (int j = i; j < n; ++j) {
+    // // 0 ++pre /// 1 [3] 5 /// 1 5 [7]
+    // // 1 pre /// 1 3 [4] 1 [3] 4
+    // // 2 --pre /// 1 [2] 3
+    // int type = f(list, nums[j]);
+    // if (type == 0) {
+    // res += ++pre;
+    // } else if (type == 1) {
+    // res += pre;
+    // } else {
+    // res += --pre;
+    // }
+    // }
+    // }
+    // return res;
+
+    // }
+
+    // private int f(List<Integer> list, int target) {
+    // if (list.isEmpty()) {
+    // list.add(target);
+    // return 1;
+    // }
+    // if (target >= list.get(list.size() - 1)) {
+    // list.add(target);
+    // return (list.get(list.size() - 1) - list.get(list.size() - 2) > 1) ? 0 : 1;
+    // }
+    // if (target <= list.get(0)) {
+    // list.add(0, target);
+    // return (list.get(1) - list.get(0) > 1) ? 0 : 1;
+    // }
+    // int left = 0;
+    // int right = list.size() - 1;
+    // int res = -1;
+    // while (left <= right) {
+    // int mid = left + ((right - left) >> 1);
+    // if (target >= list.get(mid)) {
+    // res = mid;
+    // left = mid + 1;
+    // } else {
+    // right = mid - 1;
+    // }
+    // }
+    // list.add(res, target);
+    // if (res + 1 < list.size() && res - 1 >= 0 && list.get(res + 1) -
+    // list.get(res) == 1
+    // && list.get(res) - list.get(res - 1) == 1) {
+    // return 2;
+    // }
+
+    // // 不变
+    // if (res > 0 && list.get(res) - list.get(res - 1) <= 1) {
+    // return 1;
+    // }
+    // if (res + 1 < list.size() && list.get(res + 1) - list.get(res) <= 1) {
+    // return 1;
+    // }
+    // return 0;
+    // }
 }
