@@ -1576,14 +1576,8 @@ public class LeetCode_2 {
    // 445. 两数相加 II (Add Two Numbers II)
    // 剑指 Offer II 025. 链表中的两数相加
    public ListNode addTwoNumbers445(ListNode l1, ListNode l2) {
-      l1 = reverseLinkedList(l1);
-      l2 = reverseLinkedList(l2);
-      ListNode res = add445(l1, l2);
-      return reverseLinkedList(res);
-
-   }
-
-   private ListNode add445(ListNode l1, ListNode l2) {
+      l1 = reverse445(l1);
+      l2 = reverse445(l2);
       ListNode dummy = new ListNode(0);
       ListNode cur = dummy;
       int carry = 0;
@@ -1596,27 +1590,24 @@ public class LeetCode_2 {
             carry += l2.val;
             l2 = l2.next;
          }
-         ListNode added = new ListNode(carry % 10);
-         cur.next = added;
-         cur = cur.next;
+         ListNode node = new ListNode(carry % 10);
          carry /= 10;
+         cur.next = node;
+         cur = cur.next;
       }
+      return reverse445(dummy.next);
 
-      return dummy.next;
    }
 
-   private ListNode reverseLinkedList(ListNode head) {
-      ListNode guard = new ListNode(0, head);
-      ListNode point = head;
-      while (point != null && point.next != null) {
-         ListNode removed = point.next;
-         point.next = point.next.next;
-
-         removed.next = guard.next;
-         guard.next = removed;
+   private ListNode reverse445(ListNode node) {
+      ListNode pre = null;
+      while (node != null) {
+         ListNode next = node.next;
+         node.next = pre;
+         pre = node;
+         node = next;
       }
-      return guard.next;
-
+      return pre;
    }
 
    // 1721. 交换链表中的节点 (Swapping Nodes in a Linked List)
