@@ -11,6 +11,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.stream.IntStream;
 
 public class Leetcode_8 {
@@ -1307,70 +1308,33 @@ public class Leetcode_8 {
         }
     }
 
-    // public int sumImbalanceNumbers(int[] nums) {
-    // int res = 0;
-    // int n = nums.length;
-    // for (int i = 0; i < n; ++i) {
-    // List<Integer> list = new ArrayList<>();
-    // int pre = 0;
-    // for (int j = i; j < n; ++j) {
-    // // 0 ++pre /// 1 [3] 5 /// 1 5 [7]
-    // // 1 pre /// 1 3 [4] 1 [3] 4
-    // // 2 --pre /// 1 [2] 3
-    // int type = f(list, nums[j]);
-    // if (type == 0) {
-    // res += ++pre;
-    // } else if (type == 1) {
-    // res += pre;
-    // } else {
-    // res += --pre;
-    // }
-    // }
-    // }
-    // return res;
+    // 2763. 所有子数组中不平衡数字之和 (Sum of Imbalance Numbers of All Subarrays)
+    public int sumImbalanceNumbers(int[] nums) {
+        int res = 0;
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            TreeSet<Integer> set = new TreeSet<>();
+            int cnts = 0;
+            for (int j = i; j < n; ++j) {
+                if (set.contains(nums[j])) {
+                    res += cnts;
+                    continue;
+                }
+                Integer lower = set.lower(nums[j]);
+                Integer higher = set.higher(nums[j]);
+                if (lower != null && higher != null && nums[j] - lower == 1 && higher - nums[j] == 1) {
+                    --cnts;
+                } else if (lower != null && higher != null && nums[j] - lower > 1 && higher - nums[j] > 1
+                        || higher == null && lower != null && nums[j] - lower > 1
+                        || lower == null && higher != null && higher - nums[j] > 1) {
+                    ++cnts;
+                }
+                res += cnts;
+                set.add(nums[j]);
+            }
+        }
+        return res;
 
-    // }
-
-    // private int f(List<Integer> list, int target) {
-    // if (list.isEmpty()) {
-    // list.add(target);
-    // return 1;
-    // }
-    // if (target >= list.get(list.size() - 1)) {
-    // list.add(target);
-    // return (list.get(list.size() - 1) - list.get(list.size() - 2) > 1) ? 0 : 1;
-    // }
-    // if (target <= list.get(0)) {
-    // list.add(0, target);
-    // return (list.get(1) - list.get(0) > 1) ? 0 : 1;
-    // }
-    // int left = 0;
-    // int right = list.size() - 1;
-    // int res = -1;
-    // while (left <= right) {
-    // int mid = left + ((right - left) >> 1);
-    // if (target >= list.get(mid)) {
-    // res = mid;
-    // left = mid + 1;
-    // } else {
-    // right = mid - 1;
-    // }
-    // }
-    // list.add(res, target);
-    // if (res + 1 < list.size() && res - 1 >= 0 && list.get(res + 1) -
-    // list.get(res) == 1
-    // && list.get(res) - list.get(res - 1) == 1) {
-    // return 2;
-    // }
-
-    // // 不变
-    // if (res > 0 && list.get(res) - list.get(res - 1) <= 1) {
-    // return 1;
-    // }
-    // if (res + 1 < list.size() && list.get(res + 1) - list.get(res) <= 1) {
-    // return 1;
-    // }
-    // return 0;
-    // }
+    }
 
 }
