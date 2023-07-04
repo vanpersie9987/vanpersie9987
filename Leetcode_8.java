@@ -11,6 +11,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.stream.IntStream;
 
 public class Leetcode_8 {
@@ -1332,6 +1333,33 @@ public class Leetcode_8 {
         }
         return res;
 
+    }
+
+    // 1096. 花括号展开 II (Brace Expansion II)
+    private TreeSet<String> set1096;
+
+    public List<String> braceExpansionII(String expression) {
+        this.set1096 = new TreeSet<>();
+        dfs1096(expression);
+        return new ArrayList<>(set1096);
+
+    }
+
+    private void dfs1096(String s) {
+        int j = s.indexOf("}");
+        if (j == -1) {
+            set1096.add(s);
+            return;
+        }
+        int i = j;
+        while (s.charAt(i) != '{') {
+            --i;
+        }
+        String a = s.substring(0, i);
+        String c = s.substring(j + 1);
+        for (String b : s.substring(i + 1, j).split(",")) {
+            dfs1096(a + b + c);
+        }
     }
 
 }
