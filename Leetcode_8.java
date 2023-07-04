@@ -1362,4 +1362,43 @@ public class Leetcode_8 {
         }
     }
 
+    // 1755. 最接近目标值的子序列和 (Closest Subsequence Sum)
+    private int index1755;
+
+    public int minAbsDifference(int[] nums, int goal) {
+        int n = nums.length;
+        int[] left = new int[1 << (n / 2)];
+        dfs1755(0, Arrays.copyOfRange(nums, 0, n / 2), 0, left);
+        int[] right = new int[1 << (n - n / 2)];
+        index1755 = 0;
+        dfs1755(0, Arrays.copyOfRange(nums, n / 2, n), 0, right);
+        Arrays.sort(left);
+        Arrays.sort(right);
+        int l = 0;
+        int r = right.length - 1;
+        int res = Integer.MAX_VALUE;
+        while (l < left.length && r >= 0) {
+            int cur = left[l] + right[r];
+            res = Math.min(res, Math.abs(cur - goal));
+            if (cur > goal) {
+                --r;
+            } else {
+                ++l;
+            }
+        }
+        return res;
+
+    }
+
+    private void dfs1755(int i, int[] nums, int sum, int[] arr) {
+        if (i == nums.length) {
+            arr[index1755++] = sum;
+            return;
+        }
+        // 不选
+        dfs1755(i + 1, nums, sum, arr);
+        // 选
+        dfs1755(i + 1, nums, sum + nums[i], arr);
+    }
+
 }
