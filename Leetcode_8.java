@@ -1312,25 +1312,23 @@ public class Leetcode_8 {
     public int sumImbalanceNumbers(int[] nums) {
         int res = 0;
         int n = nums.length;
+        boolean[] vis = new boolean[n + 2];
         for (int i = 0; i < n; ++i) {
-            TreeSet<Integer> set = new TreeSet<>();
+            Arrays.fill(vis, false);
             int cnts = 0;
-            for (int j = i; j < n; ++j) {
-                if (set.contains(nums[j])) {
+            vis[nums[i]] = true;
+            for (int j = i + 1; j < n; ++j) {
+                if (vis[nums[j]]) {
                     res += cnts;
                     continue;
                 }
-                Integer lower = set.lower(nums[j]);
-                Integer higher = set.higher(nums[j]);
-                if (lower != null && higher != null && nums[j] - lower == 1 && higher - nums[j] == 1) {
+                if (vis[nums[j] + 1] && vis[nums[j] - 1]) {
                     --cnts;
-                } else if (lower != null && higher != null && nums[j] - lower > 1 && higher - nums[j] > 1
-                        || higher == null && lower != null && nums[j] - lower > 1
-                        || lower == null && higher != null && higher - nums[j] > 1) {
+                } else if (!vis[nums[j] + 1] && !vis[nums[j] - 1]) {
                     ++cnts;
                 }
                 res += cnts;
-                set.add(nums[j]);
+                vis[nums[j]] = true;
             }
         }
         return res;
