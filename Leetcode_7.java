@@ -5966,7 +5966,7 @@ public class Leetcode_7 {
             Arrays.sort(nums[i]);
         }
         int res = 0;
-        for (int j = n - 1; j >= 0; --j) {
+        for (int j = 0; j < n; ++j) {
             int max = 0;
             for (int i = 0; i < m; ++i) {
                 max = Math.max(max, nums[i][j]);
