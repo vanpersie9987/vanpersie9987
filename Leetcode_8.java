@@ -1209,7 +1209,7 @@ public class Leetcode_8 {
         int j = 0;
         while (j < n) {
             map.merge(nums[j], 1, Integer::sum);
-            while (Math.abs(map.firstKey() - nums[j]) > 2 || Math.abs(map.lastKey() - nums[j]) > 2) {
+            while (map.lastKey() - map.firstKey() > 2) {
                 map.merge(nums[i], -1, Integer::sum);
                 if (map.getOrDefault(nums[i], 0) == 0) {
                     map.remove(nums[i]);
