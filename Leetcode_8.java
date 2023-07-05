@@ -1351,10 +1351,7 @@ public class Leetcode_8 {
             set1096.add(s);
             return;
         }
-        int i = j;
-        while (s.charAt(i) != '{') {
-            --i;
-        }
+        int i = s.lastIndexOf("{", j);
         String a = s.substring(0, i);
         String c = s.substring(j + 1);
         for (String b : s.substring(i + 1, j).split(",")) {
