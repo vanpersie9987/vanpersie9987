@@ -1436,4 +1436,46 @@ public class Leetcode_8 {
 
     }
 
+    // 2242. 节点序列的最大得分 (Maximum Score of a Node Sequence)
+    public int maximumScore(int[] scores, int[][] edges) {
+        int n = scores.length;
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            int x = e[0];
+            int y = e[1];
+            g[x].add(new int[] { scores[y], y });
+            g[y].add(new int[] { scores[x], x });
+        }
+        for (int i = 0; i < n; ++i) {
+            if (g[i].size() > 3) {
+                g[i].sort(new Comparator<int[]>() {
+
+                    @Override
+                    public int compare(int[] o1, int[] o2) {
+                        return Integer.compare(o2[0], o1[0]);
+                    }
+
+                });
+                g[i] = new ArrayList<>(g[i].subList(0, 3));
+            }
+        }
+        int res = -1;
+        for (int[] e : edges) {
+            int x = e[0];
+            int y = e[1];
+            for (int[] i : g[x]) {
+                int a = i[1];
+                for (int[] j : g[y]) {
+                    int b = j[1];
+                    if (y != a && x != b && a != b) {
+                        res = Math.max(res, i[0] + scores[x] + scores[y] + j[0]);
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
 }
