@@ -92,7 +92,6 @@ public class LeetCodeText {
 
     }
 
-
     // 1. 两数之和 (Two Sum)
     public int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> map = new HashMap<>();
@@ -7041,8 +7040,56 @@ public class LeetCodeText {
     }
 
     // 97. 交错字符串 (Interleaving String)
+    private int n1_97;
+    private int n2_97;
+    private int n3_97;
+    private String s1_97;
+    private String s2_97;
+    private String s3_97;
+    private int[][][] memo_97;
+
+    public boolean isInterleave(String s1, String s2, String s3) {
+        this.n1_97 = s1.length();
+        this.n2_97 = s2.length();
+        this.n3_97 = s3.length();
+        if (n1_97 + n2_97 != n3_97) {
+            return false;
+        }
+        this.s1_97 = s1;
+        this.s2_97 = s2;
+        this.s3_97 = s3;
+        this.memo_97 = new int[n1_97][n2_97][n3_97];
+        return dfs97(0, 0, 0);
+
+    }
+
+    private boolean dfs97(int i1, int i2, int j) {
+        if (j == n3_97) {
+            return i1 == n1_97 && i2 == n2_97;
+        }
+        if (i1 == n1_97) {
+            return s2_97.substring(i2).equals(s3_97.substring(j));
+        }
+        if (i2 == n2_97) {
+            return s1_97.substring(i1).equals(s3_97.substring(j));
+        }
+        if (memo_97[i1][i2][j] != 0) {
+            return memo_97[i1][i2][j] > 0;
+        }
+        boolean res = false;
+        if (s1_97.charAt(i1) == s3_97.charAt(j)) {
+            res = res || dfs97(i1 + 1, i2, j + 1);
+        }
+        if (s2_97.charAt(i2) == s3_97.charAt(j)) {
+            res = res || dfs97(i1, i2 + 1, j + 1);
+        }
+        memo_97[i1][i2][j] = res ? 1 : -1;
+        return res;
+    }
+
+    // 97. 交错字符串 (Interleaving String)
     // 剑指 Offer II 096. 字符串交织
-    public boolean isInterleave(final String s1, final String s2, final String s3) {
+    public boolean isInterleave2(final String s1, final String s2, final String s3) {
         int n1 = s1.length();
         int n2 = s2.length();
         int n3 = s3.length();
@@ -7070,7 +7117,7 @@ public class LeetCodeText {
 
     // 97. 交错字符串 (Interleaving String)
     // 剑指 Offer II 096. 字符串交织
-    public boolean isInterleave2(final String s1, final String s2, final String s3) {
+    public boolean isInterleave3(final String s1, final String s2, final String s3) {
         if (s1 == null || s2 == null || s3 == null) {
             return false;
         }

@@ -1478,4 +1478,37 @@ public class Leetcode_8 {
 
     }
 
+    // 837. 新 21 点 (New 21 Game)
+    // private int n;
+    // private int k;
+    // private int maxPts;
+    // private double[] memo;
+
+    // public double new21Game(int n, int k, int maxPts) {
+    // this.n = n;
+    // this.k = k;
+    // this.maxPts = maxPts;
+    // this.memo = new double[k];
+    // Arrays.fill(memo, -1D);
+    // return dfs(0);
+    // }
+
+    // private double dfs(int score) {
+    // if (score >= k) {
+    // return score <= n ? 1D : 0D;
+    // }
+    // if (memo[score] != -1D) {
+    // return memo[score];
+    // }
+    // double sum = 0D;
+    // int i = 1;
+    // while (i <= maxPts && i + score < k) {
+    // sum += dfs(score + i);
+    // }
+    // if (i <= maxPts) {
+    // sum += n - (i + score) + 1;
+    // }
+    // return memo[score] = sum / maxPts;
+    // }
+
 }
