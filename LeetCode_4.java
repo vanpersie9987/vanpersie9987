@@ -3702,8 +3702,43 @@ public class LeetCode_4 {
 
     }
 
-    // 2266. 统计打字方案数 (Count Number of Texts) --dp
+    // 2266. 统计打字方案数 (Count Number of Texts)
+    private int n2266;
+    private char[] arr2266;
+    private int[] memo2266;
+
     public int countTexts(String pressedKeys) {
+        this.n2266 = pressedKeys.length();
+        this.arr2266 = pressedKeys.toCharArray();
+        this.memo2266 = new int[n2266];
+        Arrays.fill(memo2266, -1);
+        return dfs2266(0);
+
+    }
+
+    private int dfs2266(int i) {
+        if (i == n2266) {
+            return 1;
+        }
+        if (memo2266[i] != -1) {
+            return memo2266[i];
+        }
+        int len = 3;
+        if (arr2266[i] == '7' || arr2266[i] == '9') {
+            len = 4;
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        int j = i;
+        while (j < n2266 && j - i + 1 <= len && arr2266[i] == arr2266[j]) {
+            res = (res + dfs2266(j + 1)) % MOD;
+            ++j;
+        }
+        return memo2266[i] = res;
+    }
+
+    // 2266. 统计打字方案数 (Count Number of Texts) --dp
+    public int countTexts2(String pressedKeys) {
         final int MOD = 1000000007;
         int n = pressedKeys.length();
         List<Long> dp3 = new ArrayList<>();
