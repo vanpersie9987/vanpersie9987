@@ -1478,6 +1478,20 @@ public class Leetcode_8 {
 
     }
 
+    // 2681. 英雄的力量 (Power of Heroes)
+    public int sumOfPower(int[] nums) {
+        Arrays.sort(nums);
+        long res = 0L;
+        long s = 0L;
+        final int MOD = (int) (1e9 + 7);
+        for (long x : nums) {
+            res = (res + ((x * x) % MOD) * (x + s)) % MOD;
+            s = (s * 2 + x) % MOD;
+        }
+        return (int) res;
+
+    }
+
     // 837. 新 21 点 (New 21 Game)
     // private int n;
     // private int k;
