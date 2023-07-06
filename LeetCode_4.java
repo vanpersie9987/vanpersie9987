@@ -1463,12 +1463,13 @@ public class LeetCode_4 {
         }
     }
 
-    // 2265. 统计值等于子树平均值的节点数 (Count Nodes Equal to Average of Subtree) --dfs
+    // 2265. 统计值等于子树平均值的节点数 (Count Nodes Equal to Average of Subtree)
     private int res2265;
 
     public int averageOfSubtree(TreeNode root) {
         dfs2265(root);
         return res2265;
+
     }
 
     private int[] dfs2265(TreeNode root) {
@@ -1478,11 +1479,12 @@ public class LeetCode_4 {
         int[] left = dfs2265(root.left);
         int[] right = dfs2265(root.right);
         int sum = left[0] + right[0] + root.val;
-        int count = left[1] + right[1] + 1;
-        if (sum / count == root.val) {
+        int cnt = left[1] + right[1] + 1;
+        if (root.val == sum / cnt) {
             ++res2265;
         }
-        return new int[] { sum, count };
+        return new int[] { sum, cnt };
+
     }
 
     // 面试题 08.07. 无重复字符串的排列组合 (Permutation I LCCI) --回溯
