@@ -9640,26 +9640,15 @@ public class Leetcode_3 {
 
     }
 
-    // 6056. 字符串中最大的 3 位相同数字
+    // 2264. 字符串中最大的 3 位相同数字 (Largest 3-Same-Digit Number in String)
     public String largestGoodInteger(String num) {
-        int count = 1;
         String res = "";
-        char[] chars = num.toCharArray();
-        for (int i = 1; i < chars.length; ++i) {
-            if (chars[i] == chars[i - 1]) {
-                ++count;
-                if (count >= 3) {
-                    if ("".equals(res)) {
-                        res = num.substring(i - 2, i + 1);
-                    } else {
-                        if (num.substring(i - 2, i + 1).compareTo(res) > 0) {
-                            res = num.substring(i - 2, i + 1);
-                        }
-                    }
-                    count = 1;
+        char[] arr = num.toCharArray();
+        for (int i = 1; i < arr.length - 1; ++i) {
+            if (arr[i] == arr[i - 1] && arr[i] == arr[i + 1]) {
+                if (res.isEmpty() || res.compareTo(num.substring(i - 1, i + 2)) < 0) {
+                    res = num.substring(i - 1, i + 2);
                 }
-            } else {
-                count = 1;
             }
         }
         return res;
