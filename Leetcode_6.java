@@ -6113,50 +6113,44 @@ public class Leetcode_6 {
     }
 
     // 2267. 检查是否有合法括号字符串路径 (Check if There Is a Valid Parentheses String Path)
-    // --dfs
     private int m2267;
     private int n2267;
     private char[][] grid2267;
-    private boolean[][][] vis2267;
+    private int[][][] memo2267;
 
     public boolean hasValidPath2(char[][] grid) {
         this.m2267 = grid.length;
         this.n2267 = grid[0].length;
-        int len = m2267 + n2267 - 1;
-        if (len % 2 == 1) {
+        if ((m2267 + n2267 - 1) % 2 == 1) {
             return false;
         }
-        if (grid[0][0] != '(') {
-            return false;
-        }
-        if (grid[m2267 - 1][n2267 - 1] != ')') {
+        if (grid[0][0] == ')' || grid[m2267 - 1][n2267 - 1] == '(') {
             return false;
         }
         this.grid2267 = grid;
-
-        vis2267 = new boolean[m2267][n2267][(m2267 + n2267 - 1) / 2 + 1];
-        return dfs2267(0, 0, 1);
+        this.memo2267 = new int[m2267][n2267][(m2267 + n2267) / 2 + 1];
+        return dfs2267(0, 0, 0);
 
     }
 
-    // (x, y, 左括号数量 - 右括号数量)
-    private boolean dfs2267(int x, int y, int diff) {
-        if (x == m2267 - 1 && y == n2267 - 1 && diff == 0) {
-            return true;
-        }
-        if (diff < 0) {
+    private boolean dfs2267(int i, int j, int k) {
+        if (i == m2267 || j == n2267 || k < 0) {
             return false;
         }
-        if (diff > m2267 - 1 - x + n2267 - 1 - y) {
+        if (i == m2267 - 1 && j == n2267 - 1) {
+            return k == 1;
+        }
+        if (k > (m2267 - i + n2267 - j - 1)) {
             return false;
         }
-        if (vis2267[x][y][diff]) {
-            return false;
+        if (memo2267[i][j][k] != 0) {
+            return memo2267[i][j][k] > 0;
         }
-        vis2267[x][y][diff] = true;
-        return x + 1 < m2267 && dfs2267(x + 1, y, diff + (grid2267[x + 1][y] == '(' ? 1 : -1)) ||
-                y + 1 < n2267 && dfs2267(x, y + 1, diff + (grid2267[x][y + 1] == '(' ? 1 : -1));
-
+        int d = grid2267[i][j] == '(' ? 1 : -1;
+        boolean res = dfs2267(i + 1, j, k + d)
+                || dfs2267(i, j + 1, k + d);
+        memo2267[i][j][k] = res ? 1 : -1;
+        return res;
     }
 
     // 1801. 积压订单中的订单总数 (Number of Orders in the Backlog)
