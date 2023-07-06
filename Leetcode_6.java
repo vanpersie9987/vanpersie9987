@@ -6147,8 +6147,7 @@ public class Leetcode_6 {
             return memo2267[i][j][k] > 0;
         }
         int d = grid2267[i][j] == '(' ? 1 : -1;
-        boolean res = dfs2267(i + 1, j, k + d)
-                || dfs2267(i, j + 1, k + d);
+        boolean res = dfs2267(i + 1, j, k + d) || dfs2267(i, j + 1, k + d);
         memo2267[i][j][k] = res ? 1 : -1;
         return res;
     }
