@@ -534,18 +534,15 @@ public class Leetcode_3 {
 
     // 2178. 拆分成最多数目的偶整数之和 (Maximum Split of Positive Even Integers)
     public List<Long> maximumEvenSplit(long finalSum) {
-        List<Long> res = new ArrayList<>();
-        if (finalSum % 2 == 1) {
-            return res;
+        if ((finalSum & 1) != 0) {
+            return List.of();
         }
-        int cur = 2;
-        while (finalSum > 0) {
-            if (!res.isEmpty() && finalSum <= res.get(res.size() - 1)) {
-                break;
-            }
-            res.add((long) cur);
+        List<Long> res = new ArrayList<>();
+        long cur = 2L;
+        while (cur <= finalSum) {
+            res.add(cur);
             finalSum -= cur;
-            cur += 2;
+            cur += 2L;
         }
         res.set(res.size() - 1, res.get(res.size() - 1) + finalSum);
         return res;
