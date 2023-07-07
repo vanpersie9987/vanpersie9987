@@ -7663,7 +7663,7 @@ public class LeetCode_2 {
       return (int) Math.max(0, (upper - lower) - (max - min) + 1);
    }
 
-   // 5974. 分隔长廊的方案数 (Number of Ways to Divide a Long Corridor)
+   // 2147. 分隔长廊的方案数 (Number of Ways to Divide a Long Corridor)
    public int numberOfWays(String corridor) {
       char[] arr = corridor.toCharArray();
       long res = 1L;
