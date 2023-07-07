@@ -1492,37 +1492,53 @@ public class Leetcode_8 {
 
     }
 
-    // 837. 新 21 点 (New 21 Game)
-    // private int n;
-    // private int k;
-    // private int maxPts;
-    // private double[] memo;
+    // 2616. 最小化数对的最大差值 (Minimize the Maximum Difference of Pairs)
+    private int[] nums2616;
+    private int[] memo2616;
+    private int n2616;
+    private int diff2616;
 
-    // public double new21Game(int n, int k, int maxPts) {
-    // this.n = n;
-    // this.k = k;
-    // this.maxPts = maxPts;
-    // this.memo = new double[k];
-    // Arrays.fill(memo, -1D);
-    // return dfs(0);
-    // }
+    public int minimizeMax(int[] nums, int p) {
+        Arrays.sort(nums);
+        this.n2616 = nums.length;
+        this.nums2616 = nums;
+        this.memo2616 = new int[n2616];
+        int left = 0;
+        int right = nums[n2616 - 1] - nums[0];
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check2616(mid) >= p) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
 
-    // private double dfs(int score) {
-    // if (score >= k) {
-    // return score <= n ? 1D : 0D;
-    // }
-    // if (memo[score] != -1D) {
-    // return memo[score];
-    // }
-    // double sum = 0D;
-    // int i = 1;
-    // while (i <= maxPts && i + score < k) {
-    // sum += dfs(score + i);
-    // }
-    // if (i <= maxPts) {
-    // sum += n - (i + score) + 1;
-    // }
-    // return memo[score] = sum / maxPts;
-    // }
+    }
+
+    private int check2616(int diff) {
+        this.diff2616 = diff;
+        Arrays.fill(memo2616, -1);
+        return dfs2616(0);
+    }
+
+    private int dfs2616(int i) {
+        if (i >= n2616) {
+            return 0;
+        }
+        if (memo2616[i] != -1) {
+            return memo2616[i];
+        }
+        // 不选
+        int max = dfs2616(i + 1);
+        // 选
+        if (i + 1 < n2616 && nums2616[i + 1] - nums2616[i] <= diff2616) {
+            max = Math.max(max, dfs2616(i + 2) + 1);
+        }
+        return memo2616[i] = max;
+    }
 
 }
