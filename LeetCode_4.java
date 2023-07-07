@@ -4650,53 +4650,32 @@ public class LeetCode_4 {
     }
 
     // 2135. 统计追加字母可以获得的单词数 (Count Words Obtained After Adding a Letter)
-    public int wordCount1(String[] startWords, String[] targetWords) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for (String targetWord : targetWords) {
-            int mask = getMask2153(targetWord);
-            map.put(mask, map.getOrDefault(mask, 0) + 1);
-        }
-        int res = 0;
-        for (String startWord : startWords) {
-            int mask = getMask2153(startWord);
-            for (int i = 0; i < 26; ++i) {
-                int candidateMask = mask | (1 << i);
-                if (candidateMask != mask && map.containsKey(candidateMask)) {
-                    res += map.get(candidateMask);
-                    map.remove(candidateMask);
-                }
-            }
-        }
-        return res;
-    }
-
-    private int getMask2153(String word) {
-        int mask = 0;
-        for (char c : word.toCharArray()) {
-            mask |= 1 << (c - 'a');
-        }
-        return mask;
-    }
-
-    // 2135. 统计追加字母可以获得的单词数 (Count Words Obtained After Adding a Letter)
-    public int wordCount2(String[] startWords, String[] targetWords) {
+    public int wordCount(String[] startWords, String[] targetWords) {
         Set<Integer> set = new HashSet<>();
-        for (String startWord : startWords) {
-            int mask = getMask2153(startWord);
-            set.add(mask);
+        for (String s : startWords) {
+            int m = 0;
+            for (char c : s.toCharArray()) {
+                m |= 1 << (c - 'a');
+            }
+            set.add(m);
         }
         int res = 0;
-        for (String targetWord : targetWords) {
-            int mask = getMask2153(targetWord);
-            for (int i = 0; i < targetWord.length(); ++i) {
-                if (set.contains(mask ^ (1 << (targetWord.charAt(i) - 'a')))) {
+        search: for (String t : targetWords) {
+            int m = 0;
+            for (char c : t.toCharArray()) {
+                m |= 1 << (c - 'a');
+            }
+            int c = m;
+            while (c != 0) {
+                int i = Integer.numberOfTrailingZeros(c);
+                if (set.contains(m ^ (1 << i))) {
                     ++res;
-                    break;
+                    continue search;
                 }
+                c &= c - 1;
             }
         }
         return res;
-
     }
 
     // 2121. 相同元素的间隔之和 (Intervals Between Identical Elements) --超时
