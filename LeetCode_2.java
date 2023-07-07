@@ -7369,19 +7369,17 @@ public class LeetCode_2 {
 
    // 2138. 将字符串拆分为若干长度为 k 的组 (Divide a String Into Groups of Size k)
    public String[] divideString(String s, int k, char fill) {
-      StringBuilder builder = new StringBuilder(s);
-      while (builder.length() % k != 0) {
-         builder.append(fill);
+      StringBuilder sb = new StringBuilder(s);
+      while (sb.length() % k != 0) {
+         sb.append(fill);
       }
-      int n = builder.length() / k;
-      String[] res = new String[n];
-      int index = 0;
-      for (int i = 0; i < n; ++i) {
-         res[i] = builder.substring(index, index + k);
-         index += k;
+      String[] res = new String[sb.length() / k];
+      int j = 0;
+      for (int i = 0; i < sb.length(); i += k) {
+         res[j] = sb.substring(i, i + k);
+         ++j;
       }
       return res;
-
    }
 
    // 2139. 得到目标值的最少行动次数 (Minimum Moves to Reach Target Score)
