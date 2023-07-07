@@ -579,7 +579,7 @@ public class LeetCode_2 {
       }
       return res;
    }
-   
+
    // 面试题 08.11. 硬币 (Coin LCCI)
    public int waysToChange(int n) {
       final int MOD = 1000000007;
@@ -5357,7 +5357,7 @@ public class LeetCode_2 {
       return res;
 
    }
-  
+
    // 904. 水果成篮 (Fruit Into Baskets)
    public int totalFruit2(int[] fruits) {
       int n = fruits.length;
@@ -7665,20 +7665,32 @@ public class LeetCode_2 {
 
    // 5974. 分隔长廊的方案数 (Number of Ways to Divide a Long Corridor)
    public int numberOfWays(String corridor) {
-      final int MOD = 1000000007;
+      char[] arr = corridor.toCharArray();
       long res = 1L;
-      char[] chars = corridor.toCharArray();
-      int count = 0;
-      int pre = -1;
-      for (int i = 0; i < chars.length; ++i) {
-         if (chars[i] == 'S') {
-            if (++count >= 3 && count % 2 == 1) {
-               res = res * (i - pre) % MOD;
-            }
-            pre = i;
+      final int MOD = (int) (1e9 + 7);
+      int cnt = 0;
+      for (char c : arr) {
+         if (c == 'S') {
+            ++cnt;
          }
       }
-      return count == 0 || count % 2 == 1 ? 0 : (int) res;
+      if (cnt == 0 || cnt % 2 == 1) {
+         return 0;
+      }
+      cnt = 0;
+      int p1 = -1;
+      int p2 = -1;
+      for (int i = 0; i < arr.length; ++i) {
+         if (arr[i] == 'S') {
+            p1 = p2;
+            p2 = i;
+            ++cnt;
+            if (cnt % 2 == 1 && p1 != -1 && p2 != -1) {
+               res = (res * (p2 - p1)) % MOD;
+            }
+         }
+      }
+      return (int) res;
 
    }
 
