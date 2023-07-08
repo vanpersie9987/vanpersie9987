@@ -6795,37 +6795,30 @@ public class Leetcode_6 {
 
     // 2156. 查找给定哈希值的子串 (Find Substring With Given Hash Value)
     public String subStrHash(String s, int power, int modulo, int k, int hashValue) {
-        long curHashVal = 0l;
-        int pow = k - 1;
-        for (int i = s.length() - 1; i >= s.length() - k; --i) {
-            curHashVal = (curHashVal + (s.charAt(i) & 31) * pow2156(power, pow, modulo)) % modulo;
-            --pow;
+        int n = s.length();
+        long[] pre = new long[k];
+        pre[0] = 1;
+        for (int i = 1; i < k; ++i) {
+            pre[i] = (long) pre[i - 1] * power % modulo;
         }
-        String res = "";
-        if (curHashVal == hashValue) {
-            res = s.substring(s.length() - k);
+        long h = 0L;
+        int res = -1;
+        int j = 0;
+        for (int i = n - k; i < n; ++i) {
+            h = (h + (s.charAt(i) - 'a' + 1) * pre[j++] % modulo) % modulo;
         }
-        for (int i = s.length() - k - 1; i >= 0; --i) {
-            curHashVal = ((curHashVal * power + (s.charAt(i) & 31)
-                    - (s.charAt(i + k) & 31) * pow2156(power, k, modulo)) % modulo + modulo) % modulo;
-            if (curHashVal == hashValue) {
-                res = s.substring(i, i + k);
+        if (h == hashValue) {
+            res = n - k;
+        }
+        for (int i = n - k - 1; i >= 0; --i) {
+            h = ((h - (s.charAt(i + k) - 'a' + 1) * pre[k - 1] % modulo) % modulo + modulo) % modulo;
+            h = h * power % modulo;
+            h = (h + s.charAt(i) - 'a' + 1) % modulo;
+            if (h == hashValue) {
+                res = i;
             }
         }
-        return res;
-
-    }
-
-    private long pow2156(long a, long n, int modulo) {
-        long res = 1l;
-        while (n > 0) {
-            if ((n & 1) == 1) {
-                res = (res * a) % modulo;
-            }
-            a = (a * a) % modulo;
-            n >>>= 1;
-        }
-        return res;
+        return s.substring(res, res + k);
     }
 
     // 2156. 查找给定哈希值的子串 (Find Substring With Given Hash Value)
