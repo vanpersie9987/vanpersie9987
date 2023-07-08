@@ -7745,56 +7745,23 @@ public class LeetCode_2 {
 
    // 5992. 基于陈述统计最多好人数 (Maximum Good People Based on Statements)
    public int maximumGood(int[][] statements) {
-      int res = 0;
-      int n = statements.length;
-      for (int status = 0; status < (1 << n); ++status) {
-         if (isLegal5992(status, statements)) {
-            res = Math.max(res, Integer.bitCount(status));
-         }
-      }
-      return res;
-
-   }
-
-   private boolean isLegal5992(int status, int[][] statements) {
-      for (int i = 0; i < statements.length; ++i) {
-         for (int j = 0; j < statements.length; ++j) {
-            // i是好人 i认为j是坏人 但j是好人
-            if (statements[i][j] == 0 && ((status >> i) & 1) == 1 && ((status >> j) & 1) == 1) {
-               return false;
-            }
-            // i是好人 i认为j是好人 但j是坏人
-            else if (statements[i][j] == 1 && ((status >> i) & 1) == 1 && ((status >> j) & 1) == 0) {
-               return false;
-            }
-         }
-      }
-      return true;
-   }
-
-   // 5992. 基于陈述统计最多好人数 (Maximum Good People Based on Statements)
-   public int maximumGood2(int[][] statements) {
       int n = statements.length;
       int res = 0;
-      s: for (int i = 0; i < (1 << n); ++i) {
-         int mask = i;
-         int index = 0;
-         while (index < n) {
-            int status = (mask >> index) & 1;
-            if (status == 1) {
-               int[] statement = statements[index];
-               for (int j = 0; j < n; ++j) {
-                  if ((statement[j] ^ ((mask >> j) & 1)) == 1) {
-                     continue s;
-                  }
+      search: for (int m = 0; m < (1 << n); ++m) {
+         for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+               if (statements[i][j] == 0 && ((m >> i) & 1) == 1 && ((m >> j) & 1) == 1) {
+                  continue search;
+               }
+               if (statements[i][j] == 1 && ((m >> i) & 1) == 1 && ((m >> j) & 1) == 0) {
+                  continue search;
                }
             }
-            ++index;
          }
-         res = Math.max(res, Integer.bitCount(mask));
+         res = Math.max(res, Integer.bitCount(m));
+
       }
       return res;
-
    }
 
    // 2081. k 镜像数字的和 (Sum of k-Mirror Numbers)
