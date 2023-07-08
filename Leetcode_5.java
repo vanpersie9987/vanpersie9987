@@ -6684,7 +6684,7 @@ public class Leetcode_5 {
 
     }
 
-    // 2157. 字符串分组 (Groups of Strings) --bfs + 状态压缩
+    // 2157. 字符串分组 (Groups of Strings)
     public int[] groupStrings(String[] words) {
         Map<Integer, Integer> counts = new HashMap<>();
         for (String word : words) {
@@ -6737,6 +6737,120 @@ public class Leetcode_5 {
             }
         }
         return res;
+    }
+
+    // 2157. 字符串分组 (Groups of Strings)
+    public int[] groupStrings2(String[] words) {
+        Map<Integer, Integer> cntMap = new HashMap<>();
+        for (String word : words) {
+            int m = getMask2157(word);
+            cntMap.merge(m, 1, Integer::sum);
+        }
+        int index = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int key : cntMap.keySet()) {
+            map.put(key, index++);
+        }
+        Union2157 union = new Union2157(index);
+        for (String word : words) {
+            int m = getMask2157(word);
+            int i = map.get(m);
+            // 添加
+            for (int k = 0; k < 26; ++k) {
+                int c = m | (1 << k);
+                if (map.containsKey(c)) {
+                    union.union(i, map.get(c));
+                }
+            }
+
+            // 替换
+            int c = m;
+            while (c != 0) {
+                int j = Integer.numberOfTrailingZeros(c);
+                int k = m ^ (1 << j);
+                // 删除
+                if (map.containsKey(k)) {
+                    union.union(i, map.get(k));
+                }
+                for (int s = 0; s < 26; ++s) {
+                    int co = k | (1 << s);
+                    if (map.containsKey(co)) {
+                        union.union(i, map.get(co));
+                    }
+                }
+                c &= c - 1;
+            }
+        }
+        int[] res = new int[2];
+        res[0] = union.getCnt();
+        Map<Integer, Integer> cc = new HashMap<>();
+        for (Map.Entry<Integer, Integer> entry : cntMap.entrySet()) {
+            int m = entry.getKey();
+            int i = map.get(m);
+            int root = union.getRoot(i);
+            cc.merge(root, entry.getValue(), Integer::sum);
+        }
+        res[1] = Collections.max(cc.values());
+        return res;
+
+    }
+
+    private int getMask2157(String word) {
+        int m = 0;
+        for (char c : word.toCharArray()) {
+            m |= 1 << (c - 'a');
+        }
+        return m;
+    }
+
+    public class Union2157 {
+        private int[] rank;
+        private int[] parent;
+        private int cnt;
+
+        public Union2157(int n) {
+            this.rank = new int[n];
+            this.parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                rank[i] = 1;
+                parent[i] = i;
+            }
+            this.cnt = n;
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+            --cnt;
+
+        }
+
+        public int getCnt() {
+            return cnt;
+        }
+
     }
 
     // 1234. 替换子串得到平衡字符串 (Replace the Substring for Balanced String) --滑动窗口
