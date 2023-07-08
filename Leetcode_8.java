@@ -1705,8 +1705,7 @@ public class Leetcode_8 {
                 }
             }
         }
-        long remain = (long) (m - 1) * (n - 1) - vis.size();
-        res[0] = remain;
+        res[0] = (long) (m - 1) * (n - 1) - vis.size();
         return res;
 
     }
