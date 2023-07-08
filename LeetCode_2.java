@@ -9799,32 +9799,27 @@ public class LeetCode_2 {
 
    }
 
-   // 6000. 对奇偶下标分别排序 (Sort Even and Odd Indices Independently)
+   // 2164. 对奇偶下标分别排序 (Sort Even and Odd Indices Independently)
    public int[] sortEvenOdd(int[] nums) {
-      List<Integer> odd = new ArrayList<>();
-      List<Integer> even = new ArrayList<>();
+      List<Integer>[] list = new ArrayList[2];
+      Arrays.setAll(list, k -> new ArrayList<>());
       for (int i = 0; i < nums.length; ++i) {
-         if (i % 2 == 0) {
-            even.add(nums[i]);
-         } else {
-            odd.add(nums[i]);
-         }
+         list[i % 2].add(nums[i]);
       }
+      Collections.sort(list[0]);
+      Collections.sort(list[1], new Comparator<Integer>() {
+
+         @Override
+         public int compare(Integer o1, Integer o2) {
+            return Integer.compare(o2, o1);
+         }
+
+      });
       int[] res = new int[nums.length];
-      Collections.sort(even);
-      Collections.sort(odd, (o1, o2) -> o2 - o1);
-      int oddSize = odd.size();
-      int evenSize = even.size();
-      int i = 0;
       int j = 0;
-      int index = 0;
-      while (i < oddSize || j < evenSize) {
-         if (j < evenSize) {
-            res[index++] = even.get(j++);
-         }
-         if (i < oddSize) {
-            res[index++] = odd.get(i++);
-         }
+      int[] p = new int[2];
+      for (int i = 0; i < nums.length; ++i) {
+         res[j++] = list[i % 2].get(p[i % 2]++);
       }
       return res;
 
