@@ -1541,4 +1541,174 @@ public class Leetcode_8 {
         return memo2616[i] = max;
     }
 
+    // 6913. 最长交替子序列 (Longest Alternating Subarray)
+    public int alternatingSubarray(int[] nums) {
+        int res = -1;
+        int n = nums.length;
+        s: for (int i = 0; i < n; ++i) {
+            int f = 1;
+            for (int j = i + 1; j < n; ++j) {
+                if (nums[j] - nums[j - 1] != f) {
+                    continue s;
+                }
+                f = -f;
+                res = Math.max(res, j - i + 1);
+            }
+        }
+        return res;
+
+    }
+
+    // 6469. 重新放置石块 (Relocate Marbles)
+    public List<Integer> relocateMarbles(int[] nums, int[] moveFrom, int[] moveTo) {
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+        for (int i = 0; i < moveFrom.length; ++i) {
+            set.remove(moveFrom[i]);
+            set.add(moveTo[i]);
+        }
+        List<Integer> res = new ArrayList<>(set);
+        Collections.sort(res);
+        return res;
+
+    }
+
+    // 6923. 将字符串分割为最少的美丽子字符串  (Partition String Into Minimum Beautiful Substrings)
+    private String s6923;
+    private int[] memo6923;
+    private int n6923;
+
+    public int minimumBeautifulSubstrings(String s) {
+        if (s.charAt(0) == '0') {
+            return -1;
+        }
+        this.s6923 = s;
+        this.n6923 = s.length();
+        this.memo6923 = new int[n6923];
+        Arrays.fill(memo6923, n6923 + 1);
+        int res = dfs6923(0);
+        return res == n6923 + 1 ? -1 : res;
+
+    }
+
+    private int dfs6923(int i) {
+        if (i == n6923) {
+            return 0;
+        }
+        if (s6923.charAt(i) == '0') {
+            return n6923 + 1;
+        }
+        if (memo6923[i] != n6923 + 1) {
+            return memo6923[i];
+        }
+        int min = n6923 + 1;
+        long sum = 0L;
+        for (int j = i; j < n6923; ++j) {
+            sum = (sum << 1) | (s6923.charAt(j) - '0');
+            if (check6923(sum)) {
+                min = Math.min(min, dfs6923(j + 1) + 1);
+            }
+        }
+        return memo6923[i] = min;
+    }
+
+    private boolean check6923(long sum) {
+        while (sum != 1L) {
+            if (sum % 5 != 0) {
+                return false;
+            }
+            sum /= 5;
+        }
+        return true;
+    }
+
+    // 6928. 黑格子的数目 (Number of Black Blocks)
+    public long[] countBlackBlocks(int m, int n, int[][] coordinates) {
+        long[] res = new long[5];
+        long M = (long) 1e6;
+        Set<Long> set = new HashSet<>();
+        for (int[] c : coordinates) {
+            int x = c[0];
+            int y = c[1];
+            long s = x * M + y;
+            set.add(s);
+        }
+        Set<Long> vis = new HashSet<>();
+        for (long s : set) {
+            int x = (int) (s / M);
+            int y = (int) (s % M);
+            // 右下
+            if (x > 0 && y > 0) {
+                int cnt = 1;
+                if (set.contains((long) (x - 1) * M + y)) {
+                    ++cnt;
+                }
+                if (set.contains((long) (x) * M + y - 1)) {
+                    ++cnt;
+                }
+                if (set.contains((long) (x - 1) * M + y - 1)) {
+                    ++cnt;
+                }
+                if (vis.add((long) (x - 1) * M + y - 1)) {
+                    ++res[cnt];
+                }
+            }
+            // 左下
+            if (x > 0 && y + 1 < n) {
+                int cnt = 1;
+                if (set.contains((long) (x - 1) * M + y)) {
+                    ++cnt;
+                }
+                if (set.contains((long) (x) * M + y + 1)) {
+                    ++cnt;
+                }
+                if (set.contains((long) (x - 1) * M + y + 1)) {
+                    ++cnt;
+                }
+                if (vis.add((long) (x - 1) * M + y)) {
+                    ++res[cnt];
+                }
+            }
+            // 右上
+            if (x + 1 < m && y > 0) {
+                int cnt = 1;
+                if (set.contains((long) (x) * M + y - 1)) {
+                    ++cnt;
+                }
+                if (set.contains((long) (x + 1) * M + y - 1)) {
+                    ++cnt;
+                }
+                if (set.contains((long) (x + 1) * M + y)) {
+                    ++cnt;
+                }
+                if (vis.add((long) (x) * M + y - 1)) {
+                    ++res[cnt];
+                }
+            }
+
+            // 右下
+            if (x + 1 < m && y + 1 < n) {
+                int cnt = 1;
+                if (set.contains((long) (x) * M + y + 1)) {
+                    ++cnt;
+                }
+                if (set.contains((long) (x + 1) * M + y + 1)) {
+                    ++cnt;
+                }
+                if (set.contains((long) (x + 1) * M + y)) {
+                    ++cnt;
+                }
+                if (vis.add((long) (x) * M + y)) {
+                    ++res[cnt];
+                }
+            }
+        }
+        long remain = (long) (m - 1) * (n - 1) - vis.size();
+        res[0] = remain;
+        return res;
+
+    }
+
 }
