@@ -945,43 +945,48 @@ public class Leetcode_6 {
     }
 
     // 2065. 最大化一张图中的路径价值 (Maximum Path Quality of a Graph)
+    private List<int[]>[] g2065;
+    private boolean[] vis2065;
+    private int[] values2065;
     private int res2065;
     private int maxTime2065;
-    private int[] values2065;
-    private Map<Integer, List<int[]>> graph2065;
 
     public int maximalPathQuality(int[] values, int[][] edges, int maxTime) {
-        Map<Integer, List<int[]>> graph = new HashMap<>();
-        for (int[] edge : edges) {
-            graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(new int[] { edge[1], edge[2] });
-            graph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(new int[] { edge[0], edge[2] });
-        }
-        maxTime2065 = maxTime;
-        values2065 = values;
-        graph2065 = graph;
         int n = values.length;
-        boolean[] visited = new boolean[n];
-        visited[0] = true;
-        dfs2065(0, values[0], 0, visited);
+        this.g2065 = new ArrayList[n];
+        Arrays.setAll(g2065, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            int a = e[0];
+            int b = e[1];
+            int t = e[2];
+            g2065[a].add(new int[] { b, t });
+            g2065[b].add(new int[] { a, t });
+        }
+        this.maxTime2065 = maxTime;
+        this.vis2065 = new boolean[n];
+        this.values2065 = values;
+        vis2065[0] = true;
+        dfs2065(0, values[0], 0);
         return res2065;
+
     }
 
-    private void dfs2065(int node, int curVal, int curTime, boolean[] visited) {
-        if (node == 0) {
-            res2065 = Math.max(res2065, curVal);
+    private void dfs2065(int x, int val, int time) {
+        if (x == 0) {
+            res2065 = Math.max(res2065, val);
         }
-        for (int[] neighbor : graph2065.getOrDefault(node, new ArrayList<>())) {
-            int nNode = neighbor[0];
-            int time = neighbor[1];
-            if (curTime + time > maxTime2065) {
+        for (int[] nei : g2065[x]) {
+            int y = nei[0];
+            int t = nei[1];
+            if (time + t > maxTime2065) {
                 continue;
             }
-            if (!visited[nNode]) {
-                visited[nNode] = true;
-                dfs2065(nNode, curVal + values2065[nNode], curTime + time, visited);
-                visited[nNode] = false;
+            if (!vis2065[y]) {
+                vis2065[y] = true;
+                dfs2065(y, val + values2065[y], time + t);
+                vis2065[y] = false;
             } else {
-                dfs2065(nNode, curVal, curTime + time, visited);
+                dfs2065(y, val, time + t);
             }
         }
     }
