@@ -122,40 +122,47 @@ public class LeetCodeText {
 
     }
 
-    // 15. 三数之和 (3Sum) // 剑指 Offer II 007. 数组中和为 0 的三个数
+    // 15. 三数之和 (3Sum)
+    // 剑指 Offer II 007. 数组中和为 0 的三个数
     public List<List<Integer>> threeSum(int[] nums) {
-        List<List<Integer>> list = new ArrayList<>();
+        List<List<Integer>> res = new ArrayList<>();
         Arrays.sort(nums);
-        for (int i = 0; i < nums.length; ++i) {
+        int n = nums.length;
+        for (int i = 0; i < n - 2; ++i) {
             if (nums[i] > 0) {
                 break;
             }
             if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
             }
-            int left = i + 1;
-            int right = nums.length - 1;
-            while (left < right) {
-                int sum = nums[i] + nums[left] + nums[right];
+            if (nums[i] + nums[i + 1] + nums[i + 2] > 0) {
+                break;
+            }
+            if (nums[i] + nums[n - 1] + nums[n - 2] < 0) {
+                continue;
+            }
+            int j = i + 1;
+            int k = n - 1;
+            while (j < k) {
+                int sum = nums[i] + nums[j] + nums[k];
                 if (sum == 0) {
-                    list.add(Arrays.asList(nums[i], nums[left], nums[right]));
-                    while (left < right && nums[left] == nums[left + 1]) {
-                        ++left;
+                    res.add(List.of(nums[i], nums[j], nums[k]));
+                    while (j + 1 < k && nums[j + 1] == nums[j]) {
+                        ++j;
                     }
-                    while (left < right && nums[right] == nums[right - 1]) {
-                        --right;
+                    while (k - 1 > j && nums[k] == nums[k - 1]) {
+                        --k;
                     }
-                    ++left;
-                    --right;
-                } else if (sum > 0) {
-                    --right;
+                    ++j;
+                    --k;
+                } else if (sum < 0) {
+                    ++j;
                 } else {
-                    ++left;
+                    --k;
                 }
             }
-
         }
-        return list;
+        return res;
 
     }
 
