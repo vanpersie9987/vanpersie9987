@@ -1575,7 +1575,7 @@ public class Leetcode_8 {
 
     }
 
-    // 6923. 将字符串分割为最少的美丽子字符串  (Partition String Into Minimum Beautiful Substrings)
+    // 6923. 将字符串分割为最少的美丽子字符串 (Partition String Into Minimum Beautiful Substrings)
     private String s6923;
     private int[] memo6923;
     private int n6923;
@@ -1748,4 +1748,44 @@ public class Leetcode_8 {
         return memo6899[i] = max;
     }
 
+    // 2771. 构造最长非递减子数组 (Longest Non-decreasing Subarray From Two Arrays)
+    // private int n;
+    // private int[] nums1;
+    // private int[] nums2;
+    // private int[][] memo;
+
+    // public int maxNonDecreasingLength(int[] nums1, int[] nums2) {
+    // this.n = nums1.length;
+    // this.nums1 = nums1;
+    // this.nums2 = nums2;
+
+    // this.memo = new int[n][2];
+    // for (int i = 0; i < n; ++i) {
+    // Arrays.fill(memo[i], -1);
+    // }
+    // return Math.max(dfs(0, 0), dfs(0, 1));
+    // }
+
+    // private int dfs(int i, int j) {
+    // if (i == 0) {
+    // return Math.max(dfs(i + 1, 0), dfs(i + 1, 1));
+    // }
+    // if (i == n) {
+    // return 0;
+    // }
+    // if (memo[i][j] != -1) {
+    // return memo[i][j];
+    // }
+    // int max = 0;
+    // if (j == 0) {
+    // if (nums1[i] >= nums1[i - 1]) {
+    // max = Math.max(max, dfs(i + 1, 0) + 1);
+    // }
+    // if (nums2[i] >= nums1[i - 1]) {
+    // max = Math.max(max, dfs(i + 1, 1) + 1);
+    // }
+    // }
+
+    // return 0;
+    // }
 }

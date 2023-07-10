@@ -169,27 +169,27 @@ public class LeetCodeText {
     // 16. 最接近的三数之和 (3Sum Closest)
     public int threeSumClosest(int[] nums, int target) {
         Arrays.sort(nums);
-        int closest = nums[0] + nums[1] + nums[2];
-        for (int i = 0; i < nums.length; ++i) {
-            int left = i + 1;
-            int right = nums.length - 1;
-            while (left < right) {
-                int sum = nums[i] + nums[left] + nums[right];
+        int n = nums.length;
+        int min = (int) 1e9;
+        for (int i = 0; i < n; ++i) {
+            int j = i + 1;
+            int k = n - 1;
+            while (j < k) {
+                int sum = nums[i] + nums[j] + nums[k];
                 if (sum == target) {
                     return sum;
                 }
-                if (Math.abs(sum - target) < Math.abs(closest - target)) {
-                    closest = sum;
+                if (Math.abs(sum - target) < Math.abs(min - target)) {
+                    min = sum;
                 }
                 if (sum < target) {
-                    ++left;
+                    ++j;
                 } else {
-                    --right;
+                    --k;
                 }
             }
         }
-        return closest;
-
+        return min;
     }
 
     // 18. 四数之和 (4Sum)
