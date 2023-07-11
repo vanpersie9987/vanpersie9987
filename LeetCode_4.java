@@ -2505,11 +2505,11 @@ public class LeetCode_4 {
         }
         this.u473 = (1 << n) - 1;
         this.memo473 = new int[1 << n];
-        return dfs(0);
+        return dfs473(0);
 
     }
 
-    private boolean dfs(int m) {
+    private boolean dfs473(int m) {
         if (m == u473) {
             return true;
         }
@@ -2520,7 +2520,7 @@ public class LeetCode_4 {
         boolean res = false;
         for (int j = c; j > 0; j = ((j - 1) & c)) {
             if (sum473[j] == side473) {
-                res = res || dfs(m | j);
+                res = res || dfs473(m | j);
             }
         }
         memo473[m] = res ? 1 : -1;
