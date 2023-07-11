@@ -2903,6 +2903,28 @@ public class Leetcode_5 {
         return even;
     }
 
+    // 1911. 最大子序列交替和 (Maximum Alternating Subsequence Sum)
+    private long[][] memo1911;
+    private int[] nums1911;
+    private int n1911;
+
+    public long maxAlternatingSum3(int[] nums) {
+        this.n1911 = nums.length;
+        this.nums1911 = nums;
+        this.memo1911 = new long[n1911][2];
+        return dfs1911(0, 0);
+    }
+
+    private long dfs1911(int i, int j) {
+        if (i == n1911) {
+            return 0;
+        }
+        if (memo1911[i][j] != 0L) {
+            return memo1911[i][j];
+        }
+        return memo1911[i][j] = Math.max(dfs1911(i + 1, j), dfs1911(i + 1, (j + 1) % 2) + (j == 0 ? nums1911[i] : -nums1911[i]));
+    }
+
     // 6188. 按身高排序
     public String[] sortPeople(String[] names, int[] heights) {
         int n = names.length;
