@@ -2922,7 +2922,7 @@ public class Leetcode_5 {
         if (memo1911[i][j] != 0L) {
             return memo1911[i][j];
         }
-        return memo1911[i][j] = Math.max(dfs1911(i + 1, j), dfs1911(i + 1, (j + 1) % 2) + (j == 0 ? nums1911[i] : -nums1911[i]));
+        return memo1911[i][j] = Math.max(dfs1911(i + 1, j), dfs1911(i + 1, j ^ 1) + (j == 0 ? nums1911[i] : -nums1911[i]));
     }
 
     // 6188. 按身高排序
