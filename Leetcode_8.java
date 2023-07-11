@@ -1749,43 +1749,39 @@ public class Leetcode_8 {
     }
 
     // 2771. 构造最长非递减子数组 (Longest Non-decreasing Subarray From Two Arrays)
-    // private int n;
-    // private int[] nums1;
-    // private int[] nums2;
-    // private int[][] memo;
+    private int n2771;
+    private int[][] nums2771;
+    private int[][] memo2771;
 
-    // public int maxNonDecreasingLength(int[] nums1, int[] nums2) {
-    // this.n = nums1.length;
-    // this.nums1 = nums1;
-    // this.nums2 = nums2;
+    public int maxNonDecreasingLength(int[] nums1, int[] nums2) {
+        this.n2771 = nums1.length;
+        this.nums2771 = new int[2][n2771];
+        nums2771[0] = nums1;
+        nums2771[1] = nums2;
+        this.memo2771 = new int[2][n2771];
+        int res = 0;
+        for (int i = 0; i < n2771; ++i) {
+            res = Math.max(res, dfs2771(0, i));
+            res = Math.max(res, dfs2771(1, i));
+        }
+        return res;
 
-    // this.memo = new int[n][2];
-    // for (int i = 0; i < n; ++i) {
-    // Arrays.fill(memo[i], -1);
-    // }
-    // return Math.max(dfs(0, 0), dfs(0, 1));
-    // }
+    }
 
-    // private int dfs(int i, int j) {
-    // if (i == 0) {
-    // return Math.max(dfs(i + 1, 0), dfs(i + 1, 1));
-    // }
-    // if (i == n) {
-    // return 0;
-    // }
-    // if (memo[i][j] != -1) {
-    // return memo[i][j];
-    // }
-    // int max = 0;
-    // if (j == 0) {
-    // if (nums1[i] >= nums1[i - 1]) {
-    // max = Math.max(max, dfs(i + 1, 0) + 1);
-    // }
-    // if (nums2[i] >= nums1[i - 1]) {
-    // max = Math.max(max, dfs(i + 1, 1) + 1);
-    // }
-    // }
-
-    // return 0;
-    // }
+    private int dfs2771(int i, int j) {
+        if (j == 0) {
+            return 1;
+        }
+        if (memo2771[i][j] != 0) {
+            return memo2771[i][j];
+        }
+        int max = 1;
+        if (nums2771[0][j - 1] <= nums2771[i][j]) {
+            max = dfs2771(0, j - 1) + 1;
+        }
+        if (nums2771[1][j - 1] <= nums2771[i][j]) {
+            max = Math.max(max, dfs2771(1, j - 1) + 1);
+        }
+        return memo2771[i][j] = max;
+    }
 }
