@@ -2482,6 +2482,51 @@ public class LeetCode_4 {
         return false;
     }
 
+    // 473. 火柴拼正方形 (Matchsticks to Square)
+    private int side473;
+    private int[] sum473;
+    private int[] memo473;
+    private int u473;
+
+    public boolean makesquare2(int[] matchsticks) {
+        int s = 0;
+        for (int m : matchsticks) {
+            s += m;
+        }
+        if (s % 4 != 0) {
+            return false;
+        }
+        this.side473 = s / 4;
+        int n = matchsticks.length;
+        this.sum473 = new int[1 << n];
+        for (int i = 1; i < (1 << n); ++i) {
+            int bit = Integer.numberOfTrailingZeros(i);
+            sum473[i] = sum473[i ^ (1 << bit)] + matchsticks[bit];
+        }
+        this.u473 = (1 << n) - 1;
+        this.memo473 = new int[1 << n];
+        return dfs(0);
+
+    }
+
+    private boolean dfs(int m) {
+        if (m == u473) {
+            return true;
+        }
+        if (memo473[m] != 0) {
+            return memo473[m] > 0;
+        }
+        int c = u473 ^ m;
+        boolean res = false;
+        for (int j = c; j > 0; j = ((j - 1) & c)) {
+            if (sum473[j] == side473) {
+                res = res || dfs(m | j);
+            }
+        }
+        memo473[m] = res ? 1 : -1;
+        return res;
+    }
+
     // 5218. 个位数字为 K 的整数之和 (Sum of Numbers With Units Digit K)
     public int minimumNumbers(int num, int k) {
         if (num == 0) {
