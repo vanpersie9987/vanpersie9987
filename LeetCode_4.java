@@ -3502,6 +3502,40 @@ public class LeetCode_4 {
         return Arrays.stream(matrix[n - 1]).min().getAsInt();
     }
 
+    // 931. 下降路径最小和 (Minimum Falling Path Sum)
+    private int n931;
+    private int[][] matrix931;
+    private int[][] memo931;
+
+    public int minFallingPathSum2(int[][] matrix) {
+        this.n931 = matrix.length;
+        this.matrix931 = matrix;
+        this.memo931 = new int[n931][n931];
+        for (int i = 0; i < n931; ++i) {
+            Arrays.fill(memo931[i], (int) 1e6);
+        }
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < n931; ++i) {
+            min = Math.min(min, dfs931(1, i) + matrix[0][i]);
+        }
+        return min;
+
+    }
+
+    private int dfs931(int i, int j) {
+        if (i == n931) {
+            return 0;
+        }
+        if (memo931[i][j] != (int) 1e6) {
+            return memo931[i][j];
+        }
+        int min = (int) 1e6;
+        for (int k = Math.max(0, j - 1); k <= Math.min(n931 - 1, j + 1); ++k) {
+            min = Math.min(min, dfs931(i + 1, k) + matrix931[i][k]);
+        }
+        return memo931[i][j] = min;
+    }
+
     // 786. 第 K 个最小的素数分数 (K-th Smallest Prime Fraction) --暴力
     public int[] kthSmallestPrimeFraction(int[] arr, int k) {
         List<int[]> list = new ArrayList<>();
