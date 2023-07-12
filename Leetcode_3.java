@@ -2757,25 +2757,24 @@ public class Leetcode_3 {
     // 2195. 向数组中追加 K 个整数 (Append K Integers With Minimal Sum)
     public long minimalKSum(int[] nums, int k) {
         Arrays.sort(nums);
-        int preNum = 0;
         long res = 0L;
+        int pre = 0;
         for (int i = 0; i < nums.length; ++i) {
-            if (nums[i] - preNum <= 1) {
-                preNum = nums[i];
+            int cur = nums[i] - pre - 1;
+            if (cur < 0) {
+                pre = nums[i];
                 continue;
             }
-            if (nums[i] - preNum - 1 < k) {
-                res += ((long) (preNum + nums[i])) * (nums[i] - preNum - 1) / 2;
-                k -= nums[i] - preNum - 1;
-                preNum = nums[i];
-            } else {
-                res += (preNum * 2L + 1 + k) * k / 2;
+            int n = Math.min(k, cur);
+            res = res + (long) (pre + 1 + pre + 1 + n - 1) * n / 2;
+            k -= n;
+            if (k == 0) {
                 return res;
             }
+            pre = nums[i];
         }
-        if (k > 0) {
-            res += (preNum * 2L + 1 + k) * k / 2;
-        }
+        int n = nums.length;
+        res = res + (long) (nums[n - 1] + 1 + nums[n - 1] + 1 + k - 1) * k / 2;
         return res;
     }
 
