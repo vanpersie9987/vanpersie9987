@@ -2779,38 +2779,41 @@ public class Leetcode_3 {
     }
 
     // 2196. 根据描述创建二叉树 (Create Binary Tree From Descriptions)
+    private Map<Integer, List<int[]>> g2196;
+
     public TreeNode createBinaryTree(int[][] descriptions) {
-        Set<Integer> childs = new HashSet<>();
-        Map<Integer, TreeNode> map = new HashMap<>();
-        for (int[] description : descriptions) {
-            int pValue = description[0];
-            int cValue = description[1];
-            boolean isLeft = description[2] == 1;
-            TreeNode pNode = map.get(pValue);
-            if (pNode == null) {
-                pNode = new TreeNode(pValue);
-                map.put(pValue, pNode);
+        Set<Integer> set = new HashSet<>();
+        this.g2196 = new HashMap<>();
+        for (int[] d : descriptions) {
+            g2196.computeIfAbsent(d[0], k -> new ArrayList<>()).add(new int[] { d[1], d[2] });
+            set.add(d[1]);
+        }
+        int r = -1;
+        for (int[] d : descriptions) {
+            if (!set.contains(d[0])) {
+                r = d[0];
+                break;
             }
+        }
+        TreeNode root = new TreeNode(r);
+        dfs2196(root);
+        return root;
 
-            TreeNode cNode = map.get(cValue);
-            if (cNode == null) {
-                cNode = new TreeNode(cValue);
-                map.put(cValue, cNode);
-            }
-            if (isLeft) {
-                pNode.left = cNode;
+    }
+
+    private void dfs2196(TreeNode root) {
+        int x = root.val;
+        for (int[] son : g2196.getOrDefault(x, new ArrayList<>())) {
+            int isLeft = son[1];
+            int y = son[0];
+            TreeNode node = new TreeNode(y);
+            if (isLeft == 1) {
+                root.left = node;
             } else {
-                pNode.right = cNode;
+                root.right = node;
             }
-            childs.add(cValue);
+            dfs2196(node);
         }
-        for (int value : map.keySet()) {
-            if (!childs.contains(value)) {
-                return map.get(value);
-            }
-        }
-        return null;
-
     }
 
     // 733. 图像渲染 (Flood Fill) --bfs
