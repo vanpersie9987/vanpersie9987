@@ -1636,54 +1636,54 @@ public class Leetcode_8 {
             set.add(s);
         }
         Set<Long> vis = new HashSet<>();
-        for (long s : set) {
-            int x = (int) (s / M);
-            int y = (int) (s % M);
+        for (int[] c : coordinates) {
+            int x = c[0];
+            int y = c[1];
             // 右下
             if (x > 0 && y > 0) {
                 int cnt = 1;
-                if (set.contains((long) (x - 1) * M + y)) {
+                if (set.contains((x - 1) * M + y)) {
                     ++cnt;
                 }
-                if (set.contains((long) (x) * M + y - 1)) {
+                if (set.contains(x * M + y - 1)) {
                     ++cnt;
                 }
-                if (set.contains((long) (x - 1) * M + y - 1)) {
+                if (set.contains((x - 1) * M + y - 1)) {
                     ++cnt;
                 }
-                if (vis.add((long) (x - 1) * M + y - 1)) {
+                if (vis.add((x - 1) * M + y - 1)) {
                     ++res[cnt];
                 }
             }
             // 左下
             if (x > 0 && y + 1 < n) {
                 int cnt = 1;
-                if (set.contains((long) (x - 1) * M + y)) {
+                if (set.contains((x - 1) * M + y)) {
                     ++cnt;
                 }
-                if (set.contains((long) (x) * M + y + 1)) {
+                if (set.contains(x * M + y + 1)) {
                     ++cnt;
                 }
-                if (set.contains((long) (x - 1) * M + y + 1)) {
+                if (set.contains((x - 1) * M + y + 1)) {
                     ++cnt;
                 }
-                if (vis.add((long) (x - 1) * M + y)) {
+                if (vis.add((x - 1) * M + y)) {
                     ++res[cnt];
                 }
             }
             // 右上
             if (x + 1 < m && y > 0) {
                 int cnt = 1;
-                if (set.contains((long) (x) * M + y - 1)) {
+                if (set.contains(x * M + y - 1)) {
                     ++cnt;
                 }
-                if (set.contains((long) (x + 1) * M + y - 1)) {
+                if (set.contains((x + 1) * M + y - 1)) {
                     ++cnt;
                 }
-                if (set.contains((long) (x + 1) * M + y)) {
+                if (set.contains((x + 1) * M + y)) {
                     ++cnt;
                 }
-                if (vis.add((long) (x) * M + y - 1)) {
+                if (vis.add(x * M + y - 1)) {
                     ++res[cnt];
                 }
             }
@@ -1691,16 +1691,16 @@ public class Leetcode_8 {
             // 右下
             if (x + 1 < m && y + 1 < n) {
                 int cnt = 1;
-                if (set.contains((long) (x) * M + y + 1)) {
+                if (set.contains(x * M + y + 1)) {
                     ++cnt;
                 }
-                if (set.contains((long) (x + 1) * M + y + 1)) {
+                if (set.contains((x + 1) * M + y + 1)) {
                     ++cnt;
                 }
-                if (set.contains((long) (x + 1) * M + y)) {
+                if (set.contains((x + 1) * M + y)) {
                     ++cnt;
                 }
-                if (vis.add((long) (x) * M + y)) {
+                if (vis.add(x * M + y)) {
                     ++res[cnt];
                 }
             }
