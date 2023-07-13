@@ -1784,4 +1784,22 @@ public class Leetcode_8 {
         }
         return memo2771[i][j] = max;
     }
+
+    // 979. 在二叉树中分配硬币 (Distribute Coins in Binary Tree)
+    private int res979;
+
+    public int distributeCoins(TreeNode root) {
+        dfs979(root);
+        return res979;
+    }
+
+    private int dfs979(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int l = dfs979(root.left);
+        int r = dfs979(root.right);
+        res979 += Math.abs(l) + Math.abs(r);
+        return l + r + root.val - 1;
+    }
 }
