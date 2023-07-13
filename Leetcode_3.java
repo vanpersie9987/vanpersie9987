@@ -9310,83 +9310,34 @@ public class Leetcode_3 {
 
     }
 
-    // 6053. 统计网格图中没有被保卫的格子数
+    // 2257. 统计网格图中没有被保卫的格子数 (Count Unguarded Cells in the Grid)
     public int countUnguarded(int m, int n, int[][] guards, int[][] walls) {
-        boolean[][] seenInRow = new boolean[m][n];
-        Set<Long> g = new HashSet<>();
-        for (int[] guard : guards) {
-            g.add((long) (guard[0] * n) + (long) guard[1]);
+        int[][] grid = new int[m][n];
+        // guard = 1;
+        // walls = 2;
+        // watch = 3;
+        for (int[] g : guards) {
+            grid[g[0]][g[1]] = 1;
         }
-        Set<Long> w = new HashSet<>();
-        for (int[] wall : walls) {
-            w.add((long) (wall[0] * n) + (long) wall[1]);
+        for (int[] w : walls) {
+            grid[w[0]][w[1]] = 2;
         }
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                long cur = (long) (i * n) + (long) j;
-                if (g.contains(cur)) {
-                    int x = i;
-                    int y = j - 1;
-                    while (y >= 0) {
-                        long now = (long) (x * n) + (long) y;
-                        if (w.contains(now) || g.contains(now) || seenInRow[x][y]) {
-                            break;
-                        }
-                        seenInRow[x][y] = true;
-                        --y;
-                    }
-                    x = i;
-                    y = j + 1;
-                    while (y < n) {
-                        long now = (long) (x * n) + (long) y;
-                        if (w.contains(now) || g.contains(now) || seenInRow[x][y]) {
-                            break;
-                        }
-                        seenInRow[x][y] = true;
-                        ++y;
-                    }
-                }
-            }
-        }
-        boolean[][] seenInCol = new boolean[m][n];
-        for (int j = 0; j < n; ++j) {
-            for (int i = 0; i < m; ++i) {
-                long cur = (long) i * n + (long) j;
-
-                if (g.contains(cur)) {
-                    int x = i - 1;
-                    int y = j;
-                    while (x >= 0) {
-                        long now = (long) (x * n) + (long) y;
-                        if (w.contains(now) || g.contains(now)
-                                || seenInCol[x][y]) {
-                            break;
-                        }
-                        seenInCol[x][y] = true;
-                        --x;
-                    }
-                    x = i + 1;
-                    y = j;
-                    while (x < m) {
-                        long now = (long) (x * n) + (long) y;
-                        if (w.contains(now) || g.contains(now)
-                                || seenInCol[x][y]) {
-                            break;
-                        }
-                        seenInCol[x][y] = true;
-                        ++x;
-                    }
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 } };
+        for (int[] g : guards) {
+            for (int[] d : dirs) {
+                int x = g[0] + d[0];
+                int y = g[1] + d[1];
+                while (x >= 0 && x < m && y >= 0 && y < n && (grid[x][y] == 0 || grid[x][y] == 3)) {
+                    grid[x][y] = 3;
+                    x += d[0];
+                    y += d[1];
                 }
             }
         }
         int res = 0;
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                long cur = (long) i * n + (long) j;
-                if (w.contains(cur) || g.contains(cur)) {
-                    continue;
-                }
-                if (!seenInRow[i][j] && !seenInCol[i][j]) {
+                if (grid[i][j] == 0) {
                     ++res;
                 }
             }
@@ -9394,6 +9345,7 @@ public class Leetcode_3 {
         return res;
 
     }
+
 
     // 6054. 逃离火灾 (Escape the Spreading Fire) --bfs + 二分查找
     public int maximumMinutes(int[][] grid) {
