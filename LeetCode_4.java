@@ -5153,19 +5153,17 @@ public class LeetCode_4 {
 
     // 6113. 无限集中的最小数字
     class SmallestInfiniteSet {
-        private TreeSet<Integer> set;
+        TreeSet<Integer> set;
 
         public SmallestInfiniteSet() {
-            set = new TreeSet<>();
-            for (int i = 1; i <= 1000; ++i) {
+            this.set = new TreeSet<>();
+            for (int i = 1; i <= 1005; ++i) {
                 set.add(i);
             }
         }
 
         public int popSmallest() {
-            int res = set.first();
-            set.remove(res);
-            return res;
+            return set.pollFirst();
         }
 
         public void addBack(int num) {
