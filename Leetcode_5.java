@@ -10310,7 +10310,7 @@ public class Leetcode_5 {
                 return -1;
             }
             int root = union2493.getRoot(i);
-            counts.put(root, Math.max(counts.getOrDefault(root, 0), groups));
+            counts.merge(root, groups, Integer::max);
         }
         int res = 0;
         for (int c : counts.values()) {
