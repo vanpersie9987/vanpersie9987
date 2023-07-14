@@ -806,50 +806,41 @@ public class LeetCodeText {
 
     }
 
-    // 63. 不同路径 II --记忆化搜索
+    // 63. 不同路径 II (Unique Paths II) --记忆化搜索
+    private int m63;
+    private int n63;
+    private int[][] grid63;
     private int[][] memo63;
-    private int[][] obstacleGrid63;
 
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
-        int m = obstacleGrid.length;
-        int n = obstacleGrid[0].length;
-        memo63 = new int[m][n];
-        obstacleGrid63 = obstacleGrid;
-        for (int i = 1; i < m; ++i) {
-            for (int j = 1; j < n; ++j) {
-                memo63[i][j] = -1;
-            }
+        this.m63 = obstacleGrid.length;
+        this.n63 = obstacleGrid[0].length;
+        this.grid63 = obstacleGrid;
+        this.memo63 = new int[m63][n63];
+        for (int i = 0; i < m63; ++i) {
+            Arrays.fill(memo63[i], -1);
         }
-        for (int i = 0; i < m; ++i) {
-            if (obstacleGrid[i][0] == 0) {
-                memo63[i][0] = 1;
-            } else {
-                break;
-            }
-        }
-
-        for (int j = 0; j < n; ++j) {
-            if (obstacleGrid[0][j] == 0) {
-                memo63[0][j] = 1;
-            } else {
-                break;
-            }
-        }
-        return dfs63(m - 1, n - 1);
+        return dfs63(0, 0);
 
     }
 
     private int dfs63(int i, int j) {
-        if (obstacleGrid63[i][j] == 1) {
+        if (i >= m63 || i < 0 || j >= n63 || j < 0) {
             return 0;
+        }
+        if (grid63[i][j] == 1) {
+            return 0;
+        }
+        if (i == m63 - 1 && j == n63 - 1) {
+            return 1;
         }
         if (memo63[i][j] != -1) {
             return memo63[i][j];
         }
-        return memo63[i][j] = dfs63(i - 1, j) + dfs63(i, j - 1);
+        return memo63[i][j] = dfs63(i + 1, j) + dfs63(i, j + 1);
     }
 
-    // 63. 不同路径 II
+    // 63. 不同路径 II (Unique Paths II)
     public int uniquePathsWithObstacles2(final int[][] obstacleGrid) {
         if (obstacleGrid[0][0] == 1) {
             return 0;
