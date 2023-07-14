@@ -877,43 +877,39 @@ public class LeetCodeText {
 
     }
 
-    // 64. 最小路径和
+    // 64. 最小路径和 (Minimum Path Sum)
     // 剑指 Offer II 099. 最小路径之和
-    private int[][] memo64;
+    private int m64;
+    private int n64;
     private int[][] grid64;
+    private int[][] memo64;
 
     public int minPathSum(int[][] grid) {
-        int m = grid.length;
-        int n = grid[0].length;
-        grid64 = grid;
-        memo64 = new int[m][n];
-        for (int i = 1; i < m; ++i) {
-            for (int j = 1; j < n; ++j) {
-                memo64[i][j] = -1;
-            }
+        this.m64 = grid.length;
+        this.n64 = grid[0].length;
+        this.grid64 = grid;
+        this.memo64 = new int[m64][n64];
+        for (int i = 0; i < m64; ++i) {
+            Arrays.fill(memo64[i], -1);
         }
-        memo64[0][0] = grid[0][0];
-        for (int i = 1; i < m; ++i) {
-            memo64[i][0] += memo64[i - 1][0] + grid[i][0];
-        }
-        for (int j = 1; j < n; ++j) {
-            memo64[0][j] += memo64[0][j - 1] + grid[0][j];
-        }
-        return dfs64(m - 1, n - 1);
+        return dfs64(0, 0);
 
     }
 
     private int dfs64(int i, int j) {
-        if (i < 0 || j < 0) {
-            return 0;
+        if (i >= m64 || i < 0 || j >= n64 || j < 0) {
+            return (int) 1e5;
+        }
+        if (i == m64 - 1 && j == n64 - 1) {
+            return grid64[i][j];
         }
         if (memo64[i][j] != -1) {
             return memo64[i][j];
         }
-        return memo64[i][j] = Math.min(dfs64(i - 1, j), dfs64(i, j - 1)) + grid64[i][j];
+        return memo64[i][j] = Math.min(dfs64(i + 1, j), dfs64(i, j + 1)) + grid64[i][j];
     }
 
-    // 64. 最小路径和
+    // 64. 最小路径和 (Minimum Path Sum)
     // 剑指 Offer II 099. 最小路径之和
     public int minPathSum2(int[][] grid) {
         int m = grid.length;
