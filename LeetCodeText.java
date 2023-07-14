@@ -1145,9 +1145,36 @@ public class LeetCodeText {
 
     }
 
-    // 120. 三角形最小路径和
-    // 剑指 Offer II 100. 三角形中最小路径之和 --动态规划
+    // 120. 三角形最小路径和 (Triangle)
+    private int n120;
+    private List<List<Integer>> triangle120;
+    private int[][] memo120;
+
     public int minimumTotal(List<List<Integer>> triangle) {
+        this.n120 = triangle.size();
+        this.triangle120 = triangle;
+        this.memo120 = new int[n120][n120];
+        for (int i = 0; i < n120; ++i) {
+            Arrays.fill(memo120[i], (int) 1e7);
+        }
+        return dfs120(1, 0) + triangle.get(0).get(0);
+
+    }
+
+    private int dfs120(int i, int j) {
+        if (i == n120) {
+            return 0;
+        }
+        if (memo120[i][j] != (int) 1e7) {
+            return memo120[i][j];
+        }
+        return memo120[i][j] = Math.min(dfs120(i + 1, j) + triangle120.get(i).get(j),
+                dfs120(i + 1, j + 1) + triangle120.get(i).get(j + 1));
+    }
+
+    // 120. 三角形最小路径和 (Triangle)
+    // 剑指 Offer II 100. 三角形中最小路径之和 --动态规划
+    public int minimumTotal2(List<List<Integer>> triangle) {
         int n = triangle.size();
         int[] dp = new int[n + 1];
         for (int i = n - 1; i >= 0; --i) {
