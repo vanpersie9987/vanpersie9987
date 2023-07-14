@@ -4646,9 +4646,6 @@ public class Leetcode_3 {
     }
 
     private int dfs329(int i, int j) {
-        if (i >= m329 || i < 0 || j >= n329 || j < 0) {
-            return 0;
-        }
         if (memo329[i][j] != -1) {
             return memo329[i][j];
         }
