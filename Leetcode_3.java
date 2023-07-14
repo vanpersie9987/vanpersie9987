@@ -4620,9 +4620,52 @@ public class Leetcode_3 {
         return res;
     }
 
+    // 329. 矩阵中的最长递增路径 (Longest Increasing Path in a Matrix)
+    // 剑指 Offer II 112. 最长递增路径
+    private int[][] matrix329;
+    private int m329;
+    private int n329;
+    private int[][] memo329;
+    private int[][] dirs329 = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+
+    public int longestIncreasingPath(int[][] matrix) {
+        this.m329 = matrix.length;
+        this.n329 = matrix[0].length;
+        this.matrix329 = matrix;
+        this.memo329 = new int[m329][n329];
+        for (int i = 0; i < m329; ++i) {
+            Arrays.fill(memo329[i], -1);
+        }
+        int res = 0;
+        for (int i = 0; i < m329; ++i) {
+            for (int j = 0; j < n329; ++j) {
+                res = Math.max(res, dfs329(i, j));
+            }
+        }
+        return res;
+    }
+
+    private int dfs329(int i, int j) {
+        if (i >= m329 || i < 0 || j >= n329 || j < 0) {
+            return 0;
+        }
+        if (memo329[i][j] != -1) {
+            return memo329[i][j];
+        }
+        int max = 1;
+        for (int[] d : dirs329) {
+            int nx = i + d[0];
+            int ny = j + d[1];
+            if (nx >= 0 && nx < m329 && ny >= 0 && ny < n329 && matrix329[nx][ny] > matrix329[i][j]) {
+                max = Math.max(max, dfs329(nx, ny) + 1);
+            }
+        }
+        return memo329[i][j] = max;
+    }
+
     // 329. 矩阵中的最长递增路径 (Longest Increasing Path in a Matrix) --拓扑排序
     // 剑指 Offer II 112. 最长递增路径
-    public int longestIncreasingPath(int[][] matrix) {
+    public int longestIncreasingPath2(int[][] matrix) {
         int m = matrix.length;
         int n = matrix[0].length;
         int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
