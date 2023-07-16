@@ -3893,57 +3893,45 @@ public class Leetcode_6 {
     }
 
     // 834. 树中距离之和 (Sum of Distances in Tree) --树型dp
-    private Map<Integer, List<Integer>> tree834;
-    private int[] size834;
-    private int[] dp834;
+    private int n834;
+    private List<Integer>[] g834;
+    private int[] cnts834;
     private int[] res834;
 
     public int[] sumOfDistancesInTree(int n, int[][] edges) {
-        tree834 = new HashMap<>();
-        for (int[] edge : edges) {
-            tree834.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
-            tree834.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+        this.n834 = n;
+        this.g834 = new ArrayList[n];
+        Arrays.setAll(g834, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            int a = e[0];
+            int b = e[1];
+            g834[a].add(b);
+            g834[b].add(a);
         }
-        size834 = new int[n];
-        dp834 = new int[n];
-        res834 = new int[n];
-        dfs834(0, -1);
-        dfs834_2(0, -1);
+        this.cnts834 = new int[n];
+        this.res834 = new int[n];
+        dfs834(0, -1, 0);
+        reRoot834(0, -1);
         return res834;
+
     }
 
-    private void dfs834(int x, int fa) {
-        dp834[x] = 0;
-        size834[x] = 1;
-        for (int y : tree834.getOrDefault(x, new ArrayList<>())) {
+    private void reRoot834(int x, int fa) {
+        for (int y : g834[x]) {
             if (y != fa) {
-                dfs834(y, x);
-                dp834[x] += dp834[y] + size834[y];
-                size834[x] += size834[y];
+                res834[y] = res834[x] + n834 - cnts834[y] * 2;
+                reRoot834(y, x);
             }
         }
     }
 
-    private void dfs834_2(int x, int fa) {
-        res834[x] = dp834[x];
-        for (int y : tree834.getOrDefault(x, new ArrayList<>())) {
+    private void dfs834(int x, int fa, int d) {
+        cnts834[x] = 1;
+        res834[0] += d;
+        for (int y : g834[x]) {
             if (y != fa) {
-                int dy = dp834[y];
-                int sy = size834[y];
-                int dx = dp834[x];
-                int sx = size834[x];
-
-                dp834[x] -= dp834[y] + size834[y];
-                size834[x] -= size834[y];
-                dp834[y] += dp834[x] + size834[x];
-                size834[y] += size834[x];
-
-                dfs834_2(y, x);
-
-                dp834[y] = dy;
-                size834[y] = sy;
-                dp834[x] = dx;
-                size834[x] = sx;
+                dfs834(y, x, d + 1);
+                cnts834[x] += cnts834[y];
             }
         }
     }
