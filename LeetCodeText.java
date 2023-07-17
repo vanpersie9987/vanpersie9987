@@ -7287,22 +7287,23 @@ public class LeetCodeText {
 
     }
 
-    // 415. 字符串相加
+    // 415. 字符串相加 (Add Strings)
     public String addStrings(String num1, String num2) {
         StringBuilder res = new StringBuilder();
+        int i = num1.length() - 1;
+        int j = num2.length() - 1;
         int carry = 0;
-        int n1 = num1.length() - 1;
-        int n2 = num2.length() - 1;
-        while (n1 >= 0 || n2 >= 0 || carry != 0) {
-            int cur1 = n1 >= 0 ? num1.charAt(n1) - '0' : 0;
-            int cur2 = n2 >= 0 ? num2.charAt(n2) - '0' : 0;
-            carry += cur1 + cur2;
-            res.append(carry % 10);
+        while (i >= 0 || j >= 0 || carry > 0) {
+            if (i >= 0) {
+                carry += num1.charAt(i--) - '0';
+            }
+            if (j >= 0) {
+                carry += num2.charAt(j--) - '0';
+            }
+            res.insert(0, "" + carry % 10);
             carry /= 10;
-            --n1;
-            --n2;
         }
-        return res.reverse().toString();
+        return res.toString();
 
     }
 

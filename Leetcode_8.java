@@ -1802,4 +1802,96 @@ public class Leetcode_8 {
         res979 += Math.abs(l) + Math.abs(r);
         return l + r + root.val - 1;
     }
+
+    // 2778. 特殊元素平方和 (Sum of Squares of Special Elements)
+    public int sumOfSquares(int[] nums) {
+        int res = 0;
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            if (n % (i + 1) == 0) {
+                res += nums[i] * nums[i];
+            }
+        }
+        return res;
+
+    }
+    
+    // 2779. 数组的最大美丽值 (Maximum Beauty of an Array After Applying Operation)
+    public int maximumBeauty(int[] nums, int k) {
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        for (int num : nums) {
+            int a = num - k;
+            int b = num + k + 1;
+            map.merge(a, -1, Integer::sum);
+            map.merge(b, 1, Integer::sum);
+        }
+        int res = 0;
+        int cur = 0;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            cur += entry.getValue();
+            res = Math.max(res, Math.abs(cur));
+        }
+        return res;
+
+    }
+
+    // 2779. 数组的最大美丽值 (Maximum Beauty of an Array After Applying Operation)
+    public int maximumBeauty2(int[] nums, int k) {
+        int res = 0;
+        Arrays.sort(nums);
+        int left = 0;
+        int right = 0;
+        int n = nums.length;
+        while (right < n) {
+            while (nums[right] - nums[left] > 2 * k) {
+                ++left;
+            }
+            res = Math.max(res, right - left + 1);
+            ++right;
+        }
+        return res;
+
+    }
+
+    // 2780. 合法分割的最小下标 (Minimum Index of a Valid Split)
+    public int minimumIndex(List<Integer> nums) {
+        int n = nums.size();
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int num : nums) {
+            cnts.merge(num, 1, Integer::sum);
+        }
+        Map<Integer, Integer> cur = new HashMap<>();
+        for (int i = 0; i < n - 1; ++i) {
+            cur.merge(nums.get(i), 1, Integer::sum);
+            cnts.merge(nums.get(i), -1, Integer::sum);
+            if (cur.get(nums.get(i)) * 2 > i + 1 && cnts.get(nums.get(i)) * 2 > n - i - 1) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
+    // 2781. 最长合法子字符串的长度 (Length of the Longest Valid Substring)
+    public int longestValidSubstring(String word, List<String> forbidden) {
+        Set<String> s = new HashSet<>(forbidden);
+        int n = word.length();
+        int l = 0;
+        int r = 0;
+        int res = 0;
+        while (r < n) {
+            int k = r;
+            while (l <= k && k > r - 10) {
+                if (s.contains(word.substring(k, r + 1))) {
+                    l = k + 1;
+                    break;
+                }
+                --k;
+            }
+            res = Math.max(res, r - l + 1);
+            ++r;
+        }
+        return res;
+
+    }
 }
