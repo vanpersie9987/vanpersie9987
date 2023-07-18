@@ -1894,4 +1894,57 @@ public class Leetcode_8 {
         return res;
 
     }
+
+    // 656. 金币路径 --plus 未提交
+    private List<Integer> res656;
+    private int[] A656;
+    private int B656;
+    private int[] memo656;
+    private int n656;
+
+    public List<Integer> cheapestJump(int[] A, int B) {
+        this.n656 = A.length;
+        if (A[n656 - 1] == -1) {
+            return List.of();
+        }
+        this.res656 = new ArrayList<>();
+        this.A656 = A;
+        this.B656 = B;
+        this.memo656 = new int[n656];
+        Arrays.fill(memo656, (int) 1e6);
+        int min = dfs(0);
+        res656.add(0, 1);
+        return min < (int) 1e6 ? res656 : List.of();
+
+    }
+
+    private int dfs(int i) {
+        if (i == n656 - 1) {
+            return A656[n656 - 1];
+        }
+        if (memo656[i] != (int) 1e6) {
+            return memo656[i];
+        }
+        int min = (int) 1e6;
+        for (int j = i + 1; j <= Math.min(i + B656, n656 - 1); ++j) {
+            if (A656[j] == -1) {
+                continue;
+            }
+            min = Math.min(min, dfs(j));
+        }
+        if (min < (int) 1e6) {
+            for (int j = i + 1; j <= Math.min(i + B656, n656 - 1); ++j) {
+                if (A656[j] == -1) {
+                    continue;
+                }
+                if (min == dfs(j)) {
+                    res656.add(0, j + 1);
+                    break;
+                }
+            }
+        }
+        return memo656[i] = min + A656[i];
+    }
+
+
 }
