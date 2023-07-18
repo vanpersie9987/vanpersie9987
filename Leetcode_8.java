@@ -1912,14 +1912,15 @@ public class Leetcode_8 {
         this.B656 = B;
         this.memo656 = new int[n656];
         Arrays.fill(memo656, (int) 1e6);
-        int min = dfs(0);
+        int min = dfs656(0);
         res656.add(0, 1);
         return min < (int) 1e6 ? res656 : List.of();
 
     }
 
-    private int dfs(int i) {
+    private int dfs656(int i) {
         if (i == n656 - 1) {
+            // return 0;
             return A656[n656 - 1];
         }
         if (memo656[i] != (int) 1e6) {
@@ -1930,14 +1931,14 @@ public class Leetcode_8 {
             if (A656[j] == -1) {
                 continue;
             }
-            min = Math.min(min, dfs(j));
+            min = Math.min(min, dfs656(j));
         }
         if (min < (int) 1e6) {
             for (int j = i + 1; j <= Math.min(i + B656, n656 - 1); ++j) {
                 if (A656[j] == -1) {
                     continue;
                 }
-                if (min == dfs(j)) {
+                if (min == dfs656(j)) {
                     res656.add(0, j + 1);
                     break;
                 }
@@ -1945,6 +1946,5 @@ public class Leetcode_8 {
         }
         return memo656[i] = min + A656[i];
     }
-
 
 }
