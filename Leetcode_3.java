@@ -3565,6 +3565,39 @@ public class Leetcode_3 {
 
     }
 
+    // 797. 所有可能的路径 (All Paths From Source to Target)
+    // 剑指 Offer II 110. 所有路径
+    private List<Integer>[] g797;
+    private int n797;
+    private List<List<Integer>> res797;
+
+    public List<List<Integer>> allPathsSourceTarget2(int[][] graph) {
+        this.n797 = graph.length;
+        this.g797 = new ArrayList[n797];
+        Arrays.setAll(g797, k -> new ArrayList<>());
+        for (int i = 0; i < n797; ++i) {
+            for (int j : graph[i]) {
+                g797[i].add(j);
+            }
+        }
+        this.res797 = new ArrayList<>();
+        dfs797(0, new ArrayList<>());
+        return res797;
+
+    }
+
+    private void dfs797(int x, List<Integer> list) {
+        list.add(x);
+        if (x == n797 - 1) {
+            res797.add(new ArrayList<>(list));
+            return;
+        }
+        for (int y : g797[x]) {
+            dfs797(y, list);
+            list.remove(list.size() - 1);
+        }
+    }
+
     // 2044. 统计按位或能得到最大值的子集数目 (Count Number of Maximum Bitwise-OR Subsets) -- 枚举
     // 还需掌握“回溯”
     public int countMaxOrSubsets(int[] nums) {
