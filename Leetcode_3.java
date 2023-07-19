@@ -3599,7 +3599,6 @@ public class Leetcode_3 {
     }
 
     // 2044. 统计按位或能得到最大值的子集数目 (Count Number of Maximum Bitwise-OR Subsets) -- 枚举
-    // 还需掌握“回溯”
     public int countMaxOrSubsets(int[] nums) {
         int n = nums.length;
         int maxVal = Integer.MIN_VALUE;
@@ -3620,6 +3619,36 @@ public class Leetcode_3 {
         }
         return res;
 
+    }
+
+    // 2044. 统计按位或能得到最大值的子集数目 (Count Number of Maximum Bitwise-OR Subsets)
+    private int max2044;
+    private int res2044;
+    private int[] nums2044;
+    private int n2044;
+
+    public int countMaxOrSubsets2(int[] nums) {
+        this.n2044 = nums.length;
+        this.nums2044 = nums;
+        dfs2044(0, 0);
+        return res2044;
+
+    }
+
+    private void dfs2044(int i, int or) {
+        if (i == n2044) {
+            if (or > max2044) {
+                max2044 = or;
+                res2044 = 1;
+            } else if (or == max2044) {
+                ++res2044;
+            }
+            return;
+        }
+        // 不选
+        dfs2044(i + 1, or);
+        // 选
+        dfs2044(i + 1, or | nums2044[i]);
     }
 
     // 1625. 执行操作后字典序最小的字符串 (Lexicographically Smallest String After Applying
