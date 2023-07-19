@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -1942,6 +1943,61 @@ public class Leetcode_8 {
             res656.add(0, k + 1);
         }
         return memo656[i] = min + A656[i];
+    }
+
+    // 1928. 规定时间内到达终点的最小花费 (Minimum Cost to Reach Destination in Time)
+    public int minCost(int maxTime, int[][] edges, int[] passingFees) {
+        int n = passingFees.length;
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            int x = e[0];
+            int y = e[1];
+            int t = e[2];
+            g[x].add(new int[] { y, t });
+            g[y].add(new int[] { x, t });
+        }
+
+        // [x, t, c]
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[2], o2[2]);
+            }
+
+        });
+
+        int[][] dis = new int[n][maxTime + 1];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(dis[i], Integer.MAX_VALUE);
+        }
+        dis[0][0] = passingFees[0];
+        q.offer(new int[] { 0, 0, passingFees[0] });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int t = cur[1];
+            int c = cur[2];
+            if (x == n - 1) {
+                return c;
+            }
+            for (int[] nei : g[x]) {
+                int y = nei[0];
+                int dt = nei[1];
+                int nt = dt + t;
+                if (nt > maxTime) {
+                    continue;
+                }
+                int nc = passingFees[y] + c;
+                if (nc < dis[y][nt]) {
+                    dis[y][nt] = nc;
+                    q.offer(new int[] { y, nt, nc });
+                }
+            }
+        }
+        return -1;
+
     }
 
 }
