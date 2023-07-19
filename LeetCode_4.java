@@ -1712,7 +1712,7 @@ public class LeetCode_4 {
     private int res2305;
 
     public int distributeCookies(int[] cookies, int k) {
-        res2305 = Integer.MAX_VALUE;
+        this.res2305 = Integer.MAX_VALUE;
         Arrays.sort(cookies);
         dfs2305(cookies, cookies.length - 1, new int[k]);
         return res2305;
@@ -1736,6 +1736,40 @@ public class LeetCode_4 {
             dfs2305(cookies, start - 1, cur);
             cur[i] -= cookies[start];
         }
+    }
+
+    // 2305. 公平分发饼干 (Fair Distribution of Cookies)
+    private int k2305;
+    private int u2305;
+    private int[] sum2305;
+    private int[][] memo2305;
+
+    public int distributeCookies2(int[] cookies, int k) {
+        int n = cookies.length;
+        this.u2305 = (1 << n) - 1;
+        this.k2305 = k;
+        this.sum2305 = new int[1 << n];
+        for (int i = 1; i < (1 << n); ++i) {
+            int bit = Integer.numberOfTrailingZeros(i);
+            sum2305[i] = sum2305[i ^ (1 << bit)] + cookies[bit];
+        }
+        this.memo2305 = new int[k][1 << n];
+        return dfs2305(0, 0);
+    }
+
+    private int dfs2305(int i, int m) {
+        if (i == k2305 || m == u2305) {
+            return i == k2305 && m == u2305 ? 0 : (int) 1e8;
+        }
+        if (memo2305[i][m] != 0) {
+            return memo2305[i][m];
+        }
+        int c = u2305 ^ m;
+        int res = (int) 1e9;
+        for (int j = c; j > 0; j = (j - 1) & c) {
+            res = Math.min(res, Math.max(dfs2305(i + 1, j | m), sum2305[j]));
+        }
+        return memo2305[i][m] = res;
     }
 
     // 17. 电话号码的字母组合 (Letter Combinations of a Phone Number) --回溯
