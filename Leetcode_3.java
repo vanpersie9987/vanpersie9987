@@ -3598,22 +3598,19 @@ public class Leetcode_3 {
         }
     }
 
-    // 2044. 统计按位或能得到最大值的子集数目 (Count Number of Maximum Bitwise-OR Subsets) -- 枚举
+    // 2044. 统计按位或能得到最大值的子集数目 (Count Number of Maximum Bitwise-OR Subsets)
     public int countMaxOrSubsets(int[] nums) {
         int n = nums.length;
-        int maxVal = Integer.MIN_VALUE;
+        int max = 0;
         int res = 0;
-        for (int i = 0; i < (1 << n); ++i) {
-            int xorVal = 0;
-            for (int j = 0; j < n; ++j) {
-                if (((i >>> j) & 1) == 1) {
-                    xorVal |= nums[j];
-                }
-            }
-            if (xorVal > maxVal) {
-                maxVal = xorVal;
+        int[] sum = new int[1 << n];
+        for (int i = 1; i < (1 << n); ++i) {
+            int bit = Integer.numberOfTrailingZeros(i);
+            sum[i] = sum[i ^ (1 << bit)] | nums[bit];
+            if (sum[i] > max) {
+                max = sum[i];
                 res = 1;
-            } else if (xorVal == maxVal) {
+            } else if (sum[i] == max) {
                 ++res;
             }
         }
