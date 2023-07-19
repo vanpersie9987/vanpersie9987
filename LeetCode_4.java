@@ -1709,42 +1709,12 @@ public class LeetCode_4 {
     }
 
     // 2305. 公平分发饼干 (Fair Distribution of Cookies)
-    private int res2305;
-
-    public int distributeCookies(int[] cookies, int k) {
-        this.res2305 = Integer.MAX_VALUE;
-        Arrays.sort(cookies);
-        dfs2305(cookies, cookies.length - 1, new int[k]);
-        return res2305;
-
-    }
-
-    private void dfs2305(int[] cookies, int start, int[] cur) {
-        if (start < 0) {
-            int max = Integer.MIN_VALUE;
-            for (int c : cur) {
-                max = Math.max(c, max);
-            }
-            res2305 = Math.min(res2305, max);
-            return;
-        }
-        for (int i = 0; i < cur.length; ++i) {
-            if (i > 0 && start == cookies.length) {
-                return;
-            }
-            cur[i] += cookies[start];
-            dfs2305(cookies, start - 1, cur);
-            cur[i] -= cookies[start];
-        }
-    }
-
-    // 2305. 公平分发饼干 (Fair Distribution of Cookies)
     private int k2305;
     private int u2305;
     private int[] sum2305;
     private int[][] memo2305;
 
-    public int distributeCookies2(int[] cookies, int k) {
+    public int distributeCookies(int[] cookies, int k) {
         int n = cookies.length;
         this.u2305 = (1 << n) - 1;
         this.k2305 = k;
