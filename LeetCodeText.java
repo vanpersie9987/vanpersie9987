@@ -15759,44 +15759,40 @@ public class LeetCodeText {
         return res;
     }
 
-    // 874. 模拟行走机器人
+    // 874. 模拟行走机器人 (Walking Robot Simulation)
     public int robotSim(int[] commands, int[][] obstacles) {
+        final long M = (long) 1e5;
         Set<Long> set = new HashSet<>();
-        for (int[] obstacle : obstacles) {
-            set.add(getTransferNum874(obstacle[0], obstacle[1]));
+        for (int[] o : obstacles) {
+            set.add(o[0] * M + o[1]);
         }
-        int[][] directions = { { 0, 1 }, { -1, 0 }, { 0, -1 }, { 1, 0 } };
-        int d = 0;
-        int res = 0;
         int x = 0;
         int y = 0;
-        for (int command : commands) {
-            // 右转
-            if (command == -1) {
-                d = (d + directions.length - 1) % directions.length;
-            }
-            // 左转
-            else if (command == -2) {
-                d = (d + 1) % directions.length;
+        int res = 0;
+        int d = 0;
+        int[][] dirs = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+        for (int c : commands) {
+            if (c == -1) {
+                d = (d + 1) % 4;
+            } else if (c == -2) {
+                d = (d - 1 + 4) % 4;
             } else {
-                int count = command;
-                while (count > 0) {
-                    if (set.contains(getTransferNum874(x + directions[d][0], y + directions[d][1]))) {
+                int step = c;
+                while (step > 0) {
+                    int nx = x + dirs[d][0];
+                    int ny = y + dirs[d][1];
+                    if (set.contains(nx * M + ny)) {
                         break;
                     }
-                    x += directions[d][0];
-                    y += directions[d][1];
-                    --count;
+                    x = nx;
+                    y = ny;
+                    res = Math.max(res, x * x + y * y);
+                    --step;
                 }
-                res = Math.max(res, x * x + y * y);
             }
         }
         return res;
 
-    }
-
-    private long getTransferNum874(int i, int j) {
-        return (((long) i + 30000) << 16) + (long) j + 30000;
     }
 
     // LCP 03. 机器人大冒险
