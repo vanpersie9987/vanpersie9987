@@ -1927,22 +1927,19 @@ public class Leetcode_8 {
             return memo656[i];
         }
         int min = (int) 1e6;
+        int k = -1;
         for (int j = i + 1; j <= Math.min(i + B656, n656 - 1); ++j) {
             if (A656[j] == -1) {
                 continue;
             }
-            min = Math.min(min, dfs656(j));
+            int cur = dfs656(j);
+            if (cur < min) {
+                min = cur;
+                k = j;
+            }
         }
         if (min < (int) 1e6) {
-            for (int j = i + 1; j <= Math.min(i + B656, n656 - 1); ++j) {
-                if (A656[j] == -1) {
-                    continue;
-                }
-                if (min == dfs656(j)) {
-                    res656.add(0, j + 1);
-                    break;
-                }
-            }
+            res656.add(0, k + 1);
         }
         return memo656[i] = min + A656[i];
     }
