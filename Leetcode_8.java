@@ -2000,4 +2000,33 @@ public class Leetcode_8 {
 
     }
 
+    // 1388. 3n 块披萨 (Pizza With 3n Slices)
+    private int n1388;
+    private int[] nums1388;
+    private int m1388;
+    private int[][] memo1388;
+
+    public int maxSizeSlices(int[] slices) {
+        return Math.max(check1388(Arrays.copyOfRange(slices, 0, slices.length - 1)),
+                check1388(Arrays.copyOfRange(slices, 1, slices.length)));
+    }
+
+    private int check1388(int[] nums) {
+        this.nums1388 = nums;
+        this.n1388 = nums.length;
+        this.m1388 = (n1388 + 1) / 3;
+        this.memo1388 = new int[n1388][m1388];
+        return dfs1388(0, 0);
+    }
+
+    private int dfs1388(int i, int j) {
+        if (i >= n1388 || j == m1388) {
+            return 0;
+        }
+        if (memo1388[i][j] != 0) {
+            return memo1388[i][j];
+        }
+        return memo1388[i][j] = Math.max(dfs1388(i + 1, j), dfs1388(i + 2, j + 1) + nums1388[i]);
+    }
+
 }
