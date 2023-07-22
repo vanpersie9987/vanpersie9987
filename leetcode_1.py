@@ -64,4 +64,25 @@ class leetcode_1 :
             i += 1
           return res
        return dfs(0, 0)
+    
+    # 860. 柠檬水找零 (Lemonade Change)
+    def lemonadeChange(self, bills: List[int]) -> bool:
+        f ,t = 0, 0
+        for x in bills :
+            if x == 5 :
+                f += 1
+            elif x == 10 :
+                if f == 0 :
+                    return False
+                f -= 1
+                t += 1
+            else :
+                if f >= 1 and t >= 1 :
+                    f -= 1
+                    t -= 1
+                elif f >= 3 :
+                    f -= 3
+                else :
+                    return False
+        return True
  
