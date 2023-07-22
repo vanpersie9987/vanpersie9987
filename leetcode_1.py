@@ -40,3 +40,28 @@ class leetcode_1 :
             k += 1
           return res
       return dfs(0, 0)
+    
+
+    # 1478. 安排邮筒 (Allocate Mailboxes)
+    def minDistance(self, houses: List[int], k: int) -> int:
+       houses.sort()
+       n = len(houses)
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n :
+             return 0
+          if j == k :
+             return inf
+          res = inf
+          for x in range(i, n) :
+             res = min(res, dfs(x + 1, j + 1) + dis(i, x))
+          return res
+       def dis(i: int , j: int) -> int:
+          res = 0
+          while i < j:
+            res += houses[j] - houses[i]
+            j -= 1
+            i += 1
+          return res
+       return dfs(0, 0)
+ 
