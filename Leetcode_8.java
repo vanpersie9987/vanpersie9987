@@ -2205,4 +2205,17 @@ public class Leetcode_8 {
         }
     }
 
+    // 771. 宝石与石头 (Jewels and Stones)
+    public int numJewelsInStones(String jewels, String stones) {
+        int[] m = new int[2];
+        for (char c : jewels.toCharArray()) {
+            m[(c >> 5) & 1] |= 1 << ((c & 31) - 1);
+        }
+        int res = 0;
+        for (char c : stones.toCharArray()) {
+            res += m[(c >> 5) & 1] >> ((c & 31) - 1) & 1;
+        }
+        return res;
+    }
+
 }
