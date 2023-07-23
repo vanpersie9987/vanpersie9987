@@ -2180,14 +2180,13 @@ public class Leetcode_8 {
 
     // 6942. 树中可以形成回文的路径数 (Count Paths That Can Form a Palindrome in a Tree)
     private Map<Integer, List<int[]>> g6942;
-    private long n6942;
     private Map<Integer, Integer> cnts6942;
     private long res6942;
 
     public long countPalindromePaths(List<Integer> parent, String s) {
-        this.n6942 = parent.size();
+        int n = parent.size();
         g6942 = new HashMap<>();
-        for (int i = 1; i < n6942; ++i) {
+        for (int i = 1; i < n; ++i) {
             g6942.computeIfAbsent(parent.get(i), k -> new ArrayList<>()).add(new int[] { i, 1 << (s.charAt(i) - 'a') });
         }
         this.cnts6942 = new HashMap<>();
