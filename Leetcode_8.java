@@ -1816,7 +1816,7 @@ public class Leetcode_8 {
         return res;
 
     }
-    
+
     // 2779. 数组的最大美丽值 (Maximum Beauty of an Array After Applying Operation)
     public int maximumBeauty(int[] nums, int k) {
         TreeMap<Integer, Integer> map = new TreeMap<>();
@@ -2027,6 +2027,127 @@ public class Leetcode_8 {
             return memo1388[i][j];
         }
         return memo1388[i][j] = Math.max(dfs1388(i + 1, j), dfs1388(i + 2, j + 1) + nums1388[i]);
+    }
+
+    // 6930. 检查数组是否是好的 (Check if Array is Good)
+    public boolean isGood(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        for (int i = 0; i < n - 1; ++i) {
+            if (nums[i] != i + 1) {
+                return false;
+            }
+        }
+        return nums[n - 1] == n - 1;
+
+    }
+
+    // 6926. 将字符串中的元音字母排序 (Sort Vowels in a String)
+    public String sortVowels(String s) {
+        List<Character> list = new ArrayList<>();
+        char[] arr = s.toCharArray();
+        int n = arr.length;
+        for (int i = 0; i < n; ++i) {
+            if (check6926(arr[i])) {
+                list.add(arr[i]);
+                arr[i] = '_';
+            }
+        }
+        Collections.sort(list);
+        int j = 0;
+        for (int i = 0; i < n; ++i) {
+            if (arr[i] == '_') {
+                arr[i] = list.get(j++);
+            }
+        }
+        return String.valueOf(arr);
+
+    }
+
+    private boolean check6926(char c) {
+        c = Character.toLowerCase(c);
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+    }
+
+    // 6931. 访问数组中的位置使分数最大 (Visit Array Positions to Maximize Score)
+    private long[] memo6931;
+    private List<Long> list6931;
+    private int x6931;
+    private int len6931;
+
+    public long maxScore(int[] nums, int x) {
+        this.list6931 = new ArrayList<>();
+        this.x6931 = x;
+        int n = nums.length;
+        int i = 0;
+        while (i < n) {
+            long cur = nums[i];
+            long sum = 0L;
+            int j = i;
+            while (j < n && nums[j] % 2 == cur % 2) {
+                sum += nums[j];
+                ++j;
+            }
+            list6931.add(sum);
+            i = j;
+        }
+        this.len6931 = list6931.size();
+        this.memo6931 = new long[len6931];
+        Arrays.fill(memo6922, (long) 1e12);
+        return dfs6931(0);
+
+    }
+
+    private long dfs6931(int i) {
+        if (i >= len6931) {
+            return 0L;
+        }
+        if (memo6931[i] != (long) 1e12) {
+            return memo6931[i];
+        }
+        return memo6931[i] = Math.max(dfs6931(i + 1) - x6931, dfs6931(i + 2)) + list6931.get(i);
+    }
+
+    // 6922. 将一个数字表示成幂的和的方案数 (Ways to Express an Integer as Sum of Powers)
+    private int[][] memo6922;
+    private int n6922;
+    private int x6922;
+
+    public int numberOfWays(int n, int x) {
+        this.n6922 = n;
+        this.x6922 = x;
+        this.memo6922 = new int[n + 1][n + 1];
+        for (int i = 0; i < n + 1; ++i) {
+            Arrays.fill(memo6922[i], -1);
+        }
+        return dfs6922(1, 0);
+    }
+
+    private int dfs6922(int i, int sum) {
+        if (sum == n6922) {
+            return 1;
+        }
+        if (sum > n6922) {
+            return 0;
+        }
+        if (sum + Math.pow(i, x6922) > n6922) {
+            return 0;
+        }
+        if (Math.pow(i, x6922) > n6922) {
+            return 0;
+        }
+        if (i > n6922) {
+            return 0;
+        }
+        if (memo6922[i][sum] != -1) {
+            return memo6922[i][sum];
+        }
+        final int M = (int) (1e9 + 7);
+        // 不选
+        int res = dfs6922(i + 1, sum) % M;
+        // 选
+        res = (res + dfs6922(i + 1, sum + (int) Math.pow(i, x6922))) % M;
+        return memo6922[i][sum] = res;
     }
 
 }
