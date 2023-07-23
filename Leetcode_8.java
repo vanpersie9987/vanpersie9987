@@ -2197,9 +2197,9 @@ public class Leetcode_8 {
     }
 
     private void dfs6942(int x, int xor) {
-        res6942 = res6942 + cnts6942.getOrDefault(xor, 0);
+        res6942 += cnts6942.getOrDefault(xor, 0);
         for (int i = 0; i < 26; ++i) {
-            res6942 = res6942 + cnts6942.getOrDefault(xor ^ (1 << i), 0);
+            res6942 += cnts6942.getOrDefault(xor ^ (1 << i), 0);
         }
         cnts6942.merge(xor, 1, Integer::sum);
         for (int[] nei : g6942.getOrDefault(x, new ArrayList<>())) {
