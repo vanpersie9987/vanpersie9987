@@ -2046,27 +2046,25 @@ public class Leetcode_8 {
     public String sortVowels(String s) {
         List<Character> list = new ArrayList<>();
         char[] arr = s.toCharArray();
-        int n = arr.length;
-        for (int i = 0; i < n; ++i) {
-            if (check6926(arr[i])) {
-                list.add(arr[i]);
-                arr[i] = '_';
+        String v = "aeiou";
+        int m = 0;
+        for (char c : v.toCharArray()) {
+            m |= 1 << (c - 'a');
+        }
+        for (char c : s.toCharArray()) {
+            if ((m & (1 << ((c & 31) - 1))) != 0) {
+                list.add(c);
             }
         }
         Collections.sort(list);
         int j = 0;
-        for (int i = 0; i < n; ++i) {
-            if (arr[i] == '_') {
+        for (int i = 0; i < arr.length; ++i) {
+            if ((m & (1 << ((arr[i] & 31) - 1))) != 0) {
                 arr[i] = list.get(j++);
             }
         }
         return String.valueOf(arr);
 
-    }
-
-    private boolean check6926(char c) {
-        c = Character.toLowerCase(c);
-        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
     }
 
     // 6931. 访问数组中的位置使分数最大 (Visit Array Positions to Maximize Score)
