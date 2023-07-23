@@ -2130,24 +2130,83 @@ public class Leetcode_8 {
         if (sum > n6922) {
             return 0;
         }
-        if (sum + Math.pow(i, x6922) > n6922) {
-            return 0;
-        }
         if (Math.pow(i, x6922) > n6922) {
-            return 0;
-        }
-        if (i > n6922) {
             return 0;
         }
         if (memo6922[i][sum] != -1) {
             return memo6922[i][sum];
         }
         final int M = (int) (1e9 + 7);
-        // 不选
-        int res = dfs6922(i + 1, sum) % M;
-        // 选
-        res = (res + dfs6922(i + 1, sum + (int) Math.pow(i, x6922))) % M;
-        return memo6922[i][sum] = res;
+        return memo6922[i][sum] = (dfs6922(i + 1, sum) + dfs6922(i + 1, sum + (int) Math.pow(i, x6922))) % M;
+    }
+
+    // 6921. 按分隔符拆分字符串 (Split Strings by Separator)
+    public List<String> splitWordsBySeparator(List<String> words, char separator) {
+        List<String> res = new ArrayList<>();
+        for (String w : words) {
+            int n = w.length();
+            int i = 0;
+            int j = 0;
+            while (j < n) {
+                while (j < n && w.charAt(j) != separator) {
+                    ++j;
+                }
+                if (i != j) {
+                    res.add(w.substring(i, j));
+                }
+                ++j;
+                i = j;
+            }
+        }
+        return res;
+
+    }
+
+    // 6915. 合并后数组中的最大元素 (Largest Element in an Array after Merge Operations)
+    public long maxArrayValue(int[] nums) {
+        int n = nums.length;
+        long res = 0L;
+        long cur = 0L;
+        for (int i = n - 1; i >= 0; --i) {
+            if (cur < nums[i]) {
+                cur = 0L;
+            }
+            cur += nums[i];
+            res = Math.max(res, cur);
+        }
+        return res;
+
+    }
+
+    // 6942. 树中可以形成回文的路径数 (Count Paths That Can Form a Palindrome in a Tree)
+    private Map<Integer, List<int[]>> g6942;
+    private long n6942;
+    private Map<Integer, Integer> cnts6942;
+    private long res6942;
+
+    public long countPalindromePaths(List<Integer> parent, String s) {
+        this.n6942 = parent.size();
+        g6942 = new HashMap<>();
+        for (int i = 1; i < n6942; ++i) {
+            g6942.computeIfAbsent(parent.get(i), k -> new ArrayList<>()).add(new int[] { i, 1 << (s.charAt(i) - 'a') });
+        }
+        this.cnts6942 = new HashMap<>();
+        dfs6942(0, 0);
+        return res6942;
+
+    }
+
+    private void dfs6942(int x, int xor) {
+        res6942 = res6942 + cnts6942.getOrDefault(xor, 0);
+        for (int i = 0; i < 26; ++i) {
+            res6942 = res6942 + cnts6942.getOrDefault(xor ^ (1 << i), 0);
+        }
+        cnts6942.merge(xor, 1, Integer::sum);
+        for (int[] nei : g6942.getOrDefault(x, new ArrayList<>())) {
+            int y = nei[0];
+            int m = nei[1];
+            dfs6942(y, xor ^ m);
+        }
     }
 
 }
