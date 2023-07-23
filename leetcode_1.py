@@ -103,4 +103,14 @@ class leetcode_1 :
              return 0
           return max(dfs2(i + 1, j), dfs2(i + 2, j + 1) + nums2[i])
        return max(dfs1(0, 0), dfs2(0, 0))
- 
+    
+    # 2784. 检查数组是否是好的 (Check if Array is Good)
+    def isGood(self, nums: List[int]) -> bool:
+       nums.sort()
+       n = len(nums)
+       if nums[-1] != n - 1 :
+          return False
+       for i in range(0, n - 1) :
+          if i + 1 != nums[i] :
+             return False
+       return True
