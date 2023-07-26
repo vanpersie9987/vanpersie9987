@@ -299,4 +299,14 @@ class leetcode_1 :
           return max(dfs(i + 1, j, 1), dfs(i + 1, j + 1, 0) + prices[i])
        return dfs(0, 0, 0)
 
+    # 198. 打家劫舍 (House Robber)
+    def rob(self, nums: List[int]) -> int:
+       n = len(nums)
+
+       @cache
+       def dfs(i: int) -> int:
+          if i >= n:
+             return 0
+          return max(dfs(i + 1), dfs(i + 2) + nums[i])
+       return dfs(0)
        
