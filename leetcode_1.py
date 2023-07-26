@@ -153,9 +153,39 @@ class leetcode_1 :
     def uniquePaths(self, m: int, n: int) -> int:
        @cache
        def dfs(i: int, j: int) -> int:
-          if i >= m or j >= n:
+          if i == m or j == n:
              return 0
           if i == m - 1 and j == n - 1:
              return 1
           return dfs(i + 1, j) + dfs(i, j + 1) 
+       return dfs(0, 0)
+   
+    
+    # 64. 最小路径和 (Minimum Path Sum)
+    def minPathSum(self, grid: List[List[int]]) -> int:
+       m = len(grid)
+       n = len(grid[0])
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == m or j == n:
+             return inf
+          if i == m - 1 and j == n - 1:
+             return grid[i][j]
+          return min(dfs(i + 1, j), dfs(i, j + 1)) + grid[i][j]
+       return dfs(0, 0)
+    
+    # 63. 不同路径 II (Unique Paths II)
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+       m = len(obstacleGrid)
+       n = len(obstacleGrid[0])
+       
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == m or j == n:
+             return 0
+          if obstacleGrid[i][j] == 1:
+             return 0
+          if i == m - 1 and j == n - 1:
+             return 1
+          return dfs(i + 1, j) + dfs(i, j + 1)
        return dfs(0, 0)
