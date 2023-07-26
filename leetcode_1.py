@@ -233,3 +233,16 @@ class leetcode_1 :
              res = res or dfs(i, j + 1, k + 1)
           return res
        return dfs(0, 0, 0)
+    
+    # 120. 三角形最小路径和 (Triangle)
+    def minimumTotal(self, triangle: List[List[int]]) -> int:
+       n = len(triangle)
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return 0
+          return min(dfs(i + 1, j), dfs(i + 1, j + 1)) + triangle[i][j]
+       return dfs(0, 0)
+       
+       
