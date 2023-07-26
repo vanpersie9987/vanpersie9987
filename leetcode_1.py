@@ -114,3 +114,28 @@ class leetcode_1 :
           if i + 1 != nums[i] :
              return False
        return True
+    
+    
+    # 2786. 访问数组中的位置使分数最大 (Visit Array Positions to Maximize Score)
+    def maxScore(self, nums: List[int], x: int) -> int:
+       list = []
+       n = len(nums)
+       def getList() -> int:
+          i = 0
+          j = 0
+          while j < n:
+             sum = 0
+             while j < n and nums[j] % 2 == nums[i] % 2:
+                sum += nums[j]
+                j += 1
+             list.append(sum)
+             i = j
+          return len(list)
+       
+       @cache
+       def dfs(i: int) -> int:
+          if i >= n:
+             return 0
+          return max(dfs(i + 1) - x, dfs(i + 2)) + list[i]
+       n = getList()
+       return dfs(0)
