@@ -2565,33 +2565,39 @@ public class LeetCode_4 {
 
     // 131. 分割回文串 (Palindrome Partitioning) --回溯 + dp
     // 剑指 Offer II 086. 分割回文子字符串
+    private int n131;
+    private String s131;
+    private List<List<String>> res131;
+    private boolean[][] judge131;
+
     public List<List<String>> partition(String s) {
-        int n = s.length();
-        boolean[][] dp = new boolean[n][n];
-        for (int i = 0; i < n; ++i) {
-            Arrays.fill(dp[i], true);
-        }
-        for (int i = n - 1; i >= 0; --i) {
-            for (int j = i + 1; j < n; ++j) {
-                dp[i][j] = dp[i + 1][j - 1] && s.charAt(i) == s.charAt(j);
+        this.n131 = s.length();
+        this.s131 = s;
+        this.judge131 = new boolean[n131][n131];
+        for (int i = n131 - 1; i >= 0; --i) {
+            for (int j = i; j < n131; ++j) {
+                if (i == j || j - i == 1 && s.charAt(i) == s.charAt(j)
+                        || j - i > 1 && s.charAt(i) == s.charAt(j) && judge131[i + 1][j - 1]) {
+                    judge131[i][j] = true;
+                }
             }
         }
-        List<List<String>> res = new ArrayList<>();
-        List<String> cur = new ArrayList<>();
-        backtrack131(res, cur, s, 0, dp);
-        return res;
+        this.res131 = new ArrayList<>();
+        dfs131(0, new ArrayList<>());
+        return res131;
+
     }
 
-    private void backtrack131(List<List<String>> res, List<String> cur, String s, int index, boolean[][] dp) {
-        if (index == s.length()) {
-            res.add(new ArrayList<>(cur));
+    private void dfs131(int i, List<String> list) {
+        if (i == n131) {
+            res131.add(new ArrayList<>(list));
             return;
         }
-        for (int i = index; i < s.length(); ++i) {
-            if (dp[index][i]) {
-                cur.add(s.substring(index, i + 1));
-                backtrack131(res, cur, s, i + 1, dp);
-                cur.remove(cur.size() - 1);
+        for (int j = i; j < n131; ++j) {
+            if (judge131[i][j]) {
+                list.add(s131.substring(i, j + 1));
+                dfs131(j + 1, list);
+                list.remove(list.size() - 1);
             }
         }
     }
