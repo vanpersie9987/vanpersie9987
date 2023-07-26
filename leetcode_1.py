@@ -310,3 +310,23 @@ class leetcode_1 :
           return max(dfs(i + 1), dfs(i + 2) + nums[i])
        return dfs(0)
        
+    # 213. 打家劫舍 II (House Robber II)
+    def rob(self, nums: List[int]) -> int:
+       n = len(nums) - 1
+       if n == 0:
+          return nums[0]
+       nums1 = nums[1:]
+       nums2 = nums[:-1]
+       @cache
+       def dfs1(i: int) -> int:
+          if i >= n:
+             return 0
+          return max(dfs1(i + 1), dfs1(i + 2) + nums1[i])
+       @cache
+       def dfs2(i: int) -> int:
+          if i >= n:
+             return 0
+          return max(dfs2(i + 1), dfs2(i + 2) + nums2[i])
+       return max(dfs1(0), dfs2(0))
+
+       
