@@ -257,3 +257,14 @@ class leetcode_1 :
              return max(dfs(i + 1, 0), dfs(i + 1, 1) - prices[i])
           return max(dfs(i + 1, 1), prices[i])
        return dfs(0, 0)
+    
+    # 122. 买卖股票的最佳时机 II (Best Time to Buy and Sell Stock II)
+    def maxProfit(self, prices: List[int]) -> int:
+       n = len(prices)
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return 0
+          return max(dfs(i + 1, j), dfs(i + 1, j ^ 1) + (j * 2 - 1) * prices[i])
+       return dfs(0, 0)
