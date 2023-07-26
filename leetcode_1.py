@@ -148,3 +148,14 @@ class leetcode_1 :
              return 1
           return dfs(i - 1) + dfs(i - 2)
        return dfs(n)
+    
+    # 62. 不同路径 (Unique Paths)
+    def uniquePaths(self, m: int, n: int) -> int:
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i >= m or j >= n:
+             return 0
+          if i == m - 1 and j == n - 1:
+             return 1
+          return dfs(i + 1, j) + dfs(i, j + 1) 
+       return dfs(0, 0)
