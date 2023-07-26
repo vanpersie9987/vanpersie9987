@@ -139,3 +139,12 @@ class leetcode_1 :
        getList()
        n = len(list)
        return dfs(0)
+
+    # 70. 爬楼梯 (Climbing Stairs)
+    def climbStairs(self, n: int) -> int:
+       @cache
+       def dfs(i: int) -> int:
+          if i <= 1:
+             return 1
+          return dfs(i - 1) + dfs(i - 2)
+       return dfs(n)
