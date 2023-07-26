@@ -189,3 +189,24 @@ class leetcode_1 :
              return 1
           return dfs(i + 1, j) + dfs(i, j + 1)
        return dfs(0, 0)
+    
+    # 91. 解码方法 (Decode Ways)
+    def numDecodings(self, s: str) -> int:
+       n = len(s)
+       
+       @cache
+       def dfs(i: int) -> int:
+          if i > n:
+             return 0
+          if i == n:
+             return 1
+          if s[i] == '0':
+             return 0
+          res = dfs(i + 1)
+          if s[i] == '1':
+             res += dfs(i + 2)
+          elif s[i] == '2':
+             if i + 1 < n and s[i + 1] <= '6':
+                res += dfs(i + 2)
+          return res
+       return dfs(0)
