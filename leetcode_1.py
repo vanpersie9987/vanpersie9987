@@ -362,4 +362,25 @@ class leetcode_1 :
           return max(dfs(i + 1, j), dfs(i + 1, 0) + prices[i])
        return dfs(0, 0)
 
-       
+    # 329. 矩阵中的最长递增路径 (Longest Increasing Path in a Matrix)
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+       m = len(matrix)
+       n = len(matrix[0])
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i < 0 or i >= m or j < 0 or j >= n:
+             return 0
+          res = 1
+          dirs = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+          for d in dirs:
+             x = i + d[0]
+             y = j + d[1]
+             if x >= 0 and x < m and y >= 0 and y < n and matrix[x][y] > matrix[i][j]:
+                res = max(res, dfs(x, y) + 1)
+          return res
+       res = 0
+       for i in range(0, m):
+          for j in range(0, n):
+             res = max(res, dfs(i, j))
+       return res
+          
