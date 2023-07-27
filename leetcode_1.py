@@ -399,3 +399,23 @@ class leetcode_1 :
              return 0
           return dfs(i + 1, j) + dfs(i, j + coins[i])
        return dfs(0, 0)
+    
+
+    # 576. 出界的路径数 (Out of Boundary Paths)
+    def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: int) -> int:
+       M = 10 ** 9 + 7
+       @cache
+       def dfs(i: int, j: int, l: int) -> int:
+          if i < 0 or i >= m or j < 0 or j >= n:
+             return 1
+          if l == 0:
+             return 0
+          res = 0
+          dirs = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+          for d in dirs:
+             x = i + d[0]
+             y = j + d[1]
+             res = (res + dfs(x, y, l - 1)) % M
+          return res
+       return dfs(startRow, startColumn, maxMove)
+          
