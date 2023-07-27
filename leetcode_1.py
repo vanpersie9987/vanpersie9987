@@ -335,4 +335,19 @@ class leetcode_1 :
             row.sort()
        return sum(max(col) for col in zip(*grid))
 
+
+    # 309. 最佳买卖股票时机含冷冻期 (Best Time to Buy and Sell Stock with Cooldown)
+    def maxProfit(self, prices: List[int]) -> int:
+       n = len(prices)
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i >= n:
+             return 0
+          if j == 0:
+             return max(dfs(i + 1, j), dfs(i + 1, 1) - prices[i])
+          return max(dfs(i + 1, j), dfs(i + 2, 0) + prices[i])
+       return dfs(0, 0)
+       
+
        
