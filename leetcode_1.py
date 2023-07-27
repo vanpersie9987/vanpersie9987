@@ -383,4 +383,19 @@ class leetcode_1 :
           for j in range(0, n):
              res = max(res, dfs(i, j))
        return res
-          
+    
+   # 518. 零钱兑换 II (Coin Change II) 
+    def change(self, amount: int, coins: List[int]) -> int:
+       coins.sort()
+       n = len(coins)
+       
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if j == amount:
+             return 1
+          if j > amount:
+             return 0
+          if i == n:
+             return 0
+          return dfs(i + 1, j) + dfs(i, j + coins[i])
+       return dfs(0, 0)
