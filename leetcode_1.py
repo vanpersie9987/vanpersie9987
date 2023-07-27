@@ -328,5 +328,11 @@ class leetcode_1 :
              return 0
           return max(dfs2(i + 1), dfs2(i + 2) + nums2[i])
        return max(dfs1(0), dfs2(0))
+    
+   # 2500. 删除每行中的最大值 (Delete Greatest Value in Each Row)
+    def deleteGreatestValue(self, grid: List[List[int]]) -> int:
+       for row in grid:
+            row.sort()
+       return sum(max(col) for col in zip(*grid))
 
        
