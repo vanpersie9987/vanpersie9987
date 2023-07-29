@@ -485,5 +485,28 @@ class leetcode_1 :
              return 0
           return (dfs(i + 1, j - 1) + dfs(i - 1, j - 1)) % M
        return dfs(startPos, k)
+    
+    # 2585. 获得分数的方法数 (Number of Ways to Earn Points)
+    def waysToReachTarget(self, target: int, types: List[List[int]]) -> int:
+       M = 10 ** 9 + 7
+       n = len(types)
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if j == target:
+             return 1
+          if i == n:
+             return 0
+          res = 0
+          k = 0
+          while k <= types[i][0]:
+             if k * types[i][1] + j > target:
+                break
+             res = (res + dfs(i + 1, k * types[i][1] + j)) % M
+             k += 1
+          return res
+
+       return dfs(0, 0)
+
+
           
           
