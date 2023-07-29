@@ -9151,65 +9151,61 @@ public class Leetcode_6 {
 
     }
 
-    // 6314. 统计可能的树根数目 (Count Number of Possible Root Nodes)
-    private Map<Integer, Set<Integer>> tree6314;
-    private Map<Integer, Set<Integer>> gus6314;
-    private int res6314;
-    private int k6314;
+    // 2581. 统计可能的树根数目 (Count Number of Possible Root Nodes)
+    private Map<Integer, List<Integer>> g2581;
+    private Set<Long> set2581;
+    private int res2581;
+    private int k2581;
+    private int cur2581;
 
     public int rootCount(int[][] edges, int[][] guesses, int k) {
-        tree6314 = new HashMap<>();
-        this.k6314 = k;
+        this.g2581 = new HashMap<>();
+        this.set2581 = new HashSet<>();
+        this.k2581 = k;
         for (int[] e : edges) {
-            tree6314.computeIfAbsent(e[0], o -> new HashSet<>()).add(e[1]);
-            tree6314.computeIfAbsent(e[1], o -> new HashSet<>()).add(e[0]);
+            g2581.computeIfAbsent(e[0], o -> new ArrayList<>()).add(e[1]);
+            g2581.computeIfAbsent(e[1], o -> new ArrayList<>()).add(e[0]);
         }
-        gus6314 = new HashMap<>();
-        for (int[] g : guesses) {
-            gus6314.computeIfAbsent(g[0], o -> new HashSet<>()).add(g[1]);
+        for (int[] gu : guesses) {
+            set2581.add(gu[0] * (long) 1e6 + gu[1]);
         }
-
-        int cur = dfs6314(0, -1);
-        if (cur >= k) {
-            ++res6314;
+        cur2581 = 0;
+        dfs0_2581(0, -1);
+        if (cur2581 >= k) {
+            ++res2581;
         }
-        dfs6314(0, -1, cur);
-        return res6314;
+        dfs2581(0, -1, cur2581);
+        return res2581;
 
     }
 
-    private void dfs6314(int x, int fa, int cur) {
-        for (int y : tree6314.getOrDefault(x, new HashSet<>())) {
-            int curK = cur;
+    private void dfs2581(int x, int fa, int cnt) {
+        for (int y : g2581.getOrDefault(x, new ArrayList<>())) {
+            int copy = cnt;
             if (y != fa) {
-                Set<Integer> s = gus6314.getOrDefault(x, new HashSet<>());
-                if (s.contains(y)) {
-                    --curK;
+                if (set2581.contains(x * (long) 1e6 + y)) {
+                    --copy;
                 }
-                Set<Integer> s2 = gus6314.getOrDefault(y, new HashSet<>());
-                if (s2.contains(x)) {
-                    ++curK;
+                if (set2581.contains(y * (long) 1e6 + x)) {
+                    ++copy;
                 }
-                if (curK >= k6314) {
-                    ++res6314;
+                if (copy >= k2581) {
+                    ++res2581;
                 }
-                dfs6314(y, x, curK);
+                dfs2581(y, x, copy);
             }
         }
     }
 
-    private int dfs6314(int x, int fa) {
-        int count = 0;
-        for (int y : tree6314.getOrDefault(x, new HashSet<>())) {
+    private void dfs0_2581(int x, int fa) {
+        for (int y : g2581.getOrDefault(x, new ArrayList<>())) {
             if (y != fa) {
-                Set<Integer> s = gus6314.getOrDefault(x, new HashSet<>());
-                if (s.contains(y)) {
-                    ++count;
+                if (set2581.contains(x * (long) 1e6 + y)) {
+                    ++cur2581;
                 }
-                count += dfs6314(y, x);
+                dfs0_2581(y, x);
             }
         }
-        return count;
     }
 
     // 2582. 递枕头 (Pass the Pillow)
