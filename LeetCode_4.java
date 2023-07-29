@@ -6975,6 +6975,42 @@ public class LeetCode_4 {
 
     }
 
+    // 583. 两个字符串的删除操作 (Delete Operation for Two Strings)
+    private int n1_583;
+    private int n2_583;
+    private String w1_583;
+    private String w2_583;
+    private int[][] memo583;
+
+    public int minDistance583(String word1, String word2) {
+        this.n1_583 = word1.length();
+        this.n2_583 = word2.length();
+        this.w1_583 = word1;
+        this.w2_583 = word2;
+        this.memo583 = new int[n1_583][n2_583];
+        for (int i = 0; i < n1_583; ++i) {
+            Arrays.fill(memo583[i], -1);
+        }
+        return dfs583(n1_583 - 1, n2_583 - 1);
+
+    }
+
+    private int dfs583(int i, int j) {
+        if (i < 0) {
+            return j + 1;
+        }
+        if (j < 0) {
+            return i + 1;
+        }
+        if (memo583[i][j] != -1) {
+            return memo583[i][j];
+        }
+        if (w1_583.charAt(i) == w2_583.charAt(j)) {
+            return memo583[i][j] = dfs583(i - 1, j - 1);
+        }
+        return memo583[i][j] = Math.min(dfs583(i - 1, j), dfs583(i, j - 1)) + 1;
+    }
+
     // 2323. Find Minimum Time to Finish All Jobs II --plus
     public int minimumTime(int[] jobs, int[] workers) {
         int res = 0;
