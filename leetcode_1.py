@@ -447,4 +447,19 @@ class leetcode_1 :
              return dfs(i + 1, j - 1)
           return min(dfs(i + 1, j), dfs(i, j - 1)) + 1
        return n - dfs(0, n - 1)
+    
+    # 790. 多米诺和托米诺平铺 (Domino and Tromino Tiling)
+    def numTilings(self, n: int) -> int:
+       # 0 1 2
+       M = 10 ** 9 + 7
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return j == 0
+          if i > n:
+             return 0
+          if j == 0:
+             return (dfs(i + 1, j) + dfs(i + 2, j) + dfs(i + 2, 1) + dfs(i + 2, 2)) % M
+          return (dfs(i + 1, 0) + dfs(i + 1, 2 if j == 1 else 2)) % M
+       return dfs(0, 0)
           
