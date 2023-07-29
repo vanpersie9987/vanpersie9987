@@ -434,6 +434,17 @@ class leetcode_1 :
              return dfs(i - 1, j - 1)
           return min(dfs(i - 1, j), dfs(i, j - 1)) + 1
        return dfs(n - 1, m - 1)
-             
-       
+    
+   # 516. 最长回文子序列 (Longest Palindromic Subsequence)
+    def longestPalindromeSubseq(self, s: str) -> int:
+       n = len(s)
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i >= j:
+             return 0
+          if s[i] == s[j]:
+             return dfs(i + 1, j - 1)
+          return min(dfs(i + 1, j), dfs(i, j - 1)) + 1
+       return n - dfs(0, n - 1)
           
