@@ -2217,4 +2217,139 @@ public class Leetcode_8 {
         }
         return res;
     }
+
+    // 6917.满足目标工作时长的员工数目 (Number of Employees Who Met the Target)
+    public int numberOfEmployeesWhoMetTarget(int[] hours, int target) {
+        int res = 0;
+        for (int h : hours) {
+            if (h >= target) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    // 6900. 统计完全子数组的数目 (Count Complete Subarrays in an Array)
+    public int countCompleteSubarrays(int[] nums) {
+        int n = nums.length;
+        int res = 0;
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+        int i = 0;
+        int j = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        while (i < n) {
+            while (j < n && map.size() != set.size()) {
+                map.merge(nums[j], 1, Integer::sum);
+                ++j;
+            }
+            if (map.size() != set.size()) {
+                break;
+            }
+            res += n - j + 1;
+            map.merge(nums[i], -1, Integer::sum);
+            if (map.get(nums[i]) == 0) {
+                map.remove(nums[i]);
+            }
+            ++i;
+        }
+        return res;
+
+    }
+
+    // 6918. 包含三个字符串的最短字符串 (Shortest String That Contains Three Strings)
+    public String minimumString(String a, String b, String c) {
+        String[] arr = new String[3];
+        arr[0] = a;
+        arr[1] = b;
+        arr[2] = c;
+        String res = "";
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                for (int k = 0; k < 3; ++k) {
+                    if (i != j && i != k && j != k) {
+                        String cur = join6918(join6918(arr[i], arr[j]), arr[k]);
+                        if (res.isEmpty()) {
+                            res = cur;
+                        } else if (cur.length() < res.length()) {
+                            res = cur;
+                        } else if (cur.length() == res.length() && cur.compareTo(res) < 0) {
+                            res = cur;
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private String join6918(String a, String b) {
+        if (a.contains(b)) {
+            return a;
+        }
+        for (int i = 0; i < a.length(); ++i) {
+            if (b.startsWith(a.substring(i))) {
+                return a.substring(0, i) + b;
+            }
+        }
+        return a + b;
+    }
+
+    // 6957. 统计范围内的步进数字数目 (Count Stepping Numbers in Range)
+    public int countSteppingNumbers(String low, String high) {
+        final int MOD = (int) (1e9 + 7);
+        return ((cal6957(high.toCharArray()) - cal6957(low.toCharArray()) + (isValid6957(low.toCharArray()) ? 1 : 0))
+                % MOD + MOD) % MOD;
+    }
+
+    private boolean isValid6957(char[] arr) {
+        for (int i = 1; i < arr.length; ++i) {
+            if (Math.abs(arr[i] - arr[i - 1]) != 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private char[] arr6957;
+    private int[][] memo6957;
+    private int n6957;
+
+    private int cal6957(char[] arr) {
+        this.arr6957 = arr;
+        this.n6957 = arr.length;
+        this.memo6957 = new int[n6957][10];
+        for (int i = 0; i < n6957; ++i) {
+            Arrays.fill(memo6957[i], -1);
+        }
+        return dfs6957(0, 0, true, false);
+    }
+
+    private int dfs6957(int i, int pre, boolean isLimit, boolean isNum) {
+        if (i == n6957) {
+            return isNum ? 1 : 0;
+        }
+        if (!isLimit && isNum && memo6957[i][pre] != -1) {
+            return memo6957[i][pre];
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        if (!isNum) {
+            res = dfs6957(i + 1, pre, false, false);
+        }
+        int up = isLimit ? arr6957[i] - '0' : 9;
+        for (int j = isNum ? 0 : 1; j <= up; ++j) {
+            if (!isNum || Math.abs(j - pre) == 1) {
+                res = (res + dfs6957(i + 1, j, isLimit && j == up, true)) % MOD;
+            }
+        }
+        if (!isLimit && isNum) {
+            memo6957[i][pre] = res;
+        }
+        return res;
+    }
 }
