@@ -506,7 +506,23 @@ class leetcode_1 :
           return res
 
        return dfs(0, 0)
+    
 
-
-          
-          
+    # 6957. 统计范围内的步进数字数目 (Count Stepping Numbers in Range)
+    def countSteppingNumbers(self, low: str, high: str) -> int:
+       m = 10 ** 9 + 7
+       def cal(s: str) -> int:
+         @cache
+         def dfs(i: int, pre: int, isLimit: bool, isNum: bool) -> int:
+            if i == len(s):
+               return isNum
+            res = 0
+            if not isNum:
+               res = dfs(i + 1, pre, False, False)
+            up = int(s[i]) if isLimit else 9
+            for j in range( 0 if isNum else 1, up + 1):
+               if (not isNum) or abs(j - pre) == 1:
+                  res += dfs(i + 1, j, isLimit and j == up, True)
+            return res % m
+         return dfs(0, 0, True, False)
+       return (cal(high) - cal(str(int(low) - 1))) % m
