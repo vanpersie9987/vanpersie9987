@@ -581,3 +581,24 @@ class leetcode_1 :
                 res += dfs(i + 1, d, isLimit and d == up, True)
           return res
        return dfs(0, 0, True, False) + 1
+    
+
+    # 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
+    def atMostNGivenDigitSet(self, digits: List[str], n: int) -> int:
+       s = str(n)
+       m = len(s)
+
+       @cache
+       def dfs(i: int, isLimit: bool, isNum: bool) -> int:
+          if i == m:
+             return isNum
+          res = 0
+          if not isNum:
+             res = dfs(i + 1, False, False)
+          up = s[i] if isLimit else '9'
+          for d in digits:
+             if d > up:
+                break
+             res += dfs(i + 1, isLimit and d == up, True)
+          return res
+       return dfs(0, True, False)
