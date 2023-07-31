@@ -658,3 +658,67 @@ class leetcode_1 :
             res = max(res, dfs(j + 1) + m * (j - i + 1))
          return res
       return dfs(0)
+    
+   # 1039. 多边形三角剖分的最低得分 (Minimum Score Triangulation of Polygon)
+    def minScoreTriangulation(self, values: List[int]) -> int:
+       n = len(values)
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if j - i <= 1:
+             return 0
+          res = inf
+          for k in range(i + 1, j):
+             res = min(res, dfs(i, k) + dfs(k, j) + values[i] * values[k] * values[j])
+          return res
+       return dfs(0, n - 1)
+    
+    # 1048. 最长字符串链 (Longest String Chain)
+    def longestStrChain(self, words: List[str]) -> int:
+       n = len(words)
+       words.sort(key = len)
+
+       @cache
+       def dfs(i: int) -> int:
+          if i == n:
+             return 0
+          res = 0
+          for j in range(i + 1, n):
+             if len(words[j]) - len(words[i]) < 1:
+                continue
+             if len(words[j]) - len(words[i]) > 1:
+                break
+             if check(words[i], words[j]):
+                res = max(res, dfs(j))
+          return res + 1
+       
+       def check(s1: str, s2: str) -> bool:
+          i = 0
+          j = 0
+          n1 = len(s1)
+          n2 = len(s2)
+          f = False
+          while i < n1 and j < n2:
+             if s1[i] == s2[j]:
+                i += 1
+                j += 1
+             elif not f:
+                f = True
+                j += 1
+             else:
+                return False
+          return True
+       res = 0
+       for i in range(0, n):
+          res = max(res, dfs(i))
+       return res
+                
+
+               
+          
+             
+
+
+
+
+       
