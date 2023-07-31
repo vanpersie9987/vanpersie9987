@@ -621,3 +621,24 @@ class leetcode_1 :
                 res += dfs(i + 1, mask | (1 << d), isLimit and up == d, True)
           return res
        return n - dfs(0, 0, True, False)
+    
+
+    # 1105. 填充书架 (Filling Bookcase Shelves)
+    def minHeightShelves(self, books: List[List[int]], shelfWidth: int) -> int:
+       n = len(books)
+
+       @cache
+       def dfs(i: int) -> int:
+          if i == n:
+             return 0
+          w = 0
+          maxH = 0
+          res = inf
+          for j in range(i, n):
+             w += books[j][0]
+             maxH = max(maxH, books[j][1])
+             if w > shelfWidth:
+                break
+             res = min(res, dfs(j + 1) + maxH)
+          return res
+       return dfs(0)
