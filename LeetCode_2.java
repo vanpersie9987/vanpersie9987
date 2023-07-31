@@ -1258,52 +1258,45 @@ public class LeetCode_2 {
    // 143. 重排链表 (Reorder List)
    // 剑指 Offer II 026. 重排链表
    public void reorderList(ListNode head) {
-      ListNode l1 = head;
-      ListNode middle = getMiddle(head);
-      ListNode l2 = reverseNode(middle.next);
-      middle.next = null;
-      getMixed(l1, l2);
-
+      ListNode m = getMid143(head);
+      ListNode r = rev143(m);
+      getMix143(head, r);
    }
 
-   private void getMixed(ListNode l1, ListNode l2) {
+   private void getMix143(ListNode l1, ListNode l2) {
       while (l1 != null && l2 != null) {
-         ListNode temp1 = l1.next;
-         ListNode temp2 = l2.next;
+         ListNode t1 = l1.next;
+         ListNode t2 = l2.next;
 
          l1.next = l2;
-         l1 = temp1;
-
+         l1 = t1;
          l2.next = l1;
-         l2 = temp2;
+         l2 = t2;
       }
-
    }
 
-   private ListNode reverseNode(ListNode head) {
+   private ListNode rev143(ListNode head) {
       ListNode pre = null;
       ListNode cur = head;
       while (cur != null) {
-         ListNode temp = cur.next;
+         ListNode nxt = cur.next;
          cur.next = pre;
-
          pre = cur;
-         cur = temp;
-
+         cur = nxt;
       }
       return pre;
-
    }
 
-   private ListNode getMiddle(ListNode head) {
-      ListNode slow = head;
-      ListNode fast = head;
-      while (fast != null && fast.next != null) {
-         slow = slow.next;
-         fast = fast.next.next;
+   private ListNode getMid143(ListNode head) {
+      ListNode s = head;
+      ListNode f = head;
+      while (f != null && f.next != null && f.next.next != null) {
+         s = s.next;
+         f = f.next.next;
       }
-      return slow;
-
+      ListNode res = s.next;
+      s.next = null;
+      return res;
    }
 
    // 146. LRU 缓存机制 (LRU Cache)
