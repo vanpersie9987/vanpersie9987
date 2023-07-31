@@ -642,3 +642,19 @@ class leetcode_1 :
              res = min(res, dfs(j + 1) + maxH)
           return res
        return dfs(0)
+     
+   # 1043. 分隔数组以得到最大和 (Partition Array for Maximum Sum)
+    def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
+      n = len(arr)
+
+      @cache
+      def dfs(i: int) -> int:
+         if i == n:
+            return 0
+         res = 0
+         m = 0
+         for j in range(i, min(n, i + k)):
+            m = max(m, arr[j])
+            res = max(res, dfs(j + 1) + m * (j - i + 1))
+         return res
+      return dfs(0)
