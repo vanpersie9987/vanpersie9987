@@ -602,3 +602,22 @@ class leetcode_1 :
              res += dfs(i + 1, isLimit and d == up, True)
           return res
        return dfs(0, True, False)
+    
+    # 1012. 至少有 1 位重复的数字 (Numbers With Repeated Digits)
+    def numDupDigitsAtMostN(self, n: int) -> int:
+       s = str(n)
+       m = len(s)
+
+       @cache
+       def dfs(i: int, mask: int, isLimit: bool, isNum: bool) -> int:
+          if i == m:
+             return isNum
+          res = 0
+          if not isNum:
+             res = dfs(i + 1, mask, False, False)
+          up = ord(s[i]) - ord('0') if isLimit else 9
+          for d in range(0 if isNum else 1, up + 1):
+             if not (mask >> d) & 1:
+                res += dfs(i + 1, mask | (1 << d), isLimit and up == d, True)
+          return res
+       return n - dfs(0, 0, True, False)
