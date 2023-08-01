@@ -762,6 +762,26 @@ class leetcode_1 :
           return res
        res = dfs(0, n + 1, target)
        return -1 if res == inf else res
+    
+   # 1524. 和为奇数的子数组数目 (Number of Sub-arrays With Odd Sum)
+    def numOfSubarrays(self, arr: List[int]) -> int:
+       even = 1
+       odd = 0
+       res = 0
+       sum = 0
+       m = 10 ** 9 + 7
+       for x in arr:
+          sum += x
+          if (sum & 1) == 0:
+             res += odd
+             even += 1
+          else:
+             res += even
+             odd += 1
+       return res % m
+             
+    
+    
              
              
              
