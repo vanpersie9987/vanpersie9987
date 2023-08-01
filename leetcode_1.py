@@ -786,7 +786,7 @@ class leetcode_1 :
        left = [0] * n
        right = [0] * n
        m = 0
-       for i in range(0, n):
+       for i in range(n):
           m |= 1 << (ord(s[i]) - ord('a'))
           left[i] = m
        m = 0
