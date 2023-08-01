@@ -712,6 +712,17 @@ class leetcode_1 :
        for i in range(0, n):
           res = max(res, dfs(i))
        return res
+    
+    # 1911. 最大子序列交替和 (Maximum Alternating Subsequence Sum)
+    def maxAlternatingSum(self, nums: List[int]) -> int:
+       n = len(nums)
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return 0
+          return max(dfs(i + 1, j), dfs(i + 1, j ^ 1) + (-nums[i] if j else nums[i]))
+       return dfs(0, 0)
                 
 
                
