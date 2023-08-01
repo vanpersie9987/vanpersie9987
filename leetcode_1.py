@@ -16,6 +16,7 @@
 #     print(b, end = " ")
 #     a , b = b , a + b
 
+from collections import Counter
 from functools import cache
 from math import inf
 from typing import List
@@ -723,7 +724,28 @@ class leetcode_1 :
              return 0
           return max(dfs(i + 1, j), dfs(i + 1, j ^ 1) + (-nums[i] if j else nums[i]))
        return dfs(0, 0)
+    
+   # 1463. 摘樱桃 II (Cherry Pickup II)
+    def cherryPickup(self, grid: List[List[int]]) -> int:
+       m = len(grid)
+       n = len(grid[0])
+
+       @cache
+       def dfs(i: int, j: int, k: int) -> int:
+          if i == m:
+             return 0
+          res = 0
+          for nj in range(max(0, j - 1), min(j + 2, n)):
+             for nk in range(max(0, k - 1), min(k + 2, n)):
+                res = max(res, dfs(i + 1, nj, nk) + grid[i][nj] + (0 if nj == nk else grid[i][nk]))
+          return res
+       return dfs(1, 0, n - 1) + grid[0][0] + grid[0][n - 1]
                 
+             
+          
+
+
+    
 
                
           
