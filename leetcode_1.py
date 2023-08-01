@@ -779,26 +779,3 @@ class leetcode_1 :
              res += even
              odd += 1
        return res % m
-             
-    
-    
-             
-             
-             
-             
-       
-                
-             
-          
-
-
-    
-
-               
-          
-             
-
-
-
-
-       
