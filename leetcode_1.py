@@ -749,19 +749,19 @@ class leetcode_1 :
        @cache
        def dfs(i: int, pre: int, left: int) -> int:
           if i == m:
-             return 0 if left == 0 else 10 ** 8
+             return 0 if left == 0 else inf
           if left > m - i:
-             return 10 ** 8
+             return inf
           if left < 0:
-             return 10 ** 8
+             return inf
           if houses[i]:
              return dfs(i + 1, houses[i], left if houses[i] == pre else left - 1)
-          res = 10 ** 8
+          res = inf
           for c in range(1, n + 1):
              res = min(res, dfs(i + 1, c, left if c == pre else left - 1) + cost[i][c - 1])
           return res
        res = dfs(0, n + 1, target)
-       return -1 if res == 10 ** 8 else res
+       return -1 if res == inf else res
              
              
              
