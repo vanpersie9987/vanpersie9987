@@ -790,10 +790,9 @@ class leetcode_1 :
           m |= 1 << (ord(s[i]) - ord('a'))
           left[i] = m
        m = 0
-       s = "".join(reversed(s))
-       for i in range(0, n):
+       for i in range(n - 1, -1, -1):
           m |= 1 << (ord(s[i]) - ord('a'))
-          right[n - i - 1] = m
+          right[i] = m
        res = 0
        for i in range(1, n):
           res += left[i - 1].bit_count() == right[i].bit_count()
