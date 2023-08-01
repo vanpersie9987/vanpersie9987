@@ -740,6 +740,33 @@ class leetcode_1 :
                 res = max(res, dfs(i + 1, nj, nk) + grid[i][nj] + (0 if nj == nk else grid[i][nk]))
           return res
        return dfs(1, 0, n - 1) + grid[0][0] + grid[0][n - 1]
+    
+
+
+    # 1473. 粉刷房子 III (Paint House III)
+    def minCost(self, houses: List[int], cost: List[List[int]], m: int, n: int, target: int) -> int:
+       
+       @cache
+       def dfs(i: int, pre: int, left: int) -> int:
+          if i == m:
+             return 0 if left == 0 else 10 ** 8
+          if left > m - i:
+             return 10 ** 8
+          if left < 0:
+             return 10 ** 8
+          if houses[i]:
+             return dfs(i + 1, houses[i], left if houses[i] == pre else left - 1)
+          res = 10 ** 8
+          for c in range(1, n + 1):
+             res = min(res, dfs(i + 1, c, left if c == pre else left - 1) + cost[i][c - 1])
+          return res
+       res = dfs(0, n + 1, target)
+       return -1 if res == 10 ** 8 else res
+             
+             
+             
+             
+       
                 
              
           
