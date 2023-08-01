@@ -779,3 +779,22 @@ class leetcode_1 :
              res += even
              odd += 1
        return res % m
+    
+   # 1525. 字符串的好分割数目 (Number of Good Ways to Split a String
+    def numSplits(self, s: str) -> int:
+       n = len(s)
+       left = [0] * n
+       right = [0] * n
+       m = 0
+       for i in range(0, n):
+          m |= 1 << (ord(s[i]) - ord('a'))
+          left[i] = m
+       m = 0
+       s = "".join(reversed(s))
+       for i in range(0, n):
+          m |= 1 << (ord(s[i]) - ord('a'))
+          right[n - i - 1] = m
+       res = 0
+       for i in range(1, n):
+          res += left[i - 1].bit_count() == right[i].bit_count()
+       return res
