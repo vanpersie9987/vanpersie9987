@@ -894,5 +894,15 @@ class leetcode_1 :
                    r = j
                    l = i
        return s[l: r + 1]
+    
+   # 509. 斐波那契数 (Fibonacci Number)
+    def fib(self, n: int) -> int:
+       
+       @cache
+       def dfs(i: int) -> int:
+          if i <= 1:
+             return i
+          return dfs(i - 1) + dfs(i - 2)
+       return dfs(n)
 
           
