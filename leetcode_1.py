@@ -926,12 +926,11 @@ class leetcode_1 :
 
        @cache
        def dfs(i: int, j: int, k: int) -> int:
+          if j > n:
+             return 0
           if i == m:
              return k >= minProfit
-          res = dfs(i + 1, j, k)
-          if j + group[i] <= n:
-             res += dfs(i + 1, j + group[i], min(minProfit, k + profit[i]))
-          return res % mod
+          return (dfs(i + 1, j, k) + dfs(i + 1, j + group[i], min(minProfit, k + profit[i]))) % mod
        return dfs(0, 0, 0)
           
              
