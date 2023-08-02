@@ -865,4 +865,20 @@ class leetcode_1 :
                 return True
           return False
        return dfs(0, 0, n)
+    
+    # 5. 最长回文子串 (Longest Palindromic Substring)
+    def longestPalindrome(self, s: str) -> str:
+       n = len(s)
+       dp = [[False] * (n) for _ in range(0, n)]
+       l = -1
+       r = -1
+       for i in range(n - 1, -1, -1):
+          for j in range(i, n):
+             if i == j or j - i == 1 and s[i] == s[j] or j - i > 1 and dp[i + 1][j - 1] and s[i] == s[j]:
+                dp[i][j] = True
+                if j - i >= r - l:
+                   r = j
+                   l = i
+       return s[l: r + 1]
+
           
