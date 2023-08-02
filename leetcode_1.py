@@ -825,7 +825,7 @@ class leetcode_1 :
          m = min(m, pre)
       return res
     
-   # 72. 编辑距离 (Edit Distance)
+    # 72. 编辑距离 (Edit Distance)
     def minDistance(self, word1: str, word2: str) -> int:
        m = len(word1)
        n = len(word2)
@@ -840,5 +840,29 @@ class leetcode_1 :
              return dfs(i - 1, j - 1)
           return min(dfs(i - 1, j), dfs(i, j - 1), dfs(i - 1, j - 1)) + 1
        return dfs(m - 1, n - 1)
-
+    
+    # 87. 扰乱字符串
+    def isScramble(self, s1: str, s2: str) -> bool:
+       n = len(s1)
+       @cache
+       def dfs(i: int, j: int, l: int) -> bool:
+          if l == 1:
+             return s1[i] == s2[j]
+          if s1[i: i + l] == s2[j: j + 1]:
+             return True
+          cnts = [0] * 26
+          for k in range(i, i + l):
+             cnts[ord(s1[k]) - ord('a')] += 1
+          for k in range(j, j + l):
+             cnts[ord(s2[k]) - ord('a')] -= 1
+          for c in cnts:
+             if c:
+                return False
+          for k in range(1, l):
+             if dfs(i, j, k) and dfs(i + k, j + k, l - k):
+                return True
+             if dfs(i, j + l - k, k) and dfs(i + k, j, l - k):
+                return True
+          return False
+       return dfs(0, 0, n)
           
