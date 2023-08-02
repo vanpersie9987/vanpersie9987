@@ -812,4 +812,15 @@ class leetcode_1 :
        for i in range(low, high + 1):
           res += dfs(i)
        return res % m
-          
+    
+    # 53. 最大子数组和 (Maximum Subarray)
+    def maxSubArray(self, nums: List[int]) -> int:
+      n = len(nums)
+      res = -inf
+      pre = 0
+      m = 0
+      for num in nums:
+         pre += num
+         res = max(res, pre - m)
+         m = min(m, pre)
+      return res
