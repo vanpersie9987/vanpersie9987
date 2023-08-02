@@ -904,5 +904,22 @@ class leetcode_1 :
              return i
           return dfs(i - 1) + dfs(i - 2)
        return dfs(n)
+    
+   # 467. 环绕字符串中唯一的子字符串 (Unique Substrings in Wraparound String)
+    def findSubstringInWraproundString(self, s: str) -> int:
+       n = len(s)
+       dp = [0] * 26
+       cnt = 0
+       for i in range(n):
+          if i == 0 or (ord(s[i]) - ord(s[i - 1]) + 26) % 26 != 1:
+             cnt = 1
+          else:
+             cnt += 1
+          dp[ord(s[i]) - ord('a')] = max(dp[ord(s[i]) - ord('a')], cnt)
+       return sum(dp)
+      
+
+       
+          
 
           
