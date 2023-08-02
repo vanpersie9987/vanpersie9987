@@ -917,6 +917,26 @@ class leetcode_1 :
              cnt += 1
           dp[ord(s[i]) - ord('a')] = max(dp[ord(s[i]) - ord('a')], cnt)
        return sum(dp)
+    
+
+    # 879. 盈利计划 (Profitable Schemes)
+    def profitableSchemes(self, n: int, minProfit: int, group: List[int], profit: List[int]) -> int:
+       m = len(profit)
+       mod = 10 ** 9 + 7
+
+       @cache
+       def dfs(i: int, j: int, k: int) -> int:
+          if i == m:
+             return k >= minProfit
+          res = dfs(i + 1, j, k)
+          if j + group[i] <= n:
+             res += dfs(i + 1, j + group[i], min(minProfit, k + profit[i]))
+          return res % mod
+       return dfs(0, 0, 0)
+          
+             
+             
+       
       
 
        
