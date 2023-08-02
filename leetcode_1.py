@@ -401,6 +401,20 @@ class leetcode_1 :
           return dfs(i + 1, j) + dfs(i, j + coins[i])
        return dfs(0, 0)
     
+   # 322. 零钱兑换 (Coin Change)
+    def coinChange(self, coins: List[int], amount: int) -> int:
+       n = len(coins)
+
+       @cache
+       def dfs(i:int, j: int) -> int:
+          if j == amount:
+             return 0
+          if i == n or j > amount:
+             return inf
+          return min(dfs(i, j + coins[i]) + 1, dfs(i + 1, j))
+       res = dfs(0, 0)
+       return res if res <= amount else -1
+    
 
     # 576. 出界的路径数 (Out of Boundary Paths)
     def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: int) -> int:
