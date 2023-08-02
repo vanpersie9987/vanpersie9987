@@ -841,7 +841,7 @@ class leetcode_1 :
           return min(dfs(i - 1, j), dfs(i, j - 1), dfs(i - 1, j - 1)) + 1
        return dfs(m - 1, n - 1)
     
-    # 87. 扰乱字符串
+    # 87. 扰乱字符串 (Scramble String)
     def isScramble(self, s1: str, s2: str) -> bool:
        n = len(s1)
        @cache
