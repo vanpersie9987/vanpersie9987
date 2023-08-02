@@ -797,3 +797,19 @@ class leetcode_1 :
        for i in range(1, n):
           res += left[i - 1].bit_count() == right[i].bit_count()
        return res
+    
+    # 2466. 统计构造好字符串的方案数 (Count Ways To Build Good Strings)
+    def countGoodStrings(self, low: int, high: int, zero: int, one: int) -> int:
+       m = 10 ** 9 + 7
+       @cache
+       def dfs(i: int) -> int:
+          if i < 0:
+             return 0
+          if i == 0:
+             return 1
+          return (dfs(i - zero) + dfs(i - one)) % m
+       res = 0
+       for i in range(low, high + 1):
+          res += dfs(i)
+       return res % m
+          
