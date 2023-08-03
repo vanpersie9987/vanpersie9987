@@ -929,35 +929,41 @@ public class Leetcode_5 {
 
     // 722. 删除注释 (Remove Comments)
     public List<String> removeComments(String[] source) {
-        boolean inBlock = false;
         List<String> res = new ArrayList<>();
-        StringBuilder newLine = new StringBuilder();
-        for (String s : source) {
-            char[] chars = s.toCharArray();
-            int n = chars.length;
-            int i = 0;
-            if (!inBlock) {
-                newLine = new StringBuilder();
-            }
-            while (i < n) {
-                if (!inBlock && i + 1 < n && chars[i] == '/' && chars[i + 1] == '*') {
-                    inBlock = true;
-                    ++i;
-                } else if (inBlock && i + 1 < n && chars[i] == '*' && chars[i + 1] == '/') {
-                    inBlock = false;
-                    ++i;
-                } else if (!inBlock && i + 1 < n && chars[i] == '/' && chars[i + 1] == '/') {
-                    break;
-                } else if (!inBlock) {
-                    newLine.append(chars[i]);
+        boolean inBlock = false;
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        while (i < source.length) {
+            int j = 0;
+            while (j < source[i].length()) {
+                if (!inBlock) {
+                    if (j + 1 < source[i].length() && source[i].charAt(j) == '/' && source[i].charAt(j + 1) == '*') {
+                        inBlock = true;
+                        j += 2;
+                        continue;
+                    }
+                    if (j + 1 < source[i].length() && source[i].charAt(j) == '/' && source[i].charAt(j + 1) == '/') {
+                        break;
+                    }
+                    sb.append(source[i].charAt(j));
+                    ++j;
+                } else {
+                    if (j + 1 < source[i].length() && source[i].charAt(j) == '*' && source[i].charAt(j + 1) == '/') {
+                        inBlock = false;
+                        j += 2;
+                        continue;
+                    }
+                    ++j;
                 }
-                ++i;
             }
-            if (!inBlock && !newLine.isEmpty()) {
-                res.add(newLine.toString());
+            if (!inBlock && !sb.isEmpty()) {
+                res.add(sb.toString());
+                sb.setLength(0);
             }
+            ++i;
         }
         return res;
+
     }
 
     // 673. 最长递增子序列的个数 (Number of Longest Increasing Subsequence) --参考300题 dp
