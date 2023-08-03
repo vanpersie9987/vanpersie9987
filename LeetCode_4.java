@@ -5564,6 +5564,64 @@ public class LeetCode_4 {
 
     }
 
+    // 712. 两个字符串的最小ASCII删除和 (Minimum ASCII Delete Sum for Two Strings)
+    private int n1_712;
+    private int n2_712;
+    private int[][] memo712;
+    private char[] arr1_712;
+    private char[] arr2_712;
+    private int[] suf1_712;
+    private int[] suf2_712;
+
+    public int minimumDeleteSum2(String s1, String s2) {
+        this.n1_712 = s1.length();
+        this.arr1_712 = s1.toCharArray();
+        this.n2_712 = s2.length();
+        this.arr2_712 = s2.toCharArray();
+        this.memo712 = new int[n1_712][n2_712];
+        for (int i = 0; i < n1_712; ++i) {
+            Arrays.fill(memo712[i], -1);
+        }
+        this.suf1_712 = new int[n1_712];
+        this.suf2_712 = new int[n2_712];
+        for (int i = n1_712 - 1; i >= 0; --i) {
+            if (i == n1_712 - 1) {
+                suf1_712[i] = arr1_712[i];
+            } else {
+                suf1_712[i] = arr1_712[i] + suf1_712[i + 1];
+            }
+        }
+        for (int i = n2_712 - 1; i >= 0; --i) {
+            if (i == n2_712 - 1) {
+                suf2_712[i] = arr2_712[i];
+            } else {
+                suf2_712[i] = arr2_712[i] + suf2_712[i + 1];
+            }
+        }
+
+        return dfs712(0, 0);
+
+    }
+
+    private int dfs712(int i, int j) {
+        if (i == n1_712 && j == n2_712) {
+            return 0;
+        }
+        if (i == n1_712) {
+            return suf2_712[j];
+        }
+        if (j == n2_712) {
+            return suf1_712[i];
+        }
+        if (memo712[i][j] != -1) {
+            return memo712[i][j];
+        }
+        if (arr1_712[i] == arr2_712[j]) {
+            return memo712[i][j] = dfs712(i + 1, j + 1);
+        }
+        return memo712[i][j] = Math.min(dfs712(i + 1, j) + arr1_712[i], dfs712(i, j + 1) + arr2_712[j]);
+    }
+
     // 390. 消除游戏 (Elimination Game)
     public int lastRemaining(int n) {
         boolean fromLeft = true;
@@ -9716,7 +9774,8 @@ public class LeetCode_4 {
         int res = dfs879(i + 1, curWorkers, curProfit);
         // 选
         if (curWorkers + group879[i] <= n879) {
-            res = (res + dfs879(i + 1, curWorkers + group879[i], Math.min(minProfit879, curProfit + profit879[i]))) % MOD;
+            res = (res + dfs879(i + 1, curWorkers + group879[i], Math.min(minProfit879, curProfit + profit879[i])))
+                    % MOD;
         }
         return memo879[i][curWorkers][curProfit] = res;
     }
