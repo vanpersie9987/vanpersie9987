@@ -932,6 +932,29 @@ class leetcode_1 :
              return k >= minProfit
           return (dfs(i + 1, j, k) + dfs(i + 1, j + group[i], min(minProfit, k + profit[i]))) % mod
        return dfs(0, 0, 0)
+    
+    # 688. 骑士在棋盘上的概率 (Knight Probability in Chessboard)
+    def knightProbability(self, n: int, k: int, row: int, column: int) -> float:
+       dirs = [[1, 2],[1, -2],[-1, 2],[-1, -2],[2, 1],[2, -1],[-2, 1],[-2, -1]]
+       
+       @cache
+       def dfs(i: int, j: int, left: int) -> int:
+          if i < 0 or i >= n or j < 0 or j >= n:
+             return 0.0
+          if left == 0:
+             return 1.0
+          res = 0.0
+          for dx, dy in dirs:
+             nx = i + dx
+             ny = j + dy
+             res += dfs(nx, ny, left - 1)
+          return res / 8.0
+       return dfs(row, column, k)
+             
+             
+
+          
+       
           
              
              
