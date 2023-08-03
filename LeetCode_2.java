@@ -4202,7 +4202,7 @@ public class LeetCode_2 {
    }
 
    // 718. 最长重复子数组 (Maximum Length of Repeated Subarray)
-   // --滑动窗口 还需掌握 “动态规划”、“二分查找 + 哈希”
+   // --滑动窗口 还需掌握 “二分查找 + 哈希”
    public int findLength(int[] nums1, int[] nums2) {
       int m = nums1.length;
       int n = nums2.length;
@@ -4230,6 +4230,45 @@ public class LeetCode_2 {
          }
       }
       return max;
+   }
+
+   // 718. 最长重复子数组 (Maximum Length of Repeated Subarray)
+   private int n1_718;
+   private int n2_718;
+   private int[] nums1_718;
+   private int[] nums2_718;
+   private int[][] memo718;
+
+   public int findLength2(int[] nums1, int[] nums2) {
+      this.n1_718 = nums1.length;
+      this.n2_718 = nums2.length;
+      this.nums1_718 = nums1;
+      this.nums2_718 = nums2;
+      this.memo718 = new int[n1_718][n2_718];
+      for (int i = 0; i < n1_718; ++i) {
+         Arrays.fill(memo718[i], -1);
+      }
+      int res = 0;
+      for (int i = 0; i < n1_718; ++i) {
+         for (int j = 0; j < n2_718; ++j) {
+            res = Math.max(res, dfs718(i, j));
+         }
+      }
+      return res;
+
+   }
+
+   private int dfs718(int i, int j) {
+      if (i == n1_718 || j == n2_718) {
+         return 0;
+      }
+      if (memo718[i][j] != -1) {
+         return memo718[i][j];
+      }
+      if (nums1_718[i] != nums2_718[j]) {
+         return memo718[i][j] = 0;
+      }
+      return memo718[i][j] = dfs718(i + 1, j + 1) + 1;
    }
 
    // 978. 最长湍流子数组 (Longest Turbulent Subarray) --滑动窗口
