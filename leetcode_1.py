@@ -950,3 +950,20 @@ class leetcode_1 :
              res += dfs(nx, ny, left - 1)
           return res / 8.0
        return dfs(row, column, k)
+    
+    # 712. 两个字符串的最小ASCII删除和 (Minimum ASCII Delete Sum for Two Strings)
+    def minimumDeleteSum(self, s1: str, s2: str) -> int:
+       n1 = len(s1)
+       n2 = len(s2)
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n1:
+             return sum(ord(c) for c in s2[j:])
+          if j == n2:
+             return sum(ord(c) for c in s1[i:])
+          if s1[i] == s2[j]:
+             return dfs(i + 1, j + 1)
+          return min(dfs(i + 1, j) + ord(s1[i]), dfs(i, j + 1) + ord(s2[j]))
+       return dfs(0, 0)
+       
