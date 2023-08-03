@@ -938,7 +938,7 @@ class leetcode_1 :
        dirs = [[1, 2],[1, -2],[-1, 2],[-1, -2],[2, 1],[2, -1],[-2, 1],[-2, -1]]
        
        @cache
-       def dfs(i: int, j: int, left: int) -> int:
+       def dfs(i: int, j: int, left: int) -> float:
           if i < 0 or i >= n or j < 0 or j >= n:
              return 0.0
           if left == 0:
