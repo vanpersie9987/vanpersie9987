@@ -2847,6 +2847,51 @@ public class LeetCode_4 {
         grid980[i][j] = 0;
     }
 
+    // 980. 不同路径 III (Unique Paths III)
+    public int uniquePathsIII2(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int obstacle = 0;
+        int s = -1;
+        int e = -1;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int x = grid[i][j];
+                int p = i * n + j;
+                if (x == 1) {
+                    s = p;
+                } else if (x == 2) {
+                    e = p;
+                } else if (x == -1) {
+                    obstacle |= 1 << p;
+                }
+            }
+        }
+        int[][] dirs = { { 0, 1 }, { 1, 0 }, { -1, 0 }, { 0, -1 } };
+        int res = 0;
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[] { s, (1 << s) | obstacle });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0] / n;
+            int y = cur[0] % n;
+            int mask = cur[1];
+            if (cur[0] == e) {
+                res += (mask == (1 << (m * n)) - 1) ? 1 : 0;
+                continue;
+            }
+            for (int[] d : dirs) {
+                int nx = x + d[0];
+                int ny = y + d[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && ((mask >> (nx * n + ny)) & 1) == 0) {
+                    q.offer(new int[] { nx * n + ny, mask | (1 << (nx * n + ny)) });
+                }
+            }
+        }
+        return res;
+
+    }
+
     // 1415. 长度为 n 的开心字符串中字典序第 k 小的字符串 (The k-th Lexicographical String of All Happy
     // Strings of Length n) --回溯
     public String getHappyString(int n, int k) {
