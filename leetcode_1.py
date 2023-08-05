@@ -966,4 +966,19 @@ class leetcode_1 :
              return dfs(i + 1, j + 1)
           return min(dfs(i + 1, j) + ord(s1[i]), dfs(i, j + 1) + ord(s2[j]))
        return dfs(0, 0)
+    
+    # 1143. 最长公共子序列 (Longest Common Subsequence) 
+    # LCR 095. 最长公共子序列
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+       n1 = len(text1)
+       n2 = len(text2)
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n1 or j == n2:
+             return 0
+          if text1[i] == text2[j]:
+             return dfs(i + 1, j + 1) + 1
+          return max(dfs(i + 1, j), dfs(i, j + 1))
+       return dfs(0, 0)
        
