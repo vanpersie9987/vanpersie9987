@@ -1014,6 +1014,24 @@ class leetcode_1 :
              res = max(res, dfs(i - j) * j, j * (i - j))
           return res
        return dfs(n)
+    
+    # 剑指 Offer 47. 礼物的最大价值 
+    def maxValue(self, grid: List[List[int]]) -> int:
+       m = len(grid)
+       n = len(grid[0])
+       dirs = [[0, 1], [1, 0]]
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i < 0 or i >= m or j < 0 or j >= n:
+             return 0
+          res = 0
+          for dx, dy in dirs:
+             nx = i + dx
+             ny = j + dy
+             res = max(res, dfs(nx, ny))
+          return res + grid[i][j]
+       return dfs(0, 0)
              
           
           
