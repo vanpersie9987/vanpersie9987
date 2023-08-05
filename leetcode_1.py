@@ -1034,3 +1034,30 @@ class leetcode_1 :
              res = max(res, dfs(nx, ny))
           return res + grid[i][j]
        return dfs(0, 0)
+    
+    # 面试题 08.14. 布尔运算 
+    def countEval(self, s: str, result: int) -> int:
+       n = len(s)
+       
+       @cache
+       def dfs(i: int, j: int, ret: int) -> int:
+          if i == j:
+             return 1 if ord(s[i]) - ord('0') == ret else 0
+          res = 0
+          for k in range(i + 1, j, 2):
+             op = ord(s[k])
+             for x in range(2):
+                for y in range(2):
+                   if check(x, y, op, ret):
+                      res += dfs(i, k - 1, x) * dfs(k + 1, j, y)
+          return res
+       
+       def check(a: int, b: int, op: int, res: int) -> bool:
+          if op == ord('|'):
+             return (a | b) == res
+          if op == ord('&'):
+             return (a & b) == res
+          return (a ^ b) == res
+       return dfs(0, n - 1, result)
+                   
+          
