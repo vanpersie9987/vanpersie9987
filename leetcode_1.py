@@ -1034,25 +1034,3 @@ class leetcode_1 :
              res = max(res, dfs(nx, ny))
           return res + grid[i][j]
        return dfs(0, 0)
-             
-
-         
-    def maxProfit(self, prices: List[int]) -> int:
-       n = len(prices)
-
-       @cache
-       def dfs(i: int, j: int) -> int:
-          if i == n:
-             return 0
-          if not j:
-             return max(dfs(i + 1, j), dfs(i + 1, 1) - prices[i])
-          return max(dfs(i + 1, 1), prices[i])
-       return dfs(0, 0)
-             
-             
-          
-          
-          
-             
-          
-       
