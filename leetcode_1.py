@@ -981,4 +981,22 @@ class leetcode_1 :
              return dfs(i + 1, j + 1) + 1
           return max(dfs(i + 1, j), dfs(i, j + 1))
        return dfs(0, 0)
+    
+    # 256. 粉刷房子 --plus
+    # LCR 091. 粉刷房子 
+    def minCost(self, costs: List[List[int]]) -> int:
+       n = len(costs)
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return 0
+          res = inf
+          for k in range(3):
+             if j != k:
+                res = min(res, dfs(i + 1, k) + costs[i][k])
+          return res
+       return dfs(0, -1)
+             
+          
        
