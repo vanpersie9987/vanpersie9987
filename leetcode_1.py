@@ -998,6 +998,25 @@ class leetcode_1 :
                 res = min(res, dfs(i + 1, k) + costs[i][k])
           return res
        return dfs(0, -1)
+    
+    # 343. 整数拆分 (Integer Break)
+    # 剑指 Offer 14- I. 剪绳子
+    def cuttingRope(self, n: int) -> int:
+       
+       @cache
+       def dfs(i: int) -> int:
+          if i == 2:
+             return 1
+          if i < 2:
+             return 0
+          res = 0
+          for j in range(1, n - 1):
+             res = max(res, dfs(i - j) * j, j * (i - j))
+          return res
+       return dfs(n)
+             
+          
+          
              
           
        
