@@ -829,6 +829,7 @@ class leetcode_1 :
        return res % m
     
     # 53. 最大子数组和 (Maximum Subarray)
+    # 剑指 Offer 42. 连续子数组的最大和
     def maxSubArray(self, nums: List[int]) -> int:
       n = len(nums)
       res = -inf
