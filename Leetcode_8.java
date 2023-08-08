@@ -2691,17 +2691,16 @@ public class Leetcode_8 {
         }
     }
 
+    // 2806. 取整购买后的账户余额 (Account Balance After Rounded Purchase)
     public int accountBalanceAfterPurchase(int purchaseAmount) {
-        if (purchaseAmount % 10 <= 4 && purchaseAmount % 10 >= 0) {
-            return 100 - purchaseAmount / 10 * 10;
-        }
-        return 100 - (purchaseAmount / 10 + 1) * 10;
+        return 100 - ((purchaseAmount + 5) / 10) * 10;
     }
 
+    // 2807. 在链表中插入最大公约数 (Insert Greatest Common Divisors in Linked List)
     public ListNode insertGreatestCommonDivisors(ListNode head) {
         ListNode cur = head;
         while (cur != null && cur.next != null) {
-            ListNode insert = new ListNode(gcd(cur.val, cur.next.val));
+            ListNode insert = new ListNode(gcd2807(cur.val, cur.next.val));
             insert.next = cur.next;
             cur.next = insert;
             cur = insert.next;
@@ -2710,10 +2709,11 @@ public class Leetcode_8 {
 
     }
 
-    private int gcd(int a, int b) {
-        return b == 0 ? a : gcd(b, a % b);
+    private int gcd2807(int a, int b) {
+        return b == 0 ? a : gcd2807(b, a % b);
     }
 
+    // 2808. 使循环数组所有元素相等的最少秒数 (Minimum Seconds to Equalize a Circular Array)
     public int minimumSeconds(List<Integer> nums) {
         Map<Integer, List<Integer>> map = new HashMap<>();
         int n = nums.size();
