@@ -2353,4 +2353,383 @@ public class Leetcode_8 {
         }
         return res;
     }
+
+    // 2810. 故障键盘 (Faulty Keyboard)
+    public String finalString(String s) {
+        StringBuilder res = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (c == 'i') {
+                res.reverse();
+            } else {
+                res.append(c);
+            }
+        }
+        return res.toString();
+    }
+
+    // 2810. 故障键盘 (Faulty Keyboard)
+    public String finalString2(String s) {
+        boolean tail = true;
+        StringBuilder res = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (c == 'i') {
+                tail = !tail;
+            } else if (tail) {
+                res.append(c);
+            } else {
+                res.insert(0, c);
+            }
+        }
+        return tail ? res.toString() : res.reverse().toString();
+    }
+
+    // 2811. 判断是否能拆分数组 (Check if it is Possible to Split Array)
+    private int[] pre2811;
+    private int n2811;
+    private int m2811;
+    private int[][] memo2811;
+
+    public boolean canSplitArray(List<Integer> nums, int m) {
+        this.n2811 = nums.size();
+        if (n2811 <= 2) {
+            return true;
+        }
+        this.pre2811 = new int[n2811 + 1];
+        for (int i = 0; i < n2811; ++i) {
+            pre2811[i + 1] = pre2811[i] + nums.get(i);
+        }
+        this.m2811 = m;
+        this.memo2811 = new int[n2811][n2811];
+        return dfs2811(0, n2811 - 1);
+
+    }
+
+    private boolean dfs2811(int i, int j) {
+        if (i == j) {
+            return true;
+        }
+        if (pre2811[j + 1] - pre2811[i] < m2811) {
+            return false;
+        }
+        if (memo2811[i][j] != 0) {
+            return memo2811[i][j] > 0;
+        }
+        for (int k = i; k < j; ++k) {
+            if (dfs2811(i, k) && dfs2811(k + 1, j)) {
+                memo2811[i][j] = 1;
+                return true;
+            }
+        }
+        memo2811[i][j] = -1;
+        return false;
+    }
+
+    // 2811. 判断是否能拆分数组 (Check if it is Possible to Split Array)
+    public boolean canSplitArray2(List<Integer> nums, int m) {
+        int n = nums.size();
+        if (n <= 2) {
+            return true;
+        }
+        for (int i = 1; i < n; ++i) {
+            if (nums.get(i - 1) + nums.get(i) >= m) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    // 2812. 找出最安全路径 (Find the Safest Path in a Grid)
+    public int maximumSafenessFactor(List<List<Integer>> grid) {
+        int n = grid.size();
+        int[][] g = new int[n][n];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(g[i], -1);
+        }
+        Queue<int[]> q = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid.get(i).get(j) == 1) {
+                    g[i][j] = 0;
+                    q.offer(new int[] { i, j });
+                }
+            }
+        }
+        int[][] dirs = { { 0, -1 }, { 1, 0 }, { -1, 0 }, { 0, 1 } };
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = q.poll();
+                int x = cur[0];
+                int y = cur[1];
+                for (int[] d : dirs) {
+                    int nx = x + d[0];
+                    int ny = y + d[1];
+                    if (nx >= 0 && nx < n && ny >= 0 && ny < n && g[nx][ny] == -1) {
+                        g[nx][ny] = g[x][y] + 1;
+                        q.offer(new int[] { nx, ny });
+                    }
+                }
+            }
+        }
+        Queue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o2[2], o1[2]);
+            }
+
+        });
+
+        boolean[][] vis = new boolean[n][n];
+        pq.offer(new int[] { 0, 0, g[0][0] });
+        while (!pq.isEmpty()) {
+            int[] cur = pq.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int d = cur[2];
+            if (vis[x][y]) {
+                continue;
+            }
+            vis[x][y] = true;
+            if (x == n - 1 && y == n - 1) {
+                return d;
+            }
+            for (int[] dir : dirs) {
+                int nx = x + dir[0];
+                int ny = y + dir[1];
+                if (nx >= 0 && nx < n && ny >= 0 && ny < n) {
+                    pq.offer(new int[] { nx, ny, Math.min(d, g[nx][ny]) });
+                }
+            }
+        }
+        return -1;
+
+    }
+
+    // 2812. 找出最安全路径 (Find the Safest Path in a Grid)
+    private int[][] g2812;
+    private int n2812;
+
+    public int maximumSafenessFactor2(List<List<Integer>> grid) {
+        this.n2812 = grid.size();
+        if (n2812 == 1) {
+            return 0;
+        }
+        this.g2812 = new int[n2812][n2812];
+        Queue<int[]> q = new LinkedList<>();
+        for (int i = 0; i < n2812; ++i) {
+            for (int j = 0; j < n2812; ++j) {
+                if (grid.get(i).get(j) == 1) {
+                    g2812[i][j] = 0;
+                    q.offer(new int[] { i, j });
+                } else {
+                    g2812[i][j] = -1;
+                }
+            }
+        }
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = q.poll();
+                int x = cur[0];
+                int y = cur[1];
+                for (int[] d : dirs) {
+                    int nx = x + d[0];
+                    int ny = y + d[1];
+                    if (nx >= 0 && nx < n2812 && ny >= 0 && ny < n2812 && g2812[nx][ny] == -1) {
+                        g2812[nx][ny] = g2812[x][y] + 1;
+                        q.offer(new int[] { nx, ny });
+                    }
+                }
+            }
+        }
+        int left = 0;
+        int right = n2812;
+        int res = 0;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check2812(mid)) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
+
+    private boolean check2812(int target) {
+        Union2812 union = new Union2812(n2812 * n2812);
+        for (int i = 0; i < n2812; ++i) {
+            for (int j = 0; j < n2812; ++j) {
+                if (g2812[i][j] >= target) {
+                    if (i + 1 < n2812 && g2812[i + 1][j] >= target) {
+                        union.union(getIndex2812(i, j), getIndex2812(i + 1, j));
+                    }
+                    if (j + 1 < n2812 && g2812[i][j + 1] >= target) {
+                        union.union(getIndex2812(i, j), getIndex2812(i, j + 1));
+                    }
+                }
+            }
+        }
+        return union.isConnected(getIndex2812(0, 0), getIndex2812(n2812 - 1, n2812 - 1));
+    }
+
+    private int getIndex2812(int i, int j) {
+        return i * n2812 + j;
+    }
+
+    public class Union2812 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union2812(int n) {
+            this.rank = new int[n];
+            this.parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                rank[i] = 1;
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+
+    }
+
+    // 2812. 找出最安全路径 (Find the Safest Path in a Grid)
+    public int maximumSafenessFactor3(List<List<Integer>> grid) {
+        this.n2812 = grid.size();
+        List<List<int[]>> groups = new ArrayList<>();
+        int[][] g = new int[n2812][n2812];
+        Queue<int[]> q = new LinkedList<>();
+        for (int i = 0; i < n2812; ++i) {
+            for (int j = 0; j < n2812; ++j) {
+                if (grid.get(i).get(j) == 1) {
+                    q.offer(new int[] { i, j });
+                    g[i][j] = 0;
+                } else {
+                    g[i][j] = -1;
+                }
+            }
+        }
+        groups.add(new ArrayList<>(q));
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = q.poll();
+                int x = cur[0];
+                int y = cur[1];
+                for (int[] d : dirs) {
+                    int nx = x + d[0];
+                    int ny = y + d[1];
+                    if (nx >= 0 && nx < n2812 && ny >= 0 && ny < n2812 && g[nx][ny] == -1) {
+                        q.offer(new int[] { nx, ny });
+                        g[nx][ny] = g[x][y] + 1;
+                    }
+                }
+            }
+            groups.add(new ArrayList<>(q));
+        }
+        Union2812 union = new Union2812(n2812 * n2812);
+        for (int i = groups.size() - 2; i >= 0; --i) {
+            for (int[] cur : groups.get(i)) {
+                int x = cur[0];
+                int y = cur[1];
+                for (int[] d : dirs) {
+                    int nx = x + d[0];
+                    int ny = y + d[1];
+                    if (nx >= 0 && nx < n2812 && ny >= 0 && ny < n2812 && g[nx][ny] >= i) {
+                        union.union(getIndex2812(x, y), getIndex2812(nx, ny));
+                    }
+                }
+            }
+            if (union.isConnected(getIndex2812(0, 0), getIndex2812(n2812 - 1, n2812 - 1))) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    // 344. 反转字符串 (Reverse String)
+    public void reverseString(char[] s) {
+        int i = 0;
+        int j = s.length - 1;
+        while (i < j) {
+            char t = s[i];
+            s[i] = s[j];
+            s[j] = t;
+            ++i;
+            --j;
+        }
+    }
+
+    public int accountBalanceAfterPurchase(int purchaseAmount) {
+        if (purchaseAmount % 10 <= 4 && purchaseAmount % 10 >= 0) {
+            return 100 - purchaseAmount / 10 * 10;
+        }
+        return 100 - (purchaseAmount / 10 + 1) * 10;
+    }
+
+    public ListNode insertGreatestCommonDivisors(ListNode head) {
+        ListNode cur = head;
+        while (cur != null && cur.next != null) {
+            ListNode insert = new ListNode(gcd(cur.val, cur.next.val));
+            insert.next = cur.next;
+            cur.next = insert;
+            cur = insert.next;
+        }
+        return head;
+
+    }
+
+    private int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+
+    public int minimumSeconds(List<Integer> nums) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int n = nums.size();
+        for (int i = 0; i < n; ++i) {
+            map.computeIfAbsent(nums.get(i), k -> new ArrayList<>()).add(i);
+        }
+        int res = Integer.MAX_VALUE;
+        for (List<Integer> items : map.values()) {
+            int cur = 0;
+            for (int i = 1; i < items.size(); ++i) {
+                cur = Math.max(cur, (items.get(i) - items.get(i - 1)) / 2);
+            }
+            cur = Math.max(cur, (n - items.get(items.size() - 1) + items.get(0)) / 2);
+            res = Math.min(res, cur);
+        }
+        return res;
+
+    }
 }
