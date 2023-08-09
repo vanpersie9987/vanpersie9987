@@ -1183,3 +1183,17 @@ class leetcode_1 :
        for j in range(0, n):
           res = min(res, dfs(1, j) + matrix[0][j])
        return res
+    
+    # 983. 最低票价 (Minimum Cost For Tickets)
+    def mincostTickets(self, days: List[int], costs: List[int]) -> int:
+       arr = [False] * 366
+       for d in days:
+          arr[d] = True
+
+       @cache
+       def dfs(i: int) -> int:
+          if i > 365:
+             return 0
+          return min(dfs(i + 1) + (costs[0] if arr[i] else 0), dfs(i + 7) + costs[1], dfs(i + 30) + costs[2])
+       return dfs(1)
+          
