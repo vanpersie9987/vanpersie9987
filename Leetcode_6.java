@@ -7297,24 +7297,18 @@ public class Leetcode_6 {
     private int[][] grid1289;
 
     public int minFallingPathSum(int[][] grid) {
-        int n = grid.length;
-        memo1289 = new int[n][n];
-        n1289 = n;
+        this.n1289 = grid.length;
+        memo1289 = new int[n1289][n1289 + 1];
         grid1289 = grid;
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < n1289; ++i) {
             Arrays.fill(memo1289[i], Integer.MAX_VALUE);
         }
-        int res = Integer.MAX_VALUE;
-        for (int i = 0; i < n; ++i) {
-            res = Math.min(res, dfs1289(0, i));
-        }
-        return res;
-
+        return dfs1289(0, n1289);
     }
 
     private int dfs1289(int i, int j) {
-        if (i == n1289 - 1) {
-            return grid1289[i][j];
+        if (i == n1289) {
+            return 0;
         }
         if (memo1289[i][j] != Integer.MAX_VALUE) {
             return memo1289[i][j];
@@ -7322,7 +7316,7 @@ public class Leetcode_6 {
         int min = Integer.MAX_VALUE;
         for (int k = 0; k < n1289; ++k) {
             if (j != k) {
-                min = Math.min(min, grid1289[i][j] + dfs1289(i + 1, k));
+                min = Math.min(min, grid1289[i][k] + dfs1289(i + 1, k));
             }
         }
         return memo1289[i][j] = min;
