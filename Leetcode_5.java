@@ -1055,6 +1055,33 @@ public class Leetcode_5 {
 
     }
 
+    // 983. 最低票价 (Minimum Cost For Tickets)
+    private boolean[] arr983;
+    private int[] costs983;
+    private int[] memo983;
+
+    public int mincostTickets2(int[] days, int[] costs) {
+        this.arr983 = new boolean[366];
+        for (int d : days) {
+            arr983[d] = true;
+        }
+        this.costs983 = costs;
+        this.memo983 = new int[366];
+        Arrays.fill(memo983, -1);
+        return dfs983(1);
+    }
+
+    private int dfs983(int i) {
+        if (i > 365) {
+            return 0;
+        }
+        if (memo983[i] != -1) {
+            return memo983[i];
+        }
+        return memo983[i] = Math.min(dfs983(i + 1) + (arr983[i] ? costs983[0] : 0),
+                Math.min(dfs983(i + 7) + costs983[1], dfs983(i + 30) + costs983[2]));
+    }
+
     // This is the custom function interface.
     // You should not implement it, or speculate about its implementation
     interface CustomFunction {

@@ -1183,23 +1183,3 @@ class leetcode_1 :
        for j in range(0, n):
           res = min(res, dfs(1, j) + matrix[0][j])
        return res
-             
-       
-             
-          
-                
-                 
-
-
-
-       
-          
-          
-          
-             
-           
-
-       
-       
-                   
-          
