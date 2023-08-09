@@ -1196,4 +1196,30 @@ class leetcode_1 :
              return 0
           return min(dfs(i + 1) + (costs[0] if arr[i] else 0), dfs(i + 7) + costs[1], dfs(i + 30) + costs[2])
        return dfs(1)
+    
+    # 1155. 掷骰子等于目标和的方法数 (Number of Dice Rolls With Target Sum)
+    def numRollsToTarget(self, n: int, k: int, target: int) -> int:
+       MOD = 10 ** 9 + 7
+       
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return 1 if j == target else 0
+          if j > target:
+             return 0
+          if n - i > target - j:
+             return 0
+          if (n - i) * k < target - j:
+             return 0
+          res = 0
+          for x in range(1, k + 1):
+             res += dfs(i + 1, j + x)
+             res %= MOD
+          return res
+       return dfs(0, 0)
+             
+             
+             
+          
+          
           
