@@ -1093,6 +1093,42 @@ class leetcode_1 :
                res %= MOD
           return res
        return dfs(0, 0, k)
+    
+    # 1162. 地图分析 (As Far from Land as Possible)
+    def maxDistance(self, grid: List[List[int]]) -> int:
+       n = len(grid)
+       q = []
+       for i in range(n):
+          for j in range(n):
+             if grid[i][j] == 1:
+                q.append((i, j))
+                grid[i][j] = 0
+             else:
+                grid[i][j] = -1
+       if len(q) == n * n:
+          return -1
+       dirs = [[0, -1],[0, 1],[1, 0],[-1, 0]]
+       res = 0
+       while q:
+          res += 1
+          size = len(q)
+          for i in range(size):
+            cur = q.pop(0)
+            x = cur[0]
+            y = cur[1]
+            for dx, dy in dirs:
+               nx = x + dx 
+               ny = y + dy
+               if 0 <= nx < n and 0 <= ny < n and grid[nx][ny] == -1:
+                  grid[nx][ny] = grid[x][y] + 1
+                  q.append((nx, ny))
+       return res - 1
+                
+                 
+
+
+
+       
           
           
           
