@@ -1166,6 +1166,24 @@ class leetcode_1 :
           res += dfs(i, n - 1)
           res %= MOD
        return res
+
+    # 931. 下降路径最小和 (Minimum Falling Path Sum)
+    def minFallingPathSum(self, matrix: List[List[int]]) -> int:
+       n = len(matrix)
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return 0
+          res = inf
+          for k in range(max(0, j - 1), min(n - 1, j + 1) + 1):
+             res = min(res, dfs(i + 1, k) + matrix[i][k])
+          return res
+       res = inf
+       for j in range(0, n):
+          res = min(res, dfs(1, j) + matrix[0][j])
+       return res
+             
        
              
           
