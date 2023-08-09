@@ -1123,6 +1123,52 @@ class leetcode_1 :
                   grid[nx][ny] = grid[x][y] + 1
                   q.append((nx, ny))
        return res - 1
+    
+    # 935. 骑士拨号器 (Knight Dialer)
+    def knightDialer(self, n: int) -> int:
+       MOD = 10 ** 9 + 7
+
+       @cache
+       def dfs(i: int, left: int) -> int:
+          if left == 0:
+             return 1
+          res = 0
+          if i == 1:
+             res += dfs(6, left - 1) + dfs(8, left - 1)
+             res %= MOD
+          if i == 2:
+             res += dfs(7, left - 1) + dfs(9, left - 1)
+             res %= MOD
+          if i == 3:
+             res += dfs(4, left - 1) + dfs(8, left - 1)
+             res %= MOD
+          if i == 4:
+             res += dfs(3, left - 1) + dfs(9, left - 1) + dfs(0, left - 1)
+             res %= MOD
+          if i == 6:
+             res += dfs(1, left - 1) + dfs(7, left - 1) + dfs(0, left - 1)
+             res %= MOD
+          if i == 7:
+             res += dfs(2, left - 1) + dfs(6, left - 1)
+             res %= MOD
+          if i == 8:
+             res += dfs(1, left - 1) + dfs(3, left - 1)
+             res %= MOD
+          if i == 9:
+             res += dfs(2, left - 1) + dfs(4, left - 1)
+             res %= MOD
+          if i == 0:
+             res += dfs(4, left - 1) + dfs(6, left - 1)
+             res %= MOD
+          return res
+       res = 0
+       for i in range(10):
+          res += dfs(i, n - 1)
+          res %= MOD
+       return res
+       
+             
+          
                 
                  
 
