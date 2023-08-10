@@ -1321,5 +1321,19 @@ class leetcode_1 :
              return 0
           return min(dfs(i + 1, time[i] + j) + cost[i], dfs(i + 1, j - 1))
        return dfs(0, 0)
+    
+    # 27. 移除元素 (Remove Element) 
+    def removeElement(self, nums: List[int], val: int) -> int:
+        i = 0
+        j = 0
+        n = len(nums)
+        while j < n:
+            while j < n and nums[j] == val:
+                j += 1
+            if j < n:
+                nums[i] = nums[j]
+                i += 1
+                j += 1
+        return i
           
 

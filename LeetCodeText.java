@@ -300,15 +300,20 @@ public class LeetCodeText {
         return false;
     }
 
-    // 27. 移除元素
-    public int removeElement(final int[] nums, final int val) {
-        int index = 0;
-        for (int i = 0; i < nums.length; ++i) {
-            if (nums[i] != val) {
-                nums[index++] = nums[i];
+    // 27. 移除元素 (Remove Element)
+    public int removeElement(int[] nums, int val) {
+        int i = 0;
+        int j = 0;
+        int n = nums.length;
+        while (j < n) {
+            while (j < n && nums[j] == val) {
+                ++j;
+            }
+            if (j < n) {
+                nums[i++] = nums[j++];
             }
         }
-        return index;
+        return i;
 
     }
 
