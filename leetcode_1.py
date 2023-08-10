@@ -1234,6 +1234,31 @@ class leetcode_1 :
              res = min(res, dfs(i + 1, k) + grid[i][k])
           return res
        return dfs(0, n)
+    
+
+    # 845. 数组中的最长山脉 (Longest Mountain in Array)
+    def longestMountain(self, arr: List[int]) -> int:
+       n = len(arr)
+       i = 0
+       j = 1
+       res = 0
+       while j < n:
+          f1 = False
+          f2 = False
+          while j < n and arr[j - 1] < arr[j]:
+             f1 = True
+             j += 1
+          if f1:
+             while j < n and arr[j] < arr[j - 1]:
+                f2 = True
+                j += 1
+          if f1 and f2:
+             res = max(res, j - i)
+             i = j - 1
+          else:
+             i = j
+             j += 1
+       return res
           
           
           
