@@ -16658,25 +16658,30 @@ public class LeetCodeText {
 
     // 845. 数组中的最长山脉 (Longest Mountain in Array)
     public int longestMountain(int[] arr) {
+        int n = arr.length;
         int res = 0;
-        int left = 0;
-        while (left + 2 < arr.length) {
-            int right = left + 1;
-            if (arr[left] < arr[left + 1]) {
-                while (right + 1 < arr.length && arr[right] < arr[right + 1]) {
-                    ++right;
-                }
-                if (right + 1 < arr.length && arr[right] > arr[right + 1]) {
-                    while (right + 1 < arr.length && arr[right] > arr[right + 1]) {
-                        ++right;
-                    }
-                    res = Math.max(res, right - left + 1);
-                } else {
-                    ++right;
+        int i = 0;
+        int j = 1;
+        while (j < n) {
+            boolean f1 = false;
+            boolean f2 = false;
+            while (j < n && arr[j] > arr[j - 1]) {
+                f1 = true;
+                ++j;
+            }
+            if (f1) {
+                while (j < n && arr[j] < arr[j - 1]) {
+                    f2 = true;
+                    ++j;
                 }
             }
-
-            left = right;
+            if (f1 && f2) {
+                res = Math.max(res, j - i);
+                i = j - 1;
+            } else {
+                i = j;
+                ++j;
+            }
         }
         return res;
 
