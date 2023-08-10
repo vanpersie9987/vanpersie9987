@@ -1309,4 +1309,17 @@ class leetcode_1 :
               res = min(res, dfs(j + 1) + j - i + 1 - unique + k)
           return res
        return dfs(0)
+    
+    # 2742. 给墙壁刷油漆 (Painting the Walls)
+    def paintWalls(self, cost: List[int], time: List[int]) -> int:
+       n = len(cost)
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return inf if j < 0 else 0
+          if n - i <= j:
+             return 0
+          return min(dfs(i + 1, time[i] + j) + cost[i], dfs(i + 1, j - 1))
+       return dfs(0, 0)
+          
 
