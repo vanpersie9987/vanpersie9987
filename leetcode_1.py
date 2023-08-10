@@ -1259,6 +1259,32 @@ class leetcode_1 :
              i = j
              j += 1
        return res
+    
+    # 813. 最大平均值和的分组 (Largest Sum of Averages)
+    def largestSumOfAverages(self, nums: List[int], k: int) -> float:
+       n = len(nums)
+       pre = [0] * n
+       pre[-1] = nums[-1]
+       for i in range(n - 2, -1, -1):
+          pre[i] += pre[i + 1] + nums[i]
+
+       @cache
+       def dfs(i: int, j: int) -> float:
+          if i == n:
+             return 0
+          if j == 1:
+             return pre[i] / (n - i)
+          sum = 0
+          res = 0
+          for x in range(i, n):
+             sum += nums[x]
+             res = max(res, dfs(x + 1, j - 1) + sum / (x - i + 1))
+          return res
+       return dfs(0, k)
+
+
+             
+
           
           
           
