@@ -4037,8 +4037,9 @@ public class LeetCodeText {
         return days <= D;
     }
 
-    public int maxUncrossedLines(final int[] A, final int[] B) {
-        final int[][] dp = new int[A.length + 1][B.length + 1];
+    // 1035. 不相交的线 (Uncrossed Lines)
+    public int maxUncrossedLines(int[] A, int[] B) {
+        int[][] dp = new int[A.length + 1][B.length + 1];
         for (int i = 0; i < A.length; ++i) {
             for (int j = 0; j < B.length; ++j) {
                 if (A[i] == B[j]) {
@@ -4049,6 +4050,39 @@ public class LeetCodeText {
             }
         }
         return dp[A.length][B.length];
+    }
+
+    // 1035. 不相交的线 (Uncrossed Lines)
+    private int n1_1035;
+    private int n2_1035;
+    private int[] nums1_1035;
+    private int[] nums2_1035;
+    private int[][] memo1035;
+
+    public int maxUncrossedLines2(int[] nums1, int[] nums2) {
+        this.n1_1035 = nums1.length;
+        this.n2_1035 = nums2.length;
+        this.nums1_1035 = nums1;
+        this.nums2_1035 = nums2;
+        this.memo1035 = new int[n1_1035][n2_1035];
+        for (int i = 0; i < n1_1035; ++i) {
+            Arrays.fill(memo1035[i], -1);
+        }
+        return dfs1035(0, 0);
+
+    }
+
+    private int dfs1035(int i, int j) {
+        if (i == n1_1035 || j == n2_1035) {
+            return 0;
+        }
+        if (memo1035[i][j] != -1) {
+            return memo1035[i][j];
+        }
+        if (nums1_1035[i] == nums2_1035[j]) {
+            return memo1035[i][j] = dfs1035(i + 1, j + 1) + 1;
+        }
+        return memo1035[i][j] = Math.max(dfs1035(i + 1, j), dfs1035(i, j + 1));
     }
 
     // 1160. 拼写单词
