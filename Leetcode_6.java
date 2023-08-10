@@ -5405,7 +5405,7 @@ public class Leetcode_6 {
 
     }
 
-    // 6299. 拆分数组的最小代价
+    // 2547. 拆分数组的最小代价 (Minimum Cost to Split an Array)
     public int minCost(int[] nums, int k) {
         int max = 0;
         for (int num : nums) {
@@ -5432,6 +5432,44 @@ public class Leetcode_6 {
         }
         return dp[n];
 
+    }
+
+    // 2547. 拆分数组的最小代价 (Minimum Cost to Split an Array)
+    private int[] nums2547;
+    private int k2547;
+    private long[] memo2547;
+    private int n2547;
+
+    public int minCost2(int[] nums, int k) {
+        this.nums2547 = nums;
+        this.n2547 = nums.length;
+        this.k2547 = k;
+        this.memo2547 = new long[n2547];
+        Arrays.fill(memo2547, -1L);
+        return (int) dfs2547(0);
+
+    }
+
+    private long dfs2547(int i) {
+        if (i == n2547) {
+            return 0L;
+        }
+        if (memo2547[i] != -1L) {
+            return memo2547[i];
+        }
+        long min = Long.MAX_VALUE;
+        int unique = 0;
+        int[] cnt = new int[n2547];
+        for (int j = i; j < n2547; ++j) {
+            ++cnt[nums2547[j]];
+            if (cnt[nums2547[j]] == 1) {
+                ++unique;
+            } else if (cnt[nums2547[j]] == 2) {
+                --unique;
+            }
+            min = Math.min(min, dfs2547(j + 1) + j - i + 1 - unique + k2547);
+        }
+        return memo2547[i] = min;
     }
 
     // 970. 强整数 (Powerful Integers)
