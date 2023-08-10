@@ -1335,5 +1335,18 @@ class leetcode_1 :
                 i += 1
                 j += 1
         return i
+    
+    # 26. 删除有序数组中的重复项 (Remove Duplicates from Sorted Array) 
+    def removeDuplicates(self, nums: List[int]) -> int:
+        i = 0
+        j = 0
+        n = len(nums)
+        while j < n:
+            x = nums[j]
+            while j < n and nums[j] == x:
+                j += 1
+            nums[i] = x
+            i += 1
+        return i
           
 

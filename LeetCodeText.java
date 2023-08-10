@@ -242,16 +242,19 @@ public class LeetCodeText {
 
     }
 
-    // 26. 删除有序数组中的重复项
-    public int removeDuplicates(final int[] nums) {
-        int index = 0;
-        for (int i = 0; i < nums.length; ++i) {
-            if (nums[i] != nums[index]) {
-                ++index;
-                nums[index] = nums[i];
+    // 26. 删除有序数组中的重复项 (Remove Duplicates from Sorted Array)
+    public int removeDuplicates(int[] nums) {
+        int i = 0;
+        int j = 0;
+        int n = nums.length;
+        while (j < n) {
+            int x = nums[j];
+            while (j < n && nums[j] == x) {
+                ++j;
             }
+            nums[i++] = x;
         }
-        return index + 1;
+        return i;
 
     }
 
