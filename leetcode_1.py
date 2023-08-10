@@ -1276,10 +1276,3 @@ class leetcode_1 :
              res = max(res, dfs(x + 1, j - 1) + sum / (x - i + 1))
           return res
        return dfs(0, k)
-
-
-             
-
-          
-          
-          
