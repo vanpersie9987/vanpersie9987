@@ -1288,3 +1288,25 @@ class leetcode_1 :
              return 0
           return dfs(i + 1, j + 1) + 1 if nums1[i] == nums2[j] else max(dfs(i + 1, j), dfs(i, j + 1))
        return dfs(0, 0)
+    
+    # 2547. 拆分数组的最小代价 (Minimum Cost to Split an Array)
+    def minCost(self, nums: List[int], k: int) -> int:
+       n = len(nums)
+
+       @cache
+       def dfs(i: int) -> int:
+          if i == n:
+             return 0
+          res = inf
+          cnts = [0] * n
+          unique = 0
+          for j in range(i, n):
+              cnts[nums[j]] += 1
+              if cnts[nums[j]] == 1:
+                 unique += 1
+              if cnts[nums[j]] == 2:
+                 unique -= 1
+              res = min(res, dfs(j + 1) + j - i + 1 - unique + k)
+          return res
+       return dfs(0)
+
