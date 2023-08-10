@@ -1276,3 +1276,15 @@ class leetcode_1 :
              res = max(res, dfs(x + 1, j - 1) + sum / (x - i + 1))
           return res
        return dfs(0, k)
+    
+    # 1035. 不相交的线 (Uncrossed Lines) 
+    def maxUncrossedLines(self, nums1: List[int], nums2: List[int]) -> int:
+       n1 = len(nums1)
+       n2 = len(nums2)
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n1 or j == n2:
+             return 0
+          return dfs(i + 1, j + 1) + 1 if nums1[i] == nums2[j] else max(dfs(i + 1, j), dfs(i, j + 1))
+       return dfs(0, 0)
