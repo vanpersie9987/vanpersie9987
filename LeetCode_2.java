@@ -6753,35 +6753,28 @@ public class LeetCode_2 {
       boolean[] arr = new boolean[1 << n];
       for (int i = 1; i < 1 << n; ++i) {
          int cnt = Integer.bitCount(i);
-         if (cnt == 1) {
+         int lead = Integer.numberOfLeadingZeros(i);
+         int trail = Integer.numberOfTrailingZeros(i);
+         if (cnt == 1 || cnt == 2 && s.charAt(32 - lead - 1) == s.charAt(trail) || cnt > 2
+               && s.charAt(32 - lead - 1) == s.charAt(trail)
+               && arr[(i ^ (1 << trail) ^ (1 << (32
+                     - lead - 1)))]) {
             arr[i] = true;
-         } else if (cnt == 2) {
-            if (s.charAt(32 - Integer.numberOfLeadingZeros(i) - 1) == s.charAt(Integer.numberOfTrailingZeros(i))) {
-               arr[i] = true;
-            }
-         } else {
-            if (s.charAt(32 - Integer.numberOfLeadingZeros(i) - 1) == s.charAt(Integer.numberOfTrailingZeros(i))
-                  && arr[(i ^ (1 << Integer.numberOfTrailingZeros(i)) ^ (1 << (32
-                        - Integer.numberOfLeadingZeros(i) - 1)))]) {
-               arr[i] = true;
-            }
          }
       }
       int res = 1;
       int u = (1 << n) - 1;
       int m = u;
       while (m > 0) {
-         if (!arr[m] || Integer.bitCount(m) == n || res >= Integer.bitCount(m) * Integer.bitCount(u ^ m)) {
-            --m;
-            continue;
-         }
-         int j = u ^ m;
-         int c = j;
-         while (c > 0) {
-            if (arr[c]) {
-               res = Math.max(res, Integer.bitCount(m) * Integer.bitCount(c));
+         if (arr[m] && Integer.bitCount(m) < n && res < Integer.bitCount(m) * Integer.bitCount(u ^ m)) {
+            int j = u ^ m;
+            int c = j;
+            while (c > 0) {
+               if (arr[c]) {
+                  res = Math.max(res, Integer.bitCount(m) * Integer.bitCount(c));
+               }
+               c = (c - 1) & j;
             }
-            c = (c - 1) & j;
          }
          --m;
       }
