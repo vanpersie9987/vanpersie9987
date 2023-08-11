@@ -1348,5 +1348,33 @@ class leetcode_1 :
             nums[i] = x
             i += 1
         return i
-          
+    
+    # 1349. 参加考试的最大学生数 (Maximum Students Taking Exam)
+    def maxStudents(self, seats: List[List[str]]) -> int:
+       m = len(seats)
+       n = len(seats[0])
+       u = (1 << n) - 1
+       arr = [0] * m
+       for i in range(m):
+          mask = 0
+          for j in range(n):
+             if seats[i][j] == '#':
+                mask |= 1 << j
+          arr[i] = mask
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i < 0:
+             return 0
+          c = u ^ ((j << 1 | j >> 1 | arr[i]) & u)
+          k = c
+          # 不选
+          res = dfs(i - 1, 0)
+          while k > 0:
+             if k & (k >> 1) == 0:
+                # 选
+                res = max(res, dfs(i - 1, k) + k.bit_count())
+             k = (k - 1) & c
+          return res
+       return dfs(m - 1, 0)
 
