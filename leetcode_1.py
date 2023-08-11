@@ -1424,5 +1424,4 @@ class leetcode_1 :
           res += dfs(i, 1 << i)
           res %= MOD
        return res
-             
 

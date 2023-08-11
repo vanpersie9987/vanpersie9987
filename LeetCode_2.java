@@ -6746,6 +6746,49 @@ public class LeetCode_2 {
 
    }
 
+   // 2002. 两个回文子序列长度的最大乘积 (Maximum Product of the Length of Two Palindromic
+   // Subsequences)
+   public int maxProduct2(String s) {
+      int n = s.length();
+      boolean[] arr = new boolean[1 << n];
+      for (int i = 1; i < 1 << n; ++i) {
+         int cnt = Integer.bitCount(i);
+         if (cnt == 1) {
+            arr[i] = true;
+         } else if (cnt == 2) {
+            if (s.charAt(32 - Integer.numberOfLeadingZeros(i) - 1) == s.charAt(Integer.numberOfTrailingZeros(i))) {
+               arr[i] = true;
+            }
+         } else {
+            if (s.charAt(32 - Integer.numberOfLeadingZeros(i) - 1) == s.charAt(Integer.numberOfTrailingZeros(i))
+                  && arr[(i ^ (1 << Integer.numberOfTrailingZeros(i)) ^ (1 << (32
+                        - Integer.numberOfLeadingZeros(i) - 1)))]) {
+               arr[i] = true;
+            }
+         }
+      }
+      int res = 1;
+      int u = (1 << n) - 1;
+      int m = u;
+      while (m > 0) {
+         if (!arr[m] || Integer.bitCount(m) == n || res >= Integer.bitCount(m) * Integer.bitCount(u ^ m)) {
+            --m;
+            continue;
+         }
+         int j = u ^ m;
+         int c = j;
+         while (c > 0) {
+            if (arr[c]) {
+               res = Math.max(res, Integer.bitCount(m) * Integer.bitCount(c));
+            }
+            c = (c - 1) & j;
+         }
+         --m;
+      }
+      return res;
+
+   }
+
    // 1255. 得分最高的单词集合 (Maximum Score Words Formed by Letters)
    public int maxScoreWords(String[] words, char[] letters, int[] score) {
       int[] counts = new int[26];
