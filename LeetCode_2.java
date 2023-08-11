@@ -6764,9 +6764,9 @@ public class LeetCode_2 {
       }
       int res = 1;
       int u = (1 << n) - 1;
-      int m = u;
+      int m = u - 1;
       while (m > 0) {
-         if (arr[m] && Integer.bitCount(m) < n && res < Integer.bitCount(m) * Integer.bitCount(u ^ m)) {
+         if (arr[m] && res < Integer.bitCount(m) * Integer.bitCount(u ^ m)) {
             int j = u ^ m;
             int c = j;
             while (c > 0) {
