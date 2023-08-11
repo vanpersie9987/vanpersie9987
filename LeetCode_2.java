@@ -6753,12 +6753,12 @@ public class LeetCode_2 {
       boolean[] arr = new boolean[1 << n];
       for (int i = 1; i < 1 << n; ++i) {
          int cnt = Integer.bitCount(i);
-         int lead = Integer.numberOfLeadingZeros(i);
+         int lead = 32 - Integer.numberOfLeadingZeros(i) - 1;
          int trail = Integer.numberOfTrailingZeros(i);
          if (cnt == 1
-               || cnt == 2 && s.charAt(32 - lead - 1) == s.charAt(trail)
-               || cnt > 2 && s.charAt(32 - lead - 1) == s.charAt(trail)
-                     && arr[(i ^ (1 << trail) ^ (1 << (32 - lead - 1)))]) {
+               || cnt == 2 && s.charAt(lead) == s.charAt(trail)
+               || cnt > 2 && s.charAt(lead) == s.charAt(trail)
+                     && arr[(i ^ (1 << trail) ^ (1 << lead))]) {
             arr[i] = true;
          }
       }
@@ -6766,7 +6766,7 @@ public class LeetCode_2 {
       int u = (1 << n) - 1;
       int m = u - 1;
       while (m > 0) {
-         if (arr[m] && res < Integer.bitCount(m) * Integer.bitCount(u ^ m)) {
+         if (arr[m] && res < Integer.bitCount(m) * (n - Integer.bitCount(m))) {
             int j = u ^ m;
             int c = j;
             while (c > 0) {
