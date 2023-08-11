@@ -1399,4 +1399,30 @@ class leetcode_1 :
              s = (s - 1) & c
           return res
        return dfs(0, 0)
+    
+    # 2741. 特别的排列 (Special Permutations)
+    def specialPerm(self, nums: List[int]) -> int:
+       n = len(nums)
+       u = (1 << n) - 1
+       MOD = 10 ** 9 + 7
+
+       @cache
+       def dfs(i: int, m: int) -> int:
+          if m == u:
+             return 1
+          res = 0
+          j = u ^ m
+          while j > 0:
+             index = (j & -j).bit_length() - 1
+             if nums[index] % nums[i] == 0 or nums[i] % nums[index] == 0:
+                res += dfs(index, m | (1 << index))
+                res %= MOD
+             j &= j - 1
+          return res
+       res = 0
+       for i in range(n):
+          res += dfs(i, 1 << i)
+          res %= MOD
+       return res
+             
 
