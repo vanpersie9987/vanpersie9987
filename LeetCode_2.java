@@ -6755,10 +6755,10 @@ public class LeetCode_2 {
          int cnt = Integer.bitCount(i);
          int lead = Integer.numberOfLeadingZeros(i);
          int trail = Integer.numberOfTrailingZeros(i);
-         if (cnt == 1 || cnt == 2 && s.charAt(32 - lead - 1) == s.charAt(trail) || cnt > 2
-               && s.charAt(32 - lead - 1) == s.charAt(trail)
-               && arr[(i ^ (1 << trail) ^ (1 << (32
-                     - lead - 1)))]) {
+         if (cnt == 1
+               || cnt == 2 && s.charAt(32 - lead - 1) == s.charAt(trail)
+               || cnt > 2 && s.charAt(32 - lead - 1) == s.charAt(trail)
+                     && arr[(i ^ (1 << trail) ^ (1 << (32 - lead - 1)))]) {
             arr[i] = true;
          }
       }
