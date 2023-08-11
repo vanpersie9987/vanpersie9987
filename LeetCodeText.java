@@ -5895,32 +5895,18 @@ public class LeetCodeText {
 
     }
 
-    // 1572. 矩阵对角线元素的和
+    // 1572. 矩阵对角线元素的和 (Matrix Diagonal Sum)
     public int diagonalSum(int[][] mat) {
-        int sum = 0;
-        for (int i = 0; i < mat.length; ++i) {
-            for (int j = 0; j < mat[0].length; ++j) {
-                if (i == j || i + j == mat.length - 1) {
-                    sum += mat[i][j];
-                }
-            }
+        int n = mat.length;
+        int j1 = 0;
+        int j2 = n - 1;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            res += mat[i][j1] + mat[i][j2];
+            ++j1;
+            --j2;
         }
-        return sum;
-
-    }
-
-    // 1572. 矩阵对角线元素的和
-    public int diagonalSum2(int[][] mat) {
-        int sum = 0;
-        int i = 0;
-        int j = mat[0].length - 1;
-        for (int[] row : mat) {
-            sum += row[i++] + row[j--];
-        }
-        if (mat.length % 2 == 1) {
-            sum -= mat[mat.length / 2][mat[0].length / 2];
-        }
-        return sum;
+        return n % 2 == 1 ? res - mat[n / 2][n / 2] : res;
 
     }
 
