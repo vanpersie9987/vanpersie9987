@@ -1424,4 +1424,27 @@ class leetcode_1 :
           res += dfs(i, 1 << i)
           res %= MOD
        return res
+    
+    # 2002. 两个回文子序列长度的最大乘积 (Maximum Product of the Length of Two Palindromic Subsequences)
+    def maxProduct(self, s: str) -> int:
+       n = len(s)
+       arr = [False] * (1 << n)
+       for i in range(1, 1 << n):
+          cnt = i.bit_count()
+          lead = i.bit_length() - 1
+          trail = (i & -i).bit_length() - 1
+          if cnt == 1 or cnt == 2 and s[lead] == s[trail] or cnt > 2 and s[lead] == s[trail] and arr[i ^ (1 << lead) ^ (1 << trail)]:
+             arr[i] = True
+       res = 1
+       u = (1 << n) - 2
+       while u:
+          if arr[u] and res < u.bit_count() * (n - u.bit_count()):
+             s = ((1 << n) - 1) ^ u
+             j = s
+             while j > 0:
+                if arr[j]:
+                   res = max(res, u.bit_count() * j.bit_count())
+                j = (j - 1) & s
+          u -= 1
+       return res
 
