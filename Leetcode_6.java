@@ -8356,11 +8356,11 @@ public class Leetcode_6 {
         }
         memo2472 = new int[n2472];
         Arrays.fill(memo2472, -1);
-        return dfs(0);
+        return dfs2472(0);
 
     }
 
-    private int dfs(int i) {
+    private int dfs2472(int i) {
         if (i == n2472) {
             return 0;
         }
@@ -8371,11 +8371,11 @@ public class Leetcode_6 {
             return memo2472[i];
         }
         // 不选
-        int max = dfs(i + 1);
+        int max = dfs2472(i + 1);
         // 选
         for (int j = i + k2472 - 1; j < n2472; ++j) {
             if (isPalindromes2472[i][j]) {
-                max = Math.max(max, dfs(j + 1) + 1);
+                max = Math.max(max, dfs2472(j + 1) + 1);
             }
         }
         return memo2472[i] = max;

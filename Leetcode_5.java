@@ -3610,43 +3610,43 @@ public class Leetcode_5 {
 
     }
 
-    // 6195. 对字母串可执行的最大删除数
-    public int deleteString(String s) {
-        int n = s.length();
-        Set<Character> set = new HashSet<>();
-        for (char c : s.toCharArray()) {
-            set.add(c);
-        }
-        if (set.size() == 1) {
-            return s.length();
-        }
-        int[] memo = new int[n + 1];
+    // 2430. 对字母串可执行的最大删除数 (Maximum Deletions on a String)
+    private int n2430;
+    private int[] memo2430;
+    private int[][] arr2430;
 
-        Arrays.fill(memo, -1);
-        return dfs6195(s, 0, memo);
+    public int deleteString(String s) {
+        this.n2430 = s.length();
+        this.memo2430 = new int[n2430];
+        Arrays.fill(memo2430, -1);
+        this.arr2430 = new int[n2430 + 1][n2430 + 1];
+        for (int i = n2430 - 1; i >= 0; --i) {
+            for (int j = n2430 - 1; j > i; --j) {
+                if (s.charAt(i) == s.charAt(j)) {
+                    arr2430[i][j] = arr2430[i + 1][j + 1] + 1;
+                }
+            }
+        }
+        return dfs2430(0);
+
     }
 
-    private int dfs6195(String s, int start, int[] memo) {
-        if (start == s.length() - 1) {
-            return 1;
-        }
-        if (start == s.length()) {
+    private int dfs2430(int i) {
+        if (i == n2430) {
             return 0;
         }
-        if (memo[start] != -1) {
-            return memo[start];
+        if (memo2430[i] != -1) {
+            return memo2430[i];
         }
-        int res = 1;
-        int span = 1;
-        while (start + span * 2 <= s.length()) {
-            if (s.substring(start, start + span).equals(s.substring(start + span, start
-                    + span * 2))) {
-                res = Math.max(res, 1 + dfs6195(s, start + span, memo));
+        int max = 1;
+        int j = 1;
+        while (i + j * 2 <= n2430) {
+            if (arr2430[i][i + j] >= j) {
+                max = Math.max(max, dfs2430(i + j) + 1);
             }
-            ++span;
+            ++j;
         }
-
-        return memo[start] = res;
+        return memo2430[i] = max;
     }
 
     // 1785. 构成特定和需要添加的最少元素 (Minimum Elements to Add to Form a Given Sum)
