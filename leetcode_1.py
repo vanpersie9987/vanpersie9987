@@ -1583,5 +1583,17 @@ class leetcode_1 :
           nums1[p] = nums2[p2]
           p -= 1
           p2 -= 1
+
+    # 2320. 统计放置房子的方式数 (Count Number of Ways to Place Houses)
+    def countHousePlacements(self, n: int) -> int:
+       MOD = 10 ** 9 + 7
+       
+       @cache
+       def dfs(i: int) -> int:
+          if i >= n:
+             return 1
+          return dfs(i + 1) + dfs(i + 2)
+       res = dfs(0)
+       return res ** 2 % MOD
           
 
