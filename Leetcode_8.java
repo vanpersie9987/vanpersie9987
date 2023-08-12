@@ -2732,4 +2732,45 @@ public class Leetcode_8 {
         return res;
 
     }
+
+    // 2318. 不同骰子序列的数目 (Number of Distinct Roll Sequences)
+    private int[][][] memo;
+    private int n;
+
+    public int distinctSequences(int n) {
+        this.n = n;
+        this.memo = new int[n][7][7];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < 7; ++j) {
+                Arrays.fill(memo[i][j], -1);
+            }
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int i = 1; i <= 6; ++i) {
+            res = (res + dfs(1, i, 0)) % MOD;
+        }
+        return res;
+    }
+
+    private int dfs(int i, int j, int k) {
+        if (i == n) {
+            return 1;
+        }
+        if (memo[i][j][k] != -1) {
+            return memo[i][j][k];
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int s = 1; s <= 6; ++s) {
+            if (s != j && s != k && gcd(s, j) == 1) {
+                res = (res + dfs(i + 1, s, j)) % MOD;
+            }
+        }
+        return memo[i][j][k] = res;
+    }
+
+    private int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
 }

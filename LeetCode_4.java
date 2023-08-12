@@ -3254,33 +3254,42 @@ public class LeetCode_4 {
         return res;
     }
 
-    // 6107. 不同骰子序列的数目
-    public int distinctSequences(int n) {
-        return backtrack6107(0, 0, 0, n);
-    }
+    // 2318. 不同骰子序列的数目 (Number of Distinct Roll Sequences)
+    private int[][][] memo2318;
+    private int n2318;
 
-    private int backtrack6107(int lastButOne, int last, int index, int n) {
-        if (index == n) {
-            return 1;
-        }
-        int res = 0;
-        for (int i = 1; i <= 6; ++i) {
-            if (lastButOne != i && last != i && getGCD6107(last, i) == 1 || last == 0) {
-                res += backtrack6107(last, i, index + 1, n);
-                res %= 1000000007;
+    public int distinctSequences(int n) {
+        this.n2318 = n;
+        this.memo2318 = new int[n][7][7];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < 7; ++j) {
+                Arrays.fill(memo2318[i][j], -1);
             }
         }
-        return res;
+        return dfs2318(0, 0, 0);
     }
 
-    private int getGCD6107(int a, int b) {
-        while (b != 0) {
-            int temp = b;
-            b = a % b;
-            a = temp;
+    private int dfs2318(int i, int j, int k) {
+        if (i == n2318) {
+            return 1;
         }
-        return a;
+        if (memo2318[i][j][k] != -1) {
+            return memo2318[i][j][k];
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int s = 1; s <= 6; ++s) {
+            if (s != j && s != k && (i == 0 || gcd2318(s, j) == 1)) {
+                res = (res + dfs2318(i + 1, s, j)) % MOD;
+            }
+        }
+        return memo2318[i][j][k] = res;
     }
+
+    private int gcd2318(int a, int b) {
+        return b == 0 ? a : gcd2318(b, a % b);
+    }
+
 
     // 6101. 判断矩阵是否是一个 X 矩阵 (Check if Matrix Is X-Matrix)
     public boolean checkXMatrix(int[][] grid) {
