@@ -1433,17 +1433,18 @@ class leetcode_1 :
           cnt = i.bit_count()
           lead = i.bit_length() - 1
           trail = (i & -i).bit_length() - 1
-          if cnt == 1 or cnt == 2 and s[lead] == s[trail] or cnt > 2 and s[lead] == s[trail] and arr[i ^ (1 << lead) ^ (1 << trail)]:
+          if s[lead] == s[trail] and (cnt <= 2 or arr[i ^ (1 << lead) ^ (1 << trail)]):
              arr[i] = True
        res = 1
        u = (1 << n) - 2
        while u:
-          if arr[u] and res < u.bit_count() * (n - u.bit_count()):
+          cnt = u.bit_count()
+          if arr[u] and res < cnt * (n - cnt):
              s = ((1 << n) - 1) ^ u
              j = s
              while j > 0:
                 if arr[j]:
-                   res = max(res, u.bit_count() * j.bit_count())
+                   res = max(res, cnt * j.bit_count())
                 j = (j - 1) & s
           u -= 1
        return res
