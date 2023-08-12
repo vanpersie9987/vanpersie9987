@@ -18,7 +18,7 @@
 
 from collections import Counter
 from functools import cache
-from math import inf
+from math import gcd, inf
 from typing import List
 
 class leetcode_1 :
@@ -1526,7 +1526,20 @@ class leetcode_1 :
        res = dfs(0, 0, 0)
        dfs.cache_clear()
        return res
-          
-          
+    
 
-          
+    # 2318. 不同骰子序列的数目 (Number of Distinct Roll Sequences)
+    def distinctSequences(self, n: int) -> int:
+       MOD = 10 ** 9 + 7
+       
+       @cache
+       def dfs(i: int, j: int, k: int) -> int:
+          if i == n:
+             return 1
+          res = 0
+          for s in range(1, 7):
+             if s != j and s != k and (i == 0 or gcd(s, j) == 1):
+                res += dfs(i + 1, s, j)
+                res %= MOD
+          return res
+       return dfs(0, 0, 0)
