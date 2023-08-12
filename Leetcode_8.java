@@ -2732,4 +2732,43 @@ public class Leetcode_8 {
         return res;
 
     }
+
+    private int n;
+    private char[] arr;
+    private int k;
+    private boolean[][] legal;
+    private int[] memo;
+
+    public int maxPalindromes(String s, int k) {
+        this.n = s.length();
+        this.arr = s.toCharArray();
+        this.k = k;
+        this.legal = new boolean[n][n];
+        for (int i = n - 1; i >= 0; --i) {
+            for (int j = i; j < n; ++j) {
+                if (i == j || j - i == 1 && arr[i] == arr[j] || j - i > 1 && arr[i] == arr[j] && legal[i + 1][j - 1]) {
+                    legal[i][j] = true;
+                }
+            }
+        }
+        this.memo = new int[n];
+        Arrays.fill(memo, -1);
+        return dfs(0);
+    }
+
+    private int dfs(int i) {
+        if (i == n) {
+            return 0;
+        }
+        if (memo[i] != -1) {
+            return memo[i];
+        }
+        int res = dfs(i + 1);
+        for (int j = i + k - 1; j < n; ++j) {
+            if (legal[i][j]) {
+                res = Math.max(res, dfs(j + 1) + 1);
+            }
+        }
+        return memo[i] = res;
+    }
 }

@@ -1447,4 +1447,23 @@ class leetcode_1 :
                 j = (j - 1) & s
           u -= 1
        return res
-
+    
+    # 2472. 不重叠回文子字符串的最大数目 (Maximum Number of Non-overlapping Palindrome Substrings)
+    def maxPalindromes(self, s: str, k: int) -> int:
+       n = len(s)
+       arr = [[0] * n for _ in range(n)]
+       for i in range(n - 1, -1, -1):
+          for j in range(i, n):
+             if i == j or j - i == 1 and s[i] == s[j] or j - i > 1 and s[i] == s[j] and arr[i + 1][j - 1]:
+                arr[i][j] = 1
+       
+       @cache
+       def dfs(i: int) -> int:
+          if i == n:
+             return 0
+          res = dfs(i + 1)
+          for j in range(i + k - 1, n):
+             if arr[i][j]:
+                res = max(res, dfs(j + 1) + 1)
+          return res
+       return dfs(0)
