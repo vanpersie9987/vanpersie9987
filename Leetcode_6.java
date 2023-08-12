@@ -6258,11 +6258,11 @@ public class Leetcode_6 {
     }
 
     private int dfs2550(int n) {
-        final int MOD = (int) (1e9 + 7);
         if (n == 0) {
             return 1;
         }
-        int res = dfs2550(n / 2) % MOD;
+        int res = dfs2550(n / 2);
+        final int MOD = (int) (1e9 + 7);
         res = (int) (((long) res * res) % MOD);
         if ((n & 1) == 1) {
             res = res * 2 % MOD;
