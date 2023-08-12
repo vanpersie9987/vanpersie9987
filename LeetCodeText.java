@@ -1104,16 +1104,22 @@ public class LeetCodeText {
 
     }
 
-    // 88. 合并两个有序数组 / 面试题 10.01. 合并排序的数组
-    public void merge(final int[] nums1, final int m, final int[] nums2, final int n) {
-        int p1 = m - 1;
-        int p2 = n - 1;
+    // 88. 合并两个有序数组 (Merge Sorted Array)
+    // 面试题 10.01. 合并排序的数组
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int i = m - 1;
+        int j = n - 1;
         int p = m + n - 1;
-        while (p1 >= 0 && p2 >= 0) {
-            nums1[p--] = nums1[p1] > nums2[p2] ? nums1[p1--] : nums2[p2--];
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[p--] = nums1[i--];
+            } else {
+                nums1[p--] = nums2[j--];
+            }
         }
-        System.arraycopy(nums2, 0, nums1, 0, p2 + 1);
-
+        while (j >= 0) {
+            nums1[p--] = nums2[j--];
+        }
     }
 
     // 118 杨辉三角
