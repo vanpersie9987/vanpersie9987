@@ -1543,3 +1543,22 @@ class leetcode_1 :
                 res %= MOD
           return res
        return dfs(0, 0, 0)
+    
+    # 2304. 网格中的最小路径代价 (Minimum Path Cost in a Grid)
+    def minPathCost(self, grid: List[List[int]], moveCost: List[List[int]]) -> int:
+       m = len(grid)
+       n = len(grid[0])
+
+       @cache
+       def dfs(i: int, j: int):
+          if i == m - 1:
+             return grid[i][j]
+          res = inf
+          for k in range(n):
+             res = min(res, dfs(i + 1, k) + moveCost[grid[i][j]][k])
+          return res + grid[i][j]
+
+       res = inf
+       for j in range(0, n):
+          res = min(res, dfs(0, j))
+       return res
