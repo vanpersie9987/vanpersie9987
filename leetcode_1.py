@@ -1455,12 +1455,14 @@ class leetcode_1 :
        arr = [[0] * n for _ in range(n)]
        for i in range(n - 1, -1, -1):
           for j in range(i, n):
-             if i == j or j - i == 1 and s[i] == s[j] or j - i > 1 and s[i] == s[j] and arr[i + 1][j - 1]:
+             if s[i] == s[j] and (j - i < 2 or arr[i + 1][j - 1]):
                 arr[i][j] = 1
        
        @cache
        def dfs(i: int) -> int:
           if i == n:
+             return 0
+          if n - i < k:
              return 0
           res = dfs(i + 1)
           for j in range(i + k - 1, n):
