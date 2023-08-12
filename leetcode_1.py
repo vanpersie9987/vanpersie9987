@@ -1467,3 +1467,25 @@ class leetcode_1 :
                 res = max(res, dfs(j + 1) + 1)
           return res
        return dfs(0)
+    
+    # 2444. 统计定界子数组的数目 (Count Subarrays With Fixed Bounds)
+    def countSubarrays(self, nums: List[int], minK: int, maxK: int) -> int:
+       n = len(nums)
+       res = 0
+       pos = -1
+       p1 = -1
+       p2 = -1
+       for i in range(0, n):
+          if nums[i] > maxK or nums[i] < minK:
+             pos = i
+             p1 = -1
+             p2 = -1
+          else:
+             if nums[i] == minK:
+                p1 = i
+             if nums[i] == maxK:
+                p2 = i
+          if p1 != -1 and p2 != -1:
+             res += min(p1, p2) - pos
+       return res
+          
