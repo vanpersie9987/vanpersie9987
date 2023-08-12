@@ -1687,7 +1687,7 @@ public class LeetCode_4 {
 
     }
 
-    // 5270. 网格中的最小路径代价 (Minimum Path Cost in a Grid)
+    // 2304. 网格中的最小路径代价 (Minimum Path Cost in a Grid)
     public int minPathCost(int[][] grid, int[][] moveCost) {
         int m = grid.length;
         int n = grid[0].length;
@@ -1706,6 +1706,43 @@ public class LeetCode_4 {
         }
         return Arrays.stream(dp[m - 1]).min().getAsInt();
 
+    }
+
+    // 2304. 网格中的最小路径代价 (Minimum Path Cost in a Grid)
+    private int[][] grid2304;
+    private int[][] moveCost2304;
+    private int[][] memo2304;
+    private int m2304;
+    private int n2304;
+
+    public int minPathCost2(int[][] grid, int[][] moveCost) {
+        this.grid2304 = grid;
+        this.moveCost2304 = moveCost;
+        this.m2304 = grid.length;
+        this.n2304 = grid[0].length;
+        this.memo2304 = new int[m2304][n2304];
+        for (int i = 0; i < m2304; ++i) {
+            Arrays.fill(memo2304[i], -1);
+        }
+        int res = Integer.MAX_VALUE;
+        for (int j = 0; j < n2304; ++j) {
+            res = Math.min(res, dfs2304(0, j));
+        }
+        return res;
+    }
+
+    private int dfs2304(int i, int j) {
+        if (i == m2304 - 1) {
+            return grid2304[i][j];
+        }
+        if (memo2304[i][j] != -1) {
+            return memo2304[i][j];
+        }
+        int res = Integer.MAX_VALUE;
+        for (int k = 0; k < n2304; ++k) {
+            res = Math.min(res, dfs2304(i + 1, k) + moveCost2304[grid2304[i][j]][k]);
+        }
+        return memo2304[i][j] = res + grid2304[i][j];
     }
 
     // 2305. 公平分发饼干 (Fair Distribution of Cookies)
