@@ -1595,5 +1595,10 @@ class leetcode_1 :
           return dfs(i + 1) + dfs(i + 2)
        res = dfs(0)
        return res ** 2 % MOD
+    
+    # 2550. 猴子碰撞的方法数 (Count Collisions of Monkeys on a Polygon)
+    def monkeyMove(self, n: int) -> int:
+        MOD = 10 ** 9 + 7
+        return (pow(2, n, MOD) - 2) % MOD
           
 
