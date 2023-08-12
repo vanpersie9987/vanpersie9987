@@ -1489,3 +1489,22 @@ class leetcode_1 :
              res += min(p1, p2) - pos
        return res
           
+    # 2430. 对字母串可执行的最大删除数 (Maximum Deletions on a String)
+    def deleteString(self, s: str) -> int:
+       n = len(s)
+       if len(set(s)) == 1: return n
+       lca = [[0] * (n + 1) for _ in range(n + 1)]
+       for i in range(n - 1, -1, -1):
+          for j in range(n - 1, i, -1):
+             if s[i] == s[j]:
+                lca[i][j] = lca[i + 1][j + 1] + 1
+       f = [0] * n
+       for i in range(n - 1, -1, -1):
+           for j in range(1, (n - i) // 2 + 1):
+               if lca[i][i + j] >= j:  # 说明 s[i:i+j] == s[i+j:i+2*j]
+                    f[i] = max(f[i], f[i + j])
+           f[i] += 1
+       return f[0]
+          
+
+          
