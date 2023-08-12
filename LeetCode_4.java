@@ -3348,24 +3348,29 @@ public class LeetCode_4 {
 
     }
 
-    // 6100. 统计放置房子的方式数 (Count Number of Ways to Place Houses)
-    public int countHousePlacements(int n) {
-        final int MOD = 1000000007;
-        // 放置
-        int put = 1;
-        // 不放置
-        int notPut = 1;
-        for (int i = 1; i < n; ++i) {
-            int temp = put;
-            // 当前放置的数量，为之前一个地方不放置的值
-            put = notPut;
-            // 当前不放置的数量，为之前一个地方不放置与放置之和
-            notPut = (notPut + temp) % MOD;
-        }
-        // 最终结果为最后一个地方放置与不放置之和的平方
-        long res = (put + notPut) % MOD;
-        return (int) ((res * res) % MOD);
+    // 2320. 统计放置房子的方式数 (Count Number of Ways to Place Houses)
+    private int n2320;
+    private int[] memo2320;
 
+    public int countHousePlacements(int n) {
+        this.n2320 = n;
+        this.memo2320 = new int[n];
+        Arrays.fill(memo2320, -1);
+        int res = dfs2320(0);
+        final int MOD = (int) (1e9 + 7);
+        return (int) ((long) res * res % MOD);
+
+    }
+
+    private int dfs2320(int i) {
+        if (i >= n2320) {
+            return 1;
+        }
+        if (memo2320[i] != -1) {
+            return memo2320[i];
+        }
+        final int MOD = (int) (1e9 + 7);
+        return memo2320[i] = (dfs2320(i + 1) + dfs2320(i + 2)) % MOD;
     }
 
     // 5229. 拼接数组的最大分数 (Maximum Score Of Spliced Array)
