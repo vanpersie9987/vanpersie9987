@@ -6697,56 +6697,6 @@ public class LeetCode_2 {
    }
 
    // 2002. 两个回文子序列长度的最大乘积 (Maximum Product of the Length of Two Palindromic
-   // Subsequences) --状态压缩
-   public int maxProduct(String s) {
-      int res = 0;
-      List<Bean2002> list = new ArrayList<>();
-      char[] chars = s.toCharArray();
-      for (int i = 1; i < (1 << chars.length); ++i) {
-         if (checkPalindromic(chars, i)) {
-            list.add(new Bean2002(Integer.bitCount(i), i));
-         }
-      }
-      for (int i = 0; i < list.size(); ++i) {
-         for (int j = i + 1; j < list.size(); ++j) {
-            if ((list.get(i).mask & list.get(j).mask) == 0) {
-               res = Math.max(res, list.get(i).oneCount * list.get(j).oneCount);
-            }
-         }
-      }
-      return res;
-
-   }
-
-   private boolean checkPalindromic(char[] chars, int mask) {
-      int left = 0;
-      int right = chars.length - 1;
-      while (left < right) {
-         while (left < right && (mask >> left & 1) == 0) {
-            ++left;
-         }
-         while (left < right && (mask >> right & 1) == 0) {
-            --right;
-         }
-         if (chars[left++] != chars[right--]) {
-            return false;
-         }
-      }
-      return true;
-   }
-
-   public class Bean2002 {
-      public int oneCount;
-      public int mask;
-
-      public Bean2002(int oneCount, int mask) {
-         this.oneCount = oneCount;
-         this.mask = mask;
-      }
-
-   }
-
-   // 2002. 两个回文子序列长度的最大乘积 (Maximum Product of the Length of Two Palindromic
    // Subsequences)
    public int maxProduct2(String s) {
       int n = s.length();
