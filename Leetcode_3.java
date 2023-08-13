@@ -6975,6 +6975,24 @@ public class Leetcode_3 {
 
     }
 
+    // 617. 合并二叉树 (Merge Two Binary Trees)
+    public TreeNode mergeTrees2(TreeNode root1, TreeNode root2) {
+        return dfs617(root1, root2);
+    }
+
+    private TreeNode dfs617(TreeNode root1, TreeNode root2) {
+        if (root1 == null) {
+            return root2;
+        }
+        if (root2 == null) {
+            return root1;
+        }
+        TreeNode node = new TreeNode(root1.val + root2.val);
+        node.left = dfs617(root1.left, root2.left);
+        node.right = dfs617(root1.right, root2.right);
+        return node;
+    }
+
     // 1609. 奇偶树 (Even Odd Tree) --bfs
     public boolean isEvenOddTree(TreeNode root) {
         int level = 0;
