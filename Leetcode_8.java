@@ -2732,4 +2732,81 @@ public class Leetcode_8 {
         return res;
 
     }
+
+    // 6939. 数组中的最大数对和 (Max Pair Sum in an Array)
+    public int maxSum(int[] nums) {
+        int res = -1;
+        int[] maxBit = new int[10];
+        for (int num : nums) {
+            int bit = getMaxBit6939(num);
+            if (maxBit[bit] != 0) {
+                res = Math.max(res, num + maxBit[bit]);
+            }
+            maxBit[bit] = Math.max(maxBit[bit], num);
+        }
+        return res;
+    }
+
+    private int getMaxBit6939(int num) {
+        int max = 0;
+        while (num != 0) {
+            max = Math.max(max, num % 10);
+            num /= 10;
+        }
+        return max;
+    }
+
+    // 6914. 翻倍以链表形式表示的数字 (Double a Number Represented as a Linked List)
+    public ListNode doubleIt(ListNode head) {
+        head = reverseList6914(head);
+        int carry = 0;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode cur = head;
+        ListNode res = dummy;
+        while (cur != null || carry != 0) {
+            int val = carry;
+            if (cur != null) {
+                val += cur.val * 2;
+            }
+            res.next = new ListNode(val % 10);
+            carry = val / 10;
+            res = res.next;
+            if (cur != null) {
+                cur = cur.next;
+            }
+        }
+        return reverseList6914(dummy.next);
+
+    }
+
+    private ListNode reverseList6914(ListNode head) {
+        ListNode ptr = null;
+        ListNode cur = head;
+        while (cur != null) {
+            ListNode temp = cur.next;
+            cur.next = ptr;
+
+            ptr = cur;
+            cur = temp;
+        }
+        return ptr;
+
+    }
+
+    // 7022. 限制条件下元素之间的最小绝对差 (Minimum Absolute Difference Between Elements With Constraint)
+    public int minAbsoluteDifference(List<Integer> nums, int x) {
+        int n = nums.size();
+        TreeSet<Integer> set = new TreeSet<>();
+        set.add(Integer.MAX_VALUE);
+        set.add(Integer.MIN_VALUE / 2);
+        int res = (int) 1e9;
+        for (int i = x; i < n; ++i) {
+            set.add(nums.get(i - x));
+            res = Math.min(res, nums.get(i) - set.floor(nums.get(i)));
+            res = Math.min(res, set.ceiling(nums.get(i)) - nums.get(i));
+        }
+        return res;
+
+    }
 }
