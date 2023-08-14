@@ -5729,43 +5729,40 @@ public class Leetcode_7 {
 
     // 1799. N 次操作后的最大分数和 (Maximize Score After N Operations)
     private int n1799;
-    private int[] memo1799;
-    private int[][] gcdArr1799;
+    private int[] nums1799;
+    private int[][] memo1799;
+    private int u1799;
 
     public int maxScore(int[] nums) {
         this.n1799 = nums.length;
-        this.memo1799 = new int[1 << n1799];
-        this.gcdArr1799 = new int[n1799][n1799];
-        for (int i = 0; i < n1799; ++i) {
-            for (int j = i + 1; j < n1799; ++j) {
-                gcdArr1799[i][j] = gcd1799(nums[i], nums[j]);
-            }
-
+        this.nums1799 = nums;
+        this.memo1799 = new int[n1799 >> 1][1 << n1799];
+        for (int i = 0; i < (n1799 >> 1); ++i) {
+            Arrays.fill(memo1799[i], -1);
         }
-        return dfs1799(0);
+        this.u1799 = (1 << n1799) - 1;
+        return dfs1799(0, 0);
 
     }
 
-    private int dfs1799(int mask) {
-        if (memo1799[mask] != 0) {
-            return memo1799[mask];
+    private int dfs1799(int i, int m) {
+        if (m == u1799) {
+            return 0;
         }
+        if (memo1799[i][m] != -1) {
+            return memo1799[i][m];
+        }
+        int c = u1799 ^ m;
         int res = 0;
-        for (int i = 0; i < n1799; ++i) {
-            if (((mask >> i) & 1) == 0) {
-                for (int j = i + 1; j < n1799; ++j) {
-                    if (((mask >> j) & 1) == 0) {
-                        res = Math.max(res,
-                                (Integer.bitCount(mask) / 2 + 1)
-                                        * (i < j ? gcdArr1799[i][j] : gcdArr1799[j][i])
-                                        + dfs1799(mask | (1 << i) | (1 << j)));
-
-                    }
-                }
+        for (int j = c; j > 0; j = (j - 1) & c) {
+            if (Integer.bitCount(j) == 2) {
+                int index1 = Integer.numberOfTrailingZeros(j);
+                int index2 = Integer.numberOfTrailingZeros(j & (j - 1));
+                int g = gcd1799(nums1799[index1], nums1799[index2]);
+                res = Math.max(res, dfs1799(i + 1, m | j) + (i + 1) * g);
             }
-
         }
-        return memo1799[mask] = res;
+        return memo1799[i][m] = res;
     }
 
     private int gcd1799(int a, int b) {
