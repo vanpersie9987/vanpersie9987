@@ -1661,6 +1661,27 @@ class leetcode_1 :
           return max(dfs(i + 1, j, k), dfs(i, j - 1, k))
        res = dfs(0, n1 + n2 - 1, 0)
        return res if res > 1 else 0
+
+    # 2147. 分隔长廊的方案数 (Number of Ways to Divide a Long Corridor)
+    def numberOfWays(self, corridor: str) -> int:
+       n = len(corridor)
+       res = 1
+       MOD = 10 ** 9 + 7
+       j = -1
+       cnt = 0
+      
+       for i, c in enumerate(corridor):
+          if c == 'S':
+             cnt += 1
+             if j >= 0 and (cnt & 1) == 1:
+               res *= i - j
+               res %= MOD
+             j = i
+       return res if (cnt & 1) == 0 and cnt >= 2 else 0
+          
+          
+
+       
           
           
 
