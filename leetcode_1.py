@@ -1726,6 +1726,30 @@ class leetcode_1 :
             if (m >> (ord(c) - ord('a'))) & 1:
                  res += (i + 1) * (n - i)
         return res
+    
+    # 1986. 完成任务的最少工作时间段 (Minimum Number of Work Sessions to Finish the Tasks)
+    def minSessions(self, tasks: List[int], sessionTime: int) -> int:
+       n = len(tasks)
+       sum = [0] * (1 << n)
+       u = (1 << n) - 1
+       for i in range(1, 1 << n):
+         index = (i & -i).bit_length() - 1
+         sum[i] = sum[i ^ (1 << index)] + tasks[index]
+       
+       @cache
+       def dfs(i: int) -> int:
+          if i == u:
+             return 0
+          res = inf
+          c = u ^ i
+          j = c
+          while j:
+             if sum[j] <= sessionTime:
+                res = min(res, dfs(i | j) + 1)
+             j = (j - 1) & c
+          return res
+       return dfs(0)
+             
           
           
 
