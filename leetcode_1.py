@@ -1621,5 +1621,26 @@ class leetcode_1 :
     # 50. Pow(x, n) (Pow(x, n))
     def myPow(self, x: float, n: int) -> float:
        return pow(x, n)
-          
+    
+    # 31. 下一个排列 (Next Permutation)
+    def nextPermutation(self, nums: List[int]) -> None:
+       n = len(nums)
+       i = n - 1
+       while i - 1 >= 0 and nums[i - 1] >= nums[i]:
+          i -= 1
+       if i == 0:
+          nums.sort()
+          return
+       i -= 1
+
+       j = n - 1
+       while i < j:
+          if nums[i] < nums[j]:
+             temp = nums[i]
+             nums[i] = nums[j]
+             nums[j] = temp
+             nums[i + 1:] = sorted(nums[i + 1:])
+             break
+          j -= 1
+       
 
