@@ -5970,34 +5970,42 @@ public class Leetcode_6 {
 
     // 1986. 完成任务的最少工作时间段 (Minimum Number of Work Sessions to Finish the Tasks)
     // --状态压缩dp
-    public int minSessions(int[] tasks, int sessionTime) {
-        int n = tasks.length;
-        boolean[] valid = new boolean[1 << n];
-        for (int i = 0; i < (1 << n); ++i) {
-            int cur = 0;
-            int mask = i;
-            int index = 0;
-            while (mask != 0) {
-                if ((mask & 1) == 1) {
-                    cur += tasks[index];
-                }
-                ++index;
-                mask >>= 1;
-            }
-            valid[i] = cur <= sessionTime;
-        }
+    private int sessionTime1986;
+    private int n1986;
+    private int[] memo1986;
+    private int[] arr1986;
+    private int u1986;
 
-        int[] dp = new int[1 << n];
-        Arrays.fill(dp, Integer.MAX_VALUE / 2);
-        dp[0] = 0;
-        for (int mask = 1; mask < (1 << n); ++mask) {
-            for (int sub = mask; sub != 0; sub = (sub - 1) & mask) {
-                if (valid[sub]) {
-                    dp[mask] = Math.min(dp[mask], dp[mask ^ sub] + 1);
-                }
+    public int minSessions(int[] tasks, int sessionTime) {
+        this.sessionTime1986 = sessionTime;
+        this.n1986 = tasks.length;
+        this.memo1986 = new int[1 << n1986];
+        this.arr1986 = new int[1 << n1986];
+        for (int i = 1; i < 1 << n1986; ++i) {
+            int index = Integer.numberOfTrailingZeros(i);
+            arr1986[i] = arr1986[i ^ (1 << index)] + tasks[index];
+        }
+        Arrays.fill(memo1986, -1);
+        this.u1986 = (1 << n1986) - 1;
+        return dfs1986(0);
+
+    }
+
+    private int dfs1986(int i) {
+        if (i == u1986) {
+            return 0;
+        }
+        if (memo1986[i] != -1) {
+            return memo1986[i];
+        }
+        int res = n1986 + 1;
+        int c = u1986 ^ i;
+        for (int j = c; j > 0; j = (j - 1) & c) {
+            if (arr1986[j] <= sessionTime1986) {
+                res = Math.min(res, dfs1986(i | j) + 1);
             }
         }
-        return dp[(1 << n) - 1];
+        return memo1986[i] = res;
     }
 
     /**
