@@ -2737,11 +2737,10 @@ public class Leetcode_8 {
     public int maxSum(int[] nums) {
         int res = -1;
         int[] maxBit = new int[10];
+        Arrays.fill(maxBit, Integer.MIN_VALUE);
         for (int num : nums) {
             int bit = getMaxBit6939(num);
-            if (maxBit[bit] != 0) {
-                res = Math.max(res, num + maxBit[bit]);
-            }
+            res = Math.max(res, num + maxBit[bit]);
             maxBit[bit] = Math.max(maxBit[bit], num);
         }
         return res;
