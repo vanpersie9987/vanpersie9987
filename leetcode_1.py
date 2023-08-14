@@ -1714,6 +1714,18 @@ class leetcode_1 :
             else:
                 i += 1
         return res
+    
+    # 2063. 所有子字符串中的元音 (Vowels of All Substrings)
+    def countVowels(self, word: str) -> int:
+        res = 0
+        m = 0
+        for c in "aeiou":
+           m |= 1 << (ord(c) - ord('a'))
+        n = len(word)
+        for i, c in enumerate(word):
+            if (m >> (ord(c) - ord('a'))) & 1:
+                 res += (i + 1) * (n - i)
+        return res
           
           
 
