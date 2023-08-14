@@ -1642,5 +1642,27 @@ class leetcode_1 :
              nums[i + 1:] = sorted(nums[i + 1:])
              break
           j -= 1
+
+    # 1771. 由子序列构造的最长回文串的长度 (Maximize Palindrome Length From Subsequences)
+    def longestPalindrome(self, word1: str, word2: str) -> int:
+       n1 = len(word1)
+       n2 = len(word2)
+       s = word1 + word2
+       @cache
+       def dfs(i: int, j: int, k: int) -> int:
+          if i > j:
+             return 0
+          if i == j:
+             return 1
+          if not (i < n1 and j >= n1) and not k:
+             return 0
+          if s[i] == s[j]:
+             return dfs(i + 1, j - 1, 1) + 2
+          return max(dfs(i + 1, j, k), dfs(i, j - 1, k))
+       res = dfs(0, n1 + n2 - 1, 0)
+       return res if res > 1 else 0
+          
+          
+
        
 
