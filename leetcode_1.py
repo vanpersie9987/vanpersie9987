@@ -1749,6 +1749,31 @@ class leetcode_1 :
              j = (j - 1) & c
           return res
        return dfs(0)
+    
+    # 1799. N 次操作后的最大分数和 (Maximize Score After N Operations)
+    def maxScore(self, nums: List[int]) -> int:
+       n = len(nums)
+       u = (1 << n) - 1
+
+       @cache
+       def dfs(i: int, m: int) -> int:
+          if m == u:
+             return 0
+          c = m ^ u
+          j = c
+          res = 0
+          while j:
+             if j.bit_count() == 2:
+               index1 = (j & -j).bit_length() - 1
+               index2 = (j & (j - 1)).bit_length() - 1
+               g = gcd(nums[index1], nums[index2])
+               res = max(res, dfs(i + 1, m | j) + (i + 1) * g)
+             j = (j - 1) & c
+          return res
+       return dfs(0, 0)
+
+             
+
              
           
           
