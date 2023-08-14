@@ -1695,6 +1695,25 @@ class leetcode_1 :
             if left[i] >= time and right[i] >= time:
                 res.append(i)
         return res
+    
+    # 2086. 从房屋收集雨水需要的最少水桶数 (Minimum Number of Food Buckets to Feed the Hamsters)
+    def minimumBuckets(self, hamsters: str) -> int:
+        n = len(hamsters)
+        res = 0
+        i = 0
+        while i < n:
+            if hamsters[i] == 'H':
+                if i + 1 < n and hamsters[i + 1] == '.':
+                    res += 1
+                    i += 3
+                elif i - 1 >= 0 and hamsters[i - 1] == '.':
+                    res += 1
+                    i += 1
+                else:
+                    return -1
+            else:
+                i += 1
+        return res
           
           
 
