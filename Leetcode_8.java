@@ -2809,4 +2809,67 @@ public class Leetcode_8 {
         return res;
 
     }
+
+    // 2818. 操作使得分最大 (Apply Operations to Maximize Score)
+    public int maximumScore(List<Integer> nums, int k) {
+        int n = nums.size();
+        int[] omega = new int[(int) 1e5 + 1];
+        for (int i = 2; i < omega.length; ++i) {
+            if (omega[i] == 0) {
+                for (int j = i; j < omega.length; j += i) {
+                    ++omega[j];
+                }
+            }
+        }
+        int[] left = new int[n];
+        Arrays.fill(left, -1);
+        int[] right = new int[n];
+        Arrays.fill(right, n);
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < n; ++i) {
+            while (!stack.isEmpty() && omega[nums.get(stack.peek())] < omega[nums.get(i)]) {
+                right[stack.pop()] = i;
+            }
+            if (!stack.isEmpty()) {
+                left[i] = stack.peek();
+            }
+            stack.push(i);
+        }
+        Integer[] ids = IntStream.range(0, n).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(nums.get(o2), nums.get(o1));
+            }
+
+        });
+        final int MOD = (int) (1e9 + 7);
+        int res = 1;
+        for (int id : ids) {
+            int x = nums.get(id);
+            int total = (right[id] - id) * (id - left[id]);
+            if (total >= k) {
+                res = (int) (((long) res * pow2818(x, k)) % MOD);
+                break;
+            }
+            res = (int) (((long) res * pow2818(x, total)) % MOD);
+            k -= total;
+        }
+        return res;
+
+    }
+
+    private int pow2818(int a, int b) {
+        if (b == 0) {
+            return 1;
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = pow2818(a, b >> 1);
+        res = (int) (((long) res * res) % MOD);
+        if ((b & 1) == 1) {
+            res = (int) (((long) res * a) % MOD);
+        }
+        return res;
+    }
 }
