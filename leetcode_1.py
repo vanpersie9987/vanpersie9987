@@ -1617,5 +1617,9 @@ class leetcode_1 :
        root1.left = self.mergeTrees(root1.left, root2.left)
        root1.right = self.mergeTrees(root1.right, root2.right)
        return root1
+    
+    # 50. Pow(x, n) (Pow(x, n))
+    def myPow(self, x: float, n: int) -> float:
+       return pow(x, n)
           
 
