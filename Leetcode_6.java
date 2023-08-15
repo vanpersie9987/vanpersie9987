@@ -10338,91 +10338,74 @@ public class Leetcode_6 {
     }
 
     // 1931. 用三种不同颜色为网格涂色 (Painting a Grid With Three Different Colors)
-    private Map<Integer, int[]> map1931;
+    private int[][] memo1931;
     private int m1931;
     private int n1931;
-    private Map<Integer, List<Integer>> adj1931;
-    private int[][] memo1931;
-    private int pow1931;
+    private Set<Integer> set1931;
 
     public int colorTheGrid(int m, int n) {
-        this.m1931 = m;
-        this.n1931 = n;
-        this.map1931 = generate1931();
-        this.adj1931 = getAdj1931();
-        this.pow1931 = (int) Math.pow(3, m);
-
-        memo1931 = new int[n][pow1931];
+        this.memo1931 = new int[n][(int) Math.pow(3, m)];
         for (int i = 0; i < n; ++i) {
             Arrays.fill(memo1931[i], -1);
         }
+        this.m1931 = m;
+        this.n1931 = n;
+        this.set1931 = new HashSet<>();
+        for (int i = 0; i < (int) Math.pow(3, m); ++i) {
+            if (check1931(i)) {
+                set1931.add(i);
+            }
+        }
         int res = 0;
         final int MOD = (int) (1e9 + 7);
-        for (int y : adj1931.keySet()) {
-            res = (res + dfs1931(1, y)) % MOD;
+        for (int i : set1931) {
+            res = (res + dfs1931(1, i)) % MOD;
         }
         return res;
-
     }
 
-    private int dfs1931(int i, int state) {
-        if (i == n1931) {
+    private int dfs1931(int j, int i) {
+        if (j == n1931) {
             return 1;
         }
-        if (memo1931[i][state] != -1) {
-            return memo1931[i][state];
+        if (memo1931[j][i] != -1) {
+            return memo1931[j][i];
         }
         int res = 0;
         final int MOD = (int) (1e9 + 7);
-        for (int y : adj1931.getOrDefault(state, new ArrayList<>())) {
-            res = (res + dfs1931(i + 1, y)) % MOD;
-        }
-        return memo1931[i][state] = res;
-    }
-
-    private Map<Integer, List<Integer>> getAdj1931() {
-        Map<Integer, List<Integer>> res = new HashMap<>();
-        for (Map.Entry<Integer, int[]> entry1 : map1931.entrySet()) {
-            for (Map.Entry<Integer, int[]> entry2 : map1931.entrySet()) {
-                if (checkLegal1931(entry1.getValue(), entry2.getValue())) {
-                    res.computeIfAbsent(entry1.getKey(), k -> new ArrayList<>()).add(entry2.getKey());
-                }
+        for (int k : set1931) {
+            if (legal1931(k, i)) {
+                res = (res + dfs1931(j + 1, k)) % MOD;
             }
         }
-        return res;
+        return memo1931[j][i] = res;
     }
 
-    private boolean checkLegal1931(int[] arr1, int[] arr2) {
-        int n = arr1.length;
-        for (int i = 0; i < n; ++i) {
-            if (arr1[i] == arr2[i]) {
+    private boolean legal1931(int a, int b) {
+        int cnt = m1931;
+        while (cnt-- > 0) {
+            if (a % 3 == b % 3) {
                 return false;
             }
+            a /= 3;
+            b /= 3;
         }
         return true;
     }
 
-    private Map<Integer, int[]> generate1931() {
-        Map<Integer, int[]> res = new HashMap<>();
-        int states = (int) Math.pow(3, m1931);
-        search: for (int i = 0; i < states; ++i) {
-            int mask = i;
-            int[] arr = new int[m1931];
-            int index = 0;
-            while (mask != 0) {
-                arr[index++] = mask % 3;
-                mask /= 3;
+    private boolean check1931(int i) {
+        int pre = -1;
+        int cnt = m1931;
+        while (cnt-- > 0) {
+            if (pre == i % 3) {
+                return false;
             }
-            for (int j = 1; j < m1931; ++j) {
-                if (arr[j] == arr[j - 1]) {
-                    continue search;
-                }
-            }
-            res.put(i, arr);
+            pre = i % 3;
+            i /= 3;
         }
-        return res;
-
+        return true;
     }
+    
 
     // 549. 二叉树中最长的连续序列 --plus
     private int res549;
