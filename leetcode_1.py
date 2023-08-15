@@ -1887,6 +1887,29 @@ class leetcode_1 :
           else:
              left = mid + 1
        return res
+    
+    # 2328. 网格图中递增路径的数目 (Number of Increasing Paths in a Grid)
+    def countPaths(self, grid: List[List[int]]) -> int:
+       m = len(grid)
+       n = len(grid[0])
+       MOD = 10 ** 9 + 7
+       dirs = [0, 1], [0, -1], [1, 0], [-1, 0]
+      
+       @cache
+       def dfs(i: int, j: int) -> int:
+          res = 1
+          for dx, dy in dirs:
+             nx = i + dx
+             ny = j + dy
+             if 0 <= nx < m and 0 <= ny < n and grid[nx][ny] > grid[i][j]:
+                res += dfs(nx, ny)
+          return res
+       res = 0
+       for i in range(m):
+          for j in range(n):
+             res += dfs(i, j)
+             res %= MOD
+       return res
 
              
 
