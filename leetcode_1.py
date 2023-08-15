@@ -1819,3 +1819,22 @@ class leetcode_1 :
           res += dfs(1, i)
           res %= MOD
        return res
+    
+    # 剑指 Offer 46. 把数字翻译成字符串
+    def translateNum(self, num: int) -> int:
+       s = str(num)
+       l = len(s)
+
+       @cache
+       def dfs(i: int) -> int:
+          if i == l:
+             return 1
+          res = dfs(i + 1)
+          if s[i] == '1' and i + 1 < l:
+             res += dfs(i + 2)
+          elif s[i] == '2' and i + 1 < l and '0' <= s[i + 1] <= '5':
+             res += dfs(i + 2)
+          return res
+       return dfs(0)
+             
+             
