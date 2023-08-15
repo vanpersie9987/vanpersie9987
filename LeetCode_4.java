@@ -20,6 +20,7 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class LeetCode_4 {
     public static void main(String[] args) {
@@ -9065,26 +9066,35 @@ public class LeetCode_4 {
     // 833. 字符串中的查找与替换 (Find And Replace in String)
     public String findReplaceString(String s, int[] indices, String[] sources, String[] targets) {
         int n = s.length();
-        int[] match = new int[n];
-        Arrays.fill(match, -1);
-        int k = indices.length;
-        for (int i = 0; i < k; ++i) {
-            int index = indices[i];
-            if (s.substring(index, Math.min(index + sources[i].length(), s.length())).equals(sources[i])) {
-                match[index] = i;
+        int m = indices.length;
+        Integer[] ids = IntStream.range(0, m).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(indices[o1], indices[o2]);
             }
-        }
+
+        });
         StringBuilder res = new StringBuilder();
         int i = 0;
-        while (i < n) {
-            if (match[i] >= 0) {
-                res.append(targets[match[i]]);
-                i += sources[match[i]].length();
+        int j = 0;
+        while (i < n && j < m) {
+            int index = indices[ids[j]];
+            if (index != i) {
+                res.append(s.charAt(i));
+                ++i;
+            } else if (s.substring(index).startsWith(sources[ids[j]])) {
+                res.append(targets[ids[j]]);
+                i += sources[ids[j]].length();
+                ++j;
             } else {
                 res.append(s.charAt(i));
                 ++i;
+                ++j;
             }
         }
+        res.append(s.substring(i));
         return res.toString();
 
     }
