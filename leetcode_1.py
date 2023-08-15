@@ -1863,6 +1863,33 @@ class leetcode_1 :
              return dfs(i + 1, s)
           return dfs(i + 1, s) + 1
        return dfs(0, 0)
+    
+    # 2439. 最小化数组中的最大值 (Minimize Maximum of Array)
+    def minimizeArrayValue(self, nums: List[int]) -> int:
+       def check(target: int) -> bool:
+          have = 0
+          for num in nums:
+             if num <= target:
+                have += target - num
+             elif num - target <= have:
+                have -= num - target
+             else:
+                return False
+          return True
+       left = 0
+       right = 10 ** 9
+       res = 0
+       while left <= right:
+          mid = left + ((right - left) >> 1)
+          if check(mid):
+             res = mid
+             right = mid - 1
+          else:
+             left = mid + 1
+       return res
+
+             
+
           
                         
              
