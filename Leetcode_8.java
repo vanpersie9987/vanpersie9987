@@ -2871,39 +2871,4 @@ public class Leetcode_8 {
         }
         return res;
     }
-
-    public String findReplaceString(String s, int[] indices, String[] sources, String[] targets) {
-        int n = s.length();
-        int m = indices.length;
-        Integer[] ids = IntStream.range(0, m).boxed().toArray(Integer[]::new);
-        Arrays.sort(ids,new Comparator<Integer>() {
-
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return Integer.compare(indices[o1], indices[o2]);
-            }
-            
-        });
-        StringBuilder res = new StringBuilder();
-        int i = 0;
-        int j = 0;
-        while (i < n && j < m) {
-            int index = indices[ids[j]];
-            if (index != i) {
-                res.append(s.charAt(i));
-                ++i;
-            } else if (s.substring(index).startsWith(sources[ids[j]])) {
-                res.append(targets[ids[j]]);
-                i += sources[ids[j]].length();
-                ++j;
-            } else {
-                res.append(s.charAt(i));
-                ++i;
-                ++j;
-            }
-        }
-        res.append(s.substring(i));
-        return res.toString();
-
-    }
 }
