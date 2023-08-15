@@ -553,6 +553,7 @@ class leetcode_1 :
        return (cal(high) - cal(str(int(low) - 1))) % m
     
     # 233. 数字 1 的个数 (Number of Digit One)
+    # 剑指 Offer 43. 1～n 整数中 1 出现的次数
     def countDigitOne(self, n: int) -> int:
        s = str(n)
        m = len(s)
@@ -1818,4 +1819,3 @@ class leetcode_1 :
           res += dfs(1, i)
           res %= MOD
        return res
-          
