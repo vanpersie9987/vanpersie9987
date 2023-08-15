@@ -1771,3 +1771,49 @@ class leetcode_1 :
              j = (j - 1) & c
           return res
        return dfs(0, 0)
+    
+    # 1931. 用三种不同颜色为网格涂色 (Painting a Grid With Three Different Colors)
+    def colorTheGrid(self, m: int, n: int) -> int:
+       MOD = 10 ** 9 + 7
+
+       def check(i: int) -> bool:
+          pre = -1
+          cnt = m
+          while cnt > 0:
+             if pre == i % 3:
+                return False
+             cnt -= 1
+             pre = i % 3
+             i //= 3
+          return True
+
+       def legal(a: int, b: int) -> bool:
+          cnt = m
+          while cnt > 0:
+             if a % 3 == b % 3:
+                return False
+             cnt -= 1
+             a //= 3
+             b //= 3
+          return True
+       
+       @cache
+       def dfs(j: int, i: int) -> int:
+          if j == n:
+             return 1
+          res = 0
+          for k in s:
+             if legal(k, i):
+                res += dfs(j + 1, k)
+                res %= MOD
+          return res
+       s = set()
+       for i in range(pow(3, m)):
+          if check(i):
+             s.add(i)
+       res = 0 
+       for i in s:
+          res += dfs(1, i)
+          res %= MOD
+       return res
+          
