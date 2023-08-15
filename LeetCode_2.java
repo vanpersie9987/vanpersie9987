@@ -6960,7 +6960,7 @@ public class LeetCode_2 {
       chars[j] = temp;
    }
 
-   // 剑指 Offer 46. 把数字翻译成字符串 --动态规划，类似 青蛙跳台、打家劫舍
+   // 剑指 Offer 46. 把数字翻译成字符串
    public int translateNum(int num) {
       String str = String.valueOf(num);
       int p = 0;
@@ -6981,6 +6981,34 @@ public class LeetCode_2 {
       }
       return r;
 
+   }
+
+   // 剑指 Offer 46. 把数字翻译成字符串
+   private int n_offer_46;
+   private char[] arr_offer_46;
+   private int[] memo_offer_46;
+
+   public int translateNum2(int num) {
+      this.arr_offer_46 = String.valueOf(num).toCharArray();
+      this.n_offer_46 = arr_offer_46.length;
+      this.memo_offer_46 = new int[n_offer_46];
+      return dfs_offer_46(0);
+   }
+
+   private int dfs_offer_46(int i) {
+      if (i == n_offer_46) {
+         return 1;
+      }
+      if (memo_offer_46[i] != 0) {
+         return memo_offer_46[i];
+      }
+      int res = dfs_offer_46(i + 1);
+      if (arr_offer_46[i] == '1' && i + 1 < n_offer_46) {
+         res += dfs_offer_46(i + 2);
+      } else if (arr_offer_46[i] == '2' && i + 1 < n_offer_46 && arr_offer_46[i + 1] <= '5' && arr_offer_46[i + 1] >= '0') {
+         res += dfs_offer_46(i + 2);
+      }
+      return memo_offer_46[i] = res;
    }
 
    // 266. 回文排列 (Palindrome Permutation) --Plus
