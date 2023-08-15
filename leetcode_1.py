@@ -244,6 +244,7 @@ class leetcode_1 :
        return dfs(0, 0, 0)
     
     # 120. 三角形最小路径和 (Triangle)
+    # LCR 100. 三角形最小路径和
     def minimumTotal(self, triangle: List[List[int]]) -> int:
        n = len(triangle)
 
