@@ -1836,5 +1836,34 @@ class leetcode_1 :
              res += dfs(i + 2)
           return res
        return dfs(0)
+    
+    # LCP 19. 秋叶收藏集 
+    def minimumOperations(self, leaves: str) -> int:
+       n = len(leaves)
+
+       @cache
+       def dfs(i: int, s: int) -> int:
+          if i == n:
+             return 0 if s == 2 else inf
+          if i == 0:
+             return dfs(i + 1, s) if leaves[i] == 'r' else dfs(i + 1, s) + 1
+          if s == 0:
+             if leaves[i] == 'r':
+                # 不变 // 变  
+                return min(dfs(i + 1, s), dfs(i + 1, s + 1) + 1)
+             # 不变 // 变 
+             return min(dfs(i + 1, s + 1), dfs(i + 1, s) + 1) 
+          if s == 1:
+             if leaves[i] == 'r':
+                # 不变 // 变
+                return min(dfs(i + 1, s + 1), dfs(i + 1, s) + 1)
+             # 不变 // 变
+             return min(dfs(i + 1, s), dfs(i + 1, s + 1) + 1)
+          if leaves[i] == 'r':
+             return dfs(i + 1, s)
+          return dfs(i + 1, s) + 1
+       return dfs(0, 0)
+          
+                        
              
              
