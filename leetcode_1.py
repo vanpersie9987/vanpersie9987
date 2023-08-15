@@ -170,6 +170,7 @@ class leetcode_1 :
    
     
     # 64. 最小路径和 (Minimum Path Sum)
+    # LCR 099. 最小路径和
     def minPathSum(self, grid: List[List[int]]) -> int:
        m = len(grid)
        n = len(grid[0])
