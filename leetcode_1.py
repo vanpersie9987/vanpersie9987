@@ -1910,6 +1910,25 @@ class leetcode_1 :
              res += dfs(i, j)
              res %= MOD
        return res
+    
+    # 1320. 二指输入的的最小距离 (Minimum Distance to Type a Word Using Two Fingers)
+    def minimumDistance(self, word: str) -> int:
+      n = len(word)
+
+      def dis(i: int, j: int) -> int:
+         return abs(i // 6 - j // 6) + abs(i % 6 - j % 6)
+
+      @cache
+      def dfs(i: int, p1: int, p2: int) -> int:
+         if i == n:
+            return 0
+         return min(dfs(i + 1, ord(word[i]) - ord('A'), p2) + dis(ord(word[i]) - ord('A'), p1),
+                    dfs(i + 1, p1,ord(word[i]) - ord('A')) + dis(ord(word[i]) - ord('A'), p2))
+      res = inf
+      for i in range(26):
+         for j in range(26):
+            res = min(res, dfs(0, i, j))
+      return res
 
              
 
