@@ -1944,12 +1944,15 @@ class leetcode_1 :
           if not vis[i]:
              res.append(i + 1)
        return res
-          
-          
+    
+    # 1402. 做菜顺序 (Reducing Dishes)
+    def maxSatisfaction(self, satisfaction: List[int]) -> int:
+       n = len(satisfaction)
+       satisfaction.sort()
 
-             
-
-          
-                        
-             
-             
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return 0
+          return max(dfs(i + 1, j), dfs(i + 1, j + 1) + satisfaction[i] * (j + 1))
+       return dfs(0, 0)
