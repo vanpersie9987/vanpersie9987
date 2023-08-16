@@ -7307,34 +7307,39 @@ public class Leetcode_6 {
     }
 
     // 1458. 两个子序列的最大点积 (Max Dot Product of Two Subsequences)
-    private Integer[][] memo1458;
+    private int n1_1458;
+    private int n2_1458;
     private int[] nums1_1458;
     private int[] nums2_1458;
+    private int[][] memo_1458;
 
     public int maxDotProduct(int[] nums1, int[] nums2) {
-        int m = nums1.length;
-        int n = nums2.length;
+        this.n1_1458 = nums1.length;
+        this.n2_1458 = nums2.length;
         this.nums1_1458 = nums1;
         this.nums2_1458 = nums2;
-        memo1458 = new Integer[m][n];
-        return dfs1458(m - 1, n - 1);
+        this.memo_1458 = new int[n1_1458][n2_1458];
+        for (int i = 0; i < n1_1458; ++i) {
+            Arrays.fill(memo_1458[i], Integer.MIN_VALUE);
+        }
+        return dfs1458(0, 0);
 
     }
 
     private int dfs1458(int i, int j) {
-        if (i < 0 || j < 0) {
-            return -100001;
+        if (i == n1_1458 || j == n2_1458) {
+            return 0;
         }
-        if (memo1458[i][j] != null) {
-            return memo1458[i][j];
+        if (memo_1458[i][j] != Integer.MIN_VALUE) {
+            return memo_1458[i][j];
         }
-        int res = Integer.MIN_VALUE;
+        int res = (int) -1e9;
+        res = Math.max(res, dfs1458(i + 1, j));
+        res = Math.max(res, dfs1458(i, j + 1));
+        res = Math.max(res, dfs1458(i + 1, j + 1));
+        res = Math.max(res, dfs1458(i + 1, j + 1) + nums1_1458[i] * nums2_1458[j]);
         res = Math.max(res, nums1_1458[i] * nums2_1458[j]);
-        res = Math.max(res, nums1_1458[i] * nums2_1458[j] + dfs1458(i - 1, j - 1));
-        res = Math.max(res, dfs1458(i - 1, j));
-        res = Math.max(res, dfs1458(i, j - 1));
-        res = Math.max(res, dfs1458(i - 1, j - 1));
-        return memo1458[i][j] = res;
+        return memo_1458[i][j] = res;
     }
 
     // 1289. 下降路径最小和 II (Minimum Falling Path Sum II)

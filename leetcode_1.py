@@ -1956,3 +1956,38 @@ class leetcode_1 :
              return 0
           return max(dfs(i + 1, j), dfs(i + 1, j + 1) + satisfaction[i] * (j + 1))
        return dfs(0, 0)
+    
+    # 1493. 删掉一个元素以后全为 1 的最长子数组 (Longest Subarray of 1's After Deleting One Element)
+    def longestSubarray(self, nums: List[int]) -> int:
+       n = len(nums)
+       left = 0
+       right = 0
+       zero = 0
+       res = 0
+       while right < n:
+          if nums[right] == 0:
+             zero += 1
+          while zero > 1:
+             if nums[left] == 0:
+                zero -= 1
+             left += 1
+          res = max(res, right - left)
+          right += 1
+       return res
+    
+    # 1493. 删掉一个元素以后全为 1 的最长子数组 (Longest Subarray of 1's After Deleting One Element)
+    def longestSubarray2(self, nums: List[int]) -> int:
+       n = len(nums)
+       a = 0
+       b = 0
+       res = 0
+       for num in nums:
+          if num == 1:
+             a += 1
+             b += 1
+             res = max(res, a)
+          else:
+             a = b
+             b = 0
+       return min(n - 1, res)
+             

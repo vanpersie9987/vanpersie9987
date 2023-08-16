@@ -4501,7 +4501,7 @@ public class LeetCode_2 {
    }
 
    // 1493. 删掉一个元素以后全为 1 的最长子数组 (Longest Subarray of 1's After Deleting One
-   // Element) -- 滑动窗口 还需掌握动态规划
+   // Element)
    public int longestSubarray(int[] nums) {
       int left = 0;
       int right = 0;
@@ -4521,6 +4521,27 @@ public class LeetCode_2 {
       }
 
       return res;
+   }
+
+   // 1493. 删掉一个元素以后全为 1 的最长子数组 (Longest Subarray of 1's After Deleting One
+   // Element)
+   public int longestSubarray2(int[] nums) {
+      int a = 0;
+      int b = 0;
+      int n = nums.length;
+      int res = 0;
+      for (int num : nums) {
+         if (num == 1) {
+            ++a;
+            ++b;
+            res = Math.max(res, a);
+         } else {
+            a = b;
+            b = 0;
+         }      
+      }
+      return Math.min(n - 1, res);
+
    }
 
    // 1658. 将 x 减到 0 的最小操作数 (Minimum Operations to Reduce X to Zero)
