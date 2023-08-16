@@ -5994,31 +5994,20 @@ public class Leetcode_7 {
     // 2682. 找出转圈游戏输家 (Find the Losers of the Circular Game)
     public int[] circularGameLosers(int n, int k) {
         boolean[] vis = new boolean[n];
-        int mul = 0;
-        int cur = 0;
-        // do...while
-        do {
-            vis[cur] = true;
-            ++mul;
-            cur = (cur + k * mul) % n;
-        } while (!vis[cur]);
-
-        // while...do
-        // int mul = 1;
-        // vis[cur] = true;
-        // while (!vis[(cur + k * mul) % n]) {
-        // vis[(cur + k * mul) % n] = true;
-        // cur = (cur + k * mul) % n;
-        // ++mul;
-        // }
-        int[] res = new int[n - mul];
-        int index = 0;
-        for (int i = 0; i < n; ++i) {
-            if (!vis[i]) {
-                res[index++] = i + 1;
+        int step = 1;
+        int i = 0;
+        while (!vis[i]) {
+            vis[i] = true;
+            i = (i + step * k) % n;
+            ++step;
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int j = 0; j < n; ++j) {
+            if (!vis[j]) {
+                res.add(j + 1);
             }
         }
-        return res;
+        return res.stream().mapToInt(o -> o).toArray();
 
     }
 
