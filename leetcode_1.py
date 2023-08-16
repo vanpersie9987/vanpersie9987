@@ -1929,6 +1929,23 @@ class leetcode_1 :
          for j in range(26):
             res = min(res, dfs(0, i, j))
       return res
+    
+    # 2682. 找出转圈游戏输家 (Find the Losers of the Circular Game)
+    def circularGameLosers(self, n: int, k: int) -> List[int]:
+       vis = [False] * n
+       step = 1
+       i = 0
+       while not vis[i]:
+          vis[i] = True
+          i = (i + k * step) % n
+          step += 1
+       res = []
+       for i in range(n):
+          if not vis[i]:
+             res.append(i + 1)
+       return res
+          
+          
 
              
 
