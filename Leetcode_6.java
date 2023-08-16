@@ -7311,35 +7311,36 @@ public class Leetcode_6 {
     private int n2_1458;
     private int[] nums1_1458;
     private int[] nums2_1458;
-    private int[][] memo_1458;
+    private int[][][] memo1458;
 
     public int maxDotProduct(int[] nums1, int[] nums2) {
         this.n1_1458 = nums1.length;
         this.n2_1458 = nums2.length;
         this.nums1_1458 = nums1;
         this.nums2_1458 = nums2;
-        this.memo_1458 = new int[n1_1458][n2_1458];
+        this.memo1458 = new int[n1_1458][n2_1458][2];
         for (int i = 0; i < n1_1458; ++i) {
-            Arrays.fill(memo_1458[i], Integer.MIN_VALUE);
+            for (int j = 0; j < n2_1458; ++j) {
+                Arrays.fill(memo1458[i][j], Integer.MIN_VALUE);
+            }
         }
-        return dfs1458(0, 0);
+        return dfs1458(0, 0, 0);
 
     }
 
-    private int dfs1458(int i, int j) {
+    private int dfs1458(int i, int j, int k) {
         if (i == n1_1458 || j == n2_1458) {
-            return 0;
+            return k == 1 ? 0 : (int) -1e9;
         }
-        if (memo_1458[i][j] != Integer.MIN_VALUE) {
-            return memo_1458[i][j];
+        if (memo1458[i][j][k] != Integer.MIN_VALUE) {
+            return memo1458[i][j][k];
         }
         int res = (int) -1e9;
-        res = Math.max(res, dfs1458(i + 1, j));
-        res = Math.max(res, dfs1458(i, j + 1));
-        res = Math.max(res, dfs1458(i + 1, j + 1));
-        res = Math.max(res, dfs1458(i + 1, j + 1) + nums1_1458[i] * nums2_1458[j]);
-        res = Math.max(res, nums1_1458[i] * nums2_1458[j]);
-        return memo_1458[i][j] = res;
+        res = Math.max(res, dfs1458(i + 1, j, k));
+        res = Math.max(res, dfs1458(i, j + 1, k));
+        res = Math.max(res, dfs1458(i + 1, j + 1, k));
+        res = Math.max(res, dfs1458(i + 1, j + 1, Math.min(1, k + 1)) + nums1_1458[i] * nums2_1458[j]);
+        return memo1458[i][j][k] = res;
     }
 
     // 1289. 下降路径最小和 II (Minimum Falling Path Sum II)
