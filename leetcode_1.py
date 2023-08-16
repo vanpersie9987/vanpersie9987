@@ -1990,4 +1990,16 @@ class leetcode_1 :
              a = b
              b = 0
        return min(n - 1, res)
+    
+    # 1458. 两个子序列的最大点积 (Max Dot Product of Two Subsequences)
+    def maxDotProduct(self, nums1: List[int], nums2: List[int]) -> int:
+       n1 = len(nums1)
+       n2 = len(nums2)
+
+       @cache
+       def dfs(i: int, j: int, k: int) -> int:
+          if i == n1 or j == n2:
+             return 0 if k else -inf
+          return max(dfs(i + 1, j, k), dfs(i, j + 1, k), dfs(i + 1, j + 1, k), dfs(i + 1, j + 1, min(1, k + 1)) + nums1[i] * nums2[j])
+       return dfs(0, 0, 0)
              
