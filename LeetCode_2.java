@@ -521,6 +521,33 @@ public class LeetCode_2 {
 
    }
 
+   // 1402. 做菜顺序 (Reducing Dishes)
+   private int n1402;
+   private int[] satisfaction1402;
+   private int[][] memo1402;
+
+   public int maxSatisfaction2(int[] satisfaction) {
+      Arrays.sort(satisfaction);
+      this.n1402 = satisfaction.length;
+      this.satisfaction1402 = satisfaction;
+      this.memo1402 = new int[n1402][n1402];
+      for (int i = 0; i < n1402; ++i) {
+         Arrays.fill(memo1402[i], (int) -1e8);
+      }
+      return dfs1402(0, 0);
+
+   }
+
+   private int dfs1402(int i, int j) {
+      if (i == n1402) {
+         return 0;
+      }
+      if (memo1402[i][j] != (int) -1e8) {
+         return memo1402[i][j];
+      }
+      return memo1402[i][j] = Math.max(dfs1402(i + 1, j), dfs1402(i + 1, j + 1) + satisfaction1402[i] * (j + 1));
+   }
+
    // 1605. 给定行和列的和求可行矩阵 (Find Valid Matrix Given Row and Column Sums)
    public int[][] restoreMatrix(int[] rowSum, int[] colSum) {
       int m = rowSum.length;
