@@ -1070,36 +1070,36 @@ class leetcode_1 :
        return dfs(0, n - 1, result)
     
     # 1444. 切披萨的方案数 (Number of Ways of Cutting a Pizza)
-    def ways(self, pizza: List[str], k: int) -> int:
-       MOD = 10 ** 9 + 7
+    def ways2(self, pizza: List[str], k: int) -> int:
        m = len(pizza)
        n = len(pizza[0])
+       MOD = 10 ** 9 + 7
        pre = [[0] * (n + 1) for _ in range(m + 1)]
        for i in range(1, m + 1):
           for j in range(1, n + 1):
-             pre[i][j] = pre[i - 1][j] + pre[i][j - 1] - pre[i - 1][j - 1] + (1 if 'A' == pizza[i - 1][j - 1] else 0)
-       def getCount(i: int, j: int, x: int, y: int) -> int:
-          return pre[x + 1][y + 1] - pre[i][y + 1] - pre[x + 1][j] + pre[i][j]
+             pre[i][j] = pre[i - 1][j] + pre[i][j - 1] - pre[i - 1][j - 1] + (1 if pizza[i - 1][j - 1] == 'A' else 0)
+       def getCounts(x1: int, y1: int, x2: int, y2: int) -> int:
+          return pre[x2 + 1][y2 + 1] - pre[x1][y2 + 1] - pre[x2 + 1][y1] + pre[x1][y1]
        @cache
-       def dfs(i: int, j:int, l:int) -> int:
-          cnt = getCount(i, j, m - 1, n - 1)
+       def dfs(i: int, j: int, l: int) -> int:
+          c = getCounts(i, j, m - 1, n - 1)
           if l == 1:
-             return 1 if cnt > 0 else 0
-          if (m - i) * (n - j) < l:
+             return 1 if c > 0 else 0
+          if m - 1 - i + n - 1 - j + 1 < l:
              return 0
-          if cnt < l:
+          if l > c:
              return 0
           res = 0
-          for k in range(i + 1, m):
-             c = getCount(i, j, k - 1, n - 1)
-             if c > 0:
-               res += dfs(k, j, l - 1)
-               res %= MOD
-          for k in range(j + 1, n):
-             c = getCount(i, j, m - 1, k - 1)
-             if c > 0:
-               res += dfs(i, k, l - 1)
-               res %= MOD
+          for k in range(i, m - 1):
+             cnt = getCounts(i, j, k, n - 1)
+             if cnt > 0:
+                res += dfs(k + 1, j, l - 1)
+                res %= MOD
+          for k in range(j, n - 1):
+             cnt = getCounts(i, j, m - 1, k)
+             if cnt > 0:
+                res += dfs(i, k + 1, l - 1)
+                res %= MOD
           return res
        return dfs(0, 0, k)
     
@@ -2002,4 +2002,4 @@ class leetcode_1 :
              return 0 if k else -inf
           return max(dfs(i + 1, j, k), dfs(i, j + 1, k), dfs(i + 1, j + 1, k), dfs(i + 1, j + 1, min(1, k + 1)) + nums1[i] * nums2[j])
        return dfs(0, 0, 0)
-             
+
