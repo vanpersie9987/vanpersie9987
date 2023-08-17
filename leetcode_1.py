@@ -2002,4 +2002,22 @@ class leetcode_1 :
              return 0 if k else -inf
           return max(dfs(i + 1, j, k), dfs(i, j + 1, k), dfs(i + 1, j + 1, k), dfs(i + 1, j + 1, min(1, k + 1)) + nums1[i] * nums2[j])
        return dfs(0, 0, 0)
+    
+    # 1449. 数位成本和为目标值的最大数字 (Form Largest Integer With Digits That Add up to Target)
+    def largestNumber(self, cost: List[int], target: int) -> str:
+       
+       @cache
+       def dfs(i: int) -> str:
+          if i == target:
+             return ""
+          res = ""
+          for j in range(0, 9):
+             if cost[j] + i <= target:
+                s = str(j + 1) + dfs(cost[j] + i)
+                if not s.__contains__("0"):
+                   if len(s) > len(res) or len(s) == len(res) and s > res:
+                      res = s
+          return "0" if res == "" else res
+       return dfs(0)
+
 
