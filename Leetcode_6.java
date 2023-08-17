@@ -8112,66 +8112,64 @@ public class Leetcode_6 {
     }
 
     // 1444. 切披萨的方案数 (Number of Ways of Cutting a Pizza)
-    private int[][][] memo1444;
-    private int[][] pre1444;
     private int m1444;
     private int n1444;
+    private int[][] pre1444;
+    private int[][][] memo1444;
 
     public int ways(String[] pizza, int k) {
         this.m1444 = pizza.length;
         this.n1444 = pizza[0].length();
-        memo1444 = new int[m1444][n1444][k];
-        for (int i = 0; i < m1444; ++i) {
-            for (int j = 0; j < n1444; ++j) {
-                Arrays.fill(memo1444[i][j], -1);
-            }
-        }
         this.pre1444 = new int[m1444 + 1][n1444 + 1];
         for (int i = 1; i < m1444 + 1; ++i) {
             for (int j = 1; j < n1444 + 1; ++j) {
                 pre1444[i][j] = pre1444[i - 1][j] + pre1444[i][j - 1] - pre1444[i - 1][j - 1]
                         + (pizza[i - 1].charAt(j - 1) == 'A' ? 1 : 0);
             }
-        }
 
-        return dfs1444(0, 0, k - 1);
+        }
+        this.memo1444 = new int[m1444][n1444][k + 1];
+        for (int i = 0; i < m1444; ++i) {
+            for (int j = 0; j < n1444; ++j) {
+                Arrays.fill(memo1444[i][j], -1);
+            }
+        }
+        return dfs1444(0, 0, k);
 
     }
 
-    private int dfs1444(int x, int y, int left) {
-        int count = getApplesCounts(x, y, m1444 - 1, n1444 - 1);
-        if (left == 0) {
-            return count > 0 ? 1 : 0;
+    private int dfs1444(int i, int j, int l) {
+        int c = getCounts1444(i, j, m1444 - 1, n1444 - 1);
+        if (l == 1) {
+            return c > 0 ? 1 : 0;
         }
-        if (count < left + 1) {
+        if (m1444 - 1 - i + n1444 - 1 - j + 1 < l) {
             return 0;
         }
-        if ((m1444 - x - 1) + (n1444 - y - 1) < left) {
+        if (l > c) {
             return 0;
         }
-        if (memo1444[x][y][left] != -1) {
-            return memo1444[x][y][left];
+        if (memo1444[i][j][l] != -1) {
+            return memo1444[i][j][l];
         }
-        final int MOD = (int) (1e9 + 7);
         int res = 0;
-        for (int i = x; i < m1444 - 1; ++i) {
-            int c = getApplesCounts(x, y, i, n1444 - 1);
-            if (c == 0) {
-                continue;
+        final int MOD = (int) (1e9 + 7);
+        for (int k = i; k < m1444 - 1; ++k) {
+            int cnt = getCounts1444(i, j, k, n1444 - 1);
+            if (cnt > 0) {
+                res = (res + dfs1444(k + 1, j, l - 1)) % MOD;
             }
-            res = (res + dfs1444(i + 1, y, left - 1)) % MOD;
         }
-        for (int j = y; j < n1444 - 1; ++j) {
-            int c = getApplesCounts(x, y, m1444 - 1, j);
-            if (c == 0) {
-                continue;
+        for (int k = j; k < n1444 - 1; ++k) {
+            int cnt = getCounts1444(i, j, m1444 - 1, k);
+            if (cnt > 0) {
+                res = (res + dfs1444(i, k + 1, l - 1)) % MOD;
             }
-            res = (res + dfs1444(x, j + 1, left - 1)) % MOD;
         }
-        return memo1444[x][y][left] = res;
+        return memo1444[i][j][l] = res;
     }
 
-    private int getApplesCounts(int x1, int y1, int x2, int y2) {
+    private int getCounts1444(int x1, int y1, int x2, int y2) {
         return pre1444[x2 + 1][y2 + 1] - pre1444[x2 + 1][y1] - pre1444[x1][y2 + 1] + pre1444[x1][y1];
     }
 
