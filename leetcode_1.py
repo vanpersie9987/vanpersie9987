@@ -2019,5 +2019,12 @@ class leetcode_1 :
                       res = s
           return "0" if res == "" else res
        return dfs(0)
+    
+    # 389. 找不同 (Find the Difference)
+    def findTheDifference(self, s: str, t: str) -> str:
+        res = 0
+        for c in s + t:
+            res ^= ord(c)
+        return chr(res)
 
 
