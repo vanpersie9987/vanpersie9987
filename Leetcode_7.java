@@ -946,34 +946,37 @@ public class Leetcode_7 {
     }
 
     // 1449. 数位成本和为目标值的最大数字 (Form Largest Integer With Digits That Add up to Target)
-    private String[] memo1449;
     private int[] cost1449;
+    private int target1449;
+    private String[] memo1449;
 
     public String largestNumber(int[] cost, int target) {
-        this.memo1449 = new String[target + 1];
         this.cost1449 = cost;
-        return dfs1449(target);
+        this.target1449 = target;
+        this.memo1449 = new String[target + 1];
+        return dfs1449(0);
+
     }
 
-    private String dfs1449(int left) {
-        if (left == 0) {
+    private String dfs1449(int i) {
+        if (i == target1449) {
             return "";
         }
-        if (memo1449[left] != null) {
-            return memo1449[left];
+        if (memo1449[i] != null) {
+            return memo1449[i];
         }
         String res = "";
-        for (int j = 0; j < cost1449.length; ++j) {
-            if (left - cost1449[j] >= 0) {
-                String cur = String.valueOf(j + 1) + dfs1449(left - cost1449[j]);
-                if (!cur.contains("0")) {
-                    if (cur.length() > res.length() || cur.length() == res.length() && cur.compareTo(res) > 0) {
-                        res = cur;
+        for (int j = 0; j < 9; ++j) {
+            if (cost1449[j] + i <= target1449) {
+                String s = String.valueOf(j + 1) + dfs1449(cost1449[j] + i);
+                if (!s.contains("0")) {
+                    if (s.length() > res.length() || s.length() == res.length() && s.compareTo(res) > 0) {
+                        res = s;
                     }
                 }
             }
         }
-        return memo1449[left] = res.isEmpty() ? "0" : res;
+        return memo1449[i] = res.isEmpty() ? "0" : res;
     }
 
     // 6354. K 件物品的最大和 (K Items With the Maximum Sum)
