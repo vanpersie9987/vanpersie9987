@@ -16798,28 +16798,35 @@ public class LeetCodeText {
 
     // 838. 推多米诺 (Push Dominoes)
     public String pushDominoes(String dominoes) {
-        char[] handles = new char[dominoes.length() + 2];
-        handles[0] = 'L';
-        handles[handles.length - 1] = 'R';
-        int index = 1;
-        for (int i = 0; i < dominoes.length(); ++i) {
-            handles[index++] = dominoes.charAt(i);
-        }
-        int left = 0;
-        for (int right = 1; right < handles.length; ++right) {
-            if (handles[right] != '.') {
-                if (handles[left] == handles[right]) {
-                    Arrays.fill(handles, left, right, handles[left]);
-                } else if (handles[left] == 'R' && handles[right] == 'L') {
-                    int count = right - left - 1;
-                    Arrays.fill(handles, left, left + count / 2 + 1, 'R');
-                    Arrays.fill(handles, right - count / 2, right, 'L');
-
+        int n = dominoes.length();
+        char[] arr = dominoes.toCharArray();
+        int i = 0;
+        int j = 0;
+        while (j < n) {
+            if (arr[j] == 'L') {
+                if (arr[i] == 'R') {
+                    Arrays.fill(arr, i + 1, i + (j - i - 1) / 2 + 1, 'R');
+                    Arrays.fill(arr, j - (j - i - 1) / 2, j, 'L');
+                } else {
+                    Arrays.fill(arr, i, j, 'L');
                 }
-                left = right;
+                i = j;
+            } else if (arr[j] == 'R') {
+                if (arr[i] == 'R') {
+                    Arrays.fill(arr, i, j, 'R');
+                }
+                i = j;
             }
+            ++j;
         }
-        return String.valueOf(handles).substring(1, handles.length - 1);
+        j = n - 1;
+        while (j >= 0 && arr[j] == '.') {
+            --j;
+        }
+        if (j >= 0 && arr[j] == 'R') {
+            Arrays.fill(arr, j, n, 'R');
+        }
+        return String.valueOf(arr);
 
     }
 
