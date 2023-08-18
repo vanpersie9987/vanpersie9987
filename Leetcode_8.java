@@ -2020,8 +2020,11 @@ public class Leetcode_8 {
     }
 
     private int dfs1388(int i, int j) {
-        if (i >= n1388 || j == m1388) {
+        if (j == m1388) {
             return 0;
+        }
+        if (i >= n1388) {
+            return (int) -1e9;
         }
         if (memo1388[i][j] != 0) {
             return memo1388[i][j];
