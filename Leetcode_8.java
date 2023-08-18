@@ -2874,4 +2874,46 @@ public class Leetcode_8 {
         }
         return res;
     }
+
+    private int[] nums;
+    private int n;
+    private int[][] memo;
+
+    public int maxProduct(int[] nums) {
+        this.nums = nums;
+        this.n = nums.length;
+        this.memo = new int[n][2];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo[i], (int) 1e8);
+        }
+        int res = Integer.MIN_VALUE;
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, dfs(i, 0));
+        }
+        return res;
+    }
+
+    private int dfs(int i, int j) {
+        if (i < 0) {
+            return 1;
+        }
+        if (memo[i][j] != (int) 1e8) {
+            return memo[i][j];
+        }
+        int res = nums[i];
+        if (j == 0) {
+            if (nums[i] < 0) {
+                res = Math.max(res, dfs(i - 1, j ^ 1) * nums[i]);
+            } else {
+                res = Math.max(res, dfs(i - 1, j) * nums[i]); 
+            }
+        } else {
+            if (nums[i] < 0) {
+                res = Math.min(res, dfs(i - 1, j ^ 1) * nums[i]);
+            } else {
+                res = Math.min(res, dfs(i - 1, j) * nums[i]);
+            }
+        }
+        return memo[i][j] = res;
+    }
 }

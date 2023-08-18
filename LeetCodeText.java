@@ -16,15 +16,15 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class LeetCodeText {
-    private int[] nums;
-    private int target;
-    private int[] nums2;
-    private int target2;
-    private String word;
-    private char[][] board;
-    private boolean[][] marked;
-    private final int[][] directions = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
-    private static String[] transactions = { "alice,20,800,mtv", "alice,50,100,beijing" };
+    // private int[] nums;
+    // private int target;
+    // private int[] nums2;
+    // private int target2;
+    // private String word;
+    // private char[][] board;
+    // private boolean[][] marked;
+    // private final int[][] directions = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+    // private static String[] transactions = { "alice,20,800,mtv", "alice,50,100,beijing" };
 
     public static void main(final String[] args) {
         // int[] nums = new int[5];
@@ -1533,7 +1533,7 @@ public class LeetCodeText {
         }
     }
 
-    // 152. 乘积最大子数组
+    // 152. 乘积最大子数组 (Maximum Product Subarray)
     public int maxProduct(final int[] nums) {
         int max = Integer.MIN_VALUE;
         int iMax = 1;
@@ -1550,6 +1550,51 @@ public class LeetCodeText {
         }
         return max;
 
+    }
+
+    // 152. 乘积最大子数组 (Maximum Product Subarray)
+    private int[] nums152;
+    private int n152;
+    private int[][] memo152;
+
+    public int maxProduct2(int[] nums) {
+        this.nums152 = nums;
+        this.n152 = nums.length;
+        this.memo152 = new int[n152][2];
+        for (int i = 0; i < n152; ++i) {
+            Arrays.fill(memo152[i], (int) 1e8);
+        }
+        int res = Integer.MIN_VALUE;
+        for (int i = 0; i < n152; ++i) {
+            res = Math.max(res, dfs152(i, 0));
+        }
+        return res;
+    }
+
+    // 以 i 结尾、最大 (j == 0) 子数组的乘积
+    // 以 i 结尾、最小 (j == 1) 子数组的乘积
+    private int dfs152(int i, int j) {
+        if (i < 0) {
+            return 1;
+        }
+        if (memo152[i][j] != (int) 1e8) {
+            return memo152[i][j];
+        }
+        int res = nums152[i];
+        if (j == 0) {
+            if (nums152[i] < 0) {
+                res = Math.max(res, dfs152(i - 1, j ^ 1) * nums152[i]);
+            } else {
+                res = Math.max(res, dfs152(i - 1, j) * nums152[i]);
+            }
+        } else {
+            if (nums152[i] < 0) {
+                res = Math.min(res, dfs152(i - 1, j ^ 1) * nums152[i]);
+            } else {
+                res = Math.min(res, dfs152(i - 1, j) * nums152[i]);
+            }
+        }
+        return memo152[i][j] = res;
     }
 
     // 153. 寻找旋转排序数组中的最小值
@@ -3513,15 +3558,15 @@ public class LeetCodeText {
 
     // 915. 分割数组 (Partition Array into Disjoint Intervals)
     public int partitionDisjoint(int[] A) {
-        int n = nums.length;
+        int n = nums152.length;
         int[] rightMin = new int[n];
-        rightMin[n - 1] = nums[n - 1];
+        rightMin[n - 1] = nums152[n - 1];
         for (int i = n - 2; i >= 0; --i) {
-            rightMin[i] = Math.min(rightMin[i + 1], nums[i]);
+            rightMin[i] = Math.min(rightMin[i + 1], nums152[i]);
         }
         int leftMax = 0;
         for (int i = 0; i < n - 1; ++i) {
-            leftMax = Math.max(leftMax, nums[i]);
+            leftMax = Math.max(leftMax, nums152[i]);
             if (leftMax <= rightMin[i + 1]) {
                 return i + 1;
             }
