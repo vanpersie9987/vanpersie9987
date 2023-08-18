@@ -2049,7 +2049,41 @@ class leetcode_1 :
           return res
        return max(dfs(i, 0) for i in range(n))
     
-    
+    # 838. 推多米诺 (Push Dominoes)
+    def pushDominoes(self, dominoes: str) -> str:
+       n = len(dominoes)
+       res = ['.'] * n
+       i = 0
+       j = 0
+       while j < n:
+          if dominoes[j] == 'L':
+             if dominoes[i] == 'R':
+                for k in range(i + 1, i + (j - i - 1) // 2 + 1):
+                   res[k] = 'R'
+                for k in range(j - (j - i - 1) // 2, j):
+                   res[k] = 'L'
+             else:
+                for k in range(i, j):
+                   res[k] = 'L'
+             res[j] = 'L'
+             i = j
+          elif dominoes[j] == 'R':
+             if dominoes[i] == 'R':
+                for k in range(i, j):
+                   res[k] = 'R'
+             res[j] = 'R'
+             i = j
+          j += 1
+
+       j = n - 1
+       while j >= 0 and dominoes[j] == '.':
+          j -= 1
+       if j >= 0 and dominoes[j] == 'R':
+          for k in range(j, n):
+             res[k] = 'R'
+          
+       return "".join(res)
+                
              
 
 
