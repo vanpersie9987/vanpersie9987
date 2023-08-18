@@ -2026,5 +2026,28 @@ class leetcode_1 :
         for c in s + t:
             res ^= ord(c)
         return chr(res)
+    
+    # 152. 乘积最大子数组 (Maximum Product Subarray)
+    def maxProduct(self, nums: List[int]) -> int:
+       n = len(nums)
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i < 0:
+             return 1
+          res = nums[i]
+          if j == 0:
+             if nums[i] < 0:
+                res = max(res, dfs(i - 1, j ^ 1) * nums[i])
+             else:
+                res = max(res, dfs(i - 1, j) * nums[i])
+          else:
+             if nums[i] < 0:
+                res = min(res, dfs(i - 1, j ^ 1) * nums[i])
+             else:
+                res = min(res, dfs(i - 1, j) * nums[i])
+          return res
+       return max(dfs(i, 0) for i in range(n))
+             
 
 
