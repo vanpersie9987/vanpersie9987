@@ -2083,6 +2083,26 @@ class leetcode_1 :
              res[k] = 'R'
           
        return "".join(res)
+    
+    # 828. 统计子串中的唯一字符 (Count Unique Characters of All Substrings of a Given String)
+    def uniqueLetterString(self, s: str) -> int:
+       n = len(s)
+       last = [-1] * 26
+       pre = [-1] * n
+       for i, c in enumerate(s):
+          j = ord(c) - ord('A')
+          pre[i] = last[j]
+          last[j] = i
+       last = [n] * 26
+       suf = [n] * n
+       for i in range(n - 1, -1, -1):
+          j = ord(s[i]) - ord('A')
+          suf[i] = last[j]
+          last[j] = i
+       res = 0
+       for i in range(n):
+          res += (i - pre[i]) * (suf[i] - i)
+       return res
                 
              
 
