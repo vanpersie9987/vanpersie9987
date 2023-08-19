@@ -2910,43 +2910,41 @@ public class Leetcode_8 {
 
     }
     
-    // private int n;
-    // private List<Integer> nums;
-    // private int[][] memo;
+    // 6941. 将三个组排序 (Sorting Three Groups)
+    private int n6941;
+    private List<Integer> nums6941;
+    private int[][] memo6941;
 
-    // public int minimumOperations(List<Integer> nums) {
-    //     this.n = nums.size();
-    //     this.nums = nums;
-    //     this.memo = new int[n][4];
-    //     for (int i = 0; i < n; ++i) {
-    //         Arrays.fill(memo[i], -1);
-    //     }
-    //     return dfs(0, 1);
+    public int minimumOperations(List<Integer> nums) {
+        this.n6941 = nums.size();
+        this.nums6941 = nums;
+        this.memo6941 = new int[n6941][4];
+        for (int i = 0; i < n6941; ++i) {
+            Arrays.fill(memo6941[i], -1);
+        }
+        return dfs6941(0, 1);
 
-    // }
+    }
 
-    // private int dfs(int i, int j) {
-    //     if (i == n) {
-    //         return 0;
-    //     }
-    //     if (memo[i][j] != -1) {
-    //         return memo[i][j];
-    //     }
-    //     int res = Integer.MAX_VALUE;
-    //     if (j <= nums.get(i)) {
-    //         // 不改
-    //         res = Math.min(res, dfs(i + 1, nums.get(i)));
-    //         for (int k = j; k <= 3; ++k) {
-    //             if (nums.get(i) != k) {
-    //                 // 改
-    //                 res = Math.min(res, dfs(i + 1, k) + 1);
-    //             }
-    //         }
-    //     } else {
-    //         res = Math.min(res, dfs(i + 1, j) + 1);
-    //     }
-    //     return memo[i][j] = res;
-    // }
+    private int dfs6941(int i, int j) {
+        if (i == n6941) {
+            return 0;
+        }
+        if (memo6941[i][j] != -1) {
+            return memo6941[i][j];
+        }
+        int res = Integer.MAX_VALUE;
+        for (int k = j; k <= 3; ++k) {
+            if (nums6941.get(i) != k) {
+                // 改
+                res = Math.min(res, dfs6941(i + 1, k) + 1);
+            } else {
+                // 不改
+                res = Math.min(res, dfs6941(i + 1, k));
+            }
+        }
+        return memo6941[i][j] = res;
+    }
 
     // 8013. 范围中美丽整数的数目 (Number of Beautiful Integers in the Range)
     private int k8013;
