@@ -201,6 +201,17 @@ public class LeetCode_4 {
         return num1 + num2;
     }
 
+    // 2235. 两整数相加 (Add Two Integers)
+    public int sum2(int num1, int num2) {
+        while (num2 != 0) {
+            int carry = (num1 & num2) << 1;
+            num1 ^= num2;
+            num2 = carry;
+        }
+        return num1;
+
+    }
+
     // 2236. 判断根结点是否等于子结点之和 (Root Equals Sum of Children)
     public boolean checkTree(TreeNode root) {
         return root.val == root.left.val + root.right.val;
