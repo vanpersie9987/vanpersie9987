@@ -2103,6 +2103,26 @@ class leetcode_1 :
        for i in range(n):
           res += (i - pre[i]) * (suf[i] - i)
        return res
+    
+    # 1879. 两个数组最小的异或值之和 (Minimum XOR Sum of Two Arrays)
+    def minimumXORSum(self, nums1: List[int], nums2: List[int]) -> int:
+       n = len(nums1)
+       u = (1 << n) - 1
+
+       @cache
+       def dfs(i: int, m: int) -> int:
+          if i == n:
+             return 0
+          c = u ^ m
+          res = inf
+          while c:
+             index = (c & -c).bit_length() - 1
+             res = min(res, dfs(i + 1, m | (1 << index)) + (nums1[i] ^ nums2[index]))
+             c &= c - 1
+          return res
+       return dfs(0, 0)
+
+          
                 
              
 
