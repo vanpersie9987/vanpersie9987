@@ -2141,11 +2141,13 @@ class leetcode_1 :
              return True
           if i == n:
              return False
+          # 不选
           if dfs(i + 1, m):
              return True
           c = u ^ m
           j = c
           while j:
+             # 选
              if cnt[i] >= sum[j] and dfs(i + 1, m | j):
                 return True
              j = (j - 1) & c
