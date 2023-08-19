@@ -2123,7 +2123,7 @@ class leetcode_1 :
        return dfs(0, 0)
 
           
-      # 1655. 分配重复整数 (Distribute Repeating Integers)
+    # 1655. 分配重复整数 (Distribute Repeating Integers)
     def canDistribute(self, nums: List[int], quantity: List[int]) -> bool:
        c = Counter(nums)
        cnt = list(c.values())

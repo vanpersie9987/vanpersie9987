@@ -436,7 +436,7 @@ public class Leetcode_8 {
         }
         int m = quantity.length;
         this.sum1655 = new int[1 << m];
-        for (int i = 1; i < (1 << m); ++i) {
+        for (int i = 1; i < 1 << m; ++i) {
             int bit = Integer.numberOfTrailingZeros(i);
             int y = i ^ (1 << bit);
             sum1655[i] = sum1655[y] + quantity[bit];
