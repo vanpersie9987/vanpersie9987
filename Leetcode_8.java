@@ -458,19 +458,20 @@ public class Leetcode_8 {
             return memo1655[i][mask] > 0;
         }
         // 不选
-        boolean res = dfs1655(i + 1, mask);
+        if (dfs1655(i + 1, mask)) {
+            memo1655[i][mask] = 1;
+            return true;
+        }
         int c = u1655 ^ mask;
         for (int j = c; j > 0; j = (j - 1) & c) {
-            if (cnts1655[i] >= sum1655[j]) {
+            if (cnts1655[i] >= sum1655[j] && dfs1655(i + 1, mask | j)) {
                 // 选
-                res = res || dfs1655(i + 1, mask | j);
-            }
-            if (res) {
-                break;
+                memo1655[i][mask] = 1;
+                return true;
             }
         }
-        memo1655[i][mask] = res ? 1 : -1;
-        return res;
+        memo1655[i][mask] = -1;
+        return false;
     }
 
     // 1879. 两个数组最小的异或值之和 (Minimum XOR Sum of Two Arrays)
