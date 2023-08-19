@@ -2875,4 +2875,126 @@ public class Leetcode_8 {
         }
         return res;
     }
+
+    // 6954. 统计和小于目标的下标对数目 (Count Pairs Whose Sum is Less than Target)
+    public int countPairs(List<Integer> nums, int target) {
+        Collections.sort(nums);
+        int res = 0;
+        int i = 0;
+        int j = nums.size() - 1;
+        while (i < j) {
+            if (nums.get(i) + nums.get(j) >= target) {
+                --j;
+            } else {
+                res += j - i;
+                ++i;
+            }
+        }
+        return res;
+    }
+
+    // 8014. 循环增长使字符串子序列等于另一个字符串 (Make String a Subsequence Using Cyclic Increments)
+    public boolean canMakeSubsequence(String str1, String str2) {
+        int n1 = str1.length();
+        int n2 = str2.length();
+        int i = 0;
+        int j = 0;
+        while (i < n1 && j < n2) {
+            if (str1.charAt(i) == str2.charAt(j)
+                    || ((char) ((str1.charAt(i) - 'a' + 1) % 26) + 'a') == str2.charAt(j)) {
+                ++j;
+            }
+            ++i;
+        }
+        return j == n2;
+
+    }
+    
+    // private int n;
+    // private List<Integer> nums;
+    // private int[][] memo;
+
+    // public int minimumOperations(List<Integer> nums) {
+    //     this.n = nums.size();
+    //     this.nums = nums;
+    //     this.memo = new int[n][4];
+    //     for (int i = 0; i < n; ++i) {
+    //         Arrays.fill(memo[i], -1);
+    //     }
+    //     return dfs(0, 1);
+
+    // }
+
+    // private int dfs(int i, int j) {
+    //     if (i == n) {
+    //         return 0;
+    //     }
+    //     if (memo[i][j] != -1) {
+    //         return memo[i][j];
+    //     }
+    //     int res = Integer.MAX_VALUE;
+    //     if (j <= nums.get(i)) {
+    //         // 不改
+    //         res = Math.min(res, dfs(i + 1, nums.get(i)));
+    //         for (int k = j; k <= 3; ++k) {
+    //             if (nums.get(i) != k) {
+    //                 // 改
+    //                 res = Math.min(res, dfs(i + 1, k) + 1);
+    //             }
+    //         }
+    //     } else {
+    //         res = Math.min(res, dfs(i + 1, j) + 1);
+    //     }
+    //     return memo[i][j] = res;
+    // }
+
+    // 8013. 范围中美丽整数的数目 (Number of Beautiful Integers in the Range)
+    private int k8013;
+
+    public int numberOfBeautifulIntegers(int low, int high, int k) {
+        this.k8013 = k;
+        return check8013(high) - check8013(low - 1);
+
+    }
+
+    private char[] arr8013;
+    private int[][][][] memo8013;
+    private int n8013;
+
+    private int check8013(int num) {
+        arr8013 = String.valueOf(num).toCharArray();
+        this.n8013 = arr8013.length;
+        this.memo8013 = new int[n8013][n8013 + 1][n8013 + 1][20];
+        for (int i = 0; i < n8013; ++i) {
+            for (int j = 0; j < n8013 + 1; ++j) {
+                for (int k = 0; k < n8013 + 1; ++k) {
+                    Arrays.fill(memo8013[i][j][k], -1);
+                }
+            }
+        }
+        return dfs8013(0, 0, 0, 0, true, false);
+    }
+
+    private int dfs8013(int i, int even, int odd, int m, boolean isLimit, boolean isNum) {
+        if (i == n8013) {
+            return (isNum && even == odd && m % k8013 == 0) ? 1 : 0;
+        }
+        if (!isLimit && isNum && memo8013[i][even][odd][m] != -1) {
+            return memo8013[i][even][odd][m];
+        }
+        int res = 0;
+        if (!isNum) {
+            res = dfs8013(i + 1, even, odd, m, false, false);
+        }
+        int up = isLimit ? arr8013[i] - '0' : 9;
+        for (int j = isNum ? 0 : 1; j <= up; ++j) {
+            res += dfs8013(i + 1, even + (j % 2 == 0 ? 1 : 0),
+                    odd + (j % 2 == 1 ? 1 : 0), (m * 10 + j) % k8013, isLimit && j == up, true);
+        }
+        if (!isLimit && isNum) {
+            memo8013[i][even][odd][m] = res;
+        }
+        return res;
+    }
+
 }

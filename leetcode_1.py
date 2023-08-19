@@ -2169,6 +2169,21 @@ class leetcode_1 :
           res += j - i + 1
           j += 1
        return res
-         
-
     
+
+    # 8013. 范围中美丽整数的数目 (Number of Beautiful Integers in the Range)
+    def numberOfBeautifulIntegers(self, low: int, high: int, k: int) -> int:
+       def cal(s: str) -> int:
+         @cache
+         def dfs(i: int, diff: int, m: int, isLimit: bool, isNum: bool) -> int:
+            if i == len(s):
+               return 1 if isNum and diff == 0 and m == 0 else 0
+            res = 0
+            if not isNum:
+               res = dfs(i + 1, 0, 0, False, False)
+            up = ord(s[i]) - ord('0') if isLimit else 9
+            for j in range( 0 if isNum else 1, up + 1):
+               res += dfs(i + 1, diff + (1 if j % 2 == 0 else -1), (m * 10 + j) % k, isLimit and j == up, True)
+            return res
+         return dfs(0, 0, 0, True, False)
+       return cal(str(high)) - cal(str(low - 1))
