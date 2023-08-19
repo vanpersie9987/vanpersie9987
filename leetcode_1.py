@@ -2154,3 +2154,21 @@ class leetcode_1 :
           return False
        return dfs(0, 0)
     
+    # 713. 乘积小于 K 的子数组 (Subarray Product Less Than K)
+    def numSubarrayProductLessThanK(self, nums: List[int], k: int) -> int:
+       n = len(nums)
+       i = 0
+       j = 0
+       res = 0
+       mul = 1
+       while j < n:
+          mul *= nums[j]
+          while i <= j and mul >= k:
+             mul /= nums[i]
+             i += 1
+          res += j - i + 1
+          j += 1
+       return res
+         
+
+    
