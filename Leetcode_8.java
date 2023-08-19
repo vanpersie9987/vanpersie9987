@@ -2962,10 +2962,10 @@ public class Leetcode_8 {
     private int check8013(int num) {
         arr8013 = String.valueOf(num).toCharArray();
         this.n8013 = arr8013.length;
-        this.memo8013 = new int[n8013][n8013 + 1][n8013 + 1][20];
+        this.memo8013 = new int[n8013][n8013][n8013][20];
         for (int i = 0; i < n8013; ++i) {
-            for (int j = 0; j < n8013 + 1; ++j) {
-                for (int k = 0; k < n8013 + 1; ++k) {
+            for (int j = 0; j < n8013; ++j) {
+                for (int k = 0; k < n8013; ++k) {
                     Arrays.fill(memo8013[i][j][k], -1);
                 }
             }
