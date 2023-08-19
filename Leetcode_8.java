@@ -2885,4 +2885,22 @@ public class Leetcode_8 {
         return num1;
 
     }
+
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        int n = nums.length;
+        int res = 0;
+        int i = 0;
+        int j = 0;
+        int mul = 1;
+        while (j < n) {
+            mul *= nums[j];
+            while (i <= j && mul >= k) {
+                mul /= nums[i++];
+            }
+            res += j - i + 1;
+            ++j;
+        }
+        return res;
+
+    }
 }

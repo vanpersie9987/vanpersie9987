@@ -3912,17 +3912,18 @@ public class LeetCode_2 {
    // 713. 乘积小于K的子数组 (Subarray Product Less Than K)
    // 剑指 Offer II 009. 乘积小于 K 的子数组 --双指针+滑动窗口
    public int numSubarrayProductLessThanK(int[] nums, int k) {
-      int product = 1;
-      int left = 0;
-      int right = 0;
+      int n = nums.length;
       int res = 0;
-      while (right < nums.length) {
-         product *= nums[right];
-         while (left <= right && product >= k) {
-            product /= nums[left++];
+      int i = 0;
+      int j = 0;
+      int mul = 1;
+      while (j < n) {
+         mul *= nums[j];
+         while (i <= j && mul >= k) {
+            mul /= nums[i++];
          }
-         res += right - left + 1;
-         ++right;
+         res += j - i + 1;
+         ++j;
       }
       return res;
 
