@@ -2995,4 +2995,98 @@ public class Leetcode_8 {
         return res;
     }
 
+    // 7004. 判别首字母缩略词 (Check if a String Is an Acronym of Words)
+    public boolean isAcronym(List<String> words, String s) {
+        int n1 = words.size();
+        int n2 = s.length();
+        if (n1 != n2) {
+            return false;
+        }
+        for (int i = 0; i < n1; ++i) {
+            if (s.charAt(i) != words.get(i).charAt(0)) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    // 6450. k-avoiding 数组的最小总和 (Determine the Minimum Sum of a k-avoiding Array)
+    public int minimumSum(int n, int k) {
+        if (n == 1) {
+            return 1;
+        }
+        int cnt = 0;
+        int res = 0;
+        for (int i = 1; i <= k / 2 && cnt < n; ++i) {
+            res += i;
+            ++cnt;
+        }
+        while (cnt++ < n) {
+            res += k++;
+        }
+        return res;
+
+    }
+
+    // 7006. 销售利润最大化 (Maximize the Profit as the Salesman)
+    private Map<Integer, List<int[]>> map7006;
+    private int[] memo7006;
+
+    public int maximizeTheProfit(int n, List<List<Integer>> offers) {
+        this.map7006 = new HashMap<>();
+        for (List<Integer> offer : offers) {
+            map7006.computeIfAbsent(offer.get(1), k -> new ArrayList<>()).add(new int[] { offer.get(0), offer.get(2) });
+        }
+        this.memo7006 = new int[n];
+        Arrays.fill(memo7006, -1);
+        return dfs7006(n - 1);
+
+    }
+
+    private int dfs7006(int i) {
+        if (i < 0) {
+            return 0;
+        }
+        if (memo7006[i] != -1) {
+            return memo7006[i];
+        }
+        // 不卖
+        int res = dfs7006(i - 1);
+        // 卖
+        for (int[] j : map7006.getOrDefault(i, new ArrayList<>())) {
+            res = Math.max(res, dfs7006(j[0] - 1) + j[1]);
+        }
+        return memo7006[i] = res;
+    }
+
+    // 6467. 找出最长等值子数组 (Find the Longest Equal Subarray)
+    public int longestEqualSubarray(List<Integer> nums, int k) {
+        int n = nums.size();
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            map.computeIfAbsent(nums.get(i), o -> new ArrayList<>()).add(i);
+        }
+        int res = 1;
+        for (List<Integer> list : map.values()) {
+            int curK = 0;
+            int i = 0;
+            int j = 0;
+            int m = list.size();
+            while (j < m) {
+                if (j > i) {
+                    curK += list.get(j) - list.get(j - 1) - 1;
+                }
+                while (curK > k) {
+                    curK -= list.get(i + 1) - list.get(i) - 1;
+                    ++i;
+                }
+                res = Math.max(res, list.get(j) - list.get(i) + 1 - curK);
+                ++j;
+            }
+        }
+        return res;
+
+    }
+
 }
