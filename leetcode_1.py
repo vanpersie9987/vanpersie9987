@@ -2204,4 +2204,9 @@ class leetcode_1 :
                 res = min(res, dfs(i + 1, k) + 1)
           return res
        return dfs(0, 1) 
+    
+    # 2828. 判别首字母缩略词 (Check if a String Is an Acronym of Words)
+    def isAcronym(self, words: List[str], s: str) -> bool:
+       return len(words) == len(s) and all(ss[0] == c2 for ss, c2 in zip(words, s))
+    
              
