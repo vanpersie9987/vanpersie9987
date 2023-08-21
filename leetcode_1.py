@@ -2181,8 +2181,8 @@ class leetcode_1 :
             res = 0
             if not isNum:
                res = dfs(i + 1, 0, 0, False, False)
-            up = ord(s[i]) - ord('0') if isLimit else 9
-            for j in range( 0 if isNum else 1, up + 1):
+            up = int(s[i]) if isLimit else 9
+            for j in range(0 if isNum else 1, up + 1):
                res += dfs(i + 1, diff + (1 if j % 2 == 0 else -1), (m * 10 + j) % k, isLimit and j == up, True)
             return res
          return dfs(0, 0, 0, True, False)
