@@ -2209,4 +2209,20 @@ class leetcode_1 :
     def isAcronym(self, words: List[str], s: str) -> bool:
        return len(words) == len(s) and all(ss[0] == c2 for ss, c2 in zip(words, s))
     
+    # 2829. k-avoiding 数组的最小总和 (Determine the Minimum Sum of a k-avoiding Array)
+    def minimumSum(self, n: int, k: int) -> int:
+       res = 0
+       cnt = 0
+       i = 1
+       while i <= k // 2 and cnt < n:
+          res += i
+          i += 1
+          cnt += 1
+       while cnt < n:
+          res += k
+          k += 1
+          cnt += 1
+       return res
+          
+    
              
