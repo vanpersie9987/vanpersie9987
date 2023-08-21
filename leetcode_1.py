@@ -2223,6 +2223,24 @@ class leetcode_1 :
           k += 1
           cnt += 1
        return res
+    
+    # 2830. 销售利润最大化 (Maximize the Profit as the Salesman)
+    def maximizeTheProfit(self, n: int, offers: List[List[int]]) -> int:
+       map = [[] for _ in range(n)]
+       
+       for start, end, gold in offers:
+          map[start].append((end, gold))
+       
+       @cache
+       def dfs(i: int) -> int:
+          if i >= n:
+             return 0
+          res = dfs(i + 1)
+          for end, gold in map[i]:
+             res = max(res, dfs(end + 1) + gold)
+          return res
+       return dfs(0)
+          
           
     
              
