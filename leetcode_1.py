@@ -2240,7 +2240,3 @@ class leetcode_1 :
              res = max(res, dfs(end + 1) + gold)
           return res
        return dfs(0)
-          
-          
-    
-             

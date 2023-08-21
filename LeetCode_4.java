@@ -3844,38 +3844,6 @@ public class LeetCode_4 {
         }
     }
 
-    // 2271. 毯子覆盖的最多白色砖块数 (Maximum White Tiles Covered by a Carpet) --贪心
-    public int maximumWhiteTiles(int[][] tiles, int carpetLen) {
-        int n = tiles.length;
-        Arrays.sort(tiles, new Comparator<int[]>() {
-
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return o1[0] - o2[0];
-            }
-
-        });
-        int r = 0;
-        int res = 0;
-        int count = 0;
-        for (int l = 0; l < n; ++l) {
-            if (l != 0) {
-                count -= tiles[l - 1][1] - tiles[l - 1][0] + 1;
-            }
-            while (r < n && tiles[l][0] + carpetLen > tiles[r][1]) {
-                count += tiles[r][1] - tiles[r][0] + 1;
-                ++r;
-            }
-            if (r == n) {
-                return Math.max(res, count);
-            }
-            int extra = Math.max(0, tiles[l][0] + carpetLen - tiles[r][0]);
-            res = Math.max(res, count + extra);
-        }
-        return res;
-
-    }
-
     // 2136. 全部开花的最早一天 (Earliest Possible Day of Full Bloom)
     public int earliestFullBloom(int[] plantTime, int[] growTime) {
         int n = plantTime.length;
