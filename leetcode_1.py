@@ -2240,3 +2240,18 @@ class leetcode_1 :
              res = max(res, dfs(end + 1) + gold)
           return res
        return dfs(0)
+    
+    # 849. 到最近的人的最大距离 (Maximize Distance to Closest Person)
+    def maxDistToClosest(self, seats: List[int]) -> int:
+       n = len(seats)
+       last = -1
+       res = 0
+       for i in range(n):
+          if seats[i]:
+             if last == -1:
+                res = max(res, i)
+             else:
+                res = max(res, (i - last) // 2)
+          last = i
+       res = max(res, n - 1 - last)
+       return res
