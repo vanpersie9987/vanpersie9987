@@ -3245,37 +3245,23 @@ public class LeetCodeText {
 
     }
 
-    // 849. 到最近的人的最大距离
+    // 849. 到最近的人的最大距离 (Maximize Distance to Closest Person)
     public int maxDistToClosest(final int[] seats) {
-        int max = 0;
-        int i = 0;
-        while (i < seats.length) {
+        int last = -1;
+        int n = seats.length;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
             if (seats[i] == 1) {
-                break;
+                if (last == -1) {
+                    res = Math.max(res, i);
+                } else {
+                    res = Math.max(res, (i - last) / 2);
+                }
+                last = i;
             }
-            ++i;
         }
-        int j = seats.length - 1;
-        while (j >= 0) {
-            if (seats[j] == 1) {
-                break;
-            }
-            --j;
-        }
-        max = Math.max(i, seats.length - 1 - j);
-        int count = 0;
-        int cur = 0;
-        while (i < j) {
-            if (seats[i] == 1) {
-                count = Math.max(count, cur);
-                cur = 0;
-            } else {
-                ++cur;
-            }
-            ++i;
-        }
-        count = Math.max(count, cur);
-        return Math.max(max, (count + 1) / 2);
+        res = Math.max(res, n - 1 - last);
+        return res;
 
     }
 
