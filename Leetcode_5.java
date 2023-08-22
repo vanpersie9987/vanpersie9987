@@ -5413,42 +5413,42 @@ public class Leetcode_5 {
 
     // 1856. 子数组最小乘积的最大值 (Maximum Subarray Min-Product) --单调栈 + 前缀和
     public int maxSumMinProduct(int[] nums) {
-        final int mod = (int) (1e9 + 7);
         int n = nums.length;
-        // right[i] = j 表示 ：位置 i 的右侧中， 比 nums[i] 小、而且离 i 最近的 nums[j] 的位置 j，若不存在 ，则为 n
-        int[] right = new int[n];
-        Arrays.fill(right, n);
-        Stack<Integer> stack = new Stack<>();
+        long[] pre = new long[n + 1];
         for (int i = 0; i < n; ++i) {
-            while (!stack.isEmpty() && nums[stack.peek()] > nums[i]) {
-                right[stack.pop()] = i;
-            }
-            stack.push(i);
+            pre[i + 1] = pre[i] + nums[i];
         }
-
-        stack.clear();
-        // left[i] = j 表示 ：位置 i 的左侧中， 比 nums[i] 小、而且离 i 最近的 nums[j] 的位置 j，若不存在 ，则为 -1
+        long res = 0L;
         int[] left = new int[n];
         Arrays.fill(left, -1);
-        for (int i = n - 1; i >= 0; --i) {
-            while (!stack.isEmpty() && nums[stack.peek()] > nums[i]) {
-                left[stack.pop()] = i;
-            }
-            stack.push(i);
-        }
-
-        long[] prefix = new long[n + 1];
-        for (int i = 1; i < n + 1; ++i) {
-            prefix[i] = prefix[i - 1] + nums[i - 1];
-        }
-
-        long res = 0l;
-
+        Stack<Integer> st = new Stack<>();
         for (int i = 0; i < n; ++i) {
-            res = Math.max(res, nums[i] * (prefix[right[i]] - prefix[left[i] + 1]));
+            while (!st.isEmpty() && nums[st.peek()] >= nums[i]) {
+                st.pop();
+            }
+            if (!st.isEmpty()) {
+                left[i] = st.peek();
+            }
+            st.push(i);
         }
 
-        return (int) (res % mod);
+        int[] right = new int[n];
+        Arrays.fill(right, n);
+        st.clear();
+        for (int i = n - 1; i >= 0; --i) {
+            while (!st.isEmpty() && nums[st.peek()] >= nums[i]) {
+                st.pop();
+            }
+            if (!st.isEmpty()) {
+                right[i] = st.peek();
+            }
+            st.push(i);
+        }
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, nums[i] * (pre[right[i]] - pre[left[i] + 1]));
+        }
+        final long MOD = (long) (1e9 + 7);
+        return (int) (res % MOD);
 
     }
 
