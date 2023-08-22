@@ -2252,6 +2252,6 @@ class leetcode_1 :
                 res = max(res, i)
              else:
                 res = max(res, (i - last) // 2)
-          last = i
+             last = i
        res = max(res, n - 1 - last)
        return res
