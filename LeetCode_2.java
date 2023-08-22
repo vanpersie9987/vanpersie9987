@@ -5466,7 +5466,7 @@ public class LeetCode_2 {
 
    }
 
-   // 2104. 子数组范围和 (Sum of Subarray Ranges) --O(n^2) 还需掌握O(n)的解法
+   // 2104. 子数组范围和 (Sum of Subarray Ranges) --O(n^2)
    public long subArrayRanges(int[] nums) {
       long res = 0L;
       for (int i = 0; i < nums.length; ++i) {
@@ -5485,50 +5485,39 @@ public class LeetCode_2 {
    // 2104. 子数组范围和 (Sum of Subarray Ranges) --O(n) 单调栈
    public long subArrayRanges2(int[] nums) {
       int n = nums.length;
-      int[] minLeft = new int[n];
-      int[] maxLeft = new int[n];
-      int[] minRight = new int[n];
-      int[] maxRight = new int[n];
-      Stack<Integer> minStack = new Stack<>();
-      Stack<Integer> maxStack = new Stack<>();
+      int[] leftMin = new int[n];
+      Arrays.fill(leftMin, -1);
+      int[] leftMax = new int[n];
+      Arrays.fill(leftMax, -1);
+      int[] rightMin = new int[n];
+      Arrays.fill(rightMin, n);
+      int[] rightMax = new int[n];
+      Arrays.fill(rightMax, n);
+      Stack<Integer> stMin = new Stack<>();
+      Stack<Integer> stMax = new Stack<>();
       for (int i = 0; i < n; ++i) {
-         while (!minStack.isEmpty() && nums[minStack.peek()] > nums[i]) {
-            minStack.pop();
+         while (!stMax.isEmpty() && nums[stMax.peek()] <= nums[i]) {
+            rightMax[stMax.pop()] = i;
          }
-         minLeft[i] = minStack.isEmpty() ? -1 : minStack.peek();
-         minStack.push(i);
+         if (!stMax.isEmpty()) {
+            leftMax[i] = stMax.peek();
+         }
 
-         while (!maxStack.isEmpty() && nums[maxStack.peek()] <= nums[i]) {
-            maxStack.pop();
+         while (!stMin.isEmpty() && nums[stMin.peek()] >= nums[i]) {
+            rightMin[stMin.pop()] = i;
          }
-         maxLeft[i] = maxStack.isEmpty() ? -1 : maxStack.peek();
-         maxStack.push(i);
+         if (!stMin.isEmpty()) {
+            leftMin[i] = stMin.peek();
+         }
+         stMax.push(i);
+         stMin.push(i);
       }
-
-      minStack.clear();
-      maxStack.clear();
-
-      for (int i = n - 1; i >= 0; --i) {
-         while (!minStack.isEmpty() && nums[minStack.peek()] >= nums[i]) {
-            minStack.pop();
-         }
-         minRight[i] = minStack.isEmpty() ? n : minStack.peek();
-         minStack.push(i);
-
-         while (!maxStack.isEmpty() && nums[maxStack.peek()] < nums[i]) {
-            maxStack.pop();
-         }
-         maxRight[i] = maxStack.isEmpty() ? n : maxStack.peek();
-         maxStack.push(i);
-      }
-      long maxSum = 0L;
-      long minSum = 0L;
+      long res = 0L;
       for (int i = 0; i < n; ++i) {
-         maxSum += (long) (maxRight[i] - i) * (i - maxLeft[i]) * nums[i];
-         minSum += (long) (minRight[i] - i) * (i - minLeft[i]) * nums[i];
+         res += nums[i]
+               * (((long) rightMax[i] - i) * (i - leftMax[i]) - ((long) rightMin[i] - i) * (i - leftMin[i]));
       }
-      return maxSum - minSum;
-
+      return res;
    }
 
    // 419. 甲板上的战舰 (Battleships in a Board)
