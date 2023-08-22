@@ -3564,34 +3564,36 @@ public class LeetCodeText {
     // 907. 子数组的最小值之和 (Sum of Subarray Minimums) --单调栈
     public int sumSubarrayMins(int[] arr) {
         int n = arr.length;
-        Stack<Integer> stack = new Stack<>();
-        // left[i]表示i左侧第一个比arr[i]小的元素索引
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
         int[] left = new int[n];
-        stack.push(-1);
+        Arrays.fill(left, -1);
+        Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < n; ++i) {
-            while (stack.size() > 1 && arr[stack.peek()] >= arr[i]) {
+            while (!stack.isEmpty() && arr[stack.peek()] > arr[i]) {
                 stack.pop();
             }
-            left[i] = stack.peek();
+            if (!stack.isEmpty()) {
+                left[i] = stack.peek();
+            }
             stack.push(i);
         }
-
         stack.clear();
         int[] right = new int[n];
-        stack.push(n);
+        Arrays.fill(right, n);
         for (int i = n - 1; i >= 0; --i) {
-            while (stack.size() > 1 && arr[stack.peek()] > arr[i]) {
+            while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) {
                 stack.pop();
             }
-            right[i] = stack.peek();
+            if (!stack.isEmpty()) {
+                right[i] = stack.peek();
+            }
             stack.push(i);
         }
-        long res = 0l;
-        final int mod = (int) (1e9 + 7);
         for (int i = 0; i < n; ++i) {
-            res += (long) arr[i] * (i - left[i]) * (right[i] - i) % mod;
+            res = (int) ((res + (long) arr[i] * (i - left[i]) * (right[i] - i)) % MOD);
         }
-        return (int) (res % mod);
+        return res;
 
     }
 
