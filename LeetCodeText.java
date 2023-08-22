@@ -9008,7 +9008,7 @@ public class LeetCodeText {
 
     }
 
-    public static boolean circularArrayLoop(int[] nums) {
+    public boolean circularArrayLoop(int[] nums) {
         boolean[] visited = new boolean[nums.length];
         for (int i = 0; i < nums.length; ++i) {
             Arrays.fill(visited, false);
