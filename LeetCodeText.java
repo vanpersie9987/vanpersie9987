@@ -20033,14 +20033,17 @@ public class LeetCodeText {
     // 139. 单词拆分 (Word Break)
     private int n139;
     private String s139;
-    private Set<String> set139;
     private int[] memo139;
+    private Trie139 trie139;
 
     public boolean wordBreak2(String s, List<String> wordDict) {
-        this.set139 = new HashSet<>(wordDict);
         this.n139 = s.length();
         this.s139 = s;
         this.memo139 = new int[n139];
+        this.trie139 = new Trie139();
+        for (String d : wordDict) {
+            trie139.insert(d);
+        }
         return dfs139(0);
 
     }
@@ -20052,14 +20055,51 @@ public class LeetCodeText {
         if (memo139[i] != 0) {
             return memo139[i] > 0;
         }
-        for (int j = i; j < n139; ++j) {
-            if (set139.contains(s139.substring(i, j + 1)) && dfs139(j + 1)) {
+        for (int j : trie139.check(s139.substring(i))) {
+            if (dfs139(i + j + 1)) {
                 memo139[i] = 1;
                 return true;
             }
         }
         memo139[i] = -1;
         return false;
+    }
+
+    class Trie139 {
+        private boolean isEnd;
+        private Trie139[] children;
+
+        public Trie139() {
+            this.children = new Trie139[26];
+        }
+
+        public void insert(String s) {
+            Trie139 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie139();
+                }
+                node = node.children[index];
+            }
+            node.isEnd = true;
+        }
+
+        public List<Integer> check(String s) {
+            Trie139 node = this;
+            List<Integer> res = new ArrayList<>();
+            for (int i = 0; i < s.length(); ++i) {
+                int index = s.charAt(i) - 'a';
+                if (node.children[index] == null) {
+                    break;
+                }
+                node = node.children[index];
+                if (node.isEnd) {
+                    res.add(i);
+                }
+            }
+            return res;
+        }
     }
 
     // 819. 最常见的单词 (Most Common Word)
