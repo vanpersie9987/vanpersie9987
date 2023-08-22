@@ -2255,3 +2255,18 @@ class leetcode_1 :
              last = i
        res = max(res, n - 1 - last)
        return res
+    
+    # 139. 单词拆分 (Word Break)
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+       n = len(s)
+       dict = set(wordDict)
+       
+       @cache
+       def dfs(i: int) -> bool:
+          if i == n:
+             return True
+          for j in range(i, n):
+             if dict.__contains__(s[i:j + 1]) and dfs(j + 1):
+                return True
+          return False
+       return dfs(0)
