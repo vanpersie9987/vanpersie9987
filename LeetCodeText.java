@@ -20030,6 +20030,38 @@ public class LeetCodeText {
 
     }
 
+    // 139. 单词拆分 (Word Break)
+    private int n139;
+    private String s139;
+    private Set<String> set139;
+    private int[] memo139;
+
+    public boolean wordBreak2(String s, List<String> wordDict) {
+        this.set139 = new HashSet<>(wordDict);
+        this.n139 = s.length();
+        this.s139 = s;
+        this.memo139 = new int[n139];
+        return dfs139(0);
+
+    }
+
+    private boolean dfs139(int i) {
+        if (i == n139) {
+            return true;
+        }
+        if (memo139[i] != 0) {
+            return memo139[i] > 0;
+        }
+        for (int j = i; j < n139; ++j) {
+            if (set139.contains(s139.substring(i, j + 1)) && dfs139(j + 1)) {
+                memo139[i] = 1;
+                return true;
+            }
+        }
+        memo139[i] = -1;
+        return false;
+    }
+
     // 819. 最常见的单词 (Most Common Word)
     public String mostCommonWord(String paragraph, String[] banned) {
         Set<String> set = new HashSet<>(Arrays.asList(banned));
