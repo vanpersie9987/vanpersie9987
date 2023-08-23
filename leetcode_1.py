@@ -2324,3 +2324,33 @@ class leetcode_1 :
           res = max(res, (pre[right[i]] - pre[left[i] + 1]) * nums[i])
        MOD = 10 ** 9 + 7
        return res % MOD 
+    
+    # 2104. 子数组范围和 (Sum of Subarray Ranges)
+    def subArrayRanges(self, nums: List[int]) -> int:
+       n = len(nums)
+       leftMax = [-1] * n
+       rightMax = [n] * n
+       leftMin = [-1] * n
+       rightMin = [n] * n
+       stMax = []
+       stMin = []
+       for i in range(n):
+          while stMax and nums[stMax[-1]] <= nums[i]:
+             rightMax[stMax.pop()] = i
+          if stMax:
+             leftMax[i] = stMax[-1]
+          stMax.append(i)
+
+          while stMin and nums[stMin[-1]] >= nums[i]:
+             rightMin[stMin.pop()] = i
+          if stMin:
+             leftMin[i] = stMin[-1]
+          stMin.append(i)
+
+       res = 0
+       for i in range(n):
+          res += nums[i] * ((rightMax[i] - i) * (i - leftMax[i]) - (rightMin[i] - i) * (i - leftMin[i]))
+       return res
+
+
+       
