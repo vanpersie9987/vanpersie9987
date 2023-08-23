@@ -2314,7 +2314,7 @@ class leetcode_1 :
        st.clear()
        right = [n] * n
        for i in range(n - 1, -1, -1):
-          while st  and nums[st[-1]] >= nums[i]:
+          while st and nums[st[-1]] >= nums[i]:
              st.pop()
           if st:
              right[i] = st[-1]
