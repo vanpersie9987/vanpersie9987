@@ -2351,6 +2351,38 @@ class leetcode_1 :
        for i in range(n):
           res += nums[i] * ((rightMax[i] - i) * (i - leftMax[i]) - (rightMin[i] - i) * (i - leftMin[i]))
        return res
+    
+    # 2818. 操作使得分最大 (Apply Operations to Maximize Score)
+    def maximumScore(self, nums: List[int], k: int) -> int:
+       n = len(nums)
+       MAX = 10 ** 5 + 1
+       MOD = 10 ** 9 + 7
+       ### 需要把下面这一部分定义在class之外 否则会超时
+       omega = [0] * MAX
+       for i in range(2, MAX):
+          if omega[i] == 0:
+             for j in range(i, MAX, i):
+                omega[j] += 1
+       ###
+       left = [-1] * n
+       right = [n] * n
+       st = []
+       for i in range(n):
+          while st and omega[nums[st[-1]]] < omega[nums[i]]:
+             right[st.pop()] = i
+          if st:
+             left[i] = st[-1]
+          st.append(i)
+       res = 1
+       for i, v, l, r in sorted(zip(range(n), nums, left, right), key = lambda z: -z[1]):
+          tot = (r - i) * (i - l)
+          if tot >= k:
+             res = res * pow(v, k, MOD) % MOD
+             break
+          res = res * pow(v, tot, MOD) % MOD
+          k -= tot
+       return res
+          
 
 
        
