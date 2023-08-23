@@ -2296,5 +2296,31 @@ class leetcode_1 :
           res += (right[i] - i) * (i - left[i]) * arr[i]
           res %= MOD
        return res
-       
-
+    
+    # 1856. 子数组最小乘积的最大值 (Maximum Subarray Min-Product)
+    def maxSumMinProduct(self, nums: List[int]) -> int:
+       n = len(nums)
+       pre = [0] * (n + 1)
+       for i, v in enumerate(nums):
+          pre[i + 1] = pre[i] + v
+       st = []
+       left = [-1] * n 
+       for i in range(n):
+          while st and nums[st[-1]] >= nums[i]:
+             st.pop()
+          if st:
+             left[i] = st[-1]
+          st.append(i)
+       st.clear()
+       right = [n] * n
+       for i in range(n - 1, -1, -1):
+          while st  and nums[st[-1]] >= nums[i]:
+             st.pop()
+          if st:
+             right[i] = st[-1]
+          st.append(i)
+       res = 0
+       for i in range(n):
+          res = max(res, (pre[right[i]] - pre[left[i] + 1]) * nums[i])
+       MOD = 10 ** 9 + 7
+       return res % MOD 
