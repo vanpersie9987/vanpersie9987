@@ -2270,3 +2270,31 @@ class leetcode_1 :
                 return True
           return False
        return dfs(0)
+    
+    # 907. 子数组的最小值之和 (Sum of Subarray Minimums)
+    def sumSubarrayMins(self, arr: List[int]) -> int:
+       MOD = 10 ** 9 + 7
+       n = len(arr)
+       st = []
+       left = [-1] * n
+       right = [n] * n
+       for i in range(n):
+          while st and arr[st[-1]] >= arr[i]:
+             right[st.pop()] = i
+          if st:
+             left[i] = st[-1]
+          st.append(i)
+      #  st = []
+      #  for i in range(n - 1, -1, -1):
+      #     while st and arr[st[-1]] > arr[i]:
+      #        st.pop()
+      #     if st:
+      #        right[i] = st[-1]
+      #     st.append(i)
+       res = 0
+       for i in range(n):
+          res += (right[i] - i) * (i - left[i]) * arr[i]
+          res %= MOD
+       return res
+       
+
