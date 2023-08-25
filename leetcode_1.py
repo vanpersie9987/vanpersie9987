@@ -2429,6 +2429,28 @@ class leetcode_1 :
             if arr[i]:
                 res += 1
         return res
+    
+    # 207. 课程表 (Course Schedule)
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        map = [[] for _ in range(numCourses)]
+        deg = [0] * numCourses
+        for a, b in prerequisites:
+            map[b].append(a)
+            deg[a] += 1
+        q = []
+        for i, d in enumerate(deg):
+            if not d:
+                q.append(i)
+        cnt = 0
+        while q:
+            cnt += 1
+            node = q.pop()
+            for nxt in map[node]:
+                deg[nxt] -= 1
+                if not deg[nxt]:
+                    q.append(nxt)
+        return cnt == numCourses
+
 
 
        
