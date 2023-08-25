@@ -5307,6 +5307,33 @@ public class Leetcode_3 {
 
     }
 
+    // 1448. 统计二叉树中好节点的数目 (Count Good Nodes in Binary Tree)
+    private TreeMap<Integer, Integer> map1448;
+    private int res1448;
+
+    public int goodNodes2(TreeNode root) {
+        this.map1448 = new TreeMap<>();
+        dfs1448(root);
+        return res1448;
+
+    }
+
+    private void dfs1448(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        map1448.merge(root.val, 1, Integer::sum);
+        if (map1448.lastKey() <= root.val) {
+            ++res1448;
+        }
+        dfs1448(root.left);
+        dfs1448(root.right);
+        map1448.merge(root.val, -1, Integer::sum);
+        if (map1448.get(root.val) == 0) {
+            map1448.remove(root.val);
+        }
+    }
+
     // 1345. 跳跃游戏 IV (Jump Game IV) --bfs
     public int minJumps(int[] arr) {
         int n = arr.length;
