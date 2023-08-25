@@ -2450,6 +2450,23 @@ class leetcode_1 :
                 if not deg[nxt]:
                     q.append(nxt)
         return cnt == numCourses
+    
+    # 228. 汇总区间 (Summary Ranges)
+    def summaryRanges(self, nums: List[int]) -> List[str]:
+       res = []
+       n = len(nums)
+       i = 0
+       while i < n:
+          cur = str(nums[i])
+          j = i + 1
+          while j < n and nums[j] - nums[j - 1] == 1:
+             j += 1
+          if j - i != 1:
+             cur = cur + "->" + str(nums[j - 1])
+          res.append(cur)
+          i = j
+       return res
+
 
 
 
