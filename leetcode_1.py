@@ -2416,6 +2416,19 @@ class leetcode_1 :
                 i += 1
             j += 1
         return 0 if res == inf else res
+    
+    # 204. 计数质数 (Count Primes)
+    def countPrimes(self, n: int) -> int:
+        arr = [True] * n
+        for i in range(2, n):
+            if arr[i]:
+                for j in range(i + i, n, i):
+                    arr[j] = False
+        res = 0
+        for i in range(2, n):
+            if arr[i]:
+                res += 1
+        return res
 
 
        
