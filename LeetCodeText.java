@@ -1728,25 +1728,23 @@ public class LeetCodeText {
 
     }
 
-    // 228. 汇总区间
-    public static List<String> summaryRanges(final int[] nums) {
+    // 228. 汇总区间 (Summary Ranges)
+    public List<String> summaryRanges(int[] nums) {
+        int n = nums.length;
+        int i = 0;
         List<String> res = new ArrayList<>();
-        int left = 0;
-        int right = 1;
-        while (right < nums.length) {
-            while (right < nums.length && nums[right] - nums[right - 1] == 1) {
-                ++right;
+        while (i < n) {
+            StringBuilder cur = new StringBuilder();
+            cur.append(nums[i]);
+            int j = i + 1;
+            while (j < n && nums[j] - nums[j - 1] == 1) {
+                ++j;
             }
-            if (right - 1 == left) {
-                res.add(String.valueOf(nums[left]));
-            } else {
-                res.add(nums[left] + "->" + nums[right - 1]);
+            if (j - i != 1) {
+                cur.append("->").append(nums[j - 1]);
             }
-            left = right;
-            ++right;
-        }
-        if (left == nums.length - 1) {
-            res.add(String.valueOf(nums[left]));
+            res.add(cur.toString());
+            i = j;
         }
         return res;
 
