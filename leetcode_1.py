@@ -2400,7 +2400,22 @@ class leetcode_1 :
                 if grid[i][j] and (row[i] > 1 or col[j] > 1):
                    res += 1
        return res 
-          
+    
+    # 209. 长度最小的子数组 (Minimum Size Subarray Sum)
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        n = len(nums)
+        res = inf
+        i = 0
+        j = 0
+        sum = 0
+        while j < n:
+            sum += nums[j]
+            while i <= j and sum >= target:
+                res = min(res, j - i + 1)
+                sum -= nums[i]
+                i += 1
+            j += 1
+        return 0 if res == inf else res
 
 
        
