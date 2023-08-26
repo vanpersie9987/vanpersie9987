@@ -2582,5 +2582,23 @@ class leetcode_1 :
              if arr0[i][j] and arr1[i][j]:
                 res.append((i, j))
        return res
+    
+    # 56. 合并区间 (Merge Intervals)
+    # LCR 074. 合并区间
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+       n = len(intervals)
+       intervals.sort(key=lambda k: k[0])
+       res = []
+       i = 0
+       while i < n:
+          left = intervals[i][0]
+          right = intervals[i][1]
+          j = i + 1
+          while j < n and intervals[j][0] <= right:
+             right = max(right, intervals[j][1])
+             j += 1
+          res.append((left, right))
+          i = j
+       return res
 
        

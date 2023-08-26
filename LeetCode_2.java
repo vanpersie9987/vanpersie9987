@@ -993,8 +993,8 @@ public class LeetCode_2 {
       }
    }
 
-   // 剑指 Offer II 074. 合并区间
    // 56. 合并区间 (Merge Intervals)
+   // LCR 074. 合并区间
    public int[][] merge(int[][] intervals) {
       int n = intervals.length;
       Arrays.sort(intervals, new Comparator<int[]>() {
