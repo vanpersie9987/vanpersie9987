@@ -994,18 +994,29 @@ public class LeetCode_2 {
    }
 
    // 剑指 Offer II 074. 合并区间
-   // 56. 合并区间
+   // 56. 合并区间 (Merge Intervals)
    public int[][] merge(int[][] intervals) {
-      Arrays.sort(intervals, (o1, o2) -> o1[0] - o2[0]);
-      List<int[]> res = new ArrayList<>();
-      for (int i = 0; i < intervals.length; ++i) {
-         int left = intervals[i][0];
-         int right = intervals[i][1];
-         while (i + 1 < intervals.length && right >= intervals[i + 1][0]) {
-            right = Math.max(intervals[i + 1][1], right);
-            ++i;
+      int n = intervals.length;
+      Arrays.sort(intervals, new Comparator<int[]>() {
+
+         @Override
+         public int compare(int[] o1, int[] o2) {
+            return Integer.compare(o1[0], o2[0]);
          }
-         res.add(new int[] { left, right });
+
+      });
+      List<int[]> res = new ArrayList<>();
+      int i = 0;
+      while (i < n) {
+         int min = intervals[i][0];
+         int max = intervals[i][1];
+         int j = i + 1;
+         while (j < n && intervals[j][0] <= max) {
+            max = Math.max(max, intervals[j][1]);
+            ++j;
+         }
+         res.add(new int[] { min, max });
+         i = j;
       }
       return res.toArray(new int[0][]);
 
