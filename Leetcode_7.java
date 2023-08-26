@@ -7605,7 +7605,7 @@ public class Leetcode_7 {
         return list;
     }
 
-    // 1420. 生成数组 (Build Array Where You Can Find The Maximum Exactly K)
+    // 1420. 生成数组 (Build Array Where You Can Find The Maximum Exactly K Comparisons)
     private int[][][] memo1420;
     private int n1420;
     private int m1420;
@@ -7620,32 +7620,40 @@ public class Leetcode_7 {
             for (int j = 0; j < m + 1; ++j) {
                 Arrays.fill(memo1420[i][j], -1);
             }
-
         }
         return dfs1420(0, 0, 0);
 
     }
 
-    private int dfs1420(int i, int max, int cost) {
+    private int dfs1420(int i, int max, int l) {
         if (i == n1420) {
-            return cost == k1420 ? 1 : 0;
+            return l == k1420 ? 1 : 0;
         }
-        if (max == m1420) {
-            if (cost < k1420) {
-                return 0;
-            }
+        if (l == k1420) {
+            return pow1420(max, n1420 - i);
         }
-        if (memo1420[i][max][cost] != -1) {
-            return memo1420[i][max][cost];
+        if (memo1420[i][max][l] != -1) {
+            return memo1420[i][max][l];
         }
         final int MOD = (int) (1e9 + 7);
-        int res = (int) ((long) max * dfs1420(i + 1, max, cost) % MOD);
-        for (int cur = max + 1; cur <= m1420; ++cur) {
-            if (cost < k1420) {
-                res = (res + dfs1420(i + 1, cur, cost + 1)) % MOD;
-            }
+        int res = (int) ((long) max * dfs1420(i + 1, max, l) % MOD);
+        for (int x = max + 1; x <= m1420; ++x) {
+            res = (res + dfs1420(i + 1, x, l + 1)) % MOD;
         }
-        return memo1420[i][max][cost] = res;
+        return memo1420[i][max][l] = res;
+    }
+
+    private int pow1420(int a, int b) {
+        if (b == 0) {
+            return 1;
+        }
+        int res = pow1420(a, b / 2);
+        final int MOD = (int) (1e9 + 7);
+        res = (int) ((long) res * res % MOD);
+        if (b % 2 == 1) {
+            res = (int) (((long) res * a) % MOD);
+        }
+        return res;
     }
 
     // 1542. 找出最长的超赞子字符串 (Find Longest Awesome Substring)
