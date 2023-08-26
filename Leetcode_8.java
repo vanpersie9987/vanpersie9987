@@ -3089,25 +3089,4 @@ public class Leetcode_8 {
 
     }
 
-    public List<String> summaryRanges(int[] nums) {
-        int n = nums.length;
-        int i = 0;
-        List<String> res = new ArrayList<>();
-        while (i < n) {
-            StringBuilder cur = new StringBuilder();
-            cur.append(nums[i]);
-            int j = i + 1;
-            while (j < n && nums[j] - nums[i] == 1) {
-                ++j;
-            }
-            if (j - i != 1) {
-                cur.append("->").append(nums[j - 1]);
-            }
-            res.add(cur.toString());
-            i = j;
-        }
-        return res;
-
-    }
-
 }
