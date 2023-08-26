@@ -9347,22 +9347,22 @@ public class Leetcode_3 {
 
     // 1976. 到达目的地的方案数 (Number of Ways to Arrive at Destination) --Dijkstra
     public int countPaths(int n, int[][] roads) {
-        final int MOD = (int) (Math.pow(10, 9) + 7);
-
-        Map<Integer, Map<Integer, Integer>> graph = new HashMap<>();
-        for (int[] road : roads) {
-            graph.computeIfAbsent(road[0], k -> new HashMap<>()).put(road[1], road[2]);
-            graph.computeIfAbsent(road[1], k -> new HashMap<>()).put(road[0], road[2]);
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] r : roads) {
+            int a = r[0];
+            int b = r[1];
+            int t = r[2];
+            g[a].add(new int[] { b, t });
+            g[b].add(new int[] { a, t });
         }
-
-        long[] distance = new long[n];
-        Arrays.fill(distance, Long.MAX_VALUE >>> 1);
-        distance[0] = 0l;
-        boolean[] visited = new boolean[n];
-        int[] counts = new int[n];
-        counts[0] = 1;
-        // node , distance
-        PriorityQueue<long[]> queue = new PriorityQueue<>(new Comparator<long[]>() {
+        int[] dp = new int[n];
+        final int MOD = (int) (1e9 + 7);
+        long[] dis = new long[n];
+        Arrays.fill(dis, Long.MAX_VALUE);
+        dis[0] = 0L;
+        dp[0] = 1;
+        Queue<long[]> q = new PriorityQueue<>(new Comparator<long[]>() {
 
             @Override
             public int compare(long[] o1, long[] o2) {
@@ -9370,31 +9370,25 @@ public class Leetcode_3 {
             }
 
         });
-
-        queue.offer(new long[] { 0, 0 });
-        while (!queue.isEmpty()) {
-            long[] cur = queue.poll();
-            int node = (int) cur[0];
-            if (visited[node]) {
-                continue;
-            }
-            visited[node] = true;
-            if (graph.get(node) == null) {
-                continue;
-            }
-            for (int neighbor : graph.get(node).keySet()) {
-                long nDist = cur[1] + graph.get(node).get(neighbor);
-                if (nDist < distance[neighbor]) {
-                    distance[neighbor] = nDist;
-                    counts[neighbor] = counts[node];
-                    queue.offer(new long[] { neighbor, nDist });
-                } else if (nDist == distance[neighbor]) {
-                    counts[neighbor] = (counts[neighbor] % MOD + counts[node] % MOD) % MOD;
-                    queue.offer(new long[] { neighbor, nDist });
+        // node, time
+        q.offer(new long[] { 0L, 0L });
+        while (!q.isEmpty()) {
+            long[] cur = q.poll();
+            int x = (int) cur[0];
+            long t = cur[1];
+            for (int[] nei : g[x]) {
+                int y = nei[0];
+                int dt = nei[1];
+                if (t + dt < dis[y]) {
+                    dis[y] = t + dt;
+                    dp[y] = dp[x];
+                    q.offer(new long[] { y, t + dt });
+                } else if (t + dt == dis[y]) {
+                    dp[y] = (dp[y] + dp[x]) % MOD;
                 }
             }
         }
-        return counts[n - 1];
+        return dp[n - 1];
 
     }
 
