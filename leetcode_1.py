@@ -2495,8 +2495,25 @@ class leetcode_1 :
              j = (j - 1) & candidate
           return res
        return dfs(0)
-
-
-
-
+    
+    # 1416. 恢复数组 (Restore The Array)
+    def numberOfArrays(self, s: str, k: int) -> int:
+       n = len(s)
+       MOD = 10 ** 9 + 7
        
+       @cache
+       def dfs(i: int) -> int:
+          if i == n:
+             return 1
+          if s[i] == '0':
+             return 0
+          sum = 0
+          res = 0
+          for j in range(i, n):
+             sum = sum * 10 + int(s[j])
+             if sum > k:
+                break
+             res += dfs(j + 1)
+             res %= MOD
+          return res
+       return dfs(0)
