@@ -2528,12 +2528,9 @@ class leetcode_1 :
              return j == k
           if j == k:
              return pow(maximum, n - i, MOD)
-          res = 0
-          for x in range(1, m + 1):
-             if x <= maximum:
-                res += dfs(i + 1, maximum, j)
-             else:
-                res += dfs(i + 1, x, j + 1)
+          res = maximum * dfs(i + 1, maximum, j) % MOD
+          for x in range(maximum + 1, m + 1):
+             res += dfs(i + 1, x, j + 1)
              res %= MOD
           return res
        return dfs(0, 0, 0)
