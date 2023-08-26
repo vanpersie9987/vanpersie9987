@@ -19,7 +19,9 @@
 from collections import Counter
 from functools import cache
 from math import gcd, inf
+from queue import PriorityQueue
 from typing import List, Optional
+import heapq
 
 class leetcode_1 :
     class TreeNode:
@@ -2600,5 +2602,32 @@ class leetcode_1 :
           res.append((left, right))
           i = j
        return res
-
-       
+    
+    # 1976. 到达目的地的方案数 (Number of Ways to Arrive at Destination)
+    def countPaths(self, n: int, roads: List[List[int]]) -> int:
+       MOD = 10 ** 9 + 7
+       g = [[] for _ in range(n)]
+       for a, b, t in roads:
+          g[a].append((b, t))
+          g[b].append((a, t))
+       dis = [inf] * n
+       dis[0] = 0
+       dp = [0] * n
+       dp[0] = 1
+       q = [[0, 0]]
+       heapq.heapify(q)
+       while q:
+          cur = heapq.heappop(q)
+          d = cur[0]
+          x = cur[1]
+          for nxt in g[x]:
+            y = nxt[0]
+            dt = nxt[1]
+            if d + dt < dis[y]:
+               dis[y] = d + dt
+               dp[y] = dp[x]
+               heapq.heappush(q, (d + dt, y))
+            elif d + dt == dis[y]:
+               dp[y] += dp[x]
+               dp[y] %= MOD
+       return dp[n - 1]
