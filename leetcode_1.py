@@ -2517,3 +2517,24 @@ class leetcode_1 :
              res %= MOD
           return res
        return dfs(0)
+    
+    # 1420. 生成数组 (Build Array Where You Can Find The Maximum Exactly K Comparisons)
+    def numOfArrays(self, n: int, m: int, k: int) -> int:
+       MOD = 10 ** 9 + 7
+
+       @cache
+       def dfs(i: int, maximum: int, j: int) -> int:
+          if i == n:
+             return j == k
+          if j == k:
+             return pow(maximum, n - i, MOD)
+          res = 0
+          for x in range(1, m + 1):
+             if x <= maximum:
+                res += dfs(i + 1, maximum, j)
+             else:
+                res += dfs(i + 1, x, j + 1)
+             res %= MOD
+          return res
+       return dfs(0, 0, 0)
+          
