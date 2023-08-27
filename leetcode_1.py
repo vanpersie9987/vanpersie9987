@@ -2718,5 +2718,18 @@ class leetcode_1 :
              return [map[target - v], i]
           map[v] = i
        return None
+    
+    # 560. 和为 K 的子数组 (Subarray Sum Equals K)
+    def subarraySum(self, nums: List[int], k: int) -> int:
+       mp = dict()
+       mp[0] = 1
+       pre = 0
+       res = 0
+       for num in nums:
+          pre += num
+          res += mp.get(pre - k, 0)
+          mp[pre] = mp.get(pre, 0) + 1
+       return res
+
           
 
