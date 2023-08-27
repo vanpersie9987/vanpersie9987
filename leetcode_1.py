@@ -30,6 +30,11 @@ class leetcode_1 :
           self.val = val
           self.left = left
           self.right = right
+
+    class ListNode:
+       def __init__(self, val=0, next=None):
+          self.val = val
+          self.next = next
           
     # 2463. 最小移动总距离 (Minimum Total Distance Traveled)
     def minimumTotalDistance(self, robot: List[int], factory: List[List[int]]) -> int:
@@ -2660,3 +2665,29 @@ class leetcode_1 :
           res = max(res, j - i + 1)
           j += 1
        return res
+    
+    # 2. 两数相加 (Add Two Numbers)
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+       class ListNode:
+          def __init__(self, val=0, next=None):
+             self.val = val
+             self.next = next
+       dummy = cur = ListNode()
+       carry = 0
+       while l1 or l2 or carry:
+          if l1:
+             carry += l1.val
+             l1 = l1.next
+          if l2:
+             carry += l2.val
+             l2 = l2.next
+          cur.next = ListNode(carry % 10)
+          cur = cur.next
+          carry //= 10
+       if l1:
+          cur.next = l1
+       if l2:
+          cur.next = l2
+       return dummy.next
+       
+
