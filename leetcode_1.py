@@ -2613,6 +2613,7 @@ class leetcode_1 :
     # 1976. 到达目的地的方案数 (Number of Ways to Arrive at Destination)
     def countPaths(self, n: int, roads: List[List[int]]) -> int:
        MOD = 10 ** 9 + 7
+       # g = collections.defaultdict(list)
        g = [[] for _ in range(n)]
        for a, b, t in roads:
           g[a].append((b, t))
