@@ -2712,7 +2712,7 @@ class leetcode_1 :
     
     # 1. 两数之和 (Two Sum)
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-       map = dict()
+       map = collections.defaultdict(int)
        for i, v in enumerate(nums):
           if target - v in map:
              return [map[target - v], i]
@@ -2721,14 +2721,14 @@ class leetcode_1 :
     
     # 560. 和为 K 的子数组 (Subarray Sum Equals K)
     def subarraySum(self, nums: List[int], k: int) -> int:
-       mp = dict()
+       mp = collections.defaultdict(int)
        mp[0] = 1
        pre = 0
        res = 0
        for num in nums:
           pre += num
-          res += mp.get(pre - k, 0)
-          mp[pre] = mp.get(pre, 0) + 1
+          res += mp[pre - k]
+          mp[pre] += 1
        return res
 
           
