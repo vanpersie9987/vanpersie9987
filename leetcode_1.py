@@ -2709,4 +2709,14 @@ class leetcode_1 :
              cnts[ord(c) - ord('a')] += 1
           map[tuple(cnts)].append(s)
        return list(map.values())
+    
+    # 1. 两数之和 (Two Sum)
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+       map = dict()
+       for i, v in enumerate(nums):
+          if target - v in map:
+             return [map[target - v], i]
+          map[v] = i
+       return None
+          
 
