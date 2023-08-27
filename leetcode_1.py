@@ -2643,3 +2643,20 @@ class leetcode_1 :
              return 0
           return min(dfs(l, cuts[k], i, k) + dfs(cuts[k], r, k + 1, j) for k in range(i, j)) + r - l
        return dfs(0, n, 0, len(cuts))
+    
+    # 3. 无重复字符的最长子串 (Longest Substring Without Repeating Characters)
+    def lengthOfLongestSubstring(self, s: str) -> int:
+       n = len(s)
+       i = 0
+       j = 0
+       cnt = [0] * 128
+       res = 0
+       while j < n:
+          c = ord(s[j])
+          cnt[c] += 1
+          while cnt[c] > 1:
+             cnt[ord(s[i])] -= 1
+             i += 1
+          res = max(res, j - i + 1)
+          j += 1
+       return res
