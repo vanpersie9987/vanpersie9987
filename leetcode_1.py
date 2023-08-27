@@ -17,6 +17,7 @@
 #     a , b = b , a + b
 
 from collections import Counter
+import collections
 from functools import cache
 from math import gcd, inf
 from queue import PriorityQueue
@@ -2689,5 +2690,13 @@ class leetcode_1 :
        if l2:
           cur.next = l2
        return dummy.next
+    
+    # 49. 字母异位词分组 (Group Anagrams)
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+       map = collections.defaultdict(list)
+       for s in strs:
+          key = "".join(sorted(s))
+          map[key].append(s)
+       return list(map.values())
        
 
