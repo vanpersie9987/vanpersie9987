@@ -2698,5 +2698,14 @@ class leetcode_1 :
           key = "".join(sorted(s))
           map[key].append(s)
        return list(map.values())
-       
+    
+    # 49. 字母异位词分组 (Group Anagrams)
+    def groupAnagrams2(self, strs: List[str]) -> List[List[str]]:
+       map = collections.defaultdict(list)
+       for s in strs:
+          cnts = [0] * 26
+          for c in s:
+             cnts[ord(c) - ord('a')] += 1
+          map[tuple(cnts)].append(s)
+       return list(map.values())
 
