@@ -3089,6 +3089,34 @@ public class Leetcode_8 {
 
     }
 
-    
+    public int furthestDistanceFromOrigin(String moves) {
+        int l = 0;
+        int r = 0;
+        int line = 0;
+        for (char c : moves.toCharArray()) {
+            if (c == 'L') {
+                ++l;
+            } else if (c == 'R') {
+                ++r;
+            } else {
+                ++line;
+            }
+        }
+        return Math.max(Math.abs(r - l + line), Math.abs(r - l - line));
+    }
+
+    public long minimumPossibleSum(int n, int target) {
+        long res = 0L;
+        int cnt = 0;
+        for (int i = 1; i <= target / 2 && cnt < n; ++i) {
+            res += i;
+            ++cnt;
+        }
+        while (cnt++ < n) {
+            res += target++;
+        }
+        return res;
+
+    }
 
 }

@@ -22,6 +22,7 @@ from math import gcd, inf
 from queue import PriorityQueue
 from typing import List, Optional
 import heapq
+import bisect
 
 class leetcode_1 :
     class TreeNode:
@@ -2631,3 +2632,14 @@ class leetcode_1 :
                dp[y] += dp[x]
                dp[y] %= MOD
        return dp[n - 1]
+    
+    # 1547. 切棍子的最小成本 (Minimum Cost to Cut a Stick)
+    def minCost(self, n: int, cuts: List[int]) -> int:
+       cuts.sort()
+
+       @cache
+       def dfs(l: int, r: int, i: int, j: int) -> int:
+          if r <= l or j <= i:
+             return 0
+          return min(dfs(l, cuts[k], i, k) + dfs(cuts[k], r, k + 1, j) for k in range(i, j)) + r - l
+       return dfs(0, n, 0, len(cuts))
