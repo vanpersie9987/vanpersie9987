@@ -1464,28 +1464,25 @@ public class Leetcode_7 {
         Arrays.sort(cuts);
         this.cuts1547 = cuts;
         this.k1547 = cuts.length;
-        this.memo1547 = new int[k1547][k1547];
-        for (int i = 0; i < k1547; ++i) {
+        this.memo1547 = new int[k1547 + 1][k1547 + 1];
+        for (int i = 0; i < k1547 + 1; ++i) {
             Arrays.fill(memo1547[i], -1);
         }
-        return dfs1547(0, n, 0, k1547 - 1);
+        return dfs1547(0, n, 0, k1547);
 
     }
 
     private int dfs1547(int left, int right, int i, int j) {
-        if (i > j) {
+        if (left >= right || i >= j) {
             return 0;
-        }
-        if (i == j) {
-            return right - left;
         }
         if (memo1547[i][j] != -1) {
             return memo1547[i][j];
         }
         int min = (int) 1e9;
-        for (int cutPos = i; cutPos <= j; ++cutPos) {
+        for (int k = i; k < j; ++k) {
             min = Math.min(min,
-                    dfs1547(left, cuts1547[cutPos], i, cutPos - 1) + dfs1547(cuts1547[cutPos], right, cutPos + 1, j));
+                    dfs1547(left, cuts1547[k], i, k) + dfs1547(cuts1547[k], right, k + 1, j));
         }
         return memo1547[i][j] = min + right - left;
     }
