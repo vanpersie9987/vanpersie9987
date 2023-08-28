@@ -2730,6 +2730,44 @@ class leetcode_1 :
           res += mp[pre - k]
           mp[pre] += 1
        return res
+    
+    # 57. 插入区间 (Insert Interval)
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+       n = len(intervals)
+       i = 0
+       res = []
+       f = False
+       while i < n:
+          l = intervals[i][0]
+          r = intervals[i][1]
+          L = newInterval[0]
+          R = newInterval[1]
+          if r < L:
+             res.append(intervals[i])
+             i += 1
+          elif R < l:
+             res.append(newInterval)
+             f = True
+             while i < n:
+                res.append(intervals[i])
+                i += 1
+          else:
+             f = True
+             left = min(l, L)
+             right = max(r, R)
+             i += 1
+             while i < n and intervals[i][0] <= right:
+                right = max(right, intervals[i][1])
+                i += 1
+             res.append([left, right])
+             while i < n:
+                res.append(intervals[i])
+                i += 1
+       if not f:
+          res.append(newInterval)
+       return res
+
+             
 
           
 
