@@ -17457,6 +17457,17 @@ public class LeetCodeText {
         return res;
     }
 
+
+    // 338. 比特位计数 (Counting Bits)
+    // 剑指 Offer II 003. 前 n 个数字二进制中 1 的个数
+    public int[] countBits3(int n) {
+        int[] res = new int[n + 1];
+        for (int i = 1; i <= n; ++i) {
+            res[i] = res[i & (i - 1)] + 1;
+        }
+        return res;
+    }
+
     // 1342. 将数字变成 0 的操作次数 (Number of Steps to Reduce a Number to Zero)
     public int numberOfSteps(int num) {
         int res = 0;
