@@ -2766,8 +2766,8 @@ class leetcode_1 :
        if not f:
           res.append(newInterval)
        return res
-
-             
-
-          
+    
+    # 342. 4的幂 (Power of Four)
+    def isPowerOfFour(self, n: int) -> bool:
+        return n > 0 and n.bit_count() == 1 and (n & 0b10101010101010101010101010101010) == 0
 
