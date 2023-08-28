@@ -703,45 +703,47 @@ public class LeetCodeText {
 
     }
 
-    // 57
+    // 57. 插入区间 (Insert Interval)
     public int[][] insert(int[][] intervals, int[] newInterval) {
+        int n = intervals.length;
         List<int[]> list = new ArrayList<>();
         int i = 0;
-        boolean placed = false;
-        while (i < intervals.length) {
-            int left = intervals[i][0];
-            int right = intervals[i][1];
-            if (newInterval[1] >= left && newInterval[0] <= right) {
-                placed = true;
-                left = Math.min(left, newInterval[0]);
-                right = Math.max(right, newInterval[1]);
-                while (i + 1 < intervals.length && intervals[i + 1][0] <= right) {
+        boolean f = false;
+        while (i < n) {
+            int l = intervals[i][0];
+            int r = intervals[i][1];
+            int L = newInterval[0];
+            int R = newInterval[1];
+            // 没有交集
+            if (r < L) {
+                list.add(intervals[i]);
+                ++i;
+            } else if (R < l) {
+                f = true;
+                list.add(newInterval);
+                while (i < n) {
+                    list.add(intervals[i]);
                     ++i;
-                    right = Math.max(right, intervals[i][1]);
+                }
+            } else {
+                f = true;
+                int min = Math.min(l, L);
+                int max = Math.max(r, R);
+                ++i;
+                while (i < n && intervals[i][0] <= max) {
+                    max = Math.max(max, intervals[i][1]);
+                    ++i;
+                }
+                list.add(new int[] { min, max });
+                while (i < n) {
+                    list.add(intervals[i]);
+                    ++i;
                 }
             }
-            ++i;
-            list.add(new int[] { left, right });
         }
-        if (list.size() == 0 || newInterval[1] < intervals[0][0]) {
-            placed = true;
-            list.add(0, newInterval);
-        } else if (newInterval[0] > intervals[intervals.length - 1][1]) {
-            placed = true;
+        if (!f) {
             list.add(newInterval);
         }
-        if (!placed) {
-            for (int j = 0; j < list.size(); ++j) {
-                int[] arr = list.get(j);
-                if (arr[1] < newInterval[0] && j + 1 < list.size()) {
-                    int[] arr2 = list.get(j + 1);
-                    if (arr2[0] > newInterval[1]) {
-                        list.add(j + 1, newInterval);
-                    }
-                }
-            }
-        }
-
         return list.toArray(new int[0][]);
 
     }
