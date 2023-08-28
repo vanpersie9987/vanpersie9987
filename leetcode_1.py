@@ -2806,3 +2806,14 @@ class leetcode_1 :
                    return False
                 mat[i // 3][j // 3] |= 1 << x
        return True
+    
+    # 48. 旋转图像 (Rotate Image)
+    def rotate(self, matrix: List[List[int]]) -> None:
+       n = len(matrix)
+       for i in range(n):
+          for j in range(i):
+             t = matrix[i][j]
+             matrix[i][j] = matrix[j][i]
+             matrix[j][i] = t
+       for i in range(n):
+          matrix[i].reverse()
