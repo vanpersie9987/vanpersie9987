@@ -2786,4 +2786,23 @@ class leetcode_1 :
        for i in range(1, n + 1):
           res[i] = res[i & (i - 1)] + 1
        return res
-
+    
+    # 36. 有效的数独 (Valid Sudoku)
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+       row = [0] * 9
+       col = [0] * 9
+       mat = [[0] * 3 for _ in range(3)]
+       for i in range(9):
+          for j in range(9):
+             if board[i][j] != '.':
+                x = int(board[i][j])
+                if row[i] & (1 << x):
+                   return False
+                row[i] |= 1 << x
+                if col[j] & (1 << x):
+                   return False
+                col[j] |= 1 << x
+                if mat[i // 3][j // 3] & (1 << x):
+                   return False
+                mat[i // 3][j // 3] |= 1 << x
+       return True
