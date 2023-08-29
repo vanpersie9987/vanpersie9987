@@ -2817,3 +2817,23 @@ class leetcode_1 :
              matrix[j][i] = t
        for i in range(n):
           matrix[i].reverse()
+
+    # 823. 带因子的二叉树 (Binary Trees With Factors)
+    def numFactoredBinaryTrees(self, arr: List[int]) -> int:
+       arr.sort()
+       s = set(arr)
+       MOD = 10 ** 9 + 7
+
+       @cache
+       def dfs(i: int) -> int:
+          res = 1
+          for j in arr:
+             if j * arr[0] > i:
+                break
+             if i % j == 0 and s.__contains__(i / j):
+                res += dfs(j) * dfs(i / j)
+                res %= MOD
+          return res
+       return sum(dfs(i) for i in arr) % MOD
+
+          
