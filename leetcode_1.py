@@ -2982,4 +2982,24 @@ class leetcode_1 :
              res %= MOD
           return res
        return dfs(0, 5)
+
+    # 2833. 距离原点最远的点 (Furthest Point From Origin)
+    def furthestDistanceFromOrigin(self, moves: str) -> int:
+       return abs(moves.count('L') - moves.count('R')) + moves.count('_')
+    
+    # 2834. 找出美丽数组的最小和 (Find the Minimum Possible Sum of a Beautiful Array)
+    def minimumPossibleSum(self, n: int, target: int) -> int:
+       res = 0
+       cnt = 0
+       i = 1
+       while i <= target // 2 and cnt < n:
+          res += i
+          i += 1
+          cnt += 1
+       while cnt < n:
+          res += target
+          target += 1
+          cnt += 1
+       return res
+          
           
