@@ -2835,5 +2835,26 @@ class leetcode_1 :
                 res %= MOD
           return res
        return sum(dfs(i) for i in arr) % MOD
+    
+    # 1335. 工作计划的最低难度 (Minimum Difficulty of a Job Schedule)
+    def minDifficulty(self, jobDifficulty: List[int], d: int) -> int:
+       n = len(jobDifficulty)
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n or j == 0:
+             return 0 if i == n and j == 0 else inf
+          if n - i < j:
+             return inf
+          res = inf
+          m = 0
+          for k in range(i, n):
+             m = max(m, jobDifficulty[k])
+             res = min(res, dfs(k + 1, j - 1) + m)
+          return res
+       res = dfs(0, d)
+       return -1 if res == inf else res
+
+
 
           
