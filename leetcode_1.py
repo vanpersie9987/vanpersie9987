@@ -3022,5 +3022,35 @@ class leetcode_1 :
              res += dfs(i + 1, j + s)
           return res % MOD
        return dfs(1, 0)
-          
-          
+    
+    # 2646. 最小化旅行的价格总和 (Minimize the Total Price of the Trips)
+    def minimumTotalPrice(self, n: int, edges: List[List[int]], price: List[int], trips: List[List[int]]) -> int:
+       cnts = [0] * n
+       def paths(x: int, fa: int) -> bool:
+          if x == end:
+             cnts[x] += 1
+             return True
+          for y in g[x]:
+             if y != fa and paths(y, x):
+                cnts[x] += 1
+                return True
+          return False
+       
+       def dfs(x: int, fa: int) -> List[int]:
+          a = (price[x] // 2) * cnts[x]
+          b = price[x] * cnts[x]
+          for y in g[x]:
+             if y != fa:
+                c = dfs(y, x)
+                a += c[1]
+                b += min(c[0], c[1])
+          return [a, b]
+       g = [[] for _ in range(n)]
+       for a, b in edges:
+          g[a].append(b)
+          g[b].append(a)
+       end = -1
+       for a, b in trips:
+          end = b
+          paths(a, -1)
+       return min(x for x in dfs(0, -1))
