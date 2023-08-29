@@ -2921,10 +2921,6 @@ class leetcode_1 :
           return dfs(i + 1, j - 1) + 1
        
        n = len(s)
-       arr = [[0] * n for _ in range(n)]
-       for i in range(n):
-          for j in range(i, n):
-             arr[i][j] = dfs(i, j)
        
        @cache
        def dfs2(i: int, j: int) -> int:
@@ -2934,7 +2930,7 @@ class leetcode_1 :
              return inf
           res = inf
           for x in range(i, n):
-             res = min(res, dfs2(x + 1, j + 1) + arr[i][x])
+             res = min(res, dfs2(x + 1, j + 1) + dfs(i, x))
           return res
        return dfs2(0, 0)
           
