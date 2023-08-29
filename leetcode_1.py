@@ -3054,3 +3054,41 @@ class leetcode_1 :
           end = b
           paths(a, -1)
        return min(x for x in dfs(0, -1))
+    
+    # 2581. 统计可能的树根数目 (Count Number of Possible Root Nodes)
+    def rootCount(self, edges: List[List[int]], guesses: List[List[int]], k: int) -> int:
+       n = len(edges) + 1
+       g = [[] for _ in range(n)]
+       for a, b in edges:
+          g[a].append(b)
+          g[b].append(a)
+       s = set()
+       for guess in guesses:
+          s.add(tuple(guess))
+       cur = 0
+       res = 0
+
+       def dfs(x: int, fa: int) -> None:
+          for y in g[x]:
+             if y != fa :
+                if s.__contains__(tuple([x, y])):
+                   nonlocal cur
+                   cur += 1
+                dfs(y, x)
+
+       def reroot(x: int, fa: int, c: int) -> None:
+          if c >= k:
+             nonlocal res
+             res += 1
+          for y in g[x]:
+             copy = c
+             if y != fa :
+                if s.__contains__(tuple([x, y])):
+                   copy -= 1
+                if s.__contains__(tuple([y, x])):
+                   copy += 1
+                reroot(y, x, copy)
+
+       dfs(0, -1)
+       reroot(0, -1, cur)
+       return res
