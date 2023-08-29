@@ -3001,5 +3001,26 @@ class leetcode_1 :
           target += 1
           cnt += 1
        return res
+    
+    # 2787. 将一个数字表示成幂的和的方案数 (Ways to Express an Integer as Sum of Powers)
+    def numberOfWays(self, n: int, x: int) -> int:
+       MOD = 10 ** 9 + 7
+       
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if j == n:
+             return 1
+          if i > n:
+             return 0
+          s = pow(i, x)
+          if s > n:
+             return 0
+          if j > n:
+             return 0
+          res = dfs(i + 1, j) 
+          if j + s <= n:
+             res += dfs(i + 1, j + s)
+          return res % MOD
+       return dfs(1, 0)
           
           
