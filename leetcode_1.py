@@ -2908,3 +2908,34 @@ class leetcode_1 :
        if res < 0:
           return [0, 0]
        return [res, ways[0][0]]
+    
+    # 1278. 分割回文串 III (Palindrome Partitioning III)
+    def palindromePartition(self, s: str, k: int) -> int:
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i >= j:
+             return 0
+          if s[i] == s[j]:
+             return dfs(i + 1, j - 1)
+          return dfs(i + 1, j - 1) + 1
+       
+       n = len(s)
+       arr = [[0] * n for _ in range(n)]
+       for i in range(n):
+          for j in range(i, n):
+             arr[i][j] = dfs(i, j)
+       
+       @cache
+       def dfs2(i: int, j: int) -> int:
+          if i == n or j == k:
+             return 0 if i == n and j == k else inf
+          if n - i < k - j:
+             return inf
+          res = inf
+          for x in range(i, n):
+             res = min(res, dfs2(x + 1, j + 1) + arr[i][x])
+          return res
+       return dfs2(0, 0)
+          
+       
