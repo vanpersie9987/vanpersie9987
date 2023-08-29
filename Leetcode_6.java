@@ -6888,51 +6888,40 @@ public class Leetcode_6 {
     }
 
     // 1223. 掷骰子模拟 (Dice Roll Simulation) --记忆化搜索
-    private int[] rollMax1223;
     private int[][][] memo1223;
+    private int n1223;
+    private int[] rollMax1223;
 
     public int dieSimulator(int n, int[] rollMax) {
-        final int MOD = (int) (1e9 + 7);
+        this.n1223 = n;
         this.rollMax1223 = rollMax;
-        int max = 0;
-        for (int i = 0; i < 6; ++i) {
-            max = Math.max(max, rollMax[i]);
-        }
-        memo1223 = new int[n][6][max];
+        this.memo1223 = new int[n][7][15];
         for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < 6; ++j) {
+            for (int j = 0; j < 7; ++j) {
                 Arrays.fill(memo1223[i][j], -1);
             }
         }
-
-        int res = 0;
-        for (int i = 0; i < 6; ++i) {
-            res = (res + dfs1223(n - 1, i, rollMax[i] - 1)) % MOD;
-        }
-        return res;
+        return dfs1223(0, 0, 0);
 
     }
 
-    // 表示还剩n次可投，上一次是投掷点数是last，该点数还有left次可投的方案数
-    private int dfs1223(int n, int last, int left) {
-        final int MOD = (int) (1e9 + 7);
-        if (n == 0) {
+    private int dfs1223(int i, int j, int k) {
+        if (i == n1223) {
             return 1;
         }
-        if (memo1223[n][last][left] != -1) {
-            return memo1223[n][last][left];
+        if (memo1223[i][j][k] != -1) {
+            return memo1223[i][j][k];
         }
         int res = 0;
-        for (int i = 0; i < 6; ++i) {
-            if (last == i) {
-                if (left > 0) {
-                    res = (res + dfs1223(n - 1, last, left - 1)) % MOD;
-                }
-            } else {
-                res = (res + dfs1223(n - 1, i, rollMax1223[i] - 1)) % MOD;
+        final int MOD = (int) (1e9 + 7);
+        for (int x = 1; x <= 6; ++x) {
+            if (x != j) {
+                res = (res + dfs1223(i + 1, x, rollMax1223[x - 1] - 1)) % MOD;
+            } else if (k > 0) {
+                res = (res + dfs1223(i + 1, x, k - 1)) % MOD;
             }
         }
-        return memo1223[n][last][left] = res;
+        return memo1223[i][j][k] = res;
     }
 
     // 1223. 掷骰子模拟 (Dice Roll Simulation) --动态规划
