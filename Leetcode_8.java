@@ -3090,6 +3090,7 @@ public class Leetcode_8 {
 
     }
 
+    // 2833. 距离原点最远的点 (Furthest Point From Origin)
     public int furthestDistanceFromOrigin(String moves) {
         int l = 0;
         int r = 0;
@@ -3103,9 +3104,10 @@ public class Leetcode_8 {
                 ++line;
             }
         }
-        return Math.max(Math.abs(r - l + line), Math.abs(r - l - line));
+        return Math.abs(r - l) + line;
     }
 
+    // 2834. 找出美丽数组的最小和 (Find the Minimum Possible Sum of a Beautiful Array)
     public long minimumPossibleSum(int n, int target) {
         long res = 0L;
         int cnt = 0;
