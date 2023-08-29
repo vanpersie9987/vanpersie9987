@@ -2933,5 +2933,21 @@ class leetcode_1 :
              res = min(res, dfs2(x + 1, j + 1) + dfs(i, x))
           return res
        return dfs2(0, 0)
-          
+    
+    # 1223. 掷骰子模拟 (Dice Roll Simulation)
+    def dieSimulator(self, n: int, rollMax: List[int]) -> int:
+       MOD = 10 ** 9 + 7
        
+       @cache
+       def dfs(i: int, j: int, k: int) -> int:
+          if i == n:
+             return 1
+          res = 0
+          for x in range(1, 7):
+             if x != j:
+                res += dfs(i + 1, x, rollMax[x - 1] - 1)
+             elif k:
+                res += dfs(i + 1, x, k - 1)
+             res %= MOD
+          return res
+       return dfs(0, 0, 0)
