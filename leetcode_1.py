@@ -1388,7 +1388,7 @@ class leetcode_1 :
           k = c
           # 不选
           res = dfs(i - 1, 0)
-          while k > 0:
+          while k:
              if k & (k >> 1) == 0:
                 # 选
                 res = max(res, dfs(i - 1, k) + k.bit_count())
@@ -2854,6 +2854,20 @@ class leetcode_1 :
           return res
        res = dfs(0, d)
        return -1 if res == inf else res
+    
+    # 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
+    def minInsertions(self, s: str) -> int:
+       n = len(s)
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i >= j:
+             return 0
+          if s[i] == s[j]:
+             return dfs(i + 1, j - 1)
+          return min(dfs(i + 1, j), dfs(i, j - 1)) + 1
+       return dfs(0, n - 1)
+          
 
 
 
