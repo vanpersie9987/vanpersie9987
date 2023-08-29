@@ -2867,8 +2867,44 @@ class leetcode_1 :
              return dfs(i + 1, j - 1)
           return min(dfs(i + 1, j), dfs(i, j - 1)) + 1
        return dfs(0, n - 1)
-          
+    
+    # 1301. 最大得分的路径数目 (Number of Paths with Max Score)
+    def pathsWithMaxScore(self, board: List[str]) -> List[int]:
+       n = len(board)
+       ways = [[0] * n for _ in range(n)]
+       ways[n - 1][n - 1] = 1
+       MOD = 10 ** 9 + 7
 
-
-
-          
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n - 1 and j == n - 1:
+             return 0
+          if board[i][j] == 'X':
+             return -inf
+          res1 = -inf
+          res2 = -inf
+          res3 = -inf
+          if i + 1 < n:
+             res1 = dfs(i + 1, j)
+          if j + 1 < n:
+             res2 = dfs(i, j + 1)
+          if i + 1 < n and j + 1 < n:
+             res3 = dfs(i + 1, j + 1)
+          res = max(res1, res2, res3)
+          if res != -inf:
+             if res == res1:
+                ways[i][j] += ways[i + 1][j]
+                ways[i][j] %= MOD
+             if res == res2:
+                ways[i][j] += ways[i][j + 1]
+                ways[i][j] %= MOD
+             if res == res3:
+                ways[i][j] += ways[i + 1][j + 1]
+                ways[i][j] %= MOD
+          if not (i == 0 and j == 0):
+             res += ord(board[i][j]) - ord('0')
+          return res
+       res = dfs(0, 0)
+       if res < 0:
+          return [0, 0]
+       return [res, ways[0][0]]
