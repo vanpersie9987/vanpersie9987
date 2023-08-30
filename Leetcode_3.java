@@ -6219,27 +6219,21 @@ public class Leetcode_3 {
         return nums[0];
     }
 
-    // 6035. 选择建筑的方案数 (Number of Ways to Select Buildings)
+    // 2222. 选择建筑的方案数 (Number of Ways to Select Buildings)
     public long numberOfWays(String s) {
         int n = s.length();
-        // 当前位置左边0的个数
-        int[] dp0left = new int[n];
-        for (int i = 1; i < n; ++i) {
-            dp0left[i] = dp0left[i - 1] + 1 - (s.charAt(i - 1) - '0');
-        }
-        // 当前位置右边0的个数
-        int[] dp0right = new int[n];
-        for (int i = n - 2; i >= 0; --i) {
-            dp0right[i] = dp0right[i + 1] + 1 - (s.charAt(i + 1) - '0');
-        }
         long res = 0L;
-        for (int i = 1; i < n - 1; ++i) {
-            if (s.charAt(i) == '0') {
-                // 左边1的个数 * 右边1的个数
-                res += (i - dp0left[i]) * (n - i - 1 - dp0right[i]);
+        int[] right0 = new int[n];
+        for (int i = n - 2; i >= 0; --i) {
+            right0[i] = right0[i + 1] + (s.charAt(i + 1) == '0' ? 1 : 0);
+        }
+        long left0 = 0L;
+        for (int i = 0; i < n; ++i) {
+            if (s.charAt(i) == '1') {
+                res += left0 * right0[i];
             } else {
-                // 左边0的个数 * 右边0的个数
-                res += dp0left[i] * dp0right[i];
+                res += (i - left0) * (n - i - 1 - right0[i]);
+                ++left0;
             }
         }
         return res;
