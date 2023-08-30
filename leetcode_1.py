@@ -3207,9 +3207,26 @@ class leetcode_1 :
              res = max(res, dfs(i + 1, j + cnt) + sum)
           return res
        return dfs(0, 0)
-             
-             
-             
-          
-
     
+    # 2747. 统计没有收到请求的服务器数目 (Count Zero Request Servers)
+    def countServers(self, n: int, logs: List[List[int]], x: int, queries: List[int]) -> List[int]:
+       logs.sort(key=lambda k:k[1])
+       res = [0] * len(queries)
+       i = 0
+       j = 0
+       cur = 0
+       cnts = [0] * (n + 1)
+       for t, id in sorted(zip(queries, range(len(queries))), key=lambda k:k[0]):
+          while j < len(logs) and logs[j][1] <= t:
+             cnts[logs[j][0]] += 1
+             if cnts[logs[j][0]] == 1:
+                cur += 1
+             j += 1
+          while i < len(logs) and logs[i][1] < t - x:
+             cnts[logs[i][0]] -= 1
+             if cnts[logs[i][0]] == 0:
+                cur -= 1
+             i += 1
+          res[id] = n - cur
+       return res
+             
