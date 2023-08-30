@@ -8818,6 +8818,38 @@ public class LeetCode_4 {
 
     }
 
+    // 2370. 最长理想子序列 (Longest Ideal Subsequence)
+    private int n2370;
+    private char[] arr2370;
+    private int k2370;
+    private int[][] memo2370;
+
+    public int longestIdealString2(String s, int k) {
+        this.n2370 = s.length();
+        this.arr2370 = s.toCharArray();
+        this.k2370 = k;
+        this.memo2370 = new int[n2370][27];
+        for (int i = 0; i < n2370; ++i) {
+            Arrays.fill(memo2370[i], -1);
+        }
+        return dfs2370(0, 26);
+
+    }
+
+    private int dfs2370(int i, int j) {
+        if (i == n2370) {
+            return 0;
+        }
+        if (memo2370[i][j] != -1) {
+            return memo2370[i][j];
+        }
+        int res = dfs2370(i + 1, j);
+        if (j == 26 || Math.abs(arr2370[i] - 'a' - j) <= k2370) {
+            res = Math.max(res, dfs2370(i + 1, arr2370[i] - 'a') + 1);
+        }
+        return memo2370[i][j] = res;
+    }
+
     // 1422. 分割字符串的最大得分 (Maximum Score After Splitting a String)
     public int maxScore(String s) {
         int n = s.length();
