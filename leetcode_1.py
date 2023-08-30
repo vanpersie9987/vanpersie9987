@@ -3138,6 +3138,27 @@ class leetcode_1 :
           return res
        res = dfs(0)
        return res if res < inf else -1
+    
+
+    # 2522. 将字符串分割成值不超过 K 的子字符串 (将字符串分割成值不超过 K 的子字符串)
+    def minimumPartition2(self, s: str, k: int) -> int:
+       n = len(s)
+       i = 0
+       res = 0
+       while i < n:
+          val = int(s[i])
+          if val > k:
+             return -1
+          j = i + 1
+          while j < n:
+             val = val * 10 + int(s[j])
+             if val > k:
+                break
+             j += 1
+          i = j
+          res += 1
+       return res
+          
              
       
              
