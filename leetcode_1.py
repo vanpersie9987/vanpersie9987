@@ -3265,4 +3265,25 @@ class leetcode_1 :
                 res += dfs(i + 1, m | (1 << j), isLimit and j == up, True)
           return res
        return dfs(0, 0, True, False)
+    
+    # 357. 统计各位数字都不同的数字个数 (Count Numbers with Unique Digits)
+    def countNumbersWithUniqueDigits(self, n: int) -> int:
+       s = str(pow(10, n) - 1)
+       l = len(s)
+
+       @cache
+       def dfs(i: int, m: int, isLimit: bool, isNum: bool) -> int:
+          if i == l:
+             return isNum
+          res = 0
+          if not isNum:
+             res = dfs(i + 1, m, False, False)
+          up = int(s[i]) if isLimit else 9
+          for j in range(0 if isNum else 1, up + 1):
+             if ((m >> j) & 1) == 0:
+                res += dfs(i + 1, m | (1 << j), isLimit and j == up, True)
+          return res
+       return dfs(0, 0, True, False) + 1
+
+       
              
