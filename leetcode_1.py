@@ -3118,6 +3118,27 @@ class leetcode_1 :
                 q.append([node - b, 1])
           res += 1
        return -1
+    
+
+    # 2522. 将字符串分割成值不超过 K 的子字符串 (将字符串分割成值不超过 K 的子字符串)
+    def minimumPartition(self, s: str, k: int) -> int:
+       n = len(s)
+
+       @cache
+       def dfs(i: int) -> int:
+          if i == n:
+             return 0
+          res = inf
+          val = 0
+          for j in range(i, n):
+             val = val * 10 + int(s[j])
+             if val > k:
+                break
+             res = min(res, dfs(j + 1) + 1)
+          return res
+       res = dfs(0)
+       return res if res < inf else -1
+             
       
              
           
