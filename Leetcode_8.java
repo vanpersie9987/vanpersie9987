@@ -3195,7 +3195,7 @@ public class Leetcode_8 {
             res += cur[0] * (i + 1) - cur[1];
             int[] arr = map.getOrDefault(pre, new int[] { 0, 0 });
             ++arr[0];
-            arr[1] -= i;
+            arr[1] += i;
             map.put(pre, arr);
         }
         return res;
