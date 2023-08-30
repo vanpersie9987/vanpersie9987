@@ -3158,8 +3158,23 @@ class leetcode_1 :
           i = j
           res += 1
        return res
+    
+    # 2222. 选择建筑的方案数 (Number of Ways to Select Buildings)
+    def numberOfWays(self, s: str) -> int:
+       n = len(s)
+       right0 = [0] * n
+       for i in range(n - 2, -1, -1):
+          right0[i] = right0[i + 1] + (1 if s[i + 1] == '0' else 0)
+       res = 0
+       left0 = 0
+       for i, v in enumerate(s):
+          if v == '1':
+             res += left0 * right0[i]
+          else:
+             res += (i - left0) * ((n - i - 1) - right0[i])
+             left0 += 1
+       return res
+             
           
-             
-      
-             
+          
           
