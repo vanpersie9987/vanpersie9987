@@ -3092,3 +3092,32 @@ class leetcode_1 :
        dfs(0, -1)
        reroot(0, -1, cur)
        return res
+    
+    # 1654. 到家的最少跳跃次数 (Minimum Jumps to Reach Home)
+    def minimumJumps(self, forbidden: List[int], a: int, b: int, x: int) -> int:
+       s = set(forbidden)
+       vis = [[False] * 2 for _ in range(6000)]
+       vis[0][0] = True
+       q = [[0, 0]]
+       res = 0
+       while q:
+          size = len(q)
+          for _ in range(size):
+             cur = q.pop(0)
+             node = cur[0]
+             leftStep = cur[1]
+             if node == x:
+                return res
+
+             if node + a < len(vis) and not vis[node + a][0] and not s.__contains__(node + a):
+                vis[node + a][0] = True
+                q.append([node + a, 0])
+             
+             if leftStep == 0 and node - b >= 0 and not vis[node - b][1] and not s.__contains__(node - b):
+                vis[node - b][1] = True
+                q.append([node - b, 1])
+          res += 1
+       return -1
+      
+             
+          
