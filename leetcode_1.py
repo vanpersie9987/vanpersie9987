@@ -3229,4 +3229,21 @@ class leetcode_1 :
              i += 1
           res[id] = n - cur
        return res
+
+    # 2370. 最长理想子序列 (Longest Ideal Subsequence)
+    def longestIdealString(self, s: str, k: int) -> int:
+       n = len(s)
+       memo = [[-1] * 27 for _ in range(n)]
+
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return 0
+          if memo[i][j] != -1:
+             return memo[i][j]
+          res = dfs(i + 1, j)
+          if j == 26 or abs(ord(s[i]) - ord('a') - j) <= k:
+             res = max(res, dfs(i + 1, ord(s[i]) - ord('a')) + 1)
+          memo[i][j] = res
+          return res
+       return dfs(0, 26)
              
