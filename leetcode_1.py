@@ -3187,7 +3187,29 @@ class leetcode_1 :
           end = ord(words[i][-1]) - ord('a')
           return min(dfs(i + 1, l, end) + len(words[i]) - (start == r), dfs(i + 1, start, r) + len(words[i]) - (l == end))
        return dfs(1, ord(words[0][0]) - ord('a'), ord(words[0][-1]) - ord('a')) + len(words[0])
+    
+    # 2218. 从栈中取出 K 个硬币的最大面值和 (Maximum Value of K Coins From Piles)
+    def maxValueOfCoins(self, piles: List[List[int]], k: int) -> int:
+       n = len(piles)
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n or j == k:
+             return 0
+          res = dfs(i + 1, j)
+          sum = 0
+          cnt = 0
+          for x in piles[i]:
+             sum += x
+             cnt += 1
+             if j + cnt > k:
+                break
+             res = max(res, dfs(i + 1, j + cnt) + sum)
+          return res
+       return dfs(0, 0)
+             
+             
              
           
-          
-          
+
+    
