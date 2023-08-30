@@ -3122,4 +3122,40 @@ public class Leetcode_8 {
 
     }
 
+    // 1654. 到家的最少跳跃次数 (Minimum Jumps to Reach Home)
+    public int minimumJumps(int[] forbidden, int a, int b, int x) {
+        Set<Integer> blocked = Arrays.stream(forbidden).boxed().collect(Collectors.toSet());
+        boolean[][] vis = new boolean[6000][2];
+        int res = 0;
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[] { 0, 0 });
+        vis[0][0] = true;
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = q.poll();
+                int node = cur[0];
+                int leftSteps = cur[1];
+                if (node == x) {
+                    return res;
+                }
+                // 右
+                if (node + a < vis.length && !vis[node + a][0] && !blocked.contains(node + a)) {
+                    vis[node + a][0] = true;
+                    q.offer(new int[] { node + a, 0 });
+                }
+                // 左
+                if (leftSteps == 0) {
+                    if (node - b >= 0 && !vis[node - b][1] && !blocked.contains(node - b)) {
+                        vis[node - b][1] = true;
+                        q.offer(new int[] { node - b, 1 });
+                    }
+                }
+            }
+            ++res;
+        }
+        return -1;
+
+    }
+
 }
