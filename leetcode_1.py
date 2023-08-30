@@ -3246,4 +3246,23 @@ class leetcode_1 :
           memo[i][j] = res
           return res
        return dfs(0, 26)
+    
+    # 2376. 统计特殊整数 (Count Special Integers)
+    def countSpecialNumbers(self, n: int) -> int:
+       s = str(n)
+       l = len(s)
+
+       @cache
+       def dfs(i: int, m: int, isLimit: bool, isNum: bool) -> int:
+          if i == l:
+             return isNum
+          res = 0
+          if not isNum:
+             res = dfs(i + 1, m, False, False)
+          up = int(s[i]) if isLimit else 9
+          for j in range(0 if isNum else 1, up + 1):
+             if ((m >> j) & 1) == 0:
+                res += dfs(i + 1, m | (1 << j), isLimit and j == up, True)
+          return res
+       return dfs(0, 0, True, False)
              
