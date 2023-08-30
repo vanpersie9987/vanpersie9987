@@ -3424,7 +3424,8 @@ public class Leetcode_6 {
 
     }
 
-    // 6196. 将字符串分割成值不超过 K 的子字符串
+    // 2522. 将字符串分割成值不超过 K 的子字符串 (Partition String Into Substrings With Values at
+    // Most K)
     public int minimumPartition(String s, int k) {
         int res = 0;
         int n = s.length();
@@ -3448,6 +3449,42 @@ public class Leetcode_6 {
         }
         return res;
 
+    }
+
+    // 2522. 将字符串分割成值不超过 K 的子字符串 (Partition String Into Substrings With Values at
+    // Most K)
+    private int n2522;
+    private char[] arr2522;
+    private int k2522;
+    private int[] memo2522;
+
+    public int minimumPartition2(String s, int k) {
+        this.n2522 = s.length();
+        this.k2522 = k;
+        this.arr2522 = s.toCharArray();
+        this.memo2522 = new int[n2522];
+        Arrays.fill(memo2522, -1);
+        int res = dfs2522(0);
+        return res < n2522 + 1 ? res : -1;
+    }
+
+    private int dfs2522(int i) {
+        if (i == n2522) {
+            return 0;
+        }
+        if (memo2522[i] != -1) {
+            return memo2522[i];
+        }
+        int res = n2522 + 1;
+        long val = 0L;
+        for (int j = i; j < n2522; ++j) {
+            val = val * 10 + arr2522[j] - '0';
+            if (val > k2522) {
+                break;
+            }
+            res = Math.min(res, dfs2522(j + 1) + 1);
+        }
+        return memo2522[i] = res;
     }
 
     // 6280. 范围内最接近的两个质数
