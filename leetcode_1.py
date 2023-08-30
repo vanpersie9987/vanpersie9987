@@ -3174,6 +3174,19 @@ class leetcode_1 :
              res += (i - left0) * ((n - i - 1) - right0[i])
              left0 += 1
        return res
+    
+    # 2746. 字符串连接删减字母 (Decremental String Concatenation)
+    def minimizeConcatenatedLength(self, words: List[str]) -> int:
+       n = len(words)
+
+       @cache
+       def dfs(i: int, l: int, r: int) -> int:
+          if i == n:
+             return 0
+          start = ord(words[i][0]) - ord('a')
+          end = ord(words[i][-1]) - ord('a')
+          return min(dfs(i + 1, l, end) + len(words[i]) - (start == r), dfs(i + 1, start, r) + len(words[i]) - (l == end))
+       return dfs(1, ord(words[0][0]) - ord('a'), ord(words[0][-1]) - ord('a')) + len(words[0])
              
           
           
