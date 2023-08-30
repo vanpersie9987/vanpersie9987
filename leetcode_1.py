@@ -554,7 +554,7 @@ class leetcode_1 :
             if not isNum:
                res = dfs(i + 1, pre, False, False)
             up = int(s[i]) if isLimit else 9
-            for j in range( 0 if isNum else 1, up + 1):
+            for j in range(0 if isNum else 1, up + 1):
                if (not isNum) or abs(j - pre) == 1:
                   res += dfs(i + 1, j, isLimit and j == up, True)
             return res % m
