@@ -3438,6 +3438,18 @@ class leetcode_1 :
                 heapq.heappush(q, nxt)
                 s.add(nxt)
        return res
+    
+    # 2240. 买钢笔和铅笔的方案数 (Number of Ways to Buy Pens and Pencils)
+    def waysToBuyPensPencils(self, total: int, cost1: int, cost2: int) -> int:
+       res = 0
+       cnt = 0
+       while cnt * cost1 <= total:
+          left = total - cnt * cost1
+          res += left // cost2 + 1
+          cnt += 1
+       return res
+       
+
 
 
        
