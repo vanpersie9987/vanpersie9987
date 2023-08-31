@@ -3421,7 +3421,23 @@ class leetcode_1 :
             return max(left, right, 0) + node.val
         dfs(root)
         return res
-                
+    
+    # 264. 丑数 II (Ugly Number II)
+    def nthUglyNumber(self, n: int) -> int:
+       q = [1]
+       heapq.heapify(q)
+       s = set()
+       s.add(1)
+       res = 1
+       for i in range(n):
+          pop = heapq.heappop(q)
+          res = pop
+          for j in [2, 3, 5]:
+             nxt = j * pop
+             if not (nxt in s):
+                heapq.heappush(q, nxt)
+                s.add(nxt)
+       return res
 
 
        
