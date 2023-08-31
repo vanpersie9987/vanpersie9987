@@ -3400,6 +3400,27 @@ class leetcode_1 :
              if not deg[y]:
                 q.append(y)
        return res
+    
+    # 124. 二叉树中的最大路径和 (Binary Tree Maximum Path Sum)
+    # LCR 051. 二叉树中的最大路径和
+    def maxPathSum(self, root: TreeNode) -> int:
+        res = -inf
+        class TreeNode:
+           def __init__(self, val=0, left=None, right=None):
+               self.val = val
+               self.left = left
+               self.right = right
+        
+        def dfs(node: TreeNode) -> int:
+            if not node:
+                return 0
+            left = dfs(node.left)
+            right = dfs(node.right)
+            nonlocal res
+            res = max(res, left + node.val, right + node.val, left + right + node.val, node.val)
+            return max(left, right, 0) + node.val
+        dfs(root)
+        return res
                 
 
 
