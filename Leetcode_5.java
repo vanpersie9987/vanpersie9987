@@ -5494,6 +5494,65 @@ public class Leetcode_5 {
 
     }
 
+    // 1235. 规划兼职工作 (Maximum Profit in Job Scheduling)
+    private int n1235;
+    private int[] memo1235;
+    private int[][] arr1235;
+
+    public int jobScheduling2(int[] startTime, int[] endTime, int[] profit) {
+        this.n1235 = startTime.length;
+        this.memo1235 = new int[n1235];
+        this.arr1235 = new int[n1235][3];
+        for (int i = 0; i < n1235; ++i) {
+            arr1235[i][0] = startTime[i];
+            arr1235[i][1] = endTime[i];
+            arr1235[i][2] = profit[i];
+        }
+        Arrays.sort(arr1235, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        return dfs1235(0);
+
+    }
+
+    private int dfs1235(int i) {
+        if (i == n1235) {
+            return 0;
+        }
+        if (memo1235[i] != 0) {
+            return memo1235[i];
+        }
+        int p = bisect1235(arr1235[i][1]);
+        return memo1235[i] = Math.max(dfs1235(i + 1), dfs1235(p) + arr1235[i][2]);
+    }
+
+    private int bisect1235(int target) {
+        if (target <= arr1235[0][0]) {
+            return 0;
+        }
+        if (target > arr1235[n1235 - 1][0]) {
+            return n1235;
+        }
+        int left = 0;
+        int right = n1235 - 1;
+        int res = n1235;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (arr1235[mid][0] >= target) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+
     // 221021天池-01. 统计链表奇数节点
     public int numberEvenListNode(ListNode head) {
         int res = 0;
