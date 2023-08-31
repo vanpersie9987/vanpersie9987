@@ -3376,5 +3376,32 @@ class leetcode_1 :
           p = bisect.bisect_left(events, events[i][1] + 1, key=lambda k: k[0])
           return max(dfs(i + 1, j), dfs(p, j + 1) + events[i][2])
        return dfs(0, 0)
+    
+    # 2050. 并行课程 III (Parallel Courses III)
+    def minimumTime(self, n: int, relations: List[List[int]], time: List[int]) -> int:
+       g = collections.defaultdict(list)
+       deg = [0] * n
+       for a, b in relations:
+          g[a - 1].append(b - 1)
+          deg[b - 1] += 1
+       res = 0
+       dp = [0] * n
+       q = []
+       for i in range(n):
+          if not deg[i]:
+             q.append(i)
+       while q:
+          x = q.pop()
+          t = time[x] + dp[x]
+          res = max(res, t)
+          for y in g[x]:
+             dp[y] = max(dp[y], t)
+             deg[y] -= 1
+             if not deg[y]:
+                q.append(y)
+       return res
+                
+
+
        
 
