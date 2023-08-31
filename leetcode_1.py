@@ -2233,24 +2233,6 @@ class leetcode_1 :
           cnt += 1
        return res
     
-    # 2830. 销售利润最大化 (Maximize the Profit as the Salesman)
-    def maximizeTheProfit(self, n: int, offers: List[List[int]]) -> int:
-       # map = [[] for _ in range(n)]
-       map = collections.defaultdict(list)
-       
-       for start, end, gold in offers:
-          map[start].append([end, gold])
-       
-       @cache
-       def dfs(i: int) -> int:
-          if i == n:
-             return 0
-          res = dfs(i + 1)
-          for end, gold in map[i]:
-             res = max(res, dfs(end + 1) + gold)
-          return res
-       return dfs(0)
-    
     # 849. 到最近的人的最大距离 (Maximize Distance to Closest Person)
     def maxDistToClosest(self, seats: List[int]) -> int:
        n = len(seats)
@@ -3358,6 +3340,24 @@ class leetcode_1 :
           res = dfs(i + 1)
           for e, v in d[i]:
              res = max(res, dfs(e) + e - i + v)
+          return res
+       return dfs(0)
+    
+    # 2830. 销售利润最大化 (Maximize the Profit as the Salesman)
+    def maximizeTheProfit(self, n: int, offers: List[List[int]]) -> int:
+       # map = [[] for _ in range(n)]
+       map = collections.defaultdict(list)
+       
+       for start, end, gold in offers:
+          map[start].append([end, gold])
+       
+       @cache
+       def dfs(i: int) -> int:
+          if i == n:
+             return 0
+          res = dfs(i + 1)
+          for end, gold in map[i]:
+             res = max(res, dfs(end + 1) + gold)
           return res
        return dfs(0)
        
