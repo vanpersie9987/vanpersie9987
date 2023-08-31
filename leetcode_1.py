@@ -3284,6 +3284,26 @@ class leetcode_1 :
                 res += dfs(i + 1, m | (1 << j), isLimit and j == up, True)
           return res
        return dfs(0, 0, True, False) + 1
+    
+    # 1761. 一个图中连通三元组的最小度数 (Minimum Degree of a Connected Trio in a Graph)
+    def minTrioDegree(self, n: int, edges: List[List[int]]) -> int:
+       connected = [[False] * n for _ in range(n)]
+       deg = [0] * n
+       for a, b in edges:
+          a -= 1
+          b -= 1
+          connected[a][b] = True
+          connected[b][a] = True
+          deg[a] += 1
+          deg[b] += 1
+       res = inf
+       for i in range(n):
+          for j in range(i + 1, n):
+             if connected[i][j]:
+                for k in range(n):
+                   if connected[i][k] and connected[j][k]:
+                      res = min(res, deg[i] + deg[j] + deg[k] - 6)
+       return -1 if res == inf else res
 
        
              
