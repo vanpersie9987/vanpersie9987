@@ -3360,5 +3360,18 @@ class leetcode_1 :
              res = max(res, dfs(end + 1) + gold)
           return res
        return dfs(0)
+    
+    # 2054. 两个最好的不重叠活动 (Two Best Non-Overlapping Events)
+    def maxTwoEvents(self, events: List[List[int]]) -> int:
+       n = len(events)
+       events.sort(key=lambda k: k[0])
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n or j == 2:
+             return 0
+          p = bisect.bisect_left(events, events[i][1] + 1, key=lambda k: k[0])
+          return max(dfs(i + 1, j), dfs(p, j + 1) + events[i][2])
+       return dfs(0, 0)
        
 
