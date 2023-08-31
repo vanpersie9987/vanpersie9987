@@ -3342,4 +3342,22 @@ class leetcode_1 :
           p = bisect.bisect_left(jobs, jobs[i][1], key=lambda k: k[0])
           return max(dfs(i + 1), dfs(p) + jobs[i][2])
        return dfs(0)
+    
+    # 2008. 出租车的最大盈利 (Maximum Earnings From Taxi)
+    def maxTaxiEarnings(self, n: int, rides: List[List[int]]) -> int:
+       # d = collections.defaultdict(list)
+       d = [[] for _ in range(n)]
+       for s, e, v in rides:
+          d[s - 1].append([e - 1, v])
+
+       @cache
+       def dfs(i: int) -> int:
+          if i == n:
+             return 0
+          res = dfs(i + 1)
+          for e, v in d[i]:
+             res = max(res, dfs(e) + e - i + v)
+          return res
+       return dfs(0)
+       
 
