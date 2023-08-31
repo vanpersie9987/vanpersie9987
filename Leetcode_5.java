@@ -323,6 +323,63 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 2054. 两个最好的不重叠活动 (Two Best Non-Overlapping Events)
+    private int n2054;
+    private int[][] events2054;
+    private int[][] memo2054;
+
+    public int maxTwoEvents2(int[][] events) {
+        this.n2054 = events.length;
+        Arrays.sort(events, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        this.events2054 = events;
+        this.memo2054 = new int[n2054][2];
+        for (int i = 0; i < n2054; ++i) {
+            Arrays.fill(memo2054[i], -1);
+        }
+        return dfs2054(0, 0);
+
+    }
+
+    private int dfs2054(int i, int j) {
+        if (i == n2054 || j == 2) {
+            return 0;
+        }
+        if (memo2054[i][j] != -1) {
+            return memo2054[i][j];
+        }
+        int p = bisect2054(events2054[i][1] + 1);
+        return memo2054[i][j] = Math.max(dfs2054(i + 1, j), dfs2054(p, j + 1) + events2054[i][2]);
+    }
+
+    private int bisect2054(int target) {
+        if (target <= events2054[0][0]) {
+            return 0;
+        }
+        if (target > events2054[n2054 - 1][0]) {
+            return n2054;
+        }
+        int left = 0;
+        int right = n2054 - 1;
+        int res = n2054;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (events2054[mid][0] >= target) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+
     // 437. 路径总和 III (Path Sum III)
     // 剑指 Offer II 050. 向下的路径节点之和
     // 面试题 04.12. 求和路径 (Paths with Sum LCCI)
