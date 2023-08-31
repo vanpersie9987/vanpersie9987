@@ -6810,6 +6810,37 @@ public class Leetcode_6 {
 
     }
 
+    // 2008. 出租车的最大盈利 (Maximum Earnings From Taxi)
+    private List<int[]>[] g2008;
+    private long[] memo2008;
+    private int n2008;
+
+    public long maxTaxiEarnings2(int n, int[][] rides) {
+        this.n2008 = n;
+        this.g2008 = new ArrayList[n];
+        Arrays.setAll(g2008, k -> new ArrayList<>());
+        for (int[] r : rides) {
+            g2008[r[0] - 1].add(new int[] { r[1] - 1, r[2] });
+        }
+        this.memo2008 = new long[n];
+        Arrays.fill(memo2008, -1L);
+        return dfs2008(0);
+    }
+
+    private long dfs2008(int i) {
+        if (i == n2008) {
+            return 0;
+        }
+        if (memo2008[i] != -1L) {
+            return memo2008[i];
+        }
+        long res = dfs2008(i + 1);
+        for (int[] nxt : g2008[i]) {
+            res = Math.max(res, dfs2008(nxt[0]) + nxt[0] - i + nxt[1]);
+        }
+        return memo2008[i] = res;
+    }
+
     // 2009. 使数组连续的最少操作数 (Minimum Number of Operations to Make Array Continuous)
     public int minOperations(int[] nums) {
         int n = nums.length;
