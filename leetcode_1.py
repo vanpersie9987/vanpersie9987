@@ -2235,14 +2235,15 @@ class leetcode_1 :
     
     # 2830. 销售利润最大化 (Maximize the Profit as the Salesman)
     def maximizeTheProfit(self, n: int, offers: List[List[int]]) -> int:
-       map = [[] for _ in range(n)]
+       # map = [[] for _ in range(n)]
+       map = collections.defaultdict(list)
        
        for start, end, gold in offers:
-          map[start].append((end, gold))
+          map[start].append([end, gold])
        
        @cache
        def dfs(i: int) -> int:
-          if i >= n:
+          if i == n:
              return 0
           res = dfs(i + 1)
           for end, gold in map[i]:
