@@ -3329,4 +3329,17 @@ class leetcode_1 :
           right = bisect.bisect_left(events, events[i][1] + 1, key=lambda e: e[0])
           return max(dfs(i + 1, j), dfs(right, j + 1) + events[i][2])
        return dfs(0, 0)
+    
+    # 1235. 规划兼职工作 (Maximum Profit in Job Scheduling)
+    def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
+       n = len(startTime)
+       jobs = sorted(zip(startTime, endTime, profit))
+       
+       @cache
+       def dfs(i: int) -> int:
+          if i == n:
+             return 0
+          p = bisect.bisect_left(jobs, jobs[i][1], key=lambda k: k[0])
+          return max(dfs(i + 1), dfs(p) + jobs[i][2])
+       return dfs(0)
 
