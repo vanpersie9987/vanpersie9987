@@ -2180,7 +2180,7 @@ class leetcode_1 :
        return res
     
 
-    # 8013. 范围中美丽整数的数目 (Number of Beautiful Integers in the Range)
+    # 2827. 范围中美丽整数的数目 (Number of Beautiful Integers in the Range)
     def numberOfBeautifulIntegers(self, low: int, high: int, k: int) -> int:
        def cal(s: str) -> int:
          @cache
