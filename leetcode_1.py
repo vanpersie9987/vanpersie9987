@@ -3364,7 +3364,10 @@ class leetcode_1 :
     # 2054. 两个最好的不重叠活动 (Two Best Non-Overlapping Events)
     def maxTwoEvents(self, events: List[List[int]]) -> int:
        n = len(events)
-       events.sort(key=lambda k: k[0])
+       # 不写排序规则，默认按照第一维从小到大排序
+       # events.sort(key=lambda k: k[0]) 
+       events.sort()
+
 
        @cache
        def dfs(i: int, j: int) -> int:
