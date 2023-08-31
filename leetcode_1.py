@@ -3316,3 +3316,17 @@ class leetcode_1 :
              return 0
           return max(dfs(i + 1, j) + multipliers[i + j] * nums[i], dfs(i, j + 1) + multipliers[i + j] * nums[n - j - 1])
        return dfs(0, 0)
+    
+    # 1751. 最多可以参加的会议数目 II (Maximum Number of Events That Can Be Attended II)
+    def maxValue(self, events: List[List[int]], k: int) -> int:
+       n = len(events)
+       events.sort(key=lambda o: o[0])
+
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n or j == k:
+             return 0
+          right = bisect.bisect_left(events, events[i][1] + 1, key=lambda e: e[0])
+          return max(dfs(i + 1, j), dfs(right, j + 1) + events[i][2])
+       return dfs(0, 0)
+
