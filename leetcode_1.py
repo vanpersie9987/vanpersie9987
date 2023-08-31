@@ -3304,6 +3304,15 @@ class leetcode_1 :
                    if connected[i][k] and connected[j][k]:
                       res = min(res, deg[i] + deg[j] + deg[k] - 6)
        return -1 if res == inf else res
+    
+    # 1770. 执行乘法运算的最大分数 (Maximum Score from Performing Multiplication Operations)
+    def maximumScore(self, nums: List[int], multipliers: List[int]) -> int:
+       n = len(nums)
+       m = len(multipliers)
 
-       
-             
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i + j >= m:
+             return 0
+          return max(dfs(i + 1, j) + multipliers[i + j] * nums[i], dfs(i, j + 1) + multipliers[i + j] * nums[n - j - 1])
+       return dfs(0, 0)
