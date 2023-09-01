@@ -3502,6 +3502,36 @@ class leetcode_1 :
           return pre
        dfs(0)
        return res + 1
+    
+    # 687. 最长同值路径 (Longest Univalue Path)
+    def longestUnivaluePath(self, root: Optional[TreeNode]) -> int:
+       res = 0
+       class TreeNode:
+          def __init__(self, val=0, left=None, right=None):
+             self.val = val
+             self.left = left
+             self.right = right
+       # 点的数量
+       def dfs(root: Optional[TreeNode]) -> int:
+          if not root:
+             return 0
+          left = dfs(root.left)
+          right = dfs(root.right)
+          cur = 1
+          if root.left and root.val == root.left.val:
+             cur += left
+          if root.right and root.val == root.right.val:
+             cur += right
+          nonlocal res
+          res = max(res, cur)
+          return max(left + 1 if root.left and root.val == root.left.val else 1, right + 1 if root.right and root.val == root.right.val else 1)
+       dfs(root)
+       return max(0, res - 1)
+
+             
+          
+          
+          
 
                 
           
