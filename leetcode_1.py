@@ -3565,3 +3565,45 @@ class leetcode_1 :
           return [m0, m1]
        dfs(0, -1)
        return res
+    
+    # 1617. 统计子树中城市之间最大距离 (Count Subtrees With Max Distance Between Cities)
+    def countSubgraphsForEachDiameter(self, n: int, edges: List[List[int]]) -> List[int]:
+       g = [[] for _ in range(n)]
+       for a, b in edges:
+          g[a - 1].append(b - 1)
+          g[b - 1].append(a - 1)
+       res = [0] * (n - 1)
+       m = 0
+       cal = 0
+       d = 0
+       def check_tree(x: int, fa: int) -> None:
+          nonlocal cal 
+          cal |= 1 << x
+          for y in g[x]:
+             if y != fa and ((m >> y) & 1) == 1:
+                check_tree(y, x)
+       def dfs(x: int, fa: int) -> int:
+          pre = 0
+          for y in g[x]:
+             if y != fa and ((m >> y) & 1) == 1:
+                cur = dfs(y, x) + 1
+                nonlocal d
+                d = max(d, cur + pre)
+                pre = max(pre, cur)
+          return pre
+          
+       for i in range(1 << n):
+          if i.bit_count() <= 1:
+             continue
+          m = i
+          cal = 0
+          d = 0
+          check_tree((i & -i).bit_length() - 1, -1)
+          if cal != m:
+             continue
+          dfs((i & -i).bit_length() - 1, -1)
+          res[d - 1] += 1
+       return res
+          
+
+          
