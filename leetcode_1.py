@@ -3544,3 +3544,24 @@ class leetcode_1 :
       #  dfs(root)
       #  return max(0, res - 1)
 
+    # 2538. 最大价值和与最小价值和的差值 (Difference Between Maximum and Minimum Price Sum)
+    def maxOutput(self, n: int, edges: List[List[int]], price: List[int]) -> int:
+       g = [[] for _ in range(n)]
+       for a, b in edges:
+          g[a].append(b)
+          g[b].append(a)
+       res = 0
+
+       def dfs(x: int, fa: int) -> List[int]:
+          m0 = price[x]
+          m1 = 0
+          for y in g[x]:
+             if y != fa:
+                cur = dfs(y, x)
+                nonlocal res
+                res = max(res, cur[0] + m1, cur[1] + m0)
+                m0 = max(m0, cur[0] + price[x])
+                m1 = max(m1, cur[1] + price[x])
+          return [m0, m1]
+       dfs(0, -1)
+       return res
