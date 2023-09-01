@@ -3417,8 +3417,8 @@ class leetcode_1 :
             left = dfs(node.left)
             right = dfs(node.right)
             nonlocal res
-            res = max(res, left + node.val, right + node.val, left + right + node.val, node.val)
-            return max(left, right, 0) + node.val
+            res = max(res, left + right + node.val)
+            return max(max(left, right) + node.val, 0)
         dfs(root)
         return res
     
