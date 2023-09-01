@@ -3511,35 +3511,36 @@ class leetcode_1 :
              self.val = val
              self.left = left
              self.right = right
-       # 点的数量
-       def dfs(root: Optional[TreeNode]) -> int:
+       # 边的数量 
+       def dfs2(root: Optional[TreeNode]) -> int:
           if not root:
-             return 0
-          left = dfs(root.left)
-          right = dfs(root.right)
-          cur = 1
+             return -1
+          left = dfs2(root.left) + 1
+          right = dfs2(root.right) + 1
+          cur = 0
           if root.left and root.val == root.left.val:
              cur += left
           if root.right and root.val == root.right.val:
              cur += right
           nonlocal res
           res = max(res, cur)
-          return max(left + 1 if root.left and root.val == root.left.val else 1, right + 1 if root.right and root.val == root.right.val else 1)
-       dfs(root)
-       return max(0, res - 1)
-
+          return max(left if root.left and root.val == root.left.val else 0, right if root.right and root.val == root.right.val else 0)
+       return res
              
-          
-          
-          
-
-                
-          
-
-          
-       
-
-
-
-       
+      # 点的数量
+      #  def dfs(root: Optional[TreeNode]) -> int:
+      #     if not root:
+      #        return 0
+      #     left = dfs(root.left)
+      #     right = dfs(root.right)
+      #     cur = 1
+      #     if root.left and root.val == root.left.val:
+      #        cur += left
+      #     if root.right and root.val == root.right.val:
+      #        cur += right
+      #     nonlocal res
+      #     res = max(res, cur)
+      #     return max(left + 1 if root.left and root.val == root.left.val else 1, right + 1 if root.right and root.val == root.right.val else 1)
+      #  dfs(root)
+      #  return max(0, res - 1)
 
