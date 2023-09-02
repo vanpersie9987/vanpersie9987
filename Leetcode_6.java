@@ -1662,31 +1662,33 @@ public class Leetcode_6 {
     }
 
     // 2246. 相邻字符不同的最长路径 (Longest Path With Different Adjacent Characters)
-    private Map<Integer, List<Integer>> graph2246;
-    private char[] char2246;
     private int res2246;
+    private List<Integer>[] g2246;
+    private String s2246;
 
     public int longestPath(int[] parent, String s) {
-        graph2246 = new HashMap<>();
-        for (int i = 0; i < parent.length; ++i) {
-            graph2246.computeIfAbsent(parent[i], k -> new ArrayList<>()).add(i);
+        int n = s.length();
+        this.g2246 = new ArrayList[n];
+        this.s2246 = s;
+        Arrays.setAll(g2246, k -> new ArrayList<>());
+        for (int i = 1; i < n; ++i) {
+            g2246[parent[i]].add(i);
         }
-        res2246 = 1;
-        char2246 = s.toCharArray();
         dfs2246(0);
-        return res2246;
+        return res2246 + 1;
+
     }
 
     private int dfs2246(int x) {
-        int max = 0;
-        for (int y : graph2246.getOrDefault(x, new ArrayList<>())) {
-            int cnt = dfs2246(y);
-            if (char2246[y] != char2246[x]) {
-                res2246 = Math.max(res2246, cnt + max + 1);
-                max = Math.max(max, cnt);
+        int pre = 0;
+        for (int y : g2246[x]) {
+            int cur = dfs2246(y) + 1;
+            if (s2246.charAt(x) != s2246.charAt(y)) {
+                res2246 = Math.max(res2246, cur + pre);
+                pre = Math.max(pre, cur);
             }
         }
-        return max + 1;
+        return pre;
     }
 
     // 687. 最长同值路径 ( Longest Univalue Path)
