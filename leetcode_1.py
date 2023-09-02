@@ -3604,6 +3604,24 @@ class leetcode_1 :
           dfs((i & -i).bit_length() - 1, -1)
           res[d - 1] += 1
        return res
+    
+    # 2511. 最多可以摧毁的敌人城堡数目 (Maximum Enemy Forts That Can Be Captured)
+    def captureForts(self, forts: List[int]) -> int:
+       res = 0
+       i = 0
+       n = len(forts)
+       while i < n:
+          while i < n and forts[i] == 0:
+             i += 1
+          j = i
+          i += 1
+          while i < n and forts[i] == 0:
+             i += 1
+          if i < n and forts[i] + forts[j] == 0:
+             res = max(res, i - j - 1)
+       return res
+          
+       
           
 
           
