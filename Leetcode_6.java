@@ -1704,20 +1704,13 @@ public class Leetcode_6 {
         if (root == null) {
             return 0;
         }
+
         int left = dfs687(root.left);
         int right = dfs687(root.right);
-        int max = 0;
-        int count = 0;
-        if (root.left != null && root.left.val == root.val) {
-            count += left + 1;
-            max = Math.max(max, left + 1);
-        }
-        if (root.right != null && root.right.val == root.val) {
-            count += right + 1;
-            max = Math.max(max, right + 1);
-        }
-        res687 = Math.max(res687, count);
-        return max;
+        left = root.left != null && root.left.val == root.val ? left + 1 : 0;
+        right = root.right != null && root.right.val == root.val ? right + 1 : 0;
+        res687 = Math.max(res687, left + right);
+        return Math.max(left, right);
     }
 
     // 1080. 根到叶路径上的不足节点 (Insufficient Nodes in Root to Leaf Paths)
