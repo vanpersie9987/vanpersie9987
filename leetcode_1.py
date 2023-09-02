@@ -3620,6 +3620,23 @@ class leetcode_1 :
           if i < n and forts[i] + forts[j] == 0:
              res = max(res, i - j - 1)
        return res
+    
+    # 66. 加一 (Plus One)
+    def plusOne(self, digits: List[int]) -> List[int]:
+       i = len(digits) - 1
+       c = 0
+       digits[i] += 1
+       while i >= 0 or c:
+          if i < 0:
+             break
+          c += digits[i]
+          digits[i] = c % 10
+          c //= 10
+          i -= 1
+       if c:
+          digits.insert(0, c)
+       return digits
+          
           
        
           
