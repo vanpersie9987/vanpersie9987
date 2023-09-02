@@ -3623,19 +3623,14 @@ class leetcode_1 :
     
     # 66. 加一 (Plus One)
     def plusOne(self, digits: List[int]) -> List[int]:
-       i = len(digits) - 1
-       c = 0
-       digits[i] += 1
-       while i >= 0 or c:
-          if i < 0:
-             break
-          c += digits[i]
-          digits[i] = c % 10
-          c //= 10
-          i -= 1
-       if c:
-          digits.insert(0, c)
-       return digits
+        n = len(digits)
+        for i in range(n - 1, -1, -1):
+           digits[i] += 1
+           if digits[i] // 10 == 0:
+             return digits
+           digits[i] %= 10
+        digits.insert(0, 1)
+        return digits
     
     # 58. 最后一个单词的长度 (Length of Last Word)
     def lengthOfLastWord(self, s: str) -> int:
