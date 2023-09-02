@@ -2631,36 +2631,22 @@ public class Leetcode_6 {
 
     }
 
-    // 6273. 最多可以摧毁的敌人城堡数目
+    // 2511. 最多可以摧毁的敌人城堡数目 (Maximum Enemy Forts That Can Be Captured)
     public int captureForts(int[] forts) {
-        int res = 0;
         int n = forts.length;
-        for (int i = 0; i < n; ++i) {
-            if (forts[i] == 1) {
-                int j = i - 1;
-                while (j >= 0) {
-                    if (forts[j] == 1) {
-                        break;
-                    }
-                    if (forts[j] == 0) {
-                        --j;
-                    } else {
-                        res = Math.max(res, i - j - 1);
-                        break;
-                    }
-                }
-                j = i + 1;
-                while (j < n) {
-                    if (forts[j] == 1) {
-                        break;
-                    }
-                    if (forts[j] == 0) {
-                        ++j;
-                    } else {
-                        res = Math.max(res, j - i - 1);
-                        break;
-                    }
-                }
+        int res = 0;
+        int i = 0;
+        while (i < n) {
+            while (i < n && forts[i] == 0) {
+                ++i;
+            }
+            int j = i;
+            ++i;
+            while (i < n && forts[i] == 0) {
+                ++i;
+            }
+            if (i < n && forts[i] + forts[j] == 0) {
+                res = Math.max(res, i - j - 1);
             }
         }
         return res;
