@@ -6926,20 +6926,17 @@ public class LeetCodeText {
         return new ArrayList<>(map.values());
     }
 
-    public int lengthOfLastWord(final String s) {
-        if (s.isEmpty()) {
-            return 0;
+    // 58. 最后一个单词的长度 (Length of Last Word)
+    public int lengthOfLastWord(String s) {
+        int i = s.length() - 1;
+        while (i >= 0 && s.charAt(i) == ' ') {
+            --i;
         }
-        final String sTrim = s.trim();
-        final char[] chars = sTrim.toCharArray();
-        int count = 0;
-        for (int i = chars.length - 1; i >= 0; --i) {
-            if (chars[i] == ' ') {
-                break;
-            }
-            ++count;
+        int j = i;
+        while (i >= 0 && s.charAt(i) != ' ') {
+            --i;
         }
-        return count;
+        return j - i;
     }
 
     // 67. 二进制求和 (Add Binary)
