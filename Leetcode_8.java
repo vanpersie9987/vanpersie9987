@@ -3201,4 +3201,79 @@ public class Leetcode_8 {
         return res;
     }
 
+    public boolean canBeEqual(String s1, String s2) {
+        int[] cnt = new int[26];
+        for (int i = 0; i < s1.length(); i += 2) {
+            ++cnt[s1.charAt(i) - 'a'];
+            --cnt[s2.charAt(i) - 'a'];
+        }
+        for (int c : cnt) {
+            if (c != 0) {
+                return false;
+            }
+        }
+        for (int i = 1; i < s1.length(); i += 2) {
+            ++cnt[s1.charAt(i) - 'a'];
+            --cnt[s2.charAt(i) - 'a'];
+        }
+        for (int c : cnt) {
+            if (c != 0) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+    
+    public boolean checkStrings(String s1, String s2) {
+        int[] cnt = new int[26];
+        for (int i = 0; i < s1.length(); i += 2) {
+            ++cnt[s1.charAt(i) - 'a'];
+            --cnt[s2.charAt(i) - 'a'];
+        }
+        for (int c : cnt) {
+            if (c != 0) {
+                return false;
+            }
+        }
+        for (int i = 1; i < s1.length(); i += 2) {
+            ++cnt[s1.charAt(i) - 'a'];
+            --cnt[s2.charAt(i) - 'a'];
+        }
+        for (int c : cnt) {
+            if (c != 0) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+    
+    public long maxSum(List<Integer> nums, int m, int k) {
+        long res = 0L;
+        long sum = 0L;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < k; ++i) {
+            sum += nums.get(i);
+            map.merge(nums.get(i), 1, Integer::sum);
+        }
+        if (map.size() >= m) {
+            res = sum;
+        }
+        for (int i = k; i < nums.size(); ++i) {
+            sum += nums.get(i);
+            sum -= nums.get(i - k);
+            map.merge(nums.get(i), 1, Integer::sum);
+            map.merge(nums.get(i - k), -1, Integer::sum);
+            if (map.get(nums.get(i - k)) == 0) {
+                map.remove(nums.get(i - k));
+            }
+            if (map.size() >= m) {
+                res = Math.max(res, sum);
+            }
+        }
+        return res;
+
+    }
+
 }

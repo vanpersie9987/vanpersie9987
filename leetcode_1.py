@@ -3641,6 +3641,17 @@ class leetcode_1 :
         while i >= 0 and s[i] != ' ':
             i -= 1
         return j - i
+    
+    # 1921. 消灭怪物的最大数量 (Eliminate Maximum Number of Monsters)
+    def eliminateMaximum(self, dist: List[int], speed: List[int]) -> int:
+        arrivalTimes = sorted([(d - 1) // s + 1 for d, s in zip(dist, speed)])
+        for attackTime, arrivalTime in enumerate(arrivalTimes):
+            if arrivalTime <= attackTime:
+                return attackTime
+        return len(arrivalTimes)
+          
+
+
           
           
        
