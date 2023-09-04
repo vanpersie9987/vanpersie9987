@@ -3338,6 +3338,7 @@ public class Leetcode_8 {
         return n2844 - j - 2;
     }
 
+    // 2845. 统计趣味子数组的数目 (Count of Interesting Subarrays)
     public long countInterestingSubarrays(List<Integer> nums, int modulo, int k) {
         long res = 0L;
         int pre = 0;

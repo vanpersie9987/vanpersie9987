@@ -3715,6 +3715,21 @@ class leetcode_1 :
           return n - j - 2
 
        return min(res, check("00"), check("50"), check("75"), check("25"))
+    
+    # 2845. 统计趣味子数组的数目 (Count of Interesting Subarrays)
+    def countInterestingSubarrays(self, nums: List[int], modulo: int, k: int) -> int:
+       d = collections.defaultdict(int)
+       d[0] = 1
+       pre = 0
+       res = 0
+       for x in nums:
+          pre += x % modulo == k
+          pre %= modulo
+          res += d[(pre - k) % modulo]
+          d[pre] += 1
+       return res
+
+       
 
           
        
