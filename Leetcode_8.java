@@ -3284,7 +3284,7 @@ public class Leetcode_8 {
     public int countSymmetricIntegers(int low, int high) {
         int res = 0;
         for (int i = low; i <= high; ++i) {
-            if (check(i)) {
+            if (check2843(i)) {
                 ++res;
             }
         }
@@ -3292,7 +3292,7 @@ public class Leetcode_8 {
 
     }
 
-    private boolean check(int num) {
+    private boolean check2843(int num) {
         String s = String.valueOf(num);
         int n = s.length();
         if (n % 2 == 1) {
@@ -3308,58 +3308,34 @@ public class Leetcode_8 {
         return sum == 0;
     }
 
-    public int minimumOperations(String num) {
-        int n = num.length();
-        int res = n;
-        // 00 50
-        int i = n - 1;
-        int cnt = 0;
-        while (i >= 0) {
-            if (num.charAt(i) == '0') {
-                break;
-            }
-            ++cnt;
-            --i;
-        }
-        if (i >= 0) {
-            --i;
-            while (i >= 0) {
-                if (num.charAt(i) == '0' || num.charAt(i) == '5') {
-                    break;
-                }
-                ++cnt;
-                --i;
-            }
-            if (i < 0) {
-                res = Math.min(res, n - 1);
-            } else {
-                res = Math.min(res, cnt);
-            }
-        }
-        i = n - 1;
-        cnt = 0;
-        while (i >= 0) {
-            if (num.charAt(i) == '5') {
-                break;
-            }
-            --i;
-            ++cnt;
-        }
-        if (i >= 0) {
-            --i;
-            while (i >= 0) {
-                if (num.charAt(i) == '2' || num.charAt(i) == '7') {
-                    break;
-                }
-                --i;
-                ++cnt;
-            }
-            if (i >= 0) {
-                res = Math.min(res, cnt);
-            }
-        }
-        return res;
+    // 2844. 生成特殊数字的最少操作 (Minimum Operations to Make a Special Number)
+    private int n2844;
+    private String num2844;
 
+    public int minimumOperations(String num) {
+        this.n2844 = num.length();
+        this.num2844 = num;
+        int res = n2844;
+        if (num.contains("0")) {
+            res = n2844 - 1;
+        }
+        res = Math.min(res, check2844("00"));
+        res = Math.min(res, check2844("25"));
+        res = Math.min(res, check2844("50"));
+        res = Math.min(res, check2844("75"));
+        return res;
+    }
+
+    private int check2844(String s) {
+        int i = num2844.lastIndexOf("" + s.charAt(1));
+        if (i < 0) {
+            return n2844;
+        }
+        int j = num2844.substring(0, i).lastIndexOf("" + s.charAt(0));
+        if (j < 0) {
+            return n2844;
+        }
+        return n2844 - j - 2;
     }
 
     public long countInterestingSubarrays(List<Integer> nums, int modulo, int k) {

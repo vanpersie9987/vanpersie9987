@@ -3698,6 +3698,24 @@ class leetcode_1 :
           if check(i):
              res += 1
        return res
+    
+    # 2844. 生成特殊数字的最少操作 (Minimum Operations to Make a Special Number)
+    def minimumOperations(self, num: str) -> int:
+       n = len(num)
+       res = n
+       if '0' in num:
+          res -= 1
+       def check(s: str) -> int:
+          i = num.rfind(s[1])
+          if i < 0:
+             return n
+          j = num.rfind(s[0], 0, i)
+          if j < 0:
+             return n
+          return n - j - 2
+
+       return min(res, check("00"), check("50"), check("75"), check("25"))
+
           
        
           
