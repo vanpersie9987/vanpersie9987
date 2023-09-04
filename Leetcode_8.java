@@ -3201,6 +3201,7 @@ public class Leetcode_8 {
         return res;
     }
 
+    // 2839. 判断通过操作能否让字符串相等 I (Check if Strings Can be Made Equal With Operations I)
     public boolean canBeEqual(String s1, String s2) {
         int[] cnt = new int[26];
         for (int i = 0; i < s1.length(); i += 2) {
@@ -3225,6 +3226,8 @@ public class Leetcode_8 {
 
     }
 
+    // 2840. 判断通过操作能否让字符串相等 II (Check if Strings Can be Made Equal With Operations
+    // II)
     public boolean checkStrings(String s1, String s2) {
         int[] cnt = new int[26];
         for (int i = 0; i < s1.length(); i += 2) {
@@ -3249,6 +3252,7 @@ public class Leetcode_8 {
 
     }
 
+    // 2841. 几乎唯一子数组的最大和 (Maximum Sum of Almost Unique Subarray)
     public long maxSum(List<Integer> nums, int m, int k) {
         long res = 0L;
         long sum = 0L;
@@ -3276,6 +3280,7 @@ public class Leetcode_8 {
 
     }
 
+    // 2843. 统计对称整数的数目 (Count Symmetric Integers)
     public int countSymmetricIntegers(int low, int high) {
         int res = 0;
         for (int i = low; i <= high; ++i) {
@@ -3372,40 +3377,4 @@ public class Leetcode_8 {
         return res;
 
     }
-
-    // private List<int[]>[] g;
-    // private int[] vals;
-
-    // public int[] minOperationsQueries(int n, int[][] edges, int[][] queries) {
-    //     this.g = new ArrayList[n];
-    //     int m = queries.length;
-    //     int[] res = new int[m];
-    //     long MOD = (long) 1e5;
-    //     Map<Long, Integer> map = new HashMap<>();
-    //     for (int i = 0; i < queries.length; ++i) {
-    //         Arrays.sort(queries[i]);
-    //         long key = queries[i][0] * MOD + queries[i][1];
-    //         map.put(key, i);
-    //     }
-    //     Arrays.setAll(g, k -> new ArrayList<>());
-    //     for (int[] e : edges) {
-    //         int a = e[0];
-    //         int b = e[1];
-    //         g[a].add(new int[] { b, e[2] });
-    //         g[b].add(new int[] { a, e[2] });
-    //     }
-    //     vals = new int[27];
-    //     dfs(0, -1);
-
-    // }
-
-    // private int[] dfs(int x, int fa) {
-    //     for (int[] y : g[x]) {
-    //         if (y != fa) {
-
-    //         }
-
-    //     }
-
-    // }
 }

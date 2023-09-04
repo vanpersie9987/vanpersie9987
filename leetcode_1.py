@@ -3650,3 +3650,55 @@ class leetcode_1 :
                 return attackTime
         return len(arrivalTimes)
     
+    # 2839. 判断通过操作能否让字符串相等 I (Check if Strings Can be Made Equal With Operations I)
+    def canBeEqual(self, s1: str, s2: str) -> bool:
+       return sorted(s1[::2]) == sorted(s2[::2]) and sorted(s1[1::2]) == sorted(s2[1::2])
+    
+    # 2840. 判断通过操作能否让字符串相等 II (Check if Strings Can be Made Equal With Operations II)
+    def checkStrings(self, s1: str, s2: str) -> bool:
+       return sorted(s1[::2]) == sorted(s2[::2]) and sorted(s1[1::2]) == sorted(s2[1::2])
+    
+    # 2841. 几乎唯一子数组的最大和 (Maximum Sum of Almost Unique Subarray)
+    def maxSum(self, nums: List[int], m: int, k: int) -> int:
+       d = collections.defaultdict(int)
+       res = 0
+       sum = 0
+       n = len(nums)
+       for i in range(k):
+          sum += nums[i]
+          d[nums[i]] += 1
+       if len(d) >= m:
+          res = sum
+       for i in range(k, n):
+          sum += nums[i]
+          sum -= nums[i - k]
+          d[nums[i]] += 1
+          d[nums[i - k]] -= 1
+          if d[nums[i - k]] == 0:
+             del d[nums[i - k]]
+          if len(d) >= m:
+             res = max(res, sum)
+       return res
+    
+    # 2843. 统计对称整数的数目 (Count Symmetric Integers)
+    def countSymmetricIntegers(self, low: int, high: int) -> int:
+       res = 0
+       def check(i: int) -> bool:
+          s = str(i)
+          n = len(s)
+          if n % 2:
+             return False
+          sum = 0
+          for x in range(n // 2):
+             sum += int(s[x])
+          for x in range(n // 2, n):
+             sum -= int(s[x])
+          return not sum
+       for i in range(low, high + 1):
+          if check(i):
+             res += 1
+       return res
+          
+       
+          
+    
