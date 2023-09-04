@@ -3649,12 +3649,4 @@ class leetcode_1 :
             if arrivalTime <= attackTime:
                 return attackTime
         return len(arrivalTimes)
-          
-
-
-          
-          
-       
-          
-
-          
+    

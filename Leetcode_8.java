@@ -2910,7 +2910,7 @@ public class Leetcode_8 {
         return j == n2;
 
     }
-    
+
     // 6941. 将三个组排序 (Sorting Three Groups)
     private int n6941;
     private List<Integer> nums6941;
@@ -3224,7 +3224,7 @@ public class Leetcode_8 {
         return true;
 
     }
-    
+
     public boolean checkStrings(String s1, String s2) {
         int[] cnt = new int[26];
         for (int i = 0; i < s1.length(); i += 2) {
@@ -3248,7 +3248,7 @@ public class Leetcode_8 {
         return true;
 
     }
-    
+
     public long maxSum(List<Integer> nums, int m, int k) {
         long res = 0L;
         long sum = 0L;
@@ -3276,4 +3276,136 @@ public class Leetcode_8 {
 
     }
 
+    public int countSymmetricIntegers(int low, int high) {
+        int res = 0;
+        for (int i = low; i <= high; ++i) {
+            if (check(i)) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean check(int num) {
+        String s = String.valueOf(num);
+        int n = s.length();
+        if (n % 2 == 1) {
+            return false;
+        }
+        int sum = 0;
+        for (int i = 0; i < n / 2; ++i) {
+            sum += s.charAt(i) - '0';
+        }
+        for (int i = n / 2; i < n; ++i) {
+            sum -= s.charAt(i) - '0';
+        }
+        return sum == 0;
+    }
+
+    public int minimumOperations(String num) {
+        int n = num.length();
+        int res = n;
+        // 00 50
+        int i = n - 1;
+        int cnt = 0;
+        while (i >= 0) {
+            if (num.charAt(i) == '0') {
+                break;
+            }
+            ++cnt;
+            --i;
+        }
+        if (i >= 0) {
+            --i;
+            while (i >= 0) {
+                if (num.charAt(i) == '0' || num.charAt(i) == '5') {
+                    break;
+                }
+                ++cnt;
+                --i;
+            }
+            if (i < 0) {
+                res = Math.min(res, n - 1);
+            } else {
+                res = Math.min(res, cnt);
+            }
+        }
+        i = n - 1;
+        cnt = 0;
+        while (i >= 0) {
+            if (num.charAt(i) == '5') {
+                break;
+            }
+            --i;
+            ++cnt;
+        }
+        if (i >= 0) {
+            --i;
+            while (i >= 0) {
+                if (num.charAt(i) == '2' || num.charAt(i) == '7') {
+                    break;
+                }
+                --i;
+                ++cnt;
+            }
+            if (i >= 0) {
+                res = Math.min(res, cnt);
+            }
+        }
+        return res;
+
+    }
+
+    public long countInterestingSubarrays(List<Integer> nums, int modulo, int k) {
+        long res = 0L;
+        int pre = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        for (int num : nums) {
+            pre += num % modulo == k ? 1 : 0;
+            pre %= modulo;
+            int curMod = ((pre - k) % modulo + modulo) % modulo;
+            res += map.getOrDefault(curMod, 0);
+            map.merge(pre, 1, Integer::sum);
+        }
+        return res;
+
+    }
+
+    // private List<int[]>[] g;
+    // private int[] vals;
+
+    // public int[] minOperationsQueries(int n, int[][] edges, int[][] queries) {
+    //     this.g = new ArrayList[n];
+    //     int m = queries.length;
+    //     int[] res = new int[m];
+    //     long MOD = (long) 1e5;
+    //     Map<Long, Integer> map = new HashMap<>();
+    //     for (int i = 0; i < queries.length; ++i) {
+    //         Arrays.sort(queries[i]);
+    //         long key = queries[i][0] * MOD + queries[i][1];
+    //         map.put(key, i);
+    //     }
+    //     Arrays.setAll(g, k -> new ArrayList<>());
+    //     for (int[] e : edges) {
+    //         int a = e[0];
+    //         int b = e[1];
+    //         g[a].add(new int[] { b, e[2] });
+    //         g[b].add(new int[] { a, e[2] });
+    //     }
+    //     vals = new int[27];
+    //     dfs(0, -1);
+
+    // }
+
+    // private int[] dfs(int x, int fa) {
+    //     for (int[] y : g[x]) {
+    //         if (y != fa) {
+
+    //         }
+
+    //     }
+
+    // }
 }
