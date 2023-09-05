@@ -3728,6 +3728,22 @@ class leetcode_1 :
           res += d[(pre - k) % modulo]
           d[pre] += 1
        return res
+    
+    # 2605. 从两个数字数组里生成最小数字 (Form Smallest Number From Two Digit Arrays)
+    def minNumber(self, nums1: List[int], nums2: List[int]) -> int:
+       m1 = 0
+       m2 = 0
+       for x in nums1:
+          m1 |= 1 << x
+       for x in nums2:
+          m2 |= 1 << x
+       m = m1 & m2
+       if m:
+          return (m & -m).bit_length() - 1
+       x = (m1 & -m1).bit_length() - 1
+       y = (m2 & -m2).bit_length() - 1
+       return min(x * 10 + y, y * 10 + x)
+          
 
        
 
