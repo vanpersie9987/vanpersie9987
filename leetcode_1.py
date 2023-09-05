@@ -3785,6 +3785,20 @@ class leetcode_1 :
           x = i & -i
           return min(dfs(i + x), dfs(i - x)) + 1
        return dfs(n)
+    
+    # 2571. 将整数减少到零需要的最少操作数 (Minimum Operations to Reduce an Integer to 0)
+    def minOperations(self, n: int) -> int:
+       res = 1
+       while n & (n - 1):
+          lb = n & -n
+          if (n & (lb << 1)):
+             n += lb
+          else:
+             n -= lb
+          res += 1
+       return res
+    
+
 
           
        
