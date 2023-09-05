@@ -3257,20 +3257,15 @@ public class Leetcode_8 {
         long res = 0L;
         long sum = 0L;
         Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < k; ++i) {
+        for (int i = 0; i < nums.size(); ++i) {
             sum += nums.get(i);
             map.merge(nums.get(i), 1, Integer::sum);
-        }
-        if (map.size() >= m) {
-            res = sum;
-        }
-        for (int i = k; i < nums.size(); ++i) {
-            sum += nums.get(i);
-            sum -= nums.get(i - k);
-            map.merge(nums.get(i), 1, Integer::sum);
-            map.merge(nums.get(i - k), -1, Integer::sum);
-            if (map.get(nums.get(i - k)) == 0) {
-                map.remove(nums.get(i - k));
+            if (i - k >= 0) {
+                sum -= nums.get(i - k);
+                map.merge(nums.get(i - k), -1, Integer::sum);
+                if (map.get(nums.get(i - k)) == 0) {
+                    map.remove(nums.get(i - k));
+                }
             }
             if (map.size() >= m) {
                 res = Math.max(res, sum);
