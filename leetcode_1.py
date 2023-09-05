@@ -3664,18 +3664,14 @@ class leetcode_1 :
        res = 0
        sum = 0
        n = len(nums)
-       for i in range(k):
+       for i in range(n):
           sum += nums[i]
           d[nums[i]] += 1
-       if len(d) >= m:
-          res = sum
-       for i in range(k, n):
-          sum += nums[i]
-          sum -= nums[i - k]
-          d[nums[i]] += 1
-          d[nums[i - k]] -= 1
-          if d[nums[i - k]] == 0:
-             del d[nums[i - k]]
+          if i - k >= 0:
+             sum -= nums[i - k]
+             d[nums[i - k]] -= 1
+             if d[nums[i - k]] == 0:
+                del d[nums[i - k]]
           if len(d) >= m:
              res = max(res, sum)
        return res
