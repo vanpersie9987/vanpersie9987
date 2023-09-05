@@ -3774,6 +3774,18 @@ class leetcode_1 :
              return 0
           return (dfs(i + 1, j + 1) + dfs(i - 1, j + 1) + dfs(i, j + 1)) % MOD
        return dfs(0, 0)
+    
+    # 2571. 将整数减少到零需要的最少操作数 (Minimum Operations to Reduce an Integer to 0)
+    def minOperations(self, n: int) -> int:
+
+       @cache
+       def dfs(i: int) -> int:
+          if (i & (i - 1)) == 0:
+             return 1
+          x = i & -i
+          return min(dfs(i + x), dfs(i - x)) + 1
+       return dfs(n)
+
           
        
 
