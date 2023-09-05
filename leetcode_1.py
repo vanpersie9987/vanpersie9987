@@ -3743,6 +3743,31 @@ class leetcode_1 :
        x = (m1 & -m1).bit_length() - 1
        y = (m2 & -m2).bit_length() - 1
        return min(x * 10 + y, y * 10 + x)
+    
+    # 23. 合并 K 个升序链表 (Merge k Sorted Lists)
+    # 比较堆中节点的大小 
+    ListNode.__lt__ = lambda a, b: a.val < b.val
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+       class ListNode:
+          def __init__(self, val=0, next=None):
+             self.val = val
+             self.next = next
+       
+       cur = dummy = ListNode()
+       list = [head for head in lists if head]
+       heapq.heapify(list)
+       while list:
+          node = heapq.heappop(list)
+          if node.next:
+             heapq.heappush(list, node.next)
+          cur.next = node
+          cur = cur.next
+       return dummy.next
+
+          
+
+
+
           
 
        
