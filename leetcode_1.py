@@ -3852,9 +3852,7 @@ class leetcode_1 :
         def dfs(root: Optional[TreeNode], d: int) -> None:
             if not root:
                 return
-            nonlocal s
             if not d in s:
-                nonlocal res
                 res.append(root.val)
                 s.add(d)
             dfs(root.right, d + 1)
