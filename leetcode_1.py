@@ -3803,27 +3803,12 @@ class leetcode_1 :
        n = len(obstacles)
        list = []
        res = [0] * n
-
-       def binarySearch(target: int) -> int:
-          left = 0
-          right = len(list) - 1
-          res = 0
-          while left <= right:
-             mid = left + ((right - left) >> 1)
-             if list[mid] > target:
-                res = mid
-                right = mid - 1
-             else:
-                left = mid + 1
-          return res
-
-
        for i, v in enumerate(obstacles):
           if len(list) == 0 or v >= list[-1]:
              list.append(v)
              res[i] = len(list)
           else:
-             pos = binarySearch(v)
+             pos = bisect.bisect_left(list, v + 1)
              list[pos] = v
              res[i] = pos + 1
        return res
