@@ -732,23 +732,24 @@ public class Leetcode_3 {
     // 199. 二叉树的右视图 (Binary Tree Right Side View) --深度优先 dfs
     // 剑指 Offer II 046. 二叉树的右侧视图 --dfs
     private List<Integer> res199;
+    private Set<Integer> s199;
 
     public List<Integer> rightSideView2(TreeNode root) {
         res199 = new ArrayList<>();
+        s199 = new HashSet<>();
         dfs199(root, 0);
         return res199;
     }
 
-    private void dfs199(TreeNode root, int depth) {
+    private void dfs199(TreeNode root, int d) {
         if (root == null) {
             return;
         }
-        if (res199.size() == depth) {
+        if (s199.add(d)) {
             res199.add(root.val);
         }
-        ++depth;
-        dfs199(root.right, depth);
-        dfs199(root.left, depth);
+        dfs199(root.right, d + 1);
+        dfs199(root.left, d + 1);
     }
 
     // 965. 单值二叉树 (Univalued Binary Tree) --莫里斯+中序遍历
