@@ -3813,4 +3813,15 @@ class leetcode_1 :
              list[pos] = v
              res[i] = pos + 1
        return res
+    
+    # 300. 最长递增子序列 (Longest Increasing Subsequence)
+    def lengthOfLIS(self, nums: List[int]) -> int:
+       list = []
+       for i, v in enumerate(nums):
+          if len(list) == 0 or v > list[-1]:
+             list.append(v)
+          else:
+             pos = bisect.bisect_right(list, v - 1)
+             list[pos] = v
+       return len(list)
           
