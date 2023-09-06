@@ -3931,6 +3931,14 @@ class leetcode_1 :
        if left and right:
           return root
        return left if left else right
+    
+    # 235. 二叉搜索树的最近公共祖先 (Lowest Common Ancestor of a Binary Search Tree)
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+       if q.val <= root.val <= p.val or q.val >= root.val >= p.val:
+          return root
+       if q.val < root.val:
+          return self.lowestCommonAncestor(root.left, p, q)
+       return self.lowestCommonAncestor(root.right, p, q)
        
           
 
