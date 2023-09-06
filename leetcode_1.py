@@ -3836,8 +3836,8 @@ class leetcode_1 :
 
         if not root:
             return 0
-        res = 1
+        res = 0
         for y in root.children:
-            res = max(res, self.maxDepth(y) + 1)
-        return res
+            res = max(res, self.maxDepth(y))
+        return res + 1
           
