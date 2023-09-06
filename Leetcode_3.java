@@ -3490,8 +3490,20 @@ public class Leetcode_3 {
 
     }
 
-    // 559. N 叉树的最大深度 (Maximum Depth of N-ary Tree) --bfs
+    // 559. N 叉树的最大深度 (Maximum Depth of N-ary Tree)
     public int maxDepth(Node root) {
+        if (root == null) {
+            return 0;
+        }
+        int max = 1;
+        for (Node y : root.children) {
+            max = Math.max(max, maxDepth(y) + 1);
+        }
+        return max;
+    }
+
+    // 559. N 叉树的最大深度 (Maximum Depth of N-ary Tree) --bfs
+    public int maxDepth2(Node root) {
         int res = 0;
         if (root == null) {
             return res;
