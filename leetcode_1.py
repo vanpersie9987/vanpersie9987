@@ -3903,6 +3903,24 @@ class leetcode_1 :
           return max(left, right)
        dfs(root, 0)
        return res
+    
+    # 104. 二叉树的最大深度 (Maximum Depth of Binary Tree)
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        class TreeNode:
+          def __init__(self, val=0, left=None, right=None):
+             self.val = val
+             self.left = left
+             self.right = right
+        res = 0
+        def dfs(root: Optional[TreeNode], d: int) -> None:
+            nonlocal res
+            if not root:
+                res = max(res, d)
+                return
+            dfs(root.left, d + 1)
+            dfs(root.right, d + 1)
+        dfs(root, 0)
+        return res
           
 
         
