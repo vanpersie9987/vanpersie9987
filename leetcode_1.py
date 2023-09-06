@@ -3839,4 +3839,25 @@ class leetcode_1 :
         for y in root.children:
             res = max(res, self.maxDepth(y))
         return res + 1
-          
+    
+    # 199. 二叉树的右视图 (Binary Tree Right Side View)
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        class TreeNode:
+          def __init__(self, val=0, left=None, right=None):
+             self.val = val
+             self.left = left
+             self.right = right
+        s = set()
+        res = []
+        def dfs(root: Optional[TreeNode], d: int) -> None:
+            if not root:
+                return
+            nonlocal s
+            if not d in s:
+                nonlocal res
+                res.append(root.val)
+                s.add(d)
+            dfs(root.right, d + 1)
+            dfs(root.left, d + 1)
+        dfs(root, 0)
+        return res
