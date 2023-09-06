@@ -3963,16 +3963,10 @@ class leetcode_1 :
              return True
           nonlocal s
           if dfs(root.left, val, isStart):
-             if isStart:
-                s += "U" 
-             else:
-                s += "L"
+             s += "U" if isStart else "L"
              return True
           if dfs(root.right, val, isStart):
-             if isStart:
-                s += "U" 
-             else:
-                s += "R"
+             s += "U" if isStart else "R"
              return True
           return False
        s = ""
