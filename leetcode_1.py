@@ -3940,8 +3940,48 @@ class leetcode_1 :
        if q.val < root.val:
           return self.lowestCommonAncestor(root.left, p, q)
        return self.lowestCommonAncestor(root.right, p, q)
-       
-          
-
-        
-
+    
+    # 2096. 从二叉树一个节点到另一个节点每一步的方向 (Step-By-Step Directions From a Binary Tree Node to Another)
+    def getDirections(self, root: Optional[TreeNode], startValue: int, destValue: int) -> str:
+       class TreeNode:
+          def __init__(self, val=0, left=None, right=None):
+             self.val = val
+             self.left = left
+             self.right = right
+       def lca(root: Optional[TreeNode], start: int, dest: int) -> TreeNode:
+          if not root or root.val in (start, dest):
+             return root
+          left = lca(root.left, start, dest)
+          right = lca(root.right, start, dest)
+          if left and right:
+             return root
+          return left if left else right
+       def dfs(root: Optional[TreeNode], val: int, isStart: bool) -> bool:
+          if not root:
+             return False
+          if root.val == val:
+             return True
+          nonlocal s
+          if dfs(root.left, val, isStart):
+             if isStart:
+                s += "U" 
+             else:
+                s += "L"
+             return True
+          if dfs(root.right, val, isStart):
+             if isStart:
+                s += "U" 
+             else:
+                s += "R"
+             return True
+          return False
+       s = ""
+       l = lca(root, startValue, destValue)
+       res = ""
+       dfs(l, startValue, True)
+       res = s
+       s = ""
+       dfs(l, destValue, False)
+       for c in reversed(s):
+          res += c
+       return res
