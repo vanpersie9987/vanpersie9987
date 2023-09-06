@@ -3821,6 +3821,7 @@ class leetcode_1 :
           if len(list) == 0 or v > list[-1]:
              list.append(v)
           else:
+             # list中小于或等于 v - 1 的最大值的最大索引
              pos = bisect.bisect_right(list, v - 1)
              list[pos] = v
        return len(list)
