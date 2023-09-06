@@ -3921,6 +3921,17 @@ class leetcode_1 :
             dfs(root.right, d + 1)
         dfs(root, 0)
         return res
+    
+    # 236. 二叉树的最近公共祖先 (Lowest Common Ancestor of a Binary Tree)
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+       if root in (None, p, q):
+          return root
+       left = self.lowestCommonAncestor(root.left, p, q)
+       right = self.lowestCommonAncestor(root.right, p, q)
+       if left and right:
+          return root
+       return left if left else right
+       
           
 
         
