@@ -3808,7 +3808,7 @@ class leetcode_1 :
              list.append(v)
              res[i] = len(list)
           else:
-             # list中大于或等于 v + 1 的最小值的索引
+             # list中大于或等于 v + 1 的最小值的最小索引
              pos = bisect.bisect_left(list, v + 1)
              list[pos] = v
              res[i] = pos + 1
