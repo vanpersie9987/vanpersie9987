@@ -1827,65 +1827,49 @@ public class Leetcode_6 {
 
     // 2096. 从二叉树一个节点到另一个节点每一步的方向 (Step-By-Step Directions From a Binary Tree Node
     // to Another)
-    public String getDirections(TreeNode root, int startValue, int destValue) {
-        char[] dirs = { 'L', 'R', 'U' };
-        Map<Integer, List<int[]>> graph = new HashMap<>();
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-        int n = 0;
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            for (int i = 0; i < size; ++i) {
-                TreeNode node = queue.poll();
-                ++n;
-                if (node.left != null) {
-                    graph.computeIfAbsent(node.val, k -> new ArrayList<>()).add(new int[] { node.left.val, 0 });
-                    graph.computeIfAbsent(node.left.val, k -> new ArrayList<>()).add(new int[] { node.val, 2 });
-                    queue.offer(node.left);
-                }
+    private StringBuilder builder2096;
 
-                if (node.right != null) {
-                    graph.computeIfAbsent(node.val, k -> new ArrayList<>()).add(new int[] { node.right.val, 1 });
-                    graph.computeIfAbsent(node.right.val, k -> new ArrayList<>()).add(new int[] { node.val, 2 });
-                    queue.offer(node.right);
-                }
-            }
-        }
-        boolean[] visited = new boolean[n + 1];
-        visited[startValue] = true;
-        Queue<Bean2096> queue2 = new LinkedList<>();
-        queue2.offer(new Bean2096(startValue, ""));
-        while (!queue2.isEmpty()) {
-            int size = queue2.size();
-            for (int i = 0; i < size; ++i) {
-                Bean2096 bean = queue2.poll();
-                int x = bean.node;
-                String s = bean.s;
-                if (x == destValue) {
-                    return s;
-                }
-                for (int[] neighbor : graph.getOrDefault(x, new ArrayList<>())) {
-                    int y = neighbor[0];
-                    char dir = dirs[neighbor[1]];
-                    if (!visited[y]) {
-                        visited[y] = true;
-                        queue2.offer(new Bean2096(y, s + dir));
-                    }
-                }
-            }
-        }
-        return null;
+    public String getDirections(TreeNode root, int startValue, int destValue) {
+        TreeNode lca = lca2096(root, startValue, destValue);
+        builder2096 = new StringBuilder();
+        dfs2096(lca, startValue, true);
+        StringBuilder res = new StringBuilder(builder2096);
+        builder2096.setLength(0);
+        dfs2096(lca, destValue, false);
+        builder2096.reverse();
+        res.append(builder2096);
+        return res.toString();
+
     }
 
-    class Bean2096 {
-        int node;
-        String s;
-
-        Bean2096(int node, String s) {
-            this.node = node;
-            this.s = s;
-
+    private boolean dfs2096(TreeNode root, int val, boolean isStart) {
+        if (root == null) {
+            return false;
         }
+        if (root.val == val) {
+            return true;
+        }
+        if (dfs2096(root.left, val, isStart)) {
+            builder2096.append(isStart ? 'U' : 'L');
+            return true;
+        }
+        if (dfs2096(root.right, val, isStart)) {
+            builder2096.append(isStart ? 'U' : 'R');
+            return true;
+        }
+        return false;
+    }
+
+    private TreeNode lca2096(TreeNode root, int startValue, int destValue) {
+        if (root == null || root.val == startValue || root.val == destValue) {
+            return root;
+        }
+        TreeNode left = lca2096(root.left, startValue, destValue);
+        TreeNode right = lca2096(root.right, startValue, destValue);
+        if (left != null && right != null) {
+            return root;
+        }
+        return left != null ? left : right;
     }
 
     // 1802. 有界数组中指定下标处的最大值 (Maximum Value at a Given Index in a Bounded Array)
