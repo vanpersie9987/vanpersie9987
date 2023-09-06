@@ -3825,4 +3825,19 @@ class leetcode_1 :
              pos = bisect.bisect_right(list, v - 1)
              list[pos] = v
        return len(list)
+    
+    # 559. N 叉树的最大深度 (Maximum Depth of N-ary Tree)
+    def maxDepth(self, root: 'Node') -> int:
+        # Definition for a Node.
+        class Node:
+             def __init__(self, val=None, children=None):
+                self.val = val
+                self.children = children
+
+        if not root:
+            return 0
+        res = 1
+        for y in root.children:
+            res = max(res, self.maxDepth(y) + 1)
+        return res
           
