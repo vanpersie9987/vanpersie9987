@@ -3880,3 +3880,30 @@ class leetcode_1 :
                     res += 1
                     dfs(i, j)
         return res
+
+    # 865. 具有所有最深节点的最小子树 (Smallest Subtree with all the Deepest Nodes)
+    # 1123. 最深叶节点的最近公共祖先 (Lowest Common Ancestor of Deepest Leaves)
+    def subtreeWithAllDeepest(self, root: TreeNode) -> TreeNode:
+       class TreeNode:
+          def __init__(self, val=0, left=None, right=None):
+             self.val = val
+             self.left = left
+             self.right = right
+       res = None
+       maxD = -1
+       def dfs(root: TreeNode, d: int) -> int:
+          nonlocal maxD, res
+          if not root:
+             maxD = max(maxD, d)
+             return d
+          left = dfs(root.left, d + 1)
+          right = dfs(root.right, d + 1)
+          if left == right and left == maxD:
+             res = root
+          return max(left, right)
+       dfs(root, 0)
+       return res
+          
+
+        
+
