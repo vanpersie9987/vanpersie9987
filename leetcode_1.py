@@ -36,6 +36,11 @@ class leetcode_1 :
        def __init__(self, val=0, next=None):
           self.val = val
           self.next = next
+
+    class Node:
+       def __init__(self, val=None, children=None):
+          self.val = val
+          self.children = children
           
     # 2463. 最小移动总距离 (Minimum Total Distance Traveled)
     def minimumTotalDistance(self, robot: List[int], factory: List[List[int]]) -> int:
@@ -3827,13 +3832,7 @@ class leetcode_1 :
        return len(list)
     
     # 559. N 叉树的最大深度 (Maximum Depth of N-ary Tree)
-    def maxDepth(self, root: 'Node') -> int:
-        # Definition for a Node.
-        class Node:
-             def __init__(self, val=None, children=None):
-                self.val = val
-                self.children = children
-
+    def maxDepth(self, root: Node) -> int:
         if not root:
             return 0
         res = 0
