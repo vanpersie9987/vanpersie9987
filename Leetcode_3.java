@@ -1321,7 +1321,7 @@ public class Leetcode_3 {
     // 513. 找树左下角的值 (Find Bottom Left Tree Value)
     // 剑指 Offer II 045. 二叉树最底层最左边的值 --dfs plus
     private int res513;
-    private int maxDepth = -1;
+    private int maxDepth513 = -1;
 
     public int findBottomLeftValue(TreeNode root) {
         dfs513(root, 0);
@@ -1332,8 +1332,8 @@ public class Leetcode_3 {
         if (root == null) {
             return;
         }
-        if (depth > maxDepth) {
-            maxDepth = depth;
+        if (depth > maxDepth513) {
+            maxDepth513 = depth;
             res513 = root.val;
         }
         dfs513(root.left, depth + 1);
@@ -8206,6 +8206,33 @@ public class Leetcode_3 {
         }
 
         return queue2.poll();
+
+    }
+
+
+    // 865. 具有所有最深节点的最小子树 (Smallest Subtree with all the Deepest Nodes)
+    // 1123. 最深叶节点的最近公共祖先 (Lowest Common Ancestor of Deepest Leaves)
+    private int maxDepth865;
+    private TreeNode res865;
+
+    public TreeNode lcaDeepestLeaves2(TreeNode root) {
+        maxDepth865 = -1;
+        dfs865(root, 0);
+        return res865;
+
+    }
+
+    private int dfs865(TreeNode root, int d) {
+        if (root == null) {
+            maxDepth865 = Math.max(maxDepth865, d);
+            return d;
+        }
+        int left = dfs865(root.left, d + 1);
+        int right = dfs865(root.right, d + 1);
+        if (left == right && left == maxDepth865) {
+            res865 = root;
+        }
+        return Math.max(left, right);
 
     }
 
