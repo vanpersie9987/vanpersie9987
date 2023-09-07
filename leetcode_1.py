@@ -4147,6 +4147,10 @@ class leetcode_1 :
                 res = min(res, dfs(j + 1))
           return res
        return dfs(0)
+    
+    # 2651. 计算列车到站时间 (Calculate Delayed Arrival Time)
+    def findDelayedArrivalTime(self, arrivalTime: int, delayedTime: int) -> int:
+        return (arrivalTime + delayedTime) % 24
                 
 
           
