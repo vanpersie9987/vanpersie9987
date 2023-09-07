@@ -2759,24 +2759,27 @@ public class Leetcode_3 {
     public long minimalKSum(int[] nums, int k) {
         Arrays.sort(nums);
         long res = 0L;
+        int n = nums.length;
         int pre = 0;
-        for (int i = 0; i < nums.length; ++i) {
-            int cur = nums[i] - pre - 1;
-            if (cur < 0) {
-                pre = nums[i];
+        for (int num : nums) {
+            if (num - pre <= 1) {
+                pre = num;
                 continue;
             }
-            int n = Math.min(k, cur);
-            res = res + (long) (pre + 1 + pre + 1 + n - 1) * n / 2;
-            k -= n;
-            if (k == 0) {
-                return res;
+            int first = pre + 1;
+            int last = Math.min(first + k - 1, num - 1);
+            res += (long) (first + last) * (last - first + 1) / 2;
+            pre = num;
+            k -= last - first + 1;
+            if (k <= 0) {
+                break;
             }
-            pre = nums[i];
         }
-        int n = nums.length;
-        res = res + (long) (nums[n - 1] + 1 + nums[n - 1] + 1 + k - 1) * k / 2;
+        int first = nums[n - 1] + 1;
+        int last = first + k - 1;
+        res += (long) (first + last) * (last - first + 1) / 2;
         return res;
+
     }
 
     // 2196. 根据描述创建二叉树 (Create Binary Tree From Descriptions)
