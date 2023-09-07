@@ -4513,38 +4513,42 @@ public class Leetcode_3 {
     // 2192. 有向无环图中一个节点的所有祖先 (All Ancestors of a Node in a Directed Acyclic Graph)
     // --拓扑排序 + bfs
     public List<List<Integer>> getAncestors(int n, int[][] edges) {
-        int[] inDegrees = new int[n];
-        Map<Integer, List<Integer>> map = new HashMap<>();
-        for (int[] edge : edges) {
-            ++inDegrees[edge[1]];
-            map.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
-        }
         List<Set<Integer>> list = new ArrayList<>();
-        Queue<Integer> queue = new LinkedList<>();
         for (int i = 0; i < n; ++i) {
-            list.add(new TreeSet<>());
-            if (inDegrees[i] == 0) {
-                queue.offer(i);
+            list.add(new HashSet<>());
+        }
+        List<Integer>[] g = new ArrayList[n];
+        int[] deg = new int[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[0]].add(e[1]);
+            ++deg[e[1]];
+        }
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            if (deg[i] == 0) {
+                q.offer(i);
             }
         }
-        while (!queue.isEmpty()) {
-            int cur = queue.poll();
-            if (map.get(cur) == null) {
-                continue;
-            }
-            for (int index : map.get(cur)) {
-                list.get(index).add(cur);
-                list.get(index).addAll(list.get(cur));
-                if (--inDegrees[index] == 0) {
-                    queue.offer(index);
+        while (!q.isEmpty()) {
+            int x = q.poll();
+            for (int y : g[x]) {
+                list.get(y).add(x);
+                list.get(y).addAll(list.get(x));
+                if (--deg[y] == 0) {
+                    q.offer(y);
                 }
             }
         }
         List<List<Integer>> res = new ArrayList<>();
-        for (Set<Integer> set : list) {
-            res.add(new ArrayList<>(set));
+        for (int i = 0; i < n; ++i) {
+            Set<Integer> s = list.get(i);
+            List<Integer> parents = new ArrayList<>(s);
+            Collections.sort(parents);
+            res.add(parents);
         }
         return res;
+
     }
 
     // 787. K 站中转内最便宜的航班 (Cheapest Flights Within K Stops) --Dijkstra
@@ -8209,7 +8213,6 @@ public class Leetcode_3 {
 
     }
 
-
     // 865. 具有所有最深节点的最小子树 (Smallest Subtree with all the Deepest Nodes)
     // 1123. 最深叶节点的最近公共祖先 (Lowest Common Ancestor of Deepest Leaves)
     private int maxDepth865;
@@ -9532,7 +9535,6 @@ public class Leetcode_3 {
         return res;
 
     }
-
 
     // 6054. 逃离火灾 (Escape the Spreading Fire) --bfs + 二分查找
     public int maximumMinutes(int[][] grid) {
