@@ -4087,6 +4087,29 @@ class leetcode_1 :
              if not deg[y]:
                 q.append(y)
        return [sorted(l[i]) for i in range(n)]
+    
+    # 2195. 向数组中追加 K 个整数 (Append K Integers With Minimal Sum)
+    def minimalKSum(self, nums: List[int], k: int) -> int:
+       nums.sort()
+       n = len(nums)
+       pre = 0
+       res = 0
+       for x in nums:
+          if x - pre <= 1:
+             pre = x
+             continue
+          first = pre + 1
+          last = min(x - 1, first + k - 1)
+          res += (first + last) * (last - first + 1) // 2
+          pre = x
+          k -= last - first + 1
+       first = nums[-1] + 1
+       last = first + k - 1
+       res += (first + last) * (last - first + 1) // 2
+       return res
+
+          
+          
 
        
 
