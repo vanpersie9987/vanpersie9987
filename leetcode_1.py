@@ -4022,7 +4022,21 @@ class leetcode_1 :
                    return res
                 cnts[i] -= repeatLimit
        return res
+    
+    # 2187. 完成旅途的最少时间 (Minimum Time to Complete Trips)
+    def minimumTime(self, time: List[int], totalTrips: int) -> int:
+       n = len(time)
+       left = 0
+       right = 10 ** 18
+       res = 0
+       while left <= right:
+          mid = left + ((right - left) >> 1)
+          if sum(mid // x for x in time) >= totalTrips:
+             res = mid
+             right = mid - 1
+          else:
+             left = mid + 1
+       return res
+             
 
 
-    
-    
