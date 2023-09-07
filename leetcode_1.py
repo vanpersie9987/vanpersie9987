@@ -4065,7 +4065,29 @@ class leetcode_1 :
        for x, _ in sorted(zip(nums, arr), key=lambda k: k[1]):
           res.append(x)
        return res
-       
+
+    # 2192. 有向无环图中一个节点的所有祖先 (All Ancestors of a Node in a Directed Acyclic Graph)
+    def getAncestors(self, n: int, edges: List[List[int]]) -> List[List[int]]:
+       g = [[] for _ in range(n)]
+       deg = [0] * n
+       for u, v in edges:
+          g[u].append(v)
+          deg[v] += 1
+       q = []
+       for i in range(n):
+          if not deg[i]:
+             q.append(i)
+       l = [set() for _ in range(n)]
+       while q:
+          x = q.pop(0)
+          for y in g[x]:
+             l[y].add(x)
+             l[y].update(l[x])
+             deg[y] -= 1
+             if not deg[y]:
+                q.append(y)
+       return [sorted(l[i]) for i in range(n)]
+
        
 
 
