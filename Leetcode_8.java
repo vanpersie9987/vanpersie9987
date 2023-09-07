@@ -3348,32 +3348,4 @@ public class Leetcode_8 {
         }
         return res;
     }
-
-    public long minimalKSum(int[] nums, int k) {
-        Arrays.sort(nums);
-        long res = 0L;
-        int n = nums.length;
-        int f = Math.min(nums[0] - 1, k);
-        res += (long) (1 + f) * f / 2;
-        k -= f;
-        int i = 1;
-        while (i < n && k > 0) {
-            if (nums[i] - nums[i - 1] <= 1) {
-                ++i;
-                continue;
-            }
-            int first = nums[i - 1] + 1;
-            int last = Math.min(first + k - 1, nums[i] - 1);
-            res += (long) (first + last) * (last - first + 1) / 2;
-            k -= last - first + 1;
-            ++i;
-        }
-        if (k > 0) {
-            int first = nums[n - 1] + 1;
-            int last = first + k - 1;
-            res += (long) (first + last) * (last - first + 1) / 2;
-        }
-        return res;
-
-    }
 }

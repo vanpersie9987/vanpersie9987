@@ -16,10 +16,11 @@
 #     print(b, end = " ")
 #     a , b = b , a + b
 
+
 from collections import Counter
 import collections
 from functools import cache
-from math import gcd, inf
+from math import gcd, inf, sqrt
 from queue import PriorityQueue
 from typing import List, Optional
 import heapq
@@ -3979,3 +3980,20 @@ class leetcode_1 :
        for c in reversed(s):
           res += c
        return res
+    
+    # 2594. 修车的最少时间 (Minimum Time to Repair Cars)
+    def repairCars(self, ranks: List[int], cars: int) -> int:
+       left = 0
+       right = max(x for x in ranks) * cars * cars
+       res = 0
+       while left <= right:
+          mid = left + ((right - left) >> 1)
+          if sum(int(sqrt(mid // x)) for x in ranks) >= cars:
+             res = mid
+             right = mid - 1
+          else:
+             left = mid + 1
+       return res
+
+    
+    
