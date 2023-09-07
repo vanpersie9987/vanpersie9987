@@ -4107,6 +4107,35 @@ class leetcode_1 :
        last = first + k - 1
        res += (first + last) * (last - first + 1) // 2
        return res
+    
+    # 2196. 根据描述创建二叉树 (Create Binary Tree From Descriptions)
+    def createBinaryTree(self, descriptions: List[List[int]]) -> Optional[TreeNode]:
+       class TreeNode:
+          def __init__(self, val=0, left=None, right=None):
+             self.val = val
+             self.left = left
+             self.right = right
+       s = set()
+       d = collections.defaultdict(TreeNode)
+       for i in range(1, 10 ** 5 + 1):
+          d[i] = TreeNode(i)
+       for pa, son, is_left in descriptions:
+          s.add(son)
+       root = None
+       for pa, son, is_left in descriptions:
+          if not pa in s:
+             root = d[pa]
+             break
+       for pa, son, is_left in descriptions:
+          if is_left:
+             d[pa].left = d[son]
+          else:
+             d[pa].right = d[son]
+       return root
+
+          
+       
+
 
           
           
