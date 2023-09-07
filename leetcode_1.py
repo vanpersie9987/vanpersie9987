@@ -4050,6 +4050,23 @@ class leetcode_1 :
                 cnt = d[nums[i]]
                 res = nums[i]
        return res
+    
+    # 2191. 将杂乱无章的数字排序 (Sort the Jumbled Numbers)
+    def sortJumbled(self, mapping: List[int], nums: List[int]) -> List[int]:
+       n = len(nums)
+       arr = [0] * n
+       for i, v in enumerate(nums):
+          sum = 0
+          s = str(v)
+          for j in range(len(s)):
+             sum = sum * 10 + mapping[int(s[j])]
+          arr[i] = sum
+       res = []
+       for x, _ in sorted(zip(nums, arr), key=lambda k: k[1]):
+          res.append(x)
+       return res
+       
+       
 
 
 
