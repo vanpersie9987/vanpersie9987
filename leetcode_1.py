@@ -4025,7 +4025,6 @@ class leetcode_1 :
     
     # 2187. 完成旅途的最少时间 (Minimum Time to Complete Trips)
     def minimumTime(self, time: List[int], totalTrips: int) -> int:
-       n = len(time)
        left = 0
        right = 10 ** 18
        res = 0
@@ -4037,6 +4036,20 @@ class leetcode_1 :
           else:
              left = mid + 1
        return res
-             
+
+    # 2190. 数组中紧跟 key 之后出现最频繁的数字 (Most Frequent Number Following Key In an Array)
+    def mostFrequent(self, nums: List[int], key: int) -> int:
+       n = len(nums)
+       res = -1
+       cnt = 0
+       d = collections.defaultdict(int)
+       for i in range(1, n):
+          if nums[i - 1] == key:
+             d[nums[i]] += 1 
+             if d[nums[i]] > cnt:
+                cnt = d[nums[i]]
+                res = nums[i]
+       return res
+
 
 
