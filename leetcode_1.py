@@ -4151,6 +4151,28 @@ class leetcode_1 :
     # 2651. 计算列车到站时间 (Calculate Delayed Arrival Time)
     def findDelayedArrivalTime(self, arrivalTime: int, delayedTime: int) -> int:
         return (arrivalTime + delayedTime) % 24
+    
+    # 788. 旋转数字 (Rotated Digits)
+    def rotatedDigits(self, n: int) -> int:
+       s = str(n)
+       l = len(s)
+       legal = [0, 0, 1, -1, -1, 1, 1, -1, 0, 1]
+
+       @cache
+       def dfs(i: int, hasDiff: bool, isLimit: bool, isNum: bool) -> int:
+          if i == l:
+             return hasDiff
+          res = 0
+          if not isNum:
+             res += dfs(i + 1, False, False, False)
+          up = int(s[i]) if isLimit else 9
+          for d in range(0 if isNum else 1, up + 1):
+             if legal[d] != -1:
+                res += dfs(i + 1, hasDiff or legal[d], isLimit and d == up, True)
+          return res
+       return dfs(0, False, True, False)
+             
+
                 
 
           
