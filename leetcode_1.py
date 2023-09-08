@@ -4171,7 +4171,26 @@ class leetcode_1 :
                 res += dfs(i + 1, hasDiff or legal[d], isLimit and d == up, True)
           return res
        return dfs(0, False, True, False)
-             
+    
+    # 611. 有效三角形的个数 (Valid Triangle Number)
+    def triangleNumber(self, nums: List[int]) -> int:
+       n = len(nums)
+       nums.sort()
+       res = 0
+       for i in range(n - 1, -1, -1):
+          j = 0
+          k = i - 1
+          while j < k:
+             if nums[j] + nums[k] > nums[i]:
+                res += k - j
+                k -= 1
+             else:
+                j += 1
+       return res
+            
+
+
+
 
                 
 
