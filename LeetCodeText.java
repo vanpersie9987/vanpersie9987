@@ -89,6 +89,8 @@ public class LeetCodeText {
         // { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0 },
         // { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
         // };
+        // String s = "RULDDLLDLRDUUUURULRURRRRLRULRLULLLRRULULDDRDLRULDRRULLUDDURDLRRUDRUDDURLLLUUDULRUDRLURRDRLLDDLLLDLRLLRUUDUURDRLDUDRUDRLUDULRLUDRLDDUULDDLDURULUDUUDDRRDUURRLRDLDLRLLDRRUUURDLULLURRRRDRRURDUURDLRRUULRURRUULULUUDURUDLRDDDDDURRRLRUDRUULUUUULDURDRULLRRRUDDDUUULUURRDRDDRLLDRLDULDLUUDRDLULLDLDDRUUUUDDRRRDLLLLURUURLRUUULRDDULUULUURDURDDDRRURLURDLLLRLULRDLDDLRDRRRRLUURRRRLDUDLLRUDLDRDLDRUULDRDULRULRRDLDLLLUDLDLULLDURUURRLLULUURLRLRDUDULLDURRUDDLDDLLUDURLLRLDLDUDLURLLDRRURRDUDLDUULDUDRRUDULLUUDURRRURLULDDLRRURULUURURRDULUULDDDUUDRLDDRLULDUDDLLLDLDURDLRLUURDDRLUDRLUDLRRLUUULLDUUDUDURRUULLDDUDLURRDDLURLDRDRUDRLDDLDULDRULUDRRDRLLUURULURRRUDRLLUURULURRLUULRDDDRDDLDRLDRLDUDRLDRLDDLDUDDURUDUDDDLRRDLUUUDUDURLRDRURUDUDDRDRRLUDURULDULDDRLDLUURUULUDRLRLRLLLLRLDRURRRUULRDURDRRDDURULLRDUDRLULRRLLLDRLRLRRDULDDUDUURLRULUUUULURULDLDRDRLDDLRLURRUULRRLDULLUULUDUDRLDUDRDLLDULURLUDDUURULDURRUURLRDRRRLDDULLLLDDRRLRRDRDLRUDUUDLRLDRDRURULDLULRRDLLURDLLDLRDRURLRUDURDRRRULURDRURLDRRRDUDUDUDURUUUUULURDUDDRRDULRDDLULRDRULDRUURRURLUDDDDLDRLDLLLLRLDRLRDRRRLLDRDRUULURLDRULLDRRDUUDLURLLDULDUUDLRRRDDUDRLDULRDLLULRRUURRRURLRRLDDUDDLULRUDULDULRDUDRLRDULRUUDDRUURUDLDRDUDDUULLUDDLLRLURURLRRULLDDDLURDRRDLLLLULLDLUDDLURLLDDRLDLLDDRDRDDUDLDURLUUUUUDLLLRLDULDDRDDDDRUDLULDRRLLLDUUUDDDRDDLLULUULRRULRUDRURDDULURDRRURUULDDDDUULLLURRRRDLDDLRLDDDRLUUDRDDRDDLUDLUUULLDLRDLURRRLRDRLURUURLULLLLRDDLLLLRUDURRLDURULURULDDRULUDRLDRLLURURRRDURURDRRUDLDDLLRRDRDDLRLRLUDUDRRUDLLDUURUURRDUDLRRLRURUDURDLRRULLDLLUDURUDDRUDULLDUDRRDDUDLLLDLRDRUURLLDLDRDDLDLLUDRDDRUUUDDULRUULRDRUDUURRRURUDLURLRDDLUULRDULRDURLLRDDDRRUDDUDUDLLDDRRUUDURDLLUURDLRULULDULRUURUDRULDRDULLULRRDDLDRDLLLDULRRDDLDRDLLRDDRLUUULUURULRULRUDULRULRUURUDUUDLDUDUUURLLURDDDUDUDLRLULDLDUDUULULLRDUDLDRUDRUULRURDDLDDRDULRLRLRRRRLRULDLLLDDRLUDLULLUUDLDRRLUDULRDRLLRRRULRLRLLUDRUUDUDDLRLDRDDDDRDLDRURULULRUURLRDLLDDRLLRUDRRDDRDUDULRUDULURRUDRDLRDUUDDLDRUDLLDDLRLULLLRUUDRRRRUULLRLLULURLDUDDURLRULULDLDRURDRLLURRDLURRURLULDLRLDUDLULLLDRDLULDLRULLLUDUDUDUDLDDDDDRDLUDUULLUDRLUURDRLULD";
+        // boolean b = judgeCircle(s);
 
     }
 
@@ -1753,7 +1755,7 @@ public class LeetCodeText {
     }
 
     // 229. 求众数 II
-    public static List<Integer> majorityElement2(final int[] nums) {
+    public List<Integer> majorityElement2(final int[] nums) {
         List<Integer> res = new ArrayList<>();
         Map<Integer, Integer> map = new HashMap<>();
         for (int num : nums) {
@@ -1769,7 +1771,7 @@ public class LeetCodeText {
     }
 
     // 229. 求众数 II
-    public static List<Integer> majorityElement3(int[] nums) {
+    public List<Integer> majorityElement3(int[] nums) {
         int majorityA = nums[0];
         int countA = 0;
         int majorityB = nums[0];
@@ -1813,7 +1815,7 @@ public class LeetCodeText {
     }
 
     // 268. 丢失的数字
-    public static int missingNumber(final int[] nums) {
+    public int missingNumber(final int[] nums) {
         int missing = nums.length;
         for (int i = 0; i < nums.length; ++i) {
             missing ^= i * nums[i];
@@ -1823,7 +1825,7 @@ public class LeetCodeText {
     }
 
     // 268. 丢失的数字
-    public static int missingNumber2(final int[] nums) {
+    public int missingNumber2(final int[] nums) {
         final int n = nums.length;
         final int sumExpect = (0 + n) * (n + 1) / 2;
         int sumReal = Arrays.stream(nums).sum();
@@ -1832,7 +1834,7 @@ public class LeetCodeText {
     }
 
     // 283. 移动零
-    public static void moveZeroes(final int[] nums) {
+    public void moveZeroes(final int[] nums) {
         int left = 0;
         for (int i = 0; i < nums.length; ++i) {
             if (nums[i] != 0) {
@@ -1846,7 +1848,7 @@ public class LeetCodeText {
     }
 
     // 287. 寻找重复数
-    public static int findDuplicate(final int[] nums) {
+    public int findDuplicate(final int[] nums) {
         int ans = 0;
         int left = 1;
         int right = nums.length - 1;
@@ -6961,7 +6963,7 @@ public class LeetCodeText {
     }
 
     // 71. 简化路径
-    public static String simplifyPath(final String path) {
+    public String simplifyPath(final String path) {
         Stack<String> stack = new Stack<>();
         String[] paths = path.split("\\/");
         for (String p : paths) {
@@ -7446,7 +7448,7 @@ public class LeetCodeText {
         return str.substring(1, str.length() - 1).contains(s);
     }
 
-    public static String validIPAddress(final String IP) {
+    public String validIPAddress(final String IP) {
         // 一定不是Ipv6，可能是Ipv4
         if (!IP.contains(":") && IP.contains(".")) {
             final String[] ipStrs = IP.split("\\.", -1);
@@ -8232,7 +8234,8 @@ public class LeetCodeText {
 
     }
 
-    public static int minDifference2(int[] nums) {
+    // 1509. 三次操作后最大值与最小值的最小差
+    public int minDifference2(int[] nums) {
         if (nums.length <= 4) {
             return 0;
         }
@@ -10823,7 +10826,7 @@ public class LeetCodeText {
     }
 
     // 1869. 哪种连续子字符串更长
-    public static boolean checkZeroOnes(String s) {
+    public boolean checkZeroOnes(String s) {
         int maxZero = 0;
         int curZero = 0;
         int maxOne = 0;
@@ -11253,9 +11256,8 @@ public class LeetCodeText {
     }
 
     // 394. 字符串解码
-    private static int ptr = 0;
-
-    public static String decodeString(String s) {
+    private int ptr;
+    public String decodeString(String s) {
         Stack<String> stack = new Stack<>();
         while (ptr < s.length()) {
             char a = s.charAt(ptr);
@@ -11290,7 +11292,7 @@ public class LeetCodeText {
 
     }
 
-    private static String getString(List<String> sub) {
+    private String getString(List<String> sub) {
         StringBuilder builder = new StringBuilder();
         for (String s : sub) {
             builder.append(s);
@@ -11298,7 +11300,7 @@ public class LeetCodeText {
         return builder.toString();
     }
 
-    private static String getNum(String s) {
+    private String getNum(String s) {
         StringBuilder builder = new StringBuilder();
         while (Character.isDigit(s.charAt(ptr))) {
             builder.append(s.charAt(ptr));
@@ -15669,29 +15671,14 @@ public class LeetCodeText {
         return (num - 1) % 9 + 1;
     }
 
-    // 657. 机器人能否返回原点
+    // 657. 机器人能否返回原点 (Robot Return to Origin)
     public boolean judgeCircle(String moves) {
-        int x = 0;
-        int y = 0;
-        for (char move : moves.toCharArray()) {
-            switch (move) {
-                case 'U':
-                    ++y;
-                    break;
-                case 'D':
-                    --y;
-                    break;
-                case 'L':
-                    --x;
-                    break;
-                case 'R':
-                    ++x;
-                    break;
-                default:
-                    break;
-            }
+        Map<Character, Integer> cnts = new HashMap<>();
+        for (char c : moves.toCharArray()) {
+            cnts.merge(c, 1, Integer::sum);
         }
-        return x == 0 && y == 0;
+        return cnts.getOrDefault('L', 0).equals(cnts.getOrDefault('R', 0))
+                && cnts.getOrDefault('U', 0).equals(cnts.getOrDefault('D', 0));
     }
 
     // 592. 分数加减运算 (Fraction Addition and Subtraction)

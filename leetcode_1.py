@@ -4187,6 +4187,11 @@ class leetcode_1 :
              else:
                 j += 1
        return res
+    
+    # 657. 机器人能否返回原点 (Robot Return to Origin)
+    def judgeCircle(self, moves: str) -> bool:
+        c = Counter(moves)
+        return c['L'] == c['R'] and c['U'] == c['D']
             
 
 
