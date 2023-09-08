@@ -4135,7 +4135,7 @@ class leetcode_1 :
     # 2707. 字符串中的额外字符 (Extra Characters in a String)
     def minExtraChar(self, s: str, dictionary: List[str]) -> int:
        n = len(s)
-       dc = set(dictionary)
+       dic = set(dictionary)
 
        @cache
        def dfs(i: int) -> int:
@@ -4143,7 +4143,7 @@ class leetcode_1 :
              return 0
           res = dfs(i + 1) + 1
           for j in range(i, n):
-             if s[i: j + 1] in dc:
+             if s[i: j + 1] in dic:
                 res = min(res, dfs(j + 1))
           return res
        return dfs(0)
