@@ -15677,6 +15677,7 @@ public class LeetCodeText {
         for (char c : moves.toCharArray()) {
             cnts.merge(c, 1, Integer::sum);
         }
+        // 不可用 “==” 判断 因为 “==” 比较的是对象的引用地址，而不是值 
         return cnts.getOrDefault('L', 0).equals(cnts.getOrDefault('R', 0))
                 && cnts.getOrDefault('U', 0).equals(cnts.getOrDefault('D', 0));
     }
