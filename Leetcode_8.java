@@ -1578,46 +1578,46 @@ public class Leetcode_8 {
 
     }
 
-    // 6923. 将字符串分割为最少的美丽子字符串 (Partition String Into Minimum Beautiful Substrings)
-    private String s6923;
-    private int[] memo6923;
-    private int n6923;
+    // 2767. 将字符串分割为最少的美丽子字符串 (Partition String Into Minimum Beautiful Substrings)
+    private String s2767;
+    private int[] memo2767;
+    private int n2767;
 
     public int minimumBeautifulSubstrings(String s) {
         if (s.charAt(0) == '0') {
             return -1;
         }
-        this.s6923 = s;
-        this.n6923 = s.length();
-        this.memo6923 = new int[n6923];
-        Arrays.fill(memo6923, n6923 + 1);
-        int res = dfs6923(0);
-        return res == n6923 + 1 ? -1 : res;
+        this.s2767 = s;
+        this.n2767 = s.length();
+        this.memo2767 = new int[n2767];
+        Arrays.fill(memo2767, n2767 + 1);
+        int res = dfs2767(0);
+        return res == n2767 + 1 ? -1 : res;
 
     }
 
-    private int dfs6923(int i) {
-        if (i == n6923) {
+    private int dfs2767(int i) {
+        if (i == n2767) {
             return 0;
         }
-        if (s6923.charAt(i) == '0') {
-            return n6923 + 1;
+        if (s2767.charAt(i) == '0') {
+            return n2767 + 1;
         }
-        if (memo6923[i] != n6923 + 1) {
-            return memo6923[i];
+        if (memo2767[i] != n2767 + 1) {
+            return memo2767[i];
         }
-        int min = n6923 + 1;
+        int min = n2767 + 1;
         long sum = 0L;
-        for (int j = i; j < n6923; ++j) {
-            sum = (sum << 1) | (s6923.charAt(j) - '0');
-            if (check6923(sum)) {
-                min = Math.min(min, dfs6923(j + 1) + 1);
+        for (int j = i; j < n2767; ++j) {
+            sum = (sum << 1) | (s2767.charAt(j) - '0');
+            if (check2767(sum)) {
+                min = Math.min(min, dfs2767(j + 1) + 1);
             }
         }
-        return memo6923[i] = min;
+        return memo2767[i] = min;
     }
 
-    private boolean check6923(long sum) {
+    private boolean check2767(long sum) {
         while (sum != 1L) {
             if (sum % 5 != 0) {
                 return false;
