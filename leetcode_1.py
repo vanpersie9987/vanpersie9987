@@ -4227,6 +4227,28 @@ class leetcode_1 :
                 res %= MOD
           return res % MOD
        return dfs(0, 0)
+    
+    # 1372. 二叉树中的最长交错路径 (Longest ZigZag Path in a Binary Tree)
+    def longestZigZag(self, root: Optional[TreeNode]) -> int:
+       class TreeNode:
+          def __init__(self, val=0, left=None, right=None):
+             self.val = val
+             self.left = left
+             self.right = right
+       res = 0
+       def dfs(root: Optional[TreeNode]) -> (int, int):
+          if not root:
+             return (-1, -1)
+          left = dfs(root.left)
+          right = dfs(root.right)
+          nonlocal res
+          res = max(res, left[1] + 1, right[0] + 1)
+          return (left[1] + 1, right[0] + 1)
+       dfs(root)
+       return res
+
+
+       
                 
              
           
