@@ -4225,7 +4225,7 @@ class leetcode_1 :
              if ((j >> k) & 1) == 0:
                 res += dfs(i + 1, j | (1 << k))
                 res %= MOD
-          return res % MOD
+          return res
        return dfs(0, 0)
     
     # 1372. 二叉树中的最长交错路径 (Longest ZigZag Path in a Binary Tree)
