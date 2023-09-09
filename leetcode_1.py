@@ -4339,10 +4339,3 @@ class leetcode_1 :
              if not deg[y]:
                 q.append(y)
        return res if not numCourses else []
-          
-       
-          
-
-                   
-             
-             
