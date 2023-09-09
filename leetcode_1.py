@@ -4203,6 +4203,34 @@ class leetcode_1 :
           res *= pow(c, num, MOD)
           k -= num
        return 0
+    
+   # 1434. 每个人戴不同帽子的方案数 (Number of Ways to Wear Different Hats to Each Other)
+    def numberWays(self, hats: List[List[int]]) -> int:
+       MOD = 10 ** 9 + 7
+       n = len(hats)
+       u = (1 << n) - 1
+       g = [[] for _ in range(41)]
+       for i in range(n):
+          for j in range(len(hats[i])):
+             g[hats[i][j]].append(i)
+       
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if j == u:
+             return 1
+          if i == 41:
+             return 0
+          res = dfs(i + 1, j)
+          for k in g[i]:
+             if ((j >> k) & 1) == 0:
+                res += dfs(i + 1, j | (1 << k))
+                res %= MOD
+          return res % MOD
+       return dfs(0, 0)
+                
+             
+          
+
 
 
 
