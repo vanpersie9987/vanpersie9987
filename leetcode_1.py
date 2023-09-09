@@ -4331,7 +4331,7 @@ class leetcode_1 :
           if not deg[i]:
              q.append(i)
        while q:
-          x = q.pop()
+          x = q.pop(0)
           res.append(x)
           for y in g[x]:
              deg[y] -= 1
