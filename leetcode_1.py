@@ -4317,6 +4317,30 @@ class leetcode_1 :
              res = i
              m = cur
        return res
+    
+    # 210. 课程表 II (Course Schedule II)
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+       g = [[] for _ in range(numCourses)]
+       deg = [0] * numCourses
+       for a, b in prerequisites:
+          g[b].append(a)
+          deg[a] += 1
+       res = []
+       q = []
+       for i in range(numCourses):
+          if not deg[i]:
+             q.append(i)
+       while q:
+          numCourses -= 1
+          x = q.pop()
+          res.append(x)
+          for y in g[x]:
+             deg[y] -= 1
+             if not deg[y]:
+                q.append(y)
+       return res if not numCourses else []
+          
+       
           
 
                    
