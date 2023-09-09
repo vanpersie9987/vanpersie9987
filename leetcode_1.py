@@ -4246,14 +4246,51 @@ class leetcode_1 :
           return (left[1] + 1, right[0] + 1)
        dfs(root)
        return res
+    
+    # 1363. 形成三的最大倍数 (Largest Multiple of Three)
+    def largestMultipleOfThree(self, digits: List[int]) -> str:
+       cnts = [0] * 10
+       mod = 0
+       for d in digits:
+          cnts[d] += 1
+          mod += d
+          mod %= 3
+       if mod == 1:
+          f = False
+          for i in (1, 4, 7):
+             if cnts[i]:
+                cnts[i] -= 1
+                f = True
+                break
+          if not f:
+             c = 2
+             for i in (2, 5, 8):
+                while cnts[i] and c:
+                   cnts[i] -= 1
+                   c -= 1
+       if mod == 2:
+          f = False
+          for i in (2, 5, 8):
+             if cnts[i]:
+                cnts[i] -= 1
+                f = True
+                break
+          if not f:
+             c = 2
+             for i in (1, 4, 7):
+                while cnts[i] and c:
+                   cnts[i] -= 1
+                   c -= 1
+       s = ""
+       for x in range(9, -1, -1):
+          while cnts[x] > 0:
+             s += str(x)
+             cnts[x] -= 1
+       if len(s) > 0 and s[0] == '0':
+          return "0"
+       return s
+                   
 
-
-       
-                
+                   
              
-          
-
-
-
-
-
+             
