@@ -4289,7 +4289,35 @@ class leetcode_1 :
        if len(s) > 0 and s[0] == '0':
           return "0"
        return s
-                   
+    
+    # 1334. 阈值距离内邻居最少的城市 (Find the City With the Smallest Number of Neighbors at a Threshold Distance)
+    def findTheCity(self, n: int, edges: List[List[int]], distanceThreshold: int) -> int:
+       g = [[] for _ in range(n)]
+       for a, b, w in edges:
+          g[a].append((b, w))
+          g[b].append((a, w))
+       def check(i: int) -> int:
+          dis = [inf] * n
+          dis[i] = 0
+          q = [(0, i)]
+          heapq.heapify(q)
+          while q:
+             (d, x) = heapq.heappop(q)
+             for y, w in g[x]:
+                if d + w < dis[y]:
+                   dis[y] = d + w
+                   heapq.heappush(q, (dis[y], y))
+          return sum(d <= distanceThreshold for d in dis)
+
+       res = -1
+       m = inf
+       for i in range(n):
+          cur = check(i)
+          if cur <= m:
+             res = i
+             m = cur
+       return res
+          
 
                    
              
