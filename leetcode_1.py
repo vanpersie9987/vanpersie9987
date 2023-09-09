@@ -4331,11 +4331,10 @@ class leetcode_1 :
           if not deg[i]:
              q.append(i)
        while q:
-          numCourses -= 1
           x = q.pop()
           res.append(x)
           for y in g[x]:
              deg[y] -= 1
              if not deg[y]:
                 q.append(y)
-       return res if not numCourses else []
+       return res if len(res) == numCourses else []
