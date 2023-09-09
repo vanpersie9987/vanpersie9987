@@ -2430,24 +2430,23 @@ class leetcode_1 :
     
     # 207. 课程表 (Course Schedule)
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        map = [[] for _ in range(numCourses)]
-        deg = [0] * numCourses
-        for a, b in prerequisites:
-            map[b].append(a)
-            deg[a] += 1
-        q = []
-        for i, d in enumerate(deg):
-            if not d:
-                q.append(i)
-        cnt = 0
-        while q:
-            cnt += 1
-            node = q.pop()
-            for nxt in map[node]:
-                deg[nxt] -= 1
-                if not deg[nxt]:
-                    q.append(nxt)
-        return cnt == numCourses
+       g = [[] for _ in range(numCourses)]
+       deg = [0] * numCourses
+       q = []
+       for p in prerequisites:
+          g[p[1]].append(p[0])
+          deg[p[0]] += 1
+       for i in range(numCourses):
+          if not deg[i]:
+             q.append(i)
+       while q:
+          numCourses -= 1
+          x = q.pop(0)
+          for y in g[x]:
+             deg[y] -= 1
+             if not deg[y]:
+                q.append(y)
+       return not numCourses
     
     # 228. 汇总区间 (Summary Ranges)
     def summaryRanges(self, nums: List[int]) -> List[str]:
@@ -4192,21 +4191,5 @@ class leetcode_1 :
     def judgeCircle(self, moves: str) -> bool:
         c = Counter(moves)
         return c['L'] == c['R'] and c['U'] == c['D']
-            
-
-
-
-
-                
-
-          
-       
-
-
-          
-          
-
-       
-
 
 
