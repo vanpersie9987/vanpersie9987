@@ -4338,3 +4338,31 @@ class leetcode_1 :
              if not deg[y]:
                 q.append(y)
        return res if len(res) == numCourses else []
+    
+    # 2767. 将字符串分割为最少的美丽子字符串 (Partition String Into Minimum Beautiful Substrings)
+    def minimumBeautifulSubstrings(self, s: str) -> int:
+       n = len(s)
+
+       def check(x: int) -> bool:
+          while x != 1:
+             if x % 5:
+                return False
+             x //= 5
+          return True
+       @cache
+       def dfs(i: int) -> int:
+          if i == n:
+             return 0
+          if s[i] == '0':
+             return inf
+          res = inf
+          sum = 0
+          for j in range(i, n):
+             sum = (sum << 1) | int(s[j])
+             if check(sum):
+                res = min(res, dfs(j + 1) + 1)
+          return res
+       res = dfs(0)
+       return res if res < inf else -1
+             
+             
