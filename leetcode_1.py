@@ -20,7 +20,7 @@
 from collections import Counter
 import collections
 from functools import cache
-from math import gcd, inf, sqrt
+from math import comb, gcd, inf, sqrt
 from queue import PriorityQueue
 from typing import List, Optional
 import heapq
@@ -4191,5 +4191,19 @@ class leetcode_1 :
     def judgeCircle(self, moves: str) -> bool:
         c = Counter(moves)
         return c['L'] == c['R'] and c['U'] == c['D']
+    
+    # 2842. 统计一个字符串的 k 子序列美丽值最大的数目 (Count K-Subsequences of a String With Maximum Beauty)
+    def countKSubsequencesWithMaxBeauty(self, s: str, k: int) -> int:
+       MOD = 10 ** 9 + 7
+       res = 1
+       cnt = Counter(Counter(s).values())
+       for c, num in sorted(cnt.items(), reverse=True):
+          if num >= k:
+             return res * pow(c, k, MOD) * comb(num, k) % MOD
+          res *= pow(c, num, MOD)
+          k -= num
+       return 0
+
+
 
 
