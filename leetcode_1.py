@@ -20,6 +20,7 @@
 from collections import Counter
 import collections
 from functools import cache
+from itertools import accumulate
 from math import comb, gcd, inf, sqrt
 from queue import PriorityQueue
 from typing import List, Optional
@@ -4364,5 +4365,66 @@ class leetcode_1 :
           return res
        res = dfs(0)
        return res if res < inf else -1
+    
+   # 8029. 与车相交的点 (Points That Intersect With Cars)
+    def numberOfPoints(self, nums: List[List[int]]) -> int:
+       max_val = max(end for (_, end) in nums)
+       d = [0] * (max_val + 2)
+       for start, end in nums:
+          d[start] += 1
+          d[end + 1] -= 1
+       return sum(x > 0 for x in accumulate(d))
+    
+    # 8049. 判断能否在给定时间到达单元格 (Determine if a Cell Is Reachable at a Given Time)
+    def isReachableAtTime(self, sx: int, sy: int, fx: int, fy: int, t: int) -> bool:
+       max_val = max(abs(sx - fx), abs(sy - fy))
+       if max_val == 0 and t == 1:
+          return False
+       return max_val <= t
+    
+    # 100030. 将石头分散到网格图的最少移动次数 (Minimum Moves to Spread Stones Over Grid)
+    def minimumMoves(self, grid: List[List[int]]) -> int:
+       
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if j == u:
+             return 0
+          if i == m:
+             return inf
+          res = inf
+          (x, y) = give[i]
+          val = grid[x][y] - 1
+          candidate = u ^ j
+          c = candidate
+          while c:
+             if c.bit_count() == val:
+                dis = 0
+                copy = c
+                while copy:
+                   index = (copy & -copy).bit_length() - 1
+                   (nx, ny) = need[index]
+                   dis += abs(nx - x) + abs(ny - y)
+                   copy &= copy - 1
+                res = min(res, dfs(i + 1, j | c) + dis)
+             c = (c - 1) & candidate
+          return res
+
+       give = []
+       need = []
+       for i in range(3):
+          for j in range(3):
+             if grid[i][j] > 1:
+                give.append((i, j))
+             elif grid[i][j] == 0:
+                need.append((i, j))
+       m = len(give)
+       n = len(need)
+       if m == 0 and n == 0:
+          return 0
+       u = (1 << n) - 1
+       return dfs(0, 0)
+
+          
+
              
              

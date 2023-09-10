@@ -3348,4 +3348,104 @@ public class Leetcode_8 {
         }
         return res;
     }
+
+    // 8029. 与车相交的点 (Points That Intersect With Cars)
+    public int numberOfPoints(List<List<Integer>> nums) {
+        int[] d = new int[102];
+        for (List<Integer> num : nums) {
+            int a = num.get(0);
+            int b = num.get(1);
+            ++d[a];
+            --d[b + 1];
+        }
+        int res = 0;
+        int cur = 0;
+        for (int i : d) {
+            cur += i;
+            if (cur > 0) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    // 8049. 判断能否在给定时间到达单元格 (Determine if a Cell Is Reachable at a Given Time)
+    public boolean isReachableAtTime(int sx, int sy, int fx, int fy, int t) {
+        int max = Math.max(Math.abs(sx - fx), Math.abs(sy - fy));
+        if (max == 0 && t == 1) {
+            return false;
+        }
+        return max <= t;
+
+    }
+
+    // 100030. 将石头分散到网格图的最少移动次数 (Minimum Moves to Spread Stones Over Grid)
+    private List<int[]> give100030;
+    private int m100030;
+    private List<int[]> need100030;
+    private int[][] memo100030;
+    private int u100030;
+    private int[][] grid100030;
+
+    public int minimumMoves(int[][] grid) {
+        this.grid100030 = grid;
+        this.give100030 = new ArrayList<>();
+        this.need100030 = new ArrayList<>();
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                if (grid[i][j] != 1) {
+                    if (grid[i][j] > 1) {
+                        give100030.add(new int[] { i, j });
+                    } else {
+                        need100030.add(new int[] { i, j });
+                    }
+                }
+            }
+        }
+        if (give100030.isEmpty() && need100030.isEmpty()) {
+            return 0;
+        }
+        this.m100030 = give100030.size();
+        int n = need100030.size();
+        this.memo100030 = new int[m100030][1 << n];
+        this.u100030 = (1 << n) - 1;
+        for (int i = 0; i < m100030; ++i) {
+            Arrays.fill(memo100030[i], -1);
+        }
+        return dfs100030(0, 0);
+
+    }
+
+    private int dfs100030(int i, int j) {
+        if (j == u100030) {
+            return 0;
+        }
+        if (i == m100030) {
+            return (int) 1e9;
+        }
+        if (memo100030[i][j] != -1) {
+            return memo100030[i][j];
+        }
+        int min = (int) 1e9;
+        int[] p = give100030.get(i);
+        int val = grid100030[p[0]][p[1]] - 1;
+        int candidate = j ^ u100030;
+        for (int c = candidate; c > 0; c = (c - 1) & candidate) {
+            if (Integer.bitCount(c) == val) {
+                int copy = c;
+                int dis = 0;
+                while (copy != 0) {
+                    int index = Integer.numberOfTrailingZeros(copy);
+                    int[] p2 = need100030.get(index);
+                    dis += Math.abs(p2[0] - p[0]) + Math.abs(p2[1] - p[1]);
+                    copy &= copy - 1;
+                }
+                min = Math.min(min, dfs100030(i + 1, j | c) + dis);
+            }
+        }
+        return memo100030[i][j] = min;
+    }
+
+     
 }
