@@ -3403,9 +3403,6 @@ public class Leetcode_8 {
                 }
             }
         }
-        if (give2850.isEmpty() && need2850.isEmpty()) {
-            return 0;
-        }
         this.m2850 = give2850.size();
         int n = need2850.size();
         this.memo2850 = new int[m2850][1 << n];
@@ -3420,9 +3417,6 @@ public class Leetcode_8 {
     private int dfs2850(int i, int j) {
         if (j == u2850) {
             return 0;
-        }
-        if (i == m2850) {
-            return (int) 1e9;
         }
         if (memo2850[i][j] != -1) {
             return memo2850[i][j];

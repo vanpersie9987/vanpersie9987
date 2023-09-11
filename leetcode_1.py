@@ -4389,8 +4389,6 @@ class leetcode_1 :
        def dfs(i: int, j: int) -> int:
           if j == u:
              return 0
-          if i == m:
-             return inf
           res = inf
           (x, y) = give[i]
           val = grid[x][y] - 1
@@ -4419,8 +4417,6 @@ class leetcode_1 :
                 need.append((i, j))
        m = len(give)
        n = len(need)
-       if m == 0 and n == 0:
-          return 0
        u = (1 << n) - 1
        return dfs(0, 0)
 
