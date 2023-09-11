@@ -4382,7 +4382,7 @@ class leetcode_1 :
           return False
        return max_val <= t
     
-    # 100030. 将石头分散到网格图的最少移动次数 (Minimum Moves to Spread Stones Over Grid)
+    # 2850. 将石头分散到网格图的最少移动次数 (Minimum Moves to Spread Stones Over Grid)
     def minimumMoves(self, grid: List[List[int]]) -> int:
        
        @cache
