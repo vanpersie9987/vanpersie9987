@@ -3380,71 +3380,71 @@ public class Leetcode_8 {
 
     }
 
-    // 100030. 将石头分散到网格图的最少移动次数 (Minimum Moves to Spread Stones Over Grid)
-    private List<int[]> give100030;
-    private int m100030;
-    private List<int[]> need100030;
-    private int[][] memo100030;
-    private int u100030;
-    private int[][] grid100030;
+    // 2850. 将石头分散到网格图的最少移动次数 (Minimum Moves to Spread Stones Over Grid)
+    private List<int[]> give2850;
+    private int m2850;
+    private List<int[]> need2850;
+    private int[][] memo2850;
+    private int u2850;
+    private int[][] grid2850;
 
     public int minimumMoves(int[][] grid) {
-        this.grid100030 = grid;
-        this.give100030 = new ArrayList<>();
-        this.need100030 = new ArrayList<>();
+        this.grid2850 = grid;
+        this.give2850 = new ArrayList<>();
+        this.need2850 = new ArrayList<>();
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 3; ++j) {
                 if (grid[i][j] != 1) {
                     if (grid[i][j] > 1) {
-                        give100030.add(new int[] { i, j });
+                        give2850.add(new int[] { i, j });
                     } else {
-                        need100030.add(new int[] { i, j });
+                        need2850.add(new int[] { i, j });
                     }
                 }
             }
         }
-        if (give100030.isEmpty() && need100030.isEmpty()) {
+        if (give2850.isEmpty() && need2850.isEmpty()) {
             return 0;
         }
-        this.m100030 = give100030.size();
-        int n = need100030.size();
-        this.memo100030 = new int[m100030][1 << n];
-        this.u100030 = (1 << n) - 1;
-        for (int i = 0; i < m100030; ++i) {
-            Arrays.fill(memo100030[i], -1);
+        this.m2850 = give2850.size();
+        int n = need2850.size();
+        this.memo2850 = new int[m2850][1 << n];
+        this.u2850 = (1 << n) - 1;
+        for (int i = 0; i < m2850; ++i) {
+            Arrays.fill(memo2850[i], -1);
         }
-        return dfs100030(0, 0);
+        return dfs2850(0, 0);
 
     }
 
-    private int dfs100030(int i, int j) {
-        if (j == u100030) {
+    private int dfs2850(int i, int j) {
+        if (j == u2850) {
             return 0;
         }
-        if (i == m100030) {
+        if (i == m2850) {
             return (int) 1e9;
         }
-        if (memo100030[i][j] != -1) {
-            return memo100030[i][j];
+        if (memo2850[i][j] != -1) {
+            return memo2850[i][j];
         }
         int min = (int) 1e9;
-        int[] p = give100030.get(i);
-        int val = grid100030[p[0]][p[1]] - 1;
-        int candidate = j ^ u100030;
+        int[] p = give2850.get(i);
+        int val = grid2850[p[0]][p[1]] - 1;
+        int candidate = j ^ u2850;
         for (int c = candidate; c > 0; c = (c - 1) & candidate) {
             if (Integer.bitCount(c) == val) {
                 int copy = c;
                 int dis = 0;
                 while (copy != 0) {
                     int index = Integer.numberOfTrailingZeros(copy);
-                    int[] p2 = need100030.get(index);
+                    int[] p2 = need2850.get(index);
                     dis += Math.abs(p2[0] - p[0]) + Math.abs(p2[1] - p[1]);
                     copy &= copy - 1;
                 }
-                min = Math.min(min, dfs100030(i + 1, j | c) + dis);
+                min = Math.min(min, dfs2850(i + 1, j | c) + dis);
             }
         }
-        return memo100030[i][j] = min;
+        return memo2850[i][j] = min;
     }
 
      
