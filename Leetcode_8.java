@@ -3382,7 +3382,6 @@ public class Leetcode_8 {
 
     // 2850. 将石头分散到网格图的最少移动次数 (Minimum Moves to Spread Stones Over Grid)
     private List<int[]> give2850;
-    private int m2850;
     private List<int[]> need2850;
     private int[][] memo2850;
     private int u2850;
@@ -3403,11 +3402,11 @@ public class Leetcode_8 {
                 }
             }
         }
-        this.m2850 = give2850.size();
+        int m = give2850.size();
         int n = need2850.size();
-        this.memo2850 = new int[m2850][1 << n];
+        this.memo2850 = new int[m][1 << n];
         this.u2850 = (1 << n) - 1;
-        for (int i = 0; i < m2850; ++i) {
+        for (int i = 0; i < m; ++i) {
             Arrays.fill(memo2850[i], -1);
         }
         return dfs2850(0, 0);
