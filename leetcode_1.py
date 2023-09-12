@@ -4447,15 +4447,13 @@ class leetcode_1 :
        dirs = [[2, 1], [1, 2], [-1, 2], [1, -2], [-1, -2], [2, -1], [-2, 1], [-2, -1]]
        while q:
           (x, y) = q.pop(0)
-          if cnt == n * n - 1:
-             return True
           cnt += 1
           for dx, dy in dirs:
              nx = x + dx
              ny = y + dy
              if nx >= 0 and nx < n and ny >= 0 and ny < n and grid[x][y] + 1 == grid[nx][ny]:
                 q.append((nx, ny))
-       return False
+       return cnt == n * n
           
 
              
