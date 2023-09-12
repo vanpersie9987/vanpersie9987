@@ -4419,8 +4419,24 @@ class leetcode_1 :
        n = len(need)
        u = (1 << n) - 1
        return dfs(0, 0)
-
+    
+    # 1462. 课程表 IV (Course Schedule IV)
+    def checkIfPrerequisite(self, numCourses: int, prerequisites: List[List[int]], queries: List[List[int]]) -> List[bool]:
+       @cache
+       def dfs(x: int, target: int) -> bool:
+          if x == target:
+             return True
+          for y in g[x]:
+             if dfs(y, target):
+                return True
+          return False
           
-
+       g = [[] for _ in range(numCourses)]
+       for a, b in prerequisites:
+          g[a].append(b)
+       res = []
+       for a, b in queries:
+          res.append(dfs(a, b))
+       return res
              
-             
+       
