@@ -4958,6 +4958,41 @@ public class Leetcode_3 {
 
     }
 
+    // 1462. 课程表 IV (Course Schedule IV)
+    private int[][] memo1462;
+    private List<Integer>[] g1462;
+
+    public List<Boolean> checkIfPrerequisite2(int numCourses, int[][] prerequisites, int[][] queries) {
+        this.memo1462 = new int[numCourses][numCourses];
+        this.g1462 = new ArrayList[numCourses];
+        Arrays.setAll(g1462, k -> new ArrayList<>());
+        for (int[] p : prerequisites) {
+            g1462[p[0]].add(p[1]);
+        }
+        List<Boolean> res = new ArrayList<>();
+        for (int[] q : queries) {
+            res.add(dfs1462(q[0], q[1]));
+        }
+        return res;
+    }
+
+    private boolean dfs1462(int x, int target) {
+        if (x == target) {
+            return true;
+        }
+        if (memo1462[x][target] != 0) {
+            return memo1462[x][target] > 0;
+        }
+        for (int y : g1462[x]) {
+            if (dfs1462(y, target)) {
+                memo1462[x][target] = 1;
+                return true;
+            }
+        }
+        memo1462[x][target] = -1;
+        return false;
+    }
+
     // 444. 重建序列 --plus
     // 剑指 Offer II 115. 重建序列 --拓扑排序
     public boolean sequenceReconstruction(int[] org, List<List<Integer>> seqs) {
