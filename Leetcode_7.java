@@ -394,7 +394,7 @@ public class Leetcode_7 {
         return new int[] { Integer.bitCount(n & MASK), Integer.bitCount(n & (MASK >> 1)) };
     }
 
-    // 6322. 检查骑士巡视方案 (Check Knight Tour Configuration)
+    // 2596. 检查骑士巡视方案 (Check Knight Tour Configuration)
     public boolean checkValidGrid(int[][] grid) {
         int n = grid.length;
         int num = 0;
