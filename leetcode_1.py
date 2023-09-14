@@ -4478,11 +4478,10 @@ class leetcode_1 :
        def dfs(i: int, j: int) -> bool:
           if i == n or j == 0:
              return i == n and j == 0
-          res = False
           for k in range(i, n):
-             if arr[i][k]:
-                res = res or dfs(k + 1, j - 1)
-          return res
+             if arr[i][k] and dfs(k + 1, j - 1):
+                return True
+          return False
 
        n = len(s)
        arr = [[False] * n for _ in range(n)]
@@ -4491,4 +4490,32 @@ class leetcode_1 :
              if i == j or j - i == 1 and s[i] == s[j] or j - i > 1 and s[i] == s[j] and arr[i + 1][j - 1]:
                 arr[i][j] = True
        return dfs(0, 3)
+    
+    # 1723. 完成所有工作的最短时间 (Find Minimum Time to Finish All Jobs)
+    def minimumTimeRequired(self, jobs: List[int], k: int) -> int:
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == k or j == u:
+             return 0 if i == k and j == u else inf
+          res = inf
+          candidate = j ^ u
+          if k - i > candidate.bit_count():
+             return inf
+          if i == k - 1:
+             return s[candidate]
+          c = candidate
+          while c:
+             res = min(res, max(dfs(i + 1, j | c), s[c]))
+             c = (c - 1) & candidate
+          return res
+             
+       n = len(jobs)
+       s = [0] * (1 << n)
+       u = (1 << n) - 1
+       for i in range(1, 1 << n):
+          index = (i & -i).bit_length() - 1
+          s[i] = s[i ^ (1 << index)] + jobs[index]
+       return dfs(0, 0)
+          
+       
         
