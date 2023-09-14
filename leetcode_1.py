@@ -4471,3 +4471,24 @@ class leetcode_1 :
              x += dx
              y += dy
        return res
+    
+    # 1745. 分割回文串 IV (Palindrome Partitioning IV)
+    def checkPartitioning(self, s: str) -> bool:
+       @cache
+       def dfs(i: int, j: int) -> bool:
+          if i == n or j == 0:
+             return i == n and j == 0
+          res = False
+          for k in range(i, n):
+             if arr[i][k]:
+                res = res or dfs(k + 1, j - 1)
+          return res
+
+       n = len(s)
+       arr = [[False] * n for _ in range(n)]
+       for i in range(n - 1, -1, -1):
+          for j in range(i, n):
+             if i == j or j - i == 1 and s[i] == s[j] or j - i > 1 and s[i] == s[j] and arr[i + 1][j - 1]:
+                arr[i][j] = True
+       return dfs(0, 3)
+        
