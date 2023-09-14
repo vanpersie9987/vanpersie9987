@@ -5141,88 +5141,28 @@ public class LeetCodeText {
         return Math.min(cnts[0], cnts[1]);
     }
 
-    // 1222. 可以攻击国王的皇后
-    public List<List<Integer>> queensAttacktheKing(final int[][] queens, final int[] king) {
-        final int N = 8;
-        final List<List<Integer>> result = new ArrayList<>();
-        final Set<Integer> set = new HashSet<>();
-        for (int i = 0; i < queens.length; ++i) {
-            set.add(queens[i][0] * 10 + queens[i][1]);
+    // 1222. 可以攻击国王的皇后 (Queens That Can Attack the King)
+    public List<List<Integer>> queensAttacktheKing(int[][] queens, int[] king) {
+        int n = 8;
+        Set<Integer> set = new HashSet<>();
+        for (int[] q : queens) {
+            set.add(q[0] * n + q[1]);
         }
-        // 从king的位置往↖遍历
-        int r = king[0];
-        int c = king[1];
-        while (--r >= 0 && --c >= 0) {
-            if (set.contains(r * 10 + c)) {
-                result.add(Arrays.asList(r, c));
-                break;
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { 1, 1 }, { 1, -1 }, { -1, 1 }, { -1, -1 }, { 1, 0 }, { -1, 0 } };
+        List<List<Integer>> res = new ArrayList<>();
+        for (int[] d : dirs) {
+            int x = king[0] + d[0];
+            int y = king[1] + d[1];
+            while (x < n && x >= 0 && y < n && y >= 0) {
+                if (set.contains(x * n + y)) {
+                    res.add(List.of(x, y));
+                    break;
+                }
+                x += d[0];
+                y += d[1];
             }
         }
-        // 从king的位置往↘遍历
-        r = king[0];
-        c = king[1];
-        while (++r < N && ++c < N) {
-            if (set.contains(r * 10 + c)) {
-                result.add(Arrays.asList(r, c));
-                break;
-            }
-        }
-        // 从king的位置往↙遍历
-        r = king[0];
-        c = king[1];
-        while (++r < N && --c >= 0) {
-            if (set.contains(r * 10 + c)) {
-                result.add(Arrays.asList(r, c));
-                break;
-            }
-        }
-        // 从king的位置往↗遍历
-        r = king[0];
-        c = king[1];
-        while (--r >= 0 && ++c < N) {
-            if (set.contains(r * 10 + c)) {
-                result.add(Arrays.asList(r, c));
-                break;
-            }
-        }
-        // 从king的位置往↑遍历
-        r = king[0];
-        c = king[1];
-        while (--r >= 0) {
-            if (set.contains(r * 10 + c)) {
-                result.add(Arrays.asList(r, c));
-                break;
-            }
-        }
-        // 从king的位置往↓遍历
-        r = king[0];
-        c = king[1];
-        while (++r < N) {
-            if (set.contains(r * 10 + c)) {
-                result.add(Arrays.asList(r, c));
-                break;
-            }
-        }
-
-        // 从king的位置往左遍历
-        r = king[0];
-        c = king[1];
-        while (--c >= 0) {
-            if (set.contains(r * 10 + c)) {
-                result.add(Arrays.asList(r, c));
-                break;
-            }
-        }
-        // 从king的位置往→遍历
-        r = king[0];
-        c = king[1];
-        while (++c < N) {
-            if (set.contains(r * 10 + c)) {
-                result.add(Arrays.asList(r, c));
-                break;
-            }
-        }
-        return result;
+        return res;
 
     }
 
