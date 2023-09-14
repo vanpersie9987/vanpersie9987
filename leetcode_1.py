@@ -4454,7 +4454,20 @@ class leetcode_1 :
              if nx >= 0 and nx < n and ny >= 0 and ny < n and grid[x][y] + 1 == grid[nx][ny]:
                 q.append((nx, ny))
        return cnt == n * n
-          
-
-             
-       
+    
+    # 1222. 可以攻击国王的皇后 (Queens That Can Attack the King)
+    def queensAttacktheKing(self, queens: List[List[int]], king: List[int]) -> List[List[int]]:
+       n = 8
+       s = set(map(tuple, queens))
+       dirs = [0, 1], [0, -1], [1, -1], [1, 1], [-1, 1], [-1, -1],[1, 0], [-1, 0]
+       res = []
+       for dx, dy in dirs:
+          x = king[0] + dx
+          y = king[1] + dy
+          while n > x >= 0 and n > y >= 0:
+             if (x, y) in s:
+                res.append([x, y])
+                break
+             x += dx
+             y += dy
+       return res
