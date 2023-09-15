@@ -4516,6 +4516,14 @@ class leetcode_1 :
           index = (i & -i).bit_length() - 1
           s[i] = s[i ^ (1 << index)] + jobs[index]
        return dfs(0, 0)
+    
+    # LCP 50. 宝石补给
+    def giveGem(self, gem: List[int], operations: List[List[int]]) -> int:
+       for a, b in operations:
+          origin = gem[a]
+          gem[a] = (gem[a] + 1) // 2
+          gem[b] += origin - gem[a]
+       return max(gem) - min(gem)
           
        
         
