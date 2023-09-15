@@ -4524,6 +4524,53 @@ class leetcode_1 :
           gem[a] = (gem[a] + 1) // 2
           gem[b] += origin - gem[a]
        return max(gem) - min(gem)
+    
+    # 1681. 最小不兼容性 (Minimum Incompatibility)
+    def minimumIncompatibility(self, nums: List[int], k: int) -> int:
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if j == u:
+             return 0
+          candidate = u ^ j
+          c = candidate
+          res = 10 ** 5
+          while c:
+             if arr[c] != -1:
+                res = min(res, dfs(i + 1, j | c) + arr[c])
+             c = (c - 1) & candidate
+          return res
+          
+       n = len(nums)
+       cnts = [0] * (n + 1)
+       u = (1 << n) - 1
+       for num in nums:
+          cnts[num] += 1
+       if max(cnts) > k:
+          return -1
+       if n == k:
+          return 0
+       arr = [-1] * (1 << n)
+       for i in range(1 << n):
+          if i.bit_count() != n // k:
+             continue
+          m = 0
+          flag = False
+          copy = i
+          max_val = 0
+          min_val = n + 1
+          while copy:
+             lb = (copy & -copy).bit_length() - 1
+             if (m >> nums[lb]) & 1:
+                flag = True
+                break
+             m |= 1 << nums[lb]
+             max_val = max(max_val, nums[lb])
+             min_val = min(min_val, nums[lb])
+             copy &= copy - 1
+          if flag:
+             continue
+          arr[i] = max_val - min_val
+       return dfs(0, 0)
           
        
         
