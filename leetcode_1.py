@@ -4598,6 +4598,21 @@ class leetcode_1 :
                    mat[nx][ny] = level
                    q.append((nx, ny))
        return mat
+    
+    # 494. 目标和 (Target Sum)
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+       @cache
+       def dfs(i: int, cur: int) -> int:
+          if i == n:
+             return cur == target
+          return dfs(i + 1, cur + nums[i]) + dfs(i + 1, cur - nums[i])
+
+       n = len(nums)
+       s = sum(nums)
+       if s < target or -s > target:
+          return 0
+       return dfs(0, 0)
+       
 
 
        
