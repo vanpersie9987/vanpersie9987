@@ -4627,6 +4627,17 @@ class leetcode_1 :
           return res
        l = len(strs)
        return dfs(0, 0, 0)
+    
+    # 486. 预测赢家 (Predict the Winner)
+    def predictTheWinner(self, nums: List[int]) -> bool:
+       @cache
+       def dfs(i: int, j: int, k: int) -> int:
+          if i == j:
+             return nums[i] * k
+          return max((dfs(i + 1, j, -k) + nums[i] * k) * k, (dfs(i, j - 1, -k) + nums[j] * k) * k) * k
+       return dfs(0, len(nums) - 1, 1) >= 0
+
+       
 
 
 
