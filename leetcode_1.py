@@ -4636,6 +4636,28 @@ class leetcode_1 :
              return nums[i] * k
           return max((dfs(i + 1, j, -k) + nums[i] * k) * k, (dfs(i, j - 1, -k) + nums[j] * k) * k) * k
        return dfs(0, len(nums) - 1, 1) >= 0
+    
+    # 2791. 树中可以形成回文的路径数 (Count Paths That Can Form a Palindrome in a Tree)
+    def countPalindromePaths(self, parent: List[int], s: str) -> int:
+       def dfs(x: int, mask: int) -> None:
+          nonlocal res
+          res += dic[mask]
+          dic[mask] += 1
+          for i in range(26):
+             res += dic[mask ^ (1 << i)]
+          for (y, m) in g[x]:
+             dfs(y, mask ^ m)
+       n = len(s)
+       g = [[] * n for _ in range(n)]
+       for i in range(1, n):
+          g[parent[i]].append((i, 1 << (ord(s[i]) - ord('a'))))
+       res = 0
+       dic = collections.defaultdict(int)
+       dfs(0, 0)
+       return res
+       
+
+          
 
        
 
