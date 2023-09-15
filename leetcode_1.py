@@ -4571,6 +4571,36 @@ class leetcode_1 :
              continue
           arr[i] = max_val - min_val
        return dfs(0, 0)
+    
+    # 542. 01 矩阵 (01 Matrix)
+    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
+       m = len(mat)
+       n = len(mat[0])
+       vis = [[False] * n for _ in range(m)]
+       q = []
+       for i in range(m):
+          for j in range(n):
+             if not mat[i][j]:
+                q.append((i, j))
+                vis[i][j] = True
+       dirs = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+       level = 0
+       while q:
+          level += 1
+          size = len(q)
+          for _ in range(size):
+             (x, y) = q.pop(0)
+             for dx, dy in dirs:
+                nx = x + dx
+                ny = y + dy
+                if nx >= 0 and nx < m and ny >= 0 and ny < n and not vis[nx][ny]:
+                   vis[nx][ny] = True
+                   mat[nx][ny] = level
+                   q.append((nx, ny))
+       return mat
+
+
+       
           
        
         
