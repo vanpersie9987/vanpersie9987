@@ -369,6 +369,9 @@ public class Leetcode_8 {
                 return -1;
             }
         }
+        if (n1681 == k) {
+            return 0;
+        }
         this.map1681 = new int[1 << n1681];
         Arrays.fill(map1681, -1);
         search: for (int i = 1; i < (1 << n1681); ++i) {
