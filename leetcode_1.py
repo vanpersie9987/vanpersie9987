@@ -4612,7 +4612,22 @@ class leetcode_1 :
        if s < target or -s > target:
           return 0
        return dfs(0, 0)
-       
+
+    # 474. 一和零 (Ones and Zeroes)
+    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+       @cache
+       def dfs(i: int, j: int, k: int) -> int:
+          if i == l:
+             return 0
+          res = dfs(i + 1, j, k)
+          cnt1 = sum(int(x) for x in strs[i])
+          cnt0 = len(strs[i]) - cnt1
+          if j + cnt0 <= m and k + cnt1 <= n:
+             res = max(res, dfs(i + 1, j + cnt0, k + cnt1) + 1)
+          return res
+       l = len(strs)
+       return dfs(0, 0, 0)
+
 
 
        
