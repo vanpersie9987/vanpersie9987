@@ -4755,6 +4755,26 @@ class leetcode_1 :
              if deg[y] == 1:
                 q.append(y)
        return res
+    
+    # 2477. 到达首都的最少油耗 (Minimum Fuel Cost to Report to the Capital)
+    def minimumFuelCost2(self, roads: List[List[int]], seats: int) -> int:
+       def dfs(x: int, fa: int) -> int:
+          size = 1
+          for y in g[x]:
+             if y != fa:
+                size += dfs(y, x)
+          if x:
+             nonlocal res
+             res += (size + seats - 1) // seats
+          return size
+       n = len(roads) + 1
+       g = [[] for _ in range(n)]
+       for a, b in roads:
+          g[a].append(b)
+          g[b].append(a)
+       res = 0
+       dfs(0, -1)
+       return res
 
        
 
