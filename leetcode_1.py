@@ -4775,6 +4775,33 @@ class leetcode_1 :
        res = 0
        dfs(0, -1)
        return res
+    
+    # 2476. 二叉搜索树最近节点查询 (Closest Nodes Queries in a Binary Search Tree)
+    def closestNodes(self, root: Optional[TreeNode], queries: List[int]) -> List[List[int]]:
+       class TreeNode:
+          def __init__(self, val=0, left=None, right=None):
+             self.val = val
+             self.left = left
+             self.right = right
+       def dfs(root: Optional[TreeNode]) -> None:
+          if not root:
+             return
+          dfs(root.left)
+          arr.append(root.val)
+          dfs(root.right)
+       arr = []
+       dfs(root)
+       n = len(arr)
+       res = []
+       for q in queries:
+          x = bisect.bisect_right(arr, q)
+          min_val = arr[x - 1] if x else -1
+          y = bisect.bisect_left(arr, q)
+          max_val = arr[y] if y < n else -1
+          res.append([min_val, max_val])
+       return res
+          
+
 
        
 
