@@ -3052,15 +3052,15 @@ class leetcode_1 :
           g[a].append(b)
           g[b].append(a)
        s = set()
-       for guess in guesses:
-          s.add(tuple(guess))
+       for a, b in guesses:
+          s.add((a, b))
        cur = 0
        res = 0
 
        def dfs(x: int, fa: int) -> None:
           for y in g[x]:
              if y != fa :
-                if s.__contains__(tuple([x, y])):
+                if (x, y) in s:
                    nonlocal cur
                    cur += 1
                 dfs(y, x)
@@ -3072,9 +3072,9 @@ class leetcode_1 :
           for y in g[x]:
              copy = c
              if y != fa :
-                if s.__contains__(tuple([x, y])):
+                if (x, y) in s:
                    copy -= 1
-                if s.__contains__(tuple([y, x])):
+                if (y, x) in s:
                    copy += 1
                 reroot(y, x, copy)
 
