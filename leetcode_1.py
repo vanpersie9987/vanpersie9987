@@ -4710,6 +4710,22 @@ class leetcode_1 :
        if k > len(dic):
           return -1
        return sorted(dic.values(), reverse=True)[k - 1]
+    
+    # 2509. 查询树中环的长度 (Cycle Length Queries in a Tree)
+    def cycleLengthQueries(self, n: int, queries: List[List[int]]) -> List[int]:
+       res = []
+       for a, b in queries:
+          s = 1
+          while a != b:
+             if a < b:
+                tmp = a
+                a = b
+                b = tmp
+             a >>= 1
+             s += 1
+          res.append(s)
+       return res
+       
 
        
        
