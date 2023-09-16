@@ -4663,6 +4663,38 @@ class leetcode_1 :
           res += abs(cost[i * 2] - cost[i * 2 - 1])
           cost[i - 1] += max(cost[i * 2], cost[i * 2 - 1])
        return res
+    
+    # 2641. 二叉树的堂兄弟节点 II (Cousins in Binary Tree II)
+    def replaceValueInTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+       q = [root]
+       root.val = 0
+       while q:
+          size = len(q)
+          s = 0
+          for i in range(size):
+             x = q[i]
+             if x.left:
+                s += x.left.val
+             if x.right:
+                s += x.right.val
+          for _ in range(size):
+             x = q.pop(0)
+             cur = 0
+             if x.left:
+                cur += x.left.val
+             if x.right:
+                cur += x.right.val
+             if x.left:
+                x.left.val = s - cur
+                q.append(x.left)
+             if x.right:
+                x.right.val = s - cur
+                q.append(x.right)
+       return root
+             
+
+       
+       
        
        
 
