@@ -4691,10 +4691,26 @@ class leetcode_1 :
                 x.right.val = s - cur
                 q.append(x.right)
        return root
-             
+    
+    # 2583. 二叉树中的第 K 大层和 (Kth Largest Sum in a Binary Tree)
+    def kthLargestLevelSum(self, root: Optional[TreeNode], k: int) -> int:
+       class TreeNode:
+          def __init__(self, val=0, left=None, right=None):
+             self.val = val
+             self.left = left
+             self.right = right
+       def dfs(root: Optional[TreeNode], level: int) -> None:
+          if not root:
+             return
+          dic[level] += root.val
+          dfs(root.left, level + 1)
+          dfs(root.right, level + 1)
+       dic = collections.defaultdict(int)
+       dfs(root, 1)
+       if k > len(dic):
+          return -1
+       return sorted(dic.values(), reverse=True)[k - 1]
 
-       
-       
        
        
 
