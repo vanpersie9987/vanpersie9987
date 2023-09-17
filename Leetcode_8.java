@@ -3470,11 +3470,12 @@ public class Leetcode_8 {
     // 2856. 删除数对后的最小数组长度 (Minimum Array Length After Pair Removals)
     public int minLengthAfterRemovals(List<Integer> nums) {
         Map<Integer, Integer> cnts = new HashMap<>();
+        int max = 0;
         for (int num : nums) {
             cnts.merge(num, 1, Integer::sum);
+            max = Math.max(max, cnts.get(num));
         }
         int n = nums.size();
-        int max = Collections.max(cnts.values());
         if (max >= n - max) {
             return max - (n - max);
         }
