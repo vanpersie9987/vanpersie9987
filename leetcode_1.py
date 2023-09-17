@@ -4826,5 +4826,18 @@ class leetcode_1 :
           return max_cnt - (n - max_cnt)
        return 1 if (n & 1) == 1 else 0
 
+    # 6988. 统计距离为 k 的点对 (Count Pairs of Points With Distance k)
+    def countPairs(self, coordinates: List[List[int]], k: int) -> int:
+       res = 0
+       dic = collections.defaultdict(int)
+       for x, y in coordinates:
+          for i in range(k + 1):
+             tx = x ^ i
+             ty = y ^ (k - i)
+             res += dic[(tx, ty)]
+          dic[(x, y)] += 1
+       return res
+          
+
     
     
