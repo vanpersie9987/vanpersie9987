@@ -4801,4 +4801,30 @@ class leetcode_1 :
           res.append([min_val, max_val])
        return res
     
+    # 8039. 使数组成为递增数组的最少右移次数 (Minimum Right Shifts to Sort the Array)
+    def minimumRightShifts(self, nums: List[int]) -> int:
+       n = len(nums)
+       cnt = 0
+       j = -1
+       for i in range(1, n):
+          if nums[i - 1] > nums[i]:
+             cnt += 1
+             j = i
+       if not cnt:
+          return 0
+       if nums[0] < nums[n - 1]:
+          cnt += 1
+       if cnt > 1:
+          return -1
+       return n - j
+    
+    # 2856. 删除数对后的最小数组长度 (Minimum Array Length After Pair Removals)
+    def minLengthAfterRemovals(self, nums: List[int]) -> int:
+       n = len(nums)
+       max_cnt = max(Counter(nums).values())
+       if max_cnt >= n - max_cnt:
+          return max_cnt - (n - max_cnt)
+       return 1 if (n & 1) == 1 else 0
+
+    
     
