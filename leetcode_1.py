@@ -4837,6 +4837,39 @@ class leetcode_1 :
              res += dic[(tx, ty)]
           dic[(x, y)] += 1
        return res
+    
+    # 100041. 可以到达每一个节点的最少边反转次数 (Minimum Edge Reversals So Every Node Is Reachable)
+    def minEdgeReversals(self, n: int, edges: List[List[int]]) -> List[int]:
+       def dfs(x: int, fa: int) -> None:
+          for y in g[x]:
+             if y != fa:
+                if (x, y) not in s:
+                   nonlocal res0
+                   res0 += 1
+                dfs(y, x)
+       def reroot(x: int, fa: int, cnt: int) -> None:
+          res[x] = cnt
+          for y in g[x]:
+             if y != fa:
+                copy = cnt
+                if (x, y) in s:
+                   copy += 1
+                else:
+                   copy -= 1
+                reroot(y, x, copy)
+       g = [[] for _ in range(n)]
+       s = set()
+       for u, v in edges:
+          s.add((u, v))
+          g[u].append(v)
+          g[v].append(u)
+       res0 = 0
+       dfs(0, -1)
+       res = [0] * n
+       reroot(0, -1, res0)
+       return res
+       
+
           
 
     
