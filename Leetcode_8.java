@@ -3443,4 +3443,137 @@ public class Leetcode_8 {
         return memo2850[i][j] = min;
     }
 
+    // 8039. 使数组成为递增数组的最少右移次数 (Minimum Right Shifts to Sort the Array)
+    public int minimumRightShifts(List<Integer> nums) {
+        int n = nums.size();
+        int cnt = 0;
+        int j = -1;
+        for (int i = 1; i < n; ++i) {
+            if (nums.get(i - 1) > nums.get(i)) {
+                j = i;
+                ++cnt;
+            }
+        }
+        if (cnt == 0) {
+            return 0;
+        }
+        if (nums.get(0) < nums.get(n - 1)) {
+            ++cnt;
+        }
+        if (cnt > 1) {
+            return -1;
+        }
+        return n - j;
+
+    }
+
+    // 2856. 删除数对后的最小数组长度 (Minimum Array Length After Pair Removals)
+    public int minLengthAfterRemovals(List<Integer> nums) {
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int num : nums) {
+            cnts.merge(num, 1, Integer::sum);
+        }
+        Queue<Integer> q = new PriorityQueue<>(new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(o2, o1);
+            }
+
+        });
+        for (int x : cnts.values()) {
+            q.offer(x);
+        }
+        while (q.size() > 1) {
+            int x = q.poll();
+            int y = q.poll();
+            --x;
+            --y;
+            if (x != 0) {
+                q.offer(x);
+            }
+            if (y != 0) {
+                q.offer(y);
+            }
+        }
+        int res = 0;
+        while (!q.isEmpty()) {
+            res += q.poll();
+        }
+        return res;
+
+    }
+
+    // 100041. 可以到达每一个节点的最少边反转次数 (Minimum Edge Reversals So Every Node Is Reachable)
+    private List<Integer>[] g100041;
+    private Set<Long> set100041;
+    private long M100041;
+    private int res0_100041;
+    private int[] res100041;
+
+    public int[] minEdgeReversals(int n, int[][] edges) {
+        this.g100041 = new ArrayList[n];
+        this.M100041 = (long) 1e6;
+
+        Arrays.setAll(g100041, k -> new ArrayList<>());
+        set100041 = new HashSet<>();
+        for (int[] e : edges) {
+            int u = e[0];
+            int v = e[1];
+            set100041.add(u * M100041 + v);
+            g100041[u].add(v);
+            g100041[v].add(u);
+        }
+        dfs100041(0, -1);
+        this.res100041 = new int[n];
+        reRoot100041(0, -1, res0_100041);
+        return res100041;
+
+    }
+
+    private void reRoot100041(int x, int fa, int cur) {
+        res100041[x] = cur;
+        for (int y : g100041[x]) {
+            int copy = cur;
+            if (y != fa) {
+                if (set100041.contains(x * M100041 + y)) {
+                    ++copy;
+                } else {
+                    --copy;
+                }
+                reRoot100041(y, x, copy);
+            }
+        }
+    }
+
+    private void dfs100041(int x, int fa) {
+        for (int y : g100041[x]) {
+            if (y != fa) {
+                if (!set100041.contains(x * M100041 + y)) {
+                    ++res0_100041;
+                }
+                dfs100041(y, x);
+            }
+        }
+    }
+
+    // 6988. 统计距离为 k 的点对 (Count Pairs of Points With Distance k)
+    public int countPairs2(List<List<Integer>> coordinates, int k) {
+        int res = 0;
+        long M = (long) 1e7;
+        Map<Long, Integer> map = new HashMap<>();
+        for (List<Integer> c : coordinates) {
+            int x = c.get(0);
+            int y = c.get(1);
+            for (int i = 0; i <= k; ++i) {
+                int tx = x ^ i;
+                int ty = y ^ (k - i);
+                res += map.getOrDefault(tx * M + ty, 0);
+            }
+            map.merge(x * M + y, 1, Integer::sum);
+        }
+        return res;
+
+    }
+
 }

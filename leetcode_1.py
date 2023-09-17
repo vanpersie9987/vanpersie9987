@@ -4800,3 +4800,5 @@ class leetcode_1 :
           max_val = arr[y] if y < n else -1
           res.append([min_val, max_val])
        return res
+    
+    
