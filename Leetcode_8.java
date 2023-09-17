@@ -3473,34 +3473,12 @@ public class Leetcode_8 {
         for (int num : nums) {
             cnts.merge(num, 1, Integer::sum);
         }
-        Queue<Integer> q = new PriorityQueue<>(new Comparator<Integer>() {
-
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return Integer.compare(o2, o1);
-            }
-
-        });
-        for (int x : cnts.values()) {
-            q.offer(x);
+        int n = nums.size();
+        int max = Collections.max(cnts.values());
+        if (max >= n - max) {
+            return max - (n - max);
         }
-        while (q.size() > 1) {
-            int x = q.poll();
-            int y = q.poll();
-            --x;
-            --y;
-            if (x != 0) {
-                q.offer(x);
-            }
-            if (y != 0) {
-                q.offer(y);
-            }
-        }
-        int res = 0;
-        while (!q.isEmpty()) {
-            res += q.poll();
-        }
-        return res;
+        return n & 1;
 
     }
 
