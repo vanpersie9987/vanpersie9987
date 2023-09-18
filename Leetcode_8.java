@@ -3554,5 +3554,74 @@ public class Leetcode_8 {
         return res;
 
     }
+    
+    // 100031. 计算 K 置位下标对应元素的和 (Sum of Values at Indices With K Set Bits)
+    public int sumIndicesWithKSetBits(List<Integer> nums, int k) {
+        int res = 0;
+        for (int i = 0; i < nums.size();++i) {
+            if (Integer.bitCount(i) == k) {
+                res += nums.get(i);
+            }
+        }
+        return res;
+    }
+
+    // 100033. 最大合金数 (Maximum Number of Alloys)
+    public int maxNumberOfAlloys(int n, int k, int budget, List<List<Integer>> composition, List<Integer> stock,
+            List<Integer> cost) {
+        int res = 0;
+        for (List<Integer> c : composition) {
+            res = Math.max(res, getMax(c, stock, cost, budget));
+        }
+        return res;
+
+    }
+
+    private int getMax(List<Integer> list, List<Integer> stock, List<Integer> cost, int budget) {
+        int left = 0;
+        int right = Integer.MAX_VALUE;
+        int res = 0;
+        while (left <= right) {
+            int mid = left + ((right - left) >>> 1);
+            if (check(mid, list, stock, cost, budget)) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
+
+    private boolean check(int target, List<Integer> composition, List<Integer> stock, List<Integer> cost, int budget) {
+        int n = stock.size();
+        long cur = 0L;
+        for (int i = 0; i < n; ++i) {
+            long items = (long) target * composition.get(i);
+            if (items <= stock.get(i)) {
+                continue;
+            }
+            items -= stock.get(i);
+            cur += items * cost.get(i);
+            if (cur > budget) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // 100040. 让所有学生保持开心的分组方法数 (Happy Students)
+    public int countWays(List<Integer> nums) {
+        Collections.sort(nums);
+        int n = nums.size();
+        int res = nums.get(0) > 0 ? 1 : 0;
+        for (int i = 0; i < n - 1; ++i) {
+            if (nums.get(i) < i + 1 && i + 1 < nums.get(i + 1)) {
+                ++res;
+            }
+        }
+        return res + 1;
+
+    }
 
 }
