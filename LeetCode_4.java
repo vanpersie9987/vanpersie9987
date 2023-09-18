@@ -5885,55 +5885,18 @@ public class LeetCode_4 {
 
     // 337. 打家劫舍 III (House Robber III)
     public int rob(TreeNode root) {
-        Map<TreeNode, int[]> map = new HashMap<>();
-        dfs337(root, map);
-        return Math.max(map.get(root)[0], map.get(root)[1]);
-    }
-
-    private void dfs337(TreeNode node, Map<TreeNode, int[]> map) {
-        if (node == null) {
-            return;
-        }
-        dfs337(node.left, map);
-        dfs337(node.right, map);
-        // dp[0]:不偷当前节点时的最大值
-        // dp[1]:偷当前节点时的最大值
-        int[] dp = new int[2];
-        if (node.left != null) {
-            int[] childLeft = map.get(node.left);
-            dp[0] += Math.max(childLeft[0], childLeft[1]);
-            dp[1] += childLeft[0];
-        }
-        if (node.right != null) {
-            int[] childRight = map.get(node.right);
-            dp[0] += Math.max(childRight[0], childRight[1]);
-            dp[1] += childRight[0];
-        }
-        dp[1] += node.val;
-        map.put(node, dp);
+        int[] res = dfs337(root);
+        return Math.max(res[0], res[1]);
 
     }
 
-    // 337. 打家劫舍 III (House Robber III)
-    public int rob2(TreeNode root) {
-        int[] max = dfs337_2(root);
-        return Math.max(max[0], max[1]);
-
-    }
-
-    private int[] dfs337_2(TreeNode node) {
-        if (node == null) {
+    private int[] dfs337(TreeNode root) {
+        if (root == null) {
             return new int[] { 0, 0 };
         }
-        // l[0]: 不偷node节点的左子树的最大值
-        // l[1]: 偷node节点的左子树的最大值
-        int[] l = dfs337_2(node.left);
-        // r[0]: 不偷node节点的右子树的最大值
-        // r[1]: 偷node节点的右子树的最大值
-        int[] r = dfs337_2(node.right);
-        int notStole = Math.max(l[0], l[1]) + Math.max(r[0], r[1]);
-        int stole = node.val + l[0] + r[0];
-        return new int[] { notStole, stole };
+        int[] left = dfs337(root.left);
+        int[] right = dfs337(root.right);
+        return new int[] { root.val + left[1] + right[1], Math.max(left[0], left[1]) + Math.max(right[0], right[1]) };
     }
 
     // 1054. 距离相等的条形码 (Distant Barcodes)
