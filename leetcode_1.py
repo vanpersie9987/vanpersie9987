@@ -4956,6 +4956,30 @@ class leetcode_1 :
            nums[j] = 0
            j += 1
 
+    # 801. 使序列递增的最小交换次数 (Minimum Swaps To Make Sequences Increasing)
+    def minSwap(self, nums1: List[int], nums2: List[int]) -> int:
+       n = len(nums1)
+
+       @cache
+       def dfs(i: int, j: bool) -> int:
+          if i == n:
+             return 0
+          if nums1[i] == nums2[i]:
+             return dfs(i + 1, False)
+          res = inf
+          if not j:
+             if nums1[i] > nums1[i - 1] and nums2[i] > nums2[i - 1]:
+                res = min(res, dfs(i + 1, False))
+             if nums2[i] > nums1[i - 1] and nums1[i] > nums2[i - 1]:
+                res = min(res, dfs(i + 1, True) + 1)
+          else:
+             if nums1[i] > nums2[i - 1] and nums2[i] > nums1[i - 1]:
+                res = min(res, dfs(i + 1, False))
+             if nums1[i] > nums1[i - 1] and nums2[i] > nums2[i - 1]:
+                res = min(res, dfs(i + 1, True) + 1)
+          return res
+       return min(dfs(1, False), dfs(1, True) + 1)
+
 
 
 
