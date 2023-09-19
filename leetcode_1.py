@@ -4922,6 +4922,10 @@ class leetcode_1 :
           pre = cur
           cur = nxt
        return pre
+    
+    # =
+    def isPowerOfTwo(self, n: int) -> bool:
+       return n > 0  and not (n & (n - 1))
 
 
 
