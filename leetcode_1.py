@@ -4884,6 +4884,36 @@ class leetcode_1 :
           return [root.val + left[1] + right[1], max(left) + max(right)]
        return max(dfs(root))
           
+    # 2560. 打家劫舍 IV (House Robber IV)
+    def minCapability(self, nums: List[int], k: int) -> int:
+       def check(target: int) -> bool:
+          cur = 0
+          cnt = 0
+          for num in nums:
+             if num > target:
+                cur += (cnt + 1) // 2
+                cnt = 0
+                if cur >= k:
+                   return True
+             else:
+                cnt += 1
+          cur += (cnt + 1) // 2
+          return cur >= k
+             
+       left = min(nums)
+       right = max(nums)
+       res = 0
+       while left <= right:
+          mid = left + ((right - left) >> 1)
+          if check(mid):
+             res = mid
+             right = mid - 1
+          else:
+             left = mid + 1
+       return res
+
+
+       
        
        
 
