@@ -4923,9 +4923,17 @@ class leetcode_1 :
           cur = nxt
        return pre
     
-    # =
+    # 231. 2 的幂 (Power of Two)
     def isPowerOfTwo(self, n: int) -> bool:
-       return n > 0  and not (n & (n - 1))
+       return n > 0 and not (n & (n - 1))
+
+    # 231. 2 的幂 (Power of Two)
+    def isPowerOfTwo(self, n: int) -> bool:
+       return n > 0 and (n & -n) == n
+    
+    # 231. 2 的幂 (Power of Two)
+    def isPowerOfTwo(self, n: int) -> bool:
+       return n > 0 and n.bit_count() == 1
 
 
 
