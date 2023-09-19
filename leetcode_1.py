@@ -4966,19 +4966,25 @@ class leetcode_1 :
              return 0
           if nums1[i] == nums2[i]:
              return dfs(i + 1, False)
+          if i == 0:
+             return min(dfs(1, False), dfs(1, True) + 1)
           res = inf
-          if not j:
-             if nums1[i] > nums1[i - 1] and nums2[i] > nums2[i - 1]:
-                res = min(res, dfs(i + 1, False))
-             if nums2[i] > nums1[i - 1] and nums1[i] > nums2[i - 1]:
-                res = min(res, dfs(i + 1, True) + 1)
-          else:
-             if nums1[i] > nums2[i - 1] and nums2[i] > nums1[i - 1]:
-                res = min(res, dfs(i + 1, False))
-             if nums1[i] > nums1[i - 1] and nums2[i] > nums2[i - 1]:
-                res = min(res, dfs(i + 1, True) + 1)
+          if nums1[i] > nums1[i - 1] and nums2[i] > nums2[i - 1]:
+             res = min(res, dfs(i + 1, j) + j)
+          if nums2[i] > nums1[i - 1] and nums1[i] > nums2[i - 1]:
+             res = min(res, dfs(i + 1, not j) + (not j))
+         #  if not j:
+         #     if nums1[i] > nums1[i - 1] and nums2[i] > nums2[i - 1]:
+         #        res = min(res, dfs(i + 1, False))
+         #     if nums2[i] > nums1[i - 1] and nums1[i] > nums2[i - 1]:
+         #        res = min(res, dfs(i + 1, True) + 1)
+         #  else:
+         #     if nums1[i] > nums2[i - 1] and nums2[i] > nums1[i - 1]:
+         #        res = min(res, dfs(i + 1, False))
+         #     if nums1[i] > nums1[i - 1] and nums2[i] > nums2[i - 1]:
+         #        res = min(res, dfs(i + 1, True) + 1)
           return res
-       return min(dfs(1, False), dfs(1, True) + 1)
+       return dfs(0, False)
 
 
 
