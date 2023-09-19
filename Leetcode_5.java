@@ -4803,6 +4803,47 @@ public class Leetcode_5 {
 
     }
 
+    // 801. 使序列递增的最小交换次数 (Minimum Swaps To Make Sequences Increasing)
+    private int n801;
+    private int[][] memo801;
+    private int[] nums1_801;
+    private int[] nums2_801;
+
+    public int minSwap3(int[] nums1, int[] nums2) {
+        this.n801 = nums1.length;
+        this.nums1_801 = nums1;
+        this.nums2_801 = nums2;
+        this.memo801 = new int[n801][2];
+        for (int i = 0; i < n801; ++i) {
+            Arrays.fill(memo801[i], -1);
+        }
+        return dfs801(0, 0);
+
+    }
+
+    private int dfs801(int i, int j) {
+        if (i == n801) {
+            return 0;
+        }
+        if (memo801[i][j] != -1) {
+            return memo801[i][j];
+        }
+        if (nums1_801[i] == nums2_801[i]) {
+            return dfs801(i + 1, 0);
+        }
+        if (i == 0) {
+            return Math.min(dfs801(i + 1, 0), dfs801(i + 1, 1) + 1);
+        }
+        int res = Integer.MAX_VALUE;
+        if (nums1_801[i] > nums1_801[i - 1] && nums2_801[i] > nums2_801[i - 1]) {
+            res = Math.min(res, dfs801(i + 1, 0) + j);
+        }
+        if (nums1_801[i] > nums2_801[i - 1] && nums2_801[i] > nums1_801[i - 1]) {
+            res = Math.min(res, dfs801(i + 1, j ^ 1) + (j ^ 1));
+        }
+        return memo801[i][j] = res;
+    }
+
     // 1362. 最接近的因数 (Closest Divisors)
     public int[] closestDivisors(int num) {
         int[] res = new int[] { 1, (int) 1e9 };
