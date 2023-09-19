@@ -4935,6 +4935,10 @@ class leetcode_1 :
     def isPowerOfTwo(self, n: int) -> bool:
        return n > 0 and n.bit_count() == 1
 
+    # 242. 有效的字母异位词 (Valid Anagram)
+    def isAnagram(self, s: str, t: str) -> bool:
+       return sorted(s) == sorted(t)
+
 
 
        
