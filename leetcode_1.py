@@ -4961,30 +4961,20 @@ class leetcode_1 :
        n = len(nums1)
 
        @cache
-       def dfs(i: int, j: bool) -> int:
+       def dfs(i: int, j: int) -> int:
           if i == n:
              return 0
           if nums1[i] == nums2[i]:
-             return dfs(i + 1, False)
+             return dfs(i + 1, 0)
           if i == 0:
-             return min(dfs(1, False), dfs(1, True) + 1)
+             return min(dfs(1, 0), dfs(1, 1) + 1)
           res = inf
           if nums1[i] > nums1[i - 1] and nums2[i] > nums2[i - 1]:
              res = min(res, dfs(i + 1, j) + j)
           if nums2[i] > nums1[i - 1] and nums1[i] > nums2[i - 1]:
-             res = min(res, dfs(i + 1, not j) + (not j))
-         #  if not j:
-         #     if nums1[i] > nums1[i - 1] and nums2[i] > nums2[i - 1]:
-         #        res = min(res, dfs(i + 1, False))
-         #     if nums2[i] > nums1[i - 1] and nums1[i] > nums2[i - 1]:
-         #        res = min(res, dfs(i + 1, True) + 1)
-         #  else:
-         #     if nums1[i] > nums2[i - 1] and nums2[i] > nums1[i - 1]:
-         #        res = min(res, dfs(i + 1, False))
-         #     if nums1[i] > nums1[i - 1] and nums2[i] > nums2[i - 1]:
-         #        res = min(res, dfs(i + 1, True) + 1)
+             res = min(res, dfs(i + 1, j ^ 1) + (j ^ 1))
           return res
-       return dfs(0, False)
+       return dfs(0, 0)
 
 
 
