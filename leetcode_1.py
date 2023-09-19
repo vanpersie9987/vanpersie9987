@@ -4938,6 +4938,24 @@ class leetcode_1 :
     # 242. 有效的字母异位词 (Valid Anagram)
     def isAnagram(self, s: str, t: str) -> bool:
        return sorted(s) == sorted(t)
+    
+    # 283. 移动零 (Move Zeroes)
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        n = len(nums)
+        j = 0
+        i = 0
+        while i < n:
+           if nums[i]:
+              nums[j] = nums[i]
+              j += 1
+           i += 1
+        while j < n:
+           nums[j] = 0
+           j += 1
+
 
 
 
