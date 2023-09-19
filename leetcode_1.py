@@ -4911,6 +4911,18 @@ class leetcode_1 :
           else:
              left = mid + 1
        return res
+    
+    # 206. 反转链表 (Reverse Linked List)
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+       pre = None
+       cur = head
+       while cur:
+          nxt = cur.next
+          cur.next = pre
+          pre = cur
+          cur = nxt
+       return pre
+
 
 
        
