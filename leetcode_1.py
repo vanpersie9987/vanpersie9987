@@ -5060,6 +5060,31 @@ class leetcode_1 :
           return n
        if n == 3:
           return 4
-       for i in range(n - 3):
+       for _ in range(n - 3):
           a, b, c = (a + b + c) % m, a, b
        return a
+    
+    # 2266. 统计打字方案数 (Count Number of Texts)
+    def countTexts(self, pressedKeys: str) -> int:
+       @cache
+       def dfs(i: int) -> int:
+          if i == n:
+             return 1
+          res = 0
+          cnt = mp[int(pressedKeys[i])]
+          j = i
+          while j < n and pressedKeys[i] == pressedKeys[j] and j - i + 1 <= cnt:
+             res += dfs(j + 1)
+             res %= MOD
+             j += 1
+          return res
+       MOD = 10 ** 9 + 7
+       n = len(pressedKeys)
+       mp = [3] * 10
+       mp[7] = 4
+       mp[9] = 4
+       return dfs(0)
+
+
+
+       
