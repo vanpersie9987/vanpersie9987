@@ -5026,6 +5026,9 @@ class leetcode_1 :
        dfs(0, 0)
        return res
        
+    # 1227. 飞机座位分配概率 (Airplane Seat Assignment Probability)
+    def nthPersonGetsNthSeat(self, n: int) -> float:
+        return 1 if n == 1 else 0.5
 
 
 
