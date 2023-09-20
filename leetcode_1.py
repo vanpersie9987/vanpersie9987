@@ -4979,6 +4979,24 @@ class leetcode_1 :
     # LCP 06. 拿硬币
     def minCount(self, coins: List[int]) -> int:
         return sum((x + 1) // 2 for x in coins)
+    
+    # 1340. 跳跃游戏 V (Jump Game V)
+    def maxJumps(self, arr: List[int], d: int) -> int:
+       @cache
+       def dfs(i: int) -> int:
+          res = 0
+          for j in range(i - 1, -1, -1):
+             if i - j > d or arr[j] >= arr[i]:
+                break
+             res = max(res, dfs(j))
+          for j in range(i + 1, n):
+             if j - i > d or arr[j] >= arr[i]:
+                break
+             res = max(res, dfs(j))
+          return res + 1
+       n = len(arr)
+       return max(dfs(x) for x in range(n))
+
 
 
 
