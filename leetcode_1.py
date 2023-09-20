@@ -5063,18 +5063,3 @@ class leetcode_1 :
        for i in range(n - 3):
           a, b, c = (a + b + c) % m, a, b
        return a
-
-
-
-
-
-
-
-       
-       
-       
-
-          
-
-    
-    
