@@ -5031,6 +5031,8 @@ class leetcode_1 :
         return 1 if n == 1 else 0.5
     
     # 面试题 08.09. 括号
+    # LCR 085. 括号生成
+    # 22. 括号生成 (Generate Parentheses)
     def generateParenthesis(self, n: int) -> List[str]:
        def dfs(i: int, j: int) -> None:
           nonlocal s
