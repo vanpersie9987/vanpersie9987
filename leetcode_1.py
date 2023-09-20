@@ -5029,6 +5029,27 @@ class leetcode_1 :
     # 1227. 飞机座位分配概率 (Airplane Seat Assignment Probability)
     def nthPersonGetsNthSeat(self, n: int) -> float:
         return 1 if n == 1 else 0.5
+    
+    # 面试题 08.09. 括号
+    def generateParenthesis(self, n: int) -> List[str]:
+       def dfs(i: int, j: int) -> None:
+          nonlocal s
+          if len(s) == n * 2:
+             res.append(s)
+             return
+          if i < n:
+             s += '('
+             dfs(i + 1, j)
+             s = s[:len(s) - 1]
+          if j < i:
+             s += ')'
+             dfs(i, j + 1)
+             s = s[:len(s) - 1]
+       s = ""
+       res = []
+       dfs(0, 0)
+       return res
+
 
 
 
