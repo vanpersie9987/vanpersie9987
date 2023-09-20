@@ -4996,6 +4996,37 @@ class leetcode_1 :
           return res + 1
        n = len(arr)
        return max(dfs(x) for x in range(n))
+    
+    # 1255. 得分最高的单词集合 (Maximum Score Words Formed by Letters)
+    def maxScoreWords(self, words: List[str], letters: List[str], score: List[int]) -> int:
+       def dfs(i: int, j: int) -> None:
+          if i == n:
+             nonlocal res
+             res = max(res, j)
+             return
+          # 不选 
+          dfs(i + 1, j)
+          # 选
+          cur = [0] * 26
+          for c in words[i]:
+             cur[ord(c) - ord('a')] += 1
+          if all(a >= b for a, b in zip(cnts, cur)):
+             s = 0
+             for k in range(26):
+                s += cur[k] * score[k]
+                cnts[k] -= cur[k]
+             dfs(i + 1, j + s)
+             for k in range(26):
+                cnts[k] += cur[k]
+       n = len(words)
+       cnts = [0] * 26
+       for c in letters:
+          cnts[ord(c) - ord('a')] += 1
+       res = 0
+       dfs(0, 0)
+       return res
+       
+
 
 
 
