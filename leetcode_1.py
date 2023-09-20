@@ -5084,6 +5084,24 @@ class leetcode_1 :
        mp[7] = 4
        mp[9] = 4
        return dfs(0)
+    
+    # 2267. 检查是否有合法括号字符串路径 (Check if There Is a Valid Parentheses String Path)
+    def hasValidPath(self, grid: List[List[str]]) -> bool:
+       @cache
+       def dfs(i: int, j: int, d: int) -> bool:
+          if i >= m or j >= n:
+             return False
+          d += 1 if grid[i][j] == '(' else -1
+          if d < 0:
+             return False
+          if i == m - 1 and j == n - 1:
+             return d == 0
+          if d > m - i - 1 + n - j - 1:
+             return False
+          return dfs(i + 1, j, d) or dfs(i, j + 1, d)
+       m = len(grid)
+       n = len(grid[0])
+       return dfs(0, 0, 0)
 
 
 
