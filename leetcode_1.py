@@ -4975,6 +4975,10 @@ class leetcode_1 :
              res = min(res, dfs(i + 1, j ^ 1) + (j ^ 1))
           return res
        return dfs(0, 0)
+    
+    # LCP 06. 拿硬币
+    def minCount(self, coins: List[int]) -> int:
+        return sum((x + 1) // 2 for x in coins)
 
 
 
