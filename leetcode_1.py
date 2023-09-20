@@ -5101,6 +5101,8 @@ class leetcode_1 :
           return dfs(i + 1, j, d) or dfs(i, j + 1, d)
        m = len(grid)
        n = len(grid[0])
+       if ((n + m - 1) & 1) == 1 or grid[0][0] == ')' or grid[m - 1][n - 1] == '(':
+          return False
        return dfs(0, 0, 0)
 
 
