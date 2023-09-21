@@ -5820,26 +5820,19 @@ public class Leetcode_6 {
 
     public int minSumOfLengths(int[] arr, int target) {
         this.n1477 = arr.length;
-        List<int[]> list = new ArrayList<>();
         int i = 0;
         int j = 0;
         int sum = 0;
+        this.map1477 = new HashMap<>();
         while (j < n1477) {
             sum += arr[j];
             while (sum > target) {
                 sum -= arr[i++];
             }
             if (sum == target) {
-                list.add(new int[] { i, j });
+                map1477.computeIfAbsent(i, k -> new ArrayList<>()).add(new int[] { i, j });
             }
             ++j;
-        }
-        if (list.size() <= 1) {
-            return -1;
-        }
-        this.map1477 = new HashMap<>();
-        for (int[] item : list) {
-            map1477.computeIfAbsent(item[0], k -> new ArrayList<>()).add(item);
         }
         this.memo1477 = new int[n1477][2];
         for (int k = 0; k < n1477; ++k) {
