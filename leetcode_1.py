@@ -5104,6 +5104,49 @@ class leetcode_1 :
        if ((n + m - 1) & 1) == 1 or grid[0][0] == ')' or grid[m - 1][n - 1] == '(':
           return False
        return dfs(0, 0, 0)
+ 
+    # 2603. 收集树中金币 (Collect Coins in a Tree)
+    def collectTheCoins(self, coins: List[int], edges: List[List[int]]) -> int:
+       n = len(coins)
+       deg = [0] * n
+       g = [[] * n for _ in range(n)]
+       for a, b in edges:
+          g[a].append(b)
+          g[b].append(a)
+          deg[a] += 1
+          deg[b] += 1
+       q = []
+       for i in range(n):
+          if coins[i] == 0 and deg[i] == 1:
+             q.append(i)
+       left = n
+       while q:
+          left -= 1
+          x = q.pop(0)
+          deg[x] = 0
+          for y in g[x]:
+             deg[y] -= 1
+             if deg[y] == 1 and coins[y] == 0:
+                q.append(y)
+       for i in range(n):
+          if coins[i] == 1 and deg[i] == 1:
+             q.append(i)
+       cnt = 2
+       while q and cnt > 0:
+          cnt -= 1
+          size = len(q)
+          for _ in range(size):
+             left -= 1
+             x = q.pop(0)
+             deg[x] = 0
+             for y in g[x]:
+                deg[y] -= 1
+                if deg[y] == 1:
+                   q.append(y)
+       return max(0, (left - 1) * 2)
+
+          
+       
 
 
 
