@@ -5187,6 +5187,41 @@ class leetcode_1 :
              j += 1
           return False
        return dfs(n)
+    
+    # 1477. 找两个和为目标值且不重叠的子数组 (Find Two Non-overlapping Sub-arrays Each With Target Sum)
+    def minSumOfLengths(self, arr: List[int], target: int) -> int:
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return 0 if j == 2 else inf
+          if j == 2:
+             return 0
+          res = dfs(i + 1, j)
+          for [x, y] in g[i]:
+             res = min(res, dfs(y + 1, j + 1) + y - x + 1)
+          return res
+       _list = []
+       n = len(arr)
+       i = 0
+       j = 0
+       s = 0
+       while j < n:
+          s += arr[j]
+          while s > target:
+             s -= arr[i]
+             i += 1
+          if s == target:
+             _list.append([i, j])
+          j += 1
+       if len(_list) <= 1:
+          return -1
+       g = [[] for _ in range(n)]
+       for i, j in _list:
+          g[i].append([i, j])
+       res = dfs(0, 0)
+       return res if dfs(0, 0) < inf else -1
+       
+       
 
 
 
