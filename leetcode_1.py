@@ -5171,8 +5171,22 @@ class leetcode_1 :
           res += cnt1 * cnt4
           res += cnt2 * cnt3
        return res
-          
-       
+    
+    # 1510. 石子游戏 IV (Stone Game IV)
+    def winnerSquareGame(self, n: int) -> bool:
+       @cache
+       def dfs(i: int) -> bool:
+          if i == 0:
+             return False
+          if i == 1:
+             return True
+          j = 1
+          while j * j <= i:
+             if not dfs(i - j * j):
+                return True
+             j += 1
+          return False
+       return dfs(n)
 
 
 
