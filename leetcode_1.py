@@ -5144,7 +5144,33 @@ class leetcode_1 :
                 if deg[y] == 1:
                    q.append(y)
        return max(0, (left - 1) * 2)
-
+    
+    # 1395. 统计作战单位数 (Count Number of Teams)
+    def numTeams(self, rating: List[int]) -> int:
+       n = len(rating)
+       res = 0
+       for i in range(1, n - 1):
+          cnt1 = 0
+          cnt2 = 0
+          j = i - 1
+          while j >= 0:
+             if rating[j] < rating[i]:
+                cnt1 += 1
+             elif rating[j] > rating[i]:
+                cnt2 += 1
+             j -= 1
+          cnt3 = 0
+          cnt4 = 0
+          j = i + 1
+          while j < n:
+             if rating[j] < rating[i]:
+                cnt3 += 1
+             elif rating[j] > rating[i]:
+                cnt4 += 1
+             j += 1
+          res += cnt1 * cnt4
+          res += cnt2 * cnt3
+       return res
           
        
 
