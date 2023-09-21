@@ -5814,13 +5814,17 @@ public class Leetcode_6 {
 
     // 1477. 找两个和为目标值且不重叠的子数组 (Find Two Non-overlapping Sub-arrays Each With Target
     // Sum)
+    private Map<Integer, List<int[]>> map1477;
+    private int[][] memo1477;
+    private int n1477;
+
     public int minSumOfLengths(int[] arr, int target) {
-        int n = arr.length;
+        this.n1477 = arr.length;
         List<int[]> list = new ArrayList<>();
         int i = 0;
         int j = 0;
         int sum = 0;
-        while (j < n) {
+        while (j < n1477) {
             sum += arr[j];
             while (sum > target) {
                 sum -= arr[i++];
@@ -5830,36 +5834,36 @@ public class Leetcode_6 {
             }
             ++j;
         }
-        Collections.sort(list, new Comparator<int[]>() {
-
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return Integer.compare(o1[1] - o1[0], o2[1] - o2[0]);
-            }
-
-        });
-
-        int res = Integer.MAX_VALUE;
-        i = 0;
-        while (i < list.size()) {
-            int l1 = list.get(i)[0];
-            int r1 = list.get(i)[1];
-            if ((r1 - l1 + 1) * 2 >= res) {
-                break;
-            }
-            j = i + 1;
-            while (j < list.size()) {
-                int l2 = list.get(j)[0];
-                int r2 = list.get(j)[1];
-                if (l2 > r1 || r2 < l1) {
-                    res = Math.min(res, r2 - l2 + 1 + r1 - l1 + 1);
-                    break;
-                }
-                ++j;
-            }
-            ++i;
+        if (list.size() <= 1) {
+            return -1;
         }
-        return res == Integer.MAX_VALUE ? -1 : res;
+        this.map1477 = new HashMap<>();
+        for (int[] item : list) {
+            map1477.computeIfAbsent(item[0], k -> new ArrayList<>()).add(item);
+        }
+        this.memo1477 = new int[n1477][2];
+        for (int k = 0; k < n1477; ++k) {
+            Arrays.fill(memo1477[k], -1);
+        }
+        int res = dfs1477(0, 0);
+        return res <= n1477 ? res : -1;
+    }
+
+    private int dfs1477(int i, int j) {
+        if (i == n1477) {
+            return j == 2 ? 0 : n1477 + 1;
+        }
+        if (j == 2) {
+            return 0;
+        }
+        if (memo1477[i][j] != -1) {
+            return memo1477[i][j];
+        }
+        int res = dfs1477(i + 1, j);
+        for (int[] item : map1477.getOrDefault(i, new ArrayList<>())) {
+            res = Math.min(res, dfs1477(item[1] + 1, j + 1) + item[1] - item[0] + 1);
+        }
+        return memo1477[i][j] = res;
     }
 
     // 1372. 二叉树中的最长交错路径 (Longest ZigZag Path in a Binary Tree) --先序遍历
