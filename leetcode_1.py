@@ -5192,10 +5192,10 @@ class leetcode_1 :
     def minSumOfLengths(self, arr: List[int], target: int) -> int:
        @cache
        def dfs(i: int, j: int) -> int:
-          if i == n:
-             return 0 if j == 2 else inf
           if j == 2:
              return 0
+          if i == n:
+             return inf
           res = dfs(i + 1, j)
           for [x, y] in g[i]:
              res = min(res, dfs(y + 1, j + 1) + y - x + 1)

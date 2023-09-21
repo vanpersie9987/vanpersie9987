@@ -5850,11 +5850,11 @@ public class Leetcode_6 {
     }
 
     private int dfs1477(int i, int j) {
-        if (i == n1477) {
-            return j == 2 ? 0 : n1477 + 1;
-        }
         if (j == 2) {
             return 0;
+        }
+        if (i == n1477) {
+            return n1477 + 1;
         }
         if (memo1477[i][j] != -1) {
             return memo1477[i][j];
