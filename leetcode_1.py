@@ -5200,8 +5200,9 @@ class leetcode_1 :
           for [x, y] in g[i]:
              res = min(res, dfs(y + 1, j + 1) + y - x + 1)
           return res
-       _list = []
+       
        n = len(arr)
+       g = [[] for _ in range(n)]
        i = 0
        j = 0
        s = 0
@@ -5211,13 +5212,8 @@ class leetcode_1 :
              s -= arr[i]
              i += 1
           if s == target:
-             _list.append([i, j])
+             g[i].append([i, j])
           j += 1
-       if len(_list) <= 1:
-          return -1
-       g = [[] for _ in range(n)]
-       for i, j in _list:
-          g[i].append([i, j])
        res = dfs(0, 0)
        return res if dfs(0, 0) < inf else -1
        
