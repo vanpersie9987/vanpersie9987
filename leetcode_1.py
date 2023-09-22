@@ -5215,7 +5215,7 @@ class leetcode_1 :
              g[i].append([i, j])
           j += 1
        res = dfs(0, 0)
-       return res if dfs(0, 0) < inf else -1
+       return res if res < inf else -1
     
     # 2591. 将钱分给最多的儿童 (Distribute Money to Maximum Children)
     def distMoney(self, money: int, children: int) -> int:
