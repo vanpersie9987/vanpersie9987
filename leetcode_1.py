@@ -5197,7 +5197,7 @@ class leetcode_1 :
           if i == n:
              return inf
           res = dfs(i + 1, j)
-          for [x, y] in g[i]:
+          for x, y in g[i]:
              res = min(res, dfs(y + 1, j + 1) + y - x + 1)
           return res
        
