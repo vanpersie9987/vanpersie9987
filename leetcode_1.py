@@ -5287,4 +5287,25 @@ class leetcode_1 :
              return False
           self.locked[num] = user
           return True
+
+    # 1443. 收集树上所有苹果的最少时间 (Minimum Time to Collect All Apples in a Tree)
+    def minTime(self, n: int, edges: List[List[int]], hasApple: List[bool]) -> int:
+       def dfs(x: int, fa: int) -> bool:
+          f = hasApple[x]
+          for y in g[x]:
+             if y != fa:
+                if dfs(y, x):
+                   nonlocal res
+                   res += 2
+                   f = True
+          return f
+       res = 0
+       g = [[] for _ in range(n)]
+       for u, v in edges:
+          g[u].append(v)
+          g[v].append(u)
+       dfs(0, -1)
+       return res
+       
+       
        
