@@ -1056,6 +1056,40 @@ public class LeetCode_4 {
 
     }
 
+    // 435. 无重叠区间 (Non-overlapping Intervals)
+    private Map<Integer, List<Integer>> g435;
+    private int min435;
+    private int max435;
+    private Map<Integer, Integer> memo435;
+
+    public int eraseOverlapIntervals2(int[][] intervals) {
+        this.g435 = new HashMap<>();
+        this.min435 = Integer.MAX_VALUE;
+        this.max435 = Integer.MIN_VALUE;
+        for (int[] i : intervals) {
+            min435 = Math.min(min435, i[0]);
+            max435 = Math.max(max435, i[1]);
+            g435.computeIfAbsent(i[0], k -> new ArrayList<>()).add(i[1]);
+        }
+        this.memo435 = new HashMap<>();
+        return intervals.length - dfs435(min435);
+    }
+
+    private int dfs435(int i) {
+        if (i == max435) {
+            return 0;
+        }
+        if (memo435.get(i) != null) {
+            return memo435.get(i);
+        }
+        int res = dfs435(i + 1);
+        for (int y : g435.getOrDefault(i, new ArrayList<>())) {
+            res = Math.max(res, dfs435(y) + 1);
+        }
+        memo435.put(i, res);
+        return res;
+    }
+
     // 1775. 通过最少操作次数使数组的和相等 (Equal Sum Arrays With Minimum Number of Operations)
     public int minOperations(int[] nums1, int[] nums2) {
         int n1 = nums1.length;

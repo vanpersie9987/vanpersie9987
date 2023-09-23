@@ -5306,6 +5306,29 @@ class leetcode_1 :
           g[v].append(u)
        dfs(0, -1)
        return res
+    
+    # 435. 无重叠区间 (Non-overlapping Intervals)
+    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+       @cache
+       def dfs(i: int) -> int:
+          if i == max_val:
+             return 0
+          res = dfs(i + 1)
+          for y in dic[i]:
+             res = max(res, dfs(y) + 1)
+          return res
+          
+       dic = collections.defaultdict(list)
+       min_val = inf
+       max_val = -inf
+       for a, b in intervals:
+          min_val = min(a, min_val)
+          max_val = max(b, max_val)
+          dic[a].append(b)
+       return len(intervals) - dfs(min_val)
+          
+
+
        
        
        
