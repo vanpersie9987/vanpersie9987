@@ -5330,7 +5330,7 @@ class leetcode_1 :
     # 2580. 统计将重叠区间合并成组的方案数 (Count Ways to Group Overlapping Ranges)
     def countWays(self, ranges: List[List[int]]) -> int:
        MOD = 10 ** 9 + 7
-       k = 0
+       res = 1
        ranges.sort()
        n = len(ranges)
        i = 0
@@ -5340,9 +5340,10 @@ class leetcode_1 :
           while j < n and ranges[j][0] <= right:
              right = max(right, ranges[j][1])
              j += 1
-          k += 1
+          res <<= 1
+          res %= MOD
           i = j
-       return pow(2, k, MOD)
+       return res
           
 
 
