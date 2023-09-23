@@ -5344,6 +5344,30 @@ class leetcode_1 :
           res %= MOD
           i = j
        return res
+    
+    # 1031. 两个非重叠子数组的最大和 (Maximum Sum of Two Non-Overlapping Subarrays)
+    def maxSumTwoNoOverlap(self, nums: List[int], firstLen: int, secondLen: int) -> int:
+       def check(nums: List[int], n1: int, n2: int) -> int:
+          n = len(nums)
+          res = 0
+          sum1 = 0
+          max_sum1 = 0
+          sum2 = 0
+          for i in range(n1):
+             sum1 += nums[i]
+          max_sum1 = sum1
+          for i in range(n1, n1 + n2):
+             sum2 += nums[i]
+          res = sum1 + sum2
+          for i in range(n1 + n2, n):
+             sum2 += nums[i]
+             sum2 -= nums[i - n2]
+             sum1 += nums[i - n2]
+             sum1 -= nums[i - n1 - n2]
+             max_sum1 = max(max_sum1, sum1)
+             res = max(res, max_sum1 + sum2)
+          return res
+       return max(check(nums, firstLen, secondLen), check(nums, secondLen, firstLen))
           
 
 
