@@ -5228,3 +5228,57 @@ class leetcode_1 :
         if children == 0 and money or children == 1 and money == 3:
             res -= 1
         return res
+    
+    # 1993. 树上的操作 (Operations on Tree)
+    class LockingTree:
+
+       def __init__(self, parent: List[int]):
+          self.n = len(parent)
+          self.g = [[] for _ in range(self.n)]
+          for i in range(1, self.n):
+             self.g[parent[i]].append(i)
+          self.locked = [0] * self.n
+
+       def lock(self, num: int, user: int) -> bool:
+          if self.locked[num]:
+             return False
+          self.locked[num] = user
+          return True
+
+
+       def unlock(self, num: int, user: int) -> bool:
+          if self.locked[num] != user:
+             return False
+          self.locked[num] = 0
+          return True
+
+
+       def upgrade(self, num: int, user: int) -> bool:
+          def check_ancestor_locked(x: int, num: int) -> bool:
+             if x == num:
+                return True
+             if self.locked[x]:
+                return False
+             for y in self.g[x]:
+                if check_ancestor_locked(y, num):
+                   return True
+             return False
+          def dfs(x: int) -> bool:
+             res = False
+             if self.locked[x]:
+                self.locked[x] = 0
+                res = True
+             for y in self.g[x]:
+                if dfs(y):
+                   res = True
+             return res
+
+          if self.locked[num]:
+             return False
+          if not check_ancestor_locked(0, num):
+             return False
+          if not dfs(num):
+             return False
+          self.locked[num] = user
+          return True
+       
