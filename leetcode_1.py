@@ -5238,6 +5238,7 @@ class leetcode_1 :
           for i in range(1, self.n):
              self.g[parent[i]].append(i)
           self.locked = [0] * self.n
+          self.parent = parent
 
        def lock(self, num: int, user: int) -> bool:
           if self.locked[num]:
@@ -5275,8 +5276,13 @@ class leetcode_1 :
 
           if self.locked[num]:
              return False
-          if not check_ancestor_locked(0, num):
-             return False
+          x = num
+          while x != -1:
+             if self.locked[x]:
+                return False
+             x = self.parent[x]
+         #  if not check_ancestor_locked(0, num):
+         #     return False
           if not dfs(num):
              return False
           self.locked[num] = user

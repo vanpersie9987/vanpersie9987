@@ -97,6 +97,7 @@ public class Leetcode_7 {
         private int n;
         private List<Integer>[] g;
         private int[] lockStatus;
+        private int[] parent;
 
         public LockingTree(int[] parent) {
             this.n = parent.length;
@@ -111,6 +112,7 @@ public class Leetcode_7 {
                 }
                 lockStatus[i] = -1;
             }
+            this.parent = parent;
         }
 
         public boolean lock(int num, int user) {
@@ -134,8 +136,15 @@ public class Leetcode_7 {
                 return false;
             }
             // num的祖先节点是否都未上锁
-            if (!dfs(0, num)) {
-                return false;
+            // if (!dfs(0, num)) {
+            //     return false;
+            // }
+            int x = num;
+            while (x != -1) {
+                if (lockStatus[x] != 0) {
+                    return false;
+                }
+                x = parent[x];
             }
             // num是否至少有一个上锁的子孙节点，并将所有上锁节点解锁
             if (dfs2(num)) {
@@ -146,20 +155,20 @@ public class Leetcode_7 {
 
         }
 
-        private boolean dfs(int x, int num) {
-            if (lockStatus[x] != -1) {
-                return false;
-            }
-            if (x == num) {
-                return true;
-            }
-            for (int y : g[x]) {
-                if (dfs(y, num)) {
-                    return true;
-                }
-            }
-            return false;
-        }
+        // private boolean dfs(int x, int num) {
+        //     if (lockStatus[x] != -1) {
+        //         return false;
+        //     }
+        //     if (x == num) {
+        //         return true;
+        //     }
+        //     for (int y : g[x]) {
+        //         if (dfs(y, num)) {
+        //             return true;
+        //         }
+        //     }
+        //     return false;
+        // }
 
         private boolean dfs2(int x) {
             boolean flag = false;
