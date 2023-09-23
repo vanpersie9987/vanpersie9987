@@ -5731,11 +5731,10 @@ public class Leetcode_6 {
         boolean b = hasApple1443.get(x);
         for (int y : graph1443.getOrDefault(x, new ArrayList<>())) {
             if (y != fa) {
-                boolean has = dfs1443(y, x);
-                if (has) {
+                if (dfs1443(y, x)) {
                     res1443 += 2;
+                    b = true;
                 }
-                b = b || has;
             }
         }
         return b;
