@@ -5326,6 +5326,28 @@ class leetcode_1 :
           max_val = max(b, max_val)
           dic[a].append(b)
        return len(intervals) - dfs(min_val)
+    
+    # 2580. 统计将重叠区间合并成组的方案数 (Count Ways to Group Overlapping Ranges)
+    def countWays(self, ranges: List[List[int]]) -> int:
+       MOD = 10 ** 9 + 7
+       k = 0
+       ranges.sort()
+       n = len(ranges)
+       i = 0
+       while i < n:
+          right = ranges[i][1]
+          j = i + 1
+          while j < n and ranges[j][0] <= right:
+             right = max(right, ranges[j][1])
+             j += 1
+          k += 1
+          i = j
+       return pow(2, k, MOD)
+          
+
+
+    
+    
           
 
 
