@@ -5382,7 +5382,7 @@ class leetcode_1 :
        pre = [0] * (n + 1)
        for i, x in enumerate(nums):
           pre[i + 1] = pre[i] + x
-       left = [[-1, -1]] * n
+       left = [[0] * 2 for _ in range(n)]
        s = 0
        for i in range(k):
           s += nums[i]
@@ -5394,7 +5394,7 @@ class leetcode_1 :
              left[i] = [s, i - k + 1]
           else:
              left[i] = left[i - 1]
-       right = [[-1, -1]] * n
+       right = [[0] * 2 for _ in range(n)]
        s = 0
        for i in range(n - 1, n - k - 1, -1):
           s += nums[i]
