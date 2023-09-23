@@ -5368,10 +5368,58 @@ class leetcode_1 :
              res = max(res, max_sum1 + sum2)
           return res
        return max(check(nums, firstLen, secondLen), check(nums, secondLen, firstLen))
+    
+    # 689. 三个无重叠子数组的最大和 (Maximum Sum of 3 Non-Overlapping Subarrays)
+    def maxSumOfThreeSubarrays(self, nums: List[int], k: int) -> List[int]:
+       def check(nums1: List[int], nums2: List[int]) -> bool:
+          for a, b in zip(nums1, nums2):
+             if a != b:
+                if b < a:
+                   return True
+                return False
+          return False
+       n = len(nums)
+       pre = [0] * (n + 1)
+       for i, x in enumerate(nums):
+          pre[i + 1] = pre[i] + x
+       left = [[-1, -1]] * n
+       s = 0
+       for i in range(k):
+          s += nums[i]
+       left[k - 1] = [s, 0]
+       for i in range(k, n):
+          s += nums[i]
+          s -= nums[i - k]
+          if s > left[i - 1][0]:
+             left[i] = [s, i - k + 1]
+          else:
+             left[i] = left[i - 1]
+       right = [[-1, -1]] * n
+       s = 0
+       for i in range(n - 1, n - k - 1, -1):
+          s += nums[i]
+       right[n - k] = [s, n - k]
+       for i in range(n - k - 1, -1, -1):
+          s += nums[i]
+          s -= nums[i + k]
+          if s >= right[i + 1][0]:
+             right[i] = [s, i]
+          else:
+             right[i] = right[i + 1]
+       max_sum = 0
+       res = [n, n, n]
+       for i in range(k, n - k * 2 + 1):
+          cur_sum = left[i - 1][0] + pre[i + k] - pre[i] + right[i + k][0]
+          if cur_sum > max_sum:
+             res = [left[i - 1][1], i, right[i + k][1]]
+             max_sum = cur_sum
+          elif cur_sum == max_sum:
+             if check(res, [left[i - 1][1], i, right[i + k][1]]):
+                res = left[i - 1][1], i, right[i + k][1]
+       return res
           
 
-
-    
+          
     
           
 
