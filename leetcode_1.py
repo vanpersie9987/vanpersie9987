@@ -5511,6 +5511,34 @@ class leetcode_1 :
        s = ""
        dfs(root)
        return res
+    
+   # 1373. 二叉搜索子树的最大键值和 (Maximum Sum BST in Binary Tree)
+    def maxSumBST(self, root: Optional[TreeNode]) -> int:
+       class TreeNode:
+          def __init__(self, val=0, left=None, right=None):
+             self.val = val
+             self.left = left
+             self.right = right
+       def dfs(root: Optional[TreeNode]) -> [int, int, int]:
+          nonlocal res
+          if root is None:
+             return [None, None, 0]
+          left = dfs(root.left)
+          right = dfs(root.right)
+          if left[1] is not None and left[1] >= root.val or right[0] is not None and right[0] <= root.val:
+             return [inf, -inf, -inf]
+          res = max(res, left[2] + right[2] + root.val)
+          min_val = root.val
+          max_val = root.val
+          sum_val = left[2] + right[2] + root.val
+          if left[0] is not None:
+             min_val = min(min_val, left[0])
+          if right[1] is not None:
+             max_val = max(max_val, right[1])
+          return [min_val, max_val, sum_val]
+       res = 0
+       dfs(root)
+       return res
 
 
 
