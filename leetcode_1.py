@@ -5486,6 +5486,32 @@ class leetcode_1 :
        for i in range(n):
           res = max(res, left[i] + right[i + 1])
        return res
+    
+    # 257. 二叉树的所有路径 (Binary Tree Paths)
+    def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
+       class TreeNode:
+          def __init__(self, val=0, left=None, right=None):
+             self.val = val
+             self.left = left
+             self.right = right
+       def dfs(root: Optional[TreeNode]) -> None:
+          nonlocal s
+          if root.left is None and root.right is None:
+             res.append(s + str(root.val))
+             return
+          if root.left is not None:
+             s += str(root.val) + "->"
+             dfs(root.left)
+             s = s[:len(s) - len(str(root.val) + "->")]
+          if root.right is not None:
+             s += str(root.val) + "->"
+             dfs(root.right)
+             s = s[:len(s) - len(str(root.val) + "->")]
+       res = []
+       s = ""
+       dfs(root)
+       return res
+
 
 
           
