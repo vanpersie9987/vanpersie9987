@@ -5457,4 +5457,40 @@ class leetcode_1 :
     def maximumOddBinaryNumber(self, s: str) -> str:
        cnt1 = s.count('1')
        return '1' * (cnt1 - 1) + '0' * (len(s) - cnt1) + '1'
+    
+    # 100049. 美丽塔 I (Beautiful Towers I)
+    # 100048. 美丽塔 II (Beautiful Towers II)
+    def maximumSumOfHeights(self, maxHeights: List[int]) -> int:
+       n = len(maxHeights)
+       right = [0] * (n + 1)
+       st = [n]
+       sum_val = 0
+       for i in range(n - 1, -1, -1):
+          while len(st) > 1 and maxHeights[i] <= maxHeights[st[-1]]:
+             j = st.pop()
+             sum_val -= maxHeights[j] * (st[-1] - j)
+          sum_val += maxHeights[i] * (st[-1] - i)
+          right[i] = sum_val
+          st.append(i)
+       res = sum_val
+       left = [0] * n
+       st = [-1]
+       sum_val = 0
+       for i in range(n):
+          while len(st) > 1 and maxHeights[i] <= maxHeights[st[-1]]:
+             j = st.pop()
+             sum_val -= maxHeights[j] * (j - st[-1])
+          sum_val += maxHeights[i] * (i - st[-1])
+          left[i] = sum_val
+          st.append(i)
+       for i in range(n):
+          res = max(res, left[i] + right[i + 1])
+       return res
+
+
+          
+
+
+       
+       
 

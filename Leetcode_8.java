@@ -3701,7 +3701,6 @@ public class Leetcode_8 {
 
     // 100049. 美丽塔 I (Beautiful Towers I)
     // 100048. 美丽塔 II (Beautiful Towers II)
-    // maxHeights = [6,5,3,9,2,7]
     public long maximumSumOfHeights(List<Integer> maxHeights) {
         int n = maxHeights.size();
         Stack<Integer> stack = new Stack<>();
