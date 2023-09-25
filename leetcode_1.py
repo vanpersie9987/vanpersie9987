@@ -5573,3 +5573,39 @@ class leetcode_1 :
           pre_min = min(pre_min, pre)
           pre_max = max(pre_max, pre)
        return res
+    
+    # 1774. 最接近目标价格的甜点成本 (Closest Dessert Cost)
+    def closestCost(self, baseCosts: List[int], toppingCosts: List[int], target: int) -> int:
+       def dfs(i: int, j: int) -> None:
+          if i == m:
+             s.add(j)
+             return
+          for k in range(3):
+             dfs(i + 1, j + toppingCosts[i] * k)
+       s = set()
+       m = len(toppingCosts)
+       dfs(0, 0)
+       _list = list(s)
+       _list.sort()
+       diff = inf
+       res = inf
+       baseCosts.sort()
+       for base in baseCosts:
+          if base - target >= diff:
+             break
+          for top in _list:
+             _sum = base + top
+             if abs(_sum - target) < diff:
+                diff = abs(_sum - target)
+                res = _sum
+             elif abs(_sum - target) == diff and _sum < res:
+                res = _sum
+             if diff == 0:
+                return target
+       return res
+       
+
+             
+          
+       
+
