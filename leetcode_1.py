@@ -5539,12 +5539,29 @@ class leetcode_1 :
        res = 0
        dfs(root)
        return res
-
-
-
+    
+    # 1664. 生成平衡数组的方案数 (Ways to Make a Fair Array)
+    def waysToMakeFair(self, nums: List[int]) -> int:
+       n = len(nums)
+       even = sum(nums[i] for i in range(0, n, 2))
+       odd = sum(nums) - even
+       res = 0
+       curEven = 0
+       curOdd = 0
+       for i in range(n):
+          if i % 2 == 0:
+             if curEven + odd == curOdd + even - nums[i]:
+                res += 1
+             curEven += nums[i]
+             even -= nums[i]
+          else:
+             if curOdd + even == curEven + odd - nums[i]:
+                res += 1
+             curOdd += nums[i]
+             odd -= nums[i]
+       return res
           
-
+          
+             
 
        
-       
-
