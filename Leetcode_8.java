@@ -3701,9 +3701,41 @@ public class Leetcode_8 {
 
     // 100049. 美丽塔 I (Beautiful Towers I)
     // 100048. 美丽塔 II (Beautiful Towers II)
-    // public long maximumSumOfHeights(List<Integer> maxHeights) {
+    // maxHeights = [6,5,3,9,2,7]
+    public long maximumSumOfHeights(List<Integer> maxHeights) {
+        int n = maxHeights.size();
+        Stack<Integer> stack = new Stack<>();
+        long[] right = new long[n + 1];
+        long sum = 0L;
+        stack.push(n);
+        for (int i = n - 1; i >= 0; --i) {
+            while (stack.size() > 1 && maxHeights.get(i) <= maxHeights.get(stack.peek())) {
+                int j = stack.pop();
+                sum -= (long) (stack.peek() - j) * maxHeights.get(j);
+            }
+            sum += (long) (stack.peek() - i) * maxHeights.get(i);
+            right[i] = sum;
+            stack.push(i);
+        }
+        long res = sum;
+        sum = 0L;
+        stack.clear();
+        stack.push(-1);
+        long[] left = new long[n];
+        for (int i = 0; i < n; ++i) {
+            while (stack.size() > 1 && maxHeights.get(i) <= maxHeights.get(stack.peek())) {
+                int j = stack.pop();
+                sum -= (long) (j - stack.peek()) * maxHeights.get(j);
+            }
+            sum += (long) (i - stack.peek()) * maxHeights.get(i);
+            left[i] = sum;
+            stack.push(i);
+        }
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, left[i] + right[i + 1]);
+        }
+        return res;
 
-    // }
-
+    }
 
 }
