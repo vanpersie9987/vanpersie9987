@@ -5433,10 +5433,8 @@ class leetcode_1 :
        is_prime[1] = False
        for i in range(2, n + 1):
           if is_prime[i]:
-             j = i * i
-             while j < n + 1:
+             for j in range(i * i, n + 1, i):
                 is_prime[j] = False
-                j += i
        size = [0] * (n + 1)
        res = 0
        for i in range(2, n + 1):
@@ -5459,15 +5457,4 @@ class leetcode_1 :
     def maximumOddBinaryNumber(self, s: str) -> str:
        cnt1 = s.count('1')
        return '1' * (cnt1 - 1) + '0' * (len(s) - cnt1) + '1'
-       
 
-          
-
-          
-    
-          
-
-
-       
-       
-       
