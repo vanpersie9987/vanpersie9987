@@ -5560,8 +5560,16 @@ class leetcode_1 :
              curOdd += nums[i]
              odd -= nums[i]
        return res
-          
-          
-             
-
-       
+    
+    # 1749. 任意子数组和的绝对值的最大值 (Maximum Absolute Sum of Any Subarray)
+    def maxAbsoluteSum(self, nums: List[int]) -> int:
+       pre_min = 0
+       pre_max = 0
+       pre = 0
+       res = 0
+       for num in nums:
+          pre += num
+          res = max(res, abs(pre - pre_min), abs(pre - pre_max))
+          pre_min = min(pre_min, pre)
+          pre_max = max(pre_max, pre)
+       return res
