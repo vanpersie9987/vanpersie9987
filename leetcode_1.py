@@ -5417,6 +5417,50 @@ class leetcode_1 :
              if check(res, [left[i - 1][1], i, right[i + k][1]]):
                 res = left[i - 1][1], i, right[i + k][1]
        return res
+    
+    # 100047. 统计树中的合法路径数目 (Count Valid Paths in a Tree)
+    def countPaths(self, n: int, edges: List[List[int]]) -> int:
+       def dfs(x: int, fa: int) -> None:
+          nodes.append(x)
+          for y in g[x]:
+             if y != fa and not is_prime[y]:
+                dfs(y, x)
+       g = [[] for _ in range(n + 1)]
+       for u, v in edges:
+          g[u].append(v)
+          g[v].append(u)
+       is_prime = [True] * (n + 1)
+       is_prime[1] = False
+       for i in range(2, n + 1):
+          if is_prime[i]:
+             j = i * i
+             while j < n + 1:
+                is_prime[j] = False
+                j += i
+       size = [0] * (n + 1)
+       res = 0
+       for i in range(2, n + 1):
+          if is_prime[i]:
+             s = 0
+             for y in g[i]:
+                if is_prime[y]:
+                   continue
+                if size[y] == 0:
+                   nodes = []
+                   dfs(y, -1)
+                   for z in nodes:
+                      size[z] = len(nodes)
+                res += s * size[y]
+                s += size[y]
+             res += s
+       return res
+    
+    # 8048. 最大二进制奇数 (Maximum Odd Binary Number)
+    def maximumOddBinaryNumber(self, s: str) -> str:
+       cnt1 = s.count('1')
+       return '1' * (cnt1 - 1) + '0' * (len(s) - cnt1) + '1'
+       
+
           
 
           

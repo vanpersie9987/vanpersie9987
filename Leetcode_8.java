@@ -2801,7 +2801,8 @@ public class Leetcode_8 {
 
     }
 
-    // 7022. 限制条件下元素之间的最小绝对差 (Minimum Absolute Difference Between Elements With Constraint)
+    // 7022. 限制条件下元素之间的最小绝对差 (Minimum Absolute Difference Between Elements With
+    // Constraint)
     public int minAbsoluteDifference(List<Integer> nums, int x) {
         int n = nums.size();
         TreeSet<Integer> set = new TreeSet<>();
@@ -3554,11 +3555,11 @@ public class Leetcode_8 {
         return res;
 
     }
-    
+
     // 100031. 计算 K 置位下标对应元素的和 (Sum of Values at Indices With K Set Bits)
     public int sumIndicesWithKSetBits(List<Integer> nums, int k) {
         int res = 0;
-        for (int i = 0; i < nums.size();++i) {
+        for (int i = 0; i < nums.size(); ++i) {
             if (Integer.bitCount(i) == k) {
                 res += nums.get(i);
             }
@@ -3624,6 +3625,85 @@ public class Leetcode_8 {
 
     }
 
-    
+    // 8048. 最大二进制奇数 (Maximum Odd Binary Number)
+    public String maximumOddBinaryNumber(String s) {
+        int cnt1 = 0;
+        int n = s.length();
+        for (int c : s.toCharArray()) {
+            cnt1 += c - '0';
+        }
+        char[] res = new char[n];
+        Arrays.fill(res, '0');
+        res[n - 1] = '1';
+        Arrays.fill(res, 0, cnt1 - 1, '1');
+        return String.valueOf(res);
+
+    }
+
+    // 100047. 统计树中的合法路径数目 (Count Valid Paths in a Tree)
+    private List<Integer>[] g100047;
+    private boolean[] isPrime100047;
+    private int[] size100047;
+    private List<Integer> nodes100047;
+
+    public long countPaths(int n, int[][] edges) {
+        this.g100047 = new ArrayList[n + 1];
+        Arrays.setAll(g100047, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            int a = e[0];
+            int b = e[1];
+            g100047[a].add(b);
+            g100047[b].add(a);
+        }
+        this.isPrime100047 = new boolean[n + 1];
+        Arrays.fill(isPrime100047, true);
+        isPrime100047[1] = false;
+        for (int i = 2; i * i < n + 1; ++i) {
+            if (isPrime100047[i]) {
+                for (int j = i * i; j < n + 1; j += i) {
+                    isPrime100047[j] = false;
+                }
+            }
+        }
+        size100047 = new int[n + 1];
+        long res = 0L;
+        for (int i = 2; i <= n; ++i) {
+            if (isPrime100047[i]) {
+                long s = 0L;
+                for (int y : g100047[i]) {
+                    if (isPrime100047[y]) {
+                        continue;
+                    }
+                    if (size100047[y] == 0) {
+                        nodes100047 = new ArrayList<>();
+                        dfs100047(y, -1);
+                        for (int z : nodes100047) {
+                            size100047[z] = nodes100047.size();
+                        }
+                    }
+                    res += s * size100047[y];
+                    s += size100047[y];
+                }
+                res += s;
+            }
+        }
+        return res;
+    }
+
+    private void dfs100047(int x, int fa) {
+        nodes100047.add(x);
+        for (int y : g100047[x]) {
+            if (y != fa && !isPrime100047[y]) {
+                dfs100047(y, x);
+            }
+        }
+    }
+
+    // 100049. 美丽塔 I (Beautiful Towers I)
+    // 100048. 美丽塔 II (Beautiful Towers II)
+    // public long maximumSumOfHeights(List<Integer> maxHeights) {
+
+    // }
+
 
 }
