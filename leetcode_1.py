@@ -5651,6 +5651,20 @@ class leetcode_1 :
           else:
              y ^= num
        return [x, y]
+    
+    # 268. 丢失的数字 (Missing Number)
+    def missingNumber(self, nums: List[int]) -> int:
+       s = sum(nums)
+       n = len(nums)
+       return n * (n + 1) // 2 - s
+
+    # 268. 丢失的数字 (Missing Number)
+    def missingNumber(self, nums: List[int]) -> int:
+       res = len(nums)
+       for i, x in enumerate(nums):
+          res ^= i ^ x
+       return res
+       
              
        
              
