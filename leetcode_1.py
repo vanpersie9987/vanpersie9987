@@ -5626,6 +5626,17 @@ class leetcode_1 :
        if bamboo_len == 3:
            return 2
        return dfs(bamboo_len) % MOD
+    
+    # 258. 各位相加 (Add Digits)
+    def addDigits(self, num: int) -> int:
+       while len(str(num)) > 1:
+          s = 0
+          while num:
+             s += num % 10
+             num //= 10
+          num = s
+       return num
+             
        
              
           
