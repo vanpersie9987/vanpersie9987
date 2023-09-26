@@ -5611,6 +5611,7 @@ class leetcode_1 :
           return time + 1
        return n * 2 - (time + 1)
     
+    # 343. 整数拆分 (Integer Break)
     # LCR 132. 砍竹子 II
     def cuttingBamboo(self, bamboo_len: int) -> int:
        MOD = 10 ** 9 + 7
