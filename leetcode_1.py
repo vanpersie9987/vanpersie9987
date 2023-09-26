@@ -5603,6 +5603,16 @@ class leetcode_1 :
              if diff == 0:
                 return target
        return res
+    
+    # 2582. 递枕头 (Pass the Pillow)
+    def passThePillow(self, n: int, time: int) -> int:
+       time %= (n - 1) * 2
+       if time <= n - 1:
+          return time + 1
+       return n * 2 - (time + 1)
+
+
+          
        
 
              
