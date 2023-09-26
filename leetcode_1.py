@@ -5636,6 +5636,21 @@ class leetcode_1 :
              num //= 10
           num = s
        return num
+    
+    # 260. 只出现一次的数字 III (Single Number III)
+    def singleNumber(self, nums: List[int]) -> List[int]:
+       xor = 0
+       for num in nums:
+          xor ^= num
+       bit = xor & -xor
+       x = 0
+       y = 0
+       for num in nums:
+          if num & bit:
+             x ^= num
+          else:
+             y ^= num
+       return [x, y]
              
        
              
