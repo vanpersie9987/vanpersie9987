@@ -3643,7 +3643,6 @@ public class Leetcode_8 {
     // 100047. 统计树中的合法路径数目 (Count Valid Paths in a Tree)
     private List<Integer>[] g100047;
     private boolean[] isPrime100047;
-    private int[] size100047;
     private List<Integer> nodes100047;
 
     public long countPaths(int n, int[][] edges) {
@@ -3665,7 +3664,7 @@ public class Leetcode_8 {
                 }
             }
         }
-        size100047 = new int[n + 1];
+        int[] size = new int[n + 1];
         long res = 0L;
         for (int i = 2; i <= n; ++i) {
             if (isPrime100047[i]) {
@@ -3674,15 +3673,15 @@ public class Leetcode_8 {
                     if (isPrime100047[y]) {
                         continue;
                     }
-                    if (size100047[y] == 0) {
+                    if (size[y] == 0) {
                         nodes100047 = new ArrayList<>();
                         dfs100047(y, -1);
                         for (int z : nodes100047) {
-                            size100047[z] = nodes100047.size();
+                            size[z] = nodes100047.size();
                         }
                     }
-                    res += s * size100047[y];
-                    s += size100047[y];
+                    res += s * size[y];
+                    s += size[y];
                 }
                 res += s;
             }
