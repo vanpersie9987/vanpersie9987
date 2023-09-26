@@ -5610,6 +5610,24 @@ class leetcode_1 :
        if time <= n - 1:
           return time + 1
        return n * 2 - (time + 1)
+    
+    # LCR 132. 砍竹子 II
+    def cuttingBamboo(self, bamboo_len: int) -> int:
+       MOD = 10 ** 9 + 7
+       @cache
+       def dfs(i: int) -> int:
+          if i <= 2:
+             return 1
+          res = i
+          for j in range(1, i):
+             res = max(res, dfs(i - j) * j)
+          return res
+       if bamboo_len == 3:
+           return 2
+       return dfs(bamboo_len) % MOD
+       
+             
+          
 
 
           
