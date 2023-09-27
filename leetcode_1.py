@@ -5746,3 +5746,23 @@ class leetcode_1 :
        for i in range(min(len(_list), k)):
           res.append([_list[i][2], _list[i][3]])
        return res
+    
+    # 404. 左叶子之和 (Sum of Left Leaves)
+    def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
+       class TreeNode:
+          def __init__(self, val=0, left=None, right=None):
+             self.val = val
+             self.left = left
+             self.right = right
+       def dfs(root: Optional[TreeNode]) -> None:
+          if root is None:
+             return
+          if root and root.left and root.left.left is None and root.left.right is None:
+             nonlocal res
+             res += root.left.val
+          dfs(root.left)
+          dfs(root.right)
+       res = 0
+       dfs(root)
+       return res
+       
