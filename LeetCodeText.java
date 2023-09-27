@@ -4584,7 +4584,7 @@ public class LeetCodeText {
 
     }
 
-    // 1333. 餐厅过滤器
+    // 1333. 餐厅过滤器 (Filter Restaurants by Vegan-Friendly, Price and Distance)
     public List<Integer> filterRestaurants(int[][] restaurants, int veganFriendly, int maxPrice, int maxDistance) {
         for (int[] restaurant : restaurants) {
             if ((veganFriendly == 1 && restaurant[2] == 0) || restaurant[3] > maxPrice || restaurant[4] > maxDistance) {

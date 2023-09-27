@@ -5664,6 +5664,18 @@ class leetcode_1 :
        for i, x in enumerate(nums):
           res ^= i ^ x
        return res
+    
+    # 1333. 餐厅过滤器 (Filter Restaurants by Vegan-Friendly, Price and Distance)
+    def filterRestaurants(self, restaurants: List[List[int]], veganFriendly: int, maxPrice: int, maxDistance: int) -> List[int]:
+       restaurants.sort(key=lambda k: (-k[1], -k[0]))
+       res = []
+       for id, _, v, p, d in restaurants:
+          if (veganFriendly and v or not veganFriendly) and p <= maxPrice and d <= maxDistance:
+             res.append(id)
+       return res
+       
+       
+       
        
              
        
