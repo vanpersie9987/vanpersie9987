@@ -5702,6 +5702,30 @@ class leetcode_1 :
           if left[i] != 1 and right[i] != 1:
              res = min(res, n - left[i] - right[i] + 1)
        return res
+    
+    # 1639. 通过给定词典构造目标字符串的方案数 (Number of Ways to Form a Target String Given a Dictionary)
+    def numWays(self, words: List[str], target: str) -> int:
+       MOD = 10 ** 9 + 7
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == len(target):
+             return 1
+          if j == n:
+             return 0
+          res = dfs(i, j + 1) + cnts[j][ord(target[i]) - ord('a')] * dfs(i + 1, j + 1)
+          res %= MOD
+          return res
+       n = len(words[0])
+       if len(target) > n:
+          return 0
+       cnts = [[0] * 26 for _ in range(n)]
+       for w in words:
+          for i, c in enumerate(w):
+             cnts[i][ord(c) - ord('a')] += 1
+       return dfs(0, 0)
+       
+             
+       
           
           
           
