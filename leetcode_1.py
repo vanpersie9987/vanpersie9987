@@ -5798,6 +5798,7 @@ class leetcode_1 :
              cnt = dfs(y)
              cur *= cnt
              s += cnt
+          # 考虑根节点的情况
           if n - s - 1 != 0:
              cur *= n - s - 1
           nonlocal res, max_score
