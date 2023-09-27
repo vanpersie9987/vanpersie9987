@@ -2030,7 +2030,7 @@ class leetcode_1 :
           for j in range(0, 9):
              if cost[j] + i <= target:
                 s = str(j + 1) + dfs(cost[j] + i)
-                if not s.__contains__("0"):
+                if '0' not in s:
                    if len(s) > len(res) or len(s) == len(res) and s > res:
                       res = s
           return "0" if res == "" else res
@@ -2265,7 +2265,7 @@ class leetcode_1 :
           if i == n:
              return True
           for j in range(i, n):
-             if dict.__contains__(s[i:j + 1]) and dfs(j + 1):
+             if s[i:j + 1] in dict and dfs(j + 1):
                 return True
           return False
        return dfs(0)
@@ -2819,7 +2819,7 @@ class leetcode_1 :
           for j in arr:
              if j * arr[0] > i:
                 break
-             if i % j == 0 and s.__contains__(i / j):
+             if i % j == 0 and (i / j in s):
                 res += dfs(j) * dfs(i / j)
                 res %= MOD
           return res
@@ -3098,11 +3098,11 @@ class leetcode_1 :
              if node == x:
                 return res
 
-             if node + a < len(vis) and not vis[node + a][0] and not s.__contains__(node + a):
+             if node + a < len(vis) and not vis[node + a][0] and (node + a not in s):
                 vis[node + a][0] = True
                 q.append([node + a, 0])
              
-             if leftStep == 0 and node - b >= 0 and not vis[node - b][1] and not s.__contains__(node - b):
+             if leftStep == 0 and node - b >= 0 and not vis[node - b][1] and (node - b not in s):
                 vis[node - b][1] = True
                 q.append([node - b, 1])
           res += 1
