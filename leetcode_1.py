@@ -5673,6 +5673,41 @@ class leetcode_1 :
           if (veganFriendly and v or not veganFriendly) and p <= maxPrice and d <= maxDistance:
              res.append(id)
        return res
+
+    # 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array)
+    def minimumMountainRemovals(self, nums: List[int]) -> int:
+       n = len(nums)
+       left = [0] * n
+       _list = []
+       for i, v in enumerate(nums):
+          if len(_list) == 0 or _list[-1] < v:
+             _list.append(v)
+             left[i] = len(_list)
+          else:
+             j = bisect.bisect_left(_list, v)
+             _list[j] = v
+             left[i] = j + 1
+       right = [0] * n
+       _list.clear()
+       for i in range(n - 1, -1, -1):
+          if len(_list) == 0 or _list[-1] < nums[i]:
+             _list.append(nums[i])
+             right[i] = len(_list)
+          else:
+             j = bisect.bisect_left(_list, nums[i])
+             _list[j] = nums[i]
+             right[i] = j + 1
+       res = n
+       for i in range(n):
+          if left[i] != 1 and right[i] != 1:
+             res = min(res, n - left[i] - right[i] + 1)
+       return res
+          
+          
+          
+          
+             
+
        
        
        
