@@ -5712,10 +5712,10 @@ class leetcode_1 :
              return 1
           if j == n:
              return 0
+          if len(target) - i > n - j:
+             return 0
           return (dfs(i, j + 1) + cnts[j][ord(target[i]) - ord('a')] * dfs(i + 1, j + 1)) % MOD
        n = len(words[0])
-       if len(target) > n:
-          return 0
        cnts = [[0] * 26 for _ in range(n)]
        for w in words:
           for i, c in enumerate(w):
