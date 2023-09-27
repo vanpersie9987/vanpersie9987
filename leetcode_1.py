@@ -5721,6 +5721,42 @@ class leetcode_1 :
           for i, c in enumerate(w):
              cnts[i][ord(c) - ord('a')] += 1
        return dfs(0, 0)
+    
+    # 2146. 价格范围内最高排名的 K 样物品 (K Highest Ranked Items Within a Price Range)
+    def highestRankedKItems(self, grid: List[List[int]], pricing: List[int], start: List[int], k: int) -> List[List[int]]:
+       m = len(grid)
+       n = len(grid[0])
+       _list = []
+       q = [[start[0], start[1], 0]]
+       dirs = [[0, -1], [1, 0], [-1, 0], [0, 1]]
+       while q:
+          [x, y, d] = q.pop(0)
+          if grid[x][y] == 0:
+             continue
+          if pricing[1] >= grid[x][y] >= pricing[0]:
+             _list.append([d, grid[x][y], x, y])
+          grid[x][y] = 0
+          for dx, dy in dirs:
+             nx = x + dx
+             ny = y + dy
+             if nx >= 0 and nx < m and ny >= 0 and ny < n and grid[nx][ny] != 0:
+                q.append([nx, ny, d + 1])
+       _list.sort(key=lambda o:(o[0], o[1], o[2], o[3]))
+       res = []
+       for i in range(min(len(_list), k)):
+          res.append([_list[i][2], _list[i][3]])
+       return res
+          
+
+                
+          
+          
+          
+
+
+
+
+       
        
              
        
