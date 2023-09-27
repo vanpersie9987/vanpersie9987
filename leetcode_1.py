@@ -5712,9 +5712,7 @@ class leetcode_1 :
              return 1
           if j == n:
              return 0
-          res = dfs(i, j + 1) + cnts[j][ord(target[i]) - ord('a')] * dfs(i + 1, j + 1)
-          res %= MOD
-          return res
+          return (dfs(i, j + 1) + cnts[j][ord(target[i]) - ord('a')] * dfs(i + 1, j + 1)) % MOD
        n = len(words[0])
        if len(target) > n:
           return 0
