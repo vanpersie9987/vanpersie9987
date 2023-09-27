@@ -1779,50 +1779,38 @@ public class Leetcode_6 {
     // 2049. 统计最高分的节点数目 (Count Nodes With the Highest Score)
     private int count2049;
     private long maxScore2049;
-    private Map<Integer, List<Integer>> graph2049;
+    private List<Integer>[] g;
     private int n2049;
 
     public int countHighestScoreNodes(int[] parents) {
-        Map<Integer, List<Integer>> graph = new HashMap<>();
-        for (int i = 0; i < parents.length; ++i) {
-            graph.computeIfAbsent(i, k -> new ArrayList<>()).add(parents[i]);
-            graph.computeIfAbsent(parents[i], k -> new ArrayList<>()).add(i);
+        this.n2049 = parents.length;
+        this.g = new ArrayList[n2049];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int i = 1; i < n2049; ++i) {
+            g[parents[i]].add(i);
         }
-        n2049 = parents.length;
-        graph2049 = graph;
-        dfs2049(0, -1);
+        dfs2049(0);
         return count2049;
     }
 
-    private int dfs2049(int x, int fa) {
-        if (graph2049.getOrDefault(x, new ArrayList<>()).size() == 1) {
-            if (n2049 - 1 > maxScore2049) {
-                maxScore2049 = n2049 - 1;
-                count2049 = 1;
-            } else if (n2049 - 1 == maxScore2049) {
-                ++count2049;
-            }
-            return 1;
+    private int dfs2049(int x) {
+        long cur = 1L;
+        int s = 0;
+        for (int y : g[x]) {
+            int cnt = dfs2049(y);
+            cur = cur * cnt;
+            s += cnt;
         }
-        long curScore = 1l;
-        int nodeCounts = 0;
-        for (int y : graph2049.getOrDefault(x, new ArrayList<>())) {
-            if (y != fa) {
-                int nodeCount = dfs2049(y, x);
-                curScore *= (long) nodeCount;
-                nodeCounts += nodeCount;
-            }
+        if (s + 1 != n2049) {
+            cur = cur * (n2049 - s - 1);
         }
-        if (nodeCounts + 1 != n2049) {
-            curScore *= (long) n2049 - nodeCounts - 1;
-        }
-        if (curScore > maxScore2049) {
-            maxScore2049 = curScore;
+        if (cur > maxScore2049) {
+            maxScore2049 = cur;
             count2049 = 1;
-        } else if (curScore == maxScore2049) {
+        } else if (cur == maxScore2049) {
             ++count2049;
         }
-        return nodeCounts + 1;
+        return s + 1;
     }
 
     // 2096. 从二叉树一个节点到另一个节点每一步的方向 (Step-By-Step Directions From a Binary Tree Node
