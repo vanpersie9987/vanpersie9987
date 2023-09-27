@@ -5788,6 +5788,36 @@ class leetcode_1 :
        dfs(0, -1, 0)
        reroot(0, -1)
        return res
+    
+    # 2049. 统计最高分的节点数目 (Count Nodes With the Highest Score)
+    def countHighestScoreNodes(self, parents: List[int]) -> int:
+       def dfs(x: int) -> int:
+          s = 0
+          cur = 1
+          for y in g[x]:
+             cnt = dfs(y)
+             cur *= cnt
+             s += cnt
+          if n - s - 1 != 0:
+             cur *= n - s - 1
+          nonlocal res, max_score
+          if cur > max_score:
+             max_score = cur
+             res = 1
+          elif cur == max_score:
+             res += 1
+          return s + 1
+       n = len(parents)
+       g = [[] for _ in range(n)]
+       for i in range(1, n):
+          g[parents[i]].append(i)
+       res = 0
+       max_score = 0
+       dfs(0)
+       return res
+
+
+       
 
 
        
