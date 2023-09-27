@@ -1779,15 +1779,15 @@ public class Leetcode_6 {
     // 2049. 统计最高分的节点数目 (Count Nodes With the Highest Score)
     private int count2049;
     private long maxScore2049;
-    private List<Integer>[] g;
+    private List<Integer>[] g2049;
     private int n2049;
 
     public int countHighestScoreNodes(int[] parents) {
         this.n2049 = parents.length;
-        this.g = new ArrayList[n2049];
-        Arrays.setAll(g, k -> new ArrayList<>());
+        this.g2049 = new ArrayList[n2049];
+        Arrays.setAll(g2049, k -> new ArrayList<>());
         for (int i = 1; i < n2049; ++i) {
-            g[parents[i]].add(i);
+            g2049[parents[i]].add(i);
         }
         dfs2049(0);
         return count2049;
@@ -1796,7 +1796,7 @@ public class Leetcode_6 {
     private int dfs2049(int x) {
         long cur = 1L;
         int s = 0;
-        for (int y : g[x]) {
+        for (int y : g2049[x]) {
             int cnt = dfs2049(y);
             cur = cur * cnt;
             s += cnt;
