@@ -5765,4 +5765,30 @@ class leetcode_1 :
        res = 0
        dfs(root)
        return res
+
+    # 834. 树中距离之和 (Sum of Distances in Tree)
+    def sumOfDistancesInTree(self, n: int, edges: List[List[int]]) -> List[int]:
+       def dfs(x: int, fa: int, d: int) -> None:
+          res[0] += d
+          for y in g[x]:
+             if y != fa:
+                dfs(y, x, d + 1)
+                size[x] += size[y]
+       def reroot(x: int, fa: int) -> None:
+          for y in g[x]:
+             if y != fa:
+                res[y] = res[x] + n - 2 * size[y]
+                reroot(y, x)
+       g = [[] for _ in range(n)]
+       for u, v in edges:
+          g[u].append(v)
+          g[v].append(u)
+       size = [1] * n
+       res = [0] * n
+       dfs(0, -1, 0)
+       reroot(0, -1)
+       return res
+
+
+       
        
