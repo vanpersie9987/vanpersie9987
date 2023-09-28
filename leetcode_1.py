@@ -5889,15 +5889,3 @@ class leetcode_1 :
                 down[j] = 0 if (i, j) in s else down[j] + 1
              res = max(res, min(min(left[i][j], right), min(up[i][j], down[j])))
        return res
-
-       
-       
-       
-       
-
-
-       
-
-
-       
-       
