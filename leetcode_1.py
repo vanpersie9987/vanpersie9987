@@ -5856,6 +5856,40 @@ class leetcode_1 :
                 q.append(x.right)
           res.append(_list)
        return res[::-1]
+    
+    # 764. 最大加号标志 (Largest Plus Sign)
+    def orderOfLargestPlusSign(self, n: int, mines: List[List[int]]) -> int:
+       left = [[0] * n for _ in range(n)]
+       up = [[0] * n for _ in range(n)]
+       s = set()
+       for x, y in mines:
+          s.add((x, y))
+       for i in range(n):
+          for j in range(n):
+             if j == 0:
+                left[i][j] = 1 if (i, j) not in s else 0
+             else:
+                left[i][j] = 0 if (i, j) in s else left[i][j - 1] + 1
+             if i == 0:
+                up[i][j] = 1 if (i, j) not in s else 0
+             else:
+                up[i][j] = 0 if (i, j) in s else up[i - 1][j] + 1
+       res = 0
+      #  right = [[0] * n for _ in range(n)]
+       down = [[0] * n for _ in range(n)]
+       for i in range(n - 1, -1, -1):
+          right = 0
+          for j in range(n - 1, -1, -1):
+             if j == n - 1:
+                right = 1 if (i, j) not in s else 0
+             else:
+                right = 0 if (i, j) in s else right + 1
+             if i == n - 1:
+                down[i][j] = 1 if (i, j) not in s else 0
+             else:
+                down[i][j] = 0 if (i, j) in s else down[i + 1][j] + 1
+             res = max(res, min(min(left[i][j], right), min(up[i][j], down[i][j])))
+       return res
 
        
        
