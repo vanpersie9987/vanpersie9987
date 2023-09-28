@@ -5875,8 +5875,7 @@ class leetcode_1 :
              else:
                 up[i][j] = 0 if (i, j) in s else up[i - 1][j] + 1
        res = 0
-      #  right = [[0] * n for _ in range(n)]
-       down = [[0] * n for _ in range(n)]
+       down = [0] * n
        for i in range(n - 1, -1, -1):
           right = 0
           for j in range(n - 1, -1, -1):
@@ -5885,10 +5884,10 @@ class leetcode_1 :
              else:
                 right = 0 if (i, j) in s else right + 1
              if i == n - 1:
-                down[i][j] = 1 if (i, j) not in s else 0
+                down[j] = 1 if (i, j) not in s else 0
              else:
-                down[i][j] = 0 if (i, j) in s else down[i + 1][j] + 1
-             res = max(res, min(min(left[i][j], right), min(up[i][j], down[i][j])))
+                down[j] = 0 if (i, j) in s else down[j] + 1
+             res = max(res, min(min(left[i][j], right), min(up[i][j], down[j])))
        return res
 
        
