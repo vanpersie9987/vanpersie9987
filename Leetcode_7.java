@@ -783,25 +783,31 @@ public class Leetcode_7 {
     // 2251. 花期内花的数目 (Number of Flowers in Full Bloom)
     public int[] fullBloomFlowers(int[][] flowers, int[] people) {
         int n = people.length;
-        TreeMap<Integer, Integer> diff = new TreeMap<>();
-        diff.put(0, 0);
-        for (int[] flower : flowers) {
-            int start = flower[0];
-            int end = flower[1];
-            diff.merge(start, 1, Integer::sum);
-            diff.merge(end + 1, -1, Integer::sum);
-        }
-        int pre = 0;
-        for (Map.Entry<Integer, Integer> entry : diff.entrySet()) {
-            int key = entry.getKey();
-            int val = entry.getValue();
-            pre += val;
-            diff.put(key, pre);
+        Integer[] ids = IntStream.range(0, n).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(people[o1], people[o2]);
+            }
+
+        });
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        for (int[] f : flowers) {
+            int start = f[0];
+            int end = f[1];
+            map.merge(start, 1, Integer::sum);
+            map.merge(end + 1, -1, Integer::sum);
         }
         int[] res = new int[n];
-        for (int i = 0; i < n; ++i) {
-            Integer val = diff.floorKey(people[i]);
-            res[i] = diff.getOrDefault(val, 0);
+        int i = 0;
+        int pre = 0;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            while (i < n && people[ids[i]] < entry.getKey()) {
+                res[ids[i]] = pre;
+                ++i;
+            }
+            pre += entry.getValue();
         }
         return res;
 
