@@ -237,26 +237,28 @@ class leetcode_1 :
        return dfs(0)
     
     # 97. 交错字符串 (Interleaving String)
+    # LCR 096. 交错字符串
     def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
-       n1 = len(s1)
-       n2 = len(s2)
-       n3 = len(s3)
-       if n1 + n2 != n3:
-          return False
        @cache
-       def dfs(i: int, j: int, k: int) -> int:
+       def dfs(i: int, j: int, k: int) -> bool:
+          if k == n3:
+             return True
           if i == n1:
              return s2[j:] == s3[k:]
           if j == n2:
              return s1[i:] == s3[k:]
-          if s1[i:] + s2[j:] == s3[k:] or s2[j:] + s1[i:] == s3[k:]:
-             return True
           res = False
           if s1[i] == s3[k]:
              res = res or dfs(i + 1, j, k + 1)
           if s2[j] == s3[k]:
              res = res or dfs(i, j + 1, k + 1)
           return res
+          
+       n1 = len(s1)
+       n2 = len(s2)
+       n3 = len(s3)
+       if n1 + n2 != n3:
+          return False
        return dfs(0, 0, 0)
     
     # 120. 三角形最小路径和 (Triangle)
@@ -5897,5 +5899,5 @@ class leetcode_1 :
           if flowerbed[i - 1] == 0 and flowerbed[i] == 0 and flowerbed[i + 1] == 0:
              flowerbed[i] = 1
              n -= 1
-       return n <= 0
+       return n <= 0    
           
