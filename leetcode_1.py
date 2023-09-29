@@ -344,19 +344,18 @@ class leetcode_1 :
        n = len(nums) - 1
        if n == 0:
           return nums[0]
-       nums1 = nums[1:]
-       nums2 = nums[:-1]
+       return max(self.max_213(nums[1:]), self.max_213(nums[:-1]))
+
+    def max_213(self, nums: List[int]) -> int:
        @cache
-       def dfs1(i: int) -> int:
+       def dfs(i: int) -> int:
           if i >= n:
              return 0
-          return max(dfs1(i + 1), dfs1(i + 2) + nums1[i])
-       @cache
-       def dfs2(i: int) -> int:
-          if i >= n:
-             return 0
-          return max(dfs2(i + 1), dfs2(i + 2) + nums2[i])
-       return max(dfs1(0), dfs2(0))
+          return max(dfs(i + 1), dfs(i + 2) + nums[i])
+       n = len(nums)
+       return dfs(0)
+
+       
     
    # 2500. 删除每行中的最大值 (Delete Greatest Value in Each Row)
     def deleteGreatestValue(self, grid: List[List[int]]) -> int:
