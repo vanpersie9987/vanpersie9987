@@ -174,6 +174,7 @@ class leetcode_1 :
        return dfs(n)
     
     # 62. 不同路径 (Unique Paths)
+    # LCR 098. 不同路径
     def uniquePaths(self, m: int, n: int) -> int:
        @cache
        def dfs(i: int, j: int) -> int:
