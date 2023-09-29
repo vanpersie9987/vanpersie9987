@@ -5926,6 +5926,25 @@ class leetcode_1 :
              m = max(m, nums[j])
              arr[i][j] = m * (j - i + 1)
        return dfs(0, 0) - s
+    
+    # 1981. 最小化目标值与所选元素的差 (Minimize the Difference Between Target and Chosen Elements)
+    def minimizeTheDifference(self, mat: List[List[int]], target: int) -> int:
+       @cache
+       def dfs(i: int, j: int) -> None:
+          if i == m:
+             nonlocal res
+             res = min(res, abs(j - target))
+             return
+          if j - target >= res:
+             return
+          for k in range(n):
+             dfs(i + 1, j + mat[i][k])
+       m = len(mat)
+       n = len(mat[0])
+       res = inf
+       dfs(0, 0)
+       return res
+
        
              
              
