@@ -5902,4 +5902,3 @@ class leetcode_1 :
              flowerbed[i] = 1
              n -= 1
        return n <= 0    
-          
