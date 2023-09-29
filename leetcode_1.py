@@ -5889,3 +5889,31 @@ class leetcode_1 :
                 down[j] = 0 if (i, j) in s else down[j] + 1
              res = max(res, min(min(left[i][j], right), min(up[i][j], down[j])))
        return res
+    
+    # 605. 种花问题 (Can Place Flowers)
+    def canPlaceFlowers(self, flowerbed: List[int], k: int) -> bool:
+       n = len(flowerbed)
+       i = 0
+       while i < n:
+          if flowerbed[i]:
+             break
+          i += 1
+       if i == n:
+          return (n + 1) // 2 >= k
+       cnt = i // 2
+       j = n - 1
+       while j >= 0:
+          if flowerbed[j]:
+             break
+          j -= 1
+       cnt += (n - j - 1) // 2
+       cur = 0
+       while i <= j:
+          if flowerbed[i]:
+             cnt += max(0, cur - 1) // 2
+             cur = 0
+          else:
+             cur += 1
+          i += 1
+       return cnt >= k
+          
