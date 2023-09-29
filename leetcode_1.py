@@ -5891,29 +5891,11 @@ class leetcode_1 :
        return res
     
     # 605. 种花问题 (Can Place Flowers)
-    def canPlaceFlowers(self, flowerbed: List[int], k: int) -> bool:
-       n = len(flowerbed)
-       i = 0
-       while i < n:
-          if flowerbed[i]:
-             break
-          i += 1
-       if i == n:
-          return (n + 1) // 2 >= k
-       cnt = i // 2
-       j = n - 1
-       while j >= 0:
-          if flowerbed[j]:
-             break
-          j -= 1
-       cnt += (n - j - 1) // 2
-       cur = 0
-       while i <= j:
-          if flowerbed[i]:
-             cnt += max(0, cur - 1) // 2
-             cur = 0
-          else:
-             cur += 1
-          i += 1
-       return cnt >= k
+    def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:
+       flowerbed = [0] + flowerbed + [0]
+       for i in range(1, len(flowerbed) - 1):
+          if flowerbed[i - 1] == 0 and flowerbed[i] == 0 and flowerbed[i + 1] == 0:
+             flowerbed[i] = 1
+             n -= 1
+       return n <= 0
           
