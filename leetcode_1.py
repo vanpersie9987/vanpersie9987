@@ -5944,6 +5944,19 @@ class leetcode_1 :
        res = inf
        dfs(0, 0)
        return res
+    
+    # 2826. 将三个组排序 (Sorting Three Groups)
+    def minimumOperations(self, nums: List[int]) -> int:
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return 0
+          res = inf
+          for k in range(j, 4):
+             res = min(res, dfs(i + 1, k) + nums[i] != k)
+          return res
+       n = len(nums)
+       return dfs(0, 1)
 
        
              
