@@ -5901,4 +5901,31 @@ class leetcode_1 :
           if flowerbed[i - 1] == 0 and flowerbed[i] == 0 and flowerbed[i + 1] == 0:
              flowerbed[i] = 1
              n -= 1
-       return n <= 0    
+       return n <= 0
+
+    # 1959. K 次调整数组大小浪费的最小总空间 (Minimum Total Space Wasted With K Resizing Operations)
+    def minSpaceWastedKResizing(self, nums: List[int], k: int) -> int:
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return 0
+          if j == k:
+             return arr[i][n - 1]
+          res = inf
+          for x in range(i, n):
+             res = min(res, dfs(x + 1, j + 1) + arr[i][x])
+          return res
+
+       n = len(nums)
+       arr = [[0] * n for _ in range(n)]
+       s = 0
+       for i in range(n):
+          s += nums[i]
+          m = nums[i]
+          for j in range(i, n):
+             m = max(m, nums[j])
+             arr[i][j] = m * (j - i + 1)
+       return dfs(0, 0) - s
+       
+             
+             
