@@ -5953,7 +5953,7 @@ class leetcode_1 :
              return 0
           res = inf
           for k in range(j, 4):
-             res = min(res, dfs(i + 1, k) + nums[i] != k)
+             res = min(res, dfs(i + 1, k) + (nums[i] != k))
           return res
        n = len(nums)
        return dfs(0, 1)
