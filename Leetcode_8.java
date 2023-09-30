@@ -3806,17 +3806,17 @@ public class Leetcode_8 {
     }
 
     private int dfs8051(int x, int fa) {
-        int sum = values8051[x] % k8051;
+        int sum = values8051[x];
         for (int y : g8051[x]) {
             if (y != fa) {
                 sum += dfs8051(y, x);
                 sum %= k8051;
             }
         }
-        if (sum == 0) {
+        if (sum % k8051 == 0) {
             ++res8051;
         }
-        return sum;
+        return sum % k8051;
     }
 
 }
