@@ -8675,34 +8675,36 @@ public class Leetcode_6 {
     // 526. 优美的排列 (Beautiful Arrangement)
     private int n526;
     private int[][] memo526;
+    private int u526;
 
     public int countArrangement(int n) {
         this.n526 = n;
-        memo526 = new int[n + 1][1 << (n + 1)];
-        for (int i = 0; i < n + 1; ++i) {
+        memo526 = new int[n][1 << n];
+        for (int i = 0; i < n; ++i) {
             Arrays.fill(memo526[i], -1);
         }
-        return dfs526(1, 0);
+        this.u526 = (1 << n) - 1;
+        return dfs526(0, 0);
 
     }
 
-    private int dfs526(int i, int mask) {
-        if (i == n526 + 1) {
-            if (mask == (1 << (n526 + 1)) - 2) {
-                return 1;
-            }
-            return 0;
+    private int dfs526(int i, int j) {
+        if (i == n526) {
+            return 1;
         }
-        if (memo526[i][mask] != -1) {
-            return memo526[i][mask];
+        if (memo526[i][j] != -1) {
+            return memo526[i][j];
         }
         int res = 0;
-        for (int num = 1; num <= n526; ++num) {
-            if ((num % i == 0 || i % num == 0) && (mask ^ (1 << num)) != mask) {
-                res += dfs526(i + 1, mask ^ (1 << num));
+        int c = u526 ^ j;
+        while (c != 0) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            if ((i + 1) % (lb + 1) == 0 || (lb + 1) % (i + 1) == 0) {
+                res += dfs526(i + 1, j | (1 << lb));
             }
+            c &= c - 1;
         }
-        return memo526[i][mask] = res;
+        return memo526[i][j] = res;
     }
 
     // 1001. 网格照明 (Grid Illumination)
