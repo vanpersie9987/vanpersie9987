@@ -2571,47 +2571,45 @@ public class LeetCode_4 {
 
     // 473. 火柴拼正方形 (Matchsticks to Square)
     private int side473;
-    private int[] sum473;
+    private int n473;
+    private int[] arr473;
     private int[] memo473;
     private int u473;
 
     public boolean makesquare2(int[] matchsticks) {
-        int s = 0;
-        for (int m : matchsticks) {
-            s += m;
-        }
-        if (s % 4 != 0) {
+        int sum = Arrays.stream(matchsticks).sum();
+        if (sum % 4 != 0) {
             return false;
         }
-        this.side473 = s / 4;
-        int n = matchsticks.length;
-        this.sum473 = new int[1 << n];
-        for (int i = 1; i < (1 << n); ++i) {
+        this.side473 = sum / 4;
+        this.n473 = matchsticks.length;
+        this.arr473 = new int[1 << n473];
+        for (int i = 1; i < (1 << n473); ++i) {
             int bit = Integer.numberOfTrailingZeros(i);
-            sum473[i] = sum473[i ^ (1 << bit)] + matchsticks[bit];
+            arr473[i] = arr473[i ^ (1 << bit)] + matchsticks[bit];
         }
-        this.u473 = (1 << n) - 1;
-        this.memo473 = new int[1 << n];
+        this.u473 = (1 << n473) - 1;
+        this.memo473 = new int[1 << n473];
         return dfs473(0);
 
     }
 
-    private boolean dfs473(int m) {
-        if (m == u473) {
+    private boolean dfs473(int i) {
+        if (i == u473) {
             return true;
         }
-        if (memo473[m] != 0) {
-            return memo473[m] > 0;
+        if (memo473[i] != 0) {
+            return memo473[i] > 0;
         }
-        int c = u473 ^ m;
-        boolean res = false;
-        for (int j = c; j > 0; j = ((j - 1) & c)) {
-            if (sum473[j] == side473) {
-                res = res || dfs473(m | j);
+        int candidate = i ^ u473;
+        for (int c = candidate; c > 0; c = (c - 1) & candidate) {
+            if (arr473[c] == side473 && dfs473(i | c)) {
+                memo473[i] = 1;
+                return true;
             }
         }
-        memo473[m] = res ? 1 : -1;
-        return res;
+        memo473[i] = -1;
+        return false;
     }
 
     // 5218. 个位数字为 K 的整数之和 (Sum of Numbers With Units Digit K)
