@@ -3736,6 +3736,7 @@ public class Leetcode_8 {
 
     }
 
+    // 8038. 收集元素的最少操作次数 (Minimum Operations to Collect Elements)
     public int minOperations(List<Integer> nums, int k) {
         long m = 0L;
         long u = (1L << k) - 1;
@@ -3749,6 +3750,7 @@ public class Leetcode_8 {
 
     }
 
+    // 100032. 使数组为空的最少操作次数 (Minimum Number of Operations to Make Array Empty)
     public int minOperations(int[] nums) {
         Map<Integer, Integer> map = new HashMap<>();
         for (int num : nums) {
@@ -3765,6 +3767,7 @@ public class Leetcode_8 {
 
     }
     
+    // 100019. 将数组分割成最多数目的子数组 (Split Array Into Maximum Number of Subarrays)
     public int maxSubarrays(int[] nums) {
         int or = 0;
         for (int num : nums) {
@@ -3782,36 +3785,37 @@ public class Leetcode_8 {
         return Math.max(1, res);
     }
 
-    private List<Integer>[] g;
-    private int res;
-    private int[] values;
-    private int k;
+    // 8051. 可以被 K 整除连通块的最大数目 (Maximum Number of K-Divisible Components)
+    private List<Integer>[] g8051;
+    private int res8051;
+    private int[] values8051;
+    private int k8051;
 
     public int maxKDivisibleComponents(int n, int[][] edges, int[] values, int k) {
-        this.g = new ArrayList[n];
-        Arrays.setAll(g, o -> new ArrayList<>());
+        this.g8051 = new ArrayList[n];
+        Arrays.setAll(g8051, o -> new ArrayList<>());
         for (int[] e : edges) {
-            g[e[0]].add(e[1]);
-            g[e[1]].add(e[0]);
+            g8051[e[0]].add(e[1]);
+            g8051[e[1]].add(e[0]);
         }
-        this.values = values;
-        this.k = k;
-        dfs(0, -1);
-        return res;
+        this.values8051 = values;
+        this.k8051 = k;
+        dfs8051(0, -1);
+        return res8051;
 
     }
 
-    private long dfs(int x, int fa) {
-        long sum = values[x];
-        for (int y : g[x]) {
+    private long dfs8051(int x, int fa) {
+        long sum = values8051[x];
+        for (int y : g8051[x]) {
             if (y != fa) {
-                sum += dfs(y, x);
+                sum += dfs8051(y, x);
             }
         }
-        if (sum % k == 0) {
-            ++res;
+        if (sum % k8051 == 0) {
+            ++res8051;
         }
-        return sum % k;
+        return sum % k8051;
     }
 
 }

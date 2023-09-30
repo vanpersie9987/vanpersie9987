@@ -5979,6 +5979,7 @@ class leetcode_1 :
        u = (1 << n) - 1
        return dfs(0, 0)
     
+    # 8038. 收集元素的最少操作次数 (Minimum Operations to Collect Elements)
     def minOperations(self, nums: List[int], k: int) -> int:
        n = len(nums)
        m = 0
@@ -5989,6 +5990,7 @@ class leetcode_1 :
              return n - i
        return 0
     
+    # 100032. 使数组为空的最少操作次数 (Minimum Number of Operations to Make Array Empty)
     def minOperations(self, nums: List[int]) -> int:
        dic = collections.defaultdict(int)
        for num in nums:
@@ -6000,6 +6002,7 @@ class leetcode_1 :
           res += (num - 1) // 3 + 1
        return res
     
+    # 100019. 将数组分割成最多数目的子数组 (Split Array Into Maximum Number of Subarrays)
     def maxSubarrays(self, nums: List[int]) -> int:
        res = 0
        _or = 0
@@ -6013,6 +6016,7 @@ class leetcode_1 :
              res += 1
        return max(1, res)
     
+    # 8051. 可以被 K 整除连通块的最大数目 (Maximum Number of K-Divisible Components)
     def maxKDivisibleComponents(self, n: int, edges: List[List[int]], values: List[int], k: int) -> int:
        def dfs(x: int, fa: int) -> int:
           s = values[x]
