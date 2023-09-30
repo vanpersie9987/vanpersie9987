@@ -278,14 +278,11 @@ class leetcode_1 :
     # 剑指 Offer 63. 股票的最大利润
     def maxProfit(self, prices: List[int]) -> int:
        n = len(prices)
-
        @cache
        def dfs(i: int, j: int) -> int:
-          if i == n:
+          if i == n or j == 2:
              return 0
-          if j == 0:
-             return max(dfs(i + 1, 0), dfs(i + 1, 1) - prices[i])
-          return max(dfs(i + 1, 1), prices[i])
+          return max(dfs(i + 1, j), dfs(i + 1, j + 1) + prices[i] * (j * 2 - 1))
        return dfs(0, 0)
     
     # 122. 买卖股票的最佳时机 II (Best Time to Buy and Sell Stock II)
@@ -5981,3 +5978,57 @@ class leetcode_1 :
           return res
        u = (1 << n) - 1
        return dfs(0, 0)
+    
+    def minOperations(self, nums: List[int], k: int) -> int:
+       n = len(nums)
+       m = 0
+       u = (1 << k) - 1
+       for i in range(n - 1, -1, -1):
+          m |= 1 << (nums[i] - 1)
+          if (m & u) == u:
+             return n - i
+       return 0
+    
+    def minOperations(self, nums: List[int]) -> int:
+       dic = collections.defaultdict(int)
+       for num in nums:
+          dic[num] += 1
+       res = 0
+       for num in dic.values():
+          if num == 1:
+             return -1
+          res += (num - 1) // 3 + 1
+       return res
+    
+    def maxSubarrays(self, nums: List[int]) -> int:
+       res = 0
+       _or = 0
+       for num in nums:
+          _or |= num
+       cur = _or 
+       for num in nums:
+          cur &= num
+          if cur == 0:
+             cur = _or
+             res += 1
+       return max(1, res)
+    
+    def maxKDivisibleComponents(self, n: int, edges: List[List[int]], values: List[int], k: int) -> int:
+       def dfs(x: int, fa: int) -> int:
+          s = values[x]
+          for y in g[x]:
+             if y != fa:
+                s += dfs(y, x)
+          if s % k == 0:
+             nonlocal res
+             res += 1
+          return s % k
+       g = [[] for _ in range(n)]
+       for a, b in edges:
+          g[a].append(b)
+          g[b].append(a)
+       res = 0
+       dfs(0, -1)
+       return res
+            
+          

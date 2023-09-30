@@ -3736,4 +3736,82 @@ public class Leetcode_8 {
 
     }
 
+    public int minOperations(List<Integer> nums, int k) {
+        long m = 0L;
+        long u = (1L << k) - 1;
+        for (int i = nums.size() - 1; i >= 0; --i) {
+            m |= 1L << (nums.get(i) - 1);
+            if ((m & u) == u) {
+                return nums.size() - i;
+            }
+        }
+        return 0;
+
+    }
+
+    public int minOperations(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.merge(num, 1, Integer::sum);
+        }
+        int res = 0;
+        for (int c : map.values()) {
+            if (c == 1) {
+                return -1;
+            }
+            res += (c - 1) / 3 + 1;
+        }
+        return res;
+
+    }
+    
+    public int maxSubarrays(int[] nums) {
+        int or = 0;
+        for (int num : nums) {
+            or |= num;
+        }
+        int res = 0;
+        int cur = or;
+        for (int num : nums) {
+            cur &= num;
+            if (cur == 0) {
+                cur = or;
+                ++res;
+            }
+        }
+        return Math.max(1, res);
+    }
+
+    private List<Integer>[] g;
+    private int res;
+    private int[] values;
+    private int k;
+
+    public int maxKDivisibleComponents(int n, int[][] edges, int[] values, int k) {
+        this.g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[0]].add(e[1]);
+            g[e[1]].add(e[0]);
+        }
+        this.values = values;
+        this.k = k;
+        dfs(0, -1);
+        return res;
+
+    }
+
+    private long dfs(int x, int fa) {
+        long sum = values[x];
+        for (int y : g[x]) {
+            if (y != fa) {
+                sum += dfs(y, x);
+            }
+        }
+        if (sum % k == 0) {
+            ++res;
+        }
+        return sum % k;
+    }
+
 }
