@@ -5940,6 +5940,32 @@ class leetcode_1 :
        res = inf
        dfs(0, 0)
        return res
+    
+    # 473. 火柴拼正方形 (Matchsticks to Square)
+    def makesquare(self, matchsticks: List[int]) -> bool:
+       @cache
+       def dfs(i: int) -> bool:
+          if i == u:
+             return True
+          c = candidate = i ^ u
+          while c:
+             if arr[c] == side and dfs(i | c):
+                return True
+             c = (c - 1) & candidate
+          return False
+       s = sum(matchsticks)
+       if s % 4 != 0:
+          return False
+       side = s // 4
+       n = len(matchsticks)
+       u = (1 << n) - 1
+       arr = [0] * (1 << n)
+       for i in range(1, 1 << n):
+          bit = (i & -i).bit_length() - 1
+          arr[i] = arr[i ^ (1 << bit)] + matchsticks[bit]
+       return dfs(0)
+       
+
    
 
        
