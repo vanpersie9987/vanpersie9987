@@ -5964,10 +5964,20 @@ class leetcode_1 :
           bit = (i & -i).bit_length() - 1
           arr[i] = arr[i ^ (1 << bit)] + matchsticks[bit]
        return dfs(0)
-       
 
-   
-
-       
-             
-             
+    # 526. 优美的排列 (Beautiful Arrangement)
+    def countArrangement(self, n: int) -> int:
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return 1
+          res = 0
+          c = u ^ j
+          while c:
+             lb = (c & -c).bit_length() - 1
+             if (i + 1) % (lb + 1) == 0 or (lb + 1) % (i + 1) == 0:
+                res += dfs(i + 1, j | (1 << lb))
+             c &= c - 1
+          return res
+       u = (1 << n) - 1
+       return dfs(0, 0)
