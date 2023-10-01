@@ -3769,16 +3769,12 @@ public class Leetcode_8 {
     
     // 100019. 将数组分割成最多数目的子数组 (Split Array Into Maximum Number of Subarrays)
     public int maxSubarrays(int[] nums) {
-        int or = 0;
-        for (int num : nums) {
-            or |= num;
-        }
         int res = 0;
-        int cur = or;
+        int cur = -1;
         for (int num : nums) {
             cur &= num;
             if (cur == 0) {
-                cur = or;
+                cur = -1;
                 ++res;
             }
         }
@@ -3819,4 +3815,59 @@ public class Leetcode_8 {
         return sum % k8051;
     }
 
+    public long maximumTripletValue(int[] nums) {
+        int n = nums.length;
+        long res = 0L;
+        int[] rightMax = new int[n + 1];
+        rightMax[n - 1] = nums[n - 1];
+        for (int i = n - 2; i >= 0; --i) {
+            rightMax[i] = Math.max(rightMax[i + 1], nums[i]);
+        }
+        long leftMax = nums[0];
+        for (int i = 1; i < n; ++i) {
+            res = Math.max(res, (leftMax - nums[i]) * rightMax[i + 1]);
+            leftMax = Math.max(leftMax, nums[i]);
+        }
+        return res;
+
+    }
+
+    public int minSizeSubarray(int[] nums, int target) {
+        int n = nums.length;
+        long sum = 0L;
+        for (int num : nums) {
+            sum += num;
+        }
+        long cnt = target / sum;
+        long res = cnt * n;
+        target %= sum;
+        if (target == 0) {
+            return (int) res;
+        }
+        int[] arr = new int[n * 2];
+        for (int i = 0; i < n; ++i) {
+            arr[i] = nums[i];
+            arr[i + n] = nums[i];
+        }
+        long cur = 0L;
+        int i = 0;
+        int j = 0;
+        int d = n + 1;
+        while (j < n * 2) {
+            cur += arr[j];
+            while (cur > target) {
+                cur -= arr[i];
+                ++i;
+            }
+            if (cur == target) {
+                d = Math.min(d, j - i + 1);
+            }
+            ++j;
+        }
+        if (d == n + 1) {
+            return -1;
+        }
+        return (int) (res + d);
+
+    }
 }
