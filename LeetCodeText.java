@@ -5573,12 +5573,6 @@ public class LeetCodeText {
         return (1 + n) * n / 2;
     }
 
-    public int sumNums2(final int n) {
-        int result = 0;
-        final boolean b = n > 0 && ((result = n + sumNums2(n - 1)) > 0);
-        return result;
-    }
-
     // 1399. 统计最大组的数目
     public int countLargestGroup(int n) {
         int[] counts = new int[37];

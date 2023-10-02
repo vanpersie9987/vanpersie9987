@@ -19,6 +19,7 @@ import java.util.stream.IntStream;
 
 import java.awt.Point;
 
+@SuppressWarnings("unchecked")
 public class Leetcode_7 {
     public static void main(String[] args) {
         // int[] arr = { 1, 4, 1, 3 };
@@ -137,7 +138,7 @@ public class Leetcode_7 {
             }
             // num的祖先节点是否都未上锁
             // if (!dfs(0, num)) {
-            //     return false;
+            // return false;
             // }
             int x = num;
             while (x != -1) {
@@ -156,18 +157,18 @@ public class Leetcode_7 {
         }
 
         // private boolean dfs(int x, int num) {
-        //     if (lockStatus[x] != -1) {
-        //         return false;
-        //     }
-        //     if (x == num) {
-        //         return true;
-        //     }
-        //     for (int y : g[x]) {
-        //         if (dfs(y, num)) {
-        //             return true;
-        //         }
-        //     }
-        //     return false;
+        // if (lockStatus[x] != -1) {
+        // return false;
+        // }
+        // if (x == num) {
+        // return true;
+        // }
+        // for (int y : g[x]) {
+        // if (dfs(y, num)) {
+        // return true;
+        // }
+        // }
+        // return false;
         // }
 
         private boolean dfs2(int x) {

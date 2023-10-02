@@ -17,6 +17,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@SuppressWarnings("unchecked")
 public class LeetCode_2 {
 
    public static void main(final String[] args) {

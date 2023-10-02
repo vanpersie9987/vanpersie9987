@@ -18,6 +18,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@SuppressWarnings("unchecked")
 public class Leetcode_6 {
     public static void main(String[] args) {
         // String[] strs = { "1.500", "2.500", "3.500" };
