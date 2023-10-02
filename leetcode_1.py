@@ -6081,10 +6081,8 @@ class leetcode_1 :
              if deg[y] == 0:
                 rdfs(y, d + 1)
        n = len(edges)
-       g = [-1] * n
        deg = [0] * n
-       for i, x in enumerate(edges):
-          g[i] = x
+       for x in edges:
           deg[x] += 1
        q = collections.deque()
        for i in range(n):
@@ -6092,7 +6090,7 @@ class leetcode_1 :
              q.append(i)
        while q:
           x = q.popleft()
-          y = g[x]
+          y = edges[x]
           deg[y] -= 1
           if deg[y] == 0:
              q.append(y)
@@ -6101,13 +6099,13 @@ class leetcode_1 :
           if deg[i] != 0 and res[i] == 0:
              cnt = 1
              x = i
-             while g[x] != i:
-                x = g[x]
+             while edges[x] != i:
+                x = edges[x]
                 cnt += 1
              x = i
              res[i] = cnt
-             while g[x] != i:
-                x = g[x]
+             while edges[x] != i:
+                x = edges[x]
                 res[x] = cnt
        rg = [[] for _ in range(n)]
        for i, x in enumerate(edges):
