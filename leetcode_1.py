@@ -6005,14 +6005,11 @@ class leetcode_1 :
     # 100019. 将数组分割成最多数目的子数组 (Split Array Into Maximum Number of Subarrays)
     def maxSubarrays(self, nums: List[int]) -> int:
        res = 0
-       _or = 0
-       for num in nums:
-          _or |= num
-       cur = _or 
+       cur = -1
        for num in nums:
           cur &= num
           if cur == 0:
-             cur = _or
+             cur = -1
              res += 1
        return max(1, res)
     
