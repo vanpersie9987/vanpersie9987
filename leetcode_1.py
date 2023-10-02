@@ -6072,5 +6072,51 @@ class leetcode_1 :
        if d == n + 1:
           return -1
        return d + cnt
+    
+    # 2876. 有向图访问计数 (Count Visited Nodes in a Directed Graph)
+    def countVisitedNodes(self, edges: List[int]) -> List[int]:
+       def rdfs(x: int, d: int) -> None:
+          res[x] = d
+          for y in rg[x]:
+             if deg[y] == 0:
+                rdfs(y, d + 1)
+       n = len(edges)
+       g = [-1] * n
+       deg = [0] * n
+       for i, x in enumerate(edges):
+          g[i] = x
+          deg[x] += 1
+       q = deque(i for i, d in enumerate(deg) if d == 0)
+       while q:
+          x = q.popleft()
+          y = g[x]
+          deg[y] -= 1
+          if deg[y] == 0:
+             q.append(y)
+       res = [0] * n
+       for i in range(n):
+          if deg[i] != 0 and res[i] == 0:
+             cnt = 1
+             x = i
+             while g[x] != i:
+                x = g[x]
+                cnt += 1
+             x = i
+             res[i] = cnt
+             while g[x] != i:
+                x = g[x]
+                res[x] = cnt
+       rg = [[] for _ in range(n)]
+       for i, x in enumerate(edges):
+          if deg[i] != 0 and deg[x] != 0:
+             continue
+          rg[x].append(i)
+       for i in range(n):
+          if deg[i] != 0:
+             rdfs(i, res[i])
+       return res
+
+
+
              
           
