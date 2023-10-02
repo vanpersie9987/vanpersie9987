@@ -3766,7 +3766,7 @@ public class Leetcode_8 {
         return res;
 
     }
-    
+
     // 100019. 将数组分割成最多数目的子数组 (Split Array Into Maximum Number of Subarrays)
     public int maxSubarrays(int[] nums) {
         int res = 0;
@@ -3815,23 +3815,22 @@ public class Leetcode_8 {
         return sum % k8051;
     }
 
+    // 2873. 有序三元组中的最大值 I (Maximum Value of an Ordered Triplet I)
+    // 2874. 有序三元组中的最大值 II (Maximum Value of an Ordered Triplet II)
     public long maximumTripletValue(int[] nums) {
-        int n = nums.length;
         long res = 0L;
-        int[] rightMax = new int[n + 1];
-        rightMax[n - 1] = nums[n - 1];
-        for (int i = n - 2; i >= 0; --i) {
-            rightMax[i] = Math.max(rightMax[i + 1], nums[i]);
-        }
-        long leftMax = nums[0];
-        for (int i = 1; i < n; ++i) {
-            res = Math.max(res, (leftMax - nums[i]) * rightMax[i + 1]);
-            leftMax = Math.max(leftMax, nums[i]);
+        long diff = 0L;
+        int preMax = 0;
+        for (int num : nums) {
+            res = Math.max(res, diff * num);
+            diff = Math.max(diff, preMax - num);
+            preMax = Math.max(preMax, num);
         }
         return res;
 
     }
 
+    // 2875. 无限数组的最短子数组 (Minimum Size Subarray in Infinite Array)
     public int minSizeSubarray(int[] nums, int target) {
         int n = nums.length;
         long sum = 0L;
@@ -3869,5 +3868,72 @@ public class Leetcode_8 {
         }
         return (int) (res + d);
 
+    }
+
+    // 2876. 有向图访问计数 (Count Visited Nodes in a Directed Graph)
+    private List<Integer>[] rg2876;
+    private int[] res2876;
+
+    public int[] countVisitedNodes(List<Integer> edges) {
+        int n = edges.size();
+        int[] g = new int[n];
+        Arrays.fill(g, -1);
+        int[] deg = new int[n];
+        for (int i = 0; i < n; ++i) {
+            g[i] = edges.get(i);
+            ++deg[edges.get(i)];
+        }
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            if (deg[i] == 0) {
+                q.offer(i);
+            }
+        }
+        while (!q.isEmpty()) {
+            int x = q.poll();
+            int y = g[x];
+            --deg[y];
+            if (deg[y] == 0) {
+                q.offer(y);
+            }
+        }
+        this.res2876 = new int[n];
+        for (int i = 0; i < n; ++i) {
+            if (deg[i] != 0 && res2876[i] == 0) {
+                int cnt = 1;
+                int x = i;
+                while (g[x] != i) {
+                    ++cnt;
+                    x = g[x];
+                }
+                x = i;
+                res2876[x] = cnt;
+                while (g[x] != i) {
+                    x = g[x];
+                    res2876[x] = cnt;
+                }
+            }
+        }
+        this.rg2876 = new ArrayList[n];
+        Arrays.setAll(rg2876, k -> new ArrayList<>());
+        for (int i = 0; i < n; ++i) {
+            if (deg[i] != 0 && deg[edges.get(i)] != 0) {
+                continue;
+            }
+            rg2876[edges.get(i)].add(i);
+        }
+        for (int i = 0; i < n; ++i) {
+            if (deg[i] != 0) {
+                rdfs2876(i, res2876[i]);
+            }
+        }
+        return res2876;
+    }
+
+    private void rdfs2876(int x, int d) {
+        res2876[x] = d;
+        for (int y : rg2876[x]) {
+            rdfs2876(y, d + 1);
+        }
     }
 }

@@ -6034,5 +6034,43 @@ class leetcode_1 :
        res = 0
        dfs(0, -1)
        return res
-            
+    
+    # 2873. 有序三元组中的最大值 I (Maximum Value of an Ordered Triplet I)
+    # 2874. 有序三元组中的最大值 II (Maximum Value of an Ordered Triplet II)
+    def maximumTripletValue(self, nums: List[int]) -> int:
+        res = pre_max = diff = 0
+        for x in nums:
+            res = max(res, diff * x)
+            diff = max(diff, pre_max - x)
+            pre_max = max(pre_max, x)
+        return res
+    
+    # 2875. 无限数组的最短子数组 (Minimum Size Subarray in Infinite Array)
+    def minSizeSubarray(self, nums: List[int], target: int) -> int:
+       n = len(nums)
+       _s = sum(nums)
+       if target % _s == 0:
+          return n * (target // _s)
+       cnt = n * (target // _s)
+       target %= _s
+       arr = [0] * (n * 2)
+       for i in range(n):
+          arr[i] = nums[i]
+          arr[i + n] = nums[i]
+       i = 0
+       j = 0
+       cur = 0
+       d = n + 1
+       while j < n * 2:
+          cur += arr[j]
+          while cur > target:
+             cur -= arr[i]
+             i += 1
+          if cur == target:
+             d = min(d, j - i + 1)
+          j += 1
+       if d == n + 1:
+          return -1
+       return d + cnt
+             
           
