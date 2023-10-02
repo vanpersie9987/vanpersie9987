@@ -6086,7 +6086,10 @@ class leetcode_1 :
        for i, x in enumerate(edges):
           g[i] = x
           deg[x] += 1
-       q = deque(i for i, d in enumerate(deg) if d == 0)
+       q = collections.deque()
+       for i in range(n):
+          if deg[i] == 0:
+             q.append(i)
        while q:
           x = q.popleft()
           y = g[x]
