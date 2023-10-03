@@ -6113,3 +6113,28 @@ class leetcode_1 :
           if deg[i] != 0:
              rdfs(i, res[i])
        return res
+    
+    # 2719. 统计整数数目 (Count of Integers)
+    def count(self, num1: str, num2: str, min_sum: int, max_sum: int) -> int:
+       def cal(s: str) -> int:
+          @cache
+          def dfs(i: int, cur_sum: int, is_limit: bool, is_num) -> int:
+             if i == n:
+                return is_num and cur_sum >= min_sum
+             res = 0
+             if not is_num:
+                res += dfs(i + 1, cur_sum, False, False)
+                res %= MOD
+             up = int(s[i]) if is_limit else 9
+             for j in range(0 if is_num else 1, up + 1):
+                if j + cur_sum > max_sum:
+                   break
+                res += dfs(i + 1, cur_sum + j, is_limit and j == up, True)
+                res %= MOD
+             return res
+          n = len(s)
+          return dfs(0, 0, True, False)
+       def check(num: str) -> bool:
+          return 1 if min_sum <= sum(int(x) for x in num) <= max_sum else 0
+       MOD = 10 ** 9 + 7
+       return (cal(num2) - cal(num1) + check(num1)) % MOD
