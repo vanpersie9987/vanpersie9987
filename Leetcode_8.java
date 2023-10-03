@@ -3993,9 +3993,7 @@ public class Leetcode_8 {
         }
         int res = dfs2572(i + 1, j);
         final int MOD = (int) (1e9 + 7);
-        if (nums2572[i] == 1) {
-            res = (res + dfs2572(i + 1, j | 1)) % MOD;
-        } else if (masks2572[nums2572[i]] != -1 && (masks2572[nums2572[i]] & j) == 0) {
+        if (nums2572[i] == 1 || masks2572[nums2572[i]] != -1 && (masks2572[nums2572[i]] & j) == 0) {
             res = (res + dfs2572(i + 1, j | masks2572[nums2572[i]])) % MOD;
         }
         return memo2572[i][j] = res;
