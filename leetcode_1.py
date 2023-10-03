@@ -6159,3 +6159,44 @@ class leetcode_1 :
              res += dfs(i + 1, 0)
              res %= MOD
        return res
+    
+    # 2572. 无平方子集计数 (Count the Number of Square-Free Subsets)
+    def squareFreeSubsets(self, nums: List[int]) -> int:
+        MOD = 10 ** 9 + 7
+        n = len(nums)
+        is_primes = [True] * 31
+        for i in range(2, 31):
+            if is_primes[i]:
+                for j in range(i * i, 31, i):
+                    is_primes[j] = False
+        dic = collections.defaultdict(int)
+        cnt = 0
+        for i in range(1, 31):
+            if is_primes[i]:
+                dic[i] = cnt
+                cnt += 1
+        arr = [0] * 31
+        for i in range(1, 31):
+            if is_primes[i]:
+                arr[i] = 1 << dic[i]
+            elif i % 4 == 0 or i % 9 == 0 or i % 25 == 0:
+                arr[i] = -1
+            else:
+                for j in range(2, 31):
+                    if is_primes[j] and i % j == 0:
+                        arr[i] |= 1 << dic[j]
+        memo = [[-1] * (1 << cnt) for _ in range(n)]
+        def dfs(i: int, j: int) -> int:
+           if i == n:
+               return 1 if j > 0 else 0
+           if memo[i][j] != -1:
+               return memo[i][j]
+           res = dfs(i + 1, j)
+           if nums[i] == 1 or arr[nums[i]] != -1 and (j & arr[nums[i]]) == 0:
+               res += dfs(i + 1, j | arr[nums[i]])
+               res %= MOD
+           memo[i][j] = res
+           return res
+        return dfs(0, 0)
+       
+
