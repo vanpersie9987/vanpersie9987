@@ -3937,4 +3937,67 @@ public class Leetcode_8 {
             rdfs2876(y, d + 1);
         }
     }
+
+    // 2572. 无平方子集计数 (Count the Number of Square-Free Subsets)
+    private int[] nums2572;
+    private int n2572;
+    private int[] masks2572;
+    private int[][] memo2572;
+
+    public int squareFreeSubsets(int[] nums) {
+        this.nums2572 = nums;
+        this.n2572 = nums.length;
+        boolean[] isPrime = new boolean[31];
+        Arrays.fill(isPrime, true);
+        for (int i = 2; i * i < 31; ++i) {
+            if (isPrime[i]) {
+                for (int j = i * i; j <= 30; j += i) {
+                    isPrime[j] = false;
+                }
+            }
+        }
+        Map<Integer,Integer> map = new HashMap<>();
+        int cnt = 0;
+        for (int i = 1; i < 31; ++i) {
+            if (isPrime[i]) {
+                map.put(i, cnt++);
+            }
+        }
+        this.masks2572 = new int[31];
+        for (int i = 1; i <= 30; ++i) {
+            if (isPrime[i]) {
+                masks2572[i] |= 1 << map.get(i);
+            } else if (i % 4 == 0 || i % 9 == 0 || i % 25 == 0) {
+                masks2572[i] = -1;
+            } else {
+                for (int j = 2; j <= i; ++j) {
+                    if (isPrime[j] && i % j == 0) {
+                        masks2572[i] |= 1 << map.get(j);
+                    }
+                }
+            }
+        }
+        this.memo2572 = new int[n2572][1 << cnt];
+        for (int i = 0; i < n2572; ++i) {
+            Arrays.fill(memo2572[i], -1);
+        }
+        return dfs2572(0, 0);
+    }
+
+    private int dfs2572(int i, int j) {
+        if (i == n2572) {
+            return j == 0 ? 0 : 1;
+        }
+        if (memo2572[i][j] != -1) {
+            return memo2572[i][j];
+        }
+        int res = dfs2572(i + 1, j);
+        final int MOD = (int) (1e9 + 7);
+        if (nums2572[i] == 1) {
+            res = (res + dfs2572(i + 1, j | 1)) % MOD;
+        } else if (masks2572[nums2572[i]] != -1 && (masks2572[nums2572[i]] & j) == 0) {
+            res = (res + dfs2572(i + 1, j | masks2572[nums2572[i]])) % MOD;
+        }
+        return memo2572[i][j] = res;
+    }
 }
