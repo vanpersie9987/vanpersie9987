@@ -6113,8 +6113,3 @@ class leetcode_1 :
           if deg[i] != 0:
              rdfs(i, res[i])
        return res
-
-
-
-             
-          
