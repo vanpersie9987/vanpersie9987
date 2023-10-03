@@ -2493,6 +2493,43 @@ public class Leetcode_7 {
 
     }
 
+    // 1955. 统计特殊子序列的数目 (Count Number of Special Subsequences)
+    private int n1955;
+    private int[][] memo1955;
+    private int[] nums1955;
+
+    public int countSpecialSubsequences2(int[] nums) {
+        this.nums1955 = nums;
+        this.n1955 = nums.length;
+        this.memo1955 = new int[n1955][3];
+        for (int i = 0; i < n1955; ++i) {
+            Arrays.fill(memo1955[i], -1);
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int i = 0; i < n1955; ++i) {
+            if (nums[i] == 0) {
+                res = (res + dfs1955(i + 1, 0)) % MOD;
+            }
+        }
+        return res;
+    }
+
+    private int dfs1955(int i, int j) {
+        if (i == n1955) {
+            return j == 2 ? 1 : 0;
+        }
+        if (memo1955[i][j] != -1) {
+            return memo1955[i][j];
+        }
+        int res = dfs1955(i + 1, j);
+        final int MOD = (int) (1e9 + 7);
+        if (nums1955[i] - j == 1 || nums1955[i] - j == 0) {
+            res = (res + dfs1955(i + 1, nums1955[i])) % MOD;
+        }
+        return memo1955[i][j] = res;
+    }
+
     // 面试题 17.24. 最大子矩阵 (Max Submatrix LCCI)
     public int[] getMaxMatrix(int[][] matrix) {
         int m = matrix.length;
