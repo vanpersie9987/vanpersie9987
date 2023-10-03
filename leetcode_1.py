@@ -6136,3 +6136,26 @@ class leetcode_1 :
           return dfs(0, 0, True, False)
        MOD = 10 ** 9 + 7
        return (cal(num2) - cal(str(int(num1) - 1))) % MOD
+    
+    # 1955. 统计特殊子序列的数目 (Count Number of Special Subsequences)
+    def countSpecialSubsequences(self, nums: List[int]) -> int:
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return j == 2
+          if memo[i][j] != -1:
+             return memo[i][j]
+          res = dfs(i + 1, j)
+          if nums[i] - j == 1 or nums[i] - j == 0:
+             res += dfs(i + 1, nums[i])
+          res %= MOD
+          memo[i][j] = res
+          return res
+       n = len(nums)
+       MOD = 10 ** 9 + 7
+       memo = [[-1] * 3 for _ in range(n)]
+       res = 0
+       for i in range(n):
+          if nums[i] == 0:
+             res += dfs(i + 1, 0)
+             res %= MOD
+       return res
