@@ -550,7 +550,7 @@ class leetcode_1 :
        return dfs(0, 0)
     
 
-    # 6957. 统计范围内的步进数字数目 (Count Stepping Numbers in Range)
+    # 2801. 统计范围内的步进数字数目 (Count Stepping Numbers in Range)
     def countSteppingNumbers(self, low: str, high: str) -> int:
        m = 10 ** 9 + 7
        def cal(s: str) -> int:
@@ -6134,7 +6134,5 @@ class leetcode_1 :
              return res
           n = len(s)
           return dfs(0, 0, True, False)
-       def check(num: str) -> bool:
-          return 1 if min_sum <= sum(int(x) for x in num) <= max_sum else 0
        MOD = 10 ** 9 + 7
-       return (cal(num2) - cal(num1) + check(num1)) % MOD
+       return (cal(num2) - cal(str(int(num1) - 1))) % MOD
