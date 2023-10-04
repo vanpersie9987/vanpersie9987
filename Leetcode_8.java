@@ -3939,14 +3939,11 @@ public class Leetcode_8 {
     }
 
     // 2572. 无平方子集计数 (Count the Number of Square-Free Subsets)
-    private int[] nums2572;
-    private int n2572;
     private int[] masks2572;
     private int[][] memo2572;
+    private int[] cnts;
 
     public int squareFreeSubsets(int[] nums) {
-        this.nums2572 = nums;
-        this.n2572 = nums.length;
         boolean[] isPrime = new boolean[31];
         Arrays.fill(isPrime, true);
         for (int i = 2; i * i < 31; ++i) {
@@ -3977,26 +3974,45 @@ public class Leetcode_8 {
                 }
             }
         }
-        this.memo2572 = new int[n2572][1 << cnt];
-        for (int i = 0; i < n2572; ++i) {
+        this.memo2572 = new int[31][1 << cnt];
+        for (int i = 0; i < 31; ++i) {
             Arrays.fill(memo2572[i], -1);
         }
-        return dfs2572(0, 0);
+        this.cnts = new int[31];
+        for (int num : nums) {
+            ++cnts[num];
+        }
+        return dfs2572(1, 0);
     }
 
     private int dfs2572(int i, int j) {
-        if (i == n2572) {
-            return j == 0 ? 0 : 1;
+        if (i == 31) {
+            return j > 0 ? 1 : 0;
         }
         if (memo2572[i][j] != -1) {
             return memo2572[i][j];
         }
         int res = dfs2572(i + 1, j);
         final int MOD = (int) (1e9 + 7);
-        if (nums2572[i] == 1 || masks2572[nums2572[i]] != -1 && (masks2572[nums2572[i]] & j) == 0) {
-            res = (res + dfs2572(i + 1, j | masks2572[nums2572[i]])) % MOD;
+        if (i == 1) {
+            res += (long) ((pow(2, cnts[i]) - 1 + MOD) % MOD) * dfs2572(i + 1, j | 1) % MOD;
+        } else if (masks2572[i] != -1 && (masks2572[i] & j) == 0) {
+            res += (long) cnts[i] * dfs2572(i + 1, j | masks2572[i]) % MOD;
         }
-        return memo2572[i][j] = res;
+        return memo2572[i][j] = res % MOD;
+    }
+
+    private int pow(int a, int b) {
+        if (b == 0) {
+            return 1;
+        }
+        int res = pow(a, b >> 1);
+        final int MOD = (int) (1e9 + 7);
+        res = (int) ((long) res * res % MOD);
+        if ((b & 1) == 1) {
+            res = (int) ((long) res * a % MOD);
+        }
+        return res;
     }
 
     // 2035. 将数组分成两个数组并最小化数组和的差 (Partition Array Into Two Arrays to Minimize Sum
