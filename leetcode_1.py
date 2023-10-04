@@ -6246,10 +6246,8 @@ class leetcode_1 :
           return res
        primes = [1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
        dic = collections.defaultdict(int)
-       cnt = 0
-       for p in primes:
-          dic[p] = cnt
-          cnt += 1
+       for i, p in enumerate(primes):
+          dic[p] = i
        cnts = [0] * 31
        for num in nums:
           cnts[num] += 1
