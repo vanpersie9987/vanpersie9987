@@ -2723,44 +2723,43 @@ public class Leetcode_5 {
     }
 
     // 698. 划分为k个相等的子集 (Partition to K Equal Sum Subsets) --状态压缩 + 记忆化搜索
-    private boolean[] memo698;
+    private int[] memo698;
+    private int u698;
+    private int[] maskSum698;
+    private int per698;
 
     public boolean canPartitionKSubsets(int[] nums, int k) {
         int sum = Arrays.stream(nums).sum();
         if (sum % k != 0) {
             return false;
         }
-        Arrays.sort(nums);
-        int per = sum / k;
+        this.per698 = sum / k;
         int n = nums.length;
-        if (nums[n - 1] > per) {
-            return false;
+        this.maskSum698 = new int[1 << n];
+        for (int i = 1; i < 1 << n; ++i) {
+            int index = Integer.numberOfTrailingZeros(i);
+            maskSum698[i] = maskSum698[i ^ (1 << index)] + nums[index];
         }
-        this.memo698 = new boolean[1 << n];
-        Arrays.fill(memo698, true);
-
-        return dfs698((1 << n) - 1, 0, per, nums);
-
+        this.memo698 = new int[1 << n];
+        this.u698 = (1 << n) - 1;
+        return dfs698(0);
     }
 
-    private boolean dfs698(int mask, int curSum, int per, int[] nums) {
-        if (mask == 0) {
+    private boolean dfs698(int i) {
+        if (i == u698) {
             return true;
         }
-        if (!memo698[mask]) {
-            return memo698[mask];
+        if (memo698[i] != 0) {
+            return memo698[i] > 0;
         }
-        memo698[mask] = false;
-        for (int i = 0; i < nums.length; ++i) {
-            if (nums[i] + curSum > per) {
-                break;
-            }
-            if (((mask >> i) & 1) != 0) {
-                if (dfs698(mask ^ (1 << i), (nums[i] + curSum) % per, per, nums)) {
-                    return true;
-                }
+        int candidate = i ^ u698;
+        for (int c = candidate; c > 0; c = (c - 1) & candidate) {
+            if (maskSum698[c] == per698 && dfs698(i | c)) {
+                memo698[i] = 1;
+                return true;
             }
         }
+        memo698[i] = -1;
         return false;
     }
 
