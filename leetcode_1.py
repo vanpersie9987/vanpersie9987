@@ -6198,3 +6198,42 @@ class leetcode_1 :
            memo[i][j] = res
            return res
         return dfs(0, 0)
+    
+    # 2035. 将数组分成两个数组并最小化数组和的差 (Partition Array Into Two Arrays to Minimize Sum Difference)
+    def minimumDifference(self, nums: List[int]) -> int:
+       n = len(nums) // 2
+       dic = collections.defaultdict(list)
+       for i in range(1 << n):
+          cnt = 0
+          _sum = 0
+          for j in range(n):
+             if ((i >> j) & 1) == 0:
+                cnt += 1
+                _sum += nums[j]
+             else:
+                _sum -= nums[j]
+          dic[cnt].append(_sum)
+       for c in dic.values():
+          c.sort()
+       res = inf
+       for i in range(1 << n):
+          cnt = 0
+          _sum = 0
+          for j in range(n):
+             if ((i >> j) & 1) == 0:
+                cnt += 1
+                _sum += nums[n + j]
+             else:
+                _sum -= nums[n + j]
+          _list = dic[n - cnt]
+          left = bisect.bisect_left(_list, -_sum)
+          if left != len(_list):
+             res = min(res, abs(_list[left] + _sum))
+          right = bisect.bisect_right(_list, -_sum)
+          if right != len(_list):
+             res = min(res, abs(_list[right] + _sum))
+          if res == 0:
+             break
+       return res
+       
+       
