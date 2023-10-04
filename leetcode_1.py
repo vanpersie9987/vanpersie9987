@@ -6163,26 +6163,19 @@ class leetcode_1 :
     # 2572. 无平方子集计数 (Count the Number of Square-Free Subsets)
     def squareFreeSubsets(self, nums: List[int]) -> int:
         MOD = 10 ** 9 + 7
-        is_primes = [True] * 31
-        for i in range(2, 31):
-            if is_primes[i]:
-                for j in range(i * i, 31, i):
-                    is_primes[j] = False
+        primes = [1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
         dic = collections.defaultdict(int)
-        cnt = 0
-        for i in range(1, 31):
-            if is_primes[i]:
-                dic[i] = cnt
-                cnt += 1
+        for i, p in enumerate(primes):
+           dic[p] = i
         masks = [0] * 31
         for i in range(1, 31):
-            if is_primes[i]:
+            if i in dic.keys():
                 masks[i] = 1 << dic[i]
             elif i % 4 == 0 or i % 9 == 0 or i % 25 == 0:
                 masks[i] = -1
             else:
                 for j in range(2, 31):
-                    if is_primes[j] and i % j == 0:
+                    if j in dic.keys() and i % j == 0:
                         masks[i] |= 1 << dic[j]
         cnts = [0] * 31
         for num in nums:
