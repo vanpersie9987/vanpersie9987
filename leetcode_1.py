@@ -6276,3 +6276,27 @@ class leetcode_1 :
             return dfs(L.left, R.right) and dfs(L.right, R.left)
         return dfs(root.left, root.right)
        
+    # 698. 划分为k个相等的子集 (Partition to K Equal Sum Subsets)
+    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
+       @cache
+       def dfs(i: int) -> bool:
+          if i == u:
+             return True
+          c = candidate = i ^ u
+          while c:
+             if mask_sum[c] == a and dfs(i | c):
+                return True
+             c = (c - 1) & candidate
+          return False
+       n = len(nums)
+       s = sum(nums)
+       if s % k != 0:
+          return False
+       a = s // k
+       mask_sum = [0] * (1 << n)
+       for i in range(1, 1 << n):
+          index = (i & -i).bit_length() - 1
+          mask_sum[i] = mask_sum[i ^ (1 << index)] + nums[index]
+       u = (1 << n) - 1
+       return dfs(0)
+       
