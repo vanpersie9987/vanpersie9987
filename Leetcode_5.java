@@ -2735,6 +2735,10 @@ public class Leetcode_5 {
         }
         this.per698 = sum / k;
         int n = nums.length;
+        Arrays.sort(nums);
+        if (nums[n - 1] > per698) {
+            return false;
+        }
         this.maskSum698 = new int[1 << n];
         for (int i = 1; i < 1 << n; ++i) {
             int index = Integer.numberOfTrailingZeros(i);
