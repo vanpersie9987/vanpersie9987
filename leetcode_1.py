@@ -6174,7 +6174,7 @@ class leetcode_1 :
             elif i % 4 == 0 or i % 9 == 0 or i % 25 == 0:
                 masks[i] = -1
             else:
-                for j in range(2, 31):
+                for j in range(2, i + 1):
                     if j in dic.keys() and i % j == 0:
                         masks[i] |= 1 << dic[j]
         cnts = [0] * 31
