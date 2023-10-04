@@ -6163,7 +6163,6 @@ class leetcode_1 :
     # 2572. 无平方子集计数 (Count the Number of Square-Free Subsets)
     def squareFreeSubsets(self, nums: List[int]) -> int:
         MOD = 10 ** 9 + 7
-        n = len(nums)
         is_primes = [True] * 31
         for i in range(2, 31):
             if is_primes[i]:
@@ -6175,27 +6174,29 @@ class leetcode_1 :
             if is_primes[i]:
                 dic[i] = cnt
                 cnt += 1
-        arr = [0] * 31
+        masks = [0] * 31
         for i in range(1, 31):
             if is_primes[i]:
-                arr[i] = 1 << dic[i]
+                masks[i] = 1 << dic[i]
             elif i % 4 == 0 or i % 9 == 0 or i % 25 == 0:
-                arr[i] = -1
+                masks[i] = -1
             else:
                 for j in range(2, 31):
                     if is_primes[j] and i % j == 0:
-                        arr[i] |= 1 << dic[j]
-        memo = [[-1] * (1 << cnt) for _ in range(n)]
+                        masks[i] |= 1 << dic[j]
+        cnts = [0] * 31
+        for num in nums:
+           cnts[num] += 1
+        @cache
         def dfs(i: int, j: int) -> int:
-           if i == n:
+           if i == 31:
                return 1 if j > 0 else 0
-           if memo[i][j] != -1:
-               return memo[i][j]
            res = dfs(i + 1, j)
-           if nums[i] == 1 or arr[nums[i]] != -1 and (j & arr[nums[i]]) == 0:
-               res += dfs(i + 1, j | arr[nums[i]])
-               res %= MOD
-           memo[i][j] = res
+           if i == 1:
+              res += (pow(2, cnts[i], MOD) - 1) * dfs(i + 1, j | 1) % MOD
+              res %= MOD
+           elif masks[i] != -1 and (masks[i] & j) == 0:
+              res += cnts[i] * dfs(i + 1, masks[i] | j)
            return res
         return dfs(0, 0)
     
