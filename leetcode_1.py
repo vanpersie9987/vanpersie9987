@@ -6194,10 +6194,9 @@ class leetcode_1 :
            res = dfs(i + 1, j)
            if i == 1:
               res += (pow(2, cnts[i], MOD) - 1) * dfs(i + 1, j | 1) % MOD
-              res %= MOD
            elif masks[i] != -1 and (masks[i] & j) == 0:
               res += cnts[i] * dfs(i + 1, masks[i] | j)
-           return res
+           return res % MOD
         return dfs(0, 0)
     
     # 2035. 将数组分成两个数组并最小化数组和的差 (Partition Array Into Two Arrays to Minimize Sum Difference)
