@@ -3941,46 +3941,35 @@ public class Leetcode_8 {
     // 2572. 无平方子集计数 (Count the Number of Square-Free Subsets)
     private int[] masks2572;
     private int[][] memo2572;
-    private int[] cnts;
+    private int[] cnts2572;
 
     public int squareFreeSubsets(int[] nums) {
-        boolean[] isPrime = new boolean[31];
-        Arrays.fill(isPrime, true);
-        for (int i = 2; i * i < 31; ++i) {
-            if (isPrime[i]) {
-                for (int j = i * i; j <= 30; j += i) {
-                    isPrime[j] = false;
-                }
-            }
-        }
+        int[] primes = { 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
         Map<Integer, Integer> map = new HashMap<>();
-        int cnt = 0;
-        for (int i = 1; i < 31; ++i) {
-            if (isPrime[i]) {
-                map.put(i, cnt++);
-            }
+        for (int i = 0; i < primes.length; ++i) {
+            map.put(primes[i], i);
         }
         this.masks2572 = new int[31];
         for (int i = 1; i <= 30; ++i) {
-            if (isPrime[i]) {
+            if (map.containsKey(i)) {
                 masks2572[i] |= 1 << map.get(i);
             } else if (i % 4 == 0 || i % 9 == 0 || i % 25 == 0) {
                 masks2572[i] = -1;
             } else {
                 for (int j = 2; j <= i; ++j) {
-                    if (isPrime[j] && i % j == 0) {
+                    if (map.containsKey(j) && i % j == 0) {
                         masks2572[i] |= 1 << map.get(j);
                     }
                 }
             }
         }
-        this.memo2572 = new int[31][1 << cnt];
+        this.memo2572 = new int[31][1 << primes.length];
         for (int i = 0; i < 31; ++i) {
             Arrays.fill(memo2572[i], -1);
         }
-        this.cnts = new int[31];
+        this.cnts2572 = new int[31];
         for (int num : nums) {
-            ++cnts[num];
+            ++cnts2572[num];
         }
         return dfs2572(1, 0);
     }
@@ -3995,18 +3984,18 @@ public class Leetcode_8 {
         int res = dfs2572(i + 1, j);
         final int MOD = (int) (1e9 + 7);
         if (i == 1) {
-            res += (long) ((pow(2, cnts[i]) - 1 + MOD) % MOD) * dfs2572(i + 1, j | 1) % MOD;
+            res += (long) ((pow2572(2, cnts2572[i]) - 1 + MOD) % MOD) * dfs2572(i + 1, j | 1) % MOD;
         } else if (masks2572[i] != -1 && (masks2572[i] & j) == 0) {
-            res += (long) cnts[i] * dfs2572(i + 1, j | masks2572[i]) % MOD;
+            res += (long) cnts2572[i] * dfs2572(i + 1, j | masks2572[i]) % MOD;
         }
         return memo2572[i][j] = res % MOD;
     }
 
-    private int pow(int a, int b) {
+    private int pow2572(int a, int b) {
         if (b == 0) {
             return 1;
         }
-        int res = pow(a, b >> 1);
+        int res = pow2572(a, b >> 1);
         final int MOD = (int) (1e9 + 7);
         res = (int) ((long) res * res % MOD);
         if ((b & 1) == 1) {
