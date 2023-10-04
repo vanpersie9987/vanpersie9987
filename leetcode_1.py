@@ -6235,5 +6235,40 @@ class leetcode_1 :
           if res == 0:
              break
        return res
-       
+    
+    # 1994. 好子集的数目 (The Number of Good Subsets)
+    def numberOfGoodSubsets(self, nums: List[int]) -> int:
+       MOD = 10 ** 9 + 7
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == 31:
+             return 1 if j > 1 else 0
+          res = dfs(i + 1, j)
+          if i == 1:
+             res += (pow(2, cnts[i], MOD) - 1) * dfs(i + 1, j | 1)
+             res %= MOD
+          elif masks[i] != -1 and (masks[i] & j) == 0:
+             res += cnts[i] * dfs(i + 1, masks[i] | j)
+             res %= MOD
+          return res
+       primes = [1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+       dic = collections.defaultdict(int)
+       cnt = 0
+       for p in primes:
+          dic[p] = cnt
+          cnt += 1
+       cnts = [0] * 31
+       for num in nums:
+          cnts[num] += 1
+       masks = [0] * 31
+       for i in range(1, 31):
+          if i in dic.keys():
+             masks[i] = 1 << dic[i]
+          elif i % 4 == 0 or i % 9 == 0 or i % 25 == 0:
+             masks[i] = -1
+          else:
+             for j in range(2, i + 1):
+                if j in dic.keys() and i % j == 0:
+                   masks[i] |= 1 << dic[j]
+       return dfs(1, 0)
        
