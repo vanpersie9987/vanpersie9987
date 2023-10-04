@@ -6260,4 +6260,19 @@ class leetcode_1 :
                 if j in dic.keys() and i % j == 0:
                    masks[i] |= 1 << dic[j]
        return dfs(1, 0)
+    
+    # 101. 对称二叉树 (Symmetric Tree)
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        class TreeNode:
+            def __init__(self, val=0, left=None, right=None):
+                self.val = val
+                self.left = left
+                self.right = right
+        def dfs(L: Optional[TreeNode], R: Optional[TreeNode]) -> bool:
+            if L is None and R is None:
+                return True
+            if L is None or R is None or L.val != R.val:
+                return False
+            return dfs(L.left, R.right) and dfs(L.right, R.left)
+        return dfs(root.left, root.right)
        
