@@ -3956,7 +3956,7 @@ public class Leetcode_8 {
                 }
             }
         }
-        Map<Integer,Integer> map = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>();
         int cnt = 0;
         for (int i = 1; i < 31; ++i) {
             if (isPrime[i]) {
@@ -4046,5 +4046,79 @@ public class Leetcode_8 {
         }
         return res;
 
+    }
+
+    // 1994. 好子集的数目 (The Number of Good Subsets)
+    private int[][] memo1994;
+    private int[] masks1994;
+    private int[] cnts1994;
+
+    public int numberOfGoodSubsets(int[] nums) {
+        int[] primes = { 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < primes.length; ++i) {
+            map.put(primes[i], i);
+        }
+        this.masks1994 = new int[31];
+        for (int i = 1; i < 31; ++i) {
+            if (map.containsKey(i)) {
+                masks1994[i] = 1 << map.get(i);
+            } else if (i % 4 == 0 || i % 9 == 0 || i % 25 == 0) {
+                masks1994[i] = -1;
+            } else {
+                for (int j = 2; j <= i; ++j) {
+                    if (map.containsKey(j) && i % j == 0) {
+                        masks1994[i] |= 1 << map.get(j);
+                    }
+                }
+            }
+        }
+        this.cnts1994 = new int[31];
+        for (int num : nums) {
+            ++cnts1994[num];
+        }
+        this.memo1994 = new int[31][1 << primes.length];
+        for (int i = 0; i < 31; ++i) {
+            Arrays.fill(memo1994[i], -1);
+        }
+        return dfs1994(1, 0);
+
+    }
+
+    private int dfs1994(int i, int j) {
+        if (i == 31) {
+            return j > 1 ? 1 : 0;
+        }
+        if (memo1994[i][j] != -1) {
+            return memo1994[i][j];
+        }
+        // 不选
+        int res = dfs1994(i + 1, j);
+        final int MOD = (int) (1e9 + 7);
+        // 选
+        if (i == 1) {
+            int c = power1994(2, cnts1994[i]) - 1;
+            res += (long) c * dfs1994(i + 1, j | 1) % MOD;
+            res %= MOD;
+        } else {
+            if (masks1994[i] != -1 && (masks1994[i] & j) == 0) {
+                res += (long) cnts1994[i] * dfs1994(i + 1, j | masks1994[i]) % MOD;
+                res %= MOD;
+            }
+        }
+        return memo1994[i][j] = res;
+    }
+
+    private int power1994(int a, int b) {
+        if (b == 0) {
+            return 1;
+        }
+        int res = power1994(a, b >> 1);
+        final int MOD = (int) (1e9 + 7);
+        res = (int) ((long) res * res % MOD);
+        if (b % 2 == 1) {
+            res = (int) ((long) res * a % MOD);
+        }
+        return res;
     }
 }
