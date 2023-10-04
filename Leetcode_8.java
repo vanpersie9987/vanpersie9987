@@ -4104,14 +4104,10 @@ public class Leetcode_8 {
         if (i == 1) {
             int c = power1994(2, cnts1994[i]) - 1;
             res += (long) c * dfs1994(i + 1, j | 1) % MOD;
-            res %= MOD;
-        } else {
-            if (masks1994[i] != -1 && (masks1994[i] & j) == 0) {
-                res += (long) cnts1994[i] * dfs1994(i + 1, j | masks1994[i]) % MOD;
-                res %= MOD;
-            }
+        } else if (masks1994[i] != -1 && (masks1994[i] & j) == 0) {
+            res += (long) cnts1994[i] * dfs1994(i + 1, j | masks1994[i]) % MOD;
         }
-        return memo1994[i][j] = res;
+        return memo1994[i][j] = res % MOD;
     }
 
     private int power1994(int a, int b) {
