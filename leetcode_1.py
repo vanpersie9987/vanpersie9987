@@ -6293,6 +6293,8 @@ class leetcode_1 :
        if s % k != 0:
           return False
        a = s // k
+       if sorted(nums)[-1] > a:
+          return False
        mask_sum = [0] * (1 << n)
        for i in range(1, 1 << n):
           index = (i & -i).bit_length() - 1
