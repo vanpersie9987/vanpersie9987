@@ -3998,4 +3998,53 @@ public class Leetcode_8 {
         }
         return memo2572[i][j] = res;
     }
+
+    // 2035. 将数组分成两个数组并最小化数组和的差 (Partition Array Into Two Arrays to Minimize Sum
+    // Difference) --折半搜索
+    public int minimumDifference2035(int[] nums) {
+        int n = nums.length / 2;
+        int[] arr = Arrays.copyOfRange(nums, 0, n);
+        Map<Integer, TreeSet<Integer>> map = new HashMap<>();
+        for (int i = 0; i < 1 << n; ++i) {
+            int cnt = 0;
+            int sum = 0;
+            for (int j = 0; j < n; ++j) {
+                if (((i >> j) & 1) == 0) {
+                    ++cnt;
+                    sum += arr[j];
+                } else {
+                    sum -= arr[j];
+                }
+            }
+            map.computeIfAbsent(cnt, k -> new TreeSet<>()).add(sum);
+        }
+        int res = Integer.MAX_VALUE;
+        arr = Arrays.copyOfRange(nums, n, n * 2);
+        for (int i = 0; i < 1 << n; ++i) {
+            int cnt = 0;
+            int sum = 0;
+            for (int j = 0; j < n; ++j) {
+                if (((i >> j) & 1) == 0) {
+                    ++cnt;
+                    sum += arr[j];
+                } else {
+                    sum -= arr[j];
+                }
+            }
+            TreeSet<Integer> set = map.getOrDefault(n - cnt, new TreeSet<>());
+            Integer ceiling = set.ceiling(-sum);
+            if (ceiling != null) {
+                res = Math.min(res, Math.abs(ceiling + sum));
+            }
+            Integer floor = set.floor(-sum);
+            if (floor != null) {
+                res = Math.min(res, Math.abs(floor + sum));
+            }
+            if (res == 0) {
+                break;
+            }
+        }
+        return res;
+
+    }
 }
