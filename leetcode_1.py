@@ -6239,11 +6239,9 @@ class leetcode_1 :
           res = dfs(i + 1, j)
           if i == 1:
              res += (pow(2, cnts[i], MOD) - 1) * dfs(i + 1, j | 1)
-             res %= MOD
           elif masks[i] != -1 and (masks[i] & j) == 0:
              res += cnts[i] * dfs(i + 1, masks[i] | j)
-             res %= MOD
-          return res
+          return res % MOD
        primes = [1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
        dic = collections.defaultdict(int)
        for i, p in enumerate(primes):
