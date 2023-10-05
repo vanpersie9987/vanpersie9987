@@ -4122,4 +4122,76 @@ public class Leetcode_8 {
         }
         return res;
     }
+
+    private int[][] memo;
+    private int n;
+    private int m;
+    private int u;
+    private String[] stickers;
+    private String target;
+
+    public int minStickers(String[] stickers, String target) {
+        this.n = stickers.length;
+        this.m = target.length();
+        this.memo = new int[n][1 << m];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo[i], -1);
+        }
+        this.u = (1 << m) - 1;
+        this.stickers = stickers;
+        this.target = target;
+        int res = dfs(0, 0);
+        return res < m + 1 ? res : -1;
+    }
+
+    private int dfs(int i, int j) {
+        if (j == u) {
+            return 0;
+        }
+        if (i == n) {
+            return m + 1;
+        }
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+        // 不选
+        int res = dfs(i + 1, j);
+        // 选
+        int give = 0;
+        int[] cnts = new int[26];
+        for (char chr : stickers[i].toCharArray()) {
+            give |= 1 << (chr - 'a');
+            ++cnts[chr - 'a'];
+        }
+        int c = u ^ j;
+        int need = 0;
+        int[] needCnts = new int[26];
+        while (c > 0) {
+            int index = Integer.numberOfTrailingZeros(c);
+            need |= 1 << (target.charAt(index) - 'a');
+            ++needCnts[target.charAt(index) - 'a'];
+            c &= c - 1;
+        }
+        if ((give & need) == 0) {
+            return memo[i][j] = res;
+        }
+        int max = 0;
+        for (int k = 0; k < 26; ++k) {
+            if (cnts[k] != 0 && needCnts[k] != 0) {
+                max = Math.max(max, (needCnts[k] + cnts[k] - 1) / cnts[k]);
+            }
+        }
+        c = u ^ j;
+        for (int cnt = 1; cnt <= max; ++cnt) {
+            int[] copy = cnts.clone();
+            for (int k = 0; k < m; ++k) {
+                if (((c >> k) & 1) == 1 && copy[target.charAt(k) - 'a'] > 0) {
+                    --copy[target.charAt(k) - 'a'];
+                    c ^= 1 << k;
+                }
+            }
+            res = Math.min(res, dfs(i + 1, c ^ u) + cnt);
+        }
+        return memo[i][j] = res;
+    }
 }

@@ -5734,6 +5734,79 @@ public class Leetcode_7 {
         return memo691[mask] = res;
     }
 
+    // 691. 贴纸拼词 (Stickers to Spell Word)
+    private int[][] memo_691_2;
+    private int n_691_2;
+    private int m_691_2;
+    private int u_691_2;
+    private String[] stickers_691_2;
+    private String target_691_2;
+
+    public int minStickers2(String[] stickers, String target) {
+        this.n_691_2 = stickers.length;
+        this.m_691_2 = target.length();
+        this.memo_691_2 = new int[n_691_2][1 << m_691_2];
+        for (int i = 0; i < n_691_2; ++i) {
+            Arrays.fill(memo_691_2[i], -1);
+        }
+        this.u_691_2 = (1 << m_691_2) - 1;
+        this.stickers_691_2 = stickers;
+        this.target_691_2 = target;
+        int res = dfs_691_2(0, 0);
+        return res < m_691_2 + 1 ? res : -1;
+    }
+
+    private int dfs_691_2(int i, int j) {
+        if (j == u_691_2) {
+            return 0;
+        }
+        if (i == n_691_2) {
+            return m_691_2 + 1;
+        }
+        if (memo_691_2[i][j] != -1) {
+            return memo_691_2[i][j];
+        }
+        // 不选
+        int res = dfs_691_2(i + 1, j);
+        // 选
+        int give = 0;
+        int[] cnts = new int[26];
+        for (char chr : stickers_691_2[i].toCharArray()) {
+            give |= 1 << (chr - 'a');
+            ++cnts[chr - 'a'];
+        }
+        int c = u_691_2 ^ j;
+        int need = 0;
+        int[] needCnts = new int[26];
+        while (c > 0) {
+            int index = Integer.numberOfTrailingZeros(c);
+            need |= 1 << (target_691_2.charAt(index) - 'a');
+            ++needCnts[target_691_2.charAt(index) - 'a'];
+            c &= c - 1;
+        }
+        if ((give & need) == 0) {
+            return memo_691_2[i][j] = res;
+        }
+        int max = 0;
+        for (int k = 0; k < 26; ++k) {
+            if (cnts[k] != 0 && needCnts[k] != 0) {
+                max = Math.max(max, (needCnts[k] + cnts[k] - 1) / cnts[k]);
+            }
+        }
+        c = u_691_2 ^ j;
+        for (int cnt = 1; cnt <= max; ++cnt) {
+            int[] copy = cnts.clone();
+            for (int k = 0; k < m_691_2; ++k) {
+                if (((c >> k) & 1) == 1 && copy[target_691_2.charAt(k) - 'a'] > 0) {
+                    --copy[target_691_2.charAt(k) - 'a'];
+                    c ^= 1 << k;
+                }
+            }
+            res = Math.min(res, dfs_691_2(i + 1, c ^ u_691_2) + cnt);
+        }
+        return memo_691_2[i][j] = res;
+    }
+
     // 996. 正方形数组的数目 (Number of Squareful Arrays)
     private int n996;
     private int[] nums996;
