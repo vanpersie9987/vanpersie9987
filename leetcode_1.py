@@ -6301,4 +6301,28 @@ class leetcode_1 :
           mask_sum[i] = mask_sum[i ^ (1 << index)] + nums[index]
        u = (1 << n) - 1
        return dfs(0)
+    
+    # 691. 贴纸拼词 (Stickers to Spell Word)
+    def minStickers(self, stickers: List[str], target: str) -> int:
+       @cache
+       def dfs(i: int) -> int:
+          if i == u:
+             return 0
+          res = m + 1
+          for s in stickers:
+             cnt = [0] * 26
+             for c in s:
+                cnt[ord(c) - ord('a')] += 1
+             c = 0
+             for j in range(m):
+                if ((i >> j) & 1) == 0 and cnt[ord(target[j]) - ord('a')] > 0:
+                   cnt[ord(target[j]) - ord('a')] -= 1
+                   c |= 1 << j
+             if c:
+                res = min(res, dfs(i | c) + 1)
+          return res
+       m = len(target)
+       u = (1 << m) - 1
+       res = dfs(0)
+       return res if res < m + 1 else -1
        
