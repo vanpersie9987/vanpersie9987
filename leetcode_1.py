@@ -6330,14 +6330,16 @@ class leetcode_1 :
     def canIWin(self, maxChoosableInteger: int, desiredTotal: int) -> bool:
        @cache
        def dfs(i: int, j: int) -> bool:
-          for k in range(maxChoosableInteger):
-             if ((i >> k) & 1) == 0:
-                if j + k + 1 >= desiredTotal:
-                   return True
-                if not dfs(i | (1 << k), j + k + 1):
-                   return True
-          return False             
-          
+          c = i ^ u
+          while c:
+             index = (c & -c).bit_length() - 1
+             if j + index + 1 >= desiredTotal:
+                return True
+             if not dfs(i | (1 << index), j + index + 1):
+                return True
+             c &= c - 1
+          return False
        if (1 + maxChoosableInteger) * maxChoosableInteger < desiredTotal:
           return False
+       u = (1 << maxChoosableInteger) - 1
        return dfs(0, 0)
