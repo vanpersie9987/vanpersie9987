@@ -4122,4 +4122,44 @@ public class Leetcode_8 {
         }
         return res;
     }
+
+    // 805. 数组的均值分割 (Split Array With Same Average)
+    public boolean splitArraySameAverage(int[] nums) {
+        int n = nums.length;
+        if (n == 1) {
+            return false;
+        }
+        int total = Arrays.stream(nums).sum();
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+        map.computeIfAbsent(0, k -> new HashSet<>()).add(0);
+        int halfLen = n / 2;
+        int[] sum = new int[1 << halfLen];
+        for (int i = 1; i < 1 << halfLen; ++i) {
+            int index = Integer.numberOfTrailingZeros(i);
+            sum[i] = sum[i ^ (1 << index)] + nums[index];
+            map.computeIfAbsent(Integer.bitCount(i), k -> new HashSet<>()).add(sum[i]);
+        }
+        sum = new int[1 << (n - halfLen)];
+        for (int i = 1; i < 1 << (n - halfLen); ++i) {
+            int index = Integer.numberOfTrailingZeros(i);
+            sum[i] = sum[i ^ (1 << index)] + nums[index + halfLen];
+            int cnt = Integer.bitCount(i);
+            for (int j = 0; j <= halfLen; ++j) {
+                Set<Integer> set = map.getOrDefault(j, new HashSet<>());
+                // set + sum[i] |||| total - (set + sum[i])
+                // ------------- ==== ----------------------
+                // j + cnt |||| n - (j + cnt)
+                // ==> (j + cnt) * (total - sum[i]) - (j + cnt) * SET == (n - j - cnt) * SET +
+                // (n - j - cnt) * sum[i]
+                // ==> (j + cnt) * (total - sum[i]) - (n - j - cnt) * sum[i] == n * SET
+                // ==> j * total + cnt * total - n * sum[i] == n * SET
+                if (j + cnt < n && (j * total + cnt * total - n * sum[i]) % n == 0
+                        && set.contains((j * total + cnt * total - n * sum[i]) / n)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
 }
