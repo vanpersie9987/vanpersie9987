@@ -6343,3 +6343,28 @@ class leetcode_1 :
           return False
        u = (1 << maxChoosableInteger) - 1
        return dfs(0, 0)
+    
+    # 805. 数组的均值分割 (Split Array With Same Average)
+    def splitArraySameAverage(self, nums: List[int]) -> bool:
+       n = len(nums)
+       s = sum(nums)
+       dic = collections.defaultdict(set)
+       dic[0].add(0)
+       half_len = n // 2
+       arr = [0] * (1 << half_len)
+       for i in range(1, 1 << half_len):
+          index = (i & -i).bit_length() - 1
+          arr[i] = arr[i ^ (1 << index)] + nums[index]
+          dic[i.bit_count()].add(arr[i])
+       arr = [0] * (1 << (n - half_len))
+       for i in range(1, 1 << (n - half_len)):
+          index = (i & -i).bit_length() - 1
+          arr[i] = arr[i ^ (1 << index)] + nums[index + half_len]
+          cnt = i.bit_count()
+          for j in range(half_len + 1):
+             if j + cnt < n and (j * s + cnt * s - n * arr[i]) % n == 0 and ((j * s + cnt * s - n * arr[i]) // n) in dic[j]:
+                  return True
+       return False
+
+       
+          
