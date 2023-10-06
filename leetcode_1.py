@@ -6325,4 +6325,19 @@ class leetcode_1 :
        u = (1 << m) - 1
        res = dfs(0)
        return res if res < m + 1 else -1
-       
+
+    # 464. 我能赢吗 (Can I Win)
+    def canIWin(self, maxChoosableInteger: int, desiredTotal: int) -> bool:
+       @cache
+       def dfs(i: int, j: int) -> bool:
+          for k in range(maxChoosableInteger):
+             if ((i >> k) & 1) == 0:
+                if j + k + 1 >= desiredTotal:
+                   return True
+                if not dfs(i | (1 << k), j + k + 1):
+                   return True
+          return False             
+          
+       if (1 + maxChoosableInteger) * maxChoosableInteger < desiredTotal:
+          return False
+       return dfs(0, 0)
