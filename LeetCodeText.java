@@ -11120,24 +11120,20 @@ public class LeetCodeText {
     // 901. 股票价格跨度 (Online Stock Span) --单调栈
     class StockSpanner {
         private Stack<int[]> stack;
-        private int index;
+        private int i;
 
         public StockSpanner() {
-            stack = new Stack<>();
-            // index , val
-            stack.push(new int[] { -1, Integer.MAX_VALUE });
+            this.stack = new Stack<>();
+            stack.push(new int[] { -1, 0 });
         }
 
         public int next(int price) {
-            int[] cur = new int[] { index, price };
-            while (stack.peek()[1] <= price) {
+            while (stack.size() > 1 && stack.peek()[1] <= price) {
                 stack.pop();
             }
-            int res = index - stack.peek()[0];
-            stack.push(cur);
-            ++index;
+            int res = i - stack.peek()[0];
+            stack.push(new int[] { i++, price });
             return res;
-
         }
     }
 
