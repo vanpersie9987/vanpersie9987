@@ -3121,6 +3121,60 @@ public class LeetCode_4 {
         return res;
     }
 
+    // 1947. 最大兼容性评分和 (Maximum Compatibility Score Sum)
+    private int[][] memo1947;
+    private int n1947;
+    private int[] stuMask1947;
+    private int[] menMask1947;
+    private int u1947;
+    private int m1947;
+
+    public int maxCompatibilitySum3(int[][] students, int[][] mentors) {
+        this.n1947 = students.length;
+        this.stuMask1947 = new int[n1947];
+        this.menMask1947 = new int[n1947];
+        for (int i = 0; i < n1947; ++i) {
+            int cur = 0;
+            for (int s : students[i]) {
+                cur = (cur << 1) | s;
+            }
+            stuMask1947[i] = cur;
+
+        }
+        for (int i = 0; i < n1947; ++i) {
+            int cur = 0;
+            for (int m : mentors[i]) {
+                cur = (cur << 1) | m;
+            }
+            menMask1947[i] = cur;
+        }
+        this.memo1947 = new int[n1947][1 << n1947];
+        for (int i = 0; i < n1947; ++i) {
+            Arrays.fill(memo1947[i], -1);
+        }
+        this.m1947 = (1 << students[0].length) - 1;
+        this.u1947 = (1 << n1947) - 1;
+        return dfs1947(0, 0);
+
+    }
+
+    private int dfs1947(int i, int j) {
+        if (i == n1947) {
+            return 0;
+        }
+        if (memo1947[i][j] != -1) {
+            return memo1947[i][j];
+        }
+        int c = j ^ u1947;
+        int res = 0;
+        while (c > 0) {
+            int index = Integer.numberOfTrailingZeros(c);
+            res = Math.max(res, dfs1947(i + 1, j | (1 << index)) + Integer.bitCount(stuMask1947[i] ^ menMask1947[index] ^ m1947));
+            c &= c - 1;
+        }
+        return memo1947[i][j] = res;
+    }
+
     // 1593.拆分字符串使唯一子字符串的数目最大 (Split a String Into the Max Number of Unique
     // Substrings) --回溯
     private int res1593;
