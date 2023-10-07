@@ -6365,6 +6365,18 @@ class leetcode_1 :
              if j + cnt < n and (j * s + cnt * s - n * arr[i]) % n == 0 and ((j * s + cnt * s - n * arr[i]) // n) in dic[j]:
                   return True
        return False
+    
+    # 901. 股票价格跨度 (Online Stock Span)
+    class StockSpanner:
 
-       
-          
+       def __init__(self):
+          self.st = [[-1, 0]]
+          self.i = 0
+
+       def next(self, price: int) -> int:
+          while len(self.st) > 1 and self.st[-1][-1] <= price:
+             self.st.pop()
+          res = self.i - self.st[-1][0]
+          self.st.append([self.i, price])
+          self.i += 1
+          return res
