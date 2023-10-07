@@ -6398,14 +6398,13 @@ class leetcode_1 :
        stu_mask = [0] * n
        men_mask = [0] * n
        for i in range(n):
-          cur = 0
-          for v in students[i]:
-             cur = (cur << 1) | v
-          stu_mask[i] = cur
-          cur = 0
-          for v in mentors[i]:
-             cur = (cur << 1) | v
-          men_mask[i] = cur
+          stu = 0
+          men = 0
+          for s, m in zip(students[i], mentors[i]):
+             stu = (stu << 1) | s
+             men = (men << 1) | m
+          stu_mask[i] = stu
+          men_mask[i] = men
        m = (1 << len(students[0])) - 1
        u = (1 << n) - 1
        return dfs(0, 0)
