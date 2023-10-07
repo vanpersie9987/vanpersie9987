@@ -6380,3 +6380,33 @@ class leetcode_1 :
           self.st.append([self.i, price])
           self.i += 1
           return res
+
+    # 1947. 最大兼容性评分和 (Maximum Compatibility Score Sum)
+    def maxCompatibilitySum(self, students: List[List[int]], mentors: List[List[int]]) -> int:
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return 0
+          c = j ^ u
+          res = 0
+          while c:
+             index = (c & -c).bit_length() - 1
+             res = max(res, dfs(i + 1, j | (1 << index)) + (stu_mask[i] ^ men_mask[index] ^ m).bit_count())
+             c &= c - 1
+          return res
+       n = len(students)
+       stu_mask = [0] * n
+       men_mask = [0] * n
+       for i in range(n):
+          cur = 0
+          for v in students[i]:
+             cur = (cur << 1) | v
+          stu_mask[i] = cur
+          cur = 0
+          for v in mentors[i]:
+             cur = (cur << 1) | v
+          men_mask[i] = cur
+       m = (1 << len(students[0])) - 1
+       u = (1 << n) - 1
+       return dfs(0, 0)
+             
