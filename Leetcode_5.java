@@ -1792,7 +1792,7 @@ public class Leetcode_5 {
             res = Math.max(res, pre);
         }
         return res;
-    
+
     }
 
     // 2406. 将区间分为最少组数 (Divide Intervals Into Minimum Number of Groups)
@@ -3015,7 +3015,8 @@ public class Leetcode_5 {
         if (memo1911[i][j] != 0L) {
             return memo1911[i][j];
         }
-        return memo1911[i][j] = Math.max(dfs1911(i + 1, j), dfs1911(i + 1, j ^ 1) + (j == 0 ? nums1911[i] : -nums1911[i]));
+        return memo1911[i][j] = Math.max(dfs1911(i + 1, j),
+                dfs1911(i + 1, j ^ 1) + (j == 0 ? nums1911[i] : -nums1911[i]));
     }
 
     // 6188. 按身高排序
@@ -3508,7 +3509,7 @@ public class Leetcode_5 {
         List<Integer> list = new ArrayList<>(map.values());
         Collections.sort(list);
         int size = list.size();
-        // 只有一种个数  如 aaaaaaa
+        // 只有一种个数 如 aaaaaaa
         // 有两种个数 且较少的个数是1 较大的个数相等 如 abbbbcccc
         // 有两种个数 且较大的个数比较小的个数大1 较小的个数相等 如 bbbcccdddd
         return size == 1 || list.get(0) == 1 && check2423_2(list.subList(1, size))
@@ -4496,7 +4497,7 @@ public class Leetcode_5 {
         return res;
 
     }
-    
+
     // 2435. 矩阵中和能被 K 整除的路径 (Paths in Matrix Whose Sum Is Divisible by K)
     private int m2435;
     private int n2435;
@@ -6235,45 +6236,38 @@ public class Leetcode_5 {
 
     // 2034. 股票价格波动 (Stock Price Fluctuation)
     class StockPrice {
-        private Map<Integer, Integer> timePriceMap;
-        private TreeMap<Integer, Integer> countMap;
-        private int currentTimeStamp = -1;
+        private TreeMap<Integer, Integer> timeToPrice;
+        private TreeMap<Integer, Integer> priceToCnts;
 
         public StockPrice() {
-            timePriceMap = new HashMap<>();
-            countMap = new TreeMap<>();
+            this.timeToPrice = new TreeMap<>();
+            this.priceToCnts = new TreeMap<>();
 
         }
 
         public void update(int timestamp, int price) {
-            if (timestamp > currentTimeStamp) {
-                currentTimeStamp = timestamp;
-            }
-            if (timePriceMap.containsKey(timestamp)) {
-                int originalPrice = timePriceMap.get(timestamp);
-                int count = countMap.get(originalPrice);
-                countMap.put(originalPrice, count - 1);
-                if (countMap.get(originalPrice) == 0) {
-                    countMap.remove(originalPrice);
+            int pre = timeToPrice.getOrDefault(timestamp, 0);
+            if (pre != 0) {
+                priceToCnts.merge(pre, -1, Integer::sum);
+                if (priceToCnts.get(pre) <= 0) {
+                    priceToCnts.remove(pre);
                 }
             }
-            timePriceMap.put(timestamp, price);
-            countMap.put(price, countMap.getOrDefault(price, 0) + 1);
-
+            timeToPrice.put(timestamp, price);
+            priceToCnts.merge(price, 1, Integer::sum);
         }
 
         public int current() {
-            return timePriceMap.get(currentTimeStamp);
-
+            return timeToPrice.lastEntry().getValue();
         }
 
         public int maximum() {
-            return countMap.lastKey();
+            return priceToCnts.lastKey();
 
         }
 
         public int minimum() {
-            return countMap.firstKey();
+            return priceToCnts.firstKey();
         }
     }
 
@@ -8763,7 +8757,8 @@ public class Leetcode_5 {
 
     }
 
-    // 2107. 分享 K 个糖果后独特口味的数量 (Number of Unique Flavors After Sharing K Candies) --plus
+    // 2107. 分享 K 个糖果后独特口味的数量 (Number of Unique Flavors After Sharing K Candies)
+    // --plus
     public int shareCandies(int[] candies, int k) {
         int max = 0;
         for (int candy : candies) {
@@ -9932,7 +9927,6 @@ public class Leetcode_5 {
         }
         return cur;
     }
-
 
     // 276. 栅栏涂色 (Paint Fence) --plus
     public int numWays(int n, int k) {
