@@ -4251,4 +4251,32 @@ public class Leetcode_8 {
         return (int) res;
 
     }
+
+    public boolean isPossible(int[] target) {
+        int n = target.length;
+        while (true) {
+            int index = 0;
+            int max = 0;
+            long sum = 0L;
+            for (int i = 0; i < n; ++i) {
+                if (target[i] <= 0) {
+                    return false;
+                }
+                sum += target[i];
+                if (target[i] > max) {
+                    max = target[i];
+                    index = i;
+                }
+            }
+            if (max <= 0 || sum <= 0) {
+                break;
+            }
+            if (max == 1 && sum == n) {
+                return true;
+            }
+            target[index] = (int) (max - (sum - max));
+        }
+        return false;
+
+    }
 }

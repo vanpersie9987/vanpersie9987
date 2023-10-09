@@ -6475,4 +6475,15 @@ class leetcode_1 :
           res += x * x
           res %= MOD
        return res
+    
+
+    # 395. 至少有 K 个重复字符的最长子串 (Longest Substring with At Least K Repeating Characters)
+    def longestSubstring(self, s: str, k: int) -> int:
+       if len(s) < k:
+          return 0
+       for c in set(s):
+           if s.count(c) < k:
+               return max(self.longestSubstring(t, k) for t in s.split(c))
+       return len(s)
+             
              
