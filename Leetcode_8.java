@@ -4285,9 +4285,6 @@ public class Leetcode_8 {
     }
 
     private int dfs368(int i) {
-        if (i < 0) {
-            return 0;
-        }
         if (memo368[i] != 0) {
             return memo368[i];
         }

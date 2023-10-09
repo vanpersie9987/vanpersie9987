@@ -6485,5 +6485,27 @@ class leetcode_1 :
            if s.count(c) < k:
                return max(self.longestSubstring(t, k) for t in s.split(c))
        return len(s)
-             
-             
+    
+    # 368. 最大整除子集 (Largest Divisible Subset)
+    def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
+       nums.sort()
+       n = len(nums)
+       dp = [1] * n
+       _max = 0
+       max_val = 0
+       for i in range(n):
+          for j in range(i):
+             if nums[i] % nums[j] == 0:
+                dp[i] = max(dp[i], dp[j] + 1)
+          if dp[i] > _max:
+             _max = dp[i]
+             max_val = nums[i]
+       res = []
+       for i in range(n - 1, -1, -1):
+          if _max == 0:
+             break
+          if dp[i] == _max and max_val % nums[i] == 0:
+             res.append(nums[i])
+             max_val = nums[i]
+             _max -= 1
+       return res
