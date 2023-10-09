@@ -4252,31 +4252,51 @@ public class Leetcode_8 {
 
     }
 
-    public boolean isPossible(int[] target) {
-        int n = target.length;
-        while (true) {
-            int index = 0;
-            int max = 0;
-            long sum = 0L;
-            for (int i = 0; i < n; ++i) {
-                if (target[i] <= 0) {
-                    return false;
-                }
-                sum += target[i];
-                if (target[i] > max) {
-                    max = target[i];
-                    index = i;
-                }
-            }
-            if (max <= 0 || sum <= 0) {
-                break;
-            }
-            if (max == 1 && sum == n) {
-                return true;
-            }
-            target[index] = (int) (max - (sum - max));
-        }
-        return false;
+    // 368. 最大整除子集 (Largest Divisible Subset)
+    private int[] memo368;
+    private int n368;
+    private int[] nums368;
 
+    public List<Integer> largestDivisibleSubset(int[] nums) {
+        Arrays.sort(nums);
+        this.n368 = nums.length;
+        this.memo368 = new int[n368];
+        this.nums368 = nums;
+        for (int i = 0; i < n368; ++i) {
+            dfs368(i);
+        }
+        int max = Arrays.stream(memo368).max().getAsInt();
+        int maxVal = 0;
+        for (int i = n368 - 1; i >= 0; --i) {
+            if (memo368[i] > max) {
+                maxVal = nums[i];
+            }
+
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int i = n368 - 1; i >= 0 && max > 0; --i) {
+            if (memo368[i] == max && maxVal % nums[i] == 0) {
+                res.add(nums[i]);
+                maxVal = nums[i];
+                --max;
+            }
+        }
+        return res;
+    }
+
+    private int dfs368(int i) {
+        if (i < 0) {
+            return 0;
+        }
+        if (memo368[i] != 0) {
+            return memo368[i];
+        }
+        int res = 0;
+        for (int j = 0; j < i; ++j) {
+            if (nums368[i] % nums368[j] == 0) {
+                res = Math.max(res, dfs368(j));
+            }
+        }
+        return memo368[i] = res + 1;
     }
 }
