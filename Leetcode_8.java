@@ -4162,4 +4162,93 @@ public class Leetcode_8 {
         return false;
 
     }
+
+    // 2894. 分类求和并作差 (Divisible and Non-divisible Sums Difference)
+    public int differenceOfSums(int n, int m) {
+        return (1 + n) * n / 2 - m * (1 + n / m) * (n / m);
+    }
+
+    // 2895. 最小处理时间 (Minimum Processing Time)
+    public int minProcessingTime(List<Integer> processorTime, List<Integer> tasks) {
+        Collections.sort(processorTime, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(o2, o1);
+            }
+
+        });
+        Collections.sort(tasks);
+        int res = 0;
+        int n = tasks.size();
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, tasks.get(i) + processorTime.get(i / 4));
+        }
+        return res;
+
+    }
+
+    // 2896. 执行操作使两个字符串相等 (Apply Operations to Make Two Strings Equal)
+    private int n2896;
+    private List<Integer> list2896;
+    private int[] memo2896;
+    private int x2896;
+
+    public int minOperations(String s1, String s2, int x) {
+        this.list2896 = new ArrayList<>();
+        for (int i = 0; i < s1.length(); ++i) {
+            if (s1.charAt(i) != s2.charAt(i)) {
+                list2896.add(i);
+            }
+        }
+        this.n2896 = list2896.size();
+        if (n2896 == 0) {
+            return 0;
+        }
+        if (n2896 % 2 == 1) {
+            return -1;
+        }
+        this.memo2896 = new int[n2896];
+        Arrays.fill(memo2896, -1);
+        this.x2896 = x;
+        return dfs2896(0) / 2;
+    }
+
+    private int dfs2896(int i) {
+        if (i == n2896) {
+            return 0;
+        }
+        if (i == n2896 - 1) {
+            return x2896;
+        }
+        if (memo2896[i] != -1) {
+            return memo2896[i];
+        }
+        return memo2896[i] = Math.min(dfs2896(i + 1) + x2896,
+                dfs2896(i + 2) + (list2896.get(i + 1) - list2896.get(i)) * 2);
+    }
+
+    // 2897. 对数组执行操作使平方和最大 (Apply Operations on Array to Maximize Sum of Squares)
+    public int maxSum(List<Integer> nums, int k) {
+        int[] cnt = new int[31];
+        for (int num : nums) {
+            for (int i = 0; i < 31; ++i) {
+                cnt[i] += (num >> i) & 1;
+            }
+        }
+        final long MOD = (long) (1e9 + 7);
+        long res = 0L;
+        while (k-- > 0) {
+            long x = 0L;
+            for (int i = 0; i < 31; ++i) {
+                if (cnt[i]-- > 0) {
+                    x |= 1 << i;
+                }
+            }
+            res += x * x;
+            res %= MOD;
+        }
+        return (int) res;
+
+    }
 }

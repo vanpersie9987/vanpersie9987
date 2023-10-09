@@ -9141,25 +9141,21 @@ public class Leetcode_6 {
 
     // 6312. 最小和分割 (Split With Minimum Sum)
     public int splitNum(int num) {
-        int[] counts = new int[10];
+        int[] cnt = new int[10];
         while (num != 0) {
-            int mod = num % 10;
-            ++counts[mod];
+            ++cnt[num % 10];
             num /= 10;
         }
-        int num1 = 0;
-        int num2 = 0;
-        for (int i = 0; i < 10; ++i) {
-            while (counts[i] != 0) {
-                if (num1 < num2) {
-                    num1 = num1 * 10 + i;
-                } else {
-                    num2 = num2 * 10 + i;
-                }
-                --counts[i];
+        int[] res = new int[2];
+        int i = 0;
+        for (int j = 1; j < 10; ++j) {
+            while (cnt[j]-- != 0) {
+                res[i] = res[i] * 10 + j;
+                i ^= 1;
             }
         }
-        return num1 + num2;
+        return res[0] + res[1];
+
     }
 
     // 6311. 统计染色格子数 (Count Total Number of Colored Cells)

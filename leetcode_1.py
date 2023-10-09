@@ -6408,4 +6408,71 @@ class leetcode_1 :
        m = (1 << len(students[0])) - 1
        u = (1 << n) - 1
        return dfs(0, 0)
+    
+    # 2578. 最小和分割 (Split With Minimum Sum)
+    def splitNum(self, num: int) -> int:
+       cnt = [0] * 10
+       while num:
+          cnt[num % 10] += 1
+          num //= 10
+       res = [0] * 2
+       i = 0
+       for j in range(10):
+          while cnt[j]:
+             res[i] = res[i] * 10 + j
+             cnt[j] -= 1
+             i ^= 1
+       return sum(res)
+    
+    # 2894. 分类求和并作差 (Divisible and Non-divisible Sums Difference)
+    def differenceOfSums(self, n: int, m: int) -> int:
+       return (1 + n) * n // 2 - m * (1 + n // m) * (n // m)
+    
+    # 2895. 最小处理时间 (Minimum Processing Time)
+    def minProcessingTime(self, processorTime: List[int], tasks: List[int]) -> int:
+       processorTime.sort(reverse=True)
+       tasks.sort()
+       res = 0
+       for i, v in enumerate(tasks):
+          res = max(res, v + processorTime[i // 4])
+       return res
+    
+    # 2896. 执行操作使两个字符串相等 (Apply Operations to Make Two Strings Equal)
+    def minOperations(self, s1: str, s2: str, x: int) -> int:
+       @cache
+       def dfs(i: int) -> int:
+          if i == n:
+             return 0
+          if i == n - 1:
+             return x
+          return min(dfs(i + 1) + x, dfs(i + 2) + (p[i + 1] - p[i]) * 2)
+       p = []
+       for i, c1, c2 in zip(range(len(s1)), s1, s2):
+          if c1 != c2:
+             p.append(i)
+       n = len(p)
+       if n == 0:
+          return 0
+       if n % 2 == 1:
+          return -1
+       return dfs(0) // 2
+    
+    # 2897. 对数组执行操作使平方和最大 (Apply Operations on Array to Maximize Sum of Squares)
+    def maxSum(self, nums: List[int], k: int) -> int:
+       cnt = [0] * 31
+       for num in nums:
+          for i in range(31):
+             cnt[i] += (num >> i) & 1
+       res = 0
+       MOD = 10 ** 9 + 7
+       while k > 0:
+          k -= 1
+          x = 0
+          for i in range(31):
+             if cnt[i] > 0:
+                cnt[i] -= 1
+                x |= 1 << i
+          res += x * x
+          res %= MOD
+       return res
              
