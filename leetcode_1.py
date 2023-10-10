@@ -6524,5 +6524,24 @@ class leetcode_1 :
           pre += nums[i]
           res %= MOD
        return res
-          
-       
+    
+    # 2512. 奖励最顶尖的 K 名学生 (Reward Top K Students)
+    def topStudents(self, positive_feedback: List[str], negative_feedback: List[str], report: List[str], student_id: List[int], k: int) -> List[int]:
+       pos = set(positive_feedback)
+       neg = set(negative_feedback)
+       _list = []
+       for r, id in zip(report, student_id):
+          s = 0
+          for w in r.split():
+             if w in pos:
+                s += 3
+             elif w in neg:
+                s -= 1
+          _list.append([s, id])
+       _list.sort(key=lambda k: (-k[0], k[1]))
+       res = []
+       for i in range(k):
+          res.append(_list[i][1])
+       return res
+
+             
