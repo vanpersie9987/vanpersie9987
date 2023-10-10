@@ -6509,3 +6509,20 @@ class leetcode_1 :
              max_val = nums[i]
              _max -= 1
        return res
+    
+    # 2731. 移动机器人 (Movement of Robots)
+    def sumDistance(self, nums: List[int], s: str, d: int) -> int:
+       n = len(nums)
+       for i, x, dir in zip(range(n), nums, s):
+          nums[i] += d if dir == 'R' else -d
+       nums.sort()
+       res = 0
+       pre = 0
+       MOD = 10 ** 9 + 7
+       for i, x in enumerate(nums):
+          res += nums[i] * i - pre
+          pre += nums[i]
+          res %= MOD
+       return res
+          
+       
