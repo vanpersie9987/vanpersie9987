@@ -6539,9 +6539,4 @@ class leetcode_1 :
                 s -= 1
           _list.append([s, id])
        _list.sort(key=lambda k: (-k[0], k[1]))
-       res = []
-       for i in range(k):
-          res.append(_list[i][1])
-       return res
-
-             
+       return [i for _, i in _list[:k]]
