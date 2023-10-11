@@ -6579,4 +6579,19 @@ class leetcode_1 :
              if i == j or j - i == 1 and s[i] == s[j] or j - i > 1 and s[i] == s[j] and p[i + 1][j - 1]:
                 p[i][j] = True
        return dfs(0) - 1
+    
+    # 2562. 找出数组的串联值 (Find the Array Concatenation Value)
+    def findTheArrayConcVal(self, nums: List[int]) -> int:
+       n = len(nums)
+       i = 0 
+       j = n - 1
+       res = 0
+       while i < j:
+          res += int(str(nums[i]) + str(nums[j]))
+          i += 1
+          j -= 1
+       if i == j:
+          res += nums[i]
+       return res
+          
        
