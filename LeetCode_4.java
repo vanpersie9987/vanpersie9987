@@ -10478,7 +10478,46 @@ public class LeetCode_4 {
 
     }
 
-    // 6156. 得到 K 个黑块的最少涂色次数
+    // 115. 不同的子序列 (Distinct Subsequences)
+    // 剑指 Offer II 097. 子序列的数目
+    private int[][] memo;
+    private String s;
+    private String t;
+    private int n;
+    private int m;
+
+    public int numDistinct2(String s, String t) {
+        this.n = s.length();
+        this.m = t.length();
+        this.s = s;
+        this.t = t;
+        this.memo = new int[n][m];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo[i], -1);
+        }
+        return dfs(0, 0);
+
+    }
+
+    private int dfs(int i, int j) {
+        if (j == m) {
+            return 1;
+        }
+        if (i == n) {
+            return 0;
+        }
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+        int res = dfs(i + 1, j);
+        if (s.charAt(i) == t.charAt(j)) {
+            res += dfs(i + 1, j + 1);
+        }
+        final int MOD = (int) (1e9 + 7);
+        return memo[i][j] = res % MOD;
+    }
+
+ // 6156. 得到 K 个黑块的最少涂色次数
     public int minimumRecolors(String blocks, int k) {
         int n = blocks.length();
         int cur = 0;
