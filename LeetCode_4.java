@@ -10480,41 +10480,41 @@ public class LeetCode_4 {
 
     // 115. 不同的子序列 (Distinct Subsequences)
     // 剑指 Offer II 097. 子序列的数目
-    private int[][] memo;
-    private String s;
-    private String t;
-    private int n;
-    private int m;
+    private int[][] memo115;
+    private String s115;
+    private String t115;
+    private int n115;
+    private int m115;
 
     public int numDistinct2(String s, String t) {
-        this.n = s.length();
-        this.m = t.length();
-        this.s = s;
-        this.t = t;
-        this.memo = new int[n][m];
-        for (int i = 0; i < n; ++i) {
-            Arrays.fill(memo[i], -1);
+        this.n115 = s.length();
+        this.m115 = t.length();
+        this.s115 = s;
+        this.t115 = t;
+        this.memo115 = new int[n115][m115];
+        for (int i = 0; i < n115; ++i) {
+            Arrays.fill(memo115[i], -1);
         }
         return dfs(0, 0);
 
     }
 
     private int dfs(int i, int j) {
-        if (j == m) {
+        if (j == m115) {
             return 1;
         }
-        if (i == n) {
+        if (i == n115) {
             return 0;
         }
-        if (memo[i][j] != -1) {
-            return memo[i][j];
+        if (memo115[i][j] != -1) {
+            return memo115[i][j];
         }
         int res = dfs(i + 1, j);
-        if (s.charAt(i) == t.charAt(j)) {
+        if (s115.charAt(i) == t115.charAt(j)) {
             res += dfs(i + 1, j + 1);
         }
         final int MOD = (int) (1e9 + 7);
-        return memo[i][j] = res % MOD;
+        return memo115[i][j] = res % MOD;
     }
 
  // 6156. 得到 K 个黑块的最少涂色次数
