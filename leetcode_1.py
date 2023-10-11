@@ -6540,3 +6540,20 @@ class leetcode_1 :
           _list.append([s, id])
        _list.sort(key=lambda k: (-k[0], k[1]))
        return [i for _, i in _list[:k]]
+
+    # 115. 不同的子序列 (Distinct Subsequences)
+    def numDistinct(self, s: str, t: str) -> int:
+       MOD = 10 ** 9 + 7
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if j == m:
+             return 1
+          if i == n:
+             return 0
+          res = dfs(i + 1, j)
+          if s[i] == t[j]:
+             res += dfs(i + 1, j + 1)
+          return res % MOD
+       n = len(s)
+       m = len(t)
+       return dfs(0, 0)
