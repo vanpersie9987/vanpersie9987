@@ -10495,11 +10495,11 @@ public class LeetCode_4 {
         for (int i = 0; i < n115; ++i) {
             Arrays.fill(memo115[i], -1);
         }
-        return dfs(0, 0);
+        return dfs115(0, 0);
 
     }
 
-    private int dfs(int i, int j) {
+    private int dfs115(int i, int j) {
         if (j == m115) {
             return 1;
         }
@@ -10509,9 +10509,9 @@ public class LeetCode_4 {
         if (memo115[i][j] != -1) {
             return memo115[i][j];
         }
-        int res = dfs(i + 1, j);
+        int res = dfs115(i + 1, j);
         if (s115.charAt(i) == t115.charAt(j)) {
-            res += dfs(i + 1, j + 1);
+            res += dfs115(i + 1, j + 1);
         }
         final int MOD = (int) (1e9 + 7);
         return memo115[i][j] = res % MOD;
