@@ -6557,3 +6557,26 @@ class leetcode_1 :
        n = len(s)
        m = len(t)
        return dfs(0, 0)
+    
+    # 132. 分割回文串 II (Palindrome Partitioning II)
+    # LCR 094. 分割回文串 II
+    def minCut(self, s: str) -> int:
+       @cache
+       def dfs(i: int) -> int:
+          if i == n:
+             return 0
+          if p[i][n - 1]:
+             return 1
+          res = inf
+          for j in range(i, n):
+             if p[i][j]:
+                res = min(res, dfs(j + 1) + 1)
+          return res
+       n = len(s)
+       p = [[False] * n for _ in range(n)]
+       for i in range(n - 1, -1, -1):
+          for j in range(i, n):
+             if i == j or j - i == 1 and s[i] == s[j] or j - i > 1 and s[i] == s[j] and p[i + 1][j - 1]:
+                p[i][j] = True
+       return dfs(0) - 1
+       
