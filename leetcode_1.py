@@ -6618,3 +6618,16 @@ class leetcode_1 :
           return max(dfs(i + 1), dfs(i + 2) + nums[i])
        n = len(nums)
        return dfs(0)
+
+    # 926. 将字符串翻转到单调递增 (Flip String to Monotone Increasing)
+    # LCR 092. 将字符串翻转到单调递增
+    def minFlipsMonoIncr(self, s: str) -> int:
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return 0
+          if j == 0:
+             return min(dfs(i + 1, int(s[i])), dfs(i + 1, 1 ^ int(s[i])) + 1)
+          return dfs(i + 1, 1) + (int(s[i]) ^ 1)
+       n = len(s)
+       return dfs(0, 0)
