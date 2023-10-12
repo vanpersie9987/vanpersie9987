@@ -6631,3 +6631,14 @@ class leetcode_1 :
           return dfs(i + 1, 1) + (int(s[i]) ^ 1)
        n = len(s)
        return dfs(0, 0)
+    
+    # 383. 赎金信 (Ransom Note)
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        cnt = [0] * 26
+        for c in magazine:
+            cnt[ord(c) - ord('a')] += 1
+        for c in ransomNote:
+            cnt[ord(c) - ord('a')] -= 1
+            if cnt[ord(c) - ord('a')] < 0:
+                return False
+        return True
