@@ -1354,6 +1354,77 @@ public class LeetCode_4 {
         }
     }
 
+    // 面试题 17.13. 恢复空格 (Re-Space LCCI) --dfs
+    private String sentence17_13_2;
+    private int[] memo17_13_2;
+    private int n17_13_2;
+
+    private Trie17_13_2 trie;
+
+    public int respace3(String[] dictionary, String sentence) {
+        this.sentence17_13_2 = sentence;
+        this.n17_13_2 = sentence.length();
+        this.memo17_13_2 = new int[n17_13_2];
+        Arrays.fill(memo17_13_2, -1);
+        this.trie = new Trie17_13_2();
+        for (String d : dictionary) {
+            trie.insert(d);
+        }
+        return dfs17_13_2(0);
+
+    }
+
+    private int dfs17_13_2(int i) {
+        if (i == n17_13_2) {
+            return 0;
+        }
+        if (memo17_13_2[i] != -1) {
+            return memo17_13_2[i];
+        }
+        int res = dfs17_13_2(i + 1) + 1;
+        for (int j : trie.getIndexes(sentence17_13_2.substring(i))) {
+            res = Math.min(res, dfs17_13_2(i + j + 1));
+        }
+        return memo17_13_2[i] = res;
+    }
+
+    public class Trie17_13_2 {
+        private Trie17_13_2[] children;
+        private boolean isEnd;
+
+        public Trie17_13_2() {
+            this.children = new Trie17_13_2[26];
+        }
+
+        public void insert(String s) {
+            Trie17_13_2 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie17_13_2();
+                }
+                node = node.children[index];
+            }
+            node.isEnd = true;
+        }
+
+        public List<Integer> getIndexes(String s) {
+            List<Integer> res = new ArrayList<>();
+            Trie17_13_2 node = this;
+            for (int i = 0; i < s.length(); ++i) {
+                int index = s.charAt(i) - 'a';
+                if (node.children[index] == null) {
+                    break;
+                }
+                node = node.children[index];
+                if (node.isEnd) {
+                    res.add(i);
+                }
+            }
+            return res;
+        }
+    }
+
     // 面试题 17.17. 多次搜索 --字典树
     public int[][] multiSearch(String big, String[] smalls) {
         int n = smalls.length;
