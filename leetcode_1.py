@@ -6608,3 +6608,13 @@ class leetcode_1 :
        n = len(s)
        m = len(p)
        return dfs(0, 0)
+    
+    # 面试题 17.16. 按摩师
+    def massage(self, nums: List[int]) -> int:
+       @cache
+       def dfs(i: int) -> int:
+          if i >= n:
+             return 0
+          return max(dfs(i + 1), dfs(i + 2) + nums[i])
+       n = len(nums)
+       return dfs(0)

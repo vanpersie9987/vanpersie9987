@@ -7967,6 +7967,30 @@ public class LeetCodeText {
         return dp[dp.length - 1];
     }
 
+    // 面试题 17.16. 按摩师 (The Masseuse LCCI)
+    private int[] memo17_16;
+    private int n17_16;
+    private int[] nums17_16;
+
+    public int massage2(int[] nums) {
+        this.n17_16 = nums.length;
+        this.memo17_16 = new int[n17_16];
+        Arrays.fill(memo17_16, -1);
+        this.nums17_16 = nums;
+        return dfs17_16(0);
+
+    }
+
+    private int dfs17_16(int i) {
+        if (i >= n17_16) {
+            return 0;
+        }
+        if (memo17_16[i] != -1) {
+            return memo17_16[i];
+        }
+        return memo17_16[i] = Math.max(dfs17_16(i + 1), dfs17_16(i + 2) + nums17_16[i]);
+    }
+
     // 1689. 十-二进制数的最少数目
     public int minPartitions(String n) {
         int max = 0;
