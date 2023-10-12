@@ -6593,5 +6593,18 @@ class leetcode_1 :
        if i == j:
           res += nums[i]
        return res
-          
-       
+    
+    # 10. 正则表达式匹配 (Regular Expression Matching)
+    # LCR 137. 模糊搜索验证
+    def isMatch(self, s: str, p: str) -> bool:
+       @cache
+       def dfs(i: int, j: int) -> bool:
+          if j == m:
+             return i == n
+          match = i < n and (s[i] == p[j] or p[j] == '.')
+          if j + 1 < m and p[j + 1] == '*':
+              return dfs(i, j + 2) or match and dfs(i + 1, j)
+          return match and dfs(i + 1, j + 1)
+       n = len(s)
+       m = len(p)
+       return dfs(0, 0)
