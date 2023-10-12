@@ -6969,7 +6969,7 @@ public class LeetCode_4 {
     }
 
     // 926. 将字符串翻转到单调递增 (Flip String to Monotone Increasing) -- 空间 O(n)
-    // 剑指 Offer II 092. 翻转字符
+    // LCR 092. 将字符串翻转到单调递增
     public int minFlipsMonoIncr(String s) {
         int n = s.length();
         int[][] dp = new int[n][2];
@@ -6984,7 +6984,7 @@ public class LeetCode_4 {
     }
 
     // 926. 将字符串翻转到单调递增 (Flip String to Monotone Increasing) -- 空间 O(1)
-    // 剑指 Offer II 092. 翻转字符
+    // LCR 092. 将字符串翻转到单调递增
     public int minFlipsMonoIncr2(String s) {
         int n = s.length();
         int put0 = s.charAt(0) - '0';
@@ -6994,6 +6994,39 @@ public class LeetCode_4 {
             put0 = put0 + s.charAt(i) - '0';
         }
         return Math.min(put0, put1);
+
+    }
+
+    // 926. 将字符串翻转到单调递增 (Flip String to Monotone Increasing)
+    // LCR 092. 将字符串翻转到单调递增
+    private int[][] memo926;
+    private int[] arr926;
+    private int n926;
+
+    public int minFlipsMonoIncr3(String s) {
+        this.n926 = s.length();
+        this.arr926 = new int[n926];
+        for (int i = 0; i < n926; ++i) {
+            arr926[i] = s.charAt(i) - '0';
+        }
+        this.memo926 = new int[n926][2];
+        for (int i = 0; i < n926; ++i) {
+            Arrays.fill(memo926[i], -1);
+        }
+        return dfs926(0, 0);
+    }
+
+    private int dfs926(int i, int j) {
+        if (i == n926) {
+            return 0;
+        }
+        if (memo926[i][j] != -1) {
+            return memo926[i][j];
+        }
+        if (j == 0) {
+            return memo926[i][j] = Math.min(dfs926(i + 1, arr926[i]), dfs926(i + 1, arr926[i] ^ 1) + 1);
+        }
+        return memo926[i][j] = dfs926(i + 1, j) + (arr926[i] ^ 1);
 
     }
 
