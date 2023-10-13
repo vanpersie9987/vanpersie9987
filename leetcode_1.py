@@ -26,6 +26,7 @@ from queue import PriorityQueue
 from typing import List, Optional
 import heapq
 import bisect
+from sortedcontainers import SortedList
 
 class leetcode_1 :
     class TreeNode:
@@ -6642,3 +6643,25 @@ class leetcode_1 :
             if cnt[ord(c) - ord('a')] < 0:
                 return False
         return True
+
+    # 1488. 避免洪水泛滥 (Avoid Flood in The City)
+    def avoidFlood(self, rains: List[int]) -> List[int]:
+       n = len(rains)
+       st = SortedList()
+       dic = {}
+       res = [-1] * n
+       for i, v in enumerate(rains):
+          if v == 0:
+             st.add(i)
+          else:
+             if v in dic:
+                id = st.bisect_right(dic[v])
+                if id == len(st):
+                   return []
+                res[st[id]] = v
+                st.discard(st[id])
+             dic[v] = i
+       for i in range(n):
+          if rains[i] == 0 and res[i] == -1:
+             res[i] = 1
+       return res
