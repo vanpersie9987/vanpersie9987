@@ -26,6 +26,9 @@ from queue import PriorityQueue
 from typing import List, Optional
 import heapq
 import bisect
+# curl https://bootstrap.pypa.io/pip/get-pip.py -o get-pip.py
+# sudo python3 get-pip.py
+# pip install sortedcontainers
 from sortedcontainers import SortedList
 
 class leetcode_1 :
