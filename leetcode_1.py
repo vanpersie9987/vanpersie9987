@@ -6668,3 +6668,17 @@ class leetcode_1 :
           if rains[i] == 0 and res[i] == -1:
              res[i] = 1
        return res
+    
+    # 137. 只出现一次的数字 II (Single Number II)
+    def singleNumber(self, nums: List[int]) -> int:
+        res = 0
+        for i in range(32):
+           cnt = 0
+           for num in nums:
+              cnt += (num >> i) & 1
+           if cnt % 3:
+               if i == 31:
+                   res -= 1 << i
+               else:
+                   res |= 1 << i 
+        return res

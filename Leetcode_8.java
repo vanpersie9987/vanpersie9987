@@ -4296,4 +4296,198 @@ public class Leetcode_8 {
         }
         return memo368[i] = res + 1;
     }
+
+    // 输入：["S#O","M..","M.T"]
+    // LCP 13. 寻宝
+    private int[][] memo;
+    private int u;
+    // 机关的个数
+    private int M;
+
+    private int[] targetToM;
+
+    private int[][] minDis;
+
+    private List<int[]> mPos;
+    private List<int[]> oPos;
+
+    private Map<Integer, Integer> oPosToIndex;
+    private Map<Integer, Integer> mPosToIndex;
+
+    public int minimalSteps(String[] maze) {
+        int m = maze.length;
+        int n = maze[0].length();
+        // 起点
+        int[] s = null;
+        // 终点
+        int[] t = null;
+        // 机关的数量
+        int mCnt = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (maze[i].charAt(j) == 'M') {
+                    ++mCnt;
+                } else if (maze[i].charAt(j) == 'S') {
+                    s = new int[] { i, j };
+                } else if (maze[i].charAt(j) == 'T') {
+                    t = new int[] { i, j };
+                }
+            }
+        }
+        // 机关的位置（所有机关的位置都必须可达）
+        this.mPos = new ArrayList<>();
+        // 所有可达的石堆位置
+        this.oPos = new ArrayList<>();
+        // 终点必须可达
+        boolean[][] vis = new boolean[m][n];
+        vis[s[0]][s[1]] = true;
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[] { s[0], s[1], 0 });
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 } };
+        int disStartToTarget = 0;
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int dis = cur[1];
+            for (int[] d : dirs) {
+                int nx = x + d[0];
+                int ny = y + d[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && maze[nx].charAt(ny) != '#' && !vis[nx][ny]) {
+                    vis[nx][ny] = true;
+                    if (maze[nx].charAt(ny) == 'M') {
+                        mPos.add(new int[] { nx, ny, dis + 1 });
+                    } else if (maze[nx].charAt(ny) == 'O') {
+                        oPos.add(new int[] { nx, ny, dis + 1 });
+                    } else if (maze[nx].charAt(ny) == 'T') {
+                        disStartToTarget = dis + 1;
+                    }
+                    q.offer(new int[] { nx, ny, dis + 1 });
+                }
+            }
+        }
+        // 终点不可达
+        if (!vis[t[0]][t[1]]) {
+            return -1;
+        }
+        // 存在不可达的机关
+        if (mCnt != mPos.size()) {
+            return -1;
+        }
+        // 没有机关
+        if (mCnt == 0) {
+            return disStartToTarget;
+        }
+        // 有机关、但没有石堆
+        if (oPos.isEmpty()) {
+            return -1;
+        }
+
+        // 石堆位置 --> 编号
+        this.oPosToIndex = new HashMap<>();
+        for (int i = 0; i < oPos.size(); ++i) {
+            oPosToIndex.put(oPos.get(i)[0] * 100 + oPos.get(i)[1], i);
+        }
+        // 机关位置 --> 编号
+        this.mPosToIndex = new HashMap<>();
+        for (int i = 0; i < mPos.size(); ++i) {
+            mPosToIndex.put(mPos.get(i)[0] * 100 + mPos.get(i)[1], i);
+        }
+        // 机关均可达、有可达石堆、终点可达
+        this.minDis = new int[mPos.size()][oPos.size()];
+        for (int i = 0; i < mPos.size(); ++i) {
+            int mX = mPos.get(i)[0];
+            int mY = mPos.get(i)[1];
+            vis = new boolean[m][n];
+            vis[mX][mY] = true;
+            q.offer(new int[] { mX, mY, 0 });
+            while (!q.isEmpty()) {
+                int[] cur = q.poll();
+                int x = cur[0];
+                int y = cur[1];
+                int dis = cur[2];
+                for (int[] d : dirs) {
+                    int nx = x + d[0];
+                    int ny = y + d[1];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && maze[nx].charAt(ny) != '#' && !vis[nx][ny]) {
+                        vis[nx][ny] = true;
+                        if (maze[nx].charAt(ny) == 'O') {
+                            int index = oPosToIndex.get(nx * 100 + ny);
+                            minDis[i][index] = dis + 1;
+                        }
+                        q.offer(new int[] { nx, ny, dis + 1 });
+                    }
+                }
+            }
+        }
+        // 终点到各机关的最短距离
+        this.targetToM = new int[mPos.size()];
+        q.offer(new int[] { t[0], t[1], 0 });
+        vis = new boolean[m][n];
+        vis[t[0]][t[1]] = true;
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int dis = cur[2];
+            for (int[] d : dirs) {
+                int nx = x + d[0];
+                int ny = y + d[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && maze[nx].charAt(ny) != '#' && !vis[nx][ny]) {
+                    vis[nx][ny] = true;
+                    if (maze[nx].charAt(ny) == 'M') {
+                        int index = mPosToIndex.get(nx * 100 + ny);
+                        targetToM[index] = dis + 1;
+                    }
+                    q.offer(new int[] { nx, ny, dis + 1 });
+                }
+            }
+        }
+        this.M = mPos.size();
+        this.memo = new int[1 << M][M];
+        for (int i = 0; i < 1 << M; ++i) {
+            Arrays.fill(memo[i], -1);
+        }
+        this.u = (1 << M) - 1;
+        return dfs(0, 0);
+
+    }
+
+    private int dfs(int i, int j) {
+        if (i == u) {
+            // 最后一个落石的机关到target的距离
+            return targetToM[j];
+        }
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+        // 起点
+        if (i == 0) {
+            int res = Integer.MAX_VALUE;
+            for (int k = 0; k < M; ++k) {
+                int min = Integer.MAX_VALUE;
+                int mIndex = mPosToIndex.get(mPos.get(k)[0] * 100 + mPos.get(k)[1]);
+                for (int s = 0; s < oPos.size(); ++s) {
+                    int oIndex = oPosToIndex.get(oPos.get(s)[0] * 100 + oPos.get(s)[1]);
+                    min = Math.min(min, minDis[mIndex][oIndex] + oPos.get(s)[2]);
+                }
+                res = Math.min(res, dfs(1 << k, k) + min);
+            }
+            return memo[i][j] = res;
+        }
+        int res = Integer.MAX_VALUE;
+        int c = i ^ u;
+        while (c != 0) {
+            int mIndex = Integer.numberOfTrailingZeros(c);
+            int min = Integer.MAX_VALUE;
+            for (int x = 0; x < oPos.size(); ++x) {
+                min = Math.min(min, minDis[mIndex][x] + minDis[j][x]);
+            }
+            res = Math.min(res, dfs(i | (1 << mIndex), mIndex) + min);
+            c &= c - 1;
+        }
+        return memo[i][j] = res;
+    }
+
+    
 }
