@@ -12078,23 +12078,19 @@ public class LeetCodeText {
 
     }
 
-    // 260. 只出现一次的数字 III (Single Number III) // 剑指 Offer 56 - I. 数组中数字出现的次数
+    // 260. 只出现一次的数字 III (Single Number III)
+    // 剑指 Offer 56 - I. 数组中数字出现的次数
     public int[] singleNumberIII(int[] nums) {
-        int A = 0;
-        for (int num : nums) {
-            A ^= num;
+        int xor = 0;
+        for (int x : nums) {
+            xor ^= x;
         }
+        xor &= -xor;
         int[] res = new int[2];
-        int mask = A & (-A);
-        for (int num : nums) {
-            if ((mask & num) == 0) {
-                res[0] ^= num;
-            } else {
-                res[1] ^= num;
-            }
+        for (int x : nums) {
+            res[(xor & x) != 0 ? 1 : 0] ^= x;
         }
         return res;
-
     }
 
     // 895. 最大频率栈
