@@ -22,7 +22,10 @@ import collections
 from functools import cache
 from itertools import accumulate
 from math import comb, gcd, inf, sqrt
+from operator import le
 from queue import PriorityQueue
+from tkinter import W
+from turtle import st
 from typing import List, Optional
 import heapq
 import bisect
@@ -6682,3 +6685,140 @@ class leetcode_1 :
                else:
                    res |= 1 << i 
         return res
+    
+    # LCP 13. 寻宝 (就差最后一个用例)
+    def minimalSteps(self, maze: List[str]) -> int:
+       def min(a: int, b: int) -> int:
+          return a if a < b else b
+       def dfs(i: int, j: int) -> int:
+          if i == u:
+             return dis_t_to_m[j]
+          if memo[i][j] != -1:
+             return memo[i][j]
+          # 起点
+          if i == 0:
+             res = inf
+             for k in range(len(m_pos)):
+                min_dis = inf
+                for x in range(len(o_pos)):
+                   min_dis = min(min_dis, dis_m_to_o[k][x] + o_pos[x][2])
+                res = min(res, dfs(1 << k, k) + min_dis)
+             memo[i][j] = res
+             return res
+          c = i ^ u
+          res = inf
+          while c:
+             index = (c & -c).bit_length() - 1
+             min_dis = inf
+             for x in range(len(o_pos)):
+                min_dis = min(min_dis, dis_m_to_o[index][x] + dis_m_to_o[j][x])
+             res = min(res, dfs(i | (1 << index), index) + min_dis)
+             c &= c - 1
+          memo[i][j] = res
+          return res
+       m = len(maze)
+       n = len(maze[0])
+       m_cnt = 0
+       s = []
+       t = []
+       for i in range(m):
+          for j in range(n):
+             if maze[i][j] == 'M':
+                m_cnt += 1
+             elif maze[i][j] == 'S':
+                s = [i, j]
+             elif maze[i][j] == 'T':
+                t = [i, j]
+       dirs = [[0, 1], [0, -1], [-1, 0], [1, 0]]
+       q = collections.deque()
+       m_pos = []
+       o_pos = []
+       q.append((s[0], s[1]))
+       vis = [[False] * n for _ in range(m)]
+       vis[s[0]][s[1]] = True
+       level = 0
+       start_to_target = 0
+       while q:
+          level += 1
+          size = len(q)
+          for _ in range(size):
+             cur = q.popleft()
+             x = cur[0]
+             y = cur[1]
+             for dx, dy in dirs:
+                nx = x + dx
+                ny = y + dy
+                if m > nx >= 0 and n > ny >= 0 and maze[nx][ny] != '#' and not vis[nx][ny]:
+                   vis[nx][ny] = True
+                   if maze[nx][ny] == 'M':
+                      m_pos.append((nx, ny, level))
+                   elif maze[nx][ny] == 'O':
+                      o_pos.append((nx, ny, level))
+                   elif maze[nx][ny] == 'T':
+                      start_to_target = level
+                   q.append((nx, ny))
+       if not vis[t[0]][t[1]]:
+          return -1
+       if m_cnt != len(m_pos):
+          return -1
+       if m_cnt == 0:
+          return start_to_target
+       if len(o_pos) == 0:
+          return -1
+       m_to_index = collections.defaultdict(int)
+       o_to_index = collections.defaultdict(int)
+       for i in range(len(m_pos)):
+          m_to_index[(m_pos[i][0], m_pos[i][1])] = i
+       for i in range(len(o_pos)):
+          o_to_index[(o_pos[i][0], o_pos[i][1])] = i
+       dis_m_to_o = [[0] * len(o_pos) for _ in range(len(m_pos))]
+       for i in range(len(m_pos)):
+          mx = m_pos[i][0]
+          my = m_pos[i][1]
+          vis = [[False] * n for _ in range(m)]
+          vis[mx][my] = True
+          q.clear()
+          q.append((mx, my, 0))
+          o_cnt = 0
+          while q:
+             if o_cnt == len(o_pos):
+                break
+             cur = q.popleft()
+             x = cur[0]
+             y = cur[1]
+             dis = cur[2]
+             for dx, dy in dirs:
+                nx = x + dx
+                ny = y + dy
+                if 0 <= nx < m and 0 <= ny < n and maze[nx][ny] != '#' and not vis[nx][ny]:
+                   vis[nx][ny] = True
+                   if maze[nx][ny] == 'O':
+                      o_cnt += 1
+                      dis_m_to_o[i][o_to_index[(nx, ny)]] = dis + 1
+                   q.append((nx, ny, dis + 1))
+       # 终点到机关的距离
+       dis_t_to_m = [0] * len(m_pos)
+       q.clear()
+       q.append((t[0], t[1], 0))
+       vis = [[False] * n for _ in range(m)]
+       vis[t[0]][t[1]] = True
+       m_cnt = 0
+       while q:
+          if m_cnt == len(m_pos):
+             break
+          cur = q.popleft()
+          x = cur[0]
+          y = cur[1]
+          dis = cur[2]
+          for dx, dy in dirs:
+             nx = x + dx
+             ny = y + dy
+             if 0 <= nx < m and 0 <= ny < n and maze[nx][ny] != '#' and not vis[nx][ny]:
+                vis[nx][ny] = True
+                if maze[nx][ny] == 'M':
+                   m_cnt += 1
+                   dis_t_to_m[m_to_index[(nx, ny)]] = dis + 1
+                q.append((nx, ny, dis + 1))
+       u = (1 << len(m_pos)) - 1
+       memo = [[-1] * len(m_pos) for _ in range(1 << len(m_pos))]
+       return dfs(0, 0)
