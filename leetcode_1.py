@@ -25,7 +25,7 @@ from math import comb, gcd, inf, sqrt
 from operator import le
 from queue import PriorityQueue
 from tkinter import W
-from turtle import st
+from turtle import reset, st
 from typing import List, Optional
 import heapq
 import bisect
@@ -6822,3 +6822,86 @@ class leetcode_1 :
        u = (1 << len(m_pos)) - 1
        memo = [[-1] * len(m_pos) for _ in range(1 << len(m_pos))]
        return dfs(0, 0)
+    
+    # 2903. 找出满足差值条件的下标 I (Find Indices With Index and Value Difference I)
+    # 2905. 找出满足差值条件的下标 II (Find Indices With Index and Value Difference II)
+    def findIndices(self, nums: List[int], indexDifference: int, valueDifference: int) -> List[int]:
+       min_index = max_index = 0
+       n = len(nums)
+       for i in range(indexDifference, n):
+          j = i - indexDifference
+          if nums[j] > nums[max_index]:
+             max_index = j
+          elif nums[j] < nums[min_index]:
+             min_index = j
+          if nums[max_index] - nums[i] >= valueDifference:
+             return [max_index, i]
+          if nums[i] - nums[min_index] >= valueDifference:
+             return [min_index, i]
+       return [-1, -1]
+    
+    # 2904. 最短且字典序最小的美丽子字符串 (Shortest and Lexicographically Smallest Beautiful String)
+    def shortestBeautifulSubstring(self, s: str, k: int) -> str:
+       i = 0
+       j = 0
+       n = len(s)
+       cnt = 0
+       res = ""
+       while j < n:
+          cnt += int(s[j])
+          while cnt > k or i <= j and s[i] == '0':
+             cnt -= int(s[i])
+             i += 1
+          if cnt == k:
+             if res == "" or j - i + 1 < len(res) or j - i + 1 == len(res) and s[i: j + 1] < res:
+                res = s[i: j + 1]
+          j += 1
+       return res
+    
+    # 2906. 构造乘积矩阵 (Construct Product Matrix)
+    def constructProductMatrix(self, grid: List[List[int]]) -> List[List[int]]:
+       m = len(grid)
+       n = len(grid[0])
+       p = [[0] * n for _ in range(m)]
+       MOD = 12345
+       suf = 1
+       for i in range(m - 1, -1, -1):
+          for j in range(n - 1, -1, -1):
+             p[i][j] = suf
+             suf *= grid[i][j]
+             suf %= MOD
+       pre = 1
+       for i in range(m):
+          for j in range(n):
+             p[i][j] *= pre
+             p[i][j] %= MOD
+             pre *= grid[i][j]
+             pre %= MOD
+       return p
+    
+    # 2899. 上一个遍历的整数 (Last Visited Integers)
+    def lastVisitedIntegers(self, words: List[str]) -> List[int]:
+       nums = []
+       res = []
+       k = 0
+       for w in words:
+          if w[0] == 'p':
+             k += 1
+             if len(nums) >= k:
+                res.append(nums[-k])
+             else:
+                res.append(-1)
+          else:
+             k = 0
+             nums.append(int(w))
+       return res
+    
+    # 2900. 最长相邻不相等子序列 I (Longest Unequal Adjacent Groups Subsequence I)
+    def getWordsInLongestSubsequence(self, n: int, words: List[str], groups: List[int]) -> List[str]:
+       pre = groups[0]
+       res = [words[0]]
+       for w, g in zip(words, groups):
+          if (g ^ pre) == 1:
+             res.append(w)
+             pre ^= 1
+       return res 
