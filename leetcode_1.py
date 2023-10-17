@@ -6982,13 +6982,13 @@ class leetcode_1 :
        dfs(root, 0)
        if dic[x] != dic[y]:
           return False
-       def lcm(root: Optional[TreeNode], x: int, y: int) -> bool:
+       def dfs2(root: Optional[TreeNode], x: int, y: int) -> bool:
           if root is None:
              return False
           if root.left is not None and root.right is not None and (root.left.val == x and root.right.val == y or root.left.val == y and root.right.val == x):
              return True
-          return lcm(root.left, x, y) or lcm(root.right, x, y)
-       res = lcm(root, x, y)
+          return dfs2(root.left, x, y) or dfs2(root.right, x, y)
+       res = dfs2(root, x, y)
        return not res
 
           
