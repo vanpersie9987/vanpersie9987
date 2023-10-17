@@ -6912,3 +6912,19 @@ class leetcode_1 :
        def s(m: int) -> int:
           return n // m * m + (n // m) * (n // m - 1) * m // 2
        return s(3) + s(5) + s(7) - s(15) - s(21) - s(35) + s(105)
+    
+    # 238. 除自身以外数组的乘积 (Product of Array Except Self)
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+       n = len(nums)
+       res = [0] * n
+       suf = 1
+       for i in range(n - 1, -1, -1):
+          res[i] = suf
+          suf *= nums[i]
+       pre = 1
+       for i in range(n):
+          res[i] *= pre
+          pre *= nums[i]
+       return res
+          
+          
