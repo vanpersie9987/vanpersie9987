@@ -6964,5 +6964,38 @@ class leetcode_1 :
              break
           level += 1
        return -1 if cnt else level
+    
+    # 993. 二叉树的堂兄弟节点 (Cousins in Binary Tree)
+    def isCousins(self, root: Optional[TreeNode], x: int, y: int) -> bool:
+       class TreeNode:
+          def __init__(self, val=0, left=None, right=None):
+             self.val = val
+             self.left = left
+             self.right = right
+       dic = collections.defaultdict(int)
+       def dfs(root: Optional[TreeNode], d: int) -> None:
+          if root is None:
+            return
+          dic[root.val] = d
+          dfs(root.left, d + 1)
+          dfs(root.right, d + 1)
+       dfs(root, 0)
+       if dic[x] != dic[y]:
+          return False
+       def lcm(root: Optional[TreeNode], x: int, y: int) -> bool:
+          if root is None:
+             return False
+          if root.left is not None and root.right is not None and (root.left.val == x and root.right.val == y or root.left.val == y and root.right.val == x):
+             return True
+          return lcm(root.left, x, y) or lcm(root.right, x, y)
+       res = lcm(root, x, y)
+       return not res
+
+          
+       
+          
+          
+          
+       
        
            
