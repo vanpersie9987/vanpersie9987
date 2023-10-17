@@ -6926,5 +6926,43 @@ class leetcode_1 :
           res[i] *= pre
           pre *= nums[i]
        return res
-          
-          
+    
+    # 994. 腐烂的橘子 (Rotting Oranges)
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+       m = len(grid)
+       n = len(grid[0])
+       q = collections.deque()
+       cnt = 0
+       for i in range(m):
+          for j in range(n):
+             if grid[i][j] == 2:
+                q.append((i, j))
+             elif grid[i][j] == 1:
+                cnt += 1
+       # 没有好橘子
+       if cnt == 0:
+          return 0
+       # 没有烂橘子
+       if len(q) == 0:
+          return -1
+       dirs = [[0, 1], [0, -1], [-1, 0], [1, 0]]
+       level = 0
+       while q:
+          size = len(q)
+          for _ in range(size):
+             cur = q.popleft()
+             x = cur[0]
+             y = cur[1]
+             for dx, dy in dirs:
+                nx = x + dx
+                ny = y + dy
+                if m > nx >= 0 and n > ny >= 0 and grid[nx][ny] == 1:
+                   cnt -= 1
+                   grid[nx][ny] = 2
+                   q.append((nx, ny))
+          if len(q) == 0:
+             break
+          level += 1
+       return -1 if cnt else level
+       
+           
