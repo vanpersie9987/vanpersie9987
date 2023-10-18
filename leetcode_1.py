@@ -26,6 +26,7 @@ from operator import le
 from queue import PriorityQueue
 from re import X
 from tkinter import W
+from tkinter.tix import Tree
 from turtle import reset, st
 from typing import List, Optional
 import heapq
@@ -7052,3 +7053,31 @@ class leetcode_1 :
              used ^= 1 << i
        dfs()
        return res
+    
+    # LCR 129. 字母迷宫
+    # 79. 单词搜索 (Word Search) 
+    def wordPuzzle(self, grid: List[List[str]], target: str) -> bool:
+       m = len(grid)
+       n = len(grid[0])
+       l = len(target)
+       vis = [[False] * n for _ in range(m)]
+       dirs = [[0, -1], [0, 1], [-1, 0], [1, 0]]
+       def dfs(i, j, k) -> bool:
+          if k == l:
+             return True
+          if not (i >= 0 and i < m and j >= 0 and j < n):
+             return False
+          if vis[i][j]:
+             return False
+          if grid[i][j] != target[k]:
+             return False
+          vis[i][j] = True
+          for dx, dy in dirs:
+             if dfs(i + dx, j + dy, k + 1):
+                return True
+          vis[i][j] = False
+       for i in range(m):
+          for j in range(n):
+             if dfs(i, j, 0):
+                return True
+       return False
