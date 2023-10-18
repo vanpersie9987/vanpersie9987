@@ -3929,6 +3929,7 @@ class leetcode_1 :
         return res
     
     # 236. 二叉树的最近公共祖先 (Lowest Common Ancestor of a Binary Tree)
+    # 面试题 04.08. 首个共同祖先 (First Common Ancestor LCCI)
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
        if root in (None, p, q):
           return root
@@ -7049,5 +7050,3 @@ class leetcode_1 :
              used ^= 1 << i
        dfs()
        return res
-       
-             
