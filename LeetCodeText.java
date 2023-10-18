@@ -1056,13 +1056,24 @@ public class LeetCodeText {
     }
 
     // 79. 单词搜索 (Word Search) --回溯
-    // 剑指 Offer 12. 矩阵中的路径
-    public boolean exist(final char[][] board, final String word) {
-        boolean[][] flag = new boolean[board.length][board[0].length];
-        int[][] directions = { { 1, 0 }, { 0, 1 }, { 0, -1 }, { -1, 0 } };
-        for (int i = 0; i < board.length; ++i) {
-            for (int j = 0; j < board[0].length; ++j) {
-                if (containsWord(flag, directions, board, word, i, j, 0)) {
+    // LCR 129. 字母迷宫
+    private int m79;
+    private int n79;
+    private int l79;
+    private char[][] board79;
+    private String word79;
+    private boolean[][] vis79;
+
+    public boolean exist(char[][] board, String word) {
+        this.m79 = board.length;
+        this.n79 = board[0].length;
+        this.l79 = word.length();
+        this.board79 = board;
+        this.word79 = word;
+        this.vis79 = new boolean[m79][n79];
+        for (int i = 0; i < m79; ++i) {
+            for (int j = 0; j < n79; ++j) {
+                if (dfs79(i, j, 0)) {
                     return true;
                 }
             }
@@ -1071,29 +1082,28 @@ public class LeetCodeText {
 
     }
 
-    private boolean containsWord(boolean[][] flag, int[][] directions, char[][] board, String word, int i, int j,
-            int start) {
-        if (start == word.length() - 1) {
-            return board[i][j] == word.charAt(start);
+    private boolean dfs79(int i, int j, int k) {
+        if (k == l79) {
+            return true;
         }
-        if (word.charAt(start) == board[i][j]) {
-            flag[i][j] = true;
-            for (int k = 0; k < directions.length; ++k) {
-                int newI = i + directions[k][0];
-                int newJ = j + directions[k][1];
-                if (judgeEdge(newI, newJ, board) && !flag[newI][newJ]
-                        && containsWord(flag, directions, board, word, newI, newJ, start + 1)) {
-                    return true;
-                }
+        if (!(i >= 0 && i < m79 && j >= 0 && j < n79)) {
+            return false;
+        }
+        if (vis79[i][j]) {
+            return false;
+        }
+        if (board79[i][j] != word79.charAt(k)) {
+            return false;
+        }
+        vis79[i][j] = true;
+        int[][] dirs = { { 0, -1 }, { 0, 1 }, { 1, 0 }, { -1, 0 } };
+        for (int[] d : dirs) {
+            if (dfs79(i + d[0], j + d[1], k + 1)) {
+                return true;
             }
-            flag[i][j] = false;
         }
+        vis79[i][j] = false;
         return false;
-    }
-
-    private boolean judgeEdge(int newI, int newJ, char[][] board) {
-        return newI >= 0 && newI < board.length && newJ >= 0 && newJ < board[0].length;
-
     }
 
     // 1295. 统计位数为偶数的数字 (Find Numbers with Even Number of Digits)
