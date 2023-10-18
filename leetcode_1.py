@@ -7140,3 +7140,15 @@ class leetcode_1 :
           _list.pop()
        dfs(0)
        return res
+
+    # 1726. 同积元组 (Tuple with Same Product)
+    def tupleSameProduct(self, nums: List[int]) -> int:
+       n = len(nums)
+       dic = collections.defaultdict(int)
+       res = 0
+       for i in range(n):
+          for j in range(i + 1, n):
+             res += dic[nums[i] * nums[j]]
+             dic[nums[i] * nums[j]] += 1
+       return res * 8
+             
