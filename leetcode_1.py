@@ -7011,8 +7011,8 @@ class leetcode_1 :
        used = 0
        _list = []
        res = []
-       def dfs(i: int) -> None:
-          if i == n:
+       def dfs() -> None:
+          if len(_list) == n:
              res.append(_list.copy())
              return
           nonlocal used
@@ -7021,9 +7021,33 @@ class leetcode_1 :
                 continue
              used ^= 1 << j
              _list.append(nums[j])
-             dfs(i + 1)
+             dfs()
              _list.remove(nums[j])
              used ^= 1 << j
-       dfs(0)
+       dfs()
        return res
+    
+    # 47. 全排列 II (Permutations II)
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+       nums.sort()
+       n = len(nums)
+       used = 0
+       _list = []
+       res = []
+       def dfs() -> None:
+          if len(_list) == n:
+             res.append(_list.copy())
+             return
+          for i in range(n):
+             nonlocal used
+             if ((used >> i) & 1) == 1 or i > 0 and nums[i] == nums[i - 1] and ((used >> (i - 1)) & 1) == 0:
+                continue
+             used ^= 1 << i
+             _list.append(nums[i])
+             dfs()
+             _list.pop()
+             used ^= 1 << i
+       dfs()
+       return res
+       
              
