@@ -7118,3 +7118,24 @@ class leetcode_1 :
                 return True
           return False
        return dfs(start)
+    
+    # 77. 组合 (Combinations)
+    # LCR 080. 组合 
+    def combine(self, n: int, k: int) -> List[List[int]]:
+       res = []
+       _list = []
+       def dfs(i: int) -> None:
+          if len(_list) > k:
+             return
+          if len(_list) + n - i < k:
+             return
+          if i == n:
+             if len(_list) == k:
+                res.append(_list.copy())
+             return
+          dfs(i + 1)
+          _list.append(i + 1)
+          dfs(i + 1)
+          _list.pop()
+       dfs(0)
+       return res
