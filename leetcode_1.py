@@ -6995,31 +6995,12 @@ class leetcode_1 :
 
     # 2530. 执行 K 次操作后的最大分数 (Maximal Score After Applying K Operations)
     def maxKelements(self, nums: List[int], k: int) -> int:
-       n = len(nums)
-       for i in range(n):
-          nums[i] = -nums[i]
-       heapq.heapify(nums)
-       res = 0
-       while k:
-          x = heapq.heappop(nums)
-          if x == 0:
-              break
-          res += -x
-          heapq.heappush(nums, -(-x + 2) // 3)
-          k -= 1
-       return res
+        q = [-x for x in nums]
+        heapq.heapify(q)
 
-
-
-          
-       
-
-
-          
-       
-          
-          
-          
-       
-       
-           
+        res = 0
+        for _ in range(k):
+            x = heapq.heappop(q)
+            res += -x
+            heapq.heappush(q, -((-x + 2) // 3))
+        return res
