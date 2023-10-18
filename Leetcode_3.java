@@ -2881,6 +2881,39 @@ public class Leetcode_3 {
         return false;
     }
 
+    // 面试题 04.01. 节点间通路 (Route Between Nodes LCCI)
+    private int target;
+    private List<Integer>[] g;
+    private boolean[] vis;
+
+    public boolean findWhetherExistsPath2(int n, int[][] graph, int start, int target) {
+        this.g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] gr : graph) {
+            g[gr[0]].add(gr[1]);
+        }
+        this.target = target;
+        this.vis = new boolean[n];
+        return dfs(start);
+
+    }
+
+    private boolean dfs(int x) {
+        if (x == target) {
+            return true;
+        }
+        if (vis[x]) {
+            return false;
+        }
+        vis[x] = true;
+        for (int y : g[x]) {
+            if (dfs(y)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // 1379. 找出克隆二叉树中的相同节点 (Find a Corresponding Node of a Binary Tree in a Clone of
     // That Tree) --bfs
     public final TreeNode getTargetCopy(final TreeNode original, final TreeNode cloned, final TreeNode target) {
