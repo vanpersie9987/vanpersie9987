@@ -7029,7 +7029,7 @@ class leetcode_1 :
              used ^= 1 << j
              _list.append(nums[j])
              dfs()
-             _list.remove(nums[j])
+             _list.pop()
              used ^= 1 << j
        dfs()
        return res
