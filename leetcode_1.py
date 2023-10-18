@@ -7132,8 +7132,7 @@ class leetcode_1 :
           if len(_list) + n - i < k:
              return
           if i == n:
-             if len(_list) == k:
-                res.append(_list.copy())
+             res.append(_list.copy())
              return
           dfs(i + 1)
           _list.append(i + 1)

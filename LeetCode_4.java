@@ -2409,9 +2409,7 @@ public class LeetCode_4 {
             return;
         }
         if (i == n77) {
-            if (path77.size() == k77) {
-                res77.add(new ArrayList<>(path77));
-            }
+            res77.add(new ArrayList<>(path77));
             return;
         }
         dfs77(i + 1);
