@@ -400,6 +400,7 @@ class leetcode_1 :
        return dfs(0, 0)
 
     # 329. 矩阵中的最长递增路径 (Longest Increasing Path in a Matrix)
+    # LCR 112. 矩阵中的最长递增路径
     def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
        m = len(matrix)
        n = len(matrix[0])
@@ -6554,6 +6555,7 @@ class leetcode_1 :
        return [i for _, i in _list[:k]]
 
     # 115. 不同的子序列 (Distinct Subsequences)
+    # LCR 097. 不同的子序列 
     def numDistinct(self, s: str, t: str) -> int:
        MOD = 10 ** 9 + 7
        @cache
