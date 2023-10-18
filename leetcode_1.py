@@ -7004,3 +7004,26 @@ class leetcode_1 :
             res += -x
             heapq.heappush(q, -((-x + 2) // 3))
         return res
+
+    # 46. 全排列 (Permutations)
+    def permute(self, nums: List[int]) -> List[List[int]]:
+       n = len(nums)
+       used = 0
+       _list = []
+       res = []
+       def dfs(i: int) -> None:
+          if i == n:
+             res.append(_list.copy())
+             return
+          nonlocal used
+          for j in range(n):
+             if ((used >> j) & 1) != 0:
+                continue
+             used ^= 1 << j
+             _list.append(nums[j])
+             dfs(i + 1)
+             _list.remove(nums[j])
+             used ^= 1 << j
+       dfs(0)
+       return res
+             
