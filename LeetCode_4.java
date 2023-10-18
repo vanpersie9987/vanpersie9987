@@ -2363,7 +2363,7 @@ public class LeetCode_4 {
     }
 
     // 77. 组合 (Combinations)
-    // 剑指 Offer II 080. 含有 k 个元素的组合
+    // LCR 080. 组合
     public List<List<Integer>> combine(int n, int k) {
         List<List<Integer>> res = new ArrayList<>();
         for (int i = 0; i < (1 << n); ++i) {
@@ -2382,32 +2382,42 @@ public class LeetCode_4 {
     }
 
     // 77. 组合 (Combinations) --回溯
-    // 剑指 Offer II 080. 含有 k 个元素的组合
+    // LCR 080. 组合
     // 组合：不需要用used数组
     // 无重复元素：不需要排序
     // 每个元素只能使用一次 ：回溯的时候 index = i + 1
+    private int n;
+    private int k;
+    private List<List<Integer>> res;
+    private List<Integer> path;
+
     public List<List<Integer>> combine2(int n, int k) {
-        List<List<Integer>> res = new ArrayList<>();
-        int[] nums = new int[n];
-        for (int i = 1; i <= n; ++i) {
-            nums[i - 1] = i;
-        }
-        List<Integer> path = new ArrayList<>();
-        backtrack77(res, nums, path, 0, k);
+        this.res = new ArrayList<>();
+        this.n = n;
+        this.k = k;
+        this.path = new ArrayList<>();
+        dfs77(0);
         return res;
 
     }
 
-    private void backtrack77(List<List<Integer>> res, int[] nums, List<Integer> path, int index, int k) {
-        if (path.size() == k) {
-            res.add(new ArrayList<>(path));
+    private void dfs77(int i) {
+        if (path.size() > k) {
             return;
         }
-        for (int i = index; i < nums.length; ++i) {
-            path.add(nums[i]);
-            backtrack77(res, nums, path, i + 1, k);
-            path.remove(path.size() - 1);
+        if (path.size() + n - i < k) {
+            return;
         }
+        if (i == n) {
+            if (path.size() == k) {
+                res.add(new ArrayList<>(path));
+            }
+            return;
+        }
+        dfs77(i + 1);
+        path.add(i + 1);
+        dfs77(i + 1);
+        path.remove(path.size() - 1);
     }
 
     // 51. N 皇后 (N-Queens) --回溯
