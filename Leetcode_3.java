@@ -2882,32 +2882,32 @@ public class Leetcode_3 {
     }
 
     // 面试题 04.01. 节点间通路 (Route Between Nodes LCCI)
-    private int target;
-    private List<Integer>[] g;
-    private boolean[] vis;
+    private int target04_01;
+    private List<Integer>[] g04_01;
+    private boolean[] vis04_01;
 
     public boolean findWhetherExistsPath2(int n, int[][] graph, int start, int target) {
-        this.g = new ArrayList[n];
-        Arrays.setAll(g, k -> new ArrayList<>());
+        this.g04_01 = new ArrayList[n];
+        Arrays.setAll(g04_01, k -> new ArrayList<>());
         for (int[] gr : graph) {
-            g[gr[0]].add(gr[1]);
+            g04_01[gr[0]].add(gr[1]);
         }
-        this.target = target;
-        this.vis = new boolean[n];
-        return dfs(start);
+        this.target04_01 = target;
+        this.vis04_01 = new boolean[n];
+        return dfs04_01(start);
 
     }
 
-    private boolean dfs(int x) {
-        if (x == target) {
+    private boolean dfs04_01(int x) {
+        if (x == target04_01) {
             return true;
         }
-        if (vis[x]) {
+        if (vis04_01[x]) {
             return false;
         }
-        vis[x] = true;
-        for (int y : g[x]) {
-            if (dfs(y)) {
+        vis04_01[x] = true;
+        for (int y : g04_01[x]) {
+            if (dfs04_01(y)) {
                 return true;
             }
         }
