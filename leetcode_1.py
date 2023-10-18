@@ -7100,3 +7100,21 @@ class leetcode_1 :
           _list.pop()
        dfs(0)
        return res
+
+    # 面试题 04.01. 节点间通路
+    def findWhetherExistsPath(self, n: int, graph: List[List[int]], start: int, target: int) -> bool:
+       g = [[] for _ in range(n)]
+       for a, b in graph:
+          g[a].append(b)
+       vis = [False] * n
+       def dfs(x: int) -> bool:
+          if target == x:
+             return True
+          if vis[x]:
+             return False
+          vis[x] = True
+          for y in g[x]:
+             if dfs(y):
+                return True
+          return False
+       return dfs(start)
