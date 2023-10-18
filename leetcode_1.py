@@ -7083,3 +7083,20 @@ class leetcode_1 :
              if dfs(i, j, 0):
                 return True
        return False
+    
+    # 78. 子集 (Subsets)
+    # LCR 079. 子集 
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+       n = len(nums)
+       res = []
+       _list = []
+       def dfs(i: int) -> None:
+          if i == n:
+             res.append(_list.copy())
+             return
+          dfs(i + 1)
+          _list.append(nums[i])
+          dfs(i + 1)
+          _list.pop()
+       dfs(0)
+       return res
