@@ -2386,38 +2386,38 @@ public class LeetCode_4 {
     // 组合：不需要用used数组
     // 无重复元素：不需要排序
     // 每个元素只能使用一次 ：回溯的时候 index = i + 1
-    private int n;
-    private int k;
-    private List<List<Integer>> res;
-    private List<Integer> path;
+    private int n77;
+    private int k77;
+    private List<List<Integer>> res77;
+    private List<Integer> path77;
 
     public List<List<Integer>> combine2(int n, int k) {
-        this.res = new ArrayList<>();
-        this.n = n;
-        this.k = k;
-        this.path = new ArrayList<>();
+        this.res77 = new ArrayList<>();
+        this.n77 = n;
+        this.k77 = k;
+        this.path77 = new ArrayList<>();
         dfs77(0);
-        return res;
+        return res77;
 
     }
 
     private void dfs77(int i) {
-        if (path.size() > k) {
+        if (path77.size() > k77) {
             return;
         }
-        if (path.size() + n - i < k) {
+        if (path77.size() + n77 - i < k77) {
             return;
         }
-        if (i == n) {
-            if (path.size() == k) {
-                res.add(new ArrayList<>(path));
+        if (i == n77) {
+            if (path77.size() == k77) {
+                res77.add(new ArrayList<>(path77));
             }
             return;
         }
         dfs77(i + 1);
-        path.add(i + 1);
+        path77.add(i + 1);
         dfs77(i + 1);
-        path.remove(path.size() - 1);
+        path77.remove(path77.size() - 1);
     }
 
     // 51. N 皇后 (N-Queens) --回溯
