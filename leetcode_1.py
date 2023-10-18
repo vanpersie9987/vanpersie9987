@@ -7012,6 +7012,7 @@ class leetcode_1 :
         return res
 
     # 46. 全排列 (Permutations)
+    # LCR 083. 全排列
     def permute(self, nums: List[int]) -> List[List[int]]:
        n = len(nums)
        used = 0
@@ -7034,6 +7035,7 @@ class leetcode_1 :
        return res
     
     # 47. 全排列 II (Permutations II)
+    # LCR 084. 全排列 II 
     def permuteUnique(self, nums: List[int]) -> List[List[int]]:
        nums.sort()
        n = len(nums)
