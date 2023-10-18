@@ -5826,6 +5826,7 @@ class leetcode_1 :
     
     # 110. 平衡二叉树 (Balanced Binary Tree)
     # 面试题 04.04. 检查平衡性 (Check Balance LCCI) 
+    # LCR 176. 判断是否为平衡二叉树 
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
        class TreeNode:
           def __init__(self, val=0, left=None, right=None):
