@@ -24,6 +24,7 @@ from itertools import accumulate
 from math import comb, gcd, inf, sqrt
 from operator import le
 from queue import PriorityQueue
+from re import X
 from tkinter import W
 from turtle import reset, st
 from typing import List, Optional
@@ -6990,6 +6991,29 @@ class leetcode_1 :
           return dfs2(root.left, x, y) or dfs2(root.right, x, y)
        res = dfs2(root, x, y)
        return not res
+    
+
+    # 2530. 执行 K 次操作后的最大分数 (Maximal Score After Applying K Operations)
+    def maxKelements(self, nums: List[int], k: int) -> int:
+       n = len(nums)
+       for i in range(n):
+          nums[i] = -nums[i]
+       heapq.heapify(nums)
+       res = 0
+       while k:
+          x = heapq.heappop(nums)
+          if x == 0:
+              break
+          res += -x
+          heapq.heappush(nums, -(-x + 2) // 3)
+          k -= 1
+       return res
+
+
+
+          
+       
+
 
           
        
