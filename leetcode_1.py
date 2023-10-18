@@ -5824,6 +5824,7 @@ class leetcode_1 :
        return res
     
     # 110. 平衡二叉树 (Balanced Binary Tree)
+    # 面试题 04.04. 检查平衡性 (Check Balance LCCI) 
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
        class TreeNode:
           def __init__(self, val=0, left=None, right=None):
@@ -5831,14 +5832,13 @@ class leetcode_1 :
              self.left = left
              self.right = right
        def dfs(root: Optional[TreeNode]) -> int:
-          if root is None:
+          nonlocal res
+          if root is None or not res:
              return 0
           left = dfs(root.left)
           right = dfs(root.right)
           if abs(left - right) > 1:
-             nonlocal res
              res = False
-             return inf
           return max(left, right) + 1
        res = True
        dfs(root)
