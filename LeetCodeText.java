@@ -5747,19 +5747,17 @@ public class LeetCodeText {
 
     }
 
-    // 1726. 同积元组
+    // 1726. 同积元组 (Tuple with Same Product)
     public int tupleSameProduct(int[] nums) {
         Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.length; ++i) {
-            for (int j = i + 1; j < nums.length; ++j) {
-                map.put(nums[i] * nums[j], map.getOrDefault(nums[i] * nums[j], 0) + 1);
+        int res = 0;
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                res += map.merge(nums[i] * nums[j], 1, Integer::sum) - 1;
             }
         }
-        int count = 0;
-        for (int value : map.values()) {
-            count += value * (value - 1) / 2;
-        }
-        return count * 8;
+        return res * 8;
 
     }
 
