@@ -2232,51 +2232,51 @@ public class LeetCode_4 {
     // 组合：不需要用used数组
     // 有重复元素：需要排序
     // 每个元素只能用一次 ：回溯的时候 index = i + 1
-    private List<int[]> list;
-    private List<Integer> path;
-    private int n;
-    private int target;
-    private List<List<Integer>> res;
+    private List<int[]> list40;
+    private List<Integer> path40;
+    private int n40;
+    private int target40;
+    private List<List<Integer>> res40;
 
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         Map<Integer, Integer> map = new HashMap<>();
         for (int c : candidates) {
             map.merge(c, 1, Integer::sum);
         }
-        this.list = new ArrayList<>();
+        this.list40 = new ArrayList<>();
         for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            list.add(new int[] { entry.getKey(), entry.getValue() });
+            list40.add(new int[] { entry.getKey(), entry.getValue() });
         }
-        this.path = new ArrayList<>();
-        this.n = list.size();
-        this.target = target;
-        this.res = new ArrayList<>();
-        dfs(0, 0);
-        return res;
+        this.path40 = new ArrayList<>();
+        this.n40 = list40.size();
+        this.target40 = target;
+        this.res40 = new ArrayList<>();
+        dfs40(0, 0);
+        return res40;
     }
 
-    private void dfs(int i, int j) {
-        if (i == n) {
-            if (j == target) {
-                res.add(new ArrayList<>(path));
+    private void dfs40(int i, int j) {
+        if (i == n40) {
+            if (j == target40) {
+                res40.add(new ArrayList<>(path40));
             }
             return;
         }
-        if (j > target) {
+        if (j > target40) {
             return;
         }
-        dfs(i + 1, j);
+        dfs40(i + 1, j);
         List<Integer> cur = new ArrayList<>();
-        for (int k = 1; k <= list.get(i)[1]; ++k) {
-            if (k * list.get(i)[0] + j > target) {
+        for (int k = 1; k <= list40.get(i)[1]; ++k) {
+            if (k * list40.get(i)[0] + j > target40) {
                 break;
             }
-            cur.add(list.get(i)[0]);
-            path.addAll(cur);
-            dfs(i + 1, j + k * list.get(i)[0]);
+            cur.add(list40.get(i)[0]);
+            path40.addAll(cur);
+            dfs40(i + 1, j + k * list40.get(i)[0]);
             int c = k;
             while (c-- > 0) {
-                path.remove(path.size() - 1);
+                path40.remove(path40.size() - 1);
             }
         }
     }
