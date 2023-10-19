@@ -25,6 +25,7 @@ from math import comb, gcd, inf, sqrt
 from operator import le
 from queue import PriorityQueue
 from re import X
+import re
 from tkinter import W
 from tkinter.tix import Tree
 from turtle import reset, st
@@ -7195,6 +7196,45 @@ class leetcode_1 :
           path.pop()
        dfs(0, 0)
        return res
+    
+    # 40. 组合总和 II (Combination Sum II)
+    # LCR 082. 组合总和 II
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+       def dfs(i: int, j: int) -> None:
+          if i == n:
+             if j == target:
+                res.append(path.copy())
+             return
+          if j > target:
+             return
+          dfs(i + 1, j)
+          k = 1
+          cur = []
+          while k <= _list[i][1]:
+             if j + k * _list[i][0] > target:
+                break
+             cur.append(_list[i][0])
+             path.extend(cur)
+             dfs(i + 1, j + k * _list[i][0])
+             f = k
+             while f:
+                path.pop()
+                f -= 1
+             k += 1
+       dic = collections.defaultdict(int)
+       for c in candidates:
+          dic[c] += 1
+       _list = []
+       for k in dic.keys():
+          _list.append([k, dic[k]])
+       n = len(_list)
+       path = []
+       res = []
+       dfs(0, 0)
+       return res
+             
+       
+    
              
              
              
