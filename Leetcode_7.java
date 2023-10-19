@@ -1951,7 +1951,7 @@ public class Leetcode_7 {
         return memo1000[i][j][p] = min;
     }
 
-    // 375. II 猜数字大小 II (Guess Number Higher or Lower)
+    // 375. 猜数字大小 II (Guess Number Higher or Lower II)
     private int[][] memo375;
 
     public int getMoneyAmount(int n) {
