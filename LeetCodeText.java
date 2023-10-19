@@ -5435,78 +5435,50 @@ public class LeetCodeText {
         return max;
     }
 
-    // 78. 子集 / 面试题 08.04. 幂集
+    // 78. 子集 (Subsets)
+    // LCR 079. 子集
+    // 面试题 08.04. 幂集
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
-        for (int i = (1 << nums.length); i < (1 << (nums.length + 1)); ++i) {
-            String bitMask = Integer.toBinaryString(i).substring(1);
+        int n = nums.length;
+        for (int i = 0; i < 1 << n; ++i) {
+            int c = i;
             List<Integer> list = new ArrayList<>();
-            for (int j = 0; j < nums.length; ++j) {
-                if (bitMask.charAt(j) == '1') {
-                    list.add(nums[j]);
-                }
+            while (c != 0) {
+                int index = Integer.numberOfTrailingZeros(c);
+                list.add(nums[index]);
+                c &= c - 1;
             }
             res.add(list);
         }
         return res;
-
     }
 
-    // 78. 子集 / 面试题 08.04. 幂集
+    // 78. 子集 (Subsets)
+    // 面试题 08.04. 幂集 --回溯
+    private List<List<Integer>> res78;
+    private List<Integer> path78;
+    private int n78;
+    private int[] nums78;
+
     public List<List<Integer>> subsets2(int[] nums) {
-        List<List<Integer>> res = new ArrayList<>();
-        for (int i = 0; i < (1 << nums.length); ++i) {
-            List<Integer> sub = new ArrayList<>();
-            for (int j = 0; j < nums.length; ++j) {
-                if ((i & (1 << j)) != 0) {
-                    sub.add(nums[j]);
-                }
-            }
-            res.add(sub);
-        }
-        return res;
+        this.res78 = new ArrayList<>();
+        this.path78 = new ArrayList<>();
+        this.n78 = nums.length;
+        this.nums78 = nums;
+        dfs78(0);
+        return res78;
     }
 
-    // 78. 子集 / 面试题 08.04. 幂集 --回溯
-    public List<List<Integer>> subsets3(int[] nums) {
-        List<List<Integer>> res = new ArrayList<>();
-        List<Integer> path = new ArrayList<>();
-        backtrack78(res, nums, path, 0);
-        return res;
-
-    }
-
-    private void backtrack78(List<List<Integer>> res, int[] nums, List<Integer> path, int index) {
-        res.add(new ArrayList<>(path));
-        for (int i = index; i < nums.length; ++i) {
-            path.add(nums[i]);
-            backtrack78(res, nums, path, i + 1);
-            path.remove(path.size() - 1);
+    private void dfs78(int i) {
+        if (i == n78) {
+            res78.add(new ArrayList<>(path78));
+            return;
         }
-    }
-
-    // 90. 子集 II (Subsets II)
-    public List<List<Integer>> subsetsWithDup(int[] nums) {
-        Arrays.sort(nums);
-        List<List<Integer>> res = new ArrayList<>();
-        for (int i = 0; i < (1 << nums.length); ++i) {
-            List<Integer> sub = new ArrayList<>();
-            boolean flag = true;
-            for (int j = 0; j < nums.length; ++j) {
-                if ((i & (1 << j)) != 0) {
-                    if (j > 0 && (i >> (j - 1) & 1) == 0 && nums[j] == nums[j - 1]) {
-                        flag = false;
-                        break;
-                    }
-                    sub.add(nums[j]);
-                }
-            }
-            if (flag) {
-                res.add(sub);
-            }
-        }
-        return res;
-
+        dfs78(i + 1);
+        path78.add(nums78[i]);
+        dfs78(i + 1);
+        path78.remove(path78.size() - 1);
     }
 
     // 90. 子集 II (Subsets II) --回溯
@@ -5516,7 +5488,7 @@ public class LeetCodeText {
     private int n90;
     private List<Integer> list90;
 
-    public List<List<Integer>> subsetsWithDup2(int[] nums) {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
         Arrays.sort(nums);
         this.nums90 = nums;
         this.res90 = new ArrayList<>();
