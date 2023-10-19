@@ -5510,24 +5510,36 @@ public class LeetCodeText {
     }
 
     // 90. 子集 II (Subsets II) --回溯
+    private int[] nums90;
+    private List<List<Integer>> res90;
+    private int used90;
+    private int n90;
+    private List<Integer> list90;
+
     public List<List<Integer>> subsetsWithDup2(int[] nums) {
         Arrays.sort(nums);
-        List<List<Integer>> res = new ArrayList<>();
-        List<Integer> path = new ArrayList<>();
-        backtrack90(res, path, nums, 0);
-        return res;
+        this.nums90 = nums;
+        this.res90 = new ArrayList<>();
+        this.used90 = 0;
+        this.n90 = nums.length;
+        this.list90 = new ArrayList<>();
+        dfs90(0);
+        return res90;
 
     }
 
-    private void backtrack90(List<List<Integer>> res, List<Integer> path, int[] nums, int index) {
-        res.add(new ArrayList<>(path));
-        for (int i = index; i < nums.length; ++i) {
-            if (i > index && nums[i] == nums[i - 1]) {
-                continue;
-            }
-            path.add(nums[i]);
-            backtrack90(res, path, nums, i + 1);
-            path.remove(path.size() - 1);
+    private void dfs90(int i) {
+        if (i == n90) {
+            res90.add(new ArrayList<>(list90));
+            return;
+        }
+        dfs90(i + 1);
+        if (!(i > 0 && nums90[i] == nums90[i - 1] && ((used90 >> (i - 1)) & 1) == 0)) {
+            list90.add(nums90[i]);
+            used90 ^= 1 << i;
+            dfs90(i + 1);
+            list90.remove(list90.size() - 1);
+            used90 ^= 1 << i;
         }
     }
 

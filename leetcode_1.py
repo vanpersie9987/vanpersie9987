@@ -7151,4 +7151,29 @@ class leetcode_1 :
              res += dic[nums[i] * nums[j]]
              dic[nums[i] * nums[j]] += 1
        return res * 8
+
+    # 90. 子集 II (Subsets II)
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+       n = len(nums)
+       res = []
+       used = 0
+       nums.sort()
+       _list = []
+       def dfs(i: int) -> None:
+          if i == n:
+             res.append(_list.copy())
+             return
+          dfs(i + 1)
+          nonlocal used
+          if not (i and nums[i] == nums[i - 1] and ((used >> (i - 1)) & 1) == 0):
+             used ^= 1 << i
+             _list.append(nums[i])
+             dfs(i + 1)
+             used ^= 1 << i
+             _list.pop()
+       dfs(0)
+       return res
+             
+             
+          
              
