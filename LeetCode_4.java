@@ -2228,43 +2228,61 @@ public class LeetCode_4 {
     }
 
     // 40. 组合总和 II (Combination Sum II) --回溯
-    // 剑指 Offer II 082. 含有重复元素集合的组合
+    // LCR 082. 组合总和 II
     // 组合：不需要用used数组
     // 有重复元素：需要排序
     // 每个元素只能用一次 ：回溯的时候 index = i + 1
-    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
-        Arrays.sort(candidates);
-        int sum = 0;
-        List<List<Integer>> res = new ArrayList<>();
-        List<Integer> path = new ArrayList<>();
-        backtrack40(res, candidates, path, sum, target, 0);
-        return res;
+    private List<int[]> list;
+    private List<Integer> path;
+    private int n;
+    private int target;
+    private List<List<Integer>> res;
 
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int c : candidates) {
+            map.merge(c, 1, Integer::sum);
+        }
+        this.list = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            list.add(new int[] { entry.getKey(), entry.getValue() });
+        }
+        this.path = new ArrayList<>();
+        this.n = list.size();
+        this.target = target;
+        this.res = new ArrayList<>();
+        dfs(0, 0);
+        return res;
     }
 
-    private void backtrack40(List<List<Integer>> res, int[] candidates, List<Integer> path, int sum, int target,
-            int index) {
-        if (sum == target) {
-            res.add(new ArrayList<>(path));
-            return;
-        }
-        if (sum > target) {
-            return;
-        }
-        for (int i = index; i < candidates.length; ++i) {
-            if (i > index && candidates[i] == candidates[i - 1]) {
-                continue;
+    private void dfs(int i, int j) {
+        if (i == n) {
+            if (j == target) {
+                res.add(new ArrayList<>(path));
             }
-            sum += candidates[i];
-            path.add(candidates[i]);
-            backtrack40(res, candidates, path, sum, target, i + 1);
-            path.remove(path.size() - 1);
-            sum -= candidates[i];
+            return;
+        }
+        if (j > target) {
+            return;
+        }
+        dfs(i + 1, j);
+        List<Integer> cur = new ArrayList<>();
+        for (int k = 1; k <= list.get(i)[1]; ++k) {
+            if (k * list.get(i)[0] + j > target) {
+                break;
+            }
+            cur.add(list.get(i)[0]);
+            path.addAll(cur);
+            dfs(i + 1, j + k * list.get(i)[0]);
+            int c = k;
+            while (c-- > 0) {
+                path.remove(path.size() - 1);
+            }
         }
     }
 
     // 47. 全排列 II (Permutations II) --回溯
-    // 剑指 Offer II 084. 含有重复元素集合的全排列
+    // LCR 084. 全排列 II
     // 排列：需要用used数组
     // 有重复元素：需要排序
     public List<List<Integer>> permuteUnique(int[] nums) {
