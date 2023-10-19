@@ -7088,6 +7088,7 @@ class leetcode_1 :
     
     # 78. 子集 (Subsets)
     # LCR 079. 子集 
+    # 面试题 08.04. 幂集
     def subsets(self, nums: List[int]) -> List[List[int]]:
        n = len(nums)
        res = []
@@ -7173,6 +7174,28 @@ class leetcode_1 :
              _list.pop()
        dfs(0)
        return res
+    
+    # 39. 组合总和 (Combination Sum)
+    # LCR 081. 组合总和
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+       candidates.sort(reverse=True)
+       n = len(candidates)
+       res = []
+       path = []
+       def dfs(i: int, j: int) -> None:
+          if i == n:
+             if j == target:
+                res.append(path.copy())
+             return
+          if j > target:
+             return
+          dfs(i + 1, j)
+          path.append(candidates[i])
+          dfs(i, j + candidates[i])
+          path.pop()
+       dfs(0, 0)
+       return res
+             
              
              
           
