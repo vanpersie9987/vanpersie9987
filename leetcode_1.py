@@ -7309,3 +7309,17 @@ class leetcode_1 :
                 res += dfs(i + num)
           return res
        return dfs(0)
+    
+    # 647. 回文子串 (Palindromic Substrings)
+    # LCR 020. 回文子串
+    def countSubstrings(self, s: str) -> int:
+       n = len(s)
+       dp = [[False] * n for _ in range(n)]
+       res = 0
+       for i in range(n - 1, -1, -1):
+          for j in range(i, n):
+             if i == j or j - i == 1 and s[i] == s[j] or j - i > 1 and s[i] == s[j] and dp[i + 1][j - 1]:
+                dp[i][j] = True
+                res += 1
+       return res
+
