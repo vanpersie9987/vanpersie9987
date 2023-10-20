@@ -7232,6 +7232,20 @@ class leetcode_1 :
        res = []
        dfs(0, 0)
        return res
+
+    # 2525. 根据规则将箱子分类 (Categorize Box According to Criteria)
+    def categorizeBox(self, length: int, width: int, height: int, mass: int) -> str:
+       w = 10 ** 4
+       m = 10 ** 9
+       is_bulky = length >= w or width >= w or height >= w or length * width * height >= m
+       is_heavy = mass >= 100
+       if is_bulky and is_heavy:
+          return "Both"
+       if is_bulky:
+          return "Bulky"
+       if is_heavy:
+          return "Heavy"
+       return "Neither"
              
        
     
