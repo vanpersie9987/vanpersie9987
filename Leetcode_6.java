@@ -4335,7 +4335,7 @@ public class Leetcode_6 {
 
     }
 
-    // 6287. 根据规则将箱子分类
+    // 2525. 根据规则将箱子分类 (Categorize Box According to Criteria)
     public String categorizeBox(int length, int width, int height, int mass) {
         long a = 1l;
         a = a * length;
