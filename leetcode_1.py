@@ -7322,4 +7322,32 @@ class leetcode_1 :
                 dp[i][j] = True
                 res += 1
        return res
+    
+    # 2316. 统计无向图中无法互相到达点对数 (Count Unreachable Pairs of Nodes in an Undirected Graph) 
+    def countPairs(self, n: int, edges: List[List[int]]) -> int:
+       def dfs(x: int, fa: int) -> None:
+          vis[x] = True
+          nonlocal cnt
+          cnt += 1
+          for y in g[x]:
+             if y != fa and not vis[y]:
+                dfs(y, x)
+       g = [[] for _ in range(n)]
+       for a, b in edges:
+          g[a].append(b)
+          g[b].append(a)
+       vis = [False] * n
+       cnt = 0
+       pre = 0
+       res = 0
+       for i in range(n):
+          if not vis[i]:
+             cnt = 0
+             dfs(i, -1)
+             res += cnt * pre
+             pre += cnt
+       return res
+
+             
+
 
