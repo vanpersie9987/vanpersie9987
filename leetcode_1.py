@@ -7278,4 +7278,20 @@ class leetcode_1 :
                 dp[i][j] = min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1
              res = max(res, dp[i][j])
        return res * res
+    
+    # 1277. 统计全为 1 的正方形子矩阵 (Count Square Submatrices with All Ones)
+    def countSquares(self, matrix: List[List[int]]) -> int:
+       m = len(matrix)
+       n = len(matrix[0])
+       res = 0
+       dp = [[0] * n for _ in range(m)]
+       for i in range(m):
+          for j in range(n):
+             if i == 0 or j == 0:
+                dp[i][j] = int(matrix[i][j])
+             elif int(matrix[i][j]) == 1:
+                dp[i][j] = min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1
+             res += dp[i][j]
+       return res
+
 
