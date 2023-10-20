@@ -26,6 +26,7 @@ from operator import le
 from queue import PriorityQueue
 from re import X
 import re
+from textwrap import indent
 from tkinter import W
 from tkinter.tix import Tree
 from turtle import reset, st
@@ -7246,11 +7247,19 @@ class leetcode_1 :
        if is_heavy:
           return "Heavy"
        return "Neither"
-             
-       
-    
-             
-             
-             
-          
-             
+
+    # 279. 完全平方数 (Perfect Squares)
+    def numSquares(self, n: int) -> int:
+       @cache
+       def dfs(i: int) -> int:
+          if i == n:
+             return 0
+          _sqrt = (int)(sqrt(n - i))
+          if _sqrt * _sqrt == n - i:
+             return 1
+          res = inf
+          while _sqrt >= 1:
+             res = min(res, dfs(_sqrt * _sqrt + i) + 1)
+             _sqrt -= 1
+          return res
+       return dfs(0)
