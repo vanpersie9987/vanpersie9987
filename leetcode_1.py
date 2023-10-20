@@ -4612,6 +4612,7 @@ class leetcode_1 :
        return mat
     
     # 494. 目标和 (Target Sum)
+    # LCR 102. 目标和
     def findTargetSumWays(self, nums: List[int], target: int) -> int:
        @cache
        def dfs(i: int, cur: int) -> int:
@@ -7308,4 +7309,3 @@ class leetcode_1 :
                 res += dfs(i + num)
           return res
        return dfs(0)
-          
