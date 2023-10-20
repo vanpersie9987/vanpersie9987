@@ -7263,3 +7263,19 @@ class leetcode_1 :
              _sqrt -= 1
           return res
        return dfs(0)
+    
+    # 221. 最大正方形 (Maximal Square)
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+       m = len(matrix)
+       n = len(matrix[0])
+       res = 0
+       dp = [[0] * n for _ in range(m)]
+       for i in range(m):
+          for j in range(n):
+             if i == 0 or j == 0:
+                dp[i][j] = int(matrix[i][j])
+             elif int(matrix[i][j]) == 1:
+                dp[i][j] = min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1
+             res = max(res, dp[i][j])
+       return res * res
+
