@@ -440,7 +440,8 @@ class leetcode_1 :
           return dfs(i + 1, j) + dfs(i, j + coins[i])
        return dfs(0, 0)
     
-   # 322. 零钱兑换 (Coin Change)
+    # 322. 零钱兑换 (Coin Change)
+    # LCR 103. 零钱兑换
     def coinChange(self, coins: List[int], amount: int) -> int:
        n = len(coins)
 
@@ -7293,5 +7294,3 @@ class leetcode_1 :
                 dp[i][j] = min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1
              res += dp[i][j]
        return res
-
-
