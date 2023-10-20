@@ -7294,3 +7294,18 @@ class leetcode_1 :
                 dp[i][j] = min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1
              res += dp[i][j]
        return res
+    
+    # 377. 组合总和 Ⅳ (Combination Sum IV)
+    # LCR 104. 组合总和 Ⅳ
+    def combinationSum4(self, nums: List[int], target: int) -> int:
+       @cache
+       def dfs(i: int) -> int:
+          if i == target:
+             return 1
+          res = 0
+          for num in nums:
+             if num + i <= target:
+                res += dfs(i + num)
+          return res
+       return dfs(0)
+          
