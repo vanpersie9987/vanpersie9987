@@ -3207,30 +3207,6 @@ public class Leetcode_8 {
     }
 
     // 2839. 判断通过操作能否让字符串相等 I (Check if Strings Can be Made Equal With Operations I)
-    public boolean canBeEqual(String s1, String s2) {
-        int[] cnt = new int[26];
-        for (int i = 0; i < s1.length(); i += 2) {
-            ++cnt[s1.charAt(i) - 'a'];
-            --cnt[s2.charAt(i) - 'a'];
-        }
-        for (int c : cnt) {
-            if (c != 0) {
-                return false;
-            }
-        }
-        for (int i = 1; i < s1.length(); i += 2) {
-            ++cnt[s1.charAt(i) - 'a'];
-            --cnt[s2.charAt(i) - 'a'];
-        }
-        for (int c : cnt) {
-            if (c != 0) {
-                return false;
-            }
-        }
-        return true;
-
-    }
-
     // 2840. 判断通过操作能否让字符串相等 II (Check if Strings Can be Made Equal With Operations
     // II)
     public boolean checkStrings(String s1, String s2) {
