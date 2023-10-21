@@ -6538,8 +6538,8 @@ class leetcode_1 :
        pre = 0
        MOD = 10 ** 9 + 7
        for i, x in enumerate(nums):
-          res += nums[i] * i - pre
-          pre += nums[i]
+          res += x * i - pre
+          pre += x
           res %= MOD
        return res
     
