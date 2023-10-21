@@ -1652,6 +1652,7 @@ class leetcode_1 :
        return root1
     
     # 50. Pow(x, n) (Pow(x, n))
+    # LCR 134. Pow(x, n)
     def myPow(self, x: float, n: int) -> float:
        return pow(x, n)
     
