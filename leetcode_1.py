@@ -7257,7 +7257,7 @@ class leetcode_1 :
        def dfs(i: int) -> int:
           if i == n:
              return 0
-          _sqrt = (int)(sqrt(n - i))
+          _sqrt = int(sqrt(n - i))
           if _sqrt * _sqrt == n - i:
              return 1
           res = inf
