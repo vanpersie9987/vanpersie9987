@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@SuppressWarnings("unchecked")
 public class LeetCode_4 {
     public static void main(String[] args) {
         // String[] strings = { "mobile", "mouse", "moneypot", "monitor", "mousepad" };
@@ -3399,9 +3400,10 @@ public class LeetCode_4 {
 
     }
 
-    // 6106. 统计无向图中无法互相到达点对数
+    // 2316. 统计无向图中无法互相到达点对数 (Count Unreachable Pairs of Nodes in an Undirected
+    // Graph)
     public long countPairs(int n, int[][] edges) {
-        UnionFind6106 union = new UnionFind6106(n);
+        UnionFind2316 union = new UnionFind2316(n);
         for (int[] edge : edges) {
             union.union(edge[0], edge[1]);
         }
@@ -3410,23 +3412,20 @@ public class LeetCode_4 {
             int root = union.getRoot(i);
             map.put(root, map.getOrDefault(root, 0) + 1);
         }
-        long res = 0l;
-        long sum = 0l;
-        for (int num : map.values()) {
-            sum += num;
-        }
-        for (int num : map.values()) {
-            sum -= num;
-            res += num * sum;
+        long res = 0L;
+        long pre = 0L;
+        for (int cnt : map.values()) {
+            res += cnt * pre;
+            pre += cnt;
         }
         return res;
     }
 
-    public class UnionFind6106 {
+    public class UnionFind2316 {
         private int[] parent;
         private int[] rank;
 
-        public UnionFind6106(int n) {
+        public UnionFind2316(int n) {
             parent = new int[n];
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
@@ -3459,6 +3458,44 @@ public class LeetCode_4 {
                 if (rank[root1] == rank[root2]) {
                     ++rank[root2];
                 }
+            }
+        }
+    }
+
+    // 2316. 统计无向图中无法互相到达点对数 (Count Unreachable Pairs of Nodes in an Undirected
+    // Graph)
+    private List<Integer>[] g2316;
+    private boolean[] vis2316;
+    private long cnt2316;
+
+    public long countPairs2(int n, int[][] edges) {
+        this.g2316 = new ArrayList[n];
+        Arrays.setAll(g2316, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g2316[e[0]].add(e[1]);
+            g2316[e[1]].add(e[0]);
+        }
+        this.vis2316 = new boolean[n];
+        long res = 0L;
+        long pre = 0L;
+        for (int i = 0; i < n; ++i) {
+            if (!vis2316[i]) {
+                cnt2316 = 0L;
+                dfs2316(i, -1);
+                res += cnt2316 * pre;
+                pre += cnt2316;
+            }
+        }
+        return res;
+
+    }
+
+    private void dfs2316(int x, int fa) {
+        ++cnt2316;
+        vis2316[x] = true;
+        for (int y : g2316[x]) {
+            if (y != fa && !vis2316[y]) {
+                dfs2316(y, x);
             }
         }
     }
