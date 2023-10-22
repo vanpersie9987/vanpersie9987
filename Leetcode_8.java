@@ -4585,4 +4585,119 @@ public class Leetcode_8 {
         return memo_LCP_13[i][j] = res;
     }
 
+    // 100106. 元素和最小的山形三元组 I (Minimum Sum of Mountain Triplets I)
+    // 100114. 元素和最小的山形三元组 II (Minimum Sum of Mountain Triplets II)
+    public int minimumSum(int[] nums) {
+        int n = nums.length;
+        int[] left = new int[n];
+        Arrays.fill(left, Integer.MAX_VALUE);
+        for (int i = 1; i < n; ++i) {
+            left[i] = Math.min(left[i - 1], nums[i - 1]);
+        }
+        int res = Integer.MAX_VALUE;
+        int suf = Integer.MAX_VALUE;
+        for (int i = n - 2; i >= 0; --i) {
+            suf = Math.min(suf, nums[i + 1]);
+            if (nums[i] > suf && nums[i] > left[i]) {
+                res = Math.min(res, suf + nums[i] + left[i]);
+            }
+        }
+        return res < Integer.MAX_VALUE ? res : -1;
+    }
+
+    // 6920. 得到 K 个半回文串的最少修改次数 (Minimum Changes to Make K Semi-palindromes)
+    private int[][] memo6920;
+    private int[][] modify6920;
+    private int n6920;
+    private int k6920;
+
+    public int minimumChanges(String s, int k) {
+        this.n6920 = s.length();
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 2; i <= n6920; ++i) {
+            for (int j = 1; j <= i / 2; ++j) {
+                if (i % j == 0) {
+                    map.computeIfAbsent(i, o -> new ArrayList<>()).add(j);
+                }
+            }
+        }
+        this.modify6920 = new int[n6920][n6920];
+        for (int i = 0; i < n6920; ++i) {
+            for (int j = i + 1; j < n6920; ++j) {
+                int len = j - i + 1;
+                int res = Integer.MAX_VALUE;
+                for (int d : map.getOrDefault(len, new ArrayList<>())) {
+                    StringBuilder[] builders = new StringBuilder[d];
+                    for (int x = 0; x < d; ++x) {
+                        builders[x] = new StringBuilder();
+                    }
+                    for (int x = 0; x < len; ++x) {
+                        builders[x % d].append(s.charAt(x + i));
+                    }
+                    int sum = 0;
+                    for (StringBuilder b : builders) {
+                        int x = 0;
+                        int y = b.length() - 1;
+                        while (x < y) {
+                            if (b.charAt(x) != b.charAt(y)) {
+                                ++sum;
+                            }
+                            ++x;
+                            --y;
+                        }
+                    }
+                    res = Math.min(res, sum);
+                }
+                modify6920[i][j] = res;
+            }
+        }
+        this.memo6920 = new int[n6920][k];
+        for (int i = 0; i < n6920; ++i) {
+            Arrays.fill(memo6920[i], -1);
+        }
+        this.k6920 = k;
+        return dfs6920(0, 0);
+
+    }
+
+    private int dfs6920(int i, int j) {
+        if (i == n6920) {
+            return j == k6920 ? 0 : n6920;
+        }
+        if (j == k6920) {
+            return n6920;
+        }
+        if ((n6920 - i) / 2 < k6920 - j) {
+            return n6920;
+        }
+        if (memo6920[i][j] != -1) {
+            return memo6920[i][j];
+        }
+        int res = n6920;
+        for (int x = i + 1; x < n6920; ++x) {
+            res = Math.min(res, dfs6920(x + 1, j + 1) + modify6920[i][x]);
+        }
+        return memo6920[i][j] = res;
+    }
+
+    // 100097. 合法分组的最少组数 (Minimum Number of Groups to Create a Valid Assignment)
+    public int minGroupsForValidAssignment(int[] nums) {
+        Map<Integer, Integer> cnt = new HashMap<>();
+        for (int num : nums) {
+            cnt.merge(num, 1, Integer::sum);
+        }
+        int min = Collections.min(cnt.values());
+        search: for (int k = min; k > 0; --k) {
+            int res = 0;
+            for (int c : cnt.values()) {
+                if (c / k < c % k) {
+                    continue search;
+                }
+                res += (c + k) / (k + 1);
+            }
+            return res;
+        }
+        return -1;
+
+    }
 }

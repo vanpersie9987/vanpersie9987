@@ -7348,7 +7348,70 @@ class leetcode_1 :
              res += cnt * pre
              pre += cnt
        return res
+    
+    # 100106. 元素和最小的山形三元组 I (Minimum Sum of Mountain Triplets I)
+    # 100114. 元素和最小的山形三元组 II (Minimum Sum of Mountain Triplets II)
+    def minimumSum(self, nums: List[int]) -> int:
+       n = len(nums)
+       left_min = [inf] * n
+       for i in range(1, n):
+          left_min[i] = min(left_min[i - 1], nums[i - 1])
+       res = inf
+       right_min = inf
+       for i in range(n - 2, -1, -1):
+          right_min = min(right_min, nums[i + 1])
+          if nums[i] > right_min and nums[i] > left_min[i]:
+             res = min(res, left_min[i] + nums[i] + right_min)
+       return res if res < inf else -1
+    
+    # 6920. 得到 K 个半回文串的最少修改次数 (Minimum Changes to Make K Semi-palindromes)
+    def minimumChanges(self, s: str, k: int) -> int:
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return 0 if j == k else inf
+          if j == k:
+             return inf
+          res = inf
+          for x in range(i + 1, n):
+             res = min(res, dfs(x + 1, j + 1) + modify[i][x])
+          return res
+       def get_modify(s: str) -> int:
+          l = len(s)
+          res = inf
+          for c in dic[l]:
+             cnt = 0
+             for i0 in range(c):
+                i, j = i0, l - c + i0
+                while i < j:
+                   cnt += s[i] != s[j]
+                   i += c
+                   j -= c
+             res = min(res, cnt)
+          return res
 
+       n = len(s)
+       dic = collections.defaultdict(list)
+       for i in range(2, n + 1):
+          for j in range(1, i // 2 + 1):
+             if i % j == 0:
+                dic[i].append(j)
+       modify = [[0] * n for _ in range(n)]
+       for i in range(n):
+          for j in range(i + 1, n):
+             modify[i][j] = get_modify(s[i: j + 1])
+       return dfs(0, 0)
+    
+    # 100097. 合法分组的最少组数 (Minimum Number of Groups to Create a Valid Assignment)
+    def minGroupsForValidAssignment(self, nums: List[int]) -> int:
+       cnt = Counter(nums)
+       m = min(cnt.values())
+       for k in range(m, 0, -1):
+          res = 0
+          for c in cnt.values():
+             if c // k < c % k:
+                break
+             res += (c + k) // (k + 1)
+          else:
+             return res
              
-
-
