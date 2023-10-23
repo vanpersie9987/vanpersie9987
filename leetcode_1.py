@@ -7364,7 +7364,7 @@ class leetcode_1 :
              res = min(res, left_min[i] + nums[i] + right_min)
        return res if res < inf else -1
     
-    # 6920. 得到 K 个半回文串的最少修改次数 (Minimum Changes to Make K Semi-palindromes)
+    # 2911. 得到 K 个半回文串的最少修改次数 (Minimum Changes to Make K Semi-palindromes)
     def minimumChanges(self, s: str, k: int) -> int:
        @cache
        def dfs(i: int, j: int) -> int:
@@ -7392,10 +7392,9 @@ class leetcode_1 :
 
        n = len(s)
        dic = collections.defaultdict(list)
-       for i in range(2, n + 1):
-          for j in range(1, i // 2 + 1):
-             if i % j == 0:
-                dic[i].append(j)
+       for i in range(1, n + 1):
+          for j in range(2 * i, n + 1, i):
+                dic[j].append(i)
        modify = [[0] * n for _ in range(n)]
        for i in range(n):
           for j in range(i + 1, n):
