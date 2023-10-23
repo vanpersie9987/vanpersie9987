@@ -4614,11 +4614,9 @@ public class Leetcode_8 {
     public int minimumChanges(String s, int k) {
         this.n2911 = s.length();
         Map<Integer, List<Integer>> map = new HashMap<>();
-        for (int i = 2; i <= n2911; ++i) {
-            for (int j = 1; j <= i / 2; ++j) {
-                if (i % j == 0) {
-                    map.computeIfAbsent(i, o -> new ArrayList<>()).add(j);
-                }
+        for (int i = 1; i <= n2911; ++i) {
+            for (int j = i * 2; j <= n2911; j += i) {
+                map.computeIfAbsent(j, o -> new ArrayList<>()).add(i);
             }
         }
         this.modify2911 = new int[n2911][n2911];
