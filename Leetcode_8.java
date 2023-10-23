@@ -4605,79 +4605,73 @@ public class Leetcode_8 {
         return res < Integer.MAX_VALUE ? res : -1;
     }
 
-    // 6920. 得到 K 个半回文串的最少修改次数 (Minimum Changes to Make K Semi-palindromes)
-    private int[][] memo6920;
-    private int[][] modify6920;
-    private int n6920;
-    private int k6920;
+    // 2911. 得到 K 个半回文串的最少修改次数 (Minimum Changes to Make K Semi-palindromes)
+    private int[][] memo2911;
+    private int[][] modify2911;
+    private int n2911;
+    private int k2911;
 
     public int minimumChanges(String s, int k) {
-        this.n6920 = s.length();
+        this.n2911 = s.length();
         Map<Integer, List<Integer>> map = new HashMap<>();
-        for (int i = 2; i <= n6920; ++i) {
+        for (int i = 2; i <= n2911; ++i) {
             for (int j = 1; j <= i / 2; ++j) {
                 if (i % j == 0) {
                     map.computeIfAbsent(i, o -> new ArrayList<>()).add(j);
                 }
             }
         }
-        this.modify6920 = new int[n6920][n6920];
-        for (int i = 0; i < n6920; ++i) {
-            for (int j = i + 1; j < n6920; ++j) {
+        this.modify2911 = new int[n2911][n2911];
+        for (int i = 0; i < n2911; ++i) {
+            for (int j = i + 1; j < n2911; ++j) {
                 int len = j - i + 1;
+                String sub = s.substring(i, j + 1);
                 int res = Integer.MAX_VALUE;
                 for (int d : map.getOrDefault(len, new ArrayList<>())) {
-                    StringBuilder[] builders = new StringBuilder[d];
-                    for (int x = 0; x < d; ++x) {
-                        builders[x] = new StringBuilder();
-                    }
-                    for (int x = 0; x < len; ++x) {
-                        builders[x % d].append(s.charAt(x + i));
-                    }
                     int sum = 0;
-                    for (StringBuilder b : builders) {
-                        int x = 0;
-                        int y = b.length() - 1;
+                    for (int c = 0; c < d; ++c) {
+                        int x = c;
+                        int y = len - d + c;
                         while (x < y) {
-                            if (b.charAt(x) != b.charAt(y)) {
+                            if (sub.charAt(x) != sub.charAt(y)) {
                                 ++sum;
                             }
-                            ++x;
-                            --y;
+                            x += d;
+                            y -= d;
                         }
                     }
                     res = Math.min(res, sum);
                 }
-                modify6920[i][j] = res;
+                modify2911[i][j] = res;
             }
         }
-        this.memo6920 = new int[n6920][k];
-        for (int i = 0; i < n6920; ++i) {
-            Arrays.fill(memo6920[i], -1);
+        this.memo2911 = new int[n2911][k];
+        for (int i = 0; i < n2911; ++i) {
+            Arrays.fill(memo2911[i], -1);
         }
-        this.k6920 = k;
-        return dfs6920(0, 0);
+        this.k2911 = k;
+        return dfs2911(0, 0);
 
     }
 
-    private int dfs6920(int i, int j) {
-        if (i == n6920) {
-            return j == k6920 ? 0 : n6920;
+    private int dfs2911(int i, int j) {
+        if (i == n2911) {
+            return j == k2911 ? 0 : n2911;
         }
-        if (j == k6920) {
-            return n6920;
+        if (j == k2911) {
+            return n2911;
         }
-        if ((n6920 - i) / 2 < k6920 - j) {
-            return n6920;
+        if ((n2911 - i) / 2 < k2911 - j) {
+            return n2911;
         }
-        if (memo6920[i][j] != -1) {
-            return memo6920[i][j];
+        if (memo2911[i][j] != -1) {
+            return memo2911[i][j];
         }
-        int res = n6920;
-        for (int x = i + 1; x < n6920; ++x) {
-            res = Math.min(res, dfs6920(x + 1, j + 1) + modify6920[i][x]);
+        int res = n2911;
+        for (int x = i + 1; x < n2911; ++x) {
+            res = Math.min(res, dfs2911(x + 1, j + 1) + modify2911[i][x]);
         }
-        return memo6920[i][j] = res;
+        return memo2911[i][j] = res;
     }
 
     // 100097. 合法分组的最少组数 (Minimum Number of Groups to Create a Valid Assignment)
