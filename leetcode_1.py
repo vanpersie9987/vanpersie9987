@@ -7414,4 +7414,7 @@ class leetcode_1 :
              res += (c + k) // (k + 1)
           else:
              return res
+    # 2678. 老人的数目 (Number of Senior Citizens)
+    def countSeniors(self, details: List[str]) -> int:
+       return sum(int(x[11:13]) > 60 for x in details)
              
