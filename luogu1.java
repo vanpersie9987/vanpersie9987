@@ -174,7 +174,7 @@ public class luogu1 {
      */
     private long dfs6754(int i, int j, int k, boolean isLimit, boolean isNum) {
         if (i == n6754) {
-            return isNum ? 1 : 0;
+            return isNum ? 1L : 0L;
         }
         if (!isLimit && isNum && memo6754[i][j][k] != -1L) {
             return memo6754[i][j][k];
