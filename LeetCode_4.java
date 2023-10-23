@@ -9902,7 +9902,7 @@ public class LeetCode_4 {
         return memo518[i][sum] = res;
     }
 
-    // 1155. 掷骰子的N种方法 (Number of Dice Rolls With Target Sum)
+    // 1155. 掷骰子等于目标和的方法数 (Number of Dice Rolls With Target Sum)
     // 分组背包的组合问题：dp[i][j]表示投掷i个骰子点数和为j的方法数;三层循环：最外层为背包d,然后先遍历target后遍历点数f
     public int numRollsToTarget(int n, int k, int target) {
         final int MOD = (int) (1e9 + 7);
@@ -9920,47 +9920,44 @@ public class LeetCode_4 {
         return dp[n][target];
     }
 
-    // 1155. 掷骰子的N种方法 (Number of Dice Rolls With Target Sum)
+    // 1155. 掷骰子等于目标和的方法数 (Number of Dice Rolls With Target Sum)
+    private int[][] memo1155;
     private int n1155;
     private int k1155;
     private int target1155;
-    private int[][] memo1155;
 
     public int numRollsToTarget2(int n, int k, int target) {
         this.n1155 = n;
         this.k1155 = k;
         this.target1155 = target;
         this.memo1155 = new int[n][target];
-        for (int i = 0; i < n; ++i) {
-            Arrays.fill(memo1155[i], -1);
-        }
         return dfs1155(0, 0);
 
     }
 
-    private int dfs1155(int i, int sum) {
-        if (i == n1155 || sum == target1155) {
-            return i == n1155 && sum == target1155 ? 1 : 0;
+    private int dfs1155(int i, int j) {
+        if (i == n1155) {
+            return j == target1155 ? 1 : 0;
         }
-        // 还剩 n - i 个骰子，还需要凑 target - sum 值，
-        // 即便每个骰子投最小的 1 点，也超出了需要凑的值时，不可能做到
-        if (n1155 - i > target1155 - sum) {
+        if (j >= target1155) {
             return 0;
         }
-        // 还剩 n - i 个骰子，还需要凑 target - sum 值，
-        // 即便每个骰子投最大的 k 点，也不能达到需要凑的值时，不可能做到
-        if ((n1155 - i) * k1155 < target1155 - sum) {
+        if ((n1155 - i) * k1155 < target1155 - j) {
             return 0;
         }
-        if (memo1155[i][sum] != -1) {
-            return memo1155[i][sum];
+        if (n1155 - i > target1155 - j) {
+            return 0;
+        }
+        if (memo1155[i][j] != 0) {
+            return memo1155[i][j];
         }
         int res = 0;
         final int MOD = (int) (1e9 + 7);
-        for (int cur = 1; cur <= k1155 && cur + sum <= target1155; ++cur) {
-            res = (res + dfs1155(i + 1, cur + sum)) % MOD;
+        for (int x = 1; x <= k1155; ++x) {
+            res += dfs1155(i + 1, j + x);
+            res %= MOD;
         }
-        return memo1155[i][sum] = res;
+        return memo1155[i][j] = res;
     }
 
     // 474. 一和零 (Ones and Zeroes)
