@@ -75,7 +75,7 @@ public class luogu1 {
     }
 
     // P1831 杠杆数
-    public long leverNumber(long right, long left) {
+    public long leverNumber(long left, long right) {
         return solve1831(right) - solve1831(left - 1);
     }
 
@@ -127,6 +127,70 @@ public class luogu1 {
         }
         if (!isLimit && isNum) {
             memo1831[i][j][k] = res;
+        }
+        return res;
+    }
+
+    // P6754 [BalticOI 2013 Day1] Palindrome-Free Numbers
+    public long palindromeFreeNumbers(long left, long right) {
+        return solve6754(right) - solve6754(left) + check6754(left);
+    }
+
+    private long check6754(long num) {
+        char[] arr = String.valueOf(num).toCharArray();
+        int n = arr.length;
+        for (int i = 1; i < n; ++i) {
+            if (arr[i] == arr[i - 1] || i >= 2 && arr[i] == arr[i - 2]) {
+                return 0L;
+            }
+        }
+        return 1L;
+    }
+
+    private char[] arr6754;
+    private int n6754;
+    private long[][][] memo6754;
+
+    private long solve6754(long num) {
+        this.arr6754 = String.valueOf(num).toCharArray();
+        this.n6754 = arr6754.length;
+        this.memo6754 = new long[n6754][11][11];
+        for (int i = 0; i < n6754; ++i) {
+            for (int j = 0; j < 11; ++j) {
+                Arrays.fill(memo6754[i][j], -1L);
+            }
+        }
+        return dfs6754(0, 10, 10, true, false);
+    }
+
+    /**
+     * 
+     * @param i       当前位
+     * @param j       上一位选的数，若未选，则为10
+     * @param k       上上一位选的数，若未选，则为10
+     * @param isLimit 是否受限
+     * @param isNum   是否为数
+     * @return
+     */
+    private long dfs6754(int i, int j, int k, boolean isLimit, boolean isNum) {
+        if (i == n6754) {
+            return isNum ? 1 : 0;
+        }
+        if (!isLimit && isNum && memo6754[i][j][k] != -1L) {
+            return memo6754[i][j][k];
+        }
+        long res = 0L;
+        if (!isNum) {
+            res = dfs6754(i + 1, 10, 10, false, false);
+        }
+        int up = isLimit ? arr6754[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            if (d != j && d != k) {
+                res += dfs6754(i + 1, d, j, isLimit && d == up, true);
+            }
+        }
+        if (!isLimit && isNum) {
+            memo6754[i][j][k] = res;
         }
         return res;
     }
