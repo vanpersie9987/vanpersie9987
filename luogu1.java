@@ -43,4 +43,34 @@ public class luogu1 {
         res1122 = Math.max(res1122, sum);
         return Math.max(0, sum);
     }
+
+    // P1042 [NOIP2003 普及组] 乒乓球
+    public List<List<String>> tableTennisResults(String s) {
+        List<List<String>> res = new ArrayList<>();
+        res.add(checkScores(s, 11));
+        res.add(checkScores(s, 21));
+        return res;
+    }
+
+    private List<String> checkScores(String s, int limit) {
+        List<String> res = new ArrayList<>();
+        int a = 0;
+        int b = 0;
+        for (char c : s.toCharArray()) {
+            if (c == 'W') {
+                ++a;
+            } else {
+                ++b;
+            }
+            if ((a >= limit || b >= limit) && Math.abs(a - b) >= 2) {
+                res.add(a + ":" + b);
+                a = 0;
+                b = 0;
+            }
+        }
+        if (a != 0 || b != 0) {
+            res.add(a + ":" + b);
+        }
+        return res;
+    }
 }
