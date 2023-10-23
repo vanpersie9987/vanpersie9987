@@ -1243,7 +1243,7 @@ class leetcode_1 :
        @cache
        def dfs(i: int, j: int) -> int:
           if i == n:
-             return 1 if j == target else 0
+             return j == target
           if j > target:
              return 0
           if n - i > target - j:
@@ -7416,4 +7416,3 @@ class leetcode_1 :
     # 2678. 老人的数目 (Number of Senior Citizens)
     def countSeniors(self, details: List[str]) -> int:
        return sum(int(x[11:13]) > 60 for x in details)
-             
