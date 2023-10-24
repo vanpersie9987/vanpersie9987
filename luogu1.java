@@ -5,6 +5,10 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public class luogu1 {
     public static void main(String[] args) {
+        // int[] res = calculateEachDigitsCounts(1L, 99L);
+        // for (int i = 0; i < 10; ++i) {
+        // System.out.println(res[i]);
+        // }
 
     }
 
@@ -191,6 +195,52 @@ public class luogu1 {
         }
         if (!isLimit && isNum) {
             memo6754[i][j][k] = res;
+        }
+        return res;
+    }
+
+    // P2602[ZJOI2010] 数字计数
+    public int[] calculateEachDigitsCounts(long left, long right) {
+        int[] res = new int[10];
+        for (int i = 0; i < 10; ++i) {
+            res[i] = solve2602(String.valueOf(right), i) - solve2602(String.valueOf(left - 1), i);
+        }
+        return res;
+    }
+
+    private int n2602;
+    private char[] arr2602;
+    private int target2602;
+    private int[][] memo2602;
+
+    private int solve2602(String s, int target) {
+        this.n2602 = s.length();
+        this.arr2602 = s.toCharArray();
+        this.target2602 = target;
+        this.memo2602 = new int[n2602][n2602];
+        for (int i = 0; i < n2602; ++i) {
+            Arrays.fill(memo2602[i], -1);
+        }
+        return dfs2602(0, 0, true, false);
+    }
+
+    private int dfs2602(int i, int j, boolean isLimit, boolean isNum) {
+        if (i == n2602) {
+            return isNum ? j : 0;
+        }
+        if (!isLimit && isNum && memo2602[i][j] != -1) {
+            return memo2602[i][j];
+        }
+        int res = 0;
+        if (!isNum) {
+            res = dfs2602(i + 1, j, false, false);
+        }
+        int up = isLimit ? arr2602[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            res += dfs2602(i + 1, j + (d == target2602 ? 1 : 0), isLimit && d == up, true);
+        }
+        if (!isLimit && isNum) {
+            memo2602[i][j] = res;
         }
         return res;
     }
