@@ -3,6 +3,7 @@ import collections
 from functools import cache
 from itertools import accumulate, islice
 from math import comb, gcd, inf, isnan, sqrt
+from multiprocessing import reduction
 from operator import le
 from pydoc import resolve
 from queue import PriorityQueue
@@ -145,3 +146,20 @@ class luogu1:
             return dfs(0, 0, True, False)
         MOD = 10 ** 9 + 7
         return (solve(str(right)) - solve(str(left - 1))) % MOD
+    
+    # P8764 [蓝桥杯 2021 国 BC] 二进制问题
+    def binaryProblem(self, n: int, k: int) -> int:
+        def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
+            if i == n:
+                return int(is_num and j == k)
+            res = 0
+            if not is_num:
+                res = dfs(i + 1, j, False, False)
+            up = int(s[i]) if is_limit else 1
+            for d in range(0 if is_num else 1, up + 1):
+                if j + d <= k:
+                    res += dfs(i + 1, j + d, is_limit and up == d, True)
+            return res
+        s = bin(n)[2:]
+        n = len(s)
+        return dfs(0, 0, True, False)
