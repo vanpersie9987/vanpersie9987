@@ -79,4 +79,30 @@ class luogu1:
             n = len(num)
             return sum(dfs(0, i, 0, True, False) for i in range(n))
         return solve(str(right)) - solve(str(left - 1))
+    
+    # P6754 [BalticOI 2013 Day1] Palindrome-Free Numbers
+    def palindromeFreeNumbers(left: int, right: int) -> int:
+        def solve(num: str) -> int:
+            @cache
+            def dfs(i: int, j: int, k: int, is_limit: bool, is_num: bool) -> int:
+                if i == n:
+                    return is_num
+                res = 0
+                if not is_num:
+                    res = dfs(i + 1, j, k, False, False)
+                up = int(num[i]) if is_limit else 9
+                for d in range(0 if is_num else 1, up + 1):
+                    if d != j and d != k:
+                        res += dfs(i + 1, d, j, is_limit and d == up, True)
+                return res
+            n = len(num)
+            return dfs(0, -1, -1, True, False)
+        def check(num: str) -> bool:
+            n = len(num)
+            for i in range(1, n):
+                if num[i] == num[i - 1] or i >= 2 and num[i] == num[i - 2]:
+                    return False
+            return True
+        return solve(str(right)) - solve(str(left)) + check(str(left))
+        
         
