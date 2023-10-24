@@ -11,6 +11,8 @@ public class luogu1 {
         // }
         // int res = annoyingMathWork(1, 100);
         // System.out.println(res);
+        // int res = binaryProblem(7, 2);
+        // System.out.println(res);
     }
 
     // P1122 最大子树和
@@ -287,5 +289,46 @@ public class luogu1 {
             memo4999[i][j] = res;
         }
         return memo4999[i][j] = res;
+    }
+
+    // P8764 [蓝桥杯 2021 国 BC] 二进制问题
+    private int n8764;
+    private char[] arr8764;
+    private int k8764;
+    private int[][] memo8764;
+
+    public int binaryProblem(long n, int k) {
+        this.arr8764 = Long.toBinaryString(n).toCharArray();
+        this.n8764 = arr8764.length;
+        this.k8764 = k;
+        memo8764 = new int[this.n8764][k + 1];
+        for (int i = 0; i < this.n8764; ++i) {
+            Arrays.fill(memo8764[i], -1);
+        }
+        return dfs8764(0, 0, true, false);
+
+    }
+
+    private int dfs8764(int i, int j, boolean isLimit, boolean isNum) {
+        if (i == n8764) {
+            return isNum && j == k8764 ? 1 : 0;
+        }
+        if (isNum && !isLimit && memo8764[i][j] != -1) {
+            return memo8764[i][j];
+        }
+        int res = 0;
+        if (!isNum) {
+            res = dfs8764(i + 1, j, false, false);
+        }
+        int up = isLimit ? arr8764[i] - '0' : 1;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            if (d + j <= k8764) {
+                res += dfs8764(i + 1, d + j, isLimit && up == d, true);
+            }
+        }
+        if (isNum && !isLimit) {
+            memo8764[i][j] = res;
+        }
+        return res;
     }
 }
