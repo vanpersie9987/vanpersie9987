@@ -9,7 +9,8 @@ public class luogu1 {
         // for (int i = 0; i < 10; ++i) {
         // System.out.println(res[i]);
         // }
-
+        // int res = annoyingMathWork(1, 100);
+        // System.out.println(res);
     }
 
     // P1122 最大子树和
@@ -243,5 +244,48 @@ public class luogu1 {
             memo2602[i][j] = res;
         }
         return res;
+    }
+
+    // P4999 烦人的数学作业
+    public int annoyingMathWork(long left, long right) {
+        final int MOD = (int) (1e9 + 7);
+        return (solve4999(String.valueOf(right)) - solve4999(String.valueOf(left - 1)) + MOD) % MOD;
+    }
+
+    private int n4999;
+    private char[] arr4999;
+    private int[][] memo4999;
+
+    private int solve4999(String s) {
+        this.n4999 = s.length();
+        this.arr4999 = s.toCharArray();
+        this.memo4999 = new int[n4999][n4999 * 9];
+        for (int i = 0; i < n4999; ++i) {
+            Arrays.fill(memo4999[i], -1);
+        }
+        return dfs4999(0, 0, true, false);
+    }
+
+    private int dfs4999(int i, int j, boolean isLimit, boolean isNum) {
+        if (i == n4999) {
+            return isNum ? j : 0;
+        }
+        if (isNum && !isLimit && memo4999[i][j] != -1) {
+            return memo4999[i][j];
+        }
+        int res = 0;
+        if (!isNum) {
+            res = dfs4999(i + 1, j, false, false);
+        }
+        final int MOD = (int) (1e9 + 7);
+        int up = isLimit ? arr4999[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            res += dfs4999(i + 1, j + d, isLimit && d == up, true);
+            res %= MOD;
+        }
+        if (isNum && !isLimit) {
+            memo4999[i][j] = res;
+        }
+        return memo4999[i][j] = res;
     }
 }
