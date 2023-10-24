@@ -104,5 +104,7 @@ class luogu1:
                     return False
             return True
         return solve(str(right)) - solve(str(left)) + check(str(left))
+    
+    
         
         
