@@ -125,3 +125,23 @@ class luogu1:
         for i in range(10):
             res[i] = cal(str(right), i) - cal(str(left - 1), i)
         return res
+    
+    #  P4999 烦人的数学作业
+    def annoyingMathWork(self, left: int, right: int) -> int:
+        def solve(s: str) -> int:
+            @cache
+            def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
+                if i == n:
+                    return j if is_num else 0
+                res = 0
+                if not is_num:
+                    res = dfs(i + 1, j, False, False)
+                up = int(s[i]) if is_limit else 9
+                for d in range(0 if is_num else 1, up + 1):
+                    res += dfs(i + 1, j + d, is_limit and up == d, True)
+                    res %= MOD
+                return res
+            n = len(s)
+            return dfs(0, 0, True, False)
+        MOD = 10 ** 9 + 7
+        return (solve(str(right)) - solve(str(left - 1))) % MOD
