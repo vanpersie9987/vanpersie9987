@@ -38,7 +38,7 @@ class luogu1:
         return res
     
     # P1042 [NOIP2003 普及组] 乒乓球
-    def tableTennisResults(s: str) -> List[List[str]]:
+    def tableTennisResults(self, s: str) -> List[List[str]]:
         def get_res(s: str, limit: int) -> List[str]:
             res = []
             a = 0
@@ -61,7 +61,7 @@ class luogu1:
         return res
     
     #  P1831 杠杆数
-    def leverNumber(left: int, right: int) -> int:
+    def leverNumber(self, left: int, right: int) -> int:
         def solve(num: str) -> int:
             @cache
             def dfs(i: int, j: int, k: int, is_limit: bool, is_num: bool) -> int:
@@ -81,7 +81,7 @@ class luogu1:
         return solve(str(right)) - solve(str(left - 1))
     
     # P6754 [BalticOI 2013 Day1] Palindrome-Free Numbers
-    def palindromeFreeNumbers(left: int, right: int) -> int:
+    def palindromeFreeNumbers(self, left: int, right: int) -> int:
         def solve(num: str) -> int:
             @cache
             def dfs(i: int, j: int, k: int, is_limit: bool, is_num: bool) -> int:
@@ -105,6 +105,23 @@ class luogu1:
             return True
         return solve(str(right)) - solve(str(left)) + check(str(left))
     
-    
-        
-        
+    # P2602 [ZJOI2010] 数字计数
+    def calculateEachDigitsCounts(self, left: int, right: int) -> List[int]:
+        def cal(s: str, num: int) -> int:
+            @cache
+            def dfs(i: int, j: int, is_limit: bool, is_num: bool):
+                if i == n:
+                    return j if is_num else 0
+                res = 0
+                if not is_num:
+                    res = dfs(i + 1, j, False, False)
+                up = int(s[i]) if is_limit else 9
+                for d in range(0 if is_num else 1, up + 1):
+                    res += dfs(i + 1, j + int(d == num), is_limit and d == up, True)
+                return res
+            n = len(s)
+            return dfs(0, 0, True, False)
+        res = [0] * 10
+        for i in range(10):
+            res[i] = cal(str(right), i) - cal(str(left - 1), i)
+        return res
