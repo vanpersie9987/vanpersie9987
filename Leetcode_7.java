@@ -7500,7 +7500,9 @@ public class Leetcode_7 {
     public int punishmentNumber(int n) {
         int res = 0;
         for (int i = 1; i <= n; ++i) {
-            if (check2698(i)) {
+            this.arr2698 = String.valueOf(i * i).toCharArray();
+            this.target2698 = i;
+            if (dfs2698(0, 0)) {
                 res += i * i;
             }
         }
@@ -7508,27 +7510,18 @@ public class Leetcode_7 {
 
     }
 
-    private boolean check2698(int i) {
-        this.target2698 = i;
-        this.arr2698 = String.valueOf(i * i).toCharArray();
-        return dfs2698(0, 0);
-    }
-
-    private boolean dfs2698(int i, int sum) {
+    private boolean dfs2698(int i, int j) {
         if (i == arr2698.length) {
-            if (sum == target2698) {
-                return true;
-            }
+            return j == target2698;
         }
-        int cur = 0;
-        for (int j = i; j < arr2698.length && (j == i || arr2698[i] != '0'); ++j) {
-            cur = cur * 10 + arr2698[j] - '0';
-            if (cur <= target2698) {
-                if (dfs2698(j + 1, cur + sum)) {
-                    return true;
-                }
-            } else {
+        int ss = 0;
+        for (int k = i; k < arr2698.length; ++k) {
+            ss = ss * 10 + (arr2698[k] - '0');
+            if (ss > target2698) {
                 break;
+            }
+            if (dfs2698(k + 1, j + ss)) {
+                return true;
             }
         }
         return false;
