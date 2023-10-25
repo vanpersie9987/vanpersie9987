@@ -478,11 +478,11 @@ public class luogu1 {
     private int solve2657(String s) {
         this.n2657 = s.length();
         this.arr2657 = s.toCharArray();
-        this.memo2657 = new int[n2657][11];
+        this.memo2657 = new int[n2657][10];
         for (int i = 0; i < n2657; ++i) {
             Arrays.fill(memo2657[i], -1);
         }
-        return dfs2657(0, 10, true, false);
+        return dfs2657(0, 0, true, false);
     }
 
     private int dfs2657(int i, int j, boolean isLimit, boolean isNum) {
@@ -498,7 +498,7 @@ public class luogu1 {
         }
         int up = isLimit ? arr2657[i] - '0' : 9;
         for (int d = isNum ? 0 : 1; d <= up; ++d) {
-            if (j == 10 || Math.abs(d - j) >= 2) {
+            if (!isNum || Math.abs(d - j) >= 2) {
                 res += dfs2657(i + 1, d, isLimit && d == up, true);
             }
         }
