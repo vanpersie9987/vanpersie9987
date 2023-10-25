@@ -7438,3 +7438,14 @@ class leetcode_1 :
           if dfs(0, 0):
              res += i * i
        return res
+    
+    # 2520. 统计能整除数字的位数 (Count the Digits That Divide a Number)
+    def countDigits(self, num: int) -> int:
+        copy = num
+        res = 0
+        while copy:
+            m = copy % 10
+            if num % m == 0:
+                res += 1
+            copy //= 10
+        return res
