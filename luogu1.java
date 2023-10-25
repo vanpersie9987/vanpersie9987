@@ -12,6 +12,7 @@ public class luogu1 {
         // int res = annoyingMathWork(1, 100);
         // System.out.println(res);
         // int res = binaryProblem(7, 2);
+        // int res = roundNumbers(2, 12);
         // System.out.println(res);
     }
 
@@ -389,6 +390,46 @@ public class luogu1 {
         }
         if (!isLimit && isNum) {
             memo4124[i][j][k][c1][c2] = res;
+        }
+        return res;
+    }
+
+    // P6218 [USACO06NOV] Round Numbers S 圆数
+    public int roundNumbers(int left, int right) {
+        return solve6218(Integer.toBinaryString(right)) - solve6218(Integer.toBinaryString(left - 1));
+    }
+
+    private int n6218;
+    private char[] arr6218;
+    private int[][] memo6218;
+
+    private int solve6218(String s) {
+        this.n6218 = s.length();
+        this.arr6218 = s.toCharArray();
+        this.memo6218 = new int[n6218][64];
+        for (int i = 0; i < n6218; ++i) {
+            Arrays.fill(memo6218[i], -1);
+        }
+        return dfs6218(0, 30, true, false);
+    }
+
+    private int dfs6218(int i, int diff, boolean isLimit, boolean isNum) {
+        if (i == n6218) {
+            return isNum && diff >= 30 ? 1 : 0;
+        }
+        if (!isLimit && isNum && memo6218[i][diff] != -1) {
+            return memo6218[i][diff];
+        }
+        int res = 0;
+        if (!isNum) {
+            res = dfs6218(i + 1, diff, false, false);
+        }
+        int up = isLimit ? arr6218[i] - '0' : 1;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            res += dfs6218(i + 1, diff + d * (-2) + 1, isLimit && d == up, true);
+        }
+        if (!isLimit && isNum) {
+            memo6218[i][diff] = res;
         }
         return res;
     }
