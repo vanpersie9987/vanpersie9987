@@ -465,4 +465,47 @@ public class luogu1 {
         }
         return memo1048[i][j] = res;
     }
+
+    // P2657 [SCOI2009] windy 数
+    public int windyNumbers(int a, int b) {
+        return solve2657(String.valueOf(b)) - solve2657(String.valueOf(a - 1));
+    }
+
+    private int n2657;
+    private char[] arr2657;
+    private int[][] memo2657;
+
+    private int solve2657(String s) {
+        this.n2657 = s.length();
+        this.arr2657 = s.toCharArray();
+        this.memo2657 = new int[n2657][11];
+        for (int i = 0; i < n2657; ++i) {
+            Arrays.fill(memo2657[i], -1);
+        }
+        return dfs2657(0, 10, true, false);
+    }
+
+    private int dfs2657(int i, int j, boolean isLimit, boolean isNum) {
+        if (i == n2657) {
+            return isNum ? 1 : 0;
+        }
+        if (!isLimit && isNum && memo2657[i][j] != -1) {
+            return memo2657[i][j];
+        }
+        int res = 0;
+        if (!isNum) {
+            res = dfs2657(i + 1, j, false, false);
+        }
+        int up = isLimit ? arr2657[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            if (j == 10 || Math.abs(d - j) >= 2) {
+                res += dfs2657(i + 1, d, isLimit && d == up, true);
+            }
+        }
+        if (!isLimit && isNum) {
+            memo2657[i][j] = res;
+        }
+        return memo2657[i][j] = res;
+    }
+
 }
