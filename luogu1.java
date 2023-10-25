@@ -433,4 +433,36 @@ public class luogu1 {
         }
         return res;
     }
+
+    // P1048[NOIP2005 普及组]采药
+    private int t1048;
+    private int[][] memo1048;
+    private int n1048;
+    private int[][] m1048;
+
+    public int gatherHerbs(int t, int[][] m) {
+        this.t1048 = t;
+        this.n1048 = m.length;
+        this.memo1048 = new int[n1048][t + 1];
+        for (int i = 0; i < n1048; ++i) {
+            Arrays.fill(memo1048[i], -1);
+        }
+        this.m1048 = m;
+        return dfs1048(0, 0);
+
+    }
+
+    private int dfs1048(int i, int j) {
+        if (i == n1048) {
+            return 0;
+        }
+        if (memo1048[i][j] != -1) {
+            return memo1048[i][j];
+        }
+        int res = dfs1048(i + 1, j);
+        if (j + m1048[i][0] <= t1048) {
+            res = Math.max(res, dfs1048(i + 1, j + m1048[i][0]) + m1048[i][1]);
+        }
+        return memo1048[i][j] = res;
+    }
 }
