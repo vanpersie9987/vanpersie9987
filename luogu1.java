@@ -331,4 +331,65 @@ public class luogu1 {
         }
         return res;
     }
+
+    // P4124 [CQOI2016] 手机号码
+    public int phonwNumberChecking(long left, long right) {
+        return solve4124(String.valueOf(right)) - solve4124(String.valueOf(left - 1));
+    }
+
+    private int n4124;
+    private char[] arr4124;
+    private int[][][][][] memo4124;
+
+    private int solve4124(String s) {
+        this.n4124 = s.length();
+        this.arr4124 = s.toCharArray();
+        this.memo4124 = new int[n4124][11][11][2][1 << 2];
+        for (int i = 0; i < n4124; ++i) {
+            for (int j = 0; j < 11; ++j) {
+                for (int k = 0; k < 11; ++k) {
+                    for (int x = 0; x < 2; ++x) {
+                        Arrays.fill(memo4124[i][j][k][x], -1);
+                    }
+                }
+            }
+        }
+        return dfs4124(0, 10, 10, 0, 0, true, false);
+    }
+
+    /**
+     * 
+     * @param i       当前位
+     * @param j       上一位选的值 未选过为10
+     * @param k       上上一位选的值 未选过为10
+     * @param c1      号码中出现连续3哥相同的数字 是为1 不是为0
+     * @param c2      号码中出现8或4 用00 bit表示 高bit位为1表示出现过8 低bit位为1表示出现过4
+     * @param isLimit 是否受到约束
+     * @param isNum   是否选择了数
+     * @return
+     */
+    private int dfs4124(int i, int j, int k, int c1, int c2, boolean isLimit, boolean isNum) {
+        if (i == n4124) {
+            return isNum && c1 == 1 ? 1 : 0;
+        }
+        if (!isLimit && isNum && memo4124[i][j][k][c1][c2] != -1) {
+            return memo4124[i][j][k][c1][c2];
+        }
+        int res = 0;
+        if (!isNum) {
+            res += dfs4124(i + 1, j, k, c1, c2, false, false);
+        }
+        int up = isLimit ? arr4124[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            if (d == 8 && (c2 & (1 << 0)) != 0 || d == 4 && (c2 & (1 << 1)) != 0) {
+                continue;
+            }
+            res += dfs4124(i + 1, d, j, c1 | (d == j && d == k ? 1 : 0),
+                    d == 4 ? (c2 | (1 << 0)) : (d == 8 ? (c2 | (1 << 1)) : c2), isLimit && d == up, true);
+        }
+        if (!isLimit && isNum) {
+            memo4124[i][j][k][c1][c2] = res;
+        }
+        return res;
+    }
 }
