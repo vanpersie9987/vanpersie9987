@@ -363,7 +363,7 @@ public class luogu1 {
      * @param i       当前位
      * @param j       上一位选的值 未选过为10
      * @param k       上上一位选的值 未选过为10
-     * @param c1      号码中出现连续3哥相同的数字 是为1 不是为0
+     * @param c1      号码中出现连续3个相同的数字 1：是  0：不是
      * @param c2      号码中出现8或4 用00 bit表示 高bit位为1表示出现过8 低bit位为1表示出现过4
      * @param isLimit 是否受到约束
      * @param isNum   是否选择了数
