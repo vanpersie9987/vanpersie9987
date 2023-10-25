@@ -7416,3 +7416,25 @@ class leetcode_1 :
     # 2678. 老人的数目 (Number of Senior Citizens)
     def countSeniors(self, details: List[str]) -> int:
        return sum(int(x[11:13]) > 60 for x in details)
+    
+    # 2698. 求一个整数的惩罚数
+    def punishmentNumber(self, n: int) -> int:
+       def dfs(i: int, j: int) -> bool:
+          if i == len(s):
+             return j == target
+          ss = 0
+          for k in range(i, len(s)):
+             ss = ss * 10 + int(s[k])
+             if ss > target:
+                break
+             if dfs(k + 1, j + ss):
+                return True
+          return False
+       res = 0
+       target = 0
+       for i in range(1, n + 1):
+          s = str(i * i)
+          target = i
+          if dfs(0, 0):
+             res += i * i
+       return res
