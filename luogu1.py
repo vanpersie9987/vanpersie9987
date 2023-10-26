@@ -176,6 +176,26 @@ class luogu1:
             return res
         n = len(herbs)
         return dfs(0, 0)
+    
+    # P2657 [SCOI2009] windy 数
+    def windyNumbers(self, a: int, b: int) -> int:
+        def solve(s: str) -> int:
+            @cache
+            def dfs(i: int, j: int, is_limit: bool, is_num: bool):
+                if i == n:
+                    return int(is_num)
+                res = 0
+                if not is_num:
+                    res = dfs(i + 1, j, False, False)
+                up = int(s[i]) if is_limit else 9
+                for d in range(0 if is_num else 1, up + 1):
+                    if not is_num or abs(d - j) >= 2:
+                        res += dfs(i + 1, d, is_limit and up == d, True)
+                return res
+            n = len(s)
+            return dfs(0, 0, True, False)
+        return solve(str(b)) - solve(str(a - 1))
+
 
 
 
