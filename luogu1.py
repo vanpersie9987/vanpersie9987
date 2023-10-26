@@ -163,3 +163,19 @@ class luogu1:
         s = bin(n)[2:]
         n = len(s)
         return dfs(0, 0, True, False)
+    
+    # P1048 [NOIP2005 普及组] 采药
+    def gatherHerbs(herbs: List[List[int]], t: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0
+            res = dfs(i + 1, j)
+            if j + herbs[i][0] <= t:
+                res = max(res, dfs(i + 1, j + herbs[i][0]) + herbs[i][1])
+            return res
+        n = len(herbs)
+        return dfs(0, 0)
+
+
+
