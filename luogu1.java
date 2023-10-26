@@ -363,7 +363,7 @@ public class luogu1 {
      * @param i       当前位
      * @param j       上一位选的值 未选过为10
      * @param k       上上一位选的值 未选过为10
-     * @param c1      号码中出现连续3个相同的数字 1：是  0：不是
+     * @param c1      号码中出现连续3个相同的数字 1：是 0：不是
      * @param c2      号码中出现8或4 用00 bit表示 高bit位为1表示出现过8 低bit位为1表示出现过4
      * @param isLimit 是否受到约束
      * @param isNum   是否选择了数
@@ -438,16 +438,16 @@ public class luogu1 {
     private int t1048;
     private int[][] memo1048;
     private int n1048;
-    private int[][] m1048;
+    private int[][] herbs1048;
 
-    public int gatherHerbs(int t, int[][] m) {
+    public int gatherHerbs(int[][] herbs, int t) {
         this.t1048 = t;
-        this.n1048 = m.length;
+        this.n1048 = herbs.length;
         this.memo1048 = new int[n1048][t + 1];
         for (int i = 0; i < n1048; ++i) {
             Arrays.fill(memo1048[i], -1);
         }
-        this.m1048 = m;
+        this.herbs1048 = herbs;
         return dfs1048(0, 0);
 
     }
@@ -460,8 +460,8 @@ public class luogu1 {
             return memo1048[i][j];
         }
         int res = dfs1048(i + 1, j);
-        if (j + m1048[i][0] <= t1048) {
-            res = Math.max(res, dfs1048(i + 1, j + m1048[i][0]) + m1048[i][1]);
+        if (j + herbs1048[i][0] <= t1048) {
+            res = Math.max(res, dfs1048(i + 1, j + herbs1048[i][0]) + herbs1048[i][1]);
         }
         return memo1048[i][j] = res;
     }
