@@ -196,6 +196,25 @@ class luogu1:
             return dfs(0, 0, True, False)
         return solve(str(b)) - solve(str(a - 1))
 
+    # P6218 [USACO06NOV] Round Numbers S
+    def roundNumbers(self, left: int, right: int) -> int:
+        def solve(s: str) -> int:
+            @cache
+            def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
+                if i == n:
+                    return 1 if is_num and j >= 0 else 0
+                res = 0
+                if not is_num:
+                    res = dfs(i + 1, j, False, False)
+                up = int(s[i]) if is_limit else 1
+                for d in range(0 if is_num else 1, up + 1):
+                    res += dfs(i + 1, j + (-2) * d + 1, is_limit and up == d, True)
+                return res
+            n = len(s)
+        return solve(bin(right)[2:]) - solve(bin(left - 1)[2:])
+
+    
+
 
 
 
