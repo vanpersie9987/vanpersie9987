@@ -595,40 +595,40 @@ public class luogu1 {
     }
 
     // P8687 [蓝桥杯 2019 省 A] 糖果
-    private int[] bitMask;
-    private int n;
-    private int[][] memo;
-    private int u;
+    private int[] bitMask8687;
+    private int n8687;
+    private int[][] memo8687;
+    private int u8687;
 
     public int candy(int m, int[][] candy) {
-        this.n = candy.length;
-        this.bitMask = new int[n];
-        for (int i = 0; i < n; ++i) {
+        this.n8687 = candy.length;
+        this.bitMask8687 = new int[n8687];
+        for (int i = 0; i < n8687; ++i) {
             for (int c : candy[i]) {
-                bitMask[i] |= 1 << (c - 1);
+                bitMask8687[i] |= 1 << (c - 1);
             }
         }
-        this.u = (1 << m) - 1;
-        this.memo = new int[n][1 << m];
-        for (int i = 0; i < n; ++i) {
-            Arrays.fill(memo[i], -1);
+        this.u8687 = (1 << m) - 1;
+        this.memo8687 = new int[n8687][1 << m];
+        for (int i = 0; i < n8687; ++i) {
+            Arrays.fill(memo8687[i], -1);
         }
         int res = dfs(0, 0);
-        return res <= n ? res : -1;
+        return res <= n8687 ? res : -1;
 
     }
 
     private int dfs(int i, int j) {
-        if (j == u) {
+        if (j == u8687) {
             return 0;
         }
-        if (i == n) {
-            return n + 1;
+        if (i == n8687) {
+            return n8687 + 1;
         }
-        if (memo[i][j] != -1) {
-            return memo[i][j];
+        if (memo8687[i][j] != -1) {
+            return memo8687[i][j];
         }
-        return memo[i][j] = Math.min(dfs(i + 1, j), dfs(i + 1, j | bitMask[i]) + 1);
+        return memo8687[i][j] = Math.min(dfs(i + 1, j), dfs(i + 1, j | bitMask8687[i]) + 1);
     }
 
 }
