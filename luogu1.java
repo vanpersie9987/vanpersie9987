@@ -546,35 +546,35 @@ public class luogu1 {
     }
 
     // P1060[NOIP2006 普及组]开心的金明
-    private int n;
-    private int m;
-    private int[][] commodity;
-    private int[][] memo;
+    private int n1060;
+    private int m1060;
+    private int[][] commodity1060;
+    private int[][] memo1060;
 
     public int happyJinMing(int n, int[][] commodity) {
-        this.n = n;
-        this.m = commodity.length;
-        this.commodity = commodity;
-        this.memo = new int[m][n + 1];
-        for (int i = 0; i < m; ++i) {
-            Arrays.fill(memo[i], -1);
+        this.n1060 = n;
+        this.m1060 = commodity.length;
+        this.commodity1060 = commodity;
+        this.memo1060 = new int[m1060][n + 1];
+        for (int i = 0; i < m1060; ++i) {
+            Arrays.fill(memo1060[i], -1);
         }
         return dfs(0, 0);
 
     }
 
     private int dfs(int i, int j) {
-        if (i == m) {
+        if (i == m1060) {
             return 0;
         }
-        if (memo[i][j] != -1) {
-            return memo[i][j];
+        if (memo1060[i][j] != -1) {
+            return memo1060[i][j];
         }
         int res = dfs(i + 1, j);
-        if (j + commodity[i][0] <= n) {
-            res = Math.max(res, dfs(i + 1, j + commodity[i][0]) + commodity[i][0] * commodity[i][1]);
+        if (j + commodity1060[i][0] <= n1060) {
+            res = Math.max(res, dfs(i + 1, j + commodity1060[i][0]) + commodity1060[i][0] * commodity1060[i][1]);
         }
-        return memo[i][j] = res;
+        return memo1060[i][j] = res;
     }
 
 }
