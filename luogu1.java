@@ -613,12 +613,12 @@ public class luogu1 {
         for (int i = 0; i < n8687; ++i) {
             Arrays.fill(memo8687[i], -1);
         }
-        int res = dfs(0, 0);
+        int res = dfs8687(0, 0);
         return res <= n8687 ? res : -1;
 
     }
 
-    private int dfs(int i, int j) {
+    private int dfs8687(int i, int j) {
         if (j == u8687) {
             return 0;
         }
@@ -628,7 +628,7 @@ public class luogu1 {
         if (memo8687[i][j] != -1) {
             return memo8687[i][j];
         }
-        return memo8687[i][j] = Math.min(dfs(i + 1, j), dfs(i + 1, j | bitMask8687[i]) + 1);
+        return memo8687[i][j] = Math.min(dfs8687(i + 1, j), dfs8687(i + 1, j | bitMask8687[i]) + 1);
     }
 
 }
