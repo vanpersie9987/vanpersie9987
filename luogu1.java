@@ -14,6 +14,9 @@ public class luogu1 {
         // int res = binaryProblem(7, 2);
         // int res = roundNumbers(2, 12);
         // System.out.println(res);
+        // int[][] arr = { { 1, 2 }, { 2, 3 } };
+        // int res = GEPPETTO(3, arr);
+        // System.out.println(res);
     }
 
     // P1122 最大子树和
@@ -576,5 +579,20 @@ public class luogu1 {
         }
         return memo1060[i][j] = res;
     }
+
+    // P7859[COCI2015-2016#2]GEPPETTO
+    public static int GEPPETTO(int n, int[][] conflict) {
+        int res = 0;
+        search: for (int i = 0; i < 1 << n; ++i) {
+            for (int[] c : conflict) {
+                if (((i >> (c[0] - 1)) & 1) != 0 && ((i >> (c[1] - 1)) & 1) != 0) {
+                    continue search;
+                }
+            }
+            ++res;
+        }
+        return res;
+    }
+
 
 }
