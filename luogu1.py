@@ -212,6 +212,27 @@ class luogu1:
                 return res
             n = len(s)
         return solve(bin(right)[2:]) - solve(bin(left - 1)[2:])
+    
+    # P4317 花神的数论题
+    def flowerGodNumTheory(N: int) -> int:
+        @cache
+        def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
+            if i == n:
+                return j if is_num else 1
+            res = 0
+            if not is_num:
+                res *= dfs(i + 1, j, False, False)
+            up = int(s[i]) if is_limit else 1
+            for d in range(0 if is_num else 1, up + 1):
+                res *= dfs(i + 1, j + d, is_limit and d == up, True)
+            res %= MOD
+            return res
+        MOD = 10 ** 7 + 7
+        s = bin(N)[2:]
+        n = len(s)
+        return dfs(0, 0, True, False)
+
+
 
     
 

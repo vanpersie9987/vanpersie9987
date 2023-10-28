@@ -508,4 +508,41 @@ public class luogu1 {
         return memo2657[i][j] = res;
     }
 
+    // P4317 花神的数论题
+    private String s;
+    private int n;
+    private int[][] memo;
+
+    public int flowerGodNumTheory(long N) {
+        this.s = Long.toBinaryString(N);
+        this.n = s.length();
+        this.memo = new int[n][n];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo[i], -1);
+        }
+        return dfs(0, 0, true, false);
+    }
+
+    private int dfs(int i, int j, boolean isLimit, boolean isNum) {
+        if (i == n) {
+            return isNum ? j : 1;
+        }
+        if (!isLimit && isNum && memo[i][j] != -1) {
+            return memo[i][j];
+        }
+        final int MOD = (int) (1e7 + 7);
+        int res = 0;
+        if (!isNum) {
+            res = (int) (((long) res * dfs(i + 1, j, false, false)) % MOD);
+        }
+        int up = isLimit ? s.charAt(i) - '0' : 1;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            res = (int) ((long) res * dfs(i + 1, j + d, isLimit && d == up, true));
+        }
+        if (!isLimit && isNum) {
+            memo[i][j] = res;
+        }
+        return res;
+    }
+
 }
