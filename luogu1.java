@@ -509,38 +509,38 @@ public class luogu1 {
     }
 
     // P4317 花神的数论题
-    private String s;
-    private int n;
-    private int[][] memo;
+    private String s4317;
+    private int n4317;
+    private int[][] memo4317;
 
     public int flowerGodNumTheory(long N) {
-        this.s = Long.toBinaryString(N);
-        this.n = s.length();
-        this.memo = new int[n][n];
-        for (int i = 0; i < n; ++i) {
-            Arrays.fill(memo[i], -1);
+        this.s4317 = Long.toBinaryString(N);
+        this.n4317 = s4317.length();
+        this.memo4317 = new int[n4317][n4317];
+        for (int i = 0; i < n4317; ++i) {
+            Arrays.fill(memo4317[i], -1);
         }
-        return dfs(0, 0, true, false);
+        return dfs4317(0, 0, true, false);
     }
 
-    private int dfs(int i, int j, boolean isLimit, boolean isNum) {
-        if (i == n) {
+    private int dfs4317(int i, int j, boolean isLimit, boolean isNum) {
+        if (i == n4317) {
             return isNum ? j : 1;
         }
-        if (!isLimit && isNum && memo[i][j] != -1) {
-            return memo[i][j];
+        if (!isLimit && isNum && memo4317[i][j] != -1) {
+            return memo4317[i][j];
         }
         final int MOD = (int) (1e7 + 7);
-        int res = 0;
+        int res = 1;
         if (!isNum) {
-            res = (int) (((long) res * dfs(i + 1, j, false, false)) % MOD);
+            res = (int) (((long) res * dfs4317(i + 1, j, false, false)) % MOD);
         }
-        int up = isLimit ? s.charAt(i) - '0' : 1;
+        int up = isLimit ? s4317.charAt(i) - '0' : 1;
         for (int d = isNum ? 0 : 1; d <= up; ++d) {
-            res = (int) ((long) res * dfs(i + 1, j + d, isLimit && d == up, true));
+            res = (int) ((long) res * dfs4317(i + 1, j + d, isLimit && d == up, true) % MOD);
         }
         if (!isLimit && isNum) {
-            memo[i][j] = res;
+            memo4317[i][j] = res;
         }
         return res;
     }
