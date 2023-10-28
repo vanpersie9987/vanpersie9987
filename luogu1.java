@@ -545,4 +545,36 @@ public class luogu1 {
         return res;
     }
 
+    // P1060[NOIP2006 普及组]开心的金明
+    private int n;
+    private int m;
+    private int[][] commodity;
+    private int[][] memo;
+
+    public int happyJinMing(int n, int[][] commodity) {
+        this.n = n;
+        this.m = commodity.length;
+        this.commodity = commodity;
+        this.memo = new int[m][n + 1];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(memo[i], -1);
+        }
+        return dfs(0, 0);
+
+    }
+
+    private int dfs(int i, int j) {
+        if (i == m) {
+            return 0;
+        }
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+        int res = dfs(i + 1, j);
+        if (j + commodity[i][0] <= n) {
+            res = Math.max(res, dfs(i + 1, j + commodity[i][0]) + commodity[i][0] * commodity[i][1]);
+        }
+        return memo[i][j] = res;
+    }
+
 }
