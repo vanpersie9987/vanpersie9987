@@ -581,7 +581,7 @@ public class luogu1 {
     }
 
     // P7859[COCI2015-2016#2]GEPPETTO
-    public static int GEPPETTO(int n, int[][] conflict) {
+    public int GEPPETTO(int n, int[][] conflict) {
         int res = 0;
         search: for (int i = 0; i < 1 << n; ++i) {
             for (int[] c : conflict) {
@@ -594,5 +594,41 @@ public class luogu1 {
         return res;
     }
 
+    // P8687 [蓝桥杯 2019 省 A] 糖果
+    private int[] bitMask;
+    private int n;
+    private int[][] memo;
+    private int u;
+
+    public int candy(int m, int[][] candy) {
+        this.n = candy.length;
+        this.bitMask = new int[n];
+        for (int i = 0; i < n; ++i) {
+            for (int c : candy[i]) {
+                bitMask[i] |= 1 << (c - 1);
+            }
+        }
+        this.u = (1 << m) - 1;
+        this.memo = new int[n][1 << m];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo[i], -1);
+        }
+        int res = dfs(0, 0);
+        return res <= n ? res : -1;
+
+    }
+
+    private int dfs(int i, int j) {
+        if (j == u) {
+            return 0;
+        }
+        if (i == n) {
+            return n + 1;
+        }
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+        return memo[i][j] = Math.min(dfs(i + 1, j), dfs(i + 1, j | bitMask[i]) + 1);
+    }
 
 }
