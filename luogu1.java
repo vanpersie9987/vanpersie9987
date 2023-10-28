@@ -559,20 +559,20 @@ public class luogu1 {
         for (int i = 0; i < m1060; ++i) {
             Arrays.fill(memo1060[i], -1);
         }
-        return dfs(0, 0);
+        return dfs1060(0, 0);
 
     }
 
-    private int dfs(int i, int j) {
+    private int dfs1060(int i, int j) {
         if (i == m1060) {
             return 0;
         }
         if (memo1060[i][j] != -1) {
             return memo1060[i][j];
         }
-        int res = dfs(i + 1, j);
+        int res = dfs1060(i + 1, j);
         if (j + commodity1060[i][0] <= n1060) {
-            res = Math.max(res, dfs(i + 1, j + commodity1060[i][0]) + commodity1060[i][0] * commodity1060[i][1]);
+            res = Math.max(res, dfs1060(i + 1, j + commodity1060[i][0]) + commodity1060[i][0] * commodity1060[i][1]);
         }
         return memo1060[i][j] = res;
     }
