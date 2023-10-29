@@ -4692,4 +4692,163 @@ public class Leetcode_8 {
         return -1;
 
     }
+
+    // 100094. 子数组不同元素数目的平方和 I (Subarrays Distinct Element Sum of Squares I)
+    public int sumCounts(List<Integer> nums) {
+        final long MOD = (long) (1e9 + 7);
+        long res = 0L;
+        int n = nums.size();
+        for (int i = 0; i < n; ++i) {
+            for (int j = i; j < n; ++j) {
+                Set<Integer> set = new HashSet<>();
+                for (int k = i; k <= j; ++k) {
+                    set.add(nums.get(k));
+                }
+                res += set.size() * set.size();
+                res %= MOD;
+            }
+        }
+        return (int) res;
+
+    }
+    
+    // 100104. 使二进制字符串变美丽的最少修改次数 (Minimum Number of Changes to Make Binary String Beautiful)
+    public int minChanges(String s) {
+        int n = s.length();
+        int res = 0;
+        for (int i = 1; i < n; i += 2) {
+            if (s.charAt(i) != s.charAt(i - 1)) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    // 100042. 和为目标值的最长子序列的长度 (Length of the Longest Subsequence That Sums to
+    // Target)
+    private int[][] memo100042;
+    private int n100042;
+    private int target100042;
+    private List<Integer> nums100042;
+
+    public int lengthOfLongestSubsequence(List<Integer> nums, int target) {
+        this.n100042 = nums.size();
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        if (sum < target) {
+            return -1;
+        }
+        this.memo100042 = new int[n100042][target + 1];
+        for (int i = 0; i < n100042; ++i) {
+            Arrays.fill(memo100042[i], -1);
+        }
+        this.target100042 = target;
+        this.nums100042 = nums;
+        int res = dfs100042(0, 0);
+        return res > 0 ? res : -1;
+
+    }
+
+    private int dfs100042(int i, int j) {
+        if (j == target100042) {
+            return 0;
+        }
+        if (j > target100042 || i == n100042) {
+            return Integer.MIN_VALUE;
+        }
+        if (memo100042[i][j] != -1) {
+            return memo100042[i][j];
+        }
+        return memo100042[i][j] = Math.max(dfs100042(i + 1, j), dfs100042(i + 1, j + nums100042.get(i)) + 1);
+    }
+
+    // 100111. 找出数组中的 K-or 值 (Find the K-or of an Array)
+    public int findKOr(int[] nums, int k) {
+        int[] cnts = new int[32];
+        for (int num : nums) {
+            for (int i = 0; i < 32; ++i) {
+                cnts[i] += num >> i & 1;
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < 32; ++i) {
+            if (cnts[i] >= k) {
+                res |= 1 << i;
+            }
+        }
+        return res;
+
+    }
+
+    // 100102. 数组的最小相等和 (Minimum Equal Sum of Two Arrays After Replacing Zeros)
+    public long minSum(int[] nums1, int[] nums2) {
+        long sum1 = 0L;
+        int cnt1 = 0;
+        for (int num : nums1) {
+            if (num == 0) {
+                ++cnt1;
+            }
+            sum1 += num;
+        }
+        long sum2 = 0L;
+        int cnt2 = 0;
+        for (int num : nums2) {
+            if (num == 0) {
+                ++cnt2;
+            }
+            sum2 += num;
+        }
+        if (sum1 == sum2 && (cnt1 != 0 && cnt2 == 0 || cnt1 == 0 && cnt2 != 0)) {
+            return -1;
+        }
+        if (sum1 > sum2) {
+            long t = sum1;
+            sum1 = sum2;
+            sum2 = t;
+            int tmp = cnt1;
+            cnt1 = cnt2;
+            cnt2 = tmp;
+        }
+        if (sum1 < sum2 && (cnt1 == 0 || cnt1 + sum1 > sum2 && cnt2 == 0)) {
+            return -1;
+        }
+        return Math.max(sum1 + cnt1, sum2 + cnt2);
+
+    }
+
+    // 100107. 使数组变美的最小增量运算数 (Minimum Increment Operations to Make Array Beautiful)
+    private long[][] memo100107;
+    private int[] nums100107;
+    private int k100107;
+    private int n100107;
+
+    public long minIncrementOperations(int[] nums, int k) {
+        this.nums100107 = nums;
+        this.k100107 = k;
+        this.n100107 = nums.length;
+        this.memo100107 = new long[n100107][3];
+        for (int i = 0; i < n100107; ++i) {
+            Arrays.fill(memo100107[i], -1);
+        }
+        return dfs100107(0, 0);
+
+    }
+
+    private long dfs100107(int i, int j) {
+        if (i >= n100107) {
+            return 0L;
+        }
+        if (memo100107[i][j] != -1L) {
+            return memo100107[i][j];
+        }
+        long res = dfs100107(i + 1, 0) + Math.max(k100107 - nums100107[i], 0);
+        if (j < 2) {
+            res = Math.min(res, dfs100107(i + 1, j + 1));
+        }
+        return memo100107[i][j] = res;
+    }
+
 }

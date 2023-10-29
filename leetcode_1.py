@@ -7462,4 +7462,91 @@ class leetcode_1 :
        for i in range(1, len(verticalCuts)):
           max_w = max(max_w, verticalCuts[i] - verticalCuts[i - 1])
        return max_h * max_w % MOD
+    
+    # 274. H 指数 (H-Index)
+    def hIndex(self, citations: List[int]) -> int:
+        citations.sort()
+        res = 0
+        i = len(citations) - 1
+        while i >= 0 and citations[i] > res:
+            res += 1
+            i -= 1
+        return res
+
+    #  100094. 子数组不同元素数目的平方和 I (Subarrays Distinct Element Sum of Squares I)
+    def sumCounts(self, nums: List[int]) -> int:
+       n = len(nums)
+       res = 0
+       for i in range(n):
+          for j in range(i, n):
+             s = set()
+             for k in range(i, j + 1):
+                s.add(nums[k])
+             res += len(s) * len(s)
+       return res
+    
+    # 100104. 使二进制字符串变美丽的最少修改次数 (Minimum Number of Changes to Make Binary String Beautiful)
+    def minChanges(self, s: str) -> int:
+       return sum(int(s[i - 1] != s[i]) for i in range(1, len(s), 2))
+    
+    # 100042. 和为目标值的最长子序列的长度 (Length of the Longest Subsequence That Sums to Target)
+    def lengthOfLongestSubsequence(self, nums: List[int], target: int) -> int:
+       def dfs(i: int, j: int) -> int:
+          if j == target:
+             return 0
+          if i == n or j > target:
+             return -inf
+          if memo[i][j] != -1:
+             return memo[i][j]
+          memo[i][j] = max(dfs(i + 1, j), dfs(i + 1, j + nums[i]) + 1)
+          return memo[i][j]
+       if sum(nums) < target:
+          return -1
+       n = len(nums)
+       memo = [[-1] * (target + 1) for _ in range(n)]
+       res = dfs(0, 0)
+       return res if res > 0 else -1
+    
+    # 100111. 找出数组中的 K-or 值 (Find the K-or of an Array)
+    def findKOr(self, nums: List[int], k: int) -> int:
+       cnts = [0] * 32
+       for num in nums:
+          for i in range(32):
+             cnts[i] += (num >> i) & 1
+       res = 0
+       for i in range(32):
+          if cnts[i] >= k:
+             res |= 1 << i
+       return res
+    
+    # 100102. 数组的最小相等和 (Minimum Equal Sum of Two Arrays After Replacing Zeros)
+    def minSum(self, nums1: List[int], nums2: List[int]) -> int:
+       sum1 = sum(nums1)
+       sum2 = sum(nums2)
+       cnt1 = sum(int(x == 0) for x in nums1)
+       cnt2 = sum(int(x == 0) for x in nums2)
+       if sum1 == sum2:
+          if cnt1 == 0 and cnt2 != 0 or cnt1 != 0 and cnt2 == 0:
+             return -1
+          return max(sum1 + cnt1, sum2 + cnt2)
+       if sum1 > sum2:
+          sum1, sum2 = sum2, sum1
+          cnt1, cnt2 = cnt2, cnt1
+       if cnt1 == 0 or sum1 + cnt1 > sum2 and cnt2 == 0:
+          return -1
+       return max(sum1 + cnt1, sum2 + cnt2)
+    
+    # 100107. 使数组变美的最小增量运算数 (Minimum Increment Operations to Make Array Beautiful)
+    def minIncrementOperations(self, nums: List[int], k: int) -> int:
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i >= n:
+             return 0
+          res = dfs(i + 1, 0) + max(k - nums[i], 0)
+          if j < 2:
+             res = min(res, dfs(i + 1, j + 1))
+          return res
+       n = len(nums)
+       return dfs(0, 0)
+             
        
