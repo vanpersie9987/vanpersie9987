@@ -17,6 +17,7 @@
 #     a , b = b , a + b
 
 
+from calendar import c
 from collections import Counter
 import collections
 from functools import cache
@@ -7548,5 +7549,26 @@ class leetcode_1 :
           return res
        n = len(nums)
        return dfs(0, 0)
+    
+    # 275. H 指数 II (H-Index II)
+    def hIndex(self, citations: List[int]) -> int:
+       n = len(citations)
+       def check(target: int) -> bool:
+          for i in range(n - 1, -1, -1):
+             if citations[i] < target:
+                return n - i - 1 >= target
+          return n >= target
+       left = 0
+       right = n
+       res = 0
+       while left <= right:
+          mid = left + ((right - left) >> 1)
+          if check(mid):
+             res = mid
+             left = mid + 1
+          else:
+             right = mid - 1
+       return res
+       
              
        
