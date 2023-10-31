@@ -24,6 +24,7 @@ from functools import cache
 from itertools import accumulate
 from math import comb, gcd, inf, sqrt
 from operator import le
+from pickletools import read_uint1
 from queue import PriorityQueue
 from re import X
 import re
@@ -7588,6 +7589,32 @@ class leetcode_1 :
           g[u].append(v)
           g[v].append(u)
        return dfs(0, 0, -1)
-       
-       
+    
+    # 2003. 每棵子树内缺失的最小基因值 (Smallest Missing Genetic Value in Each Subtree)
+    def smallestMissingValueSubtree(self, parents: List[int], nums: List[int]) -> List[int]:
+       def dfs(x: int) -> None:
+          vis.add(nums[x])
+          for y in g[x]:
+             if nums[y] not in vis:
+                dfs(y)
+       n = len(nums)
+       node = -1
+       res = [1] * n
+       for i in range(n):
+          if nums[i] == 1:
+             node = i
+       if node < 0:
+          return res
+       g = [[] * n for _ in range(n)]
+       for i in range(1, n):
+          g[parents[i]].append(i)
+       mex = 2
+       vis = set()
+       while node >= 0:
+          dfs(node)
+          while mex in vis:
+             mex += 1
+          res[node] = mex
+          node = parents[node]
+       return res
 
