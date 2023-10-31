@@ -7569,6 +7569,25 @@ class leetcode_1 :
           else:
              right = mid - 1
        return res
+    
+    # 2920. 收集所有金币可获得的最大积分 (Maximum Points After Collecting Coins From All Nodes)
+    def maximumPoints(self, edges: List[List[int]], coins: List[int], k: int) -> int:
+       @cache
+       def dfs(i: int, j: int, fa: int) -> int:
+          res1 = (coins[i] >> j) - k
+          res2 = coins[i] >> (j + 1)
+          for y in g[i]:
+             if y != fa:
+                res1 += dfs(y, j, i)
+                if j < 14:
+                   res2 += dfs(y, j + 1, i)
+          return max(res1, res2)
+       n = len(coins)
+       g = [[] * n for _ in range(n)]
+       for u, v in edges:
+          g[u].append(v)
+          g[v].append(u)
+       return dfs(0, 0, -1)
        
-             
        
+
