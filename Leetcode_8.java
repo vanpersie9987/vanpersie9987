@@ -4851,4 +4851,45 @@ public class Leetcode_8 {
         return memo100107[i][j] = res;
     }
 
+    // 2920. 收集所有金币可获得的最大积分 (Maximum Points After Collecting Coins From All Nodes)
+    private List<Integer>[] g2920;
+    private int[] coins2920;
+    private int k2920;
+    private int[][] memo2920;
+
+    public int maximumPoints(int[][] edges, int[] coins, int k) {
+        int n = coins.length;
+        this.g2920 = new ArrayList[n];
+        Arrays.setAll(g2920, o -> new ArrayList<>());
+        for (int[] e : edges) {
+            g2920[e[0]].add(e[1]);
+            g2920[e[1]].add(e[0]);
+        }
+        this.coins2920 = coins;
+        this.k2920 = k;
+        this.memo2920 = new int[n][15];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo2920[i], (int) -10e9);
+        }
+        return dfs2920(0, 0, -1);
+
+    }
+
+    private int dfs2920(int i, int j, int fa) {
+        if (memo2920[i][j] != (int) -10e9) {
+            return memo2920[i][j];
+        }
+        int res1 = (coins2920[i] >> j) - k2920;
+        int res2 = coins2920[i] >> (j + 1);
+        for (int y : g2920[i]) {
+            if (y != fa) {
+                res1 += dfs2920(y, j, i);
+                if (j < 14) {
+                    res2 += dfs2920(y, j + 1, i);
+                }
+            }
+        }
+        return memo2920[i][j] = Math.max(res1, res2);
+    }
+
 }
