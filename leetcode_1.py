@@ -7617,4 +7617,43 @@ class leetcode_1 :
           res[node] = mex
           node = parents[node]
        return res
-
+    
+    # 2127. 参加会议的最多员工数 (Maximum Employees to Be Invited to a Meeting)
+    def maximumInvitations(self, favorite: List[int]) -> int:
+       n = len(favorite)
+       deg = [0] * n
+       for f in favorite:
+          deg[f] += 1
+       dp = [1] * n
+       q = collections.deque()
+       for i in range(n):
+          if not deg[i]:
+             q.append(i)
+       while q:
+          node = q.popleft()
+          neighbor = favorite[node]
+          dp[neighbor] = max(dp[neighbor], dp[node] + 1)
+          deg[neighbor] -= 1
+          if not deg[neighbor]:
+             q.append(neighbor)
+       two_nodes_ring = 0
+       three_or_more_ring = 0
+       for i in range(n):
+          if deg[i]:
+             neighbor = favorite[i]
+             # 环长 == 2
+             if favorite[neighbor] == i:
+                deg[i] = 0
+                deg[neighbor] = 0
+                two_nodes_ring += dp[i] + dp[neighbor]
+             else:
+                cnt = 0
+                node = i
+                while deg[node]:
+                   deg[node] = 0
+                   cnt += 1
+                   node = favorite[node]
+                three_or_more_ring = max(three_or_more_ring, cnt)
+       return max(three_or_more_ring, two_nodes_ring)
+                
+    
