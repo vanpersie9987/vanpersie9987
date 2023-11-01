@@ -662,4 +662,36 @@ public class luogu1 {
         return memo1164[i][j] = dfs1164(i + 1, j) + dfs1164(i + 1, j + dishes1164[i]);
     }
 
+    // P8707 [蓝桥杯 2020 省 AB1] 走方格
+    private int m8707;
+    private int n8707;
+    private int[][] memo8707;
+
+    public int suqareTicking(int m, int n) {
+        if (m % 2 == 0 && n % 2 == 0) {
+            return 0;
+        }
+        this.m8707 = m;
+        this.n8707 = n;
+        this.memo8707 = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(memo8707[i], -1);
+        }
+        return dfs8707(0, 0);
+
+    }
+
+    private int dfs8707(int i, int j) {
+        if (i == m8707 || j == n8707 || (i % 2 == 1 && j % 2 == 1)) {
+            return 0;
+        }
+        if (i == m8707 - 1 && j == n8707 - 1) {
+            return 1;
+        }
+        if (memo8707[i][j] != -1) {
+            return memo8707[i][j];
+        }
+        return memo8707[i][j] = dfs8707(i + 1, j) + dfs8707(i, j + 1);
+    }
+
 }
