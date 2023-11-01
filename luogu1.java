@@ -631,4 +631,35 @@ public class luogu1 {
         return memo8687[i][j] = Math.min(dfs8687(i + 1, j), dfs8687(i + 1, j | bitMask8687[i]) + 1);
     }
 
+    // P1164 小A点菜
+    private int[][] memo1164;
+    private int m1164;
+    private int n1164;
+    private int[] dishes1164;
+
+    public int orderDishes(int m, int[] dishes) {
+        this.n1164 = dishes.length;
+        this.m1164 = m;
+        this.dishes1164 = dishes;
+        this.memo1164 = new int[n1164][m + 1];
+        for (int i = 0; i < n1164; ++i) {
+            Arrays.fill(memo1164[i], -1);
+        }
+        return dfs1164(0, 0);
+
+    }
+
+    private int dfs1164(int i, int j) {
+        if (j > m1164) {
+            return 0;
+        }
+        if (i == n1164) {
+            return j == m1164 ? 1 : 0;
+        }
+        if (memo1164[i][j] != -1) {
+            return memo1164[i][j];
+        }
+        return memo1164[i][j] = dfs1164(i + 1, j) + dfs1164(i + 1, j + dishes1164[i]);
+    }
+
 }
