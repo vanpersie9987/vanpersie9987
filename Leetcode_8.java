@@ -4913,7 +4913,7 @@ public class Leetcode_8 {
         }
         Set<Integer> vis = new HashSet<>();
         int mex = 2;
-        while ((node >= 0)) {
+        while (node >= 0) {
             dfs2003(node, g, vis, nums);
             while (vis.contains(mex)) {
                 ++mex;
