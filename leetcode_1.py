@@ -7655,5 +7655,24 @@ class leetcode_1 :
                    node = favorite[node]
                 three_or_more_ring = max(three_or_more_ring, cnt)
        return max(three_or_more_ring, two_nodes_ring)
+ 
+    # 2103. 环和杆 (Rings and Rods)
+    def countPoints(self, rings: str) -> int:
+       res = 0
+       dic = collections.defaultdict(int)
+       dic['R'] = 0
+       dic['G'] = 1
+       dic['B'] = 2
+       bit_map = [0] * 10
+       n = len(rings)
+       for r in range(0, n, 2):
+          bit_map[int(rings[r + 1])] |= 1 << dic[rings[r]]
+       for b in bit_map:
+          if b == (1 << 3) - 1:
+             res += 1
+       return res
+             
+
+
                 
     
