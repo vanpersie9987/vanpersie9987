@@ -7672,7 +7672,7 @@ class leetcode_1 :
              res += 1
        return res
 
-    # 117. 填充每个节点的下一个右侧节点指针 II (Populating Next Right Pointers in Each Node II)
+    # 117. 填充每个节点的下一个右侧节点指针 II (Populating Next Right Pointers in Each Node II) --bfs
     def connect(self, root: 'Node') -> 'Node':
        class Node:
           def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
@@ -7699,6 +7699,29 @@ class leetcode_1 :
              if x.right:
                 q.append(x.right)
        return root
+
+    # 117. 填充每个节点的下一个右侧节点指针 II (Populating Next Right Pointers in Each Node II) --dfs
+    def connect(self, root: 'Node') -> 'Node':
+       class Node:
+          def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
+             self.val = val
+             self.left = left
+             self.right = right
+             self.next = next
+       def dfs(node: 'Node', depth: int) -> None:
+          if node is None:
+             return
+          if depth == len(pre):
+             pre.append(node)
+          else:
+             pre[depth].next = node
+             pre[depth] = node
+          dfs(node.left, depth + 1)
+          dfs(node.right, depth + 1)
+       pre = []
+       dfs(root, 0)
+       return root
+       
              
        
        
