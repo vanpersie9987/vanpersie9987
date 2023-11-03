@@ -10112,8 +10112,7 @@ public class LeetCode_2 {
 
    }
 
-   // 117. 填充每个节点的下一个右侧节点指针 II (Populating Next Right Pointers in Each Node II)
-   // --还需掌握空间O(1)方法
+   // 117. 填充每个节点的下一个右侧节点指针 II (Populating Next Right Pointers in Each Node II) --bfs
    public Node connect117(Node root) {
       if (root == null) {
          return root;
@@ -10136,6 +10135,30 @@ public class LeetCode_2 {
          }
       }
       return root;
+   }
+
+   // 117. 填充每个节点的下一个右侧节点指针 II (Populating Next Right Pointers in Each Node II)
+   // --dfs
+   private List<Node> list117;
+
+   public Node connect117_2(Node root) {
+      this.list117 = new ArrayList<>();
+      dfs117(root, 0);
+      return root;
+   }
+
+   private void dfs117(Node root, int depth) {
+      if (root == null) {
+         return;
+      }
+      if (depth == list117.size()) {
+         list117.add(root);
+      } else {
+         list117.get(depth).next = root;
+         list117.set(depth, root);
+      }
+      dfs117(root.left, depth + 1);
+      dfs117(root.right, depth + 1);
    }
 
    // 701. 二叉搜索树中的插入操作 (Insert into a Binary Search Tree)
