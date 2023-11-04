@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @SuppressWarnings("unchecked")
 public class luogu1 {
@@ -16,6 +20,16 @@ public class luogu1 {
         // System.out.println(res);
         // int[][] arr = { { 1, 2 }, { 2, 3 } };
         // int res = GEPPETTO(3, arr);
+        // System.out.println(res);
+        /*
+         * 5 2
+         * 1 3 1
+         * 1 4 10
+         * 2 3 20
+         * 3 5 20
+         */
+        // int[][] arr = { { 1, 3, 1 }, { 1, 4, 10 }, { 2, 3, 20 }, { 3, 5, 20 } };
+        // int res = appleBinaryTree(5, 2, arr);
         // System.out.println(res);
     }
 
@@ -692,6 +706,80 @@ public class luogu1 {
             return memo8707[i][j];
         }
         return memo8707[i][j] = dfs8707(i + 1, j) + dfs8707(i, j + 1);
+    }
+
+    // P2015 二叉苹果树
+    private List<Integer>[] g2015;
+    private Map<Integer, Integer> map2015;
+    private int[] cnts2015;
+    private int[][] memo2015;
+    private int n2015;
+
+    public int appleBinaryTree(int n, int q, int[][] edges) {
+        this.g2015 = new ArrayList[n];
+        Arrays.setAll(g2015, k -> new ArrayList<>());
+        this.map2015 = new HashMap<>();
+        for (int[] e : edges) {
+            int u = e[0] - 1;
+            int v = e[1] - 1;
+            int apples = e[2];
+            g2015[u].add(v);
+            g2015[v].add(u);
+            map2015.put(u * n + v, apples);
+            map2015.put(v * n + u, apples);
+        }
+        this.cnts2015 = new int[n];
+        this.memo2015 = new int[n][q + 1];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo2015[i], -1);
+        }
+        this.n2015 = n;
+        dfs2015(0, -1);
+        return dfsApples(0, q, -1);
+
+    }
+
+    private int dfsApples(int x, int q, int fa) {
+        if (q == 0) {
+            return 0;
+        }
+        int y1 = -1;
+        int y2 = -1;
+        int max = 0;
+        for (int y : g2015[x]) {
+            if (y != fa) {
+                if (y1 == -1) {
+                    y1 = y;
+                } else {
+                    y2 = y;
+                }
+            }
+        }
+        // 叶子结点
+        if (y1 == -1) {
+            return 0;
+        }
+        if (memo2015[x][q] != -1) {
+            return memo2015[x][q];
+        }
+        // 右叶子选保留0个树枝 // 左叶子选保留0个树枝
+        max = Math.max(dfsApples(y1, Math.min(cnts2015[y1], q - 1), x) + map2015.get(x * n2015 + y1),
+                dfsApples(y2, Math.min(cnts2015[y2], q - 1), x) + map2015.get(x * n2015 + y2));
+        for (int i = 1; i <= q - 1; ++i) {
+            max = Math.max(max, dfsApples(y1, Math.min(cnts2015[y1], i - 1), x) + map2015.get(x * n2015 + y1)
+                    + dfsApples(y2, Math.min(cnts2015[y2], q - i - 1), x) + map2015.get(x * n2015 + y2));
+        }
+        return memo2015[x][q] = max;
+    }
+
+    private int dfs2015(int x, int fa) {
+        int sum = 0;
+        for (int y : g2015[x]) {
+            if (y != fa) {
+                sum += dfs2015(y, x) + 1;
+            }
+        }
+        return cnts2015[x] = sum;
     }
 
 }
