@@ -800,12 +800,12 @@ public class luogu1 {
         for (int i = 0; i < n1877; ++i) {
             Arrays.fill(memo1877[i], -1);
         }
-        int res = dfs(0, beginLevel);
+        int res = dfs1877(0, beginLevel);
         return res >= 0 ? res : -1;
 
     }
 
-    private int dfs(int i, int j) {
+    private int dfs1877(int i, int j) {
         if (j > maxLevel1877 || j < 0) {
             return Integer.MIN_VALUE;
         }
@@ -815,7 +815,38 @@ public class luogu1 {
         if (memo1877[i][j] != -1) {
             return memo1877[i][j];
         }
-        return memo1877[i][j] = Math.max(dfs(i + 1, j + adjustment1877[i]), dfs(i + 1, j - adjustment1877[i]));
+        return memo1877[i][j] = Math.max(dfs1877(i + 1, j + adjustment1877[i]), dfs1877(i + 1, j - adjustment1877[i]));
+    }
+
+    // P1049 [NOIP2001 普及组] 装箱问题
+    private int total1049;
+    private int[] vol1049;
+    private int n1049;
+    private int[][] memo1049;
+
+    public int boxingProblem(int total, int[] vol) {
+        this.total1049 = total;
+        this.vol1049 = vol;
+        this.n1049 = vol.length;
+        this.memo1049 = new int[n1049][total + 1];
+        for (int i = 0; i < n1049; ++i) {
+            Arrays.fill(memo1049[i], -1);
+        }
+        return total - dfs1049(0, 0);
+
+    }
+
+    private int dfs1049(int i, int j) {
+        if (j > total1049) {
+            return 0;
+        }
+        if (i == n1049) {
+            return j;
+        }
+        if (memo1049[i][j] != -1) {
+            return memo1049[i][j];
+        }
+        return memo1049[i][j] = Math.max(dfs1049(i + 1, j), dfs1049(i + 1, j + vol1049[i]));
     }
 
 }
