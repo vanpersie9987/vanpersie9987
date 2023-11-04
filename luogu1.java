@@ -35,6 +35,16 @@ public class luogu1 {
         // int[] arr = { 5, 3, 7 };
         // int res = volumeAdjustment(5, 10, arr);
         // System.out.println(res);
+        // int[] arr = { 8,
+        //         3,
+        //         12,
+        //         7,
+        //         9,
+        //         7
+        // };
+        // int res = boxingProblem(24, arr);
+        // System.out.println(res);
+
     }
 
     // P1122 最大子树和
