@@ -17,6 +17,7 @@
 #     a , b = b , a + b
 
 
+from audioop import reverse
 from calendar import c
 from collections import Counter
 import collections
@@ -35,6 +36,7 @@ from turtle import reset, st
 from typing import List, Optional
 import heapq
 import bisect
+from zoneinfo import reset_tzpath
 # curl https://bootstrap.pypa.io/pip/get-pip.py -o get-pip.py
 # sudo python3 get-pip.py
 # pip3 install sortedcontainers
@@ -7737,3 +7739,30 @@ class leetcode_1 :
                 res = nxt
                 break
        return res
+    
+    # 187. 重复的DNA序列 (Repeated DNA Sequences)
+    def findRepeatedDnaSequences(self, s: str) -> List[str]:
+       cnts = collections.defaultdict(int)
+       # A 00
+       # C 01
+       # T 10
+       # G 11
+       dic = collections.defaultdict(int)
+       dic['A'] = 0
+       dic['C'] = 1
+       dic['T'] = 2
+       dic['G'] = 3
+       u = (1 << 20) - 1
+       mask = 0
+       res = []
+       for i, c in enumerate(s):
+          mask = (mask << 2) | dic[c]
+          if i >= 9:
+             mask &= u
+             cnts[mask] += 1
+             if cnts[mask] == 2:
+                res.append(s[i - 10 + 1: i + 1])
+       return res
+             
+                
+                
