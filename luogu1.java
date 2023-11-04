@@ -31,6 +31,10 @@ public class luogu1 {
         // int[][] arr = { { 1, 3, 1 }, { 1, 4, 10 }, { 2, 3, 20 }, { 3, 5, 20 } };
         // int res = appleBinaryTree(5, 2, arr);
         // System.out.println(res);
+
+        // int[] arr = { 5, 3, 7 };
+        // int res = volumeAdjustment(5, 10, arr);
+        // System.out.println(res);
     }
 
     // P1122 最大子树和
