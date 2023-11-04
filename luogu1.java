@@ -782,4 +782,36 @@ public class luogu1 {
         return cnts2015[x] = sum;
     }
 
+    // P1877 [HAOI2012] 音量调节
+    private int maxLevel1877;
+    private int n1877;
+    private int[] adjustment1877;
+    private int[][] memo1877;
+
+    public int volumeAdjustment(int beginLevel, int maxLevel, int[] adjustment) {
+        this.n1877 = adjustment.length;
+        this.maxLevel1877 = maxLevel;
+        this.adjustment1877 = adjustment;
+        this.memo1877 = new int[n1877][maxLevel + 1];
+        for (int i = 0; i < n1877; ++i) {
+            Arrays.fill(memo1877[i], -1);
+        }
+        int res = dfs(0, beginLevel);
+        return res >= 0 ? res : -1;
+
+    }
+
+    private int dfs(int i, int j) {
+        if (j > maxLevel1877 || j < 0) {
+            return Integer.MIN_VALUE;
+        }
+        if (i == n1877) {
+            return j;
+        }
+        if (memo1877[i][j] != -1) {
+            return memo1877[i][j];
+        }
+        return memo1877[i][j] = Math.max(dfs(i + 1, j + adjustment1877[i]), dfs(i + 1, j - adjustment1877[i]));
+    }
+
 }

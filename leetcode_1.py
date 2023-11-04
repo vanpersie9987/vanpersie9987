@@ -7737,7 +7737,3 @@ class leetcode_1 :
                 res = nxt
                 break
        return res
-
-
-                
-    
