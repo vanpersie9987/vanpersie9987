@@ -7763,6 +7763,55 @@ class leetcode_1 :
              if cnts[mask] == 2:
                 res.append(s[i - 10 + 1: i + 1])
        return res
-             
-                
-                
+
+    # 100115. 找到冠军 I (Find Champion I)
+    def findChampion(self, grid: List[List[int]]) -> int:
+       n = len(grid)
+       deg = [0] * n
+       for i in range(n):
+          for j in range(n):
+             if i != j and grid[i][j]:
+                 deg[j] += 1
+       for i in range(n):
+          if deg[i] == 0:
+             return i
+
+    # 100116. 找到冠军 II (Find Champion II)
+    def findChampion(self, n: int, edges: List[List[int]]) -> int:
+       deg = [0] * n
+       for _, v in edges:
+          deg[v] += 1
+       res = -1
+       for i in range(n):
+          if deg[i] == 0:
+             if res != -1:
+                return -1
+             res = i
+       return res
+    
+    # 100116. 在树上执行操作以后得到的最大分数 (Maximum Score After Applying Operations on a Tree)
+    def maximumScoreAfterOperations(self, edges: List[List[int]], values: List[int]) -> int:
+       def dfs_score(x: int, fa: int) -> int:
+          if len(g[x]) == 1:
+             return 0
+          res1 = s[x] - values[x]
+          res2 = values[x]
+          for y in g[x]:
+             if y != fa:
+                res2 += dfs_score(y, x)
+          return max(res1, res2)
+       def dfs(x: int, fa: int) -> int:
+          s[x] = values[x]
+          for y in g[x]:
+             if y != fa:
+                s[x] += dfs(y, x)
+          return s[x]
+       n = len(values)
+       g = [[] for _ in range(n)]
+       for u, v in edges:
+          g[u].append(v)
+          g[v].append(u)
+       g[0].append(-1)
+       s = [0] * n
+       dfs(0, -1)
+       return dfs_score(0, -1)

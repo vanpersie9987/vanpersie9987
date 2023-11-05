@@ -4934,4 +4934,96 @@ public class Leetcode_8 {
         }
     }
 
+    // 100115. 找到冠军 I (Find Champion I)
+    public int findChampion(int[][] grid) {
+        int n = grid.length;
+        int[] deg = new int[n];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i != j) {
+                    if (grid[i][j] == 1) {
+                        ++deg[j];
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            if (deg[i] == 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    // 100116. 找到冠军 II (Find Champion II)
+    public int findChampion(int n, int[][] edges) {
+        int[] deg = new int[n];
+        for (int[] e : edges) {
+            ++deg[e[1]];
+        }
+        int res = -1;
+        for (int i = 0; i < n; ++i) {
+            if (deg[i] == 0) {
+                if (res != -1) {
+                    return -1;
+                }
+                res = i;
+            }
+        }
+        return res;
+
+    }
+
+    // 100118. 在树上执行操作以后得到的最大分数 (Maximum Score After Applying Operations on a Tree)
+    private List<Integer>[] g100118;
+    private int n100118;
+    private long[] s100118;
+    private int[] values;
+
+    public long maximumScoreAfterOperations(int[][] edges, int[] values) {
+        this.n100118 = values.length;
+        this.g100118 = new ArrayList[n100118];
+        Arrays.setAll(g100118, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            int u = e[0];
+            int v = e[1];
+            g100118[u].add(v);
+            g100118[v].add(u);
+        }
+        g100118[0].add(-1);
+        this.s100118 = new long[n100118];
+        this.values = values;
+        dfs100118(0, -1);
+        return dfs_score(0, -1);
+
+    }
+
+    private long dfs_score(int x, int fa) {
+        // 叶子
+        if (g100118[x].size() == 1) {
+            return 0L;
+        }
+        // 不收集
+        long res1 = s100118[x] - values[x];
+        // 收集
+        long res2 = values[x];
+        for (int y : g100118[x]) {
+            if (y != fa) {
+                res2 += dfs_score(y, x);
+            }
+        }
+        return Math.max(res1, res2);
+
+    }
+
+    private long dfs100118(int x, int fa) {
+        s100118[x] = values[x];
+        for (int y : g100118[x]) {
+            if (y != fa) {
+                s100118[x] += dfs100118(y, x);
+            }
+        }
+        return s100118[x];
+    }
+
 }
