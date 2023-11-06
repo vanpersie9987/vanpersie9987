@@ -859,4 +859,35 @@ public class luogu1 {
         return memo1049[i][j] = Math.max(dfs1049(i + 1, j), dfs1049(i + 1, j + vol1049[i]));
     }
 
+    // P8625 [蓝桥杯 2015 省 B] 生命之树
+    private List<Integer>[] g8625;
+    private int[] values8625;
+    private int res8625;
+
+    public int treeOfLife(int n, int[] values, List<List<Integer>> edges) {
+        this.g8625 = new ArrayList[n];
+        Arrays.setAll(g8625, k -> new ArrayList<>());
+        for (List<Integer> e : edges) {
+            int a = e.get(0) - 1;
+            int b = e.get(1) - 1;
+            g8625[a].add(b);
+            g8625[b].add(a);
+        }
+        this.values8625 = values;
+        dfs8625(0, -1);
+        return res8625;
+
+    }
+
+    private int dfs8625(int x, int fa) {
+        int max = values8625[x];
+        for (int y : g8625[x]) {
+            if (y != fa) {
+                max += dfs8625(y, x);
+            }
+        }
+        res8625 = Math.max(res8625, max);
+        return Math.max(0, max);
+    }
+
 }
