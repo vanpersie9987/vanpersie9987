@@ -45,6 +45,14 @@ public class luogu1 {
         // int res = boxingProblem(24, arr);
         // System.out.println(res);
 
+        // List<List<Integer>> edges = new ArrayList<>();
+        // edges.add(List.of(4, 2));
+        // edges.add(List.of(3, 1));
+        // edges.add(List.of(1, 2));
+        // edges.add(List.of(2, 5));
+        // long res = treeOfLife(5, new int[] { 1, -2, -3, 4, 5 }, edges);
+        // System.out.println(res);
+
     }
 
     // P1122 最大子树和
@@ -862,9 +870,9 @@ public class luogu1 {
     // P8625 [蓝桥杯 2015 省 B] 生命之树
     private List<Integer>[] g8625;
     private int[] values8625;
-    private int res8625;
+    private long res8625;
 
-    public int treeOfLife(int n, int[] values, List<List<Integer>> edges) {
+    public long treeOfLife(int n, int[] values, List<List<Integer>> edges) {
         this.g8625 = new ArrayList[n];
         Arrays.setAll(g8625, k -> new ArrayList<>());
         for (List<Integer> e : edges) {
@@ -879,15 +887,15 @@ public class luogu1 {
 
     }
 
-    private int dfs8625(int x, int fa) {
-        int max = values8625[x];
+    private long dfs8625(int x, int fa) {
+        long max = values8625[x];
         for (int y : g8625[x]) {
             if (y != fa) {
                 max += dfs8625(y, x);
             }
         }
         res8625 = Math.max(res8625, max);
-        return Math.max(0, max);
+        return Math.max(0L, max);
     }
 
 }
