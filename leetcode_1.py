@@ -7815,3 +7815,20 @@ class leetcode_1 :
        s = [0] * n
        dfs(0, -1)
        return dfs_score(0, -1)
+    
+    # 318. 最大单词长度乘积 (Maximum Product of Word Lengths) 
+    def maxProduct(self, words: List[str]) -> int:
+       dic = collections.defaultdict(int)
+       res = 0
+       for w in words:
+          m = 0
+          for c in w:
+             m |= 1 << (ord(c) - ord('a'))
+          for k, v in dic.items():
+             if (k & m) == 0:
+                res = max(res, v * len(w))
+          dic[m] = max(dic[m], len(w))
+       return res
+             
+                   
+          
