@@ -231,6 +231,24 @@ class luogu1:
         s = bin(N)[2:]
         n = len(s)
         return dfs(0, 0, True, False)
+    
 
+    # P8625 [蓝桥杯 2015 省 B] 生命之树
+    def treeOfLife(n: int, values: List[int], edges: List[List[int]]) -> int:
+        def dfs(x: int, fa: int) -> int:
+            max = values[x]
+            for y in g[x]:
+                if y != fa:
+                    max += dfs(y, x)
+            nonlocal res
+            res = max(res, max)
+            return max(0, max)
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u - 1].append(v - 1)
+            g[v - 1].append(u - 1)
+        res = 0
+        dfs(0, -1)
+        return res
 
 
