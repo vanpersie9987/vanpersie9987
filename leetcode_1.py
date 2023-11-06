@@ -7829,6 +7829,17 @@ class leetcode_1 :
                 res = max(res, v * len(w))
           dic[m] = max(dic[m], len(w))
        return res
+    
+    # 2586. 统计范围内的元音字符串数 (Count the Number of Vowel Strings in Range)
+    def vowelStrings(self, words: List[str], left: int, right: int) -> int:
+       res = 0
+       u = 0
+       for c in "aeiou":
+          u |= 1 << (ord(c) - ord('a'))
+       for i in range(left, right + 1):
+          if ((1 << (ord(words[i][0]) - ord('a'))) & u) != 0 and ((1 << (ord(words[i][-1]) - ord('a'))) & u) != 0:
+             res += 1
+       return res
              
                    
           
