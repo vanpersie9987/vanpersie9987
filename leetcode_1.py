@@ -7837,7 +7837,8 @@ class leetcode_1 :
        for c in "aeiou":
           u |= 1 << (ord(c) - ord('a'))
        for i in range(left, right + 1):
-          if ((1 << (ord(words[i][0]) - ord('a'))) & u) != 0 and ((1 << (ord(words[i][-1]) - ord('a'))) & u) != 0:
+          c = (1 << (ord(words[i][0]) - ord('a'))) | (1 << (ord(words[i][-1]) - ord('a')))
+          if (c & u) == c:
              res += 1
        return res
              
