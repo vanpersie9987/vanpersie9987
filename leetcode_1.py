@@ -7841,6 +7841,29 @@ class leetcode_1 :
           if (c & u) == c:
              res += 1
        return res
+    
+    # 2609. 最长平衡子字符串 (Find the Longest Balanced Substring of a Binary String)
+    def findTheLongestBalancedSubstring(self, s: str) -> int:
+       res = 0
+       n = len(s)
+       i = 0
+       while i < n:
+          cnt0 = 0
+          cnt1 = 0
+          j = i
+          while j < n and s[j] == '0':
+             j += 1
+          cnt0 = j - i
+          i = j
+          while j < n and s[j] == '1':
+             j += 1
+          cnt1 = j - i
+          i = j
+          res = max(res, min(cnt0, cnt1) * 2)
+       return res
+
+           
+          
              
                    
           
