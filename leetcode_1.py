@@ -7648,6 +7648,7 @@ class leetcode_1 :
                 deg[i] = 0
                 deg[neighbor] = 0
                 two_nodes_ring += dp[i] + dp[neighbor]
+             # 环长 > 2
              else:
                 cnt = 0
                 node = i
