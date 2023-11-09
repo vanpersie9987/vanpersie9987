@@ -1700,39 +1700,33 @@ public class LeetCode_4 {
 
     }
 
-    // 6096. 咒语和药水的成功对数 (Successful Pairs of Spells and Potions) --二分查找
+    // 2300. 咒语和药水的成功对数 (Successful Pairs of Spells and Potions)
     public int[] successfulPairs(int[] spells, int[] potions, long success) {
         Arrays.sort(potions);
-        long[] longPotions = new long[potions.length];
-        for (int i = 0; i < potions.length; ++i) {
-            longPotions[i] = potions[i];
-        }
-        int[] res = new int[spells.length];
-        for (int i = 0; i < spells.length; ++i) {
-            int index = search6096(spells[i], longPotions, success);
-            res[i] = longPotions.length - index;
-        }
-        return res;
+        int n = spells.length;
+        int m = potions.length;
+        int[] res = new int[n];
+        Integer[] ids = IntStream.range(0, n).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
 
-    }
-
-    private int search6096(int spell, long[] longPotions, long success) {
-        if (longPotions[longPotions.length - 1] * spell < success) {
-            return longPotions.length;
-        }
-        int left = 0;
-        int right = longPotions.length - 1;
-        int res = -1;
-        while (left <= right) {
-            int mid = left + ((right - left) >>> 1);
-            if (longPotions[mid] * spell >= success) {
-                res = mid;
-                right = mid - 1;
-            } else {
-                left = mid + 1;
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(spells[o2], spells[o1]);
             }
+
+        });
+        int i = 0;
+        for (int id : ids) {
+            while (i < m && (long) potions[i] * spells[id] < success) {
+                ++i;
+            }
+            if (m == i) {
+                break;
+            }
+            res[id] = m - i;
         }
         return res;
+
     }
 
     // 6097. 替换字符后匹配 (Match Substring After Replacement)
