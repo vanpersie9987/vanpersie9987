@@ -7864,3 +7864,18 @@ class leetcode_1 :
           i = j
           res = max(res, min(cnt0, cnt1) * 2)
        return res
+    
+    # 2300. 咒语和药水的成功对数 (Successful Pairs of Spells and Potions)
+    def successfulPairs(self, spells: List[int], potions: List[int], success: int) -> List[int]:
+       n = len(spells)
+       m = len(potions)
+       potions.sort()
+       res = [0] * n
+       j = 0
+       for i, v in sorted(zip(range(n), spells), key = lambda z: -z[1]):
+          while j < m and potions[j] * v < success:
+             j += 1
+          if m - j == 0:
+             break
+          res[i] = m - j
+       return res
