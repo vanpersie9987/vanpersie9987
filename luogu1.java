@@ -53,6 +53,15 @@ public class luogu1 {
         // edges.add(List.of(2, 5));
         // long res = treeOfLife(5, new int[] { 1, -2, -3, 4, 5 }, edges);
         // System.out.println(res);
+        /**
+         * 1 2
+         * 2 4
+         * 3 1
+         * 5 3
+         */
+        // int[][] books = { { 1, 2 }, { 2, 4 }, { 3, 1 }, { 5, 3 } };
+        // int res = booksTipUp(4, 1, books);
+        // System.out.println(res);
 
     }
 
@@ -922,9 +931,9 @@ public class luogu1 {
             maxThick1103 = Math.max(maxThick1103, b[1]);
         }
         this.books1103 = books;
-        this.memo1103 = new int[n][k][maxThick1103 + 2];
+        this.memo1103 = new int[n][k + 1][maxThick1103 + 2];
         for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < k; ++j) {
+            for (int j = 0; j < k + 1; ++j) {
                 Arrays.fill(memo1103[i][j], -1);
             }
         }
