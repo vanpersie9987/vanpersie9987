@@ -7,7 +7,7 @@ from multiprocessing import reduction
 from operator import le
 from pydoc import resolve
 from queue import PriorityQueue
-from re import X
+from re import S, X
 import re
 from textwrap import indent
 from tkinter import W
@@ -214,7 +214,7 @@ class luogu1:
         return solve(bin(right)[2:]) - solve(bin(left - 1)[2:])
     
     # P4317 花神的数论题
-    def flowerGodNumTheory(N: int) -> int:
+    def flowerGodNumTheory(self, N: int) -> int:
         @cache
         def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
             if i == n:
@@ -234,7 +234,7 @@ class luogu1:
     
 
     # P8625 [蓝桥杯 2015 省 B] 生命之树
-    def treeOfLife(n: int, values: List[int], edges: List[List[int]]) -> int:
+    def treeOfLife(self, n: int, values: List[int], edges: List[List[int]]) -> int:
         def dfs(x: int, fa: int) -> int:
             max = values[x]
             for y in g[x]:
@@ -262,6 +262,36 @@ class luogu1:
                 res = min(res, dfs(i + 1, j + 1, pre))
         books.sort(key=lambda o: o[0])
         return dfs(0, 0, -1)
+    
+    # P1140 相似基因
+    def similarGenes(self, s1: str, s2: str) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n1 and j == n2:
+                return 0
+            if i == n1:
+                return dfs(i, j + 1) + similar[dic[s2[j]]][4]
+            if j == n2:
+                return dfs(i, j + 1) + similar[dic[s1[i]]][4]
+            if s1[i] == s2[j]:
+                return dfs(i + 1, j + 1) + 5
+            return max(dfs(i + 1, j + 1) + similar[dic[s1[i]]][dic[s2[j]]], dfs(i + 1, j) + similar[dic[s1[i]]][4], dfs(i, j + 1) + similar[dic[s2[j]]][4])
+        n1 = len(s1)
+        n2 = len(s2)
+        dic = collections.defaultdict(int)
+        dic['A'] = 0
+        dic['C'] = 1
+        dic['G'] = 2
+        dic['T'] = 3
+        similar = [[0] * 5 for _ in range(5)]
+        similar[0][0] = similar[1][1] = similar[2][2] = similar[3][3] = 5
+        similar[0][1] = similar[1][0] = similar[0][3] = similar[3][0] = similar[3][4] = similar[4][3] = -1
+        similar[0][2] = similar[2][0] = similar[1][3] = similar[3][1] = similar[2][3] = similar[3][2] = similar[2][4] = similar[4][2] = -2
+        similar[1][2] = similar[2][1] = similar[0][4] = similar[4][0] = -3
+        similar[1][4] = similar[4][1] = -4
+        return dfs(0, 0)
+
+
         
 
 
