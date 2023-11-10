@@ -957,4 +957,60 @@ public class luogu1 {
         return memo1103[i][j][t] = res;
     }
 
+    // P1140 相似基因
+    private int n1_1140;
+    private int n2_1140;
+    private String s1_1140;
+    private String s2_1140;
+    private int[][] similar1140;
+    private Map<Character, Integer> map1140;
+    private int[][] memo1140;
+
+    public int similarGenes(String s1, String s2) {
+        this.n1_1140 = s1.length();
+        this.n2_1140 = s2.length();
+        this.s1_1140 = s1;
+        this.s2_1140 = s2;
+        this.map1140 = new HashMap<>();
+        map1140.put('A', 0);
+        map1140.put('C', 1);
+        map1140.put('G', 2);
+        map1140.put('T', 3);
+        this.similar1140 = new int[5][5];
+        similar1140[0][0] = similar1140[1][1] = similar1140[2][2] = similar1140[3][3] = 5;
+        similar1140[0][1] = similar1140[1][0] = similar1140[0][3] = similar1140[3][0] = similar1140[3][4] = similar1140[4][3] = -1;
+        similar1140[0][2] = similar1140[2][0] = similar1140[1][3] = similar1140[3][1] = similar1140[2][3] = similar1140[3][2] = similar1140[2][4] = similar1140[4][2] = -2;
+        similar1140[1][2] = similar1140[2][1] = similar1140[0][4] = similar1140[4][0] = -3;
+        similar1140[1][4] = similar1140[4][1] = -4;
+        this.memo1140 = new int[n1_1140][n2_1140];
+        for (int i = 0; i < n1_1140; ++i) {
+            Arrays.fill(memo1140[i], Integer.MIN_VALUE);
+        }
+        return dfs1140(0, 0);
+
+    }
+
+    private int dfs1140(int i, int j) {
+        if (i == n1_1140 && j == n2_1140) {
+            return 0;
+        }
+        if (i == n1_1140) {
+            return dfs1140(i, j + 1) + similar1140[map1140.get(s2_1140.charAt(j))][4];
+        }
+        if (j == n2_1140) {
+            return dfs1140(i + 1, j) + similar1140[map1140.get(s1_1140.charAt(i))][4];
+        }
+        if (memo1140[i][j] != Integer.MIN_VALUE) {
+            return memo1140[i][j];
+        }
+        if (s1_1140.charAt(i) == s2_1140.charAt(j)) {
+            return memo1140[i][j] = dfs1140(i + 1, j + 1) + 5;
+        }
+        int res = Integer.MIN_VALUE;
+        res = Math.max(res, dfs1140(i + 1, j + 1) + similar1140[map1140.get(s1_1140.charAt(i))][map1140.get(s2_1140.charAt(j))]);
+        res = Math.max(res, dfs1140(i + 1, j) + similar1140[map1140.get(s1_1140.charAt(i))][4]);
+        res = Math.max(res, dfs1140(i, j + 1) + similar1140[map1140.get(s2_1140.charAt(j))][4]);
+        return memo1140[i][j] = res;
+    }
+
 }
