@@ -250,5 +250,19 @@ class luogu1:
         res = 0
         dfs(0, -1)
         return res
+    
+    # P1103 书本整理
+    def booksTipUp(self, n: int, k: int, books: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int, pre: int) -> int:
+            if i == n:
+                return 0
+            res = dfs(i + 1, j, books[i][1]) + (0 if pre == -1 else abs(books[i][1] - pre))
+            if j < k:
+                res = min(res, dfs(i + 1, j + 1, pre))
+        books.sort(key=lambda o: o[0])
+        return dfs(0, 0, -1)
+        
+
 
 
