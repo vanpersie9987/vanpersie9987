@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -896,6 +897,55 @@ public class luogu1 {
         }
         res8625 = Math.max(res8625, max);
         return Math.max(0L, max);
+    }
+
+    // P1103 书本整理
+    private int[][][] memo1103;
+    private int k1103;
+    private int n1103;
+    private int[][] books1103;
+    private int maxThick1103;
+
+    public int booksTipUp(int n, int k, int[][] books) {
+        this.k1103 = k;
+        this.n1103 = n;
+        Arrays.sort(books, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        this.maxThick1103 = 0;
+        for (int[] b : books) {
+            maxThick1103 = Math.max(maxThick1103, b[1]);
+        }
+        this.books1103 = books;
+        this.memo1103 = new int[n][k][maxThick1103 + 2];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < k; ++j) {
+                Arrays.fill(memo1103[i][j], -1);
+            }
+        }
+        return dfs1103(0, 0, maxThick1103 + 1);
+
+    }
+
+    private int dfs1103(int i, int j, int t) {
+        if (i == n1103) {
+            return 0;
+        }
+        if (memo1103[i][j][t] != -1) {
+            return memo1103[i][j][t];
+        }
+        // 不丢
+        int res = dfs1103(i + 1, j, books1103[i][1]) + (t == maxThick1103 + 1 ? 0 : Math.abs(t - books1103[i][1]));
+        if (j < k1103) {
+            // 丢
+            res = Math.min(res, dfs1103(i + 1, j + 1, t));
+        }
+        return memo1103[i][j][t] = res;
     }
 
 }
