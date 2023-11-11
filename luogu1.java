@@ -37,11 +37,11 @@ public class luogu1 {
         // int res = volumeAdjustment(5, 10, arr);
         // System.out.println(res);
         // int[] arr = { 8,
-        //         3,
-        //         12,
-        //         7,
-        //         9,
-        //         7
+        // 3,
+        // 12,
+        // 7,
+        // 9,
+        // 7
         // };
         // int res = boxingProblem(24, arr);
         // System.out.println(res);
@@ -63,6 +63,9 @@ public class luogu1 {
         // int res = booksTipUp(4, 1, books);
         // System.out.println(res);
         // long res = buyTicketsProblem(20);
+        // System.out.println(res);
+        // String[] words = { "i", "int", "integer", "intern", "internet" };
+        // int res = passwordOfDemonClan(words);
         // System.out.println(res);
 
     }
@@ -1078,7 +1081,7 @@ public class luogu1 {
             return memo1481[i];
         }
         int res = 0;
-        for (int j : trie1481.maskList(words1481[i])) {
+        for (int j : trie1481.maskList(words1481[i], i)) {
             res = Math.max(res, dfs1481(j));
         }
         return memo1481[i] = res + 1;
@@ -1096,7 +1099,7 @@ public class luogu1 {
         public void insert(String s, int id) {
             Trie1481 node = this;
             for (char c : s.toCharArray()) {
-                int index = c - 'A';
+                int index = c - 'a';
                 if (node.children[index] == null) {
                     node.children[index] = new Trie1481();
                 }
@@ -1105,16 +1108,16 @@ public class luogu1 {
             node.i = id;
         }
 
-        public List<Integer> maskList(String s) {
+        public List<Integer> maskList(String s, int id) {
             List<Integer> res = new ArrayList<>();
             Trie1481 node = this;
             for (char c : s.toCharArray()) {
-                int index = c - 'A';
+                int index = c - 'a';
                 if (node.children[index] == null) {
                     break;
                 }
                 node = node.children[index];
-                if (node.i >= 0) {
+                if (node.i >= 0 && node.i < id) {
                     res.add(node.i);
                 }
             }
