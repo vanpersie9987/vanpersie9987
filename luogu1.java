@@ -1007,10 +1007,39 @@ public class luogu1 {
             return memo1140[i][j] = dfs1140(i + 1, j + 1) + 5;
         }
         int res = Integer.MIN_VALUE;
-        res = Math.max(res, dfs1140(i + 1, j + 1) + similar1140[map1140.get(s1_1140.charAt(i))][map1140.get(s2_1140.charAt(j))]);
+        res = Math.max(res,
+                dfs1140(i + 1, j + 1) + similar1140[map1140.get(s1_1140.charAt(i))][map1140.get(s2_1140.charAt(j))]);
         res = Math.max(res, dfs1140(i + 1, j) + similar1140[map1140.get(s1_1140.charAt(i))][4]);
         res = Math.max(res, dfs1140(i, j + 1) + similar1140[map1140.get(s2_1140.charAt(j))][4]);
         return memo1140[i][j] = res;
+    }
+    
+    // P1754 球迷购票问题
+    private int n1754;
+    private int[][] memo1754;
+
+    public int buyTicketsProblem(int n) {
+        this.n1754 = n;
+        this.memo1754 = new int[n][n];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo1754[i], -1);
+        }
+        return dfs1754(0, 0);
+
+    }
+
+    private int dfs1754(int i, int j) {
+        if (i == n1754 || j == n1754) {
+            return 1;
+        }
+        if (memo1754[i][j] != -1) {
+            return memo1754[i][j];
+        }
+        int res = dfs1754(i + 1, j);
+        if (i >= j + 1) {
+            res += dfs1754(i, j + 1);
+        }
+        return memo1754[i][j] = res;
     }
 
 }
