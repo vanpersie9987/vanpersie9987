@@ -290,6 +290,17 @@ class luogu1:
         similar[1][2] = similar[2][1] = similar[0][4] = similar[4][0] = -3
         similar[1][4] = similar[4][1] = -4
         return dfs(0, 0)
+    
+    # P1754 球迷购票问题
+    def buyTicketsProblem(self, n: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n or j == n:
+                return 1
+            res = dfs(i + 1, j)
+            if i > j:
+                res += dfs(i, j + 1)
+        return dfs(0, 0)
 
 
         
