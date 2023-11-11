@@ -10,7 +10,7 @@ from queue import PriorityQueue
 from re import S, X
 import re
 from textwrap import indent
-from tkinter import W
+from tkinter import NO, W
 from tkinter.messagebox import RETRY
 from tkinter.tix import Tree
 from turtle import reset, st
@@ -301,9 +301,40 @@ class luogu1:
             if i > j:
                 res += dfs(i, j + 1)
         return dfs(0, 0)
+    
 
-
-        
+    # P1364 医院设置
+    def hospitalSetting(self, n: int, edges: List[List[int]]) -> int:
+        def dfs(x: int, fa: int, d: int) -> None:
+            s[x] == values[x]
+            for y in g[x]:
+                if y != fa:
+                    dfs(y, x, d + 1)
+                    s[x] += s[y]
+            dp[0] += values[x] * d
+        def reroot(x: int, fa: int) -> None:
+            nonlocal res
+            res = min(res, dp[x])
+            for y in g[x]:
+                if y != fa:
+                    dp[y] = dp[x] - s[y] + s[0] - s[y]
+                    reroot(y, x)
+        g = [[] for _ in range(n)]
+        values = [0] * n
+        s = [0] * n
+        dp = [0] * n
+        for i, w, u, v in enumerate(edges):
+            values[i] = w
+            u -= 1
+            if u >= 0:
+                g[i].append(u)
+            v -= 1
+            if v >= 0:
+                g[i].append(v)
+        dfs(0, -1, 0)
+        res = inf
+        reroot(0, -1)
+        return res
 
 
 
