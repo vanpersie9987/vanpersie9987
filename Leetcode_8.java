@@ -4978,7 +4978,7 @@ public class Leetcode_8 {
     private List<Integer>[] g100118;
     private int n100118;
     private long[] s100118;
-    private int[] values;
+    private int[] values100118;
 
     public long maximumScoreAfterOperations(int[][] edges, int[] values) {
         this.n100118 = values.length;
@@ -4992,7 +4992,7 @@ public class Leetcode_8 {
         }
         g100118[0].add(-1);
         this.s100118 = new long[n100118];
-        this.values = values;
+        this.values100118 = values;
         dfs100118(0, -1);
         return dfs_score(0, -1);
 
@@ -5004,9 +5004,9 @@ public class Leetcode_8 {
             return 0L;
         }
         // 不收集
-        long res1 = s100118[x] - values[x];
+        long res1 = s100118[x] - values100118[x];
         // 收集
-        long res2 = values[x];
+        long res2 = values100118[x];
         for (int y : g100118[x]) {
             if (y != fa) {
                 res2 += dfs_score(y, x);
@@ -5017,7 +5017,7 @@ public class Leetcode_8 {
     }
 
     private long dfs100118(int x, int fa) {
-        s100118[x] = values[x];
+        s100118[x] = values100118[x];
         for (int y : g100118[x]) {
             if (y != fa) {
                 s100118[x] += dfs100118(y, x);
