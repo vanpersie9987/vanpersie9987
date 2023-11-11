@@ -62,6 +62,8 @@ public class luogu1 {
         // int[][] books = { { 1, 2 }, { 2, 4 }, { 3, 1 }, { 5, 3 } };
         // int res = booksTipUp(4, 1, books);
         // System.out.println(res);
+        // long res = buyTicketsProblem(20);
+        // System.out.println(res);
 
     }
 
@@ -1016,27 +1018,27 @@ public class luogu1 {
     
     // P1754 球迷购票问题
     private int n1754;
-    private int[][] memo1754;
+    private long[][] memo1754;
 
-    public int buyTicketsProblem(int n) {
+    public long buyTicketsProblem(int n) {
         this.n1754 = n;
-        this.memo1754 = new int[n][n];
+        this.memo1754 = new long[n][n];
         for (int i = 0; i < n; ++i) {
-            Arrays.fill(memo1754[i], -1);
+            Arrays.fill(memo1754[i], -1L);
         }
         return dfs1754(0, 0);
 
     }
 
-    private int dfs1754(int i, int j) {
+    private long dfs1754(int i, int j) {
         if (i == n1754 || j == n1754) {
-            return 1;
+            return 1L;
         }
-        if (memo1754[i][j] != -1) {
+        if (memo1754[i][j] != -1L) {
             return memo1754[i][j];
         }
-        int res = dfs1754(i + 1, j);
-        if (i >= j + 1) {
+        long res = dfs1754(i + 1, j);
+        if (i > j) {
             res += dfs1754(i, j + 1);
         }
         return memo1754[i][j] = res;
