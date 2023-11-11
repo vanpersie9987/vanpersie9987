@@ -1125,4 +1125,57 @@ public class luogu1 {
         }
     }
 
+    // P1364 医院设置
+    private List<Integer>[] g1364;
+    private int[] values1364;
+    private int[] sum1364;
+    private int[] dp1364;
+    private int res1364;
+
+    public int hospitalSetting(int n, int[][] edges) {
+        this.g1364 = new ArrayList[n];
+        Arrays.setAll(g1364, k -> new ArrayList<>());
+        this.values1364 = new int[n];
+        this.sum1364 = new int[n];
+        this.dp1364 = new int[n];
+        for (int i = 0; i < n; ++i) {
+            int w = edges[i][0];
+            int u = edges[i][1] - 1;
+            int v = edges[i][2] - 1;
+            values1364[i] = w;
+            if (u >= 0) {
+                g1364[i].add(u);
+            }
+            if (v >= 0) {
+                g1364[i].add(v);
+            }
+        }
+        dfs1364(0, -1, 0);
+        this.res1364 = Integer.MAX_VALUE;
+        reRoot1364(0, -1);
+        return res1364;
+
+    }
+
+    private void reRoot1364(int x, int fa) {
+        res1364 = Math.min(res1364, dp1364[x]);
+        for (int y : g1364[x]) {
+            if (y != fa) {
+                dp1364[y] = dp1364[x] - sum1364[y] + sum1364[0] - sum1364[y];
+                reRoot1364(y, x);
+            }
+        }
+    }
+
+    private void dfs1364(int x, int fa, int d) {
+        sum1364[x] = values1364[x];
+        for (int y : g1364[x]) {
+            if (y != fa) {
+                dfs1364(y, x, d + 1);
+                sum1364[x] += sum1364[y];
+            }
+        }
+        dp1364[0] += values1364[x] * d;
+    }
+
 }
