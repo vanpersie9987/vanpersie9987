@@ -1015,7 +1015,7 @@ public class luogu1 {
         res = Math.max(res, dfs1140(i, j + 1) + similar1140[map1140.get(s2_1140.charAt(j))][4]);
         return memo1140[i][j] = res;
     }
-    
+
     // P1754 球迷购票问题
     private int n1754;
     private long[][] memo1754;
@@ -1042,6 +1042,84 @@ public class luogu1 {
             res += dfs1754(i, j + 1);
         }
         return memo1754[i][j] = res;
+    }
+
+    // P1481 魔族密码
+    private int[] memo1481;
+    private String[] words1481;
+    private Trie1481 trie1481;
+
+    public int passwordOfDemonClan(String[] words) {
+        int n = words.length;
+        Arrays.sort(words, new Comparator<String>() {
+
+            @Override
+            public int compare(String o1, String o2) {
+                return Integer.compare(o1.length(), o2.length());
+            }
+
+        });
+        this.trie1481 = new Trie1481();
+        for (int i = 0; i < n; ++i) {
+            trie1481.insert(words[i], i);
+        }
+        this.words1481 = words;
+        this.memo1481 = new int[n];
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, dfs1481(i));
+        }
+        return res;
+
+    }
+
+    private int dfs1481(int i) {
+        if (memo1481[i] != 0) {
+            return memo1481[i];
+        }
+        int res = 0;
+        for (int j : trie1481.maskList(words1481[i])) {
+            res = Math.max(res, dfs1481(j));
+        }
+        return memo1481[i] = res + 1;
+    }
+
+    public class Trie1481 {
+        private Trie1481[] children;
+        private int i;
+
+        public Trie1481() {
+            this.children = new Trie1481[26];
+            this.i = -1;
+        }
+
+        public void insert(String s, int id) {
+            Trie1481 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'A';
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie1481();
+                }
+                node = node.children[index];
+            }
+            node.i = id;
+        }
+
+        public List<Integer> maskList(String s) {
+            List<Integer> res = new ArrayList<>();
+            Trie1481 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'A';
+                if (node.children[index] == null) {
+                    break;
+                }
+                node = node.children[index];
+                if (node.i >= 0) {
+                    res.add(node.i);
+                }
+            }
+            return res;
+        }
     }
 
 }
