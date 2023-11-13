@@ -7879,3 +7879,95 @@ class leetcode_1 :
              break
           res[i] = m - j
        return res
+    
+    # 2928. 给小朋友们分糖果 I (Distribute Candies Among Children I)
+    # 2929. 给小朋友们分糖果 II (Distribute Candies Among Children II)
+    def distributeCandies(self, n: int, limit: int) -> int:
+       f = min(n , limit)
+       res = 0
+       while f >= 0:
+          left = n - f
+          if limit * 2 < left:
+             break
+          if left < limit:
+             res += left + 1
+          else:
+             res += limit - (left - limit) + 1
+          f -= 1
+       return res
+    
+    # 2930. 重新排列后包含指定子字符串的字符串数目 (Number of Strings Which Can Be Rearranged to Contain Substring)
+    def stringCount(self, n: int) -> int:
+       MOD = 10 ** 9 + 7
+       @cache
+       def dfs(i: int, j: int, k: int, l: int) -> int:
+          if i == n:
+             return int(j == 1 and k == 2 and l == 1)
+          return (dfs(i + 1, min(j + 1, 1), k, l) + dfs(i + 1, j, min(k + 1, 2), l) + dfs(i + 1, j, k, min(l + 1, 1)) + 23 * dfs(i + 1, j, k, l)) % MOD
+       return dfs(0, 0, 0, 0)
+    
+    # 2931. 购买物品的最大开销 (Maximum Spending After Buying Items)
+    def maxSpending(self, values: List[List[int]]) -> int:
+       m = len(values)
+       n = len(values[0])
+       res = 0
+       indexes = [n - 1] * m
+       for d in range(1, m * n + 1):
+          min = inf
+          i = -1
+          for j in range(m):
+             if indexes[j] >= 0:
+                if values[j][indexes[j]] < min:
+                   min = values[j][indexes[j]]
+                   i = j
+          res += d * min
+          indexes[i] -= 1
+       return res
+    
+    # 2932. 找出强数对的最大异或值 I (Maximum Strong Pair XOR I)
+    def maximumStrongPairXor(self, nums: List[int]) -> int:
+       res = 0
+       n = len(nums)
+       for i in range(n):
+          for j in range(i + 1, n):
+             if abs(nums[i] - nums[j]) <= min(nums[i], nums[j]):
+                res = max(res, nums[i] ^ nums[j])
+       return res
+    
+    # 2933. 高访问员工 (High-Access Employees)
+    def findHighAccessEmployees(self, access_times: List[List[str]]) -> List[str]:
+       dic = collections.defaultdict(list)
+       for c, s in access_times:
+          dic[c].append(s)
+       res = []
+       for k, v in dic.items():
+          v.sort()
+          n = len(v)
+          for i in range(2, n):
+             if int(v[i]) - int(v[i - 2]) < 100:
+                res.append(k)
+                break
+       return res
+    
+    # 2934. 最大化数组末位元素的最少操作次数 (Minimum Operations to Maximize Last Elements in Arrays)
+    def minOperations(self, nums1: List[int], nums2: List[int]) -> int:
+       n = len(nums1)
+       res = 0
+       for i in range(n - 2, -1, -1):
+          if nums1[i] <= nums1[n - 1] and nums2[i] <= nums2[n - 1]:
+             continue
+          if nums1[i] <= nums2[n - 1] and nums2[i] <= nums1[n - 1]:
+             res += 1
+          else:
+             return -1
+       res1 = 1
+       for i in range(n - 2, -1, -1):
+          if nums1[i] <= nums2[n - 1] and nums2[i] <= nums1[n - 1]:
+             continue
+          if nums1[i] <= nums1[n - 1] and nums2[i] <= nums2[n - 1]:
+             res1 += 1
+          else:
+             return -1
+       return min(res, res1)
+          
+          

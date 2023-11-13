@@ -5026,6 +5026,160 @@ public class Leetcode_8 {
         return s100118[x];
     }
 
-    
+    // 2928. 给小朋友们分糖果 I (Distribute Candies Among Children I)
+    public long distributeCandies(int n, int limit) {
+        long max = limit * 3L;
+        if (n > max) {
+            return 0L;
+        }
+        long res = 0L;
+        int f = Math.min(n, limit);
+        while (f >= 0) {
+            long left = n - f;
+            if (limit * 2L < left) {
+                break;
+            }
+            if (left <= limit) {
+                res += left + 1;
+            } else {
+                res += limit - (left - limit) + 1;
+            }
+            --f;
+        }
+        return res;
+
+    }
+
+    // 2930. 重新排列后包含指定子字符串的字符串数目 (Number of Strings Which Can Be Rearranged to Contain Substring)
+    private int[][][][] memo2930;
+    private int n2930;
+
+    public int stringCount(int n) {
+        this.memo2930 = new int[n][2][3][2];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < 2; ++j) {
+                for (int k = 0; k < 3; ++k) {
+                    Arrays.fill(memo2930[i][j][k], -1);
+                }
+            }
+        }
+        this.n2930 = n;
+        return dfs2930(0, 0, 0, 0);
+
+    }
+
+    private int dfs2930(int i, int j, int k, int l) {
+        if (i == n2930) {
+            return j >= 1 && k >= 2 && l >= 1 ? 1 : 0;
+        }
+        if (memo2930[i][j][k][l] != -1) {
+            return memo2930[i][j][k][l];
+        }
+        long res = 0L;
+        final int MOD = (int) (1e9 + 7);
+        res += dfs2930(i + 1, Math.min(j + 1, 1), k, l);
+        res %= MOD;
+        res += dfs2930(i + 1, j, Math.min(k + 1, 2), l);
+        res %= MOD;
+        res += dfs2930(i + 1, j, k, Math.min(l + 1, 1));
+        res %= MOD;
+        res += (23L * dfs2930(i + 1, j, k, l)) % MOD;
+        res %= MOD;
+        return memo2930[i][j][k][l] = (int) res;
+    }
+
+    // 2931. 购买物品的最大开销 (Maximum Spending After Buying Items)
+    public long maxSpending(int[][] values) {
+        int m = values.length;
+        int n = values[0].length;
+        int[] indexes = new int[m];
+        Arrays.fill(indexes, n - 1);
+        long res = 0L;
+        for (long d = 1L; d <= m * n; ++d) {
+            int min = Integer.MAX_VALUE;
+            int i = -1;
+            for (int j = 0; j < m; ++j) {
+                if (indexes[j] >= 0) {
+                    if (values[j][indexes[j]] < min) {
+                        min = values[j][indexes[j]];
+                        i = j;
+                    }
+                }
+            }
+            res += d * min;
+            --indexes[i];
+        }
+        return res;
+
+    }
+
+    // 2932. 找出强数对的最大异或值 I (Maximum Strong Pair XOR I)
+    public int maximumStrongPairXor(int[] nums) {
+        int n = nums.length;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                if (Math.abs(nums[i] - nums[j]) <= Math.min(nums[i], nums[j])) {
+                    res = Math.max(res, nums[i] ^ nums[j]);
+                }
+            }
+
+        }
+        return res;
+
+    }
+
+    // 2933. 高访问员工 (High-Access Employees)
+    public List<String> findHighAccessEmployees(List<List<String>> access_times) {
+        Map<String, List<String>> map = new HashMap<>();
+        for (List<String> acc : access_times) {
+            map.computeIfAbsent(acc.get(0), k -> new ArrayList<>()).add(acc.get(1));
+        }
+        List<String> res = new ArrayList<>();
+        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+            List<String> v = entry.getValue();
+            Collections.sort(v);
+            int n = v.size();
+            for (int i = 2; i < n; ++i) {
+                int cur = Integer.parseInt(v.get(i));
+                int pre = Integer.parseInt(v.get(i - 2));
+                if (cur - pre < 100) {
+                    res.add(entry.getKey());
+                    break;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 2934. 最大化数组末位元素的最少操作次数 (Minimum Operations to Maximize Last Elements in Arrays)
+    public int minOperations(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        int res = 0;
+        for (int i = n - 2; i >= 0; --i) {
+            if (nums1[i] <= nums1[n - 1] && nums2[i] <= nums2[n - 1]) {
+                continue;
+            }
+            if (nums1[i] <= nums2[n - 1] && nums2[i] <= nums1[n - 1]) {
+                ++res;
+            } else {
+                return -1;
+            }
+        }
+        int res2 = 1;
+        for (int i = n - 2; i >= 0; --i) {
+            if (nums1[i] <= nums2[n - 1] && nums2[i] <= nums1[n - 1]) {
+                continue;
+            }
+            if (nums1[i] <= nums1[n - 1] && nums2[i] <= nums2[n - 1]) {
+                ++res2;
+            } else {
+                return -1;
+            }
+        }
+        return Math.min(res, res2);
+
+    }
 
 }
