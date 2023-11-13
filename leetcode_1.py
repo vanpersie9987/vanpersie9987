@@ -7910,18 +7910,14 @@ class leetcode_1 :
     def maxSpending(self, values: List[List[int]]) -> int:
        m = len(values)
        n = len(values[0])
+       a = []
+       for i in range(m):
+          for j in range(n):
+             a.append(values[i][j])
+       a.sort()
        res = 0
-       indexes = [n - 1] * m
-       for d in range(1, m * n + 1):
-          min = inf
-          i = -1
-          for j in range(m):
-             if indexes[j] >= 0:
-                if values[j][indexes[j]] < min:
-                   min = values[j][indexes[j]]
-                   i = j
-          res += d * min
-          indexes[i] -= 1
+       for d, x in enumerate(a, 1):
+          res += d * x
        return res
     
     # 2932. 找出强数对的最大异或值 I (Maximum Strong Pair XOR I)

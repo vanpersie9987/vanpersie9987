@@ -5090,24 +5090,19 @@ public class Leetcode_8 {
 
     // 2931. 购买物品的最大开销 (Maximum Spending After Buying Items)
     public long maxSpending(int[][] values) {
+        long res = 0L;
         int m = values.length;
         int n = values[0].length;
-        int[] indexes = new int[m];
-        Arrays.fill(indexes, n - 1);
-        long res = 0L;
-        for (long d = 1L; d <= m * n; ++d) {
-            int min = Integer.MAX_VALUE;
-            int i = -1;
-            for (int j = 0; j < m; ++j) {
-                if (indexes[j] >= 0) {
-                    if (values[j][indexes[j]] < min) {
-                        min = values[j][indexes[j]];
-                        i = j;
-                    }
-                }
+        int[] arr = new int[m * n];
+        int index = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                arr[index++] = values[i][j];
             }
-            res += d * min;
-            --indexes[i];
+        }
+        Arrays.sort(arr);
+        for (int d = 1; d <= m * n; ++d) {
+            res += (long) d * arr[d - 1];
         }
         return res;
 
