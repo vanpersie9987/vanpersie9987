@@ -7965,5 +7965,11 @@ class leetcode_1 :
           else:
              return -1
        return min(res, res1)
+    
+    # 2656. K 个元素的最大和 (Maximum Sum With Exactly K Elements)
+    def maximizeSum(self, nums: List[int], k: int) -> int:
+        a1 = max(x for x in nums)
+        an = a1 + k - 1
+        return (a1 + an) * k // 2
           
           
