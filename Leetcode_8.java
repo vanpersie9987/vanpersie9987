@@ -5075,17 +5075,11 @@ public class Leetcode_8 {
         if (memo2930[i][j][k][l] != -1) {
             return memo2930[i][j][k][l];
         }
-        long res = 0L;
         final int MOD = (int) (1e9 + 7);
-        res += dfs2930(i + 1, Math.min(j + 1, 1), k, l);
-        res %= MOD;
-        res += dfs2930(i + 1, j, Math.min(k + 1, 2), l);
-        res %= MOD;
-        res += dfs2930(i + 1, j, k, Math.min(l + 1, 1));
-        res %= MOD;
-        res += (23L * dfs2930(i + 1, j, k, l)) % MOD;
-        res %= MOD;
-        return memo2930[i][j][k][l] = (int) res;
+        return memo2930[i][j][k][l] = (int) (((long) dfs2930(i + 1, Math.min(j + 1, 1), k, l)
+                + dfs2930(i + 1, j, Math.min(k + 1, 2), l)
+                + dfs2930(i + 1, j, k, Math.min(l + 1, 1))
+                + 23L * dfs2930(i + 1, j, k, l)) % MOD);
     }
 
     // 2931. 购买物品的最大开销 (Maximum Spending After Buying Items)
