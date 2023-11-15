@@ -1178,4 +1178,36 @@ public class luogu1 {
         dp1364[0] += values1364[x] * d;
     }
 
+    // P1130 红牌
+    private int m1130;
+    private int n1130;
+    private int[][] grid1130;
+    private int[][] memo1130;
+
+    public int redCards(int[][] grid) {
+        this.m1130 = grid.length;
+        this.n1130 = grid[0].length;
+        this.grid1130 = grid;
+        this.memo1130 = new int[m1130][n1130];
+        for (int i = 0; i < m1130; ++i) {
+            Arrays.fill(memo1130[i], -1);
+        }
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < m1130; ++i) {
+            res = Math.min(res, dfs1130(i, 0));
+        }
+        return res;
+
+    }
+
+    private int dfs1130(int i, int j) {
+        if (j == n1130) {
+            return 0;
+        }
+        if (memo1130[i][j] != -1) {
+            return memo1130[i][j];
+        }
+        return memo1130[i][j] = Math.min(dfs1130((i + 1) % m1130, j + 1), dfs1130(i, j + 1)) + grid1130[i][j];
+    }
+
 }
