@@ -336,5 +336,15 @@ class luogu1:
         reroot(0, -1)
         return res
 
+    # P1130 红牌
+    def redCards(self, grid: List[List[int]]) -> int:
+        def dfs(i: int, j: int) -> int:
+            if j == n:
+                return 0
+            return min(dfs((i + 1) % m, j + 1), dfs(i, j + 1)) + grid[i][j]
+        m = len(grid)
+        n = len(grid[0])
+        return min(dfs(i, 0) for i in range(m))
+
 
 
