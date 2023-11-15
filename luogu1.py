@@ -338,6 +338,7 @@ class luogu1:
 
     # P1130 红牌
     def redCards(self, grid: List[List[int]]) -> int:
+        @cache
         def dfs(i: int, j: int) -> int:
             if j == n:
                 return 0
