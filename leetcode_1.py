@@ -7987,6 +7987,23 @@ class leetcode_1 :
           res = max(res, i - j)
           j = i
        return res
+
+    # 2342. 数位和相等数对的最大和 (Max Sum of a Pair With Equal Sum of Digits)
+    def maximumSum(self, nums: List[int]) -> int:
+       dic = collections.defaultdict(int)
+       res = -1
+       for num in nums:
+          d = 0
+          copy = num
+          while num:
+             d += num % 10
+             num //= 10
+          if dic[d]:
+             res = max(res, dic[d] + copy)
+          dic[d] = max(dic[d], copy)
+       return res
+             
+          
           
              
 
