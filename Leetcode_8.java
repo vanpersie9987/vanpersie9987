@@ -5171,4 +5171,102 @@ public class Leetcode_8 {
 
     }
 
+    // 100131. 使三个字符串相等 (Make Three Strings Equal)
+    public int findMinimumOperations(String s1, String s2, String s3) {
+        int n = Math.min(Math.min(s1.length(), s2.length()), s3.length());
+        int i = 0;
+        while (i < n) {
+            if (s1.charAt(i) != s2.charAt(i) || s2.charAt(i) != s3.charAt(i)) {
+                break;
+            }
+            ++i;
+        }
+        if (i == 0) {
+            return -1;
+        }
+        return s1.length() - i + s2.length() - i + s3.length() - i;
+    }
+
+    // 100122. 区分黑球与白球 (Separate Black and White Balls)
+    public long minimumSteps(String s) {
+        int n = s.length();
+        long res = 0L;
+        int j = 0;
+        for (int i = 0; i < n; ++i) {
+            if (s.charAt(i) == '0') {
+                res += i - j;
+                ++j;
+            }
+        }
+        return res;
+    }
+
+    // 100110. 找到 Alice 和 Bob 可以相遇的建筑 (Find Building Where Alice and Bob Can Meet)
+    public int[] leftmostBuildingQueries(int[] heights, int[][] queries) {
+        int m = queries.length;
+        int[] res = new int[m];
+        Arrays.fill(res, -1);
+        Map<Integer, List<int[]>> map = new HashMap<>();
+        for (int i = 0; i < m; ++i) {
+            int x = queries[i][0];
+            int y = queries[i][1];
+            if (x > y) {
+                int t = x;
+                x = y;
+                y = t;
+            }
+            if (x == y || heights[x] < heights[y]) {
+                res[i] = y;
+            } else {
+                map.computeIfAbsent(y, k -> new ArrayList<>()).add(new int[] { heights[x], i });
+            }
+        }
+        Queue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        for (int i = 0; i < heights.length; ++i) {
+            while (!pq.isEmpty() && pq.peek()[0] < heights[i]) {
+                res[pq.poll()[1]] = i;
+            }
+            for (int[] p : map.getOrDefault(i, new ArrayList<>())) {
+                pq.offer(p);
+            }
+        }
+        return res;
+
+    }
+
+    // 100119. 最大异或乘积 (Maximum Xor Product)
+    public int maximumXorProduct(long a, long b, int n) {
+        if (a < b) {
+            long t = a;
+            a = b;
+            b = t;
+        }
+        long mask = (1L << n) - 1;
+        long ax = a & ~mask;
+        long bx = b & ~mask;
+        a &= mask;
+        b &= mask;
+
+        long diff = a ^ b;
+        long one = mask ^ diff;
+        ax |= one;
+        bx |= one;
+        if (diff > 0 && ax == bx) {
+            long highestBit = 1L << (63 - Long.numberOfLeadingZeros(diff));
+            ax |= highestBit;
+            diff ^= highestBit;
+        }
+        bx |= diff;
+        final int MOD = (int) (1e9 + 7);
+        return (int) (ax % MOD * (bx % MOD) % MOD);
+
+    }
+
 }
