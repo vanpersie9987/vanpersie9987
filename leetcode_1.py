@@ -8017,4 +8017,68 @@ class leetcode_1 :
        if (n - res) % 2 == 1:
           res += 1
        return res
-          
+
+    # 2937. 使三个字符串相等 (Make Three Strings Equal)
+    def findMinimumOperations(self, s1: str, s2: str, s3: str) -> int:
+       i = 0
+       for c1, c2, c3 in zip(s1, s2, s3):
+          if c1 != c2 or c2 != c3:
+             break
+          i += 1
+       if i == 0:
+          return -1
+       return len(s1) + len(s2) + len(s3) - 3 * i
+    
+    # 2938. 区分黑球与白球 (Separate Black and White Balls)
+    def minimumSteps(self, s: str) -> int:
+       cnt1 = 0
+       res = 0
+       for c in s:
+          if c == '1':
+             cnt1 += 1
+          else:
+             res += cnt1
+       return res
+    
+    # 2939. 最大异或乘积 (Maximum Xor Product)
+    def maximumXorProduct(self, a: int, b: int, n: int) -> int:
+       if a < b:
+          a, b = b, a
+       mask = (1 << n) - 1
+       ax = a & ~mask
+       bx = b & ~mask
+
+       a &= mask
+       b &= mask
+
+       diff = a ^ b
+       one = diff ^ mask
+       ax |= one
+       bx |= one
+       if diff and ax == bx:
+         high_bit = 1 << (diff.bit_length() - 1)
+         ax |= high_bit
+         diff ^= high_bit
+       bx |= diff
+       MOD = 10 ** 9 + 7 
+       return ax * bx % MOD
+    
+    # 2940. 找到 Alice 和 Bob 可以相遇的建筑 (Find Building Where Alice and Bob Can Meet)
+    def leftmostBuildingQueries(self, heights: List[int], queries: List[List[int]]) -> List[int]:
+       dic = collections.defaultdict(list)
+       res = [-1] * len(queries)
+       for i, (a, b) in enumerate(queries):
+          if a > b:
+             a, b = b, a
+          if a == b or heights[a] < heights[b]:
+             res[i] = b
+          else:
+             dic[b].append([heights[a], i])
+       h = []
+       for i, x in enumerate(heights):
+          while h and h[0][0] < x:
+             res[heappop(h)[1]] = i
+          for v in dic[i]:
+             heappush(h, v)
+       return res
+    
