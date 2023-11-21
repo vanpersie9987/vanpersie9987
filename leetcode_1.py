@@ -8077,8 +8077,8 @@ class leetcode_1 :
        h = []
        for i, x in enumerate(heights):
           while h and h[0][0] < x:
-             res[heappop(h)[1]] = i
+             res[heapq.heappop(h)[1]] = i
           for v in dic[i]:
-             heappush(h, v)
+             heapq.heappush(h, v)
        return res
     
