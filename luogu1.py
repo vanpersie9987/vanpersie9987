@@ -346,6 +346,24 @@ class luogu1:
         m = len(grid)
         n = len(grid[0])
         return min(dfs(i, 0) for i in range(m))
+    
+
+    # P1002[NOIP2002 普及组]过河卒
+    def acrossTheRiver(tx: int, ty: int, hx: int, hy: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i > tx or j > ty or (i, j) in s:
+                return 0
+            if i == tx and j == ty:
+                return 1
+            return dfs(i + 1, j) + dfs(i, j + 1)
+        s = set()
+        h = [[1, 2], [-1, 2], [1, -2], [-1, -2], [2, 1], [-2, 1], [2, -1], [-2, -1], [0, 0]]
+        for dx, dy in h:
+            s.add((hx + dx, hy + dy))
+        return dfs(0, 0)
+
+
 
 
 
