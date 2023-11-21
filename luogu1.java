@@ -1210,4 +1210,40 @@ public class luogu1 {
         return memo1130[i][j] = Math.min(dfs1130((i + 1) % m1130, j + 1), dfs1130(i, j + 1)) + grid1130[i][j];
     }
 
+    // P1002[NOIP2002 普及组]过河卒
+    private int[][] memo1002;
+    private Set<Integer> set1002;
+    private int tx1002;
+    private int ty1002;
+
+    public int acrossTheRiver(int tx, int ty, int hx, int hy) {
+        this.memo1002 = new int[tx + 1][ty + 1];
+        for (int i = 0; i < tx + 1; ++i) {
+            Arrays.fill(memo1002[i], -1);
+        }
+        this.set1002 = new HashSet<>();
+        int[][] hDirs = { { -1, -2 }, { 1, -2 }, { -1, 2 }, { 1, 2 }, { 2, 1 }, { -2, 1 }, { 2, -1 }, { -2, -1 },
+                { 0, 0 } };
+        for (int[] d : hDirs) {
+            set1002.add((hx + d[0]) * 50 + (hy + d[1]));
+        }
+        this.tx1002 = tx;
+        this.ty1002 = ty;
+        return dfs1002(0, 0);
+
+    }
+
+    private int dfs1002(int i, int j) {
+        if (i > tx1002 || j > ty1002 || set1002.contains(i * 50 + j)) {
+            return 0;
+        }
+        if (i == tx1002 && j == ty1002) {
+            return 1;
+        }
+        if (memo1002[i][j] != -1) {
+            return memo1002[i][j];
+        }
+        return memo1002[i][j] = dfs1002(i + 1, j) + dfs1002(i, j + 1);
+    }
+
 }
