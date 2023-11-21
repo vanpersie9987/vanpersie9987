@@ -5832,18 +5832,18 @@ public class Leetcode_3 {
 
     // 2216. 美化数组的最少删除数 (Minimum Deletions to Make Array Beautiful) --栈
     public int minDeletion(int[] nums) {
-        int size = 0;
-        int peek = -1;
-        for (int i = 0; i < nums.length; ++i) {
-            if (size % 2 == 0 || peek != nums[i]) {
-                ++size;
+        int n = nums.length;
+        int res = 0;
+        int i = 0;
+        while (i + 1 < n) {
+            if (nums[i] == nums[i + 1]) {
+                ++res;
+                ++i;
+            } else {
+                i += 2;
             }
-            peek = nums[i];
         }
-        if (size % 2 == 1) {
-            --size;
-        }
-        return nums.length - size;
+        return res + (n - res) % 2;
 
     }
 

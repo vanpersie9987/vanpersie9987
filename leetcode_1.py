@@ -8002,12 +8002,19 @@ class leetcode_1 :
              res = max(res, dic[d] + copy)
           dic[d] = max(dic[d], copy)
        return res
-             
-          
-          
-             
-
-          
-       
-          
+    
+    # 2216. 美化数组的最少删除数 (Minimum Deletions to Make Array Beautiful)
+    def minDeletion(self, nums: List[int]) -> int:
+       res = 0
+       n = len(nums)
+       i = 0
+       while i < n - 1:
+          if nums[i] == nums[i + 1]:
+             res += 1
+             i += 1
+          else:
+             i += 2
+       if (n - res) % 2 == 1:
+          res += 1
+       return res
           
