@@ -8080,3 +8080,37 @@ class leetcode_1 :
              heapq.heappush(h, v)
        return res
     
+    # 1410. HTML 实体解析器 (HTML Entity Parser)
+    def entityParser(self, text: str) -> str:
+       res = ""
+       n = len(text)
+       i = 0
+       while i < n:
+          if text[i] != '&':
+             res += text[i]
+             i += 1
+          elif text[i:].startswith("&quot;"):
+             res += "\""
+             i += 6
+          elif text[i:].startswith("&apos;"):
+             res += "\'"
+             i += 6
+          elif text[i:].startswith("&amp;"):
+             res += "&"
+             i += 5
+          elif text[i:].startswith("&gt;"):
+             res += ">"
+             i += 4
+          elif text[i:].startswith("&lt;"):
+             res += "<"
+             i += 4
+          elif text[i:].startswith("&frasl;"):
+             res += "/"
+             i += 7
+          else:
+             res += text[i]
+             i += 1
+       return res
+          
+          
+    
