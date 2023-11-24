@@ -8111,6 +8111,20 @@ class leetcode_1 :
              res += text[i]
              i += 1
        return res
+    
+    # 2824. 统计和小于目标的下标对数目 (Count Pairs Whose Sum is Less than Target)
+    def countPairs(self, nums: List[int], target: int) -> int:
+       res = 0
+       nums.sort()
+       i = 0
+       j = len(nums) - 1
+       while i < j:
+          if nums[i] + nums[j] < target:
+             res += j - i
+             i += 1
+          else:
+             j -= 1
+       return res
           
           
     
