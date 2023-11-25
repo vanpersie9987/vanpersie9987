@@ -8248,6 +8248,27 @@ public class Leetcode_3 {
 
     }
 
+    // 1457. 二叉树中的伪回文路径 (Pseudo-Palindromic Paths in a Binary Tree) --dfs
+    private int res1457;
+
+    public int pseudoPalindromicPaths2(TreeNode root) {
+        dfs1457(root, 0);
+        return res1457;
+    }
+
+    private void dfs1457(TreeNode root, int d) {
+        if (root == null) {
+            return;
+        }
+        if (root.left == null && root.right == null) {
+            d ^= 1 << root.val;
+            res1457 += Integer.bitCount(d) <= 1 ? 1 : 0;
+            return;
+        }
+        dfs1457(root.left, d ^ (1 << root.val));
+        dfs1457(root.right, d ^ (1 << root.val));
+    }
+
     // 865. 具有所有最深节点的最小子树 (Smallest Subtree with all the Deepest Nodes) --bfs
     // 1123. 最深叶节点的最近公共祖先 (Lowest Common Ancestor of Deepest Leaves)
     public TreeNode lcaDeepestLeaves(TreeNode root) {
