@@ -8136,12 +8136,12 @@ class leetcode_1 :
        def dfs(root: Optional[TreeNode], d: int) -> None:
           if root is None:
              return
+          d ^= 1 << root.val
           if root.left is None and root.right is None:
              nonlocal res
-             d ^= 1 << root.val
              res += int(d.bit_count() <= 1)
-          dfs(root.left, d ^ (1 << root.val))
-          dfs(root.right, d ^ (1 << root.val))
+          dfs(root.left, d)
+          dfs(root.right, d)
        res = 0
        dfs(root, 0)
        return res
