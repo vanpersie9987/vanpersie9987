@@ -8125,6 +8125,21 @@ class leetcode_1 :
           else:
              j -= 1
        return res
+    
+    # 1457. 二叉树中的伪回文路径 (Pseudo-Palindromic Paths in a Binary Tree)
+    def pseudoPalindromicPaths (self, root: Optional[TreeNode]) -> int:
+       def dfs(root: Optional[TreeNode], d: int) -> None:
+          if root is None:
+             return
+          if root.left is None and root.right is None:
+             nonlocal res
+             d ^= 1 << root.val
+             res += int(d.bit_count() <= 1)
+          dfs(root.left, d ^ (1 << root.val))
+          dfs(root.right, d ^ (1 << root.val))
+       res = 0
+       dfs(root, 0)
+       return res
           
           
     
