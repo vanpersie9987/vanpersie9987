@@ -8260,13 +8260,13 @@ public class Leetcode_3 {
         if (root == null) {
             return;
         }
+        d ^= 1 << root.val;
         if (root.left == null && root.right == null) {
-            d ^= 1 << root.val;
             res1457 += Integer.bitCount(d) <= 1 ? 1 : 0;
             return;
         }
-        dfs1457(root.left, d ^ (1 << root.val));
-        dfs1457(root.right, d ^ (1 << root.val));
+        dfs1457(root.left, d);
+        dfs1457(root.right, d);
     }
 
     // 865. 具有所有最深节点的最小子树 (Smallest Subtree with all the Deepest Nodes) --bfs
