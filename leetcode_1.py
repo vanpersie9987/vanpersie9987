@@ -8128,6 +8128,11 @@ class leetcode_1 :
     
     # 1457. 二叉树中的伪回文路径 (Pseudo-Palindromic Paths in a Binary Tree)
     def pseudoPalindromicPaths (self, root: Optional[TreeNode]) -> int:
+       class TreeNode:
+          def __init__(self, val=0, left=None, right=None):
+             self.val = val
+             self.left = left
+             self.right = right
        def dfs(root: Optional[TreeNode], d: int) -> None:
           if root is None:
              return
