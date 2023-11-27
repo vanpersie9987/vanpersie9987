@@ -8145,6 +8145,93 @@ class leetcode_1 :
        res = 0
        dfs(root, 0)
        return res
-          
-          
     
+    # 2942. 查找包含给定字符的单词 (Find Words Containing Character)
+    def findWordsContaining(self, words: List[str], x: str) -> List[int]:
+       res = []
+       for i, w in enumerate(words):
+          if x in w:
+             res.append(i)
+       return res
+    
+    # 2943. 最大化网格图中正方形空洞的面积 (Maximize Area of Square Hole in Grid)
+    def maximizeSquareHoleArea(self, n: int, m: int, hBars: List[int], vBars: List[int]) -> int:
+       def cal(bars: List[int]) -> int:
+          res = 0
+          bars.sort()
+          i = 0
+          n = len(bars)
+          while i < n:
+            j = i + 1
+            while j < n and bars[j] - bars[j - 1] == 1:
+               j += 1
+            res = max(res, j - i + 1)
+            i = j
+          return res
+       s = min(cal(hBars), cal(vBars))
+       return s ** 2
+    
+    # 2944. 购买水果需要的最少金币数 (Minimum Number of Coins for Fruits)
+    def minimumCoins(self, prices: List[int]) -> int:
+       n = len(prices)
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == n:
+             return 0
+          if n - i <= j:
+             return 0
+          res = dfs(i + 1, i + 1) + prices[i]
+          if j:
+             res = min(res, dfs(i + 1, j - 1))
+          return res
+       return dfs(0, 0)
+    
+    # 2946. 循环移位后的矩阵相似检查 (Matrix Similarity After Cyclic Shifts)
+    def areSimilar(self, mat: List[List[int]], k: int) -> bool:
+       k %= len(mat[0])
+       return k == 0 or all(r == r[k:] + r[:k] for r in mat)
+    
+    # 2947. 统计美丽子字符串 I (Count Beautiful Substrings I)
+    def beautifulSubstrings(self, s: str, k: int) -> int:
+       res = 0
+       n = len(s)
+       for i in range(n):
+          a = 0
+          b = 0
+          for j in range(i, n):
+             if s[j] in 'aeiou':
+                a += 1
+             else:
+                b += 1
+             if a == b and a * b % k == 0:
+                res += 1
+       return res
+    
+    # 2948. 交换得到字典序最小的数组 (Make Lexicographically Smallest Array by Swapping Elements)
+    def lexicographicallySmallestArray(self, nums: List[int], limit: int) -> List[int]:
+       dic = collections.defaultdict(list)
+       for i, v in enumerate(nums):
+          dic[v].append(i)
+       dic[inf].append(-1)
+       n = len(nums)
+       res = [0] * n
+       ids = []
+       vals = []
+       pre = 0
+       for k in sorted(dic.keys()):
+          if pre and k - pre > limit:
+             ids.sort()
+             vals.sort()
+             i = 0
+             m = len(ids)
+             while i < m:
+                res[ids[i]] = vals[i]
+                i += 1
+             ids.clear()
+             vals.clear()
+          l = len(dic[k])
+          for i in range(l):
+             vals.append(k)
+          ids.extend(dic[k])
+          pre = k
+       return res

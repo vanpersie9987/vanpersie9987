@@ -5269,4 +5269,156 @@ public class Leetcode_8 {
 
     }
 
+    // 2946. 循环移位后的矩阵相似检查 (Matrix Similarity After Cyclic Shifts)
+    public boolean areSimilar(int[][] mat, int k) {
+        int m = mat.length;
+        int n = mat[0].length;
+        int[][] copy = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                copy[i][(j + k) % n] = mat[i][j];
+            }
+            if (!Arrays.equals(mat[i], copy[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // 2947. 统计美丽子字符串 I (Count Beautiful Substrings I)
+    public int beautifulSubstrings(String s, int k) {
+        int n = s.length();
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            int a = 0;
+            int b = 0;
+            for (int j = i; j < n; ++j) {
+                if (check2947(s.charAt(j))) {
+                    ++a;
+                } else {
+                    ++b;
+                }
+                if (a == b && (a * b) % k == 0) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private boolean check2947(char c) {
+        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+            return true;
+        }
+        return false;
+    }
+
+    // 2948. 交换得到字典序最小的数组 (Make Lexicographically Smallest Array by Swapping
+    // Elements)
+    public int[] lexicographicllySmallestArry(int[] nums, int limit) {
+        int n = nums.length;
+        int[] res = new int[n];
+        TreeMap<Integer, List<Integer>> map = new TreeMap<>();
+        for (int i = 0; i < n; ++i) {
+            map.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i);
+        }
+        // 哨兵
+        map.computeIfAbsent(Integer.MAX_VALUE, k -> new ArrayList<>()).add(-1);
+        List<Integer> vals = new ArrayList<>();
+        List<Integer> ids = new ArrayList<>();
+        int pre = 0;
+        for (Map.Entry<Integer, List<Integer>> entry : map.entrySet()) {
+            int key = entry.getKey();
+            List<Integer> indexes = entry.getValue();
+            if (pre == 0 || entry.getKey() - pre > limit) {
+                Collections.sort(ids);
+                Collections.sort(vals);
+                int m = vals.size();
+                int j = 0;
+                while (j < m) {
+                    res[ids.get(j)] = vals.get(j);
+                    ++j;
+                }
+                ids.clear();
+                vals.clear();
+            }
+            int size = indexes.size();
+            for (int i = 0; i < size; ++i) {
+                vals.add(key);
+            }
+            ids.addAll(indexes);
+            pre = key;
+        }
+        return res;
+
+    }
+    
+    // 2942. 查找包含给定字符的单词 (Find Words Containing Character)
+    public List<Integer> findWordsContaining(String[] words, char x) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < words.length; ++i) {
+            if (words[i].contains(String.valueOf(x))) {
+                res.add(i);
+            }
+        }
+        return res;
+    }
+
+    // 2943. 最大化网格图中正方形空洞的面积 (Maximize Area of Square Hole in Grid)
+    public int maximizeSquareHoleArea(int n, int m, int[] hBars, int[] vBars) {
+        int s = Math.min(cal2943(hBars), cal2943(vBars));
+        return s * s;
+    }
+
+    private int cal2943(int[] bars) {
+        Arrays.sort(bars);
+        int i = 0;
+        int res = 0;
+        int n = bars.length;
+        while (i < n) {
+            int j = i + 1;
+            while (j < n && bars[j] - bars[j - 1] == 1) {
+                ++j;
+            }
+            res = Math.max(res, j - i + 1);
+            i = j;
+        }
+        return res;
+
+    }
+
+    // 2944. 购买水果需要的最少金币数 (Minimum Number of Coins for Fruits)
+    private int n2944;
+    private int[] prices2944;
+    private int[][] memo2944;
+
+    public int minimumCoins(int[] prices) {
+        this.n2944 = prices.length;
+        this.prices2944 = prices;
+        this.memo2944 = new int[n2944][n2944];
+        for (int i = 0; i < n2944; ++i) {
+            Arrays.fill(memo2944[i], -1);
+        }
+        return dfs2944(0, 0);
+
+    }
+
+    private int dfs2944(int i, int j) {
+        if (i == n2944) {
+            return 0;
+        }
+        if (n2944 - i <= j) {
+            return 0;
+        }
+        if (memo2944[i][j] != -1) {
+            return memo2944[i][j];
+        }
+        int res = dfs2944(i + 1, i + 1) + prices2944[i];
+        if (j > 0) {
+            res = Math.min(res, dfs2944(i + 1, j - 1));
+        }
+        return memo2944[i][j] = res;
+    }
+
 }
