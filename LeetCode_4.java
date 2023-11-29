@@ -5454,24 +5454,31 @@ public class LeetCode_4 {
 
     }
 
-    // 6113. 无限集中的最小数字
+    // 2336. 无限集中的最小数字 (Smallest Number in Infinite Set)
     class SmallestInfiniteSet {
-        TreeSet<Integer> set;
+        private int min;
+        private TreeSet<Integer> set;
 
         public SmallestInfiniteSet() {
+            this.min = 1;
             this.set = new TreeSet<>();
-            for (int i = 1; i <= 1005; ++i) {
-                set.add(i);
-            }
         }
 
         public int popSmallest() {
+            if (set.isEmpty()) {
+                int res = min;
+                ++min;
+                return res;
+            }
             return set.pollFirst();
         }
 
         public void addBack(int num) {
-            set.add(num);
+            if (num < min) {
+                set.add(num);
+            }
         }
+
     }
 
     // 2337. 移动片段得到字符串 (Move Pieces to Obtain a String)
