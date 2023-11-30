@@ -8235,3 +8235,7 @@ class leetcode_1 :
           ids.extend(dic[k])
           pre = k
        return res
+    
+    # 1657. 确定两个字符串是否接近 (Determine if Two Strings Are Close)
+    def closeStrings(self, word1: str, word2: str) -> bool:
+       return Counter(word1).keys() == Counter(word2).keys() and sorted(Counter(word1).values()) == sorted(Counter(word2).values())
