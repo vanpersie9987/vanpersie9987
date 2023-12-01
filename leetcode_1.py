@@ -8239,3 +8239,20 @@ class leetcode_1 :
     # 1657. 确定两个字符串是否接近 (Determine if Two Strings Are Close)
     def closeStrings(self, word1: str, word2: str) -> bool:
        return Counter(word1).keys() == Counter(word2).keys() and sorted(Counter(word1).values()) == sorted(Counter(word2).values())
+    
+    # 2661. 找出叠涂元素 (First Completely Painted Row or Column)
+    def firstCompleteIndex(self, arr: List[int], mat: List[List[int]]) -> int:
+       dic = collections.defaultdict(tuple)
+       m = len(mat)
+       n = len(mat[0])
+       for i in range(m):
+          for j in range(n):
+             dic[mat[i][j]] = (i, j)
+       row = [0] * m
+       col = [0] * n
+       for i, v in enumerate(arr):
+          (x, y) = dic[v]
+          row[x] += 1
+          col[y] += 1
+          if row[x] == n or col[y] == m:
+             return i
