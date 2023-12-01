@@ -8256,3 +8256,13 @@ class leetcode_1 :
           col[y] += 1
           if row[x] == n or col[y] == m:
              return i
+          
+    # 1094. 拼车 (Car Pooling)
+    def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
+       right = max(t for _, _, t in trips)
+       diff = [0] * (right + 2)
+       for p, f, t in trips:
+          diff[f] += p
+          diff[t] -= p
+       return all(s <= capacity for s in accumulate(diff))
+
