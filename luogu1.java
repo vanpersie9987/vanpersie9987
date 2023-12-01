@@ -1246,4 +1246,37 @@ public class luogu1 {
         return memo1002[i][j] = dfs1002(i + 1, j) + dfs1002(i, j + 1);
     }
 
+    // P4170 [CQOI2007] 涂色
+    private int[][] memo4170;
+    private int n4170;
+    private char[] arr4170;
+
+    public int paint(String str) {
+        this.n4170 = str.length();
+        this.arr4170 = str.toCharArray();
+        this.memo4170 = new int[n4170][n4170];
+        for (int i = 0; i < n4170; ++i) {
+            Arrays.fill(memo4170[i], -1);
+        }
+        return dfs4170(0, n4170 - 1);
+    }
+
+    private int dfs4170(int i, int j) {
+        if (i == j) {
+            return 1;
+        }
+        if (memo4170[i][j] != -1) {
+            return memo4170[i][j];
+        }
+        int res = Integer.MAX_VALUE;
+        if (arr4170[i] == arr4170[j]) {
+            res = Math.min(dfs4170(i + 1, j), dfs4170(i, j - 1));
+        } else {
+            for (int k = i; k < j; ++k) {
+                res = Math.min(res, dfs4170(i, k) + dfs4170(j + 1, j));
+            }
+        }
+        return memo4170[i][j] = res;
+    }
+
 }
