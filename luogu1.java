@@ -1273,7 +1273,7 @@ public class luogu1 {
             res = Math.min(dfs4170(i + 1, j), dfs4170(i, j - 1));
         } else {
             for (int k = i; k < j; ++k) {
-                res = Math.min(res, dfs4170(i, k) + dfs4170(j + 1, j));
+                res = Math.min(res, dfs4170(i, k) + dfs4170(k + 1, j));
             }
         }
         return memo4170[i][j] = res;

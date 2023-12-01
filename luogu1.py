@@ -362,6 +362,22 @@ class luogu1:
         for dx, dy in h:
             s.add((hx + dx, hy + dy))
         return dfs(0, 0)
+    
+    # P4170 [CQOI2007] 涂色
+    def paint(self, s: str) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == j:
+                return 1
+            if s[i] == s[j]:
+                return min(dfs(i + 1, j), dfs(i, j - 1))
+            res = inf
+            for k in range(i, j):
+                res = min(res, dfs(i + 1, k) + dfs(k + 1, j))
+            return res
+        return dfs(0, len(s) - 1)
+
+
 
 
 
