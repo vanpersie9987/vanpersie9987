@@ -4471,16 +4471,15 @@ public class LeetCode_2 {
       int cur = 0;
       int min = Integer.MAX_VALUE;
       int sum = 0;
-      for (int i = 0; i < window; ++i) {
-         cur += cardPoints[i];
+      for (int i = 0; i < cardPoints.length; ++i) {
          sum += cardPoints[i];
-      }
-      min = Math.min(min, cur);
-      for (int i = window; i < cardPoints.length; ++i) {
-         sum += cardPoints[i];
-         cur -= cardPoints[i - window];
          cur += cardPoints[i];
-         min = Math.min(min, cur);
+         if (i >= window) {
+            cur -= cardPoints[i - window];
+         }
+         if (i >= window - 1) {
+            min = Math.min(min, cur);
+         }
       }
       return sum - min;
 
