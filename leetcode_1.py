@@ -131,7 +131,7 @@ class leetcode_1 :
        n = len(nums1)
        d = (n + 1) // 3
        @cache
-       def dfs1(i: int, j: int) -> int :
+       def dfs1(i: int, j: int) -> int:
           if i >= n or j == d:
              return 0
           return max(dfs1(i + 1, j), dfs1(i + 2, j + 1) + nums1[i])
