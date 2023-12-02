@@ -8265,4 +8265,22 @@ class leetcode_1 :
           diff[f] += p
           diff[t] -= p
        return all(s <= capacity for s in accumulate(diff))
-
+    
+    # 1423. 可获得的最大点数 (Maximum Points You Can Obtain from Cards)
+    def maxScore(self, cardPoints: List[int], k: int) -> int:
+       n = len(cardPoints)
+       w = n - k
+       s = inf
+       cur = 0
+       _sum = sum(cardPoints)
+       for i, v in enumerate(cardPoints):
+          cur += v
+          if i >= w:
+             cur -= cardPoints[i - w]
+          if i >= w - 1:
+             s = min(s, cur)
+             if s == 0:
+                 break
+       return _sum - s
+          
+          
