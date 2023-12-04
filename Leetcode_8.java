@@ -5421,6 +5421,7 @@ public class Leetcode_8 {
         return memo2944[i][j] = res;
     }
 
+    // 2951. 找出峰值 (Find the Peaks)
     public List<Integer> findPeaks(int[] mountain) {
         List<Integer> res = new ArrayList<>();
         for (int i = 1; i < mountain.length - 1; ++i) {
@@ -5432,6 +5433,7 @@ public class Leetcode_8 {
 
     }
 
+    // 2952. 需要添加的硬币的最小数量 (Minimum Number of Coins to be Added)
     public int minimumAddedCoins(int[] coins, int target) {
         Arrays.sort(coins);
         int res = 0;
@@ -5450,6 +5452,7 @@ public class Leetcode_8 {
         return res;
     }
 
+    // 2953. 统计完全子字符串 (Count Complete Substrings)
     public int countCompleteSubstrings(String word, int k) {
         int n = word.length();
         int i = 0;
@@ -5469,13 +5472,13 @@ public class Leetcode_8 {
                 for (int x = 0; x < m; ++x) {
                     ++cnt[s.charAt(x) - 'a'];
                 }
-                if (check(cnt, k)) {
+                if (check2953(cnt, k)) {
                     ++res;
                 }
                 for (int x = m; x < s.length(); ++x) {
                     ++cnt[s.charAt(x) - 'a'];
                     --cnt[s.charAt(x - m) - 'a'];
-                    if (check(cnt, k)) {
+                    if (check2953(cnt, k)) {
                         ++res;
                     }
                 }
@@ -5486,7 +5489,7 @@ public class Leetcode_8 {
 
     }
 
-    private boolean check(int[] cnt, int k) {
+    private boolean check2953(int[] cnt, int k) {
         for (int i = 0; i < 26; ++i) {
             if (cnt[i] != 0) {
                 if (cnt[i] != k) {

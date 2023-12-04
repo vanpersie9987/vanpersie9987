@@ -8301,5 +8301,55 @@ class leetcode_1 :
            dfs(root.left)
        dfs(root)
        return root
+    
+    # 2952. 需要添加的硬币的最小数量 (Minimum Number of Coins to be Added)
+    def minimumAddedCoins(self, coins: List[int], target: int) -> int:
+       coins.sort()
+       res = 0
+       s = 1
+       i = 0
+       while s <= target:
+          if i < len(coins) and coins[i] <= s:
+             s += coins[i]
+             i += 1
+          else:
+             s *= 2
+             res += 1
+       return res
+     
+    # 2953. 统计完全子字符串 (Count Complete Substrings)
+    def countCompleteSubstrings(self, word: str, k: int) -> int:
+       def cnt(s: str) -> int:
+          res = 0
+          for i in range(1, 27):
+             m = i * k
+             if m > len(s):
+                break
+             c = [0] * 26
+             for j in range(len(s)):
+                c[ord(s[j]) - ord('a')] += 1
+                if j >= m:
+                   c[ord(s[j - m]) - ord('a')] -= 1
+                if j >= m - 1:
+                   if all(x == 0 or x == k for x in c):
+                      res += 1
+          return res
+       res = 0
+       i = 0
+       while i < len(word):
+          j = i + 1
+          while j < len(word) and abs(ord(word[j]) - ord(word[j - 1])) <= 2:
+             j += 1
+          res += cnt(word[i: j])
+          i = j
+       return res
+    
+    # 2951. 找出峰值 (Find the Peaks)
+    def findPeaks(self, mountain: List[int]) -> List[int]:
+        res = []
+        for i in range(1, len(mountain) - 1):
+            if mountain[i - 1] < mountain[i] and mountain[i] > mountain[i + 1]:
+                res.append(i)
+        return res
           
-          
+                
