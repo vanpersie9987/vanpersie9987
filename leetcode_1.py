@@ -8282,5 +8282,24 @@ class leetcode_1 :
              if s == 0:
                  break
        return _sum - s
+
+    # 1374. 从二叉搜索树到更大和树 (Binary Search Tree to Greater Sum Tree)
+    def bstToGst(self, root: TreeNode) -> TreeNode:
+       class TreeNode:
+          def __init__(self, val=0, left=None, right=None):
+             self.val = val
+             self.left = left
+             self.right = right
+       sum = 0
+       def dfs(root: TreeNode) -> None:
+           if root is None:
+                return
+           dfs(root.right)
+           nonlocal sum
+           sum += root.val
+           root.val = sum
+           dfs(root.left)
+       dfs(root)
+       return root
           
           

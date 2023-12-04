@@ -5421,5 +5421,80 @@ public class Leetcode_8 {
         return memo2944[i][j] = res;
     }
 
+    public List<Integer> findPeaks(int[] mountain) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = 1; i < mountain.length - 1; ++i) {
+            if (mountain[i] > mountain[i - 1] && mountain[i] > mountain[i + 1]) {
+                res.add(i);
+            }
+        }
+        return res;
+
+    }
+
+    public int minimumAddedCoins(int[] coins, int target) {
+        Arrays.sort(coins);
+        int res = 0;
+        int s = 1;
+        int n = coins.length;
+        int i = 0;
+        while (s <= target) {
+            if (i < n && coins[i] <= s) {
+                s += coins[i];
+                ++i;
+            } else {
+                s *= 2;
+                res += 1;
+            }
+        }
+        return res;
+    }
+
+    public int countCompleteSubstrings(String word, int k) {
+        int n = word.length();
+        int i = 0;
+        int res = 0;
+        while (i < n) {
+            int j = i + 1;
+            while (j < n && Math.abs(word.charAt(j) - word.charAt(j - 1)) <= 2) {
+                ++j;
+            }
+            String s = word.substring(i, j);
+            for (int c = 1; c <= 26; ++c) {
+                int m = c * k;
+                if (m > s.length()) {
+                    break;
+                }
+                int[] cnt = new int[26];
+                for (int x = 0; x < m; ++x) {
+                    ++cnt[s.charAt(x) - 'a'];
+                }
+                if (check(cnt, k)) {
+                    ++res;
+                }
+                for (int x = m; x < s.length(); ++x) {
+                    ++cnt[s.charAt(x) - 'a'];
+                    --cnt[s.charAt(x - m) - 'a'];
+                    if (check(cnt, k)) {
+                        ++res;
+                    }
+                }
+            }
+            i = j;
+        }
+        return res;
+
+    }
+
+    private boolean check(int[] cnt, int k) {
+        for (int i = 0; i < 26; ++i) {
+            if (cnt[i] != 0) {
+                if (cnt[i] != k) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
 }
