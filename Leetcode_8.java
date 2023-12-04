@@ -5469,16 +5469,12 @@ public class Leetcode_8 {
                     break;
                 }
                 int[] cnt = new int[26];
-                for (int x = 0; x < m; ++x) {
+                for (int x = 0; x < s.length(); ++x) {
                     ++cnt[s.charAt(x) - 'a'];
-                }
-                if (check2953(cnt, k)) {
-                    ++res;
-                }
-                for (int x = m; x < s.length(); ++x) {
-                    ++cnt[s.charAt(x) - 'a'];
-                    --cnt[s.charAt(x - m) - 'a'];
-                    if (check2953(cnt, k)) {
+                    if (x >= m) {
+                        --cnt[s.charAt(x - m) - 'a'];
+                    }
+                    if (x >= m - 1 && check2953(cnt, k)) {
                         ++res;
                     }
                 }
