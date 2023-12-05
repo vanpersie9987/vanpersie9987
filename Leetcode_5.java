@@ -9044,38 +9044,44 @@ public class Leetcode_5 {
 
     }
 
-    // 6243. 到达首都的最少油耗
+    // 2477. 到达首都的最少油耗 (Minimum Fuel Cost to Report to the Capital)
     public long minimumFuelCost(int[][] roads, int seats) {
+        long res = 0;
         int n = roads.length + 1;
-        long[] dp = new long[n + 1];
-        Arrays.fill(dp, 1);
-        int[] degrees = new int[n + 1];
-        Map<Integer, List<Integer>> graph = new HashMap<>();
-        for (int[] road : roads) {
-            graph.computeIfAbsent(road[0], k -> new ArrayList<>()).add(road[1]);
-            graph.computeIfAbsent(road[1], k -> new ArrayList<>()).add(road[0]);
-            ++degrees[road[0]];
-            ++degrees[road[1]];
+        List<Integer>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        int[] deg = new int[n];
+        long[] cnt = new long[n];
+        Arrays.fill(cnt, 1L);
+        for (int[] r : roads) {
+            int u = r[0];
+            int v = r[1];
+            g[u].add(v);
+            g[v].add(u);
+            ++deg[u];
+            ++deg[v];
         }
-        Queue<Integer> queue = new LinkedList<>();
-        for (int i = 0; i < degrees.length; ++i) {
-            --degrees[i];
-            if (degrees[i] == 0) {
-                queue.offer(i);
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 1; i < n; ++i) {
+            if (deg[i] == 1) {
+                q.offer(i);
             }
         }
-        long res = 0l;
-        while (!queue.isEmpty()) {
-            int node = queue.poll();
-            if (node == 0) {
+        while (!q.isEmpty()) {
+            int x = q.poll();
+            if (x == 0) {
                 continue;
             }
-            res = res + (dp[node] - 1) / seats + 1;
-            for (int neighbor : graph.getOrDefault(node, new ArrayList<>())) {
-                --degrees[neighbor];
-                dp[neighbor] += dp[node];
-                if (degrees[neighbor] == 0) {
-                    queue.offer(neighbor);
+            --deg[x];
+            for (int y : g[x]) {
+                if (deg[y] == 0) {
+                    continue;
+                }
+                --deg[y];
+                res += (cnt[x] + seats - 1) / seats;
+                cnt[y] += cnt[x];
+                if (deg[y] == 1) {
+                    q.offer(y);
                 }
             }
         }
