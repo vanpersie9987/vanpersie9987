@@ -5496,28 +5496,4 @@ public class Leetcode_8 {
         return true;
     }
 
-    private List<int[]>[] g;
-    private int res;
-
-    public int minReorder(int n, int[][] connections) {
-        this.g = new ArrayList[n];
-        Arrays.setAll(g, k -> new ArrayList<>());
-        for (int[] c : connections) {
-            g[c[0]].add(new int[] { c[1], 1 });
-            g[c[1]].add(new int[] { c[0], 0 });
-        }
-        dfs(0, -1);
-        return res;
-
-    }
-
-    private void dfs(int x, int fa) {
-        for (int[] y : g[x]) {
-            if (y[0] != fa) {
-                res += y[1];
-                dfs(y[0], x);
-            }
-        }
-    }
-
 }

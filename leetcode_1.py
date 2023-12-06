@@ -8352,3 +8352,21 @@ class leetcode_1 :
             if mountain[i - 1] < mountain[i] and mountain[i] > mountain[i + 1]:
                 res.append(i)
         return res
+    
+    # 1466. 重新规划路线 (Reorder Routes to Make All Paths Lead to the City Zero)
+    def minReorder(self, n: int, connections: List[List[int]]) -> int:
+       def dfs(x: int, fa: int) -> None:
+          for y in g[x]:
+             if y[0] != fa:
+                nonlocal res
+                res += y[1]
+                dfs(y[0], x)
+       g = [[] for _ in range(n)]
+       for u, v in connections:
+          g[u].append((v, 1))
+          g[v].append((u, 0))
+       res = 0
+       dfs(0, -1)
+       return res
+
+       
