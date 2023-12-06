@@ -6503,6 +6503,31 @@ public class Leetcode_3 {
 
     }
 
+    // 1466. 重新规划路线 (Reorder Routes to Make All Paths Lead to the City Zero)
+    private List<int[]>[] g1466;
+    private int res1466;
+
+    public int minReorder1466(int n, int[][] connections) {
+        this.g1466 = new ArrayList[n];
+        Arrays.setAll(g1466, k -> new ArrayList<>());
+        for (int[] c : connections) {
+            g1466[c[0]].add(new int[] { c[1], 1 });
+            g1466[c[1]].add(new int[] { c[0], 0 });
+        }
+        dfs1466(0, -1);
+        return res1466;
+
+    }
+
+    private void dfs1466(int x, int fa) {
+        for (int[] y : g1466[x]) {
+            if (y[0] != fa) {
+                res1466 += y[1];
+                dfs1466(y[0], x);
+            }
+        }
+    }
+
     // 623. 在二叉树中增加一行 (Add One Row to Tree) --bfs
     public TreeNode addOneRow(TreeNode root, int val, int depth) {
         if (depth == 1) {
