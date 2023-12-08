@@ -8368,5 +8368,22 @@ class leetcode_1 :
        res = 0
        dfs(0, -1)
        return res
+    
+    # 2048. 下一个更大的数值平衡数 (Next Greater Numerically Balanced Number)
+    def nextBeautifulNumber(self, n: int) -> int:
+       x = n + 1
+       while True:
+          copy = x
+          cnt = [0] * 10
+          while copy:
+             cnt[copy % 10] += 1
+             copy //= 10
+          for i in range(10):
+             if cnt[i] and i != cnt[i]:
+                x += 1
+                break
+          else:
+             return x
+             
 
        
