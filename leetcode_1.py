@@ -8378,12 +8378,9 @@ class leetcode_1 :
           while copy:
              cnt[copy % 10] += 1
              copy //= 10
-          for i in range(10):
-             if cnt[i] and i != cnt[i]:
-                x += 1
-                break
-          else:
+          if all(not v or i == v for i, v in enumerate(cnt)):
              return x
+          x += 1
              
 
        
