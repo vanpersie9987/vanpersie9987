@@ -8381,6 +8381,75 @@ class leetcode_1 :
           if all(not v or i == v for i, v in enumerate(cnt)):
              return x
           x += 1
+
+    # 100130. 找到两个数组中的公共元素 (Find Common Elements Between Two Arrays)
+    def findIntersectionValues(self, nums1: List[int], nums2: List[int]) -> List[int]:
+       def check(nums1: List[int], nums2: List[int]) -> int:
+          s = set(nums2)
+          return sum(x in s for x in nums1)
+       return [check(nums1, nums2), check(nums2, nums1)]
+    
+    # 100152. 消除相邻近似相等字符 (Remove Adjacent Almost-Equal Characters)
+    def removeAlmostEqualCharacters(self, word: str) -> int:
+       n = len(word)
+       i = 0
+       res = 0
+       while i < n:
+          j = i + 1
+          while j < n and abs(ord(word[j]) - ord(word[j - 1])) <= 1:
+             j += 1
+          res += (j - i) // 2
+          i = j
+       return res
+    
+    # 2958. 最多 K 个重复元素的最长子数组 (Length of Longest Subarray With at Most K Frequency)
+    def maxSubarrayLength(self, nums: List[int], k: int) -> int:
+       n = len(nums)
+       res = 0
+       i = 0
+       j = 0
+       dic = collections.defaultdict(int)
+       while i < n:
+          dic[nums[i]] += 1
+          while dic[nums[i]] > k:
+             dic[nums[j]] -= 1
+             j += 1
+          res = max(res, i - j + 1)
+          i += 1
+       return res
+    
+    # 100140. 关闭分部的可行集合数目 (Number of Possible Sets of Closing Branches)
+    def numberOfSets(self, n: int, maxDistance: int, roads: List[List[int]]) -> int:
+       def dijkstra(start: int, g: List[List[int]], mask: int) -> bool:
+          dis = [inf] * n
+          q = []
+          dis[start] = 0
+          heapq.heapify(q)
+          q.append(start)
+          while q:
+             x = heapq.heappop(q)
+             for nei in g[x]:
+                y = nei[0]
+                nei_d = nei[1]
+                if dis[x] + nei_d < dis[y]:
+                   dis[y] = dis[x] + nei_d
+                   heapq.heappush(q, y)
+          return all(((1 << i) & mask) != 0 or dis[i] <= maxDistance for i in range(n))
+          
+       def check(mask: int) -> bool:
+          g = [[] for _ in range(n)]
+          for u, v, w in roads:
+             if (mask & (1 << u)) == 0 and (mask & (1 << v)) == 0:
+                g[u].append((v, w))
+                g[v].append((u, w))
+          return all((mask & (1 << i)) != 0 or dijkstra(i, g, mask) for i in range(n))
+       res = 0
+       for i in range(1 << n):
+          if i.bit_count() >= n - 1 or check(i):
+             res += 1
+       return res
+          
+          
              
 
        

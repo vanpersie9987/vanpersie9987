@@ -5496,4 +5496,123 @@ public class Leetcode_8 {
         return true;
     }
 
+    // 100130. 找到两个数组中的公共元素 (Find Common Elements Between Two Arrays)
+    public int[] findIntersectionValues(int[] nums1, int[] nums2) {
+        return new int[] { check100130(nums1, nums2), check100130(nums2, nums1) };
+    }
+
+    private int check100130(int[] nums1, int[] nums2) {
+        Set<Integer> set = Arrays.stream(nums2).boxed().collect(Collectors.toSet());
+        int res = 0;
+        for (int num : nums1) {
+            if (set.contains(num)) {
+                ++res;
+            }
+        }
+        return res;
+    }
+
+    // 100152. 消除相邻近似相等字符 (Remove Adjacent Almost-Equal Characters)
+    public int removeAlmostEqualCharacters(String word) {
+        int n = word.length();
+        int i = 0;
+        int res = 0;
+        while (i < n) {
+            int j = i + 1;
+            while (j < n && Math.abs(word.charAt(j) - word.charAt(j - 1)) <= 1) {
+                ++j;
+            }
+            res += (j - i) / 2;
+            i = j;
+        }
+        return res;
+
+    }
+
+    // 2958. 最多 K 个重复元素的最长子数组 (Length of Longest Subarray With at Most K Frequency)
+    public int maxSubarrayLength(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int res = 0;
+        int n = nums.length;
+        int i = 0;
+        int j = 0;
+        while (i < n) {
+            map.merge(nums[i], 1, Integer::sum);
+            while (map.get(nums[i]) > k) {
+                map.merge(nums[j], -1, Integer::sum);
+                ++j;
+            }
+            res = Math.max(res, i - j + 1);
+            ++i;
+        }
+        return res;
+
+    }
+
+    // 100140. 关闭分部的可行集合数目 (Number of Possible Sets of Closing Branches)
+    private int n;
+    private int maxDistance;
+    private int[][] roads;
+
+    public int numberOfSets(int n, int maxDistance, int[][] roads) {
+        this.n = n;
+        this.maxDistance = maxDistance;
+        this.roads = roads;
+        int res = 0;
+        // i 删除的点
+        for (int i = 0; i < (1 << n); ++i) {
+            if (Integer.bitCount(i) >= n - 1 || check100140(i)) {
+                ++res;
+            }
+        }
+        return res;
+    }
+
+    private boolean check100140(int mask) {
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] r : roads) {
+            int u = r[0];
+            int v = r[1];
+            int w = r[2];
+            if (((1 << u) & mask) == 0 && ((1 << v) & mask) == 0) {
+                g[u].add(new int[] { v, w });
+                g[v].add(new int[] { u, w });
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            if ((mask & (1 << i)) == 0) {
+                if (!dijkstra100140(i, g, mask)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean dijkstra100140(int start, List<int[]>[] g, int mask) {
+        Queue<Integer> q = new PriorityQueue<>();
+        int[] dis = new int[n];
+        Arrays.fill(dis, Integer.MAX_VALUE);
+        dis[start] = 0;
+        q.offer(start);
+        while (!q.isEmpty()) {
+            int x = q.poll();
+            for (int[] nei : g[x]) {
+                int y = nei[0];
+                int neiD = nei[1];
+                if (dis[x] + neiD < dis[y]) {
+                    dis[y] = dis[x] + neiD;
+                    q.offer(y);
+                }
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            if ((mask & (1 << i)) == 0 && dis[i] > maxDistance) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
