@@ -21,6 +21,7 @@ from audioop import reverse
 from calendar import c
 from collections import Counter
 import collections
+import enum
 from functools import cache
 from itertools import accumulate
 from math import comb, gcd, inf, sqrt
@@ -8448,8 +8449,69 @@ class leetcode_1 :
           if i.bit_count() >= n - 1 or check(i):
              res += 1
        return res
+    
+    # 100143. 统计已测试设备 (Count Tested Devices After Test Operations)
+    def countTestedDevices(self, batteryPercentages: List[int]) -> int:
+       n = len(batteryPercentages)
+       res = 0
+       cnt = 0
+       for v in batteryPercentages:
+          if v + cnt > 0:
+             res += 1
+             cnt -= 1
+       return res
           
-          
+    
+    # 100155. 双模幂运算 (Double Modular Exponentiation)
+    def getGoodIndices(self, variables: List[List[int]], target: int) -> List[int]:
+       res = []
+       for i, (a, b, c, m) in enumerate(variables):
+          x = pow(a, b, 10)
+          if pow(x, c, m) == target:
+             res.append(i)
+       return res
+    
+    # 100137. 统计最大元素出现至少 K 次的子数组 (Count Subarrays Where Max Element Appears at Least K Times)
+    def countSubarrays(self, nums: List[int], k: int) -> int:
+       n = len(nums)
+       m = max(nums)
+       cnt = 0
+       i = 0
+       j = 0 
+       res = 0
+       while i < n:
+          if nums[i] == m:
+             cnt += 1
+          while cnt >= k:
+             if nums[j] == m:
+                cnt -= 1
+             j += 1
+          res += i - j + 1
+          i += 1
+       return (1 + n) * n // 2 - res
+    
+    # 100136. 统计好分割方案的数目 (Count the Number of Good Partitions)
+    def numberOfGoodPartitions(self, nums: List[int]) -> int:
+       first = collections.defaultdict(int)
+       last = collections.defaultdict(int)
+       for i, v in enumerate(nums):
+          if v not in first.keys():
+             first[v] = i
+          last[v] = i
+       i = 0
+       cnt = 0
+       n = len(nums)
+       while i < n:
+          left = first[nums[i]]
+          right = last[nums[i]]
+          j = i
+          while j < n and not (first[nums[j]] > right or last[nums[j]] < left):
+             left = min(left, first[nums[j]])
+             right = max(right, last[nums[j]])
+             j += 1
+          cnt += 1
+          i = j
+       MOD = 10 ** 9 + 7
+       return pow(2, cnt - 1, MOD)
              
-
-       
+    

@@ -5615,4 +5615,111 @@ public class Leetcode_8 {
         return true;
     }
 
+    // 100143. 统计已测试设备 (Count Tested Devices After Test Operations)
+    public int countTestedDevices(int[] batteryPercentages) {
+        int n = batteryPercentages.length;
+        int cnt = 0;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            if (batteryPercentages[i] + cnt > 0) {
+                ++res;
+                cnt -= 1;
+            }
+        }
+        return res;
+    }
+
+    // 100155. 双模幂运算 (Double Modular Exponentiation)
+    public List<Integer> getGoodIndices(int[][] variables, int target) {
+        List<Integer> res = new ArrayList<>();
+        int n = variables.length;
+        for (int i = 0; i < n; ++i) {
+            int a = variables[i][0];
+            int b = variables[i][1];
+            int c = variables[i][2];
+            int m = variables[i][3];
+            int x = pow100155(a, b, 10);
+            if (pow100155(x, c, m) == target) {
+                res.add(i);
+            }
+        }
+        return res;
+    }
+
+    public int pow100155(int a, int b, int m) {
+        if (b == 0) {
+            return 1;
+        }
+        int res = pow100155(a, b >> 1, m);
+        res = (int) ((long) res * res % m);
+        if ((b & 1) == 1) {
+            res = (int) (((long) res * a) % m);
+        }
+        return res;
+    }
+
+    // 100137. 统计最大元素出现至少 K 次的子数组 (Count Subarrays Where Max Element Appears at
+    // Least K Times)
+    public long countSubarrays(int[] nums, int k) {
+        int max = Arrays.stream(nums).max().getAsInt();
+        int n = nums.length;
+        long res = 0L;
+        int i = 0;
+        int j = 0;
+        int cnt = 0;
+        while (i < n) {
+            if (nums[i] == max) {
+                ++cnt;
+            }
+            while (cnt >= k) {
+                if (nums[j] == max) {
+                    --cnt;
+                }
+                ++j;
+            }
+            res += i - j + 1;
+            ++i;
+        }
+        return (long) (1 + n) * n / 2 - res;
+    }
+
+    // 100136. 统计好分割方案的数目 (Count the Number of Good Partitions)
+    public int numberOfGoodPartitions(int[] nums) {
+        Map<Integer, Integer> first = new HashMap<>();
+        Map<Integer, Integer> last = new HashMap<>();
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            first.putIfAbsent(nums[i], i);
+            last.put(nums[i], i);
+        }
+        int j = 0;
+        int cnt = 0;
+        while (j < n) {
+            int left = first.get(nums[j]);
+            int right = last.get(nums[j]);
+            int k = j;
+            while (k < n && !(first.get(nums[k]) > right || last.get(nums[k]) < left)) {
+                left = Math.min(left, first.get(nums[k]));
+                right = Math.max(right, last.get(nums[k]));
+                ++k;
+            }
+            cnt += 1;
+            j = k;
+        }
+        return pow100136(2, cnt - 1);
+    }
+
+    private int pow100136(int a, int b) {
+        if (b == 0) {
+            return 1;
+        }
+        int res = pow100136(a, b >> 1);
+        final int MOD = (int) (1e9 + 7);
+        res = (int) ((long) res * res % MOD);
+        if ((b & 1) == 1) {
+            res = (int) ((long) res * a % MOD);
+        }
+        return res;
+    }
+
 }
