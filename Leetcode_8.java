@@ -5550,14 +5550,22 @@ public class Leetcode_8 {
     }
 
     // 100140. 关闭分部的可行集合数目 (Number of Possible Sets of Closing Branches)
-    private int n;
-    private int maxDistance;
-    private int[][] roads;
+    private int n100140;
+    private int maxDistance100140;
+    private List<int[]>[] g100140;
 
     public int numberOfSets(int n, int maxDistance, int[][] roads) {
-        this.n = n;
-        this.maxDistance = maxDistance;
-        this.roads = roads;
+        this.n100140 = n;
+        this.maxDistance100140 = maxDistance;
+        this.g100140 = new ArrayList[n];
+        Arrays.setAll(g100140, k -> new ArrayList<>());
+        for (int[] r : roads) {
+            int u = r[0];
+            int v = r[1];
+            int w = r[2];
+            g100140[u].add(new int[] { v, w });
+            g100140[v].add(new int[] { u, w });
+        }
         int res = 0;
         // i 删除的点
         for (int i = 0; i < (1 << n); ++i) {
@@ -5569,20 +5577,9 @@ public class Leetcode_8 {
     }
 
     private boolean check100140(int mask) {
-        List<int[]>[] g = new ArrayList[n];
-        Arrays.setAll(g, k -> new ArrayList<>());
-        for (int[] r : roads) {
-            int u = r[0];
-            int v = r[1];
-            int w = r[2];
-            if (((1 << u) & mask) == 0 && ((1 << v) & mask) == 0) {
-                g[u].add(new int[] { v, w });
-                g[v].add(new int[] { u, w });
-            }
-        }
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < n100140; ++i) {
             if ((mask & (1 << i)) == 0) {
-                if (!dijkstra100140(i, g, mask)) {
+                if (!dijkstra100140(i, mask)) {
                     return false;
                 }
             }
@@ -5590,25 +5587,25 @@ public class Leetcode_8 {
         return true;
     }
 
-    private boolean dijkstra100140(int start, List<int[]>[] g, int mask) {
+    private boolean dijkstra100140(int start, int mask) {
         Queue<Integer> q = new PriorityQueue<>();
-        int[] dis = new int[n];
+        int[] dis = new int[n100140];
         Arrays.fill(dis, Integer.MAX_VALUE);
         dis[start] = 0;
         q.offer(start);
         while (!q.isEmpty()) {
             int x = q.poll();
-            for (int[] nei : g[x]) {
+            for (int[] nei : g100140[x]) {
                 int y = nei[0];
                 int neiD = nei[1];
-                if (dis[x] + neiD < dis[y]) {
+                if (((1 << y) & mask) == 0 && dis[x] + neiD < dis[y]) {
                     dis[y] = dis[x] + neiD;
                     q.offer(y);
                 }
             }
         }
-        for (int i = 0; i < n; ++i) {
-            if ((mask & (1 << i)) == 0 && dis[i] > maxDistance) {
+        for (int i = 0; i < n100140; ++i) {
+            if ((mask & (1 << i)) == 0 && dis[i] > maxDistance100140) {
                 return false;
             }
         }
