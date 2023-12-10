@@ -5614,16 +5614,13 @@ public class Leetcode_8 {
 
     // 100143. 统计已测试设备 (Count Tested Devices After Test Operations)
     public int countTestedDevices(int[] batteryPercentages) {
-        int n = batteryPercentages.length;
         int cnt = 0;
-        int res = 0;
-        for (int i = 0; i < n; ++i) {
-            if (batteryPercentages[i] + cnt > 0) {
-                ++res;
-                cnt -= 1;
+        for (int b : batteryPercentages) {
+            if (b - cnt > 0) {
+                cnt += 1;
             }
         }
-        return res;
+        return cnt;
     }
 
     // 100155. 双模幂运算 (Double Modular Exponentiation)

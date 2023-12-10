@@ -8451,14 +8451,11 @@ class leetcode_1 :
     
     # 100143. 统计已测试设备 (Count Tested Devices After Test Operations)
     def countTestedDevices(self, batteryPercentages: List[int]) -> int:
-       n = len(batteryPercentages)
-       res = 0
        cnt = 0
        for v in batteryPercentages:
-          if v + cnt > 0:
-             res += 1
-             cnt -= 1
-       return res
+          if v - cnt > 0:
+             cnt += 1
+       return cnt
           
     
     # 100155. 双模幂运算 (Double Modular Exponentiation)
