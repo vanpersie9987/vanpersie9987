@@ -5665,16 +5665,16 @@ public class Leetcode_8 {
             if (nums[i] == max) {
                 ++cnt;
             }
-            while (cnt >= k) {
+            while (cnt == k) {
                 if (nums[j] == max) {
                     --cnt;
                 }
                 ++j;
             }
-            res += i - j + 1;
+            res += j;
             ++i;
         }
-        return (long) (1 + n) * n / 2 - res;
+        return res;
     }
 
     // 100136. 统计好分割方案的数目 (Count the Number of Good Partitions)

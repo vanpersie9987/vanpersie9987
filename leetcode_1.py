@@ -8478,13 +8478,13 @@ class leetcode_1 :
        while i < n:
           if nums[i] == m:
              cnt += 1
-          while cnt >= k:
+          while cnt == k:
              if nums[j] == m:
                 cnt -= 1
              j += 1
-          res += i - j + 1
+          res += j
           i += 1
-       return (1 + n) * n // 2 - res
+       return res
     
     # 100136. 统计好分割方案的数目 (Count the Number of Good Partitions)
     def numberOfGoodPartitions(self, nums: List[int]) -> int:
