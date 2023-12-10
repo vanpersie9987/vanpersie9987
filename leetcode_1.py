@@ -8421,7 +8421,7 @@ class leetcode_1 :
     
     # 100140. 关闭分部的可行集合数目 (Number of Possible Sets of Closing Branches)
     def numberOfSets(self, n: int, maxDistance: int, roads: List[List[int]]) -> int:
-       def dijkstra(start: int, g: List[List[int]], mask: int) -> bool:
+       def dijkstra(start: int, mask: int) -> bool:
           dis = [inf] * n
           q = []
           dis[start] = 0
@@ -8432,19 +8432,18 @@ class leetcode_1 :
              for nei in g[x]:
                 y = nei[0]
                 nei_d = nei[1]
-                if dis[x] + nei_d < dis[y]:
+                if ((1 << y) & mask) == 0 and dis[x] + nei_d < dis[y]:
                    dis[y] = dis[x] + nei_d
                    heapq.heappush(q, y)
           return all(((1 << i) & mask) != 0 or dis[i] <= maxDistance for i in range(n))
           
        def check(mask: int) -> bool:
-          g = [[] for _ in range(n)]
-          for u, v, w in roads:
-             if (mask & (1 << u)) == 0 and (mask & (1 << v)) == 0:
-                g[u].append((v, w))
-                g[v].append((u, w))
-          return all((mask & (1 << i)) != 0 or dijkstra(i, g, mask) for i in range(n))
+          return all((mask & (1 << i)) != 0 or dijkstra(i, mask) for i in range(n))
        res = 0
+       g = [[] for _ in range(n)]
+       for u, v, w in roads:
+          g[u].append((v, w))
+          g[v].append((u, w))
        for i in range(1 << n):
           if i.bit_count() >= n - 1 or check(i):
              res += 1
