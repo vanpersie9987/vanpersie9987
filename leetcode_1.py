@@ -8509,5 +8509,16 @@ class leetcode_1 :
           i = j
        MOD = 10 ** 9 + 7
        return pow(2, cnt - 1, MOD)
+    
+    # 2697. 字典序最小回文串 (Lexicographically Smallest Palindrome)
+    def makeSmallestPalindrome(self, s: str) -> str:
+       s = list(s)
+       left, right = 0, len(s) - 1
+       while left < right:
+          if s[left] != s[right]:
+             s[left] = s[right] = min(s[left], s[right])
+          left += 1
+          right -= 1
+       return "".join(s)
              
     
