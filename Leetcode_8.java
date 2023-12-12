@@ -5716,4 +5716,36 @@ public class Leetcode_8 {
         return res;
     }
 
+    // 2454. 下一个更大元素 IV (Next Greater Element IV)
+    public int[] secondGreaterElement(int[] nums) {
+        int n = nums.length;
+        int[] res = new int[n];
+        Arrays.fill(res, -1);
+        int[][] arr = new int[n][2];
+        for (int i = 0; i < n; ++i) {
+            arr[i][0] = nums[i];
+            arr[i][1] = i;
+        }
+        Arrays.sort(arr, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o2[0], o1[0]);
+            }
+
+        });
+        TreeSet<Integer> treeSet = new TreeSet<>();
+        for (int[] a : arr) {
+            Integer j = treeSet.higher(a[1]);
+            if (j != null) {
+                Integer k = treeSet.higher(j);
+                if (k != null) {
+                    res[a[1]] = nums[k];
+                }
+            }
+            treeSet.add(a[1]);
+        }
+        return res;
+    }
+
 }
