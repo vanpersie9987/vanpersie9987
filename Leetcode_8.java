@@ -5721,29 +5721,25 @@ public class Leetcode_8 {
         int n = nums.length;
         int[] res = new int[n];
         Arrays.fill(res, -1);
-        int[][] arr = new int[n][2];
-        for (int i = 0; i < n; ++i) {
-            arr[i][0] = nums[i];
-            arr[i][1] = i;
-        }
-        Arrays.sort(arr, new Comparator<int[]>() {
+        Integer[] ids = IntStream.range(0, n).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
 
             @Override
-            public int compare(int[] o1, int[] o2) {
-                return Integer.compare(o2[0], o1[0]);
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(nums[o2], nums[o1]);
             }
 
         });
         TreeSet<Integer> treeSet = new TreeSet<>();
-        for (int[] a : arr) {
-            Integer j = treeSet.higher(a[1]);
+        for (int id : ids) {
+            Integer j = treeSet.higher(id);
             if (j != null) {
                 Integer k = treeSet.higher(j);
                 if (k != null) {
-                    res[a[1]] = nums[k];
+                    res[id] = nums[k];
                 }
             }
-            treeSet.add(a[1]);
+            treeSet.add(id);
         }
         return res;
     }
