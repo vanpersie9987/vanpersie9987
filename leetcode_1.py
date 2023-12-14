@@ -8545,5 +8545,33 @@ class leetcode_1 :
              if grid[i][j] == 0 and d[i + 1][j + 1] == 0:
                 return False
        return True
+    
+    # 2415. 反转二叉树的奇数层 (Reverse Odd Levels of Binary Tree)
+    def reverseOddLevels(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+       q = collections.deque()
+       level = 0
+       q.append(root)
+       while q:
+          size = len(q)
+          l = []
+          for _ in range(size):
+             x = q.popleft()
+             l.append(x.val)
+             q.append(x)
+          if level % 2 == 1:
+             l.reverse()
+          i = 0
+          for _ in range(size):
+             x = q.popleft()
+             x.val = l[i]
+             i += 1
+             if x.left:
+                q.append(x.left)
+             if x.right:
+                q.append(x.right)
+          level += 1
+       return root
+
+
              
     
