@@ -8520,5 +8520,30 @@ class leetcode_1 :
           left += 1
           right -= 1
        return "".join(s)
+    
+    # 2132. 用邮票贴满网格图 (Stamping the Grid)
+    def possibleToStamp(self, grid: List[List[int]], stampHeight: int, stampWidth: int) -> bool:
+       m = len(grid)
+       n = len(grid[0])
+       p = [[0] * (n + 1) for _ in range(m + 1)]
+       for i in range(m):
+          for j in range(n):
+             p[i + 1][j + 1] = p[i + 1][j] + p[i][j + 1] - p[i][j] + grid[i][j]
+       d = [[0] * (n + 2) for _ in range(m + 2)]
+       for i2 in range(stampHeight, m + 1):
+          for j2 in range(stampWidth, n + 1):
+             i1 = i2 - stampHeight + 1
+             j1 = j2 - stampWidth + 1
+             if p[i2][j2] - p[i2][j1 - 1] - p[i1 - 1][j2] + p[i1 - 1][j1 - 1] == 0:
+                d[i1][j1] += 1
+                d[i1][j2 + 1] -= 1
+                d[i2 + 1][j1] -= 1
+                d[i2 + 1][j2 + 1] += 1
+       for i in range(m):
+          for j in range(n):
+             d[i + 1][j + 1] += d[i][j + 1] + d[i + 1][j] - d[i][j]
+             if grid[i][j] == 0 and d[i + 1][j + 1] == 0:
+                return False
+       return True
              
     
