@@ -2525,13 +2525,14 @@ public class Leetcode_5 {
 
     }
 
+    // 2415. 反转二叉树的奇数层 (Reverse Odd Levels of Binary Tree)
     public TreeNode reverseOddLevels(TreeNode root) {
         Queue<TreeNode> queue = new LinkedList<>();
         int level = 0;
         queue.offer(root);
         while (!queue.isEmpty()) {
             int size = queue.size();
-            if (level % 2 == 1) {
+            if ((level & 1) == 1) {
                 List<TreeNode> list = new ArrayList<>(queue);
                 int i = 0;
                 int j = list.size() - 1;
@@ -2542,7 +2543,6 @@ public class Leetcode_5 {
                     ++i;
                     --j;
                 }
-                queue = new LinkedList<>(list);
             }
             for (int i = 0; i < size; ++i) {
                 TreeNode node = queue.poll();
@@ -2553,9 +2553,7 @@ public class Leetcode_5 {
                     queue.offer(node.right);
                 }
             }
-
-            ++level;
-
+            level ^= 1;
         }
         return root;
 
