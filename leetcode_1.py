@@ -8566,6 +8566,16 @@ class leetcode_1 :
                 q.append(x.right)
           i ^= 1
        return root
+    
+    # 746. 使用最小花费爬楼梯 (Min Cost Climbing Stairs)
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        n = len(cost)
+        @cache
+        def dfs(i: int) -> int:
+            if i >= n:
+                return 0
+            return min(dfs(i + 1), dfs(i + 2)) + cost[i]
+        return min(dfs(0), dfs(1))
 
 
              
