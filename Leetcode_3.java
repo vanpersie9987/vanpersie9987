@@ -10062,27 +10062,27 @@ public class Leetcode_3 {
     // 2276. 统计区间中的整数数目 (Count Integers in Intervals) --柯朵莉树
     class CountIntervals {
         private TreeMap<Integer, Integer> map;
-        private int sum;
+        private int cnt;
 
         public CountIntervals() {
-            map = new TreeMap<>();
+            this.map = new TreeMap<>();
         }
 
         public void add(int left, int right) {
-            Map.Entry<Integer, Integer> entry = map.ceilingEntry(left - 1);
-            while (entry != null && entry.getValue() - 1 <= right) {
-                sum -= entry.getKey() - entry.getValue() + 1;
-                left = Math.min(entry.getValue(), left);
-                right = Math.max(entry.getKey(), right);
-                map.remove(entry.getKey());
-                entry = map.ceilingEntry(left - 1);
+            while (map.ceilingKey(left - 1) != null && map.ceilingEntry(left - 1).getValue() - 1 <= right) {
+                Integer key = map.ceilingKey(left - 1);
+                left = Math.min(left, map.get(key));
+                right = Math.max(right, key);
+                cnt -= key - map.get(key) + 1;
+                map.remove(key);
             }
-            sum += right - left + 1;
             map.put(right, left);
+            cnt += right - left + 1;
         }
 
         public int count() {
-            return sum;
+            return cnt;
+
         }
     }
 
