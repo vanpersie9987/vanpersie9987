@@ -5779,4 +5779,118 @@ public class Leetcode_8 {
 
     }
 
+    // 2965. 找出缺失和重复的数字 (Find Missing and Repeated Values)
+    public int[] findMissingAndRepeatedValues(int[][] grid) {
+        int n = grid.length;
+        int[] cnt = new int[n * n + 1];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                ++cnt[grid[i][j]];
+            }
+        }
+        int[] res = new int[2];
+        for (int i = 1; i < n * n + 1; ++i) {
+            if (cnt[i] == 2) {
+                res[0] = i;
+            } else if (cnt[i] == 0) {
+                res[1] = i;
+            }
+        }
+        return res;
+
+    }
+
+    // 2966. 划分数组并满足最大差限制 (Divide Array Into Arrays With Max Difference)
+    public int[][] divideArray(int[] nums, int k) {
+        int n = nums.length;
+        int[][] res = new int[n / 3][3];
+        Arrays.sort(nums);
+        int j = 0;
+        for (int i = 0; i < n; i += 3) {
+            if (nums[i + 2] - nums[i] > k) {
+                return new int[0][0];
+            }
+            res[j] = new int[] { nums[i], nums[i + 1], nums[i + 2] };
+            ++j;
+        }
+        return res;
+    }
+
+    // 2967. 使数组成为等数数组的最小代价 (Minimum Cost to Make Array Equalindromic)
+    public long minimumCost(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int m = nums[n / 2];
+        return Math.min(check2967(nums, m, -1, 0), check2967(nums, m, 1, (int) 1e9));
+    }
+
+    private long check2967(int[] nums, int copy, int step, int limit) {
+        int m = copy;
+        while (m != limit) {
+            if (checkPalindromes2967(m)) {
+                long res = 0L;
+                for (int num : nums) {
+                    res += (long) Math.abs(num - m);
+                }
+                return res;
+            }
+            m += step;
+        }
+        return Long.MAX_VALUE;
+
+    }
+
+    public boolean checkPalindromes2967(int num) {
+        char[] arr = String.valueOf(num).toCharArray();
+        int n = arr.length;
+        int i = 0;
+        int j = n - 1;
+        while (i < j) {
+            if (arr[i] != arr[j]) {
+                return false;
+            }
+            ++i;
+            --j;
+        }
+        return true;
+    }
+
+    // 2968. 执行操作使频率分数最大 (Apply Operations to Maximize Frequency Score)
+    public int maxFrequencyScore(int[] nums, long k) {
+        Arrays.sort(nums);
+        int left = 1;
+        int right = nums.length;
+        int res = 1;
+        int n = nums.length;
+        long[] pre = new long[n + 1];
+        for (int i = 0; i < n; ++i) {
+            pre[i + 1] = pre[i] + nums[i];
+        }
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check2968(mid, nums, k, pre)) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean check2968(int w, int[] nums, long k, long[] pre) {
+        int n = nums.length;
+        for (int i = w - 1; i < n; ++i) {
+            int l = i - w + 1;
+            int r = i;
+            int mid = (r + l) / 2;
+            if (pre[r + 1] - pre[mid] - (r - mid + 1) * nums[mid] + (mid - l + 1) * nums[mid]
+                    - (pre[mid + 1] - pre[l]) <= k) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

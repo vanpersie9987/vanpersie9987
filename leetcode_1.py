@@ -30,6 +30,7 @@ from pickletools import read_uint1
 from queue import PriorityQueue
 from re import X
 import re
+from socket import NI_NUMERICSERV
 from textwrap import indent
 from tkinter import W
 from tkinter.tix import Tree
@@ -8576,7 +8577,91 @@ class leetcode_1 :
                 return 0
             return min(dfs(i + 1), dfs(i + 2)) + cost[i]
         return min(dfs(0), dfs(1))
-
-
-             
     
+    # 162. 寻找峰值 (Find Peak Element)
+    def findPeakElement(self, nums: List[int]) -> int:
+        left, right = 0, len(nums) - 1
+        while left < right:
+            mid = (left + right) >> 1
+            if nums[mid] > nums[mid + 1]:
+                right = mid
+            else:
+                left = mid + 1
+        return left
+    
+    # 2965. 找出缺失和重复的数字 (Find Missing and Repeated Values)
+    def findMissingAndRepeatedValues(self, grid: List[List[int]]) -> List[int]:
+       n = len(grid)
+       cnt = [0] * (n ** 2 + 1)
+       for i in range(n):
+          for j in range(n):
+             cnt[grid[i][j]] += 1
+       res = [0] * 2
+       for i in range(1, n ** 2 + 1):
+          if cnt[i] == 2:
+             res[0] = i
+          elif cnt[i] == 0:
+             res[1] = i
+       return res
+    
+    # 2966. 划分数组并满足最大差限制 (Divide Array Into Arrays With Max Difference)
+    def divideArray(self, nums: List[int], k: int) -> List[List[int]]:
+       nums.sort()
+       n = len(nums)
+       res = []
+       for i in range(0, n, 3):
+          if nums[i + 2] - nums[i] > k:
+             return []
+          res.append([nums[i], nums[i + 1], nums[i + 2]])
+       return res
+    
+    # 2967. 使数组成为等数数组的最小代价 (Minimum Cost to Make Array Equalindromic)
+    def minimumCost(self, nums: List[int]) -> int:
+       def cal(mid: int, step: int, limit: int) -> int:
+          while mid != limit:
+             if check(mid):
+                return sum(abs(x - mid) for x in nums)
+             mid += step
+          return inf
+       def check(num: int) -> bool:
+          s = str(num)
+          i = 0
+          j = len(s) - 1
+          while i < j:
+             if s[i] != s[j]:
+                return False
+             i += 1
+             j -= 1
+          return True
+       nums.sort()
+       n = len(nums)
+       m = nums[n // 2]
+       return min(cal(m, -1, 0), cal(m, 1, 10 ** 9))
+    
+    # 2968. 执行操作使频率分数最大 (Apply Operations to Maximize Frequency Score)
+    def maxFrequencyScore(self, nums: List[int], k: int) -> int:
+       def check(w: int) -> bool:
+          for i in range(w - 1, n):
+             l = i - w + 1
+             r = i
+             m = (l + r) // 2
+             if pre[r + 1] - pre[m] - nums[m] * (r - m + 1) + nums[m] * (m - l + 1) - (pre[m + 1] - pre[l]) <= k:
+                return True
+          return False
+       nums.sort()
+       n = len(nums)
+       pre = [0] * (n + 1)
+       for i in range(n):
+          pre[i + 1] = pre[i] + nums[i]
+       left = 1
+       right = n
+       res = 1
+       while left <= right:
+          mid = left + ((right - left) >> 1)
+          if check(mid):
+             res = mid
+             left = mid + 1
+          else:
+             right = mid - 1
+       return res
+       
