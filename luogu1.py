@@ -349,7 +349,7 @@ class luogu1:
     
 
     # P1002[NOIP2002 普及组]过河卒
-    def acrossTheRiver(tx: int, ty: int, hx: int, hy: int) -> int:
+    def acrossTheRiver(self, tx: int, ty: int, hx: int, hy: int) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
             if i > tx or j > ty or (i, j) in s:
@@ -379,7 +379,7 @@ class luogu1:
     
 
     # P1115 最大子段和
-    def maxSumOfSubsquence(nums: List[int]) -> int:
+    def maxSumOfSubsquence(self, nums: List[int]) -> int:
         pre = 0
         res = -inf
         min = 0
@@ -390,7 +390,7 @@ class luogu1:
         return res
     
     # P8707 [蓝桥杯 2020 省 AB1] 走方格
-    def suqareTicking(m: int, n: int) -> int:
+    def suqareTicking(self, m: int, n: int) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
             if i == m + 1 or j == n + 1 or i % 2 == 0 and j % 2 == 0:
@@ -401,6 +401,20 @@ class luogu1:
         if m % 2 == 0 and n % 2 == 0:
             return 0
         return dfs(1, 1)
+
+    # P1802 5 倍经验日
+    def fiveTimesExperience(self, exp: int, opp: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0
+            res = dfs(i + 1, j) + opp[i][0]
+            if j >= opp[i][2]:
+                res = max(res, dfs(i + 1, j - opp[i][2]) + opp[i][1])
+            return res
+        n = len(opp)
+        return dfs(0, exp) * 5
+
 
 
 
