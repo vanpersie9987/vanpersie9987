@@ -8664,4 +8664,17 @@ class leetcode_1 :
           else:
              right = mid - 1
        return res
-       
+    
+    # 1901. 寻找峰值 II (Find a Peak Element II)
+    def findPeakGrid(self, mat: List[List[int]]) -> List[int]:
+       left = 0
+       right = len(mat) - 2
+       while left <= right:
+          i = left + ((right - left) >> 1)
+          mx = max(mat[i])
+          if mx > mat[i + 1][mat[i].index(mx)]:
+             right = i - 1
+          else:
+             left = i + 1
+       i = left
+       return [i, mat[i].index(max(mat[i]))]
