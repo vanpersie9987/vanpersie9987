@@ -71,6 +71,18 @@ public class luogu1 {
         // int res = maxSumOfSubsquence(arr);
         // System.out.println(res);
 
+        /**
+         * 21 52 1
+         * 21 70 5
+         * 21 48 2
+         * 14 38 3
+         * 14 36 1
+         * 14 36 2
+         */
+        // int[][] arr = { { 21, 52, 1 }, { 21, 70, 5 }, { 21, 48, 2 }, { 14, 38, 3 }, { 14, 36, 1 }, { 14, 36, 2 } };
+        // int res = fiveTimesExperience(8, arr);
+        // System.out.println(res);
+
     }
 
     // P1122 最大子树和
@@ -1317,8 +1329,10 @@ public class luogu1 {
         if (memo1802[i][j] != -1) {
             return memo1802[i][j];
         }
+        // 输
         int res = dfs1802(i + 1, j) + opponents1802[i][0];
         if (j >= opponents1802[i][2]) {
+            // 赢
             res = Math.max(res, dfs1802(i + 1, j - opponents1802[i][2]) + opponents1802[i][1]);
         }
         return memo1802[i][j] = res;
