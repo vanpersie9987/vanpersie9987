@@ -388,6 +388,19 @@ class luogu1:
             res = max(res, pre - min)
             min = min(min, pre)
         return res
+    
+    # P8707 [蓝桥杯 2020 省 AB1] 走方格
+    def suqareTicking(m: int, n: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == m + 1 or j == n + 1 or i % 2 == 0 and j % 2 == 0:
+                return 0
+            if i == m and j == n:
+                return 1
+            return dfs(i + 1, j) + dfs(i, j + 1)
+        if m % 2 == 0 and n % 2 == 0:
+            return 0
+        return dfs(1, 1)
 
 
 
