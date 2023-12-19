@@ -1295,4 +1295,33 @@ public class luogu1 {
         return res;
     }
 
+    // P1802 5 倍经验日
+    private int[][] memo1802;
+    private int n1802;
+    private int[][] opponents1802;
+
+    public int fiveTimesExperience(int experience, int[][] opponents) {
+        this.opponents1802 = opponents;
+        this.n1802 = opponents.length;
+        this.memo1802 = new int[n1802][experience + 1];
+        for (int i = 0; i < n1802; ++i) {
+            Arrays.fill(memo1802[i], -1);
+        }
+        return 5 * dfs1802(0, experience);
+    }
+
+    private int dfs1802(int i, int j) {
+        if (i == n1802) {
+            return 0;
+        }
+        if (memo1802[i][j] != -1) {
+            return memo1802[i][j];
+        }
+        int res = dfs1802(i + 1, j) + opponents1802[i][0];
+        if (j >= opponents1802[i][2]) {
+            res = Math.max(res, dfs1802(i + 1, j - opponents1802[i][2]) + opponents1802[i][1]);
+        }
+        return memo1802[i][j] = res;
+    }
+
 }
