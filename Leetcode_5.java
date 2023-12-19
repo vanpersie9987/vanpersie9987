@@ -4208,23 +4208,17 @@ public class Leetcode_5 {
     public int[] findPeakGrid(int[][] mat) {
         int m = mat.length;
         int left = 0;
-        int right = m - 1;
-        int[] res = null;
+        int right = m - 2;
         while (left <= right) {
             int mid = left + ((right - left) >>> 1);
             int colIndex = getMaxColIndex(mat[mid]);
-            if (mid == m - 1) {
-                res = new int[] { mid, colIndex };
-                break;
-            }
-            if (mat[mid][colIndex] >= mat[mid + 1][colIndex]) {
-                res = new int[] { mid, colIndex };
+            if (mat[mid][colIndex] > mat[mid + 1][colIndex]) {
                 right = mid - 1;
             } else {
                 left = mid + 1;
             }
         }
-        return res;
+        return new int[] { left, getMaxColIndex(mat[left]) };
 
     }
 
