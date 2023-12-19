@@ -5942,27 +5942,16 @@ public class LeetCodeText {
 
     }
 
-    // 162. 寻找峰值
-    public int findPeakElement(int[] nums) {
-        for (int i = 0; i < nums.length - 1; ++i) {
-            if (nums[i] > nums[i + 1]) {
-                return i;
-            }
-        }
-        return nums.length - 1;
-
-    }
-
     // 162. 寻找峰值--二分查找
-    public int findPeakElement2(int[] nums) {
+    public int findPeakElement(int[] nums) {
 
         int left = 0;
-        int right = nums.length - 1;
+        int right = nums.length - 2;
 
         while (left < right) {
             int mid = left + ((right - left) >>> 1);
             if (nums[mid] > nums[mid + 1]) {
-                right = mid;
+                right = mid - 1;
             } else {
                 left = mid + 1;
             }
