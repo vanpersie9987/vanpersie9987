@@ -1279,4 +1279,18 @@ public class luogu1 {
         return memo4170[i][j] = res;
     }
 
+    // P1115 最大子段和
+    public int maxSumOfSubsquence(int[] nums) {
+        int min = 0;
+        int pre = 0;
+        int res = Integer.MIN_VALUE;
+        for (int num : nums) {
+            pre += num;
+            res = Math.max(res, pre - min);
+            min = Math.min(min, pre);
+        }
+        return res;
+    
+    }
+
 }
