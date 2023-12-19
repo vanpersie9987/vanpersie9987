@@ -5805,13 +5805,11 @@ public class Leetcode_8 {
         int n = nums.length;
         int[][] res = new int[n / 3][3];
         Arrays.sort(nums);
-        int j = 0;
         for (int i = 0; i < n; i += 3) {
             if (nums[i + 2] - nums[i] > k) {
                 return new int[0][0];
             }
-            res[j] = new int[] { nums[i], nums[i + 1], nums[i + 2] };
-            ++j;
+            res[i / 3] = new int[] { nums[i], nums[i + 1], nums[i + 2] };
         }
         return res;
     }
