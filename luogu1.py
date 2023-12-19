@@ -376,6 +376,18 @@ class luogu1:
                 res = min(res, dfs(i + 1, k) + dfs(k + 1, j))
             return res
         return dfs(0, len(s) - 1)
+    
+
+    # P1115 最大子段和
+    def maxSumOfSubsquence(nums: List[int]) -> int:
+        pre = 0
+        res = -inf
+        min = 0
+        for num in nums:
+            pre += num
+            res = max(res, pre - min)
+            min = min(min, pre)
+        return res
 
 
 

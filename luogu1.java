@@ -67,6 +67,9 @@ public class luogu1 {
         // String[] words = { "i", "int", "integer", "intern", "internet" };
         // int res = passwordOfDemonClan(words);
         // System.out.println(res);
+        // int[] arr = new int[] { 2, -4, 3, -1, 2, -4, 3 };
+        // int res = maxSumOfSubsquence(arr);
+        // System.out.println(res);
 
     }
 
@@ -1290,7 +1293,6 @@ public class luogu1 {
             min = Math.min(min, pre);
         }
         return res;
-    
     }
 
 }
