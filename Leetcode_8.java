@@ -5824,8 +5824,7 @@ public class Leetcode_8 {
         return Math.min(check2967(nums, m, -1, 0), check2967(nums, m, 1, (int) 1e9));
     }
 
-    private long check2967(int[] nums, int copy, int step, int limit) {
-        int m = copy;
+    private long check2967(int[] nums, int m, int step, int limit) {
         while (m != limit) {
             if (checkPalindromes2967(m)) {
                 long res = 0L;
