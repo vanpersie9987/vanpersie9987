@@ -414,6 +414,31 @@ class luogu1:
             return res
         n = len(opp)
         return dfs(0, exp) * 5
+    
+    # P1091 [NOIP2004 提高组] 合唱队形
+    def chorusFormation(self, arr: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if i == n:
+                return 0
+            # 出列
+            res = dfs(i + 1, j, k)
+            # 不出列
+            if j == 0:
+                res = max(res, dfs(i + 1, arr[i], 0) + 1)
+            else:
+                if k == 0:
+                    if j < arr[i]:
+                        res = max(res, dfs(i + 1, arr[i], 0) + 1)
+                    elif j > arr[i]:
+                        res = max(res, dfs(i + 1, arr[i], 1) + 1)
+                else:
+                    if j > arr[i]:
+                        res = max(res, dfs(i + 1, arr[i], 1) + 1)
+            return res
+        n = len(arr)
+        return n - dfs(0, 0, 0)
+
 
 
 
