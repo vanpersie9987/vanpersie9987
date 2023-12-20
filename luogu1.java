@@ -1338,4 +1338,50 @@ public class luogu1 {
         return memo1802[i][j] = res;
     }
 
+    // P1091 [NOIP2004 提高组] 合唱队形
+    private int n1091;
+    private int[] arr1091;
+    private int[][][] memo1091;
+
+    public int chorusFormation(int[] arr) {
+        this.n1091 = arr.length;
+        this.arr1091 = arr;
+        this.memo1091 = new int[n1091][231][2];
+        for (int i = 0; i < n1091; ++i) {
+            for (int j = 0; j < 231; ++j) {
+                Arrays.fill(memo1091[i][j], -1);
+            }
+        }
+        return n1091 - dfs1091(0, 0, 0);
+
+    }
+
+    private int dfs1091(int i, int j, int k) {
+        if (i == n1091) {
+            return 0;
+        }
+        if (memo1091[i][j][k] != -1) {
+            return memo1091[i][j][k];
+        }
+        // 出列
+        int res = dfs1091(i + 1, j, k);
+        // 不出列
+        if (j == 0) {
+            res = Math.max(res, dfs1091(i + 1, arr1091[i], 0) + 1);
+        } else {
+            if (k == 0) {
+                if (j < arr1091[i]) {
+                    res = Math.max(res, dfs1091(i + 1, arr1091[i], 0) + 1);
+                } else if (j > arr1091[i]) {
+                    res = Math.max(res, dfs1091(i + 1, arr1091[i], 1) + 1);
+                }
+            } else {
+                if (j > arr1091[i]) {
+                    res = Math.max(res, dfs1091(i + 1, arr1091[i], 1) + 1);
+                }
+            }
+        }
+        return memo1091[i][j][k] = res;
+    }
+
 }
