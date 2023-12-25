@@ -8780,3 +8780,28 @@ class leetcode_1 :
              return s
           s -= nums[i]
        return -1
+    
+    # 2973. 树中每个节点放置的金币数目 (Find Number of Coins to Place in Tree Nodes)
+    def placedCoins(self, edges: List[List[int]], cost: List[int]) -> List[int]:
+       def dfs(x: int, fa: int) -> List[int]:
+          list = [cost[x]]
+          for y in g[x]:
+             if y != fa:
+                list.extend(dfs(y, x))
+          list.sort()
+          if len(list) >= 3:
+             res[x] = max(0, list[-1] * list[-2] * list[-3], list[0] * list[1] * list[-1])
+          if len(list) >= 5:
+             list = list[:2] + list[-3:]
+          return list
+
+       n = len(cost)
+       g = [[] for _ in range(n)]
+       for u, v in edges:
+          g[u].append(v)
+          g[v].append(u)
+       res = [1] * n
+       dfs(0, -1)
+       return res
+       
+       
