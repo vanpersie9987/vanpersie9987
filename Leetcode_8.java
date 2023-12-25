@@ -5890,4 +5890,216 @@ public class Leetcode_8 {
         return false;
     }
 
+    // 2974. 最小数字游戏 (Minimum Number Game)
+    public int[] numberGame(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        for (int i = 0; i < n; i += 2) {
+            int temp = nums[i];
+            nums[i] = nums[i + 1];
+            nums[i + 1] = temp;
+        }
+        return nums;
+
+    }
+
+    // 2975. 移除栅栏得到的正方形田地的最大面积 (Maximum Square Area by Removing Fences From a Field)
+    public int maximizeSquareArea(int m, int n, int[] hFences, int[] vFences) {
+        Set<Integer> hSet = check2975(hFences, m);
+        Set<Integer> vSet = check2975(vFences, n);
+        long res = -1L;
+        for (int h : hSet) {
+            if (vSet.contains(h)) {
+                res = Math.max(res, (long) h * h);
+            }
+        }
+        if (res == -1L) {
+            return -1;
+        }
+        final int MOD = (int) 1e9 + 7;
+        return (int) (res % MOD);
+
+    }
+
+    private Set<Integer> check2975(int[] nums, int n) {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(n);
+        for (int num : nums) {
+            list.add(num);
+        }
+        Collections.sort(list);
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < list.size(); ++i) {
+            for (int j = i + 1; j < list.size(); ++j) {
+                set.add(list.get(j) - list.get(i));
+            }
+        }
+        return set;
+
+    }
+
+    // 2976. 转换字符串的最小成本 I (Minimum Cost to Convert String I)
+    private List<int[]>[] g2976;
+
+    public long minimumCost(String source, String target, char[] original, char[] changed, int[] cost) {
+        this.g2976 = new ArrayList[26];
+        Arrays.setAll(g2976, k -> new ArrayList<>());
+        for (int i = 0; i < original.length; ++i) {
+            g2976[original[i] - 'a'].add(new int[] { changed[i] - 'a', cost[i] });
+        }
+        int[][] dis = new int[26][26];
+        for (int i = 0; i < 26; ++i) {
+            Arrays.fill(dis[i], Integer.MAX_VALUE);
+        }
+        for (int i = 0; i < 26; ++i) {
+            dis[i] = dijkstra2976(i);
+        }
+        long res = 0L;
+        for (int i = 0; i < source.length(); ++i) {
+            int c1 = source.charAt(i) - 'a';
+            int c2 = target.charAt(i) - 'a';
+            if (dis[c1][c2] == Integer.MAX_VALUE) {
+                return -1L;
+            }
+            res += dis[c1][c2];
+        }
+        return res;
+
+    }
+
+    private int[] dijkstra2976(int start) {
+        int[] dis = new int[26];
+        Arrays.fill(dis, Integer.MAX_VALUE);
+        dis[start] = 0;
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[1], o2[1]);
+            }
+
+        });
+        q.offer(new int[] { start, 0 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int d = cur[1];
+            for (int[] nei : g2976[x]) {
+                int y = nei[0];
+                int neiD = nei[1];
+                if (d + neiD < dis[y]) {
+                    dis[y] = d + neiD;
+                    q.offer(new int[] { y, dis[y] });
+                }
+            }
+        }
+        return dis;
+    }
+
+    // 2970. 统计移除递增子数组的数目 I (Count the Number of Incremovable Subarrays I)
+    // 2972. 统计移除递增子数组的数目 II (Count the Number of Incremovable Subarrays II)
+    public long incremovableSubarrayCount(int[] nums) {
+        long res = 0L;
+        int n = nums.length;
+        int i = 0;
+        while (i < n - 1) {
+            if (nums[i] >= nums[i + 1]) {
+                break;
+            }
+            ++i;
+        }
+        // 整个数组单调递增
+        if (i == n - 1) {
+            return (1 + n) * n / 2;
+        }
+        res += i + 1;
+        int j = n - 1;
+        while (j >= 1) {
+            if (nums[j - 1] >= nums[j]) {
+                break;
+            }
+            --j;
+        }
+        res += n - j;
+        res += 1;
+        int x = 0;
+        while (x <= i && j < n) {
+            while (x <= j && j < n && nums[x] >= nums[j]) {
+                ++j;
+            }
+            res += n - j;
+            ++x;
+        }
+        return res;
+
+    }
+
+    // 2971. 找到最大周长的多边形 (Find Polygon With the Largest Perimeter)
+    public long largestPerimeter(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        long sum = 0L;
+        for (int num : nums) {
+            sum += num; 
+        }
+        for (int i = n - 1; i >= 2; --i) {
+            if (sum - nums[i] > nums[i]) {
+                return sum;
+            }
+            sum -= nums[i];
+        }
+        return -1L;
+    }
+
+    // 2973. 树中每个节点放置的金币数目 (Find Number of Coins to Place in Tree Nodes)
+    private List<Integer>[] g2973;
+    private int[] cost2973;
+    private long[] res2973;
+
+    public long[] placedCoins(int[][] edges, int[] cost) {
+        int n = cost.length;
+        this.g2973 = new ArrayList[n];
+        this.cost2973 = cost;
+        Arrays.setAll(g2973, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            int u = e[0];
+            int v = e[1];
+            g2973[u].add(v);
+            g2973[v].add(u);
+        }
+        this.res2973 = new long[n];
+        dfs2973(0, -1);
+        return res2973;
+    }
+
+    private List<Integer> dfs2973(int x, int fa) {
+        List<Integer> list = new ArrayList<>();
+        list.add(cost2973[x]);
+        for (int y : g2973[x]) {
+            if (y != fa) {
+                list.addAll(dfs2973(y, x));
+            }
+        }
+        Collections.sort(list);
+        if (list.size() < 3) {
+            res2973[x] = 1L;
+        } else {
+            res2973[x] = Math.max((long) list.get(0) * list.get(1) * list.get(list.size() - 1),
+                    (long) list.get(list.size() - 1) * list.get(list.size() - 2) * list.get(list.size() - 3));
+            res2973[x] = Math.max(0L, res2973[x]);
+        }
+        if (list.size() >= 5) {
+            List<Integer> ret = new ArrayList<>();
+            for (int i = 0; i < 2; ++i) {
+                ret.add(list.get(i));
+            }
+            for (int i = list.size() - 3; i < list.size(); ++i) {
+                ret.add(list.get(i));
+            }
+            list = new ArrayList<>(ret);
+        }
+        return list;
+    }
+
 }

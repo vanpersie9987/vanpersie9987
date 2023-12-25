@@ -31,6 +31,7 @@ from queue import PriorityQueue
 from re import X
 import re
 from socket import NI_NUMERICSERV
+from ssl import VERIFY_X509_TRUSTED_FIRST
 from textwrap import indent
 from tkinter import W
 from tkinter.tix import Tree
@@ -8678,3 +8679,104 @@ class leetcode_1 :
              left = i + 1
        i = left
        return [i, mat[i].index(max(mat[i]))]
+
+    # 1276. 不浪费原料的汉堡制作方案 (Number of Burgers with No Waste of Ingredients)
+    def numOfBurgers(self, tomatoSlices: int, cheeseSlices: int) -> List[int]:
+       if tomatoSlices - 2 * cheeseSlices < 0 or (tomatoSlices - 2 * cheeseSlices) % 2 != 0 or cheeseSlices - (tomatoSlices - 2 * cheeseSlices) // 2 < 0:
+          return []
+       return [(tomatoSlices - 2 * cheeseSlices) // 2, cheeseSlices - (tomatoSlices - 2 * cheeseSlices) // 2]
+
+    # 2974. 最小数字游戏 (Minimum Number Game)
+    def numberGame(self, nums: List[int]) -> List[int]:
+       nums.sort()
+       for i in range(1, len(nums), 2):
+          nums[i], nums[i - 1] = nums[i - 1], nums[i]
+       return nums
+    
+    # 2975. 移除栅栏得到的正方形田地的最大面积 (Maximum Square Area by Removing Fences From a Field)
+    def maximizeSquareArea(self, m: int, n: int, hFences: List[int], vFences: List[int]) -> int:
+       def check(nums: List[int], n: int) -> set:
+          nums.extend([1, n])
+          nums.sort()
+          s = set()
+          for i in range(len(nums)):
+             for j in range(i + 1, len(nums)):
+                s.add(nums[j] - nums[i])
+          return s
+       h_set = check(hFences, m)
+       v_set = check(vFences, n)
+       res = 0
+       for h in h_set:
+          if h in v_set:
+             res = max(res, h * h)
+       MOD = 10 ** 9 + 7
+       return res % MOD if res else -1
+    
+    # 2976. 转换字符串的最小成本 I (Minimum Cost to Convert String I)
+    def minimumCost(self, source: str, target: str, original: List[str], changed: List[str], cost: List[int]) -> int:
+       def dijkstra(start: int) -> List[int]:
+          dis = [inf] * 26
+          dis[start] = 0
+          q = [(0, start)]
+          heapq.heapify(q)
+          while q:
+             cur = heapq.heappop(q)
+             d = cur[0]
+             x = cur[1]
+             for nxt in g[x]:
+                y = nxt[0]
+                dx = nxt[1]
+                if d + dx < dis[y]:
+                   dis[y] = d + dx
+                   heapq.heappush(q, (dis[y], y))
+          return dis
+       g = [[] for _ in range(26)]
+       for ori, cha, cos in zip(original, changed, cost):
+          g[ord(ori) - ord('a')].append((ord(cha) - ord('a'), cos))
+       dis = [[inf] * 26 for _ in range(26)]
+       for i in range(26):
+          dis[i] = dijkstra(i)
+       res = 0
+       for s, t in zip(source, target):
+          if dis[ord(s) - ord('a')][ord(t) - ord('a')] == inf:
+             return -1
+          res += dis[ord(s) - ord('a')][ord(t) - ord('a')]
+       return res
+    
+
+    # 2970. 统计移除递增子数组的数目 I (Count the Number of Incremovable Subarrays I)
+    # 2972. 统计移除递增子数组的数目 II (Count the Number of Incremovable Subarrays II)
+    def incremovableSubarrayCount(self, nums: List[int]) -> int:
+       n = len(nums)
+       res = 1
+       i = 0
+       while i < n - 1:
+          if nums[i] >= nums[i + 1]:
+             break
+          i += 1
+       if i == n - 1:
+          return (1 + n) * n // 2
+       res += i + 1
+       j = n - 1
+       while j > 0:
+          if nums[j - 1] >= nums[j]:
+             break
+          j -= 1
+       res += n - j
+       x = 0
+       while x <= i and j < n:
+          while x <= i and j < n and nums[x] >= nums[j]:
+             j += 1
+          res += n - j
+          x += 1
+       return res 
+    
+    # 2971. 找到最大周长的多边形 (Find Polygon With the Largest Perimeter)
+    def largestPerimeter(self, nums: List[int]) -> int:
+       nums.sort()
+       s = sum(nums)
+       for i in range(len(nums) - 1, -1, -1):
+          if s - nums[i] > nums[i]:
+             return s
+          s -= nums[i]
+       return -1
