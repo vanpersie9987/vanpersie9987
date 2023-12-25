@@ -5913,9 +5913,6 @@ public class Leetcode_8 {
                 res = Math.max(res, (long) h * h);
             }
         }
-        if (res == -1L) {
-            return -1;
-        }
         final int MOD = (int) 1e9 + 7;
         return (int) (res % MOD);
 
