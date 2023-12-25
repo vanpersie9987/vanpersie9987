@@ -6025,7 +6025,7 @@ public class Leetcode_8 {
         res += 1;
         int x = 0;
         while (x <= i && j < n) {
-            while (x <= j && j < n && nums[x] >= nums[j]) {
+            while (j < n && nums[x] >= nums[j]) {
                 ++j;
             }
             res += n - j;

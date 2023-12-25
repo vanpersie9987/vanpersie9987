@@ -8765,11 +8765,11 @@ class leetcode_1 :
        res += n - j
        x = 0
        while x <= i and j < n:
-          while x <= i and j < n and nums[x] >= nums[j]:
+          while j < n and nums[x] >= nums[j]:
              j += 1
           res += n - j
           x += 1
-       return res 
+       return res
     
     # 2971. 找到最大周长的多边形 (Find Polygon With the Largest Perimeter)
     def largestPerimeter(self, nums: List[int]) -> int:
