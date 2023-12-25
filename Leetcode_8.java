@@ -5950,9 +5950,6 @@ public class Leetcode_8 {
         }
         int[][] dis = new int[26][26];
         for (int i = 0; i < 26; ++i) {
-            Arrays.fill(dis[i], Integer.MAX_VALUE);
-        }
-        for (int i = 0; i < 26; ++i) {
             dis[i] = dijkstra2976(i);
         }
         long res = 0L;
