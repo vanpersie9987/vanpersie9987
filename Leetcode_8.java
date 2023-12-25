@@ -6090,14 +6090,8 @@ public class Leetcode_8 {
             res2973[x] = Math.max(0L, res2973[x]);
         }
         if (list.size() >= 5) {
-            List<Integer> ret = new ArrayList<>();
-            for (int i = 0; i < 2; ++i) {
-                ret.add(list.get(i));
-            }
-            for (int i = list.size() - 3; i < list.size(); ++i) {
-                ret.add(list.get(i));
-            }
-            list = new ArrayList<>(ret);
+            list = List.of(list.get(0), list.get(1), list.get(list.size() - 1), list.get(list.size() - 2),
+                    list.get(list.size() - 3));
         }
         return list;
     }
