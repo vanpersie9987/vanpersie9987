@@ -8803,5 +8803,3 @@ class leetcode_1 :
        res = [1] * n
        dfs(0, -1)
        return res
-       
-       

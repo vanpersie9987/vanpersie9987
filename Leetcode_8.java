@@ -335,24 +335,24 @@ public class Leetcode_8 {
         return dfs1349(m - 1, 0);
     }
 
-    private int dfs1349(int i, int preMask) {
+    private int dfs1349(int i, int j) {
         if (i < 0) {
             return 0;
         }
-        if (memo1349[i][preMask] != -1) {
-            return memo1349[i][preMask];
+        if (memo1349[i][j] != -1) {
+            return memo1349[i][j];
         }
-        int mask = ((preMask << 1) | (preMask >> 1) | rows1349[i]) & u1349;
+        int mask = ((j << 1) | (j >> 1) | rows1349[i]) & u1349;
         int c = mask ^ u1349;
         // 不选
         int max = dfs1349(i - 1, 0);
         // 选
-        for (int j = c; j > 0; j = (j - 1) & c) {
-            if ((j & (j >> 1)) == 0) {
-                max = Math.max(max, dfs1349(i - 1, j) + Integer.bitCount(j));
+        for (int k = c; k > 0; k = (k - 1) & c) {
+            if ((k & (k >> 1)) == 0) {
+                max = Math.max(max, dfs1349(i - 1, k) + Integer.bitCount(k));
             }
         }
-        return memo1349[i][preMask] = max;
+        return memo1349[i][j] = max;
     }
 
     // 1681. 最小不兼容性 (Minimum Incompatibility)
