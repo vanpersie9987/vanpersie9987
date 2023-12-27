@@ -6090,4 +6090,139 @@ public class Leetcode_8 {
         return list;
     }
 
+    // 2977. 转换字符串的最小成本 II (Minimum Cost to Convert String II)
+    private int id2977;
+    private long[][] dic2977;
+    private int m2977;
+    private String source2977;
+    private String target2977;
+    private long[] memo2977;
+    private int n2977;
+    private Trie2977 trie2977;
+
+    public long minimumCost(String source, String target, String[] original, String[] changed, int[] cost) {
+        Set<String> set = new HashSet<>();
+        for (int i = 0; i < original.length; ++i) {
+            set.add(original[i]);
+            set.add(changed[i]);
+        }
+        this.m2977 = set.size();
+        this.dic2977 = new long[m2977][m2977];
+        for (int i = 0; i < m2977; ++i) {
+            Arrays.fill(dic2977[i], Long.MAX_VALUE / 2);
+        }
+        this.trie2977 = new Trie2977();
+        for (int i = 0; i < original.length; ++i) {
+            int oId = trie2977.insert(original[i]);
+            int cId = trie2977.insert(changed[i]);
+            dic2977[oId][cId] = Math.min(dic2977[oId][cId], cost[i]);
+        }
+        for (int i = 0; i < m2977; ++i) {
+            dic2977[i] = dijkstra2977(i);
+        }
+        this.source2977 = source;
+        this.target2977 = target;
+        this.n2977 = source.length();
+        this.memo2977 = new long[n2977];
+        Arrays.fill(memo2977, -1L);
+        long res = dfs2977(0);
+        if (res < Long.MAX_VALUE / 2) {
+            return res;
+        }
+        return -1L;
+
+    }
+
+    private long dfs2977(int i) {
+        if (i == n2977) {
+            return 0L;
+        }
+        if (memo2977[i] != -1L) {
+            return memo2977[i];
+        }
+        long res = Long.MAX_VALUE / 2;
+        if (source2977.charAt(i) == target2977.charAt(i)) {
+            res = dfs2977(i + 1);
+        }
+        for (int[] j : trie2977.check(source2977.substring(i), target2977.substring(i))) {
+            res = Math.min(res, dfs2977(i + j[0] + 1) + dic2977[j[1]][j[2]]);
+        }
+        return memo2977[i] = res;
+    }
+
+    private long[] dijkstra2977(int start) {
+        long[] dis = new long[m2977];
+        Arrays.fill(dis, Long.MAX_VALUE / 2);
+        dis[start] = 0L;
+        Queue<long[]> q = new PriorityQueue<>(new Comparator<long[]>() {
+
+            @Override
+            public int compare(long[] o1, long[] o2) {
+                return Long.compare(o1[1], o2[1]);
+            }
+
+        });
+        q.offer(new long[] { start, 0L });
+        while (!q.isEmpty()) {
+            long[] cur = q.poll();
+            int x = (int) cur[0];
+            long d = cur[1];
+            for (int y = 0; y < m2977; ++y) {
+                if (d + dic2977[x][y] < dis[y]) {
+                    dis[y] = d + dic2977[x][y];
+                    q.offer(new long[] { y, dis[y] });
+                }
+            }
+        }
+        return dis;
+    }
+
+    public class Trie2977 {
+        private Trie2977[] children;
+        private int i;
+
+        public Trie2977() {
+            this.children = new Trie2977[26];
+            this.i = -1;
+        }
+
+        public int insert(String s) {
+            Trie2977 node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie2977();
+                }
+                node = node.children[index];
+            }
+            if (node.i == -1) {
+                node.i = id2977++;
+            }
+            return node.i;
+        }
+
+        public List<int[]> check(String s, String t) {
+            List<int[]> res = new ArrayList<>();
+            Trie2977 node1 = this;
+            Trie2977 node2 = this;
+            for (int i = 0; i < s.length(); ++i) {
+                int index1 = s.charAt(i) - 'a';
+                int index2 = t.charAt(i) - 'a';
+                if (node1.children[index1] == null || node2.children[index2] == null) {
+                    break;
+                }
+                node1 = node1.children[index1];
+                node2 = node2.children[index2];
+                if (node1.i == -1 || node2.i == -1) {
+                    continue;
+                }
+                if (dic2977[node1.i][node2.i] < Long.MAX_VALUE / 2) {
+                    res.add(new int[] { i, node1.i, node2.i });
+                }
+            }
+            return res;
+        }
+
+    }
+
 }
