@@ -8803,3 +8803,19 @@ class leetcode_1 :
        res = [1] * n
        dfs(0, -1)
        return res
+
+    # 2660. 保龄球游戏的获胜者 (Determine the Winner of a Bowling Game)
+    def isWinner(self, player1: List[int], player2: List[int]) -> int:
+       def check(nums: List[int]) -> int:
+          res = 0
+          for i, v in enumerate(nums):
+             if i - 1 >= 0 and nums[i - 1] == 10 or i - 2 >= 0 and nums[i - 2] == 10:
+                res += v * 2
+             else:
+                res += v
+          return res
+       res1 = check(player1)
+       res2 = check(player2)
+       if res1 == res2:
+          return 0
+       return 1 if res1 > res2 else 2
