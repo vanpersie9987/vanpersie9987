@@ -6115,8 +6115,24 @@ public class Leetcode_8 {
         for (int i = 0; i < original.length; ++i) {
             int oId = trie2977.insert(original[i]);
             int cId = trie2977.insert(changed[i]);
+            dic2977[oId][oId] = 0;
+            dic2977[cId][cId] = 0;
             dic2977[oId][cId] = Math.min(dic2977[oId][cId], cost[i]);
         }
+        /**
+         * Floyd
+         */
+        // for (int k = 0; k < m2977; ++k) {
+        //     for (int i = 0; i < m2977; ++i) {
+        //         if (dic2977[i][k] == Long.MAX_VALUE / 2) {
+        //             continue;
+        //         }
+        //         for (int j = 0; j < m2977; ++j) {
+        //             dic2977[i][j] = Math.min(dic2977[i][j], dic2977[i][k] + dic2977[k][j]);
+        //         }
+        //     }
+        
+        // }
         for (int i = 0; i < m2977; ++i) {
             dic2977[i] = dijkstra2977(i);
         }
