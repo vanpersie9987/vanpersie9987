@@ -8836,3 +8836,18 @@ class leetcode_1 :
           sum_d -= x
           d[i + k] += x
        return True
+    
+    # 2411. 按位或最大的最小子数组长度 (Smallest Subarrays With Maximum Bitwise OR)
+    def smallestSubarrays(self, nums: List[int]) -> List[int]:
+       n = len(nums)
+       res = [0] * n
+       pos = [-1] * 31
+       for i in range(n - 1, -1, -1):
+          k = i
+          for j in range(31):
+             if nums[i] >> j & 1:
+                pos[j] = i
+             if pos[j] != -1:
+                k = max(k, pos[j])
+          res[i] = k - i + 1
+       return res 

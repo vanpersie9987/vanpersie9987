@@ -2439,61 +2439,26 @@ public class Leetcode_5 {
 
     }
 
-    // 6186. 按位或最大的最小子数组长度
+    // 2411. 按位或最大的最小子数组长度 (Smallest Subarrays With Maximum Bitwise OR)
     public int[] smallestSubarrays(int[] nums) {
         int n = nums.length;
-        int[] counts = new int[32];
+        int[] pos = new int[31];
+        Arrays.fill(pos, -1);
         int[] res = new int[n];
-        int j = n - 1;
-        int i = n - 1;
-        while (i >= 0) {
-            addCounts(nums[i], counts);
-            while (j > i && tryMine(nums[j], counts.clone())) {
-                mine(nums[j--], counts);
+        for (int i = n - 1; i >= 0; --i) {
+            int k = i;
+            for (int j = 0; j < 31; ++j) {
+                if ((nums[i] >> j & 1) != 0) {
+                    pos[j] = i;
+                }
+                if (pos[j] != -1) {
+                    k = Math.max(k, pos[j]);
+                }
             }
-            res[i] = j - i + 1;
-            --i;
+            res[i] = k - i + 1;
         }
         return res;
 
-    }
-
-    private void mine(int num, int[] counts) {
-        int[] c = new int[counts.length];
-        int i = 0;
-        while (num != 0) {
-            c[i++] = num % 2;
-            num /= 2;
-        }
-        for (int ij = 0; ij < counts.length; ++ij) {
-            counts[ij] -= c[ij];
-        }
-
-    }
-
-    private boolean tryMine(int num, int[] counts) {
-        int[] c = new int[counts.length];
-        int i = 0;
-        while (num != 0) {
-            c[i++] = num % 2;
-            num /= 2;
-        }
-        for (int ij = 0; ij < counts.length; ++ij) {
-            if (counts[ij] != 0) {
-                if (counts[ij] - c[ij] == 0) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private void addCounts(int num, int[] counts) {
-        int i = 0;
-        while (num != 0) {
-            counts[i++] += num % 2;
-            num /= 2;
-        }
     }
 
     // 6180. 最小偶倍数
