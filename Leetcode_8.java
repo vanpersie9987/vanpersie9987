@@ -6241,4 +6241,26 @@ public class Leetcode_8 {
 
     }
 
+    // 2772. 使数组中的所有元素都等于零 (Apply Operations to Make All Array Elements Equal to
+    // Zero)
+    public boolean checkArray(int[] nums, int k) {
+        long sumD = 0L;
+        int n = nums.length;
+        long[] diff = new long[n + 1];
+        for (int i = 0; i < n; ++i) {
+            sumD += diff[i];
+            int x = nums[i];
+            x += sumD;
+            if (x == 0) {
+                continue;
+            }
+            if (x < 0 || i + k > n) {
+                return false;
+            }
+            sumD -= x;
+            diff[i + k] += x;
+        }
+        return true;
+    }
+
 }

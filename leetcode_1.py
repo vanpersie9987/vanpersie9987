@@ -17,6 +17,7 @@
 #     a , b = b , a + b
 
 
+from asyncio import FastChildWatcher
 from audioop import reverse
 from calendar import c
 from collections import Counter
@@ -8819,3 +8820,19 @@ class leetcode_1 :
        if res1 == res2:
           return 0
        return 1 if res1 > res2 else 2
+
+    # 2772. 使数组中的所有元素都等于零 (Apply Operations to Make All Array Elements Equal to Zero)
+    def checkArray(self, nums: List[int], k: int) -> bool:
+       n = len(nums)
+       d = [0] * (n + 1)
+       sum_d = 0
+       for i, x in enumerate(nums):
+          sum_d += d[i]
+          x += sum_d
+          if x == 0:
+             continue
+          if x < 0 or i + k > n:
+             return False
+          sum_d -= x
+          d[i + k] += x
+       return True
