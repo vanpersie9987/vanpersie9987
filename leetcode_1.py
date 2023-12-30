@@ -8851,3 +8851,18 @@ class leetcode_1 :
                 k = max(k, pos[j])
           res[i] = k - i + 1
        return res 
+    
+    # 1185. 一周中的第几天 (Day of the Week)
+    def dayOfTheWeek(self, day: int, month: int, year: int) -> str:
+       list = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+       mon = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+       res = 4
+       for i in range(1971, year):
+          leap = i % 4 == 0 and i % 100 != 0 or i % 400 == 0
+          res += 366 if leap else 365
+       for i in range(1, month):
+          res += mon[i - 1]
+          if i == 2 and (year % 4 == 0 and year % 100 != 0 or year % 400 == 0):
+             res += 1
+       res += day
+       return list[res % 7]

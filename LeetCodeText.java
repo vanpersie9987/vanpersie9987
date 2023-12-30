@@ -5098,22 +5098,23 @@ public class LeetCodeText {
 
     }
 
-    public String dayOfTheWeek(final int day, int month, int year) {
-        final Map<Integer, String> map = new HashMap<>();
-        map.put(0, "Monday");
-        map.put(1, "Tuesday");
-        map.put(2, "Wednesday");
-        map.put(3, "Thursday");
-        map.put(4, "Friday");
-        map.put(5, "Saturday");
-        map.put(6, "Sunday");
-        // 吉姆拉尔森公式
-        if (month == 1 || month == 2) {
-            month += 12;
-            year--;
+    // 1185. 一周中的第几天 (Day of the Week)
+    public String dayOfTheWeek(int day, int month, int year) {
+        int[] mon = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+        List<String> list = List.of("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+        int res = 4;
+        for (int y = 1971; y < year; ++y) {
+            boolean isLeapYear = y % 4 == 0 && y % 100 != 0 || y % 400 == 0;
+            res += isLeapYear ? 366 : 365;
         }
-        final int iWeek = (day + 2 * month + 3 * (month + 1) / 5 + year + year / 4 - year / 100 + year / 400) % 7;
-        return map.get(iWeek);
+        for (int m = 1; m < month; ++m) {
+            res += mon[m - 1];
+            if (m == 2 && (year % 4 == 0 && year % 100 != 0 || year % 400 == 0)) {
+                res += 1;
+            }
+        }
+        res += day;
+        return list.get(res % 7);
 
     }
 
@@ -12479,22 +12480,22 @@ public class LeetCodeText {
     }
 
     // 1410. HTML 实体解析器
-    private int i;
+    private int i1410;
 
     public String entityParser(String text) {
         StringBuilder res = new StringBuilder();
-        while (i < text.length()) {
-            if (text.charAt(i) == '&') {
-                char parse = parse(text.substring(i, text.length()));
+        while (i1410 < text.length()) {
+            if (text.charAt(i1410) == '&') {
+                char parse = parse(text.substring(i1410, text.length()));
                 if (parse != ' ') {
                     res.append(parse);
                 } else {
-                    res.append(text.charAt(i));
+                    res.append(text.charAt(i1410));
                 }
             } else {
-                res.append(text.charAt(i));
+                res.append(text.charAt(i1410));
             }
-            ++i;
+            ++i1410;
         }
         return res.toString();
 
@@ -12508,27 +12509,27 @@ public class LeetCodeText {
     // 斜线号：字符实体为 &frasl; ，对应的字符是 / 
     private char parse(String string) {
         if (string.indexOf("&quot;") == 0) {
-            i += 5;
+            i1410 += 5;
             return '\"';
         }
         if (string.indexOf("&apos;") == 0) {
-            i += 5;
+            i1410 += 5;
             return '\'';
         }
         if (string.indexOf("&amp;") == 0) {
-            i += 4;
+            i1410 += 4;
             return '&';
         }
         if (string.indexOf("&gt;") == 0) {
-            i += 3;
+            i1410 += 3;
             return '>';
         }
         if (string.indexOf("&lt;") == 0) {
-            i += 3;
+            i1410 += 3;
             return '<';
         }
         if (string.indexOf("&frasl;") == 0) {
-            i += 6;
+            i1410 += 6;
             return '/';
         }
 
