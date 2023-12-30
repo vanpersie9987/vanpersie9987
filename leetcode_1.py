@@ -8889,4 +8889,22 @@ class leetcode_1 :
                    res += 1
                    seen[l - 1].add(left_hash)
        return res
+    
+    # 1937. 扣分后的最大得分 (Maximum Number of Points with Cost)
+    def maxPoints(self, points: List[List[int]]) -> int:
+       m = len(points)
+       n = len(points[0])
+       dp = [0] * n
+       for i in range(m):
+          best = -inf
+          cur = [0] * n
+          for j in range(n):
+             best = max(best, dp[j] + j)
+             cur[j] = max(cur[j], best + points[i][j] - j)
+          best = -inf
+          for j in range(n - 1, -1, -1):
+             best = max(best, dp[j] - j)
+             cur[j] = max(cur[j], best + points[i][j] + j)
+          dp = cur
+       return max(dp)
           
