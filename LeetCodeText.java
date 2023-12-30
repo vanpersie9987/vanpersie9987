@@ -18815,16 +18815,16 @@ public class LeetCodeText {
 
     // 1154. 一年中的第几天 (Day of the Year)
     public int dayOfYear(String date) {
-        int[] daysOfmonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-        int year = Integer.parseInt(date.substring(0, 4));
-        int month = Integer.parseInt(date.substring(5, 7));
-        int day = Integer.parseInt(date.substring(8, 10));
-        daysOfmonth[1] = isLeapYear(year) ? 29 : 28;
+        int y = Integer.parseInt(date.substring(0, 4));
+        int m = Integer.parseInt(date.substring(5, 7));
+        int d = Integer.parseInt(date.substring(8));
+        boolean leapYear = y % 4 == 0 && y % 100 != 0 || y % 400 == 0;
+        int[] mon = { 31, 28 + (leapYear ? 1 : 0), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         int res = 0;
-        for (int i = 0; i < month - 1; ++i) {
-            res += daysOfmonth[i];
+        for (int i = 1; i < m; ++i) {
+            res += mon[i - 1];
         }
-        res += day;
+        res += d;
         return res;
     }
 
