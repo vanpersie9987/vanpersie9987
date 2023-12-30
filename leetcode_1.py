@@ -8900,7 +8900,7 @@ class leetcode_1 :
           cur = [0] * n
           for j in range(n):
              best = max(best, dp[j] + j)
-             cur[j] = max(cur[j], best + points[i][j] - j)
+             cur[j] = best + points[i][j] - j
           best = -inf
           for j in range(n - 1, -1, -1):
              best = max(best, dp[j] - j)
