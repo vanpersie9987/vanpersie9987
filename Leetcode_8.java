@@ -6282,8 +6282,8 @@ public class Leetcode_8 {
             for (int j = i + 1; j < n; ++j) {
                 int l = j - i;
                 if (j + l <= n) {
-                    int leftHash = hash(i, j - 1, pre, mul, MOD);
-                    if (!set[l - 1].contains(leftHash) && leftHash == hash(j, j + l - 1, pre, mul, MOD)) {
+                    int leftHash = hash1316(i, j - 1, pre, mul, MOD);
+                    if (!set[l - 1].contains(leftHash) && leftHash == hash1316(j, j + l - 1, pre, mul, MOD)) {
                         ++res;
                         set[l - 1].add(leftHash);
                     }
@@ -6294,8 +6294,35 @@ public class Leetcode_8 {
 
     }
 
-    private int hash(int i, int j, int[] pre, int[] mul, long MOD) {
+    private int hash1316(int i, int j, int[] pre, int[] mul, long MOD) {
         return (int) ((pre[j + 1] - (long) pre[i] * mul[j - i + 1] % MOD + MOD) % MOD);
+    }
+
+    // 1937. 扣分后的最大得分 (Maximum Number of Points with Cost)
+    public long maxPoints(int[][] points) {
+        int m = points.length;
+        int n = points[0].length;
+        long[] dp = new long[n];
+        for (int i = 0; i < m; ++i) {
+            long max = Long.MIN_VALUE;
+            long[] mx = new long[n];
+            for (int j = 0; j < n; ++j) {
+                max = Math.max(max, dp[j] + j);
+                mx[j] = Math.max(mx[j], max + points[i][j] - j);
+            }
+            max = Long.MIN_VALUE;
+            for (int j = n - 1; j >= 0; --j) {
+                max = Math.max(max, dp[j] - j);
+                mx[j] = Math.max(mx[j], max + points[i][j] + j);
+            }
+            dp = mx;
+        }
+        long res = 0L;
+        for (int j = 0; j < n; ++j) {
+            res = Math.max(res, dp[j]);
+        }
+        return res;
+
     }
 
 
