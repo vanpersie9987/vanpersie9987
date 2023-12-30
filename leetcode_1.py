@@ -8866,3 +8866,27 @@ class leetcode_1 :
              res += 1
        res += day
        return list[res % 7]
+
+    # 1316. 不同的循环子字符串 (Distinct Echo Substrings)
+    def distinctEchoSubstrings(self, text: str) -> int:
+       def hash(l: int, r: int) -> int:
+          return (pre[r + 1] - pre[l] * mul[r - l + 1]) % mod
+       n = len(text)
+       base, mod = 31, 10 ** 9 + 7
+       mul = [1] + [0] * n
+       pre = [0] * (n + 1)
+       for i, c in enumerate(text):
+          pre[i + 1] = (pre[i] * base + ord(c) - ord('a')) % mod
+          mul[i + 1] = mul[i] * base % mod
+       res = 0
+       seen = [set() for _ in range(n)]
+       for i in range(n):
+          for j in range(i + 1, n):
+             l = j - i
+             if j + l <= n:
+                left_hash = hash(i, j - 1)
+                if left_hash not in seen[l - 1] and left_hash == hash(j, j + l - 1):
+                   res += 1
+                   seen[l - 1].add(left_hash)
+       return res
+          

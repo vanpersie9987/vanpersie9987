@@ -6263,4 +6263,40 @@ public class Leetcode_8 {
         return true;
     }
 
+    // 1316. 不同的循环子字符串 (Distinct Echo Substrings)
+    public int distinctEchoSubstrings(String text) {
+        final long BASE = 31L;
+        final long MOD = (long) (1e9 + 7);
+        int n = text.length();
+        int[] pre = new int[n + 1];
+        int[] mul = new int[n + 1];
+        mul[0] = 1;
+        for (int i = 0; i < n; ++i) {
+            pre[i + 1] = (int) (((pre[i] * BASE % MOD + text.charAt(i) - 'a') + MOD) % MOD);
+            mul[i + 1] = (int) (mul[i] * BASE % MOD);
+        }
+        int res = 0;
+        Set<Integer>[] set = new HashSet[n];
+        Arrays.setAll(set, k -> new HashSet<>());
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                int l = j - i;
+                if (j + l <= n) {
+                    int leftHash = hash(i, j - 1, pre, mul, MOD);
+                    if (!set[l - 1].contains(leftHash) && leftHash == hash(j, j + l - 1, pre, mul, MOD)) {
+                        ++res;
+                        set[l - 1].add(leftHash);
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int hash(int i, int j, int[] pre, int[] mul, long MOD) {
+        return (int) ((pre[j + 1] - (long) pre[i] * mul[j - i + 1] % MOD + MOD) % MOD);
+    }
+
+
 }
