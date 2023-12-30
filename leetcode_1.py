@@ -8913,11 +8913,8 @@ class leetcode_1 :
        y = int(date[:4])
        m = int(date[5: 7])
        d = int(date[8:])
-       res = d
        leap_year = y % 4 == 0 and y % 100 != 0 or y % 400 == 0
        mon = [31, 28 + int(leap_year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-       for i in range(1, m):
-          res += mon[i - 1]
-       return res
+       return d + sum(mon[i - 1] for i in range(1, m))
           
           
