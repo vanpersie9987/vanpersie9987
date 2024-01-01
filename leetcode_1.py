@@ -9027,5 +9027,20 @@ class leetcode_1 :
              j += 1
           i += 1
        return j == n2
+    
+    # 2760. 最长奇偶子数组 (Longest Even Odd Subarray With Threshold)
+    def longestAlternatingSubarray(self, nums: List[int], threshold: int) -> int:
+       res = 0
+       i = 0
+       n = len(nums)
+       while i < n:
+          j = i + 1
+          if nums[i] % 2 == 0 and nums[i] <= threshold:
+             while j < n and nums[j] % 2 != nums[j - 1] % 2 and nums[j] <= threshold:
+                j += 1
+             res = max(res, j - i)
+          i = j
+       return res
+
           
           

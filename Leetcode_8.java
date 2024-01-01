@@ -1144,27 +1144,19 @@ public class Leetcode_8 {
         arr[j] = tmp;
     }
 
-    // 6909. 最长奇偶子数组 (Longest Even Odd Subarray With Threshold)
+    // 2760. 最长奇偶子数组 (Longest Even Odd Subarray With Threshold)
     public int longestAlternatingSubarray(int[] nums, int threshold) {
-        int n = nums.length;
         int res = 0;
         int i = 0;
-        int j = 0;
-        while (j < n) {
-            if (nums[j] > threshold) {
-                ++j;
-                i = j;
-                continue;
+        int n = nums.length;
+        while (i < n) {
+            int j = i + 1;
+            if (nums[i] % 2 == 0 && nums[i] <= threshold) {
+                while (j < n && nums[j] % 2 != nums[j - 1] % 2 && nums[j] <= threshold) {
+                    ++j;
+                }
+                res = Math.max(res, j - i);
             }
-            if (nums[j] % 2 == 1) {
-                ++j;
-                i = j;
-                continue;
-            }
-            while (j < n && nums[j] <= threshold && (i == j || nums[j] % 2 != nums[j - 1] % 2)) {
-                ++j;
-            }
-            res = Math.max(res, j - i);
             i = j;
         }
         return res;
