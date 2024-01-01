@@ -7980,17 +7980,15 @@ class leetcode_1 :
     # 2760. 最长奇偶子数组 (Longest Even Odd Subarray With Threshold)
     def longestAlternatingSubarray(self, nums: List[int], threshold: int) -> int:
        res = 0
-       j = 0
+       i = 0
        n = len(nums)
-       while j < n:
-          if nums[j] % 2 == 1 or nums[j] > threshold:
-             j += 1
-             continue
-          i = j + 1
-          while i < n and nums[i] % 2 != nums[i - 1] % 2 and nums[i] <= threshold:
-             i += 1
-          res = max(res, i - j)
-          j = i
+       while i < n:
+          j = i + 1
+          if nums[i] % 2 == 0 and nums[i] <= threshold:
+             while j < n and nums[j] % 2 != nums[j - 1] % 2 and nums[j] <= threshold:
+                j += 1
+             res = max(res, j - i)
+          i = j
        return res
 
     # 2342. 数位和相等数对的最大和 (Max Sum of a Pair With Equal Sum of Digits)
@@ -9028,20 +9026,6 @@ class leetcode_1 :
              j += 1
           i += 1
        return j == n2
-    
-    # 2760. 最长奇偶子数组 (Longest Even Odd Subarray With Threshold)
-    def longestAlternatingSubarray(self, nums: List[int], threshold: int) -> int:
-       res = 0
-       i = 0
-       n = len(nums)
-       while i < n:
-          j = i + 1
-          if nums[i] % 2 == 0 and nums[i] <= threshold:
-             while j < n and nums[j] % 2 != nums[j - 1] % 2 and nums[j] <= threshold:
-                j += 1
-             res = max(res, j - i)
-          i = j
-       return res
 
           
           
