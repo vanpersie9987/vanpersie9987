@@ -2241,29 +2241,31 @@ public class Leetcode_8 {
 
     }
 
-    // 6900. 统计完全子数组的数目 (Count Complete Subarrays in an Array)
+    // 2799. 统计完全子数组的数目 (Count Complete Subarrays in an Array)
     public int countCompleteSubarrays(int[] nums) {
-        int n = nums.length;
-        int res = 0;
-        Set<Integer> set = new HashSet<>();
+        int[] cnts = new int[2001];
+        int s = 0;
         for (int num : nums) {
-            set.add(num);
+            if (++cnts[num] == 1) {
+                ++s;
+            }
         }
+        Arrays.fill(cnts, 0);
         int i = 0;
         int j = 0;
-        Map<Integer, Integer> map = new HashMap<>();
+        int n = nums.length;
+        int cur = 0;
+        int res = 0;
         while (i < n) {
-            while (j < n && map.size() != set.size()) {
-                map.merge(nums[j], 1, Integer::sum);
+            if (++cnts[nums[i]] == 1) {
+                ++cur;
+            }
+            while (cur == s) {
+                res += n - i;
+                if (--cnts[nums[j++]] == 0) {
+                    --cur;
+                }
                 ++j;
-            }
-            if (map.size() != set.size()) {
-                break;
-            }
-            res += n - j + 1;
-            map.merge(nums[i], -1, Integer::sum);
-            if (map.get(nums[i]) == 0) {
-                map.remove(nums[i]);
             }
             ++i;
         }
@@ -2900,7 +2902,7 @@ public class Leetcode_8 {
         return res;
     }
 
-    // 8014. 循环增长使字符串子序列等于另一个字符串 (Make String a Subsequence Using Cyclic Increments)
+    // 2825. 循环增长使字符串子序列等于另一个字符串 (Make String a Subsequence Using Cyclic Increments)
     public boolean canMakeSubsequence(String str1, String str2) {
         int n1 = str1.length();
         int n2 = str2.length();

@@ -8993,9 +8993,39 @@ class leetcode_1 :
           else:
              right = mid - 1
        return res if res else -1
-       
-          
-       
-          
+    
+    # 2799. 统计完全子数组的数目 (Count Complete Subarrays in an Array)
+    def countCompleteSubarrays(self, nums: List[int]) -> int:
+       n = len(nums)
+       s = len(set(nums))
+       cnts = [0] * 2001
+       i = 0
+       j = 0
+       cur = 0
+       res = 0
+       while i < n:
+          cnts[nums[i]] += 1
+          if cnts[nums[i]] == 1:
+             cur += 1
+          while cur == s:
+             res += n - i
+             cnts[nums[j]] -= 1
+             if cnts[nums[j]] == 0:
+                cur -= 1
+             j += 1
+          i += 1
+       return res
+    
+    # 2825. 循环增长使字符串子序列等于另一个字符串 (Make String a Subsequence Using Cyclic Increments)
+    def canMakeSubsequence(self, str1: str, str2: str) -> bool:
+       n1 = len(str1)
+       n2 = len(str2)
+       i = 0
+       j = 0 
+       while i < n1 and j < n2:
+          if str1[i] == str2[j] or (ord(str1[i]) - ord('a') + 1) % 26 == ord(str2[j]) - ord('a'):
+             j += 1
+          i += 1
+       return j == n2
           
           
