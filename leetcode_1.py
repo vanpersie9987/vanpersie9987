@@ -22,10 +22,11 @@ from audioop import reverse
 from calendar import c
 from collections import Counter
 import collections
+from decimal import Rounded
 import enum
 from functools import cache
 from itertools import accumulate
-from math import comb, gcd, inf, sqrt
+from math import comb, cos, gcd, inf, sqrt
 from operator import le
 from pickletools import read_uint1
 from queue import PriorityQueue
@@ -8916,5 +8917,85 @@ class leetcode_1 :
        leap_year = y % 4 == 0 and y % 100 != 0 or y % 400 == 0
        mon = [31, 28 + int(leap_year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
        return d + sum(mon[i - 1] for i in range(1, m))
+    
+    # 1599. 经营摩天轮的最大利润 (Maximum Profit of Operating a Centennial Wheel)
+    def minOperationsMaxProfit(self, customers: List[int], boardingCost: int, runningCost: int) -> int:
+       i = 0
+       round = 0
+       waits = 0
+       cost = 0
+       max_cost = 0
+       res = 0
+       n = len(customers)
+       while i < n or waits:
+          round += 1
+          if i < n:
+             waits += customers[i]
+          cost += min(waits, 4) * boardingCost - runningCost
+          waits -= min(waits, 4)
+          if cost > max_cost:
+             max_cost = cost
+             res = round
+          i += 1
+       return res if res else -1
+    
+    # 2980. 检查按位或是否存在尾随零 (Check if Bitwise OR Has Trailing Zeros)
+    def hasTrailingZeros(self, nums: List[int]) -> bool:
+       return sum(int(x % 2 == 0) for x in nums) >= 2
+   
+    # 2981. 找出出现至少三次的最长特殊子字符串 I
+    # 2982. 找出出现至少三次的最长特殊子字符串 II (Find Longest Special Substring That Occurs Thrice II) --分类统计
+    def maximumLength(self, s: str) -> int:
+       dic = collections.defaultdict(list)
+       cnt = 0
+       for i, c in enumerate(s):
+          cnt += 1
+          if i == len(s) - 1 or c != s[i + 1]:
+             dic[c].append(cnt)
+             cnt = 0
+       res = 0
+       for l in dic.values():
+          l.extend([0, 0])
+          l.sort(reverse=True)
+          res = max(res, l[0] - 2, min(l[0] - 1, l[1]), l[2])
+       return res if res else -1
+    
+    # 2981. 找出出现至少三次的最长特殊子字符串 I --二分 (超时)
+    # 2982. 找出出现至少三次的最长特殊子字符串 II (Find Longest Special Substring That Occurs Thrice II) --二分 (超时)
+    def maximumLength(self, s: str) -> int:
+       def check(w: int) -> bool:
+          dic = [0] * 26
+          m = 0
+          cnt = [0] * 26
+          for i, c in enumerate(s):
+             id = ord(c) - ord('a')
+             cnt[id] += 1
+             m |= 1 << id
+             if i >= w:
+                id2 = ord(s[i - w]) - ord('a')
+                cnt[id2] -= 1
+                if cnt[id2] == 0:
+                   m ^= 1 << id2
+             if i >= w - 1:
+                if m & (m - 1) == 0:
+                   dic[id] += 1
+                   if dic[id] == 3:
+                      return True
+          return False
+       res = 0
+       left = 1
+       right = len(s) - 2
+       while left <= right:
+          mid = left + ((right - left) >> 1)
+          if check(mid):
+             res = mid
+             left = mid + 1
+          else:
+             right = mid - 1
+       return res if res else -1
+       
+          
+       
+          
           
           

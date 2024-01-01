@@ -15961,34 +15961,29 @@ public class LeetCodeText {
         return true;
     }
 
-    // 1599. 经营摩天轮的最大利润
+    // 1599. 经营摩天轮的最大利润 (Maximum Profit of Operating a Centennial Wheel)
     public int minOperationsMaxProfit(int[] customers, int boardingCost, int runningCost) {
-        // 轮转次数
-        int count = 0;
-        // 最大利润
-        int maxProfit = 0;
-        // 当前利润
-        int curProfit = 0;
-        // 最大利润时对应的轮转次数
-        int res = Integer.MIN_VALUE;
-        // 当前等待的人数
-        int waitPeople = 0;
+        int res = 0;
+        int waiting = 0;
+        int cost = 0;
+        int maxCost = 0;
         int i = 0;
-        while (i < customers.length || waitPeople > 0) {
-            ++count;
-            if (i < customers.length) {
-                waitPeople += customers[i];
+        int round = 0;
+        int n = customers.length;
+        while (i < n || waiting > 0) {
+            ++round;
+            if (i < n) {
+                waiting += customers[i];
             }
-            curProfit += Math.min(waitPeople, 4) * boardingCost - runningCost;
-            waitPeople -= Math.min(waitPeople, 4);
-            if (curProfit > maxProfit) {
-                maxProfit = curProfit;
-                res = count;
+            cost += Math.min(4, waiting) * boardingCost - runningCost;
+            waiting -= Math.min(4, waiting);
+            if (cost > maxCost) {
+                maxCost = cost;
+                res = round;
             }
             ++i;
         }
-        return maxProfit > 0 ? res : -1;
-
+        return maxCost > 0 ? res : -1;
     }
 
     // 1583. 统计不开心的朋友

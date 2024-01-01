@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -6322,6 +6323,103 @@ public class Leetcode_8 {
             res = Math.max(res, dp[j]);
         }
         return res;
+
+    }
+
+    // 2981. 找出出现至少三次的最长特殊子字符串 I (Find Longest Special Substring That Occurs Thrice
+    // I) --二分 python超时 Java通过
+    // 2982. 找出出现至少三次的最长特殊子字符串 II (Find Longest Special Substring That Occurs Thrice
+    // II) --二分 python超时 Java通过
+    public int maximumLength(String s) {
+        int res = -1;
+        int left = 1;
+        int n = s.length();
+        int right = n;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check2982(mid, s)) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
+
+    private boolean check2982(int w, String s) {
+        int[] cnts = new int[26];
+        int m = 0;
+        int n = s.length();
+        int[] ret = new int[26];
+        for (int i = 0; i < n; ++i) {
+            int index = s.charAt(i) - 'a';
+            ++cnts[index];
+            m |= 1 << index;
+            if (i >= w) {
+                --cnts[s.charAt(i - w) - 'a'];
+                if (cnts[s.charAt(i - w) - 'a'] == 0) {
+                    m ^= 1 << (s.charAt(i - w) - 'a');
+                }
+            }
+            if (i >= w - 1) {
+                // (m & -m) == m
+                // Integer.bitCount(m) == 1
+                if ((m & (m - 1)) == 0) {
+                    if (++ret[index] == 3) {
+                         return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    // 2981. 找出出现至少三次的最长特殊子字符串 I (Find Longest Special Substring That Occurs Thrice
+    // I) --分类统计
+    // 2982. 找出出现至少三次的最长特殊子字符串 II (Find Longest Special Substring That Occurs Thrice
+    // II)
+    public int maximumLength2(String s) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int n = s.length();
+        int cnt = 0;
+        for (int i = 0; i < n; ++i) {
+            ++cnt;
+            if (i == n - 1 || s.charAt(i) != s.charAt(i + 1)) {
+                map.computeIfAbsent(s.charAt(i) - 'a', k -> new ArrayList<>()).add(cnt);
+                cnt = 0;
+            }
+        }
+        int res = 0;
+        for (List<Integer> list : map.values()) {
+            list.addAll(List.of(0, 0));
+            Collections.sort(list, new Comparator<Integer>() {
+
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return Integer.compare(o2, o1);
+                }
+
+            });
+            res = Math.max(res, list.get(0) - 2);
+            res = Math.max(res, Math.min(list.get(0) - 1, list.get(1)));
+            res = Math.max(res, list.get(2));
+        }
+        return res == 0 ? -1 : res;
+
+    }
+
+    // 2980. 检查按位或是否存在尾随零 (Check if Bitwise OR Has Trailing Zeros)
+    public boolean hasTrailingZeros(int[] nums) {
+        int cnt = 0;
+        for (int num : nums) {
+            if (num % 2 == 0) {
+                if (++cnt >= 2) {
+                    return true;
+                }
+            }
+        }
+        return false;
 
     }
 
