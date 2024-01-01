@@ -7359,19 +7359,20 @@ class leetcode_1 :
              pre += cnt
        return res
     
-    # 100106. 元素和最小的山形三元组 I (Minimum Sum of Mountain Triplets I)
-    # 100114. 元素和最小的山形三元组 II (Minimum Sum of Mountain Triplets II)
+    # 2908. 元素和最小的山形三元组 I (Minimum Sum of Mountain Triplets I)
+    # 2909. 元素和最小的山形三元组 II (Minimum Sum of Mountain Triplets II)
     def minimumSum(self, nums: List[int]) -> int:
        n = len(nums)
-       left_min = [inf] * n
+       left = [inf] * n
+       left[0] = nums[0]
        for i in range(1, n):
-          left_min[i] = min(left_min[i - 1], nums[i - 1])
+          left[i] = min(left[i - 1], nums[i])
        res = inf
-       right_min = inf
+       right = nums[n - 1]
        for i in range(n - 2, -1, -1):
-          right_min = min(right_min, nums[i + 1])
-          if nums[i] > right_min and nums[i] > left_min[i]:
-             res = min(res, left_min[i] + nums[i] + right_min)
+          right = min(right, nums[i])
+          if nums[i] > right and nums[i] > left[i]:
+             res = min(res, left[i] + nums[i] + right)
        return res if res < inf else -1
     
     # 2911. 得到 K 个半回文串的最少修改次数 (Minimum Changes to Make K Semi-palindromes)

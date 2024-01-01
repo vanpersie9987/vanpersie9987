@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -4580,24 +4579,25 @@ public class Leetcode_8 {
         return memo_LCP_13[i][j] = res;
     }
 
-    // 100106. 元素和最小的山形三元组 I (Minimum Sum of Mountain Triplets I)
-    // 100114. 元素和最小的山形三元组 II (Minimum Sum of Mountain Triplets II)
+    // 2908. 元素和最小的山形三元组 I (Minimum Sum of Mountain Triplets I)
+    // 2909. 元素和最小的山形三元组 II (Minimum Sum of Mountain Triplets II)
     public int minimumSum(int[] nums) {
-        int n = nums.length;
-        int[] left = new int[n];
-        Arrays.fill(left, Integer.MAX_VALUE);
-        for (int i = 1; i < n; ++i) {
-            left[i] = Math.min(left[i - 1], nums[i - 1]);
-        }
         int res = Integer.MAX_VALUE;
-        int suf = Integer.MAX_VALUE;
+        int n = nums.length;
+        int[] pre = new int[n];
+        Arrays.fill(pre, Integer.MAX_VALUE);
+        pre[0] = nums[0];
+        for (int i = 1; i < n; ++i) {
+            pre[i] = Math.min(pre[i - 1], nums[i]);
+        }
+        int suf = nums[n - 1];
         for (int i = n - 2; i >= 0; --i) {
-            suf = Math.min(suf, nums[i + 1]);
-            if (nums[i] > suf && nums[i] > left[i]) {
-                res = Math.min(res, suf + nums[i] + left[i]);
+            suf = Math.min(suf, nums[i]);
+            if (nums[i] > pre[i] && nums[i] > suf) {
+                res = Math.min(res, nums[i] + pre[i] + suf);
             }
         }
-        return res < Integer.MAX_VALUE ? res : -1;
+        return res == Integer.MAX_VALUE ? -1 : res;
     }
 
     // 2911. 得到 K 个半回文串的最少修改次数 (Minimum Changes to Make K Semi-palindromes)
