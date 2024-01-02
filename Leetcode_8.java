@@ -3230,24 +3230,30 @@ public class Leetcode_8 {
     // 2841. 几乎唯一子数组的最大和 (Maximum Sum of Almost Unique Subarray)
     public long maxSum(List<Integer> nums, int m, int k) {
         long res = 0L;
-        long sum = 0L;
+        long cur = 0L;
+        int kinds = 0;
+        int n = nums.size();
         Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.size(); ++i) {
-            sum += nums.get(i);
+        for (int i = 0; i < n; ++i) {
+            cur += nums.get(i);
             map.merge(nums.get(i), 1, Integer::sum);
-            if (i - k >= 0) {
-                sum -= nums.get(i - k);
+            if (map.get(nums.get(i)) == 1) {
+                ++kinds;
+            }
+            if (i >= k) {
+                cur -= nums.get(i - k);
                 map.merge(nums.get(i - k), -1, Integer::sum);
                 if (map.get(nums.get(i - k)) == 0) {
-                    map.remove(nums.get(i - k));
+                    --kinds;
                 }
             }
-            if (map.size() >= m) {
-                res = Math.max(res, sum);
+            if (i >= k - 1) {
+                if (kinds >= m) {
+                    res = Math.max(res, cur);
+                }
             }
         }
         return res;
-
     }
 
     // 2843. 统计对称整数的数目 (Count Symmetric Integers)

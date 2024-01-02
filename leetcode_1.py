@@ -9026,6 +9026,7 @@ class leetcode_1 :
              j += 1
           i += 1
        return j == n2
+          
 
           
           
