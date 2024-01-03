@@ -9027,4 +9027,30 @@ class leetcode_1 :
              j += 1
           i += 1
        return j == n2
+
+    # 2487. 从链表中移除节点 (Remove Nodes From Linked List)
+    def removeNodes(self, head: Optional[ListNode]) -> Optional[ListNode]:
+       class ListNode:
+          def __init__(self, val=0, next=None):
+             self.val = val
+             self.next = next
+       def rev(node: Optional[ListNode]) -> Optional[ListNode]:
+          pre = None
+          cur = node
+          while cur:
+             nxt = cur.next
+             cur.next = pre
+             pre = cur
+             cur = nxt
+          return pre
+       head = rev(head)
+       node = head
+       while node:
+          nxt = node.next
+          while nxt and nxt.val < node.val:
+             nxt = nxt.next
+          node.next = nxt
+          node = node.next
+       return rev(head)
+          
           
