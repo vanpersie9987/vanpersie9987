@@ -9052,5 +9052,17 @@ class leetcode_1 :
           node.next = nxt
           node = node.next
        return rev(head)
-          
-          
+
+
+    # 2397. 被列覆盖的最多行数 (Maximum Rows Covered by Columns)
+    def maximumRows(self, matrix: List[List[int]], numSelect: int) -> int:
+       m = len(matrix)
+       n = len(matrix[0])
+       res = 0
+       row = [0] * m
+       for i in range(m):
+          for j in range(n):
+             row[i] |= matrix[i][j] << j
+       for i in range(1 << n):
+          res = max(res, sum(row[j] & i == row[j] for j in range(m)) if i.bit_count() == numSelect else 0)
+       return res
