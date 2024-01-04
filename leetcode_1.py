@@ -575,22 +575,24 @@ class leetcode_1 :
 
     # 2801. 统计范围内的步进数字数目 (Count Stepping Numbers in Range)
     def countSteppingNumbers(self, low: str, high: str) -> int:
-       m = 10 ** 9 + 7
-       def cal(s: str) -> int:
-         @cache
-         def dfs(i: int, pre: int, isLimit: bool, isNum: bool) -> int:
-            if i == len(s):
-               return isNum
-            res = 0
-            if not isNum:
-               res = dfs(i + 1, pre, False, False)
-            up = int(s[i]) if isLimit else 9
-            for j in range(0 if isNum else 1, up + 1):
-               if (not isNum) or abs(j - pre) == 1:
-                  res += dfs(i + 1, j, isLimit and j == up, True)
-            return res % m
-         return dfs(0, 0, True, False)
-       return (cal(high) - cal(str(int(low) - 1))) % m
+       MOD = 10 ** 9 + 7
+       def check(arr: str) -> int:
+          n = len(arr)
+          @cache
+          def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
+             if i == n:
+                return int(is_num)
+             res = 0
+             if not is_num:
+                res = dfs(i + 1, j, False, False)
+             up = int(arr[i]) if is_limit else 9
+             for d in range(0 if is_num else 1, up + 1):
+                if not is_num or abs(d - j) == 1:
+                   res += dfs(i + 1, d, is_limit and d == up, True)
+                   res %= MOD
+             return res % MOD
+          return dfs(0, 0, True, False)
+       return (check(high) - check(str(int(low) - 1))) % MOD
     
     # 233. 数字 1 的个数 (Number of Digit One)
     # 剑指 Offer 43. 1～n 整数中 1 出现的次数
