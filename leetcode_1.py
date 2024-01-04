@@ -8962,7 +8962,7 @@ class leetcode_1 :
           res = max(res, l[0] - 2, min(l[0] - 1, l[1]), l[2])
        return res if res else -1
     
-    # 2981. 找出出现至少三次的最长特殊子字符串 I --二分 (超时)
+    # 2981. 找出出现至少三次的最长特殊子字符串 I
     # 2982. 找出出现至少三次的最长特殊子字符串 II (Find Longest Special Substring That Occurs Thrice II) --二分 (超时)
     def maximumLength(self, s: str) -> int:
        def check(w: int) -> bool:
