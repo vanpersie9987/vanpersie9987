@@ -8570,12 +8570,12 @@ public class LeetCode_4 {
         Stack<Integer> stack = new Stack<>();
         int[] res = new int[n];
         for (int i = n - 1; i >= 0; --i) {
-            while (!stack.isEmpty()) {
-                ++res[i];
-                if (heights[i] < heights[stack.peek()]) {
-                    break;
-                }
+            while (!stack.isEmpty() && heights[stack.peek()] < heights[i]) {
                 stack.pop();
+                ++res[i];
+            }
+            if (!stack.isEmpty()) {
+                ++res[i];
             }
             stack.push(i);
         }
