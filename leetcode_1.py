@@ -7911,7 +7911,7 @@ class leetcode_1 :
        def dfs(i: int, j: int, k: int, l: int) -> int:
           if i == n:
              return int(j == 1 and k == 2 and l == 1)
-          return (dfs(i + 1, min(j + 1, 1), k, l) + dfs(i + 1, j, min(k + 1, 2), l) + dfs(i + 1, j, k, min(l + 1, 1)) + 23 * dfs(i + 1, j, k, l)) % MOD
+          return (dfs(i + 1, 1, k, l) + dfs(i + 1, j, min(k + 1, 2), l) + dfs(i + 1, j, k, 1) + 23 * dfs(i + 1, j, k, l)) % MOD
        return dfs(0, 0, 0, 0)
     
     # 2931. 购买物品的最大开销 (Maximum Spending After Buying Items)
