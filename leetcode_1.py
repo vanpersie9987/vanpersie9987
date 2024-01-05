@@ -7515,6 +7515,7 @@ class leetcode_1 :
           if nums[i] + j <= target:
              res = max(res, dfs(i + 1, nums[i] + j) + 1)
           return res
+       # 不排序过不了
        nums.sort(reverse=True)
        n = len(nums)
        pre = [0] * (n + 1)
