@@ -9068,3 +9068,17 @@ class leetcode_1 :
        for i in range(1 << n):
           res = max(res, sum(row[j] & i == row[j] for j in range(m)) if i.bit_count() == numSelect else 0)
        return res
+
+    # 1944. 队列中可以看到的人数 (Number of Visible People in a Queue)
+    def canSeePersonsCount(self, heights: List[int]) -> List[int]:
+       n = len(heights)
+       res = [0] * n
+       st = []
+       for i in range(n - 1, -1, -1):
+          while st and heights[st[-1]] < heights[i]:
+             st.pop()
+             res[i] += 1
+          if st:
+             res[i] += 1
+          st.append(i)
+       return res
