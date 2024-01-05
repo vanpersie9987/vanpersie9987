@@ -9097,6 +9097,22 @@ class leetcode_1 :
           return res
        res = dfs(0)
        return res if res >= 0 else -1
+
+    # 2807. 在链表中插入最大公约数 (Insert Greatest Common Divisors in Linked List)
+    def insertGreatestCommonDivisors(self, head: Optional[ListNode]) -> Optional[ListNode]:
+       class ListNode:
+          def __init__(self, val=0, next=None):
+             self.val = val
+             self.next = next
+       cur = head
+       while cur.next:
+          nxt = cur.next
+          node = ListNode(gcd(cur.val, nxt.val))
+          cur.next = node
+          node.next = nxt
+          cur = nxt
+       return head
+       
              
        
 
