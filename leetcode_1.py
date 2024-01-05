@@ -4865,35 +4865,30 @@ class leetcode_1 :
           dic[(x, y)] += 1
        return res
     
-    # 100041. 可以到达每一个节点的最少边反转次数 (Minimum Edge Reversals So Every Node Is Reachable)
+    # 2858. 可以到达每一个节点的最少边反转次数 (Minimum Edge Reversals So Every Node Is Reachable)
     def minEdgeReversals(self, n: int, edges: List[List[int]]) -> List[int]:
-       def dfs(x: int, fa: int) -> None:
-          for y in g[x]:
+       def reroot(x: int, fa: int) -> None:
+          for neighbor in g[x]:
+             y = neighbor[0]
+             c = neighbor[1]
              if y != fa:
-                if (x, y) not in s:
-                   nonlocal res0
-                   res0 += 1
-                dfs(y, x)
-       def reroot(x: int, fa: int, cnt: int) -> None:
-          res[x] = cnt
-          for y in g[x]:
+                res[y] = res[x] + (-2) * c + 1
+                reroot(y, x)
+       def dfs(x: int, fa: int) -> int:
+          cnt = 0
+          for neighbor in g[x]:
+             y = neighbor[0]
+             c = neighbor[1]
              if y != fa:
-                copy = cnt
-                if (x, y) in s:
-                   copy += 1
-                else:
-                   copy -= 1
-                reroot(y, x, copy)
+                cnt += dfs(y, x) + c
+          return cnt
        g = [[] for _ in range(n)]
-       s = set()
        for u, v in edges:
-          s.add((u, v))
-          g[u].append(v)
-          g[v].append(u)
-       res0 = 0
-       dfs(0, -1)
+          g[u].append((v, 0))
+          g[v].append((u, 1))
        res = [0] * n
-       reroot(0, -1, res0)
+       res[0] = dfs(0, -1)
+       reroot(0, -1)
        return res
     
     # 337. 打家劫舍 III (House Robber III)
@@ -9086,32 +9081,6 @@ class leetcode_1 :
           if st:
              res[i] += 1
           st.append(i)
-       return res
-    
-    # 2858. 可以到达每一个节点的最少边反转次数 (Minimum Edge Reversals So Every Node Is Reachable)
-    def minEdgeReversals(self, n: int, edges: List[List[int]]) -> List[int]:
-       def reroot(x: int, fa: int) -> None:
-          for neighbor in g[x]:
-             y = neighbor[0]
-             c = neighbor[1]
-             if y != fa:
-                res[y] = res[x] + (-2) * c + 1
-                reroot(y, x)
-       def dfs(x: int, fa: int) -> int:
-          cnt = 0
-          for neighbor in g[x]:
-             y = neighbor[0]
-             c = neighbor[1]
-             if y != fa:
-                cnt += dfs(y, x) + c
-          return cnt
-       g = [[] for _ in range(n)]
-       for u, v in edges:
-          g[u].append((v, 0))
-          g[v].append((u, 1))
-       res = [0] * n
-       res[0] = dfs(0, -1)
-       reroot(0, -1)
        return res
     
     # 2770. 达到末尾下标所需的最大跳跃次数 (Maximum Number of Jumps to Reach the Last Index)
