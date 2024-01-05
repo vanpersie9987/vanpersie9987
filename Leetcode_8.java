@@ -3461,58 +3461,47 @@ public class Leetcode_8 {
 
     }
 
-    // 100041. 可以到达每一个节点的最少边反转次数 (Minimum Edge Reversals So Every Node Is Reachable)
-    private List<Integer>[] g100041;
-    private Set<Long> set100041;
-    private long M100041;
-    private int res0_100041;
-    private int[] res100041;
+    // 2858. 可以到达每一个节点的最少边反转次数 (Minimum Edge Reversals So Every Node Is Reachable)
+    private List<int[]>[] g2858;
+    private int[] res2858;
 
     public int[] minEdgeReversals(int n, int[][] edges) {
-        this.g100041 = new ArrayList[n];
-        this.M100041 = (long) 1e6;
-
-        Arrays.setAll(g100041, k -> new ArrayList<>());
-        set100041 = new HashSet<>();
+        this.g2858 = new ArrayList[n];
+        Arrays.setAll(g2858, k -> new ArrayList<>());
         for (int[] e : edges) {
-            int u = e[0];
-            int v = e[1];
-            set100041.add(u * M100041 + v);
-            g100041[u].add(v);
-            g100041[v].add(u);
+            g2858[e[0]].add(new int[] { e[1], 0 });
+            g2858[e[1]].add(new int[] { e[0], 1 });
         }
-        dfs100041(0, -1);
-        this.res100041 = new int[n];
-        reRoot100041(0, -1, res0_100041);
-        return res100041;
+        this.res2858 = new int[n];
+        res2858[0] = dfs2858(0, -1);
+        reRoot2858(0, -1);
+        return res2858;
 
     }
 
-    private void reRoot100041(int x, int fa, int cur) {
-        res100041[x] = cur;
-        for (int y : g100041[x]) {
-            int copy = cur;
+    private void reRoot2858(int x, int fa) {
+        for (int[] nei : g2858[x]) {
+            int y = nei[0];
+            int c = nei[1];
             if (y != fa) {
-                if (set100041.contains(x * M100041 + y)) {
-                    ++copy;
-                } else {
-                    --copy;
-                }
-                reRoot100041(y, x, copy);
+                res2858[y] = res2858[x] + (-2) * c + 1;
+                reRoot2858(y, x);
             }
         }
     }
 
-    private void dfs100041(int x, int fa) {
-        for (int y : g100041[x]) {
+    private int dfs2858(int x, int fa) {
+        int cnt = 0;
+        for (int[] nei : g2858[x]) {
+            int y = nei[0];
+            int c = nei[1];
             if (y != fa) {
-                if (!set100041.contains(x * M100041 + y)) {
-                    ++res0_100041;
-                }
-                dfs100041(y, x);
+                cnt += dfs2858(y, x) + c;
             }
         }
+        return cnt;
     }
+
 
     // 6988. 统计距离为 k 的点对 (Count Pairs of Points With Distance k)
     public int countPairs2(List<List<Integer>> coordinates, int k) {
