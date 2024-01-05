@@ -9082,3 +9082,31 @@ class leetcode_1 :
              res[i] += 1
           st.append(i)
        return res
+    
+    # 2858. 可以到达每一个节点的最少边反转次数 (Minimum Edge Reversals So Every Node Is Reachable)
+    def minEdgeReversals(self, n: int, edges: List[List[int]]) -> List[int]:
+       def reroot(x: int, fa: int) -> None:
+          for neighbor in g[x]:
+             y = neighbor[0]
+             c = neighbor[1]
+             if y != fa:
+                res[y] = res[x] + (-2) * c + 1
+                reroot(y, x)
+       def dfs(x: int, fa: int) -> int:
+          cnt = 0
+          for neighbor in g[x]:
+             y = neighbor[0]
+             c = neighbor[1]
+             if y != fa:
+                cnt += dfs(y, x) + c
+          return cnt
+       g = [[] for _ in range(n)]
+       for u, v in edges:
+          g[u].append((v, 0))
+          g[v].append((u, 1))
+       res = [0] * n
+       res[0] = dfs(0, -1)
+       reroot(0, -1)
+       return res
+       
+
