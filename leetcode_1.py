@@ -9108,5 +9108,21 @@ class leetcode_1 :
        res[0] = dfs(0, -1)
        reroot(0, -1)
        return res
+    
+    # 2770. 达到末尾下标所需的最大跳跃次数 (Maximum Number of Jumps to Reach the Last Index)
+    def maximumJumps(self, nums: List[int], target: int) -> int:
+       n = len(nums)
+       @cache
+       def dfs(i: int) -> int:
+          if i == n - 1:
+             return 0
+          res = -inf
+          for j in range(i + 1, n):
+             if abs(nums[i] - nums[j]) <= target:
+                res = max(res, dfs(j) + 1)
+          return res
+       res = dfs(0)
+       return res if res >= 0 else -1
+             
        
 
