@@ -7503,21 +7503,25 @@ class leetcode_1 :
     def minChanges(self, s: str) -> int:
        return sum(int(s[i - 1] != s[i]) for i in range(1, len(s), 2))
     
-    # 100042. 和为目标值的最长子序列的长度 (Length of the Longest Subsequence That Sums to Target)
+    # 2915. 和为目标值的最长子序列的长度 (Length of the Longest Subsequence That Sums to Target)
     def lengthOfLongestSubsequence(self, nums: List[int], target: int) -> int:
+       @cache
        def dfs(i: int, j: int) -> int:
-          if j == target:
-             return 0
-          if i == n or j > target:
+          if i == n:
+             return 0 if j == target else -inf
+          if pre[n] - pre[i] + j < target:
              return -inf
-          if memo[i][j] != -1:
-             return memo[i][j]
-          memo[i][j] = max(dfs(i + 1, j), dfs(i + 1, j + nums[i]) + 1)
-          return memo[i][j]
-       if sum(nums) < target:
-          return -1
+          res = dfs(i + 1, j)
+          if nums[i] + j <= target:
+             res = max(res, dfs(i + 1, nums[i] + j) + 1)
+          return res
+       nums.sort(reverse=True)
        n = len(nums)
-       memo = [[-1] * (target + 1) for _ in range(n)]
+       pre = [0] * (n + 1)
+       for i in range(n):
+          pre[i + 1] = pre[i] + nums[i]
+       if pre[n] < target:
+          return -1
        res = dfs(0, 0)
        return res if res > 0 else -1
     
