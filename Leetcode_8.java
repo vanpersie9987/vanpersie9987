@@ -1714,39 +1714,38 @@ public class Leetcode_8 {
         return num + t + t;
     }
 
-    // 6899. 达到末尾下标所需的最大跳跃次数 (Maximum Number of Jumps to Reach the Last Index)
-    private int[] memo6899;
-    private int[] nums6899;
-    private int target6899;
-    private int n6899;
+    // 2770. 达到末尾下标所需的最大跳跃次数 (Maximum Number of Jumps to Reach the Last Index)
+    private int[] memo2770;
+    private int[] nums2770;
+    private int target2770;
+    private int n2770;
 
     public int maximumJumps(int[] nums, int target) {
-        this.n6899 = nums.length;
-        this.memo6899 = new int[n6899];
-        Arrays.fill(memo6899, (int) -1e9);
-        this.nums6899 = nums;
-        this.target6899 = target;
-        int res = dfs6899(0);
-        return res > 0 ? res : -1;
+        this.n2770 = nums.length;
+        this.memo2770 = new int[n2770];
+        Arrays.fill(memo2770, -1);
+        this.nums2770 = nums;
+        this.target2770 = target;
+        int res = dfs2770(0);
+        return res >= 0 ? res : -1;
 
     }
 
-    private int dfs6899(int i) {
-        if (i == n6899 - 1) {
+    private int dfs2770(int i) {
+        if (i == n2770 - 1) {
             return 0;
         }
-        if (memo6899[i] != (int) -1e9) {
-            return memo6899[i];
+        if (memo2770[i] != -1) {
+            return memo2770[i];
         }
-        int max = (int) -1e9;
-        for (int j = i + 1; j < n6899; ++j) {
-            if (Math.abs(nums6899[j] - nums6899[i]) <= target6899) {
-                max = Math.max(max, dfs6899(j) + 1);
+        int max = Integer.MIN_VALUE;
+        for (int j = i + 1; j < n2770; ++j) {
+            if (Math.abs(nums2770[j] - nums2770[i]) <= target2770) {
+                max = Math.max(max, dfs2770(j) + 1);
             }
         }
-        return memo6899[i] = max;
+        return memo2770[i] = max;
     }
-
     // 2771. 构造最长非递减子数组 (Longest Non-decreasing Subarray From Two Arrays)
     private int n2771;
     private int[][] nums2771;
