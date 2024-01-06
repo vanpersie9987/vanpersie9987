@@ -3365,20 +3365,17 @@ class leetcode_1 :
     
     # 2830. 销售利润最大化 (Maximize the Profit as the Salesman)
     def maximizeTheProfit(self, n: int, offers: List[List[int]]) -> int:
-       # map = [[] for _ in range(n)]
-       map = collections.defaultdict(list)
-       
-       for start, end, gold in offers:
-          map[start].append([end, gold])
-       
        @cache
        def dfs(i: int) -> int:
           if i == n:
-             return 0
+            return 0
           res = dfs(i + 1)
-          for end, gold in map[i]:
-             res = max(res, dfs(end + 1) + gold)
+          for e, g in dic[i]:
+             res = max(res, dfs(e + 1) + g)
           return res
+       dic = collections.defaultdict(list)
+       for s, e, g in offers:
+          dic[s].append([e, g])
        return dfs(0)
     
     # 2054. 两个最好的不重叠活动 (Two Best Non-Overlapping Events)
