@@ -9093,7 +9093,7 @@ class leetcode_1 :
              self.val = val
              self.next = next
        cur = head
-       while cur.next:
+       while cur and cur.next:
           nxt = cur.next
           node = ListNode(gcd(cur.val, nxt.val))
           cur.next = node
