@@ -9112,7 +9112,27 @@ class leetcode_1 :
           node.next = nxt
           cur = nxt
        return head
-       
-             
-       
-
+    
+    # 2771. 构造最长非递减子数组 (Longest Non-decreasing Subarray From Two Arrays)
+    def maxNonDecreasingLength(self, nums1: List[int], nums2: List[int]) -> int:
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i < 0:
+             return 0
+          if i == 0:
+             return 1
+          res = 1
+          for k in range(0, 2):
+             if nums[k][i - 1] <= nums[j][i]:
+                res = max(res, dfs(i - 1, k) + 1)
+          return res
+       res = 0
+       n = len(nums1)
+       nums = [[] for i in range(2)]
+       nums[0] = nums1
+       nums[1] = nums2
+       for i in range(n):
+          res = max(res, dfs(i, 0), dfs(i, 1))
+       return res
+          
+          
