@@ -3017,22 +3017,13 @@ class leetcode_1 :
     # 2787. 将一个数字表示成幂的和的方案数 (Ways to Express an Integer as Sum of Powers)
     def numberOfWays(self, n: int, x: int) -> int:
        MOD = 10 ** 9 + 7
-       
        @cache
        def dfs(i: int, j: int) -> int:
           if j == n:
              return 1
-          if i > n:
+          if j + pow(i, x) > n or j > n or pow(i, x) > n:
              return 0
-          s = pow(i, x)
-          if s > n:
-             return 0
-          if j > n:
-             return 0
-          res = dfs(i + 1, j) 
-          if j + s <= n:
-             res += dfs(i + 1, j + s)
-          return res % MOD
+          return (dfs(i + 1, j + pow(i, x)) + dfs(i + 1, j)) % MOD
        return dfs(1, 0)
     
     # 2646. 最小化旅行的价格总和 (Minimize the Total Price of the Trips)
@@ -9134,5 +9125,3 @@ class leetcode_1 :
        for i in range(n):
           res = max(res, dfs(i, 0), dfs(i, 1))
        return res
-          
-          
