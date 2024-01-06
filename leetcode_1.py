@@ -9107,11 +9107,7 @@ class leetcode_1 :
        def dfs(i: int, j: int) -> int:
           if i == 0:
              return 1
-          res = 1
-          for k in range(0, 2):
-             if nums[k][i - 1] <= nums[j][i]:
-                res = max(res, dfs(i - 1, k) + 1)
-          return res
+          return max(dfs(i - 1, k) + 1 if nums[k][i - 1] <= nums[j][i] else 1 for k in range(2))
        res = 0
        n = len(nums1)
        nums = [[] for _ in range(2)]
