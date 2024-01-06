@@ -9116,7 +9116,7 @@ class leetcode_1 :
           return res
        res = 0
        n = len(nums1)
-       nums = [[] for i in range(2)]
+       nums = [[] for _ in range(2)]
        nums[0] = nums1
        nums[1] = nums2
        for i in range(n):
