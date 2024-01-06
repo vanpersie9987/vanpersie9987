@@ -9105,8 +9105,6 @@ class leetcode_1 :
     def maxNonDecreasingLength(self, nums1: List[int], nums2: List[int]) -> int:
        @cache
        def dfs(i: int, j: int) -> int:
-          if i < 0:
-             return 0
           if i == 0:
              return 1
           res = 1
