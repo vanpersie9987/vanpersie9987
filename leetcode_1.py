@@ -9116,3 +9116,16 @@ class leetcode_1 :
        for i in range(n):
           res = max(res, dfs(i, 0), dfs(i, 1))
        return res
+
+    # 447. 回旋镖的数量 (Number of Boomerangs)
+    def numberOfBoomerangs(self, points: List[List[int]]) -> int:
+       res = 0
+       for x1, y1 in points:
+          dic = collections.defaultdict(int)
+          for x2, y2 in points:
+             d = (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)
+             dic[d] += 1
+          res += sum(v * (v - 1) for v in dic.values())
+       return res
+          
+    
