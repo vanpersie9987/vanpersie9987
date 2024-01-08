@@ -26,6 +26,7 @@ from curses import curs_set
 from decimal import Rounded
 import enum
 from functools import cache
+from inspect import modulesbyfile
 from itertools import accumulate
 from math import comb, cos, gcd, inf, sqrt
 from operator import le
@@ -6870,22 +6871,22 @@ class leetcode_1 :
     def constructProductMatrix(self, grid: List[List[int]]) -> List[List[int]]:
        m = len(grid)
        n = len(grid[0])
-       p = [[0] * n for _ in range(m)]
+       res = [[1] * n for _ in range(m)]
+       mul = 1
        MOD = 12345
-       suf = 1
-       for i in range(m - 1, -1, -1):
-          for j in range(n - 1, -1, -1):
-             p[i][j] = suf
-             suf *= grid[i][j]
-             suf %= MOD
-       pre = 1
        for i in range(m):
           for j in range(n):
-             p[i][j] *= pre
-             p[i][j] %= MOD
-             pre *= grid[i][j]
-             pre %= MOD
-       return p
+             res[i][j] = mul
+             mul *= grid[i][j]
+             mul %= MOD
+       mul = 1
+       for i in range(m - 1, -1, -1):
+          for j in range(n - 1, -1, -1):
+             res[i][j] *= mul
+             res[i][j] %= MOD
+             mul *= grid[i][j]
+             mul %= MOD
+       return res
     
     # 2899. 上一个遍历的整数 (Last Visited Integers)
     def lastVisitedIntegers(self, words: List[str]) -> List[int]:
