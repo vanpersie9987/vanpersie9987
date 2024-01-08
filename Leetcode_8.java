@@ -5305,25 +5305,29 @@ public class Leetcode_8 {
 
     // 2948. 交换得到字典序最小的数组 (Make Lexicographically Smallest Array by Swapping
     // Elements)
-    public int[] lexicographicllySmallestArry(int[] nums, int limit) {
+     public int[] lexicographicallySmallestArray(int[] nums, int limit) {
+        List<int[]> list = new ArrayList<>();
         int n = nums.length;
-        int[] res = new int[n];
-        TreeMap<Integer, List<Integer>> map = new TreeMap<>();
         for (int i = 0; i < n; ++i) {
-            map.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i);
+            list.add(new int[] { i, nums[i] });
         }
-        // 哨兵
-        map.computeIfAbsent(Integer.MAX_VALUE, k -> new ArrayList<>()).add(-1);
-        List<Integer> vals = new ArrayList<>();
+        Collections.sort(list, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[1], o2[1]);
+            }
+            
+        });
+        int[] res = new int[n];
         List<Integer> ids = new ArrayList<>();
-        int pre = 0;
-        for (Map.Entry<Integer, List<Integer>> entry : map.entrySet()) {
-            int key = entry.getKey();
-            List<Integer> indexes = entry.getValue();
-            if (pre == 0 || entry.getKey() - pre > limit) {
+        List<Integer> vals = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            ids.add(list.get(i)[0]);
+            vals.add(list.get(i)[1]);
+            if (i == n - 1 || list.get(i + 1)[1] - list.get(i)[1] > limit) {
                 Collections.sort(ids);
-                Collections.sort(vals);
-                int m = vals.size();
+                int m = ids.size();
                 int j = 0;
                 while (j < m) {
                     res[ids.get(j)] = vals.get(j);
@@ -5332,12 +5336,6 @@ public class Leetcode_8 {
                 ids.clear();
                 vals.clear();
             }
-            int size = indexes.size();
-            for (int i = 0; i < size; ++i) {
-                vals.add(key);
-            }
-            ids.addAll(indexes);
-            pre = key;
         }
         return res;
 
