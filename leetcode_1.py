@@ -9124,8 +9124,9 @@ class leetcode_1 :
           dic = collections.defaultdict(int)
           for x2, y2 in points:
              d = (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)
+             # 考虑顺序
+             res += dic[d] * 2
              dic[d] += 1
-          res += sum(v * (v - 1) for v in dic.values())
        return res
           
     

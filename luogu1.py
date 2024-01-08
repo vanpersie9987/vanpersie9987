@@ -9,6 +9,7 @@ from pydoc import resolve
 from queue import PriorityQueue
 from re import S, X
 import re
+from tabnanny import check
 from textwrap import indent
 from tkinter import NO, W
 from tkinter.messagebox import RETRY
@@ -438,6 +439,28 @@ class luogu1:
             return res
         n = len(arr)
         return n - dfs(0, 0, 0)
+    
+
+    def numberOfPowerfulInt(self, start: int, finish: int, limit: int, s: str) -> int:
+        def check(arr: str) -> int:
+            n = len(arr)
+            if n < len(s):
+                return 0
+            @cache
+            def dfs(i: int, is_limit: bool, is_num: bool) -> int:
+                if n - i == len(s):
+                    return int(int(arr[i:]) >= int(s)) if is_limit else 1
+                res = 0
+                if not is_num:
+                    res = dfs(i + 1, False, False)
+                up = int(arr[i]) if is_limit else 9
+                for d in range(0 if is_num else 1, up + 1):
+                    if d <= limit:
+                        res += dfs(i + 1, is_limit and d == up, True)
+                return res
+            return dfs(0, True, False)
+        return check(str(finish)) - check(str(start - 1))
+
 
 
 

@@ -6411,4 +6411,149 @@ public class Leetcode_8 {
 
     }
 
+    public int missingInteger(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+        int s = nums[0];
+        for (int i = 1; i < nums.length; ++i) {
+            if (nums[i] - nums[i - 1] != 1) {
+                break;
+            }
+            s += nums[i];
+        }
+        while (true) {
+            if (set.contains(s)) {
+                ++s;
+                continue;
+            }
+            return s;
+        }
+
+    }
+
+    public int minOperations(int[] nums, int k) {
+        int s = 0;
+        for (int num : nums) {
+            s ^= num;
+        }
+        return Integer.bitCount(s ^ k);
+
+    }
+
+    public int minimumOperationsToMakeEqual(int x, int y) {
+        if (x == y) {
+            return 0;
+        }
+        if (x < y) {
+            return y - x;
+        }
+        Queue<int[]> q = new LinkedList<>();
+        Set<Integer> set = new HashSet<>();
+        set.add(x);
+        q.offer(new int[] { x, 0 });
+        // int step = 0;
+        while (!q.isEmpty()) {
+            int[] node = q.poll();
+            int cur = node[0];
+            if (cur == y) {
+                return node[1];
+            }
+            if (!set.contains(cur + 1)) {
+                set.add(cur + 1);
+                q.offer(new int[] { cur + 1, node[1] + 1 });
+            }
+            if (!set.contains(cur - 1)) {
+                set.add(cur - 1);
+                q.offer(new int[] { cur - 1, node[1] + 1 });
+            }
+            if (cur % 5 == 0 && !set.contains(cur / 5)) {
+                set.add(cur / 5);
+                q.offer(new int[] { cur / 5, node[1] + 1 });
+            }
+            if (cur % 11 == 0 && !set.contains(cur / 11)) {
+                set.add(cur / 11);
+                q.offer(new int[] { cur / 11, node[1] + 1 });
+            }
+            // ++step;
+        }
+        // return step;
+
+        return -1;
+
+
+
+    }
+
+    public int areaOfMaxDiagonal(int[][] dimensions) {
+        int res = 0;
+        int maxD = 0;
+        for (int[] d : dimensions) {
+            int curD = d[0] * d[0] + d[1] * d[1];
+            if (curD > maxD) {
+                maxD = curD;
+                res = d[0] * d[1];
+            } else if (curD == maxD) {
+                if (res < d[0] * d[1]) {
+                    res = d[0] * d[1];
+                }
+            }
+        }
+        return res;
+
+    }
+
+    public int minMovesToCaptureTheQueen(int a, int b, int c, int d, int e, int f) {
+        if (check(a, b, c, d, e, f, 0, 1) || check(a, b, c, d, e, f, 0, -1) || check(a, b, c, d, e, f, 1, 0)
+                || check(a, b, c, d, e, f, -1, 0)) {
+            return 1;
+        }
+        if (check(c, d, a, b, e, f, 1, 1) || check(c, d, a, b, e, f, 1, -1) || check(c, d, a, b, e, f, -1, 1)
+                || check(c, d, a, b, e, f, -1, -1)) {
+            return 1;
+        }
+        return 2;
+
+    }
+
+    private boolean check(int a, int b, int c, int d, int e, int f, int dx, int dy) {
+        while (e >= 1 && e <= 8 && f >= 1 && f <= 8) {
+            if (e == c && f == d) {
+                return false;
+            } else if (e == a && f == b) {
+                return true;
+            }
+            e += dx;
+            f += dy;
+        }
+        return false;
+    }
+
+    public int maximumSetSize(int[] nums1, int[] nums2) {
+        Set<Integer> set1 = Arrays.stream(nums1).boxed().collect(Collectors.toSet());
+        Set<Integer> set2 = Arrays.stream(nums2).boxed().collect(Collectors.toSet());
+        int n = nums1.length;
+        int i = 0;
+        while (i < n && set1.size() > n / 2) {
+            if (set2.contains(nums1[i])) {
+                set1.remove(nums1[i]);
+            }
+            ++i;
+        }
+        i = 0;
+        while (i < n && set2.size() > n / 2) {
+            if (set1.contains(nums2[i])) {
+                set2.remove(nums2[i]);
+            }
+            ++i;
+        }
+        if (set1.size() <= n / 2 && set2.size() <= n / 2) {
+            set1.addAll(set2);
+            return set1.size();
+        }
+        return Math.min(set1.size(), n / 2) + Math.min(set2.size(), n / 2);
+
+    }
+
 }
