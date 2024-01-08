@@ -9128,5 +9128,29 @@ class leetcode_1 :
              res += dic[d] * 2
              dic[d] += 1
        return res
+
+    # 2861. 最大合金数 (Maximum Number of Alloys)
+    def maxNumberOfAlloys(self, n: int, k: int, budget: int, composition: List[List[int]], stock: List[int], cost: List[int]) -> int:
+       def check(cnt: int) -> bool:
+          def ok(compose: List[int]) -> bool:
+             res = 0
+             for com, cos, sto in zip(compose, cost, stock):
+                res += max(0, com * cnt - sto) * cos
+                if res > budget:
+                   return False
+             return True
+          return any(ok(c) for c in composition)
+       left = 0
+       right = 10 ** 9
+       res = 0
+       while left <= right:
+          mid = left + ((right - left) >> 1)
+          if check(mid):
+             res = mid
+             left = mid + 1
+          else:
+             right = mid - 1
+       return res
+       
           
     
