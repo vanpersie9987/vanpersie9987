@@ -9145,3 +9145,17 @@ class leetcode_1 :
           else:
              right = mid - 1
        return res
+    
+    # 2781. 最长合法子字符串的长度 (Length of the Longest Valid Substring)
+    def longestValidSubstring(self, word: str, forbidden: List[str]) -> int:
+       s = set(forbidden)
+       res = 0
+       n = len(word)
+       left = 0
+       for right in range(n):
+          for l in range(right, max(right - 10, left - 1), -1):
+             if word[l: right + 1] in s:
+                left = l + 1
+                break
+          res = max(res, right - left + 1)
+       return res
