@@ -9241,6 +9241,15 @@ class leetcode_1 :
              return res
           return dfs(0, True, False)
        return check(str(finish)) - check(str(start - 1))
+    
+    # 2696. 删除子串后的字符串最小长度 (Minimum String Length After Removing Substrings)
+    def minLength(self, s: str) -> int:
+       ss = ""
+       for c in s:
+          ss += c
+          if len(ss) >= 2 and (ss.rfind("AB") >= 0 or ss.rfind("CD") >= 0):
+             ss = ss[:len(ss) - 2]
+       return len(ss)
        
     
              
