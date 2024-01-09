@@ -9193,3 +9193,9 @@ class leetcode_1 :
        while res in s:
           res += 1
        return res
+    
+    # 2997. 使数组异或和等于 K 的最少操作次数 (Minimum Number of Operations to Make Array XOR Equal to K)
+    def minOperations(self, nums: List[int], k: int) -> int:
+       for num in nums:
+          k ^= num
+       return k.bit_count()

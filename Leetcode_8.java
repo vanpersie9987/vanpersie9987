@@ -6475,12 +6475,13 @@ public class Leetcode_8 {
 
     }
 
+    // 2997. 使数组异或和等于 K 的最少操作次数 (Minimum Number of Operations to Make Array XOR
+    // Equal to K)
     public int minOperations(int[] nums, int k) {
-        int s = 0;
         for (int num : nums) {
-            s ^= num;
+            k ^= num;
         }
-        return Integer.bitCount(s ^ k);
+        return Integer.bitCount(k);
 
     }
 
