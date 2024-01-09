@@ -6518,6 +6518,55 @@ public class Leetcode_8 {
         return memo2998[x] = res;
     }
 
+    // 2999. 统计强大整数的数目 (Count the Number of Powerful Integers)
+    private int limit2999;
+    private String s2999;
+
+    public long numberOfPowerfulInt(long start, long finish, int limit, String s) {
+        this.limit2999 = limit;
+        this.s2999 = s;
+        return check2999(String.valueOf(finish)) - check2999(String.valueOf(start - 1));
+
+    }
+
+    private long[] memo2999;
+    private String num2999;
+
+    private long check2999(String num) {
+        if (num.length() < s2999.length()) {
+            return 0L;
+        }
+        this.memo2999 = new long[num.length()];
+        this.num2999 = num;
+        Arrays.fill(memo2999, -1L);
+        return dfs2999(0, true, false);
+
+    }
+
+    private long dfs2999(int i, boolean isLimit, boolean isNum) {
+        if (num2999.length() - i == s2999.length()) {
+            return isLimit ? (Long.parseLong(num2999.substring(i)) >= Long.parseLong(s2999) ? 1 : 0) : 1;
+        }
+        if (!isLimit && isNum && memo2999[i] != -1L) {
+            return memo2999[i];
+        }
+        long res = 0L;
+        if (!isNum) {
+            res = dfs2999(i + 1, false, false);
+        }
+        int up = isLimit ? (num2999.charAt(i) - '0') : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            if (d <= limit2999) {
+                res += dfs2999(i + 1, isLimit && d == up, true);
+            }
+        }
+        if (!isLimit && isNum) {
+            memo2999[i] = res;
+        }
+        return res;
+    }
+
+
     public int areaOfMaxDiagonal(int[][] dimensions) {
         int res = 0;
         int maxD = 0;
@@ -6586,54 +6635,6 @@ public class Leetcode_8 {
         }
         return Math.min(set1.size(), n / 2) + Math.min(set2.size(), n / 2);
 
-    }
-
-    // 2999. 统计强大整数的数目 (Count the Number of Powerful Integers)
-    private int limit2999;
-    private String s2999;
-
-    public long numberOfPowerfulInt(long start, long finish, int limit, String s) {
-        this.limit2999 = limit;
-        this.s2999 = s;
-        return check2999(String.valueOf(finish)) - check2999(String.valueOf(start - 1));
-
-    }
-
-    private long[] memo2999;
-    private String num2999;
-
-    private long check2999(String num) {
-        if (num.length() < s2999.length()) {
-            return 0L;
-        }
-        this.memo2999 = new long[num.length()];
-        this.num2999 = num;
-        Arrays.fill(memo2999, -1L);
-        return dfs2999(0, true, false);
-
-    }
-
-    private long dfs2999(int i, boolean isLimit, boolean isNum) {
-        if (num2999.length() - i == s2999.length()) {
-            return isLimit ? (Long.parseLong(num2999.substring(i)) >= Long.parseLong(s2999) ? 1 : 0) : 1;
-        }
-        if (!isLimit && isNum && memo2999[i] != -1L) {
-            return memo2999[i];
-        }
-        long res = 0L;
-        if (!isNum) {
-            res = dfs2999(i + 1, false, false);
-        }
-        int up = isLimit ? (num2999.charAt(i) - '0') : 9;
-        for (int d = isNum ? 0 : 1; d <= up; ++d) {
-            if (d <= limit2999) {
-                res += dfs2999(i + 1, isLimit && d == up, true);
-            }
-        }
-        if (!isLimit && isNum) {
-            memo2999[i] = res;
-        }
-        return res;
     }
 
 }
