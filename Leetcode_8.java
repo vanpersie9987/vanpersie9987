@@ -6445,45 +6445,47 @@ public class Leetcode_8 {
         if (x <= y) {
             return y - x;
         }
-        int res = Integer.MAX_VALUE;
-        Queue<int[]> q = new LinkedList<>();
+        int res = x - y;
+        Queue<Integer> q = new LinkedList<>();
         Set<Integer> set = new HashSet<>();
         set.add(x);
-        q.offer(new int[] { x, 0 });
+        q.offer(x);
+        int step = 0;
         while (!q.isEmpty()) {
-            int[] node = q.poll();
-            int cur = node[0];
-            if (cur == y) {
-                return Math.min(res, node[1]);
-            }
-            if (!set.contains(cur + 1)) {
-                set.add(cur + 1);
-                q.offer(new int[] { cur + 1, node[1] + 1 });
-            }
-            if (!set.contains(cur - 1)) {
-                set.add(cur - 1);
-                if (cur - 1 < y) {
-                    res = Math.min(res, node[1] + y - cur + 2);
-                } else {
-                    q.offer(new int[] { cur - 1, node[1] + 1 });
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {
+                int v = q.poll();
+                if (v == y) {
+                    return Math.min(res, step);
+                }
+                if (!set.contains(v + 1)) {
+                    set.add(v + 1);
+                    q.offer(v + 1);
+                }
+                if (v - 1 < y) {
+                    res = Math.min(res, step + y - v + 2);
+                } else if (!set.contains(v - 1)) {
+                    set.add(v - 1);
+                    q.offer(v - 1);
+                }
+                if (v % 5 == 0) {
+                    if (v / 5 < y) {
+                        res = Math.min(res, step + y - v / 5 + 1);
+                    } else if (!set.contains(v / 5)) {
+                        set.add(v / 5);
+                        q.offer(v / 5);
+                    }
+                }
+                if (v % 11 == 0) {
+                    if (v / 11 < y) {
+                        res = Math.min(res, step + y - v / 11 + 1);
+                    } else if (!set.contains(v / 11)) {
+                        set.add(v / 11);
+                        q.offer(v / 11);
+                    }
                 }
             }
-            if (cur % 5 == 0 && !set.contains(cur / 5)) {
-                set.add(cur / 5);
-                if (cur / 5 < y) {
-                    res = Math.min(res, node[1] + y - cur / 5 + 1);
-                } else {
-                    q.offer(new int[] { cur / 5, node[1] + 1 });
-                }
-            }
-            if (cur % 11 == 0 && !set.contains(cur / 11)) {
-                set.add(cur / 11);
-                if (cur / 11 < y) {
-                    res = Math.min(res, node[1] + y - cur / 11 + 1);
-                } else {
-                    q.offer(new int[] { cur / 11, node[1] + 1 });
-                }
-            }
+            ++step;
         }
         return -1;
 
