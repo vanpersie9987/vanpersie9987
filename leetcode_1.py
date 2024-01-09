@@ -9199,3 +9199,51 @@ class leetcode_1 :
        for num in nums:
           k ^= num
        return k.bit_count()
+    
+    # 2998. 使 X 和 Y 相等的最少操作次数 (Minimum Number of Operations to Make X and Y Equal)
+    @cache
+    def minimumOperationsToMakeEqual(self, x: int, y: int) -> int:
+       if x <= y:
+          return y - x
+       return min(x - y,
+                  self.minimumOperationsToMakeEqual(x // 11, y) + x % 11 + 1,
+                  self.minimumOperationsToMakeEqual(x // 11 + 1, y) + 11 - x % 11 + 1,
+                  self.minimumOperationsToMakeEqual(x // 5, y) + x % 5 + 1,
+                  self.minimumOperationsToMakeEqual(x // 5 + 1, y) + 5 - x % 5 + 1)
+
+    # 2998. 使 X 和 Y 相等的最少操作次数 (Minimum Number of Operations to Make X and Y Equal)
+    def minimumOperationsToMakeEqual(self, x: int, y: int) -> int:
+       def add(v: int) -> None:
+          if v < y:
+             nonlocal res
+             res = min(res, step + 1 + y - v)
+          elif v not in s:
+             s.add(v)
+             q.append(v)
+       if x <= y:
+         return y - x
+       res = x - y
+       q = collections.deque()
+       q.append(x)
+       s = set()
+       s.add(x)
+       step = 0
+       while q:
+          size = len(q)
+          for _ in range(size):
+             v = q.popleft()
+             if v == y:
+                return min(res, step)
+             if v % 5 == 0:
+                add(v // 5)
+             if v % 11 == 0:
+                add(v // 11)
+             add(v + 1)
+             add(v - 1)
+          step += 1
+       return -1
+             
+             
+
+       
+    

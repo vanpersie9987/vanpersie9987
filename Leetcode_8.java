@@ -6485,23 +6485,21 @@ public class Leetcode_8 {
 
     }
 
+    // 2998. 使 X 和 Y 相等的最少操作次数 (Minimum Number of Operations to Make X and Y Equal)
     public int minimumOperationsToMakeEqual(int x, int y) {
-        if (x == y) {
-            return 0;
-        }
-        if (x < y) {
+        if (x <= y) {
             return y - x;
         }
+        int res = Integer.MAX_VALUE;
         Queue<int[]> q = new LinkedList<>();
         Set<Integer> set = new HashSet<>();
         set.add(x);
         q.offer(new int[] { x, 0 });
-        // int step = 0;
         while (!q.isEmpty()) {
             int[] node = q.poll();
             int cur = node[0];
             if (cur == y) {
-                return node[1];
+                return Math.min(res, node[1]);
             }
             if (!set.contains(cur + 1)) {
                 set.add(cur + 1);
@@ -6509,24 +6507,61 @@ public class Leetcode_8 {
             }
             if (!set.contains(cur - 1)) {
                 set.add(cur - 1);
-                q.offer(new int[] { cur - 1, node[1] + 1 });
+                if (cur - 1 < y) {
+                    res = Math.min(res, node[1] + y - cur + 2);
+                } else {
+                    q.offer(new int[] { cur - 1, node[1] + 1 });
+                }
             }
             if (cur % 5 == 0 && !set.contains(cur / 5)) {
                 set.add(cur / 5);
-                q.offer(new int[] { cur / 5, node[1] + 1 });
+                if (cur / 5 < y) {
+                    res = Math.min(res, node[1] + y - cur / 5 + 1);
+                } else {
+                    q.offer(new int[] { cur / 5, node[1] + 1 });
+                }
             }
             if (cur % 11 == 0 && !set.contains(cur / 11)) {
                 set.add(cur / 11);
-                q.offer(new int[] { cur / 11, node[1] + 1 });
+                if (cur / 11 < y) {
+                    res = Math.min(res, node[1] + y - cur / 11 + 1);
+                } else {
+                    q.offer(new int[] { cur / 11, node[1] + 1 });
+                }
             }
-            // ++step;
         }
-        // return step;
-
         return -1;
 
+    }
 
 
+    // 2998. 使 X 和 Y 相等的最少操作次数 (Minimum Number of Operations to Make X and Y Equal)
+    private int[] memo2998;
+
+    public int minimumOperationsToMakeEqual2(int x, int y) {
+        if (x <= y) {
+            return y - x;
+        }
+        int d = x - y;
+        this.memo2998 = new int[d + x + 1];
+        Arrays.fill(memo2998, -1);
+        return dfs2998(x, y);
+
+    }
+
+    private int dfs2998(int x, int y) {
+        if (x <= y) {
+            return y - x;
+        }
+        if (memo2998[x] != -1) {
+            return memo2998[x];
+        }
+        int res = x - y;
+        res = Math.min(res, dfs2998(x / 11, y) + x % 11 + 1);
+        res = Math.min(res, dfs2998(x / 11 + 1, y) + 11 - x % 11 + 1);
+        res = Math.min(res, dfs2998(x / 5, y) + x % 5 + 1);
+        res = Math.min(res, dfs2998(x / 5 + 1, y) + 5 - x % 5 + 1);
+        return memo2998[x] = res;
     }
 
     public int areaOfMaxDiagonal(int[][] dimensions) {
