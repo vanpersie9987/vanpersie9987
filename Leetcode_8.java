@@ -6453,7 +6453,9 @@ public class Leetcode_8 {
         }
         return res;
     }
-
+    
+    // 2996. 大于等于顺序前缀和的最小缺失整数 (Smallest Missing Integer Greater Than Sequential
+    // Prefix Sum)
     public int missingInteger(int[] nums) {
         Set<Integer> set = new HashSet<>();
         for (int num : nums) {
@@ -6466,13 +6468,10 @@ public class Leetcode_8 {
             }
             s += nums[i];
         }
-        while (true) {
-            if (set.contains(s)) {
-                ++s;
-                continue;
-            }
-            return s;
+        while (set.contains(s)) {
+            ++s;
         }
+        return s;
 
     }
 

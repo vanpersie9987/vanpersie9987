@@ -9180,3 +9180,16 @@ class leetcode_1 :
                 return res
             return dfs(0, True, False)
         return check(str(finish)) - check(str(start - 1))
+
+    # 2996. 大于等于顺序前缀和的最小缺失整数 (Smallest Missing Integer Greater Than Sequential Prefix Sum)
+    def missingInteger(self, nums: List[int]) -> int:
+       n = len(nums)
+       s = set(nums)
+       res = nums[0]
+       for i in range(1, n):
+          if nums[i] - nums[i - 1] != 1:
+             break
+          res += nums[i]
+       while res in s:
+          res += 1
+       return res
