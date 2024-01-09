@@ -9235,9 +9235,8 @@ class leetcode_1 :
              if not is_num:
                 res = dfs(i + 1, False, False)
              up = int(num[i]) if is_limit else 9
-             for d in range(0 if is_num else 1, up + 1):
-                if d <= limit:
-                   res += dfs(i + 1, is_limit and d == up, True)
+             for d in range(0 if is_num else 1, min(limit, up) + 1):
+                res += dfs(i + 1, is_limit and d == up, True)
              return res
           return dfs(0, True, False)
        return check(str(finish)) - check(str(start - 1))
