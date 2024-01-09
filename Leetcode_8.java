@@ -6409,51 +6409,6 @@ public class Leetcode_8 {
 
     }
 
-    // 10034. 统计强大整数的数目 (Count the Number of Powerful Integers)
-    private String num10034;
-    private long[] memo10034;
-    private String s10034;
-    private int limit10034;
-
-    public long numberOfPowerfulInt(long start, long finish, int limit, String s) {
-        this.s10034 = s;
-        this.limit10034 = limit;
-        return check10034(finish) - check10034(start - 1);
-    }
-
-    private long check10034(long num) {
-        this.num10034 = String.valueOf(num);
-        this.memo10034 = new long[this.num10034.length()];
-        Arrays.fill(memo10034, -1L);
-        if (this.num10034.length() < s10034.length()) {
-            return 0L;
-        }
-        return dfs10034(0, true, false);
-    }
-
-    private long dfs10034(int i, boolean isLimit, boolean isNum) {
-        if (num10034.length() - i == s10034.length()) {
-            return isLimit ? (Long.parseLong(num10034.substring(i)) >= Long.parseLong(s10034) ? 1L : 0L) : 1L;
-        }
-        if (!isLimit && isNum && memo10034[i] != -1L) {
-            return memo10034[i];
-        }
-        long res = 0L;
-        if (!isNum) {
-            res = dfs10034(i + 1, false, false);
-        }
-        int up = isLimit ? (num10034.charAt(i) - '0') : 9;
-        for (int d = isNum ? 0 : 1; d <= up; ++d) {
-            if (d <= limit10034) {
-                res += dfs10034(i + 1, isLimit && up == d, true);
-            }
-        }
-        if (!isLimit && isNum) {
-            memo10034[i] = res;
-        }
-        return res;
-    }
-    
     // 2996. 大于等于顺序前缀和的最小缺失整数 (Smallest Missing Integer Greater Than Sequential
     // Prefix Sum)
     public int missingInteger(int[] nums) {
@@ -6533,7 +6488,6 @@ public class Leetcode_8 {
         return -1;
 
     }
-
 
     // 2998. 使 X 和 Y 相等的最少操作次数 (Minimum Number of Operations to Make X and Y Equal)
     private int[] memo2998;

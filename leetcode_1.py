@@ -9160,27 +9160,6 @@ class leetcode_1 :
           res = max(res, right - left + 1)
        return res
 
-    # 10034. 统计强大整数的数目 (Count the Number of Powerful Integers)
-    def numberOfPowerfulInt(self, start: int, finish: int, limit: int, s: str) -> int:
-        def check(arr: str) -> int:
-            n = len(arr)
-            if n < len(s):
-                return 0
-            @cache
-            def dfs(i: int, is_limit: bool, is_num: bool) -> int:
-                if n - i == len(s):
-                    return int(int(arr[i:]) >= int(s)) if is_limit else 1
-                res = 0
-                if not is_num:
-                    res = dfs(i + 1, False, False)
-                up = int(arr[i]) if is_limit else 9
-                for d in range(0 if is_num else 1, up + 1):
-                    if d <= limit:
-                        res += dfs(i + 1, is_limit and d == up, True)
-                return res
-            return dfs(0, True, False)
-        return check(str(finish)) - check(str(start - 1))
-
     # 2996. 大于等于顺序前缀和的最小缺失整数 (Smallest Missing Integer Greater Than Sequential Prefix Sum)
     def missingInteger(self, nums: List[int]) -> int:
        n = len(nums)
@@ -9242,6 +9221,28 @@ class leetcode_1 :
              add(v - 1)
           step += 1
        return -1
+    
+    # 2999. 统计强大整数的数目 (Count the Number of Powerful Integers)
+    def numberOfPowerfulInt(self, start: int, finish: int, limit: int, s: str) -> int:
+       def check(num: str) -> int:
+          if len(num) < len(s):
+             return 0
+          @cache
+          def dfs(i: int, is_limit: bool, is_num: bool) -> int:
+             if len(num) - i == len(s):
+                return int(int(num[i:]) >= int(s)) if is_limit else 1
+             res = 0
+             if not is_num:
+                res = dfs(i + 1, False, False)
+             up = int(num[i]) if is_limit else 9
+             for d in range(0 if is_num else 1, up + 1):
+                if d <= limit:
+                   res += dfs(i + 1, is_limit and d == up, True)
+             return res
+          return dfs(0, True, False)
+       return check(str(finish)) - check(str(start - 1))
+       
+    
              
              
 
