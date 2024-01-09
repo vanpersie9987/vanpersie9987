@@ -6555,10 +6555,8 @@ public class Leetcode_8 {
             res = dfs2999(i + 1, false, false);
         }
         int up = isLimit ? (num2999.charAt(i) - '0') : 9;
-        for (int d = isNum ? 0 : 1; d <= up; ++d) {
-            if (d <= limit2999) {
-                res += dfs2999(i + 1, isLimit && d == up, true);
-            }
+        for (int d = isNum ? 0 : 1; d <= Math.min(limit2999, up); ++d) {
+            res += dfs2999(i + 1, isLimit && d == up, true);
         }
         if (!isLimit && isNum) {
             memo2999[i] = res;
