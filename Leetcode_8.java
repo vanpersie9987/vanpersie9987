@@ -6545,6 +6545,7 @@ public class Leetcode_8 {
 
     }
 
+    // 可以去掉 isNum
     private long dfs2999(int i, boolean isLimit, boolean isNum) {
         if (num2999.length() - i == s2999.length()) {
             return isLimit ? (Long.parseLong(num2999.substring(i)) >= Long.parseLong(s2999) ? 1 : 0) : 1;

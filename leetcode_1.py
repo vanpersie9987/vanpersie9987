@@ -9227,6 +9227,7 @@ class leetcode_1 :
        def check(num: str) -> int:
           if len(num) < len(s):
              return 0
+          # 可以去掉 is_num
           @cache
           def dfs(i: int, is_limit: bool, is_num: bool) -> int:
              if len(num) - i == len(s):
