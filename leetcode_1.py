@@ -9255,32 +9255,21 @@ class leetcode_1 :
     def addMinimum(self, word: str) -> int:
        n = len(word)
        i = 0
+       j = 0
+       s = 'abc'
        res = 0
-       while i < n:
-          if word[i] == 'a':
-             if i + 1 < n and word[i + 1] == 'b':
-                if i + 2 < n and word[i + 2] == 'c':
-                   i += 3
-                else:
-                   i += 2
-                   res += 1
-             elif i + 1 < n and word[i + 1] == 'c':
-                i += 2
-                res += 1
-             else:
-                i += 1
-                res += 2
-          elif word[i] == 'b':
-             if i + 1 < n and word[i + 1] == 'c':
-                i += 2
-                res += 1
-             else:
-                i += 1
-                res += 2
+       while j < n:
+          if s[i] != word[j]:
+             res += 1
           else:
-             res += 2
-             i += 1
+             j += 1
+          i = (i + 1) % 3
+       if word[-1] == 'a':
+          res += 2
+       elif word[-1] == 'b':
+          res += 1
        return res
+             
                 
              
 
