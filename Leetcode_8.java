@@ -6567,7 +6567,7 @@ public class Leetcode_8 {
         return res;
     }
 
-
+    // 3000. 对角线最长的矩形的面积 (Maximum Area of Longest Diagonal Rectangle)
     public int areaOfMaxDiagonal(int[][] dimensions) {
         int res = 0;
         int maxD = 0;
@@ -6577,29 +6577,28 @@ public class Leetcode_8 {
                 maxD = curD;
                 res = d[0] * d[1];
             } else if (curD == maxD) {
-                if (res < d[0] * d[1]) {
-                    res = d[0] * d[1];
-                }
+                res = Math.max(res, d[0] * d[1]);
             }
         }
         return res;
 
     }
 
+    // 3001. 捕获黑皇后需要的最少移动次数 (Minimum Moves to Capture The Queen)
     public int minMovesToCaptureTheQueen(int a, int b, int c, int d, int e, int f) {
-        if (check(a, b, c, d, e, f, 0, 1) || check(a, b, c, d, e, f, 0, -1) || check(a, b, c, d, e, f, 1, 0)
-                || check(a, b, c, d, e, f, -1, 0)) {
+        if (check3001(a, b, c, d, e, f, 0, 1) || check3001(a, b, c, d, e, f, 0, -1) || check3001(a, b, c, d, e, f, 1, 0)
+                || check3001(a, b, c, d, e, f, -1, 0)) {
             return 1;
         }
-        if (check(c, d, a, b, e, f, 1, 1) || check(c, d, a, b, e, f, 1, -1) || check(c, d, a, b, e, f, -1, 1)
-                || check(c, d, a, b, e, f, -1, -1)) {
+        if (check3001(c, d, a, b, e, f, 1, 1) || check3001(c, d, a, b, e, f, 1, -1) || check3001(c, d, a, b, e, f, -1, 1)
+                || check3001(c, d, a, b, e, f, -1, -1)) {
             return 1;
         }
         return 2;
 
     }
 
-    private boolean check(int a, int b, int c, int d, int e, int f, int dx, int dy) {
+    private boolean check3001(int a, int b, int c, int d, int e, int f, int dx, int dy) {
         while (e >= 1 && e <= 8 && f >= 1 && f <= 8) {
             if (e == c && f == d) {
                 return false;
@@ -6612,6 +6611,7 @@ public class Leetcode_8 {
         return false;
     }
 
+    // 3002. 移除后集合的最多元素数 (Maximum Size of a Set After Removals)
     public int maximumSetSize(int[] nums1, int[] nums2) {
         Set<Integer> set1 = Arrays.stream(nums1).boxed().collect(Collectors.toSet());
         Set<Integer> set2 = Arrays.stream(nums2).boxed().collect(Collectors.toSet());

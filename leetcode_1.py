@@ -28,6 +28,7 @@ import enum
 from functools import cache
 from inspect import modulesbyfile
 from itertools import accumulate
+from locale import DAY_4
 from math import comb, cos, gcd, inf, sqrt
 from operator import le
 from pickletools import read_uint1
@@ -9269,14 +9270,58 @@ class leetcode_1 :
        elif word[-1] == 'b':
           res += 1
        return res
-             
+    
+    # 3000. 对角线最长的矩形的面积 (Maximum Area of Longest Diagonal Rectangle)
+    def areaOfMaxDiagonal(self, dimensions: List[List[int]]) -> int:
+       res = 0
+       d = 0
+       for x, y in dimensions:
+          if d < x * x + y * y:
+             d = x * x + y * y
+             res = x * y
+          elif d == x * x + y * y:
+             res = max(res, x * y)
+       return res
+    
+    # 3001. 捕获黑皇后需要的最少移动次数 (Minimum Moves to Capture The Queen)
+    def minMovesToCaptureTheQueen(self, a: int, b: int, c: int, d: int, e: int, f: int) -> int:
+       def check(sx: int, sy: int, dx: int, dy: int, tx: int, ty: int, bx: int, by: int) -> bool:
+          while 8 >= sx >= 1 and 8 >= sy >= 1:
+             if sx == bx and sy == by:
+                return False
+             elif sx == tx and sy == ty:
+                return True
+             sx += dx
+             sy += dy
+          return False
+       if check(e, f, 0, 1, a, b, c, d) or check(e, f, 0, -1, a, b, c, d) or check(e, f, 1, 0, a, b, c, d) or check(e, f, -1, 0, a, b, c, d):
+          return 1
+       if check(e, f, 1, 1, c, d, a, b) or check(e, f, -1, 1, c, d, a, b) or check(e, f, 1, -1, c, d, a, b) or check(e, f, -1, -1, c, d, a, b):
+          return 1
+       return 2
+    
+    # 3002. 移除后集合的最多元素数 (Maximum Size of a Set After Removals)
+    def maximumSetSize(self, nums1: List[int], nums2: List[int]) -> int:
+       s1 = set(nums1)
+       s2 = set(nums2)
+       i = 0
+       n = len(nums1)
+       while i < n and len(s1) > n // 2:
+          if nums1[i] in s2:
+             s1.discard(nums1[i])
+          i += 1
+       i = 0
+       while i < n and len(s2) > n // 2:
+          if nums2[i] in s1:
+             s2.discard(nums2[i])
+          i += 1
+       if len(s1) <= n // 2 and len(s2) <= n // 2:
+          return len(s1 | s2)
+       return min(len(s1), n // 2) + min(len(s2), n // 2)
+       
                 
-             
-
        
-    
-             
-             
-
        
-    
+       
+       
+
