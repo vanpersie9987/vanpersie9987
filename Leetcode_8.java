@@ -6638,4 +6638,50 @@ public class Leetcode_8 {
 
     }
 
+    // 3003. 执行操作后的最大分割数量 (Maximize the Number of Partitions After Operations)
+    private Map<Long, Integer> memo3003;
+    private int n3003;
+    private char[] arr3003;
+    private int k3003;
+
+    public int maxPartitionsAfterOperations(String s, int k) {
+        this.memo3003 = new HashMap<>();
+        this.n3003 = s.length();
+        this.arr3003 = s.toCharArray();
+        this.k3003 = k;
+        return dfs3003(0, 0, 0);
+    }
+
+    private int dfs3003(int i, int mask, int changed) {
+        if (i == n3003) {
+            return 1;
+        }
+        long total = ((long) i << 30) | mask | (changed << 28);
+        if (memo3003.containsKey(total)) {
+            return memo3003.get(total);
+        }
+        int res = 0;
+        // 不变
+        int bits = mask | (1 << (arr3003[i] - 'a'));
+        if (Integer.bitCount(bits) <= k3003) {
+            res = Math.max(res, dfs3003(i + 1, bits, changed));
+        } else {
+            res = Math.max(res, dfs3003(i + 1, 1 << (arr3003[i] - 'a'), changed) + 1);
+        }
+        if (changed == 0) {
+            for (int j = 0; j < 26; ++j) {
+                if (j != arr3003[i] - 'a') {
+                    bits = mask | (1 << j);
+                    if (Integer.bitCount(bits) <= k3003) {
+                        res = Math.max(res, dfs3003(i + 1, bits, 1));
+                    } else {
+                        res = Math.max(res, dfs3003(i + 1, 1 << j, 1) + 1);
+                    }
+                }
+            }
+        }
+        memo3003.put(total, res);
+        return res;
+    }
+
 }
