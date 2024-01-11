@@ -6668,6 +6668,7 @@ public class Leetcode_8 {
         } else {
             res = Math.max(res, dfs3003(i + 1, 1 << (arr3003[i] - 'a'), changed) + 1);
         }
+        // 变
         if (changed == 0) {
             for (int j = 0; j < 26; ++j) {
                 if (j != arr3003[i] - 'a') {
