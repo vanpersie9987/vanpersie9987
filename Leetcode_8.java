@@ -6671,13 +6671,11 @@ public class Leetcode_8 {
         // 变
         if (changed == 0) {
             for (int j = 0; j < 26; ++j) {
-                if (j != arr3003[i] - 'a') {
-                    bits = mask | (1 << j);
-                    if (Integer.bitCount(bits) <= k3003) {
-                        res = Math.max(res, dfs3003(i + 1, bits, 1));
-                    } else {
-                        res = Math.max(res, dfs3003(i + 1, 1 << j, 1) + 1);
-                    }
+                bits = mask | (1 << j);
+                if (Integer.bitCount(bits) <= k3003) {
+                    res = Math.max(res, dfs3003(i + 1, bits, 1));
+                } else {
+                    res = Math.max(res, dfs3003(i + 1, 1 << j, 1) + 1);
                 }
             }
         }

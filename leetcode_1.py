@@ -9336,12 +9336,11 @@ class leetcode_1 :
             # 变
             if not changed:
                 for j in range(26):
-                    if j != ord(s[i]) - ord('a'):
-                        bits = mask | (1 << j)
-                        if bits.bit_count() <= k:
-                            res = max(res, dfs(i + 1, bits, True))
-                        else:
-                            res = max(res, dfs(i + 1, 1 << j, True) + 1)
+                   bits = mask | (1 << j)
+                   if bits.bit_count() <= k:
+                      res = max(res, dfs(i + 1, bits, True))
+                   else:
+                      res = max(res, dfs(i + 1, 1 << j, True) + 1)
             return res
         return dfs(0, 0, False)
                 
