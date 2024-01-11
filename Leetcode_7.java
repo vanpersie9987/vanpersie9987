@@ -3194,38 +3194,21 @@ public class Leetcode_7 {
         int n = word.length();
         char[] arr = word.toCharArray();
         int res = 0;
-        if (n == 1) {
-            return 2;
-        }
+        char[] s = { 'a', 'b', 'c' };
         int i = 0;
-        while (i < n) {
-            if (arr[i] == 'a') {
-                if (i + 1 < n && arr[i + 1] == 'b') {
-                    if (i + 2 < n && arr[i + 2] == 'c') {
-                        i += 3;
-                    } else {
-                        i += 2;
-                        ++res;
-                    }
-                } else if (i + 1 < n && arr[i + 1] == 'c') {
-                    ++res;
-                    i += 2;
-                } else {
-                    res += 2;
-                    ++i;
-                }
-            } else if (arr[i] == 'b') {
-                if (i + 1 < n && arr[i + 1] == 'c') {
-                    ++res;
-                    i += 2;
-                } else {
-                    res += 2;
-                    ++i;
-                }
+        int j = 0;
+        while (j < n) {
+            if (s[i] != arr[j]) {
+                ++res;
             } else {
-                res += 2;
-                ++i;
+                ++j;
             }
+            i = (i + 1) % 3;
+        }
+        if (arr[n - 1] == 'a') {
+            res += 2;
+        } else if (arr[n - 1] == 'b') {
+            res += 1;
         }
         return res;
 
