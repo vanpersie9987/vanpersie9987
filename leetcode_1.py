@@ -9327,13 +9327,13 @@ class leetcode_1 :
             if i == n:
                 return 1
             res = 0
-            # 不改变
+            # 不变
             bits = mask | (1 << (ord(s[i]) - ord('a')))
             if bits.bit_count() > k:
                 res = max(res, dfs(i + 1, 1 << (ord(s[i]) - ord('a')), changed) + 1)
             else:
                 res = max(res, dfs(i + 1, bits, changed))
-            # 改变
+            # 变
             if not changed:
                 for j in range(26):
                     if j != ord(s[i]) - ord('a'):
