@@ -662,29 +662,29 @@ public class Leetcode_3 {
 
     // 2182. 构造限制重复的字符串 (Construct String With Repeat Limit) --贪心
     public String repeatLimitedString(String s, int repeatLimit) {
-        int[] counts = new int[26];
+        int[] cnts = new int[26];
         for (char c : s.toCharArray()) {
-            ++counts[c - 'a'];
+            ++cnts[c - 'a'];
         }
         StringBuilder res = new StringBuilder();
-        for (int i = counts.length - 1; i >= 0; --i) {
-            while (counts[i] > 0) {
-                if (counts[i] <= repeatLimit) {
-                    while (counts[i]-- > 0) {
-                        res.append((char) (i + 'a'));
-                    }
-                    break;
-                } else {
-                    for (int j = 0; j < repeatLimit; ++j) {
-                        res.append((char) (i + 'a'));
-                    }
-                    counts[i] -= repeatLimit;
-                    char c = find2182(counts, i - 1);
-                    if (c == 'X') {
-                        return res.toString();
-                    }
-                    res.append(c);
+        for (int i = 25; i >= 0; --i) {
+            search: while (cnts[i] > 0) {
+                int max = Math.min(repeatLimit, cnts[i]);
+                for (int j = 0; j < max; ++j) {
+                    res.append((char) (i + 'a'));
                 }
+                cnts[i] -= max;
+                if (cnts[i] == 0) {
+                    break;
+                }
+                for (int j = i - 1; j >= 0; --j) {
+                    if (cnts[j] > 0) {
+                        --cnts[j];
+                        res.append((char) (j + 'a'));
+                        continue search;
+                    }
+                }
+                break;
             }
         }
         return res.toString();
