@@ -9343,6 +9343,23 @@ class leetcode_1 :
                       res = max(res, dfs(i + 1, 1 << j, True) + 1)
             return res
         return dfs(0, 0, False)
+    
+    # 2085. 统计出现过一次的公共字符串 (Count Common Words With One Occurrence)
+    def countWords(self, words1: List[str], words2: List[str]) -> int:
+       dic1 = collections.defaultdict(int)
+       dic2 = collections.defaultdict(int)
+       res = 0
+       for w in words1:
+          dic1[w] += 1
+       for w in words2:
+          dic2[w] += 1
+       for k, v in dic1.items():
+          if v == 1 and dic2[k] == 1:
+             res += 1
+       return res
+             
+
+       
                 
        
        

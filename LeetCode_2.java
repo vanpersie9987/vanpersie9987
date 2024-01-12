@@ -3249,11 +3249,11 @@ public class LeetCode_2 {
       int res = 0;
       Map<String, Integer> counts1 = new HashMap<>();
       for (String word : words1) {
-         counts1.put(word, counts1.getOrDefault(word, 0) + 1);
+         counts1.merge(word, 1, Integer::sum);
       }
       Map<String, Integer> counts2 = new HashMap<>();
       for (String word : words2) {
-         counts2.put(word, counts2.getOrDefault(word, 0) + 1);
+         counts2.merge(word, 1, Integer::sum);
       }
       for (Map.Entry<String, Integer> entry : counts1.entrySet()) {
          if (entry.getValue() == 1 && counts2.getOrDefault(entry.getKey(), 0) == 1) {
