@@ -9358,12 +9358,28 @@ class leetcode_1 :
              res += 1
        return res
     
-             
+    # 2182. 构造限制重复的字符串 (Construct String With Repeat Limit)
+    def repeatLimitedString(self, s: str, repeatLimit: int) -> str:
+       cnts = [0] * 26
+       for c in s:
+          cnts[ord(c) - ord('a')] += 1
+       res = []
+       for i in range(25, -1, -1):
+          while cnts[i]:
+             max = min(repeatLimit, cnts[i])
+             for j in range(max):
+                res.append(chr(ord('a') + i))
+             cnts[i] -= max
+             if cnts[i] == 0:
+                break
+             for j in range(i - 1, -1, -1):
+                if cnts[j]:
+                   cnts[j] -= 1
+                   res.append(chr(ord('a') + j))
+                   break
+             else:
+               break
+       return "".join(res)
 
-       
-                
-       
-       
-       
        
 
