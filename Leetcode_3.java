@@ -691,17 +691,6 @@ public class Leetcode_3 {
 
     }
 
-    private char find2182(int[] counts, int i) {
-        while (i >= 0) {
-            if (counts[i] > 0) {
-                --counts[i];
-                return (char) (i + 'a');
-            }
-            --i;
-        }
-        return 'X';
-    }
-
     // 199. 二叉树的右视图 (Binary Tree Right Side View) --bfs
     // 剑指 Offer II 046. 二叉树的右侧视图 --bfs
     public List<Integer> rightSideView(TreeNode root) {
