@@ -1204,12 +1204,13 @@ public class LeetCode_2 {
    // 83. 删除排序链表中的重复元素 (Remove Duplicates from Sorted List)
    public ListNode deleteDuplicates83(ListNode head) {
       ListNode cur = head;
-      while (cur != null && cur.next != null) {
-         if (cur.val == cur.next.val) {
-            cur.next = cur.next.next;
-         } else {
+      while (cur != null) {
+         int val = cur.val;
+         ListNode tmp = cur;
+         while (cur != null && cur.val == val) {
             cur = cur.next;
          }
+         tmp.next = cur;
       }
       return head;
 
