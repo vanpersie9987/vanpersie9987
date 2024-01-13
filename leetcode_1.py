@@ -9367,8 +9367,7 @@ class leetcode_1 :
        for i in range(25, -1, -1):
           while cnts[i]:
              max = min(repeatLimit, cnts[i])
-             for j in range(max):
-                res.append(chr(ord('a') + i))
+             res.append(chr(ord('a') + i) * max)
              cnts[i] -= max
              if cnts[i] == 0:
                 break
