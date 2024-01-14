@@ -6683,4 +6683,114 @@ public class Leetcode_8 {
         return res;
     }
 
+    // public int maxFrequencyElements(int[] nums) {
+    //     int[] cnts = new int[101];
+    //     for (int num : nums) {
+    //         ++cnts[num];
+    //     }
+    //     int res = 0;
+    //     int maxF = Arrays.stream(cnts).max().getAsInt();
+    //     for (int cnt : cnts) {
+    //         if (cnt == maxF) {
+    //             res += maxF;           
+    //         }
+    //     }
+    //     return res;
+
+        
+
+    // }
+
+    // public List<Integer> beautifulIndices(String s, String a, String b, int k) {
+    //     int n = s.length();
+    //     int na = a.length();
+    //     int nb = b.length();
+    //     List<Integer> iIds = new ArrayList<>();
+    //     for (int i = 0; i <= n - na; ++i) {
+    //         if (s.substring(i, i + na).equals(a)) {
+    //             iIds.add(i);
+    //         }
+    //     }
+    //     List<Integer> jIds = new ArrayList<>();
+    //     for (int i = 0; i <= n - nb; ++i) {
+    //         if (s.substring(i, i + nb).equals(b)) {
+    //             jIds.add(i);
+    //         }
+    //     }
+    //     List<Integer> res = new ArrayList<>();
+    //     int i = 0;
+    //     int j = 0;
+    //     while (i < iIds.size()) {
+    //         while (j < jIds.size() && iIds.get(i) - jIds.get(j) > k) {
+    //             ++j;
+    //         }
+    //         if (j < jIds.size() && Math.abs(iIds.get(i) - jIds.get(j)) <= k) {
+    //             res.add(iIds.get(i));
+    //         }
+    //         ++i;
+    //     }
+    //     Collections.sort(res);
+    //     return res;
+
+
+
+    // }
+
+    // private long[][] memo;
+    // private long k;
+    // private int x;
+
+    // public long findMaximumNumber(long k, int x) {
+    //     this.k = k;
+    //     this.x = x;
+    //     long res = 1L;
+    //     long left = 1L;
+    //     long right = (long) 1e15;
+    //     while (left <= right) {
+    //         long mid = left + ((right - left) >> 1);
+    //         if (check(mid) <= k) {
+    //             res = mid;
+    //             left = mid + 1;
+    //         } else {
+    //             right = mid - 1;
+    //         }
+    //     }
+    //     return res;
+
+    // }
+
+    // private String s;
+    // private int n;
+
+    // private long check(long num) {
+    //     s = Long.toBinaryString(num);
+    //     n = s.length();
+    //     memo = new long[n][n];
+    //     for (int i = 0; i < n; ++i) {
+    //         Arrays.fill(memo[i], -1L);
+    //     }
+    //     return dfs(0, 0, true, false);
+        
+    // }
+
+    // private long dfs(int i, int j, boolean isLimit, boolean isNum) {
+    //     if (i == n) {
+    //         return isNum ? j : 0;
+    //     }
+    //     if (!isLimit && isNum && memo[i][j] != -1L) {
+    //         return memo[i][j];
+    //     }
+    //     long res = 0L;
+    //     if (!isNum) {
+    //         res = dfs(i + 1, j, false, false);
+    //     }
+    //     int up = isLimit ? (s.charAt(i) - '0') : 1;
+    //     for (int d = isNum ? 0 : 1; d <= up; ++d) {
+    //         res += dfs(i + 1, j + ((d == 1 && (n - i) % x == 0) ? 1 : 0), isLimit && d == up, true);
+    //     }
+    //     if (!isLimit && isNum) {
+    //         memo[i][j] = res;
+    //     }
+    //     return res;
+    // }
 }

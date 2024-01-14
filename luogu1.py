@@ -439,6 +439,37 @@ class luogu1:
             return res
         n = len(arr)
         return n - dfs(0, 0, 0)
+    
+    def findMaximumNumber(self, k: int, x: int) -> int:
+        def check(num: int) -> int:
+            s = bin(num)[2:]
+            n = len(s)
+            @cache
+            def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
+                if i == n:
+                    return j if is_num else 0
+                res = 0
+                if not is_num:
+                    res = dfs(i + 1, j, False, False)
+                up = int(s[i]) if is_limit else 1
+                for d in range(0 if is_num else 1, up + 1):
+                    res += dfs(i + 1, j + int(d == 1 and (n - i) % x == 0), is_limit and d == up, True)
+                return res
+            return dfs(0, 0, True, False)
+        left = 1
+        right = 10 ** 15
+        res = 1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid) <= k:
+                res = mid
+                left = mid + 1
+            else:
+                right = mid - 1
+        return res
+
+    
+
 
 
 

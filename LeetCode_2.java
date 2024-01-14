@@ -1187,14 +1187,16 @@ public class LeetCode_2 {
    public ListNode deleteDuplicates(ListNode head) {
       ListNode dummy = new ListNode(0, head);
       ListNode cur = dummy;
-      while (cur.next != null && cur.next.next != null) {
-         if (cur.next.val == cur.next.next.val) {
-            int x = cur.next.val;
-            while (cur.next != null && cur.next.val == x) {
-               cur.next = cur.next.next;
+      while (cur != null) {
+         ListNode tmp = cur;
+         cur = cur.next;
+         if (cur != null && cur.next != null && cur.val == cur.next.val) {
+            int val = cur.val;
+            while (cur != null && cur.val == val) {
+               cur = cur.next;
             }
-         } else {
-            cur = cur.next;
+            tmp.next = cur;
+            cur = tmp;
          }
       }
       return dummy.next;
