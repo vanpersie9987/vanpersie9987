@@ -9449,6 +9449,7 @@ class leetcode_1 :
           i += 1
        return res
 
+    # 3007. 价值和小于等于 K 的最大数字 (Maximum Number That Sum of the Prices Is Less Than or Equal to K)
     def findMaximumNumber(self, k: int, x: int) -> int:
         def check(num: int) -> int:
             s = bin(num)[2:]
