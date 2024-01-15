@@ -37,6 +37,7 @@ from re import X
 import re
 from socket import NI_NUMERICSERV
 from ssl import VERIFY_X509_TRUSTED_FIRST
+from tabnanny import check
 from textwrap import indent
 from tkinter import W
 from tkinter.tix import Tree
@@ -6139,15 +6140,13 @@ class leetcode_1 :
                 return is_num and cur_sum >= min_sum
              res = 0
              if not is_num:
-                res += dfs(i + 1, cur_sum, False, False)
-                res %= MOD
+                res = dfs(i + 1, cur_sum, False, False)
              up = int(s[i]) if is_limit else 9
              for j in range(0 if is_num else 1, up + 1):
                 if j + cur_sum > max_sum:
                    break
                 res += dfs(i + 1, cur_sum + j, is_limit and j == up, True)
-                res %= MOD
-             return res
+             return res % MOD
           n = len(s)
           return dfs(0, 0, True, False)
        MOD = 10 ** 9 + 7
