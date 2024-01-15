@@ -6683,114 +6683,109 @@ public class Leetcode_8 {
         return res;
     }
 
-    // public int maxFrequencyElements(int[] nums) {
-    //     int[] cnts = new int[101];
-    //     for (int num : nums) {
-    //         ++cnts[num];
-    //     }
-    //     int res = 0;
-    //     int maxF = Arrays.stream(cnts).max().getAsInt();
-    //     for (int cnt : cnts) {
-    //         if (cnt == maxF) {
-    //             res += maxF;           
-    //         }
-    //     }
-    //     return res;
+    // 3005. 最大频率元素计数 (Count Elements With Maximum Frequency)
+    public int maxFrequencyElements(int[] nums) {
+        int[] cnts = new int[101];
+        int max = 0;
+        int res = 0;
+        for (int num : nums) {
+            ++cnts[num];
+            if (cnts[num] > max) {
+                res = cnts[num];
+                max = cnts[num];
+            } else if (cnts[num] == max) {
+                res += cnts[num];
+            }
+        }
+        return res;
 
-        
+    }
 
-    // }
+    // 3006. 找出数组中的美丽下标 I (Find Beautiful Indices in the Given Array I)
+    public List<Integer> beautifulIndices(String s, String a, String b, int k) {
+        List<Integer> aIds = getIndices3006(s, a);
+        List<Integer> bIds = getIndices3006(s, b);
+        List<Integer> res = new ArrayList<>();
+        int i = 0;
+        int j = 0;
+        while (i < aIds.size()) {
+            while (j < bIds.size() && aIds.get(i) - bIds.get(j) > k) {
+                ++j;
+            }
+            if (j < bIds.size() && Math.abs(aIds.get(i) - bIds.get(j)) <= k) {
+                res.add(aIds.get(i));
+            }
+            ++i;
+        }
+        return res;
 
-    // public List<Integer> beautifulIndices(String s, String a, String b, int k) {
-    //     int n = s.length();
-    //     int na = a.length();
-    //     int nb = b.length();
-    //     List<Integer> iIds = new ArrayList<>();
-    //     for (int i = 0; i <= n - na; ++i) {
-    //         if (s.substring(i, i + na).equals(a)) {
-    //             iIds.add(i);
-    //         }
-    //     }
-    //     List<Integer> jIds = new ArrayList<>();
-    //     for (int i = 0; i <= n - nb; ++i) {
-    //         if (s.substring(i, i + nb).equals(b)) {
-    //             jIds.add(i);
-    //         }
-    //     }
-    //     List<Integer> res = new ArrayList<>();
-    //     int i = 0;
-    //     int j = 0;
-    //     while (i < iIds.size()) {
-    //         while (j < jIds.size() && iIds.get(i) - jIds.get(j) > k) {
-    //             ++j;
-    //         }
-    //         if (j < jIds.size() && Math.abs(iIds.get(i) - jIds.get(j)) <= k) {
-    //             res.add(iIds.get(i));
-    //         }
-    //         ++i;
-    //     }
-    //     Collections.sort(res);
-    //     return res;
+    }
 
+    private List<Integer> getIndices3006(String s, String p) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i <= s.length() - p.length(); ++i) {
+            if (s.substring(i, i + p.length()).equals(p)) {
+                res.add(i);
+            }
+        }
+        return res;
+    }
 
+    // 3007. 价值和小于等于 K 的最大数字 (Maximum Number That Sum of the Prices Is Less Than or
+    // Equal to K)
+    private int x3007;
 
-    // }
+    public long findMaximumNumber(long k, int x) {
+        long left = 1L;
+        long right = (long) 1e15;
+        long res = 1L;
+        this.x3007 = x;
+        while (left <= right) {
+            long mid = left + ((right - left) >> 1);
+            if (check3007(mid) <= k) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
 
-    // private long[][] memo;
-    // private long k;
-    // private int x;
+    }
 
-    // public long findMaximumNumber(long k, int x) {
-    //     this.k = k;
-    //     this.x = x;
-    //     long res = 1L;
-    //     long left = 1L;
-    //     long right = (long) 1e15;
-    //     while (left <= right) {
-    //         long mid = left + ((right - left) >> 1);
-    //         if (check(mid) <= k) {
-    //             res = mid;
-    //             left = mid + 1;
-    //         } else {
-    //             right = mid - 1;
-    //         }
-    //     }
-    //     return res;
+    private String s3007;
+    private int n3007;
+    private long[][] memo3007;
 
-    // }
+    private long check3007(long num) {
+        this.s3007 = Long.toBinaryString(num);
+        this.n3007 = s3007.length();
+        this.memo3007 = new long[n3007][n3007];
+        for (int i = 0; i < n3007; ++i) {
+            Arrays.fill(memo3007[i], -1L);
+        }
+        return dfs3007(0, 0, true, false);
+    }
 
-    // private String s;
-    // private int n;
+    private long dfs3007(int i, int j, boolean isLimit, boolean isNum) {
+        if (i == n3007) {
+            return isNum ? j : 0;
+        }
+        if (!isLimit && isNum && memo3007[i][j] != -1L) {
+            return memo3007[i][j];
+        }
 
-    // private long check(long num) {
-    //     s = Long.toBinaryString(num);
-    //     n = s.length();
-    //     memo = new long[n][n];
-    //     for (int i = 0; i < n; ++i) {
-    //         Arrays.fill(memo[i], -1L);
-    //     }
-    //     return dfs(0, 0, true, false);
-        
-    // }
-
-    // private long dfs(int i, int j, boolean isLimit, boolean isNum) {
-    //     if (i == n) {
-    //         return isNum ? j : 0;
-    //     }
-    //     if (!isLimit && isNum && memo[i][j] != -1L) {
-    //         return memo[i][j];
-    //     }
-    //     long res = 0L;
-    //     if (!isNum) {
-    //         res = dfs(i + 1, j, false, false);
-    //     }
-    //     int up = isLimit ? (s.charAt(i) - '0') : 1;
-    //     for (int d = isNum ? 0 : 1; d <= up; ++d) {
-    //         res += dfs(i + 1, j + ((d == 1 && (n - i) % x == 0) ? 1 : 0), isLimit && d == up, true);
-    //     }
-    //     if (!isLimit && isNum) {
-    //         memo[i][j] = res;
-    //     }
-    //     return res;
-    // }
+        long res = 0L;
+        if (!isNum) {
+            res = dfs3007(i + 1, j, false, false);
+        }
+        int up = isLimit ? (s3007.charAt(i) - '0') : 1;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            res += dfs3007(i + 1, j + (((n3007 - i) % x3007 == 0 && d == 1) ? 1 : 0), up == d && isLimit, true);
+        }
+        if (!isLimit && isNum) {
+            memo3007[i][j] = res;
+        }
+        return res;
+    }
 }
