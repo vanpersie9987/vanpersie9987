@@ -6789,5 +6789,44 @@ public class Leetcode_8 {
         return res;
     }
 
-    
+    // 2901. 最长相邻不相等子序列 II (Longest Unequal Adjacent Groups Subsequence II)
+    public List<String> getWordsInLongestSubsequenceII(int n, String[] words, int[] groups) {
+        List<String> res = new ArrayList<>();
+        int[] f = new int[n];
+        int[] fromIdx = new int[n];
+        int mx = n - 1;
+        for (int i = n - 1; i >= 0; --i) {
+            for (int j = i + 1; j < n; ++j) {
+                if (f[j] > f[i] && groups[i] != groups[j] && check2901(words[i], words[j])) {
+                    f[i] = f[j];
+                    fromIdx[i] = j;
+                }
+            }
+            ++f[i];
+            if (f[i] > f[mx]) {
+                mx = i;
+            }
+        }
+        int m = f[mx];
+        for (int i = 0; i < m; ++i) {
+            res.add(words[mx]);
+            mx = fromIdx[mx];
+        }
+        return res;
+    }
+
+    private boolean check2901(String s1, String s2) {
+        if (s1.length() != s2.length()) {
+            return false;
+        }
+        int s = 0;
+        for (int i = 0; i < s1.length(); ++i) {
+            if (s1.charAt(i) != s2.charAt(i)) {
+                if (++s > 1) {
+                    return false;
+                }
+            }
+        }
+        return s == 1;
+    }
 }
