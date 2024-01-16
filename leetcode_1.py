@@ -9500,6 +9500,16 @@ class leetcode_1 :
           res.append(words[mx])
           mx = from_idx[mx]
        return res
+    
+    # 2744. 最大字符串配对数目 (Find Maximum Number of String Pairs)
+    def maximumNumberOfStringPairs(self, words: List[str]) -> int:
+       s = set()
+       res = 0
+       for a, b in words:
+          if b + a in s:
+             res += 1
+          s.add(a + b)
+       return res
           
        
 
