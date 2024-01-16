@@ -514,16 +514,16 @@ public class Leetcode_8 {
         return memo1879[i][mask] = min;
     }
 
-    // 6892. 最大字符串配对数目 (Find Maximum Number of String Pairs)
+    // 2744. 最大字符串配对数目 (Find Maximum Number of String Pairs)
     public int maximumNumberOfStringPairs(String[] words) {
         int res = 0;
         Set<Integer> set = new HashSet<>();
         for (String w : words) {
-            int h = (w.charAt(0) - 'a') * 26 + w.charAt(1) - 'a';
+            int h = w.charAt(1) * 100 + w.charAt(0);
             if (set.contains(h)) {
                 ++res;
             }
-            set.add((w.charAt(1) - 'a') * 26 + w.charAt(0) - 'a');
+            set.add(w.charAt(0) * 100 + w.charAt(1));
         }
         return res;
     }
