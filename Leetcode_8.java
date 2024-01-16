@@ -519,11 +519,11 @@ public class Leetcode_8 {
         int res = 0;
         Set<Integer> set = new HashSet<>();
         for (String w : words) {
-            int h = w.charAt(1) * 100 + w.charAt(0);
+            int h = (w.charAt(1) << 8) + w.charAt(0);
             if (set.contains(h)) {
                 ++res;
             }
-            set.add(w.charAt(0) * 100 + w.charAt(1));
+            set.add((w.charAt(0) << 8) + w.charAt(1));
         }
         return res;
     }
