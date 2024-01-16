@@ -9478,6 +9478,30 @@ class leetcode_1 :
             else:
                 right = mid - 1
         return res
+    
+    # 2901. 最长相邻不相等子序列 II (Longest Unequal Adjacent Groups Subsequence II)
+    def getWordsInLongestSubsequence(self, n: int, words: List[str], groups: List[int]) -> List[str]:
+       def check(s1: str, s2: str) -> bool:
+          return len(s1) == len(s2) and sum(int(c1 != c2) for c1, c2 in zip(s1, s2)) == 1
+       mx = n - 1
+       f = [0] * n
+       from_idx = [0] * n
+       for i in range(n - 1, -1, -1):
+          for j in range(i + 1, n):
+             if f[j] > f[i] and groups[i] != groups[j] and check(words[i], words[j]):
+                f[i] = f[j]
+                from_idx[i] = j
+          f[i] += 1
+          if f[i] > f[mx]:
+             mx = i
+       res = []
+       m = f[mx]
+       for i in range(m):
+          res.append(words[mx])
+          mx = from_idx[mx]
+       return res
+          
+       
 
 
     
