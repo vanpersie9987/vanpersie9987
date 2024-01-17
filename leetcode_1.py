@@ -9510,6 +9510,20 @@ class leetcode_1 :
              res += 1
           s.add(a + b)
        return res
+    
+    # 1647. 字符频次唯一的最小删除次数 (Minimum Deletions to Make Character Frequencies Unique)
+    def minDeletions(self, s: str) -> int:
+       cnts = [0] * 26
+       for c in s:
+          cnts[ord(c) - ord('a')] += 1
+       cnts.sort()
+       res = 0
+       for i in range(24, -1, -1):
+          if cnts[i] >= cnts[i + 1]:
+             tmp = cnts[i]
+             cnts[i] = max(0, cnts[i + 1] - 1)
+             res += tmp - cnts[i]
+       return res
           
        
 
