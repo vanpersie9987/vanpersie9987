@@ -22,6 +22,7 @@ from audioop import reverse
 from calendar import c
 from collections import Counter
 import collections
+from ctypes.wintypes import _ULARGE_INTEGER
 from curses import curs_set
 from decimal import Rounded
 import enum
@@ -9524,6 +9525,54 @@ class leetcode_1 :
              cnts[i] = max(0, cnts[i + 1] - 1)
              res += tmp - cnts[i]
        return res
+    
+    # 2812. 找出最安全路径 (Find the Safest Path in a Grid)
+    def maximumSafenessFactor(self, grid: List[List[int]]) -> int:
+       n = len(grid)
+       if grid[0][0] or grid[n - 1][n - 1]:
+          return 0
+       dis = [[inf] * n for _ in range(n)]
+       q = []
+       for i in range(n):
+          for j in range(n):
+             if grid[i][j]:
+                dis[i][j] = 0
+                q.append((i, j))
+       dirs = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+       while q:
+          size = len(q)
+          for _ in range(size):
+             (x, y) = q.pop(0)
+             for dx, dy in dirs:
+                nx = x + dx
+                ny = y + dy
+                if nx >= 0 and nx < n and ny >= 0 and ny < n and dis[nx][ny] == inf:
+                   dis[nx][ny] = dis[x][y] + 1
+                   q.append((nx, ny))
+       vis = [[False] * n for _ in range(n)]
+       res = dis[0][0]
+       q = []
+       q.append((-dis[0][0], 0, 0))
+       heapq.heapify(q)
+       while q:
+          (d, x, y) = heapq.heappop(q)
+          if vis[x][y]:
+             continue
+          res = min(res, -d)
+          if x == n - 1 and y == n - 1:
+             return res
+          vis[x][y] = True
+          for dx, dy in dirs:
+             nx = x + dx
+             ny = y + dy
+             if nx >= 0 and nx < n and ny >= 0 and ny < n:
+                heapq.heappush(q, (-dis[nx][ny], nx, ny))
+       return res
+          
+                
+                
+
+
           
        
 
