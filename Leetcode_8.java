@@ -6830,21 +6830,4 @@ public class Leetcode_8 {
         return s == 1;
     }
 
-    public int minDeletions(String s) {
-        int[] cnts = new int[26];
-        for (char c : s.toCharArray()) {
-            ++cnts[c - 'a'];
-        }
-        int res = 0;
-        Arrays.sort(cnts);
-        for (int i = 24; i >= 0; --i) {
-            if (cnts[i] >= cnts[i + 1]) {
-                int tmp = cnts[i];
-                cnts[i] = Math.max(0, cnts[i + 1] - 1);
-                res += tmp - cnts[i];
-            }
-        }
-        return res;
-
-    }
 }
