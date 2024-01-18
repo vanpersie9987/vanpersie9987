@@ -9574,8 +9574,5 @@ class leetcode_1 :
        beans.sort()
        s = sum(beans)
        n = len(beans)
-       res = inf
-       for i, v in enumerate(beans):
-          res = min(res, s - (n - i) * v)
-       return res
+       return min(s - (n - i) * v for i, v in enumerate(beans))
 
