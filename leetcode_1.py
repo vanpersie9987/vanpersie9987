@@ -9568,14 +9568,14 @@ class leetcode_1 :
              if nx >= 0 and nx < n and ny >= 0 and ny < n:
                 heapq.heappush(q, (-dis[nx][ny], nx, ny))
        return res
-          
-                
-                
 
-
-          
-       
-
-
-    
+    # 2171. 拿出最少数目的魔法豆 (Removing Minimum Number of Magic Beans)
+    def minimumRemoval(self, beans: List[int]) -> int:
+       beans.sort()
+       s = sum(beans)
+       n = len(beans)
+       res = inf
+       for i, v in enumerate(beans):
+          res = min(res, s - (n - i) * v)
+       return res
 
