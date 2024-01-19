@@ -9574,3 +9574,10 @@ class leetcode_1 :
        n = len(beans)
        return min(s - (n - i) * v for i, v in enumerate(beans))
 
+    # 2788. 按分隔符拆分字符串 (Split Strings by Separator)
+    def splitWordsBySeparator(self, words: List[str], separator: str) -> List[str]:
+       res = []
+       for w in words:
+          res.extend(sub for sub in w.split(separator) if len(sub))
+       return res
+
