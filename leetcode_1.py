@@ -6092,45 +6092,45 @@ class leetcode_1 :
     
     # 2876. 有向图访问计数 (Count Visited Nodes in a Directed Graph)
     def countVisitedNodes(self, edges: List[int]) -> List[int]:
-       def rdfs(x: int, d: int) -> None:
-          res[x] = d
-          for y in rg[x]:
-             if deg[y] == 0:
-                rdfs(y, d + 1)
        n = len(edges)
        deg = [0] * n
-       for x in edges:
-          deg[x] += 1
+       g = [-1] * n
+       for i, v in enumerate(edges):
+          g[i] = v
+          deg[v] += 1
        q = collections.deque()
        for i in range(n):
           if deg[i] == 0:
              q.append(i)
        while q:
           x = q.popleft()
-          y = edges[x]
+          y = g[x]
           deg[y] -= 1
           if deg[y] == 0:
              q.append(y)
        res = [0] * n
        for i in range(n):
           if deg[i] != 0 and res[i] == 0:
+             j = i
              cnt = 1
-             x = i
-             while edges[x] != i:
-                x = edges[x]
+             while g[j] != i:
                 cnt += 1
-             x = i
+                j = g[j]
+             j = i
              res[i] = cnt
-             while edges[x] != i:
-                x = edges[x]
-                res[x] = cnt
+             while g[j] != i:
+                res[j] = cnt
+                j = g[j]
        rg = [[] for _ in range(n)]
-       for i, x in enumerate(edges):
-          if deg[i] != 0 and deg[x] != 0:
-             continue
-          rg[x].append(i)
+       for i, v in enumerate(edges):
+          if deg[i] == 0 or deg[v] == 0:
+             rg[v].append(i)
+       def rdfs(x: int, d: int) -> None:
+          res[x] = d
+          for y in rg[x]:
+             rdfs(y, d + 1)
        for i in range(n):
-          if deg[i] != 0:
+          if deg[i] != 0 and res[i] != 0:
              rdfs(i, res[i])
        return res
     
