@@ -2138,22 +2138,15 @@ public class Leetcode_8 {
         return memo6922[i][sum] = (dfs6922(i + 1, sum) + dfs6922(i + 1, sum + (int) Math.pow(i, x6922))) % M;
     }
 
-    // 6921. 按分隔符拆分字符串 (Split Strings by Separator)
+    // 2788. 按分隔符拆分字符串 (Split Strings by Separator)
     public List<String> splitWordsBySeparator(List<String> words, char separator) {
         List<String> res = new ArrayList<>();
-        for (String w : words) {
-            int n = w.length();
-            int i = 0;
-            int j = 0;
-            while (j < n) {
-                while (j < n && w.charAt(j) != separator) {
-                    ++j;
+        for (String s : words) {
+            String[] split = s.split("\\" + separator);
+            for (String sub : split) {
+                if (!sub.isEmpty()) {
+                    res.add(sub);
                 }
-                if (i != j) {
-                    res.add(w.substring(i, j));
-                }
-                ++j;
-                i = j;
             }
         }
         return res;
