@@ -9593,5 +9593,3 @@ class leetcode_1 :
           else:
              res.insert(0, c)
        return "".join(res if rev else reversed(res))
-          
-
