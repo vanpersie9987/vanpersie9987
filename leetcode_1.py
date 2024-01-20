@@ -9581,3 +9581,17 @@ class leetcode_1 :
           res.extend(sub for sub in w.split(separator) if len(sub))
        return res
 
+    # 2810. 故障键盘 (Faulty Keyboard)
+    def finalString(self, s: str) -> str:
+       res = []
+       rev = True
+       for c in s:
+          if c == 'i':
+             rev = not rev
+          elif rev:
+             res.append(c)
+          else:
+             res.insert(0, c)
+       return "".join(res if rev else reversed(res))
+          
+
