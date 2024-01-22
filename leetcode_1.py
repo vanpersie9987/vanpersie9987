@@ -9635,6 +9635,24 @@ class leetcode_1 :
              arr[i], arr[idx] = arr[idx], arr[i]
              break
        return int(''.join(arr))
+    
+    # 2765. 最长交替子数组 (Longest Alternating Subarray)
+    def alternatingSubarray(self, nums: List[int]) -> int:
+       n = len(nums)
+       res = -1
+       i = 0
+       while i < n:
+          d = 1
+          j = i + 1
+          while j < n and nums[j] - nums[j - 1] == d:
+             d = -d
+             j += 1
+          if j - i > 1:
+             res = max(res, j - i)
+             i = j - 1
+          else:
+             i = j
+       return res
                 
                 
       
