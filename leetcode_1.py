@@ -9616,4 +9616,26 @@ class leetcode_1 :
           else:
              left = mid + 1
        return res
+    
+    # 670. 最大交换 (Maximum Swap)
+    def maximumSwap(self, num: int) -> int:
+       s = str(num)
+       n = len(s)
+       arr = [0] * n
+       for i in range(n):
+          arr[i] = s[i]
+       for i in range(n):
+          mx = arr[i]
+          idx = -1
+          for j in range(i + 1, n):
+             if arr[j] >= mx:
+                mx = arr[j]
+                idx = j
+          if idx != -1 and mx != arr[i]:
+             arr[i], arr[idx] = arr[idx], arr[i]
+             break
+       return int(''.join(arr))
+                
+                
+      
              
