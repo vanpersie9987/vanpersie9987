@@ -5472,8 +5472,8 @@ class leetcode_1 :
        cnt1 = s.count('1')
        return '1' * (cnt1 - 1) + '0' * (len(s) - cnt1) + '1'
     
-    # 100049. 美丽塔 I (Beautiful Towers I)
-    # 100048. 美丽塔 II (Beautiful Towers II)
+    # 2865. 美丽塔 I (Beautiful Towers I)
+    # 2866. 美丽塔 II (Beautiful Towers II)
     def maximumSumOfHeights(self, maxHeights: List[int]) -> int:
        n = len(maxHeights)
        right = [0] * (n + 1)

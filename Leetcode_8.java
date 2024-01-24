@@ -3661,8 +3661,8 @@ public class Leetcode_8 {
         }
     }
 
-    // 100049. 美丽塔 I (Beautiful Towers I)
-    // 100048. 美丽塔 II (Beautiful Towers II)
+    // 2865. 美丽塔 I (Beautiful Towers I)
+    // 2866. 美丽塔 II (Beautiful Towers II)
     public long maximumSumOfHeights(List<Integer> maxHeights) {
         int n = maxHeights.size();
         Stack<Integer> stack = new Stack<>();
@@ -6828,11 +6828,11 @@ public class Leetcode_8 {
         return s == 1;
     }
 
-    public int minimumCost(int[] nums) {
-        Arrays.sort(nums, 1, nums.length);
-        return nums[0] + nums[1] + nums[2];
+    // public int minimumCost(int[] nums) {
+    //     Arrays.sort(nums, 1, nums.length);
+    //     return nums[0] + nums[1] + nums[2];
 
-    }
+    // }
 
     public boolean canSortArray(int[] nums) {
         int n = nums.length;
