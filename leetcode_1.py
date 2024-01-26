@@ -9382,10 +9382,6 @@ class leetcode_1 :
     
     # 83. 删除排序链表中的重复元素 (Remove Duplicates from Sorted List)
     def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
-       class ListNode:
-          def __init__(self, val=0, next=None):
-             self.val = val
-             self.next = next
        cur = head
        while cur:
           val = cur.val
