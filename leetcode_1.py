@@ -9653,7 +9653,10 @@ class leetcode_1 :
           else:
              i = j
        return res
-                
+    
+    # 2859. 计算 K 置位下标对应元素的和 (Sum of Values at Indices With K Set Bits)
+    def sumIndicesWithKSetBits(self, nums: List[int], k: int) -> int:
+        return sum(v if i.bit_count() == k else 0 for i, v in enumerate(nums))
                 
       
              
