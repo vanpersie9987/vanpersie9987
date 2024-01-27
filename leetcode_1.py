@@ -9734,8 +9734,7 @@ class leetcode_1 :
           g[y - 1].append(x - 1)
        res = [0] * n
        for i in range(n):
-          dis = check(i)
-          for d in dis:
+          for d in check(i):
              if d - 1 >= 0:
                 res[d - 1] += 1
        return res
