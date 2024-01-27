@@ -9126,18 +9126,13 @@ class leetcode_1 :
 
     # 2861. 最大合金数 (Maximum Number of Alloys)
     def maxNumberOfAlloys(self, n: int, k: int, budget: int, composition: List[List[int]], stock: List[int], cost: List[int]) -> int:
-       def check(cnt: int) -> bool:
-          def ok(compose: List[int]) -> bool:
-             res = 0
-             for com, cos, sto in zip(compose, cost, stock):
-                res += max(0, com * cnt - sto) * cos
-                if res > budget:
-                   return False
-             return True
-          return any(ok(c) for c in composition)
+       def check(target: int) -> bool:
+          def ok(com: List[int]) -> int:
+             return sum(max(0, c * target - s) * co for c, s, co in zip(com, stock, cost))
+          return any(ok(com) <= budget for com in composition)
        left = 0
        right = 10 ** 9
-       res = 0
+       res = -1
        while left <= right:
           mid = left + ((right - left) >> 1)
           if check(mid):
@@ -9652,7 +9647,6 @@ class leetcode_1 :
     
     # 2859. 计算 K 置位下标对应元素的和 (Sum of Values at Indices With K Set Bits)
     def sumIndicesWithKSetBits(self, nums: List[int], k: int) -> int:
-        return sum(v if i.bit_count() == k else 0 for i, v in enumerate(nums))
-                
+        return sum(v if i.bit_count() == k else 0 for i, v in enumerate(nums))            
       
              
