@@ -6907,8 +6907,7 @@ public class Leetcode_8 {
         }
         this.res3015 = new int[n];
         for (int i = 0; i < n; ++i) {
-            int[] dis = check3015(i);
-            for (int d : dis) {
+            for (int d : check3015(i)) {
                 if (d - 1 >= 0) {
                     ++res3015[d - 1];
                 }
