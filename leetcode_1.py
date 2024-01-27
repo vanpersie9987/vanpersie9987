@@ -9647,6 +9647,95 @@ class leetcode_1 :
     
     # 2859. 计算 K 置位下标对应元素的和 (Sum of Values at Indices With K Set Bits)
     def sumIndicesWithKSetBits(self, nums: List[int], k: int) -> int:
-        return sum(v if i.bit_count() == k else 0 for i, v in enumerate(nums))            
-      
-             
+        return sum(v if i.bit_count() == k else 0 for i, v in enumerate(nums)) 
+
+    # 3010. 将数组分成最小总代价的子数组 I
+    def minimumCost(self, nums: List[int]) -> int:
+       min1 = inf
+       min2 = inf
+       for i in range(1, len(nums)):
+          if nums[i] <= min1:
+             min2 = min1
+             min1 = nums[i]
+          elif nums[i] <= min2:
+             min2 = nums[i]
+       return nums[0] + min1 + min2
+    
+
+    # 3011. 判断一个数组是否可以变为有序 (Find if Array Can Be Sorted)
+    def canSortArray(self, nums: List[int]) -> bool:
+       n = len(nums)
+       i = 0
+       pre = 0
+       while i < n:
+          j = i
+          _min = nums[i]
+          _max = nums[i]
+          while j < n and nums[j].bit_count() == nums[i].bit_count():
+             _min = min(_min, nums[j])
+             _max = max(_max, nums[j])
+             j += 1
+          if _min < pre:
+             return False
+          pre = _max
+          i = j
+       return True
+    
+    # 3012. 通过操作使数组长度最小 (Minimize Length of Array Using Operations)
+    def minimumArrayLength(self, nums: List[int]) -> int:
+       mn = min(nums)
+       for num in nums:
+         if num % mn:
+            return 1
+       cnt = 0
+       for num in nums:
+          if num == mn:
+             cnt += 1
+       return (cnt + 1) // 2
+    
+    # 3014. 输入单词需要的最少按键次数 I (Minimum Number of Pushes to Type Word I)
+    def minimumPushes(self, word: str) -> int:
+       return sum(i // 8 + 1 for i in range(len(word)))
+    
+    # 3016. 输入单词需要的最少按键次数 II (Minimum Number of Pushes to Type Word II)
+    def minimumPushes(self, word: str) -> int:
+       cnt = [0] * 26
+       for c in word:
+          cnt[ord(c) - ord('a')] += 1
+       cnt.sort(reverse=True)
+       res = 0
+       for i in range(26):
+          res += cnt[i] * (i // 8 + 1)
+       return res
+    
+
+    # 3015. 按距离统计房屋对数目 I (Count the Number of Houses at a Certain Distance I)
+    def countOfPairs(self, n: int, x: int, y: int) -> List[int]:
+       def check(start: int) -> List[int]:
+          dis = [-1] * n
+          dis[start] = 0
+          q = collections.deque()
+          q.append(start)
+          while q:
+             size = len(q)
+             for _ in range(size):
+                x = q.popleft()
+                for y in g[x]:
+                   if dis[y] == -1:
+                      dis[y] = dis[x] + 1
+                      q.append(y)
+          return dis
+       g = [[] for _ in range(n)]
+       for i in range(1, n):
+          g[i - 1].append(i)
+          g[i].append(i - 1)
+       if abs(x - y) > 1:
+          g[x - 1].append(y - 1)
+          g[y - 1].append(x - 1)
+       res = [0] * n
+       for i in range(n):
+          dis = check(i)
+          for d in dis:
+             if d - 1 >= 0:
+                res[d - 1] += 1
+       return res

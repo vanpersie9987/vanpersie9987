@@ -6131,7 +6131,6 @@ public class Leetcode_8 {
             return res;
         }
         return -1L;
-
     }
 
     private long dfs2977(int i) {
@@ -6828,12 +6827,13 @@ public class Leetcode_8 {
         return s == 1;
     }
 
-    // public int minimumCost(int[] nums) {
-    //     Arrays.sort(nums, 1, nums.length);
-    //     return nums[0] + nums[1] + nums[2];
+    // 3010. 将数组分成最小总代价的子数组 I (Divide an Array Into Subarrays With Minimum Cost I)
+    public int minimumCost3010(int[] nums) {
+        Arrays.sort(nums, 1, nums.length);
+        return nums[0] + nums[1] + nums[2];
+    }
 
-    // }
-
+    // 3011. 判断一个数组是否可以变为有序 (Find if Array Can Be Sorted)
     public boolean canSortArray(int[] nums) {
         int n = nums.length;
         int i = 0;
@@ -6858,6 +6858,7 @@ public class Leetcode_8 {
 
     }
 
+    // 3012. 通过操作使数组长度最小 (Minimize Length of Array Using Operations)
     public int minimumArrayLength(int[] nums) {
         int m = Integer.MAX_VALUE;
         for (int num : nums) {
@@ -6878,85 +6879,81 @@ public class Leetcode_8 {
 
     }
 
+    // 3014. 输入单词需要的最少按键次数 I (Minimum Number of Pushes to Type Word I)
     public int minimumPushes(String word) {
         int res = 0;
         for (int i = 0; i < word.length(); ++i) {
             res += i / 8 + 1;
         }
         return res;
-
     }
 
-    private int[] res;
-    private List<int[]>[] g;
-    private int n;
+    // 3015. 按距离统计房屋对数目 I (Count the Number of Houses at a Certain Distance I)
+    private int[] res3015;
+    private List<Integer>[] g3015;
+    private int n3015;
+
     public int[] countOfPairs(int n, int x, int y) {
-        this.g = new ArrayList[n];
-        this.n = n;
-        Arrays.setAll(g, k -> new ArrayList<>());
+        this.g3015 = new ArrayList[n];
+        this.n3015 = n;
+        Arrays.setAll(g3015, k -> new ArrayList<>());
         for (int i = 2; i <= n; ++i) {
-            g[i - 1].add(new int[] { i - 2, 1 });
-            g[i - 2].add(new int[] { i - 1, 1 });
+            g3015[i - 1].add(i - 2);
+            g3015[i - 2].add(i - 1);
         }
         if (x != y) {
-            g[x - 1].add(new int[] { y - 1, 1 });
-            g[y - 1].add(new int[] { x - 1, 1 });
+            g3015[x - 1].add(y - 1);
+            g3015[y - 1].add(x - 1);
         }
-        this.res = new int[n];
+        this.res3015 = new int[n];
         for (int i = 0; i < n; ++i) {
-            int[] dis = check(i);
-            for (int k = 0; k < n; ++k) {
-                ++res[dis[k]];
+            int[] dis = check3015(i);
+            for (int d : dis) {
+                if (d - 1 >= 0) {
+                    ++res3015[d - 1];
+                }
             }
-
         }
-        return res;
+        return res3015;
 
     }
 
-    private int[] check(int x) {
-        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
-
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return Integer.compare(o1[0], o2[0]);
-            }
-            
-        });
-        q.offer(new int[] { 0, x });
-        int[] dis = new int[n];
-        Arrays.fill(dis, Integer.MAX_VALUE);
-        dis[x] = 0;
+    private int[] check3015(int start) {
+        int[] dis = new int[n3015];
+        Arrays.fill(dis, -1);
+        Queue<Integer> q = new LinkedList<>();
+        dis[start] = 0;
+        q.add(start);
         while (!q.isEmpty()) {
-            int[] cur = q.poll();
-            int node = cur[1];
-            int d = cur[0];
-            for (int[] nxt : g[node]) {
-                int nxtNode = nxt[0];
-                int dx = nxt[1];
-                if (d + dx < dis[nxtNode]) {
-                    dis[nxtNode] = d + dx;
-                    q.offer(new int[] { dis[nxtNode], nxtNode });
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {
+                int x = q.poll();
+                for (int y : g3015[x]) {
+                    if (dis[y] == -1) {
+                        dis[y] = dis[x] + 1;
+                        q.offer(y);
+                    }
                 }
             }
         }
         return dis;
     }
 
-    // public int minimumPushes(String word) {
-    //     int[] cnts = new int[26];
-    //     for (char c : word.toCharArray()) {
-    //         ++cnts[c - 'a'];
-    //     }
-    //     Arrays.sort(cnts);
-    //     int res = 0;
-    //     int cnt = 0;
-    //     for (int i = 25; i >= 0; --i) {
-    //         res += (cnt / 8 + 1) * cnts[i];
-    //         ++cnt;
-    //     }
-    //     return res;
+    // 3016. 输入单词需要的最少按键次数 II (Minimum Number of Pushes to Type Word II)
+    public int minimumPushes3016(String word) {
+        int[] cnts = new int[26];
+        for (char c : word.toCharArray()) {
+            ++cnts[c - 'a'];
+        }
+        Arrays.sort(cnts);
+        int res = 0;
+        int cnt = 0;
+        for (int i = 25; i >= 0; --i) {
+            res += (cnt / 8 + 1) * cnts[i];
+            ++cnt;
+        }
+        return res;
 
-    // }
+    }
 
 }
