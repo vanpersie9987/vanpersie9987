@@ -8870,61 +8870,49 @@ public class Leetcode_3 {
 
     }
 
-    // 514. 自由之路 (Freedom Trail) --bfs
-    public int findRotateSteps(String ring, String key) {
-        int m = ring.length();
-        int n = key.length();
-        List<Integer>[] pos = new ArrayList[26];
-        int[][] memo = new int[m + 1][n + 1];
-        for (int i = 0; i < memo.length; ++i) {
-            Arrays.fill(memo[i], Integer.MAX_VALUE >> 1);
-        }
-        for (int i = 0; i < 26; ++i) {
-            pos[i] = new ArrayList<>();
-        }
-        for (int i = 0; i < m; ++i) {
-            pos[ring.charAt(i) - 'a'].add(i);
-        }
-        PriorityQueue<Status514> queue = new PriorityQueue<>(new Comparator<Status514>() {
-            @Override
-            public int compare(Status514 o1, Status514 o2) {
-                return o1.step - o2.step;
-            }
-        });
+    // 514. 自由之路 (Freedom Trail)
+    private int[][] memo514;
+    private int n514;
+    private int m514;
+    private String ring514;
+    private String key514;
+    private List<Integer>[] map514;
 
-        for (int id : pos[key.charAt(0) - 'a']) {
-            queue.offer(new Status514(Math.min(id, m - id) + 1, id, 1));
+    public int findRotateSteps(String ring, String key) {
+        this.n514 = ring.length();
+        this.map514 = new ArrayList[26];
+        Arrays.setAll(map514, k -> new ArrayList<>());
+        for (int i = 0; i < n514; ++i) {
+            int index = ring.charAt(i) - 'a';
+            map514[index].add(i);
         }
-        while (!queue.isEmpty()) {
-            Status514 status = queue.poll();
-            if (status.res >= n) {
-                return status.step;
-            }
-            for (int id : pos[key.charAt(status.res) - 'a']) {
-                int distance = Math.abs(status.cur - id);
-                int nStep = status.step + Math.min(distance, m - distance) + 1;
-                if (nStep < memo[id][status.res + 1]) {
-                    memo[id][status.res + 1] = nStep;
-                    queue.offer(new Status514(nStep, id, status.res + 1));
-                }
-            }
+        this.key514 = key;
+        this.ring514 = ring;
+        this.m514 = key.length();
+        this.memo514 = new int[m514][n514];
+        for (int i = 0; i < m514; ++i) {
+            Arrays.fill(memo514[i], -1);
         }
-        return 0;
+        return dfs514(0, 0);
+
     }
 
-    class Status514 {
-        // 步数
-        int step;
-        // 在ring中，当前指向12点的位置
-        int cur;
-        // 当前已经匹配的key中的字符个数 (key中，即将匹配的下一个位置)
-        int res;
-
-        public Status514(int step, int cur, int res) {
-            this.step = step;
-            this.cur = cur;
-            this.res = res;
+    private int dfs514(int i, int j) {
+        if (i == m514) {
+            return 0;
         }
+        if (memo514[i][j] != -1) {
+            return memo514[i][j];
+        }
+        if (key514.charAt(i) == ring514.charAt(j)) {
+            return memo514[i][j] = dfs514(i + 1, j) + 1;
+        }
+        int res = Integer.MAX_VALUE;
+        for (int id : map514[key514.charAt(i) - 'a']) {
+            int step = Math.min(Math.abs(id - j) + 1, n514 - Math.abs(id - j) + 1);
+            res = Math.min(res, dfs514(i + 1, id) + step);
+        }
+        return memo514[i][j] = res;
     }
 
     // 685. 冗余连接 II (Redundant Connection II) --并查集

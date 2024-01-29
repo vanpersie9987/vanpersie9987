@@ -6955,4 +6955,46 @@ public class Leetcode_8 {
 
     }
 
+    public int countKeyChanges(String s) {
+        int res = 0;
+        s = s.toLowerCase();
+        for (int i = 1; i < s.length(); ++i) {
+            if (s.charAt(i) != s.charAt(i - 1)) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    public int maximumLength(int[] nums) {
+        Map<Long, Integer> map = new HashMap<>();
+        for (long num : nums) {
+            map.merge(num, 1, Integer::sum);
+        }
+        int cnt1 = map.getOrDefault(1L, 0);
+        int res = cnt1 - ((cnt1 % 2) ^ 1);
+        map.remove(1L);
+        for (long num : map.keySet()) {
+            int k = 1;
+            int cur = 0;
+            while (map.getOrDefault((long) Math.pow(num, k), 0) >= 2) {
+                cur += 2;
+                k <<= 1;
+            }
+            if (map.getOrDefault((long) Math.pow(num, k), 0) >= 1) {
+                res = Math.max(res, cur + 1);
+            } else {
+                res = Math.max(res, cur - 1);
+            }
+        }
+        return res;
+    }
+
+    public long flowerGame(int n, int m) {
+        long even1 = n / 2;
+        long even2 = m / 2;
+        return even1 * (m - even2) + (n - even1) * even2;
+    }
+
 }
