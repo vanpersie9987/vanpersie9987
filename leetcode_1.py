@@ -9738,3 +9738,22 @@ class leetcode_1 :
              if d - 1 >= 0:
                 res[d - 1] += 1
        return res
+
+    # 514. 自由之路 (Freedom Trail)
+    def findRotateSteps(self, ring: str, key: str) -> int:
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == len(key):
+             return 0
+          if key[i] == ring[j]:
+             return dfs(i + 1, j) + 1
+          res = inf
+          for k in g[ord(key[i]) - ord('a')]:
+             step = min(abs(j - k), len(ring) - abs(j - k)) + 1
+             res = min(res, dfs(i + 1, k) + step)
+          return res
+       g = [[] for _ in range(26)]
+       for i, v in enumerate(ring):
+          g[ord(v) - ord('a')].append(i)
+       return dfs(0, 0)
+          
