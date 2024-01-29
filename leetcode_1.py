@@ -9767,6 +9767,7 @@ class leetcode_1 :
     
     # 3020. 子集中元素的最大数量 (Find the Maximum Number of Elements in Subset)
     def maximumLength(self, nums: List[int]) -> int:
+       # 若使用 collections.defaultDict(int) 就会报错
        dic = Counter(nums)
        res = dic[1] - ((dic[1] % 2) ^ 1)
        del dic[1]
