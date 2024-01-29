@@ -6955,18 +6955,16 @@ public class Leetcode_8 {
 
     }
 
+    // 3019. 按键变更的次数 (Number of Changing Keys)
     public int countKeyChanges(String s) {
         int res = 0;
-        s = s.toLowerCase();
         for (int i = 1; i < s.length(); ++i) {
-            if (s.charAt(i) != s.charAt(i - 1)) {
-                ++res;
-            }
+            res += (s.charAt(i) & 31) != (s.charAt(i - 1) & 31) ? 1 : 0;
         }
         return res;
-
     }
 
+    // 3020. 子集中元素的最大数量 (Find the Maximum Number of Elements in Subset)
     public int maximumLength(int[] nums) {
         Map<Long, Integer> map = new HashMap<>();
         for (long num : nums) {
@@ -6991,6 +6989,7 @@ public class Leetcode_8 {
         return res;
     }
 
+    // 3021. Alice 和 Bob 玩鲜花游戏 (Alice and Bob Playing Flower Game)
     public long flowerGame(int n, int m) {
         long even1 = n / 2;
         long even2 = m / 2;

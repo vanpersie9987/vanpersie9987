@@ -28,7 +28,7 @@ from decimal import Rounded
 import enum
 from functools import cache
 from inspect import modulesbyfile
-from itertools import accumulate
+from itertools import accumulate, pairwise
 from locale import DAY_4
 from math import comb, cos, gcd, inf, sqrt
 from operator import le
@@ -9756,4 +9756,33 @@ class leetcode_1 :
        for i, v in enumerate(ring):
           g[ord(v) - ord('a')].append(i)
        return dfs(0, 0)
-          
+    
+    # 3019. 按键变更的次数 (Number of Changing Keys)
+    def countKeyChanges(self, s: str) -> int:
+       return sum(x != y for x, y in pairwise(s.lower()))
+
+    # 3019. 按键变更的次数 (Number of Changing Keys)
+    def countKeyChanges(self, s: str) -> int:
+       return sum((ord(s[i]) & 31) != (ord(s[i - 1]) & 31) for i in range(1, len(s)))
+    
+    # 3020. 子集中元素的最大数量 (Find the Maximum Number of Elements in Subset)
+    def maximumLength(self, nums: List[int]) -> int:
+       dic = Counter(nums)
+       res = dic[1] - ((dic[1] % 2) ^ 1)
+       del dic[1]
+       for k in dic:
+          cur = 0
+          while dic[k] >= 2:
+             cur += 2
+             k *= k
+          if dic[k] >= 1:
+             res = max(res, cur + 1)
+          else:
+             res = max(res, cur - 1)
+       return res
+    
+    # 3021. Alice 和 Bob 玩鲜花游戏 (Alice and Bob Playing Flower Game)
+    def flowerGame(self, n: int, m: int) -> int:
+       even1 = n // 2
+       even2 = m // 2
+       return (n - even1) * even2 + even1 * (m - even2)
