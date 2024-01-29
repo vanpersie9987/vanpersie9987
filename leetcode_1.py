@@ -9787,3 +9787,17 @@ class leetcode_1 :
        even1 = n // 2
        even2 = m // 2
        return (n - even1) * even2 + even1 * (m - even2)
+
+    # 2808. 使循环数组所有元素相等的最少秒数 (Minimum Seconds to Equalize a Circular Array)
+    def minimumSeconds(self, nums: List[int]) -> int:
+       n = len(nums)
+       g = collections.defaultdict(list)
+       for i, v in enumerate(nums):
+          g[v].append(i)
+       res = inf
+       for _list in g.values():
+          cur = (n - _list[-1] + _list[0]) // 2
+          for x, y in pairwise(_list):
+             cur = max(cur, (y - x) // 2)
+          res = min(res, cur)
+       return res
