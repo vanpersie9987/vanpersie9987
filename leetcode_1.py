@@ -9801,3 +9801,17 @@ class leetcode_1 :
              cur = max(cur, (y - x) // 2)
           res = min(res, cur)
        return res
+
+    # 2761. 和等于目标值的质数对 (Prime Pairs With Target Sum)
+    def findPrimePairs(self, n: int) -> List[List[int]]:
+       res = []
+       primes = [True] * (n + 1)
+       primes[1] = False
+       for i in range(2, n + 1):
+          if primes[i]:
+             for j in range(i * i, n + 1, i):
+                primes[j] = False
+       for i in range(2, n // 2 + 1):
+          if primes[i] and primes[n - i]:
+             res.append([i, n - i])
+       return res
