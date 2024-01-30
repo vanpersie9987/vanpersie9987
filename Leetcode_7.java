@@ -5160,7 +5160,7 @@ public class Leetcode_7 {
         }
     }
 
-    // 6416. 找出不同元素数目差数组 (Find the Distinct Difference Array)
+    // 2670. 找出不同元素数目差数组 (Find the Distinct Difference Array)
     public int[] distinctDifferenceArray(int[] nums) {
         int[] cnts = new int[51];
         int suf = 0;

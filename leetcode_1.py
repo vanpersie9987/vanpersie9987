@@ -9817,3 +9817,25 @@ class leetcode_1 :
           if primes[i] and primes[n - i]:
              res.append([i, n - i])
        return res
+    
+    # 2670. 找出不同元素数目差数组 (Find the Distinct Difference Array)
+    def distinctDifferenceArray(self, nums: List[int]) -> List[int]:
+       cnts = [0] * 51
+       n = len(nums)
+       suf = 0
+       for num in nums:
+          cnts[num] += 1
+          if cnts[num] == 1:
+             suf += 1
+       res = [0] * n
+       cur_cnts = [0] * 51
+       pre = 0
+       for i, v in enumerate(nums):
+          cur_cnts[v] += 1
+          if cur_cnts[v] == 1:
+             pre += 1
+          cnts[v] -= 1
+          if cnts[v] == 0:
+             suf -= 1
+          res[i] = pre - suf
+       return res
