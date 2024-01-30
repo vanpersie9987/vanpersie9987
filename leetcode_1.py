@@ -9804,8 +9804,6 @@ class leetcode_1 :
 
     # 2761. 和等于目标值的质数对 (Prime Pairs With Target Sum)
     def findPrimePairs(self, n: int) -> List[List[int]]:
-       if n % 2:
-          return [[2, n - 2]] if n > 4 and primes[n - 2] else []
        res = []
        primes = [True] * (n + 1)
        primes[1] = False
@@ -9813,6 +9811,8 @@ class leetcode_1 :
           if primes[i]:
              for j in range(i * i, n + 1, i):
                 primes[j] = False
+       if n % 2:
+          return [[2, n - 2]] if n > 4 and primes[n - 2] else []
        for i in range(2, n // 2 + 1):
           if primes[i] and primes[n - i]:
              res.append([i, n - i])
