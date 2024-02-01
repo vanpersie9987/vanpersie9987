@@ -6999,10 +6999,13 @@ public class Leetcode_8 {
     public long maximumSum(List<Integer> nums) {
         int n = nums.size();
         long[] s = new long[n + 1];
+        long res = 0L;
         for (int i = 0; i < n; ++i) {
-            s[core2862(i + 1)] += nums.get(i);
+            int cur = core2862(i + 1);
+            s[cur] += nums.get(i);
+            res = Math.max(res, s[cur]);
         }
-        return Arrays.stream(s).max().getAsLong();
+        return res;
 
     }
 
