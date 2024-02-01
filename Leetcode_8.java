@@ -6995,5 +6995,34 @@ public class Leetcode_8 {
         long even2 = m / 2;
         return even1 * (m - even2) + (n - even1) * even2;
     }
+    // 2862. 完全子集的最大元素和 (Maximum Element-Sum of a Complete Subset of Indices)
+    public long maximumSum(List<Integer> nums) {
+        int n = nums.size();
+        long[] s = new long[n + 1];
+        for (int i = 0; i < n; ++i) {
+            s[core2862(i + 1)] += nums.get(i);
+        }
+        return Arrays.stream(s).max().getAsLong();
+
+    }
+
+    private int core2862(int n) {
+        int res = 1;
+        for (int i = 2; i < Math.sqrt(n) + 1; ++i) {
+            int e = 0;
+            while (n % i == 0) {
+                e ^= 1;
+                n /= i;
+            }
+            if (e > 0) {
+                res *= i;
+            }
+        }
+        if (n > 1) {
+            res *= n;
+        }
+        return res;
+    }
+
 
 }

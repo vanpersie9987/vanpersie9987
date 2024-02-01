@@ -30,7 +30,7 @@ from functools import cache
 from inspect import modulesbyfile
 from itertools import accumulate, pairwise
 from locale import DAY_4
-from math import comb, cos, gcd, inf, sqrt
+from math import comb, cos, gcd, inf, isqrt, sqrt
 from operator import le
 from pickletools import read_uint1
 from queue import PriorityQueue
@@ -9839,3 +9839,25 @@ class leetcode_1 :
              suf -= 1
           res[i] = pre - suf
        return res
+    
+    # 2862. 完全子集的最大元素和 (Maximum Element-Sum of a Complete Subset of Indices)
+    def maximumSum(self, nums: List[int]) -> int:
+       # core(n) : n中除去完全平方数后的值
+       @cache
+       def core(n: int) -> int:
+          res = 1
+          for i in range(2, isqrt(n) + 1):
+             e = 0
+             while n % i == 0:
+                e ^= 1
+                n //= i
+             if e:
+                res *= i
+          if n > 1:
+             res *= n
+          return res
+       cnt = [0] * (len(nums) + 1)
+       for i, v in enumerate(nums, 1):
+          cnt[core(i)] += v
+       return max(cnt)
+                
