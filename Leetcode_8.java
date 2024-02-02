@@ -5174,15 +5174,15 @@ public class Leetcode_8 {
         return s1.length() - i + s2.length() - i + s3.length() - i;
     }
 
-    // 100122. 区分黑球与白球 (Separate Black and White Balls)
+    // 2938. 区分黑球与白球 (Separate Black and White Balls)
     public long minimumSteps(String s) {
-        int n = s.length();
         long res = 0L;
-        int j = 0;
-        for (int i = 0; i < n; ++i) {
-            if (s.charAt(i) == '0') {
-                res += i - j;
-                ++j;
+        int cnt1 = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '0') {
+                res += cnt1;
+            } else {
+                ++cnt1;
             }
         }
         return res;
