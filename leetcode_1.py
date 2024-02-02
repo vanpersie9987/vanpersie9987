@@ -3672,13 +3672,10 @@ class leetcode_1 :
         return len(arrivalTimes)
     
     # 2839. 判断通过操作能否让字符串相等 I (Check if Strings Can be Made Equal With Operations I)
+    # 2840. 判断通过操作能否让字符串相等 II (Check if Strings Can be Made Equal With Operations II)
     def canBeEqual(self, s1: str, s2: str) -> bool:
        return sorted(s1[::2]) == sorted(s2[::2]) and sorted(s1[1::2]) == sorted(s2[1::2])
-    
-    # 2840. 判断通过操作能否让字符串相等 II (Check if Strings Can be Made Equal With Operations II)
-    def checkStrings(self, s1: str, s2: str) -> bool:
-       return sorted(s1[::2]) == sorted(s2[::2]) and sorted(s1[1::2]) == sorted(s2[1::2])
-    
+
     # 2841. 几乎唯一子数组的最大和 (Maximum Sum of Almost Unique Subarray)
     def maxSum(self, nums: List[int], m: int, k: int) -> int:
        d = collections.defaultdict(int)
@@ -9873,4 +9870,3 @@ class leetcode_1 :
              cur = nums[i]
           res = max(res, cur)
        return res
-          
