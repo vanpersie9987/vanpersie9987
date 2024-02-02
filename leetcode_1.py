@@ -7484,9 +7484,9 @@ class leetcode_1 :
              res += len(s) * len(s)
        return res
     
-    # 100104. 使二进制字符串变美丽的最少修改次数 (Minimum Number of Changes to Make Binary String Beautiful)
+    # 2914. 使二进制字符串变美丽的最少修改次数 (Minimum Number of Changes to Make Binary String Beautiful)
     def minChanges(self, s: str) -> int:
-       return sum(int(s[i - 1] != s[i]) for i in range(1, len(s), 2))
+       return sum(s[i] != s[i + 1] for i in range(0, len(s), 2))
     
     # 2915. 和为目标值的最长子序列的长度 (Length of the Longest Subsequence That Sums to Target)
     def lengthOfLongestSubsequence(self, nums: List[int], target: int) -> int:
@@ -9860,3 +9860,4 @@ class leetcode_1 :
        for i, v in enumerate(nums, 1):
           cnt[core(i)] += v
        return max(cnt)
+          
