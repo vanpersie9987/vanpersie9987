@@ -2158,7 +2158,7 @@ public class Leetcode_8 {
 
     }
 
-    // 6915. 合并后数组中的最大元素 (Largest Element in an Array after Merge Operations)
+    // 2789. 合并后数组中的最大元素 (Largest Element in an Array after Merge Operations)
     public long maxArrayValue(int[] nums) {
         int n = nums.length;
         long res = 0L;

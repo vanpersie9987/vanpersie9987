@@ -9860,4 +9860,17 @@ class leetcode_1 :
        for i, v in enumerate(nums, 1):
           cnt[core(i)] += v
        return max(cnt)
+    
+    # 2789. 合并后数组中的最大元素 (Largest Element in an Array after Merge Operations)
+    def maxArrayValue(self, nums: List[int]) -> int:
+       n = len(nums)
+       cur = nums[-1]
+       res = nums[-1]
+       for i in range(n - 2, -1, -1):
+          if nums[i] <= cur:
+             cur += nums[i]
+          else:
+             cur = nums[i]
+          res = max(res, cur)
+       return res
           
