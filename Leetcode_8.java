@@ -7027,5 +7027,94 @@ public class Leetcode_8 {
         return res;
     }
 
+    // 292. Nim 游戏 (Nim Game)
+    public boolean canWinNim(int n) {
+        return n % 4 != 0;
+    }
+
+    public String triangleType(int[] nums) {
+        Arrays.sort(nums);
+        if (nums[0] + nums[1] <= nums[2]) {
+            return "none";
+        }
+        if (nums[0] == nums[1] && nums[1] == nums[2]) {
+            return "equilateral";
+        }
+        if (nums[0] == nums[1] || nums[1] == nums[2]) {
+            return "isosceles";
+        }
+        return "scalene";
+
+    }
+
+    public long maximumSubarraySum(int[] nums, int k) {
+        int n = nums.length;
+        long[] pre = new long[n + 1];
+        for (int i = 0; i < n; ++i) {
+            pre[i + 1] = pre[i] + nums[i];
+        }
+        long res = (long) -1e15;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            if (map.containsKey(nums[i])) {
+                res = Math.max(res, pre[i + 1] - pre[map.get(nums[i])]);
+            }
+            if (!map.containsKey(nums[i] + k)) {
+                map.put(nums[i] + k, i);
+            } else {
+                if (pre[map.get(nums[i] + k)] > pre[i]) {
+                    map.put(nums[i] + k, i);
+                }
+            }
+            if (!map.containsKey(nums[i] - k)) {
+                map.put(nums[i] - k, i);
+            } else {
+                if (pre[map.get(nums[i] - k)] > pre[i]) {
+                    map.put(nums[i] - k, i);
+                }
+            }
+        }
+        if (res == (long) -1e15) {
+            return 0;
+        }
+        return res;
+
+    }
+
+    public int numberOfPairs(int[][] points) {
+        int n = points.length;
+        Arrays.sort(points, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] == o2[0]) {
+                    return Integer.compare(o2[1], o1[1]);
+                }
+                return Integer.compare(o1[0], o2[0]);
+            }
+            
+        });
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            int y0 = points[i][1];
+            int miny = Integer.MAX_VALUE;
+            int maxy = Integer.MIN_VALUE;
+            for (int j = i + 1; j < n; ++j) {
+                int y1 = points[j][1];
+                if (y1 > y0) {
+                    continue;
+                }
+                if (!(miny >= y1 && miny <= y0 || maxy >= y1 && maxy <= y0)) {
+                    ++res;
+                }
+                miny = Math.min(miny, y1);
+                maxy = Math.max(maxy, y1);
+            }
+        }
+        return res;
+
+
+    }
+
 
 }

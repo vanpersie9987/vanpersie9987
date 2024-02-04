@@ -815,18 +815,20 @@ public class Leetcode_7 {
     }
 
     // 1690. 石子游戏 VII (Stone Game VII)
-    private int[] stones1690;
-    private int n1690;
     private int[][] memo1690;
+    private int[] pre1690;
 
     public int stoneGameVII(int[] stones) {
-        this.n1690 = stones.length;
-        this.stones1690 = stones;
-        this.memo1690 = new int[n1690][n1690];
-        for (int i = 0; i < n1690; ++i) {
+        int n = stones.length;
+        this.memo1690 = new int[n][n];
+        this.pre1690 = new int[n + 1];
+        for (int i = 0; i < n; ++i) {
+            pre1690[i + 1] = pre1690[i] + stones[i];
+        }
+        for (int i = 0; i < n; ++i) {
             Arrays.fill(memo1690[i], -1);
         }
-        return dfs1690(0, n1690 - 1);
+        return dfs1690(0, n - 1);
 
     }
 
@@ -834,17 +836,12 @@ public class Leetcode_7 {
         if (left == right) {
             return 0;
         }
-        if (left == right - 1) {
-            return Math.max(stones1690[left], stones1690[right]);
-        }
         if (memo1690[left][right] != -1) {
             return memo1690[left][right];
         }
         return memo1690[left][right] = Math.max(
-                Math.min(stones1690[left + 1] + dfs1690(left + 2, right),
-                        stones1690[right] + dfs1690(left + 1, right - 1)),
-                Math.min(stones1690[left] + dfs1690(left + 1, right - 1),
-                        stones1690[right - 1] + dfs1690(left, right - 2)));
+                pre1690[right + 1] - pre1690[left + 1] - dfs1690(left + 1, right),
+                pre1690[right] - pre1690[left] - dfs1690(left, right - 1));
     }
 
     // 924. 尽量减少恶意软件的传播 (Minimize Malware Spread)
