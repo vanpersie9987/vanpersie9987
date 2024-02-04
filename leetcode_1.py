@@ -7723,19 +7723,21 @@ class leetcode_1 :
        return root
     
     # 421. 数组中两个数的最大异或值 (Maximum XOR of Two Numbers in an Array)
+    # LCR 067. 数组中两个数的最大异或值
     def findMaximumXOR(self, nums: List[int]) -> int:
        res = 0
        mask = 0
-       for i in range(30, -1, -1):
+       s = set()
+       for i in range(max(nums).bit_length() - 1, -1, -1):
           mask |= 1 << i
-          s = set()
-          for num in nums:
-             s.add(num & mask)
-          nxt = res | (1 << i)
-          for pre in s:
-             if (pre ^ nxt) in s:
-                res = nxt
+          s.clear()
+          new_res = res | (1 << i)
+          for x in nums:
+             x &= mask
+             if x ^ new_res in s:
+                res = new_res
                 break
+             s.add(x) 
        return res
     
     # 187. 重复的DNA序列 (Repeated DNA Sequences)

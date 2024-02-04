@@ -17740,23 +17740,28 @@ public class LeetCodeText {
 
     }
 
-    // 421. 数组中两个数的最大异或值 (Maximum XOR of Two Numbers in an Array) // 剑指 Offer II
-    // 067. 最大的异或
+    // 421. 数组中两个数的最大异或值 (Maximum XOR of Two Numbers in an Array) 
+    // LCR 067. 数组中两个数的最大异或值
     public int findMaximumXOR(int[] nums) {
         int res = 0;
         int mask = 0;
-        for (int i = 30; i >= 0; --i) {
+        int max = 0;
+        for (int num : nums) {
+            max = Math.max(max, num);
+        }
+        int highestBit = 31 - Integer.numberOfLeadingZeros(max);
+        Set<Integer> seen = new HashSet<>();
+        for (int i = highestBit; i >= 0; --i) {
+            seen.clear();
             mask |= 1 << i;
-            Set<Integer> set = new HashSet<>();
+            int newRes = res | (1 << i);
             for (int num : nums) {
-                set.add(num & mask);
-            }
-            int temp = res | (1 << i);
-            for (int pre : set) {
-                if (set.contains(pre ^ temp)) {
-                    res = temp;
+                num &= mask;
+                if (seen.contains(num ^ newRes)) {
+                    res = newRes;
                     break;
                 }
+                seen.add(num);
             }
         }
         return res;
