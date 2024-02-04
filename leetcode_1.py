@@ -9874,3 +9874,16 @@ class leetcode_1 :
     # 292. Nim 游戏 (Nim Game)
     def canWinNim(self, n: int) -> bool:
         return bool(n % 4)
+    
+    # 1690. 石子游戏 VII (Stone Game VII)
+    def stoneGameVII(self, stones: List[int]) -> int:
+       n = len(stones)
+       pre = list(accumulate(stones, initial = 0))
+       @cache
+       def dfs(i: int, j: int) -> int:
+          if i == j:
+             return 0
+          return max(pre[j + 1] - pre[i + 1] - dfs(i + 1, j), pre[j] - pre[i] - dfs(i, j - 1))
+       res = dfs(0, n - 1)
+       dfs.cache_clear()
+       return res
