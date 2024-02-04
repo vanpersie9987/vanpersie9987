@@ -7101,7 +7101,7 @@ public class Leetcode_8 {
     }
 
     // 2932. 找出强数对的最大异或值 I (Maximum Strong Pair XOR I)
-    // 2935. 找出强数对的最大异或值 II (Maximum Strong Pair XOR II)
+    // 2935. 找出强数对的最大异或值 II (Maximum Strong Pair XOR II) --哈希表
     public int maximumStrongPairXor(int[] nums) {
         Arrays.sort(nums);
         int n = nums.length;
@@ -7124,6 +7124,75 @@ public class Leetcode_8 {
         }
         return res;
 
+    }
+
+    // 2932. 找出强数对的最大异或值 I (Maximum Strong Pair XOR I)
+    // 2935. 找出强数对的最大异或值 II (Maximum Strong Pair XOR II) -- 0-1字典树
+    private int highestBit2935;
+    public int maximumStrongPairXor2(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        this.highestBit2935 = 31 - Integer.numberOfLeadingZeros(nums[n - 1]);
+        Trie2935 trie = new Trie2935();
+        int res = 0;
+        int i = 0;
+        int j = 0;
+        while (j < n) {
+            trie.insert(nums[j]);
+            while (nums[i] * 2 < nums[j]) {
+                trie.delete(nums[i]);
+                ++i;
+            }
+            res = Math.max(res, trie.check(nums[j]));
+            ++j;
+        }
+        return res;
+
+    }
+
+    public class Trie2935 {
+        private Trie2935[] children;
+        public int cnt;
+
+        public Trie2935() {
+            this.children = new Trie2935[2];
+            this.cnt = 0;
+        }
+
+        public void insert(int num) {
+            Trie2935 node = this;
+            for (int i = highestBit2935; i >= 0; --i) {
+                int index = (num >> i) & 1;
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie2935();
+                }
+                node = node.children[index];
+                ++node.cnt;
+            }
+        }
+
+        public void delete(int num) {
+            Trie2935 node = this;
+            for (int i = highestBit2935; i >= 0; --i) {
+                int index = (num >> i) & 1;
+                node = node.children[index];
+                --node.cnt;
+            }
+        }
+
+        public int check(int num) {
+            Trie2935 node = this;
+            int res = 0;
+            for (int i = highestBit2935; i >= 0; --i) {
+                int index = (num >> i) & 1;
+                if (node.children[index ^ 1] != null && node.children[index ^ 1].cnt > 0) {
+                    index ^= 1;
+                    res |= 1 << i;
+                }
+                node = node.children[index];
+            }
+            return res;
+        }
     }
 
 }
