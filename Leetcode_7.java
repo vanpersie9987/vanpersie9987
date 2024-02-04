@@ -832,16 +832,16 @@ public class Leetcode_7 {
 
     }
 
-    private int dfs1690(int left, int right) {
-        if (left == right) {
+    private int dfs1690(int i, int j) {
+        if (i == j) {
             return 0;
         }
-        if (memo1690[left][right] != -1) {
-            return memo1690[left][right];
+        if (memo1690[i][j] != -1) {
+            return memo1690[i][j];
         }
-        return memo1690[left][right] = Math.max(
-                pre1690[right + 1] - pre1690[left + 1] - dfs1690(left + 1, right),
-                pre1690[right] - pre1690[left] - dfs1690(left, right - 1));
+        return memo1690[i][j] = Math.max(
+                pre1690[j + 1] - pre1690[i + 1] - dfs1690(i + 1, j),
+                pre1690[j] - pre1690[i] - dfs1690(i, j - 1));
     }
 
     // 924. 尽量减少恶意软件的传播 (Minimize Malware Spread)
