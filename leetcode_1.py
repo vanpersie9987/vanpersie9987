@@ -9870,3 +9870,7 @@ class leetcode_1 :
              cur = nums[i]
           res = max(res, cur)
        return res
+
+    # 292. Nim 游戏 (Nim Game)
+    def canWinNim(self, n: int) -> bool:
+        return bool(n % 4)
