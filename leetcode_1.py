@@ -7917,16 +7917,6 @@ class leetcode_1 :
           res += d * x
        return res
     
-    # 2932. 找出强数对的最大异或值 I (Maximum Strong Pair XOR I)
-    def maximumStrongPairXor(self, nums: List[int]) -> int:
-       res = 0
-       n = len(nums)
-       for i in range(n):
-          for j in range(i + 1, n):
-             if abs(nums[i] - nums[j]) <= min(nums[i], nums[j]):
-                res = max(res, nums[i] ^ nums[j])
-       return res
-    
     # 2933. 高访问员工 (High-Access Employees)
     def findHighAccessEmployees(self, access_times: List[List[str]]) -> List[str]:
        dic = collections.defaultdict(list)
@@ -9889,3 +9879,23 @@ class leetcode_1 :
        res = dfs(0, n - 1)
        dfs.cache_clear()
        return res
+    
+    # 2932. 找出强数对的最大异或值 I (Maximum Strong Pair XOR I)
+    # 2935. 找出强数对的最大异或值 II (Maximum Strong Pair XOR II)
+    def maximumStrongPairXor(self, nums: List[int]) -> int:
+       nums.sort()
+       mask = 0
+       res = 0
+       d = dict()
+       for i in range(nums[-1].bit_length() - 1, -1, -1):
+          d.clear()
+          mask |= 1 << i
+          new_res = res | (1 << i)
+          for y in nums:
+             mask_y = y & mask
+             if mask_y ^ new_res in d and d[mask_y ^ new_res] * 2 >= y:
+                res = new_res
+                break
+             d[mask_y] = y
+       return res
+          

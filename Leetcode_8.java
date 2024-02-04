@@ -5089,22 +5089,6 @@ public class Leetcode_8 {
 
     }
 
-    // 2932. 找出强数对的最大异或值 I (Maximum Strong Pair XOR I)
-    public int maximumStrongPairXor(int[] nums) {
-        int n = nums.length;
-        int res = 0;
-        for (int i = 0; i < n; ++i) {
-            for (int j = i + 1; j < n; ++j) {
-                if (Math.abs(nums[i] - nums[j]) <= Math.min(nums[i], nums[j])) {
-                    res = Math.max(res, nums[i] ^ nums[j]);
-                }
-            }
-
-        }
-        return res;
-
-    }
-
     // 2933. 高访问员工 (High-Access Employees)
     public List<String> findHighAccessEmployees(List<List<String>> access_times) {
         Map<String, List<String>> map = new HashMap<>();
@@ -7116,5 +7100,30 @@ public class Leetcode_8 {
 
     }
 
+    // 2932. 找出强数对的最大异或值 I (Maximum Strong Pair XOR I)
+    // 2935. 找出强数对的最大异或值 II (Maximum Strong Pair XOR II)
+    public int maximumStrongPairXor(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int highestBit = 31 - Integer.numberOfLeadingZeros(nums[n - 1]);
+        int res = 0;
+        int mask = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = highestBit; i >= 0; --i) {
+            map.clear();
+            mask |= 1 << i;
+            int newRes = res | (1 << i);
+            for (int y : nums) {
+                int mask_y = y & mask;
+                if (map.containsKey(mask_y ^ newRes) && map.get(mask_y ^ newRes) * 2 >= y) {
+                    res = newRes;
+                    break;
+                }
+                map.put(mask_y, y);
+            }
+        }
+        return res;
+
+    }
 
 }
