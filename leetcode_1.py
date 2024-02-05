@@ -9923,4 +9923,44 @@ class leetcode_1 :
        x = sum(aliceValues[i] for _, i in c[::2])
        y = sum(bobValues[i] for _, i in c[1::2])
        return 1 if x > y else (0 if x == y else -1)
-          
+    
+    # 3024. 三角形类型 II (Type of Triangle II)
+    def triangleType(self, nums: List[int]) -> str:
+          nums.sort()
+          if nums[0] + nums[1] <= nums[2]:
+             return 'none'
+          if nums[0] == nums[1] == nums[2]:
+             return 'equilateral'
+          if nums[0] == nums[1] or nums[1] == nums[2]:
+             return 'isosceles'
+          return 'scalene'
+    
+    # 3025. 人员站位的方案数 I (Find the Number of Ways to Place People I)
+    # 3027. 人员站位的方案数 II (Find the Number of Ways to Place People II)
+    def numberOfPairs(self, points: List[List[int]]) -> int:
+       n = len(points)
+       points.sort(key=lambda p: (p[0], -p[1]))
+       res = 0
+       for i, (_, y) in enumerate(points):
+          max_y = -inf
+          for (_, y0) in points[i + 1:]:
+             if max_y < y0 <= y:
+                res += 1
+                max_y = y0
+       return res
+    
+    # 3026. 最大好子数组和 (Maximum Good Subarray Sum)
+    def maximumSubarraySum(self, nums: List[int], k: int) -> int:
+       d = dict()
+       s = list(accumulate(nums, initial=0))
+       res = -inf
+       for i, v in enumerate(nums):
+          if v in d:
+             res = max(res, s[i + 1] - s[d[v]])
+          if v - k not in d or s[d[v - k]] > s[i]:
+             d[v - k] = i
+          if v + k not in d or s[d[v + k]] > s[i]:
+             d[v + k] = i
+       return 0 if res == -inf else res
+             
+         
