@@ -7213,4 +7213,18 @@ public class Leetcode_8 {
 
     }
 
+    // 3028. 边界上的蚂蚁 (Ant on the Boundary)
+    public int returnToBoundaryCount(int[] nums) {
+        int s = 0;
+        int res = 0;
+        for (int x : nums) {
+            s += x;
+            if (s == 0) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
 }

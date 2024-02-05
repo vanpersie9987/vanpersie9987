@@ -9962,5 +9962,15 @@ class leetcode_1 :
           if v + k not in d or s[d[v + k]] > s[i]:
              d[v + k] = i
        return 0 if res == -inf else res
+    
+    # 3028. 边界上的蚂蚁 (Ant on the Boundary)
+    def returnToBoundaryCount(self, nums: List[int]) -> int:
+        s = 0
+        res = 0
+        for x in nums:
+            s += x
+            if s == 0:
+                res += 1
+        return res
              
          
