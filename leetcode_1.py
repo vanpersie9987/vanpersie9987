@@ -20,7 +20,7 @@
 from asyncio import FastChildWatcher
 from audioop import reverse
 from calendar import c
-from collections import Counter
+from collections import Counter, deque
 import collections
 from ctypes.wintypes import _ULARGE_INTEGER
 from curses import curs_set
@@ -9982,3 +9982,19 @@ class leetcode_1 :
           res += 1
           s = s[min(len(s), k):]
        return res
+
+    # 239. 滑动窗口最大值 (Sliding Window Maximum)
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+       q = deque()
+       n = len(nums)
+       res = []
+       for i in range(n):
+          while q and i - q[0] >= k:
+             q.popleft()
+          while q and nums[q[-1]] <= nums[i]:
+             q.pop()
+          q.append(i)
+          if i >= k - 1:
+             res.append(nums[q[0]])
+       return res
+       
