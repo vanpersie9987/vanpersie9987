@@ -9972,5 +9972,13 @@ class leetcode_1 :
             if s == 0:
                 res += 1
         return res
-             
-         
+
+    # 3029. 将单词恢复初始状态所需的最短时间 I (Minimum Time to Revert Word to Initial State I)
+    # 3031. 将单词恢复初始状态所需的最短时间 II (Minimum Time to Revert Word to Initial State II)
+    def minimumTimeToInitialState(self, word: str, k: int) -> int:
+       res = 1
+       s = word[k:]
+       while s and not word.startswith(s):
+          res += 1
+          s = s[min(len(s), k):]
+       return res
