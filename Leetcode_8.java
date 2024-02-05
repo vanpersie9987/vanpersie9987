@@ -7227,4 +7227,135 @@ public class Leetcode_8 {
 
     }
 
+    // 3030. 找出网格的区域平均强度 (Find the Grid of Region Average)
+    private int[][] image3030;
+    private int threshold3030;
+
+    public int[][] resultGrid(int[][] image, int threshold) {
+        this.image3030 = image;
+        this.threshold3030 = threshold;
+        int m = image.length;
+        int n = image[0].length;
+        int[][] res = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int cnt = 0;
+                int sum = 0;
+                if (i + 2 < m && j + 2 < n) {
+                    int cur = check3030(i, j, i + 2, j + 2);
+                    if (cur != -1) {
+                        sum += cur;
+                        ++cnt;
+                    }
+                }
+                if (i + 2 < m && j - 1 >= 0 && j + 1 < n) {
+                    int cur = check3030(i, j - 1, i + 2, j + 1);
+                    if (cur != -1) {
+                        sum += cur;
+                        ++cnt;
+                    }
+                }
+                if (i + 2 < m && j - 2 >= 0) {
+                    int cur = check3030(i, j - 2, i + 2, j);
+                    if (cur != -1) {
+                        sum += cur;
+                        ++cnt;
+                    }
+                }
+                if (i - 1 >= 0 && i + 1 < m && j + 2 < n) {
+                    int cur = check3030(i - 1, j, i + 1, j + 2);
+                    if (cur != -1) {
+                        sum += cur;
+                        ++cnt;
+                    }
+                }
+                if (i - 1 >= 0 && i + 1 < m && j - 1 >= 0 && j + 1 < n) {
+                    int cur = check3030(i - 1, j - 1, i + 1, j + 1);
+                    if (cur != -1) {
+                        sum += cur;
+                        ++cnt;
+                    }
+                }
+                if (i - 1 >= 0 && i + 1 < m && j - 2 >= 0) {
+                    int cur = check3030(i - 1, j - 2, i + 1, j);
+                    if (cur != -1) {
+                        sum += cur;
+                        ++cnt;
+                    }
+                }
+                if (i - 2 >= 0 && j + 2 < n) {
+                    int cur = check3030(i - 2, j, i, j + 2);
+                    if (cur != -1) {
+                        sum += cur;
+                        ++cnt;
+                    }
+                }
+                if (i - 2 >= 0 && j - 1 >= 0 && j + 1 < n) {
+                    int cur = check3030(i - 2, j - 1, i, j + 1);
+                    if (cur != -1) {
+                        sum += cur;
+                        ++cnt;
+                    }
+                }
+                if (i - 2 >= 0 && j - 2 >= 0) {
+                    int cur = check3030(i - 2, j - 2, i, j);
+                    if (cur != -1) {
+                        sum += cur;
+                        ++cnt;
+                    }
+                }
+                if (cnt == 0) {
+                    res[i][j] = image[i][j];
+                } else {
+                    res[i][j] = sum / cnt;
+                }
+            }
+        }
+        return res;
+    }
+
+    private int check3030(int i0, int j0, int i1, int j1) {
+        if (!ok3030(i0, j0, i1, j1)) {
+            return -1;
+        }
+        int sum = 0;
+        for (int i = i0; i <= i1; ++i) {
+            for (int j = j0; j <= j1; ++j) {
+                sum += image3030[i][j];
+            }
+        }
+        return sum / 9;
+    }
+
+    private boolean ok3030(int i0, int j0, int i1, int j1) {
+        for (int i = i0; i <= i1; ++i) {
+            for (int j = j0; j < j1; ++j) {
+                if (Math.abs(image3030[i][j] - image3030[i][j + 1]) > threshold3030) {
+                    return false;
+                }
+            }
+        }
+        for (int j = j0; j <= j1; ++j) {
+            for (int i = i0; i < i1; ++i) {
+                if (Math.abs(image3030[i][j] - image3030[i + 1][j]) > threshold3030) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    // 3029. 将单词恢复初始状态所需的最短时间 I (Minimum Time to Revert Word to Initial State I)
+    // 3031. 将单词恢复初始状态所需的最短时间 II (Minimum Time to Revert Word to Initial State II)
+    public int minimumTimeToInitialState(String word, int k) {
+        int res = 0;
+        String s = word;
+        do {
+            ++res;
+            s = s.substring(Math.min(s.length(), k));
+        } while (!s.isEmpty() && !word.startsWith(s));
+
+        return res;
+    }
+
 }
