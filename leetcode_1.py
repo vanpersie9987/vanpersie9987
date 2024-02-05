@@ -9915,4 +9915,12 @@ class leetcode_1 :
              q.pop()
           q.append(i)
        return dp[-1]
+    
+    # 1686. 石子游戏 VI (Stone Game VI)
+    def stoneGameVI(self, aliceValues: List[int], bobValues: List[int]) -> int:
+       c = [(a + b, i) for i, (a, b) in enumerate(zip(aliceValues, bobValues))]
+       c.sort(reverse=True)
+       x = sum(aliceValues[i] for _, i in c[::2])
+       y = sum(bobValues[i] for _, i in c[1::2])
+       return 1 if x > y else (0 if x == y else -1)
           

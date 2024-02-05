@@ -7197,4 +7197,30 @@ public class Leetcode_8 {
         }
     }
 
+    // 1686. 石子游戏 VI (Stone Game VI)
+    public int stoneGameVI(int[] aliceValues, int[] bobValues) {
+        int n = aliceValues.length;
+        Integer[] ids = IntStream.range(0, n).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(aliceValues[o2] + bobValues[o2], aliceValues[o1] + bobValues[o1]);
+            }
+
+        });
+        int x = 0;
+        int y = 0;
+        for (int i = 0; i < n; ++i) {
+            if (i % 2 == 0) {
+                x += aliceValues[ids[i]];
+            } else {
+                y += bobValues[ids[i]];
+            }
+        }
+        return Integer.compare(x - y, 0);
+
+
+    }
+
 }
