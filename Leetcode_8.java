@@ -1,7 +1,9 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -7193,6 +7195,29 @@ public class Leetcode_8 {
             }
             return res;
         }
+    }
+
+    public int maxResult(int[] nums, int k) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        dp[0] = nums[0];
+        Deque<Integer> q = new ArrayDeque<>();
+        q.offerLast(0);
+        for (int i = 1; i < n; ++i) {
+            while (!q.isEmpty() && i - q.peekFirst() > k) {
+                q.pollFirst();
+            }
+            if (!q.isEmpty()) {
+                dp[i] = dp[q.peekFirst()] + nums[i];
+            }
+            while (!q.isEmpty() && dp[q.peekLast()] < dp[i]) {
+                q.pollLast();
+            }
+            q.offerLast(i);
+        }
+        return dp[n - 1];
+
+
     }
 
 }

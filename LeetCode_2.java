@@ -1,3 +1,4 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -5825,52 +5826,28 @@ public class LeetCode_2 {
 
    }
 
-   // 1696. 跳跃游戏 VI (Jump Game VI) --优先队列
+   // 1696. 跳跃游戏 VI (Jump Game VI) --单调队列
    public int maxResult(int[] nums, int k) {
-      Queue<int[]> priorityQueue = new PriorityQueue<>(new Comparator<int[]>() {
-
-         @Override
-         public int compare(int[] o1, int[] o2) {
-            if (o1[0] != o2[0]) {
-               return o2[0] - o1[0];
+        int n = nums.length;
+        int[] dp = new int[n];
+        dp[0] = nums[0];
+        Deque<Integer> q = new ArrayDeque<>();
+        q.offerLast(0);
+        for (int i = 1; i < n; ++i) {
+            while (!q.isEmpty() && i - q.peekFirst() > k) {
+                q.pollFirst();
             }
-            return o2[1] - o1[1];
-         }
+            if (!q.isEmpty()) {
+                dp[i] = dp[q.peekFirst()] + nums[i];
+            }
+            while (!q.isEmpty() && dp[q.peekLast()] < dp[i]) {
+                q.pollLast();
+            }
+            q.offerLast(i);
+        }
+        return dp[n - 1];
 
-      });
-      priorityQueue.offer(new int[] { nums[0], 0 });
-      int res = priorityQueue.peek()[0];
-      for (int i = 1; i < nums.length; ++i) {
-         while (!priorityQueue.isEmpty() && i - priorityQueue.peek()[1] > k) {
-            priorityQueue.poll();
-         }
-         res = priorityQueue.peek()[0] + nums[i];
-         priorityQueue.offer(new int[] { res, i });
-
-      }
-      return res;
-
-   }
-
-   // 1696. 跳跃游戏 VI (Jump Game VI) --优先队列
-   public int maxResult2(int[] nums, int k) {
-      Deque<Integer> deque = new LinkedList<>();
-      int[] dp = new int[nums.length];
-      dp[0] = nums[0];
-      deque.offerLast(0);
-      for (int i = 1; i < nums.length; ++i) {
-         while (!deque.isEmpty() && i - deque.peekFirst() > k) {
-            deque.pollFirst();
-         }
-         dp[i] = dp[deque.peekFirst()] + nums[i];
-         while (!deque.isEmpty() && dp[i] >= dp[deque.peekLast()]) {
-            deque.pollLast();
-         }
-         deque.offerLast(i);
-      }
-      return dp[dp.length - 1];
-
-   }
+    }
 
    // 1499. 满足不等式的最大值 (Max Value of Equation) --单调队列
    public int findMaxValueOfEquation(int[][] points, int k) {
