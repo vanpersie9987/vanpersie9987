@@ -57,9 +57,9 @@ class leetcode_2:
         q = deque()
         res = inf
         for i, v in enumerate(s):
-            while q and s[i] - s[q[0]] >= k:
+            while q and v - s[q[0]] >= k:
                 res = min(res, i - q.popleft())
-            while q and s[q[-1]] >= s[i]:
+            while q and s[q[-1]] >= v:
                 q.pop()
             q.append(i)
         return -1 if res == inf else res
