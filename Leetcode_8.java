@@ -7145,7 +7145,7 @@ public class Leetcode_8 {
 
     public class Trie2935 {
         private Trie2935[] children;
-        public int cnt;
+        private int cnt;
 
         public Trie2935() {
             this.children = new Trie2935[2];
