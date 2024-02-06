@@ -5849,24 +5849,19 @@ public class LeetCode_2 {
 
    // 1499. 满足不等式的最大值 (Max Value of Equation) --单调队列
    public int findMaxValueOfEquation(int[][] points, int k) {
-      Deque<Integer> deque = new LinkedList<>();
-      deque.offerLast(0);
+      Deque<int[]> q = new ArrayDeque<>();
       int res = Integer.MIN_VALUE;
-      for (int i = 1; i < points.length; ++i) {
-         while (!deque.isEmpty() && points[i][0] - points[deque.peekFirst()][0] > k) {
-            deque.pollFirst();
+      for (int[] p : points) {
+         while (!q.isEmpty() && p[0] - q.peekFirst()[0] > k) {
+            q.pollFirst();
          }
-         if (!deque.isEmpty()) {
-            res = Math.max(res,
-                  points[i][0] + points[i][1] + points[deque.peekFirst()][1] - points[deque.peekFirst()][0]);
+         if (!q.isEmpty()) {
+            res = Math.max(res, p[0] + p[1] + q.peekFirst()[1]);
          }
-
-         while (!deque.isEmpty()
-               && points[deque.peekLast()][1] - points[deque.peekLast()][0] <= points[i][1] - points[i][0]) {
-            deque.pollLast();
+         while (!q.isEmpty() && p[1] - p[0] >= q.peekLast()[1]) {
+            q.pollLast();
          }
-         deque.offerLast(i);
-
+         q.offer(new int[] { p[0], p[1] - p[0] });
       }
       return res;
 
