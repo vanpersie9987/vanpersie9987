@@ -34,6 +34,21 @@ from zoneinfo import reset_tzpath
 from sortedcontainers import SortedList
 
 class leetcode_2:
+    class TreeNode:
+       def __init__(self, val=0, left=None, right=None):
+          self.val = val
+          self.left = left
+          self.right = right
+
+    class ListNode:
+       def __init__(self, val=0, next=None):
+          self.val = val
+          self.next = next
+
+    class Node:
+       def __init__(self, val=None, children=None):
+          self.val = val
+          self.children = children
 
     # LCP 30. 魔塔游戏
     def magicTower(self, nums: List[int]) -> int:
@@ -127,6 +142,38 @@ class leetcode_2:
                 q.pop()
             q.append((x, y - x))
         return res
+    
+    # 2641. 二叉树的堂兄弟节点 II (Cousins in Binary Tree II)
+    def replaceValueInTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        q = deque()
+        root.val = 0
+        q.append(root)
+        while q:
+            size = len(q)
+            s = 0
+            for _ in range(size):
+                x = q.popleft()
+                if x.left:
+                    s += x.left.val
+                if x.right:
+                    s += x.right.val
+                q.append(x)
+            for _ in range(size):
+                x = q.popleft()
+                cur = 0
+                if x.left:
+                    cur += x.left.val
+                if x.right:
+                    cur += x.right.val
+                if x.left:
+                    x.left.val = s - cur
+                    q.append(x.left)
+                if x.right:
+                    x.right.val = s - cur
+                    q.append(x.right)
+        return root
+            
+                
 
 
 
