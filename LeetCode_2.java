@@ -5156,31 +5156,29 @@ public class LeetCode_2 {
 
    // 1438. 绝对差不超过限制的最长连续子数组 (Longest Continuous Subarray With Absolute Diff Less
    // Than or Equal to Limit
-   // --双指针+滑动窗口+TreeMap --还需要了解TreeMap的原理及更多用法
    public int longestSubarray(int[] nums, int limit) {
-      TreeMap<Integer, Integer> map = new TreeMap<>();
-      int left = 0;
-      int right = 0;
       int res = 0;
-      while (right < nums.length) {
-         map.put(nums[right], map.getOrDefault(nums[right], 0) + 1);
+      TreeMap<Integer, Integer> map = new TreeMap<>();
+      int i = 0;
+      int j = 0;
+      int n = nums.length;
+      while (i < n) {
+         map.merge(nums[i], 1, Integer::sum);
          while (map.lastKey() - map.firstKey() > limit) {
-            map.put(nums[left], map.get(nums[left]) - 1);
-            if (map.get(nums[left]) == 0) {
-               map.remove(nums[left]);
+            map.merge(nums[j], -1, Integer::sum);
+            if (map.get(nums[j]) == 0) {
+               map.remove(nums[j]);
             }
-            ++left;
+            ++j;
          }
-         res = Math.max(res, right - left + 1);
-         ++right;
+         res = Math.max(res, i - j + 1);
+         ++i;
       }
       return res;
-
    }
 
    // 1438. 绝对差不超过限制的最长连续子数组 (Longest Continuous Subarray With Absolute Diff Less
    // Than or Equal to Limit
-   // --双指针+滑动窗口+TreeMap --还需要了解双端队列的原理及更多用法
    public int longestSubarray2(int[] nums, int limit) {
       Deque<Integer> max = new LinkedList<>();
       Deque<Integer> min = new LinkedList<>();

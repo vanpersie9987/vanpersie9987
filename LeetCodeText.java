@@ -8049,30 +8049,6 @@ public class LeetCodeText {
 
     }
 
-    // 1438. 绝对差不超过限制的最长连续子数组
-    public int longestSubarray(int[] nums, int limit) {
-        int max = Integer.MIN_VALUE;
-        int min = Integer.MAX_VALUE;
-        int count = 0;
-        int res = 0;
-        for (int i = 0; i < nums.length; ++i) {
-            max = Math.max(max, nums[i]);
-            min = Math.min(min, nums[i]);
-            if (Math.abs(max - min) <= limit) {
-                ++count;
-            } else {
-                res = Math.max(res, count);
-                count = 1;
-                max = nums[i];
-                min = nums[i];
-            }
-
-        }
-        res = Math.max(res, count);
-        return res;
-
-    }
-
     // 1007. 行相等的最少多米诺旋转
     public int minDominoRotations(int[] A, int[] B) {
         int rotation = checkDomino(A, B, A[0]);
