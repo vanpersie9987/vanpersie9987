@@ -51,3 +51,16 @@ class leetcode_2:
                 res += 1
         return res
 
+    # 862. 和至少为 K 的最短子数组 (Shortest Subarray with Sum at Least K)
+    def shortestSubarray(self, nums: List[int], k: int) -> int:
+        s = list(accumulate(nums, initial=0))
+        q = deque()
+        res = inf
+        for i, v in enumerate(s):
+            while q and s[i] - s[q[0]] >= k:
+                res = min(res, i - q.popleft())
+            while q and s[q[-1]] >= s[i]:
+                q.pop()
+            q.append(i)
+        return -1 if res == inf else res
+
