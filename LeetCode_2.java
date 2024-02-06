@@ -6463,23 +6463,26 @@ public class LeetCode_2 {
    // 918. 环形子数组的最大和 (Maximum Sum Circular Subarray) -- 前缀和 + 单调队列
    public int maxSubarraySumCircular(int[] nums) {
       int n = nums.length;
-      int[] preSum = new int[n * 2 + 1];
-      for (int i = 1; i < preSum.length; ++i) {
-         preSum[i] = preSum[i - 1] + nums[(i - 1) % n];
+      int[] s = new int[n * 2 + 1];
+      for (int i = 0; i < n * 2; ++i) {
+         s[i + 1] = s[i] + nums[i % n];
       }
-      Deque<Integer> deque = new LinkedList<>();
       int res = Integer.MIN_VALUE;
-      for (int i = 0; i < preSum.length; ++i) {
-         while (!deque.isEmpty() && i - deque.peekFirst() > n) {
-            deque.pollFirst();
+      Deque<Integer> q = new ArrayDeque<>();
+      // i 表示 前i个元素
+      for (int i = 0; i < n * 2 + 1; ++i) {
+         // i - q.peekFirst()表示前i个元素 - 前q.peekFirst()个元素
+         // i - q.peekFirst() 最大是n，即最多可选n个元素，即全选
+         while (!q.isEmpty() && i - q.peekFirst() > n) {
+            q.pollFirst();
          }
-         if (!deque.isEmpty()) {
-            res = Math.max(res, preSum[i] - preSum[deque.peekFirst()]);
+         if (!q.isEmpty()) {
+            res = Math.max(res, s[i] - s[q.peekFirst()]);
          }
-         while (!deque.isEmpty() && preSum[i] <= preSum[deque.peekLast()]) {
-            deque.pollLast();
+         while (!q.isEmpty() && s[q.peekLast()] >= s[i]) {
+            q.pollLast();
          }
-         deque.offerLast(i);
+         q.offer(i);
       }
       return res;
 
