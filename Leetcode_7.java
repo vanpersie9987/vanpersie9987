@@ -1,3 +1,4 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -3038,31 +3039,23 @@ public class Leetcode_7 {
     }
 
     // 2641. 二叉树的堂兄弟节点 II (Cousins in Binary Tree II)
-    public TreeNode replaceValueInTree(TreeNode root) {
-        Map<Integer, Integer> map = new HashMap<>();
-        Queue<TreeNode> q = new LinkedList<>();
+     public TreeNode replaceValueInTree(TreeNode root) {
+        root.val = 0;
+        Queue<TreeNode> q = new ArrayDeque<>();
         q.offer(root);
-        int level = 0;
         while (!q.isEmpty()) {
             int size = q.size();
             int sum = 0;
             for (int i = 0; i < size; ++i) {
                 TreeNode node = q.poll();
-                sum += node.val;
                 if (node.left != null) {
-                    q.offer(node.left);
+                    sum += node.left.val;
                 }
                 if (node.right != null) {
-                    q.offer(node.right);
+                    sum += node.right.val;
                 }
+                q.offer(node);
             }
-            map.put(level++, sum);
-        }
-        root.val = 0;
-        level = 0;
-        q.offer(root);
-        while (!q.isEmpty()) {
-            int size = q.size();
             for (int i = 0; i < size; ++i) {
                 TreeNode node = q.poll();
                 int cur = 0;
@@ -3073,18 +3066,16 @@ public class Leetcode_7 {
                     cur += node.right.val;
                 }
                 if (node.left != null) {
-                    node.left.val = map.get(level + 1) - cur;
+                    node.left.val = sum - cur;
                     q.offer(node.left);
                 }
                 if (node.right != null) {
-                    node.right.val = map.get(level + 1) - cur;
+                    node.right.val = sum - cur;
                     q.offer(node.right);
                 }
             }
-            ++level;
         }
         return root;
-
     }
 
     // 2642. 设计可以求最短路径的图类 (Design Graph With Shortest Path Calculator)
