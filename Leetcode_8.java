@@ -7347,7 +7347,7 @@ public class Leetcode_8 {
     }
 
     // 3029. 将单词恢复初始状态所需的最短时间 I (Minimum Time to Revert Word to Initial State I)
-    // 3031. 将单词恢复初始状态所需的最短时间 II (Minimum Time to Revert Word to Initial State II)
+    // 3031. 将单词恢复初始状态所需的最短时间 II (Minimum Time to Revert Word to Initial State II) --还需掌握 kmp扩展Z函数
     public int minimumTimeToInitialState(String word, int k) {
         int res = 0;
         String s = word;
