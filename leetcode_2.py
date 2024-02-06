@@ -96,6 +96,24 @@ class leetcode_2:
                 q.pop()
             q.append(i)
         return res
+    
+    # 1425. 带限制的子序列和 (Constrained Subsequence Sum)
+    def constrainedSubsetSum(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        dp = [0] * n
+        dp[0] = nums[0]
+        q = deque()
+        q.append(0)
+        for i in range(1, n):
+            while q and i - q[0] > k:
+                q.popleft()
+            if q:
+                dp[i] = max(0, dp[q[0]]) + nums[i]
+            while q and dp[q[-1]] <= dp[i]:
+                q.pop()
+            q.append(i)
+        return max(dp)
+            
 
 
 
