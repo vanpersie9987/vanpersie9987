@@ -7546,23 +7546,25 @@ public class LeetCode_2 {
 
    // LCP 30. 魔塔游戏
    public int magicTower(int[] nums) {
-      long sum = Arrays.stream(nums).sum();
-      if (sum < 0) {
+      long s = 1L;
+      for (int num : nums) {
+         s += num;
+      }
+      if (s <= 0) {
          return -1;
       }
       int res = 0;
-      PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
-      long blood = 1L;
-      for (int i = 0; i < nums.length; ++i) {
-         if (nums[i] < 0) {
-            priorityQueue.offer(nums[i]);
-            if (nums[i] + blood <= 0) {
-               ++res;
-               blood -= priorityQueue.poll();
-            }
-
+      Queue<Integer> q = new PriorityQueue<>();
+      long hp = 1L;
+      for (int num : nums) {
+         if (num < 0) {
+            q.offer(num);
          }
-         blood += nums[i];
+         hp += num;
+         if (hp < 1) {
+            hp -= q.poll();
+            ++res;
+         }
       }
       return res;
 
