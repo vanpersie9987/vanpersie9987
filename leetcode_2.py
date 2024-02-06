@@ -64,7 +64,7 @@ class leetcode_2:
             q.append(i)
         return -1 if res == inf else res
     
-    # 918. 环形子数组的最大和 (Maximum Sum Circular Subarray)
+    # 918. 环形子数组的最大和 (Maximum Sum Circular Subarray) --分类讨论
     def maxSubarraySumCircular(self, nums: List[int]) -> int:
         s = 0
         res = -inf
@@ -79,3 +79,23 @@ class leetcode_2:
             pre_min = min(pre_min, s)
             pre_max = max(pre_max, s)
         return max(res, s - smi)
+
+    # 918. 环形子数组的最大和 (Maximum Sum Circular Subarray) --前缀和 + 单调队列
+    def maxSubarraySumCircular(self, nums: List[int]) -> int:
+        n = len(nums)
+        nums = nums + nums
+        s = list(accumulate(nums, initial=0))
+        q = deque()
+        res = -inf
+        for i, v in enumerate(s):
+            while q and i - q[0] > n:
+                q.popleft()
+            if q:
+                res = max(res, v - s[q[0]])
+            while q and s[q[-1]] >= v:
+                q.pop()
+            q.append(i)
+        return res
+
+
+
