@@ -6488,6 +6488,26 @@ public class LeetCode_2 {
 
    }
 
+   // 918. 环形子数组的最大和 (Maximum Sum Circular Subarray) -- 分类讨论
+   public int maxSubarraySumCircular2(int[] nums) {
+      int s = 0;
+      // 最小前缀和，可以为空
+      int min_pre = 0;
+      // 最大前缀和，不可以为空
+      int max_pre = Integer.MIN_VALUE / 2;
+      // 最小子数组和
+      int min_s = Integer.MAX_VALUE / 2;
+      int res = Integer.MIN_VALUE / 2;
+      for (int x : nums) {
+         s += x;
+         res = Math.max(res, s - min_pre);
+         min_s = Math.min(min_s, s - max_pre);
+         min_pre = Math.min(min_pre, s);
+         max_pre = Math.max(max_pre, s);
+      }
+      return Math.max(res, s - min_s);
+   }
+
    // 933. 最近的请求次数 (Number of Recent Calls)
    // 剑指 Offer II 042. 最近请求次数
    class RecentCounter {
