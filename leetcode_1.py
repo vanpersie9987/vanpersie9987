@@ -7492,22 +7492,31 @@ class leetcode_1 :
              res |= 1 << i
        return res
     
-    # 100102. 数组的最小相等和 (Minimum Equal Sum of Two Arrays After Replacing Zeros)
+    # 2918. 数组的最小相等和 (Minimum Equal Sum of Two Arrays After Replacing Zeros)
     def minSum(self, nums1: List[int], nums2: List[int]) -> int:
-       sum1 = sum(nums1)
-       sum2 = sum(nums2)
-       cnt1 = sum(int(x == 0) for x in nums1)
-       cnt2 = sum(int(x == 0) for x in nums2)
-       if sum1 == sum2:
-          if cnt1 == 0 and cnt2 != 0 or cnt1 != 0 and cnt2 == 0:
-             return -1
-          return max(sum1 + cnt1, sum2 + cnt2)
-       if sum1 > sum2:
-          sum1, sum2 = sum2, sum1
-          cnt1, cnt2 = cnt2, cnt1
-       if cnt1 == 0 or sum1 + cnt1 > sum2 and cnt2 == 0:
-          return -1
-       return max(sum1 + cnt1, sum2 + cnt2)
+        zero1 = False
+        zero2 = False
+        s1 = 0
+        s2 = 0
+        for x in nums1:
+            s1 += x
+            if x == 0:
+                zero1 = True
+                s1 += 1
+        for x in nums2:
+            s2 += x
+            if x == 0:
+                zero2 = True
+                s2 += 1
+        if s1 < s2:
+            if not zero1:
+                return -1
+            return s2
+        if s1 > s2:
+            if not zero2:
+                return -1
+            return s1
+        return s1
     
     # 100107. 使数组变美的最小增量运算数 (Minimum Increment Operations to Make Array Beautiful)
     def minIncrementOperations(self, nums: List[int], k: int) -> int:
