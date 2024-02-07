@@ -4773,39 +4773,39 @@ public class Leetcode_8 {
 
     }
 
-    // 100102. 数组的最小相等和 (Minimum Equal Sum of Two Arrays After Replacing Zeros)
+    // 2918. 数组的最小相等和 (Minimum Equal Sum of Two Arrays After Replacing Zeros)
     public long minSum(int[] nums1, int[] nums2) {
         long sum1 = 0L;
-        int cnt1 = 0;
-        for (int num : nums1) {
-            if (num == 0) {
-                ++cnt1;
-            }
-            sum1 += num;
-        }
+        boolean zero1 = false;
         long sum2 = 0L;
-        int cnt2 = 0;
-        for (int num : nums2) {
-            if (num == 0) {
-                ++cnt2;
+        boolean zero2 = false;
+        for (int x : nums1) {
+            sum1 += x;
+            if (x == 0) {
+                ++sum1;
+                zero1 = true;
             }
-            sum2 += num;
         }
-        if (sum1 == sum2 && (cnt1 != 0 && cnt2 == 0 || cnt1 == 0 && cnt2 != 0)) {
-            return -1;
+        for (int x : nums2) {
+            sum2 += x;
+            if (x == 0) {
+                ++sum2;
+                zero2 = true;
+            }
         }
-        if (sum1 > sum2) {
-            long t = sum1;
-            sum1 = sum2;
-            sum2 = t;
-            int tmp = cnt1;
-            cnt1 = cnt2;
-            cnt2 = tmp;
+        if (sum1 < sum2) {
+            if (!zero1) {
+                return -1;
+            }
+            return sum2;
         }
-        if (sum1 < sum2 && (cnt1 == 0 || cnt1 + sum1 > sum2 && cnt2 == 0)) {
-            return -1;
+        if (sum2 < sum1) {
+            if (!zero2) {
+                return -1;
+            }
+            return sum1;
         }
-        return Math.max(sum1 + cnt1, sum2 + cnt2);
+        return sum1;
 
     }
 
