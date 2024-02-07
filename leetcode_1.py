@@ -9956,6 +9956,7 @@ class leetcode_1 :
        return res
 
     # 239. 滑动窗口最大值 (Sliding Window Maximum)
+    # LCR 183. 望远镜中最高的海拔
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
        q = deque()
        n = len(nums)

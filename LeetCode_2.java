@@ -5979,7 +5979,7 @@ public class LeetCode_2 {
    }
 
    // 239. 滑动窗口最大值 (Sliding Window Maximum)
-   // 剑指 Offer 59 - I. 滑动窗口的最大值
+   // LCR 183. 望远镜中最高的海拔
    public int[] maxSlidingWindow(int[] nums, int k) {
       List<Integer> res = new ArrayList<>();
       Deque<Integer> deque = new LinkedList<>();

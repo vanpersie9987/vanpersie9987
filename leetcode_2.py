@@ -172,8 +172,7 @@ class leetcode_2:
                     x.right.val = s - cur
                     q.append(x.right)
         return root
-            
-                
+
 
 
 
