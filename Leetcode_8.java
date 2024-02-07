@@ -7361,8 +7361,8 @@ public class Leetcode_8 {
 
     // LCR 184. 设计自助结算系统
     class Checkout {
-        Queue<Integer> q;
-        Deque<Integer> d;
+        private Queue<Integer> q;
+        private Deque<Integer> d;
 
         public Checkout() {
             q = new ArrayDeque<>();
