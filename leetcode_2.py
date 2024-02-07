@@ -175,10 +175,7 @@ class leetcode_2:
     
     # 2811. 判断是否能拆分数组 (Check if it is Possible to Split Array)
     def canSplitArray(self, nums: List[int], m: int) -> bool:
-        n = len(nums)
-        if n <= 2:
-            return True
-        return any(x + y >= m for x, y in pairwise(nums))
+        return len(nums) <= 2 or any(x + y >= m for x, y in pairwise(nums))
 
 
 
