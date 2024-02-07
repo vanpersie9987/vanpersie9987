@@ -5838,7 +5838,7 @@ public class LeetCode_2 {
             if (!q.isEmpty()) {
                 dp[i] = dp[q.peekFirst()] + nums[i];
             }
-            while (!q.isEmpty() && dp[q.peekLast()] < dp[i]) {
+            while (!q.isEmpty() && dp[q.peekLast()] <= dp[i]) {
                 q.pollLast();
             }
             q.offerLast(i);

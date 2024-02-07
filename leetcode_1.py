@@ -9883,7 +9883,7 @@ class leetcode_1 :
              q.popleft()
           if q:
              dp[i] = dp[q[0]] + nums[i]
-          while q and dp[q[-1]] < dp[i]:
+          while q and dp[q[-1]] <= dp[i]:
              q.pop()
           q.append(i)
        return dp[-1]
