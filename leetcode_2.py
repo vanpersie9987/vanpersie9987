@@ -177,4 +177,23 @@ class leetcode_2:
     # 2811. 判断是否能拆分数组 (Check if it is Possible to Split Array)
     def canSplitArray(self, nums: List[int], m: int) -> bool:
         return len(nums) <= 2 or any(x + y >= m for x, y in pairwise(nums))
+    
+    # 2835. 使子序列的和等于目标的最少操作次数 (Minimum Operations to Form Subsequence With Target Sum)
+    def minOperations(self, nums: List[int], target: int) -> int:
+        if sum(nums) < target:
+            return -1
+        cnt = Counter(nums)
+        res = s = i = 0
+        while 1 << i <= target:
+            s += cnt[1 << i] << i
+            mask = (1 << (i + 1)) - 1
+            i += 1
+            if s >= target & mask:
+                continue
+            res += 1
+            while cnt[1 << i] == 0:
+                res += 1
+                i += 1
+        return res
+
 
