@@ -5133,21 +5133,13 @@ public class Leetcode_8 {
     private int check(int[] nums1, int[] nums2, int mx1, int mx2) {
         int res = 0;
         for (int i = 0; i < nums1.length - 1; ++i) {
-            if (nums1[i] <= mx1) {
-                if (nums2[i] <= mx2) {
-                    continue;
-                }
-                if (nums1[i] <= mx2 && nums2[i] <= mx1) {
-                    ++res;
-                } else {
-                    return -1;
-                }
+            if (nums1[i] <= mx1 && nums2[i] <= mx2) {
+                continue;
+            }
+            if (nums1[i] <= mx2 && nums2[i] <= mx1) {
+                ++res;
             } else {
-                if (nums1[i] <= mx2 && nums2[i] <= mx1) {
-                    ++res;
-                } else {
-                    return -1;
-                }
+                return -1;
             }
         }
         return res;
