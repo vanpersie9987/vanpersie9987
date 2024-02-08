@@ -5125,30 +5125,32 @@ public class Leetcode_8 {
     // 2934. 最大化数组末位元素的最少操作次数 (Minimum Operations to Maximize Last Elements in Arrays)
     public int minOperations(int[] nums1, int[] nums2) {
         int n = nums1.length;
-        int res = 0;
-        for (int i = n - 2; i >= 0; --i) {
-            if (nums1[i] <= nums1[n - 1] && nums2[i] <= nums2[n - 1]) {
-                continue;
-            }
-            if (nums1[i] <= nums2[n - 1] && nums2[i] <= nums1[n - 1]) {
-                ++res;
-            } else {
-                return -1;
-            }
-        }
-        int res2 = 1;
-        for (int i = n - 2; i >= 0; --i) {
-            if (nums1[i] <= nums2[n - 1] && nums2[i] <= nums1[n - 1]) {
-                continue;
-            }
-            if (nums1[i] <= nums1[n - 1] && nums2[i] <= nums2[n - 1]) {
-                ++res2;
-            } else {
-                return -1;
-            }
-        }
-        return Math.min(res, res2);
+        return Math.min(check(nums1, nums2, nums1[n - 1], nums2[n - 1]),
+                check(nums1, nums2, nums2[n - 1], nums1[n - 1]) + 1);
 
+    }
+
+    private int check(int[] nums1, int[] nums2, int mx1, int mx2) {
+        int res = 0;
+        for (int i = 0; i < nums1.length - 1; ++i) {
+            if (nums1[i] <= mx1) {
+                if (nums2[i] <= mx2) {
+                    continue;
+                }
+                if (nums1[i] <= mx2 && nums2[i] <= mx1) {
+                    ++res;
+                } else {
+                    return -1;
+                }
+            } else {
+                if (nums1[i] <= mx2 && nums2[i] <= mx1) {
+                    ++res;
+                } else {
+                    return -1;
+                }
+            }
+        }
+        return res;
     }
 
     // 100131. 使三个字符串相等 (Make Three Strings Equal)

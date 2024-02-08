@@ -7927,24 +7927,18 @@ class leetcode_1 :
     
     # 2934. 最大化数组末位元素的最少操作次数 (Minimum Operations to Maximize Last Elements in Arrays)
     def minOperations(self, nums1: List[int], nums2: List[int]) -> int:
+       def check(mx1: int, mx2: int) -> int:
+          s = 0
+          for _, x, y in zip(range(n - 1), nums1, nums2):
+             if x <= mx1 and y <= mx2:
+                continue
+             if x <= mx2 and y <= mx1:
+                   s += 1
+             else:
+                   return -1
+          return s
        n = len(nums1)
-       res = 0
-       for i in range(n - 2, -1, -1):
-          if nums1[i] <= nums1[n - 1] and nums2[i] <= nums2[n - 1]:
-             continue
-          if nums1[i] <= nums2[n - 1] and nums2[i] <= nums1[n - 1]:
-             res += 1
-          else:
-             return -1
-       res1 = 1
-       for i in range(n - 2, -1, -1):
-          if nums1[i] <= nums2[n - 1] and nums2[i] <= nums1[n - 1]:
-             continue
-          if nums1[i] <= nums1[n - 1] and nums2[i] <= nums2[n - 1]:
-             res1 += 1
-          else:
-             return -1
-       return min(res, res1)
+       return min(check(nums1[-1], nums2[-1]), check(nums2[-1], nums1[-1]) + 1)
     
     # 2656. K 个元素的最大和 (Maximum Sum With Exactly K Elements)
     def maximizeSum(self, nums: List[int], k: int) -> int:
