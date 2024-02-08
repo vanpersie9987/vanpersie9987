@@ -6944,7 +6944,7 @@ class leetcode_1 :
           level += 1
        return -1 if cnt else level
     
-    # 993. 二叉树的堂兄弟节点 (Cousins in Binary Tree)
+    # 993. 二叉树的堂兄弟节点 (Cousins in Binary Tree) --dfs
     def isCousins(self, root: Optional[TreeNode], x: int, y: int) -> bool:
         class TreeNode:
             def __init__(self, val=0, left=None, right=None):
@@ -6960,6 +6960,29 @@ class leetcode_1 :
         d = dict()
         dfs(root, 0, -1)
         return d[x][0] == d[y][0] and d[x][1] != d[y][1]
+
+    # 993. 二叉树的堂兄弟节点 (Cousins in Binary Tree) --bfs
+    def isCousins(self, root: Optional[TreeNode], x: int, y: int) -> bool:
+        q = deque()
+        q.append((root, -1))
+        while q:
+            size = len(q)
+            find = False
+            f = -2
+            for _ in range(size):
+                (node, fa) = q.popleft()
+                if not find and (node.val == x or node.val == y):
+                    find = True
+                    f = fa
+                elif find and (node.val == x or node.val == y):
+                    return fa != f
+                if node.left:
+                    q.append((node.left, node.val))
+                if node.right:
+                    q.append((node.right, node.val))
+            if find:
+                return False
+        return False
     
 
     # 2530. 执行 K 次操作后的最大分数 (Maximal Score After Applying K Operations)
