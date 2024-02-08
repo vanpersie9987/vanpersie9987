@@ -7206,6 +7206,9 @@ public class Leetcode_3 {
             x_level993 = level;
         }
         dfs993(node.left, level + 1, node.val);
+        if (res993) {
+            return;
+        }
         dfs993(node.right, level + 1, node.val);
     }
 
