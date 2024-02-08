@@ -7399,7 +7399,7 @@ public class Leetcode_8 {
 
     // 2835. 使子序列的和等于目标的最少操作次数 (Minimum Operations to Form Subsequence With Target
     // Sum)
-    public int minOperations(List<Integer> nums, int target) {
+    public int minOperations2835(List<Integer> nums, int target) {
         long sum = 0L;
         long[] cnt = new long[31];
         for (int x : nums) {
