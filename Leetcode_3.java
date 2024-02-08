@@ -7176,6 +7176,39 @@ public class Leetcode_3 {
         return false;
     }
 
+    // 993. 二叉树的堂兄弟节点 (Cousins in Binary Tree) --dfs
+    private int x_fa993;
+    private int x_level993;
+    private int x993;
+    private int y993;
+    private boolean res993;
+
+    public boolean isCousins2(TreeNode root, int x, int y) {
+        this.x_fa993 = -2;
+        this.x_level993 = -2;
+        this.x993 = x;
+        this.y993 = y;
+        dfs993(root, 0, -1);
+        return res993;
+
+    }
+
+    private void dfs993(TreeNode node, int level, int fa) {
+        if (node == null) {
+            return;
+        }
+        if (node.val == x993 || node.val == y993) {
+            if (x_fa993 != -2) {
+                res993 = level == x_level993 && x_fa993 != fa;
+                return;
+            }
+            x_fa993 = fa;
+            x_level993 = level;
+        }
+        dfs993(node.left, level + 1, node.val);
+        dfs993(node.right, level + 1, node.val);
+    }
+
     // 222. 完全二叉树的节点个数 (Count Complete Tree Nodes)
     public int countNodes(TreeNode root) {
         int left = 0;
