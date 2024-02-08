@@ -6946,29 +6946,20 @@ class leetcode_1 :
     
     # 993. 二叉树的堂兄弟节点 (Cousins in Binary Tree)
     def isCousins(self, root: Optional[TreeNode], x: int, y: int) -> bool:
-       class TreeNode:
-          def __init__(self, val=0, left=None, right=None):
-             self.val = val
-             self.left = left
-             self.right = right
-       dic = collections.defaultdict(int)
-       def dfs(root: Optional[TreeNode], d: int) -> None:
-          if root is None:
-            return
-          dic[root.val] = d
-          dfs(root.left, d + 1)
-          dfs(root.right, d + 1)
-       dfs(root, 0)
-       if dic[x] != dic[y]:
-          return False
-       def dfs2(root: Optional[TreeNode], x: int, y: int) -> bool:
-          if root is None:
-             return False
-          if root.left is not None and root.right is not None and (root.left.val == x and root.right.val == y or root.left.val == y and root.right.val == x):
-             return True
-          return dfs2(root.left, x, y) or dfs2(root.right, x, y)
-       res = dfs2(root, x, y)
-       return not res
+        class TreeNode:
+            def __init__(self, val=0, left=None, right=None):
+                self.val = val
+                self.left = left
+                self.right = right
+        def dfs(node: Optional[TreeNode], level: int, fa: int) -> None:
+            if node is None:
+                return
+            d[node.val] = (level, fa)
+            dfs(node.left, level + 1, node.val)
+            dfs(node.right, level + 1, node.val)
+        d = dict()
+        dfs(root, 0, -1)
+        return d[x][0] == d[y][0] and d[x][1] != d[y][1]
     
 
     # 2530. 执行 K 次操作后的最大分数 (Maximal Score After Applying K Operations)
