@@ -6967,20 +6967,18 @@ class leetcode_1 :
         q.append((root, -1))
         while q:
             size = len(q)
-            find = False
             f = -2
             for _ in range(size):
                 (node, fa) = q.popleft()
-                if not find and (node.val == x or node.val == y):
-                    find = True
+                if f == -2 and (node.val == x or node.val == y):
                     f = fa
-                elif find and (node.val == x or node.val == y):
+                elif f != -2 and (node.val == x or node.val == y):
                     return fa != f
                 if node.left:
                     q.append((node.left, node.val))
                 if node.right:
                     q.append((node.right, node.val))
-            if find:
+            if f != -2:
                 return False
         return False
     

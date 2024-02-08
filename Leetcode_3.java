@@ -7144,46 +7144,36 @@ public class Leetcode_3 {
         }
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
-        int parentX = -1;
-        int parentY = -1;
         while (!queue.isEmpty()) {
-            int count = 0;
             int size = queue.size();
+            int fa = -1;
             for (int i = 0; i < size; ++i) {
                 TreeNode node = queue.poll();
                 if (node.left != null) {
-                    if (node.left.val == x) {
-                        ++count;
-                        parentX = node.val;
-                    } else if (node.left.val == y) {
-                        ++count;
-                        parentY = node.val;
-                    }
-                    if (count == 2 && parentX == parentY) {
-                        return false;
+                    if (node.left.val == x || node.left.val == y) {
+                        if (fa != -1) {
+                            return true;
+                        }
+                        fa = node.val;
                     }
                     queue.offer(node.left);
                 }
 
                 if (node.right != null) {
-                    if (node.right.val == x) {
-                        ++count;
-                        parentX = node.val;
-                    } else if (node.right.val == y) {
-                        ++count;
-                        parentY = node.val;
-                    }
-                    if (count == 2 && parentX == parentY) {
-                        return false;
+                    if (node.right.val == x || node.right.val == y) {
+                        if (fa != -1) {
+                            return fa != node.val;
+                        }
+                        fa = node.val;
                     }
                     queue.offer(node.right);
                 }
             }
-            if (count == 1) {
+            if (fa != -1) {
                 return false;
             }
         }
-        return true;
+        return false;
     }
 
     // 222. 完全二叉树的节点个数 (Count Complete Tree Nodes)
