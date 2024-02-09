@@ -198,7 +198,7 @@ class leetcode_2:
     
     # 94. 二叉树的中序遍历 (Binary Tree Inorder Traversal)
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        def dfs(root: Optional[TreeNode]) -> None:
+        def dfs(root: 'TreeNode') -> None:
             if root is None:
                 return
             dfs(root.left)
