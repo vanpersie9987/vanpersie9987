@@ -289,7 +289,7 @@ class leetcode_2:
                 if gcd(i, j) == 1:
                     s[i].append(j)
         val_to_node = [[] for _ in range(51)]
-        node_to_pos = collections.defaultdict(int)
+        node_to_pos = dict()
         pos = 0
         res = [-1] * n
         dfs(0, -1)
