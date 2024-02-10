@@ -238,6 +238,24 @@ class leetcode_2:
                 if int(cur) and int(num) % int(cur) == 0:
                     res += 1
         return res
+    
+    # 2762. 不间断子数组 (Continuous Subarrays)
+    def continuousSubarrays(self, nums: List[int]) -> int:
+        cnt = Counter()
+        res = 0
+        i = 0
+        n = len(nums)
+        j = 0
+        while i < n:
+            cnt[nums[i]] += 1
+            while max(cnt) - min(cnt) > 2:
+                cnt[nums[j]] -= 1
+                if cnt[nums[j]] == 0:
+                    del cnt[nums[j]]
+                j += 1
+            res += i - j + 1
+            i += 1
+        return res
 
 
 
