@@ -4494,24 +4494,22 @@ public class LeetCode_2 {
    public int maxVowels(String s, int k) {
       int res = 0;
       int cur = 0;
-      char[] chars = s.toCharArray();
-      for (int i = 0; i < k; ++i) {
-         char c = chars[i];
-         if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
-            ++cur;
-         }
+      int mask = 0;
+      for (char c : "aeiou".toCharArray()) {
+         mask |= 1 << (c - 'a');
       }
-      res = Math.max(res, cur);
-      for (int i = k; i < chars.length; ++i) {
-         char c = chars[i];
-         if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+      char[] chars = s.toCharArray();
+      int n = chars.length;
+      for (int i = 0; i < n; ++i) {
+         if (((mask >> (chars[i] - 'a')) & 1) == 1) {
             ++cur;
          }
-         c = chars[i - k];
-         if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
-            --cur;
+         if (i >= k - 1) {
+            if (i >= k && ((mask >> (chars[i - k] - 'a')) & 1) == 1) {
+               --cur;
+            }
+            res = Math.max(res, cur);
          }
-         res = Math.max(res, cur);
       }
       return res;
 
