@@ -294,6 +294,18 @@ class leetcode_2:
         res = [-1] * n
         dfs(0, -1)
         return res
+    
+    # 144. 二叉树的前序遍历 (Binary Tree Preorder Traversal)
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        res = []
+        def dfs(root: 'TreeNode') -> None:
+            if not root:
+                return
+            res.append(root.val)
+            dfs(root.left)
+            dfs(root.right)
+        dfs(root)
+        return res
 
 
 
