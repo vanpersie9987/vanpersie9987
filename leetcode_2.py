@@ -256,7 +256,44 @@ class leetcode_2:
             res += i - j + 1
             i += 1
         return res
-
+    
+    # 1766. 互质树 (Tree of Coprimes)
+    def getCoprimes(self, nums: List[int], edges: List[List[int]]) -> List[int]:
+        def dfs(x: int, fa: int) -> None:
+            val = nums[x]
+            p = -1
+            cur = -1
+            for v in s[val]:
+                if len(val_to_node[v]) > 0 and node_to_pos[val_to_node[v][-1]] > p:
+                    p = node_to_pos[val_to_node[v][-1]]
+                    cur = val_to_node[v][-1]
+            res[x] = cur
+            val_to_node[val].append(x)
+            nonlocal pos
+            node_to_pos[x] = pos
+            pos += 1
+            for y in g[x]:
+                if y != fa:
+                    dfs(y, x)
+            val_to_node[val].pop()
+            del node_to_pos[x]
+            pos -= 1
+        n = len(nums)
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        s = [[] for _ in range(51)]
+        for i in range(1, 51):
+            for j in range (1, 51):
+                if gcd(i, j) == 1:
+                    s[i].append(j)
+        val_to_node = [[] for _ in range(51)]
+        node_to_pos = collections.defaultdict(int)
+        pos = 0
+        res = [-1] * n
+        dfs(0, -1)
+        return res
 
 
 
