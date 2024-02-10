@@ -224,6 +224,22 @@ class leetcode_2:
             if i >= k - 1:
                 res = max(res, cur)
         return res
+    
+    # 2269. 找到一个数字的 K 美丽值 (Find the K-Beauty of a Number)
+    def divisorSubstrings(self, num: int, k: int) -> int:
+        s = str(num)
+        cur = ''
+        res = 0
+        for i, v in enumerate(s):
+            cur += v
+            if i >= k:
+                cur = cur[1:]
+            if i >= k - 1:
+                if int(cur) and int(num) % int(cur) == 0:
+                    res += 1
+        return res
+
+
 
 
 
