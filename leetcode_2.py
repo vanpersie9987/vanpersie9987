@@ -207,5 +207,24 @@ class leetcode_2:
         res = []
         dfs(root)
         return res
+    
+    # 1456. 定长子串中元音的最大数目 (Maximum Number of Vowels in a Substring of Given Length)
+    def maxVowels(self, s: str, k: int) -> int:
+        mask = 0
+        for v in 'aeiou':
+            mask |= 1 << (ord(v) - ord('a'))
+        res = 0
+        cur = 0
+        for i, v in enumerate(s):
+            if (mask >> (ord(v) - ord('a'))) & 1:
+                cur += 1
+            if i >= k:
+                if (mask >> (ord(s[i - k]) - ord('a'))) & 1:
+                    cur -= 1
+            if i >= k - 1:
+                res = max(res, cur)
+        return res
+
+
 
 
