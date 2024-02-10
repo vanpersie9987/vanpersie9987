@@ -285,7 +285,7 @@ class leetcode_2:
             g[v].append(u)
         s = [[] for _ in range(51)]
         for i in range(1, 51):
-            for j in range (1, 51):
+            for j in range(1, 51):
                 if gcd(i, j) == 1:
                     s[i].append(j)
         val_to_node = [[] for _ in range(51)]
