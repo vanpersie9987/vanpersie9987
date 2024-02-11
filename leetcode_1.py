@@ -9985,4 +9985,16 @@ class leetcode_1 :
           if i >= k - 1:
              res.append(nums[q[0]])
        return res
+    
+    # 145. 二叉树的后序遍历 (Binary Tree Postorder Traversal)
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        res = []
+        def dfs(root: 'TreeNode') -> None:
+            if root is None:
+                return
+            dfs(root.left)
+            dfs(root.right)
+            res.append(root.val)
+        dfs(root)
+        return res
        
