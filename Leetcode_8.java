@@ -7528,30 +7528,6 @@ public class Leetcode_8 {
 
     }
 
-
-    // 3034. 匹配模式数组的子数组数目 I (Number of Subarrays That Match a Pattern I)
-    public int countMatchingSubarrays(int[] nums, int[] pattern) {
-        int res = 0;
-        int m = pattern.length;
-        int n = nums.length;
-        for (int i = m; i < n; ++i) {
-            if (check3034(nums, i - m, i, pattern)) {
-                ++res;
-            }
-        }
-        return res;
-
-    }
-
-    private boolean check3034(int[] nums, int i, int j, int[] pattern) {
-        for (int k = i + 1; k <= j; ++k) {
-            if (Integer.compare(nums[k] - nums[k - 1], 0) != pattern[k - i - 1]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     // 3035. 回文字符串的最大数量 (Maximum Palindromes After Operations)
     public int maxPalindromesAfterOperations(String[] words) {
         int res = 0;
@@ -7606,6 +7582,38 @@ public class Leetcode_8 {
         return res;
 
 
+    }
+
+    // 3034. 匹配模式数组的子数组数目 I (Number of Subarrays That Match a Pattern I)
+    // 3036. 匹配模式数组的子数组数目 II (Number of Subarrays That Match a Pattern II)
+    public int countMatchingSubarrays(int[] nums, int[] pattern) {
+        int res = 0;
+        int n = nums.length;
+        int m = pattern.length;
+        int[] arr = new int[m + n - 1];
+        for (int i = 0; i < m; ++i) {
+            arr[i] = pattern[i];
+        }
+        for (int i = 1; i < n; ++i) {
+            arr[i + m - 1] = Integer.compare(nums[i] - nums[i - 1], 0);
+        }
+        int left = 0;
+        int right = 0;
+        int[] z = new int[n + m - 1];
+        for (int i = 1; i < n + m - 1; ++i) {
+            if (i <= right) {
+                z[i] = Math.min(z[i - left], right - i + 1);
+            }
+            while (i + z[i] < m + n - 1 && arr[i + z[i]] == arr[z[i]]) {
+                left = i;
+                right = i + z[i];
+                ++z[i];
+            }
+            if (i >= m && z[i] >= m) {
+                ++res;
+            }
+        }
+        return res;
     }
 
 }
