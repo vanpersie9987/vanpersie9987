@@ -9925,7 +9925,6 @@ class leetcode_1 :
     # 3025. 人员站位的方案数 I (Find the Number of Ways to Place People I)
     # 3027. 人员站位的方案数 II (Find the Number of Ways to Place People II)
     def numberOfPairs(self, points: List[List[int]]) -> int:
-       n = len(points)
        points.sort(key=lambda p: (p[0], -p[1]))
        res = 0
        for i, (_, y) in enumerate(points):
