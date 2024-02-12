@@ -391,7 +391,7 @@ class leetcode_2:
             while i + z[i] < n and pattern[z[i]] == pattern[i + z[i]]:
                 left, right = i, i + z[i]
                 z[i] += 1
-        return sum(lcp >= m for lcp in z[:m])
+        return sum(lcp >= m for lcp in z[m:])
         
 
 
