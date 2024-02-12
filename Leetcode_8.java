@@ -7347,16 +7347,26 @@ public class Leetcode_8 {
     }
 
     // 3029. 将单词恢复初始状态所需的最短时间 I (Minimum Time to Revert Word to Initial State I)
-    // 3031. 将单词恢复初始状态所需的最短时间 II (Minimum Time to Revert Word to Initial State II) --超时 还需掌握 kmp扩展Z函数；滚动哈希
+    // 3031. 将单词恢复初始状态所需的最短时间 II (Minimum Time to Revert Word to Initial State II) --z函数
     public int minimumTimeToInitialState(String word, int k) {
-        int res = 0;
-        String s = word;
-        do {
-            ++res;
-            s = s.substring(Math.min(s.length(), k));
-        } while (!s.isEmpty() && !word.startsWith(s));
-
-        return res;
+        int n = word.length();
+        int left = 0;
+        int right = 0;
+        int[] z = new int[n];
+        for (int i = 1; i < n; ++i) {
+            if (i <= right) {
+                z[i] = Math.min(z[i - left], right - i + 1);
+            }
+            while (i + z[i] < n && word.charAt(z[i]) == word.charAt(i + z[i])) {
+                left = i;
+                right = i + z[i];
+                ++z[i];
+            }
+            if (i % k == 0 && z[i] == n - i) {
+                return i / k;
+            }
+        }
+        return (n - 1) / k + 1;
     }
 
     // LCR 184. 设计自助结算系统
