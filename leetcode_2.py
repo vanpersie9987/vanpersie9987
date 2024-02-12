@@ -344,6 +344,24 @@ class leetcode_2:
         n = len(nums)
         m = len(pattern)
         return sum(check(i - m, i) for i in range(m, n))
+    
+
+    # 3035. 回文字符串的最大数量 (Maximum Palindromes After Operations)
+    def maxPalindromesAfterOperations(self, words: List[str]) -> int:
+        cnt = Counter()
+        for w in words:
+            cnt += Counter(w)
+        left = sum(c // 2 for c in cnt.values())
+        words.sort(key=len)
+        res = 0
+        for w in words:
+            m = len(w) // 2
+            if left < m:
+                break
+            res += 1
+            left -= m
+        return res
+        
 
 
 

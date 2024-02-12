@@ -7542,4 +7542,37 @@ public class Leetcode_8 {
         return true;
     }
 
+    // 3035. 回文字符串的最大数量 (Maximum Palindromes After Operations)
+    public int maxPalindromesAfterOperations(String[] words) {
+        int res = 0;
+        int[] cnt = new int[26];
+        for (String w : words) {
+            for (char c : w.toCharArray()) {
+                ++cnt[c - 'a'];
+            }
+        }
+        int left = 0;
+        for (int c : cnt) {
+            left += c / 2;
+        }
+        Arrays.sort(words, new Comparator<String>() {
+
+            @Override
+            public int compare(String o1, String o2) {
+                return Integer.compare(o1.length(), o2.length());
+            }
+            
+        });
+        for (String w : words) {
+            int m = w.length() / 2;
+            if (left < m) {
+                break;
+            }
+            ++res;
+            left -= m;
+        }
+        return res;
+
+    }
+
 }
