@@ -5799,6 +5799,45 @@ public class Leetcode_3 {
 
     }
 
+
+    // 987. 二叉树的垂序遍历 (Vertical Order Traversal of a Binary Tree) --dfs
+    private TreeMap<Integer, List<int[]>> map987;
+
+    public List<List<Integer>> verticalTraversal2(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        this.map987 = new TreeMap<>();
+        dfs987(root, 0, 0);
+        for (List<int[]> list : map987.values()) {
+            list.sort(new Comparator<int[]>() {
+
+                @Override
+                public int compare(int[] o1, int[] o2) {
+                    if (o1[0] == o2[0]) {
+                        return Integer.compare(o1[1], o2[1]);
+                    }
+                    return Integer.compare(o1[0], o2[0]);
+
+                }
+
+            });
+            List<Integer> items = new ArrayList<>();
+            for (int[] cur : list) {
+                items.add(cur[1]);
+            }
+            res.add(items);
+        }
+        return res;
+    }
+
+    private void dfs987(TreeNode root, int i, int j) {
+        if (root == null) {
+            return;
+        }
+        map987.computeIfAbsent(j, k -> new ArrayList<>()).add(new int[] { i, root.val });
+        dfs987(root.left, i + 1, j - 1);
+        dfs987(root.right, i + 1, j + 1);
+    }
+
     // 2215. 找出两数组的不同 (Find the Difference of Two Arrays)
     public List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
         Set<Integer> set1 = Arrays.stream(nums1).boxed().collect(Collectors.toSet());
