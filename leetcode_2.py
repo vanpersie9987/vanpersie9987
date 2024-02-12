@@ -23,7 +23,7 @@ from tabnanny import check
 from textwrap import indent
 from tkinter import W
 from tkinter.tix import Tree
-from turtle import reset, st
+from turtle import reset, right, st
 from typing import List, Optional
 import heapq
 import bisect
@@ -376,6 +376,22 @@ class leetcode_2:
                 z[i] += 1
             res += z[i]
         return res
+    
+    # 3034. 匹配模式数组的子数组数目 I (Number of Subarrays That Match a Pattern I)
+    # 3036. 匹配模式数组的子数组数目 II (Number of Subarrays That Match a Pattern II) --z函数
+    def countMatchingSubarrays(self, nums: List[int], pattern: List[int]) -> int:
+        m = len(pattern)
+        pattern.extend((y > x) - (y < x) for x, y in pairwise(nums))
+        n = len(pattern)
+        left = right = 0
+        z = [0] * n
+        for i in range(1, n):
+            if i <= right:
+                z[i] = min(z[i - left], right - i + 1)
+            while i + z[i] < n and pattern[z[i]] == pattern[i + z[i]]:
+                left, right = i, i + z[i]
+                z[i] += 1
+        return sum(lcp >= m for lcp in z[:m])
         
 
 
