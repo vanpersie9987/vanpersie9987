@@ -6534,7 +6534,7 @@ class leetcode_1 :
        def dfs(i: int, j: int) -> int:
           if j == m:
              return 1
-          if i == n:
+          if i == n or n - i < m - j:
              return 0
           res = dfs(i + 1, j)
           if s[i] == t[j]:

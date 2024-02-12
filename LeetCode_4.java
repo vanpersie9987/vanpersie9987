@@ -10668,7 +10668,7 @@ public class LeetCode_4 {
         if (j == m115) {
             return 1;
         }
-        if (i == n115) {
+        if (i == n115 || n115 - i < m115 - j) {
             return 0;
         }
         if (memo115[i][j] != -1) {
