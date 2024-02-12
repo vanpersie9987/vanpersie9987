@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -7496,6 +7497,7 @@ public class Leetcode_8 {
         return b == 0 ? a : gcd1766(b, a % b);
     }
 
+    // 3033. 修改矩阵 (Modify the Matrix)
     public int[][] modifiedMatrix(int[][] matrix) {
         int m = matrix.length;
         int n = matrix[0].length;
@@ -7516,70 +7518,28 @@ public class Leetcode_8 {
 
     }
 
+
+    // 3034. 匹配模式数组的子数组数目 I (Number of Subarrays That Match a Pattern I)
     public int countMatchingSubarrays(int[] nums, int[] pattern) {
         int res = 0;
         int m = pattern.length;
         int n = nums.length;
         for (int i = m; i < n; ++i) {
-            if (check(nums, i - m, i, pattern)) {
+            if (check3034(nums, i - m, i, pattern)) {
                 ++res;
             }
-
         }
         return res;
 
-
     }
 
-    private boolean check(int[] nums, int i, int j, int[] pattern) {
-        int id = 0;
-        int m = pattern.length;
+    private boolean check3034(int[] nums, int i, int j, int[] pattern) {
         for (int k = i + 1; k <= j; ++k) {
-            if (pattern[id] == 1) {
-                if (nums[k] > nums[k - 1]) {
-                    ++id;
-                    continue;
-                }
-                return false;
-            }
-            if (pattern[id] == 0) {
-                if (nums[k] == nums[k - 1]) {
-                    ++id;
-                    continue;
-                }
-                return false;
-            }
-            if (pattern[id] == -1) {
-                if (nums[k] < nums[k - 1]) {
-                    ++id;
-                    continue;
-                }
+            if (Integer.compare(nums[k] - nums[k - 1], 0) != pattern[k - i - 1]) {
                 return false;
             }
         }
         return true;
-    }
-
-    public int maxPalindromesAfterOperations(String[] words) {
-        int res = 0;
-        int n = words.length;
-        int[] len = new int[n];
-        int[] cnt = new int[26];
-        for (int i = 0; i < n; ++i) {
-            len[i] = words.length;
-            for (char c : words[i].toCharArray()) {
-                ++cnt[c - 'a'];
-            }
-        }
-        for (int i = 0; i < n; ++i) {
-            if (len[i] % 2 == 1) {
-            
-            }
-        
-        }
-
-        
-
     }
 
 }

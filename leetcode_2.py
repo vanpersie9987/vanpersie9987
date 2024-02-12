@@ -318,6 +318,32 @@ class leetcode_2:
             res.append(root.val)
         dfs(root)
         return res
+    
+    # 3033. 修改矩阵 (Modify the Matrix)
+    def modifiedMatrix(self, matrix: List[List[int]]) -> List[List[int]]:
+        n = len(matrix[0])
+        m = len(matrix)
+        for j in range(n):
+            mx = -1
+            for i in range(m):
+                mx = max(mx, matrix[i][j])
+            for i in range(m):
+                if matrix[i][j] == -1:
+                    matrix[i][j] = mx
+        return matrix
+    
+
+    # 3034. 匹配模式数组的子数组数目 I (Number of Subarrays That Match a Pattern I)
+    def countMatchingSubarrays(self, nums: List[int], pattern: List[int]) -> int:
+        def check(i: int, j: int) -> int:
+            for k in range(i + 1, j + 1):
+                p = 1 if nums[k] - nums[k - 1] > 0 else (-1 if nums[k] - nums[k - 1] < 0 else 0)
+                if p != pattern[k - i - 1]:
+                    return 0
+            return 1
+        n = len(nums)
+        m = len(pattern)
+        return sum(check(i - m, i) for i in range(m, n))
 
 
 
