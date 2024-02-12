@@ -392,9 +392,19 @@ class leetcode_2:
                 left, right = i, i + z[i]
                 z[i] += 1
         return sum(lcp >= m for lcp in z[m:])
-        
-
-
-
-
-
+    
+    # 987. 二叉树的垂序遍历 (Vertical Order Traversal of a Binary Tree)
+    def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
+        def dfs(root: 'TreeNode', i: int, j: int) -> None:
+            if root is None:
+                return
+            d[j].append([i, root.val])
+            dfs(root.left, i + 1, j - 1)
+            dfs(root.right, i + 1, j + 1)
+        res = []
+        d = collections.defaultdict(list)
+        dfs(root, 0, 0)
+        for i in sorted(d.keys()):
+            d[i].sort(key=lambda k: (k[0], k[1]))
+            res.append([y for _, y in d[i]])
+        return res
