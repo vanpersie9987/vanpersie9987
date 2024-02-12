@@ -7585,4 +7585,27 @@ public class Leetcode_8 {
 
     }
 
+    // 2223. 构造字符串的总得分和 (Sum of Scores of Built Strings) --z函数
+    public long sumScores(String s) {
+        int n = s.length();
+        long res = n;
+        int[] z = new int[n];
+        int left = 0;
+        int right = 0;
+        for (int i = 1; i < n; ++i) {
+            if (i <= right) {
+                z[i] = Math.min(z[i - left], right - i + 1);
+            }
+            while (i + z[i] < n && s.charAt(z[i]) == s.charAt(i + z[i])) {
+                left = i;
+                right = i + z[i];
+                ++z[i];
+            }
+            res += z[i];
+        }
+        return res;
+
+
+    }
+
 }
