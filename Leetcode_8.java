@@ -7496,4 +7496,90 @@ public class Leetcode_8 {
         return b == 0 ? a : gcd1766(b, a % b);
     }
 
+    public int[][] modifiedMatrix(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        for (int j = 0; j < n; ++j) {
+            int max = -1;
+            for (int i = 0; i < m; ++i) {
+                max = Math.max(max, matrix[i][j]);
+            }
+            for (int i = 0; i < m; ++i) {
+                if (matrix[i][j] == -1) {
+                    matrix[i][j] = max;
+                }
+
+            }
+
+        }
+        return matrix;
+
+    }
+
+    public int countMatchingSubarrays(int[] nums, int[] pattern) {
+        int res = 0;
+        int m = pattern.length;
+        int n = nums.length;
+        for (int i = m; i < n; ++i) {
+            if (check(nums, i - m, i, pattern)) {
+                ++res;
+            }
+
+        }
+        return res;
+
+
+    }
+
+    private boolean check(int[] nums, int i, int j, int[] pattern) {
+        int id = 0;
+        int m = pattern.length;
+        for (int k = i + 1; k <= j; ++k) {
+            if (pattern[id] == 1) {
+                if (nums[k] > nums[k - 1]) {
+                    ++id;
+                    continue;
+                }
+                return false;
+            }
+            if (pattern[id] == 0) {
+                if (nums[k] == nums[k - 1]) {
+                    ++id;
+                    continue;
+                }
+                return false;
+            }
+            if (pattern[id] == -1) {
+                if (nums[k] < nums[k - 1]) {
+                    ++id;
+                    continue;
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int maxPalindromesAfterOperations(String[] words) {
+        int res = 0;
+        int n = words.length;
+        int[] len = new int[n];
+        int[] cnt = new int[26];
+        for (int i = 0; i < n; ++i) {
+            len[i] = words.length;
+            for (char c : words[i].toCharArray()) {
+                ++cnt[c - 'a'];
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            if (len[i] % 2 == 1) {
+            
+            }
+        
+        }
+
+        
+
+    }
+
 }
