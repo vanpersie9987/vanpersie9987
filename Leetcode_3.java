@@ -5801,13 +5801,15 @@ public class Leetcode_3 {
 
 
     // 987. 二叉树的垂序遍历 (Vertical Order Traversal of a Binary Tree) --dfs
-    private TreeMap<Integer, List<int[]>> map987;
+    private Map<Integer, List<int[]>> map987;
+    private int minCol987;
 
     public List<List<Integer>> verticalTraversal2(TreeNode root) {
         List<List<Integer>> res = new ArrayList<>();
         this.map987 = new TreeMap<>();
         dfs987(root, 0, 0);
-        for (List<int[]> list : map987.values()) {
+        for (int i = minCol987; i < minCol987 + map987.size(); ++i) {
+            List<int[]> list = map987.get(i);
             list.sort(new Comparator<int[]>() {
 
                 @Override
@@ -5833,6 +5835,7 @@ public class Leetcode_3 {
         if (root == null) {
             return;
         }
+        minCol987 = Math.min(minCol987, j);
         map987.computeIfAbsent(j, k -> new ArrayList<>()).add(new int[] { i, root.val });
         dfs987(root.left, i + 1, j - 1);
         dfs987(root.right, i + 1, j + 1);
