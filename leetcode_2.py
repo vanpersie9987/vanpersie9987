@@ -470,6 +470,22 @@ class leetcode_2:
                     q.append(x.right)
             res.append(l)
         return res
+    
+    # 102. 二叉树的层序遍历 (Binary Tree Level Order Traversal)
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        def dfs(root: 'TreeNode', d: int) -> None:
+            if root is None:
+                return
+            if d == len(res):
+                l = [root.val]
+                res.append(l)
+            else:
+                res[d].append(root.val)
+            dfs(root.left, d + 1)
+            dfs(root.right, d + 1)
+        res = []
+        dfs(root, 0)
+        return res
 
 
 
