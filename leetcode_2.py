@@ -428,6 +428,28 @@ class leetcode_2:
                 row_max[i] = max(row_max[i], _max)
                 col_max[j] = max(col_max[j], _max)
         return max(row_max)
+    
+    # 2478. 完美分割的方案数 (Number of Beautiful Partitions)
+    def beautifulPartitions(self, s: str, k: int, l: int) -> int:
+        def is_prime(c: str) -> bool:
+            return c in "2357"
+        def can_partition(j: int) -> bool:
+            return j == 0 or j == n or not is_prime(s[j - 1]) and is_prime(s[j])
+        n = len(s)
+        if k * l > n or not is_prime(s[0]) or is_prime(s[-1]):  # 剪枝
+            return 0
+        MOD = 10 ** 9 + 7
+        dp = [[0] * (n + 1) for _ in range(k + 1)]
+        dp[0][0] = 1
+        for i in range(1, k + 1):
+            sum = 0
+            for j in range(i * l, n - (k - i) * l + 1):
+                if can_partition(j - l):
+                    sum += dp[i - 1][j - l]
+                    sum %= MOD
+                if can_partition(j):
+                    dp[i][j] = sum
+        return dp[k][n]
 
 
 
