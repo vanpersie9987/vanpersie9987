@@ -477,10 +477,8 @@ class leetcode_2:
             if root is None:
                 return
             if d == len(res):
-                l = [root.val]
-                res.append(l)
-            else:
-                res[d].append(root.val)
+                res.append([])
+            res[d].append(root.val)
             dfs(root.left, d + 1)
             dfs(root.right, d + 1)
         res = []
