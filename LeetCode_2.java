@@ -10767,6 +10767,28 @@ public class LeetCode_2 {
 
    }
 
+   // 102. 二叉树的层序遍历 (Binary Tree Level Order Traversal) --dfs
+   private List<List<Integer>> res102;
+
+   public List<List<Integer>> levelOrder2(TreeNode root) {
+      this.res102 = new ArrayList<>();
+      dfs102(root, 0);
+      return res102;
+
+   }
+
+   private void dfs102(TreeNode root, int d) {
+      if (root == null) {
+         return;
+      }
+      if (res102.size() == d) {
+         res102.add(new ArrayList<>());
+      }
+      res102.get(d).add(root.val);
+      dfs102(root.left, d + 1);
+      dfs102(root.right, d + 1);
+   }
+
    // 404. 左叶子之和 (Sum of Left Leaves) --bfs
    public int sumOfLeftLeaves(TreeNode root) {
       int res = 0;
