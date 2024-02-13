@@ -450,6 +450,26 @@ class leetcode_2:
                 if can_partition(j):
                     dp[i][j] = sum
         return dp[k][n]
+    
+    # 102. 二叉树的层序遍历 (Binary Tree Level Order Traversal)
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root:
+            return []
+        res = []
+        q = deque()
+        q.append(root)
+        while q:
+            size = len(q)
+            l = []
+            for i in range(size):
+                x = q.popleft()
+                l.append(x.val)
+                if x.left:
+                    q.append(x.left)
+                if x.right:
+                    q.append(x.right)
+            res.append(l)
+        return res
 
 
 
