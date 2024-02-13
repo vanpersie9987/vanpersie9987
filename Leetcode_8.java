@@ -7646,5 +7646,40 @@ public class Leetcode_8 {
 
     }
 
+    // 2478. 完美分割的方案数 (Number of Beautiful Partitions)
+    private String s2478;
+    private int n2478;
+    public int beautifulPartitions(String s, int k, int minLength) {
+        final int MOD = (int) (1e9 + 7);
+        this.n2478 = s.length();
+        this.s2478 = s;
+        if (minLength * k > n2478 || !isPrime2478(s.charAt(0)) || isPrime2478(s.charAt(n2478 - 1))) {
+            return 0;
+        }
+        int[][] dp = new int[k + 1][n2478 + 1];
+        dp[0][0] = 1;
+        for (int i = 1; i <= k; ++i) {
+            int sum = 0;
+            for (int j = i * minLength; j < n2478 - (k - i) * minLength + 1; ++j) {
+                if (canPartition2478(j - minLength)) {
+                    sum += dp[i - 1][j - minLength];
+                    sum %= MOD;
+                }
+                if (canPartition2478(j)) {
+                    dp[i][j] = sum;
+                }
+            }
+        }
+        return dp[k][n2478];
+
+    }
+
+    private boolean canPartition2478(int i) {
+        return i == 0 || i == n2478 || isPrime2478(s2478.charAt(i)) && !isPrime2478(s2478.charAt(i - 1));
+    }
+
+    public boolean isPrime2478(char c) {
+        return c == '2' || c == '3' || c == '5' || c == '7';
+    }
 
 }
