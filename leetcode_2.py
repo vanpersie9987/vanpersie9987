@@ -398,13 +398,16 @@ class leetcode_2:
         def dfs(root: 'TreeNode', i: int, j: int) -> None:
             if root is None:
                 return
+            nonlocal min_col
+            min_col = min(min_col, j)
             d[j].append([i, root.val])
             dfs(root.left, i + 1, j - 1)
             dfs(root.right, i + 1, j + 1)
         res = []
+        min_col = 0
         d = collections.defaultdict(list)
         dfs(root, 0, 0)
-        for i in sorted(d.keys()):
-            d[i].sort(key=lambda k: (k[0], k[1]))
+        for i in range(min_col, min_col + len(d)):
+            d[i].sort()
             res.append([y for _, y in d[i]])
         return res
