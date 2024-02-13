@@ -411,3 +411,23 @@ class leetcode_2:
             d[i].sort()
             res.append([y for _, y in d[i]])
         return res
+    
+    # 2713. 矩阵中严格递增的单元格数 (Maximum Strictly Increasing Cells in a Matrix)
+    def maxIncreasingCells(self, mat: List[List[int]]) -> int:
+        m = len(mat)
+        n = len(mat[0])
+        d = collections.defaultdict(list)
+        row_max = [0] * m
+        col_max = [0] * n
+        for i in range(m):
+            for j in range(n):
+                d[mat[i][j]].append((i, j))
+        for key in sorted(d):
+            mx = [max(row_max[i], col_max[j]) + 1 for i, j in d[key]]
+            for (i, j), _max in zip(d[key], mx):
+                row_max[i] = max(row_max[i], _max)
+                col_max[j] = max(col_max[j], _max)
+        return max(row_max)
+
+
+

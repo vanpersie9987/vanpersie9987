@@ -7615,4 +7615,36 @@ public class Leetcode_8 {
         return res;
     }
 
+    // 2713. 矩阵中严格递增的单元格数 (Maximum Strictly Increasing Cells in a Matrix)
+    public int maxIncreasingCells(int[][] mat) {
+        int m = mat.length;
+        int n = mat[0].length;
+        int[] rowMax = new int[m];
+        int[] colMax = new int[n];
+        TreeMap<Integer, List<int[]>> map = new TreeMap<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                map.computeIfAbsent(mat[i][j], k -> new ArrayList<>()).add(new int[] { i, j });
+            }
+        }
+        for (List<int[]> items : map.values()) {
+            int[] mx = new int[items.size()];
+            int k = 0;
+            for (int[] p : items) {
+                mx[k] = Math.max(colMax[p[0]], rowMax[p[1]]) + 1;
+                ++k;
+            }
+            k = 0;
+            for (int[] p : items) {
+                rowMax[p[0]] = Math.max(rowMax[p[0]], mx[k]);
+                colMax[p[1]] = Math.max(colMax[p[1]], mx[k]);
+                ++k;
+            }
+        }
+        return Arrays.stream(rowMax).max().getAsInt();
+
+
+    }
+
+
 }
