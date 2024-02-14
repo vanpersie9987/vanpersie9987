@@ -10748,44 +10748,20 @@ public class LeetCode_4 {
 
     }
 
-    // 2090. 半径为 k 的子数组平均值 (K Radius Subarray Averages) --前缀和
+    // 2090. 半径为 k 的子数组平均值 (K Radius Subarray Averages)
     public int[] getAverages(int[] nums, int k) {
         int n = nums.length;
         int[] res = new int[n];
         Arrays.fill(res, -1);
-        int window = k * 2 + 1;
-        if (window > n) {
-            return res;
-        }
-        long[] prefix = new long[n + 1];
-        for (int i = 1; i < n + 1; ++i) {
-            prefix[i] = prefix[i - 1] + nums[i - 1];
-        }
-        for (int i = k; i + k < n; ++i) {
-            res[i] = (int) ((prefix[i + k + 1] - prefix[i - k]) / window);
-        }
-        return res;
-
-    }
-
-    // 2090. 半径为 k 的子数组平均值 (K Radius Subarray Averages) --滑动窗口
-    public int[] getAverages2(int[] nums, int k) {
-        int n = nums.length;
-        int[] res = new int[n];
-        Arrays.fill(res, -1);
-        int window = 2 * k + 1;
-        if (window > n) {
-            return res;
-        }
-        long windowSum = 0l;
-        for (int i = 0; i < window; ++i) {
-            windowSum += nums[i];
-        }
-        res[k] = (int) (windowSum / window);
-        for (int i = k + 1; i + k < n; ++i) {
-            windowSum -= nums[i - k - 1];
-            windowSum += nums[i + k];
-            res[i] = (int) (windowSum / window);
+        long sum = 0L;
+        for (int i = 0; i < n; ++i) {
+            sum += nums[i];
+            if (i > 2 * k) {
+                sum -= nums[i - 2 * k - 1];
+            }
+            if (i >= 2 * k) {
+                res[i - k] = (int) (sum / (2 * k + 1));
+            }
         }
         return res;
 
