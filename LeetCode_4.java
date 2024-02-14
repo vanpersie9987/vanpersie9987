@@ -10682,24 +10682,19 @@ public class LeetCode_4 {
         return memo115[i][j] = res % MOD;
     }
 
- // 6156. 得到 K 个黑块的最少涂色次数
+    // 2379. 得到 K 个黑块的最少涂色次数 (Minimum Recolors to Get K Consecutive Black Blocks)
     public int minimumRecolors(String blocks, int k) {
         int n = blocks.length();
-        int cur = 0;
-        for (int i = 0; i < k; ++i) {
-            if (blocks.charAt(i) == 'W') {
-                ++cur;
+        int res = Integer.MAX_VALUE;
+        int s = 0;
+        for (int i = 0; i < n; ++i) {
+            s += (blocks.charAt(i) == 'W' ? 1 : 0);
+            if (i >= k) {
+                s -= (blocks.charAt(i - k) == 'W' ? 1 : 0);
             }
-        }
-        int res = cur;
-        for (int i = k; i < n; ++i) {
-            if (blocks.charAt(i - k) == 'W') {
-                --cur;
+            if (i >= k - 1) {
+                res = Math.min(res, s);
             }
-            if (blocks.charAt(i) == 'W') {
-                ++cur;
-            }
-            res = Math.min(res, cur);
         }
         return res;
 
