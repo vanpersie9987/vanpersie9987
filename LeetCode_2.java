@@ -4454,21 +4454,21 @@ public class LeetCode_2 {
 
    // 1423. 可获得的最大点数 (Maximum Points You Can Obtain from Cards) --滑动窗口
    public int maxScore(int[] cardPoints, int k) {
-      int window = cardPoints.length - k;
-      int cur = 0;
-      int min = Integer.MAX_VALUE;
+      int res = Integer.MAX_VALUE;
       int sum = 0;
-      for (int i = 0; i < cardPoints.length; ++i) {
+      int s = 0;
+      int n = cardPoints.length;
+      for (int i = 0; i < n; ++i) {
          sum += cardPoints[i];
-         cur += cardPoints[i];
-         if (i >= window) {
-            cur -= cardPoints[i - window];
+         s += cardPoints[i];
+         if (i >= n - k) {
+            s -= cardPoints[i - (n - k)];
          }
-         if (i >= window - 1) {
-            min = Math.min(min, cur);
+         if (i >= n - k - 1) {
+            res = Math.min(res, s);
          }
       }
-      return sum - min;
+      return sum - res;
 
    }
 
