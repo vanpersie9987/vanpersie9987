@@ -623,6 +623,24 @@ class leetcode_2:
                         res[i - k + 1] = j - 50
                         break
         return res
+    
+
+    # 567. 字符串的排列 (Permutation in String)
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        n1, n2 = len(s1), len(s2)
+        if n1 > n2:
+            return False
+        c1 = Counter(s1)
+        c2 = Counter()
+        for i, v in enumerate(s2):
+            c2[v] += 1
+            if i >= n1:
+                c2[s2[i - n1]] -= 1
+            if i >= n1 - 1:
+                if c1 == c2:
+                    return True
+        return False
+
 
 
 
