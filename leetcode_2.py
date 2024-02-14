@@ -588,6 +588,43 @@ class leetcode_2:
             if i >= n - k - 1:
                 res = min(res, s)
         return sum(cardPoints) - res
+    
+
+    # 2134. 最少交换次数来组合所有的 1 II (Minimum Swaps to Group All 1's Together II)
+    def minSwaps(self, nums: List[int]) -> int:
+        res = inf
+        k = sum(nums)
+        s = 0
+        nums = nums + nums
+        for i in range(len(nums)):
+            s += nums[i] ^ 1
+            if i >= k:
+                s -= nums[i - k] ^ 1
+            if i >= k - 1:
+                res = min(res, s)
+                if res == 0:
+                    return res
+        return res
+    
+    # 2653. 滑动子数组的美丽值 (Sliding Subarray Beauty)
+    def getSubarrayBeauty(self, nums: List[int], k: int, x: int) -> List[int]:
+        n = len(nums)
+        res = [0] * (n - k + 1)
+        cnt = [0] * 101
+        for i, v in enumerate(nums):
+            cnt[v + 50] += 1
+            if i >= k:
+                cnt[nums[i - k] + 50] -= 1
+            if i >= k - 1:
+                c = 0
+                for j in range(0, 50):
+                    c += cnt[j]
+                    if c >= x:
+                        res[i - k + 1] = j - 50
+                        break
+        return res
+
+
 
                 
 
