@@ -3230,26 +3230,20 @@ public class Leetcode_8 {
     public long maxSum(List<Integer> nums, int m, int k) {
         long res = 0L;
         long cur = 0L;
-        int kinds = 0;
         int n = nums.size();
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < n; ++i) {
             cur += nums.get(i);
             map.merge(nums.get(i), 1, Integer::sum);
-            if (map.get(nums.get(i)) == 1) {
-                ++kinds;
-            }
             if (i >= k) {
                 cur -= nums.get(i - k);
                 map.merge(nums.get(i - k), -1, Integer::sum);
                 if (map.get(nums.get(i - k)) == 0) {
-                    --kinds;
+                    map.remove(nums.get(i - k));
                 }
             }
-            if (i >= k - 1) {
-                if (kinds >= m) {
-                    res = Math.max(res, cur);
-                }
+            if (i >= k - 1 && map.size() >= m) {
+                res = Math.max(res, cur);
             }
         }
         return res;
