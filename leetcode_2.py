@@ -487,6 +487,19 @@ class leetcode_2:
             if i >= k - 1:
                 res = max(res, s / k)
         return res
+    
+    # 1343. 大小为 K 且平均值大于等于阈值的子数组数目 (Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold)
+    def numOfSubarrays(self, arr: List[int], k: int, threshold: int) -> int:
+        s = 0
+        res = 0
+        for i, v in enumerate(arr):
+            s += v
+            if i >= k:
+                s -= arr[i - k]
+            if i >= k - 1 and s // k >= threshold:
+                res += 1
+        return res
+
 
 
 
