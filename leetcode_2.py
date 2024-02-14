@@ -639,6 +639,23 @@ class leetcode_2:
             if i >= n1 - 1 and c1 == c2:
                 return True
         return False
+    
+    # 438. 找到字符串中所有字母异位词 (Find All Anagrams in a String)
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        n1, n2 = len(s), len(p)
+        if n2 > n1:
+            return []
+        res = []
+        c2 = Counter(p)
+        c1 = Counter()
+        for i, v in enumerate(s):
+            c1[v] += 1
+            if i >= n2:
+                c1[s[i - n2]] -= 1
+            if i >= n2 - 1 and c1 == c2:
+                res.append(i - n2 + 1)
+        return res
+
 
 
 
