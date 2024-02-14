@@ -7227,30 +7227,22 @@ public class Leetcode_5 {
 
     // 2461. 长度为 K 子数组中的最大和 (Maximum Sum of Distinct Subarrays With Length K)
     public long maximumSubarraySum(int[] nums, int k) {
-        long res = 0l;
-        int repeats = 0;
-        long windowSum = 0l;
-        int[] counts = new int[(int) (1e5 + 1)];
-        for (int i = 0; i < k; ++i) {
-            if (counts[nums[i]]++ == 1) {
-                ++repeats;
+        long res = 0L;
+        long s = 0L;
+        int n = nums.length;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            s += nums[i];
+            map.merge(nums[i], 1, Integer::sum);
+            if (i >= k) {
+                s -= nums[i - k];
+                map.merge(nums[i - k], -1, Integer::sum);
+                if (map.get(nums[i - k]) == 0) {
+                    map.remove(nums[i - k]);
+                }
             }
-            windowSum += nums[i];
-        }
-        if (repeats == 0) {
-            res = windowSum;
-        }
-        for (int i = k; i < nums.length; ++i) {
-            if (counts[nums[i]]++ == 1) {
-                ++repeats;
-            }
-            if (counts[nums[i - k]]-- == 2) {
-                --repeats;
-            }
-            windowSum += nums[i];
-            windowSum -= nums[i - k];
-            if (repeats == 0) {
-                res = Math.max(res, windowSum);
+            if (i >= k - 1 && map.size() == k) {
+                res = Math.max(res, s);
             }
         }
         return res;
