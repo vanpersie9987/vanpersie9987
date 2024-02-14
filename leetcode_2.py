@@ -475,6 +475,19 @@ class leetcode_2:
     def minimumDifference(self, nums: List[int], k: int) -> int:
         nums.sort()
         return min(nums[i] - nums[i - k + 1] for i in range(k - 1, len(nums)))
+    
+    # 643. 子数组最大平均数 I (Maximum Average Subarray I)
+    def findMaxAverage(self, nums: List[int], k: int) -> float:
+        res = -inf
+        s = 0
+        for i, v in enumerate(nums):
+            s += v
+            if i >= k:
+                s -= nums[i - k]
+            if i >= k - 1:
+                res = max(res, s / k)
+        return res
+
 
 
 
