@@ -512,6 +512,19 @@ class leetcode_2:
             if i >= 2 * k:
                 res[i - k] = s // (2 * k + 1)
         return res
+    
+    # 2379. 得到 K 个黑块的最少涂色次数 (Minimum Recolors to Get K Consecutive Black Blocks)
+    def minimumRecolors(self, blocks: str, k: int) -> int:
+        res = inf
+        s = 0
+        for i, v in enumerate(blocks):
+            s += v == 'W'
+            if i >= k:
+                s -= blocks[i - k] == 'W'
+            if i >= k - 1:
+                res = min(res, s)
+        return res
+
 
 
 
