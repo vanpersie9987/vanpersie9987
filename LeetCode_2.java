@@ -4372,33 +4372,24 @@ public class LeetCode_2 {
 
    // 1052. 爱生气的书店老板 (Grumpy Bookstore Owner)
    public int maxSatisfied(int[] customers, int[] grumpy, int minutes) {
-      int satisfy = 0;
-      for (int i = 0; i < customers.length; ++i) {
+      int s1 = 0;
+      int s2 = 0;
+      int s = 0;
+      int n = customers.length;
+      for (int i = 0; i < n; ++i) {
          if (grumpy[i] == 0) {
-            satisfy += customers[i];
+            s1 += customers[i];
+         } else {
+            s += customers[i];
+         }
+         if (i >= minutes && grumpy[i - minutes] == 1) {
+            s -= customers[i - minutes];
+         }
+         if (i >= minutes - 1) {
+            s2 = Math.max(s2, s);
          }
       }
-      int index = 0;
-      int cur = 0;
-      int res = 0;
-      while (index < minutes) {
-         if (grumpy[index] == 1) {
-            cur += customers[index];
-         }
-         ++index;
-      }
-      res = cur;
-      while (index < customers.length) {
-         if (grumpy[index] == 1) {
-            cur += customers[index];
-         }
-         if (grumpy[index - minutes] == 1) {
-            cur -= customers[index - minutes];
-         }
-         res = Math.max(res, cur);
-         ++index;
-      }
-      return res + satisfy;
+      return s1 + s2;
 
    }
 
