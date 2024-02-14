@@ -541,6 +541,24 @@ class leetcode_2:
             if i >= minutes - 1:
                 s2 = max(s2, s)
         return s1 + s2
+    
+    # 2841. 几乎唯一子数组的最大和 (Maximum Sum of Almost Unique Subarray)
+    def maxSum(self, nums: List[int], m: int, k: int) -> int:
+        res = 0
+        s = 0
+        d = collections.defaultdict(int)
+        for i, v in enumerate(nums):
+            s += v
+            d[v] += 1
+            if i >= k:
+                s -= nums[i - k]
+                d[nums[i - k]] -= 1
+                if d[nums[i - k]] == 0:
+                    del d[nums[i - k]]
+            if i >= k - 1 and len(d) >= m:
+                res = max(res, s)
+        return res
+
 
 
 
