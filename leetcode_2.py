@@ -664,20 +664,20 @@ class leetcode_2:
         res = n
         for i in range(1, k):
             p[i] = p[i - 1] * power % modulo
-        _sum = 0
+        h = 0
         for i in range(n - k, n):
-            _sum += (ord(s[i]) - ord('a') + 1) * p[i - n + k] % modulo
-            _sum %= modulo
-        if _sum == hashValue:
+            h += (ord(s[i]) - ord('a') + 1) * p[i - n + k] % modulo
+            h %= modulo
+        if h == hashValue:
             res = n - k
         for i in range(n - k - 1, -1, -1):
-            _sum -= (ord(s[i + k]) - ord('a') + 1) * p[-1] % modulo
-            _sum %= modulo
-            _sum *= power
-            _sum %= modulo
-            _sum += (ord(s[i]) - ord('a') + 1) % modulo
-            _sum %= modulo
-            if _sum == hashValue:
+            h -= (ord(s[i + k]) - ord('a') + 1) * p[-1] % modulo
+            h %= modulo
+            h *= power
+            h %= modulo
+            h += (ord(s[i]) - ord('a') + 1) % modulo
+            h %= modulo
+            if h == hashValue:
                 res = i
         return s[res: res + k]
 

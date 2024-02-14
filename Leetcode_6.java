@@ -6853,24 +6853,23 @@ public class Leetcode_6 {
     // 2156. 查找给定哈希值的子串 (Find Substring With Given Hash Value)
     public String subStrHash(String s, int power, int modulo, int k, int hashValue) {
         int n = s.length();
-        long[] pre = new long[k];
+        int[] pre = new int[k];
         pre[0] = 1;
         for (int i = 1; i < k; ++i) {
-            pre[i] = (long) pre[i - 1] * power % modulo;
+            pre[i] = (int) ((long) pre[i - 1] * power % modulo);
         }
-        long h = 0L;
-        int res = -1;
-        int j = 0;
+        int h = 0;
+        int res = n;
         for (int i = n - k; i < n; ++i) {
-            h = (h + (s.charAt(i) - 'a' + 1) * pre[j++] % modulo) % modulo;
+            h = (int) ((h + (long) (s.charAt(i) - 'a' + 1) * pre[i - n + k] % modulo) % modulo);
         }
         if (h == hashValue) {
             res = n - k;
         }
         for (int i = n - k - 1; i >= 0; --i) {
-            h = ((h - (s.charAt(i + k) - 'a' + 1) * pre[k - 1] % modulo) % modulo + modulo) % modulo;
-            h = h * power % modulo;
-            h = (h + s.charAt(i) - 'a' + 1) % modulo;
+            h = (int) (((h - (long) (s.charAt(i + k) - 'a' + 1) * pre[k - 1] % modulo) % modulo + modulo) % modulo);
+            h = (int) ((long) h * power % modulo);
+            h = (int) ((h + (long) s.charAt(i) - 'a' + 1) % modulo);
             if (h == hashValue) {
                 res = i;
             }
