@@ -461,7 +461,7 @@ class leetcode_2:
         while q:
             size = len(q)
             l = []
-            for i in range(size):
+            for _ in range(size):
                 x = q.popleft()
                 l.append(x.val)
                 if x.left:
