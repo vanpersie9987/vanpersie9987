@@ -331,20 +331,6 @@ class leetcode_2:
                 if matrix[i][j] == -1:
                     matrix[i][j] = mx
         return matrix
-    
-
-    # 3034. 匹配模式数组的子数组数目 I (Number of Subarrays That Match a Pattern I)
-    def countMatchingSubarrays(self, nums: List[int], pattern: List[int]) -> int:
-        def check(i: int, j: int) -> int:
-            for k in range(i + 1, j + 1):
-                p = 1 if nums[k] - nums[k - 1] > 0 else (-1 if nums[k] - nums[k - 1] < 0 else 0)
-                if p != pattern[k - i - 1]:
-                    return 0
-            return 1
-        n = len(nums)
-        m = len(pattern)
-        return sum(check(i - m, i) for i in range(m, n))
-    
 
     # 3035. 回文字符串的最大数量 (Maximum Palindromes After Operations)
     def maxPalindromesAfterOperations(self, words: List[str]) -> int:
