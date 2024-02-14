@@ -527,12 +527,14 @@ class leetcode_2:
     
     # 1052. 爱生气的书店老板 (Grumpy Bookstore Owner)
     def maxSatisfied(self, customers: List[int], grumpy: List[int], minutes: int) -> int:
-        s1 = sum(c if not g else 0 for c, g in zip(customers, grumpy))
+        s1 = 0
         s2 = 0
         s = 0
         for i, (c, g) in enumerate(zip(customers, grumpy)):
             if g:
                 s += c
+            else:
+                s1 += c
             if i >= minutes:
                 if grumpy[i - minutes]:
                     s -= customers[i - minutes]
