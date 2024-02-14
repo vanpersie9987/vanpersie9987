@@ -575,6 +575,20 @@ class leetcode_2:
             if i >= k - 1 and len(d) == k:
                 res = max(res, s)
         return res
+    
+    # 1423. 可获得的最大点数 (Maximum Points You Can Obtain from Cards)
+    def maxScore(self, cardPoints: List[int], k: int) -> int:
+        n = len(cardPoints)
+        res = inf
+        s = 0
+        for i, v in enumerate(cardPoints):
+            s += v
+            if i >= n - k:
+                s -= cardPoints[i - (n - k)]
+            if i >= n - k - 1:
+                res = min(res, s)
+        return sum(cardPoints) - res
+
                 
 
 
