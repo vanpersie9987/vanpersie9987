@@ -21,7 +21,7 @@ from socket import NI_NUMERICSERV
 from ssl import VERIFY_X509_TRUSTED_FIRST
 from tabnanny import check
 from textwrap import indent
-from tkinter import W
+from tkinter import NO, W
 from tkinter.tix import Tree
 from turtle import mode, reset, right, st
 from typing import List, Optional
@@ -680,6 +680,9 @@ class leetcode_2:
             if h == hashValue:
                 res = i
         return s[res: res + k]
+    
+    # 2953. 统计完全子字符串 (Count Complete Substrings)
+    # def countCompleteSubstrings(self, word: str, k: int) -> int:
 
         
         

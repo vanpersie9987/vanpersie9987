@@ -5800,7 +5800,7 @@ class leetcode_1 :
        dfs(root)
        return res
     
-   # 107. 二叉树的层序遍历 II (Binary Tree Level Order Traversal II)
+    # 107. 二叉树的层序遍历 II (Binary Tree Level Order Traversal II)
     def levelOrderBottom(self, root: Optional[TreeNode]) -> List[List[int]]:
        if root is None:
           return []
@@ -5818,6 +5818,20 @@ class leetcode_1 :
                 q.append(x.right)
           res.append(_list)
        return res[::-1]
+
+    # 107. 二叉树的层序遍历 II (Binary Tree Level Order Traversal II)
+    def levelOrderBottom(self, root: Optional[TreeNode]) -> List[List[int]]:
+        def dfs(root: 'TreeNode', d: int) -> None:
+            if root is None:
+                return
+            if d == len(res):
+                res.append([])
+            res[d].append(root.val)
+            dfs(root.left, d + 1)
+            dfs(root.right, d + 1)
+        res = []
+        dfs(root, 0)
+        return res[::-1]
     
     # 764. 最大加号标志 (Largest Plus Sign)
     def orderOfLargestPlusSign(self, n: int, mines: List[List[int]]) -> int:
