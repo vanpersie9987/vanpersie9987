@@ -558,6 +558,26 @@ class leetcode_2:
             if i >= k - 1 and len(d) >= m:
                 res = max(res, s)
         return res
+    
+    # 2461. 长度为 K 子数组中的最大和 (Maximum Sum of Distinct Subarrays With Length K)
+    def maximumSubarraySum(self, nums: List[int], k: int) -> int:
+        res = 0
+        s = 0
+        d = collections.defaultdict(int)
+        for i, v in enumerate(nums):
+            s += v
+            d[v] += 1
+            if i >= k:
+                s -= nums[i - k]
+                d[nums[i - k]] -= 1
+                if d[nums[i - k]] == 0:
+                    del d[nums[i - k]]
+            if i >= k - 1 and len(d) == k:
+                res = max(res, s)
+        return res
+                
+
+
 
 
 

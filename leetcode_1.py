@@ -3672,24 +3672,6 @@ class leetcode_1 :
     def canBeEqual(self, s1: str, s2: str) -> bool:
        return sorted(s1[::2]) == sorted(s2[::2]) and sorted(s1[1::2]) == sorted(s2[1::2])
 
-    # 2841. 几乎唯一子数组的最大和 (Maximum Sum of Almost Unique Subarray)
-    def maxSum(self, nums: List[int], m: int, k: int) -> int:
-       d = collections.defaultdict(int)
-       res = 0
-       sum = 0
-       n = len(nums)
-       for i in range(n):
-          sum += nums[i]
-          d[nums[i]] += 1
-          if i - k >= 0:
-             sum -= nums[i - k]
-             d[nums[i - k]] -= 1
-             if d[nums[i - k]] == 0:
-                del d[nums[i - k]]
-          if len(d) >= m:
-             res = max(res, sum)
-       return res
-    
     # 2843. 统计对称整数的数目 (Count Symmetric Integers)
     def countSymmetricIntegers(self, low: int, high: int) -> int:
        res = 0
