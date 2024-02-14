@@ -1,5 +1,5 @@
 from asyncio import FastChildWatcher
-from audioop import reverse
+from audioop import minmax, reverse
 from calendar import c
 from collections import Counter, deque
 import collections
@@ -524,6 +524,29 @@ class leetcode_2:
             if i >= k - 1:
                 res = min(res, s)
         return res
+    
+    # 1052. 爱生气的书店老板 (Grumpy Bookstore Owner)
+    def maxSatisfied(self, customers: List[int], grumpy: List[int], minutes: int) -> int:
+        s1 = sum(c if not g else 0 for c, g in zip(customers, grumpy))
+        s2 = 0
+        s = 0
+        for i, (c, g) in enumerate(zip(customers, grumpy)):
+            if g:
+                s += c
+            if i >= minutes:
+                if grumpy[i - minutes]:
+                    s -= customers[i - minutes]
+            if i >= minutes - 1:
+                s2 = max(s2, s)
+        return s1 + s2
+
+
+
+
+
+
+
+
 
 
 
