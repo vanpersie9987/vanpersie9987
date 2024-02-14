@@ -3909,20 +3909,18 @@ public class LeetCode_2 {
 
    // 643. 子数组最大平均数 I (Maximum Average Subarray I)
    public double findMaxAverage(int[] nums, int k) {
-      int max = Integer.MIN_VALUE;
-      int i = 0;
-      int sum = 0;
-      while (i < k) {
-         sum += nums[i++];
-      }
-      max = Math.max(max, sum);
-      while (i < nums.length) {
-         sum -= nums[i - k];
+      Double res = (double) Integer.MIN_VALUE;
+      Double sum = 0D;
+      for (int i = 0; i < nums.length; ++i) {
          sum += nums[i];
-         max = Math.max(max, sum);
-         ++i;
+         if (i >= k) {
+            sum -= nums[i - k];
+         }
+         if (i >= k - 1) {
+            res = Math.max(res, sum / k);
+         }
       }
-      return (double) max / k;
+      return res;
 
    }
 
