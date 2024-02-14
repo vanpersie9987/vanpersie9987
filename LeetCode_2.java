@@ -3806,33 +3806,26 @@ public class LeetCode_2 {
    // 567. 字符串的排列 (Permutation in String)
    // 剑指 Offer II 014. 字符串中的变位词 --滑动窗口
    public boolean checkInclusion(String s1, String s2) {
-      if (s1.length() > s2.length()) {
+      int n1 = s1.length();
+      int n2 = s2.length();
+      if (n1 > n2) {
          return false;
       }
-      int[] needs = new int[26];
+      int[] cnt1 = new int[26];
       for (char c : s1.toCharArray()) {
-         ++needs[c - 'a'];
+         ++cnt1[c - 'a'];
       }
-      int count = s1.length();
-      int i = 0;
-      int[] give = new int[26];
-      char[] chars = s2.toCharArray();
-      while (i < count) {
-         ++give[chars[i++] - 'a'];
-      }
-      if (Arrays.equals(needs, give)) {
-         return true;
-      }
-      while (i < chars.length) {
-         --give[chars[i - count] - 'a'];
-         ++give[chars[i] - 'a'];
-         if (Arrays.equals(needs, give)) {
+      int[] cnt2 = new int[26];
+      for (int i = 0; i < n2; ++i) {
+         ++cnt2[s2.charAt(i) - 'a'];
+         if (i >= n1) {
+            --cnt2[s2.charAt(i - n1) - 'a'];
+         }
+         if (i >= n1 - 1 && Arrays.equals(cnt1, cnt2)) {
             return true;
          }
-         ++i;
       }
       return false;
-
    }
 
    // 567. 字符串的排列 (Permutation in String)
