@@ -636,9 +636,8 @@ class leetcode_2:
             c2[v] += 1
             if i >= n1:
                 c2[s2[i - n1]] -= 1
-            if i >= n1 - 1:
-                if c1 == c2:
-                    return True
+            if i >= n1 - 1 and c1 == c2:
+                return True
         return False
 
 
