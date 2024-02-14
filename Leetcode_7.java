@@ -4003,90 +4003,24 @@ public class Leetcode_7 {
         return (1 + n / m) * (n / m) / 2 * m;
     }
 
-    // 6390. 滑动子数组的美丽值
+    // 2653. 滑动子数组的美丽值 (Sliding Subarray Beauty)
     public int[] getSubarrayBeauty(int[] nums, int k, int x) {
         int n = nums.length;
         int[] res = new int[n - k + 1];
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < k; ++i) {
-            list.add(nums[i]);
-        }
-        Collections.sort(list);
-        res[0] = Math.min(0, list.get(x - 1));
-        for (int i = k; i < n; ++i) {
-            insert6390(list, nums[i]);
-            remove6390(list, nums[i - k]);
-            res[i - k + 1] = Math.min(0, list.get(x - 1));
-        }
-        return res;
-
-    }
-
-    private void remove6390(List<Integer> list, int target) {
-        int left = 0;
-        int right = list.size() - 1;
-        while (left <= right) {
-            int mid = left + ((right - left) >> 1);
-            if (list.get(mid) == target) {
-                list.remove(mid);
-                return;
-            } else if (list.get(mid) < target) {
-                left = mid + 1;
-            } else {
-                right = mid - 1;
+        int[] cnt = new int[101];
+        for (int i = 0; i < n; ++i) {
+            ++cnt[nums[i] + 50];
+            if (i >= k) {
+                --cnt[nums[i - k] + 50];
             }
-        }
-    }
-
-    private void insert6390(List<Integer> list, int target) {
-        int n = list.size();
-        if (target <= list.get(0)) {
-            list.add(0, target);
-            return;
-        }
-        if (target >= list.get(n - 1)) {
-            list.add(target);
-            return;
-        }
-        int left = 0;
-        int right = n - 1;
-        while (left <= right) {
-            int mid = left + ((right - left) >> 1);
-            if (list.get(mid) < target) {
-                left = mid + 1;
-            } else {
-                right = mid - 1;
-            }
-        }
-        list.add(left, target);
-    }
-
-    // 6390. 滑动子数组的美丽值
-    public int[] getSubarrayBeauty2(int[] nums, int k, int x) {
-        int n = nums.length;
-        int[] res = new int[n - k + 1];
-        int[] counts = new int[101];
-        for (int i = 0; i < k; ++i) {
-            ++counts[nums[i] + 50];
-        }
-        int y = 0;
-        for (int i = 0; i <= 100; ++i) {
-            y += counts[i];
-            if (y >= x) {
-                res[0] = Math.min(0, i - 50);
-                break;
-            }
-        }
-        y = 0;
-        for (int i = k; i < n; ++i) {
-            --counts[nums[i - k] + 50];
-            ++counts[nums[i] + 50];
-            y = 0;
-            for (int t = 0; t <= 100; ++t) {
-                y += counts[t];
-                if (y >= x) {
-                    res[i - k + 1] = Math.min(0, t - 50);
-                    break;
+            if (i >= k - 1) {
+                int c = 0;
+                for (int j = 0; j < 50; ++j) {
+                    c += cnt[j];
+                    if (c >= x) {
+                        res[i - k + 1] = j - 50;
+                        break;
+                    }
                 }
             }
         }
