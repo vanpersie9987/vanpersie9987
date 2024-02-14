@@ -23,7 +23,7 @@ from tabnanny import check
 from textwrap import indent
 from tkinter import W
 from tkinter.tix import Tree
-from turtle import reset, right, st
+from turtle import mode, reset, right, st
 from typing import List, Optional
 import heapq
 import bisect
@@ -655,34 +655,32 @@ class leetcode_2:
             if i >= n2 - 1 and c1 == c2:
                 res.append(i - n2 + 1)
         return res
+    
+    # 2156. 查找给定哈希值的子串 (Find Substring With Given Hash Value)
+    def subStrHash(self, s: str, power: int, modulo: int, k: int, hashValue: int) -> str:
+        p = [0] * k
+        p[0] = 1
+        n = len(s)
+        res = n
+        for i in range(1, k):
+            p[i] = p[i - 1] * power % modulo
+        _sum = 0
+        for i in range(n - k, n):
+            _sum += (ord(s[i]) - ord('a') + 1) * p[i - n + k] % modulo
+            _sum %= modulo
+        if _sum == hashValue:
+            res = n - k
+        for i in range(n - k - 1, -1, -1):
+            _sum -= (ord(s[i + k]) - ord('a') + 1) * p[-1] % modulo
+            _sum %= modulo
+            _sum *= power
+            _sum %= modulo
+            _sum += (ord(s[i]) - ord('a') + 1) % modulo
+            _sum %= modulo
+            if _sum == hashValue:
+                res = i
+        return s[res: res + k]
 
-
-
-
-
-                
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
+        
 
