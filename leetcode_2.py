@@ -778,6 +778,23 @@ class leetcode_2:
                 j += 1
             res = max(res, i - j + 1)
         return res
+    
+    # 2024. 考试的最大困扰度 (Maximize the Confusion of an Exam)
+    def maxConsecutiveAnswers(self, answerKey: str, k: int) -> int:
+        def check(arr: List[int]) -> int:
+            cnt1 = 0
+            j = 0
+            res = 0
+            for i, v in enumerate(arr):
+                cnt1 += v
+                while cnt1 > k:
+                    cnt1 -= arr[j]
+                    j += 1
+                res = max(res, i - j + 1)
+            return res
+        arr1 = [1 if c == 'T' else 0 for c in answerKey]
+        arr2 = [1 if c == 'F' else 0 for c in answerKey]
+        return max(check(arr1), check(arr2))
             
 
 
