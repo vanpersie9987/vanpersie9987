@@ -9235,7 +9235,7 @@ public class Leetcode_7 {
         return mask == (1 << 10) - 2;
     }
 
-    // 6425. 找到最长的半重复子字符串 (Find the Longest Semi-Repetitive Substring)
+    // 2730. 找到最长的半重复子字符串 (Find the Longest Semi-Repetitive Substring)
     public int longestSemiRepetitiveSubstring(String s) {
         int cnt = 0;
         int n = s.length();
