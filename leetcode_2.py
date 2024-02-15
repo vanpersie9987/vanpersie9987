@@ -823,6 +823,21 @@ class leetcode_2:
                 j += 1
             res = max(res, i - j + 1)
         return res
+    
+    # 2401. 最长优雅子数组 (Longest Nice Subarray)
+    def longestNiceSubarray(self, nums: List[int]) -> int:
+        j = 0
+        m = 0
+        res = 0
+        for i, v in enumerate(nums):
+            while m & v:
+                m ^= nums[j]
+                j += 1
+            res = max(res, i - j + 1)
+            m ^= nums[i]
+        return res
+                
+
 
             
 
