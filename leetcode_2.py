@@ -808,6 +808,22 @@ class leetcode_2:
                 j += 1
             res = max(res, i - j + 1)
         return res
+    
+    # 1438. 绝对差不超过限制的最长连续子数组 (Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit)
+    def longestSubarray(self, nums: List[int], limit: int) -> int:
+        d = defaultdict(int)
+        j = 0
+        res = 0
+        for i, v in enumerate(nums):
+            d[v] += 1
+            while max(d) - min(d) > limit:
+                d[nums[j]] -= 1
+                if d[nums[j]] == 0:
+                    del d[nums[j]]
+                j += 1
+            res = max(res, i - j + 1)
+        return res
+
             
 
 
