@@ -2610,23 +2610,17 @@ public class LeetCode_2 {
 
    }
 
-   // 1004.最大连续1的个数 III (Max Consecutive Ones III) --双指针 + 前缀和 + 滑动窗口
+   // 1004.最大连续1的个数 III (Max Consecutive Ones III)
    public int longestOnes(int[] nums, int k) {
-      int zeroCount = 0;
-      int left = 0;
-      int right = 0;
       int res = 0;
-      while (right < nums.length) {
-         if (nums[right] == 0) {
-            ++zeroCount;
+      int j = 0;
+      int cnt0 = 0;
+      for (int i = 0; i < nums.length; ++i) {
+         cnt0 += 1 ^ nums[i];
+         while (cnt0 > k) {
+            cnt0 -= nums[j++] ^ 1;
          }
-         while (zeroCount > k) {
-            if (nums[left++] == 0) {
-               --zeroCount;
-            }
-         }
-         res = Math.max(res, right - left + 1);
-         ++right;
+         res = Math.max(res, i - j + 1);
       }
       return res;
 
