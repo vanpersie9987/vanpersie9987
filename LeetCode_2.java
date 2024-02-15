@@ -5408,47 +5408,19 @@ public class LeetCode_2 {
    // 904. 水果成篮 (Fruit Into Baskets)
    public int totalFruit(int[] fruits) {
       int res = 0;
-      int left = 0;
-      int right = 0;
-      Map<Integer, Integer> map = new HashMap<>();
-      while (right < fruits.length) {
-         map.put(fruits[right], map.getOrDefault(fruits[right], 0) + 1);
-         while (map.keySet().size() > 2) {
-            map.put(fruits[left], map.get(fruits[left]) - 1);
-            if (map.get(fruits[left]) == 0) {
-               map.remove(fruits[left]);
-            }
-            ++left;
-         }
-         res = Math.max(res, right - left + 1);
-         ++right;
-      }
-      return res;
-
-   }
-
-   // 904. 水果成篮 (Fruit Into Baskets)
-   public int totalFruit2(int[] fruits) {
+      int j = 0;
       int n = fruits.length;
-      int[] counts = new int[n];
-      int kinds = 0;
-      int res = 0;
-      int left = 0;
-      int right = 0;
-      while (right < n) {
-         ++counts[fruits[right]];
-         if (counts[fruits[right]] == 1) {
-            ++kinds;
-         }
-         while (kinds > 2) {
-            --counts[fruits[left]];
-            if (counts[fruits[left]] == 0) {
-               --kinds;
+      Map<Integer, Integer> map = new HashMap<>();
+      for (int i = 0; i < n; ++i) {
+         map.merge(fruits[i], 1, Integer::sum);
+         while (map.size() > 2) {
+            map.merge(fruits[j], -1, Integer::sum);
+            if (map.get(fruits[j]) == 0) {
+               map.remove(fruits[j]);
             }
-            ++left;
+            ++j;
          }
-         res = Math.max(res, right - left + 1);
-         ++right;
+         res = Math.max(res, i - j + 1);
       }
       return res;
 
