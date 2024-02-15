@@ -881,12 +881,11 @@ class leetcode_2:
                 return -1
         res = -1
         j = 0
-        cur = [0] * 3
         for i, v in enumerate(s):
             x = ord(v) - ord('a')
-            cur[x] += 1
-            while cur[x] > cnt[x]:
-                cur[ord(s[j]) - ord('a')] -= 1
+            cnt[x] -= 1
+            while j <= i and cnt[x] < 0:
+                cnt[ord(s[j]) - ord('a')] += 1
                 j += 1
             res = max(res, i - j + 1)
         return -1 if res == -1 else n - res
