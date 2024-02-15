@@ -868,6 +868,31 @@ class leetcode_2:
                 j += 1
             res = max(res, i - j + 1)
         return res
+    
+    # 2516. 每种字符至少取 K 个 (Take K of Each Character From Left and Right)
+    def takeCharacters(self, s: str, k: int) -> int:
+        n = len(s)
+        cnt = [0] * 3
+        for c in s:
+            cnt[ord(c) - ord('a')] += 1
+        for i in range(3):
+            cnt[i] -= k
+            if cnt[i] < 0:
+                return -1
+        res = -1
+        j = 0
+        cur = [0] * 3
+        for i, v in enumerate(s):
+            x = ord(v) - ord('a')
+            cur[x] += 1
+            while cur[x] > cnt[x]:
+                cur[ord(s[j]) - ord('a')] -= 1
+                j += 1
+            res = max(res, i - j + 1)
+        return -1 if res == -1 else n - res
+
+
+
 
             
 
