@@ -1,7 +1,7 @@
 from asyncio import FastChildWatcher
 from audioop import minmax, reverse
 from calendar import c
-from collections import Counter, deque
+from collections import Counter, defaultdict, deque
 import collections
 from ctypes.wintypes import _ULARGE_INTEGER
 from curses import curs_set
@@ -707,6 +707,32 @@ class leetcode_2:
                 cal()
             i = j
         return res
-
+    
+    # 1493. 删掉一个元素以后全为 1 的最长子数组 (Longest Subarray of 1's After Deleting One Element)
+    def longestSubarray(self, nums: List[int]) -> int:
+        res = 0
+        n = len(nums)
+        cnt0 = 0
+        j = 0
+        for i, v in enumerate(nums):
+            cnt0 += 1 ^ v
+            while cnt0 > 1:
+                cnt0 -= nums[j] ^ 1
+                j += 1
+            res = max(res, i - j + 1 - cnt0)
+        return min(n - 1, res)
+    
+    # 2730. 找到最长的半重复子字符串 (Find the Longest Semi-Repetitive Substring)
+    def longestSemiRepetitiveSubstring(self, s: str) -> int:
+        repeat = 0
+        res = 0
+        j = 0
+        for i, v in enumerate(s):
+            repeat += i > 0 and v == s[i - 1]
+            while repeat > 1:
+                repeat -= s[j] == s[j + 1]
+                j += 1
+            res = max(res, i - j + 1)
+        return res
 
 
