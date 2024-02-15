@@ -884,7 +884,7 @@ class leetcode_2:
         for i, v in enumerate(s):
             x = ord(v) - ord('a')
             cnt[x] -= 1
-            while j <= i and cnt[x] < 0:
+            while cnt[x] < 0:
                 cnt[ord(s[j]) - ord('a')] += 1
                 j += 1
             res = max(res, i - j + 1)
