@@ -734,5 +734,21 @@ class leetcode_2:
                 j += 1
             res = max(res, i - j + 1)
         return res
+    
+    # 904. 水果成篮 (Fruit Into Baskets)
+    def totalFruit(self, fruits: List[int]) -> int:
+        res = 0
+        d = defaultdict(int)
+        j = 0
+        for i, v in enumerate(fruits):
+            d[v] += 1
+            while len(d) > 2:
+                d[fruits[j]] -= 1
+                if d[fruits[j]] == 0:
+                    del d[fruits[j]]
+                j += 1
+            res = max(res, i - j + 1)
+        return res
+
 
 
