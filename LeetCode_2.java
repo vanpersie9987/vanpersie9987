@@ -3205,30 +3205,28 @@ public class LeetCode_2 {
 
    }
 
-   // 2024. 考试的最大困扰度 (Maximize the Confusion of an Exam) --前缀和 + 滑动窗口
+   // 2024. 考试的最大困扰度 (Maximize the Confusion of an Exam)
    public int maxConsecutiveAnswers(String answerKey, int k) {
-      int tCount = 0;
-      int fCount = 0;
+      int tCnt = 0;
+      int fCnt = 0;
       int res = 0;
-      int left = 0;
-      int right = 0;
+      int j = 0;
       char[] chars = answerKey.toCharArray();
-      while (right < chars.length) {
-         if (chars[right] == 'T') {
-            ++tCount;
+      for (int i = 0; i < chars.length; ++i) {
+         if (chars[i] == 'T') {
+            ++tCnt;
          } else {
-            ++fCount;
+            ++fCnt;
          }
-
-         while (tCount > k && fCount > k) {
-            if (chars[left++] == 'T') {
-               --tCount;
+         while (tCnt > k && fCnt > k) {
+            if (chars[j] == 'T') {
+               --tCnt;
             } else {
-               --fCount;
+               --fCnt;
             }
+            ++j;
          }
-         res = Math.max(res, right - left + 1);
-         ++right;
+         res = Math.max(res, i - j + 1);
       }
       return res;
 
