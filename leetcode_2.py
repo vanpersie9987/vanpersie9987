@@ -836,6 +836,28 @@ class leetcode_2:
             m ^= nums[i]
             res = max(res, i - j + 1)
         return res
+    
+    # 1658. 将 x 减到 0 的最小操作数 (Minimum Operations to Reduce X to Zero)
+    def minOperations(self, nums: List[int], x: int) -> int:
+        n = len(nums)
+        j = 0
+        k = sum(nums) - x
+        if k < 0:
+            return -1
+        res = -1
+        s = 0
+        for i, v in enumerate(nums):
+            s += v
+            while s > k:
+                s -= nums[j]
+                j += 1
+            if s == k:
+                res = max(res, i - j + 1)
+        return -1 if res == -1 else n - res
+
+
+
+
                 
 
 
