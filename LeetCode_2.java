@@ -4569,23 +4569,21 @@ public class LeetCode_2 {
 
    // 1695. 删除子数组的最大得分 (Maximum Erasure Value)
    public int maximumUniqueSubarray(int[] nums) {
-      Set<Integer> set = new HashSet<>();
-      int left = 0;
-      int right = 0;
-      int prefix = 0;
-      int max = 0;
-      while (right < nums.length) {
-         if (set.add(nums[right])) {
-            prefix += nums[right];
-            max = Math.max(max, prefix);
-            ++right;
-         } else {
-            prefix -= nums[left];
-            set.remove(nums[left]);
-            ++left;
+      Map<Integer, Integer> cnt = new HashMap<>();
+      int j = 0;
+      int s = 0;
+      int res = 0;
+      for (int i = 0; i < nums.length; ++i) {
+         cnt.merge(nums[i], 1, Integer::sum);
+         s += nums[i];
+         while (cnt.get(nums[i]) > 1) {
+            s -= nums[j];
+            cnt.merge(nums[j], -1, Integer::sum);
+            ++j;
          }
+         res = Math.max(res, s);
       }
-      return max;
+      return res;
 
    }
 
