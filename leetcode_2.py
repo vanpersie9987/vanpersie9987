@@ -682,8 +682,31 @@ class leetcode_2:
         return s[res: res + k]
     
     # 2953. 统计完全子字符串 (Count Complete Substrings)
-    # def countCompleteSubstrings(self, word: str, k: int) -> int:
+    def countCompleteSubstrings(self, word: str, k: int) -> int:
+        def cal() -> None:
+            cnt = [0] * 26
+            w = c * k
+            for i in range(len(s)):
+                cnt[ord(s[i]) - ord('a')] += 1
+                if i >= w:
+                    cnt[ord(s[i - w]) - ord('a')] -= 1
+                if i >= w - 1 and all(not x or x == k for x in cnt):
+                    nonlocal res
+                    res += 1
+        n = len(word)
+        i = 0
+        res = 0
+        while i < n:
+            j = i + 1
+            while j < n and abs(ord(word[j]) - ord(word[j - 1])) <= 2:
+                j += 1
+            s = word[i: j]
+            for c in range(1, 27):
+                if c * k > len(s):
+                    break
+                cal()
+            i = j
+        return res
 
-        
-        
+
 

@@ -8258,33 +8258,6 @@ class leetcode_1 :
              s *= 2
              res += 1
        return res
-     
-    # 2953. 统计完全子字符串 (Count Complete Substrings)
-    def countCompleteSubstrings(self, word: str, k: int) -> int:
-       def cnt(s: str) -> int:
-          res = 0
-          for i in range(1, 27):
-             m = i * k
-             if m > len(s):
-                break
-             c = [0] * 26
-             for j in range(len(s)):
-                c[ord(s[j]) - ord('a')] += 1
-                if j >= m:
-                   c[ord(s[j - m]) - ord('a')] -= 1
-                if j >= m - 1:
-                   if all(x == 0 or x == k for x in c):
-                      res += 1
-          return res
-       res = 0
-       i = 0
-       while i < len(word):
-          j = i + 1
-          while j < len(word) and abs(ord(word[j]) - ord(word[j - 1])) <= 2:
-             j += 1
-          res += cnt(word[i: j])
-          i = j
-       return res
     
     # 2951. 找出峰值 (Find the Peaks)
     def findPeaks(self, mountain: List[int]) -> List[int]:
