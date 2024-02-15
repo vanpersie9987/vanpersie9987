@@ -833,8 +833,8 @@ class leetcode_2:
             while m & v:
                 m ^= nums[j]
                 j += 1
-            res = max(res, i - j + 1)
             m ^= nums[i]
+            res = max(res, i - j + 1)
         return res
                 
 
