@@ -756,7 +756,7 @@ class leetcode_2:
         j = 0
         s = 0
         d = defaultdict(int)
-        for i, v in enumerate(nums):
+        for v in nums:
             d[v] += 1
             s += v
             while d[v] > 1:
