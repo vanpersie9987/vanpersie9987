@@ -8282,22 +8282,6 @@ class leetcode_1 :
           i = j
        return res
     
-    # 2958. 最多 K 个重复元素的最长子数组 (Length of Longest Subarray With at Most K Frequency)
-    def maxSubarrayLength(self, nums: List[int], k: int) -> int:
-       n = len(nums)
-       res = 0
-       i = 0
-       j = 0
-       dic = collections.defaultdict(int)
-       while i < n:
-          dic[nums[i]] += 1
-          while dic[nums[i]] > k:
-             dic[nums[j]] -= 1
-             j += 1
-          res = max(res, i - j + 1)
-          i += 1
-       return res
-    
     # 100140. 关闭分部的可行集合数目 (Number of Possible Sets of Closing Branches)
     def numberOfSets(self, n: int, maxDistance: int, roads: List[List[int]]) -> int:
        def dijkstra(start: int, mask: int) -> bool:

@@ -765,6 +765,19 @@ class leetcode_2:
                 j += 1
             res = max(res, s)
         return res
+    
+    # 2958. 最多 K 个重复元素的最长子数组 (Length of Longest Subarray With at Most K Frequency)
+    def maxSubarrayLength(self, nums: List[int], k: int) -> int:
+        d = defaultdict(int)
+        res = 0
+        j = 0
+        for i, v in enumerate(nums):
+            d[v] += 1
+            while d[v] > k:
+                d[nums[j]] -= 1
+                j += 1
+            res = max(res, i - j + 1)
+        return res
             
 
 
