@@ -922,26 +922,20 @@ class leetcode_2:
         res = []
         dfs(root, 0)
         return [l[::-1] if i & 1 else l for i, l in enumerate(res)]
-
-
-
-
-
-
-
-            
-
-
-
-
-
+    
+    # 2831. 找出最长等值子数组 (Find the Longest Equal Subarray)
+    def longestEqualSubarray(self, nums: List[int], k: int) -> int:
+        res = 0
+        g = defaultdict(list)
+        for i, v in enumerate(nums):
+            g[v].append(i)
+        for vals in g.values():
+            j = 0
+            m = len(vals)
+            for i in range(m):
+                while vals[i] - vals[j] + 1 - (i - j + 1) > k:
+                    j += 1
+                res = max(res, i - j + 1)
+        return res
 
                 
-
-
-            
-
-
-
-
-
