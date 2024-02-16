@@ -963,3 +963,23 @@ class leetcode_2:
         res = []
         dfs(root, 0)
         return res
+
+    # 429. N 叉树的层序遍历 (N-ary Tree Level Order Traversal)
+    def levelOrder(self, root: 'Node') -> List[List[int]]:
+        if root is None:
+            return []
+        res = []
+        q = deque([root])
+        while q:
+            size = len(q)
+            _l = []
+            for _ in range(size):
+                x = q.popleft()
+                _l.append(x.val)
+                for y in x.children:
+                    if y is None:
+                        continue
+                    q.append(y)
+            res.append(_l)
+        return res 
+
