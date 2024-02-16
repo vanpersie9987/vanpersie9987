@@ -908,6 +908,20 @@ class leetcode_2:
                     q.append(x.right)
             res.append(l)
         return [l[::-1] if i & 1 else l for i, l in enumerate(res)]
+    
+    # 103. 二叉树的锯齿形层序遍历 (Binary Tree Zigzag Level Order Traversal)
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        def dfs(root: 'TreeNode', d: int) -> None:
+            if root is None:
+                return
+            if d == len(res):
+                res.append([])
+            res[d].append(root.val)
+            dfs(root.left, d + 1)
+            dfs(root.right, d + 1)
+        res = []
+        dfs(root, 0)
+        return [l[::-1] if i & 1 else l for i, l in enumerate(res)]
 
 
 
