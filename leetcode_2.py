@@ -937,5 +937,20 @@ class leetcode_2:
                     j += 1
                 res = max(res, i - j + 1)
         return res
+    
+    # 2106. 摘水果 (Maximum Fruits Harvested After at Most K Steps)
+    def maxTotalFruits(self, fruits: List[List[int]], startPos: int, k: int) -> int:
+        j = 0
+        res = 0
+        s = 0
+        for i, (p, c) in enumerate(fruits):
+            s += c
+            while j <= i and p - fruits[j][0] + min(abs(startPos - p), abs(startPos - fruits[j][0])) > k:
+                s -= fruits[j][1]
+                j += 1
+            res = max(res, s)
+        return res
+
+
 
                 
