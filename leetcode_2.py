@@ -889,6 +889,28 @@ class leetcode_2:
                 j += 1
             res = max(res, i - j + 1)
         return -1 if res == -1 else n - res
+    
+    # 103. 二叉树的锯齿形层序遍历 (Binary Tree Zigzag Level Order Traversal)
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if root is None:
+            return []
+        q = deque([root])
+        res = []
+        while q:
+            size = len(q)
+            l = []
+            for _ in range(size):
+                x = q.popleft()
+                l.append(x.val)
+                if x.left:
+                    q.append(x.left)
+                if x.right:
+                    q.append(x.right)
+            res.append(l)
+        return [l[::-1] if i & 1 else l for i, l in enumerate(res)]
+
+
+
 
 
 
