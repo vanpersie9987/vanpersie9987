@@ -950,3 +950,16 @@ class leetcode_2:
                 j += 1
             res = max(res, s)
         return res
+    
+    # 429. N 叉树的层序遍历 (N-ary Tree Level Order Traversal)
+    def levelOrder(self, root: 'Node') -> List[List[int]]:
+        def dfs(root: 'Node', d: int) -> None:
+            if root is None:
+                return
+            if len(res) == d:
+                res.append([])
+            res[d].append(root.val)
+            [dfs(x, d + 1) for x in root.children]
+        res = []
+        dfs(root, 0)
+        return res
