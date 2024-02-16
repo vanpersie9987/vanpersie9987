@@ -3517,6 +3517,29 @@ public class Leetcode_3 {
 
     }
 
+    // 429. N 叉树的层序遍历 (N-ary Tree Level Order Traversal)
+    private List<List<Integer>> res429;
+
+    public List<List<Integer>> levelOrder2(Node root) {
+        this.res429 = new ArrayList<>();
+        dfs429(root, 0);
+        return res429;
+
+    }
+
+    private void dfs429(Node root, int d) {
+        if (root == null) {
+            return;
+        }
+        if (res429.size() == d) {
+            res429.add(new ArrayList<>());
+        }
+        res429.get(d).add(root.val);
+        for (Node y : root.children) {
+            dfs429(y, d + 1);
+        }
+    }
+
     // 559. N 叉树的最大深度 (Maximum Depth of N-ary Tree)
     public int maxDepth(Node root) {
         if (root == null) {
