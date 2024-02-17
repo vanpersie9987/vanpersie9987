@@ -7676,4 +7676,40 @@ public class Leetcode_8 {
         return c == '2' || c == '3' || c == '5' || c == '7';
     }
 
+    // 1610. 可见点的最大数目 (Maximum Number of Visible Points)
+    public int visiblePoints(List<List<Integer>> points, int angle, List<Integer> location) {
+        int origin = 0;
+        int x0 = location.get(0);
+        int y0 = location.get(1);
+        List<Double> arr = new ArrayList<>();
+        // 把 location 的位置平移至原点后各个点的相对位置
+        for (int i = 0; i < points.size(); ++i) {
+            int x1 = points.get(i).get(0);
+            int y1 = points.get(i).get(1);
+            int nx = x1 - x0;
+            int ny = y1 - y0;
+            // 原点
+            if (nx == 0 && ny == 0) {
+                ++origin;
+            } else {
+                arr.add(Math.atan2(ny, nx));
+            }
+        }
+        Collections.sort(arr);
+        int m = arr.size();
+        for (int i = 0; i < m; ++i) {
+            arr.add(arr.get(i) + 2 * Math.PI);
+        }
+        int j = 0;
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            double cur = arr.get(i) + angle * Math.PI / 180;
+            while (j < arr.size() && arr.get(j) <= cur) {
+                ++j;
+            }
+            res = Math.max(res, j - i);
+        }
+        return res + origin;
+    }
+
 }
