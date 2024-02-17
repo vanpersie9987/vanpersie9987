@@ -8499,34 +8499,7 @@ class leetcode_1 :
        n = len(nums)
        m = nums[n // 2]
        return min(cal(m, -1, 0), cal(m, 1, 10 ** 9))
-    
-    # 2968. 执行操作使频率分数最大 (Apply Operations to Maximize Frequency Score)
-    def maxFrequencyScore(self, nums: List[int], k: int) -> int:
-       def check(w: int) -> bool:
-          for i in range(w - 1, n):
-             l = i - w + 1
-             r = i
-             m = (l + r) // 2
-             if pre[r + 1] - pre[m] - nums[m] * (r - m + 1) + nums[m] * (m - l + 1) - (pre[m + 1] - pre[l]) <= k:
-                return True
-          return False
-       nums.sort()
-       n = len(nums)
-       pre = [0] * (n + 1)
-       for i in range(n):
-          pre[i + 1] = pre[i] + nums[i]
-       left = 1
-       right = n
-       res = 1
-       while left <= right:
-          mid = left + ((right - left) >> 1)
-          if check(mid):
-             res = mid
-             left = mid + 1
-          else:
-             right = mid - 1
-       return res
-    
+
     # 1901. 寻找峰值 II (Find a Peak Element II)
     def findPeakGrid(self, mat: List[List[int]]) -> List[int]:
        left = 0

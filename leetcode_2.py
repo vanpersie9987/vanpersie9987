@@ -12,6 +12,7 @@ from inspect import modulesbyfile
 from itertools import accumulate, pairwise
 from locale import DAY_4
 from math import comb, cos, gcd, inf, isqrt, sqrt
+from mimetypes import init
 from operator import le
 from pickletools import read_uint1
 from queue import PriorityQueue
@@ -981,5 +982,21 @@ class leetcode_2:
                         continue
                     q.append(y)
             res.append(_l)
-        return res 
+        return res
+    
+    # 2968. 执行操作使频率分数最大 (Apply Operations to Maximize Frequency Score)
+    def maxFrequencyScore(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        nums.sort()
+        s = list(accumulate(nums, initial=0))
+        j = 0
+        res = 0
+        for i in range(n):
+            m = (i + j) // 2
+            while s[i + 1] - s[m] - nums[m] * (i - m + 1) + nums[m] * (m + 1 - j) - (s[m + 1] - s[j]) > k:
+                j += 1
+                m = (i + j) // 2
+            res = max(res, i - j + 1)
+        return res
+
 
