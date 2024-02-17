@@ -999,4 +999,29 @@ class leetcode_2:
             res = max(res, i - j + 1)
         return res
 
-
+    # 763. 最长的美好子字符串 (Longest Nice Substring)
+    def longestNiceSubstring(self, s: str) -> str:
+        n = len(s)
+        left = 0
+        l = 0
+        for k in range(1, 27):
+            if k * 2 > n:
+                break
+            m = [0] * 2
+            j = 0
+            d = defaultdict(int)
+            for i, v in enumerate(s):
+                m[(ord(v) >> 5) & 1] |= 1 << (ord(v) & 31)
+                d[v] += 1
+                while m[0].bit_count() > k or m[1].bit_count() > k:
+                    d[s[j]] -= 1
+                    if d[s[j]] == 0:
+                        m[(ord(s[j]) >> 5) & 1] ^= 1 << (ord(s[j]) & 31)
+                    j += 1
+                if m[0] == m[1]:
+                    if i - j + 1 > l:
+                        l = i - j + 1
+                        left = j
+                    elif i - j + 1 == l and left > j:
+                        left = j
+        return "" if l == 0 else s[left: left + l]
