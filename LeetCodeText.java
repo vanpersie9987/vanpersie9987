@@ -17744,27 +17744,6 @@ public class LeetCodeText {
 
     }
 
-    // 1763. 最长的美好子字符串 (Longest Nice Substring) --还需掌握 分治、滑动窗口
-    public String longestNiceSubstring(String s) {
-        String res = "";
-        for (int i = 0; i < s.length(); ++i) {
-            int a = 0;
-            int b = 0;
-            for (int j = i; j < s.length(); ++j) {
-                if (s.charAt(j) >= 'a' && s.charAt(j) <= 'z') {
-                    a |= 1 << (s.charAt(j) - 'a');
-                } else {
-                    b |= 1 << (s.charAt(j) - 'A');
-                }
-                if (a == b && j - i + 1 > res.length()) {
-                    res = s.substring(i, j + 1);
-                }
-            }
-        }
-        return res;
-
-    }
-
     // 1979. 找出数组的最大公约数 (Find Greatest Common Divisor of Array)
     public int findGCD(int[] nums) {
         int max = Arrays.stream(nums).max().getAsInt();

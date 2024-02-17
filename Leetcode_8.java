@@ -7767,4 +7767,46 @@ public class Leetcode_8 {
 
     }
 
+
+    // 1763. 最长的美好子字符串 (Longest Nice Substring)
+    public String longestNiceSubstring(String s) {
+        int n = s.length();
+        int left = n;
+        int res = 0;
+        for (int k = 1; k <= 26; ++k) {
+            if (k * 2 > n) {
+                break;
+            }
+            int[] m = new int[2];
+            Map<Character, Integer> cnt = new HashMap<>();
+            int j = 0;
+            for (int i = 0; i < n; ++i) {
+                char c = s.charAt(i);
+                cnt.merge(c, 1, Integer::sum);
+                m[(c >> 5) & 1] |= 1 << (c & 31);
+                while (Integer.bitCount(m[0]) > k || Integer.bitCount(m[1]) > k) {
+                    c = s.charAt(j);
+                    cnt.merge(c, -1, Integer::sum);
+                    if (cnt.get(c) == 0) {
+                        m[(c >> 5) & 1] ^= 1 << (c & 31);
+                    }
+                    ++j;
+                }
+                if (m[0] == m[1]) {
+                    if (i - j + 1 > res) {
+                        res = i - j + 1;
+                        left = j;
+                    } else if (i - j + 1 == res && j < left) {
+                        left = j;
+                    }
+                }
+            }
+        }
+        if (res == 0) {
+            return "";
+        }
+        return s.substring(left, left + res);
+
+    }
+
 }
