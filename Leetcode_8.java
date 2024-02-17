@@ -7697,4 +7697,20 @@ public class Leetcode_8 {
 
     }
 
+    public int longestSubstring(String s, int k) {
+        int n = s.length();
+        int res = 0;
+        Map<Integer, Integer> cnt = new HashMap<>();
+        for (int i = 1; i <= 26; ++i) {
+            if (i * k > n) {
+                break;
+            }
+            for()
+
+
+
+        }
+
+    }
+
 }

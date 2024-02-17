@@ -3672,29 +3672,6 @@ public class LeetCode_2 {
 
    }
 
-   // 395. 至少有 K 个重复字符的最长子串
-   // 395. Longest Substring with At Least K Repeating Characters --分治 还需掌握滑动窗口
-   public int longestSubstring(String s, int k) {
-      if (s.length() < k) {
-         return 0;
-      }
-      int[] counts = new int[26];
-      for (char c : s.toCharArray()) {
-         ++counts[c - 'a'];
-      }
-      for (int i = 0; i < 26; ++i) {
-         if (counts[i] > 0 && counts[i] < k) {
-            int max = 0;
-            for (String sub : s.split(String.valueOf((char) (i + 'a')))) {
-               max = Math.max(max, longestSubstring(sub, k));
-            }
-            return max;
-         }
-      }
-      return s.length();
-
-   }
-
    // 424. 替换后的最长重复字符 (Longest Repeating Character Replacement)
    public int characterReplacement(String s, int k) {
       int[] counts = new int[26];
@@ -4521,7 +4498,7 @@ public class LeetCode_2 {
          } else {
             a = b;
             b = 0;
-         }      
+         }
       }
       return Math.min(n - 1, res);
 
@@ -5762,26 +5739,26 @@ public class LeetCode_2 {
 
    // 1696. 跳跃游戏 VI (Jump Game VI) --单调队列
    public int maxResult(int[] nums, int k) {
-        int n = nums.length;
-        int[] dp = new int[n];
-        dp[0] = nums[0];
-        Deque<Integer> q = new ArrayDeque<>();
-        q.offerLast(0);
-        for (int i = 1; i < n; ++i) {
-            while (!q.isEmpty() && i - q.peekFirst() > k) {
-                q.pollFirst();
-            }
-            if (!q.isEmpty()) {
-                dp[i] = dp[q.peekFirst()] + nums[i];
-            }
-            while (!q.isEmpty() && dp[q.peekLast()] <= dp[i]) {
-                q.pollLast();
-            }
-            q.offerLast(i);
-        }
-        return dp[n - 1];
+      int n = nums.length;
+      int[] dp = new int[n];
+      dp[0] = nums[0];
+      Deque<Integer> q = new ArrayDeque<>();
+      q.offerLast(0);
+      for (int i = 1; i < n; ++i) {
+         while (!q.isEmpty() && i - q.peekFirst() > k) {
+            q.pollFirst();
+         }
+         if (!q.isEmpty()) {
+            dp[i] = dp[q.peekFirst()] + nums[i];
+         }
+         while (!q.isEmpty() && dp[q.peekLast()] <= dp[i]) {
+            q.pollLast();
+         }
+         q.offerLast(i);
+      }
+      return dp[n - 1];
 
-    }
+   }
 
    // 1499. 满足不等式的最大值 (Max Value of Equation) --单调队列
    public int findMaxValueOfEquation(int[][] points, int k) {
@@ -6965,7 +6942,8 @@ public class LeetCode_2 {
       int res = dfs_offer_46(i + 1);
       if (arr_offer_46[i] == '1' && i + 1 < n_offer_46) {
          res += dfs_offer_46(i + 2);
-      } else if (arr_offer_46[i] == '2' && i + 1 < n_offer_46 && arr_offer_46[i + 1] <= '5' && arr_offer_46[i + 1] >= '0') {
+      } else if (arr_offer_46[i] == '2' && i + 1 < n_offer_46 && arr_offer_46[i + 1] <= '5'
+            && arr_offer_46[i + 1] >= '0') {
          res += dfs_offer_46(i + 2);
       }
       return memo_offer_46[i] = res;
@@ -10023,7 +10001,8 @@ public class LeetCode_2 {
 
    }
 
-   // 117. 填充每个节点的下一个右侧节点指针 II (Populating Next Right Pointers in Each Node II) --bfs
+   // 117. 填充每个节点的下一个右侧节点指针 II (Populating Next Right Pointers in Each Node II)
+   // --bfs
    public Node connect117(Node root) {
       if (root == null) {
          return root;
