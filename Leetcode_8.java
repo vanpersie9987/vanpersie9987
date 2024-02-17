@@ -1753,6 +1753,7 @@ public class Leetcode_8 {
         }
         return memo2770[i] = max;
     }
+
     // 2771. 构造最长非递减子数组 (Longest Non-decreasing Subarray From Two Arrays)
     private int n2771;
     private int[][] nums2771;
@@ -3501,7 +3502,6 @@ public class Leetcode_8 {
         return cnt;
     }
 
-
     // 6988. 统计距离为 k 的点对 (Count Pairs of Points With Distance k)
     public int countPairs2(List<List<Integer>> coordinates, int k) {
         int res = 0;
@@ -4700,8 +4700,9 @@ public class Leetcode_8 {
         return (int) res;
 
     }
-    
-    // 100104. 使二进制字符串变美丽的最少修改次数 (Minimum Number of Changes to Make Binary String Beautiful)
+
+    // 100104. 使二进制字符串变美丽的最少修改次数 (Minimum Number of Changes to Make Binary String
+    // Beautiful)
     public int minChanges(String s) {
         int n = s.length();
         int res = 0;
@@ -4913,7 +4914,7 @@ public class Leetcode_8 {
         return res;
 
     }
-    
+
     private void dfs2003(int x, List<Integer>[] g, Set<Integer> vis, int[] nums) {
         vis.add(nums[x]); // 标记基因值
         for (int son : g[x]) {
@@ -4943,7 +4944,7 @@ public class Leetcode_8 {
         }
         return -1;
     }
-    
+
     // 100116. 找到冠军 II (Find Champion II)
     public int findChampion(int n, int[][] edges) {
         int[] deg = new int[n];
@@ -5039,7 +5040,8 @@ public class Leetcode_8 {
 
     }
 
-    // 2930. 重新排列后包含指定子字符串的字符串数目 (Number of Strings Which Can Be Rearranged to Contain Substring)
+    // 2930. 重新排列后包含指定子字符串的字符串数目 (Number of Strings Which Can Be Rearranged to
+    // Contain Substring)
     private int[][][][] memo2930;
     private int n2930;
 
@@ -5115,7 +5117,8 @@ public class Leetcode_8 {
 
     }
 
-    // 2934. 最大化数组末位元素的最少操作次数 (Minimum Operations to Maximize Last Elements in Arrays)
+    // 2934. 最大化数组末位元素的最少操作次数 (Minimum Operations to Maximize Last Elements in
+    // Arrays)
     public int minOperations(int[] nums1, int[] nums2) {
         int n = nums1.length;
         return Math.min(check(nums1, nums2, nums1[n - 1], nums2[n - 1]),
@@ -5283,7 +5286,7 @@ public class Leetcode_8 {
 
     // 2948. 交换得到字典序最小的数组 (Make Lexicographically Smallest Array by Swapping
     // Elements)
-     public int[] lexicographicallySmallestArray(int[] nums, int limit) {
+    public int[] lexicographicallySmallestArray(int[] nums, int limit) {
         List<int[]> list = new ArrayList<>();
         int n = nums.length;
         for (int i = 0; i < n; ++i) {
@@ -5295,7 +5298,7 @@ public class Leetcode_8 {
             public int compare(int[] o1, int[] o2) {
                 return Integer.compare(o1[1], o2[1]);
             }
-            
+
         });
         int[] res = new int[n];
         List<Integer> ids = new ArrayList<>();
@@ -5318,7 +5321,7 @@ public class Leetcode_8 {
         return res;
 
     }
-    
+
     // 2942. 查找包含给定字符的单词 (Find Words Containing Character)
     public List<Integer> findWordsContaining(String[] words, char x) {
         List<Integer> res = new ArrayList<>();
@@ -5962,7 +5965,7 @@ public class Leetcode_8 {
         int n = nums.length;
         long sum = 0L;
         for (int num : nums) {
-            sum += num; 
+            sum += num;
         }
         for (int i = n - 1; i >= 2; --i) {
             if (sum - nums[i] > nums[i]) {
@@ -6050,15 +6053,15 @@ public class Leetcode_8 {
          * Floyd
          */
         // for (int k = 0; k < m2977; ++k) {
-        //     for (int i = 0; i < m2977; ++i) {
-        //         if (dic2977[i][k] == Long.MAX_VALUE / 2) {
-        //             continue;
-        //         }
-        //         for (int j = 0; j < m2977; ++j) {
-        //             dic2977[i][j] = Math.min(dic2977[i][j], dic2977[i][k] + dic2977[k][j]);
-        //         }
-        //     }
-        
+        // for (int i = 0; i < m2977; ++i) {
+        // if (dic2977[i][k] == Long.MAX_VALUE / 2) {
+        // continue;
+        // }
+        // for (int j = 0; j < m2977; ++j) {
+        // dic2977[i][j] = Math.min(dic2977[i][j], dic2977[i][k] + dic2977[k][j]);
+        // }
+        // }
+
         // }
         for (int i = 0; i < m2977; ++i) {
             dic2977[i] = dijkstra2977(i);
@@ -6292,7 +6295,7 @@ public class Leetcode_8 {
                 // Integer.bitCount(m) == 1
                 if ((m & (m - 1)) == 0) {
                     if (++ret[index] == 3) {
-                         return true;
+                        return true;
                     }
                 }
             }
@@ -6529,7 +6532,8 @@ public class Leetcode_8 {
                 || check3001(a, b, c, d, e, f, -1, 0)) {
             return 1;
         }
-        if (check3001(c, d, a, b, e, f, 1, 1) || check3001(c, d, a, b, e, f, 1, -1) || check3001(c, d, a, b, e, f, -1, 1)
+        if (check3001(c, d, a, b, e, f, 1, 1) || check3001(c, d, a, b, e, f, 1, -1)
+                || check3001(c, d, a, b, e, f, -1, 1)
                 || check3001(c, d, a, b, e, f, -1, -1)) {
             return 1;
         }
@@ -6937,6 +6941,7 @@ public class Leetcode_8 {
         long even2 = m / 2;
         return even1 * (m - even2) + (n - even1) * even2;
     }
+
     // 2862. 完全子集的最大元素和 (Maximum Element-Sum of a Complete Subset of Indices)
     public long maximumSum(List<Integer> nums) {
         int n = nums.size();
@@ -7077,6 +7082,7 @@ public class Leetcode_8 {
     // 2932. 找出强数对的最大异或值 I (Maximum Strong Pair XOR I)
     // 2935. 找出强数对的最大异或值 II (Maximum Strong Pair XOR II) -- 0-1字典树
     private int highestBit2935;
+
     public int maximumStrongPairXor2(int[] nums) {
         Arrays.sort(nums);
         int n = nums.length;
@@ -7165,7 +7171,6 @@ public class Leetcode_8 {
             }
         }
         return Integer.compare(x - y, 0);
-
 
     }
 
@@ -7302,7 +7307,8 @@ public class Leetcode_8 {
     }
 
     // 3029. 将单词恢复初始状态所需的最短时间 I (Minimum Time to Revert Word to Initial State I)
-    // 3031. 将单词恢复初始状态所需的最短时间 II (Minimum Time to Revert Word to Initial State II) --z函数
+    // 3031. 将单词恢复初始状态所需的最短时间 II (Minimum Time to Revert Word to Initial State II)
+    // --z函数
     public int minimumTimeToInitialState(String word, int k) {
         int n = word.length();
         int left = 0;
@@ -7502,7 +7508,7 @@ public class Leetcode_8 {
             public int compare(String o1, String o2) {
                 return Integer.compare(o1.length(), o2.length());
             }
-            
+
         });
         for (String w : words) {
             int m = w.length() / 2;
@@ -7535,7 +7541,6 @@ public class Leetcode_8 {
             res += z[i];
         }
         return res;
-
 
     }
 
@@ -7599,12 +7604,12 @@ public class Leetcode_8 {
         }
         return Arrays.stream(rowMax).max().getAsInt();
 
-
     }
 
     // 2478. 完美分割的方案数 (Number of Beautiful Partitions)
     private String s2478;
     private int n2478;
+
     public int beautifulPartitions(String s, int k, int minLength) {
         final int MOD = (int) (1e9 + 7);
         this.n2478 = s.length();
@@ -7697,7 +7702,32 @@ public class Leetcode_8 {
 
     }
 
+    // 395. 至少有 K 个重复字符的最长子串 (Longest Substring with At Least K Repeating
+    // Characters) --分治
     public int longestSubstring(String s, int k) {
+        if (s.length() < k) {
+            return 0;
+        }
+        int[] counts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++counts[c - 'a'];
+        }
+        for (int i = 0; i < 26; ++i) {
+            if (counts[i] > 0 && counts[i] < k) {
+                int max = 0;
+                for (String sub : s.split(String.valueOf((char) (i + 'a')))) {
+                    max = Math.max(max, longestSubstring(sub, k));
+                }
+                return max;
+            }
+        }
+        return s.length();
+
+    }
+
+    // 395. 至少有 K 个重复字符的最长子串 (Longest Substring with At Least K Repeating
+    // Characters)
+    public int longestSubstring2(String s, int k) {
         int n = s.length();
         int res = 0;
         Map<Integer, Integer> cnt = new HashMap<>();
@@ -7705,11 +7735,35 @@ public class Leetcode_8 {
             if (i * k > n) {
                 break;
             }
-            for()
-
-
-
+            cnt.clear();
+            int d = 0;
+            int y = 0;
+            for (int x = 0; x < n; ++x) {
+                int index = s.charAt(x) - 'a';
+                cnt.merge(index, 1, Integer::sum);
+                if (cnt.get(index) == 1) {
+                    ++d;
+                }
+                if (cnt.get(index) == k) {
+                    --d;
+                }
+                while (cnt.size() > i) {
+                    cnt.merge(s.charAt(y) - 'a', -1, Integer::sum);
+                    if (cnt.get(s.charAt(y) - 'a') == k - 1) {
+                        ++d;
+                    }
+                    if (cnt.get(s.charAt(y) - 'a') == 0) {
+                        --d;
+                        cnt.remove(s.charAt(y) - 'a');
+                    }
+                    ++y;
+                }
+                if (d == 0) {
+                    res = Math.max(res, x - y + 1);
+                }
+            }
         }
+        return res;
 
     }
 
