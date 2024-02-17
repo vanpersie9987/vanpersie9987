@@ -7768,7 +7768,7 @@ public class Leetcode_8 {
     }
 
     // 1763. 最长的美好子字符串 (Longest Nice Substring)
-    public String longestNiceSubstring2(String s) {
+    public String longestNiceSubstring(String s) {
         int n = s.length();
         int left = n;
         int res = 0;
