@@ -5820,39 +5820,24 @@ public class Leetcode_8 {
     // 2968. 执行操作使频率分数最大 (Apply Operations to Maximize Frequency Score)
     public int maxFrequencyScore(int[] nums, long k) {
         Arrays.sort(nums);
-        int left = 1;
-        int right = nums.length;
-        int res = 1;
         int n = nums.length;
+        int res = 0;
         long[] pre = new long[n + 1];
         for (int i = 0; i < n; ++i) {
             pre[i + 1] = pre[i] + nums[i];
         }
-        while (left <= right) {
-            int mid = left + ((right - left) >> 1);
-            if (check2968(mid, nums, k, pre)) {
-                res = mid;
-                left = mid + 1;
-            } else {
-                right = mid - 1;
+        int j = 0;
+        for (int i = 0; i < n; ++i) {
+            int m = (i + j) / 2;
+            while (pre[i + 1] - pre[m] - (long) nums[m] * (i - m + 1) + (long) nums[m] * (m - j + 1)
+                    - (pre[m + 1] - pre[j]) > k) {
+                ++j;
+                m = (i + j) / 2;
             }
+            res = Math.max(res, i - j + 1);
         }
         return res;
 
-    }
-
-    private boolean check2968(int w, int[] nums, long k, long[] pre) {
-        int n = nums.length;
-        for (int i = w - 1; i < n; ++i) {
-            int l = i - w + 1;
-            int r = i;
-            int mid = (r + l) / 2;
-            if (pre[r + 1] - pre[mid] - (r - mid + 1) * nums[mid] + (mid - l + 1) * nums[mid]
-                    - (pre[mid + 1] - pre[l]) <= k) {
-                return true;
-            }
-        }
-        return false;
     }
 
     // 2974. 最小数字游戏 (Minimum Number Game)
