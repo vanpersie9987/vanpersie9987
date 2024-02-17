@@ -5817,29 +5817,6 @@ public class Leetcode_8 {
         return true;
     }
 
-    // 2968. 执行操作使频率分数最大 (Apply Operations to Maximize Frequency Score)
-    public int maxFrequencyScore(int[] nums, long k) {
-        Arrays.sort(nums);
-        int n = nums.length;
-        int res = 0;
-        long[] pre = new long[n + 1];
-        for (int i = 0; i < n; ++i) {
-            pre[i + 1] = pre[i] + nums[i];
-        }
-        int j = 0;
-        for (int i = 0; i < n; ++i) {
-            int m = (i + j) / 2;
-            while (pre[i + 1] - pre[m] - (long) nums[m] * (i - m + 1) + (long) nums[m] * (m - j + 1)
-                    - (pre[m + 1] - pre[j]) > k) {
-                ++j;
-                m = (i + j) / 2;
-            }
-            res = Math.max(res, i - j + 1);
-        }
-        return res;
-
-    }
-
     // 2974. 最小数字游戏 (Minimum Number Game)
     public int[] numberGame(int[] nums) {
         Arrays.sort(nums);
@@ -7695,6 +7672,29 @@ public class Leetcode_8 {
             res = Math.max(res, j - i);
         }
         return res + origin;
+    }
+
+    // 2968. 执行操作使频率分数最大 (Apply Operations to Maximize Frequency Score)
+    public int maxFrequencyScore(int[] nums, long k) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int res = 0;
+        long[] pre = new long[n + 1];
+        for (int i = 0; i < n; ++i) {
+            pre[i + 1] = pre[i] + nums[i];
+        }
+        int j = 0;
+        for (int i = 0; i < n; ++i) {
+            int m = (i + j) / 2;
+            while (pre[i + 1] - pre[m] - (long) nums[m] * (i - m + 1) + (long) nums[m] * (m - j + 1)
+                    - (pre[m + 1] - pre[j]) > k) {
+                ++j;
+                m = (i + j) / 2;
+            }
+            res = Math.max(res, i - j + 1);
+        }
+        return res;
+
     }
 
 }
