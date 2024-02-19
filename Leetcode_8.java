@@ -7808,4 +7808,247 @@ public class Leetcode_8 {
 
     }
 
+    // 3038. 相同分数的最大操作数目 I (Maximum Number of Operations With the Same Score I)
+    public int maxOperations(int[] nums) {
+        int n = nums.length;
+        if (n < 2) {
+            return 0;
+        }
+        int res = 1;
+        int x = nums[0] + nums[1];
+        int i = 2;
+        while (i + 1 < n && nums[i] + nums[i + 1] == x) {
+            if (nums[i] + nums[i + 1] == x) {
+                ++res;
+                i += 2;
+            }
+        }
+        return res;
+
+    }
+
+    // 3039. 进行操作使字符串为空 (Apply Operations to Make String Empty)
+    public String lastNonEmptyString(String s) {
+        int[] cnt = new int[26];
+        int max = 0;
+        for (char c : s.toCharArray()) {
+            ++cnt[c - 'a'];
+            max = Math.max(max, cnt[c - 'a']);
+        }
+        int n = s.length();
+        StringBuilder res = new StringBuilder();
+        for (int i = n - 1; i >= 0; --i) {
+            if (cnt[s.charAt(i) - 'a'] == max && res.toString().indexOf(s.charAt(i) + "") == -1) {
+                res.append(s.charAt(i));
+            }
+        }
+        return res.reverse().toString();
+
+    }
+
+    // 3040. 相同分数的最大操作数目 II (Maximum Number of Operations With the Same Score II)
+    private int[] nums3040;
+    private int n3040;
+    public int maxOperations3040(int[] nums) {
+        this.n3040 = nums.length;
+        if (n3040 < 2) {
+            return 0;
+        }
+        this.nums3040 = nums;
+        int res1 = check(nums[0] + nums[1]);
+        int res2 = check(nums[0] + nums[n3040 - 1]);
+        int res3 = check(nums[n3040 - 1] + nums[n3040 - 2]);
+        return Math.max(res3, Math.max(res1, res2));
+
+    }
+
+    private int[][] memo3040;
+    private int s3040;
+
+    private int check(int s) {
+        this.s3040 = s;
+        this.memo3040 = new int[n3040][n3040];
+        for (int i = 0; i < n3040; ++i) {
+            Arrays.fill(memo3040[i], -1);
+        }
+        return dfs3040(0, n3040 - 1);
+
+    }
+
+    private int dfs3040(int i, int j) {
+        if (i >= j) {
+            return 0;
+        }
+        if (memo3040[i][j] != -1) {
+            return memo3040[i][j];
+        }
+        int res = 0;
+        if (nums3040[i] + nums3040[j] == s3040) {
+            res = Math.max(res, dfs3040(i + 1, j - 1) + 1);
+        }
+        if (nums3040[i] + nums3040[i + 1] == s3040) {
+            res = Math.max(res, dfs3040(i + 2, j) + 1);
+        }
+        if (nums3040[j] + nums3040[j - 1] == s3040) {
+            res = Math.max(res, dfs3040(i, j - 2) + 1);
+        }
+        return memo3040[i][j] = res;
+    }
+
+    // 3041. 修改数组后最大化数组中的连续元素数目 (Maximize Consecutive Elements in an Array After
+    // Modification)
+    public int maxSelectedElements(int[] nums) {
+        Arrays.sort(nums);
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int x : nums) {
+            map.put(x + 1, map.getOrDefault(x, 0) + 1);
+            map.put(x, map.getOrDefault(x - 1, 0) + 1);
+        }
+        return Collections.max(map.values());
+
+    }
+
+    // // public int maxSelectedElements(int[] nums) {
+
+    // // }
+
+    // public int countPrefixSuffixPairs(String[] words) {
+    //     int res = 0;
+    //     int n = words.length;
+    //     for (int i = 0; i < n; ++i) {
+    //         for (int j = i + 1; j < n; ++j) {
+    //             if (check(words[i], words[j])) {
+    //                 ++res;
+
+    //             }
+
+    //         }
+        
+    //     }
+    //     return res;
+
+    // }
+
+    // private boolean check(String a1, String a2) {
+    //     return a2.startsWith(a1) && a2.endsWith(a1);
+    // }
+
+    // public int longestCommonPrefix(int[] arr1, int[] arr2) {
+    //     Set<String> set = new HashSet<>();
+    //     for (int i = 0; i < arr1.length; ++i) {
+    //         String s = String.valueOf(arr1[i]);
+    //         for (int j = 1; j <= s.length(); ++j) {
+    //             set.add(s.substring(0, j));
+    //         }
+    //     }
+    //     int res = 0;
+    //     for (int i = 0; i < arr2.length; ++i) {
+    //         String s = String.valueOf(arr2[i]);
+    //         for (int j = 1; j <= s.length(); ++j) {
+    //             if (set.contains(s.substring(0, j))) {
+    //                 res = Math.max(res, j);
+    //             }
+    //         }
+    //     }
+    //     return res;
+
+    // }
+
+    // private int[][] dirs = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 }, { -1, -1 }, { -1, 1 }, { 1, -1 }, { 1, 1 } };
+    // private Map<Integer, Integer> map = new HashMap<>();
+    // private int[][] mat;
+    // private int m;
+    // private int n;
+    // private boolean[] isPrime;
+
+    // public int mostFrequentPrime(int[][] mat) {
+    //     this.m = mat.length;
+    //     this.n = mat[0].length;
+    //     this.mat = mat;
+    //     int pow = (int) Math.pow(10, Math.max(m, n));
+    //     this.isPrime = new boolean[pow];
+    //     Arrays.fill(isPrime, true);
+    //     for (int i = 2; i < pow; ++i) {
+    //         if (isPrime[i]) {
+    //             for (int j = i + i; j < pow; j += i) {
+    //                 isPrime[j] = false;
+    //             }
+    //         }
+    //     }
+    //     for (int i = 0; i < m; ++i) {
+    //         for (int j = 0; j < n; ++j) {
+    //             if (mat[i][j] % 2 == 0) {
+    //                 continue;
+    //             }
+    //             for (int[] d : dirs) {
+    //                 check(i, j, d[0], d[1]);
+    //             }
+    //         }
+    //     }
+    //     if (map.isEmpty()) {
+    //         return -1;
+    //     }
+    //     int max = Collections.max(map.values());
+    //     int res = 0;
+    //     for (int k : map.keySet()) {
+    //         if (map.get(k) == max) {
+    //             res = Math.max(res, k);
+    //         }
+    //     }
+    //     return res;
+
+    // }
+
+    // private void check(int i, int j, int dx, int dy) {
+    //     int x = mat[i][j];
+    //     i += dx;
+    //     j += dy;
+    //     int p = 10;
+    //     while (i < m && i >= 0 && j >= 0 && j < n) {
+    //         x = mat[i][j] * p + x;
+    //         if (x > 10 && isPrime[x]) {
+    //             map.merge(x, 1, Integer::sum);
+    //         }
+    //         i += dx;
+    //         j += dy;
+    //         p *= 10;
+    //     }
+
+    // }
+
+    // private Map<String, Long> cnt;
+
+    // public long countPrefixSuffixPairs(String[] words) {
+    //     long res = 0L;
+    //     this.cnt = new HashMap<>();
+    //     int n = words.length;
+    //     for (int i = n - 1; i >= 0; --i) {
+    //         res = res + cnt.getOrDefault(words[i], 0L);
+    //         f(words[i]);
+    //     }
+    //     return res;
+
+    // }
+
+    // private void f(String word) {
+    //     int left = 0;
+    //     int right = 0;
+    //     int n = word.length();
+    //     int[] z = new int[n];
+    //     for (int i = 1; i < n; ++i) {
+    //         if (i <= right) {
+    //             z[i] = Math.min(z[i - left], right - i + 1);
+    //         }
+    //         while (i + z[i] < n && word.charAt(z[i]) == word.charAt(i + z[i])) {
+    //             left = i;
+    //             right = i + z[i];
+    //             ++z[i];
+    //         }
+    //         if (z[i] == n - i) {
+    //             cnt.merge(word.substring(i, n), 1L, Long::sum);
+    //         }
+    //     }
+    //     cnt.merge(word, 1L, Long::sum);
+    // }
+
 }

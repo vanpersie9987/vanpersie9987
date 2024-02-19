@@ -1025,3 +1025,98 @@ class leetcode_2:
                     elif i - j + 1 == l and left > j:
                         left = j
         return "" if l == 0 else s[left: left + l]
+    
+    # 590. N 叉树的后序遍历 (N-ary Tree Postorder Traversal)
+    def postorder(self, root: 'Node') -> List[int]:
+        res = []
+        def dfs(root: 'Node') -> None:
+            if root is None:
+                return
+            for x in root.children:
+                if x is None:
+                    continue
+                dfs(x)
+            res.append(root.val)
+        dfs(root)
+        return res
+    
+    # 3038. 相同分数的最大操作数目 I (Maximum Number of Operations With the Same Score I)
+    def maxOperations(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n < 2:
+            return 0
+        res = 1
+        s = nums[0] + nums[1]
+        i = 2
+        while i + 1 < n and nums[i] + nums[i + 1] == s:
+            i += 2
+            res += 1
+        return res
+    
+    # 3039. 进行操作使字符串为空 (Apply Operations to Make String Empty)
+    def lastNonEmptyString(self, s: str) -> str:
+        cnt = Counter(s)
+        mx = max(cnt.values())
+        res = []
+        for i in range(len(s) - 1, -1, -1):
+            if cnt[s[i]] == mx and s[i] not in res:
+                res.append(s[i])
+        return ''.join(res[::-1])
+
+    # 3040. 相同分数的最大操作数目 II (Maximum Number of Operations With the Same Score II)
+    def maxOperations(self, nums: List[int]) -> int:
+        def check(x: int) -> int:
+            @cache
+            def dfs(i: int, j: int) -> int:
+                if i >= j:
+                    return 0
+                res = 0
+                if nums[i] + nums[j] == x:
+                    res = max(res, dfs(i + 1, j - 1) + 1)
+                if nums[i] + nums[i + 1] == x:
+                    res = max(res, dfs(i + 2, j) + 1)
+                if nums[j] + nums[j - 1] == x:
+                    res = max(res, dfs(i, j - 2) + 1)
+                return res
+            res = dfs(0, n - 1)
+            dfs.cache_clear()
+            return res
+        n = len(nums)
+        if n < 2:
+            return 0
+        res1 = check(nums[0] + nums[-1])
+        res2 = check(nums[0] + nums[1])
+        res3 = check(nums[-1] + nums[-2])
+        return max(res1, res2, res3)
+    
+    # 3041. 修改数组后最大化数组中的连续元素数目 (Maximize Consecutive Elements in an Array After Modification)
+    def maxSelectedElements(self, nums: List[int]) -> int:
+        nums.sort()
+        f = defaultdict(int)
+        for x in nums:
+            f[x + 1] = f[x] + 1
+            f[x] = f[x - 1] + 1
+        return max(f.values())
+
+    
+
+    def countPrefixSuffixPairs(self, words: List[str]) -> int:
+        def f(s: str) -> None:
+            n = len(s)
+            z = [0] * n
+            left = right = 0
+            d[s] += 1
+            for i in range(1, n):
+                if i <= right:
+                    z[i] = min(z[i - left], right - i + 1)
+                while i + z[i] < n and s[z[i]] == s[i + z[i]]:
+                    left, right = i, i + z[i]
+                    z[i] += 1
+                if z[i] == n - i:
+                    d[s[i:]] += 1
+        d = defaultdict(int)
+        res = 0
+        for i in range(len(words) - 1, -1, -1):
+            res += d[words[i]] 
+            f(words[i])
+        return res
