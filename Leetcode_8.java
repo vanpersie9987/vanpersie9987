@@ -7908,113 +7908,92 @@ public class Leetcode_8 {
 
     }
 
-    // // public int maxSelectedElements(int[] nums) {
+    // 3043. 最长公共前缀的长度 (Find the Length of the Longest Common Prefix)
+    public int longestCommonPrefix(int[] arr1, int[] arr2) {
+        Set<String> set = new HashSet<>();
+        for (int i = 0; i < arr1.length; ++i) {
+            String s = String.valueOf(arr1[i]);
+            for (int j = 1; j <= s.length(); ++j) {
+                set.add(s.substring(0, j));
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < arr2.length; ++i) {
+            String s = String.valueOf(arr2[i]);
+            for (int j = 1; j <= s.length(); ++j) {
+                if (set.contains(s.substring(0, j))) {
+                    res = Math.max(res, j);
+                }
+            }
+        }
+        return res;
 
-    // // }
+    }
 
-    // public int countPrefixSuffixPairs(String[] words) {
-    //     int res = 0;
-    //     int n = words.length;
-    //     for (int i = 0; i < n; ++i) {
-    //         for (int j = i + 1; j < n; ++j) {
-    //             if (check(words[i], words[j])) {
-    //                 ++res;
+    // 3044. 出现频率最高的质数 (Most Frequent Prime)
+    private Map<Integer, Integer> map3044;
+    private int[][] mat3044;
+    private int m3044;
+    private int n3044;
+    private boolean[] isPrime3044;
 
-    //             }
+    public int mostFrequentPrime(int[][] mat) {
+        this.m3044 = mat.length;
+        this.n3044 = mat[0].length;
+        this.mat3044 = mat;
+        this.map3044 = new HashMap<>();
+        // 把这段代码设置在static静态块中，速度会加快
+        int pow = (int) Math.pow(10, Math.max(m3044, n3044));
+        this.isPrime3044 = new boolean[pow];
+        Arrays.fill(isPrime3044, true);
+        for (int i = 2; i < pow; ++i) {
+            if (isPrime3044[i]) {
+                for (int j = i + i; j < pow; j += i) {
+                    isPrime3044[j] = false;
+                }
+            }
+        }
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 }, { -1, -1 }, { -1, 1 }, { 1, -1 }, { 1, 1 } };
+        for (int i = 0; i < m3044; ++i) {
+            for (int j = 0; j < n3044; ++j) {
+                if (mat[i][j] % 2 == 0) {
+                    continue;
+                }
+                for (int[] d : dirs) {
+                    check3044(i, j, d[0], d[1]);
+                }
+            }
+        }
+        if (map3044.isEmpty()) {
+            return -1;
+        }
+        int max = Collections.max(map3044.values());
+        int res = 0;
+        for (int k : map3044.keySet()) {
+            if (map3044.get(k) == max) {
+                res = Math.max(res, k);
+            }
+        }
+        return res;
 
-    //         }
-        
-    //     }
-    //     return res;
+    }
 
-    // }
+    private void check3044(int i, int j, int dx, int dy) {
+        int x = mat3044[i][j];
+        i += dx;
+        j += dy;
+        int p = 10;
+        while (i < m3044 && i >= 0 && j >= 0 && j < n3044) {
+            x = mat3044[i][j] * p + x;
+            if (x > 10 && isPrime3044[x]) {
+                map3044.merge(x, 1, Integer::sum);
+            }
+            i += dx;
+            j += dy;
+            p *= 10;
+        }
 
-    // private boolean check(String a1, String a2) {
-    //     return a2.startsWith(a1) && a2.endsWith(a1);
-    // }
-
-    // public int longestCommonPrefix(int[] arr1, int[] arr2) {
-    //     Set<String> set = new HashSet<>();
-    //     for (int i = 0; i < arr1.length; ++i) {
-    //         String s = String.valueOf(arr1[i]);
-    //         for (int j = 1; j <= s.length(); ++j) {
-    //             set.add(s.substring(0, j));
-    //         }
-    //     }
-    //     int res = 0;
-    //     for (int i = 0; i < arr2.length; ++i) {
-    //         String s = String.valueOf(arr2[i]);
-    //         for (int j = 1; j <= s.length(); ++j) {
-    //             if (set.contains(s.substring(0, j))) {
-    //                 res = Math.max(res, j);
-    //             }
-    //         }
-    //     }
-    //     return res;
-
-    // }
-
-    // private int[][] dirs = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 }, { -1, -1 }, { -1, 1 }, { 1, -1 }, { 1, 1 } };
-    // private Map<Integer, Integer> map = new HashMap<>();
-    // private int[][] mat;
-    // private int m;
-    // private int n;
-    // private boolean[] isPrime;
-
-    // public int mostFrequentPrime(int[][] mat) {
-    //     this.m = mat.length;
-    //     this.n = mat[0].length;
-    //     this.mat = mat;
-    //     int pow = (int) Math.pow(10, Math.max(m, n));
-    //     this.isPrime = new boolean[pow];
-    //     Arrays.fill(isPrime, true);
-    //     for (int i = 2; i < pow; ++i) {
-    //         if (isPrime[i]) {
-    //             for (int j = i + i; j < pow; j += i) {
-    //                 isPrime[j] = false;
-    //             }
-    //         }
-    //     }
-    //     for (int i = 0; i < m; ++i) {
-    //         for (int j = 0; j < n; ++j) {
-    //             if (mat[i][j] % 2 == 0) {
-    //                 continue;
-    //             }
-    //             for (int[] d : dirs) {
-    //                 check(i, j, d[0], d[1]);
-    //             }
-    //         }
-    //     }
-    //     if (map.isEmpty()) {
-    //         return -1;
-    //     }
-    //     int max = Collections.max(map.values());
-    //     int res = 0;
-    //     for (int k : map.keySet()) {
-    //         if (map.get(k) == max) {
-    //             res = Math.max(res, k);
-    //         }
-    //     }
-    //     return res;
-
-    // }
-
-    // private void check(int i, int j, int dx, int dy) {
-    //     int x = mat[i][j];
-    //     i += dx;
-    //     j += dy;
-    //     int p = 10;
-    //     while (i < m && i >= 0 && j >= 0 && j < n) {
-    //         x = mat[i][j] * p + x;
-    //         if (x > 10 && isPrime[x]) {
-    //             map.merge(x, 1, Integer::sum);
-    //         }
-    //         i += dx;
-    //         j += dy;
-    //         p *= 10;
-    //     }
-
-    // }
+    }
 
     // private Map<String, Long> cnt;
 

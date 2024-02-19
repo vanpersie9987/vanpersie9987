@@ -1097,6 +1097,22 @@ class leetcode_2:
             f[x + 1] = f[x] + 1
             f[x] = f[x - 1] + 1
         return max(f.values())
+    
+    # 3043. 最长公共前缀的长度 (Find the Length of the Longest Common Prefix)
+    def longestCommonPrefix(self, arr1: List[int], arr2: List[int]) -> int:
+        s = set()
+        for x in arr1:
+            a = str(x)
+            for i in range(1, len(a) + 1):
+                s.add(a[:i])
+        res = 0
+        for x in arr2:
+            a = str(x)
+            for i in range(1, len(a) + 1):
+                if a[:i] in s:
+                    res = max(res, i)
+        return res
+                
 
     
 
