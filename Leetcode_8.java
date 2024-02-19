@@ -7935,24 +7935,12 @@ public class Leetcode_8 {
     private int[][] mat3044;
     private int m3044;
     private int n3044;
-    private boolean[] isPrime3044;
 
     public int mostFrequentPrime(int[][] mat) {
         this.m3044 = mat.length;
         this.n3044 = mat[0].length;
         this.mat3044 = mat;
         this.map3044 = new HashMap<>();
-        // 把这段代码设置在static静态块中，速度会加快
-        int pow = (int) Math.pow(10, Math.max(m3044, n3044));
-        this.isPrime3044 = new boolean[pow];
-        Arrays.fill(isPrime3044, true);
-        for (int i = 2; i < pow; ++i) {
-            if (isPrime3044[i]) {
-                for (int j = i + i; j < pow; j += i) {
-                    isPrime3044[j] = false;
-                }
-            }
-        }
         int[][] dirs = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 }, { -1, -1 }, { -1, 1 }, { 1, -1 }, { 1, 1 } };
         for (int i = 0; i < m3044; ++i) {
             for (int j = 0; j < n3044; ++j) {
@@ -7985,7 +7973,7 @@ public class Leetcode_8 {
         int p = 10;
         while (i < m3044 && i >= 0 && j >= 0 && j < n3044) {
             x = mat3044[i][j] * p + x;
-            if (x > 10 && isPrime3044[x]) {
+            if (x > 10 && isPrime3044(x)) {
                 map3044.merge(x, 1, Integer::sum);
             }
             i += dx;
@@ -7993,6 +7981,15 @@ public class Leetcode_8 {
             p *= 10;
         }
 
+    }
+
+    private boolean isPrime3044(int x) {
+        for (int i = 2; i < Math.sqrt(x) + 1; ++i) {
+            if (x % i == 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // private Map<String, Long> cnt;
