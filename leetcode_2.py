@@ -1112,10 +1112,36 @@ class leetcode_2:
                 if a[:i] in s:
                     res = max(res, i)
         return res
-                
-
     
+    # 3044. 出现频率最高的质数 (Most Frequent Prime)
+    def mostFrequentPrime(self, mat: List[List[int]]) -> int:
+        def is_prime(x: int) -> bool:
+            return all(x % i for i in range(2, isqrt(x) + 1))
+        m = len(mat)
+        n = len(mat[0])
+        d = defaultdict(int)
+        for i in range(m):
+            for j in range(n):
+                for dx, dy in [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [-1, -1], [1, -1], [-1, 1]]:
+                    nx = i + dx
+                    ny = j + dy
+                    x = mat[i][j]
+                    while nx >= 0 and nx < m and ny >= 0 and ny < n:
+                        x = x * 10 + mat[nx][ny]
+                        if x in d or is_prime(x):
+                            d[x] += 1
+                        nx += dx
+                        ny += dy
+        if len(d) == 0:
+            return -1
+        mx = max(d.values())
+        res = 0
+        for k, v in d.items():
+            if v == mx:
+                res = max(res, k)
+        return res
 
+    # 3045. 统计前后缀下标对 II (Count Prefix and Suffix Pairs II)
     def countPrefixSuffixPairs(self, words: List[str]) -> int:
         def f(s: str) -> None:
             n = len(s)
