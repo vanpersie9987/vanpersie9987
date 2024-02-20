@@ -1213,6 +1213,28 @@ class leetcode_2:
             if res == 0:
                 break
         return res
+    
+    # 1574. 删除最短的子数组使剩余数组有序 (Shortest Subarray to be Removed to Make Array Sorted)
+    def findLengthOfShortestSubarray(self, arr: List[int]) -> int:
+        n = len(arr)
+        r = n - 1
+        while r >= 1:
+            if arr[r - 1] > arr[r]:
+                break
+            r -= 1
+        if r == 0:
+            return 0
+        res = r
+        for l in range(n):
+            if l > 0 and arr[l - 1] > arr[l]:
+                break
+            while r < n and arr[l] > arr[r]:
+                r += 1
+            res = min(res, r - l - 1)
+        return res
+
+        
+
 
 
 
