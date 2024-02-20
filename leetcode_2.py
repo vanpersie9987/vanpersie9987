@@ -1142,7 +1142,7 @@ class leetcode_2:
         return res
 
     # 3042. 统计前后缀下标对 I (Count Prefix and Suffix Pairs I)
-    # 3045. 统计前后缀下标对 II (Count Prefix and Suffix Pairs II) --字段树
+    # 3045. 统计前后缀下标对 II (Count Prefix and Suffix Pairs II) --字典树
     def countPrefixSuffixPairs(self, words: List[str]) -> int:
         class Trie:
             __slots__ = 'son', 'cnt'
@@ -1159,5 +1159,38 @@ class leetcode_2:
                     node.son[p] = Trie()
                 node = node.son[p]
                 res += node.cnt
+            node.cnt += 1
+        return res
+    
+    # 3042. 统计前后缀下标对 I (Count Prefix and Suffix Pairs I)
+    # 3045. 统计前后缀下标对 II (Count Prefix and Suffix Pairs II) --字典树 + z函数
+    def countPrefixSuffixPairs(self, words: List[str]) -> int:
+        class Trie:
+            __slots__ = 'son', 'cnt'
+            
+            def __init__(self):
+                self.son = dict()
+                self.cnt = 0
+        res = 0
+        root = Trie()
+        for w in words:
+            n = len(w)
+            z = [0] * n
+            left = right = 0
+            for i in range(1, n):
+                if i <= right:
+                    z[i] = min(z[i - left], right - i + 1)
+                while i + z[i] < n and w[z[i]] == w[i + z[i]]:
+                    left = i
+                    right = i + z[i]
+                    z[i] += 1
+            z[0] = n
+            node = root
+            for i, v in enumerate(w):
+                if v not in node.son:
+                    node.son[v] = Trie()
+                node = node.son[v]
+                if z[n - i - 1] == i + 1:
+                    res += node.cnt
             node.cnt += 1
         return res
