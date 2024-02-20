@@ -1194,3 +1194,26 @@ class leetcode_2:
                     res += node.cnt
             node.cnt += 1
         return res
+    
+    # 1234. 替换子串得到平衡字符串 (Replace the Substring for Balanced String)
+    def balancedString(self, s: str) -> int:
+        d = defaultdict(int)
+        for v in s:
+            d[v] += 1
+        res = n = len(s)
+        limit = n // 4
+        j = 0
+        cur = defaultdict(int)
+        for i, v in enumerate(s):
+            cur[v] += 1
+            while d['Q'] - cur['Q'] <= limit and d['W'] - cur['W'] <= limit and d['E'] - cur['E'] <= limit and d['R'] - cur['R'] <= limit:
+                res = min(res, i - j + 1)
+                cur[s[j]] -= 1
+                j += 1
+            if res == 0:
+                break
+        return res
+
+
+
+
