@@ -7992,6 +7992,7 @@ public class Leetcode_8 {
         return true;
     }
 
+    // 3042. 统计前后缀下标对 I (Count Prefix and Suffix Pairs I)
     // 3045. 统计前后缀下标对 II (Count Prefix and Suffix Pairs II) --字典树
     public long countPrefixSuffixPairs(String[] words) {
         long res = 0L;
@@ -8024,6 +8025,7 @@ public class Leetcode_8 {
         }
     }
 
+    // 3042. 统计前后缀下标对 I (Count Prefix and Suffix Pairs I)
     // 3045. 统计前后缀下标对 II (Count Prefix and Suffix Pairs II) --字典树 + z函数
     public long countPrefixSuffixPairs2(String[] words) {
         long res = 0L;
