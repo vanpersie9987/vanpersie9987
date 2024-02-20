@@ -1141,24 +1141,23 @@ class leetcode_2:
                 res = max(res, k)
         return res
 
-    # 3045. 统计前后缀下标对 II (Count Prefix and Suffix Pairs II)
+    # 3042. 统计前后缀下标对 I (Count Prefix and Suffix Pairs I)
+    # 3045. 统计前后缀下标对 II (Count Prefix and Suffix Pairs II) --字段树
     def countPrefixSuffixPairs(self, words: List[str]) -> int:
-        def f(s: str) -> None:
-            n = len(s)
-            z = [0] * n
-            left = right = 0
-            d[s] += 1
-            for i in range(1, n):
-                if i <= right:
-                    z[i] = min(z[i - left], right - i + 1)
-                while i + z[i] < n and s[z[i]] == s[i + z[i]]:
-                    left, right = i, i + z[i]
-                    z[i] += 1
-                if z[i] == n - i:
-                    d[s[i:]] += 1
-        d = defaultdict(int)
+        class Trie:
+            __slots__ = 'son', 'cnt'
+
+            def __init__(self):
+                self.son = dict()
+                self.cnt = 0
         res = 0
-        for i in range(len(words) - 1, -1, -1):
-            res += d[words[i]] 
-            f(words[i])
+        root = Trie()
+        for w in words:
+            node = root
+            for p in zip(w, reversed(w)):
+                if p not in node.son:
+                    node.son[p] = Trie()
+                node = node.son[p]
+                res += node.cnt
+            node.cnt += 1
         return res
