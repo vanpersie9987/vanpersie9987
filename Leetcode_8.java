@@ -8024,4 +8024,58 @@ public class Leetcode_8 {
         }
     }
 
+    // 3045. 统计前后缀下标对 II (Count Prefix and Suffix Pairs II) --字典树 + z函数
+    public long countPrefixSuffixPairs2(String[] words) {
+        long res = 0L;
+        Trie3045_2 trie = new Trie3045_2();
+        for (String w : words) {
+            int n = w.length();
+            int[] z = new int[n];
+            int left = 0;
+            int right = 0;
+            for (int i = 1; i < n; ++i) {
+                if (i <= right) {
+                    z[i] = Math.min(z[i - left], right - i + 1);
+                }
+                while (i + z[i] < n && w.charAt(i + z[i]) == w.charAt(z[i])) {
+                    left = i;
+                    right = i + z[i];
+                    ++z[i];
+                }
+            }
+            z[0] = n;
+            res += trie.insert(w, z);
+        }
+        return res;
+
+    }
+
+    public class Trie3045_2 {
+        private Trie3045_2[] child;
+        private int cnt;
+
+        public Trie3045_2() {
+            child = new Trie3045_2[26];
+        }
+
+        public long insert(String s, int[] z) {
+            Trie3045_2 node = this;
+            long res = 0L;
+            int n = s.length();
+            for (int i = 0; i < n; ++i) {
+                int index = s.charAt(i) - 'a';
+                if (node.child[index] == null) {
+                    node.child[index] = new Trie3045_2();
+                }
+                node = node.child[index];
+                if (z[n - 1 - i] == i + 1) {
+                    res += node.cnt;
+                }
+            }
+            ++node.cnt;
+            return res;
+        }
+    }
+
+
 }
