@@ -7992,40 +7992,36 @@ public class Leetcode_8 {
         return true;
     }
 
-    // 3045. 统计前后缀下标对 II (Count Prefix and Suffix Pairs II)
-    // private Map<String, Long> cnt;
+    // 3045. 统计前后缀下标对 II (Count Prefix and Suffix Pairs II) --字典树
+    public long countPrefixSuffixPairs(String[] words) {
+        long res = 0L;
+        Trie3045 trie = new Trie3045();
+        for (String w : words) {
+            res += trie.insert(w);
+        }
+        return res;
+    }
 
-    // public long countPrefixSuffixPairs(String[] words) {
-    //     long res = 0L;
-    //     this.cnt = new HashMap<>();
-    //     int n = words.length;
-    //     for (int i = n - 1; i >= 0; --i) {
-    //         res = res + cnt.getOrDefault(words[i], 0L);
-    //         f(words[i]);
-    //     }
-    //     return res;
+    public class Trie3045 {
+        private Map<Integer, Trie3045> child;
+        private int cnt;
 
-    // }
+        public Trie3045() {
+            child = new HashMap<>();
+        }
 
-    // private void f(String word) {
-    //     int left = 0;
-    //     int right = 0;
-    //     int n = word.length();
-    //     int[] z = new int[n];
-    //     for (int i = 1; i < n; ++i) {
-    //         if (i <= right) {
-    //             z[i] = Math.min(z[i - left], right - i + 1);
-    //         }
-    //         while (i + z[i] < n && word.charAt(z[i]) == word.charAt(i + z[i])) {
-    //             left = i;
-    //             right = i + z[i];
-    //             ++z[i];
-    //         }
-    //         if (z[i] == n - i) {
-    //             cnt.merge(word.substring(i, n), 1L, Long::sum);
-    //         }
-    //     }
-    //     cnt.merge(word, 1L, Long::sum);
-    // }
+        public long insert(String s) {
+            Trie3045 node = this;
+            int res = 0;
+            int n = s.length();
+            for (int i = 0; i < n; ++i) {
+                int m = ((s.charAt(i) - 'a') << 5) | (s.charAt(n - i - 1) - 'a');
+                node = node.child.computeIfAbsent(m, k -> new Trie3045());
+                res += node.cnt;
+            }
+            ++node.cnt;
+            return res;
+        }
+    }
 
 }
