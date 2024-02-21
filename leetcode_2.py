@@ -1238,12 +1238,16 @@ class leetcode_2:
         res = 0
         j = 0
         cnt = [0] * 3
+        m = 0
         for i, v in enumerate(s):
             x = ord(v) - ord('a')
             cnt[x] += 1
-            while all(c >= 1 for c in cnt):
+            m |= 1 << x
+            while m == (1 << 3) - 1:
                 res += len(s) - i
                 cnt[ord(s[j]) - ord('a')] -= 1
+                if cnt[ord(s[j]) - ord('a')] == 0:
+                    m ^= 1 << (ord(s[j]) - ord('a'))
                 j += 1
         return res
 
