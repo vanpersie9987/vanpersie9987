@@ -1232,10 +1232,20 @@ class leetcode_2:
                 r += 1
             res = min(res, r - l - 1)
         return res
-
-        
-
-
+    
+    # 1358. 包含所有三种字符的子字符串数目 (Number of Substrings Containing All Three Characters)
+    def numberOfSubstrings(self, s: str) -> int:
+        res = 0
+        j = 0
+        cnt = [0] * 3
+        for i, v in enumerate(s):
+            x = ord(v) - ord('a')
+            cnt[x] += 1
+            while all(c >= 1 for c in cnt):
+                res += len(s) - i
+                cnt[ord(s[j]) - ord('a')] -= 1
+                j += 1
+        return res
 
 
 
