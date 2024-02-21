@@ -1250,6 +1250,23 @@ class leetcode_2:
                     m ^= 1 << (ord(s[j]) - ord('a'))
                 j += 1
         return res
+    
+    # 2302. 统计得分小于 K 的子数组数目 (Count Subarrays With Score Less Than K)
+    def countSubarrays(self, nums: List[int], k: int) -> int:
+        s = list(accumulate(nums, initial=0))
+        j = 0
+        res = 0
+        for i in range(len(nums)):
+            cur = (s[i + 1] - s[j]) * (i - j + 1)
+            while j <= i and cur >= k:
+                j += 1
+                cur = (s[i + 1] - s[j]) * (i - j + 1)
+            if cur < k:
+                res += i - j + 1
+        return res
+
+
+
 
 
 
