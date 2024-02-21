@@ -8330,24 +8330,21 @@ class leetcode_1 :
              res.append(i)
        return res
     
-    # 100137. 统计最大元素出现至少 K 次的子数组 (Count Subarrays Where Max Element Appears at Least K Times)
+    # 2962. 统计最大元素出现至少 K 次的子数组 (Count Subarrays Where Max Element Appears at Least K Times)
     def countSubarrays(self, nums: List[int], k: int) -> int:
-       n = len(nums)
-       m = max(nums)
-       cnt = 0
-       i = 0
-       j = 0 
-       res = 0
-       while i < n:
-          if nums[i] == m:
-             cnt += 1
-          while cnt == k:
-             if nums[j] == m:
-                cnt -= 1
-             j += 1
-          res += j
-          i += 1
-       return res
+        mx = max(nums)
+        d = collections.defaultdict(int)
+        j = 0
+        res = 0
+        for i, v in enumerate(nums):
+            d[v] += 1
+            while d[mx] >= k:
+                res += len(nums) - i
+                d[nums[j]] -= 1
+                if d[nums[j]] == 0:
+                    del d[nums[j]]
+                j += 1
+        return res
     
     # 100136. 统计好分割方案的数目 (Count the Number of Good Partitions)
     def numberOfGoodPartitions(self, nums: List[int]) -> int:
