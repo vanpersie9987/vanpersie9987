@@ -1281,12 +1281,3 @@ class leetcode_2:
                 s -= d[nums[j]]
                 j += 1
         return res
-
-
-
-
-
-
-
-
-
