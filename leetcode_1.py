@@ -8574,34 +8574,6 @@ class leetcode_1 :
           res += dis[ord(s) - ord('a')][ord(t) - ord('a')]
        return res
     
-
-    # 2970. 统计移除递增子数组的数目 I (Count the Number of Incremovable Subarrays I)
-    # 2972. 统计移除递增子数组的数目 II (Count the Number of Incremovable Subarrays II)
-    def incremovableSubarrayCount(self, nums: List[int]) -> int:
-       n = len(nums)
-       res = 1
-       i = 0
-       while i < n - 1:
-          if nums[i] >= nums[i + 1]:
-             break
-          i += 1
-       if i == n - 1:
-          return (1 + n) * n // 2
-       res += i + 1
-       j = n - 1
-       while j > 0:
-          if nums[j - 1] >= nums[j]:
-             break
-          j -= 1
-       res += n - j
-       x = 0
-       while x <= i and j < n:
-          while j < n and nums[x] >= nums[j]:
-             j += 1
-          res += n - j
-          x += 1
-       return res
-    
     # 2971. 找到最大周长的多边形 (Find Polygon With the Largest Perimeter)
     def largestPerimeter(self, nums: List[int]) -> int:
        nums.sort()

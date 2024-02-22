@@ -1281,3 +1281,29 @@ class leetcode_2:
                 s -= d[nums[j]]
                 j += 1
         return res
+    
+    # 2970. 统计移除递增子数组的数目 I (Count the Number of Incremovable Subarrays I)
+    # 2972. 统计移除递增子数组的数目 II (Count the Number of Incremovable Subarrays II)
+    def incremovableSubarrayCount(self, nums: List[int]) -> int:
+        n = len(nums)
+        i = 0
+        while i < n - 1:
+            if nums[i] >= nums[i + 1]:
+                break
+            i += 1
+        if i == n - 1:
+            return (1 + n) * n // 2
+        j = n - 1
+        while j >= 1:
+            if nums[j - 1] >= nums[j]:
+                break
+            j -= 1
+        res = 1 + n - j
+        for k in range(i + 1):
+            while j < n and nums[k] >= nums[j]:
+                j += 1
+            res += n - j + 1
+        return res
+
+        
+        
