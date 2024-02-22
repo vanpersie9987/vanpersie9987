@@ -5158,24 +5158,22 @@ public class Leetcode_6 {
 
     }
 
-    // 6293. 统计好子数组的数目
+    // 2537. 统计好子数组的数目 (Count the Number of Good Subarrays)
     public long countGood(int[] nums, int k) {
         int n = nums.length;
-        long res = 0l;
-        Map<Integer, Integer> map = new HashMap<>();
-        int i = 0;
+        long res = 0L;
         int j = 0;
-        int cur = 0;
-        while (j < n) {
-            cur += map.getOrDefault(nums[j], 0);
-            map.put(nums[j], map.getOrDefault(nums[j], 0) + 1);
-            while (cur >= k) {
-                res += n - j;
-                map.put(nums[i], map.getOrDefault(nums[i], 0) - 1);
-                cur -= map.get(nums[i]);
-                ++i;
+        long s = 0L;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            s += map.getOrDefault(nums[i], 0);
+            map.merge(nums[i], 1, Integer::sum);
+            while (s >= k) {
+                res += n - i;
+                map.merge(nums[j], -1, Integer::sum);
+                s -= map.get(nums[j]);
+                ++j;
             }
-            ++j;
         }
         return res;
 
