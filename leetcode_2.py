@@ -1264,6 +1264,26 @@ class leetcode_2:
             if cur < k:
                 res += i - j + 1
         return res
+    
+    # 2537. 统计好子数组的数目 (Count the Number of Good Subarrays)
+    def countGood(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        res = 0
+        j = 0
+        d = defaultdict(int)
+        s = 0
+        for i, v in enumerate(nums):
+            s += d[v]
+            d[v] += 1
+            while s >= k:
+                res += n - i
+                d[nums[j]] -= 1
+                s -= d[nums[j]]
+                j += 1
+        return res
+
+
+
 
 
 
