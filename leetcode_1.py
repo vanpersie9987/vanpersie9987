@@ -4641,6 +4641,25 @@ class leetcode_1 :
        if k > len(dic):
           return -1
        return sorted(dic.values(), reverse=True)[k - 1]
+   
+    # 2583. 二叉树中的第 K 大层和 (Kth Largest Sum in a Binary Tree)
+    def kthLargestLevelSum(self, root: Optional[TreeNode], k: int) -> int:
+        arr = []
+        q = deque([root])
+        while q:
+            size = len(q)
+            s = 0
+            for _ in range(size):
+                x = q.popleft()
+                s += x.val
+                if x.left:
+                    q.append(x.left)
+                if x.right:
+                    q.append(x.right)
+            arr.append(s)
+        if len(arr) < k:
+            return -1
+        return sorted(arr)[k - 1]
     
     # 2509. 查询树中环的长度 (Cycle Length Queries in a Tree)
     def cycleLengthQueries(self, n: int, queries: List[List[int]]) -> List[int]:

@@ -1304,6 +1304,3 @@ class leetcode_2:
                 j += 1
             res += n - j + 1
         return res
-
-        
-        
