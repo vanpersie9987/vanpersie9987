@@ -4659,7 +4659,7 @@ class leetcode_1 :
             arr.append(s)
         if len(arr) < k:
             return -1
-        return sorted(arr)[k - 1]
+        return sorted(arr)[-k]
     
     # 2509. 查询树中环的长度 (Cycle Length Queries in a Tree)
     def cycleLengthQueries(self, n: int, queries: List[List[int]]) -> List[int]:
