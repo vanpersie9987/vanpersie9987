@@ -3894,11 +3894,11 @@ class leetcode_1 :
     # 235. 二叉搜索树的最近公共祖先 (Lowest Common Ancestor of a Binary Search Tree)
     # 剑指 Offer 68 - I. 二叉搜索树的最近公共祖先
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-       if q.val <= root.val <= p.val or q.val >= root.val >= p.val:
-          return root
-       if q.val < root.val:
-          return self.lowestCommonAncestor(root.left, p, q)
-       return self.lowestCommonAncestor(root.right, p, q)
+        if root in (None, p, q) or min(p.val, q.val) < root.val < max(p.val, q.val):
+            return root
+        if root.val < min(p.val, q.val):
+            return self.lowestCommonAncestor(root.right, p, q)
+        return self.lowestCommonAncestor(root.left, p, q)
     
     # 2096. 从二叉树一个节点到另一个节点每一步的方向 (Step-By-Step Directions From a Binary Tree Node to Another)
     def getDirections(self, root: Optional[TreeNode], startValue: int, destValue: int) -> str:
