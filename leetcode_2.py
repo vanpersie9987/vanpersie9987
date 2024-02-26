@@ -1366,4 +1366,24 @@ class leetcode_2:
         if root.val > high:
             return self.rangeSumBST(root.left, low, high)
         return root.val + self.rangeSumBST(root.left, low, high) + self.rangeSumBST(root.right, low, high)
+    
+    # 938. 二叉搜索树的范围和 (Range Sum of BST) --bfs
+    def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
+        q = deque([root])
+        res = 0
+        while q:
+            x = q.popleft()
+            if x is None:
+                continue
+            if x.val > high:
+                q.append(x.left)
+            elif x.val < low:
+                q.append(x.right)
+            else:
+                res += x.val
+                q.append(x.left)
+                q.append(x.right)
+        return res
+
+
         

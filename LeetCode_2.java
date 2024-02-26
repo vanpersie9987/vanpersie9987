@@ -8922,7 +8922,7 @@ public class LeetCode_2 {
 
    }
 
-   // 938. 二叉搜索树的范围和 (Range Sum of BST) --递归+分情况 还需掌握广度优先搜索
+   // 938. 二叉搜索树的范围和 (Range Sum of BST) --递归+分情况
    public int rangeSumBST(TreeNode root, int low, int high) {
       if (root == null) {
          return 0;
@@ -8934,6 +8934,30 @@ public class LeetCode_2 {
          return rangeSumBST(root.right, low, high);
       }
       return root.val + rangeSumBST(root.left, low, high) + rangeSumBST(root.right, low, high);
+   }
+
+   // 938. 二叉搜索树的范围和 (Range Sum of BST) --bfs
+   public int rangeSumBST2(TreeNode root, int low, int high) {
+      Queue<TreeNode> q = new LinkedList<>();
+      q.offer(root);
+      int res = 0;
+      while (!q.isEmpty()) {
+         TreeNode node = q.poll();
+         if (node == null) {
+            continue;
+         }
+         if (high < node.val) {
+            q.offer(node.left);
+         } else if (low > node.val) {
+            q.offer(node.right);
+         } else {
+            res += node.val;
+            q.offer(node.left);
+            q.offer(node.right);
+         }
+      }
+      return res;
+
    }
 
    // 108. 将有序数组转换为二叉搜索树 (Convert Sorted Array to Binary Search Tree)
