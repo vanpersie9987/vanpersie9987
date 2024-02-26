@@ -1325,6 +1325,7 @@ class leetcode_2:
                 res = max(res, l * l)
         return res
     
+    # 3048. 标记所有下标的最早秒数 I (Earliest Second to Mark Indices I)
     def earliestSecondToMarkIndices(self, nums: List[int], changeIndices: List[int]) -> int:
         def check(x: int) -> bool:
             last_t = [-1] * n
@@ -1345,7 +1346,7 @@ class leetcode_2:
         n = len(nums)
         m = len(changeIndices)
         left = 1
-        right = m + 1
+        right = m
         res = -1
         while left <= right:
             mid = left + ((right - left) >> 1)
