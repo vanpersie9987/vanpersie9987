@@ -8079,5 +8079,77 @@ public class Leetcode_8 {
         }
     }
 
+    // 3046. 分割数组 (Split the Array)
+    public boolean isPossibleToSplit(int[] nums) {
+        int[] cnt = new int[101];
+        for (int x : nums) {
+            if (++cnt[x] > 2) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    // 3047. 求交集区域内的最大正方形面积 (Find the Largest Area of Square Inside Two Rectangles)
+    public long largestSquareArea(int[][] bottomLeft, int[][] topRight) {
+        int n = bottomLeft.length;
+        long res = 0L;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                int[] p1 = bottomLeft[i];
+                int[] p2 = topRight[i];
+                int[] p3 = bottomLeft[j];
+                int[] p4 = topRight[j];
+                int s1 = Math.max(0, Math.min(p2[0], p4[0]) - Math.max(p1[0], p3[0]));
+                int s2 = Math.max(0, Math.min(p2[1], p4[1]) - Math.max(p1[1], p3[1]));
+                int s = Math.min(s1, s2);
+                res = Math.max(res, (long) s * s);
+            }
+        }
+        return res;
+
+    }
+
+    // 3048. 标记所有下标的最早秒数 I (Earliest Second to Mark Indices I)
+    public int earliestSecondToMarkIndices(int[] nums, int[] changeIndices) {
+        int n = nums.length;
+        int m = changeIndices.length;
+        int res = -1;
+        int left = 1;
+        int right = m;
+        search: while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            int[] last = new int[n];
+            Arrays.fill(last, -1);
+            for (int i = 0; i < mid; ++i) {
+                last[changeIndices[i] - 1] = i;
+            }
+            for (int i = 0; i < n; ++i) {
+                if (last[i] == -1) {
+                    left = mid + 1;
+                    continue search;
+                }
+            }
+            int cnt = 0;
+            for (int i = 0; i < mid; ++i) {
+                int v = changeIndices[i] - 1;
+                if (i == last[v]) {
+                    if (cnt < nums[v]) {
+                        left = mid + 1;
+                        continue search;
+                    }
+                    cnt -= nums[v];
+                } else {
+                    ++cnt;
+                }
+            }
+            res = mid;
+            right = mid - 1;
+        }
+        return res;
+
+    }
+
 
 }

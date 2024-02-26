@@ -1304,3 +1304,65 @@ class leetcode_2:
                 j += 1
             res += n - j + 1
         return res
+    
+    # 3046. 分割数组 (Split the Array)
+    def isPossibleToSplit(self, nums: List[int]) -> bool:
+        return all(x <= 2 for x in Counter(nums).values())
+    
+    # 3047. 求交集区域内的最大正方形面积 (Find the Largest Area of Square Inside Two Rectangles)
+    def largestSquareArea(self, bottomLeft: List[List[int]], topRight: List[List[int]]) -> int:
+        n = len(bottomLeft)
+        res = 0
+        for i in range(n):
+            for j in range(i + 1, n):
+                p1 = bottomLeft[i]
+                p2 = topRight[i]
+                p3 = bottomLeft[j]
+                p4 = topRight[j]
+                l1 = max(0, min(p2[0], p4[0]) - max(p1[0], p3[0]))
+                l2 = max(0, min(p2[1], p4[1]) - max(p1[1], p3[1]))
+                l = min(l1, l2)
+                res = max(res, l * l)
+        return res
+    
+    def earliestSecondToMarkIndices(self, nums: List[int], changeIndices: List[int]) -> int:
+        def check(x: int) -> bool:
+            last_t = [-1] * n
+            for i, v in enumerate(changeIndices[:x]):
+                last_t[v - 1] = i
+            if -1 in last_t:
+                return False
+            cnt = 0
+            for i, v in enumerate(changeIndices[:x]):
+                v -= 1
+                if i == last_t[v]:
+                    if nums[v] > cnt:
+                        return False
+                    cnt -= nums[v]
+                else:
+                    cnt += 1
+            return True
+        n = len(nums)
+        m = len(changeIndices)
+        left = 1
+        right = m + 1
+        res = -1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                res = mid
+                right = mid - 1
+            else:
+                left = mid + 1
+        return res
+    
+    # 938. 二叉搜索树的范围和 (Range Sum of BST)
+    def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
+        if root is None:
+            return 0
+        if root.val < low:
+            return self.rangeSumBST(root.right, low, high)
+        if root.val > high:
+            return self.rangeSumBST(root.left, low, high)
+        return root.val + self.rangeSumBST(root.left, low, high) + self.rangeSumBST(root.right, low, high)
+        
