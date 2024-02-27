@@ -8107,7 +8107,8 @@ public class Leetcode_8 {
         this.isPrime2867 = new boolean[n + 1];
         Arrays.fill(isPrime2867, true);
         isPrime2867[1] = false;
-        for (int i = 2; i < n + 1; ++i) {
+        // 一点优化
+        for (int i = 2; (long) i * i < n + 1; ++i) {
             if (isPrime2867[i]) {
                 for (long j = (long) i * i; j < n + 1; j += i) {
                     isPrime2867[(int) j] = false;

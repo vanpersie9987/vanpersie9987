@@ -1400,6 +1400,9 @@ class leetcode_2:
         is_prime = [True] * (n + 1)
         is_prime[1] = False
         for i in range(2, n + 1):
+            # 一点优化
+            if i * i > n:
+                break
             if is_prime[i]:
                 for j in range(i * i, n + 1, i):
                     is_prime[j] = False
@@ -1422,12 +1425,3 @@ class leetcode_2:
                         c += cnt[y]
                 res += c
         return res
-
-
-
-
-        
-        
-
-
-        
