@@ -3605,64 +3605,6 @@ public class Leetcode_8 {
 
     }
 
-    // 100047. 统计树中的合法路径数目 (Count Valid Paths in a Tree)
-    private List<Integer>[] g100047;
-    private boolean[] isPrime100047;
-    private List<Integer> nodes100047;
-
-    public long countPaths(int n, int[][] edges) {
-        this.g100047 = new ArrayList[n + 1];
-        Arrays.setAll(g100047, k -> new ArrayList<>());
-        for (int[] e : edges) {
-            int a = e[0];
-            int b = e[1];
-            g100047[a].add(b);
-            g100047[b].add(a);
-        }
-        this.isPrime100047 = new boolean[n + 1];
-        Arrays.fill(isPrime100047, true);
-        isPrime100047[1] = false;
-        for (int i = 2; i * i < n + 1; ++i) {
-            if (isPrime100047[i]) {
-                for (int j = i * i; j < n + 1; j += i) {
-                    isPrime100047[j] = false;
-                }
-            }
-        }
-        int[] size = new int[n + 1];
-        long res = 0L;
-        for (int i = 2; i <= n; ++i) {
-            if (isPrime100047[i]) {
-                long s = 0L;
-                for (int y : g100047[i]) {
-                    if (isPrime100047[y]) {
-                        continue;
-                    }
-                    if (size[y] == 0) {
-                        nodes100047 = new ArrayList<>();
-                        dfs100047(y, -1);
-                        for (int z : nodes100047) {
-                            size[z] = nodes100047.size();
-                        }
-                    }
-                    res += s * size[y];
-                    s += size[y];
-                }
-                res += s;
-            }
-        }
-        return res;
-    }
-
-    private void dfs100047(int x, int fa) {
-        nodes100047.add(x);
-        for (int y : g100047[x]) {
-            if (y != fa && !isPrime100047[y]) {
-                dfs100047(y, x);
-            }
-        }
-    }
-
     // 2865. 美丽塔 I (Beautiful Towers I)
     // 2866. 美丽塔 II (Beautiful Towers II)
     public long maximumSumOfHeights(List<Integer> maxHeights) {
@@ -8149,6 +8091,66 @@ public class Leetcode_8 {
         }
         return res;
 
+    }
+
+    // 2867. 统计树中的合法路径数目 (Count Valid Paths in a Tree)
+    private List<Integer>[] g2867;
+    private boolean[] isPrime2867;
+
+    public long countPaths(int n, int[][] edges) {
+        this.g2867 = new ArrayList[n + 1];
+        Arrays.setAll(g2867, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g2867[e[0]].add(e[1]);
+            g2867[e[1]].add(e[0]);
+        }
+        this.isPrime2867 = new boolean[n + 1];
+        Arrays.fill(isPrime2867, true);
+        isPrime2867[1] = false;
+        for (int i = 2; i < n + 1; ++i) {
+            if (isPrime2867[i]) {
+                for (long j = (long) i * i; j < n + 1; j += i) {
+                    isPrime2867[(int) j] = false;
+                }
+            }
+        }
+        int[] cnt = new int[n + 1];
+        for (int i = 1; i < n + 1; ++i) {
+            if (isPrime2867[i]) {
+                for (int y : g2867[i]) {
+                    if (!isPrime2867[y] && cnt[y] == 0) {
+                        List<Integer> list = new ArrayList<>();
+                        dfs2867(y, 0, list);
+                        for (int node : list) {
+                            cnt[node] = list.size();
+                        }
+                    }
+                }
+            }
+        }
+        long res = 0L;
+        for (int i = 1; i < n + 1; ++i) {
+            if (isPrime2867[i]) {
+                long c = 0L;
+                for (int y : g2867[i]) {
+                    if (!isPrime2867[y]) {
+                        res += cnt[y] * c;
+                        c += cnt[y];
+                    }
+                }
+                res += c;
+            }
+        }
+        return res;
+    }
+
+    private void dfs2867(int x, int fa, List<Integer> list) {
+        list.add(x);
+        for (int y : g2867[x]) {
+            if (y != fa && !isPrime2867[y]) {
+                dfs2867(y, x, list);
+            }
+        }
     }
 
 
