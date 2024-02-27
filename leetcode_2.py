@@ -5,6 +5,7 @@ from collections import Counter, defaultdict, deque
 import collections
 from ctypes.wintypes import _ULARGE_INTEGER
 from curses import curs_set
+from curses.ascii import isprint
 from decimal import Rounded
 import enum
 from functools import cache
@@ -1384,6 +1385,49 @@ class leetcode_2:
                 q.append(x.left)
                 q.append(x.right)
         return res
+    
+    # 2867. 统计树中的合法路径数目 (Count Valid Paths in a Tree)
+    def countPaths(self, n: int, edges: List[List[int]]) -> int:
+        def dfs(x: int, fa: int) -> None:
+            arr.append(x)
+            for y in g[x]:
+                if y != fa and not is_prime[y]:
+                    dfs(y, x)
+        g = [[] for _ in range(n + 1)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        is_prime = [True] * (n + 1)
+        is_prime[1] = False
+        for i in range(2, n + 1):
+            if is_prime[i]:
+                for j in range(i * i, n + 1, i):
+                    is_prime[j] = False
+        cnt = [0] * (n + 1)
+        for x in range(1, n + 1):
+            if is_prime[x]:
+                for y in g[x]:
+                    if not is_prime[y] and cnt[y] == 0:
+                        arr = []
+                        dfs(y, 0)
+                        for node in arr:
+                            cnt[node] = len(arr)
+        res = 0
+        for x in range(1, n + 1):
+            if is_prime[x]:
+                c = 0
+                for y in g[x]:
+                    if not is_prime[y]:
+                        res += c * cnt[y]
+                        c += cnt[y]
+                res += c
+        return res
+
+
+
+
+        
+        
 
 
         
