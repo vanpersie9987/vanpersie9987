@@ -1438,7 +1438,6 @@ class leetcode_2:
     def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
         left1 = 0
         left2 = 0
-        n = len(nums)
         s1 = 0
         s2 = 0
         res = 0
