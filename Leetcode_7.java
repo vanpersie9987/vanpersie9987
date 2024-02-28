@@ -5169,12 +5169,12 @@ public class Leetcode_7 {
 
     }
 
-    // 6419. 使二叉树所有路径值相等的最小代价 (Make Costs of Paths Equal in a Binary Tree)
+    // 2673. 使二叉树所有路径值相等的最小代价 (Make Costs of Paths Equal in a Binary Tree)
     public int minIncrements(int n, int[] cost) {
         int res = 0;
-        for (int i = n / 2; i > 0; --i) {
-            res += Math.abs(cost[i * 2] - cost[i * 2 - 1]);
-            cost[i - 1] += Math.max(cost[i * 2], cost[i * 2 - 1]);
+        for (int i = n - 1; i >= 1; i -= 2) {
+            res += Math.abs(cost[i] - cost[i - 1]);
+            cost[(i - 1) / 2] += Math.max(cost[i], cost[i - 1]);
         }
         return res;
     }
