@@ -1429,8 +1429,8 @@ class leetcode_2:
     # 2673. 使二叉树所有路径值相等的最小代价 (Make Costs of Paths Equal in a Binary Tree)
     def minIncrements(self, n: int, cost: List[int]) -> int:
        res = 0
-       for i in range(n // 2, 0, -1):
-          res += abs(cost[i * 2] - cost[i * 2 - 1])
-          cost[i - 1] += max(cost[i * 2], cost[i * 2 - 1])
+       for i in range(n - 1, 0, -2):
+          res += abs(cost[i] - cost[i - 1])
+          cost[(i - 1) // 2] += max(cost[i], cost[i - 1])
        return res
 
