@@ -1433,4 +1433,26 @@ class leetcode_2:
           res += abs(cost[i] - cost[i - 1])
           cost[(i - 1) // 2] += max(cost[i], cost[i - 1])
        return res
+    
+    # 930. 和相同的二元子数组 (Binary Subarrays With Sum)
+    def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
+        left1 = 0
+        left2 = 0
+        n = len(nums)
+        s1 = 0
+        s2 = 0
+        res = 0
+        for i, v in enumerate(nums):
+            s1 += v
+            s2 += v
+            while left1 <= i and s1 > goal:
+                s1 -= nums[left1]
+                left1 += 1
+            while left2 <= i and s2 >= goal:
+                s2 -= nums[left2]
+                left2 += 1
+            res += left2 - left1
+        return res
+
+
 
