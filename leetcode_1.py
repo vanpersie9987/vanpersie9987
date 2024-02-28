@@ -4615,14 +4615,6 @@ class leetcode_1 :
        dfs(0, 0)
        return res
     
-    # 2673. 使二叉树所有路径值相等的最小代价 (Make Costs of Paths Equal in a Binary Tree)
-    def minIncrements(self, n: int, cost: List[int]) -> int:
-       res = 0
-       for i in range(n // 2, 0, -1):
-          res += abs(cost[i * 2] - cost[i * 2 - 1])
-          cost[i - 1] += max(cost[i * 2], cost[i * 2 - 1])
-       return res
-    
     # 2583. 二叉树中的第 K 大层和 (Kth Largest Sum in a Binary Tree)
     def kthLargestLevelSum(self, root: Optional[TreeNode], k: int) -> int:
        class TreeNode:
