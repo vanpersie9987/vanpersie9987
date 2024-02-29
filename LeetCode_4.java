@@ -8962,36 +8962,34 @@ public class LeetCode_4 {
 
     // 2369. 检查数组是否存在有效划分 (Check if There is a Valid Partition For The Array)
     private int[] nums2369;
+    private int n2369;
     private int[] memo2369;
 
     public boolean validPartition(int[] nums) {
         this.nums2369 = nums;
-        int n = nums.length;
-        memo2369 = new int[n];
-        Arrays.fill(memo2369, -1);
-        return dfs2369(n - 1);
+        this.n2369 = nums.length;
+        this.memo2369 = new int[n2369];
+        return dfs2369(0);
     }
 
     private boolean dfs2369(int i) {
-        if (i <= 0) {
-            return false;
+        if (i == n2369) {
+            return true;
         }
-        if (i == 1) {
-            return nums2369[i] == nums2369[i - 1];
-        }
-        if (i == 2) {
-            return nums2369[i] == nums2369[i - 1] && nums2369[i - 1] == nums2369[i - 2]
-                    || nums2369[i] - nums2369[i - 1] == 1 && nums2369[i - 1] - nums2369[i - 2] == 1;
-        }
-        if (memo2369[i] != -1) {
+        if (memo2369[i] != 0) {
             return memo2369[i] > 0;
         }
-        boolean b = nums2369[i] == nums2369[i - 1] && dfs2369(i - 2)
-                || (nums2369[i] == nums2369[i - 1] && nums2369[i - 1] == nums2369[i - 2]
-                        || nums2369[i] - nums2369[i - 1] == 1 && nums2369[i - 1] - nums2369[i - 2] == 1)
-                        && dfs2369(i - 3);
-        memo2369[i] = b ? 1 : 0;
-        return b;
+        boolean res1 = false;
+        boolean res2 = false;
+        if (i + 1 < n2369 && nums2369[i] == nums2369[i + 1]) {
+            res1 = dfs2369(i + 2);
+        }
+        if (i + 2 < n2369 && (nums2369[i] == nums2369[i + 1] && nums2369[i + 1] == nums2369[i + 2]
+                || nums2369[i] + 1 == nums2369[i + 1] && nums2369[i + 1] + 1 == nums2369[i + 2])) {
+            res2 = dfs2369(i + 3);
+        }
+        memo2369[i] = (res1 || res2) ? 1 : -1;
+        return memo2369[i] > 0;
     }
 
     // 2369. 检查数组是否存在有效划分 (Check if There is a Valid Partition For The Array)
