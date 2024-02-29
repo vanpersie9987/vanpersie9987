@@ -1399,10 +1399,8 @@ class leetcode_2:
             g[v].append(u)
         is_prime = [True] * (n + 1)
         is_prime[1] = False
-        for i in range(2, n + 1):
-            # 一点优化
-            if i * i > n:
-                break
+        #  埃式筛优化
+        for i in range(2, isqrt(n) + 1):
             if is_prime[i]:
                 for j in range(i * i, n + 1, i):
                     is_prime[j] = False
