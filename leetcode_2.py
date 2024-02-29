@@ -1453,5 +1453,21 @@ class leetcode_2:
             res += left2 - left1
         return res
 
+    # 2369. 检查数组是否存在有效划分 (Check if There is a Valid Partition For The Array)
+    def validPartition(self, nums: List[int]) -> bool:
+        @cache
+        def dfs(i: int) -> bool:
+            if i == n:
+                return True
+            res1 = False
+            res2 = False
+            if i + 1 < n and nums[i] == nums[i + 1]:
+                res1 = dfs(i + 2)
+            if i + 2 < n and (nums[i] == nums[i + 1] == nums[i + 2] or nums[i] + 1 == nums[i + 1] and nums[i + 1] + 1 == nums[i + 2]):
+                res2 = dfs(i + 3)
+            return res1 or res2
+        n = len(nums)
+        return dfs(0)
+
 
 
