@@ -9198,43 +9198,43 @@ public class Leetcode_6 {
             g2581.computeIfAbsent(e[1], o -> new ArrayList<>()).add(e[0]);
         }
         for (int[] gu : guesses) {
-            set2581.add(gu[0] * (long) 1e6 + gu[1]);
+            set2581.add(gu[0] * (long) 1e5 + gu[1]);
         }
         cur2581 = 0;
-        dfs0_2581(0, -1);
+        dfs2581(0, -1);
         if (cur2581 >= k) {
             ++res2581;
         }
-        dfs2581(0, -1, cur2581);
+        reRoot2581(0, -1, cur2581);
         return res2581;
 
     }
 
-    private void dfs2581(int x, int fa, int cnt) {
+    private void reRoot2581(int x, int fa, int cnt) {
         for (int y : g2581.getOrDefault(x, new ArrayList<>())) {
-            int copy = cnt;
             if (y != fa) {
-                if (set2581.contains(x * (long) 1e6 + y)) {
+                int copy = cnt;
+                if (set2581.contains(x * (long) 1e5 + y)) {
                     --copy;
                 }
-                if (set2581.contains(y * (long) 1e6 + x)) {
+                if (set2581.contains(y * (long) 1e5 + x)) {
                     ++copy;
                 }
                 if (copy >= k2581) {
                     ++res2581;
                 }
-                dfs2581(y, x, copy);
+                reRoot2581(y, x, copy);
             }
         }
     }
 
-    private void dfs0_2581(int x, int fa) {
+    private void dfs2581(int x, int fa) {
         for (int y : g2581.getOrDefault(x, new ArrayList<>())) {
             if (y != fa) {
-                if (set2581.contains(x * (long) 1e6 + y)) {
+                if (set2581.contains(x * (long) 1e5 + y)) {
                     ++cur2581;
                 }
-                dfs0_2581(y, x);
+                dfs2581(y, x);
             }
         }
     }
