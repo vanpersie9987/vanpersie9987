@@ -1466,6 +1466,23 @@ class leetcode_2:
             return res1 or res2
         n = len(nums)
         return dfs(0)
+    
+    # 2368. 受限条件下可到达节点的数目 (Reachable Nodes With Restrictions)
+    def reachableNodes(self, n: int, edges: List[List[int]], restricted: List[int]) -> int:
+        def dfs(x: int, fa: int) -> None:
+            nonlocal res
+            res += 1
+            for y in g[x]:
+                if y != fa and y not in s:
+                    dfs(y, x)
+        s = set(restricted)
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        res = 0
+        dfs(0, -1)
+        return res
 
 
 
