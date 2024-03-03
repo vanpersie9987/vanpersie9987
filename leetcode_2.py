@@ -1483,6 +1483,33 @@ class leetcode_2:
         res = 0
         dfs(0, -1)
         return res
+    
+
+    # 225. 用队列实现栈 (Implement Stack using Queues)
+    class MyStack:
+        __slots__ = 'q1', 'q2'
+
+        def __init__(self):
+            self.q1 = deque()
+            self.q2 = deque()
+
+        def push(self, x: int) -> None:
+            self.q2.append(x)
+            while self.q1:
+                self.q2.append(self.q1.popleft())
+            temp = self.q1
+            self.q1 = self.q2
+            self.q2 = temp
+
+        def pop(self) -> int:
+            return self.q1.popleft()
+
+        def top(self) -> int:
+            return self.q1[0]
+
+        def empty(self) -> bool:
+            return not self.q1
+    
 
 
 
