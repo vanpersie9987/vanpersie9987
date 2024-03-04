@@ -1531,6 +1531,37 @@ class leetcode_2:
 
         def empty(self) -> bool:
             return not self.q
+
+    # 232. 用栈实现队列 (Implement Queue using Stacks)
+    class MyQueue:
+        __slots__ = 'list1', 'list2'
+
+        def __init__(self):
+            self.list1 = []
+            self.list2 = []
+
+        def push(self, x: int) -> None:
+            self.list2.append(x)
+
+        def pop(self) -> int:
+            if self.list1:
+                return self.list1.pop()
+            self.trans()
+            return self.list1.pop()
+
+        def peek(self) -> int:
+            if self.list1:
+                return self.list1[-1]
+            self.trans()
+            return self.list1[-1]
+
+        def empty(self) -> bool:
+            return not self.list1 and not self.list2
+        
+        def trans(self) -> None:
+            while self.list2:
+                self.list1.append(self.list2.pop())
+
     
 
 
