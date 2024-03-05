@@ -7426,17 +7426,18 @@ class leetcode_1 :
        res = dfs(0, 0)
        return res if res > 0 else -1
     
-    # 100111. 找出数组中的 K-or 值 (Find the K-or of an Array)
+    # 2917. 找出数组中的 K-or 值 (Find the K-or of an Array)
     def findKOr(self, nums: List[int], k: int) -> int:
-       cnts = [0] * 32
-       for num in nums:
-          for i in range(32):
-             cnts[i] += (num >> i) & 1
-       res = 0
-       for i in range(32):
-          if cnts[i] >= k:
-             res |= 1 << i
-       return res
+        res = 0
+        cnt = [0] * 31
+        for x in nums:
+            for i in range(31):
+                if (x >> i) & 1:
+                    cnt[i] += 1
+        for i, v in enumerate(cnt):
+            if v >= k:
+                res |= 1 << i
+        return res
     
     # 2918. 数组的最小相等和 (Minimum Equal Sum of Two Arrays After Replacing Zeros)
     def minSum(self, nums1: List[int], nums2: List[int]) -> int:
