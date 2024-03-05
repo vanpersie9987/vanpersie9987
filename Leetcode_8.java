@@ -8226,29 +8226,30 @@ public class Leetcode_8 {
         return res;
     }
 
-    private List<Integer>[] g;
-    private int k;
-    private int[] nums;
+    // 3068. 最大节点价值之和 (Find the Maximum Sum of Node Values)
+    private List<Integer>[] g3068;
+    private int k3068;
+    private int[] nums3068;
 
     public long maximumValueSum(int[] nums, int k, int[][] edges) {
         int n = nums.length;
-        this.g = new ArrayList[n];
-        Arrays.setAll(g, o -> new ArrayList<>());
+        this.g3068 = new ArrayList[n];
+        Arrays.setAll(g3068, o -> new ArrayList<>());
         for (int[] e : edges) {
-            g[e[0]].add(e[1]);
-            g[e[1]].add(e[0]);
+            g3068[e[0]].add(e[1]);
+            g3068[e[1]].add(e[0]);
         }
-        this.k = k;
-        this.nums = nums;
-        return dfs(0, -1)[0];
+        this.k3068 = k;
+        this.nums3068 = nums;
+        return dfs3068(0, -1)[0];
     }
 
-    private long[] dfs(int x, int fa) {
-        long sum0 = nums[x];
-        long sum1 = nums[x] ^ k;
-        for (int y : g[x]) {
+    private long[] dfs3068(int x, int fa) {
+        long sum0 = nums3068[x];
+        long sum1 = nums3068[x] ^ k3068;
+        for (int y : g3068[x]) {
             if (y != fa) {
-                long[] item = dfs(y, x);
+                long[] item = dfs3068(y, x);
                 long temp1 = Math.max(sum0 + item[0], sum1 + item[1]);
                 long temp2 = Math.max(sum1 + item[0], sum0 + item[1]);
                 sum0 = temp1;
