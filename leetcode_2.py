@@ -1,3 +1,4 @@
+from ast import Return
 from asyncio import FastChildWatcher
 from audioop import minmax, reverse
 from calendar import c
@@ -1562,7 +1563,52 @@ class leetcode_2:
             while self.list2:
                 self.list1.append(self.list2.pop())
 
+    # 3065. 超过阈值的最少操作数 I (Minimum Operations to Exceed Threshold Value I)
+    def minOperations(self, nums: List[int], k: int) -> int:
+        return sum(x < k for x in nums)
+
+    # 3066. 超过阈值的最少操作数 II (Minimum Operations to Exceed Threshold Value II)
+    def minOperations(self, nums: List[int], k: int) -> int:
+        q = []
+        heapq.heapify(q)
+        for x in nums:
+            heapq.heappush(q, x)
+        res = 0
+        while len(q) >= 2:
+            if q[0] >= k:
+                break
+            res += 1
+            x = heapq.heappop(q)
+            y = heapq.heappop(q)
+            heapq.heappush(q, min(x, y) * 2 + max(x, y))
+        return res
     
+    # 3067. 在带权树网络中统计可连接服务器对数目 (Count Pairs of Connectable Servers in a Weighted Tree Network)
+    def countPairsOfConnectableServers(self, edges: List[List[int]], signalSpeed: int) -> List[int]:
+        def dfs(x: int, fa: int, w: int) -> int:
+            sum = w % signalSpeed == 0
+            for y, nw in g[x]:
+                if y != fa:
+                    sum += dfs(y, x, w + nw)
+            return sum
+        n = len(edges) + 1
+        g = [[] for _ in range(n)]
+        for u, v, w in edges:
+            g[u].append((v, w))
+            g[v].append((u, w))
+        res = [0] * n
+        for i in range(n):
+            s = 0
+            cur = 0
+            for x, w in g[i]:
+                c = dfs(x, i, w)
+                s += cur * c
+                cur += c
+            res[i] = s
+        return res
+
+
+
 
 
 

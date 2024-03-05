@@ -8154,5 +8154,109 @@ public class Leetcode_8 {
         }
     }
 
+    // 3065. 超过阈值的最少操作数 I (Minimum Operations to Exceed Threshold Value I)
+    public int minOperations(int[] nums, int k) {
+        int res = 0;
+        for (int x : nums) {
+            if (x < k) {
+                ++res;
+            }
+        }
+        return res;
+    }
+
+    // 3066. 超过阈值的最少操作数 II (Minimum Operations to Exceed Threshold Value II)
+    public int minOperationsII(int[] nums, int k) {
+        Queue<Long> q = new PriorityQueue<>();
+        for (long num : nums) {
+            q.offer(num);
+        }
+        int res = 0;
+        while (q.size() >= 2) {
+            if (q.peek() >= k) {
+                break;
+            }
+            ++res;
+            long x = q.poll();
+            long y = q.poll();
+            q.offer(Math.min(x, y) * 2 + Math.max(x, y));
+        }
+        return res;
+
+    }
+
+    // 3067. 在带权树网络中统计可连接服务器对数目 (Count Pairs of Connectable Servers in a Weighted
+    // Tree Network)
+    private List<int[]>[] g3067;
+    private int signalSpeed3067;
+
+    public int[] countPairsOfConnectableServers(int[][] edges, int signalSpeed) {
+        int n = edges.length + 1;
+        this.g3067 = new ArrayList[n];
+        Arrays.setAll(g3067, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g3067[e[0]].add(new int[] { e[1], e[2] });
+            g3067[e[1]].add(new int[] { e[0], e[2] });
+        }
+        int[] res = new int[n];
+        this.signalSpeed3067 = signalSpeed;
+        for (int i = 0; i < n; ++i) {
+            int cnt = 0;
+            int sum = 0;
+            for (int[] nei : g3067[i]) {
+                int cur = dfs3067(nei[0], i, nei[1]);
+                sum += cnt * cur;
+                cnt += cur;
+            }
+            res[i] = sum;
+        }
+        return res;
+
+    }
+
+    private int dfs3067(int x, int fa, int s) {
+        int res = s % signalSpeed3067 == 0 ? 1 : 0;
+        for (int[] nei : g3067[x]) {
+            int y = nei[0];
+            int w = nei[1];
+            if (y != fa) {
+                res += dfs3067(y, x, s + w);
+            }
+        }
+        return res;
+    }
+
+    // private List<Integer>[] g;
+    // private int k;
+    // private int[] nums;
+
+    // public long maximumValueSum(int[] nums, int k, int[][] edges) {
+    //     int n = nums.length;
+    //     this.g = new ArrayList[n];
+    //     Arrays.setAll(g, o -> new ArrayList<>());
+    //     for (int[] e : edges) {
+    //         g[e[0]].add(e[1]);
+    //         g[e[1]].add(e[0]);
+    //     }
+    //     this.k = k;
+    //     this.nums = nums;
+    //     long[] res = dfs(0, -1);
+    //     return res[0];
+    // }
+
+    // private long[] dfs(int x, int fa) {
+    //     long sum0 = nums[x];
+    //     long sum1 = nums[x] ^ k;
+    //     for (int y : g[x]) {
+    //         if (y != fa) {
+    //             long[] item = dfs(y, x);
+    //             long temp1 = Math.max(sum0 + item[0], sum1 + item[1]);
+    //             long temp2 = Math.max(sum1 + item[0], sum0 + item[1]);
+    //             sum0 = temp1;
+    //             sum1 = temp2;
+    //         }
+    //     }
+    //     return new long[] { sum0, sum1 };
+    // }
 
 }
