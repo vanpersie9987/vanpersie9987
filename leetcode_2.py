@@ -1606,7 +1606,26 @@ class leetcode_2:
                 cur += c
             res[i] = s
         return res
+    
+    # 3068. 最大节点价值之和 (Find the Maximum Sum of Node Values)
+    def maximumValueSum(self, nums: List[int], k: int, edges: List[List[int]]) -> int:
+        def dfs(x: int, fa: int) -> tuple:
+            s0 = nums[x]
+            s1 = nums[x] ^ k
+            for y in g[x]:
+                if y != fa:
+                    cur = dfs(y, x)
+                    s0, s1 = max(s0 + cur[0], s1 + cur[1]), max(s1 + cur[0], s0 + cur[1])
+            return (s0, s1)
+        n = len(nums)
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        return dfs(0, -1)[0]
+        
 
+ 
 
 
 

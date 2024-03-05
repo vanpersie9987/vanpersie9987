@@ -8155,7 +8155,7 @@ public class Leetcode_8 {
     }
 
     // 3065. 超过阈值的最少操作数 I (Minimum Operations to Exceed Threshold Value I)
-    public int minOperations(int[] nums, int k) {
+    public int minOperations3065(int[] nums, int k) {
         int res = 0;
         for (int x : nums) {
             if (x < k) {
@@ -8166,7 +8166,7 @@ public class Leetcode_8 {
     }
 
     // 3066. 超过阈值的最少操作数 II (Minimum Operations to Exceed Threshold Value II)
-    public int minOperationsII(int[] nums, int k) {
+    public int minOperations3066(int[] nums, int k) {
         Queue<Long> q = new PriorityQueue<>();
         for (long num : nums) {
             q.offer(num);
@@ -8226,37 +8226,36 @@ public class Leetcode_8 {
         return res;
     }
 
-    // private List<Integer>[] g;
-    // private int k;
-    // private int[] nums;
+    private List<Integer>[] g;
+    private int k;
+    private int[] nums;
 
-    // public long maximumValueSum(int[] nums, int k, int[][] edges) {
-    //     int n = nums.length;
-    //     this.g = new ArrayList[n];
-    //     Arrays.setAll(g, o -> new ArrayList<>());
-    //     for (int[] e : edges) {
-    //         g[e[0]].add(e[1]);
-    //         g[e[1]].add(e[0]);
-    //     }
-    //     this.k = k;
-    //     this.nums = nums;
-    //     long[] res = dfs(0, -1);
-    //     return res[0];
-    // }
+    public long maximumValueSum(int[] nums, int k, int[][] edges) {
+        int n = nums.length;
+        this.g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[0]].add(e[1]);
+            g[e[1]].add(e[0]);
+        }
+        this.k = k;
+        this.nums = nums;
+        return dfs(0, -1)[0];
+    }
 
-    // private long[] dfs(int x, int fa) {
-    //     long sum0 = nums[x];
-    //     long sum1 = nums[x] ^ k;
-    //     for (int y : g[x]) {
-    //         if (y != fa) {
-    //             long[] item = dfs(y, x);
-    //             long temp1 = Math.max(sum0 + item[0], sum1 + item[1]);
-    //             long temp2 = Math.max(sum1 + item[0], sum0 + item[1]);
-    //             sum0 = temp1;
-    //             sum1 = temp2;
-    //         }
-    //     }
-    //     return new long[] { sum0, sum1 };
-    // }
+    private long[] dfs(int x, int fa) {
+        long sum0 = nums[x];
+        long sum1 = nums[x] ^ k;
+        for (int y : g[x]) {
+            if (y != fa) {
+                long[] item = dfs(y, x);
+                long temp1 = Math.max(sum0 + item[0], sum1 + item[1]);
+                long temp2 = Math.max(sum1 + item[0], sum0 + item[1]);
+                sum0 = temp1;
+                sum1 = temp2;
+            }
+        }
+        return new long[] { sum0, sum1 };
+    }
 
 }
