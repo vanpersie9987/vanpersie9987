@@ -8507,7 +8507,7 @@ public class Leetcode_6 {
     public int[] divisibilityArray(String word, int m) {
         int n = word.length();
         int[] res = new int[n];
-        long mod = 0;
+        long mod = 0L;
         for (int i = 0; i < n; ++i) {
             mod = (mod * 10 + word.charAt(i) - '0') % m;
             if (mod == 0) {

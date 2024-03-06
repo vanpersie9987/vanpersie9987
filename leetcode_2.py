@@ -1623,3 +1623,13 @@ class leetcode_2:
             g[u].append(v)
             g[v].append(u)
         return dfs(0, -1)[0]
+
+    # 2575. 找出字符串的可整除数组 (Find the Divisibility Array of a String)
+    def divisibilityArray(self, word: str, m: int) -> List[int]:
+        n = len(word)
+        res = [0] * n
+        s = 0
+        for i, v in enumerate(word):
+            s = (s * 10 + int(v)) % m
+            res[i] = int(s == 0)
+        return res
