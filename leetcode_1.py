@@ -2965,21 +2965,6 @@ class leetcode_1 :
     def furthestDistanceFromOrigin(self, moves: str) -> int:
        return abs(moves.count('L') - moves.count('R')) + moves.count('_')
     
-    # 2834. 找出美丽数组的最小和 (Find the Minimum Possible Sum of a Beautiful Array)
-    def minimumPossibleSum(self, n: int, target: int) -> int:
-       res = 0
-       cnt = 0
-       i = 1
-       while i <= target // 2 and cnt < n:
-          res += i
-          i += 1
-          cnt += 1
-       while cnt < n:
-          res += target
-          target += 1
-          cnt += 1
-       return res
-    
     # 2787. 将一个数字表示成幂的和的方案数 (Ways to Express an Integer as Sum of Powers)
     def numberOfWays(self, n: int, x: int) -> int:
        MOD = 10 ** 9 + 7

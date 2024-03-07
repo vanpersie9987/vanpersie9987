@@ -1736,3 +1736,11 @@ class leetcode_2:
             else:
                 arr1.insert(l1 - g1, [nums[i], i])
         return [x for x, _ in sorted(arr1, key=lambda k: k[1])] + [x for x, _ in sorted(arr2, key=lambda k: k[1])]
+    
+    # 2834. 找出美丽数组的最小和 (Find the Minimum Possible Sum of a Beautiful Array)
+    def minimumPossibleSum(self, n: int, target: int) -> int:
+        m = min(n, target // 2)
+        res = (1 + m) * m // 2
+        m = n - m
+        res += (target + target + m - 1) * m // 2
+        return res % (10 ** 9 + 7)
