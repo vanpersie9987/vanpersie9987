@@ -3107,17 +3107,13 @@ public class Leetcode_8 {
     }
 
     // 2834. 找出美丽数组的最小和 (Find the Minimum Possible Sum of a Beautiful Array)
-    public long minimumPossibleSum(int n, int target) {
-        long res = 0L;
-        int cnt = 0;
-        for (int i = 1; i <= target / 2 && cnt < n; ++i) {
-            res += i;
-            ++cnt;
-        }
-        while (cnt++ < n) {
-            res += target++;
-        }
-        return res;
+    public int minimumPossibleSum(int n, int target) {
+        final int MOD = (int) (1e9 + 7);
+        long m = Math.min(n, target / 2);
+        long res = (1 + m) * m / 2 % MOD;
+        m = n - m;
+        res += ((target + (target + m - 1)) * m / 2) % MOD;
+        return (int) res % MOD;
 
     }
 
