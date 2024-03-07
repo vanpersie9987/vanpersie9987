@@ -1633,3 +1633,106 @@ class leetcode_2:
             s = (s * 10 + int(v)) % m
             res[i] = int(s == 0)
         return res
+    
+    # 3069. 将元素分配到两个数组中 I (Distribute Elements Into Two Arrays I)
+    def resultArray(self, nums: List[int]) -> List[int]:
+        _l1 = [nums[0]]
+        _l2 = [nums[1]]
+        n = len(nums)
+        for i in range(2, n):
+            if _l1[-1] > _l2[-1]:
+                _l1.append(nums[i])
+            else:
+                _l2.append(nums[i])
+        return _l1 + _l2
+    
+    # 3070. 元素和小于等于 k 的子矩阵的数目 (Count Submatrices with Top-Left Element and Sum Less Than k)
+    def countSubmatrices(self, grid: List[List[int]], k: int) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        res = 0
+        row = [0] * n
+        for i in range(m):
+            s = 0
+            for j in range(n):
+                s += grid[i][j]
+                if s + row[j] <= k:
+                    res += 1
+                row[j] += s
+        return res
+    
+    # 3070. 元素和小于等于 k 的子矩阵的数目 (Count Submatrices with Top-Left Element and Sum Less Than k)
+    def countSubmatrices(self, grid: List[List[int]], k: int) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        res = 0
+        pre = [[0] * (n + 1) for _ in range(m + 1)]
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                pre[i][j] = pre[i][j - 1] + pre[i - 1][j] - pre[i - 1][j - 1] + grid[i - 1][j - 1]
+                if pre[i][j] <= k:
+                    res += 1
+        return res
+    
+    # 3071. 在矩阵上写出字母 Y 所需的最少操作次数 (Minimum Operations to Write the Letter Y on a Grid)
+    def minimumOperationsToWriteY(self, grid: List[List[int]]) -> int:
+        def check(i: int, j: int) -> int:
+            cur = 0
+            for r in range(3):
+                if i != r:
+                    cur += in_cnt[r]
+                if j != r:
+                    cur += out_cnt[r]
+            return cur
+        n = len(grid)
+        in_cnt = [0] * 3 
+        out_cnt = [0] * 3 
+        for i in range(n):
+            for j in range(n):
+                if i <= n // 2 and (i == j or i + j == n - 1) or i >= n // 2 and j == n // 2:
+                    in_cnt[grid[i][j]] += 1
+                else:
+                    out_cnt[grid[i][j]] += 1
+        res = inf 
+        for i in range(3):
+            for j in range(3):
+                if i == j:
+                    continue
+                res = min(res, check(i, j))
+        return res
+    
+    # 3072. 将元素分配到两个数组中 II (Distribute Elements Into Two Arrays II)
+    def resultArray(self, nums: List[int]) -> List[int]:
+        def greater_count(arr: List[List[int]], x: int) -> int:
+            n = len(arr)
+            if arr[0][0] > x:
+                return n
+            if arr[-1][0] <= x:
+                return 0
+            left = 0
+            right = n - 1
+            res = -1
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if arr[mid][0] > x:
+                    res = n - mid
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return res
+        arr1 = [[nums[0], 0]]
+        arr2 = [[nums[1], 1]]
+        for i in range(2, len(nums)):
+            l1 = len(arr1)
+            l2 = len(arr2)
+            g1 = greater_count(arr1, nums[i])
+            g2 = greater_count(arr2, nums[i])
+            if g1 > g2:
+                arr1.insert(l1 - g1, [nums[i], i])
+            elif g1 < g2:
+                arr2.insert(l2 - g2, [nums[i], i])
+            elif l1 > l2:
+                arr2.insert(l2 - g2, [nums[i], i])
+            else:
+                arr1.insert(l1 - g1, [nums[i], i])
+        return [x for x, _ in sorted(arr1, key=lambda k: k[1])] + [x for x, _ in sorted(arr2, key=lambda k: k[1])]

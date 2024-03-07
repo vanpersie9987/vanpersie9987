@@ -7791,6 +7791,7 @@ public class Leetcode_8 {
     // 3040. 相同分数的最大操作数目 II (Maximum Number of Operations With the Same Score II)
     private int[] nums3040;
     private int n3040;
+
     public int maxOperations3040(int[] nums) {
         this.n3040 = nums.length;
         if (n3040 < 2) {
@@ -8257,6 +8258,177 @@ public class Leetcode_8 {
             }
         }
         return new long[] { sum0, sum1 };
+    }
+
+    // 3069. 将元素分配到两个数组中 I (Distribute Elements Into Two Arrays I)
+    public int[] resultArray3069(int[] nums) {
+        int n = nums.length;
+        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        list1.add(nums[0]);
+        list2.add(nums[1]);
+        for (int i = 2; i < n; ++i) {
+            if (list1.get(list1.size() - 1) > list2.get(list2.size() - 1)) {
+                list1.add(nums[i]);
+            } else {
+                list2.add(nums[i]);
+            }
+        }
+        list1.addAll(list2);
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = list1.get(i);
+        }
+        return res;
+
+    }
+
+    // 3070. 元素和小于等于 k 的子矩阵的数目 (Count Submatrices with Top-Left Element and Sum
+    // Less Than k)
+    public int countSubmatrices(int[][] grid, int k) {
+        int res = 0;
+        int m = grid.length;
+        int n = grid[0].length;
+        int[] row = new int[n];
+        for (int i = 0; i < m; ++i) {
+            int s = 0;
+            for (int j = 0; j < n; ++j) {
+                s += grid[i][j];
+                if (s + row[j] <= k) {
+                    ++res;
+                }
+                row[j] += s;
+            }
+        }
+        return res;
+
+    }
+
+    // 3070. 元素和小于等于 k 的子矩阵的数目 (Count Submatrices with Top-Left Element and Sum
+    // Less Than k)
+    public int countSubmatrices2(int[][] grid, int k) {
+        int res = 0;
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] pre = new int[m + 1][n + 1];
+        for (int i = 1; i < m + 1; ++i) {
+            for (int j = 1; j < n + 1; ++j) {
+                pre[i][j] = pre[i - 1][j] + pre[i][j - 1] - pre[i - 1][j - 1] + grid[i - 1][j - 1];
+                if (pre[i][j] <= k) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+    }
+
+    // 3071. 在矩阵上写出字母 Y 所需的最少操作次数 (Minimum Operations to Write the Letter Y on a
+    // Grid)
+    public int minimumOperationsToWriteY(int[][] grid) {
+        int[] cntInY = new int[3];
+        int[] cntOutY = new int[3];
+        int n = grid.length;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i == j && i <= n / 2 || i + j == n - 1 && i <= n / 2 || i >= n / 2 && j == n / 2) {
+                    ++cntInY[grid[i][j]];
+                } else {
+                    ++cntOutY[grid[i][j]];
+                }
+            }
+        }
+
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                if (i != j) {
+                    res = Math.min(res, check3071(i, j, cntInY, cntOutY));
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int check3071(int in, int out, int[] cntInY, int[] cntOutY) {
+        int res = 0;
+        for (int i = 0; i < 3; ++i) {
+            if (i != in) {
+                res += cntInY[i];
+            }
+            if (out != i) {
+                res += cntOutY[i];
+            }
+        }
+        return res;
+    }
+
+    // 3072. 将元素分配到两个数组中 II (Distribute Elements Into Two Arrays II) --还需掌握线段树做法
+    public int[] resultArray(int[] nums) {
+        int n = nums.length;
+        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        list1.add(nums[0]);
+        list2.add(nums[1]);
+        List<Integer> res1 = new ArrayList<>();
+        List<Integer> res2 = new ArrayList<>();
+        res1.add(nums[0]);
+        res2.add(nums[1]);
+        for (int i = 2; i < n; ++i) {
+            int s1 = list1.size();
+            int s2 = list2.size();
+            int g1 = greaterCount3072(list1, nums[i]);
+            int g2 = greaterCount3072(list2, nums[i]);
+            if (g1 > g2) {
+                insert3072(list1, nums[i], g1, res1);
+            } else if (g1 < g2) {
+                insert3072(list2, nums[i], g2, res2);
+            } else if (s1 != s2) {
+                if (s1 < s2) {
+                    insert3072(list1, nums[i], g1, res1);
+                } else {
+                    insert3072(list2, nums[i], g2, res2);
+                }
+            } else {
+                insert3072(list1, nums[i], g1, res1);
+            }
+        }
+        res1.addAll(res2);
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = res1.get(i);
+        }
+        return res;
+
+    }
+
+    private void insert3072(List<Integer> list, int x, int cnt, List<Integer> res) {
+        list.add(list.size() - cnt, x);
+        res.add(x);
+    }
+
+    private int greaterCount3072(List<Integer> list, int x) {
+        int n = list.size();
+        if (list.get(0) > x) {
+            return n;
+        }
+        if (list.get(n - 1) <= x) {
+            return 0;
+        }
+        int left = 0;
+        int right = n - 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (list.get(mid) > x) {
+                res = n - mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+
     }
 
 }
