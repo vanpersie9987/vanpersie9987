@@ -1744,3 +1744,14 @@ class leetcode_2:
         m = n - m
         res += (target + target + m - 1) * m // 2
         return res % (10 ** 9 + 7)
+    
+    # 9. 回文数 (Palindrome Number)
+    def isPalindrome(self, x: int) -> bool:
+        if x < 0:
+            return False
+        ori = x
+        cur = 0
+        while x:
+            cur = cur * 10 + x % 10
+            x //= 10
+        return cur == ori
