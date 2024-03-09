@@ -30,6 +30,7 @@ from turtle import mode, reset, right, st
 from typing import List, Optional
 import heapq
 import bisect
+from wsgiref.util import guess_scheme
 from xml.dom import Node
 from zoneinfo import reset_tzpath
 # curl https://bootstrap.pypa.io/pip/get-pip.py -o get-pip.py
@@ -1755,3 +1756,19 @@ class leetcode_2:
             cur = cur * 10 + x % 10
             x //= 10
         return cur == ori
+    
+    # 299. 猜数字游戏 (Bulls and Cows)
+    def getHint(self, secret: str, guess: str) -> str:
+        cnt_s = [0] * 10
+        cnt_g = [0] * 10
+        a_cnt = 0
+        for s, g in zip(secret, guess):
+            a_cnt += s == g
+            cnt_s[int(s)] += 1
+            cnt_g[int(g)] += 1
+        b_cnt = 0
+        for c1, c2 in zip(cnt_s, cnt_g):
+            b_cnt += min(c1, c2)
+        return str(a_cnt) + 'A' + str(b_cnt - a_cnt) + 'B'
+
+
