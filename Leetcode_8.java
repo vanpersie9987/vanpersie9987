@@ -8427,4 +8427,97 @@ public class Leetcode_8 {
 
     }
 
+    public String[] shortestSubstrings(String[] arr) {
+        int n = arr.length;
+        String[] res = new String[n];
+        Arrays.fill(res, "");
+        Map<String, Integer> map = new HashMap<>();
+        for (String a : arr) {
+            for (int i = 0; i < a.length(); ++i) {
+                for (int j = i; j < a.length(); ++j) {
+                    map.merge(a.substring(i, j + 1), 1, Integer::sum);
+                }
+            }
+        }
+        int k = 0;
+        for (String a : arr) {
+            for (int i = 0; i < a.length(); ++i) {
+                for (int j = i; j < a.length(); ++j) {
+                    map.merge(a.substring(i, j + 1), -1, Integer::sum);
+                }
+            }
+            String cur = "";
+            for (int i = 0; i < a.length(); ++i) {
+                for (int j = i; j < a.length(); ++j) {
+                    if (map.getOrDefault(a.substring(i, j + 1), 0) == 0) {
+                        if (cur.isEmpty()) {
+                            cur = a.substring(i, j + 1);
+                        } else if (a.substring(i, j + 1).length() < cur.length()) {
+                            cur = a.substring(i, j + 1);
+                        } else if (a.substring(i, j + 1).length() == cur.length()
+                                && a.substring(i, j + 1).compareTo(cur) < 0) {
+                            cur = a.substring(i, j + 1);
+                        }
+                    }
+                }
+            }
+            res[k++] = cur;
+            for (int i = 0; i < a.length(); ++i) {
+                for (int j = i; j < a.length(); ++j) {
+                    map.merge(a.substring(i, j + 1), 1, Integer::sum);
+                }
+            }
+        }
+        return res;
+
+
+    }
+
+    private int n;
+    private int[] nums;
+    private int k;
+    private long[][][] memo;
+    private long[] pre;
+
+    public long maximumStrength(int[] nums, int k) {
+        this.n = nums.length;
+        this.nums = nums;
+        this.k = k;
+        this.memo = new long[n][k][2];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < k; ++j) {
+                Arrays.fill(memo[i][j], (long) -1e15);
+            }
+        }
+        this.pre = new long[n + 1];
+        for (int i = 0; i < n; ++i) {
+            pre[i + 1] = pre[i] + nums[i];
+        }
+        return dfs(0, 0, 0);
+
+    }
+
+    private long dfs(int i, int j, int p) {
+        // if (j == k) {
+        //     return 0L;
+        // }
+        if (i == n) {
+            return (j == k) ? 0 : (long) -1e15;
+        }
+        if (n - i < k - j) {
+            return (long) -1e15;
+        }
+        if (memo[i][j][p] != (long) -1e15) {
+            return memo[i][j][p];
+        }
+        long res = dfs(i + 1, j, 0);
+        if (j < k) {
+            res = Math.max(res, dfs(i + 1, j + 1, 1) + nums[i] * (k - j) * ((j + 1) % 2 == 0 ? -1 : 1));
+        }
+        if (p == 1) {
+            res = Math.max(res, dfs(i + 1, j, 1) + nums[i] * (k - j + 1) * (j % 2 == 0 ? -1 : 1));
+        }
+        return memo[i][j][p] = res;
+    }
+
 }

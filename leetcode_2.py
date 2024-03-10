@@ -1,4 +1,4 @@
-from ast import Return
+from ast import Return, Tuple
 from asyncio import FastChildWatcher
 from audioop import minmax, reverse
 from calendar import c
@@ -1770,5 +1770,90 @@ class leetcode_2:
         for c1, c2 in zip(cnt_s, cnt_g):
             b_cnt += min(c1, c2)
         return str(a_cnt) + 'A' + str(b_cnt - a_cnt) + 'B'
+    
+    def minimumBoxes(self, apple: List[int], capacity: List[int]) -> int:
+        s = sum(apple)
+        capacity.sort(reverse=True)
+        res = 0
+        cur = 0
+        for c in capacity:
+            if cur >= s:
+                break
+            cur += c
+            res += 1
+        return res
+    
+    def maximumHappinessSum(self, happiness: List[int], k: int) -> int:
+        happiness.sort(reverse=True)
+        res = 0
+        d = 0
+        for h in happiness:
+            if h - d <= 0 or k == 0:
+                break
+            res += h - d
+            d += 1
+            k -= 1
+        return res
+    
+    def shortestSubstrings(self, arr: List[str]) -> List[str]:
+        d = defaultdict(int)
+        for a in arr:
+            for i in range(len(a)):
+                for j in range(i, len(a)):
+                    d[a[i:j + 1]] += 1
+        res = []
+        for a in arr:
+            n = len(a)
+            for i in range(n):
+                for j in range(i, n):
+                    d[a[i:j + 1]] -= 1
+            cur = ''
+            for i in range(n):
+                for j in range(i, n):
+                    s = a[i: j + 1]
+                    if d[s] == 0:
+                        if cur == '':
+                            cur = s
+                        elif len(cur) > len(s):
+                            cur = s
+                        elif len(cur) == len(s) and s < cur:
+                            cur = s
+            for i in range(n):
+                for j in range(i, n):
+                    d[a[i:j + 1]] += 1
+            res.append(cur)
+        return res
+
+    # 2129. 将标题首字母大写 (Capitalize the Title)
+    def capitalizeTitle(self, s: str) -> str:
+        res = []
+        i = 0
+        while i < len(s):
+            j = i
+            while j < len(s) and s[j] != ' ':
+                res.append(s[j].lower())
+                j += 1
+            if j - i > 2:
+                res[i] = s[i].upper()
+            if j < len(s):
+                res.append(' ')
+            i = j + 1
+        return ''.join(res)
+
+                
+
+        
+
+
+            
+
+
+
+            
+
+
+
+
+
 
 
