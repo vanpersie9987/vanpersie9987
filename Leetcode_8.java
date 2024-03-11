@@ -8427,6 +8427,37 @@ public class Leetcode_8 {
 
     }
 
+    // 3074. 重新分装苹果 (Apple Redistribution into Boxes)
+    public int minimumBoxes(int[] apple, int[] capacity) {
+        Arrays.sort(capacity);
+        int s = Arrays.stream(apple).sum();
+        for (int i = capacity.length - 1; i >= 0; --i) {
+            s -= capacity[i];
+            if (s <= 0) {
+                return capacity.length - i;
+            }
+        }
+        return -1;
+    }
+
+    // 3075. 幸福值最大化的选择方案 (Maximize Happiness of Selected Children)
+    public long maximumHappinessSum(int[] happiness, int k) {
+        long res = 0L;
+        int d = 0;
+        Arrays.sort(happiness);
+        for (int i = happiness.length - 1; i >= 0; --i) {
+            if (happiness[i] - d <= 0 || k == 0) {
+                break;
+            }
+            res += happiness[i] - d;
+            ++d;
+            --k;
+        }
+        return res;
+
+    }
+
+    // 3076. 数组中的最短非公共子字符串 (Shortest Uncommon Substring in an Array)
     public String[] shortestSubstrings(String[] arr) {
         int n = arr.length;
         String[] res = new String[n];
