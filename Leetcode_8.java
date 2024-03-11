@@ -8503,4 +8503,48 @@ public class Leetcode_8 {
 
 
     }
+
+    // 3077. K 个不相交子数组的最大能量值 (Maximum Strength of K Disjoint Subarrays)
+    private int n3077;
+    private int[] nums3077;
+    private int k3077;
+    private long[][][] memo3077;
+
+    public long maximumStrength(int[] nums, int k) {
+        this.n3077 = nums.length;
+        this.nums3077 = nums;
+        this.k3077 = k;
+        this.memo3077 = new long[n3077][k + 1][2];
+        for (int i = 0; i < n3077; ++i) {
+            for (int j = 0; j < k + 1; ++j) {
+                Arrays.fill(memo3077[i][j], Long.MIN_VALUE / 2);
+            }
+        }
+        return dfs3077(0, 0, 0);
+
+    }
+
+    private long dfs3077(int i, int j, int p) {
+        if (i == n3077) {
+            return j == k3077 ? 0L : (long) -1e17;
+        }
+        if (n3077 - i < k3077 - j) {
+            return (long) -1e17;
+        }
+        if (memo3077[i][j][p] != Long.MIN_VALUE / 2) {
+            return memo3077[i][j][p];
+        }
+        // 不选
+        long res = dfs3077(i + 1, j, 0);
+        // 选
+        if (j < k3077) {
+            res = Math.max(res,
+                    dfs3077(i + 1, j + 1, 1) + (((j + 1) % 2 == 0) ? -1L : 1L) * (k3077 - j) * nums3077[i]);
+        }
+        if (p == 1) {
+            res = Math.max(res,
+                    dfs3077(i + 1, j, 1) + ((j % 2 == 0) ? -1L : 1L) * (k3077 - j + 1) * nums3077[i]);
+        }
+        return memo3077[i][j][p] = res;
+    }
 }
