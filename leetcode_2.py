@@ -1771,6 +1771,7 @@ class leetcode_2:
             b_cnt += min(c1, c2)
         return str(a_cnt) + 'A' + str(b_cnt - a_cnt) + 'B'
     
+    # 3074. 重新分装苹果 (Apple Redistribution into Boxes)
     def minimumBoxes(self, apple: List[int], capacity: List[int]) -> int:
         s = sum(apple)
         capacity.sort(reverse=True)
@@ -1783,6 +1784,7 @@ class leetcode_2:
             res += 1
         return res
     
+    # 3075. 幸福值最大化的选择方案 (Maximize Happiness of Selected Children)
     def maximumHappinessSum(self, happiness: List[int], k: int) -> int:
         happiness.sort(reverse=True)
         res = 0
@@ -1795,6 +1797,7 @@ class leetcode_2:
             k -= 1
         return res
     
+    # 3076. 数组中的最短非公共子字符串 (Shortest Uncommon Substring in an Array)
     def shortestSubstrings(self, arr: List[str]) -> List[str]:
         d = defaultdict(int)
         for a in arr:
