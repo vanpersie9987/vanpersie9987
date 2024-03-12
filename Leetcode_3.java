@@ -19,6 +19,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import javax.swing.tree.TreeNode;
+
 @SuppressWarnings("unchecked")
 public class Leetcode_3 {
     public static void main(String[] args) {
@@ -6936,27 +6938,25 @@ public class Leetcode_3 {
 
     // 1261. 在受污染的二叉树中查找元素 (Find Elements in a Contaminated Binary Tree) --不用set
     class FindElements2 {
-        private TreeNode root;
+    private TreeNode root;
 
-        public FindElements2(TreeNode root) {
-            this.root = root;
-        }
-
-        public boolean find(int target) {
-            TreeNode node = root;
-            ++target;
-            int bit = Integer.highestOneBit(target) >> 1;
-            while (bit != 0 && node != null) {
-                if ((target & bit) == 0) {
-                    node = node.left;
-                } else {
-                    node = node.right;
-                }
-                bit >>= 1;
-            }
-            return node != null;
-        }
+    public FindElements2(TreeNode root) {
+        this.root = root;
     }
+    
+    public boolean find(int target) {
+        ++target;
+        TreeNode node = root;
+        for(int i = 30 - Integer.numberOfLeadingZeros(target); i >= 0; --i) {
+            int bit = (target >> i) & 1;
+            node = bit == 0 ? node.left : node.right;
+            if (node == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
 
     // 6037. 按奇偶性交换后的最大数字 (Largest Number After Digit Swaps by Parity)
     public int largestInteger(int num) {
