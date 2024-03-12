@@ -6911,32 +6911,22 @@ public class Leetcode_3 {
         }
     }
 
-    // 1261. 在受污染的二叉树中查找元素 (Find Elements in a Contaminated Binary Tree) --bfs
+    // 1261. 在受污染的二叉树中查找元素 (Find Elements in a Contaminated Binary Tree)
     class FindElements {
         private Set<Integer> set;
-        private Queue<TreeNode> queue;
 
         public FindElements(TreeNode root) {
-            queue = new LinkedList<>();
-            set = new HashSet<>();
-            root.val = 0;
-            queue.offer(root);
-            set.add(0);
-            while (!queue.isEmpty()) {
-                TreeNode node = queue.poll();
-                if (node.left != null) {
-                    int val = (node.val << 1) + 1;
-                    node.left.val = val;
-                    queue.offer(node.left);
-                    set.add(val);
-                }
-                if (node.right != null) {
-                    int val = (node.val << 1) + 2;
-                    node.right.val = val;
-                    queue.offer(node.right);
-                    set.add(val);
-                }
+            this.set = new HashSet<>();
+            dfs(root, 0);
+        }
+
+        private void dfs(TreeNode root, int x) {
+            if (root == null) {
+                return;
             }
+            set.add(x);
+            dfs(root.left, x * 2 + 1);
+            dfs(root.right, x * 2 + 2);
         }
 
         public boolean find(int target) {
