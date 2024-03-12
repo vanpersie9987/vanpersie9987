@@ -1863,6 +1863,24 @@ class leetcode_2:
         res = dfs(0, 0, 0)
         dfs.cache_clear()
         return res
+    
+    # 1261. 在受污染的二叉树中查找元素 (Find Elements in a Contaminated Binary Tree)
+    class FindElements:
+        __slots__ = 's'
+
+        def dfs(self, root: 'TreeNode', x: int) -> None:
+            if root is None:
+                return
+            self.s.add(x)
+            self.dfs(root.left, x * 2 + 1)
+            self.dfs(root.right, x * 2 + 2)
+
+        def __init__(self, root: Optional[TreeNode]):
+            self.s = set()
+            self.dfs(root, 0)
+
+        def find(self, target: int) -> bool:
+            return target in self.s
 
 
 
