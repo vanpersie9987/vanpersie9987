@@ -1881,6 +1881,25 @@ class leetcode_2:
 
         def find(self, target: int) -> bool:
             return target in self.s
+    
+    # 1261. 在受污染的二叉树中查找元素 (Find Elements in a Contaminated Binary Tree)
+    class FindElements:
+
+        def __init__(self, root: Optional[TreeNode]):
+            self.root = root
+
+        def find(self, target: int) -> bool:
+            node = self.root
+            target += 1
+            b = target.bit_length() - 2
+            while b >= 0 and node:
+                if (1 << b) & target:
+                    node = node.right
+                else:
+                    node = node.left
+                b -= 1
+            return node is not None
+
 
 
 
