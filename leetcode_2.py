@@ -1891,14 +1891,12 @@ class leetcode_2:
         def find(self, target: int) -> bool:
             node = self.root
             target += 1
-            b = target.bit_length() - 2
-            while b >= 0 and node:
-                if (1 << b) & target:
-                    node = node.right
-                else:
-                    node = node.left
-                b -= 1
-            return node is not None
+            for i in range(target.bit_length() - 2, -1, -1):
+                bit = (target >> i) & 1
+                node = node.right if bit else node.left
+                if node is None:
+                    return False
+            return True
 
 
 
