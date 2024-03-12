@@ -6947,7 +6947,7 @@ public class Leetcode_3 {
     public boolean find(int target) {
         ++target;
         TreeNode node = root;
-        for(int i = 30 - Integer.numberOfLeadingZeros(target); i >= 0; --i) {
+        for (int i = 30 - Integer.numberOfLeadingZeros(target); i >= 0; --i) {
             int bit = (target >> i) & 1;
             node = bit == 0 ? node.left : node.right;
             if (node == null) {
