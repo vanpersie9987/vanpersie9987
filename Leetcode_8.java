@@ -3586,7 +3586,7 @@ public class Leetcode_8 {
 
     }
 
-    // 8048. 最大二进制奇数 (Maximum Odd Binary Number)
+    // 2864. 最大二进制奇数 (Maximum Odd Binary Number)
     public String maximumOddBinaryNumber(String s) {
         int cnt1 = 0;
         int n = s.length();

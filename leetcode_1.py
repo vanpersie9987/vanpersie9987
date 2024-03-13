@@ -5341,7 +5341,7 @@ class leetcode_1 :
                 res = left[i - 1][1], i, right[i + k][1]
        return res
     
-    # 8048. 最大二进制奇数 (Maximum Odd Binary Number)
+    # 2864. 最大二进制奇数 (Maximum Odd Binary Number)
     def maximumOddBinaryNumber(self, s: str) -> str:
        cnt1 = s.count('1')
        return '1' * (cnt1 - 1) + '0' * (len(s) - cnt1) + '1'
