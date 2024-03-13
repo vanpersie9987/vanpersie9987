@@ -1897,10 +1897,3 @@ class leetcode_2:
                 if node is None:
                     return False
             return True
-
-
-
-
-
-
-
