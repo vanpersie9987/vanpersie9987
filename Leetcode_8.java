@@ -2164,14 +2164,16 @@ public class Leetcode_8 {
     // 2789. 合并后数组中的最大元素 (Largest Element in an Array after Merge Operations)
     public long maxArrayValue(int[] nums) {
         int n = nums.length;
-        long res = 0L;
-        long cur = 0L;
-        for (int i = n - 1; i >= 0; --i) {
-            if (cur < nums[i]) {
-                cur = 0L;
+        long[] arr = new long[n];
+        for (int i = 0; i < n; ++i) {
+            arr[i] = nums[i];
+        }
+        long res = arr[n - 1];
+        for (int i = n - 2; i >= 0; --i) {
+            if (arr[i] <= arr[i + 1]) {
+                arr[i] += arr[i + 1];
             }
-            cur += nums[i];
-            res = Math.max(res, cur);
+            res = Math.max(res, arr[i]);
         }
         return res;
 
