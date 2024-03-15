@@ -6063,9 +6063,6 @@ public class Leetcode_7 {
         this.n2684 = grid[0].length;
         this.grid2684 = grid;
         this.memo2684 = new int[m2684][n2684];
-        for (int i = 0; i < m2684; ++i) {
-            Arrays.fill(memo2684[i], -1);
-        }
         int res = 0;
         for (int i = 0; i < m2684; ++i) {
             res = Math.max(res, dfs2684(i, 0));
@@ -6078,7 +6075,7 @@ public class Leetcode_7 {
         if (j == n2684 - 1) {
             return 0;
         }
-        if (memo2684[i][j] != -1) {
+        if (memo2684[i][j] != 0) {
             return memo2684[i][j];
         }
         int max = 0;
