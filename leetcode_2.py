@@ -1914,4 +1914,15 @@ class leetcode_2:
         for h, w, p in prices:
             s[(h, w)] = p
         return dfs(m, n)
+    
+    # 2684. 矩阵中移动的最大次数 (Maximum Number of Moves in a Grid)
+    def maxMoves(self, grid: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if j == n - 1:
+                return 0
+            return max(dfs(x, j + 1) + 1 if grid[x][j + 1] > grid[i][j] else 0 for x in range(max(i - 1, 0), min(i + 2, m)))
+        m = len(grid)
+        n = len(grid[0])
+        return max(dfs(i, 0) for i in range(m))
         
