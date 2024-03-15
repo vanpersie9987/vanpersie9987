@@ -1897,3 +1897,21 @@ class leetcode_2:
                 if node is None:
                     return False
             return True
+
+    # 2312. 卖木头块 (Selling Pieces of Wood)
+    def sellingWood(self, m: int, n: int, prices: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == 0 or j == 0:
+                return 0
+            res = s[(i, j)]
+            for x in range(1, i):
+                res = max(res, dfs(x, j) + dfs(i - x, j))
+            for y in range(1, j):
+                res = max(res, dfs(i, y) + dfs(i, j - y))
+            return res
+        s = defaultdict(int)
+        for h, w, p in prices:
+            s[(h, w)] = p
+        return dfs(m, n)
+        
