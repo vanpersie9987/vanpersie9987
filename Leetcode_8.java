@@ -7796,9 +7796,9 @@ public class Leetcode_8 {
             return 0;
         }
         this.nums3040 = nums;
-        int res1 = check(nums[0] + nums[1]);
-        int res2 = check(nums[0] + nums[n3040 - 1]);
-        int res3 = check(nums[n3040 - 1] + nums[n3040 - 2]);
+        int res1 = check3040(nums[0] + nums[1]);
+        int res2 = check3040(nums[0] + nums[n3040 - 1]);
+        int res3 = check3040(nums[n3040 - 1] + nums[n3040 - 2]);
         return Math.max(res3, Math.max(res1, res2));
 
     }
@@ -7806,7 +7806,7 @@ public class Leetcode_8 {
     private int[][] memo3040;
     private int s3040;
 
-    private int check(int s) {
+    private int check3040(int s) {
         this.s3040 = s;
         this.memo3040 = new int[n3040][n3040];
         for (int i = 0; i < n3040; ++i) {
