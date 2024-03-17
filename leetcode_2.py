@@ -1925,4 +1925,34 @@ class leetcode_2:
         m = len(grid)
         n = len(grid[0])
         return max(dfs(i, 0) for i in range(m))
+    
+    # 310. 最小高度树 (Minimum Height Trees)
+    def findMinHeightTrees(self, n: int, edges: List[List[int]]) -> List[int]:
+        if n == 1:
+            return [0]
+        g = [[] for _ in range(n)]
+        deg = [0] * n
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+            deg[u] += 1
+            deg[v] += 1
+        res = []
+        q = deque()
+        for i in range(n):
+            if deg[i] == 1:
+                q.append(i)
+        while q:
+            s = len(q)
+            res.clear()
+            for _ in range(s):
+                x = q.popleft()
+                res.append(x)
+                for y in g[x]:
+                    deg[y] -= 1
+                    if deg[y] == 1:
+                        q.append(y)
+        return res
+                
+
         
