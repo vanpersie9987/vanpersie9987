@@ -8573,4 +8573,47 @@ public class Leetcode_8 {
         }
         return res;
     }
+
+    // 3080. 执行操作标记数组中的元素 (Mark Elements on Array by Performing Queries)
+    public long[] unmarkedSumArray(int[] nums, int[][] queries) {
+        int n = nums.length;
+        long sum = 0L;
+        for (int x : nums) {
+            sum += x;
+        }
+        Integer[] ids = IntStream.range(0, n).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                if (nums[o1] == nums[o2]) {
+                    return Integer.compare(o1, o2);
+                }
+                return Integer.compare(nums[o1], nums[o2]);
+            }
+
+        });
+        boolean[] vis = new boolean[n];
+        long[] res = new long[queries.length];
+        int j = 0;
+        for (int i = 0; i < queries.length; ++i) {
+            int index = queries[i][0];
+            int k = queries[i][1];
+            if (!vis[index]) {
+                vis[index] = true;
+                sum -= nums[index];
+            }
+            while (j < n && k > 0) {
+                if (!vis[ids[j]]) {
+                    vis[ids[j]] = true;
+                    sum -= nums[ids[j]];
+                    --k;
+                }
+                ++j;
+            }
+            res[i] = sum;
+        }
+        return res;
+
+    }
 }

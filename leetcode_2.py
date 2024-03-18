@@ -1974,6 +1974,28 @@ class leetcode_2:
                 cur = cur * 10 + mx
             res += cur
         return res
+    
+    # 3080. 执行操作标记数组中的元素 (Mark Elements on Array by Performing Queries)
+    def unmarkedSumArray(self, nums: List[int], queries: List[List[int]]) -> List[int]:
+        n = len(nums)
+        m = len(queries)
+        vis = [False] * n
+        s = sum(nums)
+        res = [0] * m
+        j = 0
+        arr = sorted(zip(range(n), nums), key=lambda o: (o[1], o[0]))
+        for i, (index, k) in enumerate(queries):
+            if not vis[index]:
+                vis[index] = True
+                s -= nums[index]
+            while k and j < n:
+                if not vis[arr[j][0]]:
+                    vis[arr[j][0]] = True
+                    s -= arr[j][1]
+                    k -= 1
+                j += 1
+            res[i] = s
+        return res
 
 
                 
