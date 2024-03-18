@@ -1996,6 +1996,30 @@ class leetcode_2:
                 j += 1
             res[i] = s
         return res
+    
+    # 3082. 求出所有子序列的能量和 (Find the Sum of the Power of All Subsequences)
+    def sumOfPower(self, nums: List[int], k: int) -> int:
+        @cache
+        def dfs(i: int, j: int, l: int) -> int:
+            if i == n:
+                return j == k and l == 0
+            if n - i < l:
+                return 0
+            if l == 0:
+                return j == k
+            res = dfs(i + 1, j, l)
+            if l and j + nums[i] <= k:
+                res += dfs(i + 1, j + nums[i], l - 1)
+            return res % MOD
+        n = len(nums)
+        MOD = 10 ** 9 + 7
+        res = 0
+        for i in range(1, n + 1):
+            res += dfs(0, 0, i) * pow(2, n - i, MOD)
+            res %= MOD
+        return res
+
+
 
 
                 

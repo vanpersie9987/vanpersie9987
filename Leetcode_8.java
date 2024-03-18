@@ -8616,4 +8616,108 @@ public class Leetcode_8 {
         return res;
 
     }
+
+    public String minimizeStringValue(String s) {
+        int[] cnt = new int[26];
+        int q = 0;
+        for (char c : s.toCharArray()) {
+            if (c != '?') {
+                ++cnt[c - 'a'];
+            } else {
+                ++q;
+            }
+        }
+        Queue<Bean> queue = new PriorityQueue<>();
+        for (char i = 'a'; i <= 'z'; ++i) {
+            queue.offer(new Bean(cnt[i - 'a'], i));
+        }
+        StringBuilder b = new StringBuilder();
+        while (q-- > 0) {
+            Bean bean = queue.poll();
+            b.append(bean.chr);
+            queue.offer(new Bean(bean.c + 1, bean.chr));
+        }
+        char[] arr = b.toString().toCharArray();
+        Arrays.sort(arr);
+        int j = 0;
+        StringBuilder ret = new StringBuilder();
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) == '?') {
+                ret.append((char) arr[j++]);
+            } else {
+                ret.append(s.charAt(i));
+            }
+        }
+        return ret.toString();
+
+    }
+
+    public class Bean implements Comparable<Bean>{
+        int c;
+        char chr;
+
+        public Bean(int c, char chr) {
+            this.c = c;
+            this.chr = chr;
+        }
+
+        @Override
+        public int compareTo(Bean o) {
+            if (o.c == this.c) {
+                return Character.compare(this.chr, o.chr);
+            }
+            return Integer.compare(this.c, o.c);
+        }
+        
+    }
+
+    private int n;
+    private int[] nums;
+    private int k;
+    private int[][][] memo;
+
+    public int sumOfPower(int[] nums, int k) {
+        this.nums = nums;
+        this.n = nums.length;
+        this.k = k;
+        int res = 0;
+        this.memo = new int[n][k + 1][n + 1];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < k + 1; ++j) {
+                Arrays.fill(memo[i][j], -1);
+            }
+        }
+        final int MOD = (int) (1e9 + 7);
+        int[] pre = new int[n + 1];
+        pre[0] = 1;
+        for (int i = 1; i < n + 1; ++i) {
+            pre[i] = pre[i - 1] * 2 % MOD;
+        }
+        for (int i = 1; i <= n; ++i) {
+            int cur = dfs(0, 0, i);
+            res = (int) ((res + (long) cur * pre[n - i] % MOD) % MOD);
+        }
+        return res;
+    }
+
+    private int dfs(int i, int j, int l) {
+        if (i == n) {
+            return (j == k && l == 0) ? 1 : 0;
+        }
+        if (l == 0) {
+            return j == k ? 1 : 0;
+        }
+        if (n - i < l) {
+            return 0;
+        }
+        if (memo[i][j][l] != -1) {
+            return memo[i][j][l];
+        }
+        int res = dfs(i + 1, j, l);
+        if (l > 0 && nums[i] + j <= k) {
+            res += dfs(i + 1, nums[i] + j, l - 1);
+        }
+        final int MOD = (int) (1e9 + 7);
+        return memo[i][j][l] = res % MOD;
+    }
 }
