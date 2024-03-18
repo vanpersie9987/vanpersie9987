@@ -1964,6 +1964,18 @@ class leetcode_2:
         def sumRange(self, left: int, right: int) -> int:
             return self.s[right + 1] - self.s[left]
 
+    # 3079. 求出加密整数的和 (Find the Sum of Encrypted Integers)
+    def sumOfEncryptedInt(self, nums: List[int]) -> int:
+        res = 0
+        for x in nums:
+            cur = 0
+            mx = max(int(c) for c in str(x))
+            for _ in range(len(str(x))):
+                cur = cur * 10 + mx
+            res += cur
+        return res
+
+
                 
 
         

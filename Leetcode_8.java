@@ -8549,4 +8549,28 @@ public class Leetcode_8 {
         }
         return memo3077[i][j][p] = res;
     }
+
+    // 3079. 求出加密整数的和 (Find the Sum of Encrypted Integers)
+    public int sumOfEncryptedInt(int[] nums) {
+        int res = 0;
+        for (int x : nums) {
+            res += check3079(x);
+        }
+        return res;
+
+    }
+
+    private int check3079(int x) {
+        int len = String.valueOf(x).length();
+        int max = 0;
+        while (x != 0) {
+            max = Math.max(max, x % 10);
+            x /= 10;
+        }
+        int res = 0;
+        for (int i = 0; i < len; ++i) {
+            res = res * 10 + max;
+        }
+        return res;
+    }
 }
