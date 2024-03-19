@@ -8671,53 +8671,54 @@ public class Leetcode_8 {
         
     }
 
-    private int n;
-    private int[] nums;
-    private int k;
-    private int[][][] memo;
+    // 3082. 求出所有子序列的能量和 (Find the Sum of the Power of All Subsequences)
+    private int n3082;
+    private int[] nums3082;
+    private int k3082;
+    private int[][][] memo3082;
 
     public int sumOfPower(int[] nums, int k) {
-        this.nums = nums;
-        this.n = nums.length;
-        this.k = k;
+        this.nums3082 = nums;
+        this.n3082 = nums.length;
+        this.k3082 = k;
         int res = 0;
-        this.memo = new int[n][k + 1][n + 1];
-        for (int i = 0; i < n; ++i) {
+        this.memo3082 = new int[n3082][k + 1][n3082 + 1];
+        for (int i = 0; i < n3082; ++i) {
             for (int j = 0; j < k + 1; ++j) {
-                Arrays.fill(memo[i][j], -1);
+                Arrays.fill(memo3082[i][j], -1);
             }
         }
         final int MOD = (int) (1e9 + 7);
-        int[] pre = new int[n + 1];
+        int[] pre = new int[n3082 + 1];
         pre[0] = 1;
-        for (int i = 1; i < n + 1; ++i) {
+        for (int i = 1; i < n3082 + 1; ++i) {
             pre[i] = pre[i - 1] * 2 % MOD;
         }
-        for (int i = 1; i <= n; ++i) {
-            int cur = dfs(0, 0, i);
-            res = (int) ((res + (long) cur * pre[n - i] % MOD) % MOD);
+        for (int i = 1; i <= n3082; ++i) {
+            int cur = dfs3082(0, 0, i);
+            res = (int) ((res + (long) cur * pre[n3082 - i] % MOD) % MOD);
         }
         return res;
     }
 
-    private int dfs(int i, int j, int l) {
-        if (i == n) {
-            return (j == k && l == 0) ? 1 : 0;
+    private int dfs3082(int i, int j, int l) {
+        if (i == n3082) {
+            return (j == k3082 && l == 0) ? 1 : 0;
         }
         if (l == 0) {
-            return j == k ? 1 : 0;
+            return j == k3082 ? 1 : 0;
         }
-        if (n - i < l) {
+        if (n3082 - i < l) {
             return 0;
         }
-        if (memo[i][j][l] != -1) {
-            return memo[i][j][l];
+        if (memo3082[i][j][l] != -1) {
+            return memo3082[i][j][l];
         }
-        int res = dfs(i + 1, j, l);
-        if (l > 0 && nums[i] + j <= k) {
-            res += dfs(i + 1, nums[i] + j, l - 1);
+        int res = dfs3082(i + 1, j, l);
+        if (l > 0 && nums3082[i] + j <= k3082) {
+            res += dfs3082(i + 1, nums3082[i] + j, l - 1);
         }
         final int MOD = (int) (1e9 + 7);
-        return memo[i][j][l] = res % MOD;
+        return memo3082[i][j][l] = res % MOD;
     }
 }
