@@ -2043,11 +2043,24 @@ class leetcode_2:
             if l < k < r:
                 res = max(res, nums[i] * (r - l - 1))
         return res
-        
-
-
-
-
-                
-
-        
+    
+    # 84. 柱状图中最大的矩形 (Largest Rectangle in Histogram)
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        n = len(heights)
+        st = []
+        left = [-1] * n
+        for i in range(n):
+            while st and heights[st[-1]] >= heights[i]:
+                st.pop()
+            if st:
+                left[i] = st[-1]
+            st.append(i)
+        st.clear()
+        right = [n] * n
+        for i in range(n - 1, -1, -1):
+            while st and heights[st[-1]] >= heights[i]:
+                st.pop()
+            if st:
+                right[i] = st[-1]
+            st.append(i)
+        return max(v * (r - l - 1) for v, l, r in zip(heights, left, right))
