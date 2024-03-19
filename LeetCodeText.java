@@ -17091,32 +17091,40 @@ public class LeetCodeText {
         return (left - right1) == 1;
     }
 
-    // 1793. 好子数组的最大分数 (Maximum Score of a Good Subarray)
+    // 1793. 好子数组的最大分数 (Maximum Score of a Good Subarray) --单调栈
     public int maximumScore(int[] nums, int k) {
-        int l = k;
-        int r = k;
+        int n = nums.length;
+        Stack<Integer> st = new Stack<>();
+        int[] left = new int[n];
+        Arrays.fill(left, -1);
+        for (int i = 0; i < n; ++i) {
+            while (!st.isEmpty() && nums[st.peek()] >= nums[i]) {
+                st.pop();
+            }
+            if (!st.isEmpty()) {
+                left[i] = st.peek();
+            }
+            st.push(i);
+        }
+        st.clear();
+        int[] right = new int[n];
+        Arrays.fill(right, n);
+        for (int i = n - 1; i >= 0; --i) {
+            while (!st.isEmpty() && nums[st.peek()] >= nums[i]) {
+                st.pop();
+            }
+            if (!st.isEmpty()) {
+                right[i] = st.peek();
+            }
+            st.push(i);
+        }
         int res = 0;
-        while (true) {
-            while (l >= 0 && nums[l] >= nums[k]) {
-                --l;
-            }
-            while (r < nums.length && nums[r] >= nums[k]) {
-                ++r;
-            }
-            res = Math.max(res, nums[k] * (r - l - 1));
-            if (l < 0 && r >= nums.length) {
-                break;
-            }
-            if (l >= 0 && r < nums.length) {
-                nums[k] = Math.max(nums[l], nums[r]);
-            } else if (l >= 0) {
-                nums[k] = nums[l];
-            } else {
-                nums[k] = nums[r];
+        for (int i = 0; i < n; ++i) {
+            if (left[i] < k && k < right[i]) {
+                res = Math.max(res, nums[i] * (right[i] - left[i] - 1));
             }
         }
         return res;
-
     }
 
     // LCP 18. 早餐组合
