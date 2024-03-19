@@ -8617,6 +8617,7 @@ public class Leetcode_8 {
 
     }
 
+    // 3081. 替换字符串中的问号使分数最小 (Replace Question Marks in String to Minimize Its Value)
     public String minimizeStringValue(String s) {
         int[] cnt = new int[26];
         int q = 0;
@@ -8627,15 +8628,15 @@ public class Leetcode_8 {
                 ++q;
             }
         }
-        Queue<Bean> queue = new PriorityQueue<>();
+        Queue<Bean3081> queue = new PriorityQueue<>();
         for (char i = 'a'; i <= 'z'; ++i) {
-            queue.offer(new Bean(cnt[i - 'a'], i));
+            queue.offer(new Bean3081(cnt[i - 'a'], i));
         }
         StringBuilder b = new StringBuilder();
         while (q-- > 0) {
-            Bean bean = queue.poll();
+            Bean3081 bean = queue.poll();
             b.append(bean.chr);
-            queue.offer(new Bean(bean.c + 1, bean.chr));
+            queue.offer(new Bean3081(bean.c + 1, bean.chr));
         }
         char[] arr = b.toString().toCharArray();
         Arrays.sort(arr);
@@ -8652,17 +8653,17 @@ public class Leetcode_8 {
 
     }
 
-    public class Bean implements Comparable<Bean>{
+    public class Bean3081 implements Comparable<Bean3081>{
         int c;
         char chr;
 
-        public Bean(int c, char chr) {
+        public Bean3081(int c, char chr) {
             this.c = c;
             this.chr = chr;
         }
 
         @Override
-        public int compareTo(Bean o) {
+        public int compareTo(Bean3081 o) {
             if (o.c == this.c) {
                 return Character.compare(this.chr, o.chr);
             }
