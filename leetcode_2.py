@@ -2073,3 +2073,9 @@ class leetcode_2:
             if vis[ord(y) - ord('a')] >> (ord(x) - ord('a')) & 1:
                 return True
         return False
+    
+    # 3084. 统计以给定字符开头和结尾的子字符串总数 (Count Substrings Starting and Ending with Given Character)
+    def countSubstrings(self, s: str, c: str) -> int:
+        cnt = s.count(c)
+        return (cnt + 1) * cnt // 2
+

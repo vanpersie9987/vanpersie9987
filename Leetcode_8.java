@@ -8738,4 +8738,18 @@ public class Leetcode_8 {
         return false;
 
     }
+
+    // 3084. 统计以给定字符开头和结尾的子字符串总数 (Count Substrings Starting and Ending with Given Character)
+    public long countSubstrings(String s, char c) {
+        long res = 0L;
+        int cnt = 0;
+        for (char v : s.toCharArray()) {
+            if (v == c) {
+                ++cnt;
+                res += cnt;
+            }
+        }
+        return res;
+
+    }
 }
