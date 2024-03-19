@@ -2078,4 +2078,26 @@ class leetcode_2:
     def countSubstrings(self, s: str, c: str) -> int:
         cnt = s.count(c)
         return (cnt + 1) * cnt // 2
+    
+    # 3085. 成为 K 特殊字符串需要删除的最少字符数 (Minimum Deletions to Make String K-Special)
+    def minimumDeletions(self, word: str, k: int) -> int:
+        cnt = [0] * 26
+        for c in word:
+            cnt[ord(c) - ord('a')] += 1
+        cnt.sort()
+        j = 0
+        s = 0
+        res = 0
+        for i, v in enumerate(cnt):
+            s += v
+            while cnt[j] < v:
+                s -= cnt[j]
+                j += 1
+            cur = 0
+            for x in range(i + 1, 26):
+                cur += min(cnt[x], v + k)
+            res = max(res, s + cur)
+        return len(word) - res
+
+
 
