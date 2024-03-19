@@ -434,19 +434,35 @@ public class LeetCode_2 {
    // 84. 柱状图中最大的矩形 (Largest Rectangle in Histogram)
    // 剑指 Offer II 039. 直方图最大矩形面积 --单调栈
    public int largestRectangleArea(int[] heights) {
-      Stack<Integer> stack = new Stack<>();
-      stack.push(-1);
-      int res = 0;
-      for (int i = 0; i < heights.length; ++i) {
-         while (stack.peek() != -1 && heights[i] < heights[stack.peek()]) {
-            int h = heights[stack.pop()];
-            res = Math.max(res, h * (i - stack.peek() - 1));
+      int n = heights.length;
+      int[] left = new int[n];
+      Arrays.fill(left, -1);
+      Stack<Integer> st = new Stack<>();
+      for (int i = 0; i < n; ++i) {
+         while (!st.isEmpty() && heights[st.peek()] >= heights[i]) {
+            st.pop();
          }
-         stack.push(i);
+         if (!st.isEmpty()) {
+            left[i] = st.peek();
+         }
+         st.push(i);
       }
-      while (stack.peek() != -1) {
-         int h = heights[stack.pop()];
-         res = Math.max(res, h * (heights.length - stack.peek() - 1));
+
+      int[] right = new int[n];
+      Arrays.fill(right, n);
+      st.clear();
+      for (int i = n - 1; i >= 0; --i) {
+         while (!st.isEmpty() && heights[st.peek()] >= heights[i]) {
+            st.pop();
+         }
+         if (!st.isEmpty()) {
+            right[i] = st.peek();
+         }
+         st.push(i);
+      }
+      int res = 0;
+      for (int i = 0; i < n; ++i) {
+         res = Math.max(res, heights[i] * (right[i] - left[i] - 1));
       }
       return res;
 
