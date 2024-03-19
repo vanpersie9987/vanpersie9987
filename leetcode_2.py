@@ -2018,6 +2018,32 @@ class leetcode_2:
             res += dfs(0, 0, i) * pow(2, n - i, MOD)
             res %= MOD
         return res
+    
+    # 1793. 好子数组的最大分数 (Maximum Score of a Good Subarray) --单调栈
+    def maximumScore(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        left = [-1] * n
+        st = []
+        for i, v in enumerate(nums):
+            while st and nums[st[-1]] >= v:
+                st.pop()
+            if st:
+                left[i] = st[-1]
+            st.append(i)
+        right = [n] * n
+        st = []
+        for i in range(n - 1, -1, -1):
+            while st and nums[st[-1]] >= nums[i]:
+                st.pop()
+            if st:
+                right[i] = st[-1]
+            st.append(i)
+        res = 0
+        for i, l, r in zip(range(n), left, right):
+            if l < k < r:
+                res = max(res, nums[i] * (r - l - 1))
+        return res
+        
 
 
 
