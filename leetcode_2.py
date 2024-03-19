@@ -2064,3 +2064,12 @@ class leetcode_2:
                 right[i] = st[-1]
             st.append(i)
         return max(v * (r - l - 1) for v, l, r in zip(heights, left, right))
+    
+    # 3083. 字符串及其反转中是否存在同一子字符串 (Existence of a Substring in a String and Its Reverse)
+    def isSubstringPresent(self, s: str) -> bool:
+        vis = [0] * 26
+        for x, y in pairwise(s):
+            vis[ord(x) - ord('a')] |= 1 << (ord(y) - ord('a'))
+            if vis[ord(y) - ord('a')] >> (ord(x) - ord('a')) & 1:
+                return True
+        return False
