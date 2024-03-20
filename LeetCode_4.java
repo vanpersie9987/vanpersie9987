@@ -4086,80 +4086,36 @@ public class LeetCode_4 {
 
     // 2266. 统计打字方案数 (Count Number of Texts)
     private int n2266;
-    private char[] arr2266;
+    private char[] p2266;
     private int[] memo2266;
 
     public int countTexts(String pressedKeys) {
         this.n2266 = pressedKeys.length();
-        this.arr2266 = pressedKeys.toCharArray();
+        this.p2266 = pressedKeys.toCharArray();
         this.memo2266 = new int[n2266];
-        Arrays.fill(memo2266, -1);
         return dfs2266(0);
-
     }
 
     private int dfs2266(int i) {
         if (i == n2266) {
             return 1;
         }
-        if (memo2266[i] != -1) {
+        if (memo2266[i] != 0) {
             return memo2266[i];
         }
-        int len = 3;
-        if (arr2266[i] == '7' || arr2266[i] == '9') {
-            len = 4;
+        int j = 3;
+        if (p2266[i] == '7' || p2266[i] == '9') {
+            j = 4;
         }
         int res = 0;
         final int MOD = (int) (1e9 + 7);
-        int j = i;
-        while (j < n2266 && j - i + 1 <= len && arr2266[i] == arr2266[j]) {
-            res = (res + dfs2266(j + 1)) % MOD;
-            ++j;
+        int k = 0;
+        while (i + k < n2266 && k < j && p2266[i] == p2266[i + k]) {
+            res += dfs2266(i + k + 1);
+            res %= MOD;
+            ++k;
         }
         return memo2266[i] = res;
-    }
-
-    // 2266. 统计打字方案数 (Count Number of Texts) --dp
-    public int countTexts2(String pressedKeys) {
-        final int MOD = 1000000007;
-        int n = pressedKeys.length();
-        List<Long> dp3 = new ArrayList<>();
-        dp3.add(1L);
-        dp3.add(1L);
-        dp3.add(2L);
-        dp3.add(4L);
-        List<Long> dp4 = new ArrayList<>();
-        dp4.add(1L);
-        dp4.add(1L);
-        dp4.add(2L);
-        dp4.add(4L);
-        for (int i = 4; i < n + 1; ++i) {
-            dp3.add((dp3.get(i - 1) + dp3.get(i - 2) + dp3.get(i - 3)) % MOD);
-            dp4.add((dp4.get(i - 1) + dp4.get(i - 2) + dp4.get(i - 3) + dp4.get(i - 4)) % MOD);
-        }
-        long res = 1l;
-        int count = 1;
-        for (int i = 1; i < n; ++i) {
-            if (pressedKeys.charAt(i) == pressedKeys.charAt(i - 1)) {
-                ++count;
-            } else {
-                if (pressedKeys.charAt(i - 1) == '7' || pressedKeys.charAt(i - 1) == '9') {
-                    res *= dp4.get(count);
-                } else {
-                    res *= dp3.get(count);
-                }
-                res %= MOD;
-                count = 1;
-            }
-        }
-        if (pressedKeys.charAt(n - 1) == '7' || pressedKeys.charAt(n - 1) == '9') {
-            res *= dp4.get(count);
-        } else {
-            res *= dp3.get(count);
-        }
-        res %= MOD;
-        return (int) res;
-
     }
 
     // 2325. 解密消息 (Decode the Message)
