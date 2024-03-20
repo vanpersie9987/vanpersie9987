@@ -868,18 +868,15 @@ class leetcode_1 :
     
     # 2466. 统计构造好字符串的方案数 (Count Ways To Build Good Strings)
     def countGoodStrings(self, low: int, high: int, zero: int, one: int) -> int:
-       m = 10 ** 9 + 7
+       MOD = 10 ** 9 + 7
        @cache
        def dfs(i: int) -> int:
           if i < 0:
              return 0
           if i == 0:
              return 1
-          return (dfs(i - zero) + dfs(i - one)) % m
-       res = 0
-       for i in range(low, high + 1):
-          res += dfs(i)
-       return res % m
+          return (dfs(i - zero) + dfs(i - one)) % MOD
+       return sum(dfs(x) for x in range(low, high + 1)) % MOD
     
     # 53. 最大子数组和 (Maximum Subarray)
     # 剑指 Offer 42. 连续子数组的最大和
