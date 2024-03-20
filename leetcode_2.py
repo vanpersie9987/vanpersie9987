@@ -2098,6 +2098,12 @@ class leetcode_2:
                 cur += min(cnt[x], v + k)
             res = max(res, s + cur)
         return len(word) - res
+    
+    # 1969. 数组元素的最小非零乘积 (Minimum Non-Zero Product of the Array Elements)
+    def minNonZeroProduct(self, p: int) -> int:
+        MOD = 10 ** 9 + 7
+        k = (1 << p) - 1
+        return k * pow(k - 1, k >> 1, MOD) % MOD
 
 
 
