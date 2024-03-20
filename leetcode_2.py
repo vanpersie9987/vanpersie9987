@@ -2104,3 +2104,5 @@ class leetcode_2:
         MOD = 10 ** 9 + 7
         k = (1 << p) - 1
         return k * pow(k - 1, k >> 1, MOD) % MOD
+
+            
