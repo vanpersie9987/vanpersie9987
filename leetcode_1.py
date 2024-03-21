@@ -363,19 +363,17 @@ class leetcode_1 :
     # 213. 打家劫舍 II (House Robber II)
     # LCR 090. 打家劫舍 II
     def rob(self, nums: List[int]) -> int:
-       n = len(nums) - 1
-       if n == 0:
-          return nums[0]
-       return max(self.max_213(nums[1:]), self.max_213(nums[:-1]))
-
-    def max_213(self, nums: List[int]) -> int:
-       @cache
-       def dfs(i: int) -> int:
-          if i >= n:
-             return 0
-          return max(dfs(i + 1), dfs(i + 2) + nums[i])
-       n = len(nums)
-       return dfs(0)
+        def cal(arr: list) -> int:
+            @cache
+            def dfs(i: int) -> int:
+                if i >= len(arr):
+                    return 0
+                return max(dfs(i + 1), dfs(i + 2) + arr[i])
+            return dfs(0)
+        n = len(nums)
+        if n == 1:
+            return nums[0]
+        return max(cal(nums[1:]), cal(nums[: n - 1]))
 
        
     
