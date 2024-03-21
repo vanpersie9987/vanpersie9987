@@ -1634,15 +1634,14 @@ class leetcode_1 :
 
     # 2320. 统计放置房子的方式数 (Count Number of Ways to Place Houses)
     def countHousePlacements(self, n: int) -> int:
-       MOD = 10 ** 9 + 7
-       
-       @cache
-       def dfs(i: int) -> int:
-          if i >= n:
-             return 1
-          return dfs(i + 1) + dfs(i + 2)
-       res = dfs(0)
-       return res ** 2 % MOD
+        MOD = 10 ** 9 + 7
+        @cache
+        def dfs(i: int) -> int:
+            if i >= n:
+                return 1
+            return (dfs(i + 1) + dfs(i + 2)) % MOD
+        res = dfs(0)
+        return pow(res, 2, MOD)
     
     # 2550. 猴子碰撞的方法数 (Count Collisions of Monkeys on a Polygon)
     def monkeyMove(self, n: int) -> int:
