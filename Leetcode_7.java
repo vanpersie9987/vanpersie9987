@@ -5107,38 +5107,34 @@ public class Leetcode_7 {
         return res;
     }
 
-    // 6417. 频率跟踪器 (Frequency Tracker)
+    // 2671. 频率跟踪器 (Frequency Tracker)
     class FrequencyTracker {
         private Map<Integer, Integer> map;
-        private Map<Integer, Set<Integer>> freq;
+        private Map<Integer, Integer> cnt;
 
         public FrequencyTracker() {
-            map = new HashMap<>();
-            freq = new HashMap<>();
-
+            this.map = new HashMap<>();
+            this.cnt = new HashMap<>();
         }
 
         public void add(int number) {
+            int oriCnt = map.getOrDefault(number, 0);
+            cnt.merge(oriCnt, -1, Integer::sum);
+            cnt.merge(oriCnt + 1, 1, Integer::sum);
             map.merge(number, 1, Integer::sum);
-            int count = map.get(number) - 1;
-            Set<Integer> set = freq.getOrDefault(count, new HashSet<>());
-            set.remove(number);
-            freq.computeIfAbsent(count + 1, k -> new HashSet<>()).add(number);
         }
 
         public void deleteOne(int number) {
-            int count = map.getOrDefault(number, 0);
-            if (count == 0) {
-                return;
+            int oriCnt = map.getOrDefault(number, 0);
+            cnt.merge(oriCnt, -1, Integer::sum);
+            cnt.merge(oriCnt - 1, 1, Integer::sum);
+            if (map.getOrDefault(number, 0) > 0) {
+                map.merge(number, -1, Integer::sum);
             }
-            map.merge(number, -1, Integer::sum);
-            Set<Integer> ori = freq.getOrDefault(count, new HashSet<>());
-            ori.remove(number);
-            freq.computeIfAbsent(count - 1, k -> new HashSet<>()).add(number);
         }
 
         public boolean hasFrequency(int frequency) {
-            return !freq.getOrDefault(frequency, new HashSet<>()).isEmpty();
+            return cnt.getOrDefault(frequency, 0) > 0;
         }
     }
 
