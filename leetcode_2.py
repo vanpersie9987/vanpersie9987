@@ -2131,9 +2131,10 @@ class leetcode_2:
     # 740. 删除并获得点数 (Delete and Earn)
     def deleteAndEarn(self, nums: List[int]) -> int:
         c = Counter(nums)
+        mx = max(nums)
         @cache
         def dfs(i: int) -> int:
-            if i > 10 ** 4:
+            if i > mx:
                 return 0
             return max(dfs(i + 2) + c[i] * i, dfs(i + 1))
-        return dfs(0)
+        return dfs(1)
