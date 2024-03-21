@@ -2127,3 +2127,13 @@ class leetcode_2:
 
         def hasFrequency(self, frequency: int) -> bool:
             return self.freq[frequency] > 0
+
+    # 740. 删除并获得点数 (Delete and Earn)
+    def deleteAndEarn(self, nums: List[int]) -> int:
+        c = Counter(nums)
+        @cache
+        def dfs(i: int) -> int:
+            if i > 10 ** 4:
+                return 0
+            return max(dfs(i + 2) + c[i] * i, dfs(i + 1))
+        return dfs(0)
