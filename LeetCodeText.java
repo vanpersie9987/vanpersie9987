@@ -20124,64 +20124,32 @@ public class LeetCodeText {
     }
 
     // 740. 删除并获得点数 (Delete and Earn)
+    private int mx740;
+    private int[] cnt740;
+    private int[] memo740;
+
     public int deleteAndEarn(int[] nums) {
-        int max = Arrays.stream(nums).max().getAsInt();
-        int[] sum = new int[max + 1];
-        for (int num : nums) {
-            sum[num] += num;
+        for (int x : nums) {
+            mx740 = Math.max(mx740, x);
         }
-        return getRob740(sum);
-    }
-
-    private int getRob740(int[] nums) {
-        if (nums.length == 1) {
-            return nums[0];
+        this.cnt740 = new int[mx740 + 1];
+        for (int x : nums) {
+            ++cnt740[x];
         }
-        int first = nums[0];
-        int second = Math.max(nums[0], nums[1]);
-        for (int i = 2; i < nums.length; ++i) {
-            int temp = second;
-            second = Math.max(nums[i] + first, second);
-            first = temp;
-        }
-        return second;
-    }
-
-    // 740. 删除并获得点数 (Delete and Earn)
-    public int deleteAndEarn2(int[] nums) {
-        int res = 0;
-        Arrays.sort(nums);
-        List<Integer> sum = new ArrayList<>();
-        sum.add(nums[0]);
-        for (int i = 1; i < nums.length; ++i) {
-            int num = nums[i];
-            if (num == nums[i - 1]) {
-                sum.set(sum.size() - 1, sum.get(sum.size() - 1) + num);
-            } else if (num == nums[i - 1] + 1) {
-                sum.add(num);
-            } else {
-                res += getRob740s(sum);
-                sum.clear();
-                sum.add(num);
-            }
-        }
-        res += getRob740s(sum);
-        return res;
+        this.memo740 = new int[mx740 + 1];
+        Arrays.fill(memo740, -1);
+        return dfs740(1);
 
     }
 
-    private int getRob740s(List<Integer> sum) {
-        if (sum.size() == 1) {
-            return sum.get(0);
+    private int dfs740(int i) {
+        if (i > mx740) {
+            return 0;
         }
-        int first = sum.get(0);
-        int second = Math.max(sum.get(0), sum.get(1));
-        for (int i = 2; i < sum.size(); ++i) {
-            int temp = second;
-            second = Math.max(sum.get(i) + first, second);
-            first = temp;
+        if (memo740[i] != -1) {
+            return memo740[i];
         }
-        return second;
+        return memo740[i] = Math.max(dfs740(i + 1), dfs740(i + 2) + cnt740[i] * i);
     }
 
     // 748. 最短补全词 (Shortest Completing Word)
