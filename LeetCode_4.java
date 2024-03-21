@@ -3581,7 +3581,6 @@ public class LeetCode_4 {
     public int countHousePlacements(int n) {
         this.n2320 = n;
         this.memo2320 = new int[n];
-        Arrays.fill(memo2320, -1);
         int res = dfs2320(0);
         final int MOD = (int) (1e9 + 7);
         return (int) ((long) res * res % MOD);
@@ -3592,7 +3591,7 @@ public class LeetCode_4 {
         if (i >= n2320) {
             return 1;
         }
-        if (memo2320[i] != -1) {
+        if (memo2320[i] != 0) {
             return memo2320[i];
         }
         final int MOD = (int) (1e9 + 7);
