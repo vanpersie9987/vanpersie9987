@@ -2104,5 +2104,26 @@ class leetcode_2:
         MOD = 10 ** 9 + 7
         k = (1 << p) - 1
         return k * pow(k - 1, k >> 1, MOD) % MOD
+    
+    # 2671. 频率跟踪器 (Frequency Tracker)
+    class FrequencyTracker:
+        __slots__ = 'cnt', 'freq'
 
-            
+        def __init__(self):
+            self.cnt = defaultdict(int)
+            self.freq = defaultdict(int)
+
+        def add(self, number: int) -> None:
+            c = self.cnt[number]
+            self.freq[c] -= 1
+            self.freq[c + 1] += 1
+            self.cnt[number] += 1
+
+        def deleteOne(self, number: int) -> None:
+            c = self.cnt[number]
+            self.freq[c] -= 1
+            self.freq[c - 1] += 1
+            self.cnt[number] = max(0, self.cnt[number] - 1)
+
+        def hasFrequency(self, frequency: int) -> bool:
+            return self.freq[frequency] > 0
