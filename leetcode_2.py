@@ -2203,7 +2203,3 @@ class leetcode_2:
         for c, v in zip(chars, vals):
             val[ord(c) - ord('a')] = v
         return max(0, max(dfs(i) for i in range(len(s))))
-
-
-
-
