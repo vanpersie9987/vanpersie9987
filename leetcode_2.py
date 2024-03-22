@@ -2137,3 +2137,21 @@ class leetcode_2:
                 return 0
             return max(dfs(i + 2) + c[i] * i, dfs(i + 1))
         return dfs(1)
+    
+    # 2597. 美丽子集的数目 (The Number of Beautiful Subsets)
+    def beautifulSubsets(self, nums: List[int], k: int) -> int:
+        def dfs(i: int, j: int) -> None:
+            if i == n:
+                nonlocal res
+                res += j
+                return
+            dfs(i + 1, j)
+            if d[nums[i] - k] == 0 and d[nums[i] + k] == 0:
+                d[nums[i]] += 1
+                dfs(i + 1, 1)
+                d[nums[i]] -= 1
+        n = len(nums)
+        d = defaultdict(int)
+        res = 0
+        dfs(0, 0)
+        return res
