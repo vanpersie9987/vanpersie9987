@@ -2178,7 +2178,7 @@ class leetcode_2:
             res *= cal(list(g))
         return res - 1
     
-    # 2606. 找到最大开销的子字符串 (Find the Substring With Maximum Cost)
+    # 2606. 找到最大开销的子字符串 (Find the Substring With Maximum Cost) --前缀和
     def maximumCostSubstring(self, s: str, chars: str, vals: List[int]) -> int:
         val = [i + 1 for i in range(26)]
         for c, v in zip(chars, vals):
@@ -2192,7 +2192,7 @@ class leetcode_2:
             m = min(m, pre)
         return res
 
-    # 2606. 找到最大开销的子字符串 (Find the Substring With Maximum Cost)
+    # 2606. 找到最大开销的子字符串 (Find the Substring With Maximum Cost) --dp
     def maximumCostSubstring(self, s: str, chars: str, vals: List[int]) -> int:
         @cache
         def dfs(i: int) -> int:
