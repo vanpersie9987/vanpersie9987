@@ -1726,19 +1726,19 @@ public class Leetcode_7 {
         Arrays.fill(memo2606, -1);
         int res = 0;
         for (int i = 0; i < n2606; ++i) {
-            res = Math.max(res, dfs(i));
+            res = Math.max(res, dfs2606(i));
         }
         return res;
     }
 
-    private int dfs(int i) {
+    private int dfs2606(int i) {
         if (i < 0) {
             return 0;
         }
         if (memo2606[i] != -1) {
             return memo2606[i];
         }
-        return memo2606[i] = Math.max(dfs(i - 1), 0) + fees2606[arr2606[i] - 'a'];
+        return memo2606[i] = Math.max(dfs2606(i - 1), 0) + fees2606[arr2606[i] - 'a'];
     }
 
     // 2609. 最长平衡子字符串 (Find the Longest Balanced Substring of a Binary String)
