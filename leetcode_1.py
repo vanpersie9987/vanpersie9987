@@ -133,21 +133,18 @@ class leetcode_1 :
     
     # 1388. 3n 块披萨 (Pizza With 3n Slices)
     def maxSizeSlices(self, slices: List[int]) -> int:
-       nums1 = slices[1:]
-       nums2 = slices[:-1]
-       n = len(nums1)
-       d = (n + 1) // 3
-       @cache
-       def dfs1(i: int, j: int) -> int:
-          if i >= n or j == d:
-             return 0
-          return max(dfs1(i + 1, j), dfs1(i + 2, j + 1) + nums1[i])
-       @cache
-       def dfs2(i: int, j: int) -> int :
-          if i >= n or j == d:
-             return 0
-          return max(dfs2(i + 1, j), dfs2(i + 2, j + 1) + nums2[i])
-       return max(dfs1(0, 0), dfs2(0, 0))
+        def cal(nums: list) -> int:
+            @cache
+            def dfs(i: int, j: int) -> int:
+                if j == m:
+                    return 0
+                if i >= n:
+                    return -inf
+                return max(dfs(i + 1, j), dfs(i + 2, j + 1) + nums[i])
+            n = len(nums)
+            m = (n + 1) // 3
+            return dfs(0, 0)
+        return max(cal(slices[1:]), cal(slices[:len(slices) - 1]))
     
     # 2784. 检查数组是否是好的 (Check if Array is Good)
     def isGood(self, nums: List[int]) -> bool:
