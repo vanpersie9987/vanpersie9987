@@ -11,7 +11,7 @@ from decimal import Rounded
 import enum
 from functools import cache
 from inspect import modulesbyfile
-from itertools import accumulate, pairwise
+from itertools import accumulate, count, pairwise
 from locale import DAY_4
 from math import comb, cos, gcd, inf, isqrt, sqrt
 from mimetypes import init
@@ -30,6 +30,7 @@ from turtle import mode, reset, right, st
 from typing import List, Optional
 import heapq
 import bisect
+from unittest.util import _count_diff_all_purpose
 from wsgiref.util import guess_scheme
 from xml.dom import Node
 from zoneinfo import reset_tzpath
@@ -2155,3 +2156,28 @@ class leetcode_2:
         res = 0
         dfs(0, 0)
         return res
+    
+    # 2597. 美丽子集的数目 (The Number of Beautiful Subsets)
+    def beautifulSubsets(self, nums: List[int], k: int) -> int:
+        def cal(nums: list) -> int:
+            @cache
+            def dfs(i: int) -> int:
+                if i < 0:
+                    return 1
+                if i == 0:
+                    return 1 << nums[i][1]
+                if nums[i][0] - nums[i - 1][0] == k:
+                    return dfs(i - 1) + dfs(i - 2) * ((1 << nums[i][1]) - 1)
+                return dfs(i - 1) << nums[i][1]
+            m = len(nums)
+            return dfs(m - 1)
+        d = defaultdict(Counter)
+        for x in nums:
+            d[x % k][x] += 1
+        res = 1
+        for i in d.values():
+            g = sorted(i.items())
+            res *= cal(list(g))
+        return res - 1
+
+
