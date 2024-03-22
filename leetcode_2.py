@@ -2177,5 +2177,20 @@ class leetcode_2:
             g = sorted(i.items())
             res *= cal(list(g))
         return res - 1
+    
+    # 2606. 找到最大开销的子字符串 (Find the Substring With Maximum Cost)
+    def maximumCostSubstring(self, s: str, chars: str, vals: List[int]) -> int:
+        val = [i + 1 for i in range(26)]
+        for c, v in zip(chars, vals):
+            val[ord(c) - ord('a')] = v
+        res = 0
+        pre = 0
+        m = 0
+        for c in s:
+            pre += val[ord(c) - ord('a')]
+            res = max(res, pre - m)
+            m = min(m, pre)
+        return res
+
 
 
