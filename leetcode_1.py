@@ -873,7 +873,7 @@ class leetcode_1 :
           return (dfs(i - zero) + dfs(i - one)) % MOD
        return sum(dfs(x) for x in range(low, high + 1)) % MOD
     
-    # 53. 最大子数组和 (Maximum Subarray)
+    # 53. 最大子数组和 (Maximum Subarray) --前缀和
     # 剑指 Offer 42. 连续子数组的最大和
     def maxSubArray(self, nums: List[int]) -> int:
       res = -inf
@@ -884,6 +884,17 @@ class leetcode_1 :
          res = max(res, pre - m)
          m = min(m, pre)
       return res
+    
+    # 53. 最大子数组和 (Maximum Subarray) --dp
+    # 剑指 Offer 42. 连续子数组的最大和
+    def maxSubArray(self, nums: List[int]) -> int:
+       @cache
+       def dfs(i: int) -> int:
+          if i < 0 :
+             return 0
+          return max(dfs(i - 1), 0) + nums[i]
+       n = len(nums)
+       return max(dfs(i) for i in range(n))
     
     # 72. 编辑距离 (Edit Distance)
     def minDistance(self, word1: str, word2: str) -> int:
