@@ -2203,3 +2203,7 @@ class leetcode_2:
         for c, v in zip(chars, vals):
             val[ord(c) - ord('a')] = v
         return max(0, max(dfs(i) for i in range(len(s))))
+    
+    # 2549. 统计桌面上的不同数字 (Count Distinct Numbers on Board)
+    def distinctIntegers(self, n: int) -> int:
+        return max(1, n - 1)
