@@ -2164,9 +2164,7 @@ class leetcode_2:
             def dfs(i: int) -> int:
                 if i < 0:
                     return 1
-                if i == 0:
-                    return 1 << nums[i][1]
-                if nums[i][0] - nums[i - 1][0] == k:
+                if i and nums[i][0] - nums[i - 1][0] == k:
                     return dfs(i - 1) + dfs(i - 2) * ((1 << nums[i][1]) - 1)
                 return dfs(i - 1) << nums[i][1]
             m = len(nums)
