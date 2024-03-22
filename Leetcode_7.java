@@ -1684,7 +1684,7 @@ public class Leetcode_7 {
         return m;
     }
 
-    // 2606. 找到最大开销的子字符串 (Find the Substring With Maximum Cost)
+    // 2606. 找到最大开销的子字符串 (Find the Substring With Maximum Cost) --前缀和
     public int maximumCostSubstring(String s, String chars, int[] vals) {
         int[] fees = new int[26];
         for (int i = 0; i < 26; ++i) {
@@ -1704,6 +1704,41 @@ public class Leetcode_7 {
         }
         return res;
 
+    }
+
+    // 2606. 找到最大开销的子字符串 (Find the Substring With Maximum Cost) --dp
+    private int[] memo2606;
+    private char[] arr2606;
+    private int n2606;
+    private int[] fees2606;
+    public int maximumCostSubstring2(String s, String chars, int[] vals) {
+        this.fees2606 = new int[26];
+        for (int i = 0; i < 26; ++i) {
+            fees2606[i] = i + 1;
+        }
+        for (int i = 0; i < chars.length(); ++i) {
+            int index = chars.charAt(i) - 'a';
+            fees2606[index] = vals[i];
+        }
+        this.arr2606 = s.toCharArray();
+        this.n2606 = s.length();
+        this.memo2606 = new int[n2606];
+        Arrays.fill(memo2606, -1);
+        int res = 0;
+        for (int i = 0; i < n2606; ++i) {
+            res = Math.max(res, dfs(i));
+        }
+        return res;
+    }
+
+    private int dfs(int i) {
+        if (i < 0) {
+            return 0;
+        }
+        if (memo2606[i] != -1) {
+            return memo2606[i];
+        }
+        return memo2606[i] = Math.max(dfs(i - 1), 0) + fees2606[arr2606[i] - 'a'];
     }
 
     // 2609. 最长平衡子字符串 (Find the Longest Balanced Substring of a Binary String)
