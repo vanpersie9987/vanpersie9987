@@ -3250,31 +3250,55 @@ public class Leetcode_8 {
 
     // 2843. 统计对称整数的数目 (Count Symmetric Integers)
     public int countSymmetricIntegers(int low, int high) {
+        return check2843(high) - check2843(low - 1);
+    }
+
+    private char[] arr2843;
+    private int n2843;
+    private int[][] memo2843;
+
+    private int check2843(int num) {
+        this.arr2843 = String.valueOf(num).toCharArray();
+        this.n2843 = arr2843.length;
+        this.memo2843 = new int[n2843][n2843 * 9 + 1];
+        for (int i = 0; i < n2843; ++i) {
+            Arrays.fill(memo2843[i], -1);
+        }
+        return dfs2843(0, 0, 0, true, false);
+    }
+
+    private int dfs2843(int i, int j, int k, boolean isLimit, boolean isNum) {
+        if (i == n2843) {
+            return isNum && j == 0 ? 1 : 0;
+        }
+        if (!isLimit && isNum && memo2843[i][j] != -1) {
+            return memo2843[i][j];
+        }
         int res = 0;
-        for (int i = low; i <= high; ++i) {
-            if (check2843(i)) {
-                ++res;
+        if (!isNum) {
+            res = dfs2843(i + 1, j, k, false, false);
+            if ((n2843 - i) % 2 == 1) {
+                return res;
             }
         }
+        int up = isLimit ? arr2843[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            if (!isNum) {
+                res += dfs2843(i + 1, j + d, n2843 - i, isLimit && up == d, true);
+            } else {
+                int diff = j + (k / 2 < n2843 - i ? d : -d);
+                if (diff < 0) {
+                    break;
+                }
+                res += dfs2843(i + 1, diff, k, isLimit && up == d, true);
+            }
+        }
+        if (!isLimit && isNum) {
+            memo2843[i][j] = res;
+        }
         return res;
-
     }
-
-    private boolean check2843(int num) {
-        String s = String.valueOf(num);
-        int n = s.length();
-        if (n % 2 == 1) {
-            return false;
-        }
-        int sum = 0;
-        for (int i = 0; i < n / 2; ++i) {
-            sum += s.charAt(i) - '0';
-        }
-        for (int i = n / 2; i < n; ++i) {
-            sum -= s.charAt(i) - '0';
-        }
-        return sum == 0;
-    }
+    
 
     // 2844. 生成特殊数字的最少操作 (Minimum Operations to Make a Special Number)
     private int n2844;
