@@ -6106,10 +6106,7 @@ public class LeetCodeText {
             res = dfs1742(i + 1, j, false, false);
         }
         int up = isLimit ? arr1742[i] - '0' : 9;
-        for (int d = isNum ? 0 : 1; d <= up; ++d) {
-            if (d + j > target1742) {
-                break;
-            }
+        for (int d = isNum ? 0 : 1; d <= up && d + j <= target1742; ++d) {
             res += dfs1742(i + 1, j + d, isLimit && up == d, true);
         }
         if (!isLimit && isNum) {
