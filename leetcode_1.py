@@ -3627,22 +3627,30 @@ class leetcode_1 :
 
     # 2843. 统计对称整数的数目 (Count Symmetric Integers)
     def countSymmetricIntegers(self, low: int, high: int) -> int:
-       res = 0
-       def check(i: int) -> bool:
-          s = str(i)
-          n = len(s)
-          if n % 2:
-             return False
-          sum = 0
-          for x in range(n // 2):
-             sum += int(s[x])
-          for x in range(n // 2, n):
-             sum -= int(s[x])
-          return not sum
-       for i in range(low, high + 1):
-          if check(i):
-             res += 1
-       return res
+        def cal(num: int) -> int:
+            @cache
+            def dfs(i: int, j: int, k: int, is_limit: bool, is_num: bool) -> int:
+                if i == n:
+                    return is_num and j == 0
+                res = 0
+                if not is_num:
+                    res = dfs(i + 1, j, k, False, False)
+                    if (n - i) % 2 == 1:
+                        return res
+                up = int(s[i]) if is_limit else 9
+                for d in range(0 if is_num else 1, up + 1):
+                    if not is_num:
+                        res += dfs(i + 1, j + d, n - i, is_limit and d == up, True)
+                    else:
+                        diff = j + (d if k // 2 < n - i else -d)
+                        if diff < 0:
+                            break
+                        res += dfs(i + 1, diff, k, is_limit and d == up, True)
+                return res
+            s = str(num)
+            n = len(s)
+            return dfs(0, 0, 0, True, False)
+        return cal(high) - cal(low - 1)
     
     # 2844. 生成特殊数字的最少操作 (Minimum Operations to Make a Special Number)
     def minimumOperations(self, num: str) -> int:
