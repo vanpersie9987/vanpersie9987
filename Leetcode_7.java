@@ -536,25 +536,25 @@ public class Leetcode_7 {
 
     }
 
-    private int dfs2376(int i, int mask, boolean isLimit, boolean isNum) {
+    private int dfs2376(int i, int j, boolean isLimit, boolean isNum) {
         if (i == k2376) {
             return isNum ? 1 : 0;
         }
-        if (!isLimit && isNum && memo2376[i][mask] != -1) {
-            return memo2376[i][mask];
+        if (!isLimit && isNum && memo2376[i][j] != -1) {
+            return memo2376[i][j];
         }
         int res = 0;
         if (!isNum) {
-            res = dfs2376(i + 1, mask, false, false);
+            res = dfs2376(i + 1, j, false, false);
         }
         int up = isLimit ? arr2376[i] - '0' : 9;
         for (int d = isNum ? 0 : 1; d <= up; ++d) {
-            if ((mask & (1 << d)) == 0) {
-                res += dfs2376(i + 1, mask | (1 << d), isLimit && d == up, true);
+            if (((j >> d) & 1) == 0) {
+                res += dfs2376(i + 1, j | (1 << d), isLimit && d == up, true);
             }
         }
         if (!isLimit && isNum) {
-            memo2376[i][mask] = res;
+            memo2376[i][j] = res;
         }
         return res;
     }

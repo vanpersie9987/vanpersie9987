@@ -11,11 +11,11 @@ from decimal import Rounded
 import enum
 from functools import cache
 from inspect import modulesbyfile
-from itertools import accumulate, count, pairwise
+from itertools import accumulate, count, islice, pairwise
 from locale import DAY_4
 from math import comb, cos, gcd, inf, isqrt, sqrt
 from mimetypes import init
-from operator import le
+from operator import le, truediv
 from pickletools import read_uint1
 from queue import PriorityQueue
 from re import X
