@@ -9000,23 +9000,26 @@ class leetcode_1 :
     
     # 2999. 统计强大整数的数目 (Count the Number of Powerful Integers)
     def numberOfPowerfulInt(self, start: int, finish: int, limit: int, s: str) -> int:
-       def check(num: str) -> int:
-          if len(num) < len(s):
-             return 0
-          # 可以去掉 is_num
-          @cache
-          def dfs(i: int, is_limit: bool, is_num: bool) -> int:
-             if len(num) - i == len(s):
-                return int(int(num[i:]) >= int(s)) if is_limit else 1
-             res = 0
-             if not is_num:
-                res = dfs(i + 1, False, False)
-             up = int(num[i]) if is_limit else 9
-             for d in range(0 if is_num else 1, min(limit, up) + 1):
-                res += dfs(i + 1, is_limit and d == up, True)
-             return res
-          return dfs(0, True, False)
-       return check(str(finish)) - check(str(start - 1))
+        def cal(num: int) -> int:
+            @cache
+            def dfs(i: int, is_limit: bool, is_num: bool) -> int:
+                if i == n - len(s):
+                    return not is_limit or int(s) <= int(arr[i:])
+                res = 0
+                if not is_num:
+                    res = dfs(i + 1, False, False)
+                up = int(arr[i]) if is_limit else 9
+                for d in range(0 if is_num else 1, up + 1):
+                    if d > limit:
+                        break
+                    res += dfs(i + 1, is_limit and up == d, True)
+                return res
+            arr = str(num)
+            n = len(arr)
+            if num < int(s):
+                return 0
+            return dfs(0, True, False)
+        return cal(finish) - cal(start - 1)
     
     # 2696. 删除子串后的字符串最小长度 (Minimum String Length After Removing Substrings)
     def minLength(self, s: str) -> int:
