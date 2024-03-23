@@ -13,7 +13,7 @@ from functools import cache
 from inspect import modulesbyfile
 from itertools import accumulate, count, islice, pairwise
 from locale import DAY_4
-from math import comb, cos, gcd, inf, isqrt, sqrt
+from math import comb, cos, fabs, gcd, inf, isqrt, sqrt
 from mimetypes import init
 from operator import le, truediv
 from pickletools import read_uint1
@@ -2207,3 +2207,26 @@ class leetcode_2:
     # 2549. 统计桌面上的不同数字 (Count Distinct Numbers on Board)
     def distinctIntegers(self, n: int) -> int:
         return max(1, n - 1)
+
+    # 1742. 盒子中小球的最大数量 (Maximum Number of Balls in a Box)
+    def countBalls(self, lowLimit: int, highLimit: int) -> int:
+        def ret(_s: int) -> int:
+            def cal(num: int) -> int:
+                @cache
+                def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
+                    if i == n:
+                        return is_num and j == _s
+                    res = 0
+                    if not is_num:
+                        res = dfs(i + 1, j, False, False)
+                    up = int(s[i]) if is_limit else 9
+                    for d in range(0 if is_num else 1, up + 1):
+                        if j + d > _s:
+                            break
+                        res += dfs(i + 1, j + d, is_limit and up == d, True)
+                    return res
+                s = str(num)
+                n = len(s)
+                return dfs(0, 0, True, False)
+            return cal(highLimit) - cal(lowLimit - 1)
+        return max(ret(i) for i in range(1, 46))
