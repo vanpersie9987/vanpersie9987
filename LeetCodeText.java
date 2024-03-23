@@ -6086,6 +6086,55 @@ public class LeetCodeText {
         return res;
     }
 
+    // 1742. 盒子中小球的最大数量 (Maximum Number of Balls in a Box)
+    public int countBalls2(int lowLimit, int highLimit) {
+        int res = 0;
+        for (int i = 1; i <= 45; ++i) {
+            res = Math.max(res, cal1742(i, highLimit) - cal1742(i, lowLimit - 1));
+        }
+        return res;
+    }
+
+    private char[] arr1742;
+    private int n1742;
+    private int[][] memo1742;
+    private int target1742;
+
+    private int cal1742(int target, int num) {
+        this.target1742 = target;
+        this.arr1742 = String.valueOf(num).toCharArray();
+        this.n1742 = arr1742.length;
+        this.memo1742 = new int[n1742][target + 1];
+        for (int i = 0; i < n1742; ++i) {
+            Arrays.fill(memo1742[i], -1);
+        }
+        return dfs1742(0, 0, true, false);
+
+    }
+
+    private int dfs1742(int i, int j, boolean isLimit, boolean isNum) {
+        if (i == n1742) {
+            return isNum && j == target1742 ? 1 : 0;
+        }
+        if (!isLimit && isNum && memo1742[i][j] != -1) {
+            return memo1742[i][j];
+        }
+        int res = 0;
+        if (!isNum) {
+            res = dfs1742(i + 1, j, false, false);
+        }
+        int up = isLimit ? arr1742[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            if (d + j <= target1742) {
+                res += dfs1742(i + 1, j + d, isLimit && up == d, true);
+            }
+        }
+        if (!isLimit && isNum) {
+            memo1742[i][j] = res;
+        }
+        return res;
+    }
+
     public List<String> getValidT9Words(final String num, final String[] words) {
         final Map<Character, Set<Character>> map = new HashMap<>();
         final Set<Character> set2 = new HashSet<>();
