@@ -1580,22 +1580,14 @@ class leetcode_1 :
     
     # 2304. 网格中的最小路径代价 (Minimum Path Cost in a Grid)
     def minPathCost(self, grid: List[List[int]], moveCost: List[List[int]]) -> int:
-       m = len(grid)
-       n = len(grid[0])
-
-       @cache
-       def dfs(i: int, j: int):
-          if i == m - 1:
-             return grid[i][j]
-          res = inf
-          for k in range(n):
-             res = min(res, dfs(i + 1, k) + moveCost[grid[i][j]][k])
-          return res + grid[i][j]
-
-       res = inf
-       for j in range(0, n):
-          res = min(res, dfs(0, j))
-       return res
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == m - 1:
+                return grid[i][j]
+            return min(dfs(i + 1, k) + moveCost[grid[i][j]][k] for k in range(n)) + grid[i][j]
+        m = len(grid)
+        n = len(grid[0])
+        return min(dfs(0, j) for j in range(n))
     
     # 88. 合并两个有序数组 (Merge Sorted Array)
     def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
