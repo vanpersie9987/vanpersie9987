@@ -221,19 +221,16 @@ class leetcode_1 :
     
     # 63. 不同路径 II (Unique Paths II)
     def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
-       m = len(obstacleGrid)
-       n = len(obstacleGrid[0])
-       
-       @cache
-       def dfs(i: int, j: int) -> int:
-          if i == m or j == n:
-             return 0
-          if obstacleGrid[i][j] == 1:
-             return 0
-          if i == m - 1 and j == n - 1:
-             return 1
-          return dfs(i + 1, j) + dfs(i, j + 1)
-       return dfs(0, 0)
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == m or j == n or obstacleGrid[i][j] == 1:
+                return 0
+            if i == m - 1 and j == n - 1:
+                return 1
+            return dfs(i + 1, j) + dfs(i, j + 1)
+        m = len(obstacleGrid)
+        n = len(obstacleGrid[0])
+        return dfs(0, 0)
     
     # 91. 解码方法 (Decode Ways)
     def numDecodings(self, s: str) -> int:
