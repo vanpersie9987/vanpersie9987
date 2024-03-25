@@ -1071,23 +1071,16 @@ class leetcode_1 :
           return res
        return dfs(n)
     
-    # 剑指 Offer 47. 礼物的最大价值 
-    def maxValue(self, grid: List[List[int]]) -> int:
-       m = len(grid)
-       n = len(grid[0])
-       dirs = [[0, 1], [1, 0]]
-
-       @cache
-       def dfs(i: int, j: int) -> int:
-          if i < 0 or i >= m or j < 0 or j >= n:
-             return 0
-          res = 0
-          for dx, dy in dirs:
-             nx = i + dx
-             ny = j + dy
-             res = max(res, dfs(nx, ny))
-          return res + grid[i][j]
-       return dfs(0, 0)
+    # LCR 166. 珠宝的最高价值
+    def jewelleryValue(self, frame: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == m or j == n:
+                return 0
+            return max(dfs(i + 1, j), dfs(i, j + 1)) + frame[i][j]
+        m = len(frame)
+        n = len(frame[0])
+        return dfs(0, 0)
     
     # 面试题 08.14. 布尔运算 
     def countEval(self, s: str, result: int) -> int:

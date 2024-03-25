@@ -2320,10 +2320,3 @@ class leetcode_2:
                         res = max(res, cur_pre - s[lb])
                     s.add(cur_pre)
         return res
-
-
-
-
-            
-
-
