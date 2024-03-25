@@ -909,7 +909,7 @@ public class LeetCodeText {
     }
 
     private int dfs64(int i, int j) {
-        if (i >= m64 || i < 0 || j >= n64 || j < 0) {
+        if (i == m64 || j == n64) {
             return (int) 1e5;
         }
         if (i == m64 - 1 && j == n64 - 1) {

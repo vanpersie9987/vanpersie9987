@@ -2320,16 +2320,3 @@ class leetcode_2:
                         res = max(res, cur_pre - s[lb])
                     s.add(cur_pre)
         return res
-    
-    # 64. 最小路径和 (Minimum Path Sum)
-    def minPathSum(self, grid: List[List[int]]) -> int:
-        @cache
-        def dfs(i: int, j: int) -> int:
-            if i == m or j == n:
-                return inf
-            if i == m - 1 and j == n - 1:
-                return grid[i][j]
-            return min(dfs(i + 1, j), dfs(i, j + 1)) + grid[i][j]
-        m = len(grid)
-        n = len(grid[0])
-        return dfs(0, 0)
