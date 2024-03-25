@@ -1258,19 +1258,13 @@ class leetcode_1 :
 
     # 1289. 下降路径最小和 II (Minimum Falling Path Sum II)
     def minFallingPathSum(self, grid: List[List[int]]) -> int:
-       n = len(grid)
-
-       @cache
-       def dfs(i: int, j: int) -> int:
-          if i == n:
-             return 0
-          res = inf
-          for k in range(0, n):
-             if k == j:
-                continue
-             res = min(res, dfs(i + 1, k) + grid[i][k])
-          return res
-       return dfs(0, n)
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n - 1:
+                return grid[i][j]
+            return min(dfs(i + 1, k) if k != j else inf for k in range(n)) + grid[i][j]
+        n = len(grid)
+        return min(dfs(0, j) for j in range(n))
     
 
     # 845. 数组中的最长山脉 (Longest Mountain in Array)
