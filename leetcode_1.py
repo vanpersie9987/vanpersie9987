@@ -1213,20 +1213,13 @@ class leetcode_1 :
 
     # 931. 下降路径最小和 (Minimum Falling Path Sum)
     def minFallingPathSum(self, matrix: List[List[int]]) -> int:
-       n = len(matrix)
-
-       @cache
-       def dfs(i: int, j: int) -> int:
-          if i == n:
-             return 0
-          res = inf
-          for k in range(max(0, j - 1), min(n - 1, j + 1) + 1):
-             res = min(res, dfs(i + 1, k) + matrix[i][k])
-          return res
-       res = inf
-       for j in range(0, n):
-          res = min(res, dfs(1, j) + matrix[0][j])
-       return res
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0
+            return min(dfs(i + 1, k) for k in range(max(0, j - 1), min(n, j + 2))) + matrix[i][j]
+        n = len(matrix)
+        return min(dfs(0, j) for j in range(n))
     
     # 983. 最低票价 (Minimum Cost For Tickets)
     def mincostTickets(self, days: List[int], costs: List[int]) -> int:

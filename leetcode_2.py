@@ -2320,12 +2320,3 @@ class leetcode_2:
                         res = max(res, cur_pre - s[lb])
                     s.add(cur_pre)
         return res
-    
-    def minimumTotal(self, triangle: List[List[int]]) -> int:
-        @cache
-        def dfs(i: int, j: int) -> int:
-            if i == n:
-                return 0
-            return min(dfs(i + 1, j), dfs(i + 1, j + 1)) + triangle[i][j]
-        n = len(triangle)
-        return dfs(0, 0)
