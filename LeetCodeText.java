@@ -1185,7 +1185,7 @@ public class LeetCodeText {
         for (int i = 0; i < n120; ++i) {
             Arrays.fill(memo120[i], (int) 1e7);
         }
-        return dfs120(1, 0) + triangle.get(0).get(0);
+        return dfs120(0, 0);
 
     }
 
@@ -1196,8 +1196,8 @@ public class LeetCodeText {
         if (memo120[i][j] != (int) 1e7) {
             return memo120[i][j];
         }
-        return memo120[i][j] = Math.min(dfs120(i + 1, j) + triangle120.get(i).get(j),
-                dfs120(i + 1, j + 1) + triangle120.get(i).get(j + 1));
+        return memo120[i][j] = Math.min(dfs120(i + 1, j),
+                dfs120(i + 1, j + 1)) + triangle120.get(i).get(j);
     }
 
     // 120. 三角形最小路径和 (Triangle)
