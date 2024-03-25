@@ -3846,8 +3846,8 @@ public class LeetCode_4 {
             Arrays.fill(memo931[i], Integer.MAX_VALUE);
         }
         int res = Integer.MAX_VALUE;
-        for (int i = 0; i < n931; ++i) {
-            res = Math.min(res, dfs931(1, i) + grid[0][i]);
+        for (int j = 0; j < n931; ++j) {
+            res = Math.min(res, dfs931(0, j));
         }
         return res;
 
@@ -3861,11 +3861,8 @@ public class LeetCode_4 {
             return memo931[i][j];
         }
         int min = Integer.MAX_VALUE;
-        for (int k = 0; k < n931; ++k) {
-            if (j == k) {
-                continue;
-            }
-            min = Math.min(min, dfs931(i + 1, k) + grid931[i][k]);
+        for (int k = Math.max(0, j - 1); k < Math.min(j + 2, n931); ++k) {
+            min = Math.min(min, dfs931(i + 1, k) + grid931[i][j]);
         }
         return memo931[i][j] = min;
     }
