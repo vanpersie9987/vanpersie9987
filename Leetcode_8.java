@@ -8805,4 +8805,125 @@ public class Leetcode_8 {
 
     }
 
+    // 3090. 每个字符最多出现两次的最长子字符串 (Maximum Length Substring With Two Occurrences)
+    public int maximumLengthSubstring(String s) {
+        int res = 0;
+        int i = 0;
+        int j = 0;
+        int n = s.length();
+        int[] cnt = new int[26];
+        while (i < n) {
+            ++cnt[s.charAt(i) - 'a'];
+            while (cnt[s.charAt(i) - 'a'] > 2) {
+                --cnt[s.charAt(j) - 'a'];
+                ++j;
+            }
+            res = Math.max(res, i - j + 1);
+            ++i;
+        }
+        return res;
+
+    }
+
+    // 3091. 执行操作使数据元素之和大于等于 K (Apply Operations to Make Sum of Array Greater Than
+    // or Equal to k)
+    public int minOperations(int k) {
+        int res = Integer.MAX_VALUE;
+        for (int add = 0; add <= k; ++add) {
+            int v = add + 1;
+            int cur = add + (k - 1) / v;
+            res = Math.min(res, cur);
+        }
+        return res;
+    }
+
+    // 3092. 最高频率的 ID (Most Frequent IDs)
+    public long[] mostFrequentIDs(int[] nums, int[] freq) {
+        int n = nums.length;
+        long[] res = new long[n];
+        Map<Integer, Long> cnt = new HashMap<>();
+        TreeMap<Long, Integer> f = new TreeMap<>(new Comparator<Long>() {
+
+            @Override
+            public int compare(Long o1, Long o2) {
+                return Long.compare(o2, o1);
+            }
+
+        });
+        for (int i = 0; i < n; ++i) {
+            int id = nums[i];
+            int c = freq[i];
+            long oriCnt = cnt.getOrDefault(id, 0L);
+            f.merge(oriCnt, -1, Integer::sum);
+            if (f.get(oriCnt) <= 0) {
+                f.remove(oriCnt);
+            }
+            cnt.merge(id, (long) c, Long::sum);
+            f.merge(cnt.get(id), 1, Integer::sum);
+            res[i] = f.firstKey();
+
+        }
+        return res;
+
+    }
+
+
+    // 3093. 最长公共后缀查询 (Longest Common Suffix Queries)
+    public int[] stringIndices(String[] wordsContainer, String[] wordsQuery) {
+        int n = wordsContainer.length;
+        int m = wordsQuery.length;
+        int[] res = new int[m];
+        Trie3093 trie = new Trie3093();
+        for (int id = 0; id < n; ++id) {
+            trie.insert(wordsContainer[id], id, wordsContainer[id].length());
+        }
+        for (int i = 0; i < m; ++i) {
+            res[i] = trie.check(wordsQuery[i]);
+        }
+        return res;
+    }
+
+    public class Trie3093 {
+        private Trie3093[] children;
+        private int index;
+        private int len;
+
+        public Trie3093() {
+            this.children = new Trie3093[26];
+            this.index = -1;
+            this.len = Integer.MAX_VALUE;
+        }
+
+        public void insert(String s, int id, int l) {
+            Trie3093 node = this;
+            if (l < node.len) {
+                node.len = l;
+                node.index = id;
+            }
+            for (int i = s.length() - 1; i >= 0; --i) {
+                int j = s.charAt(i) - 'a';
+                if (node.children[j] == null) {
+                    node.children[j] = new Trie3093();
+                }
+                node = node.children[j];
+                if (l < node.len) {
+                    node.len = l;
+                    node.index = id;
+                }
+            }
+        }
+
+        public int check(String s) {
+            Trie3093 node = this;
+            for (int i = s.length() - 1; i >= 0; --i) {
+                int j = s.charAt(i) - 'a';
+                if (node.children[j] == null) {
+                    break;
+                }
+                node = node.children[j];
+            }
+            return node.index;
+        }
+    }
+
 }

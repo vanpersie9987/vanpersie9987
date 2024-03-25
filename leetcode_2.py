@@ -2230,3 +2230,74 @@ class leetcode_2:
                 return dfs(0, 0, True, False)
             return cal(highLimit) - cal(lowLimit - 1)
         return max(ret(i) for i in range(1, 46))
+    
+    # 3090. 每个字符最多出现两次的最长子字符串 (Maximum Length Substring With Two Occurrences)
+    def maximumLengthSubstring(self, s: str) -> int:
+        res = 0
+        j = 0
+        cnt = [0] * 26
+        for i, v in enumerate(s):
+            cnt[ord(v) - ord('a')] += 1
+            while cnt[ord(v) - ord('a')] > 2:
+                cnt[ord(s[j]) - ord('a')] -= 1
+                j += 1
+            res = max(res, i - j + 1)
+        return res
+    
+    # 3091. 执行操作使数据元素之和大于等于 K (Apply Operations to Make Sum of Array Greater Than or Equal to k)
+    def minOperations(self, k: int) -> int:
+        res = inf
+        for add in range(k + 1):
+            v = add + 1
+            cur = add + (k - 1) // v
+            res = min(res, cur)
+        return res
+    
+    # 3092. 最高频率的 ID (Most Frequent IDs)
+    def mostFrequentIDs(self, nums: List[int], freq: List[int]) -> List[int]:
+        cnt = Counter()
+        sl = SortedList()
+        res = []
+        for x, f in zip(nums, freq):
+            if cnt[x] in sl:
+                sl.remove(cnt[x])
+            cnt[x] += f
+            sl.add(cnt[x])
+            res.append(sl[-1])
+        return res
+    
+    # 3093. 最长公共后缀查询 (Longest Common Suffix Queries)
+    def stringIndices(self, wordsContainer: List[str], wordsQuery: List[str]) -> List[int]:
+        class Trie:
+            def __init__(self) -> None:
+                self.children = [None] * 26
+                self.index = -1
+                self.len = inf
+            def insert(self, s: str, id: int, l: int) -> None:
+                node = self
+                if l < node.len:
+                    node.len = l
+                    node.index = id
+                for i in range(len(s) - 1, -1, -1):
+                    j = ord(s[i]) - ord('a')
+                    if node.children[j] is None:
+                        node.children[j] = Trie()
+                    node = node.children[j]
+                    if l < node.len:
+                        node.len = l
+                        node.index = id
+            def check(self, s: str) -> int:
+                node = self
+                for i in range(len(s) - 1, -1, -1):
+                    j = ord(s[i]) - ord('a')
+                    if node.children[j] is None:
+                        break
+                    node = node.children[j]
+                return node.index
+        root = Trie()
+        for id, s in enumerate(wordsContainer):
+            root.insert(s, id, len(s))
+        res = []
+        for w in wordsQuery:
+            res.append(root.check(w))
+        return res
