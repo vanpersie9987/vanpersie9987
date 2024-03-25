@@ -4644,32 +4644,32 @@ public class LeetCode_2 {
 
    }
 
-   // 剑指 Offer 47. 礼物的最大价值
+   // LCR 166. 珠宝的最高价值
    private int m_offer47;
    private int n_offer47;
    private int[][] grid_offer47;
    private int[][] memo_offer47;
 
-   public int maxValue(int[][] grid) {
+   public int jewelleryValue(int[][] grid) {
       this.m_offer47 = grid.length;
       this.n_offer47 = grid[0].length;
       this.grid_offer47 = grid;
       this.memo_offer47 = new int[m_offer47][n_offer47];
-      return dfs_offer47(m_offer47 - 1, n_offer47 - 1);
+      return dfs_offer47(0, 0);
 
    }
 
    private int dfs_offer47(int i, int j) {
-      if (i < 0 || j < 0) {
+      if (i == m_offer47 || j == n_offer47) {
          return 0;
       }
       if (memo_offer47[i][j] != 0) {
          return memo_offer47[i][j];
       }
-      return memo_offer47[i][j] = Math.max(dfs_offer47(i - 1, j), dfs_offer47(i, j - 1)) + grid_offer47[i][j];
+      return memo_offer47[i][j] = Math.max(dfs_offer47(i + 1, j), dfs_offer47(i, j + 1)) + grid_offer47[i][j];
    }
 
-   // 剑指 Offer 47. 礼物的最大价值
+   // LCR 166. 珠宝的最高价值
    public int maxValue2(int[][] grid) {
       int m = grid.length;
       int n = grid[0].length;
