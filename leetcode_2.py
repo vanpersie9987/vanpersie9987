@@ -37,7 +37,7 @@ from zoneinfo import reset_tzpath
 # curl https://bootstrap.pypa.io/pip/get-pip.py -o get-pip.py
 # sudo python3 get-pip.py
 # pip3 install sortedcontainers
-from sortedcontainers import SortedList
+from sortedcontainers import SortedList, SortedSet
 
 class leetcode_2:
     class TreeNode:
@@ -2301,3 +2301,29 @@ class leetcode_2:
         for w in wordsQuery:
             res.append(root.check(w))
         return res
+    
+    # 363. 矩形区域不超过 K 的最大数值和 (Max Sum of Rectangle No Larger Than K)
+    def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:
+        res = -inf
+        m = len(matrix)
+        n = len(matrix[0])
+        for left in range(n):
+            pre = [0] * m
+            for right in range(left, n):
+                cur_pre = 0
+                s = SortedList([0])
+                for i in range(m):
+                    pre[i] += matrix[i][right]
+                    cur_pre += pre[i]
+                    lb = s.bisect_left(cur_pre - k)
+                    if lb != len(s):
+                        res = max(res, cur_pre - s[lb])
+                    s.add(cur_pre)
+        return res
+
+
+
+
+            
+
+
