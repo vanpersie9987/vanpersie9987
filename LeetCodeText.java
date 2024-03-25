@@ -844,10 +844,7 @@ public class LeetCodeText {
     }
 
     private int dfs63(int i, int j) {
-        if (i >= m63 || i < 0 || j >= n63 || j < 0) {
-            return 0;
-        }
-        if (grid63[i][j] == 1) {
+        if (i == m63 || j == n63 || grid63[i][j] == 1) {
             return 0;
         }
         if (i == m63 - 1 && j == n63 - 1) {

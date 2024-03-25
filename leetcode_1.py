@@ -223,7 +223,7 @@ class leetcode_1 :
     def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == m or j == n or obstacleGrid[i][j] == 1:
+            if i == m or j == n or obstacleGrid[i][j]:
                 return 0
             if i == m - 1 and j == n - 1:
                 return 1
