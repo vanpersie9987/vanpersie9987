@@ -798,7 +798,7 @@ public class LeetCodeText {
     }
 
     private int dfs62(int i, int j) {
-        if (i >= m62 || i < 0 || j >= n62 || j < 0) {
+        if (i == m62 || j == n62) {
             return 0;
         }
         if (i == m62 - 1 && j == n62 - 1) {
