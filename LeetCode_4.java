@@ -10967,6 +10967,71 @@ public class LeetCode_4 {
 
     }
 
+    // 1594. 矩阵的最大非负积 (Maximum Non Negative Product in a Matrix)
+    private int m1594;
+    private int n1594;
+    private int[][] grid1594;
+    private long[][][] memo1594;
+
+    public int maxProductPath2(int[][] grid) {
+        this.m1594 = grid.length;
+        this.n1594 = grid[0].length;
+        this.grid1594 = grid;
+        this.memo1594 = new long[m1594][n1594][2];
+        for (int i = 0; i < m1594; ++i) {
+            for (int j = 0; j < n1594; ++j) {
+                Arrays.fill(memo1594[i][j], Integer.MAX_VALUE);
+            }
+        }
+        final int MOD = (int) (1e9 + 7);
+        return (int) (Math.max(-1L, dfs1594(0, 0, 1)) % MOD);
+
+    }
+
+    private long dfs1594(int i, int j, int k) {
+        if (i == m1594 - 1 && j == n1594 - 1) {
+            return grid1594[i][j];
+        }
+        if (memo1594[i][j][k] != Integer.MAX_VALUE) {
+            return memo1594[i][j][k];
+        }
+        long res = (k == 1 ? Integer.MIN_VALUE : Integer.MAX_VALUE);
+        if (k == 1) {
+            if (grid1594[i][j] < 0) {
+                if (i + 1 < m1594) {
+                    res = Math.max(res, dfs1594(i + 1, j, 0) * grid1594[i][j]);
+                }
+                if (j + 1 < n1594) {
+                    res = Math.max(res, dfs1594(i, j + 1, 0) * grid1594[i][j]);
+                }
+            } else {
+                if (i + 1 < m1594) {
+                    res = Math.max(res, dfs1594(i + 1, j, 1) * grid1594[i][j]);
+                }
+                if (j + 1 < n1594) {
+                    res = Math.max(res, dfs1594(i, j + 1, 1) * grid1594[i][j]);
+                }
+            }
+        } else {
+            if (grid1594[i][j] < 0) {
+                if (i + 1 < m1594) {
+                    res = Math.min(res, dfs1594(i + 1, j, 1) * grid1594[i][j]);
+                }
+                if (j + 1 < n1594) {
+                    res = Math.min(res, dfs1594(i, j + 1, 1) * grid1594[i][j]);
+                }
+            } else {
+                if (i + 1 < m1594) {
+                    res = Math.min(res, dfs1594(i + 1, j, 0) * grid1594[i][j]);
+                }
+                if (j + 1 < n1594) {
+                    res = Math.min(res, dfs1594(i, j + 1, 0) * grid1594[i][j]);
+                }
+            }
+        }
+        return memo1594[i][j][k] = res;
+    }
+
     // 2064. 分配给商店的最多商品的最小值 (Minimized Maximum of Products Distributed to Any Store)
     // --二分查找
     public int minimizedMaximum(int n, int[] quantities) {
