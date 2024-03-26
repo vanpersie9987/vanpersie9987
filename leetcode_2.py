@@ -2349,6 +2349,8 @@ class leetcode_2:
     
     # 1594. 矩阵的最大非负积 (Maximum Non Negative Product in a Matrix)
     def maxProductPath(self, grid: List[List[int]]) -> int:
+        #  从[i, j, 1] 出发，到右下角。可构成的最大积
+        #  从[i, j, 0] 出发，到右下角。可构成的最小积
         @cache
         def dfs(i: int, j: int, k: int) -> int:
             if i == m - 1 and j == n - 1:
