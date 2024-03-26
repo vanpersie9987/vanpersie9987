@@ -24,7 +24,7 @@ from socket import NI_NUMERICSERV
 from ssl import VERIFY_X509_TRUSTED_FIRST
 from tabnanny import check
 from textwrap import indent
-from tkinter import NO, W
+from tkinter import N, NO, W
 from tkinter.tix import Tree
 from turtle import mode, reset, right, st
 from typing import List, Optional
@@ -2322,4 +2322,31 @@ class leetcode_2:
                         res = max(res, cur_pre - s[lb])
                     s.add(cur_pre)
         return res
+    
+    # 2642. 设计可以求最短路径的图类 (Design Graph With Shortest Path Calculator)
+    class Graph:
+
+        def __init__(self, n: int, edges: List[List[int]]):
+            self.g = [[] for _ in range(n)]
+            self.n = n
+            for u, v, c in edges:
+                self.g[u].append((v, c))
+
+        def addEdge(self, edge: List[int]) -> None:
+            self.g[edge[0]].append((edge[1], edge[2]))
+
+        def shortestPath(self, node1: int, node2: int) -> int:
+            d = [inf] * self.n
+            d[node1] = 0
+            q = [node1]
+            while q:
+                x = q.pop()
+                for (y, c) in self.g[x]:
+                    if d[x] + c < d[y]:
+                        d[y] = d[x] + c
+                        q.append(y)
+            return -1 if d[node2] == inf else d[node2]
+
+
+
 
