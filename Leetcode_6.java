@@ -6139,33 +6139,27 @@ public class Leetcode_6 {
     public boolean hasValidPath2(char[][] grid) {
         this.m2267 = grid.length;
         this.n2267 = grid[0].length;
-        if ((m2267 + n2267 - 1) % 2 == 1) {
-            return false;
-        }
-        if (grid[0][0] == ')' || grid[m2267 - 1][n2267 - 1] == '(') {
-            return false;
-        }
         this.grid2267 = grid;
-        this.memo2267 = new int[m2267][n2267][(m2267 + n2267) / 2 + 1];
+        if ((m2267 + n2267) % 2 == 0 || grid[0][0] == ')' || grid[m2267 - 1][n2267 - 1] == '(') {
+            return false;
+        }
+        this.memo2267 = new int[m2267][n2267][(m2267 + n2267 - 1) / 2 + 1];
         return dfs2267(0, 0, 0);
 
     }
 
     private boolean dfs2267(int i, int j, int k) {
-        if (i == m2267 || j == n2267 || k < 0) {
-            return false;
-        }
         if (i == m2267 - 1 && j == n2267 - 1) {
             return k == 1;
         }
-        if (k > (m2267 - i + n2267 - j - 1)) {
+        if (i == m2267 || j == n2267 || k < 0 || m2267 - i + n2267 - j - 1 < k) {
             return false;
         }
         if (memo2267[i][j][k] != 0) {
             return memo2267[i][j][k] > 0;
         }
-        int d = grid2267[i][j] == '(' ? 1 : -1;
-        boolean res = dfs2267(i + 1, j, k + d) || dfs2267(i, j + 1, k + d);
+        boolean res = dfs2267(i + 1, j, k + (grid2267[i][j] == '(' ? 1 : -1))
+                || dfs2267(i, j + 1, k + (grid2267[i][j] == '(' ? 1 : -1));
         memo2267[i][j][k] = res ? 1 : -1;
         return res;
     }
