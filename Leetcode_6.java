@@ -9153,26 +9153,32 @@ public class Leetcode_6 {
 
     }
 
-    // 6313. 统计将重叠区间合并成组的方案数 (Count Ways to Group Overlapping Ranges)
+    // 2580. 统计将重叠区间合并成组的方案数 (Count Ways to Group Overlapping Ranges)
     public int countWays(int[][] ranges) {
         Arrays.sort(ranges, new Comparator<int[]>() {
 
             @Override
             public int compare(int[] o1, int[] o2) {
-                return o1[0] - o2[0];
+                return Integer.compare(o1[0], o2[0]);
             }
-
+            
         });
         int res = 1;
         final int MOD = (int) (1e9 + 7);
-        int right = ranges[0][1];
-        for (int i = 1; i < ranges.length; ++i) {
-            if (right < ranges[i][0]) {
-                res = (res * 2) % MOD;
+        int i = 0;
+        int n = ranges.length;
+        while (i < n) {
+            int right = ranges[i][1];
+            int j = i;
+            while (j < n && ranges[j][0] <= right) {
+                right = Math.max(right, ranges[j][1]);
+                ++j;
             }
-            right = Math.max(right, ranges[i][1]);
+            res <<= 1;
+            res %= MOD;
+            i = j;
         }
-        return res * 2 % MOD;
+        return res;
 
     }
 
