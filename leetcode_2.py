@@ -2346,6 +2346,42 @@ class leetcode_2:
                         d[y] = d[x] + c
                         q.append(y)
             return -1 if d[node2] == inf else d[node2]
+    
+    # 1594. 矩阵的最大非负积 (Maximum Non Negative Product in a Matrix)
+    def maxProductPath(self, grid: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if i == m - 1 and j == n - 1:
+                return grid[i][j]
+            res = -inf if k else inf
+            if k:
+                if grid[i][j] < 0:
+                    if i + 1 < m:
+                        res = max(res, dfs(i + 1, j, 0) * grid[i][j])
+                    if j + 1 < n:
+                        res = max(res, dfs(i, j + 1, 0) * grid[i][j])
+                else:
+                    if i + 1 < m:
+                        res = max(res, dfs(i + 1, j, 1) * grid[i][j])
+                    if j + 1 < n:
+                        res = max(res, dfs(i, j + 1, 1) * grid[i][j])
+            else:
+                if grid[i][j] < 0:
+                    if i + 1 < m:
+                        res = min(res, dfs(i + 1, j, 1) * grid[i][j])
+                    if j + 1 < n:
+                        res = min(res, dfs(i, j + 1, 1) * grid[i][j])
+                else:
+                    if i + 1 < m:
+                        res = min(res, dfs(i + 1, j, 0) * grid[i][j])
+                    if j + 1 < n:
+                        res = min(res, dfs(i, j + 1, 0) * grid[i][j])
+            return res
+        m = len(grid)
+        n = len(grid[0])
+        MOD = 10 ** 9 + 7
+        res = dfs(0, 0, 1)
+        return -1 if res < 0 else res % MOD
 
 
 
