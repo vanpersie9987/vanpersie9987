@@ -407,25 +407,21 @@ class leetcode_1 :
     # 329. 矩阵中的最长递增路径 (Longest Increasing Path in a Matrix)
     # LCR 112. 矩阵中的最长递增路径
     def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
-       m = len(matrix)
-       n = len(matrix[0])
-       @cache
-       def dfs(i: int, j: int) -> int:
-          if i < 0 or i >= m or j < 0 or j >= n:
-             return 0
-          res = 1
-          dirs = [[0, 1], [0, -1], [1, 0], [-1, 0]]
-          for d in dirs:
-             x = i + d[0]
-             y = j + d[1]
-             if x >= 0 and x < m and y >= 0 and y < n and matrix[x][y] > matrix[i][j]:
-                res = max(res, dfs(x, y) + 1)
-          return res
-       res = 0
-       for i in range(m):
-          for j in range(n):
-             res = max(res, dfs(i, j))
-       return res
+        @cache
+        def dfs(i: int, j: int) -> int:
+            res = 0
+            for dx, dy in [[0, 1], [0, -1], [1, 0], [-1, 0]]:
+                nx, ny = i + dx, j + dy
+                if 0 <= nx < m and 0 <= ny < n and matrix[nx][ny] > matrix[i][j]:
+                    res = max(res, dfs(nx, ny))
+            return res + 1
+        m = len(matrix)
+        n = len(matrix[0])
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                res = max(res, dfs(i, j))
+        return res
     
    # 518. 零钱兑换 II (Coin Change II) 
     def change(self, amount: int, coins: List[int]) -> int:
