@@ -4776,15 +4776,15 @@ public class Leetcode_3 {
         if (memo329[i][j] != -1) {
             return memo329[i][j];
         }
-        int max = 1;
+        int max = 0;
         for (int[] d : dirs329) {
             int nx = i + d[0];
             int ny = j + d[1];
             if (nx >= 0 && nx < m329 && ny >= 0 && ny < n329 && matrix329[nx][ny] > matrix329[i][j]) {
-                max = Math.max(max, dfs329(nx, ny) + 1);
+                max = Math.max(max, dfs329(nx, ny));
             }
         }
-        return memo329[i][j] = max;
+        return memo329[i][j] = max + 1;
     }
 
     // 329. 矩阵中的最长递增路径 (Longest Increasing Path in a Matrix) --拓扑排序
