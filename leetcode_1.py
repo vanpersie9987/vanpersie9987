@@ -1542,24 +1542,19 @@ class leetcode_1 :
     
     # 2435. 矩阵中和能被 K 整除的路径 (Paths in Matrix Whose Sum Is Divisible by K)
     def numberOfPaths(self, grid: List[List[int]], k: int) -> int:
-       m = len(grid)
-       n = len(grid[0])
-       MOD = 10 ** 9 + 7
-       @cache
-       def dfs(i: int, j: int, s: int) -> int:
-          if i == m - 1 and j == n - 1:
-             return 1 if (s + grid[i][j]) % k == 0 else 0
-          res = 0
-          if i + 1 < m:
-             res += dfs(i + 1, j, (s + grid[i][j]) % k)
-             res %= MOD
-          if j + 1 < n:
-             res += dfs(i, j + 1, (s + grid[i][j]) % k)
-             res %= MOD
-          return res
-       res = dfs(0, 0, 0)
-       dfs.cache_clear()
-       return res
+        @cache
+        def dfs(i: int, j: int, mod: int) -> int:
+            if i == m - 1 and j == n - 1:
+                return int(not (grid[m - 1][n - 1] + mod) % k)
+            if i == m or j == n:
+                return 0
+            return (dfs(i + 1, j, (mod + grid[i][j]) % k) + dfs(i, j + 1, (mod + grid[i][j]) % k)) % MOD
+        m = len(grid)
+        n = len(grid[0])
+        MOD = 10 ** 9 + 7
+        res = dfs(0, 0, 0)
+        dfs.cache_clear()
+        return res
     
 
     # 2318. 不同骰子序列的数目 (Number of Distinct Roll Sequences)
