@@ -2382,7 +2382,3 @@ class leetcode_2:
         MOD = 10 ** 9 + 7
         res = dfs(0, 0, 1)
         return -1 if res < 0 else res % MOD
-
-
-
-

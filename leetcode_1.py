@@ -2819,44 +2819,26 @@ class leetcode_1 :
     
     # 1301. 最大得分的路径数目 (Number of Paths with Max Score)
     def pathsWithMaxScore(self, board: List[str]) -> List[int]:
-       n = len(board)
-       ways = [[0] * n for _ in range(n)]
-       ways[n - 1][n - 1] = 1
-       MOD = 10 ** 9 + 7
-
-       @cache
-       def dfs(i: int, j: int) -> int:
-          if i == n - 1 and j == n - 1:
-             return 0
-          if board[i][j] == 'X':
-             return -inf
-          res1 = -inf
-          res2 = -inf
-          res3 = -inf
-          if i + 1 < n:
-             res1 = dfs(i + 1, j)
-          if j + 1 < n:
-             res2 = dfs(i, j + 1)
-          if i + 1 < n and j + 1 < n:
-             res3 = dfs(i + 1, j + 1)
-          res = max(res1, res2, res3)
-          if res != -inf:
-             if res == res1:
-                ways[i][j] += ways[i + 1][j]
-                ways[i][j] %= MOD
-             if res == res2:
-                ways[i][j] += ways[i][j + 1]
-                ways[i][j] %= MOD
-             if res == res3:
-                ways[i][j] += ways[i + 1][j + 1]
-                ways[i][j] %= MOD
-          if not (i == 0 and j == 0):
-             res += ord(board[i][j]) - ord('0')
-          return res
-       res = dfs(0, 0)
-       if res < 0:
-          return [0, 0]
-       return [res, ways[0][0]]
+        @cache
+        def dfs(i: int, j: int) -> list:
+            if i == n - 1 and j == n - 1:
+                return [0, 1]
+            if i == n or j == n or board[i][j] == 'X':
+                return [-inf, 0]
+            res = [-inf, 0]
+            for dx, dy in [[0, 1], [1, 0], [1, 1]]:
+                [cur0, cur1] = dfs(i + dx, j + dy)
+                if cur0 > res[0]:
+                    res = [cur0, cur1]
+                elif cur0 == res[0]:
+                    res[1] += cur1
+                    res[1] %= MOD
+            res[0] += int(board[i][j]) if board[i][j] != 'E' else 0
+            return res
+        MOD = 10 ** 9 + 7
+        n = len(board)
+        res = dfs(0, 0)
+        return [0, 0] if res[0] < 0 else res
     
     # 1278. 分割回文串 III (Palindrome Partitioning III)
     def palindromePartition(self, s: str, k: int) -> int:
