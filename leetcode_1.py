@@ -4962,23 +4962,18 @@ class leetcode_1 :
     
     # 2267. 检查是否有合法括号字符串路径 (Check if There Is a Valid Parentheses String Path)
     def hasValidPath(self, grid: List[List[str]]) -> bool:
-       @cache
-       def dfs(i: int, j: int, d: int) -> bool:
-          if i >= m or j >= n:
-             return False
-          d += 1 if grid[i][j] == '(' else -1
-          if d < 0:
-             return False
-          if i == m - 1 and j == n - 1:
-             return d == 0
-          if d > m - i - 1 + n - j - 1:
-             return False
-          return dfs(i + 1, j, d) or dfs(i, j + 1, d)
-       m = len(grid)
-       n = len(grid[0])
-       if ((n + m - 1) & 1) == 1 or grid[0][0] == ')' or grid[m - 1][n - 1] == '(':
-          return False
-       return dfs(0, 0, 0)
+        @cache
+        def dfs(i: int, j: int, k: int) -> bool:
+            if i == m - 1 and j == n - 1:
+                return k == 1
+            if i == m or j == n or k < 0 or m - i + n - j - 1 < k:
+                return False
+            return dfs(i + 1, j, k + (1 if grid[i][j] == '(' else -1)) or dfs(i, j + 1, k + (1 if grid[i][j] == '(' else -1))
+        m = len(grid)
+        n = len(grid[0])
+        if (m + n) % 2 == 0 or grid[0][0] == ')' or grid[-1][-1] == '(':
+            return False
+        return dfs(0, 0, 0)
  
     # 2603. 收集树中金币 (Collect Coins in a Tree)
     def collectTheCoins(self, coins: List[int], edges: List[List[int]]) -> int:
