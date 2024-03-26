@@ -4481,18 +4481,15 @@ public class Leetcode_5 {
         if (i == m2435 - 1 && j == n2435 - 1) {
             return (l + grid2435[i][j]) % k2435 == 0 ? 1 : 0;
         }
+        if (i == m2435 || j == n2435) {
+            return 0;
+        }
         if (memo2435[i][j][l] != -1) {
             return memo2435[i][j][l];
         }
-        int res = 0;
         final int MOD = (int) (1e9 + 7);
-        if (i + 1 < m2435) {
-            res = (res + dfs2435(i + 1, j, (l + grid2435[i][j]) % k2435)) % MOD;
-        }
-        if (j + 1 < n2435) {
-            res = (res + dfs2435(i, j + 1, (l + grid2435[i][j]) % k2435)) % MOD;
-        }
-        return memo2435[i][j][l] = res;
+        return memo2435[i][j][l] = (dfs2435(i + 1, j, (l + grid2435[i][j]) % k2435)
+                + dfs2435(i, j + 1, (l + grid2435[i][j]) % k2435)) % MOD;
     }
 
     // 2435. 矩阵中和能被 K 整除的路径 (Paths in Matrix Whose Sum Is Divisible by K)
