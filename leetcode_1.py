@@ -5206,7 +5206,7 @@ class leetcode_1 :
        i = 0
        while i < n:
           right = ranges[i][1]
-          j = i + 1
+          j = i
           while j < n and ranges[j][0] <= right:
              right = max(right, ranges[j][1])
              j += 1
