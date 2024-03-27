@@ -7748,20 +7748,19 @@ public class Leetcode_6 {
     }
 
     private int dfs1463(int i, int j1, int j2) {
-        int cur = j1 == j2 ? grid1463[i][j1] : (grid1463[i][j1] + grid1463[i][j2]);
-        if (i == m1463 - 1) {
-            return cur;
+        if (i == m1463) {
+            return 0;
         }
         if (memo1463[i][j1][j2] != -1) {
             return memo1463[i][j1][j2];
         }
         int max = 0;
-        for (int nj1 = Math.max(0, j1 - 1); nj1 <= Math.min(n1463 - 1, j1 + 1); ++nj1) {
-            for (int nj2 = Math.max(0, j2 - 1); nj2 <= Math.min(n1463 - 1, j2 + 1); ++nj2) {
-                max = Math.max(max, dfs1463(i + 1, nj1, nj2));
+        for (int x = Math.max(0, j1 - 1); x <= Math.min(n1463 - 1, j1 + 1); ++x) {
+            for (int y = Math.max(0, j2 - 1); y <= Math.min(n1463 - 1, j2 + 1); ++y) {
+                max = Math.max(max, dfs1463(i + 1, x, y));
             }
         }
-        return memo1463[i][j1][j2] = max + cur;
+        return memo1463[i][j1][j2] = max + (j1 == j2 ? grid1463[i][j1] : (grid1463[i][j1] + grid1463[i][j2]));
     }
 
     // 1269. 停在原地的方案数 (Number of Ways to Stay in the Same Place After Some Steps)
