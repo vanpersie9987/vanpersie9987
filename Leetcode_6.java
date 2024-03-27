@@ -8008,34 +8008,26 @@ public class Leetcode_6 {
                 Arrays.fill(memo741[i][j], -1);
             }
         }
-        return Math.max(dfs741(n741 - 1, n741 - 1, 2 * n741 - 2), 0);
+        return Math.max(dfs741(0, 0, 0), 0);
     }
 
-    // c1 = k - r1
-    // c2 = k - r2
-    private int dfs741(int r1, int r2, int k) {
-        if (r1 < 0 || r2 < 0 || k < 0 || k - r1 < 0 || k - r2 < 0) {
+    private int dfs741(int i0, int j0, int j1) {
+        int i1 = i0 + j0 - j1;
+        if (i0 == n741 || i1 == n741 || j0 == n741 || j1 == n741 || grid741[i0][j0] == -1 || grid741[i1][j1] == -1) {
             return Integer.MIN_VALUE;
         }
-        if (grid741[r1][k - r1] == -1 || grid741[r2][k - r2] == -1) {
-            return Integer.MIN_VALUE;
+        if (i0 == n741 - 1 && j0 == n741 - 1 && i1 == n741 - 1 && j1 == n741 - 1) {
+            return grid741[i0][j0];
         }
-        if (k == 0) {
-            return memo741[0][0][0] = grid741[0][0];
+        if (memo741[i0][j0][j1] != -1) {
+            return memo741[i0][j0][j1];
         }
-        if (memo741[r1][r2][k] != -1) {
-            return memo741[r1][r2][k];
-        }
-        int res = grid741[r1][k - r1];
-        if (r1 != r2) {
-            res += grid741[r2][k - r2];
-        }
-        int max = Integer.MIN_VALUE;
-        max = Math.max(max, dfs741(r1 - 1, r2, k - 1));
-        max = Math.max(max, dfs741(r1, r2 - 1, k - 1));
-        max = Math.max(max, dfs741(r1 - 1, r2 - 1, k - 1));
-        max = Math.max(max, dfs741(r1, r2, k - 1));
-        return memo741[r1][r2][k] = max + res;
+        int res = Integer.MIN_VALUE;
+        res = Math.max(res, dfs741(i0 + 1, j0, j1));
+        res = Math.max(res, dfs741(i0 + 1, j0, j1 + 1));
+        res = Math.max(res, dfs741(i0, j0 + 1, j1));
+        res = Math.max(res, dfs741(i0, j0 + 1, j1 + 1));
+        return memo741[i0][j0][j1] = res + (i0 == i1 && j0 == j1 ? grid741[i0][j0] : grid741[i0][j0] + grid741[i1][j1]);
     }
 
     // LCP 40. 心算挑战
