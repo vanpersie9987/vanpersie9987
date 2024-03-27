@@ -2397,5 +2397,23 @@ class leetcode_2:
             return max(dfs(i0 + 1, j0, j1), dfs(i0 + 1, j0, j1 + 1), dfs(i0, j0 + 1, j1), dfs(i0, j0 + 1, j1 + 1)) + (grid[i0][j0] if i0 == i1 and j0 == j1 else grid[i0][j0] + grid[i1][j1])
         n = len(grid)
         return max(0, dfs(0, 0, 0))
+    
+    # 2321. 拼接数组的最大分数 (Maximum Score Of Spliced Array)
+    def maximumsSplicedArray(self, nums1: List[int], nums2: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0
+            if j == 0:
+                return max(dfs(i + 1, j) + nums1[i], dfs(i + 1, 1) + nums2[i])
+            elif j == 1:
+                return max(dfs(i + 1, j) + nums2[i], dfs(i + 1, 2) + nums1[i])
+            return dfs(i + 1, j) + nums1[i]
+        n = len(nums1)
+        res1 = dfs(0, 0)
+        nums1, nums2 = nums2, nums1
+        dfs.cache_clear()
+        res2 = dfs(0, 0)
+        return max(res1, res2)
 
 
