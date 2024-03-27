@@ -2390,13 +2390,12 @@ class leetcode_2:
         @cache
         def dfs(i0: int, j0: int, j1: int) -> int:
             i1 = i0 + j0 - j1
-            if i0 == m or i1 == m or j0 == n or j1 == n or grid[i0][j0] == -1 or grid[i1][j1] == -1:
+            if i0 == n or i1 == n or j0 == n or j1 == n or grid[i0][j0] == -1 or grid[i1][j1] == -1:
                 return -inf
-            if i0 == m - 1 and i1 == m - 1 and j0 == n - 1 and j1 == n - 1:
+            if i0 == n - 1 and i1 == n - 1 and j0 == n - 1 and j1 == n - 1:
                 return grid[i0][j0]
             return max(dfs(i0 + 1, j0, j1), dfs(i0 + 1, j0, j1 + 1), dfs(i0, j0 + 1, j1), dfs(i0, j0 + 1, j1 + 1)) + (grid[i0][j0] if i0 == i1 and j0 == j1 else grid[i0][j0] + grid[i1][j1])
-        m = len(grid)
-        n = len(grid[0])
+        n = len(grid)
         return max(0, dfs(0, 0, 0))
 
 
