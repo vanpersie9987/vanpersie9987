@@ -3598,8 +3598,44 @@ public class LeetCode_4 {
         return memo2320[i] = (dfs2320(i + 1) + dfs2320(i + 2)) % MOD;
     }
 
-    // 5229. 拼接数组的最大分数 (Maximum Score Of Spliced Array)
+    // 2321. 拼接数组的最大分数 (Maximum Score Of Spliced Array)
+    private int n2321;
+    private int[] nums1_2321;
+    private int[] nums2_2321;
+
     public int maximumsSplicedArray(int[] nums1, int[] nums2) {
+        return Math.max(cal2321(nums1, nums2), cal2321(nums2, nums1));
+
+    }
+
+    private int[][] memo2321;
+
+    public int cal2321(int[] nums1, int[] nums2) {
+        this.n2321 = nums1.length;
+        this.nums1_2321 = nums1;
+        this.nums2_2321 = nums2;
+        this.memo2321 = new int[n2321][3];
+        return dfs2321(0, 0);
+    }
+
+    private int dfs2321(int i, int j) {
+        if (i == n2321) {
+            return 0;
+        }
+        if (memo2321[i][j] != 0) {
+            return memo2321[i][j];
+        }
+        if (j == 0) {
+            return memo2321[i][j] = Math.max(dfs2321(i + 1, j) + nums1_2321[i], dfs2321(i + 1, j + 1) + nums2_2321[i]);
+        }
+        if (j == 1) {
+            return memo2321[i][j] = Math.max(dfs2321(i + 1, j) + nums2_2321[i], dfs2321(i + 1, j + 1) + nums1_2321[i]);
+        }
+        return memo2321[i][j] = dfs2321(i + 1, j) + nums1_2321[i];
+    }
+
+    // 2321. 拼接数组的最大分数 (Maximum Score Of Spliced Array)
+    public int maximumsSplicedArray2(int[] nums1, int[] nums2) {
         int n = nums1.length;
         int[] preSum1 = getPreSum5229(nums1);
         int[] preSum2 = getPreSum5229(nums2);

@@ -2406,7 +2406,7 @@ class leetcode_2:
                 return 0
             if j == 0:
                 return max(dfs(i + 1, j) + nums1[i], dfs(i + 1, 1) + nums2[i])
-            elif j == 1:
+            if j == 1:
                 return max(dfs(i + 1, j) + nums2[i], dfs(i + 1, 2) + nums1[i])
             return dfs(i + 1, j) + nums1[i]
         n = len(nums1)
