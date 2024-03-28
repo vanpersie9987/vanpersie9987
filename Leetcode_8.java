@@ -4540,7 +4540,6 @@ public class Leetcode_8 {
         int res = Integer.MAX_VALUE;
         int n = nums.length;
         int[] pre = new int[n];
-        Arrays.fill(pre, Integer.MAX_VALUE);
         pre[0] = nums[0];
         for (int i = 1; i < n; ++i) {
             pre[i] = Math.min(pre[i - 1], nums[i]);
