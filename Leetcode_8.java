@@ -2099,7 +2099,7 @@ public class Leetcode_8 {
         }
         this.len6931 = list6931.size();
         this.memo6931 = new long[len6931];
-        Arrays.fill(memo6922, (long) 1e12);
+        Arrays.fill(memo6931, (long) 1e12);
         return dfs6931(0);
 
     }
