@@ -2114,36 +2114,33 @@ public class Leetcode_8 {
         return memo6931[i] = Math.max(dfs6931(i + 1) - x6931, dfs6931(i + 2)) + list6931.get(i);
     }
 
-    // 6922. 将一个数字表示成幂的和的方案数 (Ways to Express an Integer as Sum of Powers)
-    private int[][] memo6922;
-    private int n6922;
-    private int x6922;
+    // 2787. 将一个数字表示成幂的和的方案数 (Ways to Express an Integer as Sum of Powers)
+    private int n2787;
+    private int x2787;
+    private int[][] memo2787;
 
     public int numberOfWays(int n, int x) {
-        this.n6922 = n;
-        this.x6922 = x;
-        this.memo6922 = new int[n + 1][n + 1];
+        this.n2787 = n;
+        this.x2787 = x;
+        this.memo2787 = new int[n + 1][n + 1];
         for (int i = 0; i < n + 1; ++i) {
-            Arrays.fill(memo6922[i], -1);
+            Arrays.fill(memo2787[i], -1);
         }
-        return dfs6922(1, 0);
+        return dfs2787(1, 0);
     }
 
-    private int dfs6922(int i, int sum) {
-        if (sum == n6922) {
+    private int dfs2787(int i, int j) {
+        if (j == n2787) {
             return 1;
         }
-        if (sum > n6922) {
+        if (j > n2787 || j + (int) Math.pow(i, x2787) > n2787) {
             return 0;
         }
-        if (Math.pow(i, x6922) > n6922) {
-            return 0;
+        if (memo2787[i][j] != -1) {
+            return memo2787[i][j];
         }
-        if (memo6922[i][sum] != -1) {
-            return memo6922[i][sum];
-        }
-        final int M = (int) (1e9 + 7);
-        return memo6922[i][sum] = (dfs6922(i + 1, sum) + dfs6922(i + 1, sum + (int) Math.pow(i, x6922))) % M;
+        final int MOD = (int) (1e9 + 7);
+        return memo2787[i][j] = (dfs2787(i + 1, j) + dfs2787(i + 1, j + (int) Math.pow(i, x2787))) % MOD;
     }
 
     // 2788. 按分隔符拆分字符串 (Split Strings by Separator)
