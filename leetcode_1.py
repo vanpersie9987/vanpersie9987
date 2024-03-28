@@ -4496,17 +4496,15 @@ class leetcode_1 :
     # 494. 目标和 (Target Sum)
     # LCR 102. 目标和
     def findTargetSumWays(self, nums: List[int], target: int) -> int:
-       @cache
-       def dfs(i: int, cur: int) -> int:
-          if i == n:
-             return cur == target
-          return dfs(i + 1, cur + nums[i]) + dfs(i + 1, cur - nums[i])
-
-       n = len(nums)
-       s = sum(nums)
-       if s < target or -s > target:
-          return 0
-       return dfs(0, 0)
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == len(nums):
+                return int(j == target)
+            return dfs(i + 1, nums[i] + j) + dfs(i + 1, j - nums[i])
+        s = sum(nums)
+        if s < target or target < -s:
+            return 0
+        return dfs(0, 0)
 
     # 474. 一和零 (Ones and Zeroes)
     def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
