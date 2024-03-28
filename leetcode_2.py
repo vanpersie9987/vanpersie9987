@@ -2439,11 +2439,27 @@ class leetcode_2:
     def minRemainingSpace(self, N: List[int], V: int) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == n:
+            if i < 0:
                 return j
-            res = dfs(i + 1, j)
+            res = dfs(i - 1, j)
             if j - N[i] >= 0:
-                res = min(res, dfs(i + 1, j - N[i]))
+                res = min(res, dfs(i - 1, j - N[i]))
             return res
-        n = len(N)
-        return dfs(0, V)
+        return dfs(len(N) - 1, V)
+    
+    # 416. 分割等和子集 (Partition Equal Subset Sum)
+    def canPartition(self, nums: List[int]) -> bool:
+        @cache
+        def dfs(i: int, j: int) -> bool:
+            if j == s:
+                return True
+            if i == n or j > s:
+                return False
+            return dfs(i + 1, j) or dfs(i + 1, j + nums[i])
+        s = sum(nums)
+        if s & 1:
+            return False
+        n = len(nums)
+        s >>= 1
+        return dfs(0, 0)
+
