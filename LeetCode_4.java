@@ -9534,35 +9534,36 @@ public class LeetCode_4 {
     // 剑指 Offer II 101. 分割等和子集
     private int n416;
     private int[] nums416;
-    private int sum416;
-    private Boolean[][] memo416;
+    private int[][] memo416;
+    private int s416;
 
     public boolean canPartition2(int[] nums) {
         this.n416 = nums.length;
         this.nums416 = nums;
-        this.sum416 = Arrays.stream(nums).sum();
-        if (sum416 % 2 == 1) {
+        this.s416 = 0;
+        for (int x : nums) {
+            s416 += x;
+        }
+        if ((s416 & 1) == 1) {
             return false;
         }
-        this.memo416 = new Boolean[n416][sum416 / 2 + 1];
+        s416 >>= 1;
+        this.memo416 = new int[n416][s416 + 1];
         return dfs416(0, 0);
-
     }
 
-    private boolean dfs416(int i, int curSum) {
-        if (i == n416) {
-            return curSum * 2 == sum416;
-        }
-        if (curSum * 2 > sum416) {
-            return false;
-        }
-        if (curSum * 2 == sum416) {
+    private boolean dfs416(int i, int j) {
+        if (j == s416) {
             return true;
         }
-        if (memo416[i][curSum] != null) {
-            return memo416[i][curSum];
+        if (j > s416 || i == n416) {
+            return false;
         }
-        return memo416[i][curSum] = dfs416(i + 1, curSum + nums416[i]) || dfs416(i + 1, curSum);
+        if (memo416[i][j] != 0) {
+            return memo416[i][j] > 0;
+        }
+        memo416[i][j] = (dfs416(i + 1, j) || dfs416(i + 1, j + nums416[i])) ? 1 : -1;
+        return memo416[i][j] > 0;
     }
 
     // 494. 目标和 (Target Sum)
