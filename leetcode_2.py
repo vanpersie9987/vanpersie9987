@@ -2434,3 +2434,16 @@ class leetcode_2:
                     diff = max(diff, 0)
             res = max(res, diff_with_b)
         return res
+    
+    # 顺丰02. 小哥派件装载问题
+    def minRemainingSpace(self, N: List[int], V: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return j
+            res = dfs(i + 1, j)
+            if j - N[i] >= 0:
+                res = min(res, dfs(i + 1, j - N[i]))
+            return res
+        n = len(N)
+        return dfs(0, V)

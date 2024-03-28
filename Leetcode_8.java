@@ -8961,4 +8961,32 @@ public class Leetcode_8 {
         }
         return res;
     }
+
+    // 顺丰02. 小哥派件装载问题
+    private int[] N_sf_02;
+    private int[][] memo_sf_02;
+
+    public int minRemainingSpace(int[] N, int V) {
+        this.N_sf_02 = N;
+        int n = N.length;
+        this.memo_sf_02 = new int[n][V + 1];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo_sf_02[i], -1);
+        }
+        return dfs_sf_02(n - 1, V);
+    }
+
+    private int dfs_sf_02(int i, int j) {
+        if (i < 0) {
+            return j;
+        }
+        if (memo_sf_02[i][j] != -1) {
+            return memo_sf_02[i][j];
+        }
+        int res = dfs_sf_02(i - 1, j);
+        if (j - N_sf_02[i] >= 0) {
+            res = Math.min(res, dfs_sf_02(i - 1, j - N_sf_02[i]));
+        }
+        return memo_sf_02[i][j] = res;
+    }
 }
