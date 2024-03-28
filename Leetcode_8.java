@@ -4679,44 +4679,55 @@ public class Leetcode_8 {
 
     }
 
-    // 100042. 和为目标值的最长子序列的长度 (Length of the Longest Subsequence That Sums to
+    // 2915. 和为目标值的最长子序列的长度 (Length of the Longest Subsequence That Sums to
     // Target)
-    private int[][] memo100042;
-    private int n100042;
-    private int target100042;
-    private List<Integer> nums100042;
+    private List<Integer> nums2915;
+    private int target2915;
+    private int n2915;
+    private int[][] memo2915;
 
     public int lengthOfLongestSubsequence(List<Integer> nums, int target) {
-        this.n100042 = nums.size();
-        int sum = 0;
-        for (int num : nums) {
-            sum += num;
+        int s = 0;
+        for (int x : nums) {
+            s += x;
         }
-        if (sum < target) {
+        this.n2915 = nums.size();
+        if (s < target) {
             return -1;
         }
-        this.memo100042 = new int[n100042][target + 1];
-        for (int i = 0; i < n100042; ++i) {
-            Arrays.fill(memo100042[i], -1);
+        if (s == target) {
+            return n2915;
         }
-        this.target100042 = target;
-        this.nums100042 = nums;
-        int res = dfs100042(0, 0);
-        return res > 0 ? res : -1;
+        Collections.sort(nums, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(o2, o1);
+            }
+
+        });
+        this.nums2915 = nums;
+        this.target2915 = target;
+        this.memo2915 = new int[n2915][target + 1];
+        for (int i = 0; i < n2915; ++i) {
+            Arrays.fill(memo2915[i], -1);
+        }
+        return Math.max(-1, dfs2915(0, 0));
 
     }
 
-    private int dfs100042(int i, int j) {
-        if (j == target100042) {
-            return 0;
+    private int dfs2915(int i, int j) {
+        if (i == n2915) {
+            return j == target2915 ? 0 : Integer.MIN_VALUE / 4;
         }
-        if (j > target100042 || i == n100042) {
-            return Integer.MIN_VALUE;
+        if (memo2915[i][j] != -1) {
+            return memo2915[i][j];
         }
-        if (memo100042[i][j] != -1) {
-            return memo100042[i][j];
+        int res = dfs2915(i + 1, j);
+        if (j + nums2915.get(i) <= target2915) {
+            res = Math.max(res, dfs2915(i + 1, j + nums2915.get(i)) + 1);
         }
-        return memo100042[i][j] = Math.max(dfs100042(i + 1, j), dfs100042(i + 1, j + nums100042.get(i)) + 1);
+        return memo2915[i][j] = res;
     }
 
     // 100111. 找出数组中的 K-or 值 (Find the K-or of an Array)
