@@ -11,7 +11,7 @@ from decimal import Rounded
 import enum
 from functools import cache
 from inspect import modulesbyfile
-from itertools import accumulate, count, islice, pairwise
+from itertools import accumulate, count, islice, pairwise, permutations
 from locale import DAY_4
 from math import comb, cos, fabs, gcd, inf, isqrt, sqrt
 from mimetypes import init
@@ -22,6 +22,7 @@ from re import X
 import re
 from socket import NI_NUMERICSERV
 from ssl import VERIFY_X509_TRUSTED_FIRST
+from string import ascii_lowercase
 from tabnanny import check
 from textwrap import indent
 from tkinter import N, NO, W
@@ -2415,3 +2416,21 @@ class leetcode_2:
         dfs.cache_clear()
         res2 = dfs(0, 0)
         return max(res1, res2)
+    
+
+    # 2272. 最大波动的子字符串 (Substring With Largest Variance)
+    def largestVariance(self, s: str) -> int:
+        res = 0
+        for a, b in permutations(ascii_lowercase, 2):
+            diff = 0
+            diff_with_b = -inf
+            for c in s:
+                if c == a:
+                    diff += 1
+                    diff_with_b += 1
+                elif c == b:
+                    diff -= 1
+                    diff_with_b = diff
+                    diff = max(diff, 0)
+            res = max(res, diff_with_b)
+        return res
