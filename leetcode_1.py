@@ -7334,26 +7334,23 @@ class leetcode_1 :
     
     # 2915. 和为目标值的最长子序列的长度 (Length of the Longest Subsequence That Sums to Target)
     def lengthOfLongestSubsequence(self, nums: List[int], target: int) -> int:
-       @cache
-       def dfs(i: int, j: int) -> int:
-          if i == n:
-             return 0 if j == target else -inf
-          if pre[n] - pre[i] + j < target:
-             return -inf
-          res = dfs(i + 1, j)
-          if nums[i] + j <= target:
-             res = max(res, dfs(i + 1, nums[i] + j) + 1)
-          return res
-       # 不排序过不了
-       nums.sort(reverse=True)
-       n = len(nums)
-       pre = [0] * (n + 1)
-       for i in range(n):
-          pre[i + 1] = pre[i] + nums[i]
-       if pre[n] < target:
-          return -1
-       res = dfs(0, 0)
-       return res if res > 0 else -1
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0 if target == j else -inf
+            res = dfs(i + 1, j)
+            if j + nums[i] <= target:
+                res = max(res, dfs(i + 1, j + nums[i]) + 1)
+            return res
+        n = len(nums)
+        if sum(nums) < target:
+            return -1
+        if sum(nums) == target:
+            return n
+        nums.sort(reverse=True)
+        res = dfs(0, 0)
+        dfs.cache_clear()
+        return -1 if res <= 0 else res
     
     # 2917. 找出数组中的 K-or 值 (Find the K-or of an Array)
     def findKOr(self, nums: List[int], k: int) -> int:
