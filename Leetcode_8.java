@@ -8926,4 +8926,28 @@ public class Leetcode_8 {
         }
     }
 
+    // 2272. 最大波动的子字符串 (Substring With Largest Variance)
+    public int largestVariance(String s) {
+        int res = 0;
+        for (char a = 'a'; a <= 'z'; ++a) {
+            for (char b = 'a'; b <= 'z'; ++b) {
+                if (a == b) {
+                    continue;
+                }
+                int diff = 0;
+                int diffWithB = -s.length();
+                for (char c : s.toCharArray()) {
+                    if (c == a) {
+                        ++diff;
+                        ++diffWithB;
+                    } else if (c == b) {
+                        diffWithB = --diff;
+                        diff = Math.max(0, diff);
+                    }
+                    res = Math.max(res, diffWithB);
+                }
+            }
+        }
+        return res;
+    }
 }
