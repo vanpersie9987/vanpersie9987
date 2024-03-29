@@ -2485,3 +2485,5 @@ class leetcode_2:
             return min(dfs(i + 1, j - stones[i]), dfs(i + 1, j + stones[i]))
         n = len(stones)
         return dfs(0, 0)
+    
+    

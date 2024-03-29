@@ -970,17 +970,15 @@ class leetcode_1 :
 
     # 879. 盈利计划 (Profitable Schemes)
     def profitableSchemes(self, n: int, minProfit: int, group: List[int], profit: List[int]) -> int:
-       m = len(profit)
-       mod = 10 ** 9 + 7
-
-       @cache
-       def dfs(i: int, j: int, k: int) -> int:
-          if j > n:
-             return 0
-          if i == m:
-             return k >= minProfit
-          return (dfs(i + 1, j, k) + dfs(i + 1, j + group[i], min(minProfit, k + profit[i]))) % mod
-       return dfs(0, 0, 0)
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if j > n:
+                return 0
+            if i == len(group):
+                return int(k == minProfit)
+            return (dfs(i + 1, j, k) + dfs(i + 1, j + group[i], min(k + profit[i], minProfit))) % MOD
+        MOD = 10 ** 9 + 7
+        return dfs(0, 0, 0)
     
     # 688. 骑士在棋盘上的概率 (Knight Probability in Chessboard)
     def knightProbability(self, n: int, k: int, row: int, column: int) -> float:
