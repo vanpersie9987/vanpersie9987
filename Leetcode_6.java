@@ -10285,7 +10285,7 @@ public class Leetcode_6 {
         this.word1320 = word;
         this.res1320 = Integer.MAX_VALUE;
         for (int j = 0; j < 26; ++j) {
-            res1320 = Math.min(res1320, dfs1320(0, j));
+            res1320 = Math.min(res1320, dfs1320(1, j));
         }
         return res1320;
     }
@@ -10297,15 +10297,9 @@ public class Leetcode_6 {
         if (memo1320[i][j] != -1) {
             return memo1320[i][j];
         }
-        int min = Integer.MAX_VALUE;
-        if (i > 0) {
-            int cur = word1320.charAt(i) - 'A';
-            int pre = word1320.charAt(i - 1) - 'A';
-            min = Math.min(dfs1320(i + 1, j) + getDis1320(pre, cur), dfs1320(i + 1, pre) + getDis1320(j, cur));
-        } else {
-            min = dfs1320(i + 1, j);
-        }
-        return memo1320[i][j] = min;
+        int cur = word1320.charAt(i) - 'A';
+        int pre = word1320.charAt(i - 1) - 'A';
+        return memo1320[i][j] = Math.min(dfs1320(i + 1, j) + getDis1320(pre, cur), dfs1320(i + 1, pre) + getDis1320(j, cur));
     }
 
     private int getDis1320(int pos1, int pos2) {
