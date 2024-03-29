@@ -2462,4 +2462,17 @@ class leetcode_2:
         n = len(nums)
         s >>= 1
         return dfs(0, 0)
+    
+    # 174. 地下城游戏 (Dungeon Game)
+    def calculateMinimumHP(self, dungeon: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == m - 1 and j == n - 1:
+                return max(1, 1 - dungeon[i][j])
+            if i == m or j == n:
+                return inf
+            return max(1, min(dfs(i + 1, j), dfs(i, j + 1)) - dungeon[i][j])
+        m = len(dungeon)
+        n = len(dungeon[0])
+        return dfs(0, 0)
 
