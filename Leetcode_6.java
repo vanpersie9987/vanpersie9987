@@ -10278,37 +10278,35 @@ public class Leetcode_6 {
     public int minimumDistance(String word) {
         this.n1320 = word.length();
         // memo[i][j] : 不指向当前字符的另一个手指的位置（因为其中一个手指一定指向的是当前字符），输入了第i个字符后的最短移动距离
-        memo1320 = new int[26][n1320];
-        for (int i = 0; i < 26; ++i) {
+        memo1320 = new int[n1320][26];
+        for (int i = 0; i < n1320; ++i) {
             Arrays.fill(memo1320[i], -1);
         }
         this.word1320 = word;
         this.res1320 = Integer.MAX_VALUE;
 
-        for (int i = 0; i < 26; ++i) {
-            res1320 = Math.min(res1320, dfs1320(i, 0));
+        for (int j = 0; j < 26; ++j) {
+            res1320 = Math.min(res1320, dfs1320(0, j));
         }
         return res1320;
     }
 
-    private int dfs1320(int another, int i) {
+    private int dfs1320(int i, int j) {
         if (i == n1320) {
             return 0;
         }
-        if (memo1320[another][i] != -1) {
-            return memo1320[another][i];
+        if (memo1320[i][j] != -1) {
+            return memo1320[i][j];
         }
         int min = Integer.MAX_VALUE;
-        int pos = word1320.charAt(i) - 'A';
         if (i > 0) {
+            int cur = word1320.charAt(i) - 'A';
             int pre = word1320.charAt(i - 1) - 'A';
-            min = Math.min(min, dfs1320(another, i + 1) + getDis1320(pre, pos));
-            min = Math.min(min, dfs1320(pre, i + 1) + getDis1320(another, pos));
+            min = Math.min(dfs1320(i + 1, j) + getDis1320(pre, cur), dfs1320(i + 1, pre) + getDis1320(j, cur));
         } else {
-            min = Math.min(min, dfs1320(another, i + 1));
+            min = dfs1320(i + 1, j);
         }
-
-        return memo1320[another][i] = min;
+        return memo1320[i][j] = min;
     }
 
     private int getDis1320(int pos1, int pos2) {
