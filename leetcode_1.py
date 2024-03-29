@@ -38,6 +38,7 @@ from re import X
 import re
 from socket import NI_NUMERICSERV
 from ssl import VERIFY_X509_TRUSTED_FIRST
+from string import ascii_lowercase, ascii_uppercase
 from tabnanny import check
 from textwrap import indent
 from tkinter import W
@@ -1916,15 +1917,17 @@ class leetcode_1 :
     # 1320. 二指输入的的最小距离 (Minimum Distance to Type a Word Using Two Fingers)
     def minimumDistance(self, word: str) -> int:
       n = len(word)
-      def dis(i: int, j: int) -> int:
+      def dis(i: chr, j: chr) -> int:
+         i = ord(i) - ord('A')
+         j = ord(j) - ord('A')
          return abs(i // 6 - j // 6) + abs(i % 6 - j % 6)
       @cache
-      def dfs(i: int, p1: int, p2: int) -> int:
+      def dfs(i: int, j: chr, k: chr) -> int:
          if i == n:
             return 0
-         return min(dfs(i + 1, ord(word[i]) - ord('A'), p2) + dis(ord(word[i]) - ord('A'), p1),
-                    dfs(i + 1, p1,ord(word[i]) - ord('A')) + dis(ord(word[i]) - ord('A'), p2))
-      return min(dfs(0, i, j) for i, j in permutations(range(26), 2))
+         return min(dfs(i + 1, word[i], k) + dis(word[i], j),
+                    dfs(i + 1, j, word[i]) + dis(word[i], k))
+      return min(dfs(0, i, j) for i, j in permutations(ascii_uppercase, 2))
     
     # 2682. 找出转圈游戏输家 (Find the Losers of the Circular Game)
     def circularGameLosers(self, n: int, k: int) -> List[int]:
