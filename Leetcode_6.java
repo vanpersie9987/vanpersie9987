@@ -10299,7 +10299,9 @@ public class Leetcode_6 {
         }
         int cur = word1320.charAt(i) - 'A';
         int pre = word1320.charAt(i - 1) - 'A';
-        return memo1320[i][j] = Math.min(dfs1320(i + 1, j) + getDis1320(pre, cur), dfs1320(i + 1, pre) + getDis1320(j, cur));
+        return memo1320[i][j] = Math.min(
+                dfs1320(i + 1, j) + getDis1320(pre, cur),
+                dfs1320(i + 1, pre) + getDis1320(j, cur));
     }
 
     private int getDis1320(int pos1, int pos2) {
