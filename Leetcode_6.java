@@ -10284,7 +10284,6 @@ public class Leetcode_6 {
         }
         this.word1320 = word;
         this.res1320 = Integer.MAX_VALUE;
-
         for (int j = 0; j < 26; ++j) {
             res1320 = Math.min(res1320, dfs1320(0, j));
         }
