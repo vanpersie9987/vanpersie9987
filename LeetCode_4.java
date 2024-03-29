@@ -9982,49 +9982,46 @@ public class LeetCode_4 {
     }
 
     // 474. 一和零 (Ones and Zeroes)
+    private int[][] arr474;
     private int m474;
     private int n474;
-    private int[] counts474;
     private int[][][] memo474;
-    private String[] strs474;
+    private int len474;
 
     public int findMaxForm2(String[] strs, int m, int n) {
+        this.len474 = strs.length;
+        this.arr474 = new int[len474][2];
         this.m474 = m;
         this.n474 = n;
-        this.strs474 = strs;
-        // 1的个数
-        this.counts474 = new int[strs.length];
-        for (int i = 0; i < strs.length; ++i) {
-            int cnt = 0;
-            for (char c : strs[i].toCharArray()) {
-                cnt += c - '0';
-            }
-            counts474[i] = cnt;
-        }
-        this.memo474 = new int[strs.length][m + 1][n + 1];
-        for (int i = 0; i < strs.length; ++i) {
+        this.memo474 = new int[len474][m + 1][n + 1];
+        for (int i = 0; i < len474; ++i) {
             for (int j = 0; j < m + 1; ++j) {
                 Arrays.fill(memo474[i][j], -1);
             }
+        }
+        for (int i = 0; i < len474; ++i) {
+            int cnt1 = 0;
+            for (char c : strs[i].toCharArray()) {
+                cnt1 += c - '0';
+            }
+            arr474[i][0] = strs[i].length() - cnt1;
+            arr474[i][1] = cnt1;
         }
         return dfs474(0, 0, 0);
 
     }
 
-    private int dfs474(int i, int cur0, int cur1) {
-        if (i == strs474.length) {
+    private int dfs474(int i, int j, int k) {
+        if (j > m474 || k > n474) {
+            return Integer.MIN_VALUE / 2;
+        }
+        if (i == len474) {
             return 0;
         }
-        if (memo474[i][cur0][cur1] != -1) {
-            return memo474[i][cur0][cur1];
+        if (memo474[i][j][k] != -1) {
+            return memo474[i][j][k];
         }
-        // 不选
-        int res = dfs474(i + 1, cur0, cur1);
-        // 选
-        if (strs474[i].length() - counts474[i] + cur0 <= m474 && counts474[i] + cur1 <= n474) {
-            res = Math.max(res, dfs474(i + 1, strs474[i].length() - counts474[i] + cur0, counts474[i] + cur1) + 1);
-        }
-        return memo474[i][cur0][cur1] = res;
+        return memo474[i][j][k] = Math.max(dfs474(i + 1, j, k), dfs474(i + 1, j + arr474[i][0], k + arr474[i][1]) + 1);
     }
 
     // 879. 盈利计划 (Profitable Schemes) --多维0-1背包
