@@ -4110,22 +4110,20 @@ public class Leetcode_7 {
         this.dungeon174 = dungeon;
         this.memo174 = new int[m174][n174];
         return dfs174(0, 0);
+
     }
 
     private int dfs174(int i, int j) {
+        if (i == m174 || j == n174) {
+            return Integer.MAX_VALUE / 2;
+        }
         if (i == m174 - 1 && j == n174 - 1) {
-            return Math.max(1 - dungeon174[i][j], 1);
+            return Math.max(1, 1 - dungeon174[i][j]);
         }
         if (memo174[i][j] != 0) {
             return memo174[i][j];
         }
-        if (i == m174 - 1) {
-            return memo174[i][j] = Math.max(dfs174(i, j + 1) - dungeon174[i][j], 1);
-        }
-        if (j == n174 - 1) {
-            return memo174[i][j] = Math.max(dfs174(i + 1, j) - dungeon174[i][j], 1);
-        }
-        return memo174[i][j] = Math.max(Math.min(dfs174(i + 1, j), dfs174(i, j + 1)) - dungeon174[i][j], 1);
+        return memo174[i][j] = Math.max(1, Math.min(dfs174(i + 1, j), dfs174(i, j + 1)) - dungeon174[i][j]);
     }
 
     // 1889. 装包裹的最小浪费空间 (Minimum Space Wasted From Packaging)
