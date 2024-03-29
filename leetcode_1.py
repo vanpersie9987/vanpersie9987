@@ -4508,18 +4508,18 @@ class leetcode_1 :
 
     # 474. 一和零 (Ones and Zeroes)
     def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
-       @cache
-       def dfs(i: int, j: int, k: int) -> int:
-          if i == l:
-             return 0
-          res = dfs(i + 1, j, k)
-          cnt1 = sum(int(x) for x in strs[i])
-          cnt0 = len(strs[i]) - cnt1
-          if j + cnt0 <= m and k + cnt1 <= n:
-             res = max(res, dfs(i + 1, j + cnt0, k + cnt1) + 1)
-          return res
-       l = len(strs)
-       return dfs(0, 0, 0)
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if j > m or k > n:
+                return -inf
+            if i == len(arr):
+                return 0
+            return max(dfs(i + 1, j, k), dfs(i + 1, j + arr[i][0], k + arr[i][1]) + 1)
+        arr = []
+        for s in strs:
+            one = sum(int(x) for x in s)
+            arr.append([len(s) - one, one])
+        return dfs(0, 0, 0)
     
     # 486. 预测赢家 (Predict the Winner)
     def predictTheWinner(self, nums: List[int]) -> bool:

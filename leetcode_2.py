@@ -5,7 +5,7 @@ from calendar import c
 from collections import Counter, defaultdict, deque
 import collections
 from ctypes.wintypes import _ULARGE_INTEGER
-from curses import curs_set
+from curses import curs_set, intrflush
 from curses.ascii import isprint
 from decimal import Rounded
 import enum
@@ -2475,4 +2475,3 @@ class leetcode_2:
         m = len(dungeon)
         n = len(dungeon[0])
         return dfs(0, 0)
-
