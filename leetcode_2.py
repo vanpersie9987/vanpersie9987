@@ -2479,13 +2479,9 @@ class leetcode_2:
     # 1049. 最后一块石头的重量 II (Last Stone Weight II)
     def lastStoneWeightII(self, stones: List[int]) -> int:
         @cache
-        def dfs(i: int, j: int, k: int) -> bool:
+        def dfs(i: int, j: int) -> bool:
             if i == n:
-                return j == k
-            return dfs(i + 1, j - stones[i], k) or dfs(i + 1, j + stones[i], k)
+                return abs(j)
+            return min(dfs(i + 1, j - stones[i]), dfs(i + 1, j + stones[i]))
         n = len(stones)
-        s = sum(stones)
-        for i in range(s + 1):
-            if dfs(0, 0, i):
-                return i
-            dfs.cache_clear()
+        return dfs(0, 0)
