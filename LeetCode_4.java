@@ -10072,27 +10072,18 @@ public class LeetCode_4 {
 
     }
 
-    private int dfs879(int i, int curWorkers, int curProfit) {
-        if (curWorkers > n879) {
+    private int dfs879(int i, int j, int k) {
+        if (j > n879) {
             return 0;
         }
         if (i == group879.length) {
-            return curProfit >= minProfit879 ? 1 : 0;
+            return k == minProfit879 ? 1 : 0;
         }
-
-        if (memo879[i][curWorkers][curProfit] != -1) {
-            return memo879[i][curWorkers][curProfit];
+        if (memo879[i][j][k] != -1) {
+            return memo879[i][j][k];
         }
-
         final int MOD = (int) (1e9 + 7);
-        // 不选
-        int res = dfs879(i + 1, curWorkers, curProfit);
-        // 选
-        if (curWorkers + group879[i] <= n879) {
-            res = (res + dfs879(i + 1, curWorkers + group879[i], Math.min(minProfit879, curProfit + profit879[i])))
-                    % MOD;
-        }
-        return memo879[i][curWorkers][curProfit] = res;
+        return memo879[i][j][k] = (dfs879(i + 1, j, k) + dfs879(i + 1, j + group879[i], Math.min(minProfit879, k + profit879[i]))) % MOD;
     }
 
     // 2116. 判断一个括号字符串是否有效 (Check if a Parentheses String Can Be Valid)
