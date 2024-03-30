@@ -2003,24 +2003,13 @@ class leetcode_2:
     # 3082. 求出所有子序列的能量和 (Find the Sum of the Power of All Subsequences)
     def sumOfPower(self, nums: List[int], k: int) -> int:
         @cache
-        def dfs(i: int, j: int, l: int) -> int:
-            if i == n:
-                return j == k and l == 0
-            if n - i < l:
-                return 0
-            if l == 0:
-                return j == k
-            res = dfs(i + 1, j, l)
-            if l and j + nums[i] <= k:
-                res += dfs(i + 1, j + nums[i], l - 1)
-            return res % MOD
+        def dfs(i: int, j: int, c: int) -> int:
+            if j >= k or c == 0 or i == n or n - i < c:
+                return j == k and c == 0
+            return (dfs(i + 1, j, c) + dfs(i + 1, j + nums[i], c - 1)) % MOD
         n = len(nums)
         MOD = 10 ** 9 + 7
-        res = 0
-        for i in range(1, n + 1):
-            res += dfs(0, 0, i) * pow(2, n - i, MOD)
-            res %= MOD
-        return res
+        return sum(dfs(0, 0, i) * pow(2, n - i, MOD) % MOD for i in range(1, n + 1)) % MOD
     
     # 1793. 好子数组的最大分数 (Maximum Score of a Good Subarray) --单调栈
     def maximumScore(self, nums: List[int], k: int) -> int:
@@ -2485,6 +2474,3 @@ class leetcode_2:
             return min(dfs(i + 1, j - stones[i]), dfs(i + 1, j + stones[i]))
         n = len(stones)
         return dfs(0, 0)
-                
-    
-    
