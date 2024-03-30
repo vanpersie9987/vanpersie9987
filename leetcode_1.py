@@ -1337,15 +1337,15 @@ class leetcode_1 :
     
     # 2742. 给墙壁刷油漆 (Painting the Walls)
     def paintWalls(self, cost: List[int], time: List[int]) -> int:
-       n = len(cost)
-       @cache
-       def dfs(i: int, j: int) -> int:
-          if i == n:
-             return inf if j < 0 else 0
-          if n - i <= j:
-             return 0
-          return min(dfs(i + 1, time[i] + j) + cost[i], dfs(i + 1, j - 1))
-       return dfs(0, 0)
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0 if j >= 0 else inf
+            if n - i <= j:
+                return 0
+            return min(dfs(i + 1, j + time[i]) + cost[i], dfs(i + 1, j - 1))
+        n = len(cost)
+        return dfs(0, 0)
     
     # 27. 移除元素 (Remove Element) 
     def removeElement(self, nums: List[int], val: int) -> int:
