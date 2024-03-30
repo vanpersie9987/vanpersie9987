@@ -5403,33 +5403,27 @@ class leetcode_1 :
     
     # 1774. 最接近目标价格的甜点成本 (Closest Dessert Cost)
     def closestCost(self, baseCosts: List[int], toppingCosts: List[int], target: int) -> int:
-       def dfs(i: int, j: int) -> None:
-          if i == m:
-             s.add(j)
-             return
-          for k in range(3):
-             dfs(i + 1, j + toppingCosts[i] * k)
-       s = set()
-       m = len(toppingCosts)
-       dfs(0, 0)
-       _list = list(s)
-       _list.sort()
-       diff = inf
-       res = inf
-       baseCosts.sort()
-       for base in baseCosts:
-          if base - target >= diff:
-             break
-          for top in _list:
-             _sum = base + top
-             if abs(_sum - target) < diff:
-                diff = abs(_sum - target)
-                res = _sum
-             elif abs(_sum - target) == diff and _sum < res:
-                res = _sum
-             if diff == 0:
-                return target
-       return res
+        def dfs(i: int, j: int) -> None:
+            if i == len(toppingCosts):
+                s.add(j)
+                return
+            for k in range(3):
+                dfs(i + 1, toppingCosts[i] * k + j)
+        s = set()
+        dfs(0, 0)
+        diff = inf
+        res = inf
+        for base in baseCosts:
+            for top in s:
+                _s = top + base
+                if abs(_s - target) < diff:
+                    res = _s
+                    diff = abs(_s - target)
+                elif abs(_s - target) == diff:
+                    res = min(res, _s)
+                if res == 0:
+                    break
+        return res
     
     # 2582. 递枕头 (Pass the Pillow)
     def passThePillow(self, n: int, time: int) -> int:
