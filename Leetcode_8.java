@@ -8704,16 +8704,16 @@ public class Leetcode_8 {
     }
 
     // 3082. 求出所有子序列的能量和 (Find the Sum of the Power of All Subsequences)
-    private int n3082;
     private int[] nums3082;
     private int k3082;
+    private int n3082;
     private int[][][] memo3082;
 
     public int sumOfPower(int[] nums, int k) {
-        this.nums3082 = nums;
-        this.n3082 = nums.length;
-        this.k3082 = k;
         int res = 0;
+        this.n3082 = nums.length;
+        this.nums3082 = nums;
+        this.k3082 = k;
         this.memo3082 = new int[n3082][k + 1][n3082 + 1];
         for (int i = 0; i < n3082; ++i) {
             for (int j = 0; j < k + 1; ++j) {
@@ -8721,37 +8721,26 @@ public class Leetcode_8 {
             }
         }
         final int MOD = (int) (1e9 + 7);
-        int[] pre = new int[n3082 + 1];
-        pre[0] = 1;
-        for (int i = 1; i < n3082 + 1; ++i) {
-            pre[i] = pre[i - 1] * 2 % MOD;
-        }
-        for (int i = 1; i <= n3082; ++i) {
-            int cur = dfs3082(0, 0, i);
-            res = (int) ((res + (long) cur * pre[n3082 - i] % MOD) % MOD);
+        int mul = 1;
+        for (int i = n3082; i >= 1; --i) {
+            res += ((long) dfs3082(0, 0, i) * mul) % MOD;
+            res %= MOD;
+            mul <<= 1;
+            mul %= MOD;
         }
         return res;
+
     }
 
-    private int dfs3082(int i, int j, int l) {
-        if (i == n3082) {
-            return (j == k3082 && l == 0) ? 1 : 0;
+    private int dfs3082(int i, int j, int c) {
+        if (i == n3082 || j >= k3082 || n3082 - i < c || c == 0) {
+            return c == 0 && j == k3082 ? 1 : 0;
         }
-        if (l == 0) {
-            return j == k3082 ? 1 : 0;
-        }
-        if (n3082 - i < l) {
-            return 0;
-        }
-        if (memo3082[i][j][l] != -1) {
-            return memo3082[i][j][l];
-        }
-        int res = dfs3082(i + 1, j, l);
-        if (l > 0 && nums3082[i] + j <= k3082) {
-            res += dfs3082(i + 1, nums3082[i] + j, l - 1);
+        if (memo3082[i][j][c] != -1) {
+            return memo3082[i][j][c];
         }
         final int MOD = (int) (1e9 + 7);
-        return memo3082[i][j][l] = res % MOD;
+        return memo3082[i][j][c] = (dfs3082(i + 1, j, c) + dfs3082(i + 1, j + nums3082[i], c - 1)) % MOD;
     }
 
     // 3083. 字符串及其反转中是否存在同一子字符串 (Existence of a Substring in a String and Its
@@ -8985,6 +8974,5 @@ public class Leetcode_8 {
         }
         return memo_sf_02[i][j] = res;
     }
-
 
 }
