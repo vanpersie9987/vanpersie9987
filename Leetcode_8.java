@@ -9170,7 +9170,7 @@ public class Leetcode_8 {
         return res;
     }
 
-    // 3102. 最小化曼哈顿距离 (Minimize Manhattan Distances)
+    // 3102. 最小化曼哈顿距离 (Minimize Manhattan Distances) --曼哈顿距离、切比雪夫距离
     public int minimumDistance(int[][] points) {
         TreeMap<Integer, Integer> tx = new TreeMap<>();
         TreeMap<Integer, Integer> ty = new TreeMap<>();
