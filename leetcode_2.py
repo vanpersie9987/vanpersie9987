@@ -40,8 +40,6 @@ from zoneinfo import reset_tzpath
 # pip3 install sortedcontainers
 from sortedcontainers import SortedList, SortedSet
 
-from symbol import return_stmt
-
 class leetcode_2:
     class TreeNode:
        def __init__(self, val=0, left=None, right=None):
@@ -2578,8 +2576,22 @@ class leetcode_2:
         MOD = 10 ** 9 + 7
         n = len(nums)
         return (pow(2, n, MOD) - dfs(0, 0) * 2) % MOD
-
-        
-
+    
+    # 3102. 最小化曼哈顿距离 (Minimize Manhattan Distances)
+    def minimumDistance(self, points: List[List[int]]) -> int:
+        sx = SortedList()
+        sy = SortedList()
+        for x, y in points:
+            sx.add(x + y)
+            sy.add(y - x)
+        res = inf
+        for x, y in points:
+            x, y = x + y, y - x
+            sx.remove(x)
+            sy.remove(y)
+            res = min(res, max(sx[-1] - sx[0], sy[-1] - sy[0]))
+            sx.add(x)
+            sy.add(y)
+        return res
 
 
