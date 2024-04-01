@@ -2577,7 +2577,7 @@ class leetcode_2:
         n = len(nums)
         return (pow(2, n, MOD) - dfs(0, 0) * 2) % MOD
     
-    # 3102. 最小化曼哈顿距离 (Minimize Manhattan Distances)
+    # 3102. 最小化曼哈顿距离 (Minimize Manhattan Distances) --曼哈顿距离、切比雪夫距离
     def minimumDistance(self, points: List[List[int]]) -> int:
         sx = SortedList()
         sy = SortedList()
