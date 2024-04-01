@@ -9118,4 +9118,56 @@ public class Leetcode_8 {
         return res;
     }
 
+    // 2518. 好分区的数目 (Number of Great Partitions)
+    private int[] nums2518;
+    private int n2518;
+    private int k2518;
+    private int[][] memo2518;
+
+    public int countPartitions(int[] nums, int k) {
+        long s = 0L;
+        for (int x : nums) {
+            s += x;
+        }
+        if (s < k * 2) {
+            return 0;
+        }
+        this.nums2518 = nums;
+        this.k2518 = k;
+        this.n2518 = nums.length;
+        this.memo2518 = new int[n2518][k];
+        for (int i = 0; i < n2518; ++i) {
+            Arrays.fill(memo2518[i], -1);
+        }
+        final int MOD = (int) (1e9 + 7);
+        return ((pow2518(2, n2518) - dfs2518(0, 0) * 2) % MOD + MOD) % MOD;
+    }
+
+    private int dfs2518(int i, int j) {
+        if (j >= k2518) {
+            return 0;
+        }
+        if (i == n2518) {
+            return 1;
+        }
+        if (memo2518[i][j] != -1) {
+            return memo2518[i][j];
+        }
+        final int MOD = (int) (1e9 + 7);
+        return memo2518[i][j] = (dfs2518(i + 1, j) + dfs2518(i + 1, j + nums2518[i])) % MOD;
+    }
+
+    private int pow2518(int a, int b) {
+        if (b == 0) {
+            return 1;
+        }
+        int res = pow2518(a, b >> 1);
+        final int MOD = (int) (1e9 + 7);
+        res = (int) ((long) res * res % MOD);
+        if ((b & 1) == 1) {
+            res = (int) ((long) res * a % MOD);
+        }
+        return res;
+    }
+
 }
