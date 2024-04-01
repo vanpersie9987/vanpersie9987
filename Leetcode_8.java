@@ -9140,7 +9140,7 @@ public class Leetcode_8 {
             Arrays.fill(memo2518[i], -1);
         }
         final int MOD = (int) (1e9 + 7);
-        return ((pow2518(2, n2518) - dfs2518(0, 0) * 2) % MOD + MOD) % MOD;
+        return (pow2518(2, n2518) - dfs2518(0, 0) * 2 % MOD + MOD) % MOD;
     }
 
     private int dfs2518(int i, int j) {
