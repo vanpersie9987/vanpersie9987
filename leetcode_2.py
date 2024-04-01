@@ -2563,6 +2563,23 @@ class leetcode_2:
             res += cnt
             pre = x
         return res
+    
+    # 2518. 好分区的数目 (Number of Great Partitions)
+    def countPartitions(self, nums: List[int], k: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if j >= k:
+                return 0
+            if i == n:
+                return 1
+            return (dfs(i + 1, j) + dfs(i + 1, j + nums[i])) % MOD
+        if sum(nums) < k * 2:
+            return 0
+        MOD = 10 ** 9 + 7
+        n = len(nums)
+        return (pow(2, n, MOD) - dfs(0, 0) * 2) % MOD
+
+        
 
 
 
