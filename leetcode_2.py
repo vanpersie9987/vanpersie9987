@@ -27,7 +27,7 @@ from tabnanny import check
 from textwrap import indent
 from tkinter import N, NO, W
 from tkinter.tix import Tree
-from turtle import mode, reset, right, st
+from turtle import mode, pos, reset, right, st
 from typing import List, Optional
 import heapq
 import bisect
@@ -2488,3 +2488,44 @@ class leetcode_2:
         nums.sort()
         MOD = 10 ** 9 + 7
         return dfs(n - 1, k, inf, inf)
+    
+    # 3095. 或值至少 K 的最短子数组 I (Shortest Subarray With OR at Least K I)
+    # 3097. 或值至少为 K 的最短子数组 II (Shortest Subarray With OR at Least K II)
+    def minimumSubarrayLength(self, nums: List[int], k: int) -> int:
+        def operate(x: int, sign: int) -> None:
+            i = 0
+            while x:
+                cnt[i] += (x & 1) * sign
+                x >>= 1
+                i += 1
+        def check() -> bool:
+            b = 0
+            for i, c in enumerate(cnt):
+                if c:
+                    b |= 1 << i
+            return b >= k
+        res = inf
+        i = 0
+        j = 0
+        n = len(nums)
+        cnt = [0] * 31
+        while i < n:
+            operate(nums[i], 1)
+            while j <= i and check():
+                res = min(res, i - j + 1)
+                operate(nums[j], -1)
+                j += 1
+            i += 1
+        return -1 if res == inf else res
+    
+    # 3096. 得到更多分数的最少关卡数目 (Minimum Levels to Gain More Points)
+    def minimumLevels(self, possible: List[int]) -> int:
+        n = len(possible)
+        s = sum(possible) * 2 - n
+        pre = 0
+        for i, v in enumerate(possible[:-1]):
+            pre += v * 2 - 1
+            if pre > s - pre:
+                return i + 1
+        return -1
+
