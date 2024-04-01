@@ -2474,3 +2474,17 @@ class leetcode_2:
             return min(dfs(i + 1, j - stones[i]), dfs(i + 1, j + stones[i]))
         n = len(stones)
         return dfs(0, 0)
+    
+    # 3098. 求出所有子序列的能量和 (Find the Sum of Subsequence Powers)
+    def sumOfPowers(self, nums: List[int], k: int) -> int:
+        @cache
+        def dfs(i: int, j: int, pre: int, min_diff: int) -> int:
+            if i + 1 < j:
+                return 0
+            if j == 0:
+                return min_diff
+            return (dfs(i - 1, j, pre, min_diff) + dfs(i - 1, j - 1, nums[i], min(min_diff, pre - nums[i]))) % MOD
+        n = len(nums)
+        nums.sort()
+        MOD = 10 ** 9 + 7
+        return dfs(n - 1, k, inf, inf)

@@ -8975,4 +8975,107 @@ public class Leetcode_8 {
         return memo_sf_02[i][j] = res;
     }
 
+    // 3096. 得到更多分数的最少关卡数目 (Minimum Levels to Gain More Points)
+    public int minimumLevels(int[] possible) {
+        int n = possible.length;
+        int sum = 0;
+        for (int p : possible) {
+            sum += p * 2 - 1;
+        }
+        int cur = 0;
+        for (int i = 0; i < n - 1; ++i) {
+            cur += possible[i] * 2 - 1;
+            if (cur > sum - cur) {
+                return i + 1;
+            }
+        }
+        return -1;
+    }
+
+    // 3095. 或值至少 K 的最短子数组 I (Shortest Subarray With OR at Least K I)
+    // 3097. 或值至少为 K 的最短子数组 II (Shortest Subarray With OR at Least K II)
+    public int minimumSubarrayLength(int[] nums, int k) {
+        int[] cnt = new int[32];
+        int i = 0;
+        int j = 0;
+        int n = nums.length;
+        int res = Integer.MAX_VALUE;
+        while (i < n) {
+            operate3095(cnt, nums[i], 1);
+            while (j <= i && check3095(cnt, k)) {
+                res = Math.min(res, i - j + 1);
+                operate3095(cnt, nums[j], -1);
+                ++j;
+            }
+            ++i;
+        }
+        return res == Integer.MAX_VALUE ? -1 : res;
+
+    }
+
+    private boolean check3095(int[] cnt, int k) {
+        int b = 0;
+        for (int i = 0; i < 32; ++i) {
+            if (cnt[i] != 0) {
+                b |= 1 << i;
+            }
+        }
+        return b >= k;
+    }
+
+    private void operate3095(int[] cnt, int x, int sign) {
+        int i = 0;
+        while (x != 0) {
+            cnt[i] += (x % 2) * sign;
+            x >>= 1;
+            ++i;
+        }
+    }
+
+    public int sumOfTheDigitsOfHarshadNumber(int x) {
+        int s = 0;
+        int c = x;
+        while (c != 0) {
+            s += c % 10;
+            c /= 10;
+        }
+        return x % s == 0 ? s : -1;
+    }
+
+    public int maxBottlesDrunk(int numBottles, int numExchange) {
+        int res = numBottles;
+        int empty = numBottles;
+        int full = 0;
+        while (empty >= numExchange) {
+            while (empty >= numExchange) {
+                ++full;
+                empty -= numExchange;
+                ++numExchange;
+            }
+            res += full;
+            empty += full;
+            full = 0;
+        }
+        return res;
+
+    }
+
+    public long countAlternatingSubarrays(int[] nums) {
+        long res = 0L;
+        int cnt = 0;
+        int pre = -1;
+        for (int x : nums) {
+            if (x != pre) {
+                ++cnt;           
+            } else {
+                cnt = 1;
+            }
+            res += cnt;
+            pre = x;
+        }
+        return res;
+
+
+    }
+
 }
