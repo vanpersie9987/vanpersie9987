@@ -2528,4 +2528,41 @@ class leetcode_2:
             if pre > s - pre:
                 return i + 1
         return -1
+    
+    # 3099. 哈沙德数 (Harshad Number)
+    def sumOfTheDigitsOfHarshadNumber(self, x: int) -> int:
+        c = x
+        s = 0
+        while c:
+            s += c % 10
+            c //= 10
+        return -1 if x % s else s
+    
+    # 3100. 换水问题 II (Water Bottles II)
+    def maxBottlesDrunk(self, numBottles: int, numExchange: int) -> int:
+        res = numBottles
+        full = 0
+        empty = numBottles
+        while empty >= numExchange:
+            while empty >= numExchange:
+                full += 1
+                empty -= numExchange
+                numExchange += 1
+            res += full
+            empty += full
+            full = 0
+        return res
+    
+    # 3101. 交替子数组计数 (Count Alternating Subarrays)
+    def countAlternatingSubarrays(self, nums: List[int]) -> int:
+        res = 0
+        cnt = 0
+        pre = -1
+        for x in nums:
+            cnt = cnt + 1 if pre != x else 1
+            res += cnt
+            pre = x
+        return res
+
+
 

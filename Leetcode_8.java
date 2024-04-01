@@ -9075,6 +9075,7 @@ public class Leetcode_8 {
         return res;
     }
 
+    // 3099. 哈沙德数 (Harshad Number)
     public int sumOfTheDigitsOfHarshadNumber(int x) {
         int s = 0;
         int c = x;
@@ -9085,6 +9086,7 @@ public class Leetcode_8 {
         return x % s == 0 ? s : -1;
     }
 
+    // 3100. 换水问题 II (Water Bottles II)
     public int maxBottlesDrunk(int numBottles, int numExchange) {
         int res = numBottles;
         int empty = numBottles;
@@ -9103,22 +9105,17 @@ public class Leetcode_8 {
 
     }
 
+    // 3101. 交替子数组计数 (Count Alternating Subarrays)
     public long countAlternatingSubarrays(int[] nums) {
         long res = 0L;
         int cnt = 0;
         int pre = -1;
         for (int x : nums) {
-            if (x != pre) {
-                ++cnt;           
-            } else {
-                cnt = 1;
-            }
+            cnt = x != pre ? cnt + 1 : 1;
             res += cnt;
             pre = x;
         }
         return res;
-
-
     }
 
 }
