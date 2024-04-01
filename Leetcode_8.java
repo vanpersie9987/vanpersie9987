@@ -9170,4 +9170,32 @@ public class Leetcode_8 {
         return res;
     }
 
+    // 3102. 最小化曼哈顿距离 (Minimize Manhattan Distances)
+    public int minimumDistance(int[][] points) {
+        TreeMap<Integer, Integer> tx = new TreeMap<>();
+        TreeMap<Integer, Integer> ty = new TreeMap<>();
+        for (int[] p : points) {
+            tx.merge(p[0] + p[1], 1, Integer::sum);
+            ty.merge(p[1] - p[0], 1, Integer::sum);
+        }
+        int res = Integer.MAX_VALUE;
+        for (int[] p : points) {
+            int x = p[0] + p[1];
+            int y = p[1] - p[0];
+            tx.merge(x, -1, Integer::sum);
+            ty.merge(y, -1, Integer::sum);
+            if (tx.get(x) == 0) {
+                tx.remove(x);
+            }
+            if (ty.get(y) == 0) {
+                ty.remove(y);
+            }
+            res = Math.min(res, Math.max(tx.lastKey() - tx.firstKey(), ty.lastKey() - ty.firstKey()));
+            tx.merge(x, 1, Integer::sum);
+            ty.merge(y, 1, Integer::sum);
+        }
+        return res;
+
+    }
+
 }
