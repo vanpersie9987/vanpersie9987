@@ -9032,6 +9032,49 @@ public class Leetcode_8 {
         }
     }
 
+    // 3098. 求出所有子序列的能量和 (Find the Sum of Subsequence Powers)
+    private int[] nums3098;
+    private Map<Integer, Integer> memo3098;
+    private Map<Integer, Integer> map3098;
+    private int n3098;
+    public int sumOfPowers(int[] nums, int k) {
+        this.n3098 = nums.length;
+        Arrays.sort(nums);
+        this.map3098 = new HashMap<>();
+        int id = 0;
+        for (int i = 0; i < n3098; ++i) {
+            for (int j = i + 1; j < n3098; ++j) {
+                int abs = Math.abs(nums[i] - nums[j]);
+                if (!map3098.containsKey(abs)) {
+                    map3098.put(abs, id++);
+                }
+            }
+        }
+        map3098.put(Integer.MAX_VALUE / 2, id++);
+        this.nums3098 = nums;
+        this.memo3098 = new HashMap<>();
+        return dfs3098(n3098 - 1, k, n3098, Integer.MAX_VALUE / 2);
+    }
+
+    private int dfs3098(int i, int j, int pre, int minDiff) {
+        if (i + 1 < j) {
+            return 0;
+        }
+        if (j == 0) {
+            return minDiff;
+        }
+        int mask = (i << 24) | (j << 18) | (pre << 12) | map3098.get(minDiff);
+        if (memo3098.containsKey(mask)) {
+            return memo3098.get(mask);
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = (dfs3098(i - 1, j, pre, minDiff)
+                + dfs3098(i - 1, j - 1, i, pre == n3098 ? Integer.MAX_VALUE / 2 : Math.min(minDiff, nums3098[pre] - nums3098[i])))
+                % MOD;
+        memo3098.put(mask, res);
+        return res;
+    }
+
     public int sumOfTheDigitsOfHarshadNumber(int x) {
         int s = 0;
         int c = x;
