@@ -2613,6 +2613,20 @@ class leetcode_2:
                             l.append(node)
             return l
         return dfs(n)
+    
+    # 956. 最高的广告牌 (Tallest Billboard)
+    def tallestBillboard(self, rods: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0 if j == 0 else -inf
+            if abs(j) > s // 2:
+                return -inf
+            return max(dfs(i + 1, j + rods[i]) + rods[i], dfs(i + 1, j - rods[i]), dfs(i + 1, j))
+        s = sum(rods)
+        n = len(rods)
+        return dfs(0, 0)
+
         
 
 
