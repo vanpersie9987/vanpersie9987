@@ -9230,4 +9230,38 @@ public class Leetcode_8 {
                 Math.max(dfs956(i + 1, j + rods956[i]) + rods956[i], dfs956(i + 1, j - rods956[i])));
     }
 
+    // LCP 47. 入场安检
+    private int[] capacities_lcp_47;
+    private int[][] memo_lcp_47;
+    private int[] pre_lcp_47;
+
+    public int securityCheck(int[] capacities, int k) {
+        this.capacities_lcp_47 = capacities;
+        int n = capacities.length;
+        this.memo_lcp_47 = new int[n][k + 1];
+        this.pre_lcp_47 = new int[n];
+        pre_lcp_47[0] = capacities[0];
+        for (int i = 1; i < n; ++i) {
+            pre_lcp_47[i] = pre_lcp_47[i - 1] + capacities[i];
+        }
+        return dfs_lcp_47(n - 1, k);
+
+    }
+
+    private int dfs_lcp_47(int i, int j) {
+        if (j < 0) {
+            return 0;
+        }
+        if (i < 0) {
+            return j == 0 ? 1 : 0;
+        }
+        if (pre_lcp_47[i] - (i + 1) < j) {
+            return 0;
+        }
+        if (memo_lcp_47[i][j] != 0) {
+            return memo_lcp_47[i][j];
+        }
+        final int MOD = (int) (1e9 + 7);
+        return memo_lcp_47[i][j] = (dfs_lcp_47(i - 1, j) + dfs_lcp_47(i - 1, j - (capacities_lcp_47[i] - 1))) % MOD;
+    }
 }
