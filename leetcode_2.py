@@ -2642,3 +2642,16 @@ class leetcode_2:
         MOD = 10 ** 9 + 7
         pre = list(accumulate(capacities))
         return dfs(n - 1, k)
+    
+    # 1379. 找出克隆二叉树中的相同节点 (Find a Corresponding Node of a Binary Tree in a Clone of That Tree)
+    def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
+        def dfs(x: TreeNode, y: TreeNode) -> TreeNode:
+            if x is None:
+                return None
+            if x == target:
+                return y
+            res1 = dfs(x.left, y.left)
+            if res1 is not None:
+                return res1
+            return dfs(x.right, y.right)
+        return dfs(original, cloned)
