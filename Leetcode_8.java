@@ -9198,4 +9198,36 @@ public class Leetcode_8 {
 
     }
 
+    // 956. 最高的广告牌 (Tallest Billboard)
+    private int[] rods956;
+    private int n956;
+    private int sum956;
+    private int[][] memo956;
+
+    public int tallestBillboard(int[] rods) {
+        this.rods956 = rods;
+        this.n956 = rods.length;
+        this.sum956 = Arrays.stream(rods).sum();
+        this.memo956 = new int[n956][sum956 * 2 + 1];
+        for (int i = 0; i < n956; ++i) {
+            Arrays.fill(memo956[i], -1);
+        }
+        return dfs956(0, 0);
+
+    }
+
+    private int dfs956(int i, int j) {
+        if (i == n956) {
+            return j == 0 ? 0 : (int) -1e8;
+        }
+        if (Math.abs(j) > sum956 / 2) {
+            return (int) -1e8;
+        }
+        if (memo956[i][j + sum956] != -1) {
+            return memo956[i][j + sum956];
+        }
+        return memo956[i][j + sum956] = Math.max(dfs956(i + 1, j),
+                Math.max(dfs956(i + 1, j + rods956[i]) + rods956[i], dfs956(i + 1, j - rods956[i])));
+    }
+
 }
