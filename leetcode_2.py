@@ -2635,11 +2635,16 @@ class leetcode_2:
                 return 0
             if i == n:
                 return j == 0
+            if suf[i] - (n - i) < j:
+                return 0
             return (dfs(i + 1, j - (capacities[i] - 1)) + dfs(i + 1, j)) % MOD
         n = len(capacities)
         MOD = 10 ** 9 + 7
+        suf = [0] * n
+        suf[-1] = capacities[-1]
+        for i in range(n - 2, -1, -1):
+            suf[i] = suf[i + 1] + capacities[i]
         res = dfs(0, k)
-        dfs.cache_clear()
         return res
 
         
