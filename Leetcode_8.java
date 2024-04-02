@@ -9239,6 +9239,9 @@ public class Leetcode_8 {
         this.capacities_lcp_47 = capacities;
         int n = capacities.length;
         this.memo_lcp_47 = new int[n][k + 1];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo_lcp_47[i], -1);
+        }
         this.pre_lcp_47 = new int[n];
         pre_lcp_47[0] = capacities[0];
         for (int i = 1; i < n; ++i) {
@@ -9258,7 +9261,7 @@ public class Leetcode_8 {
         if (pre_lcp_47[i] - (i + 1) < j) {
             return 0;
         }
-        if (memo_lcp_47[i][j] != 0) {
+        if (memo_lcp_47[i][j] != -1) {
             return memo_lcp_47[i][j];
         }
         final int MOD = (int) (1e9 + 7);
