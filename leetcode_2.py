@@ -2626,6 +2626,21 @@ class leetcode_2:
         s = sum(rods)
         n = len(rods)
         return dfs(0, 0)
+    
+    # LCP 47. 入场安检
+    def securityCheck(self, capacities: List[int], k: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if j < 0:
+                return 0
+            if i == n:
+                return j == 0
+            return (dfs(i + 1, j - (capacities[i] - 1)) + dfs(i + 1, j)) % MOD
+        n = len(capacities)
+        MOD = 10 ** 9 + 7
+        res = dfs(0, k)
+        dfs.cache_clear()
+        return res
 
         
 
