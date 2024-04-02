@@ -9622,32 +9622,27 @@ public class LeetCode_4 {
     }
 
     // 279. 完全平方数 (Perfect Squares) --记忆化搜索
-    private int[] memo279;
+    private int[][] memo279;
+    private int n279;
 
     public int numSquares(int n) {
-        memo279 = new int[n + 1];
-        Arrays.fill(memo279, -1);
-        return dfs279(n);
+        this.n279 = n;
+        memo279 = new int[(int) Math.sqrt(n) + 1][n + 1];
+        for (int i = 0; i < (int) Math.sqrt(n) + 1; ++i) {
+            Arrays.fill(memo279[i], -1);
+        }
+        return dfs279((int) Math.sqrt(n), 0);
 
     }
 
-    private int dfs279(int n) {
-        if (n == 0) {
-            return 0;
+    private int dfs279(int i, int j) {
+        if (j >= n279 || i == 0) {
+            return j == n279 ? 0 : (int) 1e8;
         }
-        int sqrt = (int) Math.sqrt(n);
-        if (sqrt * sqrt == n) {
-            return 1;
+        if (memo279[i][j] != -1) {
+            return memo279[i][j];
         }
-        if (memo279[n] != -1) {
-            return memo279[n];
-        }
-        int res = Integer.MAX_VALUE;
-        while (sqrt >= 1) {
-            res = Math.min(res, dfs279(n - sqrt * sqrt) + 1);
-            --sqrt;
-        }
-        return memo279[n] = res;
+        return memo279[i][j] = Math.min(dfs279(i - 1, j), dfs279(i, j + i * i) + 1);
     }
 
     // 279. 完全平方数 (Perfect Squares)
