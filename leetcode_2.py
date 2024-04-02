@@ -2593,5 +2593,26 @@ class leetcode_2:
             sx.add(x)
             sy.add(y)
         return res
+    
+    # 894. 所有可能的真二叉树 (All Possible Full Binary Trees)
+    def allPossibleFBT(self, n: int) -> List[Optional[TreeNode]]:
+        @cache
+        def dfs(c: int) -> List[Optional[TreeNode]]:
+            l = []
+            if c == 1:
+                l.append(TreeNode(0))
+            elif c % 2 == 1:
+                for i in range(1, c, 2):
+                    l1 = dfs(i)
+                    l2 = dfs(c - i - 1)
+                    for left in l1:
+                        for right in l2:
+                            node = TreeNode(0)
+                            node.left = left
+                            node.right = right
+                            l.append(node)
+            return l
+        return dfs(n)
+        
 
 
