@@ -9661,36 +9661,32 @@ public class Leetcode_7 {
         return memo6893[pre][mask] = res;
     }
 
-    // 6447. 给墙壁刷油漆 (Painting the Walls)
-    private int[][] memo6447;
-    private int n6447;
-    private int[] time6447;
-    private int[] cost6447;
+    // 2742. 给墙壁刷油漆 (Painting the Walls)
+    private int[][] memo2742;
+    private int n2742;
+    private int[] time2742;
+    private int[] cost2742;
 
     public int paintWalls(int[] cost, int[] time) {
-        this.n6447 = cost.length;
-        this.memo6447 = new int[n6447][n6447 + 501];
-        this.cost6447 = cost;
-        this.time6447 = time;
-        for (int i = 0; i < n6447; ++i) {
-            Arrays.fill(memo6447[i], -1);
-        }
-        return dfs6447(0, 0);
+        this.n2742 = cost.length;
+        this.memo2742 = new int[n2742][n2742 + n2742];
+        this.cost2742 = cost;
+        this.time2742 = time;
+        return dfs2742(0, 0);
 
     }
 
-    private int dfs6447(int i, int t) {
-        if (i == n6447) {
+    private int dfs2742(int i, int t) {
+        if (i == n2742) {
             return t >= 0 ? 0 : (int) 1e9;
         }
-        if (t >= n6447 - i) {
+        if (t >= n2742 - i) {
             return 0;
         }
-        if (memo6447[i][t + 501] != -1) {
-            return memo6447[i][t + 501];
+        if (memo2742[i][t + n2742] != 0) {
+            return memo2742[i][t + n2742];
         }
-        return memo6447[i][t + 501] = Math.min(dfs6447(i + 1, time6447[i] + t) + cost6447[i], dfs6447(i + 1, t - 1));
-
+        return memo2742[i][t + n2742] = Math.min(dfs2742(i + 1, time2742[i] + t) + cost2742[i], dfs2742(i + 1, t - 1));
     }
 
     // 1595. 连通两组点的最小成本 (Minimum Cost to Connect Two Groups of Points)
