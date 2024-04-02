@@ -2642,7 +2642,3 @@ class leetcode_2:
         MOD = 10 ** 9 + 7
         pre = list(accumulate(capacities))
         return dfs(n - 1, k)
-
-        
-
-

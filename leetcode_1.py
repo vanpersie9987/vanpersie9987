@@ -7084,19 +7084,14 @@ class leetcode_1 :
 
     # 279. 完全平方数 (Perfect Squares)
     def numSquares(self, n: int) -> int:
-       @cache
-       def dfs(i: int) -> int:
-          if i == n:
-             return 0
-          _sqrt = int(sqrt(n - i))
-          if _sqrt * _sqrt == n - i:
-             return 1
-          res = inf
-          while _sqrt >= 1:
-             res = min(res, dfs(_sqrt * _sqrt + i) + 1)
-             _sqrt -= 1
-          return res
-       return dfs(0)
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if j >= n or i == 0:
+                return 0 if j == n else inf
+            return min(dfs(i, i * i + j) + 1, dfs(i - 1, j))
+        res = dfs(isqrt(n), 0)
+        dfs.cache_clear()
+        return res
     
     # 221. 最大正方形 (Maximal Square)
     def maximalSquare(self, matrix: List[List[str]]) -> int:
