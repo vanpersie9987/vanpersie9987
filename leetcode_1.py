@@ -1970,20 +1970,18 @@ class leetcode_1 :
     
     # 1449. 数位成本和为目标值的最大数字 (Form Largest Integer With Digits That Add up to Target)
     def largestNumber(self, cost: List[int], target: int) -> str:
-       
-       @cache
-       def dfs(i: int) -> str:
-          if i == target:
-             return ""
-          res = ""
-          for j in range(0, 9):
-             if cost[j] + i <= target:
-                s = str(j + 1) + dfs(cost[j] + i)
-                if '0' not in s:
-                   if len(s) > len(res) or len(s) == len(res) and s > res:
-                      res = s
-          return "0" if res == "" else res
-       return dfs(0)
+        @cache
+        def dfs(i: int) -> str:
+            if i == target:
+                return ''
+            res = ''
+            for j in range(9):
+                if cost[j] + i <= target:
+                    cur = str(j + 1) + dfs(cost[j] + i)
+                    if '0' not in cur and (len(cur) > len(res) or len(cur) == len(res) and cur > res):
+                        res = cur
+            return '0' if res == '' else res
+        return dfs(0)
     
     # 389. 找不同 (Find the Difference)
     def findTheDifference(self, s: str, t: str) -> str:
