@@ -2633,19 +2633,15 @@ class leetcode_2:
         def dfs(i: int, j: int) -> int:
             if j < 0:
                 return 0
-            if i == n:
+            if i < 0:
                 return j == 0
-            if suf[i] - (n - i) < j:
+            if pre[i] - (i + 1) < j:
                 return 0
-            return (dfs(i + 1, j - (capacities[i] - 1)) + dfs(i + 1, j)) % MOD
+            return (dfs(i - 1, j - (capacities[i] - 1)) + dfs(i - 1, j)) % MOD
         n = len(capacities)
         MOD = 10 ** 9 + 7
-        suf = [0] * n
-        suf[-1] = capacities[-1]
-        for i in range(n - 2, -1, -1):
-            suf[i] = suf[i + 1] + capacities[i]
-        res = dfs(0, k)
-        return res
+        pre = list(accumulate(capacities))
+        return dfs(n - 1, k)
 
         
 
