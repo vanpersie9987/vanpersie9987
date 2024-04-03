@@ -34,7 +34,7 @@ from math import comb, cos, gcd, inf, isqrt, sqrt
 from operator import le
 from pickletools import read_uint1
 from queue import PriorityQueue
-from re import X
+from re import M, X
 import re
 from socket import NI_NUMERICSERV
 from ssl import VERIFY_X509_TRUSTED_FIRST
@@ -6143,7 +6143,6 @@ class leetcode_1:
                 return abs(j) + suf[i]
             return min(dfs(i + 1, j - x) for x in mat[i])
         m = len(mat)
-        n = len(mat[0])
         suf = [min(mat[i]) for i in range(m)]
         for i in range(m - 2, -1, -1):
             suf[i] += suf[i + 1]
