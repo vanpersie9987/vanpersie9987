@@ -7502,14 +7502,11 @@ public class Leetcode_6 {
             Arrays.fill(memo1981[i], -1);
         }
         for (int i = m1981 - 1; i >= 0; --i) {
-            int min = Integer.MAX_VALUE;
-            for (int x : mat[i]) {
-                min = Math.min(min, x);
-            }
+            Arrays.sort(mat[i]);
             if (i < m1981 - 1) {
-                suf1981[i] = suf1981[i + 1] + min;
+                suf1981[i] = suf1981[i + 1] + mat[i][0];
             } else {
-                suf1981[i] = min;
+                suf1981[i] = mat[i][0];
             }
         }
         return dfs1981(0, target);
@@ -7528,6 +7525,9 @@ public class Leetcode_6 {
         int res = Integer.MAX_VALUE;
         for (int x : mat1981[i]) {
             res = Math.min(res, dfs1981(i + 1, j - x));
+            if (j - x <= 0) {
+                break;
+            }
         }
         return memo1981[i][j] = res;
     }
