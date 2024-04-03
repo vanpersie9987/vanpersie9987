@@ -9925,7 +9925,7 @@ public class LeetCode_4 {
         }
         int res = 0;
         final int MOD = (int) (1e9 + 7);
-        for (int x = 1; x <= k1155; ++x) {
+        for (int x = 1; x <= k1155 && j - x >= 0; ++x) {
             res += dfs1155(i - 1, j - x);
             res %= MOD;
         }
