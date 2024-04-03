@@ -1229,24 +1229,20 @@ class leetcode_1 :
     
     # 1155. 掷骰子等于目标和的方法数 (Number of Dice Rolls With Target Sum)
     def numRollsToTarget(self, n: int, k: int, target: int) -> int:
-       MOD = 10 ** 9 + 7
-       
-       @cache
-       def dfs(i: int, j: int) -> int:
-          if i == n:
-             return j == target
-          if j > target:
-             return 0
-          if n - i > target - j:
-             return 0
-          if (n - i) * k < target - j:
-             return 0
-          res = 0
-          for x in range(1, k + 1):
-             res += dfs(i + 1, j + x)
-             res %= MOD
-          return res
-       return dfs(0, 0)
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if j > target:
+                return 0
+            if i == n:
+                return j == target
+            if n - i > target - j:
+                return 0
+            if target - j > (n - i) * k:
+                return 0
+            return sum(dfs(i + 1, j + x) for x in range(1, k + 1)) % MOD
+
+        MOD = 10**9 + 7
+        return dfs(0, 0)
              
 
     # 1289. 下降路径最小和 II (Minimum Falling Path Sum II)
