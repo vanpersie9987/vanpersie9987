@@ -7488,37 +7488,48 @@ public class Leetcode_6 {
 
     // 1981. 最小化目标值与所选元素的差 (Minimize the Difference Between Target and Chosen
     // Elements)
+    private int[] suf1981;
     private int m1981;
-    private int n1981;
-    private int res1981;
     private int[][] mat1981;
-    private int target1981;
-    private boolean[][] memo1981;
+    private int[][] memo1981;
 
     public int minimizeTheDifference(int[][] mat, int target) {
-        this.m1981 = mat.length;
-        this.n1981 = mat[0].length;
         this.mat1981 = mat;
-        this.target1981 = target;
-        this.memo1981 = new boolean[m1981][5000];
-        res1981 = Integer.MAX_VALUE;
-        dfs1981(0, 0);
-        return res1981;
-
+        this.m1981 = mat.length;
+        this.suf1981 = new int[m1981];
+        this.memo1981 = new int[m1981][target + 1];
+        for (int i = 0; i < m1981; ++i) {
+            Arrays.fill(memo1981[i], -1);
+        }
+        for (int i = m1981 - 1; i >= 0; --i) {
+            int min = Integer.MAX_VALUE;
+            for (int x : mat[i]) {
+                min = Math.min(min, x);
+            }
+            if (i < m1981 - 1) {
+                suf1981[i] = suf1981[i + 1] + min;
+            } else {
+                suf1981[i] = min;
+            }
+        }
+        return dfs1981(0, target);
     }
 
-    private void dfs1981(int i, int sum) {
+    private int dfs1981(int i, int j) {
         if (i == m1981) {
-            res1981 = Math.min(res1981, Math.abs(sum - target1981));
-            return;
+            return Math.abs(j);
         }
-        if (sum - target1981 >= res1981 || memo1981[i][sum]) {
-            return;
+        if (j <= 0) {
+            return Math.abs(j) + suf1981[i];
         }
-        memo1981[i][sum] = true;
-        for (int j = 0; j < n1981; ++j) {
-            dfs1981(i + 1, sum + mat1981[i][j]);
+        if (memo1981[i][j] != -1) {
+            return memo1981[i][j];
         }
+        int res = Integer.MAX_VALUE;
+        for (int x : mat1981[i]) {
+            res = Math.min(res, dfs1981(i + 1, j - x));
+        }
+        return memo1981[i][j] = res;
     }
 
     // 1377. T 秒后青蛙的位置 (Frog Position After T Seconds)
