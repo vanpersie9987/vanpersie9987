@@ -6136,21 +6136,18 @@ class leetcode_1:
     # 1981. 最小化目标值与所选元素的差 (Minimize the Difference Between Target and Chosen Elements)
     def minimizeTheDifference(self, mat: List[List[int]], target: int) -> int:
         @cache
-        def dfs(i: int, j: int) -> None:
+        def dfs(i: int, j: int) -> int:
             if i == m:
-                nonlocal res
-                res = min(res, abs(j - target))
-                return
-            if j - target >= res:
-                return
-            for k in range(n):
-                dfs(i + 1, j + mat[i][k])
-
+                return abs(j)
+            if j <= 0:
+                return abs(j) + suf[i]
+            return min(dfs(i + 1, j - x) for x in mat[i])
         m = len(mat)
         n = len(mat[0])
-        res = inf
-        dfs(0, 0)
-        return res
+        suf = [min(mat[i]) for i in range(m)]
+        for i in range(m - 2, -1, -1):
+            suf[i] += suf[i + 1]
+        return dfs(0, target)
 
     # 473. 火柴拼正方形 (Matchsticks to Square)
     def makesquare(self, matchsticks: List[int]) -> bool:

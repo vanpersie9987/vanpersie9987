@@ -2811,5 +2811,3 @@ class leetcode_2:
             return dfs(x.right, y.right)
 
         return dfs(original, cloned)
-
-    
