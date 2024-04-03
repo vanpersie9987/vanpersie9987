@@ -2934,6 +2934,26 @@ public class Leetcode_3 {
         return null;
     }
 
+    // 1379. 找出克隆二叉树中的相同节点 (Find a Corresponding Node of a Binary Tree in a Clone of
+    // That Tree)
+    public final TreeNode getTargetCopy2(final TreeNode original, final TreeNode cloned, final TreeNode target) {
+        return dfs1379(original, cloned, target);
+    }
+
+    private TreeNode dfs1379(TreeNode x, TreeNode y, TreeNode target) {
+        if (x == null) {
+            return null;
+        }
+        if (x == target) {
+            return y;
+        }
+        TreeNode res = dfs1379(x.left, y.left, target);
+        if (res != null) {
+            return res;
+        }
+        return dfs1379(x.right, y.right, target);
+    }
+
     // 515. 在每个树行中找最大值 (Find Largest Value in Each Tree Row) --bfs
     // 剑指 Offer II 044. 二叉树每层的最大值
     public List<Integer> largestValues(TreeNode root) {
