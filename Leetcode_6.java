@@ -9326,48 +9326,40 @@ public class Leetcode_6 {
     }
 
     // 2585. 获得分数的方法数 (Number of Ways to Earn Points)
-    int[][] memo2585;
-    int[][] types2585;
-    int target2585;
-    int n2585;
+    private int target2585;
+    private int[][] types2585;
+    private int n2585;
+    private int[][] memo2585;
 
     public int waysToReachTarget(int target, int[][] types) {
-        this.n2585 = types.length;
-        int sumScores = 0;
         this.target2585 = target;
-        for (int[] type : types) {
-            sumScores += type[0] * type[1];
-        }
-        if (sumScores < target) {
-            return 0;
-        }
         this.types2585 = types;
-        memo2585 = new int[n2585 + 1][Math.min(1000, sumScores) + 1];
-        for (int i = 0; i < n2585 + 1; ++i) {
+        this.n2585 = types.length;
+        this.memo2585 = new int[n2585][target + 1];
+        for (int i = 0; i < n2585; ++i) {
             Arrays.fill(memo2585[i], -1);
         }
         return dfs2585(0, 0);
 
     }
 
-    private int dfs2585(int i, int score) {
-        if (i == n2585 || score >= target2585) {
-            if (score == target2585) {
-                return 1;
-            }
+    private int dfs2585(int i, int j) {
+        if (j == target2585) {
+            return 1;
+        }
+        if (i == n2585) {
             return 0;
         }
-        if (memo2585[i][score] != -1) {
-            return memo2585[i][score];
+        if (memo2585[i][j] != -1) {
+            return memo2585[i][j];
         }
         int res = 0;
         final int MOD = (int) (1e9 + 7);
-        int curCount = types2585[i][0];
-        int curScore = types2585[i][1];
-        for (int j = 0; j <= curCount; ++j) {
-            res = (res + dfs2585(i + 1, score + j * curScore)) % MOD;
+        for (int k = 0; k <= types2585[i][0] && j + k * types2585[i][1] <= target2585; ++k) {
+            res += dfs2585(i + 1, j + k * types2585[i][1]);
+            res %= MOD;
         }
-        return memo2585[i][score] = res;
+        return memo2585[i][j] = res;
     }
 
     // 688. 骑士在棋盘上的概率 (Knight Probability in Chessboard)
