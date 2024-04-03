@@ -9905,31 +9905,20 @@ public class LeetCode_4 {
 
     // 1155. 掷骰子等于目标和的方法数 (Number of Dice Rolls With Target Sum)
     private int[][] memo1155;
-    private int n1155;
     private int k1155;
-    private int target1155;
 
     public int numRollsToTarget2(int n, int k, int target) {
-        this.n1155 = n;
+        this.memo1155 = new int[n + 1][target + 1];
         this.k1155 = k;
-        this.target1155 = target;
-        this.memo1155 = new int[n][target];
-        return dfs1155(0, 0);
-
+        return dfs1155(n, target);
     }
 
     private int dfs1155(int i, int j) {
-        if (i == n1155) {
-            return j == target1155 ? 1 : 0;
-        }
-        if (j >= target1155) {
+        if (i * k1155 < j || i > j || j < 0) {
             return 0;
         }
-        if ((n1155 - i) * k1155 < target1155 - j) {
-            return 0;
-        }
-        if (n1155 - i > target1155 - j) {
-            return 0;
+        if (i == 0) {
+            return j == 0 ? 1 : 0;
         }
         if (memo1155[i][j] != 0) {
             return memo1155[i][j];
@@ -9937,7 +9926,7 @@ public class LeetCode_4 {
         int res = 0;
         final int MOD = (int) (1e9 + 7);
         for (int x = 1; x <= k1155; ++x) {
-            res += dfs1155(i + 1, j + x);
+            res += dfs1155(i - 1, j - x);
             res %= MOD;
         }
         return memo1155[i][j] = res;
