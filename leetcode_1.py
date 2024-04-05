@@ -4224,25 +4224,25 @@ class leetcode_1:
 
     # 2192. 有向无环图中一个节点的所有祖先 (All Ancestors of a Node in a Directed Acyclic Graph)
     def getAncestors(self, n: int, edges: List[List[int]]) -> List[List[int]]:
-        g = [[] for _ in range(n)]
         deg = [0] * n
-        for u, v in edges:
-            g[u].append(v)
-            deg[v] += 1
-        q = []
-        for i in range(n):
-            if not deg[i]:
+        g = [[] for _ in range(n)]
+        for f, t in edges:
+            deg[t] += 1
+            g[f].append(t)
+        res = [set() for _ in range(n)]
+        q = deque()
+        for i, d in enumerate(deg):
+            if d == 0:
                 q.append(i)
-        l = [set() for _ in range(n)]
         while q:
-            x = q.pop(0)
+            x = q.popleft()
             for y in g[x]:
-                l[y].add(x)
-                l[y].update(l[x])
+                res[y].add(x)
+                res[y].update(res[x])
                 deg[y] -= 1
-                if not deg[y]:
+                if deg[y] == 0:
                     q.append(y)
-        return [sorted(l[i]) for i in range(n)]
+        return [sorted(res[i]) for i in range(n)]
 
     # 2195. 向数组中追加 K 个整数 (Append K Integers With Minimal Sum)
     def minimalKSum(self, nums: List[int], k: int) -> int:
@@ -6142,6 +6142,7 @@ class leetcode_1:
             if j <= 0:
                 return abs(j) + suf[i]
             return min(dfs(i + 1, j - x) for x in mat[i])
+
         m = len(mat)
         suf = [min(mat[i]) for i in range(m)]
         for i in range(m - 2, -1, -1):
