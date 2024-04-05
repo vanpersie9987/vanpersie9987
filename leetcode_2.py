@@ -2820,8 +2820,8 @@ class leetcode_2:
             left = dfs(node.left)
             right = dfs(node.right)
             ret = [node.val, node.val]
+            nonlocal res
             if left:
-                nonlocal res
                 res = max(res, abs(node.val - left[0]), abs(node.val - left[1]))
                 ret[0] = min(ret[0], left[0])
                 ret[1] = max(ret[1], left[1])
