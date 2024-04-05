@@ -2814,7 +2814,7 @@ class leetcode_2:
 
     # 1026. 节点与其祖先之间的最大差值 (Maximum Difference Between Node and Ancestor)
     def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
-        def dfs(node: 'TreeNode') -> tuple:
+        def dfs(node: "TreeNode") -> tuple:
             if node is None:
                 return ()
             left = dfs(node.left)
@@ -2830,6 +2830,7 @@ class leetcode_2:
                 ret[0] = min(ret[0], right[0])
                 ret[1] = max(ret[1], right[1])
             return ret
+
         res = 0
         dfs(root)
         return res
