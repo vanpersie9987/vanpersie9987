@@ -4322,14 +4322,10 @@ public class LeetCode_4 {
         if (memo1143[i][j] != -1) {
             return memo1143[i][j];
         }
-        int max = 0;
         if (text1_1143.charAt(i) == text2_1143.charAt(j)) {
-            max = Math.max(max, dfs1143(i - 1, j - 1) + 1);
-        } else {
-            max = Math.max(max, dfs1143(i - 1, j));
-            max = Math.max(max, dfs1143(i, j - 1));
+            return memo1143[i][j] = dfs1143(i - 1, j - 1) + 1;
         }
-        return memo1143[i][j] = max;
+        return memo1143[i][j] = Math.max(dfs1143(i, j - 1), dfs1143(i - 1, j));
     }
 
     // 1143. 最长公共子序列 (Longest Common Subsequence) --二维dp
