@@ -5061,51 +5061,55 @@ public class Leetcode_7 {
 
     // 1483. 树节点的第 K 个祖先 (Kth Ancestor of a Tree Node)
     class TreeAncestor {
-        private Map<Integer, List<Integer>> g;
-        // 时间戳
-        private int times;
-        // key : level
-        // val : int[] { timeStamp, x }
-        private Map<Integer, List<int[]>> levelNodes;
-        // key : x
-        // val : int[] { level, timeStamp}
-        private Map<Integer, int[]> nodeToLevel;
+        private List<Integer>[] g;
+        private int t;
+        private List<int[]>[] level;
+        private Map<Integer, int[]> map;
 
         public TreeAncestor(int n, int[] parent) {
-            this.nodeToLevel = new HashMap<>();
-            g = new HashMap<>();
-            levelNodes = new HashMap<>();
-            for (int i = 0; i < n; ++i) {
-                g.computeIfAbsent(parent[i], k -> new ArrayList<>()).add(i);
+            this.t = 0;
+            this.g = new ArrayList[n];
+            Arrays.setAll(g, k -> new ArrayList<>());
+            for (int i = 1; i < parent.length; ++i) {
+                g[parent[i]].add(i);
             }
-            dfs(0, 0);
+            this.level = new ArrayList[n];
+            Arrays.setAll(level, k -> new ArrayList<>());
+            this.map = new HashMap<>();
+            dfs(0, 0, -1);
 
         }
 
-        private void dfs(int x, int level) {
-            nodeToLevel.put(x, new int[] { level, times });
-            levelNodes.computeIfAbsent(level, k -> new ArrayList<>()).add(new int[] { times++, x });
-            for (int y : g.getOrDefault(x, new ArrayList<>())) {
-                dfs(y, level + 1);
+        private void dfs(int x, int d, int fa) {
+            map.put(x, new int[] { d, t });
+            level[d].add(new int[] { x, t });
+            ++t;
+            for (int y : g[x]) {
+                if (y != fa) {
+                    dfs(y, d + 1, x);
+                }
             }
         }
 
         public int getKthAncestor(int node, int k) {
-            int[] cur = nodeToLevel.get(node);
-            int level = cur[0];
-            int timeStamp = cur[1];
-            List<int[]> kLevelNodes = levelNodes.getOrDefault(level - k, new ArrayList<>());
-            return binarySearchFloor(kLevelNodes, timeStamp);
+            int[] cur = map.get(node);
+            int d = cur[0];
+            int t = cur[1];
+            if (d - k < 0) {
+                return -1;
+            }
+            return bin_search(level[d - k], t);
+
         }
 
-        private int binarySearchFloor(List<int[]> list, int target) {
+        private int bin_search(List<int[]> list, int target) {
+            int res = -1;
             int left = 0;
             int right = list.size() - 1;
-            int res = -1;
             while (left <= right) {
                 int mid = left + ((right - left) >> 1);
-                if (list.get(mid)[0] < target) {
-                    res = list.get(mid)[1];
+                if (list.get(mid)[1] < target) {
+                    res = list.get(mid)[0];
                     left = mid + 1;
                 } else {
                     right = mid - 1;
