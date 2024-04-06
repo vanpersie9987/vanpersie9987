@@ -41,25 +41,24 @@ from zoneinfo import reset_tzpath
 # sudo python3 get-pip.py
 # pip3 install sortedcontainers
 from sortedcontainers import SortedList, SortedSet
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
 
 
 class leetcode_2:
-    class TreeNode:
-        def __init__(self, val=0, left=None, right=None):
-            self.val = val
-            self.left = left
-            self.right = right
-
-    class ListNode:
-        def __init__(self, val=0, next=None):
-            self.val = val
-            self.next = next
-
-    class Node:
-        def __init__(self, val=None, children=None):
-            self.val = val
-            self.children = children
-
     # LCP 30. 魔塔游戏
     def magicTower(self, nums: List[int]) -> int:
         if sum(nums) < 0:
@@ -2875,3 +2874,23 @@ class leetcode_2:
                 else:
                     right = mid - 1
             return res
+
+    # 86. 分隔链表 (Partition List)
+    def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:
+        cur0 = dummy0 = ListNode(0)
+        cur1 = dummy1 = ListNode(0)
+        while head:
+            if head.val < x:
+                cur0.next = head
+                cur0 = cur0.next
+            else:
+                cur1.next = head
+                cur1 = cur1.next
+            head = head.next
+        cur1.next = None
+        cur0.next = dummy1.next
+        return dummy0.next
+
+        
+
+
