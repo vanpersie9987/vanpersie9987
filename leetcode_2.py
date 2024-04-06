@@ -13,6 +13,7 @@ from functools import cache
 from inspect import modulesbyfile
 from itertools import accumulate, count, islice, pairwise, permutations
 from locale import DAY_4
+from logging import _Level
 from math import comb, cos, fabs, gcd, inf, isqrt, sqrt
 from mimetypes import init
 from operator import le, truediv
@@ -2834,3 +2835,43 @@ class leetcode_2:
         res = 0
         dfs(root)
         return res
+    
+    # 1483. 树节点的第 K 个祖先 (Kth Ancestor of a Tree Node)
+    class TreeAncestor:
+
+        def __init__(self, n: int, parent: List[int]):
+            self.t = 0
+            self.n = n
+            self.g = [[] for _ in range(n)]
+            for i, v in enumerate(parent[1:], 1):
+                self.g[v].append(i)
+            self.level = [[] for _ in range(n)]
+            self.node_to_layer = defaultdict(tuple)
+            self.dfs(0, 0, -1)
+
+        def dfs(self, x: int, d: int, fa: int) -> None:
+            self.level[d].append((x, self.t))
+            self.node_to_layer[x] = (d, self.t)
+            self.t += 1
+            for y in self.g[x]:
+                if y != fa:
+                    self.dfs(y, d + 1, x)
+
+        def getKthAncestor(self, node: int, k: int) -> int:
+            (d, t) = self.node_to_layer[node]
+            if d - k < 0:
+                return -1
+            return self.binary_search(self.level[d - k], t)
+
+        def binary_search(self, arr: List[tuple], target: int) -> int:
+            res = -1
+            left = 0
+            right = len(arr) - 1
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if arr[mid][1] < target:
+                    res = arr[mid][0]
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            return res
