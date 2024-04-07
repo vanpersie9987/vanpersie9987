@@ -2834,7 +2834,7 @@ class leetcode_2:
         res = 0
         dfs(root)
         return res
-    
+
     # 1483. 树节点的第 K 个祖先 (Kth Ancestor of a Tree Node)
     class TreeAncestor:
 
@@ -2891,6 +2891,27 @@ class leetcode_2:
         cur0.next = dummy1.next
         return dummy0.next
 
-        
+    # 1600. 王位继承顺序 (Throne Inheritance)
+    class ThroneInheritance:
 
+        def __init__(self, kingName: str):
+            self.dic = defaultdict(list)
+            self.death_name = set()
+            self.king = kingName
 
+        def birth(self, parentName: str, childName: str) -> None:
+            self.dic[parentName].append(childName)
+
+        def death(self, name: str) -> None:
+            self.death_name.add(name)
+
+        def getInheritanceOrder(self) -> List[str]:
+            self.res = []
+            self.dfs(self.king)
+            return self.res
+
+        def dfs(self, name: str) -> None:
+            if name not in self.death_name:
+                self.res.append(name)
+            for child in self.dic[name]:
+                self.dfs(child)
