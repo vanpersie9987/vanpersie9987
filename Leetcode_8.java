@@ -9329,7 +9329,6 @@ public class Leetcode_8 {
             if (nums[i] <= k && k <= nums[j]) {
                 ++i;
                 --j;
-                continue;
             } else {
                 break;
             }
@@ -9350,7 +9349,7 @@ public class Leetcode_8 {
 
     }
 
-    // 3108. 带权图里旅途的最小代价 (Minimum Cost Walk in Weighted Graph)
+    // 3108. 带权图里旅途的最小代价 (Minimum Cost Walk in Weighted Graph) --并查集
     public int[] minimumCost(int n, int[][] edges, int[][] query) {
         Union3108 union = new Union3108(n);
         Map<Integer, Integer> map = new HashMap<>();
@@ -9421,6 +9420,49 @@ public class Leetcode_8 {
                 }
             }
         }
+    }
+
+    // 3108. 带权图里旅途的最小代价 (Minimum Cost Walk in Weighted Graph) --dfs
+    public int[] minimumCost2(int n, int[][] edges, int[][] query) {
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            int u = e[0];
+            int v = e[1];
+            int w = e[2];
+            g[u].add(new int[] { v, w });
+            g[v].add(new int[] { u, w });
+        }
+        int[] ids = new int[n];
+        Arrays.fill(ids, -1);
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            if (ids[i] < 0) {
+                list.add(dfs(i, list.size(), g, ids));
+            }
+        }
+        int[] res = new int[query.length];
+        for (int i = 0; i < query.length; ++i) {
+            int s = query[i][0];
+            int t = query[i][1];
+            res[i] = s == t ? 0 : ids[s] != ids[t] ? -1 : list.get(ids[s]);
+        }
+        return res;
+    }
+
+    private int dfs(int x, int num, List<int[]>[] g, int[] ids) {
+        ids[x] = num;
+        int res = -1;
+        for (int[] nxt : g[x]) {
+            int y = nxt[0];
+            int w = nxt[1];
+            res &= w;
+            if (ids[y] < 0) {
+                res &= dfs(y, num, g, ids);
+            }
+        }
+        return res;
+
     }
 
 }
