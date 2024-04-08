@@ -3025,6 +3025,27 @@ class leetcode_2:
             else:
                 res[i] = -1
         return res
+    
+    # 3108. 带权图里旅途的最小代价 (Minimum Cost Walk in Weighted Graph)
+    def minimumCost(self, n: int, edges: List[List[int]], query: List[List[int]]) -> List[int]:
+        def dfs(x: int) -> int:
+            ids[x] = len(_list)
+            res = -1
+            for y, w in g[x]:
+                res &= w
+                if ids[y] < 0:
+                    res &= dfs(y)
+            return res
+        g = [[] for _ in range(n)]
+        for u, v, w in edges:
+            g[u].append((v, w))
+            g[v].append((u, w))
+        ids = [-1] * n
+        _list = []
+        for i in range(n):
+            if ids[i] < 0:
+                _list.append(dfs(i))
+        return [0 if s == t else -1 if ids[s] != ids[t] else _list[ids[s]] for s, t in query]
 
     # 2009. 使数组连续的最少操作数 (Minimum Number of Operations to Make Array Continuous)
     def minOperations(self, nums: List[int]) -> int:

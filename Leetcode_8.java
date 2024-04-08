@@ -9358,11 +9358,7 @@ public class Leetcode_8 {
         }
         for (int[] e : edges) {
             int root = union.getRoot(e[0]);
-            if (!map.containsKey(root)) {
-                map.put(root, e[2]);
-            } else {
-                map.put(root, map.get(root) & e[2]);
-            }
+            map.put(root, map.getOrDefault(root, -1) & e[2]);
         }
         int[] res = new int[query.length];
         for (int i = 0; i < query.length; ++i) {
