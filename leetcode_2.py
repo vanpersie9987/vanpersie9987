@@ -2953,6 +2953,7 @@ class leetcode_2:
             k -= min(k, m)
         return "".join(res)
 
+    # 3107. 使数组中位数等于 K 的最少操作数 (Minimum Operations to Make Median of Array Equal to K)
     def minOperationsToMakeMedianK(self, nums: List[int], k: int) -> int:
         nums.sort()
         n = len(nums)
@@ -2978,6 +2979,7 @@ class leetcode_2:
                 i += 1
         return res
 
+    # 3108. 带权图里旅途的最小代价 (Minimum Cost Walk in Weighted Graph)
     def minimumCost(self, n: int, edges: List[List[int]], query: List[List[int]]) -> List[int]:
         class Union:
 

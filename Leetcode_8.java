@@ -9316,6 +9316,8 @@ public class Leetcode_8 {
 
     }
 
+    // 3107. 使数组中位数等于 K 的最少操作数 (Minimum Operations to Make Median of Array Equal to
+    // K)
     public long minOperationsToMakeMedianK(int[] nums, int k) {
         Arrays.sort(nums);
         long res = 0L;
@@ -9348,8 +9350,9 @@ public class Leetcode_8 {
 
     }
 
+    // 3108. 带权图里旅途的最小代价 (Minimum Cost Walk in Weighted Graph)
     public int[] minimumCost(int n, int[][] edges, int[][] query) {
-        Union union = new Union(n);
+        Union3108 union = new Union3108(n);
         Map<Integer, Integer> map = new HashMap<>();
         for (int[] e : edges) {
             union.union(e[0], e[1]);
@@ -9379,11 +9382,11 @@ public class Leetcode_8 {
 
     }
 
-    public class Union {
+    public class Union3108 {
         private int[] parent;
         private int[] rank;
 
-        public Union(int n) {
+        public Union3108(int n) {
             this.parent = new int[n];
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
