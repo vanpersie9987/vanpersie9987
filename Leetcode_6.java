@@ -6780,60 +6780,17 @@ public class Leetcode_6 {
     // 2009. 使数组连续的最少操作数 (Minimum Number of Operations to Make Array Continuous)
     public int minOperations(int[] nums) {
         int n = nums.length;
-        Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toSet());
-        int[] arr = new int[set.size()];
-        int index = 0;
-        for (int num : set) {
-            arr[index++] = num;
-        }
-        Arrays.sort(arr);
+        List<Integer> list = new ArrayList<>(Arrays.stream(nums).boxed().collect(Collectors.toSet()));
+        Collections.sort(list);
         int res = 0;
-        for (int i = 0; i < arr.length; ++i) {
-            int target = arr[i] - n + 1;
-            int left = 0;
-            int right = i;
-            int cur = i;
-            while (left <= right) {
-                int mid = left + ((right - left) >>> 1);
-                if (arr[mid] >= target) {
-                    cur = mid;
-                    right = mid - 1;
-                } else {
-                    left = mid + 1;
-                }
-            }
-            res = Math.max(res, i - cur + 1);
-        }
-        return n - res;
-
-    }
-
-    // 2009. 使数组连续的最少操作数 (Minimum Number of Operations to Make Array Continuous)
-    public int minOperations2(int[] nums) {
-        Arrays.sort(nums);
-        int res = Integer.MAX_VALUE;
-        int count = 0;
-        int n = nums.length;
-        Map<Integer, Integer> map = new HashMap<>();
-        int i = 0;
         int j = 0;
-        while (i < n) {
-            while (j < n && nums[j] - nums[i] + 1 <= n) {
-                map.merge(nums[j], 1, Integer::sum);
-                if (map.get(nums[j]) == 1) {
-                    ++count;
-                }
+        for (int i = 0; i < list.size(); ++i) {
+            while (list.get(j) < list.get(i) - n + 1) {
                 ++j;
             }
-            res = Math.min(res, n - count);
-            map.merge(nums[i], -1, Integer::sum);
-            if (map.get(nums[i]) == 0) {
-                --count;
-            }
-            ++i;
+            res = Math.max(res, i - j + 1);
         }
-        return res;
-
+        return n - res;
     }
 
     // 2156. 查找给定哈希值的子串 (Find Substring With Given Hash Value)

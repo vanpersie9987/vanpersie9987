@@ -40,17 +40,22 @@ from zoneinfo import reset_tzpath
 # curl https://bootstrap.pypa.io/pip/get-pip.py -o get-pip.py
 # sudo python3 get-pip.py
 # pip3 install sortedcontainers
+from networkx import union
 from sortedcontainers import SortedList, SortedSet
+
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
         self.left = left
         self.right = right
 
+
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
         self.next = next
+
 
 class Node:
     def __init__(self, val=None, children=None):
@@ -2915,3 +2920,118 @@ class leetcode_2:
                 self.res.append(name)
             for child in self.dic[name]:
                 self.dfs(child)
+
+    # 3105. 最长的严格递增或递减子数组 (Longest Strictly Increasing or Strictly Decreasing Subarray)
+    def longestMonotonicSubarray(self, nums: List[int]) -> int:
+        res = 1
+        cnt = 1
+        n = len(nums)
+        for i in range(1, n):
+            if nums[i] > nums[i - 1]:
+                cnt += 1
+            else:
+                cnt = 1
+            res = max(res, cnt)
+        cnt = 1
+        for i in range(1, n):
+            if nums[i] < nums[i - 1]:
+                cnt += 1
+            else:
+                cnt = 1
+            res = max(res, cnt)
+        return res
+
+    # 3106. 满足距离约束且字典序最小的字符串 (Lexicographically Smallest String After Operations With Constraint)
+    def getSmallestString(self, s: str, k: int) -> str:
+        res = []
+        for c in s:
+            m = min(26 - (ord(c) - ord("a")), ord(c) - ord("a"))
+            if m <= k:
+                res.append("a")
+            else:
+                res.append(chr(ord(c) - k))
+            k -= min(k, m)
+        return "".join(res)
+
+    def minOperationsToMakeMedianK(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        n = len(nums)
+        i = 0
+        j = n - 1
+        p = n // 2
+        while i < j:
+            if nums[i] <= k <= nums[j]:
+                i += 1
+                j -= 1
+            else:
+                break
+        if i >= j:
+            return abs(nums[p] - k)
+        res = 0
+        if nums[j] < k:
+            while j >= p:
+                res += abs(nums[j] - k)
+                j -= 1
+        else:
+            while i <= p:
+                res += abs(nums[i] - k)
+                i += 1
+        return res
+
+    def minimumCost(self, n: int, edges: List[List[int]], query: List[List[int]]) -> List[int]:
+        class Union:
+
+            def __init__(self, n: int):
+                self.parent = [0] * n
+                for i in range(n):
+                    self.parent[i] = i
+                self.rank = [1] * n
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+            def is_connected(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+            def union(self, p1: int, p2: int) -> None:
+                root1 = self.get_root(p1)
+                root2 = self.get_root(p2)
+                if root1 == root2:
+                    return
+                if self.rank[root1] < self.rank[root2]:
+                    self.parent[root1] = root2
+                else:
+                    self.parent[root2] = root1
+                    if self.rank[root1] == self.rank[root2]:
+                        self.rank[root1] += 1
+        union = Union(n)
+        for u, v, _ in edges:
+            union.union(u, v)
+        dic = defaultdict(int)
+        for u, v, w in edges:
+            root = union.get_root(u)
+            if root in dic:
+                dic[root] &= w
+            else:
+                dic[root] = w
+        res = [0] * len(query)
+        for i, (u, v) in enumerate(query):
+            if u == v:
+                continue
+            if union.is_connected(u, v):
+                res[i] = dic[union.get_root(u)]
+            else:
+                res[i] = -1
+        return res
+
+    # 2009. 使数组连续的最少操作数 (Minimum Number of Operations to Make Array Continuous)
+    def minOperations(self, nums: List[int]) -> int:
+        n = len(nums)
+        nums = sorted(set(nums))
+        res = 0
+        j = 0
+        for i, v in enumerate(nums):
+            while nums[j] < v - n + 1:
+                j += 1
+            res = max(res, i - j + 1)
+        return n - res

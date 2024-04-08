@@ -9268,4 +9268,156 @@ public class Leetcode_8 {
         return memo_lcp_47[i][j] = (dfs_lcp_47(i - 1, j) + dfs_lcp_47(i - 1, j - (capacities_lcp_47[i] - 1))) % MOD;
     }
 
+    // 3105. 最长的严格递增或递减子数组 (Longest Strictly Increasing or Strictly Decreasing
+    // Subarray)
+    public int longestMonotonicSubarray(int[] nums) {
+        int res = 1;
+        int n = nums.length;
+        int cnt = 1;
+        for (int i = 1; i < n; ++i) {
+            if (nums[i] > nums[i - 1]) {
+                ++cnt;
+            } else {
+                cnt = 1;
+            }
+            res = Math.max(res, cnt);
+        }
+        cnt = 1;
+        for (int i = 1; i < n; ++i) {
+            if (nums[i] < nums[i - 1]) {
+                ++cnt;
+            } else {
+                cnt = 1;
+            }
+            res = Math.max(res, cnt);
+        }
+        return res;
+    }
+
+    // 3106. 满足距离约束且字典序最小的字符串 (Lexicographically Smallest String After Operations
+    // With Constraint)
+    public String getSmallestString(String s, int k) {
+        StringBuilder res = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (k == 0) {
+                res.append(c);
+                continue;
+            }
+            int min = Math.min(26 - (c - 'a'), c - 'a');
+            if (min <= k) {
+                res.append('a');
+                k -= min;
+            } else {
+                res.append((char) (c - k));
+                k = 0;
+            }
+        }
+        return res.toString();
+
+    }
+
+    public long minOperationsToMakeMedianK(int[] nums, int k) {
+        Arrays.sort(nums);
+        long res = 0L;
+        int n = nums.length;
+        int i = 0;
+        int j = n - 1;
+        int p = n / 2;
+        while (j - i >= 1) {
+            if (nums[i] <= k && k <= nums[j]) {
+                ++i;
+                --j;
+                continue;
+            } else {
+                break;
+            }
+        }
+        if (j <= i) {
+            return Math.abs(nums[p] - k);
+        }
+        if (nums[j] < k) {
+            while (j >= p) {
+                res += Math.abs(nums[j--] - k);
+            }
+        } else {
+            while (i <= p) {
+                res += Math.abs(k - nums[i++]);
+            }
+        }
+        return res;
+
+    }
+
+    public int[] minimumCost(int n, int[][] edges, int[][] query) {
+        Union union = new Union(n);
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int[] e : edges) {
+            union.union(e[0], e[1]);
+        }
+        for (int[] e : edges) {
+            int root = union.getRoot(e[0]);
+            if (!map.containsKey(root)) {
+                map.put(root, e[2]);
+            } else {
+                map.put(root, map.get(root) & e[2]);
+            }
+        }
+        int[] res = new int[query.length];
+        for (int i = 0; i < query.length; ++i) {
+            int u = query[i][0];
+            int v = query[i][1];
+            if (u == v) {
+                continue;
+            }
+            if (union.isConnected(u, v)) {
+                res[i] = map.getOrDefault(union.getRoot(u), -1);
+            } else {
+                res[i] = -1;
+            }
+        }
+        return res;
+
+    }
+
+    public class Union {
+        private int[] parent;
+        private int[] rank;
+
+        public Union(int n) {
+            this.parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+            this.rank = new int[n];
+            Arrays.fill(rank, 1);
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
+    }
+
 }
