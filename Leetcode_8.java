@@ -9299,18 +9299,13 @@ public class Leetcode_8 {
     public String getSmallestString(String s, int k) {
         StringBuilder res = new StringBuilder();
         for (char c : s.toCharArray()) {
-            if (k == 0) {
-                res.append(c);
-                continue;
-            }
             int min = Math.min(26 - (c - 'a'), c - 'a');
             if (min <= k) {
                 res.append('a');
-                k -= min;
             } else {
                 res.append((char) (c - k));
-                k = 0;
             }
+            k -= Math.min(k, min);
         }
         return res.toString();
 
