@@ -9434,7 +9434,7 @@ public class Leetcode_8 {
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < n; ++i) {
             if (ids[i] < 0) {
-                list.add(dfs(i, list.size(), g, ids));
+                list.add(dfs3108(i, list.size(), g, ids));
             }
         }
         int[] res = new int[query.length];
@@ -9446,7 +9446,7 @@ public class Leetcode_8 {
         return res;
     }
 
-    private int dfs(int x, int num, List<int[]>[] g, int[] ids) {
+    private int dfs3108(int x, int num, List<int[]>[] g, int[] ids) {
         ids[x] = num;
         int res = -1;
         for (int[] nxt : g[x]) {
@@ -9454,7 +9454,7 @@ public class Leetcode_8 {
             int w = nxt[1];
             res &= w;
             if (ids[y] < 0) {
-                res &= dfs(y, num, g, ids);
+                res &= dfs3108(y, num, g, ids);
             }
         }
         return res;
