@@ -4390,7 +4390,7 @@ public class Leetcode_6 {
 
     }
 
-    // 6283. 正整数和负整数的最大计数
+    // 2529. 正整数和负整数的最大计数 (Maximum Count of Positive Integer and Negative Integer)
     public int maximumCount(int[] nums) {
         int pos = 0;
         int neg = 0;
@@ -4405,7 +4405,7 @@ public class Leetcode_6 {
 
     }
 
-    // 6283. 正整数和负整数的最大计数
+    // 2529. 正整数和负整数的最大计数 (Maximum Count of Positive Integer and Negative Integer)
     public int maximumCount2(int[] nums) {
         int neg = binarySearch6283_neg(nums);
         int pos = binarySearch6283_pos(nums);
