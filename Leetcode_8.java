@@ -9297,17 +9297,17 @@ public class Leetcode_8 {
     // 3106. 满足距离约束且字典序最小的字符串 (Lexicographically Smallest String After Operations
     // With Constraint)
     public String getSmallestString(String s, int k) {
-        StringBuilder res = new StringBuilder();
-        for (char c : s.toCharArray()) {
-            int min = Math.min(26 - (c - 'a'), c - 'a');
-            if (min <= k) {
-                res.append('a');
-            } else {
-                res.append((char) (c - k));
+        char[] t = s.toCharArray();
+        for (int i = 0; i < t.length; ++i) {
+            int min = Math.min(26 - (t[i] - 'a'), t[i] - 'a');
+            if (min > k) {
+                t[i] -= k;
+                break;
             }
-            k -= Math.min(k, min);
+            t[i] = 'a';
+            k -= min;
         }
-        return res.toString();
+        return new String(t);
 
     }
 
