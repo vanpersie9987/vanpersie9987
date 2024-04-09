@@ -3025,7 +3025,7 @@ class leetcode_2:
             else:
                 res[i] = -1
         return res
-    
+
     # 3108. 带权图里旅途的最小代价 (Minimum Cost Walk in Weighted Graph)
     def minimumCost(self, n: int, edges: List[List[int]], query: List[List[int]]) -> List[int]:
         def dfs(x: int) -> int:
@@ -3058,3 +3058,41 @@ class leetcode_2:
                 j += 1
             res = max(res, i - j + 1)
         return n - res
+
+    # 2529. 正整数和负整数的最大计数 (Maximum Count of Positive Integer and Negative Integer)
+    def maximumCount(self, nums: List[int]) -> int:
+        def bin_lower() -> int:
+            if nums[0] >= 0:
+                return 0
+            if nums[-1] < 0:
+                return n
+            res = 0
+            left = 0
+            right = n - 1
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if nums[mid] < 0:
+                    res = mid + 1
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            return res
+
+        def bin_higher() -> int:
+            if nums[0] > 0:
+                return n
+            if nums[-1] <= 0:
+                return 0
+            res = 0
+            left = 0
+            right = n - 1
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if nums[mid] > 0:
+                    res = n - mid
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return res
+        n = len(nums)
+        return max(bin_lower(), bin_higher())
