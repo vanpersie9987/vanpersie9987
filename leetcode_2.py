@@ -2943,15 +2943,15 @@ class leetcode_2:
 
     # 3106. 满足距离约束且字典序最小的字符串 (Lexicographically Smallest String After Operations With Constraint)
     def getSmallestString(self, s: str, k: int) -> str:
-        res = []
-        for c in s:
+        t = list(s)
+        for i, c in enumerate(t):
             m = min(26 - (ord(c) - ord("a")), ord(c) - ord("a"))
-            if m <= k:
-                res.append("a")
-            else:
-                res.append(chr(ord(c) - k))
-            k -= min(k, m)
-        return "".join(res)
+            if m > k:
+                t[i] = chr(ord(c) - k)
+                break
+            t[i] = 'a'
+            k -= m
+        return ''.join(t)
 
     # 3107. 使数组中位数等于 K 的最少操作数 (Minimum Operations to Make Median of Array Equal to K)
     def minOperationsToMakeMedianK(self, nums: List[int], k: int) -> int:
