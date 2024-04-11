@@ -7372,67 +7372,55 @@ public class Leetcode_8 {
 
     // 1766. 互质树 (Tree of Coprimes)
     private List<Integer>[] g1766;
-    private Set<Integer>[] s1766;
     private int[] nums1766;
+    private List<Integer>[] primes1766;
     private int[] res1766;
-
-    private List<Integer>[] valToIds1766;
-    private Map<Integer, Integer> idToPos1766;
-    private int pos1766;
+    private int time1766;
+    private List<int[]>[] map1766;
 
     public int[] getCoprimes(int[] nums, int[][] edges) {
+        this.primes1766 = new ArrayList[51];
+        Arrays.setAll(primes1766, k -> new ArrayList<>());
+        for (int i = 1; i <= 50; ++i) {
+            for (int j = 1; j <= 50; ++j) {
+                if (gcd1766(i, j) == 1) {
+                    primes1766[i].add(j);
+                }
+            }
+        }
         int n = nums.length;
         this.g1766 = new ArrayList[n];
-        this.res1766 = new int[n];
-        Arrays.fill(res1766, -1);
         Arrays.setAll(g1766, k -> new ArrayList<>());
         for (int[] e : edges) {
             g1766[e[0]].add(e[1]);
             g1766[e[1]].add(e[0]);
         }
-        this.s1766 = new HashSet[51];
-        Arrays.setAll(s1766, k -> new HashSet<>());
-        for (int i = 1; i <= 50; ++i) {
-            for (int j = 1; j <= 50; ++j) {
-                if (gcd1766(i, j) == 1) {
-                    s1766[i].add(j);
-                }
-            }
-        }
-        this.valToIds1766 = new ArrayList[51];
-        Arrays.setAll(valToIds1766, k -> new ArrayList<>());
-        this.idToPos1766 = new HashMap<>();
         this.nums1766 = nums;
+        this.res1766 = new int[n];
+        Arrays.fill(res1766, -1);
+        this.map1766 = new ArrayList[51];
+        Arrays.setAll(map1766, k -> new ArrayList<>());
         dfs1766(0, -1);
         return res1766;
 
     }
 
     private void dfs1766(int x, int fa) {
-        int val = nums1766[x];
-        int p = -1;
-        int curRes = -1;
-        for (int num : s1766[val]) {
-            List<Integer> list = valToIds1766[num];
-            if (!list.isEmpty()) {
-                int id = list.get(list.size() - 1);
-                if (idToPos1766.getOrDefault(id, -1) > p) {
-                    p = idToPos1766.getOrDefault(id, -1);
-                    curRes = id;
-                }
+        int curTime = -1;
+        for (int i : primes1766[nums1766[x]]) {
+            if (!map1766[i].isEmpty() && map1766[i].get(map1766[i].size() - 1)[1] > curTime) {
+                curTime = map1766[i].get(map1766[i].size() - 1)[1];
+                res1766[x] = map1766[i].get(map1766[i].size() - 1)[0];
             }
         }
-        res1766[x] = curRes;
-        valToIds1766[val].add(x);
-        idToPos1766.put(x, pos1766++);
+        map1766[nums1766[x]].add(new int[] { x, time1766 });
+        ++time1766;
         for (int y : g1766[x]) {
             if (y != fa) {
                 dfs1766(y, x);
             }
         }
-        valToIds1766[val].remove(valToIds1766[val].size() - 1);
-        idToPos1766.remove(x);
-        --pos1766;
+        map1766[nums1766[x]].remove(map1766[nums1766[x]].size() - 1);
     }
 
     private int gcd1766(int a, int b) {
