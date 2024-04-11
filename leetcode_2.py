@@ -274,39 +274,32 @@ class leetcode_2:
     # 1766. 互质树 (Tree of Coprimes)
     def getCoprimes(self, nums: List[int], edges: List[List[int]]) -> List[int]:
         def dfs(x: int, fa: int) -> None:
-            val = nums[x]
-            p = -1
-            cur = -1
-            for v in s[val]:
-                if len(val_to_node[v]) > 0 and node_to_pos[val_to_node[v][-1]] > p:
-                    p = node_to_pos[val_to_node[v][-1]]
-                    cur = val_to_node[v][-1]
-            res[x] = cur
-            val_to_node[val].append(x)
-            nonlocal pos
-            node_to_pos[x] = pos
-            pos += 1
+            cur_time = -1
+            for i in primes[nums[x]]:
+                if len(dic[i]) > 0 and dic[i][-1][1] > cur_time:
+                    cur_time = dic[i][-1][1]
+                    res[x] = dic[i][-1][0]
+            nonlocal time
+            dic[nums[x]].append((x, time))
+            time += 1
             for y in g[x]:
                 if y != fa:
                     dfs(y, x)
-            val_to_node[val].pop()
-            del node_to_pos[x]
-            pos -= 1
+            dic[nums[x]].pop()
 
         n = len(nums)
         g = [[] for _ in range(n)]
-        for u, v in edges:
-            g[u].append(v)
-            g[v].append(u)
-        s = [[] for _ in range(51)]
+        dic = [[] for _ in range(51)]
+        primes = [[] for _ in range(51)]
         for i in range(1, 51):
             for j in range(1, 51):
                 if gcd(i, j) == 1:
-                    s[i].append(j)
-        val_to_node = [[] for _ in range(51)]
-        node_to_pos = dict()
-        pos = 0
+                    primes[i].append(j)
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
         res = [-1] * n
+        time = 0
         dfs(0, -1)
         return res
 
@@ -2949,9 +2942,9 @@ class leetcode_2:
             if m > k:
                 t[i] = chr(ord(c) - k)
                 break
-            t[i] = 'a'
+            t[i] = "a"
             k -= m
-        return ''.join(t)
+        return "".join(t)
 
     # 3107. 使数组中位数等于 K 的最少操作数 (Minimum Operations to Make Median of Array Equal to K)
     def minOperationsToMakeMedianK(self, nums: List[int], k: int) -> int:
@@ -2980,7 +2973,9 @@ class leetcode_2:
         return res
 
     # 3108. 带权图里旅途的最小代价 (Minimum Cost Walk in Weighted Graph)
-    def minimumCost(self, n: int, edges: List[List[int]], query: List[List[int]]) -> List[int]:
+    def minimumCost(
+        self, n: int, edges: List[List[int]], query: List[List[int]]
+    ) -> List[int]:
         class Union:
 
             def __init__(self, n: int):
@@ -2988,13 +2983,16 @@ class leetcode_2:
                 for i in range(n):
                     self.parent[i] = i
                 self.rank = [1] * n
+
             def get_root(self, p: int) -> int:
                 if self.parent[p] == p:
                     return p
                 self.parent[p] = self.get_root(self.parent[p])
                 return self.parent[p]
+
             def is_connected(self, p1: int, p2: int) -> bool:
                 return self.get_root(p1) == self.get_root(p2)
+
             def union(self, p1: int, p2: int) -> None:
                 root1 = self.get_root(p1)
                 root2 = self.get_root(p2)
@@ -3006,6 +3004,7 @@ class leetcode_2:
                     self.parent[root2] = root1
                     if self.rank[root1] == self.rank[root2]:
                         self.rank[root1] += 1
+
         union = Union(n)
         for u, v, _ in edges:
             union.union(u, v)
@@ -3027,7 +3026,9 @@ class leetcode_2:
         return res
 
     # 3108. 带权图里旅途的最小代价 (Minimum Cost Walk in Weighted Graph)
-    def minimumCost(self, n: int, edges: List[List[int]], query: List[List[int]]) -> List[int]:
+    def minimumCost(
+        self, n: int, edges: List[List[int]], query: List[List[int]]
+    ) -> List[int]:
         def dfs(x: int) -> int:
             ids[x] = len(_list)
             res = -1
@@ -3036,6 +3037,7 @@ class leetcode_2:
                 if ids[y] < 0:
                     res &= dfs(y)
             return res
+
         g = [[] for _ in range(n)]
         for u, v, w in edges:
             g[u].append((v, w))
@@ -3045,7 +3047,9 @@ class leetcode_2:
         for i in range(n):
             if ids[i] < 0:
                 _list.append(dfs(i))
-        return [0 if s == t else -1 if ids[s] != ids[t] else _list[ids[s]] for s, t in query]
+        return [
+            0 if s == t else -1 if ids[s] != ids[t] else _list[ids[s]] for s, t in query
+        ]
 
     # 2009. 使数组连续的最少操作数 (Minimum Number of Operations to Make Array Continuous)
     def minOperations(self, nums: List[int]) -> int:
@@ -3094,6 +3098,7 @@ class leetcode_2:
                 else:
                     left = mid + 1
             return res
+
         n = len(nums)
         return max(bin_lower(), bin_higher())
 
@@ -3107,4 +3112,3 @@ class leetcode_2:
         s = ["1"] * n
         s[i + zeros - 1] = "0"
         return "".join(s)
-
