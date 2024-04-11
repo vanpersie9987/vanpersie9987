@@ -276,7 +276,7 @@ class leetcode_2:
         def dfs(x: int, fa: int) -> None:
             cur_time = -1
             for i in primes[nums[x]]:
-                if len(dic[i]) > 0 and dic[i][-1][1] > cur_time:
+                if dic[i] and dic[i][-1][1] > cur_time:
                     cur_time = dic[i][-1][1]
                     res[x] = dic[i][-1][0]
             nonlocal time
