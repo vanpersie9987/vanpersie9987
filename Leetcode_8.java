@@ -4895,16 +4895,16 @@ public class Leetcode_8 {
         }
     }
 
-    // 100115. 找到冠军 I (Find Champion I)
+    // 2923. 找到冠军 I (Find Champion I)
     public int findChampion(int[][] grid) {
         int n = grid.length;
         int[] deg = new int[n];
         for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (i != j) {
-                    if (grid[i][j] == 1) {
-                        ++deg[j];
-                    }
+            for (int j = i + 1; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    ++deg[j];
+                } else {
+                    ++deg[i];
                 }
             }
         }
@@ -9443,7 +9443,5 @@ public class Leetcode_8 {
         return res;
 
     }
-
-    
 
 }

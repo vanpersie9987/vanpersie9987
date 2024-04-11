@@ -8116,16 +8116,18 @@ class leetcode_1:
                     res.append(s[i - 10 + 1 : i + 1])
         return res
 
-    # 100115. 找到冠军 I (Find Champion I)
+    # 2923. 找到冠军 I (Find Champion I)
     def findChampion(self, grid: List[List[int]]) -> int:
         n = len(grid)
-        deg = [0] * n
+        d = [0] * n
         for i in range(n):
-            for j in range(n):
-                if i != j and grid[i][j]:
-                    deg[j] += 1
-        for i in range(n):
-            if deg[i] == 0:
+            for j in range(i + 1, n):
+                if grid[i][j]:
+                    d[j] += 1
+                else:
+                    d[i] += 1
+        for i, v in enumerate(d):
+            if v == 0:
                 return i
 
     # 100116. 找到冠军 II (Find Champion II)
