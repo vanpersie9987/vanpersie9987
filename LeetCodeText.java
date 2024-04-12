@@ -7065,50 +7065,39 @@ public class LeetCodeText {
     }
 
     // 97. 交错字符串 (Interleaving String)
-    private int n1_97;
-    private int n2_97;
-    private int n3_97;
     private String s1_97;
     private String s2_97;
     private String s3_97;
-    private int[][][] memo_97;
+    private int n1_97;
+    private int n2_97;
+    private int n3_97;
+    private int[][][] memo97;
 
     public boolean isInterleave(String s1, String s2, String s3) {
-        this.n1_97 = s1.length();
-        this.n2_97 = s2.length();
-        this.n3_97 = s3.length();
-        if (n1_97 + n2_97 != n3_97) {
-            return false;
-        }
         this.s1_97 = s1;
         this.s2_97 = s2;
         this.s3_97 = s3;
-        this.memo_97 = new int[n1_97][n2_97][n3_97];
-        return dfs97(0, 0, 0);
+        this.n1_97 = s1.length();
+        this.n2_97 = s2.length();
+        this.n3_97 = s3.length();
+        this.memo97 = new int[n1_97][n2_97][n3_97];
+        return n1_97 + n2_97 == n3_97 && dfs97(0, 0, 0);
 
     }
 
-    private boolean dfs97(int i1, int i2, int j) {
-        if (j == n3_97) {
-            return i1 == n1_97 && i2 == n2_97;
+    private boolean dfs97(int i, int j, int k) {
+        if (i == n1_97) {
+            return s2_97.substring(j).equals(s3_97.substring(k));
         }
-        if (i1 == n1_97) {
-            return s2_97.substring(i2).equals(s3_97.substring(j));
+        if (j == n2_97) {
+            return s1_97.substring(i).equals(s3_97.substring(k));
         }
-        if (i2 == n2_97) {
-            return s1_97.substring(i1).equals(s3_97.substring(j));
+        if (memo97[i][j][k] != 0) {
+            return memo97[i][j][k] > 0;
         }
-        if (memo_97[i1][i2][j] != 0) {
-            return memo_97[i1][i2][j] > 0;
-        }
-        boolean res = false;
-        if (s1_97.charAt(i1) == s3_97.charAt(j)) {
-            res = res || dfs97(i1 + 1, i2, j + 1);
-        }
-        if (s2_97.charAt(i2) == s3_97.charAt(j)) {
-            res = res || dfs97(i1, i2 + 1, j + 1);
-        }
-        memo_97[i1][i2][j] = res ? 1 : -1;
+        boolean res = s1_97.charAt(i) == s3_97.charAt(k) && dfs97(i + 1, j, k + 1)
+                || s2_97.charAt(j) == s3_97.charAt(k) && dfs97(i, j + 1, k + 1);
+        memo97[i][j][k] = res ? 1 : -1;
         return res;
     }
 
