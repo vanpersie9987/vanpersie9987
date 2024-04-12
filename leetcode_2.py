@@ -3112,5 +3112,3 @@ class leetcode_2:
         s = ["1"] * n
         s[i + zeros - 1] = "0"
         return "".join(s)
-    
-    

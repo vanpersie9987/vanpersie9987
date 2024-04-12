@@ -8118,14 +8118,14 @@ class leetcode_1:
             if v == 0:
                 return i
 
-    # 100116. 找到冠军 II (Find Champion II)
+    # 2924. 找到冠军 II (Find Champion II)
     def findChampion(self, n: int, edges: List[List[int]]) -> int:
         deg = [0] * n
         for _, v in edges:
             deg[v] += 1
         res = -1
-        for i in range(n):
-            if deg[i] == 0:
+        for i, v in enumerate(deg):
+            if v == 0:
                 if res != -1:
                     return -1
                 res = i
