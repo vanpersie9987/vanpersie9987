@@ -274,25 +274,15 @@ class leetcode_1:
     def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
         @cache
         def dfs(i: int, j: int, k: int) -> bool:
-            if k == n3:
-                return True
             if i == n1:
                 return s2[j:] == s3[k:]
             if j == n2:
                 return s1[i:] == s3[k:]
-            res = False
-            if s1[i] == s3[k]:
-                res = res or dfs(i + 1, j, k + 1)
-            if s2[j] == s3[k]:
-                res = res or dfs(i, j + 1, k + 1)
-            return res
-
+            return s1[i] == s3[k] and dfs(i + 1, j, k + 1) or s2[j] == s3[k] and dfs(i, j + 1, k + 1)
         n1 = len(s1)
         n2 = len(s2)
         n3 = len(s3)
-        if n1 + n2 != n3:
-            return False
-        return dfs(0, 0, 0)
+        return n1 + n2 == n3 and dfs(0, 0, 0)
 
     # 120. 三角形最小路径和 (Triangle)
     # LCR 100. 三角形最小路径和
