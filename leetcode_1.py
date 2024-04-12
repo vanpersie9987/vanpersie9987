@@ -957,7 +957,7 @@ class leetcode_1:
                 return n1 - i
             if word1[i] == word2[j]:
                 return dfs(i + 1, j + 1)
-            return min(dfs(i, j + 1) + 1, dfs(i + 1, j + 1) + 1, dfs(i + 1, j) + 1)
+            return min(dfs(i, j + 1), dfs(i + 1, j + 1), dfs(i + 1, j)) + 1
         n1 = len(word1)
         n2 = len(word2)
         return dfs(0, 0)
