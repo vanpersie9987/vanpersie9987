@@ -4916,7 +4916,7 @@ public class Leetcode_8 {
         return -1;
     }
 
-    // 100116. 找到冠军 II (Find Champion II)
+    // 2924. 找到冠军 II (Find Champion II)
     public int findChampion(int n, int[][] edges) {
         int[] deg = new int[n];
         for (int[] e : edges) {
