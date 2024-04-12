@@ -4900,7 +4900,7 @@ public class Leetcode_8 {
         int n = grid.length;
         int[] deg = new int[n];
         for (int i = 0; i < n; ++i) {
-            for (int j = i + 1; j < n; ++j) {
+            for (int j = 0; j < i; ++j) {
                 if (grid[i][j] == 1) {
                     ++deg[j];
                 } else {

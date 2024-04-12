@@ -8121,7 +8121,7 @@ class leetcode_1:
         n = len(grid)
         d = [0] * n
         for i in range(n):
-            for j in range(i + 1, n):
+            for j in range(i):
                 if grid[i][j]:
                     d[j] += 1
                 else:
