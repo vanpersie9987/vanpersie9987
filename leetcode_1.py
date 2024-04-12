@@ -949,20 +949,18 @@ class leetcode_1:
 
     # 72. 编辑距离 (Edit Distance)
     def minDistance(self, word1: str, word2: str) -> int:
-        m = len(word1)
-        n = len(word2)
-
         @cache
         def dfs(i: int, j: int) -> int:
-            if i < 0:
-                return j + 1
-            if j < 0:
-                return i + 1
+            if i == n1:
+                return n2 - j
+            if j == n2:
+                return n1 - i
             if word1[i] == word2[j]:
-                return dfs(i - 1, j - 1)
-            return min(dfs(i - 1, j), dfs(i, j - 1), dfs(i - 1, j - 1)) + 1
-
-        return dfs(m - 1, n - 1)
+                return dfs(i + 1, j + 1)
+            return min(dfs(i, j + 1) + 1, dfs(i + 1, j + 1) + 1, dfs(i + 1, j) + 1)
+        n1 = len(word1)
+        n2 = len(word2)
+        return dfs(0, 0)
 
     # 87. 扰乱字符串 (Scramble String)
     def isScramble(self, s1: str, s2: str) -> bool:
