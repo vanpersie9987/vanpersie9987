@@ -2704,46 +2704,40 @@ public class Leetcode_7 {
 
     // 1639. 通过给定词典构造目标字符串的方案数 (Number of Ways to Form a Target String Given a
     // Dictionary)
-    private int m1639;
-    private int n1639;
     private int[][] memo1639;
-    private int[][] counts1639;
+    private int[][] cnt1639;
     private String target1639;
+    private int n1639;
 
     public int numWays(String[] words, String target) {
-        this.m1639 = words[0].length();
-        this.n1639 = target.length();
-        this.memo1639 = new int[m1639][n1639];
-        this.target1639 = target;
-        for (int i = 0; i < m1639; ++i) {
-            Arrays.fill(memo1639[i], -1);
-        }
-        this.counts1639 = new int[m1639][26];
-        for (int i = 0; i < words.length; ++i) {
-            for (int j = 0; j < words[i].length(); ++j) {
-                ++counts1639[j][words[i].charAt(j) - 'a'];
+        this.n1639 = words[0].length();
+        this.cnt1639 = new int[n1639][26];
+        for (String w : words) {
+            for (int i = 0; i < n1639; ++i) {
+                ++cnt1639[i][w.charAt(i) - 'a'];
             }
         }
-        return dfs1639(0, 0);
+        this.memo1639 = new int[n1639][target.length()];
+        for (int i = 0; i < n1639; ++i) {
+            Arrays.fill(memo1639[i], -1);
+        }
+        this.target1639 = target;
+        return dfs1639(n1639 - 1, target.length() - 1);
 
     }
 
     private int dfs1639(int i, int j) {
-        if (j == n1639) {
+        if (j < 0) {
             return 1;
         }
-        if (i == m1639) {
-            return 0;
-        }
-        if (m1639 - i < n1639 - j) {
+        if (i < j) {
             return 0;
         }
         if (memo1639[i][j] != -1) {
             return memo1639[i][j];
         }
         final int MOD = (int) (1e9 + 7);
-        int count = counts1639[i][target1639.charAt(j) - 'a'];
-        return memo1639[i][j] = (int) (((long) count * dfs1639(i + 1, j + 1) % MOD + dfs1639(i + 1, j) % MOD) % MOD);
+        return memo1639[i][j] = (int) ((dfs1639(i - 1, j) + (long) cnt1639[i][target1639.charAt(j) - 'a'] * dfs1639(i - 1, j - 1)) % MOD);
     }
 
     // 1643. 第 K 条最小指令 (Kth Smallest Instructions)
