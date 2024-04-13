@@ -5872,22 +5872,20 @@ class leetcode_1:
 
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == len(target):
+            if j < 0:
                 return 1
-            if j == n:
-                return 0
-            if len(target) - i > n - j:
+            if i < j:
                 return 0
             return (
-                dfs(i, j + 1) + cnts[j][ord(target[i]) - ord("a")] * dfs(i + 1, j + 1)
+                dfs(i - 1, j) + cnts[i][ord(target[j]) - ord("a")] * dfs(i - 1, j - 1)
             ) % MOD
 
         n = len(words[0])
         cnts = [[0] * 26 for _ in range(n)]
         for w in words:
             for i, c in enumerate(w):
-                cnts[i][ord(c) - ord("a")] += 1
-        return dfs(0, 0)
+                cnts[i][ord(c) - ord('a')] += 1
+        return dfs(n - 1, len(target) - 1)
 
     # 2146. 价格范围内最高排名的 K 样物品 (K Highest Ranked Items Within a Price Range)
     def highestRankedKItems(

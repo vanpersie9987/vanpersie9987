@@ -9443,39 +9443,4 @@ public class Leetcode_8 {
         return res;
 
     }
-
-    private int[][] memo;
-    private int[][] cnt;
-    private String tar;
-
-    public int numWays(String[] words, String target) {
-        int n = words[0].length();
-        this.cnt = new int[n][26];
-        for (String w : words) {
-            for (int i = 0; i < n; ++i) {
-                ++cnt[i][w.charAt(i) - 'a'];
-            }
-        }
-        this.memo = new int[n][target.length()];
-        for (int i = 0; i < n; ++i) {
-            Arrays.fill(memo[i], -1);
-        }
-        this.tar = target;
-        return dfs(n - 1, target.length() - 1);
-
-    }
-
-    private int dfs(int i, int j) {
-        if (j < 0) {
-            return 1;
-        }
-        if (i < 0 || ) {
-            return 0;
-        }
-        if (memo[i][j] != -1) {
-            return memo[i][j];
-        }
-        final int MOD = (int) (1e9 + 7);
-        return memo[i][j] = (int) ((dfs(i - 1, j) + (long) cnt[i][tar.charAt(j) - 'a'] * dfs(i - 1, j - 1)) % MOD);
-    }
 }
