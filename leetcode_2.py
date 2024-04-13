@@ -3113,3 +3113,24 @@ class leetcode_2:
         s = ["1"] * n
         s[i + zeros - 1] = "0"
         return "".join(s)
+
+    # 44. 通配符匹配 (Wildcard Matching)
+    def isMatch(self, s: str, p: str) -> bool:
+        @cache
+        def dfs(i: int, j: int) -> bool:
+            if i == n1 and j == n2:
+                return True
+            if i == n1:
+                return p[j:].count('*') == n2 - j
+            if j == n2:
+                return False
+            if s[i:] == p[j:]:
+                return True
+            if p[j].islower():
+                return s[i] == p[j] and dfs(i + 1, j + 1)
+            if p[j] == '?':
+                return dfs(i + 1, j + 1)
+            return any(dfs(k, j + 1) for k in range(i, n1 + 1))
+        n1 = len(s)
+        n2 = len(p)
+        return dfs(0, 0)
