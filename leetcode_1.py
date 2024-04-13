@@ -2200,21 +2200,19 @@ class leetcode_1:
 
     # 1879. 两个数组最小的异或值之和 (Minimum XOR Sum of Two Arrays)
     def minimumXORSum(self, nums1: List[int], nums2: List[int]) -> int:
-        n = len(nums1)
-        u = (1 << n) - 1
-
         @cache
-        def dfs(i: int, m: int) -> int:
-            if i == n:
+        def dfs(i: int, j: int) -> int:
+            if j == u:
                 return 0
-            c = u ^ m
+            c = j ^ u
             res = inf
             while c:
-                index = (c & -c).bit_length() - 1
-                res = min(res, dfs(i + 1, m | (1 << index)) + (nums1[i] ^ nums2[index]))
+                lb = (c & -c).bit_length() - 1
+                res = min(res, dfs(i + 1, j | (1 << lb)) + (nums1[i] ^ nums2[lb]))
                 c &= c - 1
             return res
-
+        n = len(nums1)
+        u = (1 << n) - 1
         return dfs(0, 0)
 
     # 1655. 分配重复整数 (Distribute Repeating Integers)
