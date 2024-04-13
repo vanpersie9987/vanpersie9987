@@ -2090,8 +2090,7 @@ class leetcode_1:
             return max(
                 dfs(i + 1, j, k),
                 dfs(i, j + 1, k),
-                dfs(i + 1, j + 1, k),
-                dfs(i + 1, j + 1, min(1, k + 1)) + nums1[i] * nums2[j],
+                dfs(i + 1, j + 1, 1) + nums1[i] * nums2[j],
             )
 
         return dfs(0, 0, 0)

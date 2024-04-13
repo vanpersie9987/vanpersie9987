@@ -7275,12 +7275,8 @@ public class Leetcode_6 {
         if (memo1458[i][j][k] != Integer.MIN_VALUE) {
             return memo1458[i][j][k];
         }
-        int res = (int) -1e9;
-        res = Math.max(res, dfs1458(i + 1, j, k));
-        res = Math.max(res, dfs1458(i, j + 1, k));
-        res = Math.max(res, dfs1458(i + 1, j + 1, k));
-        res = Math.max(res, dfs1458(i + 1, j + 1, Math.min(1, k + 1)) + nums1_1458[i] * nums2_1458[j]);
-        return memo1458[i][j][k] = res;
+        return memo1458[i][j][k] = Math.max(dfs1458(i + 1, j + 1, 1) + nums1_1458[i] * nums2_1458[j],
+                Math.max(dfs1458(i + 1, j, k), dfs1458(i, j + 1, k)));
     }
 
     // 1289. 下降路径最小和 II (Minimum Falling Path Sum II)
