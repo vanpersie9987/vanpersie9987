@@ -8637,13 +8637,11 @@ public class Leetcode_6 {
             return memo526[i][j];
         }
         int res = 0;
-        int c = u526 ^ j;
-        while (c != 0) {
+        for (int c = u526 ^ j; c != 0; c &= c - 1) {
             int lb = Integer.numberOfTrailingZeros(c);
             if ((i + 1) % (lb + 1) == 0 || (lb + 1) % (i + 1) == 0) {
                 res += dfs526(i + 1, j | (1 << lb));
             }
-            c &= c - 1;
         }
         return memo526[i][j] = res;
     }
