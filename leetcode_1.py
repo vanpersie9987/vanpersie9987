@@ -10324,13 +10324,7 @@ class leetcode_1:
 
     # 3028. 边界上的蚂蚁 (Ant on the Boundary)
     def returnToBoundaryCount(self, nums: List[int]) -> int:
-        s = 0
-        res = 0
-        for x in nums:
-            s += x
-            if s == 0:
-                res += 1
-        return res
+        return list(accumulate(nums)).count(0)
 
     # 3029. 将单词恢复初始状态所需的最短时间 I (Minimum Time to Revert Word to Initial State I)
     # 3031. 将单词恢复初始状态所需的最短时间 II (Minimum Time to Revert Word to Initial State II) --z函数
