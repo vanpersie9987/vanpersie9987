@@ -3149,3 +3149,52 @@ class leetcode_2:
 
         def contains(self, key: int) -> bool:
             return self.vis[key]
+
+    def scoreOfString(self, s: str) -> int:
+        return sum(abs(ord(x) - ord(y)) for x, y in pairwise(s))
+
+    def minRectanglesToCoverPoints(self, points: List[List[int]], w: int) -> int:
+        points.sort()
+        res = 0
+        i = 0
+        while i < len(points):
+            j = i
+            while j < len(points) and points[j][0] - points[i][0] <= w:
+                j += 1
+            res += 1
+            i = j
+        return res
+    
+
+    def minimumTime(self, n: int, edges: List[List[int]], disappear: List[int]) -> List[int]:
+        g = [[] for _ in range(n)]  # 稀疏图用邻接表
+        for x, y, wt in edges:
+            g[x].append((y, wt))
+            g[y].append((x, wt))
+
+        dis = [-1] * n
+        dis[0] = 0
+        h = [(0, 0)]
+        while h:
+            dx, x = heapq.heappop(h)
+            if dx > dis[x]:  # x 之前出堆过
+                continue
+            for y, wt in g[x]:
+                new_dis = dx + wt
+                if new_dis < disappear[y] and (dis[y] < 0 or new_dis < dis[y]):
+                    dis[y] = new_dis  # 更新 x 的邻居的最短路
+                    heapq.heappush(h, (new_dis, y))
+        return dis
+
+    def numberOfSubarrays(self, nums: List[int]) -> int:
+        st = [[inf, 0]]
+        res = len(nums)
+        for x in nums:
+            while st[-1][0] < x:
+                st.pop()
+            if st[-1][0] == x:
+                res += st[-1][1]
+                st[-1][1] += 1
+            else:
+                st.append([x, 1])
+        return res

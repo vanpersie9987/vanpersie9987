@@ -9443,4 +9443,93 @@ public class Leetcode_8 {
         return res;
 
     }
+
+      public int scoreOfString(String s) {
+          int res = 0;
+          for (int i = 1; i < s.length(); ++i) {
+              res += Math.abs(s.charAt(i) - s.charAt(i - 1));
+          }
+          return res;
+
+    }
+
+    public int minRectanglesToCoverPoints(int[][] points, int w) {
+        Arrays.sort(points, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+            
+        });
+        int res = 0;
+        for (int i = 0; i < points.length; ++i) {
+            int j = i;
+            while (j < points.length && points[j][0] - points[i][0] <= w) {
+                ++j;
+            }
+            ++res;
+            i = j - 1;
+        }
+        return res;
+
+
+    }
+
+    public int[] minimumTime(int n, int[][] edges, int[] disappear) {
+        int[] dis = new int[n];
+        Arrays.fill(dis, -1);
+        dis[0] = 0;
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[1], o2[1]);
+            }
+
+        });
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[0]].add(new int[] { e[1], e[2] });
+            g[e[1]].add(new int[] { e[0], e[2] });
+        }
+        q.offer(new int[] { 0, 0 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int d = cur[1];
+            if (d > dis[x]) {
+                continue;
+            }
+            for (int[] nxt : g[x]) {
+                int y = nxt[0];
+                int dx = nxt[1];
+                if (d + dx < disappear[y] && (dis[y] < 0 || d + dx < dis[y])) {
+                    dis[y] = d + dx;
+                    q.offer(new int[] { y, dis[y] });
+                }
+            }
+        }
+        return dis;
+
+    }
+
+    public long numberOfSubarrays(int[] nums) {
+        long res = nums.length;
+        Stack<int[]> st = new Stack<>();
+        st.add(new int[] { Integer.MAX_VALUE, 0 });
+        for (int x : nums) {
+            while (st.peek()[0] < x) {
+                st.pop();
+            }
+            if (st.peek()[0] == x) {
+                res += st.peek()[1]++;
+            } else {
+                st.push(new int[] { x, 1 });
+            }
+        }
+        return res;
+
+    }
 }
