@@ -3134,3 +3134,18 @@ class leetcode_2:
         n1 = len(s)
         n2 = len(p)
         return dfs(0, 0)
+
+    # 705. 设计哈希集合 (Design HashSet)
+    class MyHashSet:
+
+        def __init__(self):
+            self.vis = [False] * 1000001
+
+        def add(self, key: int) -> None:
+            self.vis[key] = True
+
+        def remove(self, key: int) -> None:
+            self.vis[key] = False
+
+        def contains(self, key: int) -> bool:
+            return self.vis[key]
