@@ -3164,7 +3164,6 @@ class leetcode_2:
             res += 1
             i = j
         return res
-    
 
     def minimumTime(self, n: int, edges: List[List[int]], disappear: List[int]) -> List[int]:
         g = [[] for _ in range(n)]  # 稀疏图用邻接表
