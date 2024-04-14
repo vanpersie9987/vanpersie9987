@@ -1881,7 +1881,11 @@ class leetcode_1:
                 if sub.bit_count() == 2:
                     lb = (sub & -sub).bit_length() - 1
                     lb2 = (sub & (sub - 1)).bit_length() - 1
-                    res = max(res, dfs(i + 1, j | (1 << lb) | (1 << lb2)) + (i + 1) * gcd(nums[lb], nums[lb2]))
+                    res = max(
+                        res,
+                        dfs(i + 1, j | (1 << lb) | (1 << lb2))
+                        + (i + 1) * gcd(nums[lb], nums[lb2]),
+                    )
                 sub = (sub - 1) & c
             return res
         n = len(nums)
