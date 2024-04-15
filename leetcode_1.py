@@ -10372,3 +10372,23 @@ class leetcode_1:
 
         dfs(root)
         return res
+
+    # 706. 设计哈希映射 (Design HashMap)
+    class MyHashMap:
+
+        def __init__(self):
+            self.map = [-1] * (10**6 + 1)
+
+
+        def put(self, key: int, value: int) -> None:
+            self.map[key] = value
+
+
+        def get(self, key: int) -> int:
+            return self.map[key]
+
+
+        def remove(self, key: int) -> None:
+            self.map[key] = -1
+
+
