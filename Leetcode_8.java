@@ -9533,12 +9533,13 @@ public class Leetcode_8 {
 
     }
 
+    // 3114. 替换字符可以得到的最晚时间 (Latest Time You Can Obtain After Replacing Characters)
     public String findLatestTime(String s) {
         for (int i = 11; i >= 0; --i) {
             for (int j = 59; j >= 0; --j) {
-                String cur = (i < 10 ? "0" + i : String.valueOf(i)) + ":" + (j < 10 ? "0" + j : String.valueOf(j));
-                if (check(cur, s)) {
-                    return cur;
+                String t = String.format("%02d:%02d", i, j);
+                if (check3114(t, s)) {
+                    return t;
                 }
             }
         }
@@ -9546,7 +9547,7 @@ public class Leetcode_8 {
 
     }
 
-    private boolean check(String s1, String s2) {
+    private boolean check3114(String s1, String s2) {
         for (int i = 0; i < s1.length(); ++i) {
             if (s2.charAt(i) != '?' && s1.charAt(i) != s2.charAt(i)) {
                 return false;
@@ -9555,62 +9556,61 @@ public class Leetcode_8 {
         return true;
     }
 
+    // 3115. 素数的最大距离 (Maximum Prime Difference)
     public int maximumPrimeDifference(int[] nums) {
-        boolean[] isPrime = new boolean[101];
-        Arrays.fill(isPrime, true);
-        isPrime[1] = false;
-        for (int i = 2; i <= 100; ++i) {
-            if (isPrime[i]) {
-                for (int j = i * i; j <= 100; j += i) {
-                    isPrime[j] = false;
-                }
-            }
+        int l = 0;
+        while (!isPrime3115(nums[l])) {
+            ++l;
         }
-        int l = -1;
-        int r = -1;
-        for (int i = 0; i < nums.length; ++i) {
-            if (isPrime[nums[i]]) {
-                if (l == -1) {
-                    l = i;
-                }
-                r = i;
-            }
+        int r = nums.length - 1;
+        while (!isPrime3115(nums[r])) {
+            --r;
         }
         return r - l;
     }
 
-    private int n;
-    private int m;
-    private int[] nums;
-    private int[] andValues;
-    private Map<Long, Integer> memo;
+    private boolean isPrime3115(int x) {
+        for (int i = 2; i <= Math.sqrt(x); ++i) {
+            if (x % i == 0) {
+                return false;
+            }
+        }
+        return x >= 2;
+    }
+
+    // 3117. 划分数组得到最小的值之和 (Minimum Sum of Values by Dividing Array)
+    private int n3117;
+    private int m3117;
+    private int[] nums3117;
+    private int[] andValues3117;
+    private Map<Long, Integer> memo3117;
 
     public int minimumValueSum(int[] nums, int[] andValues) {
-        this.n = nums.length;
-        this.m = andValues.length;
-        this.nums = nums;
-        this.andValues = andValues;
-        this.memo = new HashMap<>();
-        int res = dfs(0, 0, -1);
+        this.n3117 = nums.length;
+        this.m3117 = andValues.length;
+        this.nums3117 = nums;
+        this.andValues3117 = andValues;
+        this.memo3117 = new HashMap<>();
+        int res = dfs3117(0, 0, -1);
         return res >= (int) 1e8 ? -1 : res;
     }
 
-    private int dfs(int i, int j, int k) {
-        if (i == n || j == m) {
-            return i == n && j == m ? 0 : (int) 1e8;
+    private int dfs3117(int i, int j, int k) {
+        if (i == n3117 || j == m3117) {
+            return i == n3117 && j == m3117 ? 0 : (int) 1e8;
         }
-        if (n - i < m - j || (k & nums[i]) < andValues[j]) {
+        if (n3117 - i < m3117 - j || (k & nums3117[i]) < andValues3117[j]) {
             return (int) 1e8;
         }
         long memoVal = ((long) i << 24) | ((long) j << 20) | (k == -1 ? (1L << 19) : k);
-        if (memo.get(memoVal) != null) {
-            return memo.get(memoVal);
+        if (memo3117.get(memoVal) != null) {
+            return memo3117.get(memoVal);
         }
-        int res = dfs(i + 1, j, k & nums[i]);
-        if ((k & nums[i]) == andValues[j]) {
-            res = Math.min(res, dfs(i + 1, j + 1, -1) + nums[i]);
+        int res = dfs3117(i + 1, j, k & nums3117[i]);
+        if ((k & nums3117[i]) == andValues3117[j]) {
+            res = Math.min(res, dfs3117(i + 1, j + 1, -1) + nums3117[i]);
         }
-        memo.put(memoVal, res);
+        memo3117.put(memoVal, res);
         return res;
     }
 }
