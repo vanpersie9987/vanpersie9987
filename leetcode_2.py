@@ -3316,3 +3316,34 @@ class Union924:
         numSlots <<= 1
         u = (1 << n) - 1
         return dfs(1, 0)
+    
+    # 928. 尽量减少恶意软件的传播 II (Minimize Malware Spread II)
+    def minMalwareSpread(self, graph: List[List[int]], initial: List[int]) -> int:
+        def check(x: int) -> int:
+            union = Union924(n)
+            for i in range(n):
+                for j in range(n):
+                    if i != x and j != x and graph[i][j]:
+                        union.union(i, j)
+            s = set()
+            for i in initial:
+                if i == x:
+                    continue
+                s.add(union.get_root(i))
+            res = 0
+            for i in s:
+                res += union.get_size(i)
+            return res
+        n = len(graph)
+        initial.sort()
+        s = inf
+        res = inf
+        for i in initial:
+            cur = check(i)
+            if cur < s:
+                s = cur
+                res = i
+        return res
+
+
+
