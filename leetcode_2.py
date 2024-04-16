@@ -3150,21 +3150,22 @@ class leetcode_2:
         def contains(self, key: int) -> bool:
             return self.vis[key]
 
+    # 3110. 字符串的分数 (Score of a String)
     def scoreOfString(self, s: str) -> int:
-        return sum(abs(ord(x) - ord(y)) for x, y in pairwise(s))
+        return sum(abs(x - y) for x, y in pairwise(map(ord, s)))
 
+    # 3111. 覆盖所有点的最少矩形数目 (Minimum Rectangles to Cover Points)
     def minRectanglesToCoverPoints(self, points: List[List[int]], w: int) -> int:
         points.sort()
         res = 0
-        i = 0
-        while i < len(points):
-            j = i
-            while j < len(points) and points[j][0] - points[i][0] <= w:
-                j += 1
-            res += 1
-            i = j
+        r = -1
+        for p in points:
+            if p[0] > r:
+                res += 1
+                r = p[0] + w
         return res
 
+    # 3112. 访问消失节点的最少时间 (Minimum Time to Visit Disappearing Nodes)
     def minimumTime(self, n: int, edges: List[List[int]], disappear: List[int]) -> List[int]:
         g = [[] for _ in range(n)]  # 稀疏图用邻接表
         for x, y, wt in edges:
@@ -3185,6 +3186,7 @@ class leetcode_2:
                     heapq.heappush(h, (new_dis, y))
         return dis
 
+    # 3113. 边界元素是最大值的子数组数目 (Find the Number of Subarrays Where Boundary Elements Are Maximum)
     def numberOfSubarrays(self, nums: List[int]) -> int:
         st = [[inf, 0]]
         res = len(nums)

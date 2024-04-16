@@ -9444,15 +9444,17 @@ public class Leetcode_8 {
 
     }
 
-      public int scoreOfString(String s) {
-          int res = 0;
-          for (int i = 1; i < s.length(); ++i) {
-              res += Math.abs(s.charAt(i) - s.charAt(i - 1));
-          }
-          return res;
+    // 3110. 字符串的分数 (Score of a String)
+    public int scoreOfString(String s) {
+        int res = 0;
+        for (int i = 1; i < s.length(); ++i) {
+            res += Math.abs(s.charAt(i) - s.charAt(i - 1));
+        }
+        return res;
 
     }
 
+    // 3111. 覆盖所有点的最少矩形数目 (Minimum Rectangles to Cover Points)
     public int minRectanglesToCoverPoints(int[][] points, int w) {
         Arrays.sort(points, new Comparator<int[]>() {
 
@@ -9463,19 +9465,19 @@ public class Leetcode_8 {
             
         });
         int res = 0;
-        for (int i = 0; i < points.length; ++i) {
-            int j = i;
-            while (j < points.length && points[j][0] - points[i][0] <= w) {
-                ++j;
+        int r = -1;
+        for (int[] p : points) {
+            if (p[0] > r) {
+                ++res;
+                r = p[0] + w;
             }
-            ++res;
-            i = j - 1;
         }
         return res;
 
 
     }
 
+    // 3112. 访问消失节点的最少时间 (Minimum Time to Visit Disappearing Nodes)
     public int[] minimumTime(int n, int[][] edges, int[] disappear) {
         int[] dis = new int[n];
         Arrays.fill(dis, -1);
@@ -9515,6 +9517,8 @@ public class Leetcode_8 {
 
     }
 
+    // 3113. 边界元素是最大值的子数组数目 (Find the Number of Subarrays Where Boundary Elements
+    // Are Maximum)
     public long numberOfSubarrays(int[] nums) {
         long res = nums.length;
         Stack<int[]> st = new Stack<>();
