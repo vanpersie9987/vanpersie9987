@@ -3296,3 +3296,23 @@ class Union924:
                 elif union.get_size(root) == s and res > i:
                     res = i
         return res
+    
+    # 2172. 数组的最大与和 (Maximum AND Sum of Array)
+    def maximumANDSum(self, nums: List[int], numSlots: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if j == u:
+                return 0
+            if numSlots - i + 1 < (u ^ j).bit_count():
+                return -inf
+            res = dfs(i + 1, j)
+            c = u ^ j
+            while c:
+                lb = (c & -c).bit_length() - 1
+                res = max(res, dfs(i + 1, j | (1 << lb)) + (((i + 1) >> 1) & nums[lb]))
+                c &= c - 1
+            return res
+        n = len(nums)
+        numSlots <<= 1
+        u = (1 << n) - 1
+        return dfs(1, 0)
