@@ -856,30 +856,20 @@ public class Leetcode_7 {
                 }
             }
         }
-        Map<Integer, Integer> countMap = new HashMap<>();
-        for (int i = 0; i < n; ++i) {
-            int root = union.getRoot(i);
-            countMap.merge(root, 1, Integer::sum);
-        }
-        int infectionsNodes = 0;
-        Map<Integer, Integer> infection = new HashMap<>();
+        int res = n;
+        int s = 0;
+        Map<Integer, List<Integer>> cnt = new HashMap<>();
         for (int i : initial) {
-            int root = union.getRoot(i);
-            if (!infection.containsKey(root)) {
-                infectionsNodes += countMap.getOrDefault(root, 0);
-            }
-            infection.merge(root, 1, Integer::sum);
+            cnt.computeIfAbsent(union.getRoot(i), k -> new ArrayList<>()).add(i);
+            res = Math.min(res, i);
         }
-        Arrays.sort(initial);
-        int res = initial[0];
-        int min = infectionsNodes;
-        for (int i : initial) {
-            int root = union.getRoot(i);
-            if (infection.getOrDefault(root, 0) == 1) {
-                int actual = infectionsNodes - countMap.get(root);
-                if (actual < min) {
-                    min = actual;
-                    res = i;
+        for (Map.Entry<Integer, List<Integer>> entry : cnt.entrySet()) {
+            if (entry.getValue().size() == 1) {
+                if (union.getSize(entry.getKey()) > s) {
+                    s = union.getSize(entry.getKey());
+                    res = entry.getValue().get(0);
+                } else if (union.getSize(entry.getKey()) == s && res > entry.getValue().get(0)) {
+                    res = entry.getValue().get(0);
                 }
             }
         }
@@ -890,13 +880,16 @@ public class Leetcode_7 {
     public class Union924 {
         private int[] parent;
         private int[] rank;
+        private int[] size;
 
         public Union924(int n) {
-            parent = new int[n];
-            rank = new int[n];
+            this.parent = new int[n];
+            this.rank = new int[n];
+            this.size = new int[n];
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
                 rank[i] = 1;
+                size[i] = 1;
             }
         }
 
@@ -919,14 +912,19 @@ public class Leetcode_7 {
             }
             if (rank[root1] < rank[root2]) {
                 parent[root1] = root2;
+                size[root2] += size[root1];
             } else {
                 parent[root2] = root1;
+                size[root1] += size[root2];
                 if (rank[root1] == rank[root2]) {
                     ++rank[root1];
                 }
             }
         }
 
+        public int getSize(int p) {
+            return size[getRoot(p)];
+        }
     }
 
     // 2218. 从栈中取出 K 个硬币的最大面值和 (Maximum Value of K Coins From Piles)

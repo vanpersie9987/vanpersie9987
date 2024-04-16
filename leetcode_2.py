@@ -3197,3 +3197,43 @@ class leetcode_2:
             else:
                 st.append([x, 1])
         return res
+
+    # 3114. 替换字符可以得到的最晚时间 (Latest Time You Can Obtain After Replacing Characters)
+    def findLatestTime(self, s: str) -> str:
+        for i in range(11, -1, -1):
+            for j in range(59, -1, -1):
+                t = f"{i:02d}:{j:02d}"
+                if all(x == '?' or x == y for x, y in zip(s, t)):
+                    return t
+
+    def maximumPrimeDifference(self, nums: List[int]) -> int:
+        is_prime = [True] * 101
+        is_prime[1] = False
+        for i in range(2, 101):
+            if is_prime[i]:
+                for j in range(i * i, 101, i):
+                    is_prime[j] = False
+        l = -1
+        r = -1
+        for i, v in enumerate(nums):
+            if is_prime[v]:
+                if l == -1:
+                    l = i
+                r = i
+        return r - l
+
+    def minimumValueSum(self, nums: List[int], andValues: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if i == n or j == m:
+                return 0 if i == n and j == m else inf
+            if n - i < m - j or nums[i] & k < andValues[j]:
+                return inf
+            res = dfs(i + 1, j, nums[i] & k)
+            if nums[i] & k == andValues[j]:
+                res = min(res, dfs(i + 1, j + 1, -1) + nums[i])
+            return res
+        n = len(nums)
+        m = len(andValues)
+        res = dfs(0, 0, -1)
+        return -1 if res == inf else res

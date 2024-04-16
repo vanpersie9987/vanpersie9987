@@ -9532,4 +9532,85 @@ public class Leetcode_8 {
         return res;
 
     }
+
+    public String findLatestTime(String s) {
+        for (int i = 11; i >= 0; --i) {
+            for (int j = 59; j >= 0; --j) {
+                String cur = (i < 10 ? "0" + i : String.valueOf(i)) + ":" + (j < 10 ? "0" + j : String.valueOf(j));
+                if (check(cur, s)) {
+                    return cur;
+                }
+            }
+        }
+        return "";
+
+    }
+
+    private boolean check(String s1, String s2) {
+        for (int i = 0; i < s1.length(); ++i) {
+            if (s2.charAt(i) != '?' && s1.charAt(i) != s2.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int maximumPrimeDifference(int[] nums) {
+        boolean[] isPrime = new boolean[101];
+        Arrays.fill(isPrime, true);
+        isPrime[1] = false;
+        for (int i = 2; i <= 100; ++i) {
+            if (isPrime[i]) {
+                for (int j = i * i; j <= 100; j += i) {
+                    isPrime[j] = false;
+                }
+            }
+        }
+        int l = -1;
+        int r = -1;
+        for (int i = 0; i < nums.length; ++i) {
+            if (isPrime[nums[i]]) {
+                if (l == -1) {
+                    l = i;
+                }
+                r = i;
+            }
+        }
+        return r - l;
+    }
+
+    private int n;
+    private int m;
+    private int[] nums;
+    private int[] andValues;
+    private Map<Long, Integer> memo;
+
+    public int minimumValueSum(int[] nums, int[] andValues) {
+        this.n = nums.length;
+        this.m = andValues.length;
+        this.nums = nums;
+        this.andValues = andValues;
+        this.memo = new HashMap<>();
+        int res = dfs(0, 0, -1);
+        return res >= (int) 1e8 ? -1 : res;
+    }
+
+    private int dfs(int i, int j, int k) {
+        if (i == n || j == m) {
+            return i == n && j == m ? 0 : (int) 1e8;
+        }
+        if (n - i < m - j || (k & nums[i]) < andValues[j]) {
+            return (int) 1e8;
+        }
+        long memoVal = ((long) i << 24) | ((long) j << 20) | (k == -1 ? (1L << 19) : k);
+        if (memo.get(memoVal) != null) {
+            return memo.get(memoVal);
+        }
+        int res = dfs(i + 1, j, k & nums[i]);
+        if ((k & nums[i]) == andValues[j]) {
+            res = Math.min(res, dfs(i + 1, j + 1, -1) + nums[i]);
+        }
+        memo.put(memoVal, res);
+        return res;
+    }
 }
