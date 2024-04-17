@@ -3373,6 +3373,35 @@ class Union924:
         dfs(0)
         return res
 
+    # 2007. 从双倍数组中还原原数组 (Find Original Array From Doubled Array)
+    def findOriginalArray(self, changed: List[int]) -> List[int]:
+        n = len(changed)
+        if n & 1:
+            return []
+        changed.sort()
+        c = Counter(changed)
+        if c[0] % 1:
+            return []
+        res = []
+        res.extend([0] * (c[0] // 2))
+        for ch in changed:
+            if ch == 0 or c[ch] == 0:
+                continue
+            if ch * 2 not in c:
+                return []
+            c[ch] -= 1
+            if c[ch] == 0:
+                del c[ch]
+            c[ch * 2] -= 1
+            if c[ch * 2] == 0:
+                del c[ch * 2]
+            res.append(ch)
+        return res
+        
+        
+
+
+
 
             
 
