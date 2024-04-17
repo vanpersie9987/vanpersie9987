@@ -1520,29 +1520,23 @@ class leetcode_1:
 
     # 2741. 特别的排列 (Special Permutations)
     def specialPerm(self, nums: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == u:
+                return 1
+            res = 0
+            c = u ^ i
+            while c:
+                lb = (c & -c).bit_length() - 1
+                if nums[lb] % nums[j] == 0 or nums[j] % nums[lb] == 0:
+                    res += dfs(i | (1 << lb), lb)
+                c &= c - 1
+            res %= MOD
+            return res
         n = len(nums)
         u = (1 << n) - 1
         MOD = 10**9 + 7
-
-        @cache
-        def dfs(i: int, m: int) -> int:
-            if m == u:
-                return 1
-            res = 0
-            j = u ^ m
-            while j > 0:
-                index = (j & -j).bit_length() - 1
-                if nums[index] % nums[i] == 0 or nums[i] % nums[index] == 0:
-                    res += dfs(index, m | (1 << index))
-                    res %= MOD
-                j &= j - 1
-            return res
-
-        res = 0
-        for i in range(n):
-            res += dfs(i, 1 << i)
-            res %= MOD
-        return res
+        return sum(dfs(1 << i, i) for i in range(n)) % MOD
 
     # 2002. 两个回文子序列长度的最大乘积 (Maximum Product of the Length of Two Palindromic Subsequences)
     def maxProduct(self, s: str) -> int:
