@@ -6770,34 +6770,35 @@ public class Leetcode_5 {
         if (n % 2 == 1) {
             return new int[0];
         }
-        int[] res = new int[n / 2];
-        int i = 0;
-        Arrays.sort(changed);
-        int[] counts = new int[changed[n - 1] + 1];
-        for (int num : changed) {
-            ++counts[num];
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int c : changed) {
+            map.merge(c, 1, Integer::sum);
         }
-        for (int num : changed) {
-            if (counts[num] == 0) {
+        int cnt0 = map.getOrDefault(0, 0);
+        if (cnt0 % 2 == 1) {
+            return new int[0];
+        }
+        int[] res = new int[n / 2];
+        Arrays.sort(changed);
+        int index = cnt0 / 2;
+        for (int i = cnt0; i < n; ++i) {
+            if (map.getOrDefault(changed[i], 0) == 0) {
                 continue;
             }
-            if ((num == 0 && counts[num] % 2 == 1) || num * 2 >= counts.length || counts[num * 2] == 0) {
+            if (map.getOrDefault(changed[i] * 2, 0) == 0) {
                 return new int[0];
             }
-            if (num == 0) {
-                i += counts[num] / 2;
-                counts[num] = 0;
-            } else {
-                res[i++] = num;
-                --counts[num];
-                --counts[num * 2];
+            map.merge(changed[i], -1, Integer::sum);
+            map.merge(changed[i] * 2, -1, Integer::sum);
+            if (map.getOrDefault(changed[i], 0) == 0) {
+                map.remove(changed[i]);
             }
-            if (i == n / 2) {
-                break;
+            if (map.getOrDefault(changed[i] * 2, 0) == 0) {
+                map.remove(changed[i] * 2);
             }
+            res[index++] = changed[i];
         }
         return res;
-
     }
 
     // 686. 重复叠加字符串匹配 (Repeated String Match)
