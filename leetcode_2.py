@@ -3296,7 +3296,7 @@ class Union924:
                 elif union.get_size(root) == s and res > i:
                     res = i
         return res
-    
+
     # 2172. 数组的最大与和 (Maximum AND Sum of Array)
     def maximumANDSum(self, nums: List[int], numSlots: int) -> int:
         @cache
@@ -3316,7 +3316,7 @@ class Union924:
         numSlots <<= 1
         u = (1 << n) - 1
         return dfs(1, 0)
-    
+
     # 928. 尽量减少恶意软件的传播 II (Minimize Malware Spread II)
     def minMalwareSpread(self, graph: List[List[int]], initial: List[int]) -> int:
         def check(x: int) -> int:
@@ -3345,5 +3345,31 @@ class Union924:
                 res = i
         return res
 
-
-
+    # 996. 正方形数组的数目 (Number of Squareful Arrays)
+    def numSquarefulPerms(self, nums: List[int]) -> int:
+        def dfs(i: int) -> None:
+            if i == n:
+                nonlocal res
+                res += 1
+                return
+            nonlocal used
+            for j, v in enumerate(nums):
+                if (used >> j & 1) or j and v == nums[j - 1] and (used >> (j - 1) & 1 == 0):
+                    continue
+                s = 0
+                if len(_list):
+                    s = isqrt(_list[-1] + v)
+                    if s * s != _list[-1] + v:
+                        continue
+                used ^= 1 << j
+                _list.append(v)
+                dfs(i + 1)
+                used ^= 1 << j
+                _list.pop()
+        nums.sort()
+        n = len(nums)
+        res = 0
+        _list = []
+        used = 0
+        dfs(0)
+        return res
