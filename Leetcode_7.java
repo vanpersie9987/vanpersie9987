@@ -5741,7 +5741,6 @@ public class Leetcode_7 {
     private int n996;
     private int[] nums996;
     private boolean[] used996;
-    private int res996;
     private List<Integer> list996;
 
     public int numSquarefulPerms(int[] nums) {
@@ -5750,37 +5749,32 @@ public class Leetcode_7 {
         this.nums996 = nums;
         this.used996 = new boolean[n996];
         this.list996 = new ArrayList<>();
-        dfs996();
-        return res996;
-
+        return dfs996();
     }
 
-    private void dfs996() {
+    private int dfs996() {
         if (list996.size() == n996) {
-            ++res996;
-            return;
+            return 1;
         }
+        int res = 0;
         for (int i = 0; i < n996; ++i) {
             if (used996[i] || i > 0 && nums996[i] == nums996[i - 1] && !used996[i - 1]) {
                 continue;
             }
-            if (list996.isEmpty()) {
-                used996[i] = true;
-                list996.add(nums996[i]);
-                dfs996();
-                used996[i] = false;
-                list996.remove(list996.size() - 1);
-            } else {
+            if (!list996.isEmpty()) {
                 int sqrt = (int) Math.sqrt(list996.get(list996.size() - 1) + nums996[i]);
-                if (sqrt * sqrt == list996.get(list996.size() - 1) + nums996[i]) {
-                    used996[i] = true;
-                    list996.add(nums996[i]);
-                    dfs996();
-                    used996[i] = false;
-                    list996.remove(list996.size() - 1);
+                if (sqrt * sqrt != list996.get(list996.size() - 1) + nums996[i]) {
+                    continue;
+
                 }
             }
+            used996[i] = true;
+            list996.add(nums996[i]);
+            res += dfs996();
+            used996[i] = false;
+            list996.remove(list996.size() - 1);
         }
+        return res;
     }
 
     // 1799. N 次操作后的最大分数和 (Maximize Score After N Operations)
