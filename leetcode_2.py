@@ -3346,12 +3346,11 @@ class Union924:
 
     # 996. 正方形数组的数目 (Number of Squareful Arrays)
     def numSquarefulPerms(self, nums: List[int]) -> int:
-        def dfs(i: int) -> None:
-            if i == n:
-                nonlocal res
-                res += 1
-                return
+        def dfs() -> int:
+            if len(_list) == n:
+                return 1
             nonlocal used
+            res = 0
             for j, v in enumerate(nums):
                 if (used >> j & 1) or j and v == nums[j - 1] and (used >> (j - 1) & 1 == 0):
                     continue
@@ -3362,16 +3361,15 @@ class Union924:
                         continue
                 used ^= 1 << j
                 _list.append(v)
-                dfs(i + 1)
+                res += dfs()
                 used ^= 1 << j
                 _list.pop()
+            return res
         nums.sort()
         n = len(nums)
-        res = 0
         _list = []
         used = 0
-        dfs(0)
-        return res
+        return dfs()
 
     # 2007. 从双倍数组中还原原数组 (Find Original Array From Doubled Array)
     def findOriginalArray(self, changed: List[int]) -> List[int]:
