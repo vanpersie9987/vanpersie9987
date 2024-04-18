@@ -1501,7 +1501,7 @@ class leetcode_1:
         def dfs(i: int, j: int) -> int:
             if j == u:
                 return 0
-            if i == k or k - i > (u ^ j).bit_count():
+            if i == k:
                 return inf
             res = inf
             sub = c = u ^ j
