@@ -1839,26 +1839,22 @@ class leetcode_1:
 
     # 1986. 完成任务的最少工作时间段 (Minimum Number of Work Sessions to Finish the Tasks)
     def minSessions(self, tasks: List[int], sessionTime: int) -> int:
-        n = len(tasks)
-        sum = [0] * (1 << n)
-        u = (1 << n) - 1
-        for i in range(1, 1 << n):
-            index = (i & -i).bit_length() - 1
-            sum[i] = sum[i ^ (1 << index)] + tasks[index]
-
         @cache
         def dfs(i: int) -> int:
             if i == u:
                 return 0
             res = inf
-            c = u ^ i
-            j = c
-            while j:
-                if sum[j] <= sessionTime:
-                    res = min(res, dfs(i | j) + 1)
-                j = (j - 1) & c
+            sub = c = u ^ i
+            while sub:
+                if s[sub] <= sessionTime:
+                    res = min(res, dfs(i | sub) + 1)
+                sub = (sub - 1) & c
             return res
-
+        n = len(tasks)
+        s = [0] * (1 << n)
+        for i in range(1, 1 << n):
+            s[i] = s[i & (i - 1)] + tasks[(i & -i).bit_length() - 1]
+        u = (1 << n) - 1
         return dfs(0)
 
     # 1799. N 次操作后的最大分数和 (Maximize Score After N Operations)
