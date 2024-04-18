@@ -5740,14 +5740,13 @@ public class Leetcode_7 {
     // 996. 正方形数组的数目 (Number of Squareful Arrays)
     private int n996;
     private int[] nums996;
-    private boolean[] used996;
+    private int used996;
     private List<Integer> list996;
 
     public int numSquarefulPerms(int[] nums) {
         Arrays.sort(nums);
         this.n996 = nums.length;
         this.nums996 = nums;
-        this.used996 = new boolean[n996];
         this.list996 = new ArrayList<>();
         return dfs996();
     }
@@ -5758,7 +5757,7 @@ public class Leetcode_7 {
         }
         int res = 0;
         for (int i = 0; i < n996; ++i) {
-            if (used996[i] || i > 0 && nums996[i] == nums996[i - 1] && !used996[i - 1]) {
+            if (((used996 >> i) & 1) == 1 || i > 0 && nums996[i] == nums996[i - 1] && ((used996 >> (i - 1)) & 1) == 0) {
                 continue;
             }
             if (!list996.isEmpty()) {
@@ -5768,10 +5767,10 @@ public class Leetcode_7 {
 
                 }
             }
-            used996[i] = true;
+            used996 ^= 1 << i;
             list996.add(nums996[i]);
             res += dfs996();
-            used996[i] = false;
+            used996 ^= 1 << i;
             list996.remove(list996.size() - 1);
         }
         return res;
