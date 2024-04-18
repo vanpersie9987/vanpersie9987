@@ -2540,32 +2540,30 @@ class leetcode_1:
 
     # 1494. 并行课程 II (Parallel Courses II)
     def minNumberOfSemesters(self, n: int, relations: List[List[int]], k: int) -> int:
-        pre = [0] * n
-        u = (1 << n) - 1
-        for r in relations:
-            pre[r[1] - 1] |= 1 << (r[0] - 1)
-
         @cache
         def dfs(i: int) -> int:
             if i == u:
                 return 0
-            c = u ^ i
-            candidate = 0
-            while c:
-                index = (c & -c).bit_length() - 1
-                if (pre[index] | i) == i:
-                    candidate |= 1 << index
-                c &= c - 1
-            if candidate.bit_count() <= k:
-                return dfs(i | candidate) + 1
+            sub = i ^ u
+            c = 0
+            while sub:
+                lb = (sub & -sub).bit_length() - 1
+                if pre[lb] | i == i:
+                    c |= 1 << lb
+                sub &= sub - 1
+            if c.bit_count() <= k:
+                return dfs(i | c) + 1
             res = inf
-            j = candidate
-            while j:
-                if j.bit_count() <= k:
-                    res = min(res, dfs(i | j) + 1)
-                j = (j - 1) & candidate
+            sub = c
+            while sub:
+                if sub.bit_count() <= k:
+                    res = min(res, dfs(i | sub) + 1)
+                sub = (sub - 1) & c
             return res
-
+        pre = [0] * n
+        for x, y in relations:
+            pre[y - 1] |= 1 << (x - 1)
+        u = (1 << n) - 1
         return dfs(0)
 
     # 1416. 恢复数组 (Restore The Array)
