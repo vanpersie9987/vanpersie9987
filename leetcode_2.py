@@ -3378,7 +3378,7 @@ class Union924:
             return []
         changed.sort()
         c = Counter(changed)
-        if c[0] % 1:
+        if c[0] & 1:
             return []
         res = []
         res.extend([0] * (c[0] // 2))
