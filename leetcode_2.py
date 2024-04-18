@@ -3395,11 +3395,5 @@ class Union924:
                 del c[ch * 2]
             res.append(ch)
         return res
-        
-        
 
-
-
-
-            
-
+   

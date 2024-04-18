@@ -1497,25 +1497,23 @@ class leetcode_1:
 
     # 2305. 公平分发饼干 (Fair Distribution of Cookies)
     def distributeCookies(self, cookies: List[int], k: int) -> int:
-        n = len(cookies)
-        u = (1 << n) - 1
-        arr = [0] * (1 << n)
-        for i in range(1, 1 << n):
-            index = (i & -i).bit_length() - 1
-            arr[i] = arr[i ^ (1 << index)] + cookies[index]
-
         @cache
-        def dfs(i: int, m: int) -> int:
-            if i == k or m == u:
-                return 0 if i == k and m == u else inf
+        def dfs(i: int, j: int) -> int:
+            if j == u:
+                return 0
+            if i == k or k - i > (u ^ j).bit_count():
+                return inf
             res = inf
-            c = m ^ u
-            s = c
-            while s > 0:
-                res = min(res, max(dfs(i + 1, s | m), arr[s]))
-                s = (s - 1) & c
+            sub = c = u ^ j
+            while sub:
+                res = min(res, max(dfs(i + 1, j | sub), s[sub]))
+                sub = (sub - 1) & c
             return res
-
+        n = len(cookies)
+        s = [0] * (1 << n)
+        for i in range(1, 1 << n):
+            s[i] = s[i & (i - 1)] + cookies[(i & -i).bit_length() - 1]
+        u = (1 << n) - 1
         return dfs(0, 0)
 
     # 2741. 特别的排列 (Special Permutations)
