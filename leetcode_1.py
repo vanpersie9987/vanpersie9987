@@ -278,7 +278,13 @@ class leetcode_1:
                 return s2[j:] == s3[k:]
             if j == n2:
                 return s1[i:] == s3[k:]
-            return s1[i] == s3[k] and dfs(i + 1, j, k + 1) or s2[j] == s3[k] and dfs(i, j + 1, k + 1)
+            return (
+                s1[i] == s3[k]
+                and dfs(i + 1, j, k + 1)
+                or s2[j] == s3[k]
+                and dfs(i, j + 1, k + 1)
+            )
+
         n1 = len(s1)
         n2 = len(s2)
         n3 = len(s3)
@@ -948,6 +954,7 @@ class leetcode_1:
             if word1[i] == word2[j]:
                 return dfs(i + 1, j + 1)
             return min(dfs(i, j + 1), dfs(i + 1, j + 1), dfs(i + 1, j)) + 1
+
         n1 = len(word1)
         n2 = len(word2)
         return dfs(0, 0)
@@ -1509,6 +1516,7 @@ class leetcode_1:
                 res = min(res, max(dfs(i + 1, j | sub), s[sub]))
                 sub = (sub - 1) & c
             return res
+
         n = len(cookies)
         s = [0] * (1 << n)
         for i in range(1, 1 << n):
@@ -1531,6 +1539,7 @@ class leetcode_1:
                 c &= c - 1
             res %= MOD
             return res
+
         n = len(nums)
         u = (1 << n) - 1
         MOD = 10**9 + 7
@@ -1850,6 +1859,7 @@ class leetcode_1:
                     res = min(res, dfs(i | sub) + 1)
                 sub = (sub - 1) & c
             return res
+
         n = len(tasks)
         s = [0] * (1 << n)
         for i in range(1, 1 << n):
@@ -1876,6 +1886,7 @@ class leetcode_1:
                     )
                 sub = (sub - 1) & c
             return res
+
         n = len(nums)
         u = (1 << n) - 1
         return dfs(0, 0)
@@ -2199,40 +2210,37 @@ class leetcode_1:
                 res = min(res, dfs(i + 1, j | (1 << lb)) + (nums1[i] ^ nums2[lb]))
                 c &= c - 1
             return res
+
         n = len(nums1)
         u = (1 << n) - 1
         return dfs(0, 0)
 
     # 1655. 分配重复整数 (Distribute Repeating Integers)
     def canDistribute(self, nums: List[int], quantity: List[int]) -> bool:
-        c = Counter(nums)
-        cnt = list(c.values())
-        n = len(cnt)
-        q = len(quantity)
-        u = (1 << q) - 1
-        sum = [0] * (1 << q)
-        for i in range(1, 1 << q):
-            index = (i & -i).bit_length() - 1
-            sum[i] = sum[i ^ (1 << index)] + quantity[index]
-
         @cache
-        def dfs(i: int, m: int) -> bool:
-            if m == u:
+        def dfs(i: int, j: int) -> bool:
+            if j == u:
                 return True
             if i == n:
                 return False
-            # 不选
-            if dfs(i + 1, m):
+            sub = c = j ^ u
+            if dfs(i + 1, j):
                 return True
-            c = u ^ m
-            j = c
-            while j:
-                # 选
-                if cnt[i] >= sum[j] and dfs(i + 1, m | j):
+            while sub:
+                if arr[i] >= s[sub] and dfs(i + 1, j | sub):
                     return True
-                j = (j - 1) & c
+                sub = (sub - 1) & c
             return False
 
+        arr = list(Counter(nums).values())
+        if max(arr) < max(quantity):
+            return False
+        n = len(arr)
+        m = len(quantity)
+        s = [0] * (1 << m)
+        u = (1 << m) - 1
+        for i in range(1, 1 << m):
+            s[i] = s[i & (i - 1)] + quantity[(i & -i).bit_length() - 1]
         return dfs(0, 0)
 
     # 713. 乘积小于 K 的子数组 (Subarray Product Less Than K)
@@ -2560,6 +2568,7 @@ class leetcode_1:
                     res = min(res, dfs(i | sub) + 1)
                 sub = (sub - 1) & c
             return res
+
         pre = [0] * n
         for x, y in relations:
             pre[y - 1] |= 1 << (x - 1)
@@ -4662,6 +4671,7 @@ class leetcode_1:
                     res = max(dfs(i + 1, j | sub), s[sub])
                 sub = (sub - 1) & c
             return res
+
         n = len(jobs)
         u = (1 << n) - 1
         s = [0] * (1 << n)
@@ -4687,6 +4697,7 @@ class leetcode_1:
                     if c[nums[j]] > 1:
                         return False
             return True
+
         @cache
         def dfs(i: int) -> int:
             if i == u:
@@ -4698,6 +4709,7 @@ class leetcode_1:
                     res = min(res, dfs(i | sub) + d[sub])
                 sub = (sub - 1) & c
             return res
+
         c = Counter(nums)
         if max(c.values()) > k:
             return -1
@@ -5853,7 +5865,7 @@ class leetcode_1:
         cnts = [[0] * 26 for _ in range(n)]
         for w in words:
             for i, c in enumerate(w):
-                cnts[i][ord(c) - ord('a')] += 1
+                cnts[i][ord(c) - ord("a")] += 1
         return dfs(n - 1, len(target) - 1)
 
     # 2146. 价格范围内最高排名的 K 样物品 (K Highest Ranked Items Within a Price Range)
@@ -10350,16 +10362,11 @@ class leetcode_1:
         def __init__(self):
             self.map = [-1] * (10**6 + 1)
 
-
         def put(self, key: int, value: int) -> None:
             self.map[key] = value
-
 
         def get(self, key: int) -> int:
             return self.map[key]
 
-
         def remove(self, key: int) -> None:
             self.map[key] = -1
-
-

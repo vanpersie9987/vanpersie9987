@@ -3120,16 +3120,17 @@ class leetcode_2:
             if i == n1 and j == n2:
                 return True
             if i == n1:
-                return p[j:].count('*') == n2 - j
+                return p[j:].count("*") == n2 - j
             if j == n2:
                 return False
             if s[i:] == p[j:]:
                 return True
             if p[j].islower():
                 return s[i] == p[j] and dfs(i + 1, j + 1)
-            if p[j] == '?':
+            if p[j] == "?":
                 return dfs(i + 1, j + 1)
             return any(dfs(k, j + 1) for k in range(i, n1 + 1))
+
         n1 = len(s)
         n2 = len(p)
         return dfs(0, 0)
@@ -3165,7 +3166,9 @@ class leetcode_2:
         return res
 
     # 3112. 访问消失节点的最少时间 (Minimum Time to Visit Disappearing Nodes)
-    def minimumTime(self, n: int, edges: List[List[int]], disappear: List[int]) -> List[int]:
+    def minimumTime(
+        self, n: int, edges: List[List[int]], disappear: List[int]
+    ) -> List[int]:
         g = [[] for _ in range(n)]  # 稀疏图用邻接表
         for x, y, wt in edges:
             g[x].append((y, wt))
@@ -3204,7 +3207,7 @@ class leetcode_2:
         for i in range(11, -1, -1):
             for j in range(59, -1, -1):
                 t = f"{i:02d}:{j:02d}"
-                if all(x == '?' or x == y for x, y in zip(s, t)):
+                if all(x == "?" or x == y for x, y in zip(s, t)):
                     return t
 
     # 3115. 素数的最大距离 (Maximum Prime Difference)
@@ -3214,6 +3217,7 @@ class leetcode_2:
                 if x % i == 0:
                     return False
             return x >= 2
+
         l = 0
         while not is_prime(nums[l]):
             l += 1
@@ -3235,10 +3239,12 @@ class leetcode_2:
             if k == andValues[j]:
                 res = min(res, dfs(i + 1, j + 1, -1) + nums[i])
             return res
+
         n = len(nums)
         m = len(andValues)
         res = dfs(0, 0, -1)
         return -1 if res == inf else res
+
 
 class Union924:
 
@@ -3248,11 +3254,13 @@ class Union924:
             self.parent[i] = i
         self.rank = [1] * n
         self.size = [1] * n
+
     def get_root(self, p: int) -> int:
         if self.parent[p] == p:
             return p
         self.parent[p] = self.get_root(self.parent[p])
         return self.parent[p]
+
     def is_connected(self, p1: int, p2: int) -> bool:
         return self.get_root(p1) == self.get_root(p2)
 
@@ -3269,6 +3277,7 @@ class Union924:
             self.size[root1] += self.size[root2]
             if self.rank[root1] == self.rank[root2]:
                 self.rank[root1] += 1
+
     def get_size(self, p: int) -> int:
         return self.size[self.get_root(p)]
 
@@ -3311,6 +3320,7 @@ class Union924:
                 res = max(res, dfs(i + 1, j | (1 << lb)) + (((i + 1) >> 1) & nums[lb]))
                 c &= c - 1
             return res
+
         n = len(nums)
         numSlots <<= 1
         u = (1 << n) - 1
@@ -3333,6 +3343,7 @@ class Union924:
             for i in s:
                 res += union.get_size(i)
             return res
+
         n = len(graph)
         initial.sort()
         s = inf
@@ -3352,7 +3363,12 @@ class Union924:
             nonlocal used
             res = 0
             for j, v in enumerate(nums):
-                if (used >> j & 1) or j and v == nums[j - 1] and (used >> (j - 1) & 1 == 0):
+                if (
+                    (used >> j & 1)
+                    or j
+                    and v == nums[j - 1]
+                    and (used >> (j - 1) & 1 == 0)
+                ):
                     continue
                 s = 0
                 if len(_list):
@@ -3365,6 +3381,7 @@ class Union924:
                 used ^= 1 << j
                 _list.pop()
             return res
+
         nums.sort()
         n = len(nums)
         _list = []
