@@ -9600,15 +9600,16 @@ public class Leetcode_8 {
         if (i == n3117 || j == m3117) {
             return i == n3117 && j == m3117 ? 0 : (int) 1e8;
         }
-        if (n3117 - i < m3117 - j || (k & nums3117[i]) < andValues3117[j]) {
+        k &= nums3117[i];
+        if (n3117 - i < m3117 - j || k < andValues3117[j]) {
             return (int) 1e8;
         }
-        long memoVal = ((long) i << 24) | ((long) j << 20) | (k == -1 ? (1L << 19) : k);
+        long memoVal = ((long) i << 24) | ((long) j << 20) | k;
         if (memo3117.get(memoVal) != null) {
             return memo3117.get(memoVal);
         }
-        int res = dfs3117(i + 1, j, k & nums3117[i]);
-        if ((k & nums3117[i]) == andValues3117[j]) {
+        int res = dfs3117(i + 1, j, k);
+        if (k == andValues3117[j]) {
             res = Math.min(res, dfs3117(i + 1, j + 1, -1) + nums3117[i]);
         }
         memo3117.put(memoVal, res);
