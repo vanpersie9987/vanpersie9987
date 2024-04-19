@@ -9842,10 +9842,10 @@ public class Leetcode_7 {
         if (memo1723[i][j] != -1) {
             return memo1723[i][j];
         }
-        int res = 0;
+        int res = (int) 1e9;
         int c = j ^ u1723;
         for (int sub = c; sub != 0; sub = (sub - 1) & c) {
-            if (res == 0 || s1723[sub] < res && dfs1723(i + 1, j | sub) < res) {
+            if (s1723[sub] < res && dfs1723(i + 1, j | sub) < res) {
                 res = Math.max(s1723[sub], dfs1723(i + 1, j | sub));
             }
         }

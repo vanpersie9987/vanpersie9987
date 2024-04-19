@@ -4656,12 +4656,12 @@ class leetcode_1:
             if i == k or k - i > (u ^ j).bit_count():
                 return inf
             sub = c = u ^ j
-            cur_max = 0
+            res = inf
             while sub:
-                if cur_max == 0 or s[sub] < cur_max and dfs(i + 1, j | sub) < cur_max:
-                    cur_max = max(dfs(i + 1, j | sub), s[sub])
+                if s[sub] < res and dfs(i + 1, j | sub) < res:
+                    res = max(dfs(i + 1, j | sub), s[sub])
                 sub = (sub - 1) & c
-            return cur_max
+            return res
         n = len(jobs)
         u = (1 << n) - 1
         s = [0] * (1 << n)
