@@ -424,60 +424,57 @@ public class Leetcode_8 {
     }
 
     // 1655. 分配重复整数 (Distribute Repeating Integers)
+    private int[] arr1655;
+    private int[] s1655;
     private int n1655;
-    private int[] sum1655;
-    private int[] cnts1655;
-    private int[][] memo1655;
+    private int m1655;
     private int u1655;
+    private int[][] memo1655;
 
     public boolean canDistribute(int[] nums, int[] quantity) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int num : nums) {
-            map.merge(num, 1, Integer::sum);
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int x : nums) {
+            cnts.merge(x, 1, Integer::sum);
         }
-        this.n1655 = map.size();
-        this.cnts1655 = new int[n1655];
+        this.n1655 = cnts.size();
+        this.arr1655 = new int[n1655];
         int id = 0;
-        for (int c : map.values()) {
-            cnts1655[id++] = c;
+        for (int x : cnts.values()) {
+            arr1655[id++] = x;
         }
-        int m = quantity.length;
-        this.sum1655 = new int[1 << m];
-        for (int i = 1; i < 1 << m; ++i) {
-            int bit = Integer.numberOfTrailingZeros(i);
-            int y = i ^ (1 << bit);
-            sum1655[i] = sum1655[y] + quantity[bit];
+        this.m1655 = quantity.length;
+        this.u1655 = (1 << m1655) - 1;
+        this.memo1655 = new int[n1655][1 << m1655];
+        this.s1655 = new int[1 << m1655];
+        for (int i = 1; i < 1 << m1655; ++i) {
+            s1655[i] = s1655[i & (i - 1)] + quantity[Integer.numberOfTrailingZeros(i)];
         }
-        this.memo1655 = new int[n1655][1 << m];
-        this.u1655 = (1 << m) - 1;
         return dfs1655(0, 0);
 
     }
 
-    private boolean dfs1655(int i, int mask) {
-        if (mask == u1655) {
+    private boolean dfs1655(int i, int j) {
+        if (j == u1655) {
             return true;
         }
         if (i == n1655) {
             return false;
         }
-        if (memo1655[i][mask] != 0) {
-            return memo1655[i][mask] > 0;
+        if (memo1655[i][j] != 0) {
+            return memo1655[i][j] > 0;
         }
-        // 不选
-        if (dfs1655(i + 1, mask)) {
-            memo1655[i][mask] = 1;
+        if (dfs1655(i + 1, j)) {
+            memo1655[i][j] = 1;
             return true;
         }
-        int c = u1655 ^ mask;
-        for (int j = c; j > 0; j = (j - 1) & c) {
-            if (cnts1655[i] >= sum1655[j] && dfs1655(i + 1, mask | j)) {
-                // 选
-                memo1655[i][mask] = 1;
+        int c = u1655 ^ j;
+        for (int sub = c; sub != 0; sub = (sub - 1) & c) {
+            if (arr1655[i] >= s1655[sub] && dfs1655(i + 1, j | sub)) {
+                memo1655[i][j] = 1;
                 return true;
             }
         }
-        memo1655[i][mask] = -1;
+        memo1655[i][j] = -1;
         return false;
     }
 
