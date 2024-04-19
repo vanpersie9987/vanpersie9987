@@ -373,26 +373,16 @@ public class Leetcode_8 {
         if (n1681 == k) {
             return 0;
         }
+        int[] max = new int[1 << n1681];
+        int[] min = new int[1 << n1681];
+        Arrays.fill(min, Integer.MAX_VALUE);
         this.map1681 = new int[1 << n1681];
-        Arrays.fill(map1681, -1);
-        search: for (int i = 1; i < (1 << n1681); ++i) {
-            if (Integer.bitCount(i) == n1681 / k) {
-                int mask = 0;
-                int j = i;
-                int min = Integer.MAX_VALUE;
-                int max = Integer.MIN_VALUE;
-                while (j != 0) {
-                    int index = Integer.numberOfTrailingZeros(j);
-                    int num = nums[index];
-                    if (((mask >> num) & 1) != 0) {
-                        continue search;
-                    }
-                    mask |= 1 << num;
-                    min = Math.min(min, num);
-                    max = Math.max(max, num);
-                    j &= j - 1;
-                }
-                map1681[i] = max - min;
+        Arrays.fill(map1681, Integer.MAX_VALUE);
+        for (int i = 1; i < 1 << n1681; ++i) {
+            max[i] = Math.max(max[i & (i - 1)], nums[Integer.numberOfTrailingZeros(i)]);
+            min[i] = Math.min(min[i & (i - 1)], nums[Integer.numberOfTrailingZeros(i)]);
+            if (Integer.bitCount(i) == n1681 / k && check1681(i, nums)) {
+                map1681[i] = max[i] - min[i];
             }
         }
         this.memo1681 = new int[k][1 << n1681];
@@ -402,6 +392,20 @@ public class Leetcode_8 {
         this.u1681 = (1 << n1681) - 1;
         return dfs1681(0, 0);
 
+    }
+
+    private boolean check1681(int i, int[] nums) {
+        Map<Integer, Integer> cnts = new HashMap<>();
+        int n = nums.length;
+        for (int j = 0; j < n; ++j) {
+            if (((i >> j) & 1) == 1) {
+                cnts.merge(nums[j], 1, Integer::sum);
+                if (cnts.get(nums[j]) > 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private int dfs1681(int i, int mask) {
@@ -414,7 +418,7 @@ public class Leetcode_8 {
         int c = u1681 ^ mask;
         int min = (int) 1e5;
         for (int j = c; j > 0; j = (j - 1) & c) {
-            if (map1681[j] != -1) {
+            if (map1681[j] != Integer.MAX_VALUE) {
                 min = Math.min(min, dfs1681(i + 1, mask | j) + map1681[j]);
             }
         }
