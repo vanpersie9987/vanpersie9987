@@ -4651,26 +4651,22 @@ class leetcode_1:
     def minimumTimeRequired(self, jobs: List[int], k: int) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == k or j == u:
-                return 0 if i == k and j == u else inf
-            res = inf
-            candidate = j ^ u
-            if k - i > candidate.bit_count():
+            if j == u:
+                return 0
+            if i == k or k - i > (u ^ j).bit_count():
                 return inf
-            if i == k - 1:
-                return s[candidate]
-            c = candidate
-            while c:
-                res = min(res, max(dfs(i + 1, j | c), s[c]))
-                c = (c - 1) & candidate
-            return res
-
+            sub = c = u ^ j
+            cur_max = 0
+            while sub:
+                if cur_max == 0 or s[sub] < cur_max and dfs(i + 1, j | sub) < cur_max:
+                    cur_max = max(dfs(i + 1, j | sub), s[sub])
+                sub = (sub - 1) & c
+            return cur_max
         n = len(jobs)
-        s = [0] * (1 << n)
         u = (1 << n) - 1
+        s = [0] * (1 << n)
         for i in range(1, 1 << n):
-            index = (i & -i).bit_length() - 1
-            s[i] = s[i ^ (1 << index)] + jobs[index]
+            s[i] = s[i & (i - 1)] + jobs[(i & -i).bit_length() - 1]
         return dfs(0, 0)
 
     # LCP 50. 宝石补给
