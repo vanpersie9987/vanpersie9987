@@ -314,27 +314,28 @@ public class Leetcode_8 {
     }
 
     // 1349. 参加考试的最大学生数 (Maximum Students Taking Exam)
-    private int u1349;
-    private int[] rows1349;
+    private int[] forbid1349;
     private int[][] memo1349;
+    private int u1349;
 
     public int maxStudents(char[][] seats) {
         int m = seats.length;
         int n = seats[0].length;
-        this.rows1349 = new int[m];
+        this.forbid1349 = new int[m];
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (seats[i][j] == '#') {
-                    rows1349[i] |= 1 << j;
+                    forbid1349[i] |= 1 << j;
                 }
             }
         }
-        this.u1349 = (1 << n) - 1;
         this.memo1349 = new int[m][1 << n];
         for (int i = 0; i < m; ++i) {
             Arrays.fill(memo1349[i], -1);
         }
+        this.u1349 = (1 << n) - 1;
         return dfs1349(m - 1, 0);
+
     }
 
     private int dfs1349(int i, int j) {
@@ -344,17 +345,14 @@ public class Leetcode_8 {
         if (memo1349[i][j] != -1) {
             return memo1349[i][j];
         }
-        int mask = ((j << 1) | (j >> 1) | rows1349[i]) & u1349;
-        int c = mask ^ u1349;
-        // 不选
-        int max = dfs1349(i - 1, 0);
-        // 选
-        for (int k = c; k > 0; k = (k - 1) & c) {
-            if ((k & (k >> 1)) == 0) {
-                max = Math.max(max, dfs1349(i - 1, k) + Integer.bitCount(k));
+        int res = dfs1349(i - 1, 0);
+        int c = (((j << 1) | (j >> 1) | forbid1349[i]) & u1349) ^ u1349;
+        for (int sub = c; sub != 0; sub = (sub - 1) & c) {
+            if ((sub & (sub >> 1)) == 0) {
+                res = Math.max(res, dfs1349(i - 1, sub) + Integer.bitCount(sub));
             }
         }
-        return memo1349[i][j] = max;
+        return memo1349[i][j] = res;
     }
 
     // 1681. 最小不兼容性 (Minimum Incompatibility)
