@@ -9810,42 +9810,46 @@ public class Leetcode_7 {
     }
 
     // 1723. 完成所有工作的最短时间 (Find Minimum Time to Finish All Jobs)
-    private int n1723;
+    private int[] s1723;
     private int k1723;
-    private int[] sum1723;
+    private int n1723;
     private int[][] memo1723;
+    private int u1723;
 
     public int minimumTimeRequired(int[] jobs, int k) {
         this.n1723 = jobs.length;
         this.k1723 = k;
-        this.sum1723 = new int[1 << n1723];
-        for (int i = 1; i < (1 << n1723); ++i) {
-            int x = Integer.numberOfTrailingZeros(i);
-            sum1723[i] = sum1723[i ^ (1 << x)] + jobs[x];
+        this.s1723 = new int[1 << n1723];
+        for (int i = 1; i < 1 << n1723; ++i) {
+            s1723[i] = s1723[i & (i - 1)] + jobs[Integer.numberOfTrailingZeros(i)];
         }
         this.memo1723 = new int[k][1 << n1723];
+        this.u1723 = (1 << n1723) - 1;
         for (int i = 0; i < k; ++i) {
             Arrays.fill(memo1723[i], -1);
         }
         return dfs1723(0, 0);
+
     }
 
-    private int dfs1723(int i, int mask) {
-        if (mask == (1 << n1723) - 1) {
+    private int dfs1723(int i, int j) {
+        if (j == u1723) {
             return 0;
         }
-        if (i == k1723) {
+        if (i == k1723 || k1723 - i > Integer.bitCount(j ^ u1723)) {
             return (int) 1e9;
         }
-        if (memo1723[i][mask] != -1) {
-            return memo1723[i][mask];
+        if (memo1723[i][j] != -1) {
+            return memo1723[i][j];
         }
-        int min = (int) 1e9;
-        int c = ((1 << n1723) - 1) ^ mask;
-        for (int j = c; j != 0; j = (j - 1) & c) {
-            min = Math.min(min, Math.max(dfs1723(i + 1, mask | j), sum1723[j]));
+        int res = 0;
+        int c = j ^ u1723;
+        for (int sub = c; sub != 0; sub = (sub - 1) & c) {
+            if (res == 0 || s1723[sub] < res && dfs1723(i + 1, j | sub) < res) {
+                res = Math.max(s1723[sub], dfs1723(i + 1, j | sub));
+            }
         }
-        return memo1723[i][mask] = min;
+        return memo1723[i][j] = res;
     }
 
     // 2463. 最小移动总距离 (Minimum Total Distance Traveled)
