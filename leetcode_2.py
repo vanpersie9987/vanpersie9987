@@ -3412,3 +3412,22 @@ class Union924:
                 del c[ch * 2]
             res.append(ch)
         return res
+
+    # 847. 访问所有节点的最短路径 (Shortest Path Visiting All Nodes)
+    def shortestPathLength(self, graph: List[List[int]]) -> int:
+        n = len(graph)
+        q = deque()
+        vis = [[False] * (1 << n) for _ in range(n)]
+        u = (1 << n) - 1
+        for i in range(n):
+            q.append([i, 1 << i, 0])
+            vis[i][1 << i] = True
+        while q:
+            [x, m, d] = q.popleft()
+            if m == u:
+                return d
+            for y in graph[x]:
+                nm = m | (1 << y)
+                if not vis[y][nm]:
+                    vis[y][nm] = True
+                    q.append([y, nm, d + 1])
