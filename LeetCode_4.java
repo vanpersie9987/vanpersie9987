@@ -2776,67 +2776,34 @@ public class LeetCode_4 {
     }
 
     // 216. 组合总和 III (Combination Sum III) --回溯
+    private int k216;
+    private int n216;
+    private List<Integer> list216;
+    private List<List<Integer>> res216;
+
     public List<List<Integer>> combinationSum3(int k, int n) {
-        List<List<Integer>> res = new ArrayList<>();
-        // 1--9的和最大是45
-        if (n > 45) {
-            return res;
-        }
+        this.k216 = k;
+        this.n216 = n;
+        this.list216 = new ArrayList<>();
+        this.res216 = new ArrayList<>();
+        dfs216(1, 0);
+        return res216;
 
-        List<Integer> cur = new ArrayList<>();
-        backtrack216(res, cur, k, n, 0, 0);
-        return res;
     }
 
-    private void backtrack216(List<List<Integer>> res, List<Integer> cur, int k, int n, int index, int sum) {
-        if (cur.size() > k || sum > n) {
-            return;
-        }
-        if (sum == n && cur.size() == k) {
-            res.add(new ArrayList<>(cur));
-            return;
-        }
-        for (int i = index; i < 9; ++i) {
-            int num = i + 1;
-            cur.add(num);
-            sum += num;
-            backtrack216(res, cur, k, n, i + 1, sum);
-            sum -= num;
-            cur.remove(cur.size() - 1);
-        }
-    }
-
-    // 216. 组合总和 III (Combination Sum III) --位运算 + 二进制枚举
-    public List<List<Integer>> combinationSum3_2(int k, int n) {
-        List<List<Integer>> res = new ArrayList<>();
-        if (n > 45) {
-            return res;
-        }
-        List<Integer> cur = new ArrayList<>();
-        // 第0位---第8位 表示整数 1---9
-        for (int i = 0; i < (1 << 9); ++i) {
-            if (Integer.bitCount(i) == k) {
-                int sum = 0;
-                int mask = i;
-                while (mask != 0) {
-                    int last = mask & (-mask);
-                    int num = Integer.bitCount(last - 1) + 1;
-                    sum += num;
-                    cur.add(num);
-                    if (sum > n) {
-                        break;
-                    }
-                    mask &= mask - 1;
-                }
-                if (sum == n) {
-                    res.add(new ArrayList<>(cur));
-                }
-                cur.clear();
+    private void dfs216(int i, int j) {
+        if (i == 10 || j >= n216 || list216.size() >= k216) {
+            if (j == n216 && list216.size() == k216) {
+                res216.add(new ArrayList<>(list216));
             }
+            return;
         }
-        return res;
-
+        dfs216(i + 1, j);
+        list216.add(i);
+        dfs216(i + 1, i + j);
+        list216.remove(list216.size() - 1);
     }
+    
 
     // 491. 递增子序列 (Increasing Subsequences) --枚举 + 位运算
     public List<List<Integer>> findSubsequences(int[] nums) {
