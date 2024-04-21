@@ -3435,9 +3435,7 @@ class Union924:
     # 216. 组合总和 III (Combination Sum III)
     def combinationSum3(self, k: int, n: int) -> List[List[int]]:
         def dfs(i: int, j: int) -> None:
-            if j > n:
-                return
-            if i == 10 or j == n or len(arr) == k:
+            if i == 10 or j >= n or len(arr) == k:
                 if j == n and len(arr) == k:
                     res.append(arr.copy())
                 return
