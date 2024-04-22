@@ -3862,56 +3862,50 @@ public class Leetcode_8 {
     }
 
     // 2572. 无平方子集计数 (Count the Number of Square-Free Subsets)
-    private int[] masks2572;
-    private int[][] memo2572;
-    private int[] cnts2572;
+    private Map<Long, Integer> memo2572;
+    private Map<Integer, Integer> cnts2572;
+    private Map<Integer, Integer> mask2572;
+    private List<Integer> keys2572;
 
     public int squareFreeSubsets(int[] nums) {
-        int[] primes = { 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < primes.length; ++i) {
-            map.put(primes[i], i);
-        }
-        this.masks2572 = new int[31];
-        for (int i = 1; i <= 30; ++i) {
-            if (map.containsKey(i)) {
-                masks2572[i] |= 1 << map.get(i);
-            } else if (i % 4 == 0 || i % 9 == 0 || i % 25 == 0) {
-                masks2572[i] = -1;
-            } else {
-                for (int j = 2; j <= i; ++j) {
-                    if (map.containsKey(j) && i % j == 0) {
-                        masks2572[i] |= 1 << map.get(j);
-                    }
-                }
+        this.mask2572 = new HashMap<>();
+        for (int i = 2; i < 31; ++i) {
+            int x = check2572(i);
+            if (x != 0) {
+                mask2572.put(i, x);
             }
         }
-        this.memo2572 = new int[31][1 << primes.length];
-        for (int i = 0; i < 31; ++i) {
-            Arrays.fill(memo2572[i], -1);
+        int cnt1 = 0;
+        this.cnts2572 = new HashMap<>();
+        for (int x : nums) {
+            if (x == 1) {
+                ++cnt1;
+            } else if (mask2572.containsKey(x)) {
+                cnts2572.merge(x, 1, Integer::sum);
+            }
         }
-        this.cnts2572 = new int[31];
-        for (int num : nums) {
-            ++cnts2572[num];
-        }
-        return dfs2572(1, 0);
+        this.keys2572 = new ArrayList<>(cnts2572.keySet());
+        final int MOD = (int) (1e9 + 7);
+        this.memo2572 = new HashMap<>();
+        return (int) (((((long) dfs2572(0, 0) * pow2572(2, cnt1) % MOD) - 1) + MOD) % MOD);
+
     }
 
-    private int dfs2572(int i, int j) {
-        if (i == 31) {
-            return j > 0 ? 1 : 0;
+    private int check2572(int x) {
+        int m = 0;
+        for (int i = 2; i < Math.sqrt(x) + 1; ++i) {
+            while (x % i == 0) {
+                if ((m >> i & 1) != 0) {
+                    return 0;
+                }
+                m |= 1 << i;
+                x /= i;
+            }
         }
-        if (memo2572[i][j] != -1) {
-            return memo2572[i][j];
+        if (x > 1) {
+            m |= 1 << x;
         }
-        int res = dfs2572(i + 1, j);
-        final int MOD = (int) (1e9 + 7);
-        if (i == 1) {
-            res += (long) ((pow2572(2, cnts2572[i]) - 1 + MOD) % MOD) * dfs2572(i + 1, j | 1) % MOD;
-        } else if (masks2572[i] != -1 && (masks2572[i] & j) == 0) {
-            res += (long) cnts2572[i] * dfs2572(i + 1, j | masks2572[i]) % MOD;
-        }
-        return memo2572[i][j] = res % MOD;
+        return m;
     }
 
     private int pow2572(int a, int b) {
@@ -3920,10 +3914,28 @@ public class Leetcode_8 {
         }
         int res = pow2572(a, b >> 1);
         final int MOD = (int) (1e9 + 7);
-        res = (int) ((long) res * res % MOD);
+        res = (int) (((long) res * res) % MOD);
         if ((b & 1) == 1) {
-            res = (int) ((long) res * a % MOD);
+            res *= a;
         }
+        return res % MOD;
+    }
+
+    private int dfs2572(int i, int j) {
+        if (i == keys2572.size()) {
+            return 1;
+        }
+        long m = ((long) i << 30) | j;
+        if (memo2572.get(m) != null) {
+            return memo2572.get(m);
+        }
+        int res = dfs2572(i + 1, j);
+        final int MOD = (int) (1e9 + 7);
+        if ((j & mask2572.get(keys2572.get(i))) == 0) {
+            res += ((long) cnts2572.get(keys2572.get(i)) * dfs2572(i + 1, j | mask2572.get(keys2572.get(i)))) % MOD;
+        }
+        res %= MOD;
+        memo2572.put(m, res);
         return res;
     }
 
