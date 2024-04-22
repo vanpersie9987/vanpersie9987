@@ -3486,12 +3486,7 @@ class Union924:
         def dfs(j: int, c: int) -> int:
             if j == n:
                 return 0
-            res = inf
-            for x in range(10):
-                if x == c:
-                    continue
-                res = min(res, dfs(j + 1, x) + m - cnts[j][x])
-            return res
+            return min(dfs(j + 1, x) + m - cnts[j][x] if x != c else inf for x in range(10))
         m = len(grid)
         n = len(grid[0])
         cnts = [[0] * 10 for _ in range(n)]
