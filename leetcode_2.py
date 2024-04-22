@@ -3447,3 +3447,36 @@ class Union924:
         res = []
         dfs(1, 0)
         return res
+    
+    # 3123. 最短路径中的边 (Find Edges in Shortest Paths)
+    def findAnswer(self, n: int, edges: List[List[int]]) -> List[bool]:
+        g = [[] for _ in range(n)]
+        for i, (u, v, w) in enumerate(edges):
+            g[u].append([v, w, i])
+            g[v].append([u, w, i])
+        q = [[0, 0]]
+        dis = [inf] * n
+        dis[0] = 0
+        heapq.heapify(q)
+        while q:
+            [d, x] = heapq.heappop(q)
+            if d > dis[x]:
+                continue
+            for nxt in g[x]:
+                [y, w, _] = nxt
+                if d + w < dis[y]:
+                    dis[y] = d + w
+                    heapq.heappush(q, [dis[y], y])
+        res = [False] * len(edges)
+        if dis[n - 1] == inf:
+            return res
+        def dfs(x: int) -> None:
+            for nxt in g[x]:
+                [y, w, i] = nxt
+                if dis[y] + w != dis[x]:
+                    continue
+                res[i] = True
+                dfs(y)
+        dfs(n - 1)
+        return res
+                
