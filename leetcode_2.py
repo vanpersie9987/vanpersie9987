@@ -3519,6 +3519,13 @@ class Union924:
                 else:
                     status[x] = 2
         return sum(int(s == 2) for s in status)
+    
+    # 3120. 统计特殊字母的数量 I (Count the Number of Special Characters I)
+    def numberOfSpecialChars(self, word: str) -> int:
+        cnt = [0] * 2
+        for c in map(ord, word):
+            cnt[c >> 5 & 1] |= 1 << (c & 31)
+        return (cnt[0] & cnt[1]).bit_count()
 
 
 
