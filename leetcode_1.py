@@ -48,6 +48,7 @@ from typing import List, Optional
 import heapq
 import bisect
 from zoneinfo import reset_tzpath
+from collections import Counter, defaultdict, deque
 
 # curl https://bootstrap.pypa.io/pip/get-pip.py -o get-pip.py
 # sudo python3 get-pip.py
@@ -6341,36 +6342,43 @@ class leetcode_1:
     # 2572. 无平方子集计数 (Count the Number of Square-Free Subsets)
     def squareFreeSubsets(self, nums: List[int]) -> int:
         MOD = 10**9 + 7
-        primes = [1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
-        dic = collections.defaultdict(int)
-        for i, p in enumerate(primes):
-            dic[p] = i
-        masks = [0] * 31
-        for i in range(1, 31):
-            if i in dic.keys():
-                masks[i] = 1 << dic[i]
-            elif i % 4 == 0 or i % 9 == 0 or i % 25 == 0:
-                masks[i] = -1
-            else:
-                for j in range(2, i + 1):
-                    if j in dic.keys() and i % j == 0:
-                        masks[i] |= 1 << dic[j]
-        cnts = [0] * 31
-        for num in nums:
-            cnts[num] += 1
+
+        def check(x: int) -> int:
+            m = 0
+            for i in range(2, isqrt(x) + 1):
+                while x % i == 0:
+                    if m >> i & 1:
+                        return 0
+                    m |= 1 << i
+                    x //= i
+            if x > 1:
+                m |= 1 << x
+            return m
 
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == 31:
-                return 1 if j > 0 else 0
+            if i == n:
+                return 1
             res = dfs(i + 1, j)
-            if i == 1:
-                res += (pow(2, cnts[i], MOD) - 1) * dfs(i + 1, j | 1) % MOD
-            elif masks[i] != -1 and (masks[i] & j) == 0:
-                res += cnts[i] * dfs(i + 1, masks[i] | j)
+            if j & dic[keys[i]] == 0:
+                res += dfs(i + 1, j | dic[keys[i]]) * cnts[keys[i]] % MOD
             return res % MOD
 
-        return dfs(0, 0)
+        dic = defaultdict(int)
+        for i in range(2, 31):
+            x = check(i)
+            if x:
+                dic[i] = x
+        cnts = defaultdict(int)
+        cnt1 = 0
+        for x in nums:
+            if x == 1:
+                cnt1 += 1
+            elif x in dic:
+                cnts[x] += 1
+        keys = list(cnts.keys())
+        n = len(keys)
+        return (dfs(0, 0) * (pow(2, cnt1, MOD)) - 1) % MOD
 
     # 2035. 将数组分成两个数组并最小化数组和的差 (Partition Array Into Two Arrays to Minimize Sum Difference)
     def minimumDifference(self, nums: List[int]) -> int:
