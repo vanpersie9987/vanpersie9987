@@ -3294,7 +3294,6 @@ public class Leetcode_8 {
         }
         return res;
     }
-    
 
     // 2844. 生成特殊数字的最少操作 (Minimum Operations to Make a Special Number)
     private int n2844;
@@ -8521,7 +8520,6 @@ public class Leetcode_8 {
         }
         return res;
 
-
     }
 
     // 3077. K 个不相交子数组的最大能量值 (Maximum Strength of K Disjoint Subarrays)
@@ -8671,7 +8669,7 @@ public class Leetcode_8 {
 
     }
 
-    public class Bean3081 implements Comparable<Bean3081>{
+    public class Bean3081 implements Comparable<Bean3081> {
         int c;
         char chr;
 
@@ -8687,7 +8685,7 @@ public class Leetcode_8 {
             }
             return Integer.compare(this.c, o.c);
         }
-        
+
     }
 
     // 3082. 求出所有子序列的能量和 (Find the Sum of the Power of All Subsequences)
@@ -8746,7 +8744,8 @@ public class Leetcode_8 {
 
     }
 
-    // 3084. 统计以给定字符开头和结尾的子字符串总数 (Count Substrings Starting and Ending with Given Character)
+    // 3084. 统计以给定字符开头和结尾的子字符串总数 (Count Substrings Starting and Ending with Given
+    // Character)
     public long countSubstrings(String s, char c) {
         long res = 0L;
         int cnt = 0;
@@ -8849,7 +8848,6 @@ public class Leetcode_8 {
         return res;
 
     }
-
 
     // 3093. 最长公共后缀查询 (Longest Common Suffix Queries)
     public int[] stringIndices(String[] wordsContainer, String[] wordsQuery) {
@@ -9024,6 +9022,7 @@ public class Leetcode_8 {
     private Map<Integer, Integer> memo3098;
     private Map<Integer, Integer> map3098;
     private int n3098;
+
     public int sumOfPowers(int[] nums, int k) {
         this.n3098 = nums.length;
         Arrays.sort(nums);
@@ -9056,7 +9055,8 @@ public class Leetcode_8 {
         }
         final int MOD = (int) (1e9 + 7);
         int res = (dfs3098(i - 1, j, pre, minDiff)
-                + dfs3098(i - 1, j - 1, i, pre == n3098 ? Integer.MAX_VALUE / 2 : Math.min(minDiff, nums3098[pre] - nums3098[i])))
+                + dfs3098(i - 1, j - 1, i,
+                        pre == n3098 ? Integer.MAX_VALUE / 2 : Math.min(minDiff, nums3098[pre] - nums3098[i])))
                 % MOD;
         memo3098.put(mask, res);
         return res;
@@ -9461,7 +9461,7 @@ public class Leetcode_8 {
             public int compare(int[] o1, int[] o2) {
                 return Integer.compare(o1[0], o2[0]);
             }
-            
+
         });
         int res = 0;
         int r = -1;
@@ -9472,7 +9472,6 @@ public class Leetcode_8 {
             }
         }
         return res;
-
 
     }
 
@@ -9616,5 +9615,153 @@ public class Leetcode_8 {
         }
         memo3117.put(memoVal, res);
         return res;
+    }
+
+    // 3120. 统计特殊字母的数量 I (Count the Number of Special Characters I)
+    public int numberOfSpecialChars(String word) {
+        int[] bits = new int[2];
+        for (char c : word.toCharArray()) {
+            bits[c >> 5 & 1] |= 1 << (c & 31);
+        }
+        return Integer.bitCount(bits[0] & bits[1]);
+    }
+
+    // 3121. 统计特殊字母的数量 II (Count the Number of Special Characters II)
+    public int numberOfSpecialChars2(String word) {
+        int[] status = new int[26];
+        for (char c : word.toCharArray()) {
+            if (status[(c & 31) - 1] == -1) {
+                continue;
+            }
+            // 小写
+            if ((c >> 5 & 1) == 1) {
+                if (status[(c & 31) - 1] == 1) {
+                    continue;
+                }
+                if (status[(c & 31) - 1] == 0) {
+                    status[(c & 31) - 1] = 1;
+                } else {
+                    status[(c & 31) - 1] = -1;
+                }
+            } else {
+                if (status[(c & 31) - 1] == 2) {
+                    continue;
+                }
+                if (status[(c & 31) - 1] == 1) {
+                    status[(c & 31) - 1] = 2;
+                } else {
+                    status[(c & 31) - 1] = -1;
+                }
+            }
+        }
+        int res = 0;
+        for (int s : status) {
+            if (s == 2) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    // 3122. 使矩阵满足条件的最少操作次数 (Minimum Number of Operations to Satisfy Conditions)
+    private int m3122;
+    private int n3122;
+    private int[][] cnts3122;
+    private int[][] memo3122;
+
+    public int minimumOperations(int[][] grid) {
+        this.m3122 = grid.length;
+        this.n3122 = grid[0].length;
+        this.cnts3122 = new int[n3122][10];
+        for (int j = 0; j < n3122; ++j) {
+            for (int i = 0; i < m3122; ++i) {
+                ++cnts3122[j][grid[i][j]];
+            }
+        }
+        this.memo3122 = new int[n3122][11];
+        for (int i = 0; i < n3122; ++i) {
+            Arrays.fill(memo3122[i], -1);
+        }
+        return dfs3122(0, 10);
+
+    }
+
+    private int dfs3122(int j, int c) {
+        if (j == n3122) {
+            return 0;
+        }
+        if (memo3122[j][c] != -1) {
+            return memo3122[j][c];
+        }
+        int res = Integer.MAX_VALUE;
+        for (int x = 0; x < 10; ++x) {
+            if (c == x) {
+                continue;
+            }
+            res = Math.min(res, dfs3122(j + 1, x) + m3122 - cnts3122[j][x]);
+        }
+        return memo3122[j][c] = res;
+    }
+
+    // 3123. 最短路径中的边 (Find Edges in Shortest Paths)
+    private List<int[]>[] g3123;
+    private boolean[] res3123;
+    private long[] dis3123;
+
+    public boolean[] findAnswer(int n, int[][] edges) {
+        this.g3123 = new ArrayList[n];
+        Arrays.setAll(g3123, k -> new ArrayList<>());
+        for (int i = 0; i < edges.length; ++i) {
+            g3123[edges[i][0]].add(new int[] { edges[i][1], edges[i][2], i });
+            g3123[edges[i][1]].add(new int[] { edges[i][0], edges[i][2], i });
+        }
+        this.dis3123 = new long[n];
+        Arrays.fill(dis3123, (long) 1e15);
+        Queue<long[]> q = new PriorityQueue<>(new Comparator<long[]>() {
+
+            @Override
+            public int compare(long[] o1, long[] o2) {
+                return Long.compare(o1[1], o2[1]);
+            }
+        });
+        dis3123[0] = 0L;
+        q.offer(new long[] { 0, 0 });
+        while (!q.isEmpty()) {
+            long[] cur = q.poll();
+            int x = (int) cur[0];
+            long d = cur[1];
+            if (d > dis3123[x]) {
+                continue;
+            }
+            for (int[] nxt : g3123[x]) {
+                int y = nxt[0];
+                int w = nxt[1];
+                if (d + w < dis3123[y]) {
+                    dis3123[y] = d + w;
+                    q.offer(new long[] { y, dis3123[y] });
+                }
+            }
+        }
+        this.res3123 = new boolean[edges.length];
+        if (dis3123[n - 1] == (long) 1e15) {
+            return res3123;
+        }
+        dfs3123(n - 1);
+        return res3123;
+
+    }
+
+    private void dfs3123(int x) {
+        for (int[] nxt : g3123[x]) {
+            int y = nxt[0];
+            int w = nxt[1];
+            int i = nxt[2];
+            if (dis3123[y] + w != dis3123[x]) {
+                continue;
+            }
+            res3123[i] = true;
+            dfs3123(y);
+        }
     }
 }
