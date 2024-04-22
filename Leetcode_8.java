@@ -9630,27 +9630,22 @@ public class Leetcode_8 {
     public int numberOfSpecialChars2(String word) {
         int[] status = new int[26];
         for (char c : word.toCharArray()) {
-            if (status[(c & 31) - 1] == -1) {
+            int x = (c & 31) - 1;
+            if (status[x] == -1) {
                 continue;
             }
             // 小写
             if ((c >> 5 & 1) == 1) {
-                if (status[(c & 31) - 1] == 1) {
-                    continue;
-                }
-                if (status[(c & 31) - 1] == 0) {
-                    status[(c & 31) - 1] = 1;
+                if (status[x] == 2) {
+                    status[x] = -1;
                 } else {
-                    status[(c & 31) - 1] = -1;
+                    status[x] = 1;
                 }
             } else {
-                if (status[(c & 31) - 1] == 2) {
-                    continue;
-                }
-                if (status[(c & 31) - 1] == 1) {
-                    status[(c & 31) - 1] = 2;
+                if (status[x] == 0) {
+                    status[x] = -1;
                 } else {
-                    status[(c & 31) - 1] = -1;
+                    status[x] = 2;
                 }
             }
         }

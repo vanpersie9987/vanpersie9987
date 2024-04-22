@@ -3499,4 +3499,26 @@ class Union924:
             for j in range(n):
                 cnts[j][grid[i][j]] += 1
         return dfs(0, -1)
-                
+    
+    # 3121. 统计特殊字母的数量 II (Count the Number of Special Characters II)
+    def numberOfSpecialChars(self, word: str) -> int:
+        status = [0] * 26
+        for c in map(ord, word):
+            x = (c & 31) - 1
+            if status[x] == -1:
+                continue
+            # 小写
+            if c >> 5 & 1 == 1:
+                if status[x] == 2:
+                    status[x] = -1
+                else:
+                    status[x] = 1
+            else:
+                if status[x] == 0:
+                    status[x] = -1
+                else:
+                    status[x] = 2
+        return sum(int(s == 2) for s in status)
+
+
+
