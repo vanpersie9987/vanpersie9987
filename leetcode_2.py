@@ -3535,19 +3535,18 @@ class Union924:
                 g[root.val].append(root.right.val)
                 g[root.right.val].append(root.val)
                 dfs(root.right)
-        g = [[] for _ in range(10**5 + 1)]
+        g = defaultdict(list)
         dfs(root)
         res = 0
-        vis = [False] * (10**5 + 1)
-        vis[start] = True
+        vis = set([start])
         q = deque([start])
         while q:
             s = len(q)
             for _ in range(s):
                 x = q.popleft()
                 for y in g[x]:
-                    if not vis[y]:
-                        vis[y] = True
+                    if y not in vis:
+                        vis.add(y)
                         q.append(y)
             if q:
                 res += 1
