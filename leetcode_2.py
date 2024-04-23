@@ -3521,6 +3521,8 @@ class Union924:
         for c in map(ord, word):
             cnt[c >> 5 & 1] |= 1 << (c & 31)
         return (cnt[0] & cnt[1]).bit_count()
+        
+        
             
                 
 

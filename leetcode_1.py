@@ -6474,29 +6474,25 @@ class leetcode_1:
     # 698. 划分为k个相等的子集 (Partition to K Equal Sum Subsets)
     def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
         @cache
-        def dfs(i: int) -> bool:
-            if i == u:
+        def dfs(i: int, j: int) -> bool:
+            if i == k:
                 return True
-            c = candidate = i ^ u
-            while c:
-                if mask_sum[c] == a and dfs(i | c):
+            sub = c = u ^ j
+            while sub:
+                if s[sub] == p and dfs(i + 1, sub | j):
                     return True
-                c = (c - 1) & candidate
+                sub = (sub - 1) & c
             return False
-
         n = len(nums)
         s = sum(nums)
         if s % k != 0:
             return False
-        a = s // k
-        if sorted(nums)[-1] > a:
-            return False
-        mask_sum = [0] * (1 << n)
-        for i in range(1, 1 << n):
-            index = (i & -i).bit_length() - 1
-            mask_sum[i] = mask_sum[i ^ (1 << index)] + nums[index]
+        p = s // k
+        s = [0] * (1 << n)
         u = (1 << n) - 1
-        return dfs(0)
+        for i in range(1, 1 << n):
+            s[i] = s[i & (i - 1)] + nums[(i & -i).bit_length() - 1]
+        return dfs(0, 0)
 
     # 691. 贴纸拼词 (Stickers to Spell Word)
     def minStickers(self, stickers: List[str], target: str) -> int:
