@@ -6485,7 +6485,9 @@ class leetcode_1:
             return False
         n = len(nums)
         s = sum(nums)
-        if s % k != 0:
+        if k == 1:
+            return True
+        if s % k != 0 or max(nums) > s // k:
             return False
         p = s // k
         s = [0] * (1 << n)
