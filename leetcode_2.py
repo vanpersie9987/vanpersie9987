@@ -3521,6 +3521,39 @@ class Union924:
         for c in map(ord, word):
             cnt[c >> 5 & 1] |= 1 << (c & 31)
         return (cnt[0] & cnt[1]).bit_count()
+    
+    # 2385. 感染二叉树需要的总时间 (Amount of Time for Binary Tree to Be Infected)
+    def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
+        def dfs(root: Optional[TreeNode]) -> None:
+            if root is None:
+                return
+            if root.left is not None:
+                g[root.val].append(root.left.val)
+                g[root.left.val].append(root.val)
+                dfs(root.left)
+            if root.right is not None:
+                g[root.val].append(root.right.val)
+                g[root.right.val].append(root.val)
+                dfs(root.right)
+        g = [[] for _ in range(10**5 + 1)]
+        dfs(root)
+        res = 0
+        vis = [False] * (10**5 + 1)
+        vis[start] = True
+        q = deque([start])
+        while q:
+            s = len(q)
+            for _ in range(s):
+                x = q.popleft()
+                for y in g[x]:
+                    if not vis[y]:
+                        vis[y] = True
+                        q.append(y)
+            if q:
+                res += 1
+        return res
+
+        
         
         
             
