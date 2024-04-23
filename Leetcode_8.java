@@ -3989,74 +3989,85 @@ public class Leetcode_8 {
     }
 
     // 1994. 好子集的数目 (The Number of Good Subsets)
-    private int[][] memo1994;
-    private int[] masks1994;
-    private int[] cnts1994;
+    private Map<Integer, Integer> mask1994;
+    private Map<Integer, Integer> cnts1994;
+    private Map<Long, Integer> memo1994;
+    private List<Integer> keys1994;
 
     public int numberOfGoodSubsets(int[] nums) {
-        int[] primes = { 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < primes.length; ++i) {
-            map.put(primes[i], i);
-        }
-        this.masks1994 = new int[31];
-        for (int i = 1; i < 31; ++i) {
-            if (map.containsKey(i)) {
-                masks1994[i] = 1 << map.get(i);
-            } else if (i % 4 == 0 || i % 9 == 0 || i % 25 == 0) {
-                masks1994[i] = -1;
-            } else {
-                for (int j = 2; j <= i; ++j) {
-                    if (map.containsKey(j) && i % j == 0) {
-                        masks1994[i] |= 1 << map.get(j);
-                    }
-                }
+        this.mask1994 = new HashMap<>();
+        for (int i = 2; i < 31; ++i) {
+            int x = check1994(i);
+            if (x != 0) {
+                mask1994.put(i, x);
             }
         }
-        this.cnts1994 = new int[31];
-        for (int num : nums) {
-            ++cnts1994[num];
+        this.cnts1994 = new HashMap<>();
+        int cnt1 = 0;
+        for (int x : nums) {
+            if (x == 1) {
+                ++cnt1;
+            } else if (mask1994.containsKey(x)) {
+                cnts1994.merge(x, 1, Integer::sum);
+            }
         }
-        this.memo1994 = new int[31][1 << primes.length];
-        for (int i = 0; i < 31; ++i) {
-            Arrays.fill(memo1994[i], -1);
+        this.keys1994 = new ArrayList<>(cnts1994.keySet());
+        this.memo1994 = new HashMap<>();
+        final int MOD = (int) (1e9 + 7);
+        return (int) (((long) ((dfs1994(0, 0) - 1 + MOD) % MOD) * pow1994(2, cnt1)) % MOD);
+
+    }
+
+    private int pow1994(int a, int b) {
+        if (b == 0) {
+            return 1;
         }
-        return dfs1994(1, 0);
+        int res = pow1994(a, b >> 1);
+        final int MOD = (int) (1e9 + 7);
+        res = (int) (((long) res * res) % MOD);
+        if ((b & 1) == 1) {
+            res *= a;
+            res %= MOD;
+        }
+        return res;
 
     }
 
     private int dfs1994(int i, int j) {
-        if (i == 31) {
-            return j > 1 ? 1 : 0;
-        }
-        if (memo1994[i][j] != -1) {
-            return memo1994[i][j];
-        }
-        // 不选
-        int res = dfs1994(i + 1, j);
-        final int MOD = (int) (1e9 + 7);
-        // 选
-        if (i == 1) {
-            int c = power1994(2, cnts1994[i]) - 1;
-            res += (long) c * dfs1994(i + 1, j | 1) % MOD;
-        } else if (masks1994[i] != -1 && (masks1994[i] & j) == 0) {
-            res += (long) cnts1994[i] * dfs1994(i + 1, j | masks1994[i]) % MOD;
-        }
-        return memo1994[i][j] = res % MOD;
-    }
-
-    private int power1994(int a, int b) {
-        if (b == 0) {
+        if (i == keys1994.size()) {
             return 1;
         }
-        int res = power1994(a, b >> 1);
-        final int MOD = (int) (1e9 + 7);
-        res = (int) ((long) res * res % MOD);
-        if (b % 2 == 1) {
-            res = (int) ((long) res * a % MOD);
+        long m = ((long) i << 30) | j;
+        if (memo1994.get(m) != null) {
+            return memo1994.get(m);
         }
+        int res = dfs1994(i + 1, j);
+        final int MOD = (int) (1e9 + 7);
+        if ((j & mask1994.get(keys1994.get(i))) == 0) {
+            res += (int) ((long) dfs1994(i + 1, j | mask1994.get(keys1994.get(i))) * cnts1994.get(keys1994.get(i)) % MOD);
+            res %= MOD;
+        }
+        memo1994.put(m, res);
         return res;
     }
+
+    private int check1994(int x) {
+        int m = 0;
+        for (int i = 2; i < Math.sqrt(x) + 1; ++i) {
+            while (x % i == 0) {
+                if ((m >> i & 1) == 1) {
+                    return 0;
+                }
+                m |= 1 << i;
+                x /= i;
+            }
+        }
+        if (x > 1) {
+            m |= 1 << x;
+        }
+        return m;
+    }
+    
 
     // 805. 数组的均值分割 (Split Array With Same Average)
     public boolean splitArraySameAverage(int[] nums) {
