@@ -3447,7 +3447,7 @@ class Union924:
         res = []
         dfs(1, 0)
         return res
-    
+
     # 3123. 最短路径中的边 (Find Edges in Shortest Paths)
     def findAnswer(self, n: int, edges: List[List[int]]) -> List[bool]:
         g = [[] for _ in range(n)]
@@ -3479,7 +3479,7 @@ class Union924:
                 dfs(y)
         dfs(n - 1)
         return res
-    
+
     # 3122. 使矩阵满足条件的最少操作次数 (Minimum Number of Operations to Satisfy Conditions)
     def minimumOperations(self, grid: List[List[int]]) -> int:
         @cache
@@ -3494,7 +3494,7 @@ class Union924:
             for j in range(n):
                 cnts[j][grid[i][j]] += 1
         return dfs(0, -1)
-    
+
     # 3121. 统计特殊字母的数量 II (Count the Number of Special Characters II)
     def numberOfSpecialChars(self, word: str) -> int:
         status = [0] * 26
@@ -3514,14 +3514,14 @@ class Union924:
                 else:
                     status[x] = 2
         return sum(int(s == 2) for s in status)
-    
+
     # 3120. 统计特殊字母的数量 I (Count the Number of Special Characters I)
     def numberOfSpecialChars(self, word: str) -> int:
         cnt = [0] * 2
         for c in map(ord, word):
             cnt[c >> 5 & 1] |= 1 << (c & 31)
         return (cnt[0] & cnt[1]).bit_count()
-    
+
     # 2385. 感染二叉树需要的总时间 (Amount of Time for Binary Tree to Be Infected)
     def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
         def dfs(root: Optional[TreeNode]) -> None:
@@ -3549,14 +3549,12 @@ class Union924:
                 res += 1
         return res
 
-        
-        
-        
-            
-                
-
-
-
-
-
-
+    # 2739. 总行驶距离 (Total Distance Traveled)
+    def distanceTraveled(self, mainTank: int, additionalTank: int) -> int:
+        res = 0
+        while mainTank >= 5 and additionalTank:
+            res += 50
+            mainTank -= 4
+            additionalTank -= 1
+        res += mainTank * 10
+        return res
