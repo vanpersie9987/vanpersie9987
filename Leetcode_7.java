@@ -9582,18 +9582,16 @@ public class Leetcode_7 {
         return Math.abs(a - b);
     }
 
-    // 6901. 总行驶距离 (Total Distance Traveled)
+    // 2739. 总行驶距离 (Total Distance Traveled)
     public int distanceTraveled(int mainTank, int additionalTank) {
         int res = 0;
         while (mainTank >= 5 && additionalTank > 0) {
             res += 50;
-            mainTank -= 5;
+            mainTank -= 4;
             --additionalTank;
-            ++mainTank;
         }
         res += mainTank * 10;
         return res;
-
     }
 
     // 6890. 找出分区值 (Find the Value of the Partition)
