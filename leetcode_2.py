@@ -3527,14 +3527,11 @@ class Union924:
         def dfs(root: Optional[TreeNode]) -> None:
             if root is None:
                 return
-            if root.left is not None:
-                g[root.val].append(root.left.val)
-                g[root.left.val].append(root.val)
-                dfs(root.left)
-            if root.right is not None:
-                g[root.val].append(root.right.val)
-                g[root.right.val].append(root.val)
-                dfs(root.right)
+            for son in [root.left, root.right]:
+                if son:
+                    g[root.val].append(son.val)
+                    g[son.val].append(root.val)
+                    dfs(son)
         g = defaultdict(list)
         dfs(root)
         res = 0
