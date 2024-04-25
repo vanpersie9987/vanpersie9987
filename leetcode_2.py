@@ -28,6 +28,7 @@ from tabnanny import check
 from textwrap import indent
 from tkinter import N, NO, W
 from tkinter.tix import Tree
+from token import RIGHTSHIFT
 from turtle import mode, pos, reset, right, st
 from typing import List, Optional
 import heapq
@@ -3558,3 +3559,38 @@ class Union924:
             additionalTank -= 1
         res += mainTank * 10
         return res
+    
+    # 1146. 快照数组 (Snapshot Array)
+    class SnapshotArray:
+
+        def __init__(self, length: int):
+            self.g = defaultdict(list)
+            self.id = -1
+
+
+        def set(self, index: int, val: int) -> None:
+            if len(self.g[index]) == 0 or self.g[index][-1][1] != self.id:
+                self.g[index].append([val, self.id])
+            else:
+                self.g[index][-1] = [val, self.id]
+
+        def snap(self) -> int:
+            self.id += 1
+            return self.id
+
+        def get(self, index: int, snap_id: int) -> int:
+            return self.bis(self.g[index], snap_id)
+        
+        def bis(self, arr: list, snap_id: int) -> int:
+            n = len(arr)
+            left = 0
+            right = n - 1
+            res = 0
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if arr[mid][1] < snap_id:
+                    res = arr[mid][0]
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            return res
