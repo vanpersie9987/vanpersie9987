@@ -3594,3 +3594,13 @@ class Union924:
                 else:
                     right = mid - 1
             return res
+
+    # 2639. 查询网格图中每一列的宽度 (Find the Width of Columns of a Grid)
+    def findColumnWidth(self, grid: List[List[int]]) -> List[int]:
+        n = len(grid[0])
+        m = len(grid)
+        res = [0] * n
+        for j in range(n):
+            for i in range(m):
+                res[j] = max(res[j], len(str(grid[i][j])))
+        return res

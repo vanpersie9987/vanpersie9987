@@ -3039,12 +3039,10 @@ public class Leetcode_7 {
         int n = grid[0].length;
         int[] res = new int[n];
         for (int j = 0; j < n; ++j) {
-            int max = 0;
             for (int i = 0; i < m; ++i) {
                 int num = grid[i][j];
-                max = Math.max(max, String.valueOf(num).length());
+                res[j] = Math.max(res[j], String.valueOf(num).length());
             }
-            res[j] = max;
         }
         return res;
 
