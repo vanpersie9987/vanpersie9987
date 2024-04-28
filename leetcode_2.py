@@ -3559,14 +3559,13 @@ class Union924:
             additionalTank -= 1
         res += mainTank * 10
         return res
-    
+
     # 1146. 快照数组 (Snapshot Array)
     class SnapshotArray:
 
         def __init__(self, length: int):
             self.g = defaultdict(list)
             self.id = -1
-
 
         def set(self, index: int, val: int) -> None:
             if len(self.g[index]) == 0 or self.g[index][-1][1] != self.id:
@@ -3580,7 +3579,7 @@ class Union924:
 
         def get(self, index: int, snap_id: int) -> int:
             return self.bis(self.g[index], snap_id)
-        
+
         def bis(self, arr: list, snap_id: int) -> int:
             n = len(arr)
             left = 0
@@ -3604,3 +3603,9 @@ class Union924:
             for i in range(m):
                 res[j] = max(res[j], len(str(grid[i][j])))
         return res
+
+    # 1017. 负二进制转换 (Convert to Base -2)
+    def baseNeg2(self, n: int) -> str:
+        return (
+            str(n) if n in (0, 1) else self.baseNeg2((n - (n & 1)) // -2) + str(n & 1)
+        )
