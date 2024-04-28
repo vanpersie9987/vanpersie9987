@@ -5536,26 +5536,21 @@ public class LeetCodeText {
         }
     }
 
-    // 1329. 将矩阵按对角线排序
-    public int[][] diagonalSort(final int[][] mat) {
-        Map<Integer, ArrayList<Integer>> map = new HashMap<>();
-        for (int i = 0; i < mat.length; ++i) {
-            for (int j = 0; j < mat[0].length; ++j) {
-                ArrayList<Integer> list = null;
-                if (map.get(i - j) == null) {
-                    list = new ArrayList<>();
-                } else {
-                    list = map.get(i - j);
-                }
-                list.add(mat[i][j]);
-                map.put(i - j, list);
+    // 1329. 将矩阵按对角线排序 (Sort the Matrix Diagonally)
+    public int[][] diagonalSort(int[][] mat) {
+        int m = mat.length;
+        int n = mat[0].length;
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                map.computeIfAbsent(i - j, k -> new ArrayList<>()).add(mat[i][j]);
             }
         }
-        for (ArrayList<Integer> list : map.values()) {
-            Collections.sort(list);
+        for (List<Integer> v : map.values()) {
+            Collections.sort(v);
         }
-        for (int i = 0; i < mat.length; ++i) {
-            for (int j = 0; j < mat[0].length; ++j) {
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
                 mat[i][j] = map.get(i - j).remove(0);
             }
         }
