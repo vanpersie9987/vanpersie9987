@@ -3766,3 +3766,18 @@ class Union924:
             else:
                 left = mid + 1
         return res
+
+    # 1329. 将矩阵按对角线排序 (Sort the Matrix Diagonally)
+    def diagonalSort(self, mat: List[List[int]]) -> List[List[int]]:
+        m = len(mat)
+        n = len(mat[0])
+        d = defaultdict(list)
+        for i in range(m):
+            for j in range(n):
+                d[i - j].append(mat[i][j])
+        for c in d.values():
+            c.sort(reverse=True)
+        for i in range(m):
+            for j in range(n):
+                mat[i][j] = d[i - j].pop()
+        return mat
