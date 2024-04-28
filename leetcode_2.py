@@ -3444,6 +3444,7 @@ class Union924:
             arr.append(i)
             dfs(i + 1, j + i)
             arr.pop()
+
         arr = []
         res = []
         dfs(1, 0)
@@ -3471,6 +3472,7 @@ class Union924:
         res = [False] * len(edges)
         if dis[n - 1] == inf:
             return res
+
         def dfs(x: int) -> None:
             for nxt in g[x]:
                 [y, w, i] = nxt
@@ -3478,6 +3480,7 @@ class Union924:
                     continue
                 res[i] = True
                 dfs(y)
+
         dfs(n - 1)
         return res
 
@@ -3487,7 +3490,10 @@ class Union924:
         def dfs(j: int, c: int) -> int:
             if j == n:
                 return 0
-            return min(dfs(j + 1, x) + m - cnts[j][x] if x != c else inf for x in range(10))
+            return min(
+                dfs(j + 1, x) + m - cnts[j][x] if x != c else inf for x in range(10)
+            )
+
         m = len(grid)
         n = len(grid[0])
         cnts = [[0] * 10 for _ in range(n)]
@@ -3533,6 +3539,7 @@ class Union924:
                     g[root.val].append(son.val)
                     g[son.val].append(root.val)
                     dfs(son)
+
         g = defaultdict(list)
         dfs(root)
         res = 0
@@ -3609,3 +3616,153 @@ class Union924:
         return (
             str(n) if n in (0, 1) else self.baseNeg2((n - (n & 1)) // -2) + str(n & 1)
         )
+
+    def canMakeSquare(self, grid: List[List[str]]) -> bool:
+        for i in range(1, 3):
+            for j in range(1, 3):
+                d = 0
+                for x in range(i - 1, i + 1):
+                    for y in range(j - 1, j + 1):
+                        d += 1 if grid[x][y] == "W" else -1
+                if abs(d) >= 2:
+                    return True
+        return False
+
+    def numberOfRightTriangles(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        res = 0
+        cols = [0] * n
+        rows = [0] * m
+        for i in range(m):
+            for j in range(n):
+                rows[i] += grid[i][j]
+                cols[j] += grid[i][j]
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j]:
+                    res += (rows[i] - 1) * (cols[j] - 1)
+        return res
+
+    def numberOfStableArrays(self, zero: int, one: int, limit: int) -> int:
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if i == 0:
+                return 1 if k == 1 and j <= limit else 0
+            if j == 0:
+                return 1 if k == 0 and i <= limit else 0
+            if k == 0:
+                return (
+                    dfs(i - 1, j, 1)
+                    + dfs(i - 1, j, 0)
+                    - (dfs(i - limit - 1, j, 1) if i > limit else 0)
+                ) % MOD
+            return (
+                dfs(i, j - 1, 0)
+                + dfs(i, j - 1, 1)
+                - (dfs(i, j - limit - 1, 0) if j > limit else 0)
+            ) % MOD
+
+        MOD = 10**9 + 7
+        res = (dfs(zero, one, 0) + dfs(zero, one, 1)) % MOD
+        dfs.cache_clear()
+        return res
+
+    def addedInteger(self, nums1: List[int], nums2: List[int]) -> int:
+        return min(nums2) - min(nums1)
+
+    def minimumAddedInteger(self, nums1: List[int], nums2: List[int]) -> int:
+        def cal(d: int) -> int:
+            c = 0
+            i = 0
+            j = 0
+            while j < len(nums2):
+                if nums2[j] - nums1[i] == d:
+                    i += 1
+                    j += 1
+                    continue
+                if c >= 2:
+                    return inf
+                c += 1
+                i += 1
+            return d
+        nums1.sort()
+        nums2.sort()
+        for i in range(2, -1, -1):
+            res = cal(nums2[0] - nums1[i])
+            if res < inf:
+                return res
+
+    def minEnd(self, n: int, x: int) -> int:
+        j = 0
+        t = ~x
+        n -= 1
+        while n >> j:
+            lb = t & -t
+            bit = n >> j & 1
+            x |= bit * lb
+            j += 1
+            t ^= lb
+        return x
+
+    def medianOfUniquenessArray(self, nums: List[int]) -> int:
+
+        def check(upper: int) -> bool:
+            cnt = l = 0
+            freq = Counter()
+            for r, in_ in enumerate(nums):
+                freq[in_] += 1
+                while len(freq) > upper:
+                    out = nums[l]
+                    freq[out] -= 1
+                    if freq[out] == 0:
+                        del freq[out]
+                    l += 1
+                cnt += r - l + 1
+                if cnt >= k:
+                    return True
+            return False
+
+        n = len(nums)
+        k = ((1 + n) * n // 2 + 1) // 2
+        left = 0
+        right = len(set(nums)) - 1
+        res = 1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                res = mid
+                right = mid - 1
+            else:
+                left = mid + 1
+        return res
+
+    def medianOfUniquenessArray(self, nums: List[int]) -> int:
+        def check(upper: int) -> bool:
+            cnt = 0
+            c = Counter()
+            l = 0
+            for r, x in enumerate(nums):
+                c[x] += 1
+                while len(c) > upper:
+                    c[nums[l]] -= 1
+                    if c[nums[l]] == 0:
+                        del c[nums[l]]
+                    l += 1
+                cnt += r - l + 1
+                if cnt >= k:
+                    return True
+            return False
+        n = len(nums)
+        k = ((1 + n) * n // 2 + 1) // 2
+        left = 1
+        right = len(set(nums))
+        res = 1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                res = mid
+                right = mid - 1
+            else:
+                left = mid + 1
+        return res

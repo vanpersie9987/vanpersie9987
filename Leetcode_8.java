@@ -4044,7 +4044,8 @@ public class Leetcode_8 {
         int res = dfs1994(i + 1, j);
         final int MOD = (int) (1e9 + 7);
         if ((j & mask1994.get(keys1994.get(i))) == 0) {
-            res += (int) ((long) dfs1994(i + 1, j | mask1994.get(keys1994.get(i))) * cnts1994.get(keys1994.get(i)) % MOD);
+            res += (int) ((long) dfs1994(i + 1, j | mask1994.get(keys1994.get(i))) * cnts1994.get(keys1994.get(i))
+                    % MOD);
             res %= MOD;
         }
         memo1994.put(m, res);
@@ -4067,7 +4068,6 @@ public class Leetcode_8 {
         }
         return m;
     }
-    
 
     // 805. 数组的均值分割 (Split Array With Same Average)
     public boolean splitArraySameAverage(int[] nums) {
@@ -9781,6 +9781,172 @@ public class Leetcode_8 {
             res3123[i] = true;
             dfs3123(y);
         }
+    }
+
+    public boolean canMakeSquare(char[][] grid) {
+        for (int i = 1; i < 3; ++i) {
+            for (int j = 1; j < 3; ++j) {
+                int d = 0;
+                for (int x = i - 1; x <= i; ++x) {
+                    for (int y = j - 1; y <= j; ++y) {
+                        d += grid[x][y] == 'W' ? 1 : -1;
+                    }
+                }
+                if (Math.abs(d) >= 2) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public long numberOfRightTriangles(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        long res = 0L;
+        int[] cols = new int[n];
+        int[] rows = new int[m];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                cols[j] += grid[i][j];
+                rows[i] += grid[i][j];
+            }
+        }
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    res += (rows[i] - 1) * (cols[j] - 1);
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int[][][] memo;
+    private int limit;
+
+    public int numberOfStableArrays(int zero, int one, int limit) {
+        this.memo = new int[zero + 1][one + 1][2];
+        this.limit = limit;
+        for (int i = 0; i < zero + 1; ++i) {
+            for (int j = 0; j < one + 1; ++j) {
+                Arrays.fill(memo[i][j], -1);
+            }
+        }
+        final int MOD = (int) (1e9 + 7);
+        return (dfs(zero, one, 0) + dfs(zero, one, 1)) % MOD;
+
+    }
+
+    private int dfs(int i, int j, int k) {
+        if (i == 0) {
+            return k == 1 && j <= limit ? 1 : 0;
+        }
+        if (j == 0) {
+            return k == 0 && i <= limit ? 1 : 0;
+        }
+        if (memo[i][j][k] != -1) {
+            return memo[i][j][k];
+        }
+        final int MOD = (int) (1e9 + 7);
+        if (k == 0) {
+            return memo[i][j][k] = ((dfs(i - 1, j, 1) + dfs(i - 1, j, 0)) % MOD
+                    - (i - limit > 0 ? dfs(i - limit - 1, j, 1) : 0) + MOD) % MOD;
+        }
+        return memo[i][j][k] = ((dfs(i, j - 1, 0) + dfs(i, j - 1, 1)) % MOD
+                - (j - limit > 0 ? dfs(i, j - limit - 1, 0) : 0) + MOD) % MOD;
+    }
+
+    public int addedInteger(int[] nums1, int[] nums2) {
+        return Arrays.stream(nums2).min().getAsInt() - Arrays.stream(nums1).min().getAsInt();
+
+    }
+
+    public int minimumAddedInteger(int[] nums1, int[] nums2) {
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        for (int i = 2; i >= 0; --i) {
+            int res = cal(nums2[0] - nums1[i], nums1, nums2);
+            if (res < Integer.MAX_VALUE) {
+                return res;
+            }
+        }
+        return -1;
+    }
+
+    private int cal(int d, int[] nums1, int[] nums2) {
+        int i = 0;
+        int j = 0;
+        int c = 0;
+        while (j < nums2.length) {
+            if (nums2[j] - nums1[i] == d) {
+                ++i;
+                ++j;
+                continue;
+            }
+            if (c >= 2) {
+                return Integer.MAX_VALUE;
+            }
+            ++c;
+            ++i;
+        }
+        return d;
+    }
+
+    public long minEnd(int n, int x) {
+        n -= 1;
+        int i = 0;
+        int j = 0;
+        long res = x;
+        while ((n >> j) != 0) {
+            if ((res >> i & 1) == 0) {
+                res |= (long) (n >> j & 1) << i;
+                ++j;
+            }
+            ++i;
+        }
+        return res;
+
+    }
+
+    public int medianOfUniquenessArray(int[] nums) {
+        int n = nums.length;
+        long k = ((long) (n + 1) * n / 2 + 1) / 2;
+        int left = 1;
+        int right = n;
+        int res = 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check(mid, nums, k)) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+
+    private boolean check(int upper, int[] nums, long k) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        int j = 0;
+        long cnt = 0L;
+        for (int i = 0; i < nums.length; ++i) {
+            freq.merge(nums[i], 1, Integer::sum);
+            while (freq.size() > upper) {
+                freq.merge(nums[j], -1, Integer::sum);
+                if (freq.get(nums[j]) == 0) {
+                    freq.remove(nums[j]);
+                }
+                ++j;
+            }
+            cnt += i - j + 1;
+            if (cnt >= k) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
