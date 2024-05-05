@@ -3786,20 +3786,11 @@ class Union924:
     def decrypt(self, code: List[int], k: int) -> List[int]:
         n = len(code)
         res = [0] * n
-        if k == 0:
-            return res
-        if k > 0:
-            s0 = 0
-            for i in range(1, k + 1):
-                s0 += code[i]
-            res[0] = s0
-            for i in range(1, n):
-                res[i] = res[i - 1] + code[(i + k) % n] - code[i]
-        else:
-            s = 0
-            for i in range(n - 2, n - 2 + k, -1):
-                s += code[i]
-            res[-1] = s
-            for i in range(n - 2, -1, -1):
-                res[i] = res[i + 1] - code[i] + code[(i + k) % n]
+        r = k + 1 if k > 0 else n
+        k = abs(k)
+        s = sum(code[r - k: r])
+        for i in range(n):
+            res[i] = s
+            s += code[r % n] - code[(r - k) % n]
+            r += 1
         return res
