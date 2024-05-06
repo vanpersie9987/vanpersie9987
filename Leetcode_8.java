@@ -9995,25 +9995,21 @@ public class Leetcode_8 {
 
     // 3138. 同位字符串连接的最小长度 (Minimum Length of Anagram Concatenation)
     public int minAnagramLength(String s) {
-        int n = s.length();
         int[] cnts = new int[26];
         for (char c : s.toCharArray()) {
             ++cnts[c - 'a'];
         }
         int[] cur = new int[26];
+        int res = 0;
         for (char c : s.toCharArray()) {
+            ++res;
             ++cur[c - 'a'];
             --cnts[c - 'a'];
             if (check3138(cur, cnts)) {
-                int res = 0;
-                for (int cu : cur) {
-                    res += cu;
-                }
                 return res;
             }
         }
-        return n;
-
+        return res;
 
     }
 
