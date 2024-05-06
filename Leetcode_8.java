@@ -9949,4 +9949,88 @@ public class Leetcode_8 {
         return false;
     }
 
+    // 3136. 有效单词 (Valid Word)
+    public boolean isValid(String word) {
+        int n = word.length();
+        if (n <= 2) {
+            return false;
+        }
+        boolean f1 = false;
+        boolean f2 = false;
+        for (char c : word.toCharArray()) {
+            if (!Character.isLetterOrDigit(c)) {
+                return false;
+            }
+            if (Character.isLetter(c)) {
+                if (isVowel3136(c)) {
+                    f1 = true;
+                } else {
+                    f2 = true;
+                }
+            }
+        }
+        return f1 && f2;
+    }
+
+    private boolean isVowel3136(char c) {
+        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+            return true;
+        }
+        if (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U') {
+            return true;
+        }
+        return false;
+    }
+
+    // 3137. K 周期字符串需要的最少操作次数 (Minimum Number of Operations to Make Word K-Periodic)
+    public int minimumOperationsToMakeKPeriodic(String word, int k) {
+        int n = word.length();
+        Map<String, Integer> cnts = new HashMap<>();
+        for (int i = 0; i < n; i += k) {
+            cnts.merge(word.substring(i, i + k), 1, Integer::sum);
+        }
+        return n / k - Collections.max(cnts.values());
+
+    }
+
+    // 3138. 同位字符串连接的最小长度 (Minimum Length of Anagram Concatenation)
+    public int minAnagramLength(String s) {
+        int n = s.length();
+        int[] cnts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++cnts[c - 'a'];
+        }
+        int[] cur = new int[26];
+        for (char c : s.toCharArray()) {
+            ++cur[c - 'a'];
+            --cnts[c - 'a'];
+            if (check3138(cur, cnts)) {
+                int res = 0;
+                for (int cu : cur) {
+                    res += cu;
+                }
+                return res;
+            }
+        }
+        return n;
+
+
+    }
+
+    private boolean check3138(int[] cur, int[] cnts) {
+        int d = -1;
+        for (int i = 0; i < 26; ++i) {
+            if ((cur[i] == 0) != (cnts[i] == 0)) {
+                return false;
+            }
+            if (cur[i] != 0) {
+                if ((cnts[i] % cur[i] != 0 || d != -1 && cnts[i] / cur[i] != d)) {
+                    return false;
+                }
+                d = cnts[i] / cur[i];
+            }
+
+        }
+        return true;
+    }
 }
