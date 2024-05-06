@@ -7960,38 +7960,35 @@ public class Leetcode_6 {
 
     // 741. 摘樱桃 (Cherry Pickup)
     private int n741;
-    private int[][][] memo741;
     private int[][] grid741;
+    private int[][][] memo741;
 
     public int cherryPickup(int[][] grid) {
         this.n741 = grid.length;
         this.grid741 = grid;
-        memo741 = new int[n741][n741][2 * n741 - 1];
+        this.memo741 = new int[n741][n741][n741];
         for (int i = 0; i < n741; ++i) {
             for (int j = 0; j < n741; ++j) {
                 Arrays.fill(memo741[i][j], -1);
             }
         }
-        return Math.max(dfs741(0, 0, 0), 0);
+        return Math.max(0, dfs741(0, 0, 0));
     }
 
-    private int dfs741(int i0, int j0, int j1) {
-        int i1 = i0 + j0 - j1;
-        if (i0 == n741 || i1 == n741 || j0 == n741 || j1 == n741 || grid741[i0][j0] == -1 || grid741[i1][j1] == -1) {
-            return Integer.MIN_VALUE;
+    private int dfs741(int i, int j, int k) {
+        int l = i + j - k;
+        if (i == n741 || j == n741 || k == n741 || l == n741 || grid741[i][j] == -1 || grid741[k][l] == -1) {
+            return (int) -1e5;
         }
-        if (i0 == n741 - 1 && j0 == n741 - 1 && i1 == n741 - 1 && j1 == n741 - 1) {
-            return grid741[i0][j0];
+        if (i == n741 - 1 && j == n741 - 1) {
+            return grid741[i][j];
         }
-        if (memo741[i0][j0][j1] != -1) {
-            return memo741[i0][j0][j1];
+        if (memo741[i][j][k] != -1) {
+            return memo741[i][j][k];
         }
-        int res = Integer.MIN_VALUE;
-        res = Math.max(res, dfs741(i0 + 1, j0, j1));
-        res = Math.max(res, dfs741(i0 + 1, j0, j1 + 1));
-        res = Math.max(res, dfs741(i0, j0 + 1, j1));
-        res = Math.max(res, dfs741(i0, j0 + 1, j1 + 1));
-        return memo741[i0][j0][j1] = res + (i0 == i1 && j0 == j1 ? grid741[i0][j0] : grid741[i0][j0] + grid741[i1][j1]);
+        return memo741[i][j][k] = Math.max(Math.max(dfs741(i + 1, j, k), dfs741(i + 1, j, k + 1)),
+                Math.max(dfs741(i, j + 1, k), dfs741(i, j + 1, k + 1))) + grid741[i][j]
+                + (i != k || j != l ? grid741[k][l] : 0);
     }
 
     // LCP 40. 心算挑战
