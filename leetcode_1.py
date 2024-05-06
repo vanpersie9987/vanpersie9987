@@ -336,9 +336,7 @@ class leetcode_1:
 
         @cache
         def dfs(i: int, j: int, k: int) -> int:
-            if i == n:
-                return 0
-            if j == 2:
+            if i == n or j == 2:
                 return 0
             if k == 0:
                 return max(dfs(i + 1, j, 0), dfs(i + 1, j, 1) - prices[i])

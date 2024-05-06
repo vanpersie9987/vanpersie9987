@@ -9,7 +9,7 @@ from curses import curs_set, intrflush
 from curses.ascii import isprint
 from decimal import Rounded
 import enum
-from functools import cache
+from functools import cache, cached_property
 from inspect import modulesbyfile
 from itertools import accumulate, count, islice, pairwise, permutations
 from locale import DAY_4
