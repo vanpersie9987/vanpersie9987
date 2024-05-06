@@ -1258,7 +1258,7 @@ public class LeetCodeText {
         // 可买入
         if (state == 0) {
             // 买
-            max = Math.max(max, -prices121[i] + dfs121(i + 1, state ^ 1));
+            max = Math.max(max, -prices121[i] + dfs121(i + 1, 1));
             // 不买
             max = Math.max(max, dfs121(i + 1, state));
         }
