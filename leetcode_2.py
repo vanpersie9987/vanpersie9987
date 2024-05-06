@@ -3798,3 +3798,47 @@ class Union924:
             s += code[r % n] - code[(r - k) % n]
             r += 1
         return res
+
+    # 3136. 有效单词 (Valid Word)
+    def isValid(self, word: str) -> bool:
+        if len(word) <= 2:
+            return False
+        return all(c.isalpha() or c.isdigit() for c in word) and any(c in 'aeiouAEIOU' for c in word) and any(c.isalpha() and c not in 'aeiouAEIOU' for c in word)
+
+    # 3137. K 周期字符串需要的最少操作次数 (Minimum Number of Operations to Make Word K-Periodic)
+    def minimumOperationsToMakeKPeriodic(self, word: str, k: int) -> int:
+        n = len(word)
+        d = defaultdict(int)
+        for i in range(0, n, k):
+            d[word[i: i + k]] += 1
+        return n // k - max(d.values())
+    
+    # 3138. 同位字符串连接的最小长度 (Minimum Length of Anagram Concatenation)
+    def minAnagramLength(self, s: str) -> int:
+        def check() -> None:
+            d = -1
+            for i in range(26):
+                if (pre[i] == 0) != (cnt[i] == 0):
+                    return False
+                if pre[i]:
+                    if cnt[i] % pre[i]:
+                        return False
+                    if d != -1 and cnt[i] // pre[i] != d:
+                        return False
+                    d = cnt[i] // pre[i]
+            return True
+        n = len(s)
+        cnt = [0] * 26
+        for c in map(ord, s):
+            cnt[c - ord('a')] += 1
+        pre = [0] * 26
+        for i, c in enumerate(map(ord, s)):
+            pre[c - ord('a')] += 1
+            cnt[c - ord('a')] -= 1
+            if check():
+                return i + 1
+        return n
+
+
+
+
