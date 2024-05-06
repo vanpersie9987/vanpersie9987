@@ -566,7 +566,7 @@ public class Leetcode_7 {
 
     public int maxProfit309(int[] prices) {
         this.n309 = prices.length;
-        this.memo309 = new int[n309][3];
+        this.memo309 = new int[n309][2];
         this.prices309 = prices;
         for (int i = 0; i < n309; ++i) {
             Arrays.fill(memo309[i], -1);
@@ -576,7 +576,7 @@ public class Leetcode_7 {
     }
 
     private int dfs309(int i, int state) {
-        if (i == n309) {
+        if (i >= n309) {
             return 0;
         }
         if (memo309[i][state] != -1) {
@@ -586,20 +586,16 @@ public class Leetcode_7 {
         // 可买入
         if (state == 0) {
             // 买
-            max = Math.max(max, -prices309[i] + dfs309(i + 1, (state + 1) % 3));
+            max = Math.max(max, -prices309[i] + dfs309(i + 1, 1));
             // 不买
             max = Math.max(max, dfs309(i + 1, state));
         }
         // 可卖出
-        else if (state == 1) {
+        else {
             // 卖
-            max = Math.max(max, prices309[i] + dfs309(i + 1, (state + 1) % 3));
+            max = Math.max(max, prices309[i] + dfs309(i + 2, 0));
             // 不卖
             max = Math.max(max, dfs309(i + 1, state));
-        }
-        // 冷冻期
-        else {
-            max = Math.max(max, dfs309(i + 1, (state + 1) % 3));
         }
         return memo309[i][state] = max;
     }
