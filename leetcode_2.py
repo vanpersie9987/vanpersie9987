@@ -3690,6 +3690,7 @@ class Union924:
                 c += 1
                 i += 1
             return d
+
         nums1.sort()
         nums2.sort()
         for i in range(2, -1, -1):
@@ -3757,6 +3758,7 @@ class Union924:
                 if cnt >= k:
                     return True
             return False
+
         n = len(nums)
         k = ((1 + n) * n // 2 + 1) // 2
         left = 1
@@ -3792,7 +3794,7 @@ class Union924:
         res = [0] * n
         r = k + 1 if k > 0 else n
         k = abs(k)
-        s = sum(code[r - k: r])
+        s = sum(code[r - k : r])
         for i in range(n):
             res[i] = s
             s += code[r % n] - code[(r - k) % n]
@@ -3801,18 +3803,21 @@ class Union924:
 
     # 3136. 有效单词 (Valid Word)
     def isValid(self, word: str) -> bool:
-        if len(word) <= 2:
-            return False
-        return all(c.isalpha() or c.isdigit() for c in word) and any(c in 'aeiouAEIOU' for c in word) and any(c.isalpha() and c not in 'aeiouAEIOU' for c in word)
+        return (
+            len(word) > 2
+            and all(c.isalpha() or c.isdigit() for c in word)
+            and any(c in "aeiouAEIOU" for c in word)
+            and any(c.isalpha() and c not in "aeiouAEIOU" for c in word)
+        )
 
     # 3137. K 周期字符串需要的最少操作次数 (Minimum Number of Operations to Make Word K-Periodic)
     def minimumOperationsToMakeKPeriodic(self, word: str, k: int) -> int:
         n = len(word)
         d = defaultdict(int)
         for i in range(0, n, k):
-            d[word[i: i + k]] += 1
+            d[word[i : i + k]] += 1
         return n // k - max(d.values())
-    
+
     # 3138. 同位字符串连接的最小长度 (Minimum Length of Anagram Concatenation)
     def minAnagramLength(self, s: str) -> int:
         def check() -> None:
@@ -3827,18 +3832,15 @@ class Union924:
                         return False
                     d = cnt[i] // pre[i]
             return True
+
         n = len(s)
         cnt = [0] * 26
         for c in map(ord, s):
-            cnt[c - ord('a')] += 1
+            cnt[c - ord("a")] += 1
         pre = [0] * 26
         for i, c in enumerate(map(ord, s)):
-            pre[c - ord('a')] += 1
-            cnt[c - ord('a')] -= 1
+            pre[c - ord("a")] += 1
+            cnt[c - ord("a")] -= 1
             if check():
                 return i + 1
         return n
-
-
-
-
