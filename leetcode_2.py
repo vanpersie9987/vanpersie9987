@@ -3621,6 +3621,7 @@ class Union924:
             str(n) if n in (0, 1) else self.baseNeg2((n - (n & 1)) // -2) + str(n & 1)
         )
 
+    # 3127. 构造相同颜色的正方形 (Make a Square with the Same Color)
     def canMakeSquare(self, grid: List[List[str]]) -> bool:
         for i in range(1, 3):
             for j in range(1, 3):
@@ -3632,6 +3633,7 @@ class Union924:
                     return True
         return False
 
+    # 3128. 直角三角形 (Right Triangles)
     def numberOfRightTriangles(self, grid: List[List[int]]) -> int:
         m = len(grid)
         n = len(grid[0])
@@ -3648,6 +3650,8 @@ class Union924:
                     res += (rows[i] - 1) * (cols[j] - 1)
         return res
 
+    # 3129. 找出所有稳定的二进制数组 I (Find All Possible Stable Binary Arrays I)
+    # 3130. 找出所有稳定的二进制数组 II (Find All Possible Stable Binary Arrays II)
     def numberOfStableArrays(self, zero: int, one: int, limit: int) -> int:
         @cache
         def dfs(i: int, j: int, k: int) -> int:

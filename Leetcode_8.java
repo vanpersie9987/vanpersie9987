@@ -9783,6 +9783,7 @@ public class Leetcode_8 {
         }
     }
 
+    // 3127. 构造相同颜色的正方形 (Make a Square with the Same Color)
     public boolean canMakeSquare(char[][] grid) {
         for (int i = 1; i < 3; ++i) {
             for (int j = 1; j < 3; ++j) {
@@ -9800,6 +9801,7 @@ public class Leetcode_8 {
         return false;
     }
 
+    // 3128. 直角三角形 (Right Triangles)
     public long numberOfRightTriangles(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
@@ -9823,39 +9825,41 @@ public class Leetcode_8 {
 
     }
 
-    private int[][][] memo;
-    private int limit;
+    // 3129. 找出所有稳定的二进制数组 I (Find All Possible Stable Binary Arrays I)
+    // 3130. 找出所有稳定的二进制数组 II (Find All Possible Stable Binary Arrays II)
+    private int[][][] memo3129;
+    private int limit3129;
 
     public int numberOfStableArrays(int zero, int one, int limit) {
-        this.memo = new int[zero + 1][one + 1][2];
-        this.limit = limit;
+        this.memo3129 = new int[zero + 1][one + 1][2];
+        this.limit3129 = limit;
         for (int i = 0; i < zero + 1; ++i) {
             for (int j = 0; j < one + 1; ++j) {
-                Arrays.fill(memo[i][j], -1);
+                Arrays.fill(memo3129[i][j], -1);
             }
         }
         final int MOD = (int) (1e9 + 7);
-        return (dfs(zero, one, 0) + dfs(zero, one, 1)) % MOD;
+        return (dfs3129(zero, one, 0) + dfs3129(zero, one, 1)) % MOD;
 
     }
 
-    private int dfs(int i, int j, int k) {
+    private int dfs3129(int i, int j, int k) {
         if (i == 0) {
-            return k == 1 && j <= limit ? 1 : 0;
+            return k == 1 && j <= limit3129 ? 1 : 0;
         }
         if (j == 0) {
-            return k == 0 && i <= limit ? 1 : 0;
+            return k == 0 && i <= limit3129 ? 1 : 0;
         }
-        if (memo[i][j][k] != -1) {
-            return memo[i][j][k];
+        if (memo3129[i][j][k] != -1) {
+            return memo3129[i][j][k];
         }
         final int MOD = (int) (1e9 + 7);
         if (k == 0) {
-            return memo[i][j][k] = ((dfs(i - 1, j, 1) + dfs(i - 1, j, 0)) % MOD
-                    - (i - limit > 0 ? dfs(i - limit - 1, j, 1) : 0) + MOD) % MOD;
+            return memo3129[i][j][k] = ((dfs3129(i - 1, j, 1) + dfs3129(i - 1, j, 0)) % MOD
+                    - (i - limit3129 > 0 ? dfs3129(i - limit3129 - 1, j, 1) : 0) + MOD) % MOD;
         }
-        return memo[i][j][k] = ((dfs(i, j - 1, 0) + dfs(i, j - 1, 1)) % MOD
-                - (j - limit > 0 ? dfs(i, j - limit - 1, 0) : 0) + MOD) % MOD;
+        return memo3129[i][j][k] = ((dfs3129(i, j - 1, 0) + dfs3129(i, j - 1, 1)) % MOD
+                - (j - limit3129 > 0 ? dfs3129(i, j - limit3129 - 1, 0) : 0) + MOD) % MOD;
     }
 
     // 3131. 找出与数组相加的整数 I (Find the Integer Added to Array I)
