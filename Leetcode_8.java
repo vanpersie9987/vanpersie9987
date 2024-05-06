@@ -9858,16 +9858,18 @@ public class Leetcode_8 {
                 - (j - limit > 0 ? dfs(i, j - limit - 1, 0) : 0) + MOD) % MOD;
     }
 
+    // 3131. 找出与数组相加的整数 I (Find the Integer Added to Array I)
     public int addedInteger(int[] nums1, int[] nums2) {
         return Arrays.stream(nums2).min().getAsInt() - Arrays.stream(nums1).min().getAsInt();
 
     }
 
+    // 3132. 找出与数组相加的整数 II (Find the Integer Added to Array II)
     public int minimumAddedInteger(int[] nums1, int[] nums2) {
         Arrays.sort(nums1);
         Arrays.sort(nums2);
         for (int i = 2; i >= 0; --i) {
-            int res = cal(nums2[0] - nums1[i], nums1, nums2);
+            int res = cal3132(nums2[0] - nums1[i], nums1, nums2);
             if (res < Integer.MAX_VALUE) {
                 return res;
             }
@@ -9875,7 +9877,7 @@ public class Leetcode_8 {
         return -1;
     }
 
-    private int cal(int d, int[] nums1, int[] nums2) {
+    private int cal3132(int d, int[] nums1, int[] nums2) {
         int i = 0;
         int j = 0;
         int c = 0;
@@ -9894,6 +9896,7 @@ public class Leetcode_8 {
         return d;
     }
 
+    // 3133. 数组最后一个元素的最小值 (Minimum Array End)
     public long minEnd(int n, int x) {
         n -= 1;
         int i = 0;
@@ -9910,6 +9913,7 @@ public class Leetcode_8 {
 
     }
 
+    // 3134. 找出唯一性数组的中位数 (Find the Median of the Uniqueness Array)
     public int medianOfUniquenessArray(int[] nums) {
         int n = nums.length;
         long k = ((long) (n + 1) * n / 2 + 1) / 2;
@@ -9918,7 +9922,7 @@ public class Leetcode_8 {
         int res = 1;
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
-            if (check(mid, nums, k)) {
+            if (check3134(mid, nums, k)) {
                 res = mid;
                 right = mid - 1;
             } else {
@@ -9928,7 +9932,7 @@ public class Leetcode_8 {
         return res;
     }
 
-    private boolean check(int upper, int[] nums, long k) {
+    private boolean check3134(int upper, int[] nums, long k) {
         Map<Integer, Integer> freq = new HashMap<>();
         int j = 0;
         long cnt = 0L;

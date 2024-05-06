@@ -3672,9 +3672,11 @@ class Union924:
         dfs.cache_clear()
         return res
 
+    # 3131. 找出与数组相加的整数 I (Find the Integer Added to Array I)
     def addedInteger(self, nums1: List[int], nums2: List[int]) -> int:
         return min(nums2) - min(nums1)
 
+    # 3132. 找出与数组相加的整数 II (Find the Integer Added to Array II)
     def minimumAddedInteger(self, nums1: List[int], nums2: List[int]) -> int:
         def cal(d: int) -> int:
             c = 0
@@ -3698,6 +3700,7 @@ class Union924:
             if res < inf:
                 return res
 
+    # 3133. 数组最后一个元素的最小值 (Minimum Array End)
     def minEnd(self, n: int, x: int) -> int:
         j = 0
         t = ~x
@@ -3710,38 +3713,7 @@ class Union924:
             t ^= lb
         return x
 
-    def medianOfUniquenessArray(self, nums: List[int]) -> int:
-
-        def check(upper: int) -> bool:
-            cnt = l = 0
-            freq = Counter()
-            for r, in_ in enumerate(nums):
-                freq[in_] += 1
-                while len(freq) > upper:
-                    out = nums[l]
-                    freq[out] -= 1
-                    if freq[out] == 0:
-                        del freq[out]
-                    l += 1
-                cnt += r - l + 1
-                if cnt >= k:
-                    return True
-            return False
-
-        n = len(nums)
-        k = ((1 + n) * n // 2 + 1) // 2
-        left = 0
-        right = len(set(nums)) - 1
-        res = 1
-        while left <= right:
-            mid = left + ((right - left) >> 1)
-            if check(mid):
-                res = mid
-                right = mid - 1
-            else:
-                left = mid + 1
-        return res
-
+    # 3134. 找出唯一性数组的中位数 (Find the Median of the Uniqueness Array)
     def medianOfUniquenessArray(self, nums: List[int]) -> int:
         def check(upper: int) -> bool:
             cnt = 0
