@@ -307,14 +307,15 @@ class leetcode_1:
     # 121. 买卖股票的最佳时机 (Best Time to Buy and Sell Stock)
     # 剑指 Offer 63. 股票的最大利润
     def maxProfit(self, prices: List[int]) -> int:
-        n = len(prices)
-
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == n or j == 2:
+            if i == n:
                 return 0
-            return max(dfs(i + 1, j), dfs(i + 1, j + 1) + prices[i] * (j * 2 - 1))
+            if j == 0:
+                return max(dfs(i + 1, j), dfs(i + 1, 1) - prices[i])
+            return max(dfs(i + 1, j), prices[i])
 
+        n = len(prices)
         return dfs(0, 0)
 
     # 122. 买卖股票的最佳时机 II (Best Time to Buy and Sell Stock II)
