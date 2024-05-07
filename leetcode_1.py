@@ -5299,29 +5299,17 @@ class leetcode_1:
     # 1395. 统计作战单位数 (Count Number of Teams)
     def numTeams(self, rating: List[int]) -> int:
         n = len(rating)
-        res = 0
-        for i in range(1, n - 1):
-            cnt1 = 0
-            cnt2 = 0
-            j = i - 1
-            while j >= 0:
-                if rating[j] < rating[i]:
-                    cnt1 += 1
-                elif rating[j] > rating[i]:
-                    cnt2 += 1
-                j -= 1
-            cnt3 = 0
-            cnt4 = 0
-            j = i + 1
-            while j < n:
-                if rating[j] < rating[i]:
-                    cnt3 += 1
-                elif rating[j] > rating[i]:
-                    cnt4 += 1
-                j += 1
-            res += cnt1 * cnt4
-            res += cnt2 * cnt3
-        return res
+        pre1 = [0] * n
+        pre2 = [0] * n
+        for i in range(1, n):
+            pre1[i] = sum(rating[j] < rating[i] for j in range(i))
+            pre2[i] = sum(rating[j] > rating[i] for j in range(i))
+        suf1 = [0] * n
+        suf2 = [0] * n
+        for i in range(n - 2, -1, -1):
+            suf1[i] = sum(rating[j] > rating[i] for j in range(i + 1, n))
+            suf2[i] = sum(rating[j] < rating[i] for j in range(i + 1, n))
+        return sum(pre1[i] * suf1[i] + pre2[i] * suf2[i] for i in range(n))
 
     # 1510. 石子游戏 IV (Stone Game IV)
     def winnerSquareGame(self, n: int) -> bool:
