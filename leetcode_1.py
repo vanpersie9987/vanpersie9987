@@ -839,7 +839,7 @@ class leetcode_1:
             for x in range(max(0, j0 - 1), min(n, j0 + 2)):
                 for y in range(max(0, j1 - 1), min(n, j1 + 2)):
                     res = max(res, dfs(i + 1, x, y))
-            return res + (grid[i][j0] if j0 == j1 else grid[i][j0] + grid[i][j1])
+            return res + grid[i][j0] + (0 if j0 == j1 else grid[i][j1])
 
         m = len(grid)
         n = len(grid[0])
