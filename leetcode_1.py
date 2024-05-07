@@ -6304,26 +6304,35 @@ class leetcode_1:
 
     # 1955. 统计特殊子序列的数目 (Count Number of Special Subsequences)
     def countSpecialSubsequences(self, nums: List[int]) -> int:
+        @cache
         def dfs(i: int, j: int) -> int:
             if i == n:
-                return j == 2
-            if memo[i][j] != -1:
-                return memo[i][j]
-            res = dfs(i + 1, j)
-            if nums[i] - j == 1 or nums[i] - j == 0:
-                res += dfs(i + 1, nums[i])
-            res %= MOD
-            memo[i][j] = res
-            return res
+                return int(j == 3)
+            if j == 0:
+                if nums[i] == 0:
+                    return (dfs(i + 1, 0) + dfs(i + 1, 1)) % MOD
+                return dfs(i + 1, 0)
+            if j == 1:
+                if nums[i] == 0:
+                    return dfs(i + 1, 1) * 2 % MOD
+                if nums[i] == 1:
+                    return (dfs(i + 1, 1) + dfs(i + 1, 2)) % MOD
+                return dfs(i + 1, 1)
+            if j == 2:
+                if nums[i] == 0:
+                    return dfs(i + 1, 2)
+                if nums[i] == 1:
+                    return dfs(i + 1, 2) * 2 % MOD
+                return (dfs(i + 1, 2) + dfs(i + 1, 3)) % MOD
+            if j == 3:
+                if nums[i] == 2:
+                    return dfs(i + 1, 3) * 2 % MOD
+                return dfs(i + 1, 3)
 
         n = len(nums)
         MOD = 10**9 + 7
-        memo = [[-1] * 3 for _ in range(n)]
-        res = 0
-        for i in range(n):
-            if nums[i] == 0:
-                res += dfs(i + 1, 0)
-                res %= MOD
+        res = dfs(0, 0)
+        dfs.cache_clear()
         return res
 
     # 2572. 无平方子集计数 (Count the Number of Square-Free Subsets)
@@ -6414,6 +6423,7 @@ class leetcode_1:
             if j & dic[arr[i]] == 0:
                 res += dfs(i + 1, j | dic[arr[i]]) * cnts[arr[i]] % MOD
             return res % MOD
+
         def check(x: int) -> int:
             m = 0
             for i in range(2, isqrt(x) + 1):
@@ -6425,6 +6435,7 @@ class leetcode_1:
             if x > 1:
                 m |= 1 << x
             return m
+
         dic = defaultdict(int)
         for i in range(2, 31):
             x = check(i)
@@ -6470,6 +6481,7 @@ class leetcode_1:
                     return True
                 sub = (sub - 1) & c
             return False
+
         n = len(nums)
         s = sum(nums)
         if k == 1:

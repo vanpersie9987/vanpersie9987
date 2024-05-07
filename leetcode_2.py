@@ -3820,8 +3820,6 @@ class Union924:
             if check():
                 return i + 1
         return n
-    
-    
         
 
 
