@@ -8298,6 +8298,35 @@ public class Leetcode_8 {
         return new long[] { sum0, sum1 };
     }
 
+    // 3068. 最大节点价值之和 (Find the Maximum Sum of Node Values) --不建树，求选择偶数个值与k异或的最大和
+    private int n3068;
+    private int k3068_2;
+    private long[][] memo3068;
+    private int[] nums3068_2;
+
+    public long maximumValueSum2(int[] nums, int k, int[][] edges) {
+        this.nums3068_2 = nums;
+        this.n3068 = nums.length;
+        this.k3068_2 = k;
+        this.memo3068 = new long[n3068][2];
+        for (int i = 0; i < n3068; ++i) {
+            Arrays.fill(memo3068[i], -1L);
+        }
+        return dfs3068_2(0, 0);
+
+    }
+
+    private long dfs3068_2(int i, int j) {
+        if (i == n3068) {
+            return j == 0 ? 0 : (long) -1e15;
+        }
+        if (memo3068[i][j] != -1L) {
+            return memo3068[i][j];
+        }
+        return memo3068[i][j] = Math.max(
+                dfs3068_2(i + 1, j) + nums3068_2[i], dfs3068_2(i + 1, j ^ 1) + (nums3068_2[i] ^ k3068_2));
+    }
+
     // 3069. 将元素分配到两个数组中 I (Distribute Elements Into Two Arrays I)
     public int[] resultArray3069(int[] nums) {
         int n = nums.length;
