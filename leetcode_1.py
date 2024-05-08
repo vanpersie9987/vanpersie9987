@@ -1248,47 +1248,23 @@ class leetcode_1:
 
     # 935. 骑士拨号器 (Knight Dialer)
     def knightDialer(self, n: int) -> int:
-        MOD = 10**9 + 7
-
         @cache
-        def dfs(i: int, left: int) -> int:
-            if left == 0:
+        def dfs(i: int, j: int) -> int:
+            if i == n:
                 return 1
-            res = 0
-            if i == 1:
-                res += dfs(6, left - 1) + dfs(8, left - 1)
-                res %= MOD
-            if i == 2:
-                res += dfs(7, left - 1) + dfs(9, left - 1)
-                res %= MOD
-            if i == 3:
-                res += dfs(4, left - 1) + dfs(8, left - 1)
-                res %= MOD
-            if i == 4:
-                res += dfs(3, left - 1) + dfs(9, left - 1) + dfs(0, left - 1)
-                res %= MOD
-            if i == 6:
-                res += dfs(1, left - 1) + dfs(7, left - 1) + dfs(0, left - 1)
-                res %= MOD
-            if i == 7:
-                res += dfs(2, left - 1) + dfs(6, left - 1)
-                res %= MOD
-            if i == 8:
-                res += dfs(1, left - 1) + dfs(3, left - 1)
-                res %= MOD
-            if i == 9:
-                res += dfs(2, left - 1) + dfs(4, left - 1)
-                res %= MOD
-            if i == 0:
-                res += dfs(4, left - 1) + dfs(6, left - 1)
-                res %= MOD
-            return res
-
-        res = 0
-        for i in range(10):
-            res += dfs(i, n - 1)
-            res %= MOD
-        return res
+            return sum(dfs(i + 1, x) for x in d[j]) % MOD
+        MOD = 10**9 + 7
+        d = [[] for _ in range(10)]
+        d[0].extend([4, 6])
+        d[1].extend([6, 8])
+        d[2].extend([7, 9])
+        d[3].extend([4, 8])
+        d[4].extend([0, 3, 9])
+        d[6].extend([0, 1, 7])
+        d[7].extend([2, 6])
+        d[8].extend([1, 3])
+        d[9].extend([2, 4])
+        return sum(dfs(1, i) for i in range(10)) % MOD
 
     # 931. 下降路径最小和 (Minimum Falling Path Sum)
     def minFallingPathSum(self, matrix: List[List[int]]) -> int:
