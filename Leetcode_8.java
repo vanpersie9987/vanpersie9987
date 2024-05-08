@@ -4801,36 +4801,36 @@ public class Leetcode_8 {
 
     }
 
-    // 100107. 使数组变美的最小增量运算数 (Minimum Increment Operations to Make Array Beautiful)
-    private long[][] memo100107;
-    private int[] nums100107;
-    private int k100107;
-    private int n100107;
+    // 2919. 使数组变美的最小增量运算数 (Minimum Increment Operations to Make Array Beautiful)
+    private int n2919;
+    private int[] nums2919;
+    private int k2919;
+    private long[][] memo2919;
 
     public long minIncrementOperations(int[] nums, int k) {
-        this.nums100107 = nums;
-        this.k100107 = k;
-        this.n100107 = nums.length;
-        this.memo100107 = new long[n100107][3];
-        for (int i = 0; i < n100107; ++i) {
-            Arrays.fill(memo100107[i], -1);
+        this.n2919 = nums.length;
+        this.nums2919 = nums;
+        this.k2919 = k;
+        this.memo2919 = new long[n2919][3];
+        for (int i = 0; i < n2919; ++i) {
+            Arrays.fill(memo2919[i], -1L);
         }
-        return dfs100107(0, 0);
+        return dfs2919(0, 0);
 
     }
 
-    private long dfs100107(int i, int j) {
-        if (i >= n100107) {
+    private long dfs2919(int i, int j) {
+        if (i == n2919) {
             return 0L;
         }
-        if (memo100107[i][j] != -1L) {
-            return memo100107[i][j];
+        if (memo2919[i][j] != -1L) {
+            return memo2919[i][j];
         }
-        long res = dfs100107(i + 1, 0) + Math.max(k100107 - nums100107[i], 0);
+        long res = dfs2919(i + 1, 0) + Math.max(0L, k2919 - nums2919[i]);
         if (j < 2) {
-            res = Math.min(res, dfs100107(i + 1, j + 1));
+            res = Math.min(res, dfs2919(i + 1, j + 1));
         }
-        return memo100107[i][j] = res;
+        return memo2919[i][j] = res;
     }
 
     // 2920. 收集所有金币可获得的最大积分 (Maximum Points After Collecting Coins From All Nodes)
