@@ -3838,21 +3838,14 @@ class Union924:
         @cache
         def dfs(i: int, j: int, k: int, l: int) -> int:
             if l == 0:
-                if j:
-                    return dfs(i, j - 1, k, 1) + 2
-                return 0
+                return dfs(i, j - 1, k, 1) + 2 if j else 0
             if l == 1:
-                res = 0
-                if i:
-                    res = max(res, dfs(i - 1, j, k, 0) + 2)
-                if k:
-                    res = max(res, dfs(i, j, k - 1, 2) + 2)
-                return res
-            res = 0
-            if i:
-                res = max(res, dfs(i - 1, j, k, 0) + 2)
-            if k:
-                res = max(res, dfs(i, j, k - 1, 2) + 2)
-            return res
+                return max(
+                    dfs(i - 1, j, k, 0) + 2 if i else 0,
+                    dfs(i, j, k - 1, 2) + 2 if k else 0,
+                )
+            return max(
+                dfs(i - 1, j, k, 0) + 2 if i else 0, dfs(i, j, k - 1, 2) + 2 if k else 0
+            )
 
         return max(dfs(x, y, z, 0), dfs(x, y, z, 1), dfs(x, y, z, 2))
