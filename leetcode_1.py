@@ -1950,31 +1950,21 @@ class leetcode_1:
 
     # LCP 19. 秋叶收藏集
     def minimumOperations(self, leaves: str) -> int:
-        n = len(leaves)
-
         @cache
-        def dfs(i: int, s: int) -> int:
+        def dfs(i: int, j: int) -> int:
             if i == n:
-                return 0 if s == 2 else inf
-            if i == 0:
-                return dfs(i + 1, s) if leaves[i] == "r" else dfs(i + 1, s) + 1
-            if s == 0:
-                if leaves[i] == "r":
-                    # 不变 // 变
-                    return min(dfs(i + 1, s), dfs(i + 1, s + 1) + 1)
-                # 不变 // 变
-                return min(dfs(i + 1, s + 1), dfs(i + 1, s) + 1)
-            if s == 1:
-                if leaves[i] == "r":
-                    # 不变 // 变
-                    return min(dfs(i + 1, s + 1), dfs(i + 1, s) + 1)
-                # 不变 // 变
-                return min(dfs(i + 1, s), dfs(i + 1, s + 1) + 1)
-            if leaves[i] == "r":
-                return dfs(i + 1, s)
-            return dfs(i + 1, s) + 1
-
-        return dfs(0, 0)
+                return 0 if j == 2 else inf
+            if j == 0:
+                if leaves[i] == 'r':
+                    return min(dfs(i + 1, j), dfs(i + 1, j + 1) + 1)
+                return min(dfs(i + 1, j + 1), dfs(i + 1, j) + 1)
+            if j == 1:
+                if leaves[i] == 'r':
+                    return min(dfs(i + 1, j + 1), dfs(i + 1, j) + 1)
+                return min(dfs(i + 1, j), dfs(i + 1, j + 1) + 1)
+            return dfs(i + 1, j) + (leaves[i] == 'y')
+        n = len(leaves)
+        return dfs(1, 0) + (leaves[0] == 'y')
 
     # 2439. 最小化数组中的最大值 (Minimize Maximum of Array)
     def minimizeArrayValue(self, nums: List[int]) -> int:
