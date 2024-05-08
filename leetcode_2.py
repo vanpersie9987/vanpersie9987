@@ -3859,7 +3859,6 @@ class Union924:
             )
 
         return max(dfs(x, y, z, 0), dfs(x, y, z, 1), dfs(x, y, z, 2))
-    
 
     # 376. 摆动序列 (Wiggle Subsequence)
     def wiggleMaxLength(self, nums: List[int]) -> int:
@@ -3877,3 +3876,18 @@ class Union924:
             return res + 1
         n = len(nums)
         return max(max(dfs(i, 0), dfs(i, 1)) for i in range(n))
+
+    # 1186. 删除一次得到子数组最大和 (Maximum Subarray Sum with One Deletion)
+    def maximumSum(self, arr: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i < 0:
+                return 0
+            # 不删
+            res = max(dfs(i - 1, j) + arr[i], 0)
+            # 删
+            if j == 0:
+                res = max(res, dfs(i - 1, j + 1))
+            return res
+        n = len(arr)
+        return max(dfs(i - 1, 0) + arr[i] for i in range(n))
