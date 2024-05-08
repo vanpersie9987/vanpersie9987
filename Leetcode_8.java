@@ -819,26 +819,27 @@ public class Leetcode_8 {
         this.arr1186 = arr;
         this.memo1186 = new int[n1186][2];
         for (int i = 0; i < n1186; ++i) {
-            Arrays.fill(memo1186[i], Integer.MIN_VALUE);
+            Arrays.fill(memo1186[i], Integer.MIN_VALUE >> 1);
         }
         int res = Integer.MIN_VALUE;
         for (int i = 0; i < n1186; ++i) {
-            res = Math.max(res, Math.max(dfs1186(i, 1), dfs1186(i, 0)));
+            res = Math.max(res, dfs1186(i - 1, 0) + arr1186[i]);
         }
         return res;
     }
 
     private int dfs1186(int i, int j) {
         if (i < 0) {
-            return Integer.MIN_VALUE / 2;
+            return 0;
         }
-        if (memo1186[i][j] != Integer.MIN_VALUE) {
+        if (memo1186[i][j] != Integer.MIN_VALUE >> 1) {
             return memo1186[i][j];
         }
+        int res = Math.max(dfs1186(i - 1, j) + arr1186[i], 0);
         if (j == 0) {
-            return memo1186[i][j] = Math.max(dfs1186(i - 1, 0) + arr1186[i], arr1186[i]);
+            res = Math.max(res, dfs1186(i - 1, j + 1));
         }
-        return memo1186[i][j] = Math.max(dfs1186(i - 1, 1) + arr1186[i], dfs1186(i - 1, 0));
+        return memo1186[i][j] = res;
     }
 
     // 1240. 铺瓷砖 (Tiling a Rectangle with the Fewest Squares)
