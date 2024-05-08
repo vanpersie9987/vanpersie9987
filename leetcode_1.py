@@ -5093,24 +5093,25 @@ class leetcode_1:
 
     # 801. 使序列递增的最小交换次数 (Minimum Swaps To Make Sequences Increasing)
     def minSwap(self, nums1: List[int], nums2: List[int]) -> int:
-        n = len(nums1)
-
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == n:
+            if i < 0:
                 return 0
-            if nums1[i] == nums2[i]:
-                return dfs(i + 1, 0)
-            if i == 0:
-                return min(dfs(1, 0), dfs(1, 1) + 1)
+            if j == 0:
+                res = inf
+                if nums1[i] < nums1[i + 1] and nums2[i] < nums2[i + 1]:
+                    res = min(res, dfs(i - 1, 0))
+                if nums1[i] < nums2[i + 1] and nums2[i] < nums1[i + 1]:
+                    res = min(res, dfs(i - 1, 1) + 1)
+                return res
             res = inf
-            if nums1[i] > nums1[i - 1] and nums2[i] > nums2[i - 1]:
-                res = min(res, dfs(i + 1, j) + j)
-            if nums2[i] > nums1[i - 1] and nums1[i] > nums2[i - 1]:
-                res = min(res, dfs(i + 1, j ^ 1) + (j ^ 1))
+            if nums1[i] < nums2[i + 1] and nums2[i] < nums1[i + 1]:
+                res = min(res, dfs(i - 1, 0))
+            if nums1[i] < nums1[i + 1] and nums2[i] < nums1[i + 1]:
+                res = min(res, dfs(i - 1, 1) + 1)
             return res
-
-        return dfs(0, 0)
+        n = len(nums1)
+        return min(dfs(n - 2, 0), dfs(n - 2, 1) + 1)
 
     # LCP 06. 拿硬币
     def minCount(self, coins: List[int]) -> int:
