@@ -7827,11 +7827,11 @@ class leetcode_1:
             return s1
         return s1
 
-    # 100107. 使数组变美的最小增量运算数 (Minimum Increment Operations to Make Array Beautiful)
+    # 2919. 使数组变美的最小增量运算数 (Minimum Increment Operations to Make Array Beautiful)
     def minIncrementOperations(self, nums: List[int], k: int) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if i >= n:
+            if i == n:
                 return 0
             res = dfs(i + 1, 0) + max(k - nums[i], 0)
             if j < 2:
