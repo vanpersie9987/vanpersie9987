@@ -3849,3 +3849,21 @@ class Union924:
             )
 
         return max(dfs(x, y, z, 0), dfs(x, y, z, 1), dfs(x, y, z, 2))
+    
+
+    # 376. 摆动序列 (Wiggle Subsequence)
+    def wiggleMaxLength(self, nums: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            res = 0
+            if j:
+                for k in range(i + 1, n):
+                    if nums[k] > nums[i]:
+                        res = max(res, dfs(k, 0))
+                return res + 1
+            for k in range(i + 1, n):
+                if nums[k] < nums[i]:
+                    res = max(res, dfs(k, 1))
+            return res + 1
+        n = len(nums)
+        return max(max(dfs(i, 0), dfs(i, 1)) for i in range(n))
