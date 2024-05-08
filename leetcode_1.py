@@ -3228,17 +3228,17 @@ class leetcode_1:
     # 2222. 选择建筑的方案数 (Number of Ways to Select Buildings)
     def numberOfWays(self, s: str) -> int:
         n = len(s)
-        right0 = [0] * n
-        for i in range(n - 2, -1, -1):
-            right0[i] = right0[i + 1] + (1 if s[i + 1] == "0" else 0)
+        left1 = [0] * n
+        for i in range(1, n):
+            left1[i] = left1[i - 1] + int(s[i - 1])
         res = 0
-        left0 = 0
-        for i, v in enumerate(s):
-            if v == "1":
-                res += left0 * right0[i]
+        cnt1 = 0
+        for i in range(n - 1, -1, -1):
+            if s[i] == '1':
+                res += (i - left1[i]) * (n - i - 1 - cnt1)
             else:
-                res += (i - left0) * ((n - i - 1) - right0[i])
-                left0 += 1
+                res += left1[i] * cnt1
+            cnt1 += int(s[i])
         return res
 
     # 2746. 字符串连接删减字母 (Decremental String Concatenation)
