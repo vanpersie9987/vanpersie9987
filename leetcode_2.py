@@ -3820,6 +3820,20 @@ class Union924:
             if check():
                 return i + 1
         return n
+
+    # 2079. 给植物浇水 (Watering Plants)
+    def wateringPlants(self, plants: List[int], capacity: int) -> int:
+        res = 0
+        c = capacity
+        for i, v in enumerate(plants):
+            res += 1
+            c -= v
+            if i < len(plants) - 1 and c < plants[i + 1]:
+                res += (i + 1) << 1
+                c = capacity
+        return res
+
+
         
 
 
