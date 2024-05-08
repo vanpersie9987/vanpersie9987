@@ -1955,16 +1955,17 @@ class leetcode_1:
             if i == n:
                 return 0 if j == 2 else inf
             if j == 0:
-                if leaves[i] == 'r':
+                if leaves[i] == "r":
                     return min(dfs(i + 1, j), dfs(i + 1, j + 1) + 1)
                 return min(dfs(i + 1, j + 1), dfs(i + 1, j) + 1)
             if j == 1:
-                if leaves[i] == 'r':
+                if leaves[i] == "r":
                     return min(dfs(i + 1, j + 1), dfs(i + 1, j) + 1)
                 return min(dfs(i + 1, j), dfs(i + 1, j + 1) + 1)
-            return dfs(i + 1, j) + (leaves[i] == 'y')
+            return dfs(i + 1, j) + (leaves[i] == "y")
+
         n = len(leaves)
-        return dfs(1, 0) + (leaves[0] == 'y')
+        return dfs(1, 0) + (leaves[0] == "y")
 
     # 2439. 最小化数组中的最大值 (Minimize Maximum of Array)
     def minimizeArrayValue(self, nums: List[int]) -> int:
@@ -3224,7 +3225,7 @@ class leetcode_1:
         res = 0
         cnt1 = 0
         for i in range(n - 1, -1, -1):
-            if s[i] == '1':
+            if s[i] == "1":
                 res += (i - left1[i]) * (n - i - 1 - cnt1)
             else:
                 res += left1[i] * cnt1
@@ -5107,9 +5108,10 @@ class leetcode_1:
             res = inf
             if nums1[i] < nums2[i + 1] and nums2[i] < nums1[i + 1]:
                 res = min(res, dfs(i - 1, 0))
-            if nums1[i] < nums1[i + 1] and nums2[i] < nums1[i + 1]:
+            if nums1[i] < nums1[i + 1] and nums2[i] < nums2[i + 1]:
                 res = min(res, dfs(i - 1, 1) + 1)
             return res
+
         n = len(nums1)
         return min(dfs(n - 2, 0), dfs(n - 2, 1) + 1)
 
