@@ -7677,9 +7677,6 @@ public class Leetcode_6 {
         if (left == 0) {
             return 1;
         }
-        if (num == 5) {
-            return 0;
-        }
         if (memo935[num][left] != 0) {
             return memo935[num][left];
         }
