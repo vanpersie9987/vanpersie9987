@@ -3891,3 +3891,24 @@ class Union924:
             return res
         n = len(arr)
         return max(dfs(i - 1, 0) + arr[i] for i in range(n))
+
+    # 2105. 给植物浇水 II (Watering Plants II)
+    def minimumRefill(self, plants: List[int], capacityA: int, capacityB: int) -> int:
+        n = len(plants)
+        i = 0
+        j = n - 1
+        res = 0
+        a = capacityA
+        b = capacityB
+        while i < j:
+            if a < plants[i]:
+                res += 1
+                a = capacityA
+            a -= plants[i]
+            if b < plants[j]:
+                res += 1
+                b = capacityB
+            b -= plants[j]
+            i += 1
+            j -= 1
+        return res + (i == j and max(a, b) < plants[i])
