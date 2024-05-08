@@ -1701,6 +1701,16 @@ class leetcode_2:
             g[v].append(u)
         return dfs(0, -1)[0]
 
+    # 3068. 最大节点价值之和 (Find the Maximum Sum of Node Values) --不建树，求选择偶数个值与k异或的最大和
+    def maximumValueSum(self, nums: List[int], k: int, edges: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0 if j == 0 else -inf
+            return max(dfs(i + 1, j) + nums[i], dfs(i + 1, j ^ 1) + (nums[i] ^ k))
+        n = len(nums)
+        return dfs(0, 0)
+
     # 2575. 找出字符串的可整除数组 (Find the Divisibility Array of a String)
     def divisibilityArray(self, word: str, m: int) -> List[int]:
         n = len(word)
