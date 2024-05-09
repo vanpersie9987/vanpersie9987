@@ -2245,13 +2245,13 @@ class leetcode_1:
         def dfs(i: int, j: int) -> int:
             if i == n:
                 return 0
-            res = inf
-            for k in range(j, 4):
-                res = min(res, dfs(i + 1, k) + (nums[i] != k))
+            res = dfs(i + 1, j)
+            if nums[i] >= j:
+                res = max(res, dfs(i + 1, nums[i]) + 1)
             return res
 
         n = len(nums)
-        return dfs(0, 1)
+        return n - dfs(0, 1)
 
     # 2828. 判别首字母缩略词 (Check if a String Is an Acronym of Words)
     def isAcronym(self, words: List[str], s: str) -> bool:
