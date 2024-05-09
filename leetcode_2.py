@@ -3935,8 +3935,6 @@ class Union924:
             return max(0 if j == 0 else -inf, dfs(i - 1, j ^ (nums[i] < 0)) + 1)
 
         n = len(nums)
-        res = 0
-        for i in range(n):
-            if nums[i]:
-                res = max(res, dfs(i - 1, int(nums[i] < 0)) + 1)
-        return res
+        return max(
+            0, max(dfs(i - 1, int(nums[i] < 0)) + 1 if nums[i] else 0 for i in range(n))
+        )
