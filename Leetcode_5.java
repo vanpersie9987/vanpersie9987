@@ -824,6 +824,38 @@ public class Leetcode_5 {
 
     }
 
+    // 1567. 乘积为正数的最长子数组长度 (Maximum Length of Subarray With Positive Product)
+    private int n1567;
+    private int[] nums1567;
+    private int[][] memo1567;
+
+    public int getMaxLen3(int[] nums) {
+        this.n1567 = nums.length;
+        this.nums1567 = nums;
+        this.memo1567 = new int[n1567][2];
+        for (int i = 0; i < n1567; ++i) {
+            Arrays.fill(memo1567[i], -1);
+        }
+        int res = 0;
+        for (int i = 0; i < n1567; ++i) {
+            if (nums[i] != 0) {
+                res = Math.max(res, dfs1567(i - 1, nums[i] < 0 ? 1 : 0) + 1);
+            }
+        }
+        return res;
+
+    }
+
+    private int dfs1567(int i, int j) {
+        if (i < 0 || nums1567[i] == 0) {
+            return j == 0 ? 0 : -n1567 - 1;
+        }
+        if (memo1567[i][j] != -1) {
+            return memo1567[i][j];
+        }
+        return memo1567[i][j] = Math.max(j == 0 ? 0 : -n1567 - 1, dfs1567(i - 1, j ^ (nums1567[i] < 0 ? 1 : 0)) + 1);
+    }
+
     // 2170. 使数组变成交替数组的最少操作数 (Minimum Operations to Make the Array Alternating)
     public int minimumOperations(int[] nums) {
         int n = nums.length;
