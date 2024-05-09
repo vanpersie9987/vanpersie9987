@@ -1253,6 +1253,7 @@ class leetcode_1:
             if i == n:
                 return 1
             return sum(dfs(i + 1, x) for x in d[j]) % MOD
+
         MOD = 10**9 + 7
         d = [[] for _ in range(10)]
         d[0].extend([4, 6])
@@ -9343,21 +9344,20 @@ class leetcode_1:
     def maxNonDecreasingLength(self, nums1: List[int], nums2: List[int]) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == 0:
-                return 1
-            return max(
-                dfs(i - 1, k) + 1 if nums[k][i - 1] <= nums[j][i] else 1
-                for k in range(2)
-            )
+            if i == n:
+                return 0
+            res = 0
+            if arr[i][0] >= arr[i - 1][j]:
+                res = max(res, dfs(i + 1, 0) + 1)
+            if arr[i][1] >= arr[i - 1][j]:
+                res = max(res, dfs(i + 1, 1) + 1)
+            return res
 
-        res = 0
         n = len(nums1)
-        nums = [[] for _ in range(2)]
-        nums[0] = nums1
-        nums[1] = nums2
-        for i in range(n):
-            res = max(res, dfs(i, 0), dfs(i, 1))
-        return res
+        if n == 1:
+            return 1
+        arr = [[a, b] for a, b in zip(nums1, nums2)]
+        return max(max(dfs(i, 0) + 1, dfs(i, 1) + 1) for i in range(1, n))
 
     # 447. 回旋镖的数量 (Number of Boomerangs)
     def numberOfBoomerangs(self, points: List[List[int]]) -> int:
