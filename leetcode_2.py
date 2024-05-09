@@ -3924,3 +3924,17 @@ class Union924:
         n = len(nums)
         return dfs(0, 0)
 
+    # 1567. 乘积为正数的最长子数组长度 (Maximum Length of Subarray With Positive Product)
+    def getMaxLen(self, nums: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i < 0 or nums[i] == 0:
+                return 0 if j == 0 else -inf
+            return max(0 if j == 0 else -inf, dfs(i - 1, j ^ (nums[i] < 0)) + 1)
+
+        n = len(nums)
+        res = 0
+        for i in range(n):
+            if nums[i]:
+                res = max(res, dfs(i - 1, int(nums[i] < 0)) + 1)
+        return res
