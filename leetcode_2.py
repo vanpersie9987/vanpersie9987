@@ -3913,3 +3913,13 @@ class Union924:
             i += 1
             j -= 1
         return res + (i == j and max(a, b) < plants[i])
+
+    # 1262. 可被三整除的最大和 (Greatest Sum Divisible by Three)
+    def maxSumDivThree(self, nums: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0 if j == 0 else -inf
+            return max(dfs(i + 1, j), dfs(i + 1, (j + nums[i]) % 3) + nums[i])
+        n = len(nums)
+        return dfs(0, 0)
