@@ -3923,3 +3923,4 @@ class Union924:
             return max(dfs(i + 1, j), dfs(i + 1, (j + nums[i]) % 3) + nums[i])
         n = len(nums)
         return dfs(0, 0)
+

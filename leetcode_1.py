@@ -170,28 +170,24 @@ class leetcode_1:
 
     # 2786. 访问数组中的位置使分数最大 (Visit Array Positions to Maximize Score)
     def maxScore(self, nums: List[int], x: int) -> int:
-        list = []
-
-        def getList() -> None:
-            i = 0
-            j = 0
-            n = len(nums)
-            while j < n:
-                sum = 0
-                while j < n and nums[j] % 2 == nums[i] % 2:
-                    sum += nums[j]
-                    j += 1
-                list.append(sum)
-                i = j
-
         @cache
         def dfs(i: int) -> int:
             if i >= n:
                 return 0
-            return max(dfs(i + 1) - x, dfs(i + 2)) + list[i]
-
-        getList()
-        n = len(list)
+            return max(dfs(i + 1) - x, dfs(i + 2)) + arr[i]
+        arr = []
+        n = len(nums)
+        i = 0
+        while i < n:
+            c = nums[i]
+            j = i
+            s = 0
+            while j < n and c % 2 == nums[j] % 2:
+                s += nums[j]
+                j += 1
+            arr.append(s)
+            i = j
+        n = len(arr)
         return dfs(0)
 
     # 70. 爬楼梯 (Climbing Stairs)
