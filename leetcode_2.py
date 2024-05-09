@@ -1523,17 +1523,19 @@ class leetcode_2:
         def dfs(i: int) -> bool:
             if i == n:
                 return True
-            res1 = False
-            res2 = False
-            if i + 1 < n and nums[i] == nums[i + 1]:
-                res1 = dfs(i + 2)
-            if i + 2 < n and (
-                nums[i] == nums[i + 1] == nums[i + 2]
-                or nums[i] + 1 == nums[i + 1]
-                and nums[i + 1] + 1 == nums[i + 2]
+            if i + 1 < n and nums[i] == nums[i + 1] and dfs(i + 2):
+                return True
+            if (
+                i + 2 < n
+                and (
+                    nums[i] == nums[i + 1] == nums[i + 2]
+                    or nums[i + 2] - nums[i + 1] == 1
+                    and nums[i + 1] - nums[i] == 1
+                )
+                and dfs(i + 3)
             ):
-                res2 = dfs(i + 3)
-            return res1 or res2
+                return True
+            return False
 
         n = len(nums)
         return dfs(0)
