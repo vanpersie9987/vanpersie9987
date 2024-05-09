@@ -4352,46 +4352,39 @@ class leetcode_1:
 
     # 1363. 形成三的最大倍数 (Largest Multiple of Three)
     def largestMultipleOfThree(self, digits: List[int]) -> str:
-        cnts = [0] * 10
-        mod = 0
-        for d in digits:
-            cnts[d] += 1
-            mod += d
-            mod %= 3
-        if mod == 1:
-            f = False
-            for i in (1, 4, 7):
-                if cnts[i]:
-                    cnts[i] -= 1
-                    f = True
-                    break
-            if not f:
-                c = 2
-                for i in (2, 5, 8):
-                    while cnts[i] and c:
-                        cnts[i] -= 1
-                        c -= 1
-        if mod == 2:
-            f = False
-            for i in (2, 5, 8):
-                if cnts[i]:
-                    cnts[i] -= 1
-                    f = True
-                    break
-            if not f:
-                c = 2
-                for i in (1, 4, 7):
-                    while cnts[i] and c:
-                        cnts[i] -= 1
-                        c -= 1
-        s = ""
-        for x in range(9, -1, -1):
-            while cnts[x] > 0:
-                s += str(x)
-                cnts[x] -= 1
-        if len(s) > 0 and s[0] == "0":
-            return "0"
-        return s
+        def check(start: int, c: int) -> bool:
+            for s in range(start, 10, 3):
+                while d[s]:
+                    d[s] -= 1
+                    c -= 1
+                    if c == 0:
+                        return True
+            return False
+        d = [0] * 10
+        s = 0
+        for digit in digits:
+            v = int(digit)
+            d[v] += 1
+            s += v
+        if s == 0:
+            return '0'
+        if s % 3 == 1:
+            if not check(1, 1):
+                check(2, 2)
+        if s % 3 == 2:
+            if not check(2, 1):
+                check(1, 2)
+        res = []
+        for i in range(9, -1, -1):
+            res.extend()
+            while d[i]:
+                res.append(str(i))
+                d[i] -= 1
+        if len(res) == 0:
+            return ''
+        if res[0] == '0':
+            return '0'
+        return ''.join(res)
 
     # 1334. 阈值距离内邻居最少的城市 (Find the City With the Smallest Number of Neighbors at a Threshold Distance)
     def findTheCity(
