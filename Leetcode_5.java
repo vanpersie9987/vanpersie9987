@@ -2979,7 +2979,7 @@ public class Leetcode_5 {
             return memo1911[i][j];
         }
         return memo1911[i][j] = Math.max(dfs1911(i + 1, j),
-                dfs1911(i + 1, j ^ 1) + (j == 0 ? nums1911[i] : -nums1911[i]));
+                dfs1911(i + 1, j ^ 1) + (1 - 2 * j) * nums1911[i]);
     }
 
     // 6188. 按身高排序
