@@ -819,15 +819,13 @@ class leetcode_1:
 
     # 1911. 最大子序列交替和 (Maximum Alternating Subsequence Sum)
     def maxAlternatingSum(self, nums: List[int]) -> int:
-        n = len(nums)
-
         @cache
         def dfs(i: int, j: int) -> int:
             if i == n:
                 return 0
-            return max(dfs(i + 1, j), dfs(i + 1, j ^ 1) + (-nums[i] if j else nums[i]))
-
-        return dfs(0, 0)
+            return max(dfs(i + 1, j), dfs(i + 1, -1 * j) + j * nums[i])
+        n = len(nums)
+        return dfs(0, 1)
 
     # 1463. 摘樱桃 II (Cherry Pickup II)
     def cherryPickup(self, grid: List[List[int]]) -> int:
