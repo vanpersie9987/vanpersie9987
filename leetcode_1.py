@@ -175,6 +175,7 @@ class leetcode_1:
             if i >= n:
                 return 0
             return max(dfs(i + 1) - x, dfs(i + 2)) + arr[i]
+
         arr = []
         n = len(nums)
         i = 0
@@ -820,6 +821,7 @@ class leetcode_1:
             if i == n:
                 return 0
             return max(dfs(i + 1, j), dfs(i + 1, -1 * j) + j * nums[i])
+
         n = len(nums)
         return dfs(0, 1)
 
@@ -2289,17 +2291,42 @@ class leetcode_1:
 
     # 139. 单词拆分 (Word Break)
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        n = len(s)
-        dict = set(wordDict)
+        class Trie:
+
+            def __init__(self) -> None:
+                self.children = [None] * 26
+                self.is_end = False
+
+            def insert(self, s: str) -> None:
+                node = self
+                for c in s:
+                    index = ord(c) - ord("a")
+                    if node.children[index] is None:
+                        node.children[index] = Trie()
+                    node = node.children[index]
+                node.is_end = True
+
+            def check(self, s: str) -> list:
+                ret = []
+                node = self
+                for i, c in enumerate(s):
+                    index = ord(c) - ord("a")
+                    if node.children[index] is None:
+                        break
+                    node = node.children[index]
+                    if node.is_end:
+                        ret.append(i)
+                return ret
+
+        trie = Trie()
+        for w in wordDict:
+            trie.insert(w)
 
         @cache
         def dfs(i: int) -> bool:
-            if i == n:
+            if i == len(s):
                 return True
-            for j in range(i, n):
-                if s[i : j + 1] in dict and dfs(j + 1):
-                    return True
-            return False
+            return any(dfs(i + j + 1) for j in trie.check(s[i:]))
 
         return dfs(0)
 
@@ -4356,6 +4383,7 @@ class leetcode_1:
                     if c == 0:
                         return True
             return False
+
         d = [0] * 10
         s = 0
         for digit in digits:
@@ -4363,7 +4391,7 @@ class leetcode_1:
             d[v] += 1
             s += v
         if s == 0:
-            return '0'
+            return "0"
         if s % 3 == 1:
             if not check(1, 1):
                 check(2, 2)
@@ -4377,10 +4405,10 @@ class leetcode_1:
                 res.append(str(i))
                 d[i] -= 1
         if len(res) == 0:
-            return ''
-        if res[0] == '0':
-            return '0'
-        return ''.join(res)
+            return ""
+        if res[0] == "0":
+            return "0"
+        return "".join(res)
 
     # 1334. 阈值距离内邻居最少的城市 (Find the City With the Smallest Number of Neighbors at a Threshold Distance)
     def findTheCity(
