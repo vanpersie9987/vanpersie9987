@@ -5573,7 +5573,7 @@ public class Leetcode_8 {
         return true;
     }
 
-    // 100143. 统计已测试设备 (Count Tested Devices After Test Operations)
+    // 2960. 统计已测试设备 (Count Tested Devices After Test Operations)
     public int countTestedDevices(int[] batteryPercentages) {
         int cnt = 0;
         for (int b : batteryPercentages) {

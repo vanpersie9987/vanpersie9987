@@ -8674,7 +8674,7 @@ class leetcode_1:
                 res += 1
         return res
 
-    # 100143. 统计已测试设备 (Count Tested Devices After Test Operations)
+    # 2960. 统计已测试设备 (Count Tested Devices After Test Operations)
     def countTestedDevices(self, batteryPercentages: List[int]) -> int:
         cnt = 0
         for v in batteryPercentages:
