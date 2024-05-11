@@ -3941,19 +3941,12 @@ class Union924:
 
     # 2391. 收集垃圾的最少总时间 (Minimum Amount of Time to Collect Garbage)
     def garbageCollection(self, garbage: List[str], travel: List[int]) -> int:
-        n = len(garbage)
-        res = 0
-        m = 0
-        g = 0
-        p = 0
-        for i in range(n - 1, -1, -1):
-            m += garbage[i].count('M')
-            g += garbage[i].count('G')
-            p += garbage[i].count('P')
-            if m and i:
-                res += travel[i - 1]
-            if g and i:
-                res += travel[i - 1]
-            if p and i:
-                res += travel[i - 1]
-        return res + m + g + p
+        def cal(c: chr) -> int:
+            res = 0
+            s = 0
+            for i in range(len(garbage) - 1, -1, -1):
+                s += garbage[i].count(c)
+                if s and i:
+                    res += travel[i - 1]
+            return res + s
+        return sum(cal(c) for c in ('M', 'G', 'P'))
