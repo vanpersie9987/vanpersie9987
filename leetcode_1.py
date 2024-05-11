@@ -6780,6 +6780,8 @@ class leetcode_1:
         def dfs(i: int) -> int:
             if i == n:
                 return 0
+            if valid[i][n - 1]:
+                return 1
             return min(dfs(j + 1) + 1 if valid[i][j] else inf for j in range(i, n))
 
         return dfs(0) - 1
