@@ -6003,46 +6003,33 @@ public class LeetCode_4 {
     // 91. 解码方法 (Decode Ways)
     private int[] memo91;
     private char[] arr91;
+    private int n91;
 
     public int numDecodings4(String s) {
         if (s.charAt(0) == '0') {
             return 0;
         }
         this.arr91 = s.toCharArray();
-        int n = s.length();
-        memo91 = new int[n];
+        this.n91 = s.length();
+        memo91 = new int[n91];
         Arrays.fill(memo91, -1);
-        return dfs91(n - 1);
+        return dfs91(0);
 
     }
 
     private int dfs91(int i) {
-        if (i < 0) {
+        if (i == n91) {
             return 1;
+        }
+        if (arr91[i] == '0') {
+            return 0;
         }
         if (memo91[i] != -1) {
             return memo91[i];
         }
-        int res = 0;
-        char c = arr91[i];
-        if (c >= '0' && c <= '6') {
-            if (c != '0') {
-                res += dfs91(i - 1);
-            }
-            if (i > 0) {
-                char pre = arr91[i - 1];
-                if (pre == '1' || pre == '2') {
-                    res += dfs91(i - 2);
-                }
-            }
-        } else {
-            res += dfs91(i - 1);
-            if (i > 0) {
-                char pre = arr91[i - 1];
-                if (pre == '1') {
-                    res += dfs91(i - 2);
-                }
-            }
+        int res = dfs91(i + 1);
+        if (i + 1 < n91 && (arr91[i] == '1' || arr91[i] == '2' && arr91[i + 1] <= '6')) {
+            res += dfs91(i + 2);
         }
         return memo91[i] = res;
     }
