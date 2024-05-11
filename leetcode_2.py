@@ -3950,3 +3950,31 @@ class Union924:
                     res += travel[i - 1]
             return res + s
         return sum(cal(c) for c in ("M", "G", "P"))
+    
+
+    # 639. 解码方法 II (Decode Ways II)
+    def numDecodings(self, s: str) -> int:
+        @cache
+        def dfs(i: int) -> int:
+            if i == n:
+                return 1
+            if s[i] == '0':
+                return 0
+            res = dfs(i + 1) * (9 if s[i] == '*' else 1)
+            if i + 1 < n:
+                if s[i] == '1':
+                    res += dfs(i + 2) * (9 if s[i + 1] == '*' else 1)
+                elif s[i] == '2':
+                    if '0' <= s[i + 1] <= '6':
+                        res += dfs(i + 2)
+                    elif s[i + 1] == '*':
+                        res += dfs(i + 2) * 6
+                elif s[i] == '*':
+                    if s[i + 1] == '*':
+                        res += dfs(i + 2) * 15
+                    else:
+                        res += dfs(i + 2) * (2 if '0' <= s[i + 1] <= '6' else 1)
+            return res % MOD
+        n = len(s)
+        MOD = 10**9 + 7
+        return dfs(0)
