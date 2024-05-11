@@ -3949,4 +3949,4 @@ class Union924:
                 if s and i:
                     res += travel[i - 1]
             return res + s
-        return sum(cal(c) for c in ('M', 'G', 'P'))
+        return sum(cal(c) for c in ("M", "G", "P"))

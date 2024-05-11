@@ -4492,14 +4492,11 @@ class leetcode_1:
 
     # 2767. 将字符串分割为最少的美丽子字符串 (Partition String Into Minimum Beautiful Substrings)
     def minimumBeautifulSubstrings(self, s: str) -> int:
-        n = len(s)
 
-        def check(x: int) -> bool:
-            while x != 1:
-                if x % 5:
-                    return False
-                x //= 5
-            return True
+        def is_valid(v: int) -> bool:
+            while v % 5 == 0:
+                v //= 5
+            return v == 1
 
         @cache
         def dfs(i: int) -> int:
@@ -4508,15 +4505,16 @@ class leetcode_1:
             if s[i] == "0":
                 return inf
             res = inf
-            sum = 0
+            _s = 0
             for j in range(i, n):
-                sum = (sum << 1) | int(s[j])
-                if check(sum):
+                _s = (_s << 1) + int(s[j])
+                if is_valid(_s):
                     res = min(res, dfs(j + 1) + 1)
             return res
 
+        n = len(s)
         res = dfs(0)
-        return res if res < inf else -1
+        return -1 if res == inf else res
 
     # 8029. 与车相交的点 (Points That Intersect With Cars)
     def numberOfPoints(self, nums: List[List[int]]) -> int:
