@@ -2779,56 +2779,37 @@ public class Leetcode_7 {
         }
         this.memo639 = new int[n639];
         Arrays.fill(memo639, -1);
-        return dfs639(n639 - 1);
+        return dfs639(0);
     }
 
     private int dfs639(int i) {
-        if (i < 0) {
+        if (i == n639) {
             return 1;
+        }
+        char c = arr639[i];
+        if (c == '0') {
+            return 0;
         }
         if (memo639[i] != -1) {
             return memo639[i];
         }
-        final int MOD = (int) (1e9 + 7);
-        int res = 0;
-        char c = arr639[i];
-        if (c >= '0' && c <= '6') {
-            if (c != '0') {
-                res = (res + dfs639(i - 1)) % MOD;
-            }
-            if (i > 0) {
-                char pre = arr639[i - 1];
-                if (pre == '1' || pre == '2' || pre == '*') {
-                    if (pre == '*') {
-                        res = (res + dfs639(i - 2) * 2 % MOD) % MOD;
-                    } else {
-                        res = (res + dfs639(i - 2)) % MOD;
-                    }
-                }
-            }
-        } else if (c >= '7' && c <= '9') {
-            res = (res + dfs639(i - 1)) % MOD;
-            if (i > 0) {
-                char pre = arr639[i - 1];
-                if (pre == '1' || pre == '*') {
-                    res = (res + dfs639(i - 2)) % MOD;
-                }
-            }
-        } else {
-            res = (int) (res + (long) dfs639(i - 1) * 9 % MOD) % MOD;
-            if (i > 0) {
-                char pre = arr639[i - 1];
-                if (pre == '1') {
-                    res = (int) (res + (long) dfs639(i - 2) * 9 % MOD) % MOD;
-                } else if (pre == '2') {
-                    res = (int) (res + (long) dfs639(i - 2) * 6 % MOD) % MOD;
-                } else if (pre == '*') {
-                    // 「**」 可以组成 11-19、21-26 共15种状态
-                    res = (int) (res + (long) dfs639(i - 2) * 15 % MOD) % MOD;
+        long res = (long) dfs639(i + 1) * (c == '*' ? 9 : 1);
+        if (i + 1 < n639) {
+            if (c == '1') {
+                res += (long) dfs639(i + 2) * (arr639[i + 1] == '*' ? 9 : 1);
+            } else if (c == '2') {
+                res += (long) dfs639(i + 2)
+                        * (arr639[i + 1] == '*' ? 6 : arr639[i + 1] >= '0' && arr639[i + 1] <= '6' ? 1 : 0);
+            } else if (c == '*') {
+                if (arr639[i + 1] == '*') {
+                    res += (long) dfs639(i + 2) * 15;
+                } else {
+                    res += (long) dfs639(i + 2) * (arr639[i + 1] >= '0' && arr639[i + 1] <= '6' ? 2 : 1);
                 }
             }
         }
-        return memo639[i] = res;
+        final int MOD = (int) (1e9 + 7);
+        return memo639[i] = (int) (res % MOD);
     }
 
     // 732. 我的日程安排表 III (My Calendar III) --差分 还需掌握 线段树
