@@ -3938,3 +3938,22 @@ class Union924:
         return max(
             0, max(dfs(i - 1, int(nums[i] < 0)) + 1 if nums[i] else 0 for i in range(n))
         )
+
+    # 2391. 收集垃圾的最少总时间 (Minimum Amount of Time to Collect Garbage)
+    def garbageCollection(self, garbage: List[str], travel: List[int]) -> int:
+        n = len(garbage)
+        res = 0
+        m = 0
+        g = 0
+        p = 0
+        for i in range(n - 1, -1, -1):
+            m += garbage[i].count('M')
+            g += garbage[i].count('G')
+            p += garbage[i].count('P')
+            if m and i:
+                res += travel[i - 1]
+            if g and i:
+                res += travel[i - 1]
+            if p and i:
+                res += travel[i - 1]
+        return res + m + g + p
