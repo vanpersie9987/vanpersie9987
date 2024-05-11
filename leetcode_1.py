@@ -4254,18 +4254,46 @@ class leetcode_1:
     # 2707. 字符串中的额外字符 (Extra Characters in a String)
     def minExtraChar(self, s: str, dictionary: List[str]) -> int:
         n = len(s)
-        dic = set(dictionary)
+
+        class Trie:
+
+            def __init__(self) -> None:
+                self.child = [None] * 26
+                self.is_word = False
+
+            def insert(self, s: str) -> None:
+                node = self
+                for c in s:
+                    index = ord(c) - ord("a")
+                    if node.child[index] is None:
+                        node.child[index] = Trie()
+                    node = node.child[index]
+                node.is_word = True
+
+            def check(self, s: str) -> list:
+                res = []
+                node = self
+                for i, c in enumerate(s):
+                    index = ord(c) - ord("a")
+                    if node.child[index] is None:
+                        break
+                    node = node.child[index]
+                    if node.is_word:
+                        res.append(i)
+                return res
 
         @cache
         def dfs(i: int) -> int:
             if i == n:
                 return 0
             res = dfs(i + 1) + 1
-            for j in range(i, n):
-                if s[i : j + 1] in dic:
-                    res = min(res, dfs(j + 1))
+            for j in trie.check(s[i:]):
+                res = min(res, dfs(i + j + 1))
             return res
 
+        trie = Trie()
+        for d in dictionary:
+            trie.insert(d)
         return dfs(0)
 
     # 2651. 计算列车到站时间 (Calculate Delayed Arrival Time)
