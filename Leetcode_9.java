@@ -59,8 +59,8 @@ public class Leetcode_9 {
 
     // 3008. 找出数组中的美丽下标 II (Find Beautiful Indices in the Given Array II)
     public List<Integer> beautifulIndices(String s, String a, String b, int k) {
-        List<Integer> aList = zAlgorithm(a, s);
-        List<Integer> bList = zAlgorithm(b, s);
+        List<Integer> aList = zAlgorithm3008(a, s);
+        List<Integer> bList = zAlgorithm3008(b, s);
         List<Integer> res = new ArrayList<>();
         int j = 0;
         for (int x : aList) {
@@ -75,7 +75,7 @@ public class Leetcode_9 {
 
     }
 
-    private List<Integer> zAlgorithm(String t, String s) {
+    private List<Integer> zAlgorithm3008(String t, String s) {
         String ss = t + s;
         int n = ss.length();
         int[] z = new int[n];
