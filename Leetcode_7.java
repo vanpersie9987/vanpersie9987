@@ -2801,11 +2801,8 @@ public class Leetcode_7 {
                 res += (long) dfs639(i + 2)
                         * (arr639[i + 1] == '*' ? 6 : arr639[i + 1] >= '0' && arr639[i + 1] <= '6' ? 1 : 0);
             } else if (c == '*') {
-                if (arr639[i + 1] == '*') {
-                    res += (long) dfs639(i + 2) * 15;
-                } else {
-                    res += (long) dfs639(i + 2) * (arr639[i + 1] >= '0' && arr639[i + 1] <= '6' ? 2 : 1);
-                }
+                res += (long) dfs639(i + 2)
+                        * (arr639[i + 1] == '*' ? 15 : arr639[i + 1] >= '0' && arr639[i + 1] <= '6' ? 2 : 1);
             }
         }
         final int MOD = (int) (1e9 + 7);
