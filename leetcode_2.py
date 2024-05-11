@@ -3950,7 +3950,6 @@ class Union924:
                     res += travel[i - 1]
             return res + s
         return sum(cal(c) for c in ("M", "G", "P"))
-    
 
     # 639. 解码方法 II (Decode Ways II)
     def numDecodings(self, s: str) -> int:
@@ -3978,3 +3977,32 @@ class Union924:
         n = len(s)
         MOD = 10**9 + 7
         return dfs(0)
+
+    # 3008. 找出数组中的美丽下标 II (Find Beautiful Indices in the Given Array II) --z函数
+    def beautifulIndices(self, s: str, a: str, b: str, k: int) -> List[int]:
+        def check(t: str) -> list:
+            ss = t + s
+            res = []
+            n = len(ss)
+            z = [0] * n
+            left = 0
+            right = 0
+            for i in range(1, n):
+                if i <= right:
+                    z[i] = min(z[i - left], right - i + 1)
+                while i + z[i] < n and ss[z[i]] == ss[i + z[i]]:
+                    left, right = i, i + z[i]
+                    z[i] += 1
+                if i >= len(t) and z[i] >= len(t):
+                    res.append(i - len(t))
+            return res
+        arr_a = check(a)
+        arr_b = check(b)
+        res = []
+        j = 0
+        for x in arr_a:
+            while j < len(arr_b) and x - arr_b[j] > k:
+                j += 1
+            if j < len(arr_b) and abs(x - arr_b[j]) <= k:
+                res.append(x)
+        return res
