@@ -723,44 +723,26 @@ public class Leetcode_5 {
 
     }
 
-    // 6162. 收集垃圾的最少总时间 (Minimum Amount of Time to Collect Garbage)
+    // 2391. 收集垃圾的最少总时间 (Minimum Amount of Time to Collect Garbage)
     public int garbageCollection(String[] garbage, int[] travel) {
-        int n = garbage.length;
-        int[][] counts = new int[n][3];
-        for (int i = 0; i < garbage.length; ++i) {
-            for (char c : garbage[i].toCharArray()) {
-                if (c == 'M') {
-                    ++counts[i][0];
-                } else if (c == 'P') {
-                    ++counts[i][1];
-                } else {
-                    ++counts[i][2];
-                }
-            }
-        }
-        int counts1 = getGarbage(counts, travel, 0);
-        int counts2 = getGarbage(counts, travel, 1);
-        int counts3 = getGarbage(counts, travel, 2);
-        return counts1 + counts2 + counts3;
-
+        return cal2391(garbage, travel, 'M') + cal2391(garbage, travel, 'G') + cal2391(garbage, travel, 'P');
     }
 
-    private int getGarbage(int[][] counts, int[] travel, int kind) {
+    private int cal2391(String[] garbage, int[] travel, char t) {
+        int n = garbage.length;
         int res = 0;
-        int i = counts.length - 1;
-        while (i >= 0) {
-            if (counts[i][kind] != 0) {
-                break;
+        int sum = 0;
+        for (int i = n - 1; i >= 0; --i) {
+            int g = 0;
+            for (char c : garbage[i].toCharArray()) {
+                g += c == t ? 1 : 0;
             }
-            --i;
+            sum += g;
+            if (sum > 0 && i > 0) {
+                res += travel[i - 1];
+            }
         }
-        for (int j = 0; j <= i; ++j) {
-            res += counts[j][kind];
-        }
-        for (int j = 0; j < i; ++j) {
-            res += travel[j];
-        }
-        return res;
+        return res + sum;
     }
 
     // 1567. 乘积为正数的最长子数组长度 (Maximum Length of Subarray With Positive Product) --dp
