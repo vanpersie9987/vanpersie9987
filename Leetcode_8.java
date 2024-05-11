@@ -1595,7 +1595,7 @@ public class Leetcode_8 {
         this.memo2767 = new int[n2767];
         Arrays.fill(memo2767, n2767 + 1);
         int res = dfs2767(0);
-        return res == n2767 + 1 ? -1 : res;
+        return res > n2767 ? -1 : res;
 
     }
 
@@ -1610,7 +1610,7 @@ public class Leetcode_8 {
             return memo2767[i];
         }
         int min = n2767 + 1;
-        long sum = 0L;
+        int sum = 0;
         for (int j = i; j < n2767; ++j) {
             sum = (sum << 1) | (s2767.charAt(j) - '0');
             if (check2767(sum)) {
@@ -1620,14 +1620,11 @@ public class Leetcode_8 {
         return memo2767[i] = min;
     }
 
-    private boolean check2767(long sum) {
-        while (sum != 1L) {
-            if (sum % 5 != 0) {
-                return false;
-            }
+    private boolean check2767(int sum) {
+        while (sum % 5 == 0) {
             sum /= 5;
         }
-        return true;
+        return sum == 1;
     }
 
     // 6928. 黑格子的数目 (Number of Black Blocks)
