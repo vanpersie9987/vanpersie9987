@@ -8255,16 +8255,16 @@ public class Leetcode_6 {
         }
         memo132 = new int[n132];
         Arrays.fill(memo132, -1);
-        return dfs132(0);
+        return dfs132(0) - 1;
 
     }
 
     private int dfs132(int i) {
-        if (i >= n132 - 1) {
+        if (i == n132) {
             return 0;
         }
         if (isPalindromes132[i][n132 - 1]) {
-            return 0;
+            return 1;
         }
         if (memo132[i] != -1) {
             return memo132[i];
