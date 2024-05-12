@@ -97,4 +97,97 @@ public class Leetcode_9 {
         }
         return res;
     }
+
+    public boolean satisfiesConditions(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        for (int j = 1; j < n; ++j) {
+            if (grid[0][j] == grid[0][j - 1]) {
+                return false;
+            }
+        }
+        for (int i = 1; i < m; ++i) {
+            if (!Arrays.equals(grid[0], grid[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int maxPointsInsideSquare(int[][] points, String s) {
+        int n = points.length;
+        int[][] arr = new int[n][2];
+        for (int i = 0; i < n; ++i) {
+            arr[i][0] = Math.max(Math.abs(points[i][0]), Math.abs(points[i][1]));
+            arr[i][1] = s.charAt(i) - 'a';
+        }
+        Arrays.sort(arr, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+
+        int res = 0;
+        int i = 0;
+        int m = 0;
+        while (i < n) {
+            int j = i;
+            int c = arr[i][0];
+            while (j < n && c == arr[j][0]) {
+                if (((m >> arr[j][1]) & 1) == 1) {
+                    return res;
+                }
+                m |= 1 << arr[j][1];
+                ++j;
+            }
+            res += j - i;
+            i = j;
+        }
+        return res;
+    }
+
+    private int n;
+    private int[] memo;
+    private String s;
+
+    public int minimumSubstringsInPartition(String s) {
+        this.n = s.length();
+        this.memo = new int[n];
+        Arrays.fill(memo, -1);
+        this.s = s;
+        return dfs(0);
+        
+        
+
+    }
+
+    private int dfs(int i) {
+        if (i == n) {
+            return 0;
+        }
+        if (memo[i] != -1) {
+            return memo[i];
+        }
+        int res = Integer.MAX_VALUE;
+        int[] cnts = new int[26];
+        search: for (int j = i; j < n; ++j) {
+            ++cnts[s.charAt(j) - 'a'];
+            int d = 0;
+            for (int k = 0; k < 26; ++k) {
+                if (cnts[k] == 0) {
+                    continue;
+                }
+                if (d == 0) {
+                    d = cnts[k];
+                } else if (d != cnts[k]) {
+                    continue search;
+                }
+            }
+            res = Math.min(res, dfs(j + 1) + 1);
+        }
+        return memo[i] = res;
+    }
 }

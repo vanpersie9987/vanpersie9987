@@ -4006,3 +4006,70 @@ class Union924:
             if j < len(arr_b) and abs(x - arr_b[j]) <= k:
                 res.append(x)
         return res
+    
+
+    # 1553. 吃掉 N 个橘子的最少天数 (Minimum Number of Days to Eat N Oranges)
+    def minDays(self, n: int) -> int:
+        @cache
+        def dfs(i: int) -> int:
+            if i == 1:
+                return 1
+            res = inf
+            if i % 2 == 0:
+                res = min(res, dfs(i // 2) + 1)
+            if i % 3 == 0:
+                res = min(res, dfs(i // 3) + 1)
+            if i % 6:
+                res = min(res, dfs(i - 1) + 1)
+            return res
+        return dfs(n)
+    
+
+    def satisfiesConditions(self, grid: List[List[int]]) -> bool:
+        return all(x == y for x, y in pairwise(grid)) and all(x != y for x, y in pairwise(grid[0]))
+    
+    def maxPointsInsideSquare(self, points: List[List[int]], s: str) -> int:
+        arr = []
+        for (x, y), c in zip(points, map(ord, s)):
+            arr.append((max(abs(x), abs(y)), c - ord('a')))
+        arr.sort()
+        res = 0
+        i = 0
+        n = len(arr)
+        m = 0
+        while i < n:
+            j = i
+            while j < n and arr[i][0] == arr[j][0]:
+                if m >> arr[j][1] & 1 == 1:
+                    return res
+                m |= 1 << arr[j][1]
+                j += 1
+            res += j - i
+            i = j
+        return res
+    
+
+    def minimumSubstringsInPartition(self, s: str) -> int:
+        @cache
+        def dfs(i: int) -> int:
+            if i == n:
+                return 0
+            res = inf
+            cnts = [0] * 26
+            for j in range(i, n):
+                cnts[ord(s[j]) - ord('a')] += 1
+                d = 0
+                f = True
+                for k in range(26):
+                    if cnts[k] == 0:
+                        continue
+                    if d == 0:
+                        d = cnts[k]
+                    elif d != cnts[k]:
+                        f = False
+                        break
+                if f:
+                    res = min(res, dfs(j + 1) + 1)
+            return res
+        n = len(s)
+        return dfs(0)

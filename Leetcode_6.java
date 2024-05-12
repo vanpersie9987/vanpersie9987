@@ -6933,10 +6933,10 @@ public class Leetcode_6 {
         }
         int min = Integer.MAX_VALUE;
         if (n % 2 == 0) {
-            min = Math.min(min, dfs1553(n >> 1) + 1);
+            min = Math.min(min, dfs1553(n / 2) + 1);
         }
         if (n % 3 == 0) {
-            min = Math.min(min, dfs1553(n - 2 * (n / 3)) + 1);
+            min = Math.min(min, dfs1553(n / 3) + 1);
         }
         if (n % 6 != 0) {
             min = Math.min(min, dfs1553(n - 1) + 1);
