@@ -137,7 +137,7 @@ public class Leetcode_9 {
             int j = i;
             int c = arr[i][0];
             while (j < n && c == arr[j][0]) {
-                if (((m >> arr[j][1]) & 1) == 1) {
+                if ((m >> arr[j][1] & 1) == 1) {
                     return res;
                 }
                 m |= 1 << arr[j][1];
@@ -159,9 +159,6 @@ public class Leetcode_9 {
         Arrays.fill(memo, -1);
         this.s = s;
         return dfs(0);
-        
-        
-
     }
 
     private int dfs(int i) {
