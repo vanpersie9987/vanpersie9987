@@ -9735,28 +9735,6 @@ class leetcode_1:
                 res += cnts[num]
         return res
 
-    # 3006. 找出数组中的美丽下标 I (Find Beautiful Indices in the Given Array I)
-    def beautifulIndices(self, s: str, a: str, b: str, k: int) -> List[int]:
-        def check(p: str) -> List[int]:
-            res = []
-            for i in range(len(s) - len(p) + 1):
-                if p == s[i : i + len(p)]:
-                    res.append(i)
-            return res
-
-        a_ids = check(a)
-        b_ids = check(b)
-        i = 0
-        j = 0
-        res = []
-        while i < len(a_ids):
-            while j < len(b_ids) and a_ids[i] - b_ids[j] > k:
-                j += 1
-            if j < len(b_ids) and abs(a_ids[i] - b_ids[j]) <= k:
-                res.append(a_ids[i])
-            i += 1
-        return res
-
     # 3007. 价值和小于等于 K 的最大数字 (Maximum Number That Sum of the Prices Is Less Than or Equal to K)
     def findMaximumNumber(self, k: int, x: int) -> int:
         def check(num: int) -> int:

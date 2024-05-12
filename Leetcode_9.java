@@ -57,6 +57,7 @@ public class Leetcode_9 {
         }
     }
 
+    // 3006. 找出数组中的美丽下标 I (Find Beautiful Indices in the Given Array I)
     // 3008. 找出数组中的美丽下标 II (Find Beautiful Indices in the Given Array II)
     public List<Integer> beautifulIndices(String s, String a, String b, int k) {
         List<Integer> aList = zAlgorithm3008(a, s);
@@ -187,4 +188,65 @@ public class Leetcode_9 {
         }
         return memo[i] = res;
     }
+
+    public int findPermutationDifference(String s, String t) {
+        int[] pos = new int[26];
+        for (int i = 0; i < s.length(); ++i) {
+            pos[s.charAt(i) - 'a'] = i;
+        }
+        int res = 0;
+        for (int i = 0; i < t.length(); ++i) {
+            res += Math.abs(i - pos[t.charAt(i) - 'a']);
+        }
+        return res;
+
+    }
+
+    private int[] energy;
+    private int k;
+    private int[] memo;
+
+    public int maximumEnergy(int[] energy, int k) {
+        int n = energy.length;
+        this.energy = energy;
+        this.k = k;
+        this.memo = new int[n];
+        int res = Integer.MIN_VALUE;
+        for (int i = n - 1; i > n - k - 1; --i) {
+            res = Math.max(res, dfs(i - k) + energy[i]);
+        }
+        return res;
+    }
+
+    private int dfs(int i) {
+        if (i < 0) {
+            return 0;
+        }
+        if (memo[i] != 0) {
+            return memo[i];
+        }
+        return memo[i] = Math.max(dfs(i - k) + energy[i], 0);
+    }
+
+    public int maxScore(List<List<Integer>> grid) {
+        int m = grid.size();
+        int n = grid.get(0).size();
+        int res = Integer.MIN_VALUE;
+        int[][] pre = new int[m + 1][n + 1];
+        for (int i = 0; i < m + 1; ++i) {
+            Arrays.fill(pre[i], Integer.MAX_VALUE);
+        }
+        for (int i = 1; i < m + 1; ++i) {
+            for (int j = 1; j < n + 1; ++j) {
+                int min = Math.min(pre[i - 1][j], pre[i][j - 1]);
+                // 若 grid 中存在负数，就会越界，应修改初值
+                res = Math.max(res, grid.get(i - 1).get(j - 1) - min);
+                pre[i][j] = Math.min(min, grid.get(i - 1).get(j - 1));
+            }
+        }
+        return res;
+
+
+    }
+
 }

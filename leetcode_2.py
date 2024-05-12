@@ -3978,6 +3978,7 @@ class Union924:
         MOD = 10**9 + 7
         return dfs(0)
 
+    # 3006. 找出数组中的美丽下标 I (Find Beautiful Indices in the Given Array I)
     # 3008. 找出数组中的美丽下标 II (Find Beautiful Indices in the Given Array II) --z函数
     def beautifulIndices(self, s: str, a: str, b: str, k: int) -> List[int]:
         def check(t: str) -> list:
@@ -4006,7 +4007,6 @@ class Union924:
             if j < len(arr_b) and abs(x - arr_b[j]) <= k:
                 res.append(x)
         return res
-    
 
     # 1553. 吃掉 N 个橘子的最少天数 (Minimum Number of Days to Eat N Oranges)
     def minDays(self, n: int) -> int:
@@ -4023,11 +4023,10 @@ class Union924:
                 res = min(res, dfs(i - 1) + 1)
             return res
         return dfs(n)
-    
 
     def satisfiesConditions(self, grid: List[List[int]]) -> bool:
         return all(x == y for x, y in pairwise(grid)) and all(x != y for x, y in pairwise(grid[0]))
-    
+
     def maxPointsInsideSquare(self, points: List[List[int]], s: str) -> int:
         arr = []
         for (x, y), c in zip(points, map(ord, s)):
@@ -4047,7 +4046,6 @@ class Union924:
             res += j - i
             i = j
         return res
-    
 
     def minimumSubstringsInPartition(self, s: str) -> int:
         @cache
@@ -4073,3 +4071,51 @@ class Union924:
             return res
         n = len(s)
         return dfs(0)
+
+    def findPermutationDifference(self, s: str, t: str) -> int:
+        pos = [0] * 26
+        for i, v in enumerate(map(ord, s)):
+            pos[v - ord('a')] = i
+        return sum(abs(i - pos[v - ord('a')]) for i, v in enumerate(map(ord, t)))
+
+    def maximumEnergy(self, energy: List[int], k: int) -> int:
+        @cache
+        def dfs(i: int) -> int:
+            if i < 0:
+                return 0
+            return max(dfs(i - k) + energy[i], 0)
+        n = len(energy)
+        res = -inf
+        for i in range(n - 1, n - 1 - k, -1):
+            res = max(res, dfs(i - k) + energy[i])
+        return res
+
+    def maxScore(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        res = -inf
+        pre = [[inf] * (n + 1) for _ in range(m + 1)]
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                _min = min(pre[i - 1][j], pre[i][j - 1])
+                res = max(res, grid[i - 1][j - 1] - _min)
+                pre[i][j] = min(_min, grid[i - 1][j - 1])
+        return res
+
+    def findPermutation(self, nums: List[int]) -> List[int]:
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            c = i ^ u
+            if c.bit_count() == 1:
+                return abs((c & -c).bit_length() - 1 - nums[k])
+            res = inf
+            while c:
+                lb = (c & -c).bit_length() - 1
+                res = min(res, dfs(i | (1 << lb), lb, k) + abs(j - nums[lb]))
+                c &= c - 1
+            return res
+        n = len(nums)
+        u = (1 << n) - 1
+        res = min(dfs(1 << i, i, i) for i in range(n))
+        print(res)
+        return res

@@ -6634,36 +6634,6 @@ public class Leetcode_8 {
 
     }
 
-    // 3006. 找出数组中的美丽下标 I (Find Beautiful Indices in the Given Array I)
-    public List<Integer> beautifulIndices(String s, String a, String b, int k) {
-        List<Integer> aIds = getIndices3006(s, a);
-        List<Integer> bIds = getIndices3006(s, b);
-        List<Integer> res = new ArrayList<>();
-        int i = 0;
-        int j = 0;
-        while (i < aIds.size()) {
-            while (j < bIds.size() && aIds.get(i) - bIds.get(j) > k) {
-                ++j;
-            }
-            if (j < bIds.size() && Math.abs(aIds.get(i) - bIds.get(j)) <= k) {
-                res.add(aIds.get(i));
-            }
-            ++i;
-        }
-        return res;
-
-    }
-
-    private List<Integer> getIndices3006(String s, String p) {
-        List<Integer> res = new ArrayList<>();
-        for (int i = 0; i <= s.length() - p.length(); ++i) {
-            if (s.substring(i, i + p.length()).equals(p)) {
-                res.add(i);
-            }
-        }
-        return res;
-    }
-
     // 3007. 价值和小于等于 K 的最大数字 (Maximum Number That Sum of the Prices Is Less Than or
     // Equal to K)
     private int x3007;
