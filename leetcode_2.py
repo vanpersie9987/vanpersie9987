@@ -4049,6 +4049,7 @@ class Union924:
             i = j
         return res
 
+    # 3144. 分割字符频率相等的最少子字符串 (Minimum Substring Partition of Equal Character Frequency)
     def minimumSubstringsInPartition(self, s: str) -> int:
         @cache
         def dfs(i: int) -> int:
@@ -4056,19 +4057,14 @@ class Union924:
                 return 0
             res = inf
             cnts = [0] * 26
+            c = 0
             for j in range(i, n):
+                c += 1
                 cnts[ord(s[j]) - ord('a')] += 1
-                d = 0
-                f = True
-                for k in range(26):
-                    if cnts[k] == 0:
-                        continue
-                    if d == 0:
-                        d = cnts[k]
-                    elif d != cnts[k]:
-                        f = False
-                        break
-                if f:
+                if (j - i + 1) % c:
+                    continue
+                c0 = cnts[ord(s[j]) - ord('a')]
+                if all(c == 0 or c == c0 for c in cnts):
                     res = min(res, dfs(j + 1) + 1)
             return res
         n = len(s)
