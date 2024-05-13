@@ -4102,20 +4102,23 @@ class Union924:
                 pre[i][j] = min(_min, grid[i - 1][j - 1])
         return res
 
-    def findPermutation(self, nums: List[int]) -> List[int]:
-        @cache
-        def dfs(i: int, j: int, k: int) -> int:
-            c = i ^ u
-            if c.bit_count() == 1:
-                return abs((c & -c).bit_length() - 1 - nums[k])
-            res = inf
-            while c:
-                lb = (c & -c).bit_length() - 1
-                res = min(res, dfs(i | (1 << lb), lb, k) + abs(j - nums[lb]))
-                c &= c - 1
-            return res
-        n = len(nums)
-        u = (1 << n) - 1
-        res = min(dfs(1 << i, i, i) for i in range(n))
-        print(res)
-        return res
+    # def findPermutation(self, nums: List[int]) -> List[int]:
+    #     @cache
+    #     def dfs(i: int, j: int, k: int) -> int:
+    #         c = i ^ u
+    #         if c.bit_count() == 1:
+    #             return abs((c & -c).bit_length() - 1 - nums[k])
+    #         res = inf
+    #         while c:
+    #             lb = (c & -c).bit_length() - 1
+    #             res = min(res, dfs(i | (1 << lb), lb, k) + abs(j - nums[lb]))
+    #             c &= c - 1
+    #         return res
+    #     n = len(nums)
+    #     u = (1 << n) - 1
+    #     res = min(dfs(1 << i, i, i) for i in range(n))
+    #     print(res)
+    #     return res
+
+        
+        

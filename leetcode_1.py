@@ -7179,39 +7179,36 @@ class leetcode_1:
     def orangesRotting(self, grid: List[List[int]]) -> int:
         m = len(grid)
         n = len(grid[0])
-        q = collections.deque()
-        cnt = 0
+        rotten = 0
+        freshed = 0
+        q = deque()
         for i in range(m):
             for j in range(n):
-                if grid[i][j] == 2:
+                if grid[i][j] == 1:
+                    freshed += 1
+                elif grid[i][j] == 2:
+                    rotten += 1
                     q.append((i, j))
-                elif grid[i][j] == 1:
-                    cnt += 1
-        # 没有好橘子
-        if cnt == 0:
+        if freshed == 0:
             return 0
-        # 没有烂橘子
-        if len(q) == 0:
+        if rotten == 0:
             return -1
-        dirs = [[0, 1], [0, -1], [-1, 0], [1, 0]]
-        level = 0
+        res = 0
+        dirs = [(0, -1), (0, 1), (1, 0), (-1, 0)]
         while q:
             size = len(q)
             for _ in range(size):
-                cur = q.popleft()
-                x = cur[0]
-                y = cur[1]
-                for dx, dy in dirs:
+                (x, y) = q.popleft()
+                for (dx, dy) in dirs:
                     nx = x + dx
                     ny = y + dy
-                    if m > nx >= 0 and n > ny >= 0 and grid[nx][ny] == 1:
-                        cnt -= 1
+                    if 0 <= nx < m and 0 <= ny < n and grid[nx][ny] == 1:
                         grid[nx][ny] = 2
+                        freshed -= 1
                         q.append((nx, ny))
-            if len(q) == 0:
-                break
-            level += 1
-        return -1 if cnt else level
+            if q:
+                res += 1
+        return -1 if freshed else res
 
     # 993. 二叉树的堂兄弟节点 (Cousins in Binary Tree) --dfs
     def isCousins(self, root: Optional[TreeNode], x: int, y: int) -> bool:
