@@ -240,4 +240,57 @@ public class Leetcode_9 {
 
     }
 
+    // 3149. 找出分数最低的排列 (Find the Minimum Cost Array Permutation)
+    private int n3149;
+    private int[] nums3149;
+    private int[][] memo3149;
+    private int u3149;
+    private int[] res3149;
+
+    public int[] findPermutation(int[] nums) {
+        this.n3149 = nums.length;
+        this.nums3149 = nums;
+        this.u3149 = (1 << n3149) - 1;
+        this.memo3149 = new int[1 << n3149][n3149];
+        for (int i = 0; i < 1 << n3149; ++i) {
+            Arrays.fill(memo3149[i], -1);
+        }
+        dfs3149(1, 0);
+        this.res3149 = new int[n3149];
+        makeAns3149(1, 0);
+        return res3149;
+    }
+
+    // score(perm) = |perm[0] - nums[perm[1]]| + |perm[1] - nums[perm[2]]| + ... +
+    // |perm[n - 1] - nums[perm[0]]|
+    private int dfs3149(int i, int j) {
+        if (i == u3149) {
+            return Math.abs(j - nums3149[0]);
+        }
+        if (memo3149[i][j] != -1) {
+            return memo3149[i][j];
+        }
+        int min = Integer.MAX_VALUE;
+        for (int c = u3149 ^ i; c != 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            min = Math.min(min, dfs3149(i | (1 << lb), lb) + Math.abs(j - nums3149[lb]));
+        }
+        return memo3149[i][j] = min;
+    }
+
+    private void makeAns3149(int i, int j) {
+        res3149[Integer.bitCount(i) - 1] = j;
+        if (i == u3149) {
+            return;
+        }
+        int finalAns = dfs3149(i, j);
+        for (int c = u3149 ^ i; c != 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            if (dfs3149(i | (1 << lb), lb) + Math.abs(j - nums3149[lb]) == finalAns) {
+                makeAns3149(i | (1 << lb), lb);
+                break;
+            }
+        }
+    }
+
 }
