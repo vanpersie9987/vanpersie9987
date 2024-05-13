@@ -4077,16 +4077,12 @@ class Union924:
             pos[v - ord('a')] = i
         return sum(abs(i - pos[v - ord('a')]) for i, v in enumerate(map(ord, t)))
 
+    # 3147. 从魔法师身上吸取的最大能量 (Taking Maximum Energy From the Mystic Dungeon)
     def maximumEnergy(self, energy: List[int], k: int) -> int:
-        @cache
-        def dfs(i: int) -> int:
-            if i < 0:
-                return 0
-            return max(dfs(i - k) + energy[i], 0)
         n = len(energy)
         res = -inf
-        for i in range(n - 1, n - 1 - k, -1):
-            res = max(res, dfs(i - k) + energy[i])
+        for i in range(n - k, n):
+            res = max(res, max(accumulate(energy[j] for j in range(i, -1, -k))))
         return res
 
     def maxScore(self, grid: List[List[int]]) -> int:

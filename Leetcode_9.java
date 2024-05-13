@@ -205,18 +205,16 @@ public class Leetcode_9 {
 
     }
 
-    private int[] energy;
-    private int k;
-    private int[] memo;
-
+    // 3147. 从魔法师身上吸取的最大能量 (Taking Maximum Energy From the Mystic Dungeon)
     public int maximumEnergy(int[] energy, int k) {
         int n = energy.length;
-        this.energy = energy;
-        this.k = k;
-        this.memo = new int[n];
         int res = Integer.MIN_VALUE;
-        for (int i = n - 1; i > n - k - 1; --i) {
-            res = Math.max(res, dfs(i - k) + energy[i]);
+        for (int i = n - k; i < n; ++i) {
+            int s = 0;
+            for (int j = i; j >= 0; j -= k) {
+                s += energy[j];
+                res = Math.max(res, s);
+            }
         }
         return res;
     }
