@@ -152,43 +152,43 @@ public class Leetcode_9 {
         return res;
     }
 
-    private int n;
-    private int[] memo;
-    private String s;
+    // 3144. 分割字符频率相等的最少子字符串 (Minimum Substring Partition of Equal Character
+    // Frequency)
+    private int n3144;
+    private int[] memo3144;
+    private String s3144;
 
     public int minimumSubstringsInPartition(String s) {
-        this.n = s.length();
-        this.memo = new int[n];
-        Arrays.fill(memo, -1);
-        this.s = s;
-        return dfs(0);
+        this.n3144 = s.length();
+        this.memo3144 = new int[n3144];
+        Arrays.fill(memo3144, -1);
+        this.s3144 = s;
+        return dfs3144(0);
     }
 
-    private int dfs(int i) {
-        if (i == n) {
+    private int dfs3144(int i) {
+        if (i == n3144) {
             return 0;
         }
-        if (memo[i] != -1) {
-            return memo[i];
+        if (memo3144[i] != -1) {
+            return memo3144[i];
         }
         int res = Integer.MAX_VALUE;
         int[] cnts = new int[26];
-        search: for (int j = i; j < n; ++j) {
-            ++cnts[s.charAt(j) - 'a'];
-            int d = 0;
+        int c = 0;
+        search: for (int j = i; j < n3144; ++j) {
+            c += ++cnts[s3144.charAt(j) - 'a'] == 1 ? 1 : 0;
+            if ((j - i + 1) % c != 0) {
+                continue;
+            }
             for (int k = 0; k < 26; ++k) {
-                if (cnts[k] == 0) {
-                    continue;
-                }
-                if (d == 0) {
-                    d = cnts[k];
-                } else if (d != cnts[k]) {
+                if (cnts[k] > 0 && cnts[k] != (j - i + 1) / c) {
                     continue search;
                 }
             }
-            res = Math.min(res, dfs(j + 1) + 1);
+            res = Math.min(res, dfs3144(j + 1) + 1);
         }
-        return memo[i] = res;
+        return memo3144[i] = res;
     }
 
     public int findPermutationDifference(String s, String t) {
