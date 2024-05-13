@@ -4142,3 +4142,13 @@ class Union924:
         res = []
         mask_ans(1, 0)
         return res
+
+    # 2244. 完成所有任务需要的最少轮数 (Minimum Rounds to Complete All Tasks)
+    def minimumRounds(self, tasks: List[int]) -> int:
+        c = Counter(tasks)
+        res = 0
+        for _, v in c.items():
+            if v == 1:
+                return -1
+            res += (v + 2) // 3
+        return res
