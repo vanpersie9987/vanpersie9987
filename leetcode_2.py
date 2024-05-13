@@ -4070,6 +4070,7 @@ class Union924:
         n = len(s)
         return dfs(0)
 
+    # 3146. 两个字符串的排列差 (Permutation Difference between Two Strings)
     def findPermutationDifference(self, s: str, t: str) -> int:
         pos = [0] * 26
         for i, v in enumerate(map(ord, s)):

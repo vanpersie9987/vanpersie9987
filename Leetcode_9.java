@@ -191,6 +191,7 @@ public class Leetcode_9 {
         return memo3144[i] = res;
     }
 
+    // 3146. 两个字符串的排列差 (Permutation Difference between Two Strings)
     public int findPermutationDifference(String s, String t) {
         int[] pos = new int[26];
         for (int i = 0; i < s.length(); ++i) {
