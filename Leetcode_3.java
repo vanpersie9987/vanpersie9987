@@ -3433,41 +3433,52 @@ public class Leetcode_3 {
     public int orangesRotting(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
-        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
-        int freshCounts = 0;
-        Queue<int[]> queue = new LinkedList<>();
+        int rotten = 0;
+        int fresh = 0;
+        Queue<int[]> q = new LinkedList<>();
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (grid[i][j] == 1) {
-                    ++freshCounts;
-                }
-                // rotten
-                else if (grid[i][j] == 2) {
-                    queue.offer(new int[] { i, j });
+                    ++fresh;
+                } else if (grid[i][j] == 2) {
+                    ++rotten;
+                    q.offer(new int[] { i, j });
                 }
             }
         }
+        if (fresh == 0) {
+            return 0;
+        }
+        if (rotten == 0) {
+            return -1;
+        }
         int res = 0;
-        while (!queue.isEmpty()) {
-            int size = queue.size();
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        while (!q.isEmpty()) {
+            int size = q.size();
             for (int i = 0; i < size; ++i) {
-                int[] cur = queue.poll();
-                for (int[] direction : directions) {
-                    int nx = cur[0] + direction[0];
-                    int ny = cur[1] + direction[1];
+                int[] p = q.poll();
+                int x = p[0];
+                int y = p[1];
+                for (int[] d : dirs) {
+                    int nx = x + d[0];
+                    int ny = y + d[1];
                     if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1) {
-                        --freshCounts;
                         grid[nx][ny] = 2;
-                        queue.offer(new int[] { nx, ny });
+                        --fresh;
+                        q.offer(new int[] { nx, ny });
                     }
                 }
             }
-            if (queue.isEmpty()) {
-                break;
+            if (!q.isEmpty()) {
+                ++res;
             }
-            ++res;
         }
-        return freshCounts > 0 ? -1 : res;
+        if (fresh > 0) {
+            return -1;
+        }
+        return res;
+
     }
 
     // 433. 最小基因变化 (Minimum Genetic Mutation) --dfs
