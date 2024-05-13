@@ -8128,21 +8128,18 @@ public class Leetcode_3 {
         return res;
     }
 
-    // 6071. 完成所有任务需要的最少轮数 (Minimum Rounds to Complete All Tasks)
+    // 2244. 完成所有任务需要的最少轮数 (Minimum Rounds to Complete All Tasks)
     public int minimumRounds(int[] tasks) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int task : tasks) {
-            map.put(task, map.getOrDefault(task, 0) + 1);
-        }
         int res = 0;
-        for (int count : map.values()) {
-            if (count == 1) {
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int t : tasks) {
+            cnts.merge(t, 1, Integer::sum);
+        }
+        for (int v : cnts.values()) {
+            if (v == 1) {
                 return -1;
             }
-            res += count / 3;
-            if (count % 3 != 0) {
-                ++res;
-            }
+            res += (v + 2) / 3;
         }
         return res;
 
