@@ -4024,8 +4024,9 @@ class Union924:
             return res
         return dfs(n)
 
+    # 3142. 判断矩阵是否满足条件 (Check if Grid Satisfies Conditions)
     def satisfiesConditions(self, grid: List[List[int]]) -> bool:
-        return all(x == y for x, y in pairwise(grid)) and all(x != y for x, y in pairwise(grid[0]))
+        return all(x != y for x, y in pairwise(grid[0])) and all(x == y for x, y in pairwise(grid))
 
     def maxPointsInsideSquare(self, points: List[List[int]], s: str) -> int:
         arr = []

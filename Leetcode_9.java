@@ -99,6 +99,7 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3142. 判断矩阵是否满足条件 (Check if Grid Satisfies Conditions)
     public boolean satisfiesConditions(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
