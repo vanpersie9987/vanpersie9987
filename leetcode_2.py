@@ -4085,6 +4085,7 @@ class Union924:
             res = max(res, max(accumulate(energy[j] for j in range(i, -1, -k))))
         return res
 
+    # 3148. 矩阵中的最大得分 (Maximum Difference Score in a Grid)
     def maxScore(self, grid: List[List[int]]) -> int:
         m = len(grid)
         n = len(grid[0])
