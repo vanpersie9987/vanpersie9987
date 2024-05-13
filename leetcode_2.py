@@ -1711,6 +1711,7 @@ class leetcode_2:
             if i == n:
                 return 0 if j == 0 else -inf
             return max(dfs(i + 1, j) + nums[i], dfs(i + 1, j ^ 1) + (nums[i] ^ k))
+
         n = len(nums)
         return dfs(0, 0)
 
@@ -3877,6 +3878,7 @@ class Union924:
                 if nums[k] < nums[i]:
                     res = max(res, dfs(k, 1))
             return res + 1
+
         n = len(nums)
         return max(max(dfs(i, 0), dfs(i, 1)) for i in range(n))
 
@@ -3892,6 +3894,7 @@ class Union924:
             if j == 0:
                 res = max(res, dfs(i - 1, j + 1))
             return res
+
         n = len(arr)
         return max(dfs(i - 1, 0) + arr[i] for i in range(n))
 
@@ -3923,6 +3926,7 @@ class Union924:
             if i == n:
                 return 0 if j == 0 else -inf
             return max(dfs(i + 1, j), dfs(i + 1, (j + nums[i]) % 3) + nums[i])
+
         n = len(nums)
         return dfs(0, 0)
 
@@ -3949,6 +3953,7 @@ class Union924:
                 if s and i:
                     res += travel[i - 1]
             return res + s
+
         return sum(cal(c) for c in ("M", "G", "P"))
 
     # 639. 解码方法 II (Decode Ways II)
@@ -3957,23 +3962,24 @@ class Union924:
         def dfs(i: int) -> int:
             if i == n:
                 return 1
-            if s[i] == '0':
+            if s[i] == "0":
                 return 0
-            res = dfs(i + 1) * (9 if s[i] == '*' else 1)
+            res = dfs(i + 1) * (9 if s[i] == "*" else 1)
             if i + 1 < n:
-                if s[i] == '1':
-                    res += dfs(i + 2) * (9 if s[i + 1] == '*' else 1)
-                elif s[i] == '2':
-                    if '0' <= s[i + 1] <= '6':
+                if s[i] == "1":
+                    res += dfs(i + 2) * (9 if s[i + 1] == "*" else 1)
+                elif s[i] == "2":
+                    if "0" <= s[i + 1] <= "6":
                         res += dfs(i + 2)
-                    elif s[i + 1] == '*':
+                    elif s[i + 1] == "*":
                         res += dfs(i + 2) * 6
-                elif s[i] == '*':
-                    if s[i + 1] == '*':
+                elif s[i] == "*":
+                    if s[i + 1] == "*":
                         res += dfs(i + 2) * 15
                     else:
-                        res += dfs(i + 2) * (2 if '0' <= s[i + 1] <= '6' else 1)
+                        res += dfs(i + 2) * (2 if "0" <= s[i + 1] <= "6" else 1)
             return res % MOD
+
         n = len(s)
         MOD = 10**9 + 7
         return dfs(0)
@@ -3997,6 +4003,7 @@ class Union924:
                 if i >= len(t) and z[i] >= len(t):
                     res.append(i - len(t))
             return res
+
         arr_a = check(a)
         arr_b = check(b)
         res = []
@@ -4022,17 +4029,20 @@ class Union924:
             if i % 6:
                 res = min(res, dfs(i - 1) + 1)
             return res
+
         return dfs(n)
 
     # 3142. 判断矩阵是否满足条件 (Check if Grid Satisfies Conditions)
     def satisfiesConditions(self, grid: List[List[int]]) -> bool:
-        return all(x != y for x, y in pairwise(grid[0])) and all(x == y for x, y in pairwise(grid))
+        return all(x != y for x, y in pairwise(grid[0])) and all(
+            x == y for x, y in pairwise(grid)
+        )
 
     # 3143. 正方形中的最多点数 (Maximum Points Inside the Square)
     def maxPointsInsideSquare(self, points: List[List[int]], s: str) -> int:
         arr = []
         for (x, y), c in zip(points, map(ord, s)):
-            arr.append((max(abs(x), abs(y)), c - ord('a')))
+            arr.append((max(abs(x), abs(y)), c - ord("a")))
         arr.sort(key=lambda k: k[0])
         res = 0
         i = 0
@@ -4059,14 +4069,15 @@ class Union924:
             cnts = [0] * 26
             c = 0
             for j in range(i, n):
-                cnts[ord(s[j]) - ord('a')] += 1
+                cnts[ord(s[j]) - ord("a")] += 1
                 c += cnts[ord(s[j]) - ord("a")] == 1
                 if (j - i + 1) % c:
                     continue
-                c0 = cnts[ord(s[j]) - ord('a')]
+                c0 = cnts[ord(s[j]) - ord("a")]
                 if all(c == 0 or c == c0 for c in cnts):
                     res = min(res, dfs(j + 1) + 1)
             return res
+
         n = len(s)
         return dfs(0)
 
@@ -4074,8 +4085,8 @@ class Union924:
     def findPermutationDifference(self, s: str, t: str) -> int:
         pos = [0] * 26
         for i, v in enumerate(map(ord, s)):
-            pos[v - ord('a')] = i
-        return sum(abs(i - pos[v - ord('a')]) for i, v in enumerate(map(ord, t)))
+            pos[v - ord("a")] = i
+        return sum(abs(i - pos[v - ord("a")]) for i, v in enumerate(map(ord, t)))
 
     # 3147. 从魔法师身上吸取的最大能量 (Taking Maximum Energy From the Mystic Dungeon)
     def maximumEnergy(self, energy: List[int], k: int) -> int:
@@ -4098,20 +4109,36 @@ class Union924:
                 pre[i][j] = min(_min, grid[i - 1][j - 1])
         return res
 
-    # def findPermutation(self, nums: List[int]) -> List[int]:
-    #     @cache
-    #     def dfs(i: int, j: int, k: int) -> int:
-    #         c = i ^ u
-    #         if c.bit_count() == 1:
-    #             return abs((c & -c).bit_length() - 1 - nums[k])
-    #         res = inf
-    #         while c:
-    #             lb = (c & -c).bit_length() - 1
-    #             res = min(res, dfs(i | (1 << lb), lb, k) + abs(j - nums[lb]))
-    #             c &= c - 1
-    #         return res
-    #     n = len(nums)
-    #     u = (1 << n) - 1
-    #     res = min(dfs(1 << i, i, i) for i in range(n))
-    #     print(res)
-    #     return res
+    # 3149. 找出分数最低的排列 (Find the Minimum Cost Array Permutation)
+    def findPermutation(self, nums: List[int]) -> List[int]:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == u:
+                return abs(j - nums[0])
+            res = inf
+            c = i ^ u
+            while c:
+                lb = (c & -c).bit_length() - 1
+                res = min(res, dfs(i | (1 << lb), lb) + abs(j - nums[lb]))
+                c &= c - 1
+            return res
+
+        def mask_ans(i: int, j: int) -> int:
+            res.append(j)
+            if i == u:
+                return
+            final_ans = dfs(i, j)
+            c = i ^ u
+            while c:
+                lb = (c & -c).bit_length() - 1
+                if dfs(i | (1 << lb), lb) + abs(j - nums[lb]) == final_ans:
+                    mask_ans(i | (1 << lb), lb)
+                    break
+                c &= c - 1
+
+        n = len(nums)
+        u = (1 << n) - 1
+        dfs(1, 0)
+        res = []
+        mask_ans(1, 0)
+        return res
