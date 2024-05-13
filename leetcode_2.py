@@ -4059,8 +4059,8 @@ class Union924:
             cnts = [0] * 26
             c = 0
             for j in range(i, n):
-                c += 1
                 cnts[ord(s[j]) - ord('a')] += 1
+                c += cnts[ord(s[j]) - ord("a")] == 1
                 if (j - i + 1) % c:
                     continue
                 c0 = cnts[ord(s[j]) - ord('a')]
@@ -4117,6 +4117,3 @@ class Union924:
     #     res = min(dfs(1 << i, i, i) for i in range(n))
     #     print(res)
     #     return res
-
-        
-        
