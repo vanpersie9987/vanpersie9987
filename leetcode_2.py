@@ -4028,11 +4028,12 @@ class Union924:
     def satisfiesConditions(self, grid: List[List[int]]) -> bool:
         return all(x != y for x, y in pairwise(grid[0])) and all(x == y for x, y in pairwise(grid))
 
+    # 3143. 正方形中的最多点数 (Maximum Points Inside the Square)
     def maxPointsInsideSquare(self, points: List[List[int]], s: str) -> int:
         arr = []
         for (x, y), c in zip(points, map(ord, s)):
             arr.append((max(abs(x), abs(y)), c - ord('a')))
-        arr.sort()
+        arr.sort(key=lambda k: k[0])
         res = 0
         i = 0
         n = len(arr)
