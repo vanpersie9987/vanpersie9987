@@ -58,7 +58,7 @@ public class Leetcode_9 {
     }
 
     // 3006. 找出数组中的美丽下标 I (Find Beautiful Indices in the Given Array I)
-    // 3008. 找出数组中的美丽下标 II (Find Beautiful Indices in the Given Array II)
+    // 3008. 找出数组中的美丽下标 II (Find Beautiful Indices in the Given Array II) --z函数
     public List<Integer> beautifulIndices(String s, String a, String b, int k) {
         List<Integer> aList = zAlgorithm3008(a, s);
         List<Integer> bList = zAlgorithm3008(b, s);
