@@ -219,16 +219,6 @@ public class Leetcode_9 {
         return res;
     }
 
-    private int dfs(int i) {
-        if (i < 0) {
-            return 0;
-        }
-        if (memo[i] != 0) {
-            return memo[i];
-        }
-        return memo[i] = Math.max(dfs(i - k) + energy[i], 0);
-    }
-
     public int maxScore(List<List<Integer>> grid) {
         int m = grid.size();
         int n = grid.get(0).size();
