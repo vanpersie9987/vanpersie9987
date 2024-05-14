@@ -3651,17 +3651,17 @@ public class Leetcode_5 {
     // 2430. 对字母串可执行的最大删除数 (Maximum Deletions on a String)
     private int n2430;
     private int[] memo2430;
-    private int[][] arr2430;
+    private int[][] lcp2430;
 
     public int deleteString(String s) {
         this.n2430 = s.length();
         this.memo2430 = new int[n2430];
         Arrays.fill(memo2430, -1);
-        this.arr2430 = new int[n2430 + 1][n2430 + 1];
+        this.lcp2430 = new int[n2430 + 1][n2430 + 1];
         for (int i = n2430 - 1; i >= 0; --i) {
             for (int j = n2430 - 1; j > i; --j) {
                 if (s.charAt(i) == s.charAt(j)) {
-                    arr2430[i][j] = arr2430[i + 1][j + 1] + 1;
+                    lcp2430[i][j] = lcp2430[i + 1][j + 1] + 1;
                 }
             }
         }
@@ -3678,7 +3678,7 @@ public class Leetcode_5 {
         }
         int max = 0;
         for (int j = i + 1; j < n2430 && n2430 - j >= j - i; ++j) {
-            if (arr2430[i][j] >= j - i) {
+            if (lcp2430[i][j] >= j - i) {
                 max = Math.max(max, dfs2430(j));
             }
         }
