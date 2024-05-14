@@ -1287,7 +1287,6 @@ public class Leetcode_7 {
         }
         res_1092.append(str2_1092.charAt(j));
         makeAns_1092(i, j + 1);
-        return;
 
     }
 
