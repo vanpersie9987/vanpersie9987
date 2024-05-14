@@ -343,4 +343,78 @@ public class Leetcode_9 {
         return memo368[i] = res + 1;
     }
 
+    // 943. 最短超级串 (Find the Shortest Superstring)
+    private String[] words943;
+    private int n943;
+    private int[][] lcp943;
+    private int[][] memo943;
+    private StringBuilder res943;
+    private int u943;
+
+    public String shortestSuperstring(String[] words) {
+        this.words943 = words;
+        this.n943 = words.length;
+        this.lcp943 = new int[n943][n943];
+        for (int i = 0; i < n943; ++i) {
+            for (int j = 0; j < n943; ++j) {
+                lcp943[i][j] = cal943(words[i], words[j]);
+            }
+        }
+        this.u943 = (1 << n943) - 1;
+        this.memo943 = new int[1 << n943][n943];
+        int min = Integer.MAX_VALUE;
+        int f = 0;
+        for (int i = 0; i < n943; ++i) {
+            int cur = dfs943(1 << i, i) + words[i].length();
+            if (cur < min) {
+                min = cur;
+                f = i;
+            }
+        }
+        this.res943 = new StringBuilder();
+        res943.append(words[f]);
+        makeAns943(1 << f, f);
+        return res943.toString();
+    }
+
+    private void makeAns943(int i, int j) {
+        if (i == u943) {
+            return;
+        }
+        int finalAns = dfs943(i, j);
+        for (int c = i ^ u943; c != 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            if (dfs943(i | (1 << lb), lb) + words943[lb].length() - lcp943[j][lb] == finalAns) {
+                res943.append(words943[lb].substring(lcp943[j][lb]));
+                makeAns943(i | (1 << lb), lb);
+                break;
+            }
+        }
+    }
+
+    private int dfs943(int i, int j) {
+        if (i == u943) {
+            return 0;
+        }
+        if (memo943[i][j] != 0) {
+            return memo943[i][j];
+        }
+        int res = Integer.MAX_VALUE;
+        for (int c = i ^ u943; c != 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            res = Math.min(res, dfs943(i | (1 << lb), lb) + words943[lb].length() - lcp943[j][lb]);
+        }
+        return memo943[i][j] = res;
+    }
+
+    private int cal943(String s, String t) {
+        int n = Math.min(s.length(), t.length());
+        for (int i = s.length() - n; i < s.length(); ++i) {
+            if (t.startsWith(s.substring(i))) {
+                return s.length() - i;
+            }
+        }
+        return 0;
+    }
+
 }
