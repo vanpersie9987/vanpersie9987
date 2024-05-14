@@ -956,35 +956,52 @@ public class Leetcode_7 {
     // 1449. 数位成本和为目标值的最大数字 (Form Largest Integer With Digits That Add up to Target)
     private int[] cost1449;
     private int target1449;
-    private String[] memo1449;
+    private int[] memo1449;
+    private StringBuilder res1449;
 
     public String largestNumber(int[] cost, int target) {
         this.cost1449 = cost;
         this.target1449 = target;
-        this.memo1449 = new String[target + 1];
-        return dfs1449(0);
-
+        this.memo1449 = new int[target];
+        Arrays.fill(memo1449, -1);
+        if (dfs1449(0) < 0) {
+            return "0";
+        }
+        this.res1449 = new StringBuilder();
+        makeAns1449(0);
+        return res1449.toString();
     }
 
-    private String dfs1449(int i) {
+    private void makeAns1449(int i) {
         if (i == target1449) {
-            return "";
+            return;
         }
-        if (memo1449[i] != null) {
-            return memo1449[i];
-        }
-        String res = "";
-        for (int j = 0; j < 9; ++j) {
-            if (cost1449[j] + i <= target1449) {
-                String s = String.valueOf(j + 1) + dfs1449(cost1449[j] + i);
-                if (!s.contains("0")) {
-                    if (s.length() > res.length() || s.length() == res.length() && s.compareTo(res) > 0) {
-                        res = s;
-                    }
-                }
+        int finalAns = dfs1449(i);
+        for (int j = 8; j >= 0; --j) {
+            if (dfs1449(cost1449[j] + i) + 1 == finalAns) {
+                res1449.append(j + 1);
+                makeAns1449(cost1449[j] + i);
+                break;
             }
         }
-        return memo1449[i] = res.isEmpty() ? "0" : res;
+    }
+
+    private int dfs1449(int i) {
+        if (i == target1449) {
+            return 0;
+        }
+        if (i > target1449) {
+            return Integer.MIN_VALUE;
+        }
+        if (memo1449[i] != -1) {
+            return memo1449[i];
+        }
+        int res = Integer.MIN_VALUE;
+        for (int c : cost1449) {
+            res = Math.max(res, dfs1449(c + i));
+        }
+        return memo1449[i] = res < 0 ? Integer.MIN_VALUE : res + 1;
+
     }
 
     // 6354. K 件物品的最大和 (K Items With the Maximum Sum)
@@ -1724,6 +1741,7 @@ public class Leetcode_7 {
     private char[] arr2606;
     private int n2606;
     private int[] fees2606;
+
     public int maximumCostSubstring2(String s, String chars, int[] vals) {
         this.fees2606 = new int[26];
         for (int i = 0; i < 26; ++i) {
@@ -2750,7 +2768,8 @@ public class Leetcode_7 {
             return memo1639[i][j];
         }
         final int MOD = (int) (1e9 + 7);
-        return memo1639[i][j] = (int) ((dfs1639(i - 1, j) + (long) cnt1639[i][target1639.charAt(j) - 'a'] * dfs1639(i - 1, j - 1)) % MOD);
+        return memo1639[i][j] = (int) ((dfs1639(i - 1, j)
+                + (long) cnt1639[i][target1639.charAt(j) - 'a'] * dfs1639(i - 1, j - 1)) % MOD);
     }
 
     // 1643. 第 K 条最小指令 (Kth Smallest Instructions)
@@ -3057,7 +3076,7 @@ public class Leetcode_7 {
     }
 
     // 2641. 二叉树的堂兄弟节点 II (Cousins in Binary Tree II)
-     public TreeNode replaceValueInTree(TreeNode root) {
+    public TreeNode replaceValueInTree(TreeNode root) {
         root.val = 0;
         Queue<TreeNode> q = new ArrayDeque<>();
         q.offer(root);
