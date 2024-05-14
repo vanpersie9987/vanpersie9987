@@ -251,12 +251,13 @@ class leetcode_1:
         def dfs(i: int) -> int:
             if i == n:
                 return 1
-            if s[i] == '0':
+            if s[i] == "0":
                 return 0
             res = dfs(i + 1)
-            if i + 1 < n and (s[i] == '1' or s[i] == '2' and s[i + 1] <= '6'):
+            if i + 1 < n and (s[i] == "1" or s[i] == "2" and s[i + 1] <= "6"):
                 res += dfs(i + 2)
             return res
+
         n = len(s)
         return dfs(0)
 
@@ -1532,25 +1533,30 @@ class leetcode_1:
 
     # 2472. 不重叠回文子字符串的最大数目 (Maximum Number of Non-overlapping Palindrome Substrings)
     def maxPalindromes(self, s: str, k: int) -> int:
-        n = len(s)
-        arr = [[0] * n for _ in range(n)]
-        for i in range(n - 1, -1, -1):
-            for j in range(i, n):
-                if s[i] == s[j] and (j - i < 2 or arr[i + 1][j - 1]):
-                    arr[i][j] = 1
-
         @cache
         def dfs(i: int) -> int:
             if i == n:
                 return 0
-            if n - i < k:
-                return 0
             res = dfs(i + 1)
             for j in range(i + k - 1, n):
-                if arr[i][j]:
+                if valid[i][j]:
                     res = max(res, dfs(j + 1) + 1)
+                    break
             return res
 
+        n = len(s)
+        valid = [[False] * n for _ in range(n)]
+        for i in range(n - 1, -1, -1):
+            for j in range(i, n):
+                if (
+                    i == j
+                    or j - i == 1
+                    and s[i] == s[j]
+                    or j - i > 1
+                    and s[i] == s[j]
+                    and valid[i + 1][j - 1]
+                ):
+                    valid[i][j] = True
         return dfs(0)
 
     # 2444. 统计定界子数组的数目 (Count Subarrays With Fixed Bounds)
@@ -7199,7 +7205,7 @@ class leetcode_1:
             size = len(q)
             for _ in range(size):
                 (x, y) = q.popleft()
-                for (dx, dy) in dirs:
+                for dx, dy in dirs:
                     nx = x + dx
                     ny = y + dy
                     if 0 <= nx < m and 0 <= ny < n and grid[nx][ny] == 1:
