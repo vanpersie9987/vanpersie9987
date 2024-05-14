@@ -1598,6 +1598,33 @@ class leetcode_1:
             f[i] += 1
         return f[0]
 
+    # 2430. 对字母串可执行的最大删除数 (Maximum Deletions on a String)
+    def deleteString(self, s: str) -> int:
+        def dfs(i: int) -> int:
+            if i == n:
+                return 0
+            if memo[i] != -1:
+                return memo[i]
+            res = 0
+            for j in range(i + 1, n):
+                if n + i < j * 2:
+                    break
+                if lcp[i][j] >= j - i:
+                    res = max(res, dfs(j))
+            memo[i] = res + 1
+            return memo[i]
+
+        n = len(s)
+        if len(set(s)) == 1:
+            return n
+        lcp = [[0] * (n + 1) for _ in range(n + 1)]
+        for i in range(n - 1, -1, -1):
+            for j in range(n - 1, i, -1):
+                if s[i] == s[j]:
+                    lcp[i][j] = lcp[i + 1][j + 1] + 1
+        memo = [-1] * n
+        return dfs(0)
+
     # 2435. 矩阵中和能被 K 整除的路径 (Paths in Matrix Whose Sum Is Divisible by K)
     def numberOfPaths(self, grid: List[List[int]], k: int) -> int:
         @cache
