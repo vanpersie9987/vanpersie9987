@@ -293,4 +293,54 @@ public class Leetcode_9 {
         }
     }
 
+    // 368. 最大整除子集 (Largest Divisible Subset)
+    private int[] nums368;
+    private int n368;
+    private int[] memo368;
+    private List<Integer> res368;
+
+    public List<Integer> largestDivisibleSubset(int[] nums) {
+        Arrays.sort(nums);
+        this.nums368 = nums;
+        this.n368 = nums.length;
+        this.memo368 = new int[n368];
+        int mx = 0;
+        int f = 0;
+        for (int i = 0; i < n368; ++i) {
+            int cur = dfs368(i);
+            if (cur > mx) {
+                mx = cur;
+                f = i;
+            }
+        }
+        this.res368 = new ArrayList<>();
+        makeAns368(f);
+        return res368;
+
+    }
+
+    private void makeAns368(int i) {
+        res368.add(nums368[i]);
+        int finalAns = dfs368(i);
+        for (int j = 0; j < i; ++j) {
+            if (nums368[i] % nums368[j] == 0 && dfs368(j) + 1 == finalAns) {
+                makeAns368(j);
+                break;
+            }
+        }
+    }
+
+    private int dfs368(int i) {
+        if (memo368[i] != 0) {
+            return memo368[i];
+        }
+        int res = 0;
+        for (int j = 0; j < i; ++j) {
+            if (nums368[i] % nums368[j] == 0) {
+                res = Math.max(res, dfs368(j));
+            }
+        }
+        return memo368[i] = res + 1;
+    }
+
 }
