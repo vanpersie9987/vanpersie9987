@@ -4186,5 +4186,52 @@ class Union924:
         make_ans(0, 0)
         return ''.join(res)
 
+    # 943. 最短超级串 (Find the Shortest Superstring)
+    def shortestSuperstring(self, words: List[str]) -> str:
+        def cal(i: int, j: int) -> int:
+            nn = min(len(words[i]), len(words[j]))
+            for k in range(len(words[i]) - nn, len(words[i])):
+                if words[j].startswith(words[i][k:]):
+                    return len(words[i]) - k
+            return 0
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == u:
+                return 0
+            c = i ^ u
+            res = inf
+            while c:
+                lb = (c & -c).bit_length() - 1
+                res = min(res, dfs(i | (1 << lb), lb) + len(words[lb]) - lcp[j][lb])
+                c &= c - 1
+            return res
 
+        def make_ans(i: int, j: int) -> None:
+            if i == u:
+                return
+            c = i ^ u
+            final_ans = dfs(i, j)
+            while c:
+                lb = (c & -c).bit_length() - 1
+                if dfs(i | (1 << lb), lb) + len(words[lb]) - lcp[j][lb] == final_ans:
+                    res.append(words[lb][lcp[j][lb]:])
+                    make_ans(i | (1 << lb), lb)
+                    break
+                c &= c - 1
 
+        n = len(words)
+        lcp = [[0] * n for _ in range(n)]
+        for i in range(n):
+            for j in range(n):
+                lcp[i][j] = cal(i, j)
+        u = (1 << n) - 1
+        m = inf
+        f = -1
+        for i in range(n):
+            cur = dfs(1 << i, i) + len(words[i])
+            if cur < m:
+                m = cur
+                f = i
+        res = [words[f]]
+        make_ans(1 << f, f)
+        return ''.join(res)
