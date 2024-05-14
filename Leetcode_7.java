@@ -1242,49 +1242,69 @@ public class Leetcode_7 {
     }
 
     // 1092. 最短公共超序列 (Shortest Common Supersequence)
-    private int[][] memo1092;
-    private String str11092;
-    private String str21092;
+    private int n1_1092;
+    private int n2_1092;
+    private String str1_1092;
+    private String str2_1092;
+    private int[][] memo_1092;
+    private StringBuilder res_1092;
 
     public String shortestCommonSupersequence(String str1, String str2) {
-        int m = str1.length();
-        int n = str2.length();
-        this.str11092 = str1;
-        this.str21092 = str2;
-        this.memo1092 = new int[m][n];
-        return makeAns(m - 1, n - 1);
+        this.n1_1092 = str1.length();
+        this.n2_1092 = str2.length();
+        this.str1_1092 = str1;
+        this.str2_1092 = str2;
+        this.memo_1092 = new int[n1_1092][n2_1092];
+        for (int i = 0; i < n1_1092; ++i) {
+            Arrays.fill(memo_1092[i], -1);
+        }
+        dfs_1092(0, 0);
+        this.res_1092 = new StringBuilder();
+        makeAns_1092(0, 0);
+        return res_1092.toString();
+
     }
 
-    private String makeAns(int i, int j) {
-        if (i < 0) {
-            return str21092.substring(0, j + 1);
+    private void makeAns_1092(int i, int j) {
+        if (i == n1_1092) {
+            res_1092.append(str2_1092.substring(j));
+            return;
         }
-        if (j < 0) {
-            return str11092.substring(0, i + 1);
+        if (j == n2_1092) {
+            res_1092.append(str1_1092.substring(i));
+            return;
         }
-        if (str11092.charAt(i) == str21092.charAt(j)) {
-            return makeAns(i - 1, j - 1) + str11092.charAt(i);
+        if (str1_1092.charAt(i) == str2_1092.charAt(j)) {
+            res_1092.append(str1_1092.charAt(i));
+            makeAns_1092(i + 1, j + 1);
+            return;
         }
-        if (dfs1092(i, j) == dfs1092(i - 1, j) + 1) {
-            return makeAns(i - 1, j) + str11092.charAt(i);
+        int finalAns = dfs_1092(i, j);
+        if (dfs_1092(i + 1, j) + 1 == finalAns) {
+            res_1092.append(str1_1092.charAt(i));
+            makeAns_1092(i + 1, j);
+            return;
         }
-        return makeAns(i, j - 1) + str21092.charAt(j);
+        res_1092.append(str2_1092.charAt(j));
+        makeAns_1092(i, j + 1);
+        return;
+
     }
 
-    private int dfs1092(int i, int j) {
-        if (i < 0) {
-            return j + 1;
+    private int dfs_1092(int i, int j) {
+        if (i == n1_1092) {
+            return n2_1092 - j;
         }
-        if (j < 0) {
-            return i + 1;
+        if (j == n2_1092) {
+            return n1_1092 - i;
         }
-        if (memo1092[i][j] != 0) {
-            return memo1092[i][j];
+        if (memo_1092[i][j] != -1) {
+            return memo_1092[i][j];
         }
-        if (str11092.charAt(i) == str21092.charAt(j)) {
-            return memo1092[i][j] = dfs1092(i - 1, j - 1) + 1;
+        if (str1_1092.charAt(i) == str2_1092.charAt(j)) {
+            return memo_1092[i][j] = dfs_1092(i + 1, j + 1) + 1;
         }
-        return memo1092[i][j] = Math.min(dfs1092(i - 1, j), dfs1092(i, j - 1)) + 1;
+        return memo_1092[i][j] = Math.min(dfs_1092(i + 1, j), dfs_1092(i, j + 1)) + 1;
     }
 
     // 1478. 安排邮筒 (Allocate Mailboxes)
