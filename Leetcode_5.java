@@ -3676,15 +3676,13 @@ public class Leetcode_5 {
         if (memo2430[i] != -1) {
             return memo2430[i];
         }
-        int max = 1;
-        int j = 1;
-        while (i + j * 2 <= n2430) {
-            if (arr2430[i][i + j] >= j) {
-                max = Math.max(max, dfs2430(i + j) + 1);
+        int max = 0;
+        for (int j = i + 1; j < n2430 && n2430 - j >= j - i; ++j) {
+            if (arr2430[i][j] >= j - i) {
+                max = Math.max(max, dfs2430(j));
             }
-            ++j;
         }
-        return memo2430[i] = max;
+        return memo2430[i] = max + 1;
     }
 
     // 1785. 构成特定和需要添加的最少元素 (Minimum Elements to Add to Form a Given Sum)
