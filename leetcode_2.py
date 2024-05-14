@@ -29,7 +29,7 @@ from tabnanny import check
 from textwrap import indent
 from tkinter import N, NO, W
 from tkinter.tix import Tree
-from token import RIGHTSHIFT
+from token import NL, RIGHTSHIFT
 from turtle import mode, pos, reset, right, st
 from typing import List, Optional
 import heapq
@@ -4185,3 +4185,5 @@ class Union924:
         res = []
         make_ans(0, 0)
         return ''.join(res)
+
+

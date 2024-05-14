@@ -6754,6 +6754,37 @@ class leetcode_1:
                 _max -= 1
         return res
 
+    # 368. 最大整除子集 (Largest Divisible Subset)
+    def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
+        @cache
+        def dfs(i: int) -> int:
+            res = 0
+            for j in range(i):
+                if nums[i] % nums[j] == 0:
+                    res = max(res, dfs(j))
+            return res + 1
+
+        def make_ans(i: int) -> None:
+            res.append(nums[i])
+            final_ans = dfs(i)
+            for j in range(i):
+                if nums[i] % nums[j] == 0 and dfs(j) + 1 == final_ans:
+                    make_ans(j)
+                    break
+
+        n = len(nums)
+        nums.sort()
+        mx = 0
+        f = 0
+        for i in range(n):
+            cur = dfs(i)
+            if cur > mx:
+                mx = cur
+                f = i
+        res = []
+        make_ans(f)
+        return res
+
     # 2731. 移动机器人 (Movement of Robots)
     def sumDistance(self, nums: List[int], s: str, d: int) -> int:
         n = len(nums)
