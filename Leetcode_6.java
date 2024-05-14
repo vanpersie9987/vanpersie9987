@@ -8320,6 +8320,7 @@ public class Leetcode_6 {
         for (int j = i + k2472 - 1; j < n2472; ++j) {
             if (isPalindromes2472[i][j]) {
                 max = Math.max(max, dfs2472(j + 1) + 1);
+                break;
             }
         }
         return memo2472[i] = max;
