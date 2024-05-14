@@ -2081,20 +2081,31 @@ class leetcode_1:
     # 1449. 数位成本和为目标值的最大数字 (Form Largest Integer With Digits That Add up to Target)
     def largestNumber(self, cost: List[int], target: int) -> str:
         @cache
-        def dfs(i: int) -> str:
+        def dfs(i: int) -> int:
             if i == target:
-                return ""
-            res = ""
-            for j in range(9):
-                if cost[j] + i <= target:
-                    cur = str(j + 1) + dfs(cost[j] + i)
-                    if "0" not in cur and (
-                        len(cur) > len(res) or len(cur) == len(res) and cur > res
-                    ):
-                        res = cur
-            return "0" if res == "" else res
+                return 0
+            if i > target:
+                return -inf
+            res = -inf
+            for c in cost:
+                res = max(res, dfs(c + i))
+            return res + 1 if res > -inf else -inf
 
-        return dfs(0)
+        def make_ans(i: int) -> None:
+            if i == target:
+                return
+            final_ans = dfs(i)
+            for j in range(8, -1, -1):
+                if dfs(cost[j] + i) + 1 == final_ans:
+                    res.append(str(j + 1))
+                    make_ans(cost[j] + i)
+                    break
+        res = dfs(0)
+        if res == -inf:
+            return '0'
+        res = []
+        make_ans(0)
+        return ''.join(res)
 
     # 389. 找不同 (Find the Difference)
     def findTheDifference(self, s: str, t: str) -> str:
