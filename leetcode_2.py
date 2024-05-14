@@ -4185,4 +4185,3 @@ class Union924:
         res = []
         make_ans(0, 0)
         return ''.join(res)
-

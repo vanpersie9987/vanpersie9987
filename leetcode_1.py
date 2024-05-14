@@ -75,22 +75,23 @@ class leetcode_1:
 
     # 2463. 最小移动总距离 (Minimum Total Distance Traveled)
     def minimumTotalDistance(self, robot: List[int], factory: List[List[int]]) -> int:
-        robot.sort()
-        factory.sort()
-
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == len(robot):
+            if i == m:
                 return 0
-            if j == len(factory):
+            if j == n:
                 return inf
             res = dfs(i, j + 1)
             d = 0
-            for k in range(i, min(len(robot), i + factory[j][1])):
+            for k in range(i, min(m, i + factory[j][1])):
                 d += abs(factory[j][0] - robot[k])
                 res = min(res, dfs(k + 1, j + 1) + d)
             return res
 
+        m = len(robot)
+        n = len(factory)
+        robot.sort()
+        factory.sort()
         return dfs(0, 0)
 
     # 1478. 安排邮筒 (Allocate Mailboxes)
