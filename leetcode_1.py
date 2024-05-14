@@ -1535,7 +1535,7 @@ class leetcode_1:
     def maxPalindromes(self, s: str, k: int) -> int:
         @cache
         def dfs(i: int) -> int:
-            if i == n:
+            if i == n or n - i < k:
                 return 0
             res = dfs(i + 1)
             for j in range(i + k - 1, n):
