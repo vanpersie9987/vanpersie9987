@@ -4147,3 +4147,43 @@ class Union924:
     def minimumRounds(self, tasks: List[int]) -> int:
         c = Counter(tasks)
         return -1 if 1 in c.values() else sum((v + 2) // 3 for v in c.values())
+
+    # 1092. 最短公共超序列 (Shortest Common Supersequence)
+    def shortestCommonSupersequence(self, str1: str, str2: str) -> str:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n1:
+                return n2 - j
+            if j == n2:
+                return n1 - i
+            if str1[i] == str2[j]:
+                return dfs(i + 1, j + 1) + 1
+            return min(dfs(i + 1, j), dfs(i, j + 1)) + 1
+
+        def make_ans(i: int, j: int) -> None:
+            if i == n1:
+                res.extend(str2[j:])
+                return
+            if j == n2:
+                res.extend(str1[i:])
+                return
+            if str1[i] == str2[j]:
+                res.append(str1[i])
+                make_ans(i + 1, j + 1)
+                return
+            final_ans = dfs(i, j)
+            if dfs(i + 1, j) + 1 == final_ans:
+                res.append(str1[i])
+                make_ans(i + 1, j)
+                return
+            res.append(str2[j])
+            make_ans(i, j + 1)
+
+        n1 = len(str1)
+        n2 = len(str2)
+        dfs(0, 0)
+        res = []
+        make_ans(0, 0)
+        return ''.join(res)
+        
+        
