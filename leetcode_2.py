@@ -4235,3 +4235,19 @@ class Union924:
         res = [words[f]]
         make_ans(1 << f, f)
         return ''.join(res)
+
+    # 2589. 完成所有任务的最少时间 (Minimum Time to Complete All Tasks)
+    def findMinimumTime(self, tasks: List[List[int]]) -> int:
+        res = 0
+        idle = [0] * 2001
+        tasks.sort(key=lambda k: k[1])
+        for start, end, duration in tasks:
+            duration -= sum(x for x in idle[start: end + 1])
+            i = end
+            while i >= start and duration > 0:
+                if idle[i] == 0:
+                    idle[i] = 1
+                    duration -= 1
+                    res += 1
+                i -= 1
+        return res
