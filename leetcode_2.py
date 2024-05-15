@@ -4242,7 +4242,7 @@ class Union924:
         idle = [0] * 2001
         tasks.sort(key=lambda k: k[1])
         for start, end, duration in tasks:
-            duration -= sum(x for x in idle[start: end + 1])
+            duration -= sum(idle[start: end + 1])
             i = end
             while i >= start and duration > 0:
                 if idle[i] == 0:

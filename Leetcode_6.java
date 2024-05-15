@@ -10124,10 +10124,10 @@ public class Leetcode_6 {
         return -1;
     }
 
-    // 6318. 完成所有任务的最少时间 (Minimum Time to Complete All Tasks)
+    // 2589. 完成所有任务的最少时间 (Minimum Time to Complete All Tasks)
     public int findMinimumTime(int[][] tasks) {
         int res = 0;
-        boolean[] run = new boolean[2001];
+        int[] idle = new int[2001];
         Arrays.sort(tasks, new Comparator<int[]>() {
 
             @Override
@@ -10138,26 +10138,19 @@ public class Leetcode_6 {
         });
 
         for (int[] task : tasks) {
-            int s = task[0];
-            int e = task[1];
-            int d = task[2];
-            for (int i = s; i <= e; ++i) {
-                if (run[i]) {
-                    --d;
-                }
+            int start = task[0];
+            int end = task[1];
+            int duration = task[2];
+            for (int i = start; i <= end; ++i) {
+                duration -= idle[i];
             }
-            if (d > 0) {
-                for (int i = e; i >= s; --i) {
-                    if (run[i]) {
-                        continue;
-                    }
-                    run[i] = true;
+            for (int i = end; i >= start && duration > 0; --i) {
+                if (idle[i] == 0) {
+                    idle[i] = 1;
                     ++res;
-                    --d;
-                    if (d == 0) {
-                        break;
-                    }
+                    --duration;
                 }
+
             }
         }
         return res;
