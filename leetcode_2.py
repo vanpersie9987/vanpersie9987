@@ -4259,23 +4259,3 @@ class Union924:
         if mx <= s // 2:
             return s
         return (s - mx) * 2 + 1
-    
-    def splitArray(self, nums: List[int], k: int) -> int:
-        @cache
-        def dfs(i: int, j: int) -> int:
-            if i == n:
-                return 0
-            if j == k:
-                return inf
-            if n - i < k - j:
-                return inf
-            s = 0
-            res = inf
-            for x in range(i, n):
-                if n - x < k - j:
-                    break
-                s += nums[x]
-                res = min(res, max(s, dfs(x + 1, j + 1)))
-            return res
-        n = len(nums)
-        return dfs(0, 0)

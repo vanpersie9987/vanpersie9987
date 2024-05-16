@@ -2100,12 +2100,13 @@ class leetcode_1:
                     res.append(str(j + 1))
                     make_ans(cost[j] + i)
                     break
+
         res = dfs(0)
         if res == -inf:
-            return '0'
+            return "0"
         res = []
         make_ans(0)
-        return ''.join(res)
+        return "".join(res)
 
     # 389. 找不同 (Find the Difference)
     def findTheDifference(self, s: str, t: str) -> str:
@@ -9989,6 +9990,28 @@ class leetcode_1:
             else:
                 left = mid + 1
         return res
+
+    # 410. 分割数组的最大值 (Split Array Largest Sum)
+    def splitArray(self, nums: List[int], k: int) -> int:
+        # @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0 if j == k else inf
+            if j == k:
+                return inf
+            if memo[i][j] != -1:
+                return memo[i][j]
+            s = 0
+            res = inf
+            for x in range(i, n - k + j + 1):
+                s += nums[x]
+                res = min(res, max(s, dfs(x + 1, j + 1)))
+            memo[i][j] = res
+            return res
+
+        n = len(nums)
+        memo = [[-1] * k for _ in range(n)]
+        return dfs(0, 0)
 
     # 670. 最大交换 (Maximum Swap)
     def maximumSwap(self, num: int) -> int:
