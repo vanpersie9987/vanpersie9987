@@ -8617,31 +8617,28 @@ public class Leetcode_6 {
                 }
             }
         }
-        memo1745 = new int[n1745][4];
-        for (int i = 0; i < n1745; ++i) {
-            Arrays.fill(memo1745[i], -1);
-        }
-        return dfs1745(0, 3);
+        memo1745 = new int[n1745][3];
+        return dfs1745(0, 0);
 
     }
 
-    private boolean dfs1745(int i, int counts) {
-        if (counts == 0 || i == n1745) {
-            return counts == 0 && i == n1745;
+    private boolean dfs1745(int i, int j) {
+        if (i == n1745) {
+            return j == 3;
         }
-        if (counts == 1) {
-            return isPalindromes1745[i][n1745 - 1];
+        if (j == 3) {
+            return false;
         }
-        if (memo1745[i][counts] != -1) {
-            return memo1745[i][counts] > 0;
+        if (memo1745[i][j] != 0) {
+            return memo1745[i][j] > 0;
         }
-        for (int j = i; j < n1745; ++j) {
-            if (isPalindromes1745[i][j] && dfs1745(j + 1, counts - 1)) {
-                memo1745[i][counts] = 1;
+        for (int k = i; k < n1745; ++k) {
+            if (isPalindromes1745[i][k] && dfs1745(k + 1, j + 1)) {
+                memo1745[i][j] = 1;
                 return true;
             }
         }
-        memo1745[i][counts] = 0;
+        memo1745[i][j] = -1;
         return false;
     }
 
