@@ -5773,7 +5773,7 @@ public class LeetCode_4 {
         }
         int res = 0;
         int max = 0;
-        for (int j = i; j < n1043 && j - i + 1 <= k1043; ++j) {
+        for (int j = i; j < Math.min(i + k1043, n1043); ++j) {
             max = Math.max(max, arr1043[j]);
             res = Math.max(res, max * (j - i + 1) + dfs1043(j + 1));
         }
