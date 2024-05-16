@@ -17047,9 +17047,11 @@ public class LeetCodeText {
     public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
         int n = difficulty.length;
         int[][] arr = new int[n][2];
+        TreeMap<Integer, Integer> map = new TreeMap<>();
         for (int i = 0; i < n; ++i) {
             arr[i][0] = difficulty[i];
             arr[i][1] = profit[i];
+            map.merge(profit[i], 1, Integer::sum);
         }
         Arrays.sort(arr, new Comparator<int[]>() {
 
@@ -17059,10 +17061,7 @@ public class LeetCodeText {
             }
 
         });
-        TreeMap<Integer, Integer> map = new TreeMap<>();
-        for (int p : profit) {
-            map.merge(p, 1, Integer::sum);
-        }
+
         Arrays.sort(worker);
         int res = 0;
         int j = n - 1;
