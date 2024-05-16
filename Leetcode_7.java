@@ -757,8 +757,7 @@ public class Leetcode_7 {
         for (int i = 0; i < n1335; ++i) {
             Arrays.fill(memo1335[i], -1);
         }
-        int res = dfs1335(0, 0);
-        return res < (int) 1e6 ? res : -1;
+        return dfs1335(0, 0);
 
     }
 
