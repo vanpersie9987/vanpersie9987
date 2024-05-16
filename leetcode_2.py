@@ -4268,8 +4268,8 @@ class Union924:
         j = n - 1
         res = 0
         worker.sort()
-        for i in range(len(worker) - 1, -1, -1):
-            while j >= 0 and arr[j][0] > worker[i]:
+        for x in sorted(worker, key=lambda k: -k):
+            while j >= 0 and arr[j][0] > x:
                 p.remove(arr[j][1])
                 j -= 1
             if len(p):
