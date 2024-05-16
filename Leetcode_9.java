@@ -417,4 +417,13 @@ public class Leetcode_9 {
         return 0;
     }
 
+    private int[] nums;
+    private int k;
+    private int[][] memo;
+
+    public double largestSumOfAverages(int[] nums, int k) {
+        
+
+    }
+
 }

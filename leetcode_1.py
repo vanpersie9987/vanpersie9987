@@ -1344,22 +1344,21 @@ class leetcode_1:
 
     # 813. 最大平均值和的分组 (Largest Sum of Averages)
     def largestSumOfAverages(self, nums: List[int], k: int) -> float:
-        n = len(nums)
-
         @cache
         def dfs(i: int, j: int) -> float:
             if i == n:
                 return 0
-            if j == 0:
+            if j == k:
                 return -inf
-            sum = 0
+            s = 0
             res = 0
-            for x in range(i, n):
-                sum += nums[x]
-                res = max(res, dfs(x + 1, j - 1) + sum / (x - i + 1))
+            for x in range(i, n - k + j + 1):
+                s += nums[x]
+                res = max(res, dfs(x + 1, j + 1) + s / (x - i + 1))
             return res
 
-        return dfs(0, k)
+        n = len(nums)
+        return dfs(0, 0)
 
     # 1035. 不相交的线 (Uncrossed Lines)
     def maxUncrossedLines(self, nums1: List[int], nums2: List[int]) -> int:
