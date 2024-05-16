@@ -748,34 +748,37 @@ public class Leetcode_7 {
 
     public int minDifficulty(int[] jobDifficulty, int d) {
         this.n1335 = jobDifficulty.length;
+        if (n1335 < d) {
+            return -1;
+        }
         this.d1335 = d;
         this.jobDifficulty1335 = jobDifficulty;
         this.memo1335 = new int[n1335][d];
         for (int i = 0; i < n1335; ++i) {
-            Arrays.fill(memo1335[i], (int) 1e6);
+            Arrays.fill(memo1335[i], -1);
         }
         int res = dfs1335(0, 0);
         return res < (int) 1e6 ? res : -1;
 
     }
 
-    private int dfs1335(int i, int count) {
-        if (d1335 - count > n1335 - i) {
+    private int dfs1335(int i, int j) {
+        if (i == n1335) {
+            return j == d1335 ? 0 : (int) 1e6;
+        }
+        if (j == d1335) {
             return (int) 1e6;
         }
-        if (i == n1335 || count == d1335) {
-            return i == n1335 && count == d1335 ? 0 : (int) 1e6;
+        if (memo1335[i][j] != -1) {
+            return memo1335[i][j];
         }
-        if (memo1335[i][count] != (int) 1e6) {
-            return memo1335[i][count];
+        int res = Integer.MAX_VALUE;
+        int mx = 0;
+        for (int x = i; x <= n1335 - d1335 + j; ++x) {
+            mx = Math.max(mx, jobDifficulty1335[x]);
+            res = Math.min(res, dfs1335(x + 1, j + 1) + mx);
         }
-        int max = 0;
-        int res = (int) 1e6;
-        for (int j = i; j < n1335; ++j) {
-            max = Math.max(max, jobDifficulty1335[j]);
-            res = Math.min(res, dfs1335(j + 1, count + 1) + max);
-        }
-        return memo1335[i][count] = res;
+        return memo1335[i][j] = res;
     }
 
     // 2251. 花期内花的数目 (Number of Flowers in Full Bloom)
