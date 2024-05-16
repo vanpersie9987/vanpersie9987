@@ -2956,23 +2956,23 @@ class leetcode_1:
 
     # 1335. 工作计划的最低难度 (Minimum Difficulty of a Job Schedule)
     def minDifficulty(self, jobDifficulty: List[int], d: int) -> int:
-        n = len(jobDifficulty)
-
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == n or j == 0:
-                return 0 if i == n and j == 0 else inf
-            if n - i < j:
+            if i == n:
+                return 0 if j == d else inf
+            if j == d:
                 return inf
             res = inf
-            m = 0
-            for k in range(i, n):
-                m = max(m, jobDifficulty[k])
-                res = min(res, dfs(k + 1, j - 1) + m)
+            mx = 0
+            for k in range(i, n - d + j + 1):
+                mx = max(mx, jobDifficulty[k])
+                res = min(res, dfs(k + 1, j + 1) + mx)
             return res
 
-        res = dfs(0, d)
-        return -1 if res == inf else res
+        n = len(jobDifficulty)
+        if d > n:
+            return -1
+        return dfs(0, 0)
 
     # 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
     def minInsertions(self, s: str) -> int:
