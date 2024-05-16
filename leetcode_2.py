@@ -4259,3 +4259,19 @@ class Union924:
         if mx <= s // 2:
             return s
         return (s - mx) * 2 + 1
+
+    # 826. 安排工作以达到最大收益 (Most Profit Assigning Work)
+    def maxProfitAssignment(self, difficulty: List[int], profit: List[int], worker: List[int]) -> int:
+        n = len(difficulty)
+        arr = sorted(zip(difficulty, profit), key=lambda k: k[0])
+        p = SortedList(profit)
+        j = n - 1
+        res = 0
+        worker.sort()
+        for i in range(len(worker) - 1, -1, -1):
+            while j >= 0 and arr[j][0] > worker[i]:
+                p.remove(arr[j][1])
+                j -= 1
+            if len(p):
+                res += p[-1]
+        return res
