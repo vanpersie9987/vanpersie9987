@@ -17045,34 +17045,40 @@ public class LeetCodeText {
 
     // 826. 安排工作以达到最大收益 (Most Profit Assigning Work)
     public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
-        List<Bean826> list = new ArrayList<>();
-        for (int i = 0; i < difficulty.length; ++i) {
-            list.add(new Bean826(difficulty[i], profit[i]));
+        int n = difficulty.length;
+        int[][] arr = new int[n][2];
+        for (int i = 0; i < n; ++i) {
+            arr[i][0] = difficulty[i];
+            arr[i][1] = profit[i];
         }
-        Collections.sort(list, (o1, o2) -> o1.difficulty - o2.difficulty);
+        Arrays.sort(arr, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        for (int p : profit) {
+            map.merge(p, 1, Integer::sum);
+        }
         Arrays.sort(worker);
         int res = 0;
-        int i = 0;
-        int best = 0;
-        for (int skill : worker) {
-            while (i < list.size() && skill >= list.get(i).difficulty) {
-                best = Math.max(best, list.get(i).profit);
-                ++i;
+        int j = n - 1;
+        for (int i = worker.length - 1; i >= 0; --i) {
+            while (j >= 0 && arr[j][0] > worker[i]) {
+                map.merge(arr[j][1], -1, Integer::sum);
+                if (map.get(arr[j][1]) == 0) {
+                    map.remove(arr[j][1]);
+                }
+                --j;
             }
-            res += best;
+            if (map.size() > 0) {
+                res += map.lastKey();
+            }
         }
         return res;
-
-    }
-
-    public class Bean826 {
-        public int difficulty;
-        public int profit;
-
-        public Bean826(int difficulty, int profit) {
-            this.difficulty = difficulty;
-            this.profit = profit;
-        }
 
     }
 
@@ -17754,7 +17760,7 @@ public class LeetCodeText {
 
     }
 
-    // 421. 数组中两个数的最大异或值 (Maximum XOR of Two Numbers in an Array) 
+    // 421. 数组中两个数的最大异或值 (Maximum XOR of Two Numbers in an Array)
     // LCR 067. 数组中两个数的最大异或值
     public int findMaximumXOR(int[] nums) {
         int res = 0;
