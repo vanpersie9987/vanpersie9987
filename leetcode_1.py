@@ -3014,29 +3014,31 @@ class leetcode_1:
 
     # 1278. 分割回文串 III (Palindrome Partitioning III)
     def palindromePartition(self, s: str, k: int) -> int:
+        def cal(i: int, j: int) -> int:
+            res = 0
+            while i < j:
+                res += s[i] != s[j]
+                i += 1
+                j -= 1
+            return res
 
         @cache
         def dfs(i: int, j: int) -> int:
-            if i >= j:
-                return 0
-            if s[i] == s[j]:
-                return dfs(i + 1, j - 1)
-            return dfs(i + 1, j - 1) + 1
-
-        n = len(s)
-
-        @cache
-        def dfs2(i: int, j: int) -> int:
-            if i == n or j == k:
-                return 0 if i == n and j == k else inf
-            if n - i < k - j:
+            if i == n:
+                return 0 if j == k else inf
+            if j == k:
                 return inf
             res = inf
-            for x in range(i, n):
-                res = min(res, dfs2(x + 1, j + 1) + dfs(i, x))
+            for x in range(i, n - k + j + 1):
+                res = min(res, dfs(x + 1, j + 1) + p[i][x])
             return res
 
-        return dfs2(0, 0)
+        n = len(s)
+        p = [[0] * n for _ in range(n)]
+        for i in range(n):
+            for j in range(1, n):
+                p[i][j] = cal(i, j)
+        return dfs(0, 0)
 
     # 1223. 掷骰子模拟 (Dice Roll Simulation)
     def dieSimulator(self, n: int, rollMax: List[int]) -> int:

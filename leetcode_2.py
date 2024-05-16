@@ -4259,6 +4259,4 @@ class Union924:
         if mx <= s // 2:
             return s
         return (s - mx) * 2 + 1
-    
 
-   
