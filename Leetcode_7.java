@@ -3594,47 +3594,51 @@ public class Leetcode_7 {
         return memo_example[d][h] = res;
     }
 
+
     // 1473. 粉刷房子 III (Paint House III)
-    private int[][][] memo1473;
-    private int m1473;
-    private int n1473;
     private int[] houses1473;
     private int[][] cost1473;
+    private int m1473;
+    private int n1473;
+    private int target1473;
+    private int[][][] memo1473;
 
     public int minCost(int[] houses, int[][] cost, int m, int n, int target) {
-        // memo[i][j][k] 将[0,i]房子涂色 第i个房子被涂成第j种颜色 且它属于第k个街区的 最小花销
-        memo1473 = new int[m][n + 2][target + 1];
-        m1473 = m;
-        n1473 = n;
-        cost1473 = cost;
-        houses1473 = houses;
-        int res = dfs1473(0, n + 1, target);
-        return res == (int) 1e8 ? -1 : res;
-
+        this.houses1473 = houses;
+        this.cost1473 = cost;
+        this.m1473 = m;
+        this.n1473 = n;
+        this.target1473 = target;
+        this.memo1473 = new int[m][n + 1][target + 1];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n + 1; ++j) {
+                Arrays.fill(memo1473[i][j], -1);
+            }
+        }
+        int res = dfs1473(0, 0, 0);
+        return res < (int) 1e6 + 1 ? res : -1;
     }
 
-    private int dfs1473(int i, int lastColor, int kinds) {
-        // kinds == 0 时，不可作为终止条件，
-        // 因为如果此时 i < m1473，即还没有遍历完所有的房子，但是剩下的房子有可能都被染成了和上一个房子同样的颜色，无需再新建街区
-        if (i == m1473 || kinds < 0 || kinds > m1473 - i) {
-            if (i == m1473 && kinds == 0) {
-                return 0;
-            }
-            return (int) 1e8;
+    private int dfs1473(int i, int j, int k) {
+        if (i == m1473) {
+            return k == target1473 ? 0 : (int) 1e6 + 1;
         }
-        if (memo1473[i][lastColor][kinds] != 0) {
-            return memo1473[i][lastColor][kinds];
+        // k == target 时，不可作为终止条件，
+        // 此时 i < m，还没有遍历完所有的房子，但是剩下的房子有可能都被染成了和上一个房子同样的颜色，无需再新建街区
+        if (m1473 - i < target1473 - k || k > target1473) {
+            return (int) 1e6 + 1;
         }
-        if (houses1473[i] != 0) {
-            return memo1473[i][lastColor][kinds] = dfs1473(i + 1, houses1473[i],
-                    kinds + (lastColor != houses1473[i] ? -1 : 0));
+        if (memo1473[i][j][k] != -1) {
+            return memo1473[i][j][k];
         }
-        int min = (int) 1e8;
-        for (int color = 1; color <= n1473; ++color) {
-            min = Math.min(min, cost1473[i][color - 1] + dfs1473(i + 1, color, kinds +
-                    (lastColor != color ? -1 : 0)));
+        if (houses1473[i] > 0) {
+            return memo1473[i][j][k] = dfs1473(i + 1, houses1473[i], k + (houses1473[i] != j ? 1 : 0));
         }
-        return memo1473[i][lastColor][kinds] = min;
+        int res = (int) 1e6 + 1;
+        for (int x = 0; x < n1473; ++x) {
+            res = Math.min(res, dfs1473(i + 1, x + 1, k + ((x + 1) != j ? 1 : 0)) + cost1473[i][x]);
+        }
+        return memo1473[i][j][k] = res;
     }
 
     // 715. Range 模块 (Range Module)
