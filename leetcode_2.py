@@ -4251,7 +4251,7 @@ class Union924:
                     res += 1
                 i -= 1
         return res
-    
+
     # 1953. 你可以工作的最大周数 (Maximum Number of Weeks for Which You Can Work)
     def numberOfWeeks(self, milestones: List[int]) -> int:
         s = sum(milestones)

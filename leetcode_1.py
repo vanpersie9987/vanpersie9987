@@ -4673,17 +4673,8 @@ class leetcode_1:
 
     # 1745. 分割回文串 IV (Palindrome Partitioning IV)
     def checkPartitioning(self, s: str) -> bool:
-        @cache
-        def dfs(i: int, j: int) -> bool:
-            if i == n or j == 0:
-                return i == n and j == 0
-            for k in range(i, n):
-                if arr[i][k] and dfs(k + 1, j - 1):
-                    return True
-            return False
-
         n = len(s)
-        arr = [[False] * n for _ in range(n)]
+        is_valid = [[False] * n for _ in range(n)]
         for i in range(n - 1, -1, -1):
             for j in range(i, n):
                 if (
@@ -4692,10 +4683,19 @@ class leetcode_1:
                     and s[i] == s[j]
                     or j - i > 1
                     and s[i] == s[j]
-                    and arr[i + 1][j - 1]
+                    and is_valid[i + 1][j - 1]
                 ):
-                    arr[i][j] = True
-        return dfs(0, 3)
+                    is_valid[i][j] = True
+
+        @cache
+        def dfs(i: int, j: int) -> bool:
+            if i == n:
+                return j == 3
+            if j == 3:
+                return False
+            return any(is_valid[i][k] and dfs(k + 1, j + 1) for k in range(i, n))
+
+        return dfs(0, 0)
 
     # 1723. 完成所有工作的最短时间 (Find Minimum Time to Finish All Jobs)
     def minimumTimeRequired(self, jobs: List[int], k: int) -> int:
