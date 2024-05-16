@@ -263,13 +263,13 @@ public class Leetcode_5 {
         if (memo813[i][j] != 0D) {
             return memo813[i][j];
         }
-        double max = 0D;
-        double pre = 0D;
-        for (int x = i; x < n813; ++x) {
-            pre += nums813[x];
-            max = Math.max(max, dfs813(x + 1, j + 1) + pre / (x - i + 1));
+        double res = 0D;
+        double s = 0D;
+        for (int x = i; x <= n813 - k813 + j; ++x) {
+            s += nums813[x];
+            res = Math.max(res, dfs813(x + 1, j + 1) + s / (x - i + 1));
         }
-        return memo813[i][j] = max;
+        return memo813[i][j] = res;
     }
 
     // 563. 二叉树的坡度 (Binary Tree Tilt) --dfs
