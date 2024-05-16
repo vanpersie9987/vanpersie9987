@@ -8386,9 +8386,6 @@ public class Leetcode_6 {
         if (j == k410) {
             return (int) 1e9;
         }
-        if (n410 - i < k410 - j) {
-            return (int) 1e9;
-        }
         if (memo410[i][j] != -1) {
             return memo410[i][j];
         }
