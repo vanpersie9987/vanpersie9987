@@ -4275,3 +4275,16 @@ class Union924:
             if len(p):
                 res += p[-1]
         return res
+
+    # 2644. 找出可整除性得分最大的整数 (Find the Maximum Divisibility Score)
+    def maxDivScore(self, nums: List[int], divisors: List[int]) -> int:
+        score = -1
+        res = 0
+        for d in divisors:
+            s = sum(x % d == 0 for x in nums)
+            if s > score:
+                score = s
+                res = d
+            elif s == score and res > d:
+                res = d
+        return res
