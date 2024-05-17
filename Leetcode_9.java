@@ -417,42 +417,4 @@ public class Leetcode_9 {
         return 0;
     }
 
-    public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
-        int n = difficulty.length;
-        int[][] arr = new int[n][2];
-        for (int i = 0; i < n; ++i) {
-            arr[i][0] = difficulty[i];
-            arr[i][1] = profit[i];
-        }
-        Arrays.sort(arr, new Comparator<int[]>() {
-
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return Integer.compare(o1[0], o2[0]);
-            }
-
-        });
-        TreeMap<Integer, Integer> map = new TreeMap<>();
-        for (int p : profit) {
-            map.merge(p, 1, Integer::sum);
-        }
-        Arrays.sort(worker);
-        int res = 0;
-        int j = n - 1;
-        for (int i = worker.length - 1; i >= 0; --i) {
-            while (j >= 0 && arr[j][0] > worker[i]) {
-                map.merge(arr[j][1], -1, Integer::sum);
-                if (map.get(arr[j][1]) == 0) {
-                    map.remove(arr[j][1]);
-                }
-                --j;
-            }
-            if (map.size() > 0) {
-                res += map.lastKey();
-            }
-        }
-        return res;
-
-    }
-
 }
