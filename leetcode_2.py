@@ -4267,7 +4267,6 @@ class Union924:
         p = SortedList(profit)
         j = n - 1
         res = 0
-        worker.sort()
         for x in sorted(worker, key=lambda k: -k):
             while j >= 0 and arr[j][0] > x:
                 p.remove(arr[j][1])
