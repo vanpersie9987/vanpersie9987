@@ -8262,23 +8262,25 @@ public class LeetCodeText {
 
     }
 
-    // 1535. 找出数组游戏的赢家
+    // 1535. 找出数组游戏的赢家 (Find the Winner of an Array Game)
     public int getWinner(int[] arr, int k) {
-        int winner = Math.max(arr[0], arr[1]);
-        int cur = 1;
-        for (int i = 2; i < arr.length; ++i) {
-            if (cur == k) {
-                break;
-            }
-            if (winner == Math.max(winner, arr[i])) {
-                ++cur;
+        int n = arr.length;
+        int times = 0;
+        int res = arr[0];
+        int mx = arr[0];
+        for (int i = 1; i < n; ++i) {
+            mx = Math.max(mx, arr[i]);
+            if (arr[i] > res) {
+                res = arr[i];
+                times = 1;
             } else {
-                cur = 1;
-                winner = arr[i];
+                ++times;
+            }
+            if (times == k) {
+                return res;
             }
         }
-        return winner;
-
+        return mx;
     }
 
     // 1827. 最少操作使数组递增 (Minimum Operations to Make the Array Increasing)

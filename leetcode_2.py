@@ -4287,3 +4287,17 @@ class Union924:
             elif s == score and res > d:
                 res = d
         return res
+
+    # 1535. 找出数组游戏的赢家 (Find the Winner of an Array Game)
+    def getWinner(self, arr: List[int], k: int) -> int:
+        res = arr[0]
+        times = 0
+        for i in range(1, len(arr)):
+            if arr[i] > res:
+                res = arr[i]
+                times = 1
+            else:
+                times += 1
+            if times == k:
+                return res
+        return max(arr)
