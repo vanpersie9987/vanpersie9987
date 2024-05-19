@@ -417,4 +417,73 @@ public class Leetcode_9 {
         return 0;
     }
 
+    public boolean isArraySpecial(int[] nums) {
+        int n = nums.length;
+        for (int i = 1; i < n; ++i) {
+            if (nums[i] % 2 == nums[i - 1] % 2) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    public boolean[] isArraySpecial(int[] nums, int[][] queries) {
+        int n = nums.length;
+        int m = queries.length;
+        int[] pre = new int[n];
+        for (int i = 1; i < n; ++i) {
+            pre[i] = pre[i - 1] + ((nums[i] ^ nums[i - 1] ^ 1) & 1);
+        }
+        boolean[] res = new boolean[m];
+        for (int i = 0; i < m; ++i) {
+            res[i] = pre[queries[i][0]] == pre[queries[i][1]];
+        }
+        return res;
+    }
+
+    public long sumDigitDifferences(int[] nums) {
+        int n = nums.length;
+        long res = 0L;
+        int bitLen = String.valueOf(nums[0]).length();
+        for (int i = 0; i < bitLen; ++i) {
+            int pow = (int) Math.pow(10, i);
+            Map<Integer, Integer> cnts = new HashMap<>();
+            for (int j = 0; j < n; ++j) {
+                int b = nums[j] / pow % 10;
+                res += j - cnts.getOrDefault(b, 0);
+                cnts.merge(b, 1, Integer::sum);
+            }
+        }
+        return res;
+    }
+
+    private int k;
+
+    private Map<Long, Integer> memo;
+
+    public int waysToReachStair(int k) {
+        this.k = k;
+        this.memo = new HashMap<>();
+        return dfs(1L, 0, 1);
+
+    }
+
+    private int dfs(long i, int j, int last) {
+        if (i > k + 1) {
+            return 0;
+        }
+        long m = (i << 10) | (j << 1) | last;
+        if (memo.get(m) != null) {
+            return memo.get(m);
+        }
+        int res = dfs(i + (1L << j), j + 1, 1);
+        if (i > 0 && last == 1) {
+            res += dfs(i - 1, j, 0);
+        }
+        res += i == k ? 1 : 0;
+        memo.put(m, res);
+        return res;
+    }
+
 }

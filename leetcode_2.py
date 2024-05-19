@@ -4301,3 +4301,45 @@ class Union924:
             if times == k:
                 return res
         return max(arr)
+
+    def waysToReachStair(self, k: int) -> int:
+        @cache
+        def dfs(i: int, j: int, last: int) -> int:
+            if i > k + 1:
+                return 0
+            res = dfs(i + (1 << j), j + 1, 1)
+            if i and last == 1:
+                res += dfs(i - 1, j, 0)
+            return res + (i == k)
+        return dfs(1, 0, 1)
+
+    def sumDigitDifferences(self, nums: List[int]) -> int:
+        res = 0
+        for i in range(len(str(nums[0]))):
+            c = defaultdict(int)
+            p = pow(10, i)
+            for j, num in enumerate(nums):
+                x = num // p % 10
+                res += j - c[x]
+                c[x] += 1
+        return res
+
+    def isArraySpecial(self, nums: List[int], queries: List[List[int]]) -> List[bool]:
+        s = list(accumulate(((x ^ y ^ 1) & 1 for x, y in pairwise(nums)), initial=0))
+        return [s[from_] == s[to] for from_, to in queries]
+
+    def isArraySpecial(self, nums: List[int]) -> bool:
+        return all((x ^ y) & 1 for x, y in pairwise(nums))
+
+    # 1542. 找出最长的超赞子字符串 (Find Longest Awesome Substring)
+    def longestAwesome(self, s: str) -> int:
+        n = len(s)
+        pos = [n] * (1 << 10)
+        pos[0] = -1
+        m = 0
+        res = 0
+        for i, v in enumerate(s):
+            m ^= 1 << int(v)
+            res = max(res, i - pos[m], max(i - pos[m ^ (1 << j)] for j in range(10)))
+            pos[m] = min(pos[m], i)
+        return res

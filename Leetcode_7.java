@@ -7713,21 +7713,14 @@ public class Leetcode_7 {
         char[] arr = s.toCharArray();
         map[0] = -1;
         int res = 0;
-        int pre = 0;
+        int m = 0;
         for (int i = 0; i < n; ++i) {
-            pre ^= 1 << (arr[i] - '0');
-            if (map[pre] != n) {
-                res = Math.max(res, i - map[pre]);
-            }
+            m ^= 1 << (arr[i] - '0');
+            res = Math.max(res, i - map[m]);
             for (int j = 0; j <= 9; ++j) {
-                int mask = pre ^ (1 << j);
-                if (map[mask] != n) {
-                    res = Math.max(res, i - map[mask]);
-                }
+                res = Math.max(res, i - map[m ^ (1 << j)]);
             }
-            if (map[pre] == n) {
-                map[pre] = i;
-            }
+            map[m] = Math.min(map[m], i);
         }
         return res;
 
