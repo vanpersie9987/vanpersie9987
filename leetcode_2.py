@@ -4343,3 +4343,7 @@ class Union924:
             res = max(res, i - pos[m], max(i - pos[m ^ (1 << j)] for j in range(10)))
             pos[m] = min(pos[m], i)
         return res
+    
+    # 2769. 找出最大的可达成数字 (Find the Maximum Achievable Number)
+    def theMaximumAchievableX(self, num: int, t: int) -> int:
+        return num + t * 2

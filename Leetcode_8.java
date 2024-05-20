@@ -1713,9 +1713,9 @@ public class Leetcode_8 {
 
     }
 
-    // 6451. 找出最大的可达成数字 (Find the Maximum Achievable Number)
+    // 2769. 找出最大的可达成数字 (Find the Maximum Achievable Number)
     public int theMaximumAchievableX(int num, int t) {
-        return num + t + t;
+        return num + t * 2;
     }
 
     // 2770. 达到末尾下标所需的最大跳跃次数 (Maximum Number of Jumps to Reach the Last Index)
