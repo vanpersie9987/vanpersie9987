@@ -4302,6 +4302,7 @@ class Union924:
                 return res
         return max(arr)
 
+    # 3154. 到达第 K 级台阶的方案数 (Find Number of Ways to Reach the K-th Stair)
     def waysToReachStair(self, k: int) -> int:
         @cache
         def dfs(i: int, j: int, last: int) -> int:
@@ -4313,6 +4314,7 @@ class Union924:
             return res + (i == k)
         return dfs(1, 0, 1)
 
+    # 3153. 所有数对中数位不同之和 (Sum of Digit Differences of All Pairs)
     def sumDigitDifferences(self, nums: List[int]) -> int:
         res = 0
         for i in range(len(str(nums[0]))):
@@ -4324,10 +4326,12 @@ class Union924:
                 c[x] += 1
         return res
 
+    # 3152. 特殊数组 II (Special Array II)
     def isArraySpecial(self, nums: List[int], queries: List[List[int]]) -> List[bool]:
         s = list(accumulate(((x ^ y ^ 1) & 1 for x, y in pairwise(nums)), initial=0))
         return [s[from_] == s[to] for from_, to in queries]
 
+    # 3151. 特殊数组 I (Special Array I)
     def isArraySpecial(self, nums: List[int]) -> bool:
         return all((x ^ y) & 1 for x, y in pairwise(nums))
 
@@ -4343,8 +4347,7 @@ class Union924:
             res = max(res, i - pos[m], max(i - pos[m ^ (1 << j)] for j in range(10)))
             pos[m] = min(pos[m], i)
         return res
-    
+
     # 2769. 找出最大的可达成数字 (Find the Maximum Achievable Number)
     def theMaximumAchievableX(self, num: int, t: int) -> int:
         return num + t * 2
-

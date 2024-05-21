@@ -417,6 +417,7 @@ public class Leetcode_9 {
         return 0;
     }
 
+    // 3151. 特殊数组 I (Special Array I)
     public boolean isArraySpecial(int[] nums) {
         int n = nums.length;
         for (int i = 1; i < n; ++i) {
@@ -428,6 +429,7 @@ public class Leetcode_9 {
 
     }
 
+    // 3152. 特殊数组 II (Special Array II)
     public boolean[] isArraySpecial(int[] nums, int[][] queries) {
         int n = nums.length;
         int m = queries.length;
@@ -442,6 +444,7 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3153. 所有数对中数位不同之和 (Sum of Digit Differences of All Pairs)
     public long sumDigitDifferences(int[] nums) {
         int n = nums.length;
         long res = 0L;
@@ -458,31 +461,32 @@ public class Leetcode_9 {
         return res;
     }
 
-    private int k;
+    // 3154. 到达第 K 级台阶的方案数 (Find Number of Ways to Reach the K-th Stair)
+    private int k3154;
 
-    private Map<Long, Integer> memo;
+    private Map<Long, Integer> memo3154;
 
     public int waysToReachStair(int k) {
-        this.k = k;
-        this.memo = new HashMap<>();
-        return dfs(1L, 0, 1);
+        this.k3154 = k;
+        this.memo3154 = new HashMap<>();
+        return dfs3154(1L, 0, 1);
 
     }
 
-    private int dfs(long i, int j, int last) {
-        if (i > k + 1) {
+    private int dfs3154(long i, int j, int last) {
+        if (i > k3154 + 1) {
             return 0;
         }
         long m = (i << 10) | (j << 1) | last;
-        if (memo.get(m) != null) {
-            return memo.get(m);
+        if (memo3154.get(m) != null) {
+            return memo3154.get(m);
         }
-        int res = dfs(i + (1L << j), j + 1, 1);
+        int res = dfs3154(i + (1L << j), j + 1, 1);
         if (i > 0 && last == 1) {
-            res += dfs(i - 1, j, 0);
+            res += dfs3154(i - 1, j, 0);
         }
-        res += i == k ? 1 : 0;
-        memo.put(m, res);
+        res += i == k3154 ? 1 : 0;
+        memo3154.put(m, res);
         return res;
     }
 
