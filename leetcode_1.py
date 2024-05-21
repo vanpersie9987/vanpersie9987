@@ -3450,21 +3450,19 @@ class leetcode_1:
 
     # 2008. 出租车的最大盈利 (Maximum Earnings From Taxi)
     def maxTaxiEarnings(self, n: int, rides: List[List[int]]) -> int:
-        # d = collections.defaultdict(list)
-        d = [[] for _ in range(n)]
-        for s, e, v in rides:
-            d[s - 1].append([e - 1, v])
-
         @cache
         def dfs(i: int) -> int:
             if i == n:
                 return 0
             res = dfs(i + 1)
-            for e, v in d[i]:
-                res = max(res, dfs(e) + e - i + v)
+            for j, v in dic[i]:
+                res = max(res, dfs(j) + j - i + v)
             return res
 
-        return dfs(0)
+        dic = [[] for _ in range(n + 1)]
+        for s, e, v in rides:
+            dic[s].append((e, v))
+        return dfs(1)
 
     # 2830. 销售利润最大化 (Maximize the Profit as the Salesman)
     def maximizeTheProfit(self, n: int, offers: List[List[int]]) -> int:
@@ -3476,6 +3474,7 @@ class leetcode_1:
             for j, v in dic[i]:
                 res = max(res, dfs(j + 1) + v)
             return res
+
         dic = [[] for _ in range(n)]
         for s, e, v in offers:
             dic[s].append((e, v))

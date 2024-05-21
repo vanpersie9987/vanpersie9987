@@ -4384,3 +4384,4 @@ class Union924:
     # 2769. 找出最大的可达成数字 (Find the Maximum Achievable Number)
     def theMaximumAchievableX(self, num: int, t: int) -> int:
         return num + t * 2
+
