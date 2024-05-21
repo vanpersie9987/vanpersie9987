@@ -7548,20 +7548,22 @@ public class Leetcode_8 {
     private int n2478;
     private List<Integer>[] list2478;
     private int[][] memo2478;
+    private int p2478;
 
     public int beautifulPartitions2(String s, int k, int minLength) {
         this.n2478 = s.length();
         this.k2478 = k;
         this.minLength2478 = minLength;
-        if (k * minLength > n2478 || !isPrime2478(s.charAt(0)) || isPrime2478(s.charAt(n2478 - 1))) {
+        this.p2478 = (1 << 2) | (1 << 3) | (1 << 5) | (1 << 7);
+        if (k * minLength > n2478 || !isPrime2478_2(s.charAt(0)) || isPrime2478_2(s.charAt(n2478 - 1))) {
             return 0;
         }
         this.list2478 = new ArrayList[n2478];
         Arrays.setAll(list2478, o -> new ArrayList<>());
         for (int i = 0; i < n2478; ++i) {
-            if (isPrime2478(s.charAt(i))) {
-                for (int j = i + 1; j < n2478; ++j) {
-                    if (j - i + 1 >= minLength && (j == n2478 - 1 || !isPrime2478(s.charAt(j)) && isPrime2478(s.charAt(j + 1)))) {
+            if (isPrime2478_2(s.charAt(i))) {
+                for (int j = i + minLength - 1; j < n2478; ++j) {
+                    if (j == n2478 - 1 || !isPrime2478_2(s.charAt(j)) && isPrime2478_2(s.charAt(j + 1))) {
                         list2478[i].add(j);
                     }
                 }
@@ -7591,6 +7593,10 @@ public class Leetcode_8 {
             res %= MOD;
         }
         return memo2478[i][j] = res;
+    }
+    
+    public boolean isPrime2478_2(char c) {
+        return (p2478 & (1 << (c - '0'))) != 0;
     }
 
     // 1610. 可见点的最大数目 (Maximum Number of Visible Points)

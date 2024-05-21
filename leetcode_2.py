@@ -454,6 +454,35 @@ class leetcode_2:
                     dp[i][j] = sum
         return dp[k][n]
 
+    # 2478. 完美分割的方案数 (Number of Beautiful Partitions)
+    def beautifulPartitions(self, s: str, k: int, minLength: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n or j == k:
+                return i == n and j == k
+            res = 0
+            for x in dic[i]:
+                if n - x - 1 < (k - j - 1) * minLength:
+                    break
+                res += dfs(x + 1, j + 1)
+            return res % MOD
+
+        def is_prime(c: str) -> bool:
+            return p & (1 << int(c))
+
+        n = len(s)
+        p = (1 << 2) | (1 << 3) | (1 << 5) | (1 << 7)
+        if k * minLength > n or not is_prime(s[0]) or is_prime(s[-1]):
+            return 0
+        dic = [[] for _ in range(n)]
+        for i in range(n):
+            if is_prime(s[i]):
+                for j in range(i + minLength - 1, n):
+                    if j == n - 1 or not is_prime(s[j]) and is_prime(s[j + 1]):
+                        dic[i].append(j)
+        MOD = 10**9 + 7
+        return dfs(0, 0)
+
     # 102. 二叉树的层序遍历 (Binary Tree Level Order Traversal)
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         if not root:
@@ -4184,7 +4213,7 @@ class Union924:
         dfs(0, 0)
         res = []
         make_ans(0, 0)
-        return ''.join(res)
+        return "".join(res)
 
     # 943. 最短超级串 (Find the Shortest Superstring)
     def shortestSuperstring(self, words: List[str]) -> str:
@@ -4194,6 +4223,7 @@ class Union924:
                 if words[j].startswith(words[i][k:]):
                     return len(words[i]) - k
             return 0
+
         @cache
         def dfs(i: int, j: int) -> int:
             if i == u:
@@ -4214,7 +4244,7 @@ class Union924:
             while c:
                 lb = (c & -c).bit_length() - 1
                 if dfs(i | (1 << lb), lb) + len(words[lb]) - lcp[j][lb] == final_ans:
-                    res.append(words[lb][lcp[j][lb]:])
+                    res.append(words[lb][lcp[j][lb] :])
                     make_ans(i | (1 << lb), lb)
                     break
                 c &= c - 1
@@ -4234,7 +4264,7 @@ class Union924:
                 f = i
         res = [words[f]]
         make_ans(1 << f, f)
-        return ''.join(res)
+        return "".join(res)
 
     # 2589. 完成所有任务的最少时间 (Minimum Time to Complete All Tasks)
     def findMinimumTime(self, tasks: List[List[int]]) -> int:
@@ -4242,7 +4272,7 @@ class Union924:
         idle = [0] * 2001
         tasks.sort(key=lambda k: k[1])
         for start, end, duration in tasks:
-            duration -= sum(idle[start: end + 1])
+            duration -= sum(idle[start : end + 1])
             i = end
             while i >= start and duration > 0:
                 if idle[i] == 0:
@@ -4261,7 +4291,9 @@ class Union924:
         return (s - mx) * 2 + 1
 
     # 826. 安排工作以达到最大收益 (Most Profit Assigning Work)
-    def maxProfitAssignment(self, difficulty: List[int], profit: List[int], worker: List[int]) -> int:
+    def maxProfitAssignment(
+        self, difficulty: List[int], profit: List[int], worker: List[int]
+    ) -> int:
         n = len(difficulty)
         arr = sorted(zip(difficulty, profit), key=lambda k: k[0])
         p = SortedList(profit)
@@ -4312,6 +4344,7 @@ class Union924:
             if i and last == 1:
                 res += dfs(i - 1, j, 0)
             return res + (i == k)
+
         return dfs(1, 0, 1)
 
     # 3153. 所有数对中数位不同之和 (Sum of Digit Differences of All Pairs)
