@@ -3025,35 +3025,38 @@ public class Leetcode_8 {
 
     }
 
-    // 7006. 销售利润最大化 (Maximize the Profit as the Salesman)
-    private Map<Integer, List<int[]>> map7006;
-    private int[] memo7006;
+    // 2830. 销售利润最大化 (Maximize the Profit as the Salesman)
+    private List<int[]>[] d2830;
+    private int[] memo2830;
+    private int n2830;
 
     public int maximizeTheProfit(int n, List<List<Integer>> offers) {
-        this.map7006 = new HashMap<>();
+        this.n2830 = n;
+        this.d2830 = new ArrayList[n];
+        Arrays.setAll(d2830, k -> new ArrayList<>());
         for (List<Integer> offer : offers) {
-            map7006.computeIfAbsent(offer.get(1), k -> new ArrayList<>()).add(new int[] { offer.get(0), offer.get(2) });
+            d2830[offer.get(0)].add(new int[] { offer.get(1), offer.get(2) });
         }
-        this.memo7006 = new int[n];
-        Arrays.fill(memo7006, -1);
-        return dfs7006(n - 1);
+        this.memo2830 = new int[n];
+        Arrays.fill(memo2830, -1);
+        return dfs2830(0);
 
     }
 
-    private int dfs7006(int i) {
-        if (i < 0) {
+    private int dfs2830(int i) {
+        if (i == n2830) {
             return 0;
         }
-        if (memo7006[i] != -1) {
-            return memo7006[i];
+        if (memo2830[i] != -1) {
+            return memo2830[i];
         }
         // 不卖
-        int res = dfs7006(i - 1);
+        int res = dfs2830(i + 1);
         // 卖
-        for (int[] j : map7006.getOrDefault(i, new ArrayList<>())) {
-            res = Math.max(res, dfs7006(j[0] - 1) + j[1]);
+        for (int[] j : d2830[i]) {
+            res = Math.max(res, dfs2830(j[0] + 1) + j[1]);
         }
-        return memo7006[i] = res;
+        return memo2830[i] = res;
     }
 
     // 6467. 找出最长等值子数组 (Find the Longest Equal Subarray)
