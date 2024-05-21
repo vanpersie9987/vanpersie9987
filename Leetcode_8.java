@@ -1105,7 +1105,7 @@ public class Leetcode_8 {
             return memo1959[i][j];
         }
         int min = Integer.MAX_VALUE;
-        for (int x = i; x < n1959; ++x) {
+        for (int x = i; x <= n1959 - k1959 + j; ++x) {
             min = Math.min(min, dfs1959(x + 1, j + 1) + arr1959[i][x]);
         }
         return memo1959[i][j] = min;
