@@ -3473,13 +3473,12 @@ class leetcode_1:
             if i == n:
                 return 0
             res = dfs(i + 1)
-            for e, g in dic[i]:
-                res = max(res, dfs(e + 1) + g)
+            for j, v in dic[i]:
+                res = max(res, dfs(j + 1) + v)
             return res
-
-        dic = collections.defaultdict(list)
-        for s, e, g in offers:
-            dic[s].append([e, g])
+        dic = [[] for _ in range(n)]
+        for s, e, v in offers:
+            dic[s].append((e, v))
         return dfs(0)
 
     # 2054. 两个最好的不重叠活动 (Two Best Non-Overlapping Events)
