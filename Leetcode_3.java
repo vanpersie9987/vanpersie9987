@@ -6438,22 +6438,24 @@ public class Leetcode_3 {
         List<List<Integer>> res = new ArrayList<>();
         Map<Integer, Integer> lose = new HashMap<>();
         for (int[] match : matches) {
-            lose.put(match[1], lose.getOrDefault(match[1], 0) + 1);
+            lose.merge(match[1], 1, Integer::sum);
         }
+        Set<Integer> res0 = new TreeSet<>();
         Set<Integer> res1 = new TreeSet<>();
         for (int[] match : matches) {
             if (!lose.containsKey(match[0])) {
-                res1.add(match[0]);
+                res0.add(match[0]);
+            }
+            if (lose.getOrDefault(match[1], 0) == 1) {
+                res1.add(match[1]);
             }
         }
-        res.add(new ArrayList<>(res1));
-        Set<Integer> res2 = new TreeSet<>();
-        for (Map.Entry<Integer, Integer> entry : lose.entrySet()) {
-            if (entry.getValue() == 1) {
-                res2.add(entry.getKey());
-            }
-        }
-        res.add(new ArrayList<>(res2));
+        List<Integer> ret0 = new ArrayList<>(res0);
+        Collections.sort(ret0);
+        List<Integer> ret1 = new ArrayList<>(res1);
+        Collections.sort(ret1);
+        res.add(ret0);
+        res.add(ret1);
         return res;
 
     }
