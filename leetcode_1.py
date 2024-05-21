@@ -6105,10 +6105,7 @@ class leetcode_1:
                 return 0
             if j == k:
                 return arr[i][n - 1]
-            res = inf
-            for x in range(i, n):
-                res = min(res, dfs(x + 1, j + 1) + arr[i][x])
-            return res
+            return min(dfs(x + 1, j + 1) + arr[i][x] for x in range(i, n - k + j + 1))
 
         n = len(nums)
         arr = [[0] * n for _ in range(n)]
