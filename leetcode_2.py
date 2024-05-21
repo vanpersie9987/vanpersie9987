@@ -4385,3 +4385,16 @@ class Union924:
     def theMaximumAchievableX(self, num: int, t: int) -> int:
         return num + t * 2
 
+    # 2225. 找出输掉零场或一场比赛的玩家 (Find Players With Zero or One Losses)
+    def findWinners(self, matches: List[List[int]]) -> List[List[int]]:
+        c = Counter()
+        s0 = set()
+        s1 = set()
+        for _, l in matches:
+            c[l] += 1
+        for w, l in matches:
+            if w not in c:
+                s0.add(w)
+            if c[l] == 1:
+                s1.add(l)
+        return [sorted(list(s0)), sorted(list(s1))]
