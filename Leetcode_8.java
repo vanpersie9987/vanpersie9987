@@ -7510,40 +7510,87 @@ public class Leetcode_8 {
     }
 
     // 2478. 完美分割的方案数 (Number of Beautiful Partitions)
-    private String s2478;
-    private int n2478;
-
     public int beautifulPartitions(String s, int k, int minLength) {
         final int MOD = (int) (1e9 + 7);
-        this.n2478 = s.length();
-        this.s2478 = s;
-        if (minLength * k > n2478 || !isPrime2478(s.charAt(0)) || isPrime2478(s.charAt(n2478 - 1))) {
+        int n = s.length();
+        if (minLength * k > n || !isPrime2478(s.charAt(0)) || isPrime2478(s.charAt(n - 1))) {
             return 0;
         }
-        int[][] dp = new int[k + 1][n2478 + 1];
+        int[][] dp = new int[k + 1][n + 1];
         dp[0][0] = 1;
         for (int i = 1; i <= k; ++i) {
             int sum = 0;
-            for (int j = i * minLength; j < n2478 - (k - i) * minLength + 1; ++j) {
-                if (canPartition2478(j - minLength)) {
+            for (int j = i * minLength; j < n - (k - i) * minLength + 1; ++j) {
+                if (canPartition2478(j - minLength, s)) {
                     sum += dp[i - 1][j - minLength];
                     sum %= MOD;
                 }
-                if (canPartition2478(j)) {
+                if (canPartition2478(j, s)) {
                     dp[i][j] = sum;
                 }
             }
         }
-        return dp[k][n2478];
+        return dp[k][n];
 
     }
 
-    private boolean canPartition2478(int i) {
-        return i == 0 || i == n2478 || isPrime2478(s2478.charAt(i)) && !isPrime2478(s2478.charAt(i - 1));
+    private boolean canPartition2478(int i, String s) {
+        return i == 0 || i == s.length() || isPrime2478(s.charAt(i)) && !isPrime2478(s.charAt(i - 1));
     }
 
     public boolean isPrime2478(char c) {
         return c == '2' || c == '3' || c == '5' || c == '7';
+    }
+
+    // 2478. 完美分割的方案数 (Number of Beautiful Partitions)
+    private int k2478;
+    private int minLength2478;
+    private int n2478;
+    private List<Integer>[] list2478;
+    private int[][] memo2478;
+
+    public int beautifulPartitions2(String s, int k, int minLength) {
+        this.n2478 = s.length();
+        this.k2478 = k;
+        this.minLength2478 = minLength;
+        if (k * minLength > n2478 || !isPrime2478(s.charAt(0)) || isPrime2478(s.charAt(n2478 - 1))) {
+            return 0;
+        }
+        this.list2478 = new ArrayList[n2478];
+        Arrays.setAll(list2478, o -> new ArrayList<>());
+        for (int i = 0; i < n2478; ++i) {
+            if (isPrime2478(s.charAt(i))) {
+                for (int j = i + 1; j < n2478; ++j) {
+                    if (j - i + 1 >= minLength && (j == n2478 - 1 || !isPrime2478(s.charAt(j)) && isPrime2478(s.charAt(j + 1)))) {
+                        list2478[i].add(j);
+                    }
+                }
+            }
+        }
+        this.memo2478 = new int[n2478][k];
+        for (int i = 0; i < n2478; ++i) {
+            Arrays.fill(memo2478[i], -1);
+        }
+        return dfs2478(0, 0);
+    }
+
+    private int dfs2478(int i, int j) {
+        if (i == n2478 || j == k2478) {
+            return i == n2478 && j == k2478 ? 1 : 0;
+        }
+        if (memo2478[i][j] != -1) {
+            return memo2478[i][j];
+        }
+        int res = 0;
+        for (int x : list2478[i]) {
+            if (n2478 - x - 1 < (k2478 - j - 1) * minLength2478) {
+                break;
+            }
+            final int MOD = (int) (1e9 + 7);
+            res += dfs2478(x + 1, j + 1);
+            res %= MOD;
+        }
+        return memo2478[i][j] = res;
     }
 
     // 1610. 可见点的最大数目 (Maximum Number of Visible Points)
