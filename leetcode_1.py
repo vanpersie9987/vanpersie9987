@@ -7707,6 +7707,35 @@ class leetcode_1:
 
     # 2911. 得到 K 个半回文串的最少修改次数 (Minimum Changes to Make K Semi-palindromes)
     def minimumChanges(self, s: str, k: int) -> int:
+        def cal(i: int, j: int) -> int:
+            l = j - i + 1
+            ss = s[i : j + 1]
+            m = inf
+            for d in range(1, (l >> 1) + 1):
+                if l % d == 0:
+                    cur_s = 0
+                    dic = [[] for _ in range(d)]
+                    for x in range(l):
+                        dic[x % d].append(ss[x])
+                    for x in range(d):
+                        cur = 0
+                        left = 0
+                        right = len(dic[x]) - 1
+                        while left < right:
+                            if dic[x][left] != dic[x][right]:
+                                cur += 1
+                            left += 1
+                            right -= 1
+                        cur_s += cur
+                    m = min(m, cur_s)
+            return m
+
+        n = len(s)
+        arr = [[0] * n for _ in range(n)]
+        for i in range(n):
+            for j in range(i + 1, n):
+                arr[i][j] = cal(i, j)
+
         @cache
         def dfs(i: int, j: int) -> int:
             if i == n:
@@ -7715,32 +7744,11 @@ class leetcode_1:
                 return inf
             res = inf
             for x in range(i + 1, n):
-                res = min(res, dfs(x + 1, j + 1) + modify[i][x])
+                if n - x - 1 < (k - j - 1) * 2:
+                    break
+                res = min(res, dfs(x + 1, j + 1) + arr[i][x])
             return res
 
-        def get_modify(s: str) -> int:
-            l = len(s)
-            res = inf
-            for c in dic[l]:
-                cnt = 0
-                for i0 in range(c):
-                    i, j = i0, l - c + i0
-                    while i < j:
-                        cnt += s[i] != s[j]
-                        i += c
-                        j -= c
-                res = min(res, cnt)
-            return res
-
-        n = len(s)
-        dic = collections.defaultdict(list)
-        for i in range(1, n + 1):
-            for j in range(2 * i, n + 1, i):
-                dic[j].append(i)
-        modify = [[0] * n for _ in range(n)]
-        for i in range(n):
-            for j in range(i + 1, n):
-                modify[i][j] = get_modify(s[i : j + 1])
         return dfs(0, 0)
 
     # 100097. 合法分组的最少组数 (Minimum Number of Groups to Create a Valid Assignment)
