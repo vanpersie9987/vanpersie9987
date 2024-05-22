@@ -1978,31 +1978,28 @@ class leetcode_2:
 
     # 3077. K 个不相交子数组的最大能量值 (Maximum Strength of K Disjoint Subarrays)
     def maximumStrength(self, nums: List[int], k: int) -> int:
-        n = len(nums)
-
         @cache
         def dfs(i: int, j: int, p: int) -> int:
+            if j > k:
+                return 0
             if i == n:
                 return 0 if j == k else -inf
             if n - i < k - j:
                 return -inf
-            # 不选
-            res = dfs(i + 1, j, 0)
-            # 选
-            if j < k:
-                res = max(
-                    res,
+            if p == 0:
+                return max(
+                    dfs(i + 1, j, p),
                     dfs(i + 1, j + 1, 1)
-                    + (-1 if (j + 1) % 2 == 0 else 1) * nums[i] * (k - j),
+                    + nums[i] * (1 if (j + 1) % 2 == 1 else -1) * (k - j),
                 )
-            if p == 1:
-                res = max(
-                    res,
-                    dfs(i + 1, j, 1)
-                    + (-1 if j % 2 == 0 else 1) * nums[i] * (k - j + 1),
-                )
-            return res
+            return max(
+                dfs(i + 1, j, 0),
+                dfs(i + 1, j, p) + nums[i] * (1 if j % 2 == 1 else -1) * (k - j + 1),
+                dfs(i + 1, j + 1, p)
+                + nums[i] * (1 if (j + 1) % 2 == 1 else -1) * (k - j),
+            )
 
+        n = len(nums)
         res = dfs(0, 0, 0)
         dfs.cache_clear()
         return res
