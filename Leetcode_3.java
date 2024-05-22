@@ -6433,7 +6433,7 @@ public class Leetcode_3 {
 
     }
 
-    // 5235. 找出输掉零场或一场比赛的玩家 (Find Players With Zero or One Losses)
+    // 2225. 找出输掉零场或一场比赛的玩家 (Find Players With Zero or One Losses)
     public List<List<Integer>> findWinners(int[][] matches) {
         List<List<Integer>> res = new ArrayList<>();
         Map<Integer, Integer> lose = new HashMap<>();
