@@ -4593,6 +4593,9 @@ public class Leetcode_8 {
         }
         int res = n2911;
         for (int x = i + 1; x < n2911; ++x) {
+            if (n2911 - x - 1 < (k2911 - j - 1) * 2) {
+                break;
+            }
             res = Math.min(res, dfs2911(x + 1, j + 1) + modify2911[i][x]);
         }
         return memo2911[i][j] = res;
