@@ -4395,3 +4395,14 @@ class Union924:
             if c[l] == 1:
                 s1.add(l)
         return [sorted(list(s0)), sorted(list(s1))]
+    
+
+    # 1673. 找出最具竞争力的子序列 (Find the Most Competitive Subsequence)
+    def mostCompetitive(self, nums: List[int], k: int) -> List[int]:
+        n = len(nums)
+        st = []
+        for i, v in enumerate(nums):
+            while st and v < st[-1] and len(st) + n - i - 1 >= k:
+                st.pop()
+            st.append(v)
+        return st[:k]
