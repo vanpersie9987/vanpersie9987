@@ -12470,7 +12470,7 @@ public class LeetCodeText {
 
     }
 
-    // 1673. 找出最具竞争力的子序列
+    // 1673. 找出最具竞争力的子序列 (Find the Most Competitive Subsequence)
     public int[] mostCompetitive(int[] nums, int k) {
         Stack<Integer> stack = new Stack<>();
         int[] res = new int[k];
