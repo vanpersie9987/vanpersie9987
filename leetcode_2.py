@@ -4406,3 +4406,20 @@ class Union924:
                 st.pop()
             st.append(v)
         return st[:k]
+
+    # 1738. 找出第 K 大的异或坐标值 (Find Kth Largest XOR Coordinate Value)
+    def kthLargestValue(self, matrix: List[List[int]], k: int) -> int:
+        m = len(matrix)
+        n = len(matrix[0])
+        arr = []
+        for i in range(m):
+            for j in range(n):
+                if i == 0 and j:
+                    matrix[i][j] ^= matrix[i][j - 1]
+                elif i and j == 0:
+                    matrix[i][j] ^= matrix[i - 1][j]
+                elif i and j:
+                    matrix[i][j] ^= matrix[i][j - 1] ^ matrix[i - 1][j] ^ matrix[i - 1][j - 1]
+                arr.append(matrix[i][j])
+        arr.sort(reverse=True)
+        return arr[k - 1]
