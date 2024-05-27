@@ -6694,6 +6694,71 @@ public class Leetcode_8 {
         return s == 1;
     }
 
+    // 2901. 最长相邻不相等子序列 II (Longest Unequal Adjacent Groups Subsequence II)
+    private int n2901;
+    private boolean[][] valid2901;
+    private int[][] memo2901;
+    private String[] words2901;
+    private List<String> res2901;
+
+    public List<String> getWordsInLongestSubsequenceII2(String[] words, int[] groups) {
+        this.n2901 = words.length;
+        this.words2901 = words;
+        this.valid2901 = new boolean[n2901][n2901];
+        for (int i = 0; i < n2901; ++i) {
+            for (int j = i + 1; j < n2901; ++j) {
+                if (groups[i] != groups[j] && check2901(words[i], words[j])) {
+                    valid2901[i][j] = true;
+                }
+            }
+        }
+        this.memo2901 = new int[n2901][n2901];
+        for (int i = 0; i < n2901; ++i) {
+            Arrays.fill(memo2901[i], -1);
+        }
+        int max = 0;
+        int f = -1;
+        for (int i = 0; i < n2901; ++i) {
+            int cur = dfs2901(i + 1, i) + 1;
+            if (cur > max) {
+                max = cur;
+                f = i;
+            }
+        }
+        this.res2901 = new ArrayList<>();
+        res2901.add(words[f]);
+        makeAns2901(f + 1, f);
+        return res2901;
+
+    }
+
+    private void makeAns2901(int i, int j) {
+        if (i == n2901) {
+            return;
+        }
+        int finalAns = dfs2901(i, j);
+        if (dfs2901(i + 1, j) == finalAns) {
+            makeAns2901(i + 1, j);
+            return;
+        }
+        res2901.add(words2901[i]);
+        makeAns2901(i + 1, i);
+    }
+
+    private int dfs2901(int i, int j) {
+        if (i == n2901) {
+            return 0;
+        }
+        if (memo2901[i][j] != -1) {
+            return memo2901[i][j];
+        }
+        int res = dfs2901(i + 1, j);
+        if (valid2901[j][i]) {
+            res = Math.max(res, dfs2901(i + 1, i) + 1);
+        }
+        return memo2901[i][j] = res;
+    }
+
     // 3010. 将数组分成最小总代价的子数组 I (Divide an Array Into Subarrays With Minimum Cost I)
     public int minimumCost3010(int[] nums) {
         Arrays.sort(nums, 1, nums.length);

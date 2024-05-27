@@ -9899,13 +9899,15 @@ class leetcode_1:
             for j in range(i + 1, n):
                 if groups[i] != groups[j] and check(words[i], words[j]):
                     valid[i][j] = 1
-        mx = max(dfs(i + 1, i) + 1 for i in range(n))
-        res = []
+        mx = 0
+        f = -1
         for i in range(n):
-            if dfs(i + 1, i) + 1 == mx:
-                res.append(words[i])
-                make_ans(i + 1, i)
-                break
+            cur = dfs(i + 1, i) + 1
+            if cur > mx:
+                mx = cur
+                f = i
+        res = [words[f]]
+        make_ans(f + 1, f)
         return res
 
     # 2744. 最大字符串配对数目 (Find Maximum Number of String Pairs)
