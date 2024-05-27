@@ -493,54 +493,38 @@ public class Leetcode_9 {
     }
 
 
+    // 3158. 求出出现两次数字的 XOR 值 (Find the XOR of Numbers Which Appear Twice)
     public int duplicateNumbersXOR(int[] nums) {
+        long mask = 0L;
         int res = 0;
-        Map<Integer, Integer> cnts = new HashMap<>();
         for (int x : nums) {
-            cnts.merge(x, 1, Integer::sum);
-            if (cnts.get(x) == 2) {
+            if ((mask >> x & 1) == 1) {
                 res ^= x;
+            } else {
+                mask |= 1L << x;
             }
         }
         return res;
 
     }
 
+    // 3159. 查询数组中元素的出现位置 (Find Occurrences of an Element in an Array)
     public int[] occurrencesOfElement(int[] nums, int[] queries, int x) {
-        List<Integer> list = new ArrayList<>();
-        int n = nums.length;
-        for (int i = 0; i < n; ++i) {
+        List<Integer> p = new ArrayList<>();
+        for (int i = 0; i < nums.length; ++i) {
             if (nums[i] == x) {
-                list.add(i);
+                p.add(i);
             }
         }
-        int m = queries.length;
-        Integer[] ids = IntStream.range(0, m).boxed().toArray(Integer[]::new);
-        Arrays.sort(ids, new Comparator<Integer>() {
-
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return Integer.compare(queries[o1], queries[o2]);
-            }
-
-        });
-
-        int[] res = new int[m];
-        Arrays.fill(res, -1);
-        int j = 0;
-        for (int id : ids) {
-            while (j < list.size() && j < queries[id] - 1) {
-                ++j;
-            }
-            if (j == list.size()) {
-                break;
-            }
-            res[id] = list.get(j);
+        int[] res = new int[queries.length];
+        for (int i = 0; i < queries.length; ++i) {
+            res[i] = queries[i] <= p.size() ? p.get(queries[i] - 1) : -1;
         }
         return res;
 
     }
 
+    // 3160. 所有球里面不同颜色的数目 (Find the Number of Distinct Colors Among the Balls)
     public int[] queryResults(int limit, int[][] queries) {
         Map<Integer, Integer> map = new HashMap<>();
         Map<Integer, Integer> kinds = new HashMap<>();
@@ -549,16 +533,14 @@ public class Leetcode_9 {
         for (int i = 0; i < m; ++i) {
             int id = queries[i][0];
             int color = queries[i][1];
-            if (!map.containsKey(id)) {
-                kinds.merge(color, 1, Integer::sum);
-            } else if (map.get(id) != color) {
+            if (map.containsKey(id)) {
                 int preColor = map.get(id);
                 kinds.merge(preColor, -1, Integer::sum);
                 if (kinds.get(preColor) == 0) {
                     kinds.remove(preColor);
                 }
-                kinds.merge(color, 1, Integer::sum);
             }
+            kinds.merge(color, 1, Integer::sum);
             map.put(id, color);
             res[i] = kinds.size();
         }

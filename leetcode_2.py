@@ -4424,42 +4424,37 @@ class Union924:
         arr.sort(reverse=True)
         return arr[k - 1]
 
+    # 3158. 求出出现两次数字的 XOR 值 (Find the XOR of Numbers Which Appear Twice)
     def duplicateNumbersXOR(self, nums: List[int]) -> int:
+        mask = 0
         res = 0
-        c = Counter(nums)
-        for k, v in c.items():
-            if v == 2:
-                res ^= k
+        for x in nums:
+            if mask >> x & 1:
+                res ^= x
+            else:
+                mask |= 1 << x
         return res
 
-    def occurrencesOfElement(self, nums: List[int], queries: List[int], x: int) -> List[int]:
-        arr = []
-        for i, v in enumerate(nums):
-            if v == x:
-                arr.append(i)
-        res = [-1] * len(queries)
-        j = 0
-        for (i, v) in sorted(zip(range(len(queries)), queries), key=lambda k: k[1]):
-            while j < len(arr) and j < v - 1:
-                j += 1
-            if j == len(arr):
-                break
-            res[i] = arr[j]
-        return res 
 
+    # 3159. 查询数组中元素的出现位置 (Find Occurrences of an Element in an Array)
+    def occurrencesOfElement(
+        self, nums: List[int], queries: List[int], x: int
+    ) -> List[int]:
+        p = [i for i, v in enumerate(nums) if v == x]
+        return [p[q - 1] if q <= len(p) else -1 for q in queries]
+
+    # 3160. 所有球里面不同颜色的数目 (Find the Number of Distinct Colors Among the Balls)
     def queryResults(self, limit: int, queries: List[List[int]]) -> List[int]:
         id_to_color = Counter()
         color_to_cnt = Counter()
         res = []
         for id, color in queries:
-            if id not in id_to_color:
-                color_to_cnt[color] += 1
-            if id in id_to_color and id_to_color[id] != color:
+            if id in id_to_color:
                 pre_color = id_to_color[id]
                 color_to_cnt[pre_color] -= 1
                 if color_to_cnt[pre_color] == 0:
                     del color_to_cnt[pre_color]
-                color_to_cnt[color] += 1
+            color_to_cnt[color] += 1
             id_to_color[id] = color
             res.append(len(color_to_cnt))
         return res
