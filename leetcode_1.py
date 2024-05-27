@@ -9867,6 +9867,47 @@ class leetcode_1:
             mx = from_idx[mx]
         return res
 
+    # 2901. 最长相邻不相等子序列 II (Longest Unequal Adjacent Groups Subsequence II)
+    def getWordsInLongestSubsequence(
+        self, words: List[str], groups: List[int]
+    ) -> List[str]:
+        def make_ans(i: int, j: int) -> None:
+            if i == n:
+                return
+            final_ans = dfs(i, j)
+            if dfs(i + 1, j) == final_ans:
+                make_ans(i + 1, j)
+                return
+            res.append(words[i])
+            make_ans(i + 1, i)
+
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0
+            res = dfs(i + 1, j)
+            if valid[j][i]:
+                res = max(res, dfs(i + 1, i) + 1)
+            return res
+
+        def check(s0: str, s1: str):
+            return len(s0) == len(s1) and sum(x != y for x, y in zip(s0, s1)) == 1
+
+        n = len(words)
+        valid = [[0] * n for _ in range(n)]
+        for i in range(n):
+            for j in range(i + 1, n):
+                if groups[i] != groups[j] and check(words[i], words[j]):
+                    valid[i][j] = 1
+        mx = max(dfs(i + 1, i) + 1 for i in range(n))
+        res = []
+        for i in range(n):
+            if dfs(i + 1, i) + 1 == mx:
+                res.append(words[i])
+                make_ans(i + 1, i)
+                break
+        return res
+
     # 2744. 最大字符串配对数目 (Find Maximum Number of String Pairs)
     def maximumNumberOfStringPairs(self, words: List[str]) -> int:
         s = set()

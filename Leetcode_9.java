@@ -563,7 +563,49 @@ public class Leetcode_9 {
             res[i] = kinds.size();
         }
         return res;
-        
+
+    }
+    
+    // 3162. 优质数对的总数 I (Find the Number of Good Pairs I)
+    // 3164. 优质数对的总数 II (Find the Number of Good Pairs II)
+    public long numberOfPairs(int[] nums1, int[] nums2, int k) {
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int x : nums1) {
+            if (x % k != 0) {
+                continue;
+            }
+            x /= k;
+            for (int i = 1; i <= Math.sqrt(x); ++i) {
+                if (x % i == 0) {
+                    cnts.merge(i, 1, Integer::sum);
+                    if (i * i < x) {
+                        cnts.merge(x / i, 1, Integer::sum);
+                    }
+                }
+            }
+        }
+        long res = 0L;
+        for (int x : nums2) {
+            res += cnts.getOrDefault(x, 0);
+        }
+        return res;
+
+    }
+    
+    // 3163. 压缩字符串 III (String Compression III)
+    public String compressedString(String word) {
+        StringBuilder res = new StringBuilder();
+        int i = 0;
+        while (i < word.length()) {
+            int j = i;
+            while (j < word.length() && word.charAt(i) == word.charAt(j) && j - i + 1 <= 9) {
+                ++j;
+            }
+            res.append(j - i).append(word.charAt(i));
+            i = j;
+        }
+        return res.toString();
+
 
     }
 

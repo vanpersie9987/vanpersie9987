@@ -36,6 +36,7 @@ import heapq
 import bisect
 from unittest import result
 from unittest.util import _count_diff_all_purpose
+from wsgiref.simple_server import make_server
 from wsgiref.util import guess_scheme
 from xml.dom import Node
 from zoneinfo import reset_tzpath
@@ -4470,3 +4471,31 @@ class Union924:
         if s > 6 * n or s < n:
             return []
         return [s // n + 1] * (s % n) + [s // n] * (n - s % n)
+
+    # 3162. 优质数对的总数 I (Find the Number of Good Pairs I)
+    # 3164. 优质数对的总数 II (Find the Number of Good Pairs II)
+    def numberOfPairs(self, nums1: List[int], nums2: List[int], k: int) -> int:
+        c = Counter()
+        for x in nums1:
+            if x % k:
+                continue
+            x //= k
+            for i in range(1, isqrt(x) + 1):
+                if x % i == 0:
+                    c[i] += 1
+                    if i * i < x:
+                        c[x // i] += 1
+        return sum(c[x] for x in nums2)
+
+    # 3163. 压缩字符串 III (String Compression III)
+    def compressedString(self, word: str) -> str:
+        res = []
+        i = 0
+        while i < len(word):
+            j = i
+            while j < len(word) and word[i] == word[j] and j - i + 1 <= 9:
+                j += 1
+            res.append(str(j - i))
+            res.append(word[i])
+            i = j
+        return ''.join(res)
