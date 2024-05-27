@@ -4395,7 +4395,6 @@ class Union924:
             if c[l] == 1:
                 s1.add(l)
         return [sorted(list(s0)), sorted(list(s1))]
-    
 
     # 1673. 找出最具竞争力的子序列 (Find the Most Competitive Subsequence)
     def mostCompetitive(self, nums: List[int], k: int) -> List[int]:
@@ -4423,3 +4422,51 @@ class Union924:
                 arr.append(matrix[i][j])
         arr.sort(reverse=True)
         return arr[k - 1]
+
+    def duplicateNumbersXOR(self, nums: List[int]) -> int:
+        res = 0
+        c = Counter(nums)
+        for k, v in c.items():
+            if v == 2:
+                res ^= k
+        return res
+
+    def occurrencesOfElement(self, nums: List[int], queries: List[int], x: int) -> List[int]:
+        arr = []
+        for i, v in enumerate(nums):
+            if v == x:
+                arr.append(i)
+        res = [-1] * len(queries)
+        j = 0
+        for (i, v) in sorted(zip(range(len(queries)), queries), key=lambda k: k[1]):
+            while j < len(arr) and j < v - 1:
+                j += 1
+            if j == len(arr):
+                break
+            res[i] = arr[j]
+        return res 
+
+    def queryResults(self, limit: int, queries: List[List[int]]) -> List[int]:
+        id_to_color = Counter()
+        color_to_cnt = Counter()
+        res = []
+        for id, color in queries:
+            if id not in id_to_color:
+                color_to_cnt[color] += 1
+            if id in id_to_color and id_to_color[id] != color:
+                pre_color = id_to_color[id]
+                color_to_cnt[pre_color] -= 1
+                if color_to_cnt[pre_color] == 0:
+                    del color_to_cnt[pre_color]
+                color_to_cnt[color] += 1
+            id_to_color[id] = color
+            res.append(len(color_to_cnt))
+        return res
+
+    # 2028. 找出缺失的观测数据 (Find Missing Observations)
+    def missingRolls(self, rolls: List[int], mean: int, n: int) -> List[int]:
+        m = len(rolls)
+        s = mean * (m + n) - sum(rolls)
+        if s > 6 * n or s < n:
+            return []
+        return [s // n + 1] * (s % n) + [s // n] * (n - s % n)

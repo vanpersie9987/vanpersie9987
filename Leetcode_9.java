@@ -492,4 +492,79 @@ public class Leetcode_9 {
         return res;
     }
 
+
+    public int duplicateNumbersXOR(int[] nums) {
+        int res = 0;
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int x : nums) {
+            cnts.merge(x, 1, Integer::sum);
+            if (cnts.get(x) == 2) {
+                res ^= x;
+            }
+        }
+        return res;
+
+    }
+
+    public int[] occurrencesOfElement(int[] nums, int[] queries, int x) {
+        List<Integer> list = new ArrayList<>();
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] == x) {
+                list.add(i);
+            }
+        }
+        int m = queries.length;
+        Integer[] ids = IntStream.range(0, m).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(queries[o1], queries[o2]);
+            }
+
+        });
+
+        int[] res = new int[m];
+        Arrays.fill(res, -1);
+        int j = 0;
+        for (int id : ids) {
+            while (j < list.size() && j < queries[id] - 1) {
+                ++j;
+            }
+            if (j == list.size()) {
+                break;
+            }
+            res[id] = list.get(j);
+        }
+        return res;
+
+    }
+
+    public int[] queryResults(int limit, int[][] queries) {
+        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> kinds = new HashMap<>();
+        int m = queries.length;
+        int[] res = new int[m];
+        for (int i = 0; i < m; ++i) {
+            int id = queries[i][0];
+            int color = queries[i][1];
+            if (!map.containsKey(id)) {
+                kinds.merge(color, 1, Integer::sum);
+            } else if (map.get(id) != color) {
+                int preColor = map.get(id);
+                kinds.merge(preColor, -1, Integer::sum);
+                if (kinds.get(preColor) == 0) {
+                    kinds.remove(preColor);
+                }
+                kinds.merge(color, 1, Integer::sum);
+            }
+            map.put(id, color);
+            res[i] = kinds.size();
+        }
+        return res;
+        
+
+    }
+
 }
