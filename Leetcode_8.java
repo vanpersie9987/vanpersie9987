@@ -4175,6 +4175,49 @@ public class Leetcode_8 {
                 dfs2896(i + 2) + (list2896.get(i + 1) - list2896.get(i)) * 2);
     }
 
+    // 2896. 执行操作使两个字符串相等 (Apply Operations to Make Two Strings Equal)
+    private int[][] memo2896_2;
+    private List<Integer> list2896_2;
+    private int n2896_2;
+    private int x2896_2;
+
+    public int minOperations2(String s1, String s2, int x) {
+        this.list2896_2 = new ArrayList<>();
+        for (int i = 0; i < s1.length(); ++i) {
+            if (s1.charAt(i) != s2.charAt(i)) {
+                list2896_2.add(i);
+            }
+        }
+        if (list2896_2.size() % 2 != 0) {
+            return -1;
+        }
+        this.x2896_2 = x;
+        this.n2896_2 = list2896_2.size();
+        this.memo2896_2 = new int[n2896_2][n2896_2];
+        for (int i = 0; i < n2896_2; ++i) {
+            Arrays.fill(memo2896_2[i], -1);
+        }
+        return dfs2896_2(0, 0);
+
+    }
+
+    private int dfs2896_2(int i, int j) {
+        if (j >= n2896_2 - i) {
+            return j == n2896_2 - i ? 0 : (int) 1e8;
+        }
+        if (memo2896_2[i][j] != -1) {
+            return memo2896_2[i][j];
+        }
+        int res = dfs2896_2(i + 1, j + 1) + x2896_2;
+        if (j > 0) {
+            res = Math.min(res, dfs2896_2(i + 1, j - 1));
+        }
+        if (i < n2896_2 - 1) {
+            res = Math.min(res, dfs2896_2(i + 2, j) + list2896_2.get(i + 1) - list2896_2.get(i));
+        }
+        return memo2896_2[i][j] = res;
+    }
+
     // 2897. 对数组执行操作使平方和最大 (Apply Operations on Array to Maximize Sum of Squares)
     public int maxSum(List<Integer> nums, int k) {
         int[] cnt = new int[31];
