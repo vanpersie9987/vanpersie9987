@@ -6704,8 +6704,8 @@ class leetcode_1:
     def minOperations(self, s1: str, s2: str, x: int) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if n - i <= j:
-                return 0 if n - i == j else inf
+            if n - i == j:
+                return 0
             res = dfs(i + 1, j + 1) + x
             if i < n - 1:
                 res = min(res, dfs(i + 2, j) + arr[i + 1] - arr[i])

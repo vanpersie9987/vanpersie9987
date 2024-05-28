@@ -4202,8 +4202,8 @@ public class Leetcode_8 {
     }
 
     private int dfs2896_2(int i, int j) {
-        if (j >= n2896_2 - i) {
-            return j == n2896_2 - i ? 0 : (int) 1e8;
+        if (j == n2896_2 - i) {
+            return 0;
         }
         if (memo2896_2[i][j] != -1) {
             return memo2896_2[i][j];
