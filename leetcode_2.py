@@ -4435,7 +4435,6 @@ class Union924:
                 mask |= 1 << x
         return res
 
-
     # 3159. 查询数组中元素的出现位置 (Find Occurrences of an Element in an Array)
     def occurrencesOfElement(
         self, nums: List[int], queries: List[int], x: int
@@ -4494,3 +4493,4 @@ class Union924:
             res.append(word[i])
             i = j
         return ''.join(res)
+

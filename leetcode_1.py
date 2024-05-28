@@ -6700,6 +6700,25 @@ class leetcode_1:
             return -1
         return dfs(0) // 2
 
+    # 2896. 执行操作使两个字符串相等 (Apply Operations to Make Two Strings Equal)
+    def minOperations(self, s1: str, s2: str, x: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if n - i <= j:
+                return 0 if n - i == j else inf
+            res = dfs(i + 1, j + 1) + x
+            if i < n - 1:
+                res = min(res, dfs(i + 2, j) + arr[i + 1] - arr[i])
+            if j:
+                res = min(res, dfs(i + 1, j - 1))
+            return res
+
+        arr = [i for i, x, y in zip(range(len(s1)), s1, s2) if x != y]
+        n = len(arr)
+        if len(arr) % 2:
+            return -1
+        return dfs(0, 0)
+
     # 2897. 对数组执行操作使平方和最大 (Apply Operations on Array to Maximize Sum of Squares)
     def maxSum(self, nums: List[int], k: int) -> int:
         cnt = [0] * 31
