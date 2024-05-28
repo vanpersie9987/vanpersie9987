@@ -4493,4 +4493,27 @@ class Union924:
             res.append(word[i])
             i = j
         return ''.join(res)
+    
+    def minimumTime(self, s: str) -> int:
+        @cache
+        def dfs_pre(i: int) -> int:
+            if i < 0:
+                return 0
+            if s[i] == '0':
+                return dfs_pre(i - 1)
+            return min(i + 1, dfs_pre(i - 1) + 2)
+        @cache
+        def dfs_suf(i: int) -> int:
+            if i == n:
+                return 0
+            if s[i] == '0':
+                return dfs_suf(i + 1)
+            return min(n - i, dfs_suf(i + 1) + 2)
+        n = len(s)
+        for i in range(n - 1, -1, -1):
+            dfs_suf(i)
+        res = n
+        for i in range(n):
+            res = min(res, dfs_pre(i) + dfs_suf(i + 1))
+        return res
 

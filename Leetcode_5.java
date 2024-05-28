@@ -4311,6 +4311,58 @@ public class Leetcode_5 {
 
     }
 
+    // 2167. 移除所有载有违禁货物车厢所需的最少时间 (Minimum Time to Remove All Cars Containing Illegal
+    // Goods)
+    private int n2167;
+    private int[] memo_suf2167;
+    private int[] memo_pre2167;
+    private String s2167;
+
+    public int minimumTime2(String s) {
+        this.n2167 = s.length();
+        this.s2167 = s;
+        this.memo_suf2167 = new int[n2167];
+        Arrays.fill(memo_suf2167, -1);
+        for (int i = n2167 - 1; i >= 0; --i) {
+            dfs_suf2167(i);
+        }
+        this.memo_pre2167 = new int[n2167];
+        Arrays.fill(memo_pre2167, -1);
+        int res = n2167;
+        for (int i = 0; i < n2167; ++i) {
+            res = Math.min(res, dfs_pre2167(i) + dfs_suf2167(i + 1));
+        }
+        return res;
+
+    }
+
+    private int dfs_pre2167(int i) {
+        if (i < 0) {
+            return 0;
+        }
+        if (memo_pre2167[i] != -1) {
+            return memo_pre2167[i];
+        }
+        if (s2167.charAt(i) == '0') {
+            return memo_pre2167[i] = dfs_pre2167(i - 1);
+        }
+        return memo_pre2167[i] = Math.min(i + 1, dfs_pre2167(i - 1) + 2);
+    }
+
+    private int dfs_suf2167(int i) {
+        if (i == n2167) {
+            return 0;
+        }
+        if (memo_suf2167[i] != -1) {
+            return memo_suf2167[i];
+        }
+        if (s2167.charAt(i) == '0') {
+            return memo_suf2167[i] = dfs_suf2167(i + 1);
+        }
+        return memo_suf2167[i] = Math.min(n2167 - i, dfs_suf2167(i + 1) + 2);
+
+    }
+
     // 1870. 准时到达的列车最小时速 (Minimum Speed to Arrive on Time) --二分查找
     public int minSpeedOnTime(int[] dist, double hour) {
         int res = -1;
