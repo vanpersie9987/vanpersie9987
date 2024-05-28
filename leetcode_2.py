@@ -4493,7 +4493,8 @@ class Union924:
             res.append(word[i])
             i = j
         return ''.join(res)
-    
+
+    # 2167. 移除所有载有违禁货物车厢所需的最少时间 (Minimum Time to Remove All Cars Containing Illegal Goods)
     def minimumTime(self, s: str) -> int:
         @cache
         def dfs_pre(i: int) -> int:
@@ -4516,4 +4517,3 @@ class Union924:
         for i in range(n):
             res = min(res, dfs_pre(i) + dfs_suf(i + 1))
         return res
-
