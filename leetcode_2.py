@@ -4511,8 +4511,6 @@ class Union924:
                 return dfs_suf(i + 1)
             return min(n - i, dfs_suf(i + 1) + 2)
         n = len(s)
-        for i in range(n - 1, -1, -1):
-            dfs_suf(i)
         res = n
         for i in range(n):
             res = min(res, dfs_pre(i) + dfs_suf(i + 1))
