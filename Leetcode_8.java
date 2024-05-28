@@ -6712,22 +6712,13 @@ public class Leetcode_8 {
                 }
             }
         }
-        this.memo2901 = new int[n2901][n2901];
+        this.memo2901 = new int[n2901][n2901 + 1];
         for (int i = 0; i < n2901; ++i) {
             Arrays.fill(memo2901[i], -1);
         }
-        int max = 0;
-        int f = -1;
-        for (int i = 0; i < n2901; ++i) {
-            int cur = dfs2901(i + 1, i) + 1;
-            if (cur > max) {
-                max = cur;
-                f = i;
-            }
-        }
+        dfs2901(0, n2901);
         this.res2901 = new ArrayList<>();
-        res2901.add(words[f]);
-        makeAns2901(f + 1, f);
+        makeAns2901(0, n2901);
         return res2901;
 
     }
@@ -6753,7 +6744,7 @@ public class Leetcode_8 {
             return memo2901[i][j];
         }
         int res = dfs2901(i + 1, j);
-        if (valid2901[j][i]) {
+        if (j == n2901 || valid2901[j][i]) {
             res = Math.max(res, dfs2901(i + 1, i) + 1);
         }
         return memo2901[i][j] = res;
