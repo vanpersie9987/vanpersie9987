@@ -4517,3 +4517,14 @@ class Union924:
         for i in range(n):
             res = min(res, dfs_pre(i) + dfs_suf(i + 1))
         return res
+
+    # 2501. 数组中最长的方波 (Longest Square Streak in an Array)
+    def longestSquareStreak(self, nums: List[int]) -> int:
+        @cache
+        def dfs(i: int) -> int:
+            if i * i not in s:
+                return 0
+            return 1 + dfs(i * i)
+        s = set(nums)
+        res = max(dfs(i) for i in s)
+        return -1 if res < 2 else res
