@@ -4522,7 +4522,7 @@ class Union924:
     def longestSquareStreak(self, nums: List[int]) -> int:
         @cache
         def dfs(i: int) -> int:
-            if i * i not in s:
+            if i not in s:
                 return 0
             return 1 + dfs(i * i)
         s = set(nums)
