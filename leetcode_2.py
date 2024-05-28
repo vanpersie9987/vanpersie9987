@@ -4443,7 +4443,7 @@ class Union924:
         return [p[q - 1] if q <= len(p) else -1 for q in queries]
 
     # 3160. 所有球里面不同颜色的数目 (Find the Number of Distinct Colors Among the Balls)
-    def queryResults(self, limit: int, queries: List[List[int]]) -> List[int]:
+    def queryResults(self, _: int, queries: List[List[int]]) -> List[int]:
         id_to_color = Counter()
         color_to_cnt = Counter()
         res = []
