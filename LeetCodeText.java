@@ -3348,7 +3348,7 @@ public class LeetCodeText {
 
     }
 
-    // 873. 最长的斐波那契子序列的长度
+    // 873. 最长的斐波那契子序列的长度 (Length of Longest Fibonacci Subsequence)
     // 剑指 Offer II 093. 最长斐波那契数列
     public int lenLongestFibSubseq(int[] arr) {
         Set<Integer> set = new HashSet<>();
@@ -3372,6 +3372,41 @@ public class LeetCodeText {
         }
         return res;
 
+    }
+
+    // 873. 最长的斐波那契子序列的长度 (Length of Longest Fibonacci Subsequence)
+    // 剑指 Offer II 093. 最长斐波那契数列
+    private Map<Integer, Integer> map873;
+    private int[][] memo873;
+    private int[] arr873;
+
+    public int lenLongestFibSubseq2(int[] arr) {
+        int n = arr.length;
+        int res = 0;
+        this.arr873 = arr;
+        this.memo873 = new int[n][n];
+        this.map873 = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            map873.put(arr[i], i);
+            Arrays.fill(memo873[i], -1);
+        }
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                res = Math.max(res, dfs873(i, j) + 2);
+            }
+        }
+        return res >= 3 ? res : 0;
+
+    }
+
+    private int dfs873(int i, int j) {
+        if (memo873[i][j] != -1) {
+            return memo873[i][j];
+        }
+        if (!map873.containsKey(arr873[i] + arr873[j])) {
+            return memo873[i][j] = 0;
+        }
+        return dfs873(j, map873.get(arr873[i] + arr873[j])) + 1;
     }
 
     // 888. 公平的糖果棒交换
