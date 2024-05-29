@@ -4533,4 +4533,24 @@ class Union924:
         for x in arr:
             d[x] = d[x - difference] + 1
         return max(d.values())
+    
 
+    # 873. 最长的斐波那契子序列的长度 (Length of Longest Fibonacci Subsequence)
+    def lenLongestFibSubseq(self, nums: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if (nums[i] + nums[j]) in dic:
+                return dfs(j, dic[nums[i] + nums[j]]) + 1
+            return 0
+        dic = defaultdict(int)
+        for i, v in enumerate(nums):
+            dic[v] = i
+        n = len(nums)
+        res = 0
+        for i in range(n):
+            for j in range(i + 1, n):
+                res = max(res, dfs(i, j) + 2)
+        return res if res >= 3 else 0
+
+
+    
