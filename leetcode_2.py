@@ -4551,6 +4551,3 @@ class Union924:
             for j in range(i + 1, n):
                 res = max(res, dfs(i, j) + 2)
         return res if res >= 3 else 0
-
-
-    
