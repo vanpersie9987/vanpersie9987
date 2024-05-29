@@ -4526,3 +4526,11 @@ class Union924:
         s = set(nums)
         res = max(dfs(i) for i in s)
         return -1 if res < 2 else res
+
+    # 1218. 最长定差子序列 (Longest Arithmetic Subsequence of Given Difference)
+    def longestSubsequence(self, arr: List[int], difference: int) -> int:
+        d = defaultdict(int)
+        for x in arr:
+            d[x] = d[x - difference] + 1
+        return max(d.values())
+
