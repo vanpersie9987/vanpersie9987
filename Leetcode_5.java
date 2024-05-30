@@ -2607,14 +2607,14 @@ public class Leetcode_5 {
     }
 
     private int dfs576(int i, int j, int left) {
-        if (!(i >= 0 && i < m576 && j >= 0 && j < n576)) {
+        if (i < 0 || i >= m576 || j < 0 || j >= n576) {
             return 1;
         }
         if (left == 0) {
             return 0;
         }
         int min = Math.min(Math.min(i + 1, m576 - i), Math.min(j + 1, n576 - j));
-        if (min - left >= 1) {
+        if (min > left) {
             return 0;
         }
         if (memo576[i][j][left] != -1) {
@@ -2626,7 +2626,8 @@ public class Leetcode_5 {
         for (int[] d : dirs) {
             int nx = d[0] + i;
             int ny = d[1] + j;
-            res = (res + dfs576(nx, ny, left - 1)) % MOD;
+            res += dfs576(nx, ny, left - 1);
+            res %= MOD;
         }
         return memo576[i][j][left] = res;
     }
