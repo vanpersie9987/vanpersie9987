@@ -7212,21 +7212,12 @@ public class Leetcode_6 {
         this.memo1220 = new int[n][6];
         this.g1220 = new ArrayList[6];
         Arrays.setAll(g1220, k -> new ArrayList<>());
-        g1220[0].add(1);
-        g1220[1].add(0);
-        g1220[1].add(2);
-        g1220[2].add(0);
-        g1220[2].add(1);
-        g1220[2].add(3);
-        g1220[2].add(4);
-        g1220[3].add(2);
-        g1220[3].add(4);
-        g1220[4].add(0);
-        g1220[5].add(0);
-        g1220[5].add(1);
-        g1220[5].add(2);
-        g1220[5].add(3);
-        g1220[5].add(4);
+        g1220[0].addAll(List.of(1));
+        g1220[1].addAll(List.of(0, 2));
+        g1220[2].addAll(List.of(0, 1, 3, 4));
+        g1220[3].addAll(List.of(2, 4));
+        g1220[4].addAll(List.of(0));
+        g1220[5].addAll(List.of(0, 1, 2, 3, 4));
         return dfs1220(0, 5);
 
     }

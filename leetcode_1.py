@@ -3051,34 +3051,19 @@ class leetcode_1:
 
     # 1220. 统计元音字母序列的数目 (Count Vowels Permutation)
     def countVowelPermutation(self, n: int) -> int:
-        MOD = 10**9 + 7
-        dic = collections.defaultdict(list)
-        dic[0].append(1)
-        dic[1].append(0)
-        dic[1].append(2)
-        dic[2].append(0)
-        dic[2].append(1)
-        dic[2].append(3)
-        dic[2].append(4)
-        dic[3].append(2)
-        dic[3].append(4)
-        dic[4].append(0)
-        dic[5].append(0)
-        dic[5].append(1)
-        dic[5].append(2)
-        dic[5].append(3)
-        dic[5].append(4)
-
         @cache
         def dfs(i: int, j: int) -> int:
             if i == n:
                 return 1
-            res = 0
-            for k in dic[j]:
-                res += dfs(i + 1, k)
-                res %= MOD
-            return res
-
+            return sum(dfs(i + 1, k) for k in dic[j]) % MOD
+        dic = defaultdict(list)
+        dic[0].extend([1])
+        dic[1].extend([0, 2])
+        dic[2].extend([0, 1, 3, 4])
+        dic[3].extend([2, 4])
+        dic[4].extend([0])
+        dic[5].extend([0, 1, 2, 3, 4])
+        MOD = 10**9 + 7
         return dfs(0, 5)
 
     # 2833. 距离原点最远的点 (Furthest Point From Origin)
