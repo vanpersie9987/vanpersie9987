@@ -3875,19 +3875,16 @@ class leetcode_1:
 
     # 1269. 停在原地的方案数 (Number of Ways to Stay in the Same Place After Some Steps)
     def numWays(self, steps: int, arrLen: int) -> int:
-        MOD = 10**9 + 7
-
         @cache
         def dfs(i: int, j: int) -> int:
-            if i >= arrLen or i < 0:
+            if i < 0 or i > j or i >= arrLen:
                 return 0
-            if j == steps:
+            if j == 0:
                 return i == 0
-            if i > steps - j:
-                return 0
-            return (dfs(i + 1, j + 1) + dfs(i - 1, j + 1) + dfs(i, j + 1)) % MOD
+            return (dfs(i + 1, j - 1) + dfs(i - 1, j - 1) + dfs(i, j - 1)) % MOD
 
-        return dfs(0, 0)
+        MOD = 10**9 + 7
+        return dfs(0, steps)
 
     # 2571. 将整数减少到零需要的最少操作数 (Minimum Operations to Reduce an Integer to 0)
     def minOperations(self, n: int) -> int:
