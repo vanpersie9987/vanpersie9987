@@ -473,6 +473,8 @@ class leetcode_1:
         def dfs(i: int, j: int, k: int) -> int:
             if i < 0 or i >= m or j < 0 or j >= n:
                 return 1
+            if min(i + 1, j + 1, m - i, n - j) > k:
+                return 0
             return sum(dfs(i + dx, j + dy, k - 1) for dx, dy in dirs if k) % MOD
 
         dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
