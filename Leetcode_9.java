@@ -590,5 +590,35 @@ public class Leetcode_9 {
 
     }
 
+    // 552. 学生出勤记录 II (Student Attendance Record II)
+    private int n552;
+    private int[][][] memo552;
+
+    public int checkRecord(int n) {
+        this.n552 = n;
+        this.memo552 = new int[n][2][3];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < 2; ++j) {
+                Arrays.fill(memo552[i][j], -1);
+            }
+        }
+        return dfs552(0, 0, 0);
+    }
+
+    private int dfs552(int i, int j, int k) {
+        if (j == 2 || k == 3) {
+            return 0;
+        }
+        if (i == n552) {
+            return 1;
+        }
+        if (memo552[i][j][k] != -1) {
+            return memo552[i][j][k];
+        }
+        final int MOD = (int) (1e9 + 7);
+        return memo552[i][j][k] = (int) (((long) dfs552(i + 1, j, 0) + dfs552(i + 1, j + 1, 0) + dfs552(i + 1, j, k + 1)) % MOD);
+
+    }
+
 
 }
