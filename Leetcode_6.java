@@ -7729,25 +7729,19 @@ public class Leetcode_6 {
 
     }
 
-    private int dfs1269(int i, int steps) {
-        if (i >= arrLen1269 || i < 0) {
+    private int dfs1269(int i, int j) {
+        if (i >= arrLen1269 || i < 0 || i > j) {
             return 0;
         }
-        if (i == 0 && steps == 0) {
-            return 1;
+        if (j == 0) {
+            return i == 0 ? 1 : 0;
         }
-        if (i > steps) {
-            return 0;
-        }
-        if (memo1269[i][steps] != -1) {
-            return memo1269[i][steps];
+        if (memo1269[i][j] != -1) {
+            return memo1269[i][j];
         }
         final int MOD = (int) (1e9 + 7);
-        int res = 0;
-        res = (res + dfs1269(i + 1, steps - 1)) % MOD;
-        res = (res + dfs1269(i, steps - 1)) % MOD;
-        res = (res + dfs1269(i - 1, steps - 1)) % MOD;
-        return memo1269[i][steps] = res;
+        return memo1269[i][j] = (int) (((long) dfs1269(i, j - 1) + dfs1269(i + 1, j - 1) + dfs1269(i - 1, j - 1))
+                % MOD);
     }
 
     // 6359. 替换一个数字后的最大差值 (Maximum Difference by Remapping a Digit)
