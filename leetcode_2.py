@@ -4572,3 +4572,24 @@ class Union924:
         res = dfs(0, 0, 0)
         dfs.cache_clear()
         return res
+    
+    # 403. 青蛙过河 (Frog Jump)
+    def canCross(self, stones: List[int]) -> bool:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n - 1:
+                return True
+            for id, v in enumerate(stones[i + 1:], i + 1):
+                if (v - stones[i]) - j < -1:
+                    continue
+                if (v - stones[i]) - j > 1:
+                    break
+                if dfs(id, v - stones[i]):
+                    return True
+            return False
+        if stones[1] != 1:
+            return False
+        n = len(stones)
+        return dfs(1, 1)
+
+
