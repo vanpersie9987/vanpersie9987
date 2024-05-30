@@ -520,22 +520,21 @@ class leetcode_1:
 
     # 790. 多米诺和托米诺平铺 (Domino and Tromino Tiling)
     def numTilings(self, n: int) -> int:
-        # 0 1 2
-        M = 10**9 + 7
-
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == n:
-                return j == 0
-            if i > n:
-                return 0
-            if j == 0:
-                return (
-                    dfs(i + 1, j) + dfs(i + 2, j) + dfs(i + 2, 1) + dfs(i + 2, 2)
-                ) % M
-            return (dfs(i + 1, 0) + dfs(i + 1, 2 if j == 1 else 2)) % M
+            if i >= n:
+                return i == n and j == 2
+            return (
+                dfs(i + 1, 2)
+                + (
+                    sum(dfs(i + 2, k) for k in range(3))
+                    if j == 2
+                    else dfs(i + 1, j ^ 1)
+                )
+            ) % MOD
 
-        return dfs(0, 0)
+        MOD = 10**9 + 7
+        return dfs(0, 2)
 
     # 2140. 解决智力问题 (Solving Questions With Brainpower)
     def mostPoints(self, questions: List[List[int]]) -> int:
@@ -3056,6 +3055,7 @@ class leetcode_1:
             if i == n:
                 return 1
             return sum(dfs(i + 1, k) for k in dic[j]) % MOD
+
         dic = defaultdict(list)
         dic[0].extend([1])
         dic[1].extend([0, 2])
