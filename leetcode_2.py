@@ -4551,3 +4551,18 @@ class Union924:
             for j in range(i + 1, n):
                 res = max(res, dfs(i, j) + 2)
         return res if res >= 3 else 0
+    
+    # 552. 学生出勤记录 II (Student Attendance Record II)
+    def checkRecord(self, n: int) -> int:
+        @cache
+        def dfs(i: int, a: int, l: int) -> int:
+            if a == 2 or l == 3: 
+                return 0
+            if i == n:
+                return 1
+            # P / A / L
+            return (dfs(i + 1, a, 0) + dfs(i + 1, a + 1, 0) + dfs(i + 1, a, l + 1)) % MOD
+        MOD = 10**9 + 7
+        res = dfs(0, 0, 0)
+        dfs.cache_clear()
+        return res
