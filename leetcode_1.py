@@ -469,22 +469,14 @@ class leetcode_1:
     def findPaths(
         self, m: int, n: int, maxMove: int, startRow: int, startColumn: int
     ) -> int:
-        M = 10**9 + 7
-
         @cache
-        def dfs(i: int, j: int, l: int) -> int:
+        def dfs(i: int, j: int, k: int) -> int:
             if i < 0 or i >= m or j < 0 or j >= n:
                 return 1
-            if l == 0:
-                return 0
-            res = 0
-            dirs = [[0, 1], [0, -1], [1, 0], [-1, 0]]
-            for d in dirs:
-                x = i + d[0]
-                y = j + d[1]
-                res = (res + dfs(x, y, l - 1)) % M
-            return res
+            return sum(dfs(i + dx, j + dy, k - 1) for dx, dy in dirs if k) % MOD
 
+        dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        MOD = 10**9 + 7
         return dfs(startRow, startColumn, maxMove)
 
     # 583. 两个字符串的删除操作 (Delete Operation for Two Strings)
