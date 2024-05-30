@@ -8182,41 +8182,37 @@ public class Leetcode_6 {
     // 403. 青蛙过河 (Frog Jump)
     private int[][] memo403;
     private int[] stones403;
-    private Map<Integer, Integer> map403;
+    private int n;
 
     public boolean canCross(int[] stones) {
         if (stones[1] != 1) {
             return false;
         }
-        int n = stones.length;
-        map403 = new HashMap<>();
+        this.n = stones.length;
         memo403 = new int[n][n + 1];
         this.stones403 = stones;
         for (int i = 0; i < n; ++i) {
             Arrays.fill(memo403[i], -1);
-            map403.put(stones[i], i);
         }
         return dfs403(1, 1);
 
     }
 
     private boolean dfs403(int i, int k) {
-        if (i >= stones403.length) {
-            return false;
-        }
         if (i == stones403.length - 1) {
             return true;
         }
         if (memo403[i][k] != -1) {
             return memo403[i][k] > 0;
         }
-        int step = Math.max(1, k - 1);
-        while (step <= k + 1) {
-            if (dfs403(map403.getOrDefault(stones403[i] + step, stones403.length), step)) {
+        for (int j = i + 1; j < n && stones403[j] - stones403[i] - k <= 1; ++j) {
+            if (stones403[j] - stones403[i] - k < -1) {
+                continue;
+            }
+            if (dfs403(j, stones403[j] - stones403[i])) {
                 memo403[i][k] = 1;
                 return true;
             }
-            ++step;
         }
         memo403[i][k] = 0;
         return false;
