@@ -3535,9 +3535,7 @@ class Union924:
         def dfs(j: int, c: int) -> int:
             if j == n:
                 return 0
-            return min(
-                dfs(j + 1, x) + m - cnts[j][x] if x != c else inf for x in range(10)
-            )
+            return min(dfs(j + 1, x) - cnts[j][x] for x in range(10) if x != c) + m
 
         m = len(grid)
         n = len(grid[0])
@@ -4419,7 +4417,9 @@ class Union924:
                 elif i and j == 0:
                     matrix[i][j] ^= matrix[i - 1][j]
                 elif i and j:
-                    matrix[i][j] ^= matrix[i][j - 1] ^ matrix[i - 1][j] ^ matrix[i - 1][j - 1]
+                    matrix[i][j] ^= (
+                        matrix[i][j - 1] ^ matrix[i - 1][j] ^ matrix[i - 1][j - 1]
+                    )
                 arr.append(matrix[i][j])
         arr.sort(reverse=True)
         return arr[k - 1]
@@ -4492,7 +4492,7 @@ class Union924:
             res.append(str(j - i))
             res.append(word[i])
             i = j
-        return ''.join(res)
+        return "".join(res)
 
     # 2167. 移除所有载有违禁货物车厢所需的最少时间 (Minimum Time to Remove All Cars Containing Illegal Goods)
     def minimumTime(self, s: str) -> int:
@@ -4500,16 +4500,18 @@ class Union924:
         def dfs_pre(i: int) -> int:
             if i < 0:
                 return 0
-            if s[i] == '0':
+            if s[i] == "0":
                 return dfs_pre(i - 1)
             return min(i + 1, dfs_pre(i - 1) + 2)
+
         @cache
         def dfs_suf(i: int) -> int:
             if i == n:
                 return 0
-            if s[i] == '0':
+            if s[i] == "0":
                 return dfs_suf(i + 1)
             return min(n - i, dfs_suf(i + 1) + 2)
+
         n = len(s)
         res = n
         for i in range(n):
@@ -4523,6 +4525,7 @@ class Union924:
             if i not in s:
                 return 0
             return 1 + dfs(i * i)
+
         s = set(nums)
         res = max(dfs(i) for i in s)
         return -1 if res < 2 else res
@@ -4541,6 +4544,7 @@ class Union924:
             if (nums[i] + nums[j]) in dic:
                 return dfs(j, dic[nums[i] + nums[j]]) + 1
             return 0
+
         dic = defaultdict(int)
         for i, v in enumerate(nums):
             dic[v] = i
@@ -4555,15 +4559,16 @@ class Union924:
     def checkRecord(self, n: int) -> int:
         @cache
         def dfs(i: int, a: int, l: int) -> int:
-            if a == 2 or l == 3: 
+            if a == 2 or l == 3:
                 return 0
             if i == n:
                 return 1
             # P / A / L
-            return (dfs(i + 1, a, 0) + dfs(i + 1, a + 1, 0) + dfs(i + 1, a, l + 1)) % MOD
+            return (
+                dfs(i + 1, a, 0) + dfs(i + 1, a + 1, 0) + dfs(i + 1, a, l + 1)
+            ) % MOD
+
         MOD = 10**9 + 7
         res = dfs(0, 0, 0)
         dfs.cache_clear()
         return res
-    
-    
