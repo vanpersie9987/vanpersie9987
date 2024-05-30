@@ -550,16 +550,15 @@ class leetcode_1:
 
     # 2400. 恰好移动 k 步到达某一位置的方法数目 (Number of Ways to Reach a Position After Exactly k Steps)
     def numberOfWays(self, startPos: int, endPos: int, k: int) -> int:
-        M = 10**9 + 7
-
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == endPos and j == 0:
-                return 1
-            if abs(endPos - i) > j:
+            if abs(i - endPos) > j:
                 return 0
-            return (dfs(i + 1, j - 1) + dfs(i - 1, j - 1)) % M
+            if j == 0:
+                return i == endPos
+            return (dfs(i + 1, j - 1) + dfs(i - 1, j - 1)) % MOD
 
+        MOD = 10**9 + 7
         return dfs(startPos, k)
 
     # 2585. 获得分数的方法数 (Number of Ways to Earn Points)
