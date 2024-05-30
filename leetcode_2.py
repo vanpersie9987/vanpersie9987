@@ -3532,10 +3532,10 @@ class Union924:
     # 3122. 使矩阵满足条件的最少操作次数 (Minimum Number of Operations to Satisfy Conditions)
     def minimumOperations(self, grid: List[List[int]]) -> int:
         @cache
-        def dfs(j: int, c: int) -> int:
-            if j == n:
+        def dfs(i: int, j: int) -> int:
+            if i == n:
                 return 0
-            return min(dfs(j + 1, x) - cnts[j][x] for x in range(10) if x != c) + m
+            return min(dfs(i + 1, x) - cnts[i][x] for x in range(10) if x != j) + m
 
         m = len(grid)
         n = len(grid[0])
