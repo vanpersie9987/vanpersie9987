@@ -5744,21 +5744,31 @@ public class Leetcode_8 {
     // 2965. 找出缺失和重复的数字 (Find Missing and Repeated Values)
     public int[] findMissingAndRepeatedValues(int[][] grid) {
         int n = grid.length;
-        int[] cnt = new int[n * n + 1];
+        int xorAll = 0;
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
-                ++cnt[grid[i][j]];
+                xorAll ^= grid[i][j];
             }
         }
+        xorAll ^= n % 2 > 0 ? 1 : n * n;
+        int lb = Integer.numberOfTrailingZeros(xorAll);
         int[] res = new int[2];
-        for (int i = 1; i < n * n + 1; ++i) {
-            if (cnt[i] == 2) {
-                res[0] = i;
-            } else if (cnt[i] == 0) {
-                res[1] = i;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                res[(grid[i][j] >> lb) & 1] ^= grid[i][j];
             }
         }
-        return res;
+        for (int i = 1; i <= n * n; ++i) {
+            res[(i >> lb) & 1] ^= i;
+        }
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == res[0]) {
+                    return res;
+                }
+            }
+        }
+        return new int[] { res[1], res[0] };
 
     }
 
