@@ -4572,7 +4572,7 @@ class Union924:
         res = dfs(0, 0, 0)
         dfs.cache_clear()
         return res
-    
+
     # 403. 青蛙过河 (Frog Jump)
     def canCross(self, stones: List[int]) -> bool:
         @cache
@@ -4592,4 +4592,13 @@ class Union924:
         n = len(stones)
         return dfs(1, 1)
 
-
+    # 1575. 统计所有可行路径 (Count All Possible Routes)
+    def countRoutes(self, locations: List[int], start: int, finish: int, fuel: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if j < 0:
+                return 0
+            return (sum(dfs(k, j - abs(locations[k] - locations[i])) for k in range(n) if i != k) + (i == finish)) % MOD
+        n = len(locations)
+        MOD = 10**9 + 7
+        return dfs(start, fuel)
