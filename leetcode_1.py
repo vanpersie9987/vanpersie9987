@@ -3024,21 +3024,18 @@ class leetcode_1:
 
     # 1223. 掷骰子模拟 (Dice Roll Simulation)
     def dieSimulator(self, n: int, rollMax: List[int]) -> int:
-        MOD = 10**9 + 7
-
         @cache
         def dfs(i: int, j: int, k: int) -> int:
             if i == n:
                 return 1
             res = 0
             for x in range(1, 7):
-                if x != j:
-                    res += dfs(i + 1, x, rollMax[x - 1] - 1)
-                elif k:
-                    res += dfs(i + 1, x, k - 1)
-                res %= MOD
-            return res
-
+                if j != x:
+                    res += dfs(i + 1, x, 1)
+                elif k < rollMax[x - 1]:
+                    res += dfs(i + 1, x, k + 1)
+            return res % MOD
+        MOD = 10**9 + 7
         return dfs(0, 0, 0)
 
     # 1220. 统计元音字母序列的数目 (Count Vowels Permutation)
