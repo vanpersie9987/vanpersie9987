@@ -6855,7 +6855,7 @@ public class Leetcode_6 {
     public int dieSimulator(int n, int[] rollMax) {
         this.n1223 = n;
         this.rollMax1223 = rollMax;
-        this.memo1223 = new int[n][7][15];
+        this.memo1223 = new int[n][7][16];
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < 7; ++j) {
                 Arrays.fill(memo1223[i][j], -1);
@@ -6876,10 +6876,11 @@ public class Leetcode_6 {
         final int MOD = (int) (1e9 + 7);
         for (int x = 1; x <= 6; ++x) {
             if (x != j) {
-                res = (res + dfs1223(i + 1, x, rollMax1223[x - 1] - 1)) % MOD;
-            } else if (k > 0) {
-                res = (res + dfs1223(i + 1, x, k - 1)) % MOD;
+                res += dfs1223(i + 1, x, 1) % MOD;
+            } else if (k < rollMax1223[j - 1]) {
+                res += dfs1223(i + 1, x, k + 1) % MOD;
             }
+            res %= MOD;
         }
         return memo1223[i][j][k] = res;
     }
