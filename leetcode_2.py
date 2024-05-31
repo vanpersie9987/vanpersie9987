@@ -4596,7 +4596,7 @@ class Union924:
     def countRoutes(self, locations: List[int], start: int, finish: int, fuel: int) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if j < 0:
+            if j < 0 or abs(locations[i] - locations[finish]) > j:
                 return 0
             return (sum(dfs(k, j - abs(locations[k] - locations[i])) for k in range(n) if i != k) + (i == finish)) % MOD
         n = len(locations)
