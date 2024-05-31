@@ -1629,20 +1629,21 @@ class leetcode_1:
 
     # 2318. 不同骰子序列的数目 (Number of Distinct Roll Sequences)
     def distinctSequences(self, n: int) -> int:
-        MOD = 10**9 + 7
-
         @cache
         def dfs(i: int, j: int, k: int) -> int:
             if i == n:
                 return 1
-            res = 0
-            for s in range(1, 7):
-                if s != j and s != k and (i == 0 or gcd(s, j) == 1):
-                    res += dfs(i + 1, s, j)
-                    res %= MOD
-            return res
+            return (
+                sum(
+                    dfs(i + 1, x, j)
+                    for x in range(1, 7)
+                    if gcd(x, j) == 1 and x != j and x != k
+                )
+                % MOD
+            )
 
-        return dfs(0, 0, 0)
+        MOD = 10**9 + 7
+        return dfs(0, -1, -1)
 
     # 2304. 网格中的最小路径代价 (Minimum Path Cost in a Grid)
     def minPathCost(self, grid: List[List[int]], moveCost: List[List[int]]) -> int:

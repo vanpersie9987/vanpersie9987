@@ -4602,3 +4602,4 @@ class Union924:
         n = len(locations)
         MOD = 10**9 + 7
         return dfs(start, fuel)
+
