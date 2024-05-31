@@ -8922,17 +8922,24 @@ class leetcode_1:
     # 2965. 找出缺失和重复的数字 (Find Missing and Repeated Values)
     def findMissingAndRepeatedValues(self, grid: List[List[int]]) -> List[int]:
         n = len(grid)
-        cnt = [0] * (n**2 + 1)
+        xor_all = 0
         for i in range(n):
             for j in range(n):
-                cnt[grid[i][j]] += 1
+                xor_all ^= grid[i][j]
+        # 如果 n 是偶数，那么 1 到 n ^ 2 的异或和等于 n ^ 2，否则等于 1。
+        xor_all ^= 1 if n % 2 else n * n
+        lb = (xor_all & -xor_all).bit_length() - 1
         res = [0] * 2
-        for i in range(1, n**2 + 1):
-            if cnt[i] == 2:
-                res[0] = i
-            elif cnt[i] == 0:
-                res[1] = i
-        return res
+        for i in range(n):
+            for j in range(n):
+                res[(grid[i][j] >> lb) & 1] ^= grid[i][j]
+        for i in range(1, n * n + 1):
+            res[(i >> lb) & 1] ^= i
+        for i in range(n):
+            for j in range(n):
+                if grid[i][j] == res[0]:
+                    return res
+        return [res[1], res[0]]
 
     # 2966. 划分数组并满足最大差限制 (Divide Array Into Arrays With Max Difference)
     def divideArray(self, nums: List[int], k: int) -> List[List[int]]:
