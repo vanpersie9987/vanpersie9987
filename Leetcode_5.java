@@ -2137,7 +2137,7 @@ public class Leetcode_5 {
     }
 
     private int dfs1575(int i, int j) {
-        if (j < 0 || Math.abs(locations1575[i] - locations1575[finish1575]) > j) {
+        if (Math.abs(locations1575[i] - locations1575[finish1575]) > j) {
             return 0;
         }
         if (memo1575[i][j] != -1) {
