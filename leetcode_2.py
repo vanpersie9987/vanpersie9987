@@ -4615,3 +4615,5 @@ class Union924:
             return res
         n = len(floor)
         return dfs(0, 0)
+        
+

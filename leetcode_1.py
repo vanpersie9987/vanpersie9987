@@ -1148,45 +1148,37 @@ class leetcode_1:
         return dfs(0, n - 1, result)
 
     # 1444. 切披萨的方案数 (Number of Ways of Cutting a Pizza)
-    def ways2(self, pizza: List[str], k: int) -> int:
-        m = len(pizza)
-        n = len(pizza[0])
-        MOD = 10**9 + 7
-        pre = [[0] * (n + 1) for _ in range(m + 1)]
-        for i in range(1, m + 1):
-            for j in range(1, n + 1):
-                pre[i][j] = (
-                    pre[i - 1][j]
-                    + pre[i][j - 1]
-                    - pre[i - 1][j - 1]
-                    + (1 if pizza[i - 1][j - 1] == "A" else 0)
-                )
-
-        def getCounts(x1: int, y1: int, x2: int, y2: int) -> int:
-            return pre[x2 + 1][y2 + 1] - pre[x1][y2 + 1] - pre[x2 + 1][y1] + pre[x1][y1]
+    def ways(self, pizza: List[str], k: int) -> int:
+        def check(x0: int, y0: int, x1: int, y1: int) -> int:
+            return (
+                pre[x1 + 1][y1 + 1] - pre[x0][y1 + 1] - pre[x1 + 1][y0] + pre[x0][y0]
+                > 0
+            )
 
         @cache
         def dfs(i: int, j: int, l: int) -> int:
-            c = getCounts(i, j, m - 1, n - 1)
             if l == 1:
-                return 1 if c > 0 else 0
-            if m - 1 - i + n - 1 - j + 1 < l:
-                return 0
-            if l > c:
-                return 0
+                return int(check(i, j, m - 1, n - 1))
             res = 0
-            for k in range(i, m - 1):
-                cnt = getCounts(i, j, k, n - 1)
-                if cnt > 0:
-                    res += dfs(k + 1, j, l - 1)
-                    res %= MOD
-            for k in range(j, n - 1):
-                cnt = getCounts(i, j, m - 1, k)
-                if cnt > 0:
-                    res += dfs(i, k + 1, l - 1)
-                    res %= MOD
-            return res
+            for x in range(i + 1, m):
+                if not check(i, j, x - 1, n - 1):
+                    continue
+                res += dfs(x, j, l - 1)
+            for y in range(j + 1, n):
+                if not check(i, j, m - 1, y - 1):
+                    continue
+                res += dfs(i, y, l - 1)
+            return res % MOD
 
+        m = len(pizza)
+        n = len(pizza[0])
+        pre = [[0] * (n + 1) for _ in range(m + 1)]
+        for i in range(m):
+            for j in range(n):
+                pre[i + 1][j + 1] = (
+                    pre[i][j + 1] + pre[i + 1][j] - pre[i][j] + (pizza[i][j] == "A")
+                )
+        MOD = 10**9 + 7
         return dfs(0, 0, k)
 
     # 1162. 地图分析 (As Far from Land as Possible)
@@ -3036,6 +3028,7 @@ class leetcode_1:
                 elif k < rollMax[x - 1]:
                     res += dfs(i + 1, x, k + 1)
             return res % MOD
+
         MOD = 10**9 + 7
         return dfs(0, 0, 0)
 
