@@ -4607,7 +4607,7 @@ class Union924:
     def minimumWhiteTiles(self, floor: str, numCarpets: int, carpetLen: int) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if i >= n or n - i <= (numCarpets - j) * carpetLen:
+            if n - i <= (numCarpets - j) * carpetLen:
                 return 0
             res = dfs(i + 1, j) + int(floor[i])
             if j < numCarpets:

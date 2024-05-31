@@ -1392,7 +1392,7 @@ public class Leetcode_7 {
     }
 
     private int dfs2209(int i, int j) {
-        if (i >= n2209 || n2209 - i <= (numCarpets2209 - j) * carpetLen2209) {
+        if (n2209 - i <= (numCarpets2209 - j) * carpetLen2209) {
             return 0;
         }
         if (memo2209[i][j] != -1) {
