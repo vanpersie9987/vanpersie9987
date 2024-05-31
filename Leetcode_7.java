@@ -1372,54 +1372,37 @@ public class Leetcode_7 {
     }
 
     // 2209. 用地毯覆盖后的最少白色砖块 (Minimum White Tiles After Covering With Carpets)
-    private int[] pre2209;
     private int numCarpets2209;
     private int carpetLen2209;
     private int[][] memo2209;
     private int n2209;
+    private String floor2209;
 
     public int minimumWhiteTiles(String floor, int numCarpets, int carpetLen) {
         this.n2209 = floor.length();
-        this.pre2209 = new int[n2209 + 1];
-        for (int i = 1; i < n2209 + 1; ++i) {
-            pre2209[i] = pre2209[i - 1] + floor.charAt(i - 1) - '0';
-        }
-        if (pre2209[n2209] == 0) {
-            return 0;
-        }
         this.numCarpets2209 = numCarpets;
         this.carpetLen2209 = carpetLen;
-        this.memo2209 = new int[n2209][numCarpets];
+        this.floor2209 = floor;
+        this.memo2209 = new int[n2209][numCarpets + 1];
         for (int i = 0; i < n2209; ++i) {
             Arrays.fill(memo2209[i], -1);
         }
-        return pre2209[n2209] - dfs2209(0, 0);
+        return dfs2209(0, 0);
 
     }
 
-    // 从第i地砖开始、已使用count个地毯时，最多能覆盖多少白色的地砖
-    private int dfs2209(int i, int count) {
-        if (i >= n2209) {
+    private int dfs2209(int i, int j) {
+        if (i >= n2209 || n2209 - i <= (numCarpets2209 - j) * carpetLen2209) {
             return 0;
         }
-        // 地毯用完了
-        if (count == numCarpets2209) {
-            return 0;
+        if (memo2209[i][j] != -1) {
+            return memo2209[i][j];
         }
-        // 从i开始的floor没有白色地砖了
-        if (pre2209[n2209] - pre2209[i] == 0) {
-            return 0;
+        int res = dfs2209(i + 1, j) + floor2209.charAt(i) - '0';
+        if (j < numCarpets2209) {
+            res = Math.min(res, dfs2209(i + carpetLen2209, j + 1));
         }
-        // 剩余的地毯个数 * 每个地毯的长度 >= 剩余的地砖个数
-        if ((numCarpets2209 - count) * carpetLen2209 >= n2209 - i) {
-            return pre2209[n2209] - pre2209[i];
-        }
-        if (memo2209[i][count] != -1) {
-            return memo2209[i][count];
-        }
-        // 不覆盖i地砖 or 从覆盖i地砖
-        return memo2209[i][count] = Math.max(dfs2209(i + 1, count),
-                pre2209[Math.min(n2209, i + carpetLen2209)] - pre2209[i] + dfs2209(i + carpetLen2209, count + 1));
+        return memo2209[i][j] = res;
     }
 
     // 975. 奇偶跳 (Odd Even Jump)
