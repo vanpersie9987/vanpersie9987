@@ -5011,24 +5011,15 @@ public class Leetcode_8 {
     }
 
     // 2928. 给小朋友们分糖果 I (Distribute Candies Among Children I)
+    // 2929. 给小朋友们分糖果 II (Distribute Candies Among Children II)
     public long distributeCandies(int n, int limit) {
-        long max = limit * 3L;
-        if (n > max) {
-            return 0L;
-        }
         long res = 0L;
-        int f = Math.min(n, limit);
-        while (f >= 0) {
-            long left = n - f;
-            if (limit * 2L < left) {
+        for (int i = Math.min(n, limit); i >= 0; --i) {
+            int c = n - i;
+            if (limit * 2 < c) {
                 break;
             }
-            if (left <= limit) {
-                res += left + 1;
-            } else {
-                res += limit - (left - limit) + 1;
-            }
-            --f;
+            res += Math.min(c, limit) - Math.max(0, c - limit) + 1;
         }
         return res;
 
