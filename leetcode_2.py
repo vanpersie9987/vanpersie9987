@@ -4603,3 +4603,15 @@ class Union924:
         MOD = 10**9 + 7
         return dfs(start, fuel)
 
+    # 2209. 用地毯覆盖后的最少白色砖块 (Minimum White Tiles After Covering With Carpets)
+    def minimumWhiteTiles(self, floor: str, numCarpets: int, carpetLen: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i >= n or n - i <= (numCarpets - j) * carpetLen:
+                return 0
+            res = dfs(i + 1, j) + int(floor[i])
+            if j < numCarpets:
+                res = min(res, dfs(i + carpetLen, j + 1))
+            return res
+        n = len(floor)
+        return dfs(0, 0)
