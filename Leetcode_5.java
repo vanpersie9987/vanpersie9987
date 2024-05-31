@@ -2121,37 +2121,38 @@ public class Leetcode_5 {
 
     // 1575. 统计所有可行路径 (Count All Possible Routes) --记忆化搜索
     private int[][] memo1575;
-    private final int MOD1575 = (int) (1e9 + 7);
+    private int n1575;
+    private int[] locations1575;
+    private int finish1575;
 
     public int countRoutes(int[] locations, int start, int finish, int fuel) {
-        int n = locations.length;
-        memo1575 = new int[n][fuel + 1];
-        for (int i = 0; i < n; ++i) {
+        this.n1575 = locations.length;
+        memo1575 = new int[n1575][fuel + 1];
+        for (int i = 0; i < n1575; ++i) {
             Arrays.fill(memo1575[i], -1);
         }
-        return dfs1575(locations, start, finish, fuel);
+        this.locations1575 = locations;
+        this.finish1575 = finish;
+        return dfs1575(start, fuel);
     }
 
-    private int dfs1575(int[] locations, int start, int finish, int fuel) {
-        if (memo1575[start][fuel] != -1) {
-            return memo1575[start][fuel];
-        }
-        memo1575[start][fuel] = 0;
-        if (Math.abs(locations[start] - locations[finish]) > fuel) {
+    private int dfs1575(int i, int j) {
+        if (j < 0 || Math.abs(locations1575[i] - locations1575[finish1575]) > j) {
             return 0;
         }
-        for (int i = 0; i < locations.length; ++i) {
-            int need = Math.abs(locations[i] - locations[start]);
-            if (i != start && need <= fuel) {
-                memo1575[start][fuel] += dfs1575(locations, i, finish, fuel - need);
-                memo1575[start][fuel] %= MOD1575;
+        if (memo1575[i][j] != -1) {
+            return memo1575[i][j];
+        }
+        int res = i == finish1575 ? 1 : 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int k = 0; k < n1575; ++k) {
+            if (k == i) {
+                continue;
             }
+            res += dfs1575(k, j - Math.abs(locations1575[i] - locations1575[k]));
+            res %= MOD;
         }
-        if (start == finish) {
-            memo1575[start][fuel] += 1;
-            memo1575[start][fuel] %= MOD1575;
-        }
-        return memo1575[start][fuel];
+        return memo1575[i][j] = res;
     }
 
     // 294. 翻转游戏 II (Flip Game II) --记忆化搜索
