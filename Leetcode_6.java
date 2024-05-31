@@ -8039,10 +8039,10 @@ public class Leetcode_6 {
         this.m1444 = pizza.length;
         this.n1444 = pizza[0].length();
         this.pre1444 = new int[m1444 + 1][n1444 + 1];
-        for (int i = 1; i < m1444 + 1; ++i) {
-            for (int j = 1; j < n1444 + 1; ++j) {
-                pre1444[i][j] = pre1444[i - 1][j] + pre1444[i][j - 1] - pre1444[i - 1][j - 1]
-                        + (pizza[i - 1].charAt(j - 1) == 'A' ? 1 : 0);
+        for (int i = 0; i < m1444; ++i) {
+            for (int j = 0; j < n1444; ++j) {
+                pre1444[i + 1][j + 1] = pre1444[i + 1][j] + pre1444[i][j + 1] - pre1444[i][j]
+                        + (pizza[i].charAt(j) == 'A' ? 1 : 0);
             }
 
         }
@@ -8060,12 +8060,6 @@ public class Leetcode_6 {
         int c = getCounts1444(i, j, m1444 - 1, n1444 - 1);
         if (l == 1) {
             return c > 0 ? 1 : 0;
-        }
-        if (m1444 - 1 - i + n1444 - 1 - j + 1 < l) {
-            return 0;
-        }
-        if (l > c) {
-            return 0;
         }
         if (memo1444[i][j][l] != -1) {
             return memo1444[i][j][l];
