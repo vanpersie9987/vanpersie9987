@@ -7658,7 +7658,7 @@ public class Leetcode_7 {
     }
 
     private int dfs1420(int i, int j, int l) {
-        if (l > k1420 || n1420 - i < k1420 - l) {
+        if (l > k1420 || n1420 - i < k1420 - l || m1420 - j < k1420 - l) {
             return 0;
         }
         if (i == n1420) {

@@ -2597,7 +2597,7 @@ class leetcode_1:
     def numOfArrays(self, n: int, m: int, k: int) -> int:
         @cache
         def dfs(i: int, j: int, l: int) -> int:
-            if l > k or n - i < k - l:
+            if l > k or n - i < k - l or m - j < k - l:
                 return 0
             if i == n:
                 return l == k
