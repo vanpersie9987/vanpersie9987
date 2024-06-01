@@ -2595,20 +2595,14 @@ class leetcode_1:
 
     # 1420. 生成数组 (Build Array Where You Can Find The Maximum Exactly K Comparisons)
     def numOfArrays(self, n: int, m: int, k: int) -> int:
-        MOD = 10**9 + 7
-
         @cache
-        def dfs(i: int, maximum: int, j: int) -> int:
+        def dfs(i: int, j: int, l: int) -> int:
+            if l > k or n - i < k - l:
+                return 0
             if i == n:
-                return j == k
-            if j == k:
-                return pow(maximum, n - i, MOD)
-            res = maximum * dfs(i + 1, maximum, j) % MOD
-            for x in range(maximum + 1, m + 1):
-                res += dfs(i + 1, x, j + 1)
-                res %= MOD
-            return res
-
+                return l == k
+            return (j * dfs(i + 1, j, l) + sum(dfs(i + 1, x, l + 1) for x in range(j + 1, m + 1))) % MOD
+        MOD = 10**9 + 7
         return dfs(0, 0, 0)
 
     # 417. 太平洋大西洋水流问题 (Pacific Atlantic Water Flow)
