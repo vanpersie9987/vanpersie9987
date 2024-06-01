@@ -7657,35 +7657,22 @@ public class Leetcode_7 {
 
     }
 
-    private int dfs1420(int i, int max, int l) {
+    private int dfs1420(int i, int j, int l) {
+        if (l > k1420 || n1420 - i < k1420 - l) {
+            return 0;
+        }
         if (i == n1420) {
             return l == k1420 ? 1 : 0;
         }
-        if (l == k1420) {
-            return pow1420(max, n1420 - i);
-        }
-        if (memo1420[i][max][l] != -1) {
-            return memo1420[i][max][l];
+        if (memo1420[i][j][l] != -1) {
+            return memo1420[i][j][l];
         }
         final int MOD = (int) (1e9 + 7);
-        int res = (int) ((long) max * dfs1420(i + 1, max, l) % MOD);
-        for (int x = max + 1; x <= m1420; ++x) {
+        int res = (int) ((long) j * dfs1420(i + 1, j, l) % MOD);
+        for (int x = j + 1; x <= m1420; ++x) {
             res = (res + dfs1420(i + 1, x, l + 1)) % MOD;
         }
-        return memo1420[i][max][l] = res;
-    }
-
-    private int pow1420(int a, int b) {
-        if (b == 0) {
-            return 1;
-        }
-        int res = pow1420(a, b / 2);
-        final int MOD = (int) (1e9 + 7);
-        res = (int) ((long) res * res % MOD);
-        if (b % 2 == 1) {
-            res = (int) (((long) res * a) % MOD);
-        }
-        return res;
+        return memo1420[i][j][l] = res;
     }
 
     // 1542. 找出最长的超赞子字符串 (Find Longest Awesome Substring)
