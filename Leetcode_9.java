@@ -616,7 +616,15 @@ public class Leetcode_9 {
             return memo552[i][j][k];
         }
         final int MOD = (int) (1e9 + 7);
-        return memo552[i][j][k] = (int) (((long) dfs552(i + 1, j, 0) + dfs552(i + 1, j + 1, 0) + dfs552(i + 1, j, k + 1)) % MOD);
+        return memo552[i][j][k] = (int) (((long) dfs552(i + 1, j, 0) + dfs552(i + 1, j + 1, 0)
+                + dfs552(i + 1, j, k + 1)) % MOD);
+
+    }
+    
+    // 575. 分糖果 (Distribute Candies)
+    public int distributeCandies(int[] candyType) {
+        Set<Integer> s = Arrays.stream(candyType).boxed().collect(Collectors.toSet());
+        return Math.min(candyType.length / 2, s.size());
 
     }
 
