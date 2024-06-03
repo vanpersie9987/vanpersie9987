@@ -4630,3 +4630,30 @@ class Union924:
             candies -= min(candies, cnt)
             i += 1
         return res
+
+    def minimumChairs(self, s: str) -> int:
+        res = 0
+        cnt = 0
+        for c in s:
+            cnt += 1 if c == 'E' else -1
+            res = max(res, cnt)
+        return res
+
+    # 3169. 无需开会的工作日 (Count Days Without Meetings)
+    def countDays(self, days: int, meetings: List[List[int]]) -> int:
+        meetings.append([0, 0])
+        meetings.append([days + 1, days + 1])
+        meetings.sort()
+        n = len(meetings)
+        i = 0
+        res = 0
+        while i < n:
+            right = meetings[i][1]
+            j = i + 1
+            while j < n and meetings[j][0] <= right + 1:
+                right = max(right, meetings[j][1])
+                j += 1
+            if j < n:
+                res += meetings[j][0] - right - 1
+            i = j
+        return res
