@@ -4631,6 +4631,7 @@ class Union924:
             i += 1
         return res
 
+    # 3168. 候诊室中的最少椅子数 (Minimum Number of Chairs in a Waiting Room)
     def minimumChairs(self, s: str) -> int:
         res = 0
         cnt = 0
@@ -4653,8 +4654,9 @@ class Union924:
             while j < n and meetings[j][0] <= right + 1:
                 right = max(right, meetings[j][1])
                 j += 1
-            if j < n:
-                res += meetings[j][0] - right - 1
+            if j == n:
+                break
+            res += meetings[j][0] - right - 1
             i = j
         return res
 

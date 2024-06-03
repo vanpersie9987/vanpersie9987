@@ -666,9 +666,10 @@ public class Leetcode_9 {
                 right = Math.max(right, list.get(j)[1]);
                 ++j;
             }
-            if (j < n) {
-                res += list.get(j)[0] - right - 1;
+            if (j == n) {
+                break;
             }
+            res += list.get(j)[0] - right - 1;
             i = j;
         }
         return res;
