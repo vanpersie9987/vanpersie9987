@@ -15449,14 +15449,15 @@ public class LeetCodeText {
         return new int[] { time, memory1, memory2 };
     }
 
-    // 1103. 分糖果 II
+    // 1103. 分糖果 II (Distribute Candies to People)
     public int[] distributeCandies(int candies, int num_people) {
         int[] res = new int[num_people];
-        int index = 0;
+        int i = 0;
         while (candies > 0) {
-            res[index % num_people] += Math.min(candies, index + 1);
-            candies -= Math.min(index + 1, candies);
-            ++index;
+            int cnt = i + 1;
+            res[i % num_people] += Math.min(cnt, candies);
+            candies -= Math.min(cnt, candies);
+            ++i;
         }
         return res;
 
