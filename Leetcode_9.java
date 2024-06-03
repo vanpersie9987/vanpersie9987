@@ -628,5 +628,18 @@ public class Leetcode_9 {
 
     }
 
+    // 3168. 候诊室中的最少椅子数 (Minimum Number of Chairs in a Waiting Room)
+    public int minimumChairs(String s) {
+        int res = 0;
+        int cnt = 0;
+        for (char c : s.toCharArray()) {
+            cnt += c == 'E' ? 1 : -1;
+            res = Math.max(res, cnt);
+        }
+        return res;
+
+    }
+
+
 
 }
