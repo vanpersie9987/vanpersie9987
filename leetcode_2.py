@@ -4619,3 +4619,14 @@ class Union924:
     # 575. 分糖果 (Distribute Candies)
     def distributeCandies(self, candyType: List[int]) -> int:
         return min(len(set(candyType)), len(candyType) // 2)
+
+    # 1103. 分糖果 II (Distribute Candies to People)
+    def distributeCandies(self, candies: int, num_people: int) -> List[int]:
+        res = [0] * num_people
+        i = 0
+        while candies:
+            cnt = i + 1
+            res[i % num_people] += min(cnt, candies)
+            candies -= min(candies, cnt)
+            i += 1
+        return res
