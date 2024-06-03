@@ -640,6 +640,80 @@ public class Leetcode_9 {
 
     }
 
+    // 3169. 无需开会的工作日 (Count Days Without Meetings)
+    public int countDays(int days, int[][] meetings) {
+        List<int[]> list = new ArrayList<>();
+        for (int[] m : meetings) {
+            list.add(m);
+        }
+        list.add(new int[] { 0, 0 });
+        list.add(new int[] { days + 1, days + 1 });
+        Collections.sort(list, new Comparator<int[]>() {
 
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        int res = 0;
+        int i = 0;
+        int n = list.size();
+        while (i < n) {
+            int right = list.get(i)[1];
+            int j = i + 1;
+            while (j < n && list.get(j)[0] <= right + 1) {
+                right = Math.max(right, list.get(j)[1]);
+                ++j;
+            }
+            if (j < n) {
+                res += list.get(j)[0] - right - 1;
+            }
+            i = j;
+        }
+        return res;
+
+    }
+
+    public String clearStars(String s) {
+        TreeMap<Integer, List<Integer>> map = new TreeMap<>();
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) == '*') {
+                List<Integer> list = map.firstEntry().getValue();
+                set.add(list.remove(list.size() - 1));
+                if (list.isEmpty()) {
+                    map.remove(map.firstKey());
+                }
+            } else {
+                map.computeIfAbsent(s.charAt(i) - 'a', k -> new ArrayList<>()).add(i);
+            }
+        }
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) != '*' && !set.contains(i)) {
+                res.append(s.charAt(i));
+            }
+        }
+        return res.toString();
+
+    }
+
+    // 3171. 找到按位与最接近 K 的子数组 (Find Subarray With Bitwise AND Closest to K)
+    public int minimumDifference(int[] nums, int k) {
+        int res = Integer.MAX_VALUE;
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            int and = -1;
+            for (int j = i; j >= 0 && i - j < 28; --j) {
+                and &= nums[j];
+                res = Math.min(res, Math.abs(k - and));
+            }
+        }
+        return res;
+
+    }
+
+    
 
 }

@@ -4657,3 +4657,28 @@ class Union924:
                 res += meetings[j][0] - right - 1
             i = j
         return res
+    
+    def clearStars(self, s: str) -> str:
+        dic = [[] for _ in range(26)]
+        _set = set()
+        for i, v in enumerate(s):
+            if v == '*':
+                for j in range(26):
+                    if len(dic[j]):
+                        _set.add(dic[j].pop())
+                        break
+            else:
+                dic[ord(v) - ord('a')].append(i)
+        return ''.join(v for i, v in enumerate(s) if v != '*' and i not in _set)
+    
+
+    # 3171. 找到按位与最接近 K 的子数组 (Find Subarray With Bitwise AND Closest to K)
+    def minimumDifference(self, nums: List[int], k: int) -> int:
+        res = inf
+        for i in range(len(nums)):
+            _and = -1
+            for j in range(i, max(-1, i - 28), -1):
+                _and &= nums[j]
+                res = min(res, abs(_and - k))
+        return res
+
