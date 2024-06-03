@@ -675,24 +675,27 @@ public class Leetcode_9 {
 
     }
 
+    // 3170. 删除星号以后字典序最小的字符串 (Lexicographically Minimum String After Removing Stars)
     public String clearStars(String s) {
-        TreeMap<Integer, List<Integer>> map = new TreeMap<>();
-        Set<Integer> set = new HashSet<>();
+        char[] arr = s.toCharArray();
+        List<Integer>[] list = new ArrayList[26];
+        Arrays.setAll(list, k -> new ArrayList<>());
         for (int i = 0; i < s.length(); ++i) {
             if (s.charAt(i) == '*') {
-                List<Integer> list = map.firstEntry().getValue();
-                set.add(list.remove(list.size() - 1));
-                if (list.isEmpty()) {
-                    map.remove(map.firstKey());
+                for (int j = 0; j < 26; ++j) {
+                    if (!list[j].isEmpty()) {
+                        arr[list[j].remove(list[j].size() - 1)] = '*';
+                        break;
+                    }
                 }
             } else {
-                map.computeIfAbsent(s.charAt(i) - 'a', k -> new ArrayList<>()).add(i);
+                list[s.charAt(i) - 'a'].add(i);
             }
         }
         StringBuilder res = new StringBuilder();
-        for (int i = 0; i < s.length(); ++i) {
-            if (s.charAt(i) != '*' && !set.contains(i)) {
-                res.append(s.charAt(i));
+        for (int i = 0; i < arr.length; ++i) {
+            if (arr[i] != '*') {
+                res.append(arr[i]);
             }
         }
         return res.toString();
