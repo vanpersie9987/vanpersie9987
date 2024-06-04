@@ -1691,12 +1691,13 @@ class leetcode_2:
     def countPairsOfConnectableServers(
         self, edges: List[List[int]], signalSpeed: int
     ) -> List[int]:
-        def dfs(x: int, fa: int, w: int) -> int:
-            sum = w % signalSpeed == 0
-            for y, nw in g[x]:
+        def dfs(x: int, fa: int, m: int) -> int:
+            m %= signalSpeed
+            ss = m == 0
+            for y, w in g[x]:
                 if y != fa:
-                    sum += dfs(y, x, w + nw)
-            return sum
+                    ss += dfs(y, x, m + w)
+            return ss
 
         n = len(edges) + 1
         g = [[] for _ in range(n)]
@@ -1705,12 +1706,12 @@ class leetcode_2:
             g[v].append((u, w))
         res = [0] * n
         for i in range(n):
+            cnt = 0
             s = 0
-            cur = 0
             for x, w in g[i]:
-                c = dfs(x, i, w)
-                s += cur * c
-                cur += c
+                cur = dfs(x, i, w)
+                s += cur * cnt
+                cnt += cur
             res[i] = s
         return res
 
@@ -4579,7 +4580,7 @@ class Union924:
         def dfs(i: int, j: int) -> int:
             if i == n - 1:
                 return True
-            for id, v in enumerate(stones[i + 1:], i + 1):
+            for id, v in enumerate(stones[i + 1 :], i + 1):
                 if (v - stones[i]) - j < -1:
                     continue
                 if (v - stones[i]) - j > 1:
@@ -4587,18 +4588,29 @@ class Union924:
                 if dfs(id, v - stones[i]):
                     return True
             return False
+
         if stones[1] != 1:
             return False
         n = len(stones)
         return dfs(1, 1)
 
     # 1575. 统计所有可行路径 (Count All Possible Routes)
-    def countRoutes(self, locations: List[int], start: int, finish: int, fuel: int) -> int:
+    def countRoutes(
+        self, locations: List[int], start: int, finish: int, fuel: int
+    ) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
             if abs(locations[i] - locations[finish]) > j:
                 return 0
-            return (sum(dfs(k, j - abs(locations[k] - locations[i])) for k in range(n) if i != k) + (i == finish)) % MOD
+            return (
+                sum(
+                    dfs(k, j - abs(locations[k] - locations[i]))
+                    for k in range(n)
+                    if i != k
+                )
+                + (i == finish)
+            ) % MOD
+
         n = len(locations)
         MOD = 10**9 + 7
         return dfs(start, fuel)
@@ -4613,6 +4625,7 @@ class Union924:
             if j < numCarpets:
                 res = min(res, dfs(i + carpetLen, j + 1))
             return res
+
         n = len(floor)
         return dfs(0, 0)
 
@@ -4636,7 +4649,7 @@ class Union924:
         res = 0
         cnt = 0
         for c in s:
-            cnt += 1 if c == 'E' else -1
+            cnt += 1 if c == "E" else -1
             res = max(res, cnt)
         return res
 
@@ -4665,14 +4678,14 @@ class Union924:
         arr = [c for c in s]
         dic = [[] for _ in range(26)]
         for i, v in enumerate(arr):
-            if v == '*':
+            if v == "*":
                 for j in range(26):
                     if len(dic[j]):
-                        arr[dic[j].pop()] = '*'
+                        arr[dic[j].pop()] = "*"
                         break
             else:
-                dic[ord(v) - ord('a')].append(i)
-        return ''.join(v for v in arr if v != '*')
+                dic[ord(v) - ord("a")].append(i)
+        return "".join(v for v in arr if v != "*")
 
     # 3171. 找到按位与最接近 K 的子数组 (Find Subarray With Bitwise AND Closest to K)
     def minimumDifference(self, nums: List[int], k: int) -> int:
