@@ -8313,6 +8313,7 @@ public class Leetcode_8 {
 
     public int[] countPairsOfConnectableServers(int[][] edges, int signalSpeed) {
         int n = edges.length + 1;
+        this.signalSpeed3067 = signalSpeed;
         this.g3067 = new ArrayList[n];
         Arrays.setAll(g3067, k -> new ArrayList<>());
         for (int[] e : edges) {
@@ -8320,31 +8321,33 @@ public class Leetcode_8 {
             g3067[e[1]].add(new int[] { e[0], e[2] });
         }
         int[] res = new int[n];
-        this.signalSpeed3067 = signalSpeed;
         for (int i = 0; i < n; ++i) {
             int cnt = 0;
-            int sum = 0;
-            for (int[] nei : g3067[i]) {
-                int cur = dfs3067(nei[0], i, nei[1]);
-                sum += cnt * cur;
+            int s = 0;
+            for (int[] nxt : g3067[i]) {
+                int x = nxt[0];
+                int w = nxt[1];
+                int cur = dfs3067(x, i, w);
+                s += cur * cnt;
                 cnt += cur;
             }
-            res[i] = sum;
+            res[i] = s;
         }
         return res;
 
     }
 
-    private int dfs3067(int x, int fa, int s) {
-        int res = s % signalSpeed3067 == 0 ? 1 : 0;
-        for (int[] nei : g3067[x]) {
-            int y = nei[0];
-            int w = nei[1];
+    private int dfs3067(int x, int fa, int w) {
+        w %= signalSpeed3067;
+        int s = w == 0 ? 1 : 0;
+        for (int[] nxt : g3067[x]) {
+            int y = nxt[0];
+            int nw = nxt[1];
             if (y != fa) {
-                res += dfs3067(y, x, s + w);
+                s += dfs3067(y, x, w + nw);
             }
         }
-        return res;
+        return s;
     }
 
     // 3068. 最大节点价值之和 (Find the Maximum Sum of Node Values)
