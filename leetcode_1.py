@@ -8391,12 +8391,11 @@ class leetcode_1:
     # 2938. 区分黑球与白球 (Separate Black and White Balls)
     def minimumSteps(self, s: str) -> int:
         res = 0
-        cnt1 = 0
-        for c in s:
-            if c == "0":
-                res += cnt1
-            else:
-                cnt1 += 1
+        c = 0
+        for i, v in enumerate(s):
+            if v == '0':
+                res += i - c
+                c += 1
         return res
 
     # 2939. 最大异或乘积 (Maximum Xor Product)

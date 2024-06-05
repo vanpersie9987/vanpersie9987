@@ -5145,12 +5145,11 @@ public class Leetcode_8 {
     // 2938. 区分黑球与白球 (Separate Black and White Balls)
     public long minimumSteps(String s) {
         long res = 0L;
-        int cnt1 = 0;
-        for (char c : s.toCharArray()) {
-            if (c == '0') {
-                res += cnt1;
-            } else {
-                ++cnt1;
+        int c = 0;
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) == '0') {
+                res += i - c;
+                ++c;
             }
         }
         return res;
