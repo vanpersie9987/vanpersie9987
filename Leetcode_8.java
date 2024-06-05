@@ -8531,18 +8531,10 @@ public class Leetcode_8 {
             int s2 = list2.size();
             int g1 = greaterCount3072(list1, nums[i]);
             int g2 = greaterCount3072(list2, nums[i]);
-            if (g1 > g2) {
+            if (g1 > g2 || g1 == g2 && s1 <= s2) {
                 insert3072(list1, nums[i], g1, res1);
-            } else if (g1 < g2) {
-                insert3072(list2, nums[i], g2, res2);
-            } else if (s1 != s2) {
-                if (s1 < s2) {
-                    insert3072(list1, nums[i], g1, res1);
-                } else {
-                    insert3072(list2, nums[i], g2, res2);
-                }
             } else {
-                insert3072(list1, nums[i], g1, res1);
+                insert3072(list2, nums[i], g2, res2);
             }
         }
         res1.addAll(res2);
