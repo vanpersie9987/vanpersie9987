@@ -1836,42 +1836,40 @@ class leetcode_2:
 
     # 3072. 将元素分配到两个数组中 II (Distribute Elements Into Two Arrays II)
     def resultArray(self, nums: List[int]) -> List[int]:
-        def greater_count(arr: List[List[int]], x: int) -> int:
+        def greater_count(arr: List[int], target: int) -> List[int]:
             n = len(arr)
-            if arr[0][0] > x:
-                return n
-            if arr[-1][0] <= x:
-                return 0
+            if target >= arr[-1]:
+                return [0, n]
+            if target < arr[0]:
+                return [n, 0]
             left = 0
             right = n - 1
-            res = -1
+            res = 0
             while left <= right:
                 mid = left + ((right - left) >> 1)
-                if arr[mid][0] > x:
+                if arr[mid] > target:
                     res = n - mid
                     right = mid - 1
                 else:
                     left = mid + 1
-            return res
+            return [res, n - res]
 
-        arr1 = [[nums[0], 0]]
-        arr2 = [[nums[1], 1]]
-        for i in range(2, len(nums)):
-            l1 = len(arr1)
-            l2 = len(arr2)
-            g1 = greater_count(arr1, nums[i])
-            g2 = greater_count(arr2, nums[i])
-            if g1 > g2:
-                arr1.insert(l1 - g1, [nums[i], i])
-            elif g1 < g2:
-                arr2.insert(l2 - g2, [nums[i], i])
-            elif l1 > l2:
-                arr2.insert(l2 - g2, [nums[i], i])
+        res1 = [nums[0]]
+        res2 = [nums[1]]
+        arr1 = [nums[0]]
+        arr2 = [nums[1]]
+        for v in nums[2:]:
+            [cnt1, id1] = greater_count(arr1, v)
+            [cnt2, id2] = greater_count(arr2, v)
+            if cnt1 > cnt2 or cnt1 == cnt2 and len(res1) <= len(res2):
+                res1.append(v)
+                arr1.insert(id1, v)
             else:
-                arr1.insert(l1 - g1, [nums[i], i])
-        return [x for x, _ in sorted(arr1, key=lambda k: k[1])] + [
-            x for x, _ in sorted(arr2, key=lambda k: k[1])
-        ]
+                res2.append(v)
+                arr2.insert(id2, v)
+
+        res1.extend(res2)
+        return res1
 
     # 2834. 找出美丽数组的最小和 (Find the Minimum Possible Sum of a Beautiful Array)
     def minimumPossibleSum(self, n: int, target: int) -> int:
