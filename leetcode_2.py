@@ -4695,15 +4695,6 @@ class Union924:
                 res = min(res, abs(_and - k))
         return res
 
-    def minimumSteps(self, s: str) -> int:
-        res = 0
-        c = 0
-        for i, v in enumerate(s):
-            if v == '0':
-                res += i - c
-                c += 1
-        return res
-
     # 419. 甲板上的战舰 (Battleships in a Board)
     def countBattleships(self, board: List[List[str]]) -> int:
         res = 0
