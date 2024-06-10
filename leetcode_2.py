@@ -4703,3 +4703,16 @@ class Union924:
                 res += i - c
                 c += 1
         return res
+
+    # 419. 甲板上的战舰 (Battleships in a Board)
+    def countBattleships(self, board: List[List[str]]) -> int:
+        res = 0
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if (
+                    board[i][j] == "X"
+                    and (i == 0 or board[i - 1][j] == ".")
+                    and (j == 0 or board[i][j - 1] == ".")
+                ):
+                    res += 1
+        return res
