@@ -4707,3 +4707,15 @@ class Union924:
                 ):
                     res += 1
         return res
+
+    # 3174. 清除数字 (Clear Digits)
+    def clearDigits(self, s: str) -> str:
+        res = []
+        for c in s:
+            if c.isdigit():
+                if res:
+                    res.pop()
+            else:
+                res.append(c)
+        return ''.join(res)
+

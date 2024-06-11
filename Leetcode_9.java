@@ -718,6 +718,22 @@ public class Leetcode_9 {
 
     }
 
+    // 3174. 清除数字 (Clear Digits)
+    public String clearDigits(String s) {
+        StringBuilder res = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (Character.isDigit(c)) {
+                if (!res.isEmpty()) {
+                    res.setLength(res.length() - 1);
+                }
+            } else {
+                res.append(c);
+            }
+        }
+        return res.toString();
+
+    }
+
     
 
 }
