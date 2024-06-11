@@ -4718,4 +4718,20 @@ class Union924:
             else:
                 res.append(c)
         return ''.join(res)
+    
+    # 3175. 找到连续赢 K 场比赛的第一位玩家 (Find The First Player to win K Games in a Row)
+    def findWinningPlayer(self, skills: List[int], k: int) -> int:
+        res = 0
+        mx = skills[0]
+        games = 0
+        for i, v in enumerate(skills[1:], 1):
+            if v > mx:
+                mx = v
+                games = 1
+                res = i
+            else:
+                games += 1
+            if k == games:
+                break
+        return res
 
