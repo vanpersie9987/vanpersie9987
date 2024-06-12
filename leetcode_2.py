@@ -4763,15 +4763,11 @@ class Union924:
         k -= n - 1
         return n - 1 - k
 
+    # 3179. K 秒后第 N 个元素的值 (Find the N-th Value After K Seconds)
     def valueAfterKSeconds(self, n: int, k: int) -> int:
-        MOD = 10**9 + 7
-        res = [1] * n
-        for i in range(k):
-            for j in range(1, n):
-                res[j] += res[j - 1]
-                res[j] %= MOD
-        return res[-1]
+        return comb(k + n - 1, k) % (10**9 + 7)
 
+    # 3180. 执行操作可获得的最大总奖励 I (Maximum Total Reward Using Operations I)
     def maxTotalReward(self, rewardValues: List[int]) -> int:
 
         def binary_search(target: int) -> int:

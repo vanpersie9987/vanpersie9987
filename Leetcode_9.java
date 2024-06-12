@@ -789,6 +789,16 @@ public class Leetcode_9 {
         }
         return memo3176[i][j] = res + 1;
     }
+
+    // 3178. 找出 K 秒后拿着球的孩子 (Find the Child Who Has the Ball After K Seconds)
+    public int numberOfChild(int n, int k) {
+        k %= (n - 1) << 1;
+        if (k <= n - 1) {
+            return k;
+        }
+        k -= n - 1;
+        return n - 1 - k;
+    }
     
 
 }
