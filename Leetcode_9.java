@@ -736,22 +736,19 @@ public class Leetcode_9 {
 
     // 3175. 找到连续赢 K 场比赛的第一位玩家 (Find The First Player to win K Games in a Row)
     public int findWinningPlayer(int[] skills, int k) {
-        int max = skills[0];
-        int games = 0;
-        int res = 0;
-        for (int i = 1; i < skills.length; ++i) {
-            if (max > skills[i]) {
-                ++games;
-            } else {
-                max = skills[i];
-                games = 1;
-                res = i;
+        int max_i = 0;
+        int win = -1;
+        for (int i = 0; i < skills.length; ++i) {
+            if (skills[i] > skills[max_i]) {
+                max_i = i;
+                win = 0;
             }
-            if (games == k) {
-                return res;
+            ++win;
+            if (win == k) {
+                break;
             }
         }
-        return res;
+        return max_i;
     }
 
     private int[] nums;

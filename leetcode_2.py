@@ -4721,19 +4721,16 @@ class Union924:
 
     # 3175. 找到连续赢 K 场比赛的第一位玩家 (Find The First Player to win K Games in a Row)
     def findWinningPlayer(self, skills: List[int], k: int) -> int:
-        res = 0
-        mx = skills[0]
-        games = 0
-        for i, v in enumerate(skills[1:], 1):
-            if v > mx:
-                mx = v
-                games = 1
-                res = i
-            else:
-                games += 1
-            if k == games:
+        mx_i = 0
+        win = -1
+        for i, v in enumerate(skills):
+            if v > skills[mx_i]:
+                mx_i = i
+                win = 0
+            win += 1
+            if k == win:
                 break
-        return res
+        return mx_i
 
     def maximumLength(self, nums: List[int], k: int) -> int:
         @cache
@@ -4759,3 +4756,54 @@ class Union924:
     # 2806. 取整购买后的账户余额 (Account Balance After Rounded Purchase)
     def accountBalanceAfterPurchase(self, purchaseAmount: int) -> int:
         return 100 - ((purchaseAmount + 5) // 10) * 10
+
+    # 3178. 找出 K 秒后拿着球的孩子 (Find the Child Who Has the Ball After K Seconds)
+    def numberOfChild(self, n: int, k: int) -> int:
+        k %= (n - 1) << 1
+        if k <= n - 1:
+            return k
+        k -= n - 1
+        return n - 1 - k
+
+    def valueAfterKSeconds(self, n: int, k: int) -> int:
+        MOD = 10**9 + 7
+        res = [1] * n
+        for i in range(k):
+            for j in range(1, n):
+                res[j] += res[j - 1]
+                res[j] %= MOD
+        return res[-1]
+
+    def maxTotalReward(self, rewardValues: List[int]) -> int:
+
+        def binary_search(target: int) -> int:
+            if rewardValues[-1] <= target:
+                return n
+            if rewardValues[0] > target:
+                return 0
+            left = 0
+            right = n - 1
+            res = 0
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if rewardValues[mid] > target:
+                    res = mid
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return res
+
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i >= n:
+                return j
+            res = dfs(i + 1, j)
+            if rewardValues[i] > j:
+                res = max(res, dfs(binary_search(j + rewardValues[i]), j + rewardValues[i]))
+            return res
+        rewardValues = list(set(rewardValues))
+        rewardValues.sort()
+        n = len(rewardValues)
+        res = dfs(0, 0)
+        dfs.cache_clear()
+        return res
