@@ -4718,7 +4718,7 @@ class Union924:
             else:
                 res.append(c)
         return ''.join(res)
-    
+
     # 3175. 找到连续赢 K 场比赛的第一位玩家 (Find The First Player to win K Games in a Row)
     def findWinningPlayer(self, skills: List[int], k: int) -> int:
         res = 0
@@ -4735,3 +4735,27 @@ class Union924:
                 break
         return res
 
+    def maximumLength(self, nums: List[int], k: int) -> int:
+        @cache
+        def dfs(i: int, j: int, last: int) -> int:
+            if j > k:
+                return -inf
+            if i == n:
+                return 0
+            res = dfs(i + 1, j, last)
+            if last == -1:
+                res = max(res, dfs(i + 1, j + 1, i) + 1)
+            else:
+                if nums[i] != nums[last]:
+                    res = max(res, dfs(i + 1, j + 1, i) + 1)
+                else:
+                    res = max(res, dfs(i + 1, j, i) + 1)
+            return res
+        n = len(nums)
+        res = dfs(0, -1, -1)
+        dfs.cache_clear()
+        return res
+
+    # 2806. 取整购买后的账户余额 (Account Balance After Rounded Purchase)
+    def accountBalanceAfterPurchase(self, purchaseAmount: int) -> int:
+        return 100 - ((purchaseAmount + 5) // 10) * 10

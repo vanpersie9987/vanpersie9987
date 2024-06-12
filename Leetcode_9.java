@@ -752,9 +752,47 @@ public class Leetcode_9 {
             }
         }
         return res;
+    }
 
-        
+    private int[] nums;
+    private int k;
+    private int n;
+    private int[][][] memo;
 
+    public int maximumLength(int[] nums, int k) {
+        this.nums = nums;
+        this.n = nums.length;
+        this.k = k;
+        this.memo = new int[n][k + 1][n + 1];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < k + 1; ++j) {
+                Arrays.fill(memo[i][j], -1);
+            }
+        }
+        return dfs(0, 0, n);
+    }
+
+    private int dfs(int i, int j, int last) {
+        if (j > k) {
+            return -n - 1;
+        }
+        if (i == n) {
+            return 0;
+        }
+        if (memo[i][j][last] != -1) {
+            return memo[i][j][last];
+        }
+        int res = dfs(i + 1, j, last);
+        if (last == n) {
+            res = Math.max(res, dfs(i + 1, j, i) + 1);
+        } else {
+            if (nums[i] != nums[last]) {
+                res = Math.max(res, dfs(i + 1, j + 1, i) + 1);
+            } else {
+                res = Math.max(res, dfs(i + 1, j, i) + 1);
+            }
+        }
+        return memo[i][j][last] = res;
     }
 
     
