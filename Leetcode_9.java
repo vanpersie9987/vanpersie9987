@@ -751,47 +751,44 @@ public class Leetcode_9 {
         return max_i;
     }
 
-    private int[] nums;
-    private int k;
-    private int n;
-    private int[][][] memo;
+    // 3176. 求出最长好子序列 I (Find the Maximum Length of a Good Subsequence I)
+    private int[] nums3176;
+    private int n3176;
+    private int[][] memo3176;
 
     public int maximumLength(int[] nums, int k) {
-        this.nums = nums;
-        this.n = nums.length;
-        this.k = k;
-        this.memo = new int[n][k + 1][n + 1];
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < k + 1; ++j) {
-                Arrays.fill(memo[i][j], -1);
+        this.nums3176 = nums;
+        this.n3176 = nums.length;
+        this.memo3176 = new int[n3176][k + 1];
+        for (int i = 0; i < n3176; ++i) {
+            Arrays.fill(memo3176[i], -1);
+        }
+        int res = 0;
+        for (int i = 0; i < n3176; ++i) {
+            for (int j = 0; j <= k; ++j) {
+                res = Math.max(res, dfs3176(i, j));
             }
         }
-        return dfs(0, 0, n);
+        return res;
     }
 
-    private int dfs(int i, int j, int last) {
-        if (j > k) {
-            return -n - 1;
+    private int dfs3176(int i, int j) {
+        if (j < 0) {
+            return -n3176 - 1;
         }
-        if (i == n) {
-            return 0;
+        if (memo3176[i][j] != -1) {
+            return memo3176[i][j];
         }
-        if (memo[i][j][last] != -1) {
-            return memo[i][j][last];
-        }
-        int res = dfs(i + 1, j, last);
-        if (last == n) {
-            res = Math.max(res, dfs(i + 1, j, i) + 1);
-        } else {
-            if (nums[i] != nums[last]) {
-                res = Math.max(res, dfs(i + 1, j + 1, i) + 1);
+        int res = 0;
+        for (int x = i - 1; x >= 0; --x) {
+            if (nums3176[x] != nums3176[i]) {
+                res = Math.max(res, dfs3176(x, j - 1));
             } else {
-                res = Math.max(res, dfs(i + 1, j, i) + 1);
+                res = Math.max(res, dfs3176(x, j));
             }
         }
-        return memo[i][j][last] = res;
+        return memo3176[i][j] = res + 1;
     }
-
     
 
 }

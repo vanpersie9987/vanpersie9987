@@ -4732,25 +4732,23 @@ class Union924:
                 break
         return mx_i
 
+    # 3176. 求出最长好子序列 I (Find the Maximum Length of a Good Subsequence I)
     def maximumLength(self, nums: List[int], k: int) -> int:
         @cache
-        def dfs(i: int, j: int, last: int) -> int:
-            if j > k:
+        def dfs(i: int, j: int) -> int:
+            if j < 0:
                 return -inf
-            if i == n:
-                return 0
-            res = dfs(i + 1, j, last)
-            if last == -1:
-                res = max(res, dfs(i + 1, j + 1, i) + 1)
-            else:
-                if nums[i] != nums[last]:
-                    res = max(res, dfs(i + 1, j + 1, i) + 1)
+            res = 0
+            for x in range(i - 1, -1, -1):
+                if nums[x] != nums[i]:
+                    res = max(res, dfs(x, j - 1))
                 else:
-                    res = max(res, dfs(i + 1, j, i) + 1)
-            return res
-        n = len(nums)
-        res = dfs(0, -1, -1)
-        dfs.cache_clear()
+                    res = max(res, dfs(x, j))
+            return res + 1
+        res = 0
+        for i in range(len(nums)):
+            for j in range(k + 1):
+                res = max(res, dfs(i, j))
         return res
 
     # 2806. 取整购买后的账户余额 (Account Balance After Rounded Purchase)
