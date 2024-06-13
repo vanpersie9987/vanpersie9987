@@ -1738,6 +1738,7 @@ class leetcode_1:
             if s[i] == s[j]:
                 return dfs(i + 1, j - 1) + 2
             return max(dfs(i + 1, j), dfs(i, j - 1))
+
         s = word1 + word2
         res = 0
         for i in range(len(word1)):
@@ -2599,7 +2600,11 @@ class leetcode_1:
                 return 0
             if i == n:
                 return l == k
-            return (j * dfs(i + 1, j, l) + sum(dfs(i + 1, x, l + 1) for x in range(j + 1, m + 1))) % MOD
+            return (
+                j * dfs(i + 1, j, l)
+                + sum(dfs(i + 1, x, l + 1) for x in range(j + 1, m + 1))
+            ) % MOD
+
         MOD = 10**9 + 7
         return dfs(0, 0, 0)
 
@@ -2943,16 +2948,15 @@ class leetcode_1:
 
     # 1312. 让字符串成为回文串的最少插入次数 (Minimum Insertion Steps to Make a String Palindrome)
     def minInsertions(self, s: str) -> int:
-        n = len(s)
-
         @cache
         def dfs(i: int, j: int) -> int:
             if i >= j:
                 return 0
             if s[i] == s[j]:
                 return dfs(i + 1, j - 1)
-            return min(dfs(i + 1, j), dfs(i, j - 1)) + 1
+            return min(dfs(i, j - 1), dfs(i + 1, j)) + 1
 
+        n = len(s)
         return dfs(0, n - 1)
 
     # 1301. 最大得分的路径数目 (Number of Paths with Max Score)
@@ -8391,7 +8395,7 @@ class leetcode_1:
         res = 0
         c = 0
         for i, v in enumerate(s):
-            if v == '0':
+            if v == "0":
                 res += i - c
                 c += 1
         return res
