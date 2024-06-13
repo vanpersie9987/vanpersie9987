@@ -238,44 +238,42 @@ public class Leetcode_8 {
     }
 
     // 1771. 由子序列构造的最长回文串的长度 (Maximize Palindrome Length From Subsequences)
-    private int m1771;
     private char[] arr1771;
-    private int[][][] memo1771;
+    private int[][] memo1771;
 
     public int longestPalindrome(String word1, String word2) {
-        this.m1771 = word1.length();
+        int m = word1.length();
         int n = word2.length();
         this.arr1771 = (word1 + word2).toCharArray();
-        this.memo1771 = new int[m1771 + n][m1771 + n][2];
-        for (int i = 0; i < m1771 + n; ++i) {
-            for (int j = 0; j < m1771 + n; ++j) {
-                Arrays.fill(memo1771[i][j], -1);
+        this.memo1771 = new int[m + n][m + n];
+        for (int i = 0; i < m + n; ++i) {
+            Arrays.fill(memo1771[i], -1);
+        }
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = n - 1; j >= 0; --j) {
+                if (word1.charAt(i) == word2.charAt(j)) {
+                    res = Math.max(res, dfs1771(i + 1, m + j - 1) + 2);
+                }
             }
         }
-        int res = dfs1771(0, m1771 + n - 1, 0);
-        return res > 1 ? res : 0;
-
+        return res;
     }
 
-    private int dfs1771(int i, int j, int b) {
-        if (i > j) {
-            return 0;
-        }
+    private int dfs1771(int i, int j) {
         if (i == j) {
             return 1;
         }
-        if (!(i < m1771 && j >= m1771)) {
-            if (b == 0) {
-                return 0;
-            }
+        if (i > j) {
+            return 0;
         }
-        if (memo1771[i][j][b] != -1) {
-            return memo1771[i][j][b];
+        if (memo1771[i][j] != -1) {
+            return memo1771[i][j];
         }
         if (arr1771[i] == arr1771[j]) {
-            return memo1771[i][j][b] = dfs1771(i + 1, j - 1, 1) + 2;
+            return memo1771[i][j] = dfs1771(i + 1, j - 1) + 2;
         }
-        return memo1771[i][j][b] = Math.max(dfs1771(i + 1, j, b), dfs1771(i, j - 1, b));
+        return memo1771[i][j] = Math.max(dfs1771(i + 1, j), dfs1771(i, j - 1));
     }
 
     // 1682. 最长回文子序列 II --plus 未提交
