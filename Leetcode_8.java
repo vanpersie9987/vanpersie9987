@@ -736,21 +736,22 @@ public class Leetcode_8 {
         if (memo730[c][l][r] != -1) {
             return memo730[c][l][r];
         }
-        int res = 0;
         final int MOD = (int) (1e9 + 7);
         if (arr730[l] - 'a' == c && arr730[r] - 'a' == c) {
-            res = (res + 2) % MOD;
+            int res = 0;
             for (int i = 0; i < 4; ++i) {
-                res = (res + dfs730(i, l + 1, r - 1)) % MOD;
+                res += dfs730(i, l + 1, r - 1);
+                res %= MOD;
             }
-        } else if (arr730[l] - 'a' == c) {
-            res = (res + dfs730(c, l, r - 1) + 1) % MOD;
-        } else if (arr730[r] - 'a' == c) {
-            res = (res + dfs730(c, l + 1, r) + 1) % MOD;
-        } else {
-            res = (res + dfs730(c, l + 1, r - 1)) % MOD;
+            return memo730[c][l][r] = (res + 2) % MOD;
         }
-        return memo730[c][l][r] = res;
+        if (arr730[l] - 'a' == c) {
+            return memo730[c][l][r] = dfs730(c, l, r - 1);
+        }
+        if (arr730[r] - 'a' == c) {
+            return memo730[c][l][r] = dfs730(c, l + 1, r);
+        }
+        return memo730[c][l][r] = dfs730(c, l + 1, r - 1);
     }
 
     // 2751. 机器人碰撞 (Robot Collisions)
