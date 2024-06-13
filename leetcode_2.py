@@ -4801,3 +4801,23 @@ class Union924:
         res = dfs(0, 0)
         dfs.cache_clear()
         return res
+
+    # 730. 统计不同回文子序列 (Count Different Palindromic Subsequences)
+    def countPalindromicSubsequences(self, s: str) -> int:
+        @cache
+        def dfs(c: int, i: int, j: int) -> int:
+            if i > j:
+                return 0
+            if i == j:
+                return int(ord(s[i]) - ord('a') == c)
+            if s[i] == s[j] and ord(s[i]) - ord('a') == c:
+                return (sum(dfs(x, i + 1, j - 1) for x in range(4)) + 2) % MOD
+            if ord(s[i]) - ord('a') == c:
+                return dfs(c, i, j - 1)
+            if ord(s[j]) - ord('a') == c:
+                return dfs(c, i + 1, j)
+            return dfs(c, i + 1, j - 1)
+        n = len(s)
+        MOD = 10**9 + 7
+        return sum(dfs(x, 0, n - 1) for x in range(4)) % MOD
+
