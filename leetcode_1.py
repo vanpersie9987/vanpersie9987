@@ -1729,24 +1729,22 @@ class leetcode_1:
 
     # 1771. 由子序列构造的最长回文串的长度 (Maximize Palindrome Length From Subsequences)
     def longestPalindrome(self, word1: str, word2: str) -> int:
-        n1 = len(word1)
-        n2 = len(word2)
-        s = word1 + word2
-
         @cache
-        def dfs(i: int, j: int, k: int) -> int:
-            if i > j:
-                return 0
+        def dfs(i: int, j: int) -> int:
             if i == j:
                 return 1
-            if not (i < n1 and j >= n1) and not k:
+            if i > j:
                 return 0
             if s[i] == s[j]:
-                return dfs(i + 1, j - 1, 1) + 2
-            return max(dfs(i + 1, j, k), dfs(i, j - 1, k))
-
-        res = dfs(0, n1 + n2 - 1, 0)
-        return res if res > 1 else 0
+                return dfs(i + 1, j - 1) + 2
+            return max(dfs(i + 1, j), dfs(i, j - 1))
+        s = word1 + word2
+        res = 0
+        for i in range(len(word1)):
+            for j in range(len(word2) - 1, -1, -1):
+                if word1[i] == word2[j]:
+                    res = max(res, dfs(i + 1, len(word1) + j - 1) + 2)
+        return res
 
     # 2147. 分隔长廊的方案数 (Number of Ways to Divide a Long Corridor)
     def numberOfWays(self, corridor: str) -> int:
