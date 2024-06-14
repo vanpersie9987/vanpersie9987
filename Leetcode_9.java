@@ -799,6 +799,5 @@ public class Leetcode_9 {
         k -= n - 1;
         return n - 1 - k;
     }
-    
 
 }

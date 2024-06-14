@@ -177,10 +177,9 @@ class leetcode_1:
         n = len(nums)
         i = 0
         while i < n:
-            c = nums[i]
             j = i
             s = 0
-            while j < n and c % 2 == nums[j] % 2:
+            while j < n and nums[i] % 2 == nums[j] % 2:
                 s += nums[j]
                 j += 1
             arr.append(s)

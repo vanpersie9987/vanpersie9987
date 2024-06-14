@@ -2071,43 +2071,42 @@ public class Leetcode_8 {
 
     }
 
-    // 6931. 访问数组中的位置使分数最大 (Visit Array Positions to Maximize Score)
-    private long[] memo6931;
-    private List<Long> list6931;
-    private int x6931;
-    private int len6931;
+    // 2786. 访问数组中的位置使分数最大 (Visit Array Positions to Maximize Score)
+    private long[] memo2786;
+    private List<Long> list2786;
+    private int x2786;
+    private int n2786;
 
     public long maxScore(int[] nums, int x) {
-        this.list6931 = new ArrayList<>();
-        this.x6931 = x;
+        this.list2786 = new ArrayList<>();
+        this.x2786 = x;
         int n = nums.length;
         int i = 0;
         while (i < n) {
-            long cur = nums[i];
             long sum = 0L;
             int j = i;
-            while (j < n && nums[j] % 2 == cur % 2) {
+            while (j < n && nums[j] % 2 == nums[i] % 2) {
                 sum += nums[j];
                 ++j;
             }
-            list6931.add(sum);
+            list2786.add(sum);
             i = j;
         }
-        this.len6931 = list6931.size();
-        this.memo6931 = new long[len6931];
-        Arrays.fill(memo6931, (long) 1e12);
-        return dfs6931(0);
+        this.n2786 = list2786.size();
+        this.memo2786 = new long[n2786];
+        Arrays.fill(memo2786, -1L);
+        return dfs2786(0);
 
     }
 
-    private long dfs6931(int i) {
-        if (i >= len6931) {
+    private long dfs2786(int i) {
+        if (i >= n2786) {
             return 0L;
         }
-        if (memo6931[i] != (long) 1e12) {
-            return memo6931[i];
+        if (memo2786[i] != -1L) {
+            return memo2786[i];
         }
-        return memo6931[i] = Math.max(dfs6931(i + 1) - x6931, dfs6931(i + 2)) + list6931.get(i);
+        return memo2786[i] = Math.max(dfs2786(i + 1) - x2786, dfs2786(i + 2)) + list2786.get(i);
     }
 
     // 2787. 将一个数字表示成幂的和的方案数 (Ways to Express an Integer as Sum of Powers)
