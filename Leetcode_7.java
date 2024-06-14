@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -1486,34 +1487,31 @@ public class Leetcode_7 {
 
     // 1547. 切棍子的最小成本 (Minimum Cost to Cut a Stick)
     private int[][] memo1547;
-    private int k1547;
-    private int[] cuts1547;
+    private List<Integer> cuts1547;
 
     public int minCost(int n, int[] cuts) {
-        Arrays.sort(cuts);
-        this.cuts1547 = cuts;
-        this.k1547 = cuts.length;
-        this.memo1547 = new int[k1547 + 1][k1547 + 1];
-        for (int i = 0; i < k1547 + 1; ++i) {
-            Arrays.fill(memo1547[i], -1);
-        }
-        return dfs1547(0, n, 0, k1547);
+        this.cuts1547 = Arrays.stream(cuts).boxed().collect(Collectors.toList());
+        cuts1547.add(0);
+        cuts1547.add(n);
+        Collections.sort(cuts1547);
+        this.memo1547 = new int[cuts1547.size()][cuts1547.size()];
+        return dfs1547(0, cuts1547.size() - 1);
 
     }
 
-    private int dfs1547(int left, int right, int i, int j) {
-        if (left >= right || i >= j) {
+    private int dfs1547(int i, int j) {
+        if (j - i == 1) {
             return 0;
         }
-        if (memo1547[i][j] != -1) {
+        if (memo1547[i][j] != 0) {
             return memo1547[i][j];
         }
         int min = (int) 1e9;
-        for (int k = i; k < j; ++k) {
+        for (int k = i + 1; k < j; ++k) {
             min = Math.min(min,
-                    dfs1547(left, cuts1547[k], i, k) + dfs1547(cuts1547[k], right, k + 1, j));
+                    dfs1547(i, k) + dfs1547(k, j));
         }
-        return memo1547[i][j] = min + right - left;
+        return memo1547[i][j] = min + cuts1547.get(j) - cuts1547.get(i);
     }
 
     // 2576. 求出最多标记下标 (Find the Maximum Number of Marked Indices) --二分
