@@ -740,19 +740,16 @@ class leetcode_1:
 
     # 1039. 多边形三角剖分的最低得分 (Minimum Score Triangulation of Polygon)
     def minScoreTriangulation(self, values: List[int]) -> int:
-        n = len(values)
-
         @cache
         def dfs(i: int, j: int) -> int:
             if j - i <= 1:
                 return 0
-            res = inf
-            for k in range(i + 1, j):
-                res = min(
-                    res, dfs(i, k) + dfs(k, j) + values[i] * values[k] * values[j]
-                )
-            return res
+            return min(
+                dfs(i, k) + dfs(k, j) + values[i] * values[j] * values[k]
+                for k in range(i + 1, j)
+            )
 
+        n = len(values)
         return dfs(0, n - 1)
 
     # 1048. 最长字符串链 (Longest String Chain)
