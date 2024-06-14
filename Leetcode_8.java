@@ -1820,36 +1820,18 @@ public class Leetcode_8 {
 
     // 2779. 数组的最大美丽值 (Maximum Beauty of an Array After Applying Operation)
     public int maximumBeauty(int[] nums, int k) {
-        TreeMap<Integer, Integer> map = new TreeMap<>();
-        for (int num : nums) {
-            int a = num - k;
-            int b = num + k + 1;
-            map.merge(a, -1, Integer::sum);
-            map.merge(b, 1, Integer::sum);
-        }
-        int res = 0;
-        int cur = 0;
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            cur += entry.getValue();
-            res = Math.max(res, Math.abs(cur));
-        }
-        return res;
-
-    }
-
-    // 2779. 数组的最大美丽值 (Maximum Beauty of an Array After Applying Operation)
-    public int maximumBeauty2(int[] nums, int k) {
         int res = 0;
         Arrays.sort(nums);
-        int left = 0;
-        int right = 0;
+        int j = 0;
         int n = nums.length;
-        while (right < n) {
-            while (nums[right] - nums[left] > 2 * k) {
-                ++left;
+        for (int i = 0; i < n; ++i) {
+            while (j < n && nums[i] + 2 * k >= nums[j]) {
+                ++j;
             }
-            res = Math.max(res, right - left + 1);
-            ++right;
+            res = Math.max(res, j - i);
+            if (j == n) {
+                break;
+            }
         }
         return res;
 

@@ -4820,3 +4820,19 @@ class Union924:
         n = len(s)
         MOD = 10**9 + 7
         return sum(dfs(x, 0, n - 1) for x in range(4)) % MOD
+
+    # 2779. 数组的最大美丽值 (Maximum Beauty of an Array After Applying Operation)
+    def maximumBeauty(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        nums.sort()
+        i = 0
+        j = 0
+        res = 0
+        while i < n:
+            while j < n and nums[i] + 2 * k >= nums[j]:
+                j += 1
+            res = max(res, j - i)
+            if j == n:
+                break
+            i += 1
+        return res
