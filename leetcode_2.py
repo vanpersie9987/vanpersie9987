@@ -4820,4 +4820,3 @@ class Union924:
         n = len(s)
         MOD = 10**9 + 7
         return sum(dfs(x, 0, n - 1) for x in range(4)) % MOD
-

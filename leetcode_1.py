@@ -2715,22 +2715,14 @@ class leetcode_1:
 
     # 1547. 切棍子的最小成本 (Minimum Cost to Cut a Stick)
     def minCost(self, n: int, cuts: List[int]) -> int:
-        cuts.sort()
-
         @cache
-        def dfs(l: int, r: int, i: int, j: int) -> int:
-            if r <= l or j <= i:
+        def dfs(i: int, j: int) -> int:
+            if j - i == 1:
                 return 0
-            return (
-                min(
-                    dfs(l, cuts[k], i, k) + dfs(cuts[k], r, k + 1, j)
-                    for k in range(i, j)
-                )
-                + r
-                - l
-            )
-
-        return dfs(0, n, 0, len(cuts))
+            return min(dfs(i, k) + dfs(k, j) for k in range(i + 1, j)) + cuts[j] - cuts[i]
+        cuts.extend([0, n])
+        cuts.sort()
+        return dfs(0, len(cuts) - 1)
 
     # 3. 无重复字符的最长子串 (Longest Substring Without Repeating Characters)
     def lengthOfLongestSubstring(self, s: str) -> int:
