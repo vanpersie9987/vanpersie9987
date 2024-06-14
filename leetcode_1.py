@@ -3368,19 +3368,18 @@ class leetcode_1:
 
     # 1770. 执行乘法运算的最大分数 (Maximum Score from Performing Multiplication Operations)
     def maximumScore(self, nums: List[int], multipliers: List[int]) -> int:
-        n = len(nums)
-        m = len(multipliers)
-
         @cache
         def dfs(i: int, j: int) -> int:
-            if i + j >= m:
+            if j - i + 1 == n - m:
                 return 0
             return max(
-                dfs(i + 1, j) + multipliers[i + j] * nums[i],
-                dfs(i, j + 1) + multipliers[i + j] * nums[n - j - 1],
+                dfs(i + 1, j) + nums[i] * multipliers[n - (j - i + 1)],
+                dfs(i, j - 1) + nums[j] * multipliers[n - (j - i + 1)],
             )
 
-        return dfs(0, 0)
+        n = len(nums)
+        m = len(multipliers)
+        return dfs(0, n - 1)
 
     # 1751. 最多可以参加的会议数目 II (Maximum Number of Events That Can Be Attended II)
     def maxValue(self, events: List[List[int]], k: int) -> int:
