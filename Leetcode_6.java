@@ -10086,10 +10086,8 @@ public class Leetcode_6 {
         if (memo1770[i][j] != Integer.MIN_VALUE) {
             return memo1770[i][j];
         }
-        int max = Integer.MIN_VALUE;
-        max = Math.max(max, dfs1770(i + 1, j) + nums1770[i] * multipliers1770[i + j]);
-        max = Math.max(max, dfs1770(i, j + 1) + nums1770[n1770 - j - 1] * multipliers1770[i + j]);
-        return memo1770[i][j] = max;
+        return memo1770[i][j] = Math.max(dfs1770(i + 1, j) + nums1770[i] * multipliers1770[i + j],
+                dfs1770(i, j + 1) + nums1770[n1770 - j - 1] * multipliers1770[i + j]);
     }
 
     // 1197. 进击的骑士 (Minimum Knight Moves)
