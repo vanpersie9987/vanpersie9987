@@ -4825,14 +4825,12 @@ class Union924:
     def maximumBeauty(self, nums: List[int], k: int) -> int:
         n = len(nums)
         nums.sort()
-        i = 0
-        j = 0
         res = 0
-        while i < n:
-            while j < n and nums[i] + 2 * k >= nums[j]:
+        j = 0
+        for i, v in enumerate(nums):
+            while j < n and v + 2 * k >= nums[j]:
                 j += 1
             res = max(res, j - i)
             if j == n:
                 break
-            i += 1
         return res
