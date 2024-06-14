@@ -1665,6 +1665,9 @@ public class Leetcode_7 {
     }
 
     private int dfs1039(int i, int j) {
+        if (j - i <= 1) {
+            return 0;
+        }
         if (memo1039[i][j] != -1) {
             return memo1039[i][j];
         }
@@ -1672,7 +1675,7 @@ public class Leetcode_7 {
         for (int k = i + 1; k < j; ++k) {
             res = Math.min(res, values1039[i] * values1039[j] * values1039[k] + dfs1039(i, k) + dfs1039(k, j));
         }
-        return memo1039[i][j] = res == Integer.MAX_VALUE ? 0 : res;
+        return memo1039[i][j] = res;
     }
 
     // 2605. 从两个数字数组里生成最小数字 (Form Smallest Number From Two Digit Arrays)
