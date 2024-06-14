@@ -930,29 +930,22 @@ class leetcode_1:
 
     # 87. 扰乱字符串 (Scramble String)
     def isScramble(self, s1: str, s2: str) -> bool:
-        n = len(s1)
-
         @cache
         def dfs(i: int, j: int, l: int) -> bool:
             if l == 1:
                 return s1[i] == s2[j]
-            if s1[i : i + l] == s2[j : j + 1]:
+            if s1[i: i + l] == s2[j: j + l]:
                 return True
-            cnts = [0] * 26
-            for k in range(i, i + l):
-                cnts[ord(s1[k]) - ord("a")] += 1
-            for k in range(j, j + l):
-                cnts[ord(s2[k]) - ord("a")] -= 1
-            for c in cnts:
-                if c:
-                    return False
-            for k in range(1, l):
-                if dfs(i, j, k) and dfs(i + k, j + k, l - k):
-                    return True
-                if dfs(i, j + l - k, k) and dfs(i + k, j, l - k):
-                    return True
-            return False
-
+            if Counter(s1[i: i + l]) != Counter(s2[j: j + l]):
+                return False
+            return any(
+                dfs(i, j, k)
+                and dfs(i + k, j + k, l - k)
+                or dfs(i, j + l - k, k)
+                and dfs(i + k, j, l - k)
+                for k in range(1, l)
+            )
+        n = len(s1)
         return dfs(0, 0, n)
 
     # 5. 最长回文子串 (Longest Palindromic Substring)

@@ -4774,105 +4774,47 @@ public class Leetcode_7 {
     }
 
     // 87. 扰乱字符串 (Scramble String)
-    private Map<String, Boolean> memo_87_1;
-    private int n_87_1;
-    private String s2_87_1;
+    private int n87;
+    private String s1_87;
+    private String s2_87;
+    private int[][][] memo87;
 
     public boolean isScramble(String s1, String s2) {
-        this.memo_87_1 = new HashMap<>();
-        this.n_87_1 = s1.length();
-        this.s2_87_1 = s2;
-        return dfs_87_1(s1, 0, n_87_1);
+        this.n87 = s1.length();
+        this.s1_87 = s1;
+        this.s2_87 = s2;
+        memo87 = new int[n87][n87][n87 + 1];
+        return dfs87(0, 0, n87);
 
     }
 
-    private boolean dfs_87_1(String s, int left, int right) {
-        String p = s + "_" + left + "_" + right;
-        if (memo_87_1.containsKey(p)) {
-            return memo_87_1.get(p);
+    private boolean dfs87(int i1, int i2, int len) {
+        if (memo87[i1][i2][len] != 0) {
+            return memo87[i1][i2][len] > 0;
         }
-        if (s.equals(s2_87_1.substring(left, right))) {
+        if (s1_87.substring(i1, i1 + len).equals(s2_87.substring(i2, i2 + len))) {
+            memo87[i1][i2][len] = 1;
             return true;
         }
-        if (!check_87_1(s, s2_87_1.substring(left, right))) {
-            memo_87_1.put(p, false);
-            return false;
-        }
-        for (int i = left + 1; i < right; ++i) {
-            String sub1 = s.substring(left - left, i - left);
-            String sub2 = s.substring(i - left, right - left);
-            if (dfs_87_1(sub1, left, i) && dfs_87_1(sub2, i, right)) {
-                memo_87_1.put(p, true);
-                return true;
-            }
-            if (dfs_87_1(sub2, left, left + sub2.length())
-                    && dfs_87_1(sub1, right - sub1.length(), right)) {
-                memo_87_1.put(p, true);
-                return true;
-            }
-        }
-        memo_87_1.put(p, false);
-        return false;
-    }
-
-    private boolean check_87_1(String a, String b) {
-        int[] cnt = new int[26];
-        for (char c : a.toCharArray()) {
-            ++cnt[c - 'a'];
-        }
-        for (char c : b.toCharArray()) {
-            --cnt[c - 'a'];
-        }
-        for (int i = 0; i < 26; ++i) {
-            if (cnt[i] != 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    // 87. 扰乱字符串 (Scramble String)
-    private int n_87_2;
-    private String s1_87_2;
-    private String s2_87_2;
-    private int[][][] memo_87_2;
-
-    public boolean isScramble2(String s1, String s2) {
-        this.n_87_2 = s1.length();
-        this.s1_87_2 = s1;
-        this.s2_87_2 = s2;
-        memo_87_2 = new int[n_87_2][n_87_2][n_87_2 + 1];
-        return dfs_87_2(0, 0, n_87_2);
-
-    }
-
-    private boolean dfs_87_2(int i1, int i2, int len) {
-        if (memo_87_2[i1][i2][len] != 0) {
-            return memo_87_2[i1][i2][len] > 0;
-        }
-        if (s1_87_2.substring(i1, i1 + len).equals(s2_87_2.substring(i2, i2 + len))) {
-            memo_87_2[i1][i2][len] = 1;
-            return true;
-        }
-        if (!check_87_2(s1_87_2.substring(i1, i1 + len), s2_87_2.substring(i2, i2 + len))) {
-            memo_87_2[i1][i2][len] = -1;
+        if (!check87(s1_87.substring(i1, i1 + len), s2_87.substring(i2, i2 + len))) {
+            memo87[i1][i2][len] = -1;
             return false;
         }
         for (int l = 1; l < len; ++l) {
-            if (dfs_87_2(i1, i2, l) && dfs_87_2(i1 + l, i2 + l, len - l)) {
-                memo_87_2[i1][i2][len] = 1;
+            if (dfs87(i1, i2, l) && dfs87(i1 + l, i2 + l, len - l)) {
+                memo87[i1][i2][len] = 1;
                 return true;
             }
-            if (dfs_87_2(i1 + l, i2, len - l) && dfs_87_2(i1, i2 + len - l, l)) {
-                memo_87_2[i1][i2][len] = 1;
+            if (dfs87(i1 + l, i2, len - l) && dfs87(i1, i2 + len - l, l)) {
+                memo87[i1][i2][len] = 1;
                 return true;
             }
         }
-        memo_87_2[i1][i2][len] = -1;
+        memo87[i1][i2][len] = -1;
         return false;
     }
 
-    private boolean check_87_2(String a, String b) {
+    private boolean check87(String a, String b) {
         int[] cnts = new int[26];
         for (char c : a.toCharArray()) {
             ++cnts[c - 'a'];
