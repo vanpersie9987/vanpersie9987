@@ -7475,9 +7475,7 @@ public class LeetCodeText {
 
     // 521. 最长特殊序列 Ⅰ (Longest Uncommon Subsequence I)
     public int findLUSlength(final String a, final String b) {
-        if (a.equals(b))
-            return -1;
-        return Math.max(a.length(), b.length());
+        return a.equals(b) ? -1 : Math.max(a.length(), b.length());
     }
 
     // 537. 复数乘法 (Complex Number Multiplication)
