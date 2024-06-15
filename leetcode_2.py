@@ -4834,3 +4834,7 @@ class Union924:
             if j == n:
                 break
         return res
+
+    # 521. 最长特殊序列 Ⅰ (Longest Uncommon Subsequence I)
+    def findLUSlength(self, a: str, b: str) -> int:
+        return -1 if a == b else max(len(a), len(b))
