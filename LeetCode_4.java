@@ -4646,34 +4646,39 @@ public class LeetCode_4 {
 
     // 522. 最长特殊序列 II (Longest Uncommon Subsequence II)
     public int findLUSlength(String[] strs) {
-        int n = strs.length;
-        int res = -1;
-        search: for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
+        Arrays.sort(strs, new Comparator<String>() {
+
+            @Override
+            public int compare(String o1, String o2) {
+                return Integer.compare(o2.length(), o1.length());
+            }
+
+        });
+        search: for (int i = 0; i < strs.length; ++i) {
+            for (int j = 0; j < strs.length; ++j) {
                 if (i == j) {
                     continue;
                 }
-                if (isLUS522(strs[i], strs[j])) {
+                if (check522(strs[i], strs[j])) {
                     continue search;
                 }
             }
-            res = Math.max(res, strs[i].length());
+            return strs[i].length();
         }
-        return res;
+        return -1;
 
     }
 
-    // 判断s1是否为s2的子序列
-    private boolean isLUS522(String s1, String s2) {
+    private boolean check522(String s, String t) {
         int i = 0;
         int j = 0;
-        while (i < s1.length() && j < s2.length()) {
-            if (s1.charAt(i) == s2.charAt(j)) {
+        while (i < s.length() && j < t.length()) {
+            if (s.charAt(i) == t.charAt(j)) {
                 ++i;
             }
             ++j;
         }
-        return i == s1.length();
+        return i == s.length();
     }
 
     // 609. 在系统中查找重复文件 (Find Duplicate File in System)

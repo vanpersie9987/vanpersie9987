@@ -800,4 +800,40 @@ public class Leetcode_9 {
         return n - 1 - k;
     }
 
+    public int findLUSlength(String[] strs) {
+        Arrays.sort(strs, new Comparator<String>() {
+
+            @Override
+            public int compare(String o1, String o2) {
+                return Integer.compare(o2.length(), o1.length());
+            }
+
+        });
+        search: for (int i = 0; i < strs.length; ++i) {
+            for (int j = 0; j < strs.length; ++j) {
+                if (i == j) {
+                    continue;
+                }
+                if (check(strs[i], strs[j])) {
+                    continue search;
+                }
+            }
+            return strs[i].length();
+        }
+        return -1;
+
+    }
+
+    private boolean check(String s, String t) {
+        int i = 0;
+        int j = 0;
+        while (i < s.length() && j < t.length()) {
+            if (s.charAt(i) == t.charAt(j)) {
+                ++i;
+            }
+            ++j;
+        }
+        return i == s.length();
+    }
+
 }
