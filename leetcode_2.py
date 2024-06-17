@@ -4838,3 +4838,20 @@ class Union924:
     # 521. 最长特殊序列 Ⅰ (Longest Uncommon Subsequence I)
     def findLUSlength(self, a: str, b: str) -> int:
         return -1 if a == b else max(len(a), len(b))
+
+    # 522. 最长特殊序列 II (Longest Uncommon Subsequence II)
+    def findLUSlength(self, strs: List[str]) -> int:
+        def check(s: str, t: str) -> bool:
+            i = 0
+            j = 0
+            while i < len(s) and j < len(t):
+                if s[i] == t[j]:
+                    i += 1
+                j += 1
+            return i == len(s)
+
+        strs.sort(key=lambda k: -len(k))
+        for i, s in enumerate(strs):
+            if all(j == i or not check(s, t) for j, t in enumerate(strs)):
+                return len(s)
+        return -1
