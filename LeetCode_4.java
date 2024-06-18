@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -720,87 +721,28 @@ public class LeetCode_4 {
 
     }
 
-    // 6079. 价格减免
+    // 2288. 价格减免 (Apply Discount to Prices)
     public String discountPrices(String sentence, int discount) {
-        StringBuilder res = new StringBuilder();
-        for (int i = 0; i < sentence.length(); ++i) {
-            if (i == 0 && sentence.charAt(i) == '$' && (i + 1) < sentence.length()) {
-                int spaceIndex = sentence.indexOf(" ", i + 1);
-                if (spaceIndex != -1) {
-                    String sub = sentence.substring(i + 1, spaceIndex);
-                    if (isNum(sub)) {
-                        double dis = (100 - discount) * 0.01d;
-                        double d = Double.parseDouble(sub) * dis;
-                        String r = String.format("%.2f", d);
-                        res.append("$");
-                        res.append(r);
-
-                        i = spaceIndex - 1;
-                    } else {
-                        res.append(sentence.charAt(i));
-                    }
-                } else if (i + 1 < sentence.length()) {
-                    String sub = sentence.substring(i + 1);
-                    if (isNum(sub)) {
-                        double dis = (100 - discount) * 0.01d;
-                        double d = Double.parseDouble(sub) * dis;
-                        String r = String.format("%.2f", d);
-                        res.append("$");
-                        res.append(r);
-                        i = sentence.length() - 1;
-                    } else {
-                        res.append(sentence.charAt(i));
-                    }
-                } else {
-                    res.append(sentence.charAt(i));
-                }
-            } else if (sentence.charAt(i) == ' ' && (i + 1) < sentence.length() && sentence.charAt(i + 1) == '$') {
-                int spaceIndex = sentence.indexOf(" ", i + 1);
-                if (spaceIndex != -1) {
-                    String sub = sentence.substring(i + 2, spaceIndex);
-                    if (isNum(sub)) {
-                        double dis = (100 - discount) * 0.01d;
-                        double d = Double.parseDouble(sub) * dis;
-                        String r = String.format("%.2f", d);
-                        res.append(" ");
-                        res.append("$");
-                        res.append(r);
-
-                        i = spaceIndex - 1;
-                    } else {
-                        res.append(sentence.charAt(i));
-                    }
-                } else if (i + 2 < sentence.length()) {
-                    String sub = sentence.substring(i + 2);
-                    if (isNum(sub)) {
-                        double dis = (100 - discount) * 0.01d;
-                        double d = Double.parseDouble(sub) * dis;
-                        String r = String.format("%.2f", d);
-                        res.append(" ");
-                        res.append("$");
-                        res.append(r);
-                        i = sentence.length() - 1;
-                    } else {
-                        res.append(sentence.charAt(i));
-                    }
-                } else {
-                    res.append(sentence.charAt(i));
-                }
-
-            } else {
-                res.append(sentence.charAt(i));
+        String[] arr = sentence.split(" ");
+        for (int i = 0; i < arr.length; ++i) {
+            if (arr[i].charAt(0) == '$' && checkAllDigit(arr[i].substring(1))) {
+                long d = Long.valueOf(arr[i].substring(1));
+                double c = d - d * discount * 0.01D;
+                DecimalFormat df = new DecimalFormat("#0.00");
+                arr[i] = "$" + df.format(c);
             }
         }
-        return res.toString();
+        return String.join(" ", arr);
 
     }
 
-    private boolean isNum(String str) {
-        if (str.isEmpty()) {
-            return false;
+    private boolean checkAllDigit(String s) {
+        for (char c : s.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
         }
-        Matcher isNum = Pattern.compile("[0-9]*").matcher(str);
-        return isNum.matches();
+        return !s.isEmpty();
     }
 
     // 2290. 到达角落需要移除障碍物的最小数目 (Minimum Obstacle Removal to Reach Corner)
