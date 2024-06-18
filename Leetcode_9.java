@@ -800,40 +800,63 @@ public class Leetcode_9 {
         return n - 1 - k;
     }
 
-    public int findLUSlength(String[] strs) {
-        Arrays.sort(strs, new Comparator<String>() {
-
-            @Override
-            public int compare(String o1, String o2) {
-                return Integer.compare(o2.length(), o1.length());
+    public long countCompleteDayPairs(int[] hours) {
+        long res = 0L;
+        int n = hours.length;
+        int[] cnt = new int[24];
+        for (int i = 0; i < n; ++i) {
+            int h = hours[i] % 24;
+            if (h != 0) {
+                res += cnt[24 - h];
             }
-
-        });
-        search: for (int i = 0; i < strs.length; ++i) {
-            for (int j = 0; j < strs.length; ++j) {
-                if (i == j) {
-                    continue;
-                }
-                if (check(strs[i], strs[j])) {
-                    continue search;
-                }
-            }
-            return strs[i].length();
+            ++cnt[h];
         }
-        return -1;
+        return res + (long) cnt[0] * (cnt[0] - 1) / 2;
 
     }
 
-    private boolean check(String s, String t) {
-        int i = 0;
-        int j = 0;
-        while (i < s.length() && j < t.length()) {
-            if (s.charAt(i) == t.charAt(j)) {
-                ++i;
+    private List<int[]> list;
+    private int n;
+    private long[] memo;
+
+    public long maximumTotalDamage(int[] power) {
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int p : power) {
+            cnts.merge(p, 1, Integer::sum);
+        }
+        this.list = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : cnts.entrySet()) {
+            list.add(new int[] { entry.getKey(), entry.getValue() });
+        }
+        Collections.sort(list, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
             }
+
+        });
+        this.n = list.size();
+        this.memo = new long[n];
+        Arrays.fill(memo, -1L);
+        return dfs(0);
+
+    }
+
+    private long dfs(int i) {
+        if (i >= n) {
+            return 0L;
+        }
+        if (memo[i] != -1) {
+            return memo[i];
+        }
+        long res = dfs(i + 1);
+        int j = i + 1;
+        while (j < n && list.get(j)[0] - list.get(i)[0] <= 2) {
             ++j;
         }
-        return i == s.length();
+        res = Math.max(res, dfs(j) + (long) list.get(i)[0] * list.get(i)[1]);
+        return memo[i] = res;
     }
 
 }

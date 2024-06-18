@@ -4855,3 +4855,43 @@ class Union924:
             if all(j == i or not check(s, t) for j, t in enumerate(strs)):
                 return len(s)
         return -1
+
+    def countCompleteDayPairs(self, hours: List[int]) -> int:
+        res = 0
+        cnts = [0] * 24
+        for v in hours:
+            v %= 24
+            if v:
+                res += cnts[24 - v]
+            cnts[v] += 1
+        return res + cnts[0] * (cnts[0] - 1) // 2
+
+    def maximumTotalDamage(self, power: List[int]) -> int:
+        @cache
+        def dfs(i: int) -> int:
+            if i == n:
+                return 0
+            res = dfs(i + 1)
+            j = i + 1
+            while j < n and arr[j][0] - arr[i][0] <= 2:
+                j += 1
+            res = max(res, dfs(j) + arr[i][0] * arr[i][1])
+            return res
+
+        c = Counter(power)
+        arr = []
+        for k, v in c.items():
+            arr.append((k, v))
+        arr.sort(key=lambda k: k[0])
+        n = len(arr)
+        return dfs(0)
+
+    # 2288. 价格减免 (Apply Discount to Prices)
+    def discountPrices(self, sentence: str, discount: int) -> str:
+        arr = sentence.split()
+        for i, a in enumerate(arr):
+            if a[0] == '$' and a[1:].isdigit():
+                d = int(a[1:])
+                d -= d * discount * 0.01
+                arr[i] = '$' + f"{d:.2f}"
+        return ' '.join(arr)
