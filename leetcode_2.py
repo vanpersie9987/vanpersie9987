@@ -4898,3 +4898,19 @@ class Union924:
                 d -= d * discount * 0.01
                 arr[i] = '$' + f"{d:.2f}"
         return ' '.join(arr)
+
+    # 2748. 美丽下标对的数目 (Number of Beautiful Pairs)
+    def countBeautifulPairs(self, nums: List[int]) -> int:
+        g = [[] for _ in range(10)]
+        for i in range(1, 10):
+            for j in range(1, 10):
+                if gcd(i, j) == 1:
+                    g[i].append(j)
+        dic = [0] * 10
+        res = 0
+        for x in nums:
+            lb = x % 10
+            for y in g[lb]:
+                res += dic[y]
+            dic[int(str(x)[0])] += 1
+        return res
