@@ -610,27 +610,27 @@ public class Leetcode_8 {
 
     }
 
-    // 6466. 美丽下标对的数目 (Number of Beautiful Pairs)
+    // 2748. 美丽下标对的数目 (Number of Beautiful Pairs)
     public int countBeautifulPairs(int[] nums) {
         int res = 0;
         int[] cnts = new int[10];
-        for (int num : nums) {
-            int b = num % 10;
+        for (int x : nums) {
+            int b = x % 10;
             for (int i = 1; i < 10; ++i) {
-                if (gcd6466(i, b) == 1) {
+                if (gcd2748(i, b) == 1) {
                     res += cnts[i];
                 }
             }
-            while (num >= 10) {
-                num /= 10;
+            while (x >= 10) {
+                x /= 10;
             }
-            ++cnts[num];
+            ++cnts[x];
         }
         return res;
     }
 
-    private int gcd6466(int a, int b) {
-        return b == 0 ? a : gcd6466(b, a % b);
+    private int gcd2748(int a, int b) {
+        return b == 0 ? a : gcd2748(b, a % b);
     }
 
     // 6471. 得到整数零需要执行的最少操作数 (Minimum Operations to Make the Integer Zero)

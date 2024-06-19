@@ -4901,16 +4901,11 @@ class Union924:
 
     # 2748. 美丽下标对的数目 (Number of Beautiful Pairs)
     def countBeautifulPairs(self, nums: List[int]) -> int:
-        g = [[] for _ in range(10)]
-        for i in range(1, 10):
-            for j in range(1, 10):
-                if gcd(i, j) == 1:
-                    g[i].append(j)
-        dic = [0] * 10
+        cnts = [0] * 10
         res = 0
         for x in nums:
-            lb = x % 10
-            for y in g[lb]:
-                res += dic[y]
-            dic[int(str(x)[0])] += 1
+            res += sum(cnts[y] for y in range(1, 10) if gcd(x % 10, y) == 1)
+            while x >= 10:
+                x //= 10
+            cnts[x] += 1
         return res
