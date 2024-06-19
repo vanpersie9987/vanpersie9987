@@ -800,6 +800,8 @@ public class Leetcode_9 {
         return n - 1 - k;
     }
 
+    // 3184. 构成整天的下标对数目 I (Count Pairs That Form a Complete Day I)
+    // 3185. 构成整天的下标对数目 II (Count Pairs That Form a Complete Day II)
     public long countCompleteDayPairs(int[] hours) {
         long res = 0L;
         int n = hours.length;
@@ -815,20 +817,21 @@ public class Leetcode_9 {
 
     }
 
-    private List<int[]> list;
-    private int n;
-    private long[] memo;
+    // 3186. 施咒的最大总伤害 (Maximum Total Damage With Spell Casting)
+    private List<int[]> list3186;
+    private int n3186;
+    private long[] memo3186;
 
     public long maximumTotalDamage(int[] power) {
         Map<Integer, Integer> cnts = new HashMap<>();
         for (int p : power) {
             cnts.merge(p, 1, Integer::sum);
         }
-        this.list = new ArrayList<>();
+        this.list3186 = new ArrayList<>();
         for (Map.Entry<Integer, Integer> entry : cnts.entrySet()) {
-            list.add(new int[] { entry.getKey(), entry.getValue() });
+            list3186.add(new int[] { entry.getKey(), entry.getValue() });
         }
-        Collections.sort(list, new Comparator<int[]>() {
+        Collections.sort(list3186, new Comparator<int[]>() {
 
             @Override
             public int compare(int[] o1, int[] o2) {
@@ -836,27 +839,27 @@ public class Leetcode_9 {
             }
 
         });
-        this.n = list.size();
-        this.memo = new long[n];
-        Arrays.fill(memo, -1L);
-        return dfs(0);
+        this.n3186 = list3186.size();
+        this.memo3186 = new long[n3186];
+        Arrays.fill(memo3186, -1L);
+        return dfs3186(0);
 
     }
 
-    private long dfs(int i) {
-        if (i >= n) {
+    private long dfs3186(int i) {
+        if (i >= n3186) {
             return 0L;
         }
-        if (memo[i] != -1) {
-            return memo[i];
+        if (memo3186[i] != -1) {
+            return memo3186[i];
         }
-        long res = dfs(i + 1);
+        long res = dfs3186(i + 1);
         int j = i + 1;
-        while (j < n && list.get(j)[0] - list.get(i)[0] <= 2) {
+        while (j < n3186 && list3186.get(j)[0] - list3186.get(i)[0] <= 2) {
             ++j;
         }
-        res = Math.max(res, dfs(j) + (long) list.get(i)[0] * list.get(i)[1]);
-        return memo[i] = res;
+        res = Math.max(res, dfs3186(j) + (long) list3186.get(i)[0] * list3186.get(i)[1]);
+        return memo3186[i] = res;
     }
 
 }

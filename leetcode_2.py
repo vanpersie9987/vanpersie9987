@@ -4856,6 +4856,8 @@ class Union924:
                 return len(s)
         return -1
 
+    # 3184. 构成整天的下标对数目 I (Count Pairs That Form a Complete Day I)
+    # 3185. 构成整天的下标对数目 II (Count Pairs That Form a Complete Day II)
     def countCompleteDayPairs(self, hours: List[int]) -> int:
         res = 0
         cnts = [0] * 24
@@ -4866,6 +4868,7 @@ class Union924:
             cnts[v] += 1
         return res + cnts[0] * (cnts[0] - 1) // 2
 
+    # 3186. 施咒的最大总伤害 (Maximum Total Damage With Spell Casting)
     def maximumTotalDamage(self, power: List[int]) -> int:
         @cache
         def dfs(i: int) -> int:
