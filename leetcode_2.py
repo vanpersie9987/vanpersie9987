@@ -4909,3 +4909,17 @@ class Union924:
                 x //= 10
             cnts[x] += 1
         return res
+
+    # LCP 61. 气温变化趋势
+    def temperatureTrend(self, temperatureA: List[int], temperatureB: List[int]) -> int:
+        res = 0
+        cnt = 0
+        for (x0, y0), (x1, y1) in zip(pairwise(temperatureA), pairwise(temperatureB)):
+            if x0 - y0 == x1 - y1 or (x0 - y0) * (x1 - y1) > 0:
+                cnt += 1
+                res = max(res, cnt)
+            else:
+                cnt = 0
+        return res
+            
+
