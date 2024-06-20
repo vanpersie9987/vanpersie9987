@@ -3223,14 +3223,13 @@ public class Leetcode_5 {
         int res = 0;
         int cur = 0;
         for (int i = 1; i < n; ++i) {
-            if (temperatureA[i] > temperatureA[i - 1] && temperatureB[i] > temperatureB[i - 1]
-                    || temperatureA[i] == temperatureA[i - 1] && temperatureB[i] == temperatureB[i - 1]
-                    || temperatureA[i] < temperatureA[i - 1] && temperatureB[i] < temperatureB[i - 1]) {
+            if (temperatureA[i] - temperatureA[i - 1] == temperatureB[i] - temperatureB[i - 1]
+                    || (temperatureA[i] - temperatureA[i - 1]) * (temperatureB[i] - temperatureB[i - 1]) > 0) {
                 ++cur;
+                res = Math.max(res, cur);
             } else {
                 cur = 0;
             }
-            res = Math.max(res, cur);
         }
         return res;
 
