@@ -4921,5 +4921,9 @@ class Union924:
             else:
                 cnt = 0
         return res
+
+    # 520. 检测大写字母 (Detect Capital)
+    def detectCapitalUse(self, word: str) -> bool:
+        return word.islower() or word.isupper() or (word[0].isupper() and word[1:].islower())
             
 
