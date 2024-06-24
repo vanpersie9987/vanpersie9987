@@ -4926,7 +4926,6 @@ class Union924:
     def detectCapitalUse(self, word: str) -> bool:
         return word.islower() or word.isupper() or (word[0].isupper() and word[1:].islower())
 
-
     # 503. 下一个更大元素 II (Next Greater Element II)
     def nextGreaterElements(self, nums: List[int]) -> List[int]:
         n = len(nums)
@@ -4938,5 +4937,32 @@ class Union924:
                 res[st.pop() % n] = v
             st.append(i)
         return res
-            
 
+    # 3190. 使所有元素都可以被 3 整除的最少操作数 (Find Minimum Operations to Make All Elements Divisible by Three)
+    def minimumOperations(self, nums: List[int]) -> int:
+        return sum(min(x % 3, 1) for x in nums)
+
+    # 3191. 使二进制数组全部等于 1 的最少操作次数 I
+    def minOperations(self, nums: List[int]) -> int:
+        n = len(nums)
+        res = 0
+        for i in range(n):
+            if nums[i]:
+                continue
+            if i + 2 >= n:
+                return -1
+            nums[i + 1] ^= 1
+            nums[i + 2] ^= 1
+            res += 1
+        return res
+
+    # 3192. 使二进制数组全部等于 1 的最少操作次数 II (Minimum Operations to Make Binary Array Elements Equal to One II)
+    def minOperations(self, nums: List[int]) -> int:
+        res = 0
+        cnt = 0
+        for x in nums:
+            x ^= cnt
+            if x == 0:
+                res += 1
+                cnt ^= 1
+        return res

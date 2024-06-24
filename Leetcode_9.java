@@ -862,4 +862,47 @@ public class Leetcode_9 {
         return memo3186[i] = res;
     }
 
+    // 3190. 使所有元素都可以被 3 整除的最少操作数 (Find Minimum Operations to Make All Elements
+    // Divisible by Three)
+    public int minimumOperations(int[] nums) {
+        int res = 0;
+        for (int x : nums) {
+            res += Math.min(x % 3, 1);
+        }
+        return res;
+    }
+
+    // 3191. 使二进制数组全部等于 1 的最少操作次数 I
+    public int minOperations(int[] nums) {
+        int res = 0;
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] == 1) {
+                continue;
+            }
+            if (i + 2 >= n) {
+                return -1;
+            }
+            nums[i + 1] ^= 1;
+            nums[i + 2] ^= 1;
+            ++res;
+        }
+        return res;
+    }
+
+    // 3192. 使二进制数组全部等于 1 的最少操作次数 II (Minimum Operations to Make Binary Array
+    // Elements Equal to One II)
+    public int minOperationsII(int[] nums) {
+        int res = 0;
+        int cnt = 0;
+        for (int x : nums) {
+            x ^= cnt;
+            if (x == 0) {
+                ++res;
+                cnt ^= 1;
+            }
+        }
+        return res;
+
+    }
 }
