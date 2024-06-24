@@ -11713,14 +11713,20 @@ public class LeetCodeText {
 
     // 503. 下一个更大元素 II (Next Greater Element II)
     public int[] nextGreaterElements(int[] nums) {
-        int[] res = new int[nums.length];
+        int n = nums.length;
+        int[] res = new int[n];
+        int[] arr = new int[n * 2];
+        for (int i = 0; i < n * 2; ++i) {
+            arr[i] = nums[i];
+            arr[i + n] = nums[i];
+        }
         Arrays.fill(res, -1);
         Stack<Integer> stack = new Stack<>();
-        for (int i = 0; i < nums.length * 2 - 1; ++i) {
-            while (!stack.isEmpty() && nums[i % nums.length] > nums[stack.peek()]) {
-                res[stack.pop()] = nums[i % nums.length];
+        for (int i = 0; i < n * 2; ++i) {
+            while (!stack.isEmpty() && stack.peek() < arr[i]) {
+                res[stack.pop()] = arr[i % n];
             }
-            stack.push(i % nums.length);
+            stack.push(i);
         }
         return res;
 
