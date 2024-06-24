@@ -4925,5 +4925,18 @@ class Union924:
     # 520. 检测大写字母 (Detect Capital)
     def detectCapitalUse(self, word: str) -> bool:
         return word.islower() or word.isupper() or (word[0].isupper() and word[1:].islower())
+
+
+    # 503. 下一个更大元素 II (Next Greater Element II)
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        res = [-1] * n
+        nums = nums + nums
+        st = []
+        for i, v in enumerate(nums):
+            while st and nums[st[-1]] < v:
+                res[st.pop() % n] = v
+            st.append(i)
+        return res
             
 
