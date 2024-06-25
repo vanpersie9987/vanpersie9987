@@ -9250,31 +9250,28 @@ public class Leetcode_7 {
 
     }
 
-    // 6463. 找到矩阵中的好子集 (Find a Good Subset of the Matrix)
+    // 2732. 找到矩阵中的好子集 (Find a Good Subset of the Matrix)
     public List<Integer> goodSubsetofBinaryMatrix(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
         int[] idx = new int[1 << n];
+        int u = (1 << n) - 1;
         Arrays.fill(idx, -1);
         for (int i = 0; i < m; ++i) {
-            int mask = 0;
+            int s = 0;
             for (int j = 0; j < n; ++j) {
-                mask |= grid[i][j] << j;
+                s |= grid[i][j] << j;
             }
-            if (mask == 0) {
+            if (s == 0) {
                 return List.of(i);
             }
-            idx[mask] = i;
-        }
-        for (int i = 0; i < (1 << n); ++i) {
-            for (int j = 0; j < (1 << n); ++j) {
-                if (idx[i] != -1 && idx[j] != -1 && (i & j) == 0) {
-                    if (idx[i] <= idx[j]) {
-                        return List.of(idx[i], idx[j]);
-                    }
-                    return List.of(idx[j], idx[i]);
+            int c = u ^ s;
+            for (int sub = c; sub != 0; sub = (sub - 1) & c) {
+                if (idx[sub] != -1) {
+                    return List.of(idx[sub], i);
                 }
             }
+            idx[s] = i;
         }
         return List.of();
 

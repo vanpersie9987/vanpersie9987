@@ -4966,3 +4966,20 @@ class Union924:
                 res += 1
                 cnt ^= 1
         return res
+
+    # 2732. 找到矩阵中的好子集 (Find a Good Subset of the Matrix)
+    def goodSubsetofBinaryMatrix(self, grid: List[List[int]]) -> List[int]:
+        m = len(grid)
+        n = len(grid[0])
+        idx = [-1] * (1 << n)
+        for i in range(m):
+            s = 0
+            for j in range(n):
+                s |= grid[i][j] << j
+            if s == 0:
+                return [i]
+            for k in range(1 << n):
+                if idx[k] != -1 and k & s == 0:
+                    return [idx[k], i]
+            idx[s] = i
+        return []
