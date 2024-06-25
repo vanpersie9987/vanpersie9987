@@ -4972,14 +4972,17 @@ class Union924:
         m = len(grid)
         n = len(grid[0])
         idx = [-1] * (1 << n)
+        u = (1 << n) - 1
         for i in range(m):
             s = 0
             for j in range(n):
                 s |= grid[i][j] << j
             if s == 0:
                 return [i]
-            for k in range(1 << n):
-                if idx[k] != -1 and k & s == 0:
-                    return [idx[k], i]
+            sub = c = u ^ s
+            while sub:
+                if idx[sub] != -1:
+                    return [idx[sub], i]
+                sub = (sub - 1) & c
             idx[s] = i
         return []
