@@ -17,7 +17,7 @@ from logging import _Level, root
 from math import comb, cos, fabs, gcd, inf, isqrt, sqrt
 from mimetypes import init
 from operator import le, truediv
-from os import eventfd, name
+from os import eventfd, minor, name
 from pickletools import read_uint1
 from queue import PriorityQueue
 from re import L, X
@@ -4992,3 +4992,21 @@ class Union924:
         nums.sort()
         n = len(nums)
         return min(nums[i] + nums[n - i - 1] for i in range(n // 2)) / 2
+    
+
+    # 3195. 包含所有 1 的最小矩形面积 I (Find the Minimum Area to Cover All Ones I)
+    def minimumArea(self, grid: List[List[int]]) -> int:
+        min_row = inf
+        max_row = -1
+        min_col = inf
+        max_col = -1
+        m = len(grid)
+        n = len(grid[0])
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j]:
+                    min_row = min(min_row, i)
+                    max_row = max(max_row, i)
+                    min_col = min(min_col, j)
+                    max_col = max(max_col, j)
+        return max(0, max_row - min_row + 1) * max(0, max_col - min_col + 1)
