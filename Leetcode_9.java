@@ -961,6 +961,53 @@ public class Leetcode_9 {
         if (memo3196[i][j] != (long) 1e15) {
             return memo3196[i][j];
         }
-        return memo3196[i][j] = Math.max(dfs3196(i + 1, 1) + nums3196[i], dfs3196(i + 1, j ^ 1) + (-2 * j + 1) * nums3196[i]);
+        return memo3196[i][j] = Math.max(dfs3196(i + 1, 1) + nums3196[i],
+                dfs3196(i + 1, j ^ 1) + (-2 * j + 1) * nums3196[i]);
+    }
+    
+    // 3193. 统计逆序对的数目 (Count the Number of Inversions)
+    private int[][] memo3193;
+    private int[] req3193;
+    private int max3193;
+
+    public int numberOfPermutations(int n, int[][] requirements) {
+        for (int[] r : requirements) {
+            max3193 = Math.max(max3193, r[1]);
+        }
+        this.req3193 = new int[n];
+        Arrays.fill(req3193, max3193 + 1);
+        req3193[0] = 0;
+        for (int[] r : requirements) {
+            req3193[r[0]] = r[1];
+        }
+        if (req3193[0] != 0) {
+            return 0;
+        }
+        this.memo3193 = new int[n][max3193 + 2];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo3193[i], -1);
+        }
+        return dfs3193(n - 1, req3193[n - 1]);
+
+    }
+
+    private int dfs3193(int i, int j) {
+        if (i == 0) {
+            return 1;
+        }
+        if (memo3193[i][j] != -1) {
+            return memo3193[i][j];
+        }
+        int r = req3193[i - 1];
+        if (r != max3193 + 1) {
+            return memo3193[i][j] = (j >= r && j <= i + r) ? dfs3193(i - 1, r) : 0;
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int k = 0; k <= Math.min(i, j); ++k) {
+            res += dfs3193(i - 1, j - k);
+            res %= MOD;
+        }
+        return memo3193[i][j] = res;
     }
 }

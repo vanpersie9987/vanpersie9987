@@ -5020,3 +5020,22 @@ class Union924:
             return max(dfs(i + 1, -1) + nums[i], dfs(i + 1, -j) + nums[i] * j)
         n = len(nums)
         return dfs(0, 1)
+
+    # 3193. 统计逆序对的数目 (Count the Number of Inversions)
+    def numberOfPermutations(self, n: int, requirements: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == 0:
+                return 1
+            r = req[i - 1]
+            if r != -1:
+                return dfs(i - 1, r) if r <= j <= i + r else 0
+            return sum(dfs(i - 1, j - k) for k in range(min(i, j) + 1)) % MOD
+        req = [-1] * n
+        req[0] = 0
+        for end, cnt in requirements:
+            req[end] = cnt
+        if req[0] != 0:
+            return 0
+        MOD = 10**9 + 7
+        return dfs(n - 1, req[-1])
