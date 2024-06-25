@@ -5010,3 +5010,13 @@ class Union924:
                     min_col = min(min_col, j)
                     max_col = max(max_col, j)
         return max(0, max_row - min_row + 1) * max(0, max_col - min_col + 1)
+    
+    # 3196. 最大化子数组的总成本 (Maximize Total Cost of Alternating Subarrays)
+    def maximumTotalCost(self, nums: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0
+            return max(dfs(i + 1, -1) + nums[i], dfs(i + 1, -j) + nums[i] * j)
+        n = len(nums)
+        return dfs(0, 1)

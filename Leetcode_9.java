@@ -937,4 +937,30 @@ public class Leetcode_9 {
         return Math.max(0, maxRow - minRow + 1) * Math.max(0, maxCol - minCol + 1);
 
     }
+
+    // 3196. 最大化子数组的总成本 (Maximize Total Cost of Alternating Subarrays)
+    private int n3196;
+    private int[] nums3196;
+    private long[][] memo3196;
+
+    public long maximumTotalCost(int[] nums) {
+        this.nums3196 = nums;
+        this.n3196 = nums.length;
+        this.memo3196 = new long[n3196][2];
+        for (int i = 0; i < n3196; ++i) {
+            Arrays.fill(memo3196[i], (long) 1e15);
+        }
+        return dfs3196(0, 0);
+
+    }
+
+    private long dfs3196(int i, int j) {
+        if (i == n3196) {
+            return 0;
+        }
+        if (memo3196[i][j] != (long) 1e15) {
+            return memo3196[i][j];
+        }
+        return memo3196[i][j] = Math.max(dfs3196(i + 1, 1) + nums3196[i], dfs3196(i + 1, j ^ 1) + (-2 * j + 1) * nums3196[i]);
+    }
 }
