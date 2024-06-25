@@ -4986,3 +4986,9 @@ class Union924:
                 sub = (sub - 1) & c
             idx[s] = i
         return []
+    
+    # 3194. 最小元素和最大元素的最小平均值 (Minimum Average of Smallest and Largest Elements)
+    def minimumAverage(self, nums: List[int]) -> float:
+        nums.sort()
+        n = len(nums)
+        return min(nums[i] + nums[n - i - 1] for i in range(n // 2)) / 2

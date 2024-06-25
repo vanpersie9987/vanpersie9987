@@ -905,4 +905,14 @@ public class Leetcode_9 {
         return res;
 
     }
+
+    // 3194. 最小元素和最大元素的最小平均值 (Minimum Average of Smallest and Largest Elements)
+    public double minimumAverage(int[] nums) {
+        int min = 100;
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length / 2; ++i) {
+            min = Math.min(min, nums[i] + nums[nums.length - i - 1]);
+        }
+        return min / 2D;
+    }
 }
