@@ -55,6 +55,7 @@ from collections import Counter, defaultdict, deque
 # pip3 install sortedcontainers
 from sortedcontainers import SortedList
 
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -952,9 +953,9 @@ class leetcode_1:
         def dfs(i: int, j: int, l: int) -> bool:
             if l == 1:
                 return s1[i] == s2[j]
-            if s1[i: i + l] == s2[j: j + l]:
+            if s1[i : i + l] == s2[j : j + l]:
                 return True
-            if Counter(s1[i: i + l]) != Counter(s2[j: j + l]):
+            if Counter(s1[i : i + l]) != Counter(s2[j : j + l]):
                 return False
             return any(
                 dfs(i, j, k)
@@ -963,6 +964,7 @@ class leetcode_1:
                 and dfs(i + k, j, l - k)
                 for k in range(1, l)
             )
+
         n = len(s1)
         return dfs(0, 0, n)
 
@@ -1479,6 +1481,7 @@ class leetcode_1:
                     res += dfs(i | (1 << lb), lb)
                 c &= c - 1
             return res % MOD
+
         n = len(nums)
         u = (1 << n) - 1
         MOD = 10**9 + 7
@@ -2725,7 +2728,10 @@ class leetcode_1:
         def dfs(i: int, j: int) -> int:
             if j - i == 1:
                 return 0
-            return min(dfs(i, k) + dfs(k, j) for k in range(i + 1, j)) + cuts[j] - cuts[i]
+            return (
+                min(dfs(i, k) + dfs(k, j) for k in range(i + 1, j)) + cuts[j] - cuts[i]
+            )
+
         cuts.extend([0, n])
         cuts.sort()
         return dfs(0, len(cuts) - 1)
@@ -3483,24 +3489,17 @@ class leetcode_1:
 
     # 124. 二叉树中的最大路径和 (Binary Tree Maximum Path Sum)
     # LCR 051. 二叉树中的最大路径和
-    def maxPathSum(self, root: TreeNode) -> int:
-        res = -inf
-
-        class TreeNode:
-            def __init__(self, val=0, left=None, right=None):
-                self.val = val
-                self.left = left
-                self.right = right
-
-        def dfs(node: TreeNode) -> int:
-            if not node:
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        def dfs(root: TreeNode) -> int:
+            if root is None:
                 return 0
-            left = dfs(node.left)
-            right = dfs(node.right)
+            left = max(0, dfs(root.left))
+            right = max(0, dfs(root.right))
             nonlocal res
-            res = max(res, left + right + node.val)
-            return max(max(left, right) + node.val, 0)
+            res = max(res, left + right + root.val)
+            return max(left, right) + root.val
 
+        res = -inf
         dfs(root)
         return res
 
@@ -3542,6 +3541,7 @@ class leetcode_1:
             nonlocal res
             res = max(res, left + right)
             return max(left, right)
+
         res = 0
         dfs(root)
         return res
