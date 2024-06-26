@@ -1453,16 +1453,14 @@ class leetcode_1:
         def dfs(i: int, j: int) -> int:
             if i == u:
                 return 1
-            res = 0
             c = u ^ i
+            res = 0
             while c:
                 lb = (c & -c).bit_length() - 1
                 if nums[lb] % nums[j] == 0 or nums[j] % nums[lb] == 0:
                     res += dfs(i | (1 << lb), lb)
                 c &= c - 1
-            res %= MOD
-            return res
-
+            return res % MOD
         n = len(nums)
         u = (1 << n) - 1
         MOD = 10**9 + 7
