@@ -55,6 +55,24 @@ from collections import Counter, defaultdict, deque
 # pip3 install sortedcontainers
 from sortedcontainers import SortedList
 
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+
 
 class leetcode_1:
     class TreeNode:
@@ -3515,25 +3533,17 @@ class leetcode_1:
 
     # 543. 二叉树的直径 (Diameter of Binary Tree)
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        res = 0
-
-        class TreeNode:
-            def __init__(self, val=0, left=None, right=None):
-                self.val = val
-                self.left = left
-                self.right = right
-
         # 统计边的数量
-        def dfs2(root: Optional[TreeNode]) -> int:
-            if not root:
+        def dfs(node: Optional[TreeNode]) -> int:
+            if node is None:
                 return -1
-            left = dfs2(root.left) + 1
-            right = dfs2(root.right) + 1
+            left = dfs(node.left) + 1
+            right = dfs(node.right) + 1
             nonlocal res
             res = max(res, left + right)
             return max(left, right)
-
-        dfs2(root)
+        res = 0
+        dfs(root)
         return res
 
     # 统计点的数量
