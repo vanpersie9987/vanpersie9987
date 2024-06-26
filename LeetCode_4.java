@@ -404,10 +404,10 @@ public class LeetCode_4 {
         if (root == null) {
             return 0;
         }
-        int left = dfs124(root.left);
-        int right = dfs124(root.right);
+        int left = Math.max(0, dfs124(root.left));
+        int right = Math.max(0, dfs124(root.right));
         res124 = Math.max(res124, left + right + root.val);
-        return Math.max(0, Math.max(left, right) + root.val);
+        return Math.max(left, right) + root.val;
     }
 
     // 200. 岛屿数量 (Number of Islands) --dfs
