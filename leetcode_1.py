@@ -3571,6 +3571,7 @@ class leetcode_1:
             nonlocal res
             res = max(res, mx + 1)
             return pre + 1
+
         n = len(s)
         g = [[] for _ in range(n)]
         for i, v in enumerate(parent[1:], 1):
@@ -3582,6 +3583,7 @@ class leetcode_1:
     # 687. 最长同值路径 (Longest Univalue Path) --边的数量
     def longestUnivaluePath(self, root: Optional[TreeNode]) -> int:
         res = 0
+
         # 边的数量
         def dfs(root: Optional[TreeNode]) -> int:
             if root is None:
@@ -3599,6 +3601,7 @@ class leetcode_1:
             nonlocal res
             res = max(res, cur)
             return mx
+
         dfs(root)
         return res
 
@@ -3621,6 +3624,7 @@ class leetcode_1:
             nonlocal res
             res = max(res, cur)
             return mx + 1
+
         res = 0
         dfs(root)
         return max(0, res - 1)
@@ -3652,43 +3656,40 @@ class leetcode_1:
     def countSubgraphsForEachDiameter(
         self, n: int, edges: List[List[int]]
     ) -> List[int]:
-        g = [[] for _ in range(n)]
-        for a, b in edges:
-            g[a - 1].append(b - 1)
-            g[b - 1].append(a - 1)
-        res = [0] * (n - 1)
-        m = 0
-        cal = 0
-        d = 0
-
-        def check_tree(x: int, fa: int) -> None:
-            nonlocal cal
-            cal |= 1 << x
+        def dfs(x: int, fa: int) -> None:
+            nonlocal c
+            c |= 1 << x
             for y in g[x]:
-                if y != fa and ((m >> y) & 1) == 1:
-                    check_tree(y, x)
+                if y != fa and s & (1 << y) != 0:
+                    dfs(y, x)
 
-        def dfs(x: int, fa: int) -> int:
+        def dfs_diameter(x: int, fa: int) -> int:
+            res = 0
             pre = 0
             for y in g[x]:
-                if y != fa and ((m >> y) & 1) == 1:
-                    cur = dfs(y, x) + 1
-                    nonlocal d
-                    d = max(d, cur + pre)
-                    pre = max(pre, cur)
-            return pre
+                if y != fa and s & (1 << y) != 0:
+                    cur = dfs_diameter(y, x)
+                    res = max(res, cur + pre)
+                    pre = max(cur, pre)
+            nonlocal mx
+            mx = max(mx, res + 1)
+            return pre + 1
 
-        for i in range(1 << n):
-            if i.bit_count() <= 1:
-                continue
-            m = i
-            cal = 0
-            d = 0
-            check_tree((i & -i).bit_length() - 1, -1)
-            if cal != m:
-                continue
-            dfs((i & -i).bit_length() - 1, -1)
-            res[d - 1] += 1
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u - 1].append(v - 1)
+            g[v - 1].append(u - 1)
+        res = [0] * (n - 1)
+        for i in range(1, 1 << n):
+            s = i
+            lb = (s & -s).bit_length() - 1
+            c = 0
+            dfs(lb, -1)
+            if s == c:
+                mx = 0
+                dfs_diameter(lb, -1)
+                if mx - 1 >= 1:
+                    res[mx - 2] += 1
         return res
 
     # 2511. 最多可以摧毁的敌人城堡数目 (Maximum Enemy Forts That Can Be Captured)
