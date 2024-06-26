@@ -6300,12 +6300,12 @@ public class LeetCode_4 {
 
     }
 
-    // 543. 二叉树的直径 (Diameter of Binary Tree)
+    // 543. 二叉树的直径 (Diameter of Binary Tree) --统计点的数量
     private int res543;
 
     public int diameterOfBinaryTree(TreeNode root) {
         dfs543(root);
-        return res543;
+        return res543 - 1;
 
     }
 
@@ -6315,8 +6315,27 @@ public class LeetCode_4 {
         }
         int left = dfs543(root.left);
         int right = dfs543(root.right);
-        res543 = Math.max(res543, left + right);
+        res543 = Math.max(res543, left + right + 1);
         return Math.max(left, right) + 1;
+    }
+
+    // 543. 二叉树的直径 (Diameter of Binary Tree) --统计边的数量
+    private int res543_2;
+
+    public int diameterOfBinaryTree2(TreeNode root) {
+        dfs543_2(root);
+        return res543_2;
+
+    }
+
+    private int dfs543_2(TreeNode root) {
+        if (root == null) {
+            return -1;
+        }
+        int left = dfs543_2(root.left) + 1;
+        int right = dfs543_2(root.right) + 1;
+        res543_2 = Math.max(res543_2, left + right);
+        return Math.max(left, right);
     }
 
     // 731. 我的日程安排表 II (My Calendar II)
