@@ -1676,20 +1676,22 @@ public class Leetcode_6 {
             g2246[parent[i]].add(i);
         }
         dfs2246(0);
-        return res2246 + 1;
+        return res2246;
 
     }
 
     private int dfs2246(int x) {
+        int mx = 0;
         int pre = 0;
         for (int y : g2246[x]) {
-            int cur = dfs2246(y) + 1;
+            int cur = dfs2246(y);
             if (s2246.charAt(x) != s2246.charAt(y)) {
-                res2246 = Math.max(res2246, cur + pre);
+                mx = Math.max(mx, cur + pre);
                 pre = Math.max(pre, cur);
             }
         }
-        return pre;
+        res2246 = Math.max(res2246, mx + 1);
+        return pre + 1;
     }
 
     // 687. 最长同值路径 ( Longest Univalue Path)

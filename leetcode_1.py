@@ -3560,15 +3560,14 @@ class leetcode_1:
 
     # 2246. 相邻字符不同的最长路径 (Longest Path With Different Adjacent Characters)
     def longestPath(self, parent: List[int], s: str) -> int:
-        def dfs(x: int, fa: int) -> int:
+        def dfs(x: int) -> int:
             mx = 0
             pre = 0
             for y in g[x]:
-                if y != fa:
-                    cur = dfs(y, x)
-                    if s[x] != s[y]:
-                        mx = max(mx, cur + pre)
-                        pre = max(pre, cur)
+                cur = dfs(y)
+                if s[x] != s[y]:
+                    mx = max(mx, cur + pre)
+                    pre = max(pre, cur)
             nonlocal res
             res = max(res, mx + 1)
             return pre + 1
@@ -3577,7 +3576,7 @@ class leetcode_1:
         for i, v in enumerate(parent[1:], 1):
             g[v].append(i)
         res = 0
-        dfs(0, -1)
+        dfs(0)
         return res
 
     # 687. 最长同值路径 (Longest Univalue Path) --边的数量
