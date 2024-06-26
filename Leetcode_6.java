@@ -9113,7 +9113,7 @@ public class Leetcode_6 {
             public int compare(int[] o1, int[] o2) {
                 return Integer.compare(o1[0], o2[0]);
             }
-            
+
         });
         int res = 1;
         final int MOD = (int) (1e9 + 7);
@@ -10324,7 +10324,6 @@ public class Leetcode_6 {
         }
         return true;
     }
-    
 
     // 549. 二叉树中最长的连续序列 --plus
     private int res549;
