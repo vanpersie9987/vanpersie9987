@@ -3488,47 +3488,55 @@ public class Leetcode_7 {
     }
 
     // 1617. 统计子树中城市之间最大距离 (Count Subtrees With Max Distance Between Cities)
-    private Map<Integer, List<Integer>> g1617_2;
-    private int inSetMask1617_2;
-    private int visMask1617_2;
-    private int diameter1617_2;
-    private int[] res1617_2;
+    private List<Integer>[] g1617;
+    private int s1617;
+    private int mx1617;
 
     public int[] countSubgraphsForEachDiameter2(int n, int[][] edges) {
-        this.g1617_2 = new HashMap<>();
+        this.g1617 = new ArrayList[n];
+        Arrays.setAll(g1617, k -> new ArrayList<>());
         for (int[] e : edges) {
-            int a = e[0] - 1;
-            int b = e[1] - 1;
-            g1617_2.computeIfAbsent(a, k -> new ArrayList<>()).add(b);
-            g1617_2.computeIfAbsent(b, k -> new ArrayList<>()).add(a);
+            g1617[e[0] - 1].add(e[1] - 1);
+            g1617[e[1] - 1].add(e[0] - 1);
         }
-        this.res1617_2 = new int[n - 1];
-        for (int i = 1; i < (1 << n); ++i) {
-            inSetMask1617_2 = i;
-            if (Integer.bitCount(inSetMask1617_2) == 1) {
-                continue;
-            }
-            visMask1617_2 = 0;
-            diameter1617_2 = 0;
-            dfs1617_2(Integer.numberOfTrailingZeros(inSetMask1617_2));
-            if (diameter1617_2 > 0 && visMask1617_2 == inSetMask1617_2) {
-                ++res1617_2[diameter1617_2 - 1];
+        int[] res = new int[n - 1];
+        for (int i = 1; i < 1 << n; ++i) {
+            s1617 = 0;
+            int lb = Integer.numberOfTrailingZeros(i);
+            dfs1617(lb, -1, i);
+            if (s1617 == i) {
+                mx1617 = 0;
+                dfs_diameter1617(lb, -1, i);
+                if (mx1617 - 1 >= 1) {
+                    ++res[mx1617 - 2];
+                }
             }
         }
-        return res1617_2;
+        return res;
+
     }
 
-    private int dfs1617_2(int x) {
-        visMask1617_2 |= 1 << x;
-        int max = 0;
-        for (int y : g1617_2.getOrDefault(x, new ArrayList<>())) {
-            if (((inSetMask1617_2 >> y) & 1) == 1 && ((visMask1617_2 >> y) & 1) == 0) {
-                int cur = dfs1617_2(y) + 1;
-                diameter1617_2 = Math.max(diameter1617_2, max + cur);
-                max = Math.max(max, cur);
+    private int dfs_diameter1617(int x, int fa, int i) {
+        int res = 0;
+        int pre = 0;
+        for (int y : g1617[x]) {
+            if (y != fa && (i & (1 << y)) != 0) {
+                int cur = dfs_diameter1617(y, x, i);
+                res = Math.max(res, cur + pre);
+                pre = Math.max(pre, cur);
             }
         }
-        return max;
+        mx1617 = Math.max(mx1617, res + 1);
+        return pre + 1;
+    }
+
+    private void dfs1617(int x, int fa, int i) {
+        s1617 |= 1 << x;
+        for (int y : g1617[x]) {
+            if (y != fa && (i & (1 << y)) != 0) {
+                dfs1617(y, x, i);
+            }
+        }
     }
 
     /**
