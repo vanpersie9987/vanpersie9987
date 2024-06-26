@@ -3581,52 +3581,51 @@ class leetcode_1:
         dfs(0)
         return res + 1
 
-    # 687. 最长同值路径 (Longest Univalue Path)
+    # 687. 最长同值路径 (Longest Univalue Path) --边的数量
     def longestUnivaluePath(self, root: Optional[TreeNode]) -> int:
         res = 0
-
-        class TreeNode:
-            def __init__(self, val=0, left=None, right=None):
-                self.val = val
-                self.left = left
-                self.right = right
-
         # 边的数量
-        def dfs2(root: Optional[TreeNode]) -> int:
-            if not root:
+        def dfs(root: Optional[TreeNode]) -> int:
+            if root is None:
                 return -1
-            left = dfs2(root.left) + 1
-            right = dfs2(root.right) + 1
+            left = dfs(root.left) + 1
+            right = dfs(root.right) + 1
             cur = 0
+            mx = 0
             if root.left and root.val == root.left.val:
                 cur += left
+                mx = left
             if root.right and root.val == root.right.val:
                 cur += right
+                mx = max(mx, right)
             nonlocal res
             res = max(res, cur)
-            return max(
-                left if root.left and root.val == root.left.val else 0,
-                right if root.right and root.val == root.right.val else 0,
-            )
-
+            return mx
+        dfs(root)
         return res
 
-    # 点的数量
-    #  def dfs(root: Optional[TreeNode]) -> int:
-    #     if not root:
-    #        return 0
-    #     left = dfs(root.left)
-    #     right = dfs(root.right)
-    #     cur = 1
-    #     if root.left and root.val == root.left.val:
-    #        cur += left
-    #     if root.right and root.val == root.right.val:
-    #        cur += right
-    #     nonlocal res
-    #     res = max(res, cur)
-    #     return max(left + 1 if root.left and root.val == root.left.val else 1, right + 1 if root.right and root.val == root.right.val else 1)
-    #  dfs(root)
-    #  return max(0, res - 1)
+    # 687. 最长同值路径 (Longest Univalue Path) --点的数量
+    def longestUnivaluePath(self, root: Optional[TreeNode]) -> int:
+        # 点的数量
+        def dfs(node: TreeNode) -> int:
+            if node is None:
+                return 0
+            left = dfs(node.left)
+            right = dfs(node.right)
+            mx = 0
+            cur = 1
+            if node.left and node.left.val == node.val:
+                cur += left
+                mx = max(mx, left)
+            if node.right and node.right.val == node.val:
+                cur += right
+                mx = max(mx, right)
+            nonlocal res
+            res = max(res, cur)
+            return mx + 1
+        res = 0
+        dfs(root)
+        return max(0, res - 1)
 
     # 2538. 最大价值和与最小价值和的差值 (Difference Between Maximum and Minimum Price Sum)
     def maxOutput(self, n: int, edges: List[List[int]], price: List[int]) -> int:
