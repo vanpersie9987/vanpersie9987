@@ -3226,53 +3226,49 @@ public class Leetcode_7 {
     }
 
     // 2646. 最小化旅行的价格总和 (Minimize the Total Price of the Trips)
-    private Map<Integer, List<Integer>> g2646;
+    private int[] cnt2646;
     private int[] price2646;
-    private int[] counts2646;
-    private int end2646;
+    private List<Integer>[] g2646;
 
     public int minimumTotalPrice(int n, int[][] edges, int[] price, int[][] trips) {
-        this.g2646 = new HashMap<>();
+        this.g2646 = new ArrayList[n];
+        Arrays.setAll(g2646, k -> new ArrayList<>());
         for (int[] e : edges) {
-            int a = e[0];
-            int b = e[1];
-            g2646.computeIfAbsent(a, k -> new ArrayList<>()).add(b);
-            g2646.computeIfAbsent(b, k -> new ArrayList<>()).add(a);
+            g2646[e[0]].add(e[1]);
+            g2646[e[1]].add(e[0]);
+
         }
         this.price2646 = price;
-        counts2646 = new int[n];
+        this.cnt2646 = new int[n];
         for (int[] t : trips) {
-            end2646 = t[1];
-            paths2646(t[0], -1);
+            dfs2646(t[0], -1, t[1]);
         }
-        int[] res = dfs2646(0, -1);
-
-        return Math.min(res[0], res[1]);
+        return Arrays.stream(min_dfs2646(0, -1)).min().getAsInt();
 
     }
 
-    // [a,b] a价格减半 ，b价格不减半
-    private int[] dfs2646(int x, int fa) {
-        int half = price2646[x] * counts2646[x] / 2;
-        int notHalf = price2646[x] * counts2646[x];
-        for (int y : g2646.getOrDefault(x, new ArrayList<>())) {
+    private int[] min_dfs2646(int x, int fa) {
+        int a = 0;
+        int b = 0;
+        for (int y : g2646[x]) {
             if (y != fa) {
-                int[] cur = dfs2646(y, x);
-                notHalf += Math.min(cur[0], cur[1]);
-                half += cur[1];
+                // 全价 // 半价
+                int[] cur = min_dfs2646(y, x);
+                a += Math.min(cur[0], cur[1]);
+                b += cur[0];
             }
         }
-        return new int[] { half, notHalf };
+        return new int[] { a + cnt2646[x] * price2646[x], b + cnt2646[x] * price2646[x] / 2 };
     }
 
-    private boolean paths2646(int x, int fa) {
-        if (x == end2646) {
-            ++counts2646[x];
+    private boolean dfs2646(int x, int fa, int e) {
+        if (x == e) {
+            ++cnt2646[x];
             return true;
         }
-        for (int y : g2646.getOrDefault(x, new ArrayList<>())) {
-            if (y != fa && paths2646(y, x)) {
-                ++counts2646[x];
+        for (int y : g2646[x]) {
+            if (y != fa && dfs2646(y, x, e)) {
+                ++cnt2646[x];
                 return true;
             }
         }
@@ -3585,7 +3581,6 @@ public class Leetcode_7 {
         }
         return memo_example[d][h] = res;
     }
-
 
     // 1473. 粉刷房子 III (Paint House III)
     private int[] houses1473;
