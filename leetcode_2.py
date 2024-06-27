@@ -5039,3 +5039,20 @@ class Union924:
             return 0
         MOD = 10**9 + 7
         return dfs(n - 1, req[-1])
+
+    # 2734. 执行子串操作后的字典序最小字符串 (Lexicographically Smallest String After Substring Operation)
+    def smallestString(self, s: str) -> str:
+        arr = [x for x in s]
+        n = len(arr)
+        f = False
+        for i, v in enumerate(s):
+            if v != 'a':
+                f = True
+                j = i
+                while j < n and arr[j] != 'a':
+                    arr[j] = chr(ord(arr[j]) - 1)
+                    j += 1
+                break
+        if not f:
+            arr[-1] = 'z'
+        return ''.join(arr)
