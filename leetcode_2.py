@@ -4986,13 +4986,12 @@ class Union924:
                 sub = (sub - 1) & c
             idx[s] = i
         return []
-    
+
     # 3194. 最小元素和最大元素的最小平均值 (Minimum Average of Smallest and Largest Elements)
     def minimumAverage(self, nums: List[int]) -> float:
         nums.sort()
         n = len(nums)
         return min(nums[i] + nums[n - i - 1] for i in range(n // 2)) / 2
-    
 
     # 3195. 包含所有 1 的最小矩形面积 I (Find the Minimum Area to Cover All Ones I)
     def minimumArea(self, grid: List[List[int]]) -> int:
@@ -5010,7 +5009,7 @@ class Union924:
                     min_col = min(min_col, j)
                     max_col = max(max_col, j)
         return max(0, max_row - min_row + 1) * max(0, max_col - min_col + 1)
-    
+
     # 3196. 最大化子数组的总成本 (Maximize Total Cost of Alternating Subarrays)
     def maximumTotalCost(self, nums: List[int]) -> int:
         @cache

@@ -3070,37 +3070,35 @@ class leetcode_1:
     def minimumTotalPrice(
         self, n: int, edges: List[List[int]], price: List[int], trips: List[List[int]]
     ) -> int:
-        cnts = [0] * n
+        def min_dfs(x: int, fa: int) -> List[int]:
+            a = 0
+            b = 0
+            for y in g[x]:
+                if y != fa:
+                    # 原价 // 打折
+                    cur = min_dfs(y, x)
+                    a += min(cur[0], cur[1])
+                    b += cur[0]
+            return [a + cnt[x] * price[x], b + cnt[x] * price[x] // 2]
 
-        def paths(x: int, fa: int) -> bool:
-            if x == end:
-                cnts[x] += 1
+        def dfs(x: int, fa: int) -> bool:
+            if x == e:
+                cnt[x] += 1
                 return True
             for y in g[x]:
-                if y != fa and paths(y, x):
-                    cnts[x] += 1
+                if y != fa and dfs(y, x):
+                    cnt[x] += 1
                     return True
             return False
 
-        def dfs(x: int, fa: int) -> List[int]:
-            a = (price[x] // 2) * cnts[x]
-            b = price[x] * cnts[x]
-            for y in g[x]:
-                if y != fa:
-                    c = dfs(y, x)
-                    a += c[1]
-                    b += min(c[0], c[1])
-            return [a, b]
-
+        cnt = [0] * n
         g = [[] for _ in range(n)]
-        for a, b in edges:
-            g[a].append(b)
-            g[b].append(a)
-        end = -1
-        for a, b in trips:
-            end = b
-            paths(a, -1)
-        return min(x for x in dfs(0, -1))
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        for s, e in trips:
+            dfs(s, -1)
+        return min(min_dfs(0, -1))
 
     # 2581. 统计可能的树根数目 (Count Number of Possible Root Nodes)
     def rootCount(
@@ -5006,6 +5004,7 @@ class leetcode_1:
             [a0, b0] = dfs(node.left)
             [a1, b1] = dfs(node.right)
             return [max(a0, b0) + max(a1, b1), a0 + a1 + node.val]
+
         return max(dfs(root))
 
     # 2560. 打家劫舍 IV (House Robber IV)
