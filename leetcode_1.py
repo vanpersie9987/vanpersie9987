@@ -4999,19 +4999,13 @@ class leetcode_1:
 
     # 337. 打家劫舍 III (House Robber III)
     def rob(self, root: Optional[TreeNode]) -> int:
-        class TreeNode:
-            def __init__(self, val=0, left=None, right=None):
-                self.val = val
-                self.left = left
-                self.right = right
-
-        def dfs(root: Optional[TreeNode]) -> List[int]:
-            if not root:
+        def dfs(node: TreeNode) -> List[int]:
+            if node is None:
                 return [0, 0]
-            left = dfs(root.left)
-            right = dfs(root.right)
-            return [root.val + left[1] + right[1], max(left) + max(right)]
-
+            # 不偷 // 偷
+            [a0, b0] = dfs(node.left)
+            [a1, b1] = dfs(node.right)
+            return [max(a0, b0) + max(a1, b1), a0 + a1 + node.val]
         return max(dfs(root))
 
     # 2560. 打家劫舍 IV (House Robber IV)
