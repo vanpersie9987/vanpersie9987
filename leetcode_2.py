@@ -5044,15 +5044,12 @@ class Union924:
     def smallestString(self, s: str) -> str:
         arr = [x for x in s]
         n = len(arr)
-        f = False
         for i, v in enumerate(s):
             if v != 'a':
-                f = True
                 j = i
                 while j < n and arr[j] != 'a':
                     arr[j] = chr(ord(arr[j]) - 1)
                     j += 1
-                break
-        if not f:
-            arr[-1] = 'z'
+                return ''.join(arr)
+        arr[-1] = 'z'
         return ''.join(arr)
