@@ -9235,7 +9235,7 @@ public class Leetcode_7 {
 
     }
 
-    // 6465. 执行子串操作后的字典序最小字符串 (Lexicographically Smallest String After Substring
+    // 2734. 执行子串操作后的字典序最小字符串 (Lexicographically Smallest String After Substring
     // Operation)
     public String smallestString(String s) {
         char[] arr = s.toCharArray();
