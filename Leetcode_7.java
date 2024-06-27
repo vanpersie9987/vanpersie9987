@@ -9240,20 +9240,16 @@ public class Leetcode_7 {
     public String smallestString(String s) {
         char[] arr = s.toCharArray();
         int n = arr.length;
-        int i = 0;
-        while (i < n) {
+        for (int i = 0; i < n; ++i) {
             if (arr[i] != 'a') {
-                break;
+                int j = i;
+                while (j < n && arr[j] != 'a') {
+                    --arr[j++];
+                }
+                return String.valueOf(arr);
             }
-            ++i;
         }
-        if (i == n) {
-            arr[n - 1] = 'z';
-            return String.valueOf(arr);
-        }
-        while (i < n && arr[i] != 'a') {
-            --arr[i++];
-        }
+        arr[n - 1] = 'z';
         return String.valueOf(arr);
 
     }
