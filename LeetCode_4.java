@@ -5983,18 +5983,17 @@ public class LeetCode_4 {
 
     // 337. 打家劫舍 III (House Robber III)
     public int rob(TreeNode root) {
-        int[] res = dfs337(root);
-        return Math.max(res[0], res[1]);
-
+        return Arrays.stream(dfs337(root)).max().getAsInt();
     }
 
     private int[] dfs337(TreeNode root) {
         if (root == null) {
             return new int[] { 0, 0 };
         }
+        // 不偷 // 偷
         int[] left = dfs337(root.left);
         int[] right = dfs337(root.right);
-        return new int[] { root.val + left[1] + right[1], Math.max(left[0], left[1]) + Math.max(right[0], right[1]) };
+        return new int[] { Math.max(left[0], left[1]) + Math.max(right[0], right[1]), left[0] + right[0] + root.val };
     }
 
     // 1054. 距离相等的条形码 (Distant Barcodes)
