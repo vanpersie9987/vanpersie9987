@@ -1393,6 +1393,7 @@ class leetcode_1:
             if j + suf[i] < 0:
                 return inf
             return min(dfs(i + 1, j + time[i]) + cost[i], dfs(i + 1, j - 1))
+
         n = len(cost)
         suf = [0] * n
         suf[-1] = time[-1]
@@ -3109,40 +3110,36 @@ class leetcode_1:
     def rootCount(
         self, edges: List[List[int]], guesses: List[List[int]], k: int
     ) -> int:
+        def reroot(x: int, fa: int, c: int) -> None:
+            for y in g[x]:
+                d = 0
+                if y != fa:
+                    if (x, y) in s:
+                        d -= 1
+                    if (y, x) in s:
+                        d += 1
+                    nonlocal res
+                    res += int(c + d >= k)
+                    reroot(y, x, c + d)
+
+        def dfs0(x: int, fa: int) -> None:
+            for y in g[x]:
+                if y != fa:
+                    if (x, y) in s:
+                        nonlocal cnt
+                        cnt += 1
+                    dfs0(y, x)
+
         n = len(edges) + 1
         g = [[] for _ in range(n)]
-        for a, b in edges:
-            g[a].append(b)
-            g[b].append(a)
-        s = set()
-        for a, b in guesses:
-            s.add((a, b))
-        cur = 0
-        res = 0
-
-        def dfs(x: int, fa: int) -> None:
-            for y in g[x]:
-                if y != fa:
-                    if (x, y) in s:
-                        nonlocal cur
-                        cur += 1
-                    dfs(y, x)
-
-        def reroot(x: int, fa: int, c: int) -> None:
-            if c >= k:
-                nonlocal res
-                res += 1
-            for y in g[x]:
-                copy = c
-                if y != fa:
-                    if (x, y) in s:
-                        copy -= 1
-                    if (y, x) in s:
-                        copy += 1
-                    reroot(y, x, copy)
-
-        dfs(0, -1)
-        reroot(0, -1, cur)
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        s = set((x, y) for x, y in guesses)
+        cnt = 0
+        dfs0(0, -1)
+        res = int(cnt >= k)
+        reroot(0, -1, cnt)
         return res
 
     # 1654. 到家的最少跳跃次数 (Minimum Jumps to Reach Home)
