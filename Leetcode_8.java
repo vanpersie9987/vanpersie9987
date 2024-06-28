@@ -3482,7 +3482,7 @@ public class Leetcode_8 {
             int y = nei[0];
             int c = nei[1];
             if (y != fa) {
-                res2858[y] = res2858[x] + (-2) * c + 1;
+                res2858[y] = res2858[x] - 2 * c + 1;
                 reRoot2858(y, x);
             }
         }
