@@ -9137,35 +9137,34 @@ public class Leetcode_6 {
     }
 
     // 2581. 统计可能的树根数目 (Count Number of Possible Root Nodes)
-    private Map<Integer, List<Integer>> g2581;
+    private List<Integer>[] g2581;
     private Set<Long> set2581;
     private int res2581;
     private int k2581;
-    private int cur2581;
+    private int s2581;
 
     public int rootCount(int[][] edges, int[][] guesses, int k) {
-        this.g2581 = new HashMap<>();
+        int n = edges.length + 1;
+        this.g2581 = new ArrayList[n + 1];
+        Arrays.setAll(g2581, o -> new ArrayList<>());
         this.set2581 = new HashSet<>();
         this.k2581 = k;
         for (int[] e : edges) {
-            g2581.computeIfAbsent(e[0], o -> new ArrayList<>()).add(e[1]);
-            g2581.computeIfAbsent(e[1], o -> new ArrayList<>()).add(e[0]);
+            g2581[e[0]].add(e[1]);
+            g2581[e[1]].add(e[0]);
         }
         for (int[] gu : guesses) {
             set2581.add(gu[0] * (long) 1e5 + gu[1]);
         }
-        cur2581 = 0;
         dfs2581(0, -1);
-        if (cur2581 >= k) {
-            ++res2581;
-        }
-        reRoot2581(0, -1, cur2581);
+        res2581 = s2581 >= k ? 1 : 0;
+        reRoot2581(0, -1, s2581);
         return res2581;
 
     }
 
     private void reRoot2581(int x, int fa, int cnt) {
-        for (int y : g2581.getOrDefault(x, new ArrayList<>())) {
+        for (int y : g2581[x]) {
             if (y != fa) {
                 int copy = cnt;
                 if (set2581.contains(x * (long) 1e5 + y)) {
@@ -9183,10 +9182,10 @@ public class Leetcode_6 {
     }
 
     private void dfs2581(int x, int fa) {
-        for (int y : g2581.getOrDefault(x, new ArrayList<>())) {
+        for (int y : g2581[x]) {
             if (y != fa) {
                 if (set2581.contains(x * (long) 1e5 + y)) {
-                    ++cur2581;
+                    ++s2581;
                 }
                 dfs2581(y, x);
             }
