@@ -7549,38 +7549,35 @@ public class Leetcode_3 {
 
     // 310. 最小高度树 (Minimum Height Trees) --拓扑排序
     public List<Integer> findMinHeightTrees(int n, int[][] edges) {
-        List<Integer> res = new LinkedList<>();
         if (n == 1) {
-            res.add(0);
-            return res;
+            return List.of(0);
         }
-        int[] degrees = new int[n];
-        Map<Integer, List<Integer>> graph = new HashMap<>();
+        int[] deg = new int[n];
+        List<Integer>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
         for (int[] edge : edges) {
-            ++degrees[edge[0]];
-            ++degrees[edge[1]];
-            graph.computeIfAbsent(edge[0], k -> new LinkedList<>()).add(edge[1]);
-            graph.computeIfAbsent(edge[1], k -> new LinkedList<>()).add(edge[0]);
+            ++deg[edge[0]];
+            ++deg[edge[1]];
+            g[edge[0]].add(edge[1]);
+            g[edge[1]].add(edge[0]);
         }
         Queue<Integer> queue = new LinkedList<>();
         for (int i = 0; i < n; ++i) {
-            if (degrees[i] == 1) {
+            deg[i] -= 1;
+            if (deg[i] == 0) {
                 queue.offer(i);
             }
         }
-
+        List<Integer> res = new ArrayList<>();
         while (!queue.isEmpty()) {
             int size = queue.size();
             res.clear();
             for (int i = 0; i < size; ++i) {
-                int cur = queue.poll();
-                res.add(cur);
-                if (graph.get(cur) == null) {
-                    continue;
-                }
-                for (int neighbor : graph.get(cur)) {
-                    if (--degrees[neighbor] == 1) {
-                        queue.offer(neighbor);
+                int x = queue.poll();
+                res.add(x);
+                for (int y : g[x]) {
+                    if (--deg[y] == 0) {
+                        queue.offer(y);
                     }
                 }
             }
