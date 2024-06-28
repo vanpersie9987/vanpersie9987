@@ -30,7 +30,7 @@ from textwrap import indent
 from tkinter import N, NO, W
 from tkinter.tix import Tree
 from token import NL, RIGHTSHIFT
-from turtle import mode, pos, reset, right, st
+from turtle import RawTurtle, mode, pos, reset, right, st
 from typing import List, Optional
 import heapq
 import bisect
@@ -5052,7 +5052,6 @@ class Union924:
                 return ''.join(arr)
         arr[-1] = 'z'
         return ''.join(arr)
-    
 
 
 
