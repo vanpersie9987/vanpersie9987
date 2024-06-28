@@ -5053,22 +5053,6 @@ class Union924:
         arr[-1] = 'z'
         return ''.join(arr)
     
-    def paintWalls(self, cost: List[int], time: List[int]) -> int:
-        @cache
-        def dfs(i: int, j: int) -> int:
-            if j >= n - i:
-                return 0
-            if j + suf[i] < 0:
-                return inf
-            if i == n:
-                return 0 if j >= 0 else inf
-            return min(dfs(i + 1, j + time[i]) + cost[i], dfs(i + 1, j - 1))
-        n = len(cost)
-        suf = [0] * n
-        suf[-1] = time[-1]
-        for i in range(n - 2, -1, -1):
-            suf[i] = suf[i + 1] + time[i]
-        return dfs(0, 0)
 
 
 
