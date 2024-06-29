@@ -5052,3 +5052,11 @@ class Union924:
                 return ''.join(arr)
         arr[-1] = 'z'
         return ''.join(arr)
+    
+    # 2710. 移除字符串中的尾随零 (Remove Trailing Zeros From a String)
+    def removeTrailingZeros(self, num: str) -> str:
+        for i in range(len(num) - 1, -1, -1):
+            if num[i] != '0':
+                return num[: i + 1]
+
+
