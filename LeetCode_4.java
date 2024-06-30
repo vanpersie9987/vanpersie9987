@@ -9478,19 +9478,19 @@ public class LeetCode_4 {
     // -- 0-1背包（至多选择一次；外层循环：nums ； 内层循环：target；倒序遍历)
     // 组合问题 dp[i]+=dp[i-num];
     public int findTargetSumWays(int[] nums, int target) {
-        int sum = Arrays.stream(nums).sum();
-        if ((sum - target) % 2 != 0 || sum < target || -sum > target) {
+        int s = Arrays.stream(nums).sum() - Math.abs(target);
+        if (s < 0 || s % 2 != 0) {
             return 0;
         }
-        int neg = (sum - target) / 2;
-        int[] dp = new int[neg + 1];
+        int m = s / 2;
+        int[] dp = new int[m + 1];
         dp[0] = 1;
         for (int num : nums) {
-            for (int i = neg; i >= num; --i) {
+            for (int i = m; i >= num; --i) {
                 dp[i] += dp[i - num];
             }
         }
-        return dp[neg];
+        return dp[m];
 
     }
 
@@ -9502,7 +9502,7 @@ public class LeetCode_4 {
     public int findTargetSumWays2(int[] nums, int target) {
         this.nums494 = nums;
         int n = nums.length;
-        target += Arrays.stream(nums).sum();
+        target = Arrays.stream(nums).sum() - Math.abs(target);
         if (target < 0 || target % 2 != 0) {
             return 0;
         }
