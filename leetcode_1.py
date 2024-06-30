@@ -4743,6 +4743,24 @@ class leetcode_1:
         if s < target or target < -s:
             return 0
         return dfs(0, 0)
+    
+    # 494. 目标和 (Target Sum)
+    # LCR 102. 目标和
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i < 0:
+                return int(j == 0)
+            res = dfs(i - 1, j)
+            if j - nums[i] >= 0:
+                res += dfs(i - 1, j - nums[i])
+            return res
+        n = len(nums)
+        s = sum(nums) - abs(target)
+        if s < 0 or s % 2:
+            return 0
+        m = s // 2
+        return dfs(n - 1, m)
 
     # 474. 一和零 (Ones and Zeroes)
     def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
