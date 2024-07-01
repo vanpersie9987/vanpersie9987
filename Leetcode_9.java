@@ -1010,4 +1010,37 @@ public class Leetcode_9 {
         }
         return memo3193[i][j] = res;
     }
+
+    // 3200. 三角形的最大高度 (Maximum Height of a Triangle)
+    public int maxHeightOfTriangle(int red, int blue) {
+        return Math.max(check3200(red, blue), check3200(blue, red));
+    }
+
+    private int check3200(int x, int y) {
+        int i = 0;
+        int n1 = 1;
+        int n2 = 2;
+        int res = 0;
+        while (true) {
+            if (i % 2 == 0) {
+                if (x - n1 >= 0) {
+                    ++res;
+                    x -= n1;
+                    n1 += 2;
+                } else {
+                    break;
+                }
+            } else {
+                if (y - n2 >= 0) {
+                    ++res;
+                    y -= n2;
+                    n2 += 2;
+                } else {
+                    break;
+                }
+            }
+            i ^= 1;
+        }
+        return res;
+    }
 }

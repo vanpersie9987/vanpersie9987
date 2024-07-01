@@ -5052,7 +5052,7 @@ class Union924:
                 return ''.join(arr)
         arr[-1] = 'z'
         return ''.join(arr)
-    
+
     # 2710. 移除字符串中的尾随零 (Remove Trailing Zeros From a String)
     def removeTrailingZeros(self, num: str) -> str:
         for i in range(len(num) - 1, -1, -1):
@@ -5083,7 +5083,7 @@ class Union924:
                     vis[y][t + dt] = -v + values[y]
                     heapq.heappush(q, (v - values[y], y, t + dt))
         return res
-    
+
     # 2065. 最大化一张图中的路径价值 (Maximum Path Quality of a Graph)
     def maximalPathQuality(self, values: List[int], edges: List[List[int]], maxTime: int) -> int:
         def dfs(i: int, t: int, k: int) -> None:
@@ -5109,3 +5109,29 @@ class Union924:
         res = 0
         dfs(0, 0, values[0])
         return res
+
+    # 3200. 三角形的最大高度 (Maximum Height of a Triangle)
+    def maxHeightOfTriangle(self, red: int, blue: int) -> int:
+        def check(x: int, y: int) -> int:
+            res = 0
+            need1 = 1
+            need2 = 2
+            i = 0
+            while True:
+                if i % 2 == 0:
+                    if x - need1 >= 0:
+                        res += 1
+                        x -= need1
+                        need1 += 2
+                    else:
+                        break
+                else:
+                    if y - need2 >= 0:
+                        res += 1
+                        y -= need2
+                        need2 += 2
+                    else:
+                        break
+                i ^= 1
+            return res
+        return max(check(red, blue), check(blue, red))
