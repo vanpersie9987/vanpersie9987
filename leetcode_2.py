@@ -5100,28 +5100,12 @@ class Union924:
     # 3200. 三角形的最大高度 (Maximum Height of a Triangle)
     def maxHeightOfTriangle(self, red: int, blue: int) -> int:
         def check(x: int, y: int) -> int:
-            res = 0
-            need1 = 1
-            need2 = 2
-            i = 0
-            while True:
-                if i % 2 == 0:
-                    if x - need1 >= 0:
-                        res += 1
-                        x -= need1
-                        need1 += 2
-                    else:
-                        break
-                else:
-                    if y - need2 >= 0:
-                        res += 1
-                        y -= need2
-                        need2 += 2
-                    else:
-                        break
-                i ^= 1
-            return res
-
+            left = [x, y]
+            i = 1
+            while left[i % 2] >= i:
+                left[i % 2] -= i
+                i += 1
+            return i - 1
         return max(check(red, blue), check(blue, red))
 
     # 3201. 找出有效子序列的最大长度 I (Find the Maximum Length of Valid Subsequence I)

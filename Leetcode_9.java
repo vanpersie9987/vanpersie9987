@@ -1017,31 +1017,13 @@ public class Leetcode_9 {
     }
 
     private int check3200(int x, int y) {
-        int i = 0;
-        int n1 = 1;
-        int n2 = 2;
-        int res = 0;
-        while (true) {
-            if (i % 2 == 0) {
-                if (x - n1 >= 0) {
-                    ++res;
-                    x -= n1;
-                    n1 += 2;
-                } else {
-                    break;
-                }
-            } else {
-                if (y - n2 >= 0) {
-                    ++res;
-                    y -= n2;
-                    n2 += 2;
-                } else {
-                    break;
-                }
-            }
-            i ^= 1;
+        int i = 1;
+        int[] left = new int[] { x, y };
+        while (left[i % 2] >= i) {
+            left[i % 2] -= i;
+            ++i;
         }
-        return res;
+        return i - 1;
     }
 
     // 3201. 找出有效子序列的最大长度 I (Find the Maximum Length of Valid Subsequence I)
