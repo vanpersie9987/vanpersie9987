@@ -4717,7 +4717,7 @@ class Union924:
                     res.pop()
             else:
                 res.append(c)
-        return ''.join(res)
+        return "".join(res)
 
     # 3175. 找到连续赢 K 场比赛的第一位玩家 (Find The First Player to win K Games in a Row)
     def findWinningPlayer(self, skills: List[int], k: int) -> int:
@@ -4745,6 +4745,7 @@ class Union924:
                 else:
                     res = max(res, dfs(x, j))
             return res + 1
+
         res = 0
         for i in range(len(nums)):
             for j in range(k + 1):
@@ -4793,8 +4794,11 @@ class Union924:
                 return j
             res = dfs(i + 1, j)
             if rewardValues[i] > j:
-                res = max(res, dfs(binary_search(j + rewardValues[i]), j + rewardValues[i]))
+                res = max(
+                    res, dfs(binary_search(j + rewardValues[i]), j + rewardValues[i])
+                )
             return res
+
         rewardValues = list(set(rewardValues))
         rewardValues.sort()
         n = len(rewardValues)
@@ -4809,14 +4813,15 @@ class Union924:
             if i > j:
                 return 0
             if i == j:
-                return int(ord(s[i]) - ord('a') == c)
-            if s[i] == s[j] and ord(s[i]) - ord('a') == c:
+                return int(ord(s[i]) - ord("a") == c)
+            if s[i] == s[j] and ord(s[i]) - ord("a") == c:
                 return (sum(dfs(x, i + 1, j - 1) for x in range(4)) + 2) % MOD
-            if ord(s[i]) - ord('a') == c:
+            if ord(s[i]) - ord("a") == c:
                 return dfs(c, i, j - 1)
-            if ord(s[j]) - ord('a') == c:
+            if ord(s[j]) - ord("a") == c:
                 return dfs(c, i + 1, j)
             return dfs(c, i + 1, j - 1)
+
         n = len(s)
         MOD = 10**9 + 7
         return sum(dfs(x, 0, n - 1) for x in range(4)) % MOD
@@ -4893,11 +4898,11 @@ class Union924:
     def discountPrices(self, sentence: str, discount: int) -> str:
         arr = sentence.split()
         for i, a in enumerate(arr):
-            if a[0] == '$' and a[1:].isdigit():
+            if a[0] == "$" and a[1:].isdigit():
                 d = int(a[1:])
                 d -= d * discount * 0.01
-                arr[i] = '$' + f"{d:.2f}"
-        return ' '.join(arr)
+                arr[i] = "$" + f"{d:.2f}"
+        return " ".join(arr)
 
     # 2748. 美丽下标对的数目 (Number of Beautiful Pairs)
     def countBeautifulPairs(self, nums: List[int]) -> int:
@@ -4924,7 +4929,11 @@ class Union924:
 
     # 520. 检测大写字母 (Detect Capital)
     def detectCapitalUse(self, word: str) -> bool:
-        return word.islower() or word.isupper() or (word[0].isupper() and word[1:].islower())
+        return (
+            word.islower()
+            or word.isupper()
+            or (word[0].isupper() and word[1:].islower())
+        )
 
     # 503. 下一个更大元素 II (Next Greater Element II)
     def nextGreaterElements(self, nums: List[int]) -> List[int]:
@@ -5017,6 +5026,7 @@ class Union924:
             if i == n:
                 return 0
             return max(dfs(i + 1, -1) + nums[i], dfs(i + 1, -j) + nums[i] * j)
+
         n = len(nums)
         return dfs(0, 1)
 
@@ -5030,6 +5040,7 @@ class Union924:
             if r != -1:
                 return dfs(i - 1, r) if r <= j <= i + r else 0
             return sum(dfs(i - 1, j - k) for k in range(min(i, j) + 1)) % MOD
+
         req = [-1] * n
         req[0] = 0
         for end, cnt in requirements:
@@ -5044,53 +5055,30 @@ class Union924:
         arr = [x for x in s]
         n = len(arr)
         for i, v in enumerate(s):
-            if v != 'a':
+            if v != "a":
                 j = i
-                while j < n and arr[j] != 'a':
+                while j < n and arr[j] != "a":
                     arr[j] = chr(ord(arr[j]) - 1)
                     j += 1
-                return ''.join(arr)
-        arr[-1] = 'z'
-        return ''.join(arr)
+                return "".join(arr)
+        arr[-1] = "z"
+        return "".join(arr)
 
     # 2710. 移除字符串中的尾随零 (Remove Trailing Zeros From a String)
     def removeTrailingZeros(self, num: str) -> str:
         for i in range(len(num) - 1, -1, -1):
-            if num[i] != '0':
+            if num[i] != "0":
                 return num[: i + 1]
 
     # 2065. 最大化一张图中的路径价值 (Maximum Path Quality of a Graph)
-    def maximalPathQuality(self, values: List[int], edges: List[List[int]], maxTime: int) -> int:
-        n = len(values)
-        vis = [[-1] * (maxTime + 1) for _ in range(n)]
-        g = [[] for _ in range(n)]
-        for u, v, t in edges:
-            g[u].append((v, t))
-            g[v].append((u, t))
-        vis[0][0] = values[0]
-        q = []
-        q.append((-values[0], 0, 0))
-        heapq.heapify(q)
-        res = 0
-        while q:
-            (v, x, t) = heapq.heappop(q)
-            if t > maxTime:
-                continue
-            if x == 0:
-                res = max(res, -v)
-            for (y, dt) in g[x]:
-                if t + dt <= maxTime and -v + values[y] > vis[y][t + dt]:
-                    vis[y][t + dt] = -v + values[y]
-                    heapq.heappush(q, (v - values[y], y, t + dt))
-        return res
-
-    # 2065. 最大化一张图中的路径价值 (Maximum Path Quality of a Graph)
-    def maximalPathQuality(self, values: List[int], edges: List[List[int]], maxTime: int) -> int:
+    def maximalPathQuality(
+        self, values: List[int], edges: List[List[int]], maxTime: int
+    ) -> int:
         def dfs(i: int, t: int, k: int) -> None:
             if i == 0:
                 nonlocal res
                 res = max(res, k)
-            for (y, dt) in g[i]:
+            for y, dt in g[i]:
                 if t + dt > maxTime:
                     continue
                 if not vis[y]:
@@ -5099,6 +5087,7 @@ class Union924:
                     vis[y] = False
                 else:
                     dfs(y, t + dt, k)
+
         n = len(values)
         g = [[] for _ in range(n)]
         for u, v, t in edges:
@@ -5134,4 +5123,59 @@ class Union924:
                         break
                 i ^= 1
             return res
+
         return max(check(red, blue), check(blue, red))
+
+    # 3201. 找出有效子序列的最大长度 I (Find the Maximum Length of Valid Subsequence I)
+    def maximumLength(self, nums: List[int]) -> int:
+        def check(pre: int) -> int:
+            res = 0
+            for x in nums:
+                if x % 2 != pre % 2:
+                    res += 1
+                    pre = x
+            return res
+
+        n = len(nums)
+        s0 = sum(x % 2 for x in nums)
+        s1 = n - s0
+        s2 = check(0)
+        s3 = check(1)
+        return max(s0, s1, s2, s3)
+
+    # 3202. 找出有效子序列的最大长度 II (Find the Maximum Length of Valid Subsequence II)
+    def maximumLength(self, nums: List[int], k: int) -> int:
+        res = 0
+        for m in range(k):
+            f = [0] * k
+            for x in nums:
+                x %= k
+                f[x] = f[m - x] + 1
+            res = max(res, max(f))
+        return res
+
+    # 3203. 合并两棵树后的最小直径 (Find Minimum Diameter After Merging Two Trees)
+    def minimumDiameterAfterMerge(self, edges1: List[List[int]], edges2: List[List[int]]) -> int:
+        def check(edges: List[List[int]]) -> int:
+            n = len(edges) + 1
+            g = [[] for _ in range(n)]
+            for u, v in edges:
+                g[u].append(v)
+                g[v].append(u)
+            res = 0
+            def dfs(x: int, fa: int) -> int:
+                pre = 0
+                mx = 0
+                for y in g[x]:
+                    if y != fa:
+                        cur = dfs(y, x)
+                        mx = max(mx, cur + pre)
+                        pre = max(pre, cur)
+                nonlocal res
+                res = max(res, mx + 1)
+                return pre + 1
+            dfs(0, -1)
+            return res - 1
+        d1 = check(edges1)
+        d2 = check(edges2)
+        return max(d1, d2, ((d1 + 1) >> 1) + ((d2 + 1) >> 1) + 1)

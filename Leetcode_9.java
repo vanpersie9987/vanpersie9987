@@ -1043,4 +1043,77 @@ public class Leetcode_9 {
         }
         return res;
     }
+
+    // 3201. 找出有效子序列的最大长度 I (Find the Maximum Length of Valid Subsequence I)
+    public int maximumLength(int[] nums) {
+        int cntEven = 0;
+        for (int x : nums) {
+            if (x % 2 == 0) {
+                ++cntEven;
+            }
+        }
+        return Math.max(Math.max(cntEven, nums.length - cntEven), Math.max(check3201(nums, 0), check3201(nums, 1)));
+    }
+
+    private int check3201(int[] nums, int pre) {
+        int res = 0;
+        for (int x : nums) {
+            if (x % 2 != pre % 2) {
+                ++res;
+                pre = x;
+            }
+        }
+        return res;
+    }
+
+    // 3202. 找出有效子序列的最大长度 II (Find the Maximum Length of Valid Subsequence II)
+    public int maximumLengthII(int[] nums, int k) {
+        int res = 0;
+        for (int m = 0; m < k; ++m) {
+            int[] f = new int[k];
+            for (int x : nums) {
+                x %= k;
+                f[x] = f[((m - x) % k + k) % k] + 1;
+                res = Math.max(res, f[x]);
+            }
+        }
+        return res;
+    }
+
+    // 3203. 合并两棵树后的最小直径 (Find Minimum Diameter After Merging Two Trees)
+    public int minimumDiameterAfterMerge(int[][] edges1, int[][] edges2) {
+        int d1 = check3203(edges1);
+        int d2 = check3203(edges2);
+        return Math.max(Math.max(d1, d2), ((d1 + 1) >> 1) + ((d2 + 1) >> 1) + 1);
+
+    }
+
+    private List<Integer>[] g3203;
+    private int res3203;
+    private int check3203(int[][] edges) {
+        int n = edges.length + 1;
+        this.g3203 = new ArrayList[n];
+        Arrays.setAll(g3203, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g3203[e[0]].add(e[1]);
+            g3203[e[1]].add(e[0]);
+        }
+        res3203 = 0;
+        dfs3203(0, -1);
+        return res3203 - 1;
+    }
+
+    private int dfs3203(int x, int fa) {
+        int pre = 0;
+        int mx = 0;
+        for (int y : g3203[x]) {
+            if (y != fa) {
+                int cur = dfs3203(y, x);
+                mx = Math.max(mx, pre + cur);
+                pre = Math.max(pre, cur);
+            }
+        }
+        res3203 = Math.max(res3203, mx + 1);
+        return pre + 1;
+    }
 }
