@@ -82,6 +82,40 @@ class leetcode_2:
                 hp -= heapq.heappop(q)
                 res += 1
         return res
+class Union924:
+
+    def __init__(self, n: int) -> None:
+        self.parent = [0] * n
+        for i in range(n):
+            self.parent[i] = i
+        self.rank = [1] * n
+        self.size = [1] * n
+
+    def get_root(self, p: int) -> int:
+        if self.parent[p] == p:
+            return p
+        self.parent[p] = self.get_root(self.parent[p])
+        return self.parent[p]
+
+    def is_connected(self, p1: int, p2: int) -> bool:
+        return self.get_root(p1) == self.get_root(p2)
+
+    def union(self, p1: int, p2: int) -> None:
+        root1 = self.get_root(p1)
+        root2 = self.get_root(p2)
+        if root1 == root2:
+            return
+        if self.rank[root1] < self.rank[root2]:
+            self.parent[root1] = root2
+            self.size[root2] += self.size[root1]
+        else:
+            self.parent[root2] = root1
+            self.size[root1] += self.size[root2]
+            if self.rank[root1] == self.rank[root2]:
+                self.rank[root1] += 1
+
+    def get_size(self, p: int) -> int:
+        return self.size[self.get_root(p)]
 
     # 862. 和至少为 K 的最短子数组 (Shortest Subarray with Sum at Least K)
     def shortestSubarray(self, nums: List[int], k: int) -> int:
@@ -3289,42 +3323,6 @@ class leetcode_2:
         m = len(andValues)
         res = dfs(0, 0, -1)
         return -1 if res == inf else res
-
-
-class Union924:
-
-    def __init__(self, n: int) -> None:
-        self.parent = [0] * n
-        for i in range(n):
-            self.parent[i] = i
-        self.rank = [1] * n
-        self.size = [1] * n
-
-    def get_root(self, p: int) -> int:
-        if self.parent[p] == p:
-            return p
-        self.parent[p] = self.get_root(self.parent[p])
-        return self.parent[p]
-
-    def is_connected(self, p1: int, p2: int) -> bool:
-        return self.get_root(p1) == self.get_root(p2)
-
-    def union(self, p1: int, p2: int) -> None:
-        root1 = self.get_root(p1)
-        root2 = self.get_root(p2)
-        if root1 == root2:
-            return
-        if self.rank[root1] < self.rank[root2]:
-            self.parent[root1] = root2
-            self.size[root2] += self.size[root1]
-        else:
-            self.parent[root2] = root1
-            self.size[root1] += self.size[root2]
-            if self.rank[root1] == self.rank[root2]:
-                self.rank[root1] += 1
-
-    def get_size(self, p: int) -> int:
-        return self.size[self.get_root(p)]
 
     # 924. 尽量减少恶意软件的传播 (Minimize Malware Spread)
     def minMalwareSpread(self, graph: List[List[int]], initial: List[int]) -> int:
