@@ -5,7 +5,7 @@ from calendar import c
 from collections import Counter, defaultdict, deque
 import collections
 from ctypes.wintypes import _ULARGE_INTEGER
-from curses import curs_set, intrflush
+from curses import curs_set, intrflush, nonl
 from curses.ascii import isprint
 from decimal import Rounded
 import enum
@@ -5058,3 +5058,54 @@ class Union924:
         for i in range(len(num) - 1, -1, -1):
             if num[i] != '0':
                 return num[: i + 1]
+
+    # 2065. 最大化一张图中的路径价值 (Maximum Path Quality of a Graph)
+    def maximalPathQuality(self, values: List[int], edges: List[List[int]], maxTime: int) -> int:
+        n = len(values)
+        vis = [[-1] * (maxTime + 1) for _ in range(n)]
+        g = [[] for _ in range(n)]
+        for u, v, t in edges:
+            g[u].append((v, t))
+            g[v].append((u, t))
+        vis[0][0] = values[0]
+        q = []
+        q.append((-values[0], 0, 0))
+        heapq.heapify(q)
+        res = 0
+        while q:
+            (v, x, t) = heapq.heappop(q)
+            if t > maxTime:
+                continue
+            if x == 0:
+                res = max(res, -v)
+            for (y, dt) in g[x]:
+                if t + dt <= maxTime and -v + values[y] > vis[y][t + dt]:
+                    vis[y][t + dt] = -v + values[y]
+                    heapq.heappush(q, (v - values[y], y, t + dt))
+        return res
+    
+    # 2065. 最大化一张图中的路径价值 (Maximum Path Quality of a Graph)
+    def maximalPathQuality(self, values: List[int], edges: List[List[int]], maxTime: int) -> int:
+        def dfs(i: int, t: int, k: int) -> None:
+            if i == 0:
+                nonlocal res
+                res = max(res, k)
+            for (y, dt) in g[i]:
+                if t + dt > maxTime:
+                    continue
+                if not vis[y]:
+                    vis[y] = True
+                    dfs(y, t + dt, k + values[y])
+                    vis[y] = False
+                else:
+                    dfs(y, t + dt, k)
+        n = len(values)
+        g = [[] for _ in range(n)]
+        for u, v, t in edges:
+            g[u].append((v, t))
+            g[v].append((u, t))
+        vis = [False] * n
+        vis[0] = True
+        res = 0
+        dfs(0, 0, values[0])
+        return res
