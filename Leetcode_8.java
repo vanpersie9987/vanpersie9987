@@ -9667,24 +9667,32 @@ public class Leetcode_8 {
 
     // 3115. 素数的最大距离 (Maximum Prime Difference)
     public int maximumPrimeDifference(int[] nums) {
-        int l = 0;
-        while (!isPrime3115(nums[l])) {
-            ++l;
+        int n = nums.length;
+        int i = 0;
+        while (i < n) {
+            if (isPrime3115(nums[i])) {
+                break;
+            }
+            ++i;
         }
-        int r = nums.length - 1;
-        while (!isPrime3115(nums[r])) {
-            --r;
+        int j = n - 1;
+        while (j >= 0) {
+            if (isPrime3115(nums[j])) {
+                return j - i;
+            }
+            --j;
         }
-        return r - l;
+        return -1;
+
     }
 
     private boolean isPrime3115(int x) {
-        for (int i = 2; i <= Math.sqrt(x); ++i) {
+        for (int i = 2; i < (int) Math.sqrt(x) + 1; ++i) {
             if (x % i == 0) {
                 return false;
             }
         }
-        return x >= 2;
+        return x != 1;
     }
 
     // 3117. 划分数组得到最小的值之和 (Minimum Sum of Values by Dividing Array)
