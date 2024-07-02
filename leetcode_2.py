@@ -3295,15 +3295,18 @@ class Union924:
             for i in range(2, isqrt(x) + 1):
                 if x % i == 0:
                     return False
-            return x >= 2
-
-        l = 0
-        while not is_prime(nums[l]):
-            l += 1
-        r = len(nums) - 1
-        while not is_prime(nums[r]):
-            r -= 1
-        return r - l
+            return x != 1
+        n = len(nums)
+        i = 0
+        while i < n:
+            if is_prime(nums[i]):
+                break
+            i += 1
+        j = n - 1
+        while j >= 0:
+            if is_prime(nums[j]):
+                return j - i
+            j -= 1
 
     # 3117. 划分数组得到最小的值之和 (Minimum Sum of Values by Dividing Array)
     def minimumValueSum(self, nums: List[int], andValues: List[int]) -> int:
