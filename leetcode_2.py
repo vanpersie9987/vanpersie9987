@@ -5164,3 +5164,29 @@ class Union924:
         d1 = check(edges1)
         d2 = check(edges2)
         return max(d1, d2, ((d1 + 1) >> 1) + ((d2 + 1) >> 1) + 1)
+
+    # 1958. 检查操作是否合法 (Check if Move is Legal)
+    def checkMove(self, board: List[List[str]], rMove: int, cMove: int, color: str) -> bool:
+        def check(i: int, j: int) -> bool:
+            x = rMove + i
+            y = cMove + j
+            if not (x >= 0 and x < n and y >= 0 and y < n and board[x][y] != '.' and board[x][y] != color):
+                return False
+            x += i
+            y += j
+            while x >= 0 and x < n and y >= 0 and y < n:
+                if board[x][y] != '.' and board[x][y] != color:
+                    x += i
+                    y += j
+                else:
+                    break
+            return x >= 0 and x < n and y >= 0 and y < n and board[x][y] == color
+
+        n = len(board)
+        for i in range(-1, 2):
+            for j in range(-1, 2):
+                if i == 0 and j == 0:
+                    continue
+                if check(i, j):
+                    return True
+        return False
