@@ -7172,11 +7172,11 @@ public class LeetCode_2 {
 
    // 1958. 检查操作是否合法 (Check if Move is Legal)
    public boolean checkMove(char[][] board, int rMove, int cMove, char color) {
-      int[] dx = { -1, -1, -1, 1, 1, 1, 0, 0 };
-      int[] dy = { 1, 0, -1, 1, 0, -1, 1, -1 };
-      for (int i = 0; i < 8; ++i) {
-         if (check1958(board, rMove, cMove, dx[i], dy[i], color)) {
-            return true;
+      for (int dx = -1; dx <= 1; ++dx) {
+         for (int dy = -1; dy <= 1; ++dy) {
+            if (check1958(board, rMove, cMove, dx, dy, color)) {
+               return true;
+            }
          }
       }
       return false;
@@ -7190,13 +7190,11 @@ public class LeetCode_2 {
          if (board[rMove][cMove] == '.') {
             return false;
          }
-         if (board[rMove][cMove] != color) {
-            flag = true;
-         } else {
+         if (board[rMove][cMove] == color) {
             return flag;
          }
+         flag = true;
       }
-
       return false;
    }
 
