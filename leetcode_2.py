@@ -5186,3 +5186,15 @@ class Union924:
                 if check(i, j):
                     return True
         return False
+
+    # 724. 寻找数组的中心下标 (Find Pivot Index)
+    def pivotIndex(self, nums: List[int]) -> int:
+        s = sum(nums)
+        l = 0
+        r = s
+        for i, v in enumerate(nums):
+            r -= v
+            if l == r:
+                return i
+            l += v
+        return -1
