@@ -2539,16 +2539,15 @@ public class LeetCode_2 {
    // 1991. 找到数组的中间位置 (Find the Middle Index in Array)
    // 剑指 Offer II 012. 左右两边子数组的和相等
    public int pivotIndex(int[] nums) {
-      int leftSum = 0;
-      int sum = 0;
+      int s = Arrays.stream(nums).sum();
+      int l = 0;
+      int r = s;
       for (int i = 0; i < nums.length; ++i) {
-         sum += nums[i];
-      }
-      for (int i = 0; i < nums.length; ++i) {
-         if (leftSum == sum - nums[i] - leftSum) {
+         r -= nums[i];
+         if (l == r) {
             return i;
          }
-         leftSum += nums[i];
+         l += nums[i];
       }
       return -1;
 
