@@ -1194,6 +1194,8 @@ public class Leetcode_9 {
         }
     }
 
+
+    // 3212. 统计 X 和 Y 频数相等的子矩阵数量 (Count Submatrices With Equal Frequency of X and Y)
     public int numberOfSubmatrices(char[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
@@ -1211,77 +1213,5 @@ public class Leetcode_9 {
         }
         return res;
 
-    }
-
-    private int[] memo;
-    private int n;
-    private Trie trie;
-    private String target;
-
-    public int minimumCost(String target, String[] words, int[] costs) {
-        this.trie = new Trie();
-        for (int i = 0; i < words.length; ++i) {
-            trie.insert(words[i], costs[i]);
-        }
-        this.n = target.length();
-        this.memo = new int[n];
-        Arrays.fill(memo, Integer.MIN_VALUE);
-        this.target = target;
-        int res = dfs(0);
-        return res >= (int) 1e9 ? -1 : res;
-    }
-
-    private int dfs(int i) {
-        if (i >= n) {
-            return 0;
-        }
-        if (memo[i] != Integer.MIN_VALUE) {
-            return memo[i];
-        }
-        int res = (int) 1e9;
-        for (int[] nxt : trie.getList(target.substring(i))) {
-            res = Math.min(res, dfs(i + nxt[0] + 1) + nxt[1]);
-        }
-        return memo[i] = res;
-    }
-
-    class Trie {
-        private Trie[] children;
-        private int s;
-
-        public Trie() {
-            this.children = new Trie[26];
-            this.s = -1;
-        }
-
-        public void insert(String s, int cost) {
-            Trie node = this;
-            for (char c : s.toCharArray()) {
-                int index = c - 'a';
-                if (node.children[index] == null) {
-                    node.children[index] = new Trie();
-                }
-                node = node.children[index];
-            }
-            if (node.s == -1 || cost < node.s) {
-                node.s = cost;
-            }
-        }
-
-        public List<int[]> getList(String s) {
-            List<int[]> res = new ArrayList<>();
-            Trie node = this;
-            for (int i = 0; i < s.length(); ++i) {
-                int index = s.charAt(i) - 'a';
-                if (node.children[index] == null) {
-                    break;
-                }
-                node = node.children[index];
-                if (node.s > 0) {
-                    res.add(new int[] { i, node.s });
-                }
-            }
-            return res;
-        }
     }
 }
