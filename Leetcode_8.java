@@ -5898,38 +5898,25 @@ public class Leetcode_8 {
     // 2970. 统计移除递增子数组的数目 I (Count the Number of Incremovable Subarrays I)
     // 2972. 统计移除递增子数组的数目 II (Count the Number of Incremovable Subarrays II)
     public long incremovableSubarrayCount(int[] nums) {
-        long res = 0L;
         int n = nums.length;
         int i = 0;
-        while (i < n - 1) {
-            if (nums[i] >= nums[i + 1]) {
-                break;
-            }
+        while (i + 1 < n && nums[i] < nums[i + 1]) {
             ++i;
         }
-        // 整个数组单调递增
         if (i == n - 1) {
-            return (1 + n) * n / 2;
+            return (long) (1 + n) * n / 2;
         }
-        res += i + 1;
+        long res = i + 2;
         int j = n - 1;
-        while (j >= 1) {
-            if (nums[j - 1] >= nums[j]) {
-                break;
+        while (j == n - 1 || nums[j] < nums[j + 1]) {
+            while (i >= 0 && nums[i] >= nums[j]) {
+                --i;
             }
+            res += i + 2;
             --j;
         }
-        res += n - j;
-        res += 1;
-        int x = 0;
-        while (x <= i && j < n) {
-            while (j < n && nums[x] >= nums[j]) {
-                ++j;
-            }
-            res += n - j;
-            ++x;
-        }
         return res;
+
 
     }
 
