@@ -1098,4 +1098,190 @@ public class Leetcode_9 {
         res3203 = Math.max(res3203, mx + 1);
         return pre + 1;
     }
+
+    public int numberOfAlternatingGroups(int[] colors) {
+        int n = colors.length;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            if (colors[i] != colors[(i - 1 + n) % n] && colors[i] != colors[(i + 1) % n]) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    public long maximumPoints(int[] enemyEnergies, int currentEnergy) {
+        Arrays.sort(enemyEnergies);
+        long res = 0L;
+        int n = enemyEnergies.length;
+        if (enemyEnergies[0] > currentEnergy) {
+            return 0;
+        }
+        int i = 0;
+        int j = n - 1;
+        while (i <= j) {
+            if (currentEnergy >= enemyEnergies[i]) {
+                res += currentEnergy / enemyEnergies[i];
+                currentEnergy %= enemyEnergies[i];
+            } else {
+                currentEnergy += enemyEnergies[j--];
+            }
+        }
+        return res;
+    }
+
+    public int numberOfAlternatingGroups(int[] colors, int k) {
+        int n = colors.length;
+        int res = 0;
+        int d = 0;
+        for (int i = 0; i < k - 1; ++i) {
+            if (colors[i] != colors[i + 1]) {
+                ++d;
+            }
+        }
+        if (d == k - 1) {
+            ++res;
+        }
+        for (int i = 1; i < n; ++i) {
+            if (colors[i] != colors[i - 1]) {
+                --d;
+            }
+            if (colors[(i + k - 2 + n) % n] != colors[(i + k - 1 + n) % n]) {
+                ++d;
+            }
+            if (d == k - 1) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    // 3210. 找出加密后的字符串 (Find the Encrypted String)
+    public String getEncryptedString(String s, int k) {
+        int n = s.length();
+        k %= n;
+        return s.substring(k) + s.substring(0, k);
+    }
+
+    // 3211. 生成不含相邻零的二进制字符串 (Generate Binary Strings Without Adjacent Zeros)
+    private List<String> res3211;
+    private StringBuilder builder3211;
+    private int n3211;
+
+    public List<String> validStrings(int n) {
+        this.res3211 = new ArrayList<>();
+        this.builder3211 = new StringBuilder();
+        this.n3211 = n;
+        dfs3211(0, 1);
+        return res3211;
+
+    }
+
+    private void dfs3211(int i, int j) {
+        if (i == n3211) {
+            res3211.add(builder3211.toString());
+            return;
+        }
+        builder3211.append('1');
+        dfs3211(i + 1, 1);
+        builder3211.deleteCharAt(builder3211.length() - 1);
+        if (j == 1) {
+            builder3211.append('0');
+            dfs3211(i + 1, 0);
+            builder3211.deleteCharAt(builder3211.length() - 1);
+        }
+    }
+
+    public int numberOfSubmatrices(char[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int res = 0;
+        int[][] xs = new int[m + 1][n + 1];
+        int[][] ys = new int[m + 1][n + 1];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                xs[i + 1][j + 1] = xs[i + 1][j] + xs[i][j + 1] - xs[i][j] + (grid[i][j] == 'X' ? 1 : 0);
+                ys[i + 1][j + 1] = ys[i + 1][j] + ys[i][j + 1] - ys[i][j] + (grid[i][j] == 'Y' ? 1 : 0);
+                if (xs[i + 1][j + 1] == ys[i + 1][j + 1] && xs[i + 1][j + 1] > 0) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int[] memo;
+    private int n;
+    private Trie trie;
+    private String target;
+
+    public int minimumCost(String target, String[] words, int[] costs) {
+        this.trie = new Trie();
+        for (int i = 0; i < words.length; ++i) {
+            trie.insert(words[i], costs[i]);
+        }
+        this.n = target.length();
+        this.memo = new int[n];
+        Arrays.fill(memo, Integer.MIN_VALUE);
+        this.target = target;
+        int res = dfs(0);
+        return res >= (int) 1e9 ? -1 : res;
+    }
+
+    private int dfs(int i) {
+        if (i >= n) {
+            return 0;
+        }
+        if (memo[i] != Integer.MIN_VALUE) {
+            return memo[i];
+        }
+        int res = (int) 1e9;
+        for (int[] nxt : trie.getList(target.substring(i))) {
+            res = Math.min(res, dfs(i + nxt[0] + 1) + nxt[1]);
+        }
+        return memo[i] = res;
+    }
+
+    class Trie {
+        private Trie[] children;
+        private int s;
+
+        public Trie() {
+            this.children = new Trie[26];
+            this.s = -1;
+        }
+
+        public void insert(String s, int cost) {
+            Trie node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie();
+                }
+                node = node.children[index];
+            }
+            if (node.s == -1 || cost < node.s) {
+                node.s = cost;
+            }
+        }
+
+        public List<int[]> getList(String s) {
+            List<int[]> res = new ArrayList<>();
+            Trie node = this;
+            for (int i = 0; i < s.length(); ++i) {
+                int index = s.charAt(i) - 'a';
+                if (node.children[index] == null) {
+                    break;
+                }
+                node = node.children[index];
+                if (node.s > 0) {
+                    res.add(new int[] { i, node.s });
+                }
+            }
+            return res;
+        }
+    }
 }

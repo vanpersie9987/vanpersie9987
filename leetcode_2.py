@@ -1408,22 +1408,17 @@ class Union924:
     def incremovableSubarrayCount(self, nums: List[int]) -> int:
         n = len(nums)
         i = 0
-        while i < n - 1:
-            if nums[i] >= nums[i + 1]:
-                break
+        while i < n - 1 and nums[i] < nums[i + 1]:
             i += 1
         if i == n - 1:
             return (1 + n) * n // 2
+        res = i + 2
         j = n - 1
-        while j >= 1:
-            if nums[j - 1] >= nums[j]:
-                break
+        while j == n - 1 or nums[j] < nums[j + 1]:
+            while i >= 0 and nums[i] >= nums[j]:
+                i -= 1
+            res += i + 2
             j -= 1
-        res = 1 + n - j
-        for k in range(i + 1):
-            while j < n and nums[k] >= nums[j]:
-                j += 1
-            res += n - j + 1
         return res
 
     # 3046. 分割数组 (Split the Array)
@@ -5198,3 +5193,83 @@ class Union924:
                 return i
             l += v
         return -1
+
+    def numberOfAlternatingGroups(self, colors: List[int]) -> int:
+        return sum(colors[i] != colors[i - 1] and colors[i] != colors[(i + 1) % len(colors)] for i in range(len(colors)))
+
+    def maximumPoints(self, enemyEnergies: List[int], currentEnergy: int) -> int:
+        n = len(enemyEnergies)
+        res = 0
+        enemyEnergies.sort()
+        if enemyEnergies[0] > currentEnergy:
+            return 0
+        i = 0
+        j = n - 1
+        while i <= j:
+            if currentEnergy >= enemyEnergies[i]:
+                res += currentEnergy // enemyEnergies[i]
+                currentEnergy %= enemyEnergies[i]
+            else:
+                currentEnergy += enemyEnergies[j]
+                j -= 1
+        return res
+
+    def numberOfAlternatingGroups(self, colors: List[int], k: int) -> int:
+        n = len(colors)
+        res = 0
+        d = 0
+        for i in range(k - 1):
+            if colors[i] != colors[i + 1]:
+                d += 1
+        if d == k - 1:
+            res += 1
+        for i in range(1, n):
+            if colors[i] != colors[i - 1]:
+                d -= 1
+            if colors[(i + k - 2) % n] != colors[(i + k - 1) % n]:
+                d += 1
+            if d == k - 1:
+                res += 1
+        return res
+
+    # 3210. 找出加密后的字符串 (Find the Encrypted String)
+    def getEncryptedString(self, s: str, k: int) -> str:
+        n = len(s)
+        k %= n
+        return s[k:] + s[:k]
+
+    # 3211. 生成不含相邻零的二进制字符串 (Generate Binary Strings Without Adjacent Zeros)
+    def validStrings(self, n: int) -> List[str]:
+        def dfs(i: int, j: int) -> None:
+            if i == n:
+                res.append(''.join(cur))
+                return
+            cur.append('1')
+            dfs(i + 1, 1)
+            cur.pop()
+            if j == 1:
+                cur.append('0')
+                dfs(i + 1, 0)
+                cur.pop()
+        res = []
+        cur = []
+        dfs(0, 1)
+        return res
+
+    # 3212. 统计 X 和 Y 频数相等的子矩阵数量 (Count Submatrices With Equal Frequency of X and Y)
+    def numberOfSubmatrices(self, grid: List[List[str]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        res = 0
+        xs = [[0] * (n + 1) for _ in range(m + 1)]
+        ys = [[0] * (n + 1) for _ in range(m + 1)]
+        for i in range(m):
+            for j in range(n):
+                xs[i + 1][j + 1] = xs[i][j + 1] + xs[i + 1][j] - xs[i][j] + (grid[i][j] == 'X')
+                ys[i + 1][j + 1] = ys[i][j + 1] + ys[i + 1][j] - ys[i][j] + (grid[i][j] == 'Y')
+                if xs[i + 1][j + 1] == ys[i + 1][j + 1] != 0:
+                    res += 1
+        return res
+
+
+
