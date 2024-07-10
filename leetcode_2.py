@@ -5194,9 +5194,11 @@ class Union924:
             l += v
         return -1
 
+    # 3206. 交替组 I (Alternating Groups I)
     def numberOfAlternatingGroups(self, colors: List[int]) -> int:
         return sum(colors[i] != colors[i - 1] and colors[i] != colors[(i + 1) % len(colors)] for i in range(len(colors)))
 
+    # 3207. 与敌人战斗后的最大分数 (Maximum Points After Enemy Battles)
     def maximumPoints(self, enemyEnergies: List[int], currentEnergy: int) -> int:
         n = len(enemyEnergies)
         res = 0
@@ -5207,13 +5209,15 @@ class Union924:
         j = n - 1
         while i <= j:
             if currentEnergy >= enemyEnergies[i]:
-                res += currentEnergy // enemyEnergies[i]
-                currentEnergy %= enemyEnergies[i]
+                d, m = divmod(currentEnergy, enemyEnergies[i])
+                res += d
+                currentEnergy = m
             else:
                 currentEnergy += enemyEnergies[j]
                 j -= 1
         return res
 
+    # 3208. 交替组 II (Alternating Groups II)
     def numberOfAlternatingGroups(self, colors: List[int], k: int) -> int:
         n = len(colors)
         res = 0

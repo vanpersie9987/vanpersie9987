@@ -1098,7 +1098,8 @@ public class Leetcode_9 {
         res3203 = Math.max(res3203, mx + 1);
         return pre + 1;
     }
-
+    
+    // 3206. 交替组 I (Alternating Groups I)
     public int numberOfAlternatingGroups(int[] colors) {
         int n = colors.length;
         int res = 0;
@@ -1111,6 +1112,7 @@ public class Leetcode_9 {
 
     }
 
+    // 3207. 与敌人战斗后的最大分数 (Maximum Points After Enemy Battles)
     public long maximumPoints(int[] enemyEnergies, int currentEnergy) {
         Arrays.sort(enemyEnergies);
         long res = 0L;
@@ -1131,6 +1133,7 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3208. 交替组 II (Alternating Groups II)
     public int numberOfAlternatingGroups(int[] colors, int k) {
         int n = colors.length;
         int res = 0;
