@@ -10075,18 +10075,18 @@ class leetcode_1:
     def canSortArray(self, nums: List[int]) -> bool:
         n = len(nums)
         i = 0
-        pre = 0
+        pre_max = -inf
         while i < n:
-            j = i
             _min = nums[i]
             _max = nums[i]
+            j = i
             while j < n and nums[j].bit_count() == nums[i].bit_count():
                 _min = min(_min, nums[j])
                 _max = max(_max, nums[j])
                 j += 1
-            if _min < pre:
+            if _min < pre_max:
                 return False
-            pre = _max
+            pre_max = _max
             i = j
         return True
 
