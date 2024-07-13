@@ -19407,17 +19407,18 @@ public class LeetCodeText {
 
     // 807. 保持城市天际线 (Max Increase to Keep City Skyline)
     public int maxIncreaseKeepingSkyline(int[][] grid) {
-        int[] rowMax = new int[grid.length];
-        int[] colMax = new int[grid[0].length];
-        for (int i = 0; i < grid.length; ++i) {
-            for (int j = 0; j < grid[0].length; ++j) {
+        int n = grid.length;
+        int[] rowMax = new int[n];
+        int[] colMax = new int[n];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
                 rowMax[i] = Math.max(rowMax[i], grid[i][j]);
                 colMax[j] = Math.max(colMax[j], grid[i][j]);
             }
         }
         int res = 0;
-        for (int i = 0; i < grid.length; ++i) {
-            for (int j = 0; j < grid[0].length; ++j) {
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
                 res += Math.min(rowMax[i], colMax[j]) - grid[i][j];
             }
         }
