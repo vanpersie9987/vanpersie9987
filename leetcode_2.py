@@ -5275,3 +5275,14 @@ class Union924:
                     res += 1
         return res
 
+    # 807. 保持城市天际线 (Max Increase to Keep City Skyline)
+    def maxIncreaseKeepingSkyline(self, grid: List[List[int]]) -> int:
+        n = len(grid)
+        res = 0
+        row = [max(row) for row in grid]
+        col = [max(col) for col in zip(*grid)]
+        for i in range(n):
+            for j in range(n):
+                res += max(0, min(row[i], col[j]) - grid[i][j])
+        return res
+
