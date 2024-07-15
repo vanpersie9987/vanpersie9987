@@ -1,3 +1,4 @@
+import java.net.Inet4Address;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1212,6 +1213,103 @@ public class Leetcode_9 {
                 if (xs[i + 1][j + 1] == ys[i + 1][j + 1] && xs[i + 1][j + 1] > 0) {
                     ++res;
                 }
+            }
+        }
+        return res;
+
+    }
+
+    // 100352. 交换后字典序最小的字符串 (Lexicographically Smallest String After a Swap)
+    public String getSmallestString(String s) {
+        int n = s.length();
+        char[] arr = s.toCharArray();
+        for (int i = 0; i < n - 1; ++i) {
+            if ((arr[i] - 'a') % 2 == (arr[i + 1] - 'a') % 2 && arr[i] > arr[i + 1]) {
+                char temp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = temp;
+                break;
+            }
+        }
+        return String.valueOf(arr);
+
+    }
+
+    // 100368. 从链表中移除在数组中存在的节点 (Delete Nodes From Linked List Present in Array)
+    public ListNode modifiedList(int[] nums, ListNode head) {
+        Set<Integer> s = new HashSet<>();
+        for (int x : nums) {
+            s.add(x);
+        }
+        ListNode dummy = new ListNode(0, head);
+        ListNode cur = dummy;
+        while (true) {
+            while (head != null && s.contains(head.val)) {
+                head = head.next;
+            }
+            cur.next = head;
+            cur = cur.next;
+            if (head == null) {
+                break;
+            }
+            head = head.next;
+        }
+        return dummy.next;
+
+    }
+
+    private int[] horizontalCut;
+    private int[] verticalCut;
+    private int[][][][] memo;
+
+    public int minimumCost(int m, int n, int[] horizontalCut, int[] verticalCut) {
+        this.horizontalCut = horizontalCut;
+        this.verticalCut = verticalCut;
+        this.memo = new int[m][n][m][n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                for (int k = 0; k < m; ++k) {
+                    Arrays.fill(memo[i][j][k], -1);
+                }
+            }
+        }
+        return dfs(0, 0, m - 1, n - 1);
+
+    }
+
+    private int dfs(int i0, int j0, int i1, int j1) {
+        if (i0 == i1 && j0 == j1) {
+            return 0;
+        }
+        if (memo[i0][j0][i1][j1] != -1) {
+            return memo[i0][j0][i1][j1];
+        }
+        int res = Integer.MAX_VALUE;
+        for (int i = i0; i < i1; ++i) {
+            res = Math.min(res, dfs(i0, j0, i, j1) + dfs(i + 1, j0, i1, j1) + horizontalCut[i]);
+        }
+        for (int j = j0; j < j1; ++j) {
+            res = Math.min(res, dfs(i0, j0, i1, j) + dfs(i0, j + 1, i1, j1) + verticalCut[j]);
+        }
+        return memo[i0][j0][i1][j1] = res;
+    }
+
+    // 100367. 切蛋糕的最小总开销 II (Minimum Cost for Cutting Cake II)
+    public long minimumCostII(int m, int n, int[] horizontalCut, int[] verticalCut) {
+        Arrays.sort(verticalCut);
+        Arrays.sort(horizontalCut);
+        long h = 1L;
+        long v = 1L;
+        long res = 0L;
+        int i = horizontalCut.length - 1;
+        int j = verticalCut.length - 1;
+        while (i >= 0 || j >= 0) {
+            if (i >= 0 && (j >= 0 && horizontalCut[i] > verticalCut[j] || j < 0)) {
+                res += horizontalCut[i--] * v;
+                ++h;
+            } else {
+                res += verticalCut[j--] * h;
+                ++v;
             }
         }
         return res;

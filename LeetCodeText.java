@@ -10682,55 +10682,60 @@ public class LeetCodeText {
 
     // 721. 账户合并 (Accounts Merge) --并查集
     public List<List<String>> accountsMerge(List<List<String>> accounts) {
-        Map<String, String> emailsToName = new HashMap<>();
-        Map<String, Integer> emailsToIndex = new HashMap<>();
-        int index = 0;
+        // name <- post <-> id
+        int id = 0;
+        Map<String, Integer> postToId = new HashMap<>();
+        Map<Integer, String> idToPost = new HashMap<>();
+        Map<String, String> postToName = new HashMap<>();
         for (List<String> account : accounts) {
+            String name = account.get(0);
             for (int i = 1; i < account.size(); ++i) {
-                emailsToName.put(account.get(i), account.get(0));
-                if (!emailsToIndex.containsKey(account.get(i))) {
-                    emailsToIndex.put(account.get(i), index++);
+                if (!postToId.containsKey(account.get(i))) {
+                    postToId.put(account.get(i), id);
+                    idToPost.put(id, account.get(i));
+                    ++id;
                 }
+                postToName.put(account.get(i), name);
             }
         }
-        Union721 union = new Union721(index);
+        Union721 union = new Union721(id);
         for (List<String> account : accounts) {
             for (int i = 2; i < account.size(); ++i) {
-                union.union(emailsToIndex.get(account.get(i)), emailsToIndex.get(account.get(i - 1)));
+                union.union(postToId.get(account.get(1)), postToId.get(account.get(i)));
             }
         }
-        Map<Integer, Set<String>> rootToGroup = new HashMap<>();
-        for (String email : emailsToIndex.keySet()) {
-            int root = union.getRoot(emailsToIndex.get(email));
-            rootToGroup.computeIfAbsent(root, k -> new HashSet<>()).add(email);
+        Map<Integer, List<String>> rootToList = new HashMap<>();
+        for (int i = 0; i < id; ++i) {
+            int root = union.getRoot(i);
+            rootToList.computeIfAbsent(root, k -> new ArrayList<>()).add(idToPost.get(i));
         }
         List<List<String>> res = new ArrayList<>();
-        for (Set<String> set : rootToGroup.values()) {
-            List<String> sub = new ArrayList<>(set);
-            Collections.sort(sub);
-            String name = emailsToName.get(sub.get(0));
-            sub.add(0, name);
-            res.add(sub);
+        for (List<String> vals : rootToList.values()) {
+            List<String> subRes = new ArrayList<>();
+            String name = postToName.get(vals.get(0));
+            Collections.sort(vals);
+            subRes.add(name);
+            subRes.addAll(vals);
+            res.add(subRes);
         }
         return res;
-
     }
 
     class Union721 {
-        private int[] rank;
         private int[] parent;
+        private int[] rank;
 
         public Union721(int n) {
-            this.rank = new int[n];
-            Arrays.fill(rank, 1);
             this.parent = new int[n];
+            this.rank = new int[n];
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
+                rank[i] = 1;
             }
         }
 
         public int getRoot(int p) {
-            if (parent[p] == p) {
+            if (p == parent[p]) {
                 return p;
             }
             return parent[p] = getRoot(parent[p]);
@@ -10747,14 +10752,15 @@ public class LeetCodeText {
                 return;
             }
             if (rank[root1] < rank[root2]) {
-                parent[root1] = root2;
-            } else {
                 parent[root2] = root1;
+            } else {
+                parent[root1] = root2;
                 if (rank[root1] == rank[root2]) {
-                    ++rank[root1];
+                    ++rank[root2];
                 }
             }
         }
+
     }
 
     // 721. 账户合并 (Accounts Merge) --bfs

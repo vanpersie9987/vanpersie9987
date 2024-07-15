@@ -5286,3 +5286,59 @@ class Union924:
                 res += max(0, min(row[i], col[j]) - grid[i][j])
         return res
 
+    # 100352. 交换后字典序最小的字符串 (Lexicographically Smallest String After a Swap)
+    def getSmallestString(self, s: str) -> str:
+        n = len(s)
+        arr = [x for x in s]
+        for i in range(n - 1):
+            if int(arr[i]) % 2 == int(arr[i + 1]) % 2 and int(arr[i]) > int(arr[i + 1]):
+                arr[i], arr[i + 1] = arr[i + 1], arr[i]
+                break
+        return ''.join(arr)
+
+    # 100368. 从链表中移除在数组中存在的节点 (Delete Nodes From Linked List Present in Array)
+    def modifiedList(self, nums: List[int], head: Optional[ListNode]) -> Optional[ListNode]:
+        s = set(nums)
+        cur = dummy = ListNode(0, head)
+        while head:
+            while head and head.val in s:
+                head = head.next
+            cur.next = head
+            cur = cur.next
+            if head:
+                head = head.next
+        return dummy.next
+
+    # 100361. 切蛋糕的最小总开销 I (Minimum Cost for Cutting Cake I)
+    def minimumCost(self, m: int, n: int, horizontalCut: List[int], verticalCut: List[int]) -> int:
+        @cache
+        def dfs(i0: int, j0: int, i1: int, j1: int) -> int:
+            if i0 == i1 and j0 == j1:
+                return 0
+            res = inf
+            for i in range(i0, i1):
+                res = min(res, dfs(i0, j0, i, j1) + dfs(i + 1, j0, i1, j1) + horizontalCut[i])
+            for j in range(j0, j1):
+                res = min(res, dfs(i0, j0, i1, j) + dfs(i0, j + 1, i1, j1) + verticalCut[j])
+            return res
+        return dfs(0, 0, m - 1, n - 1)
+
+    # 100367. 切蛋糕的最小总开销 II (Minimum Cost for Cutting Cake II)
+    def minimumCost(self, m: int, n: int, horizontalCut: List[int], verticalCut: List[int]) -> int:
+        horizontalCut.sort()
+        verticalCut.sort()
+        res = 0
+        h = 1
+        v = 1
+        i = len(horizontalCut) - 1
+        j = len(verticalCut) - 1
+        while i >= 0 or j >= 0:
+            if i >= 0 and (j >= 0 and horizontalCut[i] > verticalCut[j] or j < 0):
+                res += horizontalCut[i] * v
+                h += 1
+                i -= 1
+            else:
+                res += verticalCut[j] * h
+                v += 1
+                j -= 1
+        return res
