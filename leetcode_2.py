@@ -31,7 +31,7 @@ from tkinter import N, NO, W
 from tkinter.tix import Tree
 from token import NL, RIGHTSHIFT
 from turtle import RawTurtle, mode, pos, reset, right, st
-from typing import List, Optional
+from typing import List, Optional, Self
 import heapq
 import bisect
 from unittest import result
@@ -44,6 +44,7 @@ from zoneinfo import reset_tzpath
 # curl https://bootstrap.pypa.io/pip/get-pip.py -o get-pip.py
 # sudo python3 get-pip.py
 # pip3 install sortedcontainers
+from networkx import union
 from sortedcontainers import SortedList, SortedSet
 
 
@@ -100,7 +101,7 @@ class Union924:
     def is_connected(self, p1: int, p2: int) -> bool:
         return self.get_root(p1) == self.get_root(p2)
 
-    def union(self, p1: int, p2: int) -> None:
+    def union721(self, p1: int, p2: int) -> None:
         root1 = self.get_root(p1)
         root2 = self.get_root(p2)
         if root1 == root2:
@@ -3329,7 +3330,7 @@ class Union924:
         for i in range(n):
             for j in range(n):
                 if graph[i][j]:
-                    union.union(i, j)
+                    union.union721(i, j)
         res = min(initial)
         s = 0
         _list = [[] for _ in range(n)]
@@ -3374,7 +3375,7 @@ class Union924:
             for i in range(n):
                 for j in range(n):
                     if i != x and j != x and graph[i][j]:
-                        union.union(i, j)
+                        union.union721(i, j)
             s = set()
             for i in initial:
                 if i == x:
@@ -5341,4 +5342,61 @@ class Union924:
                 res += verticalCut[j] * h
                 v += 1
                 j -= 1
+        return res
+
+    # 721. 账户合并 (Accounts Merge)
+    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
+        class union:
+
+            def __init__(self, n: int) -> None:
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+
+            def is_connected(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+
+            def union(self, p1: int, p2: int) -> None:
+                root1 = self.get_root(p1)
+                root2 = self.get_root(p2)
+                if root1 == root2:
+                    return
+                if self.rank[root1] < self.rank[root2]:
+                    self.parent[root1] = root2
+                else:
+                    self.parent[root2] = root1
+                    if self.rank[root1] == self.rank[root2]:
+                        self.rank[root1] += 1
+        # name <-- 账户 <--> id
+        post_to_id = defaultdict(int)
+        id_to_post = defaultdict(str)
+        post_to_name = defaultdict(str)
+        id = 0
+        for account in accounts:
+            name = account[0]
+            for i in range(1, len(account)):
+                if account[i] not in post_to_id:
+                    post_to_id[account[i]] = id
+                    id_to_post[id] = account[i]
+                    post_to_name[account[i]] = name
+                    id += 1
+        u = union(id)
+        for account in accounts:
+            for i in range(1, len(account)):
+                u.union(post_to_id[account[1]], post_to_id[account[i]])
+        root_to_list = defaultdict(list)
+        for i in range(id):
+            root = u.get_root(i)
+            root_to_list[root].append(id_to_post[i])
+        res = []
+        for l in root_to_list.values():
+            l.sort()
+            name = post_to_name[l[0]]
+            l.insert(0, name)
+            res.append(l)
         return res
