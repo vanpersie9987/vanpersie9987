@@ -5430,10 +5430,10 @@ public class Leetcode_8 {
 
     // 2956. 找到两个数组中的公共元素 (Find Common Elements Between Two Arrays)
     public int[] findIntersectionValues(int[] nums1, int[] nums2) {
-        return new int[] { check100130(nums1, nums2), check100130(nums2, nums1) };
+        return new int[] { check2956(nums1, nums2), check2956(nums2, nums1) };
     }
 
-    private int check100130(int[] nums1, int[] nums2) {
+    private int check2956(int[] nums1, int[] nums2) {
         Set<Integer> set = Arrays.stream(nums2).boxed().collect(Collectors.toSet());
         int res = 0;
         for (int num : nums1) {
