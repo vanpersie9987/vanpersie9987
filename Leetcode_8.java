@@ -5428,7 +5428,7 @@ public class Leetcode_8 {
         return true;
     }
 
-    // 100130. 找到两个数组中的公共元素 (Find Common Elements Between Two Arrays)
+    // 2956. 找到两个数组中的公共元素 (Find Common Elements Between Two Arrays)
     public int[] findIntersectionValues(int[] nums1, int[] nums2) {
         return new int[] { check100130(nums1, nums2), check100130(nums2, nums1) };
     }

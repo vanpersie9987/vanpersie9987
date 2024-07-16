@@ -8699,13 +8699,9 @@ class leetcode_1:
                 return x
             x += 1
 
-    # 100130. 找到两个数组中的公共元素 (Find Common Elements Between Two Arrays)
+    # 2956. 找到两个数组中的公共元素 (Find Common Elements Between Two Arrays)
     def findIntersectionValues(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        def check(nums1: List[int], nums2: List[int]) -> int:
-            s = set(nums2)
-            return sum(x in s for x in nums1)
-
-        return [check(nums1, nums2), check(nums2, nums1)]
+        return [sum(x in set(nums2) for x in nums1), sum(x in set(nums1) for x in nums2)]
 
     # 100152. 消除相邻近似相等字符 (Remove Adjacent Almost-Equal Characters)
     def removeAlmostEqualCharacters(self, word: str) -> int:
