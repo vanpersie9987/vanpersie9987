@@ -5287,7 +5287,7 @@ class Union924:
                 res += max(0, min(row[i], col[j]) - grid[i][j])
         return res
 
-    # 100352. 交换后字典序最小的字符串 (Lexicographically Smallest String After a Swap)
+    # 3216. 交换后字典序最小的字符串 (Lexicographically Smallest String After a Swap)
     def getSmallestString(self, s: str) -> str:
         n = len(s)
         arr = [x for x in s]
@@ -5297,7 +5297,7 @@ class Union924:
                 break
         return ''.join(arr)
 
-    # 100368. 从链表中移除在数组中存在的节点 (Delete Nodes From Linked List Present in Array)
+    # 3217. 从链表中移除在数组中存在的节点 (Delete Nodes From Linked List Present in Array)
     def modifiedList(self, nums: List[int], head: Optional[ListNode]) -> Optional[ListNode]:
         s = set(nums)
         cur = dummy = ListNode(0, head)
@@ -5310,7 +5310,7 @@ class Union924:
                 head = head.next
         return dummy.next
 
-    # 100361. 切蛋糕的最小总开销 I (Minimum Cost for Cutting Cake I)
+    # 3218. 切蛋糕的最小总开销 I (Minimum Cost for Cutting Cake I) --O((mn)^2)
     def minimumCost(self, m: int, n: int, horizontalCut: List[int], verticalCut: List[int]) -> int:
         @cache
         def dfs(i0: int, j0: int, i1: int, j1: int) -> int:
@@ -5324,7 +5324,7 @@ class Union924:
             return res
         return dfs(0, 0, m - 1, n - 1)
 
-    # 100367. 切蛋糕的最小总开销 II (Minimum Cost for Cutting Cake II)
+    # 3219. 切蛋糕的最小总开销 II (Minimum Cost for Cutting Cake II) --O(log(m) + log(n))
     def minimumCost(self, m: int, n: int, horizontalCut: List[int], verticalCut: List[int]) -> int:
         horizontalCut.sort()
         verticalCut.sort()
@@ -5400,4 +5400,3 @@ class Union924:
             l.insert(0, name)
             res.append(l)
         return res
-

@@ -1219,7 +1219,7 @@ public class Leetcode_9 {
 
     }
 
-    // 100352. 交换后字典序最小的字符串 (Lexicographically Smallest String After a Swap)
+    // 3216. 交换后字典序最小的字符串 (Lexicographically Smallest String After a Swap)
     public String getSmallestString(String s) {
         int n = s.length();
         char[] arr = s.toCharArray();
@@ -1235,7 +1235,7 @@ public class Leetcode_9 {
 
     }
 
-    // 100368. 从链表中移除在数组中存在的节点 (Delete Nodes From Linked List Present in Array)
+    // 3217. 从链表中移除在数组中存在的节点 (Delete Nodes From Linked List Present in Array)
     public ListNode modifiedList(int[] nums, ListNode head) {
         Set<Integer> s = new HashSet<>();
         for (int x : nums) {
@@ -1258,43 +1258,44 @@ public class Leetcode_9 {
 
     }
 
-    private int[] horizontalCut;
-    private int[] verticalCut;
-    private int[][][][] memo;
+    // 3218. 切蛋糕的最小总开销 I (Minimum Cost for Cutting Cake I) --O((mn)^2)
+    private int[] horizontalCut3218;
+    private int[] verticalCut3218;
+    private int[][][][] memo3218;
 
     public int minimumCost(int m, int n, int[] horizontalCut, int[] verticalCut) {
-        this.horizontalCut = horizontalCut;
-        this.verticalCut = verticalCut;
-        this.memo = new int[m][n][m][n];
+        this.horizontalCut3218 = horizontalCut;
+        this.verticalCut3218 = verticalCut;
+        this.memo3218 = new int[m][n][m][n];
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
                 for (int k = 0; k < m; ++k) {
-                    Arrays.fill(memo[i][j][k], -1);
+                    Arrays.fill(memo3218[i][j][k], -1);
                 }
             }
         }
-        return dfs(0, 0, m - 1, n - 1);
+        return dfs3218(0, 0, m - 1, n - 1);
 
     }
 
-    private int dfs(int i0, int j0, int i1, int j1) {
+    private int dfs3218(int i0, int j0, int i1, int j1) {
         if (i0 == i1 && j0 == j1) {
             return 0;
         }
-        if (memo[i0][j0][i1][j1] != -1) {
-            return memo[i0][j0][i1][j1];
+        if (memo3218[i0][j0][i1][j1] != -1) {
+            return memo3218[i0][j0][i1][j1];
         }
         int res = Integer.MAX_VALUE;
         for (int i = i0; i < i1; ++i) {
-            res = Math.min(res, dfs(i0, j0, i, j1) + dfs(i + 1, j0, i1, j1) + horizontalCut[i]);
+            res = Math.min(res, dfs3218(i0, j0, i, j1) + dfs3218(i + 1, j0, i1, j1) + horizontalCut3218[i]);
         }
         for (int j = j0; j < j1; ++j) {
-            res = Math.min(res, dfs(i0, j0, i1, j) + dfs(i0, j + 1, i1, j1) + verticalCut[j]);
+            res = Math.min(res, dfs3218(i0, j0, i1, j) + dfs3218(i0, j + 1, i1, j1) + verticalCut3218[j]);
         }
-        return memo[i0][j0][i1][j1] = res;
+        return memo3218[i0][j0][i1][j1] = res;
     }
 
-    // 100367. 切蛋糕的最小总开销 II (Minimum Cost for Cutting Cake II)
+    // 3219. 切蛋糕的最小总开销 II (Minimum Cost for Cutting Cake II) --O(log(m) + log(n))
     public long minimumCostII(int m, int n, int[] horizontalCut, int[] verticalCut) {
         Arrays.sort(verticalCut);
         Arrays.sort(horizontalCut);
