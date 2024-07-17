@@ -5481,67 +5481,112 @@ public class Leetcode_8 {
 
     }
 
-    // 100140. 关闭分部的可行集合数目 (Number of Possible Sets of Closing Branches)
-    private int n100140;
-    private int maxDistance100140;
-    private List<int[]>[] g100140;
+    // 2959. 关闭分部的可行集合数目 (Number of Possible Sets of Closing Branches)
+    private List<int[]>[] g2959;
+    private int n2959;
+    private int maxDistance2959;
 
     public int numberOfSets(int n, int maxDistance, int[][] roads) {
-        this.n100140 = n;
-        this.maxDistance100140 = maxDistance;
-        this.g100140 = new ArrayList[n];
-        Arrays.setAll(g100140, k -> new ArrayList<>());
-        for (int[] r : roads) {
-            int u = r[0];
-            int v = r[1];
-            int w = r[2];
-            g100140[u].add(new int[] { v, w });
-            g100140[v].add(new int[] { u, w });
+        this.g2959 = new ArrayList[n];
+        Arrays.setAll(g2959, k -> new ArrayList<>());
+        this.n2959 = n;
+        this.maxDistance2959 = maxDistance;
+        Map<Integer, int[]> map = new HashMap<>();
+        for (int[] road : roads) {
+            int m = road[0] * n + road[1];
+            if (!map.containsKey(m) || map.get(m)[0] > road[2]) {
+                map.put(m, new int[] { road[2], road[0], road[1] });
+                map.put(road[1] * n + road[0], new int[] { road[2], road[1], road[0] });
+            }
         }
-        int res = 0;
-        // i 删除的点
-        for (int i = 0; i < (1 << n); ++i) {
-            if (Integer.bitCount(i) >= n - 1 || check100140(i)) {
+        for (int[] r : map.values()) {
+            g2959[r[1]].add(new int[] { r[2], r[0] });
+        }
+        int res = 1;
+        for (int i = 1; i < 1 << n; ++i) {
+            if (!checkConnected2959(i)) {
+                continue;
+            }
+            if (checkDistance2959(i)) {
                 ++res;
             }
         }
         return res;
+
     }
 
-    private boolean check100140(int mask) {
-        for (int i = 0; i < n100140; ++i) {
-            if ((mask & (1 << i)) == 0) {
-                if (!dijkstra100140(i, mask)) {
-                    return false;
-                }
+    private boolean checkDistance2959(int i) {
+        int m = i;
+        while (m != 0) {
+            int lb = Integer.numberOfTrailingZeros(m);
+            if (!dijskra2959(lb, i)) {
+                return false;
             }
+            m &= m - 1;
         }
         return true;
     }
 
-    private boolean dijkstra100140(int start, int mask) {
-        Queue<Integer> q = new PriorityQueue<>();
-        int[] dis = new int[n100140];
+    private boolean dijskra2959(int start, int i) {
+        int[] dis = new int[n2959];
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[1], o2[1]);
+            }
+
+        });
         Arrays.fill(dis, Integer.MAX_VALUE);
         dis[start] = 0;
-        q.offer(start);
+        q.add(new int[] { start, 0 });
         while (!q.isEmpty()) {
-            int x = q.poll();
-            for (int[] nei : g100140[x]) {
-                int y = nei[0];
-                int neiD = nei[1];
-                if (((1 << y) & mask) == 0 && dis[x] + neiD < dis[y]) {
-                    dis[y] = dis[x] + neiD;
-                    q.offer(y);
+            int[] node = q.poll();
+            int x = node[0];
+            int d = node[1];
+            if (d > dis[x]) {
+                continue;
+            }
+            for (int[] nxt : g2959[x]) {
+                int y = nxt[0];
+                int w = nxt[1];
+                if (((i >> y) & 1) == 1 && d + w < dis[y]) {
+                    dis[y] = d + w;
+                    q.add(new int[] { y, d + w });
                 }
             }
         }
-        for (int i = 0; i < n100140; ++i) {
-            if ((mask & (1 << i)) == 0 && dis[i] > maxDistance100140) {
+        for (int b = 0; b < n2959; ++b) {
+            if (((i >> b) & 1) == 0) {
+                continue;
+            }
+            if (dis[b] > maxDistance2959) {
                 return false;
             }
         }
         return true;
+
+    }
+
+    private int m2959;
+    private int i2959;
+
+    private boolean checkConnected2959(int i) {
+        this.m2959 = 0;
+        this.i2959 = i;
+        dfs2959(Integer.numberOfTrailingZeros(i));
+        return m2959 == i;
+    }
+
+    private void dfs2959(int x) {
+        m2959 |= 1 << x;
+        for (int[] nxt : g2959[x]) {
+            int y = nxt[0];
+            if (((i2959 >> y) & 1) == 1 && ((m2959 >> y) & 1) == 0) {
+                dfs2959(y);
+            }
+
+        }
     }
 
     // 2960. 统计已测试设备 (Count Tested Devices After Test Operations)

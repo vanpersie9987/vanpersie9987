@@ -8719,16 +8719,16 @@ class leetcode_1:
     # 2959. 关闭分部的可行集合数目 (Number of Possible Sets of Closing Branches)
     def numberOfSets(self, n: int, maxDistance: int, roads: List[List[int]]) -> int:
         def check_all_connected(i: int) -> bool:
-            def dfs(x: int, fa: int) -> None:
+            def dfs(x: int) -> None:
                 nonlocal m
                 m |= 1 << x
                 for y, _ in g[x]:
-                    if y != fa and (m >> y) & 1 == 0 and (i >> y) & 1 == 1:
-                        dfs(y, x)
+                    if (m >> y) & 1 == 0 and (i >> y) & 1 == 1:
+                        dfs(y)
 
             lb = (i & -i).bit_length() - 1
             m = 0
-            dfs(lb, -1)
+            dfs(lb)
             return m == i
 
         def check_distance(i: int) -> bool:
@@ -8758,7 +8758,7 @@ class leetcode_1:
         # 去重
         d = defaultdict(int)
         for u, v, w in roads:
-            if (u, v) not in d or (u, v) in d and d[(u, v)] > w:
+            if (u, v) not in d or d[(u, v)] > w:
                 d[(u, v)] = w
                 d[(v, u)] = w
         g = [[] for _ in range(n)]
