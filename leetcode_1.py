@@ -4743,7 +4743,7 @@ class leetcode_1:
         if s < target or target < -s:
             return 0
         return dfs(0, 0)
-    
+
     # 494. 目标和 (Target Sum)
     # LCR 102. 目标和
     def findTargetSumWays(self, nums: List[int], target: int) -> int:
@@ -8716,36 +8716,59 @@ class leetcode_1:
             i = j
         return res
 
-    # 100140. 关闭分部的可行集合数目 (Number of Possible Sets of Closing Branches)
+    # 2959. 关闭分部的可行集合数目 (Number of Possible Sets of Closing Branches)
     def numberOfSets(self, n: int, maxDistance: int, roads: List[List[int]]) -> int:
-        def dijkstra(start: int, mask: int) -> bool:
-            dis = [inf] * n
-            q = []
-            dis[start] = 0
-            heapq.heapify(q)
-            q.append(start)
-            while q:
-                x = heapq.heappop(q)
-                for nei in g[x]:
-                    y = nei[0]
-                    nei_d = nei[1]
-                    if ((1 << y) & mask) == 0 and dis[x] + nei_d < dis[y]:
-                        dis[y] = dis[x] + nei_d
-                        heapq.heappush(q, y)
-            return all(
-                ((1 << i) & mask) != 0 or dis[i] <= maxDistance for i in range(n)
-            )
+        def check_all_connected(i: int) -> bool:
+            def dfs(x: int, fa: int) -> None:
+                nonlocal m
+                m |= 1 << x
+                for y, _ in g[x]:
+                    if y != fa and (m >> y) & 1 == 0 and (i >> y) & 1 == 1:
+                        dfs(y, x)
 
-        def check(mask: int) -> bool:
-            return all((mask & (1 << i)) != 0 or dijkstra(i, mask) for i in range(n))
+            lb = (i & -i).bit_length() - 1
+            m = 0
+            dfs(lb, -1)
+            return m == i
 
-        res = 0
-        g = [[] for _ in range(n)]
+        def check_distance(i: int) -> bool:
+            def check(start: int) -> bool:
+                dis = [inf] * n
+                dis[start] = 0
+                q = deque()
+                q.append([start, 0])
+                while q:
+                    [x, d] = q.popleft()
+                    if d > dis[x]:
+                        continue
+                    for y, w in g[x]:
+                        if (i >> y) & 1 == 1 and d + w < dis[y]:
+                            dis[y] = d + w
+                            q.append([y, d + w])
+                return all((i >> x) & 1 == 0 or dis[x] <= maxDistance for x in range(n))
+
+            m = i
+            while m:
+                lb = (m & -m).bit_length() - 1
+                if not check(lb):
+                    return False
+                m &= m - 1
+            return True
+
+        # 去重
+        d = defaultdict(int)
         for u, v, w in roads:
+            if (u, v) not in d or (u, v) in d and d[(u, v)] > w:
+                d[(u, v)] = w
+                d[(v, u)] = w
+        g = [[] for _ in range(n)]
+        for (u, v), w in d.items():
             g[u].append((v, w))
-            g[v].append((u, w))
-        for i in range(1 << n):
-            if i.bit_count() >= n - 1 or check(i):
+        res = 1
+        for i in range(1, 1 << n):
+            if not check_all_connected(i):
+                continue
+            if check_distance(i):
                 res += 1
         return res
 
