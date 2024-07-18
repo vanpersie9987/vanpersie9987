@@ -9616,9 +9616,14 @@ public class Leetcode_8 {
 
     // 3112. 访问消失节点的最少时间 (Minimum Time to Visit Disappearing Nodes)
     public int[] minimumTime(int n, int[][] edges, int[] disappear) {
-        int[] dis = new int[n];
-        Arrays.fill(dis, -1);
-        dis[0] = 0;
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[0]].add(new int[] { e[1], e[2] });
+            g[e[1]].add(new int[] { e[0], e[2] });
+        }
+        int[] res = new int[n];
+        Arrays.fill(res, -1);
         Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
 
             @Override
@@ -9627,30 +9632,25 @@ public class Leetcode_8 {
             }
 
         });
-        List<int[]>[] g = new ArrayList[n];
-        Arrays.setAll(g, k -> new ArrayList<>());
-        for (int[] e : edges) {
-            g[e[0]].add(new int[] { e[1], e[2] });
-            g[e[1]].add(new int[] { e[0], e[2] });
-        }
-        q.offer(new int[] { 0, 0 });
+        res[0] = 0;
+        q.add(new int[] { 0, 0 });
         while (!q.isEmpty()) {
-            int[] cur = q.poll();
-            int x = cur[0];
-            int d = cur[1];
-            if (d > dis[x]) {
+            int[] node = q.poll();
+            int x = node[0];
+            int d = node[1];
+            if (d > res[x]) {
                 continue;
             }
             for (int[] nxt : g[x]) {
                 int y = nxt[0];
-                int dx = nxt[1];
-                if (d + dx < disappear[y] && (dis[y] < 0 || d + dx < dis[y])) {
-                    dis[y] = d + dx;
-                    q.offer(new int[] { y, dis[y] });
+                int w = nxt[1];
+                if ((res[y] == -1 || d + w < res[y]) && d + w < disappear[y]) {
+                    res[y] = d + w;
+                    q.offer(new int[] { y, d + w });
                 }
             }
         }
-        return dis;
+        return res;
 
     }
 

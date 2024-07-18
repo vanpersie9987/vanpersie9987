@@ -83,6 +83,8 @@ class leetcode_2:
                 hp -= heapq.heappop(q)
                 res += 1
         return res
+
+
 class Union924:
 
     def __init__(self, n: int) -> None:
@@ -3244,24 +3246,24 @@ class Union924:
     def minimumTime(
         self, n: int, edges: List[List[int]], disappear: List[int]
     ) -> List[int]:
-        g = [[] for _ in range(n)]  # 稀疏图用邻接表
-        for x, y, wt in edges:
-            g[x].append((y, wt))
-            g[y].append((x, wt))
+        g = [[] for _ in range(n)]
+        for u, v, w in edges:
+            g[u].append((v, w))
+            g[v].append((u, w))
+        res = [-1] * n
+        res[0] = 0
+        q = [(0, 0)]
+        heapq.heapify(q)
 
-        dis = [-1] * n
-        dis[0] = 0
-        h = [(0, 0)]
-        while h:
-            dx, x = heapq.heappop(h)
-            if dx > dis[x]:  # x 之前出堆过
+        while q:
+            d, x = heapq.heappop(q)
+            if d > res[x]:
                 continue
-            for y, wt in g[x]:
-                new_dis = dx + wt
-                if new_dis < disappear[y] and (dis[y] < 0 or new_dis < dis[y]):
-                    dis[y] = new_dis  # 更新 x 的邻居的最短路
-                    heapq.heappush(h, (new_dis, y))
-        return dis
+            for y, w in g[x]:
+                if (res[y] == -1 or d + w < res[y]) and d + w < disappear[y]:
+                    res[y] = d + w
+                    heapq.heappush(q, (d + w, y))
+        return res
 
     # 3113. 边界元素是最大值的子数组数目 (Find the Number of Subarrays Where Boundary Elements Are Maximum)
     def numberOfSubarrays(self, nums: List[int]) -> int:
@@ -3292,6 +3294,7 @@ class Union924:
                 if x % i == 0:
                     return False
             return x != 1
+
         n = len(nums)
         i = 0
         while i < n:
@@ -5105,6 +5108,7 @@ class Union924:
                 left[i % 2] -= i
                 i += 1
             return i - 1
+
         return max(check(red, blue), check(blue, red))
 
     # 3201. 找出有效子序列的最大长度 I (Find the Maximum Length of Valid Subsequence I)
@@ -5136,7 +5140,9 @@ class Union924:
         return res
 
     # 3203. 合并两棵树后的最小直径 (Find Minimum Diameter After Merging Two Trees)
-    def minimumDiameterAfterMerge(self, edges1: List[List[int]], edges2: List[List[int]]) -> int:
+    def minimumDiameterAfterMerge(
+        self, edges1: List[List[int]], edges2: List[List[int]]
+    ) -> int:
         def check(edges: List[List[int]]) -> int:
             n = len(edges) + 1
             g = [[] for _ in range(n)]
@@ -5144,6 +5150,7 @@ class Union924:
                 g[u].append(v)
                 g[v].append(u)
             res = 0
+
             def dfs(x: int, fa: int) -> int:
                 pre = 0
                 mx = 0
@@ -5155,14 +5162,18 @@ class Union924:
                 nonlocal res
                 res = max(res, mx + 1)
                 return pre + 1
+
             dfs(0, -1)
             return res - 1
+
         d1 = check(edges1)
         d2 = check(edges2)
         return max(d1, d2, ((d1 + 1) >> 1) + ((d2 + 1) >> 1) + 1)
 
     # 1958. 检查操作是否合法 (Check if Move is Legal)
-    def checkMove(self, board: List[List[str]], rMove: int, cMove: int, color: str) -> bool:
+    def checkMove(
+        self, board: List[List[str]], rMove: int, cMove: int, color: str
+    ) -> bool:
         def check(dx: int, dy: int) -> bool:
             f = False
             x = rMove
@@ -5170,12 +5181,13 @@ class Union924:
             while x + dx >= 0 and x + dx < n and y + dy >= 0 and y + dy < n:
                 x += dx
                 y += dy
-                if board[x][y] == '.':
+                if board[x][y] == ".":
                     return False
                 if board[x][y] == color:
                     return f
                 f = True
             return False
+
         n = len(board)
         for i in range(-1, 2):
             for j in range(-1, 2):
@@ -5197,7 +5209,10 @@ class Union924:
 
     # 3206. 交替组 I (Alternating Groups I)
     def numberOfAlternatingGroups(self, colors: List[int]) -> int:
-        return sum(colors[i] != colors[i - 1] and colors[i] != colors[(i + 1) % len(colors)] for i in range(len(colors)))
+        return sum(
+            colors[i] != colors[i - 1] and colors[i] != colors[(i + 1) % len(colors)]
+            for i in range(len(colors))
+        )
 
     # 3207. 与敌人战斗后的最大分数 (Maximum Points After Enemy Battles)
     def maximumPoints(self, enemyEnergies: List[int], currentEnergy: int) -> int:
@@ -5247,15 +5262,16 @@ class Union924:
     def validStrings(self, n: int) -> List[str]:
         def dfs(i: int, j: int) -> None:
             if i == n:
-                res.append(''.join(cur))
+                res.append("".join(cur))
                 return
-            cur.append('1')
+            cur.append("1")
             dfs(i + 1, 1)
             cur.pop()
             if j == 1:
-                cur.append('0')
+                cur.append("0")
                 dfs(i + 1, 0)
                 cur.pop()
+
         res = []
         cur = []
         dfs(0, 1)
@@ -5270,8 +5286,12 @@ class Union924:
         ys = [[0] * (n + 1) for _ in range(m + 1)]
         for i in range(m):
             for j in range(n):
-                xs[i + 1][j + 1] = xs[i][j + 1] + xs[i + 1][j] - xs[i][j] + (grid[i][j] == 'X')
-                ys[i + 1][j + 1] = ys[i][j + 1] + ys[i + 1][j] - ys[i][j] + (grid[i][j] == 'Y')
+                xs[i + 1][j + 1] = (
+                    xs[i][j + 1] + xs[i + 1][j] - xs[i][j] + (grid[i][j] == "X")
+                )
+                ys[i + 1][j + 1] = (
+                    ys[i][j + 1] + ys[i + 1][j] - ys[i][j] + (grid[i][j] == "Y")
+                )
                 if xs[i + 1][j + 1] == ys[i + 1][j + 1] != 0:
                     res += 1
         return res
@@ -5295,10 +5315,12 @@ class Union924:
             if int(arr[i]) % 2 == int(arr[i + 1]) % 2 and int(arr[i]) > int(arr[i + 1]):
                 arr[i], arr[i + 1] = arr[i + 1], arr[i]
                 break
-        return ''.join(arr)
+        return "".join(arr)
 
     # 3217. 从链表中移除在数组中存在的节点 (Delete Nodes From Linked List Present in Array)
-    def modifiedList(self, nums: List[int], head: Optional[ListNode]) -> Optional[ListNode]:
+    def modifiedList(
+        self, nums: List[int], head: Optional[ListNode]
+    ) -> Optional[ListNode]:
         s = set(nums)
         cur = dummy = ListNode(0, head)
         while head:
@@ -5311,21 +5333,30 @@ class Union924:
         return dummy.next
 
     # 3218. 切蛋糕的最小总开销 I (Minimum Cost for Cutting Cake I) --O((mn)^2)
-    def minimumCost(self, m: int, n: int, horizontalCut: List[int], verticalCut: List[int]) -> int:
+    def minimumCost(
+        self, m: int, n: int, horizontalCut: List[int], verticalCut: List[int]
+    ) -> int:
         @cache
         def dfs(i0: int, j0: int, i1: int, j1: int) -> int:
             if i0 == i1 and j0 == j1:
                 return 0
             res = inf
             for i in range(i0, i1):
-                res = min(res, dfs(i0, j0, i, j1) + dfs(i + 1, j0, i1, j1) + horizontalCut[i])
+                res = min(
+                    res, dfs(i0, j0, i, j1) + dfs(i + 1, j0, i1, j1) + horizontalCut[i]
+                )
             for j in range(j0, j1):
-                res = min(res, dfs(i0, j0, i1, j) + dfs(i0, j + 1, i1, j1) + verticalCut[j])
+                res = min(
+                    res, dfs(i0, j0, i1, j) + dfs(i0, j + 1, i1, j1) + verticalCut[j]
+                )
             return res
+
         return dfs(0, 0, m - 1, n - 1)
 
     # 3219. 切蛋糕的最小总开销 II (Minimum Cost for Cutting Cake II) --O(log(m) + log(n))
-    def minimumCost(self, m: int, n: int, horizontalCut: List[int], verticalCut: List[int]) -> int:
+    def minimumCost(
+        self, m: int, n: int, horizontalCut: List[int], verticalCut: List[int]
+    ) -> int:
         horizontalCut.sort()
         verticalCut.sort()
         res = 0
@@ -5372,6 +5403,7 @@ class Union924:
                     self.parent[root2] = root1
                     if self.rank[root1] == self.rank[root2]:
                         self.rank[root1] += 1
+
         # name <-- 账户 <--> id
         post_to_id = defaultdict(int)
         id_to_post = defaultdict(str)
