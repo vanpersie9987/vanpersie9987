@@ -5,7 +5,7 @@ from calendar import c
 from collections import Counter, defaultdict, deque
 import collections
 from ctypes.wintypes import _ULARGE_INTEGER
-from curses import curs_set, intrflush, nonl
+from curses import can_change_color, curs_set, intrflush, nonl
 from curses.ascii import isprint
 from decimal import Rounded
 import enum
@@ -16,7 +16,7 @@ from locale import DAY_4
 from logging import _Level, root
 from math import comb, cos, fabs, gcd, inf, isqrt, sqrt
 from mimetypes import init
-from operator import le, truediv
+from operator import le, ne, truediv
 from os import eventfd, minor, name
 from pickletools import read_uint1
 from queue import PriorityQueue
