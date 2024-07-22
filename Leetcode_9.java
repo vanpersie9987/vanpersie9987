@@ -20,6 +20,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.print.DocFlavor.STRING;
+
 @SuppressWarnings("unchecked")
 public class Leetcode_9 {
     public static void main(String[] args) {
@@ -1316,4 +1318,138 @@ public class Leetcode_9 {
         return res;
 
     }
+
+    public String losingPlayer(int x, int y) {
+        int cnt = Math.min(x, y / 4);
+        String[] arr = new String[] { "Alice", "Bob" };
+        return arr[(cnt + 1) % 2];
+    }
+
+    public int minimumLength(String s) {
+        int[] cnt = new int[26];
+        for (char c : s.toCharArray()) {
+            ++cnt[c - 'a'];
+        }
+        int res = 0;
+        for (int c : cnt) {
+            if (c == 0) {
+                continue;
+            }
+            c %= 2;
+            res += -c + 2;
+        }
+        return res;
+    }
+
+    public int minChanges(int[] nums, int k) {
+        int[] diff = new int[k + 1];
+        int n = nums.length;
+        for (int i = 0; i < n / 2; ++i) {
+            int p = nums[i];
+            int q = nums[n - i - 1];
+            if (p > q) {
+                int temp = p;
+                p = q;
+                q = temp;
+            }
+            ++diff[0];
+            --diff[q - p];
+            if (q - p + 1 < k + 1) {
+                ++diff[q - p + 1];
+            }
+            int mx = Math.max(q, k - p);
+            if (mx + 1 < k + 1) {
+                ++diff[mx + 1];
+            }
+        }
+        int res = diff[0];
+        for (int i = 1; i < k + 1; ++i) {
+            diff[i] += diff[i - 1];
+            res = Math.min(res, diff[i]);
+        }
+        return res;
+
+    }
+
+    public int minChanges(int n, int k) {
+        if ((n & k) != k) {
+            return -1;
+        }
+        return Integer.bitCount(n) - Integer.bitCount(k);
+
+    }
+
+    public boolean doesAliceWin(String s) {
+        for (char c : s.toCharArray()) {
+            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int maxOperations(String s) {
+        int cnt1 = 0;
+        int res = 0;
+        for (int i = 0; i < s.length() - 1; ++i) {
+            if (s.charAt(i) == '1') {
+                ++cnt1;
+                if (s.charAt(i + 1) == '0') {
+                    res += cnt1;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private List<Integer>[] g;
+    private int n;
+    private int[][] bombs;
+    public int maximumDetonation(int[][] bombs) {
+        this.n = bombs.length;
+        this.g = new ArrayList[n];
+        this.bombs = bombs;
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i == j) {
+                    continue;
+                }
+                if (checkDistance(i, j)) {
+                    g[i].add(j);
+                }
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, cal(i));
+        }
+        return res;
+    }
+
+    private int cal(int start) {
+        int res = 0;
+        boolean[] vis = new boolean[n];
+        vis[start] = true;
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(start);
+        while (!q.isEmpty()) {
+            ++res;
+            int x = q.poll();
+            for (int y : g[x]) {
+                if (!vis[y]) {
+                    vis[y] = true;
+                    q.offer(y);
+                }
+            }
+        }
+        return res;
+    }
+
+    private boolean checkDistance(int x, int y) {
+        return (long) (bombs[y][1] - bombs[x][1]) * (bombs[y][1] - bombs[x][1])
+                + (long) (bombs[y][0] - bombs[x][0]) * (bombs[y][0] - bombs[x][0]) <= (long) bombs[x][2] * bombs[x][2];
+    }
+
 }

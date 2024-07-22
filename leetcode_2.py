@@ -5432,3 +5432,80 @@ class Union924:
             l.insert(0, name)
             res.append(l)
         return res
+
+    def losingPlayer(self, x: int, y: int) -> str:
+        cnt = min(x, y // 4)
+        arr = ["Alice", "Bob"]
+        return arr[(cnt + 1) % 2]
+
+    def minimumLength(self, s: str) -> int:
+        cnt = Counter(s)
+        return sum(-(c & 1) + 2 for c in cnt.values())
+
+    def minChanges(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        diff = [0] * (k + 1)
+        for i in range(n // 2):
+            p = nums[i]
+            q = nums[n - i - 1]
+            if p > q:
+                p, q = q, p
+            diff[0] += 1
+            diff[q - p] -= 1
+            if q - p + 1 < k + 1:
+                diff[q - p + 1] += 1
+            mx = max(q, k - p)
+            if mx + 1 < k + 1:
+                diff[mx + 1] += 1
+        return min(accumulate(diff))
+
+    def minChanges(self, n: int, k: int) -> int:
+        if n & k != k:
+            return -1
+        return n.bit_count() - k.bit_count()
+
+    def doesAliceWin(self, s: str) -> bool:
+        return any(c in "aeiou" for c in s)
+
+    def maxOperations(self, s: str) -> int:
+        cnt1 = 0
+        res = 0
+        for i in range(len(s) - 1):
+            if s[i] == "1":
+                cnt1 += 1
+                if s[i + 1] == "0":
+                    res += cnt1
+        return res
+
+    # 2101. 引爆最多的炸弹 (Detonate the Maximum Bombs)
+    def maximumDetonation(self, bombs: List[List[int]]) -> int:
+        def check(start: int) -> int:
+
+            vis = [False] * n
+            vis[start] = True
+            q = deque()
+            q.append(start)
+            res = 0
+            while q:
+                res += 1
+                x = q.popleft()
+                for y in g[x]:
+                    if not vis[y]:
+                        vis[y] = True
+                        q.append(y)
+            return res
+
+        def dis(x, y) -> bool:
+            return pow(bombs[y][1] - bombs[x][1], 2) + pow(
+                bombs[y][0] - bombs[x][0], 2
+            ) <= pow(bombs[x][2], 2)
+
+        n = len(bombs)
+        g = [[] for _ in range(n)]
+        for i in range(n):
+            for j in range(n):
+                if i == j:
+                    continue
+                if dis(i, j):
+                    g[i].append(j)
+        return max(check(i) for i in range(n))
