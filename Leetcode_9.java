@@ -1403,53 +1403,7 @@ public class Leetcode_9 {
 
     }
 
-    private List<Integer>[] g;
-    private int n;
-    private int[][] bombs;
-    public int maximumDetonation(int[][] bombs) {
-        this.n = bombs.length;
-        this.g = new ArrayList[n];
-        this.bombs = bombs;
-        Arrays.setAll(g, k -> new ArrayList<>());
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (i == j) {
-                    continue;
-                }
-                if (checkDistance(i, j)) {
-                    g[i].add(j);
-                }
-            }
-        }
-        int res = 0;
-        for (int i = 0; i < n; ++i) {
-            res = Math.max(res, cal(i));
-        }
-        return res;
-    }
+    public int sumOfPowers(int[] nums, int k) {
 
-    private int cal(int start) {
-        int res = 0;
-        boolean[] vis = new boolean[n];
-        vis[start] = true;
-        Queue<Integer> q = new LinkedList<>();
-        q.offer(start);
-        while (!q.isEmpty()) {
-            ++res;
-            int x = q.poll();
-            for (int y : g[x]) {
-                if (!vis[y]) {
-                    vis[y] = true;
-                    q.offer(y);
-                }
-            }
-        }
-        return res;
     }
-
-    private boolean checkDistance(int x, int y) {
-        return (long) (bombs[y][1] - bombs[x][1]) * (bombs[y][1] - bombs[x][1])
-                + (long) (bombs[y][0] - bombs[x][0]) * (bombs[y][0] - bombs[x][0]) <= (long) bombs[x][2] * bombs[x][2];
-    }
-
 }

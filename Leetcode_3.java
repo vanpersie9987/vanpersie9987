@@ -7978,46 +7978,54 @@ public class Leetcode_3 {
     }
 
     // 2101. 引爆最多的炸弹 (Detonate the Maximum Bombs) --bfs
+    private List<Integer>[] g2101;
+    private int n2101;
+    private int[][] bombs2101;
+
     public int maximumDetonation(int[][] bombs) {
-        Map<Integer, List<Integer>> graph = new HashMap<>();
-        int n = bombs.length;
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (i != j && canDetonate(bombs[i], bombs[j])) {
-                    graph.computeIfAbsent(i, k -> new LinkedList<>()).add(j);
+        this.n2101 = bombs.length;
+        this.g2101 = new ArrayList[n2101];
+        this.bombs2101 = bombs;
+        Arrays.setAll(g2101, k -> new ArrayList<>());
+        for (int i = 0; i < n2101; ++i) {
+            for (int j = 0; j < n2101; ++j) {
+                if (i == j) {
+                    continue;
+                }
+                if (checkDistance2101(i, j)) {
+                    g2101[i].add(j);
                 }
             }
         }
-        int res = 1;
-        for (int i = 0; i < n; ++i) {
-            int max = 1;
-            Queue<Integer> queue = new LinkedList<>();
-            queue.offer(i);
-            boolean[] visited = new boolean[n];
-            visited[i] = true;
-            while (!queue.isEmpty()) {
-                int cur = queue.poll();
-                if (graph.get(cur) == null) {
-                    continue;
-                }
-                for (int neighbor : graph.get(cur)) {
-                    if (!visited[neighbor]) {
-                        visited[neighbor] = true;
-                        queue.offer(neighbor);
-                        ++max;
-                    }
-                }
-            }
-            res = Math.max(res, max);
+        int res = 0;
+        for (int i = 0; i < n2101; ++i) {
+            res = Math.max(res, cal2101(i));
         }
         return res;
     }
 
-    // return : bomb1 能否引爆 bomb2
-    private boolean canDetonate(int[] bomb1, int[] bomb2) {
-        long dx = bomb1[0] - bomb2[0];
-        long dy = bomb1[1] - bomb2[1];
-        return (long) bomb1[2] * bomb1[2] >= (long) dx * dx + dy * dy;
+    private int cal2101(int start) {
+        int res = 0;
+        boolean[] vis = new boolean[n2101];
+        vis[start] = true;
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(start);
+        while (!q.isEmpty()) {
+            ++res;
+            int x = q.poll();
+            for (int y : g2101[x]) {
+                if (!vis[y]) {
+                    vis[y] = true;
+                    q.offer(y);
+                }
+            }
+        }
+        return res;
+    }
+
+    private boolean checkDistance2101(int x, int y) {
+        return (long) (bombs2101[y][1] - bombs2101[x][1]) * (bombs2101[y][1] - bombs2101[x][1])
+                + (long) (bombs2101[y][0] - bombs2101[x][0]) * (bombs2101[y][0] - bombs2101[x][0]) <= (long) bombs2101[x][2] * bombs2101[x][2];
     }
 
     // 6060. 找到最接近 0 的数字 (Find Closest Number to Zero)
