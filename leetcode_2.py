@@ -5509,3 +5509,11 @@ class Union924:
                 if dis(i, j):
                     g[i].append(j)
         return max(check(i) for i in range(n))
+
+    # 2766. 重新放置石块 (Relocate Marbles)
+    def relocateMarbles(self, nums: List[int], moveFrom: List[int], moveTo: List[int]) -> List[int]:
+        s = set(nums)
+        for f, t in zip(moveFrom, moveTo):
+            s.discard(f)
+            s.add(t)
+        return sorted(s)

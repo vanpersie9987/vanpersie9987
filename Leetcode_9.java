@@ -1402,8 +1402,4 @@ public class Leetcode_9 {
         return res;
 
     }
-
-    public int sumOfPowers(int[] nums, int k) {
-
-    }
 }
