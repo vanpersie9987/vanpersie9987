@@ -1321,9 +1321,7 @@ public class Leetcode_9 {
 
     // 3222. 求出硬币游戏的赢家 (Find the Winning Player in Coin Game)
     public String losingPlayer(int x, int y) {
-        int cnt = Math.min(x, y / 4);
-        String[] arr = new String[] { "Alice", "Bob" };
-        return arr[(cnt + 1) % 2];
+        return Math.min(x, y / 4) % 2 == 0 ? "Bob" : "Alice";
     }
 
     // 3223. 操作后字符串的最短长度 (Minimum Length of String After Operations)
@@ -1334,11 +1332,7 @@ public class Leetcode_9 {
         }
         int res = 0;
         for (int c : cnt) {
-            if (c == 0) {
-                continue;
-            }
-            c %= 2;
-            res += -c + 2;
+            res += (c - 1) % 2 + 1;
         }
         return res;
     }
