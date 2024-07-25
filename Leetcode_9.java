@@ -1319,12 +1319,14 @@ public class Leetcode_9 {
 
     }
 
+    // 3222. 求出硬币游戏的赢家 (Find the Winning Player in Coin Game)
     public String losingPlayer(int x, int y) {
         int cnt = Math.min(x, y / 4);
         String[] arr = new String[] { "Alice", "Bob" };
         return arr[(cnt + 1) % 2];
     }
 
+    // 3223. 操作后字符串的最短长度 (Minimum Length of String After Operations)
     public int minimumLength(String s) {
         int[] cnt = new int[26];
         for (char c : s.toCharArray()) {
@@ -1341,6 +1343,7 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3224. 使差值相等的最少数组改动次数 (Minimum Array Changes to Make Differences Equal)
     public int minChanges(int[] nums, int k) {
         int[] diff = new int[k + 1];
         int n = nums.length;
@@ -1371,6 +1374,7 @@ public class Leetcode_9 {
 
     }
 
+    // 3226. 使两个整数相等的位更改次数 (Number of Bit Changes to Make Two Integers Equal)
     public int minChanges(int n, int k) {
         if ((n & k) != k) {
             return -1;
@@ -1379,6 +1383,7 @@ public class Leetcode_9 {
 
     }
 
+    // 3227. 字符串元音游戏 (Vowels Game in a String)
     public boolean doesAliceWin(String s) {
         for (char c : s.toCharArray()) {
             if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
@@ -1388,6 +1393,7 @@ public class Leetcode_9 {
         return false;
     }
 
+    // 3228. 将 1 移动到末尾的最大操作次数 (Maximum Number of Operations to Move Ones to the End)
     public int maxOperations(String s) {
         int cnt1 = 0;
         int res = 0;

@@ -5433,15 +5433,18 @@ class Union924:
             res.append(l)
         return res
 
+    # 3222. 求出硬币游戏的赢家 (Find the Winning Player in Coin Game)
     def losingPlayer(self, x: int, y: int) -> str:
         cnt = min(x, y // 4)
         arr = ["Alice", "Bob"]
         return arr[(cnt + 1) % 2]
 
+    # 3223. 操作后字符串的最短长度 (Minimum Length of String After Operations)
     def minimumLength(self, s: str) -> int:
         cnt = Counter(s)
         return sum(-(c & 1) + 2 for c in cnt.values())
 
+    # 3224. 使差值相等的最少数组改动次数 (Minimum Array Changes to Make Differences Equal)
     def minChanges(self, nums: List[int], k: int) -> int:
         n = len(nums)
         diff = [0] * (k + 1)
@@ -5459,14 +5462,17 @@ class Union924:
                 diff[mx + 1] += 1
         return min(accumulate(diff))
 
+    # 3226. 使两个整数相等的位更改次数 (Number of Bit Changes to Make Two Integers Equal)
     def minChanges(self, n: int, k: int) -> int:
         if n & k != k:
             return -1
         return n.bit_count() - k.bit_count()
 
+    # 3227. 字符串元音游戏 (Vowels Game in a String)
     def doesAliceWin(self, s: str) -> bool:
         return any(c in "aeiou" for c in s)
 
+    # 3228. 将 1 移动到末尾的最大操作次数 (Maximum Number of Operations to Move Ones to the End)
     def maxOperations(self, s: str) -> int:
         cnt1 = 0
         res = 0
