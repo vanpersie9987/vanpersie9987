@@ -1369,7 +1369,7 @@ public class Leetcode_9 {
         if ((n & k) != k) {
             return -1;
         }
-        return Integer.bitCount(n) - Integer.bitCount(k);
+        return Integer.bitCount(n ^ k);
 
     }
 

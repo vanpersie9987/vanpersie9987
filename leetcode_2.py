@@ -5462,7 +5462,7 @@ class Union924:
     def minChanges(self, n: int, k: int) -> int:
         if n & k != k:
             return -1
-        return n.bit_count() - k.bit_count()
+        return (n ^ k).bit_count()
 
     # 3227. 字符串元音游戏 (Vowels Game in a String)
     def doesAliceWin(self, s: str) -> bool:
