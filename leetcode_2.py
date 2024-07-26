@@ -5522,5 +5522,4 @@ class Union924:
 
     # 2740. 找出分区值 (Find the Value of the Partition)
     def findValueOfPartition(self, nums: List[int]) -> int:
-        nums.sort()
-        return min(y - x for x, y in pairwise(nums))
+        return min(y - x for x, y in pairwise(sorted(nums)))
