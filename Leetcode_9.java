@@ -1339,7 +1339,7 @@ public class Leetcode_9 {
 
     // 3224. 使差值相等的最少数组改动次数 (Minimum Array Changes to Make Differences Equal)
     public int minChanges(int[] nums, int k) {
-        int[] diff = new int[k + 1];
+        int[] diff = new int[k + 2];
         int n = nums.length;
         for (int i = 0; i < n / 2; ++i) {
             int p = nums[i];
@@ -1349,15 +1349,11 @@ public class Leetcode_9 {
                 p = q;
                 q = temp;
             }
+            int mx = Math.max(q, k - p);
             ++diff[0];
             --diff[q - p];
-            if (q - p + 1 < k + 1) {
-                ++diff[q - p + 1];
-            }
-            int mx = Math.max(q, k - p);
-            if (mx + 1 < k + 1) {
-                ++diff[mx + 1];
-            }
+            ++diff[q - p + 1];
+            ++diff[mx + 1];
         }
         int res = diff[0];
         for (int i = 1; i < k + 1; ++i) {

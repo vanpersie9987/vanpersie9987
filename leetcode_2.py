@@ -5445,19 +5445,17 @@ class Union924:
     # 3224. 使差值相等的最少数组改动次数 (Minimum Array Changes to Make Differences Equal)
     def minChanges(self, nums: List[int], k: int) -> int:
         n = len(nums)
-        diff = [0] * (k + 1)
+        diff = [0] * (k + 2)
         for i in range(n // 2):
             p = nums[i]
             q = nums[n - i - 1]
             if p > q:
                 p, q = q, p
             diff[0] += 1
-            diff[q - p] -= 1
-            if q - p + 1 < k + 1:
-                diff[q - p + 1] += 1
             mx = max(q, k - p)
-            if mx + 1 < k + 1:
-                diff[mx + 1] += 1
+            diff[q - p] -= 1
+            diff[q - p + 1] += 1
+            diff[mx + 1] += 1
         return min(accumulate(diff))
 
     # 3226. 使两个整数相等的位更改次数 (Number of Bit Changes to Make Two Integers Equal)
