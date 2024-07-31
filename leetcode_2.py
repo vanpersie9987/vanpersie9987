@@ -5523,3 +5523,8 @@ class Union924:
     # 2740. 找出分区值 (Find the Value of the Partition)
     def findValueOfPartition(self, nums: List[int]) -> int:
         return min(y - x for x, y in pairwise(sorted(nums)))
+
+    # 3232. 判断是否可以赢得数字游戏 (Find if Digit Game Can Be Won)
+    def canAliceWin(self, nums: List[int]) -> bool:
+        a = sum(x for x in nums if x < 10)
+        return sum(nums) != a * 2
