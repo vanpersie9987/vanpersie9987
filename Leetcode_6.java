@@ -7978,22 +7978,19 @@ public class Leetcode_6 {
 
     // LCP 40. 心算挑战
     public int maxmiumScore(int[] cards, int cnt) {
+        List<Integer>[] list = new ArrayList[2];
+        Arrays.setAll(list, o -> new ArrayList<>());
+        list[0].add(0);
+        list[1].add(0);
         Arrays.sort(cards);
-        List<Integer> odds = new ArrayList<>();
-        odds.add(0);
-        List<Integer> evens = new ArrayList<>();
-        evens.add(0);
         for (int i = cards.length - 1; i >= 0; --i) {
-            if ((cards[i] & 1) == 0) {
-                evens.add(evens.get(evens.size() - 1) + cards[i]);
-            } else {
-                odds.add(odds.get(odds.size() - 1) + cards[i]);
-            }
+            int j = cards[i] % 2;
+            list[j].add(list[j].get(list[j].size() - 1) + cards[i]);
         }
         int res = 0;
-        for (int k = 0; k <= odds.size() - 1; k += 2) {
-            if (cnt - k >= 0 && cnt - k <= evens.size() - 1) {
-                res = Math.max(res, evens.get(cnt - k) + odds.get(k));
+        for (int k = 0; k < list[1].size(); k += 2) {
+            if (cnt >= k && cnt - k < list[0].size()) {
+                res = Math.max(res, list[0].get(cnt - k) + list[1].get(k));
             }
         }
         return res;
