@@ -5590,8 +5590,6 @@ class Union924:
             l[x % 2].append(x)
         l[0] = list(accumulate(l[0], initial=0))
         l[1] = list(accumulate(l[1], initial=0))
-        print(l[0])
-        print(l[1])
         res = 0
         for k in range(0, len(l[1]), 2):
             if cnt >= k and cnt - k < len(l[0]):
