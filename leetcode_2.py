@@ -3676,16 +3676,12 @@ class Union924:
         m = len(grid)
         n = len(grid[0])
         res = 0
-        cols = [0] * n
-        rows = [0] * m
-        for i in range(m):
-            for j in range(n):
-                rows[i] += grid[i][j]
-                cols[j] += grid[i][j]
+        row = [sum(r) for r in grid]
+        col = [sum(c) for c in zip(*grid)]
         for i in range(m):
             for j in range(n):
                 if grid[i][j]:
-                    res += (rows[i] - 1) * (cols[j] - 1)
+                    res += (row[i] - 1) * (col[j] - 1)
         return res
 
     # 3129. 找出所有稳定的二进制数组 I (Find All Possible Stable Binary Arrays I)
