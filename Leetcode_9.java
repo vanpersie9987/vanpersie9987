@@ -1398,4 +1398,117 @@ public class Leetcode_9 {
         return res;
 
     }
+
+    // 3232. 判断是否可以赢得数字游戏 (Find if Digit Game Can Be Won)
+    public boolean canAliceWin(int[] nums) {
+        int a = 0;
+        int b = 0;
+        for (int x : nums) {
+            if (x < 10) {
+                a += x;
+            } else {
+                b += x;
+            }
+        }
+        return a != b;
+
+    }
+
+    // 3233. 统计不是特殊数字的数字数量 (Find the Count of Numbers Which Are Not Special)
+    public int nonSpecialCount(int l, int r) {
+        boolean[] isPrime = new boolean[(int) Math.sqrt(r) + 1];
+        Arrays.fill(isPrime, true);
+        isPrime[1] = false;
+        for (int i = 2; i < (int) Math.sqrt(r) + 1; ++i) {
+            if (isPrime[i]) {
+                for (int j = i * i; j < (int) Math.sqrt(r) + 1; j += i) {
+                    isPrime[j] = false;
+                }
+            }
+        }
+        return check3233(r, isPrime) - check3233(l - 1, isPrime);
+
+    }
+
+    private int check3233(int x, boolean[] isPrime) {
+        int res = 0;
+        for (int i = 2; i < (int) Math.sqrt(x) + 1; ++i) {
+            if (isPrime[i] && i * i <= x) {
+                ++res;
+            }
+        }
+        return x - res;
+    }
+
+    // 3235. 判断矩形的两个角落是否可达 (Check if the Rectangle Corner Is Reachable)
+    public boolean canReachCorner(int X, int Y, int[][] circles) {
+        int n = circles.length;
+        Union3235 union = new Union3235(n + 2);
+        for (int i = 0; i < n; ++i) {
+            // 圆与左边界或上边界相连
+            if (circles[i][0] <= circles[i][2] || circles[i][1] + circles[i][2] >= Y) {
+                union.union(i, n);
+            }
+            // 圆与右边界或下边界相连
+            if (circles[i][0] + circles[i][2] >= X || circles[i][2] >= circles[i][1]) {
+                union.union(i, n + 1);
+            }
+            for (int j = 0; j < i; ++j) {
+                if ((circles[i][0] - circles[j][0]) * (circles[i][0] - circles[j][0]) + (circles[i][1] - circles[j][1])
+                        * (circles[i][1] - circles[j][1]) <= (circles[i][2] + circles[j][2])
+                                * (circles[i][2] + circles[j][2])) {
+                    union.union(i, j);
+                }
+            }
+            if (union.isConnected(n, n + 1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public class Union3235 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union3235(int n) {
+            this.rank = new int[n];
+            this.parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                rank[i] = 1;
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int r1 = getRoot(p1);
+            int r2 = getRoot(p2);
+            if (r1 == r2) {
+                return;
+            }
+            if (rank[r1] < rank[r2]) {
+                parent[r1] = r2;
+            } else {
+                parent[r2] = r1;
+                if (rank[r1] < rank[r2]) {
+                    ++rank[r1];
+                }
+            }
+
+        }
+
+    }
+    
 }

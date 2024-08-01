@@ -5528,3 +5528,72 @@ class Union924:
     def canAliceWin(self, nums: List[int]) -> bool:
         a = sum(x for x in nums if x < 10)
         return sum(nums) != a * 2
+
+    # 3233. 统计不是特殊数字的数字数量 (Find the Count of Numbers Which Are Not Special)
+    def nonSpecialCount(self, l: int, r: int) -> int:
+        is_prime = [True] * (isqrt(r) + 1)
+        is_prime[1] = False
+        for i in range(2, isqrt(r) + 1):
+            if is_prime[i]:
+                for j in range(i * i, isqrt(r) + 1, i):
+                    is_prime[j] = False
+        def check(x: int) -> int:
+            res = 0
+            for d in range(2, isqrt(x) + 1):
+                if is_prime[d] and d * d <= x:
+                    res += 1
+            return x - res
+        return check(r) - check(l - 1)
+
+    def canReachCorner(self, X: int, Y: int, circles: List[List[int]]) -> bool:
+        class union:
+            def __init__(self, n: int) -> None:
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+            def get_root(self, p: int) -> int:
+                if p == self.parent[p]:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+            def is_connected(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+            def union(self, p1: int, p2: int) -> None:
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if r1 == r2:
+                    return
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r1] += 1
+        n = len(circles)
+        u = union(n + 2)
+        for i, (x1, y1, r1) in enumerate(circles):
+            if r1 >= x1 or y1 + r1 >= Y:
+                u.union(i, n)
+            if r1 >= y1 or x1 + r1 >= X:
+                u.union(i, n + 1)
+            for j, (x2, y2, r2) in enumerate(circles[:i]):
+                if (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) <= (r1 + r2) * (r1 + r2):
+                    u.union(i, j)
+            if u.is_connected(n, n + 1):
+                return False
+        return True
+
+    # LCP 40. 心算挑战
+    def maxmiumScore(self, cards: List[int], cnt: int) -> int:
+        l = [[] for _ in range(2)]
+        cards.sort(reverse=True)
+        for x in cards:
+            l[x % 2].append(x)
+        l[0] = list(accumulate(l[0], initial=0))
+        l[1] = list(accumulate(l[1], initial=0))
+        print(l[0])
+        print(l[1])
+        res = 0
+        for k in range(0, len(l[1]), 2):
+            if cnt >= k and cnt - k < len(l[0]):
+                res = max(res, l[1][k] + l[0][cnt - k])
+        return res
