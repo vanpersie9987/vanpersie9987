@@ -3629,19 +3629,12 @@ public class LeetCode_4 {
         while (!queueA.isEmpty() && !queueB.isEmpty()) {
             TreeNode nodeA = queueA.poll();
             TreeNode nodeB = queueB.poll();
-            if (nodeA.val != nodeB.val) {
-                return false;
-            }
-            if ((nodeA.left == null && nodeB.left != null) || (nodeA.left != null && nodeB.left == null)) {
+            if (nodeA.val != nodeB.val || (nodeA.left == null) != (nodeB.left == null) || (nodeA.right == null) != (nodeB.right == null)) {
                 return false;
             }
             if (nodeA.left != null && nodeB.left != null) {
                 queueA.offer(nodeA.left);
                 queueB.offer(nodeB.left);
-            }
-
-            if ((nodeA.right == null && nodeB.right != null) || (nodeA.right != null && nodeB.right == null)) {
-                return false;
             }
             if (nodeA.right != null && nodeB.right != null) {
                 queueA.offer(nodeA.right);
