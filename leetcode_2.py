@@ -5588,3 +5588,11 @@ class Union924:
             if cnt >= k and cnt - k < len(l[0]):
                 res = max(res, l[1][k] + l[0][cnt - k])
         return res
+
+    # 572. 另一棵树的子树 (Subtree of Another Tree)
+    def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
+        def is_same(root, subRoot) -> bool:
+            return root is None and subRoot is None or root and subRoot and root.val == subRoot.val and is_same(root.left, subRoot.left) and is_same(root.right, subRoot.right)
+        if root is None:
+            return False
+        return root.val == subRoot.val and is_same(root, subRoot) or self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot) 
