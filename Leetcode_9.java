@@ -123,36 +123,23 @@ public class Leetcode_9 {
 
     // 3143. 正方形中的最多点数 (Maximum Points Inside the Square)
     public int maxPointsInsideSquare(int[][] points, String s) {
-        int n = points.length;
-        int[][] arr = new int[n][2];
-        for (int i = 0; i < n; ++i) {
-            arr[i][0] = Math.max(Math.abs(points[i][0]), Math.abs(points[i][1]));
-            arr[i][1] = s.charAt(i) - 'a';
+        TreeMap<Integer, List<Integer>> map = new TreeMap<>();
+        for (int i = 0; i < points.length; ++i) {
+            map.computeIfAbsent(Math.max(Math.abs(points[i][0]), Math.abs(points[i][1])), k -> new ArrayList<>())
+                    .add(s.charAt(i) - 'a');
         }
-        Arrays.sort(arr, new Comparator<int[]>() {
-
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return Integer.compare(o1[0], o2[0]);
-            }
-
-        });
-
         int res = 0;
-        int i = 0;
         int m = 0;
-        while (i < n) {
-            int j = i;
-            int c = arr[i][0];
-            while (j < n && c == arr[j][0]) {
-                if ((m >> arr[j][1] & 1) == 1) {
+        for (Map.Entry<Integer, List<Integer>> entey : map.entrySet()) {
+            int curM = 0;
+            for (int v : entey.getValue()) {
+                if (((curM >> v) & 1) != 0 || ((m >> v) & 1) != 0) {
                     return res;
                 }
-                m |= 1 << arr[j][1];
-                ++j;
+                curM |= 1 << v;
             }
-            res += j - i;
-            i = j;
+            res += Integer.bitCount(curM);
+            m |= curM;
         }
         return res;
     }
@@ -495,7 +482,6 @@ public class Leetcode_9 {
         return res;
     }
 
-
     // 3158. 求出出现两次数字的 XOR 值 (Find the XOR of Numbers Which Appear Twice)
     public int duplicateNumbersXOR(int[] nums) {
         long mask = 0L;
@@ -550,7 +536,7 @@ public class Leetcode_9 {
         return res;
 
     }
-    
+
     // 3162. 优质数对的总数 I (Find the Number of Good Pairs I)
     // 3164. 优质数对的总数 II (Find the Number of Good Pairs II)
     public long numberOfPairs(int[] nums1, int[] nums2, int k) {
@@ -576,7 +562,7 @@ public class Leetcode_9 {
         return res;
 
     }
-    
+
     // 3163. 压缩字符串 III (String Compression III)
     public String compressedString(String word) {
         StringBuilder res = new StringBuilder();
@@ -623,7 +609,7 @@ public class Leetcode_9 {
                 + dfs552(i + 1, j, k + 1)) % MOD);
 
     }
-    
+
     // 575. 分糖果 (Distribute Candies)
     public int distributeCandies(int[] candyType) {
         Set<Integer> s = Arrays.stream(candyType).boxed().collect(Collectors.toSet());
@@ -967,7 +953,7 @@ public class Leetcode_9 {
         return memo3196[i][j] = Math.max(dfs3196(i + 1, 1) + nums3196[i],
                 dfs3196(i + 1, j ^ 1) + (-2 * j + 1) * nums3196[i]);
     }
-    
+
     // 3193. 统计逆序对的数目 (Count the Number of Inversions)
     private int[][] memo3193;
     private int[] req3193;
@@ -1075,6 +1061,7 @@ public class Leetcode_9 {
 
     private List<Integer>[] g3203;
     private int res3203;
+
     private int check3203(int[][] edges) {
         int n = edges.length + 1;
         this.g3203 = new ArrayList[n];
@@ -1101,7 +1088,7 @@ public class Leetcode_9 {
         res3203 = Math.max(res3203, mx + 1);
         return pre + 1;
     }
-    
+
     // 3206. 交替组 I (Alternating Groups I)
     public int numberOfAlternatingGroups(int[] colors) {
         int n = colors.length;
@@ -1199,7 +1186,6 @@ public class Leetcode_9 {
             builder3211.deleteCharAt(builder3211.length() - 1);
         }
     }
-
 
     // 3212. 统计 X 和 Y 频数相等的子矩阵数量 (Count Submatrices With Equal Frequency of X and Y)
     public int numberOfSubmatrices(char[][] grid) {
@@ -1510,5 +1496,5 @@ public class Leetcode_9 {
         }
 
     }
-    
+
 }
