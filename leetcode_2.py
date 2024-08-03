@@ -5537,6 +5537,7 @@ class Union924:
             return x - res
         return check(r) - check(l - 1)
 
+    # 3235. 判断矩形的两个角落是否可达 (Check if the Rectangle Corner Is Reachable)
     def canReachCorner(self, X: int, Y: int, circles: List[List[int]]) -> bool:
         class union:
             def __init__(self, n: int) -> None:
