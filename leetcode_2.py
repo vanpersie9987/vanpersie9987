@@ -4060,23 +4060,19 @@ class Union924:
 
     # 3143. 正方形中的最多点数 (Maximum Points Inside the Square)
     def maxPointsInsideSquare(self, points: List[List[int]], s: str) -> int:
-        arr = []
-        for (x, y), c in zip(points, map(ord, s)):
-            arr.append((max(abs(x), abs(y)), c - ord("a")))
-        arr.sort(key=lambda k: k[0])
+        d = defaultdict(list)
+        for (x, y), c in zip(points, s):
+            d[max(abs(x), abs(y))].append(ord(c) - ord('a'))
         res = 0
-        i = 0
-        n = len(arr)
         m = 0
-        while i < n:
-            j = i
-            while j < n and arr[i][0] == arr[j][0]:
-                if m >> arr[j][1] & 1 == 1:
+        for k in sorted(d.keys()):
+            cur_m = 0
+            for v in d[k]:
+                if (cur_m >> v) & 1 or (m >> v) & 1:
                     return res
-                m |= 1 << arr[j][1]
-                j += 1
-            res += j - i
-            i = j
+                cur_m |= 1 << v
+            res += len(d[k])
+            m |= cur_m
         return res
 
     # 3144. 分割字符频率相等的最少子字符串 (Minimum Substring Partition of Equal Character Frequency)
