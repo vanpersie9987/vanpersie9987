@@ -4062,7 +4062,7 @@ class Union924:
     def maxPointsInsideSquare(self, points: List[List[int]], s: str) -> int:
         d = defaultdict(list)
         for (x, y), c in zip(points, s):
-            d[max(abs(x), abs(y))].append(ord(c) - ord('a'))
+            d[max(abs(x), abs(y))].append(ord(c) - ord("a"))
         res = 0
         m = 0
         for k in sorted(d.keys()):
@@ -5427,7 +5427,7 @@ class Union924:
 
     # 3222. 求出硬币游戏的赢家 (Find the Winning Player in Coin Game)
     def losingPlayer(self, x: int, y: int) -> str:
-        return 'Alice' if min(x, y // 4) % 2 else 'Bob'
+        return "Alice" if min(x, y // 4) % 2 else "Bob"
 
     # 3223. 操作后字符串的最短长度 (Minimum Length of String After Operations)
     def minimumLength(self, s: str) -> int:
@@ -5505,7 +5505,9 @@ class Union924:
         return max(check(i) for i in range(n))
 
     # 2766. 重新放置石块 (Relocate Marbles)
-    def relocateMarbles(self, nums: List[int], moveFrom: List[int], moveTo: List[int]) -> List[int]:
+    def relocateMarbles(
+        self, nums: List[int], moveFrom: List[int], moveTo: List[int]
+    ) -> List[int]:
         s = set(nums)
         for f, t in zip(moveFrom, moveTo):
             s.discard(f)
@@ -5529,12 +5531,14 @@ class Union924:
             if is_prime[i]:
                 for j in range(i * i, isqrt(r) + 1, i):
                     is_prime[j] = False
+
         def check(x: int) -> int:
             res = 0
             for d in range(2, isqrt(x) + 1):
                 if is_prime[d] and d * d <= x:
                     res += 1
             return x - res
+
         return check(r) - check(l - 1)
 
     # 3235. 判断矩形的两个角落是否可达 (Check if the Rectangle Corner Is Reachable)
@@ -5543,13 +5547,16 @@ class Union924:
             def __init__(self, n: int) -> None:
                 self.parent = [i for i in range(n)]
                 self.rank = [1] * n
+
             def get_root(self, p: int) -> int:
                 if p == self.parent[p]:
                     return p
                 self.parent[p] = self.get_root(self.parent[p])
                 return self.parent[p]
+
             def is_connected(self, p1: int, p2: int) -> bool:
                 return self.get_root(p1) == self.get_root(p2)
+
             def union(self, p1: int, p2: int) -> None:
                 r1 = self.get_root(p1)
                 r2 = self.get_root(p2)
@@ -5561,6 +5568,7 @@ class Union924:
                     self.parent[r2] = r1
                     if self.rank[r1] == self.rank[r2]:
                         self.rank[r1] += 1
+
         n = len(circles)
         u = union(n + 2)
         for i, (x1, y1, r1) in enumerate(circles):
@@ -5569,7 +5577,9 @@ class Union924:
             if r1 >= y1 or x1 + r1 >= X:
                 u.union(i, n + 1)
             for j, (x2, y2, r2) in enumerate(circles[:i]):
-                if (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) <= (r1 + r2) * (r1 + r2):
+                if (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) <= (r1 + r2) * (
+                    r1 + r2
+                ):
                     u.union(i, j)
             if u.is_connected(n, n + 1):
                 return False
@@ -5592,7 +5602,21 @@ class Union924:
     # 572. 另一棵树的子树 (Subtree of Another Tree)
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
         def is_same(root, subRoot) -> bool:
-            return root is None and subRoot is None or root and subRoot and root.val == subRoot.val and is_same(root.left, subRoot.left) and is_same(root.right, subRoot.right)
+            return (
+                root is None
+                and subRoot is None
+                or root
+                and subRoot
+                and root.val == subRoot.val
+                and is_same(root.left, subRoot.left)
+                and is_same(root.right, subRoot.right)
+            )
+
         if root is None:
             return False
-        return root.val == subRoot.val and is_same(root, subRoot) or self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot) 
+        return (
+            root.val == subRoot.val
+            and is_same(root, subRoot)
+            or self.isSubtree(root.left, subRoot)
+            or self.isSubtree(root.right, subRoot)
+        )
