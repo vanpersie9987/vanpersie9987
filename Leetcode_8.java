@@ -9996,13 +9996,11 @@ public class Leetcode_8 {
     public int minimumAddedInteger(int[] nums1, int[] nums2) {
         Arrays.sort(nums1);
         Arrays.sort(nums2);
+        int res = Integer.MAX_VALUE;
         for (int i = 2; i >= 0; --i) {
-            int res = cal3132(nums2[0] - nums1[i], nums1, nums2);
-            if (res < Integer.MAX_VALUE) {
-                return res;
-            }
+            res = Math.min(res, cal3132(nums2[0] - nums1[i], nums1, nums2));
         }
-        return -1;
+        return res;
     }
 
     private int cal3132(int d, int[] nums1, int[] nums2) {
@@ -10010,15 +10008,13 @@ public class Leetcode_8 {
         int j = 0;
         int c = 0;
         while (j < nums2.length) {
-            if (nums2[j] - nums1[i] == d) {
-                ++i;
+            if (nums2[j] - nums1[i] != d) {
+                if (++c > 2) {
+                    return Integer.MAX_VALUE;
+                }
+            } else {
                 ++j;
-                continue;
             }
-            if (c >= 2) {
-                return Integer.MAX_VALUE;
-            }
-            ++c;
             ++i;
         }
         return d;

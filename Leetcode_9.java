@@ -1496,4 +1496,200 @@ public class Leetcode_9 {
 
     }
 
+    public int winningPlayerCount(int n, int[][] pick) {
+        int[][] cnt = new int[n][11];
+        for (int[] p : pick) {
+            ++cnt[p[0]][p[1]];
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < 11; ++j) {
+                if (cnt[i][j] > i) {
+                    ++res;
+                    break;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    public int minFlips(int[][] grid) {
+        return Math.min(check(grid), check2(grid));
+    }
+
+    private int check2(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int res = 0;
+        for (int j = 0; j < n; ++j) {
+            for (int i = 0; i < m / 2; ++i) {
+                res += grid[i][j] != grid[m - i - 1][j] ? 1 : 0;
+            }
+        }
+        return res;
+    }
+
+    private int check(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n / 2; ++j) {
+                res += grid[i][j] != grid[i][n - j - 1] ? 1 : 0;
+            }
+        }
+        return res;
+    }
+
+    class neighborSum {
+        private int[][] grid;
+        private Map<Integer, int[]> map;
+        private int n;
+
+        public neighborSum(int[][] grid) {
+            this.grid = grid;
+            this.map = new HashMap<>();
+            this.n = grid.length;
+            for (int i = 0; i < n; ++i) {
+                for (int j = 0; j < n; ++j) {
+                    map.put(grid[i][j], new int[] { i, j });
+                }
+            }
+        }
+
+        public int adjacentSum(int value) {
+            int[] p = map.get(value);
+            int x = p[0];
+            int y = p[1];
+            int res = 0;
+            for (int i = Math.max(0, x - 1); i <= Math.min(n - 1, x + 1); ++i) {
+                for (int j = Math.max(0, y - 1); j <= Math.min(n - 1, y + 1); ++j) {
+                    if (i == x || j == y) {
+                        res += grid[i][j];
+                    }
+                }
+            }
+            return res - grid[x][y];
+        }
+
+        public int diagonalSum(int value) {
+            int[] p = map.get(value);
+            int x = p[0];
+            int y = p[1];
+            int res = 0;
+            for (int i = Math.max(0, x - 1); i <= Math.min(n - 1, x + 1); ++i) {
+                for (int j = Math.max(0, y - 1); j <= Math.min(n - 1, y + 1); ++j) {
+                    if (i != x && j != y) {
+                        res += grid[i][j];
+                    }
+                }
+            }
+            return res;
+        }
+    }
+
+    private List<Integer>[] g;
+    private int n;
+    private int[] memo;
+
+    public int[] shortestDistanceAfterQueries(int n, int[][] queries) {
+        this.n = n;
+        this.g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int i = 0; i < n - 1; ++i) {
+            g[i].add(i + 1);
+        }
+        this.memo = new int[n];
+        int[] res = new int[queries.length];
+        for (int i = 0; i < queries.length; ++i) {
+            g[queries[i][0]].add(queries[i][1]);
+            Arrays.fill(memo, -1);
+            res[i] = dfs(0);
+        }
+        return res;
+
+    }
+
+    private int dfs(int i) {
+        if (i == n - 1) {
+            return 0;
+        }
+        if (memo[i] != -1) {
+            return memo[i];
+        }
+        int res = Integer.MAX_VALUE;
+        for (int j : g[i]) {
+            res = Math.min(res, dfs(j) + 1);
+        }
+        return memo[i] = res;
+    }
+
+    // public int[] shortestDistanceAfterQueries(int n, int[][] queries) {
+    //     int[] res = new int[queries.length];
+    //     Union union = new Union(n - 1);
+    //     for (int i = 0; i < queries.length; ++i) {
+    //         int l = queries[i][0];
+    //         int r = queries[i][1];
+    //         while (l < r - 1) {
+    //             union.union(l, r - 1);
+    //             union.union(l, l + 1);
+    //             l = union.getRoot(l);
+    //         }
+    //         res[i] = union.getCnt();
+    //     }
+    //     return res;
+        
+
+    // }
+
+    // public class Union {
+    //     private int[] rank;
+    //     private int[] parent;
+    //     private int cnt;
+
+    //     public Union(int n) {
+    //         this.rank = new int[n];
+    //         this.parent = new int[n];
+    //         for (int i = 0; i < n; ++i) {
+    //             rank[i] = 1;
+    //             parent[i] = i;
+    //         }
+    //         this.cnt = n;
+    //     }
+
+    //     public int getRoot(int p) {
+    //         if (parent[p] == p) {
+    //             return p;
+    //         }
+    //         return parent[p] = getRoot(parent[p]);
+    //     }
+
+    //     public boolean isConnected(int p1, int p2) {
+    //         return getRoot(p1) == getRoot(p2);
+    //     }
+
+    //     public void union(int p1, int p2) {
+    //         int r1 = getRoot(p1);
+    //         int r2 = getRoot(p2);
+    //         if (r1 == r2) {
+    //             return;
+    //         }
+    //         if (rank[r1] < rank[r2]) {
+    //             parent[r1] = r2;
+    //         } else {
+    //             parent[r2] = r1;
+    //             if (rank[r1] == rank[r2]) {
+    //                 ++rank[r1];
+    //             }
+    //         }
+    //         --cnt;
+    //     }
+
+    //     public int getCnt() {
+    //         return cnt;
+    //     }
+
+    // }
+
 }

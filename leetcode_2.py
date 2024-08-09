@@ -3716,27 +3716,22 @@ class Union924:
 
     # 3132. 找出与数组相加的整数 II (Find the Integer Added to Array II)
     def minimumAddedInteger(self, nums1: List[int], nums2: List[int]) -> int:
-        def cal(d: int) -> int:
+        def check(d: int) -> int:
             c = 0
             i = 0
             j = 0
-            while j < len(nums2):
-                if nums2[j] - nums1[i] == d:
-                    i += 1
+            while i < len(nums1) and j < len(nums2):
+                if nums2[j] - nums1[i] != d:
+                    c += 1
+                    if c > 2:
+                        return inf
+                else:
                     j += 1
-                    continue
-                if c >= 2:
-                    return inf
-                c += 1
                 i += 1
             return d
-
         nums1.sort()
         nums2.sort()
-        for i in range(2, -1, -1):
-            res = cal(nums2[0] - nums1[i])
-            if res < inf:
-                return res
+        return min(check(nums2[0] - nums1[i]) for i in range(3))
 
     # 3133. 数组最后一个元素的最小值 (Minimum Array End)
     def minEnd(self, n: int, x: int) -> int:
@@ -5620,3 +5615,106 @@ class Union924:
             or self.isSubtree(root.left, subRoot)
             or self.isSubtree(root.right, subRoot)
         )
+
+    def winningPlayerCount(self, n: int, pick: List[List[int]]) -> int:
+        cnt = [[0] * 11 for _ in range(n)]
+        for i, j in pick:
+            cnt[i][j] += 1
+        res = 0
+        for i in range(n):
+            res += any(j > i for j in cnt[i])
+        return res
+
+    def minFlips(self, grid: List[List[int]]) -> int:
+        def check(g: List[List[int]]) -> int:
+            m = len(g)
+            n = len(g[0])
+            res = 0
+            for i in range(m):
+                for j in range(n // 2):
+                    res += grid[i][j] != grid[i][n - j - 1]
+            return res
+        def check2(g: List[List[int]]) -> int:
+            m = len(g)
+            n = len(g[0])
+            res = 0
+            for j in range(n):
+                for i in range(m // 2):
+                    res += grid[i][j] != grid[m - i - 1][j]
+            return res
+
+        return min(check(grid), check2(grid))
+
+    def minFlips(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        res = 0
+        for i in range(m // 2):
+            for j in range(n // 2):
+                cnt1 = grid[i][j] + grid[m - 1 - i][j] + grid[i][n - j - 1] + grid[m - 1 - i][n - j - 1]
+                res += min(cnt1, 4 - cnt1)
+        if m % 2 and n % 2:
+            res += grid[m // 2][n // 2]
+        d = 0
+        cnt1 = 0
+        if m % 2:
+            r = grid[m // 2]
+            for j in range(n // 2):
+                if r[j] != r[n - j - 1]:
+                    d += 1
+                else:
+                    cnt1 += r[j] * 2
+        if n % 2:
+            for i in range(m // 2):
+                if grid[i][n // 2] != grid[m - i - 1][n // 2]:
+                    d += 1
+                else:
+                    cnt1 += grid[i][n // 2] * 2
+        return res + (d if d else cnt1 % 4)
+
+    class neighborSum:
+
+        def __init__(self, grid: List[List[int]]):
+            self.grid = grid
+            self.d = defaultdict(tuple)
+            self.n = len(grid)
+            for i in range(self.n):
+                for j in range(self.n):
+                    self.d[grid[i][j]] = (i, j)
+
+        def adjacentSum(self, value: int) -> int:
+            res = 0
+            (x, y) = self.d[value]
+            for i in range(max(0, x - 1), min(self.n, x + 2)):
+                for j in range(max(0, y - 1), min(self.n, y + 2)):
+                    if i == x or j == y:
+                        res += self.grid[i][j]
+            return res - self.grid[x][y]
+
+        def diagonalSum(self, value: int) -> int:
+            res = 0
+            x, y = self.d[value]
+            for i in range(max(0, x - 1), min(self.n, x + 2)):
+                for j in range(max(0, y - 1), min(self.n, y + 2)):
+                    if i != x and j != y:
+                        res += self.grid[i][j]
+            return res
+
+    def shortestDistanceAfterQueries(self, n: int, queries: List[List[int]]) -> List[int]:
+        @cache
+        def dfs(i: int) -> int:
+            if i == n - 1:
+                return 0
+            cur = inf
+            for j in g[i]:
+                cur = min(cur, dfs(j) + 1)
+            return cur
+        g = [[] for _ in range(n)]
+        for i in range(n - 1):
+            g[i].append(i + 1)
+        res = []
+        for u, v in queries:
+            g[u].append(v)
+            res.append(dfs(0))
+            dfs.cache_clear()
+        return res
