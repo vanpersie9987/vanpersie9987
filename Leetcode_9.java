@@ -1542,6 +1542,7 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3242. 设计相邻元素求和服务 (Design Neighbor Sum Service)
     class neighborSum {
         private int[][] grid;
         private Map<Integer, int[]> map;
@@ -1589,107 +1590,41 @@ public class Leetcode_9 {
         }
     }
 
-    private List<Integer>[] g;
-    private int n;
-    private int[] memo;
+    // 3243. 新增道路查询后的最短距离 I (Shortest Distance After Road Addition Queries I)
+    private List<Integer>[] g3243;
+    private int n3243;
+    private int[] memo3243;
 
     public int[] shortestDistanceAfterQueries(int n, int[][] queries) {
-        this.n = n;
-        this.g = new ArrayList[n];
-        Arrays.setAll(g, k -> new ArrayList<>());
+        this.n3243 = n;
+        this.g3243 = new ArrayList[n];
+        Arrays.setAll(g3243, k -> new ArrayList<>());
         for (int i = 0; i < n - 1; ++i) {
-            g[i].add(i + 1);
+            g3243[i].add(i + 1);
         }
-        this.memo = new int[n];
+        this.memo3243 = new int[n];
         int[] res = new int[queries.length];
         for (int i = 0; i < queries.length; ++i) {
-            g[queries[i][0]].add(queries[i][1]);
-            Arrays.fill(memo, -1);
-            res[i] = dfs(0);
+            g3243[queries[i][0]].add(queries[i][1]);
+            Arrays.fill(memo3243, -1);
+            res[i] = dfs3243(0);
         }
         return res;
 
     }
 
-    private int dfs(int i) {
-        if (i == n - 1) {
+    private int dfs3243(int i) {
+        if (i == n3243 - 1) {
             return 0;
         }
-        if (memo[i] != -1) {
-            return memo[i];
+        if (memo3243[i] != -1) {
+            return memo3243[i];
         }
         int res = Integer.MAX_VALUE;
-        for (int j : g[i]) {
-            res = Math.min(res, dfs(j) + 1);
+        for (int j : g3243[i]) {
+            res = Math.min(res, dfs3243(j) + 1);
         }
-        return memo[i] = res;
+        return memo3243[i] = res;
     }
-
-    // public int[] shortestDistanceAfterQueries(int n, int[][] queries) {
-    //     int[] res = new int[queries.length];
-    //     Union union = new Union(n - 1);
-    //     for (int i = 0; i < queries.length; ++i) {
-    //         int l = queries[i][0];
-    //         int r = queries[i][1];
-    //         while (l < r - 1) {
-    //             union.union(l, r - 1);
-    //             union.union(l, l + 1);
-    //             l = union.getRoot(l);
-    //         }
-    //         res[i] = union.getCnt();
-    //     }
-    //     return res;
-        
-
-    // }
-
-    // public class Union {
-    //     private int[] rank;
-    //     private int[] parent;
-    //     private int cnt;
-
-    //     public Union(int n) {
-    //         this.rank = new int[n];
-    //         this.parent = new int[n];
-    //         for (int i = 0; i < n; ++i) {
-    //             rank[i] = 1;
-    //             parent[i] = i;
-    //         }
-    //         this.cnt = n;
-    //     }
-
-    //     public int getRoot(int p) {
-    //         if (parent[p] == p) {
-    //             return p;
-    //         }
-    //         return parent[p] = getRoot(parent[p]);
-    //     }
-
-    //     public boolean isConnected(int p1, int p2) {
-    //         return getRoot(p1) == getRoot(p2);
-    //     }
-
-    //     public void union(int p1, int p2) {
-    //         int r1 = getRoot(p1);
-    //         int r2 = getRoot(p2);
-    //         if (r1 == r2) {
-    //             return;
-    //         }
-    //         if (rank[r1] < rank[r2]) {
-    //             parent[r1] = r2;
-    //         } else {
-    //             parent[r2] = r1;
-    //             if (rank[r1] == rank[r2]) {
-    //                 ++rank[r1];
-    //             }
-    //         }
-    //         --cnt;
-    //     }
-
-    //     public int getCnt() {
-    //         return cnt;
-    //     }
-
-    // }
 
 }

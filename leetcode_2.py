@@ -5672,6 +5672,7 @@ class Union924:
                     cnt1 += grid[i][n // 2] * 2
         return res + (d if d else cnt1 % 4)
 
+    # 3242. 设计相邻元素求和服务 (Design Neighbor Sum Service)
     class neighborSum:
 
         def __init__(self, grid: List[List[int]]):
@@ -5700,6 +5701,7 @@ class Union924:
                         res += self.grid[i][j]
             return res
 
+    # 3243. 新增道路查询后的最短距离 I (Shortest Distance After Road Addition Queries I)
     def shortestDistanceAfterQueries(self, n: int, queries: List[List[int]]) -> List[int]:
         @cache
         def dfs(i: int) -> int:
