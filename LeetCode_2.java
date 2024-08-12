@@ -92,7 +92,7 @@ public class LeetCode_2 {
    // 676. 实现一个魔法字典 (Implement Magic Dictionary)
    // 剑指 Offer II 064. 神奇的字典
    class MagicDictionary {
-      private Map<Integer, List<String>> map;
+      private Map<Integer, Set<String>> map;
 
       /** Initialize your data structure here. */
       public MagicDictionary() {
@@ -102,15 +102,12 @@ public class LeetCode_2 {
 
       public void buildDict(String[] dictionary) {
          for (String d : dictionary) {
-            map.computeIfAbsent(d.length(), k -> new ArrayList<>()).add(d);
+            map.computeIfAbsent(d.length(), k -> new HashSet<>()).add(d);
          }
       }
 
       public boolean search(String searchWord) {
-         if (!map.containsKey(searchWord.length())) {
-            return false;
-         }
-         for (String word : map.get(searchWord.length())) {
+         for (String word : map.getOrDefault(searchWord.length(), new HashSet<>())) {
             int diff = 0;
             for (int i = 0; i < word.length(); ++i) {
                if (word.charAt(i) != searchWord.charAt(i)) {
