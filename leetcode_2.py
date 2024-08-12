@@ -5718,3 +5718,31 @@ class Union924:
             res.append(dfs(0))
             dfs.cache_clear()
         return res
+    
+    # 676. 实现一个魔法字典 (Implement Magic Dictionary)
+    class MagicDictionary:
+
+        def __init__(self):
+            self.d = defaultdict(set)
+
+        def buildDict(self, dictionary: List[str]) -> None:
+            for dic in dictionary:
+                self.d[len(dic)].add(dic)
+        def search(self, searchWord: str) -> bool:
+            for s in self.d[len(searchWord)]:
+                diff = 0
+                for x, y in zip(s, searchWord):
+                    if x != y:
+                        diff += 1
+                        if diff > 1:
+                            break
+                if diff == 1:
+                    return True
+            return False
+                    
+
+
+
+
+
+            
