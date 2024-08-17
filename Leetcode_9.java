@@ -1627,4 +1627,110 @@ public class Leetcode_9 {
         return memo3243[i] = res;
     }
 
+    // 3248. 矩阵中的蛇 (Snake in Matrix)
+    public int finalPositionOfSnake(int n, List<String> commands) {
+        int x = 0;
+        int y = 0;
+        for (String c : commands) {
+            if ("UP".equals(c)) {
+                --x;
+            } else if ("RIGHT".equals(c)) {
+                ++y;
+            } else if ("DOWN".equals(c)) {
+                ++x;
+            } else {
+                --y;
+            }
+        }
+        return x * n + y;
+
+    }
+
+    // 3249. 统计好节点的数目 (Count the Number of Good Nodes)
+    private int res3249;
+    private List<Integer>[] g3249;
+    public int countGoodNodes(int[][] edges) {
+        int n = edges.length + 1;
+        this.g3249 = new ArrayList[n];
+        Arrays.setAll(g3249, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g3249[e[0]].add(e[1]);
+            g3249[e[1]].add(e[0]);
+        }
+        dfs3249(0, -1);
+        return res3249;
+    }
+
+    private int dfs3249(int x, int fa) {
+        int pre = -1;
+        boolean valid = true;
+        int s = 1;
+        for (int y : g3249[x]) {
+            if (y != fa) {
+                int c = dfs3249(y, x);
+                if (pre != -1 && c != pre) {
+                    valid = false;
+                }
+                pre = c;
+                s += c;
+            }
+        }
+        if (valid) {
+            ++res3249;
+        }
+        return s + 1;
+    }
+
+    // 3250. 单调数组对的数目 I (Find the Count of Monotonic Pairs I)
+    private int[] nums3250;
+    private int n3250;
+    private int[][][] memo3250;
+
+    public int countOfPairs(int[] nums) {
+        this.nums3250 = nums;
+        this.n3250 = nums.length;
+        this.memo3250 = new int[n3250][51][51];
+        for (int i = 0; i < n3250; ++i) {
+            for (int j = 0; j < 51; ++j) {
+                Arrays.fill(memo3250[i][j], -1);
+            }
+        }
+        return dfs3250(0, 0, 50);
+
+    }
+
+    private int dfs3250(int i, int j, int k) {
+        if (i == n3250) {
+            return 1;
+        }
+        if (memo3250[i][j][k] != -1) {
+            return memo3250[i][j][k];
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int x = Math.max(j, nums3250[i] - k); x <= nums3250[i]; ++x) {
+            res += dfs3250(i + 1, x, nums3250[i] - x);
+            res %= MOD;
+        }
+        return memo3250[i][j][k] = res;
+
+    }
+
+    // 551. 学生出勤记录 I (Student Attendance Record I)
+    public boolean checkRecord(String s) {
+        int cntA = 0;
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) == 'A') {
+                if (++cntA > 1) {
+                    return false;
+                }
+            }
+            if (i > 0 && i < s.length() - 1 && s.charAt(i - 1) == s.charAt(i) && s.charAt(i) == s.charAt(i + 1)
+                    && s.charAt(i) == 'L') {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

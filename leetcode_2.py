@@ -5720,7 +5720,7 @@ class Union924:
             res.append(dfs(0))
             dfs.cache_clear()
         return res
-    
+
     # 676. 实现一个魔法字典 (Implement Magic Dictionary)
     class MagicDictionary:
 
@@ -5741,10 +5741,66 @@ class Union924:
                 if diff == 1:
                     return True
             return False
-                    
 
+    # 3248. 矩阵中的蛇 (Snake in Matrix)
+    def finalPositionOfSnake(self, n: int, commands: List[str]) -> int:
+        x = 0
+        y = 0
+        for c in commands:
+            if c == 'UP':
+                x -= 1
+            elif c == 'DOWN':
+                x += 1
+            elif c == 'LEFT':
+                y -= 1
+            else:
+                y += 1
+        return x * n + y
 
+    # 3249. 统计好节点的数目 (Count the Number of Good Nodes)
+    def countGoodNodes(self, edges: List[List[int]]) -> int:
+        def dfs(x: int, fa: int) -> int:
+            pre = -1
+            ret = True
+            s = 0
+            for y in g[x]:
+                if y != fa:
+                    c = dfs(y, x)
+                    if pre != -1 and pre != c:
+                        ret = False
+                    pre = c
+                    s += c
+            if ret:
+                nonlocal res
+                res += 1
+            return s + 1
+        n = len(edges) + 1
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        res = 0
+        dfs(0, -1)
+        return res
 
+    # 3250. 单调数组对的数目 I (Find the Count of Monotonic Pairs I)
+    def countOfPairs(self, nums: List[int]) -> int:
+        @cache
+        def dfs(i: int, x: int, y: int) -> int:
+            if i == n:
+                return 1
+            return (
+                sum(
+                    dfs(i + 1, c, nums[i] - c)
+                    for c in range(max(x, nums[i] - y), nums[i] + 1)
+                )
+                % MOD
+            )
 
+        n = len(nums)
+        MOD = 10**9 + 7
+        return dfs(0, 0, 50)
 
-            
+    # 551. 学生出勤记录 I (Student Attendance Record I)
+    def checkRecord(self, s: str) -> bool:
+        return s.count("A") < 2 and "LLL" not in s
