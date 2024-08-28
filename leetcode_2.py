@@ -30,7 +30,7 @@ from textwrap import indent
 from tkinter import N, NO, W
 from tkinter.tix import Tree
 from token import NL, RIGHTSHIFT
-from turtle import RawTurtle, mode, pos, reset, right, st
+from turtle import RawTurtle, left, mode, pos, reset, right, st, up
 from typing import List, Optional, Self
 import heapq
 import bisect
@@ -4077,18 +4077,17 @@ class Union924:
             if i == n:
                 return 0
             res = inf
-            cnts = [0] * 26
-            c = 0
+            d = defaultdict(int)
+            cnt = 0
             for j in range(i, n):
-                cnts[ord(s[j]) - ord("a")] += 1
-                c += cnts[ord(s[j]) - ord("a")] == 1
-                if (j - i + 1) % c:
+                d[s[j]] += 1
+                if d[s[j]] == 1:
+                    cnt += 1
+                if (j - i + 1) % len(d):
                     continue
-                c0 = cnts[ord(s[j]) - ord("a")]
-                if all(c == 0 or c == c0 for c in cnts):
+                if all (v == (j - i + 1) // len(d) for _, v in d.items()):
                     res = min(res, dfs(j + 1) + 1)
             return res
-
         n = len(s)
         return dfs(0)
 
@@ -5804,3 +5803,51 @@ class Union924:
     # 551. 学生出勤记录 I (Student Attendance Record I)
     def checkRecord(self, s: str) -> bool:
         return s.count("A") < 2 and "LLL" not in s
+
+    def resultsArray(self, nums: List[int], k: int) -> List[int]:
+        n = len(nums)
+        cnt = 0
+        res = [-1] * (n - k + 1)
+        for i in range(1, k):
+            if nums[i] - nums[i - 1] != 1:
+                cnt += 1
+        if cnt == 0:
+            res[0] = nums[k - 1]
+        for i in range(k, n):
+            if nums[i - k + 1] - nums[i - k] != 1:
+                cnt -= 1
+            if nums[i] - nums[i - 1] != 1:
+                cnt += 1
+            if cnt == 0:
+                res[i - k + 1] = nums[i]
+        return res
+
+    # 3258. 统计满足 K 约束的子字符串数量 I (Count Substrings That Satisfy K-Constraint I)
+    def countKConstraintSubstrings(self, s: str, k: int) -> int:
+        n = len(s)
+        cnt = [0] * 2
+        i = 0
+        j = 0
+        res = 0
+        while i < n:
+            cnt[int(s[i])] += 1
+            while cnt[0] > k and cnt[1] > k:
+                cnt[int(s[j])] -= 1
+                j += 1
+            res += i - j + 1
+            i += 1
+        return res
+
+    def maxEnergyBoost(self, energyDrinkA: List[int], energyDrinkB: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i >= n:
+                return 0
+            return max(dfs(i + 1, j), dfs(i + 2, j ^ 1)) + (
+                energyDrinkA[i] if j == 0 else energyDrinkB[i]
+            )
+
+        n = len(energyDrinkA)
+        return max(dfs(0, 0), dfs(0, 1))
+
+

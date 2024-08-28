@@ -1733,4 +1733,201 @@ public class Leetcode_9 {
         return true;
     }
 
+    public int[] resultsArray(int[] nums, int k) {
+        int n = nums.length;
+        int[] res = new int[n - k + 1];
+        Arrays.fill(res, -1);
+        int cnt = 0;
+        for (int i = 1; i < k; ++i) {
+            if (nums[i] - nums[i - 1] != 1) {
+                ++cnt;
+            }
+        }
+        if (cnt == 0) {
+            res[0] = nums[k - 1];
+        }
+        for (int i = k; i < n; ++i) {
+            if (nums[i - k + 1] - nums[i - k] != 1) {
+                --cnt;
+            }
+            if (nums[i] - nums[i - 1] != 1) {
+                ++cnt;
+            }
+            if (cnt == 0) {
+                res[i - k + 1] = nums[i];
+            }
+        }
+        return res;
+
+    }
+
+    public long maximumValueSum(int[][] board) {
+        int m = board.length;
+        int n = board[0].length;
+        long res = (long) -1e10;
+        List<int[][]> list = new ArrayList<>();
+        for (int i = 0; i < m; ++i) {
+            int[][] item = new int[n][2];
+            for (int j = 0; j < n; ++j) {
+                item[j][0] = board[i][j];
+                item[j][1] = j;
+            }
+            Arrays.sort(item, new Comparator<int[]>() {
+
+                @Override
+                public int compare(int[] o1, int[] o2) {
+                    return Integer.compare(o2[0], o1[0]);
+                }
+
+            });
+            int[][] item2 = new int[3][2];
+            for (int k = 0; k < 3; ++k) {
+                item2[k][0] = item[k][0];
+                item2[k][1] = item[k][1];
+            }
+            list.add(item2);
+        }
+        for (int i = 0; i < m; ++i) {
+            int[][] v1 = list.get(i);
+
+            for (int j = i + 1; j < m; ++j) {
+                int[][] v2 = list.get(j);
+
+                for (int k = j + 1; k < m; ++k) {
+                    int[][] v3 = list.get(k);
+
+                    for (int x = 0; x < 3; ++x) {
+                        int j1 = v1[x][1];
+                        search: for (int y = 0; y < 3; ++y) {
+                            int j2 = v2[y][1];
+                            if (j1 == j2) {
+                                continue;
+                            }
+                            for (int z = 0; z < 3; ++z) {
+                                int j3 = v3[z][1];
+                                if (j1 != j2 && j1 != j3 && j2 != j3) {
+                                    res = Math.max(res, (long) v1[x][0] + v2[y][0] + v3[z][0]);
+                                    continue search;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    public int[] getFinalState(int[] nums, int k, int multiplier) {
+        int n = nums.length;
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[1] == o2[1]) {
+                    return Integer.compare(o1[0], o2[0]);
+                }
+                return Integer.compare(o1[1], o2[1]);
+            }
+
+        });
+        for (int i = 0; i < n; ++i) {
+            q.offer(new int[] { i, nums[i] });
+        }
+        while (k-- > 0) {
+            int[] cur = q.poll();
+            int i = cur[0];
+            int x = cur[1];
+            q.offer(new int[] { i, x * multiplier });
+        }
+        int[] res = new int[n];
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            res[cur[0]] = cur[1];
+        }
+        return res;
+
+    }
+
+    public int countPairs(int[] nums) {
+        int res = 0;
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                if (nums[i] == nums[j]) {
+                    ++res;
+                    continue;
+                }
+                if (check(nums[i], nums[j])) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private boolean check(int x, int y) {
+        StringBuilder s1 = new StringBuilder(String.valueOf(x));
+        StringBuilder s2 = new StringBuilder(String.valueOf(y));
+        int d = 0;
+        int i = s1.length() - 1;
+        int j = s2.length() - 1;
+        int x1 = -1;
+        int x2 = -1;
+        int y1 = -1;
+        int y2 = -1;
+        while (i >= 0 || j >= 0) {
+            if (i >= 0 && j >= 0) {
+                if (s1.charAt(i) != s2.charAt(j)) {
+                    ++d;
+                    if (d >= 3) {
+                        return false;
+                    }
+                    if (x1 == -1) {
+                        x1 = s1.charAt(i) - '0';
+                        y1 = s2.charAt(j) - '0';
+                    } else {
+                        x2 = s1.charAt(i) - '0';
+                        y2 = s2.charAt(j) - '0';
+                    }
+                }
+                --i;
+                --j;
+            } else {
+                if (i >= 0) {
+                    if (s1.charAt(i) != '0') {
+                        ++d;
+                        if (d >= 3) {
+                            return false;
+                        }
+                        if (x1 == -1) {
+                            x1 = s1.charAt(i) - '0';
+                            y1 = 0;
+                        } else {
+                            x2 = s1.charAt(i) - '0';
+                            y2 = 0;
+                        }
+                    }
+                    --i;
+                } else {
+                    if (s2.charAt(j) != '0') {
+                        ++d;
+                        if (d >= 3) {
+                            return false;
+                        }
+                        if (x1 == -1) {
+                            x1 = 0;
+                            y1 = s2.charAt(j) - '0';
+                        } else {
+                            x2 = 0;
+                            y2 = s2.charAt(j) - '0';
+                        }
+                    }
+                    --j;
+                }
+            }
+        }
+        return d == 0 || d == 2 && x2 == y1 && x1 == y2;
+    }
 }
