@@ -4331,13 +4331,16 @@ class Union924:
     # 3153. 所有数对中数位不同之和 (Sum of Digit Differences of All Pairs)
     def sumDigitDifferences(self, nums: List[int]) -> int:
         res = 0
-        for i in range(len(str(nums[0]))):
-            c = defaultdict(int)
-            p = pow(10, i)
-            for j, num in enumerate(nums):
-                x = num // p % 10
-                res += j - c[x]
-                c[x] += 1
+        l = len(str(nums[0]))
+        for _ in range(l):
+            s = 0
+            cnts = [0] * 10
+            for j in range(len(nums)):
+                b = nums[j] % 10
+                nums[j] //= 10
+                res += s - cnts[b]
+                cnts[b] += 1
+                s += 1
         return res
 
     # 3152. 特殊数组 II (Special Array II)
