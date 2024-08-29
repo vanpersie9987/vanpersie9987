@@ -437,16 +437,17 @@ public class Leetcode_9 {
 
     // 3153. 所有数对中数位不同之和 (Sum of Digit Differences of All Pairs)
     public long sumDigitDifferences(int[] nums) {
-        int n = nums.length;
+        int l = String.valueOf(nums[0]).length();
         long res = 0L;
-        int bitLen = String.valueOf(nums[0]).length();
-        for (int i = 0; i < bitLen; ++i) {
-            int pow = (int) Math.pow(10, i);
-            Map<Integer, Integer> cnts = new HashMap<>();
-            for (int j = 0; j < n; ++j) {
-                int b = nums[j] / pow % 10;
-                res += j - cnts.getOrDefault(b, 0);
-                cnts.merge(b, 1, Integer::sum);
+        for (int i = 0; i < l; ++i) {
+            int s = 0;
+            int[] cnts = new int[10];
+            for (int j = 0; j < nums.length; ++j) {
+                int b = nums[j] % 10;
+                nums[j] /= 10;
+                res += s - cnts[b];
+                ++cnts[b];
+                ++s;
             }
         }
         return res;
