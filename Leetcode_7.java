@@ -7872,22 +7872,22 @@ public class Leetcode_7 {
                 Arrays.fill(memo2708[i][j], Long.MIN_VALUE);
             }
         }
-        return dfs(0, 1, 0);
+        return dfs2708(0, 1, 0);
 
     }
 
-    private long dfs(int i, int j, int k) {
+    private long dfs2708(int i, int j, int k) {
         if (i == n2708) {
             return k == 1 ? 1L : Long.MIN_VALUE;
         }
         if (memo2708[i][j][k] != Long.MIN_VALUE) {
             return memo2708[i][j][k];
         }
-        long res = dfs(i + 1, j, k);
+        long res = dfs2708(i + 1, j, k);
         if (j > 0) {
-            return memo2708[i][j][k] = Math.max(res, dfs(i + 1, j ^ (nums2708[i] < 0 ? 1 : 0), 1) * nums2708[i]);
+            return memo2708[i][j][k] = Math.max(res, dfs2708(i + 1, j ^ (nums2708[i] < 0 ? 1 : 0), 1) * nums2708[i]);
         }
-        return memo2708[i][j][k] = Math.min(res, dfs(i + 1, j ^ (nums2708[i] < 0 ? 1 : 0), 1) * nums2708[i]);
+        return memo2708[i][j][k] = Math.min(res, dfs2708(i + 1, j ^ (nums2708[i] < 0 ? 1 : 0), 1) * nums2708[i]);
     }
 
     // 2708. 一个小组的最大实力值 (Maximum Strength of a Group) --回溯
