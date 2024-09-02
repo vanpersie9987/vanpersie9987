@@ -1972,6 +1972,27 @@ public class Leetcode_9 {
         return Math.abs(coordinate1.charAt(0) - coordinate2.charAt(0))
                 % 2 == Math.abs(coordinate1.charAt(1) - coordinate2.charAt(1)) % 2;
     }
+
+    // 3275. 第 K 近障碍物查询 (K-th Nearest Obstacle Queries)
+    public int[] resultsArray(int[][] queries, int k) {
+        Queue<Integer> q = new PriorityQueue<>(new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(o2, o1);
+            }
+            
+        });
+        int[] res = new int[queries.length];
+        for (int i = 0; i < queries.length; ++i) {
+            q.offer(Math.abs(queries[i][0]) + Math.abs(queries[i][1]));
+            if (q.size() > k) {
+                q.poll();
+            }
+            res[i] = q.size() == k ? q.peek() : -1;
+        }
+        return res;
+    }
     
 
 }

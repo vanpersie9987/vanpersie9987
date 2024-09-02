@@ -5884,3 +5884,17 @@ class Union924:
         return (ord(coordinate1[0]) - ord(coordinate2[0])) % 2 == (
             ord(coordinate1[1]) - ord(coordinate2[1])
         ) % 2
+
+    # 3275. 第 K 近障碍物查询 (K-th Nearest Obstacle Queries)
+    def resultsArray(self, queries: List[List[int]], k: int) -> List[int]:
+        q = []
+        res = [-1] * len(queries)
+        heapq.heapify(q)
+        for i, (x, y) in enumerate(queries):
+            d = abs(x) + abs(y)
+            heapq.heappush(q, -d)
+            if len(q) > k:
+                heapq.heappop(q)
+            if len(q) == k:
+                res[i] = -q[0]
+        return res
