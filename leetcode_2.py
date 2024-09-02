@@ -5953,3 +5953,17 @@ class Union924:
         res = -inf
         dfs(0, 1, False)
         return res
+    
+    # 2708. 一个小组的最大实力值 (Maximum Strength of a Group)
+    def maxStrength(self, nums: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int, k: bool) -> int:
+            if i == len(nums):
+                return 1 if k else -inf
+            res = dfs(i + 1, j, k)
+            if j:
+                return max(res, dfs(i + 1, j ^ int(nums[i] < 0), True) * nums[i])
+            else:
+                return min(res, dfs(i + 1, j ^ int(nums[i] < 0), True) * nums[i])
+        return dfs(0, 1, False)
+        
