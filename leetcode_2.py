@@ -5852,5 +5852,35 @@ class Union924:
 
         n = len(energyDrinkA)
         return max(dfs(0, 0), dfs(0, 1))
+            
+    # 3270. 求出数字答案 (Find the Key of the Numbers)
+    def generateKey(self, num1: int, num2: int, num3: int) -> int:
+        res = 0
+        p = 1
+        arr = [num1, num2, num3]
+        while any(x for x in arr):
+            d = 9
+            for i in range(3):
+                d = min(d, arr[i] % 10)
+                arr[i] //= 10
+            res += p * d
+            p *= 10
+        return res
+    
+    # 3271. 哈希分割字符串 (Hash Divided String)
+    def stringHash(self, s: str, k: int) -> str:
+        _s = 0
+        res = []
+        for i, v in enumerate(s):
+            _s += ord(v) - ord('a')
+            _s %= 26
+            if (i + 1) % k == 0:
+                res.append(chr(ord('a') + _s))
+                _s = 0
+        return ''.join(res)
+
+
+
+
 
 

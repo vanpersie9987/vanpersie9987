@@ -1931,4 +1931,41 @@ public class Leetcode_9 {
         }
         return d == 0 || d == 2 && x2 == y1 && x1 == y2;
     }
+
+    // 3270. 求出数字答案 (Find the Key of the Numbers)
+    public int generateKey(int num1, int num2, int num3) {
+        int res = 0;
+        int p = 1;
+        while (num1 > 0 && num2 > 0 && num3 > 0) {
+            int d = 9;
+            d = Math.min(d, num1 % 10);
+            num1 /= 10;
+            d = Math.min(d, num2 % 10);
+            num2 /= 10;
+            d = Math.min(d, num3 % 10);
+            num3 /= 10;
+            res += p * d;
+            p *= 10;
+        }
+        return res;
+    }
+
+    // 3271. 哈希分割字符串 (Hash Divided String)
+    public String stringHash(String s, int k) {
+        int n = s.length();
+        StringBuilder res = new StringBuilder();
+        int hash = 0;
+        for (int i = 0; i < n; ++i) {
+            hash += s.charAt(i) - 'a';
+            hash %= 26;
+            if ((i + 1) % k == 0) {
+                res.append((char) ('a' + hash));
+                hash = 0;
+            }
+        }
+        return res.toString();
+
+    }
+    
+
 }
