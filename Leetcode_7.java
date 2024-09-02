@@ -7858,39 +7858,6 @@ public class Leetcode_7 {
         }
     }
 
-    // 6393. 一个小组的最大实力值 (Maximum Strength of a Group)
-    public long maxStrength(int[] nums) {
-        int n = nums.length;
-        if (n == 1) {
-            return nums[0];
-        }
-        List<Integer> pos = new ArrayList<>();
-        List<Integer> neg = new ArrayList<>();
-        int cnt0 = 0;
-        for (int num : nums) {
-            if (num > 0) {
-                pos.add(num);
-            } else if (num < 0) {
-                neg.add(num);
-            } else {
-                ++cnt0;
-            }
-        }
-        Collections.sort(neg);
-        long res = 1L;
-        if (pos.isEmpty() && (neg.isEmpty() || neg.size() == 1 && cnt0 > 0)) {
-            return 0L;
-        }
-        for (int i = 0; i < (neg.size() % 2 == 0 ? neg.size() : neg.size() - 1); ++i) {
-            res *= neg.get(i);
-        }
-        for (int num : pos) {
-            res *= num;
-        }
-        return res;
-
-    }
-
     // 2708. 一个小组的最大实力值 (Maximum Strength of a Group)
     private long res2708;
     private int n2708;
@@ -7905,15 +7872,15 @@ public class Leetcode_7 {
 
     }
 
-    private void dfs2708(int i, long cur, boolean isNum) {
+    private void dfs2708(int i, long j, boolean isNum) {
         if (i == n2708) {
             if (isNum) {
-                res2708 = Math.max(res2708, cur);
+                res2708 = Math.max(res2708, j);
             }
             return;
         }
-        dfs2708(i + 1, cur, isNum);
-        dfs2708(i + 1, cur * nums2708[i], true);
+        dfs2708(i + 1, j, isNum);
+        dfs2708(i + 1, j * nums2708[i], true);
     }
 
     // 2708. 一个小组的最大实力值 (Maximum Strength of a Group)
