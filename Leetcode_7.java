@@ -7932,6 +7932,33 @@ public class Leetcode_7 {
 
     }
 
+    // 2708. 一个小组的最大实力值 (Maximum Strength of a Group) --贪心
+    public long maxStrength4(int[] nums) {
+        Arrays.sort(nums);
+        for (int i = 1; i < nums.length; i += 2) {
+            if (nums[i] >= 0) {
+                break;
+            }
+            nums[i] *= -1;
+            nums[i - 1] *= -1;
+        }
+        Arrays.sort(nums);
+        if (nums[nums.length - 1] == 0) {
+            return 0;
+        }
+        if (nums[nums.length - 1] < 0) {
+            return nums[nums.length - 1];
+        }
+        long res = 1L;
+        for (long x : nums) {
+            if (x > 0) {
+                res *= x;
+            }
+        }
+        return res;
+
+    }
+
     // 6464. 最大公约数遍历 (Greatest Common Divisor Traversal)
     private Union6464 union6464;
 
