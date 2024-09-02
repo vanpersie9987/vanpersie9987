@@ -3729,6 +3729,7 @@ class Union924:
                     j += 1
                 i += 1
             return d
+
         nums1.sort()
         nums2.sort()
         return min(check(nums2[0] - nums1[i]) for i in range(3))
@@ -4085,9 +4086,10 @@ class Union924:
                     cnt += 1
                 if (j - i + 1) % len(d):
                     continue
-                if all (v == (j - i + 1) // len(d) for _, v in d.items()):
+                if all(v == (j - i + 1) // len(d) for _, v in d.items()):
                     res = min(res, dfs(j + 1) + 1)
             return res
+
         n = len(s)
         return dfs(0)
 
@@ -5636,6 +5638,7 @@ class Union924:
                 for j in range(n // 2):
                     res += grid[i][j] != grid[i][n - j - 1]
             return res
+
         def check2(g: List[List[int]]) -> int:
             m = len(g)
             n = len(g[0])
@@ -5653,7 +5656,12 @@ class Union924:
         res = 0
         for i in range(m // 2):
             for j in range(n // 2):
-                cnt1 = grid[i][j] + grid[m - 1 - i][j] + grid[i][n - j - 1] + grid[m - 1 - i][n - j - 1]
+                cnt1 = (
+                    grid[i][j]
+                    + grid[m - 1 - i][j]
+                    + grid[i][n - j - 1]
+                    + grid[m - 1 - i][n - j - 1]
+                )
                 res += min(cnt1, 4 - cnt1)
         if m % 2 and n % 2:
             res += grid[m // 2][n // 2]
@@ -5704,7 +5712,9 @@ class Union924:
             return res
 
     # 3243. 新增道路查询后的最短距离 I (Shortest Distance After Road Addition Queries I)
-    def shortestDistanceAfterQueries(self, n: int, queries: List[List[int]]) -> List[int]:
+    def shortestDistanceAfterQueries(
+        self, n: int, queries: List[List[int]]
+    ) -> List[int]:
         @cache
         def dfs(i: int) -> int:
             if i == n - 1:
@@ -5713,6 +5723,7 @@ class Union924:
             for j in g[i]:
                 cur = min(cur, dfs(j) + 1)
             return cur
+
         g = [[] for _ in range(n)]
         for i in range(n - 1):
             g[i].append(i + 1)
@@ -5732,6 +5743,7 @@ class Union924:
         def buildDict(self, dictionary: List[str]) -> None:
             for dic in dictionary:
                 self.d[len(dic)].add(dic)
+
         def search(self, searchWord: str) -> bool:
             for s in self.d[len(searchWord)]:
                 diff = 0
@@ -5749,11 +5761,11 @@ class Union924:
         x = 0
         y = 0
         for c in commands:
-            if c == 'UP':
+            if c == "UP":
                 x -= 1
-            elif c == 'DOWN':
+            elif c == "DOWN":
                 x += 1
-            elif c == 'LEFT':
+            elif c == "LEFT":
                 y -= 1
             else:
                 y += 1
@@ -5776,6 +5788,7 @@ class Union924:
                 nonlocal res
                 res += 1
             return s + 1
+
         n = len(edges) + 1
         g = [[] for _ in range(n)]
         for u, v in edges:
@@ -5872,12 +5885,12 @@ class Union924:
         _s = 0
         res = []
         for i, v in enumerate(s):
-            _s += ord(v) - ord('a')
+            _s += ord(v) - ord("a")
             _s %= 26
             if (i + 1) % k == 0:
-                res.append(chr(ord('a') + _s))
+                res.append(chr(ord("a") + _s))
                 _s = 0
-        return ''.join(res)
+        return "".join(res)
 
     # 3274. 检查棋盘方格颜色是否相同 (Check if Two Chessboard Squares Have the Same Color)
     def checkTwoChessboards(self, coordinate1: str, coordinate2: str) -> bool:
@@ -5898,3 +5911,29 @@ class Union924:
             if len(q) == k:
                 res[i] = -q[0]
         return res
+
+    # 3276. 选择矩阵中单元格的最大得分 (Select Cells in Grid With Maximum Score)
+    def maxScore(self, grid: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == len(_list):
+                return 0
+            res = dfs(i + 1, j)
+            c = (u ^ j) & _list[i][1]
+            while c:
+                lb = (c & -c).bit_length() - 1
+                res = max(res, dfs(i + 1, j | (1 << lb)) + _list[i][0])
+                c &= c - 1
+            return res
+
+        m = len(grid)
+        n = len(grid[0])
+        d = defaultdict(int)
+        for i in range(m):
+            for j in range(n):
+                d[grid[i][j]] |= 1 << i
+        _list = []
+        for i, v in d.items():
+            _list.append([i, v])
+        u = (1 << m) - 1
+        return dfs(0, 0)

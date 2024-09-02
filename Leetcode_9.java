@@ -20,7 +20,6 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-
 @SuppressWarnings("unchecked")
 public class Leetcode_9 {
     public static void main(String[] args) {
@@ -1650,6 +1649,7 @@ public class Leetcode_9 {
     // 3249. 统计好节点的数目 (Count the Number of Good Nodes)
     private int res3249;
     private List<Integer>[] g3249;
+
     public int countGoodNodes(int[][] edges) {
         int n = edges.length + 1;
         this.g3249 = new ArrayList[n];
@@ -1981,7 +1981,7 @@ public class Leetcode_9 {
             public int compare(Integer o1, Integer o2) {
                 return Integer.compare(o2, o1);
             }
-            
+
         });
         int[] res = new int[queries.length];
         for (int i = 0; i < queries.length; ++i) {
@@ -1993,6 +1993,48 @@ public class Leetcode_9 {
         }
         return res;
     }
-    
+
+    // 3276. 选择矩阵中单元格的最大得分 (Select Cells in Grid With Maximum Score)
+    private List<int[]> list3276;
+    private int l3276;
+    private int[][] memo3276;
+    private int u3276;
+
+    public int maxScore3276(List<List<Integer>> grid) {
+        int m = grid.size();
+        int n = grid.get(0).size();
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                map.merge(grid.get(i).get(j), 1 << i, (a, b) -> a | b);
+            }
+        }
+        List<int[]> list = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            list.add(new int[] { entry.getKey(), entry.getValue() });
+        }
+        this.list3276 = list;
+        this.l3276 = list.size();
+        this.memo3276 = new int[l3276][1 << m];
+        for (int i = 0; i < l3276; ++i) {
+            Arrays.fill(memo3276[i], -1);
+        }
+        this.u3276 = (1 << m) - 1;
+        return dfs3276(0, 0);
+    }
+
+    private int dfs3276(int i, int j) {
+        if (i == l3276) {
+            return 0;
+        }
+        if (memo3276[i][j] != -1) {
+            return memo3276[i][j];
+        }
+        int res = dfs3276(i + 1, j);
+        for (int c = (u3276 ^ j) & list3276.get(i)[1]; c != 0; c &= c - 1) {
+            res = Math.max(res, dfs3276(i + 1, j | (1 << Integer.numberOfTrailingZeros(c))) + list3276.get(i)[0]);
+        }
+        return memo3276[i][j] = res;
+    }
 
 }
