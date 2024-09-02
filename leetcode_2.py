@@ -5937,3 +5937,19 @@ class Union924:
             _list.append([i, v])
         u = (1 << m) - 1
         return dfs(0, 0)
+    
+
+    # 2708. 一个小组的最大实力值 (Maximum Strength of a Group)
+    def maxStrength(self, nums: List[int]) -> int:
+        def dfs(i: int, j: int, k: bool) -> None:
+            if i == n:
+                nonlocal res
+                if k:
+                    res = max(res, j)
+                return
+            dfs(i + 1, j, k)
+            dfs(i + 1, j * nums[i], True)
+        n = len(nums)
+        res = -inf
+        dfs(0, 1, False)
+        return res
