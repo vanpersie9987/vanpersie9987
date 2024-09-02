@@ -7858,32 +7858,64 @@ public class Leetcode_7 {
         }
     }
 
-    // 2708. 一个小组的最大实力值 (Maximum Strength of a Group)
-    private long res2708;
-    private int n2708;
+    // 2708. 一个小组的最大实力值 (Maximum Strength of a Group) --dfs
+    private long[][][] memo2708;
     private int[] nums2708;
+    private int n2708;
+
+    public long maxStrength(int[] nums) {
+        this.nums2708 = nums;
+        this.n2708 = nums.length;
+        this.memo2708 = new long[n2708][2][2];
+        for (int i = 0; i < n2708; ++i) {
+            for (int j = 0; j < 2; ++j) {
+                Arrays.fill(memo2708[i][j], Long.MIN_VALUE);
+            }
+        }
+        return dfs(0, 1, 0);
+
+    }
+
+    private long dfs(int i, int j, int k) {
+        if (i == n2708) {
+            return k == 1 ? 1L : Long.MIN_VALUE;
+        }
+        if (memo2708[i][j][k] != Long.MIN_VALUE) {
+            return memo2708[i][j][k];
+        }
+        long res = dfs(i + 1, j, k);
+        if (j > 0) {
+            return memo2708[i][j][k] = Math.max(res, dfs(i + 1, j ^ (nums2708[i] < 0 ? 1 : 0), 1) * nums2708[i]);
+        }
+        return memo2708[i][j][k] = Math.min(res, dfs(i + 1, j ^ (nums2708[i] < 0 ? 1 : 0), 1) * nums2708[i]);
+    }
+
+    // 2708. 一个小组的最大实力值 (Maximum Strength of a Group) --回溯
+    private long res2708;
+    private int n2708_2;
+    private int[] nums2708_2;
 
     public long maxStrength2(int[] nums) {
         this.res2708 = Long.MIN_VALUE;
-        this.n2708 = nums.length;
-        this.nums2708 = nums;
+        this.n2708_2 = nums.length;
+        this.nums2708_2 = nums;
         dfs2708(0, 1L, false);
         return res2708;
 
     }
 
     private void dfs2708(int i, long j, boolean isNum) {
-        if (i == n2708) {
+        if (i == n2708_2) {
             if (isNum) {
                 res2708 = Math.max(res2708, j);
             }
             return;
         }
         dfs2708(i + 1, j, isNum);
-        dfs2708(i + 1, j * nums2708[i], true);
+        dfs2708(i + 1, j * nums2708_2[i], true);
     }
 
-    // 2708. 一个小组的最大实力值 (Maximum Strength of a Group)
+    // 2708. 一个小组的最大实力值 (Maximum Strength of a Group) --dp
     public long maxStrength3(int[] nums) {
         long min = nums[0];
         long max = nums[0];
