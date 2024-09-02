@@ -5852,7 +5852,7 @@ class Union924:
 
         n = len(energyDrinkA)
         return max(dfs(0, 0), dfs(0, 1))
-            
+
     # 3270. 求出数字答案 (Find the Key of the Numbers)
     def generateKey(self, num1: int, num2: int, num3: int) -> int:
         res = 0
@@ -5866,7 +5866,7 @@ class Union924:
             res += p * d
             p *= 10
         return res
-    
+
     # 3271. 哈希分割字符串 (Hash Divided String)
     def stringHash(self, s: str, k: int) -> str:
         _s = 0
@@ -5879,8 +5879,8 @@ class Union924:
                 _s = 0
         return ''.join(res)
 
-
-
-
-
-
+    # 3274. 检查棋盘方格颜色是否相同 (Check if Two Chessboard Squares Have the Same Color)
+    def checkTwoChessboards(self, coordinate1: str, coordinate2: str) -> bool:
+        return (ord(coordinate1[0]) - ord(coordinate2[0])) % 2 == (
+            ord(coordinate1[1]) - ord(coordinate2[1])
+        ) % 2

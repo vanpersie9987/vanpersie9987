@@ -1966,6 +1966,12 @@ public class Leetcode_9 {
         return res.toString();
 
     }
+
+    // 3274. 检查棋盘方格颜色是否相同 (Check if Two Chessboard Squares Have the Same Color)
+    public boolean checkTwoChessboards(String coordinate1, String coordinate2) {
+        return Math.abs(coordinate1.charAt(0) - coordinate2.charAt(0))
+                % 2 == Math.abs(coordinate1.charAt(1) - coordinate2.charAt(1)) % 2;
+    }
     
 
 }
