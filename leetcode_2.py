@@ -5966,4 +5966,29 @@ class Union924:
             else:
                 return min(res, dfs(i + 1, j ^ int(nums[i] < 0), True) * nums[i])
         return dfs(0, 1, False)
+    
+    # 2708. 一个小组的最大实力值 (Maximum Strength of a Group)
+    def maxStrength(self, nums: List[int]) -> int:
+        nums.sort()
+        for i in range(1, len(nums), 2):
+            if nums[i] >= 0:
+                break
+            nums[i] *= -1
+            nums[i - 1] *= -1
+        nums.sort()
+        if nums[-1] > 0:
+            res = 1
+            for i in range(len(nums) - 1, -1, -1):
+                if nums[i] <= 0:
+                    break
+                res *= nums[i]
+            return res
+        if nums[-1] < 0:
+            return nums[-1]
+        return 0
+        
+            
+
+
+        
         
