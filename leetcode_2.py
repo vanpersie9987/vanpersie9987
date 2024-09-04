@@ -5937,7 +5937,6 @@ class Union924:
             _list.append([i, v])
         u = (1 << m) - 1
         return dfs(0, 0)
-    
 
     # 2708. 一个小组的最大实力值 (Maximum Strength of a Group)
     def maxStrength(self, nums: List[int]) -> int:
@@ -5953,7 +5952,7 @@ class Union924:
         res = -inf
         dfs(0, 1, False)
         return res
-    
+
     # 2708. 一个小组的最大实力值 (Maximum Strength of a Group)
     def maxStrength(self, nums: List[int]) -> int:
         @cache
@@ -5966,7 +5965,7 @@ class Union924:
             else:
                 return min(res, dfs(i + 1, j ^ int(nums[i] < 0), True) * nums[i])
         return dfs(0, 1, False)
-    
+
     # 2708. 一个小组的最大实力值 (Maximum Strength of a Group)
     def maxStrength(self, nums: List[int]) -> int:
         nums.sort()
@@ -5986,9 +5985,12 @@ class Union924:
         if nums[-1] < 0:
             return nums[-1]
         return 0
-        
-            
 
-
-        
-        
+    # 2860. 让所有学生保持开心的分组方法数 (Happy Students)
+    def countWays(self, nums: List[int]) -> int:
+        nums.sort()
+        ans = nums[0] > 0  # 一个学生都不选
+        for i, (x, y) in enumerate(pairwise(nums), 1):
+            if x < i < y:
+                ans += 1
+        return ans + 1  # 一定可以都选
