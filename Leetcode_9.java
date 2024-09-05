@@ -710,16 +710,13 @@ public class Leetcode_9 {
     public String clearDigits(String s) {
         StringBuilder res = new StringBuilder();
         for (char c : s.toCharArray()) {
-            if (Character.isDigit(c)) {
-                if (!res.isEmpty()) {
-                    res.setLength(res.length() - 1);
-                }
-            } else {
+            if (Character.isLetter(c)) {
                 res.append(c);
+            } else {
+                res.setLength(res.length() - 1);
             }
         }
         return res.toString();
-
     }
 
     // 3175. 找到连续赢 K 场比赛的第一位玩家 (Find The First Player to win K Games in a Row)
