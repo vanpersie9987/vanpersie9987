@@ -2163,7 +2163,9 @@ public class Leetcode_9 {
                         vis[nx][ny] = true;
                         distance3283.get(p).put(nx * 50 + ny, step);
                         if (set3283.contains(nx * 50 + ny)) {
-                            ++cnt;
+                            if (++cnt == n3283) {
+                                return;
+                            }
                         }
                         q.offer(new int[] { nx, ny });
                     }

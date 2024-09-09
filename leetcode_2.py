@@ -6101,6 +6101,8 @@ class Union924:
                             dis[i][nx * 50 + ny] = step
                             if (nx, ny) in s:
                                 cnt += 1
+                                if cnt == n:
+                                    return
                             q.append((nx, ny))
 
         n = len(positions)
