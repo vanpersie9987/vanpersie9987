@@ -2073,4 +2073,15 @@ public class Leetcode_9 {
         return true;
     }
 
+    // 3282. 到达数组末尾的最大得分 (Reach End of Array With Max Score)
+    public long findMaximumScore(List<Integer> nums) {
+        long res = 0L;
+        int mx = 0;
+        for (int x : nums) {
+            mx = Math.max(mx, x);
+            res += mx;
+        }
+        return res - mx;
+    }
+
 }

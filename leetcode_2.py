@@ -6023,7 +6023,7 @@ class Union924:
             + "-"
             + bin(int(date[8:10]))[2:]
         )
-    
+
     # 3281. 范围内整数的最大得分 (Maximize Score of Numbers in Ranges)
     def maxPossibleScore(self, start: List[int], d: int) -> int:
         def check(t: int) -> bool:
@@ -6046,3 +6046,12 @@ class Union924:
                 right = mid - 1
         return res
 
+    # 3282. 到达数组末尾的最大得分 (Reach End of Array With Max Score)
+    def findMaximumScore(self, nums: List[int]) -> int:
+        nums.pop(-1)
+        res = 0
+        mx = 0
+        for x in nums:
+            mx = max(mx, x)
+            res += mx
+        return res
