@@ -2125,7 +2125,6 @@ public class Leetcode_9 {
         if (memo3283[i][mask] != -1) {
             return memo3283[i][mask];
         }
-        // alice
         int res = Integer.bitCount(mask) % 2 == 0 ? 0 : Integer.MAX_VALUE;
         for (int c = u3283 ^ mask; c != 0; c &= c - 1) {
             int lb = Integer.numberOfTrailingZeros(c);
