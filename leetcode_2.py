@@ -6033,6 +6033,7 @@ class Union924:
                     return False
                 left = max(left + t, start[i + 1])
             return True
+
         start.sort()
         left = 0
         right = start[-1] + d
@@ -6055,3 +6056,55 @@ class Union924:
             mx = max(mx, x)
             res += mx
         return res
+
+    # 3283. 吃掉所有兵需要的最多移动次数 (Maximum Number of Moves to Kill All Pawns)
+    def maxMoves(self, kx: int, ky: int, positions: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if j == u:
+                return 0
+            res = inf if j.bit_count() % 2 else 0
+            op = min if j.bit_count() % 2 else max
+            c = u ^ j
+            while c:
+                lb = (c & -c).bit_length() - 1
+                d = dis[i][positions[lb][0] * 50 + positions[lb][1]]
+                res = op(res, dfs(lb, j | (1 << lb)) + d)
+                c &= c - 1
+            return res
+
+        def cal(i: int, start_x: int, start_y: int) -> None:
+            vis = [[False] * 50 for _ in range(50)]
+            vis[start_x][start_y] = True
+            q = deque()
+            q.append((start_x, start_y))
+            step = 0
+            while q:
+                step += 1
+                size = len(q)
+                for _ in range(size):
+                    (x, y) = q.popleft()
+                    for dx, dy in (
+                        [-1, -2],
+                        [-1, 2],
+                        [1, -2],
+                        [1, 2],
+                        [2, -1],
+                        [2, 1],
+                        [-2, 1],
+                        [-2, -1],
+                    ):
+                        nx, ny = x + dx, y + dy
+                        if 50 > nx >= 0 and 50 > ny >= 0 and not vis[nx][ny]:
+                            vis[nx][ny] = True
+                            dis[i][nx * 50 + ny] = step
+                            q.append((nx, ny))
+
+        n = len(positions)
+        dis = [[0] * 2500 for _ in range(n + 1)]
+        for i, (x, y) in enumerate(positions):
+            cal(i, x, y)
+        cal(n, kx, ky)
+        u = (1 << n) - 1
+        # dfs(i, j, k) 已经从position中选了k (mask) , 马的位置在(i, j)的最佳方式
+        return dfs(n, 0)

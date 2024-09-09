@@ -2084,4 +2084,84 @@ public class Leetcode_9 {
         return res - mx;
     }
 
+    // 3283. 吃掉所有兵需要的最多移动次数 (Maximum Number of Moves to Kill All Pawns)
+    private int[][] positions3283;
+    private int[][] directions3283 = { { 1, -2 }, { 1, 2 }, { -1, -2 }, { -1, 2 }, { 2, -1 }, { 2, 1 }, { -2, 1 },
+            { -2, -1 } };
+
+    private List<Map<Integer, Integer>> distance3283;
+    private int n3283;
+    private int[][] memo3283;
+    private int u3283;
+
+    public int maxMoves(int kx, int ky, int[][] positions) {
+        this.n3283 = positions.length;
+        this.distance3283 = new ArrayList<>();
+        for (int i = 0; i < n3283 + 1; ++i) {
+            distance3283.add(new HashMap<>());
+        }
+        this.positions3283 = positions;
+        for (int i = 0; i < n3283; ++i) {
+            cal3283(i, positions[i][0], positions[i][1]);
+        }
+        cal3283(n3283, kx, ky);
+        this.u3283 = (1 << n3283) - 1;
+        this.memo3283 = new int[51][u3283];
+        for (int i = 0; i < 51; ++i) {
+            Arrays.fill(memo3283[i], -1);
+        }
+        return dfs3283(n3283, 0);
+
+    }
+
+    private int dfs3283(int i, int mask) {
+        if (mask == u3283) {
+            return 0;
+        }
+        if (memo3283[i][mask] != -1) {
+            return memo3283[i][mask];
+        }
+        // alice
+        int res = Integer.bitCount(mask) % 2 == 0 ? 0 : Integer.MAX_VALUE;
+        for (int c = u3283 ^ mask; c != 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            int add = distance3283.get(i).getOrDefault(positions3283[lb][0] * 50 + positions3283[lb][1], 0);
+            if (Integer.bitCount(mask) % 2 == 0) {
+                res = Math.max(res, dfs3283(lb, mask | (1 << lb)) + add);
+            } else {
+                res = Math.min(res, dfs3283(lb, mask | (1 << lb)) + add);
+            }
+        }
+        return memo3283[i][mask] = res;
+
+    }
+
+    private void cal3283(int p, int startX, int startY) {
+        boolean[][] vis = new boolean[50][50];
+        vis[startX][startY] = true;
+        int step = 0;
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[] { startX, startY });
+        while (!q.isEmpty()) {
+            int size = q.size();
+            ++step;
+            for (int i = 0; i < size; ++i) {
+                int[] cur = q.poll();
+                int x = cur[0];
+                int y = cur[1];
+                for (int[] d : directions3283) {
+                    int dx = d[0];
+                    int dy = d[1];
+                    int nx = x + dx;
+                    int ny = y + dy;
+                    if (nx >= 0 && nx < 50 && ny >= 0 && ny < 50 && !vis[nx][ny]) {
+                        vis[nx][ny] = true;
+                        distance3283.get(p).put(nx * 50 + ny, step);
+                        q.offer(new int[] { nx, ny });
+                    }
+                }
+            }
+        }
+    }
+
 }
