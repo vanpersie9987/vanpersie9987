@@ -26,6 +26,7 @@ from socket import NI_NUMERICSERV
 from ssl import VERIFY_X509_TRUSTED_FIRST
 from string import ascii_lowercase
 from tabnanny import check
+from tarfile import tar_filter
 from textwrap import indent
 from tkinter import N, NO, W
 from tkinter.tix import Tree
@@ -6022,3 +6023,26 @@ class Union924:
             + "-"
             + bin(int(date[8:10]))[2:]
         )
+    
+    # 3281. 范围内整数的最大得分 (Maximize Score of Numbers in Ranges)
+    def maxPossibleScore(self, start: List[int], d: int) -> int:
+        def check(t: int) -> bool:
+            left = start[0]
+            for i in range(len(start) - 1):
+                if left + t > start[i + 1] + d:
+                    return False
+                left = max(left + t, start[i + 1])
+            return True
+        start.sort()
+        left = 0
+        right = start[-1] + d
+        res = 0
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                res = mid
+                left = mid + 1
+            else:
+                right = mid - 1
+        return res
+
