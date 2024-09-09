@@ -6077,9 +6077,10 @@ class Union924:
             vis = [[False] * 50 for _ in range(50)]
             vis[start_x][start_y] = True
             q = deque()
+            cnt = int(i < n)
             q.append((start_x, start_y))
             step = 0
-            while q:
+            while q and cnt < n:
                 step += 1
                 size = len(q)
                 for _ in range(size):
@@ -6098,9 +6099,14 @@ class Union924:
                         if 50 > nx >= 0 and 50 > ny >= 0 and not vis[nx][ny]:
                             vis[nx][ny] = True
                             dis[i][nx * 50 + ny] = step
+                            if (nx, ny) in s:
+                                cnt += 1
                             q.append((nx, ny))
 
         n = len(positions)
+        s = set()
+        for x, y in positions:
+            s.add((x, y))
         dis = [[0] * 2500 for _ in range(n + 1)]
         for i, (x, y) in enumerate(positions):
             cal(i, x, y)

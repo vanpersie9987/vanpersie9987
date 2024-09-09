@@ -2088,11 +2088,11 @@ public class Leetcode_9 {
     private int[][] positions3283;
     private int[][] directions3283 = { { 1, -2 }, { 1, 2 }, { -1, -2 }, { -1, 2 }, { 2, -1 }, { 2, 1 }, { -2, 1 },
             { -2, -1 } };
-
     private List<Map<Integer, Integer>> distance3283;
     private int n3283;
     private int[][] memo3283;
     private int u3283;
+    private Set<Integer> set3283;
 
     public int maxMoves(int kx, int ky, int[][] positions) {
         this.n3283 = positions.length;
@@ -2101,6 +2101,10 @@ public class Leetcode_9 {
             distance3283.add(new HashMap<>());
         }
         this.positions3283 = positions;
+        this.set3283 = new HashSet<>();
+        for (int i = 0; i < n3283; ++i) {
+            set3283.add(positions[i][0] * 50 + positions[i][1]);
+        }
         for (int i = 0; i < n3283; ++i) {
             cal3283(i, positions[i][0], positions[i][1]);
         }
@@ -2142,7 +2146,8 @@ public class Leetcode_9 {
         int step = 0;
         Queue<int[]> q = new LinkedList<>();
         q.add(new int[] { startX, startY });
-        while (!q.isEmpty()) {
+        int cnt = p < n3283 ? 1 : 0;
+        while (!q.isEmpty() && cnt < n3283) {
             int size = q.size();
             ++step;
             for (int i = 0; i < size; ++i) {
@@ -2157,6 +2162,9 @@ public class Leetcode_9 {
                     if (nx >= 0 && nx < 50 && ny >= 0 && ny < 50 && !vis[nx][ny]) {
                         vis[nx][ny] = true;
                         distance3283.get(p).put(nx * 50 + ny, step);
+                        if (set3283.contains(nx * 50 + ny)) {
+                            ++cnt;
+                        }
                         q.offer(new int[] { nx, ny });
                     }
                 }
