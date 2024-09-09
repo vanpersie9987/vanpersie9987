@@ -5997,15 +5997,16 @@ class Union924:
 
     # 2181. 合并零之间的节点 (Merge Nodes in Between Zeros)
     def mergeNodes(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        cur = dummy = ListNode(0)
-        while head:
-            s = 0
-            head = head.next
-            while head and head.val != 0:
-                s += head.val
+        res = head
+        cur = head.next
+        s = 0
+        while cur:
+            if cur.val:
+                s += cur.val
+            else:
+                cur.val = s
+                s = 0
+                head.next = cur
                 head = head.next
-            if s:
-                node = ListNode(s)
-                cur.next = node
-                cur = node
-        return dummy.next
+            cur = cur.next
+        return res.next
