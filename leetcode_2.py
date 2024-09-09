@@ -5948,6 +5948,7 @@ class Union924:
                 return
             dfs(i + 1, j, k)
             dfs(i + 1, j * nums[i], True)
+
         n = len(nums)
         res = -inf
         dfs(0, 1, False)
@@ -5964,6 +5965,7 @@ class Union924:
                 return max(res, dfs(i + 1, j ^ int(nums[i] < 0), True) * nums[i])
             else:
                 return min(res, dfs(i + 1, j ^ int(nums[i] < 0), True) * nums[i])
+
         return dfs(0, 1, False)
 
     # 2708. 一个小组的最大实力值 (Maximum Strength of a Group)
@@ -6010,3 +6012,13 @@ class Union924:
                 head = head.next
             cur = cur.next
         return res.next
+
+    # 3280. 将日期转换为二进制表示 (Convert Date to Binary)
+    def convertDateToBinary(self, date: str) -> str:
+        return (
+            bin(int(date[0:4]))[2:]
+            + "-"
+            + bin(int(date[5:7]))[2:]
+            + "-"
+            + bin(int(date[8:10]))[2:]
+        )

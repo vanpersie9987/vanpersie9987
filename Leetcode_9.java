@@ -2034,4 +2034,48 @@ public class Leetcode_9 {
         return memo3276[i][j] = res;
     }
 
+    // 3280. 将日期转换为二进制表示 (Convert Date to Binary)
+    public String convertDateToBinary(String date) {
+        return Integer.toBinaryString(Integer.parseInt(date.substring(0, 4))) + "-" +
+                Integer.toBinaryString(Integer.parseInt(date.substring(5, 7))) + "-" +
+                Integer.toBinaryString(Integer.parseInt(date.substring(8, 10)));
+
+    }
+
+    // 3281. 范围内整数的最大得分 (Maximize Score of Numbers in Ranges)
+    public int maxPossibleScore(int[] start, int d) {
+        Arrays.sort(start);
+        int n = start.length;
+        int left = 0;
+        int right = start[n - 1] + d - start[0];
+        int res = 0;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (binarySearch3281(mid, start, d)) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean binarySearch3281(int target, int[] start, int d) {
+        long left = start[0];
+        int i = 0;
+        while (i < start.length) {
+            if (i + 1 >= start.length) {
+                return true;
+            }
+            if (left + target > start[i + 1] + d) {
+                return false;
+            }
+            left = Math.max(left + target, start[i + 1]);
+            ++i;
+        }
+        return true;
+    }
+
 }
