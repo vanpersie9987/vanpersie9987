@@ -2064,16 +2064,11 @@ public class Leetcode_9 {
 
     private boolean binarySearch3281(int target, int[] start, int d) {
         long left = start[0];
-        int i = 0;
-        while (i < start.length) {
-            if (i + 1 >= start.length) {
-                return true;
-            }
+        for (int i = 0; i < start.length - 1; ++i) {
             if (left + target > start[i + 1] + d) {
                 return false;
             }
             left = Math.max(left + target, start[i + 1]);
-            ++i;
         }
         return true;
     }
