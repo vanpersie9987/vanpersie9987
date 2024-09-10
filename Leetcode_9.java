@@ -2088,7 +2088,7 @@ public class Leetcode_9 {
     private int[][] positions3283;
     private int[][] directions3283 = { { 1, -2 }, { 1, 2 }, { -1, -2 }, { -1, 2 }, { 2, -1 }, { 2, 1 }, { -2, 1 },
             { -2, -1 } };
-    private List<Map<Integer, Integer>> distance3283;
+    private int[][] distance3283;
     private int n3283;
     private int[][] memo3283;
     private int u3283;
@@ -2096,10 +2096,7 @@ public class Leetcode_9 {
 
     public int maxMoves(int kx, int ky, int[][] positions) {
         this.n3283 = positions.length;
-        this.distance3283 = new ArrayList<>();
-        for (int i = 0; i < n3283 + 1; ++i) {
-            distance3283.add(new HashMap<>());
-        }
+        this.distance3283 = new int[n3283 + 1][2500];
         this.positions3283 = positions;
         this.set3283 = new HashSet<>();
         for (int i = 0; i < n3283; ++i) {
@@ -2128,7 +2125,7 @@ public class Leetcode_9 {
         int res = Integer.bitCount(mask) % 2 == 0 ? 0 : Integer.MAX_VALUE;
         for (int c = u3283 ^ mask; c != 0; c &= c - 1) {
             int lb = Integer.numberOfTrailingZeros(c);
-            int add = distance3283.get(i).getOrDefault(positions3283[lb][0] * 50 + positions3283[lb][1], 0);
+            int add = distance3283[i][positions3283[lb][0] * 50 + positions3283[lb][1]];
             if (Integer.bitCount(mask) % 2 == 0) {
                 res = Math.max(res, dfs3283(lb, mask | (1 << lb)) + add);
             } else {
@@ -2160,7 +2157,7 @@ public class Leetcode_9 {
                     int ny = y + dy;
                     if (nx >= 0 && nx < 50 && ny >= 0 && ny < 50 && !vis[nx][ny]) {
                         vis[nx][ny] = true;
-                        distance3283.get(p).put(nx * 50 + ny, step);
+                        distance3283[p][nx * 50 + ny] = step;
                         if (set3283.contains(nx * 50 + ny)) {
                             if (++cnt == n3283) {
                                 return;
