@@ -6114,5 +6114,4 @@ class Union924:
             cal(i, x, y)
         cal(n, kx, ky)
         u = (1 << n) - 1
-        # dfs(i, j, k) 已经从position中选了k (mask) , 马的位置在(i, j)的最佳方式
         return dfs(n, 0)
