@@ -6115,3 +6115,12 @@ class Union924:
         cal(n, kx, ky)
         u = (1 << n) - 1
         return dfs(n, 0)
+
+    # 2576. 求出最多标记下标 (Find the Maximum Number of Marked Indices)
+    def maxNumOfMarkedIndices(self, nums: List[int]) -> int:
+        nums.sort()
+        i = 0
+        for j in range((len(nums) + 1) // 2, len(nums)):
+            if nums[i] * 2 <= nums[j]:
+                i += 1
+        return i * 2
