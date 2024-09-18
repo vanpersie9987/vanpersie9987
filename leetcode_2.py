@@ -6203,7 +6203,7 @@ class Union924:
             def insert(self, s: str) -> None:
                 node = self
                 for i in range(len(s)):
-                    j = ord(s[i]) - ord("a")
+                    j = ord(s[i]) - ord('a')
                     if node.children[j] is None:
                         node.children[j] = Trie()
                     node = node.children[j]
