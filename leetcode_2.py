@@ -6152,3 +6152,20 @@ class Union924:
                         q.append([nx, ny])
                     else:
                         q.appendleft([nx, ny])
+
+    # 3289. 数字小镇中的捣蛋鬼 (The Two Sneaky Numbers of Digitville)
+    def getSneakyNumbers(self, nums: List[int]) -> List[int]:
+        n = len(nums) - 2
+        xor = n ^ (n + 1)
+        for i, x in enumerate(nums):
+            xor ^= x ^ i
+        lb = (xor & -xor).bit_length() - 1
+        res = [0] * 2
+        for i, x in enumerate(nums):
+            if i < n:
+                res[(i >> lb) & 1] ^= i
+            res[(x >> lb) & 1] ^= x
+        return res
+
+        
+        

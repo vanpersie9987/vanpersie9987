@@ -2222,4 +2222,22 @@ public class Leetcode_9 {
         }
 
     }
+
+    // 3289. 数字小镇中的捣蛋鬼 (The Two Sneaky Numbers of Digitville)
+    public int[] getSneakyNumbers(int[] nums) {
+        int n = nums.length - 2;
+        int xor = n ^ (n + 1);
+        for (int i = 0; i < n + 2; ++i) {
+            xor ^= i ^ nums[i];
+        }
+        int lb = Integer.numberOfTrailingZeros(xor);
+        int[] res = new int[2];
+        for (int i = 0; i < n + 2; ++i) {
+            if (i < n) {
+                res[i >> lb & 1] ^= i;
+            }
+            res[nums[i] >> lb & 1] ^= nums[i];
+        }
+        return res;
+    }
 }
