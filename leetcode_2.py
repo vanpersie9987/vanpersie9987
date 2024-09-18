@@ -6179,3 +6179,4 @@ class Union924:
         res = dfs(0, 0)
         dfs.cache_clear()
         return res
+

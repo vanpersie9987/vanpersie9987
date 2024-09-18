@@ -2271,4 +2271,61 @@ public class Leetcode_9 {
         }
         return memo3290[i][j] = Math.max(dfs3290(i, j + 1), dfs3290(i + 1, j + 1) + (long) a3290[i] * b3290[j]);
     }
+
+    // 3291. 形成目标字符串需要的最少字符串数 I (Minimum Number of Valid Strings to Form Target I)
+    private int[] memo3291;
+    private int n3291;
+    private Trie trie3291;
+    private String target3291;
+    public int minValidStrings(String[] words, String target) {
+        this.trie3291 = new Trie();
+        for (String s : words) {
+            trie3291.insert(s);
+        }
+        this.n3291 = target.length();
+        this.target3291 = target;
+        this.memo3291 = new int[n3291];
+        Arrays.fill(memo3291, -1);
+        int res = dfs3291(0);
+        return res <= n3291 ? res : -1;
+    }
+
+    private int dfs3291(int i) {
+        if (i == n3291) {
+            return 0;
+        }
+        if (memo3291[i] != -1) {
+            return memo3291[i];
+        }
+        int res = (int) 1e9;
+        Trie node = trie3291;
+        for (int j = i; j < n3291; ++j) {
+            if (node.children[target3291.charAt(j) - 'a'] == null) {
+                break;
+            }
+            node = node.children[target3291.charAt(j) - 'a'];
+            res = Math.min(res, dfs3291(j + 1) + 1);
+        }
+        return memo3291[i] = res;
+    }
+
+    public class Trie {
+        private Trie[] children;
+
+        public Trie() {
+            this.children = new Trie[26];
+        }
+
+        public void insert(String s) {
+            Trie node = this;
+            for (char c : s.toCharArray()) {
+                int index = c - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie();
+                }
+                node = node.children[index];
+            }
+        }
+
+    }
 }
