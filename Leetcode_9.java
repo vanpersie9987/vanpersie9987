@@ -2169,6 +2169,7 @@ public class Leetcode_9 {
             }
         }
     }
+
     // 3285. 找到稳定山的下标 (Find Indices of Stable Mountains)
     public List<Integer> stableMountains(int[] height, int threshold) {
         int n = height.length;
@@ -2181,4 +2182,44 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3286. 穿越网格图的安全路径 (Find a Safe Walk Through a Grid)  -- 0-1bfs
+    public boolean findSafeWalk(List<List<Integer>> grid, int health) {
+        int m = grid.size();
+        int n = grid.get(0).size();
+
+        Deque<int[]> q = new ArrayDeque<>();
+        int[][] directions = { { 0, -1 }, { 0, 1 }, { 1, 0 }, { -1, 0 } };
+        int[][] dis = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(dis[i], Integer.MAX_VALUE);
+        }
+        dis[0][0] = grid.get(0).get(0);
+        q.offer(new int[] { 0, 0 });
+        while (true) {
+            int[] cur = q.pollFirst();
+            int x = cur[0];
+            int y = cur[1];
+            if (dis[x][y] >= health) {
+                return false;
+            }
+            if (x == m - 1 && y == n - 1) {
+                return true;
+            }
+            for (int[] nxt : directions) {
+                int dx = nxt[0];
+                int dy = nxt[1];
+                int nx = x + dx;
+                int ny = y + dy;
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && dis[x][y] + grid.get(nx).get(ny) < dis[nx][ny]) {
+                    dis[nx][ny] = dis[x][y] + grid.get(nx).get(ny);
+                    if (grid.get(nx).get(ny) == 0) {
+                        q.offerFirst(new int[] { nx, ny });
+                    } else {
+                        q.offerLast(new int[] { nx, ny });
+                    }
+                }
+            }
+        }
+
+    }
 }

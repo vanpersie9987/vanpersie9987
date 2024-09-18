@@ -6128,3 +6128,27 @@ class Union924:
     # 3285. 找到稳定山的下标 (Find Indices of Stable Mountains)
     def stableMountains(self, height: List[int], threshold: int) -> List[int]:
         return [i for i in range(1, len(height)) if height[i - 1] > threshold]
+    
+
+    # 3286. 穿越网格图的安全路径 (Find a Safe Walk Through a Grid) -- 0-1bfs
+    def findSafeWalk(self, grid: List[List[int]], health: int) -> bool:
+        m = len(grid)
+        n = len(grid[0])
+        q = deque()
+        q.append([0, 0])
+        dis = [[inf] * n for _ in range(m)]
+        dis[0][0] = grid[0][0]
+        while True:
+            [x, y] = q.popleft()
+            if dis[x][y] >= health:
+                return False
+            if x == m - 1 and y == n - 1:
+                return True
+            for dx, dy in [[0, 1], [0, -1], [1, 0], [-1, 0]]:
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < m and 0 <= ny < n and dis[x][y] + grid[nx][ny] < dis[nx][ny]:
+                    dis[nx][ny] = dis[x][y] + grid[nx][ny]
+                    if grid[nx][ny]:
+                        q.append([nx, ny])
+                    else:
+                        q.appendleft([nx, ny])
