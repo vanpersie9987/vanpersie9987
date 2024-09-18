@@ -29,6 +29,7 @@ from tabnanny import check
 from tarfile import tar_filter
 from textwrap import indent
 from tkinter import N, NO, W
+from tkinter.messagebox import RETRY
 from tkinter.tix import Tree
 from token import NL, RIGHTSHIFT
 from turtle import RawTurtle, left, mode, pos, reset, right, st, up
@@ -6179,4 +6180,38 @@ class Union924:
         res = dfs(0, 0)
         dfs.cache_clear()
         return res
+    
+    # 3291. 形成目标字符串需要的最少字符串数 I (Minimum Number of Valid Strings to Form Target I)
+    def minValidStrings(self, words: List[str], target: str) -> int:
+        @cache
+        def dfs(i: int) -> int:
+            if i == n:
+                return 0
+            node = trie
+            res = inf
+            for j in range(i, n):
+                id = ord(target[j]) - ord('a')
+                if node.children[id] is None:
+                    break
+                res = min(res, dfs(j + 1) + 1)
+                node = node.children[id]
+            return res
+        class Trie:
+            def __init__(self) -> None:
+                self.children = [None] * 26
+
+            def insert(self, s: str) -> None:
+                node = self
+                for i in range(len(s)):
+                    j = ord(s[i]) - ord("a")
+                    if node.children[j] is None:
+                        node.children[j] = Trie()
+                    node = node.children[j]
+        n = len(target)
+        trie = Trie()
+        for s in words:
+            trie.insert(s)
+        res = dfs(0)
+        return res if res <= n else -1
+
 
