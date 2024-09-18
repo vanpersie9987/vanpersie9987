@@ -2275,10 +2275,10 @@ public class Leetcode_9 {
     // 3291. 形成目标字符串需要的最少字符串数 I (Minimum Number of Valid Strings to Form Target I)
     private int[] memo3291;
     private int n3291;
-    private Trie trie3291;
+    private Trie3291 trie3291;
     private String target3291;
     public int minValidStrings(String[] words, String target) {
-        this.trie3291 = new Trie();
+        this.trie3291 = new Trie3291();
         for (String s : words) {
             trie3291.insert(s);
         }
@@ -2298,7 +2298,7 @@ public class Leetcode_9 {
             return memo3291[i];
         }
         int res = (int) 1e9;
-        Trie node = trie3291;
+        Trie3291 node = trie3291;
         for (int j = i; j < n3291; ++j) {
             if (node.children[target3291.charAt(j) - 'a'] == null) {
                 break;
@@ -2309,19 +2309,19 @@ public class Leetcode_9 {
         return memo3291[i] = res;
     }
 
-    public class Trie {
-        private Trie[] children;
+    public class Trie3291 {
+        private Trie3291[] children;
 
-        public Trie() {
-            this.children = new Trie[26];
+        public Trie3291() {
+            this.children = new Trie3291[26];
         }
 
         public void insert(String s) {
-            Trie node = this;
+            Trie3291 node = this;
             for (char c : s.toCharArray()) {
                 int index = c - 'a';
                 if (node.children[index] == null) {
-                    node.children[index] = new Trie();
+                    node.children[index] = new Trie3291();
                 }
                 node = node.children[index];
             }
