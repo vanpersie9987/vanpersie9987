@@ -2169,5 +2169,16 @@ public class Leetcode_9 {
             }
         }
     }
+    // 3285. 找到稳定山的下标 (Find Indices of Stable Mountains)
+    public List<Integer> stableMountains(int[] height, int threshold) {
+        int n = height.length;
+        List<Integer> res = new ArrayList<>();
+        for (int i = 1; i < n; ++i) {
+            if (height[i - 1] > threshold) {
+                res.add(i);
+            }
+        }
+        return res;
+    }
 
 }

@@ -6124,3 +6124,7 @@ class Union924:
             if nums[i] * 2 <= nums[j]:
                 i += 1
         return i * 2
+
+    # 3285. 找到稳定山的下标 (Find Indices of Stable Mountains)
+    def stableMountains(self, height: List[int], threshold: int) -> List[int]:
+        return [i for i in range(1, len(height)) if height[i - 1] > threshold]
