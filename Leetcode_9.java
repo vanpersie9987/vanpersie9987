@@ -2240,4 +2240,35 @@ public class Leetcode_9 {
         }
         return res;
     }
+
+    // 3290. 最高乘法得分 (Maximum Multiplication Score)
+    private long[][] memo3290;
+    private int[] a3290;
+    private int[] b3290;
+    private int n3290;
+
+    public long maxScore(int[] a, int[] b) {
+        this.a3290 = a;
+        this.b3290 = b;
+        this.n3290 = b.length;
+        this.memo3290 = new long[4][n3290];
+        for (int i = 0; i < 4; ++i) {
+            Arrays.fill(memo3290[i], (long) 1e11);
+        }
+        return dfs3290(0, 0);
+
+    }
+
+    private long dfs3290(int i, int j) {
+        if (i == 4) {
+            return 0L;
+        }
+        if (n3290 - j < 4 - i) {
+            return (long) -1e12;
+        }
+        if (memo3290[i][j] != (long) 1e11) {
+            return memo3290[i][j];
+        }
+        return memo3290[i][j] = Math.max(dfs3290(i, j + 1), dfs3290(i + 1, j + 1) + (long) a3290[i] * b3290[j]);
+    }
 }

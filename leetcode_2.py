@@ -6128,7 +6128,6 @@ class Union924:
     # 3285. 找到稳定山的下标 (Find Indices of Stable Mountains)
     def stableMountains(self, height: List[int], threshold: int) -> List[int]:
         return [i for i in range(1, len(height)) if height[i - 1] > threshold]
-    
 
     # 3286. 穿越网格图的安全路径 (Find a Safe Walk Through a Grid) -- 0-1bfs
     def findSafeWalk(self, grid: List[List[int]], health: int) -> bool:
@@ -6167,5 +6166,16 @@ class Union924:
             res[(x >> lb) & 1] ^= x
         return res
 
-        
-        
+    # 3290. 最高乘法得分 (Maximum Multiplication Score)
+    def maxScore(self, a: List[int], b: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == 4:
+                return 0
+            if n - j < 4 - i:
+                return -inf
+            return max(dfs(i, j + 1), dfs(i + 1, j + 1) + a[i] * b[j])
+        n = len(b)
+        res = dfs(0, 0)
+        dfs.cache_clear()
+        return res
