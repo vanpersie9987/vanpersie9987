@@ -6180,7 +6180,7 @@ class Union924:
         res = dfs(0, 0)
         dfs.cache_clear()
         return res
-    
+
     # 3291. 形成目标字符串需要的最少字符串数 I (Minimum Number of Valid Strings to Form Target I)
     def minValidStrings(self, words: List[str], target: str) -> int:
         @cache
@@ -6214,4 +6214,14 @@ class Union924:
         res = dfs(0)
         return res if res <= n else -1
 
-
+    # 2414. 最长的字母序连续子字符串的长度 (Length of the Longest Alphabetical Continuous Substring)
+    def longestContinuousSubstring(self, s: str) -> int:
+        res = 1
+        cnt = 1
+        for i in range(1, len(s)):
+            if ord(s[i]) - ord(s[i - 1]) == 1:
+                cnt += 1
+            else:
+                cnt = 1
+            res = max(res, cnt)
+        return res
