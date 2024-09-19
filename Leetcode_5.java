@@ -2485,7 +2485,8 @@ public class Leetcode_5 {
 
     }
 
-    // 6181. 最长的字母序连续子字符串的长度
+    // 2414. 最长的字母序连续子字符串的长度 (Length of the Longest Alphabetical Continuous
+    // Substring)
     public int longestContinuousSubstring(String s) {
         int res = 1;
         int count = 1;

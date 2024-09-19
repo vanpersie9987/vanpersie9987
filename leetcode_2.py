@@ -6146,7 +6146,11 @@ class Union924:
                 return True
             for dx, dy in [[0, 1], [0, -1], [1, 0], [-1, 0]]:
                 nx, ny = x + dx, y + dy
-                if 0 <= nx < m and 0 <= ny < n and dis[x][y] + grid[nx][ny] < dis[nx][ny]:
+                if (
+                    0 <= nx < m
+                    and 0 <= ny < n
+                    and dis[x][y] + grid[nx][ny] < dis[nx][ny]
+                ):
                     dis[nx][ny] = dis[x][y] + grid[nx][ny]
                     if grid[nx][ny]:
                         q.append([nx, ny])
@@ -6176,6 +6180,7 @@ class Union924:
             if n - j < 4 - i:
                 return -inf
             return max(dfs(i, j + 1), dfs(i + 1, j + 1) + a[i] * b[j])
+
         n = len(b)
         res = dfs(0, 0)
         dfs.cache_clear()
@@ -6190,12 +6195,13 @@ class Union924:
             node = trie
             res = inf
             for j in range(i, n):
-                id = ord(target[j]) - ord('a')
+                id = ord(target[j]) - ord("a")
                 if node.children[id] is None:
                     break
                 res = min(res, dfs(j + 1) + 1)
                 node = node.children[id]
             return res
+
         class Trie:
             def __init__(self) -> None:
                 self.children = [None] * 26
@@ -6203,10 +6209,11 @@ class Union924:
             def insert(self, s: str) -> None:
                 node = self
                 for i in range(len(s)):
-                    j = ord(s[i]) - ord('a')
+                    j = ord(s[i]) - ord("a")
                     if node.children[j] is None:
                         node.children[j] = Trie()
                     node = node.children[j]
+
         n = len(target)
         trie = Trie()
         for s in words:
