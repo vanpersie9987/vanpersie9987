@@ -6232,3 +6232,17 @@ class Union924:
                 cnt = 1
             res = max(res, cnt)
         return res
+
+    # 2374. 边积分最高的节点 (Node With Highest Edge Score)
+    def edgeScore(self, edges: List[int]) -> int:
+        n = len(edges)
+        score = [0] * n
+        for i, v in enumerate(edges):
+            score[v] += i
+        mx = -1
+        res = -1
+        for i, v in enumerate(score):
+            if v > mx:
+                mx = v
+                res = i
+        return res
