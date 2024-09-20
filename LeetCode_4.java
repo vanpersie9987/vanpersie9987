@@ -10019,7 +10019,7 @@ public class LeetCode_4 {
 
     }
 
-    // 6149. 边积分最高的节点 (Node With Highest Edge Score)
+    // 2374. 边积分最高的节点 (Node With Highest Edge Score)
     public int edgeScore(int[] edges) {
         int n = edges.length;
         long[] res = new long[n];
