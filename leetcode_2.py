@@ -6246,3 +6246,16 @@ class Union924:
                 mx = v
                 res = i
         return res
+
+    # 997. 找到小镇的法官 (Find the Town Judge)
+    def findJudge(self, n: int, trust: List[List[int]]) -> int:
+        t = [0] * (n + 1)
+        for u, v in trust:
+            t[v] += 1
+            t[u] -= 1
+        for i, v in enumerate(t[1:], 1):
+            if v == n - 1:
+                return i
+        return -1
+                
+
