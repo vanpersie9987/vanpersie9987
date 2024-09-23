@@ -4078,15 +4078,15 @@ public class LeetCodeText {
 
     }
 
-    // 1014. 最佳观光组合
-    public int maxScoreSightseeingPair(final int[] A) {
-        int max = 0;
-        int pre = A[0] + 0;
-        for (int i = 1; i < A.length; ++i) {
-            max = Math.max(max, pre + A[i] - i);
-            pre = Math.max(pre, A[i] + i);
+    // 1014. 最佳观光组合 (Best Sightseeing Pair)
+    public int maxScoreSightseeingPair(int[] values) {
+        int res = Integer.MIN_VALUE;
+        int mx = Integer.MIN_VALUE;
+        for (int i = 0; i < values.length; ++i) {
+            res = Math.max(res, values[i] - i + mx);
+            mx = Math.max(mx, values[i] + i);
         }
-        return max;
+        return res;
 
     }
 
