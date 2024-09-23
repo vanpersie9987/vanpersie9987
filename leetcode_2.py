@@ -6257,5 +6257,11 @@ class Union924:
             if v == n - 1:
                 return i
         return -1
-                
 
+    # 1014. 最佳观光组合 (Best Sightseeing Pair)
+    def maxScoreSightseeingPair(self, values: List[int]) -> int:
+        res, mx = -inf, -inf
+        for i, v in enumerate(values):
+            res = max(res, v - i + mx)
+            mx = max(mx, v + i)
+        return res
