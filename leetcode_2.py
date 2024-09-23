@@ -6265,3 +6265,8 @@ class Union924:
             res = max(res, v - i + mx)
             mx = max(mx, v + i)
         return res
+    
+    # 3295. 举报垃圾信息 (Report Spam Message)
+    def reportSpam(self, message: List[str], bannedWords: List[str]) -> bool:
+        s = set(bannedWords)
+        return sum(m in s for m in message) >= 2

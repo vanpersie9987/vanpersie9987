@@ -2328,4 +2328,19 @@ public class Leetcode_9 {
         }
 
     }
+
+    // 3295. 举报垃圾信息 (Report Spam Message)
+    public boolean reportSpam(String[] message, String[] bannedWords) {
+        Set<String> s = Arrays.stream(bannedWords).collect(Collectors.toSet());
+        int cnt = 0;
+        for (String m : message) {
+            if (s.contains(m)) {
+                if (++cnt >= 2) {
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
 }
