@@ -2343,4 +2343,92 @@ public class Leetcode_9 {
         return false;
 
     }
+
+    // 3296. 移山所需的最少秒数 (Minimum Number of Seconds to Make Mountain Height Zero)
+    public long minNumberOfSeconds(int mountainHeight, int[] workerTimes) {
+        long left = 1L;
+        long right = (long) 1e16;
+        long res = -1L;
+        while (left <= right) {
+            long mid = left + ((right - left) >> 1L);
+            if (check_3296(mid, mountainHeight, workerTimes)) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+
+    private boolean check_3296(long target, int mountainHeight, int[] workerTimes) {
+        long h = 0L;
+        for (int w : workerTimes) {
+            h += check2_3296(target, w, mountainHeight);
+            if (h >= mountainHeight) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private long check2_3296(long target, int w, int mountainHeight) {
+        long left = 0L;
+        long right = mountainHeight;
+        long res = 0L;
+        while (left <= right) {
+            long mid = left + ((right - left) >> 1);
+            if (w * (long) (1 + mid) * mid / 2 <= target) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
+
+    // 3297. 统计重新排列后包含另一个字符串的子字符串数目 I (Count Substrings That Can Be Rearranged to
+    // Contain a String I)
+    // 3298. 统计重新排列后包含另一个字符串的子字符串数目 II (Count Substrings That Can Be Rearranged to
+    // Contain a String II)
+    public long validSubstringCount(String word1, String word2) {
+        int n = word1.length();
+        if (n < word2.length()) {
+            return 0L;
+        }
+        long res = 0L;
+        int[] cnt = new int[26];
+        for (char c : word2.toCharArray()) {
+            --cnt[c - 'a'];
+        }
+        int i = 0;
+        int j = 0;
+        while (j < n) {
+            while (j < n) {
+                ++cnt[word1.charAt(j) - 'a'];
+                if (check3297(cnt)) {
+                    break;
+                }
+                ++j;
+            }
+            while (check3297(cnt)) {
+                res += n - j;
+                --cnt[word1.charAt(i) - 'a'];
+                ++i;
+            }
+            ++j;
+        }
+        return res;
+
+    }
+
+    private boolean check3297(int[] cnt) {
+        for (int c : cnt) {
+            if (c < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

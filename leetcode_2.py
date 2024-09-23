@@ -6265,8 +6265,68 @@ class Union924:
             res = max(res, v - i + mx)
             mx = max(mx, v + i)
         return res
-    
+
     # 3295. 举报垃圾信息 (Report Spam Message)
     def reportSpam(self, message: List[str], bannedWords: List[str]) -> bool:
         s = set(bannedWords)
         return sum(m in s for m in message) >= 2
+
+    # 3296. 移山所需的最少秒数 (Minimum Number of Seconds to Make Mountain Height Zero)
+    def minNumberOfSeconds(self, mountainHeight: int, workerTimes: List[int]) -> int:
+        def check2(w: int, t: int) -> int:
+            left = 0
+            right = mountainHeight
+            res = 0
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if w * (mid + 1) * mid // 2 <= t:
+                    res = mid
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            return res
+
+        def check(t: int) -> bool:
+            h = 0
+            for w in workerTimes:
+                h += check2(w, t)
+                if h >= mountainHeight:
+                    return True
+            return False
+
+        left = 0
+        right = 10**16
+        res = -1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                res = mid
+                right = mid - 1
+            else:
+                left = mid + 1
+        return res
+
+    # 3297. 统计重新排列后包含另一个字符串的子字符串数目 I (Count Substrings That Can Be Rearranged to Contain a String I)
+    # 3298. 统计重新排列后包含另一个字符串的子字符串数目 II (Count Substrings That Can Be Rearranged to Contain a String II)
+    def validSubstringCount(self, word1: str, word2: str) -> int:
+        n1 = len(word1)
+        if n1 < len(word2):
+            return 0
+        cnt = [0] * 26
+        for w in word2:
+            cnt[ord(w) - ord("a")] -= 1
+        res = 0
+        i = 0
+        j = 0
+        while j < n1:
+            while j < n1:
+                cnt[ord(word1[j]) - ord("a")] += 1
+                if all(x >= 0 for x in cnt):
+                    break
+                j += 1
+            while all(x >= 0 for x in cnt):
+                res += n1 - j
+                cnt[ord(word1[i]) - ord("a")] -= 1
+                i += 1
+            j += 1
+        return res
