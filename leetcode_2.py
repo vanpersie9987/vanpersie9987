@@ -6330,3 +6330,17 @@ class Union924:
                 i += 1
             j += 1
         return res
+
+    # 2207. 字符串中最多数目的子序列 (Maximize Number of Subsequences in a String)
+    def maximumSubsequenceCount(self, text: str, pattern: str) -> int:
+        def check(s: str) -> int:
+            cnt0 = 0
+            res = 0
+            for v in s:
+                if v == pattern[1]:
+                    res += cnt0
+                if v == pattern[0]:
+                    cnt0 += 1
+            return res
+
+        return max(check(pattern[0] + text), check(text + pattern[1]))

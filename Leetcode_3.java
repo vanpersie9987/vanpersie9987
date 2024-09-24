@@ -4142,36 +4142,25 @@ public class Leetcode_3 {
 
     }
 
-    // 6021. 字符串中最多数目的子字符串 (Maximize Number of Subsequences in a String)
+    // 2207. 字符串中最多数目的子序列 (Maximize Number of Subsequences in a String)
     public long maximumSubsequenceCount(String text, String pattern) {
-        return Math.max(getRes6021(pattern.charAt(0) + text, pattern), getRes6021(text + pattern.charAt(1), pattern));
-
+        return Math.max(check2207(text + pattern.charAt(1), pattern),
+                check2207(pattern.charAt(0) + text, pattern));
     }
 
-    private long getRes6021(String text, String pattern) {
-        char pattern1 = pattern.charAt(0);
-        char pattern2 = pattern.charAt(1);
-        StringBuilder builder = new StringBuilder();
-        for (char c : text.toCharArray()) {
-            if (c == pattern1 || c == pattern2) {
-                builder.append(c);
-            }
-        }
-        int[] counts = new int[builder.length()];
-        for (int i = counts.length - 2; i >= 0; --i) {
-            if (builder.charAt(i + 1) == pattern2) {
-                counts[i] = counts[i + 1] + 1;
-            } else {
-                counts[i] = counts[i + 1];
-            }
-        }
+    private long check2207(String s, String p) {
+        int cnt0 = 0;
         long res = 0L;
-        for (int i = 0; i < builder.length(); ++i) {
-            if (builder.charAt(i) == pattern1) {
-                res += counts[i];
+        char p0 = p.charAt(0);
+        char p1 = p.charAt(1);
+        for (char c : s.toCharArray()) {
+            if (c == p1) {
+                res += cnt0;
+            }
+            if (c == p0) {
+                ++cnt0;
             }
         }
-
         return res;
     }
 
