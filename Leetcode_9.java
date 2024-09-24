@@ -2394,41 +2394,28 @@ public class Leetcode_9 {
     // Contain a String II)
     public long validSubstringCount(String word1, String word2) {
         int n = word1.length();
-        if (n < word2.length()) {
-            return 0L;
-        }
         long res = 0L;
         int[] cnt = new int[26];
+        int less = 0;
         for (char c : word2.toCharArray()) {
-            --cnt[c - 'a'];
+            if (--cnt[c - 'a'] == -1) {
+                --less;
+            }
         }
-        int i = 0;
-        int j = 0;
-        while (j < n) {
-            while (j < n) {
-                ++cnt[word1.charAt(j) - 'a'];
-                if (check3297(cnt)) {
-                    break;
+        int left = 0;
+        for (int right = 0; right < n; ++right) {
+            if (++cnt[word1.charAt(right) - 'a'] == 0) {
+                ++less;
+            }
+            while (less == 0) {
+                if (--cnt[word1.charAt(left) - 'a'] == -1) {
+                    --less;
                 }
-                ++j;
+                ++left;
             }
-            while (check3297(cnt)) {
-                res += n - j;
-                --cnt[word1.charAt(i) - 'a'];
-                ++i;
-            }
-            ++j;
+            res += left;
         }
         return res;
 
-    }
-
-    private boolean check3297(int[] cnt) {
-        for (int c : cnt) {
-            if (c < 0) {
-                return false;
-            }
-        }
-        return true;
     }
 }

@@ -6309,27 +6309,29 @@ class Union924:
     # 3297. 统计重新排列后包含另一个字符串的子字符串数目 I (Count Substrings That Can Be Rearranged to Contain a String I)
     # 3298. 统计重新排列后包含另一个字符串的子字符串数目 II (Count Substrings That Can Be Rearranged to Contain a String II)
     def validSubstringCount(self, word1: str, word2: str) -> int:
-        n1 = len(word1)
-        if n1 < len(word2):
+        n = len(word1)
+        if n < len(word2):
             return 0
-        cnt = [0] * 26
-        for w in word2:
-            cnt[ord(w) - ord("a")] -= 1
         res = 0
-        i = 0
-        j = 0
-        while j < n1:
-            while j < n1:
-                cnt[ord(word1[j]) - ord("a")] += 1
-                if all(x >= 0 for x in cnt):
-                    break
-                j += 1
-            while all(x >= 0 for x in cnt):
-                res += n1 - j
-                cnt[ord(word1[i]) - ord("a")] -= 1
-                i += 1
-            j += 1
+        cnt = [0] * 26
+        less = 0
+        for c in word2:
+            cnt[ord(c) - ord('a')] -= 1
+            if cnt[ord(c) - ord('a')] == -1:
+                less -= 1
+        left = 0
+        for c in word1:
+            cnt[ord(c) - ord('a')] += 1
+            if cnt[ord(c) - ord('a')] == 0:
+                less += 1
+            while less == 0:
+                cnt[ord(word1[left]) - ord('a')] -= 1
+                if cnt[ord(word1[left]) - ord('a')] == -1:
+                    less -= 1
+                left += 1
+            res += left
         return res
+
 
     # 2207. 字符串中最多数目的子序列 (Maximize Number of Subsequences in a String)
     def maximumSubsequenceCount(self, text: str, pattern: str) -> int:
