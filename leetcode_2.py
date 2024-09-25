@@ -11,7 +11,7 @@ from decimal import Rounded
 import enum
 from functools import cache, cached_property
 from inspect import modulesbyfile
-from itertools import accumulate, count, islice, pairwise, permutations
+from itertools import accumulate, combinations, count, islice, pairwise, permutations
 from locale import DAY_4
 from logging import _Level, root
 from math import comb, cos, fabs, gcd, inf, isqrt, sqrt
@@ -6371,3 +6371,15 @@ class Union924:
                     less -= 1
                 left += 1
         return '' if res_left == -1 else s[res_left:res_right + 1]
+    
+
+    # 2306. 公司命名 (Naming a Company)
+    def distinctNames(self, ideas: List[str]) -> int:
+        res = 0
+        d = defaultdict(set)
+        for s in ideas:
+            d[s[0]].add(s[1:])
+        for a, b in combinations(d.values(), 2): 
+            m = len(a & b)
+            res += (len(a) - m) * (len(b) - m)
+        return res << 1
