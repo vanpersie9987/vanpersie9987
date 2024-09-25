@@ -6332,7 +6332,6 @@ class Union924:
             res += left
         return res
 
-
     # 2207. 字符串中最多数目的子序列 (Maximize Number of Subsequences in a String)
     def maximumSubsequenceCount(self, text: str, pattern: str) -> int:
         def check(s: str) -> int:
@@ -6346,3 +6345,29 @@ class Union924:
             return res
 
         return max(check(pattern[0] + text), check(text + pattern[1]))
+
+    # 76. 最小覆盖子串 (Minimum Window Substring)
+    def minWindow(self, s: str, t: str) -> str:
+        if len(s) < len(t):
+            return ''
+        d = defaultdict(int)
+        less = 0
+        for c in t:
+            d[ord(c) - ord('a')] -= 1
+            if d[ord(c) - ord('a')] == -1:
+                less -= 1
+        res_left = -1
+        res_right = -1
+        left = 0
+        for right, c in enumerate(s):
+            d[ord(c) - ord('a')] += 1
+            if d[ord(c) - ord('a')] == 0:
+                less += 1
+            while less == 0:
+                if res_left == -1 or right - left < res_right - res_left:
+                    res_left, res_right = left, right
+                d[ord(s[left]) - ord('a')] -= 1
+                if d[ord(s[left]) - ord('a')] == -1:
+                    less -= 1
+                left += 1
+        return '' if res_left == -1 else s[res_left:res_right + 1]
