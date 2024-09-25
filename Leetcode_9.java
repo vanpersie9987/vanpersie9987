@@ -2418,4 +2418,28 @@ public class Leetcode_9 {
         return res;
 
     }
+
+    // 2306. 公司命名 (Naming a Company)
+    public long distinctNames(String[] ideas) {
+        long res = 0L;
+        Set<String>[] set = new HashSet[26];
+        Arrays.setAll(set, k -> new HashSet<>());
+        for (String idea : ideas) {
+            int index = idea.charAt(0) - 'a';
+            set[index].add(idea.substring(1));
+        }
+        for (int i = 0; i < 26; ++i) {
+            for (int j = i + 1; j < 26; ++j) {
+                int cnt = 0;
+                for (String str : set[j]) {
+                    if (set[i].contains(str)) {
+                        ++cnt;
+                    }
+                }
+                res += (long) (set[i].size() - cnt) * (set[j].size() - cnt);
+            }
+        }
+        return res * 2L;
+
+    }
 }
