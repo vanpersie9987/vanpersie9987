@@ -2429,7 +2429,13 @@ public class Leetcode_9 {
             set[index].add(idea.substring(1));
         }
         for (int i = 0; i < 26; ++i) {
+            if (set[i].isEmpty()) {
+                continue;
+            }
             for (int j = i + 1; j < 26; ++j) {
+                if (set[j].isEmpty()) {
+                    continue;
+                }
                 int cnt = 0;
                 for (String str : set[j]) {
                     if (set[i].contains(str)) {
