@@ -3523,91 +3523,32 @@ public class LeetCode_2 {
    // 76. 最小覆盖子串 (Minimum Window Substring) --滑动窗口
    // 剑指 Offer II 017. 含有所有字符的最短字符串
    public String minWindow(String s, String t) {
-      if (t.length() > s.length()) {
-         return "";
-      }
-      int need = 0;
-      Map<Character, Integer> needMap = new HashMap<>();
+      int[] cnt = new int[128];
+      int less = 0;
       for (char c : t.toCharArray()) {
-         needMap.put(c, needMap.getOrDefault(c, 0) + 1);
-         ++need;
-      }
-      Map<Character, Integer> giveMap = new HashMap<>();
-      int give = 0;
-      int left = 0;
-      int right = 0;
-      int minLength = Integer.MAX_VALUE;
-      String res = "";
-      char[] chars = s.toCharArray();
-      while (right < chars.length) {
-         if (needMap.containsKey(chars[right])) {
-            int needCount = needMap.get(chars[right]);
-            int giveCount = giveMap.getOrDefault(chars[right], 0);
-            if (giveCount < needCount) {
-               ++give;
-            }
-            giveMap.put(chars[right], giveMap.getOrDefault(chars[right], 0) + 1);
-            while (give == need) {
-               if (right - left + 1 < minLength) {
-                  res = s.substring(left, right + 1);
-                  minLength = right - left + 1;
-               }
-               if (giveMap.containsKey(chars[left])) {
-                  giveCount = giveMap.get(chars[left]);
-                  needCount = needMap.get(chars[left]);
-                  if (giveCount == needCount) {
-                     --give;
-                  }
-                  giveMap.put(chars[left], giveMap.get(chars[left]) - 1);
-               }
-               ++left;
-            }
+         if (--cnt[c] == -1) {
+            --less;
          }
-         ++right;
       }
-      return minLength == Integer.MAX_VALUE ? "" : res;
-
-   }
-
-   // 76. 最小覆盖子串 (Minimum Window Substring) --滑动窗口
-   // 剑指 Offer II 017. 含有所有字符的最短字符串
-   public String minWindow2(String s, String t) {
-      int[] need = new int[128];
-      for (char c : t.toCharArray()) {
-         ++need[c];
-      }
-      int needCount = t.length();
-      int[] give = new int[128];
-      int giveCount = 0;
+      int resLeft = -1;
+      int resRight = -1;
       int left = 0;
-      int right = 0;
-      int minLength = s.length() + 1;
-      String res = "";
-      while (right < s.length()) {
-         char c = s.charAt(right);
-         if (need[c] > 0) {
-            if (give[c] < need[c]) {
-               ++giveCount;
-            }
-            ++give[c];
+      for (int right = 0; right < s.length(); ++right) {
+         if (++cnt[s.charAt(right)] == 0) {
+            ++less;
          }
-         while (giveCount == needCount) {
-            if (right - left + 1 < minLength) {
-               minLength = right - left + 1;
-               res = s.substring(left, left + minLength);
+         while (less == 0) {
+            if (resLeft == -1 || right - left < resRight - resLeft) {
+               resLeft = left;
+               resRight = right;
             }
-            c = s.charAt(left);
-            if (need[c] > 0) {
-               if (give[c] == need[c]) {
-                  --giveCount;
-               }
-               --give[c];
+            if (--cnt[s.charAt(left)] == -1) {
+               --less;
             }
             ++left;
          }
-         ++right;
       }
-      return res;
+      return resRight == -1 ? "" : s.substring(resLeft, resRight + 1);
 
    }
 
