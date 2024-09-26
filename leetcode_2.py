@@ -6371,7 +6371,6 @@ class Union924:
                     less -= 1
                 left += 1
         return '' if res_left == -1 else s[res_left:res_right + 1]
-    
 
     # 2306. 公司命名 (Naming a Company)
     def distinctNames(self, ideas: List[str]) -> int:
@@ -6383,3 +6382,12 @@ class Union924:
             m = len(a & b)
             res += (len(a) - m) * (len(b) - m)
         return res << 1
+
+    # 2535. 数组元素和与数字和的绝对差 (Difference Between Element Sum and Digit Sum of an Array)
+    def differenceOfSum(self, nums: List[int]) -> int:
+        s = 0
+        for x in nums:
+            while x:
+                s += x % 10
+                x //= 10
+        return sum(nums) - s
