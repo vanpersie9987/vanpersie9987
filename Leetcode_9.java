@@ -2448,4 +2448,44 @@ public class Leetcode_9 {
         return res * 2L;
 
     }
+
+    public int takeCharacters(String s, int k) {
+        int[] cnt = new int[3];
+        for (char c : s.toCharArray()) {
+            ++cnt[c - 'a'];
+        }
+        for (int c : cnt) {
+            if (c < k) {
+                return -1;
+            }
+        }
+        int left = 0;
+        int right = s.length() - 3 * k;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check(mid, cnt, s, k)) {
+                res = s.length() - mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean check(int w, int[] cnt, String s, int k) {
+        int[] cnt_cur = new int[3];
+        for (int i = 0; i < s.length(); ++i) {
+            ++cnt_cur[s.charAt(i) - 'a'];
+            if (i >= w) {
+                --cnt_cur[s.charAt(i - w) - 'a'];
+            }
+            if (i >= w - 1 && cnt[0] - cnt_cur[0] >= k && cnt[1] - cnt_cur[1] >= k && cnt[2] - cnt_cur[2] >= k) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

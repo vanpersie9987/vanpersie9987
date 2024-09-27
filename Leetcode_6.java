@@ -2678,35 +2678,45 @@ public class Leetcode_6 {
 
     }
 
-    // 6270. 每种字符至少取 K 个
+    // 2516. 每种字符至少取 K 个 (Take K of Each Character From Left and Right)
     public int takeCharacters(String s, int k) {
-        int[] counts = new int[3];
-        for (char ch : s.toCharArray()) {
-            ++counts[ch - 'a'];
+        int[] cnt = new int[3];
+        for (char c : s.toCharArray()) {
+            ++cnt[c - 'a'];
         }
-        for (int i = 0; i < 3; ++i) {
-            counts[i] -= k;
-            if (counts[i] < 0) {
+        for (int c : cnt) {
+            if (c < k) {
                 return -1;
             }
         }
-
-        int n = s.length();
-        int[] cur = new int[3];
-        int res = n;
-        int i = 0;
-        int j = 0;
-        while (j < n) {
-            ++cur[s.charAt(j) - 'a'];
-            while (cur[0] > counts[0] || cur[1] > counts[1] || cur[2] > counts[2]) {
-                --cur[s.charAt(i) - 'a'];
-                ++i;
+        int left = 0;
+        int right = s.length() - 3 * k;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check2516(mid, cnt, s, k)) {
+                res = s.length() - mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
             }
-            res = Math.min(res, n - (j - i + 1));
-            ++j;
         }
         return res;
 
+    }
+
+    private boolean check2516(int w, int[] cnt, String s, int k) {
+        int[] cnt_cur = new int[3];
+        for (int i = 0; i < s.length(); ++i) {
+            ++cnt_cur[s.charAt(i) - 'a'];
+            if (i >= w) {
+                --cnt_cur[s.charAt(i - w) - 'a'];
+            }
+            if (i >= w - 1 && cnt[0] - cnt_cur[0] >= k && cnt[1] - cnt_cur[1] >= k && cnt[2] - cnt_cur[2] >= k) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // 1989. 捉迷藏中可捕获的最大人数 (Maximum Number of People That Can Be Caught in Tag)
