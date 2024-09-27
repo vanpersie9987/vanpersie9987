@@ -5153,7 +5153,8 @@ public class Leetcode_6 {
 
     }
 
-    // 6291. 数组元素和与数字和的绝对差
+    // 2535. 数组元素和与数字和的绝对差 (Difference Between Element Sum and Digit Sum of an
+    // Array)
     public int differenceOfSum(int[] nums) {
         int sum = 0;
         for (int num : nums) {

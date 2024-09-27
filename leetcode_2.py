@@ -6415,7 +6415,8 @@ class Union924:
     def differenceOfSum(self, nums: List[int]) -> int:
         s = 0
         for x in nums:
+            s += x
             while x:
-                s += x % 10
+                s -= x % 10
                 x //= 10
-        return sum(nums) - s
+        return s
