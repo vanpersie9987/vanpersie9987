@@ -5156,22 +5156,16 @@ public class Leetcode_6 {
     // 2535. 数组元素和与数字和的绝对差 (Difference Between Element Sum and Digit Sum of an
     // Array)
     public int differenceOfSum(int[] nums) {
-        int sum = 0;
-        for (int num : nums) {
-            sum += num;
-            sum -= getSum(num);
+        int res = 0;
+        for (int x : nums) {
+            res += x;
+            while (x != 0) {
+                res -= x % 10;
+                x /= 10;
+            }
         }
-        return sum;
+        return res;
 
-    }
-
-    private int getSum(int num) {
-        int sum = 0;
-        while (num != 0) {
-            sum += num % 10;
-            num /= 10;
-        }
-        return sum;
     }
 
     // 6292. 子矩阵元素加 1 --二维差分
