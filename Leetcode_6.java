@@ -2678,7 +2678,7 @@ public class Leetcode_6 {
 
     }
 
-    // 2516. 每种字符至少取 K 个 (Take K of Each Character From Left and Right)
+    // 2516. 每种字符至少取 K 个 (Take K of Each Character From Left and Right) --二分
     public int takeCharacters(String s, int k) {
         int[] cnt = new int[3];
         for (char c : s.toCharArray()) {
@@ -2717,6 +2717,33 @@ public class Leetcode_6 {
             }
         }
         return false;
+    }
+
+    // 2516. 每种字符至少取 K 个 (Take K of Each Character From Left and Right) --双指针
+    public int takeCharacters2(String s, int k) {
+        int[] cnt = new int[3];
+        for (char c : s.toCharArray()) {
+            ++cnt[c - 'a'];
+        }
+        for (int i = 0; i < 3; ++i) {
+            cnt[i] -= k;
+            if (cnt[i] < 0) {
+                return -1;
+            }
+        }
+        int left = 0;
+        int res = s.length();
+        for (int right = 0; right < s.length(); ++right) {
+            int x = s.charAt(right) - 'a';
+            --cnt[x];
+            while (cnt[x] < 0) {
+                ++cnt[s.charAt(left) - 'a'];
+                ++left;
+            }
+            res = Math.min(res, s.length() - (right - left + 1));
+        }
+        return res;
+
     }
 
     // 1989. 捉迷藏中可捕获的最大人数 (Maximum Number of People That Can Be Caught in Tag)

@@ -959,27 +959,55 @@ class Union924:
                 j += 1
             res = max(res, i - j + 1)
         return res
+    
+    # 2516. 每种字符至少取 K 个 (Take K of Each Character From Left and Right) --二分
+    def takeCharacters(self, s: str, k: int) -> int:
+        def check(w: int) -> bool:
+            cur = [0] * 3
+            for i, c in enumerate(s):
+                cur[ord(c) - ord('a')] += 1
+                if i >= w:
+                    cur[ord(s[i - w]) - ord('a')] -= 1
+                if i >= w - 1 and all(c0 - c1 >= k for c0, c1 in zip(cnt, cur)):
+                    return True
+            return False
+        cnt = [0] * 3
+        for c in s:
+            cnt[ord(c) - ord('a')] += 1
+        if any(c < k for c in cnt):
+            return -1
+        res = -1
+        left = 0
+        right = len(s) - 3 * k
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                res = len(s) - mid
+                left = mid + 1
+            else:
+                right = mid - 1
+        return res
 
-    # 2516. 每种字符至少取 K 个 (Take K of Each Character From Left and Right)
+    # 2516. 每种字符至少取 K 个 (Take K of Each Character From Left and Right) --双指针
     def takeCharacters(self, s: str, k: int) -> int:
         n = len(s)
         cnt = [0] * 3
         for c in s:
-            cnt[ord(c) - ord("a")] += 1
+            cnt[ord(c) - ord('a')] += 1
         for i in range(3):
             cnt[i] -= k
             if cnt[i] < 0:
                 return -1
-        res = -1
-        j = 0
-        for i, v in enumerate(s):
-            x = ord(v) - ord("a")
+        res = n
+        left = 0
+        for right, v in enumerate(s):
+            x = ord(v) - ord('a')
             cnt[x] -= 1
             while cnt[x] < 0:
-                cnt[ord(s[j]) - ord("a")] += 1
-                j += 1
-            res = max(res, i - j + 1)
-        return -1 if res == -1 else n - res
+                cnt[ord(s[left]) - ord('a')] += 1
+                left += 1
+            res = min(res, n - (right - left + 1))
+        return res
 
     # 103. 二叉树的锯齿形层序遍历 (Binary Tree Zigzag Level Order Traversal)
     def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
@@ -6391,5 +6419,3 @@ class Union924:
                 s += x % 10
                 x //= 10
         return sum(nums) - s
-    
-    
