@@ -6526,3 +6526,38 @@ class Union924:
             if pre_z[i] + suf_z[-i] + 1 >= m:
                 return i - m
         return -1
+
+    # 3305. 元音辅音字符串计数 I (Count of Substrings Containing Every Vowel and K Consonants I)
+    # 3306. 元音辅音字符串计数 II (Count of Substrings Containing Every Vowel and K Consonants II)
+    def countOfSubstrings(self, word: str, k: int) -> int:
+        def check(k: int) -> int:
+            cnt = [0] * 26
+            u = (
+                (1 << (ord("a") - ord("a")))
+                | (1 << (ord("e") - ord("a")))
+                | (1 << (ord("i") - ord("a")))
+                | (1 << (ord("o") - ord("a")))
+                | (1 << (ord("u") - ord("a")))
+            )
+            m = 0
+            left = 0
+            consonant = 0
+            res = 0
+            for v in word:
+                # 元音
+                if (u >> (ord(v) - ord('a'))) & 1:
+                    cnt[ord(v) - ord('a')] += 1
+                    m |= 1 << (ord(v) - ord('a'))
+                else:
+                    consonant += 1
+                while m == u and consonant >= k:
+                    if (u >> (ord(word[left]) - ord('a'))) & 1:
+                        cnt[ord(word[left]) - ord('a')] -= 1
+                        if cnt[ord(word[left]) - ord('a')] == 0:
+                            m ^= 1 << (ord(word[left]) - ord('a'))
+                    else:
+                        consonant -= 1
+                    left += 1
+                res += left
+            return res
+        return check(k) - check(k + 1)
