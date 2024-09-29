@@ -6423,15 +6423,7 @@ class Union924:
 
     # 2073. 买票需要的时间 (Time Needed to Buy Tickets)
     def timeRequiredToBuy(self, tickets: List[int], k: int) -> int:
-        n = len(tickets)
-        i = 0
-        res = 0
-        while True:
-            if tickets[i % n] == 0:
-                i += 1
-                continue
-            res += 1
-            tickets[i % n] -= 1
-            if tickets[i % n] == 0 and i % n == k:
-                return res
-            i += 1
+        return sum(
+            min(v, tickets[k] if i <= k else tickets[k] - 1)
+            for i, v in enumerate(tickets)
+        )

@@ -7047,7 +7047,7 @@ public class LeetCode_2 {
    }
 
    // 2073. 买票需要的时间 (Time Needed to Buy Tickets)
-   public int timeRequiredToBuy2(int[] tickets, int k) {
+   public int timeRequiredToBuy(int[] tickets, int k) {
       int res = 0;
       for (int i = 0; i < tickets.length; ++i) {
          if (i <= k) {
