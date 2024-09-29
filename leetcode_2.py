@@ -959,7 +959,7 @@ class Union924:
                 j += 1
             res = max(res, i - j + 1)
         return res
-    
+
     # 2516. 每种字符至少取 K 个 (Take K of Each Character From Left and Right) --二分
     def takeCharacters(self, s: str, k: int) -> int:
         def check(w: int) -> bool:
@@ -6420,3 +6420,18 @@ class Union924:
                 s -= x % 10
                 x //= 10
         return s
+
+    # 2073. 买票需要的时间 (Time Needed to Buy Tickets)
+    def timeRequiredToBuy(self, tickets: List[int], k: int) -> int:
+        n = len(tickets)
+        i = 0
+        res = 0
+        while True:
+            if tickets[i % n] == 0:
+                i += 1
+                continue
+            res += 1
+            tickets[i % n] -= 1
+            if tickets[i % n] == 0 and i % n == k:
+                return res
+            i += 1
