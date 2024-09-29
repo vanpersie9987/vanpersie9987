@@ -6452,6 +6452,7 @@ class Union924:
             res += mx
         return res
 
+    # 3304. 找出第 K 个字符 I (Find the K-th Character in String Game I)
     def kthCharacter(self, k: int) -> str:
         s = "a"
         while len(s) < k:
