@@ -2646,4 +2646,23 @@ public class Leetcode_9 {
 
     }
 
+    // 3307. 找出第 K 个字符 II (Find the K-th Character in String Game II)
+    public char kthCharacter(long k, int[] operations) {
+        int n = Math.min(operations.length, 60);
+        return dfs3307(k, operations, n - 1);
+
+    }
+
+    private char dfs3307(long k, int[] operations, int i) {
+        if (i < 0) {
+            return 'a';
+        }
+        if (k <= 1L << i) {
+            return dfs3307(k, operations, i - 1);
+        }
+        char res = dfs3307(k - (1L << i), operations, i - 1);
+        res = (char) ('a' + (res - 'a' + operations[i]) % 26);
+        return res;
+    }
+
 }

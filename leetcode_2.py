@@ -6561,3 +6561,15 @@ class Union924:
                 res += left
             return res
         return check(k) - check(k + 1)
+
+    # 3307. 找出第 K 个字符 II (Find the K-th Character in String Game II)
+    def kthCharacter(self, k: int, operations: List[int]) -> str:
+        if not operations:
+            return 'a'
+        n = len(operations)
+        op = operations.pop()
+        if k <= 1 << (n - 1):
+            return self.kthCharacter(k, operations)
+        res = self.kthCharacter(k - (1 << (n - 1)), operations)
+        res = (ord(res) - ord('a') + op) % 26
+        return ascii_lowercase[res]
