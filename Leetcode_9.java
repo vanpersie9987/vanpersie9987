@@ -2182,7 +2182,7 @@ public class Leetcode_9 {
         return res;
     }
 
-    // 3286. 穿越网格图的安全路径 (Find a Safe Walk Through a Grid)  -- 0-1bfs
+    // 3286. 穿越网格图的安全路径 (Find a Safe Walk Through a Grid) -- 0-1bfs
     public boolean findSafeWalk(List<List<Integer>> grid, int health) {
         int m = grid.size();
         int n = grid.get(0).size();
@@ -2277,6 +2277,7 @@ public class Leetcode_9 {
     private int n3291;
     private Trie3291 trie3291;
     private String target3291;
+
     public int minValidStrings(String[] words, String target) {
         this.trie3291 = new Trie3291();
         for (String s : words) {
@@ -2446,6 +2447,81 @@ public class Leetcode_9 {
             }
         }
         return res * 2L;
+
+    }
+
+    // 3300. 替换为数位和以后的最小元素 (Minimum Element After Replacement With Digit Sum)
+    public int minElement(int[] nums) {
+        int res = Integer.MAX_VALUE;
+        for (int x : nums) {
+            int cur = 0;
+            while (x != 0) {
+                cur += x % 10;
+                x /= 10;
+            }
+            res = Math.min(res, cur);
+        }
+        return res;
+
+    }
+
+    // 3301. 高度互不相同的最大塔高和 (Maximize the Total Height of Unique Towers)
+    public long maximumTotalSum(int[] maximumHeight) {
+        Arrays.sort(maximumHeight);
+        long res = 0L;
+        int mx = Integer.MAX_VALUE;
+        for (int i = maximumHeight.length - 1; i >= 0; --i) {
+            mx = Math.min(mx - 1, maximumHeight[i]);
+            if (mx == 0) {
+                return -1L;
+            }
+            res += mx;
+        }
+        return res;
+
+    }
+
+    // 3304. 找出第 K 个字符 I (Find the K-th Character in String Game I)
+    public char kthCharacter(int k) {
+        String s = "a";
+        while (s.length() < k) {
+            StringBuilder builder = new StringBuilder(s);
+            for (int i = 0; i < builder.length(); ++i) {
+                builder.setCharAt(i, (char) (((builder.charAt(i) - 'a' + 1) % 26) + 'a'));
+            }
+            s += builder.toString();
+        }
+        return s.charAt(k - 1);
+
+    }
+
+    // 2565. 最少得分子序列 (Subsequence With the Minimum Score)
+    public int minimumScore(String S, String T) {
+        char[] s = S.toCharArray();
+        char[] t = T.toCharArray();
+        int n = s.length;
+        int m = t.length;
+        int[] suf = new int[n + 1];
+        suf[n] = m;
+        int j = m - 1;
+        for (int i = n - 1; i >= 0; --i) {
+            if (s[i] == t[j]) {
+                --j;
+            }
+            if (j < 0) {
+                return 0;
+            }
+            suf[i] = j + 1;
+        }
+        int res = suf[0];
+        j = 0;
+        for (int i = 0; i < n; ++i) {
+            if (s[i] == t[j]) {
+                ++j;
+                res = Math.min(res, suf[i + 1] - j);
+            }
+        }
+        return res;
 
     }
 }

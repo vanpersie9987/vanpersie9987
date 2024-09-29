@@ -965,15 +965,16 @@ class Union924:
         def check(w: int) -> bool:
             cur = [0] * 3
             for i, c in enumerate(s):
-                cur[ord(c) - ord('a')] += 1
+                cur[ord(c) - ord("a")] += 1
                 if i >= w:
-                    cur[ord(s[i - w]) - ord('a')] -= 1
+                    cur[ord(s[i - w]) - ord("a")] -= 1
                 if i >= w - 1 and all(c0 - c1 >= k for c0, c1 in zip(cnt, cur)):
                     return True
             return False
+
         cnt = [0] * 3
         for c in s:
-            cnt[ord(c) - ord('a')] += 1
+            cnt[ord(c) - ord("a")] += 1
         if any(c < k for c in cnt):
             return -1
         res = -1
@@ -993,7 +994,7 @@ class Union924:
         n = len(s)
         cnt = [0] * 3
         for c in s:
-            cnt[ord(c) - ord('a')] += 1
+            cnt[ord(c) - ord("a")] += 1
         for i in range(3):
             cnt[i] -= k
             if cnt[i] < 0:
@@ -1001,10 +1002,10 @@ class Union924:
         res = n
         left = 0
         for right, v in enumerate(s):
-            x = ord(v) - ord('a')
+            x = ord(v) - ord("a")
             cnt[x] -= 1
             while cnt[x] < 0:
-                cnt[ord(s[left]) - ord('a')] += 1
+                cnt[ord(s[left]) - ord("a")] += 1
                 left += 1
             res = min(res, n - (right - left + 1))
         return res
@@ -6344,17 +6345,17 @@ class Union924:
         cnt = [0] * 26
         less = 0
         for c in word2:
-            cnt[ord(c) - ord('a')] -= 1
-            if cnt[ord(c) - ord('a')] == -1:
+            cnt[ord(c) - ord("a")] -= 1
+            if cnt[ord(c) - ord("a")] == -1:
                 less -= 1
         left = 0
         for c in word1:
-            cnt[ord(c) - ord('a')] += 1
-            if cnt[ord(c) - ord('a')] == 0:
+            cnt[ord(c) - ord("a")] += 1
+            if cnt[ord(c) - ord("a")] == 0:
                 less += 1
             while less == 0:
-                cnt[ord(word1[left]) - ord('a')] -= 1
-                if cnt[ord(word1[left]) - ord('a')] == -1:
+                cnt[ord(word1[left]) - ord("a")] -= 1
+                if cnt[ord(word1[left]) - ord("a")] == -1:
                     less -= 1
                 left += 1
             res += left
@@ -6377,28 +6378,28 @@ class Union924:
     # 76. 最小覆盖子串 (Minimum Window Substring)
     def minWindow(self, s: str, t: str) -> str:
         if len(s) < len(t):
-            return ''
+            return ""
         d = defaultdict(int)
         less = 0
         for c in t:
-            d[ord(c) - ord('a')] -= 1
-            if d[ord(c) - ord('a')] == -1:
+            d[ord(c) - ord("a")] -= 1
+            if d[ord(c) - ord("a")] == -1:
                 less -= 1
         res_left = -1
         res_right = -1
         left = 0
         for right, c in enumerate(s):
-            d[ord(c) - ord('a')] += 1
-            if d[ord(c) - ord('a')] == 0:
+            d[ord(c) - ord("a")] += 1
+            if d[ord(c) - ord("a")] == 0:
                 less += 1
             while less == 0:
                 if res_left == -1 or right - left < res_right - res_left:
                     res_left, res_right = left, right
-                d[ord(s[left]) - ord('a')] -= 1
-                if d[ord(s[left]) - ord('a')] == -1:
+                d[ord(s[left]) - ord("a")] -= 1
+                if d[ord(s[left]) - ord("a")] == -1:
                     less -= 1
                 left += 1
-        return '' if res_left == -1 else s[res_left:res_right + 1]
+        return "" if res_left == -1 else s[res_left : res_right + 1]
 
     # 2306. 公司命名 (Naming a Company)
     def distinctNames(self, ideas: List[str]) -> int:
@@ -6406,7 +6407,7 @@ class Union924:
         d = defaultdict(set)
         for s in ideas:
             d[s[0]].add(s[1:])
-        for a, b in combinations(d.values(), 2): 
+        for a, b in combinations(d.values(), 2):
             m = len(a & b)
             res += (len(a) - m) * (len(b) - m)
         return res << 1
@@ -6427,3 +6428,55 @@ class Union924:
             min(v, tickets[k] if i <= k else tickets[k] - 1)
             for i, v in enumerate(tickets)
         )
+
+    # 3300. 替换为数位和以后的最小元素 (Minimum Element After Replacement With Digit Sum)
+    def minElement(self, nums: List[int]) -> int:
+        res = inf
+        for x in nums:
+            cur = 0
+            while x:
+                cur += x % 10
+                x //= 10
+            res = min(res, cur)
+        return res
+
+    # 3301. 高度互不相同的最大塔高和 (Maximize the Total Height of Unique Towers)
+    def maximumTotalSum(self, maximumHeight: List[int]) -> int:
+        maximumHeight.sort()
+        res = 0
+        mx = inf
+        for i in range(len(maximumHeight) - 1, -1, -1):
+            mx = min(mx - 1, maximumHeight[i])
+            if mx == 0:
+                return -1
+            res += mx
+        return res
+
+    def kthCharacter(self, k: int) -> str:
+        s = "a"
+        while len(s) < k:
+            tmp = []
+            for i in range(len(s)):
+                tmp.append((chr)((ord(s[i]) - ord("a") + 1 % 26) + ord("a")))
+            s += "".join(tmp)
+        return s[k - 1]
+
+    # 2565. 最少得分子序列 (Subsequence With the Minimum Score)
+    def minimumScore(self, s: str, t: str) -> int:
+        n, m = len(s), len(t)
+        suf = [m] * (n + 1)
+        j = m - 1
+        for i in range(n - 1, -1, -1):
+            if s[i] == t[j]:
+                j -= 1
+            if j < 0:  # t 是 s 的子序列
+                return 0
+            suf[i] = j + 1
+
+        ans = suf[0]  # 删除 t[:suf[0]]
+        j = 0
+        for i, c in enumerate(s):
+            if c == t[j]:  # 注意上面判断了 t 是 s 子序列的情况，这里 j 不会越界
+                j += 1
+                ans = min(ans, suf[i + 1] - j)  # 删除 t[j:suf[i+1]]
+        return ans
