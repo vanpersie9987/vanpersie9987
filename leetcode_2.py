@@ -6481,7 +6481,6 @@ class Union924:
                 j += 1
                 ans = min(ans, suf[i + 1] - j)  # 删除 t[j:suf[i+1]]
         return ans
-    
 
     # 3302. 字典序最小的合法序列 (Find the Lexicographically Smallest Valid Sequence)
     def validSequence(self, s: str, t: str) -> List[int]:
@@ -6506,3 +6505,24 @@ class Union924:
                 if j == m:
                     return ans
         return []
+
+    # 3303. 第一个几乎相等子字符串的下标 (Find the Occurrence of First Almost Equal Substring) --z函数
+    def minStartingIndex(self, s: str, pattern: str) -> int:
+        def calc_z(s: str) -> list[int]:
+            n = len(s)
+            z = [0] * n
+            box_l = box_r = 0  # z-box 左右边界
+            for i in range(1, n):
+                if i <= box_r:
+                    z[i] = min(z[i - box_l], box_r - i + 1)  # 改成手动 if 可以加快速度
+                while i + z[i] < n and s[z[i]] == s[i + z[i]]:
+                    box_l, box_r = i, i + z[i]
+                    z[i] += 1
+            return z
+        pre_z = calc_z(pattern + s)
+        suf_z = calc_z(pattern[::-1] + s[::-1])
+        m = len(pattern)
+        for i in range(m, len(s) + 1):
+            if pre_z[i] + suf_z[-i] + 1 >= m:
+                return i - m
+        return -1

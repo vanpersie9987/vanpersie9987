@@ -2559,4 +2559,43 @@ public class Leetcode_9 {
         return new int[] {};
 
     }
+
+    // 3303. 第一个几乎相等子字符串的下标 (Find the Occurrence of First Almost Equal Substring)
+    public int minStartingIndex(String s, String pattern) {
+        int[] preZ = calcZ3303(pattern + s);
+        int[] sufZ = calcZ3303(rev3303(pattern) + rev3303(s));
+        // 可以不反转 sufZ，下面写 sufZ[sufZ.length - i]
+        int n = s.length();
+        int m = pattern.length();
+        for (int i = m; i <= n; i++) {
+            if (preZ[i] + sufZ[sufZ.length - i] >= m - 1) {
+                return i - m;
+            }
+        }
+        return -1;
+    }
+
+    private int[] calcZ3303(String S) {
+        char[] s = S.toCharArray();
+        int n = s.length;
+        int[] z = new int[n];
+        int boxL = 0;
+        int boxR = 0; // z-box 左右边界
+        for (int i = 1; i < n; i++) {
+            if (i <= boxR) {
+                z[i] = Math.min(z[i - boxL], boxR - i + 1);
+            }
+            while (i + z[i] < n && s[z[i]] == s[i + z[i]]) {
+                boxL = i;
+                boxR = i + z[i];
+                z[i]++;
+            }
+        }
+        return z;
+    }
+
+    private String rev3303(String s) {
+        return new StringBuilder(s).reverse().toString();
+
+    }
 }
