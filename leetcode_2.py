@@ -6573,3 +6573,15 @@ class Union924:
         res = self.kthCharacter(k - (1 << (n - 1)), operations)
         res = (ord(res) - ord('a') + op) % 26
         return ascii_lowercase[res]
+
+    # 1845. 座位预约管理系统 (Seat Reservation Manager)
+    class SeatManager:
+
+        def __init__(self, n: int):
+            self.avaliable = list(range(1, n + 1))
+
+        def reserve(self) -> int:
+            return heapq.heappop(self.avaliable)
+
+        def unreserve(self, seatNumber: int) -> None:
+            heapq.heappush(self.avaliable, seatNumber)
