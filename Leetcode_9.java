@@ -2609,27 +2609,20 @@ public class Leetcode_9 {
 
     private long check3306(String word, int k) {
         long res = 0L;
-        int[] cnt = new int[26];
-        int u = (1 << ('a' - 'a'))
-                | (1 << ('e' - 'a'))
-                | (1 << ('i' - 'a'))
-                | (1 << ('o' - 'a'))
-                | (1 << ('u' - 'a'));
-        int mask = 0;
+        Map<Character, Integer> cnt = new HashMap<>();
         int left = 0;
         int consonant = 0;
         for (int right = 0; right < word.length(); ++right) {
             if (isVowel3306(word.charAt(right))) {
-                ++cnt[word.charAt(right) - 'a'];
-                mask |= 1 << (word.charAt(right) - 'a');
+                cnt.merge(word.charAt(right), 1, Integer::sum);
             } else {
                 ++consonant;
             }
-            while (mask == u && consonant >= k) {
+            while (cnt.size() == 5 && consonant >= k) {
                 if (isVowel3306(word.charAt(left))) {
-                    --cnt[word.charAt(left) - 'a'];
-                    if (cnt[word.charAt(left) - 'a'] == 0) {
-                        mask ^= 1 << (word.charAt(left) - 'a');
+                    cnt.merge(word.charAt(left), -1, Integer::sum);
+                    if (cnt.get(word.charAt(left)) == 0) {
+                        cnt.remove(word.charAt(left));
                     }
                 } else {
                     --consonant;

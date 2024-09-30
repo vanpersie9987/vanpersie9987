@@ -27,6 +27,7 @@ from ssl import VERIFY_X509_TRUSTED_FIRST
 from string import ascii_lowercase
 from tabnanny import check
 from tarfile import tar_filter
+from telnetlib import EOR
 from textwrap import indent
 from tkinter import N, NO, W
 from tkinter.messagebox import RETRY
@@ -6531,30 +6532,21 @@ class Union924:
     # 3306. 元音辅音字符串计数 II (Count of Substrings Containing Every Vowel and K Consonants II)
     def countOfSubstrings(self, word: str, k: int) -> int:
         def check(k: int) -> int:
-            cnt = [0] * 26
-            u = (
-                (1 << (ord("a") - ord("a")))
-                | (1 << (ord("e") - ord("a")))
-                | (1 << (ord("i") - ord("a")))
-                | (1 << (ord("o") - ord("a")))
-                | (1 << (ord("u") - ord("a")))
-            )
-            m = 0
+            d = defaultdict(int)
             left = 0
             consonant = 0
             res = 0
             for v in word:
                 # 元音
-                if (u >> (ord(v) - ord('a'))) & 1:
-                    cnt[ord(v) - ord('a')] += 1
-                    m |= 1 << (ord(v) - ord('a'))
+                if v in 'aeiou':
+                    d[v] += 1
                 else:
                     consonant += 1
-                while m == u and consonant >= k:
-                    if (u >> (ord(word[left]) - ord('a'))) & 1:
-                        cnt[ord(word[left]) - ord('a')] -= 1
-                        if cnt[ord(word[left]) - ord('a')] == 0:
-                            m ^= 1 << (ord(word[left]) - ord('a'))
+                while len(d) == 5 and consonant >= k:
+                    if word[left] in 'aeiou':
+                        d[word[left]] -= 1
+                        if d[word[left]] == 0:
+                            del d[word[left]]
                     else:
                         consonant -= 1
                     left += 1
