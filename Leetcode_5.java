@@ -4367,12 +4367,12 @@ public class Leetcode_5 {
 
     // 1870. 准时到达的列车最小时速 (Minimum Speed to Arrive on Time) --二分查找
     public int minSpeedOnTime(int[] dist, double hour) {
-        int res = -1;
         int left = 1;
         int right = (int) 1e7;
+        int res = -1;
         while (left <= right) {
-            int mid = left + ((right - left) >>> 1);
-            if (check1870(dist, mid, hour)) {
+            int mid = left + ((right - left) >> 1);
+            if (check1870(mid, dist, hour)) {
                 res = mid;
                 right = mid - 1;
             } else {
@@ -4380,23 +4380,17 @@ public class Leetcode_5 {
             }
         }
         return res;
-
     }
 
-    private boolean check1870(int[] dist, int speed, double hour) {
-        double sum = 0;
-        for (int i = 0; i < dist.length; ++i) {
-            if (i == dist.length - 1) {
-                sum += (double) dist[i] / speed;
-            } else {
-                sum += (dist[i] - 1) / speed + 1;
-            }
-            if ((double) sum > hour) {
+    private boolean check1870(int s, int[] dist, double hour) {
+        int h = 0;
+        for (int i = 0; i < dist.length - 1; ++i) {
+            h += (dist[i] - 1) / s + 1;
+            if (h > hour) {
                 return false;
             }
-
         }
-        return true;
+        return h + (double) dist[dist.length - 1] / s <= hour;
     }
 
     // 1027. 最长等差数列 (Longest Arithmetic Subsequence) --dp
