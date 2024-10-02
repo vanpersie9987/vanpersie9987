@@ -8,6 +8,7 @@ from ctypes.wintypes import _ULARGE_INTEGER
 from curses import can_change_color, curs_set, intrflush, nonl
 from curses.ascii import isprint
 from decimal import Rounded
+import dis
 import enum
 from functools import cache, cached_property
 from inspect import modulesbyfile
@@ -6577,3 +6578,23 @@ class Union924:
 
         def unreserve(self, seatNumber: int) -> None:
             heapq.heappush(self.avaliable, seatNumber)
+
+    # 1870. 准时到达的列车最小时速 (Minimum Speed to Arrive on Time)
+    def minSpeedOnTime(self, dist: List[int], hour: float) -> int:
+        def check(s: int) -> bool:
+            h = 0
+            for i in range(len(dist) - 1):
+                h += (dist[i] - 1) // s + 1
+            h += dist[len(dist) - 1] / s
+            return h <= hour
+        left = 1
+        right = 10**7
+        res = -1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                res = mid
+                right = mid - 1
+            else:
+                left = mid + 1
+        return res
