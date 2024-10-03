@@ -6598,3 +6598,31 @@ class Union924:
             else:
                 left = mid + 1
         return res
+
+    # 1928. 规定时间内到达终点的最小花费 (Minimum Cost to Reach Destination in Time)
+    def minCost(self, maxTime: int, edges: List[List[int]], passingFees: List[int]) -> int:
+        n = len(passingFees)
+        dis = [[inf] * (maxTime + 1) for _ in range(n)]
+        g = [[] for _ in range(n)]
+        for u, v, t in edges:
+            g[u].append((v, t))
+            g[v].append((u, t))
+        for i in range(maxTime + 1):
+            dis[0][i] = passingFees[0]
+        q = []
+        # fee, node, time
+        q.append((passingFees[0], 0, 0))
+        heapq.heapify(q)
+        while q:
+            (fee, x, time) = heapq.heappop(q)
+            if time > maxTime:
+                continue
+            if x == n - 1:
+                return fee
+            for (y, dt) in g[x]:
+                if time + dt > maxTime:
+                    continue
+                if fee + passingFees[y] < dis[y][time + dt]:
+                    dis[y][time + dt] = fee + passingFees[y]
+                    heapq.heappush(q, (fee + passingFees[y], y, time + dt))
+        return -1
