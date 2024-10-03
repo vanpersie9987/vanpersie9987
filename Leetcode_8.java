@@ -1934,48 +1934,46 @@ public class Leetcode_8 {
         List<int[]>[] g = new ArrayList[n];
         Arrays.setAll(g, k -> new ArrayList<>());
         for (int[] e : edges) {
-            int x = e[0];
-            int y = e[1];
-            int t = e[2];
-            g[x].add(new int[] { y, t });
-            g[y].add(new int[] { x, t });
+            g[e[0]].add(new int[] { e[1], e[2] });
+            g[e[1]].add(new int[] { e[0], e[2] });
         }
-
-        // [x, t, c]
-        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
-
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return Integer.compare(o1[2], o2[2]);
-            }
-
-        });
-
         int[][] dis = new int[n][maxTime + 1];
         for (int i = 0; i < n; ++i) {
             Arrays.fill(dis[i], Integer.MAX_VALUE);
         }
-        dis[0][0] = passingFees[0];
-        q.offer(new int[] { 0, 0, passingFees[0] });
+        for (int i = 0; i < maxTime + 1; ++i) {
+            dis[0][i] = passingFees[0];
+        }
+
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[1], o2[1]);
+            }
+
+        });
+        q.offer(new int[] { 0, passingFees[0], 0 });
         while (!q.isEmpty()) {
             int[] cur = q.poll();
             int x = cur[0];
-            int t = cur[1];
-            int c = cur[2];
-            if (x == n - 1) {
-                return c;
+            int fee = cur[1];
+            int t = cur[2];
+            if (t > maxTime) {
+                continue;
             }
-            for (int[] nei : g[x]) {
-                int y = nei[0];
-                int dt = nei[1];
-                int nt = dt + t;
-                if (nt > maxTime) {
+            if (x == n - 1) {
+                return fee;
+            }
+            for (int[] nxt : g[x]) {
+                int y = nxt[0];
+                int dt = nxt[1];
+                if (t + dt > maxTime) {
                     continue;
                 }
-                int nc = passingFees[y] + c;
-                if (nc < dis[y][nt]) {
-                    dis[y][nt] = nc;
-                    q.offer(new int[] { y, nt, nc });
+                if (fee + passingFees[y] < dis[y][t + dt]) {
+                    dis[y][t + dt] = fee + passingFees[y];
+                    q.offer(new int[] { y, fee + passingFees[y], t + dt });
                 }
             }
         }
