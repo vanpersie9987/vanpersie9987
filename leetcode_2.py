@@ -6626,3 +6626,15 @@ class Union924:
                     dis[y][time + dt] = fee + passingFees[y]
                     heapq.heappush(q, (fee + passingFees[y], y, time + dt))
         return -1
+
+    # 134. 加油站 (Gas Station)
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        m = inf
+        min_idx = 0
+        cur = 0
+        for i, (x, y) in enumerate(zip(gas, cost)):
+            cur += x - y
+            if cur < m:
+                m = cur
+                min_idx = i
+        return -1 if cur < 0 else (min_idx + 1) % len(gas)
