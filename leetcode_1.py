@@ -4119,12 +4119,14 @@ class leetcode_1:
 
     # 2187. 完成旅途的最少时间 (Minimum Time to Complete Trips)
     def minimumTime(self, time: List[int], totalTrips: int) -> int:
-        left = 0
-        right = 10**18
-        res = 0
+        def check(t: int) -> bool:
+            return sum(t // c for c in time) >= totalTrips
+        left = 1
+        right = max(time) * totalTrips
+        res = 1
         while left <= right:
             mid = left + ((right - left) >> 1)
-            if sum(mid // x for x in time) >= totalTrips:
+            if check(mid):
                 res = mid
                 right = mid - 1
             else:

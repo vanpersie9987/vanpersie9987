@@ -2037,15 +2037,14 @@ public class Leetcode_3 {
 
     }
 
-    // 6010. 完成旅途的最少时间 (Minimum Time to Complete Trips)
+    // 2187. 完成旅途的最少时间 (Minimum Time to Complete Trips)
     public long minimumTime(int[] time, int totalTrips) {
-        Arrays.sort(time);
-        long res = -1L;
-        long left = 1;
-        long right = Long.MAX_VALUE;
+        long left = 1L;
+        long right = (long) Arrays.stream(time).max().getAsInt() * totalTrips;
+        long res = 1L;
         while (left <= right) {
             long mid = left + ((right - left) >> 1);
-            if (getRes(time, mid, totalTrips)) {
+            if (check2187(mid, time, totalTrips)) {
                 res = mid;
                 right = mid - 1;
             } else {
@@ -2053,14 +2052,13 @@ public class Leetcode_3 {
             }
         }
         return res;
-
     }
 
-    private boolean getRes(int[] time, long second, int totalTrips) {
-        long res = 0;
-        for (int t : time) {
-            res += second / (long) t;
-            if (res >= totalTrips) {
+    private boolean check2187(long t, int[] time, int totalTrips) {
+        long s = 0;
+        for (int c : time) {
+            s += t / c;
+            if (s >= totalTrips) {
                 return true;
             }
         }
