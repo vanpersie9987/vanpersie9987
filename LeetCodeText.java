@@ -19208,16 +19208,15 @@ public class LeetCodeText {
 
     // 1436. 旅行终点站 (Destination City)
     public String destCity(List<List<String>> paths) {
-        Set<String> set = new HashSet<>();
-        for (List<String> path : paths) {
-            set.add(path.get(0));
+        Map<String, String> map = new HashMap<>();
+        for (List<String> p : paths) {
+            map.put(p.get(0), p.get(1));
         }
-        for (List<String> path : paths) {
-            if (!set.contains(path.get(1))) {
-                return path.get(1);
-            }
+        String res = paths.get(0).get(0);
+        while (map.get(res) != null) {
+            res = map.get(res);
         }
-        return "";
+        return res;
 
     }
 
