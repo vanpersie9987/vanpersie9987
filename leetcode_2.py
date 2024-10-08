@@ -6638,3 +6638,13 @@ class Union924:
                 m = cur
                 min_idx = i
         return -1 if cur < 0 else (min_idx + 1) % len(gas)
+
+    # 1436. 旅行终点站 (Destination City)
+    def destCity(self, paths: List[List[str]]) -> str:
+        d = defaultdict(str)
+        for u, v in paths:
+            d[u] = v
+        res = paths[0][0]
+        while d[res]:
+            res = d[res]
+        return res
