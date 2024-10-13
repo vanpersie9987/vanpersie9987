@@ -2673,4 +2673,52 @@ public class Leetcode_9 {
         return res;
 
     }
+
+    // 3316. 从原字符串里进行删除操作的最多次数 (Find Maximum Removals From Source String)
+    private String s3316;
+    private String p3316;
+    private int n3316;
+    private int m3316;
+    private boolean[] t3316;
+    private int[][] memo3316;
+
+    public int maxRemovals(String source, String pattern, int[] targetIndices) {
+        this.s3316 = source;
+        this.p3316 = pattern;
+        this.n3316 = source.length();
+        this.m3316 = pattern.length();
+        this.t3316 = new boolean[n3316];
+        for (int idx : targetIndices) {
+            t3316[idx] = true;
+        }
+        this.memo3316 = new int[n3316][m3316];
+        for (int i = 0; i < n3316; ++i) {
+            Arrays.fill(memo3316[i], -1);
+        }
+        return dfs3316(0, 0);
+
+    }
+
+    private int dfs3316(int i, int j) {
+        if (i == n3316 || j == m3316) {
+            if (i == n3316 && j == m3316) {
+                return 0;
+            }
+            if (j == m3316) {
+                return dfs3316(i + 1, j) + (t3316[i] ? 1 : 0);
+            }
+            return Integer.MIN_VALUE;
+        }
+        if (memo3316[i][j] != -1) {
+            return memo3316[i][j];
+        }
+        if (!t3316[i]) {
+            return dfs3316(i + 1, j + (s3316.charAt(i) == p3316.charAt(j) ? 1 : 0));
+        }
+        int res = dfs3316(i + 1, j) + 1;
+        if (s3316.charAt(i) == p3316.charAt(j)) {
+            res = Math.max(res, dfs3316(i + 1, j + 1));
+        }
+        return memo3316[i][j] = res;
+    }
 }
