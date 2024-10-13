@@ -6648,3 +6648,14 @@ class Union924:
         while d[res]:
             res = d[res]
         return res
+
+    # 3314. 构造最小位运算数组 I (Construct the Minimum Bitwise Array I)
+    # 3315. 构造最小位运算数组 II (Construct the Minimum Bitwise Array II)
+    def minBitwiseArray(self, nums: List[int]) -> List[int]:
+        for i, x in enumerate(nums):
+            if x == 2:
+                nums[i] = -1
+            else:
+                t = ~x
+                nums[i] ^= (t & -t) >> 1
+        return nums

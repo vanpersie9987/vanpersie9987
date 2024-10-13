@@ -2658,4 +2658,19 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3314. 构造最小位运算数组 I (Construct the Minimum Bitwise Array I)
+    // 3315. 构造最小位运算数组 II (Construct the Minimum Bitwise Array II)
+    public int[] minBitwiseArray(List<Integer> nums) {
+        int[] res = new int[nums.size()];
+        for (int i = 0; i < nums.size(); ++i) {
+            if (nums.get(i) == 2) {
+                res[i] = -1;
+            } else {
+                int t = ~nums.get(i);
+                res[i] = nums.get(i) ^ ((t & -t) >> 1);
+            }
+        }
+        return res;
+
+    }
 }
