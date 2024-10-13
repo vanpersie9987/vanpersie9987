@@ -6659,3 +6659,26 @@ class Union924:
                 t = ~x
                 nums[i] ^= (t & -t) >> 1
         return nums
+
+    # 3316. 从原字符串里进行删除操作的最多次数 (Find Maximum Removals From Source String)
+    def maxRemovals(self, source: str, pattern: str, targetIndices: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n or j == m:
+                if i == n and j == m:
+                    return 0
+                if j == m:
+                    return dfs(i + 1, j) + s[i]
+                return -inf
+            if not s[i]:
+                return dfs(i + 1, j + int(source[i] == pattern[j]))
+            if source[i] != pattern[j]:
+                return dfs(i + 1, j) + 1
+            return max(dfs(i + 1, j + 1), dfs(i + 1, j) + 1)
+
+        n = len(source)
+        m = len(pattern)
+        s = [False] * n
+        for t in targetIndices:
+            s[t] = True
+        return dfs(0, 0)
