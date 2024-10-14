@@ -18103,42 +18103,6 @@ public class LeetCodeText {
         return Math.abs(point1[0] - point2[0]) + Math.abs(point1[1] - point2[1]);
     }
 
-    // 1884. 鸡蛋掉落-两枚鸡蛋 (Egg Drop With 2 Eggs and N Floors) 解法1：二维dp
-    public int twoEggDrop(int n) {
-        int[][] dp = new int[2][n + 1];
-        for (int i = 0; i <= n; ++i) {
-            dp[0][i] = i;
-        }
-        Arrays.fill(dp[1], Integer.MAX_VALUE);
-        dp[1][0] = 0;
-        for (int i = 1; i <= n; ++i) {
-            for (int j = 1; j <= i; ++j) {
-                dp[1][i] = Math.min(dp[1][i], Math.max(dp[0][j - 1] + 1, dp[1][i - j] + 1));
-            }
-        }
-        return dp[1][n];
-
-    }
-
-    // 1884. 鸡蛋掉落-两枚鸡蛋 (Egg Drop With 2 Eggs and N Floors) 解法2：一维dp
-    public int twoEggDrop2(int n) {
-        int[] dp = new int[n + 1];
-        Arrays.fill(dp, Integer.MAX_VALUE);
-        dp[0] = 0;
-        for (int i = 1; i <= n; ++i) {
-            for (int j = 1; j <= i; ++j) {
-                dp[i] = Math.min(dp[i], Math.max(j, dp[i - j] + 1));
-            }
-        }
-        return dp[n];
-    }
-
-    // 1884. 鸡蛋掉落-两枚鸡蛋 (Egg Drop With 2 Eggs and N Floors) 解法3：数学
-    public int twoEggDrop3(int n) {
-        return (int) Math.ceil((-1.0 + Math.sqrt(8 * n + 1)) / 2);
-
-    }
-
     // LCP 11. 期望个数统计
     public int expectNumber(int[] scores) {
         Set<Integer> set = new HashSet<>();

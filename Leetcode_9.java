@@ -2721,4 +2721,28 @@ public class Leetcode_9 {
         }
         return memo3316[i][j] = res;
     }
+
+    // 1884. 鸡蛋掉落-两枚鸡蛋 (Egg Drop With 2 Eggs and N Floors)
+    private int[] memo1884;
+
+    public int twoEggDrop(int n) {
+        this.memo1884 = new int[n + 1];
+        Arrays.fill(memo1884, -1);
+        return dfs1884(n);
+
+    }
+
+    private int dfs1884(int i) {
+        if (i == 0) {
+            return 0;
+        }
+        if (memo1884[i] != -1) {
+            return memo1884[i];
+        }
+        int res = Integer.MAX_VALUE;
+        for (int j = 1; j <= i; ++j) {
+            res = Math.min(res, Math.max(j, dfs1884(i - j) + 1));
+        }
+        return memo1884[i] = res;
+    }
 }

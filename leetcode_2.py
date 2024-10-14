@@ -6682,3 +6682,12 @@ class Union924:
         for t in targetIndices:
             s[t] = True
         return dfs(0, 0)
+    
+    # 1884. 鸡蛋掉落-两枚鸡蛋 (Egg Drop With 2 Eggs and N Floors)
+    def twoEggDrop(self, n: int) -> int:
+        @cache
+        def dfs(i: int) -> int:
+            if i == 0:
+                return 0
+            return min(max(j, dfs(i - j) + 1) for j in range(1, i + 1))
+        return dfs(n)
