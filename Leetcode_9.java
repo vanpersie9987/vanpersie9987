@@ -2745,4 +2745,38 @@ public class Leetcode_9 {
         }
         return memo1884[i] = res;
     }
+
+    // 3319. 第 K 大的完美二叉子树的大小 (K-th Largest Perfect Subtree Size in Binary Tree)
+    private List<Integer> list3319;
+
+    public int kthLargestPerfectSubtree(TreeNode root, int k) {
+        this.list3319 = new ArrayList<>();
+        dfs3319(root);
+        if (list3319.size() < k) {
+            return -1;
+        }
+        Collections.sort(list3319,new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(o2, o1);
+            }
+            
+        });
+        return list3319.get(k - 1);
+    }
+
+    private int[] dfs3319(TreeNode root) {
+        if (root == null) {
+            return new int[] { 0, 0 };
+        }
+        int[] left = dfs3319(root.left);
+        int[] right = dfs3319(root.right);
+        if (left[0] == -1 || right[0] == -1 || left[1] != right[1]) {
+            return new int[] { -1, -1 };
+        }
+        list3319.add(left[0] + right[0] + 1);
+        return new int[] { left[0] + right[0] + 1, left[1] + 1 };
+
+    }
 }
