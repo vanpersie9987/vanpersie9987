@@ -6682,7 +6682,7 @@ class Union924:
         for t in targetIndices:
             s[t] = True
         return dfs(0, 0)
-    
+
     # 1884. 鸡蛋掉落-两枚鸡蛋 (Egg Drop With 2 Eggs and N Floors)
     def twoEggDrop(self, n: int) -> int:
         @cache
@@ -6691,3 +6691,21 @@ class Union924:
                 return 0
             return min(max(j, dfs(i - j) + 1) for j in range(1, i + 1))
         return dfs(n)
+
+    # 3319. 第 K 大的完美二叉子树的大小 (K-th Largest Perfect Subtree Size in Binary Tree)
+    def kthLargestPerfectSubtree(self, root: Optional[TreeNode], k: int) -> int:
+        def dfs(root: Optional[TreeNode]) -> tuple:
+            if root is None:
+                return (0, 0)
+            left = dfs(root.left)
+            right = dfs(root.right)
+            if left[0] == -1 or right[0] == -1 or left[1] != right[1]:
+                return (-1, -1)
+            _l.append(left[0] + right[0] + 1)
+            return (left[0] + right[0] + 1, left[1] + 1)
+        _l = []
+        dfs(root)
+        if len(_l) < k:
+            return -1
+        _l.sort(reverse=True)
+        return _l[k - 1]
