@@ -2779,4 +2779,49 @@ public class Leetcode_9 {
         return new int[] { left[0] + right[0] + 1, left[1] + 1 };
 
     }
+
+    // 3320. 统计能获胜的出招序列数 (Count The Number of Winning Sequences)
+    private int n3320;
+    private String s3320;
+    private int[][][] memo3320;
+
+    public int countWinningSequences(String s) {
+        this.n3320 = s.length();
+        this.s3320 = s;
+        this.memo3320 = new int[n3320][n3320 * 2][4];
+        for (int i = 0; i < n3320; ++i) {
+            for (int j = 0; j < n3320 * 2; ++j) {
+                Arrays.fill(memo3320[i][j], -1);
+            }
+        }
+        return dfs3320(0, 0, 3);
+
+    }
+
+    private int dfs3320(int i, int j, int k) {
+        if (i == n3320) {
+            return j > 0 ? 1 : 0;
+        }
+        if (n3320 - i + j <= 0) {
+            return 0;
+        }
+        if (memo3320[i][j + n3320][k] != -1) {
+            return memo3320[i][j + n3320][k];
+        }
+        int res = 0;
+        int iVal = s3320.charAt(i) == 'F' ? 0 : (s3320.charAt(i) == 'E' ? 1 : 2);
+        for (int x = 0; x <= 2; ++x) {
+            if (x == k) {
+                continue;
+            }
+            if (x == iVal) {
+                res += dfs3320(i + 1, j, x);
+            } else {
+                res += dfs3320(i + 1, j + ((x + 1) % 3 == iVal ? 1 : -1), x);
+            }
+            final int MOD = (int) (1e9 + 7);
+            res %= MOD;
+        }
+        return memo3320[i][j + n3320][k] = res;
+    }
 }

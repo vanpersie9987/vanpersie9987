@@ -6521,6 +6521,7 @@ class Union924:
                     box_l, box_r = i, i + z[i]
                     z[i] += 1
             return z
+
         pre_z = calc_z(pattern + s)
         suf_z = calc_z(pattern[::-1] + s[::-1])
         m = len(pattern)
@@ -6539,12 +6540,12 @@ class Union924:
             res = 0
             for v in word:
                 # 元音
-                if v in 'aeiou':
+                if v in "aeiou":
                     d[v] += 1
                 else:
                     consonant += 1
                 while len(d) == 5 and consonant >= k:
-                    if word[left] in 'aeiou':
+                    if word[left] in "aeiou":
                         d[word[left]] -= 1
                         if d[word[left]] == 0:
                             del d[word[left]]
@@ -6553,18 +6554,19 @@ class Union924:
                     left += 1
                 res += left
             return res
+
         return check(k) - check(k + 1)
 
     # 3307. 找出第 K 个字符 II (Find the K-th Character in String Game II)
     def kthCharacter(self, k: int, operations: List[int]) -> str:
         if not operations:
-            return 'a'
+            return "a"
         n = len(operations)
         op = operations.pop()
         if k <= 1 << (n - 1):
             return self.kthCharacter(k, operations)
         res = self.kthCharacter(k - (1 << (n - 1)), operations)
-        res = (ord(res) - ord('a') + op) % 26
+        res = (ord(res) - ord("a") + op) % 26
         return ascii_lowercase[res]
 
     # 1845. 座位预约管理系统 (Seat Reservation Manager)
@@ -6587,6 +6589,7 @@ class Union924:
                 h += (dist[i] - 1) // s + 1
             h += dist[len(dist) - 1] / s
             return h <= hour
+
         left = 1
         right = 10**7
         res = -1
@@ -6600,7 +6603,9 @@ class Union924:
         return res
 
     # 1928. 规定时间内到达终点的最小花费 (Minimum Cost to Reach Destination in Time)
-    def minCost(self, maxTime: int, edges: List[List[int]], passingFees: List[int]) -> int:
+    def minCost(
+        self, maxTime: int, edges: List[List[int]], passingFees: List[int]
+    ) -> int:
         n = len(passingFees)
         dis = [[inf] * (maxTime + 1) for _ in range(n)]
         g = [[] for _ in range(n)]
@@ -6619,7 +6624,7 @@ class Union924:
                 continue
             if x == n - 1:
                 return fee
-            for (y, dt) in g[x]:
+            for y, dt in g[x]:
                 if time + dt > maxTime:
                     continue
                 if fee + passingFees[y] < dis[y][time + dt]:
@@ -6690,6 +6695,7 @@ class Union924:
             if i == 0:
                 return 0
             return min(max(j, dfs(i - j) + 1) for j in range(1, i + 1))
+
         return dfs(n)
 
     # 3319. 第 K 大的完美二叉子树的大小 (K-th Largest Perfect Subtree Size in Binary Tree)
@@ -6703,9 +6709,33 @@ class Union924:
                 return (-1, -1)
             _l.append(left[0] + right[0] + 1)
             return (left[0] + right[0] + 1, left[1] + 1)
+
         _l = []
         dfs(root)
         if len(_l) < k:
             return -1
         _l.sort(reverse=True)
         return _l[k - 1]
+
+    # 3320. 统计能获胜的出招序列数 (Count The Number of Winning Sequences)
+    def countWinningSequences(self, s: str) -> int:
+        @cache
+        def dfs(i: int, j: int, k: chr) -> int:
+            if i == n:
+                return int(j > 0)
+            if n - i + j <= 0:
+                return 0
+            res = 0
+            for c in ['F', 'W', 'E']:
+                if c == k:
+                    continue
+                if c == s[i]:
+                    res += dfs(i + 1, j, c)
+                elif c == 'F' and s[i] == 'E' or c == 'E' and s[i] == 'W' or c == 'W' and s[i] == 'F':
+                    res += dfs(i + 1, j + 1, c)
+                else:
+                    res += dfs(i + 1, j - 1, c)
+            return res % MOD
+        n = len(s)
+        MOD = 10**9 + 7
+        return dfs(0, 0, 'A')
