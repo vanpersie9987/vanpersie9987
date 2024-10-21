@@ -2825,5 +2825,19 @@ public class Leetcode_9 {
         return memo3320[i][j + n3320][k] = res;
     }
 
+    // 910. 最小差值 II (Smallest Range II)
+    public int smallestRangeII(int[] nums, int k) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int res = nums[n - 1] - nums[0];
+        for (int i = 1; i < n; ++i) {
+            int mx = Math.max(nums[n - 1] - k, nums[i - 1] + k);
+            int mi = Math.min(nums[0] + k, nums[i] - k);
+            res = Math.min(res, mx - mi);
+        }
+        return res;
+
+    }
+
 
 }
