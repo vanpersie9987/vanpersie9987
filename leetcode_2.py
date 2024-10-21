@@ -6778,7 +6778,7 @@ class Union924:
     
     # 3326. 使数组非递减的最少除法操作次数 (Minimum Division Operations to Make Array Non Decreasing)
     def minOperations(self, nums: List[int]) -> int:
-        # 该段代码放在class外部可以通过
+        # 埃氏筛放在class外部可以通过
         #############################
         p = [-1] * (10**6 + 1)
         for i in range(2, 10**6 + 1):
