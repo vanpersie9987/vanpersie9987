@@ -2839,5 +2839,62 @@ public class Leetcode_9 {
 
     }
 
+    // 3324. 出现在屏幕上的字符串序列 (Find the Sequence of Strings Appeared on the Screen)
+    public List<String> stringSequence(String target) {
+        List<String> res = new ArrayList<>();
+        for (char t : target.toCharArray()) {
+            String pre = res.isEmpty() ? "" : res.get(res.size() - 1);
+            for (char c = 'a'; c <= t; ++c) {
+                res.add(pre + String.valueOf(c));
+            }
+        }
+        return res;
+    }
+
+    // 3325. 字符至少出现 K 次的子字符串 I (Count Substrings With K-Frequency Characters I)
+    public int numberOfSubstrings(String s, int k) {
+        int res = 0;
+        int[] cnt = new int[26];
+        int left = 0;
+        for (char c : s.toCharArray()) {
+            ++cnt[c - 'a'];
+            while (cnt[c - 'a'] >= k) {
+                --cnt[s.charAt(left++) - 'a'];
+            }
+            res += left;
+        }
+        return res;
+    }
+
+    // 3326. 使数组非递减的最少除法操作次数 (Minimum Division Operations to Make Array Non
+    // Decreasing)
+    public int minOperations3326(int[] nums) {
+        int res = 0;
+        int max = Arrays.stream(nums).max().getAsInt();
+        int[] p = new int[max + 1];
+        Arrays.fill(p, -1);
+        for (int i = 2; i <= max; ++i) {
+            if (p[i] == -1) {
+                for (long j = (long) i * i; j <= max; j += i) {
+                    if (p[(int) j] == -1) {
+                        p[(int) j] = i;
+                    }
+                }
+            }
+        }
+        for (int i = nums.length - 2; i >= 0; --i) {
+            int pre = nums[i];
+            while (pre > nums[i + 1]) {
+                pre = p[pre];
+                ++res;
+            }
+            if (pre == -1) {
+                return -1;
+            }
+            nums[i] = pre;
+        }
+        return res;
+
+    }
 
 }

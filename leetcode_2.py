@@ -6753,5 +6753,56 @@ class Union924:
             mi = min(nums[0] + k, y - k)
             res = min(res, mx - mi)
         return res
+    
+    # 3324. 出现在屏幕上的字符串序列 (Find the Sequence of Strings Appeared on the Screen)
+    def stringSequence(self, target: str) -> List[str]:
+        res = []
+        for t in target:
+            pre = res[-1] if len(res) else ''
+            for c in range(0, ord(t) - ord('a') + 1):
+                res.append(pre + chr(c + ord('a')))
+        return res
+    
+    # 3325. 字符至少出现 K 次的子字符串 I (Count Substrings With K-Frequency Characters I)
+    def numberOfSubstrings(self, s: str, k: int) -> int:
+        left = 0
+        res = 0
+        cnt = [0] * 26
+        for c in s:
+            cnt[ord(c) - ord('a')] += 1
+            while cnt[ord(c) - ord('a')] >= k:
+                cnt[ord(s[left]) - ord('a')] -= 1
+                left += 1
+            res += left
+        return res
+    
+    # 3326. 使数组非递减的最少除法操作次数 (Minimum Division Operations to Make Array Non Decreasing)
+    def minOperations(self, nums: List[int]) -> int:
+        # 该段代码放在class外部可以通过
+        #############################
+        p = [-1] * (10**6 + 1)
+        for i in range(2, 10**6 + 1):
+            if p[i] == -1:
+                for j in range(i * i, 10**6 + 1, i):
+                    if p[j] == -1:
+                        p[j] = i
+        ############################# 
+        res = 0
+        for i in range(len(nums) - 2, -1, -1):
+            x = nums[i]
+            while x > nums[i + 1]:
+                x = p[x]
+                res += 1
+            if x == -1:
+                return -1
+            nums[i] = x
+        return res
+
+
+
+
         
+    
+
+
 
