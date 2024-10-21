@@ -6743,3 +6743,15 @@ class Union924:
     # 908. 最小差值 I (Smallest Range I)
     def smallestRangeI(self, nums: List[int], k: int) -> int:
         return max(max(nums) - min(nums) - 2 * k, 0)
+    
+    # 910. 最小差值 II (Smallest Range II)
+    def smallestRangeII(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        res = nums[-1] - nums[0]
+        for x, y in pairwise(nums):
+            mx = max(nums[-1] - k, x + k)
+            mi = min(nums[0] + k, y - k)
+            res = min(res, mx - mi)
+        return res
+        
+
