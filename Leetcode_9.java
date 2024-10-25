@@ -2897,4 +2897,34 @@ public class Leetcode_9 {
 
     }
 
+    // 3180. 执行操作可获得的最大总奖励 I (Maximum Total Reward Using Operations I)
+    private Map<Integer, Integer> memo3180;
+    private List<Integer> list3180;
+    private int n3180;
+
+    public int maxTotalReward(int[] rewardValues) {
+        this.memo3180 = new HashMap<>();
+        Set<Integer> s = Arrays.stream(rewardValues).boxed().collect(Collectors.toSet());
+        list3180 = new ArrayList<>(s);
+        Collections.sort(list3180);
+        this.n3180 = list3180.size();
+        return dfs3180(0, 0);
+    }
+
+    private int dfs3180(int i, int j) {
+        if (i == n3180) {
+            return j;
+        }
+        int m = (j << 10) | i;
+        if (memo3180.get(m) != null) {
+            return memo3180.get(m);
+        }
+        int res = dfs3180(i + 1, j);
+        if (list3180.get(i) > j) {
+            res = Math.max(res, dfs3180(i + 1, j + list3180.get(i)));
+        }
+        memo3180.put(m, res);
+        return res;
+    }
+
 }
