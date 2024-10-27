@@ -6798,7 +6798,7 @@ class Union924:
             nums[i] = x
         return res
 
-    # 684. 冗余连接 (Redundant Connection)
+    # 684. 冗余连接 (Redundant Connection) --dfs
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
         def check(i: int) -> bool:
             def dfs(x: int, fa: int) -> bool:
@@ -6827,3 +6827,32 @@ class Union924:
         for i in range(len(edges) - 1, -1, -1):
             if check(i):
                 return edges[i]
+            
+    # 684. 冗余连接 (Redundant Connection) --并查集
+    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
+        class union:
+            def __init__(self, n: int):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+            def is_conncted(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+            def union(self, p1: int, p2: int) -> None:
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r1] += 1
+        n = len(edges)
+        u = union(n)
+        for e in edges:
+            if u.is_conncted(e[0] - 1, e[1] - 1):
+                return e
+            u.union(e[0] - 1, e[1] - 1)
