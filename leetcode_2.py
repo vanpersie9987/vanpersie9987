@@ -6797,3 +6797,33 @@ class Union924:
                 return -1
             nums[i] = x
         return res
+
+    # 684. 冗余连接 (Redundant Connection)
+    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
+        def check(i: int) -> bool:
+            def dfs(x: int, fa: int) -> bool:
+                vis[x] = True
+                for y in g[x]:
+                    if y != fa:
+                        if vis[y]:
+                            return False
+                        if not dfs(y, x):
+                            return False
+                return True
+            g = [[] for _ in range(len(edges))]
+            for id, (u, v) in enumerate(edges):
+                if i == id:
+                    continue
+                g[u - 1].append(v - 1)
+                g[v - 1].append(u - 1)
+            vis = [False] * len(edges)
+            res = dfs(0, -1)
+            # 有环
+            if not res:
+                return False
+            # 是森林
+            return all(v for v in vis)
+
+        for i in range(len(edges) - 1, -1, -1):
+            if check(i):
+                return edges[i]
