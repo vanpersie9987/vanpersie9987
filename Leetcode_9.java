@@ -2755,13 +2755,13 @@ public class Leetcode_9 {
         if (list3319.size() < k) {
             return -1;
         }
-        Collections.sort(list3319,new Comparator<Integer>() {
+        Collections.sort(list3319, new Comparator<Integer>() {
 
             @Override
             public int compare(Integer o1, Integer o2) {
                 return Integer.compare(o2, o1);
             }
-            
+
         });
         return list3319.get(k - 1);
     }
@@ -2925,6 +2925,70 @@ public class Leetcode_9 {
         }
         memo3180.put(m, res);
         return res;
+    }
+
+    // 3330. 找到初始输入字符串 I (Find the Original Typed String I)
+    public int possibleStringCount(String word) {
+        int res = 1;
+        int n = word.length();
+        int i = 0;
+        while (i < n) {
+            int j = i;
+            while (j < n && word.charAt(i) == word.charAt(j)) {
+                ++j;
+            }
+            res += j - i - 1;
+            i = j;
+        }
+        return res;
+
+    }
+
+    // 3331. 修改后子树的大小 (Find Subtree Sizes After Changes)
+    private int n3331;
+    private List<Integer>[] g3331;
+    private List<Integer>[] st3331;
+    private String s3331;
+    private List<Integer>[] g2_3331;
+    private int[] res3331;
+
+    public int[] findSubtreeSizes(int[] parent, String s) {
+        this.s3331 = s;
+        this.n3331 = s.length();
+        this.g3331 = new ArrayList[n3331];
+        Arrays.setAll(g3331, k -> new ArrayList<>());
+        for (int i = 1; i < n3331; ++i) {
+            g3331[parent[i]].add(i);
+        }
+        this.st3331 = new ArrayList[26];
+        Arrays.setAll(st3331, k -> new ArrayList<>());
+        this.g2_3331 = new ArrayList[n3331];
+        Arrays.setAll(g2_3331, k -> new ArrayList<>());
+        dfs3331(0, -1);
+        this.res3331 = new int[n3331];
+        dfs2_3331(0, -1);
+        return res3331;
+    }
+
+    private int dfs2_3331(int x, int fa) {
+        for (int y : g2_3331[x]) {
+            res3331[x] += dfs2_3331(y, x);
+        }
+        return ++res3331[x];
+    }
+
+    private void dfs3331(int x, int fa) {
+        int index = s3331.charAt(x) - 'a';
+        if (!st3331[index].isEmpty()) {
+            g2_3331[st3331[index].get(st3331[index].size() - 1)].add(x);
+        } else if (fa != -1) {
+            g2_3331[fa].add(x);
+        }
+        st3331[index].add(x);
+        for (int y : g3331[x]) {
+            dfs3331(y, x);
+        }
+        st3331[index].remove(st3331[index].size() - 1);
     }
 
 }

@@ -6893,3 +6893,16 @@ class Union924:
         for i in range(len(edges) - 1, -1, -1):
             if check(i):
                 return edges[i]
+            
+    # 3330. 找到初始输入字符串 I (Find the Original Typed String I)
+    def possibleStringCount(self, word: str) -> int:
+        res = 1
+        n = len(word)
+        i = 0
+        while i < n:
+            j = i
+            while j < n and word[j] == word[i]:
+                j += 1
+            res += j - i - 1
+            i = j
+        return res
