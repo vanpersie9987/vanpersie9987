@@ -6743,7 +6743,7 @@ class Union924:
     # 908. 最小差值 I (Smallest Range I)
     def smallestRangeI(self, nums: List[int], k: int) -> int:
         return max(max(nums) - min(nums) - 2 * k, 0)
-    
+
     # 910. 最小差值 II (Smallest Range II)
     def smallestRangeII(self, nums: List[int], k: int) -> int:
         nums.sort()
@@ -6753,7 +6753,7 @@ class Union924:
             mi = min(nums[0] + k, y - k)
             res = min(res, mx - mi)
         return res
-    
+
     # 3324. 出现在屏幕上的字符串序列 (Find the Sequence of Strings Appeared on the Screen)
     def stringSequence(self, target: str) -> List[str]:
         res = []
@@ -6762,7 +6762,7 @@ class Union924:
             for c in range(0, ord(t) - ord('a') + 1):
                 res.append(pre + chr(c + ord('a')))
         return res
-    
+
     # 3325. 字符至少出现 K 次的子字符串 I (Count Substrings With K-Frequency Characters I)
     def numberOfSubstrings(self, s: str, k: int) -> int:
         left = 0
@@ -6775,7 +6775,7 @@ class Union924:
                 left += 1
             res += left
         return res
-    
+
     # 3326. 使数组非递减的最少除法操作次数 (Minimum Division Operations to Make Array Non Decreasing)
     def minOperations(self, nums: List[int]) -> int:
         # 埃氏筛放在class外部可以通过
@@ -6786,7 +6786,7 @@ class Union924:
                 for j in range(i * i, 10**6 + 1, i):
                     if p[j] == -1:
                         p[j] = i
-        ############################# 
+        #############################
         res = 0
         for i in range(len(nums) - 2, -1, -1):
             x = nums[i]
@@ -6827,7 +6827,7 @@ class Union924:
         for i in range(len(edges) - 1, -1, -1):
             if check(i):
                 return edges[i]
-            
+
     # 684. 冗余连接 (Redundant Connection) --并查集
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
         class union:
@@ -6856,3 +6856,40 @@ class Union924:
             if u.is_conncted(e[0] - 1, e[1] - 1):
                 return e
             u.union(e[0] - 1, e[1] - 1)
+
+    # 685. 冗余连接 II (Redundant Connection II)
+    def findRedundantDirectedConnection(self, edges: List[List[int]]) -> List[int]:
+        def check(i: int) -> bool:
+            def dfs(x: int, fa: int) -> bool:
+                vis[x] = True
+                for y in g[x]:
+                    if y != fa:
+                        if vis[y]:
+                            return False
+                        if not dfs(y, x):
+                            return False
+                return True
+
+            g = [[] for _ in range(len(edges))]
+            deg = [0] * len(edges)
+            for id, (u, v) in enumerate(edges):
+                if i == id:
+                    continue
+                g[u - 1].append(v - 1)
+                deg[v - 1] += 1
+            vis = [False] * len(edges)
+            root = -1
+            for x in range(len(edges)):
+                if deg[x] == 0:
+                    root = x
+                    break
+            res = dfs(root, -1)
+            # 有环
+            if not res:
+                return False
+            # 是森林
+            return all(v for v in vis)
+
+        for i in range(len(edges) - 1, -1, -1):
+            if check(i):
+                return edges[i]
