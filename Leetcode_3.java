@@ -9018,8 +9018,66 @@ public class Leetcode_3 {
         return memo514[i][j] = res;
     }
 
-    // 685. 冗余连接 II (Redundant Connection II) --并查集
+    // 685. 冗余连接 II (Redundant Connection II) --dfs
     public int[] findRedundantDirectedConnection(int[][] edges) {
+        int n = edges.length;
+        for (int i = n - 1; i >= 0; --i) {
+            if (check685(i, edges)) {
+                return edges[i];
+            }
+        }
+        return new int[0];
+    }
+
+    private boolean check685(int i, int[][] edges) {
+        int n = edges.length;
+        List<Integer>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        int[] deg = new int[n];
+        for (int j = 0; j < edges.length; ++j) {
+            if (i == j) {
+                continue;
+            }
+            g[edges[j][0] - 1].add(edges[j][1] - 1);
+            ++deg[edges[j][1] - 1];
+        }
+        int root = -1;
+        for (int j = 0; j < n; ++j) {
+            if (deg[j] == 0) {
+                root = j;
+                break;
+            }
+        }
+        boolean[] vis = new boolean[n];
+        boolean res = dfs685(root, -1, vis, g);
+        if (!res) {
+            return false;
+        }
+        for (boolean v : vis) {
+            if (!v) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean dfs685(int x, int fa, boolean[] vis, List<Integer>[] g) {
+        vis[x] = true;
+        for (int y : g[x]) {
+            if (y != fa) {
+                if (vis[y]) {
+                    return false;
+                }
+                if (!dfs685(y, x, vis, g)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    // 685. 冗余连接 II (Redundant Connection II) --并查集
+    public int[] findRedundantDirectedConnection2(int[][] edges) {
         int n = edges.length;
         // 预处理
         for (int[] edge : edges) {
