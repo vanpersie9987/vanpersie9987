@@ -2966,13 +2966,13 @@ public class Leetcode_9 {
         Arrays.setAll(g2_3331, k -> new ArrayList<>());
         dfs3331(0, -1);
         this.res3331 = new int[n3331];
-        dfs2_3331(0, -1);
+        dfs2_3331(0);
         return res3331;
     }
 
-    private int dfs2_3331(int x, int fa) {
+    private int dfs2_3331(int x) {
         for (int y : g2_3331[x]) {
-            res3331[x] += dfs2_3331(y, x);
+            res3331[x] += dfs2_3331(y);
         }
         return ++res3331[x];
     }

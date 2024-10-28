@@ -6906,3 +6906,32 @@ class Union924:
             res += j - i - 1
             i = j
         return res
+    
+
+    def findSubtreeSizes(self, parent: List[int], s: str) -> List[int]:
+        def dfs2(x: int) -> int:
+            for y in g2[x]:
+                res[x] += dfs2(y)
+            res[x] += 1
+            return res[x]
+        def dfs(x: int, fa: int) -> None:
+            id = ord(s[x]) - ord('a')
+            if st[id]:
+                g2[st[id][-1]].append(x)
+            elif fa != -1:
+                g2[fa].append(x)
+            st[id].append(x)
+            for y in g[x]:
+                dfs(y, x)
+            st[id].pop()
+        n = len(s)
+        g = [[] for _ in range(n)]
+        for i in range(1, n):
+            g[parent[i]].append(i)
+        g2 = [[] for _ in range(n)]
+        st = [[] for _ in range(26)]
+        dfs(0, -1)
+        res = [0] * n
+        dfs2(0)
+        return res
+        
