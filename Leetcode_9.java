@@ -2991,4 +2991,45 @@ public class Leetcode_9 {
         st3331[index].remove(st3331[index].size() - 1);
     }
 
+    // 3332. 旅客可以得到的最多点数 (Maximum Points Tourist Can Earn)
+    private int[][] memo3332;
+    private int n3332;
+    private int k3332;
+    private int[][] stayScore3332;
+    private int[][] travelScore3332;
+
+    public int maxScore(int n, int k, int[][] stayScore, int[][] travelScore) {
+        this.n3332 = n;
+        this.k3332 = k;
+        this.stayScore3332 = stayScore;
+        this.travelScore3332 = travelScore;
+        this.memo3332 = new int[n][k];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo3332[i], -1);
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, dfs3332(i, 0));
+        }
+        return res;
+
+    }
+
+    private int dfs3332(int i, int j) {
+        if (j == k3332) {
+            return 0;
+        }
+        if (memo3332[i][j] != -1) {
+            return memo3332[i][j];
+        }
+        int res = 0;
+        for (int x = 0; x < n3332; ++x) {
+            if (x == i) {
+                res = Math.max(res, dfs3332(x, j + 1) + stayScore3332[j][x]);
+            } else {
+                res = Math.max(res, dfs3332(x, j + 1) + travelScore3332[i][x]);
+            }
+        }
+        return memo3332[i][j] = res;
+    }
 }

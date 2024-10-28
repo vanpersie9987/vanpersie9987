@@ -6726,19 +6726,27 @@ class Union924:
             if n - i + j <= 0:
                 return 0
             res = 0
-            for c in ['F', 'W', 'E']:
+            for c in ["F", "W", "E"]:
                 if c == k:
                     continue
                 if c == s[i]:
                     res += dfs(i + 1, j, c)
-                elif c == 'F' and s[i] == 'E' or c == 'E' and s[i] == 'W' or c == 'W' and s[i] == 'F':
+                elif (
+                    c == "F"
+                    and s[i] == "E"
+                    or c == "E"
+                    and s[i] == "W"
+                    or c == "W"
+                    and s[i] == "F"
+                ):
                     res += dfs(i + 1, j + 1, c)
                 else:
                     res += dfs(i + 1, j - 1, c)
             return res % MOD
+
         n = len(s)
         MOD = 10**9 + 7
-        return dfs(0, 0, 'A')
+        return dfs(0, 0, "A")
 
     # 908. 最小差值 I (Smallest Range I)
     def smallestRangeI(self, nums: List[int], k: int) -> int:
@@ -6758,9 +6766,9 @@ class Union924:
     def stringSequence(self, target: str) -> List[str]:
         res = []
         for t in target:
-            pre = res[-1] if len(res) else ''
-            for c in range(0, ord(t) - ord('a') + 1):
-                res.append(pre + chr(c + ord('a')))
+            pre = res[-1] if len(res) else ""
+            for c in range(0, ord(t) - ord("a") + 1):
+                res.append(pre + chr(c + ord("a")))
         return res
 
     # 3325. 字符至少出现 K 次的子字符串 I (Count Substrings With K-Frequency Characters I)
@@ -6769,9 +6777,9 @@ class Union924:
         res = 0
         cnt = [0] * 26
         for c in s:
-            cnt[ord(c) - ord('a')] += 1
-            while cnt[ord(c) - ord('a')] >= k:
-                cnt[ord(s[left]) - ord('a')] -= 1
+            cnt[ord(c) - ord("a")] += 1
+            while cnt[ord(c) - ord("a")] >= k:
+                cnt[ord(s[left]) - ord("a")] -= 1
                 left += 1
             res += left
         return res
@@ -6810,6 +6818,7 @@ class Union924:
                         if not dfs(y, x):
                             return False
                 return True
+
             g = [[] for _ in range(len(edges))]
             for id, (u, v) in enumerate(edges):
                 if i == id:
@@ -6834,13 +6843,16 @@ class Union924:
             def __init__(self, n: int):
                 self.parent = [i for i in range(n)]
                 self.rank = [1] * n
+
             def get_root(self, p: int) -> int:
                 if self.parent[p] == p:
                     return p
                 self.parent[p] = self.get_root(self.parent[p])
                 return self.parent[p]
+
             def is_conncted(self, p1: int, p2: int) -> bool:
                 return self.get_root(p1) == self.get_root(p2)
+
             def union(self, p1: int, p2: int) -> None:
                 r1 = self.get_root(p1)
                 r2 = self.get_root(p2)
@@ -6850,6 +6862,7 @@ class Union924:
                     self.parent[r2] = r1
                     if self.rank[r1] == self.rank[r2]:
                         self.rank[r1] += 1
+
         n = len(edges)
         u = union(n)
         for e in edges:
@@ -6893,7 +6906,7 @@ class Union924:
         for i in range(len(edges) - 1, -1, -1):
             if check(i):
                 return edges[i]
-            
+
     # 3330. 找到初始输入字符串 I (Find the Original Typed String I)
     def possibleStringCount(self, word: str) -> int:
         res = 1
@@ -6906,7 +6919,6 @@ class Union924:
             res += j - i - 1
             i = j
         return res
-    
 
     def findSubtreeSizes(self, parent: List[int], s: str) -> List[int]:
         def dfs2(x: int) -> int:
@@ -6914,8 +6926,9 @@ class Union924:
                 res[x] += dfs2(y)
             res[x] += 1
             return res[x]
+
         def dfs(x: int, fa: int) -> None:
-            id = ord(s[x]) - ord('a')
+            id = ord(s[x]) - ord("a")
             if st[id]:
                 g2[st[id][-1]].append(x)
             elif fa != -1:
@@ -6924,6 +6937,7 @@ class Union924:
             for y in g[x]:
                 dfs(y, x)
             st[id].pop()
+
         n = len(s)
         g = [[] for _ in range(n)]
         for i in range(1, n):
@@ -6934,4 +6948,18 @@ class Union924:
         res = [0] * n
         dfs2(0)
         return res
-        
+
+    # 3332. 旅客可以得到的最多点数 (Maximum Points Tourist Can Earn)
+    def maxScore(
+        self, n: int, k: int, stayScore: List[List[int]], travelScore: List[List[int]]
+    ) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if j == k:
+                return 0
+            return max(
+                dfs(i, j + 1) + stayScore[j][i],
+                max(dfs(x, j + 1) + travelScore[i][x] for x in range(n)),
+            )
+
+        return max(dfs(x, 0) for x in range(n))
