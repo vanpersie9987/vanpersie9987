@@ -1183,6 +1183,23 @@ public class Leetcode_9 {
         }
     }
 
+    // 3211. 生成不含相邻零的二进制字符串 (Generate Binary Strings Without Adjacent Zeros)
+    public List<String> validStrings2(int n) {
+        List<String> res = new ArrayList<>();
+        int u = (1 << n) - 1;
+        for (int i = 0; i < 1 << n; ++i) {
+            int c = i ^ u;
+            if ((c & (c >> 1)) == 0) {
+                String s = Integer.toBinaryString(i);
+                while (s.length() < n) {
+                    s = "0" + s;
+                }
+                res.add(s);
+            }
+        }
+        return res;
+    }
+
     // 3212. 统计 X 和 Y 频数相等的子矩阵数量 (Count Submatrices With Equal Frequency of X and Y)
     public int numberOfSubmatrices(char[][] grid) {
         int m = grid.length;
