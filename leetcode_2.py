@@ -5300,6 +5300,18 @@ class Union924:
         cur = []
         dfs(0, 1)
         return res
+    
+    # 3211. 生成不含相邻零的二进制字符串 (Generate Binary Strings Without Adjacent Zeros)
+    def validStrings(self, n: int) -> List[str]:
+        res = []
+        u = (1 << n) - 1
+        for i in range(1 << n):
+            c = i ^ u
+            if c & (c >> 1) == 0:
+                s = bin(i)[2:]
+                # zfill 左边补0直到s长度为n位
+                res.append(s.zfill(n))
+        return res
 
     # 3212. 统计 X 和 Y 频数相等的子矩阵数量 (Count Submatrices With Equal Frequency of X and Y)
     def numberOfSubmatrices(self, grid: List[List[str]]) -> int:
