@@ -5286,21 +5286,21 @@ class Union924:
     def validStrings(self, n: int) -> List[str]:
         def dfs(i: int, j: int) -> None:
             if i == n:
-                res.append("".join(cur))
+                res.append(''.join(_list))
                 return
-            cur.append("1")
+            _list.append('1')
             dfs(i + 1, 1)
-            cur.pop()
+            _list.pop()
             if j == 1:
-                cur.append("0")
+                _list.append('0')
                 dfs(i + 1, 0)
-                cur.pop()
+                _list.pop()
 
+        _list = []
         res = []
-        cur = []
         dfs(0, 1)
         return res
-    
+
     # 3211. 生成不含相邻零的二进制字符串 (Generate Binary Strings Without Adjacent Zeros)
     def validStrings(self, n: int) -> List[str]:
         res = []
