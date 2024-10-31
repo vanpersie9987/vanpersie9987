@@ -5348,7 +5348,7 @@ class Union924:
         n = len(s)
         arr = [x for x in s]
         for i in range(n - 1):
-            if int(arr[i]) % 2 == int(arr[i + 1]) % 2 and int(arr[i]) > int(arr[i + 1]):
+            if ord(arr[i]) % 2 == ord(arr[i + 1]) % 2 and int(arr[i]) > int(arr[i + 1]):
                 arr[i], arr[i + 1] = arr[i + 1], arr[i]
                 break
         return "".join(arr)
@@ -6932,6 +6932,7 @@ class Union924:
             i = j
         return res
 
+    # 3331. 修改后子树的大小 (Find Subtree Sizes After Changes)
     def findSubtreeSizes(self, parent: List[int], s: str) -> List[int]:
         def dfs2(x: int) -> int:
             for y in g2[x]:
