@@ -3049,4 +3049,30 @@ public class Leetcode_9 {
         }
         return memo3332[i][j] = res;
     }
+
+    // 3259. 超级饮料的最大强化能量 (Maximum Energy Boost From Two Drinks)
+    private int n3259;
+    private int[] energyDrinkA3259;
+    private int[] energyDrinkB3259;
+    private long[][] memo3259;
+
+    public long maxEnergyBoost(int[] energyDrinkA, int[] energyDrinkB) {
+        this.n3259 = energyDrinkA.length;
+        this.energyDrinkA3259 = energyDrinkA;
+        this.energyDrinkB3259 = energyDrinkB;
+        this.memo3259 = new long[n3259][2];
+        return Math.max(dfs3259(0, 0), dfs3259(0, 1));
+        
+
+    }
+
+    private long dfs3259(int i, int j) {
+        if (i >= n3259) {
+            return 0;
+        }
+        if (memo3259[i][j] != 0) {
+            return memo3259[i][j];
+        }
+        return memo3259[i][j] = Math.max(dfs3259(i + 1, j), dfs3259(i + 2, j ^ 1)) + (j == 0 ? energyDrinkA3259[i] : energyDrinkB3259[i]);
+    }
 }
