@@ -3075,52 +3075,5 @@ public class Leetcode_9 {
         }
         return memo3259[i][j] = Math.max(dfs3259(i + 1, j), dfs3259(i + 2, j ^ 1)) + (j == 0 ? energyDrinkA3259[i] : energyDrinkB3259[i]);
     }
-
-    public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
-        List<List<Integer>> list = new ArrayList<>();
-        search: for (List<Integer> s : special) {
-            for (int i = 0; i < needs.size(); ++i) {
-                if (s.get(i) > needs.get(i)) {
-                    continue search;
-                }
-            }
-            list.add(s);
-        }
-        return dfs(0, needs, list, price);
-
-    }
-
-    private int dfs(int i, List<Integer> needs, List<List<Integer>> special, List<Integer> price) {
-        if (i == special.size()) {
-            int res = 0;
-            for (int j = 0; j < needs.size(); ++j) {
-                res += needs.get(j) * price.get(j);
-            }
-            return res;
-        }
-        int res = dfs(i + 1, needs, special, price);
-        int add = 0;
-        int k = 1;
-        while (true) {
-            boolean f = false;
-            for (int j = 0; j < price.size(); ++j) {
-                if (special.get(i).get(j) * k > needs.get(j)) {
-                    f = true;
-                    break;
-                }
-            }
-            if (f) {
-                break;
-            }
-            List<Integer> cur = new ArrayList<>();
-            for (int j = 0; j < price.size(); ++j) {
-                cur.add(needs.get(j) - special.get(i).get(j) * k);
-            }
-            add += special.get(i).get(special.get(i).size() - 1);
-            res = Math.min(res, dfs(i + 1, cur, special, price) + add);
-            ++k;
-        }
-        return res;
-    }
     
 }
