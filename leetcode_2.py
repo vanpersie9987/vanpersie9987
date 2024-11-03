@@ -6976,3 +6976,32 @@ class Union924:
             )
 
         return max(dfs(x, 0) for x in range(n))
+
+    # 638. 大礼包 (Shopping Offers)
+    def shoppingOffers(self, price: List[int], special: List[List[int]], needs: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: tuple) -> int:
+            if i == n:
+                res = 0
+                for a, b in zip(price, j):
+                    res += a * b
+                return res
+            res = dfs(i + 1, j)
+            added = 0
+            k = 1
+            while True:
+                if any(x * k > y for (x, y) in zip(_list[i], j)):
+                    break
+                cur = [x for x in j]
+                for id, (x, _) in enumerate(zip(_list[i], j)):
+                    cur[id] -= x * k
+                added += _list[i][-1]
+                res = min(res, dfs(i + 1, tuple(cur)) + added)
+                k += 1
+            return res
+        _list = []
+        for s in special:
+            if all(a <= b for a, b in zip(s, needs)):
+                _list.append(s)
+        n = len(_list)
+        return dfs(0, tuple(needs))
