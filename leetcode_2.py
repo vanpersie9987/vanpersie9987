@@ -7023,10 +7023,8 @@ class Union924:
     # 3340. 检查平衡字符串 (Check Balanced String)
     def isBalanced(self, num: str) -> bool:
         s = [0] * 2
-        i = 0
-        for c in num:
-            s[i] += int(c)
-            i ^= 1
+        for i, c in enumerate(num):
+            s[i & 1] += int(c)
         return s[0] == s[1]
 
     # 3341. 到达最后一个房间的最少时间 I (Find Minimum Time to Reach Last Room I)
