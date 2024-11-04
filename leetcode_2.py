@@ -7028,3 +7028,89 @@ class Union924:
             s[i] += int(c)
             i ^= 1
         return s[0] == s[1]
+
+    # 3341. 到达最后一个房间的最少时间 I (Find Minimum Time to Reach Last Room I)
+    def minTimeToReach(self, moveTime: List[List[int]]) -> int:
+        m = len(moveTime)
+        n = len(moveTime[0])
+        dis = [[inf] * n for _ in range(m)]
+        dis[0][0] = 0
+        q = []
+        heapq.heapify(q)
+        q.append((0, 0, 0))
+        while q:
+            (t, x, y) = heapq.heappop(q)
+            if t > dis[x][y]:
+                continue
+            if x == m - 1 and y == n - 1:
+                return t
+            for dx, dy in [[0, 1], [0, -1], [1, 0], [-1, 0]]:
+                nx = x + dx
+                ny = y + dy
+                if m > nx >= 0 and n > ny >= 0:
+                    dt = max(0, moveTime[nx][ny] - t) + 1
+                    if t + dt < dis[nx][ny]:
+                        dis[nx][ny] = t + dt
+                        heapq.heappush(q, (t + dt, nx, ny))
+        return -1
+
+    # 3342. 到达最后一个房间的最少时间 II (Find Minimum Time to Reach Last Room II)
+    def minTimeToReach(self, moveTime: List[List[int]]) -> int:
+        m = len(moveTime)
+        n = len(moveTime[0])
+        dis = [[inf] * n for _ in range(m)]
+        dis[0][0] = 0
+        q = []
+        heapq.heapify(q)
+        q.append((0, 0, 0, 1))
+        while q:
+            (t, x, y, p) = heapq.heappop(q)
+            if t > dis[x][y]:
+                continue
+            if x == m - 1 and y == n - 1:
+                return t
+            for dx, dy in [[0, 1], [0, -1], [1, 0], [-1, 0]]:
+                nx = x + dx
+                ny = y + dy
+                if m > nx >= 0 and n > ny >= 0:
+                    dt = max(0, moveTime[nx][ny] - t) + (p ^ 1) + 1
+                    if t + dt < dis[nx][ny]:
+                        dis[nx][ny] = t + dt
+                        heapq.heappush(q, (t + dt, nx, ny, p ^ 1))
+        return -1
+
+    # def countBalancedPermutations(self, num: str) -> int:
+    #     @cache
+    #     def dfs(i: int, j: int, cnt: tuple) -> int:
+    #         if i == n:
+    #             return int(j == 0)
+    #         s = 0
+    #         x = 0
+    #         y = 9
+    #         cur = [x for x in cnt]
+    #         while x <= y:
+    #             while cur[y] == 0:
+    #                 y -= 1
+    #             s += y
+    #             cur[y] -= 1
+    #             while cur[x] == 0:
+    #                 x += 1
+    #             s -= x
+    #             cur[x] -= 1
+    #         if j + s < 0 or j - s > 0:
+    #             return 0
+    #         res = 0
+    #         cur = [x for x in cnt]
+    #         for id, v in enumerate(cnt):
+    #             if v:
+    #                 cur[id] -= 1
+    #                 res += dfs(i + 1, j + (id if i & 1 else -id), tuple(cur))
+    #                 cur[id] += 1
+    #         return res % MOD
+
+    #     n = len(num)
+    #     MOD = 10**9 + 7
+    #     cnt = [0] * 10
+    #     for d in num:
+    #         cnt[int(d)] += 1
+    #     return dfs(0, 0, tuple(cnt))

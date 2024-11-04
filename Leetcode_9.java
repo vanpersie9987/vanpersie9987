@@ -3062,7 +3062,6 @@ public class Leetcode_9 {
         this.energyDrinkB3259 = energyDrinkB;
         this.memo3259 = new long[n3259][2];
         return Math.max(dfs3259(0, 0), dfs3259(0, 1));
-        
 
     }
 
@@ -3073,7 +3072,8 @@ public class Leetcode_9 {
         if (memo3259[i][j] != 0) {
             return memo3259[i][j];
         }
-        return memo3259[i][j] = Math.max(dfs3259(i + 1, j), dfs3259(i + 2, j ^ 1)) + (j == 0 ? energyDrinkA3259[i] : energyDrinkB3259[i]);
+        return memo3259[i][j] = Math.max(dfs3259(i + 1, j), dfs3259(i + 2, j ^ 1))
+                + (j == 0 ? energyDrinkA3259[i] : energyDrinkB3259[i]);
     }
 
     // 3340. 检查平衡字符串 (Check Balanced String)
@@ -3084,8 +3084,101 @@ public class Leetcode_9 {
             s[i] += c - '0';
             i ^= 1;
         }
-        return s[0] == s[1]; 
+        return s[0] == s[1];
 
     }
-    
+
+    // 3341. 到达最后一个房间的最少时间 I (Find Minimum Time to Reach Last Room I)
+    public int minTimeToReach(int[][] moveTime) {
+        int m = moveTime.length;
+        int n = moveTime[0].length;
+        int[][] dis = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(dis[i], Integer.MAX_VALUE);
+        }
+        dis[0][0] = 0;
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[2], o2[2]);
+            }
+
+        });
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        q.offer(new int[] { 0, 0, 0 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int t = cur[2];
+            if (t > dis[x][y]) {
+                continue;
+            }
+            if (x == m - 1 && y == n - 1) {
+                return t;
+            }
+            for (int[] d : dirs) {
+                int nx = x + d[0];
+                int ny = y + d[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                    int dt = Math.max(0, moveTime[nx][ny] - t) + 1;
+                    if (t + dt < dis[nx][ny]) {
+                        dis[nx][ny] = t + dt;
+                        q.offer(new int[] { nx, ny, t + dt });
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
+    // 3342. 到达最后一个房间的最少时间 II (Find Minimum Time to Reach Last Room II)
+    public int minTimeToReach3342(int[][] moveTime) {
+        int m = moveTime.length;
+        int n = moveTime[0].length;
+        int[][] dis = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(dis[i], Integer.MAX_VALUE);
+        }
+        dis[0][0] = 0;
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[2], o2[2]);
+            }
+
+        });
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        q.offer(new int[] { 0, 0, 0, 1 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int t = cur[2];
+            int p = cur[3];
+            if (t > dis[x][y]) {
+                continue;
+            }
+            if (x == m - 1 && y == n - 1) {
+                return t;
+            }
+            for (int[] d : dirs) {
+                int nx = x + d[0];
+                int ny = y + d[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                    int dt = Math.max(0, moveTime[nx][ny] - t) + (p ^ 1) + 1;
+                    if (t + dt < dis[nx][ny]) {
+                        dis[nx][ny] = t + dt;
+                        q.offer(new int[] { nx, ny, t + dt, p ^ 1 });
+                    }
+                }
+            }
+        }
+        return -1;
+
+
+    }
+
 }
