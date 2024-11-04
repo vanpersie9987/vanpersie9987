@@ -7019,3 +7019,12 @@ class Union924:
             else:
                 j -= 1
         return False
+
+    # 3340. 检查平衡字符串 (Check Balanced String)
+    def isBalanced(self, num: str) -> bool:
+        s = [0] * 2
+        i = 0
+        for c in num:
+            s[i] += int(c)
+            i ^= 1
+        return s[0] == s[1]

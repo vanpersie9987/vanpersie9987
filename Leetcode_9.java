@@ -3075,5 +3075,17 @@ public class Leetcode_9 {
         }
         return memo3259[i][j] = Math.max(dfs3259(i + 1, j), dfs3259(i + 2, j ^ 1)) + (j == 0 ? energyDrinkA3259[i] : energyDrinkB3259[i]);
     }
+
+    // 3340. 检查平衡字符串 (Check Balanced String)
+    public boolean isBalanced(String num) {
+        int[] s = new int[2];
+        int i = 0;
+        for (char c : num.toCharArray()) {
+            s[i] += c - '0';
+            i ^= 1;
+        }
+        return s[0] == s[1]; 
+
+    }
     
 }
