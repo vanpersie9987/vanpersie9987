@@ -7078,39 +7078,3 @@ class Union924:
                         dis[nx][ny] = t + dt
                         heapq.heappush(q, (t + dt, nx, ny, p ^ 1))
         return -1
-
-    # def countBalancedPermutations(self, num: str) -> int:
-    #     @cache
-    #     def dfs(i: int, j: int, cnt: tuple) -> int:
-    #         if i == n:
-    #             return int(j == 0)
-    #         s = 0
-    #         x = 0
-    #         y = 9
-    #         cur = [x for x in cnt]
-    #         while x <= y:
-    #             while cur[y] == 0:
-    #                 y -= 1
-    #             s += y
-    #             cur[y] -= 1
-    #             while cur[x] == 0:
-    #                 x += 1
-    #             s -= x
-    #             cur[x] -= 1
-    #         if j + s < 0 or j - s > 0:
-    #             return 0
-    #         res = 0
-    #         cur = [x for x in cnt]
-    #         for id, v in enumerate(cnt):
-    #             if v:
-    #                 cur[id] -= 1
-    #                 res += dfs(i + 1, j + (id if i & 1 else -id), tuple(cur))
-    #                 cur[id] += 1
-    #         return res % MOD
-
-    #     n = len(num)
-    #     MOD = 10**9 + 7
-    #     cnt = [0] * 10
-    #     for d in num:
-    #         cnt[int(d)] += 1
-    #     return dfs(0, 0, tuple(cnt))
