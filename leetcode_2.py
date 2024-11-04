@@ -7005,3 +7005,17 @@ class Union924:
                 _list.append(s)
         n = len(_list)
         return dfs(0, tuple(needs))
+
+    # 633. 平方数之和 (Sum of Square Numbers)
+    def judgeSquareSum(self, c: int) -> bool:
+        i = 0
+        j = isqrt(c)
+        while i <= j:
+            s = i * i + j * j
+            if s == c:
+                return True
+            elif s < c:
+                i += 1
+            else:
+                j -= 1
+        return False
