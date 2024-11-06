@@ -5875,10 +5875,9 @@ class Union924:
                 cnt += 1
             if i >= k and nums[i - k + 1] - nums[i - k] == 1:
                 cnt -= 1
-            if i + 1 - k >= 0 and cnt == k:
+            if cnt == k:
                 res[i - k + 1] = x
         return res
-
 
     # 3258. 统计满足 K 约束的子字符串数量 I (Count Substrings That Satisfy K-Constraint I)
     def countKConstraintSubstrings(self, s: str, k: int) -> int:
