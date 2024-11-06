@@ -5865,23 +5865,20 @@ class Union924:
     def checkRecord(self, s: str) -> bool:
         return s.count("A") < 2 and "LLL" not in s
 
+    # 3254. 长度为 K 的子数组的能量值 I (Find the Power of K-Size Subarrays I)
     def resultsArray(self, nums: List[int], k: int) -> List[int]:
+        cnt = 1
         n = len(nums)
-        cnt = 0
         res = [-1] * (n - k + 1)
-        for i in range(1, k):
-            if nums[i] - nums[i - 1] != 1:
+        for i, x in enumerate(nums):
+            if i and x - nums[i - 1] == 1:
                 cnt += 1
-        if cnt == 0:
-            res[0] = nums[k - 1]
-        for i in range(k, n):
-            if nums[i - k + 1] - nums[i - k] != 1:
+            if i >= k and nums[i - k + 1] - nums[i - k] == 1:
                 cnt -= 1
-            if nums[i] - nums[i - 1] != 1:
-                cnt += 1
-            if cnt == 0:
-                res[i - k + 1] = nums[i]
+            if i + 1 - k >= 0 and cnt == k:
+                res[i - k + 1] = x
         return res
+
 
     # 3258. 统计满足 K 约束的子字符串数量 I (Count Substrings That Satisfy K-Constraint I)
     def countKConstraintSubstrings(self, s: str, k: int) -> int:
