@@ -1748,27 +1748,20 @@ public class Leetcode_9 {
         return true;
     }
 
+    // 3254. 长度为 K 的子数组的能量值 I (Find the Power of K-Size Subarrays I)
     public int[] resultsArray(int[] nums, int k) {
         int n = nums.length;
         int[] res = new int[n - k + 1];
         Arrays.fill(res, -1);
-        int cnt = 0;
-        for (int i = 1; i < k; ++i) {
-            if (nums[i] - nums[i - 1] != 1) {
+        int cnt = 1;
+        for (int i = 0; i < n; ++i) {
+            if (i > 0 && nums[i] - nums[i - 1] == 1) {
                 ++cnt;
             }
-        }
-        if (cnt == 0) {
-            res[0] = nums[k - 1];
-        }
-        for (int i = k; i < n; ++i) {
-            if (nums[i - k + 1] - nums[i - k] != 1) {
+            if (i >= k && nums[i - k + 1] - nums[i - k] == 1) {
                 --cnt;
             }
-            if (nums[i] - nums[i - 1] != 1) {
-                ++cnt;
-            }
-            if (cnt == 0) {
+            if (cnt == k) {
                 res[i - k + 1] = nums[i];
             }
         }
