@@ -5866,6 +5866,7 @@ class Union924:
         return s.count("A") < 2 and "LLL" not in s
 
     # 3254. 长度为 K 的子数组的能量值 I (Find the Power of K-Size Subarrays I)
+    # 3255. 长度为 K 的子数组的能量值 II (Find the Power of K-Size Subarrays II)
     def resultsArray(self, nums: List[int], k: int) -> List[int]:
         cnt = 1
         n = len(nums)

@@ -1749,6 +1749,7 @@ public class Leetcode_9 {
     }
 
     // 3254. 长度为 K 的子数组的能量值 I (Find the Power of K-Size Subarrays I)
+    // 3255. 长度为 K 的子数组的能量值 II (Find the Power of K-Size Subarrays II)
     public int[] resultsArray(int[] nums, int k) {
         int n = nums.length;
         int[] res = new int[n - k + 1];
@@ -3168,7 +3169,6 @@ public class Leetcode_9 {
             }
         }
         return -1;
-
 
     }
 
