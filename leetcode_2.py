@@ -7074,3 +7074,17 @@ class Union924:
                         dis[nx][ny] = t + dt
                         heapq.heappush(q, (t + dt, nx, ny, p ^ 1))
         return -1
+
+    # 3345. 最小可整除数位乘积 I (Smallest Divisible Digit Product I)
+    def smallestNumber(self, n: int, t: int) -> int:
+        def check(x: int) -> bool:
+            res = 1
+            while x:
+                res *= x % 10
+                x //= 10
+            return res % t == 0
+
+        while True:
+            if check(n):
+                return n
+            n += 1

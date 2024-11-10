@@ -3172,4 +3172,46 @@ public class Leetcode_9 {
 
     }
 
+    // 3345. 最小可整除数位乘积 I (Smallest Divisible Digit Product I)
+    public int smallestNumber(int n, int t) {
+        while (true) {
+            if (check3345(n, t)) {
+                return n;
+            }
+            ++n;
+        }
+    }
+
+    private boolean check3345(int n, int t) {
+        int res = 1;
+        while (n != 0) {
+            res *= n % 10;
+            n /= 10;
+        }
+        return res % t == 0;
+    }
+
+    // 3346. 执行操作后元素的最高频率 I (Maximum Frequency of an Element After Performing
+    // Operations I)
+    // 3347. 执行操作后元素的最高频率 II (Maximum Frequency of an Element After Performing
+    // Operations II)
+    public int maxFrequency(int[] nums, int k, int numOperations) {
+        TreeMap<Integer, Integer> diff = new TreeMap<>();
+        Map<Integer, Integer> cnt = new HashMap<>();
+        for (int x : nums) {
+            cnt.merge(x, 1, Integer::sum);
+            diff.putIfAbsent(x, 0);
+            diff.merge(x - k, 1, Integer::sum);
+            diff.merge(x + k + 1, -1, Integer::sum);
+        }
+        int res = 0;
+        int sumD = 0;
+        for (Map.Entry<Integer, Integer> entry : diff.entrySet()) {
+            sumD += entry.getValue();
+            res = Math.max(res, Math.min(sumD, cnt.getOrDefault(entry.getKey(), 0) + numOperations));
+        }
+        return res;
+
+    }
+
 }
