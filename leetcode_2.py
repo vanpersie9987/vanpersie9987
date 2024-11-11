@@ -7101,7 +7101,6 @@ class Union924:
                 cnt -= 1
             if cnt >= k:
                 a[i] = True
-        for i in range(k * 2 - 1, n):
-            if a[i] and a[i - k]:
-                return True
+                if i >= k and a[i - k]:
+                    return True
         return False

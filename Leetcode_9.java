@@ -3213,4 +3213,27 @@ public class Leetcode_9 {
         return res;
 
     }
+
+    // 3349. 检测相邻递增子数组 I (Adjacent Increasing Subarrays Detection I)
+    public boolean hasIncreasingSubarrays(List<Integer> nums, int k) {
+        int n = nums.size();
+        int cnt = 1;
+        boolean[] a = new boolean[n];
+        for (int i = 0; i < n; ++i) {
+            if (i > 0 && nums.get(i) > nums.get(i - 1)) {
+                ++cnt;
+            }
+            if (i >= k && nums.get(i - k + 1) > nums.get(i - k)) {
+                --cnt;
+            }
+            if (cnt >= k) {
+                a[i] = true;
+                if (i - k >= 0 && a[i - k]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
 }
