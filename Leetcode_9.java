@@ -3236,4 +3236,39 @@ public class Leetcode_9 {
         return false;
 
     }
+
+    // 3350. 检测相邻递增子数组 II (Adjacent Increasing Subarrays Detection II)
+    public int maxIncreasingSubarrays(List<Integer> nums) {
+        int n = nums.size();
+        int left = 1;
+        int right = n / 2;
+        int res = 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (hasIncreasingSubarrays(nums, mid)) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
+
+    // 3351. 好子序列的元素之和 (Sum of Good Subsequences)
+    public int sumOfGoodSubsequences(int[] nums) {
+        long res = 0;
+        final int MOD = (int) (1e9 + 7);
+        Map<Integer, Integer> f = new HashMap<>();
+        Map<Integer, Integer> cnt = new HashMap<>();
+        for (int x : nums) {
+            long c = cnt.getOrDefault(x - 1, 0) + cnt.getOrDefault(x + 1, 0) + 1;
+            f.put(x, (int) ((x * c + f.getOrDefault(x, 0) + f.getOrDefault(x - 1, 0) + f.getOrDefault(x + 1, 0)) % MOD));
+            cnt.put(x, (int) ((cnt.getOrDefault(x, 0) + c) % MOD));
+        }
+        for (int x : f.values()) {
+            res += x;
+        }
+        return (int) (res % MOD);
+    }
 }
