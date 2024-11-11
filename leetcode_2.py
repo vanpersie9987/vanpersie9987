@@ -7145,3 +7145,30 @@ class Union924:
             f[x] = (f[x] + f[x - 1] + f[x + 1] + x * c) % MOD
             cnt[x] = (cnt[x] + c) % MOD
         return sum(f) % MOD
+    
+    # 3352. 统计小于 N 的 K 可约简整数 (Count K-Reducible Numbers Less Than N)
+    def countKReducibleNumbers(self, s: str, k: int) -> int:
+        @cache
+        def dfs(i: int, j: int, is_limit: bool) -> int:
+            if i == n:
+                return 0 if is_limit or j else 1
+            res = 0
+            up = int(s[i]) if is_limit else 1
+            for d in range(min(up, j) + 1):
+                res += dfs(i + 1, j - d, is_limit and d == up)
+            return res % MOD
+        n = len(s)
+        f = [0] * (n + 1)
+        res = 0
+        MOD = 10**9 + 7
+        for i in range(1, n + 1):
+            f[i] = f[i.bit_count()] + 1 if i > 1 else 0
+            if f[i] < k:
+                res += dfs(0, i, True)
+                res %= MOD
+        dfs.cache_clear()
+        return res
+        
+
+
+        
