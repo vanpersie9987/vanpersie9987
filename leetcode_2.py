@@ -7154,7 +7154,9 @@ class Union924:
                 return 0 if is_limit or j else 1
             res = 0
             up = int(s[i]) if is_limit else 1
-            for d in range(min(up, j) + 1):
+            for d in range(up + 1):
+                if j - d < 0:
+                    continue
                 res += dfs(i + 1, j - d, is_limit and d == up)
             return res % MOD
         n = len(s)

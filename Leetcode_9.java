@@ -3263,7 +3263,8 @@ public class Leetcode_9 {
         Map<Integer, Integer> cnt = new HashMap<>();
         for (int x : nums) {
             long c = cnt.getOrDefault(x - 1, 0) + cnt.getOrDefault(x + 1, 0) + 1;
-            f.put(x, (int) ((x * c + f.getOrDefault(x, 0) + f.getOrDefault(x - 1, 0) + f.getOrDefault(x + 1, 0)) % MOD));
+            f.put(x, (int) ((x * c + f.getOrDefault(x, 0) + f.getOrDefault(x - 1, 0) + f.getOrDefault(x + 1, 0))
+                    % MOD));
             cnt.put(x, (int) ((cnt.getOrDefault(x, 0) + c) % MOD));
         }
         for (int x : f.values()) {
@@ -3271,4 +3272,56 @@ public class Leetcode_9 {
         }
         return (int) (res % MOD);
     }
+
+    // 3352. 统计小于 N 的 K 可约简整数 (Count K-Reducible Numbers Less Than N)
+    private int[][] memo3352;
+    private int n3352;
+    private String s3352;
+
+    public int countKReducibleNumbers(String s, int k) {
+        this.n3352 = s.length();
+        this.s3352 = s;
+        this.memo3352 = new int[n3352][n3352 + 1];
+        for (int i = 0; i < n3352; ++i) {
+            Arrays.fill(memo3352[i], -1);
+        }
+        int[] f = new int[n3352 + 1];
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int i = 1; i < n3352 + 1; ++i) {
+            if (i > 1) {
+                f[i] = f[Integer.bitCount(i)] + 1;
+            }
+            if (f[i] < k) {
+                res += dfs3352(0, i, true);
+                res %= MOD;
+            }
+        }
+        return res;
+
+    }
+
+    private int dfs3352(int i, int j, boolean isLimit) {
+        if (i == n3352) {
+            return isLimit || j > 0 ? 0 : 1;
+        }
+        if (!isLimit && memo3352[i][j] != -1) {
+            return memo3352[i][j];
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        int up = isLimit ? s3352.charAt(i) - '0' : 1;
+        for (int d = 0; d <= up; ++d) {
+            if (j - d < 0) {
+                continue;
+            }
+            res += dfs3352(i + 1, j - d, isLimit && up == d);
+            res %= MOD;
+        }
+        if (!isLimit) {
+            memo3352[i][j] = res;
+        }
+        return res;
+    }
+
 }
