@@ -7088,3 +7088,20 @@ class Union924:
             if check(n):
                 return n
             n += 1
+
+    # 3349. 检测相邻递增子数组 I (Adjacent Increasing Subarrays Detection I)
+    def hasIncreasingSubarrays(self, nums: List[int], k: int) -> bool:
+        n = len(nums)
+        cnt = 1
+        a = [False] * n
+        for i, v in enumerate(nums):
+            if i and v - nums[i - 1] > 0:
+                cnt += 1
+            if i >= k and nums[i - k + 1] - nums[i - k] > 0:
+                cnt -= 1
+            if cnt >= k:
+                a[i] = True
+        for i in range(k * 2 - 1, n):
+            if a[i] and a[i - k]:
+                return True
+        return False
