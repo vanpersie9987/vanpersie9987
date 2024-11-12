@@ -3324,4 +3324,19 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3258. 统计满足 K 约束的子字符串数量 I ( Count Substrings That Satisfy K-Constraint I)
+    public int countKConstraintSubstrings(String s, int k) {
+        int res = 0;
+        int[] cnt = new int[2];
+        int j = 0;
+        for (int i = 0; i < s.length(); ++i) {
+            ++cnt[s.charAt(i) - '0'];
+            while (cnt[0] > k && cnt[1] > k) {
+                --cnt[s.charAt(j++) - '0'];
+            }
+            res += i - j + 1;
+        }
+        return res;
+    }
+
 }
