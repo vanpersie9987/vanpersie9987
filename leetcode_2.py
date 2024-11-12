@@ -5286,13 +5286,13 @@ class Union924:
     def validStrings(self, n: int) -> List[str]:
         def dfs(i: int, j: int) -> None:
             if i == n:
-                res.append(''.join(_list))
+                res.append("".join(_list))
                 return
-            _list.append('1')
+            _list.append("1")
             dfs(i + 1, 1)
             _list.pop()
             if j == 1:
-                _list.append('0')
+                _list.append("0")
                 dfs(i + 1, 0)
                 _list.pop()
 
@@ -5882,18 +5882,15 @@ class Union924:
 
     # 3258. 统计满足 K 约束的子字符串数量 I (Count Substrings That Satisfy K-Constraint I)
     def countKConstraintSubstrings(self, s: str, k: int) -> int:
-        n = len(s)
-        cnt = [0] * 2
-        i = 0
-        j = 0
         res = 0
-        while i < n:
-            cnt[int(s[i])] += 1
+        cnt = [0] * 2
+        j = 0
+        for i, v in enumerate(s):
+            cnt[int(v)] += 1
             while cnt[0] > k and cnt[1] > k:
                 cnt[int(s[j])] -= 1
                 j += 1
             res += i - j + 1
-            i += 1
         return res
 
     # 3259. 超级饮料的最大强化能量 (Maximum Energy Boost From Two Drinks)
@@ -6976,7 +6973,9 @@ class Union924:
         return max(dfs(x, 0) for x in range(n))
 
     # 638. 大礼包 (Shopping Offers)
-    def shoppingOffers(self, price: List[int], special: List[List[int]], needs: List[int]) -> int:
+    def shoppingOffers(
+        self, price: List[int], special: List[List[int]], needs: List[int]
+    ) -> int:
         @cache
         def dfs(i: int, j: tuple) -> int:
             if i == n:
@@ -6997,6 +6996,7 @@ class Union924:
                 res = min(res, dfs(i + 1, tuple(cur)) + added)
                 k += 1
             return res
+
         _list = []
         for s in special:
             if all(a <= b for a, b in zip(s, needs)):
@@ -7121,6 +7121,7 @@ class Union924:
                     if i >= k and a[i - k]:
                         return True
             return False
+
         n = len(nums)
         left = 1
         right = n // 2
@@ -7145,7 +7146,7 @@ class Union924:
             f[x] = (f[x] + f[x - 1] + f[x + 1] + x * c) % MOD
             cnt[x] = (cnt[x] + c) % MOD
         return sum(f) % MOD
-    
+
     # 3352. 统计小于 N 的 K 可约简整数 (Count K-Reducible Numbers Less Than N)
     def countKReducibleNumbers(self, s: str, k: int) -> int:
         @cache
@@ -7159,6 +7160,7 @@ class Union924:
                     continue
                 res += dfs(i + 1, j - d, is_limit and d == up)
             return res % MOD
+
         n = len(s)
         f = [0] * (n + 1)
         res = 0
@@ -7170,7 +7172,3 @@ class Union924:
                 res %= MOD
         dfs.cache_clear()
         return res
-        
-
-
-        
