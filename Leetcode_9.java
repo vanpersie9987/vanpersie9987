@@ -1528,23 +1528,9 @@ public class Leetcode_9 {
 
     }
 
+    // 3239. 最少翻转次数使二进制矩阵回文 I (Minimum Number of Flips to Make Binary Grid
+    // Palindromic I)
     public int minFlips(int[][] grid) {
-        return Math.min(check(grid), check2(grid));
-    }
-
-    private int check2(int[][] grid) {
-        int m = grid.length;
-        int n = grid[0].length;
-        int res = 0;
-        for (int j = 0; j < n; ++j) {
-            for (int i = 0; i < m / 2; ++i) {
-                res += grid[i][j] != grid[m - i - 1][j] ? 1 : 0;
-            }
-        }
-        return res;
-    }
-
-    private int check(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
         int res = 0;
@@ -1553,7 +1539,13 @@ public class Leetcode_9 {
                 res += grid[i][j] != grid[i][n - j - 1] ? 1 : 0;
             }
         }
-        return res;
+        int res2 = 0;
+        for (int j = 0; j < n; ++j) {
+            for (int i = 0; i < m / 2; ++i) {
+                res2 += grid[i][j] != grid[m - i - 1][j] ? 1 : 0;
+            }
+        }
+        return Math.min(res, res2);
     }
 
     // 3242. 设计相邻元素求和服务 (Design Neighbor Sum Service)
