@@ -5674,26 +5674,18 @@ class Union924:
             res += any(j > i for j in cnt[i])
         return res
 
+    # 3239. 最少翻转次数使二进制矩阵回文 I (Minimum Number of Flips to Make Binary Grid Palindromic I)
     def minFlips(self, grid: List[List[int]]) -> int:
         def check(g: List[List[int]]) -> int:
+            res = 0
             m = len(g)
             n = len(g[0])
-            res = 0
             for i in range(m):
                 for j in range(n // 2):
-                    res += grid[i][j] != grid[i][n - j - 1]
+                    res += g[i][j] != g[i][n - j - 1]
             return res
 
-        def check2(g: List[List[int]]) -> int:
-            m = len(g)
-            n = len(g[0])
-            res = 0
-            for j in range(n):
-                for i in range(m // 2):
-                    res += grid[i][j] != grid[m - i - 1][j]
-            return res
-
-        return min(check(grid), check2(grid))
+        return min(check(grid), check([list(row) for row in zip(*grid)]))
 
     def minFlips(self, grid: List[List[int]]) -> int:
         m = len(grid)
