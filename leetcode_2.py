@@ -5819,21 +5819,20 @@ class Union924:
     # 3249. 统计好节点的数目 (Count the Number of Good Nodes)
     def countGoodNodes(self, edges: List[List[int]]) -> int:
         def dfs(x: int, fa: int) -> int:
-            pre = -1
-            ret = True
+            pre = 0
             s = 0
+            ret = True
             for y in g[x]:
                 if y != fa:
-                    c = dfs(y, x)
-                    if pre != -1 and pre != c:
+                    cnt = dfs(y, x)
+                    if pre and pre != cnt:
                         ret = False
-                    pre = c
-                    s += c
+                    pre = cnt
+                    s += cnt
             if ret:
                 nonlocal res
                 res += 1
             return s + 1
-
         n = len(edges) + 1
         g = [[] for _ in range(n)]
         for u, v in edges:
