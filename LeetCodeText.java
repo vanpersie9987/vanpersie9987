@@ -2974,16 +2974,19 @@ public class LeetCodeText {
 
     }
 
-    // 825. 适龄的朋友
+    // 825. 适龄的朋友 (Friends Of Appropriate Ages)
     public int numFriendRequests(final int[] ages) {
         int res = 0;
         int[] count = new int[121];
         for (int age : ages) {
             ++count[age];
         }
-        for (int ageA = 1; ageA < count.length; ++ageA) {
-            for (int ageB = 1; ageB < count.length; ++ageB) {
-                if (ageB > 0.5 * ageA + 7 && ageB <= ageA && ((ageB <= 100)) || ((ageA >= 100))) {
+        for (int ageA = 1; ageA < 121; ++ageA) {
+            if (ageA == 0) {
+                continue;
+            }
+            for (int ageB = 1; ageB < 121; ++ageB) {
+                if ((ageB != 0) && (!(ageB <= 0.5 * ageA + 7 || ageB > ageA || (ageB > 100) && (ageA < 100)))) {
                     res += count[ageA] * count[ageB];
                     if (ageA == ageB) {
                         res -= count[ageA];

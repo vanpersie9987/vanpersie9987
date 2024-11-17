@@ -7163,3 +7163,21 @@ class Union924:
                 res %= MOD
         dfs.cache_clear()
         return res
+
+    # 825. 适龄的朋友 (Friends Of Appropriate Ages)
+    def numFriendRequests(self, ages: List[int]) -> int:
+        cnt = [0] * 121
+        for a in ages:
+            cnt[a] += 1
+        res = 0
+        for i, x in enumerate(cnt):
+            if x == 0:
+                continue
+            for j, y in enumerate(cnt):
+                if y == 0:
+                    continue
+                if not (j <= 0.5 * i + 7 or j > i or j > 100 and i < 100):
+                    res += x * y
+                    if i == j:
+                        res -= x
+        return res
