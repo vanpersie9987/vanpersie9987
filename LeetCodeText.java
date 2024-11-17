@@ -2982,11 +2982,11 @@ public class LeetCodeText {
             ++count[age];
         }
         for (int ageA = 1; ageA < 121; ++ageA) {
-            if (ageA == 0) {
+            if (count[ageA] == 0) {
                 continue;
             }
             for (int ageB = 1; ageB < 121; ++ageB) {
-                if ((ageB != 0) && (!(ageB <= 0.5 * ageA + 7 || ageB > ageA || (ageB > 100) && (ageA < 100)))) {
+                if ((count[ageB] != 0) && (!(ageB <= 0.5 * ageA + 7 || ageB > ageA || (ageB > 100) && (ageA < 100)))) {
                     res += count[ageA] * count[ageB];
                     if (ageA == ageB) {
                         res -= count[ageA];
