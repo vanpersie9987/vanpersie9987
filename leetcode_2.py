@@ -7216,13 +7216,18 @@ class Union924:
                     res += 2
             left += nums[i]
         return res
-
-
-
-
-        
-
-
     
-                
-
+    # 3355. 零数组变换 I (Zero Array Transformation I)
+    def isZeroArray(self, nums: List[int], queries: List[List[int]]) -> bool:
+        n = len(nums)
+        diff = [0] * (n + 1)
+        for l, r in queries:
+            diff[l] -= 1
+            diff[r + 1] += 1
+        d = 0
+        for x, y in zip(diff, nums):
+            d += x
+            if d + y > 0:
+                return False
+        return True
+        

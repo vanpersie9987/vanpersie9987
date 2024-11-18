@@ -3353,4 +3353,23 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3355. 零数组变换 I (Zero Array Transformation I)
+    public boolean isZeroArray(int[] nums, int[][] queries) {
+        int n = nums.length;
+        int[] diff = new int[n + 1];
+        for (int[] q : queries) {
+            --diff[q[0]];
+            ++diff[q[1] + 1];
+        }
+        int d = 0;
+        for (int i = 0; i < n; ++i) {
+            d += diff[i];
+            if (d + nums[i] > 0) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
 }
