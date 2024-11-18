@@ -3372,4 +3372,39 @@ public class Leetcode_9 {
 
     }
 
+    // 3356. 零数组变换 II (Zero Array Transformation II)
+    public int minZeroArray(int[] nums, int[][] queries) {
+        int left = 0;
+        int right = queries.length;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check3356(nums, mid, queries)) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean check3356(int[] nums, int t, int[][] queries) {
+        int n = nums.length;
+        int[] diff = new int[n + 1];
+        for (int i = 0; i < t; ++i) {
+            diff[queries[i][0]] -= queries[i][2];
+            diff[queries[i][1] + 1] += queries[i][2];
+        }
+        long d = 0L;
+        for (int i = 0; i < n; ++i) {
+            d += diff[i];
+            if (d + nums[i] > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
