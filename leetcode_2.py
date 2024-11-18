@@ -7181,7 +7181,6 @@ class Union924:
                     if i == j:
                         res -= x
         return res
-    
 
     # 661. 图片平滑器 (Image Smoother)
     def imageSmoother(self, img: List[List[int]]) -> List[List[int]]:
@@ -7199,7 +7198,7 @@ class Union924:
                             cnt += 1
                 res[i][j] = s // cnt
         return res
-    
+
     # 3354. 使数组元素等于零 (Make Array Elements Equal to Zero)
     def countValidSelections(self, nums: List[int]) -> int:
         n = len(nums)
@@ -7216,7 +7215,7 @@ class Union924:
                     res += 2
             left += nums[i]
         return res
-    
+
     # 3355. 零数组变换 I (Zero Array Transformation I)
     def isZeroArray(self, nums: List[int], queries: List[List[int]]) -> bool:
         n = len(nums)
@@ -7224,10 +7223,4 @@ class Union924:
         for l, r in queries:
             diff[l] -= 1
             diff[r + 1] += 1
-        d = 0
-        for x, y in zip(diff, nums):
-            d += x
-            if d + y > 0:
-                return False
-        return True
-        
+        return all(x + y <= 0 for x, y in zip(list(accumulate(diff)), nums))
