@@ -7199,5 +7199,30 @@ class Union924:
                             cnt += 1
                 res[i][j] = s // cnt
         return res
+    
+    # 3354. 使数组元素等于零 (Make Array Elements Equal to Zero)
+    def countValidSelections(self, nums: List[int]) -> int:
+        n = len(nums)
+        right = [0] * (n + 1)
+        for i in range(n - 1, -1, -1):
+            right[i] = right[i + 1] + nums[i]
+        res = 0
+        left = 0
+        for i in range(n):
+            if nums[i] == 0:
+                if abs(left - right[i + 1]) == 1:
+                    res += 1
+                elif left - right[i + 1] == 0:
+                    res += 2
+            left += nums[i]
+        return res
+
+
+
+
+        
+
+
+    
                 
 

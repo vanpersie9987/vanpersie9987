@@ -3331,4 +3331,26 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3354. 使数组元素等于零 (Make Array Elements Equal to Zero)
+    public int countValidSelections(int[] nums) {
+        int n = nums.length;
+        int[] right = new int[n + 1];
+        for (int i = n - 1; i >= 0; --i) {
+            right[i] = right[i + 1] + nums[i];
+        }
+        int res = 0;
+        int left = 0;
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] == 0) {
+                if (Math.abs(left - right[i + 1]) == 1) {
+                    ++res;
+                } else if (left == right[i + 1]) {
+                    res += 2;
+                }
+            }
+            left += nums[i];
+        }
+        return res;
+    }
+
 }
