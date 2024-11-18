@@ -7207,10 +7207,7 @@ class Union924:
         left = 0
         for i in range(n):
             if nums[i] == 0:
-                if abs(left - right[i + 1]) == 1:
-                    res += 1
-                elif left - right[i + 1] == 0:
-                    res += 2
+                res += max(0, 2 - abs(left - right[i + 1]))
             left += nums[i]
         return res
 

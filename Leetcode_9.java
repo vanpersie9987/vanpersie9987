@@ -3342,11 +3342,7 @@ public class Leetcode_9 {
         int left = 0;
         for (int i = 0; i < n; ++i) {
             if (nums[i] == 0) {
-                if (Math.abs(left - right[i + 1]) == 1) {
-                    ++res;
-                } else if (left == right[i + 1]) {
-                    res += 2;
-                }
+                res += Math.max(0, 2 - Math.abs(left - right[i + 1]));
             }
             left += nums[i];
         }
