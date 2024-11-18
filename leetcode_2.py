@@ -7222,3 +7222,25 @@ class Union924:
             diff[l] -= 1
             diff[r + 1] += 1
         return all(x + y <= 0 for x, y in zip(list(accumulate(diff)), nums))
+    
+    # 3356. 零数组变换 II (Zero Array Transformation II)
+    def minZeroArray(self, nums: List[int], queries: List[List[int]]) -> int:
+        def check(t: int) -> bool:
+            diff = [0] * (len(nums) + 1)
+            for l, r, v in queries[:t]:
+                diff[l] -= v
+                diff[r + 1] += v
+            return all(x + y <= 0 for x, y in zip(list(accumulate(diff)), nums))
+        res = -1
+        left = 0
+        right = len(queries)
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                res = mid
+                right = mid - 1
+            else:
+                left = mid + 1
+        return res
+                
+        
