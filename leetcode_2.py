@@ -5756,12 +5756,9 @@ class Union924:
         def dfs(i: int) -> int:
             if i == n - 1:
                 return 0
-            cur = inf
-            for j in g[i]:
-                cur = min(cur, dfs(j) + 1)
-            return cur
+            return min(dfs(j) + 1 for j in g[i])
 
-        g = [[] for _ in range(n)]
+        g = [[] * n for _ in range(n)]
         for i in range(n - 1):
             g[i].append(i + 1)
         res = []
@@ -5825,6 +5822,7 @@ class Union924:
                 nonlocal res
                 res += 1
             return s + 1
+
         n = len(edges) + 1
         g = [[] for _ in range(n)]
         for u, v in edges:
