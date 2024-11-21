@@ -7239,5 +7239,6 @@ class Union924:
             else:
                 left = mid + 1
         return res
+
                 
         
