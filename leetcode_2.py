@@ -5665,14 +5665,12 @@ class Union924:
             or self.isSubtree(root.right, subRoot)
         )
 
+    # 3238. 求出胜利玩家的数目 (Find the Number of Winning Players)
     def winningPlayerCount(self, n: int, pick: List[List[int]]) -> int:
         cnt = [[0] * 11 for _ in range(n)]
-        for i, j in pick:
-            cnt[i][j] += 1
-        res = 0
-        for i in range(n):
-            res += any(j > i for j in cnt[i])
-        return res
+        for x, y in pick:
+            cnt[x][y] += 1
+        return sum(any(j > i for j in cnt[i]) for i in range(n))
 
     # 3239. 最少翻转次数使二进制矩阵回文 I (Minimum Number of Flips to Make Binary Grid Palindromic I)
     def minFlips(self, grid: List[List[int]]) -> int:
@@ -7219,7 +7217,7 @@ class Union924:
             diff[l] -= 1
             diff[r + 1] += 1
         return all(x + y <= 0 for x, y in zip(list(accumulate(diff)), nums))
-    
+
     # 3356. 零数组变换 II (Zero Array Transformation II)
     def minZeroArray(self, nums: List[int], queries: List[List[int]]) -> int:
         def check(t: int) -> bool:
@@ -7228,6 +7226,7 @@ class Union924:
                 diff[l] -= v
                 diff[r + 1] += v
             return all(x + y <= 0 for x, y in zip(list(accumulate(diff)), nums))
+
         res = -1
         left = 0
         right = len(queries)
@@ -7239,6 +7238,3 @@ class Union924:
             else:
                 left = mid + 1
         return res
-
-                
-        
