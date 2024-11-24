@@ -7238,3 +7238,29 @@ class Union924:
             else:
                 left = mid + 1
         return res
+
+    # 632. 最小区间 (Smallest Range Covering Elements from K Lists)
+    def smallestRange(self, nums: List[List[int]]) -> List[int]:
+        n = len(nums)
+        arr = []
+        for i in range(n):
+            for x in nums[i]:
+                arr.append((x, i))
+        arr.sort()
+        left = 0
+        k = 0
+        cnt = [0] * n
+        res = [0, 0]
+        for right in range(len(arr)):
+            cnt[arr[right][1]] += 1
+            if cnt[arr[right][1]] == 1:
+                k += 1
+            while k == n:
+                if res[0] == 0 and res[1] == 0 or arr[right][0] - arr[left][0] < res[1] - res[0]:
+                    res[0] = arr[left][0]
+                    res[1] = arr[right][0]
+                cnt[arr[left][1]] -= 1
+                if cnt[arr[left][1]] == 0:
+                    k -= 1
+                left += 1
+        return res
