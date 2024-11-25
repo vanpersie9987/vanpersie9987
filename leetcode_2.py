@@ -7322,3 +7322,26 @@ class Union924:
                     b[ord(y) - ord("a") + 1] - b[ord(x) - ord("a") + 1],
                 )
         return res
+
+    # 3363. 最多可收集的水果数目 (Find the Maximum Number of Fruits Collected)
+    def maxCollectedFruits(self, fruits: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n - 1:
+                return 0 if j == n - 1 else -inf
+            if i < (n + 1) // 2 and i + j < n - 1 or i >= n // 2 and i > j:
+                return -inf
+            return max(dfs(i + 1, k) for k in range(max(0, j - 1), min(n, j + 2))) + fruits[i][j]
+        @cache
+        def dfs2(i: int, j: int) -> int:
+            if j == n - 1:
+                return 0 if i == n - 1 else -inf
+            if j < (n + 1) // 2 and i + j < n - 1 or j >= n // 2 and i < j:
+                return -inf
+            return max(dfs2(k, j + 1) for k in range(max(0, i - 1), min(n, i + 2))) + fruits[i][j]
+        n = len(fruits)
+        res = 0
+        for i in range(n):
+            res += fruits[i][i]
+            fruits[i][i] = 0
+        return dfs(0, n - 1) + dfs2(n - 1, 0) + res
