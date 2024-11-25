@@ -3412,4 +3412,29 @@ public class Leetcode_9 {
         return (x & 1) > 0;
     }
 
+    // 3361. 两个字符串的切换距离 (Shift Distance Between Two Strings)
+    public long shiftDistance(String s, String t, int[] nextCost, int[] previousCost) {
+        long res = 0L;
+        long[] a = new long[27];
+        long[] b = new long[27];
+        for (int i = 1; i < 27; ++i) {
+            a[i] = a[i - 1] + nextCost[i - 1];
+            b[i] = b[i - 1] + previousCost[i - 1];
+        }
+        for (int i = 0; i < s.length(); ++i) {
+            char x = s.charAt(i);
+            char y = t.charAt(i);
+            if (x < y) {
+                res += Math.min(a[y - 'a'] - a[x - 'a'], b[26] - (b[y - 'a' + 1] - b[x - 'a' + 1]));
+            } else {
+                char tmp = x;
+                x = y;
+                y = tmp;
+                res += Math.min(a[26] - (a[y - 'a'] - a[x - 'a']), b[y - 'a' + 1] - b[x - 'a' + 1]);
+            }
+        }
+        return res;
+
+    }
+
 }

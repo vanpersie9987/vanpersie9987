@@ -7257,7 +7257,11 @@ class Union924:
             if cnt[arr[right][1]] == 1:
                 k += 1
             while k == n:
-                if res[0] == 0 and res[1] == 0 or arr[right][0] - arr[left][0] < res[1] - res[0]:
+                if (
+                    res[0] == 0
+                    and res[1] == 0
+                    or arr[right][0] - arr[left][0] < res[1] - res[0]
+                ):
                     res[0] = arr[left][0]
                     res[1] = arr[right][0]
                 cnt[arr[left][1]] -= 1
@@ -7284,7 +7288,7 @@ class Union924:
             cnt += 1
             if cnt == n:
                 return t
-            for (y, dt) in g[x]:
+            for y, dt in g[x]:
                 if t + dt < dis[y]:
                     dis[y] = t + dt
                     heapq.heappush(q, (t + dt, y))
@@ -7297,3 +7301,24 @@ class Union924:
             n -= x
             x -= 1
         return bool(x & 1)
+
+    # 3361. 两个字符串的切换距离 (Shift Distance Between Two Strings)
+    def shiftDistance(
+        self, s: str, t: str, nextCost: List[int], previousCost: List[int]
+    ) -> int:
+        a = list(accumulate(nextCost, initial=0))
+        b = list(accumulate(previousCost, initial=0))
+        res = 0
+        for x, y in zip(s, t):
+            if x < y:
+                res += min(
+                    a[ord(y) - ord("a")] - a[ord(x) - ord("a")],
+                    b[-1] - (b[ord(y) - ord("a") + 1] - b[ord(x) - ord("a") + 1]),
+                )
+            else:
+                x, y = y, x
+                res += min(
+                    a[-1] - (a[ord(y) - ord("a")] - a[ord(x) - ord("a")]),
+                    b[ord(y) - ord("a") + 1] - b[ord(x) - ord("a") + 1],
+                )
+        return res
