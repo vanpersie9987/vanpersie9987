@@ -7289,8 +7289,11 @@ class Union924:
                     dis[y] = t + dt
                     heapq.heappush(q, (t + dt, y))
         return -1
-            
-        
 
-        
-        
+    # 3360. 移除石头游戏 (Stone Removal Game)
+    def canAliceWin(self, n: int) -> bool:
+        x = 10
+        while n >= x:
+            n -= x
+            x -= 1
+        return bool(x & 1)

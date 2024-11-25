@@ -3403,4 +3403,13 @@ public class Leetcode_9 {
         return true;
     }
 
+    // 3360. 移除石头游戏 (Stone Removal Game)
+    public boolean canAliceWin(int n) {
+        int x = 10;
+        while (n >= x) {
+            n -= x--;
+        }
+        return (x & 1) > 0;
+    }
+
 }
