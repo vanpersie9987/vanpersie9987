@@ -1859,7 +1859,7 @@ public class Leetcode_9 {
                     ++res;
                     continue;
                 }
-                if (check(nums[i], nums[j])) {
+                if (check_countPairs(nums[i], nums[j])) {
                     ++res;
                 }
             }
@@ -1868,7 +1868,7 @@ public class Leetcode_9 {
 
     }
 
-    private boolean check(int x, int y) {
+    private boolean check_countPairs(int x, int y) {
         StringBuilder s1 = new StringBuilder(String.valueOf(x));
         StringBuilder s2 = new StringBuilder(String.valueOf(y));
         int d = 0;
@@ -3435,6 +3435,66 @@ public class Leetcode_9 {
         }
         return res;
 
+    }
+
+    // 3363. 最多可收集的水果数目 (Find the Maximum Number of Fruits Collected)
+    private int n3363;
+    private int[][] memo3363;
+    private int[][] fruits3363;
+
+    public int maxCollectedFruits(int[][] fruits) {
+        this.n3363 = fruits.length;
+        int res = 0;
+        for (int i = 0; i < n3363; ++i) {
+            res += fruits[i][i];
+            fruits[i][i] = 0;
+        }
+        this.memo3363 = new int[n3363][n3363];
+        for (int i = 0; i < n3363; ++i) {
+            Arrays.fill(memo3363[i], -1);
+        }
+        this.fruits3363 = fruits;
+        res += dfs3363(0, n3363 - 1);
+        this.memo3363 = new int[n3363][n3363];
+        for (int i = 0; i < n3363; ++i) {
+            Arrays.fill(memo3363[i], -1);
+        }
+        res += dfs2_3363(n3363 - 1, 0);
+        return res;
+    }
+    
+    private int dfs3363(int i, int j) {
+        if (i == n3363 - 1) {
+            return j == n3363 - 1 ? 0 : Integer.MIN_VALUE;
+        }
+        if (i < (n3363 + 1) / 2 && i + j < n3363 - 1 || i >= (n3363 + 1) / 2 && i > j) {
+            return Integer.MIN_VALUE;
+        }
+        if (memo3363[i][j] != -1) {
+            return memo3363[i][j];
+        }
+        int mx = 0;
+        for (int k = Math.max(0, j - 1); k < Math.min(n3363, j + 2); ++k) {
+            mx = Math.max(mx, dfs3363(i + 1, k));
+        }
+        return memo3363[i][j] = mx + fruits3363[i][j];
+    }
+    
+    private int dfs2_3363(int i, int j) {
+        if (j == n3363 - 1) {
+            return i == n3363 - 1 ? 0 : Integer.MIN_VALUE;
+        }
+        if (j < (n3363 + 1) / 2 && i + j < n3363 - 1 || j >= (n3363 + 1) / 2 && i < j) {
+            return Integer.MIN_VALUE;
+        }
+        if (memo3363[i][j] != -1) {
+            return memo3363[i][j];
+        }
+        int mx = 0;
+        for (int k = Math.max(0, i - 1); k < Math.min(n3363, i + 2); ++k) {
+            mx = Math.max(mx, dfs2_3363(k, j + 1));
+        }
+        return memo3363[i][j] = mx + fruits3363[i][j];
     }
 
 }
