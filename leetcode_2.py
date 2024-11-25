@@ -30,6 +30,7 @@ from tabnanny import check
 from tarfile import tar_filter
 from telnetlib import EOR
 from textwrap import indent
+import time
 from tkinter import N, NO, W
 from tkinter.messagebox import RETRY
 from tkinter.tix import Tree
@@ -7264,3 +7265,32 @@ class Union924:
                     k -= 1
                 left += 1
         return res
+
+    # 743. 网络延迟时间 (Network Delay Time)
+    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
+        g = [[] for _ in range(n)]
+        for u, v, t in times:
+            g[u - 1].append((v - 1, t))
+        q = []
+        q.append((0, k - 1))
+        dis = [inf] * n
+        dis[k - 1] = 0
+        cnt = 0
+        heapq.heapify(q)
+        while q:
+            (t, x) = heapq.heappop(q)
+            if t > dis[x]:
+                continue
+            cnt += 1
+            if cnt == n:
+                return t
+            for (y, dt) in g[x]:
+                if t + dt < dis[y]:
+                    dis[y] = t + dt
+                    heapq.heappush(q, (t + dt, y))
+        return -1
+            
+        
+
+        
+        
