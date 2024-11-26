@@ -7345,3 +7345,34 @@ class Union924:
             res += fruits[i][i]
             fruits[i][i] = 0
         return dfs(0, n - 1) + dfs2(n - 1, 0) + res
+
+    # 3365. 重排子字符串以形成目标字符串 (Rearrange K Substrings to Form Target String)
+    def isPossibleToRearrange(self, s: str, t: str, k: int) -> bool:
+        d = defaultdict(int)
+        l = len(s) // k
+        for i in range(l, len(s) + 1, l):
+            d[s[i - l: i]] += 1
+            d[t[i - l: i]] -= 1
+        return all(c == 0 for c in d.values())
+    
+    # 3366. 最小数组和 (Minimum Array Sum)
+    def minArraySum(self, nums: List[int], k: int, op1: int, op2: int) -> int:
+        @cache
+        def dfs(i: int, x: int, y: int) -> int:
+            if i == n:
+                return 0
+            res = dfs(i + 1, x, y) + nums[i]
+            if x:
+                add = (nums[i] + 1) // 2
+                res = min(res, dfs(i + 1, x - 1, y) + add)
+                if add >= k and y:
+                    res = min(res, dfs(i + 1, x - 1, y - 1) + add - k)
+            if y and nums[i] >= k:
+                add = nums[i] - k
+                res = min(res, dfs(i + 1, x, y - 1) + add)
+                if x:
+                    res = min(res, dfs(i + 1, x - 1, y - 1) + (add + 1) // 2)
+            return res
+        n = len(nums)
+        return dfs(0, op1, op2)
+

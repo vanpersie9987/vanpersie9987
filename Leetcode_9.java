@@ -3462,7 +3462,7 @@ public class Leetcode_9 {
         res += dfs2_3363(n3363 - 1, 0);
         return res;
     }
-    
+
     private int dfs3363(int i, int j) {
         if (i == n3363 - 1) {
             return j == n3363 - 1 ? 0 : Integer.MIN_VALUE;
@@ -3479,7 +3479,7 @@ public class Leetcode_9 {
         }
         return memo3363[i][j] = mx + fruits3363[i][j];
     }
-    
+
     private int dfs2_3363(int i, int j) {
         if (j == n3363 - 1) {
             return i == n3363 - 1 ? 0 : Integer.MIN_VALUE;
@@ -3495,6 +3495,88 @@ public class Leetcode_9 {
             mx = Math.max(mx, dfs2_3363(k, j + 1));
         }
         return memo3363[i][j] = mx + fruits3363[i][j];
+    }
+
+    // 3364. 最小正和子数组 (Minimum Positive Sum Subarray )
+    public int minimumSumSubarray(List<Integer> nums, int l, int r) {
+        int n = nums.size();
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < n; ++i) {
+            int s = 0;
+            for (int j = i; j < n; ++j) {
+                s += nums.get(j);
+                if (j - i + 1 <= r && j - i + 1 >= l) {
+                    if (s > 0) {
+                        res = Math.min(res, s);
+                    }
+                }
+            }
+        }
+        return res == Integer.MAX_VALUE ? -1 : res;
+    }
+
+    // 3365. 重排子字符串以形成目标字符串 (Rearrange K Substrings to Form Target String)
+    public boolean isPossibleToRearrange(String s, String t, int k) {
+        int n = s.length();
+        int l = n / k;
+        Map<String, Integer> cnt = new HashMap<>();
+        for (int i = l; i <= n; i += l) {
+            cnt.merge(s.substring(i - l, i), 1, Integer::sum);
+            cnt.merge(t.substring(i - l, i), -1, Integer::sum);
+        }
+        for (int c : cnt.values()) {
+            if (c != 0) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    // 3366. 最小数组和 (Minimum Array Sum)
+    private int[] nums3366;
+    private int n3366;
+    private int k3366;
+    private int[][][] memo3366;
+
+    public int minArraySum(int[] nums, int k, int op1, int op2) {
+        this.nums3366 = nums;
+        this.n3366 = nums.length;
+        this.k3366 = k;
+        this.memo3366 = new int[n3366][op1 + 1][op2 + 1];
+        for (int i = 0; i < n3366; ++i) {
+            for (int j = 0; j < op1 + 1; ++j) {
+                Arrays.fill(memo3366[i][j], -1);
+            }
+        }
+        return dfs3366(0, op1, op2);
+    }
+
+    private int dfs3366(int i, int op1, int op2) {
+        if (i == n3366) {
+            return 0;
+        }
+        if (memo3366[i][op1][op2] != -1) {
+            return memo3366[i][op1][op2];
+        }
+        int res = dfs3366(i + 1, op1, op2) + nums3366[i];
+        if (op1 > 0) {
+            int add = (nums3366[i] + 1) / 2;
+            res = Math.min(res, dfs3366(i + 1, op1 - 1, op2) + add);
+            if (op2 > 0 && add >= k3366) {
+                add -= k3366;
+                res = Math.min(res, dfs3366(i + 1, op1 - 1, op2 - 1) + add);
+            }
+        }
+        if (op2 > 0 && nums3366[i] >= k3366) {
+            int add = nums3366[i] - k3366;
+            res = Math.min(res, dfs3366(i + 1, op1, op2 - 1) + add);
+            if (op1 > 0) {
+                add = (add + 1) / 2;
+                res = Math.min(res, dfs3366(i + 1, op1 - 1, op2 - 1) + add);
+            }
+        }
+        return memo3366[i][op1][op2] = res;
     }
 
 }
