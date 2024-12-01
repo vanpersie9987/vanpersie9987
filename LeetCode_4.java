@@ -2465,25 +2465,22 @@ public class LeetCode_4 {
     }
 
     // 52. N皇后 II (N-Queens II) --回溯
-    private int res52;
-
     public int totalNQueens(int n) {
-        backtrack52(n, 0, 0, 0, 0);
-        return res52;
-
+        return backtrack52(n, 0, 0, 0, 0);
     }
 
-    private void backtrack52(int n, int row, int colunms, int diagonal1, int diagonal2) {
+    private int backtrack52(int n, int row, int colunms, int diagonal1, int diagonal2) {
         if (row == n) {
-            ++res52;
-            return;
+            return 1;
         }
+        int res = 0;
         int availablePositions = ((1 << n) - 1) & (~(colunms | diagonal1 | diagonal2));
         while (availablePositions != 0) {
             int position = availablePositions & (-availablePositions);
-            backtrack52(n, row + 1, colunms | position, (diagonal1 | position) << 1, (diagonal2 | position) >> 1);
+            res += backtrack52(n, row + 1, colunms | position, (diagonal1 | position) << 1, (diagonal2 | position) >> 1);
             availablePositions &= availablePositions - 1;
         }
+        return res;
     }
 
     // 93. 复原 IP 地址 (Restore IP Addresses) --回溯
