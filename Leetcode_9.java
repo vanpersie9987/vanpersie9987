@@ -3609,35 +3609,83 @@ public class Leetcode_9 {
     public int[] maxTargetNodes(int[][] edges1, int[][] edges2, int k) {
         int n = edges1.length + 1;
         int m = edges2.length + 1;
-        List<Integer>[] g1 = buildTree(edges1);
-        List<Integer>[] g2 = buildTree(edges2);
+        List<Integer>[] g1 = buildTree100475(edges1);
+        List<Integer>[] g2 = buildTree100475(edges2);
         int mx = 0;
         for (int i = 0; i < m; ++i) {
-            mx = Math.max(mx, dfs(g2, i, -1, k - 1));
+            mx = Math.max(mx, dfs100475(g2, i, -1, k - 1));
         }
         int[] res = new int[n];
         for (int i = 0; i < n; ++i) {
-            res[i] = dfs(g1, i, -1, k) + mx;
+            res[i] = dfs100475(g1, i, -1, k) + mx;
         }
         return res;
 
     }
 
-    private int dfs(List<Integer>[] g, int x, int fa, int k) {
+    private int dfs100475(List<Integer>[] g, int x, int fa, int k) {
         if (k < 0) {
             return 0;
         }
         int res = 0;
         for (int y : g[x]) {
             if (y != fa) {
-                res += dfs(g, y, x, k - 1);
+                res += dfs100475(g, y, x, k - 1);
             }
 
         }
         return res + 1;
     }
 
-    private List<Integer>[] buildTree(int[][] edges) {
+    private List<Integer>[] buildTree100475(int[][] edges) {
+        int n = edges.length + 1;
+        List<Integer>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[0]].add(e[1]);
+            g[e[1]].add(e[0]);
+        }
+        return g;
+    }
+
+    // 3373. 连接两棵树后最大目标节点数目 II (Maximize the Number of Target Nodes After Connecting
+    // Trees II)
+    public int[] maxTargetNodes(int[][] edges1, int[][] edges2) {
+        int[] cnt2 = cal3373(buildTree3373(edges2));
+        int max2 = Math.max(cnt2[0], cnt2[1]);
+        int[] res = new int[edges1.length + 1];
+        Arrays.fill(res, max2);
+        List<Integer>[] g = buildTree3373(edges1);
+        int[] cnt1 = cal3373(g);
+        dfs3373(res, g, 0, -1, cnt1, 0);
+        return res;
+    }
+
+    private void dfs3373(int[] res, List<Integer>[] g, int x, int fa, int[] cnt1, int d) {
+        res[x] += cnt1[d];
+        for (int y : g[x]) {
+            if (y != fa) {
+                dfs3373(res, g, y, x, cnt1, d ^ 1);
+            }
+        }
+    }
+
+    private int[] cal3373(List<Integer>[] g) {
+        int[] cnt = new int[2];
+        dfs3373(g, 0, -1, cnt, 0);
+        return cnt;
+    }
+
+    private void dfs3373(List<Integer>[] g, int x, int fa, int[] cnt, int d) {
+        ++cnt[d];
+        for (int y : g[x]) {
+            if (y != fa) {
+                dfs3373(g, y, x, cnt, d ^ 1);
+            }
+        }
+    }
+
+    private List<Integer>[] buildTree3373(int[][] edges) {
         int n = edges.length + 1;
         List<Integer>[] g = new ArrayList[n];
         Arrays.setAll(g, k -> new ArrayList<>());

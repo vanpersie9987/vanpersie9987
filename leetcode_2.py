@@ -7490,3 +7490,32 @@ class Union924:
             dfs(g1, i, -1, k)
             res.append(dfs(g1, i, -1, k) + mx)
         return res
+
+    # 3373. 连接两棵树后最大目标节点数目 II (Maximize the Number of Target Nodes After Connecting Trees II)
+    def maxTargetNodes(self, edges1: List[List[int]], edges2: List[List[int]]) -> List[int]:
+        def dfs(x: int, fa: int, d: int) -> None:
+            res[x] += cnt1[d]
+            for y in g[x]:
+                if y != fa:
+                    dfs(y, x, d ^ 1)
+        _, cnt2 = self.count3373(edges2)
+        max2 = max(cnt2)
+        g, cnt1 = self.count3373(edges1)
+        res = [max2] * (len(g))
+        dfs(0, -1, 0)
+        return res
+    
+    def count3373(self, edges: List[List[int]]) -> Tuple[List[List[int]], List[int]]:
+        def dfs(x: int, fa: int, d: int) -> None:
+            cnt[d] += 1
+            for y in g[x]:
+                if y != fa:
+                    dfs(y, x, d ^ 1)
+        n = len(edges) + 1
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        cnt = [0] * 2
+        dfs(0, -1, 0)
+        return g, cnt
