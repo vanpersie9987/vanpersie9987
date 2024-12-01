@@ -7400,5 +7400,34 @@ class Union924:
         u = (1 << n) - 1
         dfs(0, 0, 0, 0)
         return res
+    
+    # 51. N 皇后 (N-Queens)
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        def dfs(i: int, m: int, d1: int, d2: int) -> None:
+            if i == n:
+                cur = []
+                for v in _l:
+                    r = []
+                    for k in range(n):
+                        r.append('.' if k != v else 'Q')
+                    cur.append(''.join(r))
+                res.append(cur.copy())
+                return
+            d1 <<= 1
+            d2 >>= 1
+            c = u ^ (m | (u & d1) | d2)
+            while c:
+                lb = (c & -c).bit_length() - 1
+                _l.append(lb)
+                dfs(i + 1, m | (1 << lb), d1 | (1 << lb), d2 | (1 << lb))
+                _l.pop()
+                c &= c - 1
+        res = []
+        _l = []
+        u = (1 << n) - 1
+        dfs(0, 0, 0, 0)
+        return res
+
+      
         
 
