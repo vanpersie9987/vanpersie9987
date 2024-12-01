@@ -2435,42 +2435,33 @@ public class LeetCode_4 {
     // 面试题 08.12. 八皇后 (Eight Queens LCCI)
     public List<List<String>> solveNQueens2(int n) {
         List<List<String>> res = new ArrayList<>();
-        int[] queens = new int[n];
-        Arrays.fill(queens, -1);
-        backtrack51_2(res, queens, n, 0, 0, 0, 0);
+        dfs2_51(res, new ArrayList<>(), 0, 0, 0, 0, n);
         return res;
+
     }
 
-    private void backtrack51_2(List<List<String>> res, int[] queens, int n, int row, int colunms, int diagonal1,
-            int diagonal2) {
-        if (row == n) {
-            List<String> board = generate51_2(queens);
-            res.add(board);
+    private void dfs2_51(List<List<String>> res, List<Integer> list, int i, int c0, int c1, int c2, int n) {
+        if (i == n) {
+            List<String> cur = new ArrayList<>();
+            for (int x : list) {
+                StringBuilder row = new StringBuilder();
+                for (int j = 0; j < n; ++j) {
+                    row.append(j == x ? 'Q' : '.');
+                }
+                cur.add(row.toString());
+            }
+            res.add(cur);
             return;
         }
-        int availablePositions = ((1 << n) - 1) & (~(colunms | diagonal1 | diagonal2));
-        while (availablePositions != 0) {
-            int position = availablePositions & (-availablePositions);
-            int index = Integer.numberOfTrailingZeros(position);
-            queens[row] = index;
-            backtrack51_2(res, queens, n, row + 1, colunms | position, (diagonal1 | position) << 1,
-                    (diagonal2 | position) >> 1);
-            queens[row] = -1;
-            availablePositions &= availablePositions - 1;
+        int u = (1 << n) - 1;
+        int c = u ^ (c0 | c1 | c2);
+        while (c != 0) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            list.add(lb);
+            dfs2_51(res, list, i + 1, c0 | (1 << lb), u & ((c1 | (1 << lb)) << 1), (c2 | 1 << lb) >> 1, n);
+            list.remove(list.size() - 1);
+            c &= c - 1;
         }
-
-    }
-
-    private List<String> generate51_2(int[] queens) {
-        int n = queens.length;
-        List<String> res = new ArrayList<>();
-        for (int i = 0; i < n; ++i) {
-            char[] sub = new char[n];
-            Arrays.fill(sub, '.');
-            sub[queens[i]] = 'Q';
-            res.add(String.valueOf(sub));
-        }
-        return res;
     }
 
     // 52. N皇后 II (N-Queens II) --回溯
