@@ -7331,14 +7331,22 @@ class Union924:
                 return 0 if j == n - 1 else -inf
             if i < (n + 1) // 2 and i + j < n - 1 or i >= n // 2 and i > j:
                 return -inf
-            return max(dfs(i + 1, k) for k in range(max(0, j - 1), min(n, j + 2))) + fruits[i][j]
+            return (
+                max(dfs(i + 1, k) for k in range(max(0, j - 1), min(n, j + 2)))
+                + fruits[i][j]
+            )
+
         @cache
         def dfs2(i: int, j: int) -> int:
             if j == n - 1:
                 return 0 if i == n - 1 else -inf
             if j < (n + 1) // 2 and i + j < n - 1 or j >= n // 2 and i < j:
                 return -inf
-            return max(dfs2(k, j + 1) for k in range(max(0, i - 1), min(n, i + 2))) + fruits[i][j]
+            return (
+                max(dfs2(k, j + 1) for k in range(max(0, i - 1), min(n, i + 2)))
+                + fruits[i][j]
+            )
+
         n = len(fruits)
         res = 0
         for i in range(n):
@@ -7351,10 +7359,10 @@ class Union924:
         d = defaultdict(int)
         l = len(s) // k
         for i in range(l, len(s) + 1, l):
-            d[s[i - l: i]] += 1
-            d[t[i - l: i]] -= 1
+            d[s[i - l : i]] += 1
+            d[t[i - l : i]] -= 1
         return all(c == 0 for c in d.values())
-    
+
     # 3366. 最小数组和 (Minimum Array Sum)
     def minArraySum(self, nums: List[int], k: int, op1: int, op2: int) -> int:
         @cache
@@ -7373,9 +7381,10 @@ class Union924:
                 if x:
                     res = min(res, dfs(i + 1, x - 1, y - 1) + (add + 1) // 2)
             return res
+
         n = len(nums)
         return dfs(0, op1, op2)
-    
+
     # 51. N 皇后 (N-Queens)
     def solveNQueens(self, n: int) -> List[List[str]]:
         def dfs(i: int, m: int, d1: int, d2: int) -> None:
@@ -7384,23 +7393,29 @@ class Union924:
                 for v in _l:
                     r = []
                     for k in range(n):
-                        r.append('.' if k != v else 'Q')
-                    cur.append(''.join(r))
+                        r.append("." if k != v else "Q")
+                    cur.append("".join(r))
                 res.append(cur.copy())
                 return
             c = u ^ (m | d1 | d2)
             while c:
                 lb = (c & -c).bit_length() - 1
                 _l.append(lb)
-                dfs(i + 1, m | (1 << lb), u & ((d1 | (1 << lb)) << 1), (d2 | (1 << lb)) >> 1)
+                dfs(
+                    i + 1,
+                    m | (1 << lb),
+                    u & ((d1 | (1 << lb)) << 1),
+                    (d2 | (1 << lb)) >> 1,
+                )
                 _l.pop()
                 c &= c - 1
+
         res = []
         _l = []
         u = (1 << n) - 1
         dfs(0, 0, 0, 0)
         return res
-    
+
     # 51. N 皇后 (N-Queens)
     def solveNQueens(self, n: int) -> List[List[str]]:
         def dfs(i: int, m: int, d1: int, d2: int) -> None:
@@ -7409,8 +7424,8 @@ class Union924:
                 for v in _l:
                     r = []
                     for k in range(n):
-                        r.append('.' if k != v else 'Q')
-                    cur.append(''.join(r))
+                        r.append("." if k != v else "Q")
+                    cur.append("".join(r))
                 res.append(cur.copy())
                 return
             d1 <<= 1
@@ -7422,12 +7437,9 @@ class Union924:
                 dfs(i + 1, m | (1 << lb), d1 | (1 << lb), d2 | (1 << lb))
                 _l.pop()
                 c &= c - 1
+
         res = []
         _l = []
         u = (1 << n) - 1
         dfs(0, 0, 0, 0)
         return res
-
-      
-        
-
