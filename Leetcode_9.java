@@ -3579,4 +3579,73 @@ public class Leetcode_9 {
         return memo3366[i][op1][op2] = res;
     }
 
+    // 100501. 仅含置位位的最小整数 (Smallest Number With All Set Bits)
+    public int smallestNumber(int n) {
+        return (1 << Integer.toBinaryString(n).length()) - 1;
+    }
+
+    // 100444. 识别数组中的最大异常值 (Identify the Largest Outlier in an Array)
+    public int getLargestOutlier(int[] nums) {
+        Arrays.sort(nums);
+        int s = 0;
+        Map<Integer, Integer> cnt = new HashMap<>();
+        for (int x : nums) {
+            s += x;
+            cnt.merge(x, 1, Integer::sum);
+        }
+        for (int i = nums.length - 1; i >= 0; --i) {
+            cnt.merge(nums[i], -1, Integer::sum);
+            if ((s - nums[i]) % 2 == 0 && cnt.getOrDefault((s - nums[i]) / 2, 0) > 0) {
+                return nums[i];
+            }
+            cnt.merge(nums[i], 1, Integer::sum);
+        }
+        return -1;
+
+    }
+
+    // 100475. 连接两棵树后最大目标节点数目 I (Maximize the Number of Target Nodes After
+    // Connecting Trees I)
+    public int[] maxTargetNodes(int[][] edges1, int[][] edges2, int k) {
+        int n = edges1.length + 1;
+        int m = edges2.length + 1;
+        List<Integer>[] g1 = buildTree(edges1);
+        List<Integer>[] g2 = buildTree(edges2);
+        int mx = 0;
+        for (int i = 0; i < m; ++i) {
+            mx = Math.max(mx, dfs(g2, i, -1, k - 1));
+        }
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = dfs(g1, i, -1, k) + mx;
+        }
+        return res;
+
+    }
+
+    private int dfs(List<Integer>[] g, int x, int fa, int k) {
+        if (k < 0) {
+            return 0;
+        }
+        int res = 0;
+        for (int y : g[x]) {
+            if (y != fa) {
+                res += dfs(g, y, x, k - 1);
+            }
+
+        }
+        return res + 1;
+    }
+
+    private List<Integer>[] buildTree(int[][] edges) {
+        int n = edges.length + 1;
+        List<Integer>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[0]].add(e[1]);
+            g[e[1]].add(e[0]);
+        }
+        return g;
+    }
+
 }

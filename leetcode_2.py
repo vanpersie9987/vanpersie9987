@@ -7443,3 +7443,50 @@ class Union924:
         u = (1 << n) - 1
         dfs(0, 0, 0, 0)
         return res
+
+    # 100501. 仅含置位位的最小整数 (Smallest Number With All Set Bits)
+    def smallestNumber(self, n: int) -> int:
+        return (1 << len(bin(n)[2:])) - 1
+
+    # 100444. 识别数组中的最大异常值 (Identify the Largest Outlier in an Array)
+    def getLargestOutlier(self, nums: List[int]) -> int:
+        nums.sort()
+        s = sum(nums)
+        d = defaultdict(int)
+        for x in nums:
+            d[x] += 1
+        for i in range(len(nums) - 1, -1, -1):
+            d[nums[i]] -= 1
+            if (s - nums[i]) % 2 == 0 and d[(s - nums[i]) // 2]:
+                return nums[i]
+            d[nums[i]] += 1
+
+    # 100475. 连接两棵树后最大目标节点数目 I (Maximize the Number of Target Nodes After Connecting Trees I)
+    def maxTargetNodes(
+        self, edges1: List[List[int]], edges2: List[List[int]], k: int
+    ) -> List[int]:
+        def dfs(g: List[List[int]], x: int, fa: int, k: int) -> int:
+            if k < 0:
+                return 0
+            res = 0
+            for y in g[x]:
+                if y != fa:
+                    res += dfs(g, y, x, k - 1)
+            return res + 1
+
+        g1 = [[] for _ in range(len(edges1) + 1)]
+        g2 = [[] for _ in range(len(edges2) + 1)]
+        for u, v in edges1:
+            g1[u].append(v)
+            g1[v].append(u)
+        for u, v in edges2:
+            g2[u].append(v)
+            g2[v].append(u)
+        mx = 0
+        for i in range(len(edges2) + 1):
+            mx = max(mx, dfs(g2, i, -1, k - 1))
+        res = []
+        for i in range(len(edges1) + 1):
+            dfs(g1, i, -1, k)
+            res.append(dfs(g1, i, -1, k) + mx)
+        return res
