@@ -7450,16 +7450,17 @@ class Union924:
 
     # 100444. 识别数组中的最大异常值 (Identify the Largest Outlier in an Array)
     def getLargestOutlier(self, nums: List[int]) -> int:
-        nums.sort()
         s = sum(nums)
         d = defaultdict(int)
+        res = -inf
         for x in nums:
             d[x] += 1
-        for i in range(len(nums) - 1, -1, -1):
-            d[nums[i]] -= 1
-            if (s - nums[i]) % 2 == 0 and d[(s - nums[i]) // 2]:
-                return nums[i]
-            d[nums[i]] += 1
+        for x in nums:
+            d[x] -= 1
+            if (s - x) % 2 == 0 and d[(s - x) // 2]:
+                res = max(res, x)
+            d[x] += 1
+        return res
 
     # 100475. 连接两棵树后最大目标节点数目 I (Maximize the Number of Target Nodes After Connecting Trees I)
     def maxTargetNodes(

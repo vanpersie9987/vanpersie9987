@@ -3586,21 +3586,21 @@ public class Leetcode_9 {
 
     // 100444. 识别数组中的最大异常值 (Identify the Largest Outlier in an Array)
     public int getLargestOutlier(int[] nums) {
-        Arrays.sort(nums);
         int s = 0;
         Map<Integer, Integer> cnt = new HashMap<>();
         for (int x : nums) {
             s += x;
             cnt.merge(x, 1, Integer::sum);
         }
-        for (int i = nums.length - 1; i >= 0; --i) {
-            cnt.merge(nums[i], -1, Integer::sum);
-            if ((s - nums[i]) % 2 == 0 && cnt.getOrDefault((s - nums[i]) / 2, 0) > 0) {
-                return nums[i];
+        int res = Integer.MIN_VALUE;
+        for (int x : nums) {
+            cnt.merge(x, -1, Integer::sum);
+            if ((s - x) % 2 == 0 && cnt.getOrDefault((s - x) / 2, 0) > 0) {
+                res = Math.max(res, x);
             }
-            cnt.merge(nums[i], 1, Integer::sum);
+            cnt.merge(x, 1, Integer::sum);
         }
-        return -1;
+        return res;
 
     }
 
