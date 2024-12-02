@@ -7505,7 +7505,7 @@ class Union924:
         res = [max2] * (len(g))
         dfs(0, -1, 0)
         return res
-    
+
     def count3373(self, edges: List[List[int]]) -> Tuple[List[List[int]], List[int]]:
         def dfs(x: int, fa: int, d: int) -> None:
             cnt[d] += 1
@@ -7520,3 +7520,18 @@ class Union924:
         cnt = [0] * 2
         dfs(0, -1, 0)
         return g, cnt
+
+    # 52. N 皇后 II (N-Queens II)
+    def totalNQueens(self, n: int) -> int:
+        def dfs(i: int, d0: int, d1: int, d2: int) -> int:
+            if i == n:
+                return 1
+            c = u ^ (d0 | d1 | d2)
+            res = 0
+            while c:
+                lb = (c & -c).bit_length() - 1
+                res += dfs(i + 1, d0 | (1 << lb), u & ((d1 | (1 << lb)) << 1), (d2 | (1 << lb)) >> 1)
+                c &= c - 1
+            return res
+        u = (1 << n) - 1
+        return dfs(0, 0, 0, 0)
