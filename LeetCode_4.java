@@ -587,47 +587,47 @@ public class LeetCode_4 {
         int[] cnts = new int[5];
         for (char ch : croakOfFrogs.toCharArray()) {
             switch (ch) {
-                case 'c':
-                    if (cnts[4] > 0) {
-                        --cnts[4];
-                    }
-                    ++cnts[0];
-                    break;
-                case 'r':
-                    if (cnts[0] > 0) {
-                        --cnts[0];
-                    } else {
-                        return -1;
-                    }
-                    ++cnts[1];
-                    break;
-                case 'o':
-                    if (cnts[1] > 0) {
-                        --cnts[1];
-                    } else {
-                        return -1;
-                    }
-                    ++cnts[2];
-                    break;
-                case 'a':
-                    if (cnts[2] > 0) {
-                        --cnts[2];
-                    } else {
-                        return -1;
-                    }
-                    ++cnts[3];
-                    break;
-                case 'k':
-                    if (cnts[3] > 0) {
-                        --cnts[3];
-                    } else {
-                        return -1;
-                    }
-                    ++cnts[4];
-                    break;
+            case 'c':
+                if (cnts[4] > 0) {
+                    --cnts[4];
+                }
+                ++cnts[0];
+                break;
+            case 'r':
+                if (cnts[0] > 0) {
+                    --cnts[0];
+                } else {
+                    return -1;
+                }
+                ++cnts[1];
+                break;
+            case 'o':
+                if (cnts[1] > 0) {
+                    --cnts[1];
+                } else {
+                    return -1;
+                }
+                ++cnts[2];
+                break;
+            case 'a':
+                if (cnts[2] > 0) {
+                    --cnts[2];
+                } else {
+                    return -1;
+                }
+                ++cnts[3];
+                break;
+            case 'k':
+                if (cnts[3] > 0) {
+                    --cnts[3];
+                } else {
+                    return -1;
+                }
+                ++cnts[4];
+                break;
 
-                default:
-                    break;
+            default:
+                break;
             }
         }
         if (cnts[0] > 0 || cnts[1] > 0 || cnts[2] > 0 || cnts[3] > 0) {
@@ -2475,7 +2475,7 @@ public class LeetCode_4 {
         }
         int res = 0;
         int u = (1 << n) - 1;
-        int c = u ^ (colunms | diagonal1 | diagonal2);
+        int c = u ^ (d0 | d1 | d2);
         while (c != 0) {
             int lb = Integer.numberOfTrailingZeros(c);
             res += dfs52(n, i + 1, d0 | (1 << lb), u & ((d1 | (1 << lb)) << 1), (d2 | (1 << lb)) >> 1);
@@ -2734,7 +2734,6 @@ public class LeetCode_4 {
         dfs216(i + 1, i + j);
         list216.remove(list216.size() - 1);
     }
-    
 
     // 491. 递增子序列 (Increasing Subsequences) --枚举 + 位运算
     public List<List<Integer>> findSubsequences(int[] nums) {
@@ -3443,7 +3442,6 @@ public class LeetCode_4 {
         return b == 0 ? a : gcd2318(b, a % b);
     }
 
-
     // 6101. 判断矩阵是否是一个 X 矩阵 (Check if Matrix Is X-Matrix)
     public boolean checkXMatrix(int[][] grid) {
         int n = grid.length;
@@ -3618,7 +3616,8 @@ public class LeetCode_4 {
         while (!queueA.isEmpty() && !queueB.isEmpty()) {
             TreeNode nodeA = queueA.poll();
             TreeNode nodeB = queueB.poll();
-            if (nodeA.val != nodeB.val || (nodeA.left == null) != (nodeB.left == null) || (nodeA.right == null) != (nodeB.right == null)) {
+            if (nodeA.val != nodeB.val || (nodeA.left == null) != (nodeB.left == null)
+                    || (nodeA.right == null) != (nodeB.right == null)) {
                 return false;
             }
             if (nodeA.left != null && nodeB.left != null) {
@@ -4858,8 +4857,7 @@ public class LeetCode_4 {
 
     }
 
-    private int collect652_2(TreeNode root, Map<String, Integer> map, Map<Integer, Integer> count,
-            List<TreeNode> res) {
+    private int collect652_2(TreeNode root, Map<String, Integer> map, Map<Integer, Integer> count, List<TreeNode> res) {
         if (root == null) {
             return 0;
         }
@@ -6808,16 +6806,9 @@ public class LeetCode_4 {
             return nums;
 
             /*
-             * Fisher-Yates 洗牌算法
-             * int[] shuffle = new int[n];
-             * for (int i = 0; i < n; ++i) {
-             * int j = i + random.nextInt(n - i);
-             * shuffle[i] = nums[j];
-             * int temp = nums[j];
-             * nums[j] = nums[i];
-             * nums[i] = temp;
-             * }
-             * return shuffle;
+             * Fisher-Yates 洗牌算法 int[] shuffle = new int[n]; for (int i = 0; i < n; ++i) {
+             * int j = i + random.nextInt(n - i); shuffle[i] = nums[j]; int temp = nums[j];
+             * nums[j] = nums[i]; nums[i] = temp; } return shuffle;
              */
         }
     }
@@ -9956,7 +9947,8 @@ public class LeetCode_4 {
             return memo879[i][j][k];
         }
         final int MOD = (int) (1e9 + 7);
-        return memo879[i][j][k] = (dfs879(i + 1, j, k) + dfs879(i + 1, j + group879[i], Math.min(minProfit879, k + profit879[i]))) % MOD;
+        return memo879[i][j][k] = (dfs879(i + 1, j, k)
+                + dfs879(i + 1, j + group879[i], Math.min(minProfit879, k + profit879[i]))) % MOD;
     }
 
     // 2116. 判断一个括号字符串是否有效 (Check if a Parentheses String Can Be Valid)
@@ -10287,10 +10279,8 @@ public class LeetCode_4 {
             // maxFreq == 1
             // 数字出现的频率只有 maxFreq 和 maxFreq - 1，而且出现值为 maxFreq 的元素只有1个
             // 数字出现的频率只有 maxFreq 和 非maxFreq，而且出现值为 非maxFreq 的元素只有1个
-            if (maxFreq == 1
-                    || ((freq.get(maxFreq) * maxFreq + freq.get(maxFreq - 1) * (maxFreq - 1) == i + 1)
-                            && (freq.get(maxFreq) == 1))
-                    || (freq.get(maxFreq) * maxFreq + 1 == i + 1)) {
+            if (maxFreq == 1 || ((freq.get(maxFreq) * maxFreq + freq.get(maxFreq - 1) * (maxFreq - 1) == i + 1)
+                    && (freq.get(maxFreq) == 1)) || (freq.get(maxFreq) * maxFreq + 1 == i + 1)) {
                 res = Math.max(res, i + 1);
             }
         }
@@ -10427,8 +10417,7 @@ public class LeetCode_4 {
     private String[] teens = new String[] { "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
             "Seventeen", "Eighteen", "Nineteen" };
     private String[] tens = new String[] { "", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy",
-            "Eighty",
-            "Ninety" };
+            "Eighty", "Ninety" };
     private String[] thousand = new String[] { "", "Thousand", "Million", "Billion" };
 
     public String numberToWords(int num) {
@@ -11028,26 +11017,18 @@ public class LeetCode_4 {
     /*
      * |arr1[i] - arr1[j]| + |arr2[i] - arr2[j]| + |i - j|
      * 
-     * = (arr1[i] + arr2[i] + i) - (arr1[j] + arr2[j] + j)
-     * = (arr1[i] + arr2[i] - i) - (arr1[j] + arr2[j] - j)
-     * = (arr1[i] - arr2[i] + i) - (arr1[j] - arr2[j] + j)
-     * = (arr1[i] - arr2[i] - i) - (arr1[j] - arr2[j] - j)
-     * = -(arr1[i] + arr2[i] + i) + (arr1[j] + arr2[j] + j)
-     * = -(arr1[i] + arr2[i] - i) + (arr1[j] + arr2[j] - j)
-     * = -(arr1[i] - arr2[i] + i) + (arr1[j] - arr2[j] + j)
-     * = -(arr1[i] - arr2[i] - i) + (arr1[j] - arr2[j] - j)
+     * = (arr1[i] + arr2[i] + i) - (arr1[j] + arr2[j] + j) = (arr1[i] + arr2[i] - i)
+     * - (arr1[j] + arr2[j] - j) = (arr1[i] - arr2[i] + i) - (arr1[j] - arr2[j] + j)
+     * = (arr1[i] - arr2[i] - i) - (arr1[j] - arr2[j] - j) = -(arr1[i] + arr2[i] +
+     * i) + (arr1[j] + arr2[j] + j) = -(arr1[i] + arr2[i] - i) + (arr1[j] + arr2[j]
+     * - j) = -(arr1[i] - arr2[i] + i) + (arr1[j] - arr2[j] + j) = -(arr1[i] -
+     * arr2[i] - i) + (arr1[j] - arr2[j] - j)
      * 
-     * 因为存在四组两两等价的展开，所以可以优化为四个表达式：
-     * A = arr1[i] + arr2[i] + i
-     * B = arr1[i] + arr2[i] - i
-     * C = arr1[i] - arr2[i] + i
-     * D = arr1[i] - arr2[i] - i
+     * 因为存在四组两两等价的展开，所以可以优化为四个表达式： A = arr1[i] + arr2[i] + i B = arr1[i] + arr2[i] -
+     * i C = arr1[i] - arr2[i] + i D = arr1[i] - arr2[i] - i
      * 
-     * max( |arr1[i] - arr1[j]| + |arr2[i] - arr2[j]| + |i - j|)
-     * = max(max(A) - min(A),
-     * max(B) - min(B),
-     * max(C) - min(C),
-     * max(D) - min(D))
+     * max( |arr1[i] - arr1[j]| + |arr2[i] - arr2[j]| + |i - j|) = max(max(A) -
+     * min(A), max(B) - min(B), max(C) - min(C), max(D) - min(D))
      * 
      */
     // 1131. 绝对值表达式的最大值 (Maximum of Absolute Value Expression)
