@@ -2466,19 +2466,20 @@ public class LeetCode_4 {
 
     // 52. N皇后 II (N-Queens II) --回溯
     public int totalNQueens(int n) {
-        return backtrack52(n, 0, 0, 0, 0);
+        return dfs52(n, 0, 0, 0, 0);
     }
 
-    private int backtrack52(int n, int row, int colunms, int diagonal1, int diagonal2) {
-        if (row == n) {
+    private int dfs52(int n, int i, int d0, int d1, int d2) {
+        if (i == n) {
             return 1;
         }
         int res = 0;
-        int availablePositions = ((1 << n) - 1) & (~(colunms | diagonal1 | diagonal2));
-        while (availablePositions != 0) {
-            int position = availablePositions & (-availablePositions);
-            res += backtrack52(n, row + 1, colunms | position, (diagonal1 | position) << 1, (diagonal2 | position) >> 1);
-            availablePositions &= availablePositions - 1;
+        int u = (1 << n) - 1;
+        int c = u ^ (colunms | diagonal1 | diagonal2);
+        while (c != 0) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            res += dfs52(n, i + 1, d0 | (1 << lb), u & ((d1 | (1 << lb)) << 1), (d2 | (1 << lb)) >> 1);
+            c &= c - 1;
         }
         return res;
     }
