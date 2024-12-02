@@ -7493,25 +7493,29 @@ class Union924:
         return res
 
     # 3373. 连接两棵树后最大目标节点数目 II (Maximize the Number of Target Nodes After Connecting Trees II)
-    def maxTargetNodes(self, edges1: List[List[int]], edges2: List[List[int]]) -> List[int]:
+    def maxTargetNodes(
+        self, edges1: List[List[int]], edges2: List[List[int]]
+    ) -> List[int]:
         def dfs(x: int, fa: int, d: int) -> None:
             res[x] += cnt1[d]
             for y in g[x]:
                 if y != fa:
                     dfs(y, x, d ^ 1)
+
         _, cnt2 = self.count3373(edges2)
         max2 = max(cnt2)
         g, cnt1 = self.count3373(edges1)
         res = [max2] * (len(g))
         dfs(0, -1, 0)
         return res
-    
+
     def count3373(self, edges: List[List[int]]) -> Tuple[List[List[int]], List[int]]:
         def dfs(x: int, fa: int, d: int) -> None:
             cnt[d] += 1
             for y in g[x]:
                 if y != fa:
                     dfs(y, x, d ^ 1)
+
         n = len(edges) + 1
         g = [[] for _ in range(n)]
         for u, v in edges:
@@ -7520,3 +7524,24 @@ class Union924:
         cnt = [0] * 2
         dfs(0, -1, 0)
         return g, cnt
+
+    # 52. N 皇后 II (N-Queens II)
+    def totalNQueens(self, n: int) -> int:
+        def dfs(i: int, d0: int, d1: int, d2: int) -> int:
+            if i == n:
+                return 1
+            c = u ^ (d0 | d1 | d2)
+            res = 0
+            while c:
+                lb = (c & -c).bit_length() - 1
+                res += dfs(
+                    i + 1,
+                    d0 | (1 << lb),
+                    u & ((d1 | (1 << lb)) << 1),
+                    (d2 | (1 << lb)) >> 1,
+                )
+                c &= c - 1
+            return res
+
+        u = (1 << n) - 1
+        return dfs(0, 0, 0, 0)
