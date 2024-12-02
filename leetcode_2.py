@@ -7444,11 +7444,11 @@ class Union924:
         dfs(0, 0, 0, 0)
         return res
 
-    # 100501. 仅含置位位的最小整数 (Smallest Number With All Set Bits)
+    # 3370. 仅含置位位的最小整数 (Smallest Number With All Set Bits)
     def smallestNumber(self, n: int) -> int:
-        return (1 << len(bin(n)[2:])) - 1
+        return (1 << n.bit_length()) - 1
 
-    # 100444. 识别数组中的最大异常值 (Identify the Largest Outlier in an Array)
+    # 3371. 识别数组中的最大异常值 (Identify the Largest Outlier in an Array)
     def getLargestOutlier(self, nums: List[int]) -> int:
         s = sum(nums)
         d = defaultdict(int)
@@ -7462,7 +7462,7 @@ class Union924:
             d[x] += 1
         return res
 
-    # 100475. 连接两棵树后最大目标节点数目 I (Maximize the Number of Target Nodes After Connecting Trees I)
+    # 3372. 连接两棵树后最大目标节点数目 I (Maximize the Number of Target Nodes After Connecting Trees I)
     def maxTargetNodes(
         self, edges1: List[List[int]], edges2: List[List[int]], k: int
     ) -> List[int]:

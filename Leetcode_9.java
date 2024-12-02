@@ -3579,12 +3579,12 @@ public class Leetcode_9 {
         return memo3366[i][op1][op2] = res;
     }
 
-    // 100501. 仅含置位位的最小整数 (Smallest Number With All Set Bits)
+    // 3370. 仅含置位位的最小整数 (Smallest Number With All Set Bits)
     public int smallestNumber(int n) {
         return (1 << Integer.toBinaryString(n).length()) - 1;
     }
 
-    // 100444. 识别数组中的最大异常值 (Identify the Largest Outlier in an Array)
+    // 3371. 识别数组中的最大异常值 (Identify the Largest Outlier in an Array)
     public int getLargestOutlier(int[] nums) {
         int s = 0;
         Map<Integer, Integer> cnt = new HashMap<>();
@@ -3604,40 +3604,40 @@ public class Leetcode_9 {
 
     }
 
-    // 100475. 连接两棵树后最大目标节点数目 I (Maximize the Number of Target Nodes After
+    // 3372. 连接两棵树后最大目标节点数目 I (Maximize the Number of Target Nodes After
     // Connecting Trees I)
     public int[] maxTargetNodes(int[][] edges1, int[][] edges2, int k) {
         int n = edges1.length + 1;
         int m = edges2.length + 1;
-        List<Integer>[] g1 = buildTree100475(edges1);
-        List<Integer>[] g2 = buildTree100475(edges2);
+        List<Integer>[] g1 = buildTree3372(edges1);
+        List<Integer>[] g2 = buildTree3372(edges2);
         int mx = 0;
         for (int i = 0; i < m; ++i) {
-            mx = Math.max(mx, dfs100475(g2, i, -1, k - 1));
+            mx = Math.max(mx, dfs3372(g2, i, -1, k - 1));
         }
         int[] res = new int[n];
         for (int i = 0; i < n; ++i) {
-            res[i] = dfs100475(g1, i, -1, k) + mx;
+            res[i] = dfs3372(g1, i, -1, k) + mx;
         }
         return res;
 
     }
 
-    private int dfs100475(List<Integer>[] g, int x, int fa, int k) {
+    private int dfs3372(List<Integer>[] g, int x, int fa, int k) {
         if (k < 0) {
             return 0;
         }
         int res = 0;
         for (int y : g[x]) {
             if (y != fa) {
-                res += dfs100475(g, y, x, k - 1);
+                res += dfs3372(g, y, x, k - 1);
             }
 
         }
         return res + 1;
     }
 
-    private List<Integer>[] buildTree100475(int[][] edges) {
+    private List<Integer>[] buildTree3372(int[][] edges) {
         int n = edges.length + 1;
         List<Integer>[] g = new ArrayList[n];
         Arrays.setAll(g, k -> new ArrayList<>());
