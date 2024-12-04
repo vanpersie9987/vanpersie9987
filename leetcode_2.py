@@ -7545,3 +7545,54 @@ class Union924:
 
         u = (1 << n) - 1
         return dfs(0, 0, 0, 0)
+
+    # 2056. 棋盘上有效移动组合的数目 (Number of Valid Move Combinations On Chessboard) --回溯
+    def countCombinations(self, pieces: List[str], positions: List[List[int]]) -> int:
+        def generate_all_moves(dirs: List[tuple], x0: int, y0: int) -> List[tuple]:
+            SIZE = 8
+            cur_moves = [(x0, y0, 0, 0, 0)]
+            for dx, dy in dirs:
+                x = x0
+                y = y0
+                step = 0
+                while 0 <= x + dx < SIZE and 0 <= y + dy < SIZE:
+                    x += dx
+                    y += dy
+                    step += 1
+                    cur_moves.append((x0, y0, dx, dy, step))
+            return cur_moves
+
+        def dfs(i: int) -> int:
+            if i == n:
+                return 1
+            res = 0
+            for move1 in all_moves[i]:
+                if i == 0 or all(check(move1, move2) for move2 in move[:i]):
+                    move[i] = move1
+                    res += dfs(i + 1)
+            return res
+
+        def check(m0: tuple, m1: tuple) -> bool:
+            x0, y0, dx0, dy0, step0 = m0
+            x1, y1, dx1, dy1, step1 = m1
+            for i in range(max(step0, step1)):
+                if i < step0:
+                    x0 += dx0
+                    y0 += dy0
+                if i < step1:
+                    x1 += dx1
+                    y1 += dy1
+                if x0 == x1 and y0 == y1:
+                    return False
+            return True
+
+        n = len(pieces)
+        flat = (0, 1), (0, -1), (1, 0), (-1, 0)
+        diagnal = (1, -1), (1, 1), (-1, -1), (-1, 1)
+        d = {'r': flat, 'q': flat + diagnal, 'b': diagnal}
+        all_moves = [
+            generate_all_moves(d[piece[0]], x - 1, y - 1)
+            for piece, (x, y) in zip(pieces, positions)
+        ]
+        move = [None] * n
+        return dfs(0)
