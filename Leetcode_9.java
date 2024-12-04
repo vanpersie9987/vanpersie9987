@@ -3695,4 +3695,96 @@ public class Leetcode_9 {
         }
         return g;
     }
+
+    // 2056. 棋盘上有效移动组合的数目 (Number of Valid Move Combinations On Chessboard)
+    public int countCombinations(String[] pieces, int[][] positions) {
+        List<int[]> flat = List.of(new int[] { 1, 0 }, new int[] { 0, 1 }, new int[] { -1, 0 }, new int[] { 0, -1 });
+        List<int[]> diagnal = List.of(new int[] { 1, 1 }, new int[] { -1, 1 }, new int[] { -1, -1 },
+                new int[] { 1, -1 });
+        Map<Character, List<int[]>> dic = new HashMap<>();
+        dic.put('r', flat);
+        List<int[]> all = new ArrayList<>();
+        all.addAll(flat);
+        all.addAll(diagnal);
+        dic.put('q', all);
+        dic.put('b', diagnal);
+        int n = pieces.length;
+        List<List<int[]>> allMoves = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            allMoves.add(generateAllMoves2056(dic.get(pieces[i].charAt(0)), positions[i][0] - 1, positions[i][1] - 1));
+        }
+        int[][] moves = new int[n][];
+        return dfs2056(0, n, moves, allMoves);
+
+    }
+
+
+    private boolean check2056(int[] move0, int[] move1) {
+        int x0 = move0[0];
+        int y0 = move0[1];
+        int dx0 = move0[2];
+        int dy0 = move0[3];
+        int step0 = move0[4];
+
+        int x1 = move1[0];
+        int y1 = move1[1];
+        int dx1 = move1[2];
+        int dy1 = move1[3];
+        int step1 = move1[4];
+
+        for (int i = 0; i < Math.max(step0, step1); ++i) {
+            if (i < step0) {
+                x0 += dx0;
+                y0 += dy0;
+            }
+            if (i < step1) {
+                x1 += dx1;
+                y1 += dy1;
+            }
+            if (x0 == x1 && y0 == y1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private int dfs2056(int i, int n, int[][] moves, List<List<int[]>> allMoves) {
+        if (i == n) {
+            return 1;
+        }
+        int res = 0;
+        search: for (int[] move0 : allMoves.get(i)) {
+            for (int j = 0; j < i; ++j) {
+                int[] move1 = moves[j];
+                if (!check2056(move0, move1)) {
+                    continue search;
+                }
+            }
+            moves[i] = move0;
+            res += dfs2056(i + 1, n, moves, allMoves);
+        }
+        return res;
+
+    }
+
+    private List<int[]> generateAllMoves2056(List<int[]> list, int x0, int y0) {
+        final int SIZE = 8;
+        List<int[]> items = new ArrayList<>();
+        items.add(new int[] { x0, y0, 0, 0, 0 });
+        for (int[] d : list) {
+            int dx = d[0];
+            int dy = d[1];
+            int x = x0;
+            int y = y0;
+            int step = 0;
+            while (x + dx >= 0 && x + dx < SIZE && y + dy >= 0 && y + dy < SIZE) {
+                x += dx;
+                y += dy;
+                ++step;
+                items.add(new int[] { x0, y0, dx, dy, step });
+            }
+        }
+        return items;
+    }
+
 }
