@@ -7567,7 +7567,7 @@ class Union924:
                 return 1
             res = 0
             for move1 in all_moves[i]:
-                if i == 0 or all(check(move1, move2) for move2 in move[:i]):
+                if all(check(move1, move2) for move2 in move[:i]):
                     move[i] = move1
                     res += dfs(i + 1)
             return res
