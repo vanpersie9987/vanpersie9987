@@ -9640,36 +9640,31 @@ class leetcode_1:
         return res
 
     # 3001. 捕获黑皇后需要的最少移动次数 (Minimum Moves to Capture The Queen)
-    def minMovesToCaptureTheQueen(
-        self, a: int, b: int, c: int, d: int, e: int, f: int
-    ) -> int:
-        def check(
-            sx: int, sy: int, dx: int, dy: int, tx: int, ty: int, bx: int, by: int
-        ) -> bool:
-            while 8 >= sx >= 1 and 8 >= sy >= 1:
-                if sx == bx and sy == by:
-                    return False
-                elif sx == tx and sy == ty:
-                    return True
-                sx += dx
-                sy += dy
-            return False
-
-        if (
-            check(e, f, 0, 1, a, b, c, d)
-            or check(e, f, 0, -1, a, b, c, d)
-            or check(e, f, 1, 0, a, b, c, d)
-            or check(e, f, -1, 0, a, b, c, d)
-        ):
-            return 1
-        if (
-            check(e, f, 1, 1, c, d, a, b)
-            or check(e, f, -1, 1, c, d, a, b)
-            or check(e, f, 1, -1, c, d, a, b)
-            or check(e, f, -1, -1, c, d, a, b)
-        ):
-            return 1
-        return 2
+    def minMovesToCaptureTheQueen(self, a: int, b: int, c: int, d: int, e: int, f: int) -> int:
+        def check(start: tuple, obstacle: tuple, dx: int, dy: int) -> int:
+            SIZE = 8
+            x0 = start[0]
+            y0 = start[1]
+            f = False
+            while 0 <= x0 + dx < SIZE and 0 <= y0 + dy < SIZE:
+                x0 += dx
+                y0 += dy
+                if x0 == obstacle[0] and y0 == obstacle[1]:
+                    f = True
+                elif x0 == queen[0] and y0 == queen[1]:
+                    return 1 + int(f)
+            return inf
+        rock = (a - 1), (b - 1)
+        bishop = (c - 1), (d - 1)
+        queen = (e - 1), (f - 1)
+        res = inf
+        diag_dirs = (1, -1), (-1, 1), (-1, -1), (1, 1)
+        flat_dirs = (1, 0), (-1, 0), (0, 1), (0, -1)
+        for dx, dy in diag_dirs:
+            res = min(res, check(bishop, rock, dx, dy))
+        for dx, dy in flat_dirs:
+            res = min(res, check(rock, bishop, dx, dy))
+        return min(res, 2)
 
     # 3002. 移除后集合的最多元素数 (Maximum Size of a Set After Removals)
     def maximumSetSize(self, nums1: List[int], nums2: List[int]) -> int:
