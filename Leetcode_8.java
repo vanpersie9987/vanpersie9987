@@ -6532,30 +6532,39 @@ public class Leetcode_8 {
 
     // 3001. 捕获黑皇后需要的最少移动次数 (Minimum Moves to Capture The Queen)
     public int minMovesToCaptureTheQueen(int a, int b, int c, int d, int e, int f) {
-        if (check3001(a, b, c, d, e, f, 0, 1) || check3001(a, b, c, d, e, f, 0, -1) || check3001(a, b, c, d, e, f, 1, 0)
-                || check3001(a, b, c, d, e, f, -1, 0)) {
-            return 1;
+        int[] rock = new int[] { a - 1, b - 1 };
+        int[] bishop = new int[] { c - 1, d - 1 };
+        int[] queen = new int[] { e - 1, f - 1 };
+        int[][] diagnalDirs = { { 1, -1 }, { 1, 1 }, { -1, -1 }, { -1, 1 } };
+        int[][] flatDirs = { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
+        int res = 2;
+        for (int[] dir : flatDirs) {
+            res = Math.min(res, check3001(rock, bishop, queen, dir));
         }
-        if (check3001(c, d, a, b, e, f, 1, 1) || check3001(c, d, a, b, e, f, 1, -1)
-                || check3001(c, d, a, b, e, f, -1, 1)
-                || check3001(c, d, a, b, e, f, -1, -1)) {
-            return 1;
+        for (int[] dir : diagnalDirs) {
+            res = Math.min(res, check3001(bishop, rock, queen, dir));
         }
-        return 2;
+        return res;
 
     }
 
-    private boolean check3001(int a, int b, int c, int d, int e, int f, int dx, int dy) {
-        while (e >= 1 && e <= 8 && f >= 1 && f <= 8) {
-            if (e == c && f == d) {
-                return false;
-            } else if (e == a && f == b) {
-                return true;
+    private int check3001(int[] start, int[] obstacle, int[] target, int[] dir) {
+        boolean f = false;
+        final int SIZE = 8;
+        int x = start[0];
+        int y = start[1];
+        int dx = dir[0];
+        int dy = dir[1];
+        while (x + dx < SIZE && x + dx >= 0 && y + dy < SIZE && y + dy >= 0) {
+            x += dx;
+            y += dy;
+            if (x == obstacle[0] && y == obstacle[1]) {
+                f = true;
+            } else if (x == target[0] && y == target[1]) {
+                return 1 + (f ? 1 : 0);
             }
-            e += dx;
-            f += dy;
         }
-        return false;
+        return Integer.MAX_VALUE;
     }
 
     // 3002. 移除后集合的最多元素数 (Maximum Size of a Set After Removals)
