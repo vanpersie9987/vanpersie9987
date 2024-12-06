@@ -7596,14 +7596,14 @@ class Union924:
         ]
         move = [None] * n
         return dfs(0)
-    
+
     # 999. 可以被一步捕获的棋子数 (Available Captures for Rook)
     def numRookCaptures(self, board: List[List[str]]) -> int:
         r = None
         SIZE = 8
         r = None
-        for i in range(8):
-            for j in range(8):
+        for i in range(SIZE):
+            for j in range(SIZE):
                 if board[i][j] == 'R':
                     r = (i, j)
                     break
@@ -7623,6 +7623,3 @@ class Union924:
                 x += dx
                 y += dy
         return res
-
-
-

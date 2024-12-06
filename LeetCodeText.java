@@ -3961,59 +3961,36 @@ public class LeetCodeText {
 
     }
 
-    public int numRookCaptures(final char[][] board) {
-        int count = 0;
-        int i = 0;
-        int j = 0;
-        out: for (i = 0; i < board.length; ++i) {
-            for (j = 0; j < board[0].length; ++j) {
+    // 999. 可以被一步捕获的棋子数 (Available Captures for Rook)
+    public int numRookCaptures(char[][] board) {
+        int res = 0;
+        int[] r = new int[2];
+        int SIZE = 8;
+        out: for (int i = 0; i < SIZE; ++i) {
+            for (int j = 0; j < SIZE; ++j) {
                 if (board[i][j] == 'R') {
+                    r[0] = i;
+                    r[1] = j;
                     break out;
                 }
             }
         }
-        final int posC = j;
-        final int posR = i;
-        // 从R的位置往上查找
-        while (--i >= 0) {
-            if (board[i][j] == 'B') {
-                break;
-            } else if (board[i][j] == 'p') {
-                ++count;
-                break;
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        for (int[] dir : dirs) {
+            int x = r[0] + dir[0];
+            int y = r[1] + dir[1];
+            while (x >= 0 && x < SIZE && y >= 0 && y < SIZE) {
+                if (board[x][y] == 'B') {
+                    break;
+                } else if (board[x][y] == 'p') {
+                    ++res;
+                    break;
+                }
+                x += dir[0];
+                y += dir[1];
             }
         }
-        i = posR;
-        // 从R的位置往下查找
-        while (++i < board.length) {
-            if (board[i][j] == 'B') {
-                break;
-            } else if (board[i][j] == 'p') {
-                ++count;
-                break;
-            }
-        }
-        i = posR;
-        // 从R的位置往左查找
-        while (--j >= 0) {
-            if (board[i][j] == 'B') {
-                break;
-            } else if (board[i][j] == 'p') {
-                ++count;
-                break;
-            }
-        }
-        j = posC;
-        // 从R的位置往右查找
-        while (++j < board[0].length) {
-            if (board[i][j] == 'B') {
-                break;
-            } else if (board[i][j] == 'p') {
-                ++count;
-                break;
-            }
-        }
-        return count;
+        return res;
 
     }
 
