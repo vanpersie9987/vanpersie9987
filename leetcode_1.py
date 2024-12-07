@@ -1034,22 +1034,16 @@ class leetcode_1:
 
     # 688. 骑士在棋盘上的概率 (Knight Probability in Chessboard)
     def knightProbability(self, n: int, k: int, row: int, column: int) -> float:
-        dirs = [[1, 2], [1, -2], [-1, 2], [-1, -2], [2, 1], [2, -1], [-2, 1], [-2, -1]]
-
         @cache
-        def dfs(i: int, j: int, left: int) -> float:
-            if i < 0 or i >= n or j < 0 or j >= n:
-                return 0.0
-            if left == 0:
-                return 1.0
-            res = 0.0
-            for dx, dy in dirs:
-                nx = i + dx
-                ny = j + dy
-                res += dfs(nx, ny, left - 1)
-            return res / 8.0
+        def dfs(i: int, j: int, k: int) -> int:
+            if not (i < n and i >= 0 and j < n and j >= 0):
+                return 0
+            if k == 0:
+                return 1
+            return sum(dfs(i + x, j + y, k - 1) for x, y in dirs)
 
-        return dfs(row, column, k)
+        dirs = (-1, 2), (2, -1), (1, -2), (2, 1), (-1, -2), (-2, -1), (1, 2), (-2, 1)
+        return dfs(row, column, k) / pow(8, k)
 
     # 712. 两个字符串的最小ASCII删除和 (Minimum ASCII Delete Sum for Two Strings)
     def minimumDeleteSum(self, s1: str, s2: str) -> int:
@@ -4121,6 +4115,7 @@ class leetcode_1:
     def minimumTime(self, time: List[int], totalTrips: int) -> int:
         def check(t: int) -> bool:
             return sum(t // c for c in time) >= totalTrips
+
         left = 1
         right = max(time) * totalTrips
         res = 1
@@ -4757,6 +4752,7 @@ class leetcode_1:
             if j - nums[i] >= 0:
                 res += dfs(i - 1, j - nums[i])
             return res
+
         n = len(nums)
         s = sum(nums) - abs(target)
         if s < 0 or s % 2:
@@ -4992,15 +4988,17 @@ class leetcode_1:
     # 2858. 可以到达每一个节点的最少边反转次数 (Minimum Edge Reversals So Every Node Is Reachable)
     def minEdgeReversals(self, n: int, edges: List[List[int]]) -> List[int]:
         def reroot(x: int, fa: int) -> None:
-            for (y, d) in g[x]:
+            for y, d in g[x]:
                 if y != fa:
                     res[y] = res[x] - 2 * d + 1
                     reroot(y, x)
+
         def dfs0(x: int, fa: int) -> None:
-            for (y, d) in g[x]:
+            for y, d in g[x]:
                 if y != fa:
                     res[0] += d
                     dfs0(y, x)
+
         res = [0] * n
         g = [[] for _ in range(n)]
         for u, v in edges:
@@ -8703,7 +8701,10 @@ class leetcode_1:
 
     # 2956. 找到两个数组中的公共元素 (Find Common Elements Between Two Arrays)
     def findIntersectionValues(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        return [sum(x in set(nums2) for x in nums1), sum(x in set(nums1) for x in nums2)]
+        return [
+            sum(x in set(nums2) for x in nums1),
+            sum(x in set(nums1) for x in nums2),
+        ]
 
     # 100152. 消除相邻近似相等字符 (Remove Adjacent Almost-Equal Characters)
     def removeAlmostEqualCharacters(self, word: str) -> int:
@@ -9640,7 +9641,9 @@ class leetcode_1:
         return res
 
     # 3001. 捕获黑皇后需要的最少移动次数 (Minimum Moves to Capture The Queen)
-    def minMovesToCaptureTheQueen(self, a: int, b: int, c: int, d: int, e: int, f: int) -> int:
+    def minMovesToCaptureTheQueen(
+        self, a: int, b: int, c: int, d: int, e: int, f: int
+    ) -> int:
         def check(start: tuple, obstacle: tuple, dx: int, dy: int) -> int:
             SIZE = 8
             x0 = start[0]
@@ -9654,6 +9657,7 @@ class leetcode_1:
                 elif x0 == queen[0] and y0 == queen[1]:
                     return 1 + int(f)
             return inf
+
         rock = (a - 1), (b - 1)
         bishop = (c - 1), (d - 1)
         queen = (e - 1), (f - 1)
