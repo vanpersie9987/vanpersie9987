@@ -1035,15 +1035,15 @@ class leetcode_1:
     # 688. 骑士在棋盘上的概率 (Knight Probability in Chessboard)
     def knightProbability(self, n: int, k: int, row: int, column: int) -> float:
         @cache
-        def dfs(i: int, j: int, k: int) -> int:
+        def dfs(i: int, j: int, k: int) -> float:
             if not (i < n and i >= 0 and j < n and j >= 0):
                 return 0
             if k == 0:
-                return 1
-            return sum(dfs(i + x, j + y, k - 1) for x, y in dirs)
+                return 1.0
+            return sum(dfs(i + x, j + y, k - 1) for x, y in dirs) / 8
 
         dirs = (-1, 2), (2, -1), (1, -2), (2, 1), (-1, -2), (-2, -1), (1, 2), (-2, 1)
-        return dfs(row, column, k) / pow(8, k)
+        return dfs(row, column, k)
 
     # 712. 两个字符串的最小ASCII删除和 (Minimum ASCII Delete Sum for Two Strings)
     def minimumDeleteSum(self, s1: str, s2: str) -> int:
