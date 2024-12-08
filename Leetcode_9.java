@@ -3867,4 +3867,38 @@ public class Leetcode_9 {
 
     }
 
+    // 100489. 破解锁的最少时间 I (Minimum Time to Break Locks I)
+    private int[][] memo100489;
+    private int u100489;
+    private int K100489;
+    private List<Integer> strength100489;
+
+    public int findMinimumTime(List<Integer> strength, int K) {
+        this.strength100489 = strength;
+        int n = strength.size();
+        this.u100489 = (1 << n) - 1;
+        this.K100489 = K;
+        int mx = n * K + 1;
+        this.memo100489 = new int[1 << n][mx];
+        for (int i = 0; i < 1 << n; ++i) {
+            Arrays.fill(memo100489[i], -1);
+        }
+        return dfs100489(0, 1);
+    }
+
+    private int dfs100489(int i, int j) {
+        if (i == u100489) {
+            return 0;
+        }
+        if (memo100489[i][j] != -1) {
+            return memo100489[i][j];
+        }
+        int res = Integer.MAX_VALUE;
+        for (int c = i ^ u100489; c != 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            res = Math.min(res, dfs100489(i | (1 << lb), j + K100489) + (strength100489.get(lb) - 1) / j + 1);
+        }
+        return memo100489[i][j] = res;
+    }
+
 }

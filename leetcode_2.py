@@ -7674,3 +7674,21 @@ class Union924:
                         heapq.heappush(q, (s + y, y))
                 _pow *= 10
         return -1
+    
+    # 100489. 破解锁的最少时间 I (Minimum Time to Break Locks I)
+    def findMinimumTime(self, strength: List[int], K: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == u:
+                return 0
+            c = i ^ u
+            res = inf
+            while c:
+                lb = (c & -c).bit_length() - 1
+                res = min(res, dfs(i | (1 << lb), j + K) + (strength[lb] - 1) // j + 1)
+                c &= c - 1
+            return res
+        n = len(strength)
+        u = (1 << n) - 1
+        return dfs(0, 1)
+        
