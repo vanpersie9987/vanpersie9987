@@ -7589,14 +7589,13 @@ class Union924:
         n = len(pieces)
         flat = (0, 1), (0, -1), (1, 0), (-1, 0)
         diagnal = (1, -1), (1, 1), (-1, -1), (-1, 1)
-        d = {'r': flat, 'q': flat + diagnal, 'b': diagnal}
+        d = {"r": flat, "q": flat + diagnal, "b": diagnal}
         all_moves = [
             generate_all_moves(d[piece[0]], x - 1, y - 1)
             for piece, (x, y) in zip(pieces, positions)
         ]
         move = [None] * n
         return dfs(0)
-
 
     # 999. 可以被一步捕获的棋子数 (Available Captures for Rook)
     def numRookCaptures(self, board: List[List[str]]) -> int:
@@ -7605,7 +7604,7 @@ class Union924:
         r = None
         for i in range(SIZE):
             for j in range(SIZE):
-                if board[i][j] == 'R':
+                if board[i][j] == "R":
                     r = (i, j)
                     break
             if r is not None:
@@ -7616,9 +7615,9 @@ class Union924:
             x = r[0] + dx
             y = r[1] + dy
             while SIZE > x >= 0 and SIZE > y >= 0:
-                if board[x][y] == 'B':
+                if board[x][y] == "B":
                     break
-                elif board[x][y] == 'p':
+                elif board[x][y] == "p":
                     res += 1
                     break
                 x += dx
@@ -7674,7 +7673,7 @@ class Union924:
                         heapq.heappush(q, (s + y, y))
                 _pow *= 10
         return -1
-    
+
     # 100489. 破解锁的最少时间 I (Minimum Time to Break Locks I)
     def findMinimumTime(self, strength: List[int], K: int) -> int:
         @cache
@@ -7689,10 +7688,11 @@ class Union924:
                 res = min(res, dfs(i | (1 << lb)) + (strength[lb] - 1) // j + 1)
                 c &= c - 1
             return res
+
         n = len(strength)
         u = (1 << n) - 1
         return dfs(0)
-    
+
     # 3379. 转换数组 (Transformed Array)
     def constructTransformedArray(self, nums: List[int]) -> List[int]:
         n = len(nums)
@@ -7700,7 +7700,7 @@ class Union924:
         for i, x in enumerate(nums):
             res.append(nums[(i + x) % n])
         return res
-    
+
     # 3381. 长度可被 K 整除的子数组的最大元素和 (Maximum Subarray Sum With Length Divisible by K)
     def maxSubarraySum(self, nums: List[int], k: int) -> int:
         pre = list(accumulate(nums, initial=0))
@@ -7711,5 +7711,7 @@ class Union924:
             res = max(res, v - mod_k[i])
             mod_k[i] = min(mod_k[i], v)
         return res
-            
-        
+
+    # 1812. 判断国际象棋棋盘中一个格子的颜色 (Determine Color of a Chessboard Square)
+    def squareIsWhite(self, coordinates: str) -> bool:
+        return (ord(coordinates[0]) - ord("a") - int(coordinates[1])) % 2 == 0
