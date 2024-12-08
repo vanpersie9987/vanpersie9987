@@ -7678,19 +7678,20 @@ class Union924:
     # 100489. 破解锁的最少时间 I (Minimum Time to Break Locks I)
     def findMinimumTime(self, strength: List[int], K: int) -> int:
         @cache
-        def dfs(i: int, j: int) -> int:
+        def dfs(i: int) -> int:
             if i == u:
                 return 0
+            j = 1 + i.bit_count() * K
             c = i ^ u
             res = inf
             while c:
                 lb = (c & -c).bit_length() - 1
-                res = min(res, dfs(i | (1 << lb), j + K) + (strength[lb] - 1) // j + 1)
+                res = min(res, dfs(i | (1 << lb)) + (strength[lb] - 1) // j + 1)
                 c &= c - 1
             return res
         n = len(strength)
         u = (1 << n) - 1
-        return dfs(0, 1)
+        return dfs(0)
     
     # 3379. 转换数组 (Transformed Array)
     def constructTransformedArray(self, nums: List[int]) -> List[int]:
