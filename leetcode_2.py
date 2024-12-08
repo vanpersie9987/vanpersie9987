@@ -7691,4 +7691,24 @@ class Union924:
         n = len(strength)
         u = (1 << n) - 1
         return dfs(0, 1)
+    
+    # 3379. 转换数组 (Transformed Array)
+    def constructTransformedArray(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        res = []
+        for i, x in enumerate(nums):
+            res.append(nums[(i + x) % n])
+        return res
+    
+    # 3381. 长度可被 K 整除的子数组的最大元素和 (Maximum Subarray Sum With Length Divisible by K)
+    def maxSubarraySum(self, nums: List[int], k: int) -> int:
+        pre = list(accumulate(nums, initial=0))
+        res = -inf
+        mod_k = [inf] * k
+        for j, v in enumerate(pre):
+            i = j % k
+            res = max(res, v - mod_k[i])
+            mod_k[i] = min(mod_k[i], v)
+        return res
+            
         

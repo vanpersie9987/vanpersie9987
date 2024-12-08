@@ -3901,4 +3901,34 @@ public class Leetcode_9 {
         return memo100489[i][j] = res;
     }
 
+    // 3379. 转换数组 (Transformed Array)
+    public int[] constructTransformedArray(int[] nums) {
+        int n = nums.length;
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = nums[((i + nums[i]) % n + n) % n];
+        }
+        return res;
+
+    }
+
+    // 3381. 长度可被 K 整除的子数组的最大元素和 (Maximum Subarray Sum With Length Divisible by K)
+    public long maxSubarraySum(int[] nums, int k) {
+        int n = nums.length;
+        long[] pre = new long[n + 1];
+        for (int i = 1; i < n + 1; ++i) {
+            pre[i] = pre[i - 1] + nums[i - 1];
+        }
+        long res = (long) -1e15;
+        long[] modK = new long[k];
+        Arrays.fill(modK, (long) 1e15);
+        for (int i = 0; i < n + 1; ++i) {
+            int j = i % k;
+            res = Math.max(res, pre[i] - modK[j]);
+            modK[j] = Math.min(modK[j], pre[i]);
+        }
+        return res;
+
+    }
+
 }
