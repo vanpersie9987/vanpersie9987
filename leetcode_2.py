@@ -7673,8 +7673,4 @@ class Union924:
                         dis[y] = s + y
                         heapq.heappush(q, (s + y, y))
                 _pow *= 10
-<<<<<<< HEAD
         return -1
-=======
-        return -1
->>>>>>> 0ffc771 (优化)
