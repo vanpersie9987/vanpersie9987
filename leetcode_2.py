@@ -6,7 +6,7 @@ from collections import Counter, defaultdict, deque
 import collections
 from ctypes.wintypes import _ULARGE_INTEGER
 from curses import can_change_color, curs_set, intrflush, nonl
-from curses.ascii import isprint
+from curses.ascii import SI, isprint
 from decimal import Rounded
 import dis
 import enum
@@ -7624,3 +7624,53 @@ class Union924:
                 x += dx
                 y += dy
         return res
+
+    # 3375. 使数组的值全部为 K 的最少操作次数 (Minimum Operations to Make Array Values Equal to K)
+    def minOperations(self, nums: List[int], k: int) -> int:
+        s = set()
+        for x in nums:
+            if k > x:
+                return -1
+            if x > k:
+                s.add(x)
+        return len(s)
+
+    # 3377. 使两个整数相等的数位操作 (Digit Operations to Make Two Integers Equal)
+    def minOperations(self, n: int, m: int) -> int:
+        p = len(str(n))
+        SIZE = 10**p
+        dis = [inf] * SIZE
+        dis[n] = n
+        prime = [True] * SIZE
+        prime[1] = False
+        for i in range(2, SIZE):
+            if prime[i]:
+                for j in range(i * i, SIZE, i):
+                    prime[j] = False
+        if prime[n] or prime[m]:
+            return -1
+        q = []
+        q.append((n, n))
+        heapq.heapify(q)
+        while q:
+            s, x = heapq.heappop(q)
+            if x == m:
+                return s
+            if s > dis[x]:
+                continue
+            _pow = 1
+            v = x
+            while v:
+                v, d = divmod(v, 10)
+                if d > 0:
+                    y = x - _pow
+                    if not prime[y] and s + y < dis[y]:
+                        dis[y] = s + y
+                        heapq.heappush(q, (s + y, y))
+                if d < 9:
+                    y = x + _pow
+                    if not prime[y] and s + y < dis[y]:
+                        dis[y] = s + y
+                        heapq.heappush(q, (s + y, y))
+                _pow *= 10
+        return -1

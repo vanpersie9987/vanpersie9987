@@ -3787,4 +3787,84 @@ public class Leetcode_9 {
         return items;
     }
     
+    // 3375. 使数组的值全部为 K 的最少操作次数 (Minimum Operations to Make Array Values Equal to K)
+    public int minOperations(int[] nums, int k) {
+        Set<Integer> s = new HashSet<>();
+        for (int x : nums) {
+            if (k > x) {
+                return -1;
+            }
+            if (x > k) {
+                s.add(x);
+            }
+        }
+        return s.size();
+
+    }
+
+    // 3377. 使两个整数相等的数位操作 (Digit Operations to Make Two Integers Equal)
+    public int minOperations(int n, int m) {
+        int digit = String.valueOf(n).length();
+        int SIZE = (int) Math.pow(10, digit);
+        boolean[] prime = new boolean[SIZE];
+        Arrays.fill(prime, true);
+        prime[0] = prime[1] = false;
+        for (int i = 2; i < SIZE; ++i) {
+            if (prime[i]) {
+                for (int j = i * i; j < SIZE; j += i) {
+                    prime[j] = false;
+                }
+            }
+        }
+        if (prime[n] || prime[m]) {
+            return -1;
+        }
+        int[] dis = new int[SIZE];
+        Arrays.fill(dis, (int) 1e9);
+        dis[n] = n;
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        q.offer(new int[] { n, n });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int s = cur[0];
+            int x = cur[1];
+            if (x == m) {
+                return s;
+            }
+            if (s > dis[x]) {
+                continue;
+            }
+            char[] arr = String.valueOf(x).toCharArray();
+            for (int i = 0; i < arr.length; ++i) {
+                if (arr[i] != '9') {
+                    ++arr[i];
+                    int y = Integer.parseInt(String.valueOf(arr));
+                    if (!prime[y] && s + y < dis[y]) {
+                        dis[y] = s + y;
+                        q.offer(new int[] { s + y, y });
+                    }
+                    --arr[i];
+                }
+                if (arr[i] != '0') {
+                    --arr[i];
+                    int y = Integer.parseInt(String.valueOf(arr));
+                    if (!prime[y] && s + y < dis[y]) {
+                        dis[y] = s + y;
+                        q.offer(new int[] { s + y, y });
+                    }
+                    ++arr[i];
+                }
+            }
+        }
+        return -1;
+
+    }
+
 }
