@@ -7715,3 +7715,15 @@ class Union924:
     # 1812. 判断国际象棋棋盘中一个格子的颜色 (Determine Color of a Chessboard Square)
     def squareIsWhite(self, coordinates: str) -> bool:
         return (ord(coordinates[0]) - ord("a") - int(coordinates[1])) % 2 == 0
+
+    # 2717. 半有序排列 (Semi-Ordered Permutation)
+    def semiOrderedPermutation(self, nums: List[int]) -> int:
+        n = len(nums)
+        i = -1
+        j = -1
+        for id, v in enumerate(nums):
+            if v == 1:
+                i = id
+            if v == n:
+                j = id
+        return n - 1 - j + i - int(i > j)
