@@ -7727,16 +7727,3 @@ class Union924:
             if v == n:
                 j = id
         return n - 1 - j + i - int(i > j)
-
-    # 1338. 数组大小减半 (Reduce Array Size to The Half)
-    def minSetSize(self, arr: List[int]) -> int:
-        d = Counter(arr)
-        _list = [v for v in d.values()]
-        _list.sort(reverse=True)
-        res = 0
-        c = 0
-        for v in _list:
-            c += v
-            res += 1
-            if c * 2 >= len(arr):
-                return res
