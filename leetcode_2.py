@@ -7727,3 +7727,31 @@ class Union924:
             if v == n:
                 j = id
         return n - 1 - j + i - int(i > j)
+    
+    # 3264. K 次乘运算后的最终数组 I (Final Array State After K Multiplication Operations I)
+    def getFinalState(self, nums: List[int], k: int, multiplier: int) -> List[int]:
+        q = [(x, i) for i, x in enumerate(nums)]
+        heapq.heapify(q)
+        while k:
+            k -= 1
+            x, i = heapq.heappop(q)
+            heapq.heappush(q, (x * multiplier, i))
+        while q:
+            x, i = heapq.heappop(q)
+            nums[i] = x
+        return nums
+    
+    # 1338. 数组大小减半 (Reduce Array Size to The Half)
+    def minSetSize(self, arr: List[int]) -> int:
+        d = Counter(arr)
+        _list = [v for v in d.values()]
+        _list.sort(reverse=True)
+        res = 0
+        c = 0
+        for v in _list:
+            c += v
+            res += 1
+            if c * 2 >= len(arr):
+                return res
+    
+
