@@ -10191,20 +10191,8 @@ public class Leetcode_6 {
 
     // 1847. 最近的房间 (Closest Room)
     public int[] closestRoom(int[][] rooms, int[][] queries) {
-        int n = rooms.length;
-        int k = queries.length;
-        int[] res = new int[k];
+        int[] res = new int[queries.length];
         Arrays.fill(res, -1);
-        Integer[] ids = IntStream.range(0, k).boxed().toArray(Integer[]::new);
-        Arrays.sort(ids, new Comparator<Integer>() {
-
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return Integer.compare(queries[o2][1], queries[o1][1]);
-            }
-
-        });
-
         Arrays.sort(rooms, new Comparator<int[]>() {
 
             @Override
@@ -10213,31 +10201,35 @@ public class Leetcode_6 {
             }
 
         });
+        Integer[] ids = IntStream.range(0, queries.length).boxed().toArray(Integer[]::new);
+        Arrays.sort(ids, new Comparator<Integer>() {
 
-        TreeSet<Integer> set = new TreeSet<>();
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(queries[o2][1], queries[o1][1]);
+            }
+
+        });
         int i = 0;
+        TreeSet<Integer> set = new TreeSet<>();
         for (int id : ids) {
-            int minSize = queries[id][1];
-            while (i < n && rooms[i][1] >= minSize) {
-                set.add(rooms[i][0]);
-                ++i;
+            while (i < rooms.length && rooms[i][1] >= queries[id][1]) {
+                set.add(rooms[i++][0]);
             }
-            int preferId = queries[id][0];
-            Integer floorId = set.floor(preferId);
-            Integer ceilingId = set.ceiling(preferId);
-            if (floorId != null || ceilingId != null) {
-                if (floorId == null) {
-                    res[id] = ceilingId;
-                } else if (ceilingId == null) {
-                    res[id] = floorId;
-                } else {
-                    if (Math.abs(floorId - preferId) <= Math.abs(ceilingId - preferId)) {
-                        res[id] = floorId;
-                    } else {
-                        res[id] = ceilingId;
-                    }
-                }
+            int prefered = queries[id][0];
+            Integer floor = set.floor(prefered);
+            Integer ceiling = set.ceiling(prefered);
+            int idx = -1;
+            if (ceiling == null && floor == null) {
+                continue;
             }
+            if (ceiling != null) {
+                idx = ceiling;
+            }
+            if (ceiling == null || floor != null && Math.abs(prefered - floor) <= Math.abs(ceiling - prefered)) {
+                idx = floor;
+            }
+            res[id] = idx;
         }
         return res;
 
