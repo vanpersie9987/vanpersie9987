@@ -7753,5 +7753,17 @@ class Union924:
             res += 1
             if c * 2 >= len(arr):
                 return res
+            
+    # 3386. 按下时间最长的按钮 (Button with Longest Push Time)
+    def buttonWithLongestTime(self, events: List[List[int]]) -> int:
+        res = events[0][0]
+        d = events[0][1]
+        for i in range(len(events)):
+            if events[i][1] - events[i - 1][1] > d:
+                d = events[i][1] - events[i - 1][1]
+                res = events[i][0]
+            elif events[i][1] - events[i - 1][1] == d and events[i][0] < res:
+                res = events[i][0]
+        return res
     
 

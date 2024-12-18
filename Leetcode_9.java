@@ -3929,4 +3929,20 @@ public class Leetcode_9 {
 
     }
 
+    // 3386. 按下时间最长的按钮 (Button with Longest Push Time)
+    public int buttonWithLongestTime(int[][] events) {
+        int d = events[0][1];
+        int res = events[0][0];
+        for (int i = 1; i < events.length; ++i) {
+            if (events[i][1] - events[i - 1][1] > d) {
+                res = events[i][0];
+                d = events[i][1] - events[i - 1][1];
+            } else if (events[i][1] - events[i - 1][1] == d && events[i][0] < res) {
+                res = events[i][0];
+            }
+        }
+        return res;
+
+    }
+
 }
