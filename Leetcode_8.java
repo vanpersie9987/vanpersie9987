@@ -18,6 +18,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.print.DocFlavor.STRING;
+
 @SuppressWarnings("unchecked")
 public class Leetcode_8 {
     public static void main(String[] args) {
@@ -10130,37 +10132,26 @@ public class Leetcode_8 {
 
     // 3138. 同位字符串连接的最小长度 (Minimum Length of Anagram Concatenation)
     public int minAnagramLength(String s) {
-        int[] cnts = new int[26];
-        for (char c : s.toCharArray()) {
-            ++cnts[c - 'a'];
-        }
-        int[] cur = new int[26];
-        int res = 0;
-        for (char c : s.toCharArray()) {
-            ++res;
-            ++cur[c - 'a'];
-            --cnts[c - 'a'];
-            if (check3138(cur, cnts)) {
-                return res;
+        int[] pre = new int[26];
+        int n = s.length();
+        for (int i = 0; i < n; ++i) {
+            ++pre[s.charAt(i) - 'a'];
+            if (n % (i + 1) == 0 && check3138(i + 1, pre, s)) {
+                return i + 1;
             }
         }
-        return res;
-
+        return -1;
     }
 
-    private boolean check3138(int[] cur, int[] cnts) {
-        int d = -1;
-        for (int i = 0; i < 26; ++i) {
-            if ((cur[i] == 0) != (cnts[i] == 0)) {
+    private boolean check3138(int c, int[] pre, String s) {
+        for (int i = c; i < s.length(); i += c) {
+            int[] cur = new int[26];
+            for (int j = i; j < i + c; ++j) {
+                ++cur[s.charAt(j) - 'a'];
+            }
+            if (!Arrays.equals(pre, cur)) {
                 return false;
             }
-            if (cur[i] != 0) {
-                if ((cnts[i] % cur[i] != 0 || d != -1 && cnts[i] / cur[i] != d)) {
-                    return false;
-                }
-                d = cnts[i] / cur[i];
-            }
-
         }
         return true;
     }

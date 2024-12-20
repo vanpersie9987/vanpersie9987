@@ -3860,30 +3860,19 @@ class Union924:
 
     # 3138. 同位字符串连接的最小长度 (Minimum Length of Anagram Concatenation)
     def minAnagramLength(self, s: str) -> int:
-        def check() -> None:
-            d = -1
-            for i in range(26):
-                if (pre[i] == 0) != (cnt[i] == 0):
+        def check(c: int) -> bool:
+            for i in range(c, len(s), c):
+                cur = [0] * 26
+                for j in range(i, i + c):
+                    cur[ord(s[j]) - ord('a')] += 1
+                if pre != cur:
                     return False
-                if pre[i]:
-                    if cnt[i] % pre[i]:
-                        return False
-                    if d != -1 and cnt[i] // pre[i] != d:
-                        return False
-                    d = cnt[i] // pre[i]
             return True
-
-        n = len(s)
-        cnt = [0] * 26
-        for c in map(ord, s):
-            cnt[c - ord("a")] += 1
         pre = [0] * 26
-        for i, c in enumerate(map(ord, s)):
-            pre[c - ord("a")] += 1
-            cnt[c - ord("a")] -= 1
-            if check():
+        for i, v in enumerate(s):
+            pre[ord(v) - ord('a')] += 1
+            if len(s) % (i + 1) == 0 and check(i + 1):
                 return i + 1
-        return n
 
     # 2079. 给植物浇水 (Watering Plants)
     def wateringPlants(self, plants: List[int], capacity: int) -> int:
@@ -7727,7 +7716,7 @@ class Union924:
             if v == n:
                 j = id
         return n - 1 - j + i - int(i > j)
-    
+
     # 3264. K 次乘运算后的最终数组 I (Final Array State After K Multiplication Operations I)
     def getFinalState(self, nums: List[int], k: int, multiplier: int) -> List[int]:
         q = [(x, i) for i, x in enumerate(nums)]
@@ -7740,7 +7729,7 @@ class Union924:
             x, i = heapq.heappop(q)
             nums[i] = x
         return nums
-    
+
     # 1338. 数组大小减半 (Reduce Array Size to The Half)
     def minSetSize(self, arr: List[int]) -> int:
         d = Counter(arr)
@@ -7753,7 +7742,7 @@ class Union924:
             res += 1
             if c * 2 >= len(arr):
                 return res
-            
+
     # 3386. 按下时间最长的按钮 (Button with Longest Push Time)
     def buttonWithLongestTime(self, events: List[List[int]]) -> int:
         res = events[0][0]
@@ -7765,5 +7754,5 @@ class Union924:
             elif events[i][1] - events[i - 1][1] == d and events[i][0] < res:
                 res = events[i][0]
         return res
-    
+
 
