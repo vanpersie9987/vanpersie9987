@@ -7755,4 +7755,7 @@ class Union924:
                 res = events[i][0]
         return res
 
-
+    # 2545. 根据第 K 场考试的分数排序 (Sort the Students by Their Kth Score)
+    def sortTheStudents(self, score: List[List[int]], k: int) -> List[List[int]]:
+        score.sort(key=lambda x: -x[k])
+        return score
