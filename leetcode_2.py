@@ -3864,13 +3864,14 @@ class Union924:
             for i in range(c, len(s), c):
                 cur = [0] * 26
                 for j in range(i, i + c):
-                    cur[ord(s[j]) - ord('a')] += 1
+                    cur[ord(s[j]) - ord("a")] += 1
                 if pre != cur:
                     return False
             return True
+
         pre = [0] * 26
         for i, v in enumerate(s):
-            pre[ord(v) - ord('a')] += 1
+            pre[ord(v) - ord("a")] += 1
             if len(s) % (i + 1) == 0 and check(i + 1):
                 return i + 1
 
@@ -7773,3 +7774,15 @@ class Union924:
             return res
 
         return sorted(range(lo, hi + 1), key=lambda x: (get_power(x), x))[k - 1]
+
+    # 1387. 将整数按权重排序 (Sort Integers by The Power Value)
+    def getKth(self, lo: int, hi: int, k: int) -> int:
+        @cache
+        def dfs(x: int) -> int:
+            if x == 1:
+                return 0
+            if x % 2:
+                return dfs((x * 3 + 1) // 2) + 2
+            return dfs(x // 2) + 1
+
+        return sorted(range(lo, hi + 1), key=lambda x: (dfs(x), x))[k - 1]
