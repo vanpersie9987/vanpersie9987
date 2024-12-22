@@ -7759,3 +7759,17 @@ class Union924:
     def sortTheStudents(self, score: List[List[int]], k: int) -> List[List[int]]:
         score.sort(key=lambda x: -x[k])
         return score
+
+    # 1387. 将整数按权重排序 (Sort Integers by The Power Value)
+    def getKth(self, lo: int, hi: int, k: int) -> int:
+        def get_power(x: int) -> int:
+            res = 0
+            while x != 1:
+                if x & 1:
+                    x = 3 * x + 1
+                else:
+                    x >>= 1
+                res += 1
+            return res
+
+        return sorted(range(lo, hi + 1), key=lambda x: (get_power(x), x))[k - 1]
