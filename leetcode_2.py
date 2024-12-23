@@ -7786,8 +7786,25 @@ class Union924:
             return dfs(x // 2) + 1
 
         return sorted(range(lo, hi + 1), key=lambda x: (dfs(x), x))[k - 1]
-    
+
     # 3392. 统计符合条件长度为 3 的子数组数目 (Count Subarrays of Length Three With a Condition)
     def countSubarrays(self, nums: List[int]) -> int:
-        return sum(nums[i] == (nums[i - 1] + nums[i + 1]) * 2 for i in range(1, len(nums) - 1))
-        
+        return sum(
+            nums[i] == (nums[i - 1] + nums[i + 1]) * 2 for i in range(1, len(nums) - 1)
+        )
+
+    # 3393. 统计异或值为给定值的路径数目 (Count Paths With the Given XOR Value)
+    def countPathsWithXorValue(self, grid: List[List[int]], k: int) -> int:
+        @cache
+        def dfs(i: int, j: int, x: int) -> int:
+            if i == m or j == n:
+                return 0
+            x ^= grid[i][j]
+            if i == m - 1 and j == n - 1:
+                return int(x == k)
+            return sum(dfs(i + 1, j, x), dfs(i, j + 1, x)) % MOD
+
+        MOD = 10**9 + 7
+        m = len(grid)
+        n = len(grid[0])
+        return dfs(0, 0, 0)
