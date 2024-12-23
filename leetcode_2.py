@@ -7802,7 +7802,7 @@ class Union924:
             x ^= grid[i][j]
             if i == m - 1 and j == n - 1:
                 return int(x == k)
-            return sum(dfs(i + 1, j, x), dfs(i, j + 1, x)) % MOD
+            return (dfs(i + 1, j, x) + dfs(i, j + 1, x)) % MOD
 
         MOD = 10**9 + 7
         m = len(grid)
