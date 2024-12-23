@@ -2039,9 +2039,9 @@ public class Leetcode_9 {
 
     // 3280. 将日期转换为二进制表示 (Convert Date to Binary)
     public String convertDateToBinary(String date) {
-        return Integer.toBinaryString(Integer.parseInt(date.substring(0, 4))) + "-" +
-                Integer.toBinaryString(Integer.parseInt(date.substring(5, 7))) + "-" +
-                Integer.toBinaryString(Integer.parseInt(date.substring(8, 10)));
+        return Integer.toBinaryString(Integer.parseInt(date.substring(0, 4))) + "-"
+                + Integer.toBinaryString(Integer.parseInt(date.substring(5, 7))) + "-"
+                + Integer.toBinaryString(Integer.parseInt(date.substring(8, 10)));
 
     }
 
@@ -3718,7 +3718,6 @@ public class Leetcode_9 {
 
     }
 
-
     private boolean check2056(int[] move0, int[] move1) {
         int x0 = move0[0];
         int y0 = move0[1];
@@ -3786,7 +3785,7 @@ public class Leetcode_9 {
         }
         return items;
     }
-    
+
     // 3375. 使数组的值全部为 K 的最少操作次数 (Minimum Operations to Make Array Values Equal to K)
     public int minOperations(int[] nums, int k) {
         Set<Integer> s = new HashSet<>();
@@ -3956,7 +3955,7 @@ public class Leetcode_9 {
         return res;
 
     }
-    
+
     // 3393. 统计异或值为给定值的路径数目 (Count Paths With the Given XOR Value)
     private int[][][] memo3393;
     private int m3393;
@@ -3980,17 +3979,18 @@ public class Leetcode_9 {
     }
 
     private int dfs3393(int i, int j, int x) {
-        if (i == m3393 - 1 && j == n3393 - 1) {
-            return (x ^ grid3393[i][j]) == k3393 ? 1 : 0;
-        }
         if (i == m3393 || j == n3393) {
             return 0;
+        }
+        x ^= grid3393[i][j];
+        if (i == m3393 - 1 && j == n3393 - 1) {
+            return x == k3393 ? 1 : 0;
         }
         if (memo3393[i][j][x] != -1) {
             return memo3393[i][j][x];
         }
         final int MOD = (int) (1e9 + 7);
-        return memo3393[i][j][x] = (dfs3393(i + 1, j, x ^ grid3393[i][j]) + dfs3393(i, j + 1, x ^ grid3393[i][j])) % MOD;
+        return memo3393[i][j][x] = (dfs3393(i + 1, j, x) + dfs3393(i, j + 1, x)) % MOD;
     }
 
 }
