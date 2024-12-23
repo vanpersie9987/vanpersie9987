@@ -9378,9 +9378,8 @@ public class Leetcode_5 {
         private int n;
 
         public ExamRoom(int n) {
-            set = new TreeSet<>();
             this.n = n;
-
+            this.set = new TreeSet<>();
         }
 
         public int seat() {
@@ -9390,34 +9389,31 @@ public class Leetcode_5 {
             }
             int d = 0;
             int res = -1;
-            if (!set.contains(0)) {
-                d = set.first();
+            int x = set.first();
+            int y = set.last();
+            if (x >= n - 1 - y) {
+                d = x;
                 res = 0;
+            } else {
+                d = n - 1 - y;
+                res = n - 1;
             }
             int pre = -1;
-            for (int pos : set) {
-                if (pre != -1) {
-                    if ((pos - pre) / 2 > d) {
-                        d = (pos - pre) / 2;
-                        res = pre + (pos - pre) / 2;
-                    }
+            for (int cur : set) {
+                if (pre == -1) {
+                    pre = cur;
+                } else if ((cur - pre) / 2 > d || (cur - pre) / 2 == d && (cur + pre) / 2 < res) {
+                    d = (cur - pre) / 2;
+                    res = (cur + pre) / 2;
                 }
-                pre = pos;
-            }
-            if (!set.contains(n - 1)) {
-                if (d < n - 1 - set.last()) {
-                    d = n - 1 - set.last();
-                    res = n - 1;
-                }
+                pre = cur;
             }
             set.add(res);
             return res;
-
         }
 
         public void leave(int p) {
             set.remove(p);
-
         }
     }
 
