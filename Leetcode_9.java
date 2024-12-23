@@ -3993,4 +3993,36 @@ public class Leetcode_9 {
         return memo3393[i][j][x] = (dfs3393(i + 1, j, x) + dfs3393(i, j + 1, x)) % MOD;
     }
 
+    // 3394. 判断网格图能否被切割成块 (Check if Grid can be Cut into Sections)
+    public boolean checkValidCuts(int n, int[][] rectangles) {
+        return check3394(rectangles, 0, 2) || check3394(rectangles, 1, 3);
+    }
+
+    private boolean check3394(int[][] rectangles, int i0, int i1) {
+        Arrays.sort(rectangles, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[i0], o2[i0]);
+            }
+            
+        });
+        int res = 0;
+        int i = 0;
+        while (i < rectangles.length) {
+            int x = rectangles[i][i1];
+            int j = i + 1;
+            while (j < rectangles.length && rectangles[j][i0] < x) {
+                x = Math.max(x, rectangles[j][i1]);
+                ++j;
+            }
+            i = j;
+            ++res;
+            if (res >= 3) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
