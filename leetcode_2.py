@@ -7808,3 +7808,22 @@ class Union924:
         m = len(grid)
         n = len(grid[0])
         return dfs(0, 0, 0)
+
+    # 3394. 判断网格图能否被切割成块 (Check if Grid can be Cut into Sections)
+    def checkValidCuts(self, n: int, rectangles: List[List[int]]) -> bool:
+        def check(i0: int, i1: int) -> bool:
+            rectangles.sort(key=lambda x: x[i0])
+            i = 0
+            res = 0
+            while i < len(rectangles):
+                x = rectangles[i][i1]
+                j = i + 1
+                while j < len(rectangles) and rectangles[j][i0] < x:
+                    x = max(x, rectangles[j][i1])
+                    j += 1
+                i = j
+                res += 1
+                if res >= 3:
+                    return True
+            return False
+        return check(0, 2) or check(1, 3)
