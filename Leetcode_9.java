@@ -3945,4 +3945,52 @@ public class Leetcode_9 {
 
     }
 
+    // 3392. 统计符合条件长度为 3 的子数组数目 (Count Subarrays of Length Three With a Condition)
+    public int countSubarrays(int[] nums) {
+        int res = 0;
+        for (int i = 1; i < nums.length - 1; ++i) {
+            if ((nums[i - 1] + nums[i + 1]) * 2 == nums[i]) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+    
+    // 3393. 统计异或值为给定值的路径数目 (Count Paths With the Given XOR Value)
+    private int[][][] memo3393;
+    private int m3393;
+    private int n3393;
+    private int[][] grid3393;
+    private int k3393;
+
+    public int countPathsWithXorValue(int[][] grid, int k) {
+        this.m3393 = grid.length;
+        this.n3393 = grid[0].length;
+        this.k3393 = k;
+        this.grid3393 = grid;
+        this.memo3393 = new int[m3393][n3393][17];
+        for (int i = 0; i < m3393; ++i) {
+            for (int j = 0; j < n3393; ++j) {
+                Arrays.fill(memo3393[i][j], -1);
+            }
+        }
+        return dfs3393(0, 0, 0);
+
+    }
+
+    private int dfs3393(int i, int j, int x) {
+        if (i == m3393 - 1 && j == n3393 - 1) {
+            return (x ^ grid3393[i][j]) == k3393 ? 1 : 0;
+        }
+        if (i == m3393 || j == n3393) {
+            return 0;
+        }
+        if (memo3393[i][j][x] != -1) {
+            return memo3393[i][j][x];
+        }
+        final int MOD = (int) (1e9 + 7);
+        return memo3393[i][j][x] = (dfs3393(i + 1, j, x ^ grid3393[i][j]) + dfs3393(i, j + 1, x ^ grid3393[i][j])) % MOD;
+    }
+
 }

@@ -7786,3 +7786,8 @@ class Union924:
             return dfs(x // 2) + 1
 
         return sorted(range(lo, hi + 1), key=lambda x: (dfs(x), x))[k - 1]
+    
+    # 3392. 统计符合条件长度为 3 的子数组数目 (Count Subarrays of Length Three With a Condition)
+    def countSubarrays(self, nums: List[int]) -> int:
+        return sum(nums[i] == (nums[i - 1] + nums[i + 1]) * 2 for i in range(1, len(nums) - 1))
+        
