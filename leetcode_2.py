@@ -7827,3 +7827,23 @@ class Union924:
                     return True
             return False
         return check(0, 2) or check(1, 3)
+
+    # 1705. 吃苹果的最大数目 (Maximum Number of Eaten Apples)
+    def eatenApples(self, apples: List[int], days: List[int]) -> int:
+        n = len(apples)
+        q = []
+        heapq.heapify(q)
+        res = 0
+        i = 0
+        while i < n or q:
+            if i < n:
+                heapq.heappush(q, (i + days[i], apples[i]))
+            while q and (q[0][1] == 0 or q[0][0] <= i):
+                heapq.heappop(q)
+            if q:
+                res += 1
+                d, c = heapq.heappop(q)
+                c -= 1
+                heapq.heappush(q, (d, c))
+            i += 1
+        return res
