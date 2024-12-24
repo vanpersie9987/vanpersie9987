@@ -6649,32 +6649,30 @@ public class Leetcode_5 {
 
     // 1705. 吃苹果的最大数目 (Maximum Number of Eaten Apples)
     public int eatenApples(int[] apples, int[] days) {
+        int n = apples.length;
         int res = 0;
-        // int[0] ：过期时间 ； int[1] ：腐烂苹果的数量
-        Queue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
+        PriorityQueue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
 
             @Override
             public int compare(int[] o1, int[] o2) {
-                return o1[0] - o2[0];
+                return Integer.compare(o1[1], o2[1]);
             }
 
         });
-        int d = 0;
-
-        while (d < apples.length || !queue.isEmpty()) {
-            if (d < apples.length && apples[d] > 0) {
-                queue.offer(new int[] { d + days[d], apples[d] });
+        for (int i = 0; i < n || !q.isEmpty(); ++i) {
+            if (i < n) {
+                q.offer(new int[] { apples[i], i + days[i] });
             }
-            while (!queue.isEmpty() && (queue.peek()[0] <= d || queue.peek()[1] == 0)) {
-                queue.poll();
+            while (!q.isEmpty() && (q.peek()[0] == 0 || q.peek()[1] <= i)) {
+                q.poll();
             }
-            if (!queue.isEmpty()) {
-                --queue.peek()[1];
+            if (!q.isEmpty()) {
                 ++res;
+                --q.peek()[0];
             }
-            ++d;
         }
         return res;
+
     }
 
     // 给定一个只由小写字母和数字组成的字符串，要求子串必须只有一个小写字母，求这样的子串的最大长度
