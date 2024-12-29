@@ -4005,7 +4005,7 @@ public class Leetcode_9 {
             public int compare(int[] o1, int[] o2) {
                 return Integer.compare(o1[i0], o2[i0]);
             }
-            
+
         });
         int res = 0;
         int i = 0;
@@ -4023,6 +4023,34 @@ public class Leetcode_9 {
             }
         }
         return false;
+    }
+
+    // 3396. 使数组元素互不相同所需的最少操作次数 (Minimum Number of Operations to Make Elements in
+    // Array Distinct)
+    public int minimumOperations3396(int[] nums) {
+        Map<Integer, Integer> cnt = new HashMap<>();
+        int d = 0;
+        for (int x : nums) {
+            cnt.merge(x, 1, Integer::sum);
+            if (cnt.get(x) == 2) {
+                ++d;
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            if (i % 3 == 0) {
+                if (d == 0) {
+                    return res;
+                }
+                ++res;
+            }
+            cnt.merge(nums[i], -1, Integer::sum);
+            if (cnt.get(nums[i]) == 1) {
+                --d;
+            }
+        }
+        return res;
+
     }
 
 }

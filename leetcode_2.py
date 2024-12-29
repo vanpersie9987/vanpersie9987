@@ -7867,17 +7867,12 @@ class Union924:
             if cnt[x] == 2:
                 d += 1
         res = 0
-        if d == 0:
-            return res
-        res += 1
-        i = 0
-        while i < len(nums):
-            cnt[nums[i]] -= 1
-            if cnt[nums[i]] == 1:
-                d -= 1
-            if (i + 1) % 3 == 0:
+        for i in range(len(nums)):
+            if i % 3 == 0:
                 if d == 0:
                     return res
                 res += 1
-            i += 1
+            cnt[nums[i]] -= 1
+            if cnt[nums[i]] == 1:
+                d -= 1
         return res
