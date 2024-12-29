@@ -4697,33 +4697,36 @@ public class LeetCodeText {
         }
     }
 
-    // 1366. 通过投票对团队排名
-    public String rankTeams(final String[] votes) {
-        final int[][] dp = new int[27][27];
-        final StringBuilder builder = new StringBuilder();
-        for (final String vote : votes) {
-            for (int i = 0; i < vote.length(); ++i) {
-                ++dp[vote.charAt(i) - 'A'][i];
-                dp[vote.charAt(i) - 'A'][26] = 26 - (vote.charAt(i) - 'A');
+    // 1366. 通过投票对团队排名 (Rank Teams by Votes)
+    public String rankTeams(String[] votes) {
+        int n = votes[0].length();
+        int[][] cnt = new int[26][n + 1];
+        for (String v : votes) {
+            for (int i = 0; i < v.length(); ++i) {
+                ++cnt[v.charAt(i) - 'A'][i];
             }
         }
-        Arrays.sort(dp, new Comparator<int[]>() {
+        for (int i = 0; i < 26; ++i) {
+            cnt[i][n] = i;
+        }
+        Arrays.sort(cnt, new Comparator<int[]>() {
+
             @Override
-            public int compare(final int[] o1, final int[] o2) {
-                for (int i = 0; i < o1.length; ++i) {
+            public int compare(int[] o1, int[] o2) {
+                for (int i = 0; i < n; ++i) {
                     if (o1[i] != o2[i]) {
-                        return o2[i] - o1[i];
+                        return Integer.compare(o2[i], o1[i]);
                     }
                 }
-                return 0;
+                return Integer.compare(o1[n], o2[n]);
             }
         });
-        for (int i = 0; i < dp.length; ++i) {
-            if (dp[i][26] != 0) {
-                builder.append((char) (26 - (dp[i][26] - 'A')));
-            }
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < n; ++i) {
+            res.append((char) (cnt[i][n] + 'A'));
         }
-        return builder.toString();
+        return res.toString();
+
     }
 
     // 面试题 16.06. 最小差
