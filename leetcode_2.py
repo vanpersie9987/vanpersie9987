@@ -7888,3 +7888,34 @@ class Union924:
                 res += 1
                 pre = x
         return res
+    
+    # 3398. 字符相同的最短子字符串 I (Smallest Substring With Identical Characters I)
+    # 3399. 字符相同的最短子字符串 II (Smallest Substring With Identical Characters II)
+    def minLength(self, s: str, numOps: int) -> int:
+        def check(m: int) -> bool:
+            cnt = 0
+            if m == 1:
+                for i, c in enumerate(s):
+                    cnt += ((ord(c) - ord('0')) ^ i) & 1
+                cnt = min(cnt, n - cnt)
+                return cnt <= numOps
+            k = 0
+            for i, c in enumerate(s):
+                k += 1
+                if i == n - 1 or s[i] != s[i + 1]:
+                    cnt += k // (m + 1)
+                    k = 0
+            return cnt <= numOps
+        n = len(s)
+        left = 1
+        right = n
+        res = n
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                res = mid
+                right = mid - 1
+            else:
+                left = mid + 1
+        return res
+        
