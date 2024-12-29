@@ -7826,6 +7826,7 @@ class Union924:
                 if res >= 3:
                     return True
             return False
+
         return check(0, 2) or check(1, 3)
 
     # 1705. 吃苹果的最大数目 (Maximum Number of Eaten Apples)
@@ -7847,7 +7848,7 @@ class Union924:
                 heapq.heappush(q, (d, c))
             i += 1
         return res
-    
+
     # 1366. 通过投票对团队排名 (Rank Teams by Votes)
     def rankTeams(self, votes: List[str]) -> str:
         n = len(votes[0])
@@ -7855,4 +7856,28 @@ class Union924:
         for v in votes:
             for i, c in enumerate(v):
                 cnt[c][i] -= 1
-        return ''.join(sorted(cnt, key=lambda ch: (cnt[ch], ch)))
+        return "".join(sorted(cnt, key=lambda ch: (cnt[ch], ch)))
+
+    # 3396. 使数组元素互不相同所需的最少操作次数 (Minimum Number of Operations to Make Elements in Array Distinct)
+    def minimumOperations(self, nums: List[int]) -> int:
+        cnt = defaultdict(int)
+        d = 0
+        for x in nums:
+            cnt[x] += 1
+            if cnt[x] == 2:
+                d += 1
+        res = 0
+        if d == 0:
+            return res
+        res += 1
+        i = 0
+        while i < len(nums):
+            cnt[nums[i]] -= 1
+            if cnt[nums[i]] == 1:
+                d -= 1
+            if (i + 1) % 3 == 0:
+                if d == 0:
+                    return res
+                res += 1
+            i += 1
+        return res
