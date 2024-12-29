@@ -7876,3 +7876,15 @@ class Union924:
             if cnt[nums[i]] == 1:
                 d -= 1
         return res
+    
+    # 3397. 执行操作后不同元素的最大数量 (Maximum Number of Distinct Elements After Operations)
+    def maxDistinctElements(self, nums: List[int], k: int) -> int:
+        res = 0
+        nums.sort()
+        pre = -inf
+        for x in nums:
+            x = min(max(x - k, pre + 1), x + k)
+            if x > pre:
+                res += 1
+                pre = x
+        return res

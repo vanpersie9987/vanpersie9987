@@ -4053,4 +4053,58 @@ public class Leetcode_9 {
 
     }
 
+    // 3397. 执行操作后不同元素的最大数量 (Maximum Number of Distinct Elements After Operations)
+    public int maxDistinctElements(int[] nums, int k) {
+        Arrays.sort(nums);
+        int res = 0;
+        int pre = Integer.MIN_VALUE;
+        for (int x : nums) {
+            x = Math.min(Math.max(x - k, pre + 1), x + k);
+            if (x > pre) {
+                ++res;
+                pre = x;
+            }
+        }
+        return res;
+    }
+
+    // 3398. 字符相同的最短子字符串 I (Smallest Substring With Identical Characters I)
+    // 3399. 字符相同的最短子字符串 II (Smallest Substring With Identical Characters II)
+    public int minLength(String s, int numOps) {
+        int left = 1;
+        int right = s.length();
+        char[] arr = s.toCharArray();
+        int res = s.length();
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check3398(arr, mid, numOps)) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+    
+    private boolean check3398(char[] arr, int target, int numOps) {
+        int cnt = 0;
+        if (target == 1) {
+            for (int i = 0; i < arr.length; ++i) {
+                cnt += ((arr[i] - '0') ^ i) & 1;
+            }
+            cnt = Math.min(arr.length - cnt, cnt);
+            return cnt <= numOps;
+        }
+        int k = 0;
+        for (int i = 0; i < arr.length; ++i) {
+            ++k;
+            if (i == arr.length - 1 || arr[i] != arr[i + 1]) {
+                cnt += k / (target + 1);
+                k = 0;
+            }
+        }
+        return cnt <= numOps;
+    }
+
 }
