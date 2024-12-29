@@ -7847,3 +7847,12 @@ class Union924:
                 heapq.heappush(q, (d, c))
             i += 1
         return res
+    
+    # 1366. 通过投票对团队排名 (Rank Teams by Votes)
+    def rankTeams(self, votes: List[str]) -> str:
+        n = len(votes[0])
+        cnt = defaultdict(lambda: [0] * (n))
+        for v in votes:
+            for i, c in enumerate(v):
+                cnt[c][i] -= 1
+        return ''.join(sorted(cnt, key=lambda ch: (cnt[ch], ch)))
