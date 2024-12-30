@@ -7918,4 +7918,22 @@ class Union924:
             else:
                 left = mid + 1
         return res
+
+    # 1367. 二叉树中的链表 (Linked List in Binary Tree)
+    def isSubPath(self, head: Optional[ListNode], root: Optional[TreeNode]) -> bool:
+        def dfs(l_node: Optional[ListNode], t_node: Optional[TreeNode]) -> bool:
+            if l_node is None:
+                return True
+            if t_node is None or l_node.val != t_node.val:
+                return False
+            return dfs(l_node.next,  t_node.left) or dfs(l_node.next, t_node.right)
+        def dfs_tree(node: Optional[TreeNode]) -> bool:
+            if node is None:
+                return False
+            if head.val == node.val and dfs(head, node):
+                return True
+            return dfs_tree(node.left) or dfs_tree(node.right)
+        return dfs_tree(root)
+            
+
         
