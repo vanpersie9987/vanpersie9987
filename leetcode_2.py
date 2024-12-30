@@ -7949,3 +7949,15 @@ class Union924:
                 res += add
                 grid[i][j] += add
         return res
+
+    # 3403. 从盒子中找出字典序最大的字符串 I (Find the Lexicographically Largest String From the Box I)
+    def answerString(self, word: str, numFriends: int) -> str:
+        n = len(word)
+        if numFriends == 1:
+            return word
+        res = ""
+        for i in range(n):
+            cur = word[i: n - (max(0, numFriends - i - 1))]
+            if res == "" or res < cur:
+                res = cur
+        return res
