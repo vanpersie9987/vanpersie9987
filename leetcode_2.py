@@ -7955,9 +7955,9 @@ class Union924:
         n = len(word)
         if numFriends == 1:
             return word
-        res = ""
+        res = ''
         for i in range(n):
             cur = word[i: n - (max(0, numFriends - i - 1))]
-            if res == "" or res < cur:
+            if res < cur:
                 res = cur
         return res

@@ -20,6 +20,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.print.DocFlavor.STRING;
+
 @SuppressWarnings("unchecked")
 public class Leetcode_9 {
     public static void main(String[] args) {
@@ -4122,5 +4124,21 @@ public class Leetcode_9 {
         }
         return res;
 
+    }
+
+    // 3403. 从盒子中找出字典序最大的字符串 I (Find the Lexicographically Largest String From the
+    // Box I)
+    public String answerString(String word, int numFriends) {
+        if (numFriends == 1) {
+            return word;
+        }
+        String res = "";
+        for (int i = 0; i < word.length(); ++i) {
+            String cur = word.substring(i, word.length() - (Math.max(0, numFriends - 1 - i)));
+            if (cur.compareTo(res) > 0) {
+                res = cur;
+            }
+        }
+        return res;
     }
 }
