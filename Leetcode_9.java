@@ -4106,4 +4106,21 @@ public class Leetcode_9 {
         }
         return cnt <= numOps;
     }
+
+    // 3402. 使每一列严格递增的最少操作次数 (Minimum Operations to Make Columns Strictly
+    // Increasing)
+    public int minimumOperations(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int res = 0;
+        for (int j = 0; j < n; ++j) {
+            for (int i = 1; i < m; ++i) {
+                int add = Math.max(0, grid[i - 1][j] + 1 - grid[i][j]);
+                res += add;
+                grid[i][j] += add;
+            }
+        }
+        return res;
+
+    }
 }

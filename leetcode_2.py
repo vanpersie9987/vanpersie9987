@@ -7876,7 +7876,7 @@ class Union924:
             if cnt[nums[i]] == 1:
                 d -= 1
         return res
-    
+
     # 3397. 执行操作后不同元素的最大数量 (Maximum Number of Distinct Elements After Operations)
     def maxDistinctElements(self, nums: List[int], k: int) -> int:
         res = 0
@@ -7888,7 +7888,7 @@ class Union924:
                 res += 1
                 pre = x
         return res
-    
+
     # 3398. 字符相同的最短子字符串 I (Smallest Substring With Identical Characters I)
     # 3399. 字符相同的最短子字符串 II (Smallest Substring With Identical Characters II)
     def minLength(self, s: str, numOps: int) -> int:
@@ -7896,7 +7896,7 @@ class Union924:
             cnt = 0
             if m == 1:
                 for i, c in enumerate(s):
-                    cnt += ((ord(c) - ord('0')) ^ i) & 1
+                    cnt += ((ord(c) - ord("0")) ^ i) & 1
                 cnt = min(cnt, n - cnt)
                 return cnt <= numOps
             k = 0
@@ -7906,6 +7906,7 @@ class Union924:
                     cnt += k // (m + 1)
                     k = 0
             return cnt <= numOps
+
         n = len(s)
         left = 1
         right = n
@@ -7926,14 +7927,25 @@ class Union924:
                 return True
             if t_node is None or l_node.val != t_node.val:
                 return False
-            return dfs(l_node.next,  t_node.left) or dfs(l_node.next, t_node.right)
+            return dfs(l_node.next, t_node.left) or dfs(l_node.next, t_node.right)
+
         def dfs_tree(node: Optional[TreeNode]) -> bool:
             if node is None:
                 return False
             if head.val == node.val and dfs(head, node):
                 return True
             return dfs_tree(node.left) or dfs_tree(node.right)
-        return dfs_tree(root)
-            
 
-        
+        return dfs_tree(root)
+
+    # 3402. 使每一列严格递增的最少操作次数 (Minimum Operations to Make Columns Strictly Increasing)
+    def minimumOperations(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        res = 0
+        for j in range(n):
+            for i in range(1, m):
+                add = max(0, grid[i - 1][j] + 1 - grid[i][j])
+                res += add
+                grid[i][j] += add
+        return res
