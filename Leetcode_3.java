@@ -268,17 +268,17 @@ public class Leetcode_3 {
         if (root == null) {
             return false;
         }
-        return judgeSubPath(head, root) || isSubPath(head, root.left) || isSubPath(head, root.right);
+        return dfs1367(root, head) || isSubPath(head, root.left) || isSubPath(head, root.right);
     }
 
-    private boolean judgeSubPath(ListNode head, TreeNode root) {
-        if (head == null) {
+    private boolean dfs1367(TreeNode treeNode, ListNode listNode) {
+        if (listNode == null) {
             return true;
         }
-        if (root == null || root.val != head.val) {
+        if (treeNode == null || treeNode.val != listNode.val) {
             return false;
         }
-        return judgeSubPath(head.next, root.left) || judgeSubPath(head.next, root.right);
+        return dfs1367(treeNode.left, listNode.next) || dfs1367(treeNode.right, listNode.next);
     }
 
     // 23. 合并K个升序链表 (Merge k Sorted Lists) --暴力
