@@ -6033,13 +6033,8 @@ class Union924:
 
     # 3280. 将日期转换为二进制表示 (Convert Date to Binary)
     def convertDateToBinary(self, date: str) -> str:
-        return (
-            bin(int(date[0:4]))[2:]
-            + "-"
-            + bin(int(date[5:7]))[2:]
-            + "-"
-            + bin(int(date[8:10]))[2:]
-        )
+        y, m, d = map(int, date.split("-"))
+        return bin(y)[2:] + "-" + bin(m)[2:] + "-" + bin(d)[2:]
 
     # 3281. 范围内整数的最大得分 (Maximize Score of Numbers in Ranges)
     def maxPossibleScore(self, start: List[int], d: int) -> int:
@@ -7955,9 +7950,9 @@ class Union924:
         n = len(word)
         if numFriends == 1:
             return word
-        res = ''
+        res = ""
         for i in range(n):
-            cur = word[i: n - (max(0, numFriends - i - 1))]
+            cur = word[i : n - (max(0, numFriends - i - 1))]
             if res < cur:
                 res = cur
         return res

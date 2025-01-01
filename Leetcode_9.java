@@ -2041,9 +2041,11 @@ public class Leetcode_9 {
 
     // 3280. 将日期转换为二进制表示 (Convert Date to Binary)
     public String convertDateToBinary(String date) {
-        return Integer.toBinaryString(Integer.parseInt(date.substring(0, 4))) + "-"
-                + Integer.toBinaryString(Integer.parseInt(date.substring(5, 7))) + "-"
-                + Integer.toBinaryString(Integer.parseInt(date.substring(8, 10)));
+        String[] arr = date.split("-");
+        for (int i = 0; i < arr.length; ++i) {
+            arr[i] = Integer.toBinaryString(Integer.parseInt(arr[i]));
+        }
+        return String.join("-", arr);
 
     }
 
