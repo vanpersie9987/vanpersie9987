@@ -7961,3 +7961,20 @@ class Union924:
             if res < cur:
                 res = cur
         return res
+    
+
+    # 729. 我的日程安排表 I (My Calendar I)
+    class MyCalendar:
+
+        def __init__(self):
+            self.calendar = []
+
+        def book(self, startTime: int, endTime: int) -> bool:
+            for s, e in self.calendar:
+                if startTime >= e or endTime <= s:
+                    continue
+                return False
+            self.calendar.append((startTime, endTime))
+            return True
+
+     
