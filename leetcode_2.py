@@ -7956,7 +7956,6 @@ class Union924:
             if res < cur:
                 res = cur
         return res
-    
 
     # 729. 我的日程安排表 I (My Calendar I)
     class MyCalendar:
@@ -7972,4 +7971,20 @@ class Union924:
             self.calendar.append((startTime, endTime))
             return True
 
-     
+    # 731. 我的日程安排表 II (My Calendar II)
+    class MyCalendarTwo:
+
+        def __init__(self):
+            self.d = SortedList()
+
+        def book(self, startTime: int, endTime: int) -> bool:
+            self.d.add((startTime, 1))
+            self.d.add((endTime, -1))
+            cnt = 0
+            for _, v in self.d:
+                cnt += v
+                if cnt > 2:
+                    self.d.remove((startTime, 1))
+                    self.d.remove((endTime, -1))
+                    return False
+            return True
