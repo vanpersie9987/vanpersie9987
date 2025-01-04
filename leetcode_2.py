@@ -7988,3 +7988,19 @@ class Union924:
                     self.d.remove((endTime, -1))
                     return False
             return True
+
+    # 732. 我的日程安排表 III (My Calendar III)
+    class MyCalendarThree:
+
+        def __init__(self):
+            self.d = SortedList()
+
+        def book(self, startTime: int, endTime: int) -> int:
+            self.d.add((startTime, 1))
+            self.d.add((endTime, -1))
+            cur = 0
+            res = 0
+            for _, v in self.d:
+                cur += v
+                res = max(res, cur)
+            return res
