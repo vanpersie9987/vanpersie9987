@@ -8004,3 +8004,26 @@ class Union924:
                 cur += v
                 res = max(res, cur)
             return res
+
+    # 2241. 设计一个 ATM 机器 (Design an ATM Machine)
+    class ATM:
+
+        def __init__(self):
+            self.d = (20, 50, 100, 200, 500)
+            self.cnt = [0] * 5
+
+        def deposit(self, banknotesCount: List[int]) -> None:
+            for i in range(5):
+                self.cnt[i] += banknotesCount[i]
+
+        def withdraw(self, amount: int) -> List[int]:
+            res = [0] * 5
+            for i in range(4, -1, -1):
+                cur = min(self.cnt[i], amount // self.d[i])
+                res[i] += cur
+                amount -= cur * self.d[i]
+            if amount:
+                return [-1]
+            for i in range(5):
+                self.cnt[i] -= res[i]
+            return res
