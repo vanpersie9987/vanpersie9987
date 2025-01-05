@@ -1783,9 +1783,7 @@ public class Leetcode_3 {
             if (row + col == n - 1) {
                 ++counts[player - 1][2 * n + 1];
             }
-            if (counts[player - 1][row] == n
-                    || counts[player - 1][n + col] == n
-                    || counts[player - 1][2 * n] == n
+            if (counts[player - 1][row] == n || counts[player - 1][n + col] == n || counts[player - 1][2 * n] == n
                     || counts[player - 1][2 * n + 1] == n) {
                 return player;
             }
@@ -4142,8 +4140,7 @@ public class Leetcode_3 {
 
     // 2207. 字符串中最多数目的子序列 (Maximize Number of Subsequences in a String)
     public long maximumSubsequenceCount(String text, String pattern) {
-        return Math.max(check2207(text + pattern.charAt(1), pattern),
-                check2207(pattern.charAt(0) + text, pattern));
+        return Math.max(check2207(text + pattern.charAt(1), pattern), check2207(pattern.charAt(0) + text, pattern));
     }
 
     private long check2207(String s, String p) {
@@ -4362,8 +4359,8 @@ public class Leetcode_3 {
                     || (nums[left] < nums[index] && nums[index] < nums[right])) {
                 return false;
             }
-            if ((nums[index] > nums[left] && nums[index] > nums[right]) || (nums[index] < nums[left]
-                    && nums[index] < nums[right])) {
+            if ((nums[index] > nums[left] && nums[index] > nums[right])
+                    || (nums[index] < nums[left] && nums[index] < nums[right])) {
                 return true;
             }
         }
@@ -5842,7 +5839,6 @@ public class Leetcode_3 {
 
     }
 
-
     // 987. 二叉树的垂序遍历 (Vertical Order Traversal of a Binary Tree) --dfs
     private Map<Integer, List<int[]>> map987;
     private int minCol987;
@@ -5959,8 +5955,7 @@ public class Leetcode_3 {
             for (int[] direction : directions) {
                 int nx = cur[0] + direction[0];
                 int ny = cur[1] + direction[1];
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n
-                        && !visited[nx][ny]
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny]
                         && getBitsSum(nx) + getBitsSum(ny) <= k) {
                     visited[nx][ny] = true;
                     ++res;
@@ -6958,25 +6953,25 @@ public class Leetcode_3 {
 
     // 1261. 在受污染的二叉树中查找元素 (Find Elements in a Contaminated Binary Tree) --不用set
     class FindElements2 {
-    private TreeNode root;
+        private TreeNode root;
 
-    public FindElements2(TreeNode root) {
-        this.root = root;
-    }
-    
-    public boolean find(int target) {
-        ++target;
-        TreeNode node = root;
-        for (int i = 30 - Integer.numberOfLeadingZeros(target); i >= 0; --i) {
-            int bit = (target >> i) & 1;
-            node = bit == 0 ? node.left : node.right;
-            if (node == null) {
-                return false;
-            }
+        public FindElements2(TreeNode root) {
+            this.root = root;
         }
-        return true;
+
+        public boolean find(int target) {
+            ++target;
+            TreeNode node = root;
+            for (int i = 30 - Integer.numberOfLeadingZeros(target); i >= 0; --i) {
+                int bit = (target >> i) & 1;
+                node = bit == 0 ? node.left : node.right;
+                if (node == null) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
-}
 
     // 6037. 按奇偶性交换后的最大数字 (Largest Number After Digit Swaps by Parity)
     public int largestInteger(int num) {
@@ -8012,7 +8007,8 @@ public class Leetcode_3 {
 
     private boolean checkDistance2101(int x, int y) {
         return (long) (bombs2101[y][1] - bombs2101[x][1]) * (bombs2101[y][1] - bombs2101[x][1])
-                + (long) (bombs2101[y][0] - bombs2101[x][0]) * (bombs2101[y][0] - bombs2101[x][0]) <= (long) bombs2101[x][2] * bombs2101[x][2];
+                + (long) (bombs2101[y][0] - bombs2101[x][0])
+                        * (bombs2101[y][0] - bombs2101[x][0]) <= (long) bombs2101[x][2] * bombs2101[x][2];
     }
 
     // 6060. 找到最接近 0 的数字 (Find Closest Number to Zero)
@@ -8042,41 +8038,35 @@ public class Leetcode_3 {
 
     }
 
-    // 6062. 设计一个 ATM 机器 (Design an ATM Machine)
+    // 2241. 设计一个 ATM 机器 (Design an ATM Machine)
     class ATM {
-        // 个数
-        private long[] count;
-        // 面值
-        private int[] denomination;
+        private int[] remains;
+        private int[] map = new int[] { 20, 50, 100, 200, 500 };
 
         public ATM() {
-            count = new long[5];
-            denomination = new int[] { 20, 50, 100, 200, 500 };
+            this.remains = new int[5];
 
         }
 
         public void deposit(int[] banknotesCount) {
             for (int i = 0; i < 5; ++i) {
-                count[i] += banknotesCount[i];
+                remains[i] += banknotesCount[i];
             }
-
         }
 
         public int[] withdraw(int amount) {
             int[] res = new int[5];
             for (int i = 4; i >= 0; --i) {
-                if (amount >= denomination[i] && count[i] > 0) {
-                    res[i] = (int) ((amount / denomination[i] >= count[i]) ? count[i] : amount / denomination[i]);
-                    count[i] -= res[i];
-                    amount -= res[i] * denomination[i];
-                }
+                int m = map[i];
+                int cnt = Math.min(remains[i], amount / m);
+                res[i] += cnt;
+                amount -= cnt * m;
             }
-            // 取钱失败，恢复状态
-            if (amount != 0) {
-                for (int i = 0; i < 5; ++i) {
-                    count[i] += res[i];
-                }
+            if (amount > 0) {
                 return new int[] { -1 };
+            }
+            for (int i = 4; i >= 0; --i) {
+                remains[i] -= res[i];
             }
             return res;
         }
