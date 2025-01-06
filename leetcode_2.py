@@ -7989,6 +7989,45 @@ class Union924:
                     return False
             return True
 
+    # 732. 我的日程安排表 III (My Calendar III)
+    class MyCalendarThree:
+
+        def __init__(self):
+            self.d = SortedList()
+
+        def book(self, startTime: int, endTime: int) -> int:
+            self.d.add((startTime, 1))
+            self.d.add((endTime, -1))
+            cur = 0
+            res = 0
+            for _, v in self.d:
+                cur += v
+                res = max(res, cur)
+            return res
+
+    # 2241. 设计一个 ATM 机器 (Design an ATM Machine)
+    class ATM:
+
+        def __init__(self):
+            self.d = (20, 50, 100, 200, 500)
+            self.cnt = [0] * 5
+
+        def deposit(self, banknotesCount: List[int]) -> None:
+            for i in range(5):
+                self.cnt[i] += banknotesCount[i]
+
+        def withdraw(self, amount: int) -> List[int]:
+            res = [0] * 5
+            for i in range(4, -1, -1):
+                cur = min(self.cnt[i], amount // self.d[i])
+                res[i] += cur
+                amount -= cur * self.d[i]
+            if amount:
+                return [-1]
+            for i in range(5):
+                self.cnt[i] -= res[i]
+            return res
+
     # 2274. 不含特殊楼层的最大连续楼层数 (Maximum Consecutive Floors Without Special Floors)
     def maxConsecutive(self, bottom: int, top: int, special: List[int]) -> int:
         special.sort()
