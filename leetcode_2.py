@@ -8035,3 +8035,12 @@ class Union924:
         for i in range(1, len(special)):
             res = max(res, special[i] - special[i - 1] - 1)
         return res
+    
+    # 2264. 字符串中最大的 3 位相同数字 (Largest 3-Same-Digit Number in String)
+    def largestGoodInteger(self, num: str) -> str:
+        res = ''
+        for i in range(1, len(num) - 1):
+            if num[i] == num[i - 1] == num[i + 1] and res < num[i - 1: i + 2]:
+                res = num[i - 1: i + 2]
+        return res
+
