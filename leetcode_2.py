@@ -6320,27 +6320,24 @@ class Union924:
     # 3297. 统计重新排列后包含另一个字符串的子字符串数目 I (Count Substrings That Can Be Rearranged to Contain a String I)
     # 3298. 统计重新排列后包含另一个字符串的子字符串数目 II (Count Substrings That Can Be Rearranged to Contain a String II)
     def validSubstringCount(self, word1: str, word2: str) -> int:
-        n = len(word1)
-        if n < len(word2):
-            return 0
-        res = 0
         cnt = [0] * 26
-        less = 0
-        for c in word2:
-            cnt[ord(c) - ord("a")] -= 1
-            if cnt[ord(c) - ord("a")] == -1:
-                less -= 1
-        left = 0
-        for c in word1:
-            cnt[ord(c) - ord("a")] += 1
-            if cnt[ord(c) - ord("a")] == 0:
-                less += 1
-            while less == 0:
-                cnt[ord(word1[left]) - ord("a")] -= 1
-                if cnt[ord(word1[left]) - ord("a")] == -1:
-                    less -= 1
-                left += 1
-            res += left
+        c = 0
+        for w in word2:
+            cnt[ord(w) - ord('a')] += 1
+            if cnt[ord(w) - ord('a')] == 1:
+                c += 1
+        i = 0
+        res = 0
+        for w in word1:
+            cnt[ord(w) - ord('a')] -= 1
+            if cnt[ord(w) - ord('a')] == 0:
+                c -= 1
+            while c == 0:
+                cnt[ord(word1[i]) - ord('a')] += 1
+                if cnt[ord(word1[i]) - ord('a')] == 1:
+                    c += 1
+                i += 1
+            res += i
         return res
 
     # 2207. 字符串中最多数目的子序列 (Maximize Number of Subsequences in a String)
@@ -8043,4 +8040,8 @@ class Union924:
             if num[i] == num[i - 1] == num[i + 1] and res < num[i - 1: i + 2]:
                 res = num[i - 1: i + 2]
         return res
+
+
+
+
 
