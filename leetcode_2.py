@@ -8032,7 +8032,7 @@ class Union924:
         for i in range(1, len(special)):
             res = max(res, special[i] - special[i - 1] - 1)
         return res
-    
+
     # 2264. 字符串中最大的 3 位相同数字 (Largest 3-Same-Digit Number in String)
     def largestGoodInteger(self, num: str) -> str:
         res = ''
@@ -8041,7 +8041,10 @@ class Union924:
                 res = num[i - 1: i + 2]
         return res
 
-
-
-
-
+    # 2275. 按位与结果大于零的最长组合 (Largest Combination With Bitwise AND Greater Than Zero)
+    def largestCombination(self, candidates: List[int]) -> int:
+        res = 0
+        MAX_BIT = 24
+        for i in range(MAX_BIT):
+            res = max(res, sum((x >> i) & 1 for x in candidates))
+        return res
