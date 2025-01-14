@@ -25,8 +25,6 @@ import javax.print.DocFlavor.STRING;
 @SuppressWarnings("unchecked")
 public class Leetcode_9 {
     public static void main(String[] args) {
-        int[][] edges = { { 1, 2, 1 }, { 1, 3, 3 }, { 1, 4, 5 }, { 2, 3, 2 }, { 3, 4, 2 }, { 4, 0, 1 } };
-        minMaxWeight(5, edges, 1);
     }
 
     public class ListNode {
