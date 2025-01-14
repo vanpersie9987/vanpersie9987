@@ -15,7 +15,7 @@ from inspect import modulesbyfile
 from itertools import accumulate, combinations, count, islice, pairwise, permutations
 from locale import DAY_4
 from logging import _Level, root
-from math import comb, cos, fabs, gcd, inf, isqrt, sqrt
+from math import comb, cos, fabs, gcd, inf, isqrt, lcm, sqrt
 from mimetypes import init
 from operator import le, ne, truediv
 from os import eventfd, minor, name
@@ -8034,4 +8034,18 @@ class Union924:
         res = max(special[0] - bottom, top - special[-1])
         for i in range(1, len(special)):
             res = max(res, special[i] - special[i - 1] - 1)
+        return res
+
+    # 3411. 最长乘积等价子数组
+    def maxLength(self, nums: List[int]) -> int:
+        res = 0
+        for i in range(len(nums)):
+            m, l, g = 1, 1, 0
+            for j in range(i, len(nums)):
+                x = nums[j]
+                m *= x
+                l = lcm(l, x)
+                g = gcd(g, x)
+                if m == l * g:
+                    res = max(res, j - i + 1)
         return res
