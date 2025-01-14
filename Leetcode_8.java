@@ -8306,6 +8306,25 @@ public class Leetcode_8 {
         return res;
     }
 
+    // 3065. 超过阈值的最少操作数 I (Minimum Operations to Exceed Threshold Value I)
+    public int minOperations3065_2(int[] nums, int k) {
+        Arrays.sort(nums);
+        int left = 0;
+        int right = nums.length - 1;
+        int res = 0;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (nums[mid] >= k) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+
+    }
+
     // 3066. 超过阈值的最少操作数 II (Minimum Operations to Exceed Threshold Value II)
     public int minOperations3066(int[] nums, int k) {
         Queue<Long> q = new PriorityQueue<>();

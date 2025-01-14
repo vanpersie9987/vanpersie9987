@@ -17,6 +17,7 @@ from locale import DAY_4
 from logging import _Level, root
 from math import comb, cos, fabs, gcd, inf, isqrt, sqrt
 from mimetypes import init
+from multiprocessing import reduction
 from operator import le, ne, truediv
 from os import eventfd, minor, name
 from pickletools import read_uint1
@@ -1736,6 +1737,23 @@ class Union924:
     # 3065. 超过阈值的最少操作数 I (Minimum Operations to Exceed Threshold Value I)
     def minOperations(self, nums: List[int], k: int) -> int:
         return sum(x < k for x in nums)
+    
+    # 3065. 超过阈值的最少操作数 I (Minimum Operations to Exceed Threshold Value I)
+    def minOperations(self, nums: List[int], k: int) -> int:
+        def check() -> int:
+            left = 0
+            right = len(nums) - 1
+            res = 0
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if nums[mid] >= k:
+                    res = mid
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return res
+        nums.sort()
+        return check()
 
     # 3066. 超过阈值的最少操作数 II (Minimum Operations to Exceed Threshold Value II)
     def minOperations(self, nums: List[int], k: int) -> int:
