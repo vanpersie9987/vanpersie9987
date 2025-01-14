@@ -8103,3 +8103,30 @@ class Union924:
         res = dfs(0, 0, 2)
         dfs.cache_clear()
         return res
+
+    # 3419. 图的最大边权的最小值 (Minimize the Maximum Edge Weight of Graph)
+    def minMaxWeight(self, n: int, edges: List[List[int]], threshold: int) -> int:
+        def check(upper: int) -> bool:
+            def dfs(x: int) -> int:
+                cnt = 1
+                vis[x] = True
+                for y, w in g[x]:
+                    if w <= upper and not vis[y]:
+                        cnt += dfs(y)
+                return cnt
+            g = [[] for _ in range(n)]
+            for u, v, w in edges:
+                g[v].append((u, w))
+            vis = [False] * n
+            return dfs(0) == n
+        left = 1
+        right = max(x for _, _, x in edges)
+        res = -1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                res = mid
+                right = mid - 1
+            else:
+                left = mid + 1
+        return res
