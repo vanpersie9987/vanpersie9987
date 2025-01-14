@@ -17,6 +17,7 @@ from locale import DAY_4
 from logging import _Level, root
 from math import comb, cos, fabs, gcd, inf, isqrt, lcm, sqrt
 from mimetypes import init
+from multiprocessing import reduction
 from operator import le, ne, truediv
 from os import eventfd, minor, name
 from pickletools import read_uint1
@@ -1736,6 +1737,23 @@ class Union924:
     # 3065. 超过阈值的最少操作数 I (Minimum Operations to Exceed Threshold Value I)
     def minOperations(self, nums: List[int], k: int) -> int:
         return sum(x < k for x in nums)
+
+    # 3065. 超过阈值的最少操作数 I (Minimum Operations to Exceed Threshold Value I)
+    def minOperations(self, nums: List[int], k: int) -> int:
+        def check() -> int:
+            left = 0
+            right = len(nums) - 1
+            res = 0
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if nums[mid] >= k:
+                    res = mid
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return res
+        nums.sort()
+        return check()
 
     # 3066. 超过阈值的最少操作数 II (Minimum Operations to Exceed Threshold Value II)
     def minOperations(self, nums: List[int], k: int) -> int:
@@ -6320,27 +6338,24 @@ class Union924:
     # 3297. 统计重新排列后包含另一个字符串的子字符串数目 I (Count Substrings That Can Be Rearranged to Contain a String I)
     # 3298. 统计重新排列后包含另一个字符串的子字符串数目 II (Count Substrings That Can Be Rearranged to Contain a String II)
     def validSubstringCount(self, word1: str, word2: str) -> int:
-        n = len(word1)
-        if n < len(word2):
-            return 0
-        res = 0
         cnt = [0] * 26
-        less = 0
-        for c in word2:
-            cnt[ord(c) - ord("a")] -= 1
-            if cnt[ord(c) - ord("a")] == -1:
-                less -= 1
-        left = 0
-        for c in word1:
-            cnt[ord(c) - ord("a")] += 1
-            if cnt[ord(c) - ord("a")] == 0:
-                less += 1
-            while less == 0:
-                cnt[ord(word1[left]) - ord("a")] -= 1
-                if cnt[ord(word1[left]) - ord("a")] == -1:
-                    less -= 1
-                left += 1
-            res += left
+        c = 0
+        for w in word2:
+            cnt[ord(w) - ord('a')] += 1
+            if cnt[ord(w) - ord('a')] == 1:
+                c += 1
+        i = 0
+        res = 0
+        for w in word1:
+            cnt[ord(w) - ord('a')] -= 1
+            if cnt[ord(w) - ord('a')] == 0:
+                c -= 1
+            while c == 0:
+                cnt[ord(word1[i]) - ord('a')] += 1
+                if cnt[ord(word1[i]) - ord('a')] == 1:
+                    c += 1
+                i += 1
+            res += i
         return res
 
     # 2207. 字符串中最多数目的子序列 (Maximize Number of Subsequences in a String)
@@ -8036,6 +8051,7 @@ class Union924:
             res = max(res, special[i] - special[i - 1] - 1)
         return res
 
+<<<<<<< HEAD
     # 3411. 最长乘积等价子数组
     def maxLength(self, nums: List[int]) -> int:
         res = 0
@@ -8048,4 +8064,84 @@ class Union924:
                 g = gcd(g, x)
                 if m == l * g:
                     res = max(res, j - i + 1)
+=======
+    # 2264. 字符串中最大的 3 位相同数字 (Largest 3-Same-Digit Number in String)
+    def largestGoodInteger(self, num: str) -> str:
+        res = ''
+        for i in range(1, len(num) - 1):
+            if num[i] == num[i - 1] == num[i + 1] and res < num[i - 1: i + 2]:
+                res = num[i - 1: i + 2]
+        return res
+
+    # 2275. 按位与结果大于零的最长组合 (Largest Combination With Bitwise AND Greater Than Zero)
+    def largestCombination(self, candidates: List[int]) -> int:
+        res = 0
+        MAX_BIT = 24
+        for i in range(MAX_BIT):
+            res = max(res, sum((x >> i) & 1 for x in candidates))
+        return res
+
+    # 3417. 跳过交替单元格的之字形遍历 (Zigzag Grid Traversal With Skip)
+    def zigzagTraversal(self, grid: List[List[int]]) -> List[int]:
+        m = len(grid)
+        n = len(grid[0])
+        res = []
+        d = 1
+        for i in range(m):
+            if not (i & 1):
+                for j in range(n):
+                    if d:
+                        res.append(grid[i][j])
+                    d ^= 1
+            else:
+                for j in range(n - 1, -1, -1):
+                    if d:
+                        res.append(grid[i][j])
+                    d ^= 1
+        return res
+
+    # 3418. 机器人可以获得的最大金币数 (Maximum Amount of Money Robot Can Earn)
+    def maximumAmount(self, coins: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if not (i >= 0 and i < m and j >= 0 and j < n):
+                return -inf
+            if i == m - 1 and j == n - 1:
+                return coins[i][j] if k == 0 else max(coins[i][j], 0)
+            res = max(dfs(i + 1, j, k), dfs(i, j + 1, k)) + coins[i][j]
+            if k:
+                res = max(res, dfs(i + 1, j, k - 1), dfs(i, j + 1, k - 1))
+            return res
+        m = len(coins)
+        n = len(coins[0])
+        res = dfs(0, 0, 2)
+        dfs.cache_clear()
+        return res
+
+    # 3419. 图的最大边权的最小值 (Minimize the Maximum Edge Weight of Graph)
+    def minMaxWeight(self, n: int, edges: List[List[int]], threshold: int) -> int:
+        def check(upper: int) -> bool:
+            def dfs(x: int) -> int:
+                cnt = 1
+                vis[x] = True
+                for y, w in g[x]:
+                    if w <= upper and not vis[y]:
+                        cnt += dfs(y)
+                return cnt
+            g = [[] for _ in range(n)]
+            for u, v, w in edges:
+                g[v].append((u, w))
+            vis = [False] * n
+            return dfs(0) == n
+        left = 1
+        right = max(x for _, _, x in edges)
+        res = -1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                res = mid
+                right = mid - 1
+            else:
+                left = mid + 1
+>>>>>>> b4e6f1fe1d761d568ce32b74bf56747b7f2285ac
         return res

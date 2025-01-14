@@ -25,7 +25,6 @@ import javax.print.DocFlavor.STRING;
 @SuppressWarnings("unchecked")
 public class Leetcode_9 {
     public static void main(String[] args) {
-
     }
 
     public class ListNode {
@@ -4090,7 +4089,7 @@ public class Leetcode_9 {
         }
         return res;
     }
-    
+
     private boolean check3398(char[] arr, int target, int numOps) {
         int cnt = 0;
         if (target == 1) {
@@ -4139,6 +4138,115 @@ public class Leetcode_9 {
             String cur = word.substring(i, word.length() - (Math.max(0, numFriends - 1 - i)));
             if (cur.compareTo(res) > 0) {
                 res = cur;
+            }
+        }
+        return res;
+    }
+
+    // 3417. 跳过交替单元格的之字形遍历 (Zigzag Grid Traversal With Skip)
+    public List<Integer> zigzagTraversal(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        List<Integer> res = new ArrayList<>();
+        int d = 0;
+        for (int i = 0; i < m; ++i) {
+            if (i % 2 == 0) {
+                for (int j = 0; j < n; ++j) {
+                    if (d == 0) {
+                        res.add(grid[i][j]);
+                    }
+                    d ^= 1;
+                }
+            } else {
+                for (int j = n - 1; j >= 0; --j) {
+                    if (d == 0) {
+                        res.add(grid[i][j]);
+                    }
+                    d ^= 1;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 3418. 机器人可以获得的最大金币数 (Maximum Amount of Money Robot Can Earn)
+    private int m3418;
+    private int n3418;
+    private int[][] coins3418;
+    private int[][][] memo3418;
+
+    public int maximumAmount(int[][] coins) {
+        this.coins3418 = coins;
+        this.m3418 = coins.length;
+        this.n3418 = coins[0].length;
+        this.memo3418 = new int[m3418][n3418][3];
+        for (int i = 0; i < m3418; ++i) {
+            for (int j = 0; j < n3418; ++j) {
+                Arrays.fill(memo3418[i][j], (int) -1e9);
+            }
+        }
+        return dfs3418(0, 0, 2);
+    }
+
+    private int dfs3418(int i, int j, int k) {
+        if (!(i >= 0 && i < m3418 && j >= 0 && j < n3418)) {
+            return (int) -1e9;
+        }
+        if (i == m3418 - 1 && j == n3418 - 1) {
+            int res = coins3418[i][j];
+            if (k > 0) {
+                res = Math.max(res, 0);
+            }
+            return res;
+        }
+        if (memo3418[i][j][k] != (int) -1e9) {
+            return memo3418[i][j][k];
+        }
+        int res = Math.max(dfs3418(i + 1, j, k), dfs3418(i, j + 1, k)) + coins3418[i][j];
+        if (k > 0) {
+            res = Math.max(res, dfs3418(i + 1, j, k - 1));
+            res = Math.max(res, dfs3418(i, j + 1, k - 1));
+        }
+        return memo3418[i][j][k] = res;
+    }
+
+    // 3419. 图的最大边权的最小值 (Minimize the Maximum Edge Weight of Graph)
+    public int minMaxWeight(int n, int[][] edges, int threshold) {
+        int left = 0;
+        int right = 0;
+        for (int[] e : edges) {
+            right = Math.max(right, e[2]);
+        }
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check3419(n, edges, mid)) {
+                res = mid; 
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+
+    private boolean check3419(int n, int[][] edges, int mx) {
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[1]].add(new int[] { e[0], e[2] });
+        }
+        boolean[] vis = new boolean[n];
+        return dfs3419(0, vis, g, mx) == n;
+    }
+
+    private int dfs3419(int x, boolean[] vis, List<int[]>[] g, int mx) {
+        int res = 1;
+        vis[x] = true;
+        for (int[] y : g[x]) {
+            if (y[1] <= mx && !vis[y[0]]) {
+                res += dfs3419(y[0], vis, g, mx);
             }
         }
         return res;
