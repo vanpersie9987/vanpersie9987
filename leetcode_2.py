@@ -1737,7 +1737,7 @@ class Union924:
     # 3065. 超过阈值的最少操作数 I (Minimum Operations to Exceed Threshold Value I)
     def minOperations(self, nums: List[int], k: int) -> int:
         return sum(x < k for x in nums)
-    
+
     # 3065. 超过阈值的最少操作数 I (Minimum Operations to Exceed Threshold Value I)
     def minOperations(self, nums: List[int], k: int) -> int:
         def check() -> int:
@@ -8065,4 +8065,23 @@ class Union924:
         MAX_BIT = 24
         for i in range(MAX_BIT):
             res = max(res, sum((x >> i) & 1 for x in candidates))
+        return res
+
+    # 3417. 跳过交替单元格的之字形遍历 (Zigzag Grid Traversal With Skip)
+    def zigzagTraversal(self, grid: List[List[int]]) -> List[int]:
+        m = len(grid)
+        n = len(grid[0])
+        res = []
+        d = 1
+        for i in range(m):
+            if not (i & 1):
+                for j in range(n):
+                    if d:
+                        res.append(grid[i][j])
+                    d ^= 1
+            else:
+                for j in range(n - 1, -1, -1):
+                    if d:
+                        res.append(grid[i][j])
+                    d ^= 1
         return res

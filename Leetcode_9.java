@@ -4144,4 +4144,32 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3417. 跳过交替单元格的之字形遍历 (Zigzag Grid Traversal With Skip)
+    public List<Integer> zigzagTraversal(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        List<Integer> res = new ArrayList<>();
+        int d = 0;
+        for (int i = 0; i < m; ++i) {
+            if (i % 2 == 0) {
+                for (int j = 0; j < n; ++j) {
+                    if (d == 0) {
+                        res.add(grid[i][j]);
+                    }
+                    d ^= 1;
+                }
+            } else {
+                for (int j = n - 1; j >= 0; --j) {
+                    if (d == 0) {
+                        res.add(grid[i][j]);
+                    }
+                    d ^= 1;
+                }
+            }
+        }
+        return res;
+
+
+    }
+
 }
