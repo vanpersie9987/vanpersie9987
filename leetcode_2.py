@@ -8085,3 +8085,21 @@ class Union924:
                         res.append(grid[i][j])
                     d ^= 1
         return res
+
+    # 3418. 机器人可以获得的最大金币数 (Maximum Amount of Money Robot Can Earn)
+    def maximumAmount(self, coins: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if not (i >= 0 and i < m and j >= 0 and j < n):
+                return -inf
+            if i == m - 1 and j == n - 1:
+                return coins[i][j] if k == 0 else max(coins[i][j], 0)
+            res = max(dfs(i + 1, j, k), dfs(i, j + 1, k)) + coins[i][j]
+            if k:
+                res = max(res, dfs(i + 1, j, k - 1), dfs(i, j + 1, k - 1))
+            return res
+        m = len(coins)
+        n = len(coins[0])
+        res = dfs(0, 0, 2)
+        dfs.cache_clear()
+        return res

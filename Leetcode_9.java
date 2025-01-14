@@ -4169,7 +4169,48 @@ public class Leetcode_9 {
         }
         return res;
 
+    }
+    
 
+    // 3418. 机器人可以获得的最大金币数 (Maximum Amount of Money Robot Can Earn)
+    private int m3418;
+    private int n3418;
+    private int[][] coins3418;
+    private int[][][] memo3418;
+
+    public int maximumAmount(int[][] coins) {
+        this.coins3418 = coins;
+        this.m3418 = coins.length;
+        this.n3418 = coins[0].length;
+        this.memo3418 = new int[m3418][n3418][3];
+        for (int i = 0; i < m3418; ++i) {
+            for (int j = 0; j < n3418; ++j) {
+                Arrays.fill(memo3418[i][j], (int) -1e9);
+            }
+        }
+        return dfs3418(0, 0, 2);
+    }
+    
+    private int dfs3418(int i, int j, int k) {
+        if (!(i >= 0 && i < m3418 && j >= 0 && j < n3418)) {
+            return (int) -1e9;
+        }
+        if (i == m3418 - 1 && j == n3418 - 1) {
+            int res = coins3418[i][j];
+            if (k > 0) {
+                res = Math.max(res, 0);
+            }
+            return res;
+        }
+        if (memo3418[i][j][k] != (int) -1e9) {
+            return memo3418[i][j][k];
+        }
+        int res = Math.max(dfs3418(i + 1, j, k), dfs3418(i, j + 1, k)) + coins3418[i][j];
+        if (k > 0) {
+            res = Math.max(res, dfs3418(i + 1, j, k - 1));
+            res = Math.max(res, dfs3418(i, j + 1, k - 1));
+        }
+        return memo3418[i][j][k] = res;
     }
 
 }
