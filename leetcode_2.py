@@ -8051,7 +8051,6 @@ class Union924:
             res = max(res, special[i] - special[i - 1] - 1)
         return res
 
-<<<<<<< HEAD
     # 3411. 最长乘积等价子数组
     def maxLength(self, nums: List[int]) -> int:
         res = 0
@@ -8064,7 +8063,6 @@ class Union924:
                 g = gcd(g, x)
                 if m == l * g:
                     res = max(res, j - i + 1)
-=======
     # 2264. 字符串中最大的 3 位相同数字 (Largest 3-Same-Digit Number in String)
     def largestGoodInteger(self, num: str) -> str:
         res = ''
@@ -8143,5 +8141,4 @@ class Union924:
                 right = mid - 1
             else:
                 left = mid + 1
->>>>>>> b4e6f1fe1d761d568ce32b74bf56747b7f2285ac
         return res
