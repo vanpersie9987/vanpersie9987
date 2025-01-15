@@ -1762,13 +1762,11 @@ class Union924:
         for x in nums:
             heapq.heappush(q, x)
         res = 0
-        while len(q) >= 2:
-            if q[0] >= k:
-                break
+        while len(q) >= 2 and q[0] < k:
             res += 1
             x = heapq.heappop(q)
             y = heapq.heappop(q)
-            heapq.heappush(q, min(x, y) * 2 + max(x, y))
+            heapq.heappush(q, x * 2 + y)
         return res
 
     # 3067. 在带权树网络中统计可连接服务器对数目 (Count Pairs of Connectable Servers in a Weighted Tree Network)

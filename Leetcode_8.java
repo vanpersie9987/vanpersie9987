@@ -8332,14 +8332,11 @@ public class Leetcode_8 {
             q.offer(num);
         }
         int res = 0;
-        while (q.size() >= 2) {
-            if (q.peek() >= k) {
-                break;
-            }
+        while (q.size() >= 2 && q.peek() < k) {
             ++res;
             long x = q.poll();
             long y = q.poll();
-            q.offer(Math.min(x, y) * 2 + Math.max(x, y));
+            q.offer(x * 2 + y);
         }
         return res;
 
