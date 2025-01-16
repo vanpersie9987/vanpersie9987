@@ -8105,7 +8105,7 @@ class Union924:
         return res
 
     # 3419. 图的最大边权的最小值 (Minimize the Maximum Edge Weight of Graph)
-    def minMaxWeight(self, n: int, edges: List[List[int]], threshold: int) -> int:
+    def minMaxWeight(self, n: int, edges: List[List[int]], _: int) -> int:
         def check(upper: int) -> bool:
             def dfs(x: int) -> int:
                 cnt = 1
