@@ -15,7 +15,7 @@ from inspect import modulesbyfile
 from itertools import accumulate, combinations, count, islice, pairwise, permutations
 from locale import DAY_4
 from logging import _Level, root
-from math import comb, cos, fabs, gcd, inf, isqrt, sqrt
+from math import comb, cos, fabs, gcd, inf, isqrt, lcm, sqrt
 from mimetypes import init
 from multiprocessing import reduction
 from operator import le, ne, truediv
@@ -1762,13 +1762,11 @@ class Union924:
         for x in nums:
             heapq.heappush(q, x)
         res = 0
-        while len(q) >= 2:
-            if q[0] >= k:
-                break
+        while len(q) >= 2 and q[0] < k:
             res += 1
             x = heapq.heappop(q)
             y = heapq.heappop(q)
-            heapq.heappush(q, min(x, y) * 2 + max(x, y))
+            heapq.heappush(q, x * 2 + y)
         return res
 
     # 3067. 在带权树网络中统计可连接服务器对数目 (Count Pairs of Connectable Servers in a Weighted Tree Network)
@@ -8051,6 +8049,18 @@ class Union924:
             res = max(res, special[i] - special[i - 1] - 1)
         return res
 
+    # 3411. 最长乘积等价子数组
+    def maxLength(self, nums: List[int]) -> int:
+        res = 0
+        for i in range(len(nums)):
+            m, l, g = 1, 1, 0
+            for j in range(i, len(nums)):
+                x = nums[j]
+                m *= x
+                l = lcm(l, x)
+                g = gcd(g, x)
+                if m == l * g:
+                    res = max(res, j - i + 1)
     # 2264. 字符串中最大的 3 位相同数字 (Largest 3-Same-Digit Number in String)
     def largestGoodInteger(self, num: str) -> str:
         res = ''
