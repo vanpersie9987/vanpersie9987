@@ -50,7 +50,7 @@ from zoneinfo import reset_tzpath
 # curl https://bootstrap.pypa.io/pip/get-pip.py -o get-pip.py
 # sudo python3 get-pip.py
 # pip3 install sortedcontainers
-from networkx import union
+from networkx import interval_graph, union
 from sortedcontainers import SortedList, SortedSet
 
 
@@ -2758,32 +2758,24 @@ class Union924:
     # 3095. 或值至少 K 的最短子数组 I (Shortest Subarray With OR at Least K I)
     # 3097. 或值至少为 K 的最短子数组 II (Shortest Subarray With OR at Least K II)
     def minimumSubarrayLength(self, nums: List[int], k: int) -> int:
-        def operate(x: int, sign: int) -> None:
-            i = 0
-            while x:
-                cnt[i] += (x & 1) * sign
-                x >>= 1
-                i += 1
-
-        def check() -> bool:
-            b = 0
-            for i, c in enumerate(cnt):
-                if c:
-                    b |= 1 << i
-            return b >= k
-
+        cnt = [0] * 30
         res = inf
-        i = 0
         j = 0
-        n = len(nums)
-        cnt = [0] * 31
-        while i < n:
-            operate(nums[i], 1)
-            while j <= i and check():
+        cur = 0
+        for i, x in enumerate(nums):
+            cur |= x
+            while x:
+                cnt[(x & -x).bit_length() - 1] += 1
+                x &= x - 1
+            while cur >= k and j <= i:
                 res = min(res, i - j + 1)
-                operate(nums[j], -1)
+                while nums[j]:
+                    lb = (nums[j] & -nums[j]).bit_length() - 1
+                    cnt[lb] -= 1
+                    if cnt[lb] == 0:
+                        cur ^= 1 << lb
+                    nums[j] &= nums[j] - 1
                 j += 1
-            i += 1
         return -1 if res == inf else res
 
     # 3096. 得到更多分数的最少关卡数目 (Minimum Levels to Gain More Points)
