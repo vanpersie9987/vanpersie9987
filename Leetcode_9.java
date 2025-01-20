@@ -4376,4 +4376,54 @@ public class Leetcode_9 {
         final int MOD = (int) (1e9 + 7);
         return memo3428[i][j] = (dfs3428(i - 1, j - 1) + dfs3428(i - 1, j)) % MOD;
     }
+
+    // 3425. 最长特殊路径 (Longest Special Path)
+    private int maxS3425 = -1;
+    private int minCnt3425 = 0;
+    private List<int[]>[] g3425;
+    private int[] nums3425;
+    private int n3425;
+    private Map<Integer, Integer> lastDepth3425;
+    private List<Integer> preSum3425;
+
+    public int[] longestSpecialPath(int[][] edges, int[] nums) {
+        this.n3425 = nums.length;
+        this.nums3425 = nums;
+        this.g3425 = new ArrayList[n3425];
+        Arrays.setAll(g3425, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g3425[e[0]].add(new int[] { e[1], e[2] });
+            g3425[e[1]].add(new int[] { e[0], e[2] });
+        }
+        this.lastDepth3425 = new HashMap<>();
+        this.preSum3425 = new ArrayList<>();
+        preSum3425.add(0);
+        dfs3425(0, -1, 0);
+        return new int[] { maxS3425, minCnt3425 };
+    }
+    
+    private void dfs3425(int x, int fa, int topDepth) {
+        int color = nums3425[x];
+        int lastDep = lastDepth3425.getOrDefault(color, 0);
+        topDepth = Math.max(topDepth, lastDep);
+
+        int s = preSum3425.get(preSum3425.size() - 1) - preSum3425.get(topDepth);
+        int cnt = preSum3425.size() - topDepth;
+        if (s > maxS3425 || s == maxS3425 && cnt < minCnt3425) {
+            maxS3425 = s;
+            minCnt3425 = cnt;
+        }
+        lastDepth3425.put(color, preSum3425.size());
+        for (int[] nxt : g3425[x]) {
+            int y = nxt[0];
+            int w = nxt[1];
+            if (y != fa) {
+                preSum3425.add(preSum3425.get(preSum3425.size() - 1) + w);
+                dfs3425(y, x, topDepth);
+                preSum3425.remove(preSum3425.size() - 1);
+            }
+        }
+        lastDepth3425.put(color, lastDep);
+    }
+
 }
