@@ -8211,6 +8211,37 @@ class Union924:
                 res %= MOD
         dfs.cache_clear()
         return res
+    
+    # 3425. 最长特殊路径 (Longest Special Path)
+    def longestSpecialPath(self, edges: List[List[int]], nums: List[int]) -> List[int]:
+        def dfs(x: int, fa: int, top_depth: int) -> int:
+            color = nums[x]
+            old_depth = last_depth.get(color, 0)
+            top_depth = max(top_depth, old_depth)
+            s = pre_sum[-1] - pre_sum[top_depth]
+            cnt = len(pre_sum) - top_depth
+            nonlocal max_s, min_cnt
+            if s > max_s or s == max_s and cnt < min_cnt:
+                max_s = s
+                min_cnt = cnt
+            last_depth[color] = len(pre_sum)
+            for y, w in g[x]:
+                if y != fa:
+                    pre_sum.append(pre_sum[-1] + w)
+                    dfs(y, x, top_depth)
+                    pre_sum.pop()
+            last_depth[color] = old_depth
+        n = len(nums)
+        max_s = -1
+        min_cnt = 0
+        g = [[] for _ in range(n)]
+        for u, v, w in edges:
+            g[u].append((v, w))
+            g[v].append((u, w))
+        last_depth = defaultdict()
+        pre_sum = [0]
+        dfs(0, -1, 0)
+        return (max_s, min_cnt)
 
 
       
