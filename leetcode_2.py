@@ -8192,7 +8192,8 @@ class Union924:
             return res
         return dfs(0, -1, -1)
     
-    # 3428. 最多 K 个元素的子序列的最值之和 (Maximum and Minimum Sums of at Most Size K Subsequences) --需要用递推算逆元
+    # 3428. 最多 K 个元素的子序列的最值之和 (Maximum and Minimum Sums of at Most Size K Subsequences) 
+    # --需要用递推算逆元 以下代码无法通过最后一个测试用例
     def minMaxSums(self, nums: List[int], k: int) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
