@@ -8147,4 +8147,9 @@ class Union924:
     def findClosestNumber(self, nums: List[int]) -> int:
         nums.sort(key=lambda x: ([abs(x), -x], x))
         return nums[0]
+    
+    # 3423. 循环数组中相邻元素的最大差值 (Maximum Difference Between Adjacent Elements in a Circular Array)
+    def maxAdjacentDistance(self, nums: List[int]) -> int:
+        return max(max(abs(x - y) for x, y in pairwise(nums)), abs(nums[0] - nums[-1]))
+        
 
