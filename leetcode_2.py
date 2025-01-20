@@ -8154,12 +8154,8 @@ class Union924:
 
     # 3424. 将数组变相同的最小代价 (Minimum Cost to Make Arrays Identical)
     def minCost(self, arr: List[int], brr: List[int], k: int) -> int:
-        res = 0
-        for x, y in zip(arr, brr):
-            res += abs(x - y)
+        res = sum(abs(x - y) for x, y in zip(arr, brr))
         arr.sort()
         brr.sort()
-        res2 = 0
-        for x, y in zip(arr, brr):
-            res2 += abs(x - y)
+        res2 = sum(abs(x - y) for x, y in zip(arr, brr))
         return min(res, res2 + k)
