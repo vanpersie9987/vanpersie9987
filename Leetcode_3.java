@@ -8011,7 +8011,7 @@ public class Leetcode_3 {
                         * (bombs2101[y][0] - bombs2101[x][0]) <= (long) bombs2101[x][2] * bombs2101[x][2];
     }
 
-    // 6060. 找到最接近 0 的数字 (Find Closest Number to Zero)
+    // 2239. 找到最接近 0 的数字 (Find Closest Number to Zero)
     public int findClosestNumber(int[] nums) {
         int res = -100000;
         for (int num : nums) {
@@ -8023,6 +8023,24 @@ public class Leetcode_3 {
         }
         return res;
 
+    }
+
+    // 2239. 找到最接近 0 的数字 (Find Closest Number to Zero)
+    public int findClosestNumber2(int[] nums) {
+        Integer[] arr = Arrays.stream(nums).boxed().toArray(Integer[]::new);
+        Arrays.sort(arr, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                if (Math.abs(o1) == Math.abs(o2)) {
+                    return Integer.compare(o2, o1);
+                }
+                return Integer.compare(Math.abs(o1), Math.abs(o2));
+            }
+            
+        });
+        return arr[0];
+    
     }
 
     // 6061. 买钢笔和铅笔的方案数 (Number of Ways to Buy Pens and Pencils)

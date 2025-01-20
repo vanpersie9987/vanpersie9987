@@ -8132,3 +8132,19 @@ class Union924:
             else:
                 left = mid + 1
         return res
+    
+    # 2239. 找到最接近 0 的数字 (Find Closest Number to Zero)
+    def findClosestNumber(self, nums: List[int]) -> int:
+        res = -inf
+        d = inf
+        for x in nums:
+            if abs(x) < d or abs(x) == d and x > res:
+                d = abs(x)
+                res = x
+        return res
+
+    # 2239. 找到最接近 0 的数字 (Find Closest Number to Zero)
+    def findClosestNumber(self, nums: List[int]) -> int:
+        nums.sort(key=lambda x: ([abs(x), -x], x))
+        return nums[0]
+
