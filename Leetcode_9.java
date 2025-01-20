@@ -4343,4 +4343,37 @@ public class Leetcode_9 {
         return memo3429[i][j][k] = res;
     }
 
+    // 3428. 最多 K 个元素的子序列的最值之和 (Maximum and Minimum Sums of at Most Size K
+    // Subsequences)
+    private int[][] memo3428;
+
+    public int minMaxSums(int[] nums, int k) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        this.memo3428 = new int[n][Math.min(n, k) + 1];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo3428[i], -1);
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < Math.min(k, i + 1); ++j) {
+                res += ((long) dfs3428(i, j) * (nums[i] + nums[n - i - 1])) % MOD;
+                res %= MOD;
+            }
+        }
+        return res;
+
+    }
+    
+    private int dfs3428(int i, int j) {
+        if (i == j || j == 0) {
+            return 1;
+        }
+        if (memo3428[i][j] != -1) {
+            return memo3428[i][j];
+        }
+        final int MOD = (int) (1e9 + 7);
+        return memo3428[i][j] = (dfs3428(i - 1, j - 1) + dfs3428(i - 1, j)) % MOD;
+    }
 }

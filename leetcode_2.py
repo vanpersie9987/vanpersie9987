@@ -8191,5 +8191,27 @@ class Union924:
                     res = min(res, dfs(i + 1, x, y) + cost[i][x] + cost[n - i - 1][y])
             return res
         return dfs(0, -1, -1)
+    
+    # 3428. 最多 K 个元素的子序列的最值之和 (Maximum and Minimum Sums of at Most Size K Subsequences) --需要用递推算逆元
+    def minMaxSums(self, nums: List[int], k: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if j == 0 or i == j:
+                return 1
+            j = min(j, i - j)
+            return dfs(i - 1, j - 1) + dfs(i - 1, j)
+        n = len(nums)
+        nums.sort()
+        MOD = 10**9 + 7
+        res = 0
+        for i, v in enumerate(nums):
+            for j in range(min(k, i + 1)):
+                res += (dfs(i, j) * (v + nums[n - i - 1])) % MOD
+                res %= MOD
+        dfs.cache_clear()
+        return res
+
+
+      
 
         
