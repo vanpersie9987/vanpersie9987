@@ -8159,3 +8159,37 @@ class Union924:
         brr.sort()
         res2 = sum(abs(x - y) for x, y in zip(arr, brr))
         return min(res, res2 + k)
+    
+    # 3427. 变长子数组求和 (Sum of Variable Length Subarrays)
+    def subarraySum(self, nums: List[int]) -> int:
+        pre = list(accumulate(nums, initial=0))
+        res = 0
+        for i, v in enumerate(nums):
+            start = max(0, i - v)
+            res += pre[i + 1] - pre[start]
+        return res
+    
+    # 3429. 粉刷房子 IV (Paint House IV)
+    def minCost(self, n: int, cost: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if i == n // 2:
+                return 0
+            res = inf
+            left = []
+            for x in range(3):
+                if j != x:
+                    left.append(x)
+            right = []
+            for x in range(3):
+                if k != x:
+                    right.append(x)
+            for x in left:
+                for y in right:
+                    if x == y:
+                        continue
+                    res = min(res, dfs(i + 1, x, y) + cost[i][x] + cost[n - i - 1][y])
+            return res
+        return dfs(0, -1, -1)
+
+        

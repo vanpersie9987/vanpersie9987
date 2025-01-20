@@ -4279,4 +4279,68 @@ public class Leetcode_9 {
 
     }
 
+    // 3427. 变长子数组求和 (Sum of Variable Length Subarrays)
+    public int subarraySum(int[] nums) {
+        int n = nums.length;
+        int[] pre = new int[n + 1];
+        for (int i = 0; i < n; ++i) {
+            pre[i + 1] = pre[i] + nums[i];
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            int start = Math.max(0, i - nums[i]);
+            res += pre[i + 1] - pre[start];
+        }
+        return res;
+    }
+
+    // 3429. 粉刷房子 IV (Paint House IV)
+    private int n3429;
+    private int[][] cost3429;
+    private long[][][] memo3429;
+
+    public long minCost(int n, int[][] cost) {
+        this.n3429 = n;
+        this.cost3429 = cost;
+        this.memo3429 = new long[n][4][4];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < 4; ++j) {
+                Arrays.fill(memo3429[i][j], -1L);
+            }
+        }
+        return dfs3429(0, 3, 3);
+
+    }
+
+    private long dfs3429(int i, int j, int k) {
+        if (i == n3429 / 2) {
+            return 0L;
+        }
+        if (memo3429[i][j][k] != -1L) {
+            return memo3429[i][j][k];
+        }
+        List<Integer> left = new ArrayList<>();
+        for (int x = 0; x < 3; ++x) {
+            if (j != x) {
+                left.add(x);
+            }
+        }
+        List<Integer> right = new ArrayList<>();
+        for (int x = 0; x < 3; ++x) {
+            if (k != x) {
+                right.add(x);
+            }
+        }
+        long res = Long.MAX_VALUE;
+        for (int l : left) {
+            for (int r : right) {
+                if (l == r) {
+                    continue;
+                }
+                res = Math.min(res, dfs3429(i + 1, l, r) + cost3429[i][l] + cost3429[n3429 - i - 1][r]);
+            }
+        }
+        return memo3429[i][j][k] = res;
+    }
+
 }
