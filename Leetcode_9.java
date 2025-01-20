@@ -4261,7 +4261,21 @@ public class Leetcode_9 {
             res = Math.max(res, Math.abs(nums[i] - nums[i - 1]));
         }
         return res;
+    }
 
+    // 3424. 将数组变相同的最小代价 (Minimum Cost to Make Arrays Identical)
+    public long minCost(int[] arr, int[] brr, long k) {
+        long res1 = 0L;
+        for (int i = 0; i < arr.length; ++i) {
+            res1 += Math.abs(arr[i] - brr[i]);
+        }
+        Arrays.sort(arr);
+        Arrays.sort(brr);
+        long res2 = 0L;
+        for (int i = 0; i < arr.length; ++i) {
+            res2 += Math.abs(arr[i] - brr[i]);
+        }
+        return Math.min(res1, res2 + k);
 
     }
 

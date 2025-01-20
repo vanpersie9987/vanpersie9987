@@ -8132,7 +8132,7 @@ class Union924:
             else:
                 left = mid + 1
         return res
-    
+
     # 2239. 找到最接近 0 的数字 (Find Closest Number to Zero)
     def findClosestNumber(self, nums: List[int]) -> int:
         res = -inf
@@ -8147,9 +8147,19 @@ class Union924:
     def findClosestNumber(self, nums: List[int]) -> int:
         nums.sort(key=lambda x: ([abs(x), -x], x))
         return nums[0]
-    
+
     # 3423. 循环数组中相邻元素的最大差值 (Maximum Difference Between Adjacent Elements in a Circular Array)
     def maxAdjacentDistance(self, nums: List[int]) -> int:
         return max(max(abs(x - y) for x, y in pairwise(nums)), abs(nums[0] - nums[-1]))
-        
 
+    # 3424. 将数组变相同的最小代价 (Minimum Cost to Make Arrays Identical)
+    def minCost(self, arr: List[int], brr: List[int], k: int) -> int:
+        res = 0
+        for x, y in zip(arr, brr):
+            res += abs(x - y)
+        arr.sort()
+        brr.sort()
+        res2 = 0
+        for x, y in zip(arr, brr):
+            res2 += abs(x - y)
+        return min(res, res2 + k)
