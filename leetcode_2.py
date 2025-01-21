@@ -1752,6 +1752,7 @@ class Union924:
                 else:
                     left = mid + 1
             return res
+
         nums.sort()
         return check()
 
@@ -6331,18 +6332,18 @@ class Union924:
         cnt = [0] * 26
         c = 0
         for w in word2:
-            cnt[ord(w) - ord('a')] += 1
-            if cnt[ord(w) - ord('a')] == 1:
+            cnt[ord(w) - ord("a")] += 1
+            if cnt[ord(w) - ord("a")] == 1:
                 c += 1
         i = 0
         res = 0
         for w in word1:
-            cnt[ord(w) - ord('a')] -= 1
-            if cnt[ord(w) - ord('a')] == 0:
+            cnt[ord(w) - ord("a")] -= 1
+            if cnt[ord(w) - ord("a")] == 0:
                 c -= 1
             while c == 0:
-                cnt[ord(word1[i]) - ord('a')] += 1
-                if cnt[ord(word1[i]) - ord('a')] == 1:
+                cnt[ord(word1[i]) - ord("a")] += 1
+                if cnt[ord(word1[i]) - ord("a")] == 1:
                     c += 1
                 i += 1
             res += i
@@ -8053,12 +8054,13 @@ class Union924:
                 g = gcd(g, x)
                 if m == l * g:
                     res = max(res, j - i + 1)
+
     # 2264. 字符串中最大的 3 位相同数字 (Largest 3-Same-Digit Number in String)
     def largestGoodInteger(self, num: str) -> str:
-        res = ''
+        res = ""
         for i in range(1, len(num) - 1):
-            if num[i] == num[i - 1] == num[i + 1] and res < num[i - 1: i + 2]:
-                res = num[i - 1: i + 2]
+            if num[i] == num[i - 1] == num[i + 1] and res < num[i - 1 : i + 2]:
+                res = num[i - 1 : i + 2]
         return res
 
     # 2275. 按位与结果大于零的最长组合 (Largest Combination With Bitwise AND Greater Than Zero)
@@ -8100,6 +8102,7 @@ class Union924:
             if k:
                 res = max(res, dfs(i + 1, j, k - 1), dfs(i, j + 1, k - 1))
             return res
+
         m = len(coins)
         n = len(coins[0])
         res = dfs(0, 0, 2)
@@ -8116,11 +8119,13 @@ class Union924:
                     if w <= upper and not vis[y]:
                         cnt += dfs(y)
                 return cnt
+
             g = [[] for _ in range(n)]
             for u, v, w in edges:
                 g[v].append((u, w))
             vis = [False] * n
             return dfs(0) == n
+
         left = 1
         right = max(x for _, _, x in edges)
         res = -1
@@ -8159,7 +8164,7 @@ class Union924:
         brr.sort()
         res2 = sum(abs(x - y) for x, y in zip(arr, brr))
         return min(res, res2 + k)
-    
+
     # 3427. 变长子数组求和 (Sum of Variable Length Subarrays)
     def subarraySum(self, nums: List[int]) -> int:
         pre = list(accumulate(nums, initial=0))
@@ -8168,7 +8173,7 @@ class Union924:
             start = max(0, i - v)
             res += pre[i + 1] - pre[start]
         return res
-    
+
     # 3429. 粉刷房子 IV (Paint House IV)
     def minCost(self, n: int, cost: List[List[int]]) -> int:
         @cache
@@ -8190,9 +8195,10 @@ class Union924:
                         continue
                     res = min(res, dfs(i + 1, x, y) + cost[i][x] + cost[n - i - 1][y])
             return res
+
         return dfs(0, -1, -1)
-    
-    # 3428. 最多 K 个元素的子序列的最值之和 (Maximum and Minimum Sums of at Most Size K Subsequences) 
+
+    # 3428. 最多 K 个元素的子序列的最值之和 (Maximum and Minimum Sums of at Most Size K Subsequences)
     # --需要用递推算逆元 以下代码无法通过最后一个测试用例
     def minMaxSums(self, nums: List[int], k: int) -> int:
         @cache
@@ -8201,6 +8207,7 @@ class Union924:
                 return 1
             j = min(j, i - j)
             return dfs(i - 1, j - 1) + dfs(i - 1, j)
+
         n = len(nums)
         nums.sort()
         MOD = 10**9 + 7
@@ -8211,7 +8218,7 @@ class Union924:
                 res %= MOD
         dfs.cache_clear()
         return res
-    
+
     # 3425. 最长特殊路径 (Longest Special Path)
     def longestSpecialPath(self, edges: List[List[int]], nums: List[int]) -> List[int]:
         def dfs(x: int, fa: int, top_depth: int) -> int:
@@ -8231,6 +8238,7 @@ class Union924:
                     dfs(y, x, top_depth)
                     pre_sum.pop()
             last_depth[color] = old_depth
+
         n = len(nums)
         max_s = -1
         min_cnt = 0
@@ -8242,8 +8250,8 @@ class Union924:
         pre_sum = [0]
         dfs(0, -1, 0)
         return (max_s, min_cnt)
-
-
-      
-
-        
+    
+    # 1561. 你可以获得的最大硬币数目 (Maximum Number of Coins You Can Get)
+    def maxCoins(self, piles: List[int]) -> int:
+        piles.sort()
+        return sum(piles[len(piles) // 3 :: 2])
