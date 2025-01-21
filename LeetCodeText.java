@@ -18015,12 +18015,8 @@ public class LeetCodeText {
     public int maxCoins(int[] piles) {
         Arrays.sort(piles);
         int res = 0;
-        int count = 0;
-        int i = piles.length - 2;
-        while (count < piles.length / 3) {
+        for (int i = piles.length / 3; i < piles.length; i += 2) {
             res += piles[i];
-            i -= 2;
-            ++count;
         }
         return res;
 
