@@ -8181,17 +8181,9 @@ class Union924:
             if i == n // 2:
                 return 0
             res = inf
-            left = []
             for x in range(3):
-                if j != x:
-                    left.append(x)
-            right = []
-            for x in range(3):
-                if k != x:
-                    right.append(x)
-            for x in left:
-                for y in right:
-                    if x == y:
+                for y in range(3):
+                    if x == y or x == j or y == k:
                         continue
                     res = min(res, dfs(i + 1, x, y) + cost[i][x] + cost[n - i - 1][y])
             return res

@@ -4319,22 +4319,10 @@ public class Leetcode_9 {
         if (memo3429[i][j][k] != -1L) {
             return memo3429[i][j][k];
         }
-        List<Integer> left = new ArrayList<>();
-        for (int x = 0; x < 3; ++x) {
-            if (j != x) {
-                left.add(x);
-            }
-        }
-        List<Integer> right = new ArrayList<>();
-        for (int x = 0; x < 3; ++x) {
-            if (k != x) {
-                right.add(x);
-            }
-        }
         long res = Long.MAX_VALUE;
-        for (int l : left) {
-            for (int r : right) {
-                if (l == r) {
+        for (int l = 0; l < 3; ++l) {
+            for (int r = 0; r < 3; ++r) {
+                if (l == r || l == j || r == k) {
                     continue;
                 }
                 res = Math.min(res, dfs3429(i + 1, l, r) + cost3429[i][l] + cost3429[n3429 - i - 1][r]);
