@@ -19,7 +19,7 @@ from math import comb, cos, fabs, gcd, inf, isqrt, lcm, sqrt
 from mimetypes import init
 from multiprocessing import reduction
 from operator import le, ne, truediv
-from os import eventfd, minor, name
+from os import eventfd, minor, name, pread
 from pickletools import read_uint1
 from queue import PriorityQueue
 from re import L, X

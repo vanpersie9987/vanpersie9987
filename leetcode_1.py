@@ -8534,20 +8534,17 @@ class leetcode_1:
 
     # 2944. 购买水果需要的最少金币数 (Minimum Number of Coins for Fruits)
     def minimumCoins(self, prices: List[int]) -> int:
-        n = len(prices)
-
         @cache
-        def dfs(i: int, j: int) -> int:
-            if i == n:
-                return 0
-            if n - i <= j:
-                return 0
-            res = dfs(i + 1, i + 1) + prices[i]
-            if j:
-                res = min(res, dfs(i + 1, j - 1))
-            return res
+        def dfs(i: int) -> int:
+            if i * 2 >= n:
+                return prices[i - 1]
+            res = inf
+            return (
+                min(dfs(j + 1) for j in range(i, min(i + i + 1, n + 1))) + prices[i - 1]
+            )
 
-        return dfs(0, 0)
+        n = len(prices)
+        return dfs(1)
 
     # 2946. 循环移位后的矩阵相似检查 (Matrix Similarity After Cyclic Shifts)
     def areSimilar(self, mat: List[List[int]], k: int) -> bool:
