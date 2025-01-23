@@ -8538,7 +8538,6 @@ class leetcode_1:
         def dfs(i: int) -> int:
             if i * 2 >= n:
                 return prices[i - 1]
-            res = inf
             return (
                 min(dfs(j + 1) for j in range(i, min(i + i + 1, n + 1))) + prices[i - 1]
             )

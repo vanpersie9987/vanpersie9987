@@ -5323,34 +5323,28 @@ public class Leetcode_8 {
     // 2944. 购买水果需要的最少金币数 (Minimum Number of Coins for Fruits)
     private int n2944;
     private int[] prices2944;
-    private int[][] memo2944;
+    private int[] memo2944;
 
     public int minimumCoins(int[] prices) {
         this.n2944 = prices.length;
         this.prices2944 = prices;
-        this.memo2944 = new int[n2944][n2944];
-        for (int i = 0; i < n2944; ++i) {
-            Arrays.fill(memo2944[i], -1);
-        }
-        return dfs2944(0, 0);
+        this.memo2944 = new int[n2944 + 1];
+        return dfs2944(1);
 
     }
 
-    private int dfs2944(int i, int j) {
-        if (i == n2944) {
-            return 0;
+    private int dfs2944(int i) {
+        if (i * 2 >= n2944) {
+            return prices2944[i - 1];
         }
-        if (n2944 - i <= j) {
-            return 0;
+        if (memo2944[i] != 0) {
+            return memo2944[i];
         }
-        if (memo2944[i][j] != -1) {
-            return memo2944[i][j];
+        int res = Integer.MAX_VALUE;
+        for(int j = i; j < Math.min(n2944 + 1, i + i + 1); ++j) {
+            res = Math.min(res, dfs2944(j + 1) + prices2944[i - 1]);
         }
-        int res = dfs2944(i + 1, i + 1) + prices2944[i];
-        if (j > 0) {
-            res = Math.min(res, dfs2944(i + 1, j - 1));
-        }
-        return memo2944[i][j] = res;
+        return memo2944[i] = res;
     }
 
     // 2951. 找出峰值 (Find the Peaks)
