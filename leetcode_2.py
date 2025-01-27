@@ -8242,8 +8242,22 @@ class Union924:
         pre_sum = [0]
         dfs(0, -1, 0)
         return (max_s, min_cnt)
-    
+
     # 1561. 你可以获得的最大硬币数目 (Maximum Number of Coins You Can Get)
     def maxCoins(self, piles: List[int]) -> int:
         piles.sort()
         return sum(piles[len(piles) // 3 :: 2])
+
+    # 45. 跳跃游戏 II (Jump Game II)
+    def jump(self, nums: List[int]) -> int:
+        res = 0
+        right = 0
+        cur = 0
+        for i, v in enumerate(nums):
+            if cur >= len(nums) - 1:
+                return res
+            right = max(right, i + v)
+            if i == cur:
+                cur = right
+                res += 1
+        return res
