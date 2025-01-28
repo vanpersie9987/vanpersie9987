@@ -8261,3 +8261,13 @@ class Union924:
                 cur = right
                 res += 1
         return res
+
+    # 119. 杨辉三角 II (Pascal's Triangle II)
+    def getRow(self, rowIndex: int) -> List[int]:
+        res = [1]
+        for _ in range(rowIndex):
+            pre = res.copy()
+            res.append(1)
+            for j in range(1, len(res) - 1):
+                res[j] = pre[j - 1] + pre[j]
+        return res
