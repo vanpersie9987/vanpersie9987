@@ -8271,3 +8271,12 @@ class Union924:
             for j in range(1, len(res) - 1):
                 res[j] = pre[j - 1] + pre[j]
         return res
+
+    # 219. 存在重复元素 II (Contains Duplicate II)
+    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+        d = defaultdict(int)
+        for i, v in enumerate(nums):
+            if v in d and i - d[v] <= k:
+                return True
+            d[v] = i
+        return False
