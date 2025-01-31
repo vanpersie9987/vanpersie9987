@@ -8303,8 +8303,5 @@ class Union924:
         arr = [x for x in s]
         n = len(arr)
         for i in range(0, n, 2 * k):
-            if n - i + 1 < k:
-                arr[i:] = arr[i:][::-1]
-                break
-            arr[i : i + k] = arr[i : i + k][::-1]
+            arr[i : min(i + k, n)] = arr[i : min(i + k, n)][::-1]
         return "".join(arr)
