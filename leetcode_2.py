@@ -8297,3 +8297,14 @@ class Union924:
             else:
                 j += 1
         return res
+
+    # 541. 反转字符串 II (Reverse String II)
+    def reverseStr(self, s: str, k: int) -> str:
+        arr = [x for x in s]
+        n = len(arr)
+        for i in range(0, n, 2 * k):
+            if n - i + 1 < k:
+                arr[i:] = arr[i:][::-1]
+                break
+            arr[i : i + k] = arr[i : i + k][::-1]
+        return "".join(arr)
