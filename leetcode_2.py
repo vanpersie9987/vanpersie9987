@@ -8309,6 +8309,6 @@ class Union924:
     # 598. 区间加法 II (Range Addition II)
     def maxCount(self, m: int, n: int, ops: List[List[int]]) -> int:
         for x, y in ops:
-            m = min(m, x - 1)
-            n = min(n, y - 1)
-        return (m + 1) * (n + 1) if len(ops) else m * n
+            m = min(m, x)
+            n = min(n, y)
+        return m * n
