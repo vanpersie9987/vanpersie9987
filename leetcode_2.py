@@ -8312,3 +8312,23 @@ class Union924:
             m = min(m, x)
             n = min(n, y)
         return m * n
+    
+    # 680. 验证回文串 II (Valid Palindrome II)
+    def validPalindrome(self, s: str) -> bool:
+        def check(i: int, j: int) -> bool:
+            while i < j:
+                if s[i] != s[j]:
+                    return False
+                i += 1
+                j -= 1
+            return True
+        i = 0
+        j = len(s) - 1
+        while i < j:
+            if s[i] != s[j]:
+                break
+            i += 1
+            j -= 1
+        if i >= j:
+            return True
+        return check(i + 1, j) or check(i, j - 1)
