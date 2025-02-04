@@ -7461,25 +7461,22 @@ class leetcode_1:
 
     # 90. 子集 II (Subsets II)
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
-        n = len(nums)
-        res = []
-        used = 0
-        nums.sort()
-        _list = []
-
         def dfs(i: int) -> None:
             if i == n:
-                res.append(_list.copy())
+                res.append(arr.copy())
                 return
             dfs(i + 1)
-            nonlocal used
-            if not (i and nums[i] == nums[i - 1] and ((used >> (i - 1)) & 1) == 0):
-                used ^= 1 << i
-                _list.append(nums[i])
+            if i == 0 or nums[i] != nums[i - 1] or used[i - 1]:
+                used[i] = True
+                arr.append(nums[i])
                 dfs(i + 1)
-                used ^= 1 << i
-                _list.pop()
-
+                arr.pop()
+                used[i] = False
+        nums.sort()
+        n = len(nums)
+        arr = []
+        res = []
+        used = [False] * n
         dfs(0)
         return res
 
