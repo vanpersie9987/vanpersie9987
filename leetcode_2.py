@@ -8312,7 +8312,7 @@ class Union924:
             m = min(m, x)
             n = min(n, y)
         return m * n
-    
+
     # 680. 验证回文串 II (Valid Palindrome II)
     def validPalindrome(self, s: str) -> bool:
         def check(i: int, j: int) -> bool:
@@ -8332,3 +8332,18 @@ class Union924:
         if i >= j:
             return True
         return check(i + 1, j) or check(i, j - 1)
+
+    # 922. 按奇偶排序数组 II (Sort Array By Parity II)
+    def sortArrayByParityII(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        res = [0] * n
+        e_id = 0
+        o_id = 1
+        for v in nums:
+            if v & 1:
+                res[o_id] = v
+                o_id += 2
+            else:
+                res[e_id] = v
+                e_id += 2
+        return res
