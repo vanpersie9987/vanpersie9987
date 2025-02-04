@@ -3492,27 +3492,22 @@ public class LeetCodeText {
 
     }
 
-    // 922. 按奇偶排序数组 II
-    public int[] sortArrayByParityII(final int[] A) {
-        int i = 0;
-        int j = 1;
-        while (i < A.length && j < A.length) {
-            while (i < A.length && A[i] % 2 == 0) {
-                i += 2;
+    // 922. 按奇偶排序数组 II (Sort Array By Parity II)
+    public int[] sortArrayByParityII(int[] nums) {
+        int eId = 0;
+        int oId = 1;
+        int n = nums.length;
+        int[] res = new int[n];
+        for (int x : nums) {
+            if ((x & 1) == 0) {
+                res[eId] = x;
+                eId += 2;
+            } else {
+                res[oId] = x;
+                oId += 2;
             }
-            while (j < A.length && A[j] % 2 == 1) {
-                j += 2;
-            }
-            if (i >= A.length || j >= A.length) {
-                break;
-            }
-            int temp = A[i];
-            A[i] = A[j];
-            A[j] = temp;
-            i += 2;
-            j += 2;
         }
-        return A;
+        return res;
 
     }
 
