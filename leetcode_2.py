@@ -8322,6 +8322,7 @@ class Union924:
                 i += 1
                 j -= 1
             return True
+
         i = 0
         j = len(s) - 1
         while i < j:
@@ -8346,4 +8347,26 @@ class Union924:
             else:
                 res[e_id] = v
                 e_id += 2
+        return res
+
+    # 59. 螺旋矩阵 II (Spiral Matrix II)
+    def generateMatrix(self, n: int) -> List[List[int]]:
+        res = [[0] * n for _ in range(n)]
+        dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        d = 0
+        x = y = 0
+        s = 1
+        while s <= n * n:
+            res[x][y] = s
+            if (
+                x + dirs[d][0] == n
+                or x + dirs[d][0] < 0
+                or y + dirs[d][1] == n
+                or y + dirs[d][1] < 0
+                or res[x + dirs[d][0]][y + dirs[d][1]]
+            ):
+                d = (d + 1) % 4
+            x += dirs[d][0]
+            y += dirs[d][1]
+            s += 1
         return res
