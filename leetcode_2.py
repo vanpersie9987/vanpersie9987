@@ -8355,9 +8355,8 @@ class Union924:
         dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         d = 0
         x = y = 0
-        s = 1
-        while s <= n * n:
-            res[x][y] = s
+        for i in range(n * n):
+            res[x][y] = i + 1
             if (
                 x + dirs[d][0] == n
                 or x + dirs[d][0] < 0
@@ -8368,5 +8367,4 @@ class Union924:
                 d = (d + 1) % 4
             x += dirs[d][0]
             y += dirs[d][1]
-            s += 1
         return res
