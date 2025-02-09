@@ -8368,3 +8368,22 @@ class Union924:
             x += dirs[d][0]
             y += dirs[d][1]
         return res
+
+    # 80. 删除有序数组中的重复项 II (Remove Duplicates from Sorted Array II)
+    def removeDuplicates(self, nums: List[int]) -> int:
+        n = len(nums)
+        i = 0
+        while i < n:
+            j = i
+            while j < n and nums[j] == nums[i]:
+                if j - i >= 2:
+                    nums[j] = inf
+                j += 1
+            i = j
+        i = j = 0
+        while i < n:
+            if nums[i] != inf:
+                nums[j] = nums[i]
+                j += 1
+            i += 1
+        return j
