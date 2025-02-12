@@ -8387,3 +8387,26 @@ class Union924:
                 j += 1
             i += 1
         return j
+
+    # 1760. 袋子里最少数目的球 (Minimum Limit of Balls in a Bag)
+    def minimumSize(self, nums: List[int], maxOperations: int) -> int:
+        def check(target: int) -> bool:
+            cnt = 0
+            for x in nums:
+                cnt += (x - 1) // target
+                if cnt > maxOperations:
+                    return False
+            return True
+        left = 1
+        right = max(nums)
+        res = 1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                res = mid
+                right = mid - 1
+            else:
+                left = mid + 1
+        return res
+
+        
