@@ -8409,4 +8409,25 @@ class Union924:
                 left = mid + 1
         return res
 
-        
+    # 1552. 两球之间的磁力 (Magnetic Force Between Two Balls)
+    def maxDistance(self, position: List[int], m: int) -> int:
+        def check(target: int) -> bool:
+            pre = -inf
+            cnt = 0
+            for x in position:
+                if x - pre >= target:
+                    cnt += 1
+                    pre = x
+            return cnt >= m
+        position.sort()
+        left = min(y - x for x, y in pairwise(position))
+        right = position[-1] - position[0]
+        res = 1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                res = mid
+                left = mid + 1
+            else:
+                right = mid - 1
+        return res
