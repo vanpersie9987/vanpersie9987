@@ -15698,13 +15698,9 @@ public class LeetCodeText {
                     curJ = -1;
                     break;
                 }
-                if (grid[i][curJ] == 1) {
-                    ++curJ;
-                } else {
-                    --curJ;
-                }
+                curJ += grid[i][curJ];
             }
-            res[j] = curJ; 
+            res[j] = curJ;
         }
         return res;
 
