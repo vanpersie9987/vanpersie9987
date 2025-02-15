@@ -8397,6 +8397,7 @@ class Union924:
                 if cnt > maxOperations:
                     return False
             return True
+
         left = 1
         right = max(nums)
         res = 1
@@ -8419,6 +8420,7 @@ class Union924:
                     cnt += 1
                     pre = x
             return cnt >= m
+
         position.sort()
         left = min(y - x for x, y in pairwise(position))
         right = position[-1] - position[0]
@@ -8430,4 +8432,31 @@ class Union924:
                 left = mid + 1
             else:
                 right = mid - 1
+        return res
+
+    # 1706. 球会落何处 (Where Will the Ball Fall)
+    def findBall(self, grid: List[List[int]]) -> List[int]:
+        m = len(grid)
+        n = len(grid[0])
+        res = [-1] * n
+        for j in range(n):
+            cur_j = j
+            for i in range(m):
+                if (
+                    cur_j == 0
+                    and grid[i][cur_j] == -1
+                    or cur_j == n - 1
+                    and grid[i][cur_j] == 1
+                    or grid[i][cur_j] == 1
+                    and grid[i][cur_j + 1] == -1
+                    or grid[i][cur_j] == -1
+                    and grid[i][cur_j - 1] == 1
+                ):
+                    cur_j = -1
+                    break
+                if grid[i][cur_j] == 1 and grid[i][cur_j + 1] == 1:
+                    cur_j += 1
+                else:
+                    cur_j -= 1
+            res[j] = cur_j
         return res
