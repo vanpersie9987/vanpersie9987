@@ -8454,7 +8454,7 @@ class Union924:
                 ):
                     cur_j = -1
                     break
-                if grid[i][cur_j] == 1 and grid[i][cur_j + 1] == 1:
+                if grid[i][cur_j] == 1:
                     cur_j += 1
                 else:
                     cur_j -= 1
