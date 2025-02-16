@@ -8457,3 +8457,12 @@ class Union924:
                 cur_j += grid[i][cur_j]
             res[j] = cur_j
         return res
+
+    # 1299. 将每个元素替换为右侧最大元素 (Replace Elements with Greatest Element on Right Side)
+    def replaceElements(self, arr: List[int]) -> List[int]:
+        mx = -1
+        for i in range(len(arr) - 1, -1, -1):
+            cur_mx = mx
+            mx = max(mx, arr[i])
+            arr[i] = cur_mx
+        return arr
