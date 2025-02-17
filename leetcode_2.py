@@ -8466,3 +8466,16 @@ class Union924:
             mx = max(mx, arr[i])
             arr[i] = cur_mx
         return arr
+
+    # 1287. 有序数组中出现次数超过25%的元素 (Element Appearing More Than 25% In Sorted Array)
+    def findSpecialInteger(self, arr: List[int]) -> int:
+        pre = -1
+        cnt = 0
+        for x in arr:
+            if x != pre:
+                cnt = 1
+            else:
+                cnt += 1
+            if cnt > len(arr) // 4:
+                return x
+            pre = x
