@@ -8479,3 +8479,39 @@ class Union924:
             if cnt > len(arr) // 4:
                 return x
             pre = x
+
+    # 2080. 区间内查询数字的频率 (Range Frequency Queries)
+    class RangeFreqQuery:
+
+        def __init__(self, arr: List[int]):
+            self.d = defaultdict(list)
+            for i, x in enumerate(arr):
+                self.d[x].append(i)
+
+        def query(self, left: int, right: int, value: int) -> int:
+            def check(left: int, right: int) -> int:
+                if not list or left > list[-1] or right < list[0]:
+                    return 0
+                l = 0
+                r = len(list) - 1
+                res_l = -1
+                while l <= r:
+                    mid = l + ((r - l) >> 1)
+                    if list[mid] >= left:
+                        res_l = mid
+                        r = mid - 1
+                    else:
+                        l = mid + 1
+                l = 0
+                r = len(list) - 1
+                res_r = -1
+                while l <= r:
+                    mid = l + ((r - l) >> 1)
+                    if list[mid] <= right:
+                        res_r = mid
+                        l = mid + 1
+                    else:
+                        r = mid - 1
+                return res_r - res_l + 1
+            list = self.d[value]
+            return check(left, right)
