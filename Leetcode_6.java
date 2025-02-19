@@ -262,17 +262,18 @@ public class Leetcode_6 {
 
     // 624. 数组列表中的最大距离 (Maximum Distance in Arrays)
     public int maxDistance2(List<List<Integer>> arrays) {
-        TreeSet<Integer> set = new TreeSet<>();
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
         int res = 0;
         for (List<Integer> array : arrays) {
-            if (!set.isEmpty()) {
-                int min = set.first();
-                int max = set.last();
-                res = Math.max(res, Math.abs(array.get(array.size() - 1) - min));
-                res = Math.max(res, Math.abs(max - array.get(0)));
+            int curMin = array.get(0);
+            int curMax = array.get(array.size() - 1);
+            if (min != Integer.MAX_VALUE) {
+                res = Math.max(res, Math.abs(max - curMin));
+                res = Math.max(res, Math.abs(curMax - min));
             }
-            set.add(array.get(0));
-            set.add(array.get(array.size() - 1));
+            min = Math.min(min, curMin);
+            max = Math.max(max, curMax);
         }
         return res;
 
