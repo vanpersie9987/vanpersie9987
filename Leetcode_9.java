@@ -4222,7 +4222,7 @@ public class Leetcode_9 {
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
             if (check3419(n, edges, mid)) {
-                res = mid; 
+                res = mid;
                 right = mid - 1;
             } else {
                 left = mid + 1;
@@ -4353,7 +4353,7 @@ public class Leetcode_9 {
         return res;
 
     }
-    
+
     private int dfs3428(int i, int j) {
         if (i == j || j == 0) {
             return 1;
@@ -4389,7 +4389,7 @@ public class Leetcode_9 {
         dfs3425(0, -1, 0);
         return new int[] { maxS3425, minCnt3425 };
     }
-    
+
     private void dfs3425(int x, int fa, int topDepth) {
         int color = nums3425[x];
         int lastDep = lastDepth3425.getOrDefault(color, 0);

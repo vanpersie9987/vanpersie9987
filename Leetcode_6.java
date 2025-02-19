@@ -224,7 +224,7 @@ public class Leetcode_6 {
 
     }
 
-    // 624. 数组列表中的最大距离 (Maximum Distance in Arrays) --plus
+    // 624. 数组列表中的最大距离 (Maximum Distance in Arrays)
     public int maxDistance(List<List<Integer>> arrays) {
         int max1 = Integer.MIN_VALUE;
         int max2 = Integer.MIN_VALUE;
@@ -257,6 +257,24 @@ public class Leetcode_6 {
             return max1 - min1;
         }
         return Math.max(max1 - min2, max2 - min1);
+
+    }
+
+    // 624. 数组列表中的最大距离 (Maximum Distance in Arrays)
+    public int maxDistance2(List<List<Integer>> arrays) {
+        TreeSet<Integer> set = new TreeSet<>();
+        int res = 0;
+        for (List<Integer> array : arrays) {
+            if (!set.isEmpty()) {
+                int min = set.first();
+                int max = set.last();
+                res = Math.max(res, Math.abs(array.get(array.size() - 1) - min));
+                res = Math.max(res, Math.abs(max - array.get(0)));
+            }
+            set.add(array.get(0));
+            set.add(array.get(array.size() - 1));
+        }
+        return res;
 
     }
 
