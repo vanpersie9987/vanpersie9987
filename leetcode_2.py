@@ -8519,12 +8519,13 @@ class Union924:
     # 624. 数组列表中的最大距离 (Maximum Distance in Arrays)
     def maxDistance(self, arrays: List[List[int]]) -> int:
         res = 0
-        s = SortedSet()
+        _min = inf
+        _max = -inf
         for arr in arrays:
             first = arr[0]
             last = arr[-1]
-            if len(s):
-                res = max(res, abs(s[0] - last), abs(s[-1] - first))
-            s.add(first)
-            s.add(last)
+            if _min != inf:
+                res = max(res, abs(_min - last), abs(_max - first))
+            _min = min(_min, first)
+            _max = max(_max, last)
         return res
