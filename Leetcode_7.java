@@ -388,7 +388,7 @@ public class Leetcode_7 {
         return cars;
     }
 
-    // 6319. 奇偶位数 (Number of Even and Odd Bits)
+    // 2595. 奇偶位数 (Number of Even and Odd Bits)
     public int[] evenOddBit(int n) {
         int[] res = new int[2];
         int i = 0;
@@ -400,10 +400,10 @@ public class Leetcode_7 {
         return res;
     }
 
-    // 6319. 奇偶位数 (Number of Even and Odd Bits)
+    // 2595. 奇偶位数 (Number of Even and Odd Bits)
     public int[] evenOddBit2(int n) {
-        final int MASK = 0x55555;
-        return new int[] { Integer.bitCount(n & MASK), Integer.bitCount(n & (MASK >> 1)) };
+        final int MASK = 0b1010101010;
+        return new int[] { Integer.bitCount((MASK >> 1) & n), Integer.bitCount(MASK & n) };
     }
 
     // 2596. 检查骑士巡视方案 (Check Knight Tour Configuration)
@@ -7906,7 +7906,7 @@ public class Leetcode_7 {
 
     private void dfs2708(int i, long j, boolean isNum) {
         if (i == n2708_2) {
-            if (isNum) { 
+            if (isNum) {
                 res2708 = Math.max(res2708, j);
             }
             return;

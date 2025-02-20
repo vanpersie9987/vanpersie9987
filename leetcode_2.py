@@ -8529,3 +8529,8 @@ class Union924:
             _min = min(_min, first)
             _max = max(_max, last)
         return res
+
+    # 2595. 奇偶位数 (Number of Even and Odd Bits)
+    def evenOddBit(self, n: int) -> List[int]:
+        MASK = 0b1010101010
+        return [((MASK >> 1) & n).bit_count(), ((MASK & n).bit_count())]
