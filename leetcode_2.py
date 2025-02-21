@@ -8534,3 +8534,15 @@ class Union924:
     def evenOddBit(self, n: int) -> List[int]:
         MASK = 0b1010101010
         return [((MASK >> 1) & n).bit_count(), ((MASK & n).bit_count())]
+
+    # 2506. 统计相似字符串对的数目 (Count Pairs Of Similar Strings)
+    def similarPairs(self, words: List[str]) -> int:
+        d = defaultdict(int)
+        res = 0
+        for word in words:
+            bits = 0
+            for c in word:
+                bits |= 1 << (ord(c) - ord('a'))
+            res += d[bits]
+            d[bits] += 1
+        return res

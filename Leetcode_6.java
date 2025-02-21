@@ -1966,20 +1966,17 @@ public class Leetcode_6 {
 
     }
 
-    // 6265. 统计相似字符串对的数目
+    // 2506. 统计相似字符串对的数目 (Count Pairs of Similar Strings)
     public int similarPairs(String[] words) {
-        int n = words.length;
-        Map<Integer, Integer> counts = new HashMap<>();
-        for (int i = 0; i < n; ++i) {
-            int bit = 0;
-            for (char c : words[i].toCharArray()) {
-                bit |= (1 << (c - 'a'));
-            }
-            counts.put(bit, counts.getOrDefault(bit, 0) + 1);
-        }
+        Map<Integer, Integer> cnts = new HashMap<>();
         int res = 0;
-        for (int count : counts.values()) {
-            res += count * (count - 1) / 2;
+        for (String w : words) {
+            int bits = 0;
+            for (char c : w.toCharArray()) {
+                bits |= 1 << (c - 'a');
+            }
+            res += cnts.getOrDefault(bits, 0);
+            cnts.merge(bits, 1, Integer::sum);
         }
         return res;
 
