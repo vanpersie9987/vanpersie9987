@@ -8022,7 +8022,7 @@ public class LeetCodeText {
 
     }
 
-    // 1656. 设计有序流
+    // 1656. 设计有序流 (Design an Ordered Stream)
     class OrderedStream {
         private String[] stream;
 
