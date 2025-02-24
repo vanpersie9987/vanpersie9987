@@ -8557,9 +8557,7 @@ class Union924:
         def insert(self, idKey: int, value: str) -> List[str]:
             self.d[idKey] = value
             res = []
-            for i in range(self.ptr, len(self.d)):
-                if self.d[i] is None:
-                    self.ptr = i
-                    break
-                res.append(self.d[i])
+            while self.ptr < len(self.d) and self.d[self.ptr]:
+                res.append(self.d[self.ptr])
+                self.ptr += 1
             return res
