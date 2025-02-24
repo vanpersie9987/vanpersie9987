@@ -4432,4 +4432,20 @@ public class Leetcode_9 {
         return new String(arr);
     }
 
+    // 3461. 判断操作后字符串中的数字是否相等 I (Check If Digits Are Equal in String After
+    // Operations I)
+    public boolean hasSameDigits(String s) {
+        while (s.length() != 2) {
+            char[] arr = s.toCharArray();
+            for (int i = 0; i < arr.length - 1; ++i) {
+                arr[i] = (char) ((arr[i] - '0' + arr[i + 1] - '0') % 10 + '0');
+            }
+            s = new String(arr, 0, arr.length - 1);
+        }
+        return s.charAt(0) == s.charAt(1);
+
+    }
+
+
+
 }
