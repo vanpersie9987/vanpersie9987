@@ -8570,3 +8570,18 @@ class Union924:
                 arr[i - 1] = str((int(arr[i - 1]) + int(arr[i])) % 10)
             s = "".join(arr[:-1])
         return s[0] == s[1]
+
+    # 3462. 提取至多 K 个元素的最大总和 (Maximum Sum With at Most K Elements)
+    def maxSum(self, grid: List[List[int]], limits: List[int], k: int) -> int:
+        res = 0
+        m = len(grid)
+        n = len(grid[0])
+        arr = []
+        for i in range(m):
+            grid[i].sort(reverse=True)
+            for j in range(0, min(limits[i], n)):
+                arr.append(grid[i][j])
+        arr.sort(reverse=True)
+        for i in range(min(k, len(arr))):
+            res += arr[i]
+        return res
