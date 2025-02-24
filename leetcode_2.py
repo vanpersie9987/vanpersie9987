@@ -8546,3 +8546,20 @@ class Union924:
             res += d[bits]
             d[bits] += 1
         return res
+
+    # 1656. 设计有序流 (Design an Ordered Stream)
+    class OrderedStream:
+
+        def __init__(self, n: int):
+            self.d = [None] * (n + 1)
+            self.ptr = 1
+
+        def insert(self, idKey: int, value: str) -> List[str]:
+            self.d[idKey] = value
+            res = []
+            for i in range(self.ptr, len(self.d)):
+                if self.d[i] is None:
+                    self.ptr = i
+                    break
+                res.append(self.d[i])
+            return res
