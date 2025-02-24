@@ -8561,3 +8561,12 @@ class Union924:
                 res.append(self.d[self.ptr])
                 self.ptr += 1
             return res
+
+    # 3461. 判断操作后字符串中的数字是否相等 I (Check If Digits Are Equal in String After Operations I)
+    def hasSameDigits(self, s: str) -> bool:
+        while len(s) != 2:
+            arr = [x for x in s]
+            for i in range(1, len(arr)):
+                arr[i - 1] = str((int(arr[i - 1]) + int(arr[i])) % 10)
+            s = "".join(arr[:-1])
+        return s[0] == s[1]
