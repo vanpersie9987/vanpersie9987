@@ -4446,6 +4446,25 @@ public class Leetcode_9 {
 
     }
 
+    // 3462. 提取至多 K 个元素的最大总和 (Maximum Sum With at Most K Elements)
+    public long maxSum(int[][] grid, int[] limits, int k) {
+        int m = grid.length;
+        int n = grid[0].length;
+        List<Integer> list = new ArrayList<>();
+        long res = 0L;
+        for (int i = 0; i < m; ++i) {
+            Arrays.sort(grid[i]);
+            for (int j = n - 1; j >= n - limits[i]; --j) {
+                list.add(grid[i][j]);
+            }
+        }
+        Collections.sort(list, Collections.reverseOrder());
+        for (int i = 0; i < k; ++i) {
+            res += list.get(i);
+        }
+        return res;
+    }
+
 
 
 }
