@@ -1166,46 +1166,38 @@ public class Leetcode_6 {
 
     }
 
-    // 6259. 设计内存分配器
+    // 2502. 设计内存分配器 (Design Memory Allocator)
     class Allocator {
-        private int n;
-        private int[] arr;
+        // 坐标 -> 起始位置
+        private TreeMap<Integer, Integer> map;
+        private Map<Integer, List<Integer>> mId_pId;
 
         public Allocator(int n) {
-            arr = new int[n];
-            this.n = n;
-
+            this.map = new TreeMap<>();
+            map.put(n, 0);
+            this.mId_pId = new HashMap<>();
         }
 
         public int allocate(int size, int mID) {
-            if (size > n) {
-                return -1;
-            }
-            int count = 0;
-            for (int i = 0; i < n; ++i) {
-                if (arr[i] == 0) {
-                    ++count;
-                    if (count == size) {
-                        Arrays.fill(arr, i - count + 1, i + 1, mID);
-                        return i - count + 1;
-                    }
-                } else {
-                    count = 0;
+            int pre = 0;
+            for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+                if (entry.getKey() - pre >= size) {
+                    map.put(pre, size);
+                    mId_pId.computeIfAbsent(mID, k -> new ArrayList<>()).add(pre);
+                    return pre;
                 }
+                pre = entry.getKey() + entry.getValue();
             }
             return -1;
-
         }
 
-        public int free(int mID) {
-            int count = 0;
-            for (int i = 0; i < n; ++i) {
-                if (arr[i] == mID) {
-                    arr[i] = 0;
-                    ++count;
-                }
+        public int freeMemory(int mID) {
+            int res = 0;
+            for (int x : mId_pId.getOrDefault(mID, new ArrayList<>())) {
+                res += map.remove(x);
             }
-            return count;
+            mId_pId.remove(mID);
+            return res;
         }
     }
 
