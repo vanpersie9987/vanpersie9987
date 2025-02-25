@@ -51,7 +51,7 @@ from zoneinfo import reset_tzpath
 # sudo python3 get-pip.py
 # pip3 install sortedcontainers
 from networkx import interval_graph, union
-from sortedcontainers import SortedList, SortedSet
+from sortedcontainers import SortedDict, SortedList, SortedSet
 
 
 class TreeNode:
@@ -8585,3 +8585,26 @@ class Union924:
         for i in range(min(k, len(arr))):
             res += arr[i]
         return res
+
+    # 2502. 设计内存分配器 (Design Memory Allocator)
+    class Allocator:
+
+        def __init__(self, n: int):
+            self.s = SortedDict()
+            self.s[n] = 0
+            self.mid_pid = defaultdict(list)
+
+        def allocate(self, size: int, mID: int) -> int:
+            pre = 0
+            for x, y in self.s.items():
+                if x - pre >= size:
+                    self.s[pre] = size
+                    self.mid_pid[mID].append(pre)
+                    return pre
+                pre = x + y
+            return -1
+
+        def freeMemory(self, mID: int) -> int:
+            s = sum(self.s.pop(x) for x in self.mid_pid[mID])
+            self.mid_pid.pop(mID)
+            return s
