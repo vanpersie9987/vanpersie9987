@@ -8608,3 +8608,23 @@ class Union924:
             s = sum(self.s.pop(x) for x in self.mid_pid[mID])
             self.mid_pid.pop(mID)
             return s
+
+    # 1472. 设计浏览器历史记录 (Design Browser History)
+    class BrowserHistory:
+
+        def __init__(self, homepage: str):
+            self.pages = [homepage]
+            self.ptr = 0
+
+        def visit(self, url: str) -> None:
+            self.pages = self.pages[: self.ptr + 1]
+            self.pages.append(url)
+            self.ptr += 1
+
+        def back(self, steps: int) -> str:
+            self.ptr = max(0, self.ptr - steps)
+            return self.pages[self.ptr]
+
+        def forward(self, steps: int) -> str:
+            self.ptr = min(len(self.pages) - 1, self.ptr + steps)
+            return self.pages[self.ptr]
