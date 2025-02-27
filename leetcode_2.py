@@ -8513,6 +8513,7 @@ class Union924:
                     else:
                         r = mid - 1
                 return res_r - res_l + 1
+
             list = self.d[value]
             return check(left, right)
 
@@ -8542,7 +8543,7 @@ class Union924:
         for word in words:
             bits = 0
             for c in word:
-                bits |= 1 << (ord(c) - ord('a'))
+                bits |= 1 << (ord(c) - ord("a"))
             res += d[bits]
             d[bits] += 1
         return res
@@ -8628,3 +8629,28 @@ class Union924:
         def forward(self, steps: int) -> str:
             self.ptr = min(len(self.pages) - 1, self.ptr + steps)
             return self.pages[self.ptr]
+
+    # 2296. 设计一个文本编辑器 (Design a Text Editor)
+    class TextEditor:
+
+        def __init__(self):
+            self.arr = ""
+            self.cursor = 0
+
+        def addText(self, text: str) -> None:
+            self.arr = self.arr[: self.cursor] + text + self.arr[self.cursor :]
+            self.cursor += len(text)
+
+        def deleteText(self, k: int) -> int:
+            k = min(k, self.cursor)
+            self.arr = self.arr[: self.cursor - k] + self.arr[self.cursor :]
+            self.cursor -= k
+            return k
+
+        def cursorLeft(self, k: int) -> str:
+            self.cursor = max(0, self.cursor - k)
+            return self.arr[max(0, self.cursor - 10) : self.cursor]
+
+        def cursorRight(self, k: int) -> str:
+            self.cursor = min(len(self.arr), self.cursor + k)
+            return self.arr[max(0, self.cursor - 10) : self.cursor]
