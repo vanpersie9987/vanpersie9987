@@ -1,5 +1,6 @@
 from ast import Return, Tuple
 from asyncio import FastChildWatcher
+from xxlimited import foo
 from audioop import minmax, reverse
 from calendar import c
 from collections import Counter, defaultdict, deque
@@ -8628,3 +8629,23 @@ class Union924:
         def forward(self, steps: int) -> str:
             self.ptr = min(len(self.pages) - 1, self.ptr + steps)
             return self.pages[self.ptr]
+
+    # 2353. 设计食物评分系统 (Design a Food Rating System)
+    class FoodRatings:
+
+        def __init__(self, foods: List[str], cuisines: List[str], ratings: List[int]):
+            self.food_to_rating_cuisine = defaultdict(tuple)
+            self.cuisine_to_food_score = defaultdict(SortedList)
+            self.n = len(foods)
+            for food, cuisine, rating in zip(foods, cuisines, ratings):
+                self.food_to_rating_cuisine[food] = (rating, cuisine)
+                self.cuisine_to_food_score[cuisine].add((self.n - rating, food))
+
+        def changeRating(self, food: str, newRating: int) -> None:
+            (old_rating, cuisine) = self.food_to_rating_cuisine[food]
+            self.food_to_rating_cuisine[food] = (newRating, cuisine)
+            self.cuisine_to_food_score[cuisine].remove((self.n - old_rating, food))
+            self.cuisine_to_food_score[cuisine].add((self.n - newRating, food))
+
+        def highestRated(self, cuisine: str) -> str:
+            return self.cuisine_to_food_score[cuisine][0][1]
