@@ -8649,3 +8649,28 @@ class Union924:
 
         def highestRated(self, cuisine: str) -> str:
             return self.cuisine_to_food_score[cuisine][0][1]
+    
+    # 31. 分割回文串 (Palindrome Partitioning)
+    def partition(self, s: str) -> List[List[str]]:
+        def dfs(i: int) -> None:
+            if i == n:
+                res.append(path.copy())
+                return
+            for j in range(i, n):
+                if is_valid[i][j]:
+                    path.append(s[i:j + 1])
+                    dfs(j + 1)
+                    path.pop()
+        n = len(s)
+        is_valid = [[False] * n for _ in range(n)]
+        for i in range(n - 1, -1, -1):
+            for j in range(i, n):
+                if j == i or j - i == 1 and s[i] == s[j] or j - i > 1 and s[i] == s[j] and is_valid[i + 1][j - 1]:
+                    is_valid[i][j] = True
+        res = []
+        path = []
+        dfs(0)
+        return res
+
+
+        
