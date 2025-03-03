@@ -1,5 +1,6 @@
 from ast import Return, Tuple
 from asyncio import FastChildWatcher
+from xxlimited import foo
 from audioop import minmax, reverse
 from calendar import c
 from collections import Counter, defaultdict, deque
@@ -8630,27 +8631,47 @@ class Union924:
             self.ptr = min(len(self.pages) - 1, self.ptr + steps)
             return self.pages[self.ptr]
 
-    # 2296. 设计一个文本编辑器 (Design a Text Editor)
-    class TextEditor:
+    # 2353. 设计食物评分系统 (Design a Food Rating System)
+    class FoodRatings:
 
-        def __init__(self):
-            self.arr = ""
-            self.cursor = 0
+        def __init__(self, foods: List[str], cuisines: List[str], ratings: List[int]):
+            self.food_to_rating_cuisine = defaultdict(tuple)
+            self.cuisine_to_food_score = defaultdict(SortedList)
+            self.n = len(foods)
+            for food, cuisine, rating in zip(foods, cuisines, ratings):
+                self.food_to_rating_cuisine[food] = (rating, cuisine)
+                self.cuisine_to_food_score[cuisine].add((self.n - rating, food))
 
-        def addText(self, text: str) -> None:
-            self.arr = self.arr[: self.cursor] + text + self.arr[self.cursor :]
-            self.cursor += len(text)
+        def changeRating(self, food: str, newRating: int) -> None:
+            (old_rating, cuisine) = self.food_to_rating_cuisine[food]
+            self.food_to_rating_cuisine[food] = (newRating, cuisine)
+            self.cuisine_to_food_score[cuisine].remove((self.n - old_rating, food))
+            self.cuisine_to_food_score[cuisine].add((self.n - newRating, food))
 
-        def deleteText(self, k: int) -> int:
-            k = min(k, self.cursor)
-            self.arr = self.arr[: self.cursor - k] + self.arr[self.cursor :]
-            self.cursor -= k
-            return k
+        def highestRated(self, cuisine: str) -> str:
+            return self.cuisine_to_food_score[cuisine][0][1]
+    
+    # 31. 分割回文串 (Palindrome Partitioning)
+    def partition(self, s: str) -> List[List[str]]:
+        def dfs(i: int) -> None:
+            if i == n:
+                res.append(path.copy())
+                return
+            for j in range(i, n):
+                if is_valid[i][j]:
+                    path.append(s[i:j + 1])
+                    dfs(j + 1)
+                    path.pop()
+        n = len(s)
+        is_valid = [[False] * n for _ in range(n)]
+        for i in range(n - 1, -1, -1):
+            for j in range(i, n):
+                if j == i or j - i == 1 and s[i] == s[j] or j - i > 1 and s[i] == s[j] and is_valid[i + 1][j - 1]:
+                    is_valid[i][j] = True
+        res = []
+        path = []
+        dfs(0)
+        return res
 
-        def cursorLeft(self, k: int) -> str:
-            self.cursor = max(0, self.cursor - k)
-            return self.arr[max(0, self.cursor - 10) : self.cursor]
 
-        def cursorRight(self, k: int) -> str:
-            self.cursor = min(len(self.arr), self.cursor + k)
-            return self.arr[max(0, self.cursor - 10) : self.cursor]
+        
