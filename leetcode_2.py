@@ -8650,7 +8650,7 @@ class Union924:
 
         def highestRated(self, cuisine: str) -> str:
             return self.cuisine_to_food_score[cuisine][0][1]
-    
+
     # 31. 分割回文串 (Palindrome Partitioning)
     def partition(self, s: str) -> List[List[str]]:
         def dfs(i: int) -> None:
@@ -8673,5 +8673,18 @@ class Union924:
         dfs(0)
         return res
 
-
-        
+    # 1328. 破坏回文串 (Break a Palindrome)
+    def breakPalindrome(self, palindrome: str) -> str:
+        arr = [x for x in palindrome]
+        left = 0
+        right = len(arr) - 1
+        while left < right:
+            if arr[left] != "a":
+                arr[left] = "a"
+                return "".join(arr)
+            left += 1
+            right -= 1
+        if len(arr) == 1:
+            return ""
+        arr[-1] = "b"
+        return "".join(arr)
