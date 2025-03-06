@@ -8688,3 +8688,15 @@ class Union924:
             return ""
         arr[-1] = "b"
         return "".join(arr)
+
+    # 2588. 统计美丽子数组数目 (Count the Number of Beautiful Subarrays)
+    def beautifulSubarrays(self, nums: List[int]) -> int:
+        cnts = defaultdict(int)
+        cnts[0] = 1
+        res = 0
+        xor = 0
+        for x in nums:
+            xor ^= x
+            res += cnts[xor]
+            cnts[xor] += 1
+        return res
