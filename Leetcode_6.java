@@ -10042,18 +10042,19 @@ public class Leetcode_6 {
         return res;
     }
 
-    // 6317. 统计美丽子数组数目 (Count the Number of Beautiful Subarrays)
+    // 2588. 统计美丽子数组数目 (Count the Number of Beautiful Subarrays)
     public long beautifulSubarrays(int[] nums) {
-        long res = 0l;
-        Map<Integer, Integer> map = new HashMap<>();
-        map.put(0, 1);
-        int mask = 0;
-        for (int num : nums) {
-            mask ^= num;
-            res = res + map.getOrDefault(mask, 0);
-            map.merge(mask, 1, Integer::sum);
+        Map<Integer, Integer> cnts = new HashMap<>();
+        cnts.put(0, 1);
+        long res = 0L;
+        int xor = 0;
+        for (int x : nums) {
+            xor ^= x;
+            res += cnts.getOrDefault(xor, 0);
+            cnts.merge(xor, 1, Integer::sum);
         }
         return res;
+
     }
 
     // 1416. 恢复数组 (Restore The Array)
