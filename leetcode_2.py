@@ -2382,25 +2382,27 @@ class Union924:
 
     # 2597. 美丽子集的数目 (The Number of Beautiful Subsets)
     def beautifulSubsets(self, nums: List[int], k: int) -> int:
-        def cal(nums: list) -> int:
-            @cache
-            def dfs(i: int) -> int:
-                if i < 0:
-                    return 1
-                if i and nums[i][0] - nums[i - 1][0] == k:
-                    return dfs(i - 1) + dfs(i - 2) * ((1 << nums[i][1]) - 1)
-                return dfs(i - 1) << nums[i][1]
-
-            m = len(nums)
-            return dfs(m - 1)
-
+        @cache
+        def dfs(i: int) -> int:
+            if i < 0:
+                return 1
+            # 不选
+            res = dfs(i - 1)
+            # 选
+            if i and g[i][0] - g[i - 1][0] == k:
+                res += dfs(i - 2) * ((1 << g[i][1]) - 1)
+            else:
+                res += dfs(i - 1) * ((1 << g[i][1]) - 1)
+            return res
         d = defaultdict(Counter)
         for x in nums:
             d[x % k][x] += 1
         res = 1
-        for i in d.values():
-            g = sorted(i.items())
-            res *= cal(list(g))
+        for x in d.values():
+            g = sorted(x.items())
+            res *= dfs(len(g) - 1)
+            # 需要清缓存 否则会复用上一个dfs的结果
+            dfs.cache_clear()
         return res - 1
 
     # 2606. 找到最大开销的子字符串 (Find the Substring With Maximum Cost) --前缀和
@@ -8700,3 +8702,5 @@ class Union924:
             res += cnts[xor]
             cnts[xor] += 1
         return res
+
+
