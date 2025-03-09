@@ -8703,4 +8703,16 @@ class Union924:
             cnts[xor] += 1
         return res
 
-
+    # 2070. 每一个查询的最大美丽值 (Most Beautiful Item for Each Query)
+    def maximumBeauty(self, items: List[List[int]], queries: List[int]) -> List[int]:
+        items.sort()
+        idx = sorted(range(len(queries)), key=lambda i: queries[i])
+        res = [0] * len(queries)
+        mx = 0
+        i = 0
+        for id in idx:
+            while i < len(items) and items[i][0] <= queries[id]:
+                mx = max(mx, items[i][1])
+                i += 1
+            res[id] = mx
+        return res
