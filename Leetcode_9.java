@@ -4641,4 +4641,24 @@ public class Leetcode_9 {
                         dfs3469(i, j + 2) + Math.max(nums3469[j], nums3469[j + 1])));
     }
 
+    // 3456. 找出长度为 K 的特殊子字符串 (Find Special Substring of Length K)
+    public boolean hasSpecialSubstring(String s, int k) {
+        int[] cnt = new int[26];
+        int n = s.length();
+        for (int i = 0; i < s.length(); ++i) {
+            ++cnt[s.charAt(i) - 'a'];
+            if (i >= k) {
+                --cnt[s.charAt(i - k) - 'a'];
+            }
+            if (i >= k - 1
+                    && cnt[s.charAt(i) - 'a'] == k
+                    && (i == k - 1 || s.charAt(i - k) != s.charAt(i))
+                    && (i == n - 1 || s.charAt(i + 1) != s.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
 }
