@@ -4516,4 +4516,36 @@ public class Leetcode_9 {
         return ans;
     }
 
+    // 3471. 找出最大的几近缺失整数 (Find the Largest Almost Missing Integer)
+    public int largestInteger(int[] nums, int k) {
+        int n = nums.length;
+        if (k == n) {
+            return Arrays.stream(nums).max().getAsInt();
+        }
+        if (k == 1) {
+            Map<Integer, Integer> cnt = new HashMap<>();
+            for (int x : nums) {
+                cnt.merge(x, 1, Integer::sum); // cnt[x]++
+            }
+            int ans = -1;
+            for (var e : cnt.entrySet()) {
+                if (e.getValue() == 1) {
+                    ans = Math.max(ans, e.getKey());
+                }
+            }
+            return ans;
+        }
+        // nums[0] 不能出现在其他地方，nums[n-1] 同理
+        return Math.max(f3471(nums, 1, n, nums[0]), f3471(nums, 0, n - 1, nums[n - 1]));
+    }
+
+    private int f3471(int[] nums, int begin, int end, int x) {
+        for (int i = begin; i < end; i++) {
+            if (nums[i] == x) {
+                return -1;
+            }
+        }
+        return x;
+    }
+
 }
