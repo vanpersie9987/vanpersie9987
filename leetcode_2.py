@@ -8792,3 +8792,14 @@ class Union924:
         for i in range(len(nums)):
             nums[i] &= 1
         return sorted(nums)
+    
+    # 3468. 可行数组的数目 (Find the Number of Copy Arrays)
+    def countArrays(self, original: List[int], bounds: List[List[int]]) -> int:
+        _min = -inf
+        _max = inf
+        for o, (l, r) in zip(original, bounds):
+            if o + _max < l or o + _min > r:
+                return 0
+            _max = min(_max, r - o)
+            _min = max(_min, l - o)
+        return _max - _min + 1
