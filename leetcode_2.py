@@ -289,15 +289,12 @@ class Union924:
     # 2269. 找到一个数字的 K 美丽值 (Find the K-Beauty of a Number)
     def divisorSubstrings(self, num: int, k: int) -> int:
         s = str(num)
-        cur = ""
+        n = len(s)
         res = 0
-        for i, v in enumerate(s):
-            cur += v
-            if i >= k:
-                cur = cur[1:]
-            if i >= k - 1:
-                if int(cur) and int(num) % int(cur) == 0:
-                    res += 1
+        for i in range(k - 1, n):
+            x = int(s[i - k + 1: i + 1])
+            if x and num % x == 0:
+                res += 1 
         return res
 
     # 2762. 不间断子数组 (Continuous Subarrays)
