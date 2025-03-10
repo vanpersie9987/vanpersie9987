@@ -8838,3 +8838,17 @@ class Union924:
             dfs(0, 3) + max(nums[1], nums[2]),
             dfs(1, 3) + max(nums[0], nums[2]),
         )
+    
+    # 3456. 找出长度为 K 的特殊子字符串 (Find Special Substring of Length K)
+    def hasSpecialSubstring(self, s: str, k: int) -> bool:
+        cnt = [0] * 26
+        n = len(s)
+        for i, c in enumerate(s):
+            d = ord(c) - ord('a')
+            cnt[d] += 1
+            if i >= k:
+                cnt[ord(s[i - k]) - ord('a')] -= 1
+            if i >= k - 1 and cnt[d] == k and (i == k - 1 or s[i - k] != s[i]) and (i == n - 1 or s[i] != s[i + 1]):
+                return True
+        return False
+    
