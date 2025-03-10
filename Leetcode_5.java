@@ -6563,23 +6563,23 @@ public class Leetcode_5 {
     // 2012. 数组美丽值求和 (Sum of Beauty in the Array)
     public int sumOfBeauties(int[] nums) {
         int n = nums.length;
-        int[] left = new int[n];
-        for (int i = 1; i < n; ++i) {
-            left[i] = Math.max(left[i - 1], nums[i - 1]);
+        boolean[] right = new boolean[n];
+        int mx = nums[n - 1];
+        for (int i = n - 2; i >= 1; --i) {
+            if (nums[i] < mx) {
+                right[i] = true;
+                mx = nums[i];
+            }
         }
-        int[] right = new int[n];
-        right[n - 1] = Integer.MAX_VALUE;
-        for (int i = n - 2; i >= 0; --i) {
-            right[i] = Math.min(right[i + 1], nums[i + 1]);
-        }
-
+        mx = nums[0];
         int res = 0;
         for (int i = 1; i < n - 1; ++i) {
-            if (left[i] < nums[i] && nums[i] < right[i]) {
+            if (mx < nums[i] && right[i]) {
                 res += 2;
             } else if (nums[i - 1] < nums[i] && nums[i] < nums[i + 1]) {
                 res += 1;
             }
+            mx = Math.max(mx, nums[i]);
         }
         return res;
 
