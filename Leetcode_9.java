@@ -4548,4 +4548,43 @@ public class Leetcode_9 {
         return x;
     }
 
+    // 3472. 至多 K 次操作后的最长回文子序列 (Longest Palindromic Subsequence After at Most K
+    // Operations)
+    private int n3472;
+    private char[] arr3472;
+    private int[][][] memo3472;
+
+    public int longestPalindromicSubsequence(String s, int k) {
+        this.n3472 = s.length();
+        this.arr3472 = s.toCharArray();
+        this.memo3472 = new int[n3472][n3472][k + 1];
+        for (int i = 0; i < n3472; i++) {
+            for (int j = 0; j < n3472; j++) {
+                Arrays.fill(memo3472[i][j], -1);
+            }
+        }
+        return dfs(0, n3472 - 1, k);
+
+    }
+
+    private int dfs(int i, int j, int k) {
+        if (i >= j) {
+            return i == j ? 1 : 0;
+        }
+        if (memo3472[i][j][k] != -1) {
+            return memo3472[i][j][k];
+        }
+        int res = Math.max(dfs(i + 1, j, k), dfs(i, j - 1, k));
+        if (arr3472[i] == arr3472[j]) {
+            res = Math.max(res, dfs(i + 1, j - 1, k) + 2);
+        }
+        int a = arr3472[i] - 'a';
+        int b = arr3472[j] - 'a';
+        int c = Math.min(Math.abs(a - b), 26 - Math.abs(a - b));
+        if (c <= k) {
+            res = Math.max(res, dfs(i + 1, j - 1, k - c) + 2);
+        }
+        return memo3472[i][j][k] = res;
+    }
+
 }
