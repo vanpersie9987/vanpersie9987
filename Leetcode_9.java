@@ -4609,37 +4609,36 @@ public class Leetcode_9 {
     }
 
     // 3469. 移除所有数组元素的最小代价 (Find Minimum Cost to Remove Array Elements)
-    private int n;
-    private int[][] memo;
-    private int[] nums;
+    private int n3469;
+    private int[][] memo3469;
+    private int[] nums3469;
 
     public int minCost(int[] nums) {
-        this.nums = nums;
-        this.n = nums.length;
-        if (n < 3) {
+        this.nums3469 = nums;
+        this.n3469 = nums.length;
+        if (n3469 < 3) {
             return Arrays.stream(nums).max().getAsInt();
         }
-        this.memo = new int[n][n];
-        return Math.min(dfs(0, 3) + Math.max(nums[1], nums[2]),
-                Math.min(dfs(2, 3) + Math.max(nums[0], nums[1]), dfs(1, 3) + Math.max(nums[0], nums[2])));
+        this.memo3469 = new int[n3469][n3469];
+        return Math.min(dfs3469(0, 3) + Math.max(nums[1], nums[2]),
+                Math.min(dfs3469(2, 3) + Math.max(nums[0], nums[1]), dfs3469(1, 3) + Math.max(nums[0], nums[2])));
 
     }
-    
-    // 3469. 移除所有数组元素的最小代价 (Find Minimum Cost to Remove Array Elements)
-    private int dfs(int i, int j) {
-        if (j >= n - 1) {
-            int res = nums[i];
-            if (j < n) {
-                res = Math.max(res, nums[j]);
+
+    private int dfs3469(int i, int j) {
+        if (j >= n3469 - 1) {
+            int res = nums3469[i];
+            if (j < n3469) {
+                res = Math.max(res, nums3469[j]);
             }
             return res;
         }
-        if (memo[i][j] != 0) {
-            return memo[i][j];
+        if (memo3469[i][j] != 0) {
+            return memo3469[i][j];
         }
-        return memo[i][j] = Math.min(dfs(j + 1, j + 2) + Math.max(nums[i], nums[j]),
-                Math.min(dfs(j, j + 2) + Math.max(nums[i], nums[j + 1]),
-                        dfs(i, j + 2) + Math.max(nums[j], nums[j + 1])));
+        return memo3469[i][j] = Math.min(dfs3469(j + 1, j + 2) + Math.max(nums3469[i], nums3469[j]),
+                Math.min(dfs3469(j, j + 2) + Math.max(nums3469[i], nums3469[j + 1]),
+                        dfs3469(i, j + 2) + Math.max(nums3469[j], nums3469[j + 1])));
     }
 
 }
