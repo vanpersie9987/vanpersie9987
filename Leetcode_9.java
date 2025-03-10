@@ -4558,23 +4558,23 @@ public class Leetcode_9 {
         this.n3472 = s.length();
         this.arr3472 = s.toCharArray();
         this.memo3472 = new int[n3472][n3472][k + 1];
-        return dfs(0, n3472 - 1, k);
+        return dfs3472(0, n3472 - 1, k);
 
     }
 
-    private int dfs(int i, int j, int k) {
+    private int dfs3472(int i, int j, int k) {
         if (i >= j) {
             return i == j ? 1 : 0;
         }
         if (memo3472[i][j][k] != -1) {
             return memo3472[i][j][k];
         }
-        int res = Math.max(dfs(i + 1, j, k), dfs(i, j - 1, k));
+        int res = Math.max(dfs3472(i + 1, j, k), dfs3472(i, j - 1, k));
         int a = arr3472[i] - 'a';
         int b = arr3472[j] - 'a';
         int c = Math.min(Math.abs(a - b), 26 - Math.abs(a - b));
         if (c <= k) {
-            res = Math.max(res, dfs(i + 1, j - 1, k - c) + 2);
+            res = Math.max(res, dfs3472(i + 1, j - 1, k - c) + 2);
         }
         return memo3472[i][j][k] = res;
     }
@@ -4606,6 +4606,40 @@ public class Leetcode_9 {
         }
         return max - min + 1;
 
+    }
+
+    // 3469. 移除所有数组元素的最小代价 (Find Minimum Cost to Remove Array Elements)
+    private int n;
+    private int[][] memo;
+    private int[] nums;
+
+    public int minCost(int[] nums) {
+        this.nums = nums;
+        this.n = nums.length;
+        if (n < 3) {
+            return Arrays.stream(nums).max().getAsInt();
+        }
+        this.memo = new int[n][n];
+        return Math.min(dfs(0, 3) + Math.max(nums[1], nums[2]),
+                Math.min(dfs(2, 3) + Math.max(nums[0], nums[1]), dfs(1, 3) + Math.max(nums[0], nums[2])));
+
+    }
+    
+    // 3469. 移除所有数组元素的最小代价 (Find Minimum Cost to Remove Array Elements)
+    private int dfs(int i, int j) {
+        if (j >= n - 1) {
+            int res = nums[i];
+            if (j < n) {
+                res = Math.max(res, nums[j]);
+            }
+            return res;
+        }
+        if (memo[i][j] != 0) {
+            return memo[i][j];
+        }
+        return memo[i][j] = Math.min(dfs(j + 1, j + 2) + Math.max(nums[i], nums[j]),
+                Math.min(dfs(j, j + 2) + Math.max(nums[i], nums[j + 1]),
+                        dfs(i, j + 2) + Math.max(nums[j], nums[j + 1])));
     }
 
 }
