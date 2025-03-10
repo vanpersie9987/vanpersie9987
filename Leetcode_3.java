@@ -10026,19 +10026,15 @@ public class Leetcode_3 {
 
     }
 
-    // 5299. 找到一个数字的 K 美丽值
+    // 2269. 找到一个数字的 K 美丽值 (Find the K-Beauty of a Number)
     public int divisorSubstrings(int num, int k) {
-        String NUM = String.valueOf(num);
+        String s = String.valueOf(num);
         int res = 0;
-        int index = k;
-        while (index <= NUM.length()) {
-            String cur = NUM.substring(index - k, index);
-            int n = Integer.parseInt(cur);
-            if (n != 0 && num % n == 0) {
+        for (int i = k - 1; i < s.length(); ++i) {
+            int cur = Integer.parseInt(s.substring(i - k + 1, i + 1));
+            if (cur != 0 && num % cur == 0) {
                 ++res;
-
             }
-            ++index;
         }
         return res;
 
