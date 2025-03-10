@@ -4558,11 +4558,6 @@ public class Leetcode_9 {
         this.n3472 = s.length();
         this.arr3472 = s.toCharArray();
         this.memo3472 = new int[n3472][n3472][k + 1];
-        for (int i = 0; i < n3472; i++) {
-            for (int j = 0; j < n3472; j++) {
-                Arrays.fill(memo3472[i][j], -1);
-            }
-        }
         return dfs(0, n3472 - 1, k);
 
     }
