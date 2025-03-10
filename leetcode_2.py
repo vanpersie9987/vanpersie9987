@@ -293,9 +293,9 @@ class Union924:
         n = len(s)
         res = 0
         for i in range(k - 1, n):
-            x = int(s[i - k + 1: i + 1])
+            x = int(s[i - k + 1 : i + 1])
             if x and num % x == 0:
-                res += 1 
+                res += 1
         return res
 
     # 2762. 不间断子数组 (Continuous Subarrays)
@@ -2392,6 +2392,7 @@ class Union924:
             else:
                 res += dfs(i - 1) * ((1 << g[i][1]) - 1)
             return res
+
         d = defaultdict(Counter)
         for x in nums:
             d[x % k][x] += 1
@@ -8659,14 +8660,22 @@ class Union924:
                 return
             for j in range(i, n):
                 if is_valid[i][j]:
-                    path.append(s[i:j + 1])
+                    path.append(s[i : j + 1])
                     dfs(j + 1)
                     path.pop()
+
         n = len(s)
         is_valid = [[False] * n for _ in range(n)]
         for i in range(n - 1, -1, -1):
             for j in range(i, n):
-                if j == i or j - i == 1 and s[i] == s[j] or j - i > 1 and s[i] == s[j] and is_valid[i + 1][j - 1]:
+                if (
+                    j == i
+                    or j - i == 1
+                    and s[i] == s[j]
+                    or j - i > 1
+                    and s[i] == s[j]
+                    and is_valid[i + 1][j - 1]
+                ):
                     is_valid[i][j] = True
         res = []
         path = []
@@ -8755,6 +8764,7 @@ class Union924:
     # 3471. 找出最大的几近缺失整数 (Find the Largest Almost Missing Integer)
     def f(self, nums: List[int], x: int) -> int:
         return -1 if x in nums else x
+
     def largestInteger(self, nums: List[int], k: int) -> int:
         if k == len(nums):
             return max(nums)
@@ -8776,12 +8786,13 @@ class Union924:
             if i > j:
                 return 0
             res = max(dfs(i + 1, j, k), dfs(i, j - 1, k))
-            a = ord(s[i]) - ord('a')
-            b = ord(s[j]) - ord('a')
+            a = ord(s[i]) - ord("a")
+            b = ord(s[j]) - ord("a")
             c = min(abs(a - b), 26 - abs(a - b))
             if c <= k:
                 res = max(res, dfs(i + 1, j - 1, k - c) + 2)
             return res
+
         n = len(s)
         res = dfs(0, n - 1, k)
         dfs.cache_clear()
@@ -8792,7 +8803,7 @@ class Union924:
         for i in range(len(nums)):
             nums[i] &= 1
         return sorted(nums)
-    
+
     # 3468. 可行数组的数目 (Find the Number of Copy Arrays)
     def countArrays(self, original: List[int], bounds: List[List[int]]) -> int:
         _min = -inf
@@ -8803,3 +8814,27 @@ class Union924:
             _max = min(_max, r - o)
             _min = max(_min, l - o)
         return _max - _min + 1
+
+    # 3469. 移除所有数组元素的最小代价 (Find Minimum Cost to Remove Array Elements)
+    def minCost(self, nums: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if j >= n - 1:
+                res = nums[i]
+                if j < n:
+                    res = max(res, nums[j])
+                return res
+            return min(
+                dfs(j + 1, j + 2) + max(nums[i], nums[j]),
+                dfs(j, j + 2) + max(nums[i], nums[j + 1]),
+                dfs(i, j + 2) + max(nums[j], nums[j + 1]),
+            )
+
+        n = len(nums)
+        if n < 3:
+            return max(nums)
+        return min(
+            dfs(2, 3) + max(nums[0], nums[1]),
+            dfs(0, 3) + max(nums[1], nums[2]),
+            dfs(1, 3) + max(nums[0], nums[2]),
+        )
