@@ -8838,7 +8838,7 @@ class Union924:
             dfs(0, 3) + max(nums[1], nums[2]),
             dfs(1, 3) + max(nums[0], nums[2]),
         )
-    
+
     # 3456. 找出长度为 K 的特殊子字符串 (Find Special Substring of Length K)
     def hasSpecialSubstring(self, s: str, k: int) -> bool:
         cnt = [0] * 26
@@ -8851,7 +8851,7 @@ class Union924:
             if i >= k - 1 and cnt[d] == k and (i == k - 1 or s[i - k] != s[i]) and (i == n - 1 or s[i] != s[i + 1]):
                 return True
         return False
-    
+
     # 3457. 吃披萨 (Eat Pizzas!)
     def maxWeight(self, pizzas: List[int]) -> int:
         n = len(pizzas)
@@ -8864,4 +8864,22 @@ class Union924:
         for i in range(d // 2):
             res += pizzas[n - 2 - odd - i * 2]
         return res
-    
+
+    # 2012. 数组美丽值求和 (Sum of Beauty in the Array)
+    def sumOfBeauties(self, nums: List[int]) -> int:
+        n = len(nums)
+        valid_right = [False] * n
+        mx = nums[-1]
+        for i in range(n - 1, -1, -1):
+            if nums[i] < mx:
+                valid_right[i] = True
+            mx = min(mx, nums[i])
+        res = 0
+        mx = nums[0]
+        for i in range(1, n - 1):
+            if nums[i] > mx and valid_right[i]:
+                res += 2
+            elif nums[i - 1] < nums[i] < nums[i + 1]:
+                res += 1
+            mx = max(mx, nums[i])
+        return res
