@@ -1,5 +1,6 @@
 from ast import Return, Tuple
 from asyncio import FastChildWatcher
+import math
 from xxlimited import foo
 from audioop import minmax, reverse
 from calendar import c
@@ -8750,7 +8751,7 @@ class Union924:
                 if len(h) > k:
                     s -= heapq.heappop(h)
         return ans
-    
+
     # 3471. 找出最大的几近缺失整数 (Find the Largest Almost Missing Integer)
     def f(self, nums: List[int], x: int) -> int:
         return -1 if x in nums else x
@@ -8765,3 +8766,23 @@ class Union924:
             return ans
         # nums[0] 不能出现在其他地方，nums[-1] 同理
         return max(self.f(nums[1:], nums[0]), self.f(nums[:-1], nums[-1]))
+
+    # 3472. 至多 K 次操作后的最长回文子序列 (Longest Palindromic Subsequence After at Most K Operations)
+    def longestPalindromicSubsequence(self, s: str, k: int) -> int:
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if i == j:
+                return 1
+            if i > j:
+                return 0
+            if s[i] == s[j]:
+                return dfs(i + 1, j - 1, k) + 2
+            res = max(dfs(i + 1, j, k), dfs(i, j - 1, k))
+            a = ord(s[i]) - ord('a')
+            b = ord(s[j]) - ord('a')
+            c = min(abs(a - b), 26 - abs(a - b))
+            if c <= k:
+                res = max(res, dfs(i + 1, j - 1, k - c) + 2)
+            return res
+        n = len(s)
+        return dfs(0, n - 1, k)
