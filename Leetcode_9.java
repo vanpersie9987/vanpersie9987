@@ -4590,4 +4590,22 @@ public class Leetcode_9 {
 
     }
 
+    // 3468. 可行数组的数目 (Find the Number of Copy Arrays)
+    public int countArrays(int[] original, int[][] bounds) {
+        int min = (int) -1e9;
+        int max = (int) 1e9;
+        for (int i = 0; i < original.length; ++i) {
+            int l = bounds[i][0];
+            int r = bounds[i][1];
+            int x = original[i];
+            if (x + max < l || x + min > r) {
+                return 0;
+            }
+            min = Math.max(min, l - x);
+            max = Math.min(max, r - x);
+        }
+        return max - min + 1;
+
+    }
+
 }
