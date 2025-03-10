@@ -4465,4 +4465,21 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3477. 将水果放入篮子 II (Fruits Into Baskets II)
+    public int numOfUnplacedFruits(int[] fruits, int[] baskets) {
+        int n = fruits.length;
+        int res = n;
+        for (int x : fruits) {
+            for (int i = 0; i < n; ++i) {
+                if (x <= baskets[i]) {
+                    baskets[i] = 0;
+                    --res;
+                    break;
+                }
+            }
+        }
+        return res;
+
+    }
+
 }

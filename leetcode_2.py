@@ -8713,3 +8713,15 @@ class Union924:
                 i += 1
             res[id] = mx
         return res
+
+    # 3477. 将水果放入篮子 II (Fruits Into Baskets II)
+    def numOfUnplacedFruits(self, fruits: List[int], baskets: List[int]) -> int:
+        n = len(fruits)
+        res = n
+        for x in fruits:
+            for j in range(n):
+                if x <= baskets[j]:
+                    baskets[j] = 0
+                    res -= 1
+                    break
+        return res
