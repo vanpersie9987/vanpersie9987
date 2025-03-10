@@ -4661,4 +4661,21 @@ public class Leetcode_9 {
 
     }
 
+    // 3457. 吃披萨 (Eat Pizzas!)
+    public long maxWeight(int[] pizzas) {
+        Arrays.sort(pizzas);
+        long res = 0L;
+        int n = pizzas.length;
+        int d = n / 4;
+        int odd = (d + 1) / 2;
+        for (int i = 0; i < odd; ++i) {
+            res += pizzas[n - i - 1];
+        }
+        for (int i = 0; i < d / 2; ++i) {
+            res += pizzas[n - 2 - odd - i * 2];
+        }
+        return res;
+
+    }
+
 }

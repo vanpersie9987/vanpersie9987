@@ -8852,3 +8852,16 @@ class Union924:
                 return True
         return False
     
+    # 3457. 吃披萨 (Eat Pizzas!)
+    def maxWeight(self, pizzas: List[int]) -> int:
+        n = len(pizzas)
+        pizzas.sort()
+        res = 0
+        d = n // 4
+        odd = (d + 1) // 2
+        for i in range(odd):
+            res += pizzas[n - 1 - i]
+        for i in range(d // 2):
+            res += pizzas[n - 2 - odd - i * 2]
+        return res
+    
