@@ -8746,7 +8746,7 @@ class Union924:
             for j in range(start, i):
                 y = a[j][1]
                 s += y
-                heappush(h, y)
+                heapq.heappush(h, y)
                 if len(h) > k:
-                    s -= heappop(h)
+                    s -= heapq.heappop(h)
         return ans
