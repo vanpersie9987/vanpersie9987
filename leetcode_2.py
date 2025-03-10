@@ -8775,8 +8775,6 @@ class Union924:
                 return 1
             if i > j:
                 return 0
-            if s[i] == s[j]:
-                return dfs(i + 1, j - 1, k) + 2
             res = max(dfs(i + 1, j, k), dfs(i, j - 1, k))
             a = ord(s[i]) - ord('a')
             b = ord(s[j]) - ord('a')
@@ -8785,4 +8783,6 @@ class Union924:
                 res = max(res, dfs(i + 1, j - 1, k - c) + 2)
             return res
         n = len(s)
-        return dfs(0, n - 1, k)
+        res = dfs(0, n - 1, k)
+        dfs.cache_clear()
+        return res

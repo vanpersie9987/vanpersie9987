@@ -4575,9 +4575,6 @@ public class Leetcode_9 {
             return memo3472[i][j][k];
         }
         int res = Math.max(dfs(i + 1, j, k), dfs(i, j - 1, k));
-        if (arr3472[i] == arr3472[j]) {
-            res = Math.max(res, dfs(i + 1, j - 1, k) + 2);
-        }
         int a = arr3472[i] - 'a';
         int b = arr3472[j] - 'a';
         int c = Math.min(Math.abs(a - b), 26 - Math.abs(a - b));
