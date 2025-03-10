@@ -4579,4 +4579,15 @@ public class Leetcode_9 {
         return memo3472[i][j][k] = res;
     }
 
+    // 3467. 将数组按照奇偶性转化 (Transform Array by Parity)
+    public int[] transformArray(int[] nums) {
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            nums[i] &= 1;
+        }
+        Arrays.sort(nums);
+        return nums;
+
+    }
+
 }

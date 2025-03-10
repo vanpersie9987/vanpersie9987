@@ -8786,3 +8786,9 @@ class Union924:
         res = dfs(0, n - 1, k)
         dfs.cache_clear()
         return res
+
+    # 3467. 将数组按照奇偶性转化 (Transform Array by Parity)
+    def transformArray(self, nums: List[int]) -> List[int]:
+        for i in range(len(nums)):
+            nums[i] &= 1
+        return sorted(nums)
