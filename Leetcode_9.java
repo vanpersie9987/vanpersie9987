@@ -4678,4 +4678,19 @@ public class Leetcode_9 {
 
     }
 
+    // 3432. 统计元素和差值为偶数的分区方案 (Count Partitions with Even Sum Difference)
+    public int countPartitions(int[] nums) {
+        int res = 0;
+        int s = Arrays.stream(nums).sum();
+        int pre = 0;
+        for (int i = 0; i < nums.length - 1; ++i) {
+            pre += nums[i];
+            if ((pre - (s - pre)) % 2 == 0) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
 }

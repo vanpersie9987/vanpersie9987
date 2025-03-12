@@ -8883,3 +8883,16 @@ class Union924:
                 res += 1
             mx = max(mx, nums[i])
         return res
+    
+    # 3432. 统计元素和差值为偶数的分区方案 (Count Partitions with Even Sum Difference)
+    def countPartitions(self, nums: List[int]) -> int:
+        n = len(nums)
+        s = sum(nums)
+        res = 0
+        pre = 0
+        for i in range(0, n - 1):
+            pre += nums[i]
+            if (pre - (s - pre)) % 2 == 0:
+                res += 1
+        return res
+
