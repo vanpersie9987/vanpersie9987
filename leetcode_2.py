@@ -8895,4 +8895,26 @@ class Union924:
             if (pre - (s - pre)) % 2 == 0:
                 res += 1
         return res
+    
+    # 3483. 不同三位偶数的数目 (Unique 3-Digit Even Numbers)
+    def totalNumbers(self, digits: List[int]) -> int:
+        def dfs() -> None:
+            nonlocal cur, vis
+            if vis.bit_count() == 3:
+                if 100 <= cur <= 999 and cur % 2 == 0:
+                    s.add(cur)
+                return
+            for i in range(n):
+                if (vis >> i) & 1 == 0:
+                    cur = cur * 10 + digits[i]
+                    vis ^= 1 << i
+                    dfs()
+                    vis ^= 1 << i
+                    cur //= 10
+        n = len(digits)
+        vis = 0
+        s = set()
+        cur = 0
+        dfs()
+        return len(s)
 

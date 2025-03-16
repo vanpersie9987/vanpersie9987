@@ -4693,4 +4693,38 @@ public class Leetcode_9 {
 
     }
 
+    // 3483. 不同三位偶数的数目 (Unique 3-Digit Even Numbers)
+    private int n3483;
+    private int[] digits3483;
+    private int vis3483;
+    private int cur3483;
+    private Set<Integer> set3483;
+
+    public int totalNumbers(int[] digits) {
+        this.digits3483 = digits;
+        this.n3483 = digits.length;
+        this.set3483 = new HashSet<>();
+        dfs3483();
+        return set3483.size();
+
+    }
+
+    private void dfs3483() {
+        if (Integer.bitCount(vis3483) == 3) {
+            if (cur3483 >= 100 && cur3483 <= 999 && cur3483 % 2 == 0) {
+                set3483.add(cur3483);
+            }
+            return;
+        }
+        for (int i = 0; i < n3483; ++i) {
+            if (((vis3483 >> i) & 1) == 0) {
+                vis3483 ^= 1 << i;
+                cur3483 = cur3483 * 10 + digits3483[i];
+                dfs3483();
+                cur3483 /= 10;
+                vis3483 ^= 1 << i;
+            }
+        }
+    }
+
 }
