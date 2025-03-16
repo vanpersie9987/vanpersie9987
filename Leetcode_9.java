@@ -4727,4 +4727,51 @@ public class Leetcode_9 {
         }
     }
 
+    // 3484. 设计电子表格 (Design Spreadsheet)
+    class Spreadsheet {
+        private int[][] sheets;
+
+        public Spreadsheet(int rows) {
+            this.sheets = new int[rows + 1][26];
+        }
+
+        public void setCell(String cell, int value) {
+            int[] rc = check(cell);
+            sheets[rc[0]][rc[1]] = value;
+        }
+
+        public void resetCell(String cell) {
+            int[] rc = check(cell);
+            sheets[rc[0]][rc[1]] = 0;
+        }
+
+        public int getValue(String formula) {
+            int plusPos = formula.indexOf("+");
+            String x = formula.substring(1, plusPos);
+            int a = 0;
+            if (Character.isDigit(x.charAt(0))) {
+                a = Integer.parseInt(x);
+            } else {
+                int[] rc = check(x);
+                a = sheets[rc[0]][rc[1]];
+            }
+
+            String y = formula.substring(plusPos + 1);
+            int b = 0;
+            if (Character.isDigit(y.charAt(0))) {
+                b = Integer.parseInt(y);
+            } else {
+                int[] rc = check(y);
+                b = sheets[rc[0]][rc[1]];
+            }
+            return a + b;
+        }
+
+        private int[] check(String cell) {
+            int r = Integer.parseInt(cell.substring(1));
+            int c = cell.charAt(0) - 'A';
+            return new int[] { r, c };
+        }
+    }
+
 }
