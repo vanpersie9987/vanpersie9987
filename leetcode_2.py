@@ -8917,4 +8917,45 @@ class Union924:
         cur = 0
         dfs()
         return len(s)
+    
+    # 3484. 设计电子表格 (Design Spreadsheet)
+    class Spreadsheet:
+
+        def __init__(self, rows: int):
+            self.sheets = [[0] * 26 for _ in range(rows + 1)]
+
+        def setCell(self, cell: str, value: int) -> None:
+            (r, c) = self.check(cell)
+            self.sheets[r][c] = value
+
+        def resetCell(self, cell: str) -> None:
+            (r, c) = self.check(cell)
+            self.sheets[r][c] = 0
+
+        def getValue(self, formula: str) -> int:
+            plus_pos = formula.find('+')
+            x = formula[1: plus_pos]
+            a = 0
+            if 9 >= ord(x[0]) - ord('0') >= 0:
+                a = int(x)
+            else:
+                (r, c) = self.check(x)
+                a = self.sheets[r][c]
+
+            y = formula[plus_pos + 1:]
+            b = 0
+            if 9 >= ord(y[0]) - ord('0') >= 0:
+                b = int(y)
+            else:
+                (r, c) = self.check(y)
+                b = self.sheets[r][c]
+            return a + b
+
+        def check(self, cell: str) -> tuple:
+            c = ord(cell[0]) - ord('A')
+            r = int(cell[1:])
+            return (r, c)
+
+        
+
 
