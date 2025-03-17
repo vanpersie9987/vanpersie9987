@@ -8883,7 +8883,7 @@ class Union924:
                 res += 1
             mx = max(mx, nums[i])
         return res
-    
+
     # 3432. 统计元素和差值为偶数的分区方案 (Count Partitions with Even Sum Difference)
     def countPartitions(self, nums: List[int]) -> int:
         n = len(nums)
@@ -8895,7 +8895,7 @@ class Union924:
             if (pre - (s - pre)) % 2 == 0:
                 res += 1
         return res
-    
+
     # 3483. 不同三位偶数的数目 (Unique 3-Digit Even Numbers)
     def totalNumbers(self, digits: List[int]) -> int:
         def dfs() -> None:
@@ -8917,7 +8917,7 @@ class Union924:
         cur = 0
         dfs()
         return len(s)
-    
+
     # 3484. 设计电子表格 (Design Spreadsheet)
     class Spreadsheet:
 
@@ -8955,7 +8955,22 @@ class Union924:
             c = ord(cell[0]) - ord('A')
             r = int(cell[1:])
             return (r, c)
-
         
-
-
+    # 1963. 使字符串平衡的最小交换次数 (Minimum Number of Swaps to Make the String Balanced)
+    def minSwaps(self, s: str) -> int:
+        s = list(s)
+        ans = c = 0
+        j = len(s) - 1
+        for b in s:
+            if b == "[":
+                c += 1
+            elif c > 0:
+                c -= 1
+            else:  # c == 0
+                # 找最右边的左括号交换
+                while s[j] == "]":
+                    j -= 1
+                s[j] = "]"  # s[i] = '[' 可以省略
+                ans += 1
+                c += 1  # s[i] 变成左括号，c 加一
+        return ans
