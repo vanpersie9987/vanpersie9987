@@ -8993,3 +8993,21 @@ class Union924:
             if check(nums[i][n - i - 1]):
                 res = max(res, nums[i][n - i - 1])
         return res
+
+    # 2610. 转换二维数组 (Convert an Array Into a 2D Array With Conditions)
+    def findMatrix(self, nums: List[int]) -> List[List[int]]:
+        d = defaultdict(int)
+        for x in nums:
+            d[x] += 1
+        res = []
+        cnt = len(nums)
+        while cnt:
+            cur = []
+            for k in d.keys():
+                if d[k] == 0:
+                    continue
+                cur.append(k)
+                d[k] -= 1
+                cnt -= 1
+            res.append(cur)
+        return res
