@@ -8955,7 +8955,7 @@ class Union924:
             c = ord(cell[0]) - ord('A')
             r = int(cell[1:])
             return (r, c)
-        
+
     # 1963. 使字符串平衡的最小交换次数 (Minimum Number of Swaps to Make the String Balanced)
     def minSwaps(self, s: str) -> int:
         s = list(s)
@@ -8974,3 +8974,22 @@ class Union924:
                 ans += 1
                 c += 1  # s[i] 变成左括号，c 加一
         return ans
+
+    # 2614. 对角线上的质数 (Prime In Diagonal)
+    def diagonalPrime(self, nums: List[List[int]]) -> int:
+        def check(x: int) -> bool:
+            i = 2
+            while i * i <= x:
+                if x % i == 0:
+                    return False
+                i += 1
+            return x != 1
+
+        n = len(nums)
+        res = 0
+        for i in range(n):
+            if check(nums[i][i]):
+                res = max(res, nums[i][i])
+            if check(nums[i][n - i - 1]):
+                res = max(res, nums[i][n - i - 1])
+        return res
