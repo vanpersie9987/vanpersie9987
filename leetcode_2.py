@@ -8999,15 +8999,12 @@ class Union924:
         d = defaultdict(int)
         for x in nums:
             d[x] += 1
-        res = []
-        cnt = len(nums)
-        while cnt:
-            cur = []
-            for k in d.keys():
-                if d[k] == 0:
-                    continue
-                cur.append(k)
-                d[k] -= 1
-                cnt -= 1
-            res.append(cur)
+        n = max(d.values())
+        res = [[] for _ in range(n)]
+        for k in d.keys():
+            v = d[k]
+            while v:
+                res[v - 1].append(k)
+                v -= 1
         return res
+
