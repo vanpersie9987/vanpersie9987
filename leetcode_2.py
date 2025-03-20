@@ -8994,6 +8994,21 @@ class Union924:
                 res = max(res, nums[i][n - i - 1])
         return res
 
+    # 2610. 转换二维数组 (Convert an Array Into a 2D Array With Conditions)
+    def findMatrix(self, nums: List[int]) -> List[List[int]]:
+        d = defaultdict(int)
+        for x in nums:
+            d[x] += 1
+        n = max(d.values())
+        res = [[] for _ in range(n)]
+        for k in d.keys():
+            v = d[k]
+            while v:
+                res[v - 1].append(k)
+                v -= 1
+        return res
+
+
     # 3487. 删除后的最大子数组元素和 (Maximum Unique Subarray Sum After Deletion)
     def maxSum(self, nums: List[int]) -> int:
         s1 = set()
