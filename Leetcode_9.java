@@ -4792,4 +4792,43 @@ public class Leetcode_9 {
 
     }
 
+    // 3488. 距离最小相等元素查询 (Closest Equal Element Queries)
+    public List<Integer> solveQueries(int[] nums, int[] queries) {
+        List<Integer> res = new ArrayList<>();
+        Map<Integer, List<Integer>> pos = new HashMap<>();
+        for (int i = 0; i < nums.length; ++i) {
+            pos.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i);
+        }
+        for (int q : queries) {
+            List<Integer> list = pos.getOrDefault(nums[q], new ArrayList<>());
+            if (list.size() <= 1) {
+                res.add(-1);
+                continue;
+            }
+            int p = binarySearch3488(list, q);
+            int a = Math.abs(list.get((p - 1 + list.size()) % list.size()) - list.get(p));
+            a = Math.min(a, Math.abs(nums.length - a));
+            int b = Math.abs(list.get((p + 1) % list.size()) - list.get(p));
+            b = Math.min(b, Math.abs(nums.length - b));
+            res.add(Math.min(a, b));
+        }
+        return res;
+    }
+
+    private int binarySearch3488(List<Integer> list, int x) {
+        int left = 0;
+        int right = list.size() - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (list.get(mid) == x) {
+                return mid;
+            } else if (list.get(mid) < x) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return -1;
+    }
+
 }
