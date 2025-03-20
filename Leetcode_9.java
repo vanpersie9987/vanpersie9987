@@ -4774,4 +4774,22 @@ public class Leetcode_9 {
         }
     }
 
+    // 3487. 删除后的最大子数组元素和 (Maximum Unique Subarray Sum After Deletion)
+    public int maxSum(int[] nums) {
+        Set<Integer> s1 = new HashSet<>();
+        Set<Integer> s2 = new HashSet<>();
+        for (int x : nums) {
+            if (x >= 0) {
+                s1.add(x);
+            } else {
+                s2.add(x);
+            }
+        }
+        if (!s1.isEmpty()) {
+            return s1.stream().mapToInt(Integer::intValue).sum();
+        }
+        return s2.stream().mapToInt(Integer::intValue).max().getAsInt();
+
+    }
+
 }

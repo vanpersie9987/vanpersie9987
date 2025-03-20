@@ -8993,3 +8993,16 @@ class Union924:
             if check(nums[i][n - i - 1]):
                 res = max(res, nums[i][n - i - 1])
         return res
+
+    # 3487. 删除后的最大子数组元素和 (Maximum Unique Subarray Sum After Deletion)
+    def maxSum(self, nums: List[int]) -> int:
+        s1 = set()
+        s2 = set()
+        for x in nums:
+            if x < 0:
+                s2.add(x)
+            else:
+                s1.add(x)
+        if len(s1):
+            return sum(s1)
+        return max(s2)
