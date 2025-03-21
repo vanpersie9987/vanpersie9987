@@ -9044,7 +9044,7 @@ class Union924:
                 i = r
                 mx = s
         return [i, mx]
-    
+
     # 3488. 距离最小相等元素查询 (Closest Equal Element Queries)
     def solveQueries(self, nums: List[int], queries: List[int]) -> List[int]:
         def check(_list: List[int], q: int) -> int:
@@ -9078,4 +9078,25 @@ class Union924:
             res.append(min(a, b))
         return res
 
-        
+    # 3489. 零数组变换 IV (Zero Array Transformation IV)
+    def minZeroArray(self, nums: List[int], queries: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if j == 0:
+                return k
+            if k == len(queries):
+                return inf
+            # 不选
+            res = dfs(i, j, k + 1)
+            # 选
+            if queries[k][0] <= i <= queries[k][1] and j >= queries[k][2]:
+                res = min(res, dfs(i, j - queries[k][2], k + 1))
+            return res
+        res = -1
+        for i in range(len(nums)):
+            cur = dfs(i, nums[i], 0)
+            dfs.cache_clear()
+            res = max(res, cur)
+            if res == inf:
+                return -1
+        return -1 if res == inf else res

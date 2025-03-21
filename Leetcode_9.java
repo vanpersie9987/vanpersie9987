@@ -4831,4 +4831,42 @@ public class Leetcode_9 {
         return -1;
     }
 
+    // 3489. 零数组变换 IV (Zero Array Transformation IV)
+    private int[][] queries3489;
+    private int[][] memo3489;
+    private int pos3489;
+
+    public int minZeroArray3489(int[] nums, int[][] queries) {
+        int res = -1;
+        this.queries3489 = queries;
+        for (int i = 0; i < nums.length; ++i) {
+            this.pos3489 = i;
+            this.memo3489 = new int[queries.length][nums[i] + 1];
+            res = Math.max(res, dfs3489(0, nums[i]));
+            if (res == (int) 1e9) {
+                return -1;
+            }
+        }
+        return res;
+    }
+
+    private int dfs3489(int i, int j) {
+        if (j == 0) {
+            return i;
+        }
+        if (i == queries3489.length) {
+            return (int) 1e9;
+        }
+        if (memo3489[i][j] != 0) {
+            return memo3489[i][j];
+        }
+        // 不选
+        int res = dfs3489(i + 1, j);
+        // 选
+        if (queries3489[i][0] <= pos3489 && pos3489 <= queries3489[i][1] && j >= queries3489[i][2]) {
+            res = Math.min(res, dfs3489(i + 1, j - queries3489[i][2]));
+        }
+        return memo3489[i][j] = res;
+    }
+
 }
