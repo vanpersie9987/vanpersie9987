@@ -9099,4 +9099,4 @@ class Union924:
             res = max(res, cur)
             if res == inf:
                 return -1
-        return -1 if res == inf else res
+        return res
