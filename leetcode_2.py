@@ -9008,7 +9008,6 @@ class Union924:
                 v -= 1
         return res
 
-
     # 3487. 删除后的最大子数组元素和 (Maximum Unique Subarray Sum After Deletion)
     def maxSum(self, nums: List[int]) -> int:
         s1 = set()
@@ -9021,7 +9020,7 @@ class Union924:
         if len(s1):
             return sum(s1)
         return max(s2)
-    
+
     # 2680. 最大或值 (Maximum OR)
     def maximumOr(self, nums: List[int], k: int) -> int:
         n = len(nums)
@@ -9034,3 +9033,14 @@ class Union924:
             res = max(res, pre | suf[i + 1] | x << k)
             pre |= x
         return res
+
+    # 2643. 一最多的行 (Row With Maximum Ones)
+    def rowAndMaximumOnes(self, mat: List[List[int]]) -> List[int]:
+        i = -1
+        mx = -1
+        for r, m in enumerate(mat):
+            s = sum(m)
+            if s > mx:
+                i = r
+                mx = s
+        return [i, mx]
