@@ -9021,3 +9021,16 @@ class Union924:
         if len(s1):
             return sum(s1)
         return max(s2)
+    
+    # 2680. 最大或值 (Maximum OR)
+    def maximumOr(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        res = 0
+        suf = [0] * (n + 1)
+        for i in range(n - 1, -1, -1):
+            suf[i] = suf[i + 1] | nums[i]
+        pre = 0
+        for i, x in enumerate(nums):
+            res = max(res, pre | suf[i + 1] | x << k)
+            pre |= x
+        return res
