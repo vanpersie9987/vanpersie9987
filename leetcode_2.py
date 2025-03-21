@@ -9081,20 +9081,21 @@ class Union924:
     # 3489. 零数组变换 IV (Zero Array Transformation IV)
     def minZeroArray(self, nums: List[int], queries: List[List[int]]) -> int:
         @cache
-        def dfs(i: int, j: int, k: int) -> int:
+        def dfs(i: int, j: int) -> int:
             if j == 0:
-                return k
-            if k == len(queries):
+                return i
+            if i == len(queries):
                 return inf
             # 不选
-            res = dfs(i, j, k + 1)
+            res = dfs(i + 1, j)
             # 选
-            if queries[k][0] <= i <= queries[k][1] and j >= queries[k][2]:
-                res = min(res, dfs(i, j - queries[k][2], k + 1))
+            if queries[i][0] <= pos <= queries[i][1] and j >= queries[i][2]:
+                res = min(res, dfs(i + 1, j - queries[i][2]))
             return res
         res = -1
         for i in range(len(nums)):
-            cur = dfs(i, nums[i], 0)
+            pos = i
+            cur = dfs(0, nums[i])
             dfs.cache_clear()
             res = max(res, cur)
             if res == inf:
