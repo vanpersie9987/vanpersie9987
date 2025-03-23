@@ -9174,6 +9174,25 @@ class Union924:
                 if len(s1 & s2) >= k:
                     u.union(i, j)
         return u.get_count()
+    
+    # 3494. 酿造药水需要的最少总时间 (Find the Minimum Amount of Time to Brew Potions)
+    def minTime(self, skill: List[int], mana: List[int]) -> int:
+        n = len(skill)
+        pre = [0] * n
+        for m in mana:
+            s = 0
+            for j in range(n):
+                s = max(s, pre[j])
+                s += skill[j] * m
+            pre[-1] = s
+            for j in range(n - 2, -1, -1):
+                s -= skill[j + 1] * m
+                pre[j] = s
+        return pre[-1]
+
+
+        
+        
 
 
 
