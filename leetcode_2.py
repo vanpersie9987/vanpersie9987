@@ -9130,3 +9130,8 @@ class Union924:
         if n & 1:
             return False
         return check(s, locked) and check2(s, locked)
+
+    # 3492. 船上可以装载的最大集装箱数量 (Maximum Containers on a Ship)
+    def maxContainers(self, n: int, w: int, maxWeight: int) -> int:
+        maxWeight = min(n * n * w, maxWeight)
+        return maxWeight // w
