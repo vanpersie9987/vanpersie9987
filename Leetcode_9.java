@@ -4876,4 +4876,75 @@ public class Leetcode_9 {
 
     }
 
+    // 3493. 属性图 (Properties Graph)
+    public int numberOfComponents(int[][] properties, int k) {
+        int n = properties.length;
+        Union3493 union = new Union3493(n);
+        for (int i = 0; i < n; ++i) {
+            Set<Integer> s1 = Arrays.stream(properties[i]).boxed().collect(Collectors.toSet());
+            for (int j = i + 1; j < n; ++j) {
+                Set<Integer> s2 = Arrays.stream(properties[j]).boxed().collect(Collectors.toSet());
+                int cnt = 0;
+                for (int x : s1) {
+                    if (s2.contains(x)) {
+                        ++cnt;
+                    }
+                }
+                if (cnt >= k) {
+                    union.union(i, j);
+                }
+            }
+        }
+        return union.getCount();
+    }
+
+    public class Union3493 {
+        private int[] parent;
+        private int[] rank;
+        private int n;
+
+        public Union3493(int n) {
+            this.parent = new int[n];
+            this.rank = new int[n];
+            for (int i = 0; i < n; ++i) {
+                this.parent[i] = i;
+                this.rank[i] = 1;
+            }
+            this.n = n;
+        }
+
+        public int getRoot(int p) {
+            if (p == parent[p]) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    rank[root1]++;
+                }
+            }
+            --n;
+        }
+
+        public int getCount() {
+            return n;
+        }
+
+    }
+
 }
