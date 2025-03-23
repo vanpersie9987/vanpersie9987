@@ -9101,3 +9101,32 @@ class Union924:
             if res == inf:
                 return -1
         return res
+
+    # 2116. 判断一个括号字符串是否有效 (Check if a Parentheses String Can Be Valid)
+    def canBeValid(self, s: str, locked: str) -> bool:
+        def check(s: str, locked: str) -> bool:
+            cnt = 0
+            for c, l in zip(s, locked):
+                if c == "(" or l == "0":
+                    cnt += 1
+                elif cnt:
+                    cnt -= 1
+                else:
+                    return False
+            return True
+
+        def check2(s: str, locked: str) -> bool:
+            cnt = 0
+            for i in range(len(s) - 1, -1, -1):
+                if s[i] == ")" or locked[i] == "0":
+                    cnt += 1
+                elif cnt:
+                    cnt -= 1
+                else:
+                    return False
+            return True
+
+        n = len(s)
+        if n & 1:
+            return False
+        return check(s, locked) and check2(s, locked)
