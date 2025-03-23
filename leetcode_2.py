@@ -1,5 +1,6 @@
 from ast import Return, Tuple
 from asyncio import FastChildWatcher
+from gettext import find
 import math
 from xxlimited import foo
 from audioop import minmax, reverse
@@ -9135,3 +9136,44 @@ class Union924:
     def maxContainers(self, n: int, w: int, maxWeight: int) -> int:
         maxWeight = min(n * n * w, maxWeight)
         return maxWeight // w
+    
+    # 3493. 属性图 (Properties Graph)
+    def numberOfComponents(self, properties: List[List[int]], k: int) -> int:
+        class union:
+            def __init__(self, n):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+                self.n = n
+            def find(self, x):
+                if self.parent[x] == x:
+                    return x
+                self.parent[x] = self.find(self.parent[x])
+                return self.parent[x]
+            def is_connected(self, x, y):
+                return self.find(x) == self.find(y)
+            def union(self, x, y):
+                root_x = self.find(x)
+                root_y = self.find(y)
+                if root_x == root_y:
+                    return
+                if self.rank[root_x] < self.rank[root_y]:
+                    self.parent[root_x] = root_y
+                else:
+                    self.parent[root_y] = root_x
+                    if self.rank[root_x] == self.rank[root_y]:
+                        self.rank[root_x] += 1
+                self.n -= 1
+            def get_count(self):
+                return self.n
+        n = len(properties)
+        u = union(n)
+        for i in range(n):
+            s1 = set(properties[i])
+            for j in range(i + 1, n):
+                s2 = set(properties[j])
+                if len(s1 & s2) >= k:
+                    u.union(i, j)
+        return u.get_count()
+
+
+
