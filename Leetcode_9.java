@@ -4869,4 +4869,11 @@ public class Leetcode_9 {
         return memo3489[i][j] = res;
     }
 
+    // 3492. 船上可以装载的最大集装箱数量 (Maximum Containers on a Ship)
+    public int maxContainers(int n, int w, int maxWeight) {
+        maxWeight = Math.min(maxWeight, n * n * w);
+        return maxWeight / w;
+
+    }
+
 }
