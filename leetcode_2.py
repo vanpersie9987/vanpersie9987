@@ -9213,7 +9213,6 @@ class Union924:
                     res += cur.cnt
                 return res
         root = trie()
-        n = len(words)
         for word in words:
             root.insert(word)
         return root.query(s)
