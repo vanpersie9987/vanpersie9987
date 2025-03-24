@@ -9189,6 +9189,34 @@ class Union924:
                 s -= skill[j + 1] * m
                 pre[j] = s
         return pre[-1]
+    
+    # 2255. 统计是给定字符串前缀的字符串数目 (Count Prefixes of a Given String)
+    def countPrefixes(self, words: List[str], s: str) -> int:
+        class trie:
+            def __init__(self):
+                self.children = defaultdict(trie)
+                self.cnt = 0
+            def insert(self, word: str) -> None:
+                cur = self
+                for c in word:
+                    if cur.children[c] is None:
+                        cur.children[c] = trie()
+                    cur = cur.children[c]
+                cur.cnt += 1
+            def query(self, s: str) -> int:
+                cur = self
+                res = 0
+                for c in s:
+                    if cur.children[c] is None:
+                        break
+                    cur = cur.children[c]
+                    res += cur.cnt
+                return res
+        root = trie()
+        n = len(words)
+        for word in words:
+            root.insert(word)
+        return root.query(s)
         
         
 
