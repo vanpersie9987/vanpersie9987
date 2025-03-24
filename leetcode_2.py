@@ -9189,8 +9189,6 @@ class Union924:
                 s -= skill[j + 1] * m
                 pre[j] = s
         return pre[-1]
-
-
         
         
 

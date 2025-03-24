@@ -9688,15 +9688,49 @@ public class Leetcode_3 {
 
     }
 
-    // 6051. 统计是给定字符串前缀的字符串数目
+    // 2255. 统计是给定字符串前缀的字符串数目 (Count Prefixes of a Given String)
     public int countPrefixes(String[] words, String s) {
-        int res = 0;
+        Trie2255 trie = new Trie2255();
         for (String word : words) {
-            if (s.indexOf(word) == 0) {
-                ++res;
-            }
+            trie.insert(word);
         }
-        return res;
+        return trie.countPrefixes(s);
+
+    }
+
+    public class Trie2255 {
+        private Trie2255[] children;
+        private int end;
+
+        public Trie2255() {
+            this.children = new Trie2255[26];
+        }
+
+        public void insert(String s) {
+            Trie2255 node = this;
+            for (char c : s.toCharArray()) {
+                int idx = c - 'a';
+                if (node.children[idx] == null) {
+                    node.children[idx] = new Trie2255();
+                }
+                node = node.children[idx];
+            }
+            ++node.end;
+        }
+
+        public int countPrefixes(String s) {
+            Trie2255 node = this;
+            int cnt = 0;
+            for (char c : s.toCharArray()) {
+                int idx = c - 'a';
+                if (node.children[idx] == null) {
+                    break;
+                }
+                node = node.children[idx];
+                cnt += node.end;
+            }
+            return cnt;
+        }
 
     }
 
