@@ -8845,11 +8845,16 @@ class Union924:
         cnt = [0] * 26
         n = len(s)
         for i, c in enumerate(s):
-            d = ord(c) - ord('a')
+            d = ord(c) - ord("a")
             cnt[d] += 1
             if i >= k:
-                cnt[ord(s[i - k]) - ord('a')] -= 1
-            if i >= k - 1 and cnt[d] == k and (i == k - 1 or s[i - k] != s[i]) and (i == n - 1 or s[i] != s[i + 1]):
+                cnt[ord(s[i - k]) - ord("a")] -= 1
+            if (
+                i >= k - 1
+                and cnt[d] == k
+                and (i == k - 1 or s[i - k] != s[i])
+                and (i == n - 1 or s[i] != s[i + 1])
+            ):
                 return True
         return False
 
@@ -8912,6 +8917,7 @@ class Union924:
                     dfs()
                     vis ^= 1 << i
                     cur //= 10
+
         n = len(digits)
         vis = 0
         s = set()
@@ -8934,18 +8940,18 @@ class Union924:
             self.sheets[r][c] = 0
 
         def getValue(self, formula: str) -> int:
-            plus_pos = formula.find('+')
-            x = formula[1: plus_pos]
+            plus_pos = formula.find("+")
+            x = formula[1:plus_pos]
             a = 0
-            if 9 >= ord(x[0]) - ord('0') >= 0:
+            if 9 >= ord(x[0]) - ord("0") >= 0:
                 a = int(x)
             else:
                 (r, c) = self.check(x)
                 a = self.sheets[r][c]
 
-            y = formula[plus_pos + 1:]
+            y = formula[plus_pos + 1 :]
             b = 0
-            if 9 >= ord(y[0]) - ord('0') >= 0:
+            if 9 >= ord(y[0]) - ord("0") >= 0:
                 b = int(y)
             else:
                 (r, c) = self.check(y)
@@ -8953,7 +8959,7 @@ class Union924:
             return a + b
 
         def check(self, cell: str) -> tuple:
-            c = ord(cell[0]) - ord('A')
+            c = ord(cell[0]) - ord("A")
             r = int(cell[1:])
             return (r, c)
 
@@ -9060,6 +9066,7 @@ class Union924:
                 else:
                     right = mid - 1
             return -1
+
         res = []
         d = defaultdict(list)
         for i, x in enumerate(nums):
@@ -9093,6 +9100,7 @@ class Union924:
             if queries[i][0] <= pos <= queries[i][1] and j >= queries[i][2]:
                 res = min(res, dfs(i + 1, j - queries[i][2]))
             return res
+
         res = -1
         for i in range(len(nums)):
             pos = i
@@ -9136,7 +9144,7 @@ class Union924:
     def maxContainers(self, n: int, w: int, maxWeight: int) -> int:
         maxWeight = min(n * n * w, maxWeight)
         return maxWeight // w
-    
+
     # 3493. 属性图 (Properties Graph)
     def numberOfComponents(self, properties: List[List[int]], k: int) -> int:
         class union:
@@ -9144,13 +9152,16 @@ class Union924:
                 self.parent = [i for i in range(n)]
                 self.rank = [1] * n
                 self.n = n
+
             def find(self, x):
                 if self.parent[x] == x:
                     return x
                 self.parent[x] = self.find(self.parent[x])
                 return self.parent[x]
+
             def is_connected(self, x, y):
                 return self.find(x) == self.find(y)
+
             def union(self, x, y):
                 root_x = self.find(x)
                 root_y = self.find(y)
@@ -9163,8 +9174,10 @@ class Union924:
                     if self.rank[root_x] == self.rank[root_y]:
                         self.rank[root_x] += 1
                 self.n -= 1
+
             def get_count(self):
                 return self.n
+
         n = len(properties)
         u = union(n)
         for i in range(n):
@@ -9174,7 +9187,7 @@ class Union924:
                 if len(s1 & s2) >= k:
                     u.union(i, j)
         return u.get_count()
-    
+
     # 3494. 酿造药水需要的最少总时间 (Find the Minimum Amount of Time to Brew Potions)
     def minTime(self, skill: List[int], mana: List[int]) -> int:
         n = len(skill)
@@ -9189,13 +9202,14 @@ class Union924:
                 s -= skill[j + 1] * m
                 pre[j] = s
         return pre[-1]
-    
+
     # 2255. 统计是给定字符串前缀的字符串数目 (Count Prefixes of a Given String)
     def countPrefixes(self, words: List[str], s: str) -> int:
         class trie:
             def __init__(self):
                 self.children = defaultdict(trie)
                 self.cnt = 0
+
             def insert(self, word: str) -> None:
                 cur = self
                 for c in word:
@@ -9203,6 +9217,7 @@ class Union924:
                         cur.children[c] = trie()
                     cur = cur.children[c]
                 cur.cnt += 1
+
             def query(self, s: str) -> int:
                 cur = self
                 res = 0
@@ -9212,12 +9227,30 @@ class Union924:
                     cur = cur.children[c]
                     res += cur.cnt
                 return res
+
         root = trie()
         for word in words:
             root.insert(word)
         return root.query(s)
-        
-        
 
-
-
+    # 2711. 对角线上不同值的数量差 (Difference of Number of Distinct Values on Diagonals)
+    def differenceOfDistinctValues(self, grid: List[List[int]]) -> List[List[int]]:
+        m = len(grid)
+        n = len(grid[0])
+        suf = [[0] * n for _ in range(m)]
+        for i in range(m - 1, -1, -1):
+            for j in range(n - 1, -1, -1):
+                suf[i][j] = (
+                    suf[i + 1][j + 1] | (1 << grid[i + 1][j + 1])
+                    if i < m - 1 and j < n - 1
+                    else 0
+                )
+        res = [[0] * n for _ in range(m)]
+        pre = [[0] * n for _ in range(m)]
+        for i in range(m):
+            for j in range(n):
+                pre[i][j] = (
+                    pre[i - 1][j - 1] | (1 << grid[i - 1][j - 1]) if i and j else 0
+                )
+                res[i][j] = abs(suf[i][j].bit_count() - pre[i][j].bit_count())
+        return res
