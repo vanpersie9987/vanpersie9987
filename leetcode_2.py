@@ -9259,3 +9259,10 @@ class Union924:
     def minimumCost(self, s: str) -> int:
         n = len(s)
         return sum(min(i, n - i) if s[i] != s[i - 1] else 0 for i in range(1, n))
+
+    # 2716. 最小化字符串长度 (Minimize String Length)
+    def minimizedStringLength(self, s: str) -> int:
+        res = 0
+        for c in s:
+            res |= 1 << (ord(c) - ord("a"))
+        return res.bit_count()
