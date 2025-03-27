@@ -9145,7 +9145,6 @@ class Union924:
         maxWeight = min(n * n * w, maxWeight)
         return maxWeight // w
 
-
     # 3493. 属性图 (Properties Graph)
     def numberOfComponents(self, properties: List[List[int]], k: int) -> int:
         class union:
@@ -9233,8 +9232,30 @@ class Union924:
         for word in words:
             root.insert(word)
         return root.query(s)
-        
-        
 
+    # 2711. 对角线上不同值的数量差 (Difference of Number of Distinct Values on Diagonals)
+    def differenceOfDistinctValues(self, grid: List[List[int]]) -> List[List[int]]:
+        m = len(grid)
+        n = len(grid[0])
+        suf = [[0] * n for _ in range(m)]
+        for i in range(m - 1, -1, -1):
+            for j in range(n - 1, -1, -1):
+                suf[i][j] = (
+                    suf[i + 1][j + 1] | (1 << grid[i + 1][j + 1])
+                    if i < m - 1 and j < n - 1
+                    else 0
+                )
+        res = [[0] * n for _ in range(m)]
+        pre = [[0] * n for _ in range(m)]
+        for i in range(m):
+            for j in range(n):
+                pre[i][j] = (
+                    pre[i - 1][j - 1] | (1 << grid[i - 1][j - 1]) if i and j else 0
+                )
+                res[i][j] = abs(suf[i][j].bit_count() - pre[i][j].bit_count())
+        return res
 
-
+    # 2712. 使所有字符相等的最小成本 (Minimum Cost to Make All Characters Equal)
+    def minimumCost(self, s: str) -> int:
+        n = len(s)
+        return sum(min(i, n - i) if s[i] != s[i - 1] else 0 for i in range(1, n))
