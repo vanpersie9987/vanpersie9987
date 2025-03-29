@@ -9266,3 +9266,37 @@ class Union924:
         for c in s:
             res |= 1 << (ord(c) - ord("a"))
         return res.bit_count()
+    
+    # 2360. 图中的最长环 (Longest Cycle in a Graph)
+    def longestCycle(self, edges: List[int]) -> int:
+        n = len(edges)
+        g = [[] for _ in range(n)]
+        deg = [0] * n
+        for i, v in enumerate(edges):
+            if v != -1:
+                g[i].append(v)
+                deg[v] += 1
+        q = deque()
+        for i in range(n):
+            if deg[i] == 0:
+                q.append(i)
+        while q:
+            x = q.popleft()
+            for y in g[x]:
+                deg[y] -= 1
+                if deg[y] == 0:
+                    q.append(y)
+        res = -1
+        for i in range(n):
+            if deg[i] != 0:
+                x = i
+                cnt = 0
+                while deg[x] != 0:
+                    deg[x] -= 1
+                    x = edges[x]
+                    cnt += 1
+                res = max(res, cnt)
+        return res
+
+        
+        
