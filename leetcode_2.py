@@ -9311,4 +9311,4 @@ class Union924:
     
     # 3498. 字符串的反转度 (Reverse Degree of a String)
     def reverseDegree(self, s: str) -> int:
-        return sum(i * (27 - ((ord(c) - ord("a") + 1))) for i, c in enumerate(s, 1))
+        return sum(i * (26 - (ord(c) - ord('a'))) for i, c in enumerate(s, 1))
