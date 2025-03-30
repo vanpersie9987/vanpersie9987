@@ -9342,7 +9342,6 @@ class Union924:
         for i in range(1, n):
             res[i] = min(res[i - 1], cost[i])
         return res
-    
 
     # 3503. 子字符串连接后的最长回文串 I (Longest Palindrome After Substring Concatenation I)
     # 3504. 子字符串连接后的最长回文串 II (Longest Palindrome After Substring Concatenation II)
@@ -9368,3 +9367,7 @@ class Union924:
 
     def longestPalindrome(self, s: str, t: str) -> int:
         return max(self.calc(s, t), self.calc(t[::-1], s[::-1]))
+
+    # 2278. 字母在字符串中的百分比 (Percentage of Letter in String)
+    def percentageLetter(self, s: str, letter: str) -> int:
+        return sum(c == letter for c in s) * 100 // len(s)
