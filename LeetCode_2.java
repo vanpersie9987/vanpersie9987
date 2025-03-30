@@ -2853,8 +2853,7 @@ public class LeetCode_2 {
                if (i + k - 1 >= m || j + k - 1 >= n) {
                   break;
                }
-               int curSum = preSum[i + k][j + k] - preSum[i + k][j] - preSum[i][j + k]
-                     + preSum[i][j];
+               int curSum = preSum[i + k][j + k] - preSum[i + k][j] - preSum[i][j + k] + preSum[i][j];
                if (curSum > threshold) {
                   break;
                }
@@ -3436,26 +3435,26 @@ public class LeetCode_2 {
       int count10 = 0;
       for (int bill : bills) {
          switch (bill) {
-            case 5:
-               ++count5;
-               break;
-            case 10:
-               if (count5 == 0) {
-                  return false;
-               }
+         case 5:
+            ++count5;
+            break;
+         case 10:
+            if (count5 == 0) {
+               return false;
+            }
+            --count5;
+            ++count10;
+            break;
+         case 20:
+            if (count10 >= 1 && count5 >= 1) {
+               --count10;
                --count5;
-               ++count10;
-               break;
-            case 20:
-               if (count10 >= 1 && count5 >= 1) {
-                  --count10;
-                  --count5;
-               } else if (count5 >= 3) {
-                  count5 -= 3;
-               } else {
-                  return false;
-               }
-               break;
+            } else if (count5 >= 3) {
+               count5 -= 3;
+            } else {
+               return false;
+            }
+            break;
          }
       }
       return true;
@@ -4514,8 +4513,7 @@ public class LeetCode_2 {
       int i = 2;
       int res = 0;
       while (i < s.length()) {
-         if (s.charAt(i - 2) != s.charAt(i - 1) && s.charAt(i - 1) != s.charAt(i)
-               && s.charAt(i - 2) != s.charAt(i)) {
+         if (s.charAt(i - 2) != s.charAt(i - 1) && s.charAt(i - 1) != s.charAt(i) && s.charAt(i - 2) != s.charAt(i)) {
             ++res;
          }
          ++i;
@@ -5196,21 +5194,18 @@ public class LeetCode_2 {
 
    // 2109. 向字符串添加空格 (Adding Spaces to a String)
    public String addSpaces(String s, int[] spaces) {
+      int n = s.length();
       StringBuilder res = new StringBuilder();
-      char[] chars = s.toCharArray();
-      int indexSpace = 0;
-      int indexS = 0;
-      while (indexSpace < spaces.length) {
-         if (indexS == spaces[indexSpace]) {
+      int j = 0;
+      for (int i = 0; i < n; ++i) {
+         if (j < spaces.length && i == spaces[j]) {
             res.append(" ");
-            ++indexSpace;
-         } else {
-            res.append(chars[indexS++]);
+            ++j;
          }
+         res.append(s.charAt(i));
       }
-      res.append(Arrays.copyOfRange(chars, indexS, chars.length));
-
       return res.toString();
+
    }
 
    // 1408. 数组中的字符串匹配 (String Matching in an Array)
@@ -5394,8 +5389,7 @@ public class LeetCode_2 {
       }
       long res = 0L;
       for (int i = 0; i < n; ++i) {
-         res += nums[i]
-               * (((long) rightMax[i] - i) * (i - leftMax[i]) - ((long) rightMin[i] - i) * (i - leftMin[i]));
+         res += nums[i] * (((long) rightMax[i] - i) * (i - leftMax[i]) - ((long) rightMin[i] - i) * (i - leftMin[i]));
       }
       return res;
    }
@@ -6443,30 +6437,30 @@ public class LeetCode_2 {
       int curY = startPos[1];
       for (char c : s.toCharArray()) {
          switch (c) {
-            case 'U':
-               if (--curX < 0) {
-                  return count;
-               }
-               ++count;
-               break;
-            case 'D':
-               if (++curX == n) {
-                  return count;
-               }
-               ++count;
-               break;
-            case 'L':
-               if (--curY < 0) {
-                  return count;
-               }
-               ++count;
-               break;
-            case 'R':
-               if (++curY == n) {
-                  return count;
-               }
-               ++count;
-               break;
+         case 'U':
+            if (--curX < 0) {
+               return count;
+            }
+            ++count;
+            break;
+         case 'D':
+            if (++curX == n) {
+               return count;
+            }
+            ++count;
+            break;
+         case 'L':
+            if (--curY < 0) {
+               return count;
+            }
+            ++count;
+            break;
+         case 'R':
+            if (++curY == n) {
+               return count;
+            }
+            ++count;
+            break;
          }
 
       }
@@ -7217,8 +7211,8 @@ public class LeetCode_2 {
             return false;
          }
          if (c == '-') {
-            if (++hyphenCount > 1 || i == 0 || i == s.length() - 1 || !Character.isLetter(s.charAt(i - 1)) || !Character
-                  .isLetter(s.charAt(i + 1))) {
+            if (++hyphenCount > 1 || i == 0 || i == s.length() - 1 || !Character.isLetter(s.charAt(i - 1))
+                  || !Character.isLetter(s.charAt(i + 1))) {
                return false;
             }
          }
@@ -7669,8 +7663,7 @@ public class LeetCode_2 {
       }
       List<Integer> res = new ArrayList<>();
       for (int key : map.keySet()) {
-         if (map.get(key) == 1 && map.getOrDefault(key - 1, 0) == 0
-               && map.getOrDefault(key + 1, 0) == 0) {
+         if (map.get(key) == 1 && map.getOrDefault(key - 1, 0) == 0 && map.getOrDefault(key + 1, 0) == 0) {
             res.add(key);
          }
       }
