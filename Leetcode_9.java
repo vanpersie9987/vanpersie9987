@@ -5048,4 +5048,56 @@ public class Leetcode_9 {
         return res + cnt1;
     }
 
+    // 3502. 到达每个位置的最小费用 (Minimum Cost to Reach Every Position)
+    public int[] minCosts(int[] cost) {
+        int n = cost.length;
+        int[] res = new int[n];
+        res[0] = cost[0];
+        for (int i = 1; i < n; ++i) {
+            res[i] = Math.min(res[i - 1], cost[i]);
+        }
+        return res;
+    }
+
+    // 3503. 子字符串连接后的最长回文串 I (Longest Palindrome After Substring Concatenation I)
+    // 3504. 子字符串连接后的最长回文串 II (Longest Palindrome After Substring Concatenation II)
+    private int calc3503(String S, String T) {
+        int ans = 0;
+        char[] s = S.toCharArray();
+        char[] t = T.toCharArray();
+        int n = s.length;
+        int m = t.length;
+        int[] mx = new int[n + 1];
+        int[][] f = new int[n + 1][m + 1];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (s[i] == t[j]) {
+                    f[i + 1][j] = f[i][j + 1] + 1;
+                    mx[i + 1] = Math.max(mx[i + 1], f[i + 1][j]);
+                }
+            }
+            ans = Math.max(ans, mx[i + 1] * 2); // |x| = |y| 的情况
+        }
+
+        // 计算 |x| > |y| 的情况，中心扩展法
+        for (int i = 0; i < 2 * n - 1; i++) {
+            int l = i / 2, r = (i + 1) / 2;
+            while (l >= 0 && r < n && s[l] == s[r]) {
+                l--;
+                r++;
+            }
+            if (l + 1 <= r - 1) { // s[l+1] 到 s[r-1] 是非空回文串
+                ans = Math.max(ans, r - l - 1 + mx[l + 1] * 2);
+            }
+        }
+        return ans;
+    }
+
+    public int longestPalindrome(String s, String t) {
+        String revS = new StringBuilder(s).reverse().toString();
+        String revT = new StringBuilder(t).reverse().toString();
+        return Math.max(calc3503(s, t), calc3503(revT, revS));
+    }
+
 }
