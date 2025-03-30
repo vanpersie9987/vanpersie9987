@@ -9333,3 +9333,12 @@ class Union924:
                     res = max(res, cnt + pre)
                 pre = cnt
         return res + cnt1
+
+    # 3502. 到达每个位置的最小费用 (Minimum Cost to Reach Every Position)
+    def minCosts(self, cost: List[int]) -> List[int]:
+        n = len(cost)
+        res = [0] * n
+        res[0] = cost[0]
+        for i in range(1, n):
+            res[i] = min(res[i - 1], cost[i])
+        return res
