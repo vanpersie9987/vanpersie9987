@@ -9308,7 +9308,28 @@ class Union924:
                 j += 1
             res.append(c)
         return "".join(res)
-    
+
     # 3498. 字符串的反转度 (Reverse Degree of a String)
     def reverseDegree(self, s: str) -> int:
         return sum(i * (26 - (ord(c) - ord('a'))) for i, c in enumerate(s, 1))
+
+    # 3499. 操作后最大活跃区段数 I (Maximize Active Section with Trade I)
+    def maxActiveSectionsAfterTrade(self, s: str) -> int:
+        n = len(s)
+        cnt1 = 0
+        pre = -1
+        res = 0
+        i = 0
+        while i < n:
+            if s[i] == '1':
+                i += 1
+                cnt1 += 1
+            else:
+                cnt = 0
+                while i < n and s[i] == '0':
+                    cnt += 1
+                    i += 1
+                if pre != -1:
+                    res = max(res, cnt + pre)
+                pre = cnt
+        return res + cnt1

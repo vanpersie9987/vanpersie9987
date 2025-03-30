@@ -5022,4 +5022,30 @@ public class Leetcode_9 {
 
     }
 
+    // 3499. 操作后最大活跃区段数 I (Maximize Active Section with Trade I)
+    public int maxActiveSectionsAfterTrade(String s) {
+        int n = s.length();
+        int pre = -1;
+        int cnt1 = 0;
+        int res = 0;
+        int i = 0;
+        while (i < n) {
+            if (s.charAt(i) == '0') {
+                int cnt = 0;
+                while (i < n && s.charAt(i) == '0') {
+                    ++cnt;
+                    ++i;
+                }
+                if (pre != -1) {
+                    res = Math.max(res, cnt + pre);
+                }
+                pre = cnt;
+            } else {
+                ++i;
+                ++cnt1;
+            }
+        }
+        return res + cnt1;
+    }
+
 }
