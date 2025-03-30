@@ -9266,7 +9266,7 @@ class Union924:
         for c in s:
             res |= 1 << (ord(c) - ord("a"))
         return res.bit_count()
-    
+
     # 2360. 图中的最长环 (Longest Cycle in a Graph)
     def longestCycle(self, edges: List[int]) -> int:
         n = len(edges)
@@ -9298,5 +9298,13 @@ class Union924:
                 res = max(res, cnt)
         return res
 
-        
-        
+    # 2109. 向字符串添加空格 (Adding Spaces to a String)
+    def addSpaces(self, s: str, spaces: List[int]) -> str:
+        res = []
+        j = 0
+        for i, c in enumerate(s):
+            if j < len(spaces) and i == spaces[j]:
+                res.append(" ")
+                j += 1
+            res.append(c)
+        return "".join(res)
