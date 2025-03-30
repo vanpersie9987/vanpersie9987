@@ -9304,7 +9304,11 @@ class Union924:
         j = 0
         for i, c in enumerate(s):
             if j < len(spaces) and i == spaces[j]:
-                res.append(' ')
+                res.append(" ")
                 j += 1
             res.append(c)
-        return ''.join(res)
+        return "".join(res)
+    
+    # 3498. 字符串的反转度 (Reverse Degree of a String)
+    def reverseDegree(self, s: str) -> int:
+        return sum(i * (27 - ((ord(c) - ord("a") + 1))) for i, c in enumerate(s, 1))
