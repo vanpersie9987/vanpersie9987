@@ -9371,3 +9371,17 @@ class Union924:
     # 2278. 字母在字符串中的百分比 (Percentage of Letter in String)
     def percentageLetter(self, s: str, letter: str) -> int:
         return sum(c == letter for c in s) * 100 // len(s)
+
+    # 1863. 找出所有子集的异或总和再求和 (Sum of All Subset XOR Totals)
+    def subsetXORSum(self, nums: List[int]) -> int:
+        def dfs(i: int, cur: int) -> None:
+            if i == n:
+                nonlocal res
+                res += cur
+                return
+            dfs(i + 1, cur)
+            dfs(i + 1, cur ^ nums[i])
+        res = 0
+        n = len(nums)
+        dfs(0, 0)
+        return res
