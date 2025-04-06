@@ -4651,9 +4651,7 @@ public class Leetcode_9 {
             if (i >= k) {
                 --cnt[s.charAt(i - k) - 'a'];
             }
-            if (i >= k - 1
-                    && cnt[s.charAt(i) - 'a'] == k
-                    && (i == k - 1 || s.charAt(i - k) != s.charAt(i))
+            if (i >= k - 1 && cnt[s.charAt(i) - 'a'] == k && (i == k - 1 || s.charAt(i - k) != s.charAt(i))
                     && (i == n - 1 || s.charAt(i + 1) != s.charAt(i))) {
                 return true;
             }
@@ -4947,7 +4945,7 @@ public class Leetcode_9 {
         }
 
     }
-    
+
     // 3494. 酿造药水需要的最少总时间 (Find the Minimum Amount of Time to Brew Potions)
     public long minTime(int[] skill, int[] mana) {
         int n = skill.length;
