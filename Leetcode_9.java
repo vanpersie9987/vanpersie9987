@@ -4033,28 +4033,36 @@ public class Leetcode_9 {
     // Array Distinct)
     public int minimumOperations3396(int[] nums) {
         Map<Integer, Integer> cnt = new HashMap<>();
-        int d = 0;
         for (int x : nums) {
             cnt.merge(x, 1, Integer::sum);
-            if (cnt.get(x) == 2) {
-                ++d;
-            }
         }
         int res = 0;
-        for (int i = 0; i < nums.length; ++i) {
-            if (i % 3 == 0) {
-                if (d == 0) {
-                    return res;
-                }
-                ++res;
+        int n = nums.length;
+        for (int i = 0; i < n - 2; i += 3) {
+            if (n - i == cnt.size()) {
+                break;
             }
             cnt.merge(nums[i], -1, Integer::sum);
-            if (cnt.get(nums[i]) == 1) {
-                --d;
+            if (cnt.get(nums[i]) == 0) {
+                cnt.remove(nums[i]);
+            }
+            cnt.merge(nums[i + 1], -1, Integer::sum);
+            if (cnt.get(nums[i + 1]) == 0) {
+                cnt.remove(nums[i + 1]);
+            }
+            cnt.merge(nums[i + 2], -1, Integer::sum);
+            if (cnt.get(nums[i + 2]) == 0) {
+                cnt.remove(nums[i + 2]);
+            }
+            ++res;
+        }
+        for (Map.Entry<Integer, Integer> entry : cnt.entrySet()) {
+            if (entry.getValue() > 1) {
+                ++res;
+                break;
             }
         }
         return res;
-
     }
 
     // 3397. 执行操作后不同元素的最大数量 (Maximum Number of Distinct Elements After Operations)

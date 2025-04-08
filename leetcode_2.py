@@ -7864,22 +7864,25 @@ class Union924:
 
     # 3396. 使数组元素互不相同所需的最少操作次数 (Minimum Number of Operations to Make Elements in Array Distinct)
     def minimumOperations(self, nums: List[int]) -> int:
-        cnt = defaultdict(int)
-        d = 0
+        d = defaultdict(int)
         for x in nums:
-            cnt[x] += 1
-            if cnt[x] == 2:
-                d += 1
+            d[x] += 1
         res = 0
-        for i in range(len(nums)):
-            if i % 3 == 0:
-                if d == 0:
-                    return res
-                res += 1
-            cnt[nums[i]] -= 1
-            if cnt[nums[i]] == 1:
-                d -= 1
-        return res
+        n = len(nums)
+        for i in range(0, n - 2, 3):
+            if len(d) == n - i:
+                break
+            res += 1
+            d[nums[i]] -= 1
+            if d[nums[i]] == 0:
+                del d[nums[i]]
+            d[nums[i + 1]] -= 1
+            if d[nums[i + 1]] == 0:
+                del d[nums[i + 1]]
+            d[nums[i + 2]] -= 1
+            if d[nums[i + 2]] == 0:
+                del d[nums[i + 2]]
+        return res + int(any(v > 1 for v in d.values()))
 
     # 3397. 执行操作后不同元素的最大数量 (Maximum Number of Distinct Elements After Operations)
     def maxDistinctElements(self, nums: List[int], k: int) -> int:
