@@ -3754,13 +3754,13 @@ class leetcode_1:
                 for d in range(0 if is_num else 1, up + 1):
                     cur = (
                         diff + d
-                        if (not is_num or i - j + 1) <= (n - j) >> 1
+                        if not is_num or i - j + 1 <= (n - j) >> 1
                         else diff - d
                     )
                     if cur < 0:
                         break
                     res += dfs(
-                        i + 1, i if (not is_num) else j, cur, is_limit and up == d, True
+                        i + 1, i if not is_num else j, cur, is_limit and up == d, True
                     )
                 return res
 
