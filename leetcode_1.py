@@ -3740,28 +3740,31 @@ class leetcode_1:
 
     # 2843. 统计对称整数的数目 (Count Symmetric Integers)
     def countSymmetricIntegers(self, low: int, high: int) -> int:
-        def cal(num: int) -> int:
+        def cal(x: int) -> int:
             @cache
-            def dfs(i: int, j: int, k: int, is_limit: bool, is_num: bool) -> int:
+            def dfs(i: int, j: int, diff: int, is_limit: bool, is_num: bool) -> int:
                 if i == n:
-                    return is_num and j == 0
+                    return diff == 0 and is_num
                 res = 0
                 if not is_num:
-                    res = dfs(i + 1, j, k, False, False)
-                    if (n - i) % 2 == 1:
+                    res += dfs(i + 1, j, diff, False, False)
+                    if (n - i) & 1:
                         return res
                 up = int(s[i]) if is_limit else 9
                 for d in range(0 if is_num else 1, up + 1):
-                    if not is_num:
-                        res += dfs(i + 1, j + d, n - i, is_limit and d == up, True)
-                    else:
-                        diff = j + (d if k // 2 < n - i else -d)
-                        if diff < 0:
-                            break
-                        res += dfs(i + 1, diff, k, is_limit and d == up, True)
+                    cur = (
+                        diff + d
+                        if (not is_num or i - j + 1) <= (n - j) >> 1
+                        else diff - d
+                    )
+                    if cur < 0:
+                        break
+                    res += dfs(
+                        i + 1, i if (not is_num) else j, cur, is_limit and up == d, True
+                    )
                 return res
 
-            s = str(num)
+            s = str(x)
             n = len(s)
             return dfs(0, 0, 0, True, False)
 
@@ -7472,6 +7475,7 @@ class leetcode_1:
                 dfs(i + 1)
                 arr.pop()
                 used[i] = False
+
         nums.sort()
         n = len(nums)
         arr = []
