@@ -3744,7 +3744,7 @@ class leetcode_1:
             @cache
             def dfs(i: int, j: int, diff: int, is_limit: bool, is_num: bool) -> int:
                 if i == n:
-                    return diff == 0 and is_num
+                    return diff == 0
                 res = 0
                 if not is_num:
                     res += dfs(i + 1, j, diff, False, False)
