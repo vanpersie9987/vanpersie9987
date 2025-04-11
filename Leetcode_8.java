@@ -3226,52 +3226,50 @@ public class Leetcode_8 {
     }
 
     // 2843. 统计对称整数的数目 (Count Symmetric Integers)
-    public int countSymmetricIntegers(int low, int high) {
-        return check2843(high) - check2843(low - 1);
-    }
-
+    private int[][][] memo2843;
     private char[] arr2843;
     private int n2843;
-    private int[][] memo2843;
 
-    private int check2843(int num) {
-        this.arr2843 = String.valueOf(num).toCharArray();
+    public int countSymmetricIntegers(int low, int high) {
+        return cal2843(high) - cal2843(low - 1);
+    }
+
+    private int cal2843(int x) {
+        this.arr2843 = String.valueOf(x).toCharArray();
         this.n2843 = arr2843.length;
-        this.memo2843 = new int[n2843][n2843 * 9 + 1];
+        this.memo2843 = new int[n2843][n2843][n2843 * 9 / 2 + 1];
         for (int i = 0; i < n2843; ++i) {
-            Arrays.fill(memo2843[i], -1);
+            for (int j = 0; j < n2843; ++j) {
+                Arrays.fill(memo2843[i][j], -1);
+            }
         }
         return dfs2843(0, 0, 0, true, false);
     }
 
     private int dfs2843(int i, int j, int k, boolean isLimit, boolean isNum) {
         if (i == n2843) {
-            return isNum && j == 0 ? 1 : 0;
+            return k == 0 ? 1 : 0;
         }
-        if (!isLimit && isNum && memo2843[i][j] != -1) {
-            return memo2843[i][j];
+        if (!isLimit && isNum && memo2843[i][j][k] != -1) {
+            return memo2843[i][j][k];
         }
         int res = 0;
         if (!isNum) {
             res = dfs2843(i + 1, j, k, false, false);
-            if ((n2843 - i) % 2 == 1) {
+            if (((n2843 - i) & 1) == 1) {
                 return res;
             }
         }
         int up = isLimit ? arr2843[i] - '0' : 9;
         for (int d = isNum ? 0 : 1; d <= up; ++d) {
-            if (!isNum) {
-                res += dfs2843(i + 1, j + d, n2843 - i, isLimit && up == d, true);
-            } else {
-                int diff = j + (k / 2 < n2843 - i ? d : -d);
-                if (diff < 0) {
-                    break;
-                }
-                res += dfs2843(i + 1, diff, k, isLimit && up == d, true);
+            int diff = !isNum || i - j + 1 <= (n2843 - j) / 2 ? k + d : k - d;
+            if (diff < 0) {
+                break;
             }
+            res += dfs2843(i + 1, isNum ? j : i, diff, isLimit && d == up, true);
         }
         if (!isLimit && isNum) {
-            memo2843[i][j] = res;
+            memo2843[i][j][k] = res;
         }
         return res;
     }
