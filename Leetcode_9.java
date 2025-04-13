@@ -5147,7 +5147,11 @@ public class Leetcode_9 {
         }
         return res;
 
-
+    }
+    
+    // 3516. 找到最近的人 (Find Closest Person)
+    public int findClosest(int x, int y, int z) {
+        return x == y || x - z == z - y ? 0 : Math.abs(x - z) < Math.abs(y - z) ? 1 : 2;
     }
     
 }

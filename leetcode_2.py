@@ -9411,3 +9411,7 @@ class Union924:
         nums = list(set(nums))  # 优化：去重，减少循环次数
         st = {x ^ y for x, y in combinations(nums, 2)} | {0}
         return len({xy ^ z for xy in st for z in nums})
+
+    # 3516. 找到最近的人 (Find Closest Person)
+    def findClosest(self, x: int, y: int, z: int) -> int:
+        return 0 if x == y or x - z == z - y else (1 if abs(x - z) < abs(z - y) else 2)
