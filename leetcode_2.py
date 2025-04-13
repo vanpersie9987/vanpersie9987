@@ -9434,3 +9434,27 @@ class Union924:
             if cnt[i] == 1:
                 res[n // 2] = chr(i + ord('a'))
         return ''.join(res)
+
+    # 3519. 统计逐位非递减的整数 (Count Numbers with Non-Decreasing Digits)
+    def countNumbers(self, l: str, r: str, b: int) -> int:
+        mod = 10**9 + 7
+        def cal(x: int) -> int:
+            @cache
+            def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
+                if i == n:
+                    return 1
+                res = 0
+                if not is_num:
+                    res += dfs(i + 1, j, False, False)
+                up = int(s[i]) if is_limit else b - 1
+                for d in range(max(j, 0 if is_num else 1), up + 1):
+                    res += dfs(i + 1, d, is_limit and d == up, True)
+                return res % mod
+            s = []
+            while x:
+                s.append(str(x % b))
+                x //= b
+            s = s[::-1]
+            n = len(s)
+            return dfs(0, 0, True, False)
+        return (cal(int(r)) - cal(int(l) - 1)) % mod
