@@ -2374,21 +2374,23 @@ public class Leetcode_5 {
     }
 
     // 1922. 统计好数字的数目 (Count Good Numbers) --快速幂
-    private final int MOD1922 = (int) (1e9 + 7);
-
     public int countGoodNumbers(long n) {
-        return (int) ((long) quickMul(5, (n + 1) / 2) * quickMul(4, n / 2) % MOD1922);
+        int mod = (int) (1e9 + 7);
+        long even = (n + 1) / 2;
+        long odd = n - even;
+        return (int) ((long) pow1922(5, even) * pow1922(4, odd) % mod);
+
     }
 
-    private long quickMul(int x, long k) {
-        int res = 1;
-        int x_contribute = x;
-        while (k > 0) {
-            if (k % 2 == 1) {
-                res = (int) ((long) res * x_contribute % MOD1922);
-            }
-            x_contribute = (int) ((long) x_contribute * x_contribute % MOD1922);
-            k /= 2;
+    private int pow1922(int a, long b) {
+        if (b == 0L) {
+            return 1;
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = pow1922(a, b / 2);
+        res = (int) ((long) res * res % MOD);
+        if (b % 2 == 1) {
+            res = (int) ((long) res * a % MOD);
         }
         return res;
     }
