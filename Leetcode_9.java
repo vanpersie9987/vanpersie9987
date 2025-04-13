@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.net.Inet4Address;
 import java.sql.Time;
 import java.util.ArrayDeque;
@@ -5178,5 +5179,64 @@ public class Leetcode_9 {
         return new String(res);
 
     }
-    
+
+    // 3519. 统计逐位非递减的整数 (Count Numbers with Non-Decreasing Digits)
+    private int b3519;
+
+    public int countNumbers(String l, String r, int b) {
+        final int MOD = (int) (1e9 + 7);
+        this.b3519 = b;
+        return ((cal3519(r) - cal3519(l) + check3519(l)) % MOD + MOD) % MOD;
+    }
+
+    private char[] trans(String s) {
+        return new BigInteger(s).toString(b3519).toCharArray();
+    }
+
+    private int check3519(String s) {
+        char[] arr = trans(s);
+        for (int i = 1; i < arr.length; ++i) {
+            if (arr[i] < arr[i - 1]) {
+                return 0;
+            }
+        }
+        return 1;
+    }
+
+    private char[] arr3519;
+    private int n3519;
+    private int[][] memo3519;
+
+    private int cal3519(String s) {
+        this.arr3519 = trans(s);
+        this.n3519 = arr3519.length;
+        this.memo3519 = new int[n3519][b3519];
+        for (int i = 0; i < n3519; ++i) {
+            Arrays.fill(memo3519[i], -1);
+        }
+        return dfs3519(0, 0, true, false);
+    }
+
+    private int dfs3519(int i, int j, boolean isLimit, boolean isNum) {
+        if (i == n3519) {
+            return 1;
+        }
+        if (!isLimit && isNum && memo3519[i][j] != -1) {
+            return memo3519[i][j];
+        }
+        int res = 0;
+        if (!isNum) {
+            res = dfs3519(i + 1, j, false, false);
+        }
+        final int MOD = (int) (1e9 + 7);
+        int up = isLimit ? arr3519[i] - '0' : b3519 - 1;
+        for (int d = Math.max(j, isNum ? 0 : 1); d <= up; ++d) {
+            res += dfs3519(i + 1, d, isLimit && d == up, true);
+            res %= MOD;
+        }
+        if (!isLimit && isNum) {
+            memo3519[i][j] = res;
+        }
+        return res;
+    }
 }
