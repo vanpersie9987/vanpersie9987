@@ -5106,4 +5106,48 @@ public class Leetcode_9 {
         return Math.max(calc3503(s, t), calc3503(revT, revS));
     }
 
+    // 3512. 使数组和能被 K 整除的最少操作次数 (Minimum Operations to Make Array Sum Divisible by
+    // K)
+    public int minOperations3512(int[] nums, int k) {
+        int s = Arrays.stream(nums).sum();
+        return s % k;
+    }
+
+    // 3513. 不同 XOR 三元组的数目 I (Number of Unique XOR Triplets I)
+    public int uniqueXorTriplets(int[] nums) {
+        int n = nums.length;
+        return n <= 2 ? n : 1 << Integer.toBinaryString(n).length();
+    }
+
+    // 3514. 不同 XOR 三元组的数目 II (Number of Unique XOR Triplets II)
+    public int uniqueXorTriplets3514(int[] nums) {
+        int n = nums.length;
+        int mx = Arrays.stream(nums).max().getAsInt();
+        int u = 1 << (32 - Integer.numberOfLeadingZeros(mx));
+        boolean[] has = new boolean[u];
+        for (int i = 0; i < n; ++i) {
+            for (int j = i; j < n; ++j) {
+                has[nums[i] ^ nums[j]] = true;
+            }
+        }
+        boolean[] has3 = new boolean[u];
+        for (int xy = 0; xy < u; ++xy) {
+            if (!has[xy]) {
+                continue;
+            }
+            for (int z : nums) {
+                has3[xy ^ z] = true;
+            }
+        }
+        int res = 0;
+        for (boolean b : has3) {
+            if (b) {
+                ++res;
+            }
+        }
+        return res;
+
+
+    }
+    
 }

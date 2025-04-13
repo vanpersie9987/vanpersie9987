@@ -9314,7 +9314,7 @@ class Union924:
 
     # 3498. 字符串的反转度 (Reverse Degree of a String)
     def reverseDegree(self, s: str) -> int:
-        return sum(i * (26 - (ord(c) - ord('a'))) for i, c in enumerate(s, 1))
+        return sum(i * (26 - (ord(c) - ord("a"))) for i, c in enumerate(s, 1))
 
     # 3499. 操作后最大活跃区段数 I (Maximize Active Section with Trade I)
     def maxActiveSectionsAfterTrade(self, s: str) -> int:
@@ -9324,12 +9324,12 @@ class Union924:
         res = 0
         i = 0
         while i < n:
-            if s[i] == '1':
+            if s[i] == "1":
                 i += 1
                 cnt1 += 1
             else:
                 cnt = 0
-                while i < n and s[i] == '0':
+                while i < n and s[i] == "0":
                     cnt += 1
                     i += 1
                 if pre != -1:
@@ -9384,6 +9384,7 @@ class Union924:
                 return
             dfs(i + 1, cur)
             dfs(i + 1, cur ^ nums[i])
+
         res = 0
         n = len(nums)
         dfs(0, 0)
@@ -9395,3 +9396,18 @@ class Union924:
         odd = n - even
         mod = 10**9 + 7
         return pow(5, even, mod) * pow(4, odd, mod) % mod
+
+    # 3512. 使数组和能被 K 整除的最少操作次数 (Minimum Operations to Make Array Sum Divisible by K)
+    def minOperations(self, nums: List[int], k: int) -> int:
+        return sum(nums) % k
+
+    # 3513. 不同 XOR 三元组的数目 I (Number of Unique XOR Triplets I)
+    def uniqueXorTriplets(self, nums: List[int]) -> int:
+        n = len(nums)
+        return n if n <= 2 else 1 << n.bit_length()
+
+    # 3514. 不同 XOR 三元组的数目 II (Number of Unique XOR Triplets II)
+    def uniqueXorTriplets(self, nums: List[int]) -> int:
+        nums = list(set(nums))  # 优化：去重，减少循环次数
+        st = {x ^ y for x, y in combinations(nums, 2)} | {0}
+        return len({xy ^ z for xy in st for z in nums})
