@@ -5153,5 +5153,30 @@ public class Leetcode_9 {
     public int findClosest(int x, int y, int z) {
         return x == y || x - z == z - y ? 0 : Math.abs(x - z) < Math.abs(y - z) ? 1 : 2;
     }
+
+    // 3517. 最小回文排列 I (Smallest Palindromic Rearrangement I)
+    public String smallestPalindrome(String s) {
+        int[] cnt = new int[26];
+        for (char c : s.toCharArray()) {
+            ++cnt[c - 'a'];
+        }
+        int n = s.length();
+        char[] res = new char[n];
+        int l = 0;
+        int r = n - 1;
+        for (int i = 0; i < 26; ++i) {
+            while (cnt[i] > 1) {
+                res[l++] = (char) (i + 'a');
+                res[r--] = (char) (i + 'a');
+                cnt[i] -= 2;
+            }
+            if (cnt[i] == 1) {
+                res[n / 2] = (char) (i + 'a');
+                cnt[i]--;
+            }
+        }
+        return new String(res);
+
+    }
     
 }

@@ -9415,3 +9415,22 @@ class Union924:
     # 3516. 找到最近的人 (Find Closest Person)
     def findClosest(self, x: int, y: int, z: int) -> int:
         return 0 if x == y or x - z == z - y else (1 if abs(x - z) < abs(z - y) else 2)
+
+    # 3517. 最小回文排列 I (Smallest Palindromic Rearrangement I)
+    def smallestPalindrome(self, s: str) -> str:
+        n = len(s)
+        cnt = [0] * 26
+        for c in s:
+            cnt[ord(c) - ord('a')] += 1
+        l = 0
+        r = n - 1
+        res = ['a'] * n
+        for i in range(26):
+            while cnt[i] > 1:
+                cnt[i] -= 2
+                res[l] = res[r] = chr(i + ord('a'))
+                l += 1
+                r -= 1
+            if cnt[i] == 1:
+                res[n // 2] = chr(i + ord('a'))
+        return ''.join(res)
