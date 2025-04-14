@@ -9421,23 +9421,24 @@ class Union924:
         n = len(s)
         cnt = [0] * 26
         for c in s:
-            cnt[ord(c) - ord('a')] += 1
+            cnt[ord(c) - ord("a")] += 1
         l = 0
         r = n - 1
-        res = ['a'] * n
+        res = ["a"] * n
         for i in range(26):
             while cnt[i] > 1:
                 cnt[i] -= 2
-                res[l] = res[r] = chr(i + ord('a'))
+                res[l] = res[r] = chr(i + ord("a"))
                 l += 1
                 r -= 1
             if cnt[i] == 1:
-                res[n // 2] = chr(i + ord('a'))
-        return ''.join(res)
+                res[n // 2] = chr(i + ord("a"))
+        return "".join(res)
 
     # 3519. 统计逐位非递减的整数 (Count Numbers with Non-Decreasing Digits)
     def countNumbers(self, l: str, r: str, b: int) -> int:
         mod = 10**9 + 7
+
         def cal(x: int) -> int:
             @cache
             def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
@@ -9450,6 +9451,7 @@ class Union924:
                 for d in range(max(j, 0 if is_num else 1), up + 1):
                     res += dfs(i + 1, d, is_limit and d == up, True)
                 return res % mod
+
             s = []
             while x:
                 s.append(str(x % b))
@@ -9457,6 +9459,7 @@ class Union924:
             s = s[::-1]
             n = len(s)
             return dfs(0, 0, True, False)
+
         return (cal(int(r)) - cal(int(l) - 1)) % mod
 
     # 1534. 统计好三元组 (ount Good Triplets)
@@ -9466,6 +9469,10 @@ class Union924:
         for i in range(n):
             for j in range(i + 1, n):
                 for k in range(j + 1, n):
-                    if abs(arr[i] - arr[j]) <= a and abs(arr[j] - arr[k]) <= b and abs(arr[i] - arr[k]) <= c:
+                    if (
+                        abs(arr[i] - arr[j]) <= a
+                        and abs(arr[j] - arr[k]) <= b
+                        and abs(arr[i] - arr[k]) <= c
+                    ):
                         res += 1
         return res
