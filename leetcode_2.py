@@ -9476,3 +9476,41 @@ class Union924:
                     ):
                         res += 1
         return res
+
+    # 2179. 统计数组中好三元组数目 (Count Good Triplets in an Array)
+    def goodTriplets(self, nums1: List[int], nums2: List[int]) -> int:
+        def bisect(_list: List[int], x: int) -> int:
+            n = len(_list)
+            if not _list or _list[0] > x:
+                _list.insert(0, x)
+                return 0
+            if _list[-1] < x:
+                _list.append(x)
+                return n
+            left = 0
+            right = len(_list) - 1
+            res = -1
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if _list[mid] < x:
+                    res = mid + 1
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            _list.insert(res, x)
+            return res
+
+        n = len(nums1)
+        arr = [0] * n
+        for i, v in enumerate(nums1):
+            arr[v] = i
+        t = [0] * n
+        for i, v in enumerate(nums2):
+            t[i] = arr[v]
+        res = 0
+        _list = []
+        for i in range(n):
+            less = bisect(_list, t[i])
+            more = n - i - 1 - (t[i] - less)
+            res += more * less
+        return res
