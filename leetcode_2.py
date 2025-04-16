@@ -1430,7 +1430,7 @@ class Union924:
         j = 0
         c = 0
         res = 0
-        for i, v in enumerate(nums):
+        for v in nums:
             c += d[v]
             d[v] += 1
             while c >= k:
