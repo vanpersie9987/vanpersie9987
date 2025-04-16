@@ -1426,19 +1426,18 @@ class Union924:
 
     # 2537. 统计好子数组的数目 (Count the Number of Good Subarrays)
     def countGood(self, nums: List[int], k: int) -> int:
-        n = len(nums)
-        res = 0
-        j = 0
         d = defaultdict(int)
-        s = 0
+        j = 0
+        c = 0
+        res = 0
         for i, v in enumerate(nums):
-            s += d[v]
+            c += d[v]
             d[v] += 1
-            while s >= k:
-                res += n - i
+            while c >= k:
                 d[nums[j]] -= 1
-                s -= d[nums[j]]
+                c -= d[nums[j]]
                 j += 1
+            res += j
         return res
 
     # 2970. 统计移除递增子数组的数目 I (Count the Number of Incremovable Subarrays I)
