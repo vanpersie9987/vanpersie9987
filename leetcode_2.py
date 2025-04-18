@@ -9513,3 +9513,14 @@ class Union924:
             more = n - i - 1 - (t[i] - less)
             res += more * less
         return res
+
+    # 2364. 统计坏数对的数目 (Count Number of Bad Pairs)
+    def countBadPairs(self, nums: List[int]) -> int:
+        d = defaultdict(int)
+        n = len(nums)
+        res = 0
+        for i, v in enumerate(nums):
+            c = i - v
+            res += d[c]
+            d[c] += 1
+        return n * (n - 1) // 2 - res
