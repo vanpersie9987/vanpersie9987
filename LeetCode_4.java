@@ -8592,18 +8592,14 @@ public class LeetCode_4 {
     // 2364. 统计坏数对的数目 (Count Number of Bad Pairs)
     public long countBadPairs(int[] nums) {
         int n = nums.length;
+        Map<Integer, Integer> cnt = new HashMap<>();
+        long res = 0L;
         for (int i = 0; i < n; ++i) {
-            nums[i] -= i;
+            int c = i - nums[i];
+            res += cnt.getOrDefault(c, 0);
+            cnt.merge(c, 1, Integer::sum);
         }
-        long res = (long) (n) * (n - 1) / 2;
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int num : nums) {
-            map.put(num, map.getOrDefault(num, 0) + 1);
-        }
-        for (int val : map.values()) {
-            res -= (long) val * (val - 1) / 2;
-        }
-        return res;
+        return (long) n * (n - 1) / 2 - res;
 
     }
 
