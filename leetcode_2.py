@@ -9524,3 +9524,15 @@ class Union924:
             res += d[c]
             d[c] += 1
         return n * (n - 1) // 2 - res
+
+    # 2563. 统计公平数对的数目 (Count the Number of Fair Pairs)
+    def countFairPairs(self, nums: List[int], lower: int, upper: int) -> int:
+        def cal(target: int) -> int:
+            s = SortedList()
+            res = 0
+            for x in nums:
+                res += s.bisect_right(target - x)
+                s.add(x)
+            return res
+        nums.sort()
+        return cal(upper) - cal(lower - 1)
