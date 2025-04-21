@@ -5239,4 +5239,24 @@ public class Leetcode_9 {
         }
         return res;
     }
+
+    // 3522. 执行指令后的得分 (Calculate Score After Performing Instructions)
+    public long calculateScore(String[] instructions, int[] values) {
+        int n = instructions.length;
+        boolean[] vis = new boolean[n];
+        int i = 0;
+        long res = 0L;
+        while (i < n && i >= 0 && !vis[i]) {
+            vis[i] = true;
+            if ("add".equals(instructions[i])) {
+                res += values[i];
+                ++i;
+            } else {
+                i += values[i];
+            }
+        }
+        return res;
+
+
+    }
 }
