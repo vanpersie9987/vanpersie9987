@@ -9564,4 +9564,12 @@ class Union924:
             else:
                 i += values[i]
         return res
-
+    
+    # 3523. 非递减数组的最大长度 (Make Array Non-decreasing)
+    def maximumPossibleSize(self, nums: List[int]) -> int:
+        ans = mx = 0
+        for x in nums:
+            if x >= mx:
+                mx = x
+                ans += 1
+        return ans

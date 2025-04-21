@@ -5259,4 +5259,18 @@ public class Leetcode_9 {
 
 
     }
+
+    // 3523. 非递减数组的最大长度 (Make Array Non-decreasing)
+    public int maximumPossibleSize(int[] nums) {
+        int res = 0;
+        int mx = 0;
+        for (int x : nums) {
+            if (x >= mx) {
+                mx = x;
+                ++res;
+            }
+        }
+        return res;
+
+    }
 }
