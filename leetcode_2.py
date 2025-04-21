@@ -9536,3 +9536,17 @@ class Union924:
             return res
         nums.sort()
         return cal(upper) - cal(lower - 1)
+    
+    # 781. 森林中的兔子 (Rabbits in Forest)
+    def numRabbits(self, answers: List[int]) -> int:
+        d = defaultdict(int)
+        res = 0
+        for x in answers:
+            d[x] += 1
+            if d[x] - 1 == x:
+                res += d[x]
+                del d[x]
+        for k in d.keys():
+            res += k + 1
+        return res
+

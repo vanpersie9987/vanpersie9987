@@ -19150,19 +19150,17 @@ public class LeetCodeText {
     // 781. 森林中的兔子 (Rabbits in Forest)
     public int numRabbits(int[] answers) {
         Map<Integer, Integer> map = new HashMap<>();
-        for (int answer : answers) {
-            map.put(answer, map.getOrDefault(answer, 0) + 1);
-        }
         int res = 0;
+        for (int x : answers) {
+            map.merge(x, 1, Integer::sum);
+            if (map.get(x) - 1 == x) {
+                res += map.remove(x);
+            }
+        }
         for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            int value = entry.getValue();
-            int key = entry.getKey();
-            // a / b 向上取整公式: ceil(a / b) = (a + b - 1) / b
-            // res += (key + value) / (key + 1) * (key + 1);
-            res += ((int) Math.ceil(value / (key + 1.0d))) * (key + 1);
+            res += entry.getKey() + 1;
         }
         return res;
-
     }
 
     // 1447. 最简分数 (Simplified Fractions)
