@@ -7580,16 +7580,15 @@ public class LeetCode_2 {
 
    // 5972. 统计隐藏数组数目 (Count the Hidden Sequences)
    public int numberOfArrays(int[] differences, int lower, int upper) {
-      long min = 0;
-      long max = 0;
-
-      long cur = 0;
+      long min = 0L;
+      long max = 0L;
+      long cur = 0L;
       for (int diff : differences) {
          cur += diff;
          min = Math.min(min, cur);
          max = Math.max(max, cur);
       }
-      return (int) Math.max(0, (upper - lower) - (max - min) + 1);
+      return (int) Math.max(0, upper - max + min - lower + 1);
    }
 
    // 2147. 分隔长廊的方案数 (Number of Ways to Divide a Long Corridor)
