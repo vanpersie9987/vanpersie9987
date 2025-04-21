@@ -9549,4 +9549,19 @@ class Union924:
         for k in d.keys():
             res += k + 1
         return res
+    
+    # 3522. 执行指令后的得分 (Calculate Score After Performing Instructions)
+    def calculateScore(self, instructions: List[str], values: List[int]) -> int:
+        n = len(instructions)
+        vis = [False] * n
+        res = 0
+        i = 0
+        while i < n and i >= 0 and not vis[i]:
+            vis[i] = True
+            if instructions[i] == "add":
+                res += values[i]
+                i += 1
+            else:
+                i += values[i]
+        return res
 
