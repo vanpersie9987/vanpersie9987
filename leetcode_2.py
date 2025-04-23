@@ -9573,3 +9573,37 @@ class Union924:
                 mx = x
                 ans += 1
         return ans
+    
+    # 1399. 统计最大组的数目 (Count Largest Group)
+    def countLargestGroup(self, n: int) -> int:
+        @cache
+        def dfs(i: int, j: int, is_limit: bool) -> int:
+            if i == l:
+                return x == j
+            res = 0
+            if not j:
+                res += dfs(i + 1, j, False)
+            up = int(s[i]) if is_limit else 9
+            for d in range(0 if j else 1, up + 1):
+                if j + d > x:
+                    break
+                res += dfs(i + 1, j + d, is_limit and d == up)
+            return res
+        dic = defaultdict(int)
+        s = str(n)
+        l = len(s)
+        res = 0
+        mx = 0
+        for i in range(1, l * 9 + 1):
+            x = i
+            dic[i] += dfs(0, 0, True)
+            dfs.cache_clear()
+            if dic[i] > mx:
+                mx = dic[i]
+                res = 1
+            elif dic[i] == mx:
+                res += 1
+        return res
+
+
+        
