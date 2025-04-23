@@ -9583,10 +9583,8 @@ class Union924:
             res = 0
             if not j:
                 res += dfs(i + 1, j, False)
-            up = int(s[i]) if is_limit else 9
+            up = min(x - j, int(s[i]) if is_limit else 9)
             for d in range(0 if j else 1, up + 1):
-                if j + d > x:
-                    break
                 res += dfs(i + 1, j + d, is_limit and d == up)
             return res
         dic = defaultdict(int)
