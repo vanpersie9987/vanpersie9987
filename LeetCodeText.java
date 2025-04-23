@@ -5590,33 +5590,6 @@ public class LeetCodeText {
         return (1 + n) * n / 2;
     }
 
-    // 1399. 统计最大组的数目
-    public int countLargestGroup(int n) {
-        int[] counts = new int[37];
-        for (int i = 1; i <= n; ++i) {
-            ++counts[getSumByBit(i)];
-        }
-        int result = 0;
-        int max = Arrays.stream(counts).max().getAsInt();
-        for (int i = 0; i < counts.length; ++i) {
-            if (counts[i] == max) {
-                ++result;
-            }
-        }
-        return result;
-
-    }
-
-    private int getSumByBit(int num) {
-        int sum = 0;
-        while (num != 0) {
-            int mod = num % 10;
-            num /= 10;
-            sum += mod;
-        }
-        return sum;
-    }
-
     // 1431. 拥有最多糖果的孩子
     public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
         int max = Arrays.stream(candies).max().getAsInt();
