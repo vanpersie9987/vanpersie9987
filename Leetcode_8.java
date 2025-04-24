@@ -2210,31 +2210,20 @@ public class Leetcode_8 {
 
     // 2799. 统计完全子数组的数目 (Count Complete Subarrays in an Array)
     public int countCompleteSubarrays(int[] nums) {
-        int[] cnts = new int[2001];
-        int s = 0;
-        for (int num : nums) {
-            if (++cnts[num] == 1) {
-                ++s;
-            }
-        }
-        Arrays.fill(cnts, 0);
-        int i = 0;
-        int j = 0;
-        int n = nums.length;
-        int cur = 0;
         int res = 0;
-        while (i < n) {
-            if (++cnts[nums[i]] == 1) {
-                ++cur;
-            }
-            while (cur == s) {
-                res += n - i;
-                if (--cnts[nums[j++]] == 0) {
-                    --cur;
+        int j = 0;
+        int l = Arrays.stream(nums).boxed().collect(Collectors.toSet()).size();
+        Map<Integer, Integer> cnt = new HashMap<>();
+        for (int x : nums) {
+            cnt.merge(x, 1, Integer::sum);
+            while (cnt.size() == l) {
+                cnt.merge(nums[j], -1, Integer::sum);
+                if (cnt.get(nums[j]) == 0) {
+                    cnt.remove(nums[j]);
                 }
                 ++j;
             }
-            ++i;
+            res += j;
         }
         return res;
 
