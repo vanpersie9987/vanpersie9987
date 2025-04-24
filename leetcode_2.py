@@ -9600,6 +9600,3 @@ class Union924:
             elif cur == mx:
                 res += 1
         return res
-
-
-        

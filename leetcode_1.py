@@ -9302,24 +9302,18 @@ class leetcode_1:
 
     # 2799. 统计完全子数组的数目 (Count Complete Subarrays in an Array)
     def countCompleteSubarrays(self, nums: List[int]) -> int:
-        n = len(nums)
-        s = len(set(nums))
-        cnts = [0] * 2001
-        i = 0
-        j = 0
-        cur = 0
         res = 0
-        while i < n:
-            cnts[nums[i]] += 1
-            if cnts[nums[i]] == 1:
-                cur += 1
-            while cur == s:
-                res += n - i
-                cnts[nums[j]] -= 1
-                if cnts[nums[j]] == 0:
-                    cur -= 1
+        d = defaultdict(int)
+        j = 0
+        k = len(set(nums))
+        for x in nums:
+            d[x] += 1
+            while len(d) == k:
+                d[nums[j]] -= 1
+                if d[nums[j]] == 0:
+                    del d[nums[j]]
                 j += 1
-            i += 1
+            res += j
         return res
 
     # 2825. 循环增长使字符串子序列等于另一个字符串 (Make String a Subsequence Using Cyclic Increments)
