@@ -5354,18 +5354,18 @@ public class Leetcode_9 {
             g[c[0]].add(new int[] { c[1], c[2] });
         }
         int[] res = new int[n];
-        dfs(0, 1, g, res);
+        dfs3528(0, 1, g, res);
         return res;
 
     }
 
-    private void dfs(int x, int v, List<int[]>[] g, int[] res) {
+    private void dfs3528(int x, int v, List<int[]>[] g, int[] res) {
         final int MOD = (int) (1e9 + 7);
         res[x] = v;
         for (int[] neighbor : g[x]) {
             int y = neighbor[0];
             int w = neighbor[1];
-            dfs(y, (int) ((long) v * w % MOD), g, res);
+            dfs3528(y, (int) ((long) v * w % MOD), g, res);
         }
     }
 }

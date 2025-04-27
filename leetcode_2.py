@@ -9616,3 +9616,20 @@ class Union924:
                 if res == '' or x < res:
                     res = x
         return res
+    
+    # 3528. 单位转换 I (Unit Conversion I)
+    def baseUnitConversions(self, conversions: List[List[int]]) -> List[int]:
+        def dfs(x: int, v: int) -> int:
+            res[x] = v
+            for y, w in g[x]:
+                dfs(y, v * w % MOD)
+        n = len(conversions) + 1
+        g = [[] for _ in range(n)]
+        for x, y, w in conversions:
+            g[x].append((y, w))
+        MOD = 10**9 + 7
+        res = [0] * n
+        dfs(0, 1)
+        return res
+        
+
