@@ -5374,20 +5374,8 @@ public class Leetcode_9 {
         int pLen = pattern.length();
         int m = grid.length;
         int n = grid[0].length;
-        StringBuilder sb = new StringBuilder(pattern);
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                sb.append(grid[i][j]);
-            }
-        }
-        int[] diff1 = algorithmZ3529(sb.toString(), pLen);
-        sb = new StringBuilder(pattern);
-        for (int j = 0; j < n; ++j) {
-            for (int i = 0; i < m; ++i) {
-                sb.append(grid[i][j]);
-            }
-        }
-        int[] diff2 = algorithmZ3529(sb.toString(), pLen);
+        int[] diff1 = algorithmZ3529(pattern + check_3529(grid), pLen);
+        int[] diff2 = algorithmZ3529(pattern + check2_3529(grid), pLen);
         int res = 0;
         for (int j = 0; j < n; ++j) {
             for (int i = 0; i < m; ++i) {
@@ -5397,6 +5385,26 @@ public class Leetcode_9 {
             }
         }
         return res;
+    }
+
+    private String check2_3529(char[][] grid) {
+        StringBuilder sb = new StringBuilder();
+        for (int j = 0; j < grid[0].length; ++j) {
+            for (int i = 0; i < grid.length; ++i) {
+                sb.append(grid[i][j]);
+            }
+        }
+        return sb.toString();
+    }
+
+    private String check_3529(char[][] grid) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < grid.length; ++i) {
+            for (int j = 0; j < grid[0].length; ++j) {
+                sb.append(grid[i][j]);
+            }
+        }
+        return sb.toString();
     }
 
     private int[] algorithmZ3529(String s, int pLen) {
