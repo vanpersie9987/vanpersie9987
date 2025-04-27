@@ -5344,4 +5344,28 @@ public class Leetcode_9 {
         }
         return res;
     }
+
+    // 3528. 单位转换 I (Unit Conversion I)
+    public int[] baseUnitConversions(int[][] conversions) {
+        int n = conversions.length + 1;
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] c : conversions) {
+            g[c[0]].add(new int[] { c[1], c[2] });
+        }
+        int[] res = new int[n];
+        dfs(0, 1, g, res);
+        return res;
+
+    }
+
+    private void dfs(int x, int v, List<int[]>[] g, int[] res) {
+        final int MOD = (int) (1e9 + 7);
+        res[x] = v;
+        for (int[] neighbor : g[x]) {
+            int y = neighbor[0];
+            int w = neighbor[1];
+            dfs(y, (int) ((long) v * w % MOD), g, res);
+        }
+    }
 }
