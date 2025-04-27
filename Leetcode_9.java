@@ -5334,13 +5334,14 @@ public class Leetcode_9 {
                 mx = Math.max(mx, cnts.get(s));
             }
         }
-        List<String> list = new ArrayList<>();
+        String res = "";
         for (Map.Entry<String, Integer> entry : cnts.entrySet()) {
             if (entry.getValue() == mx) {
-                list.add(entry.getKey());
+                if (res.isEmpty() || entry.getKey().compareTo(res) < 0) {
+                    res = entry.getKey();
+                }
             }
         }
-        Collections.sort(list);
-        return list.get(0);
+        return res;
     }
 }

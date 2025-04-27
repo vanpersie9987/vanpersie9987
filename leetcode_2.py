@@ -9536,7 +9536,7 @@ class Union924:
             return res
         nums.sort()
         return cal(upper) - cal(lower - 1)
-    
+
     # 781. 森林中的兔子 (Rabbits in Forest)
     def numRabbits(self, answers: List[int]) -> int:
         d = defaultdict(int)
@@ -9549,7 +9549,7 @@ class Union924:
         for k in d.keys():
             res += k + 1
         return res
-    
+
     # 3522. 执行指令后的得分 (Calculate Score After Performing Instructions)
     def calculateScore(self, instructions: List[str], values: List[int]) -> int:
         n = len(instructions)
@@ -9564,7 +9564,7 @@ class Union924:
             else:
                 i += values[i]
         return res
-    
+
     # 3523. 非递减数组的最大长度 (Make Array Non-decreasing)
     def maximumPossibleSize(self, nums: List[int]) -> int:
         ans = mx = 0
@@ -9573,7 +9573,7 @@ class Union924:
                 mx = x
                 ans += 1
         return ans
-    
+
     # 1399. 统计最大组的数目 (Count Largest Group)
     def countLargestGroup(self, n: int) -> int:
         @cache
@@ -9599,4 +9599,20 @@ class Union924:
                 res = 1
             elif cur == mx:
                 res += 1
+        return res
+
+    # 3527. 找到最常见的回答 (Find the Most Common Response)
+    def findCommonResponse(self, responses: List[List[str]]) -> str:
+        d = defaultdict(int)
+        mx = 0
+        for response in responses:
+            s = set(response)
+            for x in s:
+                d[x] += 1
+                mx = max(mx, d[x])
+        res = ''
+        for x in d.keys():
+            if d[x] == mx:
+                if res == '' or x < res:
+                    res = x
         return res
