@@ -5149,7 +5149,7 @@ public class Leetcode_9 {
         return res;
 
     }
-    
+
     // 3516. 找到最近的人 (Find Closest Person)
     public int findClosest(int x, int y, int z) {
         return x == y || x - z == z - y ? 0 : Math.abs(x - z) < Math.abs(y - z) ? 1 : 2;
@@ -5256,7 +5256,6 @@ public class Leetcode_9 {
             }
         }
         return res;
-
 
     }
 
@@ -5367,5 +5366,61 @@ public class Leetcode_9 {
             int w = neighbor[1];
             dfs3528(y, (int) ((long) v * w % MOD), g, res);
         }
+    }
+
+    // 3529. 统计水平子串和垂直子串重叠格子的数目 (Count Cells in Overlapping Horizontal and Vertical
+    // Substrings)
+    public int countCells(char[][] grid, String pattern) {
+        int pLen = pattern.length();
+        int m = grid.length;
+        int n = grid[0].length;
+        StringBuilder sb = new StringBuilder(pattern);
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                sb.append(grid[i][j]);
+            }
+        }
+        int[] diff1 = algorithmZ3529(sb.toString(), pLen);
+        sb = new StringBuilder(pattern);
+        for (int j = 0; j < n; ++j) {
+            for (int i = 0; i < m; ++i) {
+                sb.append(grid[i][j]);
+            }
+        }
+        int[] diff2 = algorithmZ3529(sb.toString(), pLen);
+        int res = 0;
+        for (int j = 0; j < n; ++j) {
+            for (int i = 0; i < m; ++i) {
+                if (diff2[j * m + i] > 0 && diff1[i * n + j] > 0) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+    }
+
+    private int[] algorithmZ3529(String s, int pLen) {
+        int left = 0;
+        int right = 0;
+        int[] z = new int[s.length()];
+        int[] diff = new int[s.length() - pLen + 1];
+        for (int i = 1; i < s.length(); ++i) {
+            if (i <= right) {
+                z[i] = Math.min(z[i - left], right - i + 1);
+            }
+            while (i + z[i] < s.length() && s.charAt(z[i]) == s.charAt(i + z[i])) {
+                left = i;
+                right = i + z[i];
+                ++z[i];
+            }
+            if (Math.min(i, z[i]) >= pLen) {
+                diff[i - pLen] += 1;
+                diff[i] -= 1;
+            }
+        }
+        for (int i = 1; i < diff.length; ++i) {
+            diff[i] += diff[i - 1];
+        }
+        return diff;
     }
 }

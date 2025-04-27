@@ -2,6 +2,7 @@ from ast import Return, Tuple
 from asyncio import FastChildWatcher
 from gettext import find
 import math
+from pydoc import plain
 from xxlimited import foo
 from audioop import minmax, reverse
 from calendar import c
@@ -9616,7 +9617,7 @@ class Union924:
                 if res == '' or x < res:
                     res = x
         return res
-    
+
     # 3528. 单位转换 I (Unit Conversion I)
     def baseUnitConversions(self, conversions: List[List[int]]) -> List[int]:
         def dfs(x: int, v: int) -> int:
@@ -9631,5 +9632,45 @@ class Union924:
         res = [0] * n
         dfs(0, 1)
         return res
-        
 
+    # 3529. 统计水平子串和垂直子串重叠格子的数目 (Count Cells in Overlapping Horizontal and Vertical Substrings)
+    def countCells(self, grid: List[List[str]], pattern: str) -> int:
+        def algorithm_z(s: str) -> List[int]:
+            z = [0] * len(s)
+            left, right = 0, 0
+            diff = [0] * (len(s) - len(pattern) + 1)
+            for i in range(1, len(s)):
+                if i <= right:
+                    z[i] = min(right - i + 1, z[i - left])
+                while i + z[i] < len(s) and s[z[i]] == s[i + z[i]]:
+                    left, right = i, i + z[i]
+                    z[i] += 1
+                if min(i, z[i]) >= len(pattern):
+                    diff[i - len(pattern)] += 1
+                    diff[i] -= 1
+            for i in range(1, len(diff)):
+                diff[i] += diff[i - 1]
+            return diff
+        def check() -> str:
+            s = pattern
+            for i in range(m):
+                for j in range(n):
+                    s += grid[i][j]
+            return s
+        def check2() -> str:
+            s = pattern
+            for j in range(n):
+                for i in range(m):
+                    s += grid[i][j]
+            return s
+        
+        m = len(grid)
+        n = len(grid[0])
+        g0 = algorithm_z(check())
+        g1 = algorithm_z(check2())
+        res = 0
+        for j in range(n):
+            for i in range(m):
+                if g0[i * n + j] and g1[j * m + i]:
+                    res += 1
+        return res
