@@ -9535,6 +9535,7 @@ class Union924:
                 res += s.bisect_right(target - x)
                 s.add(x)
             return res
+
         nums.sort()
         return cal(upper) - cal(lower - 1)
 
@@ -9588,6 +9589,7 @@ class Union924:
             for d in range(0 if j else 1, up + 1):
                 res += dfs(i + 1, j + d, is_limit and d == up)
             return res
+
         s = str(n)
         l = len(s)
         res = 0
@@ -9611,10 +9613,10 @@ class Union924:
             for x in s:
                 d[x] += 1
                 mx = max(mx, d[x])
-        res = ''
+        res = ""
         for x in d.keys():
             if d[x] == mx:
-                if res == '' or x < res:
+                if res == "" or x < res:
                     res = x
         return res
 
@@ -9624,6 +9626,7 @@ class Union924:
             res[x] = v
             for y, w in g[x]:
                 dfs(y, v * w % MOD)
+
         n = len(conversions) + 1
         g = [[] for _ in range(n)]
         for x, y, w in conversions:
@@ -9633,7 +9636,7 @@ class Union924:
         dfs(0, 1)
         return res
 
-    # 3529. 统计水平子串和垂直子串重叠格子的数目 (Count Cells in Overlapping Horizontal and Vertical Substrings)
+    # 3529. 统计水平子串和垂直子串重叠格子的数目 (Count Cells in Overlapping Horizontal and Vertical Substrings) --z函数 + 差分数组
     def countCells(self, grid: List[List[str]], pattern: str) -> int:
         def algorithm_z(s: str) -> List[int]:
             z = [0] * len(s)
@@ -9651,19 +9654,21 @@ class Union924:
             for i in range(1, len(diff)):
                 diff[i] += diff[i - 1]
             return diff
+
         def check() -> str:
             s = pattern
             for i in range(m):
                 for j in range(n):
                     s += grid[i][j]
             return s
+
         def check2() -> str:
             s = pattern
             for j in range(n):
                 for i in range(m):
                     s += grid[i][j]
             return s
-        
+
         m = len(grid)
         n = len(grid[0])
         g0 = algorithm_z(check())

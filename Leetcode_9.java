@@ -5369,7 +5369,7 @@ public class Leetcode_9 {
     }
 
     // 3529. 统计水平子串和垂直子串重叠格子的数目 (Count Cells in Overlapping Horizontal and Vertical
-    // Substrings)
+    // Substrings) --z函数 + 差分数组
     public int countCells(char[][] grid, String pattern) {
         int pLen = pattern.length();
         int m = grid.length;
