@@ -5322,4 +5322,25 @@ public class Leetcode_9 {
         }
         return res;
     }
+
+    // 3527. 找到最常见的回答 (Find the Most Common Response)
+    public String findCommonResponse(List<List<String>> responses) {
+        int mx = 0;
+        Map<String, Integer> cnts = new HashMap<>();
+        for (List<String> response : responses) {
+            Set<String> set = new HashSet<>(response);
+            for (String s : set) {
+                cnts.merge(s, 1, Integer::sum);
+                mx = Math.max(mx, cnts.get(s));
+            }
+        }
+        List<String> list = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : cnts.entrySet()) {
+            if (entry.getValue() == mx) {
+                list.add(entry.getKey());
+            }
+        }
+        Collections.sort(list);
+        return list.get(0);
+    }
 }
