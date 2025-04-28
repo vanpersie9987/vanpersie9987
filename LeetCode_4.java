@@ -1704,23 +1704,21 @@ public class LeetCode_4 {
         return true;
     }
 
-    // 6098. 统计得分小于 K 的子数组数目 (Count Subarrays With Score Less Than K)
+    // 2302. 统计得分小于 K 的子数组数目 (Count Subarrays With Score Less Than K)
     public long countSubarrays(int[] nums, long k) {
-        int i = 0;
         int j = 0;
-        long preSum = 0l;
-        long res = 0l;
-        while (j < nums.length) {
-            preSum += nums[j];
-            while (preSum * (j - i + 1) >= k) {
-                preSum -= nums[i];
-                ++i;
+        int n = nums.length;
+        long pre = 0L;
+        long res = 0L;
+        for (int i = 0; i < n; ++i) {
+            pre += nums[i];
+            while (pre * (i - j + 1) >= k) {
+                pre -= nums[j];
+                ++j;
             }
-            res += j - i + 1;
-            ++j;
+            res += i - j + 1;
         }
         return res;
-
     }
 
     // 5259. 计算应缴税款总额 (Calculate Amount Paid in Taxes)
