@@ -9678,3 +9678,30 @@ class Union924:
                 if g0[i * n + j] and g1[j * m + i]:
                     res += 1
         return res
+    
+    # 3530. 有向无环图中合法拓扑排序的最大利润 (Maximum Profit from Valid Topological Order in DAG)
+    def maxProfit(self, n: int, edges: List[List[int]], score: List[int]) -> int:
+        @cache
+        def dfs(i: int) -> int:
+            if i == u:
+                return 0
+            c = i.bit_count() + 1
+            res = 0
+            # 枚举选择节点j
+            for j in range(n):
+                # j未选过、且j的直接祖先节点均已选择
+                if (i >> j) & 1 == 0 and pre[j] | i == i:
+                    res = max(res, dfs(i | (1 << j)) + score[j] * c)
+            return res
+        if not edges:
+            score.sort()
+            res = 0
+            for i, v in enumerate(score, 1):
+                res += v * i
+            return res
+        pre = [0] * n
+        for x, y in edges:
+            pre[y] |= 1 << x
+        u = (1 << n) - 1
+        return dfs(0)
+        

@@ -5431,4 +5431,46 @@ public class Leetcode_9 {
         }
         return diff;
     }
+
+    // 3530. 有向无环图中合法拓扑排序的最大利润 (Maximum Profit from Valid Topological Order in DAG)
+    private int[] memo3530;
+    private int u3530;
+    private int[] score3530;
+    private int[] pre3530;
+    public int maxProfit(int n, int[][] edges, int[] score) {
+        if (edges.length == 0) {
+            Arrays.sort(score);
+            int res = 0;
+            for (int i = 0; i < n; ++i) {
+                res += score[i] * (i + 1);
+            }
+            return res;
+        }
+        this.pre3530 = new int[n];
+        for (int[] edge : edges) {
+            pre3530[edge[1]] |= 1 << edge[0];
+        }
+        this.memo3530 = new int[1 << n];
+        this.u3530 = (1 << n) - 1;
+        this.score3530 = score;
+        return dfs3530(0);
+    }
+
+    private int dfs3530(int i) {
+        if (i == u3530) {
+            return 0;
+        }
+        if (memo3530[i] != 0) {
+            return memo3530[i];
+        }
+        int res = 0;
+        // 枚举选择节点j
+        for (int j = 0; j < score3530.length; ++j) {
+            // j未选过、且j的直接祖先节点均已选择
+            if (((i >> j) & 1) == 0 && ((pre3530[j] | i) == i)) {
+                res = Math.max(res, dfs3530(i | (1 << j)) + score3530[j] * (Integer.bitCount(i) + 1));
+            }
+        }
+        return memo3530[i] = res;
+    }
 }
