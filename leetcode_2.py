@@ -9756,10 +9756,10 @@ class Union924:
     def concatenatedDivisibility(self, nums: List[int], k: int) -> List[int]:
         @cache
         def dfs(i: int, j: int) -> bool:
-            if i == 0:
+            if i == (1 << n) - 1:
                 return j == 0
             for id, (p10, x) in enumerate(zip(pow10, nums)):
-                if (i >> id) & 1 and dfs(i ^ (1 << id), (j * p10 + x) % k):
+                if (i >> id) & 1 == 0 and dfs(i | (1 << id), (j * p10 + x) % k):
                     res.append(x)
                     return True
             return False
@@ -9767,8 +9767,7 @@ class Union924:
         n = len(nums)
         nums.sort()
         pow10 = [10 ** len(str(x)) for x in nums]
-        if not dfs((1 << n) - 1, 0):
+        if not dfs(0, 0):
             return []
-        res.reverse()
         return res
         

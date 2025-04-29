@@ -5567,4 +5567,53 @@ public class Leetcode_9 {
             }
         }
     }
+
+    // 3533. 判断连接可整除性 (Concatenated Divisibility)
+    private int[] nums3533;
+    private int k3533;
+    private int[][] memo3533;
+    private int n3533;
+    private int[] pow10_3533;
+    private int[] res3533;
+
+    public int[] concatenatedDivisibility(int[] nums, int k) {
+        Arrays.sort(nums);
+        this.nums3533 = nums;
+        this.n3533 = nums.length;
+        this.k3533 = k;
+        this.memo3533 = new int[1 << n3533][k];
+        this.pow10_3533 = new int[n3533];
+        this.res3533 = new int[n3533];
+        for (int i = 0; i < n3533; ++i) {
+            pow10_3533[i] = (int) Math.pow(10, String.valueOf(nums[i]).length());
+        }
+        if (!dfs3533(0, 0)) {
+            return new int[0];
+        }
+        for (int i = 0; i < (n3533 >> 1); ++i) {
+            int tmp = nums[i];
+            nums[i] = nums[n3533 - 1 - i];
+            nums[n3533 - 1 - i] = tmp;
+        }
+        return res3533;
+
+    }
+
+    private boolean dfs3533(int i, int j) {
+        if (i == (1 << n3533) - 1) {
+            return j == 0;
+        }
+        if (memo3533[i][j] != 0) {
+            return memo3533[i][j] > 0;
+        }
+        for (int id = 0; id < n3533; ++id) {
+            if (((i >> id) & 1) == 0 && dfs3533(i | (1 << id), (j * pow10_3533[id] + nums3533[id]) % k3533)) {
+                res3533[Integer.bitCount(i)] = nums3533[id];
+                memo3533[i][j] = 1;
+                return true;
+            }
+        }
+        memo3533[i][j] = -1;
+        return false;
+    }
 }
