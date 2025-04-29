@@ -9747,10 +9747,7 @@ class Union924:
                         self.rank[root_x] += 1
         idx = sorted(range(n), key=lambda i: nums[i])
         union = union(n)
-        for i in range(1, n):
-            if nums[idx[i]] - nums[idx[i - 1]] <= maxDiff:
-                union.union(idx[i], idx[i - 1])
-        res = []
-        for x, y in queries:
-            res.append(union.is_connected(x, y))
-        return res
+        for x, y in pairwise(idx):
+            if nums[y] - nums[x] <= maxDiff:
+                union.union(x, y)
+        return [union.is_connected(x, y) for x, y in queries]
