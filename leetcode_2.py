@@ -9704,4 +9704,3 @@ class Union924:
             pre[y] |= 1 << x
         u = (1 << n) - 1
         return dfs(0)
-        

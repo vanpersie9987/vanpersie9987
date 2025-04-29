@@ -5613,26 +5613,24 @@ public class Leetcode_8 {
     // 2962. 统计最大元素出现至少 K 次的子数组 (Count Subarrays Where Max Element Appears at
     // Least K Times)
     public long countSubarrays(int[] nums, int k) {
-        int max = Arrays.stream(nums).max().getAsInt();
-        int n = nums.length;
         long res = 0L;
-        int i = 0;
-        int j = 0;
+        int mx = Arrays.stream(nums).max().getAsInt();
         int cnt = 0;
-        while (i < n) {
-            if (nums[i] == max) {
+        int j = 0;
+        for (int x : nums) {
+            if (x == mx) {
                 ++cnt;
             }
-            while (cnt == k) {
-                if (nums[j] == max) {
+            while (cnt >= k) {
+                if (nums[j] == mx) {
                     --cnt;
                 }
                 ++j;
             }
             res += j;
-            ++i;
         }
         return res;
+
     }
 
     // 100136. 统计好分割方案的数目 (Count the Number of Good Partitions)
