@@ -9770,4 +9770,7 @@ class Union924:
         if not dfs(0, 0):
             return []
         return res
-        
+
+    # 1295. 统计位数为偶数的数字 (Find Numbers with Even Number of Digits)
+    def findNumbers(self, nums: List[int]) -> int:
+        return sum(len(str(x)) & 1 == 0 for x in nums)
