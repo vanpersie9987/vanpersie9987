@@ -9704,3 +9704,21 @@ class Union924:
             pre[y] |= 1 << x
         u = (1 << n) - 1
         return dfs(0)
+    
+    # 3531. 统计被覆盖的建筑 (Count Covered Buildings)
+    def countCoveredBuildings(self, n: int, buildings: List[List[int]]) -> int:
+        res = 0
+        col = [[inf] * (n + 1) if i == 0 else [0] * (n + 1) for i in range(2)]
+        row = [[inf] * (n + 1) if i == 0 else [0] * (n + 1) for i in range(2)]
+        for c, r in buildings:
+            col[0][c] = min(col[0][c], r)
+            col[1][c] = max(col[1][c], r)
+            row[0][r] = min(row[0][r], c)
+            row[1][r] = max(row[1][r], c)
+        for c, r in buildings:
+            if col[0][c] == r or col[1][c] == r or row[0][r] == c or row[1][r] == c:
+                continue
+            res += 1
+        return res
+        
+        

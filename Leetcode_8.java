@@ -5328,7 +5328,7 @@ public class Leetcode_8 {
             return memo2944[i];
         }
         int res = Integer.MAX_VALUE;
-        for(int j = i; j < Math.min(n2944 + 1, i + i + 1); ++j) {
+        for (int j = i; j < Math.min(n2944 + 1, i + i + 1); ++j) {
             res = Math.min(res, dfs2944(j + 1) + prices2944[i - 1]);
         }
         return memo2944[i] = res;
@@ -5940,7 +5940,6 @@ public class Leetcode_8 {
             --j;
         }
         return res;
-
 
     }
 
@@ -7699,7 +7698,7 @@ public class Leetcode_8 {
         }
         return memo2478[i][j] = res;
     }
-    
+
     public boolean isPrime2478_2(char c) {
         return (p2478 & (1 << (c - '0'))) != 0;
     }
@@ -10150,4 +10149,5 @@ public class Leetcode_8 {
         }
         return true;
     }
+
 }

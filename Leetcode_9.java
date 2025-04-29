@@ -5473,4 +5473,29 @@ public class Leetcode_9 {
         }
         return memo3530[i] = res;
     }
+
+    // 3531. 统计被覆盖的建筑 (Count Covered Buildings)
+    public int countCoveredBuildings(int n, int[][] buildings) {
+        int res = 0;
+        int[][] col = new int[2][n + 1];
+        Arrays.fill(col[0], Integer.MAX_VALUE);
+        int[][] row = new int[2][n + 1];
+        Arrays.fill(row[0], Integer.MAX_VALUE);
+        for (int[] b : buildings) {
+            col[0][b[0]] = Math.min(col[0][b[0]], b[1]);
+            col[1][b[0]] = Math.max(col[1][b[0]], b[1]);
+            row[0][b[1]] = Math.min(row[0][b[1]], b[0]);
+            row[1][b[1]] = Math.max(row[1][b[1]], b[0]);
+        }
+        for (int[] b : buildings) {
+            if (b[1] == col[0][b[0]] || b[1] == col[1][b[0]]) {
+                continue;
+            }
+            if (b[0] == row[0][b[1]] || b[0] == row[1][b[1]]) {
+                continue;
+            }
+            ++res;
+        }
+        return res;
+    }
 }
