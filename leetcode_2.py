@@ -9751,3 +9751,24 @@ class Union924:
             if nums[y] - nums[x] <= maxDiff:
                 union.union(x, y)
         return [union.is_connected(x, y) for x, y in queries]
+
+    # 3533. 判断连接可整除性 ( Concatenated Divisibility)
+    def concatenatedDivisibility(self, nums: List[int], k: int) -> List[int]:
+        @cache
+        def dfs(i: int, j: int) -> bool:
+            if i == 0:
+                return j == 0
+            for id, (p10, x) in enumerate(zip(pow10, nums)):
+                if (i >> id) & 1 and dfs(i ^ (1 << id), (j * p10 + x) % k):
+                    res.append(x)
+                    return True
+            return False
+        res = []
+        n = len(nums)
+        nums.sort()
+        pow10 = [10 ** len(str(x)) for x in nums]
+        if not dfs((1 << n) - 1, 0):
+            return []
+        res.reverse()
+        return res
+        
