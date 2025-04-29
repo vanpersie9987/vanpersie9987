@@ -1,5 +1,6 @@
 import java.math.BigInteger;
 import java.net.Inet4Address;
+import java.nio.file.Path;
 import java.sql.Time;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -5497,5 +5498,73 @@ public class Leetcode_9 {
             ++res;
         }
         return res;
+    }
+
+    // 3532. 针对图的路径存在性查询 I (Path Existence Queries in a Graph I)
+    public boolean[] pathExistenceQueries(int n, int[] nums, int maxDiff, int[][] queries) {
+        Integer[] idx = IntStream.range(0, n).boxed().toArray(Integer[]::new);
+        Arrays.sort(idx, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(nums[o1], nums[o2]);
+            }
+
+        });
+        Union3532 union = new Union3532(n);
+        for (int i = 1; i < n; ++i) {
+            if (nums[idx[i]] - nums[idx[i - 1]] <= maxDiff) {
+                union.union(idx[i], idx[i - 1]);
+            }
+        }
+        boolean[] res = new boolean[queries.length];
+        for (int i = 0; i < queries.length; ++i) {
+            res[i] = union.isConnected(queries[i][0], queries[i][1]);
+        }
+        return res;
+
+    }
+    
+    public class Union3532 {
+        private int[] rank;
+        private int[] parent;
+        
+        public Union3532(int n) {
+            this.rank = new int[n];
+            Arrays.fill(rank, 1);
+            this.parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+
+        }
+        
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                if (rank[root1] == rank[root2]) {
+                    ++rank[root1];
+                }
+            }
+        }
     }
 }

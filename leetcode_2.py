@@ -9678,7 +9678,7 @@ class Union924:
                 if g0[i * n + j] and g1[j * m + i]:
                     res += 1
         return res
-    
+
     # 3530. 有向无环图中合法拓扑排序的最大利润 (Maximum Profit from Valid Topological Order in DAG)
     def maxProfit(self, n: int, edges: List[List[int]], score: List[int]) -> int:
         @cache
@@ -9704,7 +9704,7 @@ class Union924:
             pre[y] |= 1 << x
         u = (1 << n) - 1
         return dfs(0)
-    
+
     # 3531. 统计被覆盖的建筑 (Count Covered Buildings)
     def countCoveredBuildings(self, n: int, buildings: List[List[int]]) -> int:
         res = 0
@@ -9720,5 +9720,37 @@ class Union924:
                 continue
             res += 1
         return res
-        
-        
+
+    # 3532. 针对图的路径存在性查询 I (Path Existence Queries in a Graph I)
+    def pathExistenceQueries(self, n: int, nums: List[int], maxDiff: int, queries: List[List[int]]) -> List[bool]:
+        class union:
+            def __init__(self, n):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+            def find(self, x) -> int:
+                if self.parent[x] == x:
+                    return x
+                self.parent[x] = self.find(self.parent[x])
+                return self.parent[x]
+            def is_connected(self, x, y) -> bool:
+                return self.find(x) == self.find(y)
+            def union(self, x, y):
+                root_x = self.find(x)
+                root_y = self.find(y)
+                if root_x == root_y:
+                    return
+                if self.rank[root_x] < self.rank[root_y]:
+                    self.parent[root_x] = root_y
+                else:
+                    self.parent[root_y] = root_x
+                    if self.rank[root_x] == self.rank[root_y]:
+                        self.rank[root_x] += 1
+        idx = sorted(range(n), key=lambda i: nums[i])
+        union = union(n)
+        for i in range(1, n):
+            if nums[idx[i]] - nums[idx[i - 1]] <= maxDiff:
+                union.union(idx[i], idx[i - 1])
+        res = []
+        for x, y in queries:
+            res.append(union.is_connected(x, y))
+        return res
