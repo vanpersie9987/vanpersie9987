@@ -8058,31 +8058,26 @@ public class LeetCodeText {
 
     }
 
-    // 1007. 行相等的最少多米诺旋转
-    public int minDominoRotations(int[] A, int[] B) {
-        int rotation = checkDomino(A, B, A[0]);
-        if (rotation != -1 || A[0] == B[0]) {
-            return rotation;
-        }
-        return checkDomino(B, A, B[0]);
-
+    // 1007. 行相等的最少多米诺旋转 (Minimum Domino Rotations For Equal Row)
+    public int minDominoRotations(int[] tops, int[] bottoms) {
+        int res = Math.min(check1007(tops, bottoms, tops[0]), check1007(tops, bottoms, bottoms[0]));
+        return res == Integer.MAX_VALUE ? -1 : res;
     }
 
-    private int checkDomino(int[] A, int[] B, int num) {
-        int rotateA = 0;
-        int rotateB = 0;
-        for (int i = 0; i < A.length; ++i) {
-            if (A[i] != num && B[i] != num) {
-                return -1;
+    private int check1007(int[] tops, int[] bottoms, int target) {
+        int toTop = 0;
+        int toBottom = 0;
+        for (int i = 0; i < tops.length; ++i) {
+            if (tops[i] != target && bottoms[i] != target) {
+                return Integer.MAX_VALUE;
             }
-            if (A[i] != num) {
-                ++rotateA;
-            } else if (B[i] != num) {
-                ++rotateB;
+            if (tops[i] != target) {
+                ++toTop;
+            } else if (bottoms[i] != target) {
+                ++toBottom;
             }
-
         }
-        return Math.min(rotateA, rotateB);
+        return Math.min(toTop, toBottom);
     }
 
     // 1552. 两球之间的磁力
