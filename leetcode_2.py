@@ -9774,3 +9774,18 @@ class Union924:
     # 1295. 统计位数为偶数的数字 (Find Numbers with Even Number of Digits)
     def findNumbers(self, nums: List[int]) -> int:
         return sum(len(str(x)) & 1 == 0 for x in nums)
+    
+    # 1007. 行相等的最少多米诺旋转 (Minimum Domino Rotations For Equal Row)
+    def minDominoRotations(self, tops: List[int], bottoms: List[int]) -> int:
+        def check(target: int) -> int:
+            to_top = to_bottom = 0
+            for x, y in zip(tops, bottoms):
+                if x != target and y != target:
+                    return inf
+                if x != target:
+                    to_top += 1
+                elif y != target:
+                    to_bottom += 1
+            return min(to_top, to_bottom)
+        res = min(check(tops[0]), check(bottoms[0]))
+        return res if res != inf else -1
