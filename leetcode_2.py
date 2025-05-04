@@ -9693,6 +9693,7 @@ class Union924:
                 if (i >> j) & 1 == 0 and pre[j] | i == i:
                     res = max(res, dfs(i | (1 << j)) + score[j] * c)
             return res
+
         if not edges:
             score.sort()
             res = 0
@@ -9722,18 +9723,23 @@ class Union924:
         return res
 
     # 3532. 针对图的路径存在性查询 I (Path Existence Queries in a Graph I)
-    def pathExistenceQueries(self, n: int, nums: List[int], maxDiff: int, queries: List[List[int]]) -> List[bool]:
+    def pathExistenceQueries(
+        self, n: int, nums: List[int], maxDiff: int, queries: List[List[int]]
+    ) -> List[bool]:
         class union:
             def __init__(self, n):
                 self.parent = [i for i in range(n)]
                 self.rank = [1] * n
+
             def find(self, x) -> int:
                 if self.parent[x] == x:
                     return x
                 self.parent[x] = self.find(self.parent[x])
                 return self.parent[x]
+
             def is_connected(self, x, y) -> bool:
                 return self.find(x) == self.find(y)
+
             def union(self, x, y):
                 root_x = self.find(x)
                 root_y = self.find(y)
@@ -9745,6 +9751,7 @@ class Union924:
                     self.parent[root_y] = root_x
                     if self.rank[root_x] == self.rank[root_y]:
                         self.rank[root_x] += 1
+
         idx = sorted(range(n), key=lambda i: nums[i])
         union = union(n)
         for x, y in pairwise(idx):
@@ -9763,6 +9770,7 @@ class Union924:
                     res.append(x)
                     return True
             return False
+
         res = []
         n = len(nums)
         nums.sort()
@@ -9774,7 +9782,7 @@ class Union924:
     # 1295. 统计位数为偶数的数字 (Find Numbers with Even Number of Digits)
     def findNumbers(self, nums: List[int]) -> int:
         return sum(len(str(x)) & 1 == 0 for x in nums)
-    
+
     # 1007. 行相等的最少多米诺旋转 (Minimum Domino Rotations For Equal Row)
     def minDominoRotations(self, tops: List[int], bottoms: List[int]) -> int:
         def check(target: int) -> int:
@@ -9787,5 +9795,16 @@ class Union924:
                 elif y != target:
                     to_bottom += 1
             return min(to_top, to_bottom)
+
         res = min(check(tops[0]), check(bottoms[0]))
         return res if res != inf else -1
+
+    # 1128. 等价多米诺骨牌对的数量 (Number of Equivalent Domino Pairs)
+    def numEquivDominoPairs(self, dominoes: List[List[int]]) -> int:
+        res = 0
+        cnts = [0] * (1 << 10)
+        for x, y in dominoes:
+            b = (1 << x) | (1 << y)
+            res += cnts[b]
+            cnts[b] += 1
+        return res

@@ -4409,15 +4409,13 @@ public class LeetCodeText {
     }
 
     // 1128. 等价多米诺骨牌对的数量 (Number of Equivalent Domino Pairs)
-    public int numEquivDominoPairs(final int[][] dominoes) {
-        int[] counts = new int[100];
-        for (int[] domino : dominoes) {
-            Arrays.sort(domino);
-            ++counts[domino[0] * 10 + domino[1]];
-        }
+    public int numEquivDominoPairs(int[][] dominoes) {
+        int[] cnts = new int[1 << 10];
         int res = 0;
-        for (int count : counts) {
-            res += count * (count - 1) / 2;
+        for (int[] d : dominoes) {
+            int cur = (1 << d[0]) | (1 << d[1]);
+            res += cnts[cur];
+            ++cnts[cur];
         }
         return res;
 
