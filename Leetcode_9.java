@@ -5438,6 +5438,7 @@ public class Leetcode_9 {
     private int u3530;
     private int[] score3530;
     private int[] pre3530;
+
     public int maxProfit(int n, int[][] edges, int[] score) {
         if (edges.length == 0) {
             Arrays.sort(score);
@@ -5465,11 +5466,11 @@ public class Leetcode_9 {
             return memo3530[i];
         }
         int res = 0;
-        // 枚举选择节点j
-        for (int j = 0; j < score3530.length; ++j) {
-            // j未选过、且j的直接祖先节点均已选择
-            if (((i >> j) & 1) == 0 && ((pre3530[j] | i) == i)) {
-                res = Math.max(res, dfs3530(i | (1 << j)) + score3530[j] * (Integer.bitCount(i) + 1));
+        for (int c = u3530 ^ i; c != 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            // lb的直接祖先节点均已选择
+            if ((pre3530[lb] | i) == i) {
+                res = Math.max(res, dfs3530(i | (1 << lb)) + score3530[lb] * (Integer.bitCount(i) + 1));
             }
         }
         return memo3530[i] = res;
@@ -5524,11 +5525,11 @@ public class Leetcode_9 {
         return res;
 
     }
-    
+
     public class Union3532 {
         private int[] rank;
         private int[] parent;
-        
+
         public Union3532(int n) {
             this.rank = new int[n];
             Arrays.fill(rank, 1);
@@ -5550,7 +5551,7 @@ public class Leetcode_9 {
             return getRoot(p1) == getRoot(p2);
 
         }
-        
+
         public void union(int p1, int p2) {
             int root1 = getRoot(p1);
             int root2 = getRoot(p2);

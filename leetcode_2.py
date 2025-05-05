@@ -9687,13 +9687,13 @@ class Union924:
                 return 0
             c = i.bit_count() + 1
             res = 0
-            # 枚举选择节点j
-            for j in range(n):
-                # j未选过、且j的直接祖先节点均已选择
-                if (i >> j) & 1 == 0 and pre[j] | i == i:
-                    res = max(res, dfs(i | (1 << j)) + score[j] * c)
-            return res
-
+            j = u ^ i
+            while j:
+                lb = (j & -j).bit_length() - 1
+                # lb的直接祖先节点均已选择
+                if pre[lb] | i == i:
+                    res = max(res, dfs(i | (1 << lb)) + score[lb] * c)
+                j &= j - 1
         if not edges:
             score.sort()
             res = 0
