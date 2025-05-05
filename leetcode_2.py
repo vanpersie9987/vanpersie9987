@@ -9690,7 +9690,7 @@ class Union924:
             j = u ^ i
             while j:
                 lb = (j & -j).bit_length() - 1
-                # lb的直接祖先节点均已选择
+                # lb未选择、且lb的直接祖先节点均已选择
                 if pre[lb] | i == i:
                     res = max(res, dfs(i | (1 << lb)) + score[lb] * c)
                 j &= j - 1

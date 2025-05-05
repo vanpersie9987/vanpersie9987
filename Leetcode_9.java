@@ -5468,7 +5468,7 @@ public class Leetcode_9 {
         int res = 0;
         for (int c = u3530 ^ i; c != 0; c &= c - 1) {
             int lb = Integer.numberOfTrailingZeros(c);
-            // lb的直接祖先节点均已选择
+            // lb未选择、且lb的直接祖先节点均已选择
             if ((pre3530[lb] | i) == i) {
                 res = Math.max(res, dfs3530(i | (1 << lb)) + score3530[lb] * (Integer.bitCount(i) + 1));
             }
