@@ -9581,13 +9581,8 @@ class Union924:
         def dfs(i: int, j: int, is_limit: bool) -> int:
             if i == l:
                 return v == j
-            res = 0
-            if not j:
-                res += dfs(i + 1, j, False)
             up = min(v - j, int(s[i]) if is_limit else 9)
-            for d in range(0 if j else 1, up + 1):
-                res += dfs(i + 1, j + d, is_limit and d == up)
-            return res
+            return sum(dfs(i + 1, j + d, is_limit and d == up) for d in range(up + 1))
 
         s = str(n)
         l = len(s)
@@ -9694,6 +9689,7 @@ class Union924:
                 if pre[lb] | i == i:
                     res = max(res, dfs(i | (1 << lb)) + score[lb] * c)
                 j &= j - 1
+
         if not edges:
             score.sort()
             res = 0

@@ -5310,11 +5310,8 @@ public class Leetcode_9 {
             return memo1399[i][j];
         }
         int res = 0;
-        if (j == 0) {
-            res = dfs1399(i + 1, j, false);
-        }
         int up = Math.min(sum1399 - j, isLimit ? s1399.charAt(i) - '0' : 9);
-        for (int d = j > 0 ? 0 : 1; d <= up; ++d) {
+        for (int d = 0; d <= up; ++d) {
             res += dfs1399(i + 1, j + d, isLimit && d == up);
         }
         if (!isLimit) {
