@@ -9755,7 +9755,7 @@ class Union924:
                 union.union(x, y)
         return [union.is_connected(x, y) for x, y in queries]
 
-    # 3533. 判断连接可整除性 ( Concatenated Divisibility)
+    # 3533. 判断连接可整除性 (Concatenated Divisibility)
     def concatenatedDivisibility(self, nums: List[int], k: int) -> List[int]:
         @cache
         def dfs(i: int, j: int) -> bool:
