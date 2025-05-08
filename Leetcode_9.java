@@ -3140,28 +3140,28 @@ public class Leetcode_9 {
             }
 
         });
-        int[][] dirs = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
-        q.offer(new int[] { 0, 0, 0, 1 });
+        q.offer(new int[] { 0, 0, 0, 0 });
         while (!q.isEmpty()) {
             int[] cur = q.poll();
             int x = cur[0];
             int y = cur[1];
             int t = cur[2];
-            int p = cur[3];
+            int xor = cur[3];
             if (t > dis[x][y]) {
                 continue;
             }
             if (x == m - 1 && y == n - 1) {
                 return t;
             }
-            for (int[] d : dirs) {
-                int nx = x + d[0];
-                int ny = y + d[1];
+            int[][] dirs = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+            for (int[] dir : dirs) {
+                int nx = x + dir[0];
+                int ny = y + dir[1];
                 if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
-                    int dt = Math.max(0, moveTime[nx][ny] - t) + (p ^ 1) + 1;
-                    if (t + dt < dis[nx][ny]) {
-                        dis[nx][ny] = t + dt;
-                        q.offer(new int[] { nx, ny, t + dt, p ^ 1 });
+                    int nd = Math.max(moveTime[nx][ny], t) + 1 + xor;
+                    if (nd < dis[nx][ny]) {
+                        dis[nx][ny] = nd;
+                        q.offer(new int[] { nx, ny, nd, xor ^ 1 });
                     }
                 }
             }

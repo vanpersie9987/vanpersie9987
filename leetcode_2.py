@@ -7037,23 +7037,21 @@ class Union924:
         n = len(moveTime[0])
         dis = [[inf] * n for _ in range(m)]
         dis[0][0] = 0
-        q = []
+        q = [(0, 0, 0, 0)]
         heapq.heapify(q)
-        q.append((0, 0, 0, 1))
         while q:
-            (t, x, y, p) = heapq.heappop(q)
+            t, d, x, y = heapq.heappop(q)
             if t > dis[x][y]:
                 continue
             if x == m - 1 and y == n - 1:
                 return t
-            for dx, dy in [[0, 1], [0, -1], [1, 0], [-1, 0]]:
-                nx = x + dx
-                ny = y + dy
-                if m > nx >= 0 and n > ny >= 0:
-                    dt = max(0, moveTime[nx][ny] - t) + (p ^ 1) + 1
-                    if t + dt < dis[nx][ny]:
-                        dis[nx][ny] = t + dt
-                        heapq.heappush(q, (t + dt, nx, ny, p ^ 1))
+            for dx, dy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < m and 0 <= ny < n:
+                    nt = max(moveTime[nx][ny], t) + 1 + d
+                    if nt < dis[nx][ny]:
+                        dis[nx][ny] = nt
+                        heapq.heappush(q, (nt, d ^ 1, nx, ny))
         return -1
 
     # 3345. 最小可整除数位乘积 I (Smallest Divisible Digit Product I)
