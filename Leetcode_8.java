@@ -4736,37 +4736,22 @@ public class Leetcode_8 {
 
     // 2918. 数组的最小相等和 (Minimum Equal Sum of Two Arrays After Replacing Zeros)
     public long minSum(int[] nums1, int[] nums2) {
-        long sum1 = 0L;
-        boolean zero1 = false;
-        long sum2 = 0L;
-        boolean zero2 = false;
+        long s1 = 0;
+        long s2 = 0;
+        boolean cnt1 = false;
+        boolean cnt2 = false;
         for (int x : nums1) {
-            sum1 += x;
-            if (x == 0) {
-                ++sum1;
-                zero1 = true;
-            }
+            s1 += x > 0 ? x : 1;
+            cnt1 = cnt1 || x == 0;
         }
         for (int x : nums2) {
-            sum2 += x;
-            if (x == 0) {
-                ++sum2;
-                zero2 = true;
-            }
+            s2 += x > 0 ? x : 1;
+            cnt2 = cnt2 || x == 0;
         }
-        if (sum1 < sum2) {
-            if (!zero1) {
-                return -1;
-            }
-            return sum2;
+        if (s1 < s2 && !cnt1 || s1 > s2 && !cnt2) {
+            return -1L;
         }
-        if (sum2 < sum1) {
-            if (!zero2) {
-                return -1;
-            }
-            return sum1;
-        }
-        return sum1;
+        return Math.max(s1, s2);
 
     }
 

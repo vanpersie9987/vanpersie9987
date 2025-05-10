@@ -9802,18 +9802,3 @@ class Union924:
             res += cnts[b]
             cnts[b] += 1
         return res
-
-    def minSum(self, nums1: List[int], nums2: List[int]) -> int:
-        s1 = 0
-        cnt1 = 0
-        s2 = 0
-        cnt2 = 0
-        for x in nums1:
-            s1 += x
-            cnt1 += int(x == 0)
-        for x in nums2:
-            s2 += x
-            cnt2 += int(x == 0)
-        s1 += cnt1
-        s2 += cnt2
-        return -1 if s1 > s2 and cnt2 == 0 or s1 < s2 and cnt1 == 0 else max(s1, s2)
