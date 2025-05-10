@@ -7853,29 +7853,19 @@ class leetcode_1:
 
     # 2918. 数组的最小相等和 (Minimum Equal Sum of Two Arrays After Replacing Zeros)
     def minSum(self, nums1: List[int], nums2: List[int]) -> int:
-        zero1 = False
-        zero2 = False
         s1 = 0
+        cnt1 = 0
         s2 = 0
+        cnt2 = 0
         for x in nums1:
             s1 += x
-            if x == 0:
-                zero1 = True
-                s1 += 1
+            cnt1 += int(x == 0)
         for x in nums2:
             s2 += x
-            if x == 0:
-                zero2 = True
-                s2 += 1
-        if s1 < s2:
-            if not zero1:
-                return -1
-            return s2
-        if s1 > s2:
-            if not zero2:
-                return -1
-            return s1
-        return s1
+            cnt2 += int(x == 0)
+        s1 += cnt1
+        s2 += cnt2
+        return -1 if s1 > s2 and cnt2 == 0 or s1 < s2 and cnt1 == 0 else max(s1, s2)
 
     # 2919. 使数组变美的最小增量运算数 (Minimum Increment Operations to Make Array Beautiful)
     def minIncrementOperations(self, nums: List[int], k: int) -> int:
