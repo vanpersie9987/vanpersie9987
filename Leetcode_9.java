@@ -5636,4 +5636,47 @@ public class Leetcode_9 {
         return ret[0] * ret[1];
 
     }
+
+    // 3537. 填充特殊网格 (Fill a Special Grid)
+    private int cur3537;
+    private int[][] res3537;
+
+    public int[][] specialGrid(int n) {
+        this.res3537 = new int[1 << n][1 << n];
+        dfs3537(0, 0, (1 << n) - 1, (1 << n) - 1);
+        return res3537;
+
+    }
+
+    private void dfs3537(int i0, int j0, int i1, int j1) {
+        if (i0 == i1 && j0 == j1) {
+            res3537[i0][j0] = cur3537++;
+            return;
+        }
+        int newI0 = i0;
+        int newJ0 = (j0 + j1) / 2 + 1;
+        int newI1 = (i0 + i1) / 2;
+        int newJ1 = j1;
+        dfs3537(newI0, newJ0, newI1, newJ1);
+
+        newI0 = (i0 + i1) / 2 + 1;
+        newJ0 = (j0 + j1) / 2 + 1;
+        newI1 = i1;
+        newJ1 = j1;
+        dfs3537(newI0, newJ0, newI1, newJ1);
+
+        newI0 = (i0 + i1) / 2 + 1;
+        newJ0 = j0;
+        newI1 = i1;
+        newJ1 = (j0 + j1) / 2;
+        dfs3537(newI0, newJ0, newI1, newJ1);
+
+        newI0 = i0;
+        newJ0 = j0;
+        newI1 = (i0 + i1) / 2;
+        newJ1 = (j0 + j1) / 2;
+        dfs3537(newI0, newJ0, newI1, newJ1);
+
+
+    }
 }
