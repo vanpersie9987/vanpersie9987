@@ -5653,24 +5653,28 @@ public class Leetcode_9 {
             res3537[i0][j0] = cur3537++;
             return;
         }
+        // 右上
         int newI0 = i0;
         int newJ0 = (j0 + j1) / 2 + 1;
         int newI1 = (i0 + i1) / 2;
         int newJ1 = j1;
         dfs3537(newI0, newJ0, newI1, newJ1);
 
+        // 右下
         newI0 = (i0 + i1) / 2 + 1;
         newJ0 = (j0 + j1) / 2 + 1;
         newI1 = i1;
         newJ1 = j1;
         dfs3537(newI0, newJ0, newI1, newJ1);
 
+        // 左下
         newI0 = (i0 + i1) / 2 + 1;
         newJ0 = j0;
         newI1 = i1;
         newJ1 = (j0 + j1) / 2;
         dfs3537(newI0, newJ0, newI1, newJ1);
 
+        // 左上
         newI0 = i0;
         newJ0 = j0;
         newI1 = (i0 + i1) / 2;
