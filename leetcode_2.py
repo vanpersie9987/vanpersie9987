@@ -9802,3 +9802,28 @@ class Union924:
             res += cnts[b]
             cnts[b] += 1
         return res
+    
+    # 2094. 找出 3 位偶数 (Finding 3-Digit Even Numbers)
+    def findEvenNumbers(self, digits: List[int]) -> List[int]:
+        def dfs(i: int) -> None:
+            if i == 3:
+                ret = 0
+                for j in cur:
+                    ret = ret * 10 + j
+                s.add(ret)
+                return
+            for j, x in enumerate(cnts):
+                if i == 0 and j == 0 or x == 0 or i == 2 and j % 2 == 1:
+                    continue
+                cnts[j] -= 1
+                cur.append(j)
+                dfs(i + 1)
+                cur.pop()
+                cnts[j] += 1
+        cnts = [0] * 10
+        for d in digits:
+            cnts[d] += 1
+        s = set()
+        cur = []
+        dfs(0)
+        return sorted(list(s))
