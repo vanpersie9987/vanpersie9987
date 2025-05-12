@@ -5615,41 +5615,25 @@ public class Leetcode_9 {
         return false;
     }
 
-    private int[] cnts;
-    private Set<Integer> set;
-    private int cur;
-    public int[] findEvenNumbers(int[] digits) {
-        cnts = new int[10];
-        for (int d : digits) {
-            ++cnts[d];
+    // 3536. 两个数字的最大乘积 (Maximum Product of Two Digits)
+    public int maxProduct(int n) {
+        int[] cnts = new int[10];
+        while (n != 0) {
+            ++cnts[n % 10];
+            n /= 10;
         }
-        cur = 0;
-        set = new HashSet<>();
-        dfs(0);
-        int[] res = new int[set.size()];
-        int i = 0;
-        for (int x : set) {
-            res[i++] = x;
-        }
-        Arrays.sort(res);
-        return res;
-
-    }
-
-    private void dfs(int i) {
-        if (i == 3) {
-            set.add(cur);
-            return;
-        }
-        for (int j = 0; j < 10; ++j) {
-            if (i == 0 && j == 0 || cnts[j] == 0 || i == 2 && j % 2 == 1) {
-                continue;
+        int[] ret = new int[2];
+        int j = 0;
+        for (int i = 9; i >= 0; --i) {
+            while (cnts[i] > 0 && j < 2) {
+                ret[j++] = i;
+                --cnts[i];
             }
-            cur = cur * 10 + j;
-            --cnts[j];
-            dfs(i + 1);
-            ++cnts[j];
-            cur /= 10;
+            if (j == 2) {
+                break;
+            }
         }
+        return ret[0] * ret[1];
+
     }
 }

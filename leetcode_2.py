@@ -9825,3 +9825,21 @@ class Union924:
         cur = 0
         dfs(0)
         return sorted(list(s))
+    
+    # 3536. 两个数字的最大乘积 (Maximum Product of Two Digits)
+    def maxProduct(self, n: int) -> int:
+        cnts = [0] * 10
+        while n:
+            cnts[n % 10] += 1
+            n //= 10
+        i = 0
+        ret = [0] * 2
+        for j in range(9, -1, -1):
+            while cnts[j] and i < 2:
+                ret[i] = j
+                cnts[j] -= 1
+                i += 1
+            if i == 2:
+                break
+        return ret[0] * ret[1]
+
