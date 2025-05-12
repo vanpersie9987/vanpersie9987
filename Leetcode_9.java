@@ -5683,4 +5683,42 @@ public class Leetcode_9 {
 
 
     }
+
+    // 3538. 合并得到最小旅行时间 (Merge Operations for Minimum Travel Time)
+    private int[] pre3538;
+    private int[] pos3538;
+    private int n3538;
+    private int[][][] memo3538;
+
+    public int minTravelTime(int l, int n, int k, int[] position, int[] time) {
+        this.pre3538 = new int[n + 1];
+        for (int i = 0; i < n; ++i) {
+            pre3538[i + 1] = pre3538[i] + time[i];
+        }
+        this.pos3538 = position;
+        this.n3538 = n;
+        this.memo3538 = new int[n - 1][n - 1][k + 1];
+        for (int i = 0; i < n - 1; ++i) {
+            for (int j = 0; j < n - 1; ++j) {
+                Arrays.fill(memo3538[i][j], -1);
+            }
+        }
+        return dfs3538(0, 0, k);
+
+    }
+
+    private int dfs3538(int i, int j, int leftK) {
+        if (j == n3538 - 1) {
+            return leftK == 0 ? 0 : (int) 1e9;
+        }
+        if (memo3538[i][j][leftK] != -1) {
+            return memo3538[i][j][leftK];
+        }
+        int t = pre3538[j + 1] - pre3538[i];
+        int res = (int) 1e9;
+        for (int k = j + 1; k < Math.min(n3538, j + 2 + leftK); ++k) {
+            res = Math.min(res, dfs3538(j + 1, k, leftK - (k - j - 1)) + (pos3538[k] - pos3538[j]) * t);
+        }
+        return memo3538[i][j][leftK] = res;
+    }
 }
