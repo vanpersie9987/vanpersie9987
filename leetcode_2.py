@@ -54,7 +54,7 @@ from zoneinfo import reset_tzpath
 # curl https://bootstrap.pypa.io/pip/get-pip.py -o get-pip.py
 # sudo python3 get-pip.py
 # pip3 install sortedcontainers
-from networkx import interval_graph, union
+from networkx import dfs_edges, interval_graph, union
 from sortedcontainers import SortedDict, SortedList, SortedSet
 
 
@@ -9865,3 +9865,16 @@ class Union924:
         id = 0
         dfs(0, 0, (1 << n) - 1, (1 << n) - 1)
         return res
+
+    # 3538. 合并得到最小旅行时间 (Merge Operations for Minimum Travel Time)
+    def minTravelTime(self, _, n: int, k: int, position: List[int], time: List[int]) -> int:
+        s = list(accumulate(time, initial=0))  # 计算 time 的前缀和
+        @cache
+        def dfs(i: int, j: int, left_k: int) -> int:
+            if j == n - 1:  # 到达终点
+                return inf if left_k else 0
+            t = s[j + 1] - s[i]  # 合并到 time[j] 的时间
+            # 枚举下一个子数组 [j+1, k]
+            return min(dfs(j + 1, k, left_k - (k - j - 1)) + (position[k] - position[j]) * t
+                       for k in range(j + 1, min(n, j + 2 + left_k)))
+        return dfs(0, 0, k)  # 第一个子数组是 [0, 0]
