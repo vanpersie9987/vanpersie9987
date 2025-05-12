@@ -9802,7 +9802,7 @@ class Union924:
             res += cnts[b]
             cnts[b] += 1
         return res
-    
+
     # 2094. 找出 3 位偶数 (Finding 3-Digit Even Numbers)
     def findEvenNumbers(self, digits: List[int]) -> List[int]:
         def dfs(i: int) -> None:
@@ -9818,6 +9818,7 @@ class Union924:
                 dfs(i + 1)
                 cur //= 10
                 cnts[j] += 1
+
         cnts = [0] * 10
         for d in digits:
             cnts[d] += 1
@@ -9825,7 +9826,7 @@ class Union924:
         cur = 0
         dfs(0)
         return sorted(list(s))
-    
+
     # 3536. 两个数字的最大乘积 (Maximum Product of Two Digits)
     def maxProduct(self, n: int) -> int:
         cnts = [0] * 10
@@ -9843,3 +9844,24 @@ class Union924:
                 break
         return ret[0] * ret[1]
 
+    # 3537. 填充特殊网格 (Fill a Special Grid)
+    def specialGrid(self, n: int) -> List[List[int]]:
+        def dfs(i0: int, j0: int, i1: int, j1: int) -> None:
+            if i0 == i1 and j0 == j1:
+                nonlocal id
+                res[i0][j0] = id
+                id += 1
+                return
+            # 右上
+            dfs(i0, ((j0 + j1) >> 1) + 1, (i0 + i1) >> 1, j1)
+            # 右下
+            dfs(((i0 + i1) >> 1) + 1, ((j0 + j1) >> 1) + 1, i1, j1)
+            # 左下
+            dfs(((i0 + i1) >> 1) + 1, j0, i1, (j0 + j1) >> 1)
+            # 左上
+            dfs(i0, j0, (i0 + i1) >> 1, (j0 + j1) >> 1)
+
+        res = [[0] * (1 << n) for _ in range(1 << n)]
+        id = 0
+        dfs(0, 0, (1 << n) - 1, (1 << n) - 1)
+        return res
