@@ -5614,4 +5614,42 @@ public class Leetcode_9 {
         memo3533[i][j] = -1;
         return false;
     }
+
+    private int[] cnts;
+    private Set<Integer> set;
+    private int cur;
+    public int[] findEvenNumbers(int[] digits) {
+        cnts = new int[10];
+        for (int d : digits) {
+            ++cnts[d];
+        }
+        cur = 0;
+        set = new HashSet<>();
+        dfs(0);
+        int[] res = new int[set.size()];
+        int i = 0;
+        for (int x : set) {
+            res[i++] = x;
+        }
+        Arrays.sort(res);
+        return res;
+
+    }
+
+    private void dfs(int i) {
+        if (i == 3) {
+            set.add(cur);
+            return;
+        }
+        for (int j = 0; j < 10; ++j) {
+            if (i == 0 && j == 0 || cnts[j] == 0 || i == 2 && j % 2 == 1) {
+                continue;
+            }
+            cur = cur * 10 + j;
+            --cnts[j];
+            dfs(i + 1);
+            ++cnts[j];
+            cur /= 10;
+        }
+    }
 }

@@ -3435,26 +3435,26 @@ public class LeetCode_2 {
       int count10 = 0;
       for (int bill : bills) {
          switch (bill) {
-         case 5:
-            ++count5;
-            break;
-         case 10:
-            if (count5 == 0) {
-               return false;
-            }
-            --count5;
-            ++count10;
-            break;
-         case 20:
-            if (count10 >= 1 && count5 >= 1) {
-               --count10;
+            case 5:
+               ++count5;
+               break;
+            case 10:
+               if (count5 == 0) {
+                  return false;
+               }
                --count5;
-            } else if (count5 >= 3) {
-               count5 -= 3;
-            } else {
-               return false;
-            }
-            break;
+               ++count10;
+               break;
+            case 20:
+               if (count10 >= 1 && count5 >= 1) {
+                  --count10;
+                  --count5;
+               } else if (count5 >= 3) {
+                  count5 -= 3;
+               } else {
+                  return false;
+               }
+               break;
          }
       }
       return true;
@@ -4624,33 +4624,43 @@ public class LeetCode_2 {
    }
 
    // 2094. 找出 3 位偶数 (Finding 3-Digit Even Numbers)
-   public int[] findEvenNumbers(int[] digits) {
-      List<Integer> list = new ArrayList<>();
-      int[] counts = new int[10];
-      for (int digit : digits) {
-         ++counts[digit];
-      }
-      int[] give = new int[10];
-      search: for (int num = 100; num < 1000; num += 2) {
-         Arrays.fill(give, 0);
-         int cur = num;
-         while (cur > 0) {
-            int mod = cur % 10;
-            ++give[mod];
-            if (give[mod] > counts[mod]) {
-               continue search;
-            }
-            cur /= 10;
+   private int[] cnts2094;
+   private Set<Integer> set2094;
+   private int cur2094;
 
-         }
-         list.add(num);
+   public int[] findEvenNumbers(int[] digits) {
+      cnts2094 = new int[10];
+      for (int d : digits) {
+         ++cnts2094[d];
       }
-      int[] res = new int[list.size()];
-      for (int i = 0; i < list.size(); ++i) {
-         res[i] = list.get(i);
+      cur2094 = 0;
+      set2094 = new HashSet<>();
+      dfs2094(0);
+      int[] res = new int[set2094.size()];
+      int i = 0;
+      for (int x : set2094) {
+         res[i++] = x;
       }
+      Arrays.sort(res);
       return res;
 
+   }
+
+   private void dfs2094(int i) {
+      if (i == 3) {
+         set2094.add(cur2094);
+         return;
+      }
+      for (int j = 0; j < 10; ++j) {
+         if (i == 0 && j == 0 || cnts2094[j] == 0 || i == 2 && j % 2 == 1) {
+            continue;
+         }
+         cur2094 = cur2094 * 10 + j;
+         --cnts2094[j];
+         dfs2094(i + 1);
+         ++cnts2094[j];
+         cur2094 /= 10;
+      }
    }
 
    // 2092. 找出知晓秘密的所有专家 (Find All People With Secret) --bfs
@@ -6437,30 +6447,30 @@ public class LeetCode_2 {
       int curY = startPos[1];
       for (char c : s.toCharArray()) {
          switch (c) {
-         case 'U':
-            if (--curX < 0) {
-               return count;
-            }
-            ++count;
-            break;
-         case 'D':
-            if (++curX == n) {
-               return count;
-            }
-            ++count;
-            break;
-         case 'L':
-            if (--curY < 0) {
-               return count;
-            }
-            ++count;
-            break;
-         case 'R':
-            if (++curY == n) {
-               return count;
-            }
-            ++count;
-            break;
+            case 'U':
+               if (--curX < 0) {
+                  return count;
+               }
+               ++count;
+               break;
+            case 'D':
+               if (++curX == n) {
+                  return count;
+               }
+               ++count;
+               break;
+            case 'L':
+               if (--curY < 0) {
+                  return count;
+               }
+               ++count;
+               break;
+            case 'R':
+               if (++curY == n) {
+                  return count;
+               }
+               ++count;
+               break;
          }
 
       }
