@@ -9867,23 +9867,29 @@ class Union924:
         return res
 
     # 3538. 合并得到最小旅行时间 (Merge Operations for Minimum Travel Time)
-    def minTravelTime(self, _, n: int, k: int, position: List[int], time: List[int]) -> int:
+    def minTravelTime(
+        self, _, n: int, k: int, position: List[int], time: List[int]
+    ) -> int:
         s = list(accumulate(time, initial=0))  # 计算 time 的前缀和
+
         @cache
         def dfs(i: int, j: int, left_k: int) -> int:
             if j == n - 1:  # 到达终点
                 return inf if left_k else 0
             t = s[j + 1] - s[i]  # 合并到 time[j] 的时间
             # 枚举下一个子数组 [j+1, k]
-            return min(dfs(j + 1, k, left_k - (k - j - 1)) + (position[k] - position[j]) * t
-                       for k in range(j + 1, min(n, j + 2 + left_k)))
+            return min(
+                dfs(j + 1, k, left_k - (k - j - 1)) + (position[k] - position[j]) * t
+                for k in range(j + 1, min(n, j + 2 + left_k))
+            )
+
         return dfs(0, 0, k)  # 第一个子数组是 [0, 0]
 
     # 3335. 字符串转换后的长度 I (Total Characters in String After Transformations I)
     def lengthAfterTransformations(self, s: str, t: int) -> int:
         cnts = [0] * 26
         for c in s:
-            cnts[ord(c) - ord('a')] += 1
+            cnts[ord(c) - ord("a")] += 1
         MOD = 10**9 + 7
         for _ in range(t):
             nxt = [0] * 26
@@ -9900,9 +9906,29 @@ class Union924:
         c0 = 0
         c1 = 0
         for x in s:
-            cnts[ord(x) - ord('a')] += 1
-            if x in 'aeiou':
-                c0 = max(c0, cnts[ord(x) - ord('a')])
+            cnts[ord(x) - ord("a")] += 1
+            if x in "aeiou":
+                c0 = max(c0, cnts[ord(x) - ord("a")])
             else:
-                c1 = max(c1, cnts[ord(x) - ord('a')])
+                c1 = max(c1, cnts[ord(x) - ord("a")])
         return c0 + c1
+
+    # 3543. K 条边路径的最大边权和 (Maximum Weighted K-Edge Path) --dfs
+    def maxWeight(self, n: int, edges: List[List[int]], k: int, t: int) -> int:
+        @cache
+        def dfs(x: int, s: int, w: int) -> None:
+            if s == k:
+                nonlocal res
+                res = max(res, w)
+                return
+            for y, dw in g[x]:
+                if w + dw < t:
+                    dfs(y, s + 1, w + dw)
+
+        g = [[] for _ in range(n)]
+        for u, v, w in edges:
+            g[u].append([v, w])
+        res = -1
+        for i in range(n):
+            dfs(i, 0, 0)
+        return res
