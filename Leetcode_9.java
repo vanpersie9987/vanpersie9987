@@ -5745,4 +5745,21 @@ public class Leetcode_9 {
         return res;
 
     }
+
+    // 3541. 找到频率最高的元音和辅音 (Find Most Frequent Vowel and Consonant)
+    public int maxFreqSum(String s) {
+        int[] cnts = new int[26];
+        int c0 = 0;
+        int c1 = 0;
+        for (char c : s.toCharArray()) {
+            ++cnts[c - 'a'];
+            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+                c0 = Math.max(c0, cnts[c - 'a']);
+            } else {
+                c1 = Math.max(c1, cnts[c - 'a']);
+            }
+        }
+        return c0 + c1;
+
+    }
 }
