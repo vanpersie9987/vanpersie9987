@@ -20,6 +20,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -5761,5 +5762,87 @@ public class Leetcode_9 {
         }
         return c0 + c1;
 
+    }
+
+    // 3543. K 条边路径的最大边权和 (Maximum Weighted K-Edge Path) --dfs
+    private List<int[]>[] g3543;
+    private int k3543;
+    private int t3543;
+    private boolean[][][] memo3543;
+    private int res3543;
+
+    public int maxWeight(int n, int[][] edges, int k, int t) {
+        this.g3543 = new ArrayList[n];
+        this.k3543 = k;
+        this.t3543 = t;
+        this.memo3543 = new boolean[n][k][t];
+        Arrays.setAll(g3543, o -> new ArrayList<>());
+        for (int[] e : edges) {
+            g3543[e[0]].add(new int[] { e[1], e[2] });
+        }
+        res3543 = -1;
+        for (int i = 0; i < n; ++i) {
+            dfs3543(i, 0, 0);
+        }
+        return res3543;
+    }
+
+    private void dfs3543(int i, int j, int w) {
+        if (j == k3543) {
+            res3543 = Math.max(res3543, w);
+            return;
+        }
+        if (memo3543[i][j][w]) {
+            return;
+        }
+        for (int[] nxt : g3543[i]) {
+            int y = nxt[0];
+            int nw = nxt[1];
+            if (w + nw < t3543) {
+                dfs3543(y, j + 1, w + nw);
+            }
+        }
+        memo3543[i][j][w] = true;
+    }
+
+    // 3543. K 条边路径的最大边权和 (Maximum Weighted K-Edge Path) --拓扑排序
+    public int maxWeight2(int n, int[][] edges, int k, int t) {
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[0]].add(new int[] { e[1], e[2] });
+        }
+        boolean[][][] vis = new boolean[n][k + 1][t];
+        int res = -1;
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, bfs3543(i, g, k, t, vis));
+        }
+        return res;
+    }
+
+    private int bfs3543(int start, List<int[]>[] g, int k, int t, boolean[][][] vis) {
+        vis[start][0][0] = true;
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[] { start, 0, 0 });
+        int res = -1;
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int s = cur[1];
+            int w = cur[2];
+            if (s == k) {
+                res = Math.max(res, w);
+                continue;
+            }
+            for (int[] nxt : g[x]) {
+                int y = nxt[0];
+                int wd = nxt[1];
+                if (w + wd < t && !vis[y][s + 1][w + wd]) {
+                    vis[y][s + 1][w + wd] = true;
+                    q.offer(new int[] { y, s + 1, w + wd });
+                }
+            }
+        }
+        return res;
     }
 }
