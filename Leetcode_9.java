@@ -5681,7 +5681,6 @@ public class Leetcode_9 {
         newJ1 = (j0 + j1) / 2;
         dfs3537(newI0, newJ0, newI1, newJ1);
 
-
     }
 
     // 3538. 合并得到最小旅行时间 (Merge Operations for Minimum Travel Time)
@@ -5720,5 +5719,30 @@ public class Leetcode_9 {
             res = Math.min(res, dfs3538(j + 1, k, leftK - (k - j - 1)) + (pos3538[k] - pos3538[j]) * t);
         }
         return memo3538[i][j][leftK] = res;
+    }
+
+    // 3335. 字符串转换后的长度 I (Total Characters in String After Transformations I)
+    public int lengthAfterTransformations(String s, int t) {
+        int[] cnts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++cnts[c - 'a'];
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = 0;
+        for (int r = 0; r < t; ++r) {
+            int[] nxt = new int[26];
+            nxt[0] = cnts[25];
+            nxt[1] = (cnts[0] + cnts[25]) % MOD;
+            for (int i = 2; i < 26; ++i) {
+                nxt[i] = cnts[i - 1];
+            }
+            cnts = nxt;
+        }
+        for (int c : cnts) {
+            res += c;
+            res %= MOD;
+        }
+        return res;
+
     }
 }
