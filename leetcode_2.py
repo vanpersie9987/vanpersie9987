@@ -9878,7 +9878,7 @@ class Union924:
             return min(dfs(j + 1, k, left_k - (k - j - 1)) + (position[k] - position[j]) * t
                        for k in range(j + 1, min(n, j + 2 + left_k)))
         return dfs(0, 0, k)  # 第一个子数组是 [0, 0]
-    
+
     # 3335. 字符串转换后的长度 I (Total Characters in String After Transformations I)
     def lengthAfterTransformations(self, s: str, t: int) -> int:
         cnts = [0] * 26
@@ -9893,3 +9893,16 @@ class Union924:
                 nxt[i] = cnts[i - 1]
             cnts = nxt
         return sum(cnts) % MOD
+
+    # 3541. 找到频率最高的元音和辅音 (Find Most Frequent Vowel and Consonant)
+    def maxFreqSum(self, s: str) -> int:
+        cnts = [0] * 26
+        c0 = 0
+        c1 = 0
+        for x in s:
+            cnts[ord(x) - ord('a')] += 1
+            if x in 'aeiou':
+                c0 = max(c0, cnts[ord(x) - ord('a')])
+            else:
+                c1 = max(c1, cnts[ord(x) - ord('a')])
+        return c0 + c1
