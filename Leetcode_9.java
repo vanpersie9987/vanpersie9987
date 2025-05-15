@@ -5959,4 +5959,14 @@ public class Leetcode_9 {
         }
         return false;
     }
+
+    // 3547. 图中边值的最大和 (Maximum Sum of Edge Values in a Graph)
+    public long maxScore(int n, int[][] edges) {
+        long res = ((long) n * n * 2 + n * 5 - 6) * (n - 1) / 6;
+        if (n == edges.length) {
+            res += 2;
+        }
+        return res;
+    }
+
 }

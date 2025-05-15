@@ -9988,7 +9988,7 @@ class Union924:
         for c in s:
             cnts[ord(c) - ord("a")] += 1
         return sum(sorted(cnts)[: 26 - k])
-    
+
     # 3546. 等和矩阵分割 I (Equal Sum Grid Partition I)
     def canPartitionGrid(self, grid: List[List[int]]) -> bool:
         def check(arr: List[int]) -> bool:
@@ -10009,3 +10009,10 @@ class Union924:
                 col[j] += grid[i][j]
                 row[i] += grid[i][j]
         return check(col) or check(row)
+
+    # 3547. 图中边值的最大和 (Maximum Sum of Edge Values in a Graph)
+    def maxScore(self, n: int, edges: List[List[int]]) -> int:
+        ans = (n * n * 2 + n * 5 - 6) * (n - 1) // 6
+        if n == len(edges):  # 环
+            ans += 2
+        return ans
