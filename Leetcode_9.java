@@ -5845,4 +5845,20 @@ public class Leetcode_9 {
         }
         return res;
     }
+
+    // 3542. 将所有元素变为 0 的最少操作次数 (Minimum Operations to Convert All Elements to Zero)
+    public int minOperations3542(int[] nums) {
+        Stack<Integer> st = new Stack<>();
+        int res = 0;
+        for (int x : nums) {
+            while (!st.isEmpty() && st.peek() > x) {
+                st.pop();
+                ++res;
+            }
+            if (st.isEmpty() || st.peek() != x) {
+                st.push(x);
+            }
+        }
+        return res + st.size() - (st.get(0) == 0 ? 1 : 0);
+    }
 }
