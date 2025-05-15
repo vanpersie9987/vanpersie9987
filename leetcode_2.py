@@ -9945,7 +9945,7 @@ class Union924:
             if not st or x != st[-1]:
                 st.append(x)
         return ans + len(st) - (st[0] == 0)  # 0 不需要操作
-    
+
     # 3544. 子树反转和 (Subtree Inversion Sum)
     def subtreeInversionSum(
         self, edges: List[List[int]], nums: List[int], k: int
@@ -9971,6 +9971,7 @@ class Union924:
                     res = s
             memo[t] = res
             return res
+
         n = len(nums)
         g = [[] for _ in range(n)]
         for u, v in edges:
@@ -9980,3 +9981,31 @@ class Union924:
         res = dfs(0, -1, 0, 1)
         dfs.cache_clear()
         return res
+
+    # 3545. 不同字符数量最多为 K 时的最少删除数 (Minimum Deletions for At Most K Distinct Characters)
+    def minDeletion(self, s: str, k: int) -> int:
+        cnts = [0] * 26
+        for c in s:
+            cnts[ord(c) - ord("a")] += 1
+        return sum(sorted(cnts)[: 26 - k])
+    
+    # 3546. 等和矩阵分割 I (Equal Sum Grid Partition I)
+    def canPartitionGrid(self, grid: List[List[int]]) -> bool:
+        def check(arr: List[int]) -> bool:
+            suf = sum(arr)
+            pre = 0
+            for x in arr:
+                pre += x
+                suf -= x
+                if pre == suf:
+                    return True
+            return False
+        m = len(grid)
+        n = len(grid[0])
+        col = [0] * n
+        row = [0] * m
+        for i in range(m):
+            for j in range(n):
+                col[j] += grid[i][j]
+                row[i] += grid[i][j]
+        return check(col) or check(row)

@@ -5914,4 +5914,49 @@ public class Leetcode_9 {
         }
         return memo3544[x][left][p] = res;
     }
+
+    // 3545. 不同字符数量最多为 K 时的最少删除数 (Minimum Deletions for At Most K Distinct
+    // Characters)
+    public int minDeletion(String s, int k) {
+        int[] cnts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++cnts[c - 'a'];
+        }
+        Arrays.sort(cnts);
+        int res = 0;
+        for (int i = 25 - k; i >= 0; --i) {
+            res += cnts[i];
+        }
+        return res;
+
+    }
+
+    // 3546. 等和矩阵分割 I (Equal Sum Grid Partition I)
+    public boolean canPartitionGrid(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        long[] row = new long[m];
+        long[] col = new long[n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                row[i] += grid[i][j];
+                col[j] += grid[i][j];
+            }
+        }
+        return check3546(row) || check3546(col);
+
+    }
+
+    private boolean check3546(long[] arr) {
+        long pre = 0L;
+        long suf = Arrays.stream(arr).sum();
+        for (long x : arr) {
+            pre += x;
+            suf -= x;
+            if (pre == suf) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
