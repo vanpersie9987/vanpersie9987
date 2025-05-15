@@ -4209,17 +4209,62 @@ public class Leetcode_8 {
 
     }
 
-    // 100078. 最长相邻不相等子序列 I (Longest Unequal Adjacent Groups Subsequence I)
-    public List<String> getWordsInLongestSubsequence(int n, String[] words, int[] groups) {
+    // 2900. 最长相邻不相等子序列 I (Longest Unequal Adjacent Groups Subsequence I)
+    public List<String> getLongestSubsequence(String[] words, int[] groups) {
         List<String> res = new ArrayList<>();
         int pre = -1;
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < words.length; ++i) {
             if (res.isEmpty() || (groups[i] ^ pre) == 1) {
                 res.add(words[i]);
                 pre = groups[i];
             }
         }
         return res;
+
+    }
+
+    // 2900. 最长相邻不相等子序列 I (Longest Unequal Adjacent Groups Subsequence I)
+    private int[][] memo2900;
+    private int n2900;
+    private int[] group2900;
+    private String[] words2900;
+    private List<String> res2900;
+
+    public List<String> getLongestSubsequence2(String[] words, int[] groups) {
+        this.n2900 = words.length;
+        this.words2900 = words;
+        this.group2900 = groups;
+        this.memo2900 = new int[n2900][3];
+        int mx = dfs2900(0, 2);
+        this.res2900 = new ArrayList<>();
+        makeAns2900(0, 2, mx);
+        return res2900;
+    }
+
+    private void makeAns2900(int i, int j, int mx) {
+        if (i == n2900) {
+            return;
+        }
+        if (mx == dfs2900(i + 1, j)) {
+            makeAns2900(i + 1, j, mx);
+            return;
+        }
+        res2900.add(words2900[i]);
+        makeAns2900(i + 1, group2900[i], mx - 1);
+    }
+
+    private int dfs2900(int i, int j) {
+        if (i == n2900) {
+            return 0;
+        }
+        if (memo2900[i][j] != 0) {
+            return memo2900[i][j];
+        }
+        int res = dfs2900(i + 1, j);
+        if (j == 2 || (j ^ group2900[i]) == 1) {
+            res = Math.max(res, dfs2900(i + 1, group2900[i]) + 1);
+        }
+        return memo2900[i][j] = res;
 
     }
 

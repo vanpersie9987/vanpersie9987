@@ -7181,15 +7181,39 @@ class leetcode_1:
         return res
 
     # 2900. 最长相邻不相等子序列 I (Longest Unequal Adjacent Groups Subsequence I)
-    def getWordsInLongestSubsequence(
-        self, n: int, words: List[str], groups: List[int]
-    ) -> List[str]:
+    def getLongestSubsequence(self, words: List[str], groups: List[int]) -> List[str]:
         pre = groups[0]
         res = [words[0]]
         for w, g in zip(words, groups):
             if (g ^ pre) == 1:
                 res.append(w)
                 pre ^= 1
+        return res
+
+    # 2900. 最长相邻不相等子序列 I (Longest Unequal Adjacent Groups Subsequence I)
+    def getLongestSubsequence(self, words: List[str], groups: List[int]) -> List[str]:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0
+            res = dfs(i + 1, j)
+            if j == -1 or j ^ groups[i] == 1:
+                res = max(res, dfs(i + 1, groups[i]) + 1)
+            return res
+
+        def make_ans(i: int, j: int, mx: int) -> None:
+            if i == n:
+                return
+            if mx == dfs(i + 1, j):
+                make_ans(i + 1, j, mx)
+                return
+            res.append(words[i])
+            make_ans(i + 1, groups[i], mx - 1)
+
+        n = len(words)
+        mx = dfs(0, -1)
+        res = []
+        make_ans(0, -1, mx)
         return res
 
     # 2652. 倍数求和 (Sum Multiples)
