@@ -9932,7 +9932,7 @@ class Union924:
         for i in range(n):
             dfs(i, 0, 0)
         return res
-    
+
     # 3542. 将所有元素变为 0 的最少操作次数 (Minimum Operations to Convert All Elements to Zero)
     def minOperations(self, nums: List[int]) -> int:
         ans = 0
@@ -9945,3 +9945,38 @@ class Union924:
             if not st or x != st[-1]:
                 st.append(x)
         return ans + len(st) - (st[0] == 0)  # 0 不需要操作
+    
+    # 3544. 子树反转和 (Subtree Inversion Sum)
+    def subtreeInversionSum(
+        self, edges: List[List[int]], nums: List[int], k: int
+    ) -> int:
+        @cache
+        def dfs(x: int, fa: int, left: int, p: int) -> int:
+            t = (x, left, p)
+            if t in memo:
+                return memo[t]
+            # 不反转 x
+            res = nums[x] * p
+            for y in g[x]:
+                if y != fa:
+                    res += dfs(y, x, max(left - 1, 0), p)
+            # 反转 x
+            if left == 0:
+                p = -p
+                s = nums[x] * p
+                for y in g[x]:
+                    if y != fa:
+                        s += dfs(y, x, k - 1, p)
+                if s > res:
+                    res = s
+            memo[t] = res
+            return res
+        n = len(nums)
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        memo = {}
+        res = dfs(0, -1, 0, 1)
+        dfs.cache_clear()
+        return res

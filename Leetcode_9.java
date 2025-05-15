@@ -5861,4 +5861,57 @@ public class Leetcode_9 {
         }
         return res + st.size() - (st.get(0) == 0 ? 1 : 0);
     }
+
+    // 3544. 子树反转和 (Subtree Inversion Sum)
+    private List<Integer>[] g3544;
+    private long[][][] memo3544;
+    private int[] nums3544;
+    private int k3544;
+
+    public long subtreeInversionSum(int[][] edges, int[] nums, int k) {
+        int n = nums.length;
+        this.g3544 = new ArrayList[n];
+        Arrays.setAll(g3544, o -> new ArrayList<>());
+        for (int[] e : edges) {
+            g3544[e[0]].add(e[1]);
+            g3544[e[1]].add(e[0]);
+        }
+        this.k3544 = k;
+        this.memo3544 = new long[n][k][2];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < k; ++j) {
+                Arrays.fill(memo3544[i][j], Long.MIN_VALUE);
+            }
+        }
+        this.nums3544 = nums;
+        return dfs3544(0, -1, 0, 1);
+
+    }
+
+    private long dfs3544(int x, int fa, int left, int p) {
+        if (memo3544[x][left][p] != Long.MIN_VALUE) {
+            return memo3544[x][left][p];
+        }
+        // 不反转
+        long res = nums3544[x] * (p * 2 - 1);
+        for (int y : g3544[x]) {
+            if (y != fa) {
+                res += dfs3544(y, x, Math.max(left - 1, 0), p);
+            }
+        
+        }
+        // 反转
+        if (left == 0) {
+            long s = nums3544[x] * -(p * 2 - 1);
+            for (int y : g3544[x]) {
+                if (y != fa) {
+                    s += dfs3544(y, x, k3544 - 1, p ^ 1);
+                }
+            }
+            if (s > res) {
+                res = s;
+            }
+        }
+        return memo3544[x][left][p] = res;
+    }
 }
