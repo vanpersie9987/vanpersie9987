@@ -9866,40 +9866,33 @@ class leetcode_1:
         return res
 
     # 2901. 最长相邻不相等子序列 II (Longest Unequal Adjacent Groups Subsequence II)
-    def getWordsInLongestSubsequence(
-        self, words: List[str], groups: List[int]
-    ) -> List[str]:
-        def make_ans(i: int, j: int) -> None:
+    def getWordsInLongestSubsequence(self, words: List[str], groups: List[int]) -> List[str]:
+        def make_ans(i: int, j: int, mx: int) -> None:
             if i == n:
                 return
-            final_ans = dfs(i, j)
-            if dfs(i + 1, j) == final_ans:
-                make_ans(i + 1, j)
+            if mx == dfs(i + 1, j):
+                make_ans(i + 1, j, mx)
                 return
             res.append(words[i])
-            make_ans(i + 1, i)
-
+            make_ans(i + 1, i, mx - 1)
+        def is_legal(i: int, j: int) -> bool:
+            if len(words[i]) != len(words[j]):
+                return False
+            if groups[i] == groups[j]:
+                return False
+            return sum(x != y for x, y in zip(words[i], words[j])) == 1
         @cache
         def dfs(i: int, j: int) -> int:
             if i == n:
                 return 0
             res = dfs(i + 1, j)
-            if j == -1 or valid[j][i]:
+            if j == n or is_legal(i, j):
                 res = max(res, dfs(i + 1, i) + 1)
             return res
-
-        def check(s0: str, s1: str):
-            return len(s0) == len(s1) and sum(x != y for x, y in zip(s0, s1)) == 1
-
         n = len(words)
-        valid = [[0] * n for _ in range(n)]
-        for i in range(n):
-            for j in range(i + 1, n):
-                if groups[i] != groups[j] and check(words[i], words[j]):
-                    valid[i][j] = 1
-        dfs(0, -1)
+        mx = dfs(0, n)
         res = []
-        make_ans(0, -1)
+        make_ans(0, n, mx)
         return res
 
     # 2744. 最大字符串配对数目 (Find Maximum Number of String Pairs)
