@@ -76,4 +76,21 @@ class Node:
         self.children = children
 
 
-# class leetcode_3:
+class leetcode_3:
+
+    # 75. 颜色分类 (Sort Colors)
+    def sortColors(self, nums: List[int]) -> None:
+        l = 0
+        r = len(nums) - 1
+        p = 0
+        while p <= r:
+            if nums[p] == 2:
+                nums[p], nums[r] = nums[r], nums[p]
+                r -= 1
+            elif nums[p] == 0:
+                nums[p], nums[l] = nums[l], nums[p]
+                p += 1
+                l += 1
+            else:
+                p += 1
+        return nums
