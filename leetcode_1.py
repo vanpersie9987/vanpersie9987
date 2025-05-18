@@ -1879,7 +1879,13 @@ class leetcode_1:
         def dfs(i: int, j: int) -> int:
             if i == n:
                 return 1
-            return sum(dfs(i + 1, k) if j == -1 or legal(j, k) else 0 for k in s) % MOD
+            return (
+                sum(
+                    dfs(i + 1, k) if j == -1 or is_ok[j][k] else 0
+                    for k in range(len(l))
+                )
+                % MOD
+            )
 
         def check(i: int) -> bool:
             pre = -1
@@ -1889,10 +1895,14 @@ class leetcode_1:
                 i, pre = divmod(i, 3)
             return True
 
-        s = set()
+        l = list()
         for i in range(pow(3, m)):
             if check(i):
-                s.add(i)
+                l.append(i)
+        is_ok = [[False] * len(l) for _ in range(len(l))]
+        for i in range(len(l)):
+            for j in range(len(l)):
+                is_ok[i][j] = legal(l[i], l[j])
         MOD = 10**9 + 7
         return dfs(0, -1)
 

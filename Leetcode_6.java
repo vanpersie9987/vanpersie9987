@@ -10281,45 +10281,48 @@ public class Leetcode_6 {
     private int[][] memo1931;
     private int m1931;
     private int n1931;
-    private Set<Integer> set1931;
+    private List<Integer> list1931;
+    private boolean[][] isOk1931;
 
     public int colorTheGrid(int m, int n) {
-        this.memo1931 = new int[n][(int) Math.pow(3, m)];
+        this.m1931 = m;
+        this.n1931 = n;
+        this.list1931 = new ArrayList<>();
+        for (int i = 0; i < (int) Math.pow(3, m); ++i) {
+            if (check1931(i)) {
+                list1931.add(i);
+            }
+        }
+        this.memo1931 = new int[n][list1931.size()];
         for (int i = 0; i < n; ++i) {
             Arrays.fill(memo1931[i], -1);
         }
-        this.m1931 = m;
-        this.n1931 = n;
-        this.set1931 = new HashSet<>();
-        for (int i = 0; i < (int) Math.pow(3, m); ++i) {
-            if (check1931(i)) {
-                set1931.add(i);
+        this.isOk1931 = new boolean[list1931.size()][list1931.size()];
+        for (int i = 0; i < list1931.size(); ++i) {
+            for (int j = 0; j < list1931.size(); ++j) {
+                isOk1931[i][j] = legal1931(list1931.get(i), list1931.get(j));
             }
+
         }
-        int res = 0;
-        final int MOD = (int) (1e9 + 7);
-        for (int i : set1931) {
-            res = (res + dfs1931(1, i)) % MOD;
-        }
-        return res;
+        return dfs1931(0, 0);
     }
 
-    private int dfs1931(int j, int i) {
-        if (j == n1931) {
+    private int dfs1931(int i, int j) {
+        if (i == n1931) {
             return 1;
         }
-        if (memo1931[j][i] != -1) {
-            return memo1931[j][i];
+        if (memo1931[i][j] != -1) {
+            return memo1931[i][j];
         }
         int res = 0;
         final int MOD = (int) (1e9 + 7);
-        for (int k : set1931) {
-            if (legal1931(k, i)) {
-                res += dfs1931(j + 1, k);
+        for (int k = 0; k < list1931.size(); ++k) {
+            if (i == 0 || isOk1931[j][k]) {
+                res += dfs1931(i + 1, k);
                 res %= MOD;
             }
         }
-        return memo1931[j][i] = res;
+        return memo1931[i][j] = res;
     }
 
     private boolean legal1931(int a, int b) {
