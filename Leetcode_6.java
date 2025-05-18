@@ -191,8 +191,7 @@ public class Leetcode_6 {
         List<Integer> trans = new ArrayList<>();
         for (String price : prices) {
             int dot = price.indexOf(".");
-            int tran = Integer.parseInt(price.substring(0, dot)) * 1000
-                    + Integer.parseInt(price.substring(dot + 1));
+            int tran = Integer.parseInt(price.substring(0, dot)) * 1000 + Integer.parseInt(price.substring(dot + 1));
             min += tran / 1000;
             max += tran / 1000 + (tran % 1000 == 0 ? 0 : 1);
             trans.add(tran);
@@ -6035,16 +6034,12 @@ public class Leetcode_6 {
     }
 
     /**
-     * You are given a string
-     * S of length
-     * N consisting of A and B.
+     * You are given a string S of length N consisting of A and B.
      * 
      * You can repeat the following operation zero or more times:
      * 
-     * choose a pair of adjacent characters in
-     * S and replace them with AB.
-     * Determine whether
-     * S can be turned into a palindrome.
+     * choose a pair of adjacent characters in S and replace them with AB. Determine
+     * whether S can be turned into a palindrome.
      */
     public boolean isValid(String s) {
         if ("BA".equals(s) || s.charAt(0) == 'A' && s.charAt(s.length() - 1) == 'B') {
@@ -7370,44 +7365,44 @@ public class Leetcode_6 {
         // 11--212
         for (int i = 0; i < 12; ++i) {
             switch (i) {
-                case 0:
-                    g1411[i].addAll(List.of(5, 6, 7, 8, 10));
-                    break;
-                case 1:
-                    g1411[i].addAll(List.of(5, 6, 8, 10, 11));
-                    break;
-                case 2:
-                    g1411[i].addAll(List.of(4, 6, 7, 8));
-                    break;
-                case 3:
-                    g1411[i].addAll(List.of(5, 9, 10, 11));
-                    break;
-                case 4:
-                    g1411[i].addAll(List.of(2, 8, 10, 11));
-                    break;
-                case 5:
-                    g1411[i].addAll(List.of(0, 1, 3, 9));
-                    break;
-                case 6:
-                    g1411[i].addAll(List.of(0, 1, 2, 9, 11));
-                    break;
-                case 7:
-                    g1411[i].addAll(List.of(0, 2, 9, 10, 11));
-                    break;
-                case 8:
-                    g1411[i].addAll(List.of(0, 1, 2, 4));
-                    break;
-                case 9:
-                    g1411[i].addAll(List.of(3, 5, 6, 7));
-                    break;
-                case 10:
-                    g1411[i].addAll(List.of(0, 1, 3, 4, 7));
-                    break;
-                case 11:
-                    g1411[i].addAll(List.of(1, 3, 4, 6, 7));
-                    break;
-                default:
-                    break;
+            case 0:
+                g1411[i].addAll(List.of(5, 6, 7, 8, 10));
+                break;
+            case 1:
+                g1411[i].addAll(List.of(5, 6, 8, 10, 11));
+                break;
+            case 2:
+                g1411[i].addAll(List.of(4, 6, 7, 8));
+                break;
+            case 3:
+                g1411[i].addAll(List.of(5, 9, 10, 11));
+                break;
+            case 4:
+                g1411[i].addAll(List.of(2, 8, 10, 11));
+                break;
+            case 5:
+                g1411[i].addAll(List.of(0, 1, 3, 9));
+                break;
+            case 6:
+                g1411[i].addAll(List.of(0, 1, 2, 9, 11));
+                break;
+            case 7:
+                g1411[i].addAll(List.of(0, 2, 9, 10, 11));
+                break;
+            case 8:
+                g1411[i].addAll(List.of(0, 1, 2, 4));
+                break;
+            case 9:
+                g1411[i].addAll(List.of(3, 5, 6, 7));
+                break;
+            case 10:
+                g1411[i].addAll(List.of(0, 1, 3, 4, 7));
+                break;
+            case 11:
+                g1411[i].addAll(List.of(1, 3, 4, 6, 7));
+                break;
+            default:
+                break;
             }
 
         }
@@ -8466,8 +8461,7 @@ public class Leetcode_6 {
         for (int r = n; r > 0; --r) {
             for (int i = 0; i < n - r + 1; ++i) {
                 for (int j = 0; j < n - r + 1; ++j) {
-                    if (preRow[i][j + r] - preRow[i][j] == 0
-                            && preRow[i + r - 1][j + r] - preRow[i + r - 1][j] == 0
+                    if (preRow[i][j + r] - preRow[i][j] == 0 && preRow[i + r - 1][j + r] - preRow[i + r - 1][j] == 0
                             && preCol[j][i + r] - preCol[j][i] == 0
                             && preCol[j + r - 1][i + r] - preCol[j + r - 1][i] == 0) {
                         return new int[] { i, j, r };
@@ -8711,9 +8705,7 @@ public class Leetcode_6 {
         for (int i = 0; i < m; ++i) {
             int r = queries[i][0];
             int c = queries[i][1];
-            if (row.getOrDefault(r, 0) != 0
-                    || col.getOrDefault(c, 0) != 0
-                    || mainDiag.getOrDefault(r - c, 0) != 0
+            if (row.getOrDefault(r, 0) != 0 || col.getOrDefault(c, 0) != 0 || mainDiag.getOrDefault(r - c, 0) != 0
                     || counterDiag.getOrDefault(r + c, 0) != 0) {
                 res[i] = 1;
                 for (int x = Math.max(0, r - 1); x <= Math.min(n - 1, r + 1); ++x) {
@@ -10273,8 +10265,7 @@ public class Leetcode_6 {
         }
         int cur = word1320.charAt(i) - 'A';
         int pre = word1320.charAt(i - 1) - 'A';
-        return memo1320[i][j] = Math.min(
-                dfs1320(i + 1, j) + getDis1320(pre, cur),
+        return memo1320[i][j] = Math.min(dfs1320(i + 1, j) + getDis1320(pre, cur),
                 dfs1320(i + 1, pre) + getDis1320(j, cur));
     }
 
@@ -10324,15 +10315,15 @@ public class Leetcode_6 {
         final int MOD = (int) (1e9 + 7);
         for (int k : set1931) {
             if (legal1931(k, i)) {
-                res = (res + dfs1931(j + 1, k)) % MOD;
+                res += dfs1931(j + 1, k);
+                res %= MOD;
             }
         }
         return memo1931[j][i] = res;
     }
 
     private boolean legal1931(int a, int b) {
-        int cnt = m1931;
-        while (cnt-- > 0) {
+        for (int t = 0; t < m1931; ++t) {
             if (a % 3 == b % 3) {
                 return false;
             }
@@ -10344,8 +10335,7 @@ public class Leetcode_6 {
 
     private boolean check1931(int i) {
         int pre = -1;
-        int cnt = m1931;
-        while (cnt-- > 0) {
+        for (int t = 0; t < m1931; ++t) {
             if (pre == i % 3) {
                 return false;
             }

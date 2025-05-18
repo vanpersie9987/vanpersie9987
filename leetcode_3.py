@@ -57,6 +57,7 @@ from zoneinfo import reset_tzpath
 from networkx import dfs_edges, grid_2d_graph, interval_graph, union
 from sortedcontainers import SortedDict, SortedList, SortedSet
 
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val

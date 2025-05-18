@@ -1867,49 +1867,34 @@ class leetcode_1:
 
     # 1931. 用三种不同颜色为网格涂色 (Painting a Grid With Three Different Colors)
     def colorTheGrid(self, m: int, n: int) -> int:
-        MOD = 10**9 + 7
-
-        def check(i: int) -> bool:
-            pre = -1
-            cnt = m
-            while cnt > 0:
-                if pre == i % 3:
+        def legal(x: int, y: int) -> bool:
+            for _ in range(m):
+                if x % 3 == y % 3:
                     return False
-                cnt -= 1
-                pre = i % 3
-                i //= 3
-            return True
-
-        def legal(a: int, b: int) -> bool:
-            cnt = m
-            while cnt > 0:
-                if a % 3 == b % 3:
-                    return False
-                cnt -= 1
-                a //= 3
-                b //= 3
+                x //= 3
+                y //= 3
             return True
 
         @cache
-        def dfs(j: int, i: int) -> int:
-            if j == n:
+        def dfs(i: int, j: int) -> int:
+            if i == n:
                 return 1
-            res = 0
-            for k in s:
-                if legal(k, i):
-                    res += dfs(j + 1, k)
-                    res %= MOD
-            return res
+            return sum(dfs(i + 1, k) if j == -1 or legal(j, k) else 0 for k in s) % MOD
+
+        def check(i: int) -> bool:
+            pre = -1
+            for _ in range(m):
+                if i % 3 == pre:
+                    return False
+                i, pre = divmod(i, 3)
+            return True
 
         s = set()
         for i in range(pow(3, m)):
             if check(i):
                 s.add(i)
-        res = 0
-        for i in s:
-            res += dfs(1, i)
-            res %= MOD
-        return res
+        MOD = 10**9 + 7
+        return dfs(0, -1)
 
     # 剑指 Offer 46. 把数字翻译成字符串
     def translateNum(self, num: int) -> int:
@@ -9866,7 +9851,9 @@ class leetcode_1:
         return res
 
     # 2901. 最长相邻不相等子序列 II (Longest Unequal Adjacent Groups Subsequence II)
-    def getWordsInLongestSubsequence(self, words: List[str], groups: List[int]) -> List[str]:
+    def getWordsInLongestSubsequence(
+        self, words: List[str], groups: List[int]
+    ) -> List[str]:
         def make_ans(i: int, j: int, mx: int) -> None:
             if i == n:
                 return
@@ -9875,12 +9862,14 @@ class leetcode_1:
                 return
             res.append(words[i])
             make_ans(i + 1, i, mx - 1)
+
         def is_legal(i: int, j: int) -> bool:
             if len(words[i]) != len(words[j]):
                 return False
             if groups[i] == groups[j]:
                 return False
             return sum(x != y for x, y in zip(words[i], words[j])) == 1
+
         @cache
         def dfs(i: int, j: int) -> int:
             if i == n:
@@ -9889,6 +9878,7 @@ class leetcode_1:
             if j == n or is_legal(i, j):
                 res = max(res, dfs(i + 1, i) + 1)
             return res
+
         n = len(words)
         mx = dfs(0, n)
         res = []
