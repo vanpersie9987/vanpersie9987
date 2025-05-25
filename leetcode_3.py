@@ -95,3 +95,17 @@ class leetcode_3:
             else:
                 p += 1
         return nums
+
+    # 2131. 连接两字母单词得到的最长回文串 (Longest Palindrome by Concatenating Two Letter Words)
+    def longestPalindrome(self, words: List[str]) -> int:
+        d = [[0] * 26 for _ in range(26)]
+        for a, b in words:
+            d[ord(a) - ord("a")][ord(b) - ord("a")] += 1
+        res = 0
+        for i in range(26):
+            for j in range(i, 26):
+                if i == j:
+                    res += d[i][j] // 2
+                else:
+                    res += min(d[i][j], d[j][i])
+        return res * 4 + any(d[i][i] % 2 for i in range(26)) * 2
