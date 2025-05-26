@@ -109,3 +109,30 @@ class leetcode_3:
                 else:
                     res += min(d[i][j], d[j][i])
         return res * 4 + any(d[i][i] % 2 for i in range(26)) * 2
+    
+    # 1857. 有向图中最大颜色值 (Largest Color Value in a Directed Graph)
+    def largestPathValue(self, colors: str, edges: List[List[int]]) -> int:
+        n = len(colors)
+        g = [[] for _ in range(n)]
+        indegree = [0] * n
+        for u, v in edges:
+            g[u].append(v)
+            indegree[v] += 1
+        queue = collections.deque()
+        for i in range(n):
+            if indegree[i] == 0:
+                queue.append(i)
+        count = 0
+        dp = [[0] * 26 for _ in range(n)]
+        while queue:
+            count += 1
+            u = queue.popleft()
+            dp[u][ord(colors[u]) - ord("a")] += 1
+            for v in g[u]:
+                indegree[v] -= 1
+                if indegree[v] == 0:
+                    queue.append(v)
+                for i in range(26):
+                    dp[v][i] = max(dp[v][i], dp[u][i])
+        return -1 if count < n else max(max(dp[i]) for i in range(n))
+        
