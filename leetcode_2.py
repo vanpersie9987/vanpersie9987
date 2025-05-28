@@ -7472,10 +7472,7 @@ class Union924:
         g2 = generate(edges2)
         mx = max(dfs(i, -1, g2, k - 1) for i in range(len(g2)))
         g1 = generate(edges1)
-        res = []
-        for i in range(len(g1)):
-            res.append(dfs(i, -1, g1, k) + mx)
-        return res
+        return [dfs(i, -1, g1, k) + mx for i in range(len(g1))]
 
     # 3373. 连接两棵树后最大目标节点数目 II (Maximize the Number of Target Nodes After Connecting Trees II)
     def maxTargetNodes(

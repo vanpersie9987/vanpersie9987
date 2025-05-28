@@ -3614,32 +3614,28 @@ public class Leetcode_9 {
     // 3372. 连接两棵树后最大目标节点数目 I (Maximize the Number of Target Nodes After
     // Connecting Trees I)
     public int[] maxTargetNodes(int[][] edges1, int[][] edges2, int k) {
-        int n = edges1.length + 1;
-        int m = edges2.length + 1;
-        List<Integer>[] g1 = buildTree3372(edges1);
         List<Integer>[] g2 = buildTree3372(edges2);
         int mx = 0;
-        for (int i = 0; i < m; ++i) {
-            mx = Math.max(mx, dfs3372(g2, i, -1, k - 1));
+        for (int i = 0; i < g2.length; ++i) {
+            mx = Math.max(mx, dfs3372(i, -1, g2, k - 1));
         }
-        int[] res = new int[n];
-        for (int i = 0; i < n; ++i) {
-            res[i] = dfs3372(g1, i, -1, k) + mx;
+        List<Integer>[] g1 = buildTree3372(edges1);
+        int[] res = new int[edges1.length + 1];
+        for (int i = 0; i < res.length; ++i) {
+            res[i] = dfs3372(i, -1, g1, k) + mx;
         }
         return res;
-
     }
 
-    private int dfs3372(List<Integer>[] g, int x, int fa, int k) {
+    private int dfs3372(int x, int fa, List<Integer>[] g, int k) {
         if (k < 0) {
             return 0;
         }
         int res = 0;
         for (int y : g[x]) {
             if (y != fa) {
-                res += dfs3372(g, y, x, k - 1);
+                res += dfs3372(y, x, g, k - 1);
             }
-
         }
         return res + 1;
     }
