@@ -19,7 +19,7 @@ from inspect import modulesbyfile
 from itertools import accumulate, combinations, count, islice, pairwise, permutations
 from locale import DAY_4
 from logging import _Level, root
-from math import comb, cos, fabs, gcd, inf, isqrt, lcm, sqrt
+from math import comb, cos, e, fabs, gcd, inf, isqrt, lcm, sqrt
 from mimetypes import init
 from multiprocessing import reduction
 from operator import le, ne, truediv
@@ -109,7 +109,7 @@ class leetcode_3:
                 else:
                     res += min(d[i][j], d[j][i])
         return res * 4 + any(d[i][i] % 2 for i in range(26)) * 2
-    
+
     # 1857. 有向图中最大颜色值 (Largest Color Value in a Directed Graph)
     def largestPathValue(self, colors: str, edges: List[List[int]]) -> int:
         n = len(colors)
@@ -135,4 +135,3 @@ class leetcode_3:
                 for i in range(26):
                     dp[v][i] = max(dp[v][i], dp[u][i])
         return -1 if count < n else max(max(dp[i]) for i in range(n))
-        

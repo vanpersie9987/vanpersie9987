@@ -7454,33 +7454,27 @@ class Union924:
         return res
 
     # 3372. 连接两棵树后最大目标节点数目 I (Maximize the Number of Target Nodes After Connecting Trees I)
-    def maxTargetNodes(
-        self, edges1: List[List[int]], edges2: List[List[int]], k: int
-    ) -> List[int]:
-        def dfs(g: List[List[int]], x: int, fa: int, k: int) -> int:
+    def maxTargetNodes(self, edges1: List[List[int]], edges2: List[List[int]], k: int) -> List[int]:
+        def dfs(x: int, fa: int, g: List[List[int]], k: int) -> int:
             if k < 0:
                 return 0
             res = 0
             for y in g[x]:
-                if y != fa:
-                    res += dfs(g, y, x, k - 1)
+                if y != fa and k:
+                    res += dfs(y, x, g, k - 1)
             return res + 1
-
-        g1 = [[] for _ in range(len(edges1) + 1)]
-        g2 = [[] for _ in range(len(edges2) + 1)]
-        for u, v in edges1:
-            g1[u].append(v)
-            g1[v].append(u)
-        for u, v in edges2:
-            g2[u].append(v)
-            g2[v].append(u)
-        mx = 0
-        for i in range(len(edges2) + 1):
-            mx = max(mx, dfs(g2, i, -1, k - 1))
+        def generate(edges: List[List[int]]) -> List[List[int]]:
+            g = [[] for _ in range (len(edges) + 1)]
+            for u, v in edges:
+                g[u].append(v)
+                g[v].append(u)
+            return g
+        g2 = generate(edges2)
+        mx = max(dfs(i, -1, g2, k - 1) for i in range(len(g2)))
+        g1 = generate(edges1)
         res = []
-        for i in range(len(edges1) + 1):
-            dfs(g1, i, -1, k)
-            res.append(dfs(g1, i, -1, k) + mx)
+        for i in range(len(g1)):
+            res.append(dfs(i, -1, g1, k) + mx)
         return res
 
     # 3373. 连接两棵树后最大目标节点数目 II (Maximize the Number of Target Nodes After Connecting Trees II)
