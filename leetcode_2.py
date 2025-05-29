@@ -7454,7 +7454,9 @@ class Union924:
         return res
 
     # 3372. 连接两棵树后最大目标节点数目 I (Maximize the Number of Target Nodes After Connecting Trees I)
-    def maxTargetNodes(self, edges1: List[List[int]], edges2: List[List[int]], k: int) -> List[int]:
+    def maxTargetNodes(
+        self, edges1: List[List[int]], edges2: List[List[int]], k: int
+    ) -> List[int]:
         def dfs(x: int, fa: int, g: List[List[int]], k: int) -> int:
             if k < 0:
                 return 0
@@ -7463,12 +7465,14 @@ class Union924:
                 if y != fa and k:
                     res += dfs(y, x, g, k - 1)
             return res + 1
+
         def generate(edges: List[List[int]]) -> List[List[int]]:
-            g = [[] for _ in range (len(edges) + 1)]
+            g = [[] for _ in range(len(edges) + 1)]
             for u, v in edges:
                 g[u].append(v)
                 g[v].append(u)
             return g
+
         g2 = generate(edges2)
         mx = max(dfs(i, -1, g2, k - 1) for i in range(len(g2)))
         g1 = generate(edges1)
@@ -7478,34 +7482,34 @@ class Union924:
     def maxTargetNodes(
         self, edges1: List[List[int]], edges2: List[List[int]]
     ) -> List[int]:
-        def dfs(x: int, fa: int, d: int) -> None:
-            res[x] += cnt1[d]
+        def tree(x: int, fa: int, d: int) -> None:
+            res[x] = cnts1[d] + mx
             for y in g[x]:
                 if y != fa:
-                    dfs(y, x, d ^ 1)
+                    tree(y, x, d ^ 1)
 
-        _, cnt2 = self.count3373(edges2)
-        max2 = max(cnt2)
-        g, cnt1 = self.count3373(edges1)
-        res = [max2] * (len(g))
-        dfs(0, -1, 0)
+        def cal(edges: List[List[int]]) -> Tuple[List[List[int]], List[int]]:
+            def dfs(x: int, fa: int, d: int) -> None:
+                cnts[d] += 1
+                for y in g[x]:
+                    if y != fa:
+                        dfs(y, x, d ^ 1)
+
+            n = len(edges) + 1
+            g = [[] for _ in range(n)]
+            for u, v in edges:
+                g[u].append(v)
+                g[v].append(u)
+            cnts = [0] * 2
+            dfs(0, -1, 0)
+            return (g, cnts)
+
+        _, cnts = cal(edges2)
+        mx = max(cnts)
+        g, cnts1 = cal(edges1)
+        res = [0] * (len(edges1) + 1)
+        tree(0, -1, 0)
         return res
-
-    def count3373(self, edges: List[List[int]]) -> Tuple[List[List[int]], List[int]]:
-        def dfs(x: int, fa: int, d: int) -> None:
-            cnt[d] += 1
-            for y in g[x]:
-                if y != fa:
-                    dfs(y, x, d ^ 1)
-
-        n = len(edges) + 1
-        g = [[] for _ in range(n)]
-        for u, v in edges:
-            g[u].append(v)
-            g[v].append(u)
-        cnt = [0] * 2
-        dfs(0, -1, 0)
-        return g, cnt
 
     # 52. N 皇后 II (N-Queens II)
     def totalNQueens(self, n: int) -> int:
@@ -9991,6 +9995,7 @@ class Union924:
                 if pre == suf:
                     return True
             return False
+
         m = len(grid)
         n = len(grid[0])
         col = [0] * n
