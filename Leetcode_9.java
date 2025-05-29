@@ -3655,36 +3655,36 @@ public class Leetcode_9 {
     // Trees II)
     public int[] maxTargetNodes(int[][] edges1, int[][] edges2) {
         List<Integer>[] g2 = buildTree3373(edges2);
-        int[] cnts2 = cal(g2);
+        int[] cnts2 = cal3373(g2);
         int mx = Math.max(cnts2[0], cnts2[1]);
         List<Integer>[] g1 = buildTree3373(edges1);
-        int[] cnts1 = cal(g1);
+        int[] cnts1 = cal3373(g1);
         int[] res = new int[edges1.length + 1];
-        tree(0, -1, 0, g1, cnts1, res, mx);
+        tree3373(0, -1, 0, g1, cnts1, res, mx);
         return res;
 
     }
 
-    private void tree(int x, int fa, int d, List<Integer>[] g, int[] cnts1, int[] res, int mx) {
+    private void tree3373(int x, int fa, int d, List<Integer>[] g, int[] cnts1, int[] res, int mx) {
         res[x] = cnts1[d] + mx;
         for (int y : g[x]) {
             if (y != fa) {
-                tree(y, x, d ^ 1, g, cnts1, res, mx);
+                tree3373(y, x, d ^ 1, g, cnts1, res, mx);
             }
         }
     }
 
-    private int[] cal(List<Integer>[] g) {
+    private int[] cal3373(List<Integer>[] g) {
         int[] cnt = new int[2];
-        dfs(0, -1, 0, g, cnt);
+        dfs3373(0, -1, 0, g, cnt);
         return cnt;
     }
 
-    private void dfs(int x, int fa, int d, List<Integer>[] g, int[] cnt) {
+    private void dfs3373(int x, int fa, int d, List<Integer>[] g, int[] cnt) {
         ++cnt[d];
         for (int y : g[x]) {
             if (y != fa) {
-                dfs(y, x, d ^ 1, g, cnt);
+                dfs3373(y, x, d ^ 1, g, cnt);
             }
         }
     }
