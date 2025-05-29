@@ -3654,36 +3654,37 @@ public class Leetcode_9 {
     // 3373. 连接两棵树后最大目标节点数目 II (Maximize the Number of Target Nodes After Connecting
     // Trees II)
     public int[] maxTargetNodes(int[][] edges1, int[][] edges2) {
-        int[] cnt2 = cal3373(buildTree3373(edges2));
-        int max2 = Math.max(cnt2[0], cnt2[1]);
+        List<Integer>[] g2 = buildTree3373(edges2);
+        int[] cnts2 = cal(g2);
+        int mx = Math.max(cnts2[0], cnts2[1]);
+        List<Integer>[] g1 = buildTree3373(edges1);
+        int[] cnts1 = cal(g1);
         int[] res = new int[edges1.length + 1];
-        Arrays.fill(res, max2);
-        List<Integer>[] g = buildTree3373(edges1);
-        int[] cnt1 = cal3373(g);
-        dfs3373(res, g, 0, -1, cnt1, 0);
+        tree(0, -1, 0, g1, cnts1, res, mx);
         return res;
+
     }
 
-    private void dfs3373(int[] res, List<Integer>[] g, int x, int fa, int[] cnt1, int d) {
-        res[x] += cnt1[d];
+    private void tree(int x, int fa, int d, List<Integer>[] g, int[] cnts1, int[] res, int mx) {
+        res[x] = cnts1[d] + mx;
         for (int y : g[x]) {
             if (y != fa) {
-                dfs3373(res, g, y, x, cnt1, d ^ 1);
+                tree(y, x, d ^ 1, g, cnts1, res, mx);
             }
         }
     }
 
-    private int[] cal3373(List<Integer>[] g) {
+    private int[] cal(List<Integer>[] g) {
         int[] cnt = new int[2];
-        dfs3373(g, 0, -1, cnt, 0);
+        dfs(0, -1, 0, g, cnt);
         return cnt;
     }
 
-    private void dfs3373(List<Integer>[] g, int x, int fa, int[] cnt, int d) {
+    private void dfs(int x, int fa, int d, List<Integer>[] g, int[] cnt) {
         ++cnt[d];
         for (int y : g[x]) {
             if (y != fa) {
-                dfs3373(g, y, x, cnt, d ^ 1);
+                dfs(y, x, d ^ 1, g, cnt);
             }
         }
     }

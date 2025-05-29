@@ -7483,7 +7483,7 @@ class Union924:
         self, edges1: List[List[int]], edges2: List[List[int]]
     ) -> List[int]:
         def tree(x: int, fa: int, d: int) -> None:
-            res[x] = cnts1[d] + mx
+            res[x] += cnts1[d]
             for y in g[x]:
                 if y != fa:
                     tree(y, x, d ^ 1)
@@ -7507,7 +7507,7 @@ class Union924:
         _, cnts = cal(edges2)
         mx = max(cnts)
         g, cnts1 = cal(edges1)
-        res = [0] * (len(edges1) + 1)
+        res = [mx] * (len(edges1) + 1)
         tree(0, -1, 0)
         return res
 
