@@ -2,6 +2,7 @@ from ast import Return, Tuple
 from asyncio import FastChildWatcher
 from gettext import find
 import math
+from platform import node
 from pydoc import plain
 from xxlimited import foo
 from audioop import minmax, reverse
@@ -135,3 +136,41 @@ class leetcode_3:
                 for i in range(26):
                     dp[v][i] = max(dp[v][i], dp[u][i])
         return -1 if count < n else max(max(dp[i]) for i in range(n))
+
+    # 2359. 找到离给定两个节点最近的节点 (Find Closest Node to Given Two Nodes)
+    def closestMeetingNode(self, edges: List[int], node1: int, node2: int) -> int:
+        if node1 == node2:
+            return node1
+        n = len(edges)
+        dis = [-1] * n
+        dis[node1] = 0
+        g = defaultdict(int)
+        for i, e in enumerate(edges):
+            if e != -1:
+                g[i] = e
+        x = node1
+        while True:
+            pre = x
+            x = g.get(x, -1)
+            if x == -1 or dis[x] != -1:
+                break
+            dis[x] = dis[pre] + 1
+        dis2 = [-1] * n
+        dis2[node2] = 0
+        x = node2
+        mx = inf
+        res = inf
+        while True:
+            if dis2[x] != -1 and dis[x] != -1:
+                cur = max(dis[x], dis2[x])
+                if cur < mx:
+                    mx = cur
+                    res = x
+                elif cur == mx and x < res:
+                    res = x
+            pre = x
+            x = g.get(x, -1)
+            if x == -1 or dis2[x] != -1:
+                break
+            dis2[x] = dis2[pre] + 1
+        return res if res != inf else -1
