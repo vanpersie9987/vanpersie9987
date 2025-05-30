@@ -139,38 +139,24 @@ class leetcode_3:
 
     # 2359. 找到离给定两个节点最近的节点 (Find Closest Node to Given Two Nodes)
     def closestMeetingNode(self, edges: List[int], node1: int, node2: int) -> int:
-        if node1 == node2:
-            return node1
+        def cal(edges: List[int], start: int) -> List[int]:
+            n = len(edges)
+            dis = [n] * n
+            dis[start] = 0
+            x = start
+            while edges[x] != -1 and dis[edges[x]] == n:
+                dis[edges[x]] = dis[x] + 1
+                x = edges[x]
+            return dis
         n = len(edges)
-        dis = [-1] * n
-        dis[node1] = 0
-        g = defaultdict(int)
-        for i, e in enumerate(edges):
-            if e != -1:
-                g[i] = e
-        x = node1
-        while True:
-            pre = x
-            x = g.get(x, -1)
-            if x == -1 or dis[x] != -1:
-                break
-            dis[x] = dis[pre] + 1
-        dis2 = [-1] * n
-        dis2[node2] = 0
-        x = node2
-        mx = inf
-        res = inf
-        while True:
-            if dis2[x] != -1 and dis[x] != -1:
-                cur = max(dis[x], dis2[x])
-                if cur < mx:
-                    mx = cur
-                    res = x
-                elif cur == mx and x < res:
-                    res = x
-            pre = x
-            x = g.get(x, -1)
-            if x == -1 or dis2[x] != -1:
-                break
-            dis2[x] = dis2[pre] + 1
-        return res if res != inf else -1
+        dis1 = cal(edges, node1)
+        dis2 = cal(edges, node2)
+        mx = n
+        res = -1
+        for i in range(n):
+            dis = max(dis1[i], dis2[i])
+            if dis < mx:
+                mx = dis
+                res = i
+        return res
+
