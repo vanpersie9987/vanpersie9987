@@ -160,3 +160,38 @@ class leetcode_3:
                 res = i
         return res
 
+    # 909. 蛇梯棋 (Snakes and Ladders)
+    def snakesAndLadders(self, board: List[List[int]]) -> int:
+        n = len(board)
+        n_board = []
+        d = 0
+        for i in range(n - 1, -1, -1):
+            if d == 0:
+                for j in range(n):
+                    n_board.append(board[i][j])
+            else:
+                for j in range(n - 1, -1, -1):
+                    n_board.append(board[i][j])
+            d ^= 1
+        vis = [False] * (n * n)
+        q = deque()
+        q.append(0)
+        step = 0
+        vis[0] = True
+        while q:
+            sz = len(q)
+            for _ in range(sz):
+                x = q.popleft()
+                if x == n * n - 1:
+                    return step
+                for j in range(x + 1, min(x + 7, n * n)):
+                    if n_board[j] == -1:
+                        if not vis[j]:
+                            vis[j] = True
+                            q.append(j)
+                    else:
+                        if not vis[n_board[j] - 1]:
+                            vis[n_board[j] - 1] = True
+                            q.append(n_board[j] - 1)
+            step += 1
+        return -1
