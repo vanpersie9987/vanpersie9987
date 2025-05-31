@@ -3374,52 +3374,43 @@ public class Leetcode_3 {
     // 909. 蛇梯棋 (Snakes and Ladders) --bfs
     public int snakesAndLadders(int[][] board) {
         int n = board.length;
-        int[] arr = new int[n * n];
-        int index = 0;
-        boolean reverse = false;
+        int[] newBoard = new int[n * n];
+        int idx = 0;
         for (int i = n - 1; i >= 0; --i) {
-            if (reverse) {
-                for (int j = n - 1; j >= 0; --j) {
-                    arr[index++] = board[i][j];
+            if ((n - 1 - i) % 2 == 0) {
+                for (int j = 0; j < n; ++j) {
+                    newBoard[idx++] = board[i][j] - 1;
                 }
             } else {
-                for (int j = 0; j < n; ++j) {
-                    arr[index++] = board[i][j];
+                for (int j = n - 1; j >= 0; --j) {
+                    newBoard[idx++] = board[i][j] - 1;
                 }
             }
-            reverse = !reverse;
         }
-        Queue<Integer> queue = new LinkedList<>();
-        boolean[] visited = new boolean[n * n];
-        queue.offer(0);
-        visited[0] = true;
+        boolean[] vis = new boolean[n * n];
+        vis[0] = true;
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(0);
         int res = 0;
-        while (!queue.isEmpty()) {
-            ++res;
-            int size = queue.size();
+        while (!q.isEmpty()) {
+            int size = q.size();
             for (int i = 0; i < size; ++i) {
-                int cur = queue.poll();
-                for (int j = 1; j <= 6; ++j) {
-                    int nIndex = cur + j;
-                    if (arr[nIndex] == -1) {
-                        if (nIndex == n * n - 1) {
-                            return res;
-                        }
-                        if (!visited[nIndex]) {
-                            visited[nIndex] = true;
-                            queue.offer(nIndex);
-                        }
-                    } else {
-                        if (arr[nIndex] - 1 == n * n - 1) {
-                            return res;
-                        }
-                        if (!visited[arr[nIndex] - 1]) {
-                            visited[arr[nIndex] - 1] = true;
-                            queue.offer(arr[nIndex] - 1);
-                        }
+                int x = q.poll();
+                if (x == n * n - 1) {
+                    return res;
+                }
+                for (int j = x + 1; j <= Math.min(x + 6, n * n - 1); ++j) {
+                    if (newBoard[j] < 0 && !vis[j]) {
+                        vis[j] = true;
+                        q.offer(j);
+                    } else if (newBoard[j] >= 0 && !vis[newBoard[j]]) {
+                        int next = newBoard[j];
+                        vis[next] = true;
+                        q.offer(next);
                     }
                 }
             }
+            ++res;
         }
         return -1;
 

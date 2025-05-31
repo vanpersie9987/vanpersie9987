@@ -168,10 +168,10 @@ class leetcode_3:
         for i in range(n - 1, -1, -1):
             if d == 0:
                 for j in range(n):
-                    n_board.append(board[i][j])
+                    n_board.append(board[i][j] - 1)
             else:
                 for j in range(n - 1, -1, -1):
-                    n_board.append(board[i][j])
+                    n_board.append(board[i][j] - 1)
             d ^= 1
         vis = [False] * (n * n)
         q = deque()
@@ -185,13 +185,12 @@ class leetcode_3:
                 if x == n * n - 1:
                     return step
                 for j in range(x + 1, min(x + 7, n * n)):
-                    if n_board[j] == -1:
-                        if not vis[j]:
-                            vis[j] = True
-                            q.append(j)
-                    else:
-                        if not vis[n_board[j] - 1]:
-                            vis[n_board[j] - 1] = True
-                            q.append(n_board[j] - 1)
+                    if n_board[j] < 0 and not vis[j]:
+                        vis[j] = True
+                        q.append(j)
+                    elif n_board[j] >= 0 and not vis[n_board[j]]:
+                        nxt = n_board[j]
+                        vis[nxt] = True
+                        q.append(nxt)
             step += 1
         return -1
