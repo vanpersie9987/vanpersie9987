@@ -6131,4 +6131,50 @@ public class Leetcode_9 {
         return true;
     }
 
+    // 3557. 不相交子字符串的最大数量 (Find Maximum Number of Non Intersecting Substrings)
+    private int[] memo;
+    private String word;
+    private Map<Character, List<Integer>> mapToList;
+    private Map<Integer, Integer> mapToPos;
+    private int n;
+
+    public int maxSubstrings(String word) {
+        this.n = word.length();
+        this.mapToList = new HashMap<>();
+        this.mapToPos = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            char c = word.charAt(i);
+            mapToList.computeIfAbsent(c, k -> new ArrayList<>()).add(i);
+            mapToPos.put(i, mapToList.get(c).size() - 1);
+        }
+        this.word = word;
+        this.memo = new int[n];
+        Arrays.fill(memo, -1);
+        return dfs(0);
+
+    }
+
+    private int dfs(int i) {
+        if (i == n) {
+            return 0;
+        }
+        if (memo[i] != -1) {
+            return memo[i];
+        }
+        int res = dfs(i + 1); // 不选
+        char c = word.charAt(i);
+        int idx = mapToPos.get(i);
+        List<Integer> list = mapToList.get(c);
+        int j = idx + 1;
+        while (j < list.size()) {
+            if (list.get(j) - list.get(idx) >= 3) {
+                // 选
+                res = Math.max(res, 1 + dfs(list.get(j) + 1));
+                break;
+            }
+            ++j;
+        }
+        return memo[i] = res;
+    }
+
 }
