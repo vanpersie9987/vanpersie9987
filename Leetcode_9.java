@@ -5966,4 +5966,141 @@ public class Leetcode_9 {
         return res;
     }
 
+    public int smallestIndex(int[] nums) {
+        search: for (int i = 0; i < nums.length; ++i) {
+            int s = 0;
+            while (nums[i] != 0) {
+                s += nums[i] % 10;
+                nums[i] /= 10;
+                if (s > i) {
+                    continue search;
+                }
+            }
+            if (s == i) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
+    // 3551. 数位和排序需要的最小交换次数 (Minimum Swaps to Sort by Digit Sum)
+    public int minSwaps(int[] nums) {
+        int n = nums.length;
+        int[][] arr = new int[n][2];
+        for (int i = 0; i < n; ++i) {
+            arr[i][0] = nums[i];
+            arr[i][1] = i;
+        }
+        Arrays.sort(arr, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                int a1 = o1[0];
+                int a2 = o2[0];
+                int s1 = 0;
+                while (a1 != 0) {
+                    s1 += a1 % 10;
+                    a1 /= 10;
+                }
+                int s2 = 0;
+                while (a2 != 0) {
+                    s2 += a2 % 10;
+                    a2 /= 10;
+                }
+                if (s1 == s2) {
+                    return Integer.compare(o1[0], o2[0]);
+                }
+                return Integer.compare(s1, s2);
+            }
+
+        });
+        // System.out.println(Arrays.deepToString(arr));
+        int res = n;
+        boolean[] vis = new boolean[n];
+        for (int i = 0; i < n; ++i) {
+            if (!vis[i]) {
+                --res;
+                int j = i;
+                while (!vis[j]) {
+                    vis[j] = true;
+                    j = arr[j][1];
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 3552. 网格传送门旅游 (Grid Teleportation Traversal)
+    public int minMoves(String[] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length();
+        if (matrix[m - 1].charAt(n - 1) == '#') {
+            return -1;
+        }
+        int[][] dis = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(dis[i], Integer.MAX_VALUE);
+        }
+        dis[0][0] = 0;
+        Map<Integer, List<int[]>> map = new HashMap<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (matrix[i].charAt(j) == '#' || matrix[i].charAt(j) == '.') {
+                    continue;
+                }
+                int d = matrix[i].charAt(j) - 'A';
+                map.computeIfAbsent(d, k -> new ArrayList<>()).add(new int[] { i, j });
+            }
+        }
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[2], o2[2]);
+            }
+
+        });
+        int[][] dirs = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+        q.offer(new int[] { 0, 0, 0, 0 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int i = cur[0];
+            int j = cur[1];
+            int d = cur[2];
+            int bit = cur[3];
+            if (i == m - 1 && j == n - 1) {
+                return d;
+            }
+            if (dis[i][j] < d) {
+                continue;
+            }
+            for (int[] dir : dirs) {
+                int ni = i + dir[0];
+                int nj = j + dir[1];
+                if (ni >= 0 && ni < m && nj >= 0 && nj < n && matrix[ni].charAt(nj) != '#') {
+                    if (d + 1 < dis[ni][nj]) {
+                        dis[ni][nj] = d + 1;
+                        q.offer(new int[] { ni, nj, d + 1, bit });
+                    }
+                }
+            }
+            if (Character.isUpperCase(matrix[i].charAt(j)) && ((bit >> (matrix[i].charAt(j) - 'A')) & 1) == 0) {
+                List<int[]> nxt = map.get(matrix[i].charAt(j) - 'A');
+                for (int[] pos : nxt) {
+                    int ni = pos[0];
+                    int nj = pos[1];
+                    if (d < dis[ni][nj]) {
+                        dis[ni][nj] = d;
+                        q.offer(new int[] { ni, nj, d, bit | (1 << (matrix[i].charAt(j) - 'A')) });
+                    }
+                }
+            }
+            
+        }
+        return -1;
+
+    }
+
 }

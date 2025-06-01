@@ -230,3 +230,64 @@ class leetcode_3:
 
         # 水平分割 or 垂直分割
         return check(grid) or check(list(zip(*grid)))
+
+    # 3550. 数位和等于下标的最小下标 (Smallest Index With Digit Sum Equal to Index)
+    def smallestIndex(self, nums: List[int]) -> int:
+        for i, v in enumerate(nums):
+            s = 0
+            while v:
+                s += v % 10
+                v //= 10
+            if s == i:
+                return i
+        return -1
+
+    # 3551. 数位和排序需要的最小交换次数 (Minimum Swaps to Sort by Digit Sum)
+    def minSwaps(self, nums: List[int]) -> int:
+        a = sorted([sum(map(int, str(x))), x, i] for i, x in enumerate(nums))
+        res = len(nums)
+        vis = [False] * len(nums)
+        for i in range(len(nums)):
+            if vis[i]:
+                continue
+            res -= 1
+            j = i
+            while not vis[j]:
+                vis[j] = True
+                j = a[j][2]
+        return res
+
+    # 3552. 网格传送门旅游 (Grid Teleportation Traversal)
+    def minMoves(self, matrix: List[str]) -> int:
+        m = len(matrix)
+        n = len(matrix[0])
+        dic = defaultdict(list)
+        dis = [[inf] * n for _ in range(m)]
+        dis[0][0] = 0
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] != '.' and matrix[i][j] != '#':
+                    dic[ord(matrix[i][j]) - ord('A')].append((i, j))
+        dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        # d, bit, x, y
+        q = [(0, 0, 0, 0)]
+        heapq.heapify(q)
+        while q:
+            d, bit, x, y = heapq.heappop(q)
+            if x == m - 1 and y == n - 1:
+                return d
+            if dis[x][y] < d:
+                continue
+            for dx, dy in dirs:
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < m and 0 <= ny < n and matrix[nx][ny] != '#':
+                    if dis[nx][ny] > d + 1:
+                        dis[nx][ny] = d + 1
+                        heapq.heappush(q, (d + 1, bit, nx, ny))
+            if matrix[x][y] != '.' and matrix[x][y] != '#' and (bit >> (ord(matrix[x][y]) - ord('A'))) & 1 == 0:
+                idx = ord(matrix[x][y]) - ord('A')
+                for nx, ny in dic[idx]:
+                    if dis[nx][ny] > d:
+                        dis[nx][ny] = d
+                        heapq.heappush(q, (d, bit | (1 << idx), nx, ny))
+        return -1
