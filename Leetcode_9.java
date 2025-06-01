@@ -6132,49 +6132,92 @@ public class Leetcode_9 {
     }
 
     // 3557. 不相交子字符串的最大数量 (Find Maximum Number of Non Intersecting Substrings)
-    private int[] memo;
-    private String word;
-    private Map<Character, List<Integer>> mapToList;
-    private Map<Integer, Integer> mapToPos;
-    private int n;
+    private int[] memo3557;
+    private String word3557;
+    private Map<Character, List<Integer>> mapToList3557;
+    private Map<Integer, Integer> mapToPos3557;
+    private int n3557;
 
     public int maxSubstrings(String word) {
-        this.n = word.length();
-        this.mapToList = new HashMap<>();
-        this.mapToPos = new HashMap<>();
-        for (int i = 0; i < n; ++i) {
+        this.n3557 = word.length();
+        this.mapToList3557 = new HashMap<>();
+        this.mapToPos3557 = new HashMap<>();
+        for (int i = 0; i < n3557; ++i) {
             char c = word.charAt(i);
-            mapToList.computeIfAbsent(c, k -> new ArrayList<>()).add(i);
-            mapToPos.put(i, mapToList.get(c).size() - 1);
+            mapToList3557.computeIfAbsent(c, k -> new ArrayList<>()).add(i);
+            mapToPos3557.put(i, mapToList3557.get(c).size() - 1);
         }
-        this.word = word;
-        this.memo = new int[n];
-        Arrays.fill(memo, -1);
-        return dfs(0);
+        this.word3557 = word;
+        this.memo3557 = new int[n3557];
+        Arrays.fill(memo3557, -1);
+        return dfs3557(0);
 
     }
 
-    private int dfs(int i) {
-        if (i == n) {
+    private int dfs3557(int i) {
+        if (i == n3557) {
             return 0;
         }
-        if (memo[i] != -1) {
-            return memo[i];
+        if (memo3557[i] != -1) {
+            return memo3557[i];
         }
-        int res = dfs(i + 1); // 不选
-        char c = word.charAt(i);
-        int idx = mapToPos.get(i);
-        List<Integer> list = mapToList.get(c);
+        int res = dfs3557(i + 1); // 不选
+        char c = word3557.charAt(i);
+        int idx = mapToPos3557.get(i);
+        List<Integer> list = mapToList3557.get(c);
         int j = idx + 1;
         while (j < list.size()) {
             if (list.get(j) - list.get(idx) >= 3) {
                 // 选
-                res = Math.max(res, 1 + dfs(list.get(j) + 1));
+                res = Math.max(res, 1 + dfs3557(list.get(j) + 1));
                 break;
             }
             ++j;
         }
-        return memo[i] = res;
+        return memo3557[i] = res;
     }
+
+    // 3558. 给边赋权值的方案数 I (Number of Ways to Assign Edge Weights I)
+    private int mx3558;
+    private int[][] memo3558;
+
+    public int assignEdgeWeights(int[][] edges) {
+        int n = edges.length + 1;
+        List<Integer>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[0] - 1].add(e[1] - 1);
+            g[e[1] - 1].add(e[0] - 1);
+        }
+        maxDepth3558(0, -1, 0, g);
+        this.memo3558 = new int[mx3558][2];
+        for (int i = 0; i < mx3558; ++i) {
+            Arrays.fill(memo3558[i], -1);
+        }
+        return dfs3558(0, 0);
+
+    }
+
+    private int dfs3558(int i, int j) {
+        if (i == mx3558) {
+            return j & 1;
+        }
+        if (memo3558[i][j] != -1) {
+            return memo3558[i][j];
+        }
+        final int MOD = (int) (1e9 + 7);
+        return memo3558[i][j] = (dfs3558(i + 1, j) + dfs3558(i + 1, j ^ 1)) % MOD;
+    }
+
+    private void maxDepth3558(int x, int fa, int d, List<Integer>[] g) {
+        this.mx3558 = Math.max(mx3558, d);
+        for (int y : g[x]) {
+            if (y != fa) {
+                maxDepth3558(y, x, d + 1, g);
+            }
+        }
+    }
+
+
 
 }
