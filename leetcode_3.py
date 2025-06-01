@@ -309,3 +309,28 @@ class leetcode_3:
                     if len(_s) > 3:
                         _s.pop(0)
         return sum(_s)
+
+    # 3557. 不相交子字符串的最大数量 (Find Maximum Number of Non Intersecting Substrings)
+    def maxSubstrings(self, word: str) -> int:
+        @cache
+        def dfs(i: int) -> int:
+            if i == n:
+                return 0
+            res = dfs(i + 1)
+            idx = map.get(i, -1)
+            if idx != -1:
+                j = idx + 1
+                list = dic[word[i]]
+                while j < len(list):
+                    if list[j] - list[idx] >= 3:
+                        res = max(res, 1 + dfs(list[j] + 1))
+                        break
+                    j += 1
+            return res
+        n = len(word)
+        dic = defaultdict(list)
+        map = defaultdict(int)
+        for i, v in enumerate(word):
+            dic[v].append(i)
+            map[i] = len(dic[v]) - 1
+        return dfs(0)
