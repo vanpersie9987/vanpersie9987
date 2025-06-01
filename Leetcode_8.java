@@ -5011,15 +5011,11 @@ public class Leetcode_8 {
     // 2929. 给小朋友们分糖果 II (Distribute Candies Among Children II)
     public long distributeCandies(int n, int limit) {
         long res = 0L;
-        for (int i = Math.min(n, limit); i >= 0; --i) {
-            int c = n - i;
-            if (limit * 2 < c) {
-                break;
-            }
-            res += Math.min(c, limit) - Math.max(0, c - limit) + 1;
+        for (int i = Math.max(0, n - 2 * limit); i <= Math.min(n, limit); ++i) {
+            int j = n - i;
+            res += j + 1 - Math.max(0, (j - limit)) * 2;
         }
         return res;
-
     }
 
     // 2930. 重新排列后包含指定子字符串的字符串数目 (Number of Strings Which Can Be Rearranged to

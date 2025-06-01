@@ -8262,11 +8262,9 @@ class leetcode_1:
     # 2929. 给小朋友们分糖果 II (Distribute Candies Among Children II)
     def distributeCandies(self, n: int, limit: int) -> int:
         res = 0
-        for i in range(min(n, limit), -1, -1):
-            c = n - i
-            if limit * 2 < c:
-                break
-            res += min(limit, c) - max(0, c - limit) + 1
+        for i in range(max(0, n - 2 * limit), min(limit, n) + 1):
+            j = n - i
+            res += j + 1 - max(0, j - limit) * 2
         return res
 
     # 2930. 重新排列后包含指定子字符串的字符串数目 (Number of Strings Which Can Be Rearranged to Contain Substring)

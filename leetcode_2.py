@@ -10012,3 +10012,4 @@ class Union924:
         if n == len(edges):  # 环
             ans += 2
         return ans
+
