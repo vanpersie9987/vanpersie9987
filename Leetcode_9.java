@@ -6054,27 +6054,16 @@ public class Leetcode_9 {
                 map.computeIfAbsent(d, k -> new ArrayList<>()).add(new int[] { i, j });
             }
         }
-        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
-
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return Integer.compare(o1[2], o2[2]);
-            }
-
-        });
+        Deque<int[]> q = new LinkedList<>();
         int[][] dirs = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
-        q.offer(new int[] { 0, 0, 0, 0 });
+        q.offer(new int[] { 0, 0, 0 });
         while (!q.isEmpty()) {
             int[] cur = q.poll();
             int i = cur[0];
             int j = cur[1];
             int d = cur[2];
-            int bit = cur[3];
             if (i == m - 1 && j == n - 1) {
                 return d;
-            }
-            if (dis[i][j] < d) {
-                continue;
             }
             for (int[] dir : dirs) {
                 int ni = i + dir[0];
@@ -6082,20 +6071,21 @@ public class Leetcode_9 {
                 if (ni >= 0 && ni < m && nj >= 0 && nj < n && matrix[ni].charAt(nj) != '#') {
                     if (d + 1 < dis[ni][nj]) {
                         dis[ni][nj] = d + 1;
-                        q.offer(new int[] { ni, nj, d + 1, bit });
+                        q.addLast(new int[] { ni, nj, d + 1});
                     }
                 }
             }
-            if (Character.isUpperCase(matrix[i].charAt(j)) && ((bit >> (matrix[i].charAt(j) - 'A')) & 1) == 0) {
+            if (Character.isUpperCase(matrix[i].charAt(j)) && map.containsKey(matrix[i].charAt(j) - 'A')) {
                 List<int[]> nxt = map.get(matrix[i].charAt(j) - 'A');
                 for (int[] pos : nxt) {
                     int ni = pos[0];
                     int nj = pos[1];
                     if (d < dis[ni][nj]) {
                         dis[ni][nj] = d;
-                        q.offer(new int[] { ni, nj, d, bit | (1 << (matrix[i].charAt(j) - 'A')) });
+                        q.addFirst(new int[] { ni, nj, d });
                     }
                 }
+                map.remove(matrix[i].charAt(j) - 'A');
             }
             
         }

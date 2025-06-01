@@ -270,24 +270,23 @@ class leetcode_3:
                     dic[ord(matrix[i][j]) - ord('A')].append((i, j))
         dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         # d, bit, x, y
-        q = [(0, 0, 0, 0)]
-        heapq.heapify(q)
+        q = deque()
+        q.append((0, 0, 0))
         while q:
-            d, bit, x, y = heapq.heappop(q)
+            d, x, y = q.popleft()
             if x == m - 1 and y == n - 1:
                 return d
-            if dis[x][y] < d:
-                continue
             for dx, dy in dirs:
                 nx, ny = x + dx, y + dy
                 if 0 <= nx < m and 0 <= ny < n and matrix[nx][ny] != '#':
                     if dis[nx][ny] > d + 1:
                         dis[nx][ny] = d + 1
-                        heapq.heappush(q, (d + 1, bit, nx, ny))
-            if matrix[x][y] != '.' and matrix[x][y] != '#' and (bit >> (ord(matrix[x][y]) - ord('A'))) & 1 == 0:
+                        q.append((d + 1, nx, ny))
+            if matrix[x][y] != '.' and matrix[x][y] != '#' and (ord(matrix[x][y]) - ord('A')) in dic:
                 idx = ord(matrix[x][y]) - ord('A')
                 for nx, ny in dic[idx]:
                     if dis[nx][ny] > d:
                         dis[nx][ny] = d
-                        heapq.heappush(q, (d, bit | (1 << idx), nx, ny))
+                        q.appendleft((d, nx, ny))
+                del dic[idx]  # 避免重复使用同一个传送门
         return -1
