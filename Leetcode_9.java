@@ -6093,4 +6093,42 @@ public class Leetcode_9 {
 
     }
 
+    // 3556. 最大质数子字符串之和 (Sum of Largest Prime Substrings)
+    public long sumOfLargestPrimes(String s) {
+        int n = s.length();
+        TreeSet<Long> set = new TreeSet<>(new Comparator<Long>() {
+
+            @Override
+            public int compare(Long o1, Long o2) {
+                return Long.compare(o2, o1);
+            }
+            
+        });
+        for (int i = 0; i < n; ++i) {
+            for (int j = i; j < n; ++j) {
+                long num = Long.parseLong(s.substring(i, j + 1));
+                if (isPrime3556(num)) {
+                    set.add(num);
+                    if (set.size() > 3) {
+                        set.pollLast();
+                    }
+                }
+            }
+        }
+        return set.stream().mapToLong(Long::valueOf).sum();
+
+    }
+
+    private boolean isPrime3556(long x) {
+        if (x < 2) {
+            return false;
+        }
+        for (int i = 2; (long) i * i <= x; ++i) {
+            if (x % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

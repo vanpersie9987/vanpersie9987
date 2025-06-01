@@ -300,11 +300,12 @@ class leetcode_3:
                 if n % i == 0:
                     return False
             return True
-        _s = set()
+        _s = SortedSet()
         for i in range(len(s)):
             for j in range(i, len(s)):
                 num = int(s[i:j + 1])
                 if is_prime(num):
                     _s.add(num)
-        _l = sorted(list(_s), reverse=True)
-        return sum(_l[: min(3, len(_l))])
+                    if len(_s) > 3:
+                        _s.pop(0)
+        return sum(_s)
