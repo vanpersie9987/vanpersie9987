@@ -290,3 +290,21 @@ class leetcode_3:
                         q.appendleft((d, nx, ny))
                 del dic[idx]  # 避免重复使用同一个传送门
         return -1
+
+    # 3556. 最大质数子字符串之和 (Sum of Largest Prime Substrings)
+    def sumOfLargestPrimes(self, s: str) -> int:
+        def is_prime(n: int) -> bool:
+            if n < 2:
+                return False
+            for i in range(2, int(sqrt(n)) + 1):
+                if n % i == 0:
+                    return False
+            return True
+        _s = set()
+        for i in range(len(s)):
+            for j in range(i, len(s)):
+                num = int(s[i:j + 1])
+                if is_prime(num):
+                    _s.add(num)
+        _l = sorted(list(_s), reverse=True)
+        return sum(_l[: min(3, len(_l))])
