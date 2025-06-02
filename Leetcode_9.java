@@ -6224,7 +6224,66 @@ public class Leetcode_9 {
         int d = Math.abs(a - b);
         return d == 1 || d == 25;
     }
+    
 
+    // 3563. 移除相邻字符后字典序最小的字符串 (Lexicographically Smallest String After Adjacent
+    // Removals)
+    private char[] arr3563;
+    private int n3563;
+    private int[][] memo3563;
+    private String[] memoDfs3563;
 
+    public String lexicographicallySmallestString(String s) {
+        this.n3563 = s.length();
+        this.arr3563 = s.toCharArray();
+        this.memo3563 = new int[n3563][n3563];
+        this.memoDfs3563 = new String[n3563];
+        return dfs3563(0);
+    }
+
+    private String dfs3563(int i) {
+        if (i == n3563) {
+            return "";
+        }
+        if (memoDfs3563[i] != null) {
+            return memoDfs3563[i];
+        }
+        String res = String.valueOf(arr3563[i]) + dfs3563(i + 1);
+        for (int j = i + 1; j < n3563; j += 2) {
+            if (check3563(i, j)) {
+                String t = dfs3563(j + 1);
+                if (t.compareTo(res) < 0) {
+                    res = t;
+                }
+            }
+        }
+        return memoDfs3563[i] = res;
+    }
+
+    private boolean check3563(int i, int j) {
+        if (i > j) {
+            return true;
+        }
+        if (memo3563[i][j] != 0) {
+            return memo3563[i][j] > 0;
+        }
+        if (isConsecutive(i, j) && check3563(i + 1, j - 1)) {
+            memo3563[i][j] = 1;
+            return true;
+        }
+        for (int k = i + 1; k < j; ++k) {
+            if (check3563(i, k) && check3563(k + 1, j)) {
+                memo3563[i][j] = 1;
+                return true;
+            }
+        }
+        memo3563[i][j] = -1;
+        return false;
+    }
+
+    private boolean isConsecutive(int i, int j) {
+        int d = Math.abs(arr3563[i] - arr3563[j]);
+        return d == 1 || d == 25;
+    }
 
 }

@@ -380,3 +380,30 @@ class leetcode_3:
             else:
                 st.append(c)
         return ''.join(st)
+
+    # 3563. 移除相邻字符后字典序最小的字符串 (Lexicographically Smallest String After Adjacent Removals)
+    def lexicographicallySmallestString(self, s: str) -> str:
+        def is_adjacent(c1: str, c2: str) -> bool:
+            d = abs(ord(c1) - ord(c2))
+            return d == 1 or d == 25
+        @cache
+        def check(i: int, j: int) -> bool:
+            if i > j:
+                return True
+            if is_adjacent(s[i], s[j]) and check(i + 1, j - 1):
+                return True
+            for k in range(i + 1, j, 2):
+                if check(i, k) and check(k + 1, j):
+                    return True
+            return False
+        @cache
+        def dfs(i: int) -> str:
+            if i == n:
+                return ''
+            res = s[i] + dfs(i + 1)
+            for j in range(i + 1, n, 2):
+                if check(i, j):
+                    res = min(res, dfs(j + 1))
+            return res
+        n = len(s)
+        return dfs(0)
