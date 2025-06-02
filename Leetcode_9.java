@@ -6133,49 +6133,21 @@ public class Leetcode_9 {
     }
 
     // 3557. 不相交子字符串的最大数量 (Find Maximum Number of Non Intersecting Substrings)
-    private int[] memo3557;
-    private String word3557;
-    private Map<Character, List<Integer>> mapToList3557;
-    private Map<Integer, Integer> mapToPos3557;
-    private int n3557;
-
     public int maxSubstrings(String word) {
-        this.n3557 = word.length();
-        this.mapToList3557 = new HashMap<>();
-        this.mapToPos3557 = new HashMap<>();
-        for (int i = 0; i < n3557; ++i) {
-            char c = word.charAt(i);
-            mapToList3557.computeIfAbsent(c, k -> new ArrayList<>()).add(i);
-            mapToPos3557.put(i, mapToList3557.get(c).size() - 1);
-        }
-        this.word3557 = word;
-        this.memo3557 = new int[n3557];
-        Arrays.fill(memo3557, -1);
-        return dfs3557(0);
-
-    }
-
-    private int dfs3557(int i) {
-        if (i == n3557) {
-            return 0;
-        }
-        if (memo3557[i] != -1) {
-            return memo3557[i];
-        }
-        int res = dfs3557(i + 1); // 不选
-        char c = word3557.charAt(i);
-        int idx = mapToPos3557.get(i);
-        List<Integer> list = mapToList3557.get(c);
-        int j = idx + 1;
-        while (j < list.size()) {
-            if (list.get(j) - list.get(idx) >= 3) {
-                // 选
-                res = Math.max(res, 1 + dfs3557(list.get(j) + 1));
-                break;
+        int res = 0;
+        Map<Character, Integer> pos = new HashMap<>();
+        for (int i = 0; i < word.length(); ++i) {
+            if (pos.containsKey(word.charAt(i))) {
+                if (i - pos.get(word.charAt(i)) > 2) {
+                    ++res;
+                    pos.clear();
+                }
+            } else {
+                pos.put(word.charAt(i), i);
             }
-            ++j;
         }
-        return memo3557[i] = res;
+        return res;
+
     }
 
     // 3558. 给边赋权值的方案数 I (Number of Ways to Assign Edge Weights I)
