@@ -4,6 +4,8 @@ from gettext import find
 import math
 from platform import node
 from pydoc import plain
+from signal import valid_signals
+import stat
 from xxlimited import foo
 from audioop import minmax, reverse
 from calendar import c
@@ -407,3 +409,32 @@ class leetcode_3:
             return res
         n = len(s)
         return dfs(0)
+
+    # 1298. 你能从盒子里获得的最大糖果数 (Maximum Candies You Can Get from Boxes)
+    def maxCandies(self, status: List[int], candies: List[int], keys: List[List[int]], containedBoxes: List[List[int]], initialBoxes: List[int]) -> int:
+        n = len(status)
+        vis = [0] * n
+        has_boxes = [0] * n
+        q = deque()
+        res = 0
+        for init in initialBoxes:
+            has_boxes[init] = 1
+            if status[init]:
+                vis[init] = 1
+                res += candies[init]
+                q.append(init)
+        while q:
+            x = q.popleft()
+            for key in keys[x]:
+                status[key] = 1
+                if not vis[key] and has_boxes[key]:
+                    vis[key] = 1
+                    res += candies[key]
+                    q.append(key)
+            for box in containedBoxes[x]:
+                has_boxes[box] = 1
+                if not vis[box] and status[box]:
+                    vis[box] = 1
+                    res += candies[box]
+                    q.append(box)
+        return res
