@@ -5966,6 +5966,7 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3550. 数位和等于下标的最小下标 (Smallest Index With Digit Sum Equal to Index)
     public int smallestIndex(int[] nums) {
         search: for (int i = 0; i < nums.length; ++i) {
             int s = 0;
