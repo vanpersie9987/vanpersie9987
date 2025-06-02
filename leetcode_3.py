@@ -367,3 +367,16 @@ class leetcode_3:
         if m > k:
             res += k * (m - k)
         return res
+
+    # 3561. 移除相邻字符 (Resulting String After Adjacent Removals)
+    def resultingString(self, s: str) -> str:
+        def is_adjacent(c1: str, c2: str) -> bool:
+            d = abs(ord(c1) - ord(c2))
+            return d == 1 or d == 25
+        st = []
+        for c in s:
+            if st and is_adjacent(st[-1], c):
+                st.pop()
+            else:
+                st.append(c)
+        return ''.join(st)

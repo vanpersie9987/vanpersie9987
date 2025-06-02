@@ -6203,6 +6203,28 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3561. 移除相邻字符 (Resulting String After Adjacent Removals)
+    public String resultingString(String s) {
+        List<Character> st = new ArrayList<>();
+        for (char c : s.toCharArray()) {
+            if (!st.isEmpty() && isConsecutive3561(st.get(st.size() - 1), c)) {
+                st.remove(st.size() - 1);
+            } else {
+                st.add(c);
+            }
+        }
+        return st.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining());
+        
+
+    }
+
+    private boolean isConsecutive3561(char a, char b) {
+        int d = Math.abs(a - b);
+        return d == 1 || d == 25;
+    }
+
 
 
 }
