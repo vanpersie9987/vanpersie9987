@@ -6191,6 +6191,18 @@ public class Leetcode_9 {
         }
     }
 
+    // 3560. 木材运输的最小成本 (Find Minimum Log Transportation Cost)
+    public long minCuttingCost(int n, int m, int k) {
+        long res = 0L;
+        if (n > k) {
+            res += (long) k * (n - k);
+        }
+        if (m > k) {
+            res += (long) k * (m - k);
+        }
+        return res;
+    }
+
 
 
 }

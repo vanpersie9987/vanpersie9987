@@ -358,3 +358,12 @@ class leetcode_3:
             if ratings[i] > ratings[i - 1]:
                 left[i] = left[i - 1] + 1
         return sum(max(x, y) for x, y in zip(left, right))
+
+    # 3560. 木材运输的最小成本 (Find Minimum Log Transportation Cost)
+    def minCuttingCost(self, n: int, m: int, k: int) -> int:
+        res = 0
+        if n > k:
+            res += k * (n - k)
+        if m > k:
+            res += k * (m - k)
+        return res
