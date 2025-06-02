@@ -6267,11 +6267,11 @@ public class Leetcode_9 {
         if (memo3563[i][j] != 0) {
             return memo3563[i][j] > 0;
         }
-        if (isConsecutive(i, j) && check3563(i + 1, j - 1)) {
+        if (isConsecutive3563(i, j) && check3563(i + 1, j - 1)) {
             memo3563[i][j] = 1;
             return true;
         }
-        for (int k = i + 1; k < j; ++k) {
+        for (int k = i + 1; k < j; k += 2) {
             if (check3563(i, k) && check3563(k + 1, j)) {
                 memo3563[i][j] = 1;
                 return true;
@@ -6281,7 +6281,7 @@ public class Leetcode_9 {
         return false;
     }
 
-    private boolean isConsecutive(int i, int j) {
+    private boolean isConsecutive3563(int i, int j) {
         int d = Math.abs(arr3563[i] - arr3563[j]);
         return d == 1 || d == 25;
     }
