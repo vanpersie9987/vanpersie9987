@@ -474,3 +474,46 @@ class leetcode_3:
                 if _min != inf:
                     res[i][j] = _min
         return res
+
+    # 3568. 清理教室的最少移动 (Minimum Moves to Clean the Classroom)
+    def minMoves(self, classroom: List[str], energy: int) -> int:
+        m = len(classroom)
+        n = len(classroom[0])
+        garbage = [[0] * n for _ in range(m)]
+        cnt = 0
+        start_x = 0
+        start_y = 0
+        for i in range(m):
+            for j in range(n):
+                if classroom[i][j] == "S":
+                    start_x, start_y = i, j
+                elif classroom[i][j] == "L":
+                    garbage[i][j] = 1 << cnt
+                    cnt += 1
+        if cnt == 0:
+            return 0
+        max_energy = [[[-1] * (1 << cnt) for _ in range(n)] for _ in range(m)]
+        max_energy[start_x][start_y][0] = energy
+        q = deque()
+        q.append([start_x, start_y, energy, 0])
+        dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        u = (1 << cnt) - 1
+        res = 0
+        while q:
+            sz = len(q)
+            for _ in range(sz):
+                x, y, e, mask = q.popleft()
+                if mask == u:
+                    return res
+                if e == 0:
+                    continue
+                for dx, dy in dirs:
+                    nx, ny = x + dx, y + dy
+                    if 0 <= nx < m and 0 <= ny < n and classroom[nx][ny] != "X":
+                        nmask = mask | garbage[nx][ny]
+                        ne = energy if classroom[nx][ny] == "R" else e - 1
+                        if ne > max_energy[nx][ny][nmask]:
+                            max_energy[nx][ny][nmask] = ne
+                            q.append([nx, ny, ne, nmask])
+            res += 1
+        return -1

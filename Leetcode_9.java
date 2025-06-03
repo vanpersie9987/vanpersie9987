@@ -1,7 +1,4 @@
 import java.math.BigInteger;
-import java.net.Inet4Address;
-import java.nio.file.Path;
-import java.sql.Time;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +7,6 @@ import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -20,15 +16,17 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.print.DocFlavor.STRING;
-
 @SuppressWarnings("unchecked")
 public class Leetcode_9 {
+
+  
+  
     public static void main(String[] args) {
+        // String[] s = { "SLR.L", ".LLXR" };
+        // minMoves(s, 9);
     }
 
     public class ListNode {
@@ -6072,7 +6070,7 @@ public class Leetcode_9 {
                 if (ni >= 0 && ni < m && nj >= 0 && nj < n && matrix[ni].charAt(nj) != '#') {
                     if (d + 1 < dis[ni][nj]) {
                         dis[ni][nj] = d + 1;
-                        q.addLast(new int[] { ni, nj, d + 1});
+                        q.addLast(new int[] { ni, nj, d + 1 });
                     }
                 }
             }
@@ -6088,7 +6086,7 @@ public class Leetcode_9 {
                 }
                 map.remove(matrix[i].charAt(j) - 'A');
             }
-            
+
         }
         return -1;
 
@@ -6103,7 +6101,7 @@ public class Leetcode_9 {
             public int compare(Long o1, Long o2) {
                 return Long.compare(o2, o1);
             }
-            
+
         });
         for (int i = 0; i < n; ++i) {
             for (int j = i; j < n; ++j) {
@@ -6213,10 +6211,7 @@ public class Leetcode_9 {
                 st.add(c);
             }
         }
-        return st.stream()
-                .map(String::valueOf)
-                .collect(Collectors.joining());
-        
+        return st.stream().map(String::valueOf).collect(Collectors.joining());
 
     }
 
@@ -6224,7 +6219,6 @@ public class Leetcode_9 {
         int d = Math.abs(a - b);
         return d == 1 || d == 25;
     }
-    
 
     // 3563. 移除相邻字符后字典序最小的字符串 (Lexicographically Smallest String After Adjacent
     // Removals)
@@ -6337,6 +6331,73 @@ public class Leetcode_9 {
         }
         return res;
 
+    }
+
+    // 3568. 清理教室的最少移动 (Minimum Moves to Clean the Classroom)
+    public int minMoves(String[] classroom, int energy) {
+        int m = classroom.length;
+        int n = classroom[0].length();
+        int[][] mask_clear = new int[m][n];
+        int startX = -1;
+        int startY = -1;
+        int cnt = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (classroom[i].charAt(j) == 'S') {
+                    startX = i;
+                    startY = j;
+                } else if (classroom[i].charAt(j) == 'L') {
+                    mask_clear[i][j] = 1 << cnt;
+                    ++cnt;
+                }
+            }
+        }
+        if (cnt == 0) {
+            return 0;
+        }
+        int[][] dirs = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+        int u = (1 << cnt) - 1;
+        int[][][] maxEnergy = new int[m][n][1 << cnt];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                Arrays.fill(maxEnergy[i][j], -1);
+            }
+        }
+        maxEnergy[startX][startY][0] = energy;;
+        Queue<int[]> q = new LinkedList<>();
+        int res = 0;
+        // startX, startY, energy, mask
+        q.offer(new int[] { startX, startY, energy, 0 });
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = q.poll();
+                int x = cur[0];
+                int y = cur[1];
+                int e = cur[2];
+                int mask = cur[3];
+                if (mask == u) {
+                    return res;
+                }
+                if (e == 0) {
+                    continue;
+                }
+                for (int[] dir : dirs) {
+                    int nx = x + dir[0];
+                    int ny = y + dir[1];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && classroom[nx].charAt(ny) != 'X') {
+                        int nmask = mask | mask_clear[nx][ny];
+                        int ne = classroom[nx].charAt(ny) == 'R' ? energy : e - 1;
+                        if (ne > maxEnergy[nx][ny][nmask]) {
+                            maxEnergy[nx][ny][nmask] = ne;
+                            q.offer(new int[] { nx, ny, ne, nmask });
+                        }
+                    }
+                }
+            }
+            ++res;
+        }
+        return -1;
 
     }
 
