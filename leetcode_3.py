@@ -517,3 +517,28 @@ class leetcode_3:
                             q.append([nx, ny, ne, nmask])
             res += 1
         return -1
+
+    # 3565. 顺序网格路径覆盖 (Sequential Grid Path Cover)
+    def findPath(self, grid: List[List[int]], k: int) -> List[List[int]]:
+        def dfs(x: int, y: int, mx: int, mask: int) -> bool:
+            if mask == (1 << (m * n)) - 1:
+                return True
+            for dx, dy in dirs:
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < m and 0 <= ny < n and ((mask >> (nx * n + ny)) & 1 == 0):
+                    if grid[nx][ny] - mx == 1 or grid[nx][ny] == 0:
+                        if dfs(nx, ny, max(mx, grid[nx][ny]), mask | (1 << (nx * n + ny))):
+                            res.append([nx, ny])
+                            return True
+            return False
+        m = len(grid)
+        n = len(grid[0])
+        res = []
+        dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] <= 1 and dfs(i, j, grid[i][j], 1 << (i * n + j)):
+                    res.append([i, j])
+                    return list(reversed(res))
+                res.clear()
+        return []

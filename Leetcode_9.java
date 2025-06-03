@@ -22,8 +22,6 @@ import java.util.stream.IntStream;
 @SuppressWarnings("unchecked")
 public class Leetcode_9 {
 
-  
-  
     public static void main(String[] args) {
         // String[] s = { "SLR.L", ".LLXR" };
         // minMoves(s, 9);
@@ -6363,7 +6361,8 @@ public class Leetcode_9 {
                 Arrays.fill(maxEnergy[i][j], -1);
             }
         }
-        maxEnergy[startX][startY][0] = energy;;
+        maxEnergy[startX][startY][0] = energy;
+        ;
         Queue<int[]> q = new LinkedList<>();
         int res = 0;
         // startX, startY, energy, mask
@@ -6398,6 +6397,53 @@ public class Leetcode_9 {
             ++res;
         }
         return -1;
+
+    }
+
+    // 3565. 顺序网格路径覆盖 (Sequential Grid Path Cover) --plus
+    private List<List<Integer>> resPath3565;
+    private int[][] grid3565;
+    private int m3565;
+    private int n3565;
+
+    public List<List<Integer>> findPath(int[][] grid, int k) {
+        this.m3565 = grid.length;
+        this.n3565 = grid[0].length;
+        this.grid3565 = grid;
+        resPath3565 = new ArrayList<>();
+        for (int i = 0; i < m3565; ++i) {
+            for (int j = 0; j < n3565; ++j) {
+                if (grid[i][j] <= 1 && dfs3565(i, j, grid[i][j], 1L << (i * n3565 + j))) {
+                    resPath3565.add(List.of(i, j));
+                    Collections.reverse(resPath3565);
+                    return resPath3565;
+                }
+                resPath3565.clear();
+            }
+        }
+        return List.of();
+
+    }
+
+    private boolean dfs3565(int x, int y, int mx, long mask) {
+        if (mask == (1L << (m3565 * n3565)) - 1) {
+            return true;
+        }
+        int[][] dirs = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+        for (int[] dir : dirs) {
+            int nx = x + dir[0];
+            int ny = y + dir[1];
+            if (nx >= 0 && nx < m3565 && ny >= 0 && ny < n3565 && ((mask >> (nx * n3565 + ny)) & 1) == 0) {
+                if (grid3565[nx][ny] - mx == 1 || grid3565[nx][ny] == 0) {
+                    if (dfs3565(nx, ny, Math.max(mx, grid3565[nx][ny]), mask | (1 << (nx * n3565 + ny)))) {
+                        resPath3565.add(List.of(nx, ny));
+                        return true;
+                    }
+
+                }
+            }
+        }
+        return false;
 
     }
 
