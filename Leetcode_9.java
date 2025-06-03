@@ -6286,4 +6286,28 @@ public class Leetcode_9 {
         return d == 1 || d == 25;
     }
 
+    // 3566. 等积子集的划分方案 (Partition Array into Two Equal Product Subsets)
+    public boolean checkEqualPartitions(int[] nums, long target) {
+        long mul = 1L;
+        for (int x : nums) {
+            mul *= x;
+        }
+        if (mul != target * target) {
+            return false;
+        }
+        int n = nums.length;
+        return dfs3566(0, 1L, false, false, n, target, nums);
+
+    }
+
+    private boolean dfs3566(int i, long j, boolean k, boolean l, int n, long target, int[] nums) {
+        if (i == n) {
+            return k && l && j == target;
+        }
+        if (j > target) {
+            return false;
+        }
+        return dfs3566(i + 1, j, true, l, n, target, nums) || dfs3566(i + 1, j * nums[i], k, true, n, target, nums);
+    }
+
 }

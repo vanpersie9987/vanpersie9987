@@ -438,3 +438,19 @@ class leetcode_3:
                     res += candies[box]
                     q.append(box)
         return res
+
+    # 3566. 等积子集的划分方案 (Partition Array into Two Equal Product Subsets)
+    def checkEqualPartitions(self, nums: List[int], target: int) -> bool:
+        def dfs(i: int, j: int, k: bool, l: bool) -> bool:
+            if i == n:
+                return k and l and target == j
+            if j > target:
+                return False
+            return dfs(i + 1, j, True, l) or dfs(i + 1, j * nums[i], k, True)
+        n = len(nums)
+        mul = 1
+        for num in nums:
+            mul *= num
+        if mul != target * target:
+            return False
+        return dfs(0, 1, False, False)
