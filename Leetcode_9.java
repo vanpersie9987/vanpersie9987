@@ -6310,4 +6310,34 @@ public class Leetcode_9 {
         return dfs3566(i + 1, j, true, l, n, target, nums) || dfs3566(i + 1, j * nums[i], k, true, n, target, nums);
     }
 
+    // 3567. 子矩阵的最小绝对差 (Minimum Absolute Difference in Sliding Submatrix)
+    public int[][] minAbsDiff(int[][] grid, int k) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] res = new int[m - k + 1][n - k + 1];
+        for (int i = 0; i < m - k + 1; ++i) {
+            for (int j = 0; j < n - k + 1; ++j) {
+                List<Integer> list = new ArrayList<>();
+                for (int ii = i; ii < i + k; ++ii) {
+                    for (int jj = j; jj < j + k; ++jj) {
+                        list.add(grid[ii][jj]);
+                    }
+                }
+                Collections.sort(list);
+                int min = Integer.MAX_VALUE;
+                for (int l = 1; l < list.size(); ++l) {
+                    if (list.get(l) > list.get(l - 1)) {
+                        min = Math.min(min, list.get(l) - list.get(l - 1));
+                    }
+                }
+                if (min != Integer.MAX_VALUE) {
+                    res[i][j] = min;
+                }
+            }
+        }
+        return res;
+
+
+    }
+
 }

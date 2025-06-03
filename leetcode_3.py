@@ -454,3 +454,23 @@ class leetcode_3:
         if mul != target * target:
             return False
         return dfs(0, 1, False, False)
+
+    # 3567. 子矩阵的最小绝对差 (Minimum Absolute Difference in Sliding Submatrix)
+    def minAbsDiff(self, grid: List[List[int]], k: int) -> List[List[int]]:
+        m = len(grid)
+        n = len(grid[0])
+        res = [[0] * (n - k + 1) for _ in range(m - k + 1)]
+        for i in range(m - k + 1):
+            sub_grid = grid[i: i + k]
+            for j in range(n - k + 1):
+                a = []
+                for row in sub_grid:
+                    a.extend(row[j: j + k])
+                a.sort()
+                _min = inf
+                for x, y in pairwise(a):
+                    if y > x:
+                        _min = min(_min, y - x)
+                if _min != inf:
+                    res[i][j] = _min
+        return res
