@@ -542,3 +542,26 @@ class leetcode_3:
                     return list(reversed(res))
                 res.clear()
         return []
+
+    # 3466. 最大硬币收集量 (Maximum Coin Collection) --plus
+    def maxCoins(self, lane1: List[int], lane2: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int, k: int, l: bool) -> int:
+            if i == n:
+                return 0 if l else -inf
+            res = -inf
+            # 之前还未进入赛道，在第i位置，仍可以不进入赛道
+            if not l:
+                res = max(res, dfs(i + 1, j, k, l))
+            # 不换赛道 max(0, dfs(x, x, x, True)) ，其中 0 表示下赛道因为已经跑了至少一英里
+            res = max(res, max(0, dfs(i + 1, j, k, True)) + arr[i][j])
+            # 换赛道
+            if k < 2:
+                # max(0, dfs(x, x, x, True)) ，其中 0 表示下赛道因为已经跑了至少一英里
+                res = max(res, max(0, dfs(i + 1, j ^ 1, k + 1, True)) + arr[i][j ^ 1])
+            return res
+        n = len(lane1)
+        arr = [[x, y] for x, y in zip(lane1, lane2)]
+        # dfs(i, j, k, l) 从索引i开始，当前在赛道j，已经切换了k次赛道，已经跑了至少1英里（l == True 表示至少跑了1英里， l == False表示还未跑）时，
+        # 可获得的最大硬币数
+        return max(dfs(0, 0, 0, False), dfs(0, 1, 1, False))

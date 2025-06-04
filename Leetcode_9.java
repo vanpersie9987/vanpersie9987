@@ -6448,4 +6448,51 @@ public class Leetcode_9 {
 
     }
 
+    // 3466. 最大硬币收集量 (Maximum Coin Collection) --plus
+    private int n3466;
+    private long[][][][] memo3466;
+    private int[][] lane3466;
+
+    public long maxCoins(int[] lane1, int[] lane2) {
+        this.n3466 = lane1.length;
+        this.lane3466 = new int[n3466][2];
+        for (int i = 0; i < n3466; ++i) {
+            lane3466[i][0] = lane1[i];
+            lane3466[i][1] = lane2[i];
+        }
+        this.memo3466 = new long[n3466][2][3][2];
+        for (int i = 0; i < n3466; ++i) {
+            for (int j = 0; j < 2; ++j) {
+                for (int k = 0; k < 3; ++k) {
+                    Arrays.fill(memo3466[i][j][k], Long.MIN_VALUE);
+                }
+            }
+        }
+        return Math.max(dfs3466(0, 0, 0, 0), dfs3466(0, 1, 1, 0));
+
+    }
+
+    // dfs(i, j, k, l) 从索引i开始，当前在赛道j，已经切换了k次赛道，已经跑了至少1英里（l == True 表示至少跑了1英里， l == False表示还未跑）时，
+    // 可获得的最大硬币数
+    private long dfs3466(int i, int j, int k, int l) {
+        if (i == n3466) {
+            return l == 1 ? 0L : (long) -1e15;
+        }
+        if (memo3466[i][j][k][l] != Long.MIN_VALUE) {
+            return memo3466[i][j][k][l];
+        }
+        long res = Long.MIN_VALUE;
+        // 之前还未进入赛道，在第i位置，仍可以不进入赛道
+        if (l == 0) {
+            res = Math.max(res, dfs3466(i + 1, j, k, l));
+        }
+        // 不换赛道
+        res = Math.max(res, Math.max(0, dfs3466(i + 1, j, k, 1)) + lane3466[i][j]);
+        // 换赛道
+        if (k < 2) {
+            res = Math.max(res, Math.max(0, dfs3466(i + 1, j ^ 1, k + 1, 1)) + lane3466[i][j ^ 1]);
+        }
+        return memo3466[i][j][k][l] = res;
+    }
+
 }
