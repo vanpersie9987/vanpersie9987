@@ -4142,11 +4142,12 @@ public class Leetcode_9 {
         if (numFriends == 1) {
             return word;
         }
+        int n = word.length();
         String res = "";
-        for (int i = 0; i < word.length(); ++i) {
-            String cur = word.substring(i, word.length() - (Math.max(0, numFriends - 1 - i)));
-            if (cur.compareTo(res) > 0) {
-                res = cur;
+        for (int i = 0; i < n; ++i) {
+            String s = word.substring(i, Math.min(n, n - numFriends + 1 + i));
+            if (s.compareTo(res) > 0) {
+                res = s;
             }
         }
         return res;

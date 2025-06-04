@@ -7954,11 +7954,11 @@ class Union924:
         n = len(word)
         if numFriends == 1:
             return word
-        res = ""
+        res = ''
         for i in range(n):
-            cur = word[i : n - (max(0, numFriends - i - 1))]
-            if res < cur:
-                res = cur
+            s = word[i : min(n, n - numFriends + i + 1)]
+            if s > res:
+                res = s
         return res
 
     # 729. 我的日程安排表 I (My Calendar I)

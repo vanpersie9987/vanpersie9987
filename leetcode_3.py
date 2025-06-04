@@ -333,7 +333,7 @@ class leetcode_3:
             dic[v].append(i)
             map[i] = len(dic[v]) - 1
         return dfs(0)
-    
+
     # 3558. 给边赋权值的方案数 I (Number of Ways to Assign Edge Weights I)
     def assignEdgeWeights(self, edges: List[List[int]]) -> int:
         def max_depth(x: int, fa: int, d: int) -> int:
@@ -357,5 +357,13 @@ class leetcode_3:
         max_depth(0, -1, 0)
         return dfs(0, 0)
 
-
-        
+    def answerString(self, word: str, numFriends: int) -> str:
+        n = len(word)
+        if numFriends == 1:
+            return word
+        res = ""
+        for i in range(n):
+            s = word[i : min(n, n - numFriends + i + 1)]
+            if s > res:
+                res = s
+        return res
