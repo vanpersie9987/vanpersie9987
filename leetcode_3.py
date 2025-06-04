@@ -4,6 +4,8 @@ from gettext import find
 import math
 from platform import node
 from pydoc import plain
+from signal import valid_signals
+import stat
 from xxlimited import foo
 from audioop import minmax, reverse
 from calendar import c
@@ -55,7 +57,7 @@ from zoneinfo import reset_tzpath
 # curl https://bootstrap.pypa.io/pip/get-pip.py -o get-pip.py
 # sudo python3 get-pip.py
 # pip3 install sortedcontainers
-from networkx import dfs_edges, grid_2d_graph, interval_graph, union
+from networkx import bull_graph, dfs_edges, grid_2d_graph, interval_graph, union
 from sortedcontainers import SortedDict, SortedList, SortedSet
 
 
@@ -312,27 +314,16 @@ class leetcode_3:
 
     # 3557. 不相交子字符串的最大数量 (Find Maximum Number of Non Intersecting Substrings)
     def maxSubstrings(self, word: str) -> int:
-        @cache
-        def dfs(i: int) -> int:
-            if i == n:
-                return 0
-            res = dfs(i + 1)
-            idx = map[i]
-            j = idx + 1
-            list = dic[word[i]]
-            while j < len(list):
-                if list[j] - list[idx] >= 3:
-                    res = max(res, 1 + dfs(list[j] + 1))
-                    break
-                j += 1
-            return res
-        n = len(word)
-        dic = defaultdict(list)
-        map = defaultdict(int)
+        dic = {}
+        res = 0
         for i, v in enumerate(word):
-            dic[v].append(i)
-            map[i] = len(dic[v]) - 1
-        return dfs(0)
+            if v in dic:
+                if i - dic[v] > 2:
+                    res += 1
+                    dic.clear()
+            else:
+                dic[v] = i
+        return res
 
     # 3558. 给边赋权值的方案数 I (Number of Ways to Assign Edge Weights I)
     def assignEdgeWeights(self, edges: List[List[int]]) -> int:
@@ -357,13 +348,197 @@ class leetcode_3:
         max_depth(0, -1, 0)
         return dfs(0, 0)
 
-    def answerString(self, word: str, numFriends: int) -> str:
-        n = len(word)
-        if numFriends == 1:
-            return word
-        res = ""
-        for i in range(n):
-            s = word[i : min(n, n - numFriends + i + 1)]
-            if s > res:
-                res = s
+    # 135. 分发糖果 (Candy)
+    def candy(self, ratings: List[int]) -> int:
+        n = len(ratings)
+        right = [1] * n
+        for i in range(n - 2, -1, -1):
+            if ratings[i] > ratings[i + 1]:
+                right[i] = right[i + 1] + 1
+        left = [1] * n
+        for i in range(1, n):
+            if ratings[i] > ratings[i - 1]:
+                left[i] = left[i - 1] + 1
+        return sum(max(x, y) for x, y in zip(left, right))
+
+    # 3560. 木材运输的最小成本 (Find Minimum Log Transportation Cost)
+    def minCuttingCost(self, n: int, m: int, k: int) -> int:
+        res = 0
+        if n > k:
+            res += k * (n - k)
+        if m > k:
+            res += k * (m - k)
         return res
+
+    # 3561. 移除相邻字符 (Resulting String After Adjacent Removals)
+    def resultingString(self, s: str) -> str:
+        def is_adjacent(c1: str, c2: str) -> bool:
+            d = abs(ord(c1) - ord(c2))
+            return d == 1 or d == 25
+        st = []
+        for c in s:
+            if st and is_adjacent(st[-1], c):
+                st.pop()
+            else:
+                st.append(c)
+        return ''.join(st)
+
+    # 3563. 移除相邻字符后字典序最小的字符串 (Lexicographically Smallest String After Adjacent Removals)
+    def lexicographicallySmallestString(self, s: str) -> str:
+        def is_adjacent(c1: str, c2: str) -> bool:
+            d = abs(ord(c1) - ord(c2))
+            return d == 1 or d == 25
+        @cache
+        def check(i: int, j: int) -> bool:
+            if i > j:
+                return True
+            if is_adjacent(s[i], s[j]) and check(i + 1, j - 1):
+                return True
+            for k in range(i + 1, j, 2):
+                if check(i, k) and check(k + 1, j):
+                    return True
+            return False
+        @cache
+        def dfs(i: int) -> str:
+            if i == n:
+                return ''
+            res = s[i] + dfs(i + 1)
+            for j in range(i + 1, n, 2):
+                if check(i, j):
+                    res = min(res, dfs(j + 1))
+            return res
+        n = len(s)
+        return dfs(0)
+
+    # 1298. 你能从盒子里获得的最大糖果数 (Maximum Candies You Can Get from Boxes)
+    def maxCandies(self, status: List[int], candies: List[int], keys: List[List[int]], containedBoxes: List[List[int]], initialBoxes: List[int]) -> int:
+        n = len(status)
+        vis = [0] * n
+        has_boxes = [0] * n
+        q = deque()
+        res = 0
+        for init in initialBoxes:
+            has_boxes[init] = 1
+            if status[init]:
+                vis[init] = 1
+                res += candies[init]
+                q.append(init)
+        while q:
+            x = q.popleft()
+            for key in keys[x]:
+                status[key] = 1
+                if not vis[key] and has_boxes[key]:
+                    vis[key] = 1
+                    res += candies[key]
+                    q.append(key)
+            for box in containedBoxes[x]:
+                has_boxes[box] = 1
+                if not vis[box] and status[box]:
+                    vis[box] = 1
+                    res += candies[box]
+                    q.append(box)
+        return res
+
+    # 3566. 等积子集的划分方案 (Partition Array into Two Equal Product Subsets)
+    def checkEqualPartitions(self, nums: List[int], target: int) -> bool:
+        def dfs(i: int, j: int, k: bool, l: bool) -> bool:
+            if i == n:
+                return k and l and target == j
+            if j > target:
+                return False
+            return dfs(i + 1, j, True, l) or dfs(i + 1, j * nums[i], k, True)
+        n = len(nums)
+        mul = 1
+        for num in nums:
+            mul *= num
+        if mul != target * target:
+            return False
+        return dfs(0, 1, False, False)
+
+    # 3567. 子矩阵的最小绝对差 (Minimum Absolute Difference in Sliding Submatrix)
+    def minAbsDiff(self, grid: List[List[int]], k: int) -> List[List[int]]:
+        m = len(grid)
+        n = len(grid[0])
+        res = [[0] * (n - k + 1) for _ in range(m - k + 1)]
+        for i in range(m - k + 1):
+            sub_grid = grid[i: i + k]
+            for j in range(n - k + 1):
+                a = []
+                for row in sub_grid:
+                    a.extend(row[j: j + k])
+                a.sort()
+                _min = inf
+                for x, y in pairwise(a):
+                    if y > x:
+                        _min = min(_min, y - x)
+                if _min != inf:
+                    res[i][j] = _min
+        return res
+
+    # 3568. 清理教室的最少移动 (Minimum Moves to Clean the Classroom)
+    def minMoves(self, classroom: List[str], energy: int) -> int:
+        m = len(classroom)
+        n = len(classroom[0])
+        garbage = [[0] * n for _ in range(m)]
+        cnt = 0
+        start_x = 0
+        start_y = 0
+        for i in range(m):
+            for j in range(n):
+                if classroom[i][j] == "S":
+                    start_x, start_y = i, j
+                elif classroom[i][j] == "L":
+                    garbage[i][j] = 1 << cnt
+                    cnt += 1
+        if cnt == 0:
+            return 0
+        max_energy = [[[-1] * (1 << cnt) for _ in range(n)] for _ in range(m)]
+        max_energy[start_x][start_y][0] = energy
+        q = deque()
+        q.append([start_x, start_y, energy, 0])
+        dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        u = (1 << cnt) - 1
+        res = 0
+        while q:
+            sz = len(q)
+            for _ in range(sz):
+                x, y, e, mask = q.popleft()
+                if mask == u:
+                    return res
+                if e == 0:
+                    continue
+                for dx, dy in dirs:
+                    nx, ny = x + dx, y + dy
+                    if 0 <= nx < m and 0 <= ny < n and classroom[nx][ny] != "X":
+                        nmask = mask | garbage[nx][ny]
+                        ne = energy if classroom[nx][ny] == "R" else e - 1
+                        if ne > max_energy[nx][ny][nmask]:
+                            max_energy[nx][ny][nmask] = ne
+                            q.append([nx, ny, ne, nmask])
+            res += 1
+        return -1
+
+    # 3565. 顺序网格路径覆盖 (Sequential Grid Path Cover)
+    def findPath(self, grid: List[List[int]], k: int) -> List[List[int]]:
+        def dfs(x: int, y: int, mx: int, mask: int) -> bool:
+            if mask == (1 << (m * n)) - 1:
+                return True
+            for dx, dy in dirs:
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < m and 0 <= ny < n and ((mask >> (nx * n + ny)) & 1 == 0):
+                    if grid[nx][ny] - mx == 1 or grid[nx][ny] == 0:
+                        if dfs(nx, ny, max(mx, grid[nx][ny]), mask | (1 << (nx * n + ny))):
+                            res.append([nx, ny])
+                            return True
+            return False
+        m = len(grid)
+        n = len(grid[0])
+        res = []
+        dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] <= 1 and dfs(i, j, grid[i][j], 1 << (i * n + j)):
+                    res.append([i, j])
+                    return list(reversed(res))
+                res.clear()
+        return []

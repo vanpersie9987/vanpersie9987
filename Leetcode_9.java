@@ -1,7 +1,4 @@
 import java.math.BigInteger;
-import java.net.Inet4Address;
-import java.nio.file.Path;
-import java.sql.Time;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +7,6 @@ import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -20,15 +16,15 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.print.DocFlavor.STRING;
-
 @SuppressWarnings("unchecked")
 public class Leetcode_9 {
+
     public static void main(String[] args) {
+        // String[] s = { "SLR.L", ".LLXR" };
+        // minMoves(s, 9);
     }
 
     public class ListNode {
@@ -5967,6 +5963,7 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3550. 数位和等于下标的最小下标 (Smallest Index With Digit Sum Equal to Index)
     public int smallestIndex(int[] nums) {
         search: for (int i = 0; i < nums.length; ++i) {
             int s = 0;
@@ -6072,7 +6069,7 @@ public class Leetcode_9 {
                 if (ni >= 0 && ni < m && nj >= 0 && nj < n && matrix[ni].charAt(nj) != '#') {
                     if (d + 1 < dis[ni][nj]) {
                         dis[ni][nj] = d + 1;
-                        q.addLast(new int[] { ni, nj, d + 1});
+                        q.addLast(new int[] { ni, nj, d + 1 });
                     }
                 }
             }
@@ -6088,7 +6085,7 @@ public class Leetcode_9 {
                 }
                 map.remove(matrix[i].charAt(j) - 'A');
             }
-            
+
         }
         return -1;
 
@@ -6103,7 +6100,7 @@ public class Leetcode_9 {
             public int compare(Long o1, Long o2) {
                 return Long.compare(o2, o1);
             }
-            
+
         });
         for (int i = 0; i < n; ++i) {
             for (int j = i; j < n; ++j) {
@@ -6133,49 +6130,21 @@ public class Leetcode_9 {
     }
 
     // 3557. 不相交子字符串的最大数量 (Find Maximum Number of Non Intersecting Substrings)
-    private int[] memo3557;
-    private String word3557;
-    private Map<Character, List<Integer>> mapToList3557;
-    private Map<Integer, Integer> mapToPos3557;
-    private int n3557;
-
     public int maxSubstrings(String word) {
-        this.n3557 = word.length();
-        this.mapToList3557 = new HashMap<>();
-        this.mapToPos3557 = new HashMap<>();
-        for (int i = 0; i < n3557; ++i) {
-            char c = word.charAt(i);
-            mapToList3557.computeIfAbsent(c, k -> new ArrayList<>()).add(i);
-            mapToPos3557.put(i, mapToList3557.get(c).size() - 1);
-        }
-        this.word3557 = word;
-        this.memo3557 = new int[n3557];
-        Arrays.fill(memo3557, -1);
-        return dfs3557(0);
-
-    }
-
-    private int dfs3557(int i) {
-        if (i == n3557) {
-            return 0;
-        }
-        if (memo3557[i] != -1) {
-            return memo3557[i];
-        }
-        int res = dfs3557(i + 1); // 不选
-        char c = word3557.charAt(i);
-        int idx = mapToPos3557.get(i);
-        List<Integer> list = mapToList3557.get(c);
-        int j = idx + 1;
-        while (j < list.size()) {
-            if (list.get(j) - list.get(idx) >= 3) {
-                // 选
-                res = Math.max(res, 1 + dfs3557(list.get(j) + 1));
-                break;
+        int res = 0;
+        Map<Character, Integer> pos = new HashMap<>();
+        for (int i = 0; i < word.length(); ++i) {
+            if (pos.containsKey(word.charAt(i))) {
+                if (i - pos.get(word.charAt(i)) > 2) {
+                    ++res;
+                    pos.clear();
+                }
+            } else {
+                pos.put(word.charAt(i), i);
             }
-            ++j;
         }
-        return memo3557[i] = res;
+        return res;
+
     }
 
     // 3558. 给边赋权值的方案数 I (Number of Ways to Assign Edge Weights I)
@@ -6219,6 +6188,264 @@ public class Leetcode_9 {
         }
     }
 
+    // 3560. 木材运输的最小成本 (Find Minimum Log Transportation Cost)
+    public long minCuttingCost(int n, int m, int k) {
+        long res = 0L;
+        if (n > k) {
+            res += (long) k * (n - k);
+        }
+        if (m > k) {
+            res += (long) k * (m - k);
+        }
+        return res;
+    }
 
+    // 3561. 移除相邻字符 (Resulting String After Adjacent Removals)
+    public String resultingString(String s) {
+        List<Character> st = new ArrayList<>();
+        for (char c : s.toCharArray()) {
+            if (!st.isEmpty() && isConsecutive3561(st.get(st.size() - 1), c)) {
+                st.remove(st.size() - 1);
+            } else {
+                st.add(c);
+            }
+        }
+        return st.stream().map(String::valueOf).collect(Collectors.joining());
+
+    }
+
+    private boolean isConsecutive3561(char a, char b) {
+        int d = Math.abs(a - b);
+        return d == 1 || d == 25;
+    }
+
+    // 3563. 移除相邻字符后字典序最小的字符串 (Lexicographically Smallest String After Adjacent
+    // Removals)
+    private char[] arr3563;
+    private int n3563;
+    private int[][] memo3563;
+    private String[] memoDfs3563;
+
+    public String lexicographicallySmallestString(String s) {
+        this.n3563 = s.length();
+        this.arr3563 = s.toCharArray();
+        this.memo3563 = new int[n3563][n3563];
+        this.memoDfs3563 = new String[n3563];
+        return dfs3563(0);
+    }
+
+    private String dfs3563(int i) {
+        if (i == n3563) {
+            return "";
+        }
+        if (memoDfs3563[i] != null) {
+            return memoDfs3563[i];
+        }
+        String res = String.valueOf(arr3563[i]) + dfs3563(i + 1);
+        for (int j = i + 1; j < n3563; j += 2) {
+            if (check3563(i, j)) {
+                String t = dfs3563(j + 1);
+                if (t.compareTo(res) < 0) {
+                    res = t;
+                }
+            }
+        }
+        return memoDfs3563[i] = res;
+    }
+
+    private boolean check3563(int i, int j) {
+        if (i > j) {
+            return true;
+        }
+        if (memo3563[i][j] != 0) {
+            return memo3563[i][j] > 0;
+        }
+        if (isConsecutive3563(i, j) && check3563(i + 1, j - 1)) {
+            memo3563[i][j] = 1;
+            return true;
+        }
+        for (int k = i + 1; k < j; k += 2) {
+            if (check3563(i, k) && check3563(k + 1, j)) {
+                memo3563[i][j] = 1;
+                return true;
+            }
+        }
+        memo3563[i][j] = -1;
+        return false;
+    }
+
+    private boolean isConsecutive3563(int i, int j) {
+        int d = Math.abs(arr3563[i] - arr3563[j]);
+        return d == 1 || d == 25;
+    }
+
+    // 3566. 等积子集的划分方案 (Partition Array into Two Equal Product Subsets)
+    public boolean checkEqualPartitions(int[] nums, long target) {
+        long mul = 1L;
+        for (int x : nums) {
+            mul *= x;
+        }
+        if (mul != target * target) {
+            return false;
+        }
+        int n = nums.length;
+        return dfs3566(0, 1L, false, false, n, target, nums);
+
+    }
+
+    private boolean dfs3566(int i, long j, boolean k, boolean l, int n, long target, int[] nums) {
+        if (i == n) {
+            return k && l && j == target;
+        }
+        if (j > target) {
+            return false;
+        }
+        return dfs3566(i + 1, j, true, l, n, target, nums) || dfs3566(i + 1, j * nums[i], k, true, n, target, nums);
+    }
+
+    // 3567. 子矩阵的最小绝对差 (Minimum Absolute Difference in Sliding Submatrix)
+    public int[][] minAbsDiff(int[][] grid, int k) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] res = new int[m - k + 1][n - k + 1];
+        for (int i = 0; i < m - k + 1; ++i) {
+            for (int j = 0; j < n - k + 1; ++j) {
+                List<Integer> list = new ArrayList<>();
+                for (int ii = i; ii < i + k; ++ii) {
+                    for (int jj = j; jj < j + k; ++jj) {
+                        list.add(grid[ii][jj]);
+                    }
+                }
+                Collections.sort(list);
+                int min = Integer.MAX_VALUE;
+                for (int l = 1; l < list.size(); ++l) {
+                    if (list.get(l) > list.get(l - 1)) {
+                        min = Math.min(min, list.get(l) - list.get(l - 1));
+                    }
+                }
+                if (min != Integer.MAX_VALUE) {
+                    res[i][j] = min;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 3568. 清理教室的最少移动 (Minimum Moves to Clean the Classroom)
+    public int minMoves(String[] classroom, int energy) {
+        int m = classroom.length;
+        int n = classroom[0].length();
+        int[][] mask_clear = new int[m][n];
+        int startX = -1;
+        int startY = -1;
+        int cnt = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (classroom[i].charAt(j) == 'S') {
+                    startX = i;
+                    startY = j;
+                } else if (classroom[i].charAt(j) == 'L') {
+                    mask_clear[i][j] = 1 << cnt;
+                    ++cnt;
+                }
+            }
+        }
+        if (cnt == 0) {
+            return 0;
+        }
+        int[][] dirs = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+        int u = (1 << cnt) - 1;
+        int[][][] maxEnergy = new int[m][n][1 << cnt];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                Arrays.fill(maxEnergy[i][j], -1);
+            }
+        }
+        maxEnergy[startX][startY][0] = energy;
+        ;
+        Queue<int[]> q = new LinkedList<>();
+        int res = 0;
+        // startX, startY, energy, mask
+        q.offer(new int[] { startX, startY, energy, 0 });
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = q.poll();
+                int x = cur[0];
+                int y = cur[1];
+                int e = cur[2];
+                int mask = cur[3];
+                if (mask == u) {
+                    return res;
+                }
+                if (e == 0) {
+                    continue;
+                }
+                for (int[] dir : dirs) {
+                    int nx = x + dir[0];
+                    int ny = y + dir[1];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && classroom[nx].charAt(ny) != 'X') {
+                        int nmask = mask | mask_clear[nx][ny];
+                        int ne = classroom[nx].charAt(ny) == 'R' ? energy : e - 1;
+                        if (ne > maxEnergy[nx][ny][nmask]) {
+                            maxEnergy[nx][ny][nmask] = ne;
+                            q.offer(new int[] { nx, ny, ne, nmask });
+                        }
+                    }
+                }
+            }
+            ++res;
+        }
+        return -1;
+
+    }
+
+    // 3565. 顺序网格路径覆盖 (Sequential Grid Path Cover) --plus
+    private List<List<Integer>> resPath3565;
+    private int[][] grid3565;
+    private int m3565;
+    private int n3565;
+
+    public List<List<Integer>> findPath(int[][] grid, int k) {
+        this.m3565 = grid.length;
+        this.n3565 = grid[0].length;
+        this.grid3565 = grid;
+        resPath3565 = new ArrayList<>();
+        for (int i = 0; i < m3565; ++i) {
+            for (int j = 0; j < n3565; ++j) {
+                if (grid[i][j] <= 1 && dfs3565(i, j, grid[i][j], 1L << (i * n3565 + j))) {
+                    resPath3565.add(List.of(i, j));
+                    Collections.reverse(resPath3565);
+                    return resPath3565;
+                }
+                resPath3565.clear();
+            }
+        }
+        return List.of();
+
+    }
+
+    private boolean dfs3565(int x, int y, int mx, long mask) {
+        if (mask == (1L << (m3565 * n3565)) - 1) {
+            return true;
+        }
+        int[][] dirs = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+        for (int[] dir : dirs) {
+            int nx = x + dir[0];
+            int ny = y + dir[1];
+            if (nx >= 0 && nx < m3565 && ny >= 0 && ny < n3565 && ((mask >> (nx * n3565 + ny)) & 1) == 0) {
+                if (grid3565[nx][ny] - mx == 1 || grid3565[nx][ny] == 0) {
+                    if (dfs3565(nx, ny, Math.max(mx, grid3565[nx][ny]), mask | (1 << (nx * n3565 + ny)))) {
+                        resPath3565.add(List.of(nx, ny));
+                        return true;
+                    }
+
+                }
+            }
+        }
+        return false;
+
+    }
 
 }
