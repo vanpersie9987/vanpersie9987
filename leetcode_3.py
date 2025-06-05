@@ -5,6 +5,7 @@ import math
 from platform import node
 from pydoc import plain
 from signal import valid_signals
+from sqlite3 import paramstyle
 import stat
 from xxlimited import foo
 from audioop import minmax, reverse
@@ -565,3 +566,43 @@ class leetcode_3:
         # dfs(i, j, k, l) 从索引i开始，当前在赛道j，已经切换了k次赛道，已经跑了至少1英里（l == True 表示至少跑了1英里， l == False表示还未跑）时，
         # 可获得的最大硬币数
         return max(dfs(0, 0, 0, False), dfs(0, 1, 1, False))
+
+    # 1061. 按字典序排列最小的等效字符串 (Lexicographically Smallest Equivalent String)
+    def smallestEquivalentString(self, s1: str, s2: str, baseStr: str) -> str:
+        class union:
+            def __init__(self, n: int):
+                self.rank = [1] * n
+                self.parent = [i for i in range(n)]
+
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+
+            def is_connect(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+
+            def union(self, p1: int, p2: int) -> None:
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if r1 == r2:
+                    return
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r1] += 1
+
+        u = union(26)
+        for a, b in zip(s1, s2):
+            u.union(ord(a) - ord("a"), ord(b) - ord("a"))
+        res = []
+        for x in baseStr:
+            id = ord(x) - ord("a")
+            for i in range(id + 1):
+                if u.is_connect(i, id):
+                    res.append(chr(ord("a") + i))
+                    break
+        return "".join(res)
