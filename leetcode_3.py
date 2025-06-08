@@ -606,3 +606,31 @@ class leetcode_3:
                     res.append(chr(ord("a") + i))
                     break
         return "".join(res)
+
+    # 2434. 使用机器人打印字典序最小的字符串 (Using a Robot to Print the Lexicographically Smallest String)
+    def robotWithString(self, s: str) -> str:
+        cnt = Counter(s)
+        ans = []
+        stk = []
+        mi = "a"
+        for c in s:
+            cnt[c] -= 1
+            while mi < "z" and cnt[mi] == 0:
+                mi = chr(ord(mi) + 1)
+            stk.append(c)
+            while stk and stk[-1] <= mi:
+                ans.append(stk.pop())
+        return "".join(ans)
+
+    # 386. 字典序排数 (Lexicographical Numbers)
+    def lexicalOrder(self, n: int) -> List[int]:
+        def dfs(x: int) -> None:
+            if x > n:
+                return
+            res.append(x)
+            for i in range(10):
+                dfs(x * 10 + i)
+        res = []
+        for i in range(1, 10):
+            dfs(i)
+        return res
