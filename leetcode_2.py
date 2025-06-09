@@ -4699,17 +4699,20 @@ class Union924:
 
     # 3170. 删除星号以后字典序最小的字符串 (Lexicographically Minimum String After Removing Stars)
     def clearStars(self, s: str) -> str:
-        arr = [c for c in s]
+        a = [x for x in s]
         dic = [[] for _ in range(26)]
-        for i, v in enumerate(arr):
-            if v == "*":
-                for j in range(26):
-                    if len(dic[j]):
-                        arr[dic[j].pop()] = "*"
-                        break
+        bits = 0
+        for i, c in enumerate(a):
+            if c != '*':
+                idx = ord(c) - ord('a')
+                dic[idx].append(i)
+                bits |= 1 << idx
             else:
-                dic[ord(v) - ord("a")].append(i)
-        return "".join(v for v in arr if v != "*")
+                lb = (bits & -bits).bit_length() - 1
+                a[dic[lb].pop()] = '*'
+                if len(dic[lb]) == 0:
+                    bits ^= 1 << lb
+        return ''.join([x for x in a if x != '*'])
 
     # 3171. 找到按位与最接近 K 的子数组 (Find Subarray With Bitwise AND Closest to K)
     def minimumDifference(self, nums: List[int], k: int) -> int:

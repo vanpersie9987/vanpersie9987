@@ -668,24 +668,27 @@ public class Leetcode_9 {
     // 3170. 删除星号以后字典序最小的字符串 (Lexicographically Minimum String After Removing Stars)
     public String clearStars(String s) {
         char[] arr = s.toCharArray();
-        List<Integer>[] list = new ArrayList[26];
-        Arrays.setAll(list, k -> new ArrayList<>());
-        for (int i = 0; i < s.length(); ++i) {
-            if (s.charAt(i) == '*') {
-                for (int j = 0; j < 26; ++j) {
-                    if (!list[j].isEmpty()) {
-                        arr[list[j].remove(list[j].size() - 1)] = '*';
-                        break;
-                    }
-                }
+        int n = arr.length;
+        List<Integer>[] st = new ArrayList[26];
+        Arrays.setAll(st, k -> new ArrayList<>());
+        int bits = 0;
+        for (int i = 0; i < n; ++i) {
+            if (arr[i] != '*') {
+                int idx = arr[i] - 'a';
+                st[idx].add(i);
+                bits |= 1 << idx;
             } else {
-                list[s.charAt(i) - 'a'].add(i);
+                int lb = Integer.numberOfTrailingZeros(bits);
+                arr[st[lb].remove(st[lb].size() - 1)] = '*';
+                if (st[lb].size() == 0) {
+                    bits ^= 1 << lb;
+                }
             }
         }
         StringBuilder res = new StringBuilder();
-        for (int i = 0; i < arr.length; ++i) {
-            if (arr[i] != '*') {
-                res.append(arr[i]);
+        for (char c : arr) {
+            if (c != '*') {
+                res.append(c);
             }
         }
         return res.toString();
