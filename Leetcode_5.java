@@ -10248,7 +10248,7 @@ public class Leetcode_5 {
         return k + nums[0] + res;
     }
 
-    // 1061. 按字典序排列最小的等效字符串 (Lexicographically Smallest Equivalent String) --plus
+    // 1061. 按字典序排列最小的等效字符串 (Lexicographically Smallest Equivalent String)
     public String smallestEquivalentString(String s1, String s2, String baseStr) {
         Union1061 union = new Union1061(26);
         int n = s1.length();
@@ -10257,18 +10257,19 @@ public class Leetcode_5 {
             int index2 = s2.charAt(i) - 'a';
             union.union(index1, index2);
         }
-        Map<Integer, Integer> map = new HashMap<>();
+        int[] dic = new int[26];
         for (int i = 0; i < 26; ++i) {
-            int root = union.getRoot(i);
-            if (!map.containsKey(root) || i < map.get(root)) {
-                map.put(root, i);
+            for (int j = 0; j <= i; ++j) {
+                if (union.isConnected(i, j)) {
+                    dic[i] = j;
+                    break;
+                }
             }
         }
         StringBuilder res = new StringBuilder();
         for (char c : baseStr.toCharArray()) {
             int index = c - 'a';
-            int root = union.getRoot(index);
-            res.append((char) (map.get(root) + 'a'));
+            res.append((char) (dic[index] + 'a'));
         }
         return res.toString();
 

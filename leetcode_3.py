@@ -598,13 +598,16 @@ class leetcode_3:
         u = union(26)
         for a, b in zip(s1, s2):
             u.union(ord(a) - ord("a"), ord(b) - ord("a"))
+        dic = [-1] * 26
+        for i in range(26):
+            for j in range(i + 1):
+                if u.is_connect(i, j):
+                    dic[i] = j
+                    break
         res = []
         for x in baseStr:
             id = ord(x) - ord("a")
-            for i in range(id + 1):
-                if u.is_connect(i, id):
-                    res.append(chr(ord("a") + i))
-                    break
+            res.append(chr(ord("a") + dic[id]))
         return "".join(res)
 
     # 440. 字典序的第K小数字 (K-th Smallest in Lexicographical Order)
