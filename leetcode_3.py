@@ -606,3 +606,27 @@ class leetcode_3:
                     res.append(chr(ord("a") + i))
                     break
         return "".join(res)
+
+    # 440. 字典序的第K小数字 (K-th Smallest in Lexicographical Order)
+    def findKthNumber(self, n: int, k: int) -> int:
+        def cal(node: int) -> int:
+            sz = 0
+            left = node
+            right = node + 1
+            while left <= n:
+                sz += min(right, n + 1) - left
+                left *= 10
+                right *= 10
+            return sz
+
+        node = 1
+        k -= 1
+        while k:
+            sz = cal(node)
+            if sz <= k:
+                node += 1
+                k -= sz
+            else:
+                node *= 10
+                k -= 1
+        return node
