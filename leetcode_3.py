@@ -614,7 +614,7 @@ class leetcode_3:
             left = node
             right = node + 1
             while left <= n:
-                sz += min(right, n + 1) - left
+                sz += min(right - 1, n) - left + 1
                 left *= 10
                 right *= 10
             return sz

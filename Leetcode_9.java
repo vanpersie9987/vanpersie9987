@@ -6521,7 +6521,7 @@ public class Leetcode_9 {
         long right = node + 1;
         long size = 0L;
         while (left <= n) {
-            size += Math.min(right, n + 1) - left;
+            size += Math.min(right - 1, n) - left + 1;
             left *= 10;
             right *= 10;
         }
