@@ -6498,4 +6498,34 @@ public class Leetcode_9 {
         return memo3466[i][j][k][l] = res;
     }
 
+    // 440. 字典序的第K小数字 (K-th Smallest in Lexicographical Order)
+    public int findKthNumber(int n, int k) {
+        int node = 1;
+        --k;
+        while (k > 0) {
+            long size = cal440(node, n);
+            if (size <= k) {
+                ++node;
+                k -= size;
+            } else {
+                node *= 10;
+                --k;
+            }
+        }
+        return node;
+        
+    }
+
+    private long cal440(int node, int n) {
+        long left = node;
+        long right = node + 1;
+        long size = 0L;
+        while (left <= n) {
+            size += Math.min(right, n + 1) - left;
+            left *= 10;
+            right *= 10;
+        }
+        return size;
+    }
+
 }
