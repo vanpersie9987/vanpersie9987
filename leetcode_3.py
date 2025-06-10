@@ -661,3 +661,17 @@ class leetcode_3:
         for i in range(1, 10):
             dfs(i)
         return res
+
+    # 3442. 奇偶频次间的最大差值 I (Maximum Difference Between Even and Odd Frequency I)
+    def maxDifference(self, s: str) -> int:
+        cnts = [0] * 26
+        for c in s:
+            cnts[ord(c) - ord("a")] += 1
+        max_odd = -inf
+        min_even = inf
+        for c in cnts:
+            if c & 1:
+                max_odd = max(max_odd, c)
+            elif c:
+                min_even = min(min_even, c)
+        return max_odd - min_even

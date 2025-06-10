@@ -6528,4 +6528,23 @@ public class Leetcode_9 {
         return size;
     }
 
+    // 3442. 奇偶频次间的最大差值 I (Maximum Difference Between Even and Odd Frequency I)
+    public int maxDifference(String s) {
+        int[] cnts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++cnts[c - 'a'];
+        }
+        int maxOdd = 0;
+        int minEven = Integer.MAX_VALUE;
+        for (int c : cnts) {
+            if ((c & 1) == 1) {
+                maxOdd = Math.max(maxOdd, c);
+            } else if (c > 0) {
+                minEven = Math.min(minEven, c);
+            }
+        }
+        return maxOdd - minEven;
+
+    }
+
 }
