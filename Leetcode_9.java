@@ -6618,4 +6618,32 @@ public class Leetcode_9 {
         return memo3573[i][j][l] = res;
     }
 
+    // 3576. 数组元素相等转换 (Transform Array to All Equal Elements)
+    public boolean canMakeEqual(int[] nums, int k) {
+        return check3576(nums, 1, k) || check3576(nums, -1, k);
+
+    }
+
+    private boolean check3576(int[] nums, int target, int k) {
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] == target) {
+                continue;
+            }
+            int j = i + 1;
+            while (j < n && nums[j] == target) {
+                ++j;
+            }
+            if (j == n) {
+                return false;
+            }
+            if (k < j - i) {
+                return false;
+            }
+            k -= j - i;
+            i = j;
+        }
+        return true;
+    }
+
 }

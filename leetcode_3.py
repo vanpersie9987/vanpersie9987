@@ -717,3 +717,27 @@ class leetcode_3:
         res = dfs(0, 0, 0)
         dfs.cache_clear()
         return res
+    
+    # 3576. 数组元素相等转换 (Transform Array to All Equal Elements)
+    def canMakeEqual(self, nums: List[int], k: int) -> bool:
+        def check(target: int, m: int) -> bool:
+            n = len(nums)
+            i = 0
+            while i < n:
+                if nums[i] == target:
+                    i += 1
+                    continue
+                j = i + 1
+                while j < n and nums[j] == target:
+                    j += 1
+                if j == n:
+                    return False
+                if m < j - i:
+                    return False
+                m -= j - i
+                i = j + 1
+            return True
+        n = len(nums)
+        return check(1, k) or check(-1, k)
+
+        
