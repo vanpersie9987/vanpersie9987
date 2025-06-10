@@ -675,3 +675,26 @@ class leetcode_3:
             elif c:
                 min_even = min(min_even, c)
         return max_odd - min_even
+    
+    # 3572. 选择不同 X 值三元组使 Y 值之和最大 (Maximize Y‑Sum by Picking a Triplet of Distinct X‑Values)
+    def maxSumDistinctTriplet(self, x: List[int], y: List[int]) -> int:
+        dic = defaultdict(int)
+        for a, b in zip(x, y):
+            dic[a] = max(dic[a], b)
+        if len(dic) < 3:
+            return -1
+        max1 = 0
+        max2 = 0
+        max3 = 0
+        for v in dic.values():
+            if v >= max1:
+                max3 = max2
+                max2 = max1
+                max1 = v
+            elif v >= max2:
+                max3 = max2
+                max2 = v
+            elif v >= max3:
+                max3 = v
+        return max1 + max2 + max3
+        

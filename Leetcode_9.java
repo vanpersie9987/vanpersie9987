@@ -6547,4 +6547,30 @@ public class Leetcode_9 {
 
     }
 
+    // 3572. 选择不同 X 值三元组使 Y 值之和最大 (Maximize Y‑Sum by Picking a Triplet of Distinct
+    // X‑Values)
+    public int maxSumDistinctTriplet(int[] x, int[] y) {
+        int n = x.length;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            map.merge(x[i], y[i], Math::max);
+        }
+        int max1 = 0;
+        int max2 = 0;
+        int max3 = 0;
+        for (int v : map.values()) {
+            if (v >= max1) {
+                max3 = max2;
+                max2 = max1;
+                max1 = v;
+            } else if (v >= max2) {
+                max3 = max2;
+                max2 = v;
+            } else if (v >= max3) {
+                max3 = v;
+            }
+        }
+        return max1 == 0 || max2 == 0 || max3 == 0 ? -1 : max1 + max2 + max3;
+    }
+
 }
