@@ -675,7 +675,7 @@ class leetcode_3:
             elif c:
                 min_even = min(min_even, c)
         return max_odd - min_even
-    
+
     # 3572. 选择不同 X 值三元组使 Y 值之和最大 (Maximize Y‑Sum by Picking a Triplet of Distinct X‑Values)
     def maxSumDistinctTriplet(self, x: List[int], y: List[int]) -> int:
         dic = defaultdict(int)
@@ -697,4 +697,23 @@ class leetcode_3:
             elif v >= max3:
                 max3 = v
         return max1 + max2 + max3
-        
+
+    # 3573. 买卖股票的最佳时机 V (Best Time to Buy and Sell Stock V)
+    def maximumProfit(self, prices: List[int], k: int) -> int:
+        @cache
+        def dfs(i: int, j: int, l: int) -> int:
+            if i == n:
+                return 0 if j == 0 else -inf
+            if k == l:
+                return 0
+            res = dfs(i + 1, j, l)
+            if j == 0:
+                return max(
+                    res, dfs(i + 1, 1, l) - prices[i], dfs(i + 1, -1, l) + prices[i]
+                )
+            return max(res, dfs(i + 1, 0, l + 1) + prices[i] * j)
+
+        n = len(prices)
+        res = dfs(0, 0, 0)
+        dfs.cache_clear()
+        return res
