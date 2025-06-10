@@ -720,7 +720,7 @@ class leetcode_3:
     
     # 3576. 数组元素相等转换 (Transform Array to All Equal Elements)
     def canMakeEqual(self, nums: List[int], k: int) -> bool:
-        def check(target: int, m: int) -> bool:
+        def check(target: int, k: int) -> bool:
             n = len(nums)
             i = 0
             while i < n:
@@ -732,9 +732,9 @@ class leetcode_3:
                     j += 1
                 if j == n:
                     return False
-                if m < j - i:
+                if k < j - i:
                     return False
-                m -= j - i
+                k -= j - i
                 i = j + 1
             return True
         n = len(nums)
