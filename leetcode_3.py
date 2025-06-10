@@ -667,7 +667,7 @@ class leetcode_3:
         cnts = [0] * 26
         for c in s:
             cnts[ord(c) - ord("a")] += 1
-        max_odd = -inf
+        max_odd = 0
         min_even = inf
         for c in cnts:
             if c & 1:
