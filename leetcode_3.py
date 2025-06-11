@@ -717,7 +717,7 @@ class leetcode_3:
         res = dfs(0, 0, 0)
         dfs.cache_clear()
         return res
-    
+
     # 3576. 数组元素相等转换 (Transform Array to All Equal Elements)
     def canMakeEqual(self, nums: List[int], k: int) -> bool:
         def check(target: int, k: int) -> bool:
@@ -740,4 +740,15 @@ class leetcode_3:
         n = len(nums)
         return check(1, k) or check(-1, k)
 
-        
+    # 3577. 统计计算机解锁顺序排列数 (Count the Number of Computer Unlocking Permutations)
+    def countPermutations(self, complexity: List[int]) -> int:
+        _min = complexity[0]
+        res = 1
+        MOD = 10**9 + 7
+        for i, x in enumerate(complexity[1:], 1):
+            if x <= _min:
+                return 0
+            _min = min(_min, x)
+            res *= i
+            res %= MOD
+        return res

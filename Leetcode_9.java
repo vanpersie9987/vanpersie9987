@@ -6646,4 +6646,20 @@ public class Leetcode_9 {
         return true;
     }
 
+    // 3577. 统计计算机解锁顺序排列数 (Count the Number of Computer Unlocking Permutations)
+    public int countPermutations(int[] complexity) {
+        int n = complexity.length;
+        int res = 1;
+        final int MOD = (int) (1e9 + 7);
+        int min = complexity[0];
+        for (int i = 1; i < n; ++i) {
+            if (complexity[i] <= min) {
+                return 0;
+            }
+            min = Math.min(min, complexity[i]);
+            res = (int) (((long) res * i) % MOD);
+        }
+        return res;
+    }
+
 }
