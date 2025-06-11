@@ -752,3 +752,21 @@ class leetcode_3:
             res *= i
             res %= MOD
         return res
+
+    # 3574. 最大子数组 GCD 分数 (Maximize Subarray GCD Score)
+    def maxGCDScore(self, nums: List[int], k: int) -> int:
+        res = 0
+        for i in range(len(nums)):
+            lb_min = inf
+            lb_cnt = g = 0
+            for j in range(i, -1, -1):
+                x = nums[j]
+                lb = x & -x
+                if lb < lb_min:
+                    lb_min, lb_cnt = lb, 1
+                elif lb == lb_min:
+                    lb_cnt += 1
+                g = gcd(g, x)
+                new_g = g * 2 if lb_cnt <= k else g
+                res = max(res, new_g * (i - j + 1))
+        return res

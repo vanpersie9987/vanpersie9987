@@ -6662,4 +6662,36 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3574. 最大子数组 GCD 分数 (Maximize Subarray GCD Score)
+    public long maxGCDScore(int[] nums, int k) {
+        long res = 0L;
+        for (int i = 0; i < nums.length; ++i) {
+            int lbMin = 33;
+            int g = 0;
+            int lbCnt = 0;
+            for (int j = i; j >= 0; --j) {
+                int x = nums[j];
+                int lb = Integer.numberOfTrailingZeros(x);
+                if (lb < lbMin) {
+                    lbMin = lb;
+                    lbCnt = 1;
+                } else if (lb == lbMin) {
+                    ++lbCnt;
+                }
+                g = gcd(g, x);
+                int ng = g;
+                if (lbCnt <= k) {
+                    ng <<= 1;
+                }
+                res = Math.max(res, (long) ng * (i - j + 1));
+            }
+        }
+        return res;
+
+    }
+
+    private int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+
 }
