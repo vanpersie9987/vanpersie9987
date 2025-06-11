@@ -6678,7 +6678,7 @@ public class Leetcode_9 {
                 } else if (lb == lbMin) {
                     ++lbCnt;
                 }
-                g = gcd(g, x);
+                g = gcd3574(g, x);
                 int ng = g;
                 if (lbCnt <= k) {
                     ng <<= 1;
@@ -6690,8 +6690,8 @@ public class Leetcode_9 {
 
     }
 
-    private int gcd(int a, int b) {
-        return b == 0 ? a : gcd(b, a % b);
+    private int gcd3574(int a, int b) {
+        return b == 0 ? a : gcd3574(b, a % b);
     }
 
 }
