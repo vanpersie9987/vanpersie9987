@@ -776,8 +776,8 @@ class leetcode_3:
         def check(target: int) -> bool:
             i = 0
             cnt = 0
-            while i < n and cnt < p:
-                if i + 1 < n and nums[i + 1] - nums[i] <= target:
+            while i + 1 < n and cnt < p:
+                if nums[i + 1] - nums[i] <= target:
                     cnt += 1
                     i += 1
                 i += 1
