@@ -779,9 +779,8 @@ class leetcode_3:
             while i < n and cnt < p:
                 if i + 1 < n and nums[i + 1] - nums[i] <= target:
                     cnt += 1
-                    i += 2
-                else:
                     i += 1
+                i += 1
             return cnt >= p
         n = len(nums)
         nums.sort()
