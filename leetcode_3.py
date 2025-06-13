@@ -770,3 +770,29 @@ class leetcode_3:
                 new_g = g * 2 if lb_cnt <= k else g
                 res = max(res, new_g * (i - j + 1))
         return res
+
+    # 2616. 最小化数对的最大差值 (Minimize the Maximum Difference of Pairs)
+    def minimizeMax(self, nums: List[int], p: int) -> int:
+        def check(target: int) -> bool:
+            i = 0
+            cnt = 0
+            while i < n:
+                if i + 1 < n and nums[i + 1] - nums[i] <= target:
+                    cnt += 1
+                    i += 2
+                else:
+                    i += 1
+            return cnt >= p
+        n = len(nums)
+        nums.sort()
+        left = 0
+        right = 10**9
+        res = -1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                res = mid
+                right = mid - 1
+            else:
+                left = mid + 1
+        return res
