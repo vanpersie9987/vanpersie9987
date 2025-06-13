@@ -776,7 +776,7 @@ class leetcode_3:
         def check(target: int) -> bool:
             i = 0
             cnt = 0
-            while i < n:
+            while i < n and cnt < p:
                 if i + 1 < n and nums[i + 1] - nums[i] <= target:
                     cnt += 1
                     i += 2
@@ -786,7 +786,7 @@ class leetcode_3:
         n = len(nums)
         nums.sort()
         left = 0
-        right = 10**9
+        right = 0 if n <= 1 else max((y - x) for x, y in pairwise(nums))
         res = -1
         while left <= right:
             mid = left + ((right - left) >> 1)
