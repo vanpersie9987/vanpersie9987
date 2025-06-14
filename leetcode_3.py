@@ -795,3 +795,16 @@ class leetcode_3:
             else:
                 left = mid + 1
         return res
+
+    # 2566. 替换一个数字后的最大差值 (Maximum Difference by Remapping a Digit)
+    def minMaxDifference(self, num: int) -> int:
+        def check(x: int, t: chr) -> int:
+            a = [c for c in str(x)]
+            for i, v in enumerate(a):
+                if v != t:
+                    for j in range(i, len(a)):
+                        if a[j] == v:
+                            a[j] = t
+                    break
+            return int(''.join(a))
+        return check(num, '9') - check(num, '0')
