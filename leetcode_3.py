@@ -798,8 +798,8 @@ class leetcode_3:
 
     # 2566. 替换一个数字后的最大差值 (Maximum Difference by Remapping a Digit)
     def minMaxDifference(self, num: int) -> int:
-        def check(x: int, t: chr) -> int:
-            a = [c for c in str(x)]
+        def check(t: chr) -> int:
+            a = [c for c in str(num)]
             for i, v in enumerate(a):
                 if v != t:
                     for j in range(i, len(a)):
@@ -807,4 +807,4 @@ class leetcode_3:
                             a[j] = t
                     break
             return int(''.join(a))
-        return check(num, '9') - check(num, '0')
+        return check('9') - check('0')

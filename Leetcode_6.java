@@ -7781,30 +7781,25 @@ public class Leetcode_6 {
                 % MOD);
     }
 
-    // 6359. 替换一个数字后的最大差值 (Maximum Difference by Remapping a Digit)
+    // 2566. 替换一个数字后的最大差值 (Maximum Difference by Remapping a Digit)
     public int minMaxDifference(int num) {
-        char[] chars = String.valueOf(num).toCharArray();
-        char[] max = chars.clone();
-        char c = '_';
-        for (int i = 0; i < max.length; ++i) {
-            if (max[i] != '9' && c == '_') {
-                c = max[i];
-            }
-            if (max[i] == c) {
-                max[i] = '9';
-            }
-        }
-        char[] min = chars.clone();
-        c = min[0];
-        for (int i = 0; i < min.length; ++i) {
-            if (min[i] == c) {
-                min[i] = '0';
-            }
-        }
-        int max1 = Integer.parseInt(String.valueOf(max));
-        int min1 = Integer.parseInt(String.valueOf(min));
-        return max1 - min1;
+        return cal2566(num, '9') - cal2566(num, '0');
+    }
 
+    private int cal2566(int x, char t) {
+        char[] a = String.valueOf(x).toCharArray();
+        for (int i = 0; i < a.length; ++i) {
+            if (a[i] != t) {
+                char c = a[i];
+                for (int j = i; j < a.length; ++j) {
+                    if (a[j] == c) {
+                        a[j] = t;
+                    }
+                }
+                break;
+            }
+        }
+        return Integer.parseInt(String.valueOf(a));
     }
 
     // 2567. 修改两个元素的最小分数 (Minimum Score by Changing Two Elements)
