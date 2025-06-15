@@ -9415,58 +9415,42 @@ public class Leetcode_5 {
 
     // 1432. 改变一个整数能得到的最大差值 (Max Difference You Can Get From Changing an Integer)
     public int maxDiff(int num) {
-        char[] chars = String.valueOf(num).toCharArray();
-        int n = chars.length;
-        int i = 0;
-        while (i < n) {
-            if (chars[i] != '9') {
+        char[] a = String.valueOf(num).toCharArray();
+        return check1432(num, '9') - (a[0] != '1' ? check1432(num, '1') : check1432(num, '1', '0'));
+
+    }
+
+    private int check1432(int num, char x, char y) {
+        char[] a = String.valueOf(num).toCharArray();
+        for (int i = 0; i < a.length; ++i) {
+            if (a[i] != x && a[i] != y) {
+                char t = a[i];
+                for (int j = i; j < a.length; ++j) {
+                    if (a[j] == t) {
+                        a[j] = '0';
+                    }
+                }
                 break;
             }
-            ++i;
         }
-        if (i < n) {
-            char c = chars[i];
-            while (i < n) {
-                if (chars[i] == c) {
-                    chars[i] = '9';
-                }
-                ++i;
-            }
-        }
-        int max = Integer.parseInt(String.valueOf(chars));
+        return Integer.parseInt(String.valueOf(a));
 
-        chars = String.valueOf(num).toCharArray();
-        i = 0;
-        if (chars[0] != '1') {
-            char c = chars[0];
-            while (i < n) {
-                if (chars[i] == c) {
-                    chars[i] = '1';
+    }
+
+    private int check1432(int num, char t) {
+        char[] a = String.valueOf(num).toCharArray();
+        for (int i = 0; i < a.length; ++i) {
+            if (a[i] != t) {
+                char c = a[i];
+                for (int j = i; j < a.length; ++j) {
+                    if (a[j] == c) {
+                        a[j] = t;
+                    }
                 }
-                ++i;
-            }
-            int min = Integer.parseInt(String.valueOf(chars));
-            return max - min;
-        }
-        ++i;
-        while (i < n) {
-            if (chars[i] != '0' && chars[i] != '1') {
                 break;
             }
-            ++i;
         }
-        if (i < n) {
-            char c = chars[i];
-            while (i < n) {
-                if (chars[i] == c) {
-                    chars[i] = '0';
-                }
-                ++i;
-            }
-        }
-        int min = Integer.parseInt(String.valueOf(chars));
-        return max - min;
-
+        return Integer.parseInt(String.valueOf(a));
     }
 
     // 882. 细分图中的可到达节点 (Reachable Nodes In Subdivided Graph)
