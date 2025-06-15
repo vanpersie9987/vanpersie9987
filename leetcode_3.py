@@ -151,6 +151,7 @@ class leetcode_3:
                 dis[edges[x]] = dis[x] + 1
                 x = edges[x]
             return dis
+
         n = len(edges)
         dis1 = cal(edges, node1)
         dis2 = cal(edges, node2)
@@ -218,7 +219,11 @@ class leetcode_3:
                             st.add(x)
                     # 特殊处理只有一列的情况，此时只能删除第一个数或者分割线上那个数
                     if n == 1:
-                        if s * 2 == total or s * 2 - total == a[0][0] or s * 2 - total == row[0]:
+                        if (
+                            s * 2 == total
+                            or s * 2 - total == a[0][0]
+                            or s * 2 - total == row[0]
+                        ):
                             return True
                         continue
                     if s * 2 - total in st:
@@ -269,8 +274,8 @@ class leetcode_3:
         dis[0][0] = 0
         for i in range(m):
             for j in range(n):
-                if matrix[i][j] != '.' and matrix[i][j] != '#':
-                    dic[ord(matrix[i][j]) - ord('A')].append((i, j))
+                if matrix[i][j] != "." and matrix[i][j] != "#":
+                    dic[ord(matrix[i][j]) - ord("A")].append((i, j))
         dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         # d, bit, x, y
         q = deque()
@@ -281,12 +286,16 @@ class leetcode_3:
                 return d
             for dx, dy in dirs:
                 nx, ny = x + dx, y + dy
-                if 0 <= nx < m and 0 <= ny < n and matrix[nx][ny] != '#':
+                if 0 <= nx < m and 0 <= ny < n and matrix[nx][ny] != "#":
                     if dis[nx][ny] > d + 1:
                         dis[nx][ny] = d + 1
                         q.append((d + 1, nx, ny))
-            if matrix[x][y] != '.' and matrix[x][y] != '#' and (ord(matrix[x][y]) - ord('A')) in dic:
-                idx = ord(matrix[x][y]) - ord('A')
+            if (
+                matrix[x][y] != "."
+                and matrix[x][y] != "#"
+                and (ord(matrix[x][y]) - ord("A")) in dic
+            ):
+                idx = ord(matrix[x][y]) - ord("A")
                 for nx, ny in dic[idx]:
                     if dis[nx][ny] > d:
                         dis[nx][ny] = d
@@ -303,10 +312,11 @@ class leetcode_3:
                 if n % i == 0:
                     return False
             return True
+
         _s = SortedSet()
         for i in range(len(s)):
             for j in range(i, len(s)):
-                num = int(s[i:j + 1])
+                num = int(s[i : j + 1])
                 if is_prime(num):
                     _s.add(num)
                     if len(_s) > 3:
@@ -334,11 +344,13 @@ class leetcode_3:
             for y in g[x]:
                 if y != fa:
                     max_depth(y, x, d + 1)
+
         @cache
         def dfs(i: int, j: int) -> int:
             if i == mx:
                 return j & 1
             return (dfs(i + 1, j) + dfs(i + 1, j ^ 1)) % MOD
+
         MOD = 10**9 + 7
         n = len(edges) + 1
         g = [[] for _ in range(n)]
@@ -376,19 +388,21 @@ class leetcode_3:
         def is_adjacent(c1: str, c2: str) -> bool:
             d = abs(ord(c1) - ord(c2))
             return d == 1 or d == 25
+
         st = []
         for c in s:
             if st and is_adjacent(st[-1], c):
                 st.pop()
             else:
                 st.append(c)
-        return ''.join(st)
+        return "".join(st)
 
     # 3563. 移除相邻字符后字典序最小的字符串 (Lexicographically Smallest String After Adjacent Removals)
     def lexicographicallySmallestString(self, s: str) -> str:
         def is_adjacent(c1: str, c2: str) -> bool:
             d = abs(ord(c1) - ord(c2))
             return d == 1 or d == 25
+
         @cache
         def check(i: int, j: int) -> bool:
             if i > j:
@@ -399,20 +413,29 @@ class leetcode_3:
                 if check(i, k) and check(k + 1, j):
                     return True
             return False
+
         @cache
         def dfs(i: int) -> str:
             if i == n:
-                return ''
+                return ""
             res = s[i] + dfs(i + 1)
             for j in range(i + 1, n, 2):
                 if check(i, j):
                     res = min(res, dfs(j + 1))
             return res
+
         n = len(s)
         return dfs(0)
 
     # 1298. 你能从盒子里获得的最大糖果数 (Maximum Candies You Can Get from Boxes)
-    def maxCandies(self, status: List[int], candies: List[int], keys: List[List[int]], containedBoxes: List[List[int]], initialBoxes: List[int]) -> int:
+    def maxCandies(
+        self,
+        status: List[int],
+        candies: List[int],
+        keys: List[List[int]],
+        containedBoxes: List[List[int]],
+        initialBoxes: List[int],
+    ) -> int:
         n = len(status)
         vis = [0] * n
         has_boxes = [0] * n
@@ -448,6 +471,7 @@ class leetcode_3:
             if j > target:
                 return False
             return dfs(i + 1, j, True, l) or dfs(i + 1, j * nums[i], k, True)
+
         n = len(nums)
         mul = 1
         for num in nums:
@@ -462,11 +486,11 @@ class leetcode_3:
         n = len(grid[0])
         res = [[0] * (n - k + 1) for _ in range(m - k + 1)]
         for i in range(m - k + 1):
-            sub_grid = grid[i: i + k]
+            sub_grid = grid[i : i + k]
             for j in range(n - k + 1):
                 a = []
                 for row in sub_grid:
-                    a.extend(row[j: j + k])
+                    a.extend(row[j : j + k])
                 a.sort()
                 _min = inf
                 for x, y in pairwise(a):
@@ -528,10 +552,13 @@ class leetcode_3:
                 nx, ny = x + dx, y + dy
                 if 0 <= nx < m and 0 <= ny < n and ((mask >> (nx * n + ny)) & 1 == 0):
                     if grid[nx][ny] - mx == 1 or grid[nx][ny] == 0:
-                        if dfs(nx, ny, max(mx, grid[nx][ny]), mask | (1 << (nx * n + ny))):
+                        if dfs(
+                            nx, ny, max(mx, grid[nx][ny]), mask | (1 << (nx * n + ny))
+                        ):
                             res.append([nx, ny])
                             return True
             return False
+
         m = len(grid)
         n = len(grid[0])
         res = []
@@ -561,6 +588,7 @@ class leetcode_3:
                 # max(0, dfs(x, x, x, True)) ，其中 0 表示下赛道因为已经跑了至少一英里
                 res = max(res, max(0, dfs(i + 1, j ^ 1, k + 1, True)) + arr[i][j ^ 1])
             return res
+
         n = len(lane1)
         arr = [[x, y] for x, y in zip(lane1, lane2)]
         # dfs(i, j, k, l) 从索引i开始，当前在赛道j，已经切换了k次赛道，已经跑了至少1英里（l == True 表示至少跑了1英里， l == False表示还未跑）时，
@@ -657,6 +685,7 @@ class leetcode_3:
             res.append(x)
             for i in range(10):
                 dfs(x * 10 + i)
+
         res = []
         for i in range(1, 10):
             dfs(i)
@@ -737,6 +766,7 @@ class leetcode_3:
                 k -= j - i
                 i = j + 1
             return True
+
         n = len(nums)
         return check(1, k) or check(-1, k)
 
@@ -782,6 +812,7 @@ class leetcode_3:
                     i += 1
                 i += 1
             return cnt >= p
+
         n = len(nums)
         nums.sort()
         left = 0
@@ -806,8 +837,9 @@ class leetcode_3:
                         if a[j] == v:
                             a[j] = t
                     break
-            return int(''.join(a))
-        return check('9') - check('0')
+            return int("".join(a))
+
+        return check("9") - check("0")
 
     # 1432. 改变一个整数能得到的最大差值 (Max Difference You Can Get From Changing an Integer)
     def maxDiff(self, num: int) -> int:
@@ -821,21 +853,15 @@ class leetcode_3:
                     break
             return int("".join(a))
 
-        def check2() -> int:
+        def check2(x: chr, y: chr) -> int:
             a = [c for c in str(num)]
-            if a[0] == "1":
-                for i in range(1, len(a)):
-                    if a[i] != a[0] and a[i] != "0":
-                        t = a[i]
-                        for j in range(i, len(a)):
-                            if a[j] == t:
-                                a[j] = "0"
-                        break
-            else:
-                t = a[0]
-                for i, v in enumerate(a):
-                    if v == t:
-                        a[i] = "1"
+            for i in range(len(a)):
+                if a[i] != x and a[i] != y:
+                    t = a[i]
+                    for j in range(i, len(a)):
+                        if a[j] == t:
+                            a[j] = "0"
+                    break
             return int("".join(a))
 
-        return check("9") - check2()
+        return check("9") - (check("1") if str(num)[0] != "1" else check2("0", "1"))
