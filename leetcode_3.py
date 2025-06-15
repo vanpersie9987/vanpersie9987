@@ -808,3 +808,34 @@ class leetcode_3:
                     break
             return int(''.join(a))
         return check('9') - check('0')
+
+    # 1432. 改变一个整数能得到的最大差值 (Max Difference You Can Get From Changing an Integer)
+    def maxDiff(self, num: int) -> int:
+        def check(t: chr) -> int:
+            a = [c for c in str(num)]
+            for i, v in enumerate(a):
+                if v != t:
+                    for j in range(i, len(a)):
+                        if a[j] == v:
+                            a[j] = t
+                    break
+            return int("".join(a))
+
+        def check2() -> int:
+            a = [c for c in str(num)]
+            if a[0] == "1":
+                for i in range(1, len(a)):
+                    if a[i] != a[0] and a[i] != "0":
+                        t = a[i]
+                        for j in range(i, len(a)):
+                            if a[j] == t:
+                                a[j] = "0"
+                        break
+            else:
+                t = a[0]
+                for i, v in enumerate(a):
+                    if v == t:
+                        a[i] = "1"
+            return int("".join(a))
+
+        return check("9") - check2()
