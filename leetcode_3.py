@@ -907,3 +907,20 @@ class leetcode_3:
             res %= MOD
             dic[nums[i]] += 1
         return res
+
+    # 3584. 子序列首尾元素的最大乘积 (Maximum Product of First and Last Elements of a Subsequence)
+    def maximumProduct(self, nums: List[int], m: int) -> int:
+        n = len(nums)
+        right = [[0] * 2 for _ in range(n + 1)]
+        right[-1][0] = inf
+        right[-1][1] = -inf
+        for i in range(n - 1, m - 2, -1):
+            right[i][0] = min(right[i + 1][0], nums[i])
+            right[i][1] = max(right[i + 1][1], nums[i])
+        left = [inf, -inf]
+        res = -inf
+        for i in range(n - m + 1):
+            left[0] = min(left[0], nums[i])
+            left[1] = max(left[1], nums[i])
+            res = max(res, left[0] * right[i + m - 1][0], left[1] * right[i + m - 1][1])
+        return res

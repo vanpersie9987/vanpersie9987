@@ -6777,4 +6777,27 @@ public class Leetcode_9 {
 
     }
 
+    // 3584. 子序列首尾元素的最大乘积 (Maximum Product of First and Last Elements of a
+    // Subsequence)
+    public long maximumProduct(int[] nums, int m) {
+        int n = nums.length;
+        long res = Long.MIN_VALUE;
+        int[][] right = new int[n + 1][2];
+        right[n][0] = Integer.MAX_VALUE;
+        right[n][1] = Integer.MIN_VALUE;
+        for (int i = n - 1; i >= m - 1; --i) {
+            right[i][0] = Math.min(right[i + 1][0], nums[i]);
+            right[i][1] = Math.max(right[i + 1][1], nums[i]);
+        }
+        int[] left = { Integer.MAX_VALUE, Integer.MIN_VALUE };
+
+        for (int i = 0; i < n - m + 1; ++i) {
+            left[0] = Math.min(left[0], nums[i]);
+            left[1] = Math.max(left[1], nums[i]);
+            res = Math.max(res, (long) left[0] * right[i + m - 1][0]);
+            res = Math.max(res, (long) left[1] * right[i + m - 1][1]);
+        }
+        return res;
+    }
+
 }
