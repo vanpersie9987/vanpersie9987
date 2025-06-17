@@ -865,3 +865,8 @@ class leetcode_3:
             return int("".join(a))
 
         return check("9") - (check("1") if str(num)[0] != "1" else check2("0", "1"))
+
+    # 3405. 统计恰好有 K 个相等相邻元素的数组数目 (Count the Number of Arrays with K Matching Adjacent Elements)
+    def countGoodArrays(self, n: int, m: int, k: int) -> int:
+        MOD = 10**9 + 7
+        return comb(n - 1, k) % MOD * m * pow(m - 1, n - k - 1, MOD) % MOD

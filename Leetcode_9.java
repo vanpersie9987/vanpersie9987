@@ -6694,4 +6694,42 @@ public class Leetcode_9 {
         return b == 0 ? a : gcd3574(b, a % b);
     }
 
+    // 3405. 统计恰好有 K 个相等相邻元素的数组数目 (Count the Number of Arrays with K Matching
+    // Adjacent Elements) -逆元
+    private final int MOD3405 = (int) (1e9 + 7);
+    private final int MX3405 = (int) (1e5 + 1);
+    private final long[] fac3405 = new long[MX3405];
+    private final long[] invf3405 = new long[MX3405];
+
+    public int countGoodArrays(int n, int m, int k) {
+        fac3405[0] = 1L;
+        for (int i = 1; i < MX3405; ++i) {
+            fac3405[i] = fac3405[i - 1] * i % MOD3405;
+        }
+        invf3405[MX3405 - 1] = pow3405(fac3405[MX3405 - 1], MOD3405 - 2);
+        for (int i = MX3405 - 1; i > 0; --i) {
+            invf3405[i - 1] = invf3405[i] * i % MOD3405;
+        }
+        return (int) (comb3405(n - 1, k) * m % MOD3405 * pow3405(m - 1, n - k - 1) % MOD3405);
+    }
+
+    private long pow3405(long a, int b) {
+        if (b == 0) {
+            return 1L;
+        }
+        long res = pow3405(a, b >> 1);
+        res *= res;
+        res %= MOD3405;
+        if ((b & 1) == 1) {
+            res = (res * a) % MOD3405;
+        }
+        return res;
+    }
+
+    private long comb3405(int n, int m) {
+        return fac3405[n] * invf3405[m] % MOD3405 * invf3405[n - m] % MOD3405;
+    }
+
+
+
 }
