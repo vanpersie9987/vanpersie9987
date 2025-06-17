@@ -870,3 +870,21 @@ class leetcode_3:
     def countGoodArrays(self, n: int, m: int, k: int) -> int:
         MOD = 10**9 + 7
         return comb(n - 1, k) % MOD * m * pow(m - 1, n - k - 1, MOD) % MOD
+
+    # 3582. 为视频标题生成标签 (Generate Tag for Video Caption)
+    def generateTag(self, caption: str) -> str:
+        a = caption.split(' ')
+        res = ['#']
+        for s in a:
+            for i in range(len(s)):
+                if i:
+                    res.append(s[i].lower())
+                else:
+                    res.append(s[i].upper())
+                if len(res) == 100:
+                    break
+            if len(res) == 100:
+                break
+        if len(res) >= 2:
+            res[1] = res[1].lower()
+        return ''.join(res)

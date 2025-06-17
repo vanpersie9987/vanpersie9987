@@ -6730,6 +6730,29 @@ public class Leetcode_9 {
         return fac3405[n] * invf3405[m] % MOD3405 * invf3405[n - m] % MOD3405;
     }
 
-
+    // 3582. 为视频标题生成标签 (Generate Tag for Video Caption)
+    public String generateTag(String caption) {
+        String[] strings = caption.split(" ");
+        StringBuilder res = new StringBuilder("#");
+        for (int i = 0; i < strings.length; ++i) {
+            for (int j = 0; j < strings[i].length(); ++j) {
+                if (j == 0) {
+                    res.append(Character.toUpperCase(strings[i].charAt(j)));
+                } else {
+                    res.append(Character.toLowerCase(strings[i].charAt(j)));
+                }
+                if (res.length() == 100) {
+                    break;
+                }
+            }
+            if (res.length() == 100) {
+                break;
+            }
+        }
+        if (res.length() >= 2) {
+            res.setCharAt(1, Character.toLowerCase(res.charAt(1)));
+        }
+        return res.toString();
+    }
 
 }
