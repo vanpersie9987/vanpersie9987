@@ -888,3 +888,22 @@ class leetcode_3:
         if len(res) >= 2:
             res[1] = res[1].lower()
         return ''.join(res)
+
+    # 3583. 统计特殊三元组 (Count Special Triplets)
+    def specialTriplets(self, nums: List[int]) -> int:
+        n = len(nums)
+        dic = defaultdict(int)
+        left = [0] * n
+        for i, v in enumerate(nums):
+            c = v << 1
+            left[i] = dic[c]
+            dic[v] += 1
+        dic.clear()
+        res = 0
+        MOD = 10**9 + 7
+        for i in range(n - 1, -1, -1):
+            c = nums[i] << 1
+            res += left[i] * dic[c]
+            res %= MOD
+            dic[nums[i]] += 1
+        return res

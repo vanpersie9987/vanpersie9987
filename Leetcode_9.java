@@ -6755,4 +6755,26 @@ public class Leetcode_9 {
         return res.toString();
     }
 
+    // 3583. 统计特殊三元组 (Count Special Triplets)
+    public int specialTriplets(int[] nums) {
+        int n = nums.length;
+        final int MOD = (int) (1e9 + 7);
+        Map<Long, Integer> cnts = new HashMap<>();
+        int[] right = new int[n];
+        for (int i = n - 1; i >= 0; --i) {
+            long v = (long) nums[i] << 1;
+            right[i] = cnts.getOrDefault(v, 0);
+            cnts.merge((long) nums[i], 1, Integer::sum);
+        }
+        cnts.clear();;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            long v = (long) nums[i] << 1;
+            res = (int) ((res + (long) right[i] * cnts.getOrDefault(v, 0)) % MOD);
+            cnts.merge((long) nums[i], 1, Integer::sum); 
+        }
+        return res;
+
+    }
+
 }
