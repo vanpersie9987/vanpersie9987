@@ -924,3 +924,17 @@ class leetcode_3:
             left[1] = max(left[1], nums[i])
             res = max(res, left[0] * right[i + m - 1][0], left[1] * right[i + m - 1][1])
         return res
+
+    # 2294. 划分数组使最大差为 K (Partition Array Such That Maximum Difference Is K)
+    def partitionArray(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        nums.sort()
+        i = 0
+        res = 0
+        while i < n:
+            j = i
+            while j < n and nums[j] - nums[i] <= k:
+                j += 1
+            res += 1
+            i = j
+        return res
