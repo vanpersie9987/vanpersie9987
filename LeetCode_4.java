@@ -1452,16 +1452,18 @@ public class LeetCode_4 {
 
     }
 
-    // 6091. 划分数组使最大差为 K
+    // 2294. 划分数组使最大差为 K (Partition Array Such That Maximum Difference Is K)
     public int partitionArray(int[] nums, int k) {
         Arrays.sort(nums);
-        int res = 1;
-        int min = nums[0];
-        for (int i = 1; i < nums.length; ++i) {
-            if (nums[i] - min > k) {
-                ++res;
-                min = nums[i];
+        int n = nums.length;
+        int res = 0;
+        for (int i = 0; i < n;) {
+            int j = i;
+            while (j < n && nums[j] - nums[i] <= k) {
+                ++j;
             }
+            ++res;
+            i = j;
         }
         return res;
 
