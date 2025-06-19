@@ -6800,20 +6800,4 @@ public class Leetcode_9 {
         return res;
     }
 
-    public int partitionArray(int[] nums, int k) {
-        Arrays.sort(nums);
-        int n = nums.length;
-        int res = 0;
-        for (int i = 0; i < n;) {
-            int j = i;
-            while (j < n && nums[j] - nums[i] <= k) {
-                ++j;
-            }
-            ++res;
-            i = j;
-        }
-        return res;
-
-    }
-
 }
