@@ -873,8 +873,8 @@ class leetcode_3:
 
     # 3582. 为视频标题生成标签 (Generate Tag for Video Caption)
     def generateTag(self, caption: str) -> str:
-        a = caption.split(' ')
-        res = ['#']
+        a = caption.split(" ")
+        res = ["#"]
         for s in a:
             for i in range(len(s)):
                 if i:
@@ -887,7 +887,7 @@ class leetcode_3:
                 break
         if len(res) >= 2:
             res[1] = res[1].lower()
-        return ''.join(res)
+        return "".join(res)
 
     # 3583. 统计特殊三元组 (Count Special Triplets)
     def specialTriplets(self, nums: List[int]) -> int:
@@ -938,3 +938,26 @@ class leetcode_3:
             res += 1
             i = j
         return res
+
+    # 3443. K 次修改后的最大曼哈顿距离 (Maximum Manhattan Distance After K Changes)
+    def maxDistance(self, s: str, k: int) -> int:
+        def check(a: str, b: str, k: int) -> int:
+            mx = -inf
+            dis = 0
+            for x in s:
+                if x == a or x == b:
+                    dis += 1
+                elif k:
+                    k -= 1
+                    dis += 1
+                else:
+                    dis -= 1
+                mx = max(mx, dis)
+            return mx
+        n = len(s)
+        return max(
+            check("N", "W", k),
+            check("S", "E", k),
+            check("N", "E", k),
+            check("S", "W", k),
+        )
