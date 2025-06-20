@@ -954,7 +954,6 @@ class leetcode_3:
                     dis -= 1
                 mx = max(mx, dis)
             return mx
-        n = len(s)
         return max(
             check("N", "W", k),
             check("S", "E", k),
