@@ -6475,7 +6475,8 @@ public class Leetcode_9 {
 
     }
 
-    // dfs(i, j, k, l) 从索引i开始，当前在赛道j，已经切换了k次赛道，已经跑了至少1英里（l == True 表示至少跑了1英里， l == False表示还未跑）时，
+    // dfs(i, j, k, l) 从索引i开始，当前在赛道j，已经切换了k次赛道，已经跑了至少1英里（l == True 表示至少跑了1英里， l ==
+    // False表示还未跑）时，
     // 可获得的最大硬币数
     private long dfs3466(int i, int j, int k, int l) {
         if (i == n3466) {
@@ -6513,7 +6514,7 @@ public class Leetcode_9 {
             }
         }
         return node;
-        
+
     }
 
     private long cal440(int node, int n) {
@@ -6766,12 +6767,13 @@ public class Leetcode_9 {
             right[i] = cnts.getOrDefault(v, 0);
             cnts.merge((long) nums[i], 1, Integer::sum);
         }
-        cnts.clear();;
+        cnts.clear();
+        ;
         int res = 0;
         for (int i = 0; i < n; ++i) {
             long v = (long) nums[i] << 1;
             res = (int) ((res + (long) right[i] * cnts.getOrDefault(v, 0)) % MOD);
-            cnts.merge((long) nums[i], 1, Integer::sum); 
+            cnts.merge((long) nums[i], 1, Integer::sum);
         }
         return res;
 
@@ -6798,6 +6800,30 @@ public class Leetcode_9 {
             res = Math.max(res, (long) left[1] * right[i + m - 1][1]);
         }
         return res;
+    }
+
+    // 3443. K 次修改后的最大曼哈顿距离 (Maximum Manhattan Distance After K Changes)
+    public int maxDistance(String s, int k) {
+        return Math.max(Math.max(check3443('N', 'E', s, k), check3443('N', 'W', s, k)),
+                Math.max(check3443('S', 'E', s, k), check3443('S', 'W', s, k)));
+
+    }
+
+    private int check3443(char a, char b, String s, int k) {
+        int mx = Integer.MIN_VALUE;
+        int dis = 0;
+        for (char x : s.toCharArray()) {
+            if (x == a || x == b) {
+                ++dis;
+            } else if (k > 0) {
+                --k;
+                ++dis;
+            } else {
+                --dis;
+            }
+            mx = Math.max(mx, dis);
+        }
+        return mx;
     }
 
 }
