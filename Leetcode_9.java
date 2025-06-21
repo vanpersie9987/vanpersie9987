@@ -6826,4 +6826,70 @@ public class Leetcode_9 {
         return mx;
     }
 
+    // 3444. 使数组包含目标值倍数的最少增量 (Minimum Increments for Target Multiples in an Array)
+    private int[] nums3444;
+    private int u3444;
+    private int n3444;
+    private int m3444;
+    private int[] target3444;
+    private long[][] memo3444;
+    private long[] lcm3444;
+
+    public int minimumIncrements(int[] nums, int[] t) {
+        this.nums3444 = nums;
+        this.n3444 = nums.length;
+        Set<Integer> set = new HashSet<>();
+        for (int x : t) {
+            set.add(x);
+        }
+        this.m3444 = set.size();
+        this.target3444 = new int[m3444];
+        int idx = 0;
+        for (int x : set) {
+            this.target3444[idx++] = x;
+        }
+        this.u3444 = (1 << m3444) - 1;
+        this.memo3444 = new long[n3444][1 << m3444];
+        for (int i = 0; i < n3444; ++i) {
+            Arrays.fill(memo3444[i], -1L);
+        }
+        lcm3444 = new long[1 << m3444];
+        lcm3444[0] = 1L;
+        for (int i = 1; i < (1 << m3444); ++i) {
+            lcm3444[i] = lcm3444(lcm3444[i & (i - 1)], target3444[Integer.numberOfTrailingZeros(i)]);
+        }
+        return (int) dfs3444(0, 0);
+
+    }
+
+    private long dfs3444(int i, int j) {
+        if (j == u3444) {
+            return 0L;
+        }
+        if (i == n3444) {
+            return (long) 1e15; // 不可能到达
+        }
+        if (memo3444[i][j] != -1L) {
+            return memo3444[i][j];
+        }
+        long res = dfs3444(i + 1, j); // 不修改当前数字
+        int c = u3444 ^ j;
+        int sub = c;
+        while (sub > 0) {
+            long l = lcm3444[sub];
+            long cnt = (l - nums3444[i] % l) % l;
+            res = Math.min(res, dfs3444(i + 1, j | sub) + cnt); // 修改当前数字
+            sub = (sub - 1) & c; // 枚举所有子集
+        }
+        return memo3444[i][j] = res;
+    }
+
+    private long lcm3444(long a, long b) {
+        return a / gcd3444(a, b) * b;
+    }
+
+    private long gcd3444(long a, long b) {
+        return b == 0 ? a : gcd3444(b, a % b);
+    }
+
 }

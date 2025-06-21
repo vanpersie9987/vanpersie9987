@@ -981,20 +981,11 @@ class leetcode_3:
             return res
 
         n = len(nums)
-        # 去重加速
         target = list(set(target))
         m = len(target)
         u = (1 << m) - 1
-        mul = [0] * (1 << m)
-        g = [0] * (1 << m)
         l = [0] * (1 << m)
+        l[0] = 1
         for i in range(1, 1 << m):
-            if i.bit_count() == 1:
-                mul[i] = target[i.bit_length() - 1]
-                g[i] = target[i.bit_length() - 1]
-                l[i] = target[i.bit_length() - 1]
-            else:
-                mul[i] = mul[i & (i - 1)] * target[(i & -i).bit_length() - 1]
-                g[i] = gcd(g[i & (i - 1)], target[(i & -i).bit_length() - 1])
-                l[i] = lcm(l[i & (i - 1)], target[(i & -i).bit_length() - 1])
+            l[i] = lcm(l[i & (i - 1)], target[(i & -i).bit_length() - 1])
         return dfs(0, 0)
