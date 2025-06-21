@@ -7026,4 +7026,20 @@ public class Leetcode_9 {
 
     }
 
+    // 3452. 好数字之和 (Sum of Good Numbers)
+    public int sumOfGoodNumbers(int[] nums, int k) {
+        int res = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            if (i - k >= 0 && nums[i] <= nums[i - k]) {
+                continue;
+            }
+            if (i + k < nums.length && nums[i] <= nums[i + k]) {
+                continue;
+            }
+            res += nums[i];
+        }
+        return res;
+
+    }
+
 }

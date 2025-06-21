@@ -1054,3 +1054,14 @@ class leetcode_3:
                 f[m] = nf
             res += f[d][0]
         return res
+
+    # 3452. 好数字之和 (Sum of Good Numbers)
+    def sumOfGoodNumbers(self, nums: List[int], k: int) -> int:
+        res = 0
+        for i, x in enumerate(nums):
+            if i - k >= 0 and x <= nums[i - k]:
+                continue
+            if i + k < len(nums) and x <= nums[i + k]:
+                continue
+            res += x
+        return res
