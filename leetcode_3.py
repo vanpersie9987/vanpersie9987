@@ -989,3 +989,42 @@ class leetcode_3:
         for i in range(1, 1 << m):
             l[i] = lcm(l[i & (i - 1)], target[(i & -i).bit_length() - 1])
         return dfs(0, 0)
+
+    # 3446. 按对角线进行矩阵排序 (Sort Matrix by Diagonals)
+    def sortMatrix(self, grid: List[List[int]]) -> List[List[int]]:
+        n = len(grid)
+        for i in range(n):
+            _l = []
+            x = i
+            y = 0
+            while x < n and y < n:
+                _l.append(grid[x][y])
+                x += 1
+                y += 1
+            _l.sort(reverse=True)
+            x = i
+            y = 0
+            idx = 0
+            while x < n and y < n:
+                grid[x][y] = _l[idx]
+                idx += 1
+                x += 1
+                y += 1
+        for j in range(1, n):
+            _l = []
+            x = 0
+            y = j
+            while x < n and y < n:
+                _l.append(grid[x][y])
+                x += 1
+                y += 1
+            _l.sort()
+            x = 0
+            y = j
+            idx = 0
+            while x < n and y < n:
+                grid[x][y] = _l[idx]
+                idx += 1
+                x += 1
+                y += 1
+        return grid

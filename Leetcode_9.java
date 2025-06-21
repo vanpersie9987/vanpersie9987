@@ -6892,4 +6892,91 @@ public class Leetcode_9 {
         return b == 0 ? a : gcd3444(b, a % b);
     }
 
+    // 3446. 按对角线进行矩阵排序 (Sort Matrix by Diagonals)
+    public int[][] sortMatrix(int[][] grid) {
+        Map<Integer, Queue<Integer>> map = new HashMap<>();
+        int n = grid.length;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int key = i - j;
+                map.computeIfAbsent(key, k -> new PriorityQueue<>(new Comparator<Integer>() {
+
+                    @Override
+                    public int compare(Integer o1, Integer o2) {
+                        return key < 0 ? Integer.compare(o1, o2) : Integer.compare(o2, o1);
+                    }
+
+                })).offer(grid[i][j]);
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int key = i - j;
+                grid[i][j] = map.get(key).poll();
+            }
+        }
+        return grid;
+
+    }
+    
+    // 3446. 按对角线进行矩阵排序 (Sort Matrix by Diagonals)
+    public int[][] sortMatrix2(int[][] grid) {
+        int n = grid.length;
+        for (int i = 0; i < n; ++i) {
+            int x = i;
+            int y = 0;
+            List<Integer> list = new ArrayList<>();
+            while (x < n && y < n) {
+                list.add(grid[x][y]);
+                ++x;
+                ++y;
+            }
+            Collections.sort(list, new Comparator<Integer>() {
+
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return Integer.compare(o2, o1);
+                }
+
+            });
+            x = i;
+            y = 0;
+            int idx = 0;
+            while (x < n && y < n) {
+                grid[x][y] = list.get(idx++);
+                ++x;
+                ++y;
+            }
+        }
+        
+        for (int j = 1; j < n; ++j) {
+            int x = 0;
+            int y = j;
+            List<Integer> list = new ArrayList<>();
+            while (x < n && y < n) {
+                list.add(grid[x][y]);
+                ++x;
+                ++y;
+            }
+            Collections.sort(list, new Comparator<Integer>() {
+
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return Integer.compare(o1, o2);
+                }
+
+            });
+            x = 0;
+            y = j;
+            int idx = 0;
+            while (x < n && y < n) {
+                grid[x][y] = list.get(idx++);
+                ++x;
+                ++y;
+            }
+        }
+        return grid;
+
+    }
+
 }
