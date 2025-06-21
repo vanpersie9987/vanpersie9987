@@ -1075,7 +1075,7 @@ class leetcode_3:
             if x != y and cnts[x] == x and cnts[y] == y:
                 return f"{x}{y}"
         return ""
-    
+
     # 3439. 重新安排会议得到最多空余时间 I (Reschedule Meetings for Maximum Free Time I)
     def maxFreeTime(self, eventTime: int, k: int, startTime: List[int], endTime: List[int]) -> int:
         n = len(startTime)
@@ -1093,4 +1093,25 @@ class leetcode_3:
             res = max(res, s)
             s -= free[i - k]
         return res
-    
+
+    # 3440. 重新安排会议得到最多空余时间 II (Reschedule Meetings for Maximum Free Time II)
+    def maxFreeTime(self, eventTime: int, startTime: List[int], endTime: List[int]) -> int:
+        n = len(startTime)
+        free = [0] * (n + 1)
+        free[0] = startTime[0]
+        for i in range(1, n):
+            free[i] = startTime[i] - endTime[i - 1]
+        free[n] = eventTime - endTime[-1]
+        st = SortedList(free)
+        res = 0
+        for i in range(n):
+            end = endTime[i]
+            start = startTime[i]
+            res = max(res, free[i] + free[i + 1])
+            st.remove(free[i])
+            st.remove(free[i + 1])
+            if st and st[-1] >= end - start:
+                res = max(res, free[i] + free[i + 1] + end - start)
+            st.add(free[i])
+            st.add(free[i + 1])
+        return res

@@ -7069,14 +7069,49 @@ public class Leetcode_9 {
         }
         free[n] = eventTime - endTime[n - 1];
         int res = 0;
-        int cur = 0;
+        int s = 0;
         for (int i = 0; i < n + 1; ++i) {
-            cur += free[i];
+            s += free[i];
             if (i < k) {
                 continue;
             }
-            res = Math.max(res, cur);
-            cur -= free[i - k];
+            res = Math.max(res, s);
+            s -= free[i - k];
+        }
+        return res;
+
+    }
+
+    public int maxFreeTime(int eventTime, int[] startTime, int[] endTime) {
+        int n = startTime.length;
+        int[] free = new int[n + 1];
+        free[0] = startTime[0];
+        for (int i = 1; i < startTime.length; ++i) {
+            free[i] = startTime[i] - endTime[i - 1];
+        }
+        free[n] = eventTime - endTime[n - 1];
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        for (int x : free) {
+            map.merge(x, 1, Integer::sum);
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            int end = endTime[i];
+            int start = startTime[i];
+            res = Math.max(res, free[i] + free[i + 1]);
+            map.merge(free[i], -1, Integer::sum);
+            if (map.get(free[i]) == 0) {
+                map.remove(free[i]);
+            }
+            map.merge(free[i + 1], -1, Integer::sum);
+            if (map.get(free[i + 1]) == 0) {
+                map.remove(free[i + 1]);
+            }
+            if (!map.isEmpty() && map.lastKey() >= end - start) {
+                res = Math.max(res, free[i] + free[i + 1] + end - start);
+            }
+            map.merge(free[i], 1, Integer::sum);
+            map.merge(free[i + 1], 1, Integer::sum);
         }
         return res;
 
