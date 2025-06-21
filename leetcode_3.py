@@ -1040,3 +1040,17 @@ class leetcode_3:
                 if target[y] < 0:
                     target[y] = i
         return [target[x] for x in groups]
+
+    # 3448. 统计可以被最后一个数位整除的子字符串数目 (Count Substrings Divisible By Last Digit)
+    def countSubstrings(self, s: str) -> int:
+        res = 0
+        f = [[0] * 9 for _ in range(10)]
+        for d in map(int, s):
+            for m in range(1, 10):
+                nf = [0] * m
+                nf[d % m] = 1
+                for rem in range(m):
+                    nf[(rem * 10 + d) % m] += f[m][rem]
+                f[m] = nf
+            res += f[d][0]
+        return res

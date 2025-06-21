@@ -7005,4 +7005,25 @@ public class Leetcode_9 {
 
     }
 
+    // 3448. 统计可以被最后一个数位整除的子字符串数目 (Count Substrings Divisible By Last Digit)
+    public long countSubstrings(String s) {
+        long res = 0L;
+        // f[i][j] 以s某一位结尾，模i，余数为j的个数
+        long[][] f = new long[10][9];
+        for (char c : s.toCharArray()) {
+            int d = c - '0';
+            for (int m = 1; m < 10; ++m) {
+                long[] nf = new long[m];
+                nf[d % m] = 1L;
+                for (int rem = 0; rem < m; ++rem) {
+                    nf[(rem * 10 + d) % m] += f[m][rem];
+                }
+                f[m] = nf;
+            }
+            res += f[d][0];
+        }
+        return res;
+
+    }
+
 }
