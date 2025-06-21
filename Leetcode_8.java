@@ -8913,29 +8913,27 @@ public class Leetcode_8 {
 
     // 3085. 成为 K 特殊字符串需要删除的最少字符数 (Minimum Deletions to Make String K-Special)
     public int minimumDeletions(String word, int k) {
-        int[] cnt = new int[26];
+        int[] cnts = new int[26];
         for (char c : word.toCharArray()) {
-            ++cnt[c - 'a'];
+            ++cnts[c - 'a'];
         }
-        Arrays.sort(cnt);
-        int i = 0;
-        int j = 0;
-        int res = 0;
-        int sum = 0;
-        while (i < 26) {
-            sum += cnt[i];
-            while (j < i && cnt[i] > cnt[j]) {
-                sum -= cnt[j];
-                j += 1;
+        Arrays.sort(cnts);
+        int left = 0;
+        int s = 0;
+        int mx = 0;
+        for (int right = 0; right < 26; ++right) {
+            s += cnts[right];
+            while (cnts[left] < cnts[right]) {
+                s -= cnts[left];
+                ++left;
             }
             int cur = 0;
-            for (int x = i + 1; x < 26; ++x) {
-                cur += Math.min(cnt[x], cnt[i] + k);
+            for (int i = right + 1; i < 26; ++i) {
+                cur += Math.min(cnts[i], cnts[right] + k);
             }
-            res = Math.max(res, sum + cur);
-            ++i;
+            mx = Math.max(mx, s + cur);
         }
-        return word.length() - res;
+        return word.length() - mx;
 
     }
 

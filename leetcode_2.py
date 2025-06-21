@@ -2299,21 +2299,21 @@ class Union924:
 
     # 3085. 成为 K 特殊字符串需要删除的最少字符数 (Minimum Deletions to Make String K-Special)
     def minimumDeletions(self, word: str, k: int) -> int:
-        cnt = [0] * 26
+        cnts = [0] * 26
         for c in word:
-            cnt[ord(c) - ord("a")] += 1
-        cnt.sort()
-        j = 0
+            cnts[ord(c) - ord("a")] += 1
+        cnts.sort()
+        left = 0
         s = 0
         res = 0
-        for i, v in enumerate(cnt):
+        for right, v in enumerate(cnts):
             s += v
-            while cnt[j] < v:
-                s -= cnt[j]
-                j += 1
+            while cnts[left] < cnts[right]:
+                s -= cnts[left]
+                left += 1
             cur = 0
-            for x in range(i + 1, 26):
-                cur += min(cnt[x], v + k)
+            for i in range(right + 1, 26):
+                cur += min(cnts[i], cnts[right] + k)
             res = max(res, s + cur)
         return len(word) - res
 
