@@ -960,3 +960,41 @@ class leetcode_3:
             check("N", "E", k),
             check("S", "W", k),
         )
+
+    # 3444. 使数组包含目标值倍数的最少增量 (Minimum Increments for Target Multiples in an Array)
+    def minimumIncrements(self, nums: List[int], target: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if j == u:
+                return 0
+            if i == n:
+                return inf
+            # 不修改 nums[i]
+            res = dfs(i + 1, j)
+            # 修改 nums[i]
+            sub = c = u ^ j
+            while sub:
+                _lcm = l[sub]
+                cnt = (_lcm - nums[i] % _lcm) % _lcm
+                res = min(res, dfs(i + 1, j | sub) + cnt)
+                sub = (sub - 1) & c
+            return res
+
+        n = len(nums)
+        # 去重加速
+        target = list(set(target))
+        m = len(target)
+        u = (1 << m) - 1
+        mul = [0] * (1 << m)
+        g = [0] * (1 << m)
+        l = [0] * (1 << m)
+        for i in range(1, 1 << m):
+            if i.bit_count() == 1:
+                mul[i] = target[i.bit_length() - 1]
+                g[i] = target[i.bit_length() - 1]
+                l[i] = target[i.bit_length() - 1]
+            else:
+                mul[i] = mul[i & (i - 1)] * target[(i & -i).bit_length() - 1]
+                g[i] = gcd(g[i & (i - 1)], target[(i & -i).bit_length() - 1])
+                l[i] = lcm(l[i & (i - 1)], target[(i & -i).bit_length() - 1])
+        return dfs(0, 0)
