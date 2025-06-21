@@ -1065,3 +1065,13 @@ class leetcode_3:
                 continue
             res += x
         return res
+
+    # 3438. 找到字符串中合法的相邻数字 (Find Valid Pair of Adjacent Digits in String)
+    def findValidPair(self, s: str) -> str:
+        cnts = [0] * 10
+        for c in map(int, s):
+            cnts[c] += 1
+        for x, y in pairwise(map(int, s)):
+            if x != y and cnts[x] == x and cnts[y] == y:
+                return f"{x}{y}"
+        return ""

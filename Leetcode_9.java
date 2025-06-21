@@ -7041,5 +7041,22 @@ public class Leetcode_9 {
         return res;
 
     }
+    
+    // 3438. 找到字符串中合法的相邻数字 (Find Valid Pair of Adjacent Digits in String)
+    public String findValidPair(String s) {
+        int[] cnts = new int[10];
+        for (char c : s.toCharArray()) {
+            ++cnts[c - '0'];
+        }
+        for (int i = 0; i < s.length() - 1; ++i) {
+            int c1 = s.charAt(i) - '0';
+            int c2 = s.charAt(i + 1) - '0';
+            if (c1 != c2 && cnts[c1] == c1 && cnts[c2] == c2) {
+                return c1 + "" + c2;
+            }
+        }
+        return "";
+
+    }
 
 }
