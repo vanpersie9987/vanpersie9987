@@ -1028,3 +1028,15 @@ class leetcode_3:
                 x += 1
                 y += 1
         return grid
+
+    # 3447. 将元素分配给有约束条件的组 (Assign Elements to Groups with Constraints)
+    def assignElements(self, groups: List[int], elements: List[int]) -> List[int]:
+        mx = max(groups)
+        target = [-1] * (mx + 1)
+        for i, v in enumerate(elements):
+            if v > mx or target[v] >= 0:
+                continue
+            for y in range(v, mx + 1, v):
+                if target[y] < 0:
+                    target[y] = i
+        return [target[x] for x in groups]

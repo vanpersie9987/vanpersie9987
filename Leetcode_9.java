@@ -6948,7 +6948,7 @@ public class Leetcode_9 {
                 ++y;
             }
         }
-        
+
         for (int j = 1; j < n; ++j) {
             int x = 0;
             int y = j;
@@ -6976,6 +6976,32 @@ public class Leetcode_9 {
             }
         }
         return grid;
+
+    }
+    
+    // 3447. 将元素分配给有约束条件的组 (Assign Elements to Groups with Constraints)
+    public int[] assignElements(int[] groups, int[] elements) {
+        int mx = 0;
+        for (int x : groups) {
+            mx = Math.max(mx, x);
+        }
+        int[] target = new int[mx + 1];
+        Arrays.fill(target, -1);
+        for (int i = 0; i < elements.length; ++i) {
+            if (elements[i] > mx || target[elements[i]] != -1) {
+                continue;
+            }
+            for (int y = elements[i]; y <= mx; y += elements[i]) {
+                if (target[y] == -1) {
+                    target[y] = i;
+                }
+            }
+        }
+        int[] res = new int[groups.length];
+        for (int i = 0; i < groups.length; ++i) {
+            res[i] = target[groups[i]];
+        }
+        return res;
 
     }
 
