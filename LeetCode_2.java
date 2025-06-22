@@ -7306,17 +7306,16 @@ public class LeetCode_2 {
 
    // 2138. 将字符串拆分为若干长度为 k 的组 (Divide a String Into Groups of Size k)
    public String[] divideString(String s, int k, char fill) {
-      StringBuilder sb = new StringBuilder(s);
-      while (sb.length() % k != 0) {
-         sb.append(fill);
+      List<String> res = new ArrayList<>();
+      for (int i = 0; i < s.length(); i += k) {
+         StringBuilder sb = new StringBuilder(s.substring(i, Math.min(i + k, s.length())));
+         while (sb.length() < k) {
+            sb.append(fill);
+         }
+         res.add(sb.toString());
       }
-      String[] res = new String[sb.length() / k];
-      int j = 0;
-      for (int i = 0; i < sb.length(); i += k) {
-         res[j] = sb.substring(i, i + k);
-         ++j;
-      }
-      return res;
+      return res.toArray(new String[0]);
+
    }
 
    // 2139. 得到目标值的最少行动次数 (Minimum Moves to Reach Target Score)

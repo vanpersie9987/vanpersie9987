@@ -1115,3 +1115,13 @@ class leetcode_3:
             st.add(free[i])
             st.add(free[i + 1])
         return res
+
+    # 2138. 将字符串拆分为若干长度为 k 的组 (Divide a String Into Groups of Size k)
+    def divideString(self, s: str, k: int, fill: str) -> List[str]:
+        res = []
+        for i in range(0, len(s), k):
+            part = s[i:i + k]
+            if len(part) < k:
+                part += fill * (k - len(part))
+            res.append(part)
+        return res
