@@ -6569,39 +6569,28 @@ class leetcode_1:
             return res
 
     # 1947. 最大兼容性评分和 (Maximum Compatibility Score Sum)
-    def maxCompatibilitySum(
-        self, students: List[List[int]], mentors: List[List[int]]
-    ) -> int:
+    def maxCompatibilitySum(self, students: List[List[int]], mentors: List[List[int]]) -> int:
         @cache
-        def dfs(i: int, j: int) -> int:
-            if i == n:
+        def dfs(i: int) -> int:
+            if i == u:
                 return 0
-            c = j ^ u
+            id = i.bit_count()
+            c = i ^ u
             res = 0
             while c:
-                index = (c & -c).bit_length() - 1
-                res = max(
-                    res,
-                    dfs(i + 1, j | (1 << index))
-                    + (stu_mask[i] ^ men_mask[index] ^ m).bit_count(),
-                )
+                lb = (c & -c).bit_length() - 1
+                res = max(res, dfs(i | (1 << lb)) + score[id][lb])
                 c &= c - 1
             return res
-
-        n = len(students)
-        stu_mask = [0] * n
-        men_mask = [0] * n
-        for i in range(n):
-            stu = 0
-            men = 0
-            for s, m in zip(students[i], mentors[i]):
-                stu = (stu << 1) | s
-                men = (men << 1) | m
-            stu_mask[i] = stu
-            men_mask[i] = men
-        m = (1 << len(students[0])) - 1
-        u = (1 << n) - 1
-        return dfs(0, 0)
+        def check(arr: List[int], arr2: List[int]) -> int:
+            return sum(x ^ y ^ 1 for x, y in zip(arr, arr2))
+        m = len(students)
+        score = [[0] * m for _ in range(m)]
+        for i in range(m):
+            for j in range(m):
+                score[i][j] = check(students[i], mentors[j])
+        u = (1 << m) - 1
+        return dfs(0)
 
     # 2578. 最小和分割 (Split With Minimum Sum)
     def splitNum(self, num: int) -> int:

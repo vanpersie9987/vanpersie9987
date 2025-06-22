@@ -3112,7 +3112,7 @@ public class LeetCode_4 {
 
     // 1947. 最大兼容性评分和 (Maximum Compatibility Score Sum)
     private int m1947;
-    private int[][] memo1947;
+    private int[] memo1947;
     private int u1947;
     private int[][] xor1947;
 
@@ -3125,27 +3125,26 @@ public class LeetCode_4 {
             }
         }
         this.u1947 = (1 << m1947) - 1;
-        this.memo1947 = new int[m1947][1 << m1947];
-        for (int i = 0; i < m1947; ++i) {
-            Arrays.fill(memo1947[i], -1);
-        }
-        return dfs1947(0, 0);
+        this.memo1947 = new int[1 << m1947];
+        Arrays.fill(memo1947, -1);
+        return dfs1947(0);
 
     }
 
-    private int dfs1947(int i, int j) {
-        if (j == u1947) {
+    private int dfs1947(int i) {
+        if (i == u1947) {
             return 0;
         }
-        if (memo1947[i][j] != -1) {
-            return memo1947[i][j];
+        if (memo1947[i] != -1) {
+            return memo1947[i];
         }
+        int j = Integer.bitCount(i);
         int res = 0;
-        for (int c = j ^ u1947; c != 0; c &= c - 1) {
+        for (int c = i ^ u1947; c != 0; c &= c - 1) {
             int lb = Integer.numberOfTrailingZeros(c);
-            res = Math.max(res, dfs1947(i + 1, j | (1 << lb)) + xor1947[i][lb]);
+            res = Math.max(res, dfs1947(i | (1 << lb)) + xor1947[j][lb]);
         }
-        return memo1947[i][j] = res;
+        return memo1947[i] = res;
     }
 
     private int sum1947(int[] a, int[] b) {
