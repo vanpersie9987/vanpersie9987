@@ -1125,3 +1125,31 @@ class leetcode_3:
                 part += fill * (k - len(part))
             res.append(part)
         return res
+
+    # 2081. k 镜像数字的和 (Sum of k-Mirror Numbers)
+    def kMirror(self, k: int, n: int) -> int:
+        def is_palindrome(num: int, k: int) -> bool:
+            s = ""
+            while num:
+                s += str(num % k)
+                num //= k
+            return s == s[::-1]
+        res = 0
+        cnt = 0
+        left = 1
+        while cnt < n:
+            right = left * 10
+            for i in range(2):
+                num = left
+                while num < right and cnt < n:
+                    combined = num
+                    x = num // 10 if i == 0 else num
+                    while x:
+                        combined = combined * 10 + x % 10
+                        x //= 10
+                    if is_palindrome(combined, k):
+                        res += combined
+                        cnt += 1
+                    num += 1
+            left = right
+        return res
