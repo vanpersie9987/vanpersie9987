@@ -1125,3 +1125,20 @@ class leetcode_3:
                 part += fill * (k - len(part))
             res.append(part)
         return res
+
+    # 2200. 找出数组中的所有 K 近邻下标 (Find All K-Distant Indices in an Array)
+    def findKDistantIndices(self, nums: List[int], key: int, k: int) -> List[int]:
+        n = len(nums)
+        cnt = 0
+        for i in range(0, min(n, k + 1)):
+            if nums[i] == key:
+                cnt += 1
+        res = []
+        for i in range(n):
+            if cnt > 0:
+                res.append(i)
+            if i + k + 1 < n and nums[i + k + 1] == key:
+                cnt += 1
+            if i - k >= 0 and nums[i - k] == key:
+                cnt -= 1
+        return res
