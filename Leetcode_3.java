@@ -4179,30 +4179,27 @@ public class Leetcode_3 {
 
     // 2200. 找出数组中的所有 K 近邻下标 (Find All K-Distant Indices in an Array)
     public List<Integer> findKDistantIndices(int[] nums, int key, int k) {
-        List<int[]> list = new ArrayList<>();
-        for (int i = 0; i < nums.length; ++i) {
+        int n = nums.length;
+        int cnt = 0;
+        for (int i = 0; i < Math.min(n, k + 1); ++i) {
             if (nums[i] == key) {
-                int min = Math.max(i - k, 0);
-                int max = Math.min(i + k, nums.length - 1);
-                if (list.isEmpty()) {
-                    list.add(new int[] { min, max });
-                } else {
-                    int[] pre = list.get(list.size() - 1);
-                    if (min - pre[1] >= 2) {
-                        list.add(new int[] { min, max });
-                    } else {
-                        list.set(list.size() - 1, new int[] { pre[0], max });
-                    }
-                }
+                ++cnt;
             }
         }
         List<Integer> res = new ArrayList<>();
-        for (int[] scope : list) {
-            for (int i = scope[0]; i <= scope[1]; ++i) {
+        for (int i = 0; i < n; ++i) {
+            if (cnt > 0) {
                 res.add(i);
+            }
+            if (i + k + 1 < n && nums[i + k + 1] == key) {
+                ++cnt;
+            }
+            if (i - k >= 0 && nums[i - k] == key) {
+                --cnt;
             }
         }
         return res;
+
     }
 
     // 2201. 统计可以提取的工件 (Count Artifacts That Can Be Extracted)
