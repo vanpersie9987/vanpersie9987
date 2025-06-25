@@ -1262,8 +1262,10 @@ class leetcode_3:
         def dfs(x: int, fa: int) -> int:
             mx = 0
             mx_cnt = 0
+            cnt = 0
             for y in g[x]:
                 if y != fa:
+                    cnt += 1
                     v = dfs(y, x)
                     if v > mx:
                         mx_cnt = 1
@@ -1271,13 +1273,12 @@ class leetcode_3:
                     elif v == mx:
                         mx_cnt += 1
             nonlocal res
-            res += len(g[x]) - 1 - mx_cnt
+            res += cnt - mx_cnt
             return cost[x] + mx
         g = [[] for _ in range(n)]
         for u, v in edges:
             g[u].append(v)
             g[v].append(u)
-        g[0].append(-1)
         res = 0
         dfs(0, -1)
         return res
