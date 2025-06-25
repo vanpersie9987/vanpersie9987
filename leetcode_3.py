@@ -1253,7 +1253,7 @@ class leetcode_3:
         for x in nums:
             cnts[x] += 1
         return any(is_prime(c) for c in cnts if c > 0)
-    
+
     # 3593. 使叶子路径成本相等的最小增量 (Minimum Increments to Equalize Leaf Paths)
     def minIncrease(self, n: int, edges: List[List[int]], cost: List[int]) -> int:
         def dfs(x: int, fa: int) -> int:
@@ -1279,4 +1279,12 @@ class leetcode_3:
         res = 0
         dfs(0, -1)
         return res
-        
+
+    # 2311. 小于等于 K 的最长二进制子序列 (Longest Binary Subsequence Less Than or Equal to K)
+    def longestSubsequence(self, s: str, k: int) -> int:
+        n = len(s)
+        m = k.bit_length()
+        if n < m:
+            return n
+        res = m if int(s[-m:], 2) <= k else m - 1
+        return res + s[:-m].count("0")

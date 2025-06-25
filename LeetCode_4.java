@@ -2650,21 +2650,20 @@ public class LeetCode_4 {
 
     }
 
-    // 6099. 小于等于 K 的最长二进制子序列 (Longest Binary Subsequence Less Than or Equal to K)
+    // 2311. 小于等于 K 的最长二进制子序列 (Longest Binary Subsequence Less Than or Equal to K)
     public int longestSubsequence(String s, int k) {
-        int res = 0;
-        int sum = 0;
-        for (int i = s.length() - 1; i >= 0; --i) {
-            if (s.charAt(i) == '0') {
-                ++res;
-            } else {
-                if (res <= 30 && sum + (1 << res) <= k) {
-                    sum += 1 << res;
-                    ++res;
-                }
-            }
+        int m = Integer.toBinaryString(k).length();
+        int n = s.length();
+        if (n < m) {
+            return n;
+        }
+        int x = Integer.parseInt(s.substring(n - m, n), 2);
+        int res = x <= k ? m : m - 1;
+        for (int i = 0; i < n - m; ++i) {
+            res += (s.charAt(i) - '0') ^ 1;
         }
         return res;
+
     }
 
     // 131. 分割回文串 (Palindrome Partitioning) --回溯 + dp
