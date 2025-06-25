@@ -1236,12 +1236,9 @@ class leetcode_3:
                         del dic[nums[j]]
                 j += 1
             if prime[x]:
-                res += pre - j + 1
-            else:
-                res += pre2 - j + 1
-            if prime[x]:
                 pre2 = pre
                 pre = i
+            res += pre2 - j + 1
         return res
 
     # 3591. 检查元素频次是否为质数 (Check if Any Element Has Prime Frequency)
