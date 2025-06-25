@@ -1190,3 +1190,21 @@ class leetcode_3:
         if len(pos[1]) >= len(pos[0]):
             res = min(res, min_swap(1))
         return res
+
+    # 3588. 找到最大三角形面积 (Find Maximum Area of a Triangle)
+    def maxArea(self, coords: List[List[int]]) -> int:
+        def check(d: int) -> int:
+            _min = defaultdict(lambda: inf)
+            _max = defaultdict(lambda: -inf)
+            left = min(x[d] for x in coords)
+            right = max(x[d] for x in coords)
+            res = 0
+            for x in coords:
+                _min[x[d]] = min(_min[x[d]], x[d ^ 1])
+                _max[x[d]] = max(_max[x[d]], x[d ^ 1])
+                res = max(res, (_max[x[d]] - _min[x[d]]) * (right - x[d]), 
+                              (_max[x[d]] - _min[x[d]]) * (x[d] - left))
+            return res
+
+        res = max(check(0), check(1))
+        return -1 if res == 0 else res

@@ -7152,4 +7152,29 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3588. 找到最大三角形面积 (Find Maximum Area of a Triangle)
+    public long maxArea(int[][] coords) {
+        long res = Math.max(check3588(coords, 0), check3588(coords, 1));
+        return res > 0 ? res : -1L;
+    }
+
+    private long check3588(int[][] coords, int d) {
+        Map<Integer, Integer> min = new HashMap<>();
+        Map<Integer, Integer> max = new HashMap<>();
+        int left = Integer.MAX_VALUE;
+        int right = Integer.MIN_VALUE;
+        for (int[] c : coords) {
+            left = Math.min(left, c[d]);
+            right = Math.max(right, c[d]);
+        }
+        long res = 0L;
+        for (int[] c : coords) {
+            min.merge(c[d], c[d ^ 1], Math::min);
+            max.merge(c[d], c[d ^ 1], Math::max);
+            res = Math.max(res, (max.get(c[d]) - min.get(c[d])) * (long) (c[d] - left));
+            res = Math.max(res, (max.get(c[d]) - min.get(c[d])) * (long) (right - c[d]));
+        }
+        return res;
+    }
+
 }
