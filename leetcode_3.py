@@ -1256,3 +1256,29 @@ class leetcode_3:
         for x in nums:
             cnts[x] += 1
         return any(is_prime(c) for c in cnts if c > 0)
+    
+    # 3593. 使叶子路径成本相等的最小增量 (Minimum Increments to Equalize Leaf Paths)
+    def minIncrease(self, n: int, edges: List[List[int]], cost: List[int]) -> int:
+        def dfs(x: int, fa: int) -> int:
+            mx = 0
+            mx_cnt = 0
+            for y in g[x]:
+                if y != fa:
+                    v = dfs(y, x)
+                    if v > mx:
+                        mx_cnt = 1
+                        mx = v
+                    elif v == mx:
+                        mx_cnt += 1
+            nonlocal res
+            res += len(g[x]) - 1 - mx_cnt
+            return cost[x] + mx
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        g[0].append(-1)
+        res = 0
+        dfs(0, -1)
+        return res
+        

@@ -7243,4 +7243,41 @@ public class Leetcode_9 {
         return x > 1;
     }
 
+    // 3593. 使叶子路径成本相等的最小增量 (Minimum Increments to Equalize Leaf Paths)
+    private List<Integer>[] g3593;
+    private int[] cost3593;
+    private int res3593;
+
+    public int minIncrease(int n, int[][] edges, int[] cost) {
+        this.g3593 = new ArrayList[n];
+        Arrays.setAll(g3593, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g3593[e[0]].add(e[1]);
+            g3593[e[1]].add(e[0]);
+        }
+        this.cost3593 = cost;
+        dfs3593(0, -1);
+        return res3593;
+    }
+
+    private long dfs3593(int x, int fa) {
+        long mx = 0;
+        int mxCnt = 0;
+        int cnt = 0;
+        for (int y : g3593[x]) {
+            if (y != fa) {
+                ++cnt;
+                long v = dfs3593(y, x);
+                if (v > mx) {
+                    mx = v;
+                    mxCnt = 1;
+                } else if (v == mx) {
+                    ++mxCnt;
+                }
+            }
+        }
+        res3593 += cnt - mxCnt;
+        return cost3593[x] + mx;
+    }
+
 }
