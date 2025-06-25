@@ -1208,7 +1208,7 @@ class leetcode_3:
 
         res = max(check(0), check(1))
         return -1 if res == 0 else res
-    
+
     # 3589. 计数质数间隔平衡子数组 (Count Prime-Gap Balanced Subarrays)
     def primeSubarray(self, nums: List[int], k: int) -> int:
         mx = max(nums)
@@ -1244,5 +1244,15 @@ class leetcode_3:
                 pre = i
         return res
 
-        
-        
+    # 3591. 检查元素频次是否为质数 (Check if Any Element Has Prime Frequency)
+    def checkPrimeFrequency(self, nums: List[int]) -> bool:
+        def is_prime(n: int) -> bool:
+            for i in range(2, int(n**0.5) + 1):
+                if n % i == 0:
+                    return False
+            return n > 1
+
+        cnts = [0] * 101
+        for x in nums:
+            cnts[x] += 1
+        return any(is_prime(c) for c in cnts if c > 0)

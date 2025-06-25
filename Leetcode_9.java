@@ -7220,4 +7220,27 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3591. 检查元素频次是否为质数 (Check if Any Element Has Prime Frequency)
+    public boolean checkPrimeFrequency(int[] nums) {
+        int[] cnts = new int[101];
+        for (int x : nums) {
+            ++cnts[x];
+        }
+        for (int x : cnts) {
+            if (isPrime3591(x)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isPrime3591(int x) {
+        for (int i = 2; i * i <= x; ++i) {
+            if (x % i == 0) {
+                return false;
+            }
+        }
+        return x > 1;
+    }
+
 }
