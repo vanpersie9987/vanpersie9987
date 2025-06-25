@@ -7118,4 +7118,38 @@ public class Leetcode_9 {
 
     }
 
+    // 3587. 最小相邻交换至奇偶交替 (Minimum Adjacent Swaps to Alternate Parity)
+    public int minSwaps3587(int[] nums) {
+        List<Integer>[] list = new ArrayList[2];
+        Arrays.setAll(list, k -> new ArrayList<>());
+        for (int i = 0; i < nums.length; ++i) {
+            list[nums[i] & 1].add(i);
+        }
+        if (Math.abs(list[0].size() - list[1].size()) > 1) {
+            return -1; // 无法平衡
+        }
+        int res = Integer.MAX_VALUE;
+        if (list[0].size() >= list[1].size()) {
+            res = Math.min(res, minSwap3587(list, 0));
+        }
+        if (list[1].size() >= list[0].size()) {
+            res = Math.min(res, minSwap3587(list, 1));
+        }
+        return res;
+
+    }
+
+    private int minSwap3587(List<Integer>[] list, int start) {
+        int n = list[0].size() + list[1].size();
+        int i = 0;
+        int j = 0;
+        int res = 0;
+        while (i < n && j < list[start].size()) {
+            res += Math.abs(list[start].get(j) - i);
+            i += 2;
+            ++j;
+        }
+        return res;
+    }
+
 }

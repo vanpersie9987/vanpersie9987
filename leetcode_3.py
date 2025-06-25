@@ -1170,3 +1170,23 @@ class leetcode_3:
             if i - k >= 0 and nums[i - k] == key:
                 cnt -= 1
         return res
+
+    # 3587. 最小相邻交换至奇偶交替 (Minimum Adjacent Swaps to Alternate Parity)
+    def minSwaps(self, nums: List[int]) -> int:
+        def min_swap(start: int) -> int:
+            res = 0
+            for x, y in zip(pos[start], range(0, n, 2)):
+                res += abs(x - y)
+            return res
+        n = len(nums)
+        pos = [[] for _ in range(2)]
+        for i, x in enumerate(nums):
+            pos[x & 1].append(i)
+        if abs(len(pos[0]) - len(pos[1])) > 1:
+            return -1
+        res = inf
+        if len(pos[0]) >= len(pos[1]):
+            res = min(res, min_swap(0))
+        if len(pos[1]) >= len(pos[0]):
+            res = min(res, min_swap(1))
+        return res
