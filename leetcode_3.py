@@ -1208,3 +1208,41 @@ class leetcode_3:
 
         res = max(check(0), check(1))
         return -1 if res == 0 else res
+    
+    # 3589. 计数质数间隔平衡子数组 (Count Prime-Gap Balanced Subarrays)
+    def primeSubarray(self, nums: List[int], k: int) -> int:
+        mx = max(nums)
+        prime = [True] * (mx + 1)
+        prime[1] = False
+        for i in range(2, mx + 1):
+            if prime[i]:
+                for j in range(i * i, mx + 1, i):
+                    prime[j] = False
+        pre = -1
+        pre2 = -1
+        j = 0
+        cnt = 0
+        dic = defaultdict(int)
+        res = 0
+        for i, x in enumerate(nums):
+            if prime[x]:
+                dic[x] += 1
+                cnt += 1
+            while dic and max(dic.keys()) - min(dic.keys()) > k:
+                if prime[nums[j]]:
+                    dic[nums[j]] -= 1
+                    cnt -= 1
+                    if dic[nums[j]] == 0:
+                        del dic[nums[j]]
+                j += 1
+            if prime[x]:
+                res += pre - j + 1
+            else:
+                res += pre2 - j + 1
+            if prime[x]:
+                pre2 = pre
+                pre = i
+        return res
+
+        
+        

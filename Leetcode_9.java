@@ -7177,4 +7177,47 @@ public class Leetcode_9 {
         return res;
     }
 
+    // 3589. 计数质数间隔平衡子数组 (Count Prime-Gap Balanced Subarrays)
+    public int primeSubarray(int[] nums, int k) {
+        int mx = 0;
+        for (int x : nums) {
+            mx = Math.max(mx, x);
+        }
+        boolean[] prime = new boolean[mx + 1];
+        Arrays.fill(prime, true);
+        prime[1] = false;
+        for (int i = 2; i <= mx; ++i) {
+            if (prime[i]) {
+                for (int j = i * i; j <= mx; j += i) {
+                    prime[j] = false;
+                }
+            }
+        }
+        int res = 0;
+        int pre = -1;
+        int pre2 = -1;
+        int j = 0;
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        for (int i = 0; i < nums.length; ++i) {
+            if (prime[i]) {
+                map.merge(nums[i], 1, Integer::sum);
+            }
+            while (!map.isEmpty() && map.lastKey() - map.firstKey() > k) {
+                if (prime[nums[j]]) {
+                    map.merge(nums[j], -1, Integer::sum);
+                    if (map.get(nums[j]) == 0) {
+                        map.remove(nums[j]);
+                    }
+                }
+                ++j;
+            }
+            if (prime[nums[i]]) {
+                pre2 = pre;
+                pre = i;
+            }
+            res += pre2 - j + 1;
+        }
+        return res;
+    }
+
 }
