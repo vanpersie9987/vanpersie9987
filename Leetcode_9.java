@@ -7280,4 +7280,42 @@ public class Leetcode_9 {
         return cost3593[x] + mx;
     }
 
+    // 3592. 硬币面值还原 (Inverse Coin Change)
+    private List<Integer> list3592;
+    private int[][] memo3592;
+    public List<Integer> findCoins(int[] numWays) {
+        this.list3592 = new ArrayList<>();
+        int n = numWays.length;
+        this.memo3592 = new int[n + 1][n + 1];
+        for (int i = 0; i < numWays.length; ++i) {
+            int curWays = dfs3592(list3592.size() - 1, i + 1);
+            if (curWays == numWays[i]) {
+                continue;
+            }
+            if (curWays + 1 == numWays[i]) {
+                list3592.add(i + 1);
+                continue;
+            }
+            return List.of();
+        }
+        return list3592;
+    }
+
+    private int dfs3592(int i, int j) {
+        if (j == 0) {
+            return 1;
+        }
+        if (i < 0) {
+            return 0;
+        }
+        if (memo3592[i][j] != 0) {
+            return memo3592[i][j];
+        }
+        int res = dfs3592(i - 1, j);
+        if (j - list3592.get(i) >= 0) {
+            res += dfs3592(i, j - list3592.get(i));
+        }
+        return memo3592[i][j] = res;
+    }
+
 }

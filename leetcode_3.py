@@ -1288,3 +1288,31 @@ class leetcode_3:
             return n
         res = m if int(s[-m:], 2) <= k else m - 1
         return res + s[:-m].count("0")
+
+    # 3592. 硬币面值还原 (Inverse Coin Change)
+    def findCoins(self, numWays: List[int]) -> List[int]:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if j == 0:
+                return 1
+            if i < 0:
+                return 0
+            res = dfs(i - 1, j)
+            if j - _list[i] >= 0:
+                res += dfs(i, j - _list[i])
+            return res
+        def check(s: int, ways: int) -> bool:
+            cur_ways = dfs(len(_list) - 1, s)
+            if cur_ways > ways:
+                return False
+            if cur_ways == ways:
+                return True
+            if cur_ways + 1 == ways:
+                _list.append(s)
+                return True
+        _list = []
+        for i, v in enumerate(numWays, 1):
+            # i 面值总和  v 方案数
+            if not check(i, v):
+                return []
+        return _list
