@@ -1301,18 +1301,14 @@ class leetcode_3:
             if j - _list[i] >= 0:
                 res += dfs(i, j - _list[i])
             return res
-        def check(s: int, ways: int) -> bool:
-            cur_ways = dfs(len(_list) - 1, s)
-            if cur_ways > ways:
-                return False
-            if cur_ways == ways:
-                return True
-            if cur_ways + 1 == ways:
-                _list.append(s)
-                return True
+
         _list = []
         for i, v in enumerate(numWays, 1):
-            # i 面值总和  v 方案数
-            if not check(i, v):
-                return []
+            cur_ways = dfs(len(_list) - 1, i)
+            if cur_ways == v:
+                continue
+            if cur_ways + 1 == v:
+                _list.append(i)
+                continue
+            return []
         return _list
