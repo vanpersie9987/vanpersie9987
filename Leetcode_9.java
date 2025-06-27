@@ -6916,7 +6916,7 @@ public class Leetcode_9 {
         return grid;
 
     }
-    
+
     // 3446. 按对角线进行矩阵排序 (Sort Matrix by Diagonals)
     public int[][] sortMatrix2(int[][] grid) {
         int n = grid.length;
@@ -6976,7 +6976,7 @@ public class Leetcode_9 {
         return grid;
 
     }
-    
+
     // 3447. 将元素分配给有约束条件的组 (Assign Elements to Groups with Constraints)
     public int[] assignElements(int[] groups, int[] elements) {
         int mx = 0;
@@ -7039,7 +7039,7 @@ public class Leetcode_9 {
         return res;
 
     }
-    
+
     // 3438. 找到字符串中合法的相邻数字 (Find Valid Pair of Adjacent Digits in String)
     public String findValidPair(String s) {
         int[] cnts = new int[10];
@@ -7281,6 +7281,7 @@ public class Leetcode_9 {
     // 3592. 硬币面值还原 (Inverse Coin Change)
     private List<Integer> list3592;
     private int[][] memo3592;
+
     public List<Integer> findCoins(int[] numWays) {
         this.list3592 = new ArrayList<>();
         int n = numWays.length;
@@ -7316,14 +7317,8 @@ public class Leetcode_9 {
         return memo3592[i][j] = res;
     }
 
+    // 3594. 所有人渡河所需的最短时间 (Minimum Time to Transport All Individuals)
     public double minTime(int n, int k, int m, int[] time, double[] mul) {
-        if (n == 1) {
-            double min = Arrays.stream(mul).min().getAsDouble();
-            return min * time[0];
-        }
-        if (k == 1) {
-            return -1D;
-        }
         int[] mx = new int[1 << n];
         for (int i = 1; i < 1 << n; ++i) {
             mx[i] = Math.max(mx[i & (i - 1)], time[Integer.numberOfTrailingZeros(i)]);
@@ -7337,24 +7332,49 @@ public class Leetcode_9 {
             }
 
         });
-        for (int i = 0; i < m; ++i) {
-            q.offer(new Item(0, i, 0D));
+        double[][] dis = new double[1 << n][m];
+        for (int i = 0; i < 1 << n; ++i) {
+            Arrays.fill(dis[i], Double.MAX_VALUE);
         }
+        q.offer(new Item(0, 0, 0D));
+        dis[0][0] = 0D;
 
         while (!q.isEmpty()) {
             Item item = q.poll();
             double curTime = item.time;
             int curMask = item.mask;
             int curStage = item.stage;
-            // 从未过河的人选至多k个 上船
+            if (curTime > dis[curMask][curStage]) {
+                continue;
+            }
+            if (curMask == u) {
+                return curTime;
+            }
+            // 从未过河的人中选至多k个人上船
             int c = u ^ curMask;
             for (int sub = c; sub != 0; sub = (sub - 1) & c) {
-
+                if (Integer.bitCount(sub) > k) {
+                    continue;
+                }
+                double passTime = mx[sub] * mul[curStage];
+                int returnStage = (curStage + ((int) passTime % m)) % m;
+                // 枚举已经过河的一个人返回
+                int passMask = curMask | sub;
+                for (int cc = passMask; cc != 0; cc &= cc - 1) {
+                    int lb = Integer.numberOfTrailingZeros(cc);
+                    // cc == u 说明所有人均已过河，无需再选一个人返回
+                    double returnTime = cc == u ? 0 : time[lb] * mul[returnStage];
+                    int nStage = (returnStage + ((int) returnTime % m)) % m;
+                    int nMask = (curMask | sub) ^ (cc == u ? 0 : (1 << lb));
+                    double nTime = curTime + passTime + returnTime;
+                    if (nTime < dis[nMask][nStage]) {
+                        dis[nMask][nStage] = nTime;
+                        q.offer(new Item(nMask, nStage, nTime));
+                    }
+                }
             }
-
-
         }
-
+        return -1D;
     }
 
     class Item {
@@ -7366,17 +7386,6 @@ public class Leetcode_9 {
             this.mask = mask;
             this.stage = stage;
             this.time = time;
-        }
-
-        @Override
-        public int hashCode() {
-            return (int) (time * 100) << 15 + (mask << 3) + stage;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            Item other = (Item) obj;
-            return (int) (time * 100) == (int) (other.time * 100) && mask == other.mask && stage == other.stage;
         }
 
     }
