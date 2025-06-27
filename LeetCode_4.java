@@ -2657,7 +2657,7 @@ public class LeetCode_4 {
         if (n < m) {
             return n;
         }
-        int x = Integer.parseInt(s.substring(n - m, n), 2);
+        int x = Integer.parseInt(s.substring(n - m), 2);
         int res = x <= k ? m : m - 1;
         for (int i = 0; i < n - m; ++i) {
             res += (s.charAt(i) - '0') ^ 1;
