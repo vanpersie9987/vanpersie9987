@@ -23,7 +23,7 @@ from inspect import modulesbyfile
 from itertools import accumulate, combinations, count, islice, pairwise, permutations
 from locale import DAY_4
 from logging import _Level, root
-from math import comb, cos, e, fabs, gcd, inf, isqrt, lcm, sqrt
+from math import comb, cos, e, fabs, floor, gcd, inf, isqrt, lcm, sqrt
 from mimetypes import init
 from multiprocessing import reduction
 from operator import le, ne, truediv
@@ -1312,3 +1312,41 @@ class leetcode_3:
                 continue
             return []
         return _list
+
+    # 3594. 所有人渡河所需的最短时间 (Minimum Time to Transport All Individuals)
+    def minTime(self, n: int, k: int, m: int, time: List[int], mul: List[float]) -> float:
+        mx = [0] * (1 << n)
+        for i in range(1, 1 << n):
+            mx[i] = max(mx[i & (i - 1)], time[(i & -i).bit_length() - 1])
+        u = (1 << n) - 1
+        dis = [[inf] * m for _ in range(1 << n)]
+        q = []
+        heapq.heapify(q)
+        dis[0][0] = 0
+        # time, mask, stage
+        q.append((0, 0, 0))
+        while q:
+            (cur_time, cur_mask, cur_stage) = heapq.heappop(q)
+            if cur_time > dis[cur_mask][cur_stage]:
+                continue
+            if cur_mask == u:
+                return cur_time
+            sub = c = u ^ cur_mask
+            while sub:
+                if sub.bit_count() <= k:
+                    pass_time = mx[sub] * mul[cur_stage]
+                    return_stage = (cur_stage + floor(pass_time) % m) % m
+                    # 枚举返回的人
+                    cc = cur_mask | sub
+                    while cc:
+                        lb = (cc & -cc).bit_length() - 1
+                        return_time = 0 if cc == u else time[lb] * mul[return_stage]
+                        n_time = cur_time + pass_time + return_time
+                        n_stage = (return_stage + floor(return_time) % m) % m
+                        n_mask = (cur_mask | sub) ^ (0 if cc == u else (1 << lb))
+                        if n_time < dis[n_mask][n_stage]:
+                            dis[n_mask][n_stage] = n_time
+                            heapq.heappush(q, (n_time, n_mask, n_stage))
+                        cc &= cc - 1
+                sub = (sub - 1) & c
+        return -1
