@@ -6874,12 +6874,10 @@ public class Leetcode_9 {
         }
         long res = dfs3444(i + 1, j); // 不修改当前数字
         int c = u3444 ^ j;
-        int sub = c;
-        while (sub > 0) {
+        for (int sub = c; sub != 0; sub = (sub - 1) & c) {
             long l = lcm3444[sub];
             long cnt = (l - nums3444[i] % l) % l;
             res = Math.min(res, dfs3444(i + 1, j | sub) + cnt); // 修改当前数字
-            sub = (sub - 1) & c; // 枚举所有子集
         }
         return memo3444[i][j] = res;
     }
@@ -7316,6 +7314,71 @@ public class Leetcode_9 {
             res += dfs3592(i, j - list3592.get(i));
         }
         return memo3592[i][j] = res;
+    }
+
+    public double minTime(int n, int k, int m, int[] time, double[] mul) {
+        if (n == 1) {
+            double min = Arrays.stream(mul).min().getAsDouble();
+            return min * time[0];
+        }
+        if (k == 1) {
+            return -1D;
+        }
+        int[] mx = new int[1 << n];
+        for (int i = 1; i < 1 << n; ++i) {
+            mx[i] = Math.max(mx[i & (i - 1)], time[Integer.numberOfTrailingZeros(i)]);
+        }
+        int u = (1 << n) - 1;
+        Queue<Item> q = new PriorityQueue<>(new Comparator<Item>() {
+
+            @Override
+            public int compare(Item o1, Item o2) {
+                return Double.compare(o1.time, o2.time);
+            }
+
+        });
+        for (int i = 0; i < m; ++i) {
+            q.offer(new Item(0, i, 0D));
+        }
+
+        while (!q.isEmpty()) {
+            Item item = q.poll();
+            double curTime = item.time;
+            int curMask = item.mask;
+            int curStage = item.stage;
+            // 从未过河的人选至多k个 上船
+            int c = u ^ curMask;
+            for (int sub = c; sub != 0; sub = (sub - 1) & c) {
+
+            }
+
+
+        }
+
+    }
+
+    class Item {
+        int mask;
+        int stage;
+        double time;
+
+        public Item(int mask, int stage, double time) {
+            this.mask = mask;
+            this.stage = stage;
+            this.time = time;
+        }
+
+        @Override
+        public int hashCode() {
+            return (int) (time * 100) << 15 + (mask << 3) + stage;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            Item other = (Item) obj;
+            return (int) (time * 100) == (int) (other.time * 100) && mask == other.mask && stage == other.stage;
+        }
+
     }
 
 }
