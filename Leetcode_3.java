@@ -18,6 +18,7 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.swing.tree.TreeNode;
 
@@ -425,29 +426,22 @@ public class Leetcode_3 {
 
     // 2099. 找到和最大的长度为 K 的子序列 (Find Subsequence of Length K With the Largest Sum)
     public int[] maxSubsequence(int[] nums, int k) {
-        Element[] elements = new Element[nums.length];
-        for (int i = 0; i < elements.length; ++i) {
-            elements[i] = new Element(nums[i], i);
-        }
-        Arrays.sort(elements, (o1, o2) -> o2.val - o1.val);
+        Integer[] idx = IntStream.range(0, nums.length).boxed().toArray(Integer[]::new);
+        Arrays.sort(idx, new Comparator<Integer>() {
 
-        Arrays.sort(elements, 0, k, (o1, o2) -> o1.index - o2.index);
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(nums[o2], nums[o1]);
+            }
+
+        });
+
+        Arrays.sort(idx, 0, k);
         int[] res = new int[k];
         for (int i = 0; i < k; ++i) {
-            res[i] = elements[i].val;
+            res[i] = nums[idx[i]];
         }
         return res;
-
-    }
-
-    public class Element {
-        public int val;
-        public int index;
-
-        public Element(int val, int index) {
-            this.val = val;
-            this.index = index;
-        }
 
     }
 

@@ -7324,10 +7324,10 @@ public class Leetcode_9 {
             mx[i] = Math.max(mx[i & (i - 1)], time[Integer.numberOfTrailingZeros(i)]);
         }
         int u = (1 << n) - 1;
-        Queue<Item> q = new PriorityQueue<>(new Comparator<Item>() {
+        Queue<Item3594> q = new PriorityQueue<>(new Comparator<Item3594>() {
 
             @Override
-            public int compare(Item o1, Item o2) {
+            public int compare(Item3594 o1, Item3594 o2) {
                 return Double.compare(o1.time, o2.time);
             }
 
@@ -7336,11 +7336,11 @@ public class Leetcode_9 {
         for (int i = 0; i < 1 << n; ++i) {
             Arrays.fill(dis[i], Double.MAX_VALUE);
         }
-        q.offer(new Item(0, 0, 0D));
+        q.offer(new Item3594(0, 0, 0D));
         dis[0][0] = 0D;
 
         while (!q.isEmpty()) {
-            Item item = q.poll();
+            Item3594 item = q.poll();
             double curTime = item.time;
             int curMask = item.mask;
             int curStage = item.stage;
@@ -7369,7 +7369,7 @@ public class Leetcode_9 {
                     double nTime = curTime + passTime + returnTime;
                     if (nTime < dis[nMask][nStage]) {
                         dis[nMask][nStage] = nTime;
-                        q.offer(new Item(nMask, nStage, nTime));
+                        q.offer(new Item3594(nMask, nStage, nTime));
                     }
                 }
             }
@@ -7377,12 +7377,12 @@ public class Leetcode_9 {
         return -1D;
     }
 
-    class Item {
+    class Item3594 {
         int mask;
         int stage;
         double time;
 
-        public Item(int mask, int stage, double time) {
+        public Item3594(int mask, int stage, double time) {
             this.mask = mask;
             this.stage = stage;
             this.time = time;
