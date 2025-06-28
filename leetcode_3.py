@@ -1332,13 +1332,13 @@ class leetcode_3:
             if cur_mask == u:
                 return cur_time
             sub = c = u ^ cur_mask
-            # 从未过河的人中选至多k个人上船
+            # 从未过河的人中枚举至多k个人上船
             while sub:
                 if sub.bit_count() <= k:
                     pass_time = mx[sub] * mul[cur_stage]
                     return_stage = (cur_stage + floor(pass_time) % m) % m
                     cc = cur_mask | sub
-                    # 枚举已经过河的一个人返回
+                    # 从已过河的人中枚举1个人返回
                     while cc:
                         lb = (cc & -cc).bit_length() - 1
                         # cc == u 说明所有人均已过河，无需再选一个人返回

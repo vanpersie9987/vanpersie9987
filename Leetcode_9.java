@@ -7350,7 +7350,7 @@ public class Leetcode_9 {
             if (curMask == u) {
                 return curTime;
             }
-            // 从未过河的人中选至多k个人上船
+            // 从未过河的人中枚举至多k个人上船
             int c = u ^ curMask;
             for (int sub = c; sub != 0; sub = (sub - 1) & c) {
                 if (Integer.bitCount(sub) > k) {
@@ -7358,7 +7358,7 @@ public class Leetcode_9 {
                 }
                 double passTime = mx[sub] * mul[curStage];
                 int returnStage = (curStage + ((int) passTime % m)) % m;
-                // 枚举已经过河的一个人返回
+                // 从已过河的人中枚举1个人返回
                 int passMask = curMask | sub;
                 for (int cc = passMask; cc != 0; cc &= cc - 1) {
                     int lb = Integer.numberOfTrailingZeros(cc);
