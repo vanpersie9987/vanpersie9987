@@ -1352,3 +1352,9 @@ class leetcode_3:
                         cc &= cc - 1
                 sub = (sub - 1) & c
         return -1
+
+    # 2099. 找到和最大的长度为 K 的子序列 (Find Subsequence of Length K With the Largest Sum)
+    def maxSubsequence(self, nums: List[int], k: int) -> List[int]:
+        a = [[i, x] for i, x in enumerate(nums)]
+        a.sort(key=lambda o: -o[1])
+        return [x for _, x in sorted(a[: k])]
