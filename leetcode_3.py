@@ -1358,3 +1358,25 @@ class leetcode_3:
         a = [[i, x] for i, x in enumerate(nums)]
         a.sort(key=lambda o: -o[1])
         return [x for _, x in sorted(a[: k])]
+
+    # 1498. 满足条件的子序列数目 (Number of Subsequences That Satisfy the Given Sum Condition)
+    def numSubseq(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        n = len(nums)
+        MOD = 10**9 + 7
+        pow = [0] * (n + 1)
+        pow[0] = 1
+        for i in range(1, n + 1):
+            pow[i] = (pow[i - 1] << 1) % MOD
+
+        left = 0
+        right = n - 1
+        res = 0
+        while left <= right:
+            if nums[left] + nums[right] > target:
+                right -= 1
+            else:
+                res += pow[right - left]
+                res %= MOD
+                left += 1
+        return res
