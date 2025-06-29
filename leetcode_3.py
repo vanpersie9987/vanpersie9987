@@ -1364,10 +1364,10 @@ class leetcode_3:
         nums.sort()
         n = len(nums)
         MOD = 10**9 + 7
-        pow = [0] * (n + 1)
-        pow[0] = 1
+        pow2 = [0] * (n + 1)
+        pow2[0] = 1
         for i in range(1, n + 1):
-            pow[i] = (pow[i - 1] << 1) % MOD
+            pow2[i] = (pow2[i - 1] << 1) % MOD
 
         left = 0
         right = n - 1
@@ -1376,7 +1376,7 @@ class leetcode_3:
             if nums[left] + nums[right] > target:
                 right -= 1
             else:
-                res += pow[right - left]
+                res += pow2[right - left]
                 res %= MOD
                 left += 1
         return res
