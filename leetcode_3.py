@@ -1380,3 +1380,14 @@ class leetcode_3:
                 res %= MOD
                 left += 1
         return res
+
+    # 594. 最长和谐子序列 (Longest Harmonious Subsequence)
+    def findLHS(self, nums: List[int]) -> int:
+        d = defaultdict(int)
+        for x in nums:
+            d[x] += 1
+        res = 0
+        for k, v in d.items():
+            if k + 1 in d:
+                res = max(res, v + d[k + 1])
+        return res

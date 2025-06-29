@@ -7390,4 +7390,22 @@ public class Leetcode_9 {
 
     }
 
+    public int findLHS(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int x : nums) {
+            map.merge(x, 1, Integer::sum);
+        }
+        int res = 0;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (map.get(entry.getKey() - 1) != null) {
+                res = Math.max(res, entry.getValue() + map.getOrDefault(entry.getKey() - 1, 0));
+            }
+            if (map.get(entry.getKey() + 1) != null) {
+                res = Math.max(res, entry.getValue() + map.getOrDefault(entry.getKey() + 1, 0));
+            }
+        }
+        return res;
+    }
+    
+
 }
