@@ -1505,7 +1505,7 @@ public class Leetcode_9 {
                 parent[r1] = r2;
             } else {
                 parent[r2] = r1;
-                if (rank[r1] < rank[r2]) {
+                if (rank[r1] == rank[r2]) {
                     ++rank[r1];
                 }
             }
@@ -7479,6 +7479,123 @@ public class Leetcode_9 {
             res = Math.min(res, Math.max(dfs3599(end + 1, j + 1), xor));
         }
         return memo3599[i][j] = res;
+    }
+
+    // 3600. 升级后最大生成树稳定性 (Maximize Spanning Tree Stability with Upgrades)
+    public int maxStability(int n, int[][] edges, int k) {
+        Union3600 uMust = new Union3600(n); // 必选边并查集
+        Union3600 uAll = new Union3600(n); // 所有边并查集
+        int left = Integer.MAX_VALUE;
+        int right = 0;
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            int s = edge[2];
+            int must = edge[3];
+            if (must == 1) {
+                if (uMust.isConnected(u, v)) { // 必选边有环
+                    return -1;
+                }
+                uMust.union(u, v);
+            }
+            uAll.union(u, v);
+            left = Math.min(left, s);
+            right = Math.max(right, s);
+        }
+        if (uAll.getCnt() > 1) { // 整个图不连通
+            return -1;
+        }
+        right <<= 1;
+        int res = -1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check3600(mid, edges, k, n)) {
+                res = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
+
+    private boolean check3600(int low, int[][] edges, int k, int n) {
+        Union3600 union = new Union3600(n);
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            int s = edge[2];
+            int must = edge[3];
+            if (must == 1 && s < low) { // 必选边太小了
+                return false;
+            }
+            if (must == 1 || s >= low) {
+                union.union(u, v);
+            }
+        }
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            int s = edge[2];
+            int must = edge[3];
+            if (k == 0 || union.getCnt() == 1) {
+                break;
+            }
+            // k > 0 且 s可扩大 且 u, v 不连通
+            if (must == 0 && s * 2 >= low && !union.isConnected(u, v)) {
+                union.union(u, v);
+                --k;
+            }
+        }
+        return union.getCnt() == 1;
+    }
+
+    public class Union3600 {
+        private int[] rank;
+        private int[] parent;
+        private int cnt;
+
+        public Union3600(int n) {
+            this.rank = new int[n];
+            this.parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                rank[i] = 1;
+                parent[i] = i;
+            }
+            this.cnt = n;
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int r1 = getRoot(p1);
+            int r2 = getRoot(p2);
+            if (r1 == r2) {
+                return;
+            }
+            if (rank[r1] < rank[r2]) {
+                parent[r1] = r2;
+            } else {
+                parent[r2] = r1;
+                if (rank[r1] == rank[r2]) {
+                    ++rank[r1];
+                }
+            }
+            --cnt;
+        }
+
+        public int getCnt() {
+            return cnt;
+        }
     }
 
 }
