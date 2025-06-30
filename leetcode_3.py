@@ -1453,9 +1453,7 @@ class leetcode_3:
         @cache
         def dfs(i: int, j: int) -> int:
             if i == n or j == k:
-                if i == n and j == k:
-                    return 0
-                return inf
+                return 0 if i == n and j == k else inf
             if k - j > n - i:
                 return inf
             res = inf
