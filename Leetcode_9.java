@@ -7541,7 +7541,7 @@ public class Leetcode_9 {
             if (k == 0 || union.getCnt() == 1) {
                 break;
             }
-            // k > 0 且 s可扩大 且 u, v 不连通
+            // k > 0 且 s扩大2倍后>=low 且 u, v 不连通
             if (must == 0 && s * 2 >= low && !union.isConnected(u, v)) {
                 union.union(u, v);
                 --k;

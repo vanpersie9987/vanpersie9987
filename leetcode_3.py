@@ -954,6 +954,7 @@ class leetcode_3:
                     dis -= 1
                 mx = max(mx, dis)
             return mx
+
         return max(
             check("N", "W", k),
             check("S", "E", k),
@@ -1077,7 +1078,9 @@ class leetcode_3:
         return ""
 
     # 3439. 重新安排会议得到最多空余时间 I (Reschedule Meetings for Maximum Free Time I)
-    def maxFreeTime(self, eventTime: int, k: int, startTime: List[int], endTime: List[int]) -> int:
+    def maxFreeTime(
+        self, eventTime: int, k: int, startTime: List[int], endTime: List[int]
+    ) -> int:
         n = len(startTime)
         free = [0] * (n + 1)
         free[0] = startTime[0]
@@ -1095,7 +1098,9 @@ class leetcode_3:
         return res
 
     # 3440. 重新安排会议得到最多空余时间 II (Reschedule Meetings for Maximum Free Time II)
-    def maxFreeTime(self, eventTime: int, startTime: List[int], endTime: List[int]) -> int:
+    def maxFreeTime(
+        self, eventTime: int, startTime: List[int], endTime: List[int]
+    ) -> int:
         n = len(startTime)
         free = [0] * (n + 1)
         free[0] = startTime[0]
@@ -1120,7 +1125,7 @@ class leetcode_3:
     def divideString(self, s: str, k: int, fill: str) -> List[str]:
         res = []
         for i in range(0, len(s), k):
-            part = s[i:i + k]
+            part = s[i : i + k]
             if len(part) < k:
                 part += fill * (k - len(part))
             res.append(part)
@@ -1134,6 +1139,7 @@ class leetcode_3:
                 s += str(num % k)
                 num //= k
             return s == s[::-1]
+
         res = 0
         cnt = 0
         left = 1
@@ -1178,6 +1184,7 @@ class leetcode_3:
             for x, y in zip(pos[start], range(0, n, 2)):
                 res += abs(x - y)
             return res
+
         n = len(nums)
         pos = [[] for _ in range(2)]
         for i, x in enumerate(nums):
@@ -1202,8 +1209,11 @@ class leetcode_3:
             for x in coords:
                 _min[x[d]] = min(_min[x[d]], x[d ^ 1])
                 _max[x[d]] = max(_max[x[d]], x[d ^ 1])
-                res = max(res, (_max[x[d]] - _min[x[d]]) * (right - x[d]), 
-                              (_max[x[d]] - _min[x[d]]) * (x[d] - left))
+                res = max(
+                    res,
+                    (_max[x[d]] - _min[x[d]]) * (right - x[d]),
+                    (_max[x[d]] - _min[x[d]]) * (x[d] - left),
+                )
             return res
 
         res = max(check(0), check(1))
@@ -1272,6 +1282,7 @@ class leetcode_3:
             nonlocal res
             res += cnt - mx_cnt
             return cost[x] + mx
+
         g = [[] for _ in range(n)]
         for u, v in edges:
             g[u].append(v)
@@ -1314,7 +1325,9 @@ class leetcode_3:
         return _list
 
     # 3594. 所有人渡河所需的最短时间 (Minimum Time to Transport All Individuals)
-    def minTime(self, n: int, k: int, m: int, time: List[int], mul: List[float]) -> float:
+    def minTime(
+        self, n: int, k: int, m: int, time: List[int], mul: List[float]
+    ) -> float:
         mx = [0] * (1 << n)
         for i in range(1, 1 << n):
             mx[i] = max(mx[i & (i - 1)], time[(i & -i).bit_length() - 1])
@@ -1357,7 +1370,7 @@ class leetcode_3:
     def maxSubsequence(self, nums: List[int], k: int) -> List[int]:
         a = [[i, x] for i, x in enumerate(nums)]
         a.sort(key=lambda o: -o[1])
-        return [x for _, x in sorted(a[: k])]
+        return [x for _, x in sorted(a[:k])]
 
     # 1498. 满足条件的子序列数目 (Number of Subsequences That Satisfy the Given Sum Condition)
     def numSubseq(self, nums: List[int], target: int) -> int:
@@ -1412,6 +1425,7 @@ class leetcode_3:
                 if x != y:
                     return i
             return min(len(a), len(b))
+
         n = len(words)
         right = [0] * n
         for i in range(n - 2, -1, -1):
@@ -1488,7 +1502,7 @@ class leetcode_3:
         def check(low: int) -> bool:
             _u = union(n)
             for u, v, s, must in edges:
-                if must and s < low:
+                if must and s < low:  # 必选边太小了
                     return False
                 if must or s >= low:
                     _u.union(u, v)
@@ -1496,21 +1510,22 @@ class leetcode_3:
             for u, v, s, must in edges:
                 if k_left == 0 or _u.get_cnt() == 1:
                     break
+                # k > 0 且 s扩大2倍后>=low 且 u, v 不连通
                 if not must and s * 2 >= low and _u.union(u, v):
                     k_left -= 1
             return _u.get_cnt() == 1
 
-        u_must = union(n)
-        u_all = union(n)
+        u_must = union(n)  # 必选边并查集
+        u_all = union(n)  # 所有边并查集
         left = inf
         right = 0
         for u, v, s, must in edges:
-            if must and not u_must.union(u, v):
+            if must and not u_must.union(u, v):  # 必选边有环
                 return -1
             u_all.union(u, v)
             left = min(left, s)
             right = max(right, s)
-        if u_all.get_cnt() > 1:
+        if u_all.get_cnt() > 1: # 整个图不连通
             return -1
         right <<= 1
         res = -1
