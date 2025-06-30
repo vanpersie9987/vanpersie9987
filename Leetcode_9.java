@@ -7445,4 +7445,39 @@ public class Leetcode_9 {
         return Math.min(a.length(), b.length());
     }
 
+    private int n;
+    private int[] nums;
+    private int k;
+    private int[][] memo;
+
+    public int minXor(int[] nums, int k) {
+        this.nums = nums;
+        this.k = k;
+        this.n = nums.length;
+        this.memo = new int[n][k];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo[i], -1);
+        }
+        return dfs(0, 0);
+    }
+
+    private int dfs(int i, int j) {
+        if (i == n || j == k) {
+            return i == n && j == k ? 0 : Integer.MAX_VALUE >> 1;
+        }
+        if (k - j > n - i) {
+            return Integer.MAX_VALUE >> 1;
+        }
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+        int res = Integer.MAX_VALUE >> 1;
+        int xor = 0;
+        for (int end = i; end < n; ++end) {
+            xor ^= nums[end];
+            res = Math.min(res, Math.max(dfs(end + 1, j + 1), xor));
+        }
+        return memo[i][j] = res;
+    }
+
 }

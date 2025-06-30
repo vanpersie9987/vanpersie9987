@@ -1430,3 +1430,26 @@ class leetcode_3:
                 mx = max(mx, longest_prefix(words[i - 1], words[i + 1]))
             res[i] = mx
         return res
+
+    # 3599. 划分数组得到最小 XOR (Partition Array to Minimize XOR)
+    def minXor(self, nums: List[int], k: int) -> int:
+        min = lambda a, b: b if b < a else a
+        max = lambda a, b: b if b > a else a
+
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n or j == k:
+                if i == n and j == k:
+                    return 0
+                return inf
+            if k - j > n - i:
+                return inf
+            res = inf
+            xor = 0
+            for x, v in enumerate(nums[i:], i):
+                xor ^= v
+                res = min(res, max(dfs(x + 1, j + 1), xor))
+            return res
+
+        n = len(nums)
+        return dfs(0, 0)
