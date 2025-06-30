@@ -7445,39 +7445,40 @@ public class Leetcode_9 {
         return Math.min(a.length(), b.length());
     }
 
-    private int n;
-    private int[] nums;
-    private int k;
-    private int[][] memo;
+    // 3599. 划分数组得到最小 XOR (Partition Array to Minimize XOR)
+    private int n3599;
+    private int[] nums3599;
+    private int k3599;
+    private int[][] memo3599;
 
     public int minXor(int[] nums, int k) {
-        this.nums = nums;
-        this.k = k;
-        this.n = nums.length;
-        this.memo = new int[n][k];
-        for (int i = 0; i < n; ++i) {
-            Arrays.fill(memo[i], -1);
+        this.nums3599 = nums;
+        this.k3599 = k;
+        this.n3599 = nums.length;
+        this.memo3599 = new int[n3599][k];
+        for (int i = 0; i < n3599; ++i) {
+            Arrays.fill(memo3599[i], -1);
         }
-        return dfs(0, 0);
+        return dfs3599(0, 0);
     }
 
-    private int dfs(int i, int j) {
-        if (i == n || j == k) {
-            return i == n && j == k ? 0 : Integer.MAX_VALUE >> 1;
+    private int dfs3599(int i, int j) {
+        if (i == n3599 || j == k3599) {
+            return i == n3599 && j == k3599 ? 0 : Integer.MAX_VALUE >> 1;
         }
-        if (k - j > n - i) {
+        if (k3599 - j > n3599 - i) {
             return Integer.MAX_VALUE >> 1;
         }
-        if (memo[i][j] != -1) {
-            return memo[i][j];
+        if (memo3599[i][j] != -1) {
+            return memo3599[i][j];
         }
         int res = Integer.MAX_VALUE >> 1;
         int xor = 0;
-        for (int end = i; end < n; ++end) {
-            xor ^= nums[end];
-            res = Math.min(res, Math.max(dfs(end + 1, j + 1), xor));
+        for (int end = i; end < n3599; ++end) {
+            xor ^= nums3599[end];
+            res = Math.min(res, Math.max(dfs3599(end + 1, j + 1), xor));
         }
-        return memo[i][j] = res;
+        return memo3599[i][j] = res;
     }
 
 }
