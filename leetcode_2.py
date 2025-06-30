@@ -6900,16 +6900,7 @@ class Union924:
 
     # 3330. 找到初始输入字符串 I (Find the Original Typed String I)
     def possibleStringCount(self, word: str) -> int:
-        res = 1
-        n = len(word)
-        i = 0
-        while i < n:
-            j = i
-            while j < n and word[j] == word[i]:
-                j += 1
-            res += j - i - 1
-            i = j
-        return res
+        return sum(x == y for x, y in pairwise(word)) + 1
 
     # 3331. 修改后子树的大小 (Find Subtree Sizes After Changes)
     def findSubtreeSizes(self, parent: List[int], s: str) -> List[int]:

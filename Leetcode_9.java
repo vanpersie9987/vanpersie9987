@@ -2939,15 +2939,10 @@ public class Leetcode_9 {
     // 3330. 找到初始输入字符串 I (Find the Original Typed String I)
     public int possibleStringCount(String word) {
         int res = 1;
-        int n = word.length();
-        int i = 0;
-        while (i < n) {
-            int j = i;
-            while (j < n && word.charAt(i) == word.charAt(j)) {
-                ++j;
+        for (int i = 1; i < word.length(); ++i) {
+            if (word.charAt(i) == word.charAt(i - 1)) {
+                ++res;
             }
-            res += j - i - 1;
-            i = j;
         }
         return res;
 
