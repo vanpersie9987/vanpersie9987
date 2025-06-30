@@ -7390,4 +7390,59 @@ public class Leetcode_9 {
 
     }
 
+    // 3597. 分割字符串 (Partition String)
+    public List<String> partitionString(String s) {
+        Set<String> set = new HashSet<>();
+        List<String> res = new ArrayList<>();
+        StringBuilder cur = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            cur.append(c);
+            if (set.add(cur.toString())) {
+                res.add(cur.toString());
+                cur.setLength(0);
+            }
+        }
+        return res;
+
+    }
+
+    // 3598. 相邻字符串之间的最长公共前缀 (Longest Common Prefix Between Adjacent Strings After
+    // Removals)
+    public int[] longestCommonPrefix(String[] words) {
+        int n = words.length;
+        int[] right = new int[n];
+        for (int i = n - 2; i >= 0; --i) {
+            right[i] = Math.max(right[i + 1], longestPrefix3598(words[i], words[i + 1]));
+        }
+        int[] left = new int[n];
+        for (int i = 1; i < n; ++i) {
+            left[i] = Math.max(left[i - 1], longestPrefix3598(words[i], words[i - 1]));
+        }
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            int mx = 0;
+            if (i > 0) {
+                mx = Math.max(mx, left[i - 1]);
+            }
+            if (i < n - 1) {
+                mx = Math.max(mx, right[i + 1]);
+            }
+            if (i > 0 && i < n - 1) {
+                mx = Math.max(mx, longestPrefix3598(words[i - 1], words[i + 1]));
+            }
+            res[i] = mx;
+        }
+        return res;
+
+    }
+
+    private int longestPrefix3598(String a, String b) {
+        for (int i = 0; i < Math.min(a.length(), b.length()); ++i) {
+            if (a.charAt(i) != b.charAt(i)) {
+                return i;
+            }
+        }
+        return Math.min(a.length(), b.length());
+    }
+
 }

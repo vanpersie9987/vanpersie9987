@@ -1391,3 +1391,42 @@ class leetcode_3:
             if k + 1 in d:
                 res = max(res, v + d[k + 1])
         return res
+
+    # 3597. 分割字符串 (Partition String)
+    def partitionString(self, s: str) -> List[str]:
+        _set = set()
+        res = []
+        cur = ""
+        for c in s:
+            cur += c
+            if cur not in _set:
+                _set.add(cur)
+                res.append(cur)
+                cur = ""
+        return res
+
+    # 3598. 相邻字符串之间的最长公共前缀 (Longest Common Prefix Between Adjacent Strings After Removals)
+    def longestCommonPrefix(self, words: List[str]) -> List[int]:
+        def longest_prefix(a: str, b: str) -> int:
+            for i, (x, y) in enumerate(zip(a, b)):
+                if x != y:
+                    return i
+            return min(len(a), len(b))
+        n = len(words)
+        right = [0] * n
+        for i in range(n - 2, -1, -1):
+            right[i] = max(right[i + 1], longest_prefix(words[i], words[i + 1]))
+        left = [0] * n
+        for i in range(1, n):
+            left[i] = max(left[i - 1], longest_prefix(words[i - 1], words[i]))
+        res = [0] * n
+        for i in range(n):
+            mx = 0
+            if i:
+                mx = max(mx, left[i - 1])
+            if i < n - 1:
+                mx = max(mx, right[i + 1])
+            if i and i < n - 1:
+                mx = max(mx, longest_prefix(words[i - 1], words[i + 1]))
+            res[i] = mx
+        return res
