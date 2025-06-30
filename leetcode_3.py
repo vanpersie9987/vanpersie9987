@@ -1,4 +1,4 @@
-from ast import Return, Tuple
+from ast import Return, Tuple, literal_eval
 from asyncio import FastChildWatcher
 from gettext import find
 import math
@@ -1453,3 +1453,72 @@ class leetcode_3:
 
         n = len(nums)
         return dfs(0, 0)
+
+    # 3600. 升级后最大生成树稳定性 (Maximize Spanning Tree Stability with Upgrades)
+    def maxStability(self, n: int, edges: List[List[int]], k: int) -> int:
+        class union:
+            def __init__(self, n: int):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+                self.cnt = n
+
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+
+            def union(self, p1: int, p2: int) -> bool:
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if r1 == r2:
+                    return False
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r1] += 1
+                self.cnt -= 1
+                return True
+
+            def get_cnt(self) -> int:
+                return self.cnt
+
+        def check(low: int) -> bool:
+            _u = union(n)
+            for u, v, s, must in edges:
+                if must and s < low:
+                    return False
+                if must or s >= low:
+                    _u.union(u, v)
+            k_left = k
+            for u, v, s, must in edges:
+                if k_left == 0 or _u.get_cnt() == 1:
+                    break
+                if not must and s * 2 >= low and _u.union(u, v):
+                    k_left -= 1
+            return _u.get_cnt() == 1
+
+        u_must = union(n)
+        u_all = union(n)
+        left = inf
+        right = 0
+        for u, v, s, must in edges:
+            if must and not u_must.union(u, v):
+                return -1
+            u_all.union(u, v)
+            left = min(left, s)
+            right = max(right, s)
+        if u_all.get_cnt() > 1:
+            return -1
+        right <<= 1
+        res = -1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                res = mid
+                left = mid + 1
+            else:
+                right = mid - 1
+        return res
