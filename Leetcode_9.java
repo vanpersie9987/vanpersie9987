@@ -6583,35 +6583,32 @@ public class Leetcode_9 {
         return dfs3573(0, 0, 0);
     }
 
-    private long dfs3573(int i, int j, int l) {
-        if (i == n3573) {
+    private long dfs3573(int i, int j, int k) {
+        if (i == n3573 || k == k3573) {
             return j == 0 ? 0L : (long) -1e13;
         }
-        if (l == k3573) {
-            return 0L;
-        }
-        if (memo3573[i][j][l] != 0L) {
-            return memo3573[i][j][l];
+        if (memo3573[i][j][k] != 0L) {
+            return memo3573[i][j][k];
         }
         // 不操作
-        long res = dfs3573(i + 1, j, l);
+        long res = dfs3573(i + 1, j, k);
         if (j == 0) {
             // 买
-            res = Math.max(res, dfs3573(i + 1, 1, l) - prices3573[i]);
+            res = Math.max(res, dfs3573(i + 1, 1, k) - prices3573[i]);
             // 做空
-            res = Math.max(res, dfs3573(i + 1, 2, l) + prices3573[i]);
+            res = Math.max(res, dfs3573(i + 1, 2, k) + prices3573[i]);
         }
         // 已买入 未卖出
         else if (j == 1) {
             // 卖
-            res = Math.max(res, dfs3573(i + 1, 0, l + 1) + prices3573[i]);
+            res = Math.max(res, dfs3573(i + 1, 0, k + 1) + prices3573[i]);
         }
         // 已做空
         else {
             // 赎回
-            res = Math.max(res, dfs3573(i + 1, 0, l + 1) - prices3573[i]);
+            res = Math.max(res, dfs3573(i + 1, 0, k + 1) - prices3573[i]);
         }
-        return memo3573[i][j][l] = res;
+        return memo3573[i][j][k] = res;
     }
 
     // 3576. 数组元素相等转换 (Transform Array to All Equal Elements)

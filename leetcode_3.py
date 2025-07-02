@@ -728,19 +728,19 @@ class leetcode_3:
         return max1 + max2 + max3
 
     # 3573. 买卖股票的最佳时机 V (Best Time to Buy and Sell Stock V)
-    def maximumProfit(self, prices: List[int], k: int) -> int:
+    def maximumProfit(self, prices: List[int], m: int) -> int:
         @cache
-        def dfs(i: int, j: int, l: int) -> int:
+        def dfs(i: int, j: int, k: int) -> int:
             if i == n:
                 return 0 if j == 0 else -inf
-            if k == l:
+            if m == k:
                 return 0
-            res = dfs(i + 1, j, l)
+            res = dfs(i + 1, j, k)
             if j == 0:
                 return max(
-                    res, dfs(i + 1, 1, l) - prices[i], dfs(i + 1, -1, l) + prices[i]
+                    res, dfs(i + 1, 1, k) - prices[i], dfs(i + 1, -1, k) + prices[i]
                 )
-            return max(res, dfs(i + 1, 0, l + 1) + prices[i] * j)
+            return max(res, dfs(i + 1, 0, k + 1) + prices[i] * j)
 
         n = len(prices)
         res = dfs(0, 0, 0)
