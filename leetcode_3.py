@@ -1535,3 +1535,12 @@ class leetcode_3:
             else:
                 right = mid - 1
         return res
+
+    # 1394. 找出数组中的幸运数 (Find Lucky Integer in an Array)
+    def findLucky(self, arr: List[int]) -> int:
+        cnts = Counter(arr)
+        res = -1
+        for k, v in cnts.items():
+            if k == v:
+                res = max(res, k)
+        return res
