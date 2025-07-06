@@ -6760,7 +6760,6 @@ public class Leetcode_9 {
             cnts.merge((long) nums[i], 1, Integer::sum);
         }
         cnts.clear();
-        ;
         int res = 0;
         for (int i = 0; i < n; ++i) {
             long v = (long) nums[i] << 1;
