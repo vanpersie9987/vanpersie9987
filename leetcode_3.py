@@ -1544,3 +1544,24 @@ class leetcode_3:
             if k == v:
                 res = max(res, k)
         return res
+
+    # 1865. 找出和为指定值的下标对 (Finding Pairs With a Certain Sum)
+    class FindSumPairs:
+
+        def __init__(self, nums1: List[int], nums2: List[int]):
+            self.cnt1 = defaultdict(int)
+            self.cnt2 = defaultdict(int)
+            self.nums2 = nums2
+            for x in nums1:
+                self.cnt1[x] += 1
+            for x in nums2:
+                self.cnt2[x] += 1
+
+        def add(self, index: int, val: int) -> None:
+            origin = self.nums2[index]
+            self.nums2[index] += val
+            self.cnt2[origin] -= 1
+            self.cnt2[origin + val] += 1
+
+        def count(self, tot: int) -> int:
+            return sum(v * self.cnt2[tot - k] for k, v in self.cnt1.items())
