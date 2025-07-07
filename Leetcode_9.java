@@ -7608,4 +7608,54 @@ public class Leetcode_9 {
         return res.reverse().toString();
     }
 
+    // 3603. 交替方向的最小路径代价 II (Minimum Cost Path with Alternating Directions II)
+    public long minCost(int m, int n, int[][] waitCost) {
+        long[][][] dis = new long[m][n][2];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                Arrays.fill(dis[i][j], Long.MAX_VALUE >> 1);
+            }
+        }
+        dis[0][0][1] = 1L;
+        Queue<long[]> q = new PriorityQueue<>(new Comparator<long[]>() {
+
+            @Override
+            public int compare(long[] o1, long[] o2) {
+                return Long.compare(o1[0], o2[0]);
+            }
+
+        });
+        int[][] dirs = { { 0, 1 }, { 1, 0 } };
+        q.offer(new long[] { 1L, 0, 0, 1 });
+        while (!q.isEmpty()) {
+            long[] cur = q.poll();
+            long d = cur[0];
+            long x = cur[1];
+            long y = cur[2];
+            long s = cur[3];
+            if ((int) x == m - 1 && (int) y == n - 1) {
+                return d;
+            }
+            if ((s & 1) != 0) {
+                for (int[] dir : dirs) {
+                    long nx = x + dir[0];
+                    long ny = y + dir[1];
+                    if (nx < m && ny < n) {
+                        if (d + (nx + 1) * (ny + 1) < dis[(int) nx][(int) ny][(int) s]) {
+                            dis[(int) nx][(int) ny][(int) s] = d + (nx + 1) * (ny + 1);
+                            q.offer(new long[] { d + (nx + 1) * (ny + 1), nx, ny, s ^ 1 });
+                        }
+                    }
+                }
+            } else {
+                if (d + waitCost[(int) x][(int) y] < dis[(int) x][(int) y][(int) s]) {
+                    dis[(int) x][(int) y][(int) s] = d + waitCost[(int) x][(int) y];
+                    q.offer(new long[] { d + waitCost[(int) x][(int) y], x, y, s ^ 1 });
+                }
+            }
+        }
+        return -1L;
+
+    }
+
 }

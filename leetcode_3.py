@@ -1604,3 +1604,29 @@ class leetcode_3:
             return "".join(reversed(res))
 
         return gen(n * n, 16) + gen(n * n * n, 36)
+
+    # 3603. 交替方向的最小路径代价 II (Minimum Cost Path with Alternating Directions II)
+    def minCost(self, m: int, n: int, waitCost: List[List[int]]) -> int:
+        q = []
+        dis = [[[inf] * 2 for _ in range(n)] for _ in range(m)]
+        dis[0][0][1] = 1
+        heapq.heapify(q)
+        q.append((1, 0, 0, 1))
+        dirs = (0, 1), (1, 0)
+        while q:
+            (d, x, y, s) = heapq.heappop(q)
+            if x == m - 1 and y == n - 1:
+                return d
+            if s & 1:
+                for dx, dy in dirs:
+                    nx = x + dx
+                    ny = y + dy
+                    if nx < m and ny < n:
+                        if d + (nx + 1) * (ny + 1) < dis[nx][ny][s]:
+                            dis[nx][ny][s] = d + (nx + 1) * (ny + 1)
+                            heapq.heappush(q, (d + (nx + 1) * (ny + 1), nx, ny, s ^ 1))
+            else:
+                if d + waitCost[x][y] < dis[x][y][s]:
+                    dis[x][y][s] = d + waitCost[x][y]
+                    heapq.heappush(q, (d + waitCost[x][y], x, y, s ^ 1))
+        return -1
