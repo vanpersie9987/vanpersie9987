@@ -1565,3 +1565,27 @@ class leetcode_3:
 
         def count(self, tot: int) -> int:
             return sum(v * self.cnt2[tot - k] for k, v in self.cnt1.items())
+        
+    # 1353. 最多可以参加的会议数目 (Maximum Number of Events That Can Be Attended)
+    def maxEvents(self, events: List[List[int]]) -> int:
+        mx = max(e[1] for e in events) 
+
+        # 按照开始时间分组
+        groups = [[] for _ in range(mx + 1)]
+        for e in events:
+            groups[e[0]].append(e[1])
+
+        ans = 0
+        h = []
+        for i, g in enumerate(groups):
+            # 删除过期会议
+            while h and h[0] < i:
+                heapq.heappop(h)
+            # 新增可以参加的会议
+            for end_day in g:
+                heapq.heappush(h, end_day)
+            # 参加一个结束时间最早的会议
+            if h:
+                ans += 1
+                heapq.heappop(h)
+        return ans
