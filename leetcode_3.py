@@ -1636,3 +1636,25 @@ class leetcode_3:
                 return 1
             return min(dfs(i - 1, j), dfs(i, j - 1)) + (i + 1) * (j + 1) + waitCost[i][j]
         return dfs(m - 1, n - 1) - waitCost[-1][-1]
+
+    # 3604. 有向图中到达终点的最少时间 (Minimum Time to Reach Destination in Directed Graph)
+    def minTime(self, n: int, edges: List[List[int]]) -> int:
+        q = [(0, 0)]
+        heapq.heapify(q)
+        g = [[] for _ in range(n)]
+        for u, v, start, end in edges:
+            g[u].append((v, start, end))
+        dis = [inf] * n
+        dis[0] = 0
+        while q:
+            t, x = heapq.heappop(q)
+            if x == n - 1:
+                return t
+            for y, start, end in g[x]:
+                if t > end:
+                    continue
+                nt = max(t, start) + 1
+                if nt < dis[y]:
+                    dis[y] = nt
+                    heapq.heappush(q, (nt, y))
+        return -1

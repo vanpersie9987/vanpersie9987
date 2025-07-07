@@ -7675,4 +7675,47 @@ public class Leetcode_9 {
         return memo3603[i][j] = Math.min(dfs3603(i - 1, j), dfs3603(i, j - 1)) + waitCost3603[i][j] + (long) (i + 1) * (j + 1);
     }
 
+    // 3604. 有向图中到达终点的最少时间 (Minimum Time to Reach Destination in Directed Graph)
+    public int minTime(int n, int[][] edges) {
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[0]].add(new int[] { e[1], e[2], e[3] });
+        }
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+            
+        });
+        int[] dis = new int[n];
+        Arrays.fill(dis, Integer.MAX_VALUE);
+        dis[0] = 0;
+        q.offer(new int[] { 0, 0 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int t = cur[0];
+            int x = cur[1];
+            if (x == n - 1) {
+                return t;
+            }
+            for (int[] nxt : g[x]) {
+                int y = nxt[0];
+                int start = nxt[1];
+                int end = nxt[2];
+                if (t > end) {
+                    continue;
+                }
+                int nt = Math.max(start, t) + 1;
+                if (nt < dis[y]) {
+                    dis[y] = nt;
+                    q.offer(new int[] { nt, y });
+                }
+            }
+        }
+        return -1;
+    }
+
 }
