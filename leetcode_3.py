@@ -1523,7 +1523,7 @@ class leetcode_3:
             u_all.union(u, v)
             left = min(left, s)
             right = max(right, s)
-        if u_all.get_cnt() > 1: # 整个图不连通
+        if u_all.get_cnt() > 1:  # 整个图不连通
             return -1
         right <<= 1
         res = -1
@@ -1565,10 +1565,10 @@ class leetcode_3:
 
         def count(self, tot: int) -> int:
             return sum(v * self.cnt2[tot - k] for k, v in self.cnt1.items())
-        
+
     # 1353. 最多可以参加的会议数目 (Maximum Number of Events That Can Be Attended)
     def maxEvents(self, events: List[List[int]]) -> int:
-        mx = max(e[1] for e in events) 
+        mx = max(e[1] for e in events)
 
         # 按照开始时间分组
         groups = [[] for _ in range(mx + 1)]
@@ -1589,3 +1589,18 @@ class leetcode_3:
                 ans += 1
                 heapq.heappop(h)
         return ans
+
+    # 3602. 十六进制和三十六进制转化 (Hexadecimal and Hexatrigesimal Conversion)
+    def concatHex36(self, n: int) -> str:
+        def gen(x: int, radix: int) -> int:
+            res = []
+            while x:
+                d = x % radix
+                if d < 10:
+                    res.append(str(d))
+                else:
+                    res.append((chr)(d - 10 + ord("A")))
+                x //= radix
+            return "".join(reversed(res))
+
+        return gen(n * n, 16) + gen(n * n * n, 36)

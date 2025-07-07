@@ -7589,4 +7589,23 @@ public class Leetcode_9 {
         }
     }
 
+    // 3602. 十六进制和三十六进制转化 (Hexadecimal and Hexatrigesimal Conversion)
+    public String concatHex36(int n) {
+        return generate3602(n * n, 16) + generate3602(n * n * n, 36);
+    }
+
+    private String generate3602(int x, int radix) {
+        StringBuilder res = new StringBuilder();
+        while (x != 0) {
+            int d = x % radix;
+            if (d <= 9) {
+                res.append(d);
+            } else {
+                res.append((char) ((d - 10) + 'A'));
+            }
+            x /= radix;
+        }
+        return res.reverse().toString();
+    }
+
 }
