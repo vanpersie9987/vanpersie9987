@@ -1608,29 +1608,24 @@ class leetcode_3:
     # 3603. 交替方向的最小路径代价 II (Minimum Cost Path with Alternating Directions II)
     def minCost(self, m: int, n: int, waitCost: List[List[int]]) -> int:
         q = []
-        dis = [[[inf] * 2 for _ in range(n)] for _ in range(m)]
-        dis[0][0][1] = 1
+        dis = [[inf] * n for _ in range(m)]
+        dis[0][0] = 1
         heapq.heapify(q)
-        q.append((1, 0, 0, 1))
+        q.append((1, 0, 0))
         dirs = (0, 1), (1, 0)
         while q:
-            (d, x, y, s) = heapq.heappop(q)
+            (d, x, y) = heapq.heappop(q)
             if x == m - 1 and y == n - 1:
-                return d
-            if s & 1:
-                for dx, dy in dirs:
-                    nx = x + dx
-                    ny = y + dy
-                    if nx < m and ny < n:
-                        if d + (nx + 1) * (ny + 1) < dis[nx][ny][s]:
-                            dis[nx][ny][s] = d + (nx + 1) * (ny + 1)
-                            heapq.heappush(q, (d + (nx + 1) * (ny + 1), nx, ny, s ^ 1))
-            else:
-                if d + waitCost[x][y] < dis[x][y][s]:
-                    dis[x][y][s] = d + waitCost[x][y]
-                    heapq.heappush(q, (d + waitCost[x][y], x, y, s ^ 1))
+                return d - waitCost[-1][-1]
+            for dx, dy in dirs:
+                nx = x + dx
+                ny = y + dy
+                if nx < m and ny < n:
+                    if d + (nx + 1) * (ny + 1) + waitCost[nx][ny] < dis[nx][ny]:
+                        dis[nx][ny] = d + (nx + 1) * (ny + 1) + waitCost[nx][ny]
+                        heapq.heappush(q, (d + (nx + 1) * (ny + 1) + waitCost[nx][ny], nx, ny))
         return -1
-    
+
     # 3603. 交替方向的最小路径代价 II (Minimum Cost Path with Alternating Directions II)
     def minCost(self, m: int, n: int, waitCost: List[List[int]]) -> int:
         @cache
@@ -1641,4 +1636,3 @@ class leetcode_3:
                 return 1
             return min(dfs(i - 1, j), dfs(i, j - 1)) + (i + 1) * (j + 1) + waitCost[i][j]
         return dfs(m - 1, n - 1) - waitCost[-1][-1]
-        
