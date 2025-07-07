@@ -1630,3 +1630,15 @@ class leetcode_3:
                     dis[x][y][s] = d + waitCost[x][y]
                     heapq.heappush(q, (d + waitCost[x][y], x, y, s ^ 1))
         return -1
+    
+    # 3603. 交替方向的最小路径代价 II (Minimum Cost Path with Alternating Directions II)
+    def minCost(self, m: int, n: int, waitCost: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i < 0 or j < 0:
+                return inf
+            if i == 0 and j == 0:
+                return 1
+            return min(dfs(i - 1, j), dfs(i, j - 1)) + (i + 1) * (j + 1) + waitCost[i][j]
+        return dfs(m - 1, n - 1) - waitCost[-1][-1]
+        

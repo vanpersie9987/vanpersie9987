@@ -7658,4 +7658,30 @@ public class Leetcode_9 {
 
     }
 
+    // 3603. 交替方向的最小路径代价 II (Minimum Cost Path with Alternating Directions II)
+    private long[][] memo3603;
+    private int[][] waitCost3603;
+
+    public long minCost2(int m, int n, int[][] waitCost) {
+        this.waitCost3603 = waitCost;
+        this.memo3603 = new long[m][n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(memo3603[i], -1L);
+        }
+        return dfs3603(m - 1, n - 1) - waitCost[m - 1][n - 1];
+    }
+
+    private long dfs3603(int i, int j) {
+        if (i < 0 || j < 0) {
+            return Long.MAX_VALUE >> 1;
+        }
+        if (i == 0 && j == 0) {
+            return 1L;
+        }
+        if (memo3603[i][j] != -1L) {
+            return memo3603[i][j];
+        }
+        return memo3603[i][j] = Math.min(dfs3603(i - 1, j), dfs3603(i, j - 1)) + waitCost3603[i][j] + (long) (i + 1) * (j + 1);
+    }
+
 }
