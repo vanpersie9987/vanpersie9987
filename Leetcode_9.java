@@ -7720,42 +7720,34 @@ public class Leetcode_9 {
 
     // 3606. 优惠券校验器 (Coupon Code Validator)
     public List<String> validateCoupons(String[] code, String[] businessLine, boolean[] isActive) {
-        Map<String, Integer> map = new HashMap<>();
-        map.put("electronics", 0);
-        map.put("grocery", 1);
-        map.put("pharmacy", 2);
-        map.put("restaurant", 3);
+        Map<String, String> map = new HashMap<>();
+        map.put("electronics", "0");
+        map.put("grocery", "1");
+        map.put("pharmacy", "2");
+        map.put("restaurant", "3");
 
-        List<Bean3606> list = new ArrayList<>();
+        List<String[]> list = new ArrayList<>();
         for (int i = 0; i < code.length; ++i) {
             if (check3606(code[i]) && map.containsKey(businessLine[i]) && isActive[i]) {
-                list.add(new Bean3606(code[i], map.get(businessLine[i])));
+                list.add(new String[] { code[i], map.get(businessLine[i]) });
             }
         }
-        Collections.sort(list);
+        Collections.sort(list, new Comparator<String[]>() {
+
+            @Override
+            public int compare(String[] o1, String[] o2) {
+                if (!o1[1].equals(o2[1])) {
+                    return o1[1].compareTo(o2[1]);
+                }
+                return o1[0].compareTo(o2[0]);
+            }
+            
+        });
         List<String> res = new ArrayList<>();
-        for (Bean3606 b : list) {
-            res.add(b.code);
+        for (String[] b : list) {
+            res.add(b[0]);
         }
         return res;
-    }
-
-    public class Bean3606 implements Comparable<Bean3606> {
-        String code;
-        int businessLine;
-
-        Bean3606(String code, int businessLine) {
-            this.code = code;
-            this.businessLine = businessLine;
-        }
-
-        @Override
-        public int compareTo(Bean3606 o) {
-            if (this.businessLine == o.businessLine) {
-                return code.compareTo(o.code);
-            }
-            return Integer.compare(this.businessLine, o.businessLine);
-        }
     }
 
     private boolean check3606(String s) {

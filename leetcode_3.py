@@ -3,6 +3,7 @@ from asyncio import FastChildWatcher
 from gettext import find
 import math
 from platform import node
+from posixpath import isabs
 from pydoc import plain
 from signal import valid_signals
 from sqlite3 import paramstyle
@@ -14,7 +15,7 @@ from collections import Counter, defaultdict, deque
 import collections
 from ctypes.wintypes import _ULARGE_INTEGER
 from curses import can_change_color, curs_set, intrflush, nonl
-from curses.ascii import SI, isprint
+from curses.ascii import SI, isalpha, isascii, isdigit, isprint
 from decimal import Rounded
 import dis
 import enum
@@ -1623,7 +1624,9 @@ class leetcode_3:
                 if nx < m and ny < n:
                     if d + (nx + 1) * (ny + 1) + waitCost[nx][ny] < dis[nx][ny]:
                         dis[nx][ny] = d + (nx + 1) * (ny + 1) + waitCost[nx][ny]
-                        heapq.heappush(q, (d + (nx + 1) * (ny + 1) + waitCost[nx][ny], nx, ny))
+                        heapq.heappush(
+                            q, (d + (nx + 1) * (ny + 1) + waitCost[nx][ny], nx, ny)
+                        )
         return -1
 
     # 3603. 交替方向的最小路径代价 II (Minimum Cost Path with Alternating Directions II)
@@ -1634,7 +1637,10 @@ class leetcode_3:
                 return inf
             if i == 0 and j == 0:
                 return 1
-            return min(dfs(i - 1, j), dfs(i, j - 1)) + (i + 1) * (j + 1) + waitCost[i][j]
+            return (
+                min(dfs(i - 1, j), dfs(i, j - 1)) + (i + 1) * (j + 1) + waitCost[i][j]
+            )
+
         return dfs(m - 1, n - 1) - waitCost[-1][-1]
 
     # 3604. 有向图中到达终点的最少时间 (Minimum Time to Reach Destination in Directed Graph)
@@ -1658,3 +1664,23 @@ class leetcode_3:
                     dis[y] = nt
                     heapq.heappush(q, (nt, y))
         return -1
+
+    # 3606. 优惠券校验器 (Coupon Code Validator)
+    def validateCoupons(
+        self, code: List[str], businessLine: List[str], isActive: List[bool]
+    ) -> List[str]:
+        dic = defaultdict(int)
+        dic["electronics"] = 0
+        dic["grocery"] = 1
+        dic["pharmacy"] = 2
+        dic["restaurant"] = 3
+
+        def check(s: str) -> bool:
+            return len(s) and all(isalpha(c) or isdigit(c) or c == "_" for c in s)
+
+        _list = [
+            (dic[b], c)
+            for c, b, i in zip(code, businessLine, isActive)
+            if i and check(c) and b in dic
+        ]
+        return [c for _, c in sorted(_list)]
