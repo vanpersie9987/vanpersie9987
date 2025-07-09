@@ -7759,4 +7759,76 @@ public class Leetcode_9 {
         return !s.isEmpty();
     }
 
+    // 3607. 电网维护 (Power Grid Maintenance)
+    public int[] processQueries(int c, int[][] connections, int[][] queries) {
+        Union3607 u = new Union3607(c);
+        for (int[] connection : connections) {
+            u.union(connection[0] - 1, connection[1] - 1);
+        }
+        Map<Integer, TreeSet<Integer>> map = new HashMap<>();
+        for (int i = 0; i < c; ++i) {
+            int r = u.getRoot(i);
+            map.computeIfAbsent(r, k -> new TreeSet<>()).add(i);
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int[] query : queries) {
+            int x = query[1] - 1;
+            int r = u.getRoot(x);
+            TreeSet<Integer> set = map.get(r);
+            if (query[0] == 2) {
+                set.remove(x);
+            } else {
+                if (set.contains(x)) {
+                    res.add(x + 1);
+                } else if (set.isEmpty()) {
+                    res.add(-1);
+                } else {
+                    res.add(set.first() + 1);
+                }
+            }
+        }
+        return res.stream().mapToInt(o -> o).toArray();
+    }
+
+    public class Union3607 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union3607(int n) {
+            this.rank = new int[n];
+            this.parent = new int[n];
+            Arrays.fill(rank, 1);
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (p == parent[p]) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int r1 = getRoot(p1);
+            int r2 = getRoot(p2);
+            if (r1 == r2) {
+                return;
+            }
+            if (rank[r1] < rank[r2]) {
+                parent[r1] = r2;
+            } else {
+                parent[r2] = r1;
+                if (rank[r1] == rank[r2]) {
+                    ++rank[r1];
+                }
+            }
+        }
+    }
+
 }
