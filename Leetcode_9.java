@@ -7096,7 +7096,7 @@ public class Leetcode_9 {
                 map.remove(free[i + 1]);
             }
             int x = endTime[i] - startTime[i];
-            if (!map.isEmpty() && x <= map.lastKey()) {
+            if (x <= map.lastKey()) {
                 res = Math.max(res, free[i] + free[i + 1] + x);
             }
             map.merge(free[i], 1, Integer::sum);
