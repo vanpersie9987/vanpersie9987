@@ -7074,20 +7074,18 @@ public class Leetcode_9 {
     // 3440. 重新安排会议得到最多空余时间 II (Reschedule Meetings for Maximum Free Time II)
     public int maxFreeTime(int eventTime, int[] startTime, int[] endTime) {
         int n = startTime.length;
+        TreeMap<Integer, Integer> map = new TreeMap<>();
         int[] free = new int[n + 1];
         free[0] = startTime[0];
-        for (int i = 1; i < startTime.length; ++i) {
-            free[i] = startTime[i] - endTime[i - 1];
+        map.merge(free[0], 1, Integer::sum);
+        for (int i = 0; i < n - 1; ++i) {
+            free[i + 1] = startTime[i + 1] - endTime[i];
+            map.merge(free[i + 1], 1, Integer::sum);
         }
         free[n] = eventTime - endTime[n - 1];
-        TreeMap<Integer, Integer> map = new TreeMap<>();
-        for (int x : free) {
-            map.merge(x, 1, Integer::sum);
-        }
+        map.merge(free[n], 1, Integer::sum);
         int res = 0;
         for (int i = 0; i < n; ++i) {
-            int end = endTime[i];
-            int start = startTime[i];
             res = Math.max(res, free[i] + free[i + 1]);
             map.merge(free[i], -1, Integer::sum);
             if (map.get(free[i]) == 0) {
@@ -7097,8 +7095,9 @@ public class Leetcode_9 {
             if (map.get(free[i + 1]) == 0) {
                 map.remove(free[i + 1]);
             }
-            if (!map.isEmpty() && map.lastKey() >= end - start) {
-                res = Math.max(res, free[i] + free[i + 1] + end - start);
+            int x = endTime[i] - startTime[i];
+            if (!map.isEmpty() && x <= map.lastKey()) {
+                res = Math.max(res, free[i] + free[i + 1] + x);
             }
             map.merge(free[i], 1, Integer::sum);
             map.merge(free[i + 1], 1, Integer::sum);
@@ -7908,5 +7907,4 @@ public class Leetcode_9 {
             return cnt;
         }
     }
-
 }

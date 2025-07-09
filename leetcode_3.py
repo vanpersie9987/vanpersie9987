@@ -1104,22 +1104,22 @@ class leetcode_3:
     ) -> int:
         n = len(startTime)
         free = [0] * (n + 1)
+
         free[0] = startTime[0]
-        for i in range(1, n):
-            free[i] = startTime[i] - endTime[i - 1]
-        free[n] = eventTime - endTime[-1]
-        st = SortedList(free)
+        for i in range(n - 1):
+            free[i + 1] = startTime[i + 1] - endTime[i]
+        free[n] = eventTime - endTime[i]
+        d = SortedList(free)
         res = 0
-        for i in range(n):
-            end = endTime[i]
-            start = startTime[i]
+        for i, (s, e) in enumerate(zip(startTime, endTime)):
             res = max(res, free[i] + free[i + 1])
-            st.remove(free[i])
-            st.remove(free[i + 1])
-            if st and st[-1] >= end - start:
-                res = max(res, free[i] + free[i + 1] + end - start)
-            st.add(free[i])
-            st.add(free[i + 1])
+            d.remove(free[i])
+            d.remove(free[i + 1])
+            x = e - s
+            if x <= d[-1]:
+                res = max(res, free[i] + free[i + 1] + x)
+            d.append(free[i])
+            d.append(free[i + 1])
         return res
 
     # 2138. 将字符串拆分为若干长度为 k 的组 (Divide a String Into Groups of Size k)
@@ -1686,12 +1686,15 @@ class leetcode_3:
         return [c for _, c in sorted(_list)]
 
     # 3607. 电网维护 (Power Grid Maintenance)
-    def processQueries(self, c: int, connections: List[List[int]], queries: List[List[int]]) -> List[int]:
+    def processQueries(
+        self, c: int, connections: List[List[int]], queries: List[List[int]]
+    ) -> List[int]:
         class union:
             def __init__(self, n: int):
                 self.parent = [i for i in range(n)]
                 self.rank = [1] * n
-            def get_root(self,p: int) -> int:
+
+            def get_root(self, p: int) -> int:
                 if p == self.parent[p]:
                     return p
                 self.parent[p] = self.get_root(self.parent[p])
@@ -1711,6 +1714,7 @@ class leetcode_3:
                     self.parent[r2] = r1
                     if self.rank[r1] == self.rank[r2]:
                         self.rank[r1] += 1
+
         u = union(c)
         for x, y in connections:
             u.union(x - 1, y - 1)
@@ -1741,7 +1745,8 @@ class leetcode_3:
                 self.parent = [i for i in range(n)]
                 self.rank = [1] * n
                 self.cnt = n
-            def get_root(self,p: int) -> int:
+
+            def get_root(self, p: int) -> int:
                 if p == self.parent[p]:
                     return p
                 self.parent[p] = self.get_root(self.parent[p])
@@ -1762,14 +1767,17 @@ class leetcode_3:
                     if self.rank[r1] == self.rank[r2]:
                         self.rank[r1] += 1
                 self.cnt -= 1
+
             def get_cnt(self) -> int:
                 return self.cnt
+
         def check(t: int) -> bool:
             u = union(n)
             for x, y, time in edges:
                 if time > t:
                     u.union(x, y)
             return u.get_cnt() >= k
+
         left = 0
         right = max(t for _, _, t in edges) if edges else 0
         res = 0
