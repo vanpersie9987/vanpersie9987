@@ -1108,7 +1108,7 @@ class leetcode_3:
         free[0] = startTime[0]
         for i in range(n - 1):
             free[i + 1] = startTime[i + 1] - endTime[i]
-        free[n] = eventTime - endTime[i]
+        free[n] = eventTime - endTime[-1]
         d = SortedList(free)
         res = 0
         for i, (s, e) in enumerate(zip(startTime, endTime)):
@@ -1118,8 +1118,8 @@ class leetcode_3:
             x = e - s
             if x <= d[-1]:
                 res = max(res, free[i] + free[i + 1] + x)
-            d.append(free[i])
-            d.append(free[i + 1])
+            d.add(free[i])
+            d.add(free[i + 1])
         return res
 
     # 2138. 将字符串拆分为若干长度为 k 的组 (Divide a String Into Groups of Size k)
