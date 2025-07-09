@@ -1684,3 +1684,53 @@ class leetcode_3:
             if i and check(c) and b in dic
         ]
         return [c for _, c in sorted(_list)]
+    
+    # 3607. 电网维护 (Power Grid Maintenance)
+    def processQueries(self, c: int, connections: List[List[int]], queries: List[List[int]]) -> List[int]:
+        class union:
+            def __init__(self, n: int):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+            def get_root(self,p: int) -> int:
+                if p == self.parent[p]:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+            
+            def is_connected(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+            
+            def union(self, p1: int, p2: int) -> None:
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if r1 == r2:
+                    return
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r1] += 1
+        u = union(c)
+        for x, y in connections:
+            u.union(x - 1, y - 1)
+        dic = defaultdict(SortedSet)
+        for i in range(c):
+            r = u.get_root(i)
+            dic[r].add(i)
+        res = []
+        for k, x in queries:
+            x -= 1
+            r = u.get_root(x)
+            _s = dic[r]
+            if k == 2:
+                _s.discard(x)
+            else:
+                if x in _s:
+                    res.append(x + 1)
+                elif not _s:
+                    res.append(-1)
+                else:
+                    res.append(_s[0] + 1)
+        return res
+
