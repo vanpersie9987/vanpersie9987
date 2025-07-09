@@ -7831,4 +7831,82 @@ public class Leetcode_9 {
         }
     }
 
+    // 3608. 包含 K 个连通分量需要的最小时间 (Minimum Time for K Connected Components)
+    public int minTime(int n, int[][] edges, int k) {
+        int left = 0;
+        int right = 0;
+        for (int[] e : edges) {
+            right = Math.max(right, e[2]);
+        }
+        int res = 0;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check(mid, edges, k, n)) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+
+    private boolean check(int t, int[][] edges, int k, int n) {
+        Union3608 union = new Union3608(n);
+        for (int[] e : edges) {
+            if (e[2] > t) {
+                union.union(e[0], e[1]);
+            }
+        }
+        return union.getCnt() >= k;
+    }
+
+    public class Union3608 {
+        private int[] rank;
+        private int[] parent;
+        private int cnt;
+
+        public Union3608(int n) {
+            this.rank = new int[n];
+            this.parent = new int[n];
+            Arrays.fill(rank, 1);
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+            this.cnt = n;
+        }
+
+        public int getRoot(int p) {
+            if (p == parent[p]) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int r1 = getRoot(p1);
+            int r2 = getRoot(p2);
+            if (r1 == r2) {
+                return;
+            }
+            if (rank[r1] < rank[r2]) {
+                parent[r1] = r2;
+            } else {
+                parent[r2] = r1;
+                if (rank[r1] == rank[r2]) {
+                    ++rank[r1];
+                }
+            }
+            --cnt;
+        }
+
+        public int getCnt() {
+            return cnt;
+        }
+    }
+
 }
