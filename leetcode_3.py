@@ -1789,3 +1789,18 @@ class leetcode_3:
             else:
                 left = mid + 1
         return res
+
+    # 2410. 运动员和训练师的最大匹配数 (Maximum Matching of Players With Trainers)
+    def matchPlayersAndTrainers(self, players: List[int], trainers: List[int]) -> int:
+        i = 0
+        m = len(players)
+        players.sort()
+        trainers.sort()
+        res = 0
+        for t in trainers:
+            if i == m:
+                break
+            if players[i] <= t:
+                res += 1
+                i += 1
+        return res
