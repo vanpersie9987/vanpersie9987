@@ -2432,25 +2432,20 @@ public class Leetcode_5 {
         return prefix[month - 1] + Integer.parseInt(date.substring(3));
     }
 
-    // 6185. 运动员和训练师的最大匹配数
+    // 2410. 运动员和训练师的最大匹配数 (Maximum Matching of Players With Trainers)
     public int matchPlayersAndTrainers(int[] players, int[] trainers) {
         Arrays.sort(players);
         Arrays.sort(trainers);
-        int res = 0;
-
-        int n = players.length;
-        int m = trainers.length;
-        int i = 0;
-        int j = 0;
-        while (i < n && j < m) {
-            if (players[i] <= trainers[j]) {
-                ++res;
-                ++i;
+        int cnt = 0;
+        for (int t : trainers) {
+            if (cnt == players.length) {
+                break;
             }
-            ++j;
+            if (players[cnt] <= t) {
+                ++cnt;
+            }
         }
-        return res;
-
+        return cnt;
     }
 
     // 2411. 按位或最大的最小子数组长度 (Smallest Subarrays With Maximum Bitwise OR)
