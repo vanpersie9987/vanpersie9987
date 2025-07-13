@@ -1802,3 +1802,12 @@ class leetcode_3:
             if players[cnt] <= t:
                 cnt += 1
         return cnt
+
+    # 1290. 二进制链表转整数 (Convert Binary Number in a Linked List to Integer)
+    def getDecimalValue(self, head: Optional[ListNode]) -> int:
+        res = 0
+        while head:
+            res <<= 1
+            res |= head.val
+            head = head.next
+        return res
