@@ -8003,4 +8003,37 @@ public class Leetcode_9 {
             return map.lastKey();
         }
     }
+
+    // 3612. 用特殊操作处理字符串 I (Process String with Special Operations I)
+    public String processStr(String s) {
+        Deque<Character> deque = new LinkedList<>();
+        boolean flag = true;
+        for (char c : s.toCharArray()) {
+            if (Character.isLetter(c)) {
+                if (flag) {
+                    deque.addLast(c);
+                } else {
+                    deque.addFirst(c);
+                }
+            } else if (c == '*') {
+                if (flag) {
+                    deque.pollLast();
+                } else {
+                    deque.pollFirst();
+                }
+            } else if (c == '#') {
+                deque.addAll(deque);
+            } else {
+                flag = !flag;
+            }
+        }
+        StringBuilder res = new StringBuilder();
+        for (char c : deque) {
+            res.append(c);
+        }
+        if (!flag) {
+            res.reverse();
+        }
+        return res.toString();
+    }
 }

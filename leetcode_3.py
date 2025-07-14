@@ -15,7 +15,7 @@ from collections import Counter, defaultdict, deque
 import collections
 from ctypes.wintypes import _ULARGE_INTEGER
 from curses import can_change_color, curs_set, intrflush, nonl
-from curses.ascii import SI, isalpha, isascii, isdigit, isprint
+from curses.ascii import SI, isalpha, isascii, isdigit, islower, isprint
 from decimal import Rounded
 import dis
 import enum
@@ -1876,3 +1876,27 @@ class leetcode_3:
             res[i] = root.get_max()
             root.add(s)
         return res
+
+    # 3612. 用特殊操作处理字符串 I (Process String with Special Operations I)
+    def processStr(self, s: str) -> str:
+        flag = True
+        q = deque()
+        for c in s:
+            if c.islower():
+                if flag:
+                    q.append(c)
+                else:
+                    q.appendleft(c)
+            elif c == "*":
+                if q:
+                    if flag:
+                        q.pop()
+                    else:
+                        q.popleft()
+            elif c == "#":
+                q.extend(q)
+            else:
+                flag = not flag
+        if not flag:
+            q = reversed(q)
+        return "".join(q)
