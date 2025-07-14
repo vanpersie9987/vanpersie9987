@@ -1811,3 +1811,68 @@ class leetcode_3:
             res |= head.val
             head = head.next
         return res
+
+    # 3485. 删除元素后 K 个字符串的最长公共前缀 (Longest Common Prefix of K Strings After Removal)
+    def longestCommonPrefix(self, words: List[str], k: int) -> List[int]:
+        class trie:
+            def __init__(self):
+                self.children = [None] * 26
+                self.cnt = 0
+                self.pre = 0
+
+            def insert(self, s: str) -> None:
+                node = self
+                for i, c in enumerate(s):
+                    idx = ord(c) - ord('a')
+                    if not node.children[idx]:
+                        node.children[idx] = trie()
+                    node = node.children[idx]
+                    node.cnt += 1
+                    node.pre = i + 1
+
+            def call_total(self) -> None:
+                self.dfs(self)
+
+            def dfs(self, node) -> None:
+                if node is None:
+                    return
+                if node.cnt >= k:
+                    sl.add(node.pre)
+                for nxt in node.children:
+                    self.dfs(nxt)
+
+            def delete(self, s: str) -> None:
+                node = self
+                for c in s:
+                    idx = ord(c) - ord('a')
+                    node = node.children[idx]
+                    node.cnt -= 1
+                    if node.cnt == k - 1:
+                        sl.discard(node.pre)
+
+            def add(self, s: str) -> None:
+                node = self
+                for c in s:
+                    idx = ord(c) - ord("a")
+                    node = node.children[idx]
+                    node.cnt += 1
+                    if node.cnt == k:
+                        sl.add(node.pre)
+
+            def get_max(self) -> int:
+                return sl[-1]
+        n = len(words)
+        res = [0] * n
+        if n <= k:
+            return res
+        sl = SortedList()
+        sl.add(0)
+        root = trie()
+        for s in words:
+            root.insert(s)
+        root.call_total()
+        for i, s in enumerate(words):
+            root.delete(s)
+            res[i] = root.get_max()
+            root.add(s)
+        return res
