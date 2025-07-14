@@ -7624,7 +7624,7 @@ public class Leetcode_9 {
 
         });
         int[][] dirs = { { 0, 1 }, { 1, 0 } };
-        q.offer(new long[] { 1L, 0, 0});
+        q.offer(new long[] { 1L, 0, 0 });
         while (!q.isEmpty()) {
             long[] cur = q.poll();
             long d = cur[0];
@@ -7671,7 +7671,8 @@ public class Leetcode_9 {
         if (memo3603[i][j] != -1L) {
             return memo3603[i][j];
         }
-        return memo3603[i][j] = Math.min(dfs3603(i - 1, j), dfs3603(i, j - 1)) + waitCost3603[i][j] + (long) (i + 1) * (j + 1);
+        return memo3603[i][j] = Math.min(dfs3603(i - 1, j), dfs3603(i, j - 1)) + waitCost3603[i][j]
+                + (long) (i + 1) * (j + 1);
     }
 
     // 3604. 有向图中到达终点的最少时间 (Minimum Time to Reach Destination in Directed Graph)
@@ -7687,7 +7688,7 @@ public class Leetcode_9 {
             public int compare(int[] o1, int[] o2) {
                 return Integer.compare(o1[0], o2[0]);
             }
-            
+
         });
         int[] dis = new int[n];
         Arrays.fill(dis, Integer.MAX_VALUE);
@@ -7740,7 +7741,7 @@ public class Leetcode_9 {
                 }
                 return o1[0].compareTo(o2[0]);
             }
-            
+
         });
         List<String> res = new ArrayList<>();
         for (String[] b : list) {
@@ -7905,6 +7906,101 @@ public class Leetcode_9 {
 
         public int getCnt() {
             return cnt;
+        }
+    }
+
+    // 3485. 删除元素后 K 个字符串的最长公共前缀 (Longest Common Prefix of K Strings After Removal)
+    public int[] longestCommonPrefix(String[] words, int k) {
+        int n = words.length;
+        int[] res = new int[n];
+        if (n <= k) {
+            return res;
+        }
+        Trie3485 trie = new Trie3485(k);
+        for (String w : words) {
+            trie.insert(w);
+        }
+        trie.calTotal();
+        for (int i = 0; i < n; ++i) {
+            trie.delete(words[i]);
+            res[i] = trie.getMax();
+            trie.add(words[i]);
+        }
+        return res;
+    }
+
+    public class Trie3485 {
+        private Trie3485[] children;
+        // cnt个前缀字符串
+        private int cnt;
+        // 前缀个数
+        private int pre;
+        private TreeMap<Integer, Integer> map;
+        private int k;
+
+        public Trie3485(int k) {
+            this.children = new Trie3485[26];
+            this.map = new TreeMap<>();
+            map.put(0, 0);
+            this.k = k;
+        }
+
+        public void insert(String s) {
+            Trie3485 node = this;
+            for (int i = 0; i < s.length(); ++i) {
+                int id = s.charAt(i) - 'a';
+                if (node.children[id] == null) {
+                    node.children[id] = new Trie3485(k);
+                }
+                node = node.children[id];
+                node.cnt += 1;
+                node.pre = i + 1;
+            }
+        }
+
+        public void calTotal() {
+            dfs(this);
+        }
+
+        private void dfs(Trie3485 node) {
+            if (node == null) {
+                return;
+            }
+            if (node.cnt >= k) {
+                map.merge(node.pre, 1, Integer::sum);
+            }
+            for (Trie3485 nxt : node.children) {
+                dfs(nxt);
+            }
+        }
+
+        public void delete(String s) {
+            Trie3485 node = this;
+            for (int i = 0; i < s.length(); ++i) {
+                node = node.children[s.charAt(i) - 'a'];
+                node.cnt -= 1;
+                if (node.cnt == k - 1) {
+                    map.merge(node.pre, -1, Integer::sum);
+                    if (map.get(node.pre) == 0) {
+                        map.remove(node.pre);
+                    }
+                }
+            }
+        }
+
+        public void add(String s) {
+            Trie3485 node = this;
+            for (int i = 0; i < s.length(); ++i) {
+                node = node.children[s.charAt(i) - 'a'];
+                node.cnt += 1;
+                if (node.cnt == k) {
+                    map.merge(node.pre, 1, Integer::sum);
+                }
+            }
+        }
+
+        public int getMax() {
+            return map.lastKey();
         }
     }
 }
