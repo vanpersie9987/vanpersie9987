@@ -8036,4 +8036,173 @@ public class Leetcode_9 {
         }
         return res.toString();
     }
+
+    // 3613. 最小化连通分量的最大成本 (Minimize Maximum Component Cost)
+    public int minCost(int n, int[][] edges, int k) {
+        int left = 0;
+        int right = (int) 1e6;
+        int res = 0;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check3613(mid, n, edges, k)) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean check3613(int t, int n, int[][] edges, int k) {
+        Union3613 u = new Union3613(n);
+        for (int[] e : edges) {
+            if (e[2] <= t) {
+                u.union(e[0], e[1]);
+                if (u.getCount() <= k) {
+                    return true;
+                }
+            }
+        }
+        return u.getCount() <= k;
+    }
+
+    class Union3613 {
+        private int[] rank;
+        private int[] parent;
+        private int cnt;
+
+        public Union3613(int n) {
+            this.rank = new int[n];
+            Arrays.fill(rank, 1);
+            this.parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+            }
+            this.cnt = n;
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int r1 = getRoot(p1);
+            int r2 = getRoot(p2);
+            if (r1 == r2) {
+                return;
+            }
+            if (rank[r1] < rank[r2]) {
+                parent[r1] = r2;
+            } else {
+                parent[r2] = r1;
+                if (rank[r1] == rank[r2]) {
+                    ++rank[r1];
+                }
+            }
+            --cnt;
+        }
+
+        public int getCount() {
+            return cnt;
+        }
+    }
+
+    private List<Character> list;
+    private List<Integer>[] g;
+    private String label;
+    private int n;
+    private int res;
+    private boolean[] vis;
+
+    public int maxLen(int n, int[][] edges, String label) {
+        this.n = n;
+        this.g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        this.label = label;
+        this.list = new ArrayList<>();
+        for (int[] e : edges) {
+            g[e[0]].add(e[1]);
+            g[e[1]].add(e[0]);
+        }
+        this.vis = new boolean[n];
+        for (int i = 0; i < n; ++i) {
+            dfs(i);
+        }
+        return res;
+
+    }
+
+    private void dfs(int x) {
+        vis[x] = true;
+        list.add(label.charAt(x));
+        if (check()) {
+            res = Math.max(res, list.size());
+        }
+        for (int y : g[x]) {
+            if (!vis[y]) {
+                dfs(y);
+            }
+        }
+        list.remove(list.size() - 1);
+        vis[x] = false;
+    }
+
+    private boolean check() {
+        int left = 0;
+        int right = list.size() - 1;
+        while (left < right) {
+            if (list.get(left) != list.get(right)) {
+                return false;
+            }
+            ++left;
+            --right;
+
+        }
+        return true;
+    }
+    
+    // 3614. 用特殊操作处理字符串 II (Process String with Special Operations II)
+    public char processStr(String s, long k) {
+        long n = 0L;
+        for (char c : s.toCharArray()) {
+            if (Character.isLetter(c)) {
+                ++n;
+            } else if (c == '*') {
+                n = Math.max(0L, n - 1);
+            } else if (c == '#') {
+                n <<= 1;
+            }
+        }
+        if (k >= n) {
+            return '.';
+        }
+        for (int i = s.length() - 1; i >= 0; --i) {
+            if (s.charAt(i) == '*') {
+                ++n;
+            } else if (s.charAt(i) == '#') {
+                n >>= 1;
+                if (k >= n) {
+                    k -= n;
+                }
+            } else if (s.charAt(i) == '%') {
+                k = n - 1 - k;
+            } else {
+                n -= 1;
+                if (k == n) {
+                    return s.charAt(i);
+                }
+            }
+        }
+        return '.';
+
+    }
 }
