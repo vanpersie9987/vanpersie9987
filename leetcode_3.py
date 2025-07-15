@@ -818,15 +818,13 @@ class leetcode_3:
         nums.sort()
         left = 0
         right = 0 if n <= 1 else max((y - x) for x, y in pairwise(nums))
-        res = -1
         while left <= right:
             mid = left + ((right - left) >> 1)
             if check(mid):
-                res = mid
                 right = mid - 1
             else:
                 left = mid + 1
-        return res
+        return right + 1
 
     # 2566. 替换一个数字后的最大差值 (Maximum Difference by Remapping a Digit)
     def minMaxDifference(self, num: int) -> int:
