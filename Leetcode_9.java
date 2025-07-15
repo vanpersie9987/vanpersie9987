@@ -8115,4 +8115,94 @@ public class Leetcode_9 {
             return cnt;
         }
     }
+
+    private List<Character> list;
+    private List<Integer>[] g;
+    private String label;
+    private int n;
+    private int res;
+    private boolean[] vis;
+
+    public int maxLen(int n, int[][] edges, String label) {
+        this.n = n;
+        this.g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        this.label = label;
+        this.list = new ArrayList<>();
+        for (int[] e : edges) {
+            g[e[0]].add(e[1]);
+            g[e[1]].add(e[0]);
+        }
+        this.vis = new boolean[n];
+        for (int i = 0; i < n; ++i) {
+            dfs(i);
+        }
+        return res;
+
+    }
+
+    private void dfs(int x) {
+        vis[x] = true;
+        list.add(label.charAt(x));
+        if (check()) {
+            res = Math.max(res, list.size());
+        }
+        for (int y : g[x]) {
+            if (!vis[y]) {
+                dfs(y);
+            }
+        }
+        list.remove(list.size() - 1);
+        vis[x] = false;
+    }
+
+    private boolean check() {
+        int left = 0;
+        int right = list.size() - 1;
+        while (left < right) {
+            if (list.get(left) != list.get(right)) {
+                return false;
+            }
+            ++left;
+            --right;
+
+        }
+        return true;
+    }
+    
+    // 3614. 用特殊操作处理字符串 II (Process String with Special Operations II)
+    public char processStr(String s, long k) {
+        long n = 0L;
+        for (char c : s.toCharArray()) {
+            if (Character.isLetter(c)) {
+                ++n;
+            } else if (c == '*') {
+                n = Math.max(0L, n - 1);
+            } else if (c == '#') {
+                n <<= 1;
+            }
+        }
+        if (k >= n) {
+            return '.';
+        }
+        for (int i = s.length() - 1; i >= 0; --i) {
+            if (s.charAt(i) == '*') {
+                ++n;
+            } else if (s.charAt(i) == '#') {
+                n >>= 1;
+                if (k >= n) {
+                    k -= n;
+                }
+            } else if (s.charAt(i) == '%') {
+                k = n - 1 - k;
+            } else {
+                n -= 1;
+                if (k == n) {
+                    return s.charAt(i);
+                }
+            }
+        }
+        return '.';
+
+    }
 }

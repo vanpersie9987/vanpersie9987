@@ -1954,3 +1954,29 @@ class leetcode_3:
             else:
                 left = mid + 1
         return res
+
+    # 3614. 用特殊操作处理字符串 II (Process String with Special Operations II)
+    def processStr(self, s: str, k: int) -> str:
+        n = 0
+        for c in s:
+            if c == "*":
+                n = max(n - 1, 0)
+            elif c == "#":
+                n <<= 1
+            elif c != "%":
+                n += 1
+        if n <= k:
+            return "."
+        for c in reversed(s):
+            if c == "*":
+                n += 1
+            elif c == "%":
+                k = n - k - 1
+            elif c == "#":
+                n >>= 1
+                if n <= k:
+                    k -= n
+            else:
+                n -= 1
+                if n == k:
+                    return c
