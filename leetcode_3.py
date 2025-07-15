@@ -1900,3 +1900,57 @@ class leetcode_3:
         if not flag:
             q = reversed(q)
         return "".join(q)
+
+    # 3613. 最小化连通分量的最大成本 (Minimize Maximum Component Cost)
+    def minCost(self, n: int, edges: List[List[int]], k: int) -> int:
+        class Union:
+            def __init__(self, n: int):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+                self.cnt = n
+
+            def get_root(self, p: int) -> int:
+                if p == self.parent[p]:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+
+            def is_connected(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+
+            def union(self, p1: int, p2: int) -> None:
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if r1 == r2:
+                    return
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r1] += 1
+                self.cnt -= 1
+
+            def get_cnt(self) -> int:
+                return self.cnt
+
+        def check(t: int) -> bool:
+            un = Union(n)
+            for u, v, w in edges:
+                if w <= t:
+                    un.union(u, v)
+                    if un.get_cnt() <= k:
+                        return True
+            return un.get_cnt() <= k
+
+        left = 0
+        right = 10**6
+        res = 0
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                res = mid
+                right = mid - 1
+            else:
+                left = mid + 1
+        return res
