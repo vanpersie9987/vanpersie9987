@@ -1995,3 +1995,29 @@ class leetcode_3:
             else:
                 left = mid + 1
         return right + 1
+
+    # 911. 在线选举 (Online Election)
+    class TopVotedCandidate:
+
+        def __init__(self, persons: List[int], times: List[int]):
+            self.times = times
+            self.d = defaultdict(int)
+            top = -1
+            self.d[-1] = -1
+            self.a = []
+            for p in persons:
+                self.d[p] += 1
+                if self.d[p] >= self.d[top]:
+                    top = p
+                self.a.append(top)
+
+        def q(self, t: int) -> int:
+            left = 0
+            right = len(self.times)
+            while left < right:
+                mid = left + ((right - left) >> 1)
+                if self.times[mid] <= t:
+                    left = mid + 1
+                else:
+                    right = mid
+            return self.a[left - 1]

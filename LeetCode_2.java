@@ -3435,26 +3435,26 @@ public class LeetCode_2 {
       int count10 = 0;
       for (int bill : bills) {
          switch (bill) {
-            case 5:
-               ++count5;
-               break;
-            case 10:
-               if (count5 == 0) {
-                  return false;
-               }
+         case 5:
+            ++count5;
+            break;
+         case 10:
+            if (count5 == 0) {
+               return false;
+            }
+            --count5;
+            ++count10;
+            break;
+         case 20:
+            if (count10 >= 1 && count5 >= 1) {
+               --count10;
                --count5;
-               ++count10;
-               break;
-            case 20:
-               if (count10 >= 1 && count5 >= 1) {
-                  --count10;
-                  --count5;
-               } else if (count5 >= 3) {
-                  count5 -= 3;
-               } else {
-                  return false;
-               }
-               break;
+            } else if (count5 >= 3) {
+               count5 -= 3;
+            } else {
+               return false;
+            }
+            break;
          }
       }
       return true;
@@ -5651,7 +5651,7 @@ public class LeetCode_2 {
          tops = new ArrayList<>();
          for (int i = 0; i < persons.length; ++i) {
             int p = persons[i];
-            map.put(p, map.getOrDefault(p, 0) + 1);
+            map.merge(p, 1, Integer::sum);
             if (map.get(p) >= map.get(top)) {
                top = p;
             }
@@ -5663,17 +5663,15 @@ public class LeetCode_2 {
       public int q(int t) {
          int left = 0;
          int right = times.length - 1;
-         int res = 0;
          while (left <= right) {
-            int mid = left + ((right - left) >>> 1);
+            int mid = left + ((right - left) >> 1);
             if (times[mid] <= t) {
-               res = mid;
                left = mid + 1;
-            } else if (times[mid] > t) {
+            } else {
                right = mid - 1;
             }
          }
-         return tops.get(res);
+         return tops.get(left - 1);
 
       }
    }
@@ -6447,30 +6445,30 @@ public class LeetCode_2 {
       int curY = startPos[1];
       for (char c : s.toCharArray()) {
          switch (c) {
-            case 'U':
-               if (--curX < 0) {
-                  return count;
-               }
-               ++count;
-               break;
-            case 'D':
-               if (++curX == n) {
-                  return count;
-               }
-               ++count;
-               break;
-            case 'L':
-               if (--curY < 0) {
-                  return count;
-               }
-               ++count;
-               break;
-            case 'R':
-               if (++curY == n) {
-                  return count;
-               }
-               ++count;
-               break;
+         case 'U':
+            if (--curX < 0) {
+               return count;
+            }
+            ++count;
+            break;
+         case 'D':
+            if (++curX == n) {
+               return count;
+            }
+            ++count;
+            break;
+         case 'L':
+            if (--curY < 0) {
+               return count;
+            }
+            ++count;
+            break;
+         case 'R':
+            if (++curY == n) {
+               return count;
+            }
+            ++count;
+            break;
          }
 
       }
