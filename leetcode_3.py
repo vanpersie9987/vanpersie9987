@@ -1900,3 +1900,18 @@ class leetcode_3:
         if not flag:
             q = reversed(q)
         return "".join(q)
+
+    # 875. 爱吃香蕉的珂珂 (Koko Eating Bananas)
+    def minEatingSpeed(self, piles: List[int], h: int) -> int:
+        def check(k: int) -> bool:
+            return sum((x + k - 1) // k for x in piles) <= h
+
+        left = 1
+        right = max(piles)
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                right = mid - 1
+            else:
+                left = mid + 1
+        return right + 1
