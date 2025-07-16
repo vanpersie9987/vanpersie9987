@@ -5142,20 +5142,15 @@ class Union924:
 
     # 3201. 找出有效子序列的最大长度 I (Find the Maximum Length of Valid Subsequence I)
     def maximumLength(self, nums: List[int]) -> int:
-        def check(pre: int) -> int:
+        def cal_sum(d: int) -> int:
             res = 0
             for x in nums:
-                if x % 2 != pre % 2:
+                if x & 1 != d:
                     res += 1
-                    pre = x
+                    d ^= 1
             return res
-
-        n = len(nums)
-        s0 = sum(x % 2 for x in nums)
-        s1 = n - s0
-        s2 = check(0)
-        s3 = check(1)
-        return max(s0, s1, s2, s3)
+        s = sum(x & 1 for x in nums)
+        return max(s, len(nums) - s, cal_sum(0), cal_sum(1))
 
     # 3202. 找出有效子序列的最大长度 II (Find the Maximum Length of Valid Subsequence II)
     def maximumLength(self, nums: List[int], k: int) -> int:
