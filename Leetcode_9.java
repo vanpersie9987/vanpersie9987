@@ -1017,21 +1017,24 @@ public class Leetcode_9 {
 
     // 3201. 找出有效子序列的最大长度 I (Find the Maximum Length of Valid Subsequence I)
     public int maximumLength(int[] nums) {
-        int cntEven = 0;
-        for (int x : nums) {
-            if (x % 2 == 0) {
-                ++cntEven;
-            }
-        }
-        return Math.max(Math.max(cntEven, nums.length - cntEven), Math.max(check3201(nums, 0), check3201(nums, 1)));
-    }
-
-    private int check3201(int[] nums, int pre) {
+        int n = nums.length;
         int res = 0;
         for (int x : nums) {
-            if (x % 2 != pre % 2) {
+            res += x & 1;
+        }
+        res = Math.max(res, n - res);
+        res = Math.max(res, check3201(0, nums));
+        res = Math.max(res, check3201(1, nums));
+        return res;
+
+    }
+
+    private int check3201(int d, int[] nums) {
+        int res = 0;
+        for (int x : nums) {
+            if ((x & 1) != d) {
                 ++res;
-                pre = x;
+                d ^= 1;
             }
         }
         return res;
