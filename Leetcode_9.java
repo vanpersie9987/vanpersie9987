@@ -8208,4 +8208,42 @@ public class Leetcode_9 {
         return '.';
 
     }
+
+    public long minimumDifference(int[] nums) {
+        long sum = 0L;
+        Queue<Integer> q = new PriorityQueue<>(new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(o2, o1);
+            }
+
+        });
+        int n = nums.length;
+        long[] preMin = new long[n];
+
+        for (int i = 0; i < n; ++i) {
+            q.offer(nums[i]);
+            sum += nums[i];
+            if (q.size() > n / 3) {
+                sum -= q.poll();
+            }
+            preMin[i] = sum;
+        }
+        sum = 0L;
+        q = new PriorityQueue<>();
+        long res = Long.MAX_VALUE;
+        for (int i = n - 1; i >= n / 3; --i) {
+            sum += nums[i];
+            q.offer(nums[i]);
+            if (q.size() > n / 3) {
+                sum -= q.poll();
+            }
+            if (q.size() == n / 3) {
+                res = Math.min(res, preMin[i - 1] - sum);
+            }
+        }
+        return res;
+
+    }
 }

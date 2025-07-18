@@ -2019,3 +2019,28 @@ class leetcode_3:
                 else:
                     right = mid
             return self.a[left - 1]
+
+    # 2163. 删除元素后和的最小差值 (Minimum Difference in Sums After Removal of Elements)
+    def minimumDifference(self, nums: List[int]) -> int:
+        n = len(nums)
+        q = []
+        heapq.heapify(q)
+        pre_min = [0] * n
+        s = 0
+        for i, v in enumerate(nums):
+            s += v
+            heapq.heappush(q, -v)
+            if len(q) > n // 3:
+                s += heapq.heappop(q)
+            pre_min[i] = s
+        q.clear()
+        s = 0
+        res = inf
+        for i in range(n - 1, n // 3 - 1, -1):
+            heapq.heappush(q, nums[i])
+            s += nums[i]
+            if len(q) > n // 3:
+                s -= heapq.heappop(q)
+            if len(q) == n // 3:
+                res = min(res, pre_min[i - 1] - s)
+        return res
