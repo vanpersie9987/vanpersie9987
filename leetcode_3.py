@@ -2044,3 +2044,45 @@ class leetcode_3:
             if len(q) == n // 3:
                 res = min(res, pre_min[i - 1] - s)
         return res
+
+    # 1233. 删除子文件夹 (Remove Sub-Folders from the Filesystem)
+    def removeSubfolders(self, folder: List[str]) -> List[str]:
+        class trie:
+            def __init__(self):
+                self.child = defaultdict(trie)
+                self.pos = -1
+
+            def insert(self, s: str, p: int) -> None:
+                node = self
+                a = s.split('/')
+                for sub in a:
+                    if sub not in node.child:
+                        node.child[sub] = trie()
+                    node = node.child[sub]
+                node.pos = p
+
+            def search(self, node) -> None:
+                def dfs(node):
+                    if node.pos != -1:
+                        res.append(node.pos)
+                        return
+                    for child in node.child.values():
+                        dfs(child)
+
+                res = []
+                dfs(node)
+                return res
+
+        root = trie()
+        for i, f in enumerate(folder):
+            root.insert(f, i)
+        return [folder[i] for i in root.search(root)]
+
+    # 1233. 删除子文件夹 (Remove Sub-Folders from the Filesystem)
+    def removeSubfolders(self, folder: List[str]) -> List[str]:
+        folder.sort()
+        res = [folder[0]]
+        for f in folder[1:]:
+            if not f.startswith(res[-1] + '/'):
+                res.append(f)
+        return res
