@@ -4972,28 +4972,29 @@ public class Leetcode_9 {
 
     }
 
+    // 2255. 统计是给定字符串前缀的字符串数目 (Count Prefixes of a Given String)
     public int countPrefixes(String[] words, String s) {
-        Trie trie = new Trie();
+        Trie2255 trie = new Trie2255();
         for (String word : words) {
             trie.insert(word);
         }
         return trie.countPrefixes(s);
     }
 
-    public class Trie {
-        private Trie[] children;
+    public class Trie2255 {
+        private Trie2255[] children;
         private int end;
 
-        public Trie() {
-            this.children = new Trie[26];
+        public Trie2255() {
+            this.children = new Trie2255[26];
         }
 
         public void insert(String s) {
-            Trie node = this;
+            Trie2255 node = this;
             for (char c : s.toCharArray()) {
                 int idx = c - 'a';
                 if (node.children[idx] == null) {
-                    node.children[idx] = new Trie();
+                    node.children[idx] = new Trie2255();
                 }
                 node = node.children[idx];
             }
@@ -5001,7 +5002,7 @@ public class Leetcode_9 {
         }
 
         public int countPrefixes(String s) {
-            Trie node = this;
+            Trie2255 node = this;
             int cnt = 0;
             for (char c : s.toCharArray()) {
                 int idx = c - 'a';
@@ -8119,60 +8120,6 @@ public class Leetcode_9 {
         }
     }
 
-    private List<Character> list;
-    private List<Integer>[] g;
-    private String label;
-    private int n;
-    private int res;
-    private boolean[] vis;
-
-    public int maxLen(int n, int[][] edges, String label) {
-        this.n = n;
-        this.g = new ArrayList[n];
-        Arrays.setAll(g, k -> new ArrayList<>());
-        this.label = label;
-        this.list = new ArrayList<>();
-        for (int[] e : edges) {
-            g[e[0]].add(e[1]);
-            g[e[1]].add(e[0]);
-        }
-        this.vis = new boolean[n];
-        for (int i = 0; i < n; ++i) {
-            dfs(i);
-        }
-        return res;
-
-    }
-
-    private void dfs(int x) {
-        vis[x] = true;
-        list.add(label.charAt(x));
-        if (check()) {
-            res = Math.max(res, list.size());
-        }
-        for (int y : g[x]) {
-            if (!vis[y]) {
-                dfs(y);
-            }
-        }
-        list.remove(list.size() - 1);
-        vis[x] = false;
-    }
-
-    private boolean check() {
-        int left = 0;
-        int right = list.size() - 1;
-        while (left < right) {
-            if (list.get(left) != list.get(right)) {
-                return false;
-            }
-            ++left;
-            --right;
-
-        }
-        return true;
-    }
-    
     // 3614. 用特殊操作处理字符串 II (Process String with Special Operations II)
     public char processStr(String s, long k) {
         long n = 0L;
