@@ -847,15 +847,15 @@ class Union924:
 
     # 1695. 删除子数组的最大得分 (Maximum Erasure Value)
     def maximumUniqueSubarray(self, nums: List[int]) -> int:
+        cnts = [0] * (max(nums) + 1)
+        s = 0
         res = 0
         j = 0
-        s = 0
-        d = defaultdict(int)
-        for v in nums:
-            d[v] += 1
-            s += v
-            while d[v] > 1:
-                d[nums[j]] -= 1
+        for x in nums:
+            cnts[x] += 1
+            s += x
+            while cnts[x] > 1:
+                cnts[nums[j]] -= 1
                 s -= nums[j]
                 j += 1
             res = max(res, s)
