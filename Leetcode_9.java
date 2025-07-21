@@ -8335,4 +8335,20 @@ public class Leetcode_9 {
         }
         return res;
     }
+
+    // 3622. 判断整除性 (Check Divisibility by Digit Sum and Product)
+    public boolean checkDivisibility(int n) {
+        return n % sumWithBits3622(n) == 0;
+    }
+
+    private int sumWithBits3622(int n) {
+        int s = 0;
+        int m = 1;
+        while (n != 0) {
+            s += n % 10;
+            m *= n % 10;
+            n /= 10;
+        }
+        return s + m;
+    }
 }

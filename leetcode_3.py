@@ -2196,3 +2196,15 @@ class leetcode_3:
             if cnts[i] == k:
                 res += dfs(0, i, True)
         return res
+
+    # 3622. 判断整除性 (Check Divisibility by Digit Sum and Product)
+    def checkDivisibility(self, n: int) -> bool:
+        def check(n: int) -> int:
+            s = 0
+            m = 1
+            while n:
+                s += n % 10
+                m *= n % 10
+                n //= 10
+            return s + m
+        return n % check(n) == 0
