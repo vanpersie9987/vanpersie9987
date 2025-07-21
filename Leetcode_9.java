@@ -8411,4 +8411,42 @@ public class Leetcode_9 {
         }
         return res;
     }
+
+    // 3490. 统计美丽整数的数目 (Count Beautiful Numbers)
+    public int beautifulNumbers(int l, int r) {
+        return cal3490(r) - cal3490(l - 1);
+    }
+
+    private char[] arr3490;
+    private int n3490;
+    private Map<Long, Integer> memo3490;
+
+    private int cal3490(int x) {
+        this.arr3490 = String.valueOf(x).toCharArray();
+        this.n3490 = arr3490.length;
+        this.memo3490 = new HashMap<>();
+        return dfs3490(0, 1, 0, true, false);
+    }
+
+    private int dfs3490(int i, int j, int k, boolean isLimit, boolean isNum) {
+        if (i == n3490) {
+            return isNum && j % k == 0 ? 1 : 0;
+        }
+        long key = ((long) j << 10) | ((long) i << 6) | (long) k;
+        if (!isLimit && isNum && memo3490.containsKey(key)) {
+            return memo3490.get(key);
+        }
+        int res = 0;
+        if (!isNum) {
+            res += dfs3490(i + 1, j, k, false, false); // 不选当前位
+        }
+        int up = isLimit ? (arr3490[i] - '0') : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            res += dfs3490(i + 1, j * d, k + d, isLimit && d == up, true); // 选当前位
+        }
+        if (!isLimit && isNum) {
+            memo3490.put(key, res); // 记忆化
+        }
+        return res;
+    }
 }

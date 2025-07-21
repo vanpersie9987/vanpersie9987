@@ -45,7 +45,7 @@ from tkinter import N, NO, W
 from tkinter.messagebox import RETRY
 from tkinter.tix import Tree
 from token import NL, RIGHTSHIFT
-from turtle import RawTurtle, left, mode, pos, reset, right, st, up
+from turtle import RawTurtle, left, mode, pos, reset, right, rt, st, up
 from typing import List, Optional, Self
 import heapq
 import bisect
@@ -2253,3 +2253,22 @@ class leetcode_3:
                 s += c
 
         return ans
+
+    # 3490. 统计美丽整数的数目 (Count Beautiful Numbers)
+    def beautifulNumbers(self, l: int, r: int) -> int:
+        def cal(x: int) -> int:
+            @cache
+            def dfs(i: int, j: int, k: int, is_limit: bool, is_num: bool) -> int:
+                if i == n:
+                    return is_num and j % k == 0
+                res = 0
+                if not is_num:
+                    res = dfs(i + 1, j, k, False, False)
+                up = int(s[i]) if is_limit else 9
+                for d in range(0 if is_num else 1, up + 1):
+                    res += dfs(i + 1, j * d, k + d, d == up and is_limit, True)
+                return res
+            s = str(x)
+            n = len(s)
+            return dfs(0, 1, 0, True, False)
+        return cal(r) - cal(l - 1)
