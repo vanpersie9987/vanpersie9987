@@ -8219,4 +8219,34 @@ public class Leetcode_9 {
         return Math.abs(res);
 
     }
+
+    // 3619. 总价值可以被 K 整除的岛屿数目 (Count Islands With Total Value Divisible by K)
+    public int countIslands(int[][] grid, int k) {
+        int res = 0;
+        for (int i = 0; i < grid.length; ++i) {
+            for (int j = 0; j < grid[0].length; ++j) {
+                if (grid[i][j] != 0 && dfs3619(grid, i, j, k) == 0) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int dfs3619(int[][] grid, int x, int y, int k) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int res = grid[x][y];
+        grid[x][y] = 0;
+        int[][] dirs = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+        for (int[] d : dirs) {
+            int nx = x + d[0];
+            int ny = y + d[1];
+            if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] > 0) {
+                res += dfs3619(grid, nx, ny, k);
+            }
+        }
+        return res % k;
+    }
 }
