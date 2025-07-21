@@ -8249,4 +8249,40 @@ public class Leetcode_9 {
         }
         return res % k;
     }
+
+    // 3620. 恢复网络路径 (Network Recovery Pathways)
+    public int findMaxPathScore(int[][] edges, boolean[] online, long k) {
+        int n = online.length;
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[0]].add(new int[] { e[1], e[2] });
+        }
+        long left = 0L;
+        long right = k;
+        while (left <= right) {
+            long mid = left + ((right - left) >> 1L);
+            if (dfs3620(0, 0, mid, g, online, n, k)) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return (int) (left - 1);
+
+    }
+
+    private boolean dfs3620(int x, long s, long t, List<int[]>[] g, boolean[] online, int n, long k) {
+        if (x == n - 1) {
+            return true;
+        }
+        for (int[] nxt : g[x]) {
+            int y = nxt[0];
+            int w = nxt[1];
+            if (online[y] && s + w <= k && w >= t && dfs3620(y, s + w, t, g, online, n, k)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

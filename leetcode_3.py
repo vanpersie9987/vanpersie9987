@@ -2147,16 +2147,13 @@ class leetcode_3:
     def findMaxPathScore(
         self, edges: List[List[int]], online: List[bool], k: int
     ) -> int:
-        def check(t: int) -> bool:
-            def dfs(x: int, s: int) -> bool:
-                if x == n - 1:
+        def dfs(x: int, s: int, t: int) -> bool:
+            if x == n - 1:
+                return True
+            for y, w in g[x]:
+                if online[y] and s + w <= k and w >= t and dfs(y, s + w, t):
                     return True
-                for y, w in g[x]:
-                    if online[y] and s + w <= k and w >= t and dfs(y, s + w):
-                        return True
-                return False
-
-            return dfs(0, 0)
+            return False
 
         n = len(online)
         g = [[] for _ in range(n)]
@@ -2166,7 +2163,7 @@ class leetcode_3:
         right = k
         while left <= right:
             mid = left + ((right - left) >> 1)
-            if check(mid):
+            if dfs(0, 0, mid):
                 left = mid + 1
             else:
                 right = mid - 1
