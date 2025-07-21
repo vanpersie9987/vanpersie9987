@@ -2177,9 +2177,7 @@ class leetcode_3:
                 return j == 0
             res = 0
             up = int(s[i]) if is_limit else 1
-            for d in range(up + 1):
-                if j - d < 0:
-                    continue
+            for d in range(min(up, j) + 1):
                 res += dfs(i + 1, j - d, d == up and is_limit)
             return res
 

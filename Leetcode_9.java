@@ -8325,10 +8325,8 @@ public class Leetcode_9 {
         }
         long res = 0L;
         int up = isLimit ? (arr3621[i] - '0') : 1; // 当前位的上限
-        for (int d = 0; d <= up; ++d) {
-            if (j - d >= 0) {
-                res += dfs3621(i + 1, j - d, isLimit && d == up); // 选当前位
-            }
+        for (int d = 0; d <= Math.min(up, j); ++d) {
+            res += dfs3621(i + 1, j - d, isLimit && d == up); // 选当前位
         }
         if (!isLimit) {
             memo3621[i][j] = res; // 记忆化
