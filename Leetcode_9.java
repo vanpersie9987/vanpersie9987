@@ -8351,4 +8351,22 @@ public class Leetcode_9 {
         }
         return s + m;
     }
+
+    // 3623. 统计梯形的数目 I (Count Number of Trapezoids I)
+    public int countTrapezoids(int[][] points) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int[] p : points) {
+            map.merge(p[1], 1, Integer::sum);
+        }
+        int res = 0;
+        int cnt = 0;
+        final int MOD = (int) 1e9 + 7;
+        for (int d : map.values()) {
+            long cur = (long) d * (d - 1) / 2;
+            res = (int) ((res + cur * cnt) % MOD);
+            cnt = (int) ((cnt + cur) % MOD);
+        }
+        return res;
+
+    }
 }

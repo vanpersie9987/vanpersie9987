@@ -2208,3 +2208,18 @@ class leetcode_3:
                 n //= 10
             return s + m
         return n % check(n) == 0
+
+    # 3623. 统计梯形的数目 I (Count Number of Trapezoids I)
+    def countTrapezoids(self, points: List[List[int]]) -> int:
+        MOD = 10**9 + 7
+        d = defaultdict(int)
+        for _, y in points:
+            d[y] += 1
+        res = 0
+        cnt = 0
+        for v in d.values():
+            cur = v * (v - 1) // 2
+            res += cur * cnt
+            res %= MOD
+            cnt += cur
+        return res
