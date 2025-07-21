@@ -2140,3 +2140,28 @@ class leetcode_3:
                 if grid[i][j]:
                     res += not dfs(i, j)
         return res
+
+    # 3620. 恢复网络路径 (Network Recovery Pathways)
+    def findMaxPathScore(self, edges: List[List[int]], online: List[bool], k: int) -> int:
+        def check(t: int) -> bool:
+            def dfs(x: int, s: int) -> bool:
+                if x == n - 1:
+                    return True
+                for y, w in g[x]:
+                    if online[y] and s + w <= k and w >= t and dfs(y, s + w):
+                        return True
+                return False
+            return dfs(0, 0)
+        n = len(online)
+        g = [[] for _ in range(n)]
+        for u, v, w in edges:
+            g[u].append((v, w))
+        left = 0
+        right = k
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                left = mid + 1
+            else:
+                right = mid - 1
+        return left - 1
