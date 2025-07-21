@@ -2086,3 +2086,17 @@ class leetcode_3:
             if not f.startswith(res[-1] + '/'):
                 res.append(f)
         return res
+
+    # 1957. 删除字符使字符串变好 (Delete Characters to Make Fancy String)
+    def makeFancyString(self, s: str) -> str:
+        res = []
+        pre = '_'
+        cnt = 0
+        for c in s:
+            if pre != c:
+                pre = c
+                cnt = 0
+            cnt += 1
+            if cnt < 3:
+                res.append(c)
+        return ''.join(res)
