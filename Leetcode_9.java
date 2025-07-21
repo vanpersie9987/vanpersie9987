@@ -8369,4 +8369,48 @@ public class Leetcode_9 {
         return res;
 
     }
+
+    // 3625. 统计梯形的数目 II (Count Number of Trapezoids II)
+    public int countTrapezoids2(int[][] points) {
+        Map<Double, Map<Double, Integer>> map = new HashMap<>();
+        Map<Integer, Map<Double, Integer>> map2 = new HashMap<>();
+        for (int i = 0; i < points.length; ++i) {
+            for (int j = 0; j < i; ++j) {
+                int x1 = points[i][0];
+                int y1 = points[i][1];
+                int x2 = points[j][0];
+                int y2 = points[j][1];
+                int dx = x1 - x2;
+                int dy = y1 - y2;
+                double k = dx != 0 ? (double) dy / dx : Double.MAX_VALUE;
+                double b = dx != 0 ? ((double) y1 * dx - (double) x1 * dy) / dx : x1;
+                // 归一化 -0.0 为 0.0
+                if (k == -0.0) {
+                    k = 0.0;
+                }
+                if (b == -0.0) {
+                    b = 0.0;
+                }
+                map.computeIfAbsent(k, o -> new HashMap<>()).merge(b, 1, Integer::sum);
+                int mid = (x1 + x2 + 2000) << 16 | (y1 + y2 + 2000);
+                map2.computeIfAbsent(mid, o -> new HashMap<>()).merge(k, 1, Integer::sum);
+            }
+        }
+        int res = 0;
+        for (Map<Double, Integer> m : map.values()) {
+            int s = 0;
+            for (int c : m.values()) {
+                res += s * c;
+                s += c;
+            }
+        }
+        for (Map<Double, Integer> m : map2.values()) {
+            int s = 0;
+            for (int c : m.values()) {
+                res -= s * c;
+                s += c;
+            }
+        }
+        return res;
+    }
 }
