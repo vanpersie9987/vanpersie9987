@@ -8285,4 +8285,54 @@ public class Leetcode_9 {
         }
         return false;
     }
+
+    // 3621. 位计数深度为 K 的整数数目 I (Number of Integers With Popcount-Depth Equal to K I)
+    private long[][] memo3621;
+    private int m3621;
+    private char[] arr3621;
+
+    public long popcountDepth(long n, int k) {
+        if (k == 0) {
+            return 1L;
+        }
+        this.arr3621 = Long.toBinaryString(n).toCharArray();
+        this.m3621 = arr3621.length;
+        if (k == 1) {
+            return m3621 - 1;
+        }
+        long res = 0L;
+        this.memo3621 = new long[m3621][m3621 + 1];
+        for (int i = 0; i < m3621; ++i) {
+            Arrays.fill(memo3621[i], -1L);
+        }
+        int[] cnts = new int[m3621 + 1];
+        for (int i = 1; i < m3621 + 1; ++i) {
+            cnts[i] = cnts[Integer.bitCount(i)] + 1;
+            if (cnts[i] == k) {
+                res += dfs3621(0, i, true);
+            }
+        }
+        return res;
+
+    }
+
+    private long dfs3621(int i, int j, boolean isLimit) {
+        if (i == m3621) {
+            return j == 0 ? 1L : 0L;
+        }
+        if (!isLimit && memo3621[i][j] != -1L) {
+            return memo3621[i][j];
+        }
+        long res = 0L;
+        int up = isLimit ? (arr3621[i] - '0') : 1; // 当前位的上限
+        for (int d = 0; d <= up; ++d) {
+            if (j - d >= 0) {
+                res += dfs3621(i + 1, j - d, isLimit && d == up); // 选当前位
+            }
+        }
+        if (!isLimit) {
+            memo3621[i][j] = res; // 记忆化
+        }
+        return res;
+    }
 }

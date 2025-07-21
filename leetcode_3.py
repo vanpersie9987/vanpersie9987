@@ -2168,3 +2168,31 @@ class leetcode_3:
             else:
                 right = mid - 1
         return left - 1
+
+    # 3621. 位计数深度为 K 的整数数目 I (Number of Integers With Popcount-Depth Equal to K I)
+    def popcountDepth(self, n: int, k: int) -> int:
+        @cache
+        def dfs(i: int, j: int, is_limit: bool) -> int:
+            if i == m:
+                return j == 0
+            res = 0
+            up = int(s[i]) if is_limit else 1
+            for d in range(up + 1):
+                if j - d < 0:
+                    continue
+                res += dfs(i + 1, j - d, d == up and is_limit)
+            return res
+
+        if k == 0:
+            return 1
+        res = 0
+        s = bin(n)[2:]
+        m = len(s)
+        if k == 1:
+            return m - 1
+        cnts = [0] * (m + 1)
+        for i in range(1, m + 1):
+            cnts[i] = cnts[i.bit_count()] + 1
+            if cnts[i] == k:
+                res += dfs(0, i, True)
+        return res
