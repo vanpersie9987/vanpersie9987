@@ -1402,7 +1402,7 @@ public class Leetcode_8 {
 
     // 2163. 删除元素后和的最小差值 (Minimum Difference in Sums After Removal of Elements)
     public long minimumDifference(int[] nums) {
-        int n = nums.length;
+        long sum = 0L;
         Queue<Integer> q = new PriorityQueue<>(new Comparator<Integer>() {
 
             @Override
@@ -1411,8 +1411,9 @@ public class Leetcode_8 {
             }
 
         });
-        long sum = 0L;
+        int n = nums.length;
         long[] preMin = new long[n];
+
         for (int i = 0; i < n; ++i) {
             q.offer(nums[i]);
             sum += nums[i];
@@ -1422,15 +1423,15 @@ public class Leetcode_8 {
             preMin[i] = sum;
         }
         sum = 0L;
-        long res = Long.MAX_VALUE;
         q = new PriorityQueue<>();
+        long res = Long.MAX_VALUE;
         for (int i = n - 1; i >= n / 3; --i) {
-            q.offer(nums[i]);
             sum += nums[i];
+            q.offer(nums[i]);
             if (q.size() > n / 3) {
                 sum -= q.poll();
             }
-            if (i <= n / 3 * 2) {
+            if (q.size() == n / 3) {
                 res = Math.min(res, preMin[i - 1] - sum);
             }
         }
