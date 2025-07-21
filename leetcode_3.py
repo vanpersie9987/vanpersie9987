@@ -2190,10 +2190,13 @@ class leetcode_3:
         m = len(s)
         if k == 1:
             return m - 1
-        cnts = [0] * (m + 1)
+        @cache
+        def cal(i: int) -> int:
+            if i == 1:
+                return 0
+            return cal(i.bit_count()) + 1
         for i in range(1, m + 1):
-            cnts[i] = cnts[i.bit_count()] + 1
-            if cnts[i] == k:
+            if cal(i) == k - 1:
                 res += dfs(0, i, True)
         return res
 
