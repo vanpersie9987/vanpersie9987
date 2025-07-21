@@ -2100,3 +2100,22 @@ class leetcode_3:
             if cnt < 3:
                 res.append(c)
         return ''.join(res)
+
+    # 3618. 根据质数下标分割数组 (Split Array by Prime Indices)
+    def splitArray(self, nums: List[int]) -> int:
+        mx = len(nums)
+        is_prime = [True] * (mx + 1)
+        is_prime[0] = False
+        is_prime[1] = False
+        for i in range(2, int(mx**0.5) + 1):
+            if is_prime[i]:
+                for j in range(i * i, mx + 1, i):
+                    is_prime[j] = False
+
+        res = 0
+        for i, x in enumerate(nums):
+            if is_prime[i]:
+                res += x
+            else:
+                res -= x
+        return abs(res)

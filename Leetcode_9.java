@@ -8193,4 +8193,30 @@ public class Leetcode_9 {
         return res;
 
     }
+
+    // 3618. 根据质数下标分割数组 (Split Array by Prime Indices)
+    public long splitArray(int[] nums) {
+        long res = 0L;
+        int mx = nums.length;
+        boolean isPrime[] = new boolean[mx + 1];
+        Arrays.fill(isPrime, true);
+        isPrime[0] = false;
+        isPrime[1] = false;
+        for (int i = 2; i < mx + 1; ++i) {
+            if (isPrime[i]) {
+                for (long j = (long) i * i; j <= mx; j += i) {
+                    isPrime[(int) j] = false;
+                }
+            }
+        }
+        for (int i = 0; i < nums.length; ++i) {
+            if (isPrime[i]) {
+                res += nums[i];
+            } else {
+                res -= nums[i];
+            }
+        }
+        return Math.abs(res);
+
+    }
 }
