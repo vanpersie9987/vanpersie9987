@@ -2119,3 +2119,24 @@ class leetcode_3:
             else:
                 res -= x
         return abs(res)
+
+    # 3619. 总价值可以被 K 整除的岛屿数目 (Count Islands With Total Value Divisible by K)
+    def countIslands(self, grid: List[List[int]], k: int) -> int:
+        def dfs(x: int, y: int) -> int:
+            if x < 0 or x >= m or y < 0 or y >= n or not grid[x][y]:
+                return 0
+            dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+            res = grid[x][y]
+            grid[x][y] = 0  # 标记为已访问
+            for dx, dy in dirs:
+                nx, ny = x + dx, y + dy
+                res += dfs(nx, ny)
+            return res % k
+        m = len(grid)
+        n = len(grid[0])
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j]:
+                    res += not dfs(i, j)
+        return res
