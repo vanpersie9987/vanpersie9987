@@ -1821,7 +1821,7 @@ class leetcode_3:
             def insert(self, s: str) -> None:
                 node = self
                 for i, c in enumerate(s):
-                    idx = ord(c) - ord('a')
+                    idx = ord(c) - ord("a")
                     if not node.children[idx]:
                         node.children[idx] = trie()
                     node = node.children[idx]
@@ -1842,7 +1842,7 @@ class leetcode_3:
             def delete(self, s: str) -> None:
                 node = self
                 for c in s:
-                    idx = ord(c) - ord('a')
+                    idx = ord(c) - ord("a")
                     node = node.children[idx]
                     node.cnt -= 1
                     if node.cnt == k - 1:
@@ -1859,6 +1859,7 @@ class leetcode_3:
 
             def get_max(self) -> int:
                 return sl[-1]
+
         n = len(words)
         res = [0] * n
         if n <= k:
@@ -2054,7 +2055,7 @@ class leetcode_3:
 
             def insert(self, s: str, p: int) -> None:
                 node = self
-                a = s.split('/')
+                a = s.split("/")
                 for sub in a:
                     if sub not in node.child:
                         node.child[sub] = trie()
@@ -2083,14 +2084,14 @@ class leetcode_3:
         folder.sort()
         res = [folder[0]]
         for f in folder[1:]:
-            if not f.startswith(res[-1] + '/'):
+            if not f.startswith(res[-1] + "/"):
                 res.append(f)
         return res
 
     # 1957. 删除字符使字符串变好 (Delete Characters to Make Fancy String)
     def makeFancyString(self, s: str) -> str:
         res = []
-        pre = '_'
+        pre = "_"
         cnt = 0
         for c in s:
             if pre != c:
@@ -2099,7 +2100,7 @@ class leetcode_3:
             cnt += 1
             if cnt < 3:
                 res.append(c)
-        return ''.join(res)
+        return "".join(res)
 
     # 3618. 根据质数下标分割数组 (Split Array by Prime Indices)
     def splitArray(self, nums: List[int]) -> int:
@@ -2132,6 +2133,7 @@ class leetcode_3:
                 nx, ny = x + dx, y + dy
                 res += dfs(nx, ny)
             return res % k
+
         m = len(grid)
         n = len(grid[0])
         res = 0
@@ -2142,7 +2144,9 @@ class leetcode_3:
         return res
 
     # 3620. 恢复网络路径 (Network Recovery Pathways)
-    def findMaxPathScore(self, edges: List[List[int]], online: List[bool], k: int) -> int:
+    def findMaxPathScore(
+        self, edges: List[List[int]], online: List[bool], k: int
+    ) -> int:
         def check(t: int) -> bool:
             def dfs(x: int, s: int) -> bool:
                 if x == n - 1:
@@ -2151,7 +2155,9 @@ class leetcode_3:
                     if online[y] and s + w <= k and w >= t and dfs(y, s + w):
                         return True
                 return False
+
             return dfs(0, 0)
+
         n = len(online)
         g = [[] for _ in range(n)]
         for u, v, w in edges:
