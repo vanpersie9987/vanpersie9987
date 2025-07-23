@@ -483,39 +483,36 @@ public class Leetcode_7 {
         return res;
     }
 
-    // 面试题 17.06. 2出现的次数 (Number Of 2s In Range LCCI) --数位dfs (本题可以不要isNum)
+    // 面试题 17.06. 2出现的次数 (Number Of 2s In Range LCCI) --数位dfs
     private int[][] memo17_06;
     private char[] arr17_06;
-    private int k17_06;
+    private int n17_06;
 
     public int numberOf2sInRange(int n) {
         this.arr17_06 = String.valueOf(n).toCharArray();
-        this.k17_06 = arr17_06.length;
-        this.memo17_06 = new int[k17_06][k17_06];
-        for (int i = 0; i < k17_06; ++i) {
-            Arrays.fill(memo17_06[i], -1);
+        this.n17_06 = arr17_06.length;
+        this.memo17_06 = new int[n17_06][n17_06];
+        for (int[] r : memo17_06) {
+            Arrays.fill(r, -1);
         }
-        return dfs17_06(0, 0, true, false);
+        return dfs17_06(0, 0, true);
 
     }
 
-    private int dfs17_06(int i, int count, boolean isLimit, boolean isNum) {
-        if (i == k17_06) {
-            return isNum ? count : 0;
+    private int dfs17_06(int i, int j, boolean isLimit) {
+        if (i == n17_06) {
+            return j;
         }
-        if (!isLimit && isNum && memo17_06[i][count] != -1) {
-            return memo17_06[i][count];
+        if (!isLimit && memo17_06[i][j] != -1) {
+            return memo17_06[i][j];
         }
         int res = 0;
-        if (!isNum) {
-            res = dfs17_06(i + 1, count, false, false);
-        }
         int up = isLimit ? arr17_06[i] - '0' : 9;
-        for (int d = isNum ? 0 : 1; d <= up; ++d) {
-            res += dfs17_06(i + 1, count + (d == 2 ? 1 : 0), isLimit && d == up, true);
+        for (int d = 0; d <= up; ++d) {
+            res += dfs17_06(i + 1, j + (d == 2 ? 1 : 0), isLimit && d == up);
         }
-        if (!isLimit && isNum) {
-            return memo17_06[i][count] = res;
+        if (!isLimit) {
+            return memo17_06[i][j] = res;
         }
         return res;
     }

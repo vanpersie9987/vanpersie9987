@@ -637,22 +637,18 @@ class leetcode_1:
 
     # 面试题 17.06. 2出现的次数 (Number Of 2s In Range LCCI)
     def numberOf2sInRange(self, n: int) -> int:
-        s = str(n)
-        m = len(s)
-
         @cache
-        def dfs(i: int, cnt: int, isLimit: bool, isNum: bool) -> int:
-            if i == m:
-                return cnt if isNum else 0
+        def dfs(i: int, j: int, is_limit: bool) -> int:
+            if i == l:
+                return j
             res = 0
-            if not isNum:
-                res += dfs(i + 1, cnt, False, False)
-            up = ord(s[i]) - ord("0") if isLimit else 9
-            for d in range(0 if isNum else 1, up + 1):
-                res += dfs(i + 1, cnt + (d == 2), isLimit and d == up, True)
+            up = int(s[i]) if is_limit else 9
+            for d in range(up + 1):
+                res += dfs(i + 1, j + (d == 2), d == up and is_limit)
             return res
-
-        return dfs(0, 0, True, False)
+        s = str(n)
+        l = len(s)
+        return dfs(0, 0, True)
 
     # 600. 不含连续1的非负整数 (Non-negative Integers without Consecutive Ones)
     def findIntegers(self, n: int) -> int:
