@@ -8555,65 +8555,58 @@ public class Leetcode_7 {
         return i1 < i2 ? cnts : cnts - 1;
     }
 
-    // 6396. 统计整数数目 (Count of Integers)
-    private int min_sum6396;
-    private int max_sum6396;
+    // 2719. 统计整数数目 (Count of Integers)
+    private int min_sum2719;
+    private int max_sum2719;
 
     public int count(String num1, String num2, int min_sum, int max_sum) {
-        final long MOD = (long) (1e9 + 7);
-        this.min_sum6396 = min_sum;
-        this.max_sum6396 = max_sum;
-        return (int) (((getNum6396(num2) - getNum6396(num1) + MOD) % MOD
-                + (check6396(num1) ? 1 : 0)) % MOD);
-
-    }
-
-    private boolean check6396(String num) {
-        int sum = 0;
-        for (char c : num.toCharArray()) {
-            sum += c - '0';
-            if (sum > max_sum6396) {
-                return false;
-            }
-        }
-        return sum >= min_sum6396;
-    }
-
-    private int[][] memo6396;
-    private int n6396;
-    private char[] arr6396;
-
-    private int getNum6396(String num) {
-        this.n6396 = num.length();
-        this.arr6396 = num.toCharArray();
-        this.memo6396 = new int[n6396][max_sum6396 + 1];
-        for (int i = 0; i < n6396; ++i) {
-            Arrays.fill(memo6396[i], -1);
-        }
-        return dfs6396(0, 0, false, true);
-    }
-
-    private int dfs6396(int i, int sum, boolean isNum, boolean isLimit) {
-        if (i == n6396) {
-            return sum >= min_sum6396 && sum <= max_sum6396 ? 1 : 0;
-        }
-        if (isNum && !isLimit && memo6396[i][sum] != -1) {
-            return memo6396[i][sum];
-        }
+        this.min_sum2719 = min_sum;
+        this.max_sum2719 = max_sum;
         final int MOD = (int) (1e9 + 7);
+        return (((check2719(num2) - check2719(num1)) % MOD + MOD) % MOD + legal2719(num1)) % MOD;
+
+    }
+
+    private int legal2719(String s) {
         int res = 0;
-        if (!isNum) {
-            res = (res + dfs6396(i + 1, sum, false, false)) % MOD;
+        for (char c : s.toCharArray()) {
+            res += c - '0';
         }
-        int up = isLimit ? arr6396[i] - '0' : 9;
-        for (int d = isNum ? 0 : 1; d <= up; ++d) {
-            if (d + sum > max_sum6396) {
-                break;
-            }
-            res = (res + dfs6396(i + 1, sum + d, true, d == up && isLimit)) % MOD;
+        return res >= min_sum2719 && res <= max_sum2719 ? 1 : 0;
+
+    }
+
+    private char[] a2719;
+    private int n2719;
+    private int[][] memo2719;
+
+    private int check2719(String s) {
+        this.a2719 = s.toCharArray();
+        this.n2719 = a2719.length;
+        this.memo2719 = new int[n2719][9 * n2719];
+        for (int[] r : memo2719) {
+            Arrays.fill(r, -1);
         }
-        if (isNum && !isLimit) {
-            memo6396[i][sum] = res;
+        return dfs2719(0, 0, true);
+
+    }
+
+    private int dfs2719(int i, int j, boolean isLimit) {
+        if (i == n2719) {
+            return j >= min_sum2719 && j <= max_sum2719 ? 1 : 0;
+        }
+        if (!isLimit && memo2719[i][j] != -1) {
+            return memo2719[i][j];
+        }
+        int res = 0;
+        int up = isLimit ? (a2719[i] - '0') : 9;
+        final int MOD = (int) (1e9 + 7);
+        for (int d = 0; d <= Math.min(max_sum2719 - j, up); ++d) {
+            res += dfs2719(i + 1, j + d, isLimit && d == up); // 选当前位
+            res %= MOD; // 防止溢出
+        }
+        if (!isLimit) {
+            memo2719[i][j] = res; // 记忆化
         }
         return res;
     }
