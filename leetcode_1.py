@@ -9777,40 +9777,32 @@ class leetcode_1:
 
     # 3007. 价值和小于等于 K 的最大数字 (Maximum Number That Sum of the Prices Is Less Than or Equal to K)
     def findMaximumNumber(self, k: int, x: int) -> int:
-        def check(num: int) -> int:
-            s = bin(num)[2:]
-            n = len(s)
-
+        def check(t: int) -> bool:
             @cache
-            def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
+            def dfs(i: int, j: int, is_limit: bool) -> bool:
                 if i == n:
-                    return j if is_num else 0
+                    return j
                 res = 0
-                if not is_num:
-                    res = dfs(i + 1, j, False, False)
                 up = int(s[i]) if is_limit else 1
-                for d in range(0 if is_num else 1, up + 1):
+                for d in range(up + 1):
                     res += dfs(
-                        i + 1,
-                        j + int(d == 1 and (n - i) % x == 0),
-                        is_limit and d == up,
-                        True,
+                        i + 1, j + (d if (n - i) % x == 0 else 0), d == up and is_limit
                     )
                 return res
 
-            return dfs(0, 0, True, False)
+            s = bin(t)[2:]
+            n = len(s)
+            return dfs(0, 0, True) <= k
 
         left = 1
-        right = 10**15
-        res = 1
+        right = (k + 1) * (1 << x) - 1
         while left <= right:
             mid = left + ((right - left) >> 1)
-            if check(mid) <= k:
-                res = mid
+            if check(mid):
                 left = mid + 1
             else:
                 right = mid - 1
-        return res
+        return left - 1
 
     # 2901. 最长相邻不相等子序列 II (Longest Unequal Adjacent Groups Subsequence II)
     def getWordsInLongestSubsequence(
