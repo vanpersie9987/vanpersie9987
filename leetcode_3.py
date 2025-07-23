@@ -2272,3 +2272,25 @@ class leetcode_3:
             n = len(s)
             return dfs(0, 1, 0, True, False)
         return cal(r) - cal(l - 1)
+
+    # 1717. 删除子字符串的最大得分 (Maximum Score From Removing Substrings)
+    def maximumGain(self, s: str, x: int, y: int) -> int:
+        def check(s: str, x: int, y: int) -> int:
+            res = 0
+            cnt_a = 0
+            cnt_b = 0
+            for c in s:
+                if c == 'b':
+                    if cnt_a:
+                        cnt_a -= 1
+                        res += x
+                    else:
+                        cnt_b += 1
+                elif c == 'a':
+                    cnt_a += 1
+                else:
+                    res += min(cnt_a, cnt_b) * y
+                    cnt_a = 0
+                    cnt_b = 0
+            return res
+        return max(check(s + '_', x, y), check(s[::-1] + '_', y, x))
