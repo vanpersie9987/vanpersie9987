@@ -9562,21 +9562,23 @@ class Union924:
         @cache
         def dfs(i: int, j: int, is_limit: bool) -> int:
             if i == l:
-                return v == j
-            up = min(v - j, int(s[i]) if is_limit else 9)
-            return sum(dfs(i + 1, j + d, is_limit and d == up) for d in range(up + 1))
+                return j == 0
+            res = 0
+            up = int(s[i]) if is_limit else 9
+            for d in range(min(j, up) + 1):
+                res += dfs(i + 1, j - d, d == up and is_limit)
+            return res
 
-        s = str(n)
-        l = len(s)
         res = 0
         mx = 0
-        for v in range(1, l * 9 + 1):
-            cur = dfs(0, 0, True)
-            dfs.cache_clear()
-            if cur > mx:
-                mx = cur
+        s = str(n)
+        l = len(s)
+        for i in range(1, l * 9 + 1):
+            cnt = dfs(0, i, True)
+            if cnt > mx:
+                mx = cnt
                 res = 1
-            elif cur == mx:
+            elif cnt == mx:
                 res += 1
         return res
 
@@ -10001,4 +10003,3 @@ class Union924:
         if n == len(edges):  # 环
             ans += 2
         return ans
-
