@@ -6261,26 +6261,23 @@ class leetcode_1:
 
     # 2719. 统计整数数目 (Count of Integers)
     def count(self, num1: str, num2: str, min_sum: int, max_sum: int) -> int:
-        def cal(s: str) -> int:
+        def check(x: int) -> int:
             @cache
-            def dfs(i: int, cur_sum: int, is_limit: bool, is_num) -> int:
+            def dfs(i: int, j: int, is_limit: bool) -> int:
                 if i == n:
-                    return is_num and cur_sum >= min_sum
+                    return min_sum <= j <= max_sum
                 res = 0
-                if not is_num:
-                    res = dfs(i + 1, cur_sum, False, False)
                 up = int(s[i]) if is_limit else 9
-                for j in range(0 if is_num else 1, up + 1):
-                    if j + cur_sum > max_sum:
-                        break
-                    res += dfs(i + 1, cur_sum + j, is_limit and j == up, True)
+                for d in range(up + 1):
+                    res += dfs(i + 1, j + d, d == up and is_limit)
                 return res % MOD
 
+            s = str(x)
             n = len(s)
-            return dfs(0, 0, True, False)
+            return dfs(0, 0, True)
 
         MOD = 10**9 + 7
-        return (cal(num2) - cal(str(int(num1) - 1))) % MOD
+        return (check(num2) - check(str(int(num1) - 1))) % MOD
 
     # 1955. 统计特殊子序列的数目 (Count Number of Special Subsequences)
     def countSpecialSubsequences(self, nums: List[int]) -> int:
