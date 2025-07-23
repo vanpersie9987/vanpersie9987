@@ -587,47 +587,47 @@ public class LeetCode_4 {
         int[] cnts = new int[5];
         for (char ch : croakOfFrogs.toCharArray()) {
             switch (ch) {
-            case 'c':
-                if (cnts[4] > 0) {
-                    --cnts[4];
-                }
-                ++cnts[0];
-                break;
-            case 'r':
-                if (cnts[0] > 0) {
-                    --cnts[0];
-                } else {
-                    return -1;
-                }
-                ++cnts[1];
-                break;
-            case 'o':
-                if (cnts[1] > 0) {
-                    --cnts[1];
-                } else {
-                    return -1;
-                }
-                ++cnts[2];
-                break;
-            case 'a':
-                if (cnts[2] > 0) {
-                    --cnts[2];
-                } else {
-                    return -1;
-                }
-                ++cnts[3];
-                break;
-            case 'k':
-                if (cnts[3] > 0) {
-                    --cnts[3];
-                } else {
-                    return -1;
-                }
-                ++cnts[4];
-                break;
+                case 'c':
+                    if (cnts[4] > 0) {
+                        --cnts[4];
+                    }
+                    ++cnts[0];
+                    break;
+                case 'r':
+                    if (cnts[0] > 0) {
+                        --cnts[0];
+                    } else {
+                        return -1;
+                    }
+                    ++cnts[1];
+                    break;
+                case 'o':
+                    if (cnts[1] > 0) {
+                        --cnts[1];
+                    } else {
+                        return -1;
+                    }
+                    ++cnts[2];
+                    break;
+                case 'a':
+                    if (cnts[2] > 0) {
+                        --cnts[2];
+                    } else {
+                        return -1;
+                    }
+                    ++cnts[3];
+                    break;
+                case 'k':
+                    if (cnts[3] > 0) {
+                        --cnts[3];
+                    } else {
+                        return -1;
+                    }
+                    ++cnts[4];
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
             }
         }
         if (cnts[0] > 0 || cnts[1] > 0 || cnts[2] > 0 || cnts[3] > 0) {
@@ -6589,10 +6589,12 @@ public class LeetCode_4 {
         class Bean implements Comparable<Bean> {
             int score;
             String food;
+
             public Bean(int score, String food) {
                 this.score = score;
                 this.food = food;
             }
+
             @Override
             public int compareTo(Bean o) {
                 if (o.score == this.score) {
@@ -6601,10 +6603,10 @@ public class LeetCode_4 {
                 return Integer.compare(o.score, this.score);
             }
         }
+
         private Map<String, TreeSet<Bean>> cuisineToFoodScore;
         private Map<String, Integer> foodToScore;
         private Map<String, String> foodToCuisine;
-
 
         public FoodRatings(String[] foods, String[] cuisines, int[] ratings) {
             cuisineToFoodScore = new HashMap<>();
@@ -6613,11 +6615,12 @@ public class LeetCode_4 {
             for (int i = 0; i < foods.length; ++i) {
                 foodToScore.put(foods[i], ratings[i]);
                 foodToCuisine.put(foods[i], cuisines[i]);
-                cuisineToFoodScore.computeIfAbsent(cuisines[i], k -> new TreeSet<>()).add(new Bean(ratings[i], foods[i]));
+                cuisineToFoodScore.computeIfAbsent(cuisines[i], k -> new TreeSet<>())
+                        .add(new Bean(ratings[i], foods[i]));
             }
-        
+
         }
-    
+
         public void changeRating(String food, int newRating) {
             int oldScore = foodToScore.get(food);
             foodToScore.put(food, newRating);
@@ -6626,7 +6629,7 @@ public class LeetCode_4 {
             cuisineToFoodScore.computeIfAbsent(cuisine, k -> new TreeSet<>()).add(new Bean(newRating, food));
 
         }
-    
+
         public String highestRated(String cuisine) {
             return cuisineToFoodScore.get(cuisine).first().food;
         }
@@ -9214,39 +9217,37 @@ public class LeetCode_4 {
         return ans;
     }
 
-    // 233. 数字 1 的个数 (Number of Digit One) --数位dfs (本题可以不要isNum)
-    private char[] arr233;
-    private int k233;
+    // 233. 数字 1 的个数 (Number of Digit One) --数位dfs
+    // LCR 162. 数字 1 的个数
+    private char[] a233;
+    private int n233;
     private int[][] memo233;
 
     public int countDigitOne2(int n) {
-        this.arr233 = String.valueOf(n).toCharArray();
-        this.k233 = arr233.length;
-        this.memo233 = new int[k233][k233];
-        for (int i = 0; i < k233; ++i) {
-            Arrays.fill(memo233[i], -1);
+        this.a233 = String.valueOf(n).toCharArray();
+        this.n233 = a233.length;
+        this.memo233 = new int[n233][n233];
+        for (int[] row : memo233) {
+            Arrays.fill(row, -1);
         }
-        return dfs233(0, 0, true, false);
+        return dfs233(0, 0, true);
 
     }
 
-    private int dfs233(int i, int count, boolean isLimit, boolean isNum) {
-        if (i == k233) {
-            return count;
+    private int dfs233(int i, int j, boolean isLimit) {
+        if (i == n233) {
+            return j;
         }
-        if (!isLimit && isNum && memo233[i][count] != -1) {
-            return memo233[i][count];
+        if (!isLimit && memo233[i][j] != -1) {
+            return memo233[i][j];
         }
         int res = 0;
-        if (!isNum) {
-            res = dfs233(i + 1, count, false, false);
+        int up = isLimit ? a233[i] - '0' : 9;
+        for (int d = 0; d <= up; ++d) {
+            res += dfs233(i + 1, j + (d == 1 ? 1 : 0), isLimit && d == up);
         }
-        int up = isLimit ? arr233[i] - '0' : 9;
-        for (int d = isNum ? 0 : 1; d <= up; ++d) {
-            res += dfs233(i + 1, count + (d == 1 ? 1 : 0), isLimit && d == up, true);
-        }
-        if (!isLimit && isNum) {
-            memo233[i][count] = res;
+        if (!isLimit) {
+            memo233[i][j] = res;
         }
         return res;
     }
