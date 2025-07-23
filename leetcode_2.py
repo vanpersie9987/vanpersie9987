@@ -2437,29 +2437,21 @@ class Union924:
 
     # 1742. 盒子中小球的最大数量 (Maximum Number of Balls in a Box)
     def countBalls(self, lowLimit: int, highLimit: int) -> int:
-        def ret(_s: int) -> int:
-            def cal(num: int) -> int:
-                @cache
-                def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
-                    if i == n:
-                        return is_num and j == _s
-                    res = 0
-                    if not is_num:
-                        res = dfs(i + 1, j, False, False)
-                    up = int(s[i]) if is_limit else 9
-                    for d in range(0 if is_num else 1, up + 1):
-                        if j + d > _s:
-                            break
-                        res += dfs(i + 1, j + d, is_limit and up == d, True)
-                    return res
-
-                s = str(num)
-                n = len(s)
-                return dfs(0, 0, True, False)
-
-            return cal(highLimit) - cal(lowLimit - 1)
-
-        return max(ret(i) for i in range(1, 46))
+        def check(x: int, _s: int) -> int:
+            @cache
+            def dfs(i: int, j: int, is_limit: bool) -> int:
+                if i == n:
+                    return j == 0
+                res = 0
+                up = int(s[i]) if is_limit else 9
+                for d in range(min(j, up) + 1):
+                    res += dfs(i + 1, j - d, d == up and is_limit)
+                return res
+            s = str(x)
+            n = len(s)
+            return dfs(0, _s, True)
+        l = len(str(highLimit))
+        return max(check(highLimit, i) - check(lowLimit - 1, i) for i in range(1, l * 9 + 1))
 
     # 3090. 每个字符最多出现两次的最长子字符串 (Maximum Length Substring With Two Occurrences)
     def maximumLengthSubstring(self, s: str) -> int:
