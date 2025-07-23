@@ -6058,7 +6058,8 @@ public class LeetCodeText {
     // 1742. 盒子中小球的最大数量 (Maximum Number of Balls in a Box)
     public int countBalls(int lowLimit, int highLimit) {
         int res = 0;
-        for (int i = 1; i <= 45; ++i) {
+        int n = String.valueOf(highLimit).length();
+        for (int i = 1; i <= n * 9; ++i) {
             res = Math.max(res, cal1742(i, highLimit) - cal1742(i, lowLimit - 1));
         }
         return res;
@@ -6067,36 +6068,31 @@ public class LeetCodeText {
     private char[] arr1742;
     private int n1742;
     private int[][] memo1742;
-    private int target1742;
 
-    private int cal1742(int target, int num) {
-        this.target1742 = target;
-        this.arr1742 = String.valueOf(num).toCharArray();
+    private int cal1742(int s, int x) {
+        this.arr1742 = String.valueOf(x).toCharArray();
         this.n1742 = arr1742.length;
-        this.memo1742 = new int[n1742][target + 1];
-        for (int i = 0; i < n1742; ++i) {
-            Arrays.fill(memo1742[i], -1);
+        this.memo1742 = new int[n1742][s + 1];
+        for (int[] r : memo1742) {
+            Arrays.fill(r, -1);
         }
-        return dfs1742(0, 0, true, false);
+        return dfs1742(0, s, true);
 
     }
 
-    private int dfs1742(int i, int j, boolean isLimit, boolean isNum) {
+    private int dfs1742(int i, int j, boolean isLimit) {
         if (i == n1742) {
-            return isNum && j == target1742 ? 1 : 0;
+            return j == 0 ? 1 : 0;
         }
-        if (!isLimit && isNum && memo1742[i][j] != -1) {
+        if (!isLimit && memo1742[i][j] != -1) {
             return memo1742[i][j];
         }
         int res = 0;
-        if (!isNum) {
-            res = dfs1742(i + 1, j, false, false);
-        }
         int up = isLimit ? arr1742[i] - '0' : 9;
-        for (int d = isNum ? 0 : 1; d <= up && d + j <= target1742; ++d) {
-            res += dfs1742(i + 1, j + d, isLimit && up == d, true);
+        for (int d = 0; d <= Math.min(j, up); ++d) {
+            res += dfs1742(i + 1, j - d, isLimit && up == d);
         }
-        if (!isLimit && isNum) {
+        if (!isLimit) {
             memo1742[i][j] = res;
         }
         return res;
