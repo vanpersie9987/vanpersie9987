@@ -6268,14 +6268,13 @@ class leetcode_1:
                     return min_sum <= j <= max_sum
                 res = 0
                 up = int(s[i]) if is_limit else 9
-                for d in range(up + 1):
+                for d in range(min(max_sum - j, up) + 1):
                     res += dfs(i + 1, j + d, d == up and is_limit)
                 return res % MOD
 
             s = str(x)
             n = len(s)
             return dfs(0, 0, True)
-
         MOD = 10**9 + 7
         return (check(num2) - check(str(int(num1) - 1))) % MOD
 
