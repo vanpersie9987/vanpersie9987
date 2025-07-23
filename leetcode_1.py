@@ -620,24 +620,20 @@ class leetcode_1:
         return (check(high) - check(str(int(low) - 1))) % MOD
 
     # 233. 数字 1 的个数 (Number of Digit One)
-    # 剑指 Offer 43. 1～n 整数中 1 出现的次数
+    # LCR 162. 数字 1 的个数
     def countDigitOne(self, n: int) -> int:
-        s = str(n)
-        m = len(s)
-
         @cache
-        def dfs(i: int, cnt: int, isLimit: bool, isNum: bool) -> int:
-            if i == m:
-                return cnt if isNum else 0
+        def dfs(i: int, j: int, is_limit: bool) -> int:
+            if i == l:
+                return j
             res = 0
-            if not isNum:
-                res = dfs(i + 1, cnt, False, False)
-            up = ord(s[i]) - ord("0") if isLimit else 9
-            for d in range(0 if isNum else 1, up + 1):
-                res += dfs(i + 1, cnt + (d == 1), isLimit and d == up, True)
+            up = int(s[i]) if is_limit else 9
+            for d in range(up + 1):
+                res += dfs(i + 1, j + (d == 1), d == up and is_limit)
             return res
-
-        return dfs(0, 0, True, False)
+        s = str(n)
+        l = len(s)
+        return dfs(0, 0, True)
 
     # 面试题 17.06. 2出现的次数 (Number Of 2s In Range LCCI)
     def numberOf2sInRange(self, n: int) -> int:
