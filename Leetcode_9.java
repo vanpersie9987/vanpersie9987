@@ -5272,47 +5272,46 @@ public class Leetcode_9 {
     }
 
     // 1399. 统计最大组的数目 (Count Largest Group)
-    private String s1399;
+    private char[] a1399;
     private int l1399;
     private int[][] memo1399;
-    private int sum1399;
 
     public int countLargestGroup(int n) {
-        this.s1399 = String.valueOf(n);
-        this.l1399 = s1399.length();
-        int mx = 0;
+        this.a1399 = String.valueOf(n).toCharArray();
+        this.l1399 = a1399.length;
+        this.memo1399 = new int[l1399][l1399 * 9 + 1];
+        for (int[] r : memo1399) {
+            Arrays.fill(r, -1);
+        }
         int res = 0;
+        int mx = 0;
         for (int i = 1; i < l1399 * 9 + 1; ++i) {
-            this.sum1399 = i;
-            this.memo1399 = new int[l1399][i + 1];
-            for (int j = 0; j < l1399; ++j) {
-                Arrays.fill(memo1399[j], -1);
-            }
-            int cur = dfs1399(0, 0, true);
-            if (cur > mx) {
-                mx = cur;
+            int cnt = dfs1399(0, i, true);
+            if (cnt > mx) {
+                mx = cnt;
                 res = 1;
-            } else if (cur == mx) {
+            } else if (cnt == mx) {
                 ++res;
             }
         }
         return res;
+
     }
 
     private int dfs1399(int i, int j, boolean isLimit) {
         if (i == l1399) {
-            return j == sum1399 ? 1 : 0;
+            return j == 0 ? 1 : 0;
         }
         if (!isLimit && memo1399[i][j] != -1) {
             return memo1399[i][j];
         }
         int res = 0;
-        int up = Math.min(sum1399 - j, isLimit ? s1399.charAt(i) - '0' : 9);
-        for (int d = 0; d <= up; ++d) {
-            res += dfs1399(i + 1, j + d, isLimit && d == up);
+        int up = isLimit ? (a1399[i] - '0') : 9;
+        for (int d = 0; d <= Math.min(up, j); ++d) {
+            res += dfs1399(i + 1, j - d, isLimit && d == up); // 选当前位
         }
         if (!isLimit) {
-            memo1399[i][j] = res;
+            memo1399[i][j] = res; // 记忆化
         }
         return res;
     }
