@@ -18435,65 +18435,43 @@ public class LeetCodeText {
 
     }
 
-    // 788. 旋转数字 (Rotated Digits)
-    public int rotatedDigits(int n) {
-        int res = 0;
-        for (int i = 1; i <= n; ++i) {
-            if (judgeGoodNum(i)) {
-                ++res;
-            }
-        }
-        return res;
-
-    }
-
-    private boolean judgeGoodNum(int n) {
-        boolean flag = false;
-        while (n > 0) {
-            int lastDigit = n % 10;
-            n /= 10;
-            if (lastDigit == 3 || lastDigit == 4 || lastDigit == 7) {
-                return false;
-            }
-            if (lastDigit == 2 || lastDigit == 5 || lastDigit == 6 || lastDigit == 9) {
-                flag = true;
-            }
-        }
-        return flag;
-    }
-
     // 788. 旋转数字 (Rotated Digits) --数位dp
-    private int[] DIFFS788 = { 0, 0, 1, -1, -1, 1, 1, -1, 0, 1 };
     private char[] chars788;
-    private int[][] memo788;
+    private int m788;
 
     public int rotatedDigits2(int n) {
         chars788 = String.valueOf(n).toCharArray();
-        int m = chars788.length;
-        memo788 = new int[m][2];
-        for (int i = 0; i < m; ++i) {
-            Arrays.fill(memo788[i], -1);
-        }
-        return dfs788(0, 0, true);
-
+        this.m788 = chars788.length;
+        Set<Integer> s1 = new HashSet<>(List.of(0, 1, 2, 5, 6, 8, 9));
+        Set<Integer> s2 = new HashSet<>(List.of(0, 1, 8));
+        return check(s1) - check(s2);
     }
 
-    private int dfs788(int i, int diff, boolean isLimit) {
-        if (i == chars788.length) {
-            return diff;
+    private Set<Integer> set788;
+    private int[] memo788;
+    private int check(Set<Integer> set) {
+        this.set788 = set;
+        this.memo788 = new int[m788];
+        Arrays.fill(memo788, -1);
+        return dfs788(0, true);
+    }
+
+    private int dfs788(int i, boolean isLimit) {
+        if (i == m788) {
+            return 1;
         }
-        if (!isLimit && memo788[i][diff] != -1) {
-            return memo788[i][diff];
+        if (!isLimit && memo788[i] != -1) {
+            return memo788[i];
         }
         int res = 0;
         int up = isLimit ? chars788[i] - '0' : 9;
-        for (int bit = 0; bit <= up; ++bit) {
-            if (DIFFS788[bit] != -1) {
-                res += dfs788(i + 1, diff | DIFFS788[bit], isLimit && bit == up);
+        for (int d = 0; d <= up; ++d) {
+            if (set788.contains(d)) {
+                res += dfs788(i + 1, isLimit && d == up);
             }
         }
         if (!isLimit) {
-            memo788[i][diff] = res;
+            memo788[i] = res;
         }
         return res;
     }
