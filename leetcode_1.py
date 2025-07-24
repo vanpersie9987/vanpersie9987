@@ -3305,23 +3305,21 @@ class leetcode_1:
 
     # 357. 统计各位数字都不同的数字个数 (Count Numbers with Unique Digits)
     def countNumbersWithUniqueDigits(self, n: int) -> int:
+        @cache
+        def dfs(i: int, j: int, isLimit: bool) -> int:
+            if i == l:
+                return 1
+            res = 0
+            if not j:
+                res = dfs(i + 1, j, False)
+            up = int(s[i]) if isLimit else 9
+            for d in range(0 if j else 1, up + 1):
+                if (j >> d) & 1 == 0:
+                    res += dfs(i + 1, j | (1 << d), isLimit and j == up)
+            return res
         s = str(pow(10, n) - 1)
         l = len(s)
-
-        @cache
-        def dfs(i: int, m: int, isLimit: bool, isNum: bool) -> int:
-            if i == l:
-                return isNum
-            res = 0
-            if not isNum:
-                res = dfs(i + 1, m, False, False)
-            up = int(s[i]) if isLimit else 9
-            for j in range(0 if isNum else 1, up + 1):
-                if ((m >> j) & 1) == 0:
-                    res += dfs(i + 1, m | (1 << j), isLimit and j == up, True)
-            return res
-
-        return dfs(0, 0, True, False) + 1
+        return dfs(0, 0, True)
 
     # 1761. 一个图中连通三元组的最小度数 (Minimum Degree of a Connected Trio in a Graph)
     def minTrioDegree(self, n: int, edges: List[List[int]]) -> int:
