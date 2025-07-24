@@ -3287,23 +3287,21 @@ class leetcode_1:
 
     # 2376. 统计特殊整数 (Count Special Integers)
     def countSpecialNumbers(self, n: int) -> int:
+        @cache
+        def dfs(i: int, j: int, is_limit: bool) -> int:
+            if i == l:
+                return j != 0
+            res = 0
+            if not j:
+                res += dfs(i + 1, j, False)
+            up = int(s[i]) if is_limit else 9
+            for d in range(0 if j else 1, up + 1):
+                if (j >> d) & 1 == 0:
+                    res += dfs(i + 1, j | (1 << d), d == up and is_limit)
+            return res
         s = str(n)
         l = len(s)
-
-        @cache
-        def dfs(i: int, m: int, isLimit: bool, isNum: bool) -> int:
-            if i == l:
-                return isNum
-            res = 0
-            if not isNum:
-                res = dfs(i + 1, m, False, False)
-            up = int(s[i]) if isLimit else 9
-            for j in range(0 if isNum else 1, up + 1):
-                if ((m >> j) & 1) == 0:
-                    res += dfs(i + 1, m | (1 << j), isLimit and j == up, True)
-            return res
-
-        return dfs(0, 0, True, False)
+        return dfs(0, 0, True)
 
     # 357. 统计各位数字都不同的数字个数 (Count Numbers with Unique Digits)
     def countNumbersWithUniqueDigits(self, n: int) -> int:
