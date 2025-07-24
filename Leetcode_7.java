@@ -657,38 +657,38 @@ public class Leetcode_7 {
 
     // 357. 统计各位数字都不同的数字个数 (Count Numbers with Unique Digits) --数位dfs
     private int[][] memo357;
-    private char[] arr357;
-    private int k357;
+    private char[] a357;
+    private int l357;
 
     public int countNumbersWithUniqueDigits2(int n) {
-        this.arr357 = String.valueOf((int) Math.pow(10, n) - 1).toCharArray();
-        this.k357 = arr357.length;
-        this.memo357 = new int[k357][1 << 10];
-        for (int i = 0; i < k357; ++i) {
-            Arrays.fill(memo357[i], -1);
+        this.a357 = String.valueOf((int) Math.pow(10, n) - 1).toCharArray();
+        this.l357 = a357.length;
+        this.memo357 = new int[l357][1 << 10];
+        for (int[] r : memo357) {
+            Arrays.fill(r, -1);
         }
-        return dfs357(0, 0, true, false) + 1;
+        return dfs357(0, 0, true);
     }
 
-    private int dfs357(int i, int mask, boolean isLimit, boolean isNum) {
-        if (i == k357) {
-            return isNum ? 1 : 0;
+    private int dfs357(int i, int j, boolean isLimit) {
+        if (i == l357) {
+            return 1;
         }
-        if (!isLimit && isNum && memo357[i][mask] != -1) {
-            return memo357[i][mask];
+        if (!isLimit && memo357[i][j] != -1) {
+            return memo357[i][j];
         }
         int res = 0;
-        if (!isNum) {
-            res = dfs357(i + 1, mask, false, false);
+        if (j == 0) {
+            res = dfs357(i + 1, j, false);
         }
-        int up = isLimit ? arr357[i] - '0' : 9;
-        for (int d = isNum ? 0 : 1; d <= up; ++d) {
-            if ((mask & (1 << d)) == 0) {
-                res += dfs357(i + 1, mask | (1 << d), isLimit && d == up, true);
+        int up = isLimit ? a357[i] - '0' : 9;
+        for (int d = j != 0 ? 0 : 1; d <= up; ++d) {
+            if ((j & (1 << d)) == 0) {
+                res += dfs357(i + 1, j | (1 << d), isLimit && d == up);
             }
         }
-        if (!isLimit && isNum) {
-            memo357[i][mask] = res;
+        if (!isLimit) {
+            memo357[i][j] = res;
         }
         return res;
     }
