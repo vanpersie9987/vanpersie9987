@@ -1171,42 +1171,38 @@ public class Leetcode_7 {
 
     // 600. 不含连续1的非负整数 (Non-negative Integers without Consecutive Ones)
     // 可以不要isNum参数
+    private char[] a600;
+    private int l600;
     private int[][] memo600;
-    private char[] arr600;
-    private int k600;
 
     public int findIntegers(int n) {
-        this.arr600 = Integer.toBinaryString(n).toCharArray();
-        this.k600 = arr600.length;
-        this.memo600 = new int[k600][2];
-        for (int i = 0; i < k600; ++i) {
-            Arrays.fill(memo600[i], -1);
+        this.a600 = Integer.toBinaryString(n).toCharArray();
+        this.l600 = a600.length;
+        this.memo600 = new int[l600][2];
+        for (int[] r : memo600) {
+            Arrays.fill(r, -1);
         }
-        return dfs600(0, 0, true, false) + 1;
+        return dfs600(0, 0, true);
+
     }
 
-    private int dfs600(int i, int pre, boolean isLimit, boolean isNum) {
-        if (i == k600) {
-            if (isNum) {
-                return 1;
-            }
-            return 0;
+    private int dfs600(int i, int j, boolean isLimit) {
+        if (i == l600) {
+            return 1;
         }
-        if (!isLimit && isNum && memo600[i][pre] != -1) {
-            return memo600[i][pre];
+        if (!isLimit && memo600[i][j] != -1) {
+            return memo600[i][j];
         }
         int res = 0;
-        if (!isNum) {
-            res = dfs600(i + 1, pre, false, false);
-        }
-        int up = isLimit ? arr600[i] - '0' : 1;
-        for (int j = isNum ? 0 : 1; j <= up; ++j) {
-            if (j + pre <= 1) {
-                res += dfs600(i + 1, j, isLimit && j == up, true);
+        int up = isLimit ? (a600[i] - '0') : 1; // 当前位的上限
+        for (int d = 0; d <= up; ++d) {
+            if (d == 0 || j == 0) { // 前一位是1，当前位不能是1
+                res += dfs600(i + 1, d, isLimit && d == up); // 选当前位
             }
+
         }
-        if (!isLimit && isNum) {
-            memo600[i][pre] = res;
+        if (!isLimit) {
+            memo600[i][j] = res; // 记忆化
         }
         return res;
     }
