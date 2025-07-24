@@ -672,23 +672,21 @@ class leetcode_1:
 
     # 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
     def atMostNGivenDigitSet(self, digits: List[str], n: int) -> int:
-        s = str(n)
-        m = len(s)
-
         @cache
-        def dfs(i: int, isLimit: bool, isNum: bool) -> int:
-            if i == m:
-                return isNum
+        def dfs(i: int, is_limit: bool, is_num: bool) -> int:
+            if i == l:
+                return is_num
             res = 0
-            if not isNum:
+            if not is_num:
                 res = dfs(i + 1, False, False)
-            up = s[i] if isLimit else "9"
-            for d in digits:
-                if d > up:
-                    break
-                res += dfs(i + 1, isLimit and d == up, True)
+            up = int(s[i]) if is_limit else 9
+            for d in range(0 if is_num else 1, up + 1):
+                if str(d) in digits:
+                    res += dfs(i + 1, d == up and is_limit, True)
             return res
 
+        s = str(n)
+        l = len(s)
         return dfs(0, True, False)
 
     # 1012. 至少有 1 位重复的数字 (Numbers With Repeated Digits)
