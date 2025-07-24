@@ -2295,6 +2295,49 @@ class leetcode_3:
                     cnt_b = 0
             return res
         return max(check(s + '_', x, y), check(s[::-1] + '_', y, x))
-            
-        
 
+    # 2322. 从树中删除边的最小分数 (Minimum Score After Removals on a Tree)
+    def minimumScore(self, nums: List[int], edges: List[List[int]]) -> int:
+        def dfs(x: int, fa: int) -> int:
+            nonlocal clock
+            clock += 1
+            _in[x] = clock
+            _xor[x] = nums[x]
+            for y in g[x]:
+                if y != fa:
+                    _xor[x] ^= dfs(y, x)
+            _out[x] = clock
+            return _xor[x]
+
+        n = len(nums)
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        _in = [0] * n
+        _out = [0] * n
+        _xor = [0] * n
+        clock = 0
+        dfs(0, -1)
+        res = inf
+        for i in range(2, n):
+            for j in range(1, i):
+                # j 是 i 的祖先
+                if _in[j] < _in[i] <= _out[j]:
+                    x = _xor[i]
+                    y = _xor[j] ^ _xor[i]
+                    z = _xor[0] ^ _xor[j]
+                # i 是 j 的祖先
+                elif _in[i] < _in[j] <= _out[i]:
+                    x = _xor[j]
+                    y = _xor[i] ^ _xor[j]
+                    z = _xor[0] ^ _xor[i]
+                # i 和 j 没有祖先关系
+                else:
+                    x = _xor[i]
+                    y = _xor[j]
+                    z = _xor[0] ^ _xor[i] ^ _xor[j]
+                res = min(res, max(x, y, z) - min(x, y, z))
+                if res == 0:
+                    return 0
+        return res
