@@ -4284,6 +4284,49 @@ class leetcode_1:
 
         return dfs(0, False, True, False)
 
+    # 788. 旋转数字 (Rotated Digits)
+    def rotatedDigits(self, n: int) -> int:
+        def check(_s: set) -> int:
+            @cache
+            def dfs(i: int, is_limit: bool) -> int:
+                if i == l:
+                    return 1
+                res = 0
+                up = int(s[i]) if is_limit else 9
+                for d in range(up + 1):
+                    if d in _s:
+                        res += dfs(i + 1, d == up and is_limit)
+                return res
+            s = str(n)
+            l = len(s)
+            return dfs(0, True)
+        s = set([0, 1, 2, 5, 6, 8, 9])
+        s2 = set([0, 1, 8])
+        return check(s) - check(s2)
+
+    # 788. 旋转数字 (Rotated Digits)
+    def rotatedDigits(self, n: int) -> int:
+        s = str(n)
+        l = len(s)
+        u = 0
+        for x in [0, 1, 2, 5, 6, 8, 9]:
+            u |= 1 << x
+        legal_u = 0
+        for x in [2, 5, 6, 9]:
+            legal_u |= 1 << x
+        @cache
+        def dfs(i: int, bit: int, isLimit: bool) -> int:
+            if i == l:
+                return legal_u & bit != 0
+            res = 0
+            up = int(s[i]) if isLimit else 9
+            for d in range(up + 1):
+                if (u >> d) & 1:
+                    res += dfs(i + 1, bit | (1 << d), isLimit and d == up)
+            return res
+
+        return dfs(0, 0, True)
+
     # 611. 有效三角形的个数 (Valid Triangle Number)
     def triangleNumber(self, nums: List[int]) -> int:
         n = len(nums)
