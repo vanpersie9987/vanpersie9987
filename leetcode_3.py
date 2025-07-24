@@ -2300,8 +2300,8 @@ class leetcode_3:
     def minimumScore(self, nums: List[int], edges: List[List[int]]) -> int:
         def dfs(x: int, fa: int) -> int:
             nonlocal clock
-            clock += 1
             _in[x] = clock
+            clock += 1
             _xor[x] = nums[x]
             for y in g[x]:
                 if y != fa:
@@ -2323,12 +2323,12 @@ class leetcode_3:
         for i in range(2, n):
             for j in range(1, i):
                 # j 是 i 的祖先
-                if _in[j] < _in[i] <= _out[j]:
+                if _in[j] < _in[i] < _out[j]:
                     x = _xor[i]
                     y = _xor[j] ^ _xor[i]
                     z = _xor[0] ^ _xor[j]
                 # i 是 j 的祖先
-                elif _in[i] < _in[j] <= _out[i]:
+                elif _in[i] < _in[j] < _out[i]:
                     x = _xor[j]
                     y = _xor[i] ^ _xor[j]
                     z = _xor[0] ^ _xor[i]

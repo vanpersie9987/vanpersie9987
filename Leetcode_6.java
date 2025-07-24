@@ -1201,7 +1201,7 @@ public class Leetcode_6 {
     }
 
     // 2322. 从树中删除边的最小分数 (Minimum Score After Removals on a Tree)
-    private Map<Integer, List<Integer>> graph2322;
+    private List<Integer>[] g2322;
     private int[] nums2322;
     private int[] xor2322;
     private int[] in2322;
@@ -1209,13 +1209,13 @@ public class Leetcode_6 {
     private int clock2322;
 
     public int minimumScore(int[] nums, int[][] edges) {
-        Map<Integer, List<Integer>> graph = new HashMap<>();
-        for (int[] edge : edges) {
-            graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
-            graph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
-        }
         int n = nums.length;
-        graph2322 = graph;
+        this.g2322 = new ArrayList[n];
+        Arrays.setAll(g2322, o -> new ArrayList<>());
+        for (int[] e : edges) {
+            g2322[e[0]].add(e[1]);
+            g2322[e[1]].add(e[0]);
+        }
         nums2322 = nums;
         in2322 = new int[n];
         out2322 = new int[n];
@@ -1224,11 +1224,11 @@ public class Leetcode_6 {
         int res = Integer.MAX_VALUE;
         for (int i = 2, x, y, z; i < n; ++i) {
             for (int j = 1; j < i; ++j) {
-                if (in2322[i] < in2322[j] && in2322[j] <= out2322[i]) {
+                if (in2322[i] < in2322[j] && in2322[j] < out2322[i]) {
                     x = xor2322[j];
                     y = xor2322[i] ^ x;
                     z = xor2322[0] ^ xor2322[i];
-                } else if (in2322[j] < in2322[i] && in2322[i] <= out2322[j]) {
+                } else if (in2322[j] < in2322[i] && in2322[i] < out2322[j]) {
                     x = xor2322[i];
                     y = xor2322[j] ^ x;
                     z = xor2322[0] ^ xor2322[j];
@@ -1247,16 +1247,16 @@ public class Leetcode_6 {
 
     }
 
-    private void dfs2322(int x, int fa) {
-        in2322[x] = ++clock2322;
+    private int dfs2322(int x, int fa) {
+        in2322[x] = clock2322++;
         xor2322[x] = nums2322[x];
-        for (int y : graph2322.getOrDefault(x, new ArrayList<>())) {
+        for (int y : g2322[x]) {
             if (y != fa) {
-                dfs2322(y, x);
-                xor2322[x] ^= xor2322[y];
+                xor2322[x] ^= dfs2322(y, x);
             }
         }
         out2322[x] = clock2322;
+        return xor2322[x];
     }
 
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
