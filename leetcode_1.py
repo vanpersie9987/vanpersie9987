@@ -652,23 +652,19 @@ class leetcode_1:
 
     # 600. 不含连续1的非负整数 (Non-negative Integers without Consecutive Ones)
     def findIntegers(self, n: int) -> int:
-        s = bin(n)[2:]
-        m = len(s)
-
         @cache
-        def dfs(i: int, pre: int, isLimit: bool, isNum: bool) -> int:
-            if i == m:
-                return isNum
+        def dfs(i: int, j: int, is_limit: bool) -> int:
+            if i == l:
+                return 1
             res = 0
-            if not isNum:
-                res = dfs(i + 1, pre, False, False)
-            up = ord(s[i]) - ord("0") if isLimit else 1
-            for d in range(0 if isNum else 1, up + 1):
-                if pre == 0 or d == 0:
-                    res += dfs(i + 1, d, isLimit and d == up, True)
+            up = int(s[i]) if is_limit else 1
+            for d in range(up + 1):
+                if d == 0 or j == 0:
+                    res += dfs(i + 1, d, d == up and is_limit)
             return res
-
-        return dfs(0, 0, True, False) + 1
+        s = bin(n)[2:]
+        l = len(s)
+        return dfs(0, 0, True)
 
     # 902. 最大为 N 的数字组合 (Numbers At Most N Given Digit Set)
     def atMostNGivenDigitSet(self, digits: List[str], n: int) -> int:
