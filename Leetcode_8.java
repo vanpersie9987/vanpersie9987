@@ -6458,47 +6458,44 @@ public class Leetcode_8 {
     }
 
     // 2999. 统计强大整数的数目 (Count the Number of Powerful Integers)
-    private int limit2999;
     private String s2999;
+    private int limit2999;
 
     public long numberOfPowerfulInt(long start, long finish, int limit, String s) {
         this.limit2999 = limit;
         this.s2999 = s;
-        return check2999(String.valueOf(finish)) - check2999(String.valueOf(start - 1));
+        return cal2999(finish) - cal2999(start - 1);
 
     }
 
+    private String a2999;
+    private int n2999;
     private long[] memo2999;
-    private String num2999;
 
-    private long check2999(String num) {
-        if (num.length() < s2999.length()) {
-            return 0L;
+    private long cal2999(long x) {
+        this.a2999 = String.valueOf(x);
+        this.n2999 = a2999.length();
+        if (n2999 < s2999.length()) {
+            return 0;
         }
-        this.memo2999 = new long[num.length()];
-        this.num2999 = num;
+        this.memo2999 = new long[n2999];
         Arrays.fill(memo2999, -1L);
-        return dfs2999(0, true, false);
-
+        return dfs2999(0, true);
     }
 
-    // 可以去掉 isNum
-    private long dfs2999(int i, boolean isLimit, boolean isNum) {
-        if (num2999.length() - i == s2999.length()) {
-            return isLimit ? (Long.parseLong(num2999.substring(i)) >= Long.parseLong(s2999) ? 1 : 0) : 1;
+    private long dfs2999(int i, boolean isLimit) {
+        if (n2999 - i == s2999.length()) {
+            return !isLimit || s2999.compareTo(a2999.substring(i)) <= 0 ? 1L : 0L;
         }
-        if (!isLimit && isNum && memo2999[i] != -1L) {
+        if (!isLimit && memo2999[i] != -1L) {
             return memo2999[i];
         }
         long res = 0L;
-        if (!isNum) {
-            res = dfs2999(i + 1, false, false);
+        int up = isLimit ? a2999.charAt(i) - '0' : 9;
+        for (int d = 0; d <= Math.min(up, limit2999); ++d) {
+            res += dfs2999(i + 1, isLimit && up == d);
         }
-        int up = isLimit ? (num2999.charAt(i) - '0') : 9;
-        for (int d = isNum ? 0 : 1; d <= Math.min(limit2999, up); ++d) {
-            res += dfs2999(i + 1, isLimit && d == up, true);
-        }
-        if (!isLimit && isNum) {
+        if (!isLimit) {
             memo2999[i] = res;
         }
         return res;
