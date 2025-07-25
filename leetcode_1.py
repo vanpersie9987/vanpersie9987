@@ -9598,27 +9598,21 @@ class leetcode_1:
 
     # 2999. 统计强大整数的数目 (Count the Number of Powerful Integers)
     def numberOfPowerfulInt(self, start: int, finish: int, limit: int, s: str) -> int:
-        def cal(num: int) -> int:
+        def cal(x: int) -> int:
             @cache
-            def dfs(i: int, is_limit: bool, is_num: bool) -> int:
-                if i == n - len(s):
-                    return not is_limit or int(s) <= int(arr[i:])
+            def dfs(i: int, is_limit: bool) -> int:
+                if n - i == len(s):
+                    return not is_limit or s <= a[i:]
                 res = 0
-                if not is_num:
-                    res = dfs(i + 1, False, False)
-                up = int(arr[i]) if is_limit else 9
-                for d in range(0 if is_num else 1, up + 1):
-                    if d > limit:
-                        break
-                    res += dfs(i + 1, is_limit and up == d, True)
+                up = int(a[i]) if is_limit else 9
+                for d in range(min(limit, up) + 1):
+                    res += dfs(i + 1, is_limit and up == d)
                 return res
-
-            arr = str(num)
-            n = len(arr)
-            if num < int(s):
+            a = str(x)
+            n = len(a)
+            if n < len(s):
                 return 0
-            return dfs(0, True, False)
-
+            return dfs(0, True)
         return cal(finish) - cal(start - 1)
 
     # 2696. 删除子串后的字符串最小长度 (Minimum String Length After Removing Substrings)
