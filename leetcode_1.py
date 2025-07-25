@@ -596,28 +596,24 @@ class leetcode_1:
 
     # 2801. 统计范围内的步进数字数目 (Count Stepping Numbers in Range)
     def countSteppingNumbers(self, low: str, high: str) -> int:
-        MOD = 10**9 + 7
-
-        def check(arr: str) -> int:
-            n = len(arr)
-
+        def cal(s: str) -> int:
             @cache
             def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
                 if i == n:
-                    return int(is_num)
+                    return is_num
                 res = 0
                 if not is_num:
-                    res = dfs(i + 1, j, False, False)
-                up = int(arr[i]) if is_limit else 9
+                    res += dfs(i + 1, j, False, False)
+                up = int(s[i]) if is_limit else 9
                 for d in range(0 if is_num else 1, up + 1):
-                    if not is_num or abs(d - j) == 1:
-                        res += dfs(i + 1, d, is_limit and d == up, True)
-                        res %= MOD
+                    if not is_num or abs(j - d) == 1:
+                        res += dfs(i + 1, d, up == d and is_limit, True)
                 return res % MOD
-
+            n = len(s)
             return dfs(0, 0, True, False)
 
-        return (check(high) - check(str(int(low) - 1))) % MOD
+        MOD = 10**9 + 7
+        return (cal(high) - cal(str(int(low) - 1))) % MOD
 
     # 233. 数字 1 的个数 (Number of Digit One)
     # LCR 162. 数字 1 的个数
