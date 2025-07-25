@@ -2221,28 +2221,30 @@ class leetcode_1:
 
     # 2827. 范围中美丽整数的数目 (Number of Beautiful Integers in the Range)
     def numberOfBeautifulIntegers(self, low: int, high: int, k: int) -> int:
-        def cal(s: str) -> int:
+        def cal(x: int) -> int:
             @cache
-            def dfs(i: int, diff: int, m: int, isLimit: bool, isNum: bool) -> int:
-                if i == len(s):
-                    return 1 if isNum and diff == 0 and m == 0 else 0
+            def dfs(i: int, j: int, m: int, is_limit: bool, is_num: bool) -> int:
+                if i == n:
+                    return is_num and j == 0 and m == 0
                 res = 0
-                if not isNum:
-                    res = dfs(i + 1, 0, 0, False, False)
-                up = int(s[i]) if isLimit else 9
-                for j in range(0 if isNum else 1, up + 1):
+                if not is_num:
+                    res += dfs(i + 1, j, m, False, False)
+                up = int(s[i]) if is_limit else 9
+                for d in range(0 if is_num else 1, up + 1):
                     res += dfs(
                         i + 1,
-                        diff + (1 if j % 2 == 0 else -1),
-                        (m * 10 + j) % k,
-                        isLimit and j == up,
+                        j + (1 if (d & 1) else -1),
+                        (m * 10 + d) % k,
+                        up == d and is_limit,
                         True,
                     )
                 return res
 
+            s = str(x)
+            n = len(s)
             return dfs(0, 0, 0, True, False)
 
-        return cal(str(high)) - cal(str(low - 1))
+        return cal(high) - cal(low - 1)
 
     # 2826. 将三个组排序 (Sorting Three Groups)
     def minimumOperations(self, nums: List[int]) -> int:
@@ -10494,4 +10496,3 @@ class leetcode_1:
             if mx < mi:
                 return 0
         return mx - mi + 1
-
