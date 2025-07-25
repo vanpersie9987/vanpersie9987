@@ -8993,16 +8993,16 @@ class Union924:
 
     # 3487. 删除后的最大子数组元素和 (Maximum Unique Subarray Sum After Deletion)
     def maxSum(self, nums: List[int]) -> int:
-        s1 = set()
-        s2 = set()
+        n = len(nums)
+        s = set()
+        mx = -inf
         for x in nums:
-            if x < 0:
-                s2.add(x)
+            if x > 0:
+                s.add(x)
             else:
-                s1.add(x)
-        if len(s1):
-            return sum(s1)
-        return max(s2)
+                n -= 1
+                mx = max(mx, x)
+        return sum(s) if n else mx
 
     # 2680. 最大或值 (Maximum OR)
     def maximumOr(self, nums: List[int], k: int) -> int:
