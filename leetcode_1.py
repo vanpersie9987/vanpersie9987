@@ -10494,3 +10494,4 @@ class leetcode_1:
             if mx < mi:
                 return 0
         return mx - mi + 1
+

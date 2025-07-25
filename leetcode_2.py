@@ -9410,30 +9410,26 @@ class Union924:
 
     # 3519. 统计逐位非递减的整数 (Count Numbers with Non-Decreasing Digits)
     def countNumbers(self, l: str, r: str, b: int) -> int:
-        mod = 10**9 + 7
-
         def cal(x: int) -> int:
             @cache
-            def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
+            def dfs(i: int, j: int, is_limit: bool) -> int:
                 if i == n:
                     return 1
                 res = 0
-                if not is_num:
-                    res += dfs(i + 1, j, False, False)
                 up = int(s[i]) if is_limit else b - 1
-                for d in range(max(j, 0 if is_num else 1), up + 1):
-                    res += dfs(i + 1, d, is_limit and d == up, True)
-                return res % mod
-
-            s = []
+                for d in range(j, up + 1):
+                    res += dfs(i + 1, d, is_limit and up == d)
+                return res % MOD
+            a = []
             while x:
-                s.append(str(x % b))
+                a.append(str(x % b))
                 x //= b
-            s = s[::-1]
+            s = ''.join(a[::-1])
             n = len(s)
-            return dfs(0, 0, True, False)
-
-        return (cal(int(r)) - cal(int(l) - 1)) % mod
+            return dfs(0, 0, True)
+        
+        MOD = 10**9 + 7
+        return (cal(int(r)) - cal(int(l) - 1)) % MOD
 
     # 1534. 统计好三元组 (ount Good Triplets)
     def countGoodTriplets(self, arr: List[int], a: int, b: int, c: int) -> int:
