@@ -631,6 +631,7 @@ class leetcode_1:
             for d in range(up + 1):
                 res += dfs(i + 1, j + (d == 1), d == up and is_limit)
             return res
+
         s = str(n)
         l = len(s)
         return dfs(0, 0, True)
@@ -646,6 +647,7 @@ class leetcode_1:
             for d in range(up + 1):
                 res += dfs(i + 1, j + (d == 2), d == up and is_limit)
             return res
+
         s = str(n)
         l = len(s)
         return dfs(0, 0, True)
@@ -662,6 +664,7 @@ class leetcode_1:
                 if d == 0 or j == 0:
                     res += dfs(i + 1, d, d == up and is_limit)
             return res
+
         s = bin(n)[2:]
         l = len(s)
         return dfs(0, 0, True)
@@ -687,23 +690,22 @@ class leetcode_1:
 
     # 1012. 至少有 1 位重复的数字 (Numbers With Repeated Digits)
     def numDupDigitsAtMostN(self, n: int) -> int:
-        s = str(n)
-        m = len(s)
-
         @cache
-        def dfs(i: int, mask: int, isLimit: bool, isNum: bool) -> int:
-            if i == m:
-                return isNum
+        def dfs(i: int, j: int, is_limit: bool) -> int:
+            if i == l:
+                return j != 0
             res = 0
-            if not isNum:
-                res = dfs(i + 1, mask, False, False)
-            up = ord(s[i]) - ord("0") if isLimit else 9
-            for d in range(0 if isNum else 1, up + 1):
-                if not (mask >> d) & 1:
-                    res += dfs(i + 1, mask | (1 << d), isLimit and up == d, True)
+            if j == 0:
+                res += dfs(i + 1, j, False)
+            up = int(s[i]) if is_limit else 9
+            for d in range(0 if j else 1, up + 1):
+                if (j >> d) & 1 == 0:
+                    res += dfs(i + 1, j | (1 << d), is_limit and up == d)
             return res
 
-        return n - dfs(0, 0, True, False)
+        s = str(n)
+        l = len(s)
+        return n - dfs(0, 0, True)
 
     # 1105. 填充书架 (Filling Bookcase Shelves)
     def minHeightShelves(self, books: List[List[int]], shelfWidth: int) -> int:
@@ -3299,6 +3301,7 @@ class leetcode_1:
                 if (j >> d) & 1 == 0:
                     res += dfs(i + 1, j | (1 << d), d == up and is_limit)
             return res
+
         s = str(n)
         l = len(s)
         return dfs(0, 0, True)
@@ -3317,6 +3320,7 @@ class leetcode_1:
                 if (j >> d) & 1 == 0:
                     res += dfs(i + 1, j | (1 << d), isLimit and j == up)
             return res
+
         s = str(pow(10, n) - 1)
         l = len(s)
         return dfs(0, 0, True)
@@ -4287,9 +4291,11 @@ class leetcode_1:
                     if d in _s:
                         res += dfs(i + 1, d == up and is_limit)
                 return res
+
             s = str(n)
             l = len(s)
             return dfs(0, True)
+
         s = set([0, 1, 2, 5, 6, 8, 9])
         s2 = set([0, 1, 8])
         return check(s) - check(s2)
@@ -4304,6 +4310,7 @@ class leetcode_1:
         legal_u = 0
         for x in [2, 5, 6, 9]:
             legal_u |= 1 << x
+
         @cache
         def dfs(i: int, bit: int, isLimit: bool) -> int:
             if i == l:
@@ -6308,6 +6315,7 @@ class leetcode_1:
             s = str(x)
             n = len(s)
             return dfs(0, 0, True)
+
         MOD = 10**9 + 7
         return (check(num2) - check(str(int(num1) - 1))) % MOD
 
@@ -6590,7 +6598,9 @@ class leetcode_1:
             return res
 
     # 1947. 最大兼容性评分和 (Maximum Compatibility Score Sum)
-    def maxCompatibilitySum(self, students: List[List[int]], mentors: List[List[int]]) -> int:
+    def maxCompatibilitySum(
+        self, students: List[List[int]], mentors: List[List[int]]
+    ) -> int:
         @cache
         def dfs(i: int) -> int:
             if i == u:
@@ -6603,8 +6613,10 @@ class leetcode_1:
                 res = max(res, dfs(i | (1 << lb)) + score[id][lb])
                 c &= c - 1
             return res
+
         def check(arr: List[int], arr2: List[int]) -> int:
             return sum(x ^ y ^ 1 for x, y in zip(arr, arr2))
+
         m = len(students)
         score = [[0] * m for _ in range(m)]
         for i in range(m):

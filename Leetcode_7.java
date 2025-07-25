@@ -446,39 +446,39 @@ public class Leetcode_7 {
     // 1012. 至少有 1 位重复的数字 (Numbers With Repeated Digits) --数位dfs
     // (本题可以通过判断mask是否为0，即前面是否选过数字，从而去掉isNum)
     private int[][] memo1012;
-    private char[] arr1012;
-    private int k1012;
+    private char[] a1012;
+    private int l1012;
 
     public int numDupDigitsAtMostN(int n) {
-        this.arr1012 = String.valueOf(n).toCharArray();
-        this.k1012 = arr1012.length;
-        this.memo1012 = new int[k1012][1 << 10];
-        for (int i = 0; i < k1012; ++i) {
-            Arrays.fill(memo1012[i], -1);
+        this.a1012 = String.valueOf(n).toCharArray();
+        this.l1012 = a1012.length;
+        this.memo1012 = new int[l1012][1 << 10];
+        for (int[] r : memo1012) {
+            Arrays.fill(r, -1);
         }
-        return n - dfs1012(0, 0, true, false);
+        return n - dfs1012(0, 0, true);
 
     }
 
-    private int dfs1012(int i, int mask, boolean isLimit, boolean isNum) {
-        if (i == k1012) {
-            return isNum ? 1 : 0;
+    private int dfs1012(int i, int j, boolean isLimit) {
+        if (i == l1012) {
+            return j != 0 ? 1 : 0;
         }
-        if (!isLimit && isNum && memo1012[i][mask] != -1) {
-            return memo1012[i][mask];
+        if (!isLimit && memo1012[i][j] != -1) {
+            return memo1012[i][j];
         }
         int res = 0;
-        if (!isNum) {
-            res = dfs1012(i + 1, mask, false, false);
+        if (j == 0) {
+            res = dfs1012(i + 1, j, false);
         }
-        int up = isLimit ? arr1012[i] - '0' : 9;
-        for (int d = isNum ? 0 : 1; d <= up; ++d) {
-            if ((mask & (1 << d)) == 0) {
-                res += dfs1012(i + 1, mask | (1 << d), isLimit && d == up, true);
+        int up = isLimit ? a1012[i] - '0' : 9;
+        for (int d = j != 0 ? 0 : 1; d <= up; ++d) {
+            if ((j & (1 << d)) == 0) {
+                res += dfs1012(i + 1, j | (1 << d), isLimit && d == up);
             }
         }
-        if (!isLimit && isNum) {
-            memo1012[i][mask] = res;
+        if (!isLimit) {
+            memo1012[i][j] = res;
         }
         return res;
     }
