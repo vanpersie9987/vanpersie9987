@@ -5211,30 +5211,27 @@ public class Leetcode_9 {
         this.arr3519 = trans(s);
         this.n3519 = arr3519.length;
         this.memo3519 = new int[n3519][b3519];
-        for (int i = 0; i < n3519; ++i) {
-            Arrays.fill(memo3519[i], -1);
+        for (int[] r : memo3519) {
+            Arrays.fill(r, -1);
         }
-        return dfs3519(0, 0, true, false);
+        return dfs3519(0, 0, true);
     }
 
-    private int dfs3519(int i, int j, boolean isLimit, boolean isNum) {
+    private int dfs3519(int i, int j, boolean isLimit) {
         if (i == n3519) {
             return 1;
         }
-        if (!isLimit && isNum && memo3519[i][j] != -1) {
+        if (!isLimit && memo3519[i][j] != -1) {
             return memo3519[i][j];
         }
         int res = 0;
-        if (!isNum) {
-            res = dfs3519(i + 1, j, false, false);
-        }
         final int MOD = (int) (1e9 + 7);
         int up = isLimit ? arr3519[i] - '0' : b3519 - 1;
-        for (int d = Math.max(j, isNum ? 0 : 1); d <= up; ++d) {
-            res += dfs3519(i + 1, d, isLimit && d == up, true);
+        for (int d = j; d <= up; ++d) {
+            res += dfs3519(i + 1, d, isLimit && d == up);
             res %= MOD;
         }
-        if (!isLimit && isNum) {
+        if (!isLimit) {
             memo3519[i][j] = res;
         }
         return res;
