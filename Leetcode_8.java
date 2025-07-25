@@ -2896,7 +2896,7 @@ public class Leetcode_8 {
         return memo6941[i][j] = res;
     }
 
-    // 8013. 范围中美丽整数的数目 (Number of Beautiful Integers in the Range)
+    // 2827. 范围中美丽整数的数目 (Number of Beautiful Integers in the Range)
     private int k8013;
 
     public int numberOfBeautifulIntegers(int low, int high, int k) {
@@ -2905,42 +2905,42 @@ public class Leetcode_8 {
 
     }
 
-    private char[] arr8013;
+    private char[] a8013;
     private int[][][][] memo8013;
     private int n8013;
 
     private int check8013(int num) {
-        arr8013 = String.valueOf(num).toCharArray();
-        this.n8013 = arr8013.length;
-        this.memo8013 = new int[n8013][n8013][n8013][20];
-        for (int i = 0; i < n8013; ++i) {
-            for (int j = 0; j < n8013; ++j) {
-                for (int k = 0; k < n8013; ++k) {
-                    Arrays.fill(memo8013[i][j][k], -1);
+        a8013 = String.valueOf(num).toCharArray();
+        this.n8013 = a8013.length;
+        this.memo8013 = new int[n8013][n8013][n8013][k8013];
+        for (int[][][] m : memo8013) {
+            for (int[][] m1 : m) {
+                for (int[] m2 : m1) {
+                    Arrays.fill(m2, -1);
                 }
             }
         }
         return dfs8013(0, 0, 0, 0, true, false);
     }
 
-    private int dfs8013(int i, int even, int odd, int m, boolean isLimit, boolean isNum) {
+    private int dfs8013(int i, int j, int l, int m, boolean isLimit, boolean isNum) {
         if (i == n8013) {
-            return (isNum && even == odd && m % k8013 == 0) ? 1 : 0;
+            return (isNum && j == l && m == 0) ? 1 : 0;
         }
-        if (!isLimit && isNum && memo8013[i][even][odd][m] != -1) {
-            return memo8013[i][even][odd][m];
+        if (!isLimit && isNum && memo8013[i][j][l][m] != -1) {
+            return memo8013[i][j][l][m];
         }
         int res = 0;
         if (!isNum) {
-            res = dfs8013(i + 1, even, odd, m, false, false);
+            res = dfs8013(i + 1, j, l, m, false, false);
         }
-        int up = isLimit ? arr8013[i] - '0' : 9;
-        for (int j = isNum ? 0 : 1; j <= up; ++j) {
-            res += dfs8013(i + 1, even + (j % 2 == 0 ? 1 : 0),
-                    odd + (j % 2 == 1 ? 1 : 0), (m * 10 + j) % k8013, isLimit && j == up, true);
+        int up = isLimit ? a8013[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            res += dfs8013(i + 1, j + (((d & 1) == 0) ? 1 : 0),
+                    l + (((d & 1) == 1) ? 1 : 0), (m * 10 + d) % k8013, isLimit && d == up, true);
         }
         if (!isLimit && isNum) {
-            memo8013[i][even][odd][m] = res;
+            memo8013[i][j][l][m] = res;
         }
         return res;
     }
