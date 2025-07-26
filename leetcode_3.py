@@ -2341,3 +2341,16 @@ class leetcode_3:
                 if res == 0:
                     return 0
         return res
+    
+    # 42. 接雨水 (Trapping Rain Water)
+    def trap(self, height: List[int]) -> int:
+        n = len(height)
+        left = [0] * n
+        for i in range(1, n):
+            left[i] = max(left[i - 1], height[i - 1])
+        res = 0 
+        right = 0
+        for i in range(n - 2, 0, -1):
+            right = max(right, height[i + 1])
+            res += max(0, min(left[i], right) - height[i])
+        return res
