@@ -2377,3 +2377,16 @@ class leetcode_3:
             a[i - 1] < a[i] > a[i + 1] or a[i - 1] > a[i] < a[i + 1]
             for i in range(1, n - 1)
         )
+    
+    # 2044. 统计按位或能得到最大值的子集数目 (Count Number of Maximum Bitwise-OR Subsets)
+    def countMaxOrSubsets(self, nums: List[int]) -> int:
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return j == mx
+            return dfs(i + 1, j) + dfs(i + 1, j | nums[i])
+
+        mx = 0
+        for x in nums:
+            mx |= x
+        n = len(nums)
+        return dfs(0, 0)

@@ -9427,7 +9427,7 @@ class Union924:
             s = ''.join(a[::-1])
             n = len(s)
             return dfs(0, 0, True)
-        
+
         MOD = 10**9 + 7
         return (cal(int(r)) - cal(int(l) - 1)) % MOD
 
