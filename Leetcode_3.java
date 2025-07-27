@@ -3679,14 +3679,14 @@ public class Leetcode_3 {
         int n = nums.length;
         int max = 0;
         int res = 0;
-        int[] sum = new int[1 << n];
-        for (int i = 1; i < (1 << n); ++i) {
-            int bit = Integer.numberOfTrailingZeros(i);
-            sum[i] = sum[i ^ (1 << bit)] | nums[bit];
-            if (sum[i] > max) {
-                max = sum[i];
+        int[] s = new int[1 << n];
+        for (int i = 1; i < 1 << n; ++i) {
+            int lb = Integer.numberOfTrailingZeros(i);
+            s[i] = s[i ^ (1 << lb)] | nums[lb];
+            if (s[i] > max) {
+                max = s[i];
                 res = 1;
-            } else if (sum[i] == max) {
+            } else if (s[i] == max) {
                 ++res;
             }
         }
