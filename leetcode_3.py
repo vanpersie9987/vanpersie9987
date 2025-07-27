@@ -2380,6 +2380,7 @@ class leetcode_3:
     
     # 2044. 统计按位或能得到最大值的子集数目 (Count Number of Maximum Bitwise-OR Subsets)
     def countMaxOrSubsets(self, nums: List[int]) -> int:
+        @cache
         def dfs(i: int, j: int) -> int:
             if i == n:
                 return j == mx
