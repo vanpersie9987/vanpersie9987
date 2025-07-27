@@ -3696,32 +3696,25 @@ public class Leetcode_3 {
 
     // 2044. 统计按位或能得到最大值的子集数目 (Count Number of Maximum Bitwise-OR Subsets)
     private int max2044;
-    private int res2044;
     private int[] nums2044;
     private int n2044;
 
     public int countMaxOrSubsets2(int[] nums) {
         this.n2044 = nums.length;
         this.nums2044 = nums;
-        dfs2044(0, 0);
-        return res2044;
+        this.max2044 = 0;
+        for (int x : nums) {
+            max2044 |= x;
+        }
+        return dfs2044(0, 0);
 
     }
 
-    private void dfs2044(int i, int or) {
+    private int dfs2044(int i, int j) {
         if (i == n2044) {
-            if (or > max2044) {
-                max2044 = or;
-                res2044 = 1;
-            } else if (or == max2044) {
-                ++res2044;
-            }
-            return;
+            return j == max2044 ? 1 : 0;
         }
-        // 不选
-        dfs2044(i + 1, or);
-        // 选
-        dfs2044(i + 1, or | nums2044[i]);
+        return dfs2044(i + 1, j) + dfs2044(i + 1, j | nums2044[i]);
     }
 
     // 1625. 执行操作后字典序最小的字符串 (Lexicographically Smallest String After Applying
@@ -8003,10 +7996,10 @@ public class Leetcode_3 {
                 }
                 return Integer.compare(Math.abs(o1), Math.abs(o2));
             }
-            
+
         });
         return arr[0];
-    
+
     }
 
     // 6061. 买钢笔和铅笔的方案数 (Number of Ways to Buy Pens and Pencils)
