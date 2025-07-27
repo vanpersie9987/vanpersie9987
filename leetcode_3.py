@@ -2189,11 +2189,13 @@ class leetcode_3:
         m = len(s)
         if k == 1:
             return m - 1
+
         @cache
         def cal(i: int) -> int:
             if i == 1:
                 return 0
             return cal(i.bit_count()) + 1
+
         for i in range(1, m + 1):
             if cal(i) == k - 1:
                 res += dfs(0, i, True)
@@ -2209,6 +2211,7 @@ class leetcode_3:
                 m *= n % 10
                 n //= 10
             return s + m
+
         return n % check(n) == 0
 
     # 3623. 统计梯形的数目 I (Count Number of Trapezoids I)
@@ -2269,9 +2272,11 @@ class leetcode_3:
                 for d in range(0 if is_num else 1, up + 1):
                     res += dfs(i + 1, j * d, k + d, d == up and is_limit, True)
                 return res
+
             s = str(x)
             n = len(s)
             return dfs(0, 1, 0, True, False)
+
         return cal(r) - cal(l - 1)
 
     # 1717. 删除子字符串的最大得分 (Maximum Score From Removing Substrings)
@@ -2281,20 +2286,21 @@ class leetcode_3:
             cnt_a = 0
             cnt_b = 0
             for c in s:
-                if c == 'b':
+                if c == "b":
                     if cnt_a:
                         cnt_a -= 1
                         res += x
                     else:
                         cnt_b += 1
-                elif c == 'a':
+                elif c == "a":
                     cnt_a += 1
                 else:
                     res += min(cnt_a, cnt_b) * y
                     cnt_a = 0
                     cnt_b = 0
             return res
-        return max(check(s + '_', x, y), check(s[::-1] + '_', y, x))
+
+        return max(check(s + "_", x, y), check(s[::-1] + "_", y, x))
 
     # 2322. 从树中删除边的最小分数 (Minimum Score After Removals on a Tree)
     def minimumScore(self, nums: List[int], edges: List[List[int]]) -> int:
@@ -2341,16 +2347,33 @@ class leetcode_3:
                 if res == 0:
                     return 0
         return res
-    
+
     # 42. 接雨水 (Trapping Rain Water)
     def trap(self, height: List[int]) -> int:
         n = len(height)
         left = [0] * n
         for i in range(1, n):
             left[i] = max(left[i - 1], height[i - 1])
-        res = 0 
+        res = 0
         right = 0
         for i in range(n - 2, 0, -1):
             right = max(right, height[i + 1])
             res += max(0, min(left[i], right) - height[i])
         return res
+
+    # 2210. 统计数组中峰和谷的数量 (Count Hills and Valleys in an Array)
+    def countHillValley(self, nums: List[int]) -> int:
+        a = []
+        n = len(nums)
+        i = 0
+        while i < n:
+            a.append(nums[i])
+            j = i
+            while j < n and nums[j] == nums[i]:
+                j += 1
+            i = j
+        n = len(a)
+        return sum(
+            a[i - 1] < a[i] > a[i + 1] or a[i - 1] > a[i] < a[i + 1]
+            for i in range(1, n - 1)
+        )

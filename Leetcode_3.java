@@ -4311,42 +4311,26 @@ public class Leetcode_3 {
     }
 
     // 2210. 统计数组中峰和谷的数量 (Count Hills and Valleys in an Array)
-    public int countHillValley(int[] nums) {
-        int res = 0;
-        for (int i = 1; i < nums.length - 1; ++i) {
-            if (nums[i] == nums[i - 1]) {
-                continue;
+    public int ountHillValley(int[] nums) {
+        List<Integer> a = new ArrayList<>();
+        for (int i = 0; i < nums.length;) {
+            a.add(nums[i]);
+            int j = i;
+            while (j < nums.length && nums[j] == nums[i]) {
+                ++j;
             }
-            if (isPeek6027(i, nums)) {
+            i = j;
+        }
+        int res = 0;
+        for (int i = 1; i < a.size() - 1; ++i) {
+            if (a.get(i) > a.get(i - 1) && a.get(i) > a.get(i + 1)) {
+                ++res;
+            } else if (a.get(i) < a.get(i - 1) && a.get(i) < a.get(i + 1)) {
                 ++res;
             }
         }
         return res;
 
-    }
-
-    private boolean isPeek6027(int index, int[] nums) {
-        int left = index - 1;
-        int right = index + 1;
-        while (left >= 0 && right < nums.length) {
-            if (nums[index] == nums[left]) {
-                --left;
-                continue;
-            }
-            if (nums[index] == nums[right]) {
-                ++right;
-                continue;
-            }
-            if ((nums[left] > nums[index] && nums[index] > nums[right])
-                    || (nums[left] < nums[index] && nums[index] < nums[right])) {
-                return false;
-            }
-            if ((nums[index] > nums[left] && nums[index] > nums[right])
-                    || (nums[index] < nums[left] && nums[index] < nums[right])) {
-                return true;
-            }
-        }
-        return false;
     }
 
     // 2211. 统计道路上的碰撞次数 (Count Collisions on a Road)
