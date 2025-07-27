@@ -2390,3 +2390,18 @@ class leetcode_3:
             mx |= x
         n = len(nums)
         return dfs(0, 0)
+
+    # 2044. 统计按位或能得到最大值的子集数目 (Count Number of Maximum Bitwise-OR Subsets)
+    def countMaxOrSubsets(self, nums: List[int]) -> int:
+        mx = 0
+        for x in nums:
+            mx |= x
+        n = len(nums)
+        s = [0] * (1 << n)
+        res = 0
+        for i in range(1, 1 << n):
+            lb = (i & -i).bit_length() - 1
+            s[i] = s[i ^ (1 << lb)] | nums[lb]
+            res += s[i] == mx
+        return res
+        
