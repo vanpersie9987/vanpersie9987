@@ -8458,5 +8458,65 @@ public class Leetcode_9 {
         return res + Math.max(Math.max(mx1, mx2), mx3);
 
     }
+
+    // 3629. 通过质数传送到达终点的最少跳跃次数 (Minimum Jumps to Reach End via Prime Teleportation)
+    private static final int MX = (int) 1e6;
+    private static final List<Integer>[] primeFactors = new ArrayList[MX + 1];
+    private static boolean initialized = false;
+
+    private void init3629() {
+        if (initialized) {
+            return;
+        }
+        initialized = true;
+        Arrays.setAll(primeFactors, o -> new ArrayList<>());
+        for (int i = 2; i <= MX; ++i) {
+            if (primeFactors[i].isEmpty()) {
+                for (int j = i; j <= MX; j += i) {
+                    primeFactors[j].add(i);
+                }
+            }
+        }
+    }
+
+    public int minJumps(int[] nums) {
+        init3629();
+        int n = nums.length;
+        Map<Integer, List<Integer>> primeToId = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            for (int p : primeFactors[nums[i]]) {
+                primeToId.computeIfAbsent(p, o -> new ArrayList<>()).add(i);
+            }
+        }
+        Queue<Integer> q = new LinkedList<>();
+        boolean[] vis = new boolean[n];
+        q.offer(0);
+        vis[0] = true;
+        int res = 0;
+
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {
+                int x = q.poll();
+                if (x == n - 1) {
+                    return res;
+                }
+                List<Integer> idx = primeToId.getOrDefault(nums[x], new ArrayList<>());
+                idx.add(x + 1);
+                if (x > 0) {
+                    idx.add(x - 1);
+                }
+                for (int j : idx) { // 可以从 i 跳到 j
+                    if (!vis[j]) {
+                        vis[j] = true;
+                        q.add(j);
+                    }
+                }
+                idx.clear(); // 避免重复访问下标列表
+            }
+            res++;
+        }
+        return -1;
+    }
     
 }
