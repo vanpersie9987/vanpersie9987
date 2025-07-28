@@ -2377,7 +2377,7 @@ class leetcode_3:
             a[i - 1] < a[i] > a[i + 1] or a[i - 1] > a[i] < a[i + 1]
             for i in range(1, n - 1)
         )
-    
+
     # 2044. 统计按位或能得到最大值的子集数目 (Count Number of Maximum Bitwise-OR Subsets)
     def countMaxOrSubsets(self, nums: List[int]) -> int:
         @cache
@@ -2405,4 +2405,8 @@ class leetcode_3:
             s[i] = s[i ^ (1 << lb)] | nums[lb]
             res += s[i] == mx
         return res
-        
+
+    # 3627. 中位数之和的最大值 (Maximum Median Sum of Subsequences of Size 3)
+    def maximumMedianSum(self, nums: List[int]) -> int:
+        nums.sort()
+        return sum(nums[i] for i in range(len(nums) - 2, len(nums) // 3 - 1, -2))

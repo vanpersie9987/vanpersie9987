@@ -8409,5 +8409,17 @@ public class Leetcode_9 {
         }
         return res;
     }
+
+    // 3627. 中位数之和的最大值 (Maximum Median Sum of Subsequences of Size 3)
+    public long maximumMedianSum(int[] nums) {
+        long res = 0L;
+        Arrays.sort(nums);
+        int n = nums.length;
+        for (int i = n - 2; i >= n / 3; i -= 2) {
+            res += nums[i];
+        }
+        return res;
+
+    }
     
 }
