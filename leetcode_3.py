@@ -2410,7 +2410,7 @@ class leetcode_3:
     def maximumMedianSum(self, nums: List[int]) -> int:
         nums.sort()
         return sum(nums[i] for i in range(len(nums) - 2, len(nums) // 3 - 1, -2))
-    
+
     # 3628. 插入一个字母的最大子序列数 (Maximum Number of Subsequences After One Inserting)
     def numOfSubsequences(self, s: str) -> int:
         def cal(s: str) -> int:
@@ -2441,15 +2441,41 @@ class leetcode_3:
                 mx = max(mx, left[i] * right)
             return res + mx
         return max(cal('L' + s), cal(s + 'T'), check(s))
-        
-
-            
 
 
+# 3629. 通过质数传送到达终点的最少跳跃次数 (Minimum Jumps to Reach End via Prime Teleportation)
+MX = 1_000_001
+PRIME_FACTORS = [[] for _ in range(MX)]
+for i in range(2, MX):
+    if not PRIME_FACTORS[i]:  # i 是质数
+        for j in range(i, MX, i):  # i 的倍数有质因子 i
+            PRIME_FACTORS[j].append(i)
+class Solution:
+    def minJumps(self, nums: List[int]) -> int:
+        n = len(nums)
+        groups = defaultdict(list)
+        for i, x in enumerate(nums):
+            for p in PRIME_FACTORS[x]:
+                groups[p].append(i)  # 对于质数 p，可以跳到下标 i
+        ans = 0
+        vis = [False] * n
+        vis[0] = True
+        q = deque()
+        q.append(0)
 
-            
-
-
-
-
-        
+        while True:
+            s = len(q)
+            for _ in range(s):
+                x = q.popleft()
+                if x == n - 1:
+                    return ans
+                idx = groups[nums[x]]
+                idx.append(x + 1)
+                if x:
+                    idx.append(x - 1)
+                for j in idx:  # 可以从 i 跳到 j
+                    if not vis[j]:
+                        vis[j] = True
+                        q.append(j)
+                idx.clear()  # 避免重复访问下标列表
+            ans += 1
