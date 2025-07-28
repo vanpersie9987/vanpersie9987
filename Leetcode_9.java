@@ -8421,5 +8421,42 @@ public class Leetcode_9 {
         return res;
 
     }
+
+    // 3628. 插入一个字母的最大子序列数 (Maximum Number of Subsequences After One Inserting)
+    public long numOfSubsequences(String s) {
+        int n = s.length();
+        long res = 0L;
+        int cntL = s.charAt(0) == 'L' ? 1 : 0;
+        long cntC = 0L;
+        int[] left = new int[n];
+        left[0] = s.charAt(0) == 'L' ? 1 : 0;
+        for (int i = 1; i < n; ++i) {
+            if (s.charAt(i) == 'L') {
+                ++cntL;
+            } else if (s.charAt(i) == 'C') {
+                cntC += cntL;
+            }
+            left[i] = cntL;
+        }
+        long mx2 = cntC;
+        int cntT = s.charAt(n - 1) == 'T' ? 1 : 0;
+        cntC = 0L;
+        long mx1 = 0L;
+        for (int i = n - 2; i >= 0; --i) {
+            if (s.charAt(i) == 'T') {
+                ++cntT;
+            } else if (s.charAt(i) == 'C') {
+                cntC += cntT;
+            }
+            long cur = (long) left[i] * cntT;
+            mx1 = Math.max(mx1, cur);
+            if (s.charAt(i) == 'C') {
+                res += cur;
+            }
+        }
+        long mx3 = cntC;
+        return res + Math.max(Math.max(mx1, mx2), mx3);
+
+    }
     
 }

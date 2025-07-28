@@ -2410,3 +2410,46 @@ class leetcode_3:
     def maximumMedianSum(self, nums: List[int]) -> int:
         nums.sort()
         return sum(nums[i] for i in range(len(nums) - 2, len(nums) // 3 - 1, -2))
+    
+    # 3628. 插入一个字母的最大子序列数 (Maximum Number of Subsequences After One Inserting)
+    def numOfSubsequences(self, s: str) -> int:
+        def cal(s: str) -> int:
+            cnt_L = 0
+            cnt_C = 0
+            res = 0
+            for c in s:
+                if c == 'L':
+                    cnt_L += 1
+                elif c == 'C':
+                    cnt_C += cnt_L
+                elif c == 'T':
+                    res += cnt_C
+            return res
+        def check(s: str) -> int:
+            n = len(s)
+            left = [0] * n
+            left[0] = s[0] == 'L'
+            for i in range(1, n):
+                left[i] = left[i - 1] + (s[i] == 'L')
+            right = s[-1] == 'T'
+            res = 0
+            mx = 0
+            for i in range(n - 2, -1, -1):
+                right += s[i] == 'T'
+                if s[i] == 'C':
+                    res += left[i] * right
+                mx = max(mx, left[i] * right)
+            return res + mx
+        return max(cal('L' + s), cal(s + 'T'), check(s))
+        
+
+            
+
+
+
+            
+
+
+
+
+        
