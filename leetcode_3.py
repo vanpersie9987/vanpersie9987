@@ -2479,3 +2479,10 @@ class Solution:
                         q.append(j)
                 idx.clear()  # 避免重复访问下标列表
             ans += 1
+
+    # 2683. 相邻值的按位异或 (Neighboring Bitwise XOR)
+    def doesValidArrayExist(self, derived: List[int]) -> bool:
+        x = 0
+        for d in derived:
+            x ^= d
+        return x == 0
