@@ -2479,3 +2479,16 @@ class Solution:
                         q.append(j)
                 idx.clear()  # 避免重复访问下标列表
             ans += 1
+
+    # 2419. 按位与最大的最长子数组 (Longest Subarray With Maximum Bitwise AND)
+    def longestSubarray(self, nums: List[int]) -> int:
+        mx = max(nums)
+        cnt = 0
+        res = 0
+        for x in nums:
+            if mx == x:
+                cnt += 1
+            else:
+                res = max(res, cnt)
+                cnt = 0
+        return max(res, cnt)
