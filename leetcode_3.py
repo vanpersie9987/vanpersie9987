@@ -2499,3 +2499,13 @@ class Solution:
         for d in derived:
             x ^= d
         return x == 0
+
+    # 118. 杨辉三角 (Pascal's Triangle)
+    def generate(self, numRows: int) -> List[List[int]]:
+        res = [[1]]
+        for _ in range(numRows - 1):
+            cur = res[-1] + [1]
+            for i in range(1, len(cur) - 1):
+                cur[i] = res[-1][i - 1] + res[-1][i]
+            res.append(cur)
+        return res
