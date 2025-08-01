@@ -2356,7 +2356,7 @@ class leetcode_3:
             left[i] = max(left[i - 1], height[i - 1])
         res = 0
         right = 0
-        for i in range(n - 2, 0, -1):
+        for i in range(n - 2, -1, -1):
             right = max(right, height[i + 1])
             res += max(0, min(left[i], right) - height[i])
         return res
