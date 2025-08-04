@@ -2555,3 +2555,30 @@ class Solution:
                 j += 1
             res = max(res, i - j + 1)
         return len(nums) - res
+
+    # 3637. 三段式数组 I (Trionic Array I)
+    def isTrionic(self, nums: List[int]) -> bool:
+        n = len(nums)
+        i = 1
+        while i < n:
+            if nums[i] > nums[i - 1]:
+                i += 1
+            else:
+                break
+        if i == 1 or i == n:
+            return False
+        i -= 1
+        j = n - 2
+        while j >= 0:
+            if nums[j + 1] > nums[j]:
+                j -= 1
+            else:
+                break
+        if j == n - 2:
+            return False
+        j += 1
+        while i + 1 <= j:
+            if nums[i + 1] >= nums[i]:
+                return False
+            i += 1
+        return True

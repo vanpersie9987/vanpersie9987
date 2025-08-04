@@ -8557,5 +8557,46 @@ public class Leetcode_9 {
         return n - res;
 
     }
+
+    // 3637. 三段式数组 I (Trionic Array I)
+    public boolean isTrionic(int[] nums) {
+        int i = 1;
+        int n = nums.length;
+        if (n <= 3) {
+            return false;
+        }
+        while (i < n) {
+            if (nums[i] > nums[i - 1]) {
+                ++i;
+            } else {
+                break;
+            }
+        }
+        if (i == n || i == 1) {
+            return false;
+        }
+        --i;
+        int j = n - 2;
+        while (j >= 0) {
+            if (nums[j + 1] > nums[j]) {
+                --j;
+            } else {
+                break;
+            }
+        }
+        if (j == n - 2) {
+            return false;
+        }
+        ++j;
+        while (i + 1 <= j) {
+            if (nums[i] > nums[i + 1]) {
+                ++i;
+            } else {
+                return false;
+            }
+        }
+        return true;
+        
+    }
     
 }
