@@ -8518,5 +8518,44 @@ public class Leetcode_9 {
         }
         return -1;
     }
+
+    // 3633. 最早完成陆地和水上游乐设施的时间 I (Earliest Finish Time for Land and Water Rides I)
+    // 3635. 最早完成陆地和水上游乐设施的时间 II (Earliest Finish Time for Land and Water Rides II)
+    public int earliestFinishTime(int[] landStartTime, int[] landDuration, int[] waterStartTime, int[] waterDuration) {
+        int end = Integer.MAX_VALUE;
+        for (int i = 0; i < landStartTime.length; ++i) {
+            end = Math.min(end, landStartTime[i] + landDuration[i]);
+        }
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < waterStartTime.length; ++i) {
+            res = Math.min(res, Math.max(end, waterStartTime[i]) + waterDuration[i]);
+        }
+
+        end = Integer.MAX_VALUE;
+        for (int i = 0; i < waterStartTime.length; ++i) {
+            end = Math.min(end, waterStartTime[i] + waterDuration[i]);
+        }
+        for (int i = 0; i < landStartTime.length; ++i) {
+            res = Math.min(res, Math.max(end, landStartTime[i]) + landDuration[i]);
+        }
+        return res;
+
+    }
+
+    // 3634. 使数组平衡的最少移除数目 (Minimum Removals to Balance Array)
+    public int minRemoval(int[] nums, int k) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int j = 0;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            while ((long) nums[j] * k < nums[i]) {
+                ++j;
+            }
+            res = Math.max(res, i - j + 1);
+        }
+        return n - res;
+
+    }
     
 }

@@ -2527,3 +2527,31 @@ class Solution:
         mn = min(cnt)
 
         return sum(min(x, mn * 2) for x in a[: len(a) // 2])
+
+    # 3633. 最早完成陆地和水上游乐设施的时间 I (Earliest Finish Time for Land and Water Rides I)
+    # 3635. 最早完成陆地和水上游乐设施的时间 II (Earliest Finish Time for Land and Water Rides II)
+    def earliestFinishTime(self, landStartTime: List[int], landDuration: List[int], waterStartTime: List[int], waterDuration: List[int]) -> int:
+        res = inf
+        end = inf
+        for s, d in zip(landStartTime, landDuration):
+            end = min(end, s + d)
+        for s, d in zip(waterStartTime, waterDuration):
+            res = min(res, max(s, end) + d)
+
+        end = inf
+        for s, d in zip(waterStartTime, waterDuration):
+            end = min(end, s + d)
+        for s, d in zip(landStartTime, landDuration):
+            res = min(res, max(s, end) + d)
+        return res
+
+    # 3634. 使数组平衡的最少移除数目 (Minimum Removals to Balance Array)
+    def minRemoval(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        res = 0
+        j = 0
+        for i, v in enumerate(nums):
+            while nums[j] * k < v:
+                j += 1
+            res = max(res, i - j + 1)
+        return len(nums) - res
