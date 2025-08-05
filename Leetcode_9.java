@@ -8653,5 +8653,61 @@ public class Leetcode_9 {
         }
         return res;
     }
+
+    // 3640. 三段式数组 II (Trionic Array II)
+    private long[][] memo3640;
+    private int[] nums3640;
+    private int n3640;
+
+    public long maxSumTrionic(int[] nums) {
+        this.n3640 = nums.length;
+        this.nums3640 = nums;
+        this.memo3640 = new long[n3640][5];
+        for (long[] r : memo3640) {
+            Arrays.fill(r, Long.MAX_VALUE);
+        }
+        return dfs3640(0, 0);
+    }
+
+    // j == 0 未选
+    // j == 1 已经选择了1个
+    // j == 2 已经在第一个上升阶段
+    // j == 3 已经在第一个下降阶段
+    // j == 4 已经在第二个上升阶段
+    private long dfs3640(int i, int j) {
+        if (i == n3640) {
+            return j == 4 ? 0L : (long) -1e15;
+        }
+        if (memo3640[i][j] != Long.MAX_VALUE) {
+            return memo3640[i][j];
+        }
+        if (j == 0) {
+            return memo3640[i][j] = Math.max(dfs3640(i + 1, j), dfs3640(i + 1, j + 1) + nums3640[i]);
+        }
+        if (j == 1) {
+            if (nums3640[i - 1] >= nums3640[i]) {
+                return memo3640[i][j] = (long) -1e15;
+            }
+            return memo3640[i][j] = dfs3640(i + 1, j + 1) + nums3640[i];
+        }
+        if (j == 2) {
+            if (nums3640[i] == nums3640[i - 1]) {
+                return memo3640[i][j] = (long) -1e15;
+            }
+            return memo3640[i][j] = dfs3640(i + 1, j + (nums3640[i] < nums3640[i - 1] ? 1 : 0)) + nums3640[i];
+        }
+
+        if (j == 3) {
+            if (nums3640[i] == nums3640[i - 1]) {
+                return memo3640[i][j] = (long) -1e15;
+            }
+            return memo3640[i][j] = dfs3640(i + 1, j + (nums3640[i] > nums3640[i - 1] ? 1 : 0)) + nums3640[i];
+        }
+        long res = 0L;
+        if (nums3640[i] > nums3640[i - 1]) {
+            res = Math.max(res, dfs3640(i + 1, j) + nums3640[i]);
+        }
+        return memo3640[i][j] = res;
+    }
     
 }

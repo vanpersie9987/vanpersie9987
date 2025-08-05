@@ -2622,3 +2622,37 @@ class Solution:
             else:
                 mx = max(mx, w)
         return res
+
+    # 3640. 三段式数组 II (Trionic Array II)
+    def maxSumTrionic(self, nums: List[int]) -> int:
+        # j == 0 未选
+        # j == 1 已经选择了1个
+        # j == 2 已经在第一个上升阶段
+        # j == 3 已经在第一个下降阶段
+        # j == 4 已经在第二个上升阶段
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0 if j == 4 else -inf
+            if j == 0:
+                return max(dfs(i + 1, j), dfs(i + 1, j + 1) + nums[i])
+            if j == 1:
+                if nums[i - 1] >= nums[i]:
+                    return -inf
+                return dfs(i + 1, j + 1) + nums[i]
+            if j == 2:
+                if nums[i] == nums[i - 1]:
+                    return -inf
+                return dfs(i + 1, j + (nums[i - 1] > nums[i])) + nums[i]
+            if j == 3:
+                if nums[i] == nums[i - 1]:
+                    return -inf
+                return dfs(i + 1, j + (nums[i - 1] < nums[i])) + nums[i]
+            res = 0
+            if nums[i - 1] < nums[i]:
+                res = max(res, dfs(i + 1, j) + nums[i])
+            return res
+        n = len(nums)
+        res = dfs(0, 0)
+        dfs.cache_clear()
+        return res
