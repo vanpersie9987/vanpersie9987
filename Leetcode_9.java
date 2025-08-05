@@ -8638,5 +8638,20 @@ public class Leetcode_9 {
         }
         return false;
     }
+
+    // 3638. 平衡装运的最大数量 (Maximum Balanced Shipments)
+    public int maxBalancedShipments(int[] weight) {
+        int mx = 0;
+        int res = 0;
+        for (int w : weight) {
+            if (w < mx) {
+                ++res;
+                mx = 0;
+            } else {
+                mx = Math.max(mx, w);
+            }
+        }
+        return res;
+    }
     
 }

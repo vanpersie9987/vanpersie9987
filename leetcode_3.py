@@ -2610,3 +2610,15 @@ class Solution:
             else:
                 left = mid + 1
         return right + 1
+
+    # 3638. 平衡装运的最大数量 (Maximum Balanced Shipments)
+    def maxBalancedShipments(self, weight: List[int]) -> int:
+        res = 0
+        mx = 0
+        for w in weight:
+            if w < mx:
+                res += 1
+                mx = 0
+            else:
+                mx = max(mx, w)
+        return res
