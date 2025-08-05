@@ -8598,5 +8598,45 @@ public class Leetcode_9 {
         return true;
         
     }
+
+    // 3639. 变为活跃状态的最小时间 (Minimum Time to Activate String)
+    public int minTime(String s, int[] order, int k) {
+        int n = order.length;
+        if (k > (long) n * (n + 1) / 2) {
+            return -1;
+        }
+        int left = 0;
+        int right = n - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check3639(mid, order, k)) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+    }
+
+    private boolean check3639(int t, int[] order, int k) {
+        int n = order.length;
+        int[] a = new int[n];
+        Arrays.fill(a, -1);
+        for (int i = 0; i < t + 1; ++i) {
+            a[order[i]] = 0;
+        }
+        long cnt = 0L;
+        int last_id = -1;
+        for (int i = 0; i < n; ++i) {
+            if (a[i] != -1) {
+                last_id = i;
+            }
+            cnt += last_id + 1;
+            if (cnt >= k) {
+                return true;
+            }
+        }
+        return false;
+    }
     
 }

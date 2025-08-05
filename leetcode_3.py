@@ -2582,3 +2582,31 @@ class Solution:
                 return False
             i += 1
         return True
+
+    # 3639. 变为活跃状态的最小时间 (Minimum Time to Activate String)
+    def minTime(self, _: str, order: List[int], k: int) -> int:
+        def check(t: int) -> bool:
+            a = [-1] * n
+            for i in range(t + 1):
+                a[order[i]] = 0
+            idx_last_star = -1
+            res = 0
+            for i in range(n):
+                if a[i] != -1:
+                    idx_last_star = i
+                res += idx_last_star + 1
+                if res >= k:
+                    return True
+            return False
+        n = len(order)
+        if k > (n + 1) * n // 2:
+            return -1
+        left = 0
+        right = n - 1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                right = mid - 1
+            else:
+                left = mid + 1
+        return right + 1
