@@ -2724,43 +2724,43 @@ class Solution:
         def sumRange(self, left: int, right: int) -> int:
             return self.t.sumRange(1, left, right, 0, self.n - 1)
 
-    class SegmentTree307:
-        def __init__(self, a: List[int]):
-            n = len(a)
-            self.s = [0] * (n * 4)
-            self.build(a, 1, 0, n - 1)
+class SegmentTree307:
+    def __init__(self, a: List[int]):
+        n = len(a)
+        self.s = [0] * (n * 4)
+        self.build(a, 1, 0, n - 1)
 
-        def build(self, a: List[int], o: int, l: int, r: int):
-            if l == r:
-                self.s[o] = a[l]
-                return
-            m = l + ((r - l) >> 1)
-            self.build(a, o * 2, l, m)
-            self.build(a, o * 2 + 1, m + 1, r)
-            self.maintain(o)
+    def build(self, a: List[int], o: int, l: int, r: int):
+        if l == r:
+            self.s[o] = a[l]
+            return
+        m = l + ((r - l) >> 1)
+        self.build(a, o * 2, l, m)
+        self.build(a, o * 2 + 1, m + 1, r)
+        self.maintain(o)
 
-        def maintain(self, o: int):
-            self.s[o] = self.s[o * 2] + self.s[o * 2 + 1]
+    def maintain(self, o: int):
+        self.s[o] = self.s[o * 2] + self.s[o * 2 + 1]
 
-        def update(self, o: int, index: int, val: int, l: int, r: int):
-            if l == r:
-                self.s[o] = val
-                return
-            m = l + ((r - l) >> 1)
-            if index <= m:
-                self.update(o * 2, index, val, l, m)
-            else:
-                self.update(o * 2 + 1, index, val, m + 1, r)
-            self.maintain(o)
+    def update(self, o: int, index: int, val: int, l: int, r: int):
+        if l == r:
+            self.s[o] = val
+            return
+        m = l + ((r - l) >> 1)
+        if index <= m:
+            self.update(o * 2, index, val, l, m)
+        else:
+            self.update(o * 2 + 1, index, val, m + 1, r)
+        self.maintain(o)
 
-        def sumRange(self, o: int, L: int, R: int, l: int, r: int) -> int:
-            if L <= l and r <= R:
-                return self.s[o]
-            m = l + ((r - l) >> 1)
-            if R <= m:
-                return self.sumRange(o * 2, L, R, l, m)
-            if L >= m + 1:
-                return self.sumRange(o * 2 + 1, L, R, m + 1, r)
-            return self.sumRange(o * 2, L, R, l, m) + self.sumRange(
-                o * 2 + 1, L, R, m + 1, r
-            )
+    def sumRange(self, o: int, L: int, R: int, l: int, r: int) -> int:
+        if L <= l and r <= R:
+            return self.s[o]
+        m = l + ((r - l) >> 1)
+        if R <= m:
+            return self.sumRange(o * 2, L, R, l, m)
+        if L >= m + 1:
+            return self.sumRange(o * 2 + 1, L, R, m + 1, r)
+        return self.sumRange(o * 2, L, R, l, m) + self.sumRange(
+            o * 2 + 1, L, R, m + 1, r
+        )
