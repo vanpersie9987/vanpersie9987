@@ -7377,44 +7377,44 @@ public class Leetcode_6 {
         // 11--212
         for (int i = 0; i < 12; ++i) {
             switch (i) {
-            case 0:
-                g1411[i].addAll(List.of(5, 6, 7, 8, 10));
-                break;
-            case 1:
-                g1411[i].addAll(List.of(5, 6, 8, 10, 11));
-                break;
-            case 2:
-                g1411[i].addAll(List.of(4, 6, 7, 8));
-                break;
-            case 3:
-                g1411[i].addAll(List.of(5, 9, 10, 11));
-                break;
-            case 4:
-                g1411[i].addAll(List.of(2, 8, 10, 11));
-                break;
-            case 5:
-                g1411[i].addAll(List.of(0, 1, 3, 9));
-                break;
-            case 6:
-                g1411[i].addAll(List.of(0, 1, 2, 9, 11));
-                break;
-            case 7:
-                g1411[i].addAll(List.of(0, 2, 9, 10, 11));
-                break;
-            case 8:
-                g1411[i].addAll(List.of(0, 1, 2, 4));
-                break;
-            case 9:
-                g1411[i].addAll(List.of(3, 5, 6, 7));
-                break;
-            case 10:
-                g1411[i].addAll(List.of(0, 1, 3, 4, 7));
-                break;
-            case 11:
-                g1411[i].addAll(List.of(1, 3, 4, 6, 7));
-                break;
-            default:
-                break;
+                case 0:
+                    g1411[i].addAll(List.of(5, 6, 7, 8, 10));
+                    break;
+                case 1:
+                    g1411[i].addAll(List.of(5, 6, 8, 10, 11));
+                    break;
+                case 2:
+                    g1411[i].addAll(List.of(4, 6, 7, 8));
+                    break;
+                case 3:
+                    g1411[i].addAll(List.of(5, 9, 10, 11));
+                    break;
+                case 4:
+                    g1411[i].addAll(List.of(2, 8, 10, 11));
+                    break;
+                case 5:
+                    g1411[i].addAll(List.of(0, 1, 3, 9));
+                    break;
+                case 6:
+                    g1411[i].addAll(List.of(0, 1, 2, 9, 11));
+                    break;
+                case 7:
+                    g1411[i].addAll(List.of(0, 2, 9, 10, 11));
+                    break;
+                case 8:
+                    g1411[i].addAll(List.of(0, 1, 2, 4));
+                    break;
+                case 9:
+                    g1411[i].addAll(List.of(3, 5, 6, 7));
+                    break;
+                case 10:
+                    g1411[i].addAll(List.of(0, 1, 3, 4, 7));
+                    break;
+                case 11:
+                    g1411[i].addAll(List.of(1, 3, 4, 6, 7));
+                    break;
+                default:
+                    break;
             }
 
         }

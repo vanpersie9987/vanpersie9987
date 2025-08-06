@@ -8579,7 +8579,7 @@ public class Leetcode_9 {
             }
         }
         return true;
-        
+
     }
 
     // 3639. 变为活跃状态的最小时间 (Minimum Time to Activate String)
