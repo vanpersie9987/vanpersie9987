@@ -46,7 +46,7 @@ from tkinter import N, NO, W
 from tkinter.messagebox import RETRY
 from tkinter.tix import Tree
 from token import NL, RIGHTSHIFT
-from turtle import RawTurtle, left, mode, pos, reset, right, rt, st, up
+from turtle import RawTurtle, left, mode, pos, reset, right, rt, st, up, update
 from typing import List, Optional, Self
 import heapq
 import bisect
@@ -2418,29 +2418,31 @@ class leetcode_3:
             cnt_C = 0
             res = 0
             for c in s:
-                if c == 'L':
+                if c == "L":
                     cnt_L += 1
-                elif c == 'C':
+                elif c == "C":
                     cnt_C += cnt_L
-                elif c == 'T':
+                elif c == "T":
                     res += cnt_C
             return res
+
         def check(s: str) -> int:
             n = len(s)
             left = [0] * n
-            left[0] = s[0] == 'L'
+            left[0] = s[0] == "L"
             for i in range(1, n):
-                left[i] = left[i - 1] + (s[i] == 'L')
-            right = s[-1] == 'T'
+                left[i] = left[i - 1] + (s[i] == "L")
+            right = s[-1] == "T"
             res = 0
             mx = 0
             for i in range(n - 2, -1, -1):
-                right += s[i] == 'T'
-                if s[i] == 'C':
+                right += s[i] == "T"
+                if s[i] == "C":
                     res += left[i] * right
                 mx = max(mx, left[i] * right)
             return res + mx
-        return max(cal('L' + s), cal(s + 'T'), check(s))
+
+        return max(cal("L" + s), cal(s + "T"), check(s))
 
 
 # 3629. 通过质数传送到达终点的最少跳跃次数 (Minimum Jumps to Reach End via Prime Teleportation)
@@ -2450,6 +2452,8 @@ for i in range(2, MX):
     if not PRIME_FACTORS[i]:  # i 是质数
         for j in range(i, MX, i):  # i 的倍数有质因子 i
             PRIME_FACTORS[j].append(i)
+
+
 class Solution:
     def minJumps(self, nums: List[int]) -> int:
         n = len(nums)
@@ -2530,7 +2534,13 @@ class Solution:
 
     # 3633. 最早完成陆地和水上游乐设施的时间 I (Earliest Finish Time for Land and Water Rides I)
     # 3635. 最早完成陆地和水上游乐设施的时间 II (Earliest Finish Time for Land and Water Rides II)
-    def earliestFinishTime(self, landStartTime: List[int], landDuration: List[int], waterStartTime: List[int], waterDuration: List[int]) -> int:
+    def earliestFinishTime(
+        self,
+        landStartTime: List[int],
+        landDuration: List[int],
+        waterStartTime: List[int],
+        waterDuration: List[int],
+    ) -> int:
         res = inf
         end = inf
         for s, d in zip(landStartTime, landDuration):
@@ -2598,6 +2608,7 @@ class Solution:
                 if res >= k:
                     return True
             return False
+
         n = len(order)
         if k > (n + 1) * n // 2:
             return -1
@@ -2652,6 +2663,7 @@ class Solution:
             if nums[i - 1] < nums[i]:
                 res = max(res, dfs(i + 1, j) + nums[i])
             return res
+
         n = len(nums)
         res = dfs(0, 0)
         dfs.cache_clear()
@@ -2690,6 +2702,7 @@ class Solution:
 
             def maintain(self, o: int):
                 self.max[o] = max(self.max[o * 2], self.max[o * 2 + 1])
+
         t = SegmentTree(baskets)
         n = len(baskets)
         res = 0
@@ -2697,3 +2710,57 @@ class Solution:
             if t.find(1, 0, n - 1, x) < 0:
                 res += 1
         return res
+
+    # 307. 区域和检索 - 数组可修改 (Range Sum Query - Mutable)
+    class NumArray:
+
+        def __init__(self, nums: List[int]):
+            self.n = len(nums)
+            self.t = SegmentTree307(nums)
+
+        def update(self, index: int, val: int) -> None:
+            self.t.update(1, index, val, 0, self.n - 1)
+
+        def sumRange(self, left: int, right: int) -> int:
+            return self.t.sumRange(1, left, right, 0, self.n - 1)
+
+    class SegmentTree307:
+        def __init__(self, a: List[int]):
+            n = len(a)
+            self.s = [0] * (n * 4)
+            self.build(a, 1, 0, n - 1)
+
+        def build(self, a: List[int], o: int, l: int, r: int):
+            if l == r:
+                self.s[o] = a[l]
+                return
+            m = l + ((r - l) >> 1)
+            self.build(a, o * 2, l, m)
+            self.build(a, o * 2 + 1, m + 1, r)
+            self.maintain(o)
+
+        def maintain(self, o: int):
+            self.s[o] = self.s[o * 2] + self.s[o * 2 + 1]
+
+        def update(self, o: int, index: int, val: int, l: int, r: int):
+            if l == r:
+                self.s[o] = val
+                return
+            m = l + ((r - l) >> 1)
+            if index <= m:
+                self.update(o * 2, index, val, l, m)
+            else:
+                self.update(o * 2 + 1, index, val, m + 1, r)
+            self.maintain(o)
+
+        def sumRange(self, o: int, L: int, R: int, l: int, r: int) -> int:
+            if L <= l and r <= R:
+                return self.s[o]
+            m = l + ((r - l) >> 1)
+            if R <= m:
+                return self.sumRange(o * 2, L, R, l, m)
+            if L >= m + 1:
+                return self.sumRange(o * 2 + 1, L, R, m + 1, r)
+            return self.sumRange(o * 2, L, R, l, m) + self.sumRange(
+                o * 2 + 1, L, R, m + 1, r
+            )
