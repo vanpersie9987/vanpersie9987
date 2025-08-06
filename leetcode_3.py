@@ -2656,3 +2656,47 @@ class Solution:
         res = dfs(0, 0)
         dfs.cache_clear()
         return res
+    
+
+    # 3479. 水果成篮 III (Fruits Into Baskets III) --线段树 （单点更新）
+    def numOfUnplacedFruits(self, fruits: List[int], baskets: List[int]) -> int:
+        class SegmentTree:
+            def __init__(self, a: List[int]):
+                n = len(a)
+                self.max = [0] * (n * 4)
+                self.build(a, 1, 0, n - 1)
+            
+            def build(self, a: List[int], o: int, l: int, r: int):
+                if l == r:
+                    self.max[o] = a[l]
+                    return
+                m = l + ((r - l) >> 1)
+                self.build(a, o * 2, l, m)
+                self.build(a, o * 2 + 1, m + 1, r)
+                self.maintain(o)
+
+            def find(self, o: int, l: int, r: int, x: int) -> int:
+                if self.max[o] < x:
+                    return -1
+                if l == r:
+                    self.max[o] = -1
+                    return l
+                m = l + ((r - l) >> 1)
+                i = self.find(o * 2, l, m, x)
+                if i < 0:
+                    i = self.find(o * 2 + 1, m + 1, r, x)
+                self.maintain(o)
+                return i
+            
+            def maintain(self, o: int):
+                self.max[o] = max(self.max[o * 2], self.max[o * 2 + 1])
+        t = SegmentTree(baskets)
+        n = len(baskets)
+        res = 0
+        for x in fruits:
+            if t.find(1, 0, n - 1, x) < 0:
+                res += 1
+        return res
+
+            
+        
