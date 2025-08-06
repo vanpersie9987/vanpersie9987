@@ -4472,23 +4472,6 @@ public class Leetcode_9 {
         return res;
     }
 
-    // 3477. 将水果放入篮子 II (Fruits Into Baskets II)
-    public int numOfUnplacedFruits(int[] fruits, int[] baskets) {
-        int n = fruits.length;
-        int res = n;
-        for (int x : fruits) {
-            for (int i = 0; i < n; ++i) {
-                if (x <= baskets[i]) {
-                    baskets[i] = 0;
-                    --res;
-                    break;
-                }
-            }
-        }
-        return res;
-
-    }
-
     // 3478. 选出和最大的 K 个元素 (Choose K Elements With Maximum Sum)
     public long[] findMaxSum(int[] nums1, int[] nums2, int k) {
         int n = nums1.length;
@@ -8709,5 +8692,66 @@ public class Leetcode_9 {
         }
         return memo3640[i][j] = res;
     }
+
+    // 3477. 水果成篮 II (Fruits Into Baskets II)
+    // 3479. 水果成篮 III (Fruits Into Baskets III) --线段树 （单点更新）
+    public int numOfUnplacedFruits(int[] fruits, int[] baskets) {
+        SegmentTree3479 t = new SegmentTree3479(baskets);
+        int res = 0;
+        for (int x : fruits) {
+            if (t.find(1, 0, baskets.length - 1, x) < 0) {
+                ++res;
+            }
+        }
+        return res;
+    }
+
+    public class SegmentTree3479 {
+        private int[] max;
+        private int n;
+
+        public SegmentTree3479(int[] a) {
+            this.n = a.length;
+            this.max = new int[n * 4];
+            build(a, 1, 0, n - 1);
+        }
+
+        private void build(int[] a, int o, int l, int r) {
+            if (l == r) {
+                max[o] = a[l];
+                return;
+            }
+            int m = l + ((r - l) >> 1);
+            build(a, o * 2, l, m);
+            build(a, o * 2 + 1, m + 1, r);
+            maintain(o);
+        }
+
+        private void maintain(int o) {
+            max[o] = Math.max(max[o * 2], max[o * 2 + 1]);
+        }
+
+        public int find(int o, int l, int r, int x) {
+            if (max[o] < x) {
+                return -1;
+            }
+            if (l == r) {
+                max[o] = -1;
+                return l;
+            }
+            int m = l + ((r - l) >> 1);
+            int i = find(o * 2, l, m, x);
+            if (i < 0) {
+                i = find(o * 2 + 1, m + 1, r, x);
+            }
+            maintain(o);
+            return i;
+        }
+
+    }
+
+    
+
+
     
 }

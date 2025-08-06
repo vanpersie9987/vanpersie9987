@@ -2656,8 +2656,8 @@ class Solution:
         res = dfs(0, 0)
         dfs.cache_clear()
         return res
-    
 
+    # 3477. 水果成篮 II (Fruits Into Baskets II)
     # 3479. 水果成篮 III (Fruits Into Baskets III) --线段树 （单点更新）
     def numOfUnplacedFruits(self, fruits: List[int], baskets: List[int]) -> int:
         class SegmentTree:
@@ -2665,7 +2665,7 @@ class Solution:
                 n = len(a)
                 self.max = [0] * (n * 4)
                 self.build(a, 1, 0, n - 1)
-            
+
             def build(self, a: List[int], o: int, l: int, r: int):
                 if l == r:
                     self.max[o] = a[l]
@@ -2687,7 +2687,7 @@ class Solution:
                     i = self.find(o * 2 + 1, m + 1, r, x)
                 self.maintain(o)
                 return i
-            
+
             def maintain(self, o: int):
                 self.max[o] = max(self.max[o * 2], self.max[o * 2 + 1])
         t = SegmentTree(baskets)
@@ -2697,6 +2697,3 @@ class Solution:
             if t.find(1, 0, n - 1, x) < 0:
                 res += 1
         return res
-
-            
-        
