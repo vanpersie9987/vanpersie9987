@@ -8697,18 +8697,6 @@ class Union924:
             res[id] = mx
         return res
 
-    # 3477. 将水果放入篮子 II (Fruits Into Baskets II)
-    def numOfUnplacedFruits(self, fruits: List[int], baskets: List[int]) -> int:
-        n = len(fruits)
-        res = n
-        for x in fruits:
-            for j in range(n):
-                if x <= baskets[j]:
-                    baskets[j] = 0
-                    res -= 1
-                    break
-        return res
-
     # 3478. 选出和最大的 K 个元素 (Choose K Elements With Maximum Sum)
     def findMaxSum(self, nums1: List[int], nums2: List[int], k: int) -> List[int]:
         a = sorted((x, y, i) for i, (x, y) in enumerate(zip(nums1, nums2)))

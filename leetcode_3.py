@@ -46,7 +46,7 @@ from tkinter import N, NO, W
 from tkinter.messagebox import RETRY
 from tkinter.tix import Tree
 from token import NL, RIGHTSHIFT
-from turtle import RawTurtle, left, mode, pos, reset, right, rt, st, up
+from turtle import RawTurtle, left, mode, pos, reset, right, rt, st, up, update
 from typing import List, Optional, Self
 import heapq
 import bisect
@@ -2418,29 +2418,31 @@ class leetcode_3:
             cnt_C = 0
             res = 0
             for c in s:
-                if c == 'L':
+                if c == "L":
                     cnt_L += 1
-                elif c == 'C':
+                elif c == "C":
                     cnt_C += cnt_L
-                elif c == 'T':
+                elif c == "T":
                     res += cnt_C
             return res
+
         def check(s: str) -> int:
             n = len(s)
             left = [0] * n
-            left[0] = s[0] == 'L'
+            left[0] = s[0] == "L"
             for i in range(1, n):
-                left[i] = left[i - 1] + (s[i] == 'L')
-            right = s[-1] == 'T'
+                left[i] = left[i - 1] + (s[i] == "L")
+            right = s[-1] == "T"
             res = 0
             mx = 0
             for i in range(n - 2, -1, -1):
-                right += s[i] == 'T'
-                if s[i] == 'C':
+                right += s[i] == "T"
+                if s[i] == "C":
                     res += left[i] * right
                 mx = max(mx, left[i] * right)
             return res + mx
-        return max(cal('L' + s), cal(s + 'T'), check(s))
+
+        return max(cal("L" + s), cal(s + "T"), check(s))
 
 
 # 3629. 通过质数传送到达终点的最少跳跃次数 (Minimum Jumps to Reach End via Prime Teleportation)
@@ -2450,6 +2452,8 @@ for i in range(2, MX):
     if not PRIME_FACTORS[i]:  # i 是质数
         for j in range(i, MX, i):  # i 的倍数有质因子 i
             PRIME_FACTORS[j].append(i)
+
+
 class Solution:
     def minJumps(self, nums: List[int]) -> int:
         n = len(nums)
@@ -2527,3 +2531,236 @@ class Solution:
         mn = min(cnt)
 
         return sum(min(x, mn * 2) for x in a[: len(a) // 2])
+
+    # 3633. 最早完成陆地和水上游乐设施的时间 I (Earliest Finish Time for Land and Water Rides I)
+    # 3635. 最早完成陆地和水上游乐设施的时间 II (Earliest Finish Time for Land and Water Rides II)
+    def earliestFinishTime(
+        self,
+        landStartTime: List[int],
+        landDuration: List[int],
+        waterStartTime: List[int],
+        waterDuration: List[int],
+    ) -> int:
+        res = inf
+        end = inf
+        for s, d in zip(landStartTime, landDuration):
+            end = min(end, s + d)
+        for s, d in zip(waterStartTime, waterDuration):
+            res = min(res, max(s, end) + d)
+
+        end = inf
+        for s, d in zip(waterStartTime, waterDuration):
+            end = min(end, s + d)
+        for s, d in zip(landStartTime, landDuration):
+            res = min(res, max(s, end) + d)
+        return res
+
+    # 3634. 使数组平衡的最少移除数目 (Minimum Removals to Balance Array)
+    def minRemoval(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        res = 0
+        j = 0
+        for i, v in enumerate(nums):
+            while nums[j] * k < v:
+                j += 1
+            res = max(res, i - j + 1)
+        return len(nums) - res
+
+    # 3637. 三段式数组 I (Trionic Array I)
+    def isTrionic(self, nums: List[int]) -> bool:
+        n = len(nums)
+        i = 1
+        while i < n:
+            if nums[i] > nums[i - 1]:
+                i += 1
+            else:
+                break
+        if i == 1 or i == n:
+            return False
+        i -= 1
+        j = n - 2
+        while j >= 0:
+            if nums[j + 1] > nums[j]:
+                j -= 1
+            else:
+                break
+        if j == n - 2:
+            return False
+        j += 1
+        while i + 1 <= j:
+            if nums[i + 1] >= nums[i]:
+                return False
+            i += 1
+        return True
+
+    # 3639. 变为活跃状态的最小时间 (Minimum Time to Activate String)
+    def minTime(self, _: str, order: List[int], k: int) -> int:
+        def check(t: int) -> bool:
+            a = [-1] * n
+            for i in range(t + 1):
+                a[order[i]] = 0
+            idx_last_star = -1
+            res = 0
+            for i in range(n):
+                if a[i] != -1:
+                    idx_last_star = i
+                res += idx_last_star + 1
+                if res >= k:
+                    return True
+            return False
+
+        n = len(order)
+        if k > (n + 1) * n // 2:
+            return -1
+        left = 0
+        right = n - 1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                right = mid - 1
+            else:
+                left = mid + 1
+        return right + 1
+
+    # 3638. 平衡装运的最大数量 (Maximum Balanced Shipments)
+    def maxBalancedShipments(self, weight: List[int]) -> int:
+        res = 0
+        mx = 0
+        for w in weight:
+            if w < mx:
+                res += 1
+                mx = 0
+            else:
+                mx = max(mx, w)
+        return res
+
+    # 3640. 三段式数组 II (Trionic Array II)
+    def maxSumTrionic(self, nums: List[int]) -> int:
+        # j == 0 未选
+        # j == 1 已经选择了1个
+        # j == 2 已经在第一个上升阶段
+        # j == 3 已经在第一个下降阶段
+        # j == 4 已经在第二个上升阶段
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0 if j == 4 else -inf
+            if j == 0:
+                return max(dfs(i + 1, j), dfs(i + 1, j + 1) + nums[i])
+            if j == 1:
+                if nums[i - 1] >= nums[i]:
+                    return -inf
+                return dfs(i + 1, j + 1) + nums[i]
+            if j == 2:
+                if nums[i] == nums[i - 1]:
+                    return -inf
+                return dfs(i + 1, j + (nums[i - 1] > nums[i])) + nums[i]
+            if j == 3:
+                if nums[i] == nums[i - 1]:
+                    return -inf
+                return dfs(i + 1, j + (nums[i - 1] < nums[i])) + nums[i]
+            res = 0
+            if nums[i - 1] < nums[i]:
+                res = max(res, dfs(i + 1, j) + nums[i])
+            return res
+
+        n = len(nums)
+        res = dfs(0, 0)
+        dfs.cache_clear()
+        return res
+
+    # 3477. 水果成篮 II (Fruits Into Baskets II)
+    # 3479. 水果成篮 III (Fruits Into Baskets III) --线段树 （单点更新）
+    def numOfUnplacedFruits(self, fruits: List[int], baskets: List[int]) -> int:
+        class SegmentTree:
+            def __init__(self, a: List[int]):
+                n = len(a)
+                self.max = [0] * (n * 4)
+                self.build(a, 1, 0, n - 1)
+
+            def build(self, a: List[int], o: int, l: int, r: int):
+                if l == r:
+                    self.max[o] = a[l]
+                    return
+                m = l + ((r - l) >> 1)
+                self.build(a, o * 2, l, m)
+                self.build(a, o * 2 + 1, m + 1, r)
+                self.maintain(o)
+
+            def find(self, o: int, l: int, r: int, x: int) -> int:
+                if self.max[o] < x:
+                    return -1
+                if l == r:
+                    self.max[o] = -1
+                    return l
+                m = l + ((r - l) >> 1)
+                i = self.find(o * 2, l, m, x)
+                if i < 0:
+                    i = self.find(o * 2 + 1, m + 1, r, x)
+                self.maintain(o)
+                return i
+
+            def maintain(self, o: int):
+                self.max[o] = max(self.max[o * 2], self.max[o * 2 + 1])
+
+        t = SegmentTree(baskets)
+        n = len(baskets)
+        res = 0
+        for x in fruits:
+            if t.find(1, 0, n - 1, x) < 0:
+                res += 1
+        return res
+
+    # 307. 区域和检索 - 数组可修改 (Range Sum Query - Mutable)
+    class NumArray:
+
+        def __init__(self, nums: List[int]):
+            self.n = len(nums)
+            self.t = SegmentTree307(nums)
+
+        def update(self, index: int, val: int) -> None:
+            self.t.update(1, index, val, 0, self.n - 1)
+
+        def sumRange(self, left: int, right: int) -> int:
+            return self.t.sumRange(1, left, right, 0, self.n - 1)
+
+class SegmentTree307:
+    def __init__(self, a: List[int]):
+        n = len(a)
+        self.s = [0] * (n * 4)
+        self.build(a, 1, 0, n - 1)
+
+    def build(self, a: List[int], o: int, l: int, r: int):
+        if l == r:
+            self.s[o] = a[l]
+            return
+        m = l + ((r - l) >> 1)
+        self.build(a, o * 2, l, m)
+        self.build(a, o * 2 + 1, m + 1, r)
+        self.maintain(o)
+
+    def maintain(self, o: int):
+        self.s[o] = self.s[o * 2] + self.s[o * 2 + 1]
+
+    def update(self, o: int, index: int, val: int, l: int, r: int):
+        if l == r:
+            self.s[o] = val
+            return
+        m = l + ((r - l) >> 1)
+        if index <= m:
+            self.update(o * 2, index, val, l, m)
+        else:
+            self.update(o * 2 + 1, index, val, m + 1, r)
+        self.maintain(o)
+
+    def sumRange(self, o: int, L: int, R: int, l: int, r: int) -> int:
+        if L <= l and r <= R:
+            return self.s[o]
+        m = l + ((r - l) >> 1)
+        if R <= m:
+            return self.sumRange(o * 2, L, R, l, m)
+        if L >= m + 1:
+            return self.sumRange(o * 2 + 1, L, R, m + 1, r)
+        return self.sumRange(o * 2, L, R, l, m) + self.sumRange(
+            o * 2 + 1, L, R, m + 1, r
+        )
