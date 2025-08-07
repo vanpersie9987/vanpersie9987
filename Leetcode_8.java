@@ -5133,7 +5133,7 @@ public class Leetcode_8 {
         return res;
     }
 
-    // 100110. 找到 Alice 和 Bob 可以相遇的建筑 (Find Building Where Alice and Bob Can Meet)
+    // 2940. 找到 Alice 和 Bob 可以相遇的建筑 (Find Building Where Alice and Bob Can Meet)
     public int[] leftmostBuildingQueries(int[] heights, int[][] queries) {
         int m = queries.length;
         int[] res = new int[m];
@@ -5172,6 +5172,74 @@ public class Leetcode_8 {
         return res;
 
     }
+
+
+    // 2940. 找到 Alice 和 Bob 可以相遇的建筑 (Find Building Where Alice and Bob Can Meet)
+    public int[] leftmostBuildingQueries2(int[] heights, int[][] queries) {
+        SegmentTree2940 t = new SegmentTree2940(heights);
+        int n = heights.length;
+        int[] res = new int[queries.length];
+        for (int i = 0; i < queries.length; ++i) {
+            Arrays.sort(queries[i]);
+            int a = queries[i][0];
+            int b = queries[i][1];
+            if (a == b || heights[a] < heights[b]) {
+                res[i] = b;
+            } else {
+                res[i] = t.find(1, b + 1, n - 1, 0, n - 1, Math.max(heights[a], heights[b]) + 1);
+            }
+        }
+        return res;
+
+    }
+
+    public class SegmentTree2940 {
+        private int n;
+        private int[] max;
+
+        public SegmentTree2940(int[] height) {
+            this.n = height.length;
+            this.max = new int[n * 4];
+            build(height, 1, 0, n - 1);
+        }
+
+        private void build(int[] height, int o, int l, int r) {
+            if (l == r) {
+                max[o] = height[l];
+                return;
+            }
+            int m = l + ((r - l) >> 1);
+            build(height, o * 2, l, m);
+            build(height, o * 2 + 1, m + 1, r);
+            maintain(o);
+        }
+
+        private void maintain(int o) {
+            max[o] = Math.max(max[o * 2], max[o * 2 + 1]);
+        }
+
+        private int find(int o, int L, int R, int l, int r, int x) {
+            if (max[o] < x) {
+                return -1;
+            }
+            if (l == r) {
+                return l;
+            }
+            int m = l + ((r - l) >> 1);
+            if (R <= m) {
+                return find(o * 2, L, R, l, m, x);
+            }
+            if (L >= m + 1) {
+                return find(o * 2 + 1, L, R, m + 1, r, x);
+            }
+            int i = find(o * 2, L, R, l, m, x);
+            if (i < 0) {
+                i = find(o * 2 + 1, L, R, m + 1, r, x);
+            }
+            return i;
+        }
+    }
+
 
     // 100119. 最大异或乘积 (Maximum Xor Product)
     public int maximumXorProduct(long a, long b, int n) {
