@@ -2936,8 +2936,8 @@ public class Leetcode_8 {
         }
         int up = isLimit ? a8013[i] - '0' : 9;
         for (int d = isNum ? 0 : 1; d <= up; ++d) {
-            res += dfs8013(i + 1, j + (((d & 1) == 0) ? 1 : 0),
-                    l + (((d & 1) == 1) ? 1 : 0), (m * 10 + d) % k8013, isLimit && d == up, true);
+            res += dfs8013(i + 1, j + (((d & 1) == 0) ? 1 : 0), l + (((d & 1) == 1) ? 1 : 0), (m * 10 + d) % k8013,
+                    isLimit && d == up, true);
         }
         if (!isLimit && isNum) {
             memo8013[i][j][l][m] = res;
@@ -3107,28 +3107,19 @@ public class Leetcode_8 {
     }
 
     /**
-     * 问题：
-     * https://atcoder.jp/contests/abc233/tasks/abc233_d
+     * 问题： https://atcoder.jp/contests/abc233/tasks/abc233_d
      * 
-     * 输入 n(1≤n≤2e5) k(-1e15≤k≤1e15) 和长为 n 的数组 a(-1e9≤a[i]≤1e9)。
-     * 输出元素和等于 k 的连续子数组个数。
+     * 输入 n(1≤n≤2e5) k(-1e15≤k≤1e15) 和长为 n 的数组 a(-1e9≤a[i]≤1e9)。 输出元素和等于 k 的连续子数组个数。
      * 
-     * 如果你觉得本题太简单，请思考这个问题：
-     * 所有元素和等于 k 的连续子数组的长度之和。
+     * 如果你觉得本题太简单，请思考这个问题： 所有元素和等于 k 的连续子数组的长度之和。
      */
     /**
-     * 解答：
-     * 用前缀和思考：
-     * sum[R] - sum[L] = k
-     * 枚举 R，问题变成有多少个 sum[L]，也就是 sum[R]-k 的个数。
+     * 解答： 用前缀和思考： sum[R] - sum[L] = k 枚举 R，问题变成有多少个 sum[L]，也就是 sum[R]-k 的个数。
      * 这可以用哈希表统计，代码如下。
      * 
      * https://atcoder.jp/contests/abc233/submissions/44903090
      * 
-     * 关于思考题的提示：
-     * 举例：
-     * (R-L1) + (R-L2) + (R-L3)
-     * = 3*R - (L1+L2+L3)
+     * 关于思考题的提示： 举例： (R-L1) + (R-L2) + (R-L3) = 3*R - (L1+L2+L3)
      * 所以除了维护前缀和的出现次数，还需要维护下标之和。
      */
     public int contests_abc233(int[] nums, int k) {
@@ -4410,8 +4401,7 @@ public class Leetcode_8 {
                 for (int[] d : dirs) {
                     int nx = x + d[0];
                     int ny = y + d[1];
-                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && maze[nx].charAt(ny) != '#' &&
-                            !vis[nx][ny]) {
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && maze[nx].charAt(ny) != '#' && !vis[nx][ny]) {
                         vis[nx][ny] = true;
                         if (maze[nx].charAt(ny) == 'M') {
                             mPos_LCP_13.add(new int[] { nx, ny, level });
@@ -4470,8 +4460,7 @@ public class Leetcode_8 {
                 for (int[] d : dirs) {
                     int nx = x + d[0];
                     int ny = y + d[1];
-                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && maze[nx].charAt(ny) != '#' &&
-                            !vis[nx][ny]) {
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && maze[nx].charAt(ny) != '#' && !vis[nx][ny]) {
                         vis[nx][ny] = true;
                         if (maze[nx].charAt(ny) == 'O') {
                             int index = oPosToIndex.get(nx * n + ny);
@@ -4496,8 +4485,7 @@ public class Leetcode_8 {
             for (int[] d : dirs) {
                 int nx = x + d[0];
                 int ny = y + d[1];
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n && maze[nx].charAt(ny) != '#' &&
-                        !vis[nx][ny]) {
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && maze[nx].charAt(ny) != '#' && !vis[nx][ny]) {
                     vis[nx][ny] = true;
                     if (maze[nx].charAt(ny) == 'M') {
                         int index = mPosToIndex.get(nx * n + ny);
@@ -5031,8 +5019,7 @@ public class Leetcode_8 {
         }
         final int MOD = (int) (1e9 + 7);
         return memo2930[i][j][k][l] = (int) (((long) dfs2930(i + 1, Math.min(j + 1, 1), k, l)
-                + dfs2930(i + 1, j, Math.min(k + 1, 2), l)
-                + dfs2930(i + 1, j, k, Math.min(l + 1, 1))
+                + dfs2930(i + 1, j, Math.min(k + 1, 2), l) + dfs2930(i + 1, j, k, Math.min(l + 1, 1))
                 + 23L * dfs2930(i + 1, j, k, l)) % MOD);
     }
 
@@ -5132,114 +5119,6 @@ public class Leetcode_8 {
         }
         return res;
     }
-
-    // 2940. 找到 Alice 和 Bob 可以相遇的建筑 (Find Building Where Alice and Bob Can Meet)
-    public int[] leftmostBuildingQueries(int[] heights, int[][] queries) {
-        int m = queries.length;
-        int[] res = new int[m];
-        Arrays.fill(res, -1);
-        Map<Integer, List<int[]>> map = new HashMap<>();
-        for (int i = 0; i < m; ++i) {
-            int x = queries[i][0];
-            int y = queries[i][1];
-            if (x > y) {
-                int t = x;
-                x = y;
-                y = t;
-            }
-            if (x == y || heights[x] < heights[y]) {
-                res[i] = y;
-            } else {
-                map.computeIfAbsent(y, k -> new ArrayList<>()).add(new int[] { heights[x], i });
-            }
-        }
-        Queue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() {
-
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return Integer.compare(o1[0], o2[0]);
-            }
-
-        });
-        for (int i = 0; i < heights.length; ++i) {
-            while (!pq.isEmpty() && pq.peek()[0] < heights[i]) {
-                res[pq.poll()[1]] = i;
-            }
-            for (int[] p : map.getOrDefault(i, new ArrayList<>())) {
-                pq.offer(p);
-            }
-        }
-        return res;
-
-    }
-
-
-    // 2940. 找到 Alice 和 Bob 可以相遇的建筑 (Find Building Where Alice and Bob Can Meet)
-    public int[] leftmostBuildingQueries2(int[] heights, int[][] queries) {
-        SegmentTree2940 t = new SegmentTree2940(heights);
-        int n = heights.length;
-        int[] res = new int[queries.length];
-        for (int i = 0; i < queries.length; ++i) {
-            Arrays.sort(queries[i]);
-            int a = queries[i][0];
-            int b = queries[i][1];
-            if (a == b || heights[a] < heights[b]) {
-                res[i] = b;
-            } else {
-                res[i] = t.find(1, b + 1, n - 1, 0, n - 1, Math.max(heights[a], heights[b]) + 1);
-            }
-        }
-        return res;
-
-    }
-
-    public class SegmentTree2940 {
-        private int n;
-        private int[] max;
-
-        public SegmentTree2940(int[] height) {
-            this.n = height.length;
-            this.max = new int[n * 4];
-            build(height, 1, 0, n - 1);
-        }
-
-        private void build(int[] height, int o, int l, int r) {
-            if (l == r) {
-                max[o] = height[l];
-                return;
-            }
-            int m = l + ((r - l) >> 1);
-            build(height, o * 2, l, m);
-            build(height, o * 2 + 1, m + 1, r);
-            maintain(o);
-        }
-
-        private void maintain(int o) {
-            max[o] = Math.max(max[o * 2], max[o * 2 + 1]);
-        }
-
-        private int find(int o, int L, int R, int l, int r, int x) {
-            if (max[o] < x) {
-                return -1;
-            }
-            if (l == r) {
-                return l;
-            }
-            int m = l + ((r - l) >> 1);
-            if (R <= m) {
-                return find(o * 2, L, R, l, m, x);
-            }
-            if (L >= m + 1) {
-                return find(o * 2 + 1, L, R, m + 1, r, x);
-            }
-            int i = find(o * 2, L, R, l, m, x);
-            if (i < 0) {
-                i = find(o * 2 + 1, L, R, m + 1, r, x);
-            }
-            return i;
-        }
-    }
-
 
     // 100119. 最大异或乘积 (Maximum Xor Product)
     public int maximumXorProduct(long a, long b, int n) {
@@ -8498,8 +8377,8 @@ public class Leetcode_8 {
         if (memo3068[i][j] != -1L) {
             return memo3068[i][j];
         }
-        return memo3068[i][j] = Math.max(
-                dfs3068_2(i + 1, j) + nums3068_2[i], dfs3068_2(i + 1, j ^ 1) + (nums3068_2[i] ^ k3068_2));
+        return memo3068[i][j] = Math.max(dfs3068_2(i + 1, j) + nums3068_2[i],
+                dfs3068_2(i + 1, j ^ 1) + (nums3068_2[i] ^ k3068_2));
     }
 
     // 3069. 将元素分配到两个数组中 I (Distribute Elements Into Two Arrays I)
@@ -8778,10 +8657,10 @@ public class Leetcode_8 {
             return memo3077[i][j][p] = Math.max(dfs3077(i + 1, j, p),
                     dfs3077(i + 1, j + 1, 1) + (long) nums3077[i] * ((j + 1) % 2 == 1 ? 1 : -1) * (k3077 - j));
         }
-        return memo3077[i][j][p] = Math.max(Math.max(dfs3077(i + 1, j, 0),
-                dfs3077(i + 1, j, p) + (long) nums3077[i] * (j % 2 == 1 ? 1 : -1) * (k3077 - j + 1)),
-                dfs3077(i + 1, j + 1, p) + (long) nums3077[i]
-                        * ((j + 1) % 2 == 1 ? 1 : -1) * (k3077 - j));
+        return memo3077[i][j][p] = Math.max(
+                Math.max(dfs3077(i + 1, j, 0),
+                        dfs3077(i + 1, j, p) + (long) nums3077[i] * (j % 2 == 1 ? 1 : -1) * (k3077 - j + 1)),
+                dfs3077(i + 1, j + 1, p) + (long) nums3077[i] * ((j + 1) % 2 == 1 ? 1 : -1) * (k3077 - j));
     }
 
     // 3079. 求出加密整数的和 (Find the Sum of Encrypted Integers)
@@ -9270,10 +9149,8 @@ public class Leetcode_8 {
             return memo3098.get(mask);
         }
         final int MOD = (int) (1e9 + 7);
-        int res = (dfs3098(i - 1, j, pre, minDiff)
-                + dfs3098(i - 1, j - 1, i,
-                        pre == n3098 ? Integer.MAX_VALUE / 2 : Math.min(minDiff, nums3098[pre] - nums3098[i])))
-                % MOD;
+        int res = (dfs3098(i - 1, j, pre, minDiff) + dfs3098(i - 1, j - 1, i,
+                pre == n3098 ? Integer.MAX_VALUE / 2 : Math.min(minDiff, nums3098[pre] - nums3098[i]))) % MOD;
         memo3098.put(mask, res);
         return res;
     }
