@@ -29,7 +29,7 @@ from math import comb, cos, e, fabs, floor, gcd, inf, isqrt, lcm, sqrt
 from mimetypes import init
 from multiprocessing import reduction
 from operator import le, ne, truediv
-from os import eventfd, minor, name, pread
+from os import eventfd, lseek, minor, name, pread
 from pickletools import read_uint1
 from queue import PriorityQueue
 from re import L, X
@@ -2840,3 +2840,70 @@ class SegmentTree2940:
         if i < 0:
             i = self.find(o * 2 + 1, L, R, m + 1, r, x)
         return i
+
+    # 2286. 以组为单位订音乐会的门票 (Booking Concert Tickets in Groups)
+    class BookMyShow:
+
+        def __init__(self, n: int, m: int):
+            self.m = m
+            self.n = n
+            self.min = [0] * (n * 4)
+            self.sum = [0] * (n * 4)
+
+        def find_first(self, o: int, l: int, r: int, L: int, R: int, x: int) -> int:
+            if self.min[o] > x:
+                return -1
+            if l == r:
+                return l
+            m = l + ((r - l) >> 1)
+            if R <= m:
+                return self.find_first(o * 2, l, m, L, R, x)
+            if L >= m + 1:
+                return self.find_first(o * 2 + 1, m + 1, r, L, R, x)
+            i = self.find_first(o * 2, l, m, L, R, x)
+            if i < 0:
+                i = self.find_first(o * 2 + 1, m + 1, r, L, R, x)
+            return i
+
+        def query_sum(self, o: int, l: int, r: int, L: int, R: int) -> int:
+            if L <= l and r <= R:
+                return self.sum[o]
+            m = l + ((r - l) >> 1)
+            if R <= m:
+                return self.query_sum(o * 2, l, m, L, R)
+            if L >= m + 1:
+                return self.query_sum(o * 2 + 1, m + 1, r, L, R)
+            return self.query_sum(o * 2, l, m, L, R) + self.query_sum(o * 2 + 1, m + 1, r, L, R)
+
+        def update(self, o: int, l: int, r: int, i: int, val: int):
+            if l == r:
+                self.min[o] += val
+                self.sum[o] += val
+                return
+            m = l + ((r - l) >> 1)
+            if i <= m:
+                self.update(o * 2, l, m, i, val)
+            else:
+                self.update(o * 2 + 1, m + 1, r, i, val)
+            self.min[o] = min(self.min[o * 2], self.min[o * 2 + 1])
+            self.sum[o] = self.sum[o * 2] + self.sum[o * 2 + 1]
+
+        def gather(self, k: int, maxRow: int) -> List[int]:
+            r = self.find_first(1, 0, self.n - 1, 0, maxRow, self.m - k)
+            if r < 0:
+                return []
+            c = self.query_sum(1, 0, self.n - 1, r, r)
+            self.update(1, 0, self.n - 1, r, k)
+            return [r, c]
+
+        def scatter(self, k: int, maxRow: int) -> bool:
+            s = self.query_sum(1, 0, self.n - 1, 0, maxRow)
+            if self.m * (maxRow + 1) - s < k:
+                return False
+            i = self.find_first(1, 0, self.n - 1, 0, maxRow, self.m - 1)
+            while k:
+                left = min(k, self.m - self.query_sum(1, 0, self.n - 1, i, i))
+                self.update(1, 0, self.n - 1, i, left)
+                k -= left
+                i += 1
+            return True
