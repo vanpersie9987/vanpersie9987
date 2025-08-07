@@ -2447,11 +2447,15 @@ class Union924:
                 for d in range(min(j, up) + 1):
                     res += dfs(i + 1, j - d, d == up and is_limit)
                 return res
+
             s = str(x)
             n = len(s)
             return dfs(0, _s, True)
+
         l = len(str(highLimit))
-        return max(check(highLimit, i) - check(lowLimit - 1, i) for i in range(1, l * 9 + 1))
+        return max(
+            check(highLimit, i) - check(lowLimit - 1, i) for i in range(1, l * 9 + 1)
+        )
 
     # 3090. 每个字符最多出现两次的最长子字符串 (Maximum Length Substring With Two Occurrences)
     def maximumLengthSubstring(self, s: str) -> int:
@@ -4695,16 +4699,16 @@ class Union924:
         dic = [[] for _ in range(26)]
         bits = 0
         for i, c in enumerate(a):
-            if c != '*':
-                idx = ord(c) - ord('a')
+            if c != "*":
+                idx = ord(c) - ord("a")
                 dic[idx].append(i)
                 bits |= 1 << idx
             else:
                 lb = (bits & -bits).bit_length() - 1
-                a[dic[lb].pop()] = '*'
+                a[dic[lb].pop()] = "*"
                 if len(dic[lb]) == 0:
                     bits ^= 1 << lb
-        return ''.join([x for x in a if x != '*'])
+        return "".join([x for x in a if x != "*"])
 
     # 3171. 找到按位与最接近 K 的子数组 (Find Subarray With Bitwise AND Closest to K)
     def minimumDifference(self, nums: List[int], k: int) -> int:
@@ -5141,6 +5145,7 @@ class Union924:
                     res += 1
                     d ^= 1
             return res
+
         s = sum(x & 1 for x in nums)
         return max(s, len(nums) - s, cal_sum(0), cal_sum(1))
 
@@ -7306,21 +7311,17 @@ class Union924:
                 + fruits[i][j]
             )
 
-        @cache
-        def dfs2(i: int, j: int) -> int:
-            if i == n - 1:
-                return 0
-            return (
-                max(dfs2(i + 1, j0) for j0 in range(max(i + 1, j - 1), min(n, j + 2)))
-                + fruits[i][j]
-            )
-
         n = len(fruits)
         res = 0
         for i in range(n):
             res += fruits[i][i]
             fruits[i][i] = 0
-        return dfs(n - 1, 0) + dfs2(0, n - 1) + res
+        res += dfs(n - 1, 0)
+        # 转置
+        fruits = list(zip(*fruits))
+        dfs.cache_clear()
+        res += dfs(n - 1, 0)
+        return res
 
     # 3365. 重排子字符串以形成目标字符串 (Rearrange K Substrings to Form Target String)
     def isPossibleToRearrange(self, s: str, t: str, k: int) -> bool:
@@ -7931,7 +7932,7 @@ class Union924:
         n = len(word)
         if numFriends == 1:
             return word
-        res = ''
+        res = ""
         for i in range(n):
             s = word[i : min(n, n - numFriends + i + 1)]
             if s > res:
@@ -9404,11 +9405,12 @@ class Union924:
                 for d in range(j, up + 1):
                     res += dfs(i + 1, d, is_limit and up == d)
                 return res % MOD
+
             a = []
             while x:
                 a.append(str(x % b))
                 x //= b
-            s = ''.join(a[::-1])
+            s = "".join(a[::-1])
             n = len(s)
             return dfs(0, 0, True)
 
