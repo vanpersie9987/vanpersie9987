@@ -7299,23 +7299,19 @@ class Union924:
     def maxCollectedFruits(self, fruits: List[List[int]]) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == n - 1:
-                return 0 if j == n - 1 else -inf
-            if i < (n + 1) // 2 and i + j < n - 1 or i >= n // 2 and i > j:
-                return -inf
+            if j == n - 1:
+                return 0
             return (
-                max(dfs(i + 1, k) for k in range(max(0, j - 1), min(n, j + 2)))
+                max(dfs(i0, j + 1) for i0 in range(max(j + 1, i - 1), min(n, i + 2)))
                 + fruits[i][j]
             )
 
         @cache
         def dfs2(i: int, j: int) -> int:
-            if j == n - 1:
-                return 0 if i == n - 1 else -inf
-            if j < (n + 1) // 2 and i + j < n - 1 or j >= n // 2 and i < j:
-                return -inf
+            if i == n - 1:
+                return 0
             return (
-                max(dfs2(k, j + 1) for k in range(max(0, i - 1), min(n, i + 2)))
+                max(dfs2(i + 1, j0) for j0 in range(max(i + 1, j - 1), min(n, j + 2)))
                 + fruits[i][j]
             )
 
@@ -7324,7 +7320,7 @@ class Union924:
         for i in range(n):
             res += fruits[i][i]
             fruits[i][i] = 0
-        return dfs(0, n - 1) + dfs2(n - 1, 0) + res
+        return dfs(n - 1, 0) + dfs2(0, n - 1) + res
 
     # 3365. 重排子字符串以形成目标字符串 (Rearrange K Substrings to Form Target String)
     def isPossibleToRearrange(self, s: str, t: str, k: int) -> bool:
