@@ -8848,4 +8848,103 @@ public class Leetcode_9 {
             return i;
         }
     }
+
+    // 2286. 以组为单位订音乐会的门票 (Booking Concert Tickets in Groups)
+    class BookMyShow {
+        private SegmentTree2286 t;
+        private int m;
+        private int n;
+
+        public BookMyShow(int n, int m) {
+            this.t = new SegmentTree2286(n);
+            this.m = m;
+            this.n = n;
+        }
+
+        public int[] gather(int k, int maxRow) {
+            int r = t.findFirst(1, 0, n - 1, 0, maxRow, m - k);
+            if (r < 0) {
+                return new int[0];
+            }
+            int c = (int) t.querySum(1, 0, n - 1, r, r);
+            t.update(1, 0, n - 1, r, k);
+            return new int[] { r, c };
+        }
+
+        public boolean scatter(int k, int maxRow) {
+            long used = t.querySum(1, 0, n - 1, 0, maxRow);
+            if ((long) m * (maxRow + 1) - used < k) {
+                return false;
+            }
+            int i = t.findFirst(1, 0, n - 1, 0, maxRow, m - 1);
+            while (k > 0) {
+                int left = (int) Math.min(k, m - t.querySum(1, 0, n - 1, i, i));
+                t.update(1, 0, n - 1, i, left);
+                k -= left;
+                ++i;
+            }
+            return true;
+        }
+    }
+
+    public class SegmentTree2286 {
+        private long[] sum;
+        private int[] min;
+
+        public SegmentTree2286(int n) {
+            this.sum = new long[n * 4];
+            this.min = new int[n * 4];
+        }
+
+        public int findFirst(int o, int l, int r, int L, int R, int x) {
+            if (min[o] > x) {
+                return -1;
+            }
+            if (l == r) {
+                return l;
+            }
+            int m = l + ((r - l) >> 1);
+            if (R <= m) {
+                return findFirst(o * 2, l, m, L, R, x);
+            }
+            if (L >= m + 1) {
+                return findFirst(o * 2 + 1, m + 1, r, L, R, x);
+            }
+            int i = findFirst(o * 2, l, m, L, R, x);
+            if (i < 0) {
+                i = findFirst(o * 2 + 1, m + 1, r, L, R, x);
+            }
+            return i;
+        }
+
+        public long querySum(int o, int l, int r, int L, int R) {
+            if (L <= l && r <= R) {
+                return sum[o];
+            }
+            int m = l + ((r - l) >> 1);
+            if (R <= m) {
+                return querySum(o * 2, l, m, L, R);
+            }
+            if (L >= m + 1) {
+                return querySum(o * 2 + 1, m + 1, r, L, R);
+            }
+            return querySum(o * 2, l, m, L, R) + querySum(o * 2 + 1, m + 1, r, L, R);
+        }
+
+        public void update(int o, int l, int r, int i, int val) {
+            if (l == r) {
+                sum[o] += val;
+                min[o] += val;
+                return;
+            }
+            int m = l + ((r - l) >> 1);
+            if (i <= m) {
+                update(o * 2, l, m, i, val);
+            } else {
+                update(o * 2 + 1, m + 1, r, i, val);
+            }
+            sum[o] = sum[o * 2] + sum[o * 2 + 1];
+            min[o] = Math.min(min[o * 2], min[o * 2 + 1]);
+        }
+    }
 }
