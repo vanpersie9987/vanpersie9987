@@ -2724,6 +2724,7 @@ class Solution:
         def sumRange(self, left: int, right: int) -> int:
             return self.t.sumRange(1, left, right, 0, self.n - 1)
 
+
 class SegmentTree307:
     def __init__(self, a: List[int]):
         n = len(a)
@@ -2764,3 +2765,78 @@ class SegmentTree307:
         return self.sumRange(o * 2, L, R, l, m) + self.sumRange(
             o * 2 + 1, L, R, m + 1, r
         )
+
+    # 2940. 找到 Alice 和 Bob 可以相遇的建筑 (Find Building Where Alice and Bob Can Meet)
+    def leftmostBuildingQueries(
+        self, heights: List[int], queries: List[List[int]]
+    ) -> List[int]:
+        dic = collections.defaultdict(list)
+        res = [-1] * len(queries)
+        for i, (a, b) in enumerate(queries):
+            if a > b:
+                a, b = b, a
+            if a == b or heights[a] < heights[b]:
+                res[i] = b
+            else:
+                dic[b].append([heights[a], i])
+        h = []
+        for i, x in enumerate(heights):
+            while h and h[0][0] < x:
+                res[heapq.heappop(h)[1]] = i
+            for v in dic[i]:
+                heapq.heappush(h, v)
+        return res
+
+    # 2940. 找到 Alice 和 Bob 可以相遇的建筑 (Find Building Where Alice and Bob Can Meet)
+    def leftmostBuildingQueries(
+        self, heights: List[int], queries: List[List[int]]
+    ) -> List[int]:
+        res = []
+        n = len(heights)
+        t = SegmentTree2940(heights)
+        for a, b in queries:
+            if b < a:
+                a, b = b, a
+            if a == b or heights[a] < heights[b]:
+                res.append(b)
+            else:
+                res.append(
+                    t.find(1, b + 1, n - 1, 0, n - 1, max(heights[a], heights[b]) + 1)
+                )
+        return res
+
+
+class SegmentTree2940:
+
+    def __init__(self, a: List[int]):
+        n = len(a)
+        self.mx = [0] * (n * 4)
+        self.build(a, 1, 0, n - 1)
+
+    def build(self, a: List[int], o: int, l: int, r: int):
+        if l == r:
+            self.mx[o] = a[l]
+            return
+        m = l + ((r - l) >> 1)
+        self.build(a, o * 2, l, m)
+        self.build(a, o * 2 + 1, m + 1, r)
+        self.maintain(o)
+
+    def maintain(self, o: int):
+        self.mx[o] = max(self.mx[o * 2], self.mx[o * 2 + 1])
+
+    def find(self, o: int, L: int, R: int, l: int, r: int, x: int) -> int:
+        if self.mx[o] < x:
+            return -1
+        if l == r:
+            return l
+
+        m = l + ((r - l) >> 1)
+        if R <= m:
+            return self.find(o * 2, L, R, l, m, x)
+        if L >= m + 1:
+            return self.find(o * 2 + 1, L, R, m + 1, r, x)
+        i = self.find(o * 2, L, R, l, m, x)
+        if i < 0:
+            i = self.find(o * 2 + 1, L, R, m + 1, r, x)
+        return i

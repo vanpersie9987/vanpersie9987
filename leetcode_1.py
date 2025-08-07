@@ -8443,27 +8443,6 @@ class leetcode_1:
         MOD = 10**9 + 7
         return ax * bx % MOD
 
-    # 2940. 找到 Alice 和 Bob 可以相遇的建筑 (Find Building Where Alice and Bob Can Meet)
-    def leftmostBuildingQueries(
-        self, heights: List[int], queries: List[List[int]]
-    ) -> List[int]:
-        dic = collections.defaultdict(list)
-        res = [-1] * len(queries)
-        for i, (a, b) in enumerate(queries):
-            if a > b:
-                a, b = b, a
-            if a == b or heights[a] < heights[b]:
-                res[i] = b
-            else:
-                dic[b].append([heights[a], i])
-        h = []
-        for i, x in enumerate(heights):
-            while h and h[0][0] < x:
-                res[heapq.heappop(h)[1]] = i
-            for v in dic[i]:
-                heapq.heappush(h, v)
-        return res
-
     # 1410. HTML 实体解析器 (HTML Entity Parser)
     def entityParser(self, text: str) -> str:
         res = ""
