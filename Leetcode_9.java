@@ -8947,4 +8947,52 @@ public class Leetcode_9 {
             min[o] = Math.min(min[o * 2], min[o * 2 + 1]);
         }
     }
+
+    // 3459. 最长 V 形对角线段的长度 (Length of Longest V-Shaped Diagonal Segment)
+    private int m3459;
+    private int n3459;
+    private int[][] grid3459;
+    private int[][][][] memo3459;
+    // ↖️、↗️、↘️、↙️
+    private int[][] DIRS3459 = { { -1, -1 }, { -1, 1 }, { 1, 1 }, { 1, -1 } };
+
+    public int lenOfVDiagonal(int[][] grid) {
+        this.m3459 = grid.length;
+        this.n3459 = grid[0].length;
+        this.grid3459 = grid;
+        this.memo3459 = new int[m3459][n3459][4][2];
+        int res = 0;
+        for (int i = 0; i < m3459; ++i) {
+            for (int j = 0; j < n3459; ++j) {
+                if (grid[i][j] != 1) {
+                    continue;
+                }
+                int[] maxs = { i + 1, n3459 - j, m3459 - i, j + 1 };
+                for (int d = 0; d < 4; ++d) {
+                    if (res >= maxs[d]) {
+                        continue;
+                    }
+                    res = Math.max(res, dfs3459(i, j, d, 1, 2) + 1);
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int dfs3459(int i, int j, int d, int canTurn, int t) {
+        i += DIRS3459[d][0];
+        j += DIRS3459[d][1];
+        if (i == m3459 || j == n3459 || i == -1 || j == -1 || grid3459[i][j] != t) {
+            return 0;
+        }
+        if (memo3459[i][j][d][canTurn] != 0) {
+            return memo3459[i][j][d][canTurn];
+        }
+        int res = dfs3459(i, j, d, canTurn, 2 - t);
+        if (canTurn == 1) {
+            res = Math.max(res, dfs3459(i, j, (d + 1) % 4, 0, 2 - t));
+        }
+        return memo3459[i][j][d][canTurn] = res + 1;
+    }
 }

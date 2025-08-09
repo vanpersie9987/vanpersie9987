@@ -2873,7 +2873,9 @@ class SegmentTree2940:
                 return self.query_sum(o * 2, l, m, L, R)
             if L >= m + 1:
                 return self.query_sum(o * 2 + 1, m + 1, r, L, R)
-            return self.query_sum(o * 2, l, m, L, R) + self.query_sum(o * 2 + 1, m + 1, r, L, R)
+            return self.query_sum(o * 2, l, m, L, R) + self.query_sum(
+                o * 2 + 1, m + 1, r, L, R
+            )
 
         def update(self, o: int, l: int, r: int, i: int, val: int):
             if l == r:
