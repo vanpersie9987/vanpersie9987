@@ -5208,33 +5208,25 @@ public class Leetcode_5 {
 
     // 2438. 二的幂数组中查询范围内的乘积 (Range Product Queries of Powers)
     public int[] productQueries(int n, int[][] queries) {
-        List<Integer> powers = new ArrayList<>();
-        int bit = 0;
-        while (n != 0) {
-            if (n % 2 == 1) {
-                powers.add(bit);
+        int[] a = new int[Integer.bitCount(n) + 1];
+        int id = 1;
+        for (int i = 0; i < 32 - Integer.numberOfLeadingZeros(n); ++i) {
+            if (((n >> i) & 1) != 0) {
+                a[id] = a[id - 1] + i;
+                ++id;
             }
-            n /= 2;
-            ++bit;
         }
-        int mod = (int) (1e9 + 7);
-        int[] prefix = new int[powers.size() + 1];
-        for (int i = 1; i < prefix.length; ++i) {
-            prefix[i] = prefix[i - 1] + powers.get(i - 1);
+        int[] pow = new int[a[a.length - 1] + 1];
+        pow[0] = 1;
+        final int MOD = (int) (1e9 + 7);
+        for (int i = 1; i < a[a.length - 1] + 1; ++i) {
+            pow[i] = (pow[i - 1] << 1) % MOD;
         }
-        int len = queries.length;
-        int[] res = new int[len];
-        for (int i = 0; i < len; ++i) {
-            int start = queries[i][0];
-            int end = queries[i][1];
-            int cur = prefix[end + 1] - prefix[start];
-            long ans = 1l;
-            while (cur != 0) {
-                ans = (ans << 1) % mod;
-                --cur;
-            }
-            res[i] = (int) (ans % mod);
-
+        int[] res = new int[queries.length];
+        for (int i = 0; i < queries.length; ++i) {
+            int x = queries[i][0];
+            int y = queries[i][1];
+            res[i] = pow[a[y + 1] - a[x]];
         }
         return res;
     }
