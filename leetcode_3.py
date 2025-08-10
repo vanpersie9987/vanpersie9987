@@ -2952,5 +2952,6 @@ class SegmentTree2940:
                 cnts[x % 10] += 1
                 x //= 10
             return cnts
+
         a = cal(n)
         return any(cal(1 << i) == a for i in range(30))
