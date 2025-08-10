@@ -2943,3 +2943,14 @@ class SegmentTree2940:
                         if mx > res:
                             res = max(res, dfs(i, j, d, True, 2) + 1)
         return res
+
+    # 869. 重新排序得到 2 的幂 (Reordered Power of 2)
+    def reorderedPowerOf2(self, n: int) -> bool:
+        def cal(x: int) -> List[int]:
+            cnts = [0] * 10
+            while x:
+                cnts[x % 10] += 1
+                x //= 10
+            return cnts
+        a = cal(n)
+        return any(cal(1 << i) == a for i in range(30))
