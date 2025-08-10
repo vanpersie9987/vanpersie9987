@@ -2955,3 +2955,13 @@ class SegmentTree2940:
 
         a = cal(n)
         return any(cal(1 << i) == a for i in range(30))
+
+    # 2438. 二的幂数组中查询范围内的乘积 (Range Product Queries of Powers)
+    def productQueries(self, n: int, queries: List[List[int]]) -> List[int]:
+        a = [0]
+        for i in range(31):
+            if (n >> i) & 1:
+                a.append(i)
+        a = list(accumulate(a))
+        MOD = 10**9 + 7
+        return [(1 << (a[y + 1] - a[x])) % MOD for x, y in queries]
