@@ -5210,11 +5210,11 @@ public class Leetcode_5 {
     public int[] productQueries(int n, int[][] queries) {
         int[] a = new int[Integer.bitCount(n) + 1];
         int id = 1;
-        for (int i = 0; i < 32 - Integer.numberOfLeadingZeros(n); ++i) {
-            if (((n >> i) & 1) != 0) {
-                a[id] = a[id - 1] + i;
-                ++id;
-            }
+        while (n != 0) {
+            int lb = Integer.numberOfTrailingZeros(n);
+            a[id] = a[id - 1] + lb;
+            ++id;
+            n &= n - 1;
         }
         int[] pow = new int[a[a.length - 1] + 1];
         pow[0] = 1;
