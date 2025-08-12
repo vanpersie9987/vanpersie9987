@@ -2077,32 +2077,35 @@ public class Leetcode_8 {
     }
 
     // 2787. 将一个数字表示成幂的和的方案数 (Ways to Express an Integer as Sum of Powers)
-    private int n2787;
     private int x2787;
     private int[][] memo2787;
 
     public int numberOfWays(int n, int x) {
-        this.n2787 = n;
         this.x2787 = x;
         this.memo2787 = new int[n + 1][n + 1];
         for (int i = 0; i < n + 1; ++i) {
             Arrays.fill(memo2787[i], -1);
         }
-        return dfs2787(1, 0);
+        return dfs2787(n, n);
     }
 
     private int dfs2787(int i, int j) {
-        if (j == n2787) {
+        if (i == 0) {
             return 1;
         }
-        if (j > n2787 || j + (int) Math.pow(i, x2787) > n2787) {
+        if (j <= 0) {
             return 0;
         }
         if (memo2787[i][j] != -1) {
             return memo2787[i][j];
         }
+        int res = dfs2787(i, j - 1);
+        long left = (i - (long) Math.pow(j, x2787));
+        if (left >= 0) {
+            res += dfs2787((int) left, j - 1);
+        }
         final int MOD = (int) (1e9 + 7);
-        return memo2787[i][j] = (dfs2787(i + 1, j) + dfs2787(i + 1, j + (int) Math.pow(i, x2787))) % MOD;
+        return memo2787[i][j] = res % MOD;
     }
 
     // 2788. 按分隔符拆分字符串 (Split Strings by Separator)
