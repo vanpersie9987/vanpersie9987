@@ -2962,3 +2962,20 @@ class SegmentTree2940:
         a = list(accumulate(a, initial=0))
         MOD = 10**9 + 7
         return [(1 << (a[y + 1] - a[x])) % MOD for x, y in queries]
+
+    def numberOfWays(self, n: int, x: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == 0:
+                return 1
+            if j <= 0:
+                return 0
+            res = dfs(i, j - 1)
+            left = i - pow(j, x)
+            if left >= 0:
+                res += dfs(left, j - 1)
+            return res % MOD
+        MOD = 10**9 + 7
+        res = dfs(n, n)
+        dfs.cache_clear()
+        return res

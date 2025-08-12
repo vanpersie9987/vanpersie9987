@@ -609,6 +609,7 @@ class leetcode_1:
                     if not is_num or abs(j - d) == 1:
                         res += dfs(i + 1, d, up == d and is_limit, True)
                 return res % MOD
+
             n = len(s)
             return dfs(0, 0, True, False)
 
@@ -3038,14 +3039,20 @@ class leetcode_1:
     def numberOfWays(self, n: int, x: int) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if j == n:
+            if i == 0:
                 return 1
-            if j > n or j + pow(i, x) > n:
+            if j <= 0:
                 return 0
-            return (dfs(i + 1, j) + dfs(i + 1, j + pow(i, x))) % MOD
+            res = dfs(i, j - 1)
+            left = i - pow(j, x)
+            if left >= 0:
+                res += dfs(left, j - 1)
+            return res % MOD
 
         MOD = 10**9 + 7
-        return dfs(1, 0)
+        res = dfs(n, n)
+        dfs.cache_clear()
+        return res
 
     # 2646. 最小化旅行的价格总和 (Minimize the Total Price of the Trips)
     def minimumTotalPrice(
@@ -9583,11 +9590,13 @@ class leetcode_1:
                 for d in range(min(limit, up) + 1):
                     res += dfs(i + 1, is_limit and up == d)
                 return res
+
             a = str(x)
             n = len(a)
             if n < len(s):
                 return 0
             return dfs(0, True)
+
         return cal(finish) - cal(start - 1)
 
     # 2696. 删除子串后的字符串最小长度 (Minimum String Length After Removing Substrings)
