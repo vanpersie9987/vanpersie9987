@@ -3000,3 +3000,14 @@ class SegmentTree2940:
             if i != v:
                 res &= v
         return max(0, res)
+
+    # 3645. 最优激活顺序得到的最大总和 (Maximum Total from Optimal Activation Order)
+    def maxTotal(self, value: List[int], limit: List[int]) -> int:
+        d = defaultdict(list)
+        for v, l in zip(value, limit):
+            d[l].append(v)
+        res = 0
+        for l, a in d.items():
+            a.sort()
+            res += sum(a[-l:])
+        return res

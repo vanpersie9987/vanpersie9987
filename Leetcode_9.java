@@ -9021,4 +9021,21 @@ public class Leetcode_9 {
         return Math.max(0, res);
 
     }
+
+    // 3645. 最优激活顺序得到的最大总和 (Maximum Total from Optimal Activation Order)
+    public long maxTotal(int[] value, int[] limit) {
+        Map<Integer, List<Integer>> g = new HashMap<>();
+        for (int i = 0; i < value.length; ++i) {
+            g.computeIfAbsent(limit[i], k -> new ArrayList<>()).add(value[i]);
+        }
+        long res = 0L;
+        for (Map.Entry<Integer, List<Integer>> entry : g.entrySet()) {
+            List<Integer> a = entry.getValue();
+            Collections.sort(a);
+            for (int i = a.size() - 1; i >= Math.max(0, a.size() - entry.getKey()); --i) {
+                res += a.get(i);
+            }
+        }
+        return res;
+    }
 }
