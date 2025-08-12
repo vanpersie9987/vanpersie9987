@@ -8995,4 +8995,18 @@ public class Leetcode_9 {
         }
         return memo3459[i][j][d][canTurn] = res + 1;
     }
+
+    // 3643. 垂直翻转子矩阵 (Flip Square Submatrix Vertically)
+    public int[][] reverseSubmatrix(int[][] grid, int x, int y, int k) {
+        for (int i = x; i < x + k / 2; ++i) {
+            int last = x + k - (i - x + 1);
+            for (int j = y; j < y + k; ++j) {
+                int tmp = grid[i][j];
+                grid[i][j] = grid[last][j];
+                grid[last][j] = tmp;
+            }
+        }
+        return grid;
+
+    }
 }

@@ -2975,7 +2975,20 @@ class SegmentTree2940:
             if left >= 0:
                 res += dfs(left, j - 1)
             return res % MOD
+
         MOD = 10**9 + 7
         res = dfs(n, n)
         dfs.cache_clear()
         return res
+
+    # 3643. 垂直翻转子矩阵 (Flip Square Submatrix Vertically)
+    def reverseSubmatrix(
+        self, grid: List[List[int]], x: int, y: int, k: int
+    ) -> List[List[int]]:
+        for i in range(x, x + k // 2):
+            last = x + k - (i - x + 1)
+            grid[i][y : y + k], grid[last][y : y + k] = (
+                grid[last][y : y + k],
+                grid[i][y : y + k],
+            )
+        return grid
