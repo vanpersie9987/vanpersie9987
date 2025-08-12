@@ -2992,3 +2992,11 @@ class SegmentTree2940:
                 grid[i][y : y + k],
             )
         return grid
+
+    # 3644. 排序排列 (Maximum K to Sort a Permutation)
+    def sortPermutation(self, nums: List[int]) -> int:
+        res = -1
+        for i, v in enumerate(nums):
+            if i != v:
+                res &= v
+        return max(0, res)

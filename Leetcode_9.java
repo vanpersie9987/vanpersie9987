@@ -9009,4 +9009,16 @@ public class Leetcode_9 {
         return grid;
 
     }
+
+    // 3644. 排序排列 (Maximum K to Sort a Permutation)
+    public int sortPermutation(int[] nums) {
+        int res = -1;
+        for (int i = 0; i < nums.length; ++i) {
+            if (i != nums[i]) {
+                res &= nums[i];
+            }
+        }
+        return Math.max(0, res);
+
+    }
 }
