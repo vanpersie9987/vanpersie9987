@@ -3011,3 +3011,13 @@ class SegmentTree2940:
             a.sort()
             res += sum(a[-l:])
         return res
+    
+    # 326. 3 的幂 (Power of Three)
+    def isPowerOfThree(self, n: int) -> bool:
+        if n <= 0:
+            return False
+        while n != 1:
+            if n % 3:
+                return False
+            n //= 3
+        return True
