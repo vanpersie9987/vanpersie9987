@@ -3011,7 +3011,7 @@ class SegmentTree2940:
             a.sort()
             res += sum(a[-l:])
         return res
-    
+
     # 326. 3 的幂 (Power of Three)
     def isPowerOfThree(self, n: int) -> bool:
         if n <= 0:
@@ -3021,3 +3021,13 @@ class SegmentTree2940:
                 return False
             n //= 3
         return True
+
+    # 1323. 6 和 9 组成的最大数字 (Maximum 69 Number)
+    def maximum69Number(self, num: int) -> int:
+        s = str(num)
+        a = [x for x in s]
+        for i, x in enumerate(a):
+            if x == "6":
+                a[i] = "9"
+                break
+        return int("".join(a))
