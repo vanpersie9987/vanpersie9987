@@ -2839,11 +2839,7 @@ class leetcode_1:
 
     # 342. 4的幂 (Power of Four)
     def isPowerOfFour(self, n: int) -> bool:
-        return (
-            n > 0
-            and n.bit_count() == 1
-            and (n & 0b10101010101010101010101010101010) == 0
-        )
+        return n > 0 and n.bit_count() == 1 and (n.bit_length() - 1) % 2 == 0
 
     # 338. 比特位计数 (Counting Bits)
     # LCR 003. 比特位计数
