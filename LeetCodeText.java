@@ -14472,31 +14472,9 @@ public class LeetCodeText {
         return n > 0 && (n & (-n)) == n;
     }
 
-    // 342. 4的幂
+    // 342. 4的幂 (Power of Four)
     public boolean isPowerOfFour(int n) {
-        if (n <= 0) {
-            return false;
-        }
-        int countZero = 0;
-        int countOne = 0;
-        while (n != 0) {
-            if (n % 2 == 1) {
-                ++countOne;
-            } else {
-                ++countZero;
-            }
-            if (countOne > 1) {
-                return false;
-            }
-            n /= 2;
-        }
-        return countZero % 2 == 0;
-
-    }
-
-    // 342. 4的幂
-    public boolean isPowerOfFour2(int n) {
-        return n > 0 && (n & (n - 1)) == 0 && (n & 0b10101010101010101010101010101010) == 0;
+        return n > 0 && Integer.bitCount(n) == 1 && Integer.numberOfTrailingZeros(n) % 2 == 0;
     }
 
     // 326. 3的幂
@@ -18449,6 +18427,7 @@ public class LeetCodeText {
 
     private Set<Integer> set788;
     private int[] memo788;
+
     private int check(Set<Integer> set) {
         this.set788 = set;
         this.memo788 = new int[m788];
