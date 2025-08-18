@@ -6662,17 +6662,13 @@ public class LeetCode_4 {
 
     }
 
-    // 6129. 全 0 子数组的数目
+    // 2348. 全 0 子数组的数目 (Number of Zero-Filled Subarrays)
     public long zeroFilledSubarray(int[] nums) {
-        long res = 0l;
-        int count = 0;
-        for (int num : nums) {
-            if (num != 0) {
-                count = 0;
-            } else {
-                ++count;
-                res += count;
-            }
+        long res = 0L;
+        int cnt = 0;
+        for (int x : nums) {
+            cnt = x == 0 ? cnt + 1 : 0;
+            res += cnt;
         }
         return res;
 
