@@ -3146,3 +3146,12 @@ class SegmentTree2940:
             return False
 
         return dfs(cards)
+
+    # 2348. 全 0 子数组的数目 (Number of Zero-Filled Subarrays)
+    def zeroFilledSubarray(self, nums: List[int]) -> int:
+        res = 0
+        cnt = 0
+        for x in nums:
+            cnt = 0 if x else cnt + 1
+            res += cnt
+        return res
