@@ -3051,3 +3051,26 @@ class SegmentTree2940:
                 j += 1
             res += i - j
         return res
+
+    # 3650. 边反转的最小路径总成本 (Minimum Cost Path with Edge Reversals)
+    def minCost(self, n: int, edges: List[List[int]]) -> int:
+        g = [[] for _ in range(n)]
+        for u, v, w in edges:
+            g[u].append((v, w))
+            g[v].append((u, w * 2))
+        dis = [inf] * n
+        dis[0] = 0
+        q = [(0, 0)]
+        heapq.heapify(q)
+        while q:
+            w, x = heapq.heappop(q)
+            if x == n - 1:
+                return w
+            for y, dw in g[x]:
+                if w + dw < dis[y]:
+                    dis[y] = w + dw
+                    heapq.heappush(q, (w + dw, y))
+        return -1
+
+
+

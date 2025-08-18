@@ -9067,4 +9067,44 @@ public class Leetcode_9 {
         return res;
 
     }
+
+    // 3650. 边反转的最小路径总成本 (Minimum Cost Path with Edge Reversals)
+    public int minCost3650(int n, int[][] edges) {
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[0]].add(new int[] { e[1], e[2] });
+            g[e[1]].add(new int[] { e[0], e[2] * 2 });
+        }
+        int[] dis = new int[n];
+        Arrays.fill(dis, Integer.MAX_VALUE);
+        dis[0] = 0;
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        // {w, x}
+        q.offer(new int[] { 0, 0 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int w = cur[0];
+            int x = cur[1];
+            if (x == n - 1) {
+                return w;
+            }
+            for (int[] nxt : g[x]) {
+                int y = nxt[0];
+                int dw = nxt[1];
+                if (w + dw < dis[y]) {
+                    dis[y] = w + dw;
+                    q.offer(new int[] { w + dw, y });
+                }
+            }
+        }
+        return -1;
+    }
 }
