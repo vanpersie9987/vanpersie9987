@@ -3106,3 +3106,43 @@ class SegmentTree2940:
                     p += 1
                 ptrs[c] = p
         return -1
+
+    # 679. 24 点游戏 (24 Game)
+    def judgePoint24(self, cards: List[int]) -> bool:
+        def dfs(a: List[float]) -> bool:
+            if len(a) == 1:
+                return abs(a[0] - 24) <= 10 ** (-6)
+            for i in range(len(a)):
+                for j in range(i + 1, len(a)):
+                    x = a[i]
+                    y = a[j]
+                    copy_a = [0] * (len(a) - 1)
+                    id = 0
+                    for k in range(len(a)):
+                        if i != k and j != k:
+                            copy_a[id] = a[k]
+                            id += 1
+                    copy_a[id] = x + y
+                    if dfs(copy_a):
+                        return True
+                    copy_a[id] = x - y
+                    if dfs(copy_a):
+                        return True
+                    copy_a[id] = y - x
+                    if dfs(copy_a):
+                        return True
+                    copy_a[id] = x * y
+                    if dfs(copy_a):
+                        return True
+
+                    if y > 10 ** (-6):
+                        copy_a[id] = x / y
+                        if dfs(copy_a):
+                            return True
+                    if x > 10 ** (-6):
+                        copy_a[id] = y / x
+                        if dfs(copy_a):
+                            return True
+            return False
+
+        return dfs(cards)
