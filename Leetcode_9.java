@@ -9107,4 +9107,80 @@ public class Leetcode_9 {
         }
         return -1;
     }
+
+    // 3651. 带传送的最小路径成本 (Minimum Cost Path with Teleportations)
+    public int minCost(int[][] grid, int k) {
+        int m = grid.length;
+        int n = grid[0].length;
+        List<int[]> a = new ArrayList<>();
+        int[][][] dis = new int[m][n][k + 1];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                a.add(new int[] { grid[i][j], i, j });
+                Arrays.fill(dis[i][j], Integer.MAX_VALUE);
+            }
+        }
+        dis[0][0][0] = 0;
+        Collections.sort(a, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        int[] ptrs = new int[k + 1];
+        int[][] dirs = { { 1, 0 }, { 0, 1 } };
+        // {w, x, y, c}
+        q.offer(new int[] { 0, 0, 0, 0 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int w = cur[0];
+            int x = cur[1];
+            int y = cur[2];
+            int c = cur[3];
+            if (w > dis[x][y][c]) {
+                continue;
+            }
+            if (x == m - 1 && y == n - 1) {
+                return w;
+            }
+            for (int[] dir : dirs) {
+                int dx = dir[0];
+                int dy = dir[1];
+                int nx = x + dx;
+                int ny = y + dy;
+                if (nx < m && ny < n) {
+                    if (w + grid[nx][ny] < dis[nx][ny][c]) {
+                        dis[nx][ny][c] = w + grid[nx][ny];
+                        q.offer(new int[] { w + grid[nx][ny], nx, ny, c });
+                    }
+                }
+            }
+            if (c < k) {
+                int v = grid[x][y];
+                int p = ptrs[c];
+                while (p < a.size() && a.get(p)[0] <= v) {
+                    int nx = a.get(p)[1];
+                    int ny = a.get(p)[2];
+                    if (w < dis[nx][ny][c + 1]) {
+                        dis[nx][ny][c + 1] = w;
+                        q.offer(new int[] { w, nx, ny, c + 1 });
+                    }
+                    ++p;
+                }
+                ptrs[c] = p;
+            }
+        }
+        return -1;
+
+    }
 }

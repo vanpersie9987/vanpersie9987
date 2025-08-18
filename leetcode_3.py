@@ -3072,5 +3072,37 @@ class SegmentTree2940:
                     heapq.heappush(q, (w + dw, y))
         return -1
 
-
-
+    # 3651. 带传送的最小路径成本 (Minimum Cost Path with Teleportations)
+    def minCost(self, grid: List[List[int]], k: int) -> int:
+        m, n = len(grid), len(grid[0])
+        a = sorted((grid[i][j], i, j) for j in range(n) for i in range(m))
+        dis = [[[inf] * (k + 1) for _ in range(n)] for _ in range(m)]
+        ptrs = [0] * (k + 1)
+        dis[0][0][0] = 0
+        q = [(0, 0, 0, 0)]
+        heapq.heapify(q)
+        dirs = (0, 1), (1, 0)
+        while q:
+            w, x, y, c = heapq.heappop(q)
+            if dis[x][y][c] > w:
+                continue
+            if x == m - 1 and y == n - 1:
+                return w
+            for dx, dy in dirs:
+                nx = x + dx
+                ny = y + dy
+                if nx < m and ny < n:
+                    if w + grid[nx][ny] < dis[nx][ny][c]:
+                        dis[nx][ny][c] = w + grid[nx][ny]
+                        heapq.heappush(q, (w + grid[nx][ny], nx, ny, c))
+            if c < k:
+                v = grid[x][y]
+                p = ptrs[c]
+                while p < len(a) and a[p][0] <= v:
+                    nx, ny = a[p][1], a[p][2]
+                    if w < dis[nx][ny][c + 1]:
+                        dis[nx][ny][c + 1] = w
+                        heapq.heappush(q, (w, nx, ny, c + 1))
+                    p += 1
+                ptrs[c] = p
+        return -1
