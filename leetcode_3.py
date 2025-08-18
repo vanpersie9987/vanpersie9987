@@ -3039,3 +3039,15 @@ class SegmentTree2940:
             return (a + b - 1) // b
 
         return check(n) * check(m)
+
+    # 3649. 完美对的数目 (Number of Perfect Pairs)
+    def perfectPairs(self, nums: List[int]) -> int:
+        a = [abs(x) for x in nums]
+        a.sort()
+        j = 0
+        res = 0
+        for i, v in enumerate(a):
+            while v > a[j] * 2:
+                j += 1
+            res += i - j
+        return res

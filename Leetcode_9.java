@@ -9048,4 +9048,23 @@ public class Leetcode_9 {
         int res2 = (a + b - 1) / b;
         return res1 * res2;
     }
+
+    // 3649. 完美对的数目 (Number of Perfect Pairs)
+    public long perfectPairs(int[] nums) {
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            nums[i] = Math.abs(nums[i]);
+        }
+        Arrays.sort(nums);
+        long res = 0L;
+        int j = 0;
+        for (int i = 0; i < n; ++i) {
+            while ((nums[j] * 2) < nums[i]) {
+                ++j;
+            }
+            res += i - j;
+        }
+        return res;
+
+    }
 }
