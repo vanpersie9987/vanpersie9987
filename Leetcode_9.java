@@ -9038,4 +9038,14 @@ public class Leetcode_9 {
         }
         return res;
     }
+
+    // 3648. 覆盖网格的最少传感器数目 (Minimum Sensors to Cover Grid)
+    public int minSensors(int n, int m, int k) {
+        int a = n;
+        int b = 2 * k + 1;
+        int res1 = (a + b - 1) / b;
+        a = m;
+        int res2 = (a + b - 1) / b;
+        return res1 * res2;
+    }
 }

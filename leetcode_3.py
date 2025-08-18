@@ -3031,3 +3031,11 @@ class SegmentTree2940:
                 a[i] = "9"
                 break
         return int("".join(a))
+
+    # 3648. 覆盖网格的最少传感器数目 (Minimum Sensors to Cover Grid)
+    def minSensors(self, n: int, m: int, k: int) -> int:
+        def check(a: int) -> int:
+            b = 2 * k + 1
+            return (a + b - 1) // b
+
+        return check(n) * check(m)
