@@ -9200,4 +9200,24 @@ public class Leetcode_9 {
         return res;
 
     }
+
+    // 3653. 区间乘法查询后的异或 I (XOR After Range Multiplication Queries I)
+    public int xorAfterQueries(int[] nums, int[][] queries) {
+        final int MOD = (int) (1e9 + 7);
+        for (int[] q : queries) {
+            int l = q[0];
+            int r = q[1];
+            int k = q[2];
+            int v = q[3];
+            for (int i = l; i <= r; i += k) {
+                nums[i] = (int) ((long) nums[i] * v % MOD);
+            }
+        }
+        int res = 0;
+        for (int x : nums) {
+            res ^= x;
+        }
+        return res;
+
+    }
 }

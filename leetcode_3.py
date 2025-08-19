@@ -3162,3 +3162,14 @@ class SegmentTree2940:
         p = list(accumulate(prices, initial=0))
         ps = list(accumulate([a * b for a, b in zip(prices, strategy)], initial=0))
         return max(ps[-1], max(ps[-1] - (ps[i] - ps[i - k]) + p[i] - p[i - k // 2] for i in range(k, n + 1)))
+
+    # 3653. 区间乘法查询后的异或 I (XOR After Range Multiplication Queries I)
+    def xorAfterQueries(self, nums: List[int], queries: List[List[int]]) -> int:
+        MOD = 10**9 + 7
+        for l, r, k, v in queries:
+            for i in range(l, r + 1, k):
+                nums[i] = nums[i] * v % MOD
+        res = 0
+        for x in nums:
+            res ^= x
+        return res
