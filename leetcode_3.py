@@ -3155,3 +3155,10 @@ class SegmentTree2940:
             cnt = 0 if x else cnt + 1
             res += cnt
         return res
+
+    # 3652. 按策略买卖股票的最佳时机 (Best Time to Buy and Sell Stock using Strategy)
+    def maxProfit(self, prices: List[int], strategy: List[int], k: int) -> int:
+        n = len(prices)
+        p = list(accumulate(prices, initial=0))
+        ps = list(accumulate([a * b for a, b in zip(prices, strategy)], initial=0))
+        return max(ps[-1], max(ps[-1] - (ps[i] - ps[i - k]) + p[i] - p[i - k // 2] for i in range(k, n + 1)))
