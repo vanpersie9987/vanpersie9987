@@ -6185,22 +6185,27 @@ public class LeetCodeText {
 
     }
 
-    // 1504. 统计全 1 子矩形
+    // 1504. 统计全 1 子矩形 (Count Submatrices With All Ones)
     public int numSubmat(int[][] mat) {
-        int ans = 0;
-        for (int i = 0; i < mat.length; ++i) {
-            for (int j = 0; j < mat[0].length; ++j) {
-                if (j > 0) {
-                    mat[i][j] = mat[i][j] == 1 ? mat[i][j - 1] + 1 : 0;
-                }
-                int min = mat[i][j];
-                for (int k = i; k >= 0; --k) {
-                    min = Math.min(min, mat[k][j]);
-                    ans += min;
+        int m = mat.length;
+        int n = mat[0].length;
+        int res = 0;
+        for (int top = 0; top < m; ++top) {
+            int[] a = new int[n];
+            for (int bottom = top; bottom < m; ++bottom) {
+                int h = bottom - top + 1;
+                int last = -1;
+                for (int j = 0; j < n; ++j) {
+                    a[j] += mat[bottom][j];
+                    if (a[j] != h) {
+                        last = j;
+                    } else {
+                        res += j - last;
+                    }
                 }
             }
         }
-        return ans;
+        return res;
 
     }
 
