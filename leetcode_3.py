@@ -3155,6 +3155,7 @@ class SegmentTree2940:
             cnt = 0 if x else cnt + 1
             res += cnt
         return res
+<<<<<<< HEAD
     
     # 1504. 统计全 1 子矩形 (Count Submatrices With All Ones)
     def numSubmat(self, mat: List[List[int]]) -> int:
@@ -3174,3 +3175,23 @@ class SegmentTree2940:
         return res
 
         
+=======
+
+    # 3652. 按策略买卖股票的最佳时机 (Best Time to Buy and Sell Stock using Strategy)
+    def maxProfit(self, prices: List[int], strategy: List[int], k: int) -> int:
+        n = len(prices)
+        p = list(accumulate(prices, initial=0))
+        ps = list(accumulate([a * b for a, b in zip(prices, strategy)], initial=0))
+        return max(ps[-1], max(ps[-1] - (ps[i] - ps[i - k]) + p[i] - p[i - k // 2] for i in range(k, n + 1)))
+
+    # 3653. 区间乘法查询后的异或 I (XOR After Range Multiplication Queries I)
+    def xorAfterQueries(self, nums: List[int], queries: List[List[int]]) -> int:
+        MOD = 10**9 + 7
+        for l, r, k, v in queries:
+            for i in range(l, r + 1, k):
+                nums[i] = nums[i] * v % MOD
+        res = 0
+        for x in nums:
+            res ^= x
+        return res
+>>>>>>> 0e8b78c8368e58e9f7bca03a9c49b80795b8b048

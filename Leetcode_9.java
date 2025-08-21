@@ -9183,4 +9183,41 @@ public class Leetcode_9 {
         return -1;
 
     }
+
+    // 3652. 按策略买卖股票的最佳时机 (Best Time to Buy and Sell Stock using Strategy)
+    public long maxProfit(int[] prices, int[] strategy, int k) {
+        int n = prices.length;
+        long[] p = new long[n + 1];
+        long[] ps = new long[n + 1];
+        for (int i = 0; i < n; ++i) {
+            p[i + 1] = p[i] + prices[i];
+            ps[i + 1] = ps[i] + prices[i] * strategy[i];
+        }
+        long res = ps[n];
+        for (int i = k; i < n + 1; ++i) {
+            res = Math.max(res, ps[n] - (ps[i] - ps[i - k]) + p[i] - p[i - k / 2]);
+        }
+        return res;
+
+    }
+
+    // 3653. 区间乘法查询后的异或 I (XOR After Range Multiplication Queries I)
+    public int xorAfterQueries(int[] nums, int[][] queries) {
+        final int MOD = (int) (1e9 + 7);
+        for (int[] q : queries) {
+            int l = q[0];
+            int r = q[1];
+            int k = q[2];
+            int v = q[3];
+            for (int i = l; i <= r; i += k) {
+                nums[i] = (int) ((long) nums[i] * v % MOD);
+            }
+        }
+        int res = 0;
+        for (int x : nums) {
+            res ^= x;
+        }
+        return res;
+
+    }
 }
