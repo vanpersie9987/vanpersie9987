@@ -3155,7 +3155,7 @@ class SegmentTree2940:
             cnt = 0 if x else cnt + 1
             res += cnt
         return res
-    
+
     # 1504. 统计全 1 子矩形 (Count Submatrices With All Ones)
     def numSubmat(self, mat: List[List[int]]) -> int:
         res = 0
@@ -3172,8 +3172,6 @@ class SegmentTree2940:
                     else:
                         res += j - last
         return res
-
-        
 
     # 3652. 按策略买卖股票的最佳时机 (Best Time to Buy and Sell Stock using Strategy)
     def maxProfit(self, prices: List[int], strategy: List[int], k: int) -> int:
@@ -3192,3 +3190,28 @@ class SegmentTree2940:
         for x in nums:
             res ^= x
         return res
+
+    # 1504. 统计全 1 子矩形 (Count Submatrices With All Ones)
+    def numSubmat(self, mat: List[List[int]]) -> int:
+        heights = [0] * len(mat[0])
+        ans = 0
+        for row in mat:
+            for j, x in enumerate(row):
+                if x == 0:
+                    heights[j] = 0
+                else:
+                    heights[j] += 1
+
+            # (j, f, heights[j])
+            st = [(-1, 0, -1)]  # 哨兵，方便处理 left=-1 的情况
+            for j, h in enumerate(heights):
+                while st[-1][2] >= h:
+                    st.pop()
+                left, f, _ = st[-1]
+                # 计算底边为 row，右边界为 j 的子矩形个数
+                # 左边界 <= left 的矩形，每个矩形的右边界都可以扩展到 j，一共有 f 个
+                # 左边界 >  left 的矩形，左边界有 j-left 种，高度有 h 种，一共有 (j-left)*h 个
+                f += (j - left) * h
+                ans += f
+                st.append((j, f, h))
+        return ans

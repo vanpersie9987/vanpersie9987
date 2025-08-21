@@ -9220,4 +9220,34 @@ public class Leetcode_9 {
         return res;
 
     }
+
+    // 1504. 统计全 1 子矩形 (Count Submatrices With All Ones)
+    public int numSubmat(int[][] mat) {
+        int n = mat[0].length;
+        int[] height = new int[n];
+        int res = 0;
+        for (int[] row : mat) {
+            for (int j = 0; j < n; ++j) {
+                if (row[j] == 0) {
+                    height[j] = 0;
+                } else {
+                    height[j] += 1;
+                }
+            }
+            Stack<int[]> st = new Stack<>();
+            st.add(new int[] { -1, 0, -1 });
+            for (int j = 0; j < n; ++j) {
+                while (st.peek()[2] >= height[j]) {
+                    st.pop();
+                }
+                int left = st.peek()[0];
+                int f = st.peek()[1];
+                f += (j - left) * height[j];
+                res += f;
+                st.add(new int[] { j, f, height[j] });
+            }
+        }
+        return res;
+
+    }
 }
