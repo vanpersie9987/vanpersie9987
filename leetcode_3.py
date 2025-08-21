@@ -3155,7 +3155,6 @@ class SegmentTree2940:
             cnt = 0 if x else cnt + 1
             res += cnt
         return res
-<<<<<<< HEAD
     
     # 1504. 统计全 1 子矩形 (Count Submatrices With All Ones)
     def numSubmat(self, mat: List[List[int]]) -> int:
@@ -3175,7 +3174,6 @@ class SegmentTree2940:
         return res
 
         
-=======
 
     # 3652. 按策略买卖股票的最佳时机 (Best Time to Buy and Sell Stock using Strategy)
     def maxProfit(self, prices: List[int], strategy: List[int], k: int) -> int:
@@ -3194,4 +3192,3 @@ class SegmentTree2940:
         for x in nums:
             res ^= x
         return res
->>>>>>> 0e8b78c8368e58e9f7bca03a9c49b80795b8b048
