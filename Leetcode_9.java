@@ -9059,7 +9059,7 @@ public class Leetcode_9 {
         long res = 0L;
         int j = 0;
         for (int i = 0; i < n; ++i) {
-            while ((nums[j] * 2) < nums[i]) {
+            while (nums[j] * 2 < nums[i]) {
                 ++j;
             }
             res += i - j;
