@@ -9220,4 +9220,74 @@ public class Leetcode_9 {
         return res;
 
     }
+
+    // 3197. 包含所有 1 的最小矩形面积 II (Find the Minimum Area to Cover All Ones II)
+    public int minimumSum(int[][] grid) {
+        return Math.min(solve3197(grid), solve3197(rotate3197(grid)));
+    }
+
+    private int solve3197(int[][] a) {
+        int m = a.length;
+        int n = a[0].length;
+        int res = Integer.MAX_VALUE;
+        if (m >= 3) {
+            for (int i = 1; i < m; ++i) {
+                for (int j = i + 1; j < m; ++j) {
+                    int area = minumumArea3197(Arrays.copyOfRange(a, 0, i), 0, n);
+                    area += minumumArea3197(Arrays.copyOfRange(a, i, j), 0, n);
+                    area += minumumArea3197(Arrays.copyOfRange(a, j, m), 0, n);
+                    res = Math.min(res, area);
+                }
+            }
+        }
+        if (m >= 2 && n >= 2) {
+            for (int i = 1; i < m; ++i) {
+                for (int j = 1; j < n; ++j) {
+                    int area = minumumArea3197(Arrays.copyOfRange(a, 0, i), 0, n);
+                    area += minumumArea3197(Arrays.copyOfRange(a, i, m), 0, j);
+                    area += minumumArea3197(Arrays.copyOfRange(a, i, m), j, n);
+                    res = Math.min(res, area);
+
+                    area = minumumArea3197(Arrays.copyOfRange(a, 0, i), 0, j);
+                    area += minumumArea3197(Arrays.copyOfRange(a, 0, i), j, n);
+                    area += minumumArea3197(Arrays.copyOfRange(a, i, m), 0, n);
+                    res = Math.min(res, area);
+                }
+            }
+        }
+        return res;
+    }
+
+    
+    private int minumumArea3197(int[][] a, int l, int r) {
+        int left = 30;
+        int top = 30;
+        int right = 0;
+        int bottom = 0;
+        for (int i = 0; i < a.length; ++i) {
+            for (int j = l; j < r; ++j) {
+                if (a[i][j] == 1) {
+                    left = Math.min(left, j);
+                    right = Math.max(right, j);
+                    top = Math.min(top, i);
+                    bottom = Math.max(bottom, i);
+                }
+            }
+        }
+        return (right - left + 1) * (bottom - top + 1);
+
+    }
+
+    private int[][] rotate3197(int[][] a) {
+        int m = a.length;
+        int n = a[0].length;
+        int[][] res = new int[n][m];
+        for (int j = 0; j < n; ++j) {
+            for (int i = m - 1; i >= 0; --i) {
+                res[j][m - i - 1] = a[i][j];
+            }
+        }
+        return res;
+
+    }
 }

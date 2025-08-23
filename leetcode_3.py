@@ -3236,7 +3236,7 @@ class SegmentTree2940:
                             right = max(right, j)
                             top = min(top, i)
                             bottom = max(bottom, i)
-                return (right - left + 1) * (bottom - top + 1) if right >= left and bottom >= top else inf
+                return (right - left + 1) * (bottom - top + 1)
             m, n = len(a), len(a[0])
             res = inf
             if m >= 3:
