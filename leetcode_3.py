@@ -1,5 +1,6 @@
 from ast import Return, Tuple, literal_eval
 from asyncio import FastChildWatcher
+from curses.panel import bottom_panel
 from gettext import find
 import math
 from platform import node
@@ -3215,3 +3216,37 @@ class SegmentTree2940:
                 ans += f
                 st.append((j, f, h))
         return ans
+
+    # 3197. 包含所有 1 的最小矩形面积 II (Find the Minimum Area to Cover All Ones II)
+    def minimumSum(self, grid: List[List[int]]) -> int:
+        # 顺时针旋转90度
+        def rotate(a: List[List[int]]) -> List[List[int]]:
+            return list(zip(*reversed(a)))
+            # return [list(col) for col in zip(*a[::-1])]
+            # return [list(reversed(col)) for col in zip(*a)]
+
+        def solve(a: List[List[int]]) -> int:
+            def minimum_area(arr: List[List[int]], l: int, r: int) -> int:
+                left = top = inf
+                right = bottom = 0
+                for i in range(len(arr)):
+                    for j in range(l, r):
+                        if arr[i][j] == 1:
+                            left = min(left, j)
+                            right = max(right, j)
+                            top = min(top, i)
+                            bottom = max(bottom, i)
+                return (right - left + 1) * (bottom - top + 1) if right >= left and bottom >= top else inf
+            m, n = len(a), len(a[0])
+            res = inf
+            if m >= 3:
+                for r1 in range(1, m):
+                    for r2 in range(r1 + 1, m):
+                        res = min(res, minimum_area(a[:r1], 0, n) + minimum_area(a[r1: r2], 0, n) + minimum_area(a[r2:], 0, n))
+            if m >= 2 and n >= 2:
+                for i in range(1, m):
+                    for j in range(1, n):
+                        res = min(res, minimum_area(a[:i], 0, n) + minimum_area(a[i:], 0, j) + minimum_area(a[i:], j, n))
+                        res = min(res, minimum_area(a[:i], 0, j) + minimum_area(a[:i], j, n) + minimum_area(a[i:], 0, n))
+            return res
+        return min(solve(grid), solve(rotate(grid)))
