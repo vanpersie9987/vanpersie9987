@@ -3250,3 +3250,16 @@ class SegmentTree2940:
                         res = min(res, minimum_area(a[:i], 0, j) + minimum_area(a[:i], j, n) + minimum_area(a[i:], 0, n))
             return res
         return min(solve(grid), solve(rotate(grid)))
+
+    # 498. 对角线遍历 (Diagonal Traverse)
+    def findDiagonalOrder(self, mat: List[List[int]]) -> List[int]:
+        m, n = len(mat), len(mat[0])
+        res = []
+        for s in range(m + n - 1):
+            if s & 1 == 0:
+                for i in range(min(s, m - 1), max(-1, s - n), -1):
+                    res.append(mat[i][s - i])
+            else:
+                for i in range(max(0, s - n + 1), min(s + 1, m)):
+                    res.append(mat[i][s - i])
+        return res
