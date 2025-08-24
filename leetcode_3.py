@@ -3263,3 +3263,15 @@ class SegmentTree2940:
                 for i in range(max(0, s - n + 1), min(s + 1, m)):
                     res.append(mat[i][s - i])
         return res
+    
+    # 498. 对角线遍历 (Diagonal Traverse)
+    def findDiagonalOrder(self, mat: List[List[int]]) -> List[int]:
+        m, n = len(mat), len(mat[0])
+        res = []
+        dic = defaultdict(list)
+        for i in range(m):
+            for j in range(n):
+                dic[i + j].append(mat[i][j])
+        for k in range(m + n - 1):
+            res.extend(dic[k] if k & 1 else reversed(dic[k]))
+        return res
