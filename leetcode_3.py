@@ -29,7 +29,7 @@ from logging import _Level, root
 from math import comb, cos, e, fabs, floor, gcd, inf, isqrt, lcm, sqrt
 from mimetypes import init
 from multiprocessing import reduction
-from operator import le, ne, truediv
+from operator import is_, le, ne, truediv
 from os import eventfd, lseek, minor, name, pread
 from pickletools import read_uint1
 from queue import PriorityQueue
@@ -3179,7 +3179,13 @@ class SegmentTree2940:
         n = len(prices)
         p = list(accumulate(prices, initial=0))
         ps = list(accumulate([a * b for a, b in zip(prices, strategy)], initial=0))
-        return max(ps[-1], max(ps[-1] - (ps[i] - ps[i - k]) + p[i] - p[i - k // 2] for i in range(k, n + 1)))
+        return max(
+            ps[-1],
+            max(
+                ps[-1] - (ps[i] - ps[i - k]) + p[i] - p[i - k // 2]
+                for i in range(k, n + 1)
+            ),
+        )
 
     # 3653. 区间乘法查询后的异或 I (XOR After Range Multiplication Queries I)
     def xorAfterQueries(self, nums: List[int], queries: List[List[int]]) -> int:
@@ -3241,18 +3247,35 @@ class SegmentTree2940:
                             top = min(top, i)
                             bottom = max(bottom, i)
                 return (right - left + 1) * (bottom - top + 1)
+
             m, n = len(a), len(a[0])
             res = inf
             if m >= 3:
                 for r1 in range(1, m):
                     for r2 in range(r1 + 1, m):
-                        res = min(res, minimum_area(a[:r1], 0, n) + minimum_area(a[r1: r2], 0, n) + minimum_area(a[r2:], 0, n))
+                        res = min(
+                            res,
+                            minimum_area(a[:r1], 0, n)
+                            + minimum_area(a[r1:r2], 0, n)
+                            + minimum_area(a[r2:], 0, n),
+                        )
             if m >= 2 and n >= 2:
                 for i in range(1, m):
                     for j in range(1, n):
-                        res = min(res, minimum_area(a[:i], 0, n) + minimum_area(a[i:], 0, j) + minimum_area(a[i:], j, n))
-                        res = min(res, minimum_area(a[:i], 0, j) + minimum_area(a[:i], j, n) + minimum_area(a[i:], 0, n))
+                        res = min(
+                            res,
+                            minimum_area(a[:i], 0, n)
+                            + minimum_area(a[i:], 0, j)
+                            + minimum_area(a[i:], j, n),
+                        )
+                        res = min(
+                            res,
+                            minimum_area(a[:i], 0, j)
+                            + minimum_area(a[:i], j, n)
+                            + minimum_area(a[i:], 0, n),
+                        )
             return res
+
         return min(solve(grid), solve(rotate(grid)))
 
     # 498. 对角线遍历 (Diagonal Traverse)
@@ -3291,3 +3314,55 @@ class SegmentTree2940:
             if d[x] > n // k:
                 return False
         return True
+
+    # 3660. 跳跃游戏 IX (Jump Game IX)
+    def maxValue(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        pre_max = [0] * n
+        pre_max[0] = nums[0]
+        for i in range(1, n):
+            pre_max[i] = max(pre_max[i - 1], nums[i])
+        suf_min = inf
+        mx = 0
+        for i in range(n - 1, -1, -1):
+            if pre_max[i] <= suf_min:
+                mx = pre_max[i]
+            suf_min = min(suf_min, nums[i])
+            nums[i] = mx
+        return nums
+
+    # 3661. 可以被机器人摧毁的最大墙壁数目 (Maximum Walls Destroyed by Robots)
+    def maxWalls(self, robots: List[int], distance: List[int], walls: List[int]) -> int:
+        # 当前第 i 个机器人，且前一个机器人向 is_right 方向发射子弹，能穿过的最多墙壁数量
+        @cache
+        def dfs(i: int, is_right: bool) -> int:
+            if i == n - 1:
+                return 0
+
+            # 当前机器人向右发射子弹
+            # 在walls数组中找 >= r[i][0] 的最小索引 left
+            left = bisect.bisect_left(walls, r[i][0])
+            # 在walls数组中找 <= min(r[i + 1][0] - 1, r[i][0] + r[i][1]) 的最大索引 right
+            right = (
+                bisect.bisect_right(walls, min(r[i + 1][0] - 1, r[i][0] + r[i][1])) - 1
+            )
+            res = dfs(i + 1, True) + max(0, right - left + 1)
+
+            left = bisect.bisect_left(
+                walls,
+                max(
+                    r[i - 1][0] + 1 + (r[i - 1][1] if is_right else 0),
+                    r[i][0] - r[i][1],
+                ),
+            )
+
+            right = bisect.bisect_right(walls, r[i][0]) - 1
+            res = max(res, dfs(i + 1, False) + max(0, right - left + 1))
+            return res
+
+        r = sorted(zip(robots, distance))
+        walls.sort()
+        r.insert(0, [min(r[0][0], walls[0]) - 1, 0])
+        r.append([max(r[-1][0], walls[-1]) + 1, 0])
+        n = len(r)
+        return dfs(1, True)
