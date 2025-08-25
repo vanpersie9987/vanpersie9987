@@ -15358,33 +15358,24 @@ public class LeetCodeText {
 
     // 498. 对角线遍历 (498. Diagonal Traverse)
     public int[] findDiagonalOrder(int[][] mat) {
-        if (mat == null || mat.length == 0 || mat[0].length == 0) {
-            return new int[] {};
-        }
+        Map<Integer, List<Integer>> map = new HashMap<>();
         int m = mat.length;
         int n = mat[0].length;
-        int[] res = new int[m * n];
-        List<List<Integer>> list = new ArrayList<>();
-        for (int i = 0; i < m + n - 1; ++i) {
-            list.add(new ArrayList<>());
-        }
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                if ((i + j) % 2 == 0) {
-                    list.get(i + j).add(0, mat[i][j]);
-                } else {
-                    list.get(i + j).add(mat[i][j]);
-                }
+                map.computeIfAbsent(i + j, k -> new ArrayList<>()).add(mat[i][j]);
             }
         }
-        int index = 0;
-        for (List<Integer> subList : list) {
-            for (int num : subList) {
-                res[index++] = num;
-            }
-        }
-        return res;
 
+        List<Integer> res = new ArrayList<>();
+        for (int k = 0; k < m + n - 1; ++k) {
+            List<Integer> a = map.get(k);
+            if (k % 2 == 0) {
+                Collections.reverse(a);
+            }
+            res.addAll(a);
+        }
+        return res.stream().mapToInt(Integer::intValue).toArray();
     }
 
     // 1324. 竖直打印单词

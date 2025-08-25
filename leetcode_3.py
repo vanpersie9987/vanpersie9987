@@ -1,5 +1,6 @@
 from ast import Return, Tuple, literal_eval
 from asyncio import FastChildWatcher
+from curses.panel import bottom_panel
 from gettext import find
 import math
 from platform import node
@@ -3219,3 +3220,62 @@ class SegmentTree2940:
     # 3658. 奇数和与偶数和的最大公约数 (GCD of Odd and Even Sums)
     def gcdOfOddEvenSums(self, n: int) -> int:
         return n
+
+    # 3197. 包含所有 1 的最小矩形面积 II (Find the Minimum Area to Cover All Ones II)
+    def minimumSum(self, grid: List[List[int]]) -> int:
+        # 顺时针旋转90度
+        def rotate(a: List[List[int]]) -> List[List[int]]:
+            return list(zip(*reversed(a)))
+            # return [list(col) for col in zip(*a[::-1])]
+            # return [list(reversed(col)) for col in zip(*a)]
+
+        def solve(a: List[List[int]]) -> int:
+            def minimum_area(arr: List[List[int]], l: int, r: int) -> int:
+                left = top = inf
+                right = bottom = 0
+                for i in range(len(arr)):
+                    for j in range(l, r):
+                        if arr[i][j] == 1:
+                            left = min(left, j)
+                            right = max(right, j)
+                            top = min(top, i)
+                            bottom = max(bottom, i)
+                return (right - left + 1) * (bottom - top + 1)
+            m, n = len(a), len(a[0])
+            res = inf
+            if m >= 3:
+                for r1 in range(1, m):
+                    for r2 in range(r1 + 1, m):
+                        res = min(res, minimum_area(a[:r1], 0, n) + minimum_area(a[r1: r2], 0, n) + minimum_area(a[r2:], 0, n))
+            if m >= 2 and n >= 2:
+                for i in range(1, m):
+                    for j in range(1, n):
+                        res = min(res, minimum_area(a[:i], 0, n) + minimum_area(a[i:], 0, j) + minimum_area(a[i:], j, n))
+                        res = min(res, minimum_area(a[:i], 0, j) + minimum_area(a[:i], j, n) + minimum_area(a[i:], 0, n))
+            return res
+        return min(solve(grid), solve(rotate(grid)))
+
+    # 498. 对角线遍历 (Diagonal Traverse)
+    def findDiagonalOrder(self, mat: List[List[int]]) -> List[int]:
+        m, n = len(mat), len(mat[0])
+        res = []
+        for s in range(m + n - 1):
+            if s & 1 == 0:
+                for i in range(min(s, m - 1), max(-1, s - n), -1):
+                    res.append(mat[i][s - i])
+            else:
+                for i in range(max(0, s - n + 1), min(s + 1, m)):
+                    res.append(mat[i][s - i])
+        return res
+    
+    # 498. 对角线遍历 (Diagonal Traverse)
+    def findDiagonalOrder(self, mat: List[List[int]]) -> List[int]:
+        m, n = len(mat), len(mat[0])
+        res = []
+        dic = defaultdict(list)
+        for i in range(m):
+            for j in range(n):
+                dic[i + j].append(mat[i][j])
+        for k in range(m + n - 1):
+            res.extend(dic[k] if k & 1 else reversed(dic[k]))
+        return res
