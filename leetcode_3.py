@@ -3350,7 +3350,7 @@ class SegmentTree2940:
                 walls,
                 max(
                     r[i - 1][0] + 1 + (r[i - 1][1] if is_right else 0),
-                    r[i][0] - r[i][1],
+                    r[i][0] - r[i][1]
                 ),
             )
 

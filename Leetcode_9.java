@@ -9258,7 +9258,6 @@ public class Leetcode_9 {
         return res;
     }
 
-    
     private int minumumArea3197(int[][] a, int l, int r) {
         int left = 30;
         int top = 30;
@@ -9311,6 +9310,90 @@ public class Leetcode_9 {
             }
         }
         return true;
+
+    }
+
+    // 3661. 可以被机器人摧毁的最大墙壁数目
+    private int[][] memo3661;
+    private int n3661;
+    private int[] walls3661;
+    private int[][] r3661;
+
+    public int maxWalls(int[] robots, int[] distance, int[] walls) {
+        this.n3661 = robots.length + 2;
+        int[][] r = new int[n3661][2];
+        for (int i = 0; i < n3661 - 2; ++i) {
+            r[i + 1][0] = robots[i];
+            r[i + 1][1] = distance[i];
+        }
+        r[n3661 - 1][0] = Integer.MAX_VALUE;
+        r[n3661 - 1][1] = 0;
+        Arrays.sort(r, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        this.r3661 = r;
+        Arrays.sort(walls);
+        this.walls3661 = walls;
+        this.memo3661 = new int[n3661][2];
+        for (int[] row : memo3661) {
+            Arrays.fill(row, -1);
+        }
+        return dfs3661(1, 1);
+
+    }
+
+    // 当前第i个位置的robot，上个robot是否向右发射子弹：j == 1 表示是，j == 0 表示否
+    private int dfs3661(int i, int j) {
+        if (i == n3661 - 1) {
+            return 0;
+        }
+        if (memo3661[i][j] != -1) {
+            return memo3661[i][j];
+        }
+        // 第i个robot向右发射子弹
+        int left = bisectLeft3661(r3661[i][0]);
+        int right = bisectRight3661(Math.min(r3661[i][0] + r3661[i][1], r3661[i + 1][0] - 1));
+        int res = dfs3661(i + 1, 1) + Math.max(0, right - left + 1);
+
+        left = bisectLeft3661(Math.max(r3661[i - 1][0] + 1 + (j == 1 ? r3661[i - 1][1]: 0), r3661[i][0] - r3661[i][1]));
+        right = bisectRight3661(r3661[i][0]);
+        res = Math.max(res, dfs3661(i + 1, 0) + Math.max(0, right - left + 1));
+        return memo3661[i][j] = res;
+    }
+
+    // 寻找 <= target的最大索引
+    private int bisectRight3661(int target) {
+        int left = 0;
+        int right = walls3661.length - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (walls3661[mid] <= target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return left - 1;
+    }
+
+    // 寻找 >= target的最小索引
+    private int bisectLeft3661(int target) {
+        int left = 0;
+        int right = walls3661.length - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (walls3661[mid] >= target) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
 
     }
 }
