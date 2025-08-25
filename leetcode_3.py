@@ -3343,10 +3343,8 @@ class SegmentTree2940:
             # 在walls数组中找 >= r[i][0] 的最小索引 left
             left = bisect.bisect_left(walls, r[i][0])
             # 在walls数组中找 <= min(r[i + 1][0] - 1, r[i][0] + r[i][1]) 的最大索引 right
-            right = (
-                bisect.bisect_right(walls, min(r[i + 1][0] - 1, r[i][0] + r[i][1])) - 1
-            )
-            res = dfs(i + 1, True) + max(0, right - left + 1)
+            right = bisect.bisect_right(walls, min(r[i + 1][0] - 1, r[i][0] + r[i][1]))
+            res = dfs(i + 1, True) + max(0, right - left)
 
             left = bisect.bisect_left(
                 walls,
@@ -3356,8 +3354,8 @@ class SegmentTree2940:
                 ),
             )
 
-            right = bisect.bisect_right(walls, r[i][0]) - 1
-            res = max(res, dfs(i + 1, False) + max(0, right - left + 1))
+            right = bisect.bisect_right(walls, r[i][0])
+            res = max(res, dfs(i + 1, False) + max(0, right - left))
             return res
 
         r = [(0, 0)] + sorted(zip(robots, distance)) + [(inf, 0)]
