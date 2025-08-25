@@ -9625,14 +9625,13 @@ class leetcode_1:
 
     # 3000. 对角线最长的矩形的面积 (Maximum Area of Longest Diagonal Rectangle)
     def areaOfMaxDiagonal(self, dimensions: List[List[int]]) -> int:
+        max_power_d = 0
         res = 0
-        d = 0
         for x, y in dimensions:
-            if d < x * x + y * y:
-                d = x * x + y * y
+            power_d = x * x + y * y
+            if power_d > max_power_d or (power_d == max_power_d and res < x * y):
+                max_power_d = power_d
                 res = x * y
-            elif d == x * x + y * y:
-                res = max(res, x * y)
         return res
 
     # 3001. 捕获黑皇后需要的最少移动次数 (Minimum Moves to Capture The Queen)

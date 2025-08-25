@@ -6453,19 +6453,16 @@ public class Leetcode_8 {
 
     // 3000. 对角线最长的矩形的面积 (Maximum Area of Longest Diagonal Rectangle)
     public int areaOfMaxDiagonal(int[][] dimensions) {
+        int maxPowerD = 0;
         int res = 0;
-        int maxD = 0;
         for (int[] d : dimensions) {
-            int curD = d[0] * d[0] + d[1] * d[1];
-            if (curD > maxD) {
-                maxD = curD;
+            int curPowerD = d[0] * d[0] + d[1] * d[1];
+            if (curPowerD > maxPowerD || (curPowerD == maxPowerD && d[0] * d[1] > res)) {
+                maxPowerD = curPowerD;
                 res = d[0] * d[1];
-            } else if (curD == maxD) {
-                res = Math.max(res, d[0] * d[1]);
             }
         }
         return res;
-
     }
 
     // 3001. 捕获黑皇后需要的最少移动次数 (Minimum Moves to Capture The Queen)

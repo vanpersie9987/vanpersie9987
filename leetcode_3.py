@@ -61,7 +61,7 @@ from zoneinfo import reset_tzpath
 # curl https://bootstrap.pypa.io/pip/get-pip.py -o get-pip.py
 # sudo python3 get-pip.py
 # pip3 install sortedcontainers
-from networkx import bull_graph, dfs_edges, grid_2d_graph, interval_graph, union
+from networkx import bull_graph, dfs_edges, grid_2d_graph, interval_graph, power, union
 from sortedcontainers import SortedDict, SortedList, SortedSet
 
 
