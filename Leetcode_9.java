@@ -9313,7 +9313,7 @@ public class Leetcode_9 {
 
     }
 
-    // 3661. 可以被机器人摧毁的最大墙壁数目
+    // 3661. 可以被机器人摧毁的最大墙壁数目 (Maximum Walls Destroyed by Robots)
     private int[][] memo3661;
     private int n3661;
     private int[] walls3661;
@@ -9360,6 +9360,7 @@ public class Leetcode_9 {
         int right = bisectRight3661(Math.min(r3661[i][0] + r3661[i][1], r3661[i + 1][0] - 1));
         int res = dfs3661(i + 1, 1) + Math.max(0, right - left + 1);
 
+        // 第i个robot向左发射子弹
         left = bisectLeft3661(Math.max(r3661[i - 1][0] + 1 + (j == 1 ? r3661[i - 1][1]: 0), r3661[i][0] - r3661[i][1]));
         right = bisectRight3661(r3661[i][0]);
         res = Math.max(res, dfs3661(i + 1, 0) + Math.max(0, right - left + 1));

@@ -3340,12 +3340,11 @@ class SegmentTree2940:
                 return 0
 
             # 当前机器人向右发射子弹
-            # 在walls数组中找 >= r[i][0] 的最小索引 left
             left = bisect.bisect_left(walls, r[i][0])
-            # 在walls数组中找 <= min(r[i + 1][0] - 1, r[i][0] + r[i][1]) 的最大索引 right
             right = bisect.bisect_right(walls, min(r[i + 1][0] - 1, r[i][0] + r[i][1]))
             res = dfs(i + 1, True) + max(0, right - left)
 
+            # 当前机器人向左发射子弹
             left = bisect.bisect_left(
                 walls,
                 max(
