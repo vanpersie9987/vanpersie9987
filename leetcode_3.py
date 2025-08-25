@@ -3267,7 +3267,7 @@ class SegmentTree2940:
                 for i in range(max(0, s - n + 1), min(s + 1, m)):
                     res.append(mat[i][s - i])
         return res
-    
+
     # 498. 对角线遍历 (Diagonal Traverse)
     def findDiagonalOrder(self, mat: List[List[int]]) -> List[int]:
         m, n = len(mat), len(mat[0])
@@ -3279,3 +3279,15 @@ class SegmentTree2940:
         for k in range(m + n - 1):
             res.extend(dic[k] if k & 1 else reversed(dic[k]))
         return res
+
+    # 3659. 数组元素分组 (Partition Array Into K-Distinct Groups)
+    def partitionArray(self, nums: List[int], k: int) -> bool:
+        n = len(nums)
+        if n % k:
+            return False
+        d = defaultdict(int)
+        for x in nums:
+            d[x] += 1
+            if d[x] > n // k:
+                return False
+        return True

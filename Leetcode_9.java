@@ -9295,4 +9295,22 @@ public class Leetcode_9 {
     public int gcdOfOddEvenSums(int n) {
         return n;
     }
+
+    // 3659. 数组元素分组 (Partition Array Into K-Distinct Groups)
+    public boolean partitionArray(int[] nums, int k) {
+        int n = nums.length;
+        if (n % k != 0) {
+            return false;
+        }
+        int g = n / k;
+        Map<Integer, Integer> cnt = new HashMap<>();
+        for (int x : nums) {
+            cnt.merge(x, 1, Integer::sum);
+            if (cnt.get(x) > g) {
+                return false;
+            }
+        }
+        return true;
+
+    }
 }
