@@ -3360,9 +3360,7 @@ class SegmentTree2940:
             res = max(res, dfs(i + 1, False) + max(0, right - left + 1))
             return res
 
-        r = sorted(zip(robots, distance))
+        r = [(0, 0)] + sorted(zip(robots, distance)) + [(inf, 0)]
         walls.sort()
-        r.insert(0, [min(r[0][0], walls[0]) - 1, 0])
-        r.append([max(r[-1][0], walls[-1]) + 1, 0])
         n = len(r)
         return dfs(1, True)
