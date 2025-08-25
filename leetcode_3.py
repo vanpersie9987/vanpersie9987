@@ -3215,3 +3215,7 @@ class SegmentTree2940:
                 ans += f
                 st.append((j, f, h))
         return ans
+
+    # 3658. 奇数和与偶数和的最大公约数 (GCD of Odd and Even Sums)
+    def gcdOfOddEvenSums(self, n: int) -> int:
+        return n
