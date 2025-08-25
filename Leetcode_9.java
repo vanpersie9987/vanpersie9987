@@ -9396,4 +9396,25 @@ public class Leetcode_9 {
         return right + 1;
 
     }
+
+    // 3660. 跳跃游戏 IX (Jump Game IX)
+    public int[] maxValue(int[] nums) {
+        int n = nums.length;
+        int[] preMax = new int[n];
+        preMax[0] = nums[0];
+        for (int i = 1; i < n; ++i) {
+            preMax[i] = Math.max(preMax[i - 1], nums[i]);
+        }
+        int sufMin = Integer.MAX_VALUE;
+        int mx = 0;
+        for (int i = n - 1; i >= 0; --i) {
+            if (preMax[i] <= sufMin) {
+                mx = preMax[i];
+            }
+            sufMin = Math.min(sufMin, nums[i]);
+            nums[i] = mx;
+        }
+        return nums;
+
+    }
 }
