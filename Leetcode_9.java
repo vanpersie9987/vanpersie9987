@@ -8953,7 +8953,6 @@ public class Leetcode_9 {
     private int n3459;
     private int[][] grid3459;
     private int[][][][] memo3459;
-    // ↖️、↗️、↘️、↙️
     private int[][] DIRS3459 = { { -1, -1 }, { -1, 1 }, { 1, 1 }, { 1, -1 } };
 
     public int lenOfVDiagonal(int[][] grid) {
@@ -8967,12 +8966,14 @@ public class Leetcode_9 {
                 if (grid[i][j] != 1) {
                     continue;
                 }
-                int[] maxs = { i + 1, n3459 - j, m3459 - i, j + 1 };
+                int[] maxD = { i + 1, n3459 - j, m3459 - i, j + 1 };
                 for (int d = 0; d < 4; ++d) {
-                    if (res >= maxs[d]) {
+                    if (res >= maxD[d]) { // 剪枝
                         continue;
                     }
-                    res = Math.max(res, dfs3459(i, j, d, 1, 2) + 1);
+                    int x = i + DIRS3459[d][0];
+                    int y = j + DIRS3459[d][1];
+                    res = Math.max(res, dfs3459(x, y, d, 1, 2) + 1);
                 }
             }
         }
@@ -8980,18 +8981,30 @@ public class Leetcode_9 {
 
     }
 
+    // 当前在 (i, j) 方向 d 上，是否可以转弯canTurn，当前数字期望是 t
     private int dfs3459(int i, int j, int d, int canTurn, int t) {
-        i += DIRS3459[d][0];
-        j += DIRS3459[d][1];
-        if (i == m3459 || j == n3459 || i == -1 || j == -1 || grid3459[i][j] != t) {
+        if (i >= m3459 || j >= n3459 || i < 0 || j < 0 || grid3459[i][j] != t) {
             return 0;
         }
         if (memo3459[i][j][d][canTurn] != 0) {
             return memo3459[i][j][d][canTurn];
         }
-        int res = dfs3459(i, j, d, canTurn, 2 - t);
+        t = 2 - t;
+        // 不转向
+        int ni = i + DIRS3459[d][0];
+        int nj = j + DIRS3459[d][1];
+        int res = dfs3459(ni, nj, d, canTurn, t);
+
+        // 转向
         if (canTurn == 1) {
-            res = Math.max(res, dfs3459(i, j, (d + 1) % 4, 0, 2 - t));
+            int nd = (d + 1) % 4;
+            int[] maxD = { Math.min(i, j), Math.min(i, n3459 - j - 1), Math.min(n3459 - j - 1, m3459 - i - 1),
+                    Math.min(j, m3459 - i - 1) };
+            if (res < maxD[nd]) { // 剪枝
+                ni = i + DIRS3459[nd][0];
+                nj = j + DIRS3459[nd][1];
+                res = Math.max(res, dfs3459(ni, nj, nd, 0, t));
+            }
         }
         return memo3459[i][j][d][canTurn] = res + 1;
     }

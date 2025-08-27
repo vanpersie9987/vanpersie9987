@@ -2913,7 +2913,7 @@ class SegmentTree2940:
 
     # 3459. 最长 V 形对角线段的长度 (Length of Longest V-Shaped Diagonal Segment)
     def lenOfVDiagonal(self, grid: List[List[int]]) -> int:
-        # 当前在 (i, j) 位置，方向 d，能否转向 can_turn，当前需要的值 t
+        # 当前在 (i, j) 方向 d 上，是否可以转弯can_turn，当前数字期望是 t
         @cache
         def dfs(i: int, j: int, d: int, can_turn: bool, t: int) -> int:
             if not (m > i >= 0 and n > j >= 0) or grid[i][j] != t:
@@ -2922,9 +2922,7 @@ class SegmentTree2940:
             # 不转向
             ni = i + DIRS[d][0]
             nj = j + DIRS[d][1]
-            res = 0
-            if m > ni >= 0 and n > nj >= 0:
-                res = dfs(ni, nj, d, can_turn, t)
+            res = dfs(ni, nj, d, can_turn, t)
 
             # 转向
             if can_turn:
@@ -2938,8 +2936,7 @@ class SegmentTree2940:
                 if d_max[d] > res:
                     ni = i + DIRS[d][0]
                     nj = j + DIRS[d][1]
-                    if m > ni >= 0 and n > nj >= 0:
-                        res = max(res, dfs(ni, nj, d, False, t))
+                    res = max(res, dfs(ni, nj, d, False, t))
             return res + 1
 
         m, n = len(grid), len(grid[0])
