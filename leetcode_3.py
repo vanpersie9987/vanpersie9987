@@ -2933,7 +2933,7 @@ class SegmentTree2940:
                     min(n - j - 1, m - i - 1),
                     min(m - i - 1, j),
                 )
-                if d_max[d] > res:
+                if d_max[d] > res: # 剪枝
                     ni = i + DIRS[d][0]
                     nj = j + DIRS[d][1]
                     res = max(res, dfs(ni, nj, d, False, t))
@@ -2948,7 +2948,7 @@ class SegmentTree2940:
                 if grid[i][j] == 1:
                     d_max = (i + 1, n - j, m - i, j + 1)
                     for d, (dx, dy) in enumerate(DIRS):
-                        if res >= d_max[d]:
+                        if res >= d_max[d]: # 剪枝
                             continue
                         x, y = i + dx, j + dy
                         res = max(res, dfs(x, y, d, True, 2) + 1)
