@@ -7352,60 +7352,30 @@ class Union924:
 
     # 51. N 皇后 (N-Queens)
     def solveNQueens(self, n: int) -> List[List[str]]:
-        def dfs(i: int, m: int, d1: int, d2: int) -> None:
+        def dfs(i: int, j: int, k: int, l: int):
             if i == n:
-                cur = []
-                for v in _l:
-                    r = []
-                    for k in range(n):
-                        r.append("." if k != v else "Q")
-                    cur.append("".join(r))
-                res.append(cur.copy())
+                cur = [["."] * n for _ in range(n)]
+                for r, c in enumerate(a):
+                    cur[r][c] = "Q"
+                    cur[r] = "".join(cur[r])
+                res.append(cur)
                 return
-            c = u ^ (m | d1 | d2)
+            c = (j | k | l) ^ u
             while c:
                 lb = (c & -c).bit_length() - 1
-                _l.append(lb)
+                a.append(lb)
                 dfs(
                     i + 1,
-                    m | (1 << lb),
-                    u & ((d1 | (1 << lb)) << 1),
-                    (d2 | (1 << lb)) >> 1,
+                    j | (1 << lb),
+                    u & ((k | (1 << lb)) << 1),
+                    (l | (1 << lb)) >> 1,
                 )
-                _l.pop()
+                a.pop()
                 c &= c - 1
 
-        res = []
-        _l = []
         u = (1 << n) - 1
-        dfs(0, 0, 0, 0)
-        return res
-
-    # 51. N 皇后 (N-Queens)
-    def solveNQueens(self, n: int) -> List[List[str]]:
-        def dfs(i: int, m: int, d1: int, d2: int) -> None:
-            if i == n:
-                cur = []
-                for v in _l:
-                    r = []
-                    for k in range(n):
-                        r.append("." if k != v else "Q")
-                    cur.append("".join(r))
-                res.append(cur.copy())
-                return
-            d1 <<= 1
-            d2 >>= 1
-            c = u ^ (m | (u & d1) | d2)
-            while c:
-                lb = (c & -c).bit_length() - 1
-                _l.append(lb)
-                dfs(i + 1, m | (1 << lb), d1 | (1 << lb), d2 | (1 << lb))
-                _l.pop()
-                c &= c - 1
-
         res = []
-        _l = []
-        u = (1 << n) - 1
+        a = []
         dfs(0, 0, 0, 0)
         return res
 
@@ -7487,18 +7457,19 @@ class Union924:
 
     # 52. N 皇后 II (N-Queens II)
     def totalNQueens(self, n: int) -> int:
-        def dfs(i: int, d0: int, d1: int, d2: int) -> int:
+        @cache
+        def dfs(i: int, j: int, k: int, l: int) -> int:
             if i == n:
                 return 1
-            c = u ^ (d0 | d1 | d2)
             res = 0
+            c = (j | k | l) ^ u
             while c:
                 lb = (c & -c).bit_length() - 1
                 res += dfs(
                     i + 1,
-                    d0 | (1 << lb),
-                    u & ((d1 | (1 << lb)) << 1),
-                    (d2 | (1 << lb)) >> 1,
+                    j | (1 << lb),
+                    u & ((k | (1 << lb)) << 1),
+                    (l | (1 << lb)) >> 1,
                 )
                 c &= c - 1
             return res
