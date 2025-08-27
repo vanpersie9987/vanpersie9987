@@ -7352,6 +7352,7 @@ class Union924:
 
     # 51. N 皇后 (N-Queens)
     def solveNQueens(self, n: int) -> List[List[str]]:
+        # ！！不能加 @cache
         def dfs(i: int, j: int, k: int, l: int):
             if i == n:
                 cur = [["."] * n for _ in range(n)]
