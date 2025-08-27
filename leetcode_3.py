@@ -2913,36 +2913,48 @@ class SegmentTree2940:
 
     # 3459. 最长 V 形对角线段的长度 (Length of Longest V-Shaped Diagonal Segment)
     def lenOfVDiagonal(self, grid: List[List[int]]) -> int:
-        # 上一步在 (i, j)，移动方向为 DIRS[d]，是否可以右转，当前位置目标值
+        # 当前在 (i, j) 位置，方向 d，能否转向 can_turn，当前需要的值 t
         @cache
-        def dfs(i: int, j: int, d: int, can_turn: int, t: int) -> int:
-            i += DIRS[d][0]
-            j += DIRS[d][1]
+        def dfs(i: int, j: int, d: int, can_turn: bool, t: int) -> int:
             if not (m > i >= 0 and n > j >= 0) or grid[i][j] != t:
                 return 0
-            res = dfs(i, j, d, can_turn, 2 - t)
+            t = 2 - t
+            # 不转向
+            ni = i + DIRS[d][0]
+            nj = j + DIRS[d][1]
+            res = 0
+            if m > ni >= 0 and n > nj >= 0:
+                res = dfs(ni, nj, d, can_turn, t)
+
+            # 转向
             if can_turn:
-                _mxs = (i, n - j - 1, m - i - 1, j)
                 d = (d + 1) % 4
-                if _mxs[d] > res:
-                    res = max(res, dfs(i, j, d, False, 2 - t))
+                d_max = (
+                    min(j, i),
+                    min(i, n - j - 1),
+                    min(n - j - 1, m - i - 1),
+                    min(m - i - 1, j),
+                )
+                if d_max[d] > res:
+                    ni = i + DIRS[d][0]
+                    nj = j + DIRS[d][1]
+                    if m > ni >= 0 and n > nj >= 0:
+                        res = max(res, dfs(ni, nj, d, False, t))
             return res + 1
 
-        m = len(grid)
-        n = len(grid[0])
+        m, n = len(grid), len(grid[0])
         res = 0
-        # ↖️ : 0
-        # ↗️ : 1
-        # ↘️ : 2
-        # ↙️ : 3
+        # 左上, 右上, 右下, 左下
         DIRS = (-1, -1), (-1, 1), (1, 1), (1, -1)
         for i in range(m):
             for j in range(n):
                 if grid[i][j] == 1:
-                    mxs = (i + 1, n - j, m - i, j + 1)
-                    for d, mx in enumerate(mxs):
-                        if mx > res:
-                            res = max(res, dfs(i, j, d, True, 2) + 1)
+                    d_max = (i + 1, n - j, m - i, j + 1)
+                    for d, (dx, dy) in enumerate(DIRS):
+                        if res >= d_max[d]:
+                            continue
+                        x, y = i + dx, j + dy
+                        res = max(res, dfs(x, y, d, True, 2) + 1)
         return res
 
     # 869. 重新排序得到 2 的幂 (Reordered Power of 2)
