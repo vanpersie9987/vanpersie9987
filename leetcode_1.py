@@ -2867,14 +2867,14 @@ class leetcode_1:
                 if board[i][j] == ".":
                     continue
                 v = ord(board[i][j]) - ord("1")
-                if (rows[i] >> v) & 1:
+                if rows[i] >> v & 1:
                     return False
                 rows[i] |= 1 << v
-                if (cols[j] >> v) & 1:
+                if cols[j] >> v & 1:
                     return False
                 cols[j] |= 1 << v
                 idx = (i // 3) * 3 + j // 3
-                if (diags[idx] >> v) & 1:
+                if diags[idx] >> v & 1:
                     return False
                 diags[idx] |= 1 << v
         return True
