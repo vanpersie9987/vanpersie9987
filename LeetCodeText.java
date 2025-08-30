@@ -19724,16 +19724,16 @@ public class LeetCodeText {
                     continue;
                 }
                 int d = board[i][j] - '1';
-                if (((rows[i] >> d) & 1) != 0) {
+                if ((rows[i] >> d & 1) != 0) {
                     return false;
                 }
                 rows[i] |= 1 << d;
-                if (((cols[j] >> d) & 1) != 0) {
+                if ((cols[j] >> d & 1) != 0) {
                     return false;
                 }
                 cols[j] |= 1 << d;
                 int b = (i / 3) * 3 + j / 3;
-                if (((boxes[b] >> d) & 1) != 0) {
+                if ((boxes[b] >> d & 1) != 0) {
                     return false;
                 }
                 boxes[b] |= 1 << d;
