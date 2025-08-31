@@ -3429,3 +3429,15 @@ class SegmentTree2940:
             return False
 
         dfs(0)
+
+    # 1792. 最大平均通过率 (Maximum Average Pass Ratio)
+    def maxAverageRatio(self, classes: List[List[int]], extraStudents: int) -> float:
+        q = []
+        for a, b in classes:
+            heapq.heappush(q, (-(b - a) / (b * (b + 1)), a, b))
+        for _ in range(extraStudents):
+            _, a, b = heapq.heappop(q)
+            a += 1
+            b += 1
+            heapq.heappush(q, (-(b - a) / (b * (b + 1)), a, b))
+        return sum(a / b for _, a, b in q) / len(classes)
