@@ -3373,17 +3373,21 @@ class SegmentTree2940:
 
     # 37. 解数独 (Sudoku Solver)
     def solveSudoku(self, board: List[List[str]]) -> None:
+        def flip(i: int, j: int, d: int):
+            rows[i] ^= 1 << d
+            cols[j] ^= 1 << d
+            boxes[(i // 3) * 3 + j // 3] ^= 1 << d
+
         n = 9
         rows = [0] * n
         cols = [0] * n
         boxes = [0] * n
+        u = (1 << n) - 1
         for i in range(n):
             for j in range(n):
                 if board[i][j] != ".":
                     d = int(board[i][j]) - 1
-                    rows[i] |= 1 << d
-                    cols[j] |= 1 << d
-                    boxes[(i // 3) * 3 + j // 3] |= 1 << d
+                    flip(i, j, d)
         while True:
             changed = False
             for i in range(n):
@@ -3391,13 +3395,11 @@ class SegmentTree2940:
                     if board[i][j] != ".":
                         continue
                     mask = rows[i] | cols[j] | boxes[(i // 3) * 3 + j // 3]
-                    mask = ((1 << n) - 1) ^ mask
+                    mask = u ^ mask
                     if mask & (mask - 1) == 0:
                         d = mask.bit_length() - 1
                         board[i][j] = str(d + 1)
-                        rows[i] |= 1 << d
-                        cols[j] |= 1 << d
-                        boxes[(i // 3) * 3 + j // 3] |= 1 << d
+                        flip(i, j, d)
                         changed = True
             if not changed:
                 break
@@ -3414,19 +3416,15 @@ class SegmentTree2940:
                 return True
             x, y = empties[i]
             mask = rows[x] | cols[y] | boxes[(x // 3) * 3 + y // 3]
-            c = ((1 << n) - 1) ^ mask
+            c = u ^ mask
             while c:
                 d = (c & -c).bit_length() - 1
                 board[x][y] = str(d + 1)
-                rows[x] ^= 1 << d
-                cols[y] ^= 1 << d
-                boxes[(x // 3) * 3 + y // 3] ^= 1 << d
+                flip(x, y, d)
                 if dfs(i + 1):
                     return True
                 board[x][y] = "."
-                rows[x] ^= 1 << d
-                cols[y] ^= 1 << d
-                boxes[(x // 3) * 3 + y // 3] ^= 1 << d
+                flip(x, y, d)
                 c &= c - 1
             return False
 
