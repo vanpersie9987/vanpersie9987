@@ -3485,3 +3485,28 @@ class SegmentTree2940:
             if s >> o & 1:
                 res.append(o)
         return res
+
+    # 3664. 两个字母卡牌游戏 (Two-Letter Card Game)
+    def score(self, cards: List[str], x: str) -> int:
+        def get_sum_and_max(cnt: Counter) -> Tuple[int, int]:
+            del cnt[x]
+            sum_cnt = sum(cnt.values())
+            max_cnt = max(cnt.values(), default=0)
+            return sum_cnt, max_cnt
+
+        def calc_score(s: int, mx: int, k: int) -> int:
+            s += k
+            mx = max(mx, k)
+            return min(s // 2, s - mx)
+
+        cnt1 = Counter(b for a, b in cards if a == x)  # xa
+        cnt2 = Counter(a for a, b in cards if b == x)  # ax
+        cnt_xx = cnt1[x]
+        sum1, max1 = get_sum_and_max(cnt1)
+        sum2, max2 = get_sum_and_max(cnt2)
+        res = 0
+        for k in range(cnt_xx + 1):
+            score1 = calc_score(sum1, max1, k)
+            score2 = calc_score(sum2, max2, cnt_xx - k)
+            res = max(res, score1 + score2)
+        return res

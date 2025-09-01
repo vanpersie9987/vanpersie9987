@@ -9506,4 +9506,46 @@ public class Leetcode_9 {
 
     }
 
+    // 3664. 两个字母卡牌游戏 (Two-Letter Card Game)
+    public int score(String[] cards, char x) {
+        Map<Character, Integer> cnt1 = new HashMap<>(); // xa
+        Map<Character, Integer> cnt2 = new HashMap<>(); // ax
+        int cntXX = 0;
+        for (String c : cards) {
+            if (c.charAt(0) == x && c.charAt(1) == x) {
+                ++cntXX;
+            } else if (c.charAt(0) == x) {
+                cnt1.merge(c.charAt(1), 1, Integer::sum);
+            } else if (c.charAt(1) == x) {
+                cnt2.merge(c.charAt(0), 1, Integer::sum);
+            }
+        }
+        int[] sumAndMax1 = getSumAndMax3664(cnt1);
+        int[] sumAndMax2 = getSumAndMax3664(cnt2);
+        int res = 0;
+        for (int xx = 0; xx <= cntXX; ++xx) {
+            int s1 = getScore3664(sumAndMax1[0], sumAndMax1[1], xx);
+            int s2 = getScore3664(sumAndMax2[0], sumAndMax2[1], cntXX - xx);
+            res = Math.max(res, s1 + s2);
+        }
+        return res;
+
+    }
+
+    private int getScore3664(int s, int mx, int xx) {
+        s += xx;
+        mx = Math.max(mx, xx);
+        return Math.min(s / 2, s - mx);
+    }
+
+    private int[] getSumAndMax3664(Map<Character, Integer> cnt) {
+        int[] res = new int[2];
+        for (int v : cnt.values()) {
+            res[0] += v;
+            res[1] = Math.max(res[1], v);
+        }
+        return res;
+
+    }
+
 }
