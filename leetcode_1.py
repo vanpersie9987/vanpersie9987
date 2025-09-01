@@ -2859,22 +2859,24 @@ class leetcode_1:
 
     # 36. 有效的数独 (Valid Sudoku)
     def isValidSudoku(self, board: List[List[str]]) -> bool:
-        row = [0] * 9
-        col = [0] * 9
-        mat = [[0] * 3 for _ in range(3)]
+        rows = [0] * 9
+        cols = [0] * 9
+        diags = [0] * 9
         for i in range(9):
             for j in range(9):
-                if board[i][j] != ".":
-                    x = int(board[i][j])
-                    if row[i] & (1 << x):
-                        return False
-                    row[i] |= 1 << x
-                    if col[j] & (1 << x):
-                        return False
-                    col[j] |= 1 << x
-                    if mat[i // 3][j // 3] & (1 << x):
-                        return False
-                    mat[i // 3][j // 3] |= 1 << x
+                if board[i][j] == ".":
+                    continue
+                v = ord(board[i][j]) - ord("1")
+                if rows[i] >> v & 1:
+                    return False
+                rows[i] |= 1 << v
+                if cols[j] >> v & 1:
+                    return False
+                cols[j] |= 1 << v
+                idx = (i // 3) * 3 + j // 3
+                if diags[idx] >> v & 1:
+                    return False
+                diags[idx] |= 1 << v
         return True
 
     # 48. 旋转图像 (Rotate Image)

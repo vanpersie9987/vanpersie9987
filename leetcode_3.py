@@ -2933,7 +2933,7 @@ class SegmentTree2940:
                     min(n - j - 1, m - i - 1),
                     min(m - i - 1, j),
                 )
-                if d_max[d] > res: # 剪枝
+                if d_max[d] > res:  # 剪枝
                     ni = i + DIRS[d][0]
                     nj = j + DIRS[d][1]
                     res = max(res, dfs(ni, nj, d, False, t))
@@ -2948,7 +2948,7 @@ class SegmentTree2940:
                 if grid[i][j] == 1:
                     d_max = (i + 1, n - j, m - i, j + 1)
                     for d, (dx, dy) in enumerate(DIRS):
-                        if res >= d_max[d]: # 剪枝
+                        if res >= d_max[d]:  # 剪枝
                             continue
                         x, y = i + dx, j + dy
                         res = max(res, dfs(x, y, d, True, 2) + 1)
@@ -3385,3 +3385,74 @@ class SegmentTree2940:
                 c = v
         return res
         
+
+    # 37. 解数独 (Sudoku Solver)
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        def flip(i: int, j: int, d: int):
+            rows[i] ^= 1 << d
+            cols[j] ^= 1 << d
+            boxes[(i // 3) * 3 + j // 3] ^= 1 << d
+
+        n = 9
+        rows = [0] * n
+        cols = [0] * n
+        boxes = [0] * n
+        u = (1 << n) - 1
+        for i in range(n):
+            for j in range(n):
+                if board[i][j] != ".":
+                    d = int(board[i][j]) - 1
+                    flip(i, j, d)
+        while True:
+            changed = False
+            for i in range(n):
+                for j in range(n):
+                    if board[i][j] != ".":
+                        continue
+                    mask = rows[i] | cols[j] | boxes[(i // 3) * 3 + j // 3]
+                    mask = u ^ mask
+                    if mask & (mask - 1) == 0:
+                        d = mask.bit_length() - 1
+                        board[i][j] = str(d + 1)
+                        flip(i, j, d)
+                        changed = True
+            if not changed:
+                break
+
+        empties = []
+        for i in range(n):
+            for j in range(n):
+                if board[i][j] == ".":
+                    empties.append((i, j))
+        m = len(empties)
+
+        def dfs(i: int) -> bool:
+            if i == m:
+                return True
+            x, y = empties[i]
+            mask = rows[x] | cols[y] | boxes[(x // 3) * 3 + y // 3]
+            c = u ^ mask
+            while c:
+                d = (c & -c).bit_length() - 1
+                board[x][y] = str(d + 1)
+                flip(x, y, d)
+                if dfs(i + 1):
+                    return True
+                board[x][y] = "."
+                flip(x, y, d)
+                c &= c - 1
+            return False
+
+        dfs(0)
+
+    # 1792. 最大平均通过率 (Maximum Average Pass Ratio)
+    def maxAverageRatio(self, classes: List[List[int]], extraStudents: int) -> float:
+        q = []
+        for a, b in classes:
+            heapq.heappush(q, (-(b - a) / (b * (b + 1)), a, b))
+        for _ in range(extraStudents):
+            _, a, b = heapq.heappop(q)
+            a += 1
+            b += 1
+            heapq.heappush(q, (-(b - a) / (b * (b + 1)), a, b))
+        return sum(a / b for _, a, b in q) / len(classes)
