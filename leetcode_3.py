@@ -3479,14 +3479,8 @@ class SegmentTree2940:
 
     # 3668. 重排完成顺序 (Restore Finishing Order)
     def recoverOrder(self, order: List[int], friends: List[int]) -> List[int]:
-        s = 0
-        for f in friends:
-            s |= 1 << f
-        res = []
-        for o in order:
-            if s >> o & 1:
-                res.append(o)
-        return res
+        s = set(friends)
+        return [o for o in order if o in s]
 
     # 3664. 两个字母卡牌游戏 (Two-Letter Card Game)
     def score(self, cards: List[str], x: str) -> int:
