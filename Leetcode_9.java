@@ -9431,4 +9431,22 @@ public class Leetcode_9 {
         return nums;
 
     }
+
+    // 3663. 出现频率最低的数字 (Find The Least Frequent Digit)
+    public int getLeastFrequentDigit(int n) {
+        int[] cnt = new int[10];
+        while (n != 0) {
+            ++cnt[n % 10];
+            n /= 10;
+        }
+        int res = 0;
+        int c = Integer.MAX_VALUE;
+        for (int i = 0; i < 10; ++i) {
+            if (cnt[i] != 0 && cnt[i] < c) {
+                c = cnt[i];
+                res = i;
+            }
+        }
+        return res;
+    }
 }

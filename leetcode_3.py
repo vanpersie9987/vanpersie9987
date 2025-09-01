@@ -3370,3 +3370,18 @@ class SegmentTree2940:
         walls.sort()
         n = len(r)
         return dfs(1, True)
+    
+    # 3663. 出现频率最低的数字 (Find The Least Frequent Digit)
+    def getLeastFrequentDigit(self, n: int) -> int:
+        cnts = [0] * 10
+        while n:
+            cnts[n % 10] += 1
+            n //= 10
+        res = 0
+        c = inf
+        for i, v in enumerate(cnts):
+            if v and v < c:
+                res = i
+                c = v
+        return res
+        
