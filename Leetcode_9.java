@@ -9449,4 +9449,45 @@ public class Leetcode_9 {
         }
         return res;
     }
+
+    // 3665. 统计镜子反射路径数目 (Twisted Mirror Path Count)
+    private int m3665;
+    private int n3665;
+    private int[][] grid3665;
+    private int[][][] memo3665;
+
+    public int uniquePaths(int[][] grid) {
+        this.m3665 = grid.length;
+        this.n3665 = grid[0].length;
+        this.grid3665 = grid;
+        this.memo3665 = new int[m3665][n3665][2];
+        for (int[][] r1 : memo3665) {
+            for (int[] r2 : r1) {
+                Arrays.fill(r2, -1);
+            }
+        }
+        return dfs3665(0, 0, 0);
+    }
+
+    private int dfs3665(int i, int j, int k) {
+        if (i == m3665 - 1 && j == n3665 - 1) {
+            return 1;
+        }
+        if (i == m3665 || j == n3665) {
+            return 0;
+        }
+        if (memo3665[i][j][k] != -1) {
+            return memo3665[i][j][k];
+        }
+        int res = 0;
+        if (grid3665[i][j] == 0 || k == 0) {
+            res = dfs3665(i, j + 1, 1);
+        }
+        if (grid3665[i][j] == 0 || k == 1) {
+            res += dfs3665(i + 1, j, 0);
+        }
+        final int MOD = (int) (1e9 + 7);
+        return memo3665[i][j][k] = res % MOD;
+    }
+
 }

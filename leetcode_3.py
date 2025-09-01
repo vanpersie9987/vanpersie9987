@@ -3370,7 +3370,7 @@ class SegmentTree2940:
         walls.sort()
         n = len(r)
         return dfs(1, True)
-    
+
     # 3663. 出现频率最低的数字 (Find The Least Frequent Digit)
     def getLeastFrequentDigit(self, n: int) -> int:
         cnts = [0] * 10
@@ -3384,7 +3384,6 @@ class SegmentTree2940:
                 res = i
                 c = v
         return res
-        
 
     # 37. 解数独 (Sudoku Solver)
     def solveSudoku(self, board: List[List[str]]) -> None:
@@ -3456,3 +3455,22 @@ class SegmentTree2940:
             b += 1
             heapq.heappush(q, (-(b - a) / (b * (b + 1)), a, b))
         return sum(a / b for _, a, b in q) / len(classes)
+
+    # 3665. 统计镜子反射路径数目 (Twisted Mirror Path Count)
+    def uniquePaths(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        # 当前在 (i, j) 位置，上一步是往下走(k == 0), 还是往右走(k == 1)
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if i == m - 1 and j == n - 1:
+                return 1
+            if i == m or j == n:
+                return 0
+            res = 0
+            if grid[i][j] == 0 or k == 0:
+                res += dfs(i, j + 1, 1)
+            if grid[i][j] == 0 or k == 1:
+                res += dfs(i + 1, j, 0)
+            return res % MOD
+        MOD = 10**9 + 7
+        return dfs(0, 0, 0)
