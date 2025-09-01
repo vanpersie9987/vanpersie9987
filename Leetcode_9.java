@@ -9548,4 +9548,39 @@ public class Leetcode_9 {
 
     }
 
+    // 3669. K 因数分解 (Balanced K-Factor Decomposition)
+    private int[] res3669;
+    private int minDiff3669;
+    public int[] minDifference(int n, int k) {
+        List<Integer> fac = new ArrayList<>();
+        for (int i = 1; i <= n / 2; ++i) {
+            if (n % i == 0) {
+                fac.add(i);
+            }
+        }
+        this.minDiff3669 = Integer.MAX_VALUE;
+        dfs3669(0, n, Integer.MAX_VALUE, 0, fac, new ArrayList<>(), k);
+        return res3669;
+    }
+
+    private void dfs3669(int i, int j, int min, int max, List<Integer> fac, List<Integer> a, int k) {
+        if (a.size() == k) {
+            if (j == 1) {
+                if (max - min < minDiff3669) {
+                    minDiff3669 = max - min;
+                    res3669 = a.stream().mapToInt(o -> o).toArray();
+                }
+            }
+            return;
+        }
+        if (i == fac.size()) {
+            return;
+        }
+        dfs3669(i + 1, j, min, max, fac, a, k);
+        if (j % fac.get(i) == 0) {
+            a.add(fac.get(i));
+            dfs3669(i, j / fac.get(i), Math.min(min, fac.get(i)), Math.max(max, fac.get(i)), fac, a, k);
+            a.remove(a.size() - 1);
+        }
+    }
 }

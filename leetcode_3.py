@@ -3510,3 +3510,32 @@ class SegmentTree2940:
             score2 = calc_score(sum2, max2, cnt_xx - k)
             res = max(res, score1 + score2)
         return res
+
+    # 3669. K 因数分解 (Balanced K-Factor Decomposition)
+    def minDifference(self, n: int, k: int) -> List[int]:
+        def dfs(i: int, j: int, min_val: int, max_val: int):
+            if len(a) == k:
+                if j == 1:
+                    nonlocal res, min_diff
+                    if max_val - min_val < min_diff:
+                        min_diff = max_val - min_val
+                        res = a.copy()
+                return
+            if i == m:
+                return
+            dfs(i + 1, j, min_val, max_val)
+            if j % fac[i] == 0:
+                a.append(fac[i])
+                dfs(i, j // fac[i], min(min_val, fac[i]), max(max_val, fac[i]))
+                a.pop()
+
+        fac = []
+        for i in range(1, n // 2 + 1):
+            if n % i == 0:
+                fac.append(i)
+        m = len(fac)
+        min_diff = inf
+        res = []
+        a = []
+        dfs(0, n, inf, 0)
+        return res
