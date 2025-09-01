@@ -3459,6 +3459,7 @@ class SegmentTree2940:
     # 3665. 统计镜子反射路径数目 (Twisted Mirror Path Count)
     def uniquePaths(self, grid: List[List[int]]) -> int:
         m, n = len(grid), len(grid[0])
+
         # 当前在 (i, j) 位置，上一步是往下走(k == 0), 还是往右走(k == 1)
         @cache
         def dfs(i: int, j: int, k: int) -> int:
@@ -3472,6 +3473,7 @@ class SegmentTree2940:
             if grid[i][j] == 0 or k == 1:
                 res += dfs(i + 1, j, 0)
             return res % MOD
+
         MOD = 10**9 + 7
         return dfs(0, 0, 0)
 
@@ -3538,4 +3540,29 @@ class SegmentTree2940:
         res = []
         a = []
         dfs(0, n, inf, 0)
+        return res
+
+    # 3670. 没有公共位的整数最大乘积 (Maximum Product of Two Integers With No Common Bits)
+    def maxProduct(self, nums: List[int]) -> int:
+        @cache
+        def dfs(i: int) -> int:
+            if i == 0:
+                return 0
+            if i in a:
+                return i
+            u = i
+            mx = 0
+            while i:
+                lb = (i & -i).bit_length() - 1
+                mx = max(mx, dfs(u ^ (1 << lb)))
+                i &= i - 1
+            return mx
+
+        a = set(nums)
+        u = 0
+        for x in a:
+            u |= x
+        res = 0
+        for x in a:
+            res = max(res, x * dfs(u ^ x))
         return res

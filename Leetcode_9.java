@@ -9583,4 +9583,45 @@ public class Leetcode_9 {
             a.remove(a.size() - 1);
         }
     }
+
+    // 3670. 没有公共位的整数最大乘积 (Maximum Product of Two Integers With No Common Bits)
+    private int[] memo3670;
+    private Set<Integer> s3670;
+
+    public long maxProduct(int[] nums) {
+        this.s3670 = new HashSet<>();
+        int u = 0;
+        for (int x : nums) {
+            s3670.add(x);
+            u |= x;
+        }
+        this.memo3670 = new int[1 << (32 - Integer.numberOfLeadingZeros(u))];
+        Arrays.fill(memo3670, -1);
+        long res = 0L;
+        for (int x : s3670) {
+            res = Math.max(res, (long) x * dfs3670(u ^ x));
+        }
+        return res;
+
+    }
+
+    private int dfs3670(int i) {
+        if (i == 0) {
+            return 0;
+        }
+        if (s3670.contains(i)) {
+            return i;
+        }
+        if (memo3670[i] != -1) {
+            return memo3670[i];
+        }
+        int u = i;
+        int mx = 0;
+        while (i != 0) {
+            int lb = Integer.numberOfTrailingZeros(i);
+            mx = Math.max(mx, dfs3670(u ^ (1 << lb)));
+            i &= i - 1;
+        }
+        return memo3670[u] = mx;
+    }
 }
