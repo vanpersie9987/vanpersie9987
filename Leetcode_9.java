@@ -9490,4 +9490,20 @@ public class Leetcode_9 {
         return memo3665[i][j][k] = res % MOD;
     }
 
+    // 3668. 重排完成顺序 (Restore Finishing Order)
+    public int[] recoverOrder(int[] order, int[] friends) {
+        boolean[] s = new boolean[order.length + 1];
+        for (int f : friends) {
+            s[f] = true;
+        }
+        int i = 0;
+        for (int o : order) {
+            if (s[o]) {
+                friends[i++] = o;
+            }
+        }
+        return friends;
+
+    }
+
 }

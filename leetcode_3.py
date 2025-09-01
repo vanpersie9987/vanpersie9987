@@ -3474,3 +3474,14 @@ class SegmentTree2940:
             return res % MOD
         MOD = 10**9 + 7
         return dfs(0, 0, 0)
+
+    # 3668. 重排完成顺序 (Restore Finishing Order)
+    def recoverOrder(self, order: List[int], friends: List[int]) -> List[int]:
+        s = 0
+        for f in friends:
+            s |= 1 << f
+        res = []
+        for o in order:
+            if s >> o & 1:
+                res.append(o)
+        return res
