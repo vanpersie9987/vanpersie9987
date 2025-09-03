@@ -3526,9 +3526,11 @@ class SegmentTree2940:
                 a.pop()
 
         fac = []
-        for i in range(1, n // 2 + 1):
+        for i in range(1, isqrt(n) + 1):
             if n % i == 0:
                 fac.append(i)
+                if i * i != n:
+                    fac.append(n // i)
         m = len(fac)
         min_diff = inf
         res = []

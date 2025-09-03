@@ -9553,9 +9553,12 @@ public class Leetcode_9 {
     private int minDiff3669;
     public int[] minDifference(int n, int k) {
         List<Integer> fac = new ArrayList<>();
-        for (int i = 1; i <= n / 2; ++i) {
+        for (int i = 1; i <= Math.sqrt(n); ++i) {
             if (n % i == 0) {
                 fac.add(i);
+                if (i * i != n) {
+                    fac.add(n / i);
+                }
             }
         }
         this.minDiff3669 = Integer.MAX_VALUE;
