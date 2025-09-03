@@ -3579,3 +3579,20 @@ class SegmentTree2940:
             )
 
         return dfs(0, 1)
+
+    def maxProductPath(self, grid: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> List[int]:
+            if i == m or j == n:
+                return [inf, -inf]
+            s = grid[i][j]
+            if i == m - 1 and j == n - 1:
+                return [s, s]
+            _min, _max = dfs(i + 1, j)
+            _min2, _max2 = dfs(i, j + 1)
+            res = [min(_min, _min2) * s, max(_max, _max2) * s]
+            return res if s >= 0 else res[::-1]
+        m, n = len(grid), len(grid[0])
+        _, _max = dfs(0, 0)
+        MOD = 10**9 + 7
+        return -1 if _max < 0 else _max % MOD
