@@ -3562,3 +3562,20 @@ class SegmentTree2940:
         for x in a:
             res = max(res, x * dfs(u ^ x))
         return res
+
+    # 1824. 最少侧跳次数 (Minimum Sideway Jumps)
+    def minSideJumps(self, obstacles: List[int]) -> int:
+        n = len(obstacles)
+
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n - 1:
+                return 0
+            if obstacles[i + 1] - 1 != j:
+                return dfs(i + 1, j)
+            return (
+                min(dfs(i + 1, k) for k in range(3) if k != j and obstacles[i] - 1 != k)
+                + 1
+            )
+
+        return dfs(0, 1)
