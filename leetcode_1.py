@@ -1273,12 +1273,12 @@ class leetcode_1:
     def minFallingPathSum(self, grid: List[List[int]]) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == n - 1:
-                return grid[i][j]
-            return min(dfs(i + 1, k) if k != j else inf for k in range(n)) + grid[i][j]
+            if i == n:
+                return 0
+            return min(dfs(i + 1, k) + grid[i][k] if k != j else inf for k in range(n))
 
         n = len(grid)
-        return min(dfs(0, j) for j in range(n))
+        return dfs(0, -1)
 
     # 845. 数组中的最长山脉 (Longest Mountain in Array)
     def longestMountain(self, arr: List[int]) -> int:
