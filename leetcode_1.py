@@ -2965,6 +2965,44 @@ class leetcode_1:
         n = len(board)
         res = dfs(0, 0)
         return [0, 0] if res[0] < 0 else res
+    
+    # 1301. 最大得分的路径数目 (Number of Paths with Max Score)
+    def pathsWithMaxScore(self, board: List[str]) -> List[int]:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n or j == n or board[i][j] == "X":
+                return -inf
+            if i == n - 1 and j == n - 1:
+                return 0
+            return max(dfs(i + 1, j), dfs(i, j + 1), dfs(i + 1, j + 1)) + (
+                0 if board[i][j] == "E" else int(board[i][j])
+            )
+
+        n = len(board)
+        mx = dfs(0, 0)
+        if mx < 0:
+            return [0, 0]
+        MOD = 10**9 + 7
+
+        @cache
+        def cal(i: int, j: int, k: int) -> int:
+            if i == n or j == n or board[i][j] == "X" or k < 0:
+                return 0
+            if i == n - 1 and j == n - 1:
+                return k == 0
+            s = 0 if board[i][j] == "E" else int(board[i][j])
+            res = 0
+            if dfs(i + 1, j) + s == k:
+                res += cal(i + 1, j, k - s)
+            if dfs(i, j + 1) + s == k:
+                res += cal(i, j + 1, k - s)
+            if dfs(i + 1, j + 1) + s == k:
+                res += cal(i + 1, j + 1, k - s)
+            return res % MOD
+
+        cnt = cal(0, 0, mx)
+        cal.cache_clear()
+        return [mx, cnt]
 
     # 1278. 分割回文串 III (Palindrome Partitioning III)
     def palindromePartition(self, s: str, k: int) -> int:
