@@ -1462,14 +1462,14 @@ public class Leetcode_5 {
 
     private void switch246(char[] chars, int index) {
         switch (chars[index]) {
-            case '6':
-                chars[index] = '9';
-                break;
-            case '9':
-                chars[index] = '6';
-                break;
-            default:
-                break;
+        case '6':
+            chars[index] = '9';
+            break;
+        case '9':
+            chars[index] = '6';
+            break;
+        default:
+            break;
         }
     }
 
@@ -1488,8 +1488,7 @@ public class Leetcode_5 {
         int left = 0;
         int right = num.length() - 1;
         while (left <= right) {
-            if (!map.containsKey(num.charAt(left))
-                    || !map.containsKey(num.charAt(right))
+            if (!map.containsKey(num.charAt(left)) || !map.containsKey(num.charAt(right))
                     || map.get(num.charAt(left)) != num.charAt(right)) {
                 return false;
             }
@@ -2989,8 +2988,7 @@ public class Leetcode_5 {
         if (memo1911[i][j] != 0L) {
             return memo1911[i][j];
         }
-        return memo1911[i][j] = Math.max(dfs1911(i + 1, j),
-                dfs1911(i + 1, j ^ 1) + (1 - 2 * j) * nums1911[i]);
+        return memo1911[i][j] = Math.max(dfs1911(i + 1, j), dfs1911(i + 1, j ^ 1) + (1 - 2 * j) * nums1911[i]);
     }
 
     // 6188. 按身高排序
@@ -3372,8 +3370,8 @@ public class Leetcode_5 {
     }
 
     /**
-     * The rand7() API is already defined in the parent class SolBase.
-     * public int rand7();
+     * The rand7() API is already defined in the parent class SolBase. public int
+     * rand7();
      * 
      * @return a random integer in the range 1 to 7
      */
@@ -4532,18 +4530,19 @@ public class Leetcode_5 {
     }
 
     private int dfs2435(int i, int j, int l) {
-        if (i == m2435 - 1 && j == n2435 - 1) {
-            return (l + grid2435[i][j]) % k2435 == 0 ? 1 : 0;
-        }
         if (i == m2435 || j == n2435) {
             return 0;
+        }
+        l += grid2435[i][j];
+        l %= k2435;
+        if (i == m2435 - 1 && j == n2435 - 1) {
+            return l == 0 ? 1 : 0;
         }
         if (memo2435[i][j][l] != -1) {
             return memo2435[i][j][l];
         }
         final int MOD = (int) (1e9 + 7);
-        return memo2435[i][j][l] = (dfs2435(i + 1, j, (l + grid2435[i][j]) % k2435)
-                + dfs2435(i, j + 1, (l + grid2435[i][j]) % k2435)) % MOD;
+        return memo2435[i][j][l] = (dfs2435(i + 1, j, l) + dfs2435(i, j + 1, l)) % MOD;
     }
 
     // 2435. 矩阵中和能被 K 整除的路径 (Paths in Matrix Whose Sum Is Divisible by K)
@@ -5068,17 +5067,13 @@ public class Leetcode_5 {
         int res = 0;
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                int count1 = Math.min(
-                        left2[i][j] + up2[i][j] + (grid[i][j] >> 16),
+                int count1 = Math.min(left2[i][j] + up2[i][j] + (grid[i][j] >> 16),
                         left5[i][j] + up5[i][j] + (((1 << 16) - 1) & grid[i][j]));
-                int count2 = Math.min(
-                        up2[i][j] + right2[i][j] + (grid[i][j] >> 16),
+                int count2 = Math.min(up2[i][j] + right2[i][j] + (grid[i][j] >> 16),
                         up5[i][j] + right5[i][j] + (((1 << 16) - 1) & grid[i][j]));
-                int count3 = Math.min(
-                        right2[i][j] + down2[i][j] + (grid[i][j] >> 16),
+                int count3 = Math.min(right2[i][j] + down2[i][j] + (grid[i][j] >> 16),
                         right5[i][j] + down5[i][j] + (((1 << 16) - 1) & grid[i][j]));
-                int count4 = Math.min(
-                        down2[i][j] + left2[i][j] + (grid[i][j] >> 16),
+                int count4 = Math.min(down2[i][j] + left2[i][j] + (grid[i][j] >> 16),
                         down5[i][j] + left5[i][j] + (((1 << 16) - 1) & grid[i][j]));
                 res = Math.max(res, Math.max(Math.max(count1, count2), Math.max(count3, count4)));
             }
@@ -5115,8 +5110,7 @@ public class Leetcode_5 {
         for (int k = Math.min(m, n); k > 0; --k) {
             for (int i = 0; i + k - 1 < m; ++i) {
                 for (int j = 0; j + k - 1 < n; ++j) {
-                    if (preRow[i][j + k] - preRow[i][j] == k
-                            && preRow[i + k - 1][j + k] - preRow[i + k - 1][j] == k
+                    if (preRow[i][j + k] - preRow[i][j] == k && preRow[i + k - 1][j + k] - preRow[i + k - 1][j] == k
                             && preCol[j][i + k] - preCol[j][i] == k
                             && preCol[j + k - 1][i + k] - preCol[j + k - 1][i] == k) {
                         return k * k;
@@ -6113,22 +6107,22 @@ public class Leetcode_5 {
             while (num != 0) {
                 int steps = 0;
                 switch (d) {
-                    case 0:
-                        steps = Math.min(num, width - x - 1);
-                        x += steps;
-                        break;
-                    case 1:
-                        steps = Math.min(num, height - y - 1);
-                        y += steps;
-                        break;
-                    case 2:
-                        steps = Math.min(num, x);
-                        x -= steps;
-                        break;
-                    case 3:
-                        steps = Math.min(num, y);
-                        y -= steps;
-                        break;
+                case 0:
+                    steps = Math.min(num, width - x - 1);
+                    x += steps;
+                    break;
+                case 1:
+                    steps = Math.min(num, height - y - 1);
+                    y += steps;
+                    break;
+                case 2:
+                    steps = Math.min(num, x);
+                    x -= steps;
+                    break;
+                case 3:
+                    steps = Math.min(num, y);
+                    y -= steps;
+                    break;
                 }
                 num -= steps;
                 if (num > 0) {
@@ -7072,10 +7066,8 @@ public class Leetcode_5 {
         int res = n;
         while (j < n) {
             ++cur[s.charAt(j) - 'A'];
-            while (i < n && cur['Q' - 'A'] >= counts['Q' - 'A']
-                    && cur['W' - 'A'] >= counts['W' - 'A']
-                    && cur['E' - 'A'] >= counts['E' - 'A']
-                    && cur['R' - 'A'] >= counts['R' - 'A']) {
+            while (i < n && cur['Q' - 'A'] >= counts['Q' - 'A'] && cur['W' - 'A'] >= counts['W' - 'A']
+                    && cur['E' - 'A'] >= counts['E' - 'A'] && cur['R' - 'A'] >= counts['R' - 'A']) {
                 res = Math.min(res, j - i + 1);
                 --cur[s.charAt(i++) - 'A'];
             }
@@ -7741,8 +7733,7 @@ public class Leetcode_5 {
         while (cur < 24 * 60) {
             int hour = cur / 60;
             int min = cur % 60;
-            if (occur[hour / 10] && occur[hour % 10] && occur[min / 10]
-                    && occur[min % 10]) {
+            if (occur[hour / 10] && occur[hour % 10] && occur[min / 10] && occur[min % 10]) {
                 return String.format("%02d:%02d", hour, min);
             }
             ++cur;
@@ -7751,8 +7742,7 @@ public class Leetcode_5 {
         while (cur <= original) {
             int hour = cur / 60;
             int min = cur % 60;
-            if (occur[hour / 10] && occur[hour % 10] && occur[min / 10]
-                    && occur[min % 10]) {
+            if (occur[hour / 10] && occur[hour % 10] && occur[min / 10] && occur[min % 10]) {
                 return String.format("%02d:%02d", hour, min);
             }
             ++cur;
@@ -8662,8 +8652,8 @@ public class Leetcode_5 {
 
     // 1236. 网络爬虫 (Web Crawler) --plus
     /**
-     * // This is the HtmlParser's API interface.
-     * // You should not implement it, or speculate about its implementation
+     * // This is the HtmlParser's API interface. // You should not implement it, or
+     * speculate about its implementation
      */
     interface HtmlParser {
         public List<String> getUrls(String url);

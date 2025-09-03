@@ -1595,18 +1595,15 @@ class leetcode_1:
     # 2435. 矩阵中和能被 K 整除的路径 (Paths in Matrix Whose Sum Is Divisible by K)
     def numberOfPaths(self, grid: List[List[int]], k: int) -> int:
         @cache
-        def dfs(i: int, j: int, mod: int) -> int:
-            if i == m - 1 and j == n - 1:
-                return int(not (grid[m - 1][n - 1] + mod) % k)
+        def dfs(i: int, j: int, _s: int) -> int:
             if i == m or j == n:
                 return 0
-            return (
-                dfs(i + 1, j, (mod + grid[i][j]) % k)
-                + dfs(i, j + 1, (mod + grid[i][j]) % k)
-            ) % MOD
-
-        m = len(grid)
-        n = len(grid[0])
+            _s += grid[i][j]
+            _s %= k
+            if i == m - 1 and j == n - 1:
+                return int(_s == 0)
+            return (dfs(i + 1, j, _s) + dfs(i, j + 1, _s)) % MOD
+        m, n = len(grid), len(grid[0])
         MOD = 10**9 + 7
         res = dfs(0, 0, 0)
         dfs.cache_clear()
