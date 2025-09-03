@@ -4183,30 +4183,26 @@ public class Leetcode_9 {
         this.memo3418 = new int[m3418][n3418][3];
         for (int i = 0; i < m3418; ++i) {
             for (int j = 0; j < n3418; ++j) {
-                Arrays.fill(memo3418[i][j], (int) -1e9);
+                Arrays.fill(memo3418[i][j], Integer.MIN_VALUE >> 1);
             }
         }
-        return dfs3418(0, 0, 2);
+        return dfs3418(0, 0, 0);
     }
 
     private int dfs3418(int i, int j, int k) {
-        if (!(i >= 0 && i < m3418 && j >= 0 && j < n3418)) {
-            return (int) -1e9;
+        if (i == m3418 || j == n3418) {
+            return Integer.MIN_VALUE >> 1;
         }
         if (i == m3418 - 1 && j == n3418 - 1) {
-            int res = coins3418[i][j];
-            if (k > 0) {
-                res = Math.max(res, 0);
-            }
-            return res;
+            return Math.max(coins3418[i][j], k < 2 ? 0 : Integer.MIN_VALUE >> 1);
         }
-        if (memo3418[i][j][k] != (int) -1e9) {
+        if (memo3418[i][j][k] != Integer.MIN_VALUE >> 1) {
             return memo3418[i][j][k];
         }
         int res = Math.max(dfs3418(i + 1, j, k), dfs3418(i, j + 1, k)) + coins3418[i][j];
-        if (k > 0) {
-            res = Math.max(res, dfs3418(i + 1, j, k - 1));
-            res = Math.max(res, dfs3418(i, j + 1, k - 1));
+        if (k < 2) {
+            res = Math.max(res, dfs3418(i + 1, j, k + 1));
+            res = Math.max(res, dfs3418(i, j + 1, k + 1));
         }
         return memo3418[i][j][k] = res;
     }
