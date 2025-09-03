@@ -2624,9 +2624,9 @@ class Union924:
             s = grid[i][j]
             if i == m - 1 and j == n - 1:
                 return [s, s]
-            _min, _max = dfs(i + 1, j)
+            _min1, _max1 = dfs(i + 1, j)
             _min2, _max2 = dfs(i, j + 1)
-            res = [min(_min, _min2) * s, max(_max, _max2) * s]
+            res = [min(_min1, _min2) * s, max(_max1, _max2) * s]
             return res if s >= 0 else res[::-1]
 
         m, n = len(grid), len(grid[0])
