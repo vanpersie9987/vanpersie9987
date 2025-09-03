@@ -3562,12 +3562,3 @@ class SegmentTree2940:
         for x in a:
             res = max(res, x * dfs(u ^ x))
         return res
-
-    def minFallingPathSum(self, grid: List[List[int]]) -> int:
-        @cache
-        def dfs(i: int, j: int) -> int:
-            if i == n:
-                return 0
-            return min(dfs(i + 1, k) + grid[i][k] if k != j else inf for k in range(n))
-        n = len(grid)
-        return dfs(0, -1)
