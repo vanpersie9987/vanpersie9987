@@ -3579,3 +3579,26 @@ class SegmentTree2940:
             )
 
         return dfs(0, 1)
+
+    # 719. 找出第 K 小的数对距离 (Find K-th Smallest Pair Distance)
+    def smallestDistancePair(self, nums: List[int], k: int) -> int:
+        def check(up_limit: int) -> bool:
+            cnt = 0
+            j = 0
+            for i, v in enumerate(nums):
+                while v - nums[j] > up_limit:
+                    j += 1
+                cnt += i - j
+                if cnt >= k:
+                    return True
+            return False
+        nums.sort()
+        left = 0
+        right = nums[-1] - nums[0]
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                right = mid - 1
+            else:
+                left = mid + 1
+        return right + 1

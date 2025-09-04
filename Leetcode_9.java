@@ -9631,4 +9631,36 @@ public class Leetcode_9 {
         }
         return memo3670[u] = mx;
     }
+
+    // 719. 找出第 K 小的数对距离 (Find K-th Smallest Pair Distance)
+    public int smallestDistancePair(int[] nums, int k) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int left = 0;
+        int right = nums[n - 1] - nums[0];
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check719(nums, mid, k)) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+    }
+
+    private boolean check719(int[] nums, int upLimit, int k) {
+        int j = 0;
+        int cnt = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            while (nums[i] - nums[j] > upLimit) {
+                ++j;
+            }
+            cnt += i - j;
+            if (cnt >= k) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
