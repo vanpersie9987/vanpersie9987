@@ -4103,7 +4103,7 @@ public class Leetcode_7 {
 
     private int dfs174(int i, int j) {
         if (i == m174 || j == n174) {
-            return Integer.MAX_VALUE / 2;
+            return Integer.MAX_VALUE;
         }
         if (i == m174 - 1 && j == n174 - 1) {
             return Math.max(1, 1 - dungeon174[i][j]);
