@@ -5124,7 +5124,15 @@ public class Leetcode_9 {
 
     // 3516. 找到最近的人 (Find Closest Person)
     public int findClosest(int x, int y, int z) {
-        return x == y || x - z == z - y ? 0 : Math.abs(x - z) < Math.abs(y - z) ? 1 : 2;
+        int d1 = Math.abs(x - z);
+        int d2 = Math.abs(y - z);
+        if (d1 == d2) {
+            return 0;
+        }
+        if (d1 > d2) {
+            return 2;
+        }
+        return 1;
     }
 
     // 3517. 最小回文排列 I (Smallest Palindromic Rearrangement I)
