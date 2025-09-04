@@ -2614,7 +2614,7 @@ class Union924:
         MOD = 10**9 + 7
         res = dfs(0, 0, 1)
         return -1 if res < 0 else res % MOD
-    
+
     # 1594. 矩阵的最大非负积 (Maximum Non Negative Product in a Matrix)
     def maxProductPath(self, grid: List[List[int]]) -> int:
         @cache
@@ -9357,7 +9357,13 @@ class Union924:
 
     # 3516. 找到最近的人 (Find Closest Person)
     def findClosest(self, x: int, y: int, z: int) -> int:
-        return 0 if x == y or x - z == z - y else (1 if abs(x - z) < abs(z - y) else 2)
+        d1 = abs(x - z)
+        d2 = abs(y - z)
+        if d1 == d2:
+            return 0
+        if d1 < d2:
+            return 1
+        return 2
 
     # 3517. 最小回文排列 I (Smallest Palindromic Rearrangement I)
     def smallestPalindrome(self, s: str) -> str:
