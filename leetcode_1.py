@@ -436,14 +436,22 @@ class leetcode_1:
         @cache
         def dfs(i: int, j: int) -> int:
             res = 0
-            for dx, dy in [[0, 1], [0, -1], [1, 0], [-1, 0]]:
-                nx, ny = i + dx, j + dy
-                if 0 <= nx < m and 0 <= ny < n and matrix[nx][ny] > matrix[i][j]:
-                    res = max(res, dfs(nx, ny))
+            for dx, dy in dirs:
+                nx = i + dx
+                ny = j + dy
+                if (
+                    nx == m
+                    or nx == -1
+                    or ny == n
+                    or ny == -1
+                    or matrix[nx][ny] <= matrix[i][j]
+                ):
+                    continue
+                res = max(res, dfs(nx, ny))
             return res + 1
 
-        m = len(matrix)
-        n = len(matrix[0])
+        m, n = len(matrix), len(matrix[0])
+        dirs = (0, 1), (1, 0), (-1, 0), (0, -1)
         res = 0
         for i in range(m):
             for j in range(n):
