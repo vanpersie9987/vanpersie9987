@@ -3602,3 +3602,9 @@ class SegmentTree2940:
             else:
                 left = mid + 1
         return right + 1
+
+    # 1304. 和为零的 N 个不同整数 (Find N Unique Integers Sum up to Zero)
+    def sumZero(self, n: int) -> List[int]:
+        res = [i + 1 for i in range(n)]
+        res[-1] = -sum(res[: n - 1])
+        return res
