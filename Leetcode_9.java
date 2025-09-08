@@ -9688,4 +9688,21 @@ public class Leetcode_9 {
         int lb = Integer.numberOfTrailingZeros(b);
         return Math.max(0, 26 - lb);
     }
+
+    // 3676. 碗子数组的数目 (Count Bowl Subarrays)
+    public long bowlSubarrays(int[] nums) {
+        long res = 0L;
+        int[] st = new int[nums.length];
+        int top = -1;
+        for (int x : nums) {
+            while (top >= 0 && st[top] < x) {
+                --top;
+                if (top >= 0) {
+                    ++res;
+                }
+            }
+            st[++top] = x;
+        }
+        return res;
+    }
 }
