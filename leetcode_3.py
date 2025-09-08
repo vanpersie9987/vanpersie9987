@@ -3640,13 +3640,14 @@ class SegmentTree2940:
 
     # 3676. 碗子数组的数目 (Count Bowl Subarrays)
     def bowlSubarrays(self, nums: List[int]) -> int:
-        st = []
+        st = [0] * len(nums)
+        top = -1
         res = 0
-        for i, v in enumerate(nums):
-            while st and nums[st[-1]] < v:
-                if i - st.pop() > 1:
+        for x in nums:
+            while top >= 0 and st[top] < x:
+                top -= 1
+                if top >= 0:
                     res += 1
-            if st and i - st[-1] > 1:
-                res += 1
-            st.append(i)
+            top += 1
+            st[top] = x
         return res
