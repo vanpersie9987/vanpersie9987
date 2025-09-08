@@ -9663,4 +9663,15 @@ public class Leetcode_9 {
         }
         return false;
     }
+
+    // 3674. 数组元素相等的最小操作次数 (Minimum Operations to Equalize Array)
+    public int minOperations(int[] nums) {
+        for (int i = 1; i < nums.length; ++i) {
+            if (nums[i] != nums[i - 1]) {
+                return 1;
+            }
+        }
+        return 0;
+        
+    }
 }

@@ -3621,3 +3621,7 @@ class SegmentTree2940:
             b = n - a
             if check(a) and check(b):
                 return [a, b]
+            
+    # 3674. 数组元素相等的最小操作次数 (Minimum Operations to Equalize Array)
+    def minOperations(self, nums: List[int]) -> int:
+        return int(any(x != y for x, y in pairwise(nums)))
