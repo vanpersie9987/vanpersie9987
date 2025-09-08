@@ -3651,3 +3651,23 @@ class SegmentTree2940:
             top += 1
             st[top] = x
         return res
+
+    # 3677. 统计二进制回文数字的数目 (Count Binary Palindromic Numbers)
+    def countBinaryPalindromes(self, n: int) -> int:
+        if n == 0:
+            return 1
+        res = 1
+        m = n.bit_length()
+        for i in range(1, m):
+            res += 1 << ((i - 1) >> 1)
+        for i in range(m - 2, m // 2 - 1, -1):
+            if n >> i & 1:
+                res += 1 << (i - m // 2)
+        pal = n >> (m >> 1)
+        v = pal >> (m & 1)
+        while v:
+            pal = pal * 2 + v % 2
+            v >>= 1
+        if pal <= n:
+            res += 1
+        return res
