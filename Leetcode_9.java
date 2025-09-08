@@ -9378,7 +9378,8 @@ public class Leetcode_9 {
         int res = dfs3661(i + 1, 1) + Math.max(0, right - left + 1);
 
         // 第i个robot向左发射子弹
-        left = bisectLeft3661(Math.max(r3661[i - 1][0] + 1 + (j == 1 ? r3661[i - 1][1]: 0), r3661[i][0] - r3661[i][1]));
+        left = bisectLeft3661(
+                Math.max(r3661[i - 1][0] + 1 + (j == 1 ? r3661[i - 1][1] : 0), r3661[i][0] - r3661[i][1]));
         right = bisectRight3661(r3661[i][0]);
         res = Math.max(res, dfs3661(i + 1, 0) + Math.max(0, right - left + 1));
         return memo3661[i][j] = res;
@@ -9555,6 +9556,7 @@ public class Leetcode_9 {
     // 3669. K 因数分解 (Balanced K-Factor Decomposition)
     private int[] res3669;
     private int minDiff3669;
+
     public int[] minDifference(int n, int k) {
         List<Integer> fac = new ArrayList<>();
         for (int i = 1; i <= Math.sqrt(n); ++i) {
@@ -9665,19 +9667,19 @@ public class Leetcode_9 {
     }
 
     // 3674. 数组元素相等的最小操作次数 (Minimum Operations to Equalize Array)
-    public int minOperations(int[] nums) {
+    public int minOperations3674(int[] nums) {
         for (int i = 1; i < nums.length; ++i) {
             if (nums[i] != nums[i - 1]) {
                 return 1;
             }
         }
         return 0;
-        
+
     }
 
     // 3675. 转换字符串的最小操作次数 (Minimum Operations to Transform String)
     public int minOperations(String s) {
-       int b = 0;
+        int b = 0;
         for (char c : s.toCharArray()) {
             b |= 1 << (c - 'a');
         }

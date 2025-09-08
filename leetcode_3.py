@@ -3592,6 +3592,7 @@ class SegmentTree2940:
                 if cnt >= k:
                     return True
             return False
+
         nums.sort()
         left = 0
         right = nums[-1] - nums[0]
@@ -3617,6 +3618,7 @@ class SegmentTree2940:
                     return False
                 x //= 10
             return True
+
         for a in range(1, n):
             b = n - a
             if check(a) and check(b):
@@ -3628,9 +3630,8 @@ class SegmentTree2940:
 
     # 3675. 转换字符串的最小操作次数 (Minimum Operations to Transform String)
     def minOperations(self, s: str) -> int:
-        res = 0
         b = 0
-        a = ord('a')
+        a = ord("a")
         for c in map(ord, s):
             b |= 1 << (c - a)
         # -2的二进制 = 0b(11111111111111111111111111111110) 用于消除b中最低位的1
