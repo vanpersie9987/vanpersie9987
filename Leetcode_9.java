@@ -9674,4 +9674,16 @@ public class Leetcode_9 {
         return 0;
         
     }
+
+    // 3675. 转换字符串的最小操作次数 (Minimum Operations to Transform String)
+    public int minOperations(String s) {
+       int b = 0;
+        for (char c : s.toCharArray()) {
+            b |= 1 << (c - 'a');
+        }
+        // -2的二进制 = 0b(11111111111111111111111111111110) 用于消除b中最低位的1
+        b &= -2;
+        int lb = Integer.numberOfTrailingZeros(b);
+        return Math.max(0, 26 - lb);
+    }
 }

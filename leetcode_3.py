@@ -3621,7 +3621,18 @@ class SegmentTree2940:
             b = n - a
             if check(a) and check(b):
                 return [a, b]
-            
+
     # 3674. 数组元素相等的最小操作次数 (Minimum Operations to Equalize Array)
     def minOperations(self, nums: List[int]) -> int:
         return int(any(x != y for x, y in pairwise(nums)))
+
+    # 3675. 转换字符串的最小操作次数 (Minimum Operations to Transform String)
+    def minOperations(self, s: str) -> int:
+        res = 0
+        b = 0
+        a = ord('a')
+        for c in map(ord, s):
+            b |= 1 << (c - a)
+        # -2的二进制 = 0b(11111111111111111111111111111110) 用于消除b中最低位的1
+        b &= -2
+        return 0 if b == 0 else 26 - ((b & -b).bit_length() - 1)
