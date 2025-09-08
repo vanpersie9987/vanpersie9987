@@ -3637,3 +3637,16 @@ class SegmentTree2940:
         # -2的二进制 = 0b(11111111111111111111111111111110) 用于消除b中最低位的1
         b &= -2
         return 0 if b == 0 else 26 - ((b & -b).bit_length() - 1)
+
+    # 3676. 碗子数组的数目 (Count Bowl Subarrays)
+    def bowlSubarrays(self, nums: List[int]) -> int:
+        st = []
+        res = 0
+        for i, v in enumerate(nums):
+            while st and nums[st[-1]] < v:
+                if i - st.pop() > 1:
+                    res += 1
+            if st and i - st[-1] > 1:
+                res += 1
+            st.append(i)
+        return res
