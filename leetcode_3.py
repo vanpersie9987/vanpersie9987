@@ -3608,3 +3608,16 @@ class SegmentTree2940:
         res = [i + 1 for i in range(n)]
         res[-1] = -sum(res[: n - 1])
         return res
+
+    # 1317. 将整数转换为两个无零整数的和 (Convert Integer to the Sum of Two No-Zero Integers)
+    def getNoZeroIntegers(self, n: int) -> List[int]:
+        def check(x: int) -> bool:
+            while x:
+                if x % 10 == 0:
+                    return False
+                x //= 10
+            return True
+        for a in range(1, n):
+            b = n - a
+            if check(a) and check(b):
+                return [a, b]

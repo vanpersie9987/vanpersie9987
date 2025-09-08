@@ -18563,23 +18563,21 @@ public class LeetCodeText {
 
     // 1317. 将整数转换为两个无零整数的和 (Convert Integer to the Sum of Two No-Zero Integers)
     public int[] getNoZeroIntegers(int n) {
-        for (int A = 1; A < n; ++A) {
-            int B = n - A;
-            if (isNonZeroInteger(A) && isNonZeroInteger(B)) {
-                return new int[] { A, B };
+        for (int i = 1; i < n; ++i) {
+            if (check1317(i) && check1317(n - i)) {
+                return new int[]{ i, n - i };
             }
         }
         return null;
 
     }
 
-    private boolean isNonZeroInteger(int num) {
-        while (num > 0) {
-            int digit = num % 10;
-            if (digit == 0) {
+    private boolean check1317(int x) {
+        while (x > 0) {
+            if (x % 10 == 0) {
                 return false;
             }
-            num /= 10;
+            x /= 10;
         }
         return true;
     }
