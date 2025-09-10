@@ -3671,3 +3671,18 @@ class SegmentTree2940:
         if pal <= n:
             res += 1
         return res
+
+    # 1733. 需要教语言的最少人数 (Minimum Number of People to Teach)
+    def minimumTeachings(self, n: int, languages: List[List[int]], friendships: List[List[int]]) -> int:
+        s = set()
+        for u, v in friendships:
+            if not set(languages[u - 1]) & set(languages[v - 1]):
+                s.add(u - 1)
+                s.add(v - 1)
+        if not s:
+            return 0
+        d = defaultdict(int)
+        for c in s:
+            for l in languages[c]:
+                d[l] += 1
+        return len(s) - max(d.values())
