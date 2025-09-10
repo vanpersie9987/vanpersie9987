@@ -8743,60 +8743,35 @@ public class LeetCodeText {
         return res;
     }
 
-    // 1733. 需要教语言的最少人数
+    // 1733. 需要教语言的最少人数 (Minimum Number of People to Teach)
     public int minimumTeachings(int n, int[][] languages, int[][] friendships) {
-        // // 表示不能相互沟通的好友编号
-        // Set<Integer> set = new HashSet<>();
-        // // key：set中每个好友掌握的每种语言种类
-        // // val：每种语言的数量
-        // Map<Integer, Integer> map = new HashMap<>();
-        // for (int[] friendship : friendships) {
-        // if (!canTalk(languages, friendship[0], friendship[1])) {
-        // set.add(friendship[0]);
-        // set.add(friendship[1]);
-        // }
-        // }
-        // // 所有互为好友的学生都能互相沟通
-        // if (set.isEmpty()) {
-        // return 0;
-        // }
-        // for (int friend : set) {
-        // for (int lan : languages[friend - 1]) {
-        // map.put(lan, map.getOrDefault(lan, 0) + 1);
-        // }
-        // }
-
-        // return set.size() - Collections.max(map.values());
-
-        Set<Integer> set = new HashSet<>();
-        for (int[] friendship : friendships) {
-            if (!canTalk(languages[friendship[0] - 1], languages[friendship[1] - 1])) {
-                set.add(friendship[0] - 1);
-                set.add(friendship[1] - 1);
+        Set<Integer> s = new HashSet<>();
+        for (int[] f : friendships) {
+            if (!canTalk1733(f[0] - 1, f[1] - 1, languages)) {
+                s.add(f[0] - 1);
+                s.add(f[1] - 1);
             }
         }
-        if (set.isEmpty()) {
+        if (s.isEmpty()) {
             return 0;
         }
         Map<Integer, Integer> map = new HashMap<>();
-        for (int num : set) {
-            for (int lan : languages[num]) {
-                map.put(lan, map.getOrDefault(lan, 0) + 1);
+        for (int p : s) {
+            for (int l : languages[p]) {
+                map.merge(l, 1, Integer::sum);
             }
         }
-        return set.size() - Collections.max(map.values());
-
+        return s.size() - Collections.max(map.values());
     }
 
-    private boolean canTalk(int[] languages1, int[] languages2) {
-        for (int lan1 : languages1) {
-            for (int lan2 : languages2) {
-                if (lan1 == lan2) {
+    private boolean canTalk1733(int i, int j, int[][] languages) {
+        for (int x : languages[i]) {
+            for (int y : languages[j]) {
+                if (x == y) {
                     return true;
                 }
             }
         }
-
         return false;
     }
 
