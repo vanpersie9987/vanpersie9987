@@ -3686,3 +3686,16 @@ class SegmentTree2940:
             for l in languages[c]:
                 d[l] += 1
         return len(s) - max(d.values())
+
+    # 2785. 将字符串中的元音字母排序 (Sort Vowels in a String)
+    def sortVowels(self, s: str) -> str:
+        a = sorted([x for x in s if x in 'aeiouAEIOU'])
+        res = []
+        id = 0
+        for x in s:
+            if x in 'aeiouAEIOU':
+                res.append(a[id])
+                id += 1
+            else:
+                res.append(x)
+        return ''.join(res)
