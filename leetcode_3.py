@@ -3673,7 +3673,7 @@ class SegmentTree2940:
         return res
 
     # 1733. 需要教语言的最少人数 (Minimum Number of People to Teach)
-    def minimumTeachings(self, n: int, languages: List[List[int]], friendships: List[List[int]]) -> int:
+    def minimumTeachings(self, _: int, languages: List[List[int]], friendships: List[List[int]]) -> int:
         s = set()
         for u, v in friendships:
             if not set(languages[u - 1]) & set(languages[v - 1]):
