@@ -6746,8 +6746,7 @@ public class Leetcode_5 {
     }
 
     private boolean isVowel(int u, char c) {
-        int b = (c & 31) - 1;
-        return ((u >> b) & 1) != 0;
+        return ((u >> (c - 'a')) & 1) != 0;
     }
 
     // 1390. 四因数 (Four Divisors)
