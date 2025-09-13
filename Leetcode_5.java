@@ -6698,56 +6698,56 @@ public class Leetcode_5 {
 
     // 966. 元音拼写检查器 (Vowel Spellchecker)
     public String[] spellchecker(String[] wordlist, String[] queries) {
-        Set<String> set = new HashSet<>();
-        Map<String, Integer> capMapToIndex = new HashMap<>();
-        Map<String, Integer> vowMapToIndex = new HashMap<>();
+        int u = 0;
+        for (char c : "aeiou".toCharArray()) {
+            u |= 1 << (c - 'a');
+        }
+        Set<String> s = new HashSet<>();
+        Map<String, Integer> lowerMap = new HashMap<>();
+        Map<String, Integer> vowelMap = new HashMap<>();
         for (int i = 0; i < wordlist.length; ++i) {
-            String word = wordlist[i];
-            set.add(word);
-            String lowerStr = word.toLowerCase();
-            capMapToIndex.putIfAbsent(lowerStr, i);
-
-            char[] chars = lowerStr.toCharArray();
-            for (int j = 0; j < chars.length; ++j) {
-                if (checkVowel(chars[j])) {
-                    chars[j] = '_';
+            s.add(wordlist[i]);
+            String lower = wordlist[i].toLowerCase();
+            lowerMap.putIfAbsent(lower, i);
+            char[] a = lower.toCharArray();
+            for (int j = 0; j < a.length; ++j) {
+                if (isVowel(u, a[j])) {
+                    a[j] = '_';
                 }
             }
-            String vowString = String.valueOf(chars);
-            vowMapToIndex.putIfAbsent(vowString, i);
-
+            String v = String.valueOf(a);
+            vowelMap.putIfAbsent(v, i);
         }
         for (int i = 0; i < queries.length; ++i) {
-            String query = queries[i];
-            if (set.contains(query)) {
+            String cur = queries[i];
+            if (s.contains(cur)) {
                 continue;
             }
-
-            String lowerQuery = query.toLowerCase();
-            if (capMapToIndex.containsKey(lowerQuery)) {
-                queries[i] = wordlist[capMapToIndex.get(lowerQuery)];
+            String lower = queries[i].toLowerCase();
+            if (lowerMap.containsKey(lower)) {
+                queries[i] = wordlist[lowerMap.get(lower)];
                 continue;
             }
-
-            char[] chars = lowerQuery.toCharArray();
-            for (int j = 0; j < chars.length; ++j) {
-                if (checkVowel(chars[j])) {
-                    chars[j] = '_';
+            char[] a = lower.toCharArray();
+            for (int j = 0; j < a.length; ++j) {
+                if (isVowel(u, a[j])) {
+                    a[j] = '_';
                 }
             }
-            String vowQuery = String.valueOf(chars);
-            if (vowMapToIndex.containsKey(vowQuery)) {
-                queries[i] = wordlist[vowMapToIndex.get(vowQuery)];
-            } else {
-                queries[i] = "";
+            String v = String.valueOf(a);
+            if (vowelMap.containsKey(v)) {
+                queries[i] = wordlist[vowelMap.get(v)];
+                continue;
             }
+            queries[i] = "";
         }
         return queries;
 
     }
 
-    private boolean checkVowel(char c) {
-        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+    private boolean isVowel(int u, char c) {
+        int b = (c & 31) - 1;
+        return ((u >> b) & 1) != 0;
     }
 
     // 1390. 四因数 (Four Divisors)
