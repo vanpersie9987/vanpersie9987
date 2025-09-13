@@ -3711,7 +3711,6 @@ class SegmentTree2940:
             if lower not in cap_dic:
                 cap_dic[lower] = i
             a = ''.join(['_' if (u >> (ord(c) - ord('a'))) & 1 else c for c in lower])
-            a = ''.join(a)
             if a not in vow_dic:
                 vow_dic[a] = i
         for i, q in enumerate(queries):
