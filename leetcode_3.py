@@ -3783,3 +3783,7 @@ class SegmentTree2940:
     # 3683. 完成一个任务的最早时间 (Earliest Time to Finish One Task)
     def earliestTime(self, tasks: List[List[int]]) -> int:
         return min(sum(t) for t in tasks)
+
+    # 3684. 至多 K 个不同元素的最大和 (Maximize Sum of At Most K Distinct Elements)
+    def maxKDistinct(self, nums: List[int], k: int) -> List[int]:
+        return sorted(set(nums), reverse=True)[:k]

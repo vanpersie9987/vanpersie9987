@@ -9776,4 +9776,20 @@ public class Leetcode_9 {
         }
         return res;
     }
+
+    // 3684. 至多 K 个不同元素的最大和 (Maximize Sum of At Most K Distinct Elements)
+    public int[] maxKDistinct(int[] nums, int k) {
+        List<Integer> res = new ArrayList<>();
+        Set<Integer> s = new HashSet<>();
+        Arrays.sort(nums);
+        for (int i = nums.length - 1; i >= 0; --i) {
+            if (s.add(nums[i])) {
+                res.add(nums[i]);
+                if (res.size() == k) {
+                    break;
+                }
+            }
+        }
+        return res.stream().mapToInt(o -> o).toArray();
+    }
 }
