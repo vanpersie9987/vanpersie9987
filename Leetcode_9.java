@@ -9715,8 +9715,8 @@ public class Leetcode_9 {
             s.add(x);
             sum += x;
         }
-        int a = sum / nums.length + 1;
-        while (a <= 0 || s.contains(a)) {
+        int a = Math.max(1, sum / nums.length + 1);
+        while (s.contains(a)) {
             ++a;
         }
         return a;

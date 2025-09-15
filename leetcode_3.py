@@ -3741,8 +3741,8 @@ class SegmentTree2940:
     # 3678. 大于平均值的最小未出现正整数 (Smallest Absent Positive Greater Than Average)
     def smallestAbsent(self, nums: List[int]) -> int:
         s = set(nums)
-        a = sum(nums) // len(nums) + 1
-        while a <= 0 or a in s:
+        a = max(1, sum(nums) // len(nums) + 1)
+        while a in s:
             a += 1
         return a
 
