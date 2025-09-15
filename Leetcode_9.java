@@ -9792,4 +9792,33 @@ public class Leetcode_9 {
         }
         return res.stream().mapToInt(o -> o).toArray();
     }
+
+    // 3686. 稳定子序列的数量 (Number of Stable Subsequences)
+    private int[] nums3686;
+    private int[][][] memo3686;
+    private int n3686;
+
+    public int countStableSubsequences(int[] nums) {
+        this.n3686 = nums.length;
+        this.nums3686 = nums;
+        this.memo3686 = new int[n3686][3][2];
+        return dfs3686(0, 0, 0);
+    }
+
+    private int dfs3686(int i, int j, int k) {
+        if (i == n3686) {
+            return Math.min(1, j);
+        }
+        if (memo3686[i][j][k] != 0) {
+            return memo3686[i][j][k];
+        }
+        int res = dfs3686(i + 1, j, k);
+        if ((nums3686[i] & 1) != k) {
+            res += dfs3686(i + 1, 1, nums3686[i] & 1);
+        } else if (j < 2) {
+            res += dfs3686(i + 1, j + 1, nums3686[i] & 1);
+        }
+        final int MOD = (int) (1e9 + 7);
+        return memo3686[i][j][k] = res % MOD;
+    }
 }
