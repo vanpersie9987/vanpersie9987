@@ -3673,7 +3673,7 @@ class SegmentTree2940:
         return res
 
     # 1733. 需要教语言的最少人数 (Minimum Number of People to Teach)
-    def minimumTeachings(self, n: int, languages: List[List[int]], friendships: List[List[int]]) -> int:
+    def minimumTeachings(self, _: int, languages: List[List[int]], friendships: List[List[int]]) -> int:
         s = set()
         for u, v in friendships:
             if not set(languages[u - 1]) & set(languages[v - 1]):
@@ -3686,6 +3686,47 @@ class SegmentTree2940:
             for l in languages[c]:
                 d[l] += 1
         return len(s) - max(d.values())
+
+    # 2785. 将字符串中的元音字母排序 (Sort Vowels in a String)
+    def sortVowels(self, s: str) -> str:
+        a = sorted([x for x in s if x in 'aeiouAEIOU'], reverse=True)
+        res = []
+        for x in s:
+            if x in 'aeiouAEIOU':
+                res.append(a.pop())
+            else:
+                res.append(x)
+        return ''.join(res)
+
+    # 966. 元音拼写检查器 (Vowel Spellchecker)
+    def spellchecker(self, wordlist: List[str], queries: List[str]) -> List[str]:
+        u = 0
+        for c in 'aeiou':
+            u |= 1 << ((ord(c) - ord('a')))
+        s = set(wordlist)
+        cap_dic = defaultdict(int)
+        vow_dic = defaultdict(int)
+        for i, w in enumerate(wordlist):
+            lower = w.lower()
+            if lower not in cap_dic:
+                cap_dic[lower] = i
+            a = ''.join(['_' if (u >> (ord(c) - ord('a'))) & 1 else c for c in lower])
+            if a not in vow_dic:
+                vow_dic[a] = i
+        for i, q in enumerate(queries):
+            if q in s:
+                continue
+            lower = q.lower()
+            if lower in cap_dic:
+                queries[i] = wordlist[cap_dic[lower]]
+                continue
+            a = ''.join(['_' if (u >> (ord(c) - ord('a'))) & 1 else c for c in lower])
+            if a in vow_dic:
+                queries[i] = wordlist[vow_dic[a]]
+                continue
+            queries[i] = ''
+        return queries
+
     
     # 1935. 可以输入的最大单词数 (Maximum Number of Words You Can Type)
     def canBeTypedWords(self, text: str, brokenLetters: str) -> int:

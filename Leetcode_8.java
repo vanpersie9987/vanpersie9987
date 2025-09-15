@@ -2013,7 +2013,7 @@ public class Leetcode_8 {
 
     }
 
-    // 6926. 将字符串中的元音字母排序 (Sort Vowels in a String)
+    // 2785. 将字符串中的元音字母排序 (Sort Vowels in a String)
     public String sortVowels(String s) {
         List<Character> list = new ArrayList<>();
         char[] arr = s.toCharArray();
@@ -2023,14 +2023,14 @@ public class Leetcode_8 {
             m |= 1 << (c - 'a');
         }
         for (char c : s.toCharArray()) {
-            if ((m & (1 << ((c & 31) - 1))) != 0) {
+            if ((m >> ((c & 31) - 1) & 1) != 0) {
                 list.add(c);
             }
         }
         Collections.sort(list);
         int j = 0;
         for (int i = 0; i < arr.length; ++i) {
-            if ((m & (1 << ((arr[i] & 31) - 1))) != 0) {
+            if (((m >> ((arr[i] & 31) - 1)) & 1) != 0) {
                 arr[i] = list.get(j++);
             }
         }
