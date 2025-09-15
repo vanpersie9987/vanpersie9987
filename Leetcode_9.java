@@ -9721,4 +9721,25 @@ public class Leetcode_9 {
         }
         return a;
     }
+
+    // 3679. 使库存平衡的最少丢弃次数 (Minimum Discards to Balance Inventory)
+    public int minArrivalsToDiscard(int[] arrivals, int w, int m) {
+        Map<Integer, Integer> map = new HashMap<>();
+        Set<Integer> s = new HashSet<>();
+        int n = arrivals.length;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            map.merge(arrivals[i], 1, Integer::sum);
+            if (i >= w && !s.contains(i - w)) {
+                map.merge(arrivals[i - w], -1, Integer::sum);
+            }
+            if (map.get(arrivals[i]) > m) {
+                ++res;
+                map.merge(arrivals[i], -1, Integer::sum);
+                s.add(i);
+            }
+        }
+        return res;
+
+    }
 }
