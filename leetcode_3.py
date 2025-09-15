@@ -3807,3 +3807,22 @@ class SegmentTree2940:
         res = dfs(0, 0, 0)
         dfs.cache_clear()
         return (res - 1) % MOD
+
+    # 3685. 含上限元素的子序列和 (Subsequence Sum After Capping)
+    def subsequenceSumAfterCapping(self, nums: List[int], k: int) -> List[bool]:
+        nums.sort()
+        n = len(nums)
+        res = [False] * n
+        f = [False] * (k + 1)
+        f[0] = True
+        i = 0
+        for x in range(1, n + 1):
+            while i < n and nums[i] == x:
+                for j in range(k, nums[i] - 1, -1):
+                    f[j] = f[j] or f[j - nums[i]]
+                i += 1
+            for j in range(min(n - i, k // x) + 1):
+                if f[k - j * x]:
+                    res[x - 1] = True
+                    break
+        return res

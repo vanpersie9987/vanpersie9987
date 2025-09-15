@@ -9821,4 +9821,30 @@ public class Leetcode_9 {
         final int MOD = (int) (1e9 + 7);
         return memo3686[i][j][k] = res % MOD;
     }
+
+    // 3685. 含上限元素的子序列和 (Subsequence Sum After Capping)
+    public boolean[] subsequenceSumAfterCapping(int[] nums, int k) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        boolean[] res = new boolean[n];
+        boolean[] f = new boolean[k + 1];
+        f[0] = true;
+        int i = 0;
+        for (int x = 1; x <= n; ++x) {
+            while (i < n && nums[i] == x) {
+                for (int j = k; j >= nums[i]; --j) {
+                    f[j] = f[j] || f[j - nums[i]];
+                }
+                ++i;
+            }
+            for (int j = 0; j <= Math.min(n - i, k / x); ++j) {
+                if (f[k - j * x]) {
+                    res[x - 1] = true;
+                    break;
+                }
+            }
+        }
+        return res;
+
+    }
 }
