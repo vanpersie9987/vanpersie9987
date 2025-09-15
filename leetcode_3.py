@@ -3727,7 +3727,6 @@ class SegmentTree2940:
             queries[i] = ''
         return queries
 
-    
     # 1935. 可以输入的最大单词数 (Maximum Number of Words You Can Type)
     def canBeTypedWords(self, text: str, brokenLetters: str) -> int:
         u = 0
@@ -3737,3 +3736,11 @@ class SegmentTree2940:
         return sum(
             all(u >> (c - a) & 1 == 0 for c in map(ord, s)) for s in text.split(" ")
         )
+
+    # 3678. 大于平均值的最小未出现正整数 (Smallest Absent Positive Greater Than Average)
+    def smallestAbsent(self, nums: List[int]) -> int:
+        s = set(nums)
+        a = sum(nums) // len(nums) + 1
+        while a <= 0 or a in s:
+            a += 1
+        return a

@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -9704,5 +9705,20 @@ public class Leetcode_9 {
             st[++top] = x;
         }
         return res;
+    }
+
+    // 3678. 大于平均值的最小未出现正整数 (Smallest Absent Positive Greater Than Average)
+    public int smallestAbsent(int[] nums) {
+        Set<Integer> s = new HashSet<>();
+        int sum = 0;
+        for (int x : nums) {
+            s.add(x);
+            sum += x;
+        }
+        int a = sum / nums.length + 1;
+        while (a <= 0 || s.contains(a)) {
+            ++a;
+        }
+        return a;
     }
 }
