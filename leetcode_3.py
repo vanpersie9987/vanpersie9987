@@ -9,6 +9,7 @@ from pydoc import plain
 from signal import valid_signals
 from sqlite3 import paramstyle
 import stat
+from termios import CINTR
 from tokenize import String
 from xxlimited import foo
 from audioop import minmax, reverse
@@ -3759,3 +3760,22 @@ class SegmentTree2940:
                 d[v] -= 1
                 s.add(i)
         return res
+
+    # 3680. 生成赛程 (Generate Schedule)
+    def generateSchedule(self, n: int) -> List[List[int]]:
+        if n < 5:
+            return []
+
+        ans = []
+
+        # 处理 d=2,3,...,n-2
+        for d in range(2, n - 1):
+            for i in range(n):
+                ans.append([i, (i + d) % n])
+
+        # 交错排列 d=1 与 d=n-1（或者说 d=-1）
+        for i in range(n):
+            ans.append([i, (i + 1) % n])
+            ans.append([(i - 1) % n, (i - 2) % n])
+
+        return ans

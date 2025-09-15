@@ -9742,4 +9742,29 @@ public class Leetcode_9 {
         return res;
 
     }
+
+    // 3680. 生成赛程 (Generate Schedule)
+    public int[][] generateSchedule(int n) {
+        if (n < 5) {
+            return new int[][] {};
+        }
+
+        int[][] ans = new int[n * (n - 1)][];
+        int idx = 0;
+
+        // 处理 d=2,3,...,n-2
+        for (int d = 2; d < n - 1; d++) {
+            for (int i = 0; i < n; i++) {
+                ans[idx++] = new int[] { i, (i + d) % n };
+            }
+        }
+
+        // 交错排列 d=1 与 d=n-1（或者说 d=-1）
+        for (int i = 0; i < n; i++) {
+            ans[idx++] = new int[] { i, (i + 1) % n };
+            ans[idx++] = new int[] { (i + n - 1) % n, (i + n - 2) % n };
+        }
+
+        return ans;
+    }
 }
