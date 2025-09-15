@@ -3686,3 +3686,13 @@ class SegmentTree2940:
             for l in languages[c]:
                 d[l] += 1
         return len(s) - max(d.values())
+    
+    # 1935. 可以输入的最大单词数 (Maximum Number of Words You Can Type)
+    def canBeTypedWords(self, text: str, brokenLetters: str) -> int:
+        u = 0
+        a = ord("a")
+        for c in map(ord, brokenLetters):
+            u |= 1 << (c - a)
+        return sum(
+            all(u >> (c - a) & 1 == 0 for c in map(ord, s)) for s in text.split(" ")
+        )
