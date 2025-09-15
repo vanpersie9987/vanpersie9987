@@ -3787,3 +3787,23 @@ class SegmentTree2940:
     # 3684. 至多 K 个不同元素的最大和 (Maximize Sum of At Most K Distinct Elements)
     def maxKDistinct(self, nums: List[int], k: int) -> List[int]:
         return sorted(set(nums), reverse=True)[:k]
+
+    # 3686. 稳定子序列的数量 (Number of Stable Subsequences)
+    def countStableSubsequences(self, nums: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if i == n:
+                return 1
+            res = dfs(i + 1, j, k)
+            if nums[i] & 1 != k:
+                res += dfs(i + 1, 1, nums[i] & 1)
+            elif j < 2:
+                res += dfs(i + 1, j + 1, nums[i] & 1)
+            return res % MOD
+        n = len(nums)
+        MOD = 10**9 + 7
+        # dfs(i, j, k)
+        # 从i开始，之前已经选了连续j个奇数（k == 1)/ 偶数（k == 0）
+        res = dfs(0, 0, 0)
+        dfs.cache_clear()
+        return (res - 1) % MOD
