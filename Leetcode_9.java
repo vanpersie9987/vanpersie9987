@@ -9767,4 +9767,13 @@ public class Leetcode_9 {
 
         return ans;
     }
+
+    // 3683. 完成一个任务的最早时间 (Earliest Time to Finish One Task)
+    public int earliestTime(int[][] tasks) {
+        int res = Integer.MAX_VALUE;
+        for (int[] t : tasks) {
+            res = Math.min(res, t[0] + t[1]);
+        }
+        return res;
+    }
 }

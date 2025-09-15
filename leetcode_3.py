@@ -3779,3 +3779,7 @@ class SegmentTree2940:
             ans.append([(i - 1) % n, (i - 2) % n])
 
         return ans
+
+    # 3683. 完成一个任务的最早时间 (Earliest Time to Finish One Task)
+    def earliestTime(self, tasks: List[List[int]]) -> int:
+        return min(sum(t) for t in tasks)
