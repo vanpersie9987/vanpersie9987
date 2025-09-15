@@ -3749,16 +3749,16 @@ class SegmentTree2940:
     # 3679. 使库存平衡的最少丢弃次数 (Minimum Discards to Balance Inventory)
     def minArrivalsToDiscard(self, arrivals: List[int], w: int, m: int) -> int:
         d = defaultdict(int)
-        s = set()
         res = 0
         for i, v in enumerate(arrivals):
-            d[v] += 1
-            if i >= w and i - w not in s:
-                d[arrivals[i - w]] -= 1
-            if d[v] > m:
+            if d[v] == m:
                 res += 1
-                d[v] -= 1
-                s.add(i)
+                arrivals[i] = 0
+            else:
+                d[v] += 1
+            left = i + 1 - w
+            if left >= 0:
+                d[arrivals[left]] -= 1
         return res
 
     # 3680. 生成赛程 (Generate Schedule)
