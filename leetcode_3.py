@@ -3833,13 +3833,11 @@ class SegmentTree2940:
         for x in nums:
             res.append(x)
             while len(res) > 1:
-                a = res.pop()
-                b = res.pop()
+                a = res[-1]
+                b = res[-2]
                 g = gcd(a, b)
                 if g == 1:
-                    res.append(b)
-                    res.append(a)
                     break
-                # lcm
-                res.append(a * b // g)
+                res.pop()
+                res[-1] = a * b // g
         return res
