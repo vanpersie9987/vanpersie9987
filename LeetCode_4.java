@@ -6575,28 +6575,26 @@ public class LeetCode_4 {
 
     }
 
-    // 2349. 设计数字容器系统
+    // 2349. 设计数字容器系统 (Design a Number Container System)
     class NumberContainers {
-        private TreeMap<Integer, Integer> indexMap;
-        private Map<Integer, TreeSet<Integer>> map;
+        private Map<Integer, Integer> indexToNumber;
+        private Map<Integer, TreeSet<Integer>> numberToIndexes;
 
         public NumberContainers() {
-            indexMap = new TreeMap<>();
-            map = new HashMap<>();
+            this.indexToNumber = new HashMap<>();
+            this.numberToIndexes = new HashMap<>();
         }
 
         public void change(int index, int number) {
-            int original = indexMap.getOrDefault(index, -1);
-            if (original != -1) {
-                map.get(original).remove(index);
-            }
-            indexMap.put(index, number);
-            map.computeIfAbsent(number, k -> new TreeSet<>()).add(index);
+            int original = indexToNumber.getOrDefault(index, -1);
+            numberToIndexes.getOrDefault(original, new TreeSet<>()).remove(index);
+            indexToNumber.put(index, number);
+            numberToIndexes.computeIfAbsent(number, k -> new TreeSet<>()).add(index);
         }
 
         public int find(int number) {
-            TreeSet<Integer> set = map.getOrDefault(number, new TreeSet<>());
-            return set.isEmpty() ? -1 : set.first();
+            TreeSet<Integer> a = numberToIndexes.getOrDefault(number, new TreeSet<>());
+            return a.isEmpty() ? -1 : a.first();
         }
     }
 

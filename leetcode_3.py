@@ -3841,3 +3841,20 @@ class SegmentTree2940:
                 res.pop()
                 res[-1] = a * b // g
         return res
+
+    # 2349. 设计数字容器系统 (Design a Number Container System)
+    class NumberContainers:
+
+        def __init__(self):
+            self.index_number = defaultdict(int)
+            # self.number_indexes = defaultdict(SortedSet) 也可以
+            self.number_indexes = defaultdict(SortedList)
+
+        def change(self, index: int, number: int) -> None:
+            original = self.index_number[index]
+            self.number_indexes[original].discard(index)
+            self.index_number[index] = number
+            self.number_indexes[number].add(index)
+
+        def find(self, number: int) -> int:
+            return self.number_indexes[number][0] if self.number_indexes[number] else -1
