@@ -3826,3 +3826,20 @@ class SegmentTree2940:
                     res[x - 1] = True
                     break
         return res
+
+    # 2197. 替换数组中的非互质数 (Replace Non-Coprime Numbers in Array)
+    def replaceNonCoprimes(self, nums: List[int]) -> List[int]:
+        res = []
+        for x in nums:
+            res.append(x)
+            while len(res) > 1:
+                a = res.pop()
+                b = res.pop()
+                g = gcd(a, b)
+                if g == 1:
+                    res.append(b)
+                    res.append(a)
+                    break
+                # lcm
+                res.append(a * b // g)
+        return res
