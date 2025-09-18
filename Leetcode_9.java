@@ -9859,14 +9859,7 @@ public class Leetcode_9 {
 
         public TaskManager(List<List<Integer>> tasks) {
             taskMap = new HashMap<>();
-            priMap = new TreeMap<>(new Comparator<Integer>() {
-
-                @Override
-                public int compare(Integer o1, Integer o2) {
-                    return Integer.compare(o2, o1);
-                }
-
-            });
+            priMap = new TreeMap<>((o1, o2) -> Integer.compare(o2, o1));
             for (List<Integer> t : tasks) {
                 int userId = t.get(0);
                 int taskId = t.get(1);
