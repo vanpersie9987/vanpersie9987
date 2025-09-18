@@ -3859,21 +3859,3 @@ class SegmentTree2940:
         def find(self, number: int) -> int:
             return self.number_indexes[number][0] if self.number_indexes[number] else -1
         
-    # class TaskManager:
-
-    #     def __init__(self, tasks: List[List[int]]):
-    #         self.t_d = defaultdict(tuple)
-    #         self.p_d = 
-            
-
-    #     def add(self, userId: int, taskId: int, priority: int) -> None:
-            
-
-    #     def edit(self, taskId: int, newPriority: int) -> None:
-            
-
-    #     def rmv(self, taskId: int) -> None:
-            
-
-    #     def execTop(self) -> int:
-        
