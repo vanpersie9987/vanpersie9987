@@ -9848,4 +9848,81 @@ public class Leetcode_9 {
 
     }
 
+    // 3408. 设计任务管理器 (Design Task Manager)
+    class TaskManager {
+        /**
+         * # taskid -> (pri, userId) # pri (大 -> 小) -> taskId (大 -> 小) -> userId
+         */
+        private Map<Integer, Long> taskMap;
+        private TreeMap<Integer, TreeMap<Integer, Integer>> priMap;
+        private long MUL = (long) (1e6);
+
+        public TaskManager(List<List<Integer>> tasks) {
+            taskMap = new HashMap<>();
+            priMap = new TreeMap<>(new Comparator<Integer>() {
+
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return Integer.compare(o2, o1);
+                }
+
+            });
+            for (List<Integer> t : tasks) {
+                int userId = t.get(0);
+                int taskId = t.get(1);
+                int priority = t.get(2);
+                long v = priority * MUL + userId;
+                taskMap.put(taskId, v);
+                priMap.computeIfAbsent(priority, k -> new TreeMap<>((o1, o2) -> Integer.compare(o2, o1))).put(taskId,
+                        userId);
+            }
+        }
+
+        public void add(int userId, int taskId, int priority) {
+            long v = priority * MUL + userId;
+            taskMap.put(taskId, v);
+            priMap.computeIfAbsent(priority, k -> new TreeMap<>((o1, o2) -> Integer.compare(o2, o1))).put(taskId,
+                    userId);
+        }
+
+        public void edit(int taskId, int newPriority) {
+            long v = taskMap.remove(taskId);
+            int oldPriority = (int) (v / MUL);
+            int userId = (int) (v % MUL);
+            priMap.get(oldPriority).remove(taskId);
+            if (priMap.get(oldPriority).isEmpty()) {
+                priMap.remove(oldPriority);
+            }
+            long newV = newPriority * MUL + userId;
+            taskMap.put(taskId, newV);
+            priMap.computeIfAbsent(newPriority, k -> new TreeMap<>((o1, o2) -> Integer.compare(o2, o1))).put(taskId,
+                    userId);
+
+        }
+
+        public void rmv(int taskId) {
+            long v = taskMap.remove(taskId);
+            int priority = (int) (v / MUL);
+            priMap.get(priority).remove(taskId);
+            if (priMap.get(priority).isEmpty()) {
+                priMap.remove(priority);
+            }
+        }
+
+        public int execTop() {
+            if (priMap.isEmpty()) {
+                return -1;
+            }
+            int priority = priMap.firstKey();
+            TreeMap<Integer, Integer> taskToUser = priMap.get(priority);
+            int taskId = taskToUser.firstKey();
+            int userId = taskToUser.remove(taskId);
+            if (taskToUser.isEmpty()) {
+                priMap.remove(priority);
+            }
+            taskMap.remove(taskId);
+            return userId;
+        }
+    }
+
 }
