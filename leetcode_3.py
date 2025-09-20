@@ -3858,7 +3858,7 @@ class SegmentTree2940:
 
         def find(self, number: int) -> int:
             return self.number_indexes[number][0] if self.number_indexes[number] else -1
-        
+
     # 3508. 设计路由器 (Implement Router)
     class Router:
 
@@ -3898,7 +3898,5 @@ class SegmentTree2940:
         def getCount(self, destination: int, startTime: int, endTime: int) -> int:
             a = self.time_dic[destination]
             left = bisect.bisect_left(a, startTime)
-            right = bisect.bisect_left(a, endTime)
+            right = bisect.bisect_right(a, endTime)
             return right - left
-            
-        
