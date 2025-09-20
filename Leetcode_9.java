@@ -9920,35 +9920,12 @@ public class Leetcode_9 {
 
     // 3508. 设计路由器 (Implement Router)
     class Router {
-        private static class Bean {
-            int source;
-            int destination;
-            int timestamp;
-
-            public Bean(int source, int destination, int timestamp) {
-                this.source = source;
-                this.destination = destination;
-                this.timestamp = timestamp;
-            }
-
-            @Override
-            public boolean equals(Object o) {
-                if (this == o) {
-                    return true;
-                }
-                Bean bean = (Bean) o;
-                return source == bean.source && destination == bean.destination && timestamp == bean.timestamp;
-            }
-
-            @Override
-            public int hashCode() {
-                return source + (int) 1e9 + destination + (int) 2e5 + timestamp;
-            }
-            
+        private record Packet(int source, int destination, int timestamp) {
         }
+
         private int memoryLimit;
         private Deque<int[]> dq; // {source, destination, timestamp}
-        private Set<Bean> set;
+        private Set<Packet> set;
         private Map<Integer, List<Integer>> timeMap; // destination -> list of timestamp
 
         public Router(int memoryLimit) {
@@ -9959,13 +9936,13 @@ public class Leetcode_9 {
         }
 
         public boolean addPacket(int source, int destination, int timestamp) {
-            Bean b = new Bean(source, destination, timestamp);
-            if (set.contains(b)) {
+            Packet packet = new Packet(source, destination, timestamp);
+            if (set.contains(packet)) {
                 return false;
             }
             if (dq.size() == memoryLimit) {
                 int[] old = dq.pollFirst();
-                set.remove(new Bean(old[0], old[1], old[2]));
+                set.remove(new Packet(old[0], old[1], old[2]));
                 List<Integer> lst = timeMap.get(old[1]);
                 lst.remove(0);
                 if (lst.isEmpty()) {
@@ -9973,7 +9950,7 @@ public class Leetcode_9 {
                 }
             }
             dq.offerLast(new int[] { source, destination, timestamp });
-            set.add(b);
+            set.add(packet);
             timeMap.computeIfAbsent(destination, k -> new ArrayList<>()).add(timestamp);
             return true;
         }
@@ -9983,7 +9960,7 @@ public class Leetcode_9 {
                 return new int[] {};
             }
             int[] old = dq.pollFirst();
-            set.remove(new Bean(old[0], old[1], old[2]));
+            set.remove(new Packet(old[0], old[1], old[2]));
             List<Integer> lst = timeMap.get(old[1]);
             lst.remove(0);
             if (lst.isEmpty()) {
