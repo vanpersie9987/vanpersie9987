@@ -9995,9 +9995,6 @@ public class Leetcode_9 {
 
         public int getCount(int destination, int startTime, int endTime) {
             List<Integer> a = timeMap.getOrDefault(destination, new ArrayList<>());
-            if (a.isEmpty()) {
-                return 0;
-            }
             int left = binarySearchLeft(a, startTime);
             int right = binarySearchRight(a, endTime);
             return right - left + 1;
