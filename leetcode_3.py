@@ -3859,3 +3859,46 @@ class SegmentTree2940:
         def find(self, number: int) -> int:
             return self.number_indexes[number][0] if self.number_indexes[number] else -1
         
+    # 3508. 设计路由器 (Implement Router)
+    class Router:
+
+        def __init__(self, memoryLimit: int):
+            self.memoryLimit = memoryLimit
+            self.dq = deque()  # (source, destination, timestamp)
+            self.time_dic = defaultdict(list)  # destination -> timestamp list
+            self.s = set()
+
+        def addPacket(self, source: int, destination: int, timestamp: int) -> bool:
+            pack = (source, destination, timestamp)
+            if pack in self.s:
+                return False
+            if len(self.dq) == self.memoryLimit:
+                old_pack = self.dq.popleft()
+                self.s.remove(old_pack)
+                a = self.time_dic[old_pack[1]]
+                a.pop(0)
+                if not a:
+                    del self.time_dic[old_pack[1]]
+            self.dq.append(pack)
+            self.s.add(pack)
+            self.time_dic[destination].append(timestamp)
+            return True
+
+        def forwardPacket(self) -> List[int]:
+            if not self.dq:
+                return []
+            pack = self.dq.popleft()
+            self.s.remove(pack)
+            a = self.time_dic[pack[1]]
+            a.pop(0)
+            if not a:
+                del self.time_dic[pack[1]]
+            return [pack[0], pack[1], pack[2]]
+
+        def getCount(self, destination: int, startTime: int, endTime: int) -> int:
+            a = self.time_dic[destination]
+            left = bisect.bisect_left(a, startTime)
+            right = bisect.bisect_left(a, endTime)
+            return right - left
+            
+        

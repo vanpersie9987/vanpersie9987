@@ -9918,4 +9918,117 @@ public class Leetcode_9 {
         }
     }
 
+    // 3508. 设计路由器 (Implement Router)
+    class Router {
+        private static class Bean {
+            int source;
+            int destination;
+            int timestamp;
+
+            public Bean(int source, int destination, int timestamp) {
+                this.source = source;
+                this.destination = destination;
+                this.timestamp = timestamp;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) {
+                    return true;
+                }
+                Bean bean = (Bean) o;
+                return source == bean.source && destination == bean.destination && timestamp == bean.timestamp;
+            }
+
+            @Override
+            public int hashCode() {
+                return source + (int) 1e9 + destination + (int) 2e5 + timestamp;
+            }
+            
+        }
+        private int memoryLimit;
+        private Deque<int[]> dq; // {source, destination, timestamp}
+        private Set<Bean> set;
+        private Map<Integer, List<Integer>> timeMap; // destination -> list of timestamp
+
+        public Router(int memoryLimit) {
+            this.memoryLimit = memoryLimit;
+            this.dq = new ArrayDeque<>();
+            this.timeMap = new HashMap<>();
+            this.set = new HashSet<>();
+        }
+
+        public boolean addPacket(int source, int destination, int timestamp) {
+            Bean b = new Bean(source, destination, timestamp);
+            if (set.contains(b)) {
+                return false;
+            }
+            if (dq.size() == memoryLimit) {
+                int[] old = dq.pollFirst();
+                set.remove(new Bean(old[0], old[1], old[2]));
+                List<Integer> lst = timeMap.get(old[1]);
+                lst.remove(0);
+                if (lst.isEmpty()) {
+                    timeMap.remove(old[1]);
+                }
+            }
+            dq.offerLast(new int[] { source, destination, timestamp });
+            set.add(b);
+            timeMap.computeIfAbsent(destination, k -> new ArrayList<>()).add(timestamp);
+            return true;
+        }
+
+        public int[] forwardPacket() {
+            if (dq.isEmpty()) {
+                return new int[] {};
+            }
+            int[] old = dq.pollFirst();
+            set.remove(new Bean(old[0], old[1], old[2]));
+            List<Integer> lst = timeMap.get(old[1]);
+            lst.remove(0);
+            if (lst.isEmpty()) {
+                timeMap.remove(old[1]);
+            }
+            return new int[] { old[0], old[1], old[2] };
+
+        }
+
+        public int getCount(int destination, int startTime, int endTime) {
+            List<Integer> a = timeMap.getOrDefault(destination, new ArrayList<>());
+            if (a.isEmpty()) {
+                return 0;
+            }
+            int left = binarySearchLeft(a, startTime);
+            int right = binarySearchRight(a, endTime);
+            return right - left + 1;
+        }
+
+        private int binarySearchRight(List<Integer> a, int x) {
+            int left = 0;
+            int right = a.size() - 1;
+            while (left <= right) {
+                int mid = left + ((right - left) >> 1);
+                if (a.get(mid) <= x) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+            return right;
+        }
+
+        private int binarySearchLeft(List<Integer> a, int x) {
+            int left = 0;
+            int right = a.size() - 1;
+            while (left <= right) {
+                int mid = left + ((right - left) >> 1);
+                if (a.get(mid) >= x) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            return left;
+        }
+    }
 }
