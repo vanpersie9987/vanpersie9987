@@ -1798,116 +1798,71 @@ public class Leetcode_7 {
 
     // 1912. 设计电影租借系统 (Design Movie Rental System)
     class MovieRentingSystem {
-        // 借出的电影
-        // key : price
-        private TreeMap<Integer, TreeMap<Integer, List<Integer>>> loan;
-        // 未借出的电影
-        // key : movie
-        private TreeMap<Integer, List<Bean>> mapMovie;
-        // key : shop
-        private Map<Integer, Map<Integer, Integer>> mapShop;
-
-        // 统计 key : 来自shop的movie的price
-        private Map<Bean, Integer> mapData;
-
-        class Bean implements Comparable<Bean> {
-            int shop;
-            int movie;
-            int price;
-
-            Bean(int shop, int movie, int price) {
-                this.shop = shop;
-                this.movie = movie;
-                this.price = price;
-            }
-
-            @Override
-            public int compareTo(Bean o) {
-                if (this.price == o.price) {
-                    return Integer.compare(this.shop, o.shop);
-                }
-                return Integer.compare(this.price, o.price);
-            }
-
-            @Override
-            public boolean equals(Object obj) {
-                Bean o = (Bean) obj;
-                return this.shop == o.shop && this.movie == o.movie;
-            }
-
-            @Override
-            public int hashCode() {
-                return (int) (((long) shop * 10000 + movie) % (1e9 + 7));
-            }
-
+        private record Pack(int shop, int movie) {
         }
 
-        public MovieRentingSystem(int n, int[][] entries) {
-            loan = new TreeMap<>();
-            mapMovie = new TreeMap<>();
-            mapShop = new HashMap<>();
-            mapData = new HashMap<>();
-            for (int[] e : entries) {
-                int shop = e[0];
-                int movie = e[1];
-                int price = e[2];
-                mapMovie.computeIfAbsent(movie, k -> new ArrayList<>()).add(new Bean(shop, movie, price));
-                mapShop.computeIfAbsent(shop, k -> new HashMap<>()).put(movie, price);
-                mapData.put(new Bean(shop, movie, price), price);
-            }
+        // movie -> price, shop
+        private Map<Integer, TreeMap<Integer, TreeSet<Integer>>> movieToPriceShops;
+        // (shop, movie) -> price
+        private Map<Pack, Integer> shopMovieToPrice;
 
+        // (shop, movie) -> price
+        private Map<Pack, Integer> rentedShopMovieToPrice;
+        // price -> shop, movie
+        private TreeMap<Integer, TreeMap<Integer, TreeSet<Integer>>> rentedPriceToShopMovies;
+
+        public MovieRentingSystem(int n, int[][] entries) {
+            movieToPriceShops = new TreeMap<>();
+            shopMovieToPrice = new HashMap<>();
+
+            rentedShopMovieToPrice = new HashMap<>();
+            rentedPriceToShopMovies = new TreeMap<>();
+            for (int[] entry : entries) {
+                int shop = entry[0];
+                int movie = entry[1];
+                int price = entry[2];
+                movieToPriceShops.computeIfAbsent(movie, k -> new TreeMap<>())
+                        .computeIfAbsent(price, o -> new TreeSet<>()).add(shop);
+                shopMovieToPrice.put(new Pack(shop, movie), price);
+            }
         }
 
         public List<Integer> search(int movie) {
             List<Integer> res = new ArrayList<>();
-            List<Bean> set = mapMovie.getOrDefault(movie, new ArrayList<>());
-            for (Bean b : set) {
-                res.add(b.shop);
-                if (res.size() == 5) {
-                    break;
+            TreeMap<Integer, TreeSet<Integer>> a = movieToPriceShops.getOrDefault(movie, new TreeMap<>());
+            for (Map.Entry<Integer, TreeSet<Integer>> entry : a.entrySet()) {
+                for (int shop : entry.getValue()) {
+                    res.add(shop);
+                    if (res.size() == 5) {
+                        return res;
+                    }
                 }
             }
             return res;
         }
 
         public void rent(int shop, int movie) {
-            // 从shop借走movie
-            Map<Integer, Integer> map = mapShop.getOrDefault(shop, new HashMap<>());
-            int price = map.get(movie);
-            map.remove(movie);
-
-            // 借走 movie
-            List<Bean> set = mapMovie.getOrDefault(movie, new ArrayList<>());
-            Bean removed = new Bean(shop, movie, price);
-            set.remove(removed);
-
-            // 借出的电影
-            loan.computeIfAbsent(price, k -> new TreeMap<>()).computeIfAbsent(shop, k -> new ArrayList<>()).add(movie);
+            int price = shopMovieToPrice.remove(new Pack(shop, movie));
+            movieToPriceShops.get(movie).get(price).remove(shop);
+            rentedShopMovieToPrice.put(new Pack(shop, movie), price);
+            rentedPriceToShopMovies.computeIfAbsent(price, k -> new TreeMap<>())
+                    .computeIfAbsent(shop, o -> new TreeSet<>()).add(movie);
         }
 
         public void drop(int shop, int movie) {
-            // 从已借出的还走
-            Bean b = new Bean(shop, movie, 0);
-            int price = mapData.get(b);
-            TreeMap<Integer, List<Integer>> map = loan.getOrDefault(price, new TreeMap<>());
-            List<Integer> movies = map.getOrDefault(shop, new ArrayList<>());
-            movies.remove(movie);
-
-            // 把已借出的还到商店
-            Map<Integer, Integer> s = mapShop.getOrDefault(shop, new HashMap<>());
-            s.put(movie, price);
-
-            List<Bean> m = mapMovie.getOrDefault(movie, new ArrayList<>());
-            m.add(new Bean(shop, movie, price));
-
+            int price = rentedShopMovieToPrice.remove(new Pack(shop, movie));
+            rentedPriceToShopMovies.get(price).get(shop).remove(movie);
+            shopMovieToPrice.put(new Pack(shop, movie), price);
+            movieToPriceShops.computeIfAbsent(movie, k -> new TreeMap<>()).computeIfAbsent(price, o -> new TreeSet<>())
+                    .add(shop);
         }
 
         public List<List<Integer>> report() {
             List<List<Integer>> res = new ArrayList<>();
-            for (TreeMap<Integer, List<Integer>> shops : loan.values()) {
-                for (Map.Entry<Integer, List<Integer>> movies : shops.entrySet()) {
-                    int shop = movies.getKey();
-                    for (int movie : movies.getValue()) {
+            for (TreeMap<Integer, TreeSet<Integer>> prices : rentedPriceToShopMovies.values()) {
+                for (Map.Entry<Integer, TreeSet<Integer>> entry : prices.entrySet()) {
+                    int shop = entry.getKey();
+                    for (int movie : entry.getValue()) {
                         res.add(List.of(shop, movie));
                         if (res.size() == 5) {
                             return res;
