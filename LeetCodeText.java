@@ -7022,20 +7022,27 @@ public class LeetCodeText {
 
     }
 
-    public int compareVersion(final String version1, final String version2) {
-        final String[] strs1 = version1.split("\\.");
-        final String[] strs2 = version2.split("\\.");
-        int p1 = 0;
-        int p2 = 0;
-        while (p1 < strs1.length || p2 < strs2.length) {
-            final int a1 = p1 < strs1.length ? Integer.parseInt(strs1[p1]) : 0;
-            final int a2 = p2 < strs2.length ? Integer.parseInt(strs2[p2]) : 0;
-            if (a1 != a2) {
-                return a1 > a2 ? 1 : -1;
+    // 165. 比较版本号 (Compare Version Numbers)
+    public int compareVersion(String version1, String version2) {
+        String[] v1 = version1.split("\\.");
+        String[] v2 = version2.split("\\.");
+
+        int n1 = v1.length;
+        int n2 = v2.length;
+
+        int n = Math.max(n1, n2);
+
+        for (int i = 0; i < n; i++) {
+            int num1 = i < n1 ? Integer.parseInt(v1[i]) : 0;
+            int num2 = i < n2 ? Integer.parseInt(v2[i]) : 0;
+
+            if (num1 > num2) {
+                return 1;
+            } else if (num1 < num2) {
+                return -1;
             }
-            ++p1;
-            ++p2;
         }
+
         return 0;
 
     }
