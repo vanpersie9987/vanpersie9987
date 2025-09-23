@@ -3900,3 +3900,18 @@ class SegmentTree2940:
             left = bisect.bisect_left(a, startTime)
             right = bisect.bisect_right(a, endTime)
             return right - left
+
+    # 165. 比较版本号 (Compare Version Numbers)
+    def compareVersion(self, version1: str, version2: str) -> int:
+        a1 = version1.split('.')
+        a2 = version2.split('.')
+        n1, n2 = len(a1), len(a2)
+        n = max(n1, n2)
+        for i in range(n):
+            x1 = int(a1[i]) if i < n1 else 0
+            x2 = int(a2[i]) if i < n2 else 0
+            if x1 < x2:
+                return -1
+            if x1 > x2:
+                return 1
+        return 0
