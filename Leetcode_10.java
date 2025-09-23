@@ -40,11 +40,11 @@ public class Leetcode_10 {
     // 3690. 拆分合并数组 (Split and Merge Array Transformation)
     public int minSplitMerge(int[] nums1, int[] nums2) {
         int n = nums1.length;
-        List<Integer> nums2List = toList(nums2);
+        List<Integer> nums2List = toList3690(nums2);
         Set<List<Integer>> vis = new HashSet<>();
-        vis.add(toList(nums1));
+        vis.add(toList3690(nums1));
         Queue<List<Integer>> q = new LinkedList<>();
-        q.add(toList(nums1));
+        q.add(toList3690(nums1));
         int res = 0;
         while (!q.isEmpty()) {
             int size = q.size();
@@ -73,7 +73,7 @@ public class Leetcode_10 {
         return -1;
     }
 
-    private List<Integer> toList(int[] nums) {
+    private List<Integer> toList3690(int[] nums) {
         return Arrays.stream(nums).boxed().collect(Collectors.toList());
     }
 }
