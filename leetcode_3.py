@@ -3915,7 +3915,7 @@ class SegmentTree2940:
             if x1 > x2:
                 return 1
         return 0
-    
+
     # 3688. 偶数的按位或运算 (Bitwise OR of Even Numbers in an Array)
     def evenNumberBitwiseORs(self, nums: List[int]) -> int:
         res = 0
@@ -3923,3 +3923,7 @@ class SegmentTree2940:
             if x & 1 == 0:
                 res |= x
         return res
+
+    # 3689. 最大子数组总值 I (Maximum Total Subarray Value I)
+    def maxTotalValue(self, nums: List[int], k: int) -> int:
+        return (max(nums) - min(nums)) * k
