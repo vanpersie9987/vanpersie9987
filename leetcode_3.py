@@ -3927,3 +3927,30 @@ class SegmentTree2940:
     # 3689. 最大子数组总值 I (Maximum Total Subarray Value I)
     def maxTotalValue(self, nums: List[int], k: int) -> int:
         return (max(nums) - min(nums)) * k
+
+    # 3690. 拆分合并数组 (Split and Merge Array Transformation)
+    def minSplitMerge(self, nums1: List[int], nums2: List[int]) -> int:
+        n = len(nums1)
+        vis = set()
+        vis.add(tuple(nums1))
+        q = deque()
+        q.append(tuple(nums1))
+        res = 0
+        while q:
+            sz = len(q)
+            for _ in range(sz):
+                a = q.popleft()
+                if a == tuple(nums2):
+                    return res
+                a = list(a)
+                for i in range(n):
+                    for j in range(i + 1, n + 1):
+                        sub = a[i:j]
+                        b = a[:i] + a[j:]
+                        for k in range(len(b) + 1):
+                            c = b[:k] + sub + b[k:]
+                            t = tuple(c)
+                            if t not in vis:
+                                vis.add(t)
+                                q.append(tuple(c))
+            res += 1
