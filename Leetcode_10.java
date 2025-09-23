@@ -20,4 +20,16 @@ public class Leetcode_10 {
 
     }
 
+    // 3689. 最大子数组总值 I (Maximum Total Subarray Value I)
+    public long maxTotalValue(int[] nums, int k) {
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        for (int x : nums) {
+            max = Math.max(max, x);
+            min = Math.min(min, x);
+        }
+        return (long) (max - min) * k;
+
+    }
+
 }
