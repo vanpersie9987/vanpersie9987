@@ -76,4 +76,35 @@ public class Leetcode_10 {
     private List<Integer> toList3690(int[] nums) {
         return Arrays.stream(nums).boxed().collect(Collectors.toList());
     }
+
+    // 166. 分数到小数 (Fraction to Recurring Decimal)
+    public String fractionToDecimal(int numerator, int denominator) {
+        long a = numerator;
+        long b = denominator;
+        String sign = a * b < 0 ? "-" : "";
+        a = Math.abs(a);
+        b = Math.abs(b);
+        long q = a / b;
+        long r = a % b;
+        if (r == 0) {
+            return sign + q;
+        }
+        StringBuilder res = new StringBuilder(sign).append(q).append(".");
+        Map<Long, Integer> map = new HashMap<>();
+        map.put(r, res.length());
+        while (r != 0) {
+            r *= 10;
+            q = r / b;
+            r %= b;
+            res.append(q);
+            if (map.containsKey(r)) {
+                int index = map.get(r);
+                res.insert(index, "(");
+                res.append(")");
+                break;
+            }
+            map.put(r, res.length());
+        }
+        return res.toString();
+    }
 }
