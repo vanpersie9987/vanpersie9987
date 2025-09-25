@@ -280,22 +280,20 @@ class leetcode_1:
     # LCR 096. 交错字符串
     def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
         @cache
-        def dfs(i: int, j: int, k: int) -> bool:
-            if i == n1:
-                return s2[j:] == s3[k:]
-            if j == n2:
-                return s1[i:] == s3[k:]
+        def dfs(i: int, j: int) -> bool:
+            if i == n1 or j == n2:
+                return s1[i:] + s2[j:] == s3[i + j :]
             return (
-                s1[i] == s3[k]
-                and dfs(i + 1, j, k + 1)
-                or s2[j] == s3[k]
-                and dfs(i, j + 1, k + 1)
+                s1[i] == s3[i + j]
+                and dfs(i + 1, j)
+                or s2[j] == s3[i + j]
+                and dfs(i, j + 1)
             )
 
-        n1 = len(s1)
-        n2 = len(s2)
-        n3 = len(s3)
-        return n1 + n2 == n3 and dfs(0, 0, 0)
+        n1, n2, n3 = len(s1), len(s2), len(s3)
+        if n1 + n2 != n3:
+            return False
+        return dfs(0, 0)
 
     # 120. 三角形最小路径和 (Triangle)
     # LCR 100. 三角形最小路径和
@@ -1611,6 +1609,7 @@ class leetcode_1:
             if i == m - 1 and j == n - 1:
                 return int(_s == 0)
             return (dfs(i + 1, j, _s) + dfs(i, j + 1, _s)) % MOD
+
         m, n = len(grid), len(grid[0])
         MOD = 10**9 + 7
         res = dfs(0, 0, 0)
@@ -2970,7 +2969,7 @@ class leetcode_1:
         n = len(board)
         res = dfs(0, 0)
         return [0, 0] if res[0] < 0 else res
-    
+
     # 1301. 最大得分的路径数目 (Number of Paths with Max Score)
     def pathsWithMaxScore(self, board: List[str]) -> List[int]:
         @cache
