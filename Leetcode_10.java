@@ -107,4 +107,15 @@ public class Leetcode_10 {
         }
         return res.toString();
     }
+
+    // 976. 三角形的最大周长 (Largest Perimeter Triangle)
+    public int largestPerimeter(int[] nums) {
+        Arrays.sort(nums);
+        for (int i = nums.length - 1; i >= 2; --i) {
+            if (nums[i] < nums[i - 1] + nums[i - 2]) {
+                return nums[i] + nums[i - 1] + nums[i - 2];
+            }
+        }
+        return 0;
+    }
 }

@@ -3984,3 +3984,11 @@ class SegmentTree2940:
             x2, y2 = p3[0] - p1[0], p3[1] - p1[1]
             ans = max(ans, abs(x1 * y2 - y1 * x2))  # 注意这里没有除以 2
         return ans / 2
+
+    # 976. 三角形的最大周长 (Largest Perimeter Triangle)
+    def largestPerimeter(self, nums: List[int]) -> int:
+        nums.sort()
+        for i in range(len(nums) - 1, 1, -1):
+            if nums[i] < nums[i - 1] + nums[i - 2]:
+                return nums[i] + nums[i - 1] + nums[i - 2]
+        return 0
