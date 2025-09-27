@@ -3975,3 +3975,12 @@ class SegmentTree2940:
                 break
             r_to_pos[r] = len(res)
         return ''.join(res)
+
+    # 812. 最大三角形面积 (Largest Triangle Area)
+    def largestTriangleArea(self, points: List[List[int]]) -> float:
+        ans = 0
+        for p1, p2, p3 in combinations(points, 3):
+            x1, y1 = p2[0] - p1[0], p2[1] - p1[1]
+            x2, y2 = p3[0] - p1[0], p3[1] - p1[1]
+            ans = max(ans, abs(x1 * y2 - y1 * x2))  # 注意这里没有除以 2
+        return ans / 2
