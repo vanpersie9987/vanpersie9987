@@ -3992,3 +3992,26 @@ class SegmentTree2940:
             if nums[i] < nums[i - 1] + nums[i - 2]:
                 return nums[i] + nums[i - 1] + nums[i - 2]
         return 0
+
+    # 3692. 众数频率字符 (Majority Frequency Characters)
+    def majorityFrequencyGroup(self, s: str) -> str:
+        cnts = [0] * 26
+        a = ord('a')
+        for c in map(ord, s):
+            cnts[c - a] += 1
+        mx = max(cnts)
+        freq = [0] * (mx + 1)
+        max_len = 0
+        for i, v in enumerate(cnts):
+            if v:
+                freq[v] |= 1 << i
+                max_len = max(max_len, freq[v].bit_count())
+        for f in range(mx, 0, -1):
+            if freq[f].bit_count() == max_len:
+                res = []
+                v = freq[f]
+                while v:
+                    lb = (v & -v).bit_length() - 1
+                    res.append(chr(lb + a))
+                    v &= v - 1
+                return ''.join(res)
