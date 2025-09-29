@@ -3674,7 +3674,9 @@ class SegmentTree2940:
         return res
 
     # 1733. 需要教语言的最少人数 (Minimum Number of People to Teach)
-    def minimumTeachings(self, _: int, languages: List[List[int]], friendships: List[List[int]]) -> int:
+    def minimumTeachings(
+        self, _: int, languages: List[List[int]], friendships: List[List[int]]
+    ) -> int:
         s = set()
         for u, v in friendships:
             if not set(languages[u - 1]) & set(languages[v - 1]):
@@ -3690,20 +3692,20 @@ class SegmentTree2940:
 
     # 2785. 将字符串中的元音字母排序 (Sort Vowels in a String)
     def sortVowels(self, s: str) -> str:
-        a = sorted([x for x in s if x in 'aeiouAEIOU'], reverse=True)
+        a = sorted([x for x in s if x in "aeiouAEIOU"], reverse=True)
         res = []
         for x in s:
-            if x in 'aeiouAEIOU':
+            if x in "aeiouAEIOU":
                 res.append(a.pop())
             else:
                 res.append(x)
-        return ''.join(res)
+        return "".join(res)
 
     # 966. 元音拼写检查器 (Vowel Spellchecker)
     def spellchecker(self, wordlist: List[str], queries: List[str]) -> List[str]:
         u = 0
-        for c in 'aeiou':
-            u |= 1 << ((ord(c) - ord('a')))
+        for c in "aeiou":
+            u |= 1 << ((ord(c) - ord("a")))
         s = set(wordlist)
         cap_dic = defaultdict(int)
         vow_dic = defaultdict(int)
@@ -3711,7 +3713,7 @@ class SegmentTree2940:
             lower = w.lower()
             if lower not in cap_dic:
                 cap_dic[lower] = i
-            a = ''.join(['_' if (u >> (ord(c) - ord('a'))) & 1 else c for c in lower])
+            a = "".join(["_" if (u >> (ord(c) - ord("a"))) & 1 else c for c in lower])
             if a not in vow_dic:
                 vow_dic[a] = i
         for i, q in enumerate(queries):
@@ -3721,11 +3723,11 @@ class SegmentTree2940:
             if lower in cap_dic:
                 queries[i] = wordlist[cap_dic[lower]]
                 continue
-            a = ''.join(['_' if (u >> (ord(c) - ord('a'))) & 1 else c for c in lower])
+            a = "".join(["_" if (u >> (ord(c) - ord("a"))) & 1 else c for c in lower])
             if a in vow_dic:
                 queries[i] = wordlist[vow_dic[a]]
                 continue
-            queries[i] = ''
+            queries[i] = ""
         return queries
 
     # 1935. 可以输入的最大单词数 (Maximum Number of Words You Can Type)
@@ -3800,6 +3802,7 @@ class SegmentTree2940:
             elif j < 2:
                 res += dfs(i + 1, j + 1, nums[i] & 1)
             return res % MOD
+
         n = len(nums)
         MOD = 10**9 + 7
         # dfs(i, j, k)
@@ -3903,8 +3906,8 @@ class SegmentTree2940:
 
     # 165. 比较版本号 (Compare Version Numbers)
     def compareVersion(self, version1: str, version2: str) -> int:
-        a1 = version1.split('.')
-        a2 = version2.split('.')
+        a1 = version1.split(".")
+        a2 = version2.split(".")
         n1, n2 = len(a1), len(a2)
         n = max(n1, n2)
         for i in range(n):
@@ -3957,24 +3960,24 @@ class SegmentTree2940:
 
     # 166. 分数到小数 (Fraction to Recurring Decimal)
     def fractionToDecimal(self, numerator: int, denominator: int) -> str:
-        sign = '-' if numerator * denominator < 0 else ''
+        sign = "-" if numerator * denominator < 0 else ""
         numerator = abs(numerator)
         denominator = abs(denominator)
 
         q, r = divmod(numerator, denominator)
         if r == 0:
             return sign + str(q)
-        res = [sign + str(q) + '.']
-        r_to_pos = {r : 1}
+        res = [sign + str(q) + "."]
+        r_to_pos = {r: 1}
         while r:
             q, r = divmod(r * 10, denominator)
             res.append(str(q))
             if r in r_to_pos:
-                res.insert(r_to_pos[r], '(')
-                res.append(')')
+                res.insert(r_to_pos[r], "(")
+                res.append(")")
                 break
             r_to_pos[r] = len(res)
-        return ''.join(res)
+        return "".join(res)
 
     # 812. 最大三角形面积 (Largest Triangle Area)
     def largestTriangleArea(self, points: List[List[int]]) -> float:
@@ -3996,7 +3999,7 @@ class SegmentTree2940:
     # 3692. 众数频率字符 (Majority Frequency Characters)
     def majorityFrequencyGroup(self, s: str) -> str:
         cnts = [0] * 26
-        a = ord('a')
+        a = ord("a")
         for c in map(ord, s):
             cnts[c - a] += 1
         mx = max(cnts)
@@ -4014,7 +4017,7 @@ class SegmentTree2940:
                     lb = (v & -v).bit_length() - 1
                     res.append(chr(lb + a))
                     v &= v - 1
-                return ''.join(res)
+                return "".join(res)
 
     # 3693. 爬楼梯 II (Climbing Stairs II)
     def climbStairs(self, n: int, costs: List[int]) -> int:
@@ -4022,7 +4025,10 @@ class SegmentTree2940:
         def dfs(i: int) -> int:
             if i == n - 1:
                 return 0
-            return min(dfs(j) + (j - i) ** 2 + costs[j] for j in range(i + 1, min(n, i + 4)))
+            return min(
+                dfs(j) + (j - i) ** 2 + costs[j] for j in range(i + 1, min(n, i + 4))
+            )
+
         return dfs(-1)
 
     # 3694. 删除子字符串后不同的终点 (Distinct Points Reachable After Substring Removal)
@@ -4032,20 +4038,20 @@ class SegmentTree2940:
         r = 0
         c = 0
         for i, ch in enumerate(s):
-            if ch == 'U':
+            if ch == "U":
                 r += 1
-            elif ch == 'D':
+            elif ch == "D":
                 r -= 1
-            elif ch == 'L':
+            elif ch == "L":
                 c -= 1
             else:
                 c += 1
             if i >= k:
-                if s[i - k] == 'U':
+                if s[i - k] == "U":
                     r -= 1
-                elif s[i - k] == 'D':
+                elif s[i - k] == "D":
                     r += 1
-                elif s[i - k] == 'L':
+                elif s[i - k] == "L":
                     c += 1
                 else:
                     c -= 1
@@ -4080,6 +4086,7 @@ class SegmentTree2940:
                     self.parent[root_y] = root_x
                     if self.rank[root_x] == self.rank[root_y]:
                         self.rank[root_x] += 1
+
         n = len(nums)
         u = union(n)
         vis = [False] * n
@@ -4099,8 +4106,7 @@ class SegmentTree2940:
                 root = u.get_root(i)
                 g[root].append(i)
         for a in g.values():
-            b = [nums[i] for i in a]
-            b.sort(reverse=True)
-            even = len(a) - sum(i & 1 for i in a)
-            res += sum(b[:even]) - sum(b[even:])
+            b = sorted([nums[i] for i in a])
+            odd = sum(i & 1 for i in a)
+            res += sum(b[odd:]) - sum(b[:odd])
         return res
