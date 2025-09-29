@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -117,5 +119,37 @@ public class Leetcode_10 {
             }
         }
         return 0;
+    }
+
+    // 3692. 众数频率字符 (Majority Frequency Characters)
+    public String majorityFrequencyGroup(String s) {
+        int[] cnts = new int[26];
+        int mxFreq = 0;
+        for (char c : s.toCharArray()) {
+            ++cnts[c - 'a'];
+            mxFreq = Math.max(mxFreq, cnts[c - 'a']);
+        }
+        int[] freqCnts = new int[mxFreq + 1];
+        int mxLen = 0;
+        for (int i = 0; i < 26; ++i) {
+            if (cnts[i] > 0) {
+                freqCnts[cnts[i]] |= (1 << i);
+                mxLen = Math.max(mxLen, Integer.bitCount(freqCnts[cnts[i]]));
+            }
+        }
+        int mask = 0;
+        for (int f = mxFreq; f >= 1; --f) {
+            if (Integer.bitCount(freqCnts[f]) == mxLen) {
+                mask = freqCnts[f];
+                break;
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        while (mask != 0) {
+            int lb = Integer.numberOfTrailingZeros(mask);
+            sb.append((char) (lb + 'a'));
+            mask &= (mask - 1);
+        }
+        return sb.toString();
     }
 }
