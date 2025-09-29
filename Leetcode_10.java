@@ -248,26 +248,26 @@ public class Leetcode_10 {
             }
         }
         for (Map.Entry<Integer, List<Integer>> entry : groups.entrySet()) {
-            int even = 0;
+            int odd = 0;
             for (int i : entry.getValue()) {
-                if (i % 2 == 0) {
-                    ++even;
+                if ((i & 1) == 1) {
+                    ++odd;
                 }
             }
             Collections.sort(entry.getValue(), new Comparator<Integer>() {
 
                 @Override
                 public int compare(Integer o1, Integer o2) {
-                    return Integer.compare(nums[o2], nums[o1]);
+                    return Integer.compare(nums[o1], nums[o2]);
                 }
 
             });
             for (int i = 0; i < entry.getValue().size(); ++i) {
                 int idx = entry.getValue().get(i);
-                if (i < even) {
-                    res += nums[idx];
-                } else {
+                if (i < odd) {
                     res -= nums[idx];
+                } else {
+                    res += nums[idx];
                 }
             }
         }
@@ -309,7 +309,7 @@ public class Leetcode_10 {
                 parent[rootX] = rootY;
             } else {
                 parent[rootY] = rootX;
-                if(rank[rootX] == rank[rootY]) {
+                if (rank[rootX] == rank[rootY]) {
                     ++rank[rootX];
                 }
             }
