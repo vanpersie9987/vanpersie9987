@@ -161,7 +161,7 @@ public class Leetcode_10 {
     public int climbStairs(int n, int[] costs) {
         ++n;
         this.costs3693 = new int[n];
-        for(int i = 0; i < n - 1; ++i) {
+        for (int i = 0; i < n - 1; ++i) {
             this.costs3693[i + 1] = costs[i];
         }
         this.n3693 = n;
@@ -181,5 +181,43 @@ public class Leetcode_10 {
             res = Math.min(res, dfs3693(j) + costs3693[j] + (j - i) * (j - i));
         }
         return memo3693[i] = res;
+    }
+
+    // 3694. 删除子字符串后不同的终点 (Distinct Points Reachable After Substring Removal)
+    public int distinctPoints(String s, int k) {
+        int n = s.length();
+        long MUL = (long) 1e5;
+        int r = 0;
+        int c = 0;
+        Set<Long> points = new HashSet<>();
+        for (int i = 0; i < n; ++i) {
+            char ch = s.charAt(i);
+            if (ch == 'R') {
+                ++c;
+            } else if (ch == 'L') {
+                --c;
+            } else if (ch == 'U') {
+                ++r;
+            } else if (ch == 'D') {
+                --r;
+            }
+            if (i >= k) {
+                char preCh = s.charAt(i - k);
+                if (preCh == 'R') {
+                    --c;
+                } else if (preCh == 'L') {
+                    ++c;
+                } else if (preCh == 'U') {
+                    --r;
+                } else if (preCh == 'D') {
+                    ++r;
+                }
+            }
+            if (i >= k - 1) {
+                points.add(r * MUL + c);
+            }
+        }
+        return points.size();
+
     }
 }
