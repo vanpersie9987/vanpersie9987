@@ -152,4 +152,34 @@ public class Leetcode_10 {
         }
         return sb.toString();
     }
+
+    // 3693. 爬楼梯 II (Climbing Stairs II)
+    private int[] costs3693;
+    private int n3693;
+    private int[] memo3693;
+
+    public int climbStairs(int n, int[] costs) {
+        ++n;
+        this.costs3693 = new int[n];
+        for(int i = 0; i < n - 1; ++i) {
+            this.costs3693[i + 1] = costs[i];
+        }
+        this.n3693 = n;
+        this.memo3693 = new int[n];
+        return dfs3693(0);
+    }
+
+    private int dfs3693(int i) {
+        if (i == n3693 - 1) {
+            return 0;
+        }
+        if (memo3693[i] != 0) {
+            return memo3693[i];
+        }
+        int res = Integer.MAX_VALUE;
+        for (int j = i + 1; j < Math.min(n3693, i + 4); ++j) {
+            res = Math.min(res, dfs3693(j) + costs3693[j] + (j - i) * (j - i));
+        }
+        return memo3693[i] = res;
+    }
 }
