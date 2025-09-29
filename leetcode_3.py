@@ -4024,7 +4024,7 @@ class SegmentTree2940:
                 return 0
             return min(dfs(j) + (j - i) ** 2 + costs[j] for j in range(i + 1, min(n, i + 4)))
         return dfs(-1)
-    
+
     # 3694. 删除子字符串后不同的终点 (Distinct Points Reachable After Substring Removal)
     def distinctPoints(self, s: str, k: int) -> int:
         n = len(s)
@@ -4053,5 +4053,54 @@ class SegmentTree2940:
                 _set.add((r, c))
         return len(_set)
 
+    # 3695. 交换元素后的最大交替和 (Maximize Alternating Sum Using Swaps)
+    def maxAlternatingSum(self, nums: List[int], swaps: List[List[int]]) -> int:
+        class union:
+            def __init__(self, n: int):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
 
-        
+            def get_root(self, x: int) -> int:
+                if self.parent[x] == x:
+                    return x
+                self.parent[x] = self.get_root(self.parent[x])
+                return self.parent[x]
+
+            def is_conncted(self, x: int, y: int) -> bool:
+                return self.get_root(x) == self.get_root(y)
+
+            def union(self, x: int, y: int) -> None:
+                root_x = self.get_root(x)
+                root_y = self.get_root(y)
+                if root_x == root_y:
+                    return
+                if self.rank[root_x] < self.rank[root_y]:
+                    self.parent[root_x] = root_y
+                else:
+                    self.parent[root_y] = root_x
+                    if self.rank[root_x] == self.rank[root_y]:
+                        self.rank[root_x] += 1
+        n = len(nums)
+        u = union(n)
+        vis = [False] * n
+        for x, y in swaps:
+            u.union(x, y)
+            vis[x] = True
+            vis[y] = True
+        res = 0
+        g = defaultdict(list)
+        for i, x in enumerate(nums):
+            if not vis[i]:
+                if i & 1:
+                    res -= x
+                else:
+                    res += x
+            else:
+                root = u.get_root(i)
+                g[root].append(i)
+        for a in g.values():
+            b = [nums[i] for i in a]
+            b.sort(reverse=True)
+            even = len(a) - sum(i & 1 for i in a)
+            res += sum(b[:even]) - sum(b[even:])
+        return res
