@@ -4022,7 +4022,5 @@ class SegmentTree2940:
         def dfs(i: int) -> int:
             if i == n - 1:
                 return 0
-            return min(dfs(j) + (j - i) ** 2 + a[j] for j in range(i + 1, min(n, i + 4)))
-        a = [0] + costs
-        n = len(a)
-        return dfs(0)
+            return min(dfs(j) + (j - i) ** 2 + costs[j] for j in range(i + 1, min(n, i + 4)))
+        return dfs(-1)
