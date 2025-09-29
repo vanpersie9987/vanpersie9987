@@ -4024,3 +4024,34 @@ class SegmentTree2940:
                 return 0
             return min(dfs(j) + (j - i) ** 2 + costs[j] for j in range(i + 1, min(n, i + 4)))
         return dfs(-1)
+    
+    # 3694. 删除子字符串后不同的终点 (Distinct Points Reachable After Substring Removal)
+    def distinctPoints(self, s: str, k: int) -> int:
+        n = len(s)
+        _set = set()
+        r = 0
+        c = 0
+        for i, ch in enumerate(s):
+            if ch == 'U':
+                r += 1
+            elif ch == 'D':
+                r -= 1
+            elif ch == 'L':
+                c -= 1
+            else:
+                c += 1
+            if i >= k:
+                if s[i - k] == 'U':
+                    r -= 1
+                elif s[i - k] == 'D':
+                    r += 1
+                elif s[i - k] == 'L':
+                    c += 1
+                else:
+                    c -= 1
+            if i >= k - 1:
+                _set.add((r, c))
+        return len(_set)
+
+
+        
