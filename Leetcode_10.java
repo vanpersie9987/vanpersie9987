@@ -220,4 +220,99 @@ public class Leetcode_10 {
         return points.size();
 
     }
+
+    // 3695. 交换元素后的最大交替和 (Maximize Alternating Sum Using Swaps)
+    public long maxAlternatingSum(int[] nums, int[][] swaps) {
+        int n = nums.length;
+        boolean[] vis = new boolean[n];
+        Union3695 u = new Union3695(n);
+        for (int[] s : swaps) {
+            int i = s[0];
+            int j = s[1];
+            u.union(i, j);
+            vis[i] = true;
+            vis[j] = true;
+        }
+        long res = 0L;
+        Map<Integer, List<Integer>> groups = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            if (!vis[i]) {
+                if (i % 2 == 0) {
+                    res += nums[i];
+                } else {
+                    res -= nums[i];
+                }
+            } else {
+                int root = u.getRoot(i);
+                groups.computeIfAbsent(root, k -> new ArrayList<>()).add(i);
+            }
+        }
+        for (Map.Entry<Integer, List<Integer>> entry : groups.entrySet()) {
+            int even = 0;
+            for (int i : entry.getValue()) {
+                if (i % 2 == 0) {
+                    ++even;
+                }
+            }
+            Collections.sort(entry.getValue(), new Comparator<Integer>() {
+
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return Integer.compare(nums[o2], nums[o1]);
+                }
+
+            });
+            for (int i = 0; i < entry.getValue().size(); ++i) {
+                int idx = entry.getValue().get(i);
+                if (i < even) {
+                    res += nums[idx];
+                } else {
+                    res -= nums[idx];
+                }
+            }
+        }
+        return res;
+
+    }
+
+    public class Union3695 {
+        private int[] parent;
+        private int[] rank;
+
+        public Union3695(int n) {
+            this.parent = new int[n];
+            this.rank = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+
+        public int getRoot(int x) {
+            if (parent[x] == x) {
+                return x;
+            }
+            return parent[x] = getRoot(parent[x]);
+        }
+
+        public boolean isConnected(int x, int y) {
+            return getRoot(x) == getRoot(y);
+        }
+
+        public void union(int x, int y) {
+            int rootX = getRoot(x);
+            int rootY = getRoot(y);
+            if (rootX == rootY) {
+                return;
+            }
+            if (rank[rootX] < rank[rootY]) {
+                parent[rootX] = rootY;
+            } else {
+                parent[rootY] = rootX;
+                if(rank[rootX] == rank[rootY]) {
+                    ++rank[rootX];
+                }
+            }
+        }
+    }
 }
