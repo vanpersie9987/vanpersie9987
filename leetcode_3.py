@@ -4163,3 +4163,11 @@ class SegmentTree2940:
                 f0[j] = s1[j] % MOD
                 f1[j] = (s0[k] - s0[j + 1]) % MOD
         return (sum(f0) + sum(f1)) % MOD
+    
+    # 1518. 换水问题 (Water Bottles)
+    def numWaterBottles(self, numBottles: int, numExchange: int) -> int:
+        res = numBottles
+        while numBottles >= numExchange:
+            res += numBottles // numExchange
+            numBottles = sum(divmod(numBottles, numExchange))
+        return res

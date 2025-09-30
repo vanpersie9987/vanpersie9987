@@ -15214,7 +15214,7 @@ public class LeetCodeText {
 
     }
 
-    // 1518. 换酒问题
+    // 1518. 换水问题 (Water Bottles)
     public int numWaterBottles(int numBottles, int numExchange) {
         int res = numBottles;
         while (numBottles >= numExchange) {
