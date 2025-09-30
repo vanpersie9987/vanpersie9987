@@ -4110,3 +4110,11 @@ class SegmentTree2940:
             odd = sum(i & 1 for i in a)
             res += sum(b[odd:]) - sum(b[:odd])
         return res
+
+    # 2221. 数组的三角和 (Find Triangular Sum of an Array)
+    def triangularSum(self, nums: List[int]) -> int:
+        n = len(nums)
+        for i in range(1, n):
+            for j in range(n - i):
+                nums[j] = (nums[j] + nums[j + 1]) % 10
+        return nums[0]

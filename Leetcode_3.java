@@ -6325,11 +6325,11 @@ public class Leetcode_3 {
         return Integer.bitCount(diff);
     }
 
-    // 6034. 数组的三角和 (Find Triangular Sum of an Array)
+    // 2221. 数组的三角和 (Find Triangular Sum of an Array)
     public int triangularSum(int[] nums) {
-        int count = nums.length - 1;
-        for (int i = count - 1; i >= 0; --i) {
-            for (int j = 0; j <= i; ++j) {
+        int n = nums.length;
+        for (int i = 1; i < n; ++i) {
+            for (int j = 0; j < n - i; ++j) {
                 nums[j] = (nums[j] + nums[j + 1]) % 10;
             }
         }
