@@ -4149,3 +4149,17 @@ class SegmentTree2940:
             if i - 1 >= 0 and pre[i - 1] != -1:
                 res = min(res, abs(pre[i - 1] - suf))
         return -1 if res == inf else res
+
+    # 3699. 锯齿形数组的总数 I (Number of ZigZag Arrays I)
+    def zigZagArrays(self, n: int, l: int, r: int) -> int:
+        MOD = 10**9 + 7
+        k = r - l + 1
+        f0 = [1] * k # 后两个数递增
+        f1 = [1] * k # 后两个数递减
+        for _ in range(n - 1):
+            s0 = list(accumulate(f0, initial=0))
+            s1 = list(accumulate(f1, initial=0))
+            for j in range(k):
+                f0[j] = s1[j] % MOD
+                f1[j] = (s0[k] - s0[j + 1]) % MOD
+        return (sum(f0) + sum(f1)) % MOD

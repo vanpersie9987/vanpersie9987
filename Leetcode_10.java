@@ -358,6 +358,43 @@ public class Leetcode_10 {
         }
         return res == Long.MAX_VALUE ? -1L : res;
 
+    }
+    
+    // 3699. 锯齿形数组的总数 I (Number of ZigZag Arrays I)
+    public int zigZagArrays(int n, int l, int r) {
+        int k = r - l + 1;
+        // f0[i][j] 已经填了i个数，最后一个数填j，最后两个数是递增的 数组个数
+        int[] f0 = new int[k];
+        // f1[i][j] 已经填了i个数，最后一个数填j，最后两个数是递减的 数组个数
+        int[] f1 = new int[k];
+        Arrays.fill(f0, 1);
+        Arrays.fill(f1, 1);
+        int MOD = (int) (1e9 + 7);
+        for (int i = 2; i <= n; ++i) {
+            int[] pre0 = new int[k + 1];
+            int[] pre1 = new int[k + 1];
+            for (int j = 0; j < k; ++j) {
+                pre0[j + 1] = pre0[j] + f0[j];
+                pre0[j + 1] %= MOD;
 
+                pre1[j + 1] = pre1[j] + f1[j];
+                pre1[j + 1] %= MOD;
+            }
+            for (int j = 0; j < k; ++j) {
+                f0[j] = pre1[k] - pre1[j + 1];
+                f0[j] = (f0[j] + MOD) % MOD;
+
+                f1[j] = pre0[j];
+                f1[j] = (f1[j] + MOD) % MOD;
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < k; ++i) {
+            res += f0[i];
+            res %= MOD;
+            res += f1[i];
+            res %= MOD;
+        }
+        return res;
     }
 }
