@@ -4130,3 +4130,22 @@ class SegmentTree2940:
             n //= 10
             p *= 10
         return res[::-1]
+
+    # 3698. 分割数组得到最小绝对差 (Split Array With Minimum Difference)
+    def splitArray(self, nums: List[int]) -> int:
+        n = len(nums)
+        pre = [-1] * n
+        pre[0] = nums[0]
+        for i in range(1, n):
+            if nums[i] <= nums[i - 1]:
+                break
+            pre[i] = pre[i - 1] + nums[i]
+        suf = 0
+        res = inf
+        for i in range(n - 1, 0, -1):
+            if i < n - 1 and nums[i] <= nums[i + 1]:
+                break
+            suf += nums[i]
+            if i - 1 >= 0 and pre[i - 1] != -1:
+                res = min(res, abs(pre[i - 1] - suf))
+        return -1 if res == inf else res

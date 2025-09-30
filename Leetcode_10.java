@@ -332,4 +332,32 @@ public class Leetcode_10 {
         return res.stream().mapToInt(i -> i).toArray();
 
     }
+
+    // 3698. 分割数组得到最小绝对差 (Split Array With Minimum Difference)
+    public long splitArray(int[] nums) {
+        int n = nums.length;
+        long[] pre = new long[n];
+        Arrays.fill(pre, -1L);
+        pre[0] = nums[0];
+        for (int i = 1; i < n; ++i) {
+            if (nums[i] <= nums[i - 1]) {
+                break;
+            }
+            pre[i] = pre[i - 1] + nums[i];
+        }
+        long res = Long.MAX_VALUE;
+        long suf = 0L;
+        for (int i = n - 1; i >= 0; --i) {
+            if (i < n - 1 && nums[i] <= nums[i + 1]) {
+                break;
+            }
+            suf += nums[i];
+            if (i - 1 >= 0 && pre[i - 1] != -1L) {
+                res = Math.min(res, Math.abs(pre[i - 1] - suf));
+            }
+        }
+        return res == Long.MAX_VALUE ? -1L : res;
+
+
+    }
 }
