@@ -363,9 +363,9 @@ public class Leetcode_10 {
     // 3699. 锯齿形数组的总数 I (Number of ZigZag Arrays I)
     public int zigZagArrays(int n, int l, int r) {
         int k = r - l + 1;
-        // f0[i][j] 已经填了i个数，最后一个数填j，最后两个数是递增的 数组个数
+        // f0[j] 最后一个数填j，最后两个数是递增的 数组个数
         int[] f0 = new int[k];
-        // f1[i][j] 已经填了i个数，最后一个数填j，最后两个数是递减的 数组个数
+        // f1[j] 最后一个数填j，最后两个数是递减的 数组个数
         int[] f1 = new int[k];
         Arrays.fill(f0, 1);
         Arrays.fill(f1, 1);
