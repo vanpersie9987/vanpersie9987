@@ -4118,3 +4118,15 @@ class SegmentTree2940:
             for j in range(n - i):
                 nums[j] = (nums[j] + nums[j + 1]) % 10
         return nums[0]
+
+    # 3697. 计算十进制表示 (Compute Decimal Representation)
+    def decimalRepresentation(self, n: int) -> List[int]:
+        res = []
+        p = 1
+        while n:
+            m = n % 10 * p
+            if m:
+                res.append(m)
+            n //= 10
+            p *= 10
+        return res[::-1]

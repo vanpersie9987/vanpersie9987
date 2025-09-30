@@ -315,4 +315,21 @@ public class Leetcode_10 {
             }
         }
     }
+
+    // 3697. 计算十进制表示 (Compute Decimal Representation)
+    public int[] decimalRepresentation(int n) {
+        List<Integer> res = new ArrayList<>();
+        int p = 1;
+        while (n != 0) {
+            int m = (n % 10) * p;
+            if (m != 0) {
+                res.add(m);
+            }
+            n /= 10;
+            p *= 10;
+        }
+        Collections.reverse(res);
+        return res.stream().mapToInt(i -> i).toArray();
+
+    }
 }
