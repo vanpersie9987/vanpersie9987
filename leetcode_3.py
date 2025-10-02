@@ -4154,8 +4154,8 @@ class SegmentTree2940:
     def zigZagArrays(self, n: int, l: int, r: int) -> int:
         MOD = 10**9 + 7
         k = r - l + 1
-        f0 = [1] * k # 后两个数递增
-        f1 = [1] * k # 后两个数递减
+        f0 = [1] * k  # 后两个数递增
+        f1 = [1] * k  # 后两个数递减
         for _ in range(n - 1):
             s0 = list(accumulate(f0, initial=0))
             s1 = list(accumulate(f1, initial=0))
@@ -4163,11 +4163,31 @@ class SegmentTree2940:
                 f0[j] = s1[j] % MOD
                 f1[j] = (s0[k] - s0[j + 1]) % MOD
         return (sum(f0) + sum(f1)) % MOD
-    
+
     # 1518. 换水问题 (Water Bottles)
     def numWaterBottles(self, numBottles: int, numExchange: int) -> int:
         res = numBottles
         while numBottles >= numExchange:
             res += numBottles // numExchange
             numBottles = sum(divmod(numBottles, numExchange))
+        return res
+
+    # 407. 接雨水 II (Trapping Rain Water II)
+    def trapRainWater(self, heightMap: List[List[int]]) -> int:
+        m, n = len(heightMap), len(heightMap[0])
+        q = []
+        for i in range(m):
+            for j in range(n):
+                if i == 0 or i == m - 1 or j == 0 or j == n - 1:
+                    q.append((heightMap[i][j], i, j))
+                    heightMap[i][j] = -1
+        heapq.heapify(q)
+        res = 0
+        while q:
+            h, x, y = heapq.heappop(q)
+            for nx, ny in ((x + 1, y), (x - 1, y), (x, y - 1), (x, y + 1)):
+                if 0 <= nx <= m - 1 and 0 <= ny <= n - 1 and heightMap[nx][ny] >= 0:
+                    res += max(0, h - heightMap[nx][ny])
+                    heapq.heappush(q, (max(h, heightMap[nx][ny]), nx, ny))
+                    heightMap[nx][ny] = -1
         return res
