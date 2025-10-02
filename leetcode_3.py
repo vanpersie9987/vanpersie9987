@@ -4072,7 +4072,7 @@ class SegmentTree2940:
                 self.parent[x] = self.get_root(self.parent[x])
                 return self.parent[x]
 
-            def is_conncted(self, x: int, y: int) -> bool:
+            def is_connected(self, x: int, y: int) -> bool:
                 return self.get_root(x) == self.get_root(y)
 
             def union(self, x: int, y: int) -> None:
