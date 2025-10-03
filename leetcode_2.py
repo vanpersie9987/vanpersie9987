@@ -2238,8 +2238,11 @@ class Union924:
 
         n = len(nums)
         MOD = 10**9 + 7
-        return sum(
-            dfs(0, k, c) * pow(2, n - c, MOD) % MOD for c in range(1, min(n, k) + 1)
+        return (
+            sum(
+                dfs(0, k, c) * pow(2, n - c, MOD) % MOD for c in range(1, min(n, k) + 1)
+            )
+            % MOD
         )
 
     # 1793. 好子数组的最大分数 (Maximum Score of a Good Subarray) --单调栈
