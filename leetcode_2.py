@@ -2226,15 +2226,20 @@ class Union924:
     # 3082. 求出所有子序列的能量和 (Find the Sum of the Power of All Subsequences)
     def sumOfPower(self, nums: List[int], k: int) -> int:
         @cache
-        def dfs(i: int, j: int, c: int) -> int:
-            if j >= k or c == 0 or i == n or n - i < c:
-                return j == k and c == 0
-            return (dfs(i + 1, j, c) + dfs(i + 1, j + nums[i], c - 1)) % MOD
+        def dfs(i: int, j: int, cnt: int) -> int:
+            if i == n:
+                return int(j == 0 and cnt == 0)
+            if cnt > n - i:
+                return 0
+            res = dfs(i + 1, j, cnt)
+            if cnt > 0 and j - nums[i] >= 0:
+                res += dfs(i + 1, j - nums[i], cnt - 1)
+            return res % MOD
 
         n = len(nums)
         MOD = 10**9 + 7
-        return (
-            sum(dfs(0, 0, i) * pow(2, n - i, MOD) % MOD for i in range(1, n + 1)) % MOD
+        return sum(
+            dfs(0, k, c) * pow(2, n - c, MOD) % MOD for c in range(1, min(n, k) + 1)
         )
 
     # 1793. 好子数组的最大分数 (Maximum Score of a Good Subarray) --单调栈
