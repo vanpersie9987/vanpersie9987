@@ -9488,47 +9488,46 @@ public class Leetcode_7 {
 
     }
 
-    // 6893. 特别的排列 (Special Permutations)
-    private int n6893;
-    private int[][] memo6893;
-    private int[] nums6893;
-    private int u6893;
+    // 2741. 特别的排列 (Special Permutations)
+    private int n2741;
+    private int[][] memo2741;
+    private int[] nums2741;
+    private int u2741;
 
     public int specialPerm(int[] nums) {
-        this.n6893 = nums.length;
-        this.memo6893 = new int[n6893][1 << n6893];
-        this.nums6893 = nums;
-        for (int i = 0; i < n6893; ++i) {
-            Arrays.fill(memo6893[i], -1);
+        this.n2741 = nums.length;
+        this.memo2741 = new int[n2741][1 << n2741];
+        this.nums2741 = nums;
+        for (int[] m : memo2741) {
+            Arrays.fill(m, -1);
         }
-        this.u6893 = (1 << n6893) - 1;
+        this.u2741 = (1 << n2741) - 1;
         final int MOD = (int) (1e9 + 7);
         int res = 0;
-        for (int i = 0; i < n6893; ++i) {
-            res = (res + dfs6893(i, 1 << i)) % MOD;
+        for (int i = 0; i < n2741; ++i) {
+            res = (res + dfs2741(i, 1 << i)) % MOD;
         }
         return res;
 
     }
 
-    private int dfs6893(int pre, int mask) {
-        if (mask == u6893) {
+    private int dfs2741(int i, int j) {
+        if (j == u2741) {
             return 1;
         }
-        if (memo6893[pre][mask] != -1) {
-            return memo6893[pre][mask];
+        if (memo2741[i][j] != -1) {
+            return memo2741[i][j];
         }
         int res = 0;
-        int c = u6893 ^ mask;
         final int MOD = (int) (1e9 + 7);
-        while (c != 0) {
-            int bit = Integer.numberOfTrailingZeros(c);
-            if (nums6893[pre] % nums6893[bit] == 0 || nums6893[bit] % nums6893[pre] == 0) {
-                res = (res + dfs6893(bit, mask | (1 << bit))) % MOD;
+        for (int c = u2741 ^ j; c != 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            if (nums2741[i] % nums2741[lb] == 0 || nums2741[lb] % nums2741[i] == 0) {
+                res += dfs2741(lb, j | (1 << lb));
+                res %= MOD;
             }
-            c &= c - 1;
         }
-        return memo6893[pre][mask] = res;
+        return memo2741[i][j] = res;
     }
 
     // 2742. 给墙壁刷油漆 (Painting the Walls)
