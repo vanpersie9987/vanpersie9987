@@ -3956,32 +3956,41 @@ public class Leetcode_3 {
 
     // 407. 接雨水 II (Trapping Rain Water II) --Dijkstra
     public int trapRainWater(int[][] heightMap) {
-        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>((o1, o2) -> o1[2] - o2[2]);
-        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
         int m = heightMap.length;
         int n = heightMap[0].length;
-        boolean[][] visited = new boolean[m][n];
+        int res = 0;
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (i == 0 || i == m - 1 || j == 0 || j == n - 1) {
-                    priorityQueue.offer(new int[] { i, j, heightMap[i][j] });
-                    visited[i][j] = true;
+                    q.offer(new int[] { heightMap[i][j], i, j });
+                    heightMap[i][j] = -1;
                 }
+
             }
         }
-        int res = 0;
-        while (!priorityQueue.isEmpty()) {
-            int[] cur = priorityQueue.poll();
-            for (int[] direction : directions) {
-                int nx = cur[0] + direction[0];
-                int ny = cur[1] + direction[1];
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny]) {
-                    if (heightMap[nx][ny] < cur[2]) {
-                        res += cur[2] - heightMap[nx][ny];
-                    }
-                    visited[nx][ny] = true;
-                    heightMap[nx][ny] = Math.max(heightMap[nx][ny], cur[2]);
-                    priorityQueue.offer(new int[] { nx, ny, heightMap[nx][ny] });
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int h = cur[0];
+            int x = cur[1];
+            int y = cur[2];
+            for (int[] d : dirs) {
+                int dx = d[0];
+                int dy = d[1];
+                int nx = x + dx;
+                int ny = y + dy;
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && heightMap[nx][ny] >= 0) {
+                    res += Math.max(0, h - heightMap[nx][ny]);
+                    q.offer(new int[] { Math.max(heightMap[nx][ny], h), nx, ny });
+                    heightMap[nx][ny] = -1;
                 }
             }
         }
