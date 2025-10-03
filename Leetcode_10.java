@@ -360,7 +360,7 @@ public class Leetcode_10 {
         return res == Long.MAX_VALUE ? -1L : res;
 
     }
-    
+
     // 3699. 锯齿形数组的总数 I (Number of ZigZag Arrays I)
     public int zigZagArrays(int n, int l, int r) {
         int k = r - l + 1;

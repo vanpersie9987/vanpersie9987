@@ -9536,36 +9536,27 @@ public class Leetcode_7 {
     private int n2742;
     private int[] time2742;
     private int[] cost2742;
-    private int[] suf2742;
 
     public int paintWalls(int[] cost, int[] time) {
         this.n2742 = cost.length;
         this.memo2742 = new int[n2742][n2742 + n2742];
         this.cost2742 = cost;
         this.time2742 = time;
-        this.suf2742 = new int[n2742];
-        suf2742[n2742 - 1] = time[n2742 - 1];
-        for (int i = n2742 - 2; i >= 0; --i) {
-            suf2742[i] = suf2742[i + 1] + time2742[i];
-        }
         return dfs2742(0, 0);
 
     }
 
-    private int dfs2742(int i, int t) {
-        if (i == n2742) {
-            return t >= 0 ? 0 : (int) 1e9;
-        }
-        if (t >= n2742 - i) {
+    private int dfs2742(int i, int j) {
+        if (j >= n2742 - i) {
             return 0;
         }
-        if (t + suf2742[i] < 0) {
-            return (int) 1e9;
+        if (i == n2742) {
+            return j >= 0 ? 0 : Integer.MAX_VALUE / 2;
         }
-        if (memo2742[i][t + n2742] != 0) {
-            return memo2742[i][t + n2742];
+        if (memo2742[i][j + n2742] != 0) {
+            return memo2742[i][j + n2742];
         }
-        return memo2742[i][t + n2742] = Math.min(dfs2742(i + 1, time2742[i] + t) + cost2742[i], dfs2742(i + 1, t - 1));
+        return memo2742[i][j + n2742] = Math.min(dfs2742(i + 1, time2742[i] + j) + cost2742[i], dfs2742(i + 1, j - 1));
     }
 
     // 1595. 连通两组点的最小成本 (Minimum Cost to Connect Two Groups of Points)
