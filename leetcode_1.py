@@ -2740,28 +2740,23 @@ class leetcode_1:
         return res
 
     # 2. 两数相加 (Add Two Numbers)
-    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
-        class ListNode:
-            def __init__(self, val=0, next=None):
-                self.val = val
-                self.next = next
-
-        dummy = cur = ListNode()
+    def addTwoNumbers(
+        self, l1: Optional[ListNode], l2: Optional[ListNode]
+    ) -> Optional[ListNode]:
         carry = 0
+        cur = dummy = ListNode(0, l1)
         while l1 or l2 or carry:
+            if cur.next is None:
+                cur.next = ListNode()
+            cur = cur.next
             if l1:
                 carry += l1.val
                 l1 = l1.next
             if l2:
                 carry += l2.val
                 l2 = l2.next
-            cur.next = ListNode(carry % 10)
-            cur = cur.next
+            cur.val = carry % 10
             carry //= 10
-        if l1:
-            cur.next = l1
-        if l2:
-            cur.next = l2
         return dummy.next
 
     # 49. 字母异位词分组 (Group Anagrams)
