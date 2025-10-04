@@ -5247,22 +5247,21 @@ class leetcode_1:
     # LCR 085. 括号生成
     # 22. 括号生成 (Generate Parentheses)
     def generateParenthesis(self, n: int) -> List[str]:
-        def dfs(i: int, j: int) -> None:
-            nonlocal s
-            if len(s) == n * 2:
-                res.append(s)
+        def dfs(i: int, j: int):
+            if i + j == n * 2:
+                res.append("".join(cur))
                 return
-            if i < n:
-                s += "("
-                dfs(i + 1, j)
-                s = s[: len(s) - 1]
-            if j < i:
-                s += ")"
+            if i > j:
+                cur.append(")")
                 dfs(i, j + 1)
-                s = s[: len(s) - 1]
+                cur.pop()
+            if i < n:
+                cur.append("(")
+                dfs(i + 1, j)
+                cur.pop()
 
-        s = ""
         res = []
+        cur = []
         dfs(0, 0)
         return res
 
