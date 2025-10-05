@@ -2633,9 +2633,9 @@ class leetcode_1:
         vis1 = check(0, 0)
         vis2 = check(m - 1, n - 1)
         res = []
-        for i in range(m):
-            for j in range(n):
-                if vis1[i][j] and vis2[i][j]:
+        for i, (r1, r2) in enumerate(zip(vis1, vis2)):
+            for j, (b1, b2) in enumerate(zip(r1, r2)):
+                if b1 and b2:
                     res.append((i, j))
         return res
 
