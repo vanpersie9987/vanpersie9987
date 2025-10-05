@@ -3143,66 +3143,50 @@ public class Leetcode_3 {
 
     // 417. 太平洋大西洋水流问题 (Pacific Atlantic Water Flow) --bfs
     public List<List<Integer>> pacificAtlantic(int[][] heights) {
-        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
         int m = heights.length;
         int n = heights[0].length;
-        Queue<int[]> queue = new LinkedList<>();
-        // 可流入太平洋的岛屿
-        boolean[][] canFlowToPacificOcean = new boolean[m][n];
-        for (int j = 0; j < n; ++j) {
-            canFlowToPacificOcean[0][j] = true;
-            queue.offer(new int[] { 0, j });
-        }
-        for (int i = 0; i < m; ++i) {
-            canFlowToPacificOcean[i][0] = true;
-            queue.offer(new int[] { i, 0 });
-        }
-        while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
-            for (int[] direction : directions) {
-                int nx = cur[0] + direction[0];
-                int ny = cur[1] + direction[1];
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !canFlowToPacificOcean[nx][ny]
-                        && heights[nx][ny] >= heights[cur[0]][cur[1]]) {
-                    canFlowToPacificOcean[nx][ny] = true;
-                    queue.offer(new int[] { nx, ny });
-                }
-            }
-        }
-        // 可流入大西洋的岛屿
-        boolean[][] canFlowToAtlanticOcean = new boolean[m][n];
-        for (int j = 0; j < n; ++j) {
-            canFlowToAtlanticOcean[m - 1][j] = true;
-            queue.offer(new int[] { m - 1, j });
-        }
-        for (int i = 0; i < m; ++i) {
-            canFlowToAtlanticOcean[i][n - 1] = true;
-            queue.offer(new int[] { i, n - 1 });
-        }
-        while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
-            for (int[] direction : directions) {
-                int nx = cur[0] + direction[0];
-                int ny = cur[1] + direction[1];
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !canFlowToAtlanticOcean[nx][ny]
-                        && heights[nx][ny] >= heights[cur[0]][cur[1]]) {
-                    canFlowToAtlanticOcean[nx][ny] = true;
-                    queue.offer(new int[] { nx, ny });
-                }
-            }
-        }
+        boolean[][] vis1 = bfs417(heights, 0, 0);
+        boolean[][] vis2 = bfs417(heights, m - 1, n - 1);
         List<List<Integer>> res = new ArrayList<>();
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                if (canFlowToPacificOcean[i][j] && canFlowToAtlanticOcean[i][j]) {
-                    List<Integer> item = new ArrayList<>();
-                    item.add(i);
-                    item.add(j);
-                    res.add(item);
+                if (vis1[i][j] && vis2[i][j]) {
+                    res.add(List.of(i, j));
                 }
             }
         }
         return res;
+
+    }
+
+    private boolean[][] bfs417(int[][] heights, int r, int c) {
+        int m = heights.length;
+        int n = heights[0].length;
+        Queue<int[]> q = new ArrayDeque<>();
+        boolean[][] vis = new boolean[m][n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i == r || j == c) {
+                    vis[i][j] = true;
+                    q.offer(new int[] { i, j });
+                }
+            }
+        }
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        while (!q.isEmpty()) {
+            int[] p = q.poll();
+            int x = p[0];
+            int y = p[1];
+            for (int[] d : dirs) {
+                int nx = x + d[0];
+                int ny = y + d[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !vis[nx][ny] && heights[nx][ny] >= heights[x][y]) {
+                    vis[nx][ny] = true;
+                    q.offer(new int[] { nx, ny });
+                }
+            }
+        }
+        return vis;
 
     }
 
