@@ -4231,25 +4231,19 @@ class SegmentTree2940:
                     self.parent[r2] = r1
                     if self.rank[r1] == self.rank[r2]:
                         self.rank[r1] += 1
-        def check(t: int) -> bool:
-            u = union(n * n)
-            for i in range(n):
-                for j in range(n):
-                    if i + 1 < n and grid[i + 1][j] <= t and grid[i][j] <= t:
-                        u.union(i * n + j, (i + 1) * n + j)
-                    if j + 1 < n and grid[i][j + 1] <= t and grid[i][j] <= t:
-                        u.union(i * n + j, i * n + j + 1)
-            return u.is_connected(0, n * n - 1)
         n = len(grid)
-        left = max(grid[0][0], grid[-1][-1])
-        right = n * n - 1
-        while left <= right:
-            mid = left + ((right - left) >> 1)
-            if check(mid):
-                right = mid - 1
-            else:
-                left = mid + 1
-        return right + 1
+        d = defaultdict(tuple)
+        for i in range(n):
+            for j in range(n):
+                d[grid[i][j]] = (i, j)
+        u = union(n * n)
+        for h in range(n * n):
+            x, y = d[h]
+            for nx, ny in (x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1):
+                if 0 <= nx < n and 0 <= ny < n and grid[nx][ny] <= h:
+                    u.union(x * n + y, nx * n + ny)
+            if u.is_connected(0, n * n - 1):
+                return h
 
     # 778. 水位上升的泳池中游泳 (Swim in Rising Water)
     def swimInWater(self, grid: List[List[int]]) -> int:
