@@ -4203,3 +4203,5 @@ class SegmentTree2940:
             else:
                 r -= 1
         return res
+
+    

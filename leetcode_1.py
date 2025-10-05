@@ -2604,59 +2604,38 @@ class leetcode_1:
 
     # 417. 太平洋大西洋水流问题 (Pacific Atlantic Water Flow)
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
-        m = len(heights)
-        n = len(heights[0])
-        arr0 = [[False] * n for _ in range(m)]
-        q = []
-        for i in range(n):
-            arr0[0][i] = True
-            q.append((0, i))
-        for i in range(1, m):
-            arr0[i][0] = True
-            q.append((i, 0))
-        dirs = [[0, 1], [0, -1], [1, 0], [-1, 0]]
-        while q:
-            cur = q.pop()
-            x = cur[0]
-            y = cur[1]
-            for dx, dy in dirs:
-                nx = x + dx
-                ny = y + dy
-                if (
-                    0 <= nx < m
-                    and 0 <= ny < n
-                    and not arr0[nx][ny]
-                    and heights[nx][ny] >= heights[x][y]
-                ):
-                    arr0[nx][ny] = True
-                    q.append((nx, ny))
-        arr1 = [[False] * n for _ in range(m)]
-        for i in range(n):
-            arr1[m - 1][i] = True
-            q.append((m - 1, i))
-        for i in range(m - 1):
-            arr1[i][n - 1] = True
-            q.append((i, n - 1))
+        def check(r: int, c: int) -> List[List[bool]]:
+            vis = [[False] * n for _ in range(m)]
+            q = []
+            for i in range(m):
+                for j in range(n):
+                    if i == r or j == c:
+                        vis[i][j] = True
+                        q.append((i, j))
+            while q:
+                sz = len(q)
+                for _ in range(sz):
+                    x, y = q.pop()
+                    for dx, dy in (0, 1), (0, -1), (1, 0), (-1, 0):
+                        nx = x + dx
+                        ny = y + dy
+                        if (
+                            0 <= nx < m
+                            and 0 <= ny < n
+                            and not vis[nx][ny]
+                            and heights[nx][ny] >= heights[x][y]
+                        ):
+                            vis[nx][ny] = True
+                            q.append((nx, ny))
+            return vis
 
-        while q:
-            cur = q.pop()
-            x = cur[0]
-            y = cur[1]
-            for dx, dy in dirs:
-                nx = x + dx
-                ny = y + dy
-                if (
-                    0 <= nx < m
-                    and 0 <= ny < n
-                    and not arr1[nx][ny]
-                    and heights[nx][ny] >= heights[x][y]
-                ):
-                    arr1[nx][ny] = True
-                    q.append((nx, ny))
+        m, n = len(heights), len(heights[0])
+        vis1 = check(0, 0)
+        vis2 = check(m - 1, n - 1)
         res = []
         for i in range(m):
             for j in range(n):
-                if arr0[i][j] and arr1[i][j]:
+                if vis1[i][j] and vis2[i][j]:
                     res.append((i, j))
         return res
 
