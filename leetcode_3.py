@@ -4237,7 +4237,7 @@ class SegmentTree2940:
             for j in range(n):
                 d[grid[i][j]] = (i, j)
         u = union(n * n)
-        for h in range(n * n):
+        for h in count(0):
             x, y = d[h]
             for nx, ny in (x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1):
                 if 0 <= nx < n and 0 <= ny < n and grid[nx][ny] <= h:
