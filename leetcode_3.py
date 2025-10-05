@@ -4204,4 +4204,65 @@ class SegmentTree2940:
                 r -= 1
         return res
 
-    
+    # 778. 水位上升的泳池中游泳 (Swim in Rising Water)
+    def swimInWater(self, grid: List[List[int]]) -> int:
+        class union:
+            def __init__(self, n: int):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+
+            def is_connected(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+
+            def union(self, p1: int, p2: int):
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if r1 == r2:
+                    return
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r1] += 1
+        def check(t: int) -> bool:
+            u = union(n * n)
+            for i in range(n):
+                for j in range(n):
+                    if i + 1 < n and grid[i + 1][j] <= t and grid[i][j] <= t:
+                        u.union(i * n + j, (i + 1) * n + j)
+                    if j + 1 < n and grid[i][j + 1] <= t and grid[i][j] <= t:
+                        u.union(i * n + j, i * n + j + 1)
+            return u.is_connected(0, n * n - 1)
+        n = len(grid)
+        left = max(grid[0][0], grid[-1][-1])
+        right = n * n - 1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                right = mid - 1
+            else:
+                left = mid + 1
+        return right + 1
+
+    # 778. 水位上升的泳池中游泳 (Swim in Rising Water)
+    def swimInWater(self, grid: List[List[int]]) -> int:
+        n = len(grid)
+        q = [(grid[0][0], 0, 0)]
+        heapq.heapify(q)
+        res = 0
+        while q:
+            h, x, y = heapq.heappop(q)
+            res = max(res, h)
+            if x == n - 1 and y == n - 1:
+                return res
+            grid[x][y] = inf
+            for nx, ny in (x + 1, y), (x, y + 1), (x - 1, y), (x, y - 1):
+                if 0 <= nx < n and 0 <= ny < n and grid[nx][ny] < inf:
+                    heapq.heappush(q, (grid[nx][ny], nx, ny))
