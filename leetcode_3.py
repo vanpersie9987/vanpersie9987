@@ -4285,7 +4285,7 @@ class SegmentTree2940:
                 st[-1][1] += 1
             else:
                 st.append([x, 1])
-            while len(st) >= 2 and st[-1][0] == ')' and st[-2][0] == '(' and st[-1][1] == k and st[-2][1] >= k:
+            if len(st) >= 2 and st[-1][0] == ')' and st[-1][1] == k and st[-2][1] >= k:
                 st.pop()
                 st[-1][1] -= k
                 if st[-1][1] == 0:

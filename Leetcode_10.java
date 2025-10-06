@@ -435,8 +435,8 @@ public class Leetcode_10 {
             } else {
                 st.add(new int[] { c, 1 });
             }
-            while (st.size() >= 2 && st.get(st.size() - 1)[0] == ')' && st.get(st.size() - 2)[0] == '('
-                    && st.get(st.size() - 1)[1] == k && st.get(st.size() - 2)[1] >= k) {
+            if (st.size() >= 2 && st.get(st.size() - 1)[0] == ')' && st.get(st.size() - 1)[1] == k
+                    && st.get(st.size() - 2)[1] >= k) {
                 st.remove(st.size() - 1);
                 int[] last = st.get(st.size() - 1);
                 last[1] -= k;
