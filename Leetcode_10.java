@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -423,6 +424,35 @@ public class Leetcode_10 {
             return n;
         }
         return mx == 0 ? 0 : n - 1;
+    }
+
+    // 3703. 移除K-平衡子字符串 (Remove K-Balanced Substrings)
+    public String removeSubstring(String s, int k) {
+        List<int[]> st = new ArrayList<>();
+        for (char c : s.toCharArray()) {
+            if (!st.isEmpty() && st.get(st.size() - 1)[0] == c) {
+                st.get(st.size() - 1)[1] += 1;
+            } else {
+                st.add(new int[] { c, 1 });
+            }
+            while (st.size() >= 2 && st.get(st.size() - 1)[0] == ')' && st.get(st.size() - 2)[0] == '('
+                    && st.get(st.size() - 1)[1] == k && st.get(st.size() - 2)[1] >= k) {
+                st.remove(st.size() - 1);
+                int[] last = st.get(st.size() - 1);
+                last[1] -= k;
+                if (last[1] == 0) {
+                    st.remove(st.size() - 1);
+                }
+            }
+        }
+        StringBuilder res = new StringBuilder();
+        for (int[] ss : st) {
+            while (ss[1]-- > 0) {
+                res.append((char) ss[0]);
+            }
+        }
+        return res.toString();
+
     }
 
 }
