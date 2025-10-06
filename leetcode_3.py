@@ -4277,6 +4277,7 @@ class SegmentTree2940:
             return n
         return 0 if cnt_0 == n else n - 1
 
+    # 3703. 移除K-平衡子字符串 (Remove K-Balanced Substrings)
     def removeSubstring(self, s: str, k: int) -> str:
         st = []
         for x in s:
