@@ -400,4 +400,14 @@ public class Leetcode_10 {
         return res;
     }
 
+    // 3701. 计算交替和 (Compute Alternating Sum)
+    public int alternatingSum(int[] nums) {
+        int res = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            res += ((i & 1) * (-2) + 1) * nums[i];
+        }
+        return res;
+
+    }
+
 }
