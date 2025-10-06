@@ -410,4 +410,19 @@ public class Leetcode_10 {
 
     }
 
+    // 3702. 按位异或非零的最长子序列 (Longest Subsequence With Non-Zero Bitwise XOR)
+    public int longestSubsequence(int[] nums) {
+        int mx = 0;
+        int xor = 0;
+        int n = nums.length;
+        for (int x : nums) {
+            xor ^= x;
+            mx = Math.max(mx, x);
+        }
+        if (xor != 0) {
+            return n;
+        }
+        return mx == 0 ? 0 : n - 1;
+    }
+
 }

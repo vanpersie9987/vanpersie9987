@@ -4264,3 +4264,15 @@ class SegmentTree2940:
     # 3701. 计算交替和 (Compute Alternating Sum)
     def alternatingSum(self, nums: List[int]) -> int:
         return sum((-2 * (i & 1) + 1) * x for i, x in enumerate(nums))
+
+    # 3702. 按位异或非零的最长子序列 (Longest Subsequence With Non-Zero Bitwise XOR)
+    def longestSubsequence(self, nums: List[int]) -> int:
+        n = len(nums)
+        xor = 0
+        cnt_0 = 0
+        for x in nums:
+            xor ^= x
+            cnt_0 += (x == 0)
+        if xor:
+            return n
+        return 0 if cnt_0 == n else n - 1
