@@ -4231,6 +4231,7 @@ class SegmentTree2940:
                     self.parent[r2] = r1
                     if self.rank[r1] == self.rank[r2]:
                         self.rank[r1] += 1
+
         n = len(grid)
         d = defaultdict(tuple)
         for i in range(n):
@@ -4272,7 +4273,7 @@ class SegmentTree2940:
         cnt_0 = 0
         for x in nums:
             xor ^= x
-            cnt_0 += (x == 0)
+            cnt_0 += x == 0
         if xor:
             return n
         return 0 if cnt_0 == n else n - 1
@@ -4285,9 +4286,9 @@ class SegmentTree2940:
                 st[-1][1] += 1
             else:
                 st.append([x, 1])
-            if len(st) >= 2 and st[-1][0] == ')' and st[-1][1] == k and st[-2][1] >= k:
+            if len(st) >= 2 and st[-1][0] == ")" and st[-1][1] == k and st[-2][1] >= k:
                 st.pop()
                 st[-1][1] -= k
                 if st[-1][1] == 0:
                     st.pop()
-        return ''.join([x * c for x, c in st])
+        return "".join([x * c for x, c in st])
