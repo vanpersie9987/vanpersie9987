@@ -4260,3 +4260,7 @@ class SegmentTree2940:
             for nx, ny in (x + 1, y), (x, y + 1), (x - 1, y), (x, y - 1):
                 if 0 <= nx < n and 0 <= ny < n and grid[nx][ny] < inf:
                     heapq.heappush(q, (grid[nx][ny], nx, ny))
+
+    # 3701. 计算交替和 (Compute Alternating Sum)
+    def alternatingSum(self, nums: List[int]) -> int:
+        return sum((-2 * (i & 1) + 1) * x for i, x in enumerate(nums))
