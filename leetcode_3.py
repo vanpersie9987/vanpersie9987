@@ -4293,30 +4293,3 @@ class SegmentTree2940:
                     st.pop()
         return "".join([x * c for x, c in st])
 
-    def largestNumber(self, cost: List[int], target: int) -> str:
-        @cache
-        def dfs(i: int) -> int:
-            if i == 0:
-                return 0
-            res = -inf
-            for c in cost:
-                if c <= i:
-                    res = max(res, dfs(i - c) + 1)
-            return res
-
-        def make_ans(i: int, j: int):
-            if i == 0:
-                return
-            for k in range(8, -1, -1):
-                if dfs(i - cost[k]) + 1 == j:
-                    res.append(str(k + 1))
-                    make_ans(i - cost[k], j - 1)
-                    break
-
-        n = dfs(target)
-        if n < 0:
-            return "0"
-        res = []
-        make_ans(target, n)
-        return "".join(res)
-
