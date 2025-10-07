@@ -954,42 +954,40 @@ public class Leetcode_7 {
 
     // 1449. 数位成本和为目标值的最大数字 (Form Largest Integer With Digits That Add up to Target)
     private int[] cost1449;
-    private int target1449;
     private int[] memo1449;
     private StringBuilder res1449;
 
     public String largestNumber(int[] cost, int target) {
         this.cost1449 = cost;
-        this.target1449 = target;
-        this.memo1449 = new int[target];
+        this.memo1449 = new int[target + 1];
         Arrays.fill(memo1449, -1);
-        if (dfs1449(0) < 0) {
+        if (dfs1449(target) < 0) {
             return "0";
         }
         this.res1449 = new StringBuilder();
-        makeAns1449(0);
+        makeAns1449(target);
         return res1449.toString();
     }
 
     private void makeAns1449(int i) {
-        if (i == target1449) {
+        if (i == 0) {
             return;
         }
         int finalAns = dfs1449(i);
         for (int j = 8; j >= 0; --j) {
-            if (dfs1449(cost1449[j] + i) + 1 == finalAns) {
+            if (dfs1449(i - cost1449[j]) + 1 == finalAns) {
                 res1449.append(j + 1);
-                makeAns1449(cost1449[j] + i);
+                makeAns1449(i - cost1449[j]);
                 break;
             }
         }
     }
 
     private int dfs1449(int i) {
-        if (i == target1449) {
+        if (i == 0) {
             return 0;
         }
-        if (i > target1449) {
+        if (i < 0) {
             return Integer.MIN_VALUE;
         }
         if (memo1449[i] != -1) {
@@ -997,9 +995,9 @@ public class Leetcode_7 {
         }
         int res = Integer.MIN_VALUE;
         for (int c : cost1449) {
-            res = Math.max(res, dfs1449(c + i));
+            res = Math.max(res, dfs1449(i - c) + 1);
         }
-        return memo1449[i] = res < 0 ? Integer.MIN_VALUE : res + 1;
+        return memo1449[i] = res;
 
     }
 
