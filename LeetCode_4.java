@@ -1673,6 +1673,32 @@ public class LeetCode_4 {
 
     }
 
+    // 2300. 咒语和药水的成功对数 (Successful Pairs of Spells and Potions)
+    public int[] successfulPairs2(int[] spells, int[] potions, long success) {
+        Arrays.sort(potions);
+        int n = spells.length;
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = potions.length - bisectLeft2300(potions, (success - 1) / spells[i] + 1);
+        }
+        return res;
+
+    }
+
+    private int bisectLeft2300(int[] potions, long target) {
+        int left = 0;
+        int right = potions.length - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (potions[mid] >= target) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+    }
+
     // 6097. 替换字符后匹配 (Match Substring After Replacement)
     public boolean matchReplacement(String s, String sub, char[][] mappings) {
         int m = s.length();
