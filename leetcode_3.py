@@ -48,7 +48,7 @@ from tkinter import N, NO, W
 from tkinter.messagebox import RETRY
 from tkinter.tix import Tree
 from token import NL, RIGHTSHIFT
-from turtle import RawTurtle, left, mode, pos, reset, right, rt, st, up, update
+from turtle import RawTurtle, left, mode, pos, position, reset, right, rt, st, up, update
 from typing import List, Optional, Self
 import heapq
 import bisect
@@ -4292,4 +4292,8 @@ class SegmentTree2940:
                 if st[-1][1] == 0:
                     st.pop()
         return "".join([x * c for x, c in st])
+
+
+
+
 

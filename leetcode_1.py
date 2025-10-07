@@ -8291,6 +8291,12 @@ class leetcode_1:
                 break
             res[i] = m - j
         return res
+    
+    # 2300. 咒语和药水的成功对数 (Successful Pairs of Spells and Potions)
+    def successfulPairs(self, spells: List[int], potions: List[int], success: int) -> List[int]:
+        potions.sort()
+        return [len(potions) - bisect.bisect_left(potions, (success - 1) // x + 1) for x in spells]
+
 
     # 2928. 给小朋友们分糖果 I (Distribute Candies Among Children I)
     # 2929. 给小朋友们分糖果 II (Distribute Candies Among Children II)
