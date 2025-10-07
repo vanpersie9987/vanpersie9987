@@ -8281,22 +8281,26 @@ class leetcode_1:
     ) -> List[int]:
         n = len(spells)
         m = len(potions)
-        potions.sort()
-        res = [0] * n
+        potions.sort(reverse=True)
+        res = [m] * n
         j = 0
-        for i, v in sorted(zip(range(n), spells), key=lambda z: -z[1]):
-            while j < m and potions[j] * v < success:
+        for i, v in sorted(zip(range(n), spells), key=lambda z: z[1]):
+            while j < m and potions[j] * v >= success:
                 j += 1
-            if m - j == 0:
+            if j == m:
                 break
-            res[i] = m - j
+            res[i] = j
         return res
-    
-    # 2300. 咒语和药水的成功对数 (Successful Pairs of Spells and Potions)
-    def successfulPairs(self, spells: List[int], potions: List[int], success: int) -> List[int]:
-        potions.sort()
-        return [len(potions) - bisect.bisect_left(potions, (success - 1) // x + 1) for x in spells]
 
+    # 2300. 咒语和药水的成功对数 (Successful Pairs of Spells and Potions)
+    def successfulPairs(
+        self, spells: List[int], potions: List[int], success: int
+    ) -> List[int]:
+        potions.sort()
+        return [
+            len(potions) - bisect.bisect_left(potions, (success - 1) // x + 1)
+            for x in spells
+        ]
 
     # 2928. 给小朋友们分糖果 I (Distribute Candies Among Children I)
     # 2929. 给小朋友们分糖果 II (Distribute Candies Among Children II)
