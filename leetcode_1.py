@@ -1262,18 +1262,14 @@ class leetcode_1:
     def numRollsToTarget(self, n: int, k: int, target: int) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if j > target:
+            if i == 0:
+                return int(j == 0)
+            if i * k < j or i > j:
                 return 0
-            if i == n:
-                return j == target
-            if n - i > target - j:
-                return 0
-            if target - j > (n - i) * k:
-                return 0
-            return sum(dfs(i + 1, j + x) for x in range(1, k + 1)) % MOD
+            return sum(dfs(i - 1, j - x) for x in range(1, min(k, j) + 1)) % MOD
 
         MOD = 10**9 + 7
-        return dfs(0, 0)
+        return dfs(n, target)
 
     # 1289. 下降路径最小和 II (Minimum Falling Path Sum II)
     def minFallingPathSum(self, grid: List[List[int]]) -> int:
@@ -2054,6 +2050,7 @@ class leetcode_1:
                 if c <= i:
                     res = max(res, dfs(i - c) + 1)
             return res
+
         def make_ans(i: int):
             if i == 0:
                 return
@@ -2062,12 +2059,13 @@ class leetcode_1:
                     res.append(str(k + 1))
                     make_ans(i - cost[k])
                     break
+
         n = dfs(target)
         if n < 0:
-            return '0'
+            return "0"
         res = []
         make_ans(target)
-        return ''.join(res)
+        return "".join(res)
 
     # 389. 找不同 (Find the Difference)
     def findTheDifference(self, s: str, t: str) -> str:
