@@ -4103,36 +4103,34 @@ public class LeetCodeText {
     }
 
     // 1035. 不相交的线 (Uncrossed Lines)
-    private int n1_1035;
-    private int n2_1035;
     private int[] nums1_1035;
     private int[] nums2_1035;
     private int[][] memo1035;
 
     public int maxUncrossedLines2(int[] nums1, int[] nums2) {
-        this.n1_1035 = nums1.length;
-        this.n2_1035 = nums2.length;
+        int n1 = nums1.length;
+        int n2 = nums2.length;
         this.nums1_1035 = nums1;
         this.nums2_1035 = nums2;
-        this.memo1035 = new int[n1_1035][n2_1035];
-        for (int i = 0; i < n1_1035; ++i) {
+        this.memo1035 = new int[n1][n2];
+        for (int i = 0; i < n1; ++i) {
             Arrays.fill(memo1035[i], -1);
         }
-        return dfs1035(0, 0);
+        return dfs1035(n1 - 1, n2 - 1);
 
     }
 
     private int dfs1035(int i, int j) {
-        if (i == n1_1035 || j == n2_1035) {
+        if (i < 0 || j < 0) {
             return 0;
         }
         if (memo1035[i][j] != -1) {
             return memo1035[i][j];
         }
         if (nums1_1035[i] == nums2_1035[j]) {
-            return memo1035[i][j] = dfs1035(i + 1, j + 1) + 1;
+            return memo1035[i][j] = dfs1035(i - 1, j - 1) + 1;
         }
-        return memo1035[i][j] = Math.max(dfs1035(i + 1, j), dfs1035(i, j + 1));
+        return memo1035[i][j] = Math.max(dfs1035(i - 1, j), dfs1035(i, j - 1));
     }
 
     // 1160. 拼写单词
