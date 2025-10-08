@@ -1319,20 +1319,15 @@ class leetcode_1:
 
     # 1035. 不相交的线 (Uncrossed Lines)
     def maxUncrossedLines(self, nums1: List[int], nums2: List[int]) -> int:
-        n1 = len(nums1)
-        n2 = len(nums2)
-
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == n1 or j == n2:
+            if i < 0 or j < 0:
                 return 0
-            return (
-                dfs(i + 1, j + 1) + 1
-                if nums1[i] == nums2[j]
-                else max(dfs(i + 1, j), dfs(i, j + 1))
-            )
-
-        return dfs(0, 0)
+            if nums1[i] == nums2[j]:
+                return dfs(i - 1, j - 1) + 1
+            return max(dfs(i - 1, j), dfs(i, j - 1))
+        return dfs(len(nums1) - 1, len(nums2) - 1)
+        
 
     # 2547. 拆分数组的最小代价 (Minimum Cost to Split an Array)
     def minCost(self, nums: List[int], k: int) -> int:
