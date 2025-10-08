@@ -4292,5 +4292,3 @@ class SegmentTree2940:
                 if st[-1][1] == 0:
                     st.pop()
         return "".join([x * c for x, c in st])
-
-
