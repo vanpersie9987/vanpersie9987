@@ -4292,3 +4292,35 @@ class SegmentTree2940:
                 if st[-1][1] == 0:
                     st.pop()
         return "".join([x * c for x, c in st])
+
+    # 3380. 用点构造面积最大的矩形 I (Maximum Area Rectangle With Point Constraints I)
+    def maxRectangleArea(self, points: List[List[int]]) -> int:
+        res = -1
+        n = len(points)
+        for i in range(n):
+            for j in range(i + 1, n):
+                ax = min(points[i][0], points[j][0])
+                ay = min(points[i][1], points[j][1])
+                bx = max(points[i][0], points[j][0])
+                by = max(points[i][1], points[j][1])
+                if ax == bx or ay == by:
+                    continue
+                c = 0
+                f = True
+                for k in range(n):
+                    if k == i or k == j:
+                        continue
+                    if points[k][0] < ax or points[k][0] > bx:
+                        continue
+                    if points[k][1] < ay or points[k][1] > by:
+                        continue
+                    if points[k][0] == ax and points[k][1] == by:
+                        c += 1
+                        continue
+                    if points[k][0] == bx and points[k][1] == ay:
+                        c += 1
+                        continue
+                    f = False
+                if c == 2 and f:
+                    res = max(res, abs(ax - bx) * abs(ay - by))
+        return res
