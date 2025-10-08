@@ -1038,20 +1038,15 @@ class leetcode_1:
 
     # 712. 两个字符串的最小ASCII删除和 (Minimum ASCII Delete Sum for Two Strings)
     def minimumDeleteSum(self, s1: str, s2: str) -> int:
-        n1 = len(s1)
-        n2 = len(s2)
-
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == n1:
-                return sum(ord(c) for c in s2[j:])
-            if j == n2:
-                return sum(ord(c) for c in s1[i:])
+            if i < 0 or j < 0:
+                return 0
             if s1[i] == s2[j]:
-                return dfs(i + 1, j + 1)
-            return min(dfs(i + 1, j) + ord(s1[i]), dfs(i, j + 1) + ord(s2[j]))
+                return dfs(i - 1, j - 1) + ord(s1[i]) * 2
+            return max(dfs(i - 1, j), dfs(i, j - 1))
 
-        return dfs(0, 0)
+        return sum(ord(x) for x in s1 + s2) - dfs(len(s1) - 1, len(s2) - 1)
 
     # 1143. 最长公共子序列 (Longest Common Subsequence)
     # LCR 095. 最长公共子序列

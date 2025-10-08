@@ -4294,6 +4294,3 @@ class SegmentTree2940:
         return "".join([x * c for x, c in st])
 
 
-
-
-
