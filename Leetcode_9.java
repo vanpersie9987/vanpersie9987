@@ -4928,21 +4928,22 @@ public class Leetcode_9 {
 
     // 3494. 酿造药水需要的最少总时间 (Find the Minimum Amount of Time to Brew Potions)
     public long minTime(int[] skill, int[] mana) {
-        int n = skill.length;
-        long[] pre = new long[n];
-        for (int m : mana) {
-            long s = 0L;
-            for (int i = 0; i < skill.length; ++i) {
-                s = Math.max(s, pre[i]);
-                s += skill[i] * m;
+        int m = skill.length;
+        long[] pre = new long[m + 1];
+        for (long x : mana) {
+            long[] cur = new long[m + 1];
+            cur[0] = pre[m];
+            long min = Long.MAX_VALUE;
+            for (int j = 0; j < m; ++j) {
+                cur[j + 1] = cur[j] + skill[j] * x;
+                min = Math.min(min, cur[j] - pre[j + 1]);
             }
-            pre[n - 1] = s;
-            for (int i = n - 2; i >= 0; --i) {
-                s -= skill[i + 1] * m;
-                pre[i] = s;
+            pre[0] = cur[0] - min;
+            for (int j = 0; j < m; ++j) {
+                pre[j + 1] = pre[j] + skill[j] * x;
             }
         }
-        return pre[n - 1];
+        return pre[m];
 
     }
 

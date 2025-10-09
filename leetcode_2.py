@@ -9144,17 +9144,18 @@ class Union924:
 
     # 3494. 酿造药水需要的最少总时间 (Find the Minimum Amount of Time to Brew Potions)
     def minTime(self, skill: List[int], mana: List[int]) -> int:
-        n = len(skill)
-        pre = [0] * n
-        for m in mana:
-            s = 0
-            for j in range(n):
-                s = max(s, pre[j])
-                s += skill[j] * m
-            pre[-1] = s
-            for j in range(n - 2, -1, -1):
-                s -= skill[j + 1] * m
-                pre[j] = s
+        m = len(skill)
+        pre = [0] * (m + 1)
+        for x in mana:
+            cur = [0] * (m + 1)
+            cur[0] = pre[-1]
+            _min = inf
+            for j in range(m):
+                cur[j + 1] = cur[j] + skill[j] * x
+                _min = min(_min, cur[j] - pre[j + 1])
+            pre[0] = cur[0] - _min
+            for j in range(m):
+                pre[j + 1] = pre[j] + skill[j] * x
         return pre[-1]
 
     # 2255. 统计是给定字符串前缀的字符串数目 (Count Prefixes of a Given String)
