@@ -4324,3 +4324,22 @@ class SegmentTree2940:
                 if c == 2 and f:
                     res = max(res, abs(ax - bx) * abs(ay - by))
         return res
+
+    # 718. 最长重复子数组 (Maximum Length of Repeated Subarray)
+    def findLength(self, nums1: List[int], nums2: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i < 0 or j < 0 or nums1[i] != nums2[j]:
+                return 0
+            return dfs(i - 1, j - 1) + 1
+
+        res = 0
+        n1 = len(nums1)
+        n2 = len(nums2)
+        for i in range(n1):
+            for j in range(n2):
+                res = max(res, dfs(i, j))
+                if res == min(n1, n2):
+                    return res
+        dfs.cache_clear()
+        return res
