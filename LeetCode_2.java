@@ -1128,24 +1128,26 @@ public class LeetCode_2 {
 
    // 21. 合并两个有序链表 (Merge Two Sorted Lists)
    // 剑指 Offer 25. 合并两个排序的链表
-   public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+   public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
       ListNode dummy = new ListNode(0);
-      ListNode cur = dummy;
-      while (l1 != null && l2 != null) {
-         if (l1.val < l2.val) {
-            cur.next = l1;
-            l1 = l1.next;
-         } else {
-            cur.next = l2;
-            l2 = l2.next;
+      ListNode p = dummy;
+      while (list1 != null || list2 != null) {
+         if (list1 == null) {
+            p.next = list2;
+            break;
          }
-         cur = cur.next;
-      }
-      if (l1 != null) {
-         cur.next = l1;
-      }
-      if (l2 != null) {
-         cur.next = l2;
+         if (list2 == null) {
+            p.next = list1;
+            break;
+         }
+         if (list1.val < list2.val) {
+            p.next = list1;
+            list1 = list1.next;
+         } else {
+            p.next = list2;
+            list2 = list2.next;
+         }
+         p = p.next;
       }
       return dummy.next;
 
@@ -3435,26 +3437,26 @@ public class LeetCode_2 {
       int count10 = 0;
       for (int bill : bills) {
          switch (bill) {
-         case 5:
-            ++count5;
-            break;
-         case 10:
-            if (count5 == 0) {
-               return false;
-            }
-            --count5;
-            ++count10;
-            break;
-         case 20:
-            if (count10 >= 1 && count5 >= 1) {
-               --count10;
+            case 5:
+               ++count5;
+               break;
+            case 10:
+               if (count5 == 0) {
+                  return false;
+               }
                --count5;
-            } else if (count5 >= 3) {
-               count5 -= 3;
-            } else {
-               return false;
-            }
-            break;
+               ++count10;
+               break;
+            case 20:
+               if (count10 >= 1 && count5 >= 1) {
+                  --count10;
+                  --count5;
+               } else if (count5 >= 3) {
+                  count5 -= 3;
+               } else {
+                  return false;
+               }
+               break;
          }
       }
       return true;
@@ -6445,30 +6447,30 @@ public class LeetCode_2 {
       int curY = startPos[1];
       for (char c : s.toCharArray()) {
          switch (c) {
-         case 'U':
-            if (--curX < 0) {
-               return count;
-            }
-            ++count;
-            break;
-         case 'D':
-            if (++curX == n) {
-               return count;
-            }
-            ++count;
-            break;
-         case 'L':
-            if (--curY < 0) {
-               return count;
-            }
-            ++count;
-            break;
-         case 'R':
-            if (++curY == n) {
-               return count;
-            }
-            ++count;
-            break;
+            case 'U':
+               if (--curX < 0) {
+                  return count;
+               }
+               ++count;
+               break;
+            case 'D':
+               if (++curX == n) {
+                  return count;
+               }
+               ++count;
+               break;
+            case 'L':
+               if (--curY < 0) {
+                  return count;
+               }
+               ++count;
+               break;
+            case 'R':
+               if (++curY == n) {
+                  return count;
+               }
+               ++count;
+               break;
          }
 
       }
