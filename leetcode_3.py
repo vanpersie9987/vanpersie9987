@@ -4361,7 +4361,7 @@ class SegmentTree2940:
             else:
                 st.append(x)
         return not st
-    
+
     # 21. 合并两个有序链表 (Merge Two Sorted Lists)
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
         dummy = p = ListNode(0)
@@ -4380,6 +4380,20 @@ class SegmentTree2940:
                 list2 = list2.next
             p = p.next
         return dummy.next
-            
 
-
+    # 19. 删除链表的倒数第 N 个结点 (Remove Nth Node From End of List)
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        c = 0
+        dummy = p = ListNode(0, head)
+        while p.next:
+            c += 1
+            p = p.next
+        pre_id = c - n
+        pre = dummy
+        cur = head
+        while pre_id:
+            pre_id -= 1
+            pre = pre.next
+            cur = cur.next
+        pre.next = cur.next
+        return dummy.next
