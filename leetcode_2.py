@@ -4932,18 +4932,16 @@ class Union924:
             if i == n:
                 return 0
             res = dfs(i + 1)
-            j = i + 1
-            while j < n and arr[j][0] - arr[i][0] <= 2:
-                j += 1
-            res = max(res, dfs(j) + arr[i][0] * arr[i][1])
+            v = a[i]
+            while i < n and a[i] - v <= 2:
+                i += 1
+            res = max(res, dfs(i) + a[i] * d[a[i]])
             return res
-
-        c = Counter(power)
-        arr = []
-        for k, v in c.items():
-            arr.append((k, v))
-        arr.sort(key=lambda k: k[0])
-        n = len(arr)
+        a = sorted(set(power))
+        d = defaultdict(int)
+        for x in power:
+            d[x] += 1
+        n = len(a)
         return dfs(0)
 
     # 2288. 价格减免 (Apply Discount to Prices)
