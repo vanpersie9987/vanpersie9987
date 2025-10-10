@@ -6675,24 +6675,25 @@ class Union924:
     def maxRemovals(self, source: str, pattern: str, targetIndices: List[int]) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == n or j == m:
-                if i == n and j == m:
-                    return 0
-                if j == m:
-                    return dfs(i + 1, j) + s[i]
+            if j < 0:
+                return pre[i + 1]
+            if i < 0 or j > i:
                 return -inf
-            if not s[i]:
-                return dfs(i + 1, j + int(source[i] == pattern[j]))
-            if source[i] != pattern[j]:
-                return dfs(i + 1, j) + 1
-            return max(dfs(i + 1, j + 1), dfs(i + 1, j) + 1)
+            res = 0
+            # i not in s
+            if pre[i + 1] == pre[i]:
+                return dfs(i - 1, j - int(source[i] == pattern[j]))
+            res = dfs(i - 1, j) + 1
+            if source[i] == pattern[j]:
+                res = max(res, dfs(i - 1, j - 1))
+            return res
 
         n = len(source)
-        m = len(pattern)
-        s = [False] * n
-        for t in targetIndices:
-            s[t] = True
-        return dfs(0, 0)
+        s = set(targetIndices)
+        pre = [0] * (n + 1)
+        for i in range(n):
+            pre[i + 1] = pre[i] + (i in s)
+        return dfs(n - 1, len(pattern) - 1)
 
     # 1884. 鸡蛋掉落-两枚鸡蛋 (Egg Drop With 2 Eggs and N Floors)
     def twoEggDrop(self, n: int) -> int:
