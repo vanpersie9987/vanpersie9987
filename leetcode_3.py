@@ -48,7 +48,19 @@ from tkinter import N, NO, W
 from tkinter.messagebox import RETRY
 from tkinter.tix import Tree
 from token import NL, RIGHTSHIFT
-from turtle import RawTurtle, left, mode, pos, position, reset, right, rt, st, up, update
+from turtle import (
+    RawTurtle,
+    left,
+    mode,
+    pos,
+    position,
+    reset,
+    right,
+    rt,
+    st,
+    up,
+    update,
+)
 from typing import List, Optional, Self
 import heapq
 import bisect
@@ -2416,35 +2428,32 @@ class leetcode_3:
     # 3628. 插入一个字母的最大子序列数 (Maximum Number of Subsequences After One Inserting)
     def numOfSubsequences(self, s: str) -> int:
         def cal(s: str) -> int:
-            cnt_L = 0
-            cnt_C = 0
+            l_cnt = 0
+            c_cnt = 0
             res = 0
-            for c in s:
-                if c == "L":
-                    cnt_L += 1
-                elif c == "C":
-                    cnt_C += cnt_L
-                elif c == "T":
-                    res += cnt_C
+            for x in s:
+                if x == "L":
+                    l_cnt += 1
+                elif x == "C":
+                    c_cnt += l_cnt
+                elif x == "T":
+                    res += c_cnt
             return res
 
-        def check(s: str) -> int:
+        def check() -> int:
+            mx = 0
             n = len(s)
             left = [0] * n
             left[0] = s[0] == "L"
             for i in range(1, n):
                 left[i] = left[i - 1] + (s[i] == "L")
-            right = s[-1] == "T"
-            res = 0
-            mx = 0
-            for i in range(n - 2, -1, -1):
+            right = 0
+            for i in range(n - 1, -1, -1):
                 right += s[i] == "T"
-                if s[i] == "C":
-                    res += left[i] * right
                 mx = max(mx, left[i] * right)
-            return res + mx
+            return mx + cal(s)
 
-        return max(cal("L" + s), cal(s + "T"), check(s))
+        return max(cal("L" + s), cal(s + "T"), check())
 
 
 # 3629. 通过质数传送到达终点的最少跳跃次数 (Minimum Jumps to Reach End via Prime Teleportation)
@@ -4363,7 +4372,9 @@ class SegmentTree2940:
         return not st
 
     # 21. 合并两个有序链表 (Merge Two Sorted Lists)
-    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+    def mergeTwoLists(
+        self, list1: Optional[ListNode], list2: Optional[ListNode]
+    ) -> Optional[ListNode]:
         dummy = p = ListNode(0)
         while list1 or list2:
             if list1 is None:
