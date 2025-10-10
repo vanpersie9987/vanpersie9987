@@ -8405,39 +8405,42 @@ public class Leetcode_9 {
 
     // 3628. 插入一个字母的最大子序列数 (Maximum Number of Subsequences After One Inserting)
     public long numOfSubsequences(String s) {
+        long res = Math.max(cal3628("L" + s), cal3628(s + "T"));
+        return Math.max(res, check3628(s));
+    }
+
+    private long check3628(String s) {
         int n = s.length();
-        long res = 0L;
-        int cntL = s.charAt(0) == 'L' ? 1 : 0;
-        long cntC = 0L;
         int[] left = new int[n];
         left[0] = s.charAt(0) == 'L' ? 1 : 0;
         for (int i = 1; i < n; ++i) {
-            if (s.charAt(i) == 'L') {
-                ++cntL;
-            } else if (s.charAt(i) == 'C') {
-                cntC += cntL;
-            }
-            left[i] = cntL;
+            left[i] = left[i - 1] + (s.charAt(i) == 'L' ? 1 : 0);
         }
-        long mx2 = cntC;
-        int cntT = s.charAt(n - 1) == 'T' ? 1 : 0;
-        cntC = 0L;
-        long mx1 = 0L;
-        for (int i = n - 2; i >= 0; --i) {
+        int right = 0;
+        long max = 0L;
+        for (int i = n - 1; i >= 0; --i) {
             if (s.charAt(i) == 'T') {
-                ++cntT;
-            } else if (s.charAt(i) == 'C') {
-                cntC += cntT;
+                ++right;
             }
-            long cur = (long) left[i] * cntT;
-            mx1 = Math.max(mx1, cur);
-            if (s.charAt(i) == 'C') {
-                res += cur;
+            max = Math.max(max, (long) left[i] * right);
+        }
+        return max + cal3628(s);
+    }
+
+    private long cal3628(String s) {
+        int l = 0;
+        long c = 0L;
+        long res = 0L;
+        for (char chr : s.toCharArray()) {
+            if (chr == 'L') {
+                ++l;
+            } else if (chr == 'C') {
+                c += l;
+            } else if (chr == 'T') {
+                res += c;
             }
         }
-        long mx3 = cntC;
-        return res + Math.max(Math.max(mx1, mx2), mx3);
-
+        return res;
     }
 
     // 3629. 通过质数传送到达终点的最少跳跃次数 (Minimum Jumps to Reach End via Prime Teleportation)
