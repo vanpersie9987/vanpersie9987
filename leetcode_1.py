@@ -3800,23 +3800,20 @@ class leetcode_1:
 
     # 23. 合并 K 个升序链表 (Merge k Sorted Lists)
     # 比较堆中节点的大小
-    ListNode.__lt__ = lambda a, b: a.val < b.val
-
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        class ListNode:
-            def __init__(self, val=0, next=None):
-                self.val = val
-                self.next = next
-
-        cur = dummy = ListNode()
-        list = [head for head in lists if head]
-        heapq.heapify(list)
-        while list:
-            node = heapq.heappop(list)
-            if node.next:
-                heapq.heappush(list, node.next)
-            cur.next = node
-            cur = cur.next
+        q = []
+        for i, l in enumerate(lists):
+            if l:
+                q.append((l.val, i))
+        heapq.heapify(q)
+        dummy = p = ListNode(0)
+        while q:
+            v, i = heapq.heappop(q)
+            p.next = ListNode(v)
+            p = p.next
+            if lists[i].next:
+                lists[i] = lists[i].next
+                heapq.heappush(q, (lists[i].val, i))
         return dummy.next
 
     # 1269. 停在原地的方案数 (Number of Ways to Stay in the Same Place After Some Steps)
