@@ -4361,3 +4361,25 @@ class SegmentTree2940:
             else:
                 st.append(x)
         return not st
+    
+    # 21. 合并两个有序链表 (Merge Two Sorted Lists)
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = p = ListNode(0)
+        while list1 or list2:
+            if list1 is None:
+                p.next = list2
+                break
+            if list2 is None:
+                p.next = list1
+                break
+            if list1.val < list2.val:
+                p.next = list1
+                list1 = list1.next
+            else:
+                p.next = list2
+                list2 = list2.next
+            p = p.next
+        return dummy.next
+            
+
+
