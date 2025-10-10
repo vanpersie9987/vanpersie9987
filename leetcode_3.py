@@ -4343,3 +4343,21 @@ class SegmentTree2940:
                     return res
         dfs.cache_clear()
         return res
+
+    # 20. 有效的括号 (Valid Parentheses)
+    def isValid(self, s: str) -> bool:
+        if len(s) & 1:
+            return False
+        d = defaultdict(str)
+        d[")"] = "("
+        d["}"] = "{"
+        d["]"] = "["
+        st = []
+        for x in s:
+            if x in d:
+                if not st or d[x] != st[-1]:
+                    return False
+                st.pop()
+            else:
+                st.append(x)
+        return not st
