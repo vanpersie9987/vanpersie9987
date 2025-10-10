@@ -4408,3 +4408,20 @@ class SegmentTree2940:
             cur = cur.next
         pre.next = cur.next
         return dummy.next
+    
+    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i < 0:
+                return s2[:j + 1] == s3[:i + j + 2]
+            if j < 0:
+                return s1[:i + 1] == s3[:i + j + 2]
+            if s1[i] == s3[i + j + 1] and dfs(i - 1, j):
+                return True
+            if s2[j] == s3[i + j + 1] and dfs(i, j - 1):
+                return True
+            return False
+        n1, n2, n3 = len(s1), len(s2), len(s3)
+        if n1 + n2 != n3:
+            return False
+        return dfs(n1 - 1, n2 - 1)

@@ -280,20 +280,19 @@ class leetcode_1:
     # LCR 096. 交错字符串
     def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
         @cache
-        def dfs(i: int, j: int) -> bool:
-            if i == n1 or j == n2:
-                return s1[i:] + s2[j:] == s3[i + j :]
-            return (
-                s1[i] == s3[i + j]
-                and dfs(i + 1, j)
-                or s2[j] == s3[i + j]
-                and dfs(i, j + 1)
-            )
+        def dfs(i: int, j: int) -> int:
+            if i < 0 or j < 0:
+                return s1[: i + 1] + s2[: j + 1] == s3[: i + j + 2]
+            if s1[i] == s3[i + j + 1] and dfs(i - 1, j):
+                return True
+            if s2[j] == s3[i + j + 1] and dfs(i, j - 1):
+                return True
+            return False
 
         n1, n2, n3 = len(s1), len(s2), len(s3)
         if n1 + n2 != n3:
             return False
-        return dfs(0, 0)
+        return dfs(n1 - 1, n2 - 1)
 
     # 120. 三角形最小路径和 (Triangle)
     # LCR 100. 三角形最小路径和
@@ -1326,8 +1325,8 @@ class leetcode_1:
             if nums1[i] == nums2[j]:
                 return dfs(i - 1, j - 1) + 1
             return max(dfs(i - 1, j), dfs(i, j - 1))
+
         return dfs(len(nums1) - 1, len(nums2) - 1)
-        
 
     # 2547. 拆分数组的最小代价 (Minimum Cost to Split an Array)
     def minCost(self, nums: List[int], k: int) -> int:
