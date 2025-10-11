@@ -20,8 +20,6 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.swing.tree.TreeNode;
-
 @SuppressWarnings("unchecked")
 public class Leetcode_3 {
     public static void main(String[] args) {

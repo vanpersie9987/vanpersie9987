@@ -18,6 +18,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@SuppressWarnings("unchecked")
 public class Leetcode_5 {
     public static void main(String[] args) {
         // int[] nums1 = { -4, -4, 4, -1, -2, 5 };
