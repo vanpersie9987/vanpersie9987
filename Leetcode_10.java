@@ -493,4 +493,42 @@ public class Leetcode_10 {
 
     }
 
+    // 3310. 移除可疑的方法 (Remove Methods From Project)
+    public List<Integer> remainingMethods(int n, int k, int[][] invocations) {
+        List<Integer>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] i : invocations) {
+            g[i[0]].add(i[1]);
+        }
+        boolean[] s = new boolean[n];
+        dfs3310(k, g, s);
+        for (int[] i : invocations) {
+            if (!s[i[0]] && s[i[1]]) {
+                List<Integer> res = new ArrayList<>();
+                for (int j = 0; j < n; ++j) {
+                    res.add(j);
+                }
+                return res;
+            }
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            if (!s[i]) {
+                res.add(i);
+            }
+        }
+        return res;
+
+    }
+
+    private void dfs3310(int x, List<Integer>[] g, boolean[] s) {
+        if (s[x]) {
+            return;
+        }
+        s[x] = true;
+        for (int y : g[x]) {
+            dfs3310(y, g, s);
+        }
+    }
+
 }
