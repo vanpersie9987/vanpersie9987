@@ -4408,3 +4408,25 @@ class SegmentTree2940:
             cur = cur.next
         pre.next = cur.next
         return dummy.next
+
+    # 3310. 移除可疑的方法 (Remove Methods From Project)
+    def remainingMethods(
+        self, n: int, k: int, invocations: List[List[int]]
+    ) -> List[int]:
+        def dfs(x: int):
+            if x in c:
+                return
+            c.add(x)
+            for y in g[x]:
+                dfs(y)
+
+        g = [[] for _ in range(n)]
+        for u, v in invocations:
+            g[u].append(v)
+        # 被污染的方法
+        c = set()
+        dfs(k)
+        for u, v in invocations:
+            if u not in c and v in c:
+                return list(range(n))
+        return list(set(range(n)) - c)
