@@ -10119,42 +10119,32 @@ public class Leetcode_3 {
 
     }
 
-    // 5234. 移除字母异位词后的结果数组
+    // 2273. 移除字母异位词后的结果数组 (Find Resultant Array After Removing Anagrams)
     public List<String> removeAnagrams(String[] words) {
         List<String> res = new ArrayList<>();
-        for (String word : words) {
-            res.add(word);
-        }
-
-        while (true) {
-            boolean flag = false;
-            for (int i = 1; i < res.size(); ++i) {
-                if (check5234(res.get(i - 1), res.get(i))) {
-                    res.remove(i);
-                    flag = true;
-                    break;
-                }
-            }
-            if (!flag) {
-                break;
+        for (String w : words) {
+            if (res.isEmpty() || !isAnagrams2273(res.get(res.size() - 1), w)) {
+                res.add(w);
             }
         }
         return res;
-
     }
 
-    private boolean check5234(String s1, String s2) {
-        int[] counts1 = new int[26];
-        int[] counts2 = new int[26];
-        for (char c : s1.toCharArray()) {
-            ++counts1[c - 'a'];
+    // 是否异位词
+    private boolean isAnagrams2273(String a, String b) {
+        if (a.length() != b.length()) {
+            return false;
         }
-
-        for (char c : s2.toCharArray()) {
-            ++counts2[c - 'a'];
+        int[] cnt = new int[26];
+        for (char c : a.toCharArray()) {
+            ++cnt[c - 'a'];
         }
-
-        return Arrays.equals(counts1, counts2);
+        for (char c : b.toCharArray()) {
+            if (--cnt[c - 'a'] < 0) {
+                return false;
+            }
+        }
+        return Arrays.equals(cnt, new int[26]);
     }
 
     // 6064. 不含特殊楼层的最大连续楼层数
