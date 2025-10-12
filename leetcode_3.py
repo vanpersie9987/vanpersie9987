@@ -4426,3 +4426,11 @@ class SegmentTree2940:
             if u not in c and v in c:
                 return list(range(n))
         return list(set(range(n)) - c)
+
+    # 2273. 移除字母异位词后的结果数组 (Find Resultant Array After Removing Anagrams)
+    def removeAnagrams(self, words: List[str]) -> List[str]:
+        st = []
+        for w in words:
+            if not st or sorted(st[-1]) != sorted(w):
+                st.append(w)
+        return st
