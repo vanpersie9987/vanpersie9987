@@ -12,7 +12,6 @@ import stat
 from termios import CINTR
 from tokenize import String
 from xxlimited import foo
-from audioop import minmax, reverse
 from calendar import c
 from collections import Counter, defaultdict, deque
 import collections
@@ -41,12 +40,10 @@ from ssl import VERIFY_X509_TRUSTED_FIRST
 from string import ascii_lowercase
 from tabnanny import check
 from tarfile import tar_filter
-from telnetlib import EOR
 from textwrap import indent
 import time
 from tkinter import N, NO, W
 from tkinter.messagebox import RETRY
-from tkinter.tix import Tree
 from token import NL, RIGHTSHIFT
 from turtle import (
     RawTurtle,
@@ -74,7 +71,6 @@ from zoneinfo import reset_tzpath
 # curl https://bootstrap.pypa.io/pip/get-pip.py -o get-pip.py
 # sudo python3 get-pip.py
 # pip3 install sortedcontainers
-from networkx import bull_graph, dfs_edges, grid_2d_graph, interval_graph, power, union
 from sortedcontainers import SortedDict, SortedList, SortedSet
 
 
