@@ -4490,6 +4490,6 @@ class SegmentTree2940:
             return self.pre[left - 1][1]
 
     # 3712. 出现次数能被 K 整除的元素总和 (Sum of Elements With Frequency Divisible by K)
-    def sumDivisibleByK(self, nums: List[int], k: int) -> int:
+    def sumDivisibleByK(self, nums: List[int], m: int) -> int:
         c = Counter(nums)
-        return sum(key * v for key, v in c.items() if v % k == 0)
+        return sum(k * v for k, v in c.items() if v % m == 0)
