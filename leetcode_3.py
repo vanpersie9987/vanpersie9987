@@ -4463,3 +4463,28 @@ class SegmentTree2940:
             res = max(res, j - i + 1)
             i = j
         return res
+
+    # 3709. 设计考试分数记录器 (Design Exam Scores Tracker)
+    class ExamTracker:
+
+        def __init__(self):
+            self.pre = [(0, 0)]
+
+        def record(self, time: int, score: int) -> None:
+            self.pre.append([time, self.pre[-1][1] + score])
+
+        def totalScore(self, startTime: int, endTime: int) -> int:
+            end = self.bisect_right(endTime + 1)
+            start = self.bisect_right(startTime)
+            return end - start
+
+        def bisect_right(self, t: int) -> int:
+            left = 0
+            right = len(self.pre) - 1
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if self.pre[mid][0] < t:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            return self.pre[left - 1][1]
