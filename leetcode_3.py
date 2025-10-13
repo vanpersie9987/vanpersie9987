@@ -4443,4 +4443,6 @@ class SegmentTree2940:
             _pre += ord(x) - ord('a') + 1
             if _pre * 2 == _sum:
                 return True
+            if _pre * 2 > _sum:
+                return False
         return False

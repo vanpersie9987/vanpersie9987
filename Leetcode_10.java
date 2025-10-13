@@ -531,6 +531,25 @@ public class Leetcode_10 {
         }
     }
 
+    // 3707. 相等子字符串分数 (Equal Score Substrings)
+    public boolean scoreBalance(String s) {
+        int sum = 0;
+        for (char c : s.toCharArray()) {
+            sum += c - 'a' + 1;
+        }
+        int pre = 0;
+        for (char c : s.toCharArray()) {
+            pre += c - 'a' + 1;
+            if (pre * 2 == sum) {
+                return true;
+            }
+            if (pre * 2 > sum) {
+                return false;
+            }
+        }
+        return false;
+    }
+
     
 
 }
