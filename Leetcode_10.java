@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
@@ -569,6 +570,59 @@ public class Leetcode_10 {
         return res;
     }
 
-    
+    // 3709. 设计考试分数记录器 (Design Exam Scores Tracker)
+    class ExamTracker {
+        private TreeMap<Integer, Long> pre;
+
+        public ExamTracker() {
+            this.pre = new TreeMap<>();
+            this.pre.put(0, 0L);
+        }
+
+        public void record(int time, int score) {
+            long last = pre.lastEntry().getValue();
+            pre.put(time, last + score);
+        }
+
+        public long totalScore(int startTime, int endTime) {
+            Integer end = pre.floorKey(endTime);
+            Integer start = pre.lowerKey(startTime);
+            return pre.get(end) - pre.get(start);
+        }
+    }
+
+    // 3709. 设计考试分数记录器 (Design Exam Scores Tracker)
+    class ExamTracker2 {
+        private List<long[]> pre;
+
+        public ExamTracker2() {
+            pre = new ArrayList<>();
+            pre.add(new long[]{0L, 0L});
+        }
+
+        public void record(int time, int score) {
+            pre.add(new long[] { time, pre.get(pre.size() - 1)[1] + score });
+        }
+
+        public long totalScore(int startTime, int endTime) {
+            long end = bisectRight(endTime + 1);
+            long start = bisectRight(startTime);
+            return end - start;
+        }
+
+        private long bisectRight(int target) {
+            int left = 0;
+            int right = pre.size() - 1;
+            while (left <= right) {
+                int mid = left + ((right - left) >> 1);
+                if (pre.get(mid)[0] < target) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+            return pre.get(left - 1)[1];
+        }
+    }
 
 }
