@@ -7075,17 +7075,17 @@ class Union924:
     # 3349. 检测相邻递增子数组 I (Adjacent Increasing Subarrays Detection I)
     def hasIncreasingSubarrays(self, nums: List[int], k: int) -> bool:
         n = len(nums)
-        cnt = 1
-        a = [False] * n
+        legal = [False] * n
+        cnt = 0
         for i, v in enumerate(nums):
-            if i and v - nums[i - 1] > 0:
+            if i and v > nums[i - 1]:
                 cnt += 1
-            if i >= k and nums[i - k + 1] - nums[i - k] > 0:
+            if i >= k and nums[i - k + 1] > nums[i - k]:
                 cnt -= 1
-            if cnt >= k:
-                a[i] = True
-                if i >= k and a[i - k]:
-                    return True
+            if cnt == k - 1:
+                legal[i] = True
+            if i >= k * 2 - 1 and legal[i] and legal[i - k]:
+                return True
         return False
 
     # 3350. 检测相邻递增子数组 II (Adjacent Increasing Subarrays Detection II)
