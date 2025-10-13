@@ -640,4 +640,40 @@ public class Leetcode_10 {
         return res;
     }
 
+    // 3713. 最长的平衡子串 I (Longest Balanced Substring I)
+    public int longestBalanced(String s) {
+        int n = s.length();
+        // 枚举字符串长度 L
+        for (int L = n; L >= 1; --L) {
+            int[] cnts = new int[26];
+            search: for (int i = 0; i < n; ++i) {
+                ++cnts[s.charAt(i) - 'a'];
+                if (i >= L) {
+                    --cnts[s.charAt(i - L) - 'a'];
+                }
+                if (i >= L - 1) {
+                    if (!check3713(cnts)) {
+                        continue search;
+                    }
+                    return L;
+                }
+            }
+        }
+        return -1;
+    }
+
+    private boolean check3713(int[] cnts) {
+        int cnt = -1;
+        for (int c : cnts) {
+            if (c == 0) {
+                continue;
+            }
+            if (cnt != -1 && cnt != c) {
+                return false;
+            }
+            cnt = c;
+        }
+        return true;
+    }
+
 }
