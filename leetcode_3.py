@@ -4515,3 +4515,37 @@ class SegmentTree2940:
                     cnts[ord(s[i - L]) - ord("a")] -= 1
                 if i >= L - 1 and check():
                     return L
+
+    # 3715. 完全平方数的祖先个数总和 (Sum of Perfect Square Ancestors)
+    def sumOfAncestors(self, n: int, edges: List[List[int]], nums: List[int]) -> int:
+        def dfs(x: int, fa: int) -> int:
+            v = nums[x]
+            res = d[v]
+            d[v] += 1
+            for y in g[x]:
+                if y != fa:
+                    res += dfs(y, x)
+            d[v] -= 1
+            return res
+        
+        # 计算x除去所有完全平方的因子的值
+        @cache
+        def core(x: int) -> int:
+            origin = x
+            for p in range(2, isqrt(x) + 1):
+                c = 0
+                while x % p == 0:
+                    c ^= 1
+                    if c == 0:
+                        origin //= p * p
+                    x //= p
+            return origin
+
+        for i, x in enumerate(nums):
+            nums[i] = core(x)
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        d = defaultdict(int)
+        return dfs(0, -1)

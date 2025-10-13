@@ -1,3 +1,4 @@
+import java.net.Inet4Address;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -672,5 +673,45 @@ public class Leetcode_10 {
         }
         return true;
     }
+
+    // 3715. 完全平方数的祖先个数总和 (Sum of Perfect Square Ancestors)
+    public long sumOfAncestors(int n, int[][] edges, int[] nums) {
+        for (int i = 0; i < n; ++i) {
+            int x = nums[i];
+            int ret = x;
+            for (int p = 2; p * p <= x; ++p) {
+                int cnt = 0;
+                while (x % p == 0) {
+                    cnt ^= 1;
+                    x /= p;
+                    if (cnt == 0) {
+                        ret /= p * p;
+                    }
+                }
+            }
+            nums[i] = ret;
+        }
+        List<Integer>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[0]].add(e[1]);
+            g[e[1]].add(e[0]);
+        }
+        Map<Integer, Integer> cnts = new HashMap<>();
+        return dfs3715(0, -1, cnts, g, nums);
+    }
+
+    private long dfs3715(int x, int fa, Map<Integer, Integer> cnts, List<Integer>[] g, int[] nums) {
+        long res = cnts.getOrDefault(nums[x], 0);
+        cnts.merge(nums[x], 1, Integer::sum);
+        for (int y : g[x]) {
+            if (y != fa) {
+                res += dfs3715(y, x, cnts, g, nums);
+            }
+        }
+        cnts.merge(nums[x], -1, Integer::sum);
+        return res;
+    }
+
 
 }
