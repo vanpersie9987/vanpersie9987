@@ -646,15 +646,12 @@ public class Leetcode_10 {
         // 枚举字符串长度 L
         for (int L = n; L >= 1; --L) {
             int[] cnts = new int[26];
-            search: for (int i = 0; i < n; ++i) {
+            for (int i = 0; i < n; ++i) {
                 ++cnts[s.charAt(i) - 'a'];
                 if (i >= L) {
                     --cnts[s.charAt(i - L) - 'a'];
                 }
-                if (i >= L - 1) {
-                    if (!check3713(cnts)) {
-                        continue search;
-                    }
+                if (i >= L - 1 && check3713(cnts)) {
                     return L;
                 }
             }

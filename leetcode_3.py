@@ -33,7 +33,7 @@ from operator import is_, le, ne, truediv
 from os import eventfd, lseek, minor, name, pread
 from pickletools import read_uint1
 from queue import PriorityQueue
-from re import L, X
+from re import L, T, X
 import re
 from socket import NI_NUMERICSERV
 from ssl import VERIFY_X509_TRUSTED_FIRST
@@ -4493,3 +4493,25 @@ class SegmentTree2940:
     def sumDivisibleByK(self, nums: List[int], m: int) -> int:
         c = Counter(nums)
         return sum(k * v for k, v in c.items() if v % m == 0)
+
+    # 3713. 最长的平衡子串 I (Longest Balanced Substring I)
+    def longestBalanced(self, s: str) -> int:
+        def check() -> bool:
+            x = -1
+            for c in cnts:
+                if c == 0:
+                    continue
+                if x != -1 and c != x:
+                    return False
+                x = c
+            return True
+
+        n = len(s)
+        for L in range(n, 0, -1):
+            cnts = [0] * 26
+            for i, v in enumerate(s):
+                cnts[ord(v) - ord("a")] += 1
+                if i >= L:
+                    cnts[ord(s[i - L]) - ord("a")] -= 1
+                if i >= L - 1 and check():
+                    return L
