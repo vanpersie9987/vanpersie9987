@@ -4446,3 +4446,20 @@ class SegmentTree2940:
             if _pre * 2 > _sum:
                 return False
         return False
+
+    # 3708. 最长斐波那契子数组 (Longest Fibonacci Subarray)
+    def longestSubarray(self, nums: List[int]) -> int:
+        n = len(nums)
+        i = 1
+        res = 0
+        while i < n:
+            pre = nums[i - 1]
+            cur = nums[i]
+            j = i + 1
+            while j < n and pre + cur == nums[j]:
+                pre = cur
+                cur = nums[j]
+                j += 1
+            res = max(res, j - i + 1)
+            i = j
+        return res

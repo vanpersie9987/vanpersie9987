@@ -550,6 +550,25 @@ public class Leetcode_10 {
         return false;
     }
 
+    // 3708. 最长斐波那契子数组 (Longest Fibonacci Subarray)
+    public int longestSubarray(int[] nums) {
+        int res = 0;
+        int n = nums.length;
+        for (int i = 1; i < n;) {
+            int pre = nums[i - 1];
+            int cur = nums[i];
+            int j = i + 1;
+            while (j < n && pre + cur == nums[j]) {
+                pre = cur;
+                cur = nums[j];
+                ++j;
+            }
+            res = Math.max(res, j - i + 1);
+            i = j;
+        }
+        return res;
+    }
+
     
 
 }
