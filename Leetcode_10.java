@@ -713,5 +713,65 @@ public class Leetcode_10 {
         return res;
     }
 
+    // 3710. 最大划分因子 (Maximum Partition Factor)
+    public int maxPartitionFactor(int[][] points) {
+        int n = points.length;
+        if (n == 2) {
+            return 0;
+        }
+        int mx = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                mx = Math.max(mx, Math.abs(points[i][0] - points[j][0]) + Math.abs(points[i][1] - points[j][1]));
+            }
+        }
+        int left = 0;
+        int right = mx;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check3710(mid, points)) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return left - 1;
+
+    }
+
+    private boolean check3710(int low, int[][] points) {
+        int n = points.length;
+        int[] color = new int[n];
+        for (int i = 0; i < n; ++i) {
+            if (color[i] == 0) {
+                if (!dfs3710(i, 1, low, points, color)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean dfs3710(int x, int c, int low, int[][] points, int[] color) {
+        color[x] = c;
+        for (int y = 0; y < points.length; ++y) {
+            if (x == y) {
+                continue;
+            }
+            int d = Math.abs(points[x][0] - points[y][0]) + Math.abs(points[x][1] - points[y][1]);
+            if (d >= low) {
+                continue;
+            }
+            if (color[y] == c) {
+                return false;
+            }
+            if (color[y] == 0 && !dfs3710(y, -c, low, points, color)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
 
 }
