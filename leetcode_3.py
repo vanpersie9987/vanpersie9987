@@ -47,6 +47,7 @@ from tkinter.messagebox import RETRY
 from token import NL, RIGHTSHIFT
 from turtle import (
     RawTurtle,
+    color,
     left,
     mode,
     pos,
@@ -4527,7 +4528,7 @@ class SegmentTree2940:
                     res += dfs(y, x)
             d[v] -= 1
             return res
-        
+
         # 计算x除去所有完全平方的因子的值
         @cache
         def core(x: int) -> int:
@@ -4549,3 +4550,45 @@ class SegmentTree2940:
             g[v].append(u)
         d = defaultdict(int)
         return dfs(0, -1)
+
+    # 3710. 最大划分因子 (Maximum Partition Factor)
+    def maxPartitionFactor(self, points: List[List[int]]) -> int:
+        def check(low: int) -> bool:
+            def dfs(x: int, c: int) -> bool:
+                color[x] = c
+                for y in range(n):
+                    if x == y:
+                        continue
+                    if (
+                        abs(points[x][0] - points[y][0])
+                        + abs(points[x][1] - points[y][1])
+                        >= low
+                    ):
+                        continue
+                    if color[y] == c:
+                        return False
+                    if color[y] == 0 and not dfs(y, -c):
+                        return False
+                return True
+
+            color = [0] * len(points)
+            for i, c in enumerate(color):
+                if c == 0 and not dfs(i, 1):
+                    return False
+            return True
+
+        n = len(points)
+        if n == 2:
+            return 0
+        mx = 0
+        for (x1, y1), (x2, y2) in combinations(points, 2):
+            mx = max(mx, abs(x1 - x2) + abs(y1 - y2))
+        left = 0
+        right = mx
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                left = mid + 1
+            else:
+                right = mid - 1
+        return left - 1

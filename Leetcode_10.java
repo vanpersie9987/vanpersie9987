@@ -625,7 +625,7 @@ public class Leetcode_10 {
             return pre.get(left - 1)[1];
         }
     }
-    
+
     // 3712. 出现次数能被 K 整除的元素总和 (Sum of Elements With Frequency Divisible by K)
     public int sumDivisibleByK(int[] nums, int k) {
         int[] cnts = new int[101];
@@ -771,7 +771,5 @@ public class Leetcode_10 {
         }
         return true;
     }
-
-
 
 }
