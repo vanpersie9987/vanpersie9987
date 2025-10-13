@@ -4434,3 +4434,13 @@ class SegmentTree2940:
             if not st or sorted(st[-1]) != sorted(w):
                 st.append(w)
         return st
+
+    # 3707. 相等子字符串分数 (Equal Score Substrings)
+    def scoreBalance(self, s: str) -> bool:
+        _sum = sum(ord(x) - ord('a') + 1 for x in s)
+        _pre = 0
+        for x in s:
+            _pre += ord(x) - ord('a') + 1
+            if _pre * 2 == _sum:
+                return True
+        return False
