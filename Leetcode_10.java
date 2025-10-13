@@ -597,7 +597,7 @@ public class Leetcode_10 {
 
         public ExamTracker2() {
             pre = new ArrayList<>();
-            pre.add(new long[]{0L, 0L});
+            pre.add(new long[] { 0L, 0L });
         }
 
         public void record(int time, int score) {
@@ -623,6 +623,21 @@ public class Leetcode_10 {
             }
             return pre.get(left - 1)[1];
         }
+    }
+    
+    // 3712. 出现次数能被 K 整除的元素总和 (Sum of Elements With Frequency Divisible by K)
+    public int sumDivisibleByK(int[] nums, int k) {
+        int[] cnts = new int[101];
+        for (int x : nums) {
+            ++cnts[x];
+        }
+        int res = 0;
+        for (int i = 0; i < 101; ++i) {
+            if (cnts[i] != 0 && cnts[i] % k == 0) {
+                res += i * cnts[i];
+            }
+        }
+        return res;
     }
 
 }

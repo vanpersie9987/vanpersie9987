@@ -4437,10 +4437,10 @@ class SegmentTree2940:
 
     # 3707. 相等子字符串分数 (Equal Score Substrings)
     def scoreBalance(self, s: str) -> bool:
-        _sum = sum(ord(x) - ord('a') + 1 for x in s)
+        _sum = sum(ord(x) - ord("a") + 1 for x in s)
         _pre = 0
         for x in s:
-            _pre += ord(x) - ord('a') + 1
+            _pre += ord(x) - ord("a") + 1
             if _pre * 2 == _sum:
                 return True
             if _pre * 2 > _sum:
@@ -4488,3 +4488,8 @@ class SegmentTree2940:
                 else:
                     right = mid - 1
             return self.pre[left - 1][1]
+
+    # 3712. 出现次数能被 K 整除的元素总和 (Sum of Elements With Frequency Divisible by K)
+    def sumDivisibleByK(self, nums: List[int], k: int) -> int:
+        c = Counter(nums)
+        return sum(key * v for key, v in c.items() if v % k == 0)
