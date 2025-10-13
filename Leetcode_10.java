@@ -772,4 +772,35 @@ public class Leetcode_10 {
         return true;
     }
 
+    public boolean hasIncreasingSubarrays(List<Integer> nums, int k) {
+        if (k == 1) {
+            return true;
+        }
+        int n = nums.size();
+        boolean[] legal = new boolean[n];
+        int cnt = 0;
+        for (int i = 1; i < n; ++i) {
+            if (nums.get(i) > nums.get(i - 1)) {
+                ++cnt;
+            }
+            if (i >= k) {
+                if (nums.get(i - k + 1) > nums.get(i - k)) {
+                    --cnt;
+                }
+            }
+            if (i >= k - 1) {
+                if (cnt == k - 1) {
+                    legal[i] = true;
+                }
+            }
+            if (i >= k * 2 - 1) {
+                if (legal[i] && legal[i - k]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
+
 }
