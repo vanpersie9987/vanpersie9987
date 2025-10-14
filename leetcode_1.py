@@ -5827,35 +5827,25 @@ class leetcode_1:
             ):
                 res.append(id)
         return res
-
-    # 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array)
+    
+    # 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array) --二分-贪心
     def minimumMountainRemovals(self, nums: List[int]) -> int:
+        def check(a: List[int]) -> List[int]:
+            n = len(a)
+            left = [0] * n
+            g = []
+            for i, x in enumerate(a):
+                j = bisect.bisect_left(g, x)
+                if j == len(g):
+                    g.append(x)
+                else:
+                    g[j] = x
+                left[i] = len(g)
+            return left
+        left = check(nums)
+        right = list(reversed(check(list(reversed(nums)))))
         n = len(nums)
-        left = [0] * n
-        _list = []
-        for i, v in enumerate(nums):
-            if len(_list) == 0 or _list[-1] < v:
-                _list.append(v)
-                left[i] = len(_list)
-            else:
-                j = bisect.bisect_left(_list, v)
-                _list[j] = v
-                left[i] = j + 1
-        right = [0] * n
-        _list.clear()
-        for i in range(n - 1, -1, -1):
-            if len(_list) == 0 or _list[-1] < nums[i]:
-                _list.append(nums[i])
-                right[i] = len(_list)
-            else:
-                j = bisect.bisect_left(_list, nums[i])
-                _list[j] = nums[i]
-                right[i] = j + 1
-        res = n
-        for i in range(n):
-            if left[i] != 1 and right[i] != 1:
-                res = min(res, n - left[i] - right[i] + 1)
-        return res
+        return min(n - l - r + 1 for l, r in zip(left[1: n - 1], right[1: n - 1]) if l > 1 and r > 1)
 
     # 1639. 通过给定词典构造目标字符串的方案数 (Number of Ways to Form a Target String Given a Dictionary)
     def numWays(self, words: List[str], target: str) -> int:
