@@ -4532,48 +4532,54 @@ public class Leetcode_7 {
     // --O(nlogn)
     public int minimumMountainRemovals3(int[] nums) {
         int n = nums.length;
-        int[] pre = new int[n];
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < n; ++i) {
-            if (list.isEmpty() || nums[i] > list.get(list.size() - 1)) {
-                list.add(nums[i]);
-                pre[i] = list.size();
-            } else {
-                int j = binarySearchCeiling1671(list, nums[i]);
-                list.set(j, nums[i]);
-                pre[i] = j + 1;
+        int[] left = check1671(nums);
+        int[] right = reversed1671(check1671(reversed1671(nums)));
+        int res = 0;
+        for (int i = 1; i < n - 1; ++i) {
+            if (left[i] > 1 && right[i] > 1) {
+                res = Math.max(res, left[i] + right[i] - 1);
             }
         }
-
-        list.clear();
-        int[] suf = new int[n];
-        for (int i = n - 1; i >= 0; --i) {
-            if (list.isEmpty() || nums[i] > list.get(list.size() - 1)) {
-                list.add(nums[i]);
-                suf[i] = list.size();
-            } else {
-                int j = binarySearchCeiling1671(list, nums[i]);
-                list.set(j, nums[i]);
-                suf[i] = j + 1;
-            }
-        }
-        int res = n;
-        for (int i = 0; i < n; ++i) {
-            if (pre[i] != 1 && suf[i] != 1) {
-                res = Math.min(res, n - pre[i] - suf[i] + 1);
-            }
-        }
-        return res;
+        return n - res;
 
     }
 
+    private int[] check1671(int[] a) {
+        int n = a.length;
+        int[] res = new int[n];
+        List<Integer> g = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            int j = bisectLeft1671(g, a[i]);
+            if (j == g.size()) {
+                g.add(a[i]);
+            } else {
+                g.set(j, a[i]);
+            }
+            res[i] = g.size();
+        }
+        return res;
+    }
+
+    private int[] reversed1671(int[] a) {
+        int i = 0;
+        int j = a.length - 1;
+        while (i < j) {
+            int tmp = a[i];
+            a[i] = a[j];
+            a[j] = tmp;
+            ++i;
+            --j;
+        }
+        return a;
+    }
+
     // 找排序list中，第一个 >= target 的值的索引
-    private int binarySearchCeiling1671(List<Integer> list, int target) {
+    private int bisectLeft1671(List<Integer> a, int x) {
         int left = 0;
-        int right = list.size() - 1;
+        int right = a.size() - 1;
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
-            if (list.get(mid) >= target) {
+            if (a.get(mid) >= x) {
                 right = mid - 1;
             } else {
                 left = mid + 1;
