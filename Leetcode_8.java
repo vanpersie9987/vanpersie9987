@@ -2889,6 +2889,36 @@ public class Leetcode_8 {
         return memo2826[i] = res + 1;
     }
 
+    // 2826. 将三个组排序 (Sorting Three Groups) --贪心-二分
+    public int minimumOperations2(List<Integer> nums) {
+        List<Integer> g = new ArrayList<>();
+        for (int x : nums) {
+            int j = bisectLeft(g, x + 1);
+            if (j == g.size()) {
+                g.add(x);
+            } else {
+                g.set(j, x);
+            }
+        }
+        return nums.size() - g.size();
+
+    }
+
+    // 找 >= x 的最小索引，若不存在（x大于g中所有元素），返回g的长度
+    private int bisectLeft(List<Integer> g, int x) {
+        int left = 0;
+        int right = g.size() - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (g.get(mid) >= x) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+    }
+
     // 2827. 范围中美丽整数的数目 (Number of Beautiful Integers in the Range)
     private int k8013;
 
