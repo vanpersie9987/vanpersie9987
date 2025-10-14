@@ -3865,30 +3865,28 @@ class leetcode_1:
     # 1964. 找出到每个位置为止最长的有效障碍赛跑路线 (Find the Longest Valid Obstacle Course at Each Position)
     def longestObstacleCourseAtEachPosition(self, obstacles: List[int]) -> List[int]:
         n = len(obstacles)
-        list = []
         res = [0] * n
-        for i, v in enumerate(obstacles):
-            if len(list) == 0 or v >= list[-1]:
-                list.append(v)
-                res[i] = len(list)
+        g = []
+        for i, x in enumerate(obstacles):
+            j = bisect.bisect_left(g, x + 1)
+            if j == len(g):
+                g.append(x)
+                res[i] = len(g)
             else:
-                # list中大于或等于 v + 1 的最小值的最小索引
-                pos = bisect.bisect_left(list, v + 1)
-                list[pos] = v
-                res[i] = pos + 1
+                g[j] = x
+                res[i] = j + 1
         return res
 
     # 300. 最长递增子序列 (Longest Increasing Subsequence)
     def lengthOfLIS(self, nums: List[int]) -> int:
-        list = []
-        for i, v in enumerate(nums):
-            if len(list) == 0 or v > list[-1]:
-                list.append(v)
+        g = []
+        for x in nums:
+            j = bisect.bisect_left(g, x)
+            if j == len(g):
+                g.append(x)
             else:
-                # list中小于或等于 v - 1 的最大值的最大索引
-                pos = bisect.bisect_right(list, v - 1)
-                list[pos] = v
-        return len(list)
+                g[j] = x
+        return len(g)
 
     # 559. N 叉树的最大深度 (Maximum Depth of N-ary Tree)
     def maxDepth(self, root: Node) -> int:
