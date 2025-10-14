@@ -2232,16 +2232,14 @@ class leetcode_1:
     # 2826. 将三个组排序 (Sorting Three Groups)
     def minimumOperations(self, nums: List[int]) -> int:
         @cache
-        def dfs(i: int, j: int) -> int:
-            if i == n:
-                return 0
-            res = dfs(i + 1, j)
-            if nums[i] >= j:
-                res = max(res, dfs(i + 1, nums[i]) + 1)
-            return res
-
+        def dfs(i: int) -> int:
+            res = 0
+            for j in range(i):
+                if nums[j] <= nums[i]:
+                    res = max(res, dfs(j))
+            return res + 1
         n = len(nums)
-        return n - dfs(0, 1)
+        return n - max(dfs(i) for i in range(n))
 
     # 2826. 将三个组排序 (Sorting Three Groups) --贪心-二分
     def minimumOperations(self, nums: List[int]) -> int:
