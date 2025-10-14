@@ -4476,56 +4476,42 @@ public class Leetcode_7 {
 
     // 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array)
     // --O(n^2)
-    private int[] pre1671;
-    private int[] suf1671;
     private int[] nums1671;
-    private int n1671;
 
     public int minimumMountainRemovals2(int[] nums) {
-        this.n1671 = nums.length;
-        this.pre1671 = new int[n1671];
+        int n = nums.length;
+        int[] pre = new int[n];
         this.nums1671 = nums;
-        for (int i = 0; i < n1671; ++i) {
-            dfs1671(i);
+        for (int i = 0; i < n; ++i) {
+            pre[i] = dfs1671(i, pre);
         }
-        this.suf1671 = new int[n1671];
-        for (int i = n1671 - 1; i >= 0; --i) {
-            dfs2_1671(i);
+        int[] suf = new int[n];
+        this.nums1671 = reversed1671(nums);
+        for (int i = 0; i < n; ++i) {
+            suf[i] = dfs1671(i, suf);
         }
-        int res = n1671;
-        for (int i = 0; i < n1671; ++i) {
-            if (pre1671[i] != 1 && suf1671[i] != 1) {
-                res = Math.min(res, n1671 - pre1671[i] - suf1671[i] + 1);
+        suf = reversed1671(suf);
+        int res = 0;
+        for (int i = 1; i < n - 1; ++i) {
+            if (pre[i] > 1 && suf[i] > 1) {
+                res = Math.max(res, pre[i] + suf[i] - 1);
             }
         }
-        return res;
+        return n - res;
 
     }
 
-    private int dfs2_1671(int i) {
-        if (suf1671[i] != 0) {
-            return suf1671[i];
+    private int dfs1671(int i, int[] a) {
+        if (a[i] != 0) {
+            return a[i];
         }
-        int max = 0;
-        for (int j = i + 1; j < n1671; ++j) {
-            if (nums1671[j] < nums1671[i]) {
-                max = Math.max(max, dfs2_1671(j));
-            }
-        }
-        return suf1671[i] = max + 1;
-    }
-
-    private int dfs1671(int i) {
-        if (pre1671[i] != 0) {
-            return pre1671[i];
-        }
-        int max = 0;
+        int res = 0;
         for (int j = 0; j < i; ++j) {
             if (nums1671[j] < nums1671[i]) {
-                max = Math.max(max, dfs1671(j));
+                res = Math.max(res, dfs1671(j, a));
             }
         }
-        return pre1671[i] = max + 1;
+        return a[i] = res + 1;
     }
 
     // 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array)
