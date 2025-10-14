@@ -2861,40 +2861,32 @@ public class Leetcode_8 {
 
     }
 
-    // 6941. 将三个组排序 (Sorting Three Groups)
-    private int n6941;
-    private List<Integer> nums6941;
-    private int[][] memo6941;
+    // 2826. 将三个组排序 (Sorting Three Groups)
+    private List<Integer> nums2826;
+    private int[] memo2826;
 
     public int minimumOperations(List<Integer> nums) {
-        this.n6941 = nums.size();
-        this.nums6941 = nums;
-        this.memo6941 = new int[n6941][4];
-        for (int i = 0; i < n6941; ++i) {
-            Arrays.fill(memo6941[i], -1);
+        int n = nums.size();
+        this.nums2826 = nums;
+        this.memo2826 = new int[n];
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, dfs2826(i));
         }
-        return dfs6941(0, 1);
-
+        return n - res;
     }
 
-    private int dfs6941(int i, int j) {
-        if (i == n6941) {
-            return 0;
+    private int dfs2826(int i) {
+        if (memo2826[i] != 0) {
+            return memo2826[i];
         }
-        if (memo6941[i][j] != -1) {
-            return memo6941[i][j];
-        }
-        int res = Integer.MAX_VALUE;
-        for (int k = j; k <= 3; ++k) {
-            if (nums6941.get(i) != k) {
-                // 改
-                res = Math.min(res, dfs6941(i + 1, k) + 1);
-            } else {
-                // 不改
-                res = Math.min(res, dfs6941(i + 1, k));
+        int res = 0;
+        for (int j = 0; j < i; ++j) {
+            if (nums2826.get(j) <= nums2826.get(i)) {
+                res = Math.max(res, dfs2826(j));
             }
         }
-        return memo6941[i][j] = res;
+        return memo2826[i] = res + 1;
     }
 
     // 2827. 范围中美丽整数的数目 (Number of Beautiful Integers in the Range)
