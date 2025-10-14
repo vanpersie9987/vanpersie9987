@@ -6736,41 +6736,40 @@ public class Leetcode_6 {
 
     // 2111. 使数组 K 递增的最少操作次数 (Minimum Operations to Make the Array K-Increasing)
     public int kIncreasing(int[] arr, int k) {
+        int n = arr.length;
         int res = 0;
         for (int i = 0; i < k; ++i) {
-            List<Integer> list = new ArrayList<>();
-            int j = i;
-            while (j < arr.length) {
-                list.add(arr[j]);
-                j += k;
+            List<Integer> a = new ArrayList<>();
+            for (int j = i; j < n; j += k) {
+                a.add(arr[j]);
             }
-            int n = list.size();
-            int[] dp = new int[n + 1];
-            int len = 1;
-            dp[len] = list.get(0);
-            for (int x = 1; x < n; ++x) {
-                if (list.get(x) >= dp[len]) {
-                    dp[++len] = list.get(x);
+            List<Integer> g = new ArrayList<>();
+            for (int x : a) {
+                int j = bisectLeft2111(g, x + 1);
+                if (j == g.size()) {
+                    g.add(x);
                 } else {
-                    int left = 1;
-                    int right = len;
-                    int pos = 0;
-                    while (left <= right) {
-                        int mid = left + ((right - left) >>> 1);
-                        if (dp[mid] <= list.get(x)) {
-                            pos = mid;
-                            left = mid + 1;
-                        } else {
-                            right = mid - 1;
-                        }
-                    }
-                    dp[pos + 1] = list.get(x);
+                    g.set(j, x);
                 }
             }
-            res += len;
+            res += a.size() - g.size();
         }
-        return arr.length - res;
+        return res;
 
+    }
+
+    private int bisectLeft2111(List<Integer> g, int x) {
+        int left = 0;
+        int right = g.size() - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (g.get(mid) >= x) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
     }
 
     // 2008. 出租车的最大盈利 (Maximum Earnings From Taxi)
