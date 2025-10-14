@@ -4592,4 +4592,14 @@ class SegmentTree2940:
             else:
                 right = mid - 1
         return left - 1
+    
+    def minimumOperations(self, nums: List[int]) -> int:
+        g = []
+        for x in nums:
+            j = bisect.bisect_left(g, x + 1)
+            if j == len(g):
+                g.append(x)
+            else:
+                g[j] = x
+        return len(nums) - len(g)
 

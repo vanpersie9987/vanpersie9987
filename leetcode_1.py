@@ -2243,6 +2243,17 @@ class leetcode_1:
         n = len(nums)
         return n - dfs(0, 1)
 
+    # 2826. 将三个组排序 (Sorting Three Groups) --贪心-二分
+    def minimumOperations(self, nums: List[int]) -> int:
+        g = []
+        for x in nums:
+            j = bisect.bisect_left(g, x + 1)
+            if j == len(g):
+                g.append(x)
+            else:
+                g[j] = x
+        return len(nums) - len(g)
+
     # 2828. 判别首字母缩略词 (Check if a String Is an Acronym of Words)
     def isAcronym(self, words: List[str], s: str) -> bool:
         return len(words) == len(s) and all(ss[0] == c2 for ss, c2 in zip(words, s))
