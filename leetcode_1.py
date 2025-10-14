@@ -5658,7 +5658,7 @@ class leetcode_1:
                 self.left = left
                 self.right = right
 
-        def dfs(root: Optional[TreeNode]) -> [int, int, int]:
+        def dfs(root: Optional[TreeNode]) -> List[int]:
             nonlocal res
             if root is None:
                 return [None, None, 0]
