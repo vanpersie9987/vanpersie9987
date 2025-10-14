@@ -4592,3 +4592,19 @@ class SegmentTree2940:
             else:
                 right = mid - 1
         return left - 1
+
+    # 2111. 使数组 K 递增的最少操作次数 (Minimum Operations to Make the Array K-Increasing)
+    def kIncreasing(self, arr: List[int], k: int) -> int:
+        n = len(arr)
+        res = 0
+        for i in range(k):
+            a = [arr[j] for j in range(i, n, k)]
+            g = []
+            for x in a:
+                j = bisect.bisect_left(g, x + 1)
+                if j == len(g):
+                    g.append(x)
+                else:
+                    g[j] = x
+            res += len(a) - len(g)
+        return res
