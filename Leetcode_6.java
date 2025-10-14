@@ -7449,34 +7449,34 @@ public class Leetcode_6 {
     // Position) --300
     public int[] longestObstacleCourseAtEachPosition(int[] obstacles) {
         int n = obstacles.length;
-        int[] dp = new int[n + 1];
-        int len = 1;
-        dp[len] = obstacles[0];
         int[] res = new int[n];
-        res[0] = 1;
-        for (int i = 1; i < n; ++i) {
-            if (dp[len] <= obstacles[i]) {
-                dp[++len] = obstacles[i];
-                res[i] = len;
+        List<Integer> g = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            int j = bisectLeft1964(g, obstacles[i] + 1);
+            if (j == g.size()) {
+                g.add(obstacles[i]);
+                res[i] = g.size();
             } else {
-                int left = 1;
-                int right = len;
-                int pos = 0;
-                while (left <= right) {
-                    int mid = left + ((right - left) >>> 1);
-                    if (dp[mid] <= obstacles[i]) {
-                        pos = mid;
-                        left = mid + 1;
-                    } else {
-                        right = mid - 1;
-                    }
-                }
-                dp[pos + 1] = obstacles[i];
-                res[i] = pos + 1;
+                g.set(j, obstacles[i]);
+                res[i] = j + 1;
             }
         }
         return res;
 
+    }
+
+    private int bisectLeft1964(List<Integer> g, int x) {
+        int left = 0;
+        int right = g.size() - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (g.get(mid) >= x) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
     }
 
     // 1981. 最小化目标值与所选元素的差 (Minimize the Difference Between Target and Chosen
