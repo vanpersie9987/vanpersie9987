@@ -7090,32 +7090,12 @@ class Union924:
 
     # 3350. 检测相邻递增子数组 II (Adjacent Increasing Subarrays Detection II)
     def maxIncreasingSubarrays(self, nums: List[int]) -> int:
-        def check(k: int) -> bool:
-            n = len(nums)
-            cnt = 1
-            a = [False] * n
-            for i, v in enumerate(nums):
-                if i and v - nums[i - 1] > 0:
-                    cnt += 1
-                if i >= k and nums[i - k + 1] - nums[i - k] > 0:
-                    cnt -= 1
-                if cnt >= k:
-                    a[i] = True
-                    if i >= k and a[i - k]:
-                        return True
-            return False
-
-        n = len(nums)
-        left = 1
-        right = n // 2
-        res = 1
-        while left <= right:
-            mid = left + ((right - left) >> 1)
-            if check(mid):
-                res = mid
-                left = mid + 1
-            else:
-                right = mid - 1
+        res = pre = cur = 0
+        for i, v in enumerate(nums):
+            cur += 1
+            if i == len(nums) - 1 or v >= nums[i + 1]:
+                res = max(res, cur // 2, min(pre, cur))
+                pre, cur = cur, 0
         return res
 
     # 3351. 好子序列的元素之和 (Sum of Good Subsequences)

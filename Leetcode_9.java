@@ -3236,16 +3236,16 @@ public class Leetcode_9 {
     // 3350. 检测相邻递增子数组 II (Adjacent Increasing Subarrays Detection II)
     public int maxIncreasingSubarrays(List<Integer> nums) {
         int n = nums.size();
-        int left = 1;
-        int right = n / 2;
-        int res = 1;
-        while (left <= right) {
-            int mid = left + ((right - left) >> 1);
-            if (hasIncreasingSubarrays(nums, mid)) {
-                res = mid;
-                left = mid + 1;
-            } else {
-                right = mid - 1;
+        int pre = 0;
+        int cur = 0;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            ++cur;
+            if (i == n - 1 || nums.get(i) >= nums.get(i + 1)) {
+                res = Math.max(res, cur / 2);
+                res = Math.max(res, Math.min(cur, pre));
+                pre = cur;
+                cur = 0;
             }
         }
         return res;
