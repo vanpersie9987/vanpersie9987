@@ -429,14 +429,14 @@ public class Leetcode_7 {
         return num == n * n - 1;
     }
 
-    // 6321. 执行操作后的最大 MEX (Smallest Missing Non-negative Integer After Operations)
+    // 2598. 执行操作后的最大 MEX (Smallest Missing Non-negative Integer After Operations)
     public int findSmallestInteger(int[] nums, int value) {
-        Map<Integer, Integer> count = new HashMap<>();
-        for (int num : nums) {
-            count.merge((num % value + value) % value, 1, Integer::sum);
+        int[] cnts = new int[value];
+        for (int x : nums) {
+            ++cnts[((x % value) + value) % value];
         }
         int res = 0;
-        while (count.merge(res % value, -1, Integer::sum) >= 0) {
+        while (cnts[res % value]-- > 0) {
             ++res;
         }
         return res;
