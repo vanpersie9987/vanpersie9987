@@ -4611,11 +4611,11 @@ class SegmentTree2940:
 
     # 2598. 执行操作后的最大 MEX (Smallest Missing Non-negative Integer After Operations)
     def findSmallestInteger(self, nums: List[int], value: int) -> int:
-        d = defaultdict(int)
+        cnts = [0] * value
         for x in nums:
-            d[x % value] += 1
+            cnts[x % value] += 1
         res = 0
-        while d[res % value]:
-            d[res % value] -= 1
+        while cnts[res % value]:
+            cnts[res % value] -= 1
             res += 1
         return res
