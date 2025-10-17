@@ -2238,6 +2238,7 @@ class leetcode_1:
                 if nums[j] <= nums[i]:
                     res = max(res, dfs(j))
             return res + 1
+
         n = len(nums)
         return n - max(dfs(i) for i in range(n))
 
@@ -5825,7 +5826,7 @@ class leetcode_1:
             ):
                 res.append(id)
         return res
-    
+
     # 1671. 得到山形数组的最少删除次数 (Minimum Number of Removals to Make Mountain Array) --二分-贪心
     def minimumMountainRemovals(self, nums: List[int]) -> int:
         def check(a: List[int]) -> List[int]:
@@ -5840,10 +5841,15 @@ class leetcode_1:
                     g[j] = x
                 left[i] = len(g)
             return left
+
         left = check(nums)
         right = list(reversed(check(list(reversed(nums)))))
         n = len(nums)
-        return min(n - l - r + 1 for l, r in zip(left[1: n - 1], right[1: n - 1]) if l > 1 and r > 1)
+        return min(
+            n - l - r + 1
+            for l, r in zip(left[1 : n - 1], right[1 : n - 1])
+            if l > 1 and r > 1
+        )
 
     # 1639. 通过给定词典构造目标字符串的方案数 (Number of Ways to Form a Target String Given a Dictionary)
     def numWays(self, words: List[str], target: str) -> int:
@@ -9688,29 +9694,28 @@ class leetcode_1:
 
     # 3003. 执行操作后的最大分割数量 (Maximize the Number of Partitions After Operations)
     def maxPartitionsAfterOperations(self, s: str, k: int) -> int:
-        n = len(s)
-
         @cache
-        def dfs(i: int, mask: int, changed: bool) -> int:
+        def dfs(i: int, j: int, changed: bool) -> int:
             if i == n:
                 return 1
             res = 0
+            bits = j | (1 << (ord(s[i]) - ord("a")))
             # 不变
-            bits = mask | (1 << (ord(s[i]) - ord("a")))
             if bits.bit_count() > k:
                 res = max(res, dfs(i + 1, 1 << (ord(s[i]) - ord("a")), changed) + 1)
             else:
                 res = max(res, dfs(i + 1, bits, changed))
             # 变
             if not changed:
-                for j in range(26):
-                    bits = mask | (1 << j)
+                for b in range(26):
+                    bits = j | (1 << b)
                     if bits.bit_count() <= k:
                         res = max(res, dfs(i + 1, bits, True))
                     else:
-                        res = max(res, dfs(i + 1, 1 << j, True) + 1)
+                        res = max(res, dfs(i + 1, 1 << b, True) + 1)
             return res
 
+        n = len(s)
         return dfs(0, 0, False)
 
     # 2085. 统计出现过一次的公共字符串 (Count Common Words With One Occurrence)
