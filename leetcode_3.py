@@ -4619,3 +4619,31 @@ class SegmentTree2940:
             cnts[res % value] -= 1
             res += 1
         return res
+
+    # 1625. 执行操作后字典序最小的字符串 (Lexicographically Smallest String After Applying Operations)
+    def findLexSmallestString(self, s: str, a: int, b: int) -> str:
+        n = len(s)
+        vis = set()
+        q = deque()
+        q.append(s)
+        res = ""
+        while q:
+            sz = len(q)
+            for _ in range(sz):
+                cur = q.popleft()
+                if not res or cur < res:
+                    res = cur
+                arr = [x for x in cur]
+                # 操作1
+                for i in range(1, n, 2):
+                    arr[i] = str((int(arr[i]) + a) % 10)
+                n_cur = "".join(arr)
+                if n_cur not in vis:
+                    vis.add(n_cur)
+                    q.append(n_cur)
+                # 操作2
+                n_cur2 = cur[-b:] + cur[:-b]
+                if n_cur2 not in vis:
+                    vis.add(n_cur2)
+                    q.append(n_cur2)
+        return res
