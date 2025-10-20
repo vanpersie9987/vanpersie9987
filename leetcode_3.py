@@ -4660,18 +4660,15 @@ class SegmentTree2940:
             p += 1
         return p * k
 
+    # 3719. 最长平衡子数组 I (Longest Balanced Subarray I)
     def longestBalanced(self, nums: List[int]) -> int:
         n = len(nums)
         res = 0
         for i in range(n):
-            odd = defaultdict(int)
-            even = defaultdict(int)
+            s = [set(), set()] 
             for j in range(i, n):
-                if nums[j] & 1:
-                    odd[nums[j]] += 1
-                else:
-                    even[nums[j]] += 1
-                if len(odd) == len(even):
+                s[nums[j] & 1].add(nums[j])
+                if len(s[0]) == len(s[1]):
                     res = max(res, j - i + 1)
         return res
 

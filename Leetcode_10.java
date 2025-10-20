@@ -830,4 +830,21 @@ public class Leetcode_10 {
         return s.compareTo(target) > 0;
     }
 
+    // 3719. 最长平衡子数组 I (Longest Balanced Subarray I)
+    public int longestBalanced(int[] nums) {
+        int n = nums.length;
+        int res = 0;
+        for (int i = 0; i < n && res < n - i; ++i) {
+            Set<Integer>[] cnts = new HashSet[2];
+            Arrays.setAll(cnts, o -> new HashSet<>());
+            for (int j = i; j < n; ++j) {
+                cnts[nums[j] % 2].add(nums[j]);
+                if (cnts[0].size() == cnts[1].size()) {
+                    res = Math.max(res, j - i + 1);
+                }
+            }
+        }
+        return res;
+    }
+
 }
