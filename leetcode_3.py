@@ -4665,7 +4665,7 @@ class SegmentTree2940:
         n = len(nums)
         res = 0
         for i in range(n):
-            s = [set(), set()] 
+            s = [set() for _ in range(2)]
             for j in range(i, n):
                 s[nums[j] & 1].add(nums[j])
                 if len(s[0]) == len(s[1]):
