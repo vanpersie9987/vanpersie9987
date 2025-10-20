@@ -772,4 +772,17 @@ public class Leetcode_10 {
         return true;
     }
 
+    // 3718. 缺失的最小倍数 (Smallest Missing Multiple of K)
+    public int missingMultiple(int[] nums, int k) {
+        boolean[] s = new boolean[101];
+        for (int x : nums) {
+            s[x] = true;
+        }
+        int p = 1;
+        while (p * k < 101 && s[p * k]) {
+            ++p;
+        }
+        return p * k;
+    }
+
 }
