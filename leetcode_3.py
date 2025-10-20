@@ -4659,3 +4659,48 @@ class SegmentTree2940:
         while p * k in s:
             p += 1
         return p * k
+
+    def longestBalanced(self, nums: List[int]) -> int:
+        n = len(nums)
+        res = 0
+        for i in range(n):
+            odd = defaultdict(int)
+            even = defaultdict(int)
+            for j in range(i, n):
+                if nums[j] & 1:
+                    odd[nums[j]] += 1
+                else:
+                    even[nums[j]] += 1
+                if len(odd) == len(even):
+                    res = max(res, j - i + 1)
+        return res
+
+    # 3720. 大于目标字符串的最小字典序排列 (Lexicographically Smallest Permutation Greater Than Target)
+    def lexGreaterPermutation(self, s: str, target: str) -> str:
+        def check(cnts_s: List[int], start: int) -> bool:
+            cur = []
+            for i in range(25, -1, -1):
+                cur.extend(chr(i + a) * cnts_s[i])
+            t = target[start:]
+            return "".join(cur) > t
+        a = ord("a")
+        cnts_s = [0] * 26
+        for c in s:
+            cnts_s[ord(c) - a] += 1
+        res = []
+        for i, c in enumerate(target):
+            idx = ord(c) - a
+            cnts_s[idx] -= 1
+            if cnts_s[idx] >= 0 and check(cnts_s, i + 1):
+                res.append(c)
+                continue
+            cnts_s[idx] += 1
+            for j in range(idx + 1, 26):
+                if cnts_s[j]:
+                    cnts_s[j] -= 1
+                    res.append(chr(j + a))
+                    for k in range(26):
+                        res.append(chr(k + a) * cnts_s[k])
+                    return "".join(res)
+            return ""
+        return "".join(res)
