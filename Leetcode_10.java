@@ -772,4 +772,79 @@ public class Leetcode_10 {
         return true;
     }
 
+    // 3718. 缺失的最小倍数 (Smallest Missing Multiple of K)
+    public int missingMultiple(int[] nums, int k) {
+        boolean[] s = new boolean[101];
+        for (int x : nums) {
+            s[x] = true;
+        }
+        int p = 1;
+        while (p * k < 101 && s[p * k]) {
+            ++p;
+        }
+        return p * k;
+    }
+
+    // 3720. 大于目标字符串的最小字典序排列 (Lexicographically Smallest Permutation Greater Than
+    // Target)
+    public String lexGreaterPermutation(String s, String target) {
+        int[] cnts_s = new int[26];
+        for (char c : s.toCharArray()) {
+            ++cnts_s[c - 'a'];
+        }
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < target.length(); ++i) {
+            int idx = (int) target.charAt(i) - 'a';
+            cnts_s[idx] -= 1;
+            if (cnts_s[idx] >= 0 && check3720(cnts_s, target.substring(i + 1))) {
+                res.append(target.charAt(i));
+                continue;
+            }
+            cnts_s[idx] += 1;
+            for (int j = idx + 1; j < 26; ++j) {
+                if (cnts_s[j] > 0) {
+                    cnts_s[j] -= 1;
+                    res.append((char) (j + 'a'));
+                    for (int k = 0; k < 26; ++k) {
+                        while (cnts_s[k]-- > 0) {
+                            res.append((char) (k + 'a'));
+                        }
+                    }
+                    return res.toString();
+                }
+            }
+            return "";
+        }
+        return res.toString();
+
+    }
+
+    private boolean check3720(int[] cnts, String target) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 25; i >= 0; --i) {
+            for (int j = 0; j < cnts[i]; ++j) {
+                sb.append((char) (i + 'a'));
+            }
+        }
+        String s = sb.toString();
+        return s.compareTo(target) > 0;
+    }
+
+    // 3719. 最长平衡子数组 I (Longest Balanced Subarray I)
+    public int longestBalanced(int[] nums) {
+        int n = nums.length;
+        int res = 0;
+        for (int i = 0; i < n && res < n - i; ++i) {
+            Set<Integer>[] cnts = new HashSet[2];
+            Arrays.setAll(cnts, o -> new HashSet<>());
+            for (int j = i; j < n; ++j) {
+                cnts[nums[j] % 2].add(nums[j]);
+                if (cnts[0].size() == cnts[1].size()) {
+                    res = Math.max(res, j - i + 1);
+                }
+            }
+        }
+        return res;
+    }
+
 }

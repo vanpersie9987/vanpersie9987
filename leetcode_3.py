@@ -4620,6 +4620,10 @@ class SegmentTree2940:
             res += 1
         return res
 
+    # 2011. 执行操作后的变量值 (Final Value of Variable After Performing Operations)
+    def finalValueAfterOperations(self, operations: List[str]) -> int:
+        return sum(1 if x[1] == "+" else -1 for x in operations)
+
     # 1625. 执行操作后字典序最小的字符串 (Lexicographically Smallest String After Applying Operations)
     def findLexSmallestString(self, s: str, a: int, b: int) -> str:
         n = len(s)
@@ -4647,6 +4651,56 @@ class SegmentTree2940:
                     vis.add(n_cur2)
                     q.append(n_cur2)
         return res
+
+    # 3718. 缺失的最小倍数 (Smallest Missing Multiple of K)
+    def missingMultiple(self, nums: List[int], k: int) -> int:
+        s = set(nums)
+        p = 1
+        while p * k in s:
+            p += 1
+        return p * k
+
+    # 3719. 最长平衡子数组 I (Longest Balanced Subarray I)
+    def longestBalanced(self, nums: List[int]) -> int:
+        n = len(nums)
+        res = 0
+        for i in range(n):
+            s = [set() for _ in range(2)]
+            for j in range(i, n):
+                s[nums[j] & 1].add(nums[j])
+                if len(s[0]) == len(s[1]):
+                    res = max(res, j - i + 1)
+        return res
+
+    # 3720. 大于目标字符串的最小字典序排列 (Lexicographically Smallest Permutation Greater Than Target)
+    def lexGreaterPermutation(self, s: str, target: str) -> str:
+        def check(cnts_s: List[int], start: int) -> bool:
+            cur = []
+            for i in range(25, -1, -1):
+                cur.extend(chr(i + a) * cnts_s[i])
+            t = target[start:]
+            return "".join(cur) > t
+        a = ord("a")
+        cnts_s = [0] * 26
+        for c in s:
+            cnts_s[ord(c) - a] += 1
+        res = []
+        for i, c in enumerate(target):
+            idx = ord(c) - a
+            cnts_s[idx] -= 1
+            if cnts_s[idx] >= 0 and check(cnts_s, i + 1):
+                res.append(c)
+                continue
+            cnts_s[idx] += 1
+            for j in range(idx + 1, 26):
+                if cnts_s[j]:
+                    cnts_s[j] -= 1
+                    res.append(chr(j + a))
+                    for k in range(26):
+                        res.append(chr(k + a) * cnts_s[k])
+                    return "".join(res)
+            return ""
+        return "".join(res)
 
     # 3346. 执行操作后元素的最高频率 I (Maximum Frequency of an Element After Performing Operations I)
     # 3347. 执行操作后元素的最高频率 II (Maximum Frequency of an Element After Performing Operations II)
