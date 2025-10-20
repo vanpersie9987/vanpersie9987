@@ -4647,3 +4647,20 @@ class SegmentTree2940:
                     vis.add(n_cur2)
                     q.append(n_cur2)
         return res
+
+    # 3346. 执行操作后元素的最高频率 I (Maximum Frequency of an Element After Performing Operations I)
+    # 3347. 执行操作后元素的最高频率 II (Maximum Frequency of an Element After Performing Operations II)
+    def maxFrequency(self, nums: List[int], k: int, numOperations: int) -> int:
+        cnt = defaultdict(int)
+        diff = defaultdict(int)
+        for x in nums:
+            cnt[x] += 1
+            diff[x]
+            diff[x - k] += 1
+            diff[x + k + 1] -= 1
+        res = 0
+        sum_d = 0
+        for x, d in sorted(diff.items()):
+            sum_d += d
+            res = max(res, min(sum_d, cnt[x] + numOperations))
+        return res
