@@ -4651,3 +4651,11 @@ class SegmentTree2940:
                     vis.add(n_cur2)
                     q.append(n_cur2)
         return res
+
+    # 3718. 缺失的最小倍数 (Smallest Missing Multiple of K)
+    def missingMultiple(self, nums: List[int], k: int) -> int:
+        s = set(nums)
+        p = 1
+        while p * k in s:
+            p += 1
+        return p * k
