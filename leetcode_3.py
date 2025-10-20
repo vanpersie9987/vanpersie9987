@@ -4619,3 +4619,7 @@ class SegmentTree2940:
             cnts[res % value] -= 1
             res += 1
         return res
+
+    # 2011. 执行操作后的变量值 (Final Value of Variable After Performing Operations)
+    def finalValueAfterOperations(self, operations: List[str]) -> int:
+        return sum(1 if x[1] == "+" else -1 for x in operations)
