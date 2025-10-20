@@ -3702,26 +3702,30 @@ public class Leetcode_3 {
     // 1625. 执行操作后字典序最小的字符串 (Lexicographically Smallest String After Applying
     // Operations) --bfs
     public String findLexSmallestString(String s, int a, int b) {
-        String res = s;
-        Set<String> visited = new HashSet<>();
-        Queue<String> queue = new LinkedList<>();
-        queue.offer(s);
-        visited.add(s);
-        while (!queue.isEmpty()) {
-            String cur = queue.poll();
-            if (cur.compareTo(res) < 0) {
-                res = cur;
-            }
-            char[] curChars = cur.toCharArray();
-            for (int i = 1; i < curChars.length; i += 2) {
-                curChars[i] = (char) (((curChars[i] - '0' + a) % 10) + '0');
-            }
-            if (visited.add(String.valueOf(curChars))) {
-                queue.offer(String.valueOf(curChars));
-            }
-            cur = cur.substring(cur.length() - b) + cur.substring(0, cur.length() - b);
-            if (visited.add(cur)) {
-                queue.offer(cur);
+        Queue<String> q = new ArrayDeque<>();
+        int n = s.length();
+        Set<String> vis = new HashSet<>();
+        q.offer(s);
+        String res = "";
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int x = 0; x < size; ++x) {
+                String cur = q.poll();
+                if (res.isEmpty() || cur.compareTo(res) < 0) {
+                    res = cur;
+                }
+                char[] arr = cur.toCharArray();
+                for (int i = 1; i < n; i += 2) {
+                    arr[i] = (char) ((arr[i] - '0' + a) % 10 + '0');
+                }
+                String nxt1 = String.valueOf(arr);
+                if (vis.add(nxt1)) {
+                    q.offer(nxt1);
+                }
+                String nxt2 = cur.substring(n - b) + cur.substring(0, n - b);
+                if (vis.add(nxt2)) {
+                    q.offer(nxt2);
+                }
             }
         }
         return res;
