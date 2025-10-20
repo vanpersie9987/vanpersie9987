@@ -796,7 +796,7 @@ public class Leetcode_10 {
         for (int i = 0; i < target.length(); ++i) {
             int idx = (int) target.charAt(i) - 'a';
             cnts_s[idx] -= 1;
-            if (cnts_s[idx] >= 0 && check(cnts_s, target.substring(i + 1))) {
+            if (cnts_s[idx] >= 0 && check3720(cnts_s, target.substring(i + 1))) {
                 res.append(target.charAt(i));
                 continue;
             }
@@ -819,7 +819,7 @@ public class Leetcode_10 {
 
     }
 
-    private boolean check(int[] cnts, String target) {
+    private boolean check3720(int[] cnts, String target) {
         StringBuilder sb = new StringBuilder();
         for (int i = 25; i >= 0; --i) {
             for (int j = 0; j < cnts[i]; ++j) {
