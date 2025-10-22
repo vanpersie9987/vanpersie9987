@@ -262,19 +262,22 @@ class leetcode_1:
 
     # 91. 解码方法 (Decode Ways)
     def numDecodings(self, s: str) -> int:
+        n = len(s)
+        if s[0] == "0" or "00" in s:
+            return 0
+
         @cache
         def dfs(i: int) -> int:
-            if i == n:
+            if i < 0:
                 return 1
-            if s[i] == "0":
-                return 0
-            res = dfs(i + 1)
-            if i + 1 < n and (s[i] == "1" or s[i] == "2" and s[i + 1] <= "6"):
-                res += dfs(i + 2)
+            res = 0
+            if s[i] != "0":
+                res += dfs(i - 1)
+            if i and (s[i - 1] == "1" or s[i - 1] == "2" and s[i] <= "6"):
+                res += dfs(i - 2)
             return res
 
-        n = len(s)
-        return dfs(0)
+        return dfs(n - 1)
 
     # 97. 交错字符串 (Interleaving String)
     # LCR 096. 交错字符串
@@ -1646,7 +1649,7 @@ class leetcode_1:
                 nums1[p] = nums2[p2]
                 p2 -= 1
             p -= 1
-        nums1[:p2 + 1] = nums2[:p2 + 1]
+        nums1[: p2 + 1] = nums2[: p2 + 1]
 
     # 2320. 统计放置房子的方式数 (Count Number of Ways to Place Houses)
     def countHousePlacements(self, n: int) -> int:
