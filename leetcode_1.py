@@ -1635,10 +1635,13 @@ class leetcode_1:
 
     # 88. 合并两个有序数组 (Merge Sorted Array)
     def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        p = m + n - 1
         p1 = m - 1
         p2 = n - 1
-        p = m + n - 1
-        while p1 >= 0 and p2 >= 0:
+        while p2 >= 0:
+            if p1 < 0:
+                nums1[:p2 + 1] = nums2[:p2 + 1]
+                break
             if nums1[p1] > nums2[p2]:
                 nums1[p] = nums1[p1]
                 p1 -= 1
@@ -1646,10 +1649,6 @@ class leetcode_1:
                 nums1[p] = nums2[p2]
                 p2 -= 1
             p -= 1
-        while p2 >= 0:
-            nums1[p] = nums2[p2]
-            p -= 1
-            p2 -= 1
 
     # 2320. 统计放置房子的方式数 (Count Number of Ways to Place Houses)
     def countHousePlacements(self, n: int) -> int:
