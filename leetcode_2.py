@@ -4028,31 +4028,37 @@ class Union924:
 
     # 639. 解码方法 II (Decode Ways II)
     def numDecodings(self, s: str) -> int:
+        n = len(s)
+        if s[0] == '0' or '00' in s:
+            return 0
         @cache
         def dfs(i: int) -> int:
-            if i == n:
+            if i < 0:
                 return 1
-            if s[i] == "0":
-                return 0
-            res = dfs(i + 1) * (9 if s[i] == "*" else 1)
-            if i + 1 < n:
-                if s[i] == "1":
-                    res += dfs(i + 2) * (9 if s[i + 1] == "*" else 1)
-                elif s[i] == "2":
-                    if "0" <= s[i + 1] <= "6":
-                        res += dfs(i + 2)
-                    elif s[i + 1] == "*":
-                        res += dfs(i + 2) * 6
-                elif s[i] == "*":
-                    if s[i + 1] == "*":
-                        res += dfs(i + 2) * 15
+            res = 0
+            if s[i] == '*':
+                res += 9 * dfs(i - 1)
+            elif s[i] != '0':
+                res += dfs(i - 1)
+            if i:
+                if s[i - 1] == '*' and s[i] == '*':
+                    res += 15 * dfs(i - 2)
+                elif s[i - 1] == '*':
+                    if s[i] <= '6':
+                        res += 2 * dfs(i - 2)
                     else:
-                        res += dfs(i + 2) * (2 if "0" <= s[i + 1] <= "6" else 1)
-            return res % MOD
+                        res += dfs(i - 2)
+                elif s[i] == '*':
+                    if s[i - 1] == '1':
+                        res += 9 * dfs(i - 2)
+                    elif s[i - 1] == '2':
+                        res += 6 * dfs(i - 2)
+                else:
+                    if 10 <= int(s[i - 1:i + 1]) <= 26:
+                        res += dfs(i - 2)
+            return res % (10**9 + 7)
 
-        n = len(s)
-        MOD = 10**9 + 7
-        return dfs(0)
+        return dfs(n - 1)
 
     # 3006. 找出数组中的美丽下标 I (Find Beautiful Indices in the Given Array I)
     # 3008. 找出数组中的美丽下标 II (Find Beautiful Indices in the Given Array II) --z函数

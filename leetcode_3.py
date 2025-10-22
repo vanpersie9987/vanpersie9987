@@ -33,7 +33,7 @@ from operator import is_, le, ne, truediv
 from os import eventfd, lseek, minor, name, pread
 from pickletools import read_uint1
 from queue import PriorityQueue
-from re import L, T, X
+from re import L, S, T, X
 import re
 from socket import NI_NUMERICSERV
 from ssl import VERIFY_X509_TRUSTED_FIRST
