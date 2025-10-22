@@ -5246,25 +5246,22 @@ class leetcode_1:
     # 2266. 统计打字方案数 (Count Number of Texts)
     def countTexts(self, pressedKeys: str) -> int:
         n = len(pressedKeys)
-        MOD = 10**9 + 7
 
         @cache
         def dfs(i: int) -> int:
-            if i == n:
+            if i < 0:
                 return 1
-            c = pressedKeys[i]
-            j = 3
-            if c == "7" or c == "9":
-                j = 4
             res = 0
-            k = 0
-            while i + k < n and k < j and c == pressedKeys[i + k]:
-                res += dfs(i + k + 1)
-                res %= MOD
-                k += 1
-            return res
+            c = pressedKeys[i]
+            j = i
+            while (
+                j >= 0 and pressedKeys[j] == c and i - j + 1 <= (4 if c in "79" else 3)
+            ):
+                j -= 1
+                res += dfs(j)
+            return res % (10**9 + 7)
 
-        return dfs(0)
+        return dfs(n - 1)
 
     # 2267. 检查是否有合法括号字符串路径 (Check if There Is a Valid Parentheses String Path)
     def hasValidPath(self, grid: List[List[str]]) -> bool:
