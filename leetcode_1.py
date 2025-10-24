@@ -9855,35 +9855,49 @@ class leetcode_1:
     def getWordsInLongestSubsequence(
         self, words: List[str], groups: List[int]
     ) -> List[str]:
-        def make_ans(i: int, j: int, mx: int) -> None:
-            if i == n:
-                return
-            if mx == dfs(i + 1, j):
-                make_ans(i + 1, j, mx)
-                return
-            res.append(words[i])
-            make_ans(i + 1, i, mx - 1)
-
-        def is_legal(i: int, j: int) -> bool:
-            if len(words[i]) != len(words[j]):
-                return False
-            if groups[i] == groups[j]:
-                return False
-            return sum(x != y for x, y in zip(words[i], words[j])) == 1
+        def hanming(a: str, b: str) -> bool:
+            diff = 0
+            for x, y in zip(a, b):
+                if x != y:
+                    diff += 1
+                    if diff > 1:
+                        return False
+            return diff == 1
 
         @cache
-        def dfs(i: int, j: int) -> int:
-            if i == n:
-                return 0
-            res = dfs(i + 1, j)
-            if j == n or is_legal(i, j):
-                res = max(res, dfs(i + 1, i) + 1)
-            return res
+        def dfs(i: int) -> int:
+            res = 0
+            for j in range(i + 1, n):
+                if (
+                    groups[j] != groups[i]
+                    and len(words[j]) == len(words[i])
+                    and hanming(words[i], words[j])
+                ):
+                    res = max(res, dfs(j))
+            return res + 1
+
+        def make_ans(i: int):
+            res.append(words[i])
+            for j in range(i + 1, n):
+                if (
+                    groups[j] != groups[i]
+                    and len(words[j]) == len(words[i])
+                    and hanming(words[i], words[j])
+                    and dfs(j) + 1 == dfs(i)
+                ):
+                    make_ans(j)
+                    break
 
         n = len(words)
-        mx = dfs(0, n)
+        mx = 0
+        f = -1
+        for i in range(n):
+            cur = dfs(i)
+            if cur > mx:
+                mx = cur
+                f = i
         res = []
-        make_ans(0, n, mx)
+        make_ans(f)
         return res
 
     # 2744. 最大字符串配对数目 (Find Maximum Number of String Pairs)
