@@ -4718,7 +4718,7 @@ class SegmentTree2940:
             sum_d += d
             res = max(res, min(sum_d, cnt[x] + numOperations))
         return res
-    
+
     # 354. 俄罗斯套娃信封问题 (Russian Doll Envelopes)
     def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
         envelopes.sort(key=lambda x: (x[0], -x[1]))
@@ -4730,3 +4730,12 @@ class SegmentTree2940:
             else:
                 a[j] = y
         return len(a)
+
+    # 1716. 计算力扣银行的钱 (Calculate Money in Leetcode Bank)
+    def totalMoney(self, n: int) -> int:
+        w, d = divmod(n, 7)
+        # w个完整周
+        a1 = 28 * w + 7 * (w - 1) * w // 2
+        # d剩下的天数
+        a2 = d * (d + 1) // 2 + d * w
+        return a1 + a2
