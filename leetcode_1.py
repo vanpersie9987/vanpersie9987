@@ -1498,10 +1498,10 @@ class leetcode_1:
             if i == n or n - i < k:
                 return 0
             res = dfs(i + 1)
-            for j in range(i + k - 1, n):
-                if valid[i][j]:
-                    res = max(res, dfs(j + 1) + 1)
-                    break
+            if i + k - 1 < n and valid[i][i + k - 1]:
+                res = max(res, dfs(i + k) + 1)
+            if i + k < n and valid[i][i + k]:
+                res = max(res, dfs(i + k + 1) + 1)
             return res
 
         n = len(s)
