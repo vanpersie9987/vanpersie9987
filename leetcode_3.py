@@ -4718,3 +4718,15 @@ class SegmentTree2940:
             sum_d += d
             res = max(res, min(sum_d, cnt[x] + numOperations))
         return res
+    
+    # 354. 俄罗斯套娃信封问题 (Russian Doll Envelopes)
+    def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
+        envelopes.sort(key=lambda x: (x[0], -x[1]))
+        a = []
+        for _, y in envelopes:
+            j = bisect.bisect_left(a, y)
+            if j == len(a):
+                a.append(y)
+            else:
+                a[j] = y
+        return len(a)
