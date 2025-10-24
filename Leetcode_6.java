@@ -8331,12 +8331,12 @@ public class Leetcode_6 {
         }
         // 不选
         int max = dfs2472(i + 1);
-        // 选
-        for (int j = i + k2472 - 1; j < n2472; ++j) {
-            if (isPalindromes2472[i][j]) {
-                max = Math.max(max, dfs2472(j + 1) + 1);
-                break;
-            }
+        // 选 (回文串长度只可能是 k / k + 1)
+        if (i + k2472 - 1 < n2472 && isPalindromes2472[i][i + k2472 - 1]) {
+            max = Math.max(max, 1 + dfs2472(i + k2472));
+        }
+        if (i + k2472 < n2472 && isPalindromes2472[i][i + k2472]) {
+            max = Math.max(max, 1 + dfs2472(i + k2472 + 1));
         }
         return memo2472[i] = max;
     }
