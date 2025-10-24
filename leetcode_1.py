@@ -1879,23 +1879,19 @@ class leetcode_1:
         MOD = 10**9 + 7
         return dfs(0, -1)
 
-    # 剑指 Offer 46. 把数字翻译成字符串
-    def translateNum(self, num: int) -> int:
-        s = str(num)
-        l = len(s)
-
+    # LCR 165. 解密数字
+    def crackNumber(self, ciphertext: int) -> int:
         @cache
         def dfs(i: int) -> int:
-            if i == l:
+            if i < 0:
                 return 1
-            res = dfs(i + 1)
-            if s[i] == "1" and i + 1 < l:
-                res += dfs(i + 2)
-            elif s[i] == "2" and i + 1 < l and "0" <= s[i + 1] <= "5":
-                res += dfs(i + 2)
+            res = dfs(i - 1)
+            if i and (s[i - 1] == "1" or s[i - 1] == "2" and int(s[i]) <= 5):
+                res += dfs(i - 2)
             return res
 
-        return dfs(0)
+        s = str(ciphertext)
+        return dfs(len(s) - 1)
 
     # LCP 19. 秋叶收藏集
     def minimumOperations(self, leaves: str) -> int:
