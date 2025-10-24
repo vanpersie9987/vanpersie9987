@@ -6752,18 +6752,17 @@ class leetcode_1:
                     res = max(res, dfs(j))
             return res + 1
 
-        def make_ans(i: int) -> None:
+        def make_ans(i: int):
             res.append(nums[i])
-            final_ans = dfs(i)
             for j in range(i):
-                if nums[i] % nums[j] == 0 and dfs(j) + 1 == final_ans:
+                if nums[i] % nums[j] == 0 and dfs(j) + 1 == dfs(i):
                     make_ans(j)
                     break
 
-        n = len(nums)
         nums.sort()
+        n = len(nums)
+        f = -1
         mx = 0
-        f = 0
         for i in range(n):
             cur = dfs(i)
             if cur > mx:
