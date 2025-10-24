@@ -4576,51 +4576,38 @@ public class Leetcode_7 {
 
     // 354. 俄罗斯套娃信封问题 (Russian Doll Envelopes)
     public int maxEnvelopes(int[][] envelopes) {
-        int n = envelopes.length;
-        Arrays.sort(envelopes, new Comparator<int[]>() {
-
-            // 优先级 ：按第 0 列升序，若相等，按第 1 列降序
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                if (o1[0] == o2[0]) {
-                    // 降序
-                    return Integer.compare(o2[1], o1[1]);
-                }
-                return Integer.compare(o1[0], o2[0]);
-
+        Arrays.sort(envelopes, (a, b) -> {
+            if (a[0] != b[0]) {
+                return Integer.compare(a[0], b[0]);
             }
-
+            return Integer.compare(b[1], a[1]);
         });
-
-        List<Integer> list = new ArrayList<>();
-        list.add(envelopes[0][1]);
-        for (int i = 1; i < n; ++i) {
-            int num = envelopes[i][1];
-            if (num > list.get(list.size() - 1)) {
-                list.add(num);
+        List<Integer> a = new ArrayList<>();
+        for (int[] e : envelopes) {
+            int y = e[1];
+            int j = binarySearchLeft354(a, y);
+            if (j == a.size()) {
+                a.add(y);
             } else {
-                int j = binarySearch354(list, num);
-                list.set(j, num);
+                a.set(j, y);
             }
         }
-        return list.size();
+        return a.size();
+
     }
 
-    // 找排序list中，第一个 >= target 的值的索引
-    private int binarySearch354(List<Integer> list, int target) {
+    private int binarySearchLeft354(List<Integer> a, int target) {
         int left = 0;
-        int right = list.size() - 1;
-        int res = 0;
+        int right = a.size() - 1;
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
-            if (list.get(mid) >= target) {
-                res = mid;
+            if (a.get(mid) > target) {
                 right = mid - 1;
             } else {
                 left = mid + 1;
             }
         }
-        return res;
+        return right + 1;
     }
 
     // 面试题 08.13. 堆箱子 (Pile Box LCCI)
