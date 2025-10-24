@@ -1613,24 +1613,23 @@ class Union924:
     def validPartition(self, nums: List[int]) -> bool:
         @cache
         def dfs(i: int) -> bool:
-            if i == n:
+            if i < 0:
                 return True
-            if i + 1 < n and nums[i] == nums[i + 1] and dfs(i + 2):
+            if i and nums[i] == nums[i - 1] and dfs(i - 2):
                 return True
             if (
-                i + 2 < n
+                i - 2 >= 0
                 and (
-                    nums[i] == nums[i + 1] == nums[i + 2]
-                    or nums[i + 2] - nums[i + 1] == 1
-                    and nums[i + 1] - nums[i] == 1
+                    nums[i] == nums[i - 1] == nums[i - 2]
+                    or nums[i] - nums[i - 1] == 1
+                    and nums[i - 1] - nums[i - 2] == 1
                 )
-                and dfs(i + 3)
+                and dfs(i - 3)
             ):
                 return True
             return False
 
-        n = len(nums)
-        return dfs(0)
+        return dfs(len(nums) - 1)
 
     # 2368. 受限条件下可到达节点的数目 (Reachable Nodes With Restrictions)
     def reachableNodes(
@@ -4029,32 +4028,33 @@ class Union924:
     # 639. 解码方法 II (Decode Ways II)
     def numDecodings(self, s: str) -> int:
         n = len(s)
-        if s[0] == '0' or '00' in s:
+        if s[0] == "0" or "00" in s:
             return 0
+
         @cache
         def dfs(i: int) -> int:
             if i < 0:
                 return 1
             res = 0
-            if s[i] == '*':
+            if s[i] == "*":
                 res += 9 * dfs(i - 1)
-            elif s[i] != '0':
+            elif s[i] != "0":
                 res += dfs(i - 1)
             if i:
-                if s[i - 1] == '*' and s[i] == '*':
+                if s[i - 1] == "*" and s[i] == "*":
                     res += 15 * dfs(i - 2)
-                elif s[i - 1] == '*':
-                    if s[i] <= '6':
+                elif s[i - 1] == "*":
+                    if s[i] <= "6":
                         res += 2 * dfs(i - 2)
                     else:
                         res += dfs(i - 2)
-                elif s[i] == '*':
-                    if s[i - 1] == '1':
+                elif s[i] == "*":
+                    if s[i - 1] == "1":
                         res += 9 * dfs(i - 2)
-                    elif s[i - 1] == '2':
+                    elif s[i - 1] == "2":
                         res += 6 * dfs(i - 2)
                 else:
-                    if 10 <= int(s[i - 1:i + 1]) <= 26:
+                    if 10 <= int(s[i - 1 : i + 1]) <= 26:
                         res += dfs(i - 2)
             return res % (10**9 + 7)
 
@@ -4939,6 +4939,7 @@ class Union924:
                 i += 1
             res = max(res, dfs(i) + a[i] * d[a[i]])
             return res
+
         a = sorted(set(power))
         d = defaultdict(int)
         for x in power:
