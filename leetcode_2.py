@@ -296,7 +296,7 @@ class Union924:
                 res += 1
         return res
 
-    # 2762. 不间断子数组 (Continuous Subarrays)
+    # 2762. 不间断子数组 (Continuous Subarrays) --双指针+哈希表
     def continuousSubarrays(self, nums: List[int]) -> int:
         cnt = Counter()
         res = 0
@@ -312,6 +312,32 @@ class Union924:
                 j += 1
             res += i - j + 1
             i += 1
+        return res
+
+    # 2762. 不间断子数组 (Continuous Subarrays) --单调队列
+    def continuousSubarrays(self, nums: List[int]) -> int:
+        n = len(nums)
+        min_q = deque()
+        max_q = deque()
+        res = 0
+        left = 0
+        for right, x in enumerate(nums):
+            # 维护最小值单调队列 队列中的索引对应的值单调递增
+            while min_q and nums[min_q[-1]] >= x:
+                min_q.pop()
+            min_q.append(right)
+            # 维护最大值单调队列 队列中的索引对应的值单调递减
+            while max_q and nums[max_q[-1]] <= x:
+                max_q.pop()
+            max_q.append(right)
+            # 调整left指针 直到区间[left, i]满足条件
+            while nums[max_q[0]] - nums[min_q[0]] > 2:
+                if min_q[0] == left:
+                    min_q.popleft()
+                if max_q[0] == left:
+                    max_q.popleft()
+                left += 1
+            res += right - left + 1
         return res
 
     # 1766. 互质树 (Tree of Coprimes)
