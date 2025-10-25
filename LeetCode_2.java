@@ -971,15 +971,8 @@ public class LeetCode_2 {
       }
 
       public boolean transfer(int account1, int account2, long money) {
-         if (!accountIsLegal(account1) || !accountIsLegal(account2)) {
-            return false;
-         }
-         if (balance[account1 - 1] < money) {
-            return false;
-         }
-         withdraw(account1, money);
-         deposit(account2, money);
-         return true;
+         return accountIsLegal(account1) && accountIsLegal(account2) && withdraw(account1, money)
+               && deposit(account2, money);
       }
 
       public boolean deposit(int account, long money) {
@@ -991,10 +984,6 @@ public class LeetCode_2 {
 
       }
 
-      private boolean accountIsLegal(int account) {
-         return account >= 1 && account <= balance.length;
-      }
-
       public boolean withdraw(int account, long money) {
          if (!accountIsLegal(account)) {
             return false;
@@ -1004,7 +993,10 @@ public class LeetCode_2 {
          }
          balance[account - 1] -= money;
          return true;
+      }
 
+      private boolean accountIsLegal(int account) {
+         return account >= 1 && account <= balance.length;
       }
    }
 
