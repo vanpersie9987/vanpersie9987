@@ -4680,6 +4680,7 @@ class SegmentTree2940:
                 cur.extend(chr(i + a) * cnts_s[i])
             t = target[start:]
             return "".join(cur) > t
+
         a = ord("a")
         cnts_s = [0] * 26
         for c in s:
@@ -4739,3 +4740,34 @@ class SegmentTree2940:
         # d剩下的天数
         a2 = d * (d + 1) // 2 + d * w
         return a1 + a2
+
+    # 3578. 统计极差最大为 K 的分割方式数 (Count Partitions With Max-Min Difference at Most K)
+    def countPartitions(self, nums: List[int], k: int) -> int:
+        MOD = 10**9 + 7
+        n = len(nums)
+        min_q = deque()
+        max_q = deque()
+        f = [0] * (n + 1)
+        f[0] = 1
+        sum_f = 0
+        left = 0
+        for i, x in enumerate(nums):
+            sum_f += f[i]
+            # 维护最小值单调队列 队列中的索引对应的值单调递增
+            while min_q and nums[min_q[-1]] >= x:
+                min_q.pop()
+            min_q.append(i)
+            # 维护最大值单调队列 队列中的索引对应的值单调递减
+            while max_q and nums[max_q[-1]] <= x:
+                max_q.pop()
+            max_q.append(i)
+            # 调整left指针 直到区间[left, i]满足条件
+            while nums[max_q[0]] - nums[min_q[0]] > k:
+                sum_f -= f[left]
+                if min_q[0] == left:
+                    min_q.popleft()
+                if max_q[0] == left:
+                    max_q.popleft()
+                left += 1
+            f[i + 1] = sum_f % MOD
+        return f[n]
