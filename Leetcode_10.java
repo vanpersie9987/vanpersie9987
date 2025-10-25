@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -845,6 +846,44 @@ public class Leetcode_10 {
             }
         }
         return res;
+    }
+
+    // 3578. 统计极差最大为 K 的分割方式数 (Count Partitions With Max-Min Difference at Most K)
+    public int countPartitions(int[] nums, int k) {
+        int n = nums.length;
+        int MOD = (int) (1e9 + 7);
+        int left = 0;
+        Deque<Integer> qMin = new ArrayDeque<>();
+        Deque<Integer> qMax = new ArrayDeque<>();
+        int[] f = new int[n + 1];
+        int sumF = 0;
+        f[0] = 1;
+        for (int i = 0; i < n; ++i) {
+            sumF += f[i];
+            sumF %= MOD;
+            while (!qMin.isEmpty() && nums[qMin.peekLast()] >= nums[i]) {
+                qMin.pollLast();
+            }
+            qMin.offerLast(i);
+            while (!qMax.isEmpty() && nums[qMax.peekLast()] <= nums[i]) {
+                qMax.pollLast();
+            }
+            qMax.offerLast(i);
+            while (nums[qMax.peekFirst()] - nums[qMin.peekFirst()] > k) {
+                sumF -= f[left];
+                sumF = (sumF + MOD) % MOD;
+                if (qMin.peekFirst() == left) {
+                    qMin.pollFirst();
+                }
+                if (qMax.peekFirst() == left) {
+                    qMax.pollFirst();
+                }
+                ++left;
+            }
+            f[i + 1] = sumF;
+        }
+        return f[n];
+
     }
 
 }
