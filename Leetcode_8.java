@@ -1200,7 +1200,7 @@ public class Leetcode_8 {
 
     }
 
-    // 6911. 不间断子数组 (Continuous Subarrays)
+    // 2762. 不间断子数组 (Continuous Subarrays) --双指针+哈希表
     public long continuousSubarrays(int[] nums) {
         long res = 0L;
         int n = nums.length;
@@ -1218,6 +1218,37 @@ public class Leetcode_8 {
             }
             res += j - i + 1;
             ++j;
+        }
+        return res;
+
+    }
+
+    // 2762. 不间断子数组 (Continuous Subarrays) --单调队列
+    public long continuousSubarrays2(int[] nums) {
+        Deque<Integer> qMin = new ArrayDeque<>();
+        Deque<Integer> qMax = new ArrayDeque<>();
+        int left = 0;
+        long res = 0L;
+        int n = nums.length;
+        for (int right = 0; right < n; ++right) {
+            while (!qMin.isEmpty() && nums[qMin.peekLast()] >= nums[right]) {
+                qMin.pollLast();
+            }
+            qMin.offerLast(right);
+            while (!qMax.isEmpty() && nums[qMax.peekLast()] <= nums[right]) {
+                qMax.pollLast();
+            }
+            qMax.offerLast(right);
+            while (nums[qMax.peekFirst()] - nums[qMin.peekFirst()] > 2) {
+                if (qMin.peekFirst() == left) {
+                    qMin.pollFirst();
+                }
+                if (qMax.peekFirst() == left) {
+                    qMax.pollFirst();
+                }
+                ++left;
+            }
+            res += (right - left + 1);
         }
         return res;
 
