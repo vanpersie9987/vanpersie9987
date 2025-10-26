@@ -3429,26 +3429,26 @@ public class LeetCode_2 {
       int count10 = 0;
       for (int bill : bills) {
          switch (bill) {
-            case 5:
-               ++count5;
-               break;
-            case 10:
-               if (count5 == 0) {
-                  return false;
-               }
+         case 5:
+            ++count5;
+            break;
+         case 10:
+            if (count5 == 0) {
+               return false;
+            }
+            --count5;
+            ++count10;
+            break;
+         case 20:
+            if (count10 >= 1 && count5 >= 1) {
+               --count10;
                --count5;
-               ++count10;
-               break;
-            case 20:
-               if (count10 >= 1 && count5 >= 1) {
-                  --count10;
-                  --count5;
-               } else if (count5 >= 3) {
-                  count5 -= 3;
-               } else {
-                  return false;
-               }
-               break;
+            } else if (count5 >= 3) {
+               count5 -= 3;
+            } else {
+               return false;
+            }
+            break;
          }
       }
       return true;
@@ -6439,30 +6439,30 @@ public class LeetCode_2 {
       int curY = startPos[1];
       for (char c : s.toCharArray()) {
          switch (c) {
-            case 'U':
-               if (--curX < 0) {
-                  return count;
-               }
-               ++count;
-               break;
-            case 'D':
-               if (++curX == n) {
-                  return count;
-               }
-               ++count;
-               break;
-            case 'L':
-               if (--curY < 0) {
-                  return count;
-               }
-               ++count;
-               break;
-            case 'R':
-               if (++curY == n) {
-                  return count;
-               }
-               ++count;
-               break;
+         case 'U':
+            if (--curX < 0) {
+               return count;
+            }
+            ++count;
+            break;
+         case 'D':
+            if (++curX == n) {
+               return count;
+            }
+            ++count;
+            break;
+         case 'L':
+            if (--curY < 0) {
+               return count;
+            }
+            ++count;
+            break;
+         case 'R':
+            if (++curY == n) {
+               return count;
+            }
+            ++count;
+            break;
          }
 
       }
@@ -6484,39 +6484,18 @@ public class LeetCode_2 {
 
    // 2125. 银行中的激光束数量 (Number of Laser Beams in a Bank)
    public int numberOfBeams(String[] bank) {
-      List<Integer> oneCount = new ArrayList<>();
-      for (String s : bank) {
-         int one = 0;
-         for (char c : s.toCharArray()) {
-            if (c == '1') {
-               ++one;
-            }
-         }
-         if (one != 0) {
-            oneCount.add(one);
-         }
-      }
-      int res = 0;
-      for (int i = 1; i < oneCount.size(); ++i) {
-         res += oneCount.get(i) * oneCount.get(i - 1);
-      }
-      return res;
-   }
-
-   // 2125. 银行中的激光束数量 (Number of Laser Beams in a Bank)
-   public int numberOfBeams2(String[] bank) {
-      int last = 0;
+      int pre = 0;
       int res = 0;
       for (String s : bank) {
-         int count = 0;
+         int cnt1 = 0;
          for (char c : s.toCharArray()) {
             if (c == '1') {
-               ++count;
+               ++cnt1;
             }
          }
-         if (count != 0) {
-            res += count * last;
-            last = count;
+         if (cnt1 != 0) {
+            res += cnt1 * pre;
+            pre = cnt1;
          }
       }
       return res;
