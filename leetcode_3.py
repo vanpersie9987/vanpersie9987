@@ -4832,34 +4832,32 @@ class SegmentTree2940:
                 res.extend(["0"] * (num - i - 1))
                 break
         return "".join(res)
-
-    # 3724. 转换数组的最少操作次数
+ 
+    # 3724. 转换数组的最少操作次数 (Minimum Operations to Transform Array)
     def minOperations(self, nums1: List[int], nums2: List[int]) -> int:
         @cache
         def dfs(i: int, added: bool) -> int:
-            if i == n:
+            if i < 0:
                 return 0 if added else inf
             # 不追加
-            res = dfs(i + 1, added) + abs(nums1[i] - nums2[i])
+            res = dfs(i - 1, added) + abs(nums1[i] - nums2[i])
             # 追加
             if not added:
                 d = max(nums1[i], nums2[i], nums2[-1]) - min(
                     nums1[i], nums2[i], nums2[-1]
                 )
-                res = min(res, dfs(i + 1, True) + d + 1)
+                res = min(res, dfs(i - 1, True) + d + 1)
             return res
 
-        n = len(nums1)
-        return dfs(0, False)
+        return dfs(len(nums1) - 1, False)
 
     # 3725. 统计每一行选择互质整数的方案数 (Count Ways to Choose Coprime Integers from Rows)
     def countCoprime(self, mat: List[List[int]]) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == m:
+            if i < 0:
                 return int(j == 1)
-            return sum(dfs(i + 1, gcd(j, x)) for x in mat[i]) % MOD
+            return sum(dfs(i - 1, gcd(j, x)) for x in mat[i]) % MOD
 
-        m = len(mat)
         MOD = 10**9 + 7
-        return dfs(0, 0)
+        return dfs(len(mat) - 1, 0)

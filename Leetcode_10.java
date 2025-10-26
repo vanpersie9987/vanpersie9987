@@ -930,36 +930,72 @@ public class Leetcode_10 {
 
     }
 
-    private int n;
-    private int[] nums1;
-    private int[] nums2;
-    private long[][] memo;
+    // 3724. 转换数组的最少操作次数 (Minimum Operations to Transform Array)
+    private int n3724;
+    private int[] nums1_3724;
+    private int[] nums2_3724;
+    private long[][] memo3724;
 
     public long minOperations(int[] nums1, int[] nums2) {
-        this.nums1 = nums1;
-        this.nums2 = nums2;
-        this.n = nums1.length;
-        this.memo = new long[n][2];
-        for (long[] row : memo) {
+        this.nums1_3724 = nums1;
+        this.nums2_3724 = nums2;
+        this.n3724 = nums1.length;
+        this.memo3724 = new long[n3724][2];
+        for (long[] row : memo3724) {
             Arrays.fill(row, -1L);
         }
-        return dfs(0, 0);
+        return dfs3724(0, 0);
 
     }
 
-    private long dfs(int i, int j) {
-        if (i == n) {
+    private long dfs3724(int i, int j) {
+        if (i == n3724) {
             return j == 0 ? Long.MAX_VALUE / 2 : 0L;
         }
-        if (memo[i][j] != -1L) {
-            return memo[i][j];
+        if (memo3724[i][j] != -1L) {
+            return memo3724[i][j];
         }
-        long res = dfs(i + 1, j) + Math.abs(nums1[i] - nums2[i]);
+        long res = dfs3724(i + 1, j) + Math.abs(nums1_3724[i] - nums2_3724[i]);
         if (j == 0) {
-            int max = Math.max(Math.max(nums1[i], nums2[i]), nums2[n]);
-            int min = Math.min(Math.min(nums1[i], nums2[i]), nums2[n]);
-            res = Math.min(res, dfs(i + 1, 1) + max - min + 1);
+            int max = Math.max(Math.max(nums1_3724[i], nums2_3724[i]), nums2_3724[n3724]);
+            int min = Math.min(Math.min(nums1_3724[i], nums2_3724[i]), nums2_3724[n3724]);
+            res = Math.min(res, dfs3724(i + 1, 1) + max - min + 1);
         }
-        return memo[i][j] = res;
+        return memo3724[i][j] = res;
+    }
+
+    // 3725. 统计每一行选择互质整数的方案数 (Count Ways to Choose Coprime Integers from Rows)
+    private int[][] mat3725;
+    private int[][] memo3725;
+
+    public int countCoprime(int[][] mat) {
+        this.mat3725 = mat;
+        int m = mat.length;
+        this.memo3725 = new int[m][151];
+        for (int[] r : memo3725) {
+            Arrays.fill(r, -1);
+        }
+        return dfs3725(m - 1, 0);
+
+    }
+
+    private int dfs3725(int i, int j) {
+        if (i < 0) {
+            return j == 1 ? 1 : 0;
+        }
+        if (memo3725[i][j] != -1) {
+            return memo3725[i][j];
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int x : mat3725[i]) {
+            res += dfs3725(i - 1, gcd3725(j, x));
+            res %= MOD;
+        }
+        return memo3725[i][j] = res;
+    }
+
+    private int gcd3725(int a, int b) {
+        return b == 0 ? a : gcd3725(b, a % b);
     }
 }
