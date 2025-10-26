@@ -4853,3 +4853,14 @@ class SegmentTree2940:
 
         MOD = 10**9 + 7
         return dfs(len(mat) - 1, 0)
+
+    # 2125. 银行中的激光束数量 (Number of Laser Beams in a Bank)
+    def numberOfBeams(self, bank: List[str]) -> int:
+        pre = 0
+        res = 0
+        for b in bank:
+            c = b.count('1')
+            if c:
+                res += pre * c
+                pre = c
+        return res
