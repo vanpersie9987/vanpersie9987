@@ -4817,22 +4817,19 @@ class SegmentTree2940:
                 res = cur
         return res
 
-    # 100861. 数位平方和的最大值
+    # 3723. 数位平方和的最大值 (Maximize Sum of Squares of Digits)
     def maxSumOfSquares(self, num: int, sum: int) -> str:
         if num * 9 < sum:
-            return ""
-        res = []
+            return ''
+        res = ['0'] * num
         for i in range(num):
-            for d in range(9, -1 if i else 0, -1):
-                if 0 <= sum - d <= (num - i - 1) * 9:
-                    res.append(str(d))
-                    sum -= d
-                    break
+            d = min(9, sum)
+            res[i] = str(d)
+            sum -= d
             if sum == 0:
-                res.extend(["0"] * (num - i - 1))
                 break
-        return "".join(res)
- 
+        return ''.join(res)
+
     # 3724. 转换数组的最少操作次数 (Minimum Operations to Transform Array)
     def minOperations(self, nums1: List[int], nums2: List[int]) -> int:
         @cache

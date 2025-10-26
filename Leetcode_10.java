@@ -909,22 +909,16 @@ public class Leetcode_10 {
         return sb.reverse().toString();
     }
 
+    // 3723. 数位平方和的最大值 (Maximize Sum of Squares of Digits)
     public String maxSumOfSquares(int num, int sum) {
+        if (9 * num < sum) {
+            return "";
+        }
         StringBuilder res = new StringBuilder();
         for (int i = 0; i < num; ++i) {
-            for (int d = 9; d >= (i == 0 ? 1 : 0); --d) {
-                if (0 <= sum - d && sum - d <= (num - i - 1) * 9) {
-                    res.append((char) (d + '0'));
-                    sum -= d;
-                    break;
-                }
-            }
-            if (sum == 0) {
-                for (int j = i + 1; j < num; ++j) {
-                    res.append('0');
-                }
-                break;
-            }
+            int d = Math.min(9, sum);
+            res.append((char) (d + '0'));
+            sum -= d;
         }
         return res.toString();
 
