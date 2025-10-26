@@ -4807,14 +4807,9 @@ class SegmentTree2940:
     # 3722. 反转后字典序最小的字符串 (Lexicographically Smallest String After Reverse)
     def lexSmallest(self, s: str) -> str:
         n = len(s)
-        res = ""
+        res = s
         for i in range(n):
-            cur = min(
-                "".join(reversed(s[: i + 1])) + s[i + 1 :],
-                s[:i] + "".join(reversed(s[i:])),
-            )
-            if res == "" or cur < res:
-                res = cur
+            res = min(res, s[:i + 1][::-1] + s[i + 1:], s[:i] + s[i:][::-1])
         return res
 
     # 3723. 数位平方和的最大值 (Maximize Sum of Squares of Digits)
