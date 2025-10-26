@@ -4803,3 +4803,63 @@ class SegmentTree2940:
 
         def accountIsLegal(self, account: int) -> bool:
             return 1 <= account <= self.n
+
+    # 100850. 反转后字典序最小的字符串
+    def lexSmallest(self, s: str) -> str:
+        n = len(s)
+        res = ""
+        for i in range(n):
+            cur = min(
+                "".join(reversed(s[: i + 1])) + s[i + 1 :],
+                s[:i] + "".join(reversed(s[i:])),
+            )
+            if res == "" or cur < res:
+                res = cur
+        return res
+
+    # 100861. 数位平方和的最大值
+    def maxSumOfSquares(self, num: int, sum: int) -> str:
+        if num * 9 < sum:
+            return ""
+        res = []
+        for i in range(num):
+            for d in range(9, -1 if i else 0, -1):
+                if 0 <= sum - d <= (num - i - 1) * 9:
+                    res.append(str(d))
+                    sum -= d
+                    break
+            if sum == 0:
+                res.extend(["0"] * (num - i - 1))
+                break
+        return "".join(res)
+
+    # 3724. 转换数组的最少操作次数
+    def minOperations(self, nums1: List[int], nums2: List[int]) -> int:
+        @cache
+        def dfs(i: int, added: bool) -> int:
+            if i == n:
+                return 0 if added else inf
+            # 不追加
+            res = dfs(i + 1, added) + abs(nums1[i] - nums2[i])
+            # 追加
+            if not added:
+                d = max(nums1[i], nums2[i], nums2[-1]) - min(
+                    nums1[i], nums2[i], nums2[-1]
+                )
+                res = min(res, dfs(i + 1, True) + d + 1)
+            return res
+
+        n = len(nums1)
+        return dfs(0, False)
+
+    # 3725. 统计每一行选择互质整数的方案数 (Count Ways to Choose Coprime Integers from Rows)
+    def countCoprime(self, mat: List[List[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == m:
+                return int(j == 1)
+            return sum(dfs(i + 1, gcd(j, x)) for x in mat[i]) % MOD
+
+        m = len(mat)
+        MOD = 10**9 + 7
+        return dfs(0, 0)

@@ -885,4 +885,81 @@ public class Leetcode_10 {
         return f[n];
 
     }
+
+    // 100850. 反转后字典序最小的字符串
+    public String lexSmallest(String s) {
+        int n = s.length();
+        String res = "";
+        for (int i = 0; i < n; ++i) {
+            String cur = reversed100850(s.substring(0, i)) + s.substring(i);
+            if (res.equals("") || cur.compareTo(res) < 0) {
+                res = cur;
+            }
+            cur = s.substring(0, i) + reversed100850(s.substring(i));
+            if (res.equals("") || cur.compareTo(res) < 0) {
+                res = cur;
+            }
+        }
+        return res;
+
+    }
+
+    private String reversed100850(String s) {
+        StringBuilder sb = new StringBuilder(s);
+        return sb.reverse().toString();
+    }
+
+    public String maxSumOfSquares(int num, int sum) {
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < num; ++i) {
+            for (int d = 9; d >= (i == 0 ? 1 : 0); --d) {
+                if (0 <= sum - d && sum - d <= (num - i - 1) * 9) {
+                    res.append((char) (d + '0'));
+                    sum -= d;
+                    break;
+                }
+            }
+            if (sum == 0) {
+                for (int j = i + 1; j < num; ++j) {
+                    res.append('0');
+                }
+                break;
+            }
+        }
+        return res.toString();
+
+    }
+
+    private int n;
+    private int[] nums1;
+    private int[] nums2;
+    private long[][] memo;
+
+    public long minOperations(int[] nums1, int[] nums2) {
+        this.nums1 = nums1;
+        this.nums2 = nums2;
+        this.n = nums1.length;
+        this.memo = new long[n][2];
+        for (long[] row : memo) {
+            Arrays.fill(row, -1L);
+        }
+        return dfs(0, 0);
+
+    }
+
+    private long dfs(int i, int j) {
+        if (i == n) {
+            return j == 0 ? Long.MAX_VALUE / 2 : 0L;
+        }
+        if (memo[i][j] != -1L) {
+            return memo[i][j];
+        }
+        long res = dfs(i + 1, j) + Math.abs(nums1[i] - nums2[i]);
+        if (j == 0) {
+            int max = Math.max(Math.max(nums1[i], nums2[i]), nums2[n]);
+            int min = Math.min(Math.min(nums1[i], nums2[i]), nums2[n]);
+            res = Math.min(res, dfs(i + 1, 1) + max - min + 1);
+        }
+        return memo[i][j] = res;
+    }
 }
