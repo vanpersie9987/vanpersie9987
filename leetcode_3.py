@@ -4804,7 +4804,7 @@ class SegmentTree2940:
         def accountIsLegal(self, account: int) -> bool:
             return 1 <= account <= self.n
 
-    # 100850. 反转后字典序最小的字符串
+    # 3722. 反转后字典序最小的字符串 (Lexicographically Smallest String After Reverse)
     def lexSmallest(self, s: str) -> str:
         n = len(s)
         res = ""
@@ -4820,15 +4820,15 @@ class SegmentTree2940:
     # 3723. 数位平方和的最大值 (Maximize Sum of Squares of Digits)
     def maxSumOfSquares(self, num: int, sum: int) -> str:
         if num * 9 < sum:
-            return ''
-        res = ['0'] * num
+            return ""
+        res = ["0"] * num
         for i in range(num):
             d = min(9, sum)
             res[i] = str(d)
             sum -= d
             if sum == 0:
                 break
-        return ''.join(res)
+        return "".join(res)
 
     # 3724. 转换数组的最少操作次数 (Minimum Operations to Transform Array)
     def minOperations(self, nums1: List[int], nums2: List[int]) -> int:

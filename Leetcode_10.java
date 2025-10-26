@@ -886,16 +886,16 @@ public class Leetcode_10 {
 
     }
 
-    // 100850. 反转后字典序最小的字符串
+    // 3722. 反转后字典序最小的字符串 (Lexicographically Smallest String After Reverse)
     public String lexSmallest(String s) {
         int n = s.length();
         String res = "";
         for (int i = 0; i < n; ++i) {
-            String cur = reversed100850(s.substring(0, i)) + s.substring(i);
+            String cur = reversed3722(s.substring(0, i)) + s.substring(i);
             if (res.equals("") || cur.compareTo(res) < 0) {
                 res = cur;
             }
-            cur = s.substring(0, i) + reversed100850(s.substring(i));
+            cur = s.substring(0, i) + reversed3722(s.substring(i));
             if (res.equals("") || cur.compareTo(res) < 0) {
                 res = cur;
             }
@@ -904,7 +904,7 @@ public class Leetcode_10 {
 
     }
 
-    private String reversed100850(String s) {
+    private String reversed3722(String s) {
         StringBuilder sb = new StringBuilder(s);
         return sb.reverse().toString();
     }
