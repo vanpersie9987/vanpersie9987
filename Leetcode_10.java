@@ -1008,4 +1008,20 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 3727. 最大交替平方和 (Maximum Alternating Sum of Squares)
+    public long maxAlternatingSum(int[] nums) {
+        int n = nums.length;
+        int[] a = new int[n];
+        for (int i = 0; i < n; ++i) {
+            a[i] = Math.abs(nums[i]);
+        }
+        Arrays.sort(a);
+        long res = 0L;
+        for (int i = 0; i < n; ++i) {
+            res += (long) a[i] * a[i] * (i < n / 2 ? -1 : 1);
+        }
+        return res;
+
+    }
 }

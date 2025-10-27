@@ -4809,7 +4809,7 @@ class SegmentTree2940:
         n = len(s)
         res = s
         for i in range(n):
-            res = min(res, s[:i + 1][::-1] + s[i + 1:], s[:i] + s[i:][::-1])
+            res = min(res, s[: i + 1][::-1] + s[i + 1 :], s[:i] + s[i:][::-1])
         return res
 
     # 3723. 数位平方和的最大值 (Maximize Sum of Squares of Digits)
@@ -4859,7 +4859,7 @@ class SegmentTree2940:
         pre = 0
         res = 0
         for b in bank:
-            c = b.count('1')
+            c = b.count("1")
             if c:
                 res += pre * c
                 pre = c
@@ -4875,3 +4875,8 @@ class SegmentTree2940:
                 res += m * p
                 p *= 10
         return res
+
+    # 3727. 最大交替平方和 (Maximum Alternating Sum of Squares)
+    def maxAlternatingSum(self, nums: List[int]) -> int:
+        nums.sort(key=lambda k: abs(k))
+        return sum(x**2 * (-1 if i < len(nums) // 2 else 1) for i, x in enumerate(nums))
