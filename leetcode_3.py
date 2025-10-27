@@ -4880,3 +4880,15 @@ class SegmentTree2940:
     def maxAlternatingSum(self, nums: List[int]) -> int:
         nums.sort(key=lambda k: abs(k))
         return sum(x**2 * (-1 if i < len(nums) // 2 else 1) for i, x in enumerate(nums))
+    
+    # 3728. 边界与内部和相等的稳定子数组 (Stable Subarrays With Equal Boundary and Interior Sum)
+    def countStableSubarrays(self, capacity: List[int]) -> int:
+        res = 0
+        d = defaultdict(int)
+        s = capacity[0]
+        for last, x in pairwise(capacity):
+            res += d[(x, s)]
+            d[(last, last + s)] += 1
+            s += x
+        return res
+

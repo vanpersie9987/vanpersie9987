@@ -1024,4 +1024,23 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    private record Group3728(int a, long b) {
+    }
+
+    // 3728. 边界与内部和相等的稳定子数组 (Stable Subarrays With Equal Boundary and Interior Sum)
+    public long countStableSubarrays(int[] capacity) {
+        long res = 0L;
+        Map<Group3728, Integer> cnt = new HashMap<>();
+        long s = capacity[0];
+        for (int i = 1; i < capacity.length; ++i) {
+            int last = capacity[i - 1];
+            int x = capacity[i];
+            res += cnt.getOrDefault(new Group3728(x, s), 0);
+            cnt.merge(new Group3728(last, last + s), 1, Integer::sum);
+            s += x;
+        }
+        return res;
+
+    }
 }
