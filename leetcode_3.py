@@ -4864,3 +4864,14 @@ class SegmentTree2940:
                 res += pre * c
                 pre = c
         return res
+
+    # 3726. 移除十进制表示中的所有零 (Remove Zeros in Decimal Representation)
+    def removeZeros(self, n: int) -> int:
+        res = 0
+        p = 1
+        while n:
+            n, m = divmod(n, 10)
+            if m:
+                res += m * p
+                p *= 10
+        return res
