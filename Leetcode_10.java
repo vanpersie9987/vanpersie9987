@@ -992,4 +992,20 @@ public class Leetcode_10 {
     private int gcd3725(int a, int b) {
         return b == 0 ? a : gcd3725(b, a % b);
     }
+
+    // 3726. 移除十进制表示中的所有零 (Remove Zeros in Decimal Representation)
+    public long removeZeros(long n) {
+        long res = 0L;
+        long p = 1L;
+        while (n != 0L) {
+            int m = (int) (n % 10);
+            n /= 10;
+            if (m != 0) {
+                res += p * m;
+                p *= 10L;
+            }
+        }
+        return res;
+
+    }
 }
