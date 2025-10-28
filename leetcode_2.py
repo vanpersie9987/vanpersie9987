@@ -7206,16 +7206,18 @@ class Union924:
 
     # 3354. 使数组元素等于零 (Make Array Elements Equal to Zero)
     def countValidSelections(self, nums: List[int]) -> int:
-        n = len(nums)
-        right = [0] * (n + 1)
-        for i in range(n - 1, -1, -1):
-            right[i] = right[i + 1] + nums[i]
+        s = sum(nums)
+        pre = 0
         res = 0
-        left = 0
-        for i in range(n):
-            if nums[i] == 0:
-                res += max(0, 2 - abs(left - right[i + 1]))
-            left += nums[i]
+        for x in nums:
+            if x == 0:
+                d = abs(s - pre * 2)
+                if d == 0:
+                    res += 2
+                elif d == 1:
+                    res += 1
+            else:
+                pre += x
         return res
 
     # 3355. 零数组变换 I (Zero Array Transformation I)

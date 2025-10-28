@@ -3337,20 +3337,26 @@ public class Leetcode_9 {
 
     // 3354. 使数组元素等于零 (Make Array Elements Equal to Zero)
     public int countValidSelections(int[] nums) {
-        int n = nums.length;
-        int[] right = new int[n + 1];
-        for (int i = n - 1; i >= 0; --i) {
-            right[i] = right[i + 1] + nums[i];
-        }
+        int pre = 0;
+        int sum = 0;
         int res = 0;
-        int left = 0;
-        for (int i = 0; i < n; ++i) {
-            if (nums[i] == 0) {
-                res += Math.max(0, 2 - Math.abs(left - right[i + 1]));
+        for (int x : nums) {
+            sum += x;
+        }
+        for (int x : nums) {
+            if (x == 0) {
+                int d = Math.abs(sum - pre * 2);
+                if (d == 0) {
+                    res += 2;
+                } else if (d == 1) {
+                    res += 1;
+                }
+            } else {
+                pre += x;
             }
-            left += nums[i];
         }
         return res;
+        
     }
 
     // 3355. 零数组变换 I (Zero Array Transformation I)
