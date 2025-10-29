@@ -3584,7 +3584,8 @@ public class Leetcode_9 {
 
     // 3370. 仅含置位位的最小整数 (Smallest Number With All Set Bits)
     public int smallestNumber(int n) {
-        return (1 << Integer.toBinaryString(n).length()) - 1;
+        int bitLength = 32 - Integer.numberOfLeadingZeros(n);
+        return (1 << bitLength) - 1;
     }
 
     // 3371. 识别数组中的最大异常值 (Identify the Largest Outlier in an Array)
