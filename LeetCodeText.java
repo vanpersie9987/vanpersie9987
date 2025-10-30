@@ -14829,7 +14829,8 @@ public class LeetCodeText {
 
     }
 
-    // 1526. 形成目标数组的子数组最少增加次数
+    // 1526. 形成目标数组的子数组最少增加次数 (Minimum Number of Increments on Subarrays to Form a
+    // Target Array)
     public int minNumberOperations(int[] target) {
         int ans = target[0];
         for (int i = 1; i < target.length; ++i) {
