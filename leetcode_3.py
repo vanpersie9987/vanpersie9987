@@ -4880,7 +4880,7 @@ class SegmentTree2940:
     def maxAlternatingSum(self, nums: List[int]) -> int:
         nums.sort(key=lambda k: abs(k))
         return sum(x**2 * (-1 if i < len(nums) // 2 else 1) for i, x in enumerate(nums))
-    
+
     # 3728. 边界与内部和相等的稳定子数组 (Stable Subarrays With Equal Boundary and Interior Sum)
     def countStableSubarrays(self, capacity: List[int]) -> int:
         res = 0
@@ -4892,3 +4892,6 @@ class SegmentTree2940:
             s += x
         return res
 
+    # 1526. 形成目标数组的子数组最少增加次数 (Minimum Number of Increments on Subarrays to Form a Target Array)
+    def minNumberOperations(self, target: List[int]) -> int:
+        return target[0] + sum(max(0, y - x) for x, y in pairwise(target))
