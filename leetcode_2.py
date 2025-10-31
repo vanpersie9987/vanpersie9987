@@ -5404,15 +5404,13 @@ class Union924:
     def modifiedList(
         self, nums: List[int], head: Optional[ListNode]
     ) -> Optional[ListNode]:
+        dummy = pre = ListNode(0, head)
         s = set(nums)
-        cur = dummy = ListNode(0, head)
-        while head:
-            while head and head.val in s:
-                head = head.next
-            cur.next = head
-            cur = cur.next
-            if head:
-                head = head.next
+        while pre.next:
+            if pre.next.val in s:
+                pre.next = pre.next.next
+            else:
+                pre = pre.next
         return dummy.next
 
     # 3218. 切蛋糕的最小总开销 I (Minimum Cost for Cutting Cake I) --O((mn)^2)

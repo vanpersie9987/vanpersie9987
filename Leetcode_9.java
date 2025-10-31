@@ -1245,22 +1245,18 @@ public class Leetcode_9 {
 
     // 3217. 从链表中移除在数组中存在的节点 (Delete Nodes From Linked List Present in Array)
     public ListNode modifiedList(int[] nums, ListNode head) {
-        Set<Integer> s = new HashSet<>();
+        boolean[] s = new boolean[(int) (1e5 + 1)];
         for (int x : nums) {
-            s.add(x);
+            s[x] = true;
         }
         ListNode dummy = new ListNode(0, head);
-        ListNode cur = dummy;
-        while (true) {
-            while (head != null && s.contains(head.val)) {
-                head = head.next;
+        ListNode pre = dummy;
+        while (pre.next != null) {
+            if (s[pre.next.val]) {
+                pre.next = pre.next.next;
+            } else {
+                pre = pre.next;
             }
-            cur.next = head;
-            cur = cur.next;
-            if (head == null) {
-                break;
-            }
-            head = head.next;
         }
         return dummy.next;
 
