@@ -4897,7 +4897,9 @@ class SegmentTree2940:
         return target[0] + sum(max(0, y - x) for x, y in pairwise(target))
 
     # 2257. 统计网格图中没有被保卫的格子数 (Count Unguarded Cells in the Grid)
-    def countUnguarded(self, m: int, n: int, guards: List[List[int]], walls: List[List[int]]) -> int:
+    def countUnguarded(
+        self, m: int, n: int, guards: List[List[int]], walls: List[List[int]]
+    ) -> int:
         g = [[0] * n for _ in range(m)]
         for x, y in guards:
             g[x][y] = 1
@@ -4907,7 +4909,9 @@ class SegmentTree2940:
         for gx, gy in guards:
             for dx, dy in d:
                 nx, ny = gx + dx, gy + dy
-                while m > nx >= 0 and n > ny >= 0 and (g[nx][ny] == 0 or g[nx][ny] == 3):
+                while (
+                    m > nx >= 0 and n > ny >= 0 and (g[nx][ny] == 0 or g[nx][ny] == 3)
+                ):
                     g[nx][ny] = 3
                     nx += dx
                     ny += dy
