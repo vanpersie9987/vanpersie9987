@@ -4895,3 +4895,60 @@ class SegmentTree2940:
     # 1526. 形成目标数组的子数组最少增加次数 (Minimum Number of Increments on Subarrays to Form a Target Array)
     def minNumberOperations(self, target: List[int]) -> int:
         return target[0] + sum(max(0, y - x) for x, y in pairwise(target))
+
+    # 2257. 统计网格图中没有被保卫的格子数 (Count Unguarded Cells in the Grid)
+    def countUnguarded(self, m: int, n: int, guards: List[List[int]], walls: List[List[int]]) -> int:
+        g = [[0] * n for _ in range(m)]
+        for x, y in guards:
+            g[x][y] = 1
+        for x, y in walls:
+            g[x][y] = 2
+        for i in range(m):
+            j = 0
+            while j < n:
+                if g[i][j] == 1:
+                    nj = j + 1
+                    while nj < n and (g[i][nj] == 0 or g[i][nj] == 3):
+                        g[i][nj] = 3
+                        nj += 1
+                    j = nj
+                else:
+                    j += 1
+            j = n - 1
+            while j >= 0:
+                if g[i][j] == 1:
+                    nj = j - 1
+                    while nj >= 0 and (g[i][nj] == 0 or g[i][nj] == 3):
+                        g[i][nj] = 3
+                        nj -= 1
+                    j = nj
+                else:
+                    j -= 1
+
+        for j in range(n):
+            i = 0
+            while i < m:
+                if g[i][j] == 1:
+                    ni = i + 1
+                    while ni < m and (g[ni][j] == 0 or g[ni][j] == 3):
+                        g[ni][j] = 3
+                        ni += 1
+                    i = ni
+                else:
+                    i += 1
+            i = m - 1
+            while i >= 0:
+                if g[i][j] == 1:
+                    ni = i - 1
+                    while ni >= 0 and (g[ni][j] == 0 or g[ni][j] == 3):
+                        g[ni][j] = 3
+                        ni -= 1
+                    i = ni
+                else:
+                    i -= 1
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                if g[i][j] == 0:
+                    res += 1
+        return res
