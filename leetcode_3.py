@@ -4954,4 +4954,10 @@ class SegmentTree2940:
             res += s - mx
             i = j
         return res
-            
+
+    # 3731. 找出缺失的元素 (Find Missing Elements)
+    def findMissingElements(self, nums: List[int]) -> List[int]:
+        _max = max(nums)
+        _min = min(nums)
+        s = set(nums)
+        return [x for x in range(_min + 1, _max) if x not in s]
