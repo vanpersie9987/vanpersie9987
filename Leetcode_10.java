@@ -1120,10 +1120,10 @@ public class Leetcode_10 {
     // 3732. 一次替换后的三元素最大乘积 (Maximum Product of Three Elements After One Replacement)
     public long maxProduct(int[] nums) {
         Arrays.sort(nums);
-        long res1 = Math.abs((long) nums[0] * nums[1] * (long) 1e5);
-        long res2 = Math.abs((long) nums[nums.length - 1] * nums[nums.length - 2] * (long) 1e5);
-        long res3 = Math.abs((long) nums[0] * nums[nums.length - 1] * (long) 1e5);
-        return Math.max(Math.max(res1, res2), res3);
+        long res1 = Math.abs((long) nums[0] * nums[1]);
+        long res2 = Math.abs((long) nums[nums.length - 1] * nums[nums.length - 2]);
+        long res3 = Math.abs((long) nums[0] * nums[nums.length - 1]);
+        return Math.max(Math.max(res1, res2), res3) * (long) 1e5;
 
     }
 

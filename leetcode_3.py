@@ -4966,8 +4966,8 @@ class SegmentTree2940:
     # 3732. 一次替换后的三元素最大乘积 (Maximum Product of Three Elements After One Replacement)
     def maxProduct(self, nums: List[int]) -> int:
         nums.sort()
-        return max(
-            abs(nums[0] * nums[1] * 10**5),
-            abs(nums[-1] * nums[-2] * 10**5),
-            abs(nums[0] * nums[-1] * 10**5),
+        return 10**5 * max(
+            abs(nums[0] * nums[1]),
+            abs(nums[-1] * nums[-2]),
+            abs(nums[0] * nums[-1]),
         )
