@@ -4977,12 +4977,8 @@ class SegmentTree2940:
         def check(t: int) -> bool:
             # 第一架无人机不可用小时数
             x1 = t // r[0]
-            # 第一架无人机可用小时数
-            y1 = t - x1
             # 第二架无人机不可用小时数
             x2 = t // r[1]
-            # 第二架无人机可用小时数
-            y2 = t - x2
             # 两架无人机都可用的小时数
             b = t - (x1 + x2 - t // lcm(r[0], r[1]))
             # (y1 - b) 只有第一架无人机可用的小时数，d[0] - (y1 - b) 使用「只有第一架无人机可用的小时数」后，还需要送多少小时货，这些货只能使用两架无人机都能送货的小时数来消耗
@@ -5002,3 +4998,30 @@ class SegmentTree2940:
             else:
                 left = mid + 1
         return right + 1
+
+    # 3734. 大于目标字符串的最小字典序回文排列 (Lexicographically Smallest Palindromic Permutation Greater Than Target)
+    def lexPalindromicPermutation(self, s: str, target: str) -> str:
+        n = len(s)
+        if n == 1:
+            if s <= target:
+                return ''
+            return s
+        cnt = [0] * 26
+        for x in s:
+            cnt[ord(x) - ord('a')] += 1
+        odd_cnt = 0
+        ch = ''
+        for i, c in enumerate(cnt):
+            if c & 1:
+                ch = chr(i + ord('a'))
+                odd_cnt += 1
+                if odd_cnt > 1:
+                    return ''
+        s_max = ''
+        for i in range(25, -1, -1):
+            s_max += chr(i + ord('a')) * (cnt[i] // 2)
+        s_max = s_max + ch + ''.join(reversed(s_max))
+        if s_max <= target:
+            return ''
+        # todo
+        res = ''
