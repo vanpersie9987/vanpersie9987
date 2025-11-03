@@ -4929,10 +4929,11 @@ class SegmentTree2940:
             if i < 0:
                 return 0
             res = dfs(i - 1, j) + neededTime[i]
-            c = ord(colors[i]) - ord('a')
+            c = ord(colors[i]) - ord("a")
             if c != j:
                 res = min(res, dfs(i - 1, c))
             return res
+
         n = len(colors)
         res = dfs(n - 1, 26)
         dfs.cache_clear()
@@ -4961,3 +4962,12 @@ class SegmentTree2940:
         _min = min(nums)
         s = set(nums)
         return [x for x in range(_min + 1, _max) if x not in s]
+
+    # 3732. 一次替换后的三元素最大乘积 (Maximum Product of Three Elements After One Replacement)
+    def maxProduct(self, nums: List[int]) -> int:
+        nums.sort()
+        return max(
+            abs(nums[0] * nums[1] * 10**5),
+            abs(nums[-1] * nums[-2] * 10**5),
+            abs(nums[0] * nums[-1] * 10**5),
+        )
