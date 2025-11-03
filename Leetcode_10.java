@@ -1097,4 +1097,24 @@ public class Leetcode_10 {
 
     }
 
+    // 3731. 找出缺失的元素 (Find Missing Elements)
+    public List<Integer> findMissingElements(int[] nums) {
+        Set<Integer> s = new HashSet<>();
+        int max = 0;
+        int min = Integer.MAX_VALUE;
+        for (int x : nums) {
+            s.add(x);
+            max = Math.max(max, x);
+            min = Math.min(min, x);
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int x = min + 1; x < max; ++x) {
+            if (!s.contains(x)) {
+                res.add(x);
+            }
+        }
+        return res;
+
+    }
+
 }
