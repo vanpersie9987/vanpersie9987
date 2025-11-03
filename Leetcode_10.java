@@ -1127,4 +1127,39 @@ public class Leetcode_10 {
 
     }
 
+    // 3733. 完成所有送货任务的最少时间 (Minimum Time to Complete All Deliveries)
+    public long minimumTime(int[] d, int[] r) {
+        long left = d[0] + d[1];
+        long right = (long) 1e10;
+        long lcm = lcm3733(r[0], r[1]);
+        while (left <= right) {
+            long mid = left + ((right - left) >> 1);
+            if (check3733(mid, d, r, lcm)) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+
+
+    }
+
+    private boolean check3733(long t, int[] d, int[] r, long lcm) {
+        // 都不可以送货的小时数
+        long neither = t / lcm;
+        // 仅无人机1可以送的小时数
+        long x1 = t / r[1] - neither;
+        // 仅无人机2可以送的小时数
+        long x2 = t / r[0] - neither;
+        return Math.max(0, d[0] - x1) + Math.max(0, d[1] - x2) <= t - x1 - x2 - neither;
+    }
+
+    private long lcm3733(int a, int b) {
+        return (long) a * b / gcd3733(a, b);
+    }
+
+    private long gcd3733(int a, int b) {
+        return b == 0 ? a : gcd3733(b, a % b);
+    }
 }
