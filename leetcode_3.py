@@ -4926,14 +4926,14 @@ class SegmentTree2940:
     def minCost(self, colors: str, neededTime: List[int]) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == n:
+            if i < 0:
                 return 0
-            res = dfs(i + 1, j) + neededTime[i]
+            res = dfs(i - 1, j) + neededTime[i]
             c = ord(colors[i]) - ord('a')
             if c != j:
-                res = min(res, dfs(i + 1, c))
+                res = min(res, dfs(i - 1, c))
             return res
         n = len(colors)
-        res = dfs(0, 26)
+        res = dfs(n - 1, 26)
         dfs.cache_clear()
         return res

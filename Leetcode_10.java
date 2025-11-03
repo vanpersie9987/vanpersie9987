@@ -1043,4 +1043,59 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 1578. 使绳子变成彩色的最短时间 (Minimum Time to Make Rope Colorful)
+    private int[][] memo1578;
+    private char[] a1578;
+    private int[] neededTime1578;
+
+    public int minCost(String colors, int[] neededTime) {
+        int n = neededTime.length;
+        this.a1578 = colors.toCharArray();
+        this.neededTime1578 = neededTime;
+        this.memo1578 = new int[n][27];
+        for (int[] row : memo1578) {
+            Arrays.fill(row, -1);
+        }
+        return dfs1578(n - 1, 26);
+
+    }
+
+    private int dfs1578(int i, int j) {
+        if (i < 0) {
+            return 0;
+        }
+        if (memo1578[i][j] != -1) {
+            return memo1578[i][j];
+        }
+        int res = dfs1578(i - 1, j) + neededTime1578[i];
+        int c = a1578[i] - 'a';
+        if (c != j) {
+            res = Math.min(res, dfs1578(i - 1, c));
+        }
+        return memo1578[i][j] = res;
+    }
+
+    // 1578. 使绳子变成彩色的最短时间 (Minimum Time to Make Rope Colorful)
+    public int minCost2(String colors, int[] neededTime) {
+        int n = colors.length();
+        int i = 0;
+        int res = 0;
+        while (i < n) {
+            int max = 0;
+            int sum = 0;
+            int j = i;
+            while (j < n && colors.charAt(i) == colors.charAt(j)) {
+                max = Math.max(max, neededTime[j]);
+                sum += neededTime[j];
+                ++j;
+            }
+            res += sum - max;
+            i = j;
+        }
+        return res;
+
+
+    }
+
 }

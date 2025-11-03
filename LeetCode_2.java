@@ -7931,28 +7931,6 @@ public class LeetCode_2 {
 
    }
 
-   // 1578. 使绳子变成彩色的最短时间 (Minimum Time to Make Rope Colorful)
-   public int minCost(String colors, int[] neededTime) {
-      int res = 0;
-      char[] colorsChars = colors.toCharArray();
-      int index = 0;
-      while (index < colorsChars.length - 1) {
-         if (colorsChars[index] == colorsChars[index + 1]) {
-            int curSum = neededTime[index];
-            int curMax = neededTime[index];
-            while (index < colorsChars.length - 1 && colorsChars[index] == colorsChars[index + 1]) {
-               curSum += neededTime[index + 1];
-               curMax = Math.max(curMax, neededTime[index + 1]);
-               ++index;
-            }
-            res += curSum - curMax;
-         }
-         ++index;
-      }
-      return res;
-
-   }
-
    // 1727. 重新排列后的最大子矩阵 (Largest Submatrix With Rearrangements)
    public int largestSubmatrix(int[][] matrix) {
       int m = matrix.length;
