@@ -4971,3 +4971,34 @@ class SegmentTree2940:
             abs(nums[-1] * nums[-2]),
             abs(nums[0] * nums[-1]),
         )
+
+    # 3733. 完成所有送货任务的最少时间 (Minimum Time to Complete All Deliveries)
+    def minimumTime(self, d: List[int], r: List[int]) -> int:
+        def check(t: int) -> bool:
+            # 第一架无人机不可用小时数
+            x1 = t // r[0]
+            # 第一架无人机可用小时数
+            y1 = t - x1
+            # 第二架无人机不可用小时数
+            x2 = t // r[1]
+            # 第二架无人机可用小时数
+            y2 = t - x2
+            # 两架无人机都可用的小时数
+            b = t - (x1 + x2 - t // lcm(r[0], r[1]))
+            # (y1 - b) 只有第一架无人机可用的小时数，d[0] - (y1 - b) 使用「只有第一架无人机可用的小时数」后，还需要送多少小时货，这些货只能使用两架无人机都能送货的小时数来消耗
+            # r1 = max(0, d[0] - (y1 - b))
+            r1 = max(0, d[0] - (x2 - t // lcm(r[0], r[1])))
+            # (y2 - b) 只有第二架无人机可用的小时数，d[1] - (y2 - b) 使用「只有第二架无人机可用的小时数」后，还需要送多少小时货，这些货只能使用两架无人机都能送货的小时数来消耗
+            # r2 = max(0, d[1] - (y2 - b))
+            r2 = max(0, d[1] - (x1 - t // lcm(r[0], r[1])))
+            return r1 + r2 <= b
+
+        left = d[0] + d[1]
+        right = 10**10
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                right = mid - 1
+            else:
+                left = mid + 1
+        return right + 1
