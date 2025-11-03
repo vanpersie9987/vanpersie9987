@@ -4921,3 +4921,19 @@ class SegmentTree2940:
                 if g[i][j] == 0:
                     res += 1
         return res
+
+    # 1578. 使绳子变成彩色的最短时间 (Minimum Time to Make Rope Colorful)
+    def minCost(self, colors: str, neededTime: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0
+            res = dfs(i + 1, j) + neededTime[i]
+            c = ord(colors[i]) - ord('a')
+            if c != j:
+                res = min(res, dfs(i + 1, c))
+            return res
+        n = len(colors)
+        res = dfs(0, 26)
+        dfs.cache_clear()
+        return res
