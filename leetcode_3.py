@@ -4937,3 +4937,21 @@ class SegmentTree2940:
         res = dfs(n - 1, 26)
         dfs.cache_clear()
         return res
+
+    # 1578. 使绳子变成彩色的最短时间 (Minimum Time to Make Rope Colorful)
+    def minCost(self, colors: str, neededTime: List[int]) -> int:
+        n = len(colors)
+        i = 0
+        res = 0
+        while i < n:
+            j = i
+            s = 0
+            mx = 0
+            while j < n and colors[i] == colors[j]:
+                mx = max(mx, neededTime[j])
+                s += neededTime[j]
+                j += 1
+            res += s - mx
+            i = j
+        return res
+            
