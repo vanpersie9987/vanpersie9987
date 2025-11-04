@@ -1203,4 +1203,83 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 3734. 大于目标字符串的最小字典序回文排列 (Lexicographically Smallest Palindromic Permutation
+    // Greater Than Target)
+    public String lexPalindromicPermutation(String s, String target) {
+        int n = s.length();
+        int[] cnt = new int[26];
+        for (char c : s.toCharArray()) {
+            ++cnt[c - 'a'];
+        }
+        int midIdx = -1;
+        int oddCnt = 0;
+        for (int i = 0; i < 26; ++i) {
+            if (cnt[i] % 2 != 0) {
+                midIdx = i;
+                if (++oddCnt > 1) {
+                    return "";
+                }
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 25; i >= 0; --i) {
+            int c = cnt[i] / 2;
+            while (c-- > 0) {
+                sb.append((char) (i + 'a'));
+            }
+        }
+        String max = sb.toString() + (n % 2 == 0 ? "" : (char) (midIdx + 'a')) + sb.reverse().toString();
+        if (max.compareTo(target) <= 0) {
+            return "";
+        }
+        char[] res = new char[n];
+        if (n % 2 != 0) {
+            res[n / 2] = (char) (midIdx + 'a');
+            --cnt[midIdx];
+        }
+        for (int i = 0; i < 26; ++i) {
+            cnt[i] >>= 1;
+        }
+        for (int i = 0; i < n / 2; ++i) {
+            int tIdx = target.charAt(i) - 'a';
+            if (cnt[tIdx] == 0 || !check3734(res, cnt.clone(), i, target)) {
+                for (int j = tIdx + 1; j < 26; ++j) {
+                    if (cnt[j] != 0) {
+                        res[i] = res[n - i - 1] = (char) (j + 'a');
+                        --cnt[j];
+                        ++i;
+                        break;
+                    }
+                }
+                for (int j = 0; j < 26; ++j) {
+                    while (cnt[j] != 0) {
+                        res[i] = res[n - i - 1] = (char) (j + 'a');
+                        --cnt[j];
+                        ++i;
+                    }
+                }
+                return String.valueOf(res);
+            }
+            --cnt[tIdx];
+            res[i] = res[n - i - 1] = target.charAt(i);
+        }
+        return String.valueOf(res);
+
+    }
+
+    private boolean check3734(char[] res, int[] cnt, int i, String target) {
+        int n = res.length;
+        int tIdx = target.charAt(i) - 'a';
+        --cnt[tIdx];
+        res[i] = res[n - i - 1] = target.charAt(i);
+        ++i;
+        for (int j = 25; j >= 0; --j) {
+            while (cnt[j]-- > 0) {
+                res[i] = res[n - i - 1] = (char) (j + 'a');
+                ++i;
+            }
+        }
+        return String.valueOf(res).compareTo(target) > 0;
+    }
 }

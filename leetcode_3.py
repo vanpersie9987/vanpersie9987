@@ -5019,59 +5019,60 @@ class SegmentTree2940:
     def lexPalindromicPermutation(self, s: str, target: str) -> str:
         def check(cnt: List[int], i: int, p: int) -> bool:
             cnt[p] -= 1
-            res[i] = res[n - i - 1] = chr(p + ord('a'))
+            res[i] = res[n - i - 1] = chr(p + ord("a"))
             i += 1
             for j in range(25, -1, -1):
                 while cnt[j]:
-                    res[i] = res[n - i - 1] = chr(j + ord('a'))
+                    res[i] = res[n - i - 1] = chr(j + ord("a"))
                     cnt[j] -= 1
                     i += 1
-            return ''.join(res) > target
+            return "".join(res) > target
+
         n = len(s)
         if n == 1:
             if s <= target:
-                return ''
+                return ""
             return s
         cnt = [0] * 26
         for x in s:
-            cnt[ord(x) - ord('a')] += 1
+            cnt[ord(x) - ord("a")] += 1
         odd_cnt = 0
-        ch = ''
+        ch = ""
         for i, c in enumerate(cnt):
             if c & 1:
-                ch = chr(i + ord('a'))
+                ch = chr(i + ord("a"))
                 odd_cnt += 1
                 # s无法构成回文
                 if odd_cnt > 1:
-                    return ''
-        s_max = ''
+                    return ""
+        s_max = ""
         for i in range(25, -1, -1):
-            s_max += chr(i + ord('a')) * (cnt[i] // 2)
-        s_max = s_max + ch + ''.join(reversed(s_max))
+            s_max += chr(i + ord("a")) * (cnt[i] // 2)
+        s_max = s_max + ch + "".join(reversed(s_max))
         # 最大的回文 <= target
         if s_max <= target:
-            return ''
-        res = [''] * n
+            return ""
+        res = [""] * n
         if n % 2:
             res[n // 2] = ch
-            cnt[ord(ch) - ord('a')] -= 1
+            cnt[ord(ch) - ord("a")] -= 1
         for i in range(26):
             cnt[i] //= 2
-        for i, t in enumerate(target[:n // 2]):
-            p = ord(t) - ord('a')
+        for i, t in enumerate(target[: n // 2]):
+            p = ord(t) - ord("a")
             if cnt[p] == 0 or not check(cnt.copy(), i, p):
                 for j in range(p + 1, 26):
                     if cnt[j]:
-                        res[i] = res[n - i - 1] = chr(j + ord('a'))
+                        res[i] = res[n - i - 1] = chr(j + ord("a"))
                         i += 1
                         cnt[j] -= 1
                         break
                 for j in range(26):
                     while cnt[j]:
-                        res[i] = res[n - i - 1] = chr(j + ord('a'))
+                        res[i] = res[n - i - 1] = chr(j + ord("a"))
                         i += 1
                         cnt[j] -= 1
-                return ''.join(res)
+                return "".join(res)
             cnt[p] -= 1
             res[i] = res[n - i - 1] = t
-        return ''.join(res)
+        return "".join(res)
