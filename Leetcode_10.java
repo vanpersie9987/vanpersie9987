@@ -1162,4 +1162,45 @@ public class Leetcode_10 {
     private long gcd3733(int a, int b) {
         return b == 0 ? a : gcd3733(b, a % b);
     }
+
+    // 3318. 计算子数组的 x-sum I (Find X-Sum of All K-Long Subarrays I) --暴力
+    public int[] findXSum(int[] nums, int k, int x) {
+        int n = nums.length;
+        int[] res = new int[n - k + 1];
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            cnts.merge(nums[i], 1, Integer::sum);
+            if (i >= k) {
+                cnts.merge(nums[i - k], -1, Integer::sum);
+            }
+            if (i >= k - 1) {
+                TreeSet<int[]> treeSet = new TreeSet<>(new Comparator<>() {
+
+                    @Override
+                    public int compare(int[] o1, int[] o2) {
+                        if (o1[0] == o2[0]) {
+                            return Integer.compare(o2[1], o1[1]);
+                        }
+                        return Integer.compare(o2[0], o1[0]);
+                    }
+
+                });
+                for (Map.Entry<Integer, Integer> entry : cnts.entrySet()) {
+                    treeSet.add(new int[] { entry.getValue(), entry.getKey() });
+                }
+                int s = 0;
+                int c = 0;
+                for (int[] cur : treeSet) {
+                    ++c;
+                    if (c > x) {
+                        break;
+                    }
+                    s += cur[0] * cur[1];
+                }
+                res[i - k + 1] = s;
+            }
+        }
+        return res;
+
+    }
 }
