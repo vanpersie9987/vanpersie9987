@@ -4998,6 +4998,22 @@ class SegmentTree2940:
             else:
                 left = mid + 1
         return right + 1
+    
+    # 3318. 计算子数组的 x-sum I (Find X-Sum of All K-Long Subarrays I) --暴力
+    def findXSum(self, nums: List[int], k: int, x: int) -> List[int]:
+        n = len(nums)
+        res = [0] * (n - k + 1)
+        d = defaultdict(int)
+        for i in range(n):
+            d[nums[i]] += 1
+            if i >= k:
+                d[nums[i - k]] -= 1
+            if i >= k - 1:
+                a = [[val, key] for key, val in d.items()]
+                a.sort(key=lambda x: (-x[0], -x[1]))
+                res[i - k + 1] = sum(x * y for x, y in a[:x])
+        return res
+        
 
     # 3734. 大于目标字符串的最小字典序回文排列 (Lexicographically Smallest Palindromic Permutation Greater Than Target)
     def lexPalindromicPermutation(self, s: str, target: str) -> str:
