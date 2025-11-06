@@ -7752,44 +7752,52 @@ public class Leetcode_9 {
 
     // 3607. 电网维护 (Power Grid Maintenance)
     public int[] processQueries(int c, int[][] connections, int[][] queries) {
+        ++c;
         Union3607 u = new Union3607(c);
         for (int[] connection : connections) {
-            u.union(connection[0] - 1, connection[1] - 1);
+            u.union(connection[0], connection[1]);
         }
-        Map<Integer, TreeSet<Integer>> map = new HashMap<>();
-        for (int i = 0; i < c; ++i) {
+        Map<Integer, PriorityQueue<Integer>> g = new HashMap<>();
+        for (int i = 1; i < c; ++i) {
             int r = u.getRoot(i);
-            map.computeIfAbsent(r, k -> new TreeSet<>()).add(i);
+            g.computeIfAbsent(r, k -> new PriorityQueue<>()).add(i);
         }
+        boolean[] online = new boolean[c];
+        Arrays.fill(online, true);
         List<Integer> res = new ArrayList<>();
-        for (int[] query : queries) {
-            int x = query[1] - 1;
-            int r = u.getRoot(x);
-            TreeSet<Integer> set = map.get(r);
-            if (query[0] == 2) {
-                set.remove(x);
-            } else {
-                if (set.contains(x)) {
-                    res.add(x + 1);
-                } else if (set.isEmpty()) {
-                    res.add(-1);
+        for (int[] q : queries) {
+            if (q[0] == 1) {
+                if (online[q[1]]) {
+                    res.add(q[1]);
                 } else {
-                    res.add(set.first() + 1);
+                    int r = u.getRoot(q[1]);
+                    PriorityQueue<Integer> pq = g.getOrDefault(r, new PriorityQueue<>());
+                    while (!pq.isEmpty() && !online[pq.peek()]) {
+                        pq.poll();
+                    }
+                    if (pq.isEmpty()) {
+                        res.add(-1);
+                    } else {
+                        res.add(pq.peek());
+                    }
                 }
+            } else {
+                online[q[1]] = false;
             }
         }
-        return res.stream().mapToInt(o -> o).toArray();
+        return res.stream().mapToInt(i -> i).toArray();
+
     }
 
-    public class Union3607 {
+    class Union3607 {
         private int[] rank;
         private int[] parent;
 
         public Union3607(int n) {
             this.rank = new int[n];
             this.parent = new int[n];
-            Arrays.fill(rank, 1);
             for (int i = 0; i < n; ++i) {
+                rank[i] = 1;
                 parent[i] = i;
             }
         }
@@ -7820,6 +7828,7 @@ public class Leetcode_9 {
                 }
             }
         }
+
     }
 
     // 3608. 包含 K 个连通分量需要的最小时间 (Minimum Time for K Connected Components)
