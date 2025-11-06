@@ -1700,18 +1700,19 @@ class leetcode_3:
     def processQueries(
         self, c: int, connections: List[List[int]], queries: List[List[int]]
     ) -> List[int]:
+
         class union:
             def __init__(self, n: int):
-                self.parent = [i for i in range(n)]
                 self.rank = [1] * n
+                self.parent = [i for i in range(n)]
 
             def get_root(self, p: int) -> int:
-                if p == self.parent[p]:
+                if self.parent[p] == p:
                     return p
                 self.parent[p] = self.get_root(self.parent[p])
                 return self.parent[p]
 
-            def is_connected(self, p1: int, p2: int) -> bool:
+            def is_connect(self, p1: int, p2: int) -> bool:
                 return self.get_root(p1) == self.get_root(p2)
 
             def union(self, p1: int, p2: int) -> None:
@@ -1726,27 +1727,33 @@ class leetcode_3:
                     if self.rank[r1] == self.rank[r2]:
                         self.rank[r1] += 1
 
+        c += 1
         u = union(c)
         for x, y in connections:
-            u.union(x - 1, y - 1)
-        dic = defaultdict(SortedSet)
+            u.union(x, y)
+        g = [[] for _ in range(c)]
         for i in range(c):
             r = u.get_root(i)
-            dic[r].add(i)
+            g[r].append(i)
+        for v in g:
+            heapq.heapify(v)
+        online = [True] * c
         res = []
-        for k, x in queries:
-            x -= 1
-            r = u.get_root(x)
-            _s = dic[r]
-            if k == 2:
-                _s.discard(x)
-            else:
-                if x in _s:
-                    res.append(x + 1)
-                elif not _s:
-                    res.append(-1)
+        for t, x in queries:
+            if t == 1:
+                if online[x]:
+                    res.append(x)
                 else:
-                    res.append(_s[0] + 1)
+                    r = u.get_root(x)
+                    q = g[r]
+                    while q and not online[q[0]]:
+                        heapq.heappop(q)
+                    if q:
+                        res.append(q[0])
+                    else:
+                        res.append(-1)
+            else:
+                online[x] = False
         return res
 
     # 3608. 包含 K 个连通分量需要的最小时间 (Minimum Time for K Connected Components)
