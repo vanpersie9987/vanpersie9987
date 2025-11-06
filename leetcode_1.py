@@ -96,22 +96,25 @@ class leetcode_1:
     def minimumTotalDistance(self, robot: List[int], factory: List[List[int]]) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == m:
+            if i < 0:
                 return 0
-            if j == n:
+            if j < 0:
                 return inf
-            res = dfs(i, j + 1)
+            # 不修
+            res = dfs(i, j - 1)
+            c = factory[j][1]
             d = 0
-            for k in range(i, min(m, i + factory[j][1])):
-                d += abs(factory[j][0] - robot[k])
-                res = min(res, dfs(k + 1, j + 1) + d)
+            while min(i, c - 1) >= 0:
+                d += abs(robot[i] - factory[j][0])
+                i -= 1
+                c -= 1
+                # 修
+                res = min(res, dfs(i, j - 1) + d)
             return res
-
-        m = len(robot)
-        n = len(factory)
+            
         robot.sort()
         factory.sort()
-        return dfs(0, 0)
+        return dfs(len(robot) - 1, len(factory) - 1)
 
     # 1478. 安排邮筒 (Allocate Mailboxes)
     def minDistance(self, houses: List[int], k: int) -> int:
