@@ -5086,18 +5086,16 @@ class SegmentTree2940:
 
     # 2528. 最大化城市的最小电量 (Maximize the Minimum Powered City)
     def maxPower(self, stations: List[int], r: int, k: int) -> int:
-        def check(t: int) -> bool:
-            copy_diff = diff.copy()
+        def check(t: int, diff: List[int], k) -> bool:
             d = 0
-            copy_k = k
             for i in range(n):
-                d += copy_diff[i]
+                d += diff[i]
                 need = max(0, t - d)
-                if copy_k - need < 0:
+                if k - need < 0:
                     return False
-                copy_k -= need
+                k -= need
                 d += need
-                copy_diff[min(n, i + r + r + 1)] -= need
+                diff[min(n, i + r + r + 1)] -= need
             return True
 
         n = len(stations)
@@ -5114,7 +5112,7 @@ class SegmentTree2940:
         right = mn + k
         while left <= right:
             mid = left + ((right - left) >> 1)
-            if check(mid):
+            if check(mid, diff.copy(), k):
                 left = mid + 1
             else:
                 right = mid - 1
