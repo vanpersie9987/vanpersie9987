@@ -4574,60 +4574,46 @@ public class Leetcode_6 {
 
     }
 
-    // 6290. 最大化城市的最小供电站数目
+    // 2528. 最大化城市的最小电量 (Maximize the Minimum Powered City)
     public long maxPower(int[] stations, int r, int k) {
         int n = stations.length;
-        long[] diff = new long[n];
+        long[] diff = new long[n + 1];
         for (int i = 0; i < n; ++i) {
             diff[Math.max(0, i - r)] += stations[i];
-            if (i + r + 1 < n) {
-                diff[i + r + 1] -= stations[i];
-            }
+            diff[Math.min(n, i + r + 1)] -= stations[i];
         }
-        long mn = diff[0];
-        for (int i = 1; i < n; ++i) {
-            diff[i] += diff[i - 1];
-            mn = Math.min(mn, diff[i]);
+        long d = 0L;
+        long mn = Long.MAX_VALUE;
+        for (int i = 0; i < n; ++i) {
+            d += diff[i];
+            mn = Math.min(mn, d);
         }
-
         long left = mn;
-        long right = (long) (mn + k);
-        long res = 0l;
+        long right = mn + k;
         while (left <= right) {
             long mid = left + ((right - left) >> 1);
-            if (check6290(diff, r, k, mid)) {
-                res = mid;
+            if (check2528(mid, diff.clone(), r, k)) {
                 left = mid + 1;
             } else {
                 right = mid - 1;
             }
         }
-        return res;
+        return left - 1;
 
     }
 
-    private boolean check6290(long[] stations, int r, int k, long target) {
-        int n = stations.length;
-        long[] diff = new long[n];
-        long delta = 0l;
+    private boolean check2528(long t, long[] diff, int r, int k) {
+        long d = 0L;
+        int n = diff.length - 1;
         for (int i = 0; i < n; ++i) {
-            long d = 0l;
-            if (i == 0) {
-                d = target - stations[i];
-            } else {
-                diff[i] += diff[i - 1];
-                d = target - stations[i] - diff[i];
+            d += diff[i];
+            long need = Math.max(0L, t - d);
+            if (need > k) {
+                return false;
             }
-            if (d > 0) {
-                delta += d;
-                if (delta > k) {
-                    return false;
-                }
-                diff[i] += d;
-                if (i + 2 * r + 1 < n) {
-                    diff[i + 2 * r + 1] -= d;
-                }
-            }
+            k -= need;
+            d += need;
+            diff[Math.min(n, i + r + r + 1)] -= need;
         }
         return true;
     }
