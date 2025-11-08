@@ -238,30 +238,14 @@ public class LeetCode_4 {
         return num == 0 || num % 10 != 0;
     }
 
-    // 2169. 得到 0 的操作数 (Count Operations to Obtain Zero)
-    public int countOperations(int num1, int num2) {
-        int res = 0;
-        while (num1 != 0 && num2 != 0) {
-            if (num1 > num2) {
-                num1 -= num2;
-            } else {
-                num2 -= num1;
-            }
-            ++res;
-        }
-        return res;
-
-    }
-
     // 2169. 得到 0 的操作数 (Count Operations to Obtain Zero) --辗转相除
-    public int countOperations2(int num1, int num2) {
+    public int countOperations(int x, int y) {
         int res = 0;
-        while (num1 != 0 && num2 != 0) {
-            res += num1 / num2;
-            num1 %= num2;
-            int temp = num1;
-            num1 = num2;
-            num2 = temp;
+        while (y > 0) {
+            res += x / y;
+            int tmp = x % y;
+            x = y;
+            y = tmp;
         }
         return res;
     }
@@ -585,47 +569,47 @@ public class LeetCode_4 {
         int[] cnts = new int[5];
         for (char ch : croakOfFrogs.toCharArray()) {
             switch (ch) {
-                case 'c':
-                    if (cnts[4] > 0) {
-                        --cnts[4];
-                    }
-                    ++cnts[0];
-                    break;
-                case 'r':
-                    if (cnts[0] > 0) {
-                        --cnts[0];
-                    } else {
-                        return -1;
-                    }
-                    ++cnts[1];
-                    break;
-                case 'o':
-                    if (cnts[1] > 0) {
-                        --cnts[1];
-                    } else {
-                        return -1;
-                    }
-                    ++cnts[2];
-                    break;
-                case 'a':
-                    if (cnts[2] > 0) {
-                        --cnts[2];
-                    } else {
-                        return -1;
-                    }
-                    ++cnts[3];
-                    break;
-                case 'k':
-                    if (cnts[3] > 0) {
-                        --cnts[3];
-                    } else {
-                        return -1;
-                    }
-                    ++cnts[4];
-                    break;
+            case 'c':
+                if (cnts[4] > 0) {
+                    --cnts[4];
+                }
+                ++cnts[0];
+                break;
+            case 'r':
+                if (cnts[0] > 0) {
+                    --cnts[0];
+                } else {
+                    return -1;
+                }
+                ++cnts[1];
+                break;
+            case 'o':
+                if (cnts[1] > 0) {
+                    --cnts[1];
+                } else {
+                    return -1;
+                }
+                ++cnts[2];
+                break;
+            case 'a':
+                if (cnts[2] > 0) {
+                    --cnts[2];
+                } else {
+                    return -1;
+                }
+                ++cnts[3];
+                break;
+            case 'k':
+                if (cnts[3] > 0) {
+                    --cnts[3];
+                } else {
+                    return -1;
+                }
+                ++cnts[4];
+                break;
 
-                default:
-                    break;
+            default:
+                break;
             }
         }
         if (cnts[0] > 0 || cnts[1] > 0 || cnts[2] > 0 || cnts[3] > 0) {

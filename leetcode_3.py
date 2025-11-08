@@ -5117,3 +5117,11 @@ class SegmentTree2940:
             else:
                 right = mid - 1
         return left - 1
+
+    # 2169. 得到 0 的操作数 (Count Operations to Obtain Zero)
+    def countOperations(self, x: int, y: int) -> int:
+        res = 0
+        while y:
+            res += x // y
+            x, y = y, x % y
+        return res
