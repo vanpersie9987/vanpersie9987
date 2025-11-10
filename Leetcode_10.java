@@ -1303,13 +1303,12 @@ public class Leetcode_10 {
         Map<Integer, List<Integer>> g = new HashMap<>();
         for (int i = 0; i < n; ++i) {
             g.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i);
-        }
-        for (List<Integer> list : g.values()) {
-            for (int i = 2; i < list.size(); ++i) {
-                res = Math.min(res, (list.get(i) - list.get(i - 2)) * 2);
+            List<Integer> list = g.get(nums[i]);
+            if (list.size() >= 3) {
+                res = Math.min(res, list.get(list.size() - 1) - list.get(list.size() - 3));
             }
         }
-        return res == Integer.MAX_VALUE ? -1 : res;
+        return res == Integer.MAX_VALUE ? -1 : res * 2;
 
     }
 
