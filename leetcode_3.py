@@ -5125,3 +5125,49 @@ class SegmentTree2940:
             res += x // y
             x, y = y, x % y
         return res
+
+    # 100891. 最小操作次数使数组元素相等 III (Minimum Moves to Equal Array Elements III)
+    def minMoves(self, nums: List[int]) -> int:
+        return max(nums) * len(nums) - sum(nums)
+
+    # 3740. 三个相等元素之间的最小距离 I (Minimum Distance Between Three Equal Elements I)
+    # 3741. 三个相等元素之间的最小距离 II (Minimum Distance Between Three Equal Elements II)
+    def minimumDistance(self, nums: List[int]) -> int:
+        d = defaultdict(list)
+        for i, x in enumerate(nums):
+            d[x].append(i)
+        res = inf
+        for l in d.values():
+            for i in range(2, len(l)):
+                res = min(res, (l[i] - l[i - 2]) * 2)
+        return -1 if res == inf else res
+
+    # 3742. 网格中得分最大的路径 (Maximum Path Score in a Grid)
+    def maxPathScore(self, grid: List[List[int]], k: int) -> int:
+        @cache
+        def dfs(i: int, j: int, l: int) -> int:
+            if i == m or j == n:
+                return -inf
+            l += 0 if grid[i][j] == 0 else 1
+            if l > k:
+                return -inf
+            if i == m - 1 and j == n - 1:
+                return grid[i][j]
+            return max(dfs(i + 1, j, l), dfs(i, j + 1, l)) + grid[i][j]
+
+        m, n = len(grid), len(grid[0])
+        k = min(k, m + n - 2)
+        res = dfs(0, 0, 0)
+        dfs.cache_clear()
+        return -1 if res < 0 else res
+
+    # 3737. 统计主要元素子数组数目 I (Count Subarrays With Majority Element I)
+    # 3739. 统计主要元素子数组数目 II (Count Subarrays With Majority Element II)
+    def countMajoritySubarrays(self, nums: List[int], target: int) -> int:
+        sl = SortedList([0])
+        ans = s = 0
+        for x in nums:
+            s += 1 if x == target else -1
+            ans += sl.bisect_left(s)
+            sl.add(s)
+        return ans

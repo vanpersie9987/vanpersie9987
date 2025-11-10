@@ -1142,7 +1142,6 @@ public class Leetcode_10 {
         }
         return right + 1;
 
-
     }
 
     private boolean check3733(long t, int[] d, int[] r, long lcm) {
@@ -1281,5 +1280,94 @@ public class Leetcode_10 {
             }
         }
         return String.valueOf(res).compareTo(target) > 0;
+    }
+
+    // 100891. 最小操作次数使数组元素相等 III (Minimum Moves to Equal Array Elements III)
+    public int minMoves(int[] nums) {
+        int n = nums.length;
+        int s = 0;
+        int mx = 0;
+        for (int x : nums) {
+            s += x;
+            mx = Math.max(mx, x);
+        }
+        return n * mx - s;
+
+    }
+
+    // 3737. 统计主要元素子数组数目 I (Count Subarrays With Majority Element I)
+    public int countMajoritySubarrays(int[] nums, int target) {
+        int res = 0;
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            int cnt = 0;
+            for (int j = i; j < n; ++j) {
+                if (target == nums[j]) {
+                    ++cnt;
+                }
+                if (cnt * 2 > j - i + 1) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 3740. 三个相等元素之间的最小距离 I (Minimum Distance Between Three Equal Elements I)
+    // 3741. 三个相等元素之间的最小距离 II (Minimum Distance Between Three Equal Elements II)
+    public int minimumDistance(int[] nums) {
+        int res = Integer.MAX_VALUE;
+        int n = nums.length;
+        Map<Integer, List<Integer>> g = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            g.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i);
+        }
+        for (List<Integer> list : g.values()) {
+            for (int i = 2; i < list.size(); ++i) {
+                res = Math.min(res, (list.get(i) - list.get(i - 2)) * 2);
+            }
+        }
+        return res == Integer.MAX_VALUE ? -1 : res;
+
+    }
+
+    // 3742. 网格中得分最大的路径 (Maximum Path Score in a Grid)
+    private int[][] grid;
+    private int[][][] memo;
+    private int n;
+    private int m;
+    private int k;
+
+    public int maxPathScore(int[][] grid, int k) {
+        this.m = grid.length;
+        this.n = grid[0].length;
+        this.k = Math.min(k, m + n - 2);
+        this.grid = grid;
+        this.memo = new int[m][n][this.k + 1];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                Arrays.fill(memo[i][j], Integer.MAX_VALUE / 2);
+            }
+        }
+        int res = dfs(0, 0, 0);
+        return res < 0 ? -1 : res;
+    }
+
+    private int dfs(int i, int j, int l) {
+        if (i == m || j == n) {
+            return Integer.MIN_VALUE;
+        }
+        int curK = l + (grid[i][j] == 0 ? 0 : 1);
+        if (curK > k) {
+            return Integer.MIN_VALUE;
+        }
+        if (i == m - 1 && j == n - 1) {
+            return grid[i][j];
+        }
+        if (memo[i][j][l] != Integer.MAX_VALUE / 2) {
+            return memo[i][j][l];
+        }
+        return memo[i][j][l] = Math.max(dfs(i + 1, j, curK), dfs(i, j + 1, curK)) + grid[i][j];
     }
 }
