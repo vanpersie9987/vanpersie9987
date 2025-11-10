@@ -1333,41 +1333,38 @@ public class Leetcode_10 {
     }
 
     // 3742. 网格中得分最大的路径 (Maximum Path Score in a Grid)
-    private int[][] grid;
-    private int[][][] memo;
-    private int n;
-    private int m;
-    private int k;
+    private int[][] grid3742;
+    private int[][][] memo3742;
 
     public int maxPathScore(int[][] grid, int k) {
-        this.m = grid.length;
-        this.n = grid[0].length;
-        this.k = Math.min(k, m + n - 2);
-        this.grid = grid;
-        this.memo = new int[m][n][this.k + 1];
+        int m = grid.length;
+        int n = grid[0].length;
+        k = Math.min(k, m + n - 2);
+        this.grid3742 = grid;
+        this.memo3742 = new int[m][n][k + 1];
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                Arrays.fill(memo[i][j], Integer.MAX_VALUE / 2);
+                Arrays.fill(memo3742[i][j], Integer.MAX_VALUE / 2);
             }
         }
-        int res = dfs(0, 0, 0);
+        int res = dfs3742(m - 1, n - 1, k);
         return res < 0 ? -1 : res;
     }
 
-    private int dfs(int i, int j, int l) {
-        if (i == m || j == n) {
+    private int dfs3742(int i, int j, int k) {
+        if (i < 0 || j < 0) {
             return Integer.MIN_VALUE;
         }
-        int curK = l + (grid[i][j] == 0 ? 0 : 1);
-        if (curK > k) {
+        int curK = k - (grid3742[i][j] == 0 ? 0 : 1);
+        if (curK < 0) {
             return Integer.MIN_VALUE;
         }
-        if (i == m - 1 && j == n - 1) {
-            return grid[i][j];
+        if (i == 0 && j == 0) {
+            return grid3742[i][j];
         }
-        if (memo[i][j][l] != Integer.MAX_VALUE / 2) {
-            return memo[i][j][l];
+        if (memo3742[i][j][k] != Integer.MAX_VALUE / 2) {
+            return memo3742[i][j][k];
         }
-        return memo[i][j][l] = Math.max(dfs(i + 1, j, curK), dfs(i, j + 1, curK)) + grid[i][j];
+        return memo3742[i][j][k] = Math.max(dfs3742(i - 1, j, curK), dfs3742(i, j - 1, curK)) + grid3742[i][j];
     }
 }
