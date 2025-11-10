@@ -5126,7 +5126,7 @@ class SegmentTree2940:
             x, y = y, x % y
         return res
 
-    # 100891. 最小操作次数使数组元素相等 III (Minimum Moves to Equal Array Elements III)
+    # 3736. 最小操作次数使数组元素相等 III (Minimum Moves to Equal Array Elements III)
     def minMoves(self, nums: List[int]) -> int:
         return max(nums) * len(nums) - sum(nums)
 

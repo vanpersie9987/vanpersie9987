@@ -1282,7 +1282,7 @@ public class Leetcode_10 {
         return String.valueOf(res).compareTo(target) > 0;
     }
 
-    // 100891. 最小操作次数使数组元素相等 III (Minimum Moves to Equal Array Elements III)
+    // 3736. 最小操作次数使数组元素相等 III (Minimum Moves to Equal Array Elements III)
     public int minMoves(int[] nums) {
         int n = nums.length;
         int s = 0;
