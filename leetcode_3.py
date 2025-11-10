@@ -5134,13 +5134,12 @@ class SegmentTree2940:
     # 3741. 三个相等元素之间的最小距离 II (Minimum Distance Between Three Equal Elements II)
     def minimumDistance(self, nums: List[int]) -> int:
         d = defaultdict(list)
+        res = inf
         for i, x in enumerate(nums):
             d[x].append(i)
-        res = inf
-        for l in d.values():
-            for i in range(2, len(l)):
-                res = min(res, (l[i] - l[i - 2]) * 2)
-        return -1 if res == inf else res
+            if len(d[x]) >= 3:
+                res = min(res, d[x][-1] - d[x][-3])
+        return -1 if res == inf else res * 2
 
     # 3742. 网格中得分最大的路径 (Maximum Path Score in a Grid)
     def maxPathScore(self, grid: List[List[int]], k: int) -> int:
