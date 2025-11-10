@@ -1295,25 +1295,6 @@ public class Leetcode_10 {
 
     }
 
-    // 3737. 统计主要元素子数组数目 I (Count Subarrays With Majority Element I)
-    public int countMajoritySubarrays(int[] nums, int target) {
-        int res = 0;
-        int n = nums.length;
-        for (int i = 0; i < n; ++i) {
-            int cnt = 0;
-            for (int j = i; j < n; ++j) {
-                if (target == nums[j]) {
-                    ++cnt;
-                }
-                if (cnt * 2 > j - i + 1) {
-                    ++res;
-                }
-            }
-        }
-        return res;
-
-    }
-
     // 3740. 三个相等元素之间的最小距离 I (Minimum Distance Between Three Equal Elements I)
     // 3741. 三个相等元素之间的最小距离 II (Minimum Distance Between Three Equal Elements II)
     public int minimumDistance(int[] nums) {
@@ -1366,5 +1347,36 @@ public class Leetcode_10 {
             return memo3742[i][j][k];
         }
         return memo3742[i][j][k] = Math.max(dfs3742(i - 1, j, curK), dfs3742(i, j - 1, curK)) + grid3742[i][j];
+    }
+
+    // 3737. 统计主要元素子数组数目 I (Count Subarrays With Majority Element I)
+    // 3739. 统计主要元素子数组数目 II (Count Subarrays With Majority Element II)
+    public long countMajoritySubarrays(int[] nums, int target) {
+        List<Integer> list = new ArrayList<>();
+        list.add(0);
+        int s = 0;
+        long res = 0L;
+        for (int x : nums) {
+            s += x == target ? 1 : -1;
+            int i = bisectLeft3739(list, s);
+            res += i;
+            list.add(i, s);
+        }
+        return res;
+
+    }
+
+    private int bisectLeft3739(List<Integer> list, int x) {
+        int left = 0;
+        int right = list.size() - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (list.get(mid) >= x) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
     }
 }
