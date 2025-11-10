@@ -5145,19 +5145,19 @@ class SegmentTree2940:
     # 3742. 网格中得分最大的路径 (Maximum Path Score in a Grid)
     def maxPathScore(self, grid: List[List[int]], k: int) -> int:
         @cache
-        def dfs(i: int, j: int, l: int) -> int:
-            if i == m or j == n:
+        def dfs(i: int, j: int, k: int) -> int:
+            if i < 0 or j < 0:
                 return -inf
-            l += 0 if grid[i][j] == 0 else 1
-            if l > k:
+            k -= grid[i][j] > 0
+            if k < 0:
                 return -inf
-            if i == m - 1 and j == n - 1:
+            if i == 0 and j == 0:
                 return grid[i][j]
-            return max(dfs(i + 1, j, l), dfs(i, j + 1, l)) + grid[i][j]
+            return max(dfs(i - 1, j, k), dfs(i, j - 1, k)) + grid[i][j]
 
         m, n = len(grid), len(grid[0])
         k = min(k, m + n - 2)
-        res = dfs(0, 0, 0)
+        res = dfs(m - 1, n - 1, k)
         dfs.cache_clear()
         return -1 if res < 0 else res
 
