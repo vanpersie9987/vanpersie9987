@@ -1554,7 +1554,7 @@ public class Leetcode_7 {
             while (res.size() > 1) {
                 int a = res.get(res.size() - 1);
                 int b = res.get(res.size() - 2);
-                int g = gcd(a, b);
+                int g = gcd2197(a, b);
                 if (g == 1) {
                     break;
                 }
@@ -1566,8 +1566,8 @@ public class Leetcode_7 {
 
     }
 
-    private int gcd(int a, int b) {
-        return b == 0 ? a : gcd(b, a % b);
+    private int gcd2197(int a, int b) {
+        return b == 0 ? a : gcd2197(b, a % b);
     }
 
     // 212. 单词搜索 II (Word Search II)
@@ -4002,18 +4002,19 @@ public class Leetcode_7 {
 
     }
 
-    // 6392. 使数组所有元素变成 1 的最少操作次数
+    // 2654. 使数组所有元素变成 1 的最少操作次数 (Minimum Number of Operations to Make All Array
+    // Elements Equal to 1)
     public int minOperations(int[] nums) {
-        int n = nums.length;
-        int gcd = 0;
         int cnt1 = 0;
-        for (int num : nums) {
-            gcd = getGCD6392(gcd, num);
-            if (num == 1) {
+        int n = nums.length;
+        int g = 0;
+        for (int x : nums) {
+            g = gcd2654(g, x);
+            if (x == 1) {
                 ++cnt1;
             }
         }
-        if (gcd > 1) {
+        if (g != 1) {
             return -1;
         }
         if (cnt1 > 0) {
@@ -4021,20 +4022,20 @@ public class Leetcode_7 {
         }
         int min = n;
         for (int i = 0; i < n; ++i) {
-            gcd = 0;
+            g = 0;
             for (int j = i; j < n; ++j) {
-                gcd = getGCD6392(gcd, nums[j]);
-                if (gcd == 1) {
+                g = gcd2654(g, nums[j]);
+                if (g == 1) {
                     min = Math.min(min, j - i + 1);
+                    break;
                 }
             }
         }
         return min - 1 + n - 1;
-
     }
 
-    private int getGCD6392(int a, int b) {
-        return b == 0 ? a : getGCD6392(b, a % b);
+    private int gcd2654(int a, int b) {
+        return b == 0 ? a : gcd2654(b, a % b);
     }
 
     // 174. 地下城游戏 (Dungeon Game)
