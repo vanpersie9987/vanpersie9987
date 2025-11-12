@@ -5551,13 +5551,12 @@ class Union924:
 
     # 3228. 将 1 移动到末尾的最大操作次数 (Maximum Number of Operations to Move Ones to the End)
     def maxOperations(self, s: str) -> int:
-        cnt1 = 0
-        res = 0
-        for i in range(len(s) - 1):
-            if s[i] == "1":
+        res = cnt1 = 0
+        for i, x in enumerate(s):
+            if x == "1":
                 cnt1 += 1
-                if s[i + 1] == "0":
-                    res += cnt1
+            elif i and s[i - 1] == "1":
+                res += cnt1
         return res
 
     # 2101. 引爆最多的炸弹 (Detonate the Maximum Bombs)

@@ -1389,16 +1389,14 @@ public class Leetcode_9 {
     public int maxOperations(String s) {
         int cnt1 = 0;
         int res = 0;
-        for (int i = 0; i < s.length() - 1; ++i) {
+        for (int i = 0; i < s.length(); ++i) {
             if (s.charAt(i) == '1') {
                 ++cnt1;
-                if (s.charAt(i + 1) == '0') {
-                    res += cnt1;
-                }
+            } else if (i > 0 && s.charAt(i - 1) == '1') {
+                res += cnt1;
             }
         }
         return res;
-
     }
 
     // 3232. 判断是否可以赢得数字游戏 (Find if Digit Game Can Be Won)
@@ -3352,7 +3350,7 @@ public class Leetcode_9 {
             }
         }
         return res;
-        
+
     }
 
     // 3355. 零数组变换 I (Zero Array Transformation I)
