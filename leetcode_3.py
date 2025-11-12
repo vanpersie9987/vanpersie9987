@@ -5193,3 +5193,28 @@ class SegmentTree2940:
                     _min = min(_min, j - i + 1)
                     break
         return _min - 1 + n - 1
+
+    # 3738. 替换至多一个元素后最长非递减子数组 (Longest Non-Decreasing Subarray After Replacing at Most One Element)
+    def longestSubarray(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n == 1:
+            return 1
+        res = 2
+        suf = [0] * n
+        suf[-1] = 1
+        for i in range(n - 2, 0, -1):
+            if nums[i] <= nums[i + 1]:
+                suf[i] = suf[i + 1] + 1
+                res = max(res, suf[i] + 1)
+            else:
+                suf[i] = 1
+        pre = 1
+        for i in range(1, n - 1):
+            if nums[i - 1] <= nums[i + 1]:
+                res = max(res, pre + 1 + suf[i + 1])
+            if nums[i - 1] <= nums[i]:
+                pre += 1
+                res = max(res, pre + 1)
+            else:
+                pre = 1
+        return res
