@@ -5170,3 +5170,26 @@ class SegmentTree2940:
             ans += sl.bisect_left(s)
             sl.add(s)
         return ans
+
+    # 2654. 使数组所有元素变成 1 的最少操作次数 (Minimum Number of Operations to Make All Array Elements Equal to 1)
+    def minOperations(self, nums: List[int]) -> int:
+        cnt1 = 0
+        n = len(nums)
+        g = 0
+        for x in nums:
+            g = gcd(g, x)
+            if x == 1:
+                cnt1 += 1
+        if g != 1:
+            return -1
+        if cnt1:
+            return n - cnt1
+        _min = n
+        for i in range(n):
+            g = 0
+            for j in range(i, n):
+                g = gcd(g, nums[j])
+                if g == 1:
+                    _min = min(_min, j - i + 1)
+                    break
+        return _min - 1 + n - 1
