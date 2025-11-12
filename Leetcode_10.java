@@ -1378,4 +1378,37 @@ public class Leetcode_10 {
         }
         return right + 1;
     }
+
+    // 3738. 替换至多一个元素后最长非递减子数组 (Longest Non-Decreasing Subarray After Replacing at
+    // Most One Element)
+    public int longestSubarray3738(int[] nums) {
+        int n = nums.length;
+        if (n == 1) {
+            return 1;
+        }
+        int res = 2;
+        int[] suf = new int[n];
+        suf[n - 1] = 1;
+        for (int i = n - 2; i >= 1; --i) {
+            if (nums[i] <= nums[i + 1]) {
+                suf[i] = suf[i + 1] + 1;
+                res = Math.max(res, suf[i] + 1);
+            } else {
+                suf[i] = 1;
+            }
+        }
+        int pre = 1;
+        for (int i = 1; i < n - 1; ++i) {
+            if (nums[i - 1] <= nums[i + 1]) {
+                res = Math.max(res, pre + 1 + suf[i + 1]);
+            }
+            if (nums[i - 1] <= nums[i]) {
+                ++pre;
+                res = Math.max(res, pre + 1);
+            } else {
+                pre = 1;
+            }
+        }
+        return res;
+    }
 }
