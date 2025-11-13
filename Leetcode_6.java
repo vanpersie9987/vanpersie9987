@@ -8603,35 +8603,34 @@ public class Leetcode_6 {
     // 1745. 回文串分割 IV (Palindrome Partitioning IV)
     private boolean[][] isPalindromes1745;
     private int[][] memo1745;
-    private int n1745;
 
     public boolean checkPartitioning(String s) {
-        this.n1745 = s.length();
-        isPalindromes1745 = new boolean[n1745][n1745];
-        for (int i = n1745 - 1; i >= 0; --i) {
-            for (int j = i; j < n1745; ++j) {
+        int n = s.length();
+        isPalindromes1745 = new boolean[n][n];
+        for (int i = n - 1; i >= 0; --i) {
+            for (int j = i; j < n; ++j) {
                 if (s.charAt(i) == s.charAt(j) && (j - i < 2 || isPalindromes1745[i + 1][j - 1])) {
                     isPalindromes1745[i][j] = true;
                 }
             }
         }
-        memo1745 = new int[n1745][3];
-        return dfs1745(0, 0);
+        memo1745 = new int[n][4];
+        return dfs1745(n - 1, 3);
 
     }
 
     private boolean dfs1745(int i, int j) {
-        if (i == n1745) {
-            return j == 3;
+        if (i < 0) {
+            return j == 0;
         }
-        if (j == 3) {
+        if (j == 0) {
             return false;
         }
         if (memo1745[i][j] != 0) {
             return memo1745[i][j] > 0;
         }
-        for (int k = i; k < n1745; ++k) {
-            if (isPalindromes1745[i][k] && dfs1745(k + 1, j + 1)) {
+        for (int k = i; k >= 0; --k) {
+            if (isPalindromes1745[k][i] && dfs1745(k - 1, j - 1)) {
                 memo1745[i][j] = 1;
                 return true;
             }
