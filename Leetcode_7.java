@@ -739,40 +739,37 @@ public class Leetcode_7 {
 
     // 1335. 工作计划的最低难度 (Minimum Difficulty of a Job Schedule)
     private int[][] memo1335;
-    private int n1335;
     private int[] jobDifficulty1335;
-    private int d1335;
 
     public int minDifficulty(int[] jobDifficulty, int d) {
-        this.n1335 = jobDifficulty.length;
-        if (n1335 < d) {
+        int n = jobDifficulty.length;
+        if (n < d) {
             return -1;
         }
-        this.d1335 = d;
         this.jobDifficulty1335 = jobDifficulty;
-        this.memo1335 = new int[n1335][d];
-        for (int i = 0; i < n1335; ++i) {
+        this.memo1335 = new int[n][d + 1];
+        for (int i = 0; i < n; ++i) {
             Arrays.fill(memo1335[i], -1);
         }
-        return dfs1335(0, 0);
+        return dfs1335(n - 1, d);
 
     }
 
     private int dfs1335(int i, int j) {
-        if (i == n1335) {
-            return j == d1335 ? 0 : (int) 1e6;
+        if (i < 0) {
+            return j == 0 ? 0 : Integer.MAX_VALUE / 2;
         }
-        if (j == d1335) {
-            return (int) 1e6;
+        if (j == 0) {
+            return Integer.MAX_VALUE / 2;
         }
         if (memo1335[i][j] != -1) {
             return memo1335[i][j];
         }
-        int res = Integer.MAX_VALUE;
+        int res = Integer.MAX_VALUE / 2;
         int mx = 0;
-        for (int x = i; x <= n1335 - d1335 + j; ++x) {
+        for (int x = i; x >= j - 1; --x) {
             mx = Math.max(mx, jobDifficulty1335[x]);
-            res = Math.min(res, dfs1335(x + 1, j + 1) + mx);
+            res = Math.min(res, dfs1335(x - 1, j - 1) + mx);
         }
         return memo1335[i][j] = res;
     }
