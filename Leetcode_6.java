@@ -8331,35 +8331,36 @@ public class Leetcode_6 {
     public int splitArray(int[] nums, int k) {
         int left = 0;
         int right = 0;
-        for (int num : nums) {
-            left = Math.max(left, num);
-            right += num;
+        for (int x : nums) {
+            left = Math.max(left, x);
+            right += x;
         }
-        int res = -1;
         while (left <= right) {
             int mid = left + ((right - left) >>> 1);
-            if (check410(mid, nums) > k) {
-                left = mid + 1;
-            } else {
-                res = mid;
+            if (check410(mid, nums, k)) {
                 right = mid - 1;
+            } else {
+                left = mid + 1;
             }
         }
-        return res;
+        return right + 1;
 
     }
 
-    private int check410(int target, int[] nums) {
-        int sum = 0;
-        int count = 0;
-        for (int num : nums) {
-            if (num + sum > target) {
-                sum = 0;
-                ++count;
+    private boolean check410(int t, int[] nums, int k) {
+        int s = 0;
+        int cnt = 1;
+        for (int x : nums) {
+            s += x;
+            if (s > t) {
+                ++cnt;
+                s = x;
+                if (cnt > k) {
+                    return false;
+                }
             }
-            sum += num;
         }
-        return count + 1;
+        return true;
     }
 
     // 410. 分割数组的最大值 (Split Array Largest Sum)
