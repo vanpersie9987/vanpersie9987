@@ -5234,4 +5234,30 @@ class SegmentTree2940:
             return res
         n = len(nums)
         return dfs(n - 1, k)
+    
+
+    def splitArray(self, nums: List[int], k: int) -> int:
+        def check(t: int) -> bool:
+            s = 0
+            cnt = 1
+            for x in nums:
+                s += x
+                if s > t:
+                    cnt += 1
+                    s = x
+                    if cnt > k:
+                        return False
+            return True
+        left = max(nums)
+        right = sum(nums)
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                right = mid - 1
+            else:
+                left = mid + 1
+        return right + 1
+
+        
+        
         

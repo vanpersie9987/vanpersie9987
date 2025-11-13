@@ -9995,27 +9995,27 @@ class leetcode_1:
 
     # 410. 分割数组的最大值 (Split Array Largest Sum)
     def splitArray(self, nums: List[int], k: int) -> int:
-        def check(s: int) -> int:
-            cnt = 0
-            cur_s = 0
-            for num in nums:
-                cur_s += num
-                if cur_s > s:
+        def check(t: int) -> bool:
+            s = 0
+            cnt = 1
+            for x in nums:
+                s += x
+                if s > t:
                     cnt += 1
-                    cur_s = num
-            return cnt + 1
+                    s = x
+                    if cnt > k:
+                        return False
+            return True
 
         left = max(nums)
         right = sum(nums)
-        res = -1
         while left <= right:
             mid = left + ((right - left) >> 1)
-            if check(mid) <= k:
-                res = mid
+            if check(mid):
                 right = mid - 1
             else:
                 left = mid + 1
-        return res
+        return right + 1
 
     # 410. 分割数组的最大值 (Split Array Largest Sum)
     def splitArray(self, nums: List[int], k: int) -> int:
@@ -10033,6 +10033,7 @@ class leetcode_1:
                     break
                 res = min(res, max(dfs(id - 1, j - 1), s))
             return res
+
         n = len(nums)
         return dfs(n - 1, k)
 
