@@ -5218,3 +5218,30 @@ class SegmentTree2940:
             else:
                 pre = 1
         return res
+    
+
+    def palindromePartition(self, s: str, k: int) -> int:
+        n = len(s)
+        a = [[0] * n for _ in range(n)]
+        for i in range(n - 1, -1, -1):
+            for j in range(i, n):
+                if j - i == 1:
+                    if s[i] != s[j]:
+                        a[i][j] = 1
+                elif j - i > 1:
+                    a[i][j] = a[i + 1][j - 1] + (s[i] != s[j])
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i < 0:
+                return 0 if j == 0 else inf
+            if j == 0:
+                return inf
+            return min(dfs(x - 1, j - 1) + a[x][i] for x in range(i, j - 2, -1))
+        return dfs(n - 1, k)
+
+         
+                
+
+
+
+
