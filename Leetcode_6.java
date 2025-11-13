@@ -8363,38 +8363,35 @@ public class Leetcode_6 {
     }
 
     // 410. 分割数组的最大值 (Split Array Largest Sum)
-    private int n410;
     private int[] nums410;
-    private int k410;
     private int[][] memo410;
 
     public int splitArray2(int[] nums, int k) {
-        this.n410 = nums.length;
+        int n = nums.length;
         this.nums410 = nums;
-        this.k410 = k;
-        this.memo410 = new int[n410][k];
-        for (int i = 0; i < n410; ++i) {
+        this.memo410 = new int[n][k + 1];
+        for (int i = 0; i < n; ++i) {
             Arrays.fill(memo410[i], -1);
         }
-        return dfs410(0, 0);
+        return dfs410(n - 1, k);
 
     }
 
     private int dfs410(int i, int j) {
-        if (i == n410) {
-            return j == k410 ? 0 : (int) 1e9;
+        if (i < 0) {
+            return j == 0 ? 0 : Integer.MAX_VALUE;
         }
-        if (j == k410) {
-            return (int) 1e9;
+        if (j == 0) {
+            return Integer.MAX_VALUE;
         }
         if (memo410[i][j] != -1) {
             return memo410[i][j];
         }
-        int res = (int) 1e9;
+        int res = Integer.MAX_VALUE;
         int s = 0;
-        for (int x = i; x <= n410 - k410 + j; ++x) {
+        for (int x = i; x >= j - 1 && s + nums410[x] < res; --x) {
             s += nums410[x];
-            res = Math.min(res, Math.max(s, dfs410(x + 1, j + 1)));
+            res = Math.min(res, Math.max(s, dfs410(x - 1, j - 1)));
         }
         return memo410[i][j] = res;
     }
