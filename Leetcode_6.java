@@ -8629,7 +8629,7 @@ public class Leetcode_6 {
         if (memo1745[i][j] != 0) {
             return memo1745[i][j] > 0;
         }
-        for (int k = i; k >= 0; --k) {
+        for (int k = i; k >= j - 1; --k) {
             if (isPalindromes1745[k][i] && dfs1745(k - 1, j - 1)) {
                 memo1745[i][j] = 1;
                 return true;

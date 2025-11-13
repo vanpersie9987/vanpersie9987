@@ -4642,7 +4642,7 @@ class leetcode_1:
                 return j == 0
             if j == 0:
                 return False
-            return any(a[x][i] and dfs(x - 1, j - 1) for x in range(i, -1, -1))
+            return any(a[x][i] and dfs(x - 1, j - 1) for x in range(i, j - 2, -1))
 
         n = len(s)
         a = [[False] * n for _ in range(n)]
