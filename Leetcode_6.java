@@ -8715,51 +8715,44 @@ public class Leetcode_6 {
     }
 
     // 1278. 分割回文串 III (Palindrome Partitioning III)
-    private int[][] p1278;
-    private String s1278;
-    private int n1278;
+    private int[][] a1278;
     private int[][] memo1278;
-    private int k1278;
 
     public int palindromePartition(String s, int k) {
-        this.n1278 = s.length();
-        this.k1278 = k;
-        this.p1278 = new int[n1278][n1278];
-        this.memo1278 = new int[n1278][k];
-        this.s1278 = s;
-        for (int i = 0; i < n1278; ++i) {
+        int n = s.length();
+        this.a1278 = new int[n][n];
+        this.memo1278 = new int[n][k + 1];
+        for (int i = 0; i < n; ++i) {
             Arrays.fill(memo1278[i], -1);
         }
-        for (int i = 0; i < n1278; ++i) {
-            for (int j = i; j < n1278; ++j) {
-                p1278[i][j] = cal1278(i, j);
+        for (int i = n - 1; i >= 0; --i) {
+            for (int j = i; j < n; ++j) {
+                if (j - i == 1) {
+                    if (s.charAt(i) != s.charAt(j)) {
+                        a1278[i][j] = 1;
+                    }
+                } else if (j - i > 1) {
+                    a1278[i][j] = a1278[i + 1][j - 1] + (s.charAt(i) != s.charAt(j) ? 1 : 0);
+                }
             }
         }
-        return dfs1278(0, 0);
+        return dfs1278(n - 1, k);
 
-    }
-
-    private int cal1278(int i, int j) {
-        int res = 0;
-        while (i < j) {
-            res += s1278.charAt(i++) != s1278.charAt(j--) ? 1 : 0;
-        }
-        return res;
     }
 
     private int dfs1278(int i, int j) {
-        if (i == n1278) {
-            return j == k1278 ? 0 : n1278;
+        if (i < 0) {
+            return j == 0 ? 0 : Integer.MAX_VALUE / 2;
         }
-        if (j == k1278) {
-            return n1278;
+        if (j == 0) {
+            return Integer.MAX_VALUE / 2;
         }
         if (memo1278[i][j] != -1) {
             return memo1278[i][j];
         }
-        int res = n1278;
-        for (int x = i; x <= n1278 - k1278 + j; ++x) {
-            res = Math.min(res, dfs1278(x + 1, j + 1) + p1278[i][x]);
+        int res = Integer.MAX_VALUE / 2;
+        for (int x = i; x >= j - 1; --x) {
+            res = Math.min(res, dfs1278(x - 1, j - 1) + a1278[x][i]);
         }
         return memo1278[i][j] = res;
     }
