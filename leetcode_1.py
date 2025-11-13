@@ -2984,6 +2984,7 @@ class leetcode_1:
                         a[i][j] = 1
                 elif j - i > 1:
                     a[i][j] = a[i + 1][j - 1] + (s[i] != s[j])
+
         @cache
         def dfs(i: int, j: int) -> int:
             if i < 0:
@@ -2991,6 +2992,7 @@ class leetcode_1:
             if j == 0:
                 return inf
             return min(dfs(x - 1, j - 1) + a[x][i] for x in range(i, j - 2, -1))
+
         return dfs(n - 1, k)
 
     # 1223. 掷骰子模拟 (Dice Roll Simulation)
@@ -4634,8 +4636,16 @@ class leetcode_1:
 
     # 1745. 分割回文串 IV (Palindrome Partitioning IV)
     def checkPartitioning(self, s: str) -> bool:
+        @cache
+        def dfs(i: int, j: int) -> bool:
+            if i < 0:
+                return j == 0
+            if j == 0:
+                return False
+            return any(a[x][i] and dfs(x - 1, j - 1) for x in range(i, -1, -1))
+
         n = len(s)
-        is_valid = [[False] * n for _ in range(n)]
+        a = [[False] * n for _ in range(n)]
         for i in range(n - 1, -1, -1):
             for j in range(i, n):
                 if (
@@ -4643,20 +4653,12 @@ class leetcode_1:
                     or j - i == 1
                     and s[i] == s[j]
                     or j - i > 1
+                    and a[i + 1][j - 1]
                     and s[i] == s[j]
-                    and is_valid[i + 1][j - 1]
                 ):
-                    is_valid[i][j] = True
+                    a[i][j] = True
 
-        @cache
-        def dfs(i: int, j: int) -> bool:
-            if i == n:
-                return j == 3
-            if j == 3:
-                return False
-            return any(is_valid[i][k] and dfs(k + 1, j + 1) for k in range(i, n))
-
-        return dfs(0, 0)
+        return dfs(n - 1, 3)
 
     # 1723. 完成所有工作的最短时间 (Find Minimum Time to Finish All Jobs)
     def minimumTimeRequired(self, jobs: List[int], k: int) -> int:
