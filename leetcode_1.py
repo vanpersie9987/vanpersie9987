@@ -111,7 +111,7 @@ class leetcode_1:
                 # 修
                 res = min(res, dfs(i, j - 1) + d)
             return res
-            
+
         robot.sort()
         factory.sort()
         return dfs(len(robot) - 1, len(factory) - 1)
@@ -10019,25 +10019,22 @@ class leetcode_1:
 
     # 410. 分割数组的最大值 (Split Array Largest Sum)
     def splitArray(self, nums: List[int], k: int) -> int:
-        # @cache
+        @cache
         def dfs(i: int, j: int) -> int:
-            if i == n:
-                return 0 if j == k else inf
-            if j == k:
+            if i < 0:
+                return 0 if j == 0 else inf
+            if j == 0:
                 return inf
-            if memo[i][j] != -1:
-                return memo[i][j]
             s = 0
             res = inf
-            for x in range(i, n - k + j + 1):
-                s += nums[x]
-                res = min(res, max(s, dfs(x + 1, j + 1)))
-            memo[i][j] = res
+            for id in range(i, -1, -1):
+                s += nums[id]
+                if id < j - 1 or s >= res:
+                    break
+                res = min(res, max(dfs(id - 1, j - 1), s))
             return res
-
         n = len(nums)
-        memo = [[-1] * k for _ in range(n)]
-        return dfs(0, 0)
+        return dfs(n - 1, k)
 
     # 670. 最大交换 (Maximum Swap)
     def maximumSwap(self, num: int) -> int:

@@ -5218,3 +5218,20 @@ class SegmentTree2940:
             else:
                 pre = 1
         return res
+    
+    def splitArray(self, nums: List[int], k: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i < 0:
+                return 0 if j == 0 else inf
+            s = 0
+            res = inf
+            for id in range(i, -1, -1):
+                if id < j - 1:
+                    break
+                s += nums[id]
+                res = min(res, max(dfs(id - 1, j - 1), s))
+            return res
+        n = len(nums)
+        return dfs(n - 1, k)
+        
