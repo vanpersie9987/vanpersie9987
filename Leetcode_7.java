@@ -194,8 +194,7 @@ public class Leetcode_7 {
     private int n638;
     private List<Integer> price638;
 
-    public int shoppingOffers(List<Integer> price, List<List<Integer>> special,
-            List<Integer> needs) {
+    public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
         this.n638 = price.size();
         this.price638 = price;
         this.filterSpecial638 = new ArrayList<>();
@@ -409,8 +408,7 @@ public class Leetcode_7 {
     public boolean checkValidGrid(int[][] grid) {
         int n = grid.length;
         int num = 0;
-        int[][] dirs = { { -2, 1 }, { -1, 2 }, { 1, 2 }, { 2, 1 }, { 2, -1 }, { 1, -2 }, { -1, -2 },
-                { -2, -1 } };
+        int[][] dirs = { { -2, 1 }, { -1, 2 }, { 1, 2 }, { 2, 1 }, { 2, -1 }, { 1, -2 }, { -1, -2 }, { -2, -1 } };
         Queue<int[]> q = new LinkedList<>();
         q.offer(new int[] { 0, 0 });
         while (!q.isEmpty()) {
@@ -832,8 +830,7 @@ public class Leetcode_7 {
         if (memo1690[i][j] != -1) {
             return memo1690[i][j];
         }
-        return memo1690[i][j] = Math.max(
-                pre1690[j + 1] - pre1690[i + 1] - dfs1690(i + 1, j),
+        return memo1690[i][j] = Math.max(pre1690[j + 1] - pre1690[i + 1] - dfs1690(i + 1, j),
                 pre1690[j] - pre1690[i] - dfs1690(i, j - 1));
     }
 
@@ -1495,8 +1492,7 @@ public class Leetcode_7 {
         }
         int min = (int) 1e9;
         for (int k = i + 1; k < j; ++k) {
-            min = Math.min(min,
-                    dfs1547(i, k) + dfs1547(k, j));
+            min = Math.min(min, dfs1547(i, k) + dfs1547(k, j));
         }
         return memo1547[i][j] = min + cuts1547.get(j) - cuts1547.get(i);
     }
@@ -3477,11 +3473,8 @@ public class Leetcode_7 {
     }
 
     /**
-     * 小明跑D公里的马拉松，总共有H的体力。小明跑步有五种模式，模式的配速越快，消耗体力越多，写一个程序求出跑马拉松最快的时间。
-     * 例D=30,H=130
-     * 1 2 3 4 5模式
-     * 3 4 5 6 7跑每公里花的时间
-     * 7 5 4 3 2消耗的体力
+     * 小明跑D公里的马拉松，总共有H的体力。小明跑步有五种模式，模式的配速越快，消耗体力越多，写一个程序求出跑马拉松最快的时间。 例D=30,H=130 1 2
+     * 3 4 5模式 3 4 5 6 7跑每公里花的时间 7 5 4 3 2消耗的体力
      */
     private int[][] memo_example;
     private int D_example;
@@ -3526,45 +3519,37 @@ public class Leetcode_7 {
     // 1473. 粉刷房子 III (Paint House III)
     private int[] houses1473;
     private int[][] cost1473;
-    private int m1473;
-    private int n1473;
-    private int target1473;
     private int[][][] memo1473;
 
     public int minCost(int[] houses, int[][] cost, int m, int n, int target) {
         this.houses1473 = houses;
         this.cost1473 = cost;
-        this.m1473 = m;
-        this.n1473 = n;
-        this.target1473 = target;
         this.memo1473 = new int[m][n + 1][target + 1];
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n + 1; ++j) {
                 Arrays.fill(memo1473[i][j], -1);
             }
         }
-        int res = dfs1473(0, 0, 0);
-        return res < (int) 1e6 + 1 ? res : -1;
+        int res = dfs1473(m - 1, 0, target);
+        return res < Integer.MAX_VALUE / 2 ? res : -1;
     }
 
     private int dfs1473(int i, int j, int k) {
-        if (i == m1473) {
-            return k == target1473 ? 0 : (int) 1e6 + 1;
+        if (k < 0 || i + 1 < k) {
+            return Integer.MAX_VALUE / 2;
         }
-        // k == target 时，不可作为终止条件，
-        // 此时 i < m，还没有遍历完所有的房子，但是剩下的房子有可能都被染成了和上一个房子同样的颜色，无需再新建街区
-        if (m1473 - i < target1473 - k || k > target1473) {
-            return (int) 1e6 + 1;
+        if (i < 0) {
+            return k == 0 ? 0 : Integer.MAX_VALUE / 2;
         }
         if (memo1473[i][j][k] != -1) {
             return memo1473[i][j][k];
         }
         if (houses1473[i] > 0) {
-            return memo1473[i][j][k] = dfs1473(i + 1, houses1473[i], k + (houses1473[i] != j ? 1 : 0));
+            return memo1473[i][j][k] = dfs1473(i - 1, houses1473[i], k - (houses1473[i] != j ? 1 : 0));
         }
-        int res = (int) 1e6 + 1;
-        for (int x = 0; x < n1473; ++x) {
-            res = Math.min(res, dfs1473(i + 1, x + 1, k + ((x + 1) != j ? 1 : 0)) + cost1473[i][x]);
+        int res = Integer.MAX_VALUE / 2;
+        for (int c = 1; c <= cost1473[0].length; ++c) {
+            res = Math.min(res, dfs1473(i - 1, c, k - (c != j ? 1 : 0)) + cost1473[i][c - 1]);
         }
         return memo1473[i][j][k] = res;
     }
@@ -6153,26 +6138,20 @@ public class Leetcode_7 {
                 if (i + list351.get(list351.size() - 1) == 10 && ((used351 >> 5) & 1) == 0) {
                     continue;
                 }
-                if (i == 1
-                        && (list351.get(list351.size() - 1) == 3 && ((used351 >> 2) & 1) == 0
-                                || list351.get(list351.size() - 1) == 7 && ((used351 >> 4) & 1) == 0)) {
+                if (i == 1 && (list351.get(list351.size() - 1) == 3 && ((used351 >> 2) & 1) == 0
+                        || list351.get(list351.size() - 1) == 7 && ((used351 >> 4) & 1) == 0)) {
                     continue;
                 }
-                if (i == 3
-                        && (list351.get(list351.size() - 1) == 1 && ((used351 >> 2) & 1) == 0
-                                || list351.get(list351.size() - 1) == 9 && ((used351 >> 6) & 1) == 0)) {
+                if (i == 3 && (list351.get(list351.size() - 1) == 1 && ((used351 >> 2) & 1) == 0
+                        || list351.get(list351.size() - 1) == 9 && ((used351 >> 6) & 1) == 0)) {
                     continue;
                 }
-                if (i == 9
-                        && (list351.get(list351.size() - 1) == 3 && ((used351 >> 6) & 1) == 0
-                                || list351.get(list351.size() - 1) == 7 && ((used351 >> 8)
-                                        & 1) == 0)) {
+                if (i == 9 && (list351.get(list351.size() - 1) == 3 && ((used351 >> 6) & 1) == 0
+                        || list351.get(list351.size() - 1) == 7 && ((used351 >> 8) & 1) == 0)) {
                     continue;
                 }
-                if (i == 7
-                        && (list351.get(list351.size() - 1) == 1 && ((used351 >> 4) & 1) == 0
-                                || list351.get(list351.size() - 1) == 9 && ((used351 >> 8)
-                                        & 1) == 0)) {
+                if (i == 7 && (list351.get(list351.size() - 1) == 1 && ((used351 >> 4) & 1) == 0
+                        || list351.get(list351.size() - 1) == 9 && ((used351 >> 8) & 1) == 0)) {
                     continue;
                 }
             }
@@ -6314,9 +6293,8 @@ public class Leetcode_7 {
         int min = Integer.MAX_VALUE;
         for (int j = 0; j < m1066; ++j) {
             if (((mask >> j) & 1) == 0) {
-                min = Math.min(min,
-                        Math.abs(workers1066[i][0] - bikes1066[j][0]) + Math.abs(workers1066[i][1] - bikes1066[j][1])
-                                + dfs1066(i + 1, mask | (1 << j)));
+                min = Math.min(min, Math.abs(workers1066[i][0] - bikes1066[j][0])
+                        + Math.abs(workers1066[i][1] - bikes1066[j][1]) + dfs1066(i + 1, mask | (1 << j)));
             }
         }
         return memo1066[i][mask] = min;
