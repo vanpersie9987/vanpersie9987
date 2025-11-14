@@ -846,7 +846,6 @@ class leetcode_1:
                 return inf
             if i < 0:
                 return 0 if k == 0 else inf
-            res = inf
             if houses[i]:
                 return dfs(i - 1, houses[i], k - (houses[i] != j))
             return min(
