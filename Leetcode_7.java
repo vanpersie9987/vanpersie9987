@@ -3525,11 +3525,6 @@ public class Leetcode_7 {
         this.houses1473 = houses;
         this.cost1473 = cost;
         this.memo1473 = new int[m][n + 1][target + 1];
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n + 1; ++j) {
-                Arrays.fill(memo1473[i][j], -1);
-            }
-        }
         int res = dfs1473(m - 1, 0, target);
         return res < Integer.MAX_VALUE / 2 ? res : -1;
     }
@@ -3541,7 +3536,7 @@ public class Leetcode_7 {
         if (i < 0) {
             return k == 0 ? 0 : Integer.MAX_VALUE / 2;
         }
-        if (memo1473[i][j][k] != -1) {
+        if (memo1473[i][j][k] != 0) {
             return memo1473[i][j][k];
         }
         if (houses1473[i] > 0) {
