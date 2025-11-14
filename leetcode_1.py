@@ -842,17 +842,18 @@ class leetcode_1:
     ) -> int:
         @cache
         def dfs(i: int, j: int, k: int) -> int:
-            if i == m:
-                return 0 if k == target else inf
-            if target - k > m - i or k > target:
+            if k < 0 or i + 1 < k:
                 return inf
+            if i < 0:
+                return 0 if k == 0 else inf
+            res = inf
             if houses[i]:
-                return dfs(i + 1, houses[i], k + (houses[i] != j))
+                return dfs(i - 1, houses[i], k - (houses[i] != j))
             return min(
-                dfs(i + 1, x + 1, k + ((x + 1) != j)) + cost[i][x] for x in range(n)
+                dfs(i - 1, c, k - (c != j)) + cost[i][c - 1] for c in range(1, n + 1)
             )
 
-        res = dfs(0, 0, 0)
+        res = dfs(m - 1, 0, target)
         return res if res < inf else -1
 
     # 1524. 和为奇数的子数组数目 (Number of Sub-arrays With Odd Sum)
