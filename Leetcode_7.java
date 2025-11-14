@@ -1357,37 +1357,33 @@ public class Leetcode_7 {
     }
 
     // 2209. 用地毯覆盖后的最少白色砖块 (Minimum White Tiles After Covering With Carpets)
-    private int numCarpets2209;
-    private int carpetLen2209;
     private int[][] memo2209;
-    private int n2209;
     private String floor2209;
+    private int carpetLen2209;
 
     public int minimumWhiteTiles(String floor, int numCarpets, int carpetLen) {
-        this.n2209 = floor.length();
-        this.numCarpets2209 = numCarpets;
+        int n = floor.length();
         this.carpetLen2209 = carpetLen;
         this.floor2209 = floor;
-        this.memo2209 = new int[n2209][numCarpets + 1];
-        for (int i = 0; i < n2209; ++i) {
+        this.memo2209 = new int[n][numCarpets + 1];
+        for (int i = 0; i < n; ++i) {
             Arrays.fill(memo2209[i], -1);
         }
-        return dfs2209(0, 0);
+        return dfs2209(n - 1, numCarpets);
 
     }
 
     private int dfs2209(int i, int j) {
-        if (n2209 - i <= (numCarpets2209 - j) * carpetLen2209) {
+        if (j < 0) {
+            return Integer.MAX_VALUE / 2;
+        }
+        if (i < 0 || carpetLen2209 * j >= i + 1) {
             return 0;
         }
         if (memo2209[i][j] != -1) {
             return memo2209[i][j];
         }
-        int res = dfs2209(i + 1, j) + floor2209.charAt(i) - '0';
-        if (j < numCarpets2209) {
-            res = Math.min(res, dfs2209(i + carpetLen2209, j + 1));
-        }
-        return memo2209[i][j] = res;
+        return memo2209[i][j] = Math.min(dfs2209(i - 1, j) + floor2209.charAt(i) - '0', dfs2209(i - carpetLen2209, j - 1));
     }
 
     // 975. 奇偶跳 (Odd Even Jump)
