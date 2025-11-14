@@ -4694,15 +4694,14 @@ class Union924:
     def minimumWhiteTiles(self, floor: str, numCarpets: int, carpetLen: int) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if n - i <= (numCarpets - j) * carpetLen:
+            if j < 0:
+                return inf
+            if i < 0 or j * carpetLen >= i + 1:
                 return 0
-            res = dfs(i + 1, j) + int(floor[i])
-            if j < numCarpets:
-                res = min(res, dfs(i + carpetLen, j + 1))
-            return res
+            return min(dfs(i - 1, j) + int(floor[i]), dfs(i - carpetLen, j - 1))
 
         n = len(floor)
-        return dfs(0, 0)
+        return dfs(n - 1, numCarpets)
 
     # 575. 分糖果 (Distribute Candies)
     def distributeCandies(self, candyType: List[int]) -> int:

@@ -5233,3 +5233,16 @@ class SegmentTree2940:
                 diff[i + 1][j + 1] += diff[i][j + 1] + diff[i + 1][j] - diff[i][j]
                 res[i][j] = diff[i + 1][j + 1]
         return res
+    
+    def minimumWhiteTiles(self, floor: str, numCarpets: int, carpetLen: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if j < 0:
+                return inf
+            if i < 0 or j * carpetLen >= i + 1:
+                return 0
+            return min(dfs(i - 1, j) + int(floor[i]), dfs(i - carpetLen, j - 1))
+        n = len(floor)
+        return dfs(n - 1, numCarpets)
+        
+
