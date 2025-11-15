@@ -5233,7 +5233,7 @@ class SegmentTree2940:
                 diff[i + 1][j + 1] += diff[i][j + 1] + diff[i + 1][j] - diff[i][j]
                 res[i][j] = diff[i + 1][j + 1]
         return res
-    
+
     def minimumWhiteTiles(self, floor: str, numCarpets: int, carpetLen: int) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
@@ -5244,5 +5244,16 @@ class SegmentTree2940:
             return min(dfs(i - 1, j) + int(floor[i]), dfs(i - carpetLen, j - 1))
         n = len(floor)
         return dfs(n - 1, numCarpets)
-        
 
+    # 1513. 仅含 1 的子串数 (Number of Substrings With Only 1s)
+    def numSub(self, s: str) -> int:
+        MOD = 10**9 + 7
+        res = 0
+        cnt1 = 0
+        for x in s:
+            if int(x):
+                cnt1 += 1
+                res += cnt1
+            else:
+                cnt1 = 0
+        return res % MOD
