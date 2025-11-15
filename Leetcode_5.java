@@ -6264,18 +6264,18 @@ public class Leetcode_5 {
 
     // 1513. 仅含 1 的子串数 (Number of Substrings With Only 1s)
     public int numSub(String s) {
-        final int mod = (int) (1e9 + 7);
-        long res = 0l;
-        int count = 0;
+        final int MOD = (int) (1e9 + 7);
+        int res = 0;
+        int cnt1 = 0;
         for (char c : s.toCharArray()) {
             if (c == '1') {
-                ++count;
+                res += ++cnt1;
+                res %= MOD;
             } else {
-                count = 0;
+                cnt1 = 0;
             }
-            res = (res + count) % mod;
         }
-        return (int) res;
+        return res;
 
     }
 
