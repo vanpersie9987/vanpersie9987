@@ -12236,36 +12236,14 @@ public class LeetCodeText {
 
     }
 
-    // 868. 二进制间距
+    // 868. 二进制间距 (Binary Gap)
     public int binaryGap(int n) {
-        int max = 0;
-        int pos = -1;
-        while (n > 0) {
-            int curPos = (int) (Math.log(n) / Math.log(2));
-            if (pos != -1) {
-                max = Math.max(max, pos - curPos);
-            }
-            pos = curPos;
-            n -= Math.pow(2, curPos);
-        }
-        return max;
-
-    }
-
-    // 868. 二进制间距
-    public int binaryGap2(int n) {
-        int prePos = -1;
+        int pre = 30;
         int res = 0;
-        int count = 0;
-        while (n != 0) {
-            if ((n & 1) == 1) {
-                if (prePos != -1) {
-                    res = Math.max(count - prePos, res);
-                }
-                prePos = count;
-            }
-            ++count;
-            n >>>= 1;
+        for (int x = n; x != 0; x &= x - 1) {
+            int lb = Integer.numberOfTrailingZeros(x);
+            res = Math.max(res, lb - pre);
+            pre = lb;
         }
         return res;
 
