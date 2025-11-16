@@ -1474,4 +1474,22 @@ public class Leetcode_10 {
         return res;
     }
 
+    public int[] sortByBits(int[] arr) {
+        List<Integer> list = Arrays.stream(arr).boxed().collect(Collectors.toList());
+        Collections.sort(list, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                int bitCount1 = Integer.bitCount(o1);
+                int bitCount2 = Integer.bitCount(o2);
+                if (bitCount1 == bitCount2) {
+                    return Integer.compare(o1, o2);
+                }
+                return Integer.compare(bitCount1, bitCount2);
+            }
+        });
+        return list.stream().mapToInt(i -> i).toArray();
+
+    }
+
 }
