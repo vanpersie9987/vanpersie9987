@@ -5291,3 +5291,9 @@ class SegmentTree2940:
             pre = lb
             n &= n - 1
         return res
+
+    # 476. 数字的补数 (Number Complement)
+    # 1009. 十进制整数的反码 (Complement of Base 10 Integer)
+    def bitwiseComplement(self, n: int) -> int:
+        u = (1 << len(bin(n)[2:])) - 1
+        return n ^ u
