@@ -7649,53 +7649,53 @@ public class Leetcode_8 {
     }
 
     // 2478. 完美分割的方案数 (Number of Beautiful Partitions)
-    private int k2478;
     private int minLength2478;
-    private int n2478;
     private List<Integer>[] list2478;
     private int[][] memo2478;
     private int p2478;
 
     public int beautifulPartitions2(String s, int k, int minLength) {
-        this.n2478 = s.length();
-        this.k2478 = k;
+        int n = s.length();
         this.minLength2478 = minLength;
         this.p2478 = (1 << 2) | (1 << 3) | (1 << 5) | (1 << 7);
-        if (k * minLength > n2478 || !isPrime2478_2(s.charAt(0)) || isPrime2478_2(s.charAt(n2478 - 1))) {
+        if (k * minLength > n || !isPrime2478_2(s.charAt(0)) || isPrime2478_2(s.charAt(n - 1))) {
             return 0;
         }
-        this.list2478 = new ArrayList[n2478];
+        this.list2478 = new ArrayList[n];
         Arrays.setAll(list2478, o -> new ArrayList<>());
-        for (int i = 0; i < n2478; ++i) {
-            if (isPrime2478_2(s.charAt(i))) {
-                for (int j = i + minLength - 1; j < n2478; ++j) {
-                    if (j == n2478 - 1 || !isPrime2478_2(s.charAt(j)) && isPrime2478_2(s.charAt(j + 1))) {
+        for (int i = 0; i < n; ++i) {
+            if (!isPrime2478_2(s.charAt(i))) {
+                for (int j = i - minLength + 1; j >= 0; --j) {
+                    if (isPrime2478_2(s.charAt(j))) {
                         list2478[i].add(j);
                     }
                 }
             }
         }
-        this.memo2478 = new int[n2478][k];
-        for (int i = 0; i < n2478; ++i) {
+        this.memo2478 = new int[n][k + 1];
+        for (int i = 0; i < n; ++i) {
             Arrays.fill(memo2478[i], -1);
         }
-        return dfs2478(0, 0);
+        return dfs2478(n - 1, k);
     }
 
     private int dfs2478(int i, int j) {
-        if (i == n2478 || j == k2478) {
-            return i == n2478 && j == k2478 ? 1 : 0;
+        if (j < 0) {
+            return 0;
+        }
+        if (i < 0) {
+            return j == 0 ? 1 : 0;
         }
         if (memo2478[i][j] != -1) {
             return memo2478[i][j];
         }
         int res = 0;
         for (int x : list2478[i]) {
-            if (n2478 - x - 1 < (k2478 - j - 1) * minLength2478) {
+            if (minLength2478 * (j - 1) > x) {
                 break;
             }
             final int MOD = (int) (1e9 + 7);
-            res += dfs2478(x + 1, j + 1);
+            res += dfs2478(x - 1, j - 1);
             res %= MOD;
         }
         return memo2478[i][j] = res;
