@@ -525,30 +525,29 @@ class Union924:
     def beautifulPartitions(self, s: str, k: int, minLength: int) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == n or j == k:
-                return i == n and j == k
+            if i < 0:
+                return int(j == 0)
             res = 0
-            for x in dic[i]:
-                if n - x - 1 < (k - j - 1) * minLength:
+            for x in a[i]:
+                if minLength * (j - 1) > x:
                     break
-                res += dfs(x + 1, j + 1)
+                res += dfs(x - 1, j - 1)
             return res % MOD
 
-        def is_prime(c: str) -> bool:
-            return p & (1 << int(c))
+        def is_prime(x: str) -> bool:
+            return x == "2" or x == "3" or x == "5" or x == "7"
 
         n = len(s)
-        p = (1 << 2) | (1 << 3) | (1 << 5) | (1 << 7)
-        if k * minLength > n or not is_prime(s[0]) or is_prime(s[-1]):
+        if not is_prime(s[0]) or is_prime(s[-1]) or k * minLength > n:
             return 0
-        dic = [[] for _ in range(n)]
+        a = [[] for _ in range(n)]
         for i in range(n):
-            if is_prime(s[i]):
-                for j in range(i + minLength - 1, n):
-                    if j == n - 1 or not is_prime(s[j]) and is_prime(s[j + 1]):
-                        dic[i].append(j)
+            if not is_prime(s[i]):
+                for j in range(i - minLength + 1, -1, -1):
+                    if is_prime(s[j]):
+                        a[i].append(j)
         MOD = 10**9 + 7
-        return dfs(0, 0)
+        return dfs(n - 1, k)
 
     # 102. 二叉树的层序遍历 (Binary Tree Level Order Traversal)
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:

@@ -5257,4 +5257,3 @@ class SegmentTree2940:
             else:
                 cnt1 = 0
         return res % MOD
-
