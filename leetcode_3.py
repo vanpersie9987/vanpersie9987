@@ -5297,3 +5297,7 @@ class SegmentTree2940:
     def bitwiseComplement(self, n: int) -> int:
         u = (1 << len(bin(n)[2:])) - 1
         return n ^ u
+
+    # 1342. 将数字变成 0 的操作次数 (Number of Steps to Reduce a Number to Zero)
+    def numberOfSteps(self, num: int) -> int:
+        return max(0, num.bit_count() + num.bit_length() - 1)

@@ -1474,13 +1474,4 @@ public class Leetcode_10 {
         return res;
     }
 
-    public int numberOfSteps(int num) {
-        if (num == 0) {
-            return 0;
-        }
-        int bt = Integer.bitCount(num);
-        int zero = 31 - Integer.numberOfLeadingZeros(num);
-        return bt + zero;
-    }
-
 }
