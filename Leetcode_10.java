@@ -1441,5 +1441,37 @@ public class Leetcode_10 {
         return Math.abs(s.length() - bCnt * 2);
     }
 
+    // 3747. 统计移除零后不同整数的数目 (Count Distinct Integers After Removing Zeros)
+    private long[][] memo3747;
+    private char[] a3747;
+    private int n3747;
+
+    public long countDistinct(long n) {
+        this.a3747 = String.valueOf(n).toCharArray();
+        this.n3747 = a3747.length;
+        this.memo3747 = new long[this.n3747][2];
+        return n - dfs3747(0, 0, true, false);
+    }
+
+    private long dfs3747(int i, int j, boolean isLimit, boolean isNum) {
+        if (i == n3747) {
+            return j == 1 && isNum ? 1 : 0;
+        }
+        if (!isLimit && isNum && memo3747[i][j] != 0L) {
+            return memo3747[i][j];
+        }
+        long res = 0L;
+        if (!isNum) {
+            res += dfs3747(i + 1, j, false, false);
+        }
+        int up = isLimit ? a3747[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            res += dfs3747(i + 1, (j == 1 || d == 0) ? 1 : 0, isLimit && up == d, true);
+        }
+        if (!isLimit && isNum) {
+            memo3747[i][j] = res;
+        }
+        return res;
+    }
 
 }

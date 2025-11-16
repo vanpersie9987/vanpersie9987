@@ -5263,3 +5263,20 @@ class SegmentTree2940:
     # 3746. 等量移除后的字符串最小长度 (Minimum String Length After Balanced Removals)
     def minLengthAfterRemovals(self, s: str) -> int:
         return abs(s.count("a") - s.count("b"))
+
+    # 3747. 统计移除零后不同整数的数目 (Count Distinct Integers After Removing Zeros)
+    def countDistinct(self, n: int) -> int:
+        @cache
+        def dfs(i: int, j: bool, is_limit: bool, is_num: bool) -> int:
+            if i == l:
+                return j and is_num
+            res = 0
+            if not is_num:
+                res += dfs(i + 1, j, False, False)
+            up = int(s[i]) if is_limit else 9
+            for d in range(0 if is_num else 1, up + 1):
+                res += dfs(i + 1, j or d == 0, is_limit and d == up, True)
+            return res
+        s = str(n)
+        l = len(s)
+        return n - dfs(0, False, True, False)
