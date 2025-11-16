@@ -6074,22 +6074,19 @@ class leetcode_1:
     def minSpaceWastedKResizing(self, nums: List[int], k: int) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == n:
+            if i < 0:
                 return 0
-            if j == k:
-                return arr[i][n - 1]
-            return min(dfs(x + 1, j + 1) + arr[i][x] for x in range(i, n - k + j + 1))
-
+            if j == 0:
+                return a[0][i]
+            return min(dfs(x - 1, j - 1) + a[x][i] for x in range(i, j - 1, -1))
         n = len(nums)
-        arr = [[0] * n for _ in range(n)]
-        s = 0
+        a = [[0] * n for _ in range(n)]
         for i in range(n):
-            s += nums[i]
-            m = nums[i]
+            mx = 0
             for j in range(i, n):
-                m = max(m, nums[j])
-                arr[i][j] = m * (j - i + 1)
-        return dfs(0, 0) - s
+                mx = max(mx, nums[j])
+                a[i][j] = mx * (j - i + 1)
+        return dfs(n - 1, k) - sum(nums)
 
     # 1981. 最小化目标值与所选元素的差 (Minimize the Difference Between Target and Chosen Elements)
     def minimizeTheDifference(self, mat: List[List[int]], target: int) -> int:
