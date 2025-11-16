@@ -17233,28 +17233,12 @@ public class LeetCodeText {
 
     // 1342. 将数字变成 0 的操作次数 (Number of Steps to Reduce a Number to Zero)
     public int numberOfSteps(int num) {
-        int res = 0;
-        while (num > 0) {
-            if ((num & 1) == 0) {
-                num >>= 1;
-            } else {
-                --num;
-            }
-            ++res;
-        }
-        return res;
-
-    }
-
-    // 1342. 将数字变成 0 的操作次数 (Number of Steps to Reduce a Number to Zero)
-    public int numberOfSteps2(int num) {
         if (num == 0) {
             return 0;
         }
-        int bitCount = (int) (Math.log(num) / Math.log(2)) + 1;
-        int oneBitCount = Integer.bitCount(num);
-        return bitCount + oneBitCount - 1;
-
+        int bt = Integer.bitCount(num);
+        int zero = 31 - Integer.numberOfLeadingZeros(num);
+        return bt + zero;
     }
 
     // 剑指 Offer 15. 二进制中1的个数
