@@ -5306,3 +5306,7 @@ class SegmentTree2940:
     # 2220. 转换数字的最少位翻转次数 (Minimum Bit Flips to Convert Number)
     def minBitFlips(self, start: int, goal: int) -> int:
         return (start ^ goal).bit_count()
+
+    # 1356. 根据数字二进制下 1 的数目排序 (Sort Integers by The Number of 1 Bits)
+    def sortByBits(self, arr: List[int]) -> List[int]:
+        return sorted(arr, key=lambda o: (o.bit_count(), o))
