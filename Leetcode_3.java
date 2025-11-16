@@ -6314,10 +6314,9 @@ public class Leetcode_3 {
 
     }
 
-    // 6033. 转换数字的最少位翻转次数 (Minimum Bit Flips to Convert Number)
+    // 2220. 转换数字的最少位翻转次数 (Minimum Bit Flips to Convert Number)
     public int minBitFlips(int start, int goal) {
-        int diff = start ^ goal;
-        return Integer.bitCount(diff);
+        return Integer.bitCount(start ^ goal);
     }
 
     // 2221. 数组的三角和 (Find Triangular Sum of an Array)

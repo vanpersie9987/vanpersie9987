@@ -5301,3 +5301,7 @@ class SegmentTree2940:
     # 1342. 将数字变成 0 的操作次数 (Number of Steps to Reduce a Number to Zero)
     def numberOfSteps(self, num: int) -> int:
         return max(0, num.bit_count() + num.bit_length() - 1)
+
+    # 2220. 转换数字的最少位翻转次数 (Minimum Bit Flips to Convert Number)
+    def minBitFlips(self, start: int, goal: int) -> int:
+        return (start ^ goal).bit_count()
