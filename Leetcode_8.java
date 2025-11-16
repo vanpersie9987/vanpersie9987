@@ -1067,45 +1067,42 @@ public class Leetcode_8 {
 
     // 1959. K 次调整数组大小浪费的最小总空间 (Minimum Total Space Wasted With K Resizing
     // Operations)
-    private int k1959;
-    private int n1959;
-    private int[][] arr1959;
+    private int[][] a1959;
     private int[][] memo1959;
 
     public int minSpaceWastedKResizing(int[] nums, int k) {
-        this.k1959 = k;
-        this.n1959 = nums.length;
-        this.arr1959 = new int[n1959][n1959];
-        int sum = 0;
-        for (int i = 0; i < n1959; ++i) {
+        int n = nums.length;
+        this.a1959 = new int[n][n];
+        int s = 0;
+        for (int i = 0; i < n; ++i) {
             int max = nums[i];
-            sum += nums[i];
-            for (int j = i; j < n1959; ++j) {
+            s += nums[i];
+            for (int j = i; j < n; ++j) {
                 max = Math.max(max, nums[j]);
-                arr1959[i][j] = max * (j - i + 1);
+                a1959[i][j] = max * (j - i + 1);
             }
         }
-        this.memo1959 = new int[n1959][k];
-        for (int i = 0; i < n1959; ++i) {
+        this.memo1959 = new int[n][k + 1];
+        for (int i = 0; i < n; ++i) {
             Arrays.fill(memo1959[i], -1);
         }
-        return dfs1959(0, 0) - sum;
+        return dfs1959(n - 1, k) - s;
 
     }
 
     private int dfs1959(int i, int j) {
-        if (i == n1959) {
+        if (i < 0) {
             return 0;
         }
-        if (j == k1959) {
-            return arr1959[i][n1959 - 1];
+        if (j == 0) {
+            return a1959[0][i];
         }
         if (memo1959[i][j] != -1) {
             return memo1959[i][j];
         }
         int min = Integer.MAX_VALUE;
-        for (int x = i; x <= n1959 - k1959 + j; ++x) {
-            min = Math.min(min, dfs1959(x + 1, j + 1) + arr1959[i][x]);
+        for (int x = i; x >= j; --x) {
+            min = Math.min(min, dfs1959(x - 1, j - 1) + a1959[x][i]);
         }
         return memo1959[i][j] = min;
     }
