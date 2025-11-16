@@ -5246,3 +5246,16 @@ class SegmentTree2940:
             else:
                 cnt1 = 0
         return res % MOD
+
+    # 3745. 三元素表达式的最大值 (Maximize Expression of Three Elements)
+    def maximizeExpressionOfThree(self, nums: List[int]) -> int:
+        mx1, mx2, min1 = -inf, -inf, inf
+        for x in nums:
+            if x >= mx1:
+                mx2 = mx1
+                mx1 = x
+            elif x > mx2:
+                mx2 = x
+            if x < min1:
+                min1 = x
+        return mx1 + mx2 - min1
