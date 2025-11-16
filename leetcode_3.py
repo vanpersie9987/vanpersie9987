@@ -5259,3 +5259,7 @@ class SegmentTree2940:
             if x < min1:
                 min1 = x
         return mx1 + mx2 - min1
+
+    # 3746. 等量移除后的字符串最小长度 (Minimum String Length After Balanced Removals)
+    def minLengthAfterRemovals(self, s: str) -> int:
+        return abs(s.count("a") - s.count("b"))

@@ -1431,4 +1431,15 @@ public class Leetcode_10 {
         return max1 + max2 - min1;
 
     }
+
+    // 3746. 等量移除后的字符串最小长度 (Minimum String Length After Balanced Removals)
+    public int minLengthAfterRemovals(String s) {
+        int bCnt = 0;
+        for (char c : s.toCharArray()) {
+            bCnt += c - 'a';
+        }
+        return Math.abs(s.length() - bCnt * 2);
+    }
+
+
 }
