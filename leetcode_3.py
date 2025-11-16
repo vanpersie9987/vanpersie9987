@@ -5302,6 +5302,7 @@ class SegmentTree2940:
     def numberOfSteps(self, num: int) -> int:
         return max(0, num.bit_count() + num.bit_length() - 1)
 
+    # 461. 汉明距离 (Hamming Distance)
     # 2220. 转换数字的最少位翻转次数 (Minimum Bit Flips to Convert Number)
     def minBitFlips(self, start: int, goal: int) -> int:
         return (start ^ goal).bit_count()

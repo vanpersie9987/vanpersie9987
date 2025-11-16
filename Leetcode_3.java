@@ -6314,6 +6314,7 @@ public class Leetcode_3 {
 
     }
 
+    // 461. 汉明距离 (Hamming Distance)
     // 2220. 转换数字的最少位翻转次数 (Minimum Bit Flips to Convert Number)
     public int minBitFlips(int start, int goal) {
         return Integer.bitCount(start ^ goal);

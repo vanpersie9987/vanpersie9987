@@ -9791,9 +9791,4 @@ public class Leetcode_7 {
         return false;
     }
 
-    // 461. 汉明距离 (Hamming Distance)
-    public int hammingDistance(int x, int y) {
-        return Integer.bitCount(x ^ y);
-    }
-
 }
