@@ -5280,3 +5280,14 @@ class SegmentTree2940:
         s = str(n)
         l = len(s)
         return n - dfs(0, False, True, False)
+
+    # 868. 二进制间距 (Binary Gap)
+    def binaryGap(self, n: int) -> int:
+        res = 0
+        pre = 30
+        while n:
+            lb = (n & -n).bit_length() - 1
+            res = max(res, lb - pre)
+            pre = lb
+            n &= n - 1
+        return res
