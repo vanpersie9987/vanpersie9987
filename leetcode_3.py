@@ -5320,7 +5320,7 @@ class SegmentTree2940:
                     return False
                 pre = i
         return True
-    
+
     # 3748. 统计稳定子数组的数目 (Count Stable Subarrays)
     def countStableSubarrays(self, nums: List[int], queries: List[List[int]]) -> List[int]:
         left = []
@@ -5346,4 +5346,10 @@ class SegmentTree2940:
             res.append(m1 * (m1 + 1) // 2 + s[j] - s[i] + m2 * (m2 + 1) // 2)
         return res
 
-
+    # 717. 1 比特与 2 比特字符 (1-bit and 2-bit Characters)
+    def isOneBitCharacter(self, bits: List[int]) -> bool:
+        i = 0
+        n = len(bits)
+        while i < n - 1:
+            i += bits[i] + 1
+        return i == n - 1
