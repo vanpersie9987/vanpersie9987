@@ -5310,3 +5310,13 @@ class SegmentTree2940:
     # 1356. 根据数字二进制下 1 的数目排序 (Sort Integers by The Number of 1 Bits)
     def sortByBits(self, arr: List[int]) -> List[int]:
         return sorted(arr, key=lambda o: (o.bit_count(), o))
+
+    # 1437. 是否所有 1 都至少相隔 k 个元素 (Check If All 1's Are at Least Length K Places Away)
+    def kLengthApart(self, nums: List[int], k: int) -> bool:
+        pre = -inf
+        for i, x in enumerate(nums):
+            if x == 1:
+                if i - pre - 1 < k:
+                    return False
+                pre = i
+        return True
