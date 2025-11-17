@@ -1474,4 +1474,53 @@ public class Leetcode_10 {
         return res;
     }
 
+    // 3748. 统计稳定子数组的数目 (Count Stable Subarrays)
+    public long[] countStableSubarrays(int[] nums, int[][] queries) {
+        int n = nums.length;
+        List<Integer> left = new ArrayList<>();
+        List<Long> s = new ArrayList<>();
+        s.add(0L);
+        int start = 0;
+        for (int i = 0; i < n; ++i) {
+            if (i == n - 1 || nums[i] > nums[i + 1]) {
+                left.add(start);
+                int m = i - start + 1;
+                s.add(s.get(s.size() - 1) + (long) (1 + m) * m / 2);
+                start = i + 1;
+            }
+        }
+        long[] res = new long[queries.length];
+        for (int x = 0; x < queries.length; ++x) {
+            int l = queries[x][0];
+            int r = queries[x][1];
+            int i = bisectRight3748(left, l);
+            int j = bisectRight3748(left, r) - 1;
+            if (i > j) {
+                int m = r - l + 1;
+                res[x] = (long) m * (m + 1) / 2;
+                continue;
+            }
+            int m1 = left.get(i) - l;
+            int m2 = r - left.get(j) + 1;
+            res[x] = (long) m1 * (m1 + 1) / 2 + s.get(j) - s.get(i) + (long) m2 * (m2 + 1) / 2;
+        }
+        return res;
+
+
+    }
+
+    private int bisectRight3748(List<Integer> list, int t) {
+        int left = 0;
+        int right = list.size() - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (list.get(mid) > t) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+    }
+
 }
