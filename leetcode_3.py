@@ -5346,10 +5346,22 @@ class SegmentTree2940:
             res.append(m1 * (m1 + 1) // 2 + s[j] - s[i] + m2 * (m2 + 1) // 2)
         return res
 
-    # 717. 1 比特与 2 比特字符 (1-bit and 2-bit Characters)
+    # 717. 1 比特与 2 比特字符 (1-bit and 2-bit Characters) --正序
     def isOneBitCharacter(self, bits: List[int]) -> bool:
         i = 0
         n = len(bits)
         while i < n - 1:
             i += bits[i] + 1
         return i == n - 1
+    
+    # 717. 1 比特与 2 比特字符 (1-bit and 2-bit Characters) --倒序
+    def isOneBitCharacter(self, bits: List[int]) -> bool:
+        n = len(bits)
+        i = n - 2
+        while i >= 0 and bits[i]:
+            i -= 1
+        return (n - i) & 1 == 0
+        
+
+
+    
