@@ -5358,9 +5358,11 @@ class SegmentTree2940:
     def isOneBitCharacter(self, bits: List[int]) -> bool:
         n = len(bits)
         i = n - 2
+        cnt1 = 0
         while i >= 0 and bits[i]:
             i -= 1
-        return (n - i) & 1 == 0
+            cnt1 += 1
+        return cnt1 & 1 == 0
         
 
 
