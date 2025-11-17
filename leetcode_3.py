@@ -23,7 +23,7 @@ import dis
 import enum
 from functools import cache, cached_property
 from inspect import modulesbyfile
-from itertools import accumulate, combinations, count, islice, pairwise, permutations
+from itertools import accumulate, combinations, count, islice, pairwise, permutations, starmap
 from locale import DAY_4
 from logging import _Level, root
 from math import comb, cos, e, fabs, floor, gcd, inf, isqrt, lcm, sqrt
@@ -5320,3 +5320,30 @@ class SegmentTree2940:
                     return False
                 pre = i
         return True
+    
+    # 3748. 统计稳定子数组的数目 (Count Stable Subarrays)
+    def countStableSubarrays(self, nums: List[int], queries: List[List[int]]) -> List[int]:
+        left = []
+        s = [0]
+        res = []
+        n = len(nums)
+        start = 0
+        for i, x in enumerate(nums):
+            if i == n - 1 or x > nums[i + 1]:
+                left.append(start)
+                m = i - start + 1
+                s.append(s[-1] + m * (m + 1) // 2)
+                start = i + 1
+        for l, r in queries:
+            i = bisect.bisect_right(left, l)
+            j = bisect.bisect_right(left, r) - 1
+            if i > j:
+                m = r - l + 1
+                res.append(m * (m + 1) // 2)
+                continue
+            m1 = left[i] - l
+            m2 = r - left[j] + 1
+            res.append(m1 * (m1 + 1) // 2 + s[j] - s[i] + m2 * (m2 + 1) // 2)
+        return res
+
+
