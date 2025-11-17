@@ -5315,7 +5315,7 @@ class SegmentTree2940:
     def kLengthApart(self, nums: List[int], k: int) -> bool:
         pre = -inf
         for i, x in enumerate(nums):
-            if x == 1:
+            if x:
                 if i - pre - 1 < k:
                     return False
                 pre = i

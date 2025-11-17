@@ -5592,12 +5592,12 @@ public class LeetCodeText {
 
     }
 
-    // 1437. 是否所有 1 都至少相隔 k 个元素
+    // 1437. 是否所有 1 都至少相隔 k 个元素 (Check If All 1's Are at Least Length K Places Away)
     public boolean kLengthApart(int[] nums, int k) {
-        int pre = -1;
+        int pre = Integer.MIN_VALUE / 2;
         for (int i = 0; i < nums.length; ++i) {
             if (nums[i] == 1) {
-                if (pre != -1 && i - pre - 1 < k) {
+                if (i - pre - 1 < k) {
                     return false;
                 }
                 pre = i;
