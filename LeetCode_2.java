@@ -8216,11 +8216,10 @@ public class LeetCode_2 {
       for (int num : nums) {
          set.add(num);
       }
-      int cur = original;
-      while (set.contains(cur)) {
-         cur <<= 1;
+      while (set.contains(original)) {
+         original <<= 1;
       }
-      return cur;
+      return original;
    }
 
    // 5981. 分组得分最高的所有下标
