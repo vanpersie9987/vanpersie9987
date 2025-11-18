@@ -4785,22 +4785,22 @@ public class Leetcode_8 {
         return memo2915[i][j] = res;
     }
 
-    // 100111. 找出数组中的 K-or 值 (Find the K-or of an Array)
+    // 2917. 找出数组中的 K-or 值 (Find the K-or of an Array)
     public int findKOr(int[] nums, int k) {
-        int[] cnts = new int[32];
-        for (int num : nums) {
-            for (int i = 0; i < 32; ++i) {
-                cnts[i] += num >> i & 1;
+        int[] cnt = new int[31];
+        for (int x : nums) {
+            for (int d = x; d != 0; d &= d - 1) {
+                int lb = Integer.numberOfTrailingZeros(d);
+                ++cnt[lb];
             }
         }
         int res = 0;
-        for (int i = 0; i < 32; ++i) {
-            if (cnts[i] >= k) {
+        for (int i = 0; i < cnt.length; ++i) {
+            if (cnt[i] >= k) {
                 res |= 1 << i;
             }
         }
         return res;
-
     }
 
     // 2918. 数组的最小相等和 (Minimum Equal Sum of Two Arrays After Replacing Zeros)

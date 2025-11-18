@@ -5363,7 +5363,3 @@ class SegmentTree2940:
             i -= 1
             cnt1 += 1
         return cnt1 & 1 == 0
-        
-
-
-    

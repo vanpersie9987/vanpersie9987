@@ -7868,14 +7868,15 @@ class leetcode_1:
 
     # 2917. 找出数组中的 K-or 值 (Find the K-or of an Array)
     def findKOr(self, nums: List[int], k: int) -> int:
-        res = 0
         cnt = [0] * 31
         for x in nums:
-            for i in range(31):
-                if (x >> i) & 1:
-                    cnt[i] += 1
-        for i, v in enumerate(cnt):
-            if v >= k:
+            while x:
+                lb = (x & -x).bit_length() - 1
+                cnt[lb] += 1
+                x &= x - 1
+        res = 0
+        for i, c in enumerate(cnt):
+            if c >= k:
                 res |= 1 << i
         return res
 
