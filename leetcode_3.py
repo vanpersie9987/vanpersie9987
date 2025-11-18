@@ -5390,3 +5390,10 @@ class SegmentTree2940:
         u = (1 << N.bit_length()) - 1
         N &= u ^ w
         return N | (M << i)
+
+    # 2154. 将找到的值乘以 2 (Keep Multiplying Found Values by Two)
+    def findFinalValue(self, nums: List[int], original: int) -> int:
+        s = set(nums)
+        while original in s:
+            original <<= 1
+        return original
