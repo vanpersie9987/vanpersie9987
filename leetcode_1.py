@@ -2812,14 +2812,6 @@ class leetcode_1:
 
     # 338. 比特位计数 (Counting Bits)
     # LCR 003. 比特位计数
-    def countBits(self, n: int) -> List[int]:
-        res = [0] * (n + 1)
-        for i in range(1, n + 1):
-            res[i] = res[(i & -i) ^ i] + 1
-        return res
-
-    # 338. 比特位计数 (Counting Bits)
-    # LCR 003. 比特位计数
     def countBits2(self, n: int) -> List[int]:
         res = [0] * (n + 1)
         for i in range(1, n + 1):
