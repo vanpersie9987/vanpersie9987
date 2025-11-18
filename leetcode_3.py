@@ -5368,7 +5368,18 @@ class SegmentTree2940:
     def hasAlternatingBits(self, n: int) -> bool:
         xor = (n ^ (n >> 1)) + 1
         return xor.bit_count() == 1
-    
+
     # 693. 交替位二进制数 (Binary Number with Alternating Bits)
     def hasAlternatingBits(self, n: int) -> bool:
         return n ^ (n >> 1) == (1 << n.bit_length()) - 1
+
+    # 2657. 找到两个数组的前缀公共数组 (Find the Prefix Common Array of Two Arrays)
+    def findThePrefixCommonArray(self, A: List[int], B: List[int]) -> List[int]:
+        res = []
+        or_a = 0
+        or_b = 0
+        for a, b in zip(A, B):
+            or_a |= 1 << a
+            or_b |= 1 << b
+            res.append((or_a & or_b).bit_count())
+        return res
