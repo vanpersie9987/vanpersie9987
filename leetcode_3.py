@@ -5353,7 +5353,7 @@ class SegmentTree2940:
         while i < n - 1:
             i += bits[i] + 1
         return i == n - 1
-    
+
     # 717. 1 比特与 2 比特字符 (1-bit and 2-bit Characters) --倒序
     def isOneBitCharacter(self, bits: List[int]) -> bool:
         n = len(bits)
@@ -5363,3 +5363,12 @@ class SegmentTree2940:
             i -= 1
             cnt1 += 1
         return cnt1 & 1 == 0
+
+    # 693. 交替位二进制数 (Binary Number with Alternating Bits)
+    def hasAlternatingBits(self, n: int) -> bool:
+        xor = (n ^ (n >> 1)) + 1
+        return xor.bit_count() == 1
+    
+    # 693. 交替位二进制数 (Binary Number with Alternating Bits)
+    def hasAlternatingBits(self, n: int) -> bool:
+        return n & (n >> 1) == 0 and n | (n >> 1) == (1 << n.bit_length()) - 1
