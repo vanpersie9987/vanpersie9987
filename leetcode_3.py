@@ -5383,3 +5383,10 @@ class SegmentTree2940:
             or_b |= 1 << b
             res.append((or_a & or_b).bit_count())
         return res
+
+    # 面试题 05.01. 插入 (Insert Into Bits LCCI)
+    def insertBits(self, N: int, M: int, i: int, j: int) -> int:
+        w = ((1 << (j - i + 1)) - 1) << i
+        u = (1 << N.bit_length()) - 1
+        N &= u ^ w
+        return N | (M << i)
