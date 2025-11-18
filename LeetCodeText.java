@@ -17062,7 +17062,7 @@ public class LeetCodeText {
 
     // 693. 交替位二进制数 (Binary Number with Alternating Bits)
     public boolean hasAlternatingBits2(int n) {
-        return (n & (n >> 1)) == 0 && (n ^ (n >> 1)) == (1 << (32 - Integer.numberOfLeadingZeros(n))) - 1;
+        return (n ^ (n >> 1)) == (1 << (32 - Integer.numberOfLeadingZeros(n))) - 1;
     }
 
     // 762. 二进制表示中质数个计算置位 (Prime Number of Set Bits in Binary Representation)

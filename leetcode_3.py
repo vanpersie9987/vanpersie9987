@@ -5371,4 +5371,4 @@ class SegmentTree2940:
     
     # 693. 交替位二进制数 (Binary Number with Alternating Bits)
     def hasAlternatingBits(self, n: int) -> bool:
-        return n & (n >> 1) == 0 and n | (n >> 1) == (1 << n.bit_length()) - 1
+        return n ^ (n >> 1) == (1 << n.bit_length()) - 1
