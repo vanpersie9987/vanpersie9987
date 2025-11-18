@@ -4260,16 +4260,16 @@ public class Leetcode_7 {
 
     }
 
-    // 6405. 找到两个数组的前缀公共数组 (Find the Prefix Common Array of Two Arrays)
+    // 2657. 找到两个数组的前缀公共数组 (Find the Prefix Common Array of Two Arrays)
     public int[] findThePrefixCommonArray(int[] A, int[] B) {
         int n = A.length;
         int[] res = new int[n];
-        long maskA = 0L;
-        long maskB = 0L;
+        long orA = 0L;
+        long orB = 0L;
         for (int i = 0; i < n; ++i) {
-            maskA |= 1L << A[i];
-            maskB |= 1L << B[i];
-            res[i] = Long.bitCount(maskA & maskB);
+            orA |= 1L << A[i];
+            orB |= 1L << B[i];
+            res[i] = Long.bitCount(orA & orB);
         }
         return res;
 
