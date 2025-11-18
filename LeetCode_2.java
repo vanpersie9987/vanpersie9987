@@ -8210,7 +8210,7 @@ public class LeetCode_2 {
 
    }
 
-   // 5993. 将找到的值乘以 2
+   // 2154. 将找到的值乘以 2 (Keep Multiplying Found Values by Two)
    public int findFinalValue(int[] nums, int original) {
       Set<Integer> set = new HashSet<>();
       for (int num : nums) {
