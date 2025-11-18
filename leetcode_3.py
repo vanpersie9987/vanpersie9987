@@ -5393,14 +5393,16 @@ class SegmentTree2940:
 
     # 2154. 将找到的值乘以 2 (Keep Multiplying Found Values by Two)
     def findFinalValue(self, nums: List[int], original: int) -> int:
-        s = set(nums)
-        while original in s:
-            original <<= 1
-        return original
+        mask = 0
+        for x in nums:
+            d, m = divmod(x, original)
+            if m == 0 and d & (d - 1) == 0:
+                mask |= d
+        mask = ~mask
+        return original * (mask & -mask)
 
     # 3273. 对 Bob 造成的最少伤害 (Minimum Amount of Damage Dealt to Bob)
     def minDamage(self, power: int, damage: List[int], health: List[int]) -> int:
-        n = len(damage)
         s = sum(damage)
         a = [[(h + power - 1) // power, d] for h, d in zip(health, damage)]
         a.sort(key=lambda p: p[0] / p[1])
