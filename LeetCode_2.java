@@ -8221,7 +8221,7 @@ public class LeetCode_2 {
          }
       }
       mask = ~mask;
-      return original * (1 << Integer.numberOfTrailingZeros(mask));
+      return original * (mask & -mask);
    }
 
    // 5981. 分组得分最高的所有下标
