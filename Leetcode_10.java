@@ -1523,4 +1523,29 @@ public class Leetcode_10 {
         return right + 1;
     }
 
+    // 3273. 对 Bob 造成的最少伤害 (Minimum Amount of Damage Dealt to Bob)
+    public long minDamage(int power, int[] damage, int[] health) {
+        int n = damage.length;
+        int[][] a = new int[n][2];
+        for (int i = 0; i < n; ++i) {
+            a[i][0] = (health[i] + power - 1) / power;
+            a[i][1] = damage[i];
+        }
+        Arrays.sort(a, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Double.compare((double) o1[0] / o1[1], (double) o2[0] / o2[1]);
+            }
+        });
+        long res = 0L;
+        long s = 0L;
+        for (int i = 0; i < n; ++i) {
+            s += a[i][0];
+            res += s * a[i][1];
+        }
+        return res;
+
+    }
+
 }

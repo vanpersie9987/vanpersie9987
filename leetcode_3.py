@@ -5397,3 +5397,15 @@ class SegmentTree2940:
         while original in s:
             original <<= 1
         return original
+
+    # 3273. 对 Bob 造成的最少伤害 (Minimum Amount of Damage Dealt to Bob)
+    def minDamage(self, power: int, damage: List[int], health: List[int]) -> int:
+        n = len(damage)
+        s = sum(damage)
+        a = [[(h + power - 1) // power, d] for h, d in zip(health, damage)]
+        a.sort(key=lambda p: p[0] / p[1])
+        res = s = 0
+        for k, d in a:
+            s += k
+            res += s * d
+        return res
