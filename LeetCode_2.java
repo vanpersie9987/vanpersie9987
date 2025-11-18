@@ -8212,14 +8212,16 @@ public class LeetCode_2 {
 
    // 2154. 将找到的值乘以 2 (Keep Multiplying Found Values by Two)
    public int findFinalValue(int[] nums, int original) {
-      Set<Integer> set = new HashSet<>();
-      for (int num : nums) {
-         set.add(num);
+      int mask = 0;
+      for (int x : nums) {
+         int m = x % original;
+         int d = x / original;
+         if (m == 0 && (d & (d - 1)) == 0) {
+            mask |= d;
+         }
       }
-      while (set.contains(original)) {
-         original <<= 1;
-      }
-      return original;
+      mask = ~mask;
+      return original * (1 << Integer.numberOfTrailingZeros(mask));
    }
 
    // 5981. 分组得分最高的所有下标
