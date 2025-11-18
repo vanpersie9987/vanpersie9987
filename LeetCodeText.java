@@ -17646,12 +17646,10 @@ public class LeetCodeText {
 
     // 面试题 05.01. 插入 (Insert Into Bits LCCI)
     public int insertBits(int N, int M, int i, int j) {
-        int left = N >> j >> 1;
-        left = left << j << 1;
-        int middle = M << i;
-        int right = N & ((1 << i) - 1);
-        return left | middle | right;
-
+        int w = ((1 << (j - i + 1)) - 1) << i;
+        int u = (1 << (32 - Integer.numberOfLeadingZeros(N))) - 1;
+        N &= w ^ u;
+        return N | (M << i);
     }
 
     // 1461. 检查一个字符串是否包含所有长度为 K 的二进制子串 (Check If a String Contains All Binary Codes
