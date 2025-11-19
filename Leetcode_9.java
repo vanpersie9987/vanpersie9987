@@ -1197,6 +1197,7 @@ public class Leetcode_9 {
         for (int i = 0; i < 1 << n; ++i) {
             if ((i & (i >> 1)) == 0) {
                 int x = i ^ u;
+                // 二进制字符串长度为n，不足n位左侧补0
                 res.add(Integer.toBinaryString((1 << n) | x).substring(1));
             }
 
