@@ -1195,14 +1195,11 @@ public class Leetcode_9 {
         List<String> res = new ArrayList<>();
         int u = (1 << n) - 1;
         for (int i = 0; i < 1 << n; ++i) {
-            int c = i ^ u;
-            if ((c & (c >> 1)) == 0) {
-                String s = Integer.toBinaryString(i);
-                while (s.length() < n) {
-                    s = "0" + s;
-                }
-                res.add(s);
+            if ((i & (i >> 1)) == 0) {
+                int x = i ^ u;
+                res.add(Integer.toBinaryString((1 << n) | x).substring(1));
             }
+
         }
         return res;
     }
