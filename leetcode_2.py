@@ -5329,21 +5329,21 @@ class Union924:
 
     # 3211. 生成不含相邻零的二进制字符串 (Generate Binary Strings Without Adjacent Zeros)
     def validStrings(self, n: int) -> List[str]:
-        def dfs(i: int, j: int) -> None:
+        def dfs(i: int) -> None:
             if i == n:
                 res.append("".join(_list))
                 return
-            _list.append("1")
-            dfs(i + 1, 1)
+            _list.append('1')
+            dfs(i + 1)
             _list.pop()
-            if j == 1:
-                _list.append("0")
-                dfs(i + 1, 0)
+            if len(_list) == 0 or _list[-1] == '1':
+                _list.append('0')
+                dfs(i + 1)
                 _list.pop()
 
         _list = []
         res = []
-        dfs(0, 1)
+        dfs(0)
         return res
 
     # 3211. 生成不含相邻零的二进制字符串 (Generate Binary Strings Without Adjacent Zeros)
