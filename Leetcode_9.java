@@ -1170,22 +1170,22 @@ public class Leetcode_9 {
         this.res3211 = new ArrayList<>();
         this.builder3211 = new StringBuilder();
         this.n3211 = n;
-        dfs3211(0, 1);
+        dfs3211(0);
         return res3211;
 
     }
 
-    private void dfs3211(int i, int j) {
+    private void dfs3211(int i) {
         if (i == n3211) {
             res3211.add(builder3211.toString());
             return;
         }
         builder3211.append('1');
-        dfs3211(i + 1, 1);
+        dfs3211(i + 1);
         builder3211.deleteCharAt(builder3211.length() - 1);
-        if (j == 1) {
+        if (builder3211.isEmpty() || builder3211.charAt(builder3211.length() - 1) == '1') {
             builder3211.append('0');
-            dfs3211(i + 1, 0);
+            dfs3211(i + 1);
             builder3211.deleteCharAt(builder3211.length() - 1);
         }
     }
