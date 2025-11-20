@@ -5411,7 +5411,7 @@ class SegmentTree2940:
             s += k
             res += s * d
         return res
-    
+
     # 757. 设置交集大小至少为2 (Set Intersection Size At Least Two)
     def intersectionSizeTwo(self, intervals: List[List[int]]) -> int:
         intervals.sort(key=lambda x: (x[1], -x[0]))
@@ -5427,10 +5427,17 @@ class SegmentTree2940:
                 ans += 1
                 s, e = e, b
         return ans
-    
+
     # 1486. 数组异或操作 (XOR Operation in an Array)
     def xorOperation(self, n: int, start: int) -> int:
         res = 0
         for i in range(n):
             res ^= start + i * 2
+        return res
+
+    # 1720. 解码异或后的数组 (Decode XORed Array)
+    def decode(self, encoded: List[int], first: int) -> List[int]:
+        res = [first]
+        for x in encoded:
+            res.append(x ^ res[-1])
         return res
