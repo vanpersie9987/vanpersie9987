@@ -256,49 +256,22 @@ public class LeetCode_2 {
 
    // 1930. 长度为 3 的不同回文子序列 (Unique Length-3 Palindromic Subsequences)
    public int countPalindromicSubsequence2(String s) {
-      int res = 0;
       int n = s.length();
-      char[] chars = s.toCharArray();
-      int[] leftPrefix = new int[n];
-      int[] rightPrefix = new int[n];
-      for (int i = 1; i < n; ++i) {
-         leftPrefix[i] = leftPrefix[i - 1] | (1 << (chars[i - 1] - 'a'));
-      }
-      for (int i = n - 2; i >= 0; --i) {
-         rightPrefix[i] = rightPrefix[i + 1] | (1 << (chars[i + 1] - 'a'));
-      }
-      int[] ans = new int[26];
-      for (int i = 1; i < n - 1; ++i) {
-         ans[chars[i] - 'a'] |= leftPrefix[i] & rightPrefix[i];
-      }
-      for (int i = 0; i < ans.length; ++i) {
-         res += Integer.bitCount(ans[i]);
-      }
-      return res;
-
-   }
-
-   // 1930. 长度为 3 的不同回文子序列 (Unique Length-3 Palindromic Subsequences)
-   public int countPalindromicSubsequence3(String s) {
-      int n = s.length();
-      int[] left = new int[n];
-      int[] right = new int[n];
       char[] arr = s.toCharArray();
+      int[] pre = new int[n];
+
       for (int i = 1; i < n; ++i) {
-         left[i] = left[i - 1] | (1 << (arr[i - 1] - 'a'));
+         pre[i] = pre[i - 1] | (1 << (arr[i - 1] - 'a'));
       }
-      for (int i = n - 2; i >= 0; --i) {
-         right[i] = right[i + 1] | (1 << (arr[i + 1] - 'a'));
+      int suf = 0;
+      int[] a = new int[26];
+      for (int i = n - 2; i >= 1; --i) {
+         suf |= (1 << (arr[i + 1] - 'a'));
+         a[arr[i] - 'a'] |= pre[i] & suf;
       }
-      boolean[] seen = new boolean[26 * 26];
       int res = 0;
-      for (int i = 1; i < n - 1; ++i) {
-         for (int j = 0; j < 26; ++j) {
-            if (((left[i] >> j) & 1) != 0 && ((right[i] >> j) & 1) != 0 && !seen[(arr[i] - 'a') * 26 + j]) {
-               seen[(arr[i] - 'a') * 26 + j] = true;
-               ++res;
-            }
-         }
+      for (int x : a) {
+         res += Integer.bitCount(x);
       }
       return res;
 
