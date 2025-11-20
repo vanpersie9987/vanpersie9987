@@ -1577,4 +1577,50 @@ public class Leetcode_10 {
         return b == 0L ? a : gcd3334(b, a % b);
     }
 
+    // 3433. 统计用户被提及情况 (Count Mentions Per User)
+    public int[] countMentions(int n, List<List<String>> events) {
+        Collections.sort(events, (o1, o2) -> {
+            int t1 = Integer.parseInt(o1.get(1));
+            int t2 = Integer.parseInt(o2.get(1));
+            if (t1 == t2) {
+                return o1.get(2).compareTo(o2.get(2));
+            }
+            return Integer.compare(t1, t2);
+        });
+        int[] res = new int[n];
+        int[] nxtOffLine = new int[n];
+        Arrays.fill(nxtOffLine, -100);
+        int cntAll = 0;
+        for (List<String> even : events) {
+            String m = even.get(0);
+            int t = Integer.parseInt(even.get(1));
+            String ids = even.get(2);
+            if ("MESSAGE".equals(m)) {
+                if ("ALL".equals(ids)) {
+                    ++cntAll;
+                } else if ("HERE".equals(ids)) {
+                    for (int i = 0; i < n; ++i) {
+                        if (nxtOffLine[i] <= t && t < nxtOffLine[i] + 60) {
+                            continue;
+                        }
+                        res[i] += 1;
+                    }
+                } else {
+                    for (String id : ids.split(" ")) {
+                        int idx = Integer.parseInt(id.substring(2));
+                        res[idx] += 1;
+                    }
+                }
+            } else {
+                int idx = Integer.parseInt(ids);
+                nxtOffLine[idx] = t;
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            res[i] += cntAll;
+        }
+        return res;
+
+    }
+
 }
