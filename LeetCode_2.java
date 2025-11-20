@@ -230,32 +230,6 @@ public class LeetCode_2 {
 
    // 1930. 长度为 3 的不同回文子序列 (Unique Length-3 Palindromic Subsequences)
    public int countPalindromicSubsequence(String s) {
-      int res = 0;
-      char[] chars = s.toCharArray();
-      for (char c = 'a'; c <= 'z'; ++c) {
-         int left = 0;
-         int right = chars.length - 1;
-         while (left < right && chars[left] != c) {
-            ++left;
-         }
-         while (left < right && chars[right] != c) {
-            --right;
-         }
-         if (right - left < 2) {
-            continue;
-         }
-         Set<Character> set = new HashSet<>();
-         for (int i = left + 1; i <= right - 1; ++i) {
-            set.add(chars[i]);
-         }
-         res += set.size();
-      }
-      return res;
-
-   }
-
-   // 1930. 长度为 3 的不同回文子序列 (Unique Length-3 Palindromic Subsequences)
-   public int countPalindromicSubsequence2(String s) {
       int n = s.length();
       char[] arr = s.toCharArray();
       int[] pre = new int[n];
