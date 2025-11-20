@@ -5458,3 +5458,29 @@ class SegmentTree2940:
             suf_l = lcm(suf_l, nums[i])
             suf_g = gcd(suf_g, nums[i])
         return res
+
+    # 3433. 统计用户被提及情况 (Count Mentions Per User)
+    def countMentions(self, n: int, events: List[List[str]]) -> List[int]:
+        res = [0] * n
+        all_cnt = 0
+        nxt_offline = [-inf] * n
+        events.sort(key=lambda x: (int(x[1]), x[2]))
+        for e, t, ids in events:
+            if e == 'MESSAGE':
+                if ids == 'ALL':
+                    all_cnt += 1
+                # 只提及上线用户
+                elif ids == 'HERE':
+                    for i in range(n):
+                        if nxt_offline[i] <= int(t) < nxt_offline[i] + 60:
+                            continue
+                        res[i] += 1
+                else:
+                    for id in ids.split(' '):
+                        res[int(id[2:])] += 1
+            # OFFLINE
+            else:
+                nxt_offline[int(ids)] = int(t)
+        for i in range(n):
+            res[i] += all_cnt
+        return res
