@@ -5441,3 +5441,20 @@ class SegmentTree2940:
         for x in encoded:
             res.append(x ^ res[-1])
         return res
+
+    # 3334. 数组的最大因子得分 (Find the Maximum Factor Score of Array)
+    def maxScore(self, nums: List[int]) -> int:
+        n = len(nums)
+        pre_l = [1] * (n + 1)
+        pre_g = [0] * (n + 1)
+        for i in range(1, n + 1):
+            pre_l[i] = lcm(pre_l[i - 1], nums[i - 1])
+            pre_g[i] = gcd(pre_g[i - 1], nums[i - 1])
+        res = pre_l[-1] * pre_g[-1]
+        suf_l = 1
+        suf_g = 0
+        for i in range(n - 1, -1, -1):
+            res = max(res, lcm(pre_l[i], suf_l) * gcd(pre_g[i], suf_g))
+            suf_l = lcm(suf_l, nums[i])
+            suf_g = gcd(suf_g, nums[i])
+        return res
