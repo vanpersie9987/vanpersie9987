@@ -5503,3 +5503,17 @@ class SegmentTree2940:
         m1 = trans(pairs1, rates1)
         m2 = trans(pairs2, rates2)
         return max(m1.get(k, 0.0) / v for k, v in m2.items())
+    
+    # 1930. 长度为 3 的不同回文子序列 (Unique Length-3 Palindromic Subsequences)
+    def countPalindromicSubsequence(self, s: str) -> int:
+        n = len(s)
+        a = [0] * 26
+        pre = [0] * n
+        for i in range(1, n):
+            pre[i] = pre[i - 1] | (1 << (ord(s[i - 1]) - ord('a')))
+        suf = 0
+        for i in range(n - 2, 0, -1):
+            suf |= 1 << (ord(s[i + 1]) - ord('a'))
+            a[ord(s[i]) - ord('a')] |= (pre[i] & suf)
+        return sum(x.bit_count() for x in a)
+
