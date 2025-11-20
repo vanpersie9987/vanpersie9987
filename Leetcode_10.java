@@ -1623,4 +1623,44 @@ public class Leetcode_10 {
 
     }
 
+    // 3387. 两天自由外汇交易后的最大货币数 (Maximize Amount After Two Days of Conversions)
+    public double maxAmount(String initialCurrency, List<List<String>> pairs1, double[] rates1,
+            List<List<String>> pairs2, double[] rates2) {
+        Map<String, Double> m1 = getTrans3387(pairs1, rates1, initialCurrency);
+        Map<String, Double> m2 = getTrans3387(pairs2, rates2, initialCurrency);
+        Double res = 1.0D;
+        for (Map.Entry<String, Double> entry : m2.entrySet()) {
+            String currency = entry.getKey();
+            Double money = entry.getValue();
+            res = Math.max(res, m1.getOrDefault(currency, 0.0D) / money);
+        }
+        return res;
+
+    }
+
+    private Map<String, Double> getTrans3387(List<List<String>> pairs, double[] rates, String initialCurrency) {
+        Map<String, List<String[]>> g = new HashMap<>();
+        int n = pairs.size();
+        for (int i = 0; i < n; ++i) {
+            List<String> p = pairs.get(i);
+            g.computeIfAbsent(p.get(0), k -> new ArrayList<>()).add(new String[] { p.get(1), rates[i] + "" });
+            g.computeIfAbsent(p.get(1), k -> new ArrayList<>()).add(new String[] { p.get(0), (1.0D / rates[i]) + "" });
+        }
+        Map<String, Double> res = new HashMap<>();
+        dfs3387(g, 1.0D, initialCurrency, res);
+        return res;
+    }
+
+    private void dfs3387(Map<String, List<String[]>> g, double d, String currency, Map<String, Double> res) {
+        res.put(currency, d);
+        for (String[] nei : g.getOrDefault(currency, new ArrayList<>())) {
+            if (res.containsKey(nei[0])) {
+                continue;
+            }
+            String nextCurrency = nei[0];
+            double rate = Double.parseDouble(nei[1]);
+            dfs3387(g, d * rate, nextCurrency, res);
+        }
+    }
+
 }
