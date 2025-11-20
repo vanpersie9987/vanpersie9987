@@ -6051,38 +6051,25 @@ public class Leetcode_3 {
 
     // 757. 设置交集大小至少为2 (Set Intersection Size At Least Two)
     public int intersectionSizeTwo(int[][] intervals) {
-        int n = intervals.length;
-        Arrays.sort(intervals, new Comparator<int[]>() {
-
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                if (o1[0] == o2[0]) {
-                    return o2[1] - o1[1];
-                }
-                return o1[0] - o2[0];
-            }
-
-        });
-        int res = 2;
-        int cur = intervals[n - 1][0];
-        int next = cur + 1;
-        for (int i = n - 2; i >= 0; --i) {
-            if (intervals[i][1] >= next) {
+        Arrays.sort(intervals, (a, b) -> a[1] == b[1] ? b[0] - a[0] : a[1] - b[1]);
+        int ans = 0;
+        int s = -1, e = -1;
+        for (int[] v : intervals) {
+            int a = v[0], b = v[1];
+            if (a <= s) {
                 continue;
             }
-            if (intervals[i][1] >= cur && intervals[i][1] < next) {
-                res += 1;
-                next = cur;
-                cur = intervals[i][0];
-            } else if (intervals[i][1] < cur) {
-                res += 2;
-                cur = intervals[i][0];
-                next = cur + 1;
+            if (a > e) {
+                ans += 2;
+                s = b - 1;
+                e = b;
+            } else {
+                ans += 1;
+                s = e;
+                e = b;
             }
-
         }
-        return res;
-
+        return ans;
     }
 
     // 1376. 通知所有员工所需的时间 (Time Needed to Inform All Employees)
