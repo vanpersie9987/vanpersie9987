@@ -1548,4 +1548,33 @@ public class Leetcode_10 {
 
     }
 
+    // 3334. 数组的最大因子得分 (Find the Maximum Factor Score of Array)
+    public long maxScore(int[] nums) {
+        int n = nums.length;
+        long[] preLCM = new long[n + 1];
+        preLCM[0] = 1L;
+        long[] preGCD = new long[n + 1];
+        for (int i = 0; i < n; ++i) {
+            preGCD[i + 1] = gcd3334(preGCD[i], nums[i]);
+            preLCM[i + 1] = lcm3334(preLCM[i], nums[i]);
+        }
+        long res = preLCM[n] * preGCD[n];
+        long sufLCM = 1L;
+        long sufGCD = 0L;
+        for (int i = n - 1; i >= 0; --i) {
+            res = Math.max(res, lcm3334(preLCM[i], sufLCM) * gcd3334(preGCD[i], sufGCD));
+            sufGCD = gcd3334(sufGCD, nums[i]);
+            sufLCM = lcm3334(sufLCM, nums[i]);
+        }
+        return res;
+    }
+
+    private long lcm3334(long a, long b) {
+        return a / gcd3334(a, b) * b;
+    }
+
+    private long gcd3334(long a, long b) {
+        return b == 0L ? a : gcd3334(b, a % b);
+    }
+
 }
