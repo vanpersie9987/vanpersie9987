@@ -5427,3 +5427,10 @@ class SegmentTree2940:
                 ans += 1
                 s, e = e, b
         return ans
+    
+    # 1486. 数组异或操作 (XOR Operation in an Array)
+    def xorOperation(self, n: int, start: int) -> int:
+        res = 0
+        for i in range(n):
+            res ^= start + i * 2
+        return res
