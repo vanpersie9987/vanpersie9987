@@ -5488,17 +5488,17 @@ class SegmentTree2940:
     # 3387. 两天自由外汇交易后的最大货币数 (Maximize Amount After Two Days of Conversions)
     def maxAmount(self, initialCurrency: str, pairs1: List[List[str]], rates1: List[float], pairs2: List[List[str]], rates2: List[float]) -> float:
         def trans(pairs: List[List[str]], rates: List[float]) -> defaultdict[str, float]:
-            def dfs(u: str, val: float, g: list) -> None:
+            def dfs(u: str, val: float) -> None:
                 dist[u] = val
                 for v, r in g[u]:
                     if v not in dist:
-                        dfs(v, val * r, g)
+                        dfs(v, val * r)
             g = defaultdict(list)
             for (a, b), r in zip(pairs, rates):
                 g[a].append((b, r))
                 g[b].append((a, 1.0 / r))
             dist = defaultdict(float)
-            dfs(initialCurrency, 1.0, g)
+            dfs(initialCurrency, 1.0)
             return dist
         m1 = trans(pairs1, rates1)
         m2 = trans(pairs2, rates2)
