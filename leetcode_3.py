@@ -5514,6 +5514,6 @@ class SegmentTree2940:
         suf = 0
         for i in range(n - 2, 0, -1):
             suf |= 1 << (ord(s[i + 1]) - ord('a'))
-            a[ord(s[i]) - ord('a')] |= (pre[i] & suf)
+            a[ord(s[i]) - ord('a')] |= pre[i] & suf
         return sum(x.bit_count() for x in a)
 
