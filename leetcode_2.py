@@ -4015,14 +4015,14 @@ class Union924:
 
     # 1262. 可被三整除的最大和 (Greatest Sum Divisible by Three)
     def maxSumDivThree(self, nums: List[int]) -> int:
+        n = len(nums)
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == n:
+            if i < 0:
                 return 0 if j == 0 else -inf
-            return max(dfs(i + 1, j), dfs(i + 1, (j + nums[i]) % 3) + nums[i])
-
-        n = len(nums)
-        return dfs(0, 0)
+            return max(dfs(i - 1, j), dfs(i - 1, (j + nums[i]) % 3) + nums[i])
+        
+        return dfs(n - 1, 0)
 
     # 1567. 乘积为正数的最长子数组长度 (Maximum Length of Subarray With Positive Product)
     def getMaxLen(self, nums: List[int]) -> int:
