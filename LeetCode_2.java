@@ -8327,23 +8327,22 @@ public class LeetCode_2 {
    // 1262. 可被三整除的最大和 (Greatest Sum Divisible by Three) --记忆化搜索
    private int[] nums1262;
    private int[][] memo1262;
-   private int n1262;
 
    public int maxSumDivThree2(int[] nums) {
-      this.n1262 = nums.length;
+      int n = nums.length;
       this.nums1262 = nums;
-      this.memo1262 = new int[n1262][3];
-      return dfs1262(0, 0);
+      this.memo1262 = new int[n][3];
+      return dfs1262(n - 1, 0);
    }
 
-   private int dfs1262(int i, int mod) {
-      if (i == n1262) {
-         return mod == 0 ? 0 : (int) -1e9;
+   private int dfs1262(int i, int j) {
+      if (i < 0) {
+         return j == 0 ? 0 : Integer.MIN_VALUE / 2;
       }
-      if (memo1262[i][mod] != 0) {
-         return memo1262[i][mod];
+      if (memo1262[i][j] != 0) {
+         return memo1262[i][j];
       }
-      return memo1262[i][mod] = Math.max(dfs1262(i + 1, (nums1262[i] + mod) % 3) + nums1262[i], dfs1262(i + 1, mod));
+      return memo1262[i][j] = Math.max(dfs1262(i - 1, (nums1262[i] + j) % 3) + nums1262[i], dfs1262(i - 1, j));
    }
 
    // 1262. 可被三整除的最大和 (Greatest Sum Divisible by Three) --递推
