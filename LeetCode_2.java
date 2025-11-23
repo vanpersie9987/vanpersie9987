@@ -8298,7 +8298,7 @@ public class LeetCode_2 {
          return s;
       }
       --m;
-      return Math.max(0, Math.max(s - a[m][0], s - a[1 - m][0] - a[1 - m][1]));
+      return Math.max(0, Math.max(s - a[m][0], s - a[m ^ 1][0] - a[m ^ 1][1]));
 
    }
 
