@@ -1506,7 +1506,6 @@ public class Leetcode_10 {
         }
         return res;
 
-
     }
 
     private int bisectRight3748(List<Integer> list, int t) {
@@ -1662,5 +1661,83 @@ public class Leetcode_10 {
             dfs3387(g, d * rate, nextCurrency, res);
         }
     }
+
+    // 3750. 最少反转次数得到翻转二进制字符串 (Minimum Number of Flips to Reverse Binary String)
+    public int minimumFlips(int n) {
+        int rev = Integer.reverse(n) >>> Integer.numberOfLeadingZeros(n);
+        return Integer.bitCount(n ^ rev);
+    }
+
+    // 3751. 范围内总波动值 I (Total Waviness of Numbers in Range I)
+    // 3753. 范围内总波动值 II (Total Waviness of Numbers in Range II)
+    public long totalWaviness(long num1, long num2) {
+        return cal3753(num2) - cal3753(num1 - 1);
+    }
+
+    private long[][][][] memo3753;
+    private char[] a3753;
+    private int n3753;
+
+    private long cal3753(long x) {
+        this.a3753 = String.valueOf(x).toCharArray();
+        this.n3753 = a3753.length;
+        if (n3753 < 3) {
+            return 0L;
+        }
+        this.memo3753 = new long[n3753][11][11][n3753 - 1];
+        for (long[][][] matrix : memo3753) {
+            for (long[][] row : matrix) {
+                for (long[] col : row) {
+                    Arrays.fill(col, -1L);
+                }
+            }
+        }
+        return dfs3753(0, 10, 10, 0, true, false);
+    }
+
+    private long dfs3753(int i, int pre, int pre2, int j, boolean isLimit, boolean isNum) {
+        if (i == n3753) {
+            return j;
+        }
+        if (!isLimit && isNum && memo3753[i][pre][pre2][j] != -1L) {
+            return memo3753[i][pre][pre2][j];
+        }
+        long res = 0L;
+        if (!isNum) {
+            res += dfs3753(i + 1, pre, pre2, j, false, false);
+        }
+        int up = isLimit ? a3753[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            int add = pre != 10 && pre2 != 10 && ((pre - pre2) * (pre - d) > 0) ? 1 : 0;
+            res += dfs3753(i + 1, d, pre, j + add, isLimit && d == up, true);
+        }
+        if (!isLimit && isNum) {
+            memo3753[i][pre][pre2][j] = res;
+        }
+        return res;
+    }
+
+    // 3752. 字典序最小和为目标值且绝对值是排列的数组 (Lexicographically Smallest Negated Permutation
+    // that Sums to Target)
+    public int[] lexSmallestNegatedPerm(int n, long target) {
+        long s = (long) n * (n + 1) / 2;
+        if (Math.abs(target) > s || (s - target) % 2 != 0) {
+            return new int[0];
+        }
+        long negS = (s - target) / 2;
+        int[] res = new int[n];
+        int left = 0;
+        int right = n - 1;
+        for (int x = n; x >= 1; --x) {
+            if (negS >= x) {
+                res[left++] = -x;
+                negS -= x;
+            } else {
+                res[right--] = x;
+            }
+        }
+        return res;
+    }
+
 
 }

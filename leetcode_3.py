@@ -5503,7 +5503,7 @@ class SegmentTree2940:
         m1 = trans(pairs1, rates1)
         m2 = trans(pairs2, rates2)
         return max(m1.get(k, 0.0) / v for k, v in m2.items())
-    
+
     # 1930. 长度为 3 的不同回文子序列 (Unique Length-3 Palindromic Subsequences)
     def countPalindromicSubsequence(self, s: str) -> int:
         n = len(s)
@@ -5517,3 +5517,50 @@ class SegmentTree2940:
             a[ord(s[i]) - ord('a')] |= pre[i] & suf
         return sum(x.bit_count() for x in a)
 
+    # 3750. 最少反转次数得到翻转二进制字符串 (Minimum Number of Flips to Reverse Binary String)
+    def minimumFlips(self, n: int) -> int:
+        l = n.bit_length()
+        return (
+            sum(((n >> i) & 1) ^ ((n >> (l - i - 1)) & 1) for i in range(l // 2)) << 1
+        )
+
+    # 3751. 范围内总波动值 I (Total Waviness of Numbers in Range I)
+    # 3753. 范围内总波动值 II (Total Waviness of Numbers in Range II)
+    def totalWaviness(self, num1: int, num2: int) -> int:
+        def cal(x: int) -> int:
+            @cache
+            def dfs(i: int, pre: int, pre2: int, j: int, is_limit: bool, is_num: bool) -> int:
+                if i == n:
+                    return j
+                res = 0
+                if not is_num:
+                    res += dfs(i + 1, pre, pre2, j, False, False)
+                up = int(s[i]) if is_limit else 9
+                for d in range(0 if is_num else 1, up + 1):
+                    add = pre != -1 and pre2 != -1 and (pre - d) * (pre - pre2) > 0
+                    res += dfs(i + 1, d, pre, j + add, is_limit and d == up, True)
+                return res
+            s = str(x)
+            n = len(s)
+            if n < 3:
+                return 0
+            return dfs(0, -1, -1, 0, True, False)
+        return cal(num2) - cal(num1 - 1)
+
+    # 3752. 字典序最小和为目标值且绝对值是排列的数组 (Lexicographically Smallest Negated Permutation that Sums to Target)
+    def lexSmallestNegatedPerm(self, n: int, target: int) -> List[int]:
+        s = (1 + n) * n // 2
+        if abs(target) > s or (s - target) % 2:
+            return []
+        res = [0] * n
+        neg_s = (s - target) // 2
+        left, right = 0, n - 1
+        for x in range(n, 0, -1):
+            if neg_s >= x:
+                res[left] = -x
+                neg_s -= x
+                left += 1
+            else:
+                res[right] = x
+                right -= 1
+        return res
