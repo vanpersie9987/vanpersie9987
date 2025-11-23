@@ -5564,3 +5564,57 @@ class SegmentTree2940:
                 res[right] = x
                 right -= 1
         return res
+
+    # 3754. 连接非零数字并乘以其数字和 I (Concatenate Non-Zero Digits and Multiply by Sum I)
+    def sumAndMultiply(self, n: int) -> int:
+        x = 0
+        p = 1
+        s = 0
+        while n:
+            d, m = divmod(n, 10)
+            if m:
+                s += m
+                x += p * m
+                p *= 10
+            n = d
+        return x * s
+
+    # 3756. 连接非零数字并乘以其数字和 II (Concatenate Non-Zero Digits and Multiply by Sum II)
+    def sumAndMultiply(self, s: str, queries: List[List[int]]) -> List[int]:
+        n = len(s)
+        MOD = 10**9 + 7
+        pre_x = [0] * (n + 1)
+        pre_s = [0] * (n + 1)
+        cnt0 = [0] * (n + 1)
+        for i in range(n):
+            pre_s[i + 1] = (pre_s[i] + int(s[i])) % MOD
+            if s[i] != '0':
+                pre_x[i + 1] = (pre_x[i] * 10 + int(s[i])) % MOD
+                cnt0[i + 1] = cnt0[i]
+            else:
+                pre_x[i + 1] = pre_x[i]
+                cnt0[i + 1] = cnt0[i] + 1
+        res = []
+        for l, r in queries:
+            total_s = (pre_s[r + 1] - pre_s[l]) % MOD
+            total_x = (pre_x[r + 1] - pre_x[l] * pow(10, (r - l + 1) - (cnt0[r + 1] - cnt0[l]), MOD)) % MOD
+            res.append((total_s * total_x) % MOD)
+        return res
+
+    # 3755. 最大平衡异或子数组的长度 (Find Maximum Balanced XOR Subarray Length)
+    def maxBalancedSubarray(self, nums: List[int]) -> int:
+        d = defaultdict(int)
+        d[(0, 0)] = -1
+        xor = 0
+        diff = 0
+        res = 0
+        for i, x in enumerate(nums):
+            xor ^= x
+            diff += 1 if x & 1 else -1
+            if (xor, diff) in d:
+                res = max(res, i - d[(xor, diff)])
+            else:
+                d[(xor, diff)] = i
+        return res
+    
+

@@ -1739,5 +1739,89 @@ public class Leetcode_10 {
         return res;
     }
 
+    // 3754. 连接非零数字并乘以其数字和 I (Concatenate Non-Zero Digits and Multiply by Sum I)
+    public long sumAndMultiply(int n) {
+        long x = 0L;
+        int s = 0;
+        long p = 1L;
+        while (n != 0) {
+            int m = n % 10;
+            if (m != 0) {
+                x += p * m;
+                s += m;
+                p *= 10L;
+            }
+            n /= 10;
+        }
+        return x * s;
+
+    }
+
+    // 3756. 连接非零数字并乘以其数字和 II (Concatenate Non-Zero Digits and Multiply by Sum II)
+    public int[] sumAndMultiply(String s, int[][] queries) {
+        final int MOD = (int) 1e9 + 7;
+        int n = s.length();
+        int m = queries.length;
+        int[] preS = new int[n + 1];
+        long[] preX = new long[n + 1];
+        int[] preCnt0 = new int[n + 1];
+        for (int i = 0; i < s.length(); ++i) {
+            preS[i + 1] = preS[i] + (s.charAt(i) - '0');
+            if (s.charAt(i) != '0') {
+                preX[i + 1] = (preX[i] * 10 + (s.charAt(i) - '0')) % MOD;
+                preCnt0[i + 1] = preCnt0[i];
+            } else {
+                preX[i + 1] = preX[i];
+                preCnt0[i + 1] = preCnt0[i] + 1;
+            }
+        }
+        int[] res = new int[m];
+        for (int i = 0; i < m; ++i) {
+            int l = queries[i][0];
+            int r = queries[i][1];
+            int xVal = (preS[r + 1] - preS[l]) % MOD;
+            long sVal = ((preX[r + 1] - (preX[l] * pow3756(10, (r - l + 1) - (preCnt0[r + 1] - preCnt0[l]))) % MOD)
+                    + MOD) % MOD;
+            res[i] = (int) ((xVal * sVal) % MOD);
+        }
+        return res;
+    }
+
+    private int pow3756(int a, int b) {
+        if (b == 0) {
+            return 1;
+        }
+        final int MOD = (int) 1e9 + 7;
+        int res = pow3756(a, b >> 1);
+        res = (int) ((long) res * res % MOD);
+        if ((b & 1) == 1) {
+            res = (int) ((long) res * a % MOD);
+        }
+        return res;
+    }
+
+    // 3755. 最大平衡异或子数组的长度 (Find Maximum Balanced XOR Subarray Length)
+    private record Group3755(int a, int b) {
+    }
+
+    public int maxBalancedSubarray(int[] nums) {
+        Map<Group3755, Integer> pos = new HashMap<>();
+        pos.put(new Group3755(0, 0), -1);
+        int xor = 0;
+        int diff = 0;
+        int res = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            xor ^= nums[i];
+            diff += ((nums[i] & 1) == 0 ? 1 : -1);
+            Group3755 key = new Group3755(xor, diff);
+            if (pos.containsKey(key)) {
+                res = Math.max(res, i - pos.get(key));
+            } else {
+                pos.put(key, i);
+            }
+        }
+        return res;
+    }
+
 
 }
