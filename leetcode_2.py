@@ -4023,6 +4023,26 @@ class Union924:
             return max(dfs(i - 1, j), dfs(i - 1, (j + nums[i]) % 3) + nums[i])
         
         return dfs(n - 1, 0)
+    
+    # 1262. 可被三整除的最大和 (Greatest Sum Divisible by Three)
+    def maxSumDivThree(self, nums: List[int]) -> int:
+        s = 0
+        a = [[inf] * 2 for _ in range(2)]
+        for x in nums:
+            s += x
+            m = x % 3
+            if m == 0:
+                continue
+            m -= 1
+            if x <= a[m][0]:
+                a[m][1] = a[m][0]
+                a[m][0] = x
+            elif x < a[m][1]:
+                a[m][1] = x
+        if s % 3 == 0:
+            return s
+        m = s % 3 - 1
+        return max(0, s - a[m][0], s - a[m ^ 1][0] - a[m ^ 1][1])
 
     # 1567. 乘积为正数的最长子数组长度 (Maximum Length of Subarray With Positive Product)
     def getMaxLen(self, nums: List[int]) -> int:
