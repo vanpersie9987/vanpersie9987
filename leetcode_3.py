@@ -5616,5 +5616,12 @@ class SegmentTree2940:
             else:
                 d[(xor, diff)] = i
         return res
-    
 
+    # 1018. 可被 5 整除的二进制前缀 (Binary Prefix Divisible By 5)
+    def prefixesDivBy5(self, nums: List[int]) -> List[bool]:
+        res = []
+        v = 0
+        for x in nums:
+            v = ((v << 1) | x) % 5
+            res.append(v == 0)
+        return res
