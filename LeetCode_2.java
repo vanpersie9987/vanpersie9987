@@ -8274,53 +8274,31 @@ public class LeetCode_2 {
 
    // 1262. 可被三整除的最大和 (Greatest Sum Divisible by Three) --贪心
    public int maxSumDivThree(int[] nums) {
-      int sum = 0;
-      int mod1_1 = Integer.MAX_VALUE;
-      int mod1_2 = Integer.MAX_VALUE;
-      int mod2_1 = Integer.MAX_VALUE;
-      int mod2_2 = Integer.MAX_VALUE;
-      for (int num : nums) {
-         sum += num;
-         if (num % 3 == 1) {
-            if (num <= mod1_1) {
-               mod1_2 = mod1_1;
-               mod1_1 = num;
-            } else if (num <= mod1_2) {
-               mod1_2 = num;
-            }
-         } else if (num % 3 == 2) {
-            if (num <= mod2_1) {
-               mod2_2 = mod2_1;
-               mod2_1 = num;
-            } else if (num <= mod2_2) {
-               mod2_2 = num;
-            }
+      int[][] a = new int[2][2];
+      for (int i = 0; i < 2; ++i) {
+         Arrays.fill(a[i], Integer.MAX_VALUE / 2);
+      }
+      int s = 0;
+      for (int x : nums) {
+         s += x;
+         int m = x % 3;
+         if (m == 0) {
+            continue;
+         }
+         --m;
+         if (x < a[m][0]) {
+            a[m][1] = a[m][0];
+            a[m][0] = x;
+         } else if (x < a[m][1]) {
+            a[m][1] = x;
          }
       }
-      if (sum % 3 == 0) {
-         return sum;
+      int m = s % 3;
+      if (m == 0) {
+         return s;
       }
-      if (sum % 3 == 1) {
-         int min1 = Integer.MAX_VALUE;
-         if (mod1_1 != Integer.MAX_VALUE) {
-            min1 = mod1_1;
-         }
-         int min2 = Integer.MAX_VALUE;
-         if (mod2_1 != Integer.MAX_VALUE && mod2_2 != Integer.MAX_VALUE) {
-            min2 = mod2_1 + mod2_2;
-         }
-         return sum - Math.min(min1, min2);
-      }
-      // sum % 3 == 2
-      int min1 = Integer.MAX_VALUE;
-      if (mod2_1 != Integer.MAX_VALUE) {
-         min1 = mod2_1;
-      }
-      int min2 = Integer.MAX_VALUE;
-      if (mod1_1 != Integer.MAX_VALUE && mod1_2 != Integer.MAX_VALUE) {
-         min2 = mod1_1 + mod1_2;
-      }
-      return sum - Math.min(min1, min2);
+      --m;
+      return Math.max(0, Math.max(s - a[m][0], s - a[1 - m][0] - a[1 - m][1]));
 
    }
 
