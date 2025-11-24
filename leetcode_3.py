@@ -5586,8 +5586,10 @@ class SegmentTree2940:
         pre_x = [0] * (n + 1)
         pre_s = [0] * (n + 1)
         cnt = [0] * (n + 1)
+        pow10 = [1] * (n + 1)
         for i in range(n):
             pre_s[i + 1] = (pre_s[i] + int(s[i])) % MOD
+            pow10[i + 1] = (pow10[i] * 10) % MOD
             if s[i] != '0':
                 pre_x[i + 1] = (pre_x[i] * 10 + int(s[i])) % MOD
                 cnt[i + 1] = cnt[i] + 1
@@ -5597,7 +5599,7 @@ class SegmentTree2940:
         res = []
         for l, r in queries:
             total_s = (pre_s[r + 1] - pre_s[l]) % MOD
-            total_x = (pre_x[r + 1] - pre_x[l] * pow(10, cnt[r + 1] - cnt[l], MOD)) % MOD
+            total_x = (pre_x[r + 1] - pre_x[l] * pow10[cnt[r + 1] - cnt[l]]) % MOD
             res.append((total_s * total_x) % MOD)
         return res
 
