@@ -1764,15 +1764,18 @@ public class Leetcode_10 {
         int m = queries.length;
         int[] preS = new int[n + 1];
         long[] preX = new long[n + 1];
-        int[] preCnt0 = new int[n + 1];
+        int[] preCnt = new int[n + 1];
+        int[] pow10 = new int[n + 1];
+        pow10[0] = 1;
         for (int i = 0; i < s.length(); ++i) {
             preS[i + 1] = preS[i] + (s.charAt(i) - '0');
+            pow10[i + 1] = (int) (((long) pow10[i] * 10) % MOD);
             if (s.charAt(i) != '0') {
                 preX[i + 1] = (preX[i] * 10 + (s.charAt(i) - '0')) % MOD;
-                preCnt0[i + 1] = preCnt0[i];
+                preCnt[i + 1] = preCnt[i] + 1;
             } else {
                 preX[i + 1] = preX[i];
-                preCnt0[i + 1] = preCnt0[i] + 1;
+                preCnt[i + 1] = preCnt[i];
             }
         }
         int[] res = new int[m];
@@ -1780,22 +1783,8 @@ public class Leetcode_10 {
             int l = queries[i][0];
             int r = queries[i][1];
             int xVal = (preS[r + 1] - preS[l]) % MOD;
-            long sVal = ((preX[r + 1] - (preX[l] * pow3756(10, (r - l + 1) - (preCnt0[r + 1] - preCnt0[l]))) % MOD)
-                    + MOD) % MOD;
+            long sVal = ((preX[r + 1] - (preX[l] * pow10[preCnt[r + 1] - preCnt[l]]) % MOD) + MOD) % MOD;
             res[i] = (int) ((xVal * sVal) % MOD);
-        }
-        return res;
-    }
-
-    private int pow3756(int a, int b) {
-        if (b == 0) {
-            return 1;
-        }
-        final int MOD = (int) 1e9 + 7;
-        int res = pow3756(a, b >> 1);
-        res = (int) ((long) res * res % MOD);
-        if ((b & 1) == 1) {
-            res = (int) ((long) res * a % MOD);
         }
         return res;
     }
@@ -1822,6 +1811,5 @@ public class Leetcode_10 {
         }
         return res;
     }
-
 
 }
