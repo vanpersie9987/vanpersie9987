@@ -5627,3 +5627,14 @@ class SegmentTree2940:
             v = ((v << 1) | x) % 5
             res.append(v == 0)
         return res
+    
+    # 1015. 可被 K 整除的最小整数 (Smallest Integer Divisible by K)
+    def smallestRepunitDivByK(self, k: int) -> int:
+        if k % 2 == 0 or k % 5 == 0:
+            return -1
+        res = 1
+        v = 1 % k
+        while v != 0:
+            v = (v * 10 + 1) % k
+            res += 1
+        return res
