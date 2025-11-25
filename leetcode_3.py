@@ -5638,3 +5638,54 @@ class SegmentTree2940:
             v = (v * 10 + 1) % k
             res += 1
         return res
+    
+    # 3575. 最大好子树分数 (Maximum Good Subtree Score)
+    def goodSubtreeSum(self, vals: List[int], par: List[int]) -> int:
+        def check(v: int) -> int:
+            mask = 0
+            while v:
+                d, m = divmod(v, 10)
+                if (mask >> m) & 1:
+                    return 0
+                mask |= 1 << m
+                v = d
+            return mask
+        
+        def dfs_tree(x: int) -> list:
+            @cache
+            def dfs(i: int, j: int) -> int:
+                if i == 10 or j == (1 << 10) - 1:
+                    return 0
+                res = dfs(i + 1, j)
+                if (j >> i) & 1 == 0:
+                    for y in ret[i]:
+                        if masks[y] and (j & masks[y]) == 0:
+                            res = max(res, dfs(i + 1, j | masks[y]) + vals[y])
+                return res
+            ret = [[] for _ in range(10)]
+            for y in g[x]:
+                l = dfs_tree(y)
+                for i in range(10):
+                    ret[i].extend(l[i])
+            mask = masks[x]
+            while mask:
+                lb = (mask & -mask).bit_length() - 1
+                ret[lb].append(x)
+                mask &= mask - 1
+            nonlocal res
+            res += dfs(0, 0)
+            res %= MOD
+            return ret
+        n = len(vals)
+        MOD = 10**9 + 7
+        masks = [0] * n
+        g = [[] for _ in range(n)]
+        for i, (v, p) in enumerate(zip(vals, par)):
+            if i:
+                g[p].append(i)
+            masks[i] = check(v)
+        res = 0
+        dfs_tree(0)
+        return res
+            
+        
