@@ -1812,4 +1812,93 @@ public class Leetcode_10 {
         return res;
     }
 
+    // 3575. 最大好子树分数 (Maximum Good Subtree Score)
+    private List<Integer>[] g3575;
+    private int res3575;
+    private int[] vals3575;
+    private int[] masks3575;
+
+    public int goodSubtreeSum(int[] vals, int[] par) {
+        int n = vals.length;
+        this.vals3575 = vals;
+        this.masks3575 = new int[n];
+        this.g3575 = new ArrayList[n];
+        Arrays.setAll(g3575, k -> new ArrayList<>());
+        for (int i = 0; i < n; ++i) {
+            if (i > 0) {
+                g3575[par[i]].add(i);
+            }
+            masks3575[i] = check3575(vals[i]);
+        }
+        dfsTree3575(0);
+        return res3575;
+
+    }
+
+    private List<Integer>[] dfsTree3575(int x) {
+        List<Integer>[] ret = new ArrayList[10];
+        Arrays.setAll(ret, k -> new ArrayList<>());
+        for (int y : g3575[x]) {
+            List<Integer>[] list = dfsTree3575(y);
+            for (int i = 0; i < 10; ++i) {
+                ret[i].addAll(list[i]);
+            }
+        }
+        for (int c = masks3575[x]; c != 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            ret[lb].add(x);
+        }
+        final int MOD = (int) (1e9 + 7);
+        res3575 += cal3575(ret);
+        res3575 %= MOD;
+        return ret;
+    }
+
+    private List<Integer>[] list3575;
+    private int[][] memo3575;
+
+    private int cal3575(List<Integer>[] list) {
+        this.list3575 = list;
+        this.memo3575 = new int[10][1 << 10];
+        for (int[] r : memo3575) {
+            Arrays.fill(r, -1);
+        }
+        return dfs3575(0, 0);
+    }
+
+    private int dfs3575(int i, int j) {
+        if (i == 10 || j == (1 << 10) - 1) {
+            return 0;
+        }
+        if (memo3575[i][j] != -1) {
+            return memo3575[i][j];
+        }
+        // 不选
+        int res = dfs3575(i + 1, j);
+        // 选
+        if (((j >> i) & 1) == 0) {
+            for (int x : list3575[i]) {
+                int mask = masks3575[x];
+                if (mask != 0 && (mask & j) == 0) {
+                    res = Math.max(res, dfs3575(i + 1, mask | j) + vals3575[x]);
+                }
+            }
+        }
+        final int MOD = (int) (1e9 + 7);
+        return memo3575[i][j] = res % MOD;
+    }
+
+    private int check3575(int v) {
+        int mask = 0;
+        while (v != 0) {
+            int m = v % 10;
+            if (((mask >> m) & 1) != 0) {
+                return 0;
+            }
+            mask |= 1 << m;
+            v /= 10;
+        }
+        return mask;
+    }
+
 }
