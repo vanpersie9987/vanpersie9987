@@ -7459,9 +7459,9 @@ public class Leetcode_5 {
             return -1;
         }
         int res = 1;
-        int cur = 1;
-        while (cur % k != 0) {
-            cur = (cur * 10 + 1) % k;
+        int v = 1 % k;
+        while (v != 0) {
+            v = (v * 10 + 1) % k;
             ++res;
         }
         return res;
