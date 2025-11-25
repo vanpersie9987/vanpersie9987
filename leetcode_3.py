@@ -5664,9 +5664,8 @@ class SegmentTree2940:
                 return res
             ret = [[] for _ in range(10)]
             for y in g[x]:
-                l = dfs_tree(y)
-                for i in range(10):
-                    ret[i].extend(l[i])
+                for i, l in enumerate(dfs_tree(y)):
+                    ret[i].extend(l)
             mask = masks[x]
             while mask:
                 lb = (mask & -mask).bit_length() - 1
