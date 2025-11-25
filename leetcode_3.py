@@ -5656,10 +5656,13 @@ class SegmentTree2940:
             def dfs(i: int, j: int) -> int:
                 if i == 10 or j == (1 << 10) - 1:
                     return 0
+                # 不选
                 res = dfs(i + 1, j)
+                # 选
                 if (j >> i) & 1 == 0:
+                    # mask[y] 一定不是0
                     for y in ret[i]:
-                        if masks[y] and (j & masks[y]) == 0:
+                        if j & masks[y] == 0:
                             res = max(res, dfs(i + 1, j | masks[y]) + vals[y])
                 return res
             ret = [[] for _ in range(10)]

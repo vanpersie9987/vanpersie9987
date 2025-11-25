@@ -1878,8 +1878,9 @@ public class Leetcode_10 {
         // 选
         if (((j >> i) & 1) == 0) {
             for (int x : list3575[i]) {
+                // mask 一定不是0
                 int mask = masks3575[x];
-                if (mask != 0 && (mask & j) == 0) {
+                if ((mask & j) == 0) {
                     res = Math.max(res, dfs3575(i + 1, mask | j) + vals3575[x]);
                 }
             }
