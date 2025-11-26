@@ -5660,7 +5660,7 @@ class SegmentTree2940:
                 res = dfs(i + 1, j)
                 # 选
                 if (j >> i) & 1 == 0:
-                    # mask[y] 一定不是0
+                    # masks[y] 一定不是0
                     for y in ret[i]:
                         if j & masks[y] == 0:
                             res = max(res, dfs(i + 1, j | masks[y]) + vals[y])
