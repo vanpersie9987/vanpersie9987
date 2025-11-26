@@ -1463,14 +1463,14 @@ public class Leetcode_5 {
 
     private void switch246(char[] chars, int index) {
         switch (chars[index]) {
-        case '6':
-            chars[index] = '9';
-            break;
-        case '9':
-            chars[index] = '6';
-            break;
-        default:
-            break;
+            case '6':
+                chars[index] = '9';
+                break;
+            case '9':
+                chars[index] = '6';
+                break;
+            default:
+                break;
         }
     }
 
@@ -4509,41 +4509,39 @@ public class Leetcode_5 {
     }
 
     // 2435. 矩阵中和能被 K 整除的路径 (Paths in Matrix Whose Sum Is Divisible by K)
-    private int m2435;
-    private int n2435;
     private int[][] grid2435;
     private int k2435;
     private int[][][] memo2435;
 
     public int numberOfPaths(int[][] grid, int k) {
         this.grid2435 = grid;
-        this.m2435 = grid.length;
-        this.n2435 = grid[0].length;
+        int m = grid.length;
+        int n = grid[0].length;
         this.k2435 = k;
-        this.memo2435 = new int[m2435][n2435][k];
-        for (int i = 0; i < m2435; ++i) {
-            for (int j = 0; j < n2435; ++j) {
+        this.memo2435 = new int[m][n][k];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
                 Arrays.fill(memo2435[i][j], -1);
             }
         }
-        return dfs2435(0, 0, 0);
+        return dfs2435(m - 1, n - 1, 0);
 
     }
 
-    private int dfs2435(int i, int j, int l) {
-        if (i == m2435 || j == n2435) {
+    private int dfs2435(int i, int j, int m) {
+        if (i < 0 || j < 0) {
             return 0;
         }
-        l += grid2435[i][j];
-        l %= k2435;
-        if (i == m2435 - 1 && j == n2435 - 1) {
-            return l == 0 ? 1 : 0;
+        m += grid2435[i][j];
+        m %= k2435;
+        if (i == 0 && j == 0) {
+            return m == 0 ? 1 : 0;
         }
-        if (memo2435[i][j][l] != -1) {
-            return memo2435[i][j][l];
+        if (memo2435[i][j][m] != -1) {
+            return memo2435[i][j][m];
         }
         final int MOD = (int) (1e9 + 7);
-        return memo2435[i][j][l] = (dfs2435(i + 1, j, l) + dfs2435(i, j + 1, l)) % MOD;
+        return memo2435[i][j][m] = (dfs2435(i - 1, j, m) + dfs2435(i, j - 1, m)) % MOD;
     }
 
     // 2435. 矩阵中和能被 K 整除的路径 (Paths in Matrix Whose Sum Is Divisible by K)
@@ -6108,22 +6106,22 @@ public class Leetcode_5 {
             while (num != 0) {
                 int steps = 0;
                 switch (d) {
-                case 0:
-                    steps = Math.min(num, width - x - 1);
-                    x += steps;
-                    break;
-                case 1:
-                    steps = Math.min(num, height - y - 1);
-                    y += steps;
-                    break;
-                case 2:
-                    steps = Math.min(num, x);
-                    x -= steps;
-                    break;
-                case 3:
-                    steps = Math.min(num, y);
-                    y -= steps;
-                    break;
+                    case 0:
+                        steps = Math.min(num, width - x - 1);
+                        x += steps;
+                        break;
+                    case 1:
+                        steps = Math.min(num, height - y - 1);
+                        y += steps;
+                        break;
+                    case 2:
+                        steps = Math.min(num, x);
+                        x -= steps;
+                        break;
+                    case 3:
+                        steps = Math.min(num, y);
+                        y -= steps;
+                        break;
                 }
                 num -= steps;
                 if (num > 0) {
