@@ -2074,22 +2074,18 @@ public class Leetcode_8 {
         this.list2786 = new ArrayList<>();
         this.x2786 = x;
         int n = nums.length;
-        int i = 0;
-        while (i < n) {
-            long sum = 0L;
-            int j = i;
-            while (j < n && nums[j] % 2 == nums[i] % 2) {
-                sum += nums[j];
-                ++j;
+        long s = 0L;
+        for (int i = 0; i < n; ++i) {
+            s += nums[i];
+            if (i == n - 1 || nums[i] % 2 != nums[i + 1] % 2) {
+                list2786.add(s);
+                s = 0L;
             }
-            list2786.add(sum);
-            i = j;
         }
         this.n2786 = list2786.size();
         this.memo2786 = new long[n2786];
         Arrays.fill(memo2786, -1L);
         return dfs2786(0);
-
     }
 
     private long dfs2786(int i) {
