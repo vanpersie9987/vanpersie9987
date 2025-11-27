@@ -4057,6 +4057,22 @@ class Union924:
             0, max(dfs(i - 1, int(nums[i] < 0)) + 1 if nums[i] else 0 for i in range(n))
         )
 
+    # 1567. 乘积为正数的最长子数组长度 (Maximum Length of Subarray With Positive Product)
+    def getMaxLen(self, nums: List[int]) -> int:
+        last = [-1, inf]
+        cnt_neg = 0
+        res = 0
+        for i, v in enumerate(nums):
+            if v == 0:
+                last = [i, inf]
+                cnt_neg = 0
+            if v < 0:
+                cnt_neg ^= 1
+            res = max(res, i - last[cnt_neg])
+            if v < 0 and last[1] == inf:
+                last[1] = i
+        return res
+
     # 2391. 收集垃圾的最少总时间 (Minimum Amount of Time to Collect Garbage)
     def garbageCollection(self, garbage: List[str], travel: List[int]) -> int:
         def cal(c: chr) -> int:
