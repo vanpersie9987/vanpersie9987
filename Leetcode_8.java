@@ -3696,38 +3696,30 @@ public class Leetcode_8 {
         return Math.max(1, res);
     }
 
-    // 8051. 可以被 K 整除连通块的最大数目 (Maximum Number of K-Divisible Components)
-    private List<Integer>[] g8051;
-    private int res8051;
-    private int[] values8051;
-    private int k8051;
+    // 2872. 可以被 K 整除连通块的最大数目 (Maximum Number of K-Divisible Components)
+    private int res2872;
 
     public int maxKDivisibleComponents(int n, int[][] edges, int[] values, int k) {
-        this.g8051 = new ArrayList[n];
-        Arrays.setAll(g8051, o -> new ArrayList<>());
-        for (int[] e : edges) {
-            g8051[e[0]].add(e[1]);
-            g8051[e[1]].add(e[0]);
+        List<Integer>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] edge : edges) {
+            g[edge[0]].add(edge[1]);
+            g[edge[1]].add(edge[0]);
         }
-        this.values8051 = values;
-        this.k8051 = k;
-        dfs8051(0, -1);
-        return res8051;
-
+        dfs2872(0, -1, g, values, k);
+        return res2872;
     }
 
-    private int dfs8051(int x, int fa) {
-        int sum = values8051[x];
-        for (int y : g8051[x]) {
+    private int dfs2872(int x, int fa, List<Integer>[] g, int[] values, int k) {
+        int s = values[x] % k;
+        for (int y : g[x]) {
             if (y != fa) {
-                sum += dfs8051(y, x);
-                sum %= k8051;
+                s += dfs2872(y, x, g, values, k);
+                s %= k;
             }
         }
-        if (sum % k8051 == 0) {
-            ++res8051;
-        }
-        return sum % k8051;
+        res2872 += s == 0 ? 1 : 0;
+        return s;
     }
 
     // 2873. 有序三元组中的最大值 I (Maximum Value of an Ordered Triplet I)
