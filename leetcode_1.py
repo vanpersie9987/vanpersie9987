@@ -810,7 +810,7 @@ class leetcode_1:
         def dfs(i: int, j: int) -> int:
             if i == n:
                 return 0
-            return max(dfs(i + 1, j), dfs(i + 1, -1 * j) + j * nums[i])
+            return max(dfs(i + 1, j), dfs(i + 1, -j) + j * nums[i])
 
         n = len(nums)
         return dfs(0, 1)
