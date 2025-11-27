@@ -743,65 +743,25 @@ public class Leetcode_5 {
         return res + sum;
     }
 
-    // 1567. 乘积为正数的最长子数组长度 (Maximum Length of Subarray With Positive Product) --dp
-    // 空间O(n)
+    // 1567. 乘积为正数的最长子数组长度 (Maximum Length of Subarray With Positive Product)
     public int getMaxLen(int[] nums) {
         int n = nums.length;
-        int[] positive = new int[n];
-        int[] negative = new int[n];
+        int[] last = new int[] { -1, Integer.MAX_VALUE / 2 };
+        int cntNeg = 0;
         int res = 0;
-        if (nums[0] > 0) {
-            positive[0] = 1;
-            res = 1;
-        } else if (nums[0] < 0) {
-            negative[0] = 1;
-        }
-        for (int i = 1; i < n; ++i) {
-            if (nums[i] > 0) {
-                positive[i] = positive[i - 1] + 1;
-                negative[i] = negative[i - 1] == 0 ? 0 : negative[i - 1] + 1;
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] == 0) {
+                cntNeg = 0;
+                last = new int[] { i, Integer.MAX_VALUE / 2 };
             } else if (nums[i] < 0) {
-                negative[i] = positive[i - 1] + 1;
-                positive[i] = negative[i - 1] == 0 ? 0 : negative[i - 1] + 1;
-            } else {
-                positive[i] = 0;
-                negative[i] = 0;
+                cntNeg ^= 1;
             }
-            res = Math.max(res, positive[i]);
+            res = Math.max(res, i - last[cntNeg]);
+            if (nums[i] < 0 && last[1] == Integer.MAX_VALUE / 2) {
+                last[1] = i;
+            }
         }
         return res;
-
-    }
-
-    // 1567. 乘积为正数的最长子数组长度 (Maximum Length of Subarray With Positive Product) --dp
-    // 空间O(1)
-    public int getMaxLen2(int[] nums) {
-        int n = nums.length;
-        int positive = 0;
-        int negative = 0;
-        int res = 0;
-        if (nums[0] > 0) {
-            positive = 1;
-            res = 1;
-        } else if (nums[0] < 0) {
-            negative = 1;
-        }
-        for (int i = 1; i < n; ++i) {
-            if (nums[i] > 0) {
-                positive = positive + 1;
-                negative = negative == 0 ? 0 : negative + 1;
-            } else if (nums[i] < 0) {
-                int temp = negative;
-                negative = positive + 1;
-                positive = temp == 0 ? 0 : temp + 1;
-            } else {
-                positive = 0;
-                negative = 0;
-            }
-            res = Math.max(res, positive);
-        }
-        return res;
-
     }
 
     // 1567. 乘积为正数的最长子数组长度 (Maximum Length of Subarray With Positive Product)
@@ -809,7 +769,7 @@ public class Leetcode_5 {
     private int[] nums1567;
     private int[][] memo1567;
 
-    public int getMaxLen3(int[] nums) {
+    public int getMaxLen2(int[] nums) {
         this.n1567 = nums.length;
         this.nums1567 = nums;
         this.memo1567 = new int[n1567][2];
