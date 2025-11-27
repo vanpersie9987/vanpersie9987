@@ -23,7 +23,15 @@ import dis
 import enum
 from functools import cache, cached_property
 from inspect import modulesbyfile
-from itertools import accumulate, combinations, count, islice, pairwise, permutations, starmap
+from itertools import (
+    accumulate,
+    combinations,
+    count,
+    islice,
+    pairwise,
+    permutations,
+    starmap,
+)
 from locale import DAY_4
 from logging import _Level, root
 from math import comb, cos, e, fabs, floor, gcd, inf, isqrt, lcm, sqrt
@@ -5277,6 +5285,7 @@ class SegmentTree2940:
             for d in range(0 if is_num else 1, up + 1):
                 res += dfs(i + 1, j or d == 0, is_limit and d == up, True)
             return res
+
         s = str(n)
         l = len(s)
         return n - dfs(0, False, True, False)
@@ -5322,7 +5331,9 @@ class SegmentTree2940:
         return True
 
     # 3748. 统计稳定子数组的数目 (Count Stable Subarrays)
-    def countStableSubarrays(self, nums: List[int], queries: List[List[int]]) -> List[int]:
+    def countStableSubarrays(
+        self, nums: List[int], queries: List[List[int]]
+    ) -> List[int]:
         left = []
         s = [0]
         res = []
@@ -5466,17 +5477,17 @@ class SegmentTree2940:
         nxt_offline = [-inf] * n
         events.sort(key=lambda x: (int(x[1]), x[2]))
         for e, t, ids in events:
-            if e == 'MESSAGE':
-                if ids == 'ALL':
+            if e == "MESSAGE":
+                if ids == "ALL":
                     all_cnt += 1
                 # 只提及上线用户
-                elif ids == 'HERE':
+                elif ids == "HERE":
                     for i in range(n):
                         if nxt_offline[i] <= int(t) < nxt_offline[i] + 60:
                             continue
                         res[i] += 1
                 else:
-                    for id in ids.split(' '):
+                    for id in ids.split(" "):
                         res[int(id[2:])] += 1
             # OFFLINE
             else:
@@ -5486,13 +5497,23 @@ class SegmentTree2940:
         return res
 
     # 3387. 两天自由外汇交易后的最大货币数 (Maximize Amount After Two Days of Conversions)
-    def maxAmount(self, initialCurrency: str, pairs1: List[List[str]], rates1: List[float], pairs2: List[List[str]], rates2: List[float]) -> float:
-        def trans(pairs: List[List[str]], rates: List[float]) -> defaultdict[str, float]:
+    def maxAmount(
+        self,
+        initialCurrency: str,
+        pairs1: List[List[str]],
+        rates1: List[float],
+        pairs2: List[List[str]],
+        rates2: List[float],
+    ) -> float:
+        def trans(
+            pairs: List[List[str]], rates: List[float]
+        ) -> defaultdict[str, float]:
             def dfs(u: str, val: float) -> None:
                 dist[u] = val
                 for v, r in g[u]:
                     if v not in dist:
                         dfs(v, val * r)
+
             g = defaultdict(list)
             for (a, b), r in zip(pairs, rates):
                 g[a].append((b, r))
@@ -5500,6 +5521,7 @@ class SegmentTree2940:
             dist = defaultdict(float)
             dfs(initialCurrency, 1.0)
             return dist
+
         m1 = trans(pairs1, rates1)
         m2 = trans(pairs2, rates2)
         return max(m1.get(k, 0.0) / v for k, v in m2.items())
@@ -5510,11 +5532,11 @@ class SegmentTree2940:
         a = [0] * 26
         pre = [0] * n
         for i in range(1, n):
-            pre[i] = pre[i - 1] | (1 << (ord(s[i - 1]) - ord('a')))
+            pre[i] = pre[i - 1] | (1 << (ord(s[i - 1]) - ord("a")))
         suf = 0
         for i in range(n - 2, 0, -1):
-            suf |= 1 << (ord(s[i + 1]) - ord('a'))
-            a[ord(s[i]) - ord('a')] |= pre[i] & suf
+            suf |= 1 << (ord(s[i + 1]) - ord("a"))
+            a[ord(s[i]) - ord("a")] |= pre[i] & suf
         return sum(x.bit_count() for x in a)
 
     # 3750. 最少反转次数得到翻转二进制字符串 (Minimum Number of Flips to Reverse Binary String)
@@ -5529,7 +5551,9 @@ class SegmentTree2940:
     def totalWaviness(self, num1: int, num2: int) -> int:
         def cal(x: int) -> int:
             @cache
-            def dfs(i: int, pre: int, pre2: int, j: int, is_limit: bool, is_num: bool) -> int:
+            def dfs(
+                i: int, pre: int, pre2: int, j: int, is_limit: bool, is_num: bool
+            ) -> int:
                 if i == n:
                     return j
                 res = 0
@@ -5540,11 +5564,13 @@ class SegmentTree2940:
                     add = pre != -1 and pre2 != -1 and (pre - d) * (pre - pre2) > 0
                     res += dfs(i + 1, d, pre, j + add, is_limit and d == up, True)
                 return res
+
             s = str(x)
             n = len(s)
             if n < 3:
                 return 0
             return dfs(0, -1, -1, 0, True, False)
+
         return cal(num2) - cal(num1 - 1)
 
     # 3752. 字典序最小和为目标值且绝对值是排列的数组 (Lexicographically Smallest Negated Permutation that Sums to Target)
@@ -5590,7 +5616,7 @@ class SegmentTree2940:
         for i in range(n):
             pre_s[i + 1] = (pre_s[i] + int(s[i])) % MOD
             pow10[i + 1] = (pow10[i] * 10) % MOD
-            if s[i] != '0':
+            if s[i] != "0":
                 pre_x[i + 1] = (pre_x[i] * 10 + int(s[i])) % MOD
                 cnt[i + 1] = cnt[i] + 1
             else:
@@ -5627,7 +5653,7 @@ class SegmentTree2940:
             v = ((v << 1) | x) % 5
             res.append(v == 0)
         return res
-    
+
     # 1015. 可被 K 整除的最小整数 (Smallest Integer Divisible by K)
     def smallestRepunitDivByK(self, k: int) -> int:
         if k % 2 == 0 or k % 5 == 0:
@@ -5638,7 +5664,7 @@ class SegmentTree2940:
             v = (v * 10 + 1) % k
             res += 1
         return res
-    
+
     # 3575. 最大好子树分数 (Maximum Good Subtree Score)
     def goodSubtreeSum(self, vals: List[int], par: List[int]) -> int:
         def check(v: int) -> int:
@@ -5650,7 +5676,7 @@ class SegmentTree2940:
                 mask |= 1 << m
                 v = d
             return mask
-        
+
         def dfs_tree(x: int) -> list:
             @cache
             def dfs(i: int, j: int) -> int:
@@ -5665,6 +5691,7 @@ class SegmentTree2940:
                         if j & masks[y] == 0:
                             res = max(res, dfs(i + 1, j | masks[y]) + vals[y])
                 return res
+
             ret = [[] for _ in range(10)]
             for y in g[x]:
                 for i, l in enumerate(dfs_tree(y)):
@@ -5678,6 +5705,7 @@ class SegmentTree2940:
             res += dfs(0, 0)
             res %= MOD
             return ret
+
         n = len(vals)
         MOD = 10**9 + 7
         masks = [0] * n

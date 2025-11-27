@@ -193,20 +193,15 @@ class leetcode_1:
         def dfs(i: int) -> int:
             if i >= n:
                 return 0
-            return max(dfs(i + 1) - x, dfs(i + 2)) + arr[i]
-
-        arr = []
-        n = len(nums)
-        i = 0
-        while i < n:
-            j = i
-            s = 0
-            while j < n and nums[i] % 2 == nums[j] % 2:
-                s += nums[j]
-                j += 1
-            arr.append(s)
-            i = j
-        n = len(arr)
+            return max(dfs(i + 2), dfs(i + 1) - x) + a[i]
+        a = []
+        s = 0
+        for i, v in enumerate(nums):
+            s += v
+            if i == len(nums) - 1 or (nums[i + 1] ^ v) & 1:
+                a.append(s)
+                s = 0
+        n = len(a)
         return dfs(0)
 
     # 70. 爬楼梯 (Climbing Stairs)
