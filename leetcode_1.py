@@ -194,6 +194,7 @@ class leetcode_1:
             if i >= n:
                 return 0
             return max(dfs(i + 2), dfs(i + 1) - x) + a[i]
+
         a = []
         s = 0
         for i, v in enumerate(nums):
@@ -6173,20 +6174,21 @@ class leetcode_1:
     def maxKDivisibleComponents(
         self, n: int, edges: List[List[int]], values: List[int], k: int
     ) -> int:
+        @cache
         def dfs(x: int, fa: int) -> int:
             s = values[x]
             for y in g[x]:
                 if y != fa:
                     s += dfs(y, x)
-            if s % k == 0:
-                nonlocal res
-                res += 1
-            return s % k
+            s %= k
+            nonlocal res
+            res += s == 0
+            return s
 
         g = [[] for _ in range(n)]
-        for a, b in edges:
-            g[a].append(b)
-            g[b].append(a)
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
         res = 0
         dfs(0, -1)
         return res
