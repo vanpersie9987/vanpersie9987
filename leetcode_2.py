@@ -7673,21 +7673,20 @@ class Union924:
                 _pow *= 10
         return -1
 
-    # 100489. 破解锁的最少时间 I (Minimum Time to Break Locks I)
-    def findMinimumTime(self, strength: List[int], K: int) -> int:
+    # 3376. 破解锁的最少时间 I (Minimum Time to Break Locks I)
+    def findMinimumTime(self, strength: List[int], k: int) -> int:
         @cache
         def dfs(i: int) -> int:
             if i == u:
                 return 0
-            j = 1 + i.bit_count() * K
-            c = i ^ u
+            X = i.bit_count() * k + 1
             res = inf
+            c = u ^ i
             while c:
                 lb = (c & -c).bit_length() - 1
-                res = min(res, dfs(i | (1 << lb)) + (strength[lb] - 1) // j + 1)
+                res = min(res, dfs(i | (1 << lb)) + (strength[lb] + X - 1) // X)
                 c &= c - 1
             return res
-
         n = len(strength)
         u = (1 << n) - 1
         return dfs(0)
