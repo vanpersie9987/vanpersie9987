@@ -3864,36 +3864,36 @@ public class Leetcode_9 {
 
     }
 
-    // 100489. 破解锁的最少时间 I (Minimum Time to Break Locks I)
-    private int[] memo100489;
-    private int u100489;
-    private int K100489;
-    private List<Integer> strength100489;
+    // 3376. 破解锁的最少时间 I (Minimum Time to Break Locks I)
+    private List<Integer> strength3376;
+    private int k3376;
+    private int[] memo3376;
+    private int u3376;
 
-    public int findMinimumTime(List<Integer> strength, int K) {
-        this.strength100489 = strength;
+    public int findMinimumTime(List<Integer> strength, int k) {
+        this.strength3376 = strength;
+        this.k3376 = k;
         int n = strength.size();
-        this.u100489 = (1 << n) - 1;
-        this.K100489 = K;
-        this.memo100489 = new int[1 << n];
-        Arrays.fill(memo100489, -1);
-        return dfs100489(0);
+        this.memo3376 = new int[1 << n];
+        this.u3376 = (1 << n) - 1;
+        return dfs3376(0);
+
     }
 
-    private int dfs100489(int i) {
-        if (i == u100489) {
+    private int dfs3376(int i) {
+        if (i == u3376) {
             return 0;
         }
-        if (memo100489[i] != -1) {
-            return memo100489[i];
+        if (memo3376[i] != 0) {
+            return memo3376[i];
         }
-        int j = 1 + Integer.bitCount(i) * K100489;
+        int X = Integer.bitCount(i) * k3376 + 1;
         int res = Integer.MAX_VALUE;
-        for (int c = i ^ u100489; c != 0; c &= c - 1) {
+        for (int c = u3376 ^ i; c != 0; c &= c - 1) {
             int lb = Integer.numberOfTrailingZeros(c);
-            res = Math.min(res, dfs100489(i | (1 << lb)) + (strength100489.get(lb) - 1) / j + 1);
+            res = Math.min(res, dfs3376(i | (1 << lb)) + (strength3376.get(lb) + X - 1) / X);
         }
-        return memo100489[i] = res;
+        return memo3376[i] = res;
     }
 
     // 3379. 转换数组 (Transformed Array)
