@@ -3019,24 +3019,33 @@ public class LeetCode_4 {
     }
 
     // 1947. 最大兼容性评分和 (Maximum Compatibility Score Sum)
-    private int m1947;
     private int[] memo1947;
     private int u1947;
-    private int[][] xor1947;
+    private int[] a1947;
+    private int[] b1947;
 
     public int maxCompatibilitySum3(int[][] students, int[][] mentors) {
-        this.m1947 = students.length;
-        this.xor1947 = new int[m1947][m1947];
-        for (int i = 0; i < m1947; ++i) {
-            for (int j = 0; j < m1947; ++j) {
-                xor1947[i][j] = sum1947(students[i], mentors[j]);
-            }
-        }
-        this.u1947 = (1 << m1947) - 1;
-        this.memo1947 = new int[1 << m1947];
+        int n = students.length;
+        this.a1947 = cal1947(students, (1 << students[0].length) - 1);
+        this.b1947 = cal1947(mentors, 0);
+        this.u1947 = (1 << n) - 1;
+
+        this.memo1947 = new int[1 << n];
         Arrays.fill(memo1947, -1);
         return dfs1947(0);
 
+    }
+
+    private int[] cal1947(int[][] arr, int u) {
+        int n = arr.length;
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < arr[0].length; ++j) {
+                res[i] |= arr[i][j] << j;
+            }
+            res[i] ^= u;
+        }
+        return res;
     }
 
     private int dfs1947(int i) {
@@ -3046,21 +3055,13 @@ public class LeetCode_4 {
         if (memo1947[i] != -1) {
             return memo1947[i];
         }
-        int j = Integer.bitCount(i);
+        int j = a1947[Integer.bitCount(i)];
         int res = 0;
         for (int c = i ^ u1947; c != 0; c &= c - 1) {
             int lb = Integer.numberOfTrailingZeros(c);
-            res = Math.max(res, dfs1947(i | (1 << lb)) + xor1947[j][lb]);
+            res = Math.max(res, dfs1947(i | (1 << lb)) + Integer.bitCount(j ^ b1947[lb]));
         }
         return memo1947[i] = res;
-    }
-
-    private int sum1947(int[] a, int[] b) {
-        int res = 0;
-        for (int i = 0; i < a.length; ++i) {
-            res += a[i] ^ b[i] ^ 1;
-        }
-        return res;
     }
 
     // 1593.拆分字符串使唯一子字符串的数目最大 (Split a String Into the Max Number of Unique
