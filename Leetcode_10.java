@@ -1902,37 +1902,4 @@ public class Leetcode_10 {
         return mask;
     }
 
-    private int n;
-    private List<Integer> strength;
-    private int k;
-    private int[] memo;
-    private int u;
-
-    public int findMinimumTime(List<Integer> strength, int k) {
-        this.strength = strength;
-        this.k = k;
-        this.n = strength.size();
-        this.memo = new int[1 << n];
-        this.u = (1 << n) - 1;
-        return dfs(0);
-
-
-    }
-
-    private int dfs(int i) {
-        if (i == u) {
-            return 0;
-        }
-        if (memo[i] != 0) {
-            return memo[i];
-        }
-        int X = Integer.bitCount(i) * k + 1;
-        int res = Integer.MAX_VALUE;
-        for (int c = u ^ i; c != 0; c &= c - 1) {
-            int lb = Integer.numberOfTrailingZeros(c);
-            res = Math.min(res, dfs(i | (1 << lb)) + (strength.get(lb) + X - 1) / X);
-        }
-        return memo[i] = res;
-    }
-
 }
