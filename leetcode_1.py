@@ -4525,40 +4525,37 @@ class leetcode_1:
 
     # 2850. 将石头分散到网格图的最少移动次数 (Minimum Moves to Spread Stones Over Grid)
     def minimumMoves(self, grid: List[List[int]]) -> int:
-
         @cache
         def dfs(i: int, j: int) -> int:
             if j == u:
                 return 0
+            x, y = _from[i]
+            c = j ^ u
             res = inf
-            (x, y) = give[i]
-            val = grid[x][y] - 1
-            candidate = u ^ j
-            c = candidate
             while c:
-                if c.bit_count() == val:
-                    dis = 0
-                    copy = c
-                    while copy:
-                        index = (copy & -copy).bit_length() - 1
-                        (nx, ny) = need[index]
-                        dis += abs(nx - x) + abs(ny - y)
-                        copy &= copy - 1
-                    res = min(res, dfs(i + 1, j | c) + dis)
-                c = (c - 1) & candidate
+                lb = (c & -c).bit_length() - 1
+                to_x, to_y = _to[lb]
+                res = min(res, dfs(i + 1, j | (1 << lb)) + abs(x - to_x) + abs(y - to_y))
+                c &= c - 1
             return res
-
-        give = []
-        need = []
-        for i in range(3):
-            for j in range(3):
-                if grid[i][j] > 1:
-                    give.append((i, j))
-                elif grid[i][j] == 0:
-                    need.append((i, j))
-        m = len(give)
-        n = len(need)
-        u = (1 << n) - 1
+        n = 3
+        _from = []
+        _to = []
+        for i in range(n):
+            for j in range(n):
+                x = grid[i][j] - 1
+                if x < 0:
+                    _to.append((i, j))
+                    continue
+                while x:
+                    _from.append((i, j))
+                    x -= 1
+                    
+        n_from = len(_from)
+        n_to = len(_to)
+        if n_from == 0:
+            return 0
+        u = (1 << n_to) - 1
         return dfs(0, 0)
 
     # 1462. 课程表 IV (Course Schedule IV)
