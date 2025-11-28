@@ -6576,13 +6576,13 @@ class leetcode_1:
     def maxCompatibilitySum(
         self, students: List[List[int]], mentors: List[List[int]]
     ) -> int:
-        def cal(a: List[int]) -> List[int]:
+        def cal(a: List[int], u: int) -> List[int]:
             res = []
             for s in a:
                 x = 0
                 for i, v in enumerate(s):
                     x |= v << i
-                res.append(x)
+                res.append(x ^ u)
             return res
 
         @cache
@@ -6590,19 +6590,18 @@ class leetcode_1:
             if i == u:
                 return 0
             res = 0
-            s = a[i.bit_count()] ^ s_u
+            j = a[i.bit_count()]
             c = i ^ u
             while c:
                 lb = (c & -c).bit_length() - 1
-                res = max(res, dfs(i | (1 << lb)) + (s ^ b[lb]).bit_count())
+                res = max(res, dfs(i | (1 << lb)) + (j ^ b[lb]).bit_count())
                 c &= c - 1
             return res
 
         n = len(students)
-        a = cal(students)
-        b = cal(mentors)
+        a = cal(students, (1 << len(students[0])) - 1)
+        b = cal(mentors, 0)
         u = (1 << n) - 1
-        s_u = (1 << len(students[0])) - 1
         return dfs(0)
 
     # 2578. 最小和分割 (Split With Minimum Sum)
