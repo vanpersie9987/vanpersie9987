@@ -3362,63 +3362,49 @@ public class Leetcode_8 {
     }
 
     // 2850. 将石头分散到网格图的最少移动次数 (Minimum Moves to Spread Stones Over Grid)
-    private List<int[]> give2850;
-    private List<int[]> need2850;
-    private int[][] memo2850;
+    private int[] memo2850;
     private int u2850;
-    private int[][] grid2850;
+    private List<int[]> from2850;
+    private List<int[]> to2850;
 
     public int minimumMoves(int[][] grid) {
-        this.grid2850 = grid;
-        this.give2850 = new ArrayList<>();
-        this.need2850 = new ArrayList<>();
+        this.from2850 = new ArrayList<>();
+        this.to2850 = new ArrayList<>();
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 3; ++j) {
-                if (grid[i][j] != 1) {
-                    if (grid[i][j] > 1) {
-                        give2850.add(new int[] { i, j });
-                    } else {
-                        need2850.add(new int[] { i, j });
-                    }
+                int x = grid[i][j] - 1;
+                if (x < 0) {
+                    to2850.add(new int[] { i, j });
+                }
+                while (x-- > 0) {
+                    from2850.add(new int[] { i, j });
                 }
             }
         }
-        int m = give2850.size();
-        int n = need2850.size();
-        this.memo2850 = new int[m][1 << n];
-        this.u2850 = (1 << n) - 1;
-        for (int i = 0; i < m; ++i) {
-            Arrays.fill(memo2850[i], -1);
-        }
-        return dfs2850(0, 0);
-
+        this.u2850 = (1 << from2850.size()) - 1;
+        this.memo2850 = new int[1 << from2850.size()];
+        return dfs2850(0);
     }
 
-    private int dfs2850(int i, int j) {
-        if (j == u2850) {
+    private int dfs2850(int i) {
+        if (i == u2850) {
             return 0;
         }
-        if (memo2850[i][j] != -1) {
-            return memo2850[i][j];
+        if (memo2850[i] != 0) {
+            return memo2850[i];
         }
-        int min = (int) 1e9;
-        int[] p = give2850.get(i);
-        int val = grid2850[p[0]][p[1]] - 1;
-        int candidate = j ^ u2850;
-        for (int c = candidate; c > 0; c = (c - 1) & candidate) {
-            if (Integer.bitCount(c) == val) {
-                int copy = c;
-                int dis = 0;
-                while (copy != 0) {
-                    int index = Integer.numberOfTrailingZeros(copy);
-                    int[] p2 = need2850.get(index);
-                    dis += Math.abs(p2[0] - p[0]) + Math.abs(p2[1] - p[1]);
-                    copy &= copy - 1;
-                }
-                min = Math.min(min, dfs2850(i + 1, j | c) + dis);
-            }
+        int[] p = from2850.get(Integer.bitCount(i));
+        int x = p[0];
+        int y = p[1];
+        int res = Integer.MAX_VALUE;
+        for (int c = u2850 ^ i; c != 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            int[] np = to2850.get(lb);
+            int nx = np[0];
+            int ny = np[1];
+            res = Math.min(res, dfs2850(i | (1 << lb)) + Math.abs(x - nx) + Math.abs(y - ny));
         }
-        return memo2850[i][j] = min;
+        return memo2850[i] = res;
     }
 
     // 8039. 使数组成为递增数组的最少右移次数 (Minimum Right Shifts to Sort the Array)
