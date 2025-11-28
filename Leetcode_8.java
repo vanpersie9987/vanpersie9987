@@ -482,35 +482,33 @@ public class Leetcode_8 {
     private int[] nums1_1879;
     private int[] nums2_1879;
     private int n1879;
+    private int[] memo1879;
     private int u1879;
-    private int[][] memo1879;
 
     public int minimumXORSum(int[] nums1, int[] nums2) {
         this.nums1_1879 = nums1;
         this.nums2_1879 = nums2;
         this.n1879 = nums1.length;
         this.u1879 = (1 << n1879) - 1;
-        this.memo1879 = new int[n1879][1 << n1879];
-        for (int i = 0; i < n1879; ++i) {
-            Arrays.fill(memo1879[i], -1);
-        }
-        return dfs1879(0, 0);
-
+        this.memo1879 = new int[1 << n1879];
+        Arrays.fill(memo1879, -1);
+        return dfs1879(0);
     }
 
-    private int dfs1879(int i, int j) {
-        if (j == u1879) {
+    private int dfs1879(int i) {
+        if (i == u1879) {
             return 0;
         }
-        if (memo1879[i][j] != -1) {
-            return memo1879[i][j];
+        if (memo1879[i] != -1) {
+            return memo1879[i];
         }
         int res = Integer.MAX_VALUE;
-        for (int c = u1879 ^ j; c != 0; c &= c - 1) {
+        int j = Integer.bitCount(i);
+        for (int c = i ^ u1879; c != 0; c &= c - 1) {
             int lb = Integer.numberOfTrailingZeros(c);
-            res = Math.min(res, dfs1879(i + 1, j | (1 << lb)) + (nums1_1879[i] ^ nums2_1879[lb]));
+            res = Math.min(res, dfs1879(i | (1 << lb)) + (nums1_1879[j] ^ nums2_1879[lb]));
         }
-        return memo1879[i][j] = res;
+        return memo1879[i] = res;
     }
 
     // 2744. 最大字符串配对数目 (Find Maximum Number of String Pairs)
