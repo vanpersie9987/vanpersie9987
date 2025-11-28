@@ -4526,18 +4526,19 @@ class leetcode_1:
     # 2850. 将石头分散到网格图的最少移动次数 (Minimum Moves to Spread Stones Over Grid)
     def minimumMoves(self, grid: List[List[int]]) -> int:
         @cache
-        def dfs(i: int, j: int) -> int:
-            if j == u:
+        def dfs(i: int) -> int:
+            if i == u:
                 return 0
-            x, y = _from[i]
-            c = j ^ u
+            x, y = _from[i.bit_count()]
+            c = i ^ u
             res = inf
             while c:
                 lb = (c & -c).bit_length() - 1
                 to_x, to_y = _to[lb]
-                res = min(res, dfs(i + 1, j | (1 << lb)) + abs(x - to_x) + abs(y - to_y))
+                res = min(res, dfs(i | (1 << lb)) + abs(x - to_x) + abs(y - to_y))
                 c &= c - 1
             return res
+
         n = 3
         _from = []
         _to = []
@@ -4546,17 +4547,16 @@ class leetcode_1:
                 x = grid[i][j] - 1
                 if x < 0:
                     _to.append((i, j))
-                    continue
-                while x:
+                while x > 0:
                     _from.append((i, j))
                     x -= 1
-                    
+
         n_from = len(_from)
         n_to = len(_to)
         if n_from == 0:
             return 0
         u = (1 << n_to) - 1
-        return dfs(0, 0)
+        return dfs(0)
 
     # 1462. 课程表 IV (Course Schedule IV)
     def checkIfPrerequisite(
