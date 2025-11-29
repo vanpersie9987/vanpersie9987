@@ -1824,19 +1824,17 @@ class leetcode_1:
             res = 0
             while sub:
                 if sub.bit_count() == 2:
-                    res = max(res, dfs(i | sub) + j * g[sub])
+                    lb1 = (sub & -sub).bit_length() - 1
+                    lb2 = sub.bit_length() - 1
+                    res = max(res, dfs(i | sub) + j * g[lb1][lb2])
                 sub = c & (sub - 1)
             return res
         n = len(nums)
         u = (1 << n) - 1
-        g = [0] * (1 << n)
-        for i in range(1 << n):
-            if i.bit_count() == 2:
-                c = i
-                x = nums[(c & -c).bit_length() - 1]
-                c &= c - 1
-                y = nums[(c & -c).bit_length() - 1]
-                g[i] = gcd(x, y)
+        g = [[0] * n for _ in range(n)]
+        for i in range(n):
+            for j in range(i + 1, n):
+                g[i][j] = gcd(nums[i], nums[j])
         return dfs(0)
 
     # 1931. 用三种不同颜色为网格涂色 (Painting a Grid With Three Different Colors)
