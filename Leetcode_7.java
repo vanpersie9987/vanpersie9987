@@ -5620,40 +5620,42 @@ public class Leetcode_7 {
 
     // 1799. N 次操作后的最大分数和 (Maximize Score After N Operations)
     private int n1799;
-    private int[] nums1799;
-    private int[][] memo1799;
+    private int[] memo1799;
     private int u1799;
+    private int[][] g1799;
 
     public int maxScore(int[] nums) {
         this.n1799 = nums.length;
-        this.nums1799 = nums;
-        this.memo1799 = new int[n1799 >> 1][1 << n1799];
-        for (int i = 0; i < (n1799 >> 1); ++i) {
-            Arrays.fill(memo1799[i], -1);
+        this.memo1799 = new int[1 << n1799];
+        this.g1799 = new int[n1799][n1799];
+        for (int i = 0; i < n1799; ++i) {
+            for (int j = i + 1; j < n1799; ++j) {
+                g1799[i][j] = gcd1799(nums[i], nums[j]);
+            }
         }
         this.u1799 = (1 << n1799) - 1;
-        return dfs1799(0, 0);
+        return dfs1799(0);
 
     }
 
-    private int dfs1799(int i, int m) {
-        if (m == u1799) {
+    private int dfs1799(int i) {
+        if (i == u1799) {
             return 0;
         }
-        if (memo1799[i][m] != -1) {
-            return memo1799[i][m];
+        if (memo1799[i] != 0) {
+            return memo1799[i];
         }
-        int c = u1799 ^ m;
+        int k = (Integer.bitCount(i) >> 1) + 1;
+        int c = u1799 ^ i;
         int res = 0;
         for (int j = c; j > 0; j = (j - 1) & c) {
             if (Integer.bitCount(j) == 2) {
-                int index1 = Integer.numberOfTrailingZeros(j);
-                int index2 = Integer.numberOfTrailingZeros(j & (j - 1));
-                int g = gcd1799(nums1799[index1], nums1799[index2]);
-                res = Math.max(res, dfs1799(i + 1, m | j) + (i + 1) * g);
+                int lb1 = Integer.numberOfTrailingZeros(j);
+                int lb2 = 31 - Integer.numberOfLeadingZeros(j);
+                res = Math.max(res, dfs1799(i | j) + k * g1799[lb1][lb2]);
             }
         }
-        return memo1799[i][m] = res;
+        return memo1799[i] = res;
     }
 
     private int gcd1799(int a, int b) {
