@@ -5619,21 +5619,20 @@ public class Leetcode_7 {
     }
 
     // 1799. N 次操作后的最大分数和 (Maximize Score After N Operations)
-    private int n1799;
     private int[] memo1799;
     private int u1799;
     private int[][] g1799;
 
     public int maxScore(int[] nums) {
-        this.n1799 = nums.length;
-        this.memo1799 = new int[1 << n1799];
-        this.g1799 = new int[n1799][n1799];
-        for (int i = 0; i < n1799; ++i) {
-            for (int j = i + 1; j < n1799; ++j) {
+        int n = nums.length;
+        this.memo1799 = new int[1 << n];
+        this.g1799 = new int[n][n];
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
                 g1799[i][j] = gcd1799(nums[i], nums[j]);
             }
         }
-        this.u1799 = (1 << n1799) - 1;
+        this.u1799 = (1 << n) - 1;
         return dfs1799(0);
 
     }
