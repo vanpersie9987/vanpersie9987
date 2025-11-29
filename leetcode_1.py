@@ -1816,26 +1816,28 @@ class leetcode_1:
     # 1799. N 次操作后的最大分数和 (Maximize Score After N Operations)
     def maxScore(self, nums: List[int]) -> int:
         @cache
-        def dfs(i: int, j: int) -> int:
-            if j == u:
+        def dfs(i: int) -> int:
+            if i == u:
                 return 0
+            c = sub = i ^ u
+            j = i.bit_count() // 2 + 1
             res = 0
-            sub = c = u ^ j
             while sub:
                 if sub.bit_count() == 2:
-                    lb = (sub & -sub).bit_length() - 1
-                    lb2 = (sub & (sub - 1)).bit_length() - 1
-                    res = max(
-                        res,
-                        dfs(i + 1, j | (1 << lb) | (1 << lb2))
-                        + (i + 1) * gcd(nums[lb], nums[lb2]),
-                    )
-                sub = (sub - 1) & c
+                    res = max(res, dfs(i | sub) + j * g[sub])
+                sub = c & (sub - 1)
             return res
-
         n = len(nums)
         u = (1 << n) - 1
-        return dfs(0, 0)
+        g = [0] * (1 << n)
+        for i in range(1 << n):
+            if i.bit_count() == 2:
+                c = i
+                x = nums[(c & -c).bit_length() - 1]
+                c &= c - 1
+                y = nums[(c & -c).bit_length() - 1]
+                g[i] = gcd(x, y)
+        return dfs(0)
 
     # 1931. 用三种不同颜色为网格涂色 (Painting a Grid With Three Different Colors)
     def colorTheGrid(self, m: int, n: int) -> int:
