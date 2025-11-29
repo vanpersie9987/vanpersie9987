@@ -3453,6 +3453,7 @@ class Union924:
                 res = max(res, dfs(i + 1, j | (1 << lb)) + (((i >> 1) + 1) & nums[lb]))
                 c &= c - 1
             return res
+
         n = len(nums)
         numSlots <<= 1
         u = (1 << n) - 1
@@ -4015,14 +4016,15 @@ class Union924:
     # 1262. 可被三整除的最大和 (Greatest Sum Divisible by Three)
     def maxSumDivThree(self, nums: List[int]) -> int:
         n = len(nums)
+
         @cache
         def dfs(i: int, j: int) -> int:
             if i < 0:
                 return 0 if j == 0 else -inf
             return max(dfs(i - 1, j), dfs(i - 1, (j + nums[i]) % 3) + nums[i])
-        
+
         return dfs(n - 1, 0)
-    
+
     # 1262. 可被三整除的最大和 (Greatest Sum Divisible by Three)
     def maxSumDivThree(self, nums: List[int]) -> int:
         s = 0
@@ -5368,11 +5370,11 @@ class Union924:
             if i == n:
                 res.append("".join(_list))
                 return
-            _list.append('1')
+            _list.append("1")
             dfs(i + 1)
             _list.pop()
-            if len(_list) == 0 or _list[-1] == '1':
-                _list.append('0')
+            if len(_list) == 0 or _list[-1] == "1":
+                _list.append("0")
                 dfs(i + 1)
                 _list.pop()
 
@@ -7686,6 +7688,7 @@ class Union924:
                 res = min(res, dfs(i | (1 << lb)) + (strength[lb] + X - 1) // X)
                 c &= c - 1
             return res
+
         n = len(strength)
         u = (1 << n) - 1
         return dfs(0)
@@ -9676,25 +9679,22 @@ class Union924:
         def dfs(i: int) -> int:
             if i == u:
                 return 0
-            c = i.bit_count() + 1
+            j = i.bit_count() + 1
+            c = i ^ u
             res = 0
-            j = u ^ i
-            while j:
-                lb = (j & -j).bit_length() - 1
-                # lb未选择、且lb的直接祖先节点均已选择
-                if pre[lb] | i == i:
-                    res = max(res, dfs(i | (1 << lb)) + score[lb] * c)
-                j &= j - 1
-
-        if not edges:
-            score.sort()
-            res = 0
-            for i, v in enumerate(score, 1):
-                res += v * i
+            while c:
+                lb = (c & -c).bit_length() - 1
+                if i | pre[lb] == i:
+                    res = max(res, dfs(i | (1 << lb)) + j * score[lb])
+                c &= c - 1
             return res
+
+        if len(edges) == 0:
+            score.sort()
+            return sum(i * s for i, s in enumerate(score, start=1))
         pre = [0] * n
-        for x, y in edges:
-            pre[y] |= 1 << x
+        for u, v in edges:
+            pre[v] |= 1 << u
         u = (1 << n) - 1
         return dfs(0)
 
