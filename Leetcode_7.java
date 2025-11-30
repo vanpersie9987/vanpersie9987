@@ -5618,6 +5618,47 @@ public class Leetcode_7 {
         return res;
     }
 
+    // 996. 正方形数组的数目 (Number of Squareful Arrays)
+    private int[] nums996_2;
+    private int[][] memo996;
+    private int u996;
+
+    public int numSquarefulPerms2(int[] nums) {
+        Arrays.sort(nums);
+        this.nums996_2 = nums;
+        int n = nums996_2.length;
+        this.u996 = (1 << n) - 1;
+        this.memo996 = new int[1 << n][n];
+        for (int[] r : memo996) {
+            Arrays.fill(r, -1);
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            res += dfs996(1 << i, i);
+        }
+        return res;
+
+    }
+
+    private int dfs996(int i, int j) {
+        if (i == u996) {
+            return 1;
+        }
+        if (memo996[i][j] != -1) {
+            return memo996[i][j];
+        }
+        int res = 0;
+        for (int c = i ^ u996; c != 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            int x = nums996_2[lb] + nums996_2[j];
+            int q = (int) Math.sqrt(x);
+            if (q * q == x && (lb == 0 || nums996_2[lb] != nums996_2[lb - 1] || ((i >> (lb - 1)) & 1) == 0)) {
+                res += dfs996(i | (1 << lb), lb);
+            }
+        }
+        return memo996[i][j] = res;
+    }
+
     // 1799. N 次操作后的最大分数和 (Maximize Score After N Operations)
     private int[] memo1799;
     private int u1799;
