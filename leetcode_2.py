@@ -3521,6 +3521,26 @@ class Union924:
         used = 0
         return dfs()
 
+    # 996. 正方形数组的数目 (Number of Squareful Arrays)
+    def numSquarefulPerms(self, nums: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == u:
+                return 1
+            c = i ^ u
+            res = 0
+            while c:
+                lb = (c & -c).bit_length() - 1
+                x = nums[j] + nums[lb]
+                if isqrt(x) * isqrt(x) == x and (lb == 0 or nums[lb] != nums[lb - 1] or (i >> (lb - 1)) & 1 == 0):
+                    res += dfs(i | (1 << lb), lb)
+                c &= c - 1
+            return res
+        n = len(nums)
+        u = (1 << n) - 1
+        nums.sort()
+        return sum(dfs(1 << i, i) for i in range(n))
+
     # 2007. 从双倍数组中还原原数组 (Find Original Array From Doubled Array)
     def findOriginalArray(self, changed: List[int]) -> List[int]:
         n = len(changed)
