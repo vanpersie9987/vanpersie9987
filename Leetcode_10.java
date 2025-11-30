@@ -1901,4 +1901,35 @@ public class Leetcode_10 {
         }
         return mask;
     }
+
+    // 3759. 统计合格元素的数目 (Count Elements With at Least K Greater Values)
+    public int countElements(int[] nums, int k) {
+        int n = nums.length;
+        if (k == 0) {
+            return n;
+        }
+        Arrays.sort(nums);
+        int left = 0;
+        int right = n - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (nums[mid] >= nums[n - k]) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+
+    }
+    
+    // 3760. 不同首字母的子字符串数目 (Maximum Substrings With Distinct Start)
+    public int maxDistinct(String s) {
+        int m = 0;
+        for (char c : s.toCharArray()) {
+            m |= 1 << (c - 'a');
+        }
+        return Integer.bitCount(m);
+
+    }
 }

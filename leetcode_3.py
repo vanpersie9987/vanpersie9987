@@ -5733,3 +5733,18 @@ class SegmentTree2940:
             res = min(res, i - d.get((pre - m) % p, -inf))
             d[pre % p] = i
         return res if res < len(nums) else -1
+
+    # 3759. 统计合格元素的数目 (Count Elements With at Least K Greater Values)
+    def countElements(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        if k == 0:
+            return n
+        nums.sort()
+        return bisect.bisect_left(nums, nums[-k])
+
+    # 3760. 不同首字母的子字符串数目 (Maximum Substrings With Distinct Start)
+    def maxDistinct(self, s: str) -> int:
+        m = 0
+        for x in s:
+            m |= 1 << (ord(x) - ord('a'))
+        return m.bit_count()
