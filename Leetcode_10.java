@@ -1932,4 +1932,24 @@ public class Leetcode_10 {
         return Integer.bitCount(m);
 
     }
+
+    // 3761. 镜像对之间最小绝对距离 (Minimum Absolute Distance Between Mirror Pairs)
+    public int minMirrorPairDistance(int[] nums) {
+        int res = Integer.MAX_VALUE;
+        Map<Integer, Integer> d = new HashMap<>();
+        for (int i = 0; i < nums.length; ++i) {
+            res = Math.min(res, i - d.getOrDefault(nums[i], Integer.MIN_VALUE / 2));
+            d.put(reverse3761(nums[i]), i);
+        }
+        return res < nums.length ? res : -1;
+    }
+
+    private int reverse3761(int x) {
+        int res = 0;
+        while (x != 0) {
+            res = res * 10 + x % 10;
+            x /= 10;
+        }
+        return res;
+    }
 }
