@@ -9434,22 +9434,21 @@ public class Leetcode_7 {
     }
 
     // 2741. 特别的排列 (Special Permutations)
-    private int n2741;
     private int[][] memo2741;
     private int[] nums2741;
     private int u2741;
 
     public int specialPerm(int[] nums) {
-        this.n2741 = nums.length;
-        this.memo2741 = new int[n2741][1 << n2741];
+        int n = nums.length;
+        this.memo2741 = new int[n][1 << n];
         this.nums2741 = nums;
         for (int[] m : memo2741) {
             Arrays.fill(m, -1);
         }
-        this.u2741 = (1 << n2741) - 1;
+        this.u2741 = (1 << n) - 1;
         final int MOD = (int) (1e9 + 7);
         int res = 0;
-        for (int i = 0; i < n2741; ++i) {
+        for (int i = 0; i < n; ++i) {
             res = (res + dfs2741(i, 1 << i)) % MOD;
         }
         return res;
