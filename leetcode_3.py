@@ -5748,3 +5748,19 @@ class SegmentTree2940:
         for x in s:
             m |= 1 << (ord(x) - ord('a'))
         return m.bit_count()
+
+    # 3761. 镜像对之间最小绝对距离 (Minimum Absolute Distance Between Mirror Pairs)
+    def minMirrorPairDistance(self, nums: List[int]) -> int:
+        def reverse(x: int) -> int:
+            res = 0
+            while x:
+                d, m = divmod(x, 10)
+                res = res * 10 + m
+                x = d
+            return res
+        d = defaultdict(int)
+        res = inf
+        for i, x in enumerate(nums):
+            res = min(res, i - d.get(x, -inf))
+            d[reverse(x)] = i
+        return res if res < inf else -1
