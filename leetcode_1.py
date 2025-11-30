@@ -1444,25 +1444,25 @@ class leetcode_1:
         u = (1 << n) - 1
         return dfs(0, 0)
 
-    # 2741. 特别的排列 (Special Permutations)
+    #  
     def specialPerm(self, nums: List[int]) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
             if i == u:
                 return 1
-            c = u ^ i
+            c = i ^ u
             res = 0
             while c:
                 lb = (c & -c).bit_length() - 1
-                if nums[lb] % nums[j] == 0 or nums[j] % nums[lb] == 0:
-                    res += dfs(i | (1 << lb), lb)
+                if nums[lb] % j == 0 or j % nums[lb] == 0:
+                    res += dfs(i | (1 << lb), nums[lb])
                 c &= c - 1
             return res % MOD
 
         n = len(nums)
-        u = (1 << n) - 1
         MOD = 10**9 + 7
-        return sum(dfs(1 << i, i) for i in range(n)) % MOD
+        u = (1 << n) - 1
+        return dfs(0, 1)
 
     # 2002. 两个回文子序列长度的最大乘积 (Maximum Product of the Length of Two Palindromic Subsequences)
     def maxProduct(self, s: str) -> int:
@@ -1829,6 +1829,7 @@ class leetcode_1:
                     res = max(res, dfs(i | sub) + j * g[lb1][lb2])
                 sub = c & (sub - 1)
             return res
+
         n = len(nums)
         u = (1 << n) - 1
         g = [[0] * n for _ in range(n)]
