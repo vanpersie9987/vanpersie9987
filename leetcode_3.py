@@ -5764,3 +5764,14 @@ class SegmentTree2940:
             res = min(res, i - d.get(x, -inf))
             d[reverse(x)] = i
         return res if res < inf else -1
+
+    # 2141. 同时运行 N 台电脑的最长时间 (Maximum Running Time of N Computers)
+    def maxRunTime(self, n: int, batteries: List[int]) -> int:
+        l, r = 0, sum(batteries) // n
+        while l <= r:
+            x = (l + r) // 2
+            if n * x <= sum(min(b, x) for b in batteries):
+                l = x + 1
+            else:
+                r = x - 1
+        return l - 1
