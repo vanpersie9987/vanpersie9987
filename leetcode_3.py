@@ -5718,5 +5718,18 @@ class SegmentTree2940:
         dfs_tree(0)
         return res
 
-
-
+    # 1590. 使数组和能被 P 整除 (Make Sum Divisible by P)
+    def minSubarray(self, nums: List[int], p: int) -> int:
+        d = defaultdict(int)
+        d[0] = -1
+        s = sum(nums)
+        m = s % p
+        if m == 0:
+            return 0
+        res = inf
+        pre = 0
+        for i, x in enumerate(nums):
+            pre += x
+            res = min(res, i - d.get((pre - m) % p, -inf))
+            d[pre % p] = i
+        return res if res < len(nums) else -1
