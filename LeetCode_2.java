@@ -3308,27 +3308,26 @@ public class LeetCode_2 {
 
    // 1590. 使数组和能被 P 整除 (Make Sum Divisible by P) --前缀和
    public int minSubarray(int[] nums, int p) {
-      int mod = 0;
-      for (int num : nums) {
-         mod = (mod + num) % p;
+      int n = nums.length;
+      int res = n;
+      int m = 0;
+      for (int x : nums) {
+         m += x;
+         m %= p;
       }
-      if (mod == 0) {
+      if (m == 0) {
          return 0;
       }
       Map<Integer, Integer> map = new HashMap<>();
       map.put(0, -1);
-      int preSum = 0;
-      int res = nums.length;
-      for (int i = 0; i < nums.length; ++i) {
-         preSum = (preSum + nums[i]) % p;
-         int target = (preSum - mod + p) % p;
-         if (map.containsKey(target)) {
-            res = Math.min(res, i - map.get(target));
-         }
-         map.put(preSum, i);
+      int pre = 0;
+      for (int i = 0; i < n; ++i) {
+         pre += nums[i];
+         pre %= p;
+         res = Math.min(res, i - map.getOrDefault(((pre - m) % p + p) % p, -n));
+         map.put(pre, i);
       }
-      return res == nums.length ? -1 : res;
-
+      return res < n ? res : -1;
    }
 
    // 1984. 学生分数的最小差值 (Minimum Difference Between Highest and Lowest of K Scores)
