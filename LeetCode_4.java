@@ -2378,16 +2378,16 @@ public class LeetCode_4 {
         return dfs52(n, 0, 0, 0, 0);
     }
 
-    private int dfs52(int n, int i, int d0, int d1, int d2) {
+    private int dfs52(int n, int i, int j, int k, int l) {
         if (i == n) {
             return 1;
         }
         int res = 0;
         int u = (1 << n) - 1;
-        int c = u ^ (d0 | d1 | d2);
+        int c = u ^ (j | k | l);
         while (c != 0) {
             int lb = Integer.numberOfTrailingZeros(c);
-            res += dfs52(n, i + 1, d0 | (1 << lb), u & ((d1 | (1 << lb)) << 1), (d2 | (1 << lb)) >> 1);
+            res += dfs52(n, i + 1, j | (1 << lb), u & ((k | (1 << lb)) << 1), (l | (1 << lb)) >> 1);
             c &= c - 1;
         }
         return res;
