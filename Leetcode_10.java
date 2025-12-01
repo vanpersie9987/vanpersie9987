@@ -1885,8 +1885,7 @@ public class Leetcode_10 {
                 }
             }
         }
-        final int MOD = (int) (1e9 + 7);
-        return memo3575[i][j] = res % MOD;
+        return memo3575[i][j] = res;
     }
 
     private int check3575(int v) {
