@@ -7442,6 +7442,7 @@ class Union924:
         return dfs(0, op1, op2)
 
     # 51. N 皇后 (N-Queens)
+    # 面试题 08.12. 八皇后
     def solveNQueens(self, n: int) -> List[List[str]]:
         def dfs(i: int, j: int, k: int, l: int):
             def generate():
