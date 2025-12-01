@@ -3532,10 +3532,13 @@ class Union924:
             while c:
                 lb = (c & -c).bit_length() - 1
                 x = nums[j] + nums[lb]
-                if isqrt(x) * isqrt(x) == x and (lb == 0 or nums[lb] != nums[lb - 1] or (i >> (lb - 1)) & 1 == 0):
+                if isqrt(x) * isqrt(x) == x and (
+                    lb == 0 or nums[lb] != nums[lb - 1] or (i >> (lb - 1)) & 1 == 0
+                ):
                     res += dfs(i | (1 << lb), lb)
                 c &= c - 1
             return res
+
         n = len(nums)
         u = (1 << n) - 1
         nums.sort()
@@ -7440,31 +7443,34 @@ class Union924:
 
     # 51. N 皇后 (N-Queens)
     def solveNQueens(self, n: int) -> List[List[str]]:
-        # ！！不能加 @cache
         def dfs(i: int, j: int, k: int, l: int):
+            def generate():
+                a = []
+                for c in path:
+                    row = ["."] * n
+                    row[c] = "Q"
+                    a.append("".join(row))
+                res.append(a)
+
             if i == n:
-                cur = [["."] * n for _ in range(n)]
-                for r, c in enumerate(a):
-                    cur[r][c] = "Q"
-                    cur[r] = "".join(cur[r])
-                res.append(cur)
+                generate()
                 return
-            c = (j | k | l) ^ u
+            c = u ^ (j | k | l)
             while c:
                 lb = (c & -c).bit_length() - 1
-                a.append(lb)
+                path.append(lb)
                 dfs(
                     i + 1,
                     j | (1 << lb),
                     u & ((k | (1 << lb)) << 1),
                     (l | (1 << lb)) >> 1,
                 )
-                a.pop()
+                path.pop()
                 c &= c - 1
 
         u = (1 << n) - 1
+        path = []
         res = []
-        a = []
         dfs(0, 0, 0, 0)
         return res
 
