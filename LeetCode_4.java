@@ -2363,13 +2363,11 @@ public class LeetCode_4 {
             return;
         }
         int u = (1 << n) - 1;
-        int c = u ^ (c0 | c1 | c2);
-        while (c != 0) {
+        for (int c = u ^ (c0 | c1 | c2); c != 0; c &= c - 1) {
             int lb = Integer.numberOfTrailingZeros(c);
             list.add(lb);
             dfs2_51(res, list, i + 1, c0 | (1 << lb), u & ((c1 | (1 << lb)) << 1), (c2 | 1 << lb) >> 1, n);
             list.remove(list.size() - 1);
-            c &= c - 1;
         }
     }
 
@@ -2384,11 +2382,9 @@ public class LeetCode_4 {
         }
         int res = 0;
         int u = (1 << n) - 1;
-        int c = u ^ (j | k | l);
-        while (c != 0) {
+        for (int c = u ^ (j | k | l); c != 0; c &= c - 1) {
             int lb = Integer.numberOfTrailingZeros(c);
             res += dfs52(n, i + 1, j | (1 << lb), u & ((k | (1 << lb)) << 1), (l | (1 << lb)) >> 1);
-            c &= c - 1;
         }
         return res;
     }
