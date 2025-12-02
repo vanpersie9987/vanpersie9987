@@ -1818,7 +1818,7 @@ public class LeetCode_4 {
         this.u2305 = (1 << n) - 1;
         this.k2305 = k;
         this.sum2305 = new int[1 << n];
-        for (int i = 1; i < (1 << n); ++i) {
+        for (int i = 1; i < 1 << n; ++i) {
             int lb = Integer.numberOfTrailingZeros(i);
             sum2305[i] = sum2305[i ^ (1 << lb)] + cookies[lb];
         }
