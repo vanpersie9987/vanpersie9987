@@ -1819,26 +1819,29 @@ public class LeetCode_4 {
         this.k2305 = k;
         this.sum2305 = new int[1 << n];
         for (int i = 1; i < (1 << n); ++i) {
-            int bit = Integer.numberOfTrailingZeros(i);
-            sum2305[i] = sum2305[i ^ (1 << bit)] + cookies[bit];
+            int lb = Integer.numberOfTrailingZeros(i);
+            sum2305[i] = sum2305[i ^ (1 << lb)] + cookies[lb];
         }
         this.memo2305 = new int[k][1 << n];
         return dfs2305(0, 0);
     }
 
-    private int dfs2305(int i, int m) {
-        if (i == k2305 || m == u2305) {
-            return i == k2305 && m == u2305 ? 0 : (int) 1e8;
+    private int dfs2305(int i, int j) {
+        if (j == u2305) {
+            return 0;
         }
-        if (memo2305[i][m] != 0) {
-            return memo2305[i][m];
+        if (i == k2305) {
+            return Integer.MAX_VALUE / 2;
         }
-        int c = u2305 ^ m;
+        if (memo2305[i][j] != 0) {
+            return memo2305[i][j];
+        }
+        int c = u2305 ^ j;
         int res = (int) 1e9;
-        for (int j = c; j > 0; j = (j - 1) & c) {
-            res = Math.min(res, Math.max(dfs2305(i + 1, j | m), sum2305[j]));
+        for (int sub = c; sub > 0; sub = (sub - 1) & c) {
+            res = Math.min(res, Math.max(dfs2305(i + 1, j | sub), sum2305[sub]));
         }
-        return memo2305[i][m] = res;
+        return memo2305[i][j] = res;
     }
 
     // 17. 电话号码的字母组合 (Letter Combinations of a Phone Number) --回溯
