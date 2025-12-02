@@ -1837,7 +1837,7 @@ public class LeetCode_4 {
             return memo2305[i][j];
         }
         int c = u2305 ^ j;
-        int res = (int) 1e9;
+        int res = Integer.MAX_VALUE / 2;
         for (int sub = c; sub > 0; sub = (sub - 1) & c) {
             res = Math.min(res, Math.max(dfs2305(i + 1, j | sub), sum2305[sub]));
         }
