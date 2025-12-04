@@ -5687,19 +5687,19 @@ class SegmentTree2940:
                 # 选
                 if (j >> i) & 1 == 0:
                     # masks[y] 一定不是0
-                    for y in ret[i]:
-                        if j & masks[y] == 0:
-                            res = max(res, dfs(i + 1, j | masks[y]) + vals[y])
+                    for (m, v) in ret[i]:
+                        if j & m == 0:
+                            res = max(res, dfs(i + 1, j | m) + v)
                 return res
 
-            ret = [[] for _ in range(10)]
+            ret = [set() for _ in range(10)]
             for y in g[x]:
                 for i, l in enumerate(dfs_tree(y)):
-                    ret[i].extend(l)
+                    ret[i].update(l)
             mask = masks[x]
             while mask:
                 lb = (mask & -mask).bit_length() - 1
-                ret[lb].append(x)
+                ret[lb].add((masks[x], vals[x]))
                 mask &= mask - 1
             nonlocal res
             res += dfs(0, 0)
