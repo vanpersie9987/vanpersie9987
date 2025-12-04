@@ -50,7 +50,7 @@ from tabnanny import check
 from tarfile import tar_filter
 from textwrap import indent
 import time
-from tkinter import N, NO, W
+from tkinter import LEFT, N, NO, W
 from tkinter.messagebox import RETRY
 from token import NL, RIGHTSHIFT
 from turtle import (
@@ -5775,3 +5775,14 @@ class SegmentTree2940:
             else:
                 r = x - 1
         return l - 1
+
+    # 2211. 统计道路上的碰撞次数 (Count Collisions on a Road)
+    def countCollisions(self, directions: str) -> int:
+        n = len(directions)
+        left = 0
+        right = n - 1
+        while left < n and directions[left] == 'L':
+            left += 1
+        while right >= 0 and directions[right] == 'R':
+            right -= 1
+        return sum(x != 'S' for x in directions[left: right + 1])
