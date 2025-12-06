@@ -5786,3 +5786,8 @@ class SegmentTree2940:
         while right >= 0 and directions[right] == 'R':
             right -= 1
         return sum(x != 'S' for x in directions[left: right + 1])
+    
+    # 1523. 在区间范围内统计奇数数目 (Count Odd Numbers in an Interval Range)
+    def countOdds(self, low: int, high: int) -> int:
+        return (high - low + 1) // 2 + ((low & 1) + (high & 1)) // 2
+        
