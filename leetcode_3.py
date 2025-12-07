@@ -5830,11 +5830,16 @@ class SegmentTree2940:
                 else:
                     left = mid + 1
             return right + 1
+        def rev(x) -> int:
+            res = 0
+            while x:
+                res = (res << 1) | (x & 1)
+                x >>= 1
+            return res
         p = []
         for i in range(5050):
-            s = bin(i)[2:]
-            r = ''.join(reversed(s))
-            if s == r:
+            r = rev(i)
+            if i == r:
                 p.append(i)
         return [min(x - p[binary_search_left(x)], p[binary_search_right(x)] - x) for x in nums]
 
