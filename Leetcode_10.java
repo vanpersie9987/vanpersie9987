@@ -2002,5 +2002,30 @@ public class Leetcode_10 {
         return sb.reverse().toString();
     }
 
+    public long maxPoints(int[] technique1, int[] technique2, int k) {
+        int n = technique1.length;
+        long res = 0L;
+        List<Integer> d = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            res += technique1[i];
+            if (technique2[i] - technique1[i] > 0) {
+                d.add(technique2[i] - technique1[i]);
+            }
+        }
+        Collections.sort(d, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(o2, o1);
+            }
+            
+        });
+        for (int i = 0; i < Math.min(n - k, d.size()); ++i) {
+            res += d.get(i);
+        }
+        return res;
+
+    }
+
 
 }

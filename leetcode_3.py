@@ -5847,3 +5847,8 @@ class SegmentTree2940:
             if s == r:
                 p.append(i)
         return [min(x - p[binary_search_left(x)], p[binary_search_right(x)] - x) for x in nums]
+
+    # 3767. 选择 K 个任务的最大总分数 (Maximize Points After Choosing K Tasks)
+    def maxPoints(self, technique1: List[int], technique2: List[int], k: int) -> int:
+        d = sorted((y - x for x, y in zip(technique1, technique2) if y > x), reverse=True)
+        return sum(technique1) + sum(d[:len(technique1) - k])
