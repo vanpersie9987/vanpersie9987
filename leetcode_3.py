@@ -5786,8 +5786,24 @@ class SegmentTree2940:
         while right >= 0 and directions[right] == 'R':
             right -= 1
         return sum(x != 'S' for x in directions[left: right + 1])
-    
+
     # 1523. 在区间范围内统计奇数数目 (Count Odd Numbers in an Interval Range)
     def countOdds(self, low: int, high: int) -> int:
         return (high - low + 1) // 2 + ((low & 1) + (high & 1)) // 2
-        
+
+    # 765. 完全质数 (Complete Prime Number)
+    def completePrime(self, num: int) -> bool:
+        def check(x: int) -> bool:
+            for i in range(2, isqrt(x) + 1):
+                if x % i == 0:
+                    return False
+            return x > 1
+        s = str(num)
+        n = len(s)
+        for i in range(1, n + 1):
+            if not check(int(s[:i])):
+                return False
+        for i in range(n - 1, -1, -1):
+            if not check(int(s[i:])):
+                return False
+        return True

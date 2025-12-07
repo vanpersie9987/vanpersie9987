@@ -1951,4 +1951,31 @@ public class Leetcode_10 {
         }
         return res;
     }
+
+    // 3765. 完全质数 (Complete Prime Number)
+    public boolean completePrime(int num) {
+        String s = String.valueOf(num);
+        int n = s.length();
+        for (int i = 1; i < n + 1; ++i) {
+            if (!checkPrime3765(Integer.parseInt(s.substring(0, i)))) {
+                return false;
+            }
+        }
+        for (int i = n - 1; i >= 0; --i) {
+            if (!checkPrime3765(Integer.parseInt(s.substring(i, n)))) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    private boolean checkPrime3765(int x) {
+        for (int i = 2; i <= Math.sqrt(x); ++i) {
+            if (x % i == 0) {
+                return false;
+            }
+        }
+        return x > 1;
+    }
 }
