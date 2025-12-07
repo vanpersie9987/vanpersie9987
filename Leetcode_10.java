@@ -1978,4 +1978,29 @@ public class Leetcode_10 {
         }
         return x > 1;
     }
+
+    // 3766. 将数字变成二进制回文数的最少操作 (Minimum Operations to Make Binary Palindrome)
+    public int[] minOperations(int[] nums) {
+        TreeSet<Integer> ts = new TreeSet<>();
+        for (int i = 0; i <= 5050; ++i) {
+            StringBuilder sb = new StringBuilder(Integer.toBinaryString(i));
+            if (sb.toString().equals(reversed3766(sb.toString()))) {
+                ts.add(i);
+            }
+        }
+
+        int n = nums.length;
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = Math.min(ts.ceiling(nums[i]) - nums[i], nums[i] - ts.floor(nums[i]));
+        }
+        return res;
+    }
+
+    private String reversed3766(String s) {
+        StringBuilder sb = new StringBuilder(s);
+        return sb.reverse().toString();
+    }
+
+
 }

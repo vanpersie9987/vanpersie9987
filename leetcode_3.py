@@ -5807,3 +5807,43 @@ class SegmentTree2940:
             if not check(int(s[i:])):
                 return False
         return True
+
+    # 3766. 将数字变成二进制回文数的最少操作 (Minimum Operations to Make Binary Palindrome)
+    def minOperations(self, nums: List[int]) -> List[int]:
+        def binary_search_left(x: int) -> int:
+            left = 0
+            right = len(p) - 1
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if p[mid] <= x:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            return left - 1
+        def binary_search_right(x: int) -> int:
+            left = 0
+            right = len(p) - 1
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if p[mid] >= x:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return right + 1
+
+        def rev(s: str) -> str:
+            res = [x for x in s]
+            l = 0
+            r = len(res) - 1
+            while l < r:
+                res[r], res[l] = res[l], res[r]
+                l += 1
+                r -= 1
+            return ''.join(res)
+        p = []
+        for i in range(5050):
+            s = bin(i)[2:]
+            r = ''.join(reversed(s))
+            if s == r:
+                p.append(i)
+        return [min(x - p[binary_search_left(x)], p[binary_search_right(x)] - x) for x in nums]
