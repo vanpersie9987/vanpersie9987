@@ -5830,16 +5830,6 @@ class SegmentTree2940:
                 else:
                     left = mid + 1
             return right + 1
-
-        def rev(s: str) -> str:
-            res = [x for x in s]
-            l = 0
-            r = len(res) - 1
-            while l < r:
-                res[r], res[l] = res[l], res[r]
-                l += 1
-                r -= 1
-            return ''.join(res)
         p = []
         for i in range(5050):
             s = bin(i)[2:]
@@ -5852,8 +5842,15 @@ class SegmentTree2940:
     def maxPoints(self, technique1: List[int], technique2: List[int], k: int) -> int:
         d = sorted((y - x for x, y in zip(technique1, technique2) if y > x), reverse=True)
         return sum(technique1) + sum(d[:len(technique1) - k])
-    
+
+    # 3769. 二进制反射排序 (Sort Integers by Binary Reflection)
     def sortByReflection(self, nums: List[int]) -> List[int]:
-        
-        
-        
+        def rev(x) -> int:
+            res = 0
+            while x:
+                res = (res << 1) | (x & 1)
+                x >>= 1
+            return res
+        a = [(rev(x), x) for x in nums]
+        a.sort(key=lambda o: (o[0], o[1]))
+        return [x for _, x in a]
