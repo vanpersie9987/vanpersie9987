@@ -5852,3 +5852,8 @@ class SegmentTree2940:
     def maxPoints(self, technique1: List[int], technique2: List[int], k: int) -> int:
         d = sorted((y - x for x, y in zip(technique1, technique2) if y > x), reverse=True)
         return sum(technique1) + sum(d[:len(technique1) - k])
+    
+    def sortByReflection(self, nums: List[int]) -> List[int]:
+        
+        
+        

@@ -2018,12 +2018,35 @@ public class Leetcode_10 {
             public int compare(Integer o1, Integer o2) {
                 return Integer.compare(o2, o1);
             }
-            
+
         });
         for (int i = 0; i < Math.min(n - k, d.size()); ++i) {
             res += d.get(i);
         }
         return res;
+
+    }
+    
+    // 3769. 二进制反射排序 (Sort Integers by Binary Reflection)
+    public int[] sortByReflection(int[] nums) {
+        List<Integer> a = new ArrayList<>();
+        for (int x : nums) {
+            a.add(x);
+        }
+        Collections.sort(a, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                int x = Integer.reverse(o1) >>> Integer.numberOfLeadingZeros(o1);
+                int y = Integer.reverse(o2) >>> Integer.numberOfLeadingZeros(o2);
+                if (x == y) {
+                    return Integer.compare(o1, o2);
+                }
+                return Integer.compare(x, y);
+            }
+
+        });
+        return a.stream().mapToInt(o -> o).toArray();
 
     }
 
