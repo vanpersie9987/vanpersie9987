@@ -2050,5 +2050,33 @@ public class Leetcode_10 {
 
     }
 
+    // 3770. 可表示为连续质数和的最大质数 (Largest Prime from Consecutive Prime Sum)
+    public int largestPrime(int n) {
+        int MX = n + 1;
+        boolean[] p = new boolean[MX];
+        Arrays.fill(p, true);
+        for (int i = 2; i < MX; ++i) {
+            if (p[i]) {
+                for (long j = (long) i * i; j < MX; j += i) {
+                    p[(int) j] = false;
+                }
+            }
+        }
+        int res = 0;
+        int s = 0;
+        for (int i = 2; i < MX; ++i) {
+            if (p[i]) {
+                s += i;
+                if (s > n) {
+                    break;
+                }
+                if (p[s]) {
+                    res = s;
+                }
+            }
+        }
+        return res;
+    }
+
 
 }

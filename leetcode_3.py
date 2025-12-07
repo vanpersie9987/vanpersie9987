@@ -5859,3 +5859,23 @@ class SegmentTree2940:
         a = [(rev(x), x) for x in nums]
         a.sort(key=lambda o: (o[0], o[1]))
         return [x for _, x in a]
+
+    # 3770. 可表示为连续质数和的最大质数 (Largest Prime from Consecutive Prime Sum)
+    def largestPrime(self, n: int) -> int:
+        # 筛质数放在类外面
+        MX = 10**6
+        p = [True] * MX
+        for i in range(2, MX):
+            if p[i]:
+                for j in range(i * i, MX, i):
+                    p[j] = False
+        s = 0
+        res = 0
+        for i in range(2, MX):
+            if p[i]:
+                s += i
+                if s > n:
+                    break
+                if p[s]:
+                    res = s
+        return res
