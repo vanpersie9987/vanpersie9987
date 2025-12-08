@@ -5912,3 +5912,26 @@ class SegmentTree2940:
             j = binary_search(x, i)
             res += i - j + 1
         return res
+
+    # 3772. 子图的最大得分 (Maximum Subgraph Score in a Tree)
+    def maxSubgraphScore(self, n: int, edges: List[List[int]], good: List[int]) -> List[int]:
+        def reroot(x: int, fa: int, fa_score: int):
+            res[x] = score_x = s[x] + max(fa_score, 0)
+            for y in g[x]:
+                if y != fa:
+                    reroot(y, x, score_x - max(s[y], 0))
+        def dfs(x: int, fa: int) -> int:
+            for y in g[x]:
+                if y != fa:
+                    s[x] += max(0, dfs(y, x))
+            s[x] += 1 if good[x] else -1
+            return s[x]
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        s = [0] * n
+        dfs(0, -1)
+        res = [0] * n
+        reroot(0, -1, 0)
+        return res
