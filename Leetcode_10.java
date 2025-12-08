@@ -2109,5 +2109,46 @@ public class Leetcode_10 {
         return right + 1;
     }
 
+    // 3772. 子图的最大得分 (Maximum Subgraph Score in a Tree)
+    private List<Integer>[] g3772;
+    private int[] good3772;
+    private int[] s3772;
+    private int[] res3772;
+
+    public int[] maxSubgraphScore(int n, int[][] edges, int[] good) {
+        this.g3772 = new ArrayList[n];
+        Arrays.setAll(g3772, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g3772[e[0]].add(e[1]);
+            g3772[e[1]].add(e[0]);
+        }
+        this.good3772 = good;
+        this.s3772 = new int[n];
+        dfs3772(0, -1);
+        this.res3772 = new int[n];
+        reRoot3772(0, -1, 0);
+        return res3772;
+    }
+
+    private void reRoot3772(int x, int fa, int faScore) {
+        int score = s3772[x] + Math.max(0, faScore);
+        res3772[x] = score;
+        for (int y : g3772[x]) {
+            if (y != fa) {
+                reRoot3772(y, x, score - Math.max(0, s3772[y]));
+            }
+        }
+    }
+
+    private int dfs3772(int x, int fa) {
+        for (int y : g3772[x]) {
+            if (y != fa) {
+                s3772[x] += Math.max(0, dfs3772(y, x));
+            }
+        }
+        s3772[x] += good3772[x] == 1 ? 1 : -1;
+        return s3772[x];
+    }
+
 
 }
