@@ -5879,3 +5879,15 @@ class SegmentTree2940:
                 if p[s]:
                     res = s
         return res
+
+    # 1925. 统计平方和三元组的数目 (Count Square Sum Triples)
+    def countTriples(self, n: int) -> int:
+        s = set()
+        for i in range(n + 1):
+            s.add(i * i)
+        res = 0
+        for i in range(1, n + 1):
+            for j in range(i, n + 1):
+                if i * i + j * j in s:
+                    res += 1
+        return res * 2
