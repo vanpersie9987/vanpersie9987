@@ -2088,14 +2088,14 @@ public class Leetcode_10 {
         }
         for (int i = 0; i < n; ++i) {
             long x = s[i + 1] + requirement[i] - hp;
-            int j = binarySearch(s, x, i);
+            int j = binarySearch3771(s, x, i);
             res += i - j + 1;
         }
         return res;
 
     }
 
-    private int binarySearch(long[] s, long x, int i) {
+    private int binarySearch3771(long[] s, long x, int i) {
         int left = 0;
         int right = i;
         while (left <= right) {
