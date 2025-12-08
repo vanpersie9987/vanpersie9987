@@ -5891,3 +5891,24 @@ class SegmentTree2940:
                 if i * i + j * j in s:
                     res += 1
         return res * 2
+
+    # 3771. 探索地牢的得分 (Total Score of Dungeon Runs)
+    def totalScore(self, hp: int, damage: List[int], requirement: List[int]) -> int:
+        def binary_search(x: int, i: int) -> int:
+            left = 0 
+            right = i
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if s[mid] >= x:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return right + 1
+        n = len(damage)
+        s = list(accumulate(damage, initial=0))
+        res = 0
+        for i in range(n):
+            x = s[i + 1] + requirement[i] - hp
+            j = binary_search(x, i)
+            res += i - j + 1
+        return res
