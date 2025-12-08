@@ -2077,6 +2077,37 @@ public class Leetcode_10 {
         }
         return res;
     }
+    
+    // 3771. 探索地牢的得分 (Total Score of Dungeon Runs)
+    public long totalScore(int hp, int[] damage, int[] requirement) {
+        long res = 0L;
+        int n = damage.length;
+        long[] s = new long[n + 1];
+        for (int i = 0; i < n; ++i) {
+            s[i + 1] = s[i] + damage[i];
+        }
+        for (int i = 0; i < n; ++i) {
+            long x = s[i + 1] + requirement[i] - hp;
+            int j = binarySearch(s, x, i);
+            res += i - j + 1;
+        }
+        return res;
+
+    }
+
+    private int binarySearch(long[] s, long x, int i) {
+        int left = 0;
+        int right = i;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (s[mid] >= x) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+    }
 
 
 }
