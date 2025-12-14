@@ -5935,3 +5935,14 @@ class SegmentTree2940:
         res = [0] * n
         reroot(0, -1, 0)
         return res
+
+    # 2110. 股票平滑下跌阶段的数目 (Number of Smooth Descent Periods of a Stock)
+    def getDescentPeriods(self, prices: List[int]) -> int:
+        cnt = res = 0
+        for i, x in enumerate(prices):
+            if i == 0 or prices[i - 1] - x != 1:
+                cnt = 1
+            else:
+                cnt += 1
+            res += cnt
+        return res
