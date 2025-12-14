@@ -10233,15 +10233,15 @@ public class LeetCode_4 {
     // 2110. 股票平滑下跌阶段的数目 (Number of Smooth Descent Periods of a Stock)
     public long getDescentPeriods(int[] prices) {
         int n = prices.length;
-        long res = 0l;
-        long count = 0l;
+        long res = 0L;
+        int cnt = 0;
         for (int i = 0; i < n; ++i) {
-            if (i - 1 >= 0 && prices[i - 1] - prices[i] == 1) {
-                ++count;
+            if (i == 0 || prices[i - 1] - prices[i] != 1) {
+                cnt = 1;
             } else {
-                count = 1l;
+                ++cnt;
             }
-            res += count;
+            res += cnt;
         }
         return res;
 
