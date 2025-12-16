@@ -5976,3 +5976,28 @@ class SegmentTree2940:
             else:
                 res += word
         return res
+
+    # 3776. 使循环数组余额非负的最少移动次数 (Minimum Moves to Balance Circular Array)
+    def minMoves(self, balance: List[int]) -> int:
+        n = len(balance)
+        s = 0
+        id = -1
+        need = -1
+        for i, x in enumerate(balance):
+            s += x
+            if x < 0:
+                id = i
+                need = x
+        if s < 0:
+            return -1
+        if id < 0:
+            return 0
+        need = abs(need)
+        d = 1
+        res = 0
+        while need:
+            cur = min(balance[(id - d) % n] + balance[(id + d) % n], need)
+            res += cur * d
+            need -= cur
+            d += 1
+        return res
