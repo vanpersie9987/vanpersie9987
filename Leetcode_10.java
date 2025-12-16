@@ -2204,5 +2204,33 @@ public class Leetcode_10 {
         return cnt;
     }
 
+    // 3776. 使循环数组余额非负的最少移动次数 (Minimum Moves to Balance Circular Array)
+    public long minMoves3776(int[] balance) {
+        long s = 0L;
+        int id = -1;
+        int n = balance.length;
+        for (int i = 0; i < n; ++i) {
+            s += balance[i];
+            if (balance[i] < 0) {
+                id = i;
+            }
+        }
+        if (s < 0) {
+            return -1;
+        }
+        if (id < 0) {
+            return 0L;
+        }
+        long res = 0L;
+        int need = Math.abs(balance[id]);
+        for (int d = 1; need > 0; ++d) {
+            int cur = Math.min(balance[((id - d) % n + n) % n] + balance[(id + d) % n], need);
+            need -= cur;
+            res += (long) cur * d;
+        }
+        return res;
+
+    }
+
 
 }
