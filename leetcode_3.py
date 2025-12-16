@@ -5946,3 +5946,8 @@ class SegmentTree2940:
                 cnt += 1
             res += cnt
         return res
+
+    # 3774. 最大和最小 K 个元素的绝对差 (Absolute Difference Between Maximum and Minimum K Elements)
+    def absDifference(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        return sum(nums[-k:]) - sum(nums[:k])
