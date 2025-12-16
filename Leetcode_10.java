@@ -2150,5 +2150,23 @@ public class Leetcode_10 {
         return s3772[x];
     }
 
+    // 3774. 最大和最小 K 个元素的绝对差 (Absolute Difference Between Maximum and Minimum K
+    // Elements)
+    public int absDifference(int[] nums, int k) {
+        int res = 0;
+        int n = nums.length;
+        Arrays.sort(nums);
+        for (int i = 0; i < n; ++i) {
+            if (i < k) {
+                res -= nums[i];
+            }
+            if (i >= n - k) {
+                res += nums[i];
+            }
+        }
+        return res;
+
+    }
+
 
 }
