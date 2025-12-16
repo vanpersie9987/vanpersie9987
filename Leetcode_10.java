@@ -2168,5 +2168,41 @@ public class Leetcode_10 {
 
     }
 
+    // 3775. 反转元音数相同的单词 (Reverse Words With Same Vowel Count)
+    public String reverseWords(String s) {
+        String[] split = s.split(" ");
+        StringBuilder res = new StringBuilder();
+        int mask = 0;
+        for (char c : "aeiou".toCharArray()) {
+            mask |= 1 << (c - 'a');
+        }
+        int cnt = -1;
+        for (String word : split) {
+            if (!res.isEmpty()) {
+                res.append(" ");
+            }
+            if (cnt == -1) {
+                cnt = check3775(word, mask);
+                res.append(word);
+            } else if (check3775(word, mask) == cnt) {
+                StringBuilder rev = new StringBuilder(word).reverse();
+                res.append(rev.toString());
+            } else {
+                res.append(word);
+            }
+        }
+        return res.toString();
+    }
+
+    private int check3775(String word, int mask) {
+        int cnt = 0;
+        for (char c : word.toCharArray()) {
+            if (((mask >> (c - 'a')) & 1) != 0) {
+                ++cnt;
+            }
+        }
+        return cnt;
+    }
+
 
 }
