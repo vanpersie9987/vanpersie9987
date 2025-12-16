@@ -5951,3 +5951,28 @@ class SegmentTree2940:
     def absDifference(self, nums: List[int], k: int) -> int:
         nums.sort()
         return sum(nums[-k:]) - sum(nums[:k])
+
+    # 3775. 反转元音数相同的单词 (Reverse Words With Same Vowel Count)
+    def reverseWords(self, s: str) -> str:
+        def check(w: str) -> int:
+            cnt = 0
+            for c in w:
+                cnt += (mask >> (ord(c) - ord('a'))) & 1
+            return cnt
+        mask = 0
+        for x in "aeiou":
+            mask |= 1 << (ord(x) - ord('a'))
+        cnt = -1
+        split = s.split(' ')
+        res = ''
+        for word in split:
+            if len(res):
+                res += ' '
+            if cnt == -1:
+                cnt = check(word)
+                res += word
+            elif check(word) == cnt:
+                res += ''.join(list(reversed(word)))
+            else:
+                res += word
+        return res
