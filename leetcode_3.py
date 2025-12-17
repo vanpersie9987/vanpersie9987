@@ -753,10 +753,8 @@ class leetcode_3:
     def maximumProfit(self, prices: List[int], m: int) -> int:
         @cache
         def dfs(i: int, j: int, k: int) -> int:
-            if i == n:
+            if m == k or i == n:
                 return 0 if j == 0 else -inf
-            if m == k:
-                return 0
             res = dfs(i + 1, j, k)
             if j == 0:
                 return max(
