@@ -753,10 +753,8 @@ class leetcode_3:
     def maximumProfit(self, prices: List[int], m: int) -> int:
         @cache
         def dfs(i: int, j: int, k: int) -> int:
-            if i == n:
+            if m == k or i == n:
                 return 0 if j == 0 else -inf
-            if m == k:
-                return 0
             res = dfs(i + 1, j, k)
             if j == 0:
                 return max(
@@ -3209,15 +3207,12 @@ class SegmentTree2940:
     # 3652. 按策略买卖股票的最佳时机 (Best Time to Buy and Sell Stock using Strategy)
     def maxProfit(self, prices: List[int], strategy: List[int], k: int) -> int:
         n = len(prices)
-        p = list(accumulate(prices, initial=0))
-        ps = list(accumulate([a * b for a, b in zip(prices, strategy)], initial=0))
-        return max(
-            ps[-1],
-            max(
-                ps[-1] - (ps[i] - ps[i - k]) + p[i] - p[i - k // 2]
-                for i in range(k, n + 1)
-            ),
-        )
+        pre_s = list(accumulate(prices, initial=0))
+        pre = list(accumulate([a * b for a, b in zip(prices, strategy)], initial=0))
+        res = pre[-1]
+        for i in range(k, n + 1):
+            res = max(res, pre[i - k] + pre_s[i] - pre_s[i - k // 2] + pre[-1] - pre[i])
+        return res
 
     # 3653. 区间乘法查询后的异或 I (XOR After Range Multiplication Queries I)
     def xorAfterQueries(self, nums: List[int], queries: List[List[int]]) -> int:
@@ -5687,7 +5682,7 @@ class SegmentTree2940:
                 # 选
                 if (j >> i) & 1 == 0:
                     # masks[y] 一定不是0
-                    for (m, v) in ret[i]:
+                    for m, v in ret[i]:
                         if j & m == 0:
                             res = max(res, dfs(i + 1, j | m) + v)
                 return res
@@ -5746,7 +5741,7 @@ class SegmentTree2940:
     def maxDistinct(self, s: str) -> int:
         m = 0
         for x in s:
-            m |= 1 << (ord(x) - ord('a'))
+            m |= 1 << (ord(x) - ord("a"))
         return m.bit_count()
 
     # 3761. 镜像对之间最小绝对距离 (Minimum Absolute Distance Between Mirror Pairs)
@@ -5758,6 +5753,7 @@ class SegmentTree2940:
                 res = res * 10 + m
                 x = d
             return res
+
         d = defaultdict(int)
         res = inf
         for i, x in enumerate(nums):
@@ -5781,11 +5777,11 @@ class SegmentTree2940:
         n = len(directions)
         left = 0
         right = n - 1
-        while left < n and directions[left] == 'L':
+        while left < n and directions[left] == "L":
             left += 1
-        while right >= 0 and directions[right] == 'R':
+        while right >= 0 and directions[right] == "R":
             right -= 1
-        return sum(x != 'S' for x in directions[left: right + 1])
+        return sum(x != "S" for x in directions[left : right + 1])
 
     # 1523. 在区间范围内统计奇数数目 (Count Odd Numbers in an Interval Range)
     def countOdds(self, low: int, high: int) -> int:
@@ -5798,6 +5794,7 @@ class SegmentTree2940:
                 if x % i == 0:
                     return False
             return x > 1
+
         s = str(num)
         n = len(s)
         for i in range(1, n + 1):
@@ -5820,6 +5817,7 @@ class SegmentTree2940:
                 else:
                     right = mid - 1
             return left - 1
+
         def binary_search_right(x: int) -> int:
             left = 0
             right = len(p) - 1
@@ -5830,23 +5828,30 @@ class SegmentTree2940:
                 else:
                     left = mid + 1
             return right + 1
+
         def rev(x) -> int:
             res = 0
             while x:
                 res = (res << 1) | (x & 1)
                 x >>= 1
             return res
+
         p = []
         for i in range(5050):
             r = rev(i)
             if i == r:
                 p.append(i)
-        return [min(x - p[binary_search_left(x)], p[binary_search_right(x)] - x) for x in nums]
+        return [
+            min(x - p[binary_search_left(x)], p[binary_search_right(x)] - x)
+            for x in nums
+        ]
 
     # 3767. 选择 K 个任务的最大总分数 (Maximize Points After Choosing K Tasks)
     def maxPoints(self, technique1: List[int], technique2: List[int], k: int) -> int:
-        d = sorted((y - x for x, y in zip(technique1, technique2) if y > x), reverse=True)
-        return sum(technique1) + sum(d[:len(technique1) - k])
+        d = sorted(
+            (y - x for x, y in zip(technique1, technique2) if y > x), reverse=True
+        )
+        return sum(technique1) + sum(d[: len(technique1) - k])
 
     # 3769. 二进制反射排序 (Sort Integers by Binary Reflection)
     def sortByReflection(self, nums: List[int]) -> List[int]:
@@ -5856,6 +5861,7 @@ class SegmentTree2940:
                 res = (res << 1) | (x & 1)
                 x >>= 1
             return res
+
         a = [(rev(x), x) for x in nums]
         a.sort(key=lambda o: (o[0], o[1]))
         return [x for _, x in a]
@@ -5895,7 +5901,7 @@ class SegmentTree2940:
     # 3771. 探索地牢的得分 (Total Score of Dungeon Runs)
     def totalScore(self, hp: int, damage: List[int], requirement: List[int]) -> int:
         def binary_search(x: int, i: int) -> int:
-            left = 0 
+            left = 0
             right = i
             while left <= right:
                 mid = left + ((right - left) >> 1)
@@ -5904,6 +5910,7 @@ class SegmentTree2940:
                 else:
                     left = mid + 1
             return right + 1
+
         n = len(damage)
         s = list(accumulate(damage, initial=0))
         res = 0
@@ -5914,18 +5921,22 @@ class SegmentTree2940:
         return res
 
     # 3772. 子图的最大得分 (Maximum Subgraph Score in a Tree)
-    def maxSubgraphScore(self, n: int, edges: List[List[int]], good: List[int]) -> List[int]:
+    def maxSubgraphScore(
+        self, n: int, edges: List[List[int]], good: List[int]
+    ) -> List[int]:
         def reroot(x: int, fa: int, fa_score: int):
             res[x] = score_x = s[x] + max(fa_score, 0)
             for y in g[x]:
                 if y != fa:
                     reroot(y, x, score_x - max(s[y], 0))
+
         def dfs(x: int, fa: int) -> int:
             for y in g[x]:
                 if y != fa:
                     s[x] += max(0, dfs(y, x))
             s[x] += 1 if good[x] else -1
             return s[x]
+
         g = [[] for _ in range(n)]
         for u, v in edges:
             g[u].append(v)
@@ -5957,22 +5968,23 @@ class SegmentTree2940:
         def check(w: str) -> int:
             cnt = 0
             for c in w:
-                cnt += (mask >> (ord(c) - ord('a'))) & 1
+                cnt += (mask >> (ord(c) - ord("a"))) & 1
             return cnt
+
         mask = 0
         for x in "aeiou":
-            mask |= 1 << (ord(x) - ord('a'))
+            mask |= 1 << (ord(x) - ord("a"))
         cnt = -1
-        split = s.split(' ')
-        res = ''
+        split = s.split(" ")
+        res = ""
         for word in split:
             if len(res):
-                res += ' '
+                res += " "
             if cnt == -1:
                 cnt = check(word)
                 res += word
             elif check(word) == cnt:
-                res += ''.join(list(reversed(word)))
+                res += "".join(list(reversed(word)))
             else:
                 res += word
         return res

@@ -9221,18 +9221,17 @@ public class Leetcode_9 {
     // 3652. 按策略买卖股票的最佳时机 (Best Time to Buy and Sell Stock using Strategy)
     public long maxProfit(int[] prices, int[] strategy, int k) {
         int n = prices.length;
-        long[] p = new long[n + 1];
-        long[] ps = new long[n + 1];
+        long[] preS = new long[n + 1];
+        long[] pre = new long[n + 1];
         for (int i = 0; i < n; ++i) {
-            p[i + 1] = p[i] + prices[i];
-            ps[i + 1] = ps[i] + prices[i] * strategy[i];
+            preS[i + 1] = preS[i] + prices[i];
+            pre[i + 1] = pre[i] + prices[i] * strategy[i];
         }
-        long res = ps[n];
+        long res = pre[n];
         for (int i = k; i < n + 1; ++i) {
-            res = Math.max(res, ps[n] - (ps[i] - ps[i - k]) + p[i] - p[i - k / 2]);
+            res = Math.max(res, pre[i - k] + preS[i] - preS[i - k / 2] + pre[n] - pre[i]);
         }
         return res;
-
     }
 
     // 3653. 区间乘法查询后的异或 I (XOR After Range Multiplication Queries I)
