@@ -6001,3 +6001,32 @@ class SegmentTree2940:
             need -= cur
             d += 1
         return res
+
+    # 2092. 找出知晓秘密的所有专家 (Find All People With Secret)
+    def findAllPeople(self, n: int, meetings: List[List[int]], firstPerson: int) -> List[int]:
+        meetings.sort(key=lambda o:o[2])
+        knows = [False] * n
+        knows[0] = knows[firstPerson] = True
+        i = 0
+        while i < len(meetings):
+            vis = set()
+            g = defaultdict(list)
+            j = i
+            t = meetings[i][2]
+            while j < len(meetings) and t == meetings[j][2]:
+                x = meetings[j][0]
+                y = meetings[j][1]
+                g[x].append(y)
+                g[y].append(x)
+                j += 1
+            def dfs(x: int):
+                vis.add(x)
+                knows[x] = True
+                for y in g[x]:
+                    if y not in vis:
+                        dfs(y)
+            for x in g:
+                if knows[x] and x not in vis:
+                    dfs(x)
+            i = j
+        return [i for i, x in enumerate(knows) if x]
