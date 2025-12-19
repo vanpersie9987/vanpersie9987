@@ -4603,7 +4603,7 @@ public class LeetCode_2 {
       }
    }
 
-   // 2092. 找出知晓秘密的所有专家 (Find All People With Secret) --bfs
+   // 2092. 找出知晓秘密的所有专家 (Find All People With Secret) --dfs
    public List<Integer> findAllPeople2(int n, int[][] meetings, int firstPerson) {
       boolean[] knows = new boolean[n];
       knows[0] = true;
@@ -4617,37 +4617,21 @@ public class LeetCode_2 {
 
       });
 
-      Map<Integer, List<Integer>> graph = new HashMap<>();
-      Set<Integer> nodes = new HashSet<>();
-      Queue<Integer> queue = new LinkedList<>();
-
       for (int i = 0; i < meetings.length; ++i) {
          int time = meetings[i][2];
          int j = i;
          while (j + 1 < meetings.length && meetings[j + 1][2] == time) {
             ++j;
          }
-         graph.clear();
-         nodes.clear();
+         Map<Integer, List<Integer>> g = new HashMap<>();
+         Set<Integer> vis = new HashSet<>();
          for (int k = i; k <= j; ++k) {
-            nodes.add(meetings[k][0]);
-            nodes.add(meetings[k][1]);
-            graph.computeIfAbsent(meetings[k][0], o -> new ArrayList<>()).add(meetings[k][1]);
-            graph.computeIfAbsent(meetings[k][1], o -> new ArrayList<>()).add(meetings[k][0]);
+            g.computeIfAbsent(meetings[k][0], o -> new ArrayList<>()).add(meetings[k][1]);
+            g.computeIfAbsent(meetings[k][1], o -> new ArrayList<>()).add(meetings[k][0]);
          }
-
-         for (int node : nodes) {
-            if (knows[node]) {
-               queue.offer(node);
-            }
-         }
-         while (!queue.isEmpty()) {
-            int cur = queue.poll();
-            for (int neighbor : graph.getOrDefault(cur, new ArrayList<>())) {
-               if (!knows[neighbor]) {
-                  knows[neighbor] = true;
-                  queue.offer(neighbor);
-               }
+         for (int x : g.keySet()) {
+            if (knows[x] && !vis.contains(x)) {
+               dfs2092(x, knows, vis, g);
             }
          }
          i = j;
@@ -4660,6 +4644,16 @@ public class LeetCode_2 {
          }
       }
       return res;
+   }
+
+   private void dfs2092(int x, boolean[] knows, Set<Integer> vis, Map<Integer, List<Integer>> g) {
+      vis.add(x);
+      knows[x] = true;
+      for (int y : g.getOrDefault(x, new ArrayList<>())) {
+         if (!vis.contains(y)) {
+            dfs2092(y, knows, vis, g);
+         }
+      }
    }
 
    // 2092. 找出知晓秘密的所有专家 (Find All People With Secret) --并查集
