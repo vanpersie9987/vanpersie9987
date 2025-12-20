@@ -2705,23 +2705,18 @@ public class LeetCode_2 {
    // 944. 删列造序 (Delete Columns to Make Sorted)
    public int minDeletionSize(String[] strs) {
       int res = 0;
-      int n = strs[0].length();
-      for (int i = 0; i < n; ++i) {
-         res += judge944(strs, i);
+      int n = strs.length;
+      int m = strs[0].length();
+      for (int j = 0; j < m; ++j) {
+         for (int i = 1; i < n; ++i) {
+            if (strs[i].charAt(j) < strs[i - 1].charAt(j)) {
+               ++res;
+               break;
+            }
+         }
       }
       return res;
 
-   }
-
-   private int judge944(String[] strs, int pos) {
-      char pre = 'a';
-      for (String str : strs) {
-         if (str.charAt(pos) < pre) {
-            return 1;
-         }
-         pre = str.charAt(pos);
-      }
-      return 0;
    }
 
    // 2023. 连接后等于目标字符串的字符串对 --暴力 还需掌握更优的方法
