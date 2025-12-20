@@ -6042,3 +6042,14 @@ class SegmentTree2940:
                     dfs(x)
             i = j
         return [i for i, x in enumerate(knows) if x]
+
+    # 944. 删列造序 (Delete Columns to Make Sorted)
+    def minDeletionSize(self, strs: List[str]) -> int:
+        n, m = len(strs), len(strs[0])
+        res = 0
+        for j in range(m):
+            for i in range(1, n):
+                if strs[i][j] < strs[i - 1][j]:
+                    res += 1
+                    break
+        return res
