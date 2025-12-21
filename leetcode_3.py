@@ -6053,3 +6053,20 @@ class SegmentTree2940:
                     res += 1
                     break
         return res
+
+    # 955. 删列造序 II (Delete Columns to Make Sorted II)
+    def minDeletionSize(self, strs: List[str]) -> int:
+        n, m = len(strs), len(strs[0])
+        a = [""] * n  # 最终得到的字符串数组
+        ans = 0
+        for j in range(m):
+            for i in range(n - 1):
+                if a[i] + strs[i][j] > a[i + 1] + strs[i + 1][j]:
+                    # j 列不是升序，必须删
+                    ans += 1
+                    break
+            else:
+                # j 列是升序，不删更好
+                for i, s in enumerate(strs):
+                    a[i] += s[j]
+        return ans
