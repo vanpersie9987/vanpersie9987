@@ -6070,3 +6070,18 @@ class SegmentTree2940:
                 for i, s in enumerate(strs):
                     a[i] += s[j]
         return ans
+
+    # 960. 删列造序 III (Delete Columns to Make Sorted III)
+    def minDeletionSize(self, strs: List[str]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == m:
+                return 0
+            # 删
+            res = dfs(i + 1, j)
+            # 不删
+            if j == -1 or all(strs[k][i] >= strs[k][j] for k in range(n)):
+                res = max(res, dfs(i + 1, i) + 1)
+            return res
+        n, m = len(strs), len(strs[0])
+        return m - dfs(0, -1)
