@@ -2232,5 +2232,31 @@ public class Leetcode_10 {
 
     }
 
+    // 3779. 得到互不相同元素的最少操作次数 (Minimum Number of Operations to Have Distinct
+    // Elements)
+    public int minOperations3779(int[] nums) {
+        int n = nums.length;
+        int res = 0;
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int x : nums) {
+            cnts.merge(x, 1, Integer::sum);
+        }
+        for (int i = 0; i < n; i += 3) {
+            if (cnts.size() == n - i) {
+                break;
+            }
+            ++res;
+            for (int j = i; j < Math.min(n, i + 3); ++j) {
+                int x = nums[j];
+                cnts.merge(x, -1, Integer::sum);
+                if (cnts.get(x) == 0) {
+                    cnts.remove(x);
+                }
+            }
+        }
+        return res;
+
+    }
+
 
 }
