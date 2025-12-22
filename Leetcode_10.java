@@ -2317,7 +2317,40 @@ public class Leetcode_10 {
         }
         return sum - mx;
 
+    }
 
+    // 3786. 树组的交互代价总和 (Total Sum of Interaction Cost in Tree Groups)
+    private long res3776;
+    public long interactionCosts(int n, int[][] edges, int[] group) {
+        Map<Integer, Integer> gCnts = new HashMap<>();
+        for (int g : group) {
+            gCnts.merge(g, 1, Integer::sum);
+        }
+        List<Integer>[] g = new ArrayList[n];
+        Arrays.setAll(g, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[0]].add(e[1]);
+            g[e[1]].add(e[0]);
+        }
+        for (Map.Entry<Integer, Integer> entry : gCnts.entrySet()) {
+            int grp = entry.getKey();
+            int cnt = entry.getValue();
+            dfs3786(0, -1, g, group, grp, cnt);
+        }
+        return res3776;
+
+    }
+
+    private int dfs3786(int x, int fa, List<Integer>[] g, int[] group, int grp, int cnt) {
+        int s = group[x] == grp ? 1 : 0;
+        for (int y : g[x]) {
+            if (y != fa) {
+                int t = dfs3786(y, x, g, group, grp, cnt);
+                res3776 += (long) t * (cnt - t);
+                s += t;
+            }
+        }
+        return s;
     }
 
 }
