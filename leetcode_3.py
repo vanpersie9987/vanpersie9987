@@ -6136,7 +6136,7 @@ class SegmentTree2940:
                 x = d
             return res
         return abs(n - rev(n))
-    
+
     # 3784. 使所有字符相等的最小删除代价 (Minimum Deletion Cost to Make All Characters Equal)
     def minCost(self, s: str, cost: List[int]) -> int:
         _sum = sum(cost)
@@ -6145,7 +6145,7 @@ class SegmentTree2940:
             idx = ord(ch) - ord('a')
             d[idx] += c
         return _sum - max(d)
-    
+
     # 3786. 树组的交互代价总和 (Total Sum of Interaction Cost in Tree Groups)
     def interactionCosts(self, n: int, edges: List[List[int]], group: List[int]) -> int:
         def dfs(x: int, fa: int) -> int:
@@ -6168,3 +6168,13 @@ class SegmentTree2940:
         for c, tot in d.items():
             dfs(0, -1)
         return res
+
+    # 3781. 二进制交换后的最大分数 (Maximum Score After Binary Swaps)
+    def maximumScore(self, nums: List[int], s: str) -> int:
+        q = []
+        heapq.heapify(q)
+        for x, c in zip(reversed(nums), reversed(s)):
+            heapq.heappush(q, x)
+            if c == '0':
+                heapq.heappop(q)
+        return sum(q)
