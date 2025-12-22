@@ -2260,20 +2260,31 @@ public class Leetcode_10 {
 
     // 3780. 能被 3 整除的三元组最大和 (Maximum Sum of Three Numbers Divisible by Three)
     public int maximumSum(int[] nums) {
-        List<Integer>[] g = new ArrayList[3];
-        Arrays.setAll(g, k -> new ArrayList<>());
+        int[][] g = new int[3][3];
+        for (int i = 0; i < 3; ++i) {
+            Arrays.fill(g[i], 0);
+        }
         for (int x : nums) {
-            g[x % 3].add(x);
+            int m = x % 3;
+            if (x >= g[m][0]) {
+                g[m][2] = g[m][1];
+                g[m][1] = g[m][0];
+                g[m][0] = x;
+            } else if (x >= g[m][1]) {
+                g[m][2] = g[m][1];
+                g[m][1] = x;
+            } else if (x >= g[m][2]) {
+                g[m][2] = x;
+            }
         }
         int res = 0;
         for (int i = 0; i < 3; ++i) {
-            Collections.sort(g[i], Collections.reverseOrder());
-            if (g[i].size() >= 3) {
-                res = Math.max(res, g[i].get(0) + g[i].get(1) + g[i].get(2));
+            if (g[i][2] > 0) {
+                res = Math.max(res, g[i][0] + g[i][1] + g[i][2]);
             }
         }
-        if (g[0].size() >= 1 && g[1].size() >= 1 && g[2].size() >= 1) {
-            res = Math.max(res, g[0].get(0) + g[1].get(0) + g[2].get(0));
+        if (g[0][0] > 0 && g[1][0] > 0 && g[2][0] > 0) {
+            res = Math.max(res, g[0][0] + g[1][0] + g[2][0]);
         }
         return res;
 

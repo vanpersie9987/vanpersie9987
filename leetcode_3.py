@@ -6105,7 +6105,7 @@ class SegmentTree2940:
 
     # 3780. 能被 3 整除的三元组最大和 (Maximum Sum of Three Numbers Divisible by Three)
     def maximumSum(self, nums: List[int]) -> int:
-        g = [[-inf] * 3 for _ in range(3)]
+        g = [[0] * 3 for _ in range(3)]
         for x in nums:
             m = x % 3
             if x >= g[m][0]:
@@ -6119,7 +6119,7 @@ class SegmentTree2940:
                 g[m][2] = x
         res = 0
         for i in range(3):
-            if all(x > 0 for x in g[i]):
+            if g[i][-1] > 0:
                 res = max(res, sum(g[i]))
         if all(g[i][0] > 0 for i in range(3)):
             res = max(res, g[0][0] + g[1][0] + g[2][0])
