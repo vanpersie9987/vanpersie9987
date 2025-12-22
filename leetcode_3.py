@@ -6178,3 +6178,19 @@ class SegmentTree2940:
             if c == '0':
                 heapq.heappop(q)
         return sum(q)
+
+    # 3785. 避免禁用值的最小交换次数 (Minimum Swaps to Avoid Forbidden Values)
+    def minSwaps(self, nums: List[int], forbidden: List[int]) -> int:
+        n = len(nums)
+        cnt = defaultdict(int)
+        for x, f in zip(nums, forbidden):
+            cnt[x] += 1
+            cnt[f] += 1
+        if any(x > n for x in cnt.values()):
+            return -1
+        a = defaultdict(int)
+        for x, f in zip(nums, forbidden):
+            if x != f:
+                continue
+            a[x] += 1
+        return max(max(a.values(), default=0), (sum(a.values()) + 1) // 2)
