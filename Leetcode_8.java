@@ -906,29 +906,38 @@ public class Leetcode_8 {
         this.n960 = strs.length;
         this.m960 = strs[0].length();
         this.strs960 = strs;
-        this.memo960 = new int[m960 + 1][m960 + 1];
-        for (int i = 0; i < m960 + 1; ++i) {
+        this.memo960 = new int[m960][m960 + 1];
+        for (int i = 0; i < m960; ++i) {
             Arrays.fill(memo960[i], -1);
         }
-        return m960 - dfs960(1, 0);
+        return m960 - dfs960(0, m960);
     }
 
     private int dfs960(int i, int j) {
-        if (i == m960 + 1) {
+        if (i == m960) {
             return 0;
         }
         if (memo960[i][j] != -1) {
             return memo960[i][j];
         }
-        // 不选
-        int max = dfs960(i + 1, j);
-        // 选
-        for (int k = 0; j != 0 && k < n960; ++k) {
-            if (strs960[k].charAt(i - 1) < strs960[k].charAt(j - 1)) {
-                return memo960[i][j] = max;
+        // 删
+        int res = dfs960(i + 1, j) + 1;
+        // 不删
+        if (j == m960) {
+            res = Math.max(res, dfs960(i + 1, i) + 1);
+        } else {
+            boolean canKeep = true;
+            for (int k = 0; k < n960; ++k) {
+                if (strs960[k].charAt(i) < strs960[k].charAt(j)) {
+                    canKeep = false;
+                    break;
+                }
+            }
+            if (canKeep) {
+                res = Math.max(res, dfs960(i + 1, i) + 1);
             }
         }
-        return memo960[i][j] = Math.max(max, dfs960(i + 1, i) + 1);
+        return memo960[i][j] = res;
     }
 
     // 630. 课程表 III (Course Schedule III)
