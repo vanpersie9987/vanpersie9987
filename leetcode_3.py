@@ -6145,3 +6145,26 @@ class SegmentTree2940:
             idx = ord(ch) - ord('a')
             d[idx] += c
         return _sum - max(d)
+    
+    # 3786. 树组的交互代价总和 (Total Sum of Interaction Cost in Tree Groups)
+    def interactionCosts(self, n: int, edges: List[List[int]], group: List[int]) -> int:
+        def dfs(x: int, fa: int) -> int:
+            nonlocal res
+            cnt_x = group[x] == c
+            for y in g[x]:
+                if y != fa:
+                    cnt_y = dfs(y, x)
+                    res += (tot - cnt_y) * cnt_y
+                    cnt_x += cnt_y
+            return cnt_x
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        d = defaultdict(int)
+        for c in group:
+            d[c] += 1
+        res = 0
+        for c, tot in d.items():
+            dfs(0, -1)
+        return res
