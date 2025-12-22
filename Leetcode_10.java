@@ -2353,4 +2353,20 @@ public class Leetcode_10 {
         return s;
     }
 
+    // 3781. 二进制交换后的最大分数 (Maximum Score After Binary Swaps)
+    public long maximumScore(int[] nums, String s) {
+        int n = nums.length;
+        Queue<Integer> pq = new PriorityQueue<>();
+        long res = 0L;
+        for (int i = n - 1; i >= 0; --i) {
+            pq.offer(nums[i]);
+            res += nums[i];
+            if (s.charAt(i) == '0') {
+                res -= pq.poll();
+            }
+        }
+        return res;
+
+    }
+
 }
