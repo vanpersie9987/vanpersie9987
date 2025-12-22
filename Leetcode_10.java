@@ -1921,7 +1921,7 @@ public class Leetcode_10 {
         return right + 1;
 
     }
-    
+
     // 3760. 不同首字母的子字符串数目 (Maximum Substrings With Distinct Start)
     public int maxDistinct(String s) {
         int m = 0;
@@ -2026,7 +2026,7 @@ public class Leetcode_10 {
         return res;
 
     }
-    
+
     // 3769. 二进制反射排序 (Sort Integers by Binary Reflection)
     public int[] sortByReflection(int[] nums) {
         List<Integer> a = new ArrayList<>();
@@ -2077,7 +2077,7 @@ public class Leetcode_10 {
         }
         return res;
     }
-    
+
     // 3771. 探索地牢的得分 (Total Score of Dungeon Runs)
     public long totalScore(int hp, int[] damage, int[] requirement) {
         long res = 0L;
@@ -2288,8 +2288,20 @@ public class Leetcode_10 {
         }
         return res;
 
-
     }
 
+    // 3783. 整数的镜像距离 (Mirror Distance of an Integer)
+    public int mirrorDistance(int n) {
+        return Math.abs(n - rev3783(n));
+    }
+
+    private int rev3783(int x) {
+        int res = 0;
+        while (x != 0) {
+            res = res * 10 + x % 10;
+            x /= 10;
+        }
+        return res;
+    }
 
 }
