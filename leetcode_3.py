@@ -6124,3 +6124,14 @@ class SegmentTree2940:
         if all(g[i][0] > 0 for i in range(3)):
             res = max(res, g[0][0] + g[1][0] + g[2][0])
         return res
+
+    # 3783. 整数的镜像距离 (Mirror Distance of an Integer)
+    def mirrorDistance(self, n: int) -> int:
+        def rev(x: int) -> int:
+            res = 0
+            while x:
+                d, m = divmod(x, 10)
+                res = res * 10 + m
+                x = d
+            return res
+        return abs(n - rev(n))
