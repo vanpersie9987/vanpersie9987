@@ -2398,4 +2398,17 @@ public class Leetcode_10 {
 
     }
 
+    // 3782. 交替删除操作后最后剩下的整数 (Last Remaining Integer After Alternating Deletion
+    // Operations)
+    public long lastInteger(long n) {
+        long start = 1L;
+        long d = 1L;
+        while (n > 1) {
+            start += (n - 2 + n % 2) * d;
+            d *= -2L;
+            n = (n + 1) / 2;
+        }
+        return start;
+    }
+
 }
