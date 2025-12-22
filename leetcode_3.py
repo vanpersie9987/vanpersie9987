@@ -6194,3 +6194,12 @@ class SegmentTree2940:
                 continue
             a[x] += 1
         return max(max(a.values(), default=0), (sum(a.values()) + 1) // 2)
+
+    # 3782. 交替删除操作后最后剩下的整数 (Last Remaining Integer After Alternating Deletion Operations)
+    def lastInteger(self, n: int) -> int:
+        start = d = 1
+        while n > 1:
+            start += (n - 2 + n % 2) * d
+            d *= -2
+            n = (n + 1) // 2
+        return start
