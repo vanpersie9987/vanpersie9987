@@ -2369,4 +2369,33 @@ public class Leetcode_10 {
 
     }
 
+    // 3785. 避免禁用值的最小交换次数 (Minimum Swaps to Avoid Forbidden Values)
+    public int minSwaps(int[] nums, int[] forbidden) {
+        int n = nums.length;
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            cnts.merge(nums[i], 1, Integer::sum);
+            if (cnts.get(nums[i]) > n) {
+                return -1;
+            }
+
+            cnts.merge(forbidden[i], 1, Integer::sum);
+            if (cnts.get(forbidden[i]) > n) {
+                return -1;
+            }
+        }
+        Map<Integer, Integer> a = new HashMap<>();
+        int k = 0;
+        int mx = 0;
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] == forbidden[i]) {
+                a.merge(nums[i], 1, Integer::sum);
+                ++k;
+                mx = Math.max(mx, a.get(nums[i]));
+            }
+        }
+        return Math.max(mx, (k + 1) / 2);
+
+    }
+
 }
