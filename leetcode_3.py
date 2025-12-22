@@ -6085,3 +6085,20 @@ class SegmentTree2940:
             return res
         n, m = len(strs), len(strs[0])
         return m - dfs(0, -1)
+
+    # 3779. 得到互不相同元素的最少操作次数 (Minimum Number of Operations to Have Distinct Elements)
+    def minOperations(self, nums: List[int]) -> int:
+        cnts = defaultdict(int)
+        for x in nums:
+            cnts[x] += 1
+        i = 0
+        n = len(nums)
+        res = 0
+        while n - i != len(cnts):
+            res += 1
+            for j in range(i, min(i + 3, n)):
+                cnts[nums[j]] -= 1
+                if cnts[nums[j]] == 0:
+                    del cnts[nums[j]]
+            i = min(i + 3, n)
+        return res
