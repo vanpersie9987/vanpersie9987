@@ -1,5 +1,6 @@
 from ast import Return, Tuple, literal_eval
 from asyncio import FastChildWatcher
+import csv
 from curses.panel import bottom_panel
 from gettext import find
 import math
@@ -6135,3 +6136,12 @@ class SegmentTree2940:
                 x = d
             return res
         return abs(n - rev(n))
+    
+    # 3784. 使所有字符相等的最小删除代价 (Minimum Deletion Cost to Make All Characters Equal)
+    def minCost(self, s: str, cost: List[int]) -> int:
+        _sum = sum(cost)
+        d = [0] * 26
+        for ch, c in zip(s, cost):
+            idx = ord(ch) - ord('a')
+            d[idx] += c
+        return _sum - max(d)

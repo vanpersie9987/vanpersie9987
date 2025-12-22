@@ -2304,4 +2304,20 @@ public class Leetcode_10 {
         return res;
     }
 
+    // 3784. 使所有字符相等的最小删除代价 (Minimum Deletion Cost to Make All Characters Equal)
+    public long minCost3784(String s, int[] cost) {
+        long[] d = new long[26];
+        long sum = 0L;
+        long mx = 0L;
+        for (int i = 0; i < s.length(); ++i) {
+            int idx = s.charAt(i) - 'a';
+            sum += cost[i];
+            d[idx] += cost[i];
+            mx = Math.max(mx, d[idx]);
+        }
+        return sum - mx;
+
+
+    }
+
 }
