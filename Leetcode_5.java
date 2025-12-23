@@ -381,6 +381,29 @@ public class Leetcode_5 {
         return res;
     }
 
+    // 2054. 两个最好的不重叠活动 (Two Best Non-Overlapping Events)
+    public int maxTwoEvents3(int[][] events) {
+        Arrays.sort(events, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[1], o2[1]);
+            }
+
+        });
+        TreeMap<Integer, Integer> tm = new TreeMap<>();
+        tm.put(0, 0);
+        int pre = 0;
+        int res = 0;
+        for (int[] e : events) {
+            Integer key = tm.lowerKey(e[0]);
+            res = Math.max(res, e[2] + tm.get(key));
+            tm.put(e[1], Math.max(tm.get(pre), e[2]));
+            pre = e[1];
+        }
+        return res;
+    }
+
     // 437. 路径总和 III (Path Sum III)
     // 剑指 Offer II 050. 向下的路径节点之和
     // 面试题 04.12. 求和路径 (Paths with Sum LCCI)

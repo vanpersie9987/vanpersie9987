@@ -3431,6 +3431,30 @@ class leetcode_1:
             return max(dfs(i + 1, j), dfs(p, j + 1) + events[i][2])
 
         return dfs(0, 0)
+    
+    # 2054. 两个最好的不重叠活动 (Two Best Non-Overlapping Events)
+    def maxTwoEvents(self, events: List[List[int]]) -> int:
+        def bisect_right(x: int, a: list) -> int:
+            left = 0
+            right = len(a) - 1
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if a[mid][0] <= x:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            return left - 1
+
+        events.sort(key=lambda o:o[1])
+        a = [(0, 0)]
+        res = 0
+        for s, e, v in events:
+            res = max(res, v + a[bisect_right(s - 1, a)][1])
+            if e > a[-1][0]:
+                a.append((e, max(a[-1][1], v)))
+            else:
+                a[-1] = (a[-1][0], max(a[-1][1], v))
+        return res
 
     # 2050. 并行课程 III (Parallel Courses III)
     def minimumTime(self, n: int, relations: List[List[int]], time: List[int]) -> int:

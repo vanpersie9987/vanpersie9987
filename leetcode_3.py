@@ -6203,3 +6203,5 @@ class SegmentTree2940:
             d *= -2
             n = (n + 1) // 2
         return start
+
+            
