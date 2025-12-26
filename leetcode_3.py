@@ -6016,8 +6016,10 @@ class SegmentTree2940:
         return res
 
     # 2092. 找出知晓秘密的所有专家 (Find All People With Secret)
-    def findAllPeople(self, n: int, meetings: List[List[int]], firstPerson: int) -> List[int]:
-        meetings.sort(key=lambda o:o[2])
+    def findAllPeople(
+        self, n: int, meetings: List[List[int]], firstPerson: int
+    ) -> List[int]:
+        meetings.sort(key=lambda o: o[2])
         knows = [False] * n
         knows[0] = knows[firstPerson] = True
         i = 0
@@ -6032,12 +6034,14 @@ class SegmentTree2940:
                 g[x].append(y)
                 g[y].append(x)
                 j += 1
+
             def dfs(x: int):
                 vis.add(x)
                 knows[x] = True
                 for y in g[x]:
                     if y not in vis:
                         dfs(y)
+
             for x in g:
                 if knows[x] and x not in vis:
                     dfs(x)
@@ -6084,6 +6088,7 @@ class SegmentTree2940:
             if j == -1 or all(strs[k][i] >= strs[k][j] for k in range(n)):
                 res = max(res, dfs(i + 1, i) + 1)
             return res
+
         n, m = len(strs), len(strs[0])
         return m - dfs(0, -1)
 
@@ -6135,6 +6140,7 @@ class SegmentTree2940:
                 res = res * 10 + m
                 x = d
             return res
+
         return abs(n - rev(n))
 
     # 3784. 使所有字符相等的最小删除代价 (Minimum Deletion Cost to Make All Characters Equal)
@@ -6142,7 +6148,7 @@ class SegmentTree2940:
         _sum = sum(cost)
         d = [0] * 26
         for ch, c in zip(s, cost):
-            idx = ord(ch) - ord('a')
+            idx = ord(ch) - ord("a")
             d[idx] += c
         return _sum - max(d)
 
@@ -6157,6 +6163,7 @@ class SegmentTree2940:
                     res += (tot - cnt_y) * cnt_y
                     cnt_x += cnt_y
             return cnt_x
+
         g = [[] for _ in range(n)]
         for u, v in edges:
             g[u].append(v)
@@ -6175,7 +6182,7 @@ class SegmentTree2940:
         heapq.heapify(q)
         for x, c in zip(reversed(nums), reversed(s)):
             heapq.heappush(q, x)
-            if c == '0':
+            if c == "0":
                 heapq.heappop(q)
         return sum(q)
 
@@ -6207,9 +6214,7 @@ class SegmentTree2940:
     # 2483. 商店的最少代价 (Minimum Penalty for a Shop)
     def bestClosingTime(self, customers: str) -> int:
         n = len(customers)
-        cost = 0
-        for i in range(n - 1, -1, -1):
-            cost += customers[i] == "Y"
+        cost = customers.count("Y")
         min_cost = cost
         res = 0
         for i in range(1, n + 1):

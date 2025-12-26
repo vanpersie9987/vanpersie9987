@@ -2321,6 +2321,7 @@ public class Leetcode_10 {
 
     // 3786. 树组的交互代价总和 (Total Sum of Interaction Cost in Tree Groups)
     private long res3776;
+
     public long interactionCosts(int n, int[][] edges, int[] group) {
         Map<Integer, Integer> gCnts = new HashMap<>();
         for (int g : group) {
@@ -2410,5 +2411,7 @@ public class Leetcode_10 {
         }
         return start;
     }
+
+    
 
 }

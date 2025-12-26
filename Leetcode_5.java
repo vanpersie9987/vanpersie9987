@@ -9521,25 +9521,20 @@ public class Leetcode_5 {
 
     }
 
-    // 6250. 商店的最少代价 (Minimum Penalty for a Shop)
+    // 2483. 商店的最少代价 (Minimum Penalty for a Shop)
     public int bestClosingTime(String customers) {
-        int curCost = 0;
-        int minCost = 0;
-        int res = customers.length();
+        int cost = 0;
         for (char c : customers.toCharArray()) {
-            if (c == 'N') {
-                ++curCost;
+            if (c == 'Y') {
+                ++cost;
             }
         }
-        minCost = curCost;
-        for (int i = customers.length() - 1; i >= 0; --i) {
-            if (customers.charAt(i) == 'Y') {
-                ++curCost;
-            } else {
-                --curCost;
-            }
-            if (curCost <= minCost) {
-                minCost = curCost;
+        int res = 0;
+        int minCost = cost;
+        for (int i = 1; i < customers.length() + 1; ++i) {
+            cost += customers.charAt(i - 1) == 'Y' ? -1 : 1;
+            if (cost < minCost) {
+                minCost = cost;
                 res = i;
             }
         }
