@@ -6207,14 +6207,14 @@ class SegmentTree2940:
     # 2483. 商店的最少代价 (Minimum Penalty for a Shop)
     def bestClosingTime(self, customers: str) -> int:
         n = len(customers)
-        suf = 0
+        cost = 0
         for i in range(n - 1, -1, -1):
-            suf += customers[i] == "Y"
-        c = suf
+            cost += customers[i] == "Y"
+        min_cost = cost
         res = 0
         for i in range(1, n + 1):
-            suf += -1 if customers[i - 1] == "Y" else 1
-            if suf < c:
-                c = suf
+            cost += -1 if customers[i - 1] == "Y" else 1
+            if cost < min_cost:
+                min_cost = cost
                 res = i
         return res
