@@ -6247,3 +6247,16 @@ class SegmentTree2940:
                 duration = end - start
                 heapq.heappush(busy_rooms, (free_time + duration, room_id))
         return cnts.index(max(cnts))
+
+    # 1351. 统计有序矩阵中的负数 (Count Negative Numbers in a Sorted Matrix)
+    def countNegatives(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        res = 0
+        i, j = 0, n - 1
+        while i < m and j >= 0:
+            if grid[i][j] < 0:
+                res += m - i
+                j -= 1
+            else:
+                i += 1
+        return res
