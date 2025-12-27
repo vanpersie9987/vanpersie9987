@@ -6223,3 +6223,27 @@ class SegmentTree2940:
                 min_cost = cost
                 res = i
         return res
+
+    # 2402. 会议室 III (Meeting Rooms III)
+    def mostBooked(self, n: int, meetings: List[List[int]]) -> int:
+        cnts = [0] * n
+        idle_rooms = [i for i in range(n)]
+        heapq.heapify(idle_rooms)
+        # (i, j) is end time, j is room id
+        busy_rooms = []
+        heapq.heapify(busy_rooms)
+        meetings.sort()
+        for start, end in meetings:
+            while busy_rooms and busy_rooms[0][0] <= start:
+                _, room_id = heapq.heappop(busy_rooms)
+                heapq.heappush(idle_rooms, room_id)
+            if idle_rooms:
+                room_id = heapq.heappop(idle_rooms)
+                cnts[room_id] += 1
+                heapq.heappush(busy_rooms, (end, room_id))
+            else:
+                free_time, room_id = heapq.heappop(busy_rooms)
+                cnts[room_id] += 1
+                duration = end - start
+                heapq.heappush(busy_rooms, (free_time + duration, room_id))
+        return cnts.index(max(cnts))
