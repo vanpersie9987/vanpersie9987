@@ -1383,7 +1383,8 @@ public class Leetcode_7 {
         if (memo2209[i][j] != -1) {
             return memo2209[i][j];
         }
-        return memo2209[i][j] = Math.min(dfs2209(i - 1, j) + floor2209.charAt(i) - '0', dfs2209(i - carpetLen2209, j - 1));
+        return memo2209[i][j] = Math.min(dfs2209(i - 1, j) + floor2209.charAt(i) - '0',
+                dfs2209(i - carpetLen2209, j - 1));
     }
 
     // 975. 奇偶跳 (Odd Even Jump)
@@ -5114,66 +5115,50 @@ public class Leetcode_7 {
     }
 
     // 756. 金字塔转换矩阵 (Pyramid Transition Matrix)
-    private Map<String, List<Character>> map756;
-    private Map<Integer, Set<String>> cans756;
-    private Map<String, Boolean> memo756;
-
     public boolean pyramidTransition(String bottom, List<String> allowed) {
-        map756 = new HashMap<>();
-        cans756 = new HashMap<>();
-        memo756 = new HashMap<>();
-        for (String a : allowed) {
-            String b = a.substring(0, 2);
-            char t = a.charAt(2);
-            map756.computeIfAbsent(b, k -> new ArrayList<>()).add(t);
+        List<Character>[][] groups = new ArrayList[6][6];
+        for (List<Character>[] row : groups) {
+            Arrays.setAll(row, o -> new ArrayList<>());
         }
-        return dfs756(bottom);
+        for (String S : allowed) {
+            char[] s = S.toCharArray();
+            groups[s[0] - 'A'][s[1] - 'A'].add(s[2]);
+        }
 
+        int n = bottom.length();
+        char[][] pyramid = new char[n][];
+        for (int i = 0; i < n - 1; i++) {
+            pyramid[i] = new char[i + 1];
+        }
+        pyramid[n - 1] = bottom.toCharArray();
+
+        Set<String> vis = new HashSet<>();
+
+        return dfs756(n - 2, 0, pyramid, vis, groups);
     }
 
-    private boolean dfs756(String s) {
-        if (s.length() == 1) {
+    private boolean dfs756(int i, int j, char[][] pyramid, Set<String> vis, List<Character>[][] groups) {
+        if (i < 0) {
             return true;
         }
-        if (memo756.containsKey(s)) {
-            return memo756.get(s);
+
+        String row = new String(pyramid[i], 0, j);
+        if (vis.contains(row)) { // 之前填过一模一样的，这个局部的金字塔无法填完
+            return false; // 继续递归也无法填完，直接返回
         }
-        if (check756(s)) {
-            construct756(s, 0, new StringBuilder());
-            for (String c : cans756.getOrDefault(s.length() - 1, new HashSet<>())) {
-                if (dfs756(c)) {
-                    memo756.put(s, true);
-                    return true;
-                }
+
+        if (j == i + 1) {
+            vis.add(row);
+            return dfs756(i - 1, 0, pyramid, vis, groups);
+        }
+
+        for (char top : groups[pyramid[i + 1][j] - 'A'][pyramid[i + 1][j + 1] - 'A']) {
+            pyramid[i][j] = top;
+            if (dfs756(i, j + 1, pyramid, vis, groups)) {
+                return true;
             }
         }
-        memo756.put(s, false);
         return false;
-    }
-
-    private boolean check756(String s) {
-        int n = s.length();
-        for (int i = 0; i < n - 1; ++i) {
-            if (!map756.containsKey(s.substring(i, i + 2))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private void construct756(String s, int i, StringBuilder builder) {
-        if (builder.length() == s.length() - 1) {
-            cans756.computeIfAbsent(builder.length(), k -> new HashSet<>()).add(builder.toString());
-            return;
-        }
-        int n = s.length();
-        for (int j = i; j < n - 1; ++j) {
-            for (char c : map756.getOrDefault(s.substring(j, j + 2), new ArrayList<>())) {
-                builder.append(c);
-                construct756(s, j + 1, builder);
-                builder.deleteCharAt(builder.length() - 1);
-            }
-        }
     }
 
     // 282. 给表达式添加运算符 (Expression Add Operators)
