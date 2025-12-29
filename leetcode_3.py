@@ -6328,3 +6328,21 @@ class SegmentTree2940:
             if rem == 0:
                 return i
         return -1
+
+    # 3791. 给定范围内平衡整数的数目 (Number of Balanced Integers in a Range)
+    def countBalanced(self, low: int, high: int) -> int:
+        def cal(x: int) -> int:
+            @cache
+            def dfs(i: int, j: int, is_limit: bool) -> int:
+                if i == n:
+                    return j == 0
+                res = 0
+                up = int(s[i]) if is_limit else 9
+                for d in range(up + 1):
+                    nj = j + (d if i % 2 else -d)
+                    res += dfs(i + 1, nj, is_limit and d == up)
+                return res
+            s = str(x)
+            n = len(s)
+            return dfs(0, 0, True)
+        return cal(high) - cal(low - 1)
