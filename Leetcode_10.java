@@ -2411,6 +2411,23 @@ public class Leetcode_10 {
         return start;
     }
 
+    // 3788. 分割的最大得分 (Maximum Score of a Split)
+    public long maximumScore(int[] nums) {
+        int n = nums.length;
+        int[] sufMin = new int[n];
+        sufMin[n - 1] = Integer.MAX_VALUE;
+        for (int i = n - 2; i >= 0; --i) {
+            sufMin[i] = Math.min(sufMin[i + 1], nums[i + 1]);
+        }
+        long preSum = 0L;
+        long res = Long.MIN_VALUE;
+        for (int i = 0; i < n - 1; ++i) {
+            preSum += nums[i];
+            res = Math.max(res, preSum - sufMin[i]);
+        }
+        return res;
+    }
+
     
 
 }
