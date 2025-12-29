@@ -2441,6 +2441,21 @@ public class Leetcode_10 {
         return Math.min(res1, Math.min(res2, res3));
     }
 
+    // 3790. 最小全 1 倍数 (mallest All-Ones Multiple)
+    public int minAllOneMultiple(int k) {
+        if (k % 2 == 0 || k % 5 == 0) {
+            return -1;
+        }
+        int mod = 0;
+        for (int i = 1; i <= k; ++i) {
+            mod = (mod * 10 + 1) % k;
+            if (mod == 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
 
     
