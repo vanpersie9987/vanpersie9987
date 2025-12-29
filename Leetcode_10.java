@@ -2456,8 +2456,42 @@ public class Leetcode_10 {
         return -1;
     }
 
+    // 3791. 给定范围内平衡整数的数目 (Number of Balanced Integers in a Range)
+    public long countBalanced(long low, long high) {
+        return cal3791(high) - cal3791(low - 1);
+    }
 
+    private long[][][] memo3791;
+    private String s3791;
+    private int n3791;
 
-    
+    private long cal3791(long x) {
+        this.s3791 = String.valueOf(x);
+        this.n3791 = s3791.length();
+        this.memo3791 = new long[n3791][9 * ((n3791 + 1) / 2) + 1][9 * ((n3791 + 1) / 2) + 1];
+        for (long[][] r1 : memo3791) {
+            for (long[] r2 : r1) {
+                Arrays.fill(r2, -1L);
+            }
+        }
+        return dfs3791(0, 0, 0, true);
+    }
 
+    private long dfs3791(int i, int j, int k, boolean isLimit) {
+        if (i == n3791) {
+            return j == k ? 1L : 0L;
+        }
+        if (!isLimit && memo3791[i][j][k] != -1L) {
+            return memo3791[i][j][k];
+        }
+        long res = 0L;
+        int up = isLimit ? (s3791.charAt(i) - '0') : 9;
+        for (int d = 0; d <= up; ++d) {
+            res += dfs3791(i + 1, j + (i % 2 == 0 ? d : 0), k + (i % 2 == 1 ? d : 0), isLimit && d == up);
+        }
+        if (!isLimit) {
+            memo3791[i][j][k] = res;
+        }
+        return res;
+    }
 }
