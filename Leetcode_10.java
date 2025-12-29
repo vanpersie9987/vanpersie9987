@@ -2428,18 +2428,17 @@ public class Leetcode_10 {
         return res;
     }
 
+    // 3789. 采购的最小花费 (Minimum Cost to Acquire Required Items)
     public long minimumCost(int cost1, int cost2, int costBoth, int need1, int need2) {
-        long res = Long.MAX_VALUE;
-        for (int i = 0; i < Math.max(need1, need1) + 1; ++i) {
-            long cur = (long) i * costBoth;
-            int rem1 = Math.max(0, need1 - i);
-            int rem2 = Math.max(0, need2 - i);
-            cur += (long) rem1 * cost1 + (long) rem2 * cost2;
-            res = Math.min(res, cur);
-        }
-        return res;
-
-
+        long res1 = (long) cost1 * need1 + (long) cost2 * need2;
+        long res2 = (long) costBoth * Math.max(need1, need2);
+        long res3 = 0L;
+        int m = Math.min(need1, need2);
+        res3 += (long) costBoth * m;
+        need1 -= m;
+        need2 -= m;
+        res3 += (long) cost1 * need1 + (long) cost2 * need2;
+        return Math.min(res1, Math.min(res2, res3));
     }
 
 
