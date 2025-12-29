@@ -6306,3 +6306,14 @@ class SegmentTree2940:
             pre_sum += nums[i]
             res = max(res, pre_sum - suf_min[i])
         return res
+
+    # 3789. 采购的最小花费 (Minimum Cost to Acquire Required Items)
+    def minimumCost(self, cost1: int, cost2: int, costBoth: int, need1: int, need2: int) -> int:
+        res1 = need1 * cost1 + need2 * cost2
+        res2 = max(need1, need2) * costBoth
+        m = min(need1, need2)
+        res3 = m * costBoth
+        need1 -= m
+        need2 -= m
+        res3 += need1 * cost1 + need2 * cost2
+        return min(res1, res2, res3)

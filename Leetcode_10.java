@@ -2428,6 +2428,22 @@ public class Leetcode_10 {
         return res;
     }
 
+    public long minimumCost(int cost1, int cost2, int costBoth, int need1, int need2) {
+        long res = Long.MAX_VALUE;
+        for (int i = 0; i < Math.max(need1, need1) + 1; ++i) {
+            long cur = (long) i * costBoth;
+            int rem1 = Math.max(0, need1 - i);
+            int rem2 = Math.max(0, need2 - i);
+            cur += (long) rem1 * cost1 + (long) rem2 * cost2;
+            res = Math.min(res, cur);
+        }
+        return res;
+
+
+    }
+
+
+
     
 
 }
