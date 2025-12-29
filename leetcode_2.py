@@ -10042,39 +10042,6 @@ class Union924:
         if n == len(edges):  # 环
             ans += 2
         return ans
-    
-    # 756. 金字塔转换矩阵 (Pyramid Transition Matrix)
-    def pyramidTransition(self, bottom: str, allowed: List[str]) -> bool:
-        groups = defaultdict(list)
-        for s in allowed:
-            groups[s[:2]].append(s[2])
-
-        n = len(bottom)
-        pyramid = [[] for _ in range(n)]
-        pyramid[-1] = bottom
-
-        vis = set()
-
-        def dfs(i: int, j: int) -> bool:
-            if i < 0:
-                return True
-
-            row = ''.join(pyramid[i])
-            if row in vis:  # 之前填过一模一样的，这个局部的金字塔无法填完
-                return False  # 继续递归也无法填完，直接返回
-
-            if j == i + 1:
-                vis.add(row)
-                return dfs(i - 1, 0)
-
-            for top in groups[pyramid[i + 1][j] + pyramid[i + 1][j + 1]]:
-                pyramid[i].append(top)
-                if dfs(i, j + 1):
-                    return True
-                pyramid[i].pop()
-            return False
-
-        return dfs(n - 2, 0)
 
 
 

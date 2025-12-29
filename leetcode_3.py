@@ -6260,3 +6260,49 @@ class SegmentTree2940:
             else:
                 i += 1
         return res
+
+    # 756. 金字塔转换矩阵 (Pyramid Transition Matrix)
+    def pyramidTransition(self, bottom: str, allowed: List[str]) -> bool:
+        groups = defaultdict(list)
+        for s in allowed:
+            groups[s[:2]].append(s[2])
+
+        n = len(bottom)
+        pyramid = [[] for _ in range(n)]
+        pyramid[-1] = bottom
+
+        vis = set()
+
+        def dfs(i: int, j: int) -> bool:
+            if i < 0:
+                return True
+
+            row = ''.join(pyramid[i])
+            if row in vis:  # 之前填过一模一样的，这个局部的金字塔无法填完
+                return False  # 继续递归也无法填完，直接返回
+
+            if j == i + 1:
+                vis.add(row)
+                return dfs(i - 1, 0)
+
+            for top in groups[pyramid[i + 1][j] + pyramid[i + 1][j + 1]]:
+                pyramid[i].append(top)
+                if dfs(i, j + 1):
+                    return True
+                pyramid[i].pop()
+            return False
+
+        return dfs(n - 2, 0)
+
+    # 788. 分割的最大得分 (Maximum Score of a Split)
+    def maximumScore(self, nums: List[int]) -> int:
+        n = len(nums)
+        suf_min = [inf] * n
+        for i in range(n - 2, -1, -1):
+            suf_min[i] = min(suf_min[i + 1], nums[i + 1])
+        res = -inf
+        pre_sum = 0
+        for i in range(n - 1):
+            pre_sum += nums[i]
+            res = max(res, pre_sum - suf_min[i])
+        return res
