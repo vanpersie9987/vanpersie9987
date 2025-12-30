@@ -6346,3 +6346,47 @@ class SegmentTree2940:
             n = len(s)
             return dfs(0, 0, True)
         return cal(high) - cal(low - 1)
+
+    # 840. 矩阵中的幻方 (Magic Squares In Grid)
+    def numMagicSquaresInside(self, grid: List[List[int]]) -> int:
+        def check(x0: int, y0: int) -> bool:
+            def check_unique() -> bool:
+                mask = 0
+                for x in range(x0, x0 + 3):
+                    for y in range(y0, y0 + 3):
+                        if grid[x][y] > 9 or grid[x][y] < 1:
+                            return False
+                        if (mask >> grid[x][y]) & 1:
+                            return False
+                        mask |= 1 << grid[x][y]
+                return True
+            def check_row() -> bool:
+                for x in range(x0, x0 + 3):
+                    s = 0
+                    for y in range(y0, y0 + 3):
+                        s += grid[x][y]
+                    if s != 15:
+                        return False
+                return True
+            def check_col() -> bool:
+                for y in range(y0, y0 + 3):
+                    s = 0
+                    for x in range(x0, x0 + 3):
+                        s += grid[x][y]
+                    if s != 15:
+                        return False
+                return True
+            def check_diag() -> bool:
+                s1 = s2 = 0
+                for i in range(3):
+                    s1 += grid[x0 + i][y0 + i]
+                    s2 += grid[x0 + i][y0 + 2 - i]
+                return s1 == 15 and s2 == 15
+            return check_unique() and check_row() and check_col() and check_diag()
+        m, n = len(grid), len(grid[0])
+        res = 0
+        for i in range(2, m):
+            for j in range(2, n):
+                if grid[i - 1][j - 1] == 5 and check(i - 2, j - 2):
+                    res += 1
+        return res
