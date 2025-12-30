@@ -3044,37 +3044,52 @@ public class LeetCodeText {
         }
     }
 
-    // 840. 矩阵中的幻方
-    public int numMagicSquaresInside(final int[][] grid) {
-        int count = 0;
-        for (int i = 1; i < grid.length - 1; ++i) {
-            for (int j = 1; j < grid[0].length - 1; ++j) {
-                if (grid[i][j] != 5) {
-                    continue;
-                }
-                if (magic(grid[i - 1][j - 1], grid[i - 1][j], grid[i - 1][j + 1], grid[i][j - 1], grid[i][j],
-                        grid[i][j + 1], grid[i + 1][j - 1], grid[i + 1][j], grid[i + 1][j + 1])) {
-                    ++count;
+    // 840. 矩阵中的幻方 (Magic Squares In Grid)
+    public int numMagicSquaresInside(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int res = 0;
+        for (int i = 0; i < m - 2; ++i) {
+            for (int j = 0; j < n - 2; ++j) {
+                if (grid[i + 1][j + 1] == 5 && check840(grid, i, j)) {
+                    ++res;
                 }
             }
         }
-        return count;
+        return res;
+
     }
 
-    private boolean magic(int... nums) {
-        int[] counts = new int[16];
-        for (int num : nums) {
-            ++counts[num];
+    private boolean check840(int[][] grid, int x0, int y0) {
+        int mask = 0;
+        for (int i = x0; i < x0 + 3; ++i) {
+            for (int j = y0; j < y0 + 3; ++j) {
+                int v = grid[i][j];
+                if (v < 1 || v > 9 || ((mask >> v) & 1) != 0) {
+                    return false;
+                }
+                mask |= 1 << v;
+            }
         }
-        for (int i = 1; i <= 9; ++i) {
-            if (counts[i] != 1) {
+        for (int i = x0; i < x0 + 3; ++i) {
+            int rowSum = 0;
+            for (int j = y0; j < y0 + 3; ++j) {
+                rowSum += grid[i][j];
+            }
+            if (rowSum != 15) {
                 return false;
             }
         }
-        return (nums[0] + nums[1] + nums[2] == 15) && (nums[3] + nums[4] + nums[5] == 15)
-                && (nums[6] + nums[7] + nums[8] == 15) && (nums[0] + nums[3] + nums[6] == 15)
-                && (nums[1] + nums[4] + nums[7] == 15) && (nums[2] + nums[5] + nums[8] == 15)
-                && (nums[0] + nums[4] + nums[8] == 15) && (nums[2] + nums[4] + nums[6] == 15);
+        for (int j = y0; j < y0 + 3; ++j) {
+            int colSum = 0;
+            for (int i = x0; i < x0 + 3; ++i) {
+                colSum += grid[i][j];
+            }
+            if (colSum != 15) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // 面试题 01.01. 判定字符是否唯一
