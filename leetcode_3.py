@@ -6376,13 +6376,7 @@ class SegmentTree2940:
                     if s != 15:
                         return False
                 return True
-            def check_diag() -> bool:
-                s1 = s2 = 0
-                for i in range(3):
-                    s1 += grid[x0 + i][y0 + i]
-                    s2 += grid[x0 + i][y0 + 2 - i]
-                return s1 == 15 and s2 == 15
-            return check_unique() and check_row() and check_col() and check_diag()
+            return check_unique() and check_row() and check_col()
         m, n = len(grid), len(grid[0])
         res = 0
         for i in range(2, m):
