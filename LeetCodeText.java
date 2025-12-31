@@ -17999,86 +17999,66 @@ public class LeetCodeText {
     // 1970. 你能穿过矩阵的最后一天 (Last Day Where You Can Still Cross) --并查集
     public int latestDayToCross2(int row, int col, int[][] cells) {
         int n = cells.length;
-        Union1970 union = new Union1970(n + 2);
-        int dummyTop = n;
-        int dummyBottom = n + 1;
-        int[][] arr = new int[row][col];
-        int res = -1;
+        Union1970 uf = new Union1970(n + 2);
+        for (int i = 0; i < col; ++i) {
+            uf.union(i, n);
+            uf.union(n - i - 1, n + 1);
+        }
+        int[][] grid = new int[row][col];
+        int[][] dirs = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
         for (int i = n - 1; i >= 0; --i) {
-            int x = cells[i][0] - 1;
-            int y = cells[i][1] - 1;
-            arr[x][y] = 1;
-            if (x > 0 && arr[x - 1][y] == 1) {
-                union.union(getIndex1970(x, y, col), getIndex1970(x - 1, y, col));
+            int r = cells[i][0] - 1;
+            int c = cells[i][1] - 1;
+            grid[r][c] = 1;
+            for (int[] d : dirs) {
+                int nr = r + d[0];
+                int nc = c + d[1];
+                if (nr >= 0 && nr < row && nc >= 0 && nc < col && grid[nr][nc] == 1) {
+                    uf.union(r * col + c, nr * col + nc);
+                }
             }
-            if (x + 1 < row && arr[x + 1][y] == 1) {
-                union.union(getIndex1970(x, y, col), getIndex1970(x + 1, y, col));
-            }
-            if (y > 0 && arr[x][y - 1] == 1) {
-                union.union(getIndex1970(x, y, col), getIndex1970(x, y - 1, col));
-            }
-            if (y + 1 < col && arr[x][y + 1] == 1) {
-                union.union(getIndex1970(x, y, col), getIndex1970(x, y + 1, col));
-            }
-            if (x == 0) {
-                union.union(getIndex1970(x, y, col), dummyTop);
-            }
-            if (x == row - 1) {
-                union.union(getIndex1970(x, y, col), dummyBottom);
-            }
-            if (union.isConnected(dummyTop, dummyBottom)) {
-                res = i;
-                break;
+            if (uf.find(n) == uf.find(n + 1)) {
+                return i;
             }
         }
-        return res;
+        return -1;
 
-    }
-
-    private int getIndex1970(int x, int y, int col) {
-        return x * col + y;
     }
 
     public class Union1970 {
-        private int[] rank;
         private int[] parent;
+        private int[] rank;
 
         public Union1970(int n) {
-            rank = new int[n];
-            Arrays.fill(rank, 1);
-            parent = new int[n];
+            this.parent = new int[n];
+            this.rank = new int[n];
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
+                rank[i] = 1;
             }
         }
 
-        public int getRoot(int p) {
-            if (parent[p] == p) {
-                return p;
+        public int find(int x) {
+            if (parent[x] != x) {
+                parent[x] = find(parent[x]);
             }
-            return parent[p] = getRoot(parent[p]);
+            return parent[x];
         }
 
-        public boolean isConnected(int p1, int p2) {
-            return getRoot(p1) == getRoot(p2);
-        }
-
-        public void union(int p1, int p2) {
-            int root1 = getRoot(p1);
-            int root2 = getRoot(p2);
-            if (root1 == root2) {
-                return;
-            }
-            if (rank[root1] < rank[root2]) {
-                parent[root1] = root2;
-            } else {
-                parent[root2] = root1;
-                if (rank[root1] == rank[root2]) {
-                    ++rank[root1];
+        public void union(int x, int y) {
+            int rootX = find(x);
+            int rootY = find(y);
+            if (rootX != rootY) {
+                if (rank[rootX] > rank[rootY]) {
+                    parent[rootY] = rootX;
+                } else if (rank[rootX] < rank[rootY]) {
+                    parent[rootX] = rootY;
+                } else {
+                    parent[rootY] = rootX;
+                    rank[rootX]++;
                 }
             }
         }
-
     }
 
     // 241. 为运算表达式设计优先级 (Different Ways to Add Parentheses)

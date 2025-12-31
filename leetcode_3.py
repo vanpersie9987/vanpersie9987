@@ -6384,3 +6384,49 @@ class SegmentTree2940:
                 if grid[i - 1][j - 1] == 5 and check(i - 2, j - 2):
                     res += 1
         return res
+
+    # 1970. 你能穿过矩阵的最后一天 (Last Day Where You Can Still Cross)
+    def latestDayToCross(self, row: int, col: int, cells: List[List[int]]) -> int:
+        class union:
+            def __init__(self, n: int):
+                self.rank = [1] * n
+                self.parent = [i for i in range(n)]
+
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+
+            def is_connect(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+
+            def union(self, p1: int, p2: int) -> None:
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if r1 == r2:
+                    return
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r1] += 1
+        dirs = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        n = len(cells)
+        u = union(n + 2)
+        g = [[0] * col for _ in range(row)]
+        for i in range(col):
+            u.union(n, i)
+            u.union(n + 1, n - i - 1)
+        for i in range(n - 1, -1, -1):
+            r, c = cells[i]
+            r -= 1
+            c -= 1
+            g[r][c] = 1
+            for dr, dc in dirs:
+                nr, nc = r + dr, c + dc
+                if 0 <= nr < row and 0 <= nc < col and g[nr][nc] == 1:
+                    u.union(r * col + c, nr * col + nc)
+            if u.is_connect(n, n + 1):
+                return i
