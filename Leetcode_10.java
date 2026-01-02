@@ -2495,5 +2495,16 @@ public class Leetcode_10 {
         return res;
     }
 
-    
+    // 961. 在长度 2N 的数组中找出重复 N 次的元素 (N-Repeated Element in Size 2N Array)
+    public int repeatedNTimes(int[] nums) {
+        Set<Integer> s = new HashSet<>();
+        for (int x : nums) {
+            if (s.contains(x)) {
+                return x;
+            }
+            s.add(x);
+        }
+        return -1;
+    }
+
 }

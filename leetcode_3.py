@@ -6430,3 +6430,16 @@ class SegmentTree2940:
                     u.union(r * col + c, nr * col + nc)
             if u.is_connect(n, n + 1):
                 return i
+    
+    # 961. 在长度 2N 的数组中找出重复 N 次的元素 (N-Repeated Element in Size 2N Array)
+    def repeatedNTimes(self, nums: List[int]) -> int:
+        # s = set()
+        # for x in nums:
+        #     if x in s:
+        #         return x
+        #     s.add(x)
+        m = 0
+        for x in nums:
+            if m >> x & 1:
+                return x
+            m |= 1 << x
