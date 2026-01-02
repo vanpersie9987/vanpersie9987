@@ -7337,97 +7337,46 @@ public class Leetcode_6 {
 
     // 1411. 给 N x 3 网格图涂色的方案数 (Number of Ways to Paint N × 3 Grid)
     private int[][] memo1411;
-    private int n1411;
-    private List<Integer>[] g1411;
+    private List<Integer> list1411;
 
     public int numOfWays(int n) {
-        final int MOD = (int) (1e9 + 7);
-        memo1411 = new int[n][12];
-        g1411 = new ArrayList[12];
-        for (int i = 0; i < 12; ++i) {
-            g1411[i] = new ArrayList<>();
-        }
-        // 状态定义：
-        // 0--010
-        // 1--020
-        // 2--012
-        // 3--021
-        // 4--120
-        // 5--102
-        // 6--101
-        // 7--121
-        // 8--201
-        // 9--210
-        // 10--202
-        // 11--212
-        for (int i = 0; i < 12; ++i) {
-            switch (i) {
-                case 0:
-                    g1411[i].addAll(List.of(5, 6, 7, 8, 10));
-                    break;
-                case 1:
-                    g1411[i].addAll(List.of(5, 6, 8, 10, 11));
-                    break;
-                case 2:
-                    g1411[i].addAll(List.of(4, 6, 7, 8));
-                    break;
-                case 3:
-                    g1411[i].addAll(List.of(5, 9, 10, 11));
-                    break;
-                case 4:
-                    g1411[i].addAll(List.of(2, 8, 10, 11));
-                    break;
-                case 5:
-                    g1411[i].addAll(List.of(0, 1, 3, 9));
-                    break;
-                case 6:
-                    g1411[i].addAll(List.of(0, 1, 2, 9, 11));
-                    break;
-                case 7:
-                    g1411[i].addAll(List.of(0, 2, 9, 10, 11));
-                    break;
-                case 8:
-                    g1411[i].addAll(List.of(0, 1, 2, 4));
-                    break;
-                case 9:
-                    g1411[i].addAll(List.of(3, 5, 6, 7));
-                    break;
-                case 10:
-                    g1411[i].addAll(List.of(0, 1, 3, 4, 7));
-                    break;
-                case 11:
-                    g1411[i].addAll(List.of(1, 3, 4, 6, 7));
-                    break;
-                default:
-                    break;
+        memo1411 = new int[n][1 << 9];
+        this.list1411 = new ArrayList<>();
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                if (i == j) {
+                    continue;
+                }
+                for (int k = 0; k < 3; ++k) {
+                    if (j == k) {
+                        continue;
+                    }
+                    int mask = 1 << i << 6 | 1 << j << 3 | 1 << k;
+                    list1411.add(mask);
+                }
             }
 
         }
-        for (int i = 0; i < n; ++i) {
-            Arrays.fill(memo1411[i], -1);
-        }
-        this.n1411 = n;
-        int res = 0;
-        for (int type = 0; type < 12; ++type) {
-            res = (res + dfs1411(0, type)) % MOD;
-        }
-        return res;
+        return dfs1411(n - 1, 0);
 
     }
 
-    private int dfs1411(int i, int type) {
-        if (i == n1411 - 1) {
+    private int dfs1411(int i, int j) {
+        if (i < 0) {
             return 1;
         }
-        if (memo1411[i][type] != -1) {
-            return memo1411[i][type];
+        if (memo1411[i][j] != 0) {
+            return memo1411[i][j];
         }
         final int MOD = (int) (1e9 + 7);
         int res = 0;
-        for (int next : g1411[type]) {
-            res = (res + dfs1411(i + 1, next)) % MOD;
+        for (int x : list1411) {
+            if ((x & j) == 0) {
+                res += dfs1411(i - 1, x) % MOD;
+                res %= MOD;
+            }
         }
-        return memo1411[i][type] = res;
+        return memo1411[i][j] = res;
     }
 
     // 1964. 找出到每个位置为止最长的有效障碍赛跑路线 (Find the Longest Valid Obstacle Course at Each
