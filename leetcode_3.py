@@ -6443,3 +6443,20 @@ class SegmentTree2940:
             if m >> x & 1:
                 return x
             m |= 1 << x
+
+    # 1411. 给 N x 3 网格图涂色的方案数 (Number of Ways to Paint N × 3 Grid)
+    def numOfWays(self, n: int) -> int:
+        MOD = 10**9 + 7
+        s = set()
+        for i in range(3):
+            for j in range(3):
+                for k in range(3):
+                    if i != j and j != k:
+                        m = 1 << i << 6 | 1 << j << 3 | 1 << k
+                        s.add(m)
+        @cache
+        def dfs(i: int, j: tuple) -> int:
+            if i == n:
+                return 1
+            return sum(dfs(i + 1, x) for x in s if x & j == 0) % MOD
+        return dfs(0, 0)
