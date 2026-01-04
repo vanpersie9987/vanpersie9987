@@ -5662,23 +5662,23 @@ public class Leetcode_6 {
 
     // 1975. 最大方阵和 (Maximum Matrix Sum)
     public long maxMatrixSum(int[][] matrix) {
-        long res = 0l;
-        int countNegative = 0;
-        int min = Integer.MAX_VALUE;
+        long res = 0L;
+        int cntNeg = 0;
+        int absMin = Integer.MAX_VALUE;
         int n = matrix.length;
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
-                min = Math.min(min, Math.abs(matrix[i][j]));
                 if (matrix[i][j] < 0) {
-                    ++countNegative;
+                    ++cntNeg;
                 }
+                absMin = Math.min(absMin, Math.abs(matrix[i][j]));
                 res += Math.abs(matrix[i][j]);
             }
         }
-        if (countNegative % 2 == 0) {
-            return res;
+        if ((cntNeg & 1) != 0) {
+            res -= absMin * 2;
         }
-        return res - min * 2;
+        return res;
     }
 
     // 1834. 单线程 CPU (Single-Threaded CPU)
