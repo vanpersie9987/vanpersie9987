@@ -6693,7 +6693,7 @@ public class Leetcode_5 {
             lowerMap.putIfAbsent(lower, i);
             char[] a = lower.toCharArray();
             for (int j = 0; j < a.length; ++j) {
-                if (isVowel(u, a[j])) {
+                if (isVowel966(u, a[j])) {
                     a[j] = '_';
                 }
             }
@@ -6712,7 +6712,7 @@ public class Leetcode_5 {
             }
             char[] a = lower.toCharArray();
             for (int j = 0; j < a.length; ++j) {
-                if (isVowel(u, a[j])) {
+                if (isVowel966(u, a[j])) {
                     a[j] = '_';
                 }
             }
@@ -6727,7 +6727,7 @@ public class Leetcode_5 {
 
     }
 
-    private boolean isVowel(int u, char c) {
+    private boolean isVowel966(int u, char c) {
         return ((u >> (c - 'a')) & 1) != 0;
     }
 
