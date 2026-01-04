@@ -6534,3 +6534,29 @@ class SegmentTree2940:
             if s[i] == '2':
                 return s[:i + 1]
         return ''
+    
+    # 3799. 单词方块 II (Word Squares II)
+    def wordSquares(self, words: List[str]) -> List[List[str]]:
+        def dfs(m: int):
+            if len(a) == 4:
+                res.append(a.copy())
+                return
+            for id in range(n):
+                if m >> id & 1:
+                    continue
+                if len(a) == 1 and a[-1][0] != words[id][0]:
+                    continue
+                if len(a) == 2 and a[0][-1] != words[id][0]:
+                    continue
+                if len(a) == 3 and (a[1][-1] != words[id][0] or a[2][-1] != words[id][-1]):
+                    continue
+                a.append(words[id])
+                dfs(m | (1 << id))
+                a.pop()
+        n = len(words)
+        words.sort()
+        res = []
+        a = []
+        dfs(0)
+        return res
+    

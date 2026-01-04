@@ -2604,5 +2604,38 @@ public class Leetcode_10 {
         return "";
     }
 
+    // 3799. 单词方块 II (Word Squares II)
+    public List<List<String>> wordSquares(String[] words) {
+        List<List<String>> res = new ArrayList<>();
+        Arrays.sort(words);
+        dfs3799(0, new ArrayList<>(), words, res);
+        return res;
+    }
+
+    private void dfs3799(int m, List<String> a, String[] words, List<List<String>> res) {
+        if (a.size() == 4) {
+            res.add(new ArrayList<>(a));
+            return;
+        }
+        for (int i = 0; i < words.length; ++i) {
+            if (((m >> i) & 1) != 0) {
+                continue;
+            }
+            if (a.size() == 1 && words[i].charAt(0) != a.get(0).charAt(0)) {
+                continue;
+            }
+            if (a.size() == 2 && (words[i].charAt(0) != a.get(0).charAt(3))) {
+                continue;
+            }
+            if (a.size() == 3
+                    && (words[i].charAt(0) != a.get(1).charAt(3) || words[i].charAt(3) != a.get(2).charAt(3))) {
+                continue;
+            }
+            a.add(words[i]);
+            dfs3799(m | (1 << i), a, words, res);
+            a.remove(a.size() - 1);
+        }
+    }
+
 
 }
