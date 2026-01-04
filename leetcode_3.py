@@ -6580,3 +6580,19 @@ class SegmentTree2940:
         x -= y
         res2 += min(x // 2 * (swapCost + crossCost), flipCost * x)
         return min(res1, res2)
+    
+    # 3796. 找到带限制序列的最大值 (Find Maximum Value in a Constrained Sequence)
+    def findMaxVal(self, n: int, restrictions: List[List[int]], diff: List[int]) -> int:
+        a = [0] * n
+        for i, x in restrictions:
+            a[i] = x
+        for i, x in enumerate(diff, start=1):
+            if a[i]:
+                a[i] = min(a[i], a[i - 1] + x)
+            else:
+                a[i] = a[i - 1] + x
+        res = a[-1]
+        for i in range(n - 2, -1, -1):
+            a[i] = min(a[i], a[i + 1] + diff[i])
+            res = max(res, a[i])
+        return res

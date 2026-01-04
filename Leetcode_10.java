@@ -2667,4 +2667,26 @@ public class Leetcode_10 {
         return Math.min(res1, res2);
     }
 
+    // 3796. 找到带限制序列的最大值 (Find Maximum Value in a Constrained Sequence)
+    public int findMaxVal(int n, int[][] restrictions, int[] diff) {
+        int[] a = new int[n];
+        for(int[] r : restrictions) {
+            a[r[0]] = r[1];
+        }
+        for (int i = 1; i < n; ++i) {
+            if (a[i] != 0) {
+                a[i] = Math.min(a[i], a[i - 1] + diff[i - 1]);
+            } else {
+                a[i] = a[i - 1] + diff[i - 1];
+            }
+        }
+        int res = a[n - 1];
+        for (int i = n - 2; i >= 0; --i) {
+            a[i] = Math.min(a[i], a[i + 1] + diff[i]);
+            res = Math.max(res, a[i]);
+        }
+        return res;
+
+    }
+
 }
