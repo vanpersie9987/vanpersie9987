@@ -2637,5 +2637,34 @@ public class Leetcode_10 {
         }
     }
 
+    // 3800. 使二进制字符串相等的最小成本 (Minimum Cost to Make Two Binary Strings Equal)
+    public long minimumCost(String s, String t, int flipCost, int swapCost, int crossCost) {
+        int x = 0;
+        int y = 0;
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) == t.charAt(i)) {
+                continue;
+            }
+            if (s.charAt(i) == '0') {
+                ++x;
+            } else {
+                ++y;
+            }
+        }
+        if (x < y) {
+            int temp = x;
+            x = y;
+            y = temp;
+        }
+        long res1 = (long) (x + y) * flipCost;
+        long res2 = (x + y) % 2 == 0 ? 0L : flipCost;
+        if ((x + y) % 2 != 0) {
+            --x;
+        }
+        res2 += (long) swapCost * y;
+        x -= y;
+        res2 += Math.min((long) (x / 2) * (crossCost + swapCost), (long) flipCost * x);
+        return Math.min(res1, res2);
+    }
 
 }

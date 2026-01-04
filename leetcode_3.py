@@ -6499,7 +6499,7 @@ class SegmentTree2940:
                     del cnts[nums[left]]
                 left += 1
         return res if res < inf else -1
-    
+
     # 3797. 统计在矩形格子里移动的路径数目 (Count Routes to Climb a Rectangular Grid)
     def numberOfRoutes(self, grid: List[str], d: int) -> int:
         m, n = len(grid), len(grid[0])
@@ -6527,14 +6527,14 @@ class SegmentTree2940:
                 new_f[j] %= MOD
             f = new_f
         return sum(f) % MOD
-    
+
     # 3798. 最大的偶数 (Largest Even Number)
     def largestEven(self, s: str) -> str:
         for i in range(len(s) - 1, -1, -1):
             if s[i] == '2':
                 return s[:i + 1]
         return ''
-    
+
     # 3799. 单词方块 II (Word Squares II)
     def wordSquares(self, words: List[str]) -> List[List[str]]:
         def dfs(m: int):
@@ -6559,4 +6559,24 @@ class SegmentTree2940:
         a = []
         dfs(0)
         return res
-    
+
+    # 3800. 使二进制字符串相等的最小成本 (Minimum Cost to Make Two Binary Strings Equal)
+    def minimumCost(self, s: str, t: str, flipCost: int, swapCost: int, crossCost: int) -> int:
+        x, y = 0, 0
+        for a, b in zip(s, t):
+            if a == b:
+                continue
+            if a == '0':
+                x += 1
+            else:
+                y += 1
+        if x < y:
+            x, y = y, x
+        res1 = (x + y) * flipCost
+        res2 = flipCost if (x + y) & 1 else 0
+        if (x + y) & 1:
+            x -= 1
+        res2 += y * swapCost
+        x -= y
+        res2 += min(x // 2 * (swapCost + crossCost), flipCost * x)
+        return min(res1, res2)
