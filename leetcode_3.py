@@ -6519,11 +6519,11 @@ class SegmentTree2940:
                 if grid[i][j] == '#':
                     continue
                 cur[j] = pre[min(n, j + dis + 1)] - pre[max(0, j - dis)]
-            pre_2 = list(accumulate(cur, initial=0))
+            pre = list(accumulate(cur, initial=0))
             for j in range(n):
                 if grid[i][j] == '#':
                     continue
-                new_f[j] = pre_2[min(n, j + d + 1)] - pre_2[max(0, j - d)]
+                new_f[j] = pre[min(n, j + d + 1)] - pre[max(0, j - d)]
                 new_f[j] %= MOD
             f = new_f
         return sum(f) % MOD

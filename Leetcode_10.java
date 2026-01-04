@@ -2571,16 +2571,16 @@ public class Leetcode_10 {
                 cur[j] = pre[Math.min(n, j + dis + 1)] - pre[Math.max(0, j - dis)];
                 cur[j] = (cur[j] % MOD + MOD) % MOD;
             }
-            int[] pre2 = new int[n + 1];
+            pre = new int[n + 1];
             for (int j = 0; j < n; ++j) {
-                pre2[j + 1] = pre2[j] + cur[j];
-                pre2[j + 1] %= MOD;
+                pre[j + 1] = pre[j] + cur[j];
+                pre[j + 1] %= MOD;
             }
             for (int j = 0; j < n; ++j) {
                 if (grid[i].charAt(j) == '#') {
                     continue;
                 }
-                newF[j] = pre2[Math.min(n, j + d + 1)] - pre2[Math.max(0, j - d)];
+                newF[j] = pre[Math.min(n, j + d + 1)] - pre[Math.max(0, j - d)];
                 newF[j] = (newF[j] % MOD + MOD) % MOD;
             }
             f = newF;
