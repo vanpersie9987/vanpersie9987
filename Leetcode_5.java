@@ -6733,50 +6733,31 @@ public class Leetcode_5 {
 
     // 1390. 四因数 (Four Divisors)
     public int sumFourDivisors(int[] nums) {
-        int max = 0;
-        for (int num : nums) {
-            max = Math.max(max, num);
-        }
-        int[] arr = new int[max + 1];
         int res = 0;
-        for (int num : nums) {
-            if (arr[num] == -1) {
-                continue;
-            }
-            if (arr[num] > 0) {
-                res += arr[num];
-                continue;
-            }
-            int sum = check1390(num);
-            arr[num] = sum;
-            if (arr[num] > 0) {
-                res += sum;
-            }
+        for (int x : nums) {
+            res += cal1390(x);
         }
         return res;
 
     }
 
-    private int check1390(int num) {
-        int count = 0;
-        int sum = 0;
-        int i = 1;
-        while (i * i <= num) {
-            if (num % i == 0) {
-                if (++count > 4) {
-                    return -1;
-                }
-                sum += i;
-                if (num / i != i) {
-                    if (++count > 4) {
-                        return -1;
-                    }
-                    sum += num / i;
+    private int cal1390(int x) {
+        int cnt = 0;
+        int s = 0;
+        for (int i = 1; i <= Math.sqrt(x); ++i) {
+            if (x % i == 0) {
+                ++cnt;
+                s += i;
+                if (i != x / i) {
+                    cnt++;
+                    s += x / i;
                 }
             }
-            ++i;
+            if (cnt > 4) {
+                return 0;
+            }
         }
-        return count == 4 ? sum : -1;
+        return cnt == 4 ? s : 0;
     }
 
     // 2007. 从双倍数组中还原原数组 (Find Original Array From Doubled Array)

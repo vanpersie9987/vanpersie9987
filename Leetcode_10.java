@@ -2506,5 +2506,4 @@ public class Leetcode_10 {
         }
         return -1;
     }
-
 }
