@@ -6527,4 +6527,10 @@ class SegmentTree2940:
                 new_f[j] %= MOD
             f = new_f
         return sum(f) % MOD
-
+    
+    # 3798. 最大的偶数 (Largest Even Number)
+    def largestEven(self, s: str) -> str:
+        for i in range(len(s) - 1, -1, -1):
+            if s[i] == '2':
+                return s[:i + 1]
+        return ''
