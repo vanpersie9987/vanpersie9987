@@ -6580,7 +6580,7 @@ class SegmentTree2940:
         x -= y
         res2 += min(x // 2 * (swapCost + crossCost), flipCost * x)
         return min(res1, res2)
-    
+
     # 3796. 找到带限制序列的最大值 (Find Maximum Value in a Constrained Sequence)
     def findMaxVal(self, n: int, restrictions: List[List[int]], diff: List[int]) -> int:
         a = [0] * n
@@ -6596,3 +6596,19 @@ class SegmentTree2940:
             a[i] = min(a[i], a[i + 1] + diff[i])
             res = max(res, a[i])
         return res
+
+    # 1975. 最大方阵和 (Maximum Matrix Sum)
+    def maxMatrixSum(self, matrix: List[List[int]]) -> int:
+        cnt_neg = 0
+        min_abs = inf
+        n = len(matrix)
+        s = 0
+        for i in range(n):
+            for j in range(n):
+                if matrix[i][j] < 0:
+                    cnt_neg += 1
+                min_abs = min(min_abs, abs(matrix[i][j]))
+                s += abs(matrix[i][j])
+        if cnt_neg & 1:
+            s -= min_abs * 2
+        return s
