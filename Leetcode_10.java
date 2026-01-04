@@ -2506,4 +2506,93 @@ public class Leetcode_10 {
         }
         return -1;
     }
+
+    // 3794. 反转字符串前缀 (Reverse String Prefix)
+    public String reversePrefix(String s, int k) {
+        return new StringBuilder(s.substring(0, k)).reverse().toString() + s.substring(k);
+    }
+
+    // 3795. 不同元素和至少为 K 的最短子数组长度 (Minimum Subarray Length With Distinct Sum At Least
+    // K)
+    public int minLength(int[] nums, int k) {
+        Map<Integer, Integer> cnts = new HashMap<>();
+        int n = nums.length;
+        int res = Integer.MAX_VALUE;
+        int s = 0;
+        int left = 0;
+        for (int right = 0; right < n; ++right) {
+            cnts.merge(nums[right], 1, Integer::sum);
+            if (cnts.get(nums[right]) == 1) {
+                s += nums[right];
+            }
+            while (s >= k) {
+                res = Math.min(res, right - left + 1);
+                cnts.merge(nums[left], -1, Integer::sum);
+                if (cnts.get(nums[left]) == 0) {
+                    s -= nums[left];
+                    cnts.remove(nums[left]);
+                }
+                ++left;
+            }
+        }
+        return res < Integer.MAX_VALUE ? res : -1;
+
+    }
+
+    // 3797. 统计在矩形格子里移动的路径数目 (Count Routes to Climb a Rectangular Grid)
+    public int numberOfRoutes(String[] grid, int d) {
+        int m = grid.length;
+        int n = grid[0].length();
+        int[] f = new int[n];
+        int[] pre = new int[n + 1];
+        for (int j = 0; j < n; ++j) {
+            pre[j + 1] = pre[j] + (grid[m - 1].charAt(j) == '.' ? 1 : 0);
+        }
+        for (int j = 0; j < n; ++j) {
+            if (grid[m - 1].charAt(j) == '#') {
+                continue;
+            }
+            f[j] = pre[Math.min(n, j + d + 1)] - pre[Math.max(0, j - d)];
+        }
+        int dis = (int) Math.sqrt(d * d - 1);
+        final int MOD = (int) (1e9 + 7);
+        for (int i = m - 2; i >= 0; --i) {
+            int[] newF = new int[n];
+            int[] cur = new int[n];
+            pre = new int[n + 1];
+            for (int j = 0; j < n; ++j) {
+                pre[j + 1] = pre[j] + f[j];
+                pre[j + 1] %= MOD;
+            }
+            for (int j = 0; j < n; ++j) {
+                if (grid[i].charAt(j) == '#') {
+                    continue;
+                }
+                cur[j] = pre[Math.min(n, j + dis + 1)] - pre[Math.max(0, j - dis)];
+                cur[j] = (cur[j] % MOD + MOD) % MOD;
+            }
+            int[] pre2 = new int[n + 1];
+            for (int j = 0; j < n; ++j) {
+                pre2[j + 1] = pre2[j] + cur[j];
+                pre2[j + 1] %= MOD;
+            }
+            for (int j = 0; j < n; ++j) {
+                if (grid[i].charAt(j) == '#') {
+                    continue;
+                }
+                newF[j] = pre2[Math.min(n, j + d + 1)] - pre2[Math.max(0, j - d)];
+                newF[j] = (newF[j] % MOD + MOD) % MOD;
+            }
+            f = newF;
+        }
+        int res = 0;
+        for (int x : f) {
+            res += x;
+            res %= MOD;
+        }
+        return res;
+
+    }
+
+
 }

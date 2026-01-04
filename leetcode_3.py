@@ -6430,7 +6430,7 @@ class SegmentTree2940:
                     u.union(r * col + c, nr * col + nc)
             if u.is_connect(n, n + 1):
                 return i
-    
+
     # 961. 在长度 2N 的数组中找出重复 N 次的元素 (N-Repeated Element in Size 2N Array)
     def repeatedNTimes(self, nums: List[int]) -> int:
         # s = set()
@@ -6460,7 +6460,7 @@ class SegmentTree2940:
                 return 1
             return sum(dfs(i + 1, x) for x in a if x & j == 0) % MOD
         return dfs(0, 0)
-    
+
     # 1390. 四因数 (Four Divisors)
     def sumFourDivisors(self, nums: List[int]) -> int:
         def cal(x: int) -> int:
@@ -6477,3 +6477,54 @@ class SegmentTree2940:
                         return 0
             return s if cnt == 4 else 0
         return sum(cal(x) for x in nums)
+
+    # 3794. 反转字符串前缀 (Reverse String Prefix)
+    def reversePrefix(self, s: str, k: int) -> str:
+        return s[:k][::-1] + s[k:]
+
+    # 3795. 不同元素和至少为 K 的最短子数组长度 (Minimum Subarray Length With Distinct Sum At Least K)
+    def minLength(self, nums: List[int], k: int) -> int:
+        cnts = defaultdict(int)
+        left = s = 0
+        res = inf
+        for right, x in enumerate(nums):
+            cnts[x] += 1
+            if cnts[x] == 1:
+                s += x
+            while s >= k:
+                res = min(res, right - left + 1)
+                cnts[nums[left]] -= 1
+                if cnts[nums[left]] == 0:
+                    s -= nums[left]
+                    del cnts[nums[left]]
+                left += 1
+        return res if res < inf else -1
+    
+    # 3797. 统计在矩形格子里移动的路径数目 (Count Routes to Climb a Rectangular Grid)
+    def numberOfRoutes(self, grid: List[str], d: int) -> int:
+        m, n = len(grid), len(grid[0])
+        MOD = 10**9 + 7
+        pre = list(accumulate([int(grid[m - 1][j] == '.') for j in range(n)], initial=0))
+        f = [0] * n
+        for j in range(n):
+            if grid[m - 1][j] == '#':
+                continue
+            f[j] = pre[min(n, j + d + 1)] - pre[max(0, j - d)]
+        dis = isqrt(d * d - 1)
+        for i in range(m - 2, -1, -1):
+            new_f = [0] * n
+            cur = [0] * n
+            pre = list(accumulate(f, initial=0))
+            for j in range(n):
+                if grid[i][j] == '#':
+                    continue
+                cur[j] = pre[min(n, j + dis + 1)] - pre[max(0, j - dis)]
+            pre_2 = list(accumulate(cur, initial=0))
+            for j in range(n):
+                if grid[i][j] == '#':
+                    continue
+                new_f[j] = pre_2[min(n, j + d + 1)] - pre_2[max(0, j - d)]
+                new_f[j] %= MOD
+            f = new_f
+        return sum(f) % MOD
+
