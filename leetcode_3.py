@@ -6460,3 +6460,20 @@ class SegmentTree2940:
                 return 1
             return sum(dfs(i + 1, x) for x in a if x & j == 0) % MOD
         return dfs(0, 0)
+    
+    # 1390. 四因数 (Four Divisors)
+    def sumFourDivisors(self, nums: List[int]) -> int:
+        def cal(x: int) -> int:
+            s = 0
+            cnt = 0
+            for i in range(1, isqrt(x) + 1):
+                if x % i == 0:
+                    s += i
+                    cnt += 1
+                    if i * i != x:
+                        s += x // i
+                        cnt += 1
+                if cnt > 4:
+                    return 0
+            return s if cnt == 4 else 0
+        return sum(cal(x) for x in nums)
