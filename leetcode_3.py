@@ -6473,7 +6473,7 @@ class SegmentTree2940:
                     if i * i != x:
                         s += x // i
                         cnt += 1
-                if cnt > 4:
-                    return 0
+                    if cnt > 4:
+                        return 0
             return s if cnt == 4 else 0
         return sum(cal(x) for x in nums)

@@ -6752,9 +6752,9 @@ public class Leetcode_5 {
                     cnt++;
                     s += x / i;
                 }
-            }
-            if (cnt > 4) {
-                return 0;
+                if (cnt > 4) {
+                    return 0;
+                }
             }
         }
         return cnt == 4 ? s : 0;
