@@ -6674,3 +6674,26 @@ class SegmentTree2940:
                     )
                 sub_a = (sub_a - 1) & i
         return f[-1]
+
+    # 1161. 最大层内元素和 (Maximum Level Sum of a Binary Tree)
+    def maxLevelSum(self, root: Optional[TreeNode]) -> int:
+        max_s = -inf
+        level = 0
+        res = 0
+        q = deque()
+        q.append(root)
+        while q:
+            level += 1
+            _len = len(q)
+            s = 0
+            for _ in range(_len):
+                x = q.popleft()
+                s += x.val
+                if x.left:
+                    q.append(x.left)
+                if x.right:
+                    q.append(x.right)
+            if s > max_s:
+                max_s = s
+                res = level
+        return res
