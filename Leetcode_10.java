@@ -2704,10 +2704,10 @@ public class Leetcode_10 {
         }
         this.memo3801 = new long[1 << n];
         Arrays.fill(memo3801, -1L);
-        return dfs((1 << n) - 1);
+        return dfs3801((1 << n) - 1);
     }
 
-    private long dfs(int c) {
+    private long dfs3801(int c) {
         if ((c & (c - 1)) == 0) {
             return 0;
         }
@@ -2715,6 +2715,7 @@ public class Leetcode_10 {
             return memo3801[c];
         }
         long res = Long.MAX_VALUE;
+        // 避免对称枚举
         for (int subA = c; subA > (c ^ (subA)); subA = (subA - 1) & c) {
             int subB = c ^ subA;
             if (subB != 0) {
@@ -2722,7 +2723,7 @@ public class Leetcode_10 {
                 int lenB = g3801[subB].length;
                 int medA = g3801[subA][(lenA - 1) / 2];
                 int medB = g3801[subB][(lenB - 1) / 2];
-                res = Math.min(res, dfs(subA) + dfs(subB) + lenA + lenB + Math.abs(medA - medB));
+                res = Math.min(res, dfs3801(subA) + dfs3801(subB) + lenA + lenB + Math.abs(medA - medB));
             }
         }
         return memo3801[c] = res;
@@ -2744,6 +2745,7 @@ public class Leetcode_10 {
                 continue;
             }
             f[i] = Long.MAX_VALUE;
+            // 避免对称枚举
             for (int subA = i; subA > (i ^ subA); subA = (subA - 1) & i) {
                 int subB = i ^ subA;
                 if (subB != 0) {

@@ -6661,7 +6661,7 @@ class SegmentTree2940:
                 continue
             f[i] = inf
             sub_a = i
-            # 防止对称枚举
+            # 避免对称枚举
             while sub_a > (i ^ sub_a):
                 if sub_a ^ i:
                     sub_b = sub_a ^ i
