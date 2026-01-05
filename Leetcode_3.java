@@ -4644,28 +4644,28 @@ public class Leetcode_3 {
 
     // 1161. 最大层内元素和 (Maximum Level Sum of a Binary Tree) --bfs
     public int maxLevelSum(TreeNode root) {
-        int res = 1;
-        int maxSum = root.val;
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-        int curLevel = 0;
-        while (!queue.isEmpty()) {
-            ++curLevel;
-            int size = queue.size();
-            int levelSum = 0;
+        Queue<TreeNode> q = new ArrayDeque<>();
+        q.offer(root);
+        int res = 0;
+        int level = 0;
+        int maxS = Integer.MIN_VALUE;
+        while (!q.isEmpty()) {
+            ++level;
+            int s = 0;
+            int size = q.size();
             for (int i = 0; i < size; ++i) {
-                TreeNode cur = queue.poll();
-                levelSum += cur.val;
-                if (cur.left != null) {
-                    queue.offer(cur.left);
+                TreeNode x = q.poll();
+                s += x.val;
+                if (x.left != null) {
+                    q.offer(x.left);
                 }
-                if (cur.right != null) {
-                    queue.offer(cur.right);
+                if (x.right != null) {
+                    q.offer(x.right);
                 }
             }
-            if (levelSum > maxSum) {
-                maxSum = levelSum;
-                res = curLevel;
+            if (s > maxS) {
+                maxS = s;
+                res = level;
             }
         }
         return res;
