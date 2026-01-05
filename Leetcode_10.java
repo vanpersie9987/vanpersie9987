@@ -2688,9 +2688,48 @@ public class Leetcode_10 {
         return res;
 
     }
-    
+
     // 3801. 合并有序列表的最小成本 (Minimum Cost to Merge Sorted Lists)
+    private long[] memo3801;
+    private int[][] g3801;
+
     public long minMergeCost(int[][] lists) {
+        int n = lists.length;
+        this.g3801 = new int[1 << n][0];
+        for (int i = 0; i < n; ++i) {
+            int highest_bit = 1 << i;
+            for (int s = 0; s < highest_bit; ++s) {
+                g3801[s | highest_bit] = merge3801(g3801[s], lists[i]);
+            }
+        }
+        this.memo3801 = new long[1 << n];
+        Arrays.fill(memo3801, -1L);
+        return dfs((1 << n) - 1);
+    }
+
+    private long dfs(int c) {
+        if ((c & (c - 1)) == 0) {
+            return 0;
+        }
+        if (memo3801[c] != -1L) {
+            return memo3801[c];
+        }
+        long res = Long.MAX_VALUE;
+        for (int subA = c; subA > (c ^ (subA)); subA = (subA - 1) & c) {
+            int subB = c ^ subA;
+            if (subB != 0) {
+                int lenA = g3801[subA].length;
+                int lenB = g3801[subB].length;
+                int medA = g3801[subA][(lenA - 1) / 2];
+                int medB = g3801[subB][(lenB - 1) / 2];
+                res = Math.min(res, dfs(subA) + dfs(subB) + lenA + lenB + Math.abs(medA - medB));
+            }
+        }
+        return memo3801[c] = res;
+    }
+
+    // 3801. 合并有序列表的最小成本 (Minimum Cost to Merge Sorted Lists)
+    public long minMergeCost2(int[][] lists) {
         int n = lists.length;
         int[][] g = new int[1 << n][0];
         for (int i = 0; i < n; ++i) {
@@ -2705,8 +2744,7 @@ public class Leetcode_10 {
                 continue;
             }
             f[i] = Long.MAX_VALUE;
-            int subA = i;
-            while (subA > (i ^ subA)) {
+            for (int subA = i; subA > (i ^ subA); subA = (subA - 1) & i) {
                 int subB = i ^ subA;
                 if (subB != 0) {
                     int lenA = g[subA].length;
@@ -2715,7 +2753,6 @@ public class Leetcode_10 {
                     int medB = g[subB][(lenB - 1) / 2];
                     f[i] = Math.min(f[i], f[subA] + f[subB] + lenA + lenB + Math.abs(medA - medB));
                 }
-                subA = (subA - 1) & i;
             }
         }
         return f[(1 << n) - 1];
