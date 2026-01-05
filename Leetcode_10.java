@@ -2670,7 +2670,7 @@ public class Leetcode_10 {
     // 3796. 找到带限制序列的最大值 (Find Maximum Value in a Constrained Sequence)
     public int findMaxVal(int n, int[][] restrictions, int[] diff) {
         int[] a = new int[n];
-        for(int[] r : restrictions) {
+        for (int[] r : restrictions) {
             a[r[0]] = r[1];
         }
         for (int i = 1; i < n; ++i) {
@@ -2684,6 +2684,65 @@ public class Leetcode_10 {
         for (int i = n - 2; i >= 0; --i) {
             a[i] = Math.min(a[i], a[i + 1] + diff[i]);
             res = Math.max(res, a[i]);
+        }
+        return res;
+
+    }
+    
+    // 3801. 合并有序列表的最小成本 (Minimum Cost to Merge Sorted Lists)
+    public long minMergeCost(int[][] lists) {
+        int n = lists.length;
+        int[][] g = new int[1 << n][0];
+        for (int i = 0; i < n; ++i) {
+            int highest_bit = 1 << i;
+            for (int s = 0; s < highest_bit; ++s) {
+                g[s | highest_bit] = merge3801(g[s], lists[i]);
+            }
+        }
+        long[] f = new long[1 << n];
+        for (int i = 1; i < 1 << n; ++i) {
+            if ((i & (i - 1)) == 0) {
+                continue;
+            }
+            f[i] = Long.MAX_VALUE;
+            int subA = i;
+            while (subA > (i ^ subA)) {
+                int subB = i ^ subA;
+                if (subB != 0) {
+                    int lenA = g[subA].length;
+                    int lenB = g[subB].length;
+                    int medA = g[subA][(lenA - 1) / 2];
+                    int medB = g[subB][(lenB - 1) / 2];
+                    f[i] = Math.min(f[i], f[subA] + f[subB] + lenA + lenB + Math.abs(medA - medB));
+                }
+                subA = (subA - 1) & i;
+            }
+        }
+        return f[(1 << n) - 1];
+    }
+
+    private int[] merge3801(int[] a, int[] b) {
+        int i = 0;
+        int j = 0;
+        int m = a.length;
+        int n = b.length;
+        int[] res = new int[m + n];
+        while (i < m && j < n) {
+            if (a[i] < b[j]) {
+                res[i + j] = a[i];
+                ++i;
+            } else {
+                res[i + j] = b[j];
+                ++j;
+            }
+        }
+        while (i < m) {
+            res[i + j] = a[i];
+            ++i;
+        }
+        while (j < n) {
+            res[i + j] = b[j];
+            ++j;
         }
         return res;
 
