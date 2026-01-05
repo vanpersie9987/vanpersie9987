@@ -6277,7 +6277,7 @@ class SegmentTree2940:
             if i < 0:
                 return True
 
-            row = ''.join(pyramid[i])
+            row = "".join(pyramid[i])
             if row in vis:  # 之前填过一模一样的，这个局部的金字塔无法填完
                 return False  # 继续递归也无法填完，直接返回
 
@@ -6308,7 +6308,9 @@ class SegmentTree2940:
         return res
 
     # 3789. 采购的最小花费 (Minimum Cost to Acquire Required Items)
-    def minimumCost(self, cost1: int, cost2: int, costBoth: int, need1: int, need2: int) -> int:
+    def minimumCost(
+        self, cost1: int, cost2: int, costBoth: int, need1: int, need2: int
+    ) -> int:
         res1 = need1 * cost1 + need2 * cost2
         res2 = max(need1, need2) * costBoth
         m = min(need1, need2)
@@ -6342,9 +6344,11 @@ class SegmentTree2940:
                     nj = j + (d if i % 2 else -d)
                     res += dfs(i + 1, nj, is_limit and d == up)
                 return res
+
             s = str(x)
             n = len(s)
             return dfs(0, 0, True)
+
         return cal(high) - cal(low - 1)
 
     # 840. 矩阵中的幻方 (Magic Squares In Grid)
@@ -6360,6 +6364,7 @@ class SegmentTree2940:
                             return False
                         mask |= 1 << grid[x][y]
                 return True
+
             def check_row() -> bool:
                 for x in range(x0, x0 + 3):
                     s = 0
@@ -6368,6 +6373,7 @@ class SegmentTree2940:
                     if s != 15:
                         return False
                 return True
+
             def check_col() -> bool:
                 for y in range(y0, y0 + 3):
                     s = 0
@@ -6376,7 +6382,9 @@ class SegmentTree2940:
                     if s != 15:
                         return False
                 return True
+
             return check_unique() and check_row() and check_col()
+
         m, n = len(grid), len(grid[0])
         res = 0
         for i in range(2, m):
@@ -6412,6 +6420,7 @@ class SegmentTree2940:
                     self.parent[r2] = r1
                     if self.rank[r1] == self.rank[r2]:
                         self.rank[r1] += 1
+
         dirs = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         n = len(cells)
         u = union(n + 2)
@@ -6454,11 +6463,13 @@ class SegmentTree2940:
                     if i != j and j != k:
                         m = 1 << i << 6 | 1 << j << 3 | 1 << k
                         a.append(m)
+
         @cache
         def dfs(i: int, j: tuple) -> int:
             if i == n:
                 return 1
             return sum(dfs(i + 1, x) for x in a if x & j == 0) % MOD
+
         return dfs(0, 0)
 
     # 1390. 四因数 (Four Divisors)
@@ -6476,6 +6487,7 @@ class SegmentTree2940:
                     if cnt > 4:
                         return 0
             return s if cnt == 4 else 0
+
         return sum(cal(x) for x in nums)
 
     # 3794. 反转字符串前缀 (Reverse String Prefix)
@@ -6504,10 +6516,12 @@ class SegmentTree2940:
     def numberOfRoutes(self, grid: List[str], d: int) -> int:
         m, n = len(grid), len(grid[0])
         MOD = 10**9 + 7
-        pre = list(accumulate([int(grid[m - 1][j] == '.') for j in range(n)], initial=0))
+        pre = list(
+            accumulate([int(grid[m - 1][j] == ".") for j in range(n)], initial=0)
+        )
         f = [0] * n
         for j in range(n):
-            if grid[m - 1][j] == '#':
+            if grid[m - 1][j] == "#":
                 continue
             f[j] = pre[min(n, j + d + 1)] - pre[max(0, j - d)]
         dis = isqrt(d * d - 1)
@@ -6516,12 +6530,12 @@ class SegmentTree2940:
             cur = [0] * n
             pre = list(accumulate(f, initial=0))
             for j in range(n):
-                if grid[i][j] == '#':
+                if grid[i][j] == "#":
                     continue
                 cur[j] = pre[min(n, j + dis + 1)] - pre[max(0, j - dis)]
             pre = list(accumulate(cur, initial=0))
             for j in range(n):
-                if grid[i][j] == '#':
+                if grid[i][j] == "#":
                     continue
                 new_f[j] = pre[min(n, j + d + 1)] - pre[max(0, j - d)]
                 new_f[j] %= MOD
@@ -6531,9 +6545,9 @@ class SegmentTree2940:
     # 3798. 最大的偶数 (Largest Even Number)
     def largestEven(self, s: str) -> str:
         for i in range(len(s) - 1, -1, -1):
-            if s[i] == '2':
-                return s[:i + 1]
-        return ''
+            if s[i] == "2":
+                return s[: i + 1]
+        return ""
 
     # 3799. 单词方块 II (Word Squares II)
     def wordSquares(self, words: List[str]) -> List[List[str]]:
@@ -6548,11 +6562,14 @@ class SegmentTree2940:
                     continue
                 if len(a) == 2 and a[0][-1] != words[id][0]:
                     continue
-                if len(a) == 3 and (a[1][-1] != words[id][0] or a[2][-1] != words[id][-1]):
+                if len(a) == 3 and (
+                    a[1][-1] != words[id][0] or a[2][-1] != words[id][-1]
+                ):
                     continue
                 a.append(words[id])
                 dfs(m | (1 << id))
                 a.pop()
+
         n = len(words)
         words.sort()
         res = []
@@ -6561,12 +6578,14 @@ class SegmentTree2940:
         return res
 
     # 3800. 使二进制字符串相等的最小成本 (Minimum Cost to Make Two Binary Strings Equal)
-    def minimumCost(self, s: str, t: str, flipCost: int, swapCost: int, crossCost: int) -> int:
+    def minimumCost(
+        self, s: str, t: str, flipCost: int, swapCost: int, crossCost: int
+    ) -> int:
         x, y = 0, 0
         for a, b in zip(s, t):
             if a == b:
                 continue
-            if a == '0':
+            if a == "0":
                 x += 1
             else:
                 y += 1
@@ -6612,3 +6631,46 @@ class SegmentTree2940:
         if cnt_neg & 1:
             s -= min_abs * 2
         return s
+
+    # 3801. 合并有序列表的最小成本 (Minimum Cost to Merge Sorted Lists)
+    def minMergeCost(self, lists: List[List[int]]) -> int:
+        def merge(a: list, b: list) -> list:
+            res = []
+            i = j = 0
+            while i < len(a) and j < len(b):
+                if a[i] < b[j]:
+                    res.append(a[i])
+                    i += 1
+                else:
+                    res.append(b[j])
+                    j += 1
+            res.extend(a[i:])
+            res.extend(b[j:])
+            return res
+
+        n = len(lists)
+        u = (1 << n) - 1
+        g = [[] for _ in range(1 << n)]
+        for i, a in enumerate(lists):  # 枚举不在 s 中的下标 i
+            high_bit = 1 << i
+            for s in range(high_bit):
+                g[high_bit | s] = merge(g[s], a)
+        f = [0] * (1 << n)
+        for i in range(1, 1 << n):
+            if i & (i - 1) == 0:
+                continue
+            f[i] = inf
+            sub_a = i
+            # 防止对称枚举
+            while sub_a > (i ^ sub_a):
+                if sub_a ^ i:
+                    sub_b = sub_a ^ i
+                    len_a = len(g[sub_a])
+                    len_b = len(g[sub_b])
+                    med_a = g[sub_a][(len_a - 1) // 2]
+                    med_b = g[sub_b][(len_b - 1) // 2]
+                    f[i] = min(
+                        f[i], f[sub_a] + f[sub_b] + len_a + len_b + abs(med_a - med_b)
+                    )
+                sub_a = (sub_a - 1) & i
+        return f[-1]
