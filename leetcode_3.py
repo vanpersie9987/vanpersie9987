@@ -6697,3 +6697,23 @@ class SegmentTree2940:
                 max_s = s
                 res = level
         return res
+
+    # 1339. 分裂二叉树的最大乘积 (Maximum Product of Splitted Binary Tree)
+    def maxProduct(self, root: Optional[TreeNode]) -> int:
+        def dfs(node: Optional[TreeNode]) -> int:
+            if not node:
+                return 0
+            return node.val + dfs(node.left) + dfs(node.right)
+        def cal(node: Optional[TreeNode]) -> int:
+            if not node:
+                return 0
+            left_s = cal(node.left)
+            right_s = cal(node.right)
+            nonlocal res
+            res = max(res, left_s * (total - left_s), right_s * (total - right_s))
+            return node.val + left_s + right_s
+        MOD = 10**9 + 7
+        total = dfs(root)
+        res = 0
+        cal(root)
+        return res % MOD
