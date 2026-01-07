@@ -6649,7 +6649,6 @@ class SegmentTree2940:
             return res
 
         n = len(lists)
-        u = (1 << n) - 1
         g = [[] for _ in range(1 << n)]
         for i, a in enumerate(lists):  # 枚举不在 s 中的下标 i
             high_bit = 1 << i
