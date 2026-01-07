@@ -9818,34 +9818,32 @@ public class Leetcode_5 {
     }
 
     // 1339. 分裂二叉树的最大乘积 (Maximum Product of Splitted Binary Tree)
-    private int sum1339;
-    private int best1339;
+    private long total1339;
+    private long res1339;
 
     public int maxProduct(TreeNode root) {
-        dfs_sum1339(root);
-        dfs_best1339(root);
-        final int mod = (int) (1e9 + 7);
-        return (int) ((long) best1339 * (sum1339 - best1339) % mod);
+        int MOD = (int) (1e9 + 7);
+        this.total1339 = dfsSum1339(root);
+        dfsRes1339(root);
+        return (int) (res1339 % MOD);
+
     }
 
-    private void dfs_sum1339(TreeNode node) {
+    private long dfsRes1339(TreeNode node) {
         if (node == null) {
-            return;
+            return 0L;
         }
-        sum1339 += node.val;
-        dfs_sum1339(node.left);
-        dfs_sum1339(node.right);
+        long leftSum = dfsRes1339(node.left);
+        long rightSum = dfsRes1339(node.right);
+        res1339 = Math.max(res1339, Math.max(leftSum * (total1339 - leftSum), rightSum * (total1339 - rightSum)));
+        return node.val + leftSum + rightSum;
     }
 
-    private int dfs_best1339(TreeNode node) {
+    private long dfsSum1339(TreeNode node) {
         if (node == null) {
-            return 0;
+            return 0L;
         }
-        int cur = dfs_best1339(node.left) + dfs_best1339(node.right) + node.val;
-        if (Math.abs(cur * 2 - sum1339) < Math.abs(best1339 * 2 - sum1339)) {
-            best1339 = cur;
-        }
-        return cur;
+        return node.val + dfsSum1339(node.left) + dfsSum1339(node.right);
     }
 
     // 276. 栅栏涂色 (Paint Fence) --plus
