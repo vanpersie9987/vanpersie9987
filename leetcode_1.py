@@ -1038,15 +1038,18 @@ class leetcode_1:
 
     # 712. 两个字符串的最小ASCII删除和 (Minimum ASCII Delete Sum for Two Strings)
     def minimumDeleteSum(self, s1: str, s2: str) -> int:
+        def cal(s: str) -> int:
+            return sum(ord(c) for c in s)
+
         @cache
         def dfs(i: int, j: int) -> int:
             if i < 0 or j < 0:
                 return 0
             if s1[i] == s2[j]:
-                return dfs(i - 1, j - 1) + ord(s1[i]) * 2
+                return ord(s1[i]) + dfs(i - 1, j - 1)
             return max(dfs(i - 1, j), dfs(i, j - 1))
 
-        return sum(ord(x) for x in s1 + s2) - dfs(len(s1) - 1, len(s2) - 1)
+        return cal(s1 + s2) - 2 * dfs(len(s1) - 1, len(s2) - 1)
 
     # 1143. 最长公共子序列 (Longest Common Subsequence)
     # LCR 095. 最长公共子序列
@@ -1444,7 +1447,7 @@ class leetcode_1:
         u = (1 << n) - 1
         return dfs(0, 0)
 
-    #  
+    #
     def specialPerm(self, nums: List[int]) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
@@ -3431,7 +3434,7 @@ class leetcode_1:
             return max(dfs(i + 1, j), dfs(p, j + 1) + events[i][2])
 
         return dfs(0, 0)
-    
+
     # 2054. 两个最好的不重叠活动 (Two Best Non-Overlapping Events)
     def maxTwoEvents(self, events: List[List[int]]) -> int:
         def bisect_right(x: int, a: list) -> int:
@@ -3445,7 +3448,7 @@ class leetcode_1:
                     right = mid - 1
             return left - 1
 
-        events.sort(key=lambda o:o[1])
+        events.sort(key=lambda o: o[1])
         a = [(0, 0)]
         res = 0
         for s, e, v in events:
