@@ -5659,7 +5659,7 @@ public class LeetCode_4 {
         for (char c : arr2_712) {
             s += c;
         }
-        return s - dfs712(n1 - 1, n2 - 1);
+        return s - dfs712(n1 - 1, n2 - 1) * 2;
 
     }
 
@@ -5671,7 +5671,7 @@ public class LeetCode_4 {
             return memo712[i][j];
         }
         if (arr1_712[i] == arr2_712[j]) {
-            return memo712[i][j] = dfs712(i - 1, j - 1) + arr1_712[i] * 2;
+            return memo712[i][j] = dfs712(i - 1, j - 1) + arr1_712[i];
         }
         return memo712[i][j] = Math.max(dfs712(i - 1, j), dfs712(i, j - 1));
     }
