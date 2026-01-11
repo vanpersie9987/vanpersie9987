@@ -6746,3 +6746,14 @@ class SegmentTree2940:
                 heights[j] = heights[j] + 1 if matrix[i][j] == "1" else 0
             res = max(res, cal())
         return res
+    
+    # 1266. 访问所有点的最小时间 (Minimum Time Visiting All Points)
+    def minTimeToVisitAllPoints(self, points: List[List[int]]) -> int:
+        res = 0
+        for (x1, y1), (x2, y2) in pairwise(points):
+            dx = abs(x1 - x2)
+            dy = abs(y1 - y2)
+            res += max(dx, dy)
+        return res
+            
+            
