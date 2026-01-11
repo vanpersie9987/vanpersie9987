@@ -336,41 +336,52 @@ public class LeetCode_2 {
 
    // 85. 最大矩形 (Maximal Rectangle)
    // 剑指 Offer II 040. 矩阵中最大的矩形
-   public int maximalRectangle(String[] matrix) {
+   public int maximalRectangle(char[][] matrix) {
       int res = 0;
-      if (matrix == null || matrix.length == 0 || matrix[0].length() == 0) {
-         return res;
-      }
-      int[] dp = new int[matrix[0].length()];
-      for (String row : matrix) {
-         char[] chars = row.toCharArray();
-         for (int i = 0; i < chars.length; ++i) {
-            if (chars[i] - '0' == 1) {
-               ++dp[i];
+      int m = matrix.length;
+      int n = matrix[0].length;
+      int[] height = new int[n];
+      for (int i = 0; i < m; ++i) {
+         for (int j = 0; j < n; ++j) {
+            if (matrix[i][j] == '1') {
+               ++height[j];
             } else {
-               dp[i] = 0;
+               height[j] = 0;
             }
          }
-         res = Math.max(res, getMax040(dp));
+         res = Math.max(res, cal85(height));
       }
       return res;
 
    }
 
-   private int getMax040(int[] heights) {
+   private int cal85(int[] heights) {
       Stack<Integer> stack = new Stack<>();
+      int n = heights.length;
       stack.push(-1);
       int res = 0;
-      for (int i = 0; i < heights.length; ++i) {
-         while (stack.peek() != -1 && heights[i] < heights[stack.peek()]) {
-            int h = heights[stack.pop()];
-            res = Math.max(res, h * (i - stack.peek() - 1));
+      int[] left = new int[n];
+      Arrays.fill(left, -1);
+      for (int i = 0; i < n; ++i) {
+         while (stack.peek() != -1 && heights[stack.peek()] >= heights[i]) {
+            stack.pop();
          }
+         left[i] = stack.peek();
          stack.push(i);
       }
-      while (stack.peek() != -1) {
-         int h = heights[stack.pop()];
-         res = Math.max(res, h * (heights.length - stack.peek() - 1));
+      stack.clear();
+      stack.push(n);
+      int[] right = new int[n];
+      Arrays.fill(right, n);
+      for (int i = n - 1; i >= 0; --i) {
+         while (stack.peek() != n && heights[stack.peek()] >= heights[i]) {
+            stack.pop();
+         }
+         right[i] = stack.peek();
+         stack.push(i);
+      }
+      for (int i = 0; i < n; ++i) {
+         res = Math.max(res, heights[i] * (right[i] - left[i] - 1));
       }
       return res;
    }
