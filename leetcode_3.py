@@ -57,6 +57,7 @@ from token import NL, RIGHTSHIFT
 from turtle import (
     RawTurtle,
     color,
+    heading,
     left,
     mode,
     pos,
@@ -6716,3 +6717,32 @@ class SegmentTree2940:
         res = 0
         cal(root)
         return res % MOD
+
+    # 85. 最大矩形 (Maximal Rectangle)
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        def cal() -> int:
+            left = [-1] * n
+            st = []
+            for id, x in enumerate(heights):
+                while st and heights[st[-1]] >= x:
+                    st.pop()
+                if st:
+                    left[id] = st[-1]
+                st.append(id)
+            right = [n] * n
+            st.clear()
+            for id in range(n - 1, -1, -1):
+                while st and heights[st[-1]] >= heights[id]:
+                    st.pop()
+                if st:
+                    right[id] = st[-1]
+                st.append(id)
+            return max((r - l - 1) * h for l, r, h in zip(left, right, heights))
+        m, n = len(matrix), len(matrix[0])
+        heights = [0] * n
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                heights[j] = heights[j] + 1 if matrix[i][j] == "1" else 0
+            res = max(res, cal())
+        return res
