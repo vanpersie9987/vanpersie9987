@@ -5281,7 +5281,7 @@ public class LeetCodeText {
 
     }
 
-    // 1266. 访问所有点的最小时间
+    // 1266. 访问所有点的最小时间 (Minimum Time Visiting All Points)
     public int minTimeToVisitAllPoints(final int[][] points) {
         int res = 0;
         for (int i = 1; i < points.length; ++i) {
