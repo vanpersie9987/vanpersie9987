@@ -2787,4 +2787,98 @@ public class Leetcode_10 {
 
     }
 
+    // 3803. 统计残差前缀 (Count Residue Prefixes)
+    public int residuePrefixes(String s) {
+        int res = 0;
+        int mask = 0;
+        for (int i = 0; i < s.length() && Integer.bitCount(mask) < 3; ++i) {
+            mask |= 1 << (s.charAt(i) - 'a');
+            if (Integer.bitCount(mask) == (i + 1) % 3) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    // 3804. 中心子数组的数量 (Number of Centered Subarrays)
+    public int centeredSubarrays(int[] nums) {
+        int res = 0;
+        int n = nums.length;
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < n; ++i) {
+            set.clear();
+            int s = 0;
+            for (int j = i; j < n; ++j) {
+                s += nums[j];
+                set.add(nums[j]);
+                if (set.contains(s)) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 3805. 统计凯撒加密对数目 (Count Caesar Cipher Pairs)
+    public long countPairs(String[] words) {
+        long res = 0L;
+        Map<String, Integer> cnts = new HashMap<>();
+        for (String s : words) {
+            String transStr = trans3805(s);
+            res += cnts.getOrDefault(transStr, 0);
+            cnts.merge(transStr, 1, Integer::sum);
+        }
+        return res;
+
+    }
+
+    private String trans3805(String s) {
+        int d = s.charAt(0) - 'a';
+        if (d == 0) {
+            return s;
+        }
+        d = 26 - d;
+        char[] a = s.toCharArray();
+        for (int i = 0; i < s.length(); ++i) {
+            a[i] = (char) (((a[i] - 'a' + d) % 26) + 'a');
+        }
+        return String.valueOf(a);
+    }
+
+    // 3806. 增加操作后最大按位与的结果 (Maximum Bitwise AND After Increment Operations)
+    public int maximumAND(int[] nums, int k, int m) {
+        int n = nums.length;
+        int res = 0;
+        int[] ops = new int[n];
+        int max = 0;
+        for (int x : nums) {
+            max = Math.max(max, x);
+        }
+        max += k;
+        int high = 32 - Integer.numberOfLeadingZeros(max);
+        search: for (int bit = high - 1; bit >= 0; --bit) {
+            int target = res | (1 << bit);
+            for (int i = 0; i < n; ++i) {
+                int j = 32 - Integer.numberOfLeadingZeros(target & ~nums[i]);
+                int mask = (1 << j) - 1;
+                ops[i] = (target & mask) - (nums[i] & mask);
+            }
+            Arrays.sort(ops);
+            int s = 0;
+            for (int i = 0; i < m; ++i) {
+                s += ops[i];
+                if (s > k) {
+                    continue search;
+                }
+            }
+            res = target;
+        }
+        return res;
+
+    }
+
+
+
 }

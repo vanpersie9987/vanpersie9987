@@ -6746,7 +6746,7 @@ class SegmentTree2940:
                 heights[j] = heights[j] + 1 if matrix[i][j] == "1" else 0
             res = max(res, cal())
         return res
-    
+
     # 1266. 访问所有点的最小时间 (Minimum Time Visiting All Points)
     def minTimeToVisitAllPoints(self, points: List[List[int]]) -> int:
         res = 0
@@ -6755,5 +6755,66 @@ class SegmentTree2940:
             dy = abs(y1 - y2)
             res += max(dx, dy)
         return res
-            
-            
+
+    # 3803. 统计残差前缀 (Count Residue Prefixes)
+    def residuePrefixes(self, s: str) -> int:
+        res = 0
+        mask = 0
+        for i, x in enumerate(s):
+            mask |= 1 << (ord(x) - ord('a'))
+            if mask.bit_count() == 3:
+                break
+            if mask.bit_count() == (i + 1) % 3:
+                res += 1
+        return res
+
+    # 3804. 中心子数组的数量 (Number of Centered Subarrays)
+    def centeredSubarrays(self, nums: List[int]) -> int:
+        res = 0
+        n = len(nums)
+        s = set()
+        for i in range(n):
+            s.clear()
+            _sum = 0
+            for j in range(i, n):
+                s.add(nums[j])
+                _sum += nums[j]
+                if _sum in s:
+                    res += 1
+        return res
+
+    # 3805. 统计凯撒加密对数目 (Count Caesar Cipher Pairs)
+    def countPairs(self, words: List[str]) -> int:
+        def trans(s: str) -> str:
+            a = [x for x in s]
+            d = 26 - (ord(a[0]) - ord('a'))
+            if d == 0:
+                return s
+            for i in range(len(a)):
+                id = ord(a[i]) - ord('a')
+                n_id = (id + d) % 26
+                a[i] = chr(ord('a') + n_id)
+            return ''.join(a)
+        res = 0
+        d = defaultdict(int)
+        for s in words:
+            trans_s = trans(s)
+            res += d[trans_s]
+            d[trans_s] += 1
+        return res
+
+    # 3806. 增加操作后最大按位与的结果 (Maximum Bitwise AND After Increment Operations) --试填法
+    def maximumAND(self, nums: List[int], k: int, m: int) -> int:
+        res = 0
+        ops = [0] * (len(nums))
+        _max = (max(nums) + k).bit_length()
+        for bit in range(_max - 1, -1, -1):
+            target = res | (1 << bit)
+            for i, x in enumerate(nums):
+                j = (target & ~x).bit_length()
+                mask = (1 << j) - 1
+                ops[i] = (target & mask) - (x & mask)
+            ops.sort()
+            if sum(ops[:m]) <= k:
+                res = target
+        return res
