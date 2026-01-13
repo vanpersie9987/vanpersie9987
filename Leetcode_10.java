@@ -2891,7 +2891,7 @@ public class Leetcode_10 {
         }
         while (right - left > 1e-5) {
             double mid = left + (right - left) / 2D;
-            if (check(mid, squares) * 2D >= total) {
+            if (check3453(mid, squares) * 2D >= total) {
                 right = mid - 1e-6;
             } else {
                 left = mid + 1e-6;
@@ -2901,7 +2901,7 @@ public class Leetcode_10 {
 
     }
 
-    private double check(double y, int[][] squares) {
+    private double check3453(double y, int[][] squares) {
         double res = 0D;
         for (int[] s : squares) {
             res += s[2] * Math.max(0D, Math.min(y, s[1] + s[2]) - s[1]);
