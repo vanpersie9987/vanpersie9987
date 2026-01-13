@@ -6704,6 +6704,7 @@ class SegmentTree2940:
             if not node:
                 return 0
             return node.val + dfs(node.left) + dfs(node.right)
+
         def cal(node: Optional[TreeNode]) -> int:
             if not node:
                 return 0
@@ -6712,6 +6713,7 @@ class SegmentTree2940:
             nonlocal res
             res = max(res, left_s * (total - left_s), right_s * (total - right_s))
             return node.val + left_s + right_s
+
         MOD = 10**9 + 7
         total = dfs(root)
         res = 0
@@ -6738,6 +6740,7 @@ class SegmentTree2940:
                     right[id] = st[-1]
                 st.append(id)
             return max((r - l - 1) * h for l, r, h in zip(left, right, heights))
+
         m, n = len(matrix), len(matrix[0])
         heights = [0] * n
         res = 0
@@ -6761,7 +6764,7 @@ class SegmentTree2940:
         res = 0
         mask = 0
         for i, x in enumerate(s):
-            mask |= 1 << (ord(x) - ord('a'))
+            mask |= 1 << (ord(x) - ord("a"))
             if mask.bit_count() == 3:
                 break
             if mask.bit_count() == (i + 1) % 3:
@@ -6787,14 +6790,15 @@ class SegmentTree2940:
     def countPairs(self, words: List[str]) -> int:
         def trans(s: str) -> str:
             a = [x for x in s]
-            d = 26 - (ord(a[0]) - ord('a'))
+            d = 26 - (ord(a[0]) - ord("a"))
             if d == 0:
                 return s
             for i in range(len(a)):
-                id = ord(a[i]) - ord('a')
+                id = ord(a[i]) - ord("a")
                 n_id = (id + d) % 26
-                a[i] = chr(ord('a') + n_id)
-            return ''.join(a)
+                a[i] = chr(ord("a") + n_id)
+            return "".join(a)
+
         res = 0
         d = defaultdict(int)
         for s in words:
@@ -6823,6 +6827,7 @@ class SegmentTree2940:
     def separateSquares(self, squares: List[List[int]]) -> float:
         def check(t: float) -> float:
             return sum(max(0, min(t, y + r) - y) * r for _, y, r in squares)
+
         left = min(y for _, y, _ in squares)
         right = max(y + r for _, y, r in squares)
         total = sum(r * r for _, _, r in squares)
