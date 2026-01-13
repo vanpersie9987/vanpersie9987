@@ -2979,13 +2979,9 @@ public class Leetcode_10 {
         while (x != null) {
             if (val > x.val) {
                 if (fa == null) {
-                    TreeNode res = new TreeNode(val);
-                    res.left = root;
-                    return res;
+                    return new TreeNode(val, root, null);
                 } else {
-                    TreeNode cur = new TreeNode(val);
-                    fa.right = cur;
-                    cur.left = x;
+                    fa.right = new TreeNode(val, x, null);
                     return root;
                 }
             }

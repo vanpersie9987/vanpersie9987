@@ -6848,9 +6848,7 @@ class SegmentTree2940:
             if val > x.val:
                 if fa is None:
                     return TreeNode(val, root, None)
-                node = TreeNode(val)
-                fa.right = node
-                node.left = x
+                fa.right = TreeNode(val, x, None)
                 return root
             fa = x
             x = x.right
