@@ -2909,4 +2909,66 @@ public class Leetcode_10 {
         return res;
     }
 
+    // 3434. 子数组操作后的最大频率 (Maximum Frequency After Subarray Operation)
+    private int[] nums3434;
+    private int k3434;
+    private int n3434;
+
+    public int maxFrequency(int[] nums, int k) {
+        this.nums3434 = nums;
+        this.n3434 = nums.length;
+        this.k3434 = k;
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for (int x : nums) {
+            min = Math.min(min, x);
+            max = Math.max(max, x);
+        }
+        int res = 0;
+        for (int d = k - max; d <= k - min; ++d) {
+            res = Math.max(res, cal3434(d));
+        }
+        return res;
+    }
+
+    private int d3434;
+    private int[][] memo3434;
+
+    private int cal3434(int d) {
+        this.d3434 = d;
+        this.memo3434 = new int[n3434][3];
+        for (int[] r : memo3434) {
+            Arrays.fill(r, -1);
+        }
+        return dfs3434(n3434 - 1, 0);
+    }
+
+    private int dfs3434(int i, int j) {
+        if (i < 0) {
+            return 0;
+        }
+        if (memo3434[i][j] != -1) {
+            return memo3434[i][j];
+        }
+        int res = 0;
+        // j == 0 之前未修改过
+        if (j == 0) {
+            // 不修改
+            res = Math.max(res, dfs3434(i - 1, j) + (nums3434[i] == k3434 ? 1 : 0));
+            // 修改
+            res = Math.max(res, dfs3434(i - 1, j + 1) + (nums3434[i] + d3434 == k3434 ? 1 : 0));
+        }
+        // j == 1 已经在修改途中
+        else if (j == 1) {
+            // 仍然修改
+            res = Math.max(res, dfs3434(i - 1, j) + (nums3434[i] + d3434 == k3434 ? 1 : 0));
+            // 恢复为不修改
+            res = Math.max(res, dfs3434(i - 1, j + 1) + (nums3434[i] == k3434 ? 1 : 0));
+        }
+        // j == 2 已恢复为不修改
+        else {
+            res = Math.max(res, dfs3434(i - 1, j) + (nums3434[i] == k3434 ? 1 : 0));
+        }
+        return memo3434[i][j] = res;
+    }
 }
