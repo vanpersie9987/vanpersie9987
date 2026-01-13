@@ -2971,4 +2971,28 @@ public class Leetcode_10 {
         }
         return memo3434[i][j] = res;
     }
+
+    // 998. 最大二叉树 II (Maximum Binary Tree II)
+    public TreeNode insertIntoMaxTree(TreeNode root, int val) {
+        TreeNode fa = null;
+        TreeNode x = root;
+        while (x != null) {
+            if (val > x.val) {
+                if (fa == null) {
+                    TreeNode res = new TreeNode(val);
+                    res.left = root;
+                    return res;
+                } else {
+                    TreeNode cur = new TreeNode(val);
+                    fa.right = cur;
+                    cur.left = x;
+                    return root;
+                }
+            }
+            fa = x;
+            x = x.right;
+        }
+        fa.right = new TreeNode(val);
+        return root;
+    }
 }
