@@ -2980,10 +2980,9 @@ public class Leetcode_10 {
             if (val > x.val) {
                 if (fa == null) {
                     return new TreeNode(val, root, null);
-                } else {
-                    fa.right = new TreeNode(val, x, null);
-                    return root;
                 }
+                fa.right = new TreeNode(val, x, null);
+                return root;
             }
             fa = x;
             x = x.right;
