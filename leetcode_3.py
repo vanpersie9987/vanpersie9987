@@ -6855,3 +6855,15 @@ class SegmentTree2940:
         node = TreeNode(val)
         fa.right = node
         return root
+    
+    # 829. 连续整数求和 (Consecutive Numbers Sum)
+    def consecutiveNumbersSum(self, s: int) -> int:
+        n = 1
+        res = 0
+        while n * (n + 1) <= s * 2:
+            if s * 2 > n * (n - 1) and (s * 2 - n * (n - 1)) % (n * 2) == 0:
+                res += 1
+            n += 1
+        return res
+
+        
