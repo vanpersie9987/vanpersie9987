@@ -6838,3 +6838,22 @@ class SegmentTree2940:
             else:
                 left = mid + 10**-6
         return right + 10**-6
+
+    # 998. 最大二叉树 II (Maximum Binary Tree II)
+    def insertIntoMaxTree(
+        self, root: Optional[TreeNode], val: int
+    ) -> Optional[TreeNode]:
+        fa, x = None, root
+        while x:
+            if val > x.val:
+                if fa is None:
+                    return TreeNode(val, root, None)
+                node = TreeNode(val)
+                fa.right = node
+                node.left = x
+                return root
+            fa = x
+            x = x.right
+        node = TreeNode(val)
+        fa.right = node
+        return root
