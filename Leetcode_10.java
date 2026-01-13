@@ -2879,6 +2879,36 @@ public class Leetcode_10 {
 
     }
 
+    // 3453. 分割正方形 I (Separate Squares I)
+    public double separateSquares(int[][] squares) {
+        double left = Double.MAX_VALUE;
+        double right = Double.MIN_VALUE;
+        double total = 0D;
+        for (int[] s : squares) {
+            left = Math.min(left, s[1]);
+            right = Math.max(right, s[1] + s[2]);
+            total += (double) s[2] * s[2];
+        }
+        while (right - left > 1e-5) {
+            double mid = left + (right - left) / 2D;
+            if (check(mid, squares) * 2D >= total) {
+                right = mid - 1e-6;
+            } else {
+                left = mid + 1e-6;
+            }
+        }
+        return right + 1e-6;
+
+    }
+
+    private double check(double y, int[][] squares) {
+        double res = 0D;
+        for (int[] s : squares) {
+            res += s[2] * Math.max(0D, Math.min(y, s[1] + s[2]) - s[1]);
+        }
+        return res;
+    }
+
 
 
 }
