@@ -2991,4 +2991,19 @@ public class Leetcode_10 {
         fa.right = new TreeNode(val);
         return root;
     }
+
+    // 829. 连续整数求和 (Consecutive Numbers Sum)
+    public int consecutiveNumbersSum(int s) {
+        // 枚举序列长度
+        int n = 1;
+        int res = 0;
+        while (n * (n + 1) <= s * 2) {
+            if (s * 2 > n * (n - 1) && (s * 2 - n * (n - 1)) % (n * 2) == 0) {
+                ++res;
+            }
+            ++n;
+        }
+        return res;
+
+    }
 }
