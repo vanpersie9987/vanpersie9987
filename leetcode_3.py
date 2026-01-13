@@ -6818,3 +6818,18 @@ class SegmentTree2940:
             if sum(ops[:m]) <= k:
                 res = target
         return res
+
+    # 3453. 分割正方形 I (Separate Squares I)
+    def separateSquares(self, squares: List[List[int]]) -> float:
+        def check(t: float) -> float:
+            return sum(max(0, min(t, y + r) - y) * r for _, y, r in squares)
+        left = min(y for _, y, _ in squares)
+        right = max(y + r for _, y, r in squares)
+        total = sum(r * r for _, _, r in squares)
+        while right - left >= 10**-5:
+            mid = left + (right - left) / 2
+            if check(mid) * 2 >= total:
+                right = mid - 10**-6
+            else:
+                left = mid + 10**-6
+        return right + 10**-6
