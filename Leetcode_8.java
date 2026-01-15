@@ -5275,25 +5275,22 @@ public class Leetcode_8 {
 
     // 2943. 最大化网格图中正方形空洞的面积 (Maximize Area of Square Hole in Grid)
     public int maximizeSquareHoleArea(int n, int m, int[] hBars, int[] vBars) {
-        int s = Math.min(cal2943(hBars), cal2943(vBars));
-        return s * s;
+        int d = Math.min(cal2943(hBars), cal2943(vBars));
+        return d * d;
+
     }
 
-    private int cal2943(int[] bars) {
-        Arrays.sort(bars);
-        int i = 0;
+    private int cal2943(int[] a) {
+        Arrays.sort(a);
         int res = 0;
-        int n = bars.length;
-        while (i < n) {
-            int j = i + 1;
-            while (j < n && bars[j] - bars[j - 1] == 1) {
-                ++j;
+        int j = -1;
+        for (int i = 0; i < a.length; ++i) {
+            if (i == a.length - 1 || a[i + 1] - a[i] != 1) {
+                res = Math.max(res, i - j + 1);
+                j = i;
             }
-            res = Math.max(res, j - i + 1);
-            i = j;
         }
         return res;
-
     }
 
     // 2944. 购买水果需要的最少金币数 (Minimum Number of Coins for Fruits)
