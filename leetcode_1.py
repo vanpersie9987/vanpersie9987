@@ -8544,16 +8544,12 @@ class leetcode_1:
     ) -> int:
         def cal(a: list) -> int:
             a.sort()
-            res = 1
-            i = 0
-            while i < len(a):
-                j = i + 1
-                while j < len(a) and a[j] - a[j - 1] == 1:
-                    j += 1
-                res = max(res, j - i + 1)
-                i = j
+            res, j = 0, -1
+            for i in range(len(a)):
+                if i == len(a) - 1 or a[i + 1] - a[i] != 1:
+                    res = max(res, i - j + 1)
+                    j = i
             return res
-
         d = min(cal(hBars), cal(vBars))
         return d * d
 
