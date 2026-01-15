@@ -5819,34 +5819,34 @@ public class Leetcode_8 {
 
     // 2975. 移除栅栏得到的正方形田地的最大面积 (Maximum Square Area by Removing Fences From a Field)
     public int maximizeSquareArea(int m, int n, int[] hFences, int[] vFences) {
-        Set<Integer> hSet = check2975(hFences, m);
-        Set<Integer> vSet = check2975(vFences, n);
-        long res = -1L;
+        Set<Integer> hSet = cal2975(m, hFences);
+        Set<Integer> vSet = cal2975(n, vFences);
+        long res = 0L;
         for (int h : hSet) {
             if (vSet.contains(h)) {
                 res = Math.max(res, (long) h * h);
             }
         }
-        final int MOD = (int) 1e9 + 7;
-        return (int) (res % MOD);
+        return (int) (res % ((long) 1e9 + 7));
 
     }
 
-    private Set<Integer> check2975(int[] nums, int n) {
+    private Set<Integer> cal2975(int l, int[] a) {
+        Set<Integer> res = new HashSet<>();
         List<Integer> list = new ArrayList<>();
         list.add(1);
-        list.add(n);
-        for (int num : nums) {
-            list.add(num);
+        list.add(l);
+        for (int x : a) {
+            list.add(x);
         }
         Collections.sort(list);
-        Set<Integer> set = new HashSet<>();
-        for (int i = 0; i < list.size(); ++i) {
-            for (int j = i + 1; j < list.size(); ++j) {
-                set.add(list.get(j) - list.get(i));
+        int size = list.size();
+        for (int i = 1; i < size; ++i) {
+            for (int j = 0; j < i; ++j) {
+                res.add(list.get(i) - list.get(j));
             }
         }
-        return set;
+        return res;
 
     }
 

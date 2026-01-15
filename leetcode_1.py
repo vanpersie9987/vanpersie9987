@@ -8550,6 +8550,7 @@ class leetcode_1:
                     res = max(res, i - j + 1)
                     j = i
             return res
+
         d = min(cal(hBars), cal(vBars))
         return d * d
 
@@ -9026,23 +9027,22 @@ class leetcode_1:
     def maximizeSquareArea(
         self, m: int, n: int, hFences: List[int], vFences: List[int]
     ) -> int:
-        def check(nums: List[int], n: int) -> set:
-            nums.extend([1, n])
-            nums.sort()
-            s = set()
-            for i in range(len(nums)):
-                for j in range(i + 1, len(nums)):
-                    s.add(nums[j] - nums[i])
-            return s
+        def cal(a: list, length: int) -> set:
+            a = [1] + sorted(a) + [length]
+            res = set()
+            for i in range(1, len(a)):
+                for j in range(i):
+                    res.add(a[i] - a[j])
+            return res
 
-        h_set = check(hFences, m)
-        v_set = check(vFences, n)
-        res = 0
-        for h in h_set:
-            if h in v_set:
-                res = max(res, h * h)
+        set_h = cal(hFences, m)
+        set_v = cal(vFences, n)
+        s = set_h & set_v
+        if len(s) == 0:
+            return -1
+        d = max(s)
         MOD = 10**9 + 7
-        return res % MOD if res else -1
+        return d * d % MOD
 
     # 2976. 转换字符串的最小成本 I (Minimum Cost to Convert String I)
     def minimumCost(
