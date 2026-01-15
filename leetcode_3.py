@@ -6865,5 +6865,3 @@ class SegmentTree2940:
                 res += 1
             n += 1
         return res
-
-        

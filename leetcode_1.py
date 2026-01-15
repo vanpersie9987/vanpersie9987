@@ -8542,21 +8542,20 @@ class leetcode_1:
     def maximizeSquareHoleArea(
         self, n: int, m: int, hBars: List[int], vBars: List[int]
     ) -> int:
-        def cal(bars: List[int]) -> int:
-            res = 0
-            bars.sort()
+        def cal(a: list) -> int:
+            a.sort()
+            res = 1
             i = 0
-            n = len(bars)
-            while i < n:
+            while i < len(a):
                 j = i + 1
-                while j < n and bars[j] - bars[j - 1] == 1:
+                while j < len(a) and a[j] - a[j - 1] == 1:
                     j += 1
                 res = max(res, j - i + 1)
                 i = j
             return res
 
-        s = min(cal(hBars), cal(vBars))
-        return s**2
+        d = min(cal(hBars), cal(vBars))
+        return d * d
 
     # 2944. 购买水果需要的最少金币数 (Minimum Number of Coins for Fruits)
     def minimumCoins(self, prices: List[int]) -> int:
