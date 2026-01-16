@@ -5821,7 +5821,7 @@ public class Leetcode_8 {
     public int maximizeSquareArea(int m, int n, int[] hFences, int[] vFences) {
         Set<Integer> hSet = cal2975(m, hFences);
         Set<Integer> vSet = cal2975(n, vFences);
-        long res = 0L;
+        long res = -1L;
         for (int h : hSet) {
             if (vSet.contains(h)) {
                 res = Math.max(res, (long) h * h);
