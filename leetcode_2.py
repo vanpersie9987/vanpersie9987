@@ -1487,19 +1487,13 @@ class Union924:
     def largestSquareArea(
         self, bottomLeft: List[List[int]], topRight: List[List[int]]
     ) -> int:
-        n = len(bottomLeft)
         res = 0
-        for i in range(n):
-            for j in range(i + 1, n):
-                p1 = bottomLeft[i]
-                p2 = topRight[i]
-                p3 = bottomLeft[j]
-                p4 = topRight[j]
-                l1 = max(0, min(p2[0], p4[0]) - max(p1[0], p3[0]))
-                l2 = max(0, min(p2[1], p4[1]) - max(p1[1], p3[1]))
-                l = min(l1, l2)
-                res = max(res, l * l)
-        return res
+        a = [(x0, y0, x1, y1) for (x0, y0), (x1, y1) in zip(bottomLeft, topRight)]
+        for (x0, y0, x1, y1), (x2, y2, x3, y3) in combinations(a, 2):
+            d0 = max(0, min(x3, x1) - max(x2, x0))
+            d1 = max(0, min(y3, y1) - max(y2, y0))
+            res = max(res, min(d0, d1))
+        return res * res
 
     # 3048. 标记所有下标的最早秒数 I (Earliest Second to Mark Indices I)
     def earliestSecondToMarkIndices(
@@ -10042,7 +10036,3 @@ class Union924:
         if n == len(edges):  # 环
             ans += 2
         return ans
-
-
-
-        
