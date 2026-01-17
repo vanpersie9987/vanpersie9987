@@ -16,6 +16,15 @@
 #     print(b, end = " ")
 #     a , b = b , a + b
 
+from itertools import (
+    accumulate,
+    combinations,
+    count,
+    islice,
+    pairwise,
+    permutations,
+    starmap,
+)
 
 from asyncio import FastChildWatcher
 from audioop import reverse
@@ -9029,11 +9038,7 @@ class leetcode_1:
     ) -> int:
         def cal(a: list, length: int) -> set:
             a = [1] + sorted(a) + [length]
-            res = set()
-            for i in range(1, len(a)):
-                for j in range(i):
-                    res.add(a[i] - a[j])
-            return res
+            return set(y - x for x, y in combinations(a, 2))
 
         set_h = cal(hFences, m)
         set_v = cal(vFences, n)
