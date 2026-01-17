@@ -8134,21 +8134,19 @@ public class Leetcode_8 {
     // 3047. 求交集区域内的最大正方形面积 (Find the Largest Area of Square Inside Two Rectangles)
     public long largestSquareArea(int[][] bottomLeft, int[][] topRight) {
         int n = bottomLeft.length;
-        long res = 0L;
+        int res = 0;
         for (int i = 0; i < n; ++i) {
             for (int j = i + 1; j < n; ++j) {
                 int[] p1 = bottomLeft[i];
                 int[] p2 = topRight[i];
                 int[] p3 = bottomLeft[j];
                 int[] p4 = topRight[j];
-                int s1 = Math.max(0, Math.min(p2[0], p4[0]) - Math.max(p1[0], p3[0]));
-                int s2 = Math.max(0, Math.min(p2[1], p4[1]) - Math.max(p1[1], p3[1]));
-                int s = Math.min(s1, s2);
-                res = Math.max(res, (long) s * s);
+                int d0 = Math.max(0, Math.min(p2[0], p4[0]) - Math.max(p1[0], p3[0]));
+                int d1 = Math.max(0, Math.min(p2[1], p4[1]) - Math.max(p1[1], p3[1]));
+                res = Math.max(res, Math.min(d0, d1));
             }
         }
-        return res;
-
+        return (long) res * res;
     }
 
     // 3048. 标记所有下标的最早秒数 I (Earliest Second to Mark Indices I)
