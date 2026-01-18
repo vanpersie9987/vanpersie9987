@@ -3005,4 +3005,26 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 最好可到达的塔 (Best Reachable Tower)
+    public int[] bestTower(int[][] towers, int[] center, int radius) {
+        int[] res = { -1, -1 };
+        int maxQuality = -1;
+        for (int[] tower : towers) {
+            int dx = Math.abs(tower[0] - center[0]);
+            int dy = Math.abs(tower[1] - center[1]);
+            if (dx + dy <= radius) {
+                if (tower[2] > maxQuality) {
+                    maxQuality = tower[2];
+                    res[0] = tower[0];
+                    res[1] = tower[1];
+                } else if (tower[2] == maxQuality && (tower[0] < res[0] || (tower[0] == res[0] && tower[1] < res[1]))) {
+                    res[0] = tower[0];
+                    res[1] = tower[1];
+                }
+            }
+        }
+        return res;
+
+    }
 }
