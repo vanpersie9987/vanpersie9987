@@ -3113,10 +3113,10 @@ public class Leetcode_10 {
             int id = neighbor[1];
             if (y != fa) {
                 int cntY = dfs3812(y, x);
-                if ((cntY & 1) != 0) {
+                if (cntY != 0) {
                     res3812.add(id);
                 }
-                cnt += cntY;
+                cnt ^= cntY;
             }
         }
         return cnt & 1;
