@@ -6953,13 +6953,13 @@ class SegmentTree2940:
         self, n: int, edges: List[List[int]], start: str, target: str
     ) -> List[int]:
         def dfs(x: int, fa: int) -> int:
-            cnt = int(start[x] != target[x])
+            cnt = start[x] != target[x]
             for y, id in g[x]:
                 if y != fa:
                     cnt_y = dfs(y, x)
-                    if cnt_y & 1:
+                    if cnt_y:
                         res.append(id)
-                    cnt += cnt_y
+                    cnt ^= cnt_y
             return cnt & 1
 
         if start.count("1") % 2 != target.count("1") % 2:
