@@ -7000,3 +7000,17 @@ class SegmentTree2940:
             else:
                 right = mid - 1
         return left - 1
+    
+    # 3813. 元音辅音得分 (Vowel-Consonant Score)
+    def vowelConsonantScore(self, s: str) -> int:
+        u, v, c = 0, 0, 0
+        for chr in "aeiou":
+            u |= 1 << (ord(chr) - ord("a"))
+        for chr in s:
+            if chr.isalpha():
+                id = ord(chr) - ord("a")
+                if (u >> id) & 1:
+                    v += 1
+                else:
+                    c += 1
+        return v // c if c else 0
