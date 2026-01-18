@@ -3027,4 +3027,17 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 3810. 变成目标数组的最少操作次数 (Minimum Operations to Reach Target Array)
+    public int minOperations3810(int[] nums, int[] target) {
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < target.length; ++i) {
+            if (nums[i] != target[i]) {
+                set.add(nums[i]);
+            }
+        }
+        return set.size();
+        
+
+    }
 }

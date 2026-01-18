@@ -6920,3 +6920,12 @@ class SegmentTree2940:
                 elif q == max_quality and (x < res[0] or (x == res[0] and y < res[1])):
                     res = [x, y]
         return res
+    
+    # 3810. 变成目标数组的最少操作次数 (Minimum Operations to Reach Target Array)
+    def minOperations(self, nums: List[int], target: List[int]) -> int:
+        s = set()
+        for x, y in zip(nums, target):
+            if x != y:
+                s.add(x)
+        return len(s)
+            
