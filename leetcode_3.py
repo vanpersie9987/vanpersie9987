@@ -6929,6 +6929,7 @@ class SegmentTree2940:
                 s.add(x)
         return len(s)
 
+    # 3811. 交替按位异或分割的数目 (Number of Alternating XOR Partitions)
     def alternatingXOR(self, nums: List[int], target1: int, target2: int) -> int:
         @cache
         def dfs(i: int, j: int, k: int) -> int:

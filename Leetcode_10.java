@@ -3040,6 +3040,41 @@ public class Leetcode_10 {
 
     }
 
+    // 3811. 交替按位异或分割的数目 (Number of Alternating XOR Partitions)
+    private Map<Long, Integer> memo3811;
+    private int[] nums3811;
+    private int n3811;
+    private int[] target3811;
+
+    public int alternatingXOR(int[] nums, int target1, int target2) {
+        this.n3811 = nums.length;
+        this.nums3811 = nums;
+        this.target3811 = new int[] {target1, target2};
+        this.memo3811 = new HashMap<>();
+        this.n3811 = nums.length;
+        return dfs3811(0, 0, 0);
+
+    }
+
+    private int dfs3811(int i, int j, int k) {
+        if (i == n3811) {
+            return j == (1 << 18) - 1 ? 1 : 0;
+        }
+        long key = (((long) i) << 20) | (((long) j) << 1) | ((long) k);
+        if (memo3811.containsKey(key)) {
+            return memo3811.get(key);
+        }
+        final int MOD = (int) (1e9 + 7);
+        int nj = j == (1 << 18) - 1 ? nums3811[i] : (j ^ nums3811[i]);
+        int res = dfs3811(i + 1, nj, k);
+        if (nj == target3811[k]) {
+            res += dfs3811(i + 1, (1 << 18) - 1, k ^ 1);
+            res %= MOD;
+        }
+        memo3811.put(key, res);
+        return res;
+    }
+
     // 3812. 翻转树上最少边 (Minimum Edge Toggles on a Tree)
     private List<Integer> res3812;
     private List<int[]>[] g3812;
