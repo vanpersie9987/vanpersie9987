@@ -3049,7 +3049,7 @@ public class Leetcode_10 {
     public int alternatingXOR(int[] nums, int target1, int target2) {
         this.n3811 = nums.length;
         this.nums3811 = nums;
-        this.target3811 = new int[] {target1, target2};
+        this.target3811 = new int[] { target1, target2 };
         this.memo3811 = new HashMap<>();
         this.n3811 = nums.length;
         return dfs3811(0, 0, 0);

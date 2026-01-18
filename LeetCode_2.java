@@ -2745,40 +2745,44 @@ public class LeetCode_2 {
 
    }
 
-   // 1292. 元素和小于等于阈值的正方形的最大边长 --二分查找
+   // 1292. 元素和小于等于阈值的正方形的最大边长 (Maximum Side Length of a Square with Sum Less than
+   // or Equal to Threshold) --二分查找
    public int maxSideLength(int[][] mat, int threshold) {
-      int[][] P = new int[mat.length + 1][mat[0].length + 1];
-      for (int i = 1; i < P.length; ++i) {
-         for (int j = 1; j < P[0].length; ++j) {
-            P[i][j] = P[i - 1][j] + P[i][j - 1] + mat[i - 1][j - 1] - P[i - 1][j - 1];
+      int m = mat.length;
+      int n = mat[0].length;
+      int[][] pre = new int[m + 1][n + 1];
+      for (int i = 0; i < m; ++i) {
+         for (int j = 0; j < n; ++j) {
+            pre[i + 1][j + 1] = pre[i][j + 1] + pre[i + 1][j] - pre[i][j] + mat[i][j];
          }
       }
-      int left = 1;
-      int ans = 0;
-      int right = Math.min(mat.length, mat[0].length);
+      int left = 0;
+      int right = Math.min(m, n);
       while (left <= right) {
-         boolean find = false;
          int mid = left + ((right - left) >> 1);
-         for (int i = 1; i <= mat.length + 1 - mid; ++i) {
-            for (int j = 1; j <= mat[0].length + 1 - mid; ++j) {
-               if (getRect(P, i, j, i + mid - 1, j + mid - 1) <= threshold) {
-                  find = true;
-               }
-
-            }
-         }
-         if (find) {
-            ans = mid;
+         if (check1292(mid, pre, threshold)) {
             left = mid + 1;
          } else {
             right = mid - 1;
          }
+
       }
-      return ans;
+      return left - 1;
+
    }
 
-   private int getRect(int[][] preSum, int startI, int startJ, int endI, int endJ) {
-      return preSum[endI][endJ] - preSum[endI][startJ - 1] - preSum[startI - 1][endJ] + preSum[startI - 1][startJ - 1];
+   private boolean check1292(int k, int[][] pre, int threshold) {
+      int m = pre.length - 1;
+      int n = pre[0].length - 1;
+      for (int i = 0; i <= m - k; ++i) {
+         for (int j = 0; j <= n - k; ++j) {
+            int sum = pre[i + k][j + k] - pre[i][j + k] - pre[i + k][j] + pre[i][j];
+            if (sum <= threshold) {
+               return true;
+            }
+         }
+      }
+      return false;
    }
 
    // 1292. 元素和小于等于阈值的正方形的最大边长 (Maximum Side Length of a Square with Sum Less than
