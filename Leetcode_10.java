@@ -3121,4 +3121,24 @@ public class Leetcode_10 {
         }
         return cnt & 1;
     }
+
+    // 3813. 元音辅音得分 (Vowel-Consonant Score)
+    public int vowelConsonantScore(String s) {
+        int v = 0;
+        int c = 0;
+        int u = 0;
+        for (char chr : "aeiou".toCharArray()) {
+            u |= 1 << (chr - 'a');
+        }
+        for (char chr : s.toCharArray()) {
+            if (Character.isLetter(chr)) {
+                if (((u >> (chr - 'a')) & 1) != 0) {
+                    ++v;
+                } else {
+                    ++c;
+                }
+            }
+        }
+        return c != 0 ? v / c : 0;
+    }
 }
