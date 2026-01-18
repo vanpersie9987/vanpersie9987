@@ -6867,7 +6867,7 @@ class SegmentTree2940:
         return res
 
     # 1895. 最大的幻方 (Largest Magic Square)
-    def largestMagiacSquare(self, grid: List[List[int]]) -> int:
+    def largestMagicSquare(self, grid: List[List[int]]) -> int:
         m, n = len(grid), len(grid[0])
         row_sum = [[0] * (n + 1) for _ in range(m)]  # → 前缀和
         col_sum = [[0] * n for _ in range(m + 1)]  # ↓ 前缀和

@@ -1446,14 +1446,14 @@ public class Leetcode_5 {
 
     private void switch246(char[] chars, int index) {
         switch (chars[index]) {
-            case '6':
-                chars[index] = '9';
-                break;
-            case '9':
-                chars[index] = '6';
-                break;
-            default:
-                break;
+        case '6':
+            chars[index] = '9';
+            break;
+        case '9':
+            chars[index] = '6';
+            break;
+        default:
+            break;
         }
     }
 
@@ -6089,22 +6089,22 @@ public class Leetcode_5 {
             while (num != 0) {
                 int steps = 0;
                 switch (d) {
-                    case 0:
-                        steps = Math.min(num, width - x - 1);
-                        x += steps;
-                        break;
-                    case 1:
-                        steps = Math.min(num, height - y - 1);
-                        y += steps;
-                        break;
-                    case 2:
-                        steps = Math.min(num, x);
-                        x -= steps;
-                        break;
-                    case 3:
-                        steps = Math.min(num, y);
-                        y -= steps;
-                        break;
+                case 0:
+                    steps = Math.min(num, width - x - 1);
+                    x += steps;
+                    break;
+                case 1:
+                    steps = Math.min(num, height - y - 1);
+                    y += steps;
+                    break;
+                case 2:
+                    steps = Math.min(num, x);
+                    x -= steps;
+                    break;
+                case 3:
+                    steps = Math.min(num, y);
+                    y -= steps;
+                    break;
                 }
                 num -= steps;
                 if (num > 0) {
@@ -7043,58 +7043,50 @@ public class Leetcode_5 {
     public int largestMagicSquare(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
-        int[][] prefixRow = new int[m][n + 1];
-        for (int i = 0; i < m; ++i) {
-            for (int j = 1; j < n + 1; ++j) {
-                prefixRow[i][j] = prefixRow[i][j - 1] + grid[i][j - 1];
-            }
-        }
-        int[][] prefixCol = new int[m + 1][n];
-        for (int j = 0; j < n; ++j) {
-            for (int i = 1; i < m + 1; ++i) {
-                prefixCol[i][j] = prefixCol[i - 1][j] + grid[i - 1][j];
-            }
-        }
-        // main diagonal
-        int[][] mainDiagonal = new int[m + 1][n + 1];
-        for (int i = 1; i < m + 1; ++i) {
-            for (int j = 1; j < n + 1; ++j) {
-                mainDiagonal[i][j] = mainDiagonal[i - 1][j - 1] + grid[i - 1][j - 1];
+        int[][] rowSum = new int[m][n + 1]; // → 前缀和
+        int[][] colSum = new int[m + 1][n]; // ↓ 前缀和
+        int[][] diagSum = new int[m + 1][n + 1]; // ↘ 前缀和
+        int[][] antiSum = new int[m + 1][n + 1]; // ↙ 前缀和
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int x = grid[i][j];
+                rowSum[i][j + 1] = rowSum[i][j] + x;
+                colSum[i + 1][j] = colSum[i][j] + x;
+                diagSum[i + 1][j + 1] = diagSum[i][j] + x;
+                antiSum[i + 1][j] = antiSum[i][j + 1] + x;
             }
         }
 
-        for (int side = Math.min(m, n); side >= 2; --side) {
-            for (int i = 0; i + side - 1 < m; ++i) {
-                search: for (int j = 0; j + side - 1 < n; ++j) {
-                    int val = prefixRow[i][j + side] - prefixRow[i][j];
-                    for (int x = i + 1; x < i + side; ++x) {
-                        if (prefixRow[x][j + side] - prefixRow[x][j] != val) {
-                            continue search;
+        // k×k 子矩阵的左上角为 (i−k, j−k)，右下角为 (i−1, j−1)
+        for (int k = Math.min(m, n);; k--) {
+            for (int i = k; i <= m; i++) {
+                next: for (int j = k; j <= n; j++) {
+                    // 子矩阵主对角线的和
+                    int sum = diagSum[i][j] - diagSum[i - k][j - k];
+
+                    // 子矩阵反对角线的和
+                    if (antiSum[i][j - k] - antiSum[i - k][j] != sum) {
+                        continue;
+                    }
+
+                    // 子矩阵每行的和
+                    for (int r = i - k; r < i; r++) {
+                        if (rowSum[r][j] - rowSum[r][j - k] != sum) {
+                            continue next;
                         }
                     }
-                    for (int y = j; y < j + side; ++y) {
-                        if (prefixCol[i + side][y] - prefixCol[i][y] != val) {
-                            continue search;
+
+                    // 子矩阵每列的和
+                    for (int c = j - k; c < j; c++) {
+                        if (colSum[i][c] - colSum[i - k][c] != sum) {
+                            continue next;
                         }
                     }
-                    if (mainDiagonal[i + side][j + side] - mainDiagonal[i][j] != val) {
-                        continue search;
-                    }
-                    int counterSum = 0;
-                    int y = j + side - 1;
-                    for (int x = i; x < i + side; ++x) {
-                        counterSum += grid[x][y];
-                        --y;
-                    }
-                    if (counterSum != val) {
-                        continue search;
-                    }
-                    return side;
+                    return k;
                 }
             }
         }
-        return 1;
-
     }
 
     // 981. 基于时间的键值存储 (Time Based Key-Value Store) --二分查找
