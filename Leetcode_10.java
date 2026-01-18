@@ -3006,7 +3006,7 @@ public class Leetcode_10 {
 
     }
 
-    // 最好可到达的塔 (Best Reachable Tower)
+    // 3809. 最好可到达的塔 (Best Reachable Tower)
     public int[] bestTower(int[][] towers, int[] center, int radius) {
         int[] res = { -1, -1 };
         int maxQuality = -1;
@@ -3037,7 +3037,53 @@ public class Leetcode_10 {
             }
         }
         return set.size();
-        
 
+    }
+
+    // 3812. 翻转树上最少边 (Minimum Edge Toggles on a Tree)
+    private List<Integer> res3812;
+    private List<int[]>[] g3812;
+    private String start3812;
+    private String target3812;
+
+    public List<Integer> minimumFlips(int n, int[][] edges, String start, String target) {
+        int diff = 0;
+        for (char c : start.toCharArray()) {
+            diff += c - '0';
+        }
+        for (char c : target.toCharArray()) {
+            diff -= c - '0';
+        }
+        if ((diff & 1) != 0) {
+            return List.of(-1);
+        }
+        this.res3812 = new ArrayList<>();
+        this.g3812 = new ArrayList[n];
+        Arrays.setAll(g3812, k -> new ArrayList<>());
+        for (int i = 0; i < edges.length; ++i) {
+            g3812[edges[i][0]].add(new int[] { edges[i][1], i });
+            g3812[edges[i][1]].add(new int[] { edges[i][0], i });
+        }
+        this.start3812 = start;
+        this.target3812 = target;
+        dfs3812(0, -1);
+        Collections.sort(res3812);
+        return res3812;
+    }
+
+    private int dfs3812(int x, int fa) {
+        int cnt = Math.abs(start3812.charAt(x) - target3812.charAt(x));
+        for (int[] neighbor : g3812[x]) {
+            int y = neighbor[0];
+            int id = neighbor[1];
+            if (y != fa) {
+                int cntY = dfs3812(y, x);
+                if ((cntY & 1) != 0) {
+                    res3812.add(id);
+                }
+                cnt += cntY;
+            }
+        }
+        return cnt & 1;
     }
 }

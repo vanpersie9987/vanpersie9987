@@ -6904,7 +6904,7 @@ class SegmentTree2940:
                     ):
                         return k
 
-    # 最好可到达的塔 (Best Reachable Tower)
+    # 3809. 最好可到达的塔 (Best Reachable Tower)
     def bestTower(
         self, towers: List[List[int]], center: List[int], radius: int
     ) -> List[int]:
@@ -6920,7 +6920,7 @@ class SegmentTree2940:
                 elif q == max_quality and (x < res[0] or (x == res[0] and y < res[1])):
                     res = [x, y]
         return res
-    
+
     # 3810. 变成目标数组的最少操作次数 (Minimum Operations to Reach Target Array)
     def minOperations(self, nums: List[int], target: List[int]) -> int:
         s = set()
@@ -6928,4 +6928,42 @@ class SegmentTree2940:
             if x != y:
                 s.add(x)
         return len(s)
-            
+
+    def alternatingXOR(self, nums: List[int], target1: int, target2: int) -> int:
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if i == n:
+                return int(j == -1)
+            nj = nums[i] if j == -1 else j ^ nums[i]
+            res = dfs(i + 1, nj, k)
+            if nj == a[k]:
+                res += dfs(i + 1, -1, k ^ 1)
+            return res % MOD
+
+        MOD = 10**9 + 7
+        n = len(nums)
+        a = [target1, target2]
+        res = dfs(0, -1, 0)
+        dfs.cache_clear()
+        return res
+
+    # 3812. 翻转树上最少边 (Minimum Edge Toggles on a Tree)
+    def minimumFlips(self, n: int, edges: List[List[int]], start: str, target: str) -> List[int]:
+        def dfs(x: int, fa: int) -> int:
+            cnt = int(start[x] != target[x])
+            for y, id in g[x]:
+                if y != fa:
+                    cnt_y = dfs(y, x)
+                    if cnt_y & 1:
+                        res.append(id)
+                    cnt += cnt_y
+            return cnt & 1
+        if start.count("1") % 2 != target.count("1") % 2:
+            return [-1]
+        g = [[] for _ in range(n)]
+        for i, (u, v) in enumerate(edges):
+            g[u].append((v, i))
+            g[v].append((u, i))
+        res = []
+        dfs(0, -1)
+        return sorted(res)
