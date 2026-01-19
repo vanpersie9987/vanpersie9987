@@ -7000,7 +7000,7 @@ class SegmentTree2940:
             else:
                 right = mid - 1
         return left - 1
-    
+
     # 3813. 元音辅音得分 (Vowel-Consonant Score)
     def vowelConsonantScore(self, s: str) -> int:
         u, v, c = 0, 0, 0
@@ -7014,3 +7014,45 @@ class SegmentTree2940:
                 else:
                     c += 1
         return v // c if c else 0
+
+    # 3814. 预算下的最大总容量 (Maximum Capacity Within Budget)
+    def maxCapacity(self, costs: List[int], capacity: List[int], budget: int) -> int:
+        res = 0
+        # 仅一个机器
+        for cost, cap in sorted(zip(costs, capacity)):
+            if cost < budget:
+                res = max(res, cap)
+        if res == 0:
+            return res
+        # 两个cost相同的机器
+        cnts = defaultdict(list)
+        for cost, cap in sorted(zip(costs, capacity)):
+            if cost >= budget:
+                continue
+            cnts[cost].append(cap)
+        for cost, caps in cnts.items():
+            caps.sort(reverse=True)
+            if len(caps) >= 2 and cost * 2 < budget:
+                res = max(res, caps[0] + caps[1])
+        # 两个cost不同的机器
+        a = []
+        for cost, caps in cnts.items():
+            a.append((cost, caps[0]))
+        a.sort()
+        pre_max = [0] * len(a)
+        pre_max[0] = a[0][1]
+        for i in range(1, len(a)):
+            pre_max[i] = max(pre_max[i - 1], a[i][1])
+        for i in range(1, len(a)):
+            cost, cap = a[i]
+            remain = budget - cost
+            left, right = 0, i - 1
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if a[mid][0] < remain:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            if left - 1 >= 0:
+                res = max(res, cap + pre_max[left - 1])
+        return res
