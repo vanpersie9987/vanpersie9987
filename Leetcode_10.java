@@ -3256,4 +3256,28 @@ public class Leetcode_10 {
         }
     }
 
+    // 3816. 删除重复字符后的字典序最小字符串 (Lexicographically Smallest String After Deleting
+    // Duplicate Characters)
+    public String lexSmallestAfterDeletion(String s) {
+        int[] cnts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++cnts[c - 'a'];
+        }
+        Stack<Character> st = new Stack<>();
+        for (char c : s.toCharArray()) {
+            while (!st.isEmpty() && st.peek() > c && cnts[st.peek() - 'a'] > 1) {
+                --cnts[st.pop() - 'a'];
+            }
+            st.push(c);
+        }
+        while (cnts[st.peek() - 'a'] > 1) {
+            --cnts[st.pop() - 'a'];
+        }
+        StringBuilder sb = new StringBuilder();
+        for (char c : st) {
+            sb.append(c);
+        }
+        return sb.toString();
+    }
+
 }
