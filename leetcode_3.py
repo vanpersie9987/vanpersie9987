@@ -7056,3 +7056,15 @@ class SegmentTree2940:
             if left - 1 >= 0:
                 res = max(res, cap + pre_max[left - 1])
         return res
+
+    # 3816. 删除重复字符后的字典序最小字符串 (Lexicographically Smallest String After Deleting Duplicate Characters)
+    def lexSmallestAfterDeletion(self, s: str) -> str:
+        cnts = Counter(s)
+        st = []
+        for chr in s:
+            while st and st[-1] > chr and cnts[st[-1]] > 1:
+                cnts[st.pop()] -= 1
+            st.append(chr)
+        while cnts[st[-1]] > 1:
+            cnts[st.pop()] -= 1
+        return "".join(st)
