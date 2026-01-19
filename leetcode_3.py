@@ -6905,21 +6905,14 @@ class SegmentTree2940:
                         return k
 
     # 3809. 最好可到达的塔 (Best Reachable Tower)
-    def bestTower(
-        self, towers: List[List[int]], center: List[int], radius: int
-    ) -> List[int]:
-        max_quality = -1
-        res = [-1, -1]
+    def bestTower(self, towers: List[List[int]], center: List[int], radius: int) -> List[int]:
+        res = (1, -1, -1)
         for x, y, q in towers:
             dx = abs(x - center[0])
             dy = abs(y - center[1])
             if dx + dy <= radius:
-                if q > max_quality:
-                    res = [x, y]
-                    max_quality = q
-                elif q == max_quality and (x < res[0] or (x == res[0] and y < res[1])):
-                    res = [x, y]
-        return res
+                res = min(res, (-q, x, y))
+        return [res[1], res[2]]
 
     # 3810. 变成目标数组的最少操作次数 (Minimum Operations to Reach Target Array)
     def minOperations(self, nums: List[int], target: List[int]) -> int:
