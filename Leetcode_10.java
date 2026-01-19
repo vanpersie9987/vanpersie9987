@@ -3189,18 +3189,16 @@ public class Leetcode_10 {
             int remain = budget - cost;
             int left = 0;
             int right = i - 1;
-            int idx = -1;
             while (left <= right) {
                 int mid = left + (right - left) / 2;
                 if (machines.get(mid)[0] < remain) {
-                    idx = mid;
                     left = mid + 1;
                 } else {
                     right = mid - 1;
                 }
             }
-            if (idx != -1) {
-                res = Math.max(res, cap + preMax[idx]);
+            if (left - 1 >= 0) {
+                res = Math.max(res, cap + preMax[left - 1]);
             }
         }
         return res;
