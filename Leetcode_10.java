@@ -3202,9 +3202,58 @@ public class Leetcode_10 {
             }
         }
         return res;
+    }
 
+    // 3815. 设计拍卖系统 (Design Auction System)
+    class AuctionSystem {
+        // itemId -> (userId -> bidAmount)
+        private Map<Integer, Map<Integer, Integer>> itemToUserToBids;
+        // itemId -> (bidAmount -> TreeSet of userId)
+        private Map<Integer, TreeMap<Integer, TreeSet<Integer>>> itemToBidsToUsers;
 
+        public AuctionSystem() {
+            this.itemToUserToBids = new HashMap<>();
+            this.itemToBidsToUsers = new HashMap<>();
+        }
 
+        public void addBid(int userId, int itemId, int bidAmount) {
+            Integer oldAmount = itemToUserToBids.computeIfAbsent(itemId, o -> new HashMap<>()).put(userId, bidAmount);
+            if (oldAmount != null) {
+                itemToBidsToUsers.get(itemId).get(oldAmount).remove(userId);
+                if (itemToBidsToUsers.get(itemId).get(oldAmount).isEmpty()) {
+                    itemToBidsToUsers.get(itemId).remove(oldAmount);
+                }
+            }
+            itemToBidsToUsers.computeIfAbsent(itemId, o -> new TreeMap<>((o1, o2) -> Integer.compare(o2, o1)))
+                    .computeIfAbsent(bidAmount, o -> new TreeSet<>((o1, o2) -> Integer.compare(o2, o1))).add(userId);
+        }
+
+        public void updateBid(int userId, int itemId, int newAmount) {
+            int oldAmount = itemToUserToBids.get(itemId).put(userId, newAmount);
+            itemToBidsToUsers.get(itemId).get(oldAmount).remove(userId);
+            if (itemToBidsToUsers.get(itemId).get(oldAmount).isEmpty()) {
+                itemToBidsToUsers.get(itemId).remove(oldAmount);
+            }
+            itemToBidsToUsers.get(itemId)
+                    .computeIfAbsent(newAmount, o -> new TreeSet<>((o1, o2) -> Integer.compare(o2, o1))).add(userId);
+
+        }
+
+        public void removeBid(int userId, int itemId) {
+            int oldAmount = itemToUserToBids.get(itemId).remove(userId);
+            itemToBidsToUsers.get(itemId).get(oldAmount).remove(userId);
+            if (itemToBidsToUsers.get(itemId).get(oldAmount).isEmpty()) {
+                itemToBidsToUsers.get(itemId).remove(oldAmount);
+            }
+        }
+
+        public int getHighestBidder(int itemId) {
+            if (!itemToBidsToUsers.containsKey(itemId) || itemToBidsToUsers.get(itemId).isEmpty()) {
+                return -1;
+            }
+            Map.Entry<Integer, TreeSet<Integer>> entry = itemToBidsToUsers.get(itemId).firstEntry();
+            return entry.getValue().first();
+        }
     }
 
 }
