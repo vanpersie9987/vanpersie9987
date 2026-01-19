@@ -3141,4 +3141,72 @@ public class Leetcode_10 {
         }
         return c != 0 ? v / c : 0;
     }
+
+    // 3814. 预算下的最大总容量 (Maximum Capacity Within Budget)
+    public int maxCapacity(int[] costs, int[] capacity, int budget) {
+        int res = 0;
+        // 仅一个机器
+        for (int i = 0; i < costs.length; ++i) {
+            if (costs[i] < budget) {
+                res = Math.max(res, capacity[i]);
+            }
+        }
+        if (res == 0) {
+            return res;
+        }
+        // 两个cost相同的机器
+        Map<Integer, List<Integer>> cnts = new HashMap<>();
+        for (int i = 0; i < costs.length; ++i) {
+            cnts.computeIfAbsent(costs[i], o -> new ArrayList<>()).add(capacity[i]);
+        }
+        for (Map.Entry<Integer, List<Integer>> entry : cnts.entrySet()) {
+            int cost = entry.getKey();
+            List<Integer> caps = entry.getValue();
+            Collections.sort(caps, Collections.reverseOrder());
+            if (caps.size() >= 2 && cost * 2 < budget) {
+                res = Math.max(res, caps.get(0) + caps.get(1));
+            }
+        }
+        // 不同cost的两个机器
+        List<int[]> machines = new ArrayList<>();
+        for (Map.Entry<Integer, List<Integer>> entry : cnts.entrySet()) {
+            int cost = entry.getKey();
+            List<Integer> caps = entry.getValue();
+            if (cost >= budget) {
+                continue;
+            }
+            machines.add(new int[] { cost, caps.get(0) });
+        }
+        machines.sort(Comparator.comparingInt(a -> a[0]));
+        int[] preMax = new int[machines.size()];
+        preMax[0] = machines.get(0)[1];
+        for (int i = 1; i < machines.size(); ++i) {
+            preMax[i] = Math.max(preMax[i - 1], machines.get(i)[1]);
+        }
+        for (int i = 1; i < machines.size(); ++i) {
+            int cost = machines.get(i)[0];
+            int cap = machines.get(i)[1];
+            int remain = budget - cost;
+            int left = 0;
+            int right = i - 1;
+            int idx = -1;
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+                if (machines.get(mid)[0] < remain) {
+                    idx = mid;
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+            if (idx != -1) {
+                res = Math.max(res, cap + preMax[idx]);
+            }
+        }
+        return res;
+
+
+
+    }
+
 }
