@@ -3082,16 +3082,6 @@ public class Leetcode_10 {
     private String target3812;
 
     public List<Integer> minimumFlips(int n, int[][] edges, String start, String target) {
-        int diff = 0;
-        for (char c : start.toCharArray()) {
-            diff += c - '0';
-        }
-        for (char c : target.toCharArray()) {
-            diff -= c - '0';
-        }
-        if ((diff & 1) != 0) {
-            return List.of(-1);
-        }
         this.res3812 = new ArrayList<>();
         this.g3812 = new ArrayList[n];
         Arrays.setAll(g3812, k -> new ArrayList<>());
@@ -3101,7 +3091,9 @@ public class Leetcode_10 {
         }
         this.start3812 = start;
         this.target3812 = target;
-        dfs3812(0, -1);
+        if (dfs3812(0, -1) != 0) {
+            return List.of(-1);
+        }
         Collections.sort(res3812);
         return res3812;
     }
@@ -3119,7 +3111,7 @@ public class Leetcode_10 {
                 cnt ^= cntY;
             }
         }
-        return cnt & 1;
+        return cnt;
     }
 
     // 3813. 元音辅音得分 (Vowel-Consonant Score)

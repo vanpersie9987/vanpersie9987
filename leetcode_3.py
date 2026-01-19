@@ -6960,16 +6960,15 @@ class SegmentTree2940:
                     if cnt_y:
                         res.append(id)
                     cnt ^= cnt_y
-            return cnt & 1
+            return cnt
 
-        if start.count("1") % 2 != target.count("1") % 2:
-            return [-1]
         g = [[] for _ in range(n)]
         for i, (u, v) in enumerate(edges):
             g[u].append((v, i))
             g[v].append((u, i))
         res = []
-        dfs(0, -1)
+        if dfs(0, -1):
+            return [-1]
         return sorted(res)
 
     # 1292. 元素和小于等于阈值的正方形的最大边长 (Maximum Side Length of a Square with Sum Less than or Equal to Threshold)
