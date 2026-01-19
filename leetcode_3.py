@@ -6948,6 +6948,21 @@ class SegmentTree2940:
         dfs.cache_clear()
         return res
 
+    # 3811. 交替按位异或分割的数目 (Number of Alternating XOR Partitions)
+    def alternatingXOR(self, nums: List[int], target1: int, target2: int) -> int:
+        f1, f2 = defaultdict(int), defaultdict(int)
+        f2[0] = 1
+        xor = 0
+        MOD = 10**9 + 7
+        for i, x in enumerate(nums):
+            xor ^= x
+            last1 = f2[target1 ^ xor]
+            last2 = f1[target2 ^ xor]
+            if i == len(nums) - 1:
+                return (last1 + last2) % MOD
+            f1[xor] = (f1[xor] + last1) % MOD
+            f2[xor] = (f2[xor] + last2) % MOD
+
     # 3812. 翻转树上最少边 (Minimum Edge Toggles on a Tree)
     def minimumFlips(
         self, n: int, edges: List[List[int]], start: str, target: str

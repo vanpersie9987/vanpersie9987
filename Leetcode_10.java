@@ -3075,6 +3075,27 @@ public class Leetcode_10 {
         return res;
     }
 
+    // 3811. 交替按位异或分割的数目 (Number of Alternating XOR Partitions)
+    public int alternatingXOR2(int[] nums, int target1, int target2) {
+        Map<Integer, Integer> f1 = new HashMap<>();
+        Map<Integer, Integer> f2 = new HashMap<>();
+        f2.put(0, 1);
+        final int MOD = (int) (1e9 + 7);
+        int xor = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            xor ^= nums[i];
+            int last1 = f2.getOrDefault(xor ^ target1, 0);
+            int last2 = f1.getOrDefault(xor ^ target2, 0);
+            if (i == nums.length - 1) {
+                return (last1 + last2) % MOD;
+            }
+            f1.put(xor, (f1.getOrDefault(xor, 0) + last1) % MOD);
+            f2.put(xor, (f2.getOrDefault(xor, 0) + last2) % MOD);
+        }
+        return 0;
+
+    }
+
     // 3812. 翻转树上最少边 (Minimum Edge Toggles on a Tree)
     private List<Integer> res3812;
     private List<int[]>[] g3812;
