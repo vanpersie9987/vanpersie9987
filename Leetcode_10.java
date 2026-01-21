@@ -3293,4 +3293,44 @@ public class Leetcode_10 {
         return sb.toString();
     }
 
+    // 3507. 移除最小数对使数组有序 I (Minimum Pair Removal to Sort Array I)
+    public int minimumPairRemoval(int[] nums) {
+        int res = 0;
+        while (!checkOrder3507(nums)) {
+            ++res;
+            nums = removeSmallestPairs3507(nums);
+        }
+        return res;
+
+    }
+
+    private int[] removeSmallestPairs3507(int[] nums) {
+        int minPair = Integer.MAX_VALUE;
+        int minId = -1;
+        for (int i = 1; i < nums.length; ++i) {
+            if (nums[i] + nums[i - 1] < minPair) {
+                minPair = nums[i] + nums[i - 1];
+                minId = i - 1;
+            }
+        }
+        int[] res = new int[nums.length - 1];
+        for (int i = 0; i < minId; ++i) {
+            res[i] = nums[i];
+        }
+        res[minId] = minPair;
+        for (int i = minId + 2; i < nums.length; ++i) {
+            res[i - 1] = nums[i];
+        }
+        return res;
+    }
+
+    private boolean checkOrder3507(int[] nums) {
+        for (int i = 1; i < nums.length; ++i) {
+            if (nums[i] < nums[i - 1]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
