@@ -7075,3 +7075,21 @@ class SegmentTree2940:
         while cnts[st[-1]] > 1:
             cnts[st.pop()] -= 1
         return "".join(st)
+
+    # 3507. 移除最小数对使数组有序 I (Minimum Pair Removal to Sort Array I)
+    def minimumPairRemoval(self, nums: List[int]) -> int:
+        def check_order() -> bool:
+            return all(y >= x for x, y in pairwise(nums))
+        def remove_smallest_pair() -> List[int]:
+            min_pair = inf
+            min_id = -1
+            for i in range(1, len(nums)):
+                if nums[i] + nums[i - 1] < min_pair:
+                    min_pair = nums[i] + nums[i - 1]
+                    min_id = i
+            return nums[:min_id - 1] + [min_pair] + nums[min_id + 1:]
+        res = 0
+        while not check_order():
+            res += 1
+            nums = remove_smallest_pair()
+        return res
