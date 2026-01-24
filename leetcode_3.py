@@ -7093,3 +7093,8 @@ class SegmentTree2940:
             res += 1
             nums = remove_smallest_pair()
         return res
+
+    # 1877. 数组中最大数对和的最小值 (Minimize Maximum Pair Sum in Array)
+    def minPairSum(self, nums: List[int]) -> int:
+        nums.sort()
+        return max(nums[i] + nums[-i - 1] for i in range(len(nums) >> 1))
