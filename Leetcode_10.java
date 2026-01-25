@@ -3415,10 +3415,11 @@ public class Leetcode_10 {
         }
     }
 
-    private int k;
+    // 3821. 二进制中恰好K个1的第N小整数 (Find Nth Smallest Integer With K One Bits)
+    private int k3821;
 
     public long nthSmallest(long n, int k) {
-        this.k = k;
+        this.k3821 = k;
         long left = (1L << k) - 1;
         long right = 1L << 50;
         while (left <= right) {
@@ -3432,38 +3433,62 @@ public class Leetcode_10 {
         return right + 1;
     }
 
-    private long[][] memo;
-    private int n;
-    private String s;
+    private long[][] memo3821;
+    private int n3821;
+    private String s3821;
 
     private long check3821(long x) {
-        this.s = Long.toBinaryString(x);
-        this.n = s.length();
-        this.memo = new long[n][k + 1];
-        for (long[] row : memo) {
+        this.s3821 = Long.toBinaryString(x);
+        this.n3821 = s3821.length();
+        this.memo3821 = new long[n3821][k3821 + 1];
+        for (long[] row : memo3821) {
             Arrays.fill(row, -1L);
         }
         return dfs3821(0, 0, true);
     }
 
     private long dfs3821(int i, int cnt, boolean isLimit) {
-        if (i == n) {
-            return cnt == k ? 1L : 0L;
+        if (i == n3821) {
+            return cnt == k3821 ? 1L : 0L;
         }
-        if (!isLimit && memo[i][cnt] != -1L) {
-            return memo[i][cnt];
+        if (!isLimit && memo3821[i][cnt] != -1L) {
+            return memo3821[i][cnt];
         }
         long res = 0L;
-        int up = isLimit ? (s.charAt(i) - '0') : 1;
+        int up = isLimit ? (s3821.charAt(i) - '0') : 1;
         for (int d = 0; d <= up; ++d) {
-            if (cnt + d > k) {
+            if (cnt + d > k3821) {
                 break;
             }
             res += dfs3821(i + 1, cnt + d, isLimit && d == up);
         }
         if (!isLimit) {
-            memo[i][cnt] = res;
+            memo3821[i][cnt] = res;
         }
         return res;
+    }
+
+    // 3821. 二进制中恰好K个1的第N小整数 (Find Nth Smallest Integer With K One Bits)
+    public long nthSmallest2(long n, int k) {
+        long[][] comb = new long[51][51];
+        for (int i = 0; i < 51; ++i) {
+            comb[i][0] = 1L;
+            for (int j = 1; j <= i; ++j) {
+                comb[i][j] = comb[i - 1][j - 1] + comb[i - 1][j];
+            }
+        }
+        long res = 0L;
+        for (int i = 49; i >= 0; --i) {
+            long c = comb[i][k];
+            if (n > c) {
+                n -= c;
+                res |= (1L << i);
+                if (--k == 0) {
+                    break;
+                }
+            }
+        }
+        return res;
+
     }
 }
