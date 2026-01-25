@@ -3482,13 +3482,12 @@ public class Leetcode_10 {
             long c = comb[i][k];
             if (n > c) {
                 n -= c;
-                res |= (1L << i);
+                res |= 1L << i;
                 if (--k == 0) {
                     break;
                 }
             }
         }
         return res;
-
     }
 }
