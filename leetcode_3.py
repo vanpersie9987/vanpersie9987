@@ -7146,3 +7146,43 @@ class SegmentTree2940:
             if a * a + b * b == c * c:
                 res += 1
         return res
+
+    # 3821. 二进制中恰好K个1的第N小整数 (Find Nth Smallest Integer With K One Bits) --超时
+    def nthSmallest(self, n: int, k: int) -> int:
+        def check(x: int) -> int:
+            @cache
+            def dfs(i: int, cnt: int, is_limit: bool) -> int:
+                if i == n:
+                    return cnt == k
+                res = 0
+                up = int(s[i]) if is_limit else 1
+                for d in range(up + 1):
+                    if cnt + d > k:
+                        break
+                    res += dfs(i + 1, cnt + d, is_limit and d == up)
+                return res
+            s = bin(x)[2:]
+            n = len(s)
+            return dfs(0, 0, True)
+        left = (1 << k) - 1
+        right = 1 << 50
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid) >= n:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return right + 1
+    
+    # 3821. 二进制中恰好K个1的第N小整数 (Find Nth Smallest Integer With K One Bits)
+    def nthSmallest(self, n: int, k: int) -> int:
+        res = 0
+        for i in range(49, -1, -1):
+            c = comb(i, k)
+            if n > c:
+                n -= c
+                res |= 1 << i
+                k -= 1
+                if k == 0:
+                    return res
+        

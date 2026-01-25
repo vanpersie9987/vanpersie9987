@@ -3415,4 +3415,55 @@ public class Leetcode_10 {
         }
     }
 
+    private int k;
+
+    public long nthSmallest(long n, int k) {
+        this.k = k;
+        long left = (1L << k) - 1;
+        long right = 1L << 50;
+        while (left <= right) {
+            long mid = left + ((right - left) >> 1L);
+            if (check3821(mid) >= n) {
+                right = mid - 1L;
+            } else {
+                left = mid + 1L;
+            }
+        }
+        return right + 1;
+    }
+
+    private long[][] memo;
+    private int n;
+    private String s;
+
+    private long check3821(long x) {
+        this.s = Long.toBinaryString(x);
+        this.n = s.length();
+        this.memo = new long[n][k + 1];
+        for (long[] row : memo) {
+            Arrays.fill(row, -1L);
+        }
+        return dfs3821(0, 0, true);
+    }
+
+    private long dfs3821(int i, int cnt, boolean isLimit) {
+        if (i == n) {
+            return cnt == k ? 1L : 0L;
+        }
+        if (!isLimit && memo[i][cnt] != -1L) {
+            return memo[i][cnt];
+        }
+        long res = 0L;
+        int up = isLimit ? (s.charAt(i) - '0') : 1;
+        for (int d = 0; d <= up; ++d) {
+            if (cnt + d > k) {
+                break;
+            }
+            res += dfs3821(i + 1, cnt + d, isLimit && d == up);
+        }
+        if (!isLimit) {
+            memo[i][cnt] = res;
+        }
+        return res;
+    }
 }
