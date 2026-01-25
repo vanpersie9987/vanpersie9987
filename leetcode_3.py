@@ -7098,3 +7098,26 @@ class SegmentTree2940:
     def minPairSum(self, nums: List[int]) -> int:
         nums.sort()
         return max(nums[i] + nums[-i - 1] for i in range(len(nums) >> 1))
+
+    # 3818. 移除前缀使数组严格递增 (Minimum Prefix Removal to Make Array Strictly Increasing)
+    def minimumPrefixLength(self, nums: List[int]) -> int:
+        for i in range(len(nums) - 2, -1, -1):
+            if nums[i] >= nums[i + 1]:
+                return i + 1
+        return 0
+
+    # 3819. 非负元素轮替 (Rotate Non Negative Elements)
+    def rotateElements(self, nums: List[int], k: int) -> List[int]:
+        if k == 0:
+            return nums
+        a = [x for x in nums if x >= 0]
+        b = [0] * len(a)
+        for i, x in enumerate(a):
+            b[(i - k) % len(a)] = x
+        i = 0
+        for j, x in enumerate(nums):
+            if x < 0:
+                continue
+            nums[j] = b[i]
+            i += 1
+        return nums
