@@ -3357,15 +3357,14 @@ public class Leetcode_10 {
         if (a.size() == 0) {
             return nums;
         }
-        int[] b = new int[a.size()];
-        for (int i = 0; i < a.size(); ++i) {
-            b[((i - k) % a.size() + a.size()) % a.size()] = a.get(i);
-        }
-        int idx = 0;
+        k = k % a.size();
+        Collections.rotate(a, -k);
+        int j = 0;
         for (int i = 0; i < nums.length; ++i) {
-            if (nums[i] >= 0) {
-                nums[i] = b[idx++];
+            if (nums[i] < 0) {
+                continue;
             }
+            nums[i] = a.get(j++);
         }
         return nums;
 

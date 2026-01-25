@@ -7111,14 +7111,15 @@ class SegmentTree2940:
         if k == 0:
             return nums
         a = [x for x in nums if x >= 0]
-        b = [0] * len(a)
-        for i, x in enumerate(a):
-            b[(i - k) % len(a)] = x
+        if not a:
+            return nums
+        k %= len(a)
+        a = a[k:] + a[:k]
         i = 0
         for j, x in enumerate(nums):
             if x < 0:
                 continue
-            nums[j] = b[i]
+            nums[j] = a[i]
             i += 1
         return nums
 
