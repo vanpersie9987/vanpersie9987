@@ -3397,19 +3397,17 @@ public class Leetcode_10 {
 
     }
 
-    private int[] dis3820;
-
     private int[] cal3820(int node) {
-        this.dis3820 = new int[n3820];
-        dfs3820(node, -1, 0);
-        return dis3820;
+        int[] dis = new int[n3820];
+        dfs3820(node, -1, 0, dis);
+        return dis;
     }
 
-    private void dfs3820(int x, int fa, int d) {
-        dis3820[x] = d;
+    private void dfs3820(int x, int fa, int d, int[] dis) {
+        dis[x] = d;
         for (int y : g3820[x]) {
             if (y != fa) {
-                dfs3820(y, x, d + 1);
+                dfs3820(y, x, d + 1, dis);
             }
         }
     }
