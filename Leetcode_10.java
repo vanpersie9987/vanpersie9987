@@ -3343,4 +3343,32 @@ public class Leetcode_10 {
         return 0;
     }
 
+    // 3819. 非负元素轮替 (Rotate Non Negative Elements)
+    public int[] rotateElements(int[] nums, int k) {
+        if (k == 0) {
+            return nums;
+        }
+        List<Integer> a = new ArrayList<>();
+        for (int x : nums) {
+            if (x >= 0) {
+                a.add(x);
+            }
+        }
+        if (a.size() == 0) {
+            return nums;
+        }
+        int[] b = new int[a.size()];
+        for (int i = 0; i < a.size(); ++i) {
+            b[((i - k) % a.size() + a.size()) % a.size()] = a.get(i);
+        }
+        int idx = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] >= 0) {
+                nums[i] = b[idx++];
+            }
+        }
+        return nums;
+
+    }
+
 }
