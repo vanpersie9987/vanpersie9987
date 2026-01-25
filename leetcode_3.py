@@ -7142,8 +7142,8 @@ class SegmentTree2940:
         dy = cal(y)
         dz = cal(z)
         res = 0
-        for i in range(n):
-            [a, b, c] = sorted([dx[i], dy[i], dz[i]])
+        for t in zip(dx, dy, dz):
+            a, b, c = sorted(t)
             if a * a + b * b == c * c:
                 res += 1
         return res
