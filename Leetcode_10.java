@@ -3371,4 +3371,48 @@ public class Leetcode_10 {
 
     }
 
+    // 3820. 树上的勾股距离节点 (Pythagorean Distance Nodes in a Tree)
+    private List<Integer>[] g3820;
+    private int n3820;
+
+    public int specialNodes(int n, int[][] edges, int x, int y, int z) {
+        this.g3820 = new ArrayList[n];
+        this.n3820 = n;
+        Arrays.setAll(g3820, k -> new ArrayList<>());
+        for (int[] e : edges) {
+            g3820[e[0]].add(e[1]);
+            g3820[e[1]].add(e[0]);
+        }
+        int[] dx = cal3820(x);
+        int[] dy = cal3820(y);
+        int[] dz = cal3820(z);
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            long[] dists = new long[] { dx[i], dy[i], dz[i] };
+            Arrays.sort(dists);
+            if (dists[0] * dists[0] + dists[1] * dists[1] == dists[2] * dists[2]) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    private int[] dis3820;
+
+    private int[] cal3820(int node) {
+        this.dis3820 = new int[n3820];
+        dfs3820(node, -1, 0);
+        return dis3820;
+    }
+
+    private void dfs3820(int x, int fa, int d) {
+        dis3820[x] = d;
+        for (int y : g3820[x]) {
+            if (y != fa) {
+                dfs3820(y, x, d + 1);
+            }
+        }
+    }
+
 }

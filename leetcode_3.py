@@ -7121,3 +7121,28 @@ class SegmentTree2940:
             nums[j] = b[i]
             i += 1
         return nums
+
+    # 3820. 树上的勾股距离节点 (Pythagorean Distance Nodes in a Tree)
+    def specialNodes(self, n: int, edges: List[List[int]], x: int, y: int, z: int) -> int:
+        def cal(node: int) -> List[int]:
+            def dfs(x: int, fa: int, d: int):
+                dis[x] = d
+                for y in g[x]:
+                    if y != fa:
+                        dfs(y, x, d + 1)
+            dis = [0] * n
+            dfs(node, -1, 0)
+            return dis
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        dx = cal(x)
+        dy = cal(y)
+        dz = cal(z)
+        res = 0
+        for i in range(n):
+            [a, b, c] = sorted([dx[i], dy[i], dz[i]])
+            if a * a + b * b == c * c:
+                res += 1
+        return res
