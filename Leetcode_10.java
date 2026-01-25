@@ -3453,10 +3453,7 @@ public class Leetcode_10 {
         }
         long res = 0L;
         int up = isLimit ? (s3821.charAt(i) - '0') : 1;
-        for (int d = 0; d <= up; ++d) {
-            if (cnt + d > k3821) {
-                break;
-            }
+        for (int d = 0; d <= up && cnt + d <= k3821; ++d) {
             res += dfs3821(i + 1, cnt + d, isLimit && d == up);
         }
         if (!isLimit) {
