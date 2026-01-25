@@ -5145,20 +5145,21 @@ public class LeetCodeText {
 
     }
 
-    public List<List<Integer>> minimumAbsDifference(final int[] arr) {
-        List<List<Integer>> result = new ArrayList<>();
+    // 1200. 最小绝对差 (Minimum Absolute Difference)
+    public List<List<Integer>> minimumAbsDifference(int[] arr) {
         Arrays.sort(arr);
-        int min = Integer.MAX_VALUE;
+        List<List<Integer>> res = new ArrayList<>();
+        int minDiff = Integer.MAX_VALUE;
         for (int i = 1; i < arr.length; ++i) {
-            min = Math.min(min, arr[i] - arr[i - 1]);
-        }
-        for (int i = 1; i < arr.length; ++i) {
-            if (arr[i] - arr[i - 1] == min) {
-                result.add(Arrays.asList(arr[i - 1], arr[i]));
+            if (arr[i] - arr[i - 1] < minDiff) {
+                minDiff = arr[i] - arr[i - 1];
+                res.clear();
+                res.add(Arrays.asList(arr[i - 1], arr[i]));
+            } else if (arr[i] - arr[i - 1] == minDiff) {
+                res.add(Arrays.asList(arr[i - 1], arr[i]));
             }
         }
-
-        return result;
+        return res;
 
     }
 
