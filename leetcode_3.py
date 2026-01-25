@@ -7176,7 +7176,7 @@ class SegmentTree2940:
             else:
                 left = mid + 1
         return right + 1
-    
+
     # 3821. 二进制中恰好K个1的第N小整数 (Find Nth Smallest Integer With K One Bits)
     def nthSmallest(self, n: int, k: int) -> int:
         res = 0
@@ -7188,4 +7188,16 @@ class SegmentTree2940:
                 k -= 1
                 if k == 0:
                     return res
-        
+
+    # 1200. 最小绝对差 (Minimum Absolute Difference)
+    def minimumAbsDifference(self, arr: List[int]) -> List[List[int]]:
+        arr.sort()
+        diff = inf
+        res = []
+        for x, y in pairwise(arr):
+            if y - x < diff:
+                diff = y - x
+                res = [[x, y]]
+            elif y - x == diff:
+                res.append([x, y])
+        return res
