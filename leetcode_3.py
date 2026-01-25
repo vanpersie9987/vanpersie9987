@@ -7153,8 +7153,10 @@ class SegmentTree2940:
         def check(x: int) -> int:
             @cache
             def dfs(i: int, cnt: int, is_limit: bool) -> int:
-                if i == n:
-                    return cnt == k
+                if cnt == k:
+                    return 1
+                if cnt + (n - i) < k or i == n:
+                    return 0
                 res = 0
                 up = int(s[i]) if is_limit else 1
                 for d in range(up + 1):

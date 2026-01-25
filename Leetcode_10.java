@@ -3445,8 +3445,11 @@ public class Leetcode_10 {
     }
 
     private long dfs3821(int i, int cnt, boolean isLimit) {
-        if (i == n3821) {
-            return cnt == k3821 ? 1L : 0L;
+        if (cnt == k3821) {
+            return 1L;
+        }
+        if (i == n3821 || cnt + (n3821 - i) < k3821) {
+            return 0L;
         }
         if (!isLimit && memo3821[i][cnt] != -1L) {
             return memo3821[i][cnt];
