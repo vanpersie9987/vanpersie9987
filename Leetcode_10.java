@@ -3776,4 +3776,53 @@ public class Leetcode_10 {
         }
         return mid_2;
     }
+
+
+    private TreeNode res;
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        dfs(root, p, q);
+        return res;
+    }
+
+    private TreeNode dfs(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return null;
+        }
+        if (root == p || root == q) {
+            if (check(root.left, p, q) != null || check(root.right, p, q) != null) {
+                res = root;
+                return root;
+            }
+            return root;
+        }
+        TreeNode left = dfs(root.left, p, q);
+        TreeNode right = dfs(root.right, p, q);
+        if (res != null) {
+            return res;
+        }
+        if (left != null && right != null) {
+            res = root;
+            return res;
+        }
+        if (left != null) {
+            return left;
+        }
+        return right;
+    }
+
+    private TreeNode check(TreeNode node, TreeNode p, TreeNode q) {
+        if (node == null) {
+            return null;
+        }
+        if (node == p || node == q) {
+            return node;
+        }
+        TreeNode left = check(node.left, p, q);
+        TreeNode right = check(node.right, p, q);
+        if (left != null) {
+            return left;
+        }
+        return right;
+    }
 }
