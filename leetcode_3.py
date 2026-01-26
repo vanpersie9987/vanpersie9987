@@ -7443,7 +7443,7 @@ class SegmentTree2940:
                 break
             node = node.parent
         return node.parent
-    
+
     # 545. 二叉树的边界 (Boundary of Binary Tree) --plus
     def boundaryOfBinaryTree(self, root: Optional[TreeNode]) -> List[int]:
         def cal(node: Optional[TreeNode], is_left: bool):
@@ -7463,7 +7463,7 @@ class SegmentTree2940:
                 return
             dfs(root, node.left)
             dfs(root, node.right)
-        
+
         # 左边界
         left = cal(root.left, True)
         # 右边界
@@ -7473,4 +7473,23 @@ class SegmentTree2940:
         dfs(root, root)
         return [root.val] + left + leaves + right[::-1]
 
-        
+    # 247. 中心对称数 II (Strobogrammatic Number II) --plus
+    def findStrobogrammatic(self, n: int) -> List[str]:
+        def dfs(i: int, path: str):
+            if i == (n + 1) // 2:
+                cur = path
+                for j in range(n // 2 - 1, -1, -1):
+                    cur += d[path[j]]
+                res.append(cur)
+                return
+            for chr in d.keys():
+                if i == 0 and chr == '0' and n != 1:
+                    continue
+                if n % 2 == 1 and i == n // 2 and chr in ['6', '9']:
+                    continue
+                dfs(i + 1, path + chr)
+
+        d = {'0': '0', '1': '1', '6': '9', '8': '8', '9': '6'}
+        res = []
+        dfs(0, "")
+        return res
