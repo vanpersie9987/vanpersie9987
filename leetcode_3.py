@@ -7344,7 +7344,7 @@ class SegmentTree2940:
         bottom = bin_bottom(x, m - 1)
         return (right - left + 1) * (bottom - top + 1)
 
-    # 3491. 电话号码前缀 (Phone Number Prefix)
+    # 3491. 电话号码前缀 (Phone Number Prefix) --plus
     def phonePrefix(self, numbers: List[str]) -> bool:
         class trie:
             def __init__(self):
