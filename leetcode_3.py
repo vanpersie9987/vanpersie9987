@@ -7363,7 +7363,4 @@ class SegmentTree2940:
 
         numbers.sort(key=lambda k: -len(k))
         _trie = trie()
-        for s in numbers:
-            if _trie.insert(s):
-                return False
-        return True
+        return not any(_trie.insert(s) for s in numbers)
