@@ -3736,4 +3736,44 @@ public class Leetcode_10 {
             return isPrefix;
         }
     }
+
+    // 356. 直线镜像 (Line Reflection) --plus
+    public boolean isReflected(int[][] points) {
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+        for (int[] p : points) {
+            map.computeIfAbsent(p[1], o -> new HashSet<>()).add(p[0]);
+        }
+        int mid_2 = Integer.MAX_VALUE;
+        for (Set<Integer> s : map.values()) {
+            int cur = check(s);
+            if (cur == Integer.MAX_VALUE) {
+                return false;
+            }
+            if (mid_2 != Integer.MAX_VALUE && mid_2 != cur) {
+                return false;
+            }
+            mid_2 = cur;
+        }
+        return true;
+
+    }
+
+    private int check(Set<Integer> s) {
+        List<Integer> list = new ArrayList<>(s);
+        Collections.sort(list);
+        int left = 0;
+        int right = list.size() - 1;
+        int mid_2 = list.get(left) + list.get(right);
+        while (left < right) {
+            if (list.get(left) + list.get(right) != mid_2) {
+                return Integer.MAX_VALUE;
+            }
+            ++left;
+            --right;
+        }
+        if (left == right) {
+            return list.get(left) * 2 == mid_2 ? mid_2 : Integer.MAX_VALUE;
+        }
+        return mid_2;
+    }
 }
