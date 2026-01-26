@@ -7364,3 +7364,31 @@ class SegmentTree2940:
         numbers.sort(key=lambda k: -len(k))
         _trie = trie()
         return not any(_trie.insert(s) for s in numbers)
+
+    # 356. 直线镜像 (Line Reflection)
+    def isReflected(self, points: List[List[int]]) -> bool:
+        def check(a: set) -> int:
+            a = sorted(a)
+            left, right = 0, len(a) - 1
+            mid_x_2 = a[left] + a[right]
+            while left < right:
+                if a[left] + a[right] != mid_x_2:
+                    return -inf
+                left += 1
+                right -= 1
+            if left == right:
+                return mid_x_2 if a[left] * 2 == mid_x_2 else -inf
+            return mid_x_2
+        d = defaultdict(set)
+        for x, y in points:
+            d[y].add(x)
+        # 中轴线x坐标*2 (防止出现小数)
+        mid_x_2 = inf
+        for a in d.values():
+            cur = check(a)
+            if cur == -inf:
+                return False
+            if mid_x_2 != inf and mid_x_2 != cur:
+                return False
+            mid_x_2 = cur
+        return True
