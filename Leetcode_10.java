@@ -3501,7 +3501,7 @@ public class Leetcode_10 {
         return newRoot;
     }
 
-    // 255. 验证二叉搜索树的前序遍历序列 (Verify Preorder Sequence in Binary Search Tree)
+    // 255. 验证二叉搜索树的前序遍历序列 (Verify Preorder Sequence in Binary Search Tree) --plus
     public boolean verifyPreorder(int[] preorder) {
         Stack<Integer> st = new Stack<>();
         int lowerBound = Integer.MIN_VALUE;
@@ -3516,5 +3516,45 @@ public class Leetcode_10 {
         }
         return true;
 
+    }
+
+    // 291. 单词规律 II (Word Pattern II) --plus
+    private Map<Character, String> memoWordPatternMatch291;
+    private Set<String> usedWordPatternMatch291;
+    private String pattern291;
+    private String s291;
+
+    public boolean wordPatternMatch(String pattern, String s) {
+        this.memoWordPatternMatch291 = new HashMap<>();
+        this.usedWordPatternMatch291 = new HashSet<>();
+        this.pattern291 = pattern;
+        this.s291 = s;
+        return dfs291(0, 0);
+    }
+
+    private boolean dfs291(int i, int j) {
+        if (i == pattern291.length() || j == s291.length()) {
+            return i == pattern291.length() && j == s291.length();
+        }
+        if (memoWordPatternMatch291.containsKey(pattern291.charAt(i))) {
+            if (!s291.substring(j).startsWith(memoWordPatternMatch291.get(pattern291.charAt(i)))) {
+                return false;
+            }
+            return dfs291(i + 1, j + memoWordPatternMatch291.get(pattern291.charAt(i)).length());
+        }
+        for (int l = 1; j + l <= s291.length(); ++l) {
+            String sub = s291.substring(j, j + l);
+            if (usedWordPatternMatch291.contains(sub)) {
+                continue;
+            }
+            memoWordPatternMatch291.put(pattern291.charAt(i), sub);
+            usedWordPatternMatch291.add(sub);
+            if (dfs291(i + 1, j + l)) {
+                return true;
+            }
+            memoWordPatternMatch291.remove(pattern291.charAt(i));
+            usedWordPatternMatch291.remove(sub);
+        }
+        return false;
     }
 }

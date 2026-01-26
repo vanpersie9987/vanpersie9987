@@ -7202,7 +7202,7 @@ class SegmentTree2940:
                 res.append([x, y])
         return res
 
-    # 156. 上下翻转二叉树 (Binary Tree Upside Down)
+    # 156. 上下翻转二叉树 (Binary Tree Upside Down) --plus
     def upsideDownBinaryTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         def dfs(node: Optional[TreeNode]) -> Optional[TreeNode]:
             if not node or not node.left:
@@ -7215,7 +7215,7 @@ class SegmentTree2940:
             return new_root
         return dfs(root)
 
-    # 255. 验证二叉搜索树的前序遍历序列 (Verify Preorder Sequence in Binary Search Tree)
+    # 255. 验证二叉搜索树的前序遍历序列 (Verify Preorder Sequence in Binary Search Tree) --plus
     def verifyPreorder(self, preorder: List[int]) -> bool:
         stack = []
         lower_bound = -inf
@@ -7226,3 +7226,32 @@ class SegmentTree2940:
                 lower_bound = stack.pop()
             stack.append(x)
         return True
+    
+    # 291. 单词规律 II (Word Pattern II) --plus
+    def wordPatternMatch(self, pattern: str, s: str) -> bool:
+        def dfs(i: int, j: int) -> bool:
+            if i == len(pattern) or j == len(s):
+                return i == len(pattern) and j == len(s)
+            if pattern[i] in d:
+                v = d[pattern[i]]
+                if not s[j:].startswith(v):
+                    return False
+                return dfs(i + 1, j + len(v))
+            for end in range(j + 1, len(s) + 1):
+                v = s[j:end]
+                if v in _set:
+                    continue
+                d[pattern[i]] = v
+                _set.add(v)
+                if dfs(i + 1, end):
+                    return True
+                del d[pattern[i]]
+                _set.remove(v)
+            return False
+        
+        if len(pattern) > len(s):
+            return False
+        _set = set()
+        d = defaultdict(str)
+        return dfs(0, 0)
+        
