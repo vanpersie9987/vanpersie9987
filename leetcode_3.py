@@ -105,6 +105,14 @@ class Node:
         self.children = children
 
 
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+        self.parent = None
+
+
 class leetcode_3:
 
     # 75. 颜色分类 (Sort Colors)
@@ -7422,3 +7430,16 @@ class SegmentTree2940:
         res = None
         dfs(root)
         return res
+
+    # 510. 二叉搜索树中的中序后继 II (Inorder Successor in BST II) --plus
+    def inorderSuccessor(self, node: 'Node') -> 'Optional[Node]':
+        if node.right:
+            node = node.right
+            while node.left:
+                node = node.left
+            return node
+        while node.parent:
+            if node.parent.left == node:
+                break
+            node = node.parent
+        return node.parent
