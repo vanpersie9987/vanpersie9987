@@ -7254,4 +7254,18 @@ class SegmentTree2940:
         _set = set()
         d = defaultdict(str)
         return dfs(0, 0)
+    
+    # 302. 包含全部黑色像素的最小矩形 (Smallest Rectangle Enclosing Black Pixels) --plus
+    def minArea(self, image: List[List[str]], x: int, y: int) -> int:
+        left, right, top, bottom = y, y, x, x
+        m, n = len(image), len(image[0])
+        for i in range(m):
+            for j in range(n):
+                if image[i][j] == "1":
+                    left = min(left, j)
+                    right = max(right, j)
+                    top = min(top, i)
+                    bottom = max(bottom, i)
+        return (right - left + 1) * (bottom - top + 1)
+        
         
