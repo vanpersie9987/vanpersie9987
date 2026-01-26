@@ -6659,52 +6659,48 @@ public class Leetcode_7 {
     // 247. 中心对称数 II (Strobogrammatic Number II) --plus
     private int n247;
     private List<String> res247;
-    private int[] dic247 = { 0, 1, 6, 8, 9 };
     private StringBuilder builder247;
-    private int[] map247;
+    private Map<Character, Character> map247 = new HashMap<>() {
+        {
+            put('0', '0');
+            put('1', '1');
+            put('6', '9');
+            put('8', '8');
+            put('9', '6');
+        }
+    };
 
     public List<String> findStrobogrammatic(int n) {
         this.n247 = n;
         this.res247 = new ArrayList<>();
         this.builder247 = new StringBuilder();
-        this.map247 = new int[10];
-        map247[8] = 8;
-        map247[1] = 1;
-        map247[6] = 9;
-        map247[9] = 6;
         dfs247();
         return res247;
 
     }
 
     private void dfs247() {
-        if (builder247.length() == n247 / 2) {
-            if ((n247 & 1) == 1) {
-                res247.add(builder247 + "0" + upSideDown247(builder247.toString().toCharArray()));
-                res247.add(builder247 + "1" + upSideDown247(builder247.toString().toCharArray()));
-                res247.add(builder247 + "8" + upSideDown247(builder247.toString().toCharArray()));
-            } else {
-                res247.add(builder247 + upSideDown247(builder247.toString().toCharArray()).toString());
+        if (builder247.length() == (n247 + 1) / 2) {
+            StringBuilder cur = new StringBuilder(builder247);
+            for (int i = n247 / 2 - 1; i >= 0; --i) {
+                cur.append(map247.get(builder247.charAt(i)));
             }
+            res247.add(cur.toString());
             return;
         }
-        for (int i = 0; i < dic247.length; ++i) {
-            if (builder247.isEmpty() && dic247[i] == 0) {
+        for (char c : map247.keySet()) {
+            // n不是一位数时，首位不能为0
+            if (builder247.length() == 0 && c == '0' && n247 > 1) {
                 continue;
             }
-            builder247.append(dic247[i]);
+            // n 为奇数时，中间位置不能是 6 或 9，只能是 0、1、8
+            if (n247 % 2 == 1 && builder247.length() == n247 / 2 && (c == '6' || c == '9')) {
+                continue;
+            }
+            builder247.append(c);
             dfs247();
             builder247.deleteCharAt(builder247.length() - 1);
         }
-    }
-
-    private StringBuilder upSideDown247(char[] array) {
-        StringBuilder b = new StringBuilder();
-        int n = array.length;
-        for (int i = n - 1; i >= 0; --i) {
-            b.append(map247[array[i] - '0']);
-        }
-        return b;
     }
 
     // 2674. 拆分循环链表 (Split a Circular Linked List) --plus

@@ -7403,7 +7403,9 @@ class SegmentTree2940:
         return True
 
     # 1644. 二叉树的最近公共祖先 II (Lowest Common Ancestor of a Binary Tree II) --plus
-    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+    def lowestCommonAncestor(
+        self, root: "TreeNode", p: "TreeNode", q: "TreeNode"
+    ) -> "TreeNode":
         def dfs(node: Optional[TreeNode]) -> Optional[TreeNode]:
             def check(node: Optional[TreeNode]) -> bool:
                 if node is None:
@@ -7411,6 +7413,7 @@ class SegmentTree2940:
                 if node in (p, q):
                     return True
                 return check(node.left) or check(node.right)
+
             if node is None:
                 return False
             if node in (p, q):
@@ -7427,12 +7430,13 @@ class SegmentTree2940:
                 res = node
                 return node
             return left or right
+
         res = None
         dfs(root)
         return res
 
     # 510. 二叉搜索树中的中序后继 II (Inorder Successor in BST II) --plus
-    def inorderSuccessor(self, node: 'Node') -> 'Optional[Node]':
+    def inorderSuccessor(self, node: "Node") -> "Optional[Node]":
         if node.right:
             node = node.right
             while node.left:
@@ -7453,8 +7457,13 @@ class SegmentTree2940:
                 if node.left is None and node.right is None:
                     break
                 res.append(node.val)
-                node = node.left if is_left and node.left or not is_left and node.right is None else node.right
+                node = (
+                    node.left
+                    if is_left and node.left or not is_left and node.right is None
+                    else node.right
+                )
             return res
+
         def dfs(root: Optional[TreeNode], node: Optional[TreeNode]):
             if node is None:
                 return
@@ -7475,21 +7484,27 @@ class SegmentTree2940:
 
     # 247. 中心对称数 II (Strobogrammatic Number II) --plus
     def findStrobogrammatic(self, n: int) -> List[str]:
-        def dfs(i: int, path: str):
-            if i == (n + 1) // 2:
+        def dfs():
+            nonlocal path
+            if len(path) == (n + 1) // 2:
                 cur = path
                 for j in range(n // 2 - 1, -1, -1):
                     cur += d[path[j]]
                 res.append(cur)
                 return
             for chr in d.keys():
-                if i == 0 and chr == '0' and n != 1:
+                # n不是一位数时，首位不能为0
+                if len(path) == 0 and chr == "0" and n != 1:
                     continue
-                if n % 2 == 1 and i == n // 2 and chr in ['6', '9']:
+                # n 为奇数时，中间位置不能是 6 或 9，只能是 0、1、8
+                if n % 2 == 1 and len(path) == n // 2 and chr in ["6", "9"]:
                     continue
-                dfs(i + 1, path + chr)
+                path += chr
+                dfs()
+                path = path[:-1]
 
-        d = {'0': '0', '1': '1', '6': '9', '8': '8', '9': '6'}
+        d = {"0": "0", "1": "1", "6": "9", "8": "8", "9": "6"}
         res = []
-        dfs(0, "")
+        path = ""
+        dfs()
         return res
