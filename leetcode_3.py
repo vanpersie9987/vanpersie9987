@@ -7361,7 +7361,7 @@ class SegmentTree2940:
             def insert(self, s: str) -> bool:
                 node = self
                 is_prefix = True
-                for i, chr in enumerate(s):
+                for chr in s:
                     id = ord(chr) - ord("0")
                     if not node.children[id]:
                         is_prefix = False
