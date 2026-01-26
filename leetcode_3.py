@@ -7286,6 +7286,52 @@ class SegmentTree2940:
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         dfs(x, y)
         return (right - left + 1) * (bottom - top + 1)
+    
+
+    # 302. 包含全部黑色像素的最小矩形 (Smallest Rectangle Enclosing Black Pixels) --plus
+    def minArea(self, image: List[List[str]], x: int, y: int) -> int:
+        def bin_left(left: int, right: int) -> int:
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if any(image[i][mid] == "1" for i in range(m)):
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return right + 1
+        def bin_right(left: int, right: int) -> int:
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if any(image[i][mid] == "1" for i in range(m)):
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            return left - 1
+        def bin_top(left: int, right: int) -> int:
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if any(image[mid][j] == "1" for j in range(n)):
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return right + 1
+        def bin_bottom(left: int, right: int) -> int:
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if any(image[mid][j] == "1" for j in range(n)):
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            return left - 1
+        m, n = len(image), len(image[0])
+        left = bin_left(0, y)
+        right = bin_right(y, n - 1)
+        top = bin_top(0, x)
+        bottom = bin_bottom(x, m - 1)
+        return (right - left + 1) * (bottom - top + 1)
+
+
+
+    
 
         
         
