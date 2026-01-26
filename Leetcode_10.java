@@ -3579,4 +3579,33 @@ public class Leetcode_10 {
         return (right - left + 1) * (bottom - top + 1);
 
     }
+
+    // 302. 包含全部黑色像素的最小矩形 (Smallest Rectangle Enclosing Black Pixels) --plus
+    private int left302;
+    private int right302;
+    private int top302;
+    private int bottom302;
+
+    public int minArea2(char[][] image, int x, int y) {
+        this.left302 = y;
+        this.right302 = y;
+        this.top302 = x;
+        this.bottom302 = x;
+        dfs302(image, x, y);
+        return (right302 - left302 + 1) * (bottom302 - top302 + 1);
+    }
+
+    private void dfs302(char[][] image, int x, int y) {
+        if (x < 0 || x >= image.length || y < 0 || y >= image[0].length || image[x][y] == '0') {
+            return;
+        }
+        image[x][y] = '0';
+        left302 = Math.min(left302, y);
+        right302 = Math.max(right302, y);
+        top302 = Math.min(top302, x);
+        bottom302 = Math.max(bottom302, x);
+        for (int[] dir : new int[][] { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } }) {
+            dfs302(image, x + dir[0], y + dir[1]);
+        }
+    }
 }
