@@ -7201,3 +7201,16 @@ class SegmentTree2940:
             elif y - x == diff:
                 res.append([x, y])
         return res
+    
+    # 156. 上下翻转二叉树 (Binary Tree Upside Down)
+    def upsideDownBinaryTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        def dfs(node: Optional[TreeNode]) -> Optional[TreeNode]:
+            if not node or not node.left:
+                return node
+            new_root = dfs(node.left)
+            node.left.left = node.right
+            node.left.right = node
+            node.left = None
+            node.right = None
+            return new_root
+        return dfs(root)

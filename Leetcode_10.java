@@ -3487,4 +3487,17 @@ public class Leetcode_10 {
         }
         return res;
     }
+
+    // 156. 上下翻转二叉树  (Binary Tree Upside Down) --plus
+    public TreeNode upsideDownBinaryTree(TreeNode root) {
+        if (root == null || root.left == null) {
+            return root;
+        }
+        TreeNode newRoot = upsideDownBinaryTree(root.left);
+        root.left.left = root.right;
+        root.left.right = root;
+        root.left = null;
+        root.right = null;
+        return newRoot;
+    }
 }
