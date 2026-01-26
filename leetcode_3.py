@@ -7377,8 +7377,9 @@ class SegmentTree2940:
                 left += 1
                 right -= 1
             if left == right:
-                return mid_x_2 if a[left] * 2 == mid_x_2 else -inf
+                return mid_x_2 if a[left] * 2 == mid_x_2 else inf
             return mid_x_2
+
         d = defaultdict(set)
         for x, y in points:
             d[y].add(x)
@@ -7386,7 +7387,7 @@ class SegmentTree2940:
         mid_x_2 = inf
         for a in d.values():
             cur = check(a)
-            if cur == -inf:
+            if cur == inf:
                 return False
             if mid_x_2 != inf and mid_x_2 != cur:
                 return False
