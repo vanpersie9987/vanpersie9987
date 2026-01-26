@@ -7201,7 +7201,7 @@ class SegmentTree2940:
             elif y - x == diff:
                 res.append([x, y])
         return res
-    
+
     # 156. 上下翻转二叉树 (Binary Tree Upside Down)
     def upsideDownBinaryTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         def dfs(node: Optional[TreeNode]) -> Optional[TreeNode]:
@@ -7214,3 +7214,15 @@ class SegmentTree2940:
             node.right = None
             return new_root
         return dfs(root)
+
+    # 255. 验证二叉搜索树的前序遍历序列 (Verify Preorder Sequence in Binary Search Tree)
+    def verifyPreorder(self, preorder: List[int]) -> bool:
+        stack = []
+        lower_bound = -inf
+        for x in preorder:
+            if x < lower_bound:
+                return False
+            while stack and x > stack[-1]:
+                lower_bound = stack.pop()
+            stack.append(x)
+        return True

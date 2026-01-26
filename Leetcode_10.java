@@ -3500,4 +3500,21 @@ public class Leetcode_10 {
         root.right = null;
         return newRoot;
     }
+
+    // 255. 验证二叉搜索树的前序遍历序列 (Verify Preorder Sequence in Binary Search Tree)
+    public boolean verifyPreorder(int[] preorder) {
+        Stack<Integer> st = new Stack<>();
+        int lowerBound = Integer.MIN_VALUE;
+        for (int x : preorder) {
+            if (x < lowerBound) {
+                return false;
+            }
+            while (!st.isEmpty() && x > st.peek()) {
+                lowerBound = st.pop();
+            }
+            st.push(x);
+        }
+        return true;
+
+    }
 }
