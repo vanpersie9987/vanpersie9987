@@ -3789,7 +3789,7 @@ public class Leetcode_10 {
             return null;
         }
         if (root == p || root == q) {
-            if (check1644(root.left, p, q) != null || check1644(root.right, p, q) != null) {
+            if (check1644(root.left, p, q) || check1644(root.right, p, q)) {
                 res1644 = root;
                 return root;
             }
@@ -3810,18 +3810,13 @@ public class Leetcode_10 {
         return right;
     }
 
-    private TreeNode check1644(TreeNode node, TreeNode p, TreeNode q) {
+    private boolean check1644(TreeNode node, TreeNode p, TreeNode q) {
         if (node == null) {
-            return null;
+            return false;
         }
         if (node == p || node == q) {
-            return node;
+            return true;
         }
-        TreeNode left = check1644(node.left, p, q);
-        TreeNode right = check1644(node.right, p, q);
-        if (left != null) {
-            return left;
-        }
-        return right;
+        return check1644(node.left, p, q) || check1644(node.right, p, q);
     }
 }
