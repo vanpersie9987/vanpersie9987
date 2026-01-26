@@ -7267,5 +7267,25 @@ class SegmentTree2940:
                     top = min(top, i)
                     bottom = max(bottom, i)
         return (right - left + 1) * (bottom - top + 1)
+    
+    # 302. 包含全部黑色像素的最小矩形 (Smallest Rectangle Enclosing Black Pixels) --plus
+    def minArea(self, image: List[List[str]], x: int, y: int) -> int:
+        def dfs(i: int, j: int):
+            nonlocal left, right, top, bottom
+            if i < 0 or i >= m or j < 0 or j >= n or image[i][j] == "0":
+                return
+            image[i][j] = "0"
+            left = min(left, j)
+            right = max(right, j)
+            top = min(top, i)
+            bottom = max(bottom, i)
+            for dx, dy in directions:
+                dfs(i + dx, j + dy)
+        left, right, top, bottom = y, y, x, x
+        m, n = len(image), len(image[0])
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        dfs(x, y)
+        return (right - left + 1) * (bottom - top + 1)
+
         
         
