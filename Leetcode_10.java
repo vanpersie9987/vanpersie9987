@@ -3777,32 +3777,33 @@ public class Leetcode_10 {
     }
 
 
-    private TreeNode res;
+    // 1644. 二叉树的最近公共祖先 II (Lowest Common Ancestor of a Binary Tree II) --plus
+    private TreeNode res1644;
 
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        dfs(root, p, q);
-        return res;
+        dfs1644(root, p, q);
+        return res1644;
     }
 
-    private TreeNode dfs(TreeNode root, TreeNode p, TreeNode q) {
+    private TreeNode dfs1644(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null) {
             return null;
         }
         if (root == p || root == q) {
-            if (check(root.left, p, q) != null || check(root.right, p, q) != null) {
-                res = root;
+            if (check1644(root.left, p, q) != null || check1644(root.right, p, q) != null) {
+                res1644 = root;
                 return root;
             }
             return root;
         }
-        TreeNode left = dfs(root.left, p, q);
-        TreeNode right = dfs(root.right, p, q);
-        if (res != null) {
-            return res;
+        TreeNode left = dfs1644(root.left, p, q);
+        TreeNode right = dfs1644(root.right, p, q);
+        if (res1644 != null) {
+            return res1644;
         }
         if (left != null && right != null) {
-            res = root;
-            return res;
+            res1644 = root;
+            return res1644;
         }
         if (left != null) {
             return left;
@@ -3810,15 +3811,15 @@ public class Leetcode_10 {
         return right;
     }
 
-    private TreeNode check(TreeNode node, TreeNode p, TreeNode q) {
+    private TreeNode check1644(TreeNode node, TreeNode p, TreeNode q) {
         if (node == null) {
             return null;
         }
         if (node == p || node == q) {
             return node;
         }
-        TreeNode left = check(node.left, p, q);
-        TreeNode right = check(node.right, p, q);
+        TreeNode left = check1644(node.left, p, q);
+        TreeNode right = check1644(node.right, p, q);
         if (left != null) {
             return left;
         }
