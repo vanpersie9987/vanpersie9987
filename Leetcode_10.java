@@ -3694,4 +3694,46 @@ public class Leetcode_10 {
         }
         return left - 1;
     }
+
+    // 3491. 电话号码前缀 (Phone Number Prefix) --plus
+    public boolean phonePrefix(String[] numbers) {
+        Arrays.sort(numbers, new Comparator<String>() {
+
+            @Override
+            public int compare(String o1, String o2) {
+                return Integer.compare(o2.length(), o1.length());
+            }
+
+        });
+        Trie3491 trie = new Trie3491();
+        for (String num : numbers) {
+            if (trie.insert(num)) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    public class Trie3491 {
+        private Trie3491[] children;
+
+        public Trie3491() {
+            this.children = new Trie3491[10];
+        }
+
+        public boolean insert(String s) {
+            Trie3491 node = this;
+            boolean isPrefix = true;
+            for (char c : s.toCharArray()) {
+                int idx = c - '0';
+                if (node.children[idx] == null) {
+                    isPrefix = false;
+                    node.children[idx] = new Trie3491();
+                }
+                node = node.children[idx];
+            }
+            return isPrefix;
+        }
+    }
 }
