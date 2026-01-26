@@ -7508,3 +7508,15 @@ class SegmentTree2940:
         path = ""
         dfs()
         return res
+
+    # 246. 中心对称数 (Strobogrammatic Number)
+    def isStrobogrammatic(self, num: str) -> bool:
+        d = {"0": "0", "1": "1", "6": "9", "8": "8", "9": "6"}
+        left = 0
+        right = len(num) - 1
+        while left < right:
+            if num[left] not in d or d[num[left]] != num[right]:
+                return False
+            left += 1
+            right -= 1
+        return left != right or num[left] in ["0", "1", "8"]

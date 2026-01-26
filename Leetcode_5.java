@@ -1417,52 +1417,6 @@ public class Leetcode_5 {
 
     // 246. 中心对称数 (Strobogrammatic Number) --plus
     public boolean isStrobogrammatic(String num) {
-        char[] chars = num.toCharArray();
-        int n = chars.length;
-        int left = 0;
-        int right = n - 1;
-        while (left <= right) {
-            if (left == right) {
-                if (!isLegal246(chars[left])) {
-                    return false;
-                }
-                switch246(chars, left);
-                break;
-            }
-            if (!isLegal246(chars[left]) || !isLegal246(chars[right])) {
-                return false;
-            }
-            char temp = chars[left];
-            chars[left] = chars[right];
-            chars[right] = temp;
-            switch246(chars, left);
-            switch246(chars, right);
-            ++left;
-            --right;
-        }
-        return String.valueOf(chars).equals(num);
-
-    }
-
-    private void switch246(char[] chars, int index) {
-        switch (chars[index]) {
-        case '6':
-            chars[index] = '9';
-            break;
-        case '9':
-            chars[index] = '6';
-            break;
-        default:
-            break;
-        }
-    }
-
-    private boolean isLegal246(char c) {
-        return c == '0' || c == '1' || c == '6' || c == '8' || c == '9';
-    }
-
-    // 246. 中心对称数 (Strobogrammatic Number) --plus
-    public boolean isStrobogrammatic2(String num) {
         Map<Character, Character> map = new HashMap<>();
         map.put('6', '9');
         map.put('9', '6');
@@ -1471,17 +1425,14 @@ public class Leetcode_5 {
         map.put('1', '1');
         int left = 0;
         int right = num.length() - 1;
-        while (left <= right) {
-            if (!map.containsKey(num.charAt(left)) || !map.containsKey(num.charAt(right))
-                    || map.get(num.charAt(left)) != num.charAt(right)) {
+        while (left < right) {
+            if (!map.containsKey(num.charAt(left)) || map.get(num.charAt(left)) != num.charAt(right)) {
                 return false;
             }
             ++left;
             --right;
-
         }
-        return true;
-
+        return left != right || num.charAt(left) == '0' || num.charAt(left) == '1' || num.charAt(left) == '8';
     }
 
     // 252. 会议室 (Meeting Rooms) --plus
