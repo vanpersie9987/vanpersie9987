@@ -7409,14 +7409,10 @@ public class Leetcode_3 {
         }
         TreeNode left = lowestCommonAncestor2(root.left, p, q);
         TreeNode right = lowestCommonAncestor2(root.right, p, q);
-        if (left == null) {
-            return right;
+        if (left != null && right != null) {
+            return root;
         }
-        if (right == null) {
-            return left;
-        }
-        return root;
-
+        return left != null ? left : right;
     }
 
     // 1311. 获取你好友已观看的视频 (Get Watched Videos by Your Friends) --bfs

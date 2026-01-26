@@ -3675,7 +3675,6 @@ public class Leetcode_10 {
         return right + 1;
     }
 
-
     private int binBottom302(char[][] image, int left, int right) {
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
