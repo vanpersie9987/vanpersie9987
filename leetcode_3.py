@@ -7393,3 +7393,32 @@ class SegmentTree2940:
                 return False
             mid_x_2 = cur
         return True
+
+    # 1644. 二叉树的最近公共祖先 II (Lowest Common Ancestor of a Binary Tree II) --plus
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        def dfs(node: Optional[TreeNode]) -> Optional[TreeNode]:
+            def check(node: Optional[TreeNode]) -> bool:
+                if node is None:
+                    return False
+                if node in (p, q):
+                    return True
+                return check(node.left) or check(node.right)
+            if node is None:
+                return False
+            if node in (p, q):
+                if check(node.left) or check(node.right):
+                    nonlocal res
+                    res = node
+                    return node
+                return node
+            left = dfs(node.left)
+            right = dfs(node.right)
+            if res:
+                return res
+            if left and right:
+                res = node
+                return node
+            return left or right
+        res = None
+        dfs(root)
+        return res

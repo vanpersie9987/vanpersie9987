@@ -3776,7 +3776,6 @@ public class Leetcode_10 {
         return mid_2;
     }
 
-
     // 1644. 二叉树的最近公共祖先 II (Lowest Common Ancestor of a Binary Tree II) --plus
     private TreeNode res1644;
 
