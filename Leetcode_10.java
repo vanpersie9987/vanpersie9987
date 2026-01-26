@@ -3848,12 +3848,12 @@ public class Leetcode_10 {
     // 545. 二叉树的边界 (Boundary of Binary Tree) --plus
     public List<Integer> boundaryOfBinaryTree(TreeNode root) {
         // 左边界
-        List<Integer> left = calLeft545(root.left);
+        List<Integer> left = cal545(root.left, true);
         // 叶子节点
         List<Integer> leaves = new ArrayList<>();
         dfsLeaves545(root, root, leaves);
         // 右边界
-        List<Integer> right = calRight545(root.right);
+        List<Integer> right = cal545(root.right, false);
         List<Integer> res = new ArrayList<>();
         res.add(root.val);
         res.addAll(left);
@@ -3875,7 +3875,7 @@ public class Leetcode_10 {
         dfsLeaves545(root, node.right, leaves);
     }
 
-    private List<Integer> calLeft545(TreeNode node) {
+    private List<Integer> cal545(TreeNode node, boolean isLeft) {
         List<Integer> res = new ArrayList<>();
         while (node != null) {
             // node 是叶子
@@ -3883,28 +3883,7 @@ public class Leetcode_10 {
                 break;
             }
             res.add(node.val);
-            if (node.left != null) {
-                node = node.left;
-            } else {
-                node = node.right;
-            }
-        }
-        return res;
-    }
-
-    private List<Integer> calRight545(TreeNode node) {
-        List<Integer> res = new ArrayList<>();
-        while (node != null) {
-            // node 是叶子
-            if (node.left == null && node.right == null) {
-                break;
-            }
-            res.add(node.val);
-            if (node.right != null) {
-                node = node.right;
-            } else {
-                node = node.left;
-            }
+            node = isLeft && node.left != null || !isLeft && node.right == null ? node.left : node.right;
         }
         return res;
     }
