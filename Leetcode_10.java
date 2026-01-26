@@ -3745,7 +3745,7 @@ public class Leetcode_10 {
         }
         int mid_2 = Integer.MAX_VALUE;
         for (Set<Integer> s : map.values()) {
-            int cur = check(s);
+            int cur = check356(s);
             if (cur == Integer.MAX_VALUE) {
                 return false;
             }
@@ -3758,7 +3758,7 @@ public class Leetcode_10 {
 
     }
 
-    private int check(Set<Integer> s) {
+    private int check356(Set<Integer> s) {
         List<Integer> list = new ArrayList<>(s);
         Collections.sort(list);
         int left = 0;
