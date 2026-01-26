@@ -6905,7 +6905,9 @@ class SegmentTree2940:
                         return k
 
     # 3809. 最好可到达的塔 (Best Reachable Tower)
-    def bestTower(self, towers: List[List[int]], center: List[int], radius: int) -> List[int]:
+    def bestTower(
+        self, towers: List[List[int]], center: List[int], radius: int
+    ) -> List[int]:
         res = (1, -1, -1)
         for x, y, q in towers:
             dx = abs(x - center[0])
@@ -7080,6 +7082,7 @@ class SegmentTree2940:
     def minimumPairRemoval(self, nums: List[int]) -> int:
         def check_order() -> bool:
             return all(y >= x for x, y in pairwise(nums))
+
         def remove_smallest_pair() -> List[int]:
             min_pair = inf
             min_id = -1
@@ -7087,7 +7090,8 @@ class SegmentTree2940:
                 if nums[i] + nums[i - 1] < min_pair:
                     min_pair = nums[i] + nums[i - 1]
                     min_id = i
-            return nums[:min_id - 1] + [min_pair] + nums[min_id + 1:]
+            return nums[: min_id - 1] + [min_pair] + nums[min_id + 1 :]
+
         res = 0
         while not check_order():
             res += 1
@@ -7124,16 +7128,20 @@ class SegmentTree2940:
         return nums
 
     # 3820. 树上的勾股距离节点 (Pythagorean Distance Nodes in a Tree)
-    def specialNodes(self, n: int, edges: List[List[int]], x: int, y: int, z: int) -> int:
+    def specialNodes(
+        self, n: int, edges: List[List[int]], x: int, y: int, z: int
+    ) -> int:
         def cal(node: int) -> List[int]:
             def dfs(x: int, fa: int, d: int):
                 dis[x] = d
                 for y in g[x]:
                     if y != fa:
                         dfs(y, x, d + 1)
+
             dis = [0] * n
             dfs(node, -1, 0)
             return dis
+
         g = [[] for _ in range(n)]
         for u, v in edges:
             g[u].append(v)
@@ -7164,9 +7172,11 @@ class SegmentTree2940:
                         break
                     res += dfs(i + 1, cnt + d, is_limit and d == up)
                 return res
+
             s = bin(x)[2:]
             n = len(s)
             return dfs(0, 0, True)
+
         left = (1 << k) - 1
         right = 1 << 50
         while left <= right:
@@ -7213,6 +7223,7 @@ class SegmentTree2940:
             node.left = None
             node.right = None
             return new_root
+
         return dfs(root)
 
     # 255. 验证二叉搜索树的前序遍历序列 (Verify Preorder Sequence in Binary Search Tree) --plus
@@ -7226,7 +7237,7 @@ class SegmentTree2940:
                 lower_bound = stack.pop()
             stack.append(x)
         return True
-    
+
     # 291. 单词规律 II (Word Pattern II) --plus
     def wordPatternMatch(self, pattern: str, s: str) -> bool:
         def dfs(i: int, j: int) -> bool:
@@ -7248,13 +7259,13 @@ class SegmentTree2940:
                 del d[pattern[i]]
                 _set.remove(v)
             return False
-        
+
         if len(pattern) > len(s):
             return False
         _set = set()
         d = defaultdict(str)
         return dfs(0, 0)
-    
+
     # 302. 包含全部黑色像素的最小矩形 (Smallest Rectangle Enclosing Black Pixels) --plus
     def minArea(self, image: List[List[str]], x: int, y: int) -> int:
         left, right, top, bottom = y, y, x, x
@@ -7267,7 +7278,7 @@ class SegmentTree2940:
                     top = min(top, i)
                     bottom = max(bottom, i)
         return (right - left + 1) * (bottom - top + 1)
-    
+
     # 302. 包含全部黑色像素的最小矩形 (Smallest Rectangle Enclosing Black Pixels) --plus
     def minArea(self, image: List[List[str]], x: int, y: int) -> int:
         def dfs(i: int, j: int):
@@ -7281,12 +7292,12 @@ class SegmentTree2940:
             bottom = max(bottom, i)
             for dx, dy in directions:
                 dfs(i + dx, j + dy)
+
         left, right, top, bottom = y, y, x, x
         m, n = len(image), len(image[0])
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         dfs(x, y)
         return (right - left + 1) * (bottom - top + 1)
-    
 
     # 302. 包含全部黑色像素的最小矩形 (Smallest Rectangle Enclosing Black Pixels) --plus
     def minArea(self, image: List[List[str]], x: int, y: int) -> int:
@@ -7298,6 +7309,7 @@ class SegmentTree2940:
                 else:
                     left = mid + 1
             return right + 1
+
         def bin_right(left: int, right: int) -> int:
             while left <= right:
                 mid = left + ((right - left) >> 1)
@@ -7306,6 +7318,7 @@ class SegmentTree2940:
                 else:
                     right = mid - 1
             return left - 1
+
         def bin_top(left: int, right: int) -> int:
             while left <= right:
                 mid = left + ((right - left) >> 1)
@@ -7314,6 +7327,7 @@ class SegmentTree2940:
                 else:
                     left = mid + 1
             return right + 1
+
         def bin_bottom(left: int, right: int) -> int:
             while left <= right:
                 mid = left + ((right - left) >> 1)
@@ -7322,6 +7336,7 @@ class SegmentTree2940:
                 else:
                     right = mid - 1
             return left - 1
+
         m, n = len(image), len(image[0])
         left = bin_left(0, y)
         right = bin_right(y, n - 1)
@@ -7329,9 +7344,26 @@ class SegmentTree2940:
         bottom = bin_bottom(x, m - 1)
         return (right - left + 1) * (bottom - top + 1)
 
+    # 3491. 电话号码前缀 (Phone Number Prefix)
+    def phonePrefix(self, numbers: List[str]) -> bool:
+        class trie:
+            def __init__(self):
+                self.children = [None] * 10
 
+            def insert(self, s: str) -> bool:
+                node = self
+                is_prefix = True
+                for i, chr in enumerate(s):
+                    id = ord(chr) - ord("0")
+                    if not node.children[id]:
+                        is_prefix = False
+                        node.children[id] = trie()
+                    node = node.children[id]
+                return is_prefix
 
-    
-
-        
-        
+        numbers.sort(key=lambda k: -len(k))
+        _trie = trie()
+        for s in numbers:
+            if _trie.insert(s):
+                return False
+        return True
