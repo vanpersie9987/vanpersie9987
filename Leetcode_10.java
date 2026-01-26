@@ -3488,7 +3488,7 @@ public class Leetcode_10 {
         return res;
     }
 
-    // 156. 上下翻转二叉树  (Binary Tree Upside Down) --plus
+    // 156. 上下翻转二叉树 (Binary Tree Upside Down) --plus
     public TreeNode upsideDownBinaryTree(TreeNode root) {
         if (root == null || root.left == null) {
             return root;
@@ -3607,5 +3607,91 @@ public class Leetcode_10 {
         for (int[] dir : new int[][] { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } }) {
             dfs302(image, x + dir[0], y + dir[1]);
         }
+    }
+
+    // 302. 包含全部黑色像素的最小矩形 (Smallest Rectangle Enclosing Black Pixels) --plus
+    public int minArea3(char[][] image, int x, int y) {
+        int left = binLeft302(image, 0, y);
+        int right = binRight302(image, y, image[0].length - 1);
+        int top = binTop302(image, 0, x);
+        int bottom = binBottom302(image, x, image.length - 1);
+        return (right - left + 1) * (bottom - top + 1);
+    }
+
+    private int binLeft302(char[][] image, int left, int right) {
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            boolean hasOne = false;
+            for (int i = 0; i < image.length; ++i) {
+                if (image[i][mid] == '1') {
+                    hasOne = true;
+                    break;
+                }
+            }
+            if (hasOne) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+    }
+
+    private int binRight302(char[][] image, int left, int right) {
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            boolean hasOne = false;
+            for (int i = 0; i < image.length; ++i) {
+                if (image[i][mid] == '1') {
+                    hasOne = true;
+                    break;
+                }
+            }
+            if (hasOne) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return left - 1;
+    }
+
+    private int binTop302(char[][] image, int left, int right) {
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            boolean hasOne = false;
+            for (int j = 0; j < image[0].length; ++j) {
+                if (image[mid][j] == '1') {
+                    hasOne = true;
+                    break;
+                }
+            }
+            if (hasOne) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+    }
+
+
+    private int binBottom302(char[][] image, int left, int right) {
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            boolean hasOne = false;
+            for (int j = 0; j < image[0].length; ++j) {
+                if (image[mid][j] == '1') {
+                    hasOne = true;
+                    break;
+                }
+            }
+            if (hasOne) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return left - 1;
     }
 }
