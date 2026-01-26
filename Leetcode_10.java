@@ -58,6 +58,13 @@ public class Leetcode_10 {
         }
     }
 
+    class Node {
+        public int val;
+        public Node left;
+        public Node right;
+        public Node parent;
+    };
+
     // 3688. 偶数的按位或运算 (Bitwise OR of Even Numbers in an Array)
     public int evenNumberBitwiseORs(int[] nums) {
         int res = 0;
@@ -3818,5 +3825,23 @@ public class Leetcode_10 {
             return true;
         }
         return check1644(node.left, p, q) || check1644(node.right, p, q);
+    }
+
+    // 510. 二叉搜索树中的中序后继 II (Inorder Successor in BST II) --plus
+    public Node inorderSuccessor(Node node) {
+        if (node.right != null) {
+            node = node.right;
+            while (node.left != null) {
+                node = node.left;
+            }
+            return node;
+        }
+        while (node.parent != null) {
+            if (node.parent.left == node) {
+                break;
+            }
+            node = node.parent;
+        }
+        return node.parent;
     }
 }
