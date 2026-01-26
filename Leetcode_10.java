@@ -3849,11 +3849,11 @@ public class Leetcode_10 {
     public List<Integer> boundaryOfBinaryTree(TreeNode root) {
         // 左边界
         List<Integer> left = cal545(root.left, true);
+        // 右边界
+        List<Integer> right = cal545(root.right, false);
         // 叶子节点
         List<Integer> leaves = new ArrayList<>();
         dfsLeaves545(root, root, leaves);
-        // 右边界
-        List<Integer> right = cal545(root.right, false);
         List<Integer> res = new ArrayList<>();
         res.add(root.val);
         res.addAll(left);

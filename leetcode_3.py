@@ -7443,3 +7443,34 @@ class SegmentTree2940:
                 break
             node = node.parent
         return node.parent
+    
+    # 545. 二叉树的边界 (Boundary of Binary Tree) --plus
+    def boundaryOfBinaryTree(self, root: Optional[TreeNode]) -> List[int]:
+        def cal(node: Optional[TreeNode], is_left: bool):
+            res = []
+            while node:
+                # node 是叶子
+                if node.left is None and node.right is None:
+                    break
+                res.append(node.val)
+                node = node.left if is_left and node.left or not is_left and node.right is None else node.right
+            return res
+        def dfs(root: Optional[TreeNode], node: Optional[TreeNode]):
+            if node is None:
+                return
+            if node.left is None and node.right is None and node != root:
+                leaves.append(node.val)
+                return
+            dfs(root, node.left)
+            dfs(root, node.right)
+        
+        # 左边界
+        left = cal(root.left, True)
+        # 右边界
+        right = cal(root.right, False)
+        # 叶子
+        leaves = []
+        dfs(root, root)
+        return [root.val] + left + leaves + right[::-1]
+
+        
