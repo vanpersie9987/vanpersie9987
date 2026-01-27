@@ -7510,7 +7510,7 @@ class SegmentTree2940:
         dfs()
         return res
 
-    # 246. 中心对称数 (Strobogrammatic Number)
+    # 246. 中心对称数 (Strobogrammatic Number) --plus
     def isStrobogrammatic(self, num: str) -> bool:
         d = {"0": "0", "1": "1", "6": "9", "8": "8", "9": "6"}
         left = 0
@@ -7521,3 +7521,22 @@ class SegmentTree2940:
             left += 1
             right -= 1
         return left != right or num[left] in ["0", "1", "8"]
+
+    # 800. 相似 RGB 颜色 (Similar RGB Color) --plus
+    def similarRGB(self, color: str) -> str:
+        def cal(s: str) -> str:
+            val = int(s, 16)
+            first = int(s[0], 16)
+            diff = inf
+            res = -1
+            for i in range(max(0, first - 1), min(15, first + 1) + 1):
+                cur_val = i * 16 + i
+                if abs(val - cur_val) < diff:
+                    diff = abs(val - cur_val)
+                    res = cur_val
+            return format(res, "02x")
+
+        res = "#"
+        for i in range(1, len(color) - 1, 2):
+            res += cal(color[i : i + 2])
+        return res

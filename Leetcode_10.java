@@ -3888,7 +3888,7 @@ public class Leetcode_10 {
         return res;
     }
 
-    // 800. 相似 RGB 颜色 (Similar RGB Color)
+    // 800. 相似 RGB 颜色 (Similar RGB Color) --plus
     public String similarRGB(String color) {
         StringBuilder res = new StringBuilder();
         for (int i = 1; i < color.length() - 1; i += 2) {
@@ -3901,15 +3901,16 @@ public class Leetcode_10 {
     private String check800(String s) {
         int diff = Integer.MAX_VALUE;
         int val = Integer.parseInt(s, 16);
-        String res = "";
+        int res = 0;
         int first = Integer.parseInt(s.substring(0, 1), 16);
         for (int i = Math.max(0, first - 1); i <= Math.min(15, first + 1); ++i) {
             int candidate = i * 16 + i;
             if (Math.abs(candidate - val) < diff) {
                 diff = Math.abs(candidate - val);
-                res = String.format("%02x", candidate);
+                res = candidate;
+
             }
         }
-        return res;
+        return String.format("%02x", res);
     }
 }
