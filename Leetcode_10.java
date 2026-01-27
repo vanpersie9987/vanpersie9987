@@ -4016,4 +4016,34 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 1788. 最大化花园的美观度 (Maximize the Beauty of the Garden) --plus
+    public int maximumBeauty(int[] flowers) {
+        int n = flowers.length;
+        int[] pre = new int[n + 1];
+        for (int i = 0; i < n; ++i) {
+            pre[i + 1] = pre[i] + Math.max(0, flowers[i]);
+        }
+        Map<Integer, Integer> left = new HashMap<>();
+        Map<Integer, Integer> right = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            left.putIfAbsent(flowers[i], i);
+            right.put(flowers[i], i);
+        }
+        int res = Integer.MIN_VALUE;
+        for (int i = 0; i < n; ++i) {
+            int l = left.get(flowers[i]);
+            int r = right.get(flowers[i]);
+            if (l == r) {
+                continue;
+            }
+            int val = pre[r + 1] - pre[l];
+            if (flowers[i] < 0) {
+                val += flowers[i] * 2;
+            }
+            res = Math.max(res, val);
+        }
+        return res;
+
+    }
 }
