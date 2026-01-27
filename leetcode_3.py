@@ -7549,10 +7549,10 @@ class SegmentTree2940:
             if int(x) != i % 10:
                 continue
             l = len(str(i))
-            if int(s[max(0, i - l + 1): i + 1]) == i:
+            if int(s[max(0, i - l + 1) : i + 1]) == i:
                 res.append(i)
         return res
-    
+
     # 3807. 修复边以遍历图的最小成本 (Minimum Cost to Repair Edges to Traverse a Graph) --plus
     def minCost(self, n: int, edges: List[List[int]], k: int) -> int:
         def check(limit: int) -> bool:
@@ -7585,7 +7585,3 @@ class SegmentTree2940:
             else:
                 left = mid + 1
         return right + 1
-
-        
-
-        
