@@ -3108,9 +3108,10 @@ class SegmentTree2940:
             if x == n - 1:
                 return w
             for y, dw in g[x]:
-                if w + dw < dis[y]:
-                    dis[y] = w + dw
-                    heapq.heappush(q, (w + dw, y))
+                nw = w + dw
+                if nw < dis[y]:
+                    dis[y] = nw
+                    heapq.heappush(q, (nw, y))
         return -1
 
     # 3651. 带传送的最小路径成本 (Minimum Cost Path with Teleportations)
