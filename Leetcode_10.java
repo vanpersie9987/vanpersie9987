@@ -3930,4 +3930,55 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 3807. 修复边以遍历图的最小成本 (Minimum Cost to Repair Edges to Traverse a Graph) --plus
+    public int minCost(int n, int[][] edges, int k) {
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        int maxW = 0;
+        for (int[] e : edges) {
+            g[e[0]].add(new int[] { e[1], e[2] });
+            g[e[1]].add(new int[] { e[0], e[2] });
+            maxW = Math.max(maxW, e[2]);
+        }
+        if (!check3807(g, k, n, Integer.MAX_VALUE)) {
+            return -1;
+        }
+        int left = 0;
+        int right = maxW;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check3807(g, k, n, mid)) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+
+    }
+
+    private boolean check3807(List<int[]>[] g, int k, int n, int limit) {
+        boolean[] vis = new boolean[n];
+        vis[0] = true;
+        Queue<int[]> q = new ArrayDeque<>();
+        q.add(new int[] { 0, 0 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int d = cur[1];
+            if (x == n - 1) {
+                return true;
+            }
+            for (int[] neighbor : g[x]) {
+                int y = neighbor[0];
+                int w = neighbor[1];
+                if (!vis[y] && w <= limit && d + 1 <= k) {
+                    vis[y] = true;
+                    q.add(new int[] { y, d + 1 });
+                }
+            }
+        }
+        return false;
+    }
 }
