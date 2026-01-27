@@ -7655,3 +7655,34 @@ class SegmentTree2940:
         for x in range(1, mx + 1):
             pre.append((pre[-1] + getBlockRes(x)) % mod)
         return pre[n]
+
+    # 3787. 查找树的直径端点 (Find Diameter Endpoints of a Tree) --plus
+    # 找到树中一条直径的方法：对任意一个点 DFS 找到最远点，然后对这个点进行第二次相同的 DFS 找另一个最远点，得到的路径就是直径
+    # 找树中所有直径端点的方法：稍作修改，对任意一个点 DFS 找到的所有最远点加入集合；从其中一个最远点进行第二次 DFS 找到的所有最远点加入集合。可以证明，两个集合的并集即为答案。
+    def findSpecialNodes(self, n: int, edges: List[List[int]]) -> str:
+        def dfs(x: int, fa: int, d: int, s: set):
+            nonlocal max_dis, node
+            if d > max_dis:
+                max_dis = d
+                s.clear()
+                s.add(x)
+                node = x
+            elif d == max_dis:
+                s.add(x)
+            for y in g[x]:
+                if y != fa:
+                    dfs(y, x, d + 1, s)
+
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        s = set()
+        max_dis = 0
+        node = -1
+        dfs(0, -1, 0, s)
+        max_dis = 0
+        s2 = set()
+        dfs(node, -1, 0, s2)
+        s |= s2
+        return "".join("1" if i in s else "0" for i in range(n))
