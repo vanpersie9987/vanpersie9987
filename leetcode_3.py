@@ -7612,3 +7612,27 @@ class SegmentTree2940:
             if right[id] != -1 and i - right[id] == min_dis:
                 res += 1
         return res
+
+    # 1788. 最大化花园的美观度 (Maximize the Beauty of the Garden) --plus
+    def maximumBeauty(self, flowers: List[int]) -> int:
+        n = len(flowers)
+        left = defaultdict(int)
+        right = defaultdict(int)
+        pre = [0] * (n + 1)
+        for i, x in enumerate(flowers):
+            pre[i + 1] = pre[i] + max(0, x)
+            if x not in left:
+                left[x] = i
+            right[x] = i
+        res = -inf
+        for i, x in enumerate(flowers):
+            l = left[x]
+            r = right[x]
+            if l == r:
+                continue
+            total = pre[r + 1] - pre[l]
+            if x < 0:
+                total += x * 2
+            res = max(res, total)
+        return res
+

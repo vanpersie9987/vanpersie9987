@@ -4044,6 +4044,5 @@ public class Leetcode_10 {
             res = Math.max(res, val);
         }
         return res;
-
     }
 }
