@@ -3982,7 +3982,8 @@ public class Leetcode_10 {
         return false;
     }
 
-    // 1794. 统计距离最小的子串对个数 (Count Pairs of Equal Substrings With Minimum Difference) --plus
+    // 1794. 统计距离最小的子串对个数 (Count Pairs of Equal Substrings With Minimum Difference)
+    // --plus
     public int countQuadruples(String firstString, String secondString) {
         int[] left = new int[26];
         Arrays.fill(left, -1);
@@ -4020,13 +4021,11 @@ public class Leetcode_10 {
     // 1788. 最大化花园的美观度 (Maximize the Beauty of the Garden) --plus
     public int maximumBeauty(int[] flowers) {
         int n = flowers.length;
+        Map<Integer, Integer> left = new HashMap<>();
+        Map<Integer, Integer> right = new HashMap<>();
         int[] pre = new int[n + 1];
         for (int i = 0; i < n; ++i) {
             pre[i + 1] = pre[i] + Math.max(0, flowers[i]);
-        }
-        Map<Integer, Integer> left = new HashMap<>();
-        Map<Integer, Integer> right = new HashMap<>();
-        for (int i = 0; i < n; ++i) {
             left.putIfAbsent(flowers[i], i);
             right.put(flowers[i], i);
         }
@@ -4037,10 +4036,7 @@ public class Leetcode_10 {
             if (l == r) {
                 continue;
             }
-            int val = pre[r + 1] - pre[l];
-            if (flowers[i] < 0) {
-                val += flowers[i] * 2;
-            }
+            int val = pre[r + 1] - pre[l] + Math.min(0, flowers[l]) * 2;
             res = Math.max(res, val);
         }
         return res;

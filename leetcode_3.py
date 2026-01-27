@@ -7630,9 +7630,6 @@ class SegmentTree2940:
             r = right[x]
             if l == r:
                 continue
-            total = pre[r + 1] - pre[l]
-            if x < 0:
-                total += x * 2
+            total = pre[r + 1] - pre[l] + min(0, x) * 2
             res = max(res, total)
         return res
-
