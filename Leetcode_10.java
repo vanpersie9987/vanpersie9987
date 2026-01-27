@@ -3981,4 +3981,39 @@ public class Leetcode_10 {
         }
         return false;
     }
+
+    // 1794. 统计距离最小的子串对个数 (Count Pairs of Equal Substrings With Minimum Difference) --plus
+    public int countQuadruples(String firstString, String secondString) {
+        int[] left = new int[26];
+        Arrays.fill(left, -1);
+        for (int i = 0; i < firstString.length(); ++i) {
+            int id = firstString.charAt(i) - 'a';
+            if (left[id] == -1) {
+                left[id] = i;
+            }
+        }
+        int[] right = new int[26];
+        Arrays.fill(right, -1);
+        for (int i = secondString.length() - 1; i >= 0; --i) {
+            int id = secondString.charAt(i) - 'a';
+            if (right[id] == -1) {
+                right[id] = i;
+            }
+        }
+        int minLen = Integer.MAX_VALUE;
+        for (int i = 0; i < 26; ++i) {
+            if (left[i] != -1 && right[i] != -1) {
+                minLen = Math.min(minLen, left[i] - right[i]);
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < firstString.length(); ++i) {
+            int id = firstString.charAt(i) - 'a';
+            if (right[id] != -1 && i - right[id] == minLen) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
 }
