@@ -4060,4 +4060,52 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 3787. 查找树的直径端点 (Find Diameter Endpoints of a Tree) --plus
+    /**
+     * 1、找到树中一条直径的方法：对任意一个点 DFS 找到最远点，然后对这个点进行第二次相同的 DFS 找另一个最远点，得到的路径就是直径
+     * 2、找树中所有直径端点的方法：稍作修改，对任意一个点 DFS 找到的所有最远点加入集合；从其中一个最远点进行第二次 DFS
+     * 找到的所有最远点加入集合。可以证明，两个集合的并集即为答案。
+     */
+    private int maxDepth3787;
+    private int node3787;
+    public String findSpecialNodes(int n, int[][] edges) {
+        List<Integer>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[0]].add(e[1]);
+            g[e[1]].add(e[0]);
+        }
+        Set<Integer> s1 = new HashSet<>();
+        dfs3787(0, -1, g, 0, s1);
+        Set<Integer> s2 = new HashSet<>();
+        dfs3787(node3787, -1, g, 0, s2);
+        s1.addAll(s2);
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < n; ++i) {
+            if (s1.contains(i)) {
+                res.append('1');
+            } else {
+                res.append('0');
+            }
+        }
+        return res.toString();
+
+    }
+
+    private void dfs3787(int x, int fa, List<Integer>[] g, int d, Set<Integer> s) {
+        if (d > maxDepth3787) {
+            maxDepth3787 = d;
+            s.clear();
+            s.add(x);
+            node3787 = x;
+        } else if (d == maxDepth3787) {
+            s.add(x);
+        }
+        for (int y : g[x]) {
+            if (y != fa) {
+                dfs3787(y, x, g, d + 1, s);
+            }
+        }
+    }
 }
