@@ -7540,3 +7540,15 @@ class SegmentTree2940:
         for i in range(1, len(color) - 1, 2):
             res += cal(color[i : i + 2])
         return res
+
+    # 3817. 数字字符串中的好索引 (Good Indices in a Digit String) --plus
+    def goodIndices(self, s: str) -> List[int]:
+        res = []
+        for i, x in enumerate(s):
+            # 最后一位不相等
+            if int(x) != i % 10:
+                continue
+            l = len(str(i))
+            if int(s[max(0, i - l + 1): i + 1]) == i:
+                res.append(i)
+        return res

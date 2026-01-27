@@ -3913,4 +3913,21 @@ public class Leetcode_10 {
         }
         return String.format("%02x", res);
     }
+
+    // 3817. 数字字符串中的好索引 (Good Indices in a Digit String) --plus
+    public List<Integer> goodIndices(String s) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < s.length(); ++i) {
+            int len = String.valueOf(i).length();
+            // 最后一位不相等
+            if (s.charAt(i) - '0' != i % 10) {
+                continue;
+            }
+            if (Integer.parseInt(s.substring(Math.max(0, i - len + 1), i + 1)) == i) {
+                res.add(i);
+            }
+        }
+        return res;
+
+    }
 }
