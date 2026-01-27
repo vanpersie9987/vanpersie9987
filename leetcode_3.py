@@ -7585,3 +7585,30 @@ class SegmentTree2940:
             else:
                 left = mid + 1
         return right + 1
+
+    # 1794. 统计距离最小的子串对个数 (Count Pairs of Equal Substrings With Minimum Difference) --plus
+    def countQuadruples(self, firstString: str, secondString: str) -> int:
+        left = [-1] * 26
+        for i, x in enumerate(firstString):
+            id = ord(x) - ord("a")
+            if left[id] == -1:
+                left[id] = i
+        right = [-1] * 26
+        for i in range(len(secondString) - 1, -1, -1):
+            x = secondString[i]
+            id = ord(x) - ord("a")
+            if right[id] == -1:
+                right[id] = i
+        res = 0
+        min_dis = inf
+        for i in range(26):
+            if left[i] != -1 and right[i] != -1:
+                dis = left[i] - right[i]
+                min_dis = min(min_dis, dis)
+        if min_dis == inf:
+            return 0
+        for i, x in enumerate(firstString):
+            id = ord(x) - ord("a")
+            if right[id] != -1 and i - right[id] == min_dis:
+                res += 1
+        return res
