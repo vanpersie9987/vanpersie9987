@@ -4041,4 +4041,23 @@ public class Leetcode_10 {
         }
         return res;
     }
+
+    // 3792. 递增乘积块之和 (Sum of Increasing Product Blocks) --plus
+    public int sumOfBlocks(int n) {
+        final int MOD = (int) (1e9 + 7);
+        int res = 0;
+        int cnt = 0;
+        int x = 1;
+        for (int i = 1; i <= n; ++i) {
+            ++cnt;
+            int val = 1;
+            for (int j = x; j < x + cnt; ++j) {
+                val = (int) ((long) val * j % MOD);
+            }
+            res = (res + val) % MOD;
+            x += cnt;
+        }
+        return res;
+
+    }
 }

@@ -7633,3 +7633,25 @@ class SegmentTree2940:
             total = pre[r + 1] - pre[l] + min(0, x) * 2
             res = max(res, total)
         return res
+
+    # 3792. 递增乘积块之和 (Sum of Increasing Product Blocks)
+    def sumOfBlocks(self, n: int) -> int:
+        # 此段代码写在class之外可通过
+        # 预处理，计算每个block的值
+        mod = 10**9 + 7
+
+        def getBlockRes(n: int) -> int:
+            start = (1 + n - 1) * (n - 1) // 2 + 1
+            end = start + n - 1
+            res = 1
+            for num in range(start, end + 1):
+                res *= num
+                res %= mod
+            return res
+
+        # 预处理，前缀和
+        mx = 1000
+        pre = [0]
+        for x in range(1, mx + 1):
+            pre.append((pre[-1] + getBlockRes(x)) % mod)
+        return pre[n]
