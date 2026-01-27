@@ -9133,9 +9133,10 @@ public class Leetcode_9 {
             for (int[] nxt : g[x]) {
                 int y = nxt[0];
                 int dw = nxt[1];
-                if (w + dw < dis[y]) {
-                    dis[y] = w + dw;
-                    q.offer(new int[] { w + dw, y });
+                int nw = w + dw;
+                if (nw < dis[y]) {
+                    dis[y] = nw;
+                    q.offer(new int[] { nw, y });
                 }
             }
         }
