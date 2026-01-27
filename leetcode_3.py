@@ -7634,7 +7634,7 @@ class SegmentTree2940:
             res = max(res, total)
         return res
 
-    # 3792. 递增乘积块之和 (Sum of Increasing Product Blocks)
+    # 3792. 递增乘积块之和 (Sum of Increasing Product Blocks) --plus
     def sumOfBlocks(self, n: int) -> int:
         # 此段代码写在class之外可通过
         # 预处理，计算每个block的值
