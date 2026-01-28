@@ -7696,36 +7696,32 @@ class SegmentTree2940:
             return max(0, dfs(i + 1, -j) + nums[i] * j)
         n = len(nums)
         return max(dfs(i + 1, -1) + x for i, x in enumerate(nums))
-    
+
     # 3822. 设计订单管理系统 (Design Order Management System) --plus
     class OrderManagementSystem:
 
         def __init__(self):
             self.id_type_price = defaultdict(tuple)
             self.type_price_orders = defaultdict(lambda: defaultdict(set))
-            
 
         def addOrder(self, orderId: int, orderType: str, price: int) -> None:
             self.id_type_price[orderId] = (orderType, price)
             self.type_price_orders[orderType][price].add(orderId)
-            
 
         def modifyOrder(self, orderId: int, newPrice: int) -> None:
             orderType, oldPrice = self.id_type_price[orderId]
             self.type_price_orders[orderType][oldPrice].remove(orderId)
             self.type_price_orders[orderType][newPrice].add(orderId)
             self.id_type_price[orderId] = (orderType, newPrice)
-            
 
         def cancelOrder(self, orderId: int) -> None:
             orderType, price = self.id_type_price[orderId]
             del self.id_type_price[orderId]
             self.type_price_orders[orderType][price].remove(orderId)
-            
 
         def getOrdersAtPrice(self, orderType: str, price: int) -> List[int]:
             return [id for id in self.type_price_orders[orderType][price]]
-    
+
     # 3167. 字符串的更好压缩 (Better Compression of String) --plus
     def betterCompression(self, compressed: str) -> str:
         cnt = [0] * 26
@@ -7744,11 +7740,21 @@ class SegmentTree2940:
             if cnt[i] > 0:
                 res.append(chr(i + ord("a")) + str(cnt[i]))
         return "".join(res)
-    
+
     # 3173. 相邻元素的按位或 (Bitwise OR of Adjacent Elements) --plus
     def orArray(self, nums: List[int]) -> List[int]:
         return [x | y for x, y in pairwise(nums)]
-        
-        
 
-
+    # 3062. 链表游戏的获胜者 (Winner of the Linked List Game)
+    def gameResult(self, head: Optional[ListNode]) -> str:
+        cnt = [0] * 2
+        while head:
+            even, odd = head.val, head.next.val
+            if even != odd:
+                cnt[odd > even] += 1
+            head = head.next.next
+        if cnt[0] > cnt[1]:
+            return "Even"
+        if cnt[0] < cnt[1]:
+            return "Odd"
+        return "Tie"
