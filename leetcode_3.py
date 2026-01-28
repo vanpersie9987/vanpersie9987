@@ -7774,3 +7774,16 @@ class SegmentTree2940:
                 j += 1
             res += i - j + 1
         return res
+
+    # 3773. 最大等长连续字符组 (Maximum Number of Equal Length Runs) --plus
+    def maxSameLengthRuns(self, s: str) -> int:
+        d = defaultdict(int)
+        cnt = 0
+        res = 0
+        for i, c in enumerate(s):
+            cnt += 1
+            if i == len(s) - 1 or s[i + 1] != c:
+                d[cnt] += 1
+                res = max(res, d[cnt])
+                cnt = 0
+        return res
