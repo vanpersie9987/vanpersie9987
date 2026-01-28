@@ -4196,23 +4196,21 @@ public class Leetcode_10 {
 
     // 3167. 字符串的更好压缩 (Better Compression of String) --plus
     public String betterCompression(String compressed) {
-        BigInteger[] cnts = new BigInteger[26];
-        Arrays.fill(cnts, BigInteger.ZERO);
+        int[] cnts = new int[26];
         int i = 0;
         while (i < compressed.length()) {
             char c = compressed.charAt(i++);
-            StringBuilder sb = new StringBuilder();
+            int cnt = 0;
             while (i < compressed.length() && Character.isDigit(compressed.charAt(i))) {
-                sb.append(compressed.charAt(i++));
+                cnt = cnt * 10 + (compressed.charAt(i++) - '0');
             }
-            BigInteger count = new BigInteger(sb.toString());
-            cnts[c - 'a'] = cnts[c - 'a'].add(count);
+            cnts[c - 'a'] += cnt;
         }
         StringBuilder res = new StringBuilder();
         for (int j = 0; j < 26; ++j) {
-            if (cnts[j].compareTo(BigInteger.ZERO) > 0) {
+            if (cnts[j] > 0) {
                 res.append((char) (j + 'a'));
-                res.append(cnts[j].toString());
+                res.append(cnts[j]);
             }
         }
         return res.toString();
