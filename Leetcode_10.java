@@ -4293,7 +4293,33 @@ public class Leetcode_10 {
     }
 
     // 3247. 奇数和子序列的数量 (Number of Subsequences with Odd Sum) --plus
+    private int[][] memo3247;
+    private int[] nums3247;
+
     public int subsequenceCount(int[] nums) {
+        int n = nums.length;
+        this.memo3247 = new int[n][2];
+        this.nums3247 = nums;
+        for (int[] row : memo3247) {
+            Arrays.fill(row, -1);
+        }
+        return dfs3247(n - 1, 0);
+
+    }
+
+    private int dfs3247(int i, int j) {
+        if (i < 0) {
+            return j;
+        }
+        if (memo3247[i][j] != -1) {
+            return memo3247[i][j];
+        }
+        final int MOD = (int) (1e9 + 7);
+        return memo3247[i][j] = (dfs3247(i - 1, j) + dfs3247(i - 1, (j + nums3247[i]) & 1)) % MOD;
+    }
+
+    // 3247. 奇数和子序列的数量 (Number of Subsequences with Odd Sum) --plus
+    public int subsequenceCount2(int[] nums) {
         int[] cnts = new int[2];
         for (int x : nums) {
             ++cnts[x & 1];
