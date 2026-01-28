@@ -7758,3 +7758,18 @@ class SegmentTree2940:
         if cnt[0] < cnt[1]:
             return "Odd"
         return "Tie"
+
+    # 2743. 计算没有重复字符的子字符串数量 (Count Substrings Without Repeating Character) --plus
+    def numberOfSpecialSubstrings(self, s: str) -> int:
+        cnts = [0] * 26
+        j = 0
+        res = 0
+        for i, x in enumerate(s):
+            id = ord(x) - ord("a")
+            cnts[id] += 1
+            while cnts[id] > 1:
+                id_j = ord(s[j]) - ord("a")
+                cnts[id_j] -= 1
+                j += 1
+            res += i - j + 1
+        return res
