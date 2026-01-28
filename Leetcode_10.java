@@ -4358,4 +4358,36 @@ public class Leetcode_10 {
 
     }
 
+    // 3758. 将数字词转换为数字 (Convert Number Words to Digits) --plus
+    public String convertNumber(String s) {
+        Map<String, Character> map = new HashMap<>() {
+            {
+                put("zero", '0');
+                put("one", '1');
+                put("two", '2');
+                put("three", '3');
+                put("four", '4');
+                put("five", '5');
+                put("six", '6');
+                put("seven", '7');
+                put("eight", '8');
+                put("nine", '9');
+            }
+        };
+        int i = 0;
+        StringBuilder res = new StringBuilder();
+        search: while (i < s.length()) {
+            for (String key : map.keySet()) {
+                if (s.startsWith(key, i)) {
+                    res.append(map.get(key));
+                    i += key.length();
+                    continue search;
+                }
+            }
+            ++i;
+        }
+        return res.toString();
+
+    }
+
 }
