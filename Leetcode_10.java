@@ -4139,4 +4139,58 @@ public class Leetcode_10 {
         }
         return memo2036[i][j] = Math.max(0L, dfs2036(i + 1, j ^ 1) + (1 - j * 2) * nums2036[i]);
     }
+
+    // 3822. 设计订单管理系统 (Design Order Management System) --plus
+    class OrderManagementSystem {
+        private record Order(String orderType, int orderPrice) {
+        }
+
+        private Map<Integer, Order> idToOrder;
+        private Map<String, Map<Integer, Set<Integer>>> typeToPriceIds;
+
+        public OrderManagementSystem() {
+            this.idToOrder = new HashMap<>();
+            this.typeToPriceIds = new HashMap<>();
+
+        }
+
+        public void addOrder(int orderId, String orderType, int price) {
+            idToOrder.put(orderId, new Order(orderType, price));
+            typeToPriceIds
+                    .computeIfAbsent(orderType, o -> new HashMap<>())
+                    .computeIfAbsent(price, o -> new HashSet<>())
+                    .add(orderId);
+        }
+
+        public void modifyOrder(int orderId, int newPrice) {
+            Order oldOrder = idToOrder.remove(orderId);
+            String orderType = oldOrder.orderType;
+            int oldPrice = oldOrder.orderPrice;
+            idToOrder.put(orderId, new Order(orderType, newPrice));
+            typeToPriceIds.get(orderType).get(oldPrice).remove(orderId);
+            typeToPriceIds
+                    .get(orderType)
+                    .computeIfAbsent(newPrice, o -> new HashSet<>())
+                    .add(orderId);
+        }
+
+        public void cancelOrder(int orderId) {
+            Order oldOrder = idToOrder.remove(orderId);
+            String orderType = oldOrder.orderType;
+            int oldPrice = oldOrder.orderPrice;
+            typeToPriceIds.get(orderType).get(oldPrice).remove(orderId);
+        }
+
+        public int[] getOrdersAtPrice(String orderType, int price) {
+            Set<Integer> ids = typeToPriceIds.getOrDefault(orderType, new HashMap<>()).getOrDefault(price,
+                    new HashSet<>());
+            int[] res = new int[ids.size()];
+            int i = 0;
+            for (int id : ids) {
+                res[i++] = id;
+            }
+            return res;
+        }
+    }
+
 }
