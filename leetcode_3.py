@@ -7787,3 +7787,16 @@ class SegmentTree2940:
                 res = max(res, d[cnt])
                 cnt = 0
         return res
+
+    # 3063. 链表频率 (Linked List Frequency) --plus
+    def frequenciesOfElements(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        cnts = defaultdict(int)
+        while head:
+            cnts[head.val] += 1
+            head = head.next
+        dummy = ListNode(0)
+        cur = dummy
+        for c in cnts.values():
+            cur.next = ListNode(c)
+            cur = cur.next
+        return dummy.next

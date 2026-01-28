@@ -4275,4 +4275,21 @@ public class Leetcode_10 {
         return res;
     }
 
+    // 3063. 链表频率 (Linked List Frequency) --plus
+    public ListNode frequenciesOfElements(ListNode head) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        while (head != null) {
+            freq.merge(head.val, 1, Integer::sum);
+            head = head.next;
+        }
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        for (int f : freq.values()) {
+            cur.next = new ListNode(f);
+            cur = cur.next;
+        }
+        return dummy.next;
+
+    }
+
 }
