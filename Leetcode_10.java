@@ -4292,4 +4292,24 @@ public class Leetcode_10 {
 
     }
 
+    // 3247. 奇数和子序列的数量 (Number of Subsequences with Odd Sum) --plus
+    public int subsequenceCount(int[] nums) {
+        int[] cnts = new int[2];
+        for (int x : nums) {
+            ++cnts[x & 1];
+        }
+        final int MOD = (int) (1e9 + 7);
+        return cnts[1] == 0 ? 0 : (int) ((long) pow3247(2, cnts[0]) * pow3247(2, cnts[1] - 1) % MOD);
+    }
+
+    private int pow3247(int a, int b) {
+        if (b == 0) {
+            return 1;
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = pow3247(a, b >> 1);
+        res = (int) ((long) res * res % MOD);
+        return (b & 1) == 1 ? (int) ((long) res * a % MOD) : res;
+    }
+
 }
