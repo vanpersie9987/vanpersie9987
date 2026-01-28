@@ -4338,4 +4338,24 @@ public class Leetcode_10 {
         return (b & 1) == 1 ? (int) ((long) res * a % MOD) : res;
     }
 
+    // 3763. 带阈值约束的最大总和 (Maximum Total Sum with Threshold Constraints) --plus
+    public long maxSum(int[] nums, int[] threshold) {
+        int n = nums.length;
+        int[][] a = new int[n][2];
+        for (int i = 0; i < n; ++i) {
+            a[i][0] = nums[i];
+            a[i][1] = threshold[i];
+        }
+        Arrays.sort(a, (o1, o2) -> Integer.compare(o1[1], o2[1]));
+        long res = 0L;
+        for (int step = 0; step < n; ++step) {
+            if (a[step][1] > step + 1) {
+                break;
+            }
+            res += a[step][0];
+        }
+        return res;
+
+    }
+
 }
