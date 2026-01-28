@@ -4259,7 +4259,7 @@ public class Leetcode_10 {
 
     }
 
-    // 3773. 最大等长连续字符组 (Maximum Number of Equal Length Runs)
+    // 3773. 最大等长连续字符组 (Maximum Number of Equal Length Runs) --plus
     public int maxSameLengthRuns(String s) {
         int res = 0;
         int cnt = 0;
