@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -4191,6 +4192,32 @@ public class Leetcode_10 {
             }
             return res;
         }
+    }
+
+    // 3167. 字符串的更好压缩 (Better Compression of String) --plus
+    public String betterCompression(String compressed) {
+        BigInteger[] cnts = new BigInteger[26];
+        Arrays.fill(cnts, BigInteger.ZERO);
+        int i = 0;
+        while (i < compressed.length()) {
+            char c = compressed.charAt(i++);
+            StringBuilder sb = new StringBuilder();
+            while (i < compressed.length() && Character.isDigit(compressed.charAt(i))) {
+                sb.append(compressed.charAt(i++));
+            }
+            BigInteger count = new BigInteger(sb.toString());
+            cnts[c - 'a'] = cnts[c - 'a'].add(count);
+        }
+        StringBuilder res = new StringBuilder();
+        for (int j = 0; j < 26; ++j) {
+            if (cnts[j].compareTo(BigInteger.ZERO) > 0) {
+                res.append((char) (j + 'a'));
+                res.append(cnts[j].toString());
+            }
+        }
+        return res.toString();
+
+
     }
 
 }
