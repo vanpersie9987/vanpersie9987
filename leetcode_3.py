@@ -7819,3 +7819,14 @@ class SegmentTree2940:
             cnts[x & 1] += 1
         MOD = 10**9 + 7
         return (pow(2, cnts[1] - 1, MOD) * pow(2, cnts[0], MOD)) % MOD if cnts[1] else 0
+    
+    # 3763. 带阈值约束的最大总和 (Maximum Total Sum with Threshold Constraints) --plus
+    def maxSum(self, nums: List[int], threshold: List[int]) -> int:
+        a = [(t, x) for t, x in zip(threshold, nums)]
+        a.sort()
+        res = 0
+        for i, (t, x) in enumerate(a):
+            if t > i + 1:
+                break
+            res += x
+        return res
