@@ -4069,6 +4069,7 @@ public class Leetcode_10 {
      */
     private int maxDepth3787;
     private int node3787;
+
     public String findSpecialNodes(int n, int[][] edges) {
         List<Integer>[] g = new ArrayList[n];
         Arrays.setAll(g, o -> new ArrayList<>());
@@ -4107,5 +4108,35 @@ public class Leetcode_10 {
                 dfs3787(y, x, g, d + 1, s);
             }
         }
+    }
+
+    // 2036. 最大交替子数组和 (Maximum Alternating Subarray Sum) --plus
+    private int[] nums2036;
+    private int n2036;
+    private long[][] memo2036;
+
+    public long maximumAlternatingSubarraySum(int[] nums) {
+        this.n2036 = nums.length;
+        this.nums2036 = nums;
+        this.memo2036 = new long[n2036][2];
+        for (long[] row : memo2036) {
+            Arrays.fill(row, Long.MIN_VALUE);
+        }
+        long res = Long.MIN_VALUE;
+        for (int i = 0; i < n2036; ++i) {
+            res = Math.max(res, dfs2036(i + 1, 1) + nums[i]);
+        }
+        return res;
+
+    }
+
+    private long dfs2036(int i, int j) {
+        if (i == n2036) {
+            return 0L;
+        }
+        if (memo2036[i][j] != Long.MIN_VALUE) {
+            return memo2036[i][j];
+        }
+        return memo2036[i][j] = Math.max(0L, dfs2036(i + 1, j ^ 1) + (1 - j * 2) * nums2036[i]);
     }
 }

@@ -7690,9 +7690,9 @@ class SegmentTree2940:
     # 2036. 最大交替子数组和 (Maximum Alternating Subarray Sum) --plus
     def maximumAlternatingSubarraySum(self, nums: List[int]) -> int:
         @cache
-        def dfs(i: int, is_positive: bool) -> int:
+        def dfs(i: int, j: int) -> int:
             if i == n:
                 return 0
-            return max(0, dfs(i + 1, not is_positive) + (nums[i] if is_positive else -nums[i]))
+            return max(0, dfs(i + 1, -j) + nums[i] * j)
         n = len(nums)
-        return max(dfs(i + 1, False) + x for i, x in enumerate(nums))
+        return max(dfs(i + 1, -1) + x for i, x in enumerate(nums))
