@@ -7694,6 +7694,7 @@ class SegmentTree2940:
             if i == n:
                 return 0
             return max(0, dfs(i + 1, -j) + nums[i] * j)
+
         n = len(nums)
         return max(dfs(i + 1, -1) + x for i, x in enumerate(nums))
 

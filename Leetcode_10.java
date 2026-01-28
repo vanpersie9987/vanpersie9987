@@ -4157,9 +4157,7 @@ public class Leetcode_10 {
 
         public void addOrder(int orderId, String orderType, int price) {
             idToOrder.put(orderId, new Order(orderType, price));
-            typeToPriceIds
-                    .computeIfAbsent(orderType, o -> new HashMap<>())
-                    .computeIfAbsent(price, o -> new HashSet<>())
+            typeToPriceIds.computeIfAbsent(orderType, o -> new HashMap<>()).computeIfAbsent(price, o -> new HashSet<>())
                     .add(orderId);
         }
 
@@ -4169,10 +4167,7 @@ public class Leetcode_10 {
             int oldPrice = oldOrder.orderPrice;
             idToOrder.put(orderId, new Order(orderType, newPrice));
             typeToPriceIds.get(orderType).get(oldPrice).remove(orderId);
-            typeToPriceIds
-                    .get(orderType)
-                    .computeIfAbsent(newPrice, o -> new HashSet<>())
-                    .add(orderId);
+            typeToPriceIds.get(orderType).computeIfAbsent(newPrice, o -> new HashSet<>()).add(orderId);
         }
 
         public void cancelOrder(int orderId) {
@@ -4262,6 +4257,22 @@ public class Leetcode_10 {
         }
         return res;
 
+    }
+
+    // 3773. 最大等长连续字符组 (Maximum Number of Equal Length Runs)
+    public int maxSameLengthRuns(String s) {
+        int res = 0;
+        int cnt = 0;
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int i = 0; i < s.length(); ++i) {
+            ++cnt;
+            if (i == s.length() - 1 || s.charAt(i) != s.charAt(i + 1)) {
+                cnts.merge(cnt, 1, Integer::sum);
+                res = Math.max(res, cnts.get(cnt));
+                cnt = 0;
+            }
+        }
+        return res;
     }
 
 }
