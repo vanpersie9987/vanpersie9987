@@ -7800,3 +7800,13 @@ class SegmentTree2940:
             cur.next = ListNode(c)
             cur = cur.next
         return dummy.next
+
+    # 3247. 奇数和子序列的数量 (Number of Subsequences with Odd Sum)
+    def subsequenceCount(self, nums: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return j
+            return dfs(i + 1, j) + dfs(i + 1, (j + nums[i]) & 1)
+        n = len(nums)
+        return dfs(0, 0)
