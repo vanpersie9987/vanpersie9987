@@ -7807,6 +7807,16 @@ class SegmentTree2940:
         def dfs(i: int, j: int) -> int:
             if i == n:
                 return j
-            return dfs(i + 1, j) + dfs(i + 1, (j + nums[i]) & 1)
+            return (dfs(i + 1, j) + dfs(i + 1, (j + nums[i]) & 1)) % MOD
+
         n = len(nums)
+        MOD = 10**9 + 7
         return dfs(0, 0)
+
+    # 3247. 奇数和子序列的数量 (Number of Subsequences with Odd Sum) --plus
+    def subsequenceCount(self, nums: List[int]) -> int:
+        cnts = [0] * 2
+        for x in nums:
+            cnts[x & 1] += 1
+        MOD = 10**9 + 7
+        return (pow(2, cnts[1] - 1, MOD) * pow(2, cnts[0], MOD)) % MOD if cnts[1] else 0
