@@ -7744,6 +7744,11 @@ class SegmentTree2940:
             if cnt[i] > 0:
                 res.append(chr(i + ord("a")) + str(cnt[i]))
         return "".join(res)
+    
+    # 3173. 相邻元素的按位或 (Bitwise OR of Adjacent Elements) --plus
+    def orArray(self, nums: List[int]) -> List[int]:
+        return [x | y for x, y in pairwise(nums)]
+        
         
 
 
