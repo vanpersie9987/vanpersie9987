@@ -7819,7 +7819,7 @@ class SegmentTree2940:
             cnts[x & 1] += 1
         MOD = 10**9 + 7
         return (pow(2, cnts[1] - 1, MOD) * pow(2, cnts[0], MOD)) % MOD if cnts[1] else 0
-    
+
     # 3763. 带阈值约束的最大总和 (Maximum Total Sum with Threshold Constraints) --plus
     def maxSum(self, nums: List[int], threshold: List[int]) -> int:
         a = [(t, x) for t, x in zip(threshold, nums)]
@@ -7830,3 +7830,31 @@ class SegmentTree2940:
                 break
             res += x
         return res
+
+    # 3758. 将数字词转换为数字 (Convert Number Words to Digits) --plus
+    def convertNumber(self, s: str) -> str:
+        d = {
+            "zero": "0",
+            "one": "1",
+            "two": "2",
+            "three": "3",
+            "four": "4",
+            "five": "5",
+            "six": "6",
+            "seven": "7",
+            "eight": "8",
+            "nine": "9",
+        }
+        res = []
+        i = 0
+        n = len(s)
+        while i < n:
+            for w in d.keys():
+                m = len(w)
+                if s[i : i + m] == w:
+                    res.append(d[w])
+                    i += m
+                    break
+            else:
+                i += 1
+        return "".join(res)
