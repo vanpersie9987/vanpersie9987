@@ -7725,6 +7725,25 @@ class SegmentTree2940:
 
         def getOrdersAtPrice(self, orderType: str, price: int) -> List[int]:
             return [id for id in self.type_price_orders[orderType][price]]
+    
+    # 3167. 字符串的更好压缩 (Better Compression of String) --plus
+    def betterCompression(self, compressed: str) -> str:
+        cnt = [0] * 26
+        i = 0
+        n = len(compressed)
+        while i < n:
+            j = i + 1
+            while j < n and compressed[j].isdigit():
+                j += 1
+            count = int(compressed[i + 1 : j])
+            id = ord(compressed[i]) - ord("a")
+            cnt[id] += count
+            i = j
+        res = []
+        for i in range(26):
+            if cnt[i] > 0:
+                res.append(chr(i + ord("a")) + str(cnt[i]))
+        return "".join(res)
         
 
 
