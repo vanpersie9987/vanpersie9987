@@ -4248,4 +4248,20 @@ public class Leetcode_10 {
 
     }
 
+    // 2743. 计算没有重复字符的子字符串数量 (Count Substrings Without Repeating Characters) --plus
+    public int numberOfSpecialSubstrings(String s) {
+        int[] cnts = new int[26];
+        int res = 0;
+        int j = 0;
+        for (int i = 0; i < s.length(); ++i) {
+            ++cnts[s.charAt(i) - 'a'];
+            while (cnts[s.charAt(i) - 'a'] > 1) {
+                --cnts[s.charAt(j++) - 'a'];
+            }
+            res += i - j + 1;
+        }
+        return res;
+
+    }
+
 }
