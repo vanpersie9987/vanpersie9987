@@ -4215,6 +4215,15 @@ public class Leetcode_10 {
         }
         return res.toString();
 
+    }
+    
+    // 3173. 相邻元素的按位或 (Bitwise OR of Adjacent Elements) --plus
+    public int[] orArray(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < nums.length - 1; ++i) {
+            res.add(nums[i] | nums[i + 1]);
+        }
+        return res.stream().mapToInt(Integer::intValue).toArray();
 
     }
 
