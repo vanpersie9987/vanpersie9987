@@ -7745,7 +7745,7 @@ class SegmentTree2940:
     def orArray(self, nums: List[int]) -> List[int]:
         return [x | y for x, y in pairwise(nums)]
 
-    # 3062. 链表游戏的获胜者 (Winner of the Linked List Game)
+    # 3062. 链表游戏的获胜者 (Winner of the Linked List Game) --plus
     def gameResult(self, head: Optional[ListNode]) -> str:
         cnt = [0] * 2
         while head:

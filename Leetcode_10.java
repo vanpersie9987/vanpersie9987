@@ -4216,7 +4216,7 @@ public class Leetcode_10 {
         return res.toString();
 
     }
-    
+
     // 3173. 相邻元素的按位或 (Bitwise OR of Adjacent Elements) --plus
     public int[] orArray(int[] nums) {
         List<Integer> res = new ArrayList<>();
@@ -4224,6 +4224,27 @@ public class Leetcode_10 {
             res.add(nums[i] | nums[i + 1]);
         }
         return res.stream().mapToInt(Integer::intValue).toArray();
+
+    }
+
+    // 3062. 链表游戏的获胜者 (Winner of the Linked List Game) --plus
+    public String gameResult(ListNode head) {
+        int[] cnt = new int[2];
+        while (head != null) {
+            int even = head.val;
+            int odd = head.next.val;
+            if (even != odd) {
+                ++cnt[even > odd ? 0 : 1];
+            }
+            head = head.next.next;
+        }
+        if (cnt[0] > cnt[1]) {
+            return "Even";
+        }
+        if (cnt[0] < cnt[1]) {
+            return "Odd";
+        }
+        return "Tie";
 
     }
 
