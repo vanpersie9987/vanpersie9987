@@ -9059,33 +9059,39 @@ class leetcode_1:
         cost: List[int],
     ) -> int:
         def dijkstra(start: int) -> List[int]:
-            dis = [inf] * 26
+            dis = [inf] * n
             dis[start] = 0
             q = [(0, start)]
             heapq.heapify(q)
             while q:
-                cur = heapq.heappop(q)
-                d = cur[0]
-                x = cur[1]
-                for nxt in g[x]:
-                    y = nxt[0]
-                    dx = nxt[1]
-                    if d + dx < dis[y]:
-                        dis[y] = d + dx
-                        heapq.heappush(q, (dis[y], y))
+                x_d, x = heapq.heappop(q)
+                if x_d > dis[x]:
+                    continue
+                for y in range(n):
+                    dx = g[x][y]
+                    if dx == inf:
+                        continue
+                    if x_d + dx < dis[y]:
+                        dis[y] = x_d + dx
+                        heapq.heappush(q, (x_d + dx, y))
             return dis
 
-        g = [[] for _ in range(26)]
-        for ori, cha, cos in zip(original, changed, cost):
-            g[ord(ori) - ord("a")].append((ord(cha) - ord("a"), cos))
-        dis = [[inf] * 26 for _ in range(26)]
-        for i in range(26):
-            dis[i] = dijkstra(i)
+        n = 26
+        g = [[inf] * n for _ in range(n)]
+        for i in range(n):
+            g[i][i] = 0
+        for _original, _changed, _cost in zip(original, changed, cost):
+            u = ord(_original) - ord("a")
+            v = ord(_changed) - ord("a")
+            g[u][v] = min(g[u][v], _cost)
+        d = [dijkstra(start) for start in range(n)]
         res = 0
-        for s, t in zip(source, target):
-            if dis[ord(s) - ord("a")][ord(t) - ord("a")] == inf:
+        for _source, _target in zip(source, target):
+            u = ord(_source) - ord("a")
+            v = ord(_target) - ord("a")
+            if d[u][v] == inf:
                 return -1
-            res += dis[ord(s) - ord("a")][ord(t) - ord("a")]
+            res += d[u][v]
         return res
 
     # 2971. 找到最大周长的多边形 (Find Polygon With the Largest Perimeter)

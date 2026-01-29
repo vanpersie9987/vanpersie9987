@@ -7902,7 +7902,7 @@ class SegmentTree2940:
             res += f[n - 8]
         return res % MOD
     
-    # 3778. 排除一个最大权重边的最小距离 (Minimum Distance Excluding One Maximum Weighted Edge)
+    # 3778. 排除一个最大权重边的最小距离 (Minimum Distance Excluding One Maximum Weighted Edge) --plus
     def minCostExcludingMax(self, n: int, edges: List[List[int]]) -> int:
         g = [[] for _ in range(n)]
         for u, v, w in edges:

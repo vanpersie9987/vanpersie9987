@@ -5852,9 +5852,10 @@ public class Leetcode_8 {
 
     // 2976. 转换字符串的最小成本 I (Minimum Cost to Convert String I)
     public long minimumCost(String source, String target, char[] original, char[] changed, int[] cost) {
-        long[][] d = new long[26][];
-        int[][] g = new int[26][26];
-        for (int i = 0; i < 26; ++i) {
+        final int n = 26;
+        long[][] d = new long[n][];
+        int[][] g = new int[n][n];
+        for (int i = 0; i < n; ++i) {
             Arrays.fill(g[i], Integer.MAX_VALUE);
             g[i][i] = 0;
         }
@@ -5863,8 +5864,8 @@ public class Leetcode_8 {
             int v = changed[i] - 'a';
             g[u][v] = Math.min(g[u][v], cost[i]);
         }
-        for (int i = 0; i < 26; ++i) {
-            d[i] = dijkstra2976(g, i);
+        for (int i = 0; i < n; ++i) {
+            d[i] = dijkstra2976(g, i, n);
         }
         long res = 0L;
         for (int i = 0; i < source.length(); ++i) {
@@ -5879,8 +5880,8 @@ public class Leetcode_8 {
 
     }
 
-    private long[] dijkstra2976(int[][] g, int start) {
-        long[] dis = new long[26];
+    private long[] dijkstra2976(int[][] g, int start, int n) {
+        long[] dis = new long[n];
         Arrays.fill(dis, Long.MAX_VALUE);
         dis[start] = 0L;
         Queue<long[]> q = new PriorityQueue<>(new Comparator<long[]>() {
@@ -5897,7 +5898,7 @@ public class Leetcode_8 {
             long[] cur = q.poll();
             long d = cur[0];
             int x = (int) cur[1];
-            for (int y = 0; y < 26; ++y) {
+            for (int y = 0; y < n; ++y) {
                 if (g[x][y] < Integer.MAX_VALUE) {
                     int dx = g[x][y];
                     if (d + dx < dis[y]) {
