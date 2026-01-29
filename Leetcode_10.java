@@ -4390,6 +4390,52 @@ public class Leetcode_10 {
 
     }
 
+    // 3119. 最大数量的可修复坑洼 (Maximum Number of Potholes That Can Be Fixed) --plus
+    public int maxPotholes(String road, int budget) {
+        int n = road.length();
+        int i = 0;
+        Map<Integer, Integer> cnts = new HashMap<>();
+        while (i < n) {
+            if (road.charAt(i) == 'x') {
+                int j = i;
+                while (j < n && road.charAt(j) == 'x') {
+                    ++j;
+                }
+                cnts.merge(j - i, 1, Integer::sum);
+                i = j;
+            } else {
+                ++i;
+            }
+        }
+        int res = 0;
+        List<int[]> list = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : cnts.entrySet()) {
+            list.add(new int[] { entry.getKey(), entry.getValue() });
+        }
+        Collections.sort(list, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o2[0], o1[0]);
+            }
+
+        });
+        for (int[] p : list) {
+            int l = p[0];
+            int parts = p[1];
+            int completeParts = budget / (l + 1);
+            res += l * Math.min(parts, completeParts);
+            budget -= (l + 1) * Math.min(parts, completeParts);
+            parts -= Math.min(parts, completeParts);
+            if (parts > 0 && budget > 0) {
+                res += budget - 1;
+                break;
+            }
+        }
+        return res;
+
+    }
+
     private int[][][] memo;
     private int[] a = { 4, 2, 6 };
     private int n;
