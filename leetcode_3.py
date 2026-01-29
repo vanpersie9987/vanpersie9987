@@ -7950,3 +7950,55 @@ class SegmentTree2940:
         res = [[-1] * n for _ in range(m)]
         dfs(r, c, 0)
         return res
+
+    # 2852. 所有单元格的远离程度之和 (Sum of Remoteness of All Cells) --plus
+    def sumRemoteness(self, grid: List[List[int]]) -> int:
+        class union:
+            def __init__(self, n: int):
+                self.rank = [1] * n
+                self.parent = [i for i in range(n)]
+
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+
+            def is_connected(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+
+            def union(self, p1: int, p2: int) -> None:
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if r1 == r2:
+                    return
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r1] += 1
+
+        m, n = len(grid), len(grid[0])
+        total = 0
+        u = union(m * n)
+        for i in range(m):
+            for j in range(n):
+                total += max(0, grid[i][j])
+                if i - 1 >= 0 and grid[i][j] > 0 and grid[i - 1][j] > 0:
+                    u.union(i * n + j, (i - 1) * n + j)
+                if j - 1 >= 0 and grid[i][j] > 0 and grid[i][j - 1] > 0:
+                    u.union(i * n + j, i * n + j - 1)
+        group_sum = defaultdict(int)
+        group_cnt = defaultdict(int)
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] > 0:
+                    root = u.get_root(i * n + j)
+                    group_sum[root] += grid[i][j]
+                    group_cnt[root] += 1
+        res = 0
+        for root, cnt in group_cnt.items():
+            s = group_sum[root]
+            res += (total - s) * cnt
+        return res
