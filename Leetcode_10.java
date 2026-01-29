@@ -4557,7 +4557,8 @@ public class Leetcode_10 {
     private int m2664;
     private int n2664;
     private int[][] res2664;
-    private int[][] dirs2664 = { { 2, 1 }, { 1, 2 }, { -1, 2 }, { -2, 1 }, { -2, -1 }, { -1, -2 }, { 1, -2 }, { 2, -1 } };
+    private int[][] dirs2664 = { { 2, 1 }, { 1, 2 }, { -1, 2 }, { -2, 1 }, { -2, -1 }, { -1, -2 }, { 1, -2 },
+            { 2, -1 } };
 
     public int[][] tourOfKnight(int m, int n, int r, int c) {
         this.m2664 = m;
@@ -4570,21 +4571,19 @@ public class Leetcode_10 {
         return res2664;
     }
 
-    private boolean dfs2664(int x, int y, int id) {
-        res2664[x][y] = id;
-        if (id == m2664 * n2664 - 1) {
+    private boolean dfs2664(int x, int y, int step) {
+        res2664[x][y] = step;
+        if (step == m2664 * n2664 - 1) {
             return true;
         }
         for (int[] d : dirs2664) {
             int nx = x + d[0];
             int ny = y + d[1];
-            if (nx >= 0 && nx < m2664 && ny >= 0 && ny < n2664 && res2664[nx][ny] == -1) {
-                if (dfs2664(nx, ny, id + 1)) {
-                    return true;
-                }
-                res2664[nx][ny] = -1;
+            if (nx >= 0 && nx < m2664 && ny >= 0 && ny < n2664 && res2664[nx][ny] == -1 && dfs2664(nx, ny, step + 1)) {
+                return true;
             }
         }
+        res2664[x][y] = -1;
         return false;
     }
 

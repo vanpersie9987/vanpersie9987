@@ -7858,16 +7858,16 @@ class SegmentTree2940:
             else:
                 i += 1
         return "".join(res)
-    
+
     # 3119. 最大数量的可修复坑洼 (Maximum Number of Potholes That Can Be Fixed) --plus
     def maxPotholes(self, road: str, budget: int) -> int:
         cnts = defaultdict(int)
         i = 0
         n = len(road)
         while i < n:
-            if road[i] == 'x':
+            if road[i] == "x":
                 j = i
-                while j < n and road[j] == 'x':
+                while j < n and road[j] == "x":
                     j += 1
                 cnts[j - i] += 1
                 i = j
@@ -7885,7 +7885,7 @@ class SegmentTree2940:
                 res += budget - 1
                 break
         return res
-    
+
     # 3183. 达到总和的方法数量 (The Number of Ways to Make the Sum) --plus
     def numberOfWays(self, n: int) -> int:
         f = [0] * (n + 1)
@@ -7901,7 +7901,7 @@ class SegmentTree2940:
         if n >= 8:
             res += f[n - 8]
         return res % MOD
-    
+
     # 3778. 排除一个最大权重边的最小距离 (Minimum Distance Excluding One Maximum Weighted Edge) --plus
     def minCostExcludingMax(self, n: int, edges: List[List[int]]) -> int:
         g = [[] for _ in range(n)]
@@ -7927,3 +7927,26 @@ class SegmentTree2940:
                     dis[y][1] = d
                     heapq.heappush(q, (d, 1, y))
         return dis[n - 1][1]
+
+    # 2664. 巡逻的骑士 (The Knight’s Tour) --plus
+    def tourOfKnight(self, m: int, n: int, r: int, c: int) -> List[List[int]]:
+        def dfs(x: int, y: int, step: int) -> bool:
+            res[x][y] = step
+            if step == m * n - 1:
+                return True
+            for dx, dy in dirs:
+                nx, ny = x + dx, y + dy
+                if (
+                    0 <= nx < m
+                    and 0 <= ny < n
+                    and res[nx][ny] == -1
+                    and dfs(nx, ny, step + 1)
+                ):
+                    return True
+            res[x][y] = -1
+            return False
+
+        dirs = (2, 1), (1, 2), (-1, 2), (-2, 1), (-2, -1), (-1, -2), (1, -2), (2, -1)
+        res = [[-1] * n for _ in range(m)]
+        dfs(r, c, 0)
+        return res
