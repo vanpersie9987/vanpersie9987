@@ -5898,6 +5898,9 @@ public class Leetcode_8 {
             long[] cur = q.poll();
             long d = cur[0];
             int x = (int) cur[1];
+            if (d > dis[x]) {
+                continue;
+            }
             for (int y = 0; y < n; ++y) {
                 if (g[x][y] < Integer.MAX_VALUE) {
                     int dx = g[x][y];
