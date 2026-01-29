@@ -4478,4 +4478,29 @@ public class Leetcode_10 {
         return memo3183[i][j][k] = res % MOD;
     }
 
+    // 3183. 达到总和的方法数量 (The Number of Ways to Make the Sum) --plus
+    public int numberOfWays2(int n) {
+        final int MOD = (int) (1e9 + 7);
+        int[] f = new int[n + 1];
+        f[0] = 1;
+        for (int c : new int[] { 1, 2, 6 }) {
+            for (int i = c; i <= n; ++i) {
+                f[i] += f[i - c];
+                f[i] %= MOD;
+            }
+        }
+        int res = f[n];
+        if (n >= 4) {
+            res += f[n - 4];
+            res %= MOD;
+        }
+        if (n >= 8) {
+            res += f[n - 8];
+            res %= MOD;
+        }
+        return res;
+
+
+    }
+
 }
