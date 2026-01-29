@@ -8002,3 +8002,17 @@ class SegmentTree2940:
             s = group_sum[root]
             res += (total - s) * cnt
         return res
+
+    # 2847. 给定数字乘积的最小数字 (Smallest Number With Given Digit Product) --plus
+    def smallestNumber(self, n: int) -> str:
+        if n == 1:
+            return "1"
+        cnt = [0] * 10
+        for i in range(9, 1, -1):
+            while n % i == 0:
+                n //= i
+                cnt[i] += 1
+        if n != 1:
+            return "-1"
+        res = [str(i) * c for i, c in enumerate(cnt[2:], 2)]
+        return "".join(res)
