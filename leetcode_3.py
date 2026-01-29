@@ -7901,8 +7901,29 @@ class SegmentTree2940:
         if n >= 8:
             res += f[n - 8]
         return res % MOD
-
-        
-
-
-        
+    
+    # 3778. 排除一个最大权重边的最小距离 (Minimum Distance Excluding One Maximum Weighted Edge)
+    def minCostExcludingMax(self, n: int, edges: List[List[int]]) -> int:
+        g = [[] for _ in range(n)]
+        for u, v, w in edges:
+            g[u].append((v, w))
+            g[v].append((u, w))
+        dis = [[inf] * 2 for _ in range(n)]
+        dis[0][0] = 0
+        q = []
+        # (d, is_deleted, node)
+        q.append((0, 0, 0))
+        heapq.heapify(q)
+        while q:
+            d, is_deleted, x = heapq.heappop(q)
+            if d > dis[x][is_deleted]:
+                continue
+            for y, dx in g[x]:
+                nd = d + dx
+                if dis[y][is_deleted] > nd:
+                    dis[y][is_deleted] = nd
+                    heapq.heappush(q, (nd, is_deleted, y))
+                if not is_deleted and dis[y][1] > d:
+                    dis[y][1] = d
+                    heapq.heappush(q, (d, 1, y))
+        return dis[n - 1][1]
