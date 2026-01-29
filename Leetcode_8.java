@@ -5851,59 +5851,61 @@ public class Leetcode_8 {
     }
 
     // 2976. 转换字符串的最小成本 I (Minimum Cost to Convert String I)
-    private List<int[]>[] g2976;
-
     public long minimumCost(String source, String target, char[] original, char[] changed, int[] cost) {
-        this.g2976 = new ArrayList[26];
-        Arrays.setAll(g2976, k -> new ArrayList<>());
+        long[][] d = new long[26][];
+        List<int[]>[] g = new ArrayList[26];
+        Arrays.setAll(g, o -> new ArrayList<>());
         for (int i = 0; i < original.length; ++i) {
-            g2976[original[i] - 'a'].add(new int[] { changed[i] - 'a', cost[i] });
+            int u = original[i] - 'a';
+            int v = changed[i] - 'a';
+            g[u].add(new int[] { v, cost[i] });
         }
-        int[][] dis = new int[26][26];
         for (int i = 0; i < 26; ++i) {
-            dis[i] = dijkstra2976(i);
+            d[i] = dijkstra2976(g, i);
         }
         long res = 0L;
         for (int i = 0; i < source.length(); ++i) {
-            int c1 = source.charAt(i) - 'a';
-            int c2 = target.charAt(i) - 'a';
-            if (dis[c1][c2] == Integer.MAX_VALUE) {
+            int u = source.charAt(i) - 'a';
+            int v = target.charAt(i) - 'a';
+            if (d[u][v] == Long.MAX_VALUE) {
                 return -1L;
             }
-            res += dis[c1][c2];
+            res += d[u][v];
         }
         return res;
 
     }
 
-    private int[] dijkstra2976(int start) {
-        int[] dis = new int[26];
-        Arrays.fill(dis, Integer.MAX_VALUE);
-        dis[start] = 0;
-        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+    private long[] dijkstra2976(List<int[]>[] g, int start) {
+        long[] dis = new long[26];
+        Arrays.fill(dis, Long.MAX_VALUE);
+        dis[start] = 0L;
+        Queue<long[]> q = new PriorityQueue<>(new Comparator<long[]>() {
 
             @Override
-            public int compare(int[] o1, int[] o2) {
-                return Integer.compare(o1[1], o2[1]);
+            public int compare(long[] o1, long[] o2) {
+                return Long.compare(o1[0], o2[0]);
             }
 
         });
-        q.offer(new int[] { start, 0 });
+        // (dis, node)
+        q.offer(new long[] { 0L, start });
         while (!q.isEmpty()) {
-            int[] cur = q.poll();
-            int x = cur[0];
-            int d = cur[1];
-            for (int[] nei : g2976[x]) {
-                int y = nei[0];
-                int neiD = nei[1];
-                if (d + neiD < dis[y]) {
-                    dis[y] = d + neiD;
-                    q.offer(new int[] { y, dis[y] });
+            long[] cur = q.poll();
+            long d = cur[0];
+            int x = (int) cur[1];
+            for (int[] neighbor : g[x]) {
+                int y = neighbor[0];
+                int dx = neighbor[1];
+                if (d + dx < dis[y]) {
+                    dis[y] = d + dx;
+                    q.offer(new long[] { d + dx, y });
                 }
             }
         }
         return dis;
     }
+
 
     // 2970. 统计移除递增子数组的数目 I (Count the Number of Incremovable Subarrays I)
     // 2972. 统计移除递增子数组的数目 II (Count the Number of Incremovable Subarrays II)

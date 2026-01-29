@@ -4501,7 +4501,8 @@ public class Leetcode_10 {
         return res;
     }
 
-    // 3778. 排除一个最大权重边的最小距离 (Minimum Distance Excluding One Maximum Weighted Edge) --plus
+    // 3778. 排除一个最大权重边的最小距离 (Minimum Distance Excluding One Maximum Weighted Edge)
+    // --plus
     public long minCostExcludingMax(int n, int[][] edges) {
         List<int[]>[] g = new ArrayList[n];
         Arrays.setAll(g, o -> new ArrayList<>());
