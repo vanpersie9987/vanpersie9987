@@ -4665,4 +4665,28 @@ public class Leetcode_10 {
         }
     }
 
+    // 2847. 给定数字乘积的最小数字 (Smallest Number With Given Digit Product) --plus
+    public String smallestNumber(long n) {
+        if (n == 1L) {
+            return "1";
+        }
+        int[] cnt = new int[10];
+        for (int i = 9; i > 1; --i) {
+            while (n % i == 0) {
+                n /= i;
+                ++cnt[i];
+            }
+        }
+        if (n != 1L) {
+            return "-1";
+        }
+        StringBuilder res = new StringBuilder();
+        for (int i = 2; i <= 9; ++i) {
+            while (cnt[i]-- > 0) {
+                res.append(i);
+            }
+        }
+        return res.toString();
+    }
+
 }
