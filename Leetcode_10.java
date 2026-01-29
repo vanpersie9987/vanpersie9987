@@ -4436,45 +4436,46 @@ public class Leetcode_10 {
 
     }
 
-    private int[][][] memo;
-    private int[] a = { 4, 2, 6 };
-    private int n;
+    // 3183. 达到总和的方法数量 (The Number of Ways to Make the Sum) --plus
+    private int[][][] memo3183;
+    private int[] a3183 = { 4, 2, 6 };
+    private int n3183;
 
     public int numberOfWays(int n) {
-        this.n = n;
-        this.memo = new int[3][n][3];
-        for (int[][] matrix : memo) {
+        this.n3183 = n;
+        this.memo3183 = new int[3][n][3];
+        for (int[][] matrix : memo3183) {
             for (int[] row : matrix) {
                 Arrays.fill(row, -1);
             }
         }
-        return dfs(0, 0, 0);
+        return dfs3183(0, 0, 0);
 
     }
 
-    private int dfs(int i, int j, int k) {
-        if (j == n) {
+    private int dfs3183(int i, int j, int k) {
+        if (j == n3183) {
             return 1;
         }
-        if (j > n) {
+        if (j > n3183) {
             return 0;
         }
         if (i == 3) {
             return 1;
         }
-        if (memo[i][j][k] != -1) {
-            return memo[i][j][k];
+        if (memo3183[i][j][k] != -1) {
+            return memo3183[i][j][k];
         }
-        int res = dfs(i + 1, j, k);
+        int res = dfs3183(i + 1, j, k);
         final int MOD = (int) (1e9 + 7);
         if (i == 0) {
             if (k < 2) {
-                res += dfs(i, j + a[i], k + 1);
+                res += dfs3183(i, j + a3183[i], k + 1);
             }
         } else {
-            res += dfs(i, j + a[i], k);
+            res += dfs3183(i, j + a3183[i], k);
         }
-        return memo[i][j][k] = res % MOD;
+        return memo3183[i][j][k] = res % MOD;
     }
 
 }
