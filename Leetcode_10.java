@@ -4499,7 +4499,63 @@ public class Leetcode_10 {
             res %= MOD;
         }
         return res;
+    }
 
+    // 3778. 排除一个最大权重边的最小距离 (Minimum Distance Excluding One Maximum Weighted Edge) --plus
+    public long minCostExcludingMax(int n, int[][] edges) {
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[0]].add(new int[] { e[1], e[2] });
+            g[e[1]].add(new int[] { e[0], e[2] });
+        }
+        long[][] dis = new long[n][2];
+        for (long[] d : dis) {
+            Arrays.fill(d, Long.MAX_VALUE);
+        }
+        dis[0][0] = 0L;
+        Queue<long[]> q = new PriorityQueue<>(new Comparator<long[]>() {
+
+            @Override
+            public int compare(long[] o1, long[] o2) {
+                if (o1[1] != o2[1]) {
+                    return Long.compare(o2[1], o1[1]);
+                }
+                return Long.compare(o1[2], o2[2]);
+            }
+
+        });
+        // (node, 0:该路径未去掉一个边；1:该路径已经去掉一个边, dis)
+        long res = Long.MAX_VALUE;
+        q.offer(new long[] { 0L, 0L, 0L });
+        while (!q.isEmpty()) {
+            long[] cur = q.poll();
+            int x = (int) cur[0];
+            int isDelete = (int) cur[1];
+            long d = cur[2];
+            if (d > dis[x][isDelete]) {
+                continue;
+            }
+            if (x == n - 1) {
+                if (isDelete == 1) {
+                    res = Math.min(res, d);
+                }
+                continue;
+            }
+            for (int[] neighbor : g[x]) {
+                int y = neighbor[0];
+                int w = neighbor[1];
+                if (d + w < dis[y][isDelete]) {
+                    dis[y][isDelete] = d + w;
+                    q.offer(new long[] { y, isDelete, d + w });
+                }
+                if (isDelete == 0 && d < dis[y][1]) {
+                    dis[y][1] = d;
+                    q.offer(new long[] { y, 1, d });
+                }
+            }
+        }
+        return -1;
 
     }
 
