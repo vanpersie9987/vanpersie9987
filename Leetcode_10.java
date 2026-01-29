@@ -4526,7 +4526,6 @@ public class Leetcode_10 {
 
         });
         // (node, 0:该路径未去掉一个边；1:该路径已经去掉一个边, dis)
-        long res = Long.MAX_VALUE;
         q.offer(new long[] { 0L, 0L, 0L });
         while (!q.isEmpty()) {
             long[] cur = q.poll();
@@ -4534,12 +4533,6 @@ public class Leetcode_10 {
             int isDelete = (int) cur[1];
             long d = cur[2];
             if (d > dis[x][isDelete]) {
-                continue;
-            }
-            if (x == n - 1) {
-                if (isDelete == 1) {
-                    res = Math.min(res, d);
-                }
                 continue;
             }
             for (int[] neighbor : g[x]) {
@@ -4555,7 +4548,7 @@ public class Leetcode_10 {
                 }
             }
         }
-        return -1;
+        return dis[n - 1][1];
 
     }
 
