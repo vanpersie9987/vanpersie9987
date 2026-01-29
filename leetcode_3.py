@@ -7885,6 +7885,24 @@ class SegmentTree2940:
                 res += budget - 1
                 break
         return res
+    
+    # 3183. 达到总和的方法数量 (The Number of Ways to Make the Sum) --plus
+    def numberOfWays(self, n: int) -> int:
+        f = [0] * (n + 1)
+        f[0] = 1
+        MOD = 10**9 + 7
+        for c in (1, 2, 6):
+            for i in range(c, n + 1):
+                f[i] += f[i - c]
+                f[i] %= MOD
+        res = f[n]
+        if n >= 4:
+            res += f[n - 4]
+        if n >= 8:
+            res += f[n - 8]
+        return res % MOD
+
+        
 
 
         
