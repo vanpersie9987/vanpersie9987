@@ -4587,4 +4587,82 @@ public class Leetcode_10 {
         return false;
     }
 
+    // 2852. 所有单元格的远离程度之和 (Sum of Remoteness of All Cells) --plus
+    public long sumRemoteness(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        long sum = 0L;
+        Union2852 union = new Union2852(m * n);
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                sum += Math.max(0, grid[i][j]);
+                if (i - 1 >= 0 && grid[i][j] > 0 && grid[i - 1][j] > 0) {
+                    union.union(i * n + j, (i - 1) * n + j);
+                }
+                if (j - 1 >= 0 && grid[i][j] > 0 && grid[i][j - 1] > 0) {
+                    union.union(i * n + j, i * n + j - 1);
+                }
+            }
+        }
+        Map<Integer, Long> rootToSum = new HashMap<>();
+        Map<Integer, Integer> rootToCnt = new HashMap<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] > 0) {
+                    int root = union.getRoot(i * n + j);
+                    rootToSum.merge(root, (long) grid[i][j], Long::sum);
+                    rootToCnt.merge(root, 1, Integer::sum);
+                }
+            }
+        }
+        long res = 0L;
+        for (Map.Entry<Integer, Integer> entry : rootToCnt.entrySet()) {
+            int root = entry.getKey();
+            int size = entry.getValue();
+            long curSum = rootToSum.get(root);
+            res += (long) (sum - curSum) * size;
+        }
+        return res;
+
+    }
+
+    public class Union2852 {
+        private int[] parent;
+        private int[] rank;
+
+        public Union2852(int n) {
+            this.parent = new int[n];
+            this.rank = new int[n];
+            for (int i = 0; i < n; ++i) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int root1 = getRoot(p1);
+            int root2 = getRoot(p2);
+            if (root1 == root2) {
+                return;
+            }
+            if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root2] = root1;
+                ++rank[root1];
+            }
+        }
+    }
+
 }
