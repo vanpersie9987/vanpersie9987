@@ -4390,4 +4390,45 @@ public class Leetcode_10 {
 
     }
 
+    private int[][][] memo;
+    private int[] a = { 4, 2, 6 };
+    private int n;
+
+    public int numberOfWays(int n) {
+        this.n = n;
+        this.memo = new int[3][n][3];
+        for (int[][] matrix : memo) {
+            for (int[] row : matrix) {
+                Arrays.fill(row, -1);
+            }
+        }
+        return dfs(0, 0, 0);
+
+    }
+
+    private int dfs(int i, int j, int k) {
+        if (j == n) {
+            return 1;
+        }
+        if (j > n) {
+            return 0;
+        }
+        if (i == 3) {
+            return 1;
+        }
+        if (memo[i][j][k] != -1) {
+            return memo[i][j][k];
+        }
+        int res = dfs(i + 1, j, k);
+        final int MOD = (int) (1e9 + 7);
+        if (i == 0) {
+            if (k < 2) {
+                res += dfs(i, j + a[i], k + 1);
+            }
+        } else {
+            res += dfs(i, j + a[i], k);
+        }
+        return memo[i][j][k] = res % MOD;
+    }
+
 }

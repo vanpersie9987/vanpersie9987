@@ -7860,7 +7860,6 @@ class SegmentTree2940:
         return "".join(res)
     
     # 3119. 最大数量的可修复坑洼 (Maximum Number of Potholes That Can Be Fixed) --plus
-    # todo
     def maxPotholes(self, road: str, budget: int) -> int:
         cnts = defaultdict(int)
         i = 0
@@ -7874,4 +7873,18 @@ class SegmentTree2940:
                 i = j
             else:
                 i += 1
+        a = [(k, v) for k, v in cnts.items()]
+        a.sort(key=lambda x: -x[0])
+        res = 0
+        for l, cnt in a:
+            complete_cnt = budget // (l + 1)
+            res += l * min(complete_cnt, cnt)
+            budget -= (l + 1) * min(complete_cnt, cnt)
+            cnt -= min(complete_cnt, cnt)
+            if budget > 0 and cnt > 0:
+                res += budget - 1
+                break
+        return res
+
+
         
