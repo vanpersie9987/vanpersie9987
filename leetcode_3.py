@@ -7858,3 +7858,20 @@ class SegmentTree2940:
             else:
                 i += 1
         return "".join(res)
+    
+    # 3119. 最大数量的可修复坑洼 (Maximum Number of Potholes That Can Be Fixed) --plus
+    # todo
+    def maxPotholes(self, road: str, budget: int) -> int:
+        cnts = defaultdict(int)
+        i = 0
+        n = len(road)
+        while i < n:
+            if road[i] == 'x':
+                j = i
+                while j < n and road[j] == 'x':
+                    j += 1
+                cnts[j - i] += 1
+                i = j
+            else:
+                i += 1
+        
