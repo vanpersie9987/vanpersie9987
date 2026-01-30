@@ -4825,4 +4825,85 @@ public class Leetcode_10 {
         return res.toString();
 
     }
+
+    // 2184. 建造坚实的砖墙的方法数 (Number of Ways to Build Sturdy Brick Wall) --plus
+    private int height2184;
+    private int width2184;
+    private int[][] memo2184;
+    private Map<Integer, Set<Integer>> g2184;
+
+    public int buildWall(int height, int width, int[] bricks) {
+        int min = Integer.MAX_VALUE;
+        for (int b : bricks) {
+            min = Math.min(min, b);
+        }
+        if (min > width) {
+            return 0;
+        }
+        this.height2184 = height;
+        this.width2184 = width;
+        List<Integer> path = new ArrayList<>();
+        List<List<Integer>> a = new ArrayList<>();
+        backTrace2184(0, path, a, bricks);
+        int[] masks = new int[a.size()];
+        for (int i = 0; i < a.size(); ++i) {
+            int m = 0;
+            int s = 0;
+            for (int x : a.get(i)) {
+                s += x;
+                if (s < width) {
+                    m |= 1 << s;
+                }
+            }
+            masks[i] = m;
+        }
+        this.g2184 = new HashMap<>();
+        for (int x : masks) {
+            for (int y : masks) {
+                if ((x & y) == 0) {
+                    g2184.computeIfAbsent(x, o -> new HashSet<>()).add(y);
+                }
+            }
+        }
+        for (int m : masks) {
+            g2184.computeIfAbsent(0, o -> new HashSet<>()).add(m);
+        }
+        this.memo2184 = new int[height][(1 << width) - 1];
+        for (int[] r : memo2184) {
+            Arrays.fill(r, -1);
+        }
+        return dfs2184(0, 0);
+
+    }
+
+    private int dfs2184(int i, int j) {
+        if (i == height2184) {
+            return 1;
+        }
+        if (memo2184[i][j] != -1) {
+            return memo2184[i][j];
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int m : g2184.getOrDefault(j, new HashSet<>())) {
+            res += dfs2184(i + 1, m);
+            res %= MOD;
+        }
+        return memo2184[i][j] = res;
+
+    }
+
+    private void backTrace2184(int i, List<Integer> path, List<List<Integer>> a, int[] bricks) {
+        if (i == width2184) {
+            a.add(new ArrayList<>(path));
+            return;
+        }
+        for (int b : bricks) {
+            if (i + b <= width2184) {
+                path.add(b);
+                backTrace2184(i + b, path, a, bricks);
+                path.remove(path.size() - 1);
+            }
+        }
+    }
 }
