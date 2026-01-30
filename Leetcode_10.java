@@ -4851,11 +4851,9 @@ public class Leetcode_10 {
             int s = 0;
             for (int x : a.get(i)) {
                 s += x;
-                if (s < width) {
-                    m |= 1 << s;
-                }
+                m |= 1 << s;
             }
-            masks[i] = m;
+            masks[i] = m ^ (1 << width);
         }
         this.g2184 = new HashMap<>();
         for (int x : masks) {
