@@ -8056,3 +8056,16 @@ class SegmentTree2940:
             min_id = min(min_id, cur_min_id)
             max_id = max(max_id, cur_max_id)
         return res
+    
+    # 3730. 跳跃燃烧的最大卡路里 (Maximum Calories Burnt from Jumps) --plus
+    def maxCaloriesBurnt(self, heights: List[int]) -> int:
+        a = [0] + sorted(heights)
+        res = 0
+        i = 0
+        j = len(a) - 1
+        while i < j:
+            res += (a[j] - a[i]) * (a[j] - a[i])
+            i += 1
+            res += (a[j] - a[i]) * (a[j] - a[i])
+            j -= 1
+        return res
