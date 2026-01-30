@@ -8073,7 +8073,7 @@ class SegmentTree2940:
             flip = not flip
         return res
 
-    # 3662. 按频率筛选字符 (Filter Characters by Frequency)
+    # 3662. 按频率筛选字符 (Filter Characters by Frequency) --plus
     def filterCharacters(self, s: str, k: int) -> str:
         c = Counter(s)
         return ''.join([x for x in s if c[x] < k])
