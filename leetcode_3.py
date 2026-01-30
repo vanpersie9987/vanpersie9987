@@ -8025,7 +8025,7 @@ class SegmentTree2940:
             n = len(s)
             while i < n:
                 if s[i] == "%":
-                    k = s[i + 1]
+                    k = ord(s[i + 1]) - ord('A')
                     res += dfs(d[k])
                     i += 3
                 else:
@@ -8033,7 +8033,7 @@ class SegmentTree2940:
                     i += 1
             return res
 
-        d = defaultdict(str)
+        d = [""] * 26
         for k, v in replacements:
-            d[k] = v
+            d[ord(k) - ord('A')] = v
         return dfs(text)
