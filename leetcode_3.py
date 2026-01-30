@@ -8123,3 +8123,16 @@ class SegmentTree2940:
     # 3125. 使得按位与结果为 0 的最大数字 (Maximum Number That Makes Result of Bitwise AND Zero) --plus
     def maxNumber(self, n: int) -> int:
         return (1 << (n.bit_length() - 1)) - 1
+
+    # 3744. 在展开字符串中查找第 K 个字符 (Find Kth Character in Expanded String) --plus
+    def kthCharacter(self, s: str, k: int) -> str:
+        mul = 1
+        for x in s:
+            if x != ' ':
+                k -= mul
+                mul += 1
+            else:
+                mul = 1
+                k -= mul
+            if k < 0:
+                return x
