@@ -4804,7 +4804,6 @@ public class Leetcode_10 {
                 int f = cntToVals.firstKey();
                 int v = cntToVals.get(f).first();
                 res += (long) f * v;
-                System.out.println((long) f * v);
             }
         }
         return res;
