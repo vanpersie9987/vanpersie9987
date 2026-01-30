@@ -8106,10 +8106,10 @@ class SegmentTree2940:
         for l in a:
             mask = 0
             pre_s = 0
-            for x in l[:-1]:
+            for x in l:
                 pre_s += x
                 mask |= 1 << pre_s
-            _list.append(mask)
+            _list.append(mask ^ (1 << width))
         g = defaultdict(list)
         for x in _list:
             for y in _list:
