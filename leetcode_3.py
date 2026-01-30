@@ -8016,3 +8016,24 @@ class SegmentTree2940:
             return "-1"
         res = [str(i) * c for i, c in enumerate(cnt[2:], 2)]
         return "".join(res)
+
+    # 3481. 应用替换 (Apply Substitutions) --plus
+    def applySubstitutions(self, replacements: List[List[str]], text: str) -> str:
+        def dfs(s: str) -> str:
+            res = ""
+            i = 0
+            n = len(s)
+            while i < n:
+                if s[i] == "%":
+                    k = s[i + 1]
+                    res += dfs(d[k])
+                    i += 3
+                else:
+                    res += s[i]
+                    i += 1
+            return res
+
+        d = defaultdict(str)
+        for k, v in replacements:
+            d[k] = v
+        return dfs(text)

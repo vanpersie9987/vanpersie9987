@@ -4689,4 +4689,26 @@ public class Leetcode_10 {
         return res.toString();
     }
 
+    // 3481. 应用替换 (Apply Substitutions) --plus
+    public String applySubstitutions(List<List<String>> replacements, String text) {
+        String[] map = new String[26];
+        for (List<String> s : replacements) {
+            int i = s.get(0).charAt(0) - 'A';
+            map[i] = s.get(1);
+        }
+        return dfs(text, map);
+    }
+
+    private String dfs(String s, String[] map) {
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) != '%') {
+                res.append(s.charAt(i));
+                continue;
+            }
+            res.append(dfs(map[s.charAt(i + 1) - 'A'], map));
+            i += 2;
+        }
+        return res.toString();
+    }
 }
