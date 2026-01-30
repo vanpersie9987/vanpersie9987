@@ -4713,6 +4713,8 @@ public class Leetcode_10 {
     }
 
     // 3696. 不同单词间的最大距离 I (Maximum Distance Between Unequal Words in Array I) --plus
+    // 3706. 不同单词间的最大距离 II (Maximum Distance Between Unequal Words in Array II)
+    // --plus
     public int maxDistance(String[] words) {
         Map<String, int[]> map = new HashMap<>();
         for (int i = 0; i < words.length; ++i) {

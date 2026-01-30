@@ -8037,8 +8037,9 @@ class SegmentTree2940:
         for k, v in replacements:
             d[ord(k) - ord('A')] = v
         return dfs(text)
-    
+
     # 3696. 不同单词间的最大距离 I (Maximum Distance Between Unequal Words in Array I) --plus
+    # 3706. 不同单词间的最大距离 II (Maximum Distance Between Unequal Words in Array II) --plus
     def maxDistance(self, words: List[str]) -> int:
         d = defaultdict(list)
         for i, w in enumerate(words):
@@ -8055,4 +8056,3 @@ class SegmentTree2940:
             min_id = min(min_id, cur_min_id)
             max_id = max(max_id, cur_max_id)
         return res
-
