@@ -8136,3 +8136,14 @@ class SegmentTree2940:
                 k -= mul
             if k < 0:
                 return x
+    # 744. 寻找比目标字母大的最小字母 (Find Smallest Letter Greater Than Target) --plus
+    def nextGreatestLetter(self, letters: List[str], target: str) -> str:
+        left = 0
+        right = len(letters) - 1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if letters[mid] > target:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return letters[(right + 1) % len(letters)]
