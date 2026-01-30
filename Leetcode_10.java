@@ -4739,4 +4739,30 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 3730. 跳跃燃烧的最大卡路里 (Maximum Calories Burnt from Jumps) --plus
+    public long maxCaloriesBurnt(int[] heights) {
+        List<Integer> a = new ArrayList<>();
+        a.add(0);
+        for (int h : heights) {
+            a.add(h);
+        }
+        Collections.sort(a);
+        long res = 0L;
+        int i = 0;
+        int j = a.size() - 1;
+        boolean f = true;
+        while (i < j) {
+            res += (long) (a.get(i) - a.get(j)) * (a.get(i) - a.get(j));
+            if (f) {
+                ++i;
+            } else {
+                --j;
+            }
+            f = !f;
+        }
+        return res;
+
+
+    }
 }
