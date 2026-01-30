@@ -4762,7 +4762,51 @@ public class Leetcode_10 {
             f = !f;
         }
         return res;
+    }
 
+    // 3672. 子数组中加权众数的总和 (Sum of Weighted Modes in Subarrays) --plus
+    public long modeWeight(int[] nums, int k) {
+        // key：元素值 val：元素key出现的次数
+        Map<Integer, Integer> valToCnts = new HashMap<>();
+        // key： 元素出现频率 val：哪些元素出现了key次，从小到大排序
+        TreeMap<Integer, TreeSet<Integer>> cntToVals = new TreeMap<>(new Comparator<Integer>() {
 
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(o2, o1);
+            }
+
+        });
+        int n = nums.length;
+        long res = 0L;
+        for (int i = 0; i < n; ++i) {
+            int oldCnt = valToCnts.getOrDefault(nums[i], 0);
+            TreeSet<Integer> set = cntToVals.getOrDefault(oldCnt, new TreeSet<>());
+            set.remove(nums[i]);
+            valToCnts.merge(nums[i], 1, Integer::sum);
+            cntToVals.computeIfAbsent(oldCnt + 1, o -> new TreeSet<>()).add(nums[i]);
+
+            if (i >= k) {
+                int x = nums[i - k];
+                oldCnt = valToCnts.getOrDefault(x, 0);
+                set = cntToVals.getOrDefault(oldCnt, new TreeSet<>());
+                set.remove(x);
+                if (set.isEmpty()) {
+                    cntToVals.remove(oldCnt);
+                }
+                valToCnts.merge(x, -1, Integer::sum);
+                if (oldCnt > 1) {
+                    cntToVals.computeIfAbsent(oldCnt - 1, o -> new TreeSet<>()).add(x);
+                }
+            }
+
+            if (i >= k - 1) {
+                int f = cntToVals.firstKey();
+                int v = cntToVals.get(f).first();
+                res += (long) f * v;
+                System.out.println((long) f * v);
+            }
+        }
+        return res;
     }
 }
