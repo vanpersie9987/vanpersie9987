@@ -8025,7 +8025,7 @@ class SegmentTree2940:
             n = len(s)
             while i < n:
                 if s[i] == "%":
-                    k = ord(s[i + 1]) - ord('A')
+                    k = ord(s[i + 1]) - ord("A")
                     res += dfs(d[k])
                     i += 3
                 else:
@@ -8035,7 +8035,7 @@ class SegmentTree2940:
 
         d = [""] * 26
         for k, v in replacements:
-            d[ord(k) - ord('A')] = v
+            d[ord(k) - ord("A")] = v
         return dfs(text)
 
     # 3696. 不同单词间的最大距离 I (Maximum Distance Between Unequal Words in Array I) --plus
@@ -8052,7 +8052,9 @@ class SegmentTree2940:
         min_id, max_id = inf, -inf
         for cur_min_id, cur_max_id in d.values():
             if min_id != inf:
-                res = max(res, abs(cur_min_id - max_id) + 1, abs(min_id - cur_max_id) + 1)
+                res = max(
+                    res, abs(cur_min_id - max_id) + 1, abs(min_id - cur_max_id) + 1
+                )
             min_id = min(min_id, cur_min_id)
             max_id = max(max_id, cur_max_id)
         return res
@@ -8076,4 +8078,43 @@ class SegmentTree2940:
     # 3662. 按频率筛选字符 (Filter Characters by Frequency) --plus
     def filterCharacters(self, s: str, k: int) -> str:
         c = Counter(s)
-        return ''.join([x for x in s if c[x] < k])
+        return "".join([x for x in s if c[x] < k])
+
+    # 2184. 建造坚实的砖墙的方法数 (Number of Ways to Build Sturdy Brick Wall) --plus
+    def buildWall(self, height: int, width: int, bricks: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == height:
+                return 1
+            return sum(dfs(i + 1, x) for x in g[j]) % MOD
+        def back_trace(i: int):
+            if i == width:
+                a.append(path.copy())
+                return
+            for b in bricks:
+                if i + b <= width:
+                    path.append(b)
+                    back_trace(i + b)
+                    path.pop()
+
+        if min(bricks) > width:
+            return 0
+        a = []
+        path = []
+        back_trace(0)
+        _list = []
+        for l in a:
+            mask = 0
+            pre_s = 0
+            for x in l[:-1]:
+                pre_s += x
+                mask |= 1 << pre_s
+            _list.append(mask)
+        g = defaultdict(list)
+        for x in _list:
+            for y in _list:
+                if x & y == 0:
+                    g[x].append(y)
+        g[0] = _list
+        MOD = 10**9 + 7
+        return dfs(0, 0)
