@@ -4910,4 +4910,23 @@ public class Leetcode_10 {
         return (1L << (63 - Long.numberOfLeadingZeros(n))) - 1;
 
     }
+
+    // 3744. 在展开字符串中查找第 K 个字符 (Find Kth Character in Expanded String) --plus
+    public char kthCharacter(String s, long k) {
+        int mul = 1;
+        for (char c : s.toCharArray()) {
+            if (c != ' ') {
+                k -= mul++;
+            } else {
+                mul = 1;
+                k -= 1;
+            }
+            if (k < 0) {
+                return c;
+            }
+        }
+        return 0;
+
+
+    }
 }
