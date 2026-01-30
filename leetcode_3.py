@@ -8037,3 +8037,22 @@ class SegmentTree2940:
         for k, v in replacements:
             d[ord(k) - ord('A')] = v
         return dfs(text)
+    
+    # 3696. 不同单词间的最大距离 I (Maximum Distance Between Unequal Words in Array I) --plus
+    def maxDistance(self, words: List[str]) -> int:
+        d = defaultdict(list)
+        for i, w in enumerate(words):
+            if w not in d:
+                d[w] = [i, i]
+            else:
+                d[w][0] = min(d[w][0], i)
+                d[w][1] = max(d[w][1], i)
+        res = 0
+        min_id, max_id = inf, -inf
+        for cur_min_id, cur_max_id in d.values():
+            if min_id != inf:
+                res = max(res, abs(cur_min_id - max_id) + 1, abs(min_id - cur_max_id) + 1)
+            min_id = min(min_id, cur_min_id)
+            max_id = max(max_id, cur_max_id)
+        return res
+
