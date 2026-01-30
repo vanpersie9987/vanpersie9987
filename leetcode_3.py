@@ -8056,7 +8056,7 @@ class SegmentTree2940:
             min_id = min(min_id, cur_min_id)
             max_id = max(max_id, cur_max_id)
         return res
-    
+
     # 3730. 跳跃燃烧的最大卡路里 (Maximum Calories Burnt from Jumps) --plus
     def maxCaloriesBurnt(self, heights: List[int]) -> int:
         a = [0] + sorted(heights)
@@ -8072,3 +8072,8 @@ class SegmentTree2940:
                 j -= 1
             flip = not flip
         return res
+
+    # 3662. 按频率筛选字符 (Filter Characters by Frequency)
+    def filterCharacters(self, s: str, k: int) -> str:
+        c = Counter(s)
+        return ''.join([x for x in s if c[x] < k])
