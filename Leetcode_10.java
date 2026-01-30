@@ -4829,7 +4829,7 @@ public class Leetcode_10 {
     private int height2184;
     private int width2184;
     private int[][] memo2184;
-    private Map<Integer, Set<Integer>> g2184;
+    private Map<Integer, List<Integer>> g2184;
 
     public int buildWall(int height, int width, int[] bricks) {
         int min = Integer.MAX_VALUE;
@@ -4858,12 +4858,13 @@ public class Leetcode_10 {
         for (int x : masks) {
             for (int y : masks) {
                 if ((x & y) == 0) {
-                    g2184.computeIfAbsent(x, o -> new HashSet<>()).add(y);
+                    g2184.computeIfAbsent(x, o -> new ArrayList<>()).add(y);
                 }
             }
         }
+        g2184.remove(0);
         for (int m : masks) {
-            g2184.computeIfAbsent(0, o -> new HashSet<>()).add(m);
+            g2184.computeIfAbsent(0, o -> new ArrayList<>()).add(m);
         }
         this.memo2184 = new int[height][(1 << width) - 1];
         for (int[] r : memo2184) {
@@ -4882,7 +4883,7 @@ public class Leetcode_10 {
         }
         int res = 0;
         final int MOD = (int) (1e9 + 7);
-        for (int m : g2184.getOrDefault(j, new HashSet<>())) {
+        for (int m : g2184.getOrDefault(j, new ArrayList<>())) {
             res += dfs2184(i + 1, m);
             res %= MOD;
         }
