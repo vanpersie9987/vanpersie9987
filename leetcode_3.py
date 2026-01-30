@@ -8063,9 +8063,12 @@ class SegmentTree2940:
         res = 0
         i = 0
         j = len(a) - 1
+        flip = True
         while i < j:
             res += (a[j] - a[i]) * (a[j] - a[i])
-            i += 1
-            res += (a[j] - a[i]) * (a[j] - a[i])
-            j -= 1
+            if flip:
+                i += 1
+            else:
+                j -= 1
+            flip = not flip
         return res
