@@ -4809,4 +4809,20 @@ public class Leetcode_10 {
         }
         return res;
     }
+
+    // 3662. 按频率筛选字符 (Filter Characters by Frequency) --plus
+    public String filterCharacters(String s, int k) {
+        int[] cnts = new int[26];
+        for (char c : s.toCharArray()) {
+            ++cnts[c - 'a'];
+        }
+        StringBuilder res = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (cnts[c - 'a'] < k) {
+                res.append(c);
+            }
+        }
+        return res.toString();
+
+    }
 }
