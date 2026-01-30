@@ -8087,6 +8087,7 @@ class SegmentTree2940:
             if i == height:
                 return 1
             return sum(dfs(i + 1, x) for x in g[j]) % MOD
+
         def back_trace(i: int):
             if i == width:
                 a.append(path.copy())
@@ -8118,3 +8119,7 @@ class SegmentTree2940:
         g[0] = _list
         MOD = 10**9 + 7
         return dfs(0, 0)
+
+    # 3125. 使得按位与结果为 0 的最大数字 (Maximum Number That Makes Result of Bitwise AND Zero) --plus
+    def maxNumber(self, n: int) -> int:
+        return (1 << (n.bit_length() - 1)) - 1

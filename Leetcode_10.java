@@ -4904,4 +4904,10 @@ public class Leetcode_10 {
             }
         }
     }
+
+    // 3125. 使得按位与结果为 0 的最大数字 (Maximum Number That Makes Result of Bitwise AND Zero)
+    public long maxNumber(long n) {
+        return (1L << (63 - Long.numberOfLeadingZeros(n))) - 1;
+
+    }
 }
