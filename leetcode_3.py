@@ -8196,3 +8196,15 @@ class SegmentTree2940:
 
         l = len(str(n))
         return dfs(0, 0)
+
+    # 1063. 有效子数组的数目 (Number of Valid Subarrays) --plus
+    def validSubarrays(self, nums: List[int]) -> int:
+        res = 0
+        st = []
+        for i, x in enumerate(nums):
+            while st and nums[st[-1]] > x:
+                res += i - st.pop()
+            st.append(i)
+        while st:
+            res += len(nums) - st.pop()
+        return res
