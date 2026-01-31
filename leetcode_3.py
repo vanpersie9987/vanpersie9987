@@ -8128,7 +8128,7 @@ class SegmentTree2940:
     def kthCharacter(self, s: str, k: int) -> str:
         mul = 1
         for x in s:
-            if x != ' ':
+            if x != " ":
                 k -= mul
                 mul += 1
             else:
@@ -8136,6 +8136,7 @@ class SegmentTree2940:
                 k -= mul
             if k < 0:
                 return x
+
     # 744. 寻找比目标字母大的最小字母 (Find Smallest Letter Greater Than Target) --plus
     def nextGreatestLetter(self, letters: List[str], target: str) -> str:
         left = 0
@@ -8147,3 +8148,21 @@ class SegmentTree2940:
             else:
                 left = mid + 1
         return letters[(right + 1) % len(letters)]
+
+    # 2907. 价格递增的最大利润三元组 I (Maximum Profitable Triplets With Increasing Prices I) --plus
+    def maxProfit(self, prices: List[int], profits: List[int]) -> int:
+        n = len(prices)
+        left = [0] * n
+        right = [0] * n
+        for i in range(n):
+            for j in range(i):
+                if prices[j] < prices[i]:
+                    left[i] = max(left[i], profits[j])
+            for j in range(i + 1, n):
+                if prices[j] > prices[i]:
+                    right[i] = max(right[i], profits[j])
+        res = -1
+        for i in range(1, n - 1):
+            if left[i] and right[i]:
+                res = max(res, left[i] + profits[i] + right[i])
+        return res
