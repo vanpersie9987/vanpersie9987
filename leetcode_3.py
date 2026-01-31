@@ -8175,18 +8175,17 @@ class SegmentTree2940:
                 r = r * 10 + d[x % 10]
                 x //= 10
             return r
-        def dfs(i: int, j: int):
+        def dfs(i: int, j: int) -> int:
             if i == l:
-                if j and j <= n and rev(j) != j:
-                    nonlocal res
-                    res += 1
-                return
+                return j and j <= n and rev(j) != j
+            res = 0
             if not j:
-                dfs(i + 1, j)
+                res = dfs(i + 1, j)
             for x in a:
                 if not j and x == 0:
                     continue
-                dfs(i + 1, j * 10 + x)
+                res += dfs(i + 1, j * 10 + x)
+            return res
         a = [0, 1, 6, 8, 9]
         d = [0] * 10
         d[0] = 0
@@ -8195,7 +8194,5 @@ class SegmentTree2940:
         d[9] = 6
         d[8] = 8
 
-        res = 0
         l = len(str(n))
-        dfs(0, 0)
-        return res
+        return dfs(0, 0)

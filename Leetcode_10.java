@@ -4956,4 +4956,47 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 1088. 易混淆数 II (Confusing Number II) --plus
+    private int[] d1088;
+    private int n1088;
+    private int l1088;
+
+    public int confusingNumberII(int n) {
+        this.d1088 = new int[10];
+        d1088[1] = 1;
+        d1088[6] = 9;
+        d1088[8] = 8;
+        d1088[9] = 6;
+        this.l1088 = String.valueOf(n).length();
+        this.n1088 = n;
+        return dfs1088(0, 0);
+
+    }
+
+    private int dfs1088(int i, long j) {
+        if (i == l1088) {
+            return j > 0 && j <= n1088 && rev1088(j) != j ? 1 : 0;
+        }
+        int res = 0;
+        if (j == 0) {
+            res = dfs1088(i + 1, j);
+        }
+        for (int x : new int[] { 0, 1, 6, 8, 9 }) {
+            if (j == 0 && x == 0) {
+                continue;
+            }
+            res += dfs1088(i + 1, j * 10L + x);
+        }
+        return res;
+    }
+
+    private long rev1088(long x) {
+        long rev = 0;
+        while (x != 0) {
+            rev = rev * 10L + d1088[(int) (x % 10)];
+            x /= 10;
+        }
+        return rev;
+    }
 }
