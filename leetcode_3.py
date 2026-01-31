@@ -8175,6 +8175,7 @@ class SegmentTree2940:
                 r = r * 10 + d[x % 10]
                 x //= 10
             return r
+
         def dfs(i: int, j: int) -> int:
             if i == l:
                 return j and j <= n and rev(j) != j
@@ -8186,6 +8187,7 @@ class SegmentTree2940:
                     continue
                 res += dfs(i + 1, j * 10 + x)
             return res
+
         a = [0, 1, 6, 8, 9]
         d = [0] * 10
         d[0] = 0
@@ -8210,7 +8212,7 @@ class SegmentTree2940:
         return res
 
     # 2728. 计算一个环形街道上的房屋数量 (Count Houses in a Circular Street) --plus
-    def houseCount(self, street: Optional['Street'], k: int) -> int:
+    def houseCount(self, street: Optional["Street"], k: int) -> int:
         for _ in range(k):
             street.closeDoor()
             street.moveRight()
@@ -8219,4 +8221,38 @@ class SegmentTree2940:
             res += 1
             street.openDoor()
             street.moveRight()
+        return res
+    
+    # 2714. 找到 K 次跨越的最短路径 (Find Shortest Path with K Hops) --plus
+    def shortestPathWithHops(
+        self, n: int, edges: List[List[int]], s: int, e: int, k: int
+    ) -> int:
+        g = [[] for _ in range(n)]
+        for u, v, w in edges:
+            g[u].append((v, w))
+            g[v].append((u, w))
+        dis = [[inf] * (k + 1) for _ in range(n)]
+        dis[s][0] = 0
+        q = []
+        # (d, used_k, node)
+        q.append((0, 0, s))
+        heapq.heapify(q)
+        res = inf
+        while q:
+            d, used_k, x = heapq.heappop(q)
+            if d > dis[x][used_k]:
+                continue
+            if x == e:
+                res = min(res, d)
+                if res == 0:
+                    break
+                continue
+            for y, dx in g[x]:
+                nd = d + dx
+                if dis[y][used_k] > nd:
+                    dis[y][used_k] = nd
+                    heapq.heappush(q, (nd, used_k, y))
+                if used_k < k and dis[y][used_k + 1] > d:
+                    dis[y][used_k + 1] = d
+                    heapq.heappush(q, (d, used_k + 1, y))
         return res
