@@ -4929,4 +4929,31 @@ public class Leetcode_10 {
         return 0;
 
     }
+
+    // 2907. 价格递增的最大利润三元组 I (Maximum Profitable Triplets With Increasing Prices I) --plus
+    public int maxProfit(int[] prices, int[] profits) {
+        int n = prices.length;
+        int[] left = new int[n];
+        int[] right = new int[n];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < i; ++j) {
+                if (prices[j] < prices[i]) {
+                    left[i] = Math.max(left[i], profits[j]);
+                }
+            }
+            for (int j = i + 1; j < n; ++j) {
+                if (prices[j] > prices[i]) {
+                    right[i] = Math.max(right[i], profits[j]);
+                }
+            }
+        }
+        int res = -1;
+        for (int i = 1; i < n - 1; ++i) {
+            if (left[i] > 0 && right[i] > 0) {
+                res = Math.max(res, left[i] + profits[i] + right[i]);
+            }
+        }
+        return res;
+
+    }
 }
