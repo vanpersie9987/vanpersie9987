@@ -8112,10 +8112,10 @@ class SegmentTree2940:
                 mask |= 1 << pre_s
             _list.append(mask ^ (1 << width))
         g = defaultdict(list)
-        for x in _list:
-            for y in _list:
-                if x & y == 0:
-                    g[x].append(y)
+        for x, y in combinations(_list, 2):
+            if x & y == 0:
+                g[x].append(y)
+                g[y].append(x)
         g[0] = _list
         MOD = 10**9 + 7
         return dfs(0, 0)
