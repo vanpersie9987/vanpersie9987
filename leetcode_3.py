@@ -8208,3 +8208,15 @@ class SegmentTree2940:
         while st:
             res += len(nums) - st.pop()
         return res
+
+    # 2728. 计算一个环形街道上的房屋数量 (Count Houses in a Circular Street) --plus
+    def houseCount(self, street: Optional['Street'], k: int) -> int:
+        for _ in range(k):
+            street.closeDoor()
+            street.moveRight()
+        res = 0
+        while not street.isDoorOpen():
+            res += 1
+            street.openDoor()
+            street.moveRight()
+        return res
