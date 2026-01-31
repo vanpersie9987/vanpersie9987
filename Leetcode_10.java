@@ -5017,4 +5017,42 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // Definition for a street.
+    class Street {
+        public Street(int[] doors) {
+        }
+
+        public void openDoor() {
+        }
+
+        public void closeDoor() {
+        }
+
+        public boolean isDoorOpen() {
+            return false;
+        }
+
+        public void moveRight() {
+        }
+
+        public void moveLeft() {
+        }
+    }
+
+    // 2728. 计算一个环形街道上的房屋数量 (Count Houses in a Circular Street) --plus
+    public int houseCount(Street street, int k) {
+        for (int i = 0; i < k; ++i) {
+            street.closeDoor();
+            street.moveRight();
+        }
+        int res = 0;
+        while (!street.isDoorOpen()) {
+            ++res;
+            street.openDoor();
+            street.moveRight();
+        }
+        return res;
+
+    }
 }
