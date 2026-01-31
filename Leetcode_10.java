@@ -4696,17 +4696,17 @@ public class Leetcode_10 {
             int i = s.get(0).charAt(0) - 'A';
             map[i] = s.get(1);
         }
-        return dfs(text, map);
+        return dfs3481(text, map);
     }
 
-    private String dfs(String s, String[] map) {
+    private String dfs3481(String s, String[] map) {
         StringBuilder res = new StringBuilder();
         for (int i = 0; i < s.length(); ++i) {
             if (s.charAt(i) != '%') {
                 res.append(s.charAt(i));
                 continue;
             }
-            res.append(dfs(map[s.charAt(i + 1) - 'A'], map));
+            res.append(dfs3481(map[s.charAt(i + 1) - 'A'], map));
             i += 2;
         }
         return res.toString();
@@ -5051,6 +5051,62 @@ public class Leetcode_10 {
             ++res;
             street.openDoor();
             street.moveRight();
+        }
+        return res;
+
+    }
+
+    // 2714. 找到 K 次跨越的最短路径 (Find Shortest Path with K Hops)
+    public int shortestPathWithHops(int n, int[][] edges, int s, int e, int k) {
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] edge : edges) {
+            g[edge[0]].add(new int[] { edge[1], edge[2] });
+            g[edge[1]].add(new int[] { edge[0], edge[2] });
+        }
+        int[][] dis = new int[n][k + 1];
+        for (int[] d : dis) {
+            Arrays.fill(d, Integer.MAX_VALUE);
+        }
+        dis[s][0] = 0;
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[2], o2[2]);
+            }
+
+        });
+        int res = Integer.MAX_VALUE;
+        // (x, usedK, d)
+        q.offer(new int[] { s, 0, 0 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int usedK = cur[1];
+            int d = cur[2];
+            if (d > dis[x][usedK]) {
+                continue;
+            }
+            if (x == e) {
+                res = Math.min(res, d);
+                if (d == 0) {
+                    break;
+                }
+                continue;
+            }
+            for (int[] neighbor : g[x]) {
+                int y = neighbor[0];
+                int w = neighbor[1];
+                if (d + w < dis[y][usedK]) {
+                    dis[y][usedK] = d + w;
+                    q.offer(new int[] { y, usedK, d + w });
+                }
+                if (usedK < k && d < dis[y][usedK + 1]) {
+                    dis[y][usedK + 1] = d;
+                    q.offer(new int[] { y, usedK + 1, d });
+                }
+            }
         }
         return res;
 
