@@ -5056,7 +5056,7 @@ public class Leetcode_10 {
 
     }
 
-    // 2714. 找到 K 次跨越的最短路径 (Find Shortest Path with K Hops)
+    // 2714. 找到 K 次跨越的最短路径 (Find Shortest Path with K Hops) --plus
     public int shortestPathWithHops(int n, int[][] edges, int s, int e, int k) {
         List<int[]>[] g = new ArrayList[n];
         Arrays.setAll(g, o -> new ArrayList<>());
