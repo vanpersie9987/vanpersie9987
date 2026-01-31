@@ -8166,3 +8166,36 @@ class SegmentTree2940:
             if left[i] and right[i]:
                 res = max(res, left[i] + profits[i] + right[i])
         return res
+
+    # 1088. 易混淆数 II (Confusing Number II) --plus
+    def confusingNumberII(self, n: int) -> int:
+        def rev(x: int) -> bool:
+            r = 0
+            while x:
+                r = r * 10 + d[x % 10]
+                x //= 10
+            return r
+        def dfs(i: int, j: int):
+            if i == l:
+                if j and j <= n and rev(j) != j:
+                    nonlocal res
+                    res += 1
+                return
+            if not j:
+                dfs(i + 1, j)
+            for x in a:
+                if not j and x == 0:
+                    continue
+                dfs(i + 1, j * 10 + x)
+        a = [0, 1, 6, 8, 9]
+        d = [0] * 10
+        d[0] = 0
+        d[1] = 1
+        d[6] = 9
+        d[9] = 6
+        d[8] = 8
+
+        res = 0
+        l = len(str(n))
+        dfs(0, 0)
+        return res
