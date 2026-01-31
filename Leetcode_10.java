@@ -4999,4 +4999,22 @@ public class Leetcode_10 {
         }
         return rev;
     }
+
+    // 1063. 有效子数组的数目 (Number of Valid Subarrays) --plus
+    public int validSubarrays(int[] nums) {
+        Stack<Integer> st = new Stack<>();
+        int n = nums.length;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            while (!st.isEmpty() && nums[i] < nums[st.peek()]) {
+                res += i - st.pop();
+            }
+            st.push(i);
+        }
+        while (!st.isEmpty()) {
+            res += n - st.pop();
+        }
+        return res;
+
+    }
 }
