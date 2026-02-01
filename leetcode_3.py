@@ -8479,14 +8479,14 @@ class SegmentTree2940:
         res = dfs(len(weights) - 1, w1, w2)
         dfs.cache_clear()
         return res
-    
+
     # 3581. 计算数字中的奇数字母数量 (Count Odd Letters from Number) --plus
     def countOddLetters(self, n: int) -> int:
         map = ["zero", "one", "two", "thr", "four", "five", "six", "svn", "eight", "ie"]
         mask_map = [0] * 10
         for i, s in enumerate(map):
             for c in s:
-                mask_map[i] ^= 1 << (ord(c) - ord('a'))
+                mask_map[i] ^= 1 << (ord(c) - ord("a"))
         mask_cnt = 0
         while n:
             mask_cnt ^= 1 << (n % 10)
@@ -8497,5 +8497,3 @@ class SegmentTree2940:
             mask_res ^= mask_map[lb]
             mask_cnt &= mask_cnt - 1
         return mask_res.bit_count()
-
-        
