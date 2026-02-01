@@ -8450,3 +8450,14 @@ class SegmentTree2940:
     def sortThreats(self, threats: List[List[int]]) -> List[List[int]]:
         threats.sort(key=lambda k: (-k[1] * 2 - k[2], k[0]))
         return threats
+
+    # 3682. 公共元素的最小索引和 (Minimum Index Sum of Common Elements) --plus
+    def minimumSum(self, nums1: List[int], nums2: List[int]) -> int:
+        d = defaultdict(int)
+        for i, x in enumerate(nums1):
+            if x not in d:
+                d[x] = i
+        res = inf
+        for i, x in enumerate(nums2):
+            res = min(res, i + d.get(x, inf))
+        return res if res < inf else -1 
