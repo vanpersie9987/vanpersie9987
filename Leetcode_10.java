@@ -5378,4 +5378,23 @@ public class Leetcode_10 {
         }
         return memo1746[i][j] = Math.max(0, res);
     }
+    
+    // 3631. 按严重性和可利用性排序威胁 (Sort Threats by Severity and Exploitability) --plus
+    public int[][] sortThreats(int[][] threats) {
+        Arrays.sort(threats, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                long score1 = (long) o1[1] * 2 + o1[2];
+                long score2 = (long) o2[1] * 2 + o2[2];
+                if (score1 == score2) {
+                    return Integer.compare(o1[0], o2[0]);
+                }
+                return Long.compare(score2, score1);
+            }
+
+        });
+        return threats;
+
+    }
 }
