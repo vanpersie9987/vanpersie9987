@@ -5495,4 +5495,10 @@ public class Leetcode_10 {
     public int countMonobit(int n) {
         return 32 - Integer.numberOfLeadingZeros(n + 1);
     }
+
+    // 3828. 删除子数组后的最终元素 (Final Element After Subarray Deletions)
+    public int finalElement(int[] nums) {
+        return Math.max(nums[0], nums[nums.length - 1]);
+
+    }
 }

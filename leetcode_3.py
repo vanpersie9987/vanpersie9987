@@ -8511,9 +8511,11 @@ class SegmentTree2940:
             else:
                 left = mid + 1
         return right + 1
-    
+
     # 3827. 统计单比特整数 (Count Monobit Integers)
     def countMonobit(self, n: int) -> int:
         return (n + 1).bit_length()
 
-        
+    # 3828. 删除子数组后的最终元素 (Final Element After Subarray Deletions)
+    def finalElement(self, nums: List[int]) -> int:
+        return max(nums[0], nums[-1])
