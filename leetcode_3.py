@@ -8351,3 +8351,24 @@ class SegmentTree2940:
                 res += 1
                 _min = x
         return res
+
+    # 3032. 统计各位数字都不同的数字个数 II (Count Numbers With Unique Digits II) --plus
+    def numberCount(self, a: int, b: int) -> int:
+        def cal(x: int) -> int:
+            @cache
+            def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
+                if i == n:
+                    return is_num
+                res = 0
+                if not is_num:
+                    res = dfs(i + 1, j, False, False)
+                up = int(s[i]) if is_limit else 9
+                for d in range(0 if is_num else 1, up + 1):
+                    if j >> d & 1 == 0:
+                        res += dfs(i + 1, j | (1 << d), is_limit and d == up, True)
+                return res
+            s = str(x)
+            n = len(s)
+            return dfs(0, 0, True, False)
+
+        return cal(b) - cal(a - 1)
