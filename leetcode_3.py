@@ -8497,3 +8497,17 @@ class SegmentTree2940:
             mask_res ^= mask_map[lb]
             mask_cnt &= mask_cnt - 1
         return mask_res.bit_count()
+
+    # 3824. 减小数组使其满足条件的最小 K 值 (Minimum K to Reduce Array Within Limit)
+    def minimumK(self, nums: List[int]) -> int:
+        def check(k: int) -> int:
+            return sum((x + k - 1) // k for x in nums)
+        left = 1
+        right = 10**4
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid) <= mid ** 2:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return right + 1
