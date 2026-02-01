@@ -8367,6 +8367,7 @@ class SegmentTree2940:
                     if j >> d & 1 == 0:
                         res += dfs(i + 1, j | (1 << d), is_limit and d == up, True)
                 return res
+
             s = str(x)
             n = len(s)
             return dfs(0, 0, True, False)
@@ -8428,3 +8429,18 @@ class SegmentTree2940:
                         vis[nx][ny] = True
                         q.append((nx, ny, step + 1))
         return -1
+
+    # 1746. 经过一次操作后的最大子数组和 (Maximum Subarray Sum After One Operation) --plus
+    def maxSumAfterOperation(self, nums: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: bool) -> int:
+            if i < 0:
+                return 0 if j else -inf
+            res = dfs(i - 1, j) + nums[i]
+            if not j:
+                res = max(res, dfs(i - 1, True) + nums[i] * nums[i])
+            return max(res, 0)
+        return max(
+            max(dfs(i - 1, False) + x, dfs(i - 1, True) + x * x)
+            for i, x in enumerate(nums)
+        )
