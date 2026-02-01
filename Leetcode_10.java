@@ -5172,7 +5172,8 @@ public class Leetcode_10 {
         return res.stream().mapToInt(i -> i).toArray();
     }
 
-    // 3400. 右移后的最大匹配索引数 (Maximum Number of Matching Indices After Right Shifts) --plus
+    // 3400. 右移后的最大匹配索引数 (Maximum Number of Matching Indices After Right Shifts)
+    // --plus
     public int maximumMatchingIndices(int[] nums1, int[] nums2) {
         int n = nums1.length;
         int res = 0;
@@ -5201,5 +5202,22 @@ public class Leetcode_10 {
         }
         return res;
 
+    }
+
+    // 3460. 最多删除一次后的最长公共前缀 (Longest Common Prefix After at Most One Removal) --plus
+    public int longestCommonPrefix(String s, String t) {
+        int j = 0;
+        boolean deleted = false;
+        for (int i = 0; i < s.length() && j < t.length(); ++i) {
+            if (s.charAt(i) != t.charAt(j)) {
+                if (deleted) {
+                    break;
+                }
+                deleted = true;
+                continue;
+            }
+            ++j;
+        }
+        return j;
     }
 }
