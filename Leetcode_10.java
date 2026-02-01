@@ -5444,4 +5444,29 @@ public class Leetcode_10 {
         }
         return memo3647[i][j][k] = res;
     }
+
+    // 3581. 计算数字中的奇数字母数量 (Count Odd Letters from Number) --plus
+    public int countOddLetters(int n) {
+        String[] map = { "zero", "one", "two", "thr", "four", "five", "six", "svn", "eight", "ie" };
+        int[] mapMask = new int[10];
+        for (int i = 0; i < 10; ++i) {
+            for (char c : map[i].toCharArray()) {
+                mapMask[i] |= 1 << c - 'a';
+            }
+        }
+        int mask = 0;
+        while (n != 0) {
+            mask ^= 1 << (n % 10);
+            n /= 10;
+        }
+        int alphaMask = 0;
+        for (int i = 0; i < 10; ++i) {
+            if ((mask >> i & 1) != 0) {
+                alphaMask ^= mapMask[i];
+            }
+        }
+        return Integer.bitCount(alphaMask);
+
+
+    }
 }
