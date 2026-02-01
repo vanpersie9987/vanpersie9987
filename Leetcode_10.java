@@ -5233,4 +5233,46 @@ public class Leetcode_10 {
         }
         return res;
     }
+
+    // 3032. 统计各位数字都不同的数字个数 II (Count Numbers With Unique Digits II) --plus
+    public int numberCount(int a, int b) {
+        return cal3032(b) - cal3032(a - 1);
+    }
+
+    private String s3032;
+    private int n3032;
+    private int[][] memo3032;
+
+    private int cal3032(int x) {
+        this.s3032 = String.valueOf(x);
+        this.n3032 = s3032.length();
+        this.memo3032 = new int[n3032][1 << 10];
+        for (int i = 0; i < n3032; ++i) {
+            Arrays.fill(memo3032[i], -1);
+        }
+        return dfs3032(0, 0, true, false);
+    }
+
+    private int dfs3032(int i, int j, boolean isLimit, boolean isNum) {
+        if (i == n3032) {
+            return isNum ? 1 : 0;
+        }
+        if (!isLimit && isNum && memo3032[i][j] != -1) {
+            return memo3032[i][j];
+        }
+        int res = 0;
+        if (!isNum) {
+            res = dfs3032(i + 1, j, false, false);
+        }
+        int up = isLimit ? s3032.charAt(i) - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            if ((j >> d & 1) == 0) {
+                res += dfs3032(i + 1, j | (1 << d), isLimit && up == d, true);
+            }
+        }
+        if (!isLimit && isNum) {
+            memo3032[i][j] = res;
+        }
+        return res;
+    }
 }
