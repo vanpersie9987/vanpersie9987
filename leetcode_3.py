@@ -8313,3 +8313,13 @@ class SegmentTree2940:
                     cnt += 1
             res = max(res, cnt)
         return res
+
+    # 3450. 一张长椅上的最多学生 (Maximum Students on a Single Bench) --plus
+    def maxStudentsOnBench(self, students: List[List[int]]) -> int:
+        cnts = defaultdict(set)
+        for x, y in students:
+            cnts[y].add(x)
+        res = 0
+        for s in cnts.values():
+            res = max(res, len(s))
+        return res
