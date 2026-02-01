@@ -5397,4 +5397,18 @@ public class Leetcode_10 {
         return threats;
 
     }
+
+    // 3682. 公共元素的最小索引和 (Minimum Index Sum of Common Elements) --plus
+    public int minimumSum(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        Map<Integer, Integer> pos = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            pos.putIfAbsent(nums1[i], i);
+        }
+        int res = Integer.MAX_VALUE / 2;
+        for (int i = 0; i < n; ++i) {
+            res = Math.min(res, i + pos.getOrDefault(nums2[i], Integer.MAX_VALUE / 2));
+        }
+        return res < Integer.MAX_VALUE / 2 ? res : -1;
+    }
 }
