@@ -5345,4 +5345,37 @@ public class Leetcode_10 {
         }
         return -1;
     }
+
+    // 1746. 经过一次操作后的最大子数组和 (Maximum Subarray Sum After One Operation) --plus
+    private int[] nums1746;
+    private int[][] memo1746;
+
+    public int maxSumAfterOperation(int[] nums) {
+        int n = nums.length;
+        this.nums1746 = nums;
+        this.memo1746 = new int[n][2];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo1746[i], Integer.MIN_VALUE / 2);
+        }
+        int res = Integer.MIN_VALUE;
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, dfs1746(i - 1, 0) + nums[i]);
+            res = Math.max(res, dfs1746(i - 1, 1) + nums[i] * nums[i]);
+        }
+        return res;
+    }
+
+    private int dfs1746(int i, int j) {
+        if (i < 0) {
+            return j == 1 ? 0 : Integer.MIN_VALUE / 2;
+        }
+        if (memo1746[i][j] != Integer.MIN_VALUE / 2) {
+            return memo1746[i][j];
+        }
+        int res = dfs1746(i - 1, j) + nums1746[i];
+        if (j == 0) {
+            res = Math.max(res, dfs1746(i - 1, 1) + nums1746[i] * nums1746[i]);
+        }
+        return memo1746[i][j] = Math.max(0, res);
+    }
 }
