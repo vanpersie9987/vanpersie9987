@@ -5275,7 +5275,7 @@ public class Leetcode_10 {
         }
         return res;
     }
-    
+
     // 2814. 避免淹死并到达目的地的最短时间 (Minimum Time Takes to Reach Destination Without
     // Drowning) --plus
     public int minimumSeconds(List<List<String>> land) {

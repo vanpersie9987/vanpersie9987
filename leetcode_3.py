@@ -8372,3 +8372,59 @@ class SegmentTree2940:
             return dfs(0, 0, True, False)
 
         return cal(b) - cal(a - 1)
+
+    # 2814. 避免淹死并到达目的地的最短时间 (Minimum Time Takes to Reach Destination Without Drowning) --plus
+    def minimumSeconds(self, land: List[List[str]]) -> int:
+        m, n = len(land), len(land[0])
+        q_flood = deque()
+        vis_flood = [[False] * n for _ in range(m)]
+        s, d = (), ()
+        for i in range(m):
+            for j in range(n):
+                x = land[i][j]
+                if x == "S":
+                    s = (i, j)
+                elif x == "D":
+                    d = (i, j)
+                elif x == "*":
+                    q_flood.append((i, j))
+                    vis_flood[i][j] = True
+        vis = [[False] * n for _ in range(m)]
+        vis[s[0]][s[1]] = True
+        q = deque()
+        q.append((s[0], s[1], 0))
+        while q:
+            size = len(q_flood)
+            for _ in range(size):
+                x, y = q_flood.popleft()
+                for dx, dy in (0, 1), (0, -1), (1, 0), (-1, 0):
+                    nx = x + dx
+                    ny = y + dy
+                    if (
+                        0 <= nx < m
+                        and 0 <= ny < n
+                        and not vis_flood[nx][ny]
+                        and land[nx][ny] != "X"
+                        and land[nx][ny] != "D"
+                    ):
+                        vis_flood[nx][ny] = True
+                        q_flood.append((nx, ny))
+
+            size = len(q)
+            for _ in range(size):
+                x, y, step = q.popleft()
+                if x == d[0] and y == d[1]:
+                    return step
+                for dx, dy in (0, 1), (0, -1), (1, 0), (-1, 0):
+                    nx = x + dx
+                    ny = y + dy
+                    if (
+                        0 <= nx < m
+                        and 0 <= ny < n
+                        and not vis_flood[nx][ny]
+                        and not vis[nx][ny]
+                        and land[nx][ny] != "X"
+                    ):
+                        vis[nx][ny] = True
+                        q.append((nx, ny, step + 1))
+        return -1
