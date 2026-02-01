@@ -8502,11 +8502,12 @@ class SegmentTree2940:
     def minimumK(self, nums: List[int]) -> int:
         def check(k: int) -> int:
             return sum((x + k - 1) // k for x in nums)
+
         left = 1
         right = 10**4
         while left <= right:
             mid = left + ((right - left) >> 1)
-            if check(mid) <= mid ** 2:
+            if check(mid) <= mid**2:
                 right = mid - 1
             else:
                 left = mid + 1
@@ -8519,3 +8520,34 @@ class SegmentTree2940:
     # 3828. 删除子数组后的最终元素 (Final Element After Subarray Deletions)
     def finalElement(self, nums: List[int]) -> int:
         return max(nums[0], nums[-1])
+
+    # 3823. 反转一个字符串里的字母后反转特殊字符 (Reverse Letters Then Special Characters in a String)
+    def reverseByType(self, s: str) -> str:
+        a = [x for x in s]
+        n = len(a)
+        i = 0
+        j = n - 1
+        while i < j:
+            while i < n and not a[i].islower():
+                i += 1
+            if i >= j:
+                break
+            while j >= 0 and not a[j].islower():
+                j -= 1
+            a[i], a[j] = a[j], a[i]
+            i += 1
+            j -= 1
+
+        i = 0
+        j = n - 1
+        while i < j:
+            while i < n and a[i].islower():
+                i += 1
+            if i >= j:
+                break
+            while j >= 0 and a[j].islower():
+                j -= 1
+            a[i], a[j] = a[j], a[i]
+            i += 1
+            j -= 1
+        return "".join(a)
