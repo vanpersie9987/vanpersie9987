@@ -5220,4 +5220,17 @@ public class Leetcode_10 {
         }
         return j;
     }
+
+    // 3616. 学生替换人数 (Number of Student Replacements) --plus
+    public int totalReplacements(int[] ranks) {
+        int min = ranks[0];
+        int res = 0;
+        for (int i = 1; i < ranks.length; ++i) {
+            if (ranks[i] < min) {
+                min = ranks[i];
+                ++res;
+            }
+        }
+        return res;
+    }
 }
