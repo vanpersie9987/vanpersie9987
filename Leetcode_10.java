@@ -5158,4 +5158,17 @@ public class Leetcode_10 {
         }
         return node;
     }
+
+    // 3294. 将双链表转换为数组 II (Convert Doubly Linked List to Array II) --plus
+    public int[] toArray(Node node) {
+        while (node.left != null) {
+            node = node.left;
+        }
+        List<Integer> res = new ArrayList<>();
+        while (node != null) {
+            res.add(node.val);
+            node = node.right;
+        }
+        return res.stream().mapToInt(i -> i).toArray();
+    }
 }
