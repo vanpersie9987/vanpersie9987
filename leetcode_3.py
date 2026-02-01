@@ -8511,3 +8511,14 @@ class SegmentTree2940:
             else:
                 left = mid + 1
         return right + 1
+    
+    # 3827. 统计单比特整数 (Count Monobit Integers)
+    def countMonobit(self, n: int) -> int:
+        res = 0
+        x = 1
+        while x - 1 <= n:
+            res += 1
+            x <<= 1
+        return res
+
+        

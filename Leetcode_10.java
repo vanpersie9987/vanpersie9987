@@ -5490,4 +5490,9 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 3827. 统计单比特整数 (Count Monobit Integers)
+    public int countMonobit(int n) {
+        return 32 - Integer.numberOfLeadingZeros(n + 1);
+    }
 }
