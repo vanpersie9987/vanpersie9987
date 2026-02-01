@@ -5505,18 +5505,14 @@ public class Leetcode_10 {
     // 3823. 反转一个字符串里的字母后反转特殊字符 (Reverse Letters Then Special Characters in a
     // String)
     public String reverseByType(String s) {
-        int n = s.length();
         char[] a = s.toCharArray();
         int i = 0;
         int j = a.length - 1;
         while (i < j) {
-            while (i < n && !Character.isLowerCase(a[i])) {
+            while (i < j && !Character.isLowerCase(a[i])) {
                 ++i;
             }
-            if (i >= j) {
-                break;
-            }
-            while (j >= 0 && !Character.isLowerCase(a[j])) {
+            while (i < j && !Character.isLowerCase(a[j])) {
                 --j;
             }
             char tmp = a[i];
@@ -5529,13 +5525,10 @@ public class Leetcode_10 {
         i = 0;
         j = a.length - 1;
         while (i < j) {
-            while (i < n && Character.isLowerCase(a[i])) {
+            while (i < j && Character.isLowerCase(a[i])) {
                 ++i;
             }
-            if (i >= j) {
-                break;
-            }
-            while (j >= 0 && Character.isLowerCase(a[j])) {
+            while (i < j && Character.isLowerCase(a[j])) {
                 --j;
             }
             char tmp = a[i];

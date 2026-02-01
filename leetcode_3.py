@@ -8528,11 +8528,9 @@ class SegmentTree2940:
         i = 0
         j = n - 1
         while i < j:
-            while i < n and not a[i].islower():
+            while i < j and not a[i].islower():
                 i += 1
-            if i >= j:
-                break
-            while j >= 0 and not a[j].islower():
+            while i < j and not a[j].islower():
                 j -= 1
             a[i], a[j] = a[j], a[i]
             i += 1
@@ -8541,13 +8539,11 @@ class SegmentTree2940:
         i = 0
         j = n - 1
         while i < j:
-            while i < n and a[i].islower():
+            while i < j and a[i].islower():
                 i += 1
-            if i >= j:
-                break
-            while j >= 0 and a[j].islower():
+            while i < j and a[j].islower():
                 j -= 1
             a[i], a[j] = a[j], a[i]
             i += 1
             j -= 1
-        return "".join(a)
+        return ''.join(a)
