@@ -8440,7 +8440,13 @@ class SegmentTree2940:
             if not j:
                 res = max(res, dfs(i - 1, True) + nums[i] * nums[i])
             return max(res, 0)
+
         return max(
             max(dfs(i - 1, False) + x, dfs(i - 1, True) + x * x)
             for i, x in enumerate(nums)
         )
+
+    # 3631. 按严重性和可利用性排序威胁 (Sort Threats by Severity and Exploitability) --plus
+    def sortThreats(self, threats: List[List[int]]) -> List[List[int]]:
+        threats.sort(key=lambda k: (-k[1] * 2 - k[2], k[0]))
+        return threats
