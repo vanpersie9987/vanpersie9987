@@ -8291,3 +8291,13 @@ class SegmentTree2940:
         if i < len(s) - 1:
             node.right = self.str2tree(s[end + 2 : len(s) - 1])
         return node
+
+    # 3294. 将双链表转换为数组 II (Convert Doubly Linked List to Array II) --plus
+    def toArray(self, node: 'Optional[Node]') -> List[int]:
+        while node.prev:
+            node = node.prev
+        res = []
+        while node:
+            res.append(node.val)
+            node = node.next
+        return res
