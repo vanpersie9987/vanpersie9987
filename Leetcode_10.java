@@ -5188,4 +5188,18 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 3450. 一张长椅上的最多学生 (Maximum Students on a Single Bench) --plus
+    public int maxStudentsOnBench(int[][] students) {
+        Map<Integer, Set<Integer>> cnts = new HashMap<>();
+        for (int[] s : students) {
+            cnts.computeIfAbsent(s[1], o -> new HashSet<>()).add(s[0]);
+        }
+        int res = 0;
+        for (Set<Integer> s : cnts.values()) {
+            res = Math.max(res, s.size());
+        }
+        return res;
+
+    }
 }
