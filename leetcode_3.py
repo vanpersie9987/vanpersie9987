@@ -8301,3 +8301,15 @@ class SegmentTree2940:
             res.append(node.val)
             node = node.next
         return res
+
+    # 3400. 右移后的最大匹配索引数 (Maximum Number of Matching Indices After Right Shifts) --plus
+    def maximumMatchingIndices(self, nums1: List[int], nums2: List[int]) -> int:
+        n = len(nums1)
+        res = 0
+        for i in range(n):
+            cnt = 0
+            for j in range(i, i + n):
+                if nums1[j % n] == nums2[j - i]:
+                    cnt += 1
+            res = max(res, cnt)
+        return res
