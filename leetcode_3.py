@@ -8293,7 +8293,7 @@ class SegmentTree2940:
         return node
 
     # 3294. 将双链表转换为数组 II (Convert Doubly Linked List to Array II) --plus
-    def toArray(self, node: 'Optional[Node]') -> List[int]:
+    def toArray(self, node: "Optional[Node]") -> List[int]:
         while node.prev:
             node = node.prev
         res = []
@@ -8322,4 +8322,22 @@ class SegmentTree2940:
         res = 0
         for s in cnts.values():
             res = max(res, len(s))
+        return res
+
+    # 3460. 最多删除一次后的最长公共前缀 (Longest Common Prefix After at Most One Removal) --plus
+    def longestCommonPrefix(self, s: str, t: str) -> int:
+        deleted = False
+        res = 0
+        i = 0
+        j = 0
+        while i < len(s) and j < len(t):
+            if s[i] != t[j]:
+                if deleted:
+                    break
+                deleted = True
+                i += 1
+                continue
+            res += 1
+            i += 1
+            j += 1
         return res
