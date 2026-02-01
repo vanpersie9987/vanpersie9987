@@ -5171,4 +5171,21 @@ public class Leetcode_10 {
         }
         return res.stream().mapToInt(i -> i).toArray();
     }
+
+    // 3400. 右移后的最大匹配索引数 (Maximum Number of Matching Indices After Right Shifts) --plus
+    public int maximumMatchingIndices(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            int cnt = 0;
+            for (int j = i; j < i + n; ++j) {
+                if (nums1[j % n] == nums2[j - i]) {
+                    ++cnt;
+                }
+            }
+            res = Math.max(res, cnt);
+        }
+        return res;
+
+    }
 }
