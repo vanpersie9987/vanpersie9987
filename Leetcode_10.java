@@ -5411,4 +5411,37 @@ public class Leetcode_10 {
         }
         return res < Integer.MAX_VALUE / 2 ? res : -1;
     }
+
+    // 3647. 两个袋子中的最大重量 (Maximum Weight in Two Bags) --plus
+    private int[][][] memo3647;
+    private int[] weights3647;
+
+    public int maxWeight(int[] weights, int w1, int w2) {
+        int n = weights.length;
+        this.weights3647 = weights;
+        this.memo3647 = new int[n][w1 + 1][w2 + 1];
+        for (int[][] r1 : memo3647) {
+            for (int[] r2 : r1) {
+                Arrays.fill(r2, -1);
+            }
+        }
+        return dfs3647(n - 1, w1, w2);
+    }
+
+    private int dfs3647(int i, int j, int k) {
+        if (i < 0) {
+            return 0;
+        }
+        if (memo3647[i][j][k] != -1) {
+            return memo3647[i][j][k];
+        }
+        int res = dfs3647(i - 1, j, k);
+        if (weights3647[i] <= j) {
+            res = Math.max(res, dfs3647(i - 1, j - weights3647[i], k) + weights3647[i]);
+        }
+        if (weights3647[i] <= k) {
+            res = Math.max(res, dfs3647(i - 1, j, k - weights3647[i]) + weights3647[i]);
+        }
+        return memo3647[i][j][k] = res;
+    }
 }
