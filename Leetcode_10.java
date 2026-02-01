@@ -5275,4 +5275,74 @@ public class Leetcode_10 {
         }
         return res;
     }
+    
+    // 2814. 避免淹死并到达目的地的最短时间 (Minimum Time Takes to Reach Destination Without
+    // Drowning) --plus
+    public int minimumSeconds(List<List<String>> land) {
+        int[] s = new int[2];
+        int[] d = new int[2];
+        int m = land.size();
+        int n = land.get(0).size();
+        Queue<int[]> qFlood = new ArrayDeque<>();
+        boolean[][] visFlood = new boolean[m][n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int c = land.get(i).get(j).charAt(0);
+                if (c == 'S') {
+                    s = new int[] { i, j };
+                } else if (c == 'D') {
+                    d = new int[] { i, j };
+                } else if (c == '*') {
+                    qFlood.offer(new int[] { i, j });
+                    visFlood[i][j] = true;
+                }
+            }
+        }
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        boolean[][] vis = new boolean[m][n];
+        vis[s[0]][s[1]] = true;
+        Queue<int[]> q = new ArrayDeque<>();
+        q.offer(new int[] { s[0], s[1], 0 });
+        while (!q.isEmpty()) {
+            int size = qFlood.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = qFlood.poll();
+                int x = cur[0];
+                int y = cur[1];
+                for (int[] dir : dirs) {
+                    int dx = dir[0];
+                    int dy = dir[1];
+                    int nx = x + dx;
+                    int ny = y + dy;
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && land.get(nx).get(ny).charAt(0) != 'D'
+                            && land.get(nx).get(ny).charAt(0) != 'X' && !visFlood[nx][ny]) {
+                        visFlood[nx][ny] = true;
+                        qFlood.offer(new int[] { nx, ny });
+                    }
+                }
+            }
+            size = q.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = q.poll();
+                int x = cur[0];
+                int y = cur[1];
+                int step = cur[2];
+                if (x == d[0] && y == d[1]) {
+                    return step;
+                }
+                for (int[] dir : dirs) {
+                    int dx = dir[0];
+                    int dy = dir[1];
+                    int nx = x + dx;
+                    int ny = y + dy;
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && land.get(nx).get(ny).charAt(0) != 'X'
+                            && !visFlood[nx][ny] && !vis[nx][ny]) {
+                        vis[nx][ny] = true;
+                        q.offer(new int[] { nx, ny, step + 1 });
+                    }
+                }
+            }
+        }
+        return -1;
+    }
 }
