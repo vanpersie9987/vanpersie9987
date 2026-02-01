@@ -4930,7 +4930,8 @@ public class Leetcode_10 {
 
     }
 
-    // 2907. 价格递增的最大利润三元组 I (Maximum Profitable Triplets With Increasing Prices I) --plus
+    // 2907. 价格递增的最大利润三元组 I (Maximum Profitable Triplets With Increasing Prices I)
+    // --plus
     public int maxProfit(int[] prices, int[] profits) {
         int n = prices.length;
         int[] left = new int[n];
@@ -5110,5 +5111,51 @@ public class Leetcode_10 {
         }
         return res;
 
+    }
+
+    // 536. 从字符串生成二叉树 (Construct Binary Tree from String) --plus
+    public TreeNode str2tree(String s) {
+        if (s == null || s.isEmpty()) {
+            return null;
+        }
+        int x = 0;
+        int i = 0;
+        int sign = 1;
+        while (i < s.length()) {
+            if (s.charAt(i) == '(') {
+                break;
+            }
+            if (s.charAt(i) == '-') {
+                sign = -1;
+            } else {
+                x = x * 10 + s.charAt(i) - '0';
+            }
+            ++i;
+        }
+        x *= sign;
+        TreeNode node = new TreeNode(x);
+        if (i == s.length()) {
+            return node;
+        }
+        int cnt = 0;
+        int start = i;
+        int end = -1;
+        while (i < s.length()) {
+            if (s.charAt(i) == '(') {
+                ++cnt;
+            } else if (s.charAt(i) == ')') {
+                --cnt;
+            }
+            if (cnt == 0) {
+                end = i;
+                break;
+            }
+            ++i;
+        }
+        node.left = str2tree(s.substring(start + 1, end));
+        if (end < s.length() - 1) {
+            node.right = str2tree(s.substring(end + 2, s.length() - 1));
+        }
+        return node;
     }
 }
