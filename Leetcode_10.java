@@ -5466,4 +5466,28 @@ public class Leetcode_10 {
         }
         return Integer.bitCount(resMask);
     }
+
+    // 3824. 减小数组使其满足条件的最小 K 值 (Minimum K to Reduce Array Within Limit)
+    public int minimumK(int[] nums) {
+        int left = 1;
+        int right = (int) 1e4;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check3824(mid, nums) <= (long) mid * mid) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+    }
+
+    private long check3824(int k, int[] nums) {
+        long res = 0L;
+        for (int x : nums) {
+            res += (x + k - 1) / k;
+        }
+        return res;
+
+    }
 }
