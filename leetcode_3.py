@@ -8222,7 +8222,7 @@ class SegmentTree2940:
             street.openDoor()
             street.moveRight()
         return res
-    
+
     # 2714. 找到 K 次跨越的最短路径 (Find Shortest Path with K Hops) --plus
     def shortestPathWithHops(
         self, n: int, edges: List[List[int]], s: int, e: int, k: int
@@ -8256,3 +8256,38 @@ class SegmentTree2940:
                     dis[y][used_k + 1] = d
                     heapq.heappush(q, (d, used_k + 1, y))
         return res
+
+    # 536. 从字符串生成二叉树 (Construct Binary Tree from String) --plus
+    def str2tree(self, s: str) -> Optional[TreeNode]:
+        if len(s) == 0:
+            return None
+        sign = 1
+        x = 0
+        i = 0
+        while i < len(s):
+            if s[i] == "(":
+                break
+            if s[i] == "-":
+                sign = -1
+            else:
+                x = x * 10 + int(s[i])
+            i += 1
+        node = TreeNode(x * sign)
+        if i == len(s):
+            return node
+        start = i
+        end = -1
+        cnt = 0
+        while i < len(s):
+            if s[i] == "(":
+                cnt += 1
+            elif s[i] == ")":
+                cnt -= 1
+            if cnt == 0:
+                end = i
+                break
+            i += 1
+        node.left = self.str2tree(s[start + 1 : end])
+        if i < len(s) - 1:
+            node.right = self.str2tree(s[end + 2 : len(s) - 1])
+        return node
