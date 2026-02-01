@@ -5447,11 +5447,11 @@ public class Leetcode_10 {
 
     // 3581. 计算数字中的奇数字母数量 (Count Odd Letters from Number) --plus
     public int countOddLetters(int n) {
-        String[] map = { "zero", "one", "two", "thr", "four", "five", "six", "svn", "eight", "ie" };
+        String[] map = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
         int[] mapMask = new int[10];
         for (int i = 0; i < 10; ++i) {
             for (char c : map[i].toCharArray()) {
-                mapMask[i] |= 1 << c - 'a';
+                mapMask[i] ^= 1 << c - 'a';
             }
         }
         int mask = 0;
@@ -5459,14 +5459,11 @@ public class Leetcode_10 {
             mask ^= 1 << (n % 10);
             n /= 10;
         }
-        int alphaMask = 0;
-        for (int i = 0; i < 10; ++i) {
-            if ((mask >> i & 1) != 0) {
-                alphaMask ^= mapMask[i];
-            }
+        int resMask = 0;
+        for (int m = mask; m != 0; m &= m - 1) {
+            int lb = Integer.numberOfTrailingZeros(m);
+            resMask ^= mapMask[lb];
         }
-        return Integer.bitCount(alphaMask);
-
-
+        return Integer.bitCount(resMask);
     }
 }
