@@ -8460,4 +8460,22 @@ class SegmentTree2940:
         res = inf
         for i, x in enumerate(nums2):
             res = min(res, i + d.get(x, inf))
-        return res if res < inf else -1 
+        return res if res < inf else -1
+
+    # 3647. 两个袋子中的最大重量 (Maximum Weight in Two Bags) --plus
+    def maxWeight(self, weights: List[int], w1: int, w2: int) -> int:
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if i < 0:
+                return 0
+            w = weights[i]
+            res = dfs(i - 1, j, k)
+            if w <= j:
+                res = max(res, dfs(i - 1, j - w, k) + w)
+            if w <= k:
+                res = max(res, dfs(i - 1, j, k - w) + w)
+            return res
+
+        res = dfs(len(weights) - 1, w1, w2)
+        dfs.cache_clear()
+        return res
