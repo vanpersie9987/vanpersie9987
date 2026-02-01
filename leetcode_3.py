@@ -8341,3 +8341,13 @@ class SegmentTree2940:
             i += 1
             j += 1
         return res
+
+    # 3616. 学生替换人数 (Number of Student Replacements) --plus
+    def totalReplacements(self, ranks: List[int]) -> int:
+        _min = ranks[0]
+        res = 0
+        for i, x in enumerate(ranks):
+            if x < _min:
+                res += 1
+                _min = x
+        return res
