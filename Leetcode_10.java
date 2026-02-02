@@ -5540,4 +5540,42 @@ public class Leetcode_10 {
         return String.valueOf(a);
 
     }
+
+    // 3825. 按位与结果非零的最长上升子序列 (Longest Strictly Increasing Subsequence With Non-Zero
+    // Bitwise AND)
+    public int longestSubsequence3825(int[] nums) {
+        int res = 0;
+        for (int i = 0; i < 30; ++i) {
+            List<Integer> g = new ArrayList<>();
+            for (int x : nums) {
+                if ((x >> i & 1) == 0) {
+                    continue;
+                }
+                int j = lowerBound3825(g, x);
+                if (j == g.size()) {
+                    g.add(x); // >=x 的 g[j] 不存在
+                } else {
+                    g.set(j, x);
+                }
+            }
+            res = Math.max(res, g.size());
+        }
+        return res;
+
+    }
+
+    private int lowerBound3825(List<Integer> g, int x) {
+        int left = 0;
+        int right = g.size() - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (g.get(mid) >= x) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+    }
+
 }
