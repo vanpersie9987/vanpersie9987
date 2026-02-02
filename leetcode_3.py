@@ -8346,7 +8346,7 @@ class SegmentTree2940:
     def totalReplacements(self, ranks: List[int]) -> int:
         _min = ranks[0]
         res = 0
-        for i, x in enumerate(ranks):
+        for x in ranks:
             if x < _min:
                 res += 1
                 _min = x
