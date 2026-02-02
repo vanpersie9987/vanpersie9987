@@ -5645,4 +5645,61 @@ public class Leetcode_10 {
         }
     }
 
+    // 3830. 移除至多一个元素后的最长交替子数组 (Longest Alternating Subarray After Removing At Most
+    // One Element)
+    public int longestAlternating(int[] nums) {
+        int res = 1;
+        int n = nums.length;
+        // left[i][0] 以i结尾 最后一组是下降的最长子数组长度
+        // left[i][1] 以i结尾 最后一组是上升的最长子数组长度
+        int[][] left = new int[n][2];
+        left[0][0] = left[0][1] = 1;
+        for (int i = 1; i < n; ++i) {
+            if (nums[i] == nums[i - 1]) {
+                left[i][0] = left[i][1] = 1;
+            } else if (nums[i] > nums[i - 1]) {
+                left[i][1] = left[i - 1][0] + 1;
+                left[i][0] = 1;
+            } else {
+                left[i][0] = left[i - 1][1] + 1;
+                left[i][1] = 1;
+            }
+            res = Math.max(res, left[i][0]);
+            res = Math.max(res, left[i][1]);
+        }
+
+        // right[i][0] 以i开始 第一组是下降的最长子数组长度
+        // right[i][1] 以i开始 第一组是上升的最长子数组长度
+        int[][] right = new int[n][2];
+        right[n - 1][0] = right[n - 1][1] = 1;
+        for (int i = n - 2; i >= 0; --i) {
+            if (nums[i] == nums[i + 1]) {
+                right[i][0] = right[i][1] = 1;
+            } else if (nums[i] > nums[i + 1]) {
+                right[i][0] = right[i + 1][1] + 1;
+                right[i][1] = 1;
+            } else {
+                right[i][1] = right[i + 1][0] + 1;
+                right[i][0] = 1;
+            }
+            res = Math.max(res, right[i][0]);
+            res = Math.max(res, right[i][1]);
+        }
+        for (int i = 1; i < n - 1; ++i) {
+            // 不移除nums[i]
+            if (nums[i] < nums[i + 1]) {
+                res = Math.max(res, left[i][0] + right[i + 1][0]);
+            } else if (nums[i] > nums[i + 1]) {
+                res = Math.max(res, left[i][1] + right[i + 1][1]);
+            }
+            // 移除nums[i]
+            if (nums[i - 1] < nums[i + 1]) {
+                res = Math.max(res, left[i - 1][0] + right[i + 1][0]);
+            } else if (nums[i - 1] > nums[i + 1]) {
+                res = Math.max(res, left[i - 1][1] + right[i + 1][1]);
+            }
+        }
+        return res;
+    }
+
 }

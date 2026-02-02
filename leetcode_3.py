@@ -8564,3 +8564,57 @@ class SegmentTree2940:
                     g[j] = x
             res = max(res, len(g))
         return res
+    
+    # 3830. 移除至多一个元素后的最长交替子数组 (Longest Alternating Subarray After Removing At Most One Element)
+    def longestAlternating(self, nums: List[int]) -> int:
+        n = len(nums)
+        res = 1
+        # left[i][0] 以i结尾 最后一组是下降的最长子数组长度
+        # left[i][1] 以i结尾 最后一组是上升的最长子数组长度
+        left = [[0] * 2 for _ in range(n)]
+        left[0][0] = left[0][1] = 1
+        for i in range(1, n):
+            if nums[i] == nums[i - 1]:
+                left[i][0] = left[i][1] = 1
+            elif nums[i] > nums[i - 1]:
+                left[i][1] = left[i - 1][0] + 1
+                left[i][0] = 1
+            else:
+                left[i][0] = left[i - 1][1] + 1
+                left[i][1] = 1
+            res = max(res, left[i][0], left[i][1])
+
+        # right[i][0] 以i开始 第一组是下降的最长子数组长度
+        # right[i][1] 以i开始 第一组是上升的最长子数组长度
+        right = [[0] * 2 for _ in range(n)]
+        right[n - 1][0] = right[n - 1][1] = 1
+        for i in range(n - 2, -1, -1):
+            if nums[i] == nums[i + 1]:
+                right[i][0] = right[i][1] = 1
+            elif nums[i] > nums[i + 1]:
+                right[i][0] = right[i + 1][1] + 1
+                right[i][1] = 1
+            else:
+                right[i][1] = right[i + 1][0] + 1
+                right[i][0] = 1
+            res = max(res, right[i][0], right[i][1])
+        
+        for i in range(1, n - 1):
+            # 不移除nums[i]
+            if nums[i] > nums[i + 1]:
+                res = max(res, left[i][1] + right[i + 1][1])
+            elif nums[i] < nums[i + 1]:
+                res = max(res, left[i][0] + right[i + 1][0])
+            
+            # 不移除nums[i]
+            if nums[i - 1] > nums[i + 1]:
+                res = max(res, left[i - 1][1] + right[i + 1][1])
+            elif nums[i - 1] < nums[i + 1]:
+                res = max(res, left[i - 1][0] + right[i + 1][0])
+        return res
+
+
+            
+
+            
+        
