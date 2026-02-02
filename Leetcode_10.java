@@ -5702,4 +5702,39 @@ public class Leetcode_10 {
         return res;
     }
 
+    // 3830. 移除至多一个元素后的最长交替子数组 (Longest Alternating Subarray After Removing At Most
+    // One Element)
+    private int[][][] memo3830;
+    private int[] nums3830;
+
+    public int longestAlternating2(int[] nums) {
+        this.nums3830 = nums;
+        int n = nums.length;
+        this.memo3830 = new int[n][2][2];
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, dfs3830(i, 1, 0));
+            res = Math.max(res, dfs3830(i, 1, 1));
+        }
+        return res;
+
+    }
+
+    private int dfs3830(int i, int canDel, int inc) {
+        if (i == 0) {
+            return 1;
+        }
+        if (memo3830[i][canDel][inc] != 0) {
+            return memo3830[i][canDel][inc];
+        }
+        int res = 1;
+        if (nums3830[i - 1] != nums3830[i] && (nums3830[i - 1] < nums3830[i]) == (inc == 1)) {
+            res = dfs3830(i - 1, canDel, inc ^ 1) + 1;
+        }
+        if (canDel == 1 && i > 1 && nums3830[i - 2] != nums3830[i] && (nums3830[i - 2] < nums3830[i]) == (inc == 1)) {
+            res = Math.max(res, dfs3830(i - 2, 0, inc ^ 1) + 1);
+        }
+        return memo3830[i][canDel][inc] = res;
+    }
+
 }
