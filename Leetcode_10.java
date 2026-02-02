@@ -5545,7 +5545,12 @@ public class Leetcode_10 {
     // Bitwise AND)
     public int longestSubsequence3825(int[] nums) {
         int res = 0;
-        for (int i = 0; i < 30; ++i) {
+        int max = 0;
+        for (int x : nums) {
+            max = Math.max(max, x);
+        }
+        int w = 32 - Integer.numberOfLeadingZeros(max);
+        for (int i = 0; i < w; ++i) {
             List<Integer> g = new ArrayList<>();
             for (int x : nums) {
                 if ((x >> i & 1) == 0) {
