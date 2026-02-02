@@ -5583,4 +5583,66 @@ public class Leetcode_10 {
         return right + 1;
     }
 
+    // 3829. 设计共享出行系统 (Design Ride Sharing System)
+    class RideSharingSystem {
+
+        private record Group(int id, int time) {
+        }
+
+        private int timeStamp;
+        private Map<Integer, Integer> riderIdToTime;
+        private TreeSet<Group> driverSet;
+        private TreeSet<Group> riderSet;
+
+        public RideSharingSystem() {
+            this.riderIdToTime = new HashMap<>();
+            this.driverSet = new TreeSet<>(new Comparator<Group>() {
+
+                @Override
+                public int compare(Group o1, Group o2) {
+                    return Integer.compare(o1.time, o2.time);
+                }
+
+            });
+            this.riderSet = new TreeSet<>(new Comparator<Group>() {
+
+                @Override
+                public int compare(Group o1, Group o2) {
+                    return Integer.compare(o1.time, o2.time);
+                }
+
+            });
+
+        }
+
+        public void addRider(int riderId) {
+            riderIdToTime.put(riderId, timeStamp);
+            riderSet.add(new Group(riderId, timeStamp));
+            ++timeStamp;
+        }
+
+        public void addDriver(int driverId) {
+            driverSet.add(new Group(driverId, timeStamp++));
+        }
+
+        public int[] matchDriverWithRider() {
+            if (riderSet.isEmpty() || driverSet.isEmpty()) {
+                return new int[] { -1, -1 };
+            }
+            Group rider = riderSet.pollFirst();
+            Group driver = driverSet.pollFirst();
+            riderIdToTime.remove(rider.id);
+            return new int[] { driver.id, rider.id };
+
+        }
+
+        public void cancelRider(int riderId) {
+            Integer t = riderIdToTime.remove(riderId);
+            if (t == null) {
+                return;
+            }
+            riderSet.remove(new Group(riderId, t));
+        }
+    }
+
 }
