@@ -8547,3 +8547,20 @@ class SegmentTree2940:
             i += 1
             j -= 1
         return ''.join(a)
+
+    # 3825. 按位与结果非零的最长上升子序列 (Longest Strictly Increasing Subsequence With Non-Zero Bitwise AND)
+    def longestSubsequence(self, nums: List[int]) -> int:
+        w = max(nums).bit_length()
+        res = 0
+        for i in range(w):
+            g = []
+            for x in nums:
+                if x >> i & 1 == 0:
+                    continue
+                j = bisect.bisect_left(g, x)
+                if j == len(g):
+                    g.append(x)
+                else:
+                    g[j] = x
+            res = max(res, len(g))
+        return res
