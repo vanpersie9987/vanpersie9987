@@ -8606,7 +8606,7 @@ class SegmentTree2940:
             elif nums[i] < nums[i + 1]:
                 res = max(res, left[i][0] + right[i + 1][0])
 
-            # 不移除nums[i]
+            # 移除nums[i]
             if nums[i - 1] > nums[i + 1]:
                 res = max(res, left[i - 1][1] + right[i + 1][1])
             elif nums[i - 1] < nums[i + 1]:
