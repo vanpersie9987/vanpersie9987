@@ -2612,6 +2612,31 @@ class Solution:
         if j == n - 2 or j == 0 or nums[j] == nums[j + 1]:
             return False
         return all(nums[k] > nums[k + 1] for k in range(i - 1, j + 1))
+    
+    # 3637. 三段式数组 I (Trionic Array I)
+    def isTrionic(self, nums: List[int]) -> bool:
+        def dfs(i: int, j: int) -> bool:
+            if i == n - 1:
+                return j == 2
+            if j == 0:
+                if nums[i + 1] > nums[i]:
+                    return dfs(i + 1, j)
+                elif nums[i + 1] < nums[i] and i:
+                    return dfs(i + 1, j + 1)
+                else:
+                    return False
+            if j == 1:
+                if nums[i + 1] < nums[i]:
+                    return dfs(i + 1, j)
+                elif nums[i + 1] > nums[i]:
+                    return dfs(i + 1, j + 1)
+                else:
+                    return False
+            if nums[i + 1] <= nums[i]:
+                return False
+            return dfs(i + 1, j)
+        n = len(nums)
+        return dfs(0, 0)
 
     # 3639. 变为活跃状态的最小时间 (Minimum Time to Activate String)
     def minTime(self, _: str, order: List[int], k: int) -> int:
