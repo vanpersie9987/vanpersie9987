@@ -2602,14 +2602,14 @@ class Solution:
     def isTrionic(self, nums: List[int]) -> bool:
         i = 1
         n = len(nums)
-        while i < n - 1 and nums[i] > nums[i - 1]:
+        while i < n and nums[i] > nums[i - 1]:
             i += 1
         if i == 1 or i == n or nums[i] == nums[i - 1]:
             return False
         j = n - 2
-        while j >= 1 and nums[j] < nums[j + 1]:
+        while j >= 0 and nums[j] < nums[j + 1]:
             j -= 1
-        if j == n - 2 or j == 0 or nums[j] == nums[j + 1]:
+        if j == n - 2 or j < 0 or nums[j] == nums[j + 1]:
             return False
         return all(nums[k] > nums[k + 1] for k in range(i - 1, j + 1))
     
