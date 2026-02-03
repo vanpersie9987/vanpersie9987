@@ -2612,17 +2612,29 @@ class Solution:
         if j == n - 2 or j < 0 or nums[j] == nums[j + 1]:
             return False
         return all(nums[k] > nums[k + 1] for k in range(i - 1, j + 1))
-    
+
     # 3637. 三段式数组 I (Trionic Array I)
     def isTrionic(self, nums: List[int]) -> bool:
         def dfs(i: int, j: int) -> bool:
             if i == n - 1:
                 return j == 2
-            if (j == 0 or j == 2) and nums[i + 1] > nums[i] or j == 1 and nums[i + 1] < nums[i]:
+            if (
+                (j == 0 or j == 2)
+                and nums[i + 1] > nums[i]
+                or j == 1
+                and nums[i + 1] < nums[i]
+            ):
                 return dfs(i + 1, j)
-            if j == 0 and nums[i + 1] < nums[i] and i or j == 1 and nums[i + 1] > nums[i]:
+            if (
+                j == 0
+                and nums[i + 1] < nums[i]
+                and i
+                or j == 1
+                and nums[i + 1] > nums[i]
+            ):
                 return dfs(i + 1, j + 1)
             return False
+
         n = len(nums)
         return dfs(0, 0)
 
