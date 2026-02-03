@@ -8582,6 +8582,24 @@ public class Leetcode_9 {
 
     }
 
+    // 3637. 三段式数组 I (Trionic Array I)
+    public boolean isTrionic2(int[] nums) {
+        return dfs3637(0, 0, nums);
+    }
+
+    private boolean dfs3637(int i, int j, int[] nums) {
+        if (i == nums.length - 1) {
+            return j == 2;
+        }
+        if ((j == 0 || j == 2) && nums[i + 1] > nums[i] || j == 1 && nums[i + 1] < nums[i]) {
+            return dfs3637(i + 1, j, nums);
+        }
+        if (j == 0 && i > 0 && nums[i + 1] < nums[i] || j == 1 && nums[i + 1] > nums[i]) {
+            return dfs3637(i + 1, j + 1, nums);
+        }
+        return false;
+    }
+
     // 3639. 变为活跃状态的最小时间 (Minimum Time to Activate String)
     public int minTime(String s, int[] order, int k) {
         int n = order.length;
