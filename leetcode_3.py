@@ -2618,23 +2618,11 @@ class Solution:
         def dfs(i: int, j: int) -> bool:
             if i == n - 1:
                 return j == 2
-            if j == 0:
-                if nums[i + 1] > nums[i]:
-                    return dfs(i + 1, j)
-                elif nums[i + 1] < nums[i] and i:
-                    return dfs(i + 1, j + 1)
-                else:
-                    return False
-            if j == 1:
-                if nums[i + 1] < nums[i]:
-                    return dfs(i + 1, j)
-                elif nums[i + 1] > nums[i]:
-                    return dfs(i + 1, j + 1)
-                else:
-                    return False
-            if nums[i + 1] <= nums[i]:
-                return False
-            return dfs(i + 1, j)
+            if (j == 0 or j == 2) and nums[i + 1] > nums[i] or j == 1 and nums[i + 1] < nums[i]:
+                return dfs(i + 1, j)
+            if j == 0 and nums[i + 1] < nums[i] and i or j == 1 and nums[i + 1] > nums[i]:
+                return dfs(i + 1, j + 1)
+            return False
         n = len(nums)
         return dfs(0, 0)
 
