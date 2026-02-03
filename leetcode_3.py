@@ -2600,30 +2600,18 @@ class Solution:
 
     # 3637. 三段式数组 I (Trionic Array I)
     def isTrionic(self, nums: List[int]) -> bool:
-        n = len(nums)
         i = 1
-        while i < n:
-            if nums[i] > nums[i - 1]:
-                i += 1
-            else:
-                break
-        if i == 1 or i == n:
-            return False
-        i -= 1
-        j = n - 2
-        while j >= 0:
-            if nums[j + 1] > nums[j]:
-                j -= 1
-            else:
-                break
-        if j == n - 2:
-            return False
-        j += 1
-        while i + 1 <= j:
-            if nums[i + 1] >= nums[i]:
-                return False
+        n = len(nums)
+        while i < n - 1 and nums[i] > nums[i - 1]:
             i += 1
-        return True
+        if i == 1 or i == n or nums[i] == nums[i - 1]:
+            return False
+        j = n - 2
+        while j >= 1 and nums[j] < nums[j + 1]:
+            j -= 1
+        if j == n - 2 or j == 0 or nums[j] == nums[j + 1]:
+            return False
+        return all(nums[k] > nums[k + 1] for k in range(i - 1, j + 1))
 
     # 3639. 变为活跃状态的最小时间 (Minimum Time to Activate String)
     def minTime(self, _: str, order: List[int], k: int) -> int:
@@ -8546,7 +8534,7 @@ class SegmentTree2940:
             a[i], a[j] = a[j], a[i]
             i += 1
             j -= 1
-        return ''.join(a)
+        return "".join(a)
 
     # 3825. 按位与结果非零的最长上升子序列 (Longest Strictly Increasing Subsequence With Non-Zero Bitwise AND)
     def longestSubsequence(self, nums: List[int]) -> int:
@@ -8622,9 +8610,15 @@ class SegmentTree2940:
             res = 1
             if nums[i - 1] != nums[i] and (nums[i - 1] < nums[i]) == inc:
                 res = dfs(i - 1, can_del, not inc) + 1
-            if can_del and i > 1 and nums[i - 2] != nums[i] and (nums[i - 2] < nums[i]) == inc:
+            if (
+                can_del
+                and i > 1
+                and nums[i - 2] != nums[i]
+                and (nums[i - 2] < nums[i]) == inc
+            ):
                 res = max(res, dfs(i - 2, False, not inc) + 1)
             return res
+
         res = 0
         n = len(nums)
         for i in range(n):
