@@ -2681,37 +2681,28 @@ class Solution:
 
     # 3640. 三段式数组 II (Trionic Array II)
     def maxSumTrionic(self, nums: List[int]) -> int:
-        # j == 0 未选
-        # j == 1 已经选择了1个
-        # j == 2 已经在第一个上升阶段
-        # j == 3 已经在第一个下降阶段
-        # j == 4 已经在第二个上升阶段
+        # 以i结尾，且目前状态是j (j == 0，表示最后一组是第一次上升状态；j == 1，表示最后一组是下降状态，j == 2，表示最后一组是第二次上升状态)的最大和。
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == n:
-                return 0 if j == 4 else -inf
-            if j == 0:
-                return max(dfs(i + 1, j), dfs(i + 1, j + 1) + nums[i])
-            if j == 1:
-                if nums[i - 1] >= nums[i]:
-                    return -inf
-                return dfs(i + 1, j + 1) + nums[i]
+            if i == n - 1:
+                return 0 if j == 2 else -inf
+            res = -inf
+            if j == 0 and nums[i + 1] > nums[i] or j == 1 and nums[i + 1] < nums[i]:
+                res = max(res, dfs(i + 1, j) + nums[i + 1])
             if j == 2:
-                if nums[i] == nums[i - 1]:
-                    return -inf
-                return dfs(i + 1, j + (nums[i - 1] > nums[i])) + nums[i]
-            if j == 3:
-                if nums[i] == nums[i - 1]:
-                    return -inf
-                return dfs(i + 1, j + (nums[i - 1] < nums[i])) + nums[i]
-            res = 0
-            if nums[i - 1] < nums[i]:
-                res = max(res, dfs(i + 1, j) + nums[i])
+                if nums[i + 1] > nums[i]:
+                    res = max(res, max(0, dfs(i + 1, j) + nums[i + 1]))
+                else:
+                    res = 0
+            if j == 0 and nums[i + 1] < nums[i] or j == 1 and nums[i + 1] > nums[i]:
+                res = max(res, dfs(i + 1, j + 1) + nums[i + 1])
             return res
 
         n = len(nums)
-        res = dfs(0, 0)
-        dfs.cache_clear()
+        res = -inf
+        for i in range(1, n):
+            if nums[i] > nums[i - 1]:
+                res = max(res, dfs(i, 0) + nums[i - 1] + nums[i])
         return res
 
     # 3477. 水果成篮 II (Fruits Into Baskets II)
