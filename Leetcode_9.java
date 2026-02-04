@@ -8656,57 +8656,49 @@ public class Leetcode_9 {
     }
 
     // 3640. 三段式数组 II (Trionic Array II)
-    private long[][] memo3640;
     private int[] nums3640;
     private int n3640;
+    private long[][] memo3640;
 
     public long maxSumTrionic(int[] nums) {
-        this.n3640 = nums.length;
         this.nums3640 = nums;
-        this.memo3640 = new long[n3640][5];
+        this.n3640 = nums.length;
+        this.memo3640 = new long[n3640][3];
         for (long[] r : memo3640) {
-            Arrays.fill(r, Long.MAX_VALUE);
+            Arrays.fill(r, Long.MIN_VALUE);
         }
-        return dfs3640(0, 0);
+        long res = Long.MIN_VALUE / 2;
+        for (int i = 1; i < n3640; ++i) {
+            if (nums[i] > nums[i - 1]) {
+                res = Math.max(res, dfs3640(i, 0) + nums[i] + nums[i - 1]);
+            }
+        }
+        return res;
+
     }
 
-    // j == 0 未选
-    // j == 1 已经选择了1个
-    // j == 2 已经在第一个上升阶段
-    // j == 3 已经在第一个下降阶段
-    // j == 4 已经在第二个上升阶段
+    // 以i结尾，且目前状态是j (j == 0，表示最后一组是第一次上升状态；j == 1，表示最后一组是下降状态，j ==
+    // 2，表示最后一组是第二次上升状态)的最大和。
     private long dfs3640(int i, int j) {
-        if (i == n3640) {
-            return j == 4 ? 0L : (long) -1e15;
+        if (i == n3640 - 1) {
+            return j == 2 ? 0L : Long.MIN_VALUE / 2;
         }
-        if (memo3640[i][j] != Long.MAX_VALUE) {
+        if (memo3640[i][j] != Long.MIN_VALUE) {
             return memo3640[i][j];
         }
-        if (j == 0) {
-            return memo3640[i][j] = Math.max(dfs3640(i + 1, j), dfs3640(i + 1, j + 1) + nums3640[i]);
-        }
-        if (j == 1) {
-            if (nums3640[i - 1] >= nums3640[i]) {
-                return memo3640[i][j] = (long) -1e15;
-            }
-            return memo3640[i][j] = dfs3640(i + 1, j + 1) + nums3640[i];
+        long res = Long.MIN_VALUE / 2;
+        if (j == 0 && nums3640[i + 1] > nums3640[i] || j == 1 && nums3640[i + 1] < nums3640[i]) {
+            res = Math.max(res, dfs3640(i + 1, j) + nums3640[i + 1]);
         }
         if (j == 2) {
-            if (nums3640[i] == nums3640[i - 1]) {
-                return memo3640[i][j] = (long) -1e15;
+            if (nums3640[i + 1] > nums3640[i]) {
+                res = Math.max(res, Math.max(0L, dfs3640(i + 1, j) + nums3640[i + 1]));
+            } else {
+                res = 0L;
             }
-            return memo3640[i][j] = dfs3640(i + 1, j + (nums3640[i] < nums3640[i - 1] ? 1 : 0)) + nums3640[i];
         }
-
-        if (j == 3) {
-            if (nums3640[i] == nums3640[i - 1]) {
-                return memo3640[i][j] = (long) -1e15;
-            }
-            return memo3640[i][j] = dfs3640(i + 1, j + (nums3640[i] > nums3640[i - 1] ? 1 : 0)) + nums3640[i];
-        }
-        long res = 0L;
-        if (nums3640[i] > nums3640[i - 1]) {
-            res = Math.max(res, dfs3640(i + 1, j) + nums3640[i]);
+        if (j == 0 && nums3640[i + 1] < nums3640[i] || j == 1 && nums3640[i + 1] > nums3640[i]) {
+            res = Math.max(res, dfs3640(i + 1, j + 1) + nums3640[i + 1]);
         }
         return memo3640[i][j] = res;
     }
