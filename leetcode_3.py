@@ -2688,22 +2688,21 @@ class Solution:
                 return 0 if j == 2 else -inf
             res = -inf
             if j == 0 and nums[i + 1] > nums[i] or j == 1 and nums[i + 1] < nums[i]:
-                res = max(res, dfs(i + 1, j) + nums[i + 1])
+                return dfs(i + 1, j) + nums[i + 1]
             if j == 2:
-                if nums[i + 1] > nums[i]:
-                    res = max(res, max(0, dfs(i + 1, j) + nums[i + 1]))
-                else:
-                    res = 0
+                return (
+                    max(0, dfs(i + 1, j) + nums[i + 1]) if nums[i + 1] > nums[i] else 0
+                )
             if j == 0 and nums[i + 1] < nums[i] or j == 1 and nums[i + 1] > nums[i]:
-                res = max(res, dfs(i + 1, j + 1) + nums[i + 1])
+                return dfs(i + 1, j + 1) + nums[i + 1]
             return res
 
         n = len(nums)
-        res = -inf
-        for i in range(1, n):
-            if nums[i] > nums[i - 1]:
-                res = max(res, dfs(i, 0) + nums[i - 1] + nums[i])
-        return res
+        return max(
+            dfs(i, 0) + nums[i - 1] + nums[i]
+            for i in range(1, n)
+            if nums[i] > nums[i - 1]
+        )
 
     # 3477. 水果成篮 II (Fruits Into Baskets II)
     # 3479. 水果成篮 III (Fruits Into Baskets III) --线段树 （单点更新）
