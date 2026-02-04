@@ -8688,17 +8688,14 @@ public class Leetcode_9 {
         }
         long res = Long.MIN_VALUE / 2;
         if (j == 0 && nums3640[i + 1] > nums3640[i] || j == 1 && nums3640[i + 1] < nums3640[i]) {
-            res = Math.max(res, dfs3640(i + 1, j) + nums3640[i + 1]);
+            return memo3640[i][j] = dfs3640(i + 1, j) + nums3640[i + 1];
         }
         if (j == 2) {
-            if (nums3640[i + 1] > nums3640[i]) {
-                res = Math.max(res, Math.max(0L, dfs3640(i + 1, j) + nums3640[i + 1]));
-            } else {
-                res = 0L;
-            }
+            return memo3640[i][j] = nums3640[i + 1] > nums3640[i] ? Math.max(0L, dfs3640(i + 1, j) + nums3640[i + 1])
+                    : 0L;
         }
         if (j == 0 && nums3640[i + 1] < nums3640[i] || j == 1 && nums3640[i + 1] > nums3640[i]) {
-            res = Math.max(res, dfs3640(i + 1, j + 1) + nums3640[i + 1]);
+            return memo3640[i][j] = dfs3640(i + 1, j + 1) + nums3640[i + 1];
         }
         return memo3640[i][j] = res;
     }
