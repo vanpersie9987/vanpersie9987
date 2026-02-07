@@ -8653,3 +8653,14 @@ class SegmentTree2940:
             return res
         n = len(s)
         return dfs(0, 'a')
+    
+    # 1653. 使字符串平衡的最少删除次数 (Minimum Deletions to Make String Balanced)
+    def minimumDeletions(self, s: str) -> int:
+        res = cnt_a = s.count("a")
+        for c in s:
+            if c == "a":
+                cnt_a -= 1
+            else:
+                cnt_a += 1
+            res = min(res, cnt_a)
+        return res
