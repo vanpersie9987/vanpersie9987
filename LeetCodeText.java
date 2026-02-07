@@ -14056,6 +14056,36 @@ public class LeetCodeText {
 
     }
 
+    // 1653. 使字符串平衡的最少删除次数 (Minimum Deletions to Make String Balanced)
+    private int n1653;
+    private String s1653;
+    private int[][] memo1653;
+
+    public int minimumDeletions3(String s) {
+        this.n1653 = s.length();
+        this.s1653 = s;
+        this.memo1653 = new int[n1653][2];
+        for (int[] r : memo1653) {
+            Arrays.fill(r, -1);
+        }
+        return dfs1653(0, 0);
+
+    }
+
+    private int dfs1653(int i, int j) {
+        if (i == n1653) {
+            return 0;
+        }
+        if (memo1653[i][j] != -1) {
+            return memo1653[i][j];
+        }
+        int res = dfs1653(i + 1, j) + 1;
+        if (s1653.charAt(i) - 'a' >= j) {
+            res = Math.min(res, dfs1653(i + 1, s1653.charAt(i) - 'a'));
+        }
+        return memo1653[i][j] = res;
+    }
+
     // 451. 根据字符出现频率排序 (Sort Characters By Frequency)
     public String frequencySort(String s) {
         Map<Character, Integer> map = new HashMap<>();

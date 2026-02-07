@@ -8640,3 +8640,16 @@ class SegmentTree2940:
             res = max(res, dfs(i, True, False), dfs(i, True, True))
         dfs.cache_clear()
         return res
+
+    # 1653. 使字符串平衡的最少删除次数 (Minimum Deletions to Make String Balanced)
+    def minimumDeletions(self, s: str) -> int:
+        @cache
+        def dfs(i: int, j: chr) -> int:
+            if i == n:
+                return 0
+            res = dfs(i + 1, j) + 1
+            if s[i] >= j:
+                res = min(res, dfs(i + 1, s[i]))
+            return res
+        n = len(s)
+        return dfs(0, 'a')
