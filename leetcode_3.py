@@ -8766,3 +8766,26 @@ class SegmentTree2940:
 
         def cancelRider(self, riderId: int) -> None:
             self.waiting_riders.discard(riderId)
+
+    # 1382. 将二叉搜索树变平衡 (Balance a Binary Search Tree)
+    def balanceBST(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        def dfs(node: Optional[TreeNode]):
+            if node is None:
+                return
+            dfs(node.left)
+            a.append(node.val)
+            dfs(node.right)
+
+        def make_tree(i: int, j: int) -> Optional[TreeNode]:
+            if i > j:
+                return None
+            mid = i + ((j - i) >> 1)
+            node = TreeNode(a[mid])
+            node.left = make_tree(i, mid - 1)
+            node.right = make_tree(mid + 1, j)
+            return node
+
+        a = []
+        dfs(root)
+        n = len(a)
+        return make_tree(0, n - 1)
