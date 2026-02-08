@@ -9716,46 +9716,30 @@ public class LeetCode_2 {
 
    // 1382. 将二叉搜索树变平衡 (Balance a Binary Search Tree)
    public TreeNode balanceBST(TreeNode root) {
-      List<Integer> list = getRes1384(root);
-      return getBalanceBST1382(list, 0, list.size() - 1);
+      List<Integer> a = new ArrayList<>();
+      dfs1382(root, a);
+      return makeTree1382(0, a.size() - 1, a);
 
    }
 
-   private TreeNode getBalanceBST1382(List<Integer> list, int left, int right) {
-      if (left > right) {
+   private TreeNode makeTree1382(int i, int j, List<Integer> a) {
+      if (i > j) {
          return null;
       }
-      int mid = left + ((right - left) >>> 1);
-      TreeNode node = new TreeNode(list.get(mid));
-      node.left = getBalanceBST1382(list, left, mid - 1);
-      node.right = getBalanceBST1382(list, mid + 1, right);
+      int mid = i + ((j - i) >> 1);
+      TreeNode node = new TreeNode(a.get(mid));
+      node.left = makeTree1382(i, mid - 1, a);
+      node.right = makeTree1382(mid + 1, j, a);
       return node;
    }
 
-   private List<Integer> getRes1384(TreeNode root) {
-      List<Integer> list = new ArrayList<>();
-      TreeNode pre = null;
-      while (root != null) {
-         if (root.left != null) {
-            pre = root.left;
-            while (pre.right != null && pre.right != root) {
-               pre = pre.right;
-            }
-            if (pre.right == null) {
-               pre.right = root;
-               root = root.left;
-            } else {
-               pre.right = null;
-               list.add(root.val);
-               root = root.right;
-            }
-         } else {
-            list.add(root.val);
-            root = root.right;
-         }
+   private void dfs1382(TreeNode root, List<Integer> a) {
+      if (root == null) {
+         return;
       }
-
-      return list;
+      dfs1382(root.left, a);
+      a.add(root.val);
+      dfs1382(root.right, a);
    }
 
    // 面试题 04.03. List of Depth LCCI --bfs
