@@ -8789,3 +8789,15 @@ class SegmentTree2940:
         dfs(root)
         n = len(a)
         return make_tree(0, n - 1)
+    
+    # 108. 将有序数组转换为二叉搜索树 (Convert Sorted Array to Binary Search Tree)
+    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
+        def dfs(i: int, j: int) -> Optional[TreeNode]:
+            if i > j:
+                return None
+            mid = i + ((j - i) >> 1)
+            node = TreeNode(nums[mid])
+            node.left = dfs(i, mid - 1)
+            node.right = dfs(mid + 1, j)
+            return node
+        return dfs(0, len(nums) - 1)
