@@ -5779,7 +5779,7 @@ public class Leetcode_10 {
         int res = 0;
         double s = 0D;
         for (int i = n - 1; i >= 0; --i) {
-            if (i != n - 1 && nums[i] > s / (n - i - 1)) {
+            if (s > 0 && nums[i] > s / (n - i - 1)) {
                 ++res;
             }
             s += nums[i];
