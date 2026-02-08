@@ -155,14 +155,11 @@ public class LeetCode_4 {
         }
     }
 
-    // 110. 平衡二叉树 (Balanced Binary Tree) --dfs 自底向上
+    // 110. 平衡二叉树 (Balanced Binary Tree) --dfs
     // 剑指 Offer 55 - II. 平衡二叉树
     // 面试题 04.04. 检查平衡性 (Check Balance LCCI)
-    private boolean flag110 = true;
-
     public boolean isBalanced(TreeNode root) {
-        dfs110(root);
-        return flag110;
+        return dfs110(root) != -1;
 
     }
 
@@ -172,28 +169,10 @@ public class LeetCode_4 {
         }
         int l = dfs110(root.left);
         int r = dfs110(root.right);
-        if (Math.abs(l - r) > 1) {
-            flag110 = false;
+        if (l == -1 || r == -1 || Math.abs(l - r) > 1) {
+            return -1;
         }
         return Math.max(l, r) + 1;
-    }
-
-    // 110. 平衡二叉树 (Balanced Binary Tree) --dfs 自顶向下
-    // 剑指 Offer 55 - II. 平衡二叉树
-    // 面试题 04.04. 检查平衡性 (Check Balance LCCI)
-    public boolean isBalanced2(TreeNode root) {
-        if (root == null) {
-            return true;
-        }
-        return isBalanced2(root.left) && isBalanced2(root.right)
-                && Math.abs(height110(root.left) - height110(root.right)) <= 1;
-    }
-
-    private int height110(TreeNode node) {
-        if (node == null) {
-            return 0;
-        }
-        return Math.max(height110(node.left), height110(node.right)) + 1;
     }
 
     // 2235. 两整数相加 (Add Two Integers)
