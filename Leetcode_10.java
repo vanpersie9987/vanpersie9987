@@ -5804,7 +5804,7 @@ public class Leetcode_10 {
         TreeMap<Integer, Integer> treeMap = new TreeMap<>();
         for (int i = 0; i < nums.length; ++i) {
             treeMap.merge(nums[i], 1, Integer::sum);
-            while (j < i && ((long) treeMap.lastKey() - treeMap.firstKey()) * (i - j + 1) > k) {
+            while (((long) treeMap.lastKey() - treeMap.firstKey()) * (i - j + 1) > k) {
                 treeMap.merge(nums[j], -1, Integer::sum);
                 if (treeMap.get(nums[j]) == 0) {
                     treeMap.remove(nums[j]);

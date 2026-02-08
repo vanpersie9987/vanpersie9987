@@ -8709,6 +8709,13 @@ class SegmentTree2940:
     def countSubarrays(self, nums: List[int], k: int) -> int:
         j = 0
         res = 0
+        d = SortedList()
         for i, x in enumerate(nums):
+            d.add(x)
+            while (d[-1] - d[0]) * (i - j + 1) > k:
+                d.remove(nums[j])
+                j += 1
+            res += i - j + 1
+        return res
 
         
