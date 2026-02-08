@@ -8704,7 +8704,7 @@ class SegmentTree2940:
         res = dfs(len(nums1) - 1, len(nums2) - 1, k)
         dfs.cache_clear()
         return res
-    
+
     # 3835. 开销小于等于 K 的子数组数目 (Count Subarrays With Cost Less Than or Equal to K)
     def countSubarrays(self, nums: List[int], k: int) -> int:
         j = 0
@@ -8717,21 +8717,28 @@ class SegmentTree2940:
                 j += 1
             res += i - j + 1
         return res
-    
+
+    # 3829. 设计共享出行系统 (Design Ride Sharing System)
     class RideSharingSystem:
 
         def __init__(self):
-            
+            self.riders = deque()
+            self.drivers = deque()
+            self.waiting_riders = set()
 
         def addRider(self, riderId: int) -> None:
-            
+            self.riders.append(riderId)
+            self.waiting_riders.add(riderId)
 
         def addDriver(self, driverId: int) -> None:
-            
+            self.drivers.append(driverId)
 
         def matchDriverWithRider(self) -> List[int]:
-            
+            while self.riders and self.riders[0] not in self.waiting_riders:
+                self.riders.popleft()
+            if not self.drivers or not self.riders:
+                return [-1, -1]
+            return [self.drivers.popleft(), self.riders.popleft()]
 
         def cancelRider(self, riderId: int) -> None:
-
-        
+            self.waiting_riders.discard(riderId)
