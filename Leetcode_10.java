@@ -5645,6 +5645,42 @@ public class Leetcode_10 {
         }
     }
 
+    // 3829. 设计共享出行系统 (Design Ride Sharing System)
+    class RideSharingSystem2 {
+        private Deque<Integer> qDrivers;
+        private Deque<Integer> qRiders;
+        private Set<Integer> waitingRiders;
+
+        public RideSharingSystem2() {
+            this.qDrivers = new ArrayDeque<>();
+            this.qRiders = new ArrayDeque<>();
+            this.waitingRiders = new HashSet<>();
+        }
+
+        public void addRider(int riderId) {
+            qRiders.addLast(riderId);
+            waitingRiders.add(riderId);
+        }
+
+        public void addDriver(int driverId) {
+            qDrivers.addLast(driverId);
+        }
+
+        public int[] matchDriverWithRider() {
+            while (!qRiders.isEmpty() && !waitingRiders.contains(qRiders.peekFirst())) {
+                qRiders.pollFirst();
+            }
+            if (!qRiders.isEmpty() && !qDrivers.isEmpty()) {
+                return new int[] { qDrivers.pollFirst(), qRiders.pollFirst() };
+            }
+            return new int[] { -1, -1 };
+        }
+
+        public void cancelRider(int riderId) {
+            waitingRiders.remove(riderId);
+        }
+    }
+
     // 3830. 移除至多一个元素后的最长交替子数组 (Longest Alternating Subarray After Removing At Most
     // One Element)
     public int longestAlternating(int[] nums) {

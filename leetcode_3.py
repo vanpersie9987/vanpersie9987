@@ -8717,5 +8717,21 @@ class SegmentTree2940:
                 j += 1
             res += i - j + 1
         return res
+    
+    class RideSharingSystem:
+
+        def __init__(self):
+            
+
+        def addRider(self, riderId: int) -> None:
+            
+
+        def addDriver(self, driverId: int) -> None:
+            
+
+        def matchDriverWithRider(self) -> List[int]:
+            
+
+        def cancelRider(self, riderId: int) -> None:
 
         
