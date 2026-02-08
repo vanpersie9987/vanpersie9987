@@ -8792,17 +8792,17 @@ public class LeetCode_2 {
    // 108. 将有序数组转换为二叉搜索树 (Convert Sorted Array to Binary Search Tree)
    // 面试题 04.02. 最小高度树 (Minimum Height Tree LCCI) --递归
    public TreeNode sortedArrayToBST(int[] nums) {
-      return build0402(nums, 0, nums.length - 1);
+      return dfs108(0, nums.length - 1, nums);
    }
 
-   private TreeNode build0402(int[] nums, int left, int right) {
-      while (left > right) {
+   private TreeNode dfs108(int i, int j, int[] nums) {
+      if (i > j) {
          return null;
       }
-      int mid = left + ((right - left) >>> 1);
+      int mid = i + ((j - i) >> 1);
       TreeNode node = new TreeNode(nums[mid]);
-      node.left = build0402(nums, left, mid - 1);
-      node.right = build0402(nums, mid + 1, right);
+      node.left = dfs108(i, mid - 1, nums);
+      node.right = dfs108(mid + 1, j, nums);
       return node;
    }
 
