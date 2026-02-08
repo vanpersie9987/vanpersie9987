@@ -5853,4 +5853,38 @@ public class Leetcode_10 {
 
     }
 
+    // 3835. 开销小于等于 K 的子数组数目 (Count Subarrays With Cost Less Than or Equal to K)
+    public long countSubarrays2(int[] nums, long k) {
+        long res = 0L;
+        Deque<Integer> qMax = new ArrayDeque<>();
+        Deque<Integer> qMin = new ArrayDeque<>();
+        int left = 0;
+        for (int right = 0; right < nums.length; ++right) {
+            int x = nums[right];
+            while (!qMin.isEmpty() && x <= nums[qMin.peekLast()]) {
+                qMin.pollLast();
+            }
+            qMin.addLast(right);
+
+            while (!qMax.isEmpty() && x >= nums[qMax.peekLast()]) {
+                qMax.pollLast();
+            }
+            qMax.addLast(right);
+
+            while (((long) nums[qMax.peekFirst()] - nums[qMin.peekFirst()]) * (right - left + 1) > k) {
+                if (qMax.peekFirst() <= left) {
+                    qMax.pollFirst();
+                }
+
+                if (qMin.peekFirst() <= left) {
+                    qMin.pollFirst();
+                }
+                ++left;
+            }
+            res += right - left + 1;
+        }
+        return res;
+
+    }
+
 }
