@@ -8665,3 +8665,42 @@ class SegmentTree2940:
                 cnt_a += 1
             res = min(res, cnt_a)
         return res
+
+    # 3833. 统计主导元素下标数 (Count Dominant Indices)
+    def dominantIndices(self, nums: List[int]) -> int:
+        s = 0
+        res = 0
+        n = len(nums)
+        for i in range(n - 1, -1, -1):
+            if i != n - 1 and nums[i] > s / (n - i - 1):
+                res += 1
+            s += nums[i]
+        return res
+
+    # 3834. 合并相邻且相等的元素 (Merge Adjacent Equal Elements)
+    def mergeAdjacent(self, nums: List[int]) -> List[int]:
+        st = []
+        for x in nums:
+            s = x
+            while st and st[-1] == s:
+                s += st.pop()
+            st.append(s)
+        return st
+
+    # 3836. 恰好 K 个下标对的最大得分 (Maximum Score Using Exactly K Pairs)
+    def maxScore(self, nums1: List[int], nums2: List[int], k: int) -> int:
+        @cache
+        def dfs(i: int, j: int, m: int) -> int:
+            if m == 0:
+                return 0
+            if i < 0 or j < 0:
+                return -inf
+            return max(
+                dfs(i - 1, j, m),
+                dfs(i, j - 1, m),
+                dfs(i - 1, j - 1, m - 1) + nums1[i] * nums2[j],
+            )
+
+        res = dfs(len(nums1) - 1, len(nums2) - 1, k)
+        dfs.cache_clear()
+        return res

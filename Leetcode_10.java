@@ -5737,4 +5737,64 @@ public class Leetcode_10 {
         return memo3830[i][canDel][inc] = res;
     }
 
+    // 3833. 统计主导元素下标数 (Count Dominant Indices)
+    public int dominantIndices(int[] nums) {
+        int n = nums.length;
+        int res = 0;
+        double s = 0D;
+        for (int i = n - 1; i >= 0; --i) {
+            if (i != n - 1 && nums[i] > s / (n - i - 1)) {
+                ++res;
+            }
+            s += nums[i];
+        }
+        return res;
+    }
+
+    // 3834. 合并相邻且相等的元素 (Merge Adjacent Equal Elements)
+    public List<Long> mergeAdjacent(int[] nums) {
+        Stack<Long> st = new Stack<>();
+        for (int x : nums) {
+            long s = x;
+            while (!st.isEmpty() && st.peek() == s) {
+                s += st.pop();
+            }
+            st.push(s);
+        }
+        return st;
+    }
+
+    // 3836. 恰好 K 个下标对的最大得分 (Maximum Score Using Exactly K Pairs)
+    private long[][][] memo3836;
+    private int[] nums1_3836;
+    private int[] nums2_3836;
+
+    public long maxScore(int[] nums1, int[] nums2, int k) {
+        int n = nums1.length;
+        int m = nums2.length;
+        this.nums1_3836 = nums1;
+        this.nums2_3836 = nums2;
+        this.memo3836 = new long[n][m][k];
+        for (long[][] r1 : memo3836) {
+            for (long[] r2 : r1) {
+                Arrays.fill(r2, (long) -1e15);
+            }
+        }
+        return dfs3836(n - 1, m - 1, k - 1);
+    }
+
+    private long dfs3836(int i, int j, int k) {
+        if (k < 0) {
+            return 0L;
+        }
+        if (i < 0 || j < 0) {
+            return Long.MIN_VALUE >> 1;
+        }
+        if (memo3836[i][j][k] != (long) -1e15) {
+            return memo3836[i][j][k];
+        }
+        return memo3836[i][j][k] = Math.max(Math.max(dfs3836(i - 1, j, k), dfs3836(i, j - 1, k)),
+                dfs3836(i - 1, j - 1, k - 1) + (long) nums1_3836[i] * nums2_3836[j]);
+    }
+
 }
