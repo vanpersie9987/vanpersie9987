@@ -5670,10 +5670,10 @@ public class Leetcode_10 {
             while (!qRiders.isEmpty() && !waitingRiders.contains(qRiders.peekFirst())) {
                 qRiders.pollFirst();
             }
-            if (!qRiders.isEmpty() && !qDrivers.isEmpty()) {
-                return new int[] { qDrivers.pollFirst(), qRiders.pollFirst() };
+            if (qRiders.isEmpty() || qDrivers.isEmpty()) {
+                return new int[] { -1, -1 };
             }
-            return new int[] { -1, -1 };
+            return new int[] { qDrivers.pollFirst(), qRiders.pollFirst() };
         }
 
         public void cancelRider(int riderId) {
