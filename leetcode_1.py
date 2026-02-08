@@ -5997,18 +5997,15 @@ class leetcode_1:
     # LCR 176. 判断是否为平衡二叉树
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
         def dfs(root: Optional[TreeNode]) -> int:
-            nonlocal res
-            if root is None or not res:
+            if root is None:
                 return 0
             left = dfs(root.left)
             right = dfs(root.right)
-            if abs(left - right) > 1:
-                res = False
+            if left == -1 or right == -1 or abs(left - right) > 1:
+                return -1
             return max(left, right) + 1
 
-        res = True
-        dfs(root)
-        return res
+        return dfs(root) != -1
 
     # 107. 二叉树的层序遍历 II (Binary Tree Level Order Traversal II)
     def levelOrderBottom(self, root: Optional[TreeNode]) -> List[List[int]]:
