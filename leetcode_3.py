@@ -8704,3 +8704,11 @@ class SegmentTree2940:
         res = dfs(len(nums1) - 1, len(nums2) - 1, k)
         dfs.cache_clear()
         return res
+    
+    # 3835. 开销小于等于 K 的子数组数目 (Count Subarrays With Cost Less Than or Equal to K)
+    def countSubarrays(self, nums: List[int], k: int) -> int:
+        j = 0
+        res = 0
+        for i, x in enumerate(nums):
+
+        

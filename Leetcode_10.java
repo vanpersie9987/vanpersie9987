@@ -5797,4 +5797,24 @@ public class Leetcode_10 {
                 dfs3836(i - 1, j - 1, k - 1) + (long) nums1_3836[i] * nums2_3836[j]);
     }
 
+    // 3835. 开销小于等于 K 的子数组数目 (Count Subarrays With Cost Less Than or Equal to K)
+    public long countSubarrays(int[] nums, long k) {
+        long res = 0L;
+        int j = 0;
+        TreeMap<Integer, Integer> treeMap = new TreeMap<>();
+        for (int i = 0; i < nums.length; ++i) {
+            treeMap.merge(nums[i], 1, Integer::sum);
+            while (j < i && ((long) treeMap.lastKey() - treeMap.firstKey()) * (i - j + 1) > k) {
+                treeMap.merge(nums[j], -1, Integer::sum);
+                if (treeMap.get(nums[j]) == 0) {
+                    treeMap.remove(nums[j]);
+                }
+                ++j;
+            }
+            res += i - j + 1;
+        }
+        return res;
+
+    }
+
 }
