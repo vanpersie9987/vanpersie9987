@@ -8717,6 +8717,31 @@ class SegmentTree2940:
                 j += 1
             res += i - j + 1
         return res
+    
+    # 3835. 开销小于等于 K 的子数组数目 (Count Subarrays With Cost Less Than or Equal to K)
+    def countSubarrays(self, nums: List[int], k: int) -> int:
+        q_min = deque()
+        q_max = deque()
+        res = 0
+        left = 0
+        for right, x in enumerate(nums):
+            while q_min and x <= nums[q_min[-1]]:
+                q_min.pop()
+            q_min.append(right)
+
+            while q_max and x >= nums[q_max[-1]]:
+                q_max.pop()
+            q_max.append(right)
+
+            while (nums[q_max[0]] - nums[q_min[0]]) * (right - left + 1) > k:
+                if q_max[0] <= left:
+                    q_max.popleft()
+                if q_min[0] <= left:
+                    q_min.popleft()
+                left += 1
+            res += right - left + 1
+        return res
+        
 
     # 3829. 设计共享出行系统 (Design Ride Sharing System)
     class RideSharingSystem:
