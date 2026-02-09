@@ -75,7 +75,7 @@ import bisect
 from unittest import result
 from unittest.util import _count_diff_all_purpose
 from wsgiref.simple_server import make_server
-from wsgiref.util import guess_scheme
+from wsgiref.util import guess_scheme, request_uri
 from xml.dom import Node
 from zoneinfo import reset_tzpath
 import copy
