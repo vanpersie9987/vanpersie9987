@@ -6251,4 +6251,45 @@ public class Leetcode_10 {
         return b == 0 ? a : gcd2992(b, a % b);
     }
 
+    // 3004. 相同颜色的最大子树 (Maximum Subtree of the Same Color) --plus
+    private List<Integer>[] g3004;
+    private int[] colors3004;
+    private int res3004;
+
+    private record Group3004(Set<Integer> s, int cnt) {
+
+    }
+
+    public int maximumSubtreeSize(int[][] edges, int[] colors) {
+        int n = colors.length;
+        this.g3004 = new ArrayList[n];
+        Arrays.setAll(g3004, o -> new ArrayList<>());
+        this.colors3004 = colors;
+        for (int[] e : edges) {
+            g3004[e[0]].add(e[1]);
+            g3004[e[1]].add(e[0]);
+        }
+        dfs3004(0, -1);
+        return res3004;
+
+    }
+
+    private Group3004 dfs3004(int x, int fa) {
+        Set<Integer> s = new HashSet<>();
+        s.add(colors3004[x]);
+        int cnt = 1;
+        for (int y : g3004[x]) {
+            if (y != fa) {
+                Group3004 cur = dfs3004(y, x);
+                s.addAll(cur.s);
+                cnt += cur.cnt;
+            }
+        }
+
+        if (s.size() == 1) {
+            res3004 = Math.max(res3004, cnt);
+        }
+        return new Group3004(s, cnt);
+    }
+
 }
