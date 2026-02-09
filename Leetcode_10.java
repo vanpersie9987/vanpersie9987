@@ -6076,7 +6076,7 @@ public class Leetcode_10 {
         return list.stream().mapToInt(i -> i).toArray();
 
     }
-    
+
     // 3476. 最大化任务分配的利润 (Maximize Profit from Task Assignment) --plus
     public long maxProfit(int[] workers, int[][] tasks) {
         Map<Integer, List<Integer>> map = new HashMap<>();
@@ -6104,7 +6104,7 @@ public class Leetcode_10 {
         return res + mx;
 
     }
-    
+
     // 2955. 同端子串的数量 (Number of Same-End Substrings) --plus
     public int[] sameEndSubstringCount(String s, int[][] queries) {
         int n = s.length();
@@ -6127,6 +6127,25 @@ public class Leetcode_10 {
         }
         return res;
 
+    }
+
+    // 3199. 用偶数异或设置位计数三元组 I (Count Triplets with Even XOR Set Bits I) --plus
+    // 3215. 用偶数异或设置位计数三元组 II (Count Triplets with Even XOR Set Bits II) --plus
+    public long tripletCount(int[] a, int[] b, int[] c) {
+        int[] cnt1 = getBitCounts(a);
+        int[] cnt2 = getBitCounts(b);
+        int[] cnt3 = getBitCounts(c);
+        return (long) cnt1[0] * cnt2[0] * cnt3[0] + (long) cnt1[0] * cnt2[1] * cnt3[1]
+                + (long) cnt1[1] * cnt2[0] * cnt3[1] + (long) cnt1[1] * cnt2[1] * cnt3[0];
+
+    }
+
+    private int[] getBitCounts(int[] a) {
+        int[] res = new int[2];
+        for (int x : a) {
+            ++res[Integer.bitCount(x) & 1];
+        }
+        return res;
     }
 
 }

@@ -8789,7 +8789,7 @@ class SegmentTree2940:
         dfs(root)
         n = len(a)
         return make_tree(0, n - 1)
-    
+
     # 108. 将有序数组转换为二叉搜索树 (Convert Sorted Array to Binary Search Tree)
     def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
         def dfs(i: int, j: int) -> Optional[TreeNode]:
@@ -8800,8 +8800,8 @@ class SegmentTree2940:
             node.left = dfs(i, mid - 1)
             node.right = dfs(mid + 1, j)
             return node
+
         return dfs(0, len(nums) - 1)
-    
 
     # 3831. 二叉搜索树某一层的中位数 (Median of a Binary Search Tree Level) --plus
     def levelMedian(self, root: Optional[TreeNode], level: int) -> int:
@@ -8820,7 +8820,7 @@ class SegmentTree2940:
                     q.append(x.right)
             cur_level += 1
         return -1
-    
+
     # 3687. 图书馆逾期罚款计算器 (Library Late Fee Calculator) --plus
     def lateFee(self, daysLate: List[int]) -> int:
         res = 0
@@ -8848,7 +8848,7 @@ class SegmentTree2940:
             else:
                 s -= heapq.heappop(q)
         return res
-    
+
     # 1246. 删除回文子数组 (Palindrome Removal) --plus
     def minimumMoves(self, arr: List[int]) -> int:
         @cache
@@ -8863,27 +8863,31 @@ class SegmentTree2940:
             for k in range(i, j):
                 res = min(res, dfs(i, k) + dfs(k + 1, j))
             return res
+
         n = len(arr)
         return dfs(0, n - 1)
-    
+
+
 """
  This is ArrayReader's API interface.
  You should not implement it, or speculate about its implementation
  """
-class ArrayReader(object):
-	# Compares the sum of arr[l..r] with the sum of arr[x..y]
-	# return 1 if sum(arr[l..r]) > sum(arr[x..y])
-	# return 0 if sum(arr[l..r]) == sum(arr[x..y])
-	# return -1 if sum(arr[l..r]) < sum(arr[x..y])
-    def compareSub(self, l: int, r: int, x: int, y: int) -> int:
-            return 0
 
-	# Returns the length of the array
+
+class ArrayReader(object):
+    # Compares the sum of arr[l..r] with the sum of arr[x..y]
+    # return 1 if sum(arr[l..r]) > sum(arr[x..y])
+    # return 0 if sum(arr[l..r]) == sum(arr[x..y])
+    # return -1 if sum(arr[l..r]) < sum(arr[x..y])
+    def compareSub(self, l: int, r: int, x: int, y: int) -> int:
+        return 0
+
+    # Returns the length of the array
     def length(self) -> int:
-            return 0
-    
+        return 0
+
     # 1533. 找到最大整数的索引 (Find the Index of the Large Integer) --plus
-    def getIndex(self, reader: 'ArrayReader') -> int:
+    def getIndex(self, reader: "ArrayReader") -> int:
         left = 0
         right = reader.length() - 1
         while left < right:
@@ -8897,18 +8901,22 @@ class ArrayReader(object):
                 left = mid + 1
         return left
 
+
 """
 This is BinaryMatrix's API interface.
 You should not implement it, or speculate about its implementation
 """
+
+
 class BinaryMatrix(object):
     def get(self, row: int, col: int) -> int:
         return 0
+
     def dimensions(self) -> list[int]:
         return None
-    
+
     # 428. 至少有一个 1 的最左端列 (Leftmost Column with at Least a One) --plus
-    def leftMostColumnWithOne(self, binaryMatrix: 'BinaryMatrix') -> int:
+    def leftMostColumnWithOne(self, binaryMatrix: "BinaryMatrix") -> int:
         m, n = binaryMatrix.dimensions()
         left = 0
         right = n - 1
@@ -8919,15 +8927,15 @@ class BinaryMatrix(object):
             else:
                 left = mid + 1
         return -1 if right + 1 == n else right + 1
-    
+
     # 3353. 最小总操作数 (Minimum Total Operations) --plus
     def minOperations(self, nums: List[int]) -> int:
         return sum(x != y for x, y in pairwise(nums))
-    
+
     # 3667. 按绝对值排序数组 (Sort Array By Absolute Value) --plus
     def sortByAbsoluteValue(self, nums: List[int]) -> List[int]:
         return sorted(nums, key=lambda o: abs(o))
-    
+
     # 3476. 最大化任务分配的利润 (Maximize Profit from Task Assignment) --plus
     def maxProfit(self, workers: List[int], tasks: List[List[int]]) -> int:
         d = defaultdict(list)
@@ -8945,14 +8953,14 @@ class BinaryMatrix(object):
         for l in d.values():
             mx = max(mx, l[-1])
         return res + mx
-    
+
     # 2955. 同端子串的数量 (Number of Same-End Substrings) --plus
     def sameEndSubstringCount(self, s: str, queries: List[List[int]]) -> List[int]:
         n = len(s)
         pre = [[0] * (n + 1) for _ in range(26)]
         for c in range(26):
             for i, x in enumerate(s):
-                id = ord(x) - ord('a')
+                id = ord(x) - ord("a")
                 pre[c][i + 1] = pre[c][i] + int(id == c)
         res = []
         for l, r in queries:
@@ -8963,6 +8971,21 @@ class BinaryMatrix(object):
             res.append(cur_s)
         return res
 
- 
-        
-    
+    # 3199. 用偶数异或设置位计数三元组 I (Count Triplets with Even XOR Set Bits I) --plus
+    # 3215. 用偶数异或设置位计数三元组 II (Count Triplets with Even XOR Set Bits II) --plus
+    def tripletCount(self, a: List[int], b: List[int], c: List[int]) -> int:
+        def cal(a: List[int]) -> List[int]:
+            res = [0] * 2
+            for x in a:
+                res[x.bit_count() & 1] += 1
+            return res
+
+        cnt1 = cal(a)
+        cnt2 = cal(b)
+        cnt3 = cal(c)
+        return (
+            cnt1[0] * cnt2[0] * cnt3[0]
+            + cnt1[1] * cnt2[1] * cnt3[0]
+            + cnt1[1] * cnt2[0] * cnt3[1]
+            + cnt1[0] * cnt2[1] * cnt3[1]
+        )
