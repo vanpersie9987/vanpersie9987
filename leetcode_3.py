@@ -8848,6 +8848,24 @@ class SegmentTree2940:
             else:
                 s -= heapq.heappop(q)
         return res
+    
+    # 1246. 删除回文子数组 (Palindrome Removal) --plus
+    def minimumMoves(self, arr: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == j:
+                return 1
+            if i + 1 == j:
+                return 1 if arr[i] == arr[j] else 2
+            res = inf
+            if arr[i] == arr[j]:
+                res = min(res, dfs(i + 1, j - 1))
+            for k in range(i, j):
+                res = min(res, dfs(i, k) + dfs(k + 1, j))
+            return res
+        n = len(arr)
+        return dfs(0, n - 1)
+        
 
             
 
