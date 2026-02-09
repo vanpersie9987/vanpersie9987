@@ -9046,7 +9046,7 @@ class BinaryMatrix(object):
             if i == u:
                 return 1
             c = u ^ i
-            j = n - c.bit_count() + 1
+            j = i.bit_count() + 1
             res = 0
             while c:
                 lb = (c & -c).bit_length() - 1
