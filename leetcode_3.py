@@ -8989,7 +8989,7 @@ class BinaryMatrix(object):
             + cnt1[1] * cnt2[0] * cnt3[1]
             + cnt1[0] * cnt2[1] * cnt3[1]
         )
-    
+
     # 3641. 最长半重复子数组 (Longest Semi-Repeating Subarray) --plus
     def longestSubarray(self, nums: List[int], k: int) -> int:
         res = 0
@@ -9008,5 +9008,33 @@ class BinaryMatrix(object):
             res = max(res, i - j + 1)
         return res
 
+    # 3610. 目标和所需的最小质数个数 (Minimum Number of Primes to Sum to Target) --plus
+    def minNumberOfPrimes(self, n: int, m: int) -> int:
+        def check(x: int) -> bool:
+            for d in range(2, isqrt(x) + 1):
+                if x % d == 0:
+                    return False
+            return True
 
-        
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if j == n:
+                return 0
+            if i == l:
+                return inf
+            res = dfs(i + 1, j)
+            if j + prime[i] <= n:
+                res = min(res, dfs(i, j + prime[i]) + 1)
+            return res
+
+        prime = []
+        i = 2
+        while len(prime) < m and i <= n:
+            if check(i):
+                prime.append(i)
+            i += 1
+        l = len(prime)
+        prime = list(reversed(prime))
+        res = dfs(0, 0)
+        dfs.cache_clear()
+        return res if res < inf else -1
