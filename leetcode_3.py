@@ -9038,3 +9038,21 @@ class BinaryMatrix(object):
         res = dfs(0, 0)
         dfs.cache_clear()
         return res if res < inf else -1
+
+    # 2992. 自整除排列的数量 (Number of Self-Divisible Permutations) --plus
+    def selfDivisiblePermutationCount(self, n: int) -> int:
+        @cache
+        def dfs(i: int) -> int:
+            if i == u:
+                return 1
+            c = u ^ i
+            j = n - c.bit_count() + 1
+            res = 0
+            while c:
+                lb = (c & -c).bit_length() - 1
+                if gcd(j, lb) == 1:
+                    res += dfs(i ^ (1 << lb))
+                c &= c - 1
+            return res
+        u = (1 << (n + 1)) - 2
+        return dfs(0)
