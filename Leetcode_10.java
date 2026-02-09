@@ -6218,4 +6218,37 @@ public class Leetcode_10 {
         return true;
     }
 
+    // 2992. 自整除排列的数量 (Number of Self-Divisible Permutations) --plus
+    private int u2992;
+    private int[] memo2992;
+
+    public int selfDivisiblePermutationCount(int n) {
+        this.u2992 = (1 << (n + 1)) - 2;
+        this.memo2992 = new int[(1 << (n + 1)) - 1];
+        Arrays.fill(memo2992, -1);
+        return dfs2992(0);
+    }
+
+    private int dfs2992(int i) {
+        if (i == u2992) {
+            return 1;
+        }
+        if (memo2992[i] != -1) {
+            return memo2992[i];
+        }
+        int res = 0;
+        int j = Integer.bitCount(i) + 1;
+        for (int c = i ^ u2992; c != 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            if (gcd2992(lb, j) == 1) {
+                res += dfs2992(i ^ (1 << lb));
+            }
+        }
+        return memo2992[i] = res;
+    }
+
+    private int gcd2992(int a, int b) {
+        return b == 0 ? a : gcd2992(b, a % b);
+    }
+
 }
