@@ -6047,4 +6047,16 @@ public class Leetcode_10 {
 
     }
 
+    // 3353. 最小总操作数 (Minimum Total Operations) --plus
+    public int minOperations3353(int[] nums) {
+        int res = 0;
+        for (int i = 1; i < nums.length; ++i) {
+            if (nums[i] != nums[i - 1]) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
 }
