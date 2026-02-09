@@ -5887,4 +5887,30 @@ public class Leetcode_10 {
 
     }
 
+    // 3831. 二叉搜索树某一层的中位数 (Median of a Binary Search Tree Level)
+    public int levelMedian(TreeNode root, int level) {
+        int curLevel = 0;
+        Deque<TreeNode> q = new ArrayDeque<>();
+        q.addLast(root);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            if (curLevel == level) {
+                List<TreeNode> list = new ArrayList<>(q);
+                return list.get(list.size() / 2).val;
+            }
+            for (int i = 0; i < size; ++i) {
+                TreeNode x = q.pollFirst();
+                if (x.left != null) {
+                    q.addLast(x.left);
+                }
+                if (x.right != null) {
+                    q.addLast(x.right);
+                }
+            }
+            ++curLevel;
+        }
+        return -1;
+
+    }
+
 }
