@@ -8989,3 +8989,24 @@ class BinaryMatrix(object):
             + cnt1[1] * cnt2[0] * cnt3[1]
             + cnt1[0] * cnt2[1] * cnt3[1]
         )
+    
+    # 3641. 最长半重复子数组 (Longest Semi-Repeating Subarray) --plus
+    def longestSubarray(self, nums: List[int], k: int) -> int:
+        res = 0
+        j = 0
+        d = defaultdict(int)
+        cnt = 0
+        for i, x in enumerate(nums):
+            d[x] += 1
+            if d[x] == 2:
+                cnt += 1
+            while cnt > k:
+                d[nums[j]] -= 1
+                if d[nums[j]] == 1:
+                    cnt -= 1
+                j += 1
+            res = max(res, i - j + 1)
+        return res
+
+
+        
