@@ -9057,3 +9057,28 @@ class BinaryMatrix(object):
 
         u = (1 << (n + 1)) - 2
         return dfs(0)
+    
+    # 3004. 相同颜色的最大子树 (Maximum Subtree of the Same Color) --plus
+    def maximumSubtreeSize(self, edges: List[List[int]], colors: List[int]) -> int:
+        def dfs(x: int, fa: int) -> tuple:
+            s = set()
+            cnt = 0
+            for y in g[x]:
+                if y != fa:
+                    cur = dfs(y, x)
+                    s |= cur[0]
+                    cnt += cur[1]
+            s.add(colors[x])
+            cnt += 1
+            if len(s) == 1:
+                nonlocal res
+                res = max(res, cnt)
+            return (s, cnt)
+        res = 0
+        n = len(colors)
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        dfs(0, -1)
+        return res
