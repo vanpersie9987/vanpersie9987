@@ -6103,6 +6103,29 @@ public class Leetcode_10 {
         }
         return res + mx;
 
+    }
+    
+    // 2955. 同端子串的数量 (Number of Same-End Substrings) --plus
+    public int[] sameEndSubstringCount(String s, int[][] queries) {
+        int n = s.length();
+        int[][] pre = new int[26][n + 1];
+        for (int c = 0; c < 26; ++c) {
+            for (int i = 0; i < n; ++i) {
+                int id = s.charAt(i) - 'a';
+                pre[c][i + 1] = pre[c][i] + (c == id ? 1 : 0);
+            }
+        }
+        int m = queries.length;
+        int[] res = new int[m];
+        for (int i = 0; i < m; ++i) {
+            int total = 0;
+            for (int c = 0; c < 26; ++c) {
+                int cur = pre[c][queries[i][1] + 1] - pre[c][queries[i][0]];
+                total += cur * (cur + 1) / 2;
+            }
+            res[i] = total;
+        }
+        return res;
 
     }
 
