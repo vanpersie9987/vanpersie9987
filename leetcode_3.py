@@ -8832,6 +8832,23 @@ class SegmentTree2940:
                 mul = 2
             res += d * mul
         return res
+
+    def maxTransactions(self, transactions: List[int]) -> int:
+        q = []
+        heapq.heapify_max(q)
+        res = 0
+        s = 0
+        for t in transactions:
+            if t >= 0:
+                s += t
+                res += 1
+            else:
+                heapq.heappush_max(q, t)
+                while q and s + q[0] >= 0:
+                    s += heapq.heapify_max(q)
+                    res += 1
+        return res
+
             
 
 

@@ -5929,4 +5929,24 @@ public class Leetcode_10 {
 
     }
 
+    // 3711. 不出现负余额的最大交易额 (Maximum Transactions Without Negative Balance) --plus
+    public int maxTransactions(int[] transactions) {
+        int res = 0;
+        long s = 0L;
+        Queue<Integer> q = new PriorityQueue<>();
+        for (int t : transactions) {
+            if (t < 0) {
+                q.offer(t);
+            }
+            s += t;
+            if (s >= 0) {
+                ++res;
+            } else {
+                s -= q.poll();
+            }
+        }
+        return res;
+
+    }
+
 }
