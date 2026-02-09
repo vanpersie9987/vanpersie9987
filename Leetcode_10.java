@@ -5949,7 +5949,7 @@ public class Leetcode_10 {
 
     }
 
-    // 1246. 删除回文子数组 (Palindrome Removal)
+    // 1246. 删除回文子数组 (Palindrome Removal) --plus
     private int[][] memo1246;
     private int[] arr1246;
 
@@ -5978,6 +5978,43 @@ public class Leetcode_10 {
             res = Math.min(res, dfs1246(i, k) + dfs1246(k + 1, j));
         }
         return memo1246[i][j] = res;
+    }
+
+    // This is ArrayReader's API interface.
+    // You should not implement it, or speculate about its implementation
+    abstract class ArrayReader {
+        // Compares the sum of arr[l..r] with the sum of arr[x..y]
+        // return 1 if sum(arr[l..r]) > sum(arr[x..y])
+        // return 0 if sum(arr[l..r]) == sum(arr[x..y])
+        // return -1 if sum(arr[l..r]) < sum(arr[x..y])
+        public int compareSub(int l, int r, int x, int y) {
+            return 0;
+        }
+
+        // Returns the length of the array
+        public int length() {
+            return 0;
+        }
+    }
+
+    // 1533. 找到最大整数的索引 (Find the Index of the Large Integer)
+    public int getIndex(ArrayReader reader) {
+        int left = 0;
+        int right = reader.length() - 1;
+        while (left < right) {
+            int mid = left + ((right - left) >> 1);
+            int c = reader.compareSub(left, mid - ((right - left + 1) % 2), mid + 1, right);
+            if (c == 0) {
+                return mid;
+            }
+            if (c > 0) {
+                right = mid - ((right - left + 1) % 2);
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+
     }
 
 }
