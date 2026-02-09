@@ -8833,20 +8833,20 @@ class SegmentTree2940:
             res += d * mul
         return res
 
+    # 3711. 不出现负余额的最大交易额 (Maximum Transactions Without Negative Balance) --plus
     def maxTransactions(self, transactions: List[int]) -> int:
         q = []
-        heapq.heapify_max(q)
+        heapq.heapify(q)
         res = 0
         s = 0
         for t in transactions:
-            if t >= 0:
-                s += t
+            if t < 0:
+                heapq.heappush(q, t)
+            s += t
+            if s >= 0:
                 res += 1
             else:
-                heapq.heappush_max(q, t)
-                while q and s + q[0] >= 0:
-                    s += heapq.heapify_max(q)
-                    res += 1
+                s -= heapq.heappop(q)
         return res
 
             
