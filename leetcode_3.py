@@ -8896,4 +8896,29 @@ class ArrayReader(object):
             else:
                 left = mid + 1
         return left
+
+ """
+ This is BinaryMatrix's API interface.
+ You should not implement it, or speculate about its implementation
+ """
+class BinaryMatrix(object):
+    def get(self, row: int, col: int) -> int:
+        return 0
+    def dimensions(self) -> list[int]:
+        return None
+    
+    # 428. 至少有一个 1 的最左端列 (Leftmost Column with at Least a One) --plus
+    def leftMostColumnWithOne(self, binaryMatrix: 'BinaryMatrix') -> int:
+        m, n = binaryMatrix.dimensions()
+        left = 0
+        right = n - 1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if any(binaryMatrix.get(i, mid) for i in range(m)):
+                right = mid - 1
+            else:
+                left = mid + 1
+        return -1 if right + 1 == n else right + 1
+
+        
     
