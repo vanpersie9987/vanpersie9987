@@ -5982,22 +5982,18 @@ public class Leetcode_10 {
 
     // This is ArrayReader's API interface.
     // You should not implement it, or speculate about its implementation
-    abstract class ArrayReader {
+    interface ArrayReader {
         // Compares the sum of arr[l..r] with the sum of arr[x..y]
         // return 1 if sum(arr[l..r]) > sum(arr[x..y])
         // return 0 if sum(arr[l..r]) == sum(arr[x..y])
         // return -1 if sum(arr[l..r]) < sum(arr[x..y])
-        public int compareSub(int l, int r, int x, int y) {
-            return 0;
-        }
+        public int compareSub(int l, int r, int x, int y);
 
         // Returns the length of the array
-        public int length() {
-            return 0;
-        }
+        public int length();
     }
 
-    // 1533. 找到最大整数的索引 (Find the Index of the Large Integer)
+    // 1533. 找到最大整数的索引 (Find the Index of the Large Integer) --plus
     public int getIndex(ArrayReader reader) {
         int left = 0;
         int right = reader.length() - 1;
