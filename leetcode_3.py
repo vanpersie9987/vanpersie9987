@@ -8927,6 +8927,26 @@ class BinaryMatrix(object):
     # 3667. 按绝对值排序数组 (Sort Array By Absolute Value) --plus
     def sortByAbsoluteValue(self, nums: List[int]) -> List[int]:
         return sorted(nums, key=lambda o: abs(o))
+    
+    # 3476. 最大化任务分配的利润 (Maximize Profit from Task Assignment) --plus
+    def maxProfit(self, workers: List[int], tasks: List[List[int]]) -> int:
+        d = defaultdict(list)
+        for r, b in tasks:
+            d[r].append(b)
+        for l in d.values():
+            l.sort()
+        res = 0
+        for w in workers:
+            if w in d:
+                res += d[w].pop()
+                if len(d[w]) == 0:
+                    del d[w]
+        mx = 0
+        for l in d.values():
+            mx = max(mx, l[-1])
+        return res + mx
+
+                
 
         
     
