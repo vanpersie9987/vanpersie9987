@@ -9054,5 +9054,6 @@ class BinaryMatrix(object):
                     res += dfs(i ^ (1 << lb))
                 c &= c - 1
             return res
+
         u = (1 << (n + 1)) - 2
         return dfs(0)
