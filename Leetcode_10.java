@@ -6071,9 +6071,38 @@ public class Leetcode_10 {
             public int compare(Integer o1, Integer o2) {
                 return Integer.compare(Math.abs(o1), Math.abs(o2));
             }
-            
+
         });
         return list.stream().mapToInt(i -> i).toArray();
+
+    }
+    
+    // 3476. 最大化任务分配的利润 (Maximize Profit from Task Assignment) --plus
+    public long maxProfit(int[] workers, int[][] tasks) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int[] t : tasks) {
+            map.computeIfAbsent(t[0], o -> new ArrayList<>()).add(t[1]);
+        }
+        for (List<Integer> list : map.values()) {
+            Collections.sort(list);
+        }
+        long res = 0L;
+        for (int w : workers) {
+            List<Integer> list = map.getOrDefault(w, new ArrayList<>());
+            if (list.isEmpty()) {
+                continue;
+            }
+            res += list.remove(list.size() - 1);
+            if (list.isEmpty()) {
+                map.remove(w);
+            }
+        }
+        int mx = 0;
+        for (List<Integer> list : map.values()) {
+            mx = Math.max(mx, list.get(list.size() - 1));
+        }
+        return res + mx;
+
 
     }
 
