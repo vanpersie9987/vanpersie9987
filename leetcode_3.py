@@ -9082,3 +9082,23 @@ class BinaryMatrix(object):
             g[v].append(u)
         dfs(0, -1)
         return res
+    
+    # 2838. 英雄可以获得的最大金币数 (Maximum Coins Heroes Can Collect) --plus
+    def maximumCoins(self, heroes: List[int], monsters: List[int], coins: List[int]) -> List[int]:
+        a = [[x, y] for x, y in zip(monsters, coins)]
+        a.sort()
+        h = [[x, i] for i, x in enumerate(heroes)]
+        h.sort()
+        res = [0] * len(heroes)
+        j = 0
+        s = 0
+        for x, id in h:
+            while j < len(a) and a[j][0] <= x:
+                s += a[j][1]
+                j += 1
+            res[id] = s
+        return res
+
+
+
+
