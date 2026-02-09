@@ -8923,6 +8923,10 @@ class BinaryMatrix(object):
     # 3353. 最小总操作数 (Minimum Total Operations) --plus
     def minOperations(self, nums: List[int]) -> int:
         return sum(x != y for x, y in pairwise(nums))
+    
+    # 3667. 按绝对值排序数组 (Sort Array By Absolute Value) --plus
+    def sortByAbsoluteValue(self, nums: List[int]) -> List[int]:
+        return sorted(nums, key=lambda o: abs(o))
 
         
     
