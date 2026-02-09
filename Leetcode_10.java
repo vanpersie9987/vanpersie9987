@@ -6148,4 +6148,28 @@ public class Leetcode_10 {
         return res;
     }
 
+    // 3641. 最长半重复子数组 (Longest Semi-Repeating Subarray) --plus
+    public int longestSubarray(int[] nums, int k) {
+        int res = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        int j = 0;
+        int cnt = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            map.merge(nums[i], 1, Integer::sum);
+            if (map.get(nums[i]) == 2) {
+                ++cnt;
+            }
+            while (cnt > k) {
+                map.merge(nums[j], -1, Integer::sum);
+                if (map.get(nums[j]) == 1) {
+                    --cnt;
+                }
+                ++j;
+            }
+            res = Math.max(res, i - j + 1);
+        }
+        return res;
+
+    }
+
 }
