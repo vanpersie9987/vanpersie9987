@@ -8865,8 +8865,35 @@ class SegmentTree2940:
             return res
         n = len(arr)
         return dfs(0, n - 1)
-        
+    
+"""
+ This is ArrayReader's API interface.
+ You should not implement it, or speculate about its implementation
+ """
+class ArrayReader(object):
+	# Compares the sum of arr[l..r] with the sum of arr[x..y]
+	# return 1 if sum(arr[l..r]) > sum(arr[x..y])
+	# return 0 if sum(arr[l..r]) == sum(arr[x..y])
+	# return -1 if sum(arr[l..r]) < sum(arr[x..y])
+    def compareSub(self, l: int, r: int, x: int, y: int) -> int:
+            return 0
 
-            
-
-
+	# Returns the length of the array
+    def length(self) -> int:
+            return 0
+    
+    # 1533. 找到最大整数的索引 (Find the Index of the Large Integer) --plus
+    def getIndex(self, reader: 'ArrayReader') -> int:
+        left = 0
+        right = reader.length() - 1
+        while left < right:
+            mid = left + ((right - left) >> 1)
+            c = reader.compareSub(left, mid - (right - left + 1) % 2, mid + 1, right)
+            if c == 0:
+                return mid
+            if c > 0:
+                right = mid - ((right - left + 1) % 2)
+            else:
+                left = mid + 1
+        return left
+    
