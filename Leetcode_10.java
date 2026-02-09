@@ -6172,4 +6172,50 @@ public class Leetcode_10 {
 
     }
 
+    // 3610. 目标和所需的最小质数个数 (Minimum Number of Primes to Sum to Target) --plus
+    private List<Integer> primes3610;
+    private int[][] memo3610;
+
+    public int minNumberOfPrimes(int n, int m) {
+        int i = 2;
+        this.primes3610 = new ArrayList<>();
+        while (primes3610.size() < m && i <= n) {
+            if (check(i)) {
+                primes3610.add(i);
+            }
+            ++i;
+        }
+        int len = primes3610.size();
+        this.memo3610 = new int[len][n + 1];
+        int res = dfs3610(len - 1, n);
+        return res < n ? res : -1;
+
+    }
+
+    private int dfs3610(int i, int j) {
+        if (j == 0) {
+            return 0;
+        }
+        if (i < 0) {
+            return Integer.MAX_VALUE / 2;
+        }
+        if (memo3610[i][j] != 0) {
+            return memo3610[i][j];
+        }
+        int res = dfs3610(i - 1, j);
+        if (j - primes3610.get(i) >= 0) {
+            res = Math.min(res, dfs3610(i, j - primes3610.get(i)) + 1);
+        }
+        return memo3610[i][j] = res;
+    }
+
+    private boolean check(int x) {
+        for (int i = 2; i <= Math.sqrt(x); ++i) {
+            if (x % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
