@@ -8801,3 +8801,25 @@ class SegmentTree2940:
             node.right = dfs(mid + 1, j)
             return node
         return dfs(0, len(nums) - 1)
+    
+
+    # 3831. 二叉搜索树某一层的中位数 (Median of a Binary Search Tree Level)
+    def levelMedian(self, root: Optional[TreeNode], level: int) -> int:
+        q = deque()
+        q.append(root)
+        cur_level = 0
+        while q:
+            l = len(q)
+            if cur_level == level:
+                return q[l // 2].val
+            for _ in range(l):
+                x = q.popleft()
+                if x.left:
+                    q.append(x.left)
+                if x.right:
+                    q.append(x.right)
+            cur_level += 1
+        return -1
+            
+
+
