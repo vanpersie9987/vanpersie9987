@@ -8945,8 +8945,24 @@ class BinaryMatrix(object):
         for l in d.values():
             mx = max(mx, l[-1])
         return res + mx
+    
+    # 2955. 同端子串的数量 (Number of Same-End Substrings) --plus
+    def sameEndSubstringCount(self, s: str, queries: List[List[int]]) -> List[int]:
+        n = len(s)
+        pre = [[0] * (n + 1) for _ in range(26)]
+        for c in range(26):
+            for i, x in enumerate(s):
+                id = ord(x) - ord('a')
+                pre[c][i + 1] = pre[c][i] + int(id == c)
+        res = []
+        for l, r in queries:
+            cur_s = 0
+            for c in range(26):
+                cur = pre[c][r + 1] - pre[c][l]
+                cur_s += cur * (cur + 1) // 2
+            res.append(cur_s)
+        return res
 
-                
-
+ 
         
     
