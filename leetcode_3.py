@@ -8919,6 +8919,10 @@ class BinaryMatrix(object):
             else:
                 left = mid + 1
         return -1 if right + 1 == n else right + 1
+    
+    # 3353. 最小总操作数 (Minimum Total Operations) --plus
+    def minOperations(self, nums: List[int]) -> int:
+        return sum(x != y for x, y in pairwise(nums))
 
         
     
