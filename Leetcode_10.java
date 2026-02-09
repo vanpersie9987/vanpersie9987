@@ -6059,4 +6059,22 @@ public class Leetcode_10 {
 
     }
 
+    // 3667. 按绝对值排序数组 (Sort Array By Absolute Value) --plus
+    public int[] sortByAbsoluteValue(int[] nums) {
+        List<Integer> list = new ArrayList<>();
+        for (int x : nums) {
+            list.add(x);
+        }
+        Collections.sort(list, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(Math.abs(o1), Math.abs(o2));
+            }
+            
+        });
+        return list.stream().mapToInt(i -> i).toArray();
+
+    }
+
 }
