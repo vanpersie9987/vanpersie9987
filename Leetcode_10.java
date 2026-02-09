@@ -18,6 +18,7 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @SuppressWarnings("unchecked")
 public class Leetcode_10 {
@@ -6290,6 +6291,47 @@ public class Leetcode_10 {
             res3004 = Math.max(res3004, cnt);
         }
         return new Group3004(s, cnt);
+    }
+
+    // 2838. 英雄可以获得的最大金币数 (Maximum Coins Heroes Can Collect) --plus
+    public long[] maximumCoins(int[] heroes, int[] monsters, int[] coins) {
+        int m = monsters.length;
+        int[][] a = new int[m][2];
+        for (int i = 0; i < m; ++i) {
+            a[i][0] = monsters[i];
+            a[i][1] = coins[i];
+        }
+        Arrays.sort(a, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+
+        int n = heroes.length;
+        Integer[] idx = IntStream.range(0, n).boxed().toArray(Integer[]::new);
+        Arrays.sort(idx, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(heroes[o1], heroes[o2]);
+
+            }
+
+        });
+        int j = 0;
+        long[] res = new long[n];
+        long s = 0L;
+        for (int id : idx) {
+            while (j < m && a[j][0] <= heroes[id]) {
+                s += a[j++][1];
+            }
+            res[id] = s;
+        }
+        return res;
+
     }
 
 }
