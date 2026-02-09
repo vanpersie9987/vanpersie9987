@@ -5913,4 +5913,20 @@ public class Leetcode_10 {
 
     }
 
+    // 3687. 图书馆逾期罚款计算器 (Library Late Fee Calculator) --plus
+    public int lateFee(int[] daysLate) {
+        int res = 0;
+        for (int d : daysLate) {
+            int mul = 1;
+            if (d > 5) {
+                mul = 3;
+            } else if (d >= 2) {
+                mul = 2;
+            }
+            res += mul * d;
+        }
+        return res;
+
+    }
+
 }

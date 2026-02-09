@@ -8820,6 +8820,18 @@ class SegmentTree2940:
                     q.append(x.right)
             cur_level += 1
         return -1
+    
+    # 3687. 图书馆逾期罚款计算器 (Library Late Fee Calculator) --plus
+    def lateFee(self, daysLate: List[int]) -> int:
+        res = 0
+        for d in daysLate:
+            mul = 1
+            if d > 5:
+                mul = 3
+            elif d >= 2:
+                mul = 2
+            res += d * mul
+        return res
             
 
 
