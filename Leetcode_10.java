@@ -5949,4 +5949,35 @@ public class Leetcode_10 {
 
     }
 
+    // 1246. 删除回文子数组 (Palindrome Removal)
+    private int[][] memo1246;
+    private int[] arr1246;
+
+    public int minimumMoves(int[] arr) {
+        int n = arr.length;
+        this.arr1246 = arr;
+        this.memo1246 = new int[n][n];
+        return dfs1246(0, arr.length - 1);
+    }
+
+    private int dfs1246(int i, int j) {
+        if (i == j) {
+            return 1;
+        }
+        if (i + 1 == j) {
+            return arr1246[i] == arr1246[j] ? 1 : 2;
+        }
+        if (memo1246[i][j] != 0) {
+            return memo1246[i][j];
+        }
+        int res = Integer.MAX_VALUE;
+        if (arr1246[i] == arr1246[j]) {
+            res = Math.min(res, dfs1246(i + 1, j - 1));
+        }
+        for (int k = i; k < j; ++k) {
+            res = Math.min(res, dfs1246(i, k) + dfs1246(k + 1, j));
+        }
+        return memo1246[i][j] = res;
+    }
+
 }
