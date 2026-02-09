@@ -6013,4 +6013,38 @@ public class Leetcode_10 {
 
     }
 
+    // This is the BinaryMatrix's API interface.
+    // You should not implement it, or speculate about its implementation
+    interface BinaryMatrix {
+        public int get(int row, int col);
+
+        public List<Integer> dimensions();
+    }
+
+    // 428. 至少有一个 1 的最左端列 (Leftmost Column with at Least a One) --plus
+    public int leftMostColumnWithOne(BinaryMatrix binaryMatrix) {
+        List<Integer> s = binaryMatrix.dimensions();
+        int m = s.get(0);
+        int n = s.get(1);
+        int left = 0;
+        int right = n - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            boolean flag = false;
+            for (int i = 0; i < m; ++i) {
+                if (binaryMatrix.get(i, mid) == 1) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1 == n ? -1 : right + 1;
+
+    }
+
 }
