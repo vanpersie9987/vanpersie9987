@@ -6552,7 +6552,6 @@ public class Leetcode_10 {
                 int ny = y + dir[1];
                 if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] != 2 && !vis[nx][ny]) {
                     vis[nx][ny] = true;
-
                     q.offer(new int[] { nx, ny, d + 1 });
 
                 }
