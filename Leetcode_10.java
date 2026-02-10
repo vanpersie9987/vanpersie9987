@@ -6465,4 +6465,35 @@ public class Leetcode_10 {
 
     }
 
+    // 2832. 每个元素为最大值的最大范围 (Maximal Range That Each Element Is Maximum in It) --plus
+    public int[] maximumLengthOfRanges(int[] nums) {
+        int n = nums.length;
+        Stack<Integer> st = new Stack<>();
+        st.push(-1);
+        int[] left = new int[n];
+        for (int i = 0; i < n; ++i) {
+            while (st.size() > 1 && nums[st.peek()] <= nums[i]) {
+                st.pop();
+            }
+            left[i] = st.peek();
+            st.push(i);
+        }
+        int[] right = new int[n];
+        st.clear();
+        st.push(n);
+        for (int i = n - 1; i >= 0; --i) {
+            while (st.size() > 1 && nums[st.peek()] <= nums[i]) {
+                st.pop();
+            }
+            right[i] = st.peek();
+            st.push(i);
+        }
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = right[i] - left[i] - 1;
+        }
+        return res;
+
+    }
+
 }
