@@ -6343,9 +6343,6 @@ public class Leetcode_10 {
         }
         int[] res = new int[n];
         for (int i = 0; i < n; ++i) {
-            if (i + k + 1 >= n) {
-                continue;
-            }
             List<Integer> a = map.get(nums[i]);
             int j = binarySearch3837(a, i + k + 1);
             if (j != a.size()) {

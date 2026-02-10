@@ -9118,8 +9118,6 @@ class BinaryMatrix(object):
         n = len(nums)
         res = [0] * n
         for i, x in enumerate(nums):
-            if i + k + 1 >= n:
-                continue
             a = d[x]
             j = binary_search(a, i + k + 1)
             if j != len(a):
