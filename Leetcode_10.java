@@ -6496,4 +6496,72 @@ public class Leetcode_10 {
 
     }
 
+    // 317. 离建筑物最近的距离 (Shortest Distance from All Buildings) --plus
+    public int shortestDistance(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int res = Integer.MAX_VALUE;
+        int cnt1 = 0;
+        int cnt0 = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    ++cnt1;
+                } else if (grid[i][j] == 0) {
+                    ++cnt0;
+                }
+            }
+        }
+        // 没有空地
+        if (cnt0 == 0) {
+            return -1;
+        }
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 0) {
+                    res = Math.min(res, cal317(i, j, grid, cnt1));
+                }
+            }
+        }
+        return res == Integer.MAX_VALUE ? -1 : res;
+
+    }
+
+    private int cal317(int i, int j, int[][] grid, int cnt1) {
+        int m = grid.length;
+        int n = grid[0].length;
+        boolean[][] vis = new boolean[m][n];
+        vis[i][j] = true;
+        Deque<int[]> q = new ArrayDeque<>();
+        int[][] dirs = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+        q.offer(new int[] { i, j, 0 });
+        int res = 0;
+        int curCnt1 = 0;
+        while (!q.isEmpty()) {
+            int[] cur = q.pollFirst();
+            int x = cur[0];
+            int y = cur[1];
+            int d = cur[2];
+            if (grid[x][y] == 1) {
+                ++curCnt1;
+                res += d;
+                continue;
+            }
+            for (int[] dir : dirs) {
+                int nx = x + dir[0];
+                int ny = y + dir[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] != 2 && !vis[nx][ny]) {
+                    vis[nx][ny] = true;
+
+                    q.offer(new int[] { nx, ny, d + 1 });
+
+                }
+            }
+        }
+        if (curCnt1 != cnt1) {
+            return Integer.MAX_VALUE;
+        }
+        return res;
+    }
+
 }
