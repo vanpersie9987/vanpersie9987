@@ -9123,6 +9123,26 @@ class BinaryMatrix(object):
             if j != len(a):
                 res[i] = len(a) - j
         return res
+    
+    # 3437. 全排列 III (Permutations III) --plus
+    def permute(self, n: int) -> List[List[int]]:
+        def dfs(i: int):
+            if i == u:
+                res.append(path.copy())
+                return
+            c = i ^ u
+            while c:
+                lb = (c & -c).bit_length() - 1
+                if len(path) == 0 or (path[-1] & 1) ^ (lb & 1):
+                    path.append(lb)
+                    dfs(i ^ (1 << lb))
+                    path.pop()
+                c &= c - 1
+        res = []
+        path = []
+        u = (1 << (n + 1)) - 2
+        dfs(0)
+        return res
 
 
         
