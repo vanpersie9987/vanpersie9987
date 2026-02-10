@@ -6350,7 +6350,6 @@ public class Leetcode_10 {
             }
         }
         return res;
-        
 
     }
 
@@ -6399,6 +6398,78 @@ public class Leetcode_10 {
                 path3437.remove(path3437.size() - 1);
             }
         }
+    }
+
+    // 2313. 二叉树中得到结果所需的最少翻转次数 (Minimum Flips in Binary Tree to Get Result) --plus
+    private record Group2313(TreeNode node, boolean result) {
+
+    }
+
+    private Map<Group2313, Integer> memo2313;
+
+    public int minimumFlips(TreeNode root, boolean result) {
+        this.memo2313 = new HashMap<>();
+        return dfs2313(root, result);
+    }
+
+    private int dfs2313(TreeNode node, boolean result) {
+        Group2313 key = new Group2313(node, result);
+        if (memo2313.get(key) != null) {
+            return memo2313.get(new Group2313(node, result));
+        }
+        int res = Integer.MAX_VALUE;
+        switch (node.val) {
+            // false
+            case 0:
+                res = result ? 1 : 0;
+                break;
+            // true
+            case 1:
+                res = result ? 0 : 1;
+                break;
+            // or
+            case 2:
+                int cur1 = dfs2313(node.left, true);
+                int cur2 = dfs2313(node.left, false);
+                int cur3 = dfs2313(node.right, true);
+                int cur4 = dfs2313(node.right, false);
+                if (result) {
+                    res = Math.min(cur3 + Math.min(cur1, cur2), cur1 + Math.min(cur3, cur4));
+                } else {
+                    res = cur2 + cur4;
+                }
+                break;
+            // and
+            case 3:
+                cur1 = dfs2313(node.left, true);
+                cur2 = dfs2313(node.left, false);
+                cur3 = dfs2313(node.right, true);
+                cur4 = dfs2313(node.right, false);
+                if (result) {
+                    res = cur1 + cur3;
+                } else {
+                    res = Math.min(cur4 + Math.min(cur1, cur2), cur2 + Math.min(cur3, cur4));
+                }
+                break;
+                // xor
+            case 4:
+                cur1 = dfs2313(node.left, true);
+                cur2 = dfs2313(node.left, false);
+                cur3 = dfs2313(node.right, true);
+                cur4 = dfs2313(node.right, false);
+                if (result) {
+                    res = Math.min(cur2 + cur3, cur1 + cur4);
+                } else {
+                    res = Math.min(cur2 + cur4, cur1 + cur3);
+                }
+                break;
+            // not
+            case 5:
+                res = dfs2313(node.left != null ? node.left : node.right, !result);
+                break;
+        }
+        memo2313.put(key, res);
+        return res;
     }
 
 }
