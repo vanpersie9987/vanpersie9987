@@ -6445,12 +6445,23 @@ public class Leetcode_10 {
         return res;
     }
 
-    public int maxScore(int[] nums) {
+    // 3496. 最大化配对删除后的得分 (Maximize Score After Pair Deletions) --plus
+    public int maxScore3496(int[] nums) {
         int n = nums.length;
         if (n <= 2) {
             return 0;
         }
-        
+        int min = Integer.MAX_VALUE;
+        int minPair = Integer.MAX_VALUE;
+        int s = 0;
+        for (int i = 0; i < n; ++i) {
+            min = Math.min(min, nums[i]);
+            if (i < n - 1) {
+                minPair = Math.min(minPair, nums[i] + nums[i + 1]);
+            }
+            s += nums[i];
+        }
+        return (n & 1) != 0 ? s - min : s - minPair;
 
     }
 
