@@ -9165,6 +9165,17 @@ class BinaryMatrix(object):
             return cur1 + cur3 if result else min(cur2 + min(cur3, cur4), cur4 + min(cur1, cur2))
         # xor
         return min(cur1 + cur4, cur2 + cur3) if result else min(cur1 + cur3, cur2 + cur4)
+    
+    # 3496. 最大化配对删除后的得分 (Maximize Score After Pair Deletions) --plus
+    def maxScore(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n <= 2:
+            return 0
+        s = sum(nums)
+        _min = min(nums)
+        _min_pair = min(x + y for x, y in pairwise(nums))
+        return s - _min if n & 1 else s - _min_pair
+        
 
 
 

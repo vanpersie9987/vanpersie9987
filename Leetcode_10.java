@@ -6445,4 +6445,13 @@ public class Leetcode_10 {
         return res;
     }
 
+    public int maxScore(int[] nums) {
+        int n = nums.length;
+        if (n <= 2) {
+            return 0;
+        }
+        
+
+    }
+
 }
