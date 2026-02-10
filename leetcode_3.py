@@ -9175,7 +9175,27 @@ class BinaryMatrix(object):
         _min = min(nums)
         _min_pair = min(x + y for x, y in pairwise(nums))
         return s - _min if n & 1 else s - _min_pair
-        
+
+    # 2832. 每个元素为最大值的最大范围 (Maximal Range That Each Element Is Maximum in It) --plus
+    def maximumLengthOfRanges(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        left = [-1] * n
+        st = []
+        for i, x in enumerate(nums):
+            while st and nums[st[-1]] <= x:
+                st.pop()
+            if st:
+                left[i] = st[-1]
+            st.append(i)
+        st.clear()
+        right = [n] * n
+        for i in range(n - 1, -1, -1):
+            while st and nums[st[-1]] <= nums[i]:
+                st.pop()
+            if st:
+                right[i] = st[-1]
+            st.append(i)
+        return [r - l - 1 for l, r in zip(left, right)]
 
 
 
