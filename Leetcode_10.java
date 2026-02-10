@@ -6405,14 +6405,9 @@ public class Leetcode_10 {
 
     }
 
-    private Map<Group2313, Integer> memo2313;
+    private Map<Group2313, Integer> memo2313 = new HashMap<>();
 
-    public int minimumFlips(TreeNode root, boolean result) {
-        this.memo2313 = new HashMap<>();
-        return dfs2313(root, result);
-    }
-
-    private int dfs2313(TreeNode node, boolean result) {
+    public int minimumFlips(TreeNode node, boolean result) {
         Group2313 key = new Group2313(node, result);
         if (memo2313.get(key) != null) {
             return memo2313.get(new Group2313(node, result));
@@ -6429,10 +6424,10 @@ public class Leetcode_10 {
                 break;
             // or
             case 2:
-                int cur1 = dfs2313(node.left, true);
-                int cur2 = dfs2313(node.left, false);
-                int cur3 = dfs2313(node.right, true);
-                int cur4 = dfs2313(node.right, false);
+                int cur1 = minimumFlips(node.left, true);
+                int cur2 = minimumFlips(node.left, false);
+                int cur3 = minimumFlips(node.right, true);
+                int cur4 = minimumFlips(node.right, false);
                 if (result) {
                     res = Math.min(cur3 + Math.min(cur1, cur2), cur1 + Math.min(cur3, cur4));
                 } else {
@@ -6441,10 +6436,10 @@ public class Leetcode_10 {
                 break;
             // and
             case 3:
-                cur1 = dfs2313(node.left, true);
-                cur2 = dfs2313(node.left, false);
-                cur3 = dfs2313(node.right, true);
-                cur4 = dfs2313(node.right, false);
+                cur1 = minimumFlips(node.left, true);
+                cur2 = minimumFlips(node.left, false);
+                cur3 = minimumFlips(node.right, true);
+                cur4 = minimumFlips(node.right, false);
                 if (result) {
                     res = cur1 + cur3;
                 } else {
@@ -6453,10 +6448,10 @@ public class Leetcode_10 {
                 break;
                 // xor
             case 4:
-                cur1 = dfs2313(node.left, true);
-                cur2 = dfs2313(node.left, false);
-                cur3 = dfs2313(node.right, true);
-                cur4 = dfs2313(node.right, false);
+                cur1 = minimumFlips(node.left, true);
+                cur2 = minimumFlips(node.left, false);
+                cur3 = minimumFlips(node.right, true);
+                cur4 = minimumFlips(node.right, false);
                 if (result) {
                     res = Math.min(cur2 + cur3, cur1 + cur4);
                 } else {
@@ -6465,7 +6460,7 @@ public class Leetcode_10 {
                 break;
             // not
             case 5:
-                res = dfs2313(node.left != null ? node.left : node.right, !result);
+                res = minimumFlips(node.left != null ? node.left : node.right, !result);
                 break;
         }
         memo2313.put(key, res);
