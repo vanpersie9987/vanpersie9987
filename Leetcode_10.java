@@ -6368,4 +6368,37 @@ public class Leetcode_10 {
         return right + 1;
     }
 
+    // 3437. 全排列 III (Permutations III) --plus
+    private List<List<Integer>> list3437;
+    private List<Integer> path3437;
+    private int u3437;
+
+    public int[][] permute(int n) {
+        this.u3437 = (1 << (n + 1)) - 2;
+        this.list3437 = new ArrayList<>();
+        this.path3437 = new ArrayList<>();
+        dfs3437(0);
+        int c = list3437.size();
+        int[][] res = new int[c][];
+        for (int i = 0; i < c; ++i) {
+            res[i] = list3437.get(i).stream().mapToInt(o -> o).toArray();
+        }
+        return res;
+    }
+
+    private void dfs3437(int i) {
+        if (i == u3437) {
+            list3437.add(new ArrayList<>(path3437));
+            return;
+        }
+        for (int c = i ^ u3437; c != 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            if (path3437.isEmpty() || ((lb & 1) ^ (path3437.get(path3437.size() - 1) & 1)) != 0) {
+                path3437.add(lb);
+                dfs3437(i ^ (1 << lb));
+                path3437.remove(path3437.size() - 1);
+            }
+        }
+    }
+
 }
