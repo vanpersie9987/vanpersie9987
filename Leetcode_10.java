@@ -6334,4 +6334,41 @@ public class Leetcode_10 {
 
     }
 
+    // 3837. Delayed Count of Equal Elements --plus
+    public int[] delayedCount(int[] nums, int k) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            map.computeIfAbsent(nums[i], o -> new ArrayList<>()).add(i);
+        }
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            if (i + k + 1 >= n) {
+                continue;
+            }
+            List<Integer> a = map.get(nums[i]);
+            int j = binarySearch3837(a, i + k + 1);
+            if (j != a.size()) {
+                res[i] = a.size() - j;
+            }
+        }
+        return res;
+        
+
+    }
+
+    private int binarySearch3837(List<Integer> a, int x) {
+        int left = 0;
+        int right = a.size() - 1;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (a.get(mid) >= x) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+    }
+
 }

@@ -12,6 +12,7 @@ from sqlite3 import paramstyle
 import stat
 from termios import CINTR
 from tokenize import String
+from unicodedata import numeric
 from xxlimited import foo
 from calendar import c
 from collections import Counter, defaultdict, deque
@@ -9098,6 +9099,35 @@ class BinaryMatrix(object):
                 j += 1
             res[id] = s
         return res
+    
+    # 3837. Delayed Count of Equal Elements --plus
+    def delayedCount(self, nums: List[int], k: int) -> List[int]:
+        def binary_search(a: list, x: int) -> int:
+            left = 0
+            right = len(a) - 1
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if a[mid] >= x:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return right + 1
+        d = defaultdict(list)
+        for i, x in enumerate(nums):
+            d[x].append(i)
+        n = len(nums)
+        res = [0] * n
+        for i, x in enumerate(nums):
+            if i + k + 1 >= n:
+                continue
+            a = d[x]
+            j = binary_search(a, i + k + 1)
+            if j != len(a):
+                res[i] = len(a) - j
+        return res
+
+
+        
 
 
 
