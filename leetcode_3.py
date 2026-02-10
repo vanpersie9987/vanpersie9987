@@ -9143,10 +9143,28 @@ class BinaryMatrix(object):
         u = (1 << (n + 1)) - 2
         dfs(0)
         return res
-
-
-        
-
+    
+    # 2313. 二叉树中得到结果所需的最少翻转次数 (Minimum Flips in Binary Tree to Get Result) --plus
+    @cache
+    def minimumFlips(self, root: Optional[TreeNode], result: bool) -> int:
+        # 0: False ; 1: True
+        if root.val <= 1:
+            return result ^ root.val
+        # not
+        if root.val == 5:
+            return self.minimumFlips(root.left if root.left else root.right, not result)
+        cur1 = self.minimumFlips(root.left, True)
+        cur2 = self.minimumFlips(root.left, False)
+        cur3 = self.minimumFlips(root.right, True)
+        cur4 = self.minimumFlips(root.right, False)
+        # or
+        if root.val == 2:
+            return min(cur1 + min(cur3, cur4), cur3 + min(cur1, cur2)) if result else cur2 + cur4
+        # and
+        if root.val == 3:
+            return cur1 + cur3 if result else min(cur2 + min(cur3, cur4), cur4 + min(cur1, cur2))
+        # xor
+        return min(cur1 + cur4, cur2 + cur3) if result else min(cur1 + cur3, cur2 + cur4)
 
 
 

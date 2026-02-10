@@ -6401,69 +6401,47 @@ public class Leetcode_10 {
     }
 
     // 2313. 二叉树中得到结果所需的最少翻转次数 (Minimum Flips in Binary Tree to Get Result) --plus
-    private record Group2313(TreeNode node, boolean result) {
+    private record Group(TreeNode node, boolean result) {
 
     }
 
-    private Map<Group2313, Integer> memo2313 = new HashMap<>();
+    private Map<Group, Integer> memo = new HashMap<>();
 
-    public int minimumFlips(TreeNode node, boolean result) {
-        Group2313 key = new Group2313(node, result);
-        if (memo2313.get(key) != null) {
-            return memo2313.get(new Group2313(node, result));
+    public int minimumFlips(TreeNode root, boolean result) {
+        // 0 false
+        // 1 true
+        if (root.val <= 1) {
+            return result && root.val == 1 || !result && root.val == 0 ? 0 : 1;
         }
-        int res = Integer.MAX_VALUE;
-        switch (node.val) {
-            // false
-            case 0:
-                res = result ? 1 : 0;
-                break;
-            // true
-            case 1:
-                res = result ? 0 : 1;
-                break;
-            // or
-            case 2:
-                int cur1 = minimumFlips(node.left, true);
-                int cur2 = minimumFlips(node.left, false);
-                int cur3 = minimumFlips(node.right, true);
-                int cur4 = minimumFlips(node.right, false);
-                if (result) {
-                    res = Math.min(cur3 + Math.min(cur1, cur2), cur1 + Math.min(cur3, cur4));
-                } else {
-                    res = cur2 + cur4;
-                }
-                break;
-            // and
-            case 3:
-                cur1 = minimumFlips(node.left, true);
-                cur2 = minimumFlips(node.left, false);
-                cur3 = minimumFlips(node.right, true);
-                cur4 = minimumFlips(node.right, false);
-                if (result) {
-                    res = cur1 + cur3;
-                } else {
-                    res = Math.min(cur4 + Math.min(cur1, cur2), cur2 + Math.min(cur3, cur4));
-                }
-                break;
-                // xor
-            case 4:
-                cur1 = minimumFlips(node.left, true);
-                cur2 = minimumFlips(node.left, false);
-                cur3 = minimumFlips(node.right, true);
-                cur4 = minimumFlips(node.right, false);
-                if (result) {
-                    res = Math.min(cur2 + cur3, cur1 + cur4);
-                } else {
-                    res = Math.min(cur2 + cur4, cur1 + cur3);
-                }
-                break;
-            // not
-            case 5:
-                res = minimumFlips(node.left != null ? node.left : node.right, !result);
-                break;
+        Group key = new Group(root, result);
+        if (memo.get(key) != null) {
+            return memo.get(new Group(root, result));
         }
-        memo2313.put(key, res);
+        // not
+        if (root.val == 5) {
+            int res = minimumFlips(root.left != null ? root.left : root.right, !result);
+            memo.put(key, res);
+            return res;
+        }
+        int cur1 = minimumFlips(root.left, true);
+        int cur2 = minimumFlips(root.left, false);
+        int cur3 = minimumFlips(root.right, true);
+        int cur4 = minimumFlips(root.right, false);
+        // or
+        if (root.val == 2) {
+            int res = result ? Math.min(cur3 + Math.min(cur1, cur2), cur1 + Math.min(cur3, cur4)) : cur2 + cur4;
+            memo.put(key, res);
+            return res;
+        }
+        // and
+        if (root.val == 3) {
+            int res = result ? cur1 + cur3 : Math.min(cur4 + Math.min(cur1, cur2), cur2 + Math.min(cur3, cur4));
+            memo.put(key, res);
+            return res;
+        }
+        // xor
+        int res = result ? Math.min(cur2 + cur3, cur1 + cur4) : Math.min(cur2 + cur4, cur1 + cur3);
+        memo.put(key, res);
         return res;
     }
 
