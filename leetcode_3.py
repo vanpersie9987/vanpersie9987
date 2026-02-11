@@ -9285,8 +9285,30 @@ class BinaryMatrix(object):
 
         return n * (n + 1) // 2 - res
     
-    
+    # 3323. 通过插入区间最小化连通组 (Minimize Connected Groups by Inserting Interval) --plus
     def minConnectedGroups(self, intervals: List[List[int]], k: int) -> int:
+        n = len(intervals)
+        intervals.sort()
+        a = []
+        i = 0
+        while i < n:
+            l, r = intervals[i][0], intervals[i][1]
+            j = i + 1
+            while j < n and intervals[j][0] <= r:
+                r = max(r, intervals[j][1])
+                j += 1
+            a.append((l, r))
+            i = j
+        res = 0
+        i = 0
+        j = 0
+        for i, (l, r) in enumerate(a):
+            while j < i and l - a[j][1] > k:
+                j += 1
+            res = max(res, i - j)
+        return len(a) - res
+            
+
         
             
         
