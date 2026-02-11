@@ -9231,9 +9231,8 @@ class BinaryMatrix(object):
         res = inf
         for i in range(m):
             for j in range(n):
-                if grid[i][j] == 0:
-                    if cnt_in_each_0[i][j] == cnt1:
-                        res = min(res, dis_in_each_0[i][j])
+                if grid[i][j] == 0 and cnt_in_each_0[i][j] == cnt1:
+                    res = min(res, dis_in_each_0[i][j])
         return res if res < inf else -1
 
 
