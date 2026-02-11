@@ -6497,37 +6497,36 @@ public class Leetcode_10 {
     }
 
     // 317. 离建筑物最近的距离 (Shortest Distance from All Buildings) --plus
+    private int[][] dis317;
+    private int[][] cnt317;
     public int shortestDistance(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
-        int res = Integer.MAX_VALUE;
+        this.dis317 = new int[m][n];
+        this.cnt317 = new int[m][n];
         int cnt1 = 0;
-        int cnt0 = 0;
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (grid[i][j] == 1) {
                     ++cnt1;
-                } else if (grid[i][j] == 0) {
-                    ++cnt0;
+                    cal317(i, j, grid);
                 }
             }
         }
-        // 没有空地
-        if (cnt0 == 0) {
-            return -1;
-        }
+        int res = Integer.MAX_VALUE;
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                if (grid[i][j] == 0) {
-                    res = Math.min(res, cal317(i, j, grid, cnt1));
+                if (grid[i][j] == 0 && cnt317[i][j] == cnt1) {
+                    res = Math.min(res, dis317[i][j]);
                 }
             }
         }
-        return res == Integer.MAX_VALUE ? -1 : res;
+        return res < Integer.MAX_VALUE ? res : -1;
 
     }
 
-    private int cal317(int i, int j, int[][] grid, int cnt1) {
+    // 从每个1出发，统计每个0，有多少1可以到达，并统计到达0的距离和
+    private void cal317(int i, int j, int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
         boolean[][] vis = new boolean[m][n];
@@ -6535,32 +6534,22 @@ public class Leetcode_10 {
         Deque<int[]> q = new ArrayDeque<>();
         int[][] dirs = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
         q.offer(new int[] { i, j, 0 });
-        int res = 0;
-        int curCnt1 = 0;
         while (!q.isEmpty()) {
             int[] cur = q.pollFirst();
             int x = cur[0];
             int y = cur[1];
             int d = cur[2];
-            if (grid[x][y] == 1) {
-                ++curCnt1;
-                res += d;
-                continue;
-            }
             for (int[] dir : dirs) {
                 int nx = x + dir[0];
                 int ny = y + dir[1];
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] != 2 && !vis[nx][ny]) {
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 0 && !vis[nx][ny]) {
                     vis[nx][ny] = true;
+                    dis317[nx][ny] += d + 1;
+                    ++cnt317[nx][ny];
                     q.offer(new int[] { nx, ny, d + 1 });
-
                 }
             }
         }
-        if (curCnt1 != cnt1) {
-            return Integer.MAX_VALUE;
-        }
-        return res;
     }
 
 }
