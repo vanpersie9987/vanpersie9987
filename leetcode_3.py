@@ -9315,5 +9315,34 @@ class Interval:
         self.start = start
         self.end = end
 
+    # 759. 员工空闲时间 (Employee Free Time) --plus
     def employeeFreeTime(self, schedule: '[[Interval]]') -> '[Interval]':
-        a = 
+        def merge(a: '[Interval]', b: '[Interval]') -> '[Interval]':
+            merged_list = []
+            i, j, m, n = 0, 0, len(a), len(b)
+            while i < m and j < n:
+                if a[i].start < b[j].start:
+                    merged_list.append(a[i])
+                    i += 1
+                else:
+                    merged_list.append(b[j])
+                    j += 1
+            merged_list.extend(a[i:])
+            merged_list.extend(b[j:])
+            res = []
+            i = 0
+            while i < len(merged_list):
+                l = merged_list[i].start
+                r = merged_list[i].end
+                j = i + 1
+                while j < len(merged_list) and merged_list[j].start <= r:
+                    r = max(r, merged_list[j].end)
+                    j += 1
+                res.append(Interval(l, r))
+                i = j
+            return res
+        a = schedule[0]
+        for i in range(1, len(schedule)):
+            b = schedule[i]
+            a = merge(a, b)
+        return [Interval(x.end, y.start) for x, y in pairwise(a)]
