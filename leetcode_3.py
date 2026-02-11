@@ -9368,3 +9368,27 @@ class Interval:
                     q.append((d + dx, y))
         res = min(dis[m] for m in marked)
         return res if res < inf else -1
+
+    # 2737. 找到最近的标记节点 (Find the Closest Marked Node) --plus
+    def minimumDistance(
+        self, n: int, edges: List[List[int]], s: int, marked: List[int]
+    ) -> int:
+        g = [[] for _ in range(n)]
+        for u, v, w in edges:
+            g[u].append((v, w))
+        _set = set(marked)
+        dis = [inf] * n
+        dis[s] = 0
+        q = [(0, s)]
+        heapq.heapify(q)
+        while q:
+            d, x = heapq.heappop(q)
+            if d > dis[x]:
+                continue
+            if x in _set:
+                return d
+            for y, dx in g[x]:
+                if d + dx < dis[y]:
+                    dis[y] = d + dx
+                    heapq.heappush(q, (d + dx, y))
+        return -1
