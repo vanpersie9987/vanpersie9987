@@ -9269,3 +9269,20 @@ class BinaryMatrix(object):
 
         MOD = 10**9 + 7
         return dfs(numPeople)
+    
+    # 3329. 字符至少出现 K 次的子字符串 II (Count Substrings With K-Frequency Characters II) --plus
+    def numberOfSubstrings(self, s: str, k: int) -> int:
+        cnts = [0] * 26
+        j = 0
+        res = 0
+        n = len(s)
+        for i, x in enumerate(s):
+            cnts[ord(x) - ord("a")] += 1
+            while cnts[ord(x) - ord("a")] >= k:
+                cnts[ord(s[j]) - ord("a")] -= 1
+                j += 1
+            res += i - j + 1
+
+        return n * (n + 1) // 2 - res
+            
+        
