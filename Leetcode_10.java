@@ -6630,4 +6630,63 @@ public class Leetcode_10 {
         }
         return n - res;
     }
+
+    // Definition for an Interval.
+    class Interval {
+        public int start;
+        public int end;
+
+        public Interval() {
+        }
+
+        public Interval(int _start, int _end) {
+            start = _start;
+            end = _end;
+        }
+    };
+
+    // 759. 员工空闲时间 (Employee Free Time) --plus
+    public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
+        List<Interval> a = schedule.get(0);
+        for (int i = 1; i < schedule.size(); ++i) {
+            List<Interval> b = schedule.get(i);
+            a = merge759(a, b);
+        }
+        List<Interval> res = new ArrayList<>();
+        for (int i = 1; i < a.size(); ++i) {
+            res.add(new Interval(a.get(i - 1).end, a.get(i).start));
+        }
+        return res;
+    }
+
+    private List<Interval> merge759(List<Interval> a, List<Interval> b) {
+        List<Interval> merged = new ArrayList<>();
+        int n = a.size();
+        int m = b.size();
+        int i = 0;
+        int j = 0;
+        while (i < n && j < m) {
+            if (a.get(i).start < b.get(j).start) {
+                merged.add(a.get(i++));
+            } else {
+                merged.add(b.get(j++));
+            }
+        }
+        merged.addAll(a.subList(i, n));
+        merged.addAll(b.subList(j, m));
+        List<Interval> res = new ArrayList<>();
+        i = 0;
+        while (i < merged.size()) {
+            int l = merged.get(i).start;
+            int r = merged.get(i).end;
+            j = i + 1;
+            while (j < merged.size() && merged.get(j).start <= r) {
+                r = Math.max(r, merged.get(j++).end);
+            }
+            res.add(new Interval(l, r));
+            i = j;
+        }
+        return res;
+
+    }
 }
