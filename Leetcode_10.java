@@ -6688,4 +6688,40 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 2737. 找到最近的标记节点 (Find the Closest Marked Node) --plus
+    public int minimumDistance(int n, List<List<Integer>> edges, int s, int[] marked) {
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (List<Integer> e : edges) {
+            g[e.get(0)].add(new int[] { e.get(1), e.get(2) });
+        }
+        int[] dis = new int[n];
+        Arrays.fill(dis, Integer.MAX_VALUE);
+        dis[s] = 0;
+        Queue<int[]> q = new ArrayDeque<>();
+        q.offer(new int[] { 0, s });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int d = cur[0];
+            int x = cur[1];
+            if (d > dis[x]) {
+                continue;
+            }
+            for (int[] neighbor : g[x]) {
+                int y = neighbor[0];
+                int dx = neighbor[1];
+                if (d + dx < dis[y]) {
+                    dis[y] = d + dx;
+                    q.offer(new int[] { d + dx, y });
+                }
+            }
+        }
+        int res = Integer.MAX_VALUE;
+        for (int m : marked) {
+            res = Math.min(res, dis[m]);
+        }
+        return res < Integer.MAX_VALUE ? res : -1;
+
+    }
 }
