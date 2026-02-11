@@ -6405,7 +6405,7 @@ public class Leetcode_10 {
 
     }
 
-    private Map<Group, Integer> memo = new HashMap<>();
+    private Map<Group, Integer> memo2313 = new HashMap<>();
 
     public int minimumFlips(TreeNode root, boolean result) {
         // 0 false
@@ -6414,13 +6414,13 @@ public class Leetcode_10 {
             return result && root.val == 1 || !result && root.val == 0 ? 0 : 1;
         }
         Group key = new Group(root, result);
-        if (memo.get(key) != null) {
-            return memo.get(new Group(root, result));
+        if (memo2313.get(key) != null) {
+            return memo2313.get(new Group(root, result));
         }
         // not
         if (root.val == 5) {
             int res = minimumFlips(root.left != null ? root.left : root.right, !result);
-            memo.put(key, res);
+            memo2313.put(key, res);
             return res;
         }
         int cur1 = minimumFlips(root.left, true);
@@ -6430,18 +6430,18 @@ public class Leetcode_10 {
         // or
         if (root.val == 2) {
             int res = result ? Math.min(cur3 + Math.min(cur1, cur2), cur1 + Math.min(cur3, cur4)) : cur2 + cur4;
-            memo.put(key, res);
+            memo2313.put(key, res);
             return res;
         }
         // and
         if (root.val == 3) {
             int res = result ? cur1 + cur3 : Math.min(cur4 + Math.min(cur1, cur2), cur2 + Math.min(cur3, cur4));
-            memo.put(key, res);
+            memo2313.put(key, res);
             return res;
         }
         // xor
         int res = result ? Math.min(cur2 + cur3, cur1 + cur4) : Math.min(cur2 + cur4, cur1 + cur3);
-        memo.put(key, res);
+        memo2313.put(key, res);
         return res;
     }
 
@@ -6550,6 +6550,30 @@ public class Leetcode_10 {
                 }
             }
         }
+    }
+
+    // 1259. 不相交的握手 (Handshakes That Don't Cross) --plus
+    private int[] memo1259;
+
+    public int numberOfWays1259(int numPeople) {
+        this.memo1259 = new int[numPeople + 1];
+        return dfs1259(numPeople);
+    }
+
+    private int dfs1259(int n) {
+        if (n == 0) {
+            return 1;
+        }
+        if (memo1259[n] != 0) {
+            return memo1259[n];
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = 0;
+        for (int x = 2; x <= n; x += 2) {
+            res += ((long) dfs1259(x - 2) * dfs1259(n - x)) % MOD;
+            res %= MOD;
+        }
+        return memo1259[n] = res;
     }
 
 }

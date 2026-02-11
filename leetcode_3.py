@@ -9059,7 +9059,7 @@ class BinaryMatrix(object):
 
         u = (1 << (n + 1)) - 2
         return dfs(0)
-    
+
     # 3004. 相同颜色的最大子树 (Maximum Subtree of the Same Color) --plus
     def maximumSubtreeSize(self, edges: List[List[int]], colors: List[int]) -> int:
         def dfs(x: int, fa: int) -> tuple:
@@ -9076,6 +9076,7 @@ class BinaryMatrix(object):
                 nonlocal res
                 res = max(res, cnt)
             return (s, cnt)
+
         res = 0
         n = len(colors)
         g = [[] for _ in range(n)]
@@ -9084,9 +9085,11 @@ class BinaryMatrix(object):
             g[v].append(u)
         dfs(0, -1)
         return res
-    
+
     # 2838. 英雄可以获得的最大金币数 (Maximum Coins Heroes Can Collect) --plus
-    def maximumCoins(self, heroes: List[int], monsters: List[int], coins: List[int]) -> List[int]:
+    def maximumCoins(
+        self, heroes: List[int], monsters: List[int], coins: List[int]
+    ) -> List[int]:
         a = [[x, y] for x, y in zip(monsters, coins)]
         a.sort()
         h = [[x, i] for i, x in enumerate(heroes)]
@@ -9100,7 +9103,7 @@ class BinaryMatrix(object):
                 j += 1
             res[id] = s
         return res
-    
+
     # 3837. Delayed Count of Equal Elements --plus
     def delayedCount(self, nums: List[int], k: int) -> List[int]:
         def binary_search(a: list, x: int) -> int:
@@ -9113,6 +9116,7 @@ class BinaryMatrix(object):
                 else:
                     left = mid + 1
             return right + 1
+
         d = defaultdict(list)
         for i, x in enumerate(nums):
             d[x].append(i)
@@ -9124,7 +9128,7 @@ class BinaryMatrix(object):
             if j != len(a):
                 res[i] = len(a) - j
         return res
-    
+
     # 3437. 全排列 III (Permutations III) --plus
     def permute(self, n: int) -> List[List[int]]:
         def dfs(i: int):
@@ -9139,12 +9143,13 @@ class BinaryMatrix(object):
                     dfs(i ^ (1 << lb))
                     path.pop()
                 c &= c - 1
+
         res = []
         path = []
         u = (1 << (n + 1)) - 2
         dfs(0)
         return res
-    
+
     # 2313. 二叉树中得到结果所需的最少翻转次数 (Minimum Flips in Binary Tree to Get Result) --plus
     @cache
     def minimumFlips(self, root: Optional[TreeNode], result: bool) -> int:
@@ -9160,13 +9165,23 @@ class BinaryMatrix(object):
         cur4 = self.minimumFlips(root.right, False)
         # or
         if root.val == 2:
-            return min(cur1 + min(cur3, cur4), cur3 + min(cur1, cur2)) if result else cur2 + cur4
+            return (
+                min(cur1 + min(cur3, cur4), cur3 + min(cur1, cur2))
+                if result
+                else cur2 + cur4
+            )
         # and
         if root.val == 3:
-            return cur1 + cur3 if result else min(cur2 + min(cur3, cur4), cur4 + min(cur1, cur2))
+            return (
+                cur1 + cur3
+                if result
+                else min(cur2 + min(cur3, cur4), cur4 + min(cur1, cur2))
+            )
         # xor
-        return min(cur1 + cur4, cur2 + cur3) if result else min(cur1 + cur3, cur2 + cur4)
-    
+        return (
+            min(cur1 + cur4, cur2 + cur3) if result else min(cur1 + cur3, cur2 + cur4)
+        )
+
     # 3496. 最大化配对删除后的得分 (Maximize Score After Pair Deletions) --plus
     def maxScore(self, nums: List[int]) -> int:
         n = len(nums)
@@ -9197,7 +9212,6 @@ class BinaryMatrix(object):
                 right[i] = st[-1]
             st.append(i)
         return [r - l - 1 for l, r in zip(left, right)]
-    
 
     # 317. 离建筑物最近的距离 (Shortest Distance from All Buildings) --plus
     def shortestDistance(self, grid: List[List[int]]) -> int:
@@ -9210,11 +9224,17 @@ class BinaryMatrix(object):
                 x, y, d = q.popleft()
                 for dx, dy in (0, 1), (0, -1), (1, 0), (-1, 0):
                     nx, ny = x + dx, y + dy
-                    if 0 <= nx < m and 0 <= ny < n and grid[nx][ny] == 0 and not vis[nx][ny]:
+                    if (
+                        0 <= nx < m
+                        and 0 <= ny < n
+                        and grid[nx][ny] == 0
+                        and not vis[nx][ny]
+                    ):
                         cnt_in_each_0[nx][ny] += 1
                         dis_in_each_0[nx][ny] += d + 1
                         vis[nx][ny] = True
                         q.append((nx, ny, d + 1))
+
         # 从每个1出发，统计每个0，有多少1可以到达，并统计到达0的距离和
         m, n = len(grid), len(grid[0])
         # 从1出发，到达每个0的最短总距离
@@ -9235,13 +9255,17 @@ class BinaryMatrix(object):
                     res = min(res, dis_in_each_0[i][j])
         return res if res < inf else -1
 
+    # 1259. 不相交的握手 (Handshakes That Don't Cross) --plus
+    def numberOfWays(self, numPeople: int) -> int:
+        @cache
+        def dfs(i: int) -> int:
+            if i == 0:
+                return 1
+            res = 0
+            for k in range(2, i + 1, 2):
+                res += dfs(k - 2) * dfs(i - k)
+                res %= MOD
+            return res
 
-
-
-
-
-        
-
-
-
-
+        MOD = 10**9 + 7
+        return dfs(numPeople)
