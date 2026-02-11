@@ -9284,5 +9284,9 @@ class BinaryMatrix(object):
             res += i - j + 1
 
         return n * (n + 1) // 2 - res
+    
+    
+    def minConnectedGroups(self, intervals: List[List[int]], k: int) -> int:
+        
             
         

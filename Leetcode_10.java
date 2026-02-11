@@ -6499,6 +6499,7 @@ public class Leetcode_10 {
     // 317. 离建筑物最近的距离 (Shortest Distance from All Buildings) --plus
     private int[][] dis317;
     private int[][] cnt317;
+
     public int shortestDistance(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
@@ -6576,7 +6577,8 @@ public class Leetcode_10 {
         return memo1259[n] = res;
     }
 
-    // 3329. 字符至少出现 K 次的子字符串 II (Count Substrings With K-Frequency Characters II) --plus
+    // 3329. 字符至少出现 K 次的子字符串 II (Count Substrings With K-Frequency Characters II)
+    // --plus
     public long numberOfSubstrings(String s, int k) {
         int[] cnts = new int[26];
         int j = 0;
@@ -6591,5 +6593,41 @@ public class Leetcode_10 {
             res += i - j + 1;
         }
         return (long) n * (n + 1) / 2 - res;
+    }
+
+    // 3323. 通过插入区间最小化连通组 (Minimize Connected Groups by Inserting Interval) --plus
+    public int minConnectedGroups(int[][] intervals, int k) {
+        Arrays.sort(intervals, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        List<int[]> list = new ArrayList<>();
+        int i = 0;
+        int n = intervals.length;
+        while (i < n) {
+            int l = intervals[i][0];
+            int r = intervals[i][1];
+            int j = i + 1;
+            while (j < n && intervals[j][0] <= r) {
+                r = Math.max(r, intervals[j++][1]);
+            }
+            list.add(new int[] { l, r });
+            i = j;
+        }
+        i = 0;
+        int j = 0;
+        n = list.size();
+        int res = 0;
+        for (i = 0; i < n; ++i) {
+            while (j < i && list.get(i)[0] - list.get(j)[1] > k) {
+                ++j;
+            }
+            res = Math.max(res, i - j);
+        }
+        return n - res;
     }
 }
