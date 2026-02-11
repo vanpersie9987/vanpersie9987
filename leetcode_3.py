@@ -2,6 +2,7 @@ from ast import Return, Tuple, literal_eval
 from asyncio import FastChildWatcher
 import csv
 from curses.panel import bottom_panel
+from doctest import FAIL_FAST
 from gettext import find
 import math
 from platform import node
@@ -9196,6 +9197,52 @@ class BinaryMatrix(object):
                 right[i] = st[-1]
             st.append(i)
         return [r - l - 1 for l, r in zip(left, right)]
+    
+
+    # 317. 离建筑物最近的距离 (Shortest Distance from All Buildings) --plus
+    def shortestDistance(self, grid: List[List[int]]) -> int:
+        def cal(i: int, j: int):
+            vis = [[False] * n for _ in range(m)]
+            vis[i][j] = True
+            q = deque()
+            q.append((i, j, 0))
+            while q:
+                x, y, d = q.popleft()
+                for dx, dy in (0, 1), (0, -1), (1, 0), (-1, 0):
+                    nx, ny = x + dx, y + dy
+                    if 0 <= nx < m and 0 <= ny < n and grid[nx][ny] == 0 and not vis[nx][ny]:
+                        cnt_in_each_0[nx][ny] += 1
+                        dis_in_each_0[nx][ny] += d + 1
+                        vis[nx][ny] = True
+                        q.append((nx, ny, d + 1))
+        # 从每个1出发，统计每个0，有多少1可以到达，并统计到达0的距离和
+        m, n = len(grid), len(grid[0])
+        # 从1出发，到达每个0的最短总距离
+        dis_in_each_0 = [[0] * n for _ in range(m)]
+        # 从1出发，能到达每个0的1的个数
+        cnt_in_each_0 = [[0] * n for _ in range(m)]
+        # 1的个数
+        cnt1 = 0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    cnt1 += 1
+                    cal(i, j)
+        res = inf
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 0:
+                    if cnt_in_each_0[i][j] == cnt1:
+                        res = min(res, dis_in_each_0[i][j])
+        return res if res < inf else -1
+
+
+
+
+
+
+        
+
 
 
 
