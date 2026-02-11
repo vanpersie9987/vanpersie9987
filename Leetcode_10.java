@@ -6647,9 +6647,8 @@ public class Leetcode_10 {
 
     // 759. 员工空闲时间 (Employee Free Time) --plus
     public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
-        List<Interval> a = schedule.get(0);
-        for (int i = 1; i < schedule.size(); ++i) {
-            List<Interval> b = schedule.get(i);
+        List<Interval> a = new ArrayList<>();
+        for (List<Interval> b : schedule) {
             a = merge759(a, b);
         }
         List<Interval> res = new ArrayList<>();

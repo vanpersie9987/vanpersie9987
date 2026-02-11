@@ -9269,7 +9269,7 @@ class BinaryMatrix(object):
 
         MOD = 10**9 + 7
         return dfs(numPeople)
-    
+
     # 3329. 字符至少出现 K 次的子字符串 II (Count Substrings With K-Frequency Characters II) --plus
     def numberOfSubstrings(self, s: str, k: int) -> int:
         cnts = [0] * 26
@@ -9284,7 +9284,7 @@ class BinaryMatrix(object):
             res += i - j + 1
 
         return n * (n + 1) // 2 - res
-    
+
     # 3323. 通过插入区间最小化连通组 (Minimize Connected Groups by Inserting Interval) --plus
     def minConnectedGroups(self, intervals: List[List[int]], k: int) -> int:
         n = len(intervals)
@@ -9316,8 +9316,8 @@ class Interval:
         self.end = end
 
     # 759. 员工空闲时间 (Employee Free Time) --plus
-    def employeeFreeTime(self, schedule: '[[Interval]]') -> '[Interval]':
-        def merge(a: '[Interval]', b: '[Interval]') -> '[Interval]':
+    def employeeFreeTime(self, schedule: "[[Interval]]") -> "[Interval]":
+        def merge(a: "[Interval]", b: "[Interval]") -> "[Interval]":
             merged_list = []
             i, j, m, n = 0, 0, len(a), len(b)
             while i < m and j < n:
@@ -9341,8 +9341,8 @@ class Interval:
                 res.append(Interval(l, r))
                 i = j
             return res
-        a = schedule[0]
-        for i in range(1, len(schedule)):
-            b = schedule[i]
+
+        a = []
+        for b in schedule:
             a = merge(a, b)
         return [Interval(x.end, y.start) for x, y in pairwise(a)]
