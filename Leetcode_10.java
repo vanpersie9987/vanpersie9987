@@ -6576,4 +6576,20 @@ public class Leetcode_10 {
         return memo1259[n] = res;
     }
 
+    // 3329. 字符至少出现 K 次的子字符串 II (Count Substrings With K-Frequency Characters II) --plus
+    public long numberOfSubstrings(String s, int k) {
+        int[] cnts = new int[26];
+        int j = 0;
+        long res = 0L;
+        int n = s.length();
+        for (int i = 0; i < s.length(); ++i) {
+            int id = s.charAt(i) - 'a';
+            ++cnts[id];
+            while (cnts[id] >= k) {
+                --cnts[s.charAt(j++) - 'a'];
+            }
+            res += i - j + 1;
+        }
+        return (long) n * (n + 1) / 2 - res;
+    }
 }
