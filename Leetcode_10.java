@@ -6725,7 +6725,6 @@ public class Leetcode_10 {
 
     }
 
-
     // 2737. 找到最近的标记节点 (Find the Closest Marked Node) --plus
     public int minimumDistance2(int n, List<List<Integer>> edges, int s, int[] marked) {
         List<int[]>[] g = new ArrayList[n];
@@ -6769,5 +6768,27 @@ public class Leetcode_10 {
             }
         }
         return -1;
+    }
+
+    // 2950. 可整除子串的数量 (Number of Divisible Substrings) --plus
+    public int countDivisibleSubstrings(String word) {
+        int[] vals = new int[26];
+        vals[0] = vals[1] = 1;
+        for (int i = 2; i < 26; i += 3) {
+            Arrays.fill(vals, i, i + 3, i / 3 + 2);
+        }
+        int n = word.length();
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            int s = 0;
+            for (int j = i; j < n; ++j) {
+                s += vals[word.charAt(j) - 'a'];
+                if (s % (j - i + 1) == 0) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+
     }
 }
