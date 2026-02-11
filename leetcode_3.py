@@ -9346,3 +9346,25 @@ class Interval:
         for b in schedule:
             a = merge(a, b)
         return [Interval(x.end, y.start) for x, y in pairwise(a)]
+
+    # 2737. 找到最近的标记节点 (Find the Closest Marked Node) --plus
+    def minimumDistance(
+        self, n: int, edges: List[List[int]], s: int, marked: List[int]
+    ) -> int:
+        g = [[] for _ in range(n)]
+        for u, v, w in edges:
+            g[u].append((v, w))
+        dis = [inf] * n
+        dis[s] = 0
+        q = deque()
+        q.append((0, s))
+        while q:
+            d, x = q.pop()
+            if d > dis[x]:
+                continue
+            for y, dx in g[x]:
+                if d + dx < dis[y]:
+                    dis[y] = d + dx
+                    q.append((d + dx, y))
+        res = min(dis[m] for m in marked)
+        return res if res < inf else -1
