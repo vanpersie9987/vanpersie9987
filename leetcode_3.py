@@ -9462,3 +9462,44 @@ class Interval:
         # 出现恰好三种字符的最长字串
         res = max(res, cal_three())
         return res
+    
+    # 3749. 计算有效表达式 (Evaluate Valid Expressions) --plus
+    def evaluateExpression(self, expression: str) -> int:
+        def cal(op: str, a: str, b: str) -> list:
+            x, y = int(a), int(b)
+            res = 0
+            if op == 'add':
+                res = x + y
+            elif op == 'sub':
+                res = x - y
+            elif op == 'mul':
+                res = x * y
+            else:
+                res = x // y
+            s = str(res)
+            return [x for x in s]
+        st = []
+        for x in expression:
+            if x == ')':
+                b = deque()
+                while st[-1] != ',':
+                    b.appendleft(st.pop())
+                st.pop()
+                a = deque()
+                while st[-1] != '(':
+                    a.appendleft(st.pop())
+                st.pop()
+                op = deque()
+                while len(op) < 3:
+                    op.appendleft(st.pop())
+                result = cal(''.join(op), ''.join(a), ''.join(b))
+                st.extend(result)
+            else:
+                st.append(x)
+        return int(''.join(st))
+                
+                    
+                
+
+
+        

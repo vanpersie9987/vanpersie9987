@@ -6866,4 +6866,50 @@ public class Leetcode_10 {
         }
         return res;
     }
+
+    // 3749. 计算有效表达式 (Evaluate Valid Expressions) --plus
+    public long evaluateExpression(String expression) {
+        StringBuilder s = new StringBuilder();
+        for (char c : expression.toCharArray()) {
+            if (c == ')') {
+                int i = s.length() - 1;
+                while (s.charAt(i) != ',') {
+                    --i;
+                }
+                String b = s.substring(i + 1);
+                s.delete(i, s.length());
+                i = s.length() - 1;
+                while (s.charAt(i) != '(') {
+                    --i;
+                }
+                String a = s.substring(i + 1);
+                s.delete(i, s.length());
+
+                String op = s.substring(s.length() - 3);
+                s.delete(s.length() - 3, s.length());
+                
+                s.append(cal3749(op, a, b));
+            } else {
+                s.append(c);
+            }
+        }
+        return Long.parseLong(s.toString());
+
+    }
+
+    private String cal3749(String op, String a, String b) {
+        long x = Long.parseLong(a);
+        long y = Long.parseLong(b);
+        long res = 0L;
+        if ("add".equals(op)) {
+            res = x + y;
+        } else if ("sub".equals(op)) {
+            res = x - y;
+        } else if ("mul".equals(op)) {
+            res = x * y;
+        } else {
+            res = x / y;
+        }
+        return String.valueOf(res);
+    }
 }
