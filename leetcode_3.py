@@ -9387,3 +9387,21 @@ class Interval:
                     dis[y] = d + dx
                     heapq.heappush(q, (d + dx, y))
         return -1
+
+    # 2950. 可整除子串的数量 (Number of Divisible Substrings) --plus
+    def countDivisibleSubstrings(self, word: str) -> int:
+        def cal(x: str) -> int:
+            return (ord(x) - ord("a") + 1) // 3 + 1
+
+        _max = max(cal(x) for x in word)
+        _min = min(cal(x) for x in word)
+        res = 0
+        for l in range(_max, _min - 1, -1):
+            s = 0
+            d = defaultdict(int)
+            d[0] = 1
+            for x in word:
+                s += cal(x) - l
+                res += d[s]
+                d[s] += 1
+        return res

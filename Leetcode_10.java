@@ -6780,8 +6780,8 @@ public class Leetcode_10 {
             Map<Integer, Integer> map = new HashMap<>();
             map.put(0, 1);
             int s = 0;
-            for (int i = 0; i < word.length(); ++i) {
-                s += (word.charAt(i) - 'a' + 1) / 3 + 1 - l;
+            for (char c : word.toCharArray()) {
+                s += (c - 'a' + 1) / 3 + 1 - l;
                 res += map.getOrDefault(s, 0);
                 map.merge(s, 1, Integer::sum);
             }
