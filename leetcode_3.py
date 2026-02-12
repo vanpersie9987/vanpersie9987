@@ -4524,25 +4524,20 @@ class SegmentTree2940:
 
     # 3713. 最长的平衡子串 I (Longest Balanced Substring I)
     def longestBalanced(self, s: str) -> int:
-        def check() -> bool:
-            x = -1
-            for c in cnts:
-                if c == 0:
-                    continue
-                if x != -1 and c != x:
-                    return False
-                x = c
-            return True
-
         n = len(s)
-        for L in range(n, 0, -1):
-            cnts = [0] * 26
-            for i, v in enumerate(s):
-                cnts[ord(v) - ord("a")] += 1
-                if i >= L:
-                    cnts[ord(s[i - L]) - ord("a")] -= 1
-                if i >= L - 1 and check():
-                    return L
+        res = 0
+        for i in range(n):
+            d = defaultdict(int)
+            k = 0
+            for j in range(i, n):
+                d[s[j]] += 1
+                if d[s[j]] == 1:
+                    k += 1
+                if (j - i + 1) % k == 0 and all(
+                    x == (j - i + 1) // k for x in d.values()
+                ):
+                    res = max(res, j - i + 1)
+        return res
 
     # 3715. 完全平方数的祖先个数总和 (Sum of Perfect Square Ancestors)
     def sumOfAncestors(self, n: int, edges: List[List[int]], nums: List[int]) -> int:
