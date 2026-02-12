@@ -9405,3 +9405,60 @@ class Interval:
                 res += d[s]
                 d[s] += 1
         return res
+
+    # 3714. 最长的平衡子串 II (Longest Balanced Substring II)
+    def longestBalanced(self, s: str) -> int:
+        def cal_one(c: str) -> int:
+            cnt = 0
+            res = 0
+            for x in s:
+                if x == c:
+                    cnt += 1
+                    res = max(res, cnt)
+                else:
+                    cnt = 0
+            return res
+
+        def cal_two(c: str) -> int:
+            pre = 0
+            d = defaultdict(int)
+            d[0] = -1
+            res = 0
+            for i, x in enumerate(s):
+                if x not in c:
+                    d.clear()
+                    d[0] = i
+                    pre = 0
+                else:
+                    pre += 1 if c[0] == x else -1
+                    if pre in d:
+                        res = max(res, i - d[pre])
+                    else:
+                        d[pre] = i
+            return res
+
+        def cal_three() -> int:
+            res = 0
+            pre = [0] * 3
+            d = defaultdict(int)
+            d[(0, 0)] = -1
+            for i, x in enumerate(s):
+                id = ord(x) - ord("a")
+                pre[id] += 1
+                k = (pre[0] - pre[1], pre[1] - pre[2])
+                if k in d:
+                    res = max(res, i - d[k])
+                else:
+                    d[k] = i
+            return res
+
+        res = 0
+        # 出现恰好一种字符的最长字串
+        for c in ("a", "b", "c"):
+            res = max(res, cal_one(c))
+        # 出现恰好两种字符的最长字串
+        for c in ("ab", "ac", "bc"):
+            res = max(res, cal_two(c))
+        # 出现恰好三种字符的最长字串
+        res = max(res, cal_three())
+        return res
