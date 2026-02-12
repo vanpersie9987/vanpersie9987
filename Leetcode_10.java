@@ -6768,15 +6768,22 @@ public class Leetcode_10 {
 
     // 2950. 可整除子串的数量 (Number of Divisible Substrings) --plus
     public int countDivisibleSubstrings(String word) {
-        int n = word.length();
         int res = 0;
-        for (int i = 0; i < n; ++i) {
+        int maxMean = 0;
+        int minMean = 9;
+        for (char c : word.toCharArray()) {
+            int x = (c - 'a' + 1) / 3 + 1;
+            maxMean = Math.max(maxMean, x);
+            minMean = Math.min(minMean, x);
+        }
+        for (int l = maxMean; l >= minMean; --l) {
+            Map<Integer, Integer> map = new HashMap<>();
+            map.put(0, 1);
             int s = 0;
-            for (int j = i; j < n; ++j) {
-                s += (word.charAt(j) - 'a' + 1) / 3 + 1;
-                if (s % (j - i + 1) == 0) {
-                    ++res;
-                }
+            for (int i = 0; i < word.length(); ++i) {
+                s += (word.charAt(i) - 'a' + 1) / 3 + 1 - l;
+                res += map.getOrDefault(s, 0);
+                map.merge(s, 1, Integer::sum);
             }
         }
         return res;
