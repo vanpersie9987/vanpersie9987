@@ -653,32 +653,28 @@ public class Leetcode_10 {
     // 3713. 最长的平衡子串 I (Longest Balanced Substring I)
     public int longestBalanced(String s) {
         int n = s.length();
-        // 枚举字符串长度 L
-        for (int L = n; L >= 1; --L) {
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
             int[] cnts = new int[26];
-            for (int i = 0; i < n; ++i) {
-                ++cnts[s.charAt(i) - 'a'];
-                if (i >= L) {
-                    --cnts[s.charAt(i - L) - 'a'];
+            int k = 0;
+            for (int j = i; j < n; ++j) {
+                if (++cnts[s.charAt(j) - 'a'] == 1) {
+                    ++k;
                 }
-                if (i >= L - 1 && check3713(cnts)) {
-                    return L;
+                if ((j - i + 1) % k == 0 && check3713(cnts, (j - i + 1) / k)) {
+                    res = Math.max(res, j - i + 1);
                 }
             }
         }
-        return -1;
+        return res;
+
     }
 
-    private boolean check3713(int[] cnts) {
-        int cnt = -1;
-        for (int c : cnts) {
-            if (c == 0) {
-                continue;
-            }
-            if (cnt != -1 && cnt != c) {
+    private boolean check3713(int[] cnts, int c) {
+        for (int cnt : cnts) {
+            if (cnt != 0 && cnt != c) {
                 return false;
             }
-            cnt = c;
         }
         return true;
     }
