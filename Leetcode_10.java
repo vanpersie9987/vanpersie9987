@@ -20,6 +20,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.swing.GroupLayout.Group;
+
 @SuppressWarnings("unchecked")
 public class Leetcode_10 {
 
@@ -6397,11 +6399,11 @@ public class Leetcode_10 {
     }
 
     // 2313. 二叉树中得到结果所需的最少翻转次数 (Minimum Flips in Binary Tree to Get Result) --plus
-    private record Group(TreeNode node, boolean result) {
+    private record Group2313(TreeNode node, boolean result) {
 
     }
 
-    private Map<Group, Integer> memo2313 = new HashMap<>();
+    private Map<Group2313, Integer> memo2313 = new HashMap<>();
 
     public int minimumFlips(TreeNode root, boolean result) {
         // 0 false
@@ -6409,9 +6411,9 @@ public class Leetcode_10 {
         if (root.val <= 1) {
             return result && root.val == 1 || !result && root.val == 0 ? 0 : 1;
         }
-        Group key = new Group(root, result);
+        Group2313 key = new Group2313(root, result);
         if (memo2313.get(key) != null) {
-            return memo2313.get(new Group(root, result));
+            return memo2313.get(new Group2313(root, result));
         }
         // not
         if (root.val == 5) {
@@ -6788,5 +6790,82 @@ public class Leetcode_10 {
         }
         return res;
 
+    }
+
+    // 3714. 最长的平衡子串 II (Longest Balanced Substring II)
+    private char[] s3714;
+
+    private record Group3714(int a, int b) {
+    }
+
+    public int longestBalanced3714(String S) {
+        this.s3714 = S.toCharArray();
+        int res = 0;
+        // 出现恰好一种字符的最长字串
+        res = Math.max(res, calOne3714('a'));
+        res = Math.max(res, calOne3714('b'));
+        res = Math.max(res, calOne3714('c'));
+        // 出现恰好两种字符的最长字串
+        res = Math.max(res, calTwo3714('a', 'b'));
+        res = Math.max(res, calTwo3714('b', 'c'));
+        res = Math.max(res, calTwo3714('a', 'c'));
+
+        // 出现恰好三种字符的最长字串
+        return Math.max(res, calThree3714());
+    }
+
+    private int calThree3714() {
+        int res = 0;
+        int[] pre = new int[3];
+        Map<Group3714, Integer> pos = new HashMap<>();
+        pos.put(new Group3714(0, 0), -1);
+        for (int i = 0; i < s3714.length; ++i) {
+            int id = s3714[i] - 'a';
+            ++pre[id];
+            Group3714 k = new Group3714(pre[0] - pre[1], pre[1] - pre[2]);
+            if (pos.containsKey(k)) {
+                res = Math.max(res, i - pos.get(k));
+            } else {
+                pos.put(k, i);
+            }
+        }
+        return res;
+    }
+
+    private int calTwo3714(char t1, char t2) {
+        Map<Integer, Integer> pos = new HashMap<>();
+        pos.put(0, -1);
+        int pre = 0;
+        int res = 0;
+        for (int i = 0; i < s3714.length; ++i) {
+            if (s3714[i] != t1 && s3714[i] != t2) {
+                pos = new HashMap<>();
+                pos.put(0, i);
+                pre = 0;
+            } else {
+                pre += (s3714[i] == t1) ? 1 : -1;
+                if (pos.containsKey(pre)) {
+                    res = Math.max(res, i - pos.get(pre));
+                } else {
+                    pos.put(pre, i);
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int calOne3714(char t) {
+        int cnt = 0;
+        int res = 0;
+        for (char c : s3714) {
+            if (c == t) {
+                ++cnt;
+                res = Math.max(res, cnt);
+            } else {
+                cnt = 0;
+            }
+        }
+        return res;
     }
 }
