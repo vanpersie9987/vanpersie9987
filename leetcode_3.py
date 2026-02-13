@@ -9680,3 +9680,64 @@ class Interval:
             if i:
                 res[id] = _trie.check(x)
         return res
+    
+    # 1938. 查询最大基因差 (Maximum Genetic Difference Query) --0-1字典树
+    def maxGeneticDifference(
+        self, parents: List[int], queries: List[List[int]]
+    ) -> List[int]:
+        class trie:
+            def __init__(self):
+                self.children = [None] * 2
+                self.cnt = 0
+
+            def insert(self, x: int):
+                node = self
+                for i in range(17, -1, -1):
+                    bit = (x >> i) & 1
+                    if node.children[bit] is None:
+                        node.children[bit] = trie()
+                    node = node.children[bit]
+                    node.cnt += 1
+
+            def delete(self, x: int):
+                node = self
+                for i in range(17, -1, -1):
+                    bit = (x >> i) & 1
+                    node = node.children[bit]
+                    node.cnt -= 1
+
+            def check(self, x: int) -> int:
+                node = self
+                res = 0
+                for i in range(17, -1, -1):
+                    bit = (x >> i) & 1
+                    if node.children[bit ^ 1] and node.children[bit ^ 1].cnt:
+                        bit ^= 1
+                        res ^= 1 << i
+                    node = node.children[bit]
+                return res
+
+        def dfs(x: int):
+            _trie.insert(x)
+            for val, i in d[x]:
+                res[i] = _trie.check(val)
+            del d[x]
+            for y in g[x]:
+                dfs(y)
+            _trie.delete(x)
+
+        d = defaultdict(list)
+        for i, (node, val) in enumerate(queries):
+            d[node].append((val, i))
+        n = len(parents)
+        g = [[] for _ in range(n)]
+        r = -1
+        for i, v in enumerate(parents):
+            if v == -1:
+                r = i
+            else:
+                g[v].append(i)
+        _trie = trie()
+        res = [0] * len(queries)
+        dfs(r)
+        return res
