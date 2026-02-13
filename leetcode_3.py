@@ -44,7 +44,7 @@ from operator import is_, le, ne, truediv
 from os import eventfd, lseek, minor, name, pread
 from pickletools import read_uint1
 from queue import PriorityQueue
-from re import L, S, T, X
+from re import A, L, S, T, X
 import re
 from socket import NI_NUMERICSERV
 from ssl import VERIFY_X509_TRUSTED_FIRST
@@ -9680,7 +9680,7 @@ class Interval:
             if i:
                 res[id] = _trie.check(x)
         return res
-    
+
     # 1938. 查询最大基因差 (Maximum Genetic Difference Query) --0-1字典树
     def maxGeneticDifference(
         self, parents: List[int], queries: List[List[int]]
@@ -9740,4 +9740,58 @@ class Interval:
         _trie = trie()
         res = [0] * len(queries)
         dfs(r)
+        return res
+
+    # 2479. 两个不重叠子树的最大异或值 (Maximum XOR of Two Non-Overlapping Subtrees) --0-1字典树 --plus
+    def maxXor(self, n: int, edges: List[List[int]], values: List[int]) -> int:
+        class trie:
+            def __init__(self):
+                self.children = [None] * 2
+
+            def insert(self, x: int):
+                node = self
+                for i in range(44, -1, -1):
+                    bit = (x >> i) & 1
+                    if node.children[bit] is None:
+                        node.children[bit] = trie()
+                    node = node.children[bit]
+
+            def check(self, x: int) -> int:
+                node = self
+                res = 0
+                for i in range(44, -1, -1):
+                    bit = (x >> i) & 1
+                    if node is None:
+                        break
+                    if node.children[bit ^ 1]:
+                        bit ^= 1
+                        res ^= 1 << i
+                    node = node.children[bit]
+                return res
+
+        def dfs_pre(x: int, fa: int) -> int:
+            s = values[x]
+            for y in g[x]:
+                if y != fa:
+                    s += dfs_pre(y, x)
+            pre[x] = s
+            return s
+
+        def dfs_xor(x: int, fa: int):
+            nonlocal res
+            res = max(res, _trie.check(pre[x]))
+            for y in g[x]:
+                if y != fa:
+                    dfs_xor(y, x)
+            _trie.insert(pre[x])
+
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        pre = [0] * n
+        dfs_pre(0, -1)
+        res = 0
+        _trie = trie()
+        dfs_xor(0, -1)
         return res
