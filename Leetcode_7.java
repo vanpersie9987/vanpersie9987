@@ -9495,18 +9495,20 @@ public class Leetcode_7 {
         return memo1595[i][mask] = min;
     }
 
-    // 1938. 查询最大基因差 (Maximum Genetic Difference Query)
-    private Map<Integer, List<Integer>> g1938;
+    // 1938. 查询最大基因差 (Maximum Genetic Difference Query) --0-1字典树
+    private List<Integer>[] g1938;
     private Map<Integer, List<int[]>> q1938;
     private Trie1938 trie1938;
     private int[] res1938;
 
     public int[] maxGeneticDifference(int[] parents, int[][] queries) {
-        this.g1938 = new HashMap<>();
+        int n = parents.length;
+        this.g1938 = new ArrayList[n];
+        Arrays.setAll(g1938, o -> new ArrayList<>());
         int root = -1;
-        for (int i = 0; i < parents.length; ++i) {
+        for (int i = 0; i < n; ++i) {
             if (parents[i] != -1) {
-                g1938.computeIfAbsent(parents[i], k -> new ArrayList<>()).add(i);
+                g1938[parents[i]].add(i);
             } else {
                 root = i;
             }
@@ -9527,7 +9529,8 @@ public class Leetcode_7 {
         for (int[] item : q1938.getOrDefault(x, new ArrayList<>())) {
             res1938[item[1]] = trie1938.getMaxXor(item[0]);
         }
-        for (int y : g1938.getOrDefault(x, new ArrayList<>())) {
+        q1938.remove(x);
+        for (int y : g1938[x]) {
             dfs1938(y);
         }
         trie1938.delete(x);
@@ -9576,7 +9579,6 @@ public class Leetcode_7 {
             }
             return res;
         }
-
     }
 
     // 1723. 完成所有工作的最短时间 (Find Minimum Time to Finish All Jobs)
