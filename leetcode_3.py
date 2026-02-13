@@ -9638,3 +9638,45 @@ class Interval:
             _trie.insert(x)
             res = max(res, _trie.check(x))
         return res
+
+    # 1707. 与数组中元素的最大异或值 (Maximum XOR With an Element From Array) --0-1字典树
+    def maximizeXor(self, nums: List[int], queries: List[List[int]]) -> List[int]:
+        class trie:
+            def __init__(self):
+                self.children = [None] * 2
+
+            def insert(self, x: int):
+                node = self
+                for i in range(30, -1, -1):
+                    bit = (x >> i) & 1
+                    if node.children[bit] is None:
+                        node.children[bit] = trie()
+                    node = node.children[bit]
+
+            def check(self, x: int) -> int:
+                node = self
+                res = 0
+                for i in range(30, -1, -1):
+                    bit = (x >> i) & 1
+                    if node.children[bit ^ 1]:
+                        bit ^= 1
+                        res ^= 1 << i
+                    node = node.children[bit]
+                return res
+
+        nums.sort()
+        n = len(queries)
+        for i, q in enumerate(queries):
+            q.append(i)
+        print(queries)
+        queries.sort(key=lambda o: o[1])
+        res = [-1] * n
+        _trie = trie()
+        i = 0
+        for x, m, id in queries:
+            while i < len(nums) and nums[i] <= m:
+                _trie.insert(nums[i])
+                i += 1
+            if i:
+                res[id] = _trie.check(x)
+        return res
