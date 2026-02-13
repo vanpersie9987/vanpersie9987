@@ -6887,7 +6887,7 @@ public class Leetcode_10 {
 
                 String op = s.substring(s.length() - 3);
                 s.delete(s.length() - 3, s.length());
-                
+
                 s.append(cal3749(op, a, b));
             } else {
                 s.append(c);
@@ -6911,5 +6911,35 @@ public class Leetcode_10 {
             res = x / y;
         }
         return String.valueOf(res);
+    }
+
+    // 3339. 查找 K 偶数数组的数量 (Find the Number of K-Even Arrays) --plus
+    private int[][][] memo3339;
+
+    public int countOfArrays(int n, int m, int k) {
+        this.memo3339 = new int[n][2][k + 1];
+        for (int[][] r1 : memo3339) {
+            for (int[] r2 : r1) {
+                Arrays.fill(r2, -1);
+            }
+        }
+        return dfs3339(n - 1, 1, k, m / 2, (m + 1) / 2);
+
+    }
+
+    private int dfs3339(int i, int j, int k, int even, int odd) {
+        if (i < 0) {
+            return k == 0 ? 1 : 0;
+        }
+        if (k < 0) {
+            return 0;
+        }
+        if (memo3339[i][j][k] != -1) {
+            return memo3339[i][j][k];
+        }
+        final int MOD = (int) (1e9 + 7);
+        return memo3339[i][j][k] = (int) ((((long) dfs3339(i - 1, 0, k - (j ^ 1), even, odd) * even) % MOD
+                + ((long) dfs3339(i - 1, 1, k, even, odd) * odd) % MOD) % MOD);
+
     }
 }

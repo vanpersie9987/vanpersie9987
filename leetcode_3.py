@@ -9502,15 +9502,15 @@ class Interval:
     # 3339. 查找 K 偶数数组的数量 (Find the Number of K-Even Arrays) --plus
     def countOfArrays(self, n: int, m: int, k: int) -> int:
         @cache
-        def dfs(i: int, j: int, used_k: int) -> int:
-            if i == n:
-                return used_k == k
-            if n - i < k - used_k:
+        def dfs(i: int, j: int, k: int) -> int:
+            if i < 0:
+                return k == 0
+            if k < 0:
                 return 0
-            return (dfs(i + 1, 0, used_k + (j ^ 1)) * even + dfs(i + 1, 1, used_k) * odd) % MOD
+            return (dfs(i - 1, 0, k - (j ^ 1)) * even + dfs(i - 1, 1, k) * odd) % MOD
         even, odd = m // 2, (m + 1) // 2
         MOD = 10**9 + 7
-        return dfs(0, 1, 0)
+        return dfs(n - 1, 1, k)
         
 
         
