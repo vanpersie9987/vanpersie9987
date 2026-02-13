@@ -6953,4 +6953,173 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 2932. 找出强数对的最大异或值 I (Maximum Strong Pair XOR I)
+    // 2935. 找出强数对的最大异或值 II (Maximum Strong Pair XOR II) --哈希表
+    public int maximumStrongPairXor(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int highestBit = 31 - Integer.numberOfLeadingZeros(nums[n - 1]);
+        int res = 0;
+        int mask = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = highestBit; i >= 0; --i) {
+            map.clear();
+            mask |= 1 << i;
+            int newRes = res | (1 << i);
+            for (int y : nums) {
+                int mask_y = y & mask;
+                if (map.containsKey(mask_y ^ newRes) && map.get(mask_y ^ newRes) * 2 >= y) {
+                    res = newRes;
+                    break;
+                }
+                map.put(mask_y, y);
+            }
+        }
+        return res;
+
+    }
+
+    // 2932. 找出强数对的最大异或值 I (Maximum Strong Pair XOR I)
+    // 2935. 找出强数对的最大异或值 II (Maximum Strong Pair XOR II) --0-1字典树
+    private int highestBit2935;
+
+    public int maximumStrongPairXor2(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        this.highestBit2935 = 31 - Integer.numberOfLeadingZeros(nums[n - 1]);
+        Trie2935 trie = new Trie2935();
+        int res = 0;
+        int j = 0;
+        for (int i = 0; i < n; ++i) {
+            while (nums[j] * 2 < nums[i]) {
+                trie.delete(nums[j++]);
+            }
+            trie.insert(nums[i]);
+            res = Math.max(res, trie.check(nums[i]));
+        }
+        return res;
+
+    }
+
+    public class Trie2935 {
+        private Trie2935[] children;
+        private int cnt;
+
+        public Trie2935() {
+            this.children = new Trie2935[2];
+            this.cnt = 0;
+        }
+
+        public void insert(int x) {
+            Trie2935 node = this;
+            for (int i = highestBit2935; i >= 0; --i) {
+                int index = (x >> i) & 1;
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie2935();
+                }
+                node = node.children[index];
+                ++node.cnt;
+            }
+        }
+
+        public void delete(int x) {
+            Trie2935 node = this;
+            for (int i = highestBit2935; i >= 0; --i) {
+                int index = (x >> i) & 1;
+                node = node.children[index];
+                --node.cnt;
+            }
+        }
+
+        public int check(int x) {
+            Trie2935 node = this;
+            int res = 0;
+            for (int i = highestBit2935; i >= 0; --i) {
+                int index = (x >> i) & 1;
+                if (node.children[index ^ 1] != null && node.children[index ^ 1].cnt > 0) {
+                    index ^= 1;
+                    res |= 1 << i;
+                }
+                node = node.children[index];
+            }
+            return res;
+        }
+    }
+
+    // 421. 数组中两个数的最大异或值 (Maximum XOR of Two Numbers in an Array)
+    // LCR 067. 数组中两个数的最大异或值
+    public int findMaximumXOR(int[] nums) {
+        int res = 0;
+        int mask = 0;
+        int max = 0;
+        for (int num : nums) {
+            max = Math.max(max, num);
+        }
+        int highestBit = 31 - Integer.numberOfLeadingZeros(max);
+        Set<Integer> seen = new HashSet<>();
+        for (int i = highestBit; i >= 0; --i) {
+            seen.clear();
+            mask |= 1 << i;
+            int newRes = res | (1 << i);
+            for (int num : nums) {
+                num &= mask;
+                if (seen.contains(num ^ newRes)) {
+                    res = newRes;
+                    break;
+                }
+                seen.add(num);
+            }
+        }
+        return res;
+    }
+
+    // 421. 数组中两个数的最大异或值 (Maximum XOR of Two Numbers in an Array) --0-1字典树
+    // LCR 067. 数组中两个数的最大异或值
+    public int findMaximumXOR2(int[] nums) {
+        int res = 0;
+        Trie421 trie = new Trie421();
+        for (int x : nums) {
+            trie.insert(x);
+            res = Math.max(res, trie.check(x));
+        }
+        return res;
+    }
+
+    public class Trie421 {
+        private Trie421[] children;
+        private int cnt;
+
+        public Trie421() {
+            this.children = new Trie421[2];
+            this.cnt = 0;
+        }
+
+        public void insert(int x) {
+            Trie421 node = this;
+            for (int i = 30; i >= 0; --i) {
+                int index = (x >> i) & 1;
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie421();
+                }
+                node = node.children[index];
+                ++node.cnt;
+            }
+        }
+
+        public int check(int x) {
+            Trie421 node = this;
+            int res = 0;
+            for (int i = 30; i >= 0; --i) {
+                int index = (x >> i) & 1;
+                if (node.children[index ^ 1] != null && node.children[index ^ 1].cnt > 0) {
+                    index ^= 1;
+                    res |= 1 << i;
+                }
+                node = node.children[index];
+            }
+            return res;
+        }
+    }
+
 }
