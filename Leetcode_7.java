@@ -8967,40 +8967,30 @@ public class Leetcode_7 {
     // 1707. 与数组中元素的最大异或值 (Maximum XOR With an Element From Array) --离线询问 字典树
     public int[] maximizeXor(int[] nums, int[][] queries) {
         Arrays.sort(nums);
-        int n = nums.length;
-        int m = queries.length;
-        int[][] nq = new int[m][3];
-        for (int i = 0; i < m; ++i) {
-            nq[i][0] = queries[i][0];
-            nq[i][1] = queries[i][1];
-            nq[i][2] = i;
-        }
-        Arrays.sort(nq, new Comparator<int[]>() {
+        int n = queries.length;
+        Integer[] idx = IntStream.range(0, n).boxed().toArray(Integer[]::new);
+        Arrays.sort(idx, new Comparator<Integer>() {
 
             @Override
-            public int compare(int[] o1, int[] o2) {
-                return Integer.compare(o1[1], o2[1]);
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(queries[o1][1], queries[o2][1]);
             }
 
         });
         Trie1707 trie = new Trie1707();
-        int[] res = new int[m];
+        int[] res = new int[n];
         int i = 0;
-        int j = 0;
-        while (i < n && j < m) {
-            while (i < n && nums[i] <= nq[j][1]) {
+        for (int id : idx) {
+            int x = queries[id][0];
+            int m = queries[id][1];
+            while (i < nums.length && nums[i] <= m) {
                 trie.insert(nums[i++]);
             }
             if (i == 0) {
-                res[nq[j++][2]] = -1;
-                continue;
+                res[id] = -1;
+            } else {
+                res[id] = trie.getMaxXOR(x);
             }
-            int cur = trie.getMaxXOR(nq[j][0]);
-            res[nq[j++][2]] = cur;
-        }
-        while (j < m) {
-            int cur = trie.getMaxXOR(nq[j][0]);
-            res[nq[j++][2]] = cur;
         }
         return res;
 
