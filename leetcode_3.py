@@ -9615,7 +9615,6 @@ class Interval:
         class trie:
             def __init__(self):
                 self.children = [None] * 2
-                self.cnt = 0
 
             def insert(self, x: int):
                 node = self
@@ -9624,17 +9623,13 @@ class Interval:
                     if node.children[bit] is None:
                         node.children[bit] = trie()
                     node = node.children[bit]
-                    node.cnt += 1
 
             def check(self, x: int) -> int:
                 node = self
                 res = 0
                 for i in range(30, -1, -1):
                     bit = (x >> i) & 1
-                    if (
-                        node.children[bit ^ 1] is not None
-                        and node.children[bit ^ 1].cnt
-                    ):
+                    if node.children[bit ^ 1]:
                         bit ^= 1
                         res ^= 1 << i
                     node = node.children[bit]

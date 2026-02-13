@@ -7088,11 +7088,9 @@ public class Leetcode_10 {
 
     public class Trie421 {
         private Trie421[] children;
-        private int cnt;
 
         public Trie421() {
             this.children = new Trie421[2];
-            this.cnt = 0;
         }
 
         public void insert(int x) {
@@ -7103,7 +7101,6 @@ public class Leetcode_10 {
                     node.children[index] = new Trie421();
                 }
                 node = node.children[index];
-                ++node.cnt;
             }
         }
 
@@ -7112,7 +7109,7 @@ public class Leetcode_10 {
             int res = 0;
             for (int i = 30; i >= 0; --i) {
                 int index = (x >> i) & 1;
-                if (node.children[index ^ 1] != null && node.children[index ^ 1].cnt > 0) {
+                if (node.children[index ^ 1] != null) {
                     index ^= 1;
                     res |= 1 << i;
                 }
