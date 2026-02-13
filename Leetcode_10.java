@@ -7185,4 +7185,83 @@ public class Leetcode_10 {
         }
     }
 
+    // 2479. 两个不重叠子树的最大异或值 (Maximum XOR of Two Non-Overlapping Subtrees) --0-1字典树 --plus
+    private List<Integer>[] g2479;
+    private long[] pre2479;
+    private int[] values2479;
+    private Trie2479 trie2479;
+
+    public long maxXor(int n, int[][] edges, int[] values) {
+        this.g2479 = new ArrayList[n];
+        Arrays.setAll(g2479, o -> new ArrayList<>());
+        for (int[] e : edges) {
+            g2479[e[0]].add(e[1]);
+            g2479[e[1]].add(e[0]);
+        }
+        this.values2479 = values;
+        this.pre2479 = new long[n];
+        dfsPre2479(0, -1);
+        this.trie2479 = new Trie2479();
+        return dfsXor2479(0, -1);
+    }
+
+    private long dfsXor2479(int x, int fa) {
+        long res = trie2479.getMaxXOR(pre2479[x]);
+        for (int y : g2479[x]) {
+            if (y != fa) {
+                res = Math.max(res, dfsXor2479(y, x));
+            }
+        }
+        trie2479.insert(pre2479[x]);
+        return res;
+    }
+
+    private long dfsPre2479(int x, int fa) {
+        long s = values2479[x];
+        for (int y : g2479[x]) {
+            if (y != fa) {
+                s += dfsPre2479(y, x);
+            }
+        }
+        return pre2479[x] = s;
+    }
+
+
+    public class Trie2479 {
+        private Trie2479[] children;
+        private final int L = 45;
+
+        public Trie2479() {
+            children = new Trie2479[2];
+        }
+
+        public void insert(long val) {
+            Trie2479 node = this;
+            for (int i = L - 1; i >= 0; --i) {
+                int index = (int) ((val >> i) & 1);
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie2479();
+                }
+                node = node.children[index];
+            }
+        }
+
+        public long getMaxXOR(long val) {
+            Trie2479 node = this;
+            long res = 0L;
+            for (int i = L - 1; i >= 0; --i) {
+                int bit = (int) ((val >> i) & 1);
+                if (node == null) {
+                    break;
+                }
+                if (node.children[bit ^ 1] != null) {
+                    res |= 1L << i;
+                    bit ^= 1;
+                }
+                node = node.children[bit];
+            }
+            return res;
+        }
+    }
+
 }
