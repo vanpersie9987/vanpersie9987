@@ -5915,7 +5915,6 @@ public class Leetcode_8 {
         return dis;
     }
 
-
     // 2970. 统计移除递增子数组的数目 I (Count the Number of Incremovable Subarrays I)
     // 2972. 统计移除递增子数组的数目 II (Count the Number of Incremovable Subarrays II)
     public long incremovableSubarrayCount(int[] nums) {
@@ -7098,16 +7097,13 @@ public class Leetcode_8 {
         this.highestBit2935 = 31 - Integer.numberOfLeadingZeros(nums[n - 1]);
         Trie2935 trie = new Trie2935();
         int res = 0;
-        int i = 0;
         int j = 0;
-        while (j < n) {
-            trie.insert(nums[j]);
-            while (nums[i] * 2 < nums[j]) {
-                trie.delete(nums[i]);
-                ++i;
+        for (int i = 0; i < n; ++i) {
+            while (nums[j] * 2 < nums[i]) {
+                trie.delete(nums[j++]);
             }
-            res = Math.max(res, trie.check(nums[j]));
-            ++j;
+            trie.insert(nums[i]);
+            res = Math.max(res, trie.check(nums[i]));
         }
         return res;
 
@@ -7122,10 +7118,10 @@ public class Leetcode_8 {
             this.cnt = 0;
         }
 
-        public void insert(int num) {
+        public void insert(int x) {
             Trie2935 node = this;
             for (int i = highestBit2935; i >= 0; --i) {
-                int index = (num >> i) & 1;
+                int index = (x >> i) & 1;
                 if (node.children[index] == null) {
                     node.children[index] = new Trie2935();
                 }
@@ -7134,20 +7130,20 @@ public class Leetcode_8 {
             }
         }
 
-        public void delete(int num) {
+        public void delete(int x) {
             Trie2935 node = this;
             for (int i = highestBit2935; i >= 0; --i) {
-                int index = (num >> i) & 1;
+                int index = (x >> i) & 1;
                 node = node.children[index];
                 --node.cnt;
             }
         }
 
-        public int check(int num) {
+        public int check(int x) {
             Trie2935 node = this;
             int res = 0;
             for (int i = highestBit2935; i >= 0; --i) {
-                int index = (num >> i) & 1;
+                int index = (x >> i) & 1;
                 if (node.children[index ^ 1] != null && node.children[index ^ 1].cnt > 0) {
                     index ^= 1;
                     res |= 1 << i;
