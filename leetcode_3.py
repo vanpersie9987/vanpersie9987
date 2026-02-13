@@ -9590,3 +9590,59 @@ class Interval:
             _trie.insert(x)
             res = max(res, _trie.check(x))
         return res
+
+    # 421. 数组中两个数的最大异或值 (Maximum XOR of Two Numbers in an Array)
+    # LCR 067. 数组中两个数的最大异或值
+    def findMaximumXOR(self, nums: List[int]) -> int:
+        res = 0
+        mask = 0
+        s = set()
+        for i in range(max(nums).bit_length() - 1, -1, -1):
+            mask |= 1 << i
+            s.clear()
+            new_res = res | (1 << i)
+            for x in nums:
+                x &= mask
+                if x ^ new_res in s:
+                    res = new_res
+                    break
+                s.add(x)
+        return res
+
+    # 421. 数组中两个数的最大异或值 (Maximum XOR of Two Numbers in an Array) --0-1字典树
+    # LCR 067. 数组中两个数的最大异或值
+    def findMaximumXOR(self, nums: List[int]) -> int:
+        class trie:
+            def __init__(self):
+                self.children = [None] * 2
+                self.cnt = 0
+
+            def insert(self, x: int):
+                node = self
+                for i in range(30, -1, -1):
+                    bit = (x >> i) & 1
+                    if node.children[bit] is None:
+                        node.children[bit] = trie()
+                    node = node.children[bit]
+                    node.cnt += 1
+
+            def check(self, x: int) -> int:
+                node = self
+                res = 0
+                for i in range(30, -1, -1):
+                    bit = (x >> i) & 1
+                    if (
+                        node.children[bit ^ 1] is not None
+                        and node.children[bit ^ 1].cnt
+                    ):
+                        bit ^= 1
+                        res ^= 1 << i
+                    node = node.children[bit]
+                return res
+
+        res = 0
+        _trie = trie()
+        for x in nums:
+            _trie.insert(x)
+            res = max(res, _trie.check(x))
+        return res
