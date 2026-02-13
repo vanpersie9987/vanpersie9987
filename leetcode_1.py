@@ -10331,25 +10331,6 @@ class leetcode_1:
         dfs.cache_clear()
         return res
 
-    # 2932. 找出强数对的最大异或值 I (Maximum Strong Pair XOR I)
-    # 2935. 找出强数对的最大异或值 II (Maximum Strong Pair XOR II)
-    def maximumStrongPairXor(self, nums: List[int]) -> int:
-        nums.sort()
-        mask = 0
-        res = 0
-        d = dict()
-        for i in range(nums[-1].bit_length() - 1, -1, -1):
-            d.clear()
-            mask |= 1 << i
-            new_res = res | (1 << i)
-            for y in nums:
-                mask_y = y & mask
-                if mask_y ^ new_res in d and d[mask_y ^ new_res] * 2 >= y:
-                    res = new_res
-                    break
-                d[mask_y] = y
-        return res
-
     # 1696. 跳跃游戏 VI (Jump Game VI)
     def maxResult(self, nums: List[int], k: int) -> int:
         n = len(nums)

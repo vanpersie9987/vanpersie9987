@@ -9521,3 +9521,72 @@ class Interval:
             min(c, (c * s + m) // (s + u))
             for c, u, s, m in zip(count, upgrade, sell, money)
         ]
+
+        # 2932. 找出强数对的最大异或值 I (Maximum Strong Pair XOR I)
+
+    # 2935. 找出强数对的最大异或值 II (Maximum Strong Pair XOR II)
+    def maximumStrongPairXor(self, nums: List[int]) -> int:
+        nums.sort()
+        mask = 0
+        res = 0
+        d = dict()
+        for i in range(nums[-1].bit_length() - 1, -1, -1):
+            d.clear()
+            mask |= 1 << i
+            new_res = res | (1 << i)
+            for y in nums:
+                mask_y = y & mask
+                if mask_y ^ new_res in d and d[mask_y ^ new_res] * 2 >= y:
+                    res = new_res
+                    break
+                d[mask_y] = y
+        return res
+
+    # 2932. 找出强数对的最大异或值 I (Maximum Strong Pair XOR I)
+    # 2935. 找出强数对的最大异或值 II (Maximum Strong Pair XOR II) --0-1字典树
+    def maximumStrongPairXor(self, nums: List[int]) -> int:
+        class trie:
+            def __init__(self):
+                self.children = [None] * 2
+                self.cnt = 0
+
+            def insert(self, x: int):
+                node = self
+                for i in range(19, -1, -1):
+                    bit = (x >> i) & 1
+                    if node.children[bit] is None:
+                        node.children[bit] = trie()
+                    node = node.children[bit]
+                    node.cnt += 1
+
+            def delete(self, x: int):
+                node = self
+                for i in range(19, -1, -1):
+                    bit = (x >> i) & 1
+                    node = node.children[bit]
+                    node.cnt -= 1
+
+            def check(self, x: int) -> int:
+                node = self
+                res = 0
+                for i in range(19, -1, -1):
+                    bit = (x >> i) & 1
+                    if (
+                        node.children[bit ^ 1] is not None
+                        and node.children[bit ^ 1].cnt
+                    ):
+                        bit ^= 1
+                        res ^= 1 << i
+                    node = node.children[bit]
+                return res
+
+        nums.sort()
+        res, j = 0, 0
+        _trie = trie()
+        for x in nums:
+            while nums[j] * 2 < x:
+                _trie.delete(nums[j])
+                j += 1
+            _trie.insert(x)
+            res = max(res, _trie.check(x))
+        return res
