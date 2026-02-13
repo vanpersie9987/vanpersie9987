@@ -9571,10 +9571,7 @@ class Interval:
                 res = 0
                 for i in range(19, -1, -1):
                     bit = (x >> i) & 1
-                    if (
-                        node.children[bit ^ 1] is not None
-                        and node.children[bit ^ 1].cnt
-                    ):
+                    if node.children[bit ^ 1] and node.children[bit ^ 1].cnt:
                         bit ^= 1
                         res ^= 1 << i
                     node = node.children[bit]
