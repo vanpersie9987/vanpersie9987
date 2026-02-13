@@ -6942,4 +6942,15 @@ public class Leetcode_10 {
                 + ((long) dfs3339(i - 1, 1, k, even, odd) * odd) % MOD) % MOD);
 
     }
+
+    // 3155. 可升级服务器的最大数量 (Maximum Number of Upgradable Servers) --plus
+    public int[] maxUpgrades(int[] count, int[] upgrade, int[] sell, int[] money) {
+        int n = count.length;
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = (int) Math.min(count[i], ((long) count[i] * sell[i] + money[i]) / (sell[i] + upgrade[i]));
+        }
+        return res;
+
+    }
 }
