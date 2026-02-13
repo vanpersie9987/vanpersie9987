@@ -9462,42 +9462,42 @@ class Interval:
         # 出现恰好三种字符的最长字串
         res = max(res, cal_three())
         return res
-    
+
     # 3749. 计算有效表达式 (Evaluate Valid Expressions) --plus
     def evaluateExpression(self, expression: str) -> int:
         def cal(op: str, a: str, b: str) -> list:
             x, y = int(a), int(b)
             res = 0
-            if op == 'add':
+            if op == "add":
                 res = x + y
-            elif op == 'sub':
+            elif op == "sub":
                 res = x - y
-            elif op == 'mul':
+            elif op == "mul":
                 res = x * y
             else:
                 res = x // y
             s = str(res)
             return [x for x in s]
+
         st = []
         for x in expression:
-            if x == ')':
+            if x == ")":
                 b = deque()
-                while st[-1] != ',':
+                while st[-1] != ",":
                     b.appendleft(st.pop())
                 st.pop()
                 a = deque()
-                while st[-1] != '(':
+                while st[-1] != "(":
                     a.appendleft(st.pop())
                 st.pop()
                 op = deque()
                 while len(op) < 3:
                     op.appendleft(st.pop())
-                result = cal(''.join(op), ''.join(a), ''.join(b))
+                result = cal("".join(op), "".join(a), "".join(b))
                 st.extend(result)
             else:
                 st.append(x)
-        return int(''.join(st))
-    
+        return int("".join(st))
 
     # 3339. 查找 K 偶数数组的数量 (Find the Number of K-Even Arrays) --plus
     def countOfArrays(self, n: int, m: int, k: int) -> int:
@@ -9508,16 +9508,16 @@ class Interval:
             if k < 0:
                 return 0
             return (dfs(i - 1, 0, k - (j ^ 1)) * even + dfs(i - 1, 1, k) * odd) % MOD
+
         even, odd = m // 2, (m + 1) // 2
         MOD = 10**9 + 7
         return dfs(n - 1, 1, k)
-        
 
-        
-
-                
-                    
-                
-
-
-        
+    # 3155. 可升级服务器的最大数量 (Maximum Number of Upgradable Servers) --plus
+    def maxUpgrades(
+        self, count: List[int], upgrade: List[int], sell: List[int], money: List[int]
+    ) -> List[int]:
+        return [
+            min(c, (c * s + m) // (s + u))
+            for c, u, s, m in zip(count, upgrade, sell, money)
+        ]
