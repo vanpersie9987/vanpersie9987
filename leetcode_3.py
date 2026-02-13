@@ -9777,13 +9777,13 @@ class Interval:
             pre[x] = s
             return s
 
-        def dfs_xor(x: int, fa: int):
-            nonlocal res
-            res = max(res, _trie.check(pre[x]))
+        def dfs_xor(x: int, fa: int) -> int:
+            res = _trie.check(pre[x])
             for y in g[x]:
                 if y != fa:
-                    dfs_xor(y, x)
+                    res = max(res, dfs_xor(y, x))
             _trie.insert(pre[x])
+            return res
 
         g = [[] for _ in range(n)]
         for u, v in edges:
@@ -9791,7 +9791,5 @@ class Interval:
             g[v].append(u)
         pre = [0] * n
         dfs_pre(0, -1)
-        res = 0
         _trie = trie()
-        dfs_xor(0, -1)
-        return res
+        return dfs_xor(0, -1)
