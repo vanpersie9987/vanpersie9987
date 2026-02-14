@@ -9839,7 +9839,53 @@ class Interval:
             res += _trie.check(pre_xor, k)
             _trie.insert(pre_xor)
         return res
-    
+
+    # 1803. 统计异或值在范围内的数对有多少 (Count Pairs With XOR in a Range) --0-1字典树
+    def countPairs(self, nums: List[int], low: int, high: int) -> int:
+        class trie:
+            def __init__(self):
+                self.children = [None] * 2
+                self.cnt = 0
+
+            def insert(self, x: int):
+                node = self
+                for i in range(15, -1, -1):
+                    bit = (x >> i) & 1
+                    if node.children[bit] is None:
+                        node.children[bit] = trie()
+                    node = node.children[bit]
+                    node.cnt += 1
+
+            def check(self, x: int, k: int) -> int:
+                node = self
+                res = 0
+                for i in range(15, -1, -1):
+                    x_bit, k_bit = (x >> i) & 1, (k >> i) & 1
+                    if k_bit == 0:
+                        if node.children[x_bit]:
+                            node = node.children[x_bit]
+                        else:
+                            return res
+                    else:
+                        if node.children[x_bit]:
+                            res += node.children[x_bit].cnt
+                        if node.children[x_bit ^ 1]:
+                            node = node.children[x_bit ^ 1]
+                        else:
+                            return res
+                res += node.cnt
+                return res
+
+        def cal(k: int) -> int:
+            _trie = trie()
+            res = 0
+            for x in nums:
+                res += _trie.check(x, k)
+                _trie.insert(x)
+            return res
+
+        return cal(high) - cal(low - 1)
+
     # 799. 香槟塔 (Champagne Tower)
     def champagneTower(self, poured: int, query_row: int, query_glass: int) -> float:
         dp = [[0.0] * (query_row + 2) for _ in range(query_row + 2)]
@@ -9850,5 +9896,3 @@ class Interval:
                 dp[i + 1][j] += p
                 dp[i + 1][j + 1] += p
         return min(1.0, dp[query_row][query_glass])
-
-        
