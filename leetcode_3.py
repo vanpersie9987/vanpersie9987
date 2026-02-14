@@ -9921,5 +9921,24 @@ class BigArray:
                     left = mid + 1
             res += 1
         return res
-
-        
+    
+    # 1152. 用户网站访问行为分析 (Analyze User Website Visit Pattern) --plus
+    def mostVisitedPattern(self, username: List[str], timestamp: List[int], website: List[str]) -> List[str]:
+        d = defaultdict(list)
+        for user, time, web in zip(username, timestamp, website):
+            d[user].append((time, web))
+        g = defaultdict(set)
+        for user, l in d.items():
+            l.sort()
+            for a, b, c in combinations(l, 3):
+                g[(a[1], b[1], c[1])].add(user)
+        mx = 0
+        res = []
+        for k, v in g.items():
+            if len(v) > mx:
+                res.clear()
+                mx = len(v)
+                res.append(k)
+            elif len(v) == mx:
+                res.append(k)
+        return sorted(res)[0]
