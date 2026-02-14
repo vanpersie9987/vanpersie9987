@@ -3973,32 +3973,6 @@ public class Leetcode_6 {
         }
     }
 
-    // 1803. 统计异或值在范围内的数对有多少 (Count Pairs With XOR in a Range)
-    public int countPairs(int[] nums, int low, int high) {
-        Map<Integer, Integer> counts = new HashMap<>();
-        for (int num : nums) {
-            counts.put(num, counts.getOrDefault(num, 0) + 1);
-        }
-        int res = 0;
-        for (++high; high > 0; high >>= 1, low >>= 1) {
-            Map<Integer, Integer> next = new HashMap<>();
-            for (Map.Entry<Integer, Integer> entry : counts.entrySet()) {
-                int k = entry.getKey();
-                int c = entry.getValue();
-                if ((high & 1) == 1) {
-                    res += c * counts.getOrDefault(k ^ (high - 1), 0);
-                }
-                if ((low & 1) == 1) {
-                    res -= c * counts.getOrDefault(k ^ (low - 1), 0);
-                }
-                next.put(k >> 1, next.getOrDefault(k >> 1, 0) + c);
-            }
-            counts = next;
-        }
-        return res / 2;
-
-    }
-
     // 2458. 移除子树后的二叉树高度 (Height of Binary Tree After Subtree Removal Queries)
     private int[] left2458;
     private int[] right2458;

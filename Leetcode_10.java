@@ -7325,4 +7325,94 @@ public class Leetcode_10 {
         }
     }
 
+    // 1803. 统计异或值在范围内的数对有多少 (Count Pairs With XOR in a Range)
+    public int countPairs(int[] nums, int low, int high) {
+        Map<Integer, Integer> counts = new HashMap<>();
+        for (int num : nums) {
+            counts.put(num, counts.getOrDefault(num, 0) + 1);
+        }
+        int res = 0;
+        for (++high; high > 0; high >>= 1, low >>= 1) {
+            Map<Integer, Integer> next = new HashMap<>();
+            for (Map.Entry<Integer, Integer> entry : counts.entrySet()) {
+                int k = entry.getKey();
+                int c = entry.getValue();
+                if ((high & 1) == 1) {
+                    res += c * counts.getOrDefault(k ^ (high - 1), 0);
+                }
+                if ((low & 1) == 1) {
+                    res -= c * counts.getOrDefault(k ^ (low - 1), 0);
+                }
+                next.put(k >> 1, next.getOrDefault(k >> 1, 0) + c);
+            }
+            counts = next;
+        }
+        return res / 2;
+
+    }
+
+    // 1803. 统计异或值在范围内的数对有多少 (Count Pairs With XOR in a Range) --0-1字典树
+    public int countPairs2(int[] nums, int low, int high) {
+        return cal1803(nums, high) - cal1803(nums, low - 1);
+    }
+
+    private int cal1803(int[] nums, int k) {
+        int res = 0;
+        Trie1803 trie = new Trie1803();
+        for (int x : nums) {
+            res += trie.getMaxXOR(x, k);
+            trie.insert(x);
+        }
+        return res;
+    }
+
+    public class Trie1803 {
+        private Trie1803[] children;
+        private int cnt;
+        private final int L = 15;
+
+        public Trie1803() {
+            this.children = new Trie1803[2];
+        }
+
+        public void insert(int x) {
+            Trie1803 node = this;
+            for (int i = L - 1; i >= 0; --i) {
+                int index = (x >> i) & 1;
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie1803();
+                }
+                node = node.children[index];
+                ++node.cnt;
+            }
+        }
+
+        public long getMaxXOR(int x, int k) {
+            Trie1803 node = this;
+            long res = 0L;
+            for (int i = L - 1; i >= 0; --i) {
+                int x_bit = (x >> i) & 1;
+                int k_bit = (k >> i) & 1;
+                if (k_bit == 0) {
+                    if (node.children[x_bit] != null) {
+                        node = node.children[x_bit];
+                    } else {
+                        return res;
+                    }
+                } else {
+                    if (node.children[x_bit] != null) {
+                        res += node.children[x_bit].cnt;
+                    }
+                    if (node.children[x_bit ^ 1] != null) {
+                        node = node.children[x_bit ^ 1];
+                    } else {
+                        return res;
+                    }
+                }
+            }
+            res += node.cnt;
+            return res;
+        }
+    }
+
 }
