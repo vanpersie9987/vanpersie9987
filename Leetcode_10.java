@@ -7415,4 +7415,40 @@ public class Leetcode_10 {
         }
     }
 
+    // Definition for BigArray.
+    class BigArray {
+        public BigArray(int[] elements) {
+        }
+
+        public int at(long index) {
+            return 0;
+        }
+
+        public long size() {
+            return 0L;
+        }
+    }
+
+    // 2936. 包含相等值数字块的数量 (Number of Equal Numbers Blocks) --plus
+    public int countBlocks(BigArray nums) {
+        long n = nums.size();
+        long left = 0L;
+        long right = n - 1;
+        int res = 0;
+        while (left != n) {
+            right = n - 1;
+            int val = nums.at(left);
+            while (left <= right) {
+                long mid = left + ((right - left) >> 1L);
+                if (nums.at(mid) != val) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            ++res;
+        }
+        return res;
+    }
+
 }
