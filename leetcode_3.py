@@ -9793,3 +9793,49 @@ class Interval:
         dfs_pre(0, -1)
         _trie = trie()
         return dfs_xor(0, -1)
+
+    # 3632. 异或至少为 K 的子数组数目 (Subarrays with XOR at Least K) --0-1字典树 --plus
+    def countXorSubarrays(self, nums: List[int], k: int) -> int:
+        class trie:
+            def __init__(self):
+                self.children = [None] * 2
+                self.cnt = 0
+
+            def insert(self, x: int):
+                node = self
+                for i in range(29, -1, -1):
+                    bit = (x >> i) & 1
+                    if node.children[bit] is None:
+                        node.children[bit] = trie()
+                    node = node.children[bit]
+                    node.cnt += 1
+
+            def check(self, x: int, k: int) -> int:
+                node = self
+                res = 0
+                for i in range(29, -1, -1):
+                    x_bit, k_bit = (x >> i) & 1, (k >> i) & 1
+                    if k_bit == 0:
+                        if node.children[x_bit ^ 1]:
+                            res += node.children[x_bit ^ 1].cnt
+                        if node.children[x_bit]:
+                            node = node.children[x_bit]
+                        else:
+                            return res
+                    else:
+                        if node.children[x_bit ^ 1]:
+                            node = node.children[x_bit ^ 1]
+                        else:
+                            return res
+                res += node.cnt
+                return res
+
+        _trie = trie()
+        _trie.insert(0)
+        res = 0
+        pre_xor = 0
+        for x in nums:
+            pre_xor ^= x
+            res += _trie.check(pre_xor, k)
+            _trie.insert(pre_xor)
+        return res
