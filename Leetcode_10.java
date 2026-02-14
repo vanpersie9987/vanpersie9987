@@ -7264,4 +7264,65 @@ public class Leetcode_10 {
         }
     }
 
+    // 3632. 异或至少为 K 的子数组数目 (Subarrays with XOR at Least K) --0-1字典树 --plus
+    public long countXorSubarrays(int[] nums, int k) {
+        Trie3632 trie = new Trie3632();
+        trie.insert(0);
+        long res = 0L;
+        int preXor = 0;
+        for (int x : nums) {
+            preXor ^= x;
+            res += trie.getMaxXOR(preXor, k);
+            trie.insert(preXor);
+        }
+        return res;
+    }
+
+    public class Trie3632 {
+        private Trie3632[] children;
+        private int cnt;
+        private final int L = 30;
+
+        public Trie3632() {
+            this.children = new Trie3632[2];
+        }
+
+        public void insert(int x) {
+            Trie3632 node = this;
+            for (int i = L - 1; i >= 0; --i) {
+                int index = (x >> i) & 1;
+                if (node.children[index] == null) {
+                    node.children[index] = new Trie3632();
+                }
+                node = node.children[index];
+                ++node.cnt;
+            }
+        }
+
+        public long getMaxXOR(int x, int k) {
+            Trie3632 node = this;
+            long res = 0L;
+            for (int i = L - 1; i >= 0; --i) {
+                int x_bit = (x >> i) & 1;
+                int k_bit = (k >> i) & 1;
+                if (k_bit == 0) {
+                    if (node.children[x_bit ^ 1] != null) {
+                        res += node.children[x_bit ^ 1].cnt;
+                    }
+                    if (node.children[x_bit] == null) {
+                        return res;
+                    }
+                    node = node.children[x_bit];
+                } else {
+                    if (node.children[x_bit ^ 1] == null) {
+                        return res;
+                    }
+                    node = node.children[x_bit ^ 1];
+                }
+            }
+            res += node.cnt;
+            return res;
+        }
+    }
+
 }
