@@ -9839,3 +9839,16 @@ class Interval:
             res += _trie.check(pre_xor, k)
             _trie.insert(pre_xor)
         return res
+    
+    # 799. 香槟塔 (Champagne Tower)
+    def champagneTower(self, poured: int, query_row: int, query_glass: int) -> float:
+        dp = [[0.0] * (query_row + 2) for _ in range(query_row + 2)]
+        dp[0][0] = poured
+        for i in range(query_row + 1):
+            for j in range(query_glass + 1):
+                p = max(0.0, dp[i][j] - 1) / 2
+                dp[i + 1][j] += p
+                dp[i + 1][j + 1] += p
+        return min(1.0, dp[query_row][query_glass])
+
+        
