@@ -7185,7 +7185,8 @@ public class Leetcode_10 {
         }
     }
 
-    // 2479. 两个不重叠子树的最大异或值 (Maximum XOR of Two Non-Overlapping Subtrees) --0-1字典树 --plus
+    // 2479. 两个不重叠子树的最大异或值 (Maximum XOR of Two Non-Overlapping Subtrees) --0-1字典树
+    // --plus
     private List<Integer>[] g2479;
     private long[] pre2479;
     private int[] values2479;
@@ -7225,7 +7226,6 @@ public class Leetcode_10 {
         }
         return pre2479[x] = s;
     }
-
 
     public class Trie2479 {
         private Trie2479[] children;
@@ -7449,6 +7449,71 @@ public class Leetcode_10 {
             ++res;
         }
         return res;
+    }
+
+    // 1152. 用户网站访问行为分析 (Analyze User Website Visit Pattern) --plus
+    private record TimeAndWebSite1152(int timeStamp, String website) {
+    }
+
+    private record Group1152(String a, String b, String c) {
+    }
+
+    public List<String> mostVisitedPattern(String[] username, int[] timestamp, String[] website) {
+        int n = username.length;
+        Map<String, List<TimeAndWebSite1152>> map = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            map.computeIfAbsent(username[i], o -> new ArrayList<>()).add(new TimeAndWebSite1152(timestamp[i], website[i]));
+        }
+        Map<Group1152, Set<String>> g = new HashMap<>();
+        for (Map.Entry<String, List<TimeAndWebSite1152>> entry : map.entrySet()) {
+            String user = entry.getKey();
+            List<TimeAndWebSite1152> list = entry.getValue();
+            Collections.sort(list, new Comparator<TimeAndWebSite1152>() {
+
+                @Override
+                public int compare(TimeAndWebSite1152 o1, TimeAndWebSite1152 o2) {
+                    return Integer.compare(o1.timeStamp, o2.timeStamp);
+                }
+
+            });
+            int size = list.size();
+            for (int i = 0; i < size; ++i) {
+                for (int j = i + 1; j < size; ++j) {
+                    for (int k = j + 1; k < size; ++k) {
+                        g.computeIfAbsent(new Group1152(list.get(i).website, list.get(j).website, list.get(k).website),
+                                o -> new HashSet<>()).add(user);
+                    }
+                }
+            }
+        }
+        List<Group1152> res = new ArrayList<>();
+        int mx = 0;
+        for (Map.Entry<Group1152, Set<String>> entry : g.entrySet()) {
+            int curSize = entry.getValue().size();
+            if (curSize > mx) {
+                mx = curSize;
+                res.clear();
+                res.add(entry.getKey());
+            } else if (curSize == mx) {
+                res.add(entry.getKey());
+            }
+        }
+        Collections.sort(res, new Comparator<Group1152>() {
+
+            @Override
+            public int compare(Group1152 o1, Group1152 o2) {
+                int c = o1.a.compareTo(o2.a);
+                if (c != 0) {
+                    return c;
+                }
+                c = o1.b.compareTo(o2.b);
+                if (c != 0) {
+                    return c;
+                }
+                return o1.c.compareTo(o2.c);
+            }
+        });
+        return List.of(res.get(0).a, res.get(0).b, res.get(0).c);
     }
 
 }
