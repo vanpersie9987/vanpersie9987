@@ -9896,3 +9896,30 @@ class Interval:
                 dp[i + 1][j] += p
                 dp[i + 1][j + 1] += p
         return min(1.0, dp[query_row][query_glass])
+    
+# Definition for BigArray.
+class BigArray:
+    def at(self, index: int) -> int:
+        pass
+    def size(self) -> int:
+        pass
+
+    # 2936. 包含相等值数字块的数量 (Number of Equal Numbers Blocks) --plus
+    def countBlocks(self, nums: Optional['BigArray']) -> int:
+        n = nums.size()
+        left = 0
+        right = n - 1
+        res = 0
+        while left != n:
+            x = nums.at(left)
+            right = n - 1
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if nums.at(mid) != x:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            res += 1
+        return res
+
+        
