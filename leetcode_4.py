@@ -247,3 +247,11 @@ class leetcode_4:
                 left += 1
             res = max(res, _trie.max_xor(pre[right + 1]))
         return res
+
+    # 3263. 将双链表转换为数组 I (Convert Doubly Linked List to Array I) --plus
+    def toArray(self, root: 'Optional[Node]') -> List[int]:
+        res = []
+        while root:
+            res.append(root.val)
+            root = root.next
+        return res
