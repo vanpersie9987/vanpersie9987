@@ -22,6 +22,8 @@ import java.util.stream.IntStream;
 
 import javax.swing.GroupLayout.Group;
 
+import org.w3c.dom.Node;
+
 @SuppressWarnings("unchecked")
 public class Leetcode_10 {
 
@@ -67,6 +69,12 @@ public class Leetcode_10 {
         public Node left;
         public Node right;
         public Node parent;
+    };
+
+    class Node2 {
+        public int val;
+        public Node2 prev;
+        public Node2 next;
     };
 
     // 3688. 偶数的按位或运算 (Bitwise OR of Even Numbers in an Array)
@@ -7930,5 +7938,16 @@ public class Leetcode_10 {
             return memo3844[i][j] = dfs3844(i + 1, j - 1);
         }
         return memo3844[i][j] = Math.min(dfs3844(i, j - 1), dfs3844(i + 1, j)) + 1;
+    }
+
+    // 3263. 将双链表转换为数组 I (Convert Doubly Linked List to Array I) --plus
+    public int[] toArray(Node2 head) {
+        List<Integer> res = new ArrayList<>();
+        while (head != null) {
+            res.add(head.val);
+            head = head.next;
+        }
+        return res.stream().mapToInt(i -> i).toArray();
+
     }
 }
