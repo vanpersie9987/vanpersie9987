@@ -9896,7 +9896,7 @@ class Interval:
                 dp[i + 1][j] += p
                 dp[i + 1][j + 1] += p
         return min(1.0, dp[query_row][query_glass])
-    
+
 # Definition for BigArray.
 class BigArray:
     def at(self, index: int) -> int:
@@ -9921,7 +9921,7 @@ class BigArray:
                     left = mid + 1
             res += 1
         return res
-    
+
     # 1152. 用户网站访问行为分析 (Analyze User Website Visit Pattern) --plus
     def mostVisitedPattern(self, username: List[str], timestamp: List[int], website: List[str]) -> List[str]:
         d = defaultdict(list)
@@ -9942,3 +9942,18 @@ class BigArray:
             elif len(v) == mx:
                 res.append(k)
         return sorted(res)[0]
+
+    # 67. 二进制求和 (Add Binary)
+    def addBinary(self, a: str, b: str) -> str:
+        i, j, carry = len(a) - 1, len(b) - 1, 0
+        res = []
+        while i >= 0 or j >= 0 or carry:
+            if i >= 0:
+                carry += int(a[i])
+                i -= 1
+            if j >= 0:
+                carry += int(b[j])
+                j -= 1
+            res.append(str(carry & 1))
+            carry >>= 1
+        return ''.join(res[::-1])
