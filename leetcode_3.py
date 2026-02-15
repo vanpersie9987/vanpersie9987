@@ -9522,8 +9522,7 @@ class Interval:
             for c, u, s, m in zip(count, upgrade, sell, money)
         ]
 
-        # 2932. 找出强数对的最大异或值 I (Maximum Strong Pair XOR I)
-
+    # 2932. 找出强数对的最大异或值 I (Maximum Strong Pair XOR I)
     # 2935. 找出强数对的最大异或值 II (Maximum Strong Pair XOR II)
     def maximumStrongPairXor(self, nums: List[int]) -> int:
         nums.sort()
@@ -9553,7 +9552,7 @@ class Interval:
             def insert(self, x: int):
                 node = self
                 for i in range(19, -1, -1):
-                    bit = (x >> i) & 1
+                    bit = x >> i & 1
                     if node.children[bit] is None:
                         node.children[bit] = trie()
                     node = node.children[bit]
@@ -9562,7 +9561,7 @@ class Interval:
             def delete(self, x: int):
                 node = self
                 for i in range(19, -1, -1):
-                    bit = (x >> i) & 1
+                    bit = x >> i & 1
                     node = node.children[bit]
                     node.cnt -= 1
 
@@ -9570,7 +9569,7 @@ class Interval:
                 node = self
                 res = 0
                 for i in range(19, -1, -1):
-                    bit = (x >> i) & 1
+                    bit = x >> i & 1
                     if node.children[bit ^ 1] and node.children[bit ^ 1].cnt:
                         bit ^= 1
                         res ^= 1 << i
