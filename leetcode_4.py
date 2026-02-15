@@ -163,7 +163,7 @@ class leetcode_4:
             if i >= k - 1:
                 res = max(res, s)
         return res
-    
+
     # 3842. 灯泡开关 (Toggle Light Bulbs)
     def toggleLightBulbs(self, bulbs: list[int]) -> list[int]:
         status = [-1] * 101
@@ -173,4 +173,16 @@ class leetcode_4:
             else:
                 status[b] ^= 1
         return [i for i, s in enumerate(status) if s > 0]
-        
+
+    # 3843. 频率不同的第一个元素 (First Element with Unique Frequency)
+    def firstUniqueFreq(self, nums: List[int]) -> int:
+        d = defaultdict(int)
+        for x in nums:
+            d[x] += 1
+        cnts = defaultdict(int)
+        for v in d.values():
+            cnts[v] += 1
+        for x in nums:
+            if cnts[d[x]] == 1:
+                return x
+        return -1
