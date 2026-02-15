@@ -24,6 +24,8 @@ import javax.swing.GroupLayout.Group;
 
 import org.w3c.dom.Node;
 
+import com.apple.laf.resources.aqua_fr;
+
 @SuppressWarnings("unchecked")
 public class Leetcode_10 {
 
@@ -7949,5 +7951,26 @@ public class Leetcode_10 {
         }
         return res.stream().mapToInt(i -> i).toArray();
 
+    }
+
+    // 582. 杀掉进程 (Kill Process) --plus
+    public List<Integer> killProcess(List<Integer> pid, List<Integer> ppid, int kill) {
+        Map<Integer, List<Integer>> g = new HashMap<>();
+        for (int i = 0; i < pid.size(); ++i) {
+            if (ppid.get(i) != 0) {
+                g.computeIfAbsent(ppid.get(i), o -> new ArrayList<>()).add(pid.get(i));
+            }
+        }
+        List<Integer> res = new ArrayList<>();
+        dfs582(kill, res, g);
+        return res;
+
+    }
+
+    private void dfs582(int x, List<Integer> res, Map<Integer, List<Integer>> g) {
+        res.add(x);
+        for (int y : g.getOrDefault(x, new ArrayList<>())) {
+            dfs582(y, res, g);
+        }
     }
 }
