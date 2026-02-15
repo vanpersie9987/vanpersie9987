@@ -270,3 +270,28 @@ class leetcode_4:
         res = []
         dfs(kill)
         return res
+
+    # 2174. 通过翻转行或列来去除所有的 1 II (Remove All Ones With Row and Column Flips II) --plus
+    # def removeOnes(self, grid: List[List[int]]) -> int:
+    #     @cache
+    #     def dfs(i: int, j: int) -> int:
+    #         if j == u:
+    #             return 0
+    #         if i == m:
+    #             return inf
+    #         res = dfs(i + 1, j)
+    #         sub = c = (j ^ u) & mask[i]
+    #         while sub:
+    #             res = min(res, dfs(i + 1, j | sub) + sub.bit_count())
+    #             sub = (sub - 1) & c
+    #         return res
+
+    #     m, n = len(grid), len(grid[0])
+    #     mask = [0] * m
+    #     u = 0
+    #     for i in range(m):
+    #         for j in range(n):
+    #             if grid[i][j]:
+    #                 mask[i] |= 1 << j
+    #                 u |= 1 << j
+    #     return dfs(0, 0)
