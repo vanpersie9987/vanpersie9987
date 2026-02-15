@@ -9803,7 +9803,7 @@ class Interval:
             def insert(self, x: int):
                 node = self
                 for i in range(29, -1, -1):
-                    bit = (x >> i) & 1
+                    bit = x >> i & 1
                     if node.children[bit] is None:
                         node.children[bit] = trie()
                     node = node.children[bit]
@@ -9813,7 +9813,7 @@ class Interval:
                 node = self
                 res = 0
                 for i in range(29, -1, -1):
-                    x_bit, k_bit = (x >> i) & 1, (k >> i) & 1
+                    x_bit, k_bit = x >> i & 1, k >> i & 1
                     if k_bit == 0:
                         if node.children[x_bit ^ 1]:
                             res += node.children[x_bit ^ 1].cnt
@@ -9830,13 +9830,11 @@ class Interval:
                 return res
 
         _trie = trie()
-        _trie.insert(0)
+        pre = list(accumulate(nums, xor, initial=0))  # type: ignore
         res = 0
-        pre_xor = 0
-        for x in nums:
-            pre_xor ^= x
-            res += _trie.check(pre_xor, k)
-            _trie.insert(pre_xor)
+        for i in range(len(nums)):
+            _trie.insert(pre[i])
+            res += _trie.check(pre[i + 1], k)
         return res
 
     # 1803. 统计异或值在范围内的数对有多少 (Count Pairs With XOR in a Range) --0-1字典树
