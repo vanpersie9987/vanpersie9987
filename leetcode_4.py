@@ -142,3 +142,25 @@ class leetcode_4:
                     mx = self.cnts[x]
                     res = x
             return res
+
+    # 2524. 子数组的最大频率分数 (Maximum Frequency Score of a Subarray) --plus
+    def maxFrequencyScore(self, nums: List[int], k: int) -> int:
+        d = defaultdict(int)
+        res, s = 0
+        MOD = 10**9 + 7
+        for i, x in enumerate(nums):
+            if d[x]:
+                s -= pow(x, d[x], MOD)
+            d[x] += 1
+            s += pow(x, d[x], MOD)
+            s %= MOD
+            if i >= k:
+                y = nums[i - k]
+                s -= pow(y, d[y], MOD)
+                d[y] -= 1
+                if d[y]:
+                    s += pow(y, d[y], MOD)
+                    s %= MOD
+            if i >= k - 1:
+                res = max(res, s)
+        return res
