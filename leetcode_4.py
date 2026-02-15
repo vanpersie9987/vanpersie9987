@@ -37,7 +37,7 @@ from itertools import (
 )
 from locale import DAY_4
 from logging import _Level, root
-from math import comb, cos, e, fabs, floor, gcd, inf, isqrt, lcm, sqrt, ulp
+from math import comb, cos, e, fabs, floor, gcd, inf, isqrt, lcm, pi, sqrt, ulp
 from mimetypes import init
 from multiprocessing import reduction
 from operator import is_, le, ne, truediv
@@ -221,7 +221,7 @@ class leetcode_4:
                     node = node.children[bit]
                 return res
 
-        pre = list(accumulate(nums, xor, initial=0)) # type: ignore
+        pre = list(accumulate(nums, xor, initial=0))  # type: ignore
         q_max = deque()
         q_min = deque()
         res = left = 0
@@ -249,9 +249,24 @@ class leetcode_4:
         return res
 
     # 3263. 将双链表转换为数组 I (Convert Doubly Linked List to Array I) --plus
-    def toArray(self, root: 'Optional[Node]') -> List[int]:
+    def toArray(self, root: "Optional[Node]") -> List[int]:
         res = []
         while root:
             res.append(root.val)
             root = root.next
+        return res
+
+    # 582. 杀掉进程 (Kill Process) --plus
+    def killProcess(self, pid: List[int], ppid: List[int], kill: int) -> List[int]:
+        def dfs(x: int):
+            res.append(x)
+            for y in g[x]:
+                dfs(y)
+
+        g = defaultdict(list)
+        for x, fa in zip(pid, ppid):
+            if fa:
+                g[fa].append(x)
+        res = []
+        dfs(kill)
         return res

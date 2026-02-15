@@ -20,12 +20,6 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.swing.GroupLayout.Group;
-
-import org.w3c.dom.Node;
-
-import com.apple.laf.resources.aqua_fr;
-
 @SuppressWarnings("unchecked")
 public class Leetcode_10 {
 
