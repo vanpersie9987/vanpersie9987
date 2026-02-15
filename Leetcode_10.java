@@ -20,6 +20,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.swing.GroupLayout.Group;
+
 @SuppressWarnings("unchecked")
 public class Leetcode_10 {
 
@@ -7515,6 +7517,120 @@ public class Leetcode_10 {
             }
         });
         return List.of(res.get(0).a, res.get(0).b, res.get(0).c);
+    }
+
+    // 带权单词映射 (Weighted Word Mapping)
+    public String mapWordWeights(String[] words, int[] weights) {
+        StringBuilder res = new StringBuilder();
+        for (String w : words) {
+            int s = 0;
+            for (char c : w.toCharArray()) {
+                s += weights[c - 'a'];
+            }
+            s %= 26;
+            res.append((char) (25 - s + 'a'));
+        }
+        return res.toString();
+    }
+
+    public int prefixConnected(String[] words, int k) {
+        Map<String, Integer> map = new HashMap<>();
+        for (String w : words) {
+            if (w.length() < k) {
+                continue;
+            }
+            map.merge(w.substring(0, k), 1, Integer::sum);
+        }
+        int res = 0;
+        for (int v : map.values()) {
+            if (v >= 2) {
+                ++res;
+            }
+        }
+        return res;
+    }
+
+    // 打家劫舍 V (House Robber V)
+    public long rob(int[] nums, int[] colors) {
+        int i = 0;
+        int n = nums.length;
+        long res = 0L;
+        while (i < n) {
+            int j = i;
+            while (j < n && colors[j] == colors[i]) {
+                ++j;
+            }
+            res += cal(Arrays.copyOfRange(nums, i, j));
+            i = j;
+        }
+        return res;
+
+    }
+
+    private long[] memo;
+    private int n;
+    private int[] a;
+
+    private long cal(int[] a) {
+        this.a = a;
+        this.n = a.length;
+        this.memo = new long[n];
+        Arrays.fill(memo, -1L);
+        return dfs(0);
+    }
+
+    private long dfs(int i) {
+        if (i >= n) {
+            return 0L;
+        }
+        if (memo[i] != -1L) {
+            return memo[i];
+        }
+        return memo[i] = Math.max(dfs(i + 1), dfs(i + 2) + a[i]);
+    }
+
+    // 3391. 设计一个高效的层跟踪三维二进制矩阵 (Design a 3D Binary Matrix with Efficient Layer
+    // Tracking) --plus
+    class Matrix3D {
+
+        private int n;
+        private int[][] g;
+        private int[] cnts;
+
+        public Matrix3D(int n) {
+            this.n = n;
+            this.g = new int[n][n * n];
+            this.cnts = new int[n];
+        }
+
+        public void setCell(int x, int y, int z) {
+            if (g[x][y * n + z] == 0) {
+                g[x][y * n + z] = 1;
+                ++cnts[x];
+            }
+
+        }
+
+        public void unsetCell(int x, int y, int z) {
+            if (g[x][y * n + z] == 1) {
+                g[x][y * n + z] = 0;
+                --cnts[x];
+            }
+
+
+        }
+
+        public int largestMatrix() {
+            int res = n - 1;
+            int mx = 0;
+            for (int i = n - 1; i >= 0; --i) {
+                if (cnts[i] > mx) {
+                    mx = cnts[i];
+                    res = i;
+                }
+            }
+            return res;
+        }
     }
 
 }

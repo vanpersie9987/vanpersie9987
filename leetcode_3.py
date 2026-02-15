@@ -9897,15 +9897,17 @@ class Interval:
                 dp[i + 1][j + 1] += p
         return min(1.0, dp[query_row][query_glass])
 
+
 # Definition for BigArray.
 class BigArray:
     def at(self, index: int) -> int:
         pass
+
     def size(self) -> int:
         pass
 
     # 2936. 包含相等值数字块的数量 (Number of Equal Numbers Blocks) --plus
-    def countBlocks(self, nums: Optional['BigArray']) -> int:
+    def countBlocks(self, nums: Optional["BigArray"]) -> int:
         n = nums.size()
         left = 0
         right = n - 1
@@ -9923,7 +9925,9 @@ class BigArray:
         return res
 
     # 1152. 用户网站访问行为分析 (Analyze User Website Visit Pattern) --plus
-    def mostVisitedPattern(self, username: List[str], timestamp: List[int], website: List[str]) -> List[str]:
+    def mostVisitedPattern(
+        self, username: List[str], timestamp: List[int], website: List[str]
+    ) -> List[str]:
         d = defaultdict(list)
         for user, time, web in zip(username, timestamp, website):
             d[user].append((time, web))
@@ -9956,4 +9960,74 @@ class BigArray:
                 j -= 1
             res.append(str(carry & 1))
             carry >>= 1
-        return ''.join(res[::-1])
+        return "".join(res[::-1])
+
+    # 带权单词映射 (Weighted Word Mapping)
+    def mapWordWeights(self, words: List[str], weights: List[int]) -> str:
+        res = []
+        for w in words:
+            s = 0
+            for c in w:
+                s += weights[ord(c) - ord("a")]
+            s %= 26
+            res.append(chr(25 - s + ord("a")))
+        return "".join(res)
+
+    # 前缀连接组的数目 (Number of Prefix Connected Groups)
+    def prefixConnected(self, words: List[str], k: int) -> int:
+        d = defaultdict(int)
+        for w in words:
+            if len(w) < k:
+                continue
+            d[w[:k]] += 1
+        return sum(v >= 2 for v in d.values())
+
+    # 打家劫舍 V (House Robber V)
+    def rob(self, nums: List[int], colors: List[int]) -> int:
+        def rob(a: list) -> int:
+            @cache
+            def dfs(i: int) -> int:
+                if i >= l:
+                    return 0
+                return max(dfs(i + 1), dfs(i + 2) + a[i])
+
+            l = len(a)
+            return dfs(0)
+
+        res = 0
+        i = 0
+        n = len(nums)
+        while i < n:
+            j = i
+            while j < n and colors[j] == colors[i]:
+                j += 1
+            res += rob(nums[i:j])
+            i = j
+        return res
+
+    # 3391. 设计一个高效的层跟踪三维二进制矩阵 (Design a 3D Binary Matrix with Efficient Layer Tracking) --plus
+    class Matrix3D:
+
+        def __init__(self, n: int):
+            self.g = [[0] * (n * n) for _ in range(n)]
+            self.cnts = [0] * n
+            self.n = n
+
+        def setCell(self, x: int, y: int, z: int) -> None:
+            if self.g[x][y * self.n + z] == 0:
+                self.g[x][y * self.n + z] = 1
+                self.cnts[x] += 1
+
+        def unsetCell(self, x: int, y: int, z: int) -> None:
+            if self.g[x][y * self.n + z] == 1:
+                self.g[x][y * self.n + z] = 0
+                self.cnts[x] -= 1
+
+        def largestMatrix(self) -> int:
+            mx = 0
+            res = self.n - 1
+            for x in range(self.n - 1, -1, -1):
+                if self.cnts[x] > mx:
+                    mx = self.cnts[x]
+                    res = x
+            return res
