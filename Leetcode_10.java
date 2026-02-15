@@ -7462,7 +7462,8 @@ public class Leetcode_10 {
         int n = username.length;
         Map<String, List<TimeAndWebSite1152>> map = new HashMap<>();
         for (int i = 0; i < n; ++i) {
-            map.computeIfAbsent(username[i], o -> new ArrayList<>()).add(new TimeAndWebSite1152(timestamp[i], website[i]));
+            map.computeIfAbsent(username[i], o -> new ArrayList<>())
+                    .add(new TimeAndWebSite1152(timestamp[i], website[i]));
         }
         Map<Group1152, Set<String>> g = new HashMap<>();
         for (Map.Entry<String, List<TimeAndWebSite1152>> entry : map.entrySet()) {
