@@ -7155,16 +7155,16 @@ public class Leetcode_10 {
 
     public class Trie1707 {
         private Trie1707[] children;
-        private final int L = 30;
+        private final int L = 29;
 
         public Trie1707() {
             children = new Trie1707[2];
         }
 
-        public void insert(int val) {
+        public void insert(int x) {
             Trie1707 node = this;
-            for (int i = L - 1; i >= 0; --i) {
-                int index = (val >> i) & 1;
+            for (int i = L; i >= 0; --i) {
+                int index = x >> i & 1;
                 if (node.children[index] == null) {
                     node.children[index] = new Trie1707();
                 }
@@ -7172,11 +7172,11 @@ public class Leetcode_10 {
             }
         }
 
-        public int getMaxXOR(int val) {
+        public int getMaxXOR(int x) {
             Trie1707 node = this;
             int res = 0;
-            for (int i = L - 1; i >= 0; --i) {
-                int bit = (val >> i) & 1;
+            for (int i = L; i >= 0; --i) {
+                int bit = x >> i & 1;
                 if (node.children[bit ^ 1] != null) {
                     res |= 1 << i;
                     bit ^= 1;
