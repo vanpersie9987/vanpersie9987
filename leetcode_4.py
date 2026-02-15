@@ -187,25 +187,63 @@ class leetcode_4:
                 return x
         return -1
 
-    # 3844. 最长的准回文子字符串 (Longest Almost-Palindromic Substring)
-    def almostPalindromic(self, s: str) -> int:
-        def dfs(i: int, j: int) -> int:
-            if i == j:
-                return 0
-            if i + 1 == j:
-                return 0 if s[i] == s[j] else 1
-            if memo[i][j] != -1:
-                return memo[i][j]
-            if s[i] == s[j]:
-                memo[i][j] = dfs(i + 1, j - 1)
-                return memo[i][j]
-            memo[i][j] = min(dfs(i + 1, j), dfs(i, j - 1)) + 1
-            return memo[i][j]
-        n = len(s)
-        res = 0
-        memo = [[-1] * n for _ in range(n)]
-        for i in range(n):
-            for j in range(i, n):
-                if dfs(i, j) <= 1:
-                    res = max(res, j - i + 1)
+    # 3845. 最大子数组异或值 (Maximum Subarray XOR with Bounded Range) --0-1字典树
+    def maxXor(self, nums: list[int], k: int) -> int:
+        class trie:
+            def __init__(self):
+                self.children = [None] * 2
+                self.cnt = 0
+
+            def insert(self, x: int):
+                node = self
+                for i in range(15, -1, -1):
+                    bit = x >> i & 1
+                    if node.children[bit] is None:
+                        node.children[bit] = trie()
+                    node = node.children[bit]
+                    node.cnt += 1
+
+            def delete(self, x: int):
+                node = self
+                for i in range(15, -1, -1):
+                    bit = x >> i & 1
+                    node = node.children[bit]
+                    node.cnt -= 1
+
+            def max_xor(self, x: int) -> int:
+                res = 0
+                node = self
+                for i in range(15, -1, -1):
+                    bit = x >> i & 1
+                    if node.children[bit ^ 1] and node.children[bit ^ 1].cnt:
+                        res ^= 1 << i
+                        bit ^= 1
+                    node = node.children[bit]
+                return res
+
+        pre = list(accumulate(nums, xor, initial=0)) # type: ignore
+        q_max = deque()
+        q_min = deque()
+        res = left = 0
+        _trie = trie()
+        for right, x in enumerate(nums):
+            _trie.insert(pre[right])
+
+            while q_max and x >= nums[q_max[-1]]:
+                q_max.pop()
+            q_max.append(right)
+
+            while q_min and x <= nums[q_min[-1]]:
+                q_min.pop()
+            q_min.append(right)
+
+            while nums[q_max[0]] - nums[q_min[0]] > k:
+                _trie.delete(pre[left])
+
+                if q_max[0] <= left:
+                    q_max.popleft()
+                if q_min[0] <= left:
+                    q_min.popleft()
+                left += 1
+            res = max(res, _trie.max_xor(pre[right + 1]))
         return res
