@@ -7785,4 +7785,23 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 3843. 频率不同的第一个元素 (First Element with Unique Frequency)
+    public int firstUniqueFreq(int[] nums) {
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int x : nums) {
+            cnts.merge(x, 1, Integer::sum);
+        }
+        Map<Integer, Integer> cntsToCnts = new HashMap<>();
+        for (int v : cnts.values()) {
+            cntsToCnts.merge(v, 1, Integer::sum);
+        }
+        for (int x : nums) {
+            if (cntsToCnts.get(cnts.get(x)) == 1) {
+                return x;
+            }
+        }
+        return -1;
+
+    }
 }
