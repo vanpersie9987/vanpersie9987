@@ -271,6 +271,11 @@ class leetcode_4:
         dfs(kill)
         return res
 
+    # 190. 颠倒二进制位 (Reverse Bits)
+    def reverseBits(self, n: int) -> int:
+        # 没有 O(1) 的库函数，只能用字符串转换代替
+        return int(bin(n)[2:].zfill(32)[::-1], 2)
+
     # 2174. 通过翻转行或列来去除所有的 1 II (Remove All Ones With Row and Column Flips II) --plus
     # def removeOnes(self, grid: List[List[int]]) -> int:
     #     @cache
