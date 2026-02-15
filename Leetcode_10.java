@@ -7240,7 +7240,7 @@ public class Leetcode_10 {
         public void insert(long val) {
             Trie2479 node = this;
             for (int i = L - 1; i >= 0; --i) {
-                int index = (int) ((val >> i) & 1);
+                int index = (int) (val >> i & 1);
                 if (node.children[index] == null) {
                     node.children[index] = new Trie2479();
                 }
@@ -7252,7 +7252,7 @@ public class Leetcode_10 {
             Trie2479 node = this;
             long res = 0L;
             for (int i = L - 1; i >= 0; --i) {
-                int bit = (int) ((val >> i) & 1);
+                int bit = (int) (val >> i & 1);
                 if (node == null) {
                     break;
                 }
