@@ -7382,7 +7382,7 @@ public class Leetcode_10 {
         public void insert(int x) {
             Trie1803 node = this;
             for (int i = L - 1; i >= 0; --i) {
-                int index = (x >> i) & 1;
+                int index = x >> i & 1;
                 if (node.children[index] == null) {
                     node.children[index] = new Trie1803();
                 }
@@ -7395,8 +7395,8 @@ public class Leetcode_10 {
             Trie1803 node = this;
             long res = 0L;
             for (int i = L - 1; i >= 0; --i) {
-                int x_bit = (x >> i) & 1;
-                int k_bit = (k >> i) & 1;
+                int x_bit = x >> i & 1;
+                int k_bit = k >> i & 1;
                 if (k_bit == 0) {
                     if (node.children[x_bit] != null) {
                         node = node.children[x_bit];
