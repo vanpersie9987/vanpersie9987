@@ -6993,12 +6993,12 @@ public class Leetcode_10 {
         Trie2935 trie = new Trie2935();
         int res = 0;
         int j = 0;
-        for (int i = 0; i < n; ++i) {
-            while (nums[j] * 2 < nums[i]) {
+        for (int x : nums) {
+            while (nums[j] * 2 < x) {
                 trie.delete(nums[j++]);
             }
-            trie.insert(nums[i]);
-            res = Math.max(res, trie.check(nums[i]));
+            trie.insert(x);
+            res = Math.max(res, trie.check(x));
         }
         return res;
 
@@ -7016,7 +7016,7 @@ public class Leetcode_10 {
         public void insert(int x) {
             Trie2935 node = this;
             for (int i = highestBit2935; i >= 0; --i) {
-                int index = (x >> i) & 1;
+                int index = x >> i & 1;
                 if (node.children[index] == null) {
                     node.children[index] = new Trie2935();
                 }
@@ -7028,7 +7028,7 @@ public class Leetcode_10 {
         public void delete(int x) {
             Trie2935 node = this;
             for (int i = highestBit2935; i >= 0; --i) {
-                int index = (x >> i) & 1;
+                int index = x >> i & 1;
                 node = node.children[index];
                 --node.cnt;
             }
@@ -7038,7 +7038,7 @@ public class Leetcode_10 {
             Trie2935 node = this;
             int res = 0;
             for (int i = highestBit2935; i >= 0; --i) {
-                int index = (x >> i) & 1;
+                int index = x >> i & 1;
                 if (node.children[index ^ 1] != null && node.children[index ^ 1].cnt > 0) {
                     index ^= 1;
                     res |= 1 << i;
@@ -7567,7 +7567,6 @@ public class Leetcode_10 {
         return res;
 
     }
-
 
     private long[] memo3840;
     private int n3840;
