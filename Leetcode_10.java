@@ -7616,8 +7616,6 @@ public class Leetcode_10 {
                 g[x][y * n + z] = 0;
                 --cnts[x];
             }
-
-
         }
 
         public int largestMatrix() {
@@ -7633,4 +7631,92 @@ public class Leetcode_10 {
         }
     }
 
+    // 3391. 设计一个高效的层跟踪三维二进制矩阵 (Design a 3D Binary Matrix with Efficient Layer
+    // Tracking) --plus
+    class Matrix3D2 {
+
+        private int n;
+        private int[][] g;
+        private int[] cnts;
+        // key : cnt (⬇️), val: idx (⬇️) 
+        private TreeMap<Integer, TreeSet<Integer>> cntToIdx;
+
+        public Matrix3D2(int n) {
+            this.n = n;
+            this.g = new int[n][n * n];
+            this.cnts = new int[n];
+            this.cntToIdx = new TreeMap<>(new Comparator<Integer>() {
+
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return Integer.compare(o2, o1);
+
+                }
+
+            });
+        }
+
+        public void setCell(int x, int y, int z) {
+            if (g[x][y * n + z] == 0) {
+                g[x][y * n + z] = 1;
+                int oldCnt = cnts[x]++;
+                cntToIdx.getOrDefault(oldCnt, new TreeSet<>(new Comparator<Integer>() {
+
+                    @Override
+                    public int compare(Integer o1, Integer o2) {
+                        return Integer.compare(o2, o1);
+                    }
+
+                })).remove(x);
+                if (cntToIdx.getOrDefault(oldCnt, new TreeSet<>()).isEmpty()) {
+                    cntToIdx.remove(oldCnt);
+                }
+                cntToIdx.computeIfAbsent(cnts[x], o -> new TreeSet<>(new Comparator<Integer>() {
+
+                    @Override
+                    public int compare(Integer o1, Integer o2) {
+                        return Integer.compare(o2, o1);
+                    }
+
+                })).add(x);
+            }
+
+        }
+
+        public void unsetCell(int x, int y, int z) {
+            if (g[x][y * n + z] == 1) {
+                g[x][y * n + z] = 0;
+                int oldCnt = cnts[x]--;
+                cntToIdx.getOrDefault(oldCnt, new TreeSet<>(new Comparator<Integer>() {
+
+                    @Override
+                    public int compare(Integer o1, Integer o2) {
+                        return Integer.compare(o2, o1);
+                    }
+
+                })).remove(x);
+                if (cntToIdx.getOrDefault(oldCnt, new TreeSet<>()).isEmpty()) {
+                    cntToIdx.remove(oldCnt);
+                }
+                if (cnts[x] != 0) {
+                    cntToIdx.computeIfAbsent(cnts[x], o -> new TreeSet<>(new Comparator<Integer>() {
+
+                        @Override
+                        public int compare(Integer o1, Integer o2) {
+                            return Integer.compare(o2, o1);
+                        }
+
+                    })).add(x);
+                }
+
+            }
+        }
+
+        public int largestMatrix() {
+            if (cntToIdx.isEmpty()) {
+                return n - 1;
+            }
+            return cntToIdx.firstEntry().getValue().first();
+        }
+    }
 }

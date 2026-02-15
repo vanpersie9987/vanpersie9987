@@ -10004,30 +10004,3 @@ class BigArray:
             res += rob(nums[i:j])
             i = j
         return res
-
-    # 3391. 设计一个高效的层跟踪三维二进制矩阵 (Design a 3D Binary Matrix with Efficient Layer Tracking) --plus
-    class Matrix3D:
-
-        def __init__(self, n: int):
-            self.g = [[0] * (n * n) for _ in range(n)]
-            self.cnts = [0] * n
-            self.n = n
-
-        def setCell(self, x: int, y: int, z: int) -> None:
-            if self.g[x][y * self.n + z] == 0:
-                self.g[x][y * self.n + z] = 1
-                self.cnts[x] += 1
-
-        def unsetCell(self, x: int, y: int, z: int) -> None:
-            if self.g[x][y * self.n + z] == 1:
-                self.g[x][y * self.n + z] = 0
-                self.cnts[x] -= 1
-
-        def largestMatrix(self) -> int:
-            mx = 0
-            res = self.n - 1
-            for x in range(self.n - 1, -1, -1):
-                if self.cnts[x] > mx:
-                    mx = self.cnts[x]
-                    res = x
-            return res
