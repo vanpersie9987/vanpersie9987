@@ -7891,4 +7891,43 @@ public class Leetcode_10 {
             return res;
         }
     }
+
+    // 3844. 最长的准回文子字符串 (Longest Almost-Palindromic Substring)
+    private int[][] memo3844;
+    private String s3844;
+
+    public int almostPalindromic(String s) {
+        int n = s.length();
+        this.s3844 = s;
+        this.memo3844 = new int[n][n];
+        for (int[] r : memo3844) {
+            Arrays.fill(r, -1);
+        }
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i; j < n; ++j) {
+                if (dfs3844(i, j) <= 1) {
+                    res = Math.max(res, j - i + 1);
+                }
+            }
+        }
+        return res;
+
+    }
+
+    private int dfs3844(int i, int j) {
+        if (i == j) {
+            return 0;
+        }
+        if (j - i == 1) {
+            return s3844.charAt(i) == s3844.charAt(j) ? 0 : 1;
+        }
+        if (memo3844[i][j] != -1) {
+            return memo3844[i][j];
+        }
+        if (s3844.charAt(i) == s3844.charAt(j)) {
+            return memo3844[i][j] = dfs3844(i + 1, j - 1);
+        }
+        return memo3844[i][j] = Math.min(dfs3844(i, j - 1), dfs3844(i + 1, j)) + 1;
+    }
 }
