@@ -7722,24 +7722,26 @@ public class Leetcode_10 {
 
     // 2524. 子数组的最大频率分数 (Maximum Frequency Score of a Subarray) --plus
     public int maxFrequencyScore(int[] nums, int k) {
-        Map<Integer, Integer> cnts = new HashMap<>();
+        int mx = 0;
+        for (int x : nums) {
+            mx = Math.max(mx, x);
+        }
+        int[] cnts = new int[mx + 1];
         int n = nums.length;
         int s = 0;
         int res = 0;
         final int MOD = (int) (1e9 + 7);
         for (int i = 0; i < n; ++i) {
             int x = nums[i];
-            if (cnts.getOrDefault(x, 0) != 0) {
-                s = ((s - pow(x, cnts.get(x))) % MOD + MOD) % MOD;
+            if (cnts[x] != 0) {
+                s = (s - pow2524(x, cnts[x]) % MOD + MOD) % MOD;
             }
-            cnts.merge(x, 1, Integer::sum);
-            s = (s + pow(x, cnts.get(x))) % MOD;
+            s = (s + pow2524(x, ++cnts[x])) % MOD;
             if (i >= k) {
                 int y = nums[i - k];
-                s = ((s - pow(y, cnts.get(y))) % MOD + MOD) % MOD;
-                cnts.merge(y, -1, Integer::sum);
-                if (cnts.getOrDefault(y, 0) != 0) {
-                    s = (s + pow(y, cnts.get(y))) % MOD;
+                s = ((s - pow2524(y, cnts[y])) % MOD + MOD) % MOD;
+                if (--cnts[y] > 0) {
+                    s = (s + pow2524(y, cnts[y])) % MOD;
                 }
             }
             if (i >= k - 1) {
@@ -7750,12 +7752,12 @@ public class Leetcode_10 {
 
     }
 
-    private int pow(int a, int b) {
+    private int pow2524(int a, int b) {
         if (b == 0) {
             return 1;
         }
         final int MOD = (int) (1e9 + 7);
-        int res = pow(a, b >> 1);
+        int res = pow2524(a, b >> 1);
         res = (int) (((long) res * res) % MOD);
         if ((b & 1) != 0) {
             res = (int) (((long) res * a) % MOD);
