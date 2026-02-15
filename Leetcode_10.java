@@ -7972,13 +7972,14 @@ public class Leetcode_10 {
     public int[] amountPainted(int[][] paint) {
         // key : end, val: start
         TreeMap<Integer, Integer> map = new TreeMap<>();
+        map.put(Integer.MAX_VALUE, Integer.MAX_VALUE);
         int n = paint.length;
         int[] res = new int[n];
         for (int i = 0; i < n; ++i) {
             int l = paint[i][0];
             int r = paint[i][1];
             int s = 0;
-            while (map.ceilingEntry(l) != null && map.ceilingEntry(l).getValue() <= r) {
+            while (map.ceilingEntry(l).getValue() <= r) {
                 Map.Entry<Integer, Integer> entry = map.ceilingEntry(l);
                 l = Math.min(l, entry.getValue());
                 r = Math.max(r, entry.getKey());
@@ -7990,6 +7991,7 @@ public class Leetcode_10 {
             res[i] = s;
         }
         return res;
+
     }
 
 }
