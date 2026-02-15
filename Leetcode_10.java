@@ -7764,4 +7764,25 @@ public class Leetcode_10 {
         }
         return res;
     }
+
+    // 3842. 灯泡开关 (Toggle Light Bulbs)
+    public List<Integer> toggleLightBulbs(List<Integer> bulbs) {
+        int[] status = new int[101];
+        Arrays.fill(status, -1);
+        for (int b : bulbs) {
+            if (status[b] == -1) {
+                status[b] = 1;
+            } else {
+                status[b] ^= 1;
+            }
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < 101; ++i) {
+            if (status[i] == 1) {
+                res.add(i);
+            }
+        }
+        return res;
+
+    }
 }
