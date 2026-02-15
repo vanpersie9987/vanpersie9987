@@ -163,3 +163,14 @@ class leetcode_4:
             if i >= k - 1:
                 res = max(res, s)
         return res
+    
+    # 3842. 灯泡开关 (Toggle Light Bulbs)
+    def toggleLightBulbs(self, bulbs: list[int]) -> list[int]:
+        status = [-1] * 101
+        for b in bulbs:
+            if status[b] == -1:
+                status[b] *= -1
+            else:
+                status[b] ^= 1
+        return [i for i, s in enumerate(status) if s > 0]
+        

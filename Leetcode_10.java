@@ -7771,7 +7771,7 @@ public class Leetcode_10 {
         Arrays.fill(status, -1);
         for (int b : bulbs) {
             if (status[b] == -1) {
-                status[b] = 1;
+                status[b] *= -1;
             } else {
                 status[b] ^= 1;
             }
