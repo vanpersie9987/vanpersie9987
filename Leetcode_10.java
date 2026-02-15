@@ -7719,4 +7719,47 @@ public class Leetcode_10 {
             return cntToIdx.firstEntry().getValue().first();
         }
     }
+
+    // 2524. 子数组的最大频率分数 (Maximum Frequency Score of a Subarray) --plus
+    public int maxFrequencyScore(int[] nums, int k) {
+        Map<Integer, Integer> cnts = new HashMap<>();
+        int n = nums.length;
+        int s = 0;
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        for (int i = 0; i < n; ++i) {
+            int x = nums[i];
+            if (cnts.getOrDefault(x, 0) != 0) {
+                s = ((s - pow(x, cnts.get(x))) % MOD + MOD) % MOD;
+            }
+            cnts.merge(x, 1, Integer::sum);
+            s = (s + pow(x, cnts.get(x))) % MOD;
+            if (i >= k) {
+                int y = nums[i - k];
+                s = ((s - pow(y, cnts.get(y))) % MOD + MOD) % MOD;
+                cnts.merge(y, -1, Integer::sum);
+                if (cnts.getOrDefault(y, 0) != 0) {
+                    s = (s + pow(y, cnts.get(y))) % MOD;
+                }
+            }
+            if (i >= k - 1) {
+                res = Math.max(res, s);
+            }
+        }
+        return res;
+
+    }
+
+    private int pow(int a, int b) {
+        if (b == 0) {
+            return 1;
+        }
+        final int MOD = (int) (1e9 + 7);
+        int res = pow(a, b >> 1);
+        res = (int) (((long) res * res) % MOD);
+        if ((b & 1) != 0) {
+            res = (int) (((long) res * a) % MOD);
+        }
+        return res;
+    }
 }
