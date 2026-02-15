@@ -7519,7 +7519,7 @@ public class Leetcode_10 {
         return List.of(res.get(0).a, res.get(0).b, res.get(0).c);
     }
 
-    // 带权单词映射 (Weighted Word Mapping)
+    // 3838. 带权单词映射 (Weighted Word Mapping)
     public String mapWordWeights(String[] words, int[] weights) {
         StringBuilder res = new StringBuilder();
         for (String w : words) {
@@ -7533,6 +7533,7 @@ public class Leetcode_10 {
         return res.toString();
     }
 
+    // 3839. 前缀连接组的数目 (Number of Prefix Connected Groups)
     public int prefixConnected(String[] words, int k) {
         Map<String, Integer> map = new HashMap<>();
         for (String w : words) {
@@ -7550,7 +7551,7 @@ public class Leetcode_10 {
         return res;
     }
 
-    // 打家劫舍 V (House Robber V)
+    // 3840. 打家劫舍 V (House Robber V)
     public long rob(int[] nums, int[] colors) {
         int i = 0;
         int n = nums.length;
@@ -7560,33 +7561,34 @@ public class Leetcode_10 {
             while (j < n && colors[j] == colors[i]) {
                 ++j;
             }
-            res += cal(Arrays.copyOfRange(nums, i, j));
+            res += cal3840(Arrays.copyOfRange(nums, i, j));
             i = j;
         }
         return res;
 
     }
 
-    private long[] memo;
-    private int n;
-    private int[] a;
 
-    private long cal(int[] a) {
-        this.a = a;
-        this.n = a.length;
-        this.memo = new long[n];
-        Arrays.fill(memo, -1L);
-        return dfs(0);
+    private long[] memo3840;
+    private int n3840;
+    private int[] a3840;
+
+    private long cal3840(int[] a) {
+        this.a3840 = a;
+        this.n3840 = a.length;
+        this.memo3840 = new long[n3840];
+        Arrays.fill(memo3840, -1L);
+        return dfs3840(0);
     }
 
-    private long dfs(int i) {
-        if (i >= n) {
+    private long dfs3840(int i) {
+        if (i >= n3840) {
             return 0L;
         }
-        if (memo[i] != -1L) {
-            return memo[i];
+        if (memo3840[i] != -1L) {
+            return memo3840[i];
         }
-        return memo[i] = Math.max(dfs(i + 1), dfs(i + 2) + a[i]);
+        return memo3840[i] = Math.max(dfs3840(i + 1), dfs3840(i + 2) + a3840[i]);
     }
 
     // 3391. 设计一个高效的层跟踪三维二进制矩阵 (Design a 3D Binary Matrix with Efficient Layer
@@ -7638,7 +7640,7 @@ public class Leetcode_10 {
         private int n;
         private int[][] g;
         private int[] cnts;
-        // key : cnt (⬇️), val: idx (⬇️) 
+        // key : cnt (⬇️), val: idx (⬇️)
         private TreeMap<Integer, TreeSet<Integer>> cntToIdx;
 
         public Matrix3D2(int n) {
@@ -7803,5 +7805,90 @@ public class Leetcode_10 {
         }
         return -1;
 
+    }
+
+    // 3845. 最大子数组异或值 (Maximum Subarray XOR with Bounded Range)
+    public int maxXor(int[] nums, int k) {
+        int n = nums.length;
+        int[] pre = new int[n + 1];
+        for (int i = 0; i < n; ++i) {
+            pre[i + 1] = pre[i] ^ nums[i];
+        }
+        int res = 0;
+        int left = 0;
+        Trie3845 trie = new Trie3845();
+        Deque<Integer> qMax = new ArrayDeque<>();
+        Deque<Integer> qMin = new ArrayDeque<>();
+        for (int i = 0; i < n; ++i) {
+            trie.insert(pre[i]);
+            while (!qMax.isEmpty() && nums[i] >= nums[qMax.peekLast()]) {
+                qMax.pollLast();
+            }
+            qMax.offer(i);
+            while (!qMin.isEmpty() && nums[i] <= nums[qMin.peekLast()]) {
+                qMin.pollLast();
+            }
+            qMin.offer(i);
+
+            while (nums[qMax.peekFirst()] - nums[qMin.peekFirst()] > k) {
+                trie.delete(pre[left]);
+                if (qMin.peekFirst() <= left) {
+                    qMin.pollFirst();
+                }
+                if (qMax.peekFirst() <= left) {
+                    qMax.pollFirst();
+                }
+                ++left;
+
+            }
+            res = Math.max(res, trie.check(pre[i + 1]));
+        }
+        return res;
+
+    }
+
+    public class Trie3845 {
+        private Trie3845[] children;
+        private int cnt;
+        private static final int L = 15;
+
+        public Trie3845() {
+            this.children = new Trie3845[2];
+        }
+
+        public void insert(int x) {
+            Trie3845 node = this;
+            for (int i = L; i >= 0; --i) {
+                int bit = (x >> i) & 1;
+                if (node.children[bit] == null) {
+                    node.children[bit] = new Trie3845();
+                }
+                node = node.children[bit];
+                ++node.cnt;
+            }
+        }
+
+        public void delete(int x) {
+            Trie3845 node = this;
+            for (int i = L; i >= 0; --i) {
+                int bit = (x >> i) & 1;
+                node = node.children[bit];
+                --node.cnt;
+            }
+        }
+
+        public int check(int x) {
+            int res = 0;
+            Trie3845 node = this;
+            for (int i = L; i >= 0; --i) {
+                int bit = (x >> i) & 1;
+                if (node.children[bit ^ 1] != null && node.children[bit ^ 1].cnt > 0) {
+                    res ^= 1 << i;
+                    bit ^= 1;
+                }
+                node = node.children[bit];
+            }
+            return res;
+        }
     }
 }

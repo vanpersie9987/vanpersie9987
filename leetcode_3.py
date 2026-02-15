@@ -9962,7 +9962,7 @@ class BigArray:
             carry >>= 1
         return "".join(res[::-1])
 
-    # 带权单词映射 (Weighted Word Mapping)
+    # 3838. 带权单词映射 (Weighted Word Mapping)
     def mapWordWeights(self, words: List[str], weights: List[int]) -> str:
         res = []
         for w in words:
@@ -9973,7 +9973,7 @@ class BigArray:
             res.append(chr(25 - s + ord("a")))
         return "".join(res)
 
-    # 前缀连接组的数目 (Number of Prefix Connected Groups)
+    # 3839. 前缀连接组的数目 (Number of Prefix Connected Groups)
     def prefixConnected(self, words: List[str], k: int) -> int:
         d = defaultdict(int)
         for w in words:
@@ -9982,7 +9982,7 @@ class BigArray:
             d[w[:k]] += 1
         return sum(v >= 2 for v in d.values())
 
-    # 打家劫舍 V (House Robber V)
+    # 3840. 打家劫舍 V (House Robber V)
     def rob(self, nums: List[int], colors: List[int]) -> int:
         def rob(a: list) -> int:
             @cache

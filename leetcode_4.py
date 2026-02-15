@@ -186,3 +186,26 @@ class leetcode_4:
             if cnts[d[x]] == 1:
                 return x
         return -1
+
+    # 3844. 最长的准回文子字符串 (Longest Almost-Palindromic Substring)
+    def almostPalindromic(self, s: str) -> int:
+        def dfs(i: int, j: int) -> int:
+            if i == j:
+                return 0
+            if i + 1 == j:
+                return 0 if s[i] == s[j] else 1
+            if memo[i][j] != -1:
+                return memo[i][j]
+            if s[i] == s[j]:
+                memo[i][j] = dfs(i + 1, j - 1)
+                return memo[i][j]
+            memo[i][j] = min(dfs(i + 1, j), dfs(i, j - 1)) + 1
+            return memo[i][j]
+        n = len(s)
+        res = 0
+        memo = [[-1] * n for _ in range(n)]
+        for i in range(n):
+            for j in range(i, n):
+                if dfs(i, j) <= 1:
+                    res = max(res, j - i + 1)
+        return res
