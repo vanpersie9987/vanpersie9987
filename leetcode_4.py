@@ -306,3 +306,35 @@ class leetcode_4:
                 n >>= 1
             res += 1
         return res
+
+    # 3209. 子数组按位与值为 K 的数目 (Number of Subarrays With AND Value of K) --plus
+    def countSubarrays(self, nums: List[int], k: int) -> int:
+        def cal(k: int) -> int:
+            def add(x: int):
+                while x:
+                    lb = (x & -x).bit_length() - 1
+                    cnts[lb] += 1
+                    x &= x - 1
+
+            def sub(x: int):
+                while x:
+                    lb = (x & -x).bit_length() - 1
+                    cnts[lb] -= 1
+                    x &= x - 1
+            def check(l: int, r: int) -> int:
+                res = 0
+                for i, x in enumerate(cnts):
+                    if x == r - l + 1:
+                        res ^= 1 << i
+                return res
+            cnts = [0] * 30
+            left = res = 0
+            for right, x in enumerate(nums):
+                add(x)
+                while check(left, right) < k:
+                    sub(nums[left])
+                    left += 1
+                res += right - left + 1
+            return res
+
+        return cal(k) - cal(k + 1)
