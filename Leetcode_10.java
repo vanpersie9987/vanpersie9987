@@ -7999,4 +7999,48 @@ public class Leetcode_10 {
         return s.toLowerCase();
 
     }
+
+    // 3209. 子数组按位与值为 K 的数目 (Number of Subarrays With AND Value of K)
+    public long countSubarrays(int[] nums, int k) {
+        return cal3209(nums, k) - cal3209(nums, k + 1);
+
+    }
+
+    private long cal3209(int[] nums, int k) {
+        int n = nums.length;
+        int[] cnts = new int[30];
+        int left = 0;
+        long res = 0L;
+        for (int right = 0; right < n; ++right) {
+            add3209(cnts, nums[right]);
+            while (check3209(cnts, left, right) < k) {
+                sub3209(cnts, nums[left]);
+                ++left;
+            }
+            res += right - left + 1;
+        }
+        return res;
+    }
+
+    private int check3209(int[] cnts, int left, int right) {
+        int res = 0;
+        for (int i = cnts.length - 1; i >= 0; --i) {
+            if (cnts[i] == right - left + 1) {
+                res ^= 1 << i;
+            }
+        }
+        return res;
+    }
+
+    private void sub3209(int[] cnts, int x) {
+        for (int c = x; c != 0; c &= c - 1) {
+            --cnts[Integer.numberOfTrailingZeros(c)];
+        }
+    }
+
+    private void add3209(int[] cnts, int x) {
+        for (int c = x; c != 0; c &= c - 1) {
+            ++cnts[Integer.numberOfTrailingZeros(c)];
+        }
+    }
 }
