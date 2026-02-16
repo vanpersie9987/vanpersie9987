@@ -1718,34 +1718,47 @@ class Union924:
             return not self.q
 
     # 232. 用栈实现队列 (Implement Queue using Stacks)
+    # 面试题 03.04. 化栈为队 (Implement Queue using Stacks LCCI)
     class MyQueue:
-        __slots__ = "list1", "list2"
 
         def __init__(self):
-            self.list1 = []
-            self.list2 = []
+            """
+            Initialize your data structure here.
+            """
+            self.q1 = deque()
+            self.q2 = deque()
 
         def push(self, x: int) -> None:
-            self.list2.append(x)
+            """
+            Push element x to the back of queue.
+            """
+            self.q1.append(x)
 
         def pop(self) -> int:
-            if self.list1:
-                return self.list1.pop()
-            self.trans()
-            return self.list1.pop()
+            """
+            Removes the element from in front of queue and returns that element.
+            """
+            if self.q2:
+                return self.q2.pop()
+            while self.q1:
+                self.q2.append(self.q1.pop())
+            return self.q2.pop()
 
         def peek(self) -> int:
-            if self.list1:
-                return self.list1[-1]
-            self.trans()
-            return self.list1[-1]
+            """
+            Get the front element.
+            """
+            if self.q2:
+                return self.q2[-1]
+            while self.q1:
+                self.q2.append(self.q1.pop())
+            return self.q2[-1]
 
         def empty(self) -> bool:
-            return not self.list1 and not self.list2
-
-        def trans(self) -> None:
-            while self.list2:
-                self.list1.append(self.list2.pop())
+            """
+            Returns whether the queue is empty.
+            """
+            return len(self.q1) == 0 and len(self.q2) == 0
 
     # 3065. 超过阈值的最少操作数 I (Minimum Operations to Exceed Threshold Value I)
     def minOperations(self, nums: List[int], k: int) -> int:

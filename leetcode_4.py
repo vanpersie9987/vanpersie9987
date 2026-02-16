@@ -8,6 +8,7 @@ import math
 from platform import node
 from posixpath import isabs
 from pydoc import plain
+import queue
 from signal import valid_signals
 from sqlite3 import paramstyle
 import stat
@@ -43,7 +44,7 @@ from multiprocessing import reduction
 from operator import is_, le, ne, truediv
 from os import eventfd, lseek, minor, name, pread
 from pickletools import read_uint1
-from queue import PriorityQueue
+from queue import PriorityQueue, Queue
 from re import A, L, S, T, X
 import re
 from socket import NI_NUMERICSERV
