@@ -7993,4 +7993,10 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 709. 转换成小写字母 (To Lower Case)
+    public String toLowerCase(String s) {
+        return s.toLowerCase();
+
+    }
 }
