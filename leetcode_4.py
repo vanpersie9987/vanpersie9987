@@ -338,3 +338,15 @@ class leetcode_4:
             return res
         # 按位与 >= k 的子数组个数
         return cal(k) - cal(k + 1)
+
+    # 401. 二进制手表 (Binary Watch)
+    def readBinaryWatch(self, turnedOn: int) -> List[str]:
+        res = []
+        for i in range(1 << 10):
+            if i.bit_count() == turnedOn:
+                h = i >> 6
+                m = i & ((1 << 6) - 1)
+                if h >= 12 or m >= 60:
+                    continue
+                res.append(f"{h:1d}" + ":" + f"{m:02d}")
+        return res
