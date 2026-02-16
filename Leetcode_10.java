@@ -8002,6 +8002,7 @@ public class Leetcode_10 {
 
     // 3209. 子数组按位与值为 K 的数目 (Number of Subarrays With AND Value of K)
     public long countSubarrays(int[] nums, int k) {
+        // 按位与 >= k 的子数组个数
         return cal3209(nums, k) - cal3209(nums, k + 1);
 
     }

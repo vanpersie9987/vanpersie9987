@@ -336,5 +336,5 @@ class leetcode_4:
                     left += 1
                 res += right - left + 1
             return res
-
+        # 按位与 >= k 的子数组个数
         return cal(k) - cal(k + 1)
