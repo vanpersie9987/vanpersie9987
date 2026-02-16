@@ -5247,7 +5247,7 @@ class leetcode_1:
         dfs(0, 0)
         return res
 
-    # 面试题 08.01. 三步问题
+    # 面试题 08.01. 三步问题 (Three Steps Problem LCCI)
     def waysToStep(self, n: int) -> int:
         a, b, c = 4, 2, 1
         m = 10**9 + 7
@@ -5258,6 +5258,22 @@ class leetcode_1:
         for _ in range(n - 3):
             a, b, c = (a + b + c) % m, a, b
         return a
+    
+    # 面试题 08.01. 三步问题 (Three Steps Problem LCCI)
+    def waysToStep(self, n: int) -> int:
+        @cache
+        def dfs(i: int) -> int:
+            if i == 3:
+                return 4
+            if i == 2:
+                return 2
+            if i == 1:
+                return 1
+            return (dfs(i - 3) + dfs(i - 2) + dfs(i - 1)) % MOD
+        MOD = 10**9 + 7
+        res = dfs(n)
+        dfs.cache_clear()
+        return res
 
     # 2266. 统计打字方案数 (Count Number of Texts)
     def countTexts(self, pressedKeys: str) -> int:
