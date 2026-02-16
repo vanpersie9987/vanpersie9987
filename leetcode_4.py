@@ -364,8 +364,8 @@ class leetcode_4:
                 sl.discard(nums[i - k])
             if i >= k - 1:
                 if k & 1:
-                    res.append(sl[len(sl) // 2])
+                    res.append(sl[k // 2])
                 else:
-                    s = sl[len(sl) // 2] + sl[len(sl) // 2 - 1]
+                    s = sl[k // 2] + sl[k // 2 - 1]
                     res.append(s / 2)
         return res
