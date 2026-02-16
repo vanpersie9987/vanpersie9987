@@ -321,12 +321,14 @@ class leetcode_4:
                     lb = (x & -x).bit_length() - 1
                     cnts[lb] -= 1
                     x &= x - 1
+
             def check(l: int, r: int) -> int:
                 res = 0
                 for i, x in enumerate(cnts):
                     if x == r - l + 1:
                         res ^= 1 << i
                 return res
+
             cnts = [0] * 30
             left = res = 0
             for right, x in enumerate(nums):
@@ -336,6 +338,7 @@ class leetcode_4:
                     left += 1
                 res += right - left + 1
             return res
+
         # 按位与 >= k 的子数组个数
         return cal(k) - cal(k + 1)
 
@@ -348,5 +351,5 @@ class leetcode_4:
                 m = i & ((1 << 6) - 1)
                 if h >= 12 or m >= 60:
                     continue
-                res.append(f"{h:1d}" + ":" + f"{m:02d}")
+                res.append(f"{h:01d}" + ":" + f"{m:02d}")
         return res
