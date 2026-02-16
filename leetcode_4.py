@@ -351,5 +351,5 @@ class leetcode_4:
                 m = i & ((1 << 6) - 1)
                 if h >= 12 or m >= 60:
                     continue
-                res.append(f"{h:01d}" + ":" + f"{m:02d}")
+                res.append(f"{h}:{m:02d}")
         return res
