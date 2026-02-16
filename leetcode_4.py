@@ -275,3 +275,7 @@ class leetcode_4:
     def reverseBits(self, n: int) -> int:
         # 没有 O(1) 的库函数，只能用字符串转换代替
         return int(bin(n)[2:].zfill(32)[::-1], 2)
+
+    # 709. 转换成小写字母 (To Lower Case)
+    def toLowerCase(self, s: str) -> str:
+        return s.lower()
