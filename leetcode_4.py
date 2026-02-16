@@ -353,3 +353,19 @@ class leetcode_4:
                     continue
                 res.append(f"{h}:{m:02d}")
         return res
+
+    # 480. 滑动窗口中位数 (Sliding Window Median)
+    def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:
+        res = []
+        sl = SortedList()
+        for i, x in enumerate(nums):
+            sl.add(x)
+            if i >= k:
+                sl.discard(nums[i - k])
+            if i >= k - 1:
+                if k & 1:
+                    res.append(sl[len(sl) // 2])
+                else:
+                    s = sl[len(sl) // 2] + sl[len(sl) // 2 - 1]
+                    res.append(s / 2)
+        return res
