@@ -4954,6 +4954,46 @@ public class Leetcode_7 {
         }
     }
 
+    // 1483. 树节点的第 K 个祖先 (Kth Ancestor of a Tree Node) --LCA 最近公共祖先
+    class TreeAncestor2 {
+        private final int[][] fa;
+
+        public TreeAncestor2(int n, int[] parent) {
+            int m = 32 - Integer.numberOfLeadingZeros(n);
+            this.fa = new int[n][m];
+            for (int i = 0; i < n; ++i) {
+                fa[i][0] = parent[i];
+            }
+            for (int i = 0; i < m - 1; ++i) {
+                for (int x = 0; x < n; ++x) {
+                    int p = fa[x][i];
+                    fa[x][i + 1] = p < 0 ? -1 : fa[p][i];
+                }
+            }
+        }
+
+        public int getKthAncestor(int node, int k) {
+            int m = 32 - Integer.numberOfLeadingZeros(k); // k 的二进制长度
+            for (int i = 0; i < m; i++) {
+                if ((k >> i & 1) > 0) { // k 的二进制从低到高第 i 位是 1
+                    node = fa[node][i];
+                    if (node < 0)
+                        break;
+                }
+            }
+            return node;
+        }
+
+        // 另一种写法，不断去掉 k 的最低位的 1
+        public int getKthAncestor2(int node, int k) {
+            for (; k > 0 && node != -1; k &= k - 1) {
+                node = fa[node][Integer.numberOfTrailingZeros(k)];
+            }
+            return node;
+        }
+
+    }
+
     // 2670. 找出不同元素数目差数组 (Find the Distinct Difference Array)
     public int[] distinctDifferenceArray(int[] nums) {
         int[] cnts = new int[51];
