@@ -8044,4 +8044,104 @@ public class Leetcode_10 {
             ++cnts[Integer.numberOfTrailingZeros(c)];
         }
     }
+
+    // 最近公共祖先（LCA）、倍增算法 带权树 LCA 模板（节点编号从 0 开始）：
+    class LcaBinaryLifting {
+        private final int[] depth;
+        private final int[][] pa;
+
+        public LcaBinaryLifting(int[][] edges) {
+            int n = edges.length + 1;
+            int m = 32 - Integer.numberOfLeadingZeros(n); // n 的二进制长度
+            List<Integer>[] g = new ArrayList[n];
+            Arrays.setAll(g, e -> new ArrayList<>());
+            for (int[] e : edges) {
+                // 如果题目的节点编号从 1 开始，改成 x=e[0]-1 和 y=e[1]-1
+                int x = e[0] - 1, y = e[1] - 1;
+                g[x].add(y);
+                g[y].add(x);
+            }
+
+            depth = new int[n];
+            pa = new int[m][n];
+
+            dfs(g, 0, -1);
+
+            for (int i = 0; i < m - 1; i++) {
+                for (int x = 0; x < n; x++) {
+                    int p = pa[i][x];
+                    pa[i + 1][x] = p < 0 ? -1 : pa[i][p];
+                }
+            }
+        }
+
+        private void dfs(List<Integer>[] g, int x, int fa) {
+            pa[0][x] = fa;
+            for (int y : g[x]) {
+                if (y != fa) {
+                    depth[y] = depth[x] + 1;
+                    dfs(g, y, x);
+                }
+            }
+        }
+
+        // 返回 node 的第 k 个祖先节点
+        // 如果不存在，返回 -1
+        public int getKthAncestor(int node, int k) {
+            for (; k > 0 && node >= 0; k &= k - 1) {
+                node = pa[Integer.numberOfTrailingZeros(k)][node];
+            }
+            return node;
+        }
+
+        // 返回 x 和 y 的最近公共祖先（节点编号从 0 开始）
+        public int getLCA(int x, int y) {
+            if (depth[x] > depth[y]) {
+                int tmp = y;
+                y = x;
+                x = tmp;
+            }
+            // 使 y 和 x 在同一深度
+            y = getKthAncestor(y, depth[y] - depth[x]);
+            if (y == x) {
+                return x;
+            }
+            for (int i = pa.length - 1; i >= 0; i--) {
+                int px = pa[i][x], py = pa[i][y];
+                if (px != py) {
+                    x = px;
+                    y = py; // 同时往上跳 2^i 步
+                }
+            }
+            return pa[0][x];
+        }
+
+        // 返回 x 到 y 的距离（最短路长度）
+        public int getDis(int x, int y) {
+            return depth[x] + depth[y] - depth[getLCA(x, y)] * 2;
+        }
+    }
+
+    // 3559. 给边赋权值的方案数 II (Number of Ways to Assign Edge Weights II) --LCA 最近公共祖先
+    public int[] assignEdgeWeights(int[][] edges, int[][] queries) {
+        LcaBinaryLifting lca = new LcaBinaryLifting(edges);
+        int m = queries.length;
+        int n = edges.length + 1;
+        int[] pow2 = new int[n + 1];
+        pow2[0] = 1;
+        final int MOD = (int) (1e9 + 7);
+        for (int i = 1; i < n + 1; ++i) {
+            pow2[i] = pow2[i - 1] * 2;
+            pow2[i] %= MOD;
+        }
+        int[] res = new int[m];
+        for (int i = 0; i < m; ++i) {
+            int d = lca.getDis(queries[i][0] - 1, queries[i][1] - 1);
+            if (d != 0) {
+                res[i] = pow2[d - 1];
+            }
+        }
+        return res;
+
+    }
 }

@@ -3072,9 +3072,6 @@ class Union924:
                 k ^= lb
             return node
 
-
-
-
     # 86. 分隔链表 (Partition List)
     def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:
         cur0 = dummy0 = ListNode(0)
