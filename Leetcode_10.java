@@ -8045,7 +8045,7 @@ public class Leetcode_10 {
         }
     }
 
-    // 最近公共祖先（LCA）、倍增算法 带权树 LCA 模板（节点编号从 0 开始）：
+    // 最近公共祖先（LCA）、倍增算法 边权为1 LCA 模板（节点编号从 0 开始）：
     class LcaBinaryLifting {
         private final int[] depth;
         private final int[][] pa;
@@ -8140,6 +8140,102 @@ public class Leetcode_10 {
             if (d != 0) {
                 res[i] = pow2[d - 1];
             }
+        }
+        return res;
+
+    }
+
+    // 最近公共祖先（LCA）、倍增算法 带权树 LCA 模板（节点编号从 0 开始）：
+    class LcaBinaryLifting2 {
+        private final int[] depth;
+        private final int[] dis; // 如果是无权树（边权为 1），dis 可以去掉，用 depth 代替
+        private final int[][] pa;
+
+        public LcaBinaryLifting2(int[][] edges) {
+            int n = edges.length + 1;
+            int m = 32 - Integer.numberOfLeadingZeros(n); // n 的二进制长度
+            List<int[]>[] g = new ArrayList[n];
+            Arrays.setAll(g, e -> new ArrayList<>());
+            for (int[] e : edges) {
+                // 如果题目的节点编号从 1 开始，改成 x=e[0]-1 和 y=e[1]-1
+                int x = e[0], y = e[1], w = e[2];
+                g[x].add(new int[] { y, w });
+                g[y].add(new int[] { x, w });
+            }
+
+            depth = new int[n];
+            dis = new int[n];
+            pa = new int[m][n];
+
+            dfs(g, 0, -1);
+
+            for (int i = 0; i < m - 1; i++) {
+                for (int x = 0; x < n; x++) {
+                    int p = pa[i][x];
+                    pa[i + 1][x] = p < 0 ? -1 : pa[i][p];
+                }
+            }
+        }
+
+        private void dfs(List<int[]>[] g, int x, int fa) {
+            pa[0][x] = fa;
+            for (int[] e : g[x]) {
+                int y = e[0];
+                if (y != fa) {
+                    depth[y] = depth[x] + 1;
+                    dis[y] = dis[x] + e[1];
+                    dfs(g, y, x);
+                }
+            }
+        }
+
+        // 返回 node 的第 k 个祖先节点
+        // 如果不存在，返回 -1
+        public int getKthAncestor(int node, int k) {
+            for (; k > 0 && node >= 0; k &= k - 1) {
+                node = pa[Integer.numberOfTrailingZeros(k)][node];
+            }
+            return node;
+        }
+
+        // 返回 x 和 y 的最近公共祖先（节点编号从 0 开始）
+        public int getLCA(int x, int y) {
+            if (depth[x] > depth[y]) {
+                int tmp = y;
+                y = x;
+                x = tmp;
+            }
+            // 使 y 和 x 在同一深度
+            y = getKthAncestor(y, depth[y] - depth[x]);
+            if (y == x) {
+                return x;
+            }
+            for (int i = pa.length - 1; i >= 0; i--) {
+                int px = pa[i][x], py = pa[i][y];
+                if (px != py) {
+                    x = px;
+                    y = py; // 同时往上跳 2^i 步
+                }
+            }
+            return pa[0][x];
+        }
+
+        // 返回 x 到 y 的距离（最短路长度）
+        public int getDis(int x, int y) {
+            return dis[x] + dis[y] - dis[getLCA(x, y)] * 2;
+        }
+    }
+
+    // 3553. 包含要求路径的最小带权子图 II (Minimum Weighted Subgraph With the Required Paths II)
+    // --LCA 最近公共祖先
+    public int[] minimumWeight(int[][] edges, int[][] queries) {
+        LcaBinaryLifting2 lca = new LcaBinaryLifting2(edges);
+        int[] res = new int[queries.length];
+        for (int i = 0; i < queries.length; ++i) {
+            int a = queries[i][0];
+            int b = queries[i][1];
+            int c = queries[i][2];
+            res[i] = (lca.getDis(a, b) + lca.getDis(b, c) + lca.getDis(a, c)) / 2;
         }
         return res;
 
