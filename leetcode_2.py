@@ -3044,6 +3044,36 @@ class Union924:
                 else:
                     right = mid - 1
             return res
+        
+    # 1483. 树节点的第 K 个祖先 (Kth Ancestor of a Tree Node) --LCA 树上倍增
+    class TreeAncestor:
+        def __init__(self, n: int, parent: List[int]):
+            m = n.bit_length() - 1
+            pa = [[p] + [-1] * m for p in parent]
+            for i in range(m):
+                for x in range(n):
+                    if (p := pa[x][i]) != -1:
+                        pa[x][i + 1] = pa[p][i]
+            self.pa = pa
+
+        def getKthAncestor(self, node: int, k: int) -> int:
+            for i in range(k.bit_length()):
+                if k >> i & 1:  # k 的二进制从低到高第 i 位是 1
+                    node = self.pa[node][i]
+                    if node < 0:
+                        break
+            return node
+
+        # 另一种写法，不断去掉 k 的最低位的 1
+        def getKthAncestor2(self, node: int, k: int) -> int:
+            while k and node != -1:
+                lb = k & -k
+                node = self.pa[node][lb.bit_length() - 1]
+                k ^= lb
+            return node
+
+
+
 
     # 86. 分隔链表 (Partition List)
     def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:

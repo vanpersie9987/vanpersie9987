@@ -4954,7 +4954,7 @@ public class Leetcode_7 {
         }
     }
 
-    // 1483. 树节点的第 K 个祖先 (Kth Ancestor of a Tree Node) --LCA 最近公共祖先
+    // 1483. 树节点的第 K 个祖先 (Kth Ancestor of a Tree Node) --LCA 树上倍增
     class TreeAncestor2 {
         private final int[][] fa;
 
