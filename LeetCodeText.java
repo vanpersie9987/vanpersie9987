@@ -16266,27 +16266,16 @@ public class LeetCodeText {
     }
 
     // 696.计数二进制子串 (Count Binary Substrings)
-    // "00110011"
     public int countBinarySubstrings(String s) {
+        int pre = 0;
+        int j = -1;
         int res = 0;
-        int index = 1;
-        while (index < s.length()) {
-            while (index < s.length() && s.charAt(index) == s.charAt(index - 1)) {
-                ++index;
+        for (int i = 0; i < s.length(); ++i) {
+            if (i == s.length() - 1 || s.charAt(i) != s.charAt(i + 1)) {
+                res += Math.min(i - j, pre);
+                pre = i - j;
+                j = i;
             }
-            if (index >= s.length()) {
-                break;
-            }
-            int left = index - 2;
-            int right = index + 1;
-            ++res;
-            while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(left + 1)
-                    && s.charAt(right) == s.charAt(right - 1)) {
-                ++res;
-                --left;
-                ++right;
-            }
-            ++index;
         }
         return res;
     }
