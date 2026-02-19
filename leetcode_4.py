@@ -594,3 +594,66 @@ class LcaBinaryLifting:
                 cnts[ord(x) - ord("a")] -= c
             a.extend(d * c)
         return "".join(sorted(a))
+
+    # 面试题 17.07. 婴儿名字 (Baby Names LCCI)
+    def trulyMostPopular(self, names: List[str], synonyms: List[str]) -> List[str]:
+        class union:
+            def __init__(self, n: int):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+
+            def union(self, p1: int, p2: int):
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if r1 < r2:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r2] += 1
+
+        id = 0
+        name_cnt = defaultdict(int)
+        name_id = defaultdict(int)
+        for s in names:
+            p = s.find("(")
+            name = s[:p]
+            cnt = int(s[p + 1 : -1])
+            if name not in name_id:
+                name_id[name] = id
+                id += 1
+            name_cnt[name] = cnt
+        for syn in synonyms:
+            p = syn.index(",")
+            a = syn[1:p]
+            b = syn[p + 1 : -1]
+            if a not in name_id:
+                name_id[a] = id
+                id += 1
+                name_cnt[a] = 0
+            if b not in name_id:
+                name_id[b] = id
+                id += 1
+                name_cnt[b] = 0
+        u = union(id)
+        for syn in synonyms:
+            p = syn.find(",")
+            a = syn[1:p]
+            b = syn[p + 1 : -1]
+            u.union(name_id[a], name_id[b])
+        root_names = defaultdict(list)
+        for name, id in name_id.items():
+            r = u.get_root(id)
+            root_names[r].append(name)
+        res = []
+        for names in root_names.values():
+            names.sort()
+            cnt = sum(name_cnt[name] for name in names)
+            res.append(names[0] + "(" + str(cnt) + ")")
+        return res
