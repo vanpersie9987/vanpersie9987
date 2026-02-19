@@ -628,7 +628,7 @@ class LcaBinaryLifting:
             if name not in name_id:
                 name_id[name] = id
                 id += 1
-            name_cnt[name] = cnt
+                name_cnt[name] = cnt
         for syn in synonyms:
             p = syn.index(",")
             a = syn[1:p]
@@ -636,11 +636,9 @@ class LcaBinaryLifting:
             if a not in name_id:
                 name_id[a] = id
                 id += 1
-                name_cnt[a] = 0
             if b not in name_id:
                 name_id[b] = id
                 id += 1
-                name_cnt[b] = 0
         u = union(id)
         for syn in synonyms:
             p = syn.find(",")
