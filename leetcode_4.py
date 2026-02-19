@@ -548,7 +548,12 @@ class LcaBinaryLifting:
             while i <= j and not s[j].isalnum():
                 j -= 1
             if i <= j:
-                if not (s[i] == s[j] or s[i].isalpha() and s[j].isalpha and s[i].lower() == s[j].lower()):
+                if not (
+                    s[i] == s[j]
+                    or s[i].isalpha()
+                    and s[j].isalpha
+                    and s[i].lower() == s[j].lower()
+                ):
                     return False
                 i += 1
                 j -= 1
@@ -565,3 +570,27 @@ class LcaBinaryLifting:
             d2[b] = a
 
         return True
+
+    # 423. 从英文中重建数字 (Reconstruct Original Digits from English)
+    def originalDigits(self, s: str) -> str:
+        cnts = [0] * 26
+        for c in s:
+            cnts[ord(c) - ord("a")] += 1
+        a = []
+        for num, d in (
+            ("zero", "0"),
+            ("wto", "2"),
+            ("ufor", "4"),
+            ("fvie", "5"),
+            ("xsi", "6"),
+            ("vseen", "7"),
+            ("ghtei", "8"),
+            ("one", "1"),
+            ("three", "3"),
+            ("inne", "9"),
+        ):
+            c = cnts[ord(num[0]) - ord("a")]
+            for x in num:
+                cnts[ord(x) - ord("a")] -= c
+            a.extend(d * c)
+        return "".join(sorted(a))
