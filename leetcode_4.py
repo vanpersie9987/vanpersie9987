@@ -539,7 +539,7 @@ class LcaBinaryLifting:
         return res
 
     # 125. 验证回文串 (Valid Palindrome)
-    # LCR 018. 验证回文串 
+    # LCR 018. 验证回文串
     def isPalindrome(self, s: str) -> bool:
         i, j = 0, len(s) - 1
         while i <= j:
@@ -552,4 +552,16 @@ class LcaBinaryLifting:
                     return False
                 i += 1
                 j -= 1
+        return True
+
+    # 205. 同构字符串 (Isomorphic Strings)
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        d1 = defaultdict(str)
+        d2 = defaultdict(str)
+        for a, b in zip(s, t):
+            if d1[a] and d1[a] != b or d2[b] and d2[b] != a:
+                return False
+            d1[a] = b
+            d2[b] = a
+
         return True
