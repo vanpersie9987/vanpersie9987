@@ -537,3 +537,19 @@ class LcaBinaryLifting:
                 pre = c
                 j = i
         return res
+
+    # 125. 验证回文串 (Valid Palindrome)
+    # LCR 018. 验证回文串 
+    def isPalindrome(self, s: str) -> bool:
+        i, j = 0, len(s) - 1
+        while i <= j:
+            while i <= j and not s[i].isalnum():
+                i += 1
+            while i <= j and not s[j].isalnum():
+                j -= 1
+            if i <= j:
+                if not (s[i] == s[j] or s[i].isalpha() and s[j].isalpha and s[i].lower() == s[j].lower()):
+                    return False
+                i += 1
+                j -= 1
+        return True
