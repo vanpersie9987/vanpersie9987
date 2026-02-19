@@ -513,7 +513,7 @@ class LcaBinaryLifting:
 
     # 返回 x 到 y 的距离（最短路长度）
     def get_dis(self, x: int, y: int) -> int:
-        return self.dis[x] + self.dis[y] - self.dis[self.get_lca(x, y)]  * 2
+        return self.dis[x] + self.dis[y] - self.dis[self.get_lca(x, y)] * 2
 
     # 3553. 包含要求路径的最小带权子图 II (Minimum Weighted Subgraph With the Required Paths II) --LCA 最近公共祖先
     def minimumWeight(
@@ -524,3 +524,16 @@ class LcaBinaryLifting:
             (lca.get_dis(a, b) + lca.get_dis(b, c) + lca.get_dis(c, a)) // 2
             for a, b, c in queries
         ]
+
+    # 696. 计数二进制子串 (Count Binary Substrings)
+    def countBinarySubstrings(self, s: str) -> int:
+        n = len(s)
+        res, j = 0, -1
+        pre = 0
+        for i, x in enumerate(s):
+            if i == n - 1 or x != s[i + 1]:
+                c = i - j
+                res += min(c, pre)
+                pre = c
+                j = i
+        return res
