@@ -18,6 +18,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.swing.GroupLayout.Group;
+
 @SuppressWarnings("unchecked")
 public class Leetcode_6 {
     public static void main(String[] args) {
@@ -2239,6 +2241,49 @@ public class Leetcode_6 {
             String res = max.peek().name;
             min.offer(max.poll());
             return res;
+        }
+    }
+
+    // 2102. 序列顺序查询 (Sequentially Ordinal Rank Tracker)
+    class SORTracker2 {
+        private record Group(String name, int score) implements Comparable<Group> {
+
+            @Override
+            public int compareTo(Group o) {
+                if (this.score == o.score) {
+                    return this.name.compareTo(o.name);
+                }
+                return Integer.compare(o.score, this.score);
+            }
+
+        }
+
+        private List<Group> list;
+
+        private int cnt;
+
+        public SORTracker2() {
+            this.list = new ArrayList<>();
+
+        }
+
+        public void add(String name, int score) {
+            Group g = new Group(name, score);
+            int left = 0;
+            int right = list.size() - 1;
+            while (left <= right) {
+                int mid = left + ((right - left) >> 1);
+                if (g.compareTo(list.get(mid)) <= 0) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            list.add(right + 1, g);
+        }
+
+        public String get() {
+            return list.get(cnt++).name;
         }
     }
 

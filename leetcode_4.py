@@ -655,3 +655,17 @@ class LcaBinaryLifting:
             cnt = sum(name_cnt[name] for name in names)
             res.append(names[0] + "(" + str(cnt) + ")")
         return res
+
+    # 2102. 序列顺序查询 (Sequentially Ordinal Rank Tracker)
+    class SORTracker:
+
+        def __init__(self):
+            self.sl = SortedList()
+            self.cnt = 0
+
+        def add(self, name: str, score: int) -> None:
+            self.sl.add(((-score, name)))
+
+        def get(self) -> str:
+            self.cnt += 1
+            return self.sl[self.cnt - 1][1]
