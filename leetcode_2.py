@@ -7039,32 +7039,32 @@ class Union924:
 
     # 3331. 修改后子树的大小 (Find Subtree Sizes After Changes)
     def findSubtreeSizes(self, parent: List[int], s: str) -> List[int]:
-        def dfs2(x: int) -> int:
-            for y in g2[x]:
-                res[x] += dfs2(y)
+        def dfs(x: int):
+            st[ord(s[x]) - ord("a")].append(x)
+            for y in g[x]:
+                if st[ord(s[y]) - ord("a")]:
+                    ng[st[ord(s[y]) - ord("a")][-1]].append(y)
+                else:
+                    ng[x].append(y)
+                dfs(y)
+            st[ord(s[x]) - ord("a")].pop()
+
+        def dfs_cnt(x: int) -> int:
+            for y in ng[x]:
+                res[x] += dfs_cnt(y)
             res[x] += 1
             return res[x]
 
-        def dfs(x: int, fa: int) -> None:
-            id = ord(s[x]) - ord("a")
-            if st[id]:
-                g2[st[id][-1]].append(x)
-            elif fa != -1:
-                g2[fa].append(x)
-            st[id].append(x)
-            for y in g[x]:
-                dfs(y, x)
-            st[id].pop()
-
         n = len(s)
         g = [[] for _ in range(n)]
-        for i in range(1, n):
-            g[parent[i]].append(i)
-        g2 = [[] for _ in range(n)]
+        for i, p in enumerate(parent):
+            if p != -1:
+                g[p].append(i)
         st = [[] for _ in range(26)]
-        dfs(0, -1)
+        ng = [[] for _ in range(n)]
+        dfs(0)
         res = [0] * n
-        dfs2(0)
+        dfs_cnt(0)
         return res
 
     # 3332. 旅客可以得到的最多点数 (Maximum Points Tourist Can Earn)
