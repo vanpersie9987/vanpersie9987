@@ -5254,7 +5254,7 @@ class leetcode_1:
         for _ in range(n - 3):
             a, b, c = (a + b + c) % m, a, b
         return a
-    
+
     # 面试题 08.01. 三步问题 (Three Steps Problem LCCI)
     def waysToStep(self, n: int) -> int:
         @cache
@@ -5266,6 +5266,7 @@ class leetcode_1:
             if i == 1:
                 return 1
             return (dfs(i - 3) + dfs(i - 2) + dfs(i - 1)) % MOD
+
         MOD = 10**9 + 7
         res = dfs(n)
         dfs.cache_clear()
@@ -5426,59 +5427,56 @@ class leetcode_1:
     class LockingTree:
 
         def __init__(self, parent: List[int]):
-            self.n = len(parent)
-            self.g = [[] for _ in range(self.n)]
-            for i in range(1, self.n):
-                self.g[parent[i]].append(i)
-            self.locked = [0] * self.n
+            n = len(parent)
             self.parent = parent
+            # 上锁状态
+            self.status = [-1] * n
+            self.g = [[] for _ in range(n)]
+            for i, p in enumerate(parent):
+                if p != -1:
+                    self.g[p].append(i)
 
         def lock(self, num: int, user: int) -> bool:
-            if self.locked[num]:
+            if self.status[num] != -1:
                 return False
-            self.locked[num] = user
+            self.status[num] = user
             return True
 
         def unlock(self, num: int, user: int) -> bool:
-            if self.locked[num] != user:
+            if self.status[num] == -1 or self.status[num] != user:
                 return False
-            self.locked[num] = 0
+            self.status[num] = -1
             return True
 
         def upgrade(self, num: int, user: int) -> bool:
-            def check_ancestor_locked(x: int, num: int) -> bool:
-                if x == num:
+            # 检查所有祖先节点都是未上锁状态
+            def check_fa_unlock(x: int) -> bool:
+                while x != -1:
+                    if self.status[x] != -1:
+                        return False
+                    x = self.parent[x]
+                return True
+
+            # 检查任一子孙节点是上锁状态
+            def check_son_locked(x: int) -> bool:
+                if self.status[x] != -1:
                     return True
-                if self.locked[x]:
-                    return False
                 for y in self.g[x]:
-                    if check_ancestor_locked(y, num):
+                    if check_son_locked(y):
                         return True
                 return False
 
-            def dfs(x: int) -> bool:
-                res = False
-                if self.locked[x]:
-                    self.locked[x] = 0
-                    res = True
+            # 给所有子孙节点解锁
+            def unlock_son(x: int):
+                self.status[x] = -1
                 for y in self.g[x]:
-                    if dfs(y):
-                        res = True
-                return res
+                    unlock_son(y)
 
-            if self.locked[num]:
-                return False
-            x = num
-            while x != -1:
-                if self.locked[x]:
-                    return False
-                x = self.parent[x]
-            #  if not check_ancestor_locked(0, num):
-            #     return False
-            if not dfs(num):
-                return False
-            self.locked[num] = user
-            return True
+            if check_fa_unlock(num) and check_son_locked(num):
+                unlock_son(num)
+                self.lock(num, user)
+                return True
+            return False
 
     # 1443. 收集树上所有苹果的最少时间 (Minimum Time to Collect All Apples in a Tree)
     def minTime(self, n: int, edges: List[List[int]], hasApple: List[bool]) -> int:
@@ -6933,7 +6931,7 @@ class leetcode_1:
 
         n = len(s)
         return dfs(0, 0)
-    
+
     # 926. 将字符串翻转到单调递增 (Flip String to Monotone Increasing)
     # LCR 092. 将字符串翻转到单调递增
     def minFlipsMonoIncr(self, s: str) -> int:
