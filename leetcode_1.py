@@ -7553,23 +7553,24 @@ class leetcode_1:
     # 39. 组合总和 (Combination Sum)
     # LCR 081. 组合总和
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        candidates.sort(reverse=True)
+        def dfs(i: int, j: int):
+            if j == target:
+                res.append(path.copy())
+                return
+            if i == n:
+                return
+            # 不选
+            dfs(i + 1, j)
+
+            # 选
+            if j + candidates[i] <= target:
+                path.append(candidates[i])
+                dfs(i, j + candidates[i])
+                path.pop()
+
         n = len(candidates)
         res = []
         path = []
-
-        def dfs(i: int, j: int) -> None:
-            if i == n:
-                if j == target:
-                    res.append(path.copy())
-                return
-            if j > target:
-                return
-            dfs(i + 1, j)
-            path.append(candidates[i])
-            dfs(i, j + candidates[i])
-            path.pop()
-
         dfs(0, 0)
         return res
 
