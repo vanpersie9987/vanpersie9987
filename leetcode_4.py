@@ -856,3 +856,13 @@ class LcaBinaryLifting:
             if cnt:
                 res = max(res, cal(i, cnt))
         return res
+
+    # 168. Excel 表列名称 (Excel Sheet Column Title)
+    def convertToTitle(self, columnNumber: int) -> str:
+        res = []
+        while columnNumber:
+            columnNumber -= 1
+            d, m = divmod(columnNumber, 26)
+            res.append(chr(m + ord('A')))
+            columnNumber = d
+        return ''.join(res[::-1])
