@@ -678,12 +678,12 @@ class LcaBinaryLifting:
         diff = 0
         res = []
         for i, x in enumerate(s):
-            if x == '1':
+            if x == "1":
                 diff += 1
             else:
                 diff -= 1
                 if diff == 0:
-                    res.append('1' + self.makeLargestSpecial(s[left + 1 : i]) + '0')
+                    res.append("1" + self.makeLargestSpecial(s[left + 1 : i]) + "0")
                     left = i + 1
         res.sort(reverse=True)
-        return ''.join(res)
+        return "".join(res)
