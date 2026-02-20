@@ -10001,3 +10001,16 @@ class BigArray:
             res += rob(nums[i:j])
             i = j
         return res
+
+    # 482. 密钥格式化 (License Key Formatting)
+    def licenseKeyFormatting(self, s: str, k: int) -> str:
+        a = [x.upper() for x in s if x != '-']
+        q = []
+        for i in range(len(a) - 1, -1, -k):
+            q.append(''.join(a[max(0, i - k + 1) : i + 1]))
+        res = []
+        while q:
+            if res:
+                res.append('-')
+            res.append(q.pop())
+        return ''.join(res)
