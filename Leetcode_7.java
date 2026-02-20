@@ -98,92 +98,77 @@ public class Leetcode_7 {
     class LockingTree {
         private int n;
         private List<Integer>[] g;
-        private int[] lockStatus;
+        private int[] status;
         private int[] parent;
 
         public LockingTree(int[] parent) {
             this.n = parent.length;
             this.g = new ArrayList[n];
-            this.lockStatus = new int[n];
-            for (int i = 0; i < n; ++i) {
-                g[i] = new ArrayList<>();
-            }
+            this.status = new int[n];
+            Arrays.fill(status, -1);
+            Arrays.setAll(g, o -> new ArrayList<>());
             for (int i = 0; i < n; ++i) {
                 if (parent[i] != -1) {
                     g[parent[i]].add(i);
                 }
-                lockStatus[i] = -1;
             }
             this.parent = parent;
         }
 
         public boolean lock(int num, int user) {
-            if (lockStatus[num] != -1) {
+            if (status[num] != -1) {
                 return false;
             }
-            lockStatus[num] = user;
+            status[num] = user;
             return true;
         }
 
         public boolean unlock(int num, int user) {
-            if (lockStatus[num] != user) {
+            if (status[num] != user) {
                 return false;
             }
-            lockStatus[num] = -1;
+            status[num] = -1;
             return true;
         }
 
         public boolean upgrade(int num, int user) {
-            if (lockStatus[num] != -1) {
+            if (status[num] != -1) {
                 return false;
             }
-            // num的祖先节点是否都未上锁
-            // if (!dfs(0, num)) {
-            // return false;
-            // }
             int x = num;
             while (x != -1) {
-                if (lockStatus[x] != 0) {
+                if (status[x] != -1) {
                     return false;
                 }
                 x = parent[x];
             }
             // num是否至少有一个上锁的子孙节点，并将所有上锁节点解锁
-            if (dfs2(num)) {
-                lockStatus[num] = user;
+            if (checkSonLocked(num)) {
+                unlockSon(num);
+                status[num] = user;
                 return true;
             }
             return false;
 
         }
 
-        // private boolean dfs(int x, int num) {
-        // if (lockStatus[x] != -1) {
-        // return false;
-        // }
-        // if (x == num) {
-        // return true;
-        // }
-        // for (int y : g[x]) {
-        // if (dfs(y, num)) {
-        // return true;
-        // }
-        // }
-        // return false;
-        // }
-
-        private boolean dfs2(int x) {
-            boolean flag = false;
+        private void unlockSon(int x) {
+            status[x] = -1;
             for (int y : g[x]) {
-                if (dfs2(y)) {
-                    flag = true;
+                unlockSon(y);
+            }
+        }
+
+        private boolean checkSonLocked(int x) {
+            if (status[x] != -1) {
+                return true;
+            }
+            for (int y : g[x]) {
+                if (checkSonLocked(y)) {
+                    return true;
                 }
             }
-            if (lockStatus[x] != -1) {
-                flag = true;
-                lockStatus[x] = -1;
-            }
-            return flag;
+            return false;
         }
 
     }
