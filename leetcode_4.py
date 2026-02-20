@@ -777,3 +777,43 @@ class LcaBinaryLifting:
         a = nums[-k:] + nums[: n - k]
         for i, x in enumerate(a):
             nums[i] = x
+
+    # 675. 为高尔夫比赛砍树 (Cut Off Trees for Golf Event)
+    def cutOffTree(self, forest: List[List[int]]) -> int:
+        def bfs(x0: int, y0: int, x1: int, y1: int) -> int:
+            vis = [[False] * n for _ in range(m)]
+            vis[x0][y0] = True
+            q = deque()
+            q.append((x0, y0, 0))
+            while q:
+                x, y, d = q.popleft()
+                if x == x1 and y == y1:
+                    return d
+                for dx, dy in (0, 1), (0, -1), (1, 0), (-1, 0):
+                    nx, ny = x + dx, y + dy
+                    if 0 <= nx < m and 0 <= ny < n and forest[nx][ny] != 0 and not vis[nx][ny]:
+                        vis[nx][ny] = True
+                        q.append((nx, ny, d + 1))
+            return inf
+        a = []
+        m, n = len(forest), len(forest[0])
+        for i in range(m):
+            for j in range(n):
+                if forest[i][j] > 1:
+                    a.append((forest[i][j], i, j))
+        # 从 (0, 0) 出发
+        a.append((0, 0, 0))
+        a.sort()
+        res = 0
+        for (_, x0, y0), (_, x1, y1) in pairwise(a):
+            d = bfs(x0, y0, x1, y1)
+            if d == inf:
+                return -1
+            res += d
+        return res
+
+
+
+
+
+        
