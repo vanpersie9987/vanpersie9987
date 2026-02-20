@@ -871,25 +871,23 @@ class LcaBinaryLifting:
     def countPrimeSetBits(self, left: int, right: int) -> int:
         def cal(x: int) -> int:
             @cache
-            def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
+            def dfs(i: int, j: int, is_limit: bool) -> int:
                 def is_prime(x: int) -> bool:
                     for m in range(2, isqrt(x) + 1):
                         if x % m == 0:
                             return False
-                    return x != 1
+                    return x > 1
 
                 if i == n:
-                    return is_num and is_prime(j)
+                    return is_prime(j)
                 res = 0
-                if not is_num:
-                    res = dfs(i + 1, j, False, False)
                 up = int(s[i]) if is_limit else 1
-                for d in range(0 if is_num else 1, up + 1):
-                    res += dfs(i + 1, j + d, is_limit and up == d, True)
+                for d in range(up + 1):
+                    res += dfs(i + 1, j + d, is_limit and up == d)
                 return res
 
             s = bin(x)[2:]
             n = len(s)
-            return dfs(0, 0, True, False)
+            return dfs(0, 0, True)
 
         return cal(right) - cal(left - 1)
