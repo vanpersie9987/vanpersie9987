@@ -9740,6 +9740,7 @@ public class Leetcode_8 {
     private List<int[]>[] g3123;
     private boolean[] res3123;
     private long[] dis3123;
+    private boolean[] vis3123;
 
     public boolean[] findAnswer(int n, int[][] edges) {
         this.g3123 = new ArrayList[n];
@@ -9779,12 +9780,14 @@ public class Leetcode_8 {
         if (dis3123[0] == (long) 1e15) {
             return res3123;
         }
+        this.vis3123 = new boolean[n];
         dfs3123(0);
         return res3123;
 
     }
 
     private void dfs3123(int x) {
+        vis3123[x] = true;
         for (int[] nxt : g3123[x]) {
             int y = nxt[0];
             int w = nxt[1];
@@ -9793,7 +9796,10 @@ public class Leetcode_8 {
                 continue;
             }
             res3123[i] = true;
-            dfs3123(y);
+            if (!vis3123[y]) {
+                dfs3123(y);
+            }
+
         }
     }
 
