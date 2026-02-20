@@ -9754,15 +9754,15 @@ public class Leetcode_8 {
 
             @Override
             public int compare(long[] o1, long[] o2) {
-                return Long.compare(o1[1], o2[1]);
+                return Long.compare(o1[0], o2[0]);
             }
         });
         dis3123[n - 1] = 0L;
-        q.offer(new long[] { n - 1, 0 });
+        q.offer(new long[] { 0, n - 1 });
         while (!q.isEmpty()) {
             long[] cur = q.poll();
-            int x = (int) cur[0];
-            long d = cur[1];
+            long d = cur[0];
+            int x = (int) cur[1];
             if (d > dis3123[x] || x == 0) {
                 continue;
             }
@@ -9771,7 +9771,7 @@ public class Leetcode_8 {
                 int w = nxt[1];
                 if (d + w < dis3123[y]) {
                     dis3123[y] = d + w;
-                    q.offer(new long[] { y, dis3123[y] });
+                    q.offer(new long[] { dis3123[y], y });
                 }
             }
         }
