@@ -3044,7 +3044,7 @@ class Union924:
                 else:
                     right = mid - 1
             return res
-        
+
     # 1483. 树节点的第 K 个祖先 (Kth Ancestor of a Tree Node) --LCA 树上倍增
     class TreeAncestor:
         def __init__(self, n: int, parent: List[int]):
@@ -3641,36 +3641,39 @@ class Union924:
 
     # 3123. 最短路径中的边 (Find Edges in Shortest Paths)
     def findAnswer(self, n: int, edges: List[List[int]]) -> List[bool]:
+        def dfs(x: int):
+            for y, w in g[x]:
+                if dis[x] - w == dis[y]:
+                    res[dic[(x, y)]] = True
+                    dfs(y)
+
+        m = len(edges)
+        dic = defaultdict(int)
+        for i, (u, v, _) in enumerate(edges):
+            dic[(u, v)] = i
+            dic[(v, u)] = i
         g = [[] for _ in range(n)]
-        for i, (u, v, w) in enumerate(edges):
-            g[u].append([v, w, i])
-            g[v].append([u, w, i])
-        q = [[0, 0]]
+        for u, v, w in edges:
+            g[u].append((v, w))
+            g[v].append((u, w))
+        res = [False] * m
         dis = [inf] * n
-        dis[0] = 0
+        dis[n - 1] = 0
+        # (d, x)
+        q = [(0, n - 1)]
         heapq.heapify(q)
         while q:
-            [d, x] = heapq.heappop(q)
-            if d > dis[x]:
+            (d, x) = heapq.heappop(q)
+            if d > dis[x] or x == 0:
                 continue
-            for nxt in g[x]:
-                [y, w, _] = nxt
-                if d + w < dis[y]:
-                    dis[y] = d + w
-                    heapq.heappush(q, [dis[y], y])
-        res = [False] * len(edges)
-        if dis[n - 1] == inf:
+            for y, dx in g[x]:
+                nd = d + dx
+                if nd < dis[y]:
+                    dis[y] = nd
+                    heapq.heappush(q, (nd, y))
+        if dis[0] == inf:
             return res
-
-        def dfs(x: int) -> None:
-            for nxt in g[x]:
-                [y, w, i] = nxt
-                if dis[y] + w != dis[x]:
-                    continue
-                res[i] = True
-                dfs(y)
-
-        dfs(n - 1)
+        dfs(0)
         return res
 
     # 3122. 使矩阵满足条件的最少操作次数 (Minimum Number of Operations to Satisfy Conditions)
