@@ -891,3 +891,17 @@ class LcaBinaryLifting:
             return dfs(0, 0, True)
 
         return cal(right) - cal(left - 1)
+
+    # 762. 二进制表示中质数个计算置位 (Prime Number of Set Bits in Binary Representation)
+    def countPrimeSetBits(self, left: int, right: int) -> int:
+        def is_prime(x: int) -> bool:
+            for m in range(2, isqrt(x) + 1):
+                if x % m == 0:
+                    return False
+            return x > 1
+
+        res = 0
+        for x in range(left, right + 1):
+            if is_prime(x.bit_count()):
+                res += 1
+        return res
