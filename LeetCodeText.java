@@ -17099,7 +17099,7 @@ public class LeetCodeText {
         int res = 0;
         for (int i = left; i <= right; ++i) {
             int count = Integer.bitCount(i);
-            if (isPrime(count)) {
+            if (isPrime762(count)) {
                 ++res;
             }
         }
@@ -17107,8 +17107,8 @@ public class LeetCodeText {
 
     }
 
-    private boolean isPrime(int count) {
-        switch (count) {
+    private boolean isPrime762(int x) {
+        switch (x) {
         case 2:
         case 3:
         case 5:
@@ -17121,6 +17121,43 @@ public class LeetCodeText {
         default:
             return false;
         }
+    }
+
+    // 762. 二进制表示中质数个计算置位 (Prime Number of Set Bits in Binary Representation)
+    public int countPrimeSetBits2(int left, int right) {
+        return cal762(right) - cal762(left - 1);
+    }
+
+    private String s762;
+    private int n762;
+    private int[][] memo762;
+
+    private int cal762(int x) {
+        this.s762 = Integer.toBinaryString(x);
+        this.n762 = s762.length();
+        this.memo762 = new int[n762][n762];
+        for (int[] r : memo762) {
+            Arrays.fill(r, -1);
+        }
+        return dfs762(0, 0, true);
+    }
+
+    private int dfs762(int i, int j, boolean isLimit) {
+        if (i == n762) {
+            return isPrime762(j) ? 1 : 0;
+        }
+        if (!isLimit && memo762[i][j] != -1) {
+            return memo762[i][j];
+        }
+        int res = 0;
+        int up = isLimit ? s762.charAt(i) - '0' : 1;
+        for (int d = 0; d <= up; ++d) {
+            res += dfs762(i + 1, j + d, isLimit && up == d);
+        }
+        if (!isLimit) {
+            memo762[i][j] = res;
+        }
+        return res;
     }
 
     // 401. 二进制手表 (Binary Watch)
