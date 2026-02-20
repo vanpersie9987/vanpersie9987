@@ -7557,8 +7557,6 @@ class leetcode_1:
             if j == target:
                 res.append(path.copy())
                 return
-            if i == n:
-                return
             # 不选
             dfs(i + 1, j)
 

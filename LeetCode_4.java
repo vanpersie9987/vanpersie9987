@@ -2185,27 +2185,47 @@ public class LeetCode_4 {
 
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         this.candidates39 = candidates;
+        Arrays.sort(candidates39);
         this.target39 = target;
         this.res39 = new ArrayList<>();
         this.list39 = new ArrayList<>();
-        dfs39(0, 0);
+        // dfs39(0, 0);
+        dfs39_2(0, 0);
         return res39;
     }
 
-    private void dfs39(int index, int sum) {
-        if (sum > target39) {
-            return;
-        }
-        if (sum == target39) {
+    // 枚举选哪个
+    private void dfs39(int i, int j) {
+        if (j == target39) {
             res39.add(new ArrayList<>(list39));
             return;
         }
-        for (int i = index; i < candidates39.length; ++i) {
-            list39.add(candidates39[i]);
-            dfs39(i, sum + candidates39[i]);
+        for (int k = i; k < candidates39.length; ++k) {
+            if (candidates39[k] + j > target39) {
+                break;
+            }
+            list39.add(candidates39[k]);
+            dfs39(k, j + candidates39[k]);
             list39.remove(list39.size() - 1);
         }
+    }
 
+    // 选或不选
+    private void dfs39_2(int i, int j) {
+        if (j == target39) {
+            res39.add(new ArrayList<>(list39));
+            return;
+        }
+        if (i == candidates39.length) {
+            return;
+        }
+        dfs39_2(i + 1, j);
+
+        if (j + candidates39[i] <= target39) {
+            list39.add(candidates39[i]);
+            dfs39_2(i, j + candidates39[i]);
+            list39.remove(list39.size() - 1);
+        }
     }
 
     // 77. 组合 (Combinations)
