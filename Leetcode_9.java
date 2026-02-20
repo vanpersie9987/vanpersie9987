@@ -2944,50 +2944,49 @@ public class Leetcode_9 {
     }
 
     // 3331. 修改后子树的大小 (Find Subtree Sizes After Changes)
-    private int n3331;
     private List<Integer>[] g3331;
-    private List<Integer>[] st3331;
     private String s3331;
-    private List<Integer>[] g2_3331;
+    private Deque<Integer>[] st3331;
+    private List<Integer>[] ng3331;
     private int[] res3331;
 
     public int[] findSubtreeSizes(int[] parent, String s) {
+        int n = s.length();
         this.s3331 = s;
-        this.n3331 = s.length();
-        this.g3331 = new ArrayList[n3331];
-        Arrays.setAll(g3331, k -> new ArrayList<>());
-        for (int i = 1; i < n3331; ++i) {
+        this.g3331 = new ArrayList[n];
+        Arrays.setAll(g3331, o -> new ArrayList<>());
+        for (int i = 1; i < n; ++i) {
             g3331[parent[i]].add(i);
         }
-        this.st3331 = new ArrayList[26];
-        Arrays.setAll(st3331, k -> new ArrayList<>());
-        this.g2_3331 = new ArrayList[n3331];
-        Arrays.setAll(g2_3331, k -> new ArrayList<>());
-        dfs3331(0, -1);
-        this.res3331 = new int[n3331];
-        dfs2_3331(0);
+        this.st3331 = new Deque[26];
+        Arrays.setAll(st3331, o -> new ArrayDeque<>());
+        this.ng3331 = new ArrayList[n];
+        Arrays.setAll(ng3331, o -> new ArrayList<>());
+        dfs3331(0);
+        this.res3331 = new int[n];
+        dfsCnt3331(0);
         return res3331;
     }
 
-    private int dfs2_3331(int x) {
-        for (int y : g2_3331[x]) {
-            res3331[x] += dfs2_3331(y);
+    private int dfsCnt3331(int x) {
+        for (int y : ng3331[x]) {
+            res3331[x] += dfsCnt3331(y);
         }
         return ++res3331[x];
     }
 
-    private void dfs3331(int x, int fa) {
-        int index = s3331.charAt(x) - 'a';
-        if (!st3331[index].isEmpty()) {
-            g2_3331[st3331[index].get(st3331[index].size() - 1)].add(x);
-        } else if (fa != -1) {
-            g2_3331[fa].add(x);
-        }
-        st3331[index].add(x);
+    private void dfs3331(int x) {
+        int id = s3331.charAt(x) - 'a';
+        st3331[id].add(x);
         for (int y : g3331[x]) {
-            dfs3331(y, x);
+            if (!st3331[s3331.charAt(y) - 'a'].isEmpty()) {
+                ng3331[st3331[s3331.charAt(y) - 'a'].peekLast()].add(y);
+            } else {
+                ng3331[x].add(y);
+            }
+            dfs3331(y);
         }
-        st3331[index].remove(st3331[index].size() - 1);
+        st3331[id].pollLast();
     }
 
     // 3332. 旅客可以得到的最多点数 (Maximum Points Tourist Can Earn)
