@@ -6769,14 +6769,15 @@ public class LeetCode_4 {
     // LCR 092. 将字符串翻转到单调递增
     public int minFlipsMonoIncr2(String s) {
         int n = s.length();
-        int put0 = s.charAt(0) - '0';
-        int put1 = '1' - s.charAt(0);
-        for (int i = 1; i < n; ++i) {
-            put1 = Math.min(put0, put1) + '1' - s.charAt(i);
-            put0 = put0 + s.charAt(i) - '0';
+        int[] cnt1 = new int[n + 1];
+        for (int i = 0; i < n; ++i) {
+            cnt1[i + 1] = cnt1[i] + s.charAt(i) - '0';
         }
-        return Math.min(put0, put1);
-
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < n + 1; ++i) {
+            res = Math.min(res, cnt1[i] + (n - i) - (cnt1[n] - cnt1[i]));
+        }
+        return res;
     }
 
     // 926. 将字符串翻转到单调递增 (Flip String to Monotone Increasing)
