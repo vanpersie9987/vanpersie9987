@@ -689,7 +689,9 @@ class LcaBinaryLifting:
         return "".join(res)
 
     # 669. 修剪二叉搜索树 (Trim a Binary Search Tree)
-    def trimBST(self, root: Optional[TreeNode], low: int, high: int) -> Optional[TreeNode]:
+    def trimBST(
+        self, root: Optional[TreeNode], low: int, high: int
+    ) -> Optional[TreeNode]:
         if root is None:
             return None
         if root.val < low:
@@ -699,3 +701,14 @@ class LcaBinaryLifting:
         root.left = self.trimBST(root.left, low, high)
         root.right = self.trimBST(root.right, low, high)
         return root
+
+    # 2038. 如果相邻两个颜色均相同则删除当前颜色 (Remove Colored Pieces if Both Neighbors are the Same Color)
+    def winnerOfGame(self, colors: str) -> bool:
+        cnts = [0] * 2
+        c = 0
+        for i, x in enumerate(colors):
+            c += 1
+            if i == len(colors) - 1 or x != colors[i + 1]:
+                cnts[ord(x) - ord("A")] += max(c - 2, 0)
+                c = 0
+        return cnts[0] > cnts[1]
