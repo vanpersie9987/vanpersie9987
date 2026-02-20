@@ -8089,6 +8089,7 @@ public class Leetcode_3 {
                 }
             }
         }
+        trees.add(new int[] { 0, 0, 0 });
         Collections.sort(trees, new Comparator<int[]>() {
 
             @Override
@@ -8097,23 +8098,20 @@ public class Leetcode_3 {
             }
 
         });
-        int sr = 0;
-        int sc = 0;
         int res = 0;
-        for (int[] tree : trees) {
-            int distance = getDistance675(forest, sr, sc, tree[0], tree[1]);
+        for (int i = 1; i < trees.size(); ++i) {
+            int distance = bfs675(forest, trees.get(i - 1)[0], trees.get(i - 1)[1], trees.get(i)[0],
+                    trees.get(i)[1]);
             if (distance == -1) {
                 return -1;
             }
             res += distance;
-            sr = tree[0];
-            sc = tree[1];
         }
         return res;
 
     }
 
-    private int getDistance675(List<List<Integer>> forest, int sr, int sc, int tr, int tc) {
+    private int bfs675(List<List<Integer>> forest, int sr, int sc, int tr, int tc) {
         int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
         int m = forest.size();
         int n = forest.get(0).size();
