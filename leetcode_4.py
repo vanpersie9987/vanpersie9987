@@ -764,3 +764,16 @@ class LcaBinaryLifting:
             )
             res = max(res, s - (tiles[left][1] - tiles[left][0] + 1) + extra)
         return res
+
+    # 189. 轮转数组 (Rotate Array)
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        n = len(nums)
+        k %= n
+        if k == 0:
+            return
+        a = nums[-k:] + nums[: n - k]
+        for i, x in enumerate(a):
+            nums[i] = x
