@@ -721,9 +721,28 @@ class LcaBinaryLifting:
                 s += x % 10
                 x //= 10
             return s
+
         x = sum(_sum(ord(c) - ord("a") + 1) for c in s)
         k -= 1
         while k and x >= 10:
             x = _sum(x)
             k -= 1
         return x
+
+    # 面试题 17.20. 连续中值 (Continuous Median LCCI)
+    class MedianFinder:
+
+        def __init__(self):
+            """
+            initialize your data structure here.
+            """
+            self.sl = SortedList()
+
+        def addNum(self, num: int) -> None:
+            self.sl.add(num)
+
+        def findMedian(self) -> float:
+            n = len(self.sl)
+            if n & 1:
+                return self.sl[n // 2]
+            return (self.sl[n // 2 - 1] + self.sl[n // 2]) / 2
