@@ -6933,6 +6933,15 @@ class leetcode_1:
 
         n = len(s)
         return dfs(0, 0)
+    
+    # 926. 将字符串翻转到单调递增 (Flip String to Monotone Increasing)
+    # LCR 092. 将字符串翻转到单调递增
+    def minFlipsMonoIncr(self, s: str) -> int:
+        n = len(s)
+        cnt1 = [0] * (n + 1)
+        for i, x in enumerate(s):
+            cnt1[i + 1] = cnt1[i] + int(x)
+        return min(c + (n - i) - (cnt1[-1] - c) for i, c in enumerate(cnt1))
 
     # 383. 赎金信 (Ransom Note)
     def canConstruct(self, ransomNote: str, magazine: str) -> bool:
