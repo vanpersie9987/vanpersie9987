@@ -863,6 +863,33 @@ class LcaBinaryLifting:
         while columnNumber:
             columnNumber -= 1
             d, m = divmod(columnNumber, 26)
-            res.append(chr(m + ord('A')))
+            res.append(chr(m + ord("A")))
             columnNumber = d
-        return ''.join(res[::-1])
+        return "".join(res[::-1])
+
+    # 762. 二进制表示中质数个计算置位 (Prime Number of Set Bits in Binary Representation)
+    def countPrimeSetBits(self, left: int, right: int) -> int:
+        def cal(x: int) -> int:
+            @cache
+            def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
+                def is_prime(x: int) -> bool:
+                    for m in range(2, isqrt(x) + 1):
+                        if x % m == 0:
+                            return False
+                    return x != 1
+
+                if i == n:
+                    return is_num and is_prime(j)
+                res = 0
+                if not is_num:
+                    res = dfs(i + 1, j, False, False)
+                up = int(s[i]) if is_limit else 1
+                for d in range(0 if is_num else 1, up + 1):
+                    res += dfs(i + 1, j + d, is_limit and up == d, True)
+                return res
+
+            s = bin(x)[2:]
+            n = len(s)
+            return dfs(0, 0, True, False)
+
+        return cal(right) - cal(left - 1)
