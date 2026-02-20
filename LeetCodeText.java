@@ -12510,7 +12510,7 @@ public class LeetCodeText {
                 .replace("&frasl;", "/").replace("&amp;", "&");
     }
 
-    // 482. 密钥格式化
+    // 482. 密钥格式化 (License Key Formatting)
     public String licenseKeyFormatting(String s, int k) {
         s = s.replace("-", "").toUpperCase();
         int cur = 0;
