@@ -9757,13 +9757,13 @@ public class Leetcode_8 {
                 return Long.compare(o1[1], o2[1]);
             }
         });
-        dis3123[0] = 0L;
-        q.offer(new long[] { 0, 0 });
+        dis3123[n - 1] = 0L;
+        q.offer(new long[] { n - 1, 0 });
         while (!q.isEmpty()) {
             long[] cur = q.poll();
             int x = (int) cur[0];
             long d = cur[1];
-            if (d > dis3123[x]) {
+            if (d > dis3123[x] || x == 0) {
                 continue;
             }
             for (int[] nxt : g3123[x]) {
@@ -9776,10 +9776,10 @@ public class Leetcode_8 {
             }
         }
         this.res3123 = new boolean[edges.length];
-        if (dis3123[n - 1] == (long) 1e15) {
+        if (dis3123[0] == (long) 1e15) {
             return res3123;
         }
-        dfs3123(n - 1);
+        dfs3123(0);
         return res3123;
 
     }
