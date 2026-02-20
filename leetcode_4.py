@@ -669,3 +669,21 @@ class LcaBinaryLifting:
         def get(self) -> str:
             self.cnt += 1
             return self.sl[self.cnt - 1][1]
+
+    # 761. 特殊的二进制字符串 (Special Binary String)
+    def makeLargestSpecial(self, s: str) -> str:
+        if len(s) <= 2:
+            return s
+        left = 0
+        diff = 0
+        res = []
+        for i, x in enumerate(s):
+            if x == '1':
+                diff += 1
+            else:
+                diff -= 1
+                if diff == 0:
+                    res.append('1' + self.makeLargestSpecial(s[left + 1 : i]) + '0')
+                    left = i + 1
+        res.sort(reverse=True)
+        return ''.join(res)
