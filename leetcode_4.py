@@ -746,3 +746,17 @@ class LcaBinaryLifting:
             if n & 1:
                 return self.sl[n // 2]
             return (self.sl[n // 2 - 1] + self.sl[n // 2]) / 2
+
+    # 2271. 毯子覆盖的最多白色砖块数 (Maximum White Tiles Covered by a Carpet)
+    def maximumWhiteTiles(self, tiles: List[List[int]], carpetLen: int) -> int:
+        tiles.sort()
+        res, left = 0, 0
+        s = 0
+        for right, (start, end) in enumerate(tiles):
+            s += end - start + 1
+            while tiles[left][1] < tiles[right][1] - carpetLen + 1:
+                s -= tiles[left][1] - tiles[left][0] + 1
+                left += 1
+            extra = max(0, tiles[left][1] - max(tiles[right][1] - carpetLen + 1, tiles[left][0]) + 1)
+            res = max(res, s - (tiles[left][1] - tiles[left][0] + 1) + extra)
+        return res
