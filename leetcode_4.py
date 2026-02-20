@@ -712,3 +712,18 @@ class LcaBinaryLifting:
                 cnts[ord(x) - ord("A")] += max(c - 2, 0)
                 c = 0
         return cnts[0] > cnts[1]
+
+    # 1945. 字符串转化后的各位数字之和 (Sum of Digits of String After Convert)
+    def getLucky(self, s: str, k: int) -> int:
+        def _sum(x: int) -> int:
+            s = 0
+            while x:
+                s += x % 10
+                x //= 10
+            return s
+        x = sum(_sum(ord(c) - ord("a") + 1) for c in s)
+        k -= 1
+        while k and x >= 10:
+            x = _sum(x)
+            k -= 1
+        return x
