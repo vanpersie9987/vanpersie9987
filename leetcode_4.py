@@ -757,6 +757,10 @@ class LcaBinaryLifting:
             while tiles[left][1] < tiles[right][1] - carpetLen + 1:
                 s -= tiles[left][1] - tiles[left][0] + 1
                 left += 1
-            extra = max(0, tiles[left][1] - max(tiles[right][1] - carpetLen + 1, tiles[left][0]) + 1)
+            extra = (
+                tiles[left][1]
+                - max(tiles[right][1] - carpetLen + 1, tiles[left][0])
+                + 1
+            )
             res = max(res, s - (tiles[left][1] - tiles[left][0] + 1) + extra)
         return res
