@@ -791,10 +791,16 @@ class LcaBinaryLifting:
                     return d
                 for dx, dy in (0, 1), (0, -1), (1, 0), (-1, 0):
                     nx, ny = x + dx, y + dy
-                    if 0 <= nx < m and 0 <= ny < n and forest[nx][ny] != 0 and not vis[nx][ny]:
+                    if (
+                        0 <= nx < m
+                        and 0 <= ny < n
+                        and forest[nx][ny] != 0
+                        and not vis[nx][ny]
+                    ):
                         vis[nx][ny] = True
                         q.append((nx, ny, d + 1))
             return inf
+
         a = []
         m, n = len(forest), len(forest[0])
         for i in range(m):
@@ -812,8 +818,41 @@ class LcaBinaryLifting:
             res += d
         return res
 
+    # 1156. 单字符重复子串的最大长度 (Swap For Longest Repeated Character Substring)
+    def maxRepOpt1(self, text: str) -> int:
+        def cal(x: int, cnt: int) -> int:
+            a = []
+            i = 0
+            n = len(text)
+            while i < n:
+                id = ord(text[i]) - ord("a")
+                if id != x:
+                    i += 1
+                    continue
+                j = i
+                while j < n and text[j] == text[i]:
+                    j += 1
+                a.append((i, j - 1))
+                i = j
+            res = 0
+            for (s0, t0), (s1, t1) in pairwise(a):
+                if s1 - t0 == 2:
+                    if cnt == t0 - s0 + 1 + t1 - s1 + 1:
+                        return cnt
+                    res = max(res, t0 - s0 + 1 + t1 - s1 + 1 + 1)
+                else:
+                    res = max(res, t1 - s1 + 1 + 1, t0 - s0 + 1 + 1)
+            return res
 
-
-
-
-        
+        cnts = [0] * 26
+        res, c = 0, 0
+        for i, x in enumerate(text):
+            cnts[ord(x) - ord("a")] += 1
+            c += 1
+            if i == len(text) - 1 or x != text[i + 1]:
+                res = max(res, c)
+                c = 0
+        for i, cnt in enumerate(cnts):
+            if cnt:
+                res = max(res, cal(i, cnt))
+        return res
