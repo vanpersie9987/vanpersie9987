@@ -3733,31 +3733,30 @@ public class Leetcode_3 {
     // 847. 访问所有节点的最短路径 (Shortest Path Visiting All Nodes) --bfs + 状态压缩
     public int shortestPathLength(int[][] graph) {
         int n = graph.length;
-        boolean[][] visited = new boolean[n][1 << n];
-        Queue<int[]> queue = new LinkedList<>();
+        boolean[][] vis = new boolean[1 << n][n];
+        Deque<int[]> q = new ArrayDeque<>();
         for (int i = 0; i < n; ++i) {
-            queue.offer(new int[] { i, 1 << i });
-            visited[i][1 << i] = true;
+            q.offer(new int[] { 1 << i, i, 0 });
+            vis[1 << i][i] = true;
         }
-        int res = 0;
-        while (!queue.isEmpty()) {
-            int size = queue.size();
+        int u = (1 << n) - 1;
+        while (!q.isEmpty()) {
+            int size = q.size();
             for (int i = 0; i < size; ++i) {
-                int[] cur = queue.poll();
-                int node = cur[0];
-                int bitMask = cur[1];
-                if (bitMask == ((1 << n) - 1)) {
-                    return res;
+                int[] cur = q.poll();
+                int m = cur[0];
+                int x = cur[1];
+                int d = cur[2];
+                if (m == u) {
+                    return d;
                 }
-                for (int neighbor : graph[node]) {
-                    int nMask = (1 << neighbor) | bitMask;
-                    if (!visited[neighbor][nMask]) {
-                        visited[neighbor][nMask] = true;
-                        queue.offer(new int[] { neighbor, nMask });
+                for (int y : graph[x]) {
+                    if (!vis[m | (1 << y)][y]) {
+                        vis[m | (1 << y)][y] = true;
+                        q.offer(new int[] { m | (1 << y), y, d + 1 });
                     }
                 }
             }
-            ++res;
         }
         return -1;
 

@@ -3606,10 +3606,6 @@ class Union924:
     # 847. 访问所有节点的最短路径 (Shortest Path Visiting All Nodes)
     def shortestPathLength(self, graph: List[List[int]]) -> int:
         n = len(graph)
-        g = [[] for _ in range(n)]
-        for i, l in enumerate(graph):
-            for j in l:
-                g[i].append(j)
         vis = [[False] * n for _ in range(1 << n)]
         q = deque()
         for i in range(n):
@@ -3620,7 +3616,7 @@ class Union924:
             m, x, d = q.popleft()
             if m == u:
                 return d
-            for y in g[x]:
+            for y in graph[x]:
                 if not vis[m | (1 << y)][y]:
                     vis[m | (1 << y)][y] = True
                     q.append((m | (1 << y), y, d + 1))
