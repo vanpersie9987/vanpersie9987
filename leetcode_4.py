@@ -986,10 +986,10 @@ class LcaBinaryLifting:
         _max = -inf
         for color, pos in first.items():
             if _min != inf:
-                res = max(res, abs(pos - _min), abs(pos - _max))
+                res = max(res, abs(pos - _max))
             pos2 = last[color]
             if _min != inf:
-                res = max(res, abs(pos2 - _min), abs(pos2 - _max))
-            _min = min(_min, pos, pos2)
-            _max = max(_max, pos, pos2)
+                res = max(res, abs(pos2 - _min))
+            _min = min(_min, pos)
+            _max = max(_max, pos2)
         return res
