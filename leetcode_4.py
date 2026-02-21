@@ -1075,3 +1075,18 @@ class LcaBinaryLifting:
     def findDifferentBinaryString(self, nums: List[str]) -> str:
         return "".join(str(int(x[i]) ^ 1) for i, x in enumerate(nums))
 
+    # 1893. 检查是否区域内所有整数都被覆盖 (Check if All the Integers in a Range Are Covered)
+    def isCovered(self, ranges: List[List[int]], left: int, right: int) -> bool:
+        ranges.sort()
+        i, n = 0, len(ranges)
+        while i < n:
+            l = ranges[i][0]
+            r = ranges[i][1]
+            j = i
+            while j < n and ranges[j][0] <= r + 1:
+                r = max(r, ranges[j][1])
+                j += 1
+            if l <= left <= right <= r:
+                return True
+            i = j
+        return False
