@@ -999,16 +999,15 @@ class LcaBinaryLifting:
         def dfs(root: TreeNode) -> tuple:
             if root is None:
                 return (0, 0)
-            s = 0
-            x = 0
-            (s0, c0) = dfs(root.left)
-            (s1, c1) = dfs(root.right)
+            s0, c0 = dfs(root.left)
+            s1, c1 = dfs(root.right)
             s = s0 + s1 + root.val
             x = c0 + c1 + 1
             if root.val == s // x:
                 nonlocal res
                 res += 1
             return (s, x)
+
         res = 0
         dfs(root)
         return res
