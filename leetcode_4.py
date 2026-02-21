@@ -1016,9 +1016,9 @@ class LcaBinaryLifting:
     def minMutation(self, startGene: str, endGene: str, bank: List[str]) -> int:
         if startGene == endGene:
             return 0
-        if endGene not in bank:
-            return -1
         s = set(bank)
+        if endGene not in s:
+            return -1
         s.discard(startGene)
         vis = set()
         q = deque()
