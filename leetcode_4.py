@@ -944,3 +944,4 @@ class LcaBinaryLifting:
             x = chr(ord("a") + i)
             res.extend(c * x)
         return res
+

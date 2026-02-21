@@ -3606,21 +3606,24 @@ class Union924:
     # 847. 访问所有节点的最短路径 (Shortest Path Visiting All Nodes)
     def shortestPathLength(self, graph: List[List[int]]) -> int:
         n = len(graph)
+        g = [[] for _ in range(n)]
+        for i, l in enumerate(graph):
+            for j in l:
+                g[i].append(j)
+        vis = [[False] * n for _ in range(1 << n)]
         q = deque()
-        vis = [[False] * (1 << n) for _ in range(n)]
-        u = (1 << n) - 1
         for i in range(n):
-            q.append([i, 1 << i, 0])
-            vis[i][1 << i] = True
+            q.append((1 << i, i, 0))
+            vis[1 << i][i] = True
+        u = (1 << n) - 1
         while q:
-            [x, m, d] = q.popleft()
+            m, x, d = q.popleft()
             if m == u:
                 return d
-            for y in graph[x]:
-                nm = m | (1 << y)
-                if not vis[y][nm]:
-                    vis[y][nm] = True
-                    q.append([y, nm, d + 1])
+            for y in g[x]:
+                if not vis[m | (1 << y)][y]:
+                    vis[m | (1 << y)][y] = True
+                    q.append((m | (1 << y), y, d + 1))
 
     # 216. 组合总和 III (Combination Sum III)
     def combinationSum3(self, k: int, n: int) -> List[List[int]]:
