@@ -3076,21 +3076,31 @@ public class LeetCode_2 {
 
    // 1893. 检查是否区域内所有整数都被覆盖 (Check if All the Integers in a Range Are Covered)
    public boolean isCovered2(int[][] ranges, int left, int right) {
-      Set<Integer> set = new HashSet<>();
-      for (int i = left; i <= right; ++i) {
-         set.add(i);
-      }
-      for (int[] range : ranges) {
-         if (range[1] < left || range[0] > right) {
-            continue;
+      Arrays.sort(ranges, new Comparator<int[]>() {
+
+         @Override
+         public int compare(int[] o1, int[] o2) {
+            return Integer.compare(o1[0], o2[0]);
          }
-         int min = Math.max(Math.min(left, range[1]), range[0]);
-         int max = Math.min(Math.max(right, range[0]), range[1]);
-         for (int i = min; i <= max; ++i) {
-            set.remove(i);
+
+      });
+      int i = 0;
+      int n = ranges.length;
+      while (i < n) {
+         int l = ranges[i][0];
+         int r = ranges[i][1];
+         int j = i;
+         while (j < n && ranges[j][0] <= r + 1) {
+            r = Math.max(r, ranges[j][1]);
+            ++j;
          }
+         if (l <= left && right <= r) {
+            return true;
+         }
+         i = j;
       }
-      return set.isEmpty();
+      return false;
+
    }
 
    // 1893. 检查是否区域内所有整数都被覆盖 (Check if All the Integers in a Range Are Covered)
