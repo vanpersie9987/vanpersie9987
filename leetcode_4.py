@@ -918,3 +918,14 @@ class LcaBinaryLifting:
             res.append(carry % 10)
             carry //= 10
         return res[::-1]
+
+    # 1991. 找到数组的中间位置 (Find the Middle Index in Array)
+    def findMiddleIndex(self, nums: List[int]) -> int:
+        s = sum(nums)
+        left = 0
+        for i, x in enumerate(nums):
+            s -= x
+            if s == left:
+                return i
+            left += x
+        return -1
