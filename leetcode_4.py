@@ -1060,3 +1060,13 @@ class LcaBinaryLifting:
                 res -= 1
             right_max = max(right_max, intervals[i][1])
         return res
+
+    # 1816. 截断句子 (Truncate Sentence)
+    def truncateSentence(self, s: str, k: int) -> str:
+        a = s.split(" ")
+        res = ""
+        for x in a[:k]:
+            if res:
+                res += " "
+            res += x
+        return res
