@@ -14737,7 +14737,7 @@ public class LeetCodeText {
                 .abs(p1[0] * p2[1] + p2[0] * p3[1] + p3[0] * p1[1] - p1[1] * p2[0] - p2[1] * p3[0] - p3[1] * p1[0]);
     }
 
-    // 1030. 距离顺序排列矩阵单元格
+    // 1030. 距离顺序排列矩阵单元格 (Matrix Cells in Distance Order)
     public int[][] allCellsDistOrder(int rows, int cols, int rCenter, int cCenter) {
         int[][] res = new int[rows * cols][2];
         int index = 0;
@@ -14762,7 +14762,7 @@ public class LeetCodeText {
 
     }
 
-    // 1030. 距离顺序排列矩阵单元格 桶排序
+    // 1030. 距离顺序排列矩阵单元格 (Matrix Cells in Distance Order) --桶排序
     public int[][] allCellsDistOrder2(int rows, int cols, int rCenter, int cCenter) {
         List<List<int[]>> list = new ArrayList<>();
         int max = Math.max(rows, rows - rCenter - 1) + Math.max(cols, cols - cCenter - 1);
