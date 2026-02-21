@@ -1546,33 +1546,31 @@ public class LeetCode_4 {
     // 剑指 Offer II 083. 没有重复元素集合的全排列
     // 排列：需要用used数组
     // 无重复元素：不需要排序
-    private int n46;
+    private int u46;
     private int[] nums46;
     private List<List<Integer>> res46;
-    private List<Integer> list46;
+    private List<Integer> path46;
 
     public List<List<Integer>> permute(int[] nums) {
-        this.n46 = nums.length;
+        int n = nums.length;
+        this.u46 = (1 << n) - 1;
         this.nums46 = nums;
         this.res46 = new ArrayList<>();
-        this.list46 = new ArrayList<>();
+        this.path46 = new ArrayList<>();
         dfs46(0);
         return res46;
     }
 
-    private void dfs46(int mask) {
-        if (mask == (1 << n46) - 1) {
-            res46.add(new ArrayList<>(list46));
+    private void dfs46(int i) {
+        if (i == u46) {
+            res46.add(new ArrayList<>(path46));
             return;
         }
-        int pos = (~mask) & ((1 << n46) - 1);
-        while (pos != 0) {
-            int last = pos & (-pos);
-            int index = Integer.numberOfTrailingZeros(last);
-            list46.add(nums46[index]);
-            dfs46(mask | last);
-            list46.remove(list46.size() - 1);
-            pos &= pos - 1;
+        for (int c = i ^ u46; c != 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            path46.add(nums46[lb]);
+            dfs46(i | (1 << lb));
+            path46.remove(path46.size() - 1);
         }
     }
 
