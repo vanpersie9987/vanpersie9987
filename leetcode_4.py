@@ -14,6 +14,7 @@ from sqlite3 import paramstyle
 import stat
 from termios import CINTR
 from tokenize import String
+from tty import CC
 from unicodedata import numeric
 from xxlimited import foo
 from calendar import c
@@ -945,3 +946,14 @@ class LcaBinaryLifting:
             res.extend(c * x)
         return res
 
+    # 1030. 距离顺序排列矩阵单元格 (Matrix Cells in Distance Order)
+    def allCellsDistOrder(
+        self, rows: int, cols: int, rCenter: int, cCenter: int
+    ) -> List[List[int]]:
+        a = []
+        for i in range(rows):
+            for j in range(cols):
+                d = abs(i - rCenter) + abs(j - cCenter)
+                a.append((d, i, j))
+        a.sort()
+        return [[i, j] for _, i, j in a]
