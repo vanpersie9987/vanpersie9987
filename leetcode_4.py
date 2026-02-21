@@ -957,3 +957,18 @@ class LcaBinaryLifting:
                 a.append((d, i, j))
         a.sort()
         return [[i, j] for _, i, j in a]
+
+    # 116. 填充每个节点的下一个右侧节点指针 (Populating Next Right Pointers in Each Node)
+    def connect(self, root: "Optional[Node]") -> "Optional[Node]":
+        def dfs(x: "Optional[Node]", depth: int):
+            if x is None:
+                return
+            if d[depth]:
+                d[depth][-1].next = x
+            d[depth].append(x)
+            dfs(x.left, depth + 1)
+            dfs(x.right, depth + 1)
+
+        d = defaultdict(list)
+        dfs(root, 0)
+        return root
