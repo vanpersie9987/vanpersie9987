@@ -993,3 +993,22 @@ class LcaBinaryLifting:
             _min = min(_min, pos)
             _max = max(_max, pos2)
         return res
+
+    # 2265. 统计值等于子树平均值的节点数 (Count Nodes Equal to Average of Subtree)
+    def averageOfSubtree(self, root: TreeNode) -> int:
+        def dfs(root: TreeNode) -> tuple:
+            if root is None:
+                return (0, 0)
+            s = 0
+            x = 0
+            (s0, c0) = dfs(root.left)
+            (s1, c1) = dfs(root.right)
+            s = s0 + s1 + root.val
+            x = c0 + c1 + 1
+            if root.val == s // x:
+                nonlocal res
+                res += 1
+            return (s, x)
+        res = 0
+        dfs(root)
+        return res
