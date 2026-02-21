@@ -5298,12 +5298,11 @@ class SegmentTree2940:
 
     # 868. 二进制间距 (Binary Gap)
     def binaryGap(self, n: int) -> int:
-        res = 0
-        pre = 30
+        last, res = inf, 0
         while n:
             lb = (n & -n).bit_length() - 1
-            res = max(res, lb - pre)
-            pre = lb
+            res = max(res, lb - last)
+            last = lb
             n &= n - 1
         return res
 
@@ -10004,13 +10003,13 @@ class BigArray:
 
     # 482. 密钥格式化 (License Key Formatting)
     def licenseKeyFormatting(self, s: str, k: int) -> str:
-        a = [x.upper() for x in s if x != '-']
+        a = [x.upper() for x in s if x != "-"]
         q = []
         for i in range(len(a) - 1, -1, -k):
-            q.append(''.join(a[max(0, i - k + 1) : i + 1]))
+            q.append("".join(a[max(0, i - k + 1) : i + 1]))
         res = []
         while q:
             if res:
-                res.append('-')
+                res.append("-")
             res.append(q.pop())
-        return ''.join(res)
+        return "".join(res)
