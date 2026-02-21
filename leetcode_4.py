@@ -905,3 +905,16 @@ class LcaBinaryLifting:
             if is_prime(x.bit_count()):
                 res += 1
         return res
+
+    # 989. 数组形式的整数加法 (Add to Array-Form of Integer)
+    def addToArrayForm(self, num: List[int], k: int) -> List[int]:
+        i = len(num) - 1
+        carry = 0
+        res = []
+        while i >= 0 or k or carry:
+            carry += (k % 10) + (num[i] if i >= 0 else 0)
+            k //= 10
+            i -= 1
+            res.append(carry % 10)
+            carry //= 10
+        return res[::-1]
