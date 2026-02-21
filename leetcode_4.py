@@ -1070,3 +1070,7 @@ class LcaBinaryLifting:
                 res += " "
             res += x
         return res
+
+    # 1980. 找出不同的二进制字符串 (Find Unique Binary String)
+    def findDifferentBinaryString(self, nums: List[str]) -> str:
+        return "".join(str(int(x[i]) ^ 1) for i, x in enumerate(nums))
