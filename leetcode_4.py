@@ -929,3 +929,18 @@ class LcaBinaryLifting:
                 return i
             left += x
         return -1
+
+    # 1002. 查找共用字符 (Find Common Characters)
+    def commonChars(self, words: List[str]) -> List[str]:
+        cnts = [inf] * 26
+        for word in words:
+            cur_cnts = [0] * 26
+            for w in word:
+                cur_cnts[ord(w) - ord("a")] += 1
+            for i, c in enumerate(cur_cnts):
+                cnts[i] = min(cnts[i], c)
+        res = []
+        for i, c in enumerate(cnts):
+            x = chr(ord("a") + i)
+            res.extend(c * x)
+        return res
