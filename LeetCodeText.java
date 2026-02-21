@@ -6326,7 +6326,7 @@ public class LeetCodeText {
             res[(nums[i] >> lb) & 1] ^= nums[i];
         }
         return res;
-        
+
     }
 
     public int[] getLeastNumbers(final int[] arr, final int k) {
@@ -12230,15 +12230,14 @@ public class LeetCodeText {
 
     // 868. 二进制间距 (Binary Gap)
     public int binaryGap(int n) {
-        int pre = 30;
+        int last = Integer.MAX_VALUE;
         int res = 0;
-        for (int x = n; x != 0; x &= x - 1) {
-            int lb = Integer.numberOfTrailingZeros(x);
-            res = Math.max(res, lb - pre);
-            pre = lb;
+        for (; n != 0; n &= n - 1) {
+            int lb = Integer.numberOfTrailingZeros(n);
+            res = Math.max(res, lb - last);
+            last = lb;
         }
         return res;
-
     }
 
     // This is the interface that allows for creating nested lists. // You should
