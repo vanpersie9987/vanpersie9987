@@ -2490,16 +2490,14 @@ public class LeetCode_2 {
    public int pivotIndex(int[] nums) {
       int s = Arrays.stream(nums).sum();
       int l = 0;
-      int r = s;
       for (int i = 0; i < nums.length; ++i) {
-         r -= nums[i];
-         if (l == r) {
+         s -= nums[i];
+         if (l == s) {
             return i;
          }
          l += nums[i];
       }
       return -1;
-
    }
 
    // 2089. 找出数组排序后的目标下标 (Find Target Indices After Sorting Array) -O(n)
