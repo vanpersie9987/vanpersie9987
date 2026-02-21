@@ -5857,49 +5857,31 @@ public class Leetcode_6 {
 
     // 1477. 找两个和为目标值且不重叠的子数组 (Find Two Non-overlapping Sub-arrays Each With Target
     // Sum)
-    private Map<Integer, List<int[]>> map1477;
-    private int[][] memo1477;
-    private int n1477;
-
     public int minSumOfLengths(int[] arr, int target) {
-        this.n1477 = arr.length;
-        int i = 0;
-        int j = 0;
-        int sum = 0;
-        this.map1477 = new HashMap<>();
-        while (j < n1477) {
-            sum += arr[j];
-            while (sum > target) {
-                sum -= arr[i++];
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, -1);
+        int pre = 0;
+        List<int[]> a = new ArrayList<>();
+        for (int i = 0; i < arr.length; ++i) {
+            pre += arr[i];
+            if (map.containsKey(pre - target)) {
+                a.add(new int[] { map.get(pre - target), i });
             }
-            if (sum == target) {
-                map1477.computeIfAbsent(i, k -> new ArrayList<>()).add(new int[] { i, j });
+            map.put(pre, i);
+        }
+        int left = 0;
+        int min = Integer.MAX_VALUE;
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < a.size(); ++i) {
+            while (a.get(left)[1] <= a.get(i)[0]) {
+                min = Math.min(min, a.get(left)[1] - a.get(left)[0]);
+                ++left;
             }
-            ++j;
+            if (left > 0) {
+                res = Math.min(res, a.get(i)[1] - a.get(i)[0] + min);
+            }
         }
-        this.memo1477 = new int[n1477][2];
-        for (int k = 0; k < n1477; ++k) {
-            Arrays.fill(memo1477[k], -1);
-        }
-        int res = dfs1477(0, 0);
-        return res <= n1477 ? res : -1;
-    }
-
-    private int dfs1477(int i, int j) {
-        if (j == 2) {
-            return 0;
-        }
-        if (i == n1477) {
-            return n1477 + 1;
-        }
-        if (memo1477[i][j] != -1) {
-            return memo1477[i][j];
-        }
-        int res = dfs1477(i + 1, j);
-        for (int[] item : map1477.getOrDefault(i, new ArrayList<>())) {
-            res = Math.min(res, dfs1477(item[1] + 1, j + 1) + item[1] - item[0] + 1);
-        }
-        return memo1477[i][j] = res;
+        return res < Integer.MAX_VALUE ? res : -1;
     }
 
     // 1372. 二叉树中的最长交错路径 (Longest ZigZag Path in a Binary Tree) --先序遍历
@@ -8170,16 +8152,16 @@ public class Leetcode_6 {
     // 403. 青蛙过河 (Frog Jump)
     private int[][] memo403;
     private int[] stones403;
-    private int n;
+    private int n403;
 
     public boolean canCross(int[] stones) {
         if (stones[1] != 1) {
             return false;
         }
-        this.n = stones.length;
-        memo403 = new int[n][n + 1];
+        this.n403 = stones.length;
+        memo403 = new int[n403][n403 + 1];
         this.stones403 = stones;
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < n403; ++i) {
             Arrays.fill(memo403[i], -1);
         }
         return dfs403(1, 1);
@@ -8193,7 +8175,7 @@ public class Leetcode_6 {
         if (memo403[i][k] != -1) {
             return memo403[i][k] > 0;
         }
-        for (int j = i + 1; j < n && stones403[j] - stones403[i] - k <= 1; ++j) {
+        for (int j = i + 1; j < n403 && stones403[j] - stones403[i] - k <= 1; ++j) {
             if (stones403[j] - stones403[i] - k < -1) {
                 continue;
             }
