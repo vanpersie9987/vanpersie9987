@@ -1011,3 +1011,27 @@ class LcaBinaryLifting:
         res = 0
         dfs(root)
         return res
+
+    # 433. 最小基因变化 (Minimum Genetic Mutation)
+    def minMutation(self, startGene: str, endGene: str, bank: List[str]) -> int:
+        if startGene == endGene:
+            return 0
+        if endGene not in bank:
+            return -1
+        s = set(bank)
+        s.discard(startGene)
+        vis = set()
+        q = deque()
+        q.append((startGene, 0))
+        while q:
+            x, d = q.popleft()
+            if x == endGene:
+                return d
+            for i, c in enumerate(x):
+                for j in ("A", "C", "G", "T"):
+                    if j != c:
+                        cur = x[:i] + j + x[i + 1 :]
+                        if cur in s and cur not in vis:
+                            vis.add(cur)
+                            q.append((cur, d + 1))
+        return -1
