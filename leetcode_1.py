@@ -5384,31 +5384,24 @@ class leetcode_1:
 
     # 1477. 找两个和为目标值且不重叠的子数组 (Find Two Non-overlapping Sub-arrays Each With Target Sum)
     def minSumOfLengths(self, arr: List[int], target: int) -> int:
-        @cache
-        def dfs(i: int, j: int) -> int:
-            if j == 2:
-                return 0
-            if i == n:
-                return inf
-            res = dfs(i + 1, j)
-            for x, y in g[i]:
-                res = min(res, dfs(y + 1, j + 1) + y - x + 1)
-            return res
-
-        n = len(arr)
-        g = [[] for _ in range(n)]
-        i = 0
-        j = 0
-        s = 0
-        while j < n:
-            s += arr[j]
-            while s > target:
-                s -= arr[i]
-                i += 1
-            if s == target:
-                g[i].append([i, j])
-            j += 1
-        res = dfs(0, 0)
+        d = defaultdict(int)
+        d[0] = -1
+        pre = 0
+        a = []
+        for i, x in enumerate(arr):
+            pre += x
+            if pre - target in d:
+                a.append((d[pre - target], i))
+            d[pre] = i
+        res = inf
+        left = 0
+        _min = inf
+        for start, end in a:
+            while a[left][1] <= start:
+                _min = min(_min, a[left][1] - a[left][0])
+                left += 1
+            if left:
+                res = min(res, end - start + _min)
         return res if res < inf else -1
 
     # 2591. 将钱分给最多的儿童 (Distribute Money to Maximum Children)
