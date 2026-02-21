@@ -972,3 +972,24 @@ class LcaBinaryLifting:
         d = defaultdict(list)
         dfs(root, 0)
         return root
+
+    # 2078. 两栋颜色不同且距离最远的房子 (Two Furthest Houses With Different Colors)
+    def maxDistance(self, colors: List[int]) -> int:
+        first = defaultdict(int)
+        last = defaultdict(int)
+        for i, c in enumerate(colors):
+            if c not in first:
+                first[c] = i
+            last[c] = i
+        res = 0
+        _min = inf
+        _max = -inf
+        for color, pos in first.items():
+            if _min != inf:
+                res = max(res, abs(pos - _min), abs(pos - _max))
+            pos2 = last[color]
+            if _min != inf:
+                res = max(res, abs(pos2 - _min), abs(pos2 - _max))
+            _min = min(_min, pos, pos2)
+            _max = max(_max, pos, pos2)
+        return res
