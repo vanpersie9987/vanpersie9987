@@ -7363,26 +7363,23 @@ class leetcode_1:
     # 46. 全排列 (Permutations)
     # LCR 083. 全排列
     def permute(self, nums: List[int]) -> List[List[int]]:
-        n = len(nums)
-        used = 0
-        _list = []
-        res = []
-
-        def dfs() -> None:
-            if len(_list) == n:
-                res.append(_list.copy())
+        def dfs(i: int):
+            if i == u:
+                res.append(path.copy())
                 return
-            nonlocal used
-            for j in range(n):
-                if ((used >> j) & 1) != 0:
-                    continue
-                used ^= 1 << j
-                _list.append(nums[j])
-                dfs()
-                _list.pop()
-                used ^= 1 << j
+            c = i ^ u
+            while c:
+                lb = (c & -c).bit_length() - 1
+                path.append(nums[lb])
+                dfs(i | (1 << lb))
+                path.pop()
+                c &= c - 1
 
-        dfs()
+        n = len(nums)
+        u = (1 << n) - 1
+        res = []
+        path = []
+        dfs(0)
         return res
 
     # 47. 全排列 II (Permutations II)
