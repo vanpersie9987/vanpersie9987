@@ -8240,32 +8240,4 @@ public class Leetcode_10 {
         return res;
 
     }
-
-    public boolean isCovered(int[][] ranges, int left, int right) {
-        Arrays.sort(ranges, new Comparator<int[]>() {
-
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return Integer.compare(o1[0], o2[0]);
-            }
-            
-        });
-        int i = 0;
-        int n = ranges.length;
-        while (i < n) {
-            int l = ranges[i][0];
-            int r = ranges[i][1];
-            int j = i;
-            while (j < n && ranges[j][0] <= r + 1) {
-                r = Math.max(r, ranges[j][1]);
-                ++j;
-            }
-            if (l <= left && right <= r) {
-                return true;
-            }
-            i = j;
-        }
-        return false;
-
-    }
 }
