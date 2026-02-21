@@ -1035,3 +1035,19 @@ class LcaBinaryLifting:
                             vis.add(cur)
                             q.append((cur, d + 1))
         return -1
+
+    # 面试题 17.19. 消失的两个数字 (Missing Two LCCI)
+    def missingTwo(self, nums: List[int]) -> List[int]:
+        xor = 0
+        n = len(nums)
+        for i in range(1, n + 3):
+            xor ^= i
+        for x in nums:
+            xor ^= x
+        lb = (xor & -xor).bit_length() - 1
+        res = [0] * 2
+        for x in nums:
+            res[x >> lb & 1] ^= x
+        for i in range(1, n + 3):
+            res[i >> lb & 1] ^= i
+        return res
