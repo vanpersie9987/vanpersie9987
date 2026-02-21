@@ -1048,3 +1048,15 @@ class LcaBinaryLifting:
             res[x >> lb & 1] ^= x
             res[i >> lb & 1] ^= i
         return res
+
+    # 1288. 删除被覆盖区间 (Remove Covered Intervals)
+    def removeCoveredIntervals(self, intervals: List[List[int]]) -> int:
+        intervals.sort(key=lambda o: (o[0], -o[1]))
+        n = len(intervals)
+        res = n
+        right_max = intervals[0][1]
+        for i in range(1, n):
+            if intervals[i][1] <= right_max:
+                res -= 1
+            right_max = max(right_max, intervals[i][1])
+        return res
