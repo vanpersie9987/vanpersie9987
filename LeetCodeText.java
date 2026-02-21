@@ -6310,36 +6310,23 @@ public class LeetCodeText {
 
     }
 
-    // 面试题 17.19. 消失的两个数字
+    // 面试题 17.19. 消失的两个数字 (Missing Two LCCI)
     public int[] missingTwo(int[] nums) {
-        int xor = 0;
-        for (int num : nums) {
-            xor ^= num;
-        }
         int n = nums.length;
-        for (int i = 1; i <= n + 2; ++i) {
-            xor ^= i;
+        int xor = (n + 1) ^ (n + 2);
+        for (int i = 0; i < nums.length; ++i) {
+            xor ^= (i + 1) ^ nums[i];
         }
-        int type1 = 0;
-        int type2 = 0;
-        int bitDiff = xor & (-xor);
-        for (int i = 1; i <= n + 2; ++i) {
-            if ((i & bitDiff) != 0) {
-                type1 ^= i;
-            } else {
-                type2 ^= i;
-            }
+        int lb = Integer.numberOfTrailingZeros(xor);
+        int[] res = new int[2];
+        res[(n + 1) >> lb & 1] ^= n + 1;
+        res[(n + 2) >> lb & 1] ^= n + 2;
+        for (int i = 0; i < nums.length; ++i) {
+            res[((i + 1) >> lb) & 1] ^= i + 1;
+            res[(nums[i] >> lb) & 1] ^= nums[i];
         }
-
-        for (int num : nums) {
-            if ((num & bitDiff) != 0) {
-                type1 ^= num;
-            } else {
-                type2 ^= num;
-            }
-        }
-        return new int[] { type1, type2 };
-
+        return res;
+        
     }
 
     public int[] getLeastNumbers(final int[] arr, final int k) {
