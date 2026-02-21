@@ -3865,28 +3865,26 @@ public class LeetCodeText {
         return res;
     }
 
-    // 1002. 查找常用字符
-    public List<String> commonChars(String[] A) {
-        int[] counts = new int[26];
-        for (char a : A[0].toCharArray()) {
-            ++counts[a - 'a'];
-        }
-        for (String s : A) {
-            int[] curCount = new int[26];
+    // 1002. 查找常用字符 (Find Common Characters)
+    public List<String> commonChars(String[] words) {
+        int[] cnts = new int[26];
+        Arrays.fill(cnts, Integer.MAX_VALUE);
+        for (String s : words) {
+            int[] curCnts = new int[26];
             for (char a : s.toCharArray()) {
-                ++curCount[a - 'a'];
+                ++curCnts[a - 'a'];
             }
-            for (int i = 0; i < counts.length; ++i) {
-                counts[i] = Math.min(counts[i], curCount[i]);
-            }
-        }
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < counts.length; ++i) {
-            for (int j = 0; j < counts[i]; ++j) {
-                list.add(String.valueOf((char) (i + 'a')));
+            for (int i = 0; i < cnts.length; ++i) {
+                cnts[i] = Math.min(cnts[i], curCnts[i]);
             }
         }
-        return list;
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < cnts.length; ++i) {
+            for (int j = 0; j < cnts[i]; ++j) {
+                res.add(String.valueOf((char) (i + 'a')));
+            }
+        }
+        return res;
 
     }
 
