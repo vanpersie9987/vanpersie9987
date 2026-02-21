@@ -3849,21 +3849,20 @@ public class LeetCodeText {
 
     }
 
-    // 989. 数组形式的整数加法
-    public List<Integer> addToArrayForm(int[] A, int K) {
-        List<Integer> list = new ArrayList<>();
-        int i = A.length - 1;
-        while (i >= 0 || K > 0) {
-            if (i >= 0) {
-                K += A[i];
-            }
-            list.add(K % 10);
-            K /= 10;
+    // 989. 数组形式的整数加法 (Add to Array-Form of Integer)
+    public List<Integer> addToArrayForm(int[] num, int k) {
+        List<Integer> res = new ArrayList<>();
+        int i = num.length - 1;
+        int carry = 0;
+        while (i >= 0 || carry > 0 || k > 0) {
+            carry += (k % 10) + (i >= 0 ? num[i] : 0);
+            res.add(carry % 10);
+            carry /= 10;
+            k /= 10;
             --i;
         }
-        Collections.reverse(list);
-        return list;
-
+        Collections.reverse(res);
+        return res;
     }
 
     // 1002. 查找常用字符
