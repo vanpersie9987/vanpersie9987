@@ -1142,12 +1142,16 @@ class LcaBinaryLifting:
         mul = [1] * 10
         for i in range(2, 10):
             mul[i] = mul[i - 1] * i
-        c = n
+        cnts = [0] * 10
         s = 0
-        while c:
-            s += mul[c % 10]
-            c //= 10
-        return Counter(str(s)) == Counter(str(n))
+        while n:
+            n, m = divmod(n, 10)
+            s += mul[m]
+            cnts[m] += 1
+        while s:
+            s, m = divmod(s, 10)
+            cnts[m] -= 1
+        return cnts == [0] * 10
 
     # 3849. 重新排列后的最大按位异或值 (Maximum Bitwise XOR After Rearrangement)
     def maximumXor(self, s: str, t: str) -> str:

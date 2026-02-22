@@ -8265,20 +8265,16 @@ public class Leetcode_10 {
         for (int i = 1; i < 10; ++i) {
             mul[i] = mul[i - 1] * i;
         }
-        long s = 0L;
-        int c = n;
-        while (c != 0) {
-            s += mul[c % 10];
-            c /= 10;
-        }
         int[] cnts = new int[10];
-        while (s != 0L) {
-            ++cnts[(int) (s % 10)];
-            s /= 10L;
-        }
+        long s = 0L;
         while (n != 0) {
-            --cnts[(int) (n % 10)];
+            s += mul[n % 10];
+            ++cnts[n % 10];
             n /= 10;
+        }
+        while (s != 0L) {
+            --cnts[(int) (s % 10)];
+            s /= 10L;
         }
         return Arrays.equals(cnts, new int[10]);
     }
