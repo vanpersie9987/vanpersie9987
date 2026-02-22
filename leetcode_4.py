@@ -1090,3 +1090,17 @@ class LcaBinaryLifting:
                 return True
             i = j
         return False
+
+    # 2194. Excel 表中某个范围内的单元格 (Cells in a Range on an Excel Sheet)
+    def cellsInRange(self, s: str) -> List[str]:
+        res = []
+        x0 = ord(s[0]) - ord("A")
+        x1 = ord(s[3]) - ord("A")
+        y0 = int(s[1])
+        y1 = int(s[-1])
+        for i in range(x0, x1 + 1):
+            s0 = chr(i + ord("A"))
+            for j in range(y0, y1 + 1):
+                s1 = str(j)
+                res.append(s0 + s1)
+        return res
