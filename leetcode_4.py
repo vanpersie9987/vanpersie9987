@@ -1124,3 +1124,15 @@ class LcaBinaryLifting:
     # 面试题 01.02. 判定是否互为字符重排 (Check Permutation LCCI)
     def CheckPermutation(self, s1: str, s2: str) -> bool:
         return Counter(s1) == Counter(s2)
+
+    # 3847. 计算比赛分数差 (Find the Score Difference in a Game)
+    def scoreDifference(self, nums: List[int]) -> int:
+        res = [0] * 2
+        id = 0
+        for i, x in enumerate(nums):
+            if x & 1:
+                id ^= 1
+            if (i + 1) % 6 == 0:
+                id ^= 1
+            res[id] += x
+        return res[0] - res[1]

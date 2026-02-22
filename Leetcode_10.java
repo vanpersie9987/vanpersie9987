@@ -8240,4 +8240,21 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 3847. 计算比赛分数差 (Find the Score Difference in a Game)
+    public int scoreDifference(int[] nums) {
+        int[] res = new int[2];
+        int id = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            if ((nums[i] & 1) != 0) {
+                id ^= 1;
+            }
+            if ((i + 1) % 6 == 0) {
+                id ^= 1;
+            }
+            res[id] += nums[i];
+        }
+        return res[0] - res[1];
+
+    }
 }
