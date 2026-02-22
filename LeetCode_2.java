@@ -3584,19 +3584,17 @@ public class LeetCode_2 {
 
    // 424. 替换后的最长重复字符 (Longest Repeating Character Replacement)
    public int characterReplacement(String s, int k) {
-      int[] counts = new int[26];
-      int left = 0;
-      int right = 0;
-      int max = 0;
-      char[] chars = s.toCharArray();
+      int n = s.length();
       int res = 0;
-      while (right < chars.length) {
-         max = Math.max(max, ++counts[chars[right] - 'A']);
-         while (right - left + 1 - max > k) {
-            --counts[chars[left++] - 'A'];
+      int mx = 0;
+      int left = 0;
+      int[] cnts = new int[26];
+      for (int right = 0; right < n; ++right) {
+         mx = Math.max(mx, ++cnts[s.charAt(right) - 'A']);
+         while (right - left + 1 - mx > k) {
+            --cnts[s.charAt(left++) - 'A'];
          }
          res = Math.max(res, right - left + 1);
-         ++right;
       }
       return res;
 
