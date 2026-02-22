@@ -1189,11 +1189,11 @@ class LcaBinaryLifting:
         if len(s) - k + 1 < 1 << k:
             return False
         _set = set()
+        u = (1 << k) - 1
         v = 0
         for i, x in enumerate(s):
             v = (v << 1) ^ int(x)
-            if i >= k:
-                v ^= int(s[i - k]) << k
+            v &= u
             if i >= k - 1:
                 _set.add(v)
         return len(_set) == 1 << k

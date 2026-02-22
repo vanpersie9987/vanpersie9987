@@ -17637,30 +17637,22 @@ public class LeetCodeText {
     // 1461. 检查一个字符串是否包含所有长度为 K 的二进制子串 (Check If a String Contains All Binary Codes
     // of Size K)
     public boolean hasAllCodes(String s, int k) {
-        if (s.length() < (1 << k) + k - 1) {
+        int n = s.length();
+        if (n - k + 1 < 1 << k) {
             return false;
         }
-        Set<String> set = new HashSet<>();
-        for (int i = k; i <= s.length(); ++i) {
-            set.add(s.substring(i - k, i));
-        }
-        return set.size() == (1 << k);
-    }
-
-    // 1461. 检查一个字符串是否包含所有长度为 K 的二进制子串 (Check If a String Contains All Binary Codes
-    // of Size K)
-    public boolean hasAllCodes2(String s, int k) {
-        if (s.length() < (1 << k) + k - 1) {
-            return false;
-        }
-        int num = Integer.parseInt(s.substring(0, k), 2);
+        int u = (1 << k) - 1;
         Set<Integer> set = new HashSet<>();
-        set.add(num);
-        for (int i = 1; (i + k) <= s.length(); ++i) {
-            num = (num - ((s.charAt(i - 1) - '0') << (k - 1))) * 2 + (s.charAt(i + k - 1) - '0');
-            set.add(num);
+        int v = 0;
+        for (int i = 0; i < n; ++i) {
+            v = (v << 1) ^ (s.charAt(i) - '0');
+            v &= u;
+            if (i >= k - 1) {
+                set.add(v);
+            }
         }
-        return set.size() == (1 << k);
+        return set.size() == 1 << k;
+
     }
 
     // 1392. 最长快乐前缀 (Longest Happy Prefix)
