@@ -2763,14 +2763,13 @@ class leetcode_1:
 
     # 560. 和为 K 的子数组 (Subarray Sum Equals K)
     def subarraySum(self, nums: List[int], k: int) -> int:
-        mp = collections.defaultdict(int)
-        mp[0] = 1
-        pre = 0
-        res = 0
-        for num in nums:
-            pre += num
-            res += mp[pre - k]
-            mp[pre] += 1
+        d = defaultdict(int)
+        d[0] = 1
+        res, pre = 0, 0
+        for x in nums:
+            pre += x
+            res += d[pre - k]
+            d[pre] += 1
         return res
 
     # 57. 插入区间 (Insert Interval)
