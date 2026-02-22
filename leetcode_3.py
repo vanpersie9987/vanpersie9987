@@ -9962,10 +9962,7 @@ class BigArray:
     def mapWordWeights(self, words: List[str], weights: List[int]) -> str:
         res = []
         for w in words:
-            s = 0
-            for c in w:
-                s += weights[ord(c) - ord("a")]
-            s %= 26
+            s = sum(weights[ord(c) - ord("a")] for c in w) % 26
             res.append(chr(25 - s + ord("a")))
         return "".join(res)
 
