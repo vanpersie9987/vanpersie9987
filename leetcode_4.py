@@ -1183,3 +1183,17 @@ class LcaBinaryLifting:
         for i in range(n - 2, -1, -1):
             suf[i] = suf[i + 1] * nums[i]
         return dfs(0, 1, 1)
+
+    # 1461. 检查一个字符串是否包含所有长度为 K 的二进制子串 (Check If a String Contains All Binary Codes of Size K)
+    def hasAllCodes(self, s: str, k: int) -> bool:
+        if len(s) - k + 1 < 1 << k:
+            return False
+        _set = set()
+        v = 0
+        for i, x in enumerate(s):
+            v = (v << 1) ^ int(x)
+            if i >= k:
+                v ^= int(s[i - k]) << k
+            if i >= k - 1:
+                _set.add(v)
+        return len(_set) == 1 << k
