@@ -1171,6 +1171,8 @@ class LcaBinaryLifting:
         def dfs(i: int, j0: int, j1: int) -> int:
             if i == n:
                 return j1 * k == j0
+            if j0 * suf[i] < j1 * k:
+                return 0
             return (
                 dfs(i + 1, j0, j1)
                 + dfs(i + 1, j0 * nums[i], j1)
@@ -1178,4 +1180,8 @@ class LcaBinaryLifting:
             )
 
         n = len(nums)
+        suf = [0] * n
+        suf[-1] = nums[-1]
+        for i in range(n - 2, -1, -1):
+            suf[i] = suf[i + 1] * nums[i]
         return dfs(0, 1, 1)

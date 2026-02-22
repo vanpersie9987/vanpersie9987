@@ -8303,4 +8303,44 @@ public class Leetcode_10 {
         return res.toString();
 
     }
+
+    // 3850. 统计结果等于 K 的序列数目 (Count Sequences to K)
+    private record Group3850(int i, long j, long k) {
+    }
+
+    private Map<Group3850, Integer> memo3850;
+    private int[] nums3850;
+    private long k3850;
+    private int n3850;
+    private long[] suf3850;
+
+    public int countSequences(int[] nums, long k) {
+        this.nums3850 = nums;
+        this.k3850 = k;
+        this.n3850 = nums.length;
+        this.suf3850 = new long[n3850];
+        suf3850[n3850 - 1] = nums[n3850 - 1];
+        for (int i = n3850 - 2; i >= 0; --i) {
+            suf3850[i] = suf3850[i + 1] * nums[i];
+        }
+
+        this.memo3850 = new HashMap<>();
+        return dfs3850(0, 1L, 1L);
+    }
+
+    private int dfs3850(int i, long j0, long j1) {
+        if (i == n3850) {
+            return j1 * k3850 == j0 ? 1 : 0;
+        }
+        if (j0 * suf3850[i] < j1 * k3850) {
+            return 0;
+        }
+        Group3850 k = new Group3850(i, j0, j1);
+        if (memo3850.containsKey(k)) {
+            return memo3850.get(k);
+        }
+        int res = dfs3850(i + 1, j0, j1) + dfs3850(i + 1, j0 * nums3850[i], j1) + dfs3850(i + 1, j0, j1 * nums3850[i]);
+        memo3850.put(k, res);
+        return res;
+    }
 }
