@@ -8246,9 +8246,7 @@ public class Leetcode_10 {
         int[] res = new int[2];
         int id = 0;
         for (int i = 0; i < nums.length; ++i) {
-            if ((nums[i] & 1) != 0) {
-                id ^= 1;
-            }
+            id ^= nums[i] & 1;
             if ((i + 1) % 6 == 0) {
                 id ^= 1;
             }
