@@ -1125,8 +1125,7 @@ class LcaBinaryLifting:
         res = [0] * 2
         id = 0
         for i, x in enumerate(nums):
-            if x & 1:
-                id ^= 1
+            id ^= x & 1
             if (i + 1) % 6 == 0:
                 id ^= 1
             res[id] += x
