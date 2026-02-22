@@ -1136,3 +1136,15 @@ class LcaBinaryLifting:
                 id ^= 1
             res[id] += x
         return res[0] - res[1]
+
+    # 3848. 阶数数字排列 (Check Digitorial Permutation)
+    def isDigitorialPermutation(self, n: int) -> bool:
+        mul = [1] * 10
+        for i in range(2, 10):
+            mul[i] = mul[i - 1] * i
+        c = n
+        s = 0
+        while c:
+            s += mul[c % 10]
+            c //= 10
+        return Counter(str(s)) == Counter(str(n))
