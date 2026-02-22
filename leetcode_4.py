@@ -1111,7 +1111,7 @@ class LcaBinaryLifting:
         cnts = [0] * 26
         mx = 0
         for right, x in enumerate(s):
-            id = ord(x) - ord('A')
+            id = ord(x) - ord("A")
             cnts[id] += 1
             mx = max(mx, cnts[id])
             while right - left + 1 - mx > k:
@@ -1120,3 +1120,7 @@ class LcaBinaryLifting:
                 left += 1
             res = max(res, right - left + 1)
         return res
+
+    # 面试题 01.02. 判定是否互为字符重排 (Check Permutation LCCI)
+    def CheckPermutation(self, s1: str, s2: str) -> bool:
+        return Counter(s1) == Counter(s2)
