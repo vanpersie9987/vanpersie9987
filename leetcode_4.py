@@ -1064,12 +1064,7 @@ class LcaBinaryLifting:
     # 1816. 截断句子 (Truncate Sentence)
     def truncateSentence(self, s: str, k: int) -> str:
         a = s.split(" ")
-        res = ""
-        for x in a[:k]:
-            if res:
-                res += " "
-            res += x
-        return res
+        return " ".join(a[:k])
 
     # 1980. 找出不同的二进制字符串 (Find Unique Binary String)
     def findDifferentBinaryString(self, nums: List[str]) -> str:
