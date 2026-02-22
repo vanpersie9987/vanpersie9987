@@ -10007,9 +10007,4 @@ class BigArray:
         q = []
         for i in range(len(a) - 1, -1, -k):
             q.append("".join(a[max(0, i - k + 1) : i + 1]))
-        res = []
-        while q:
-            if res:
-                res.append("-")
-            res.append(q.pop())
-        return "".join(res)
+        return "-".join(q[::-1])
