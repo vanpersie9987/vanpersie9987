@@ -1164,3 +1164,18 @@ class LcaBinaryLifting:
                 res.append("0")
                 cnts[x] -= 1
         return "".join(res)
+
+    # 3850. 统计结果等于 K 的序列数目 (Count Sequences to K)
+    def countSequences(self, nums: List[int], k: int) -> int:
+        @cache
+        def dfs(i: int, j0: int, j1: int) -> int:
+            if i == n:
+                return j1 * k == j0
+            return (
+                dfs(i + 1, j0, j1)
+                + dfs(i + 1, j0 * nums[i], j1)
+                + dfs(i + 1, j0, j1 * nums[i])
+            )
+
+        n = len(nums)
+        return dfs(0, 1, 1)
