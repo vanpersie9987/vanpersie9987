@@ -1104,3 +1104,19 @@ class LcaBinaryLifting:
                 s1 = str(j)
                 res.append(s0 + s1)
         return res
+
+    # 424. 替换后的最长重复字符 (Longest Repeating Character Replacement)
+    def characterReplacement(self, s: str, k: int) -> int:
+        res, left = 0, 0
+        cnts = [0] * 26
+        mx = 0
+        for right, x in enumerate(s):
+            id = ord(x) - ord('A')
+            cnts[id] += 1
+            mx = max(mx, cnts[id])
+            while right - left + 1 - mx > k:
+                left_id = ord(s[left]) - ord("A")
+                cnts[left_id] -= 1
+                left += 1
+            res = max(res, right - left + 1)
+        return res
